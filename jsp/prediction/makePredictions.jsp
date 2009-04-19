@@ -35,8 +35,6 @@ var usedPredictorNames = new Array(<logic:iterate id="pn" name="predictorNames" 
 var usedPredictionNames = new Array(<logic:iterate id="pn" name="predictionNames" type="String">"<bean:write name='pn'/>",</logic:iterate>"");
 var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="String">"<bean:write name='tn'/>",</logic:iterate>"");
 
-
-
 function predictSmiles(){
 	var smiles = document.getElementById("smiles").value;
 	var cutoff = document.getElementById("cutoff").value;

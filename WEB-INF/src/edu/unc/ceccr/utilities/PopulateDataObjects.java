@@ -274,7 +274,7 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List populatePredictors(String userName, boolean isAllUserIncludes) throws HibernateException, ClassNotFoundException, SQLException{
+	public static List populatePredictors(String userName, boolean isAllUserIncludes, boolean onlySaved) throws HibernateException, ClassNotFoundException, SQLException{
 		
  		List<Predictor> predictors = new ArrayList();
  		List privatePredictors = null;
@@ -282,9 +282,12 @@ public class PopulateDataObjects {
  		Transaction tx = null;
  		try {
  			tx = session.beginTransaction();
- 			privatePredictors = session.createCriteria(Predictor.class)
- 			.add(Expression.eq("userName", userName))
- 			.add(Expression.eq("status","saved")).list();
+ 			if(onlySaved) privatePredictors = session.createCriteria(Predictor.class)
+ 							.add(Expression.eq("userName", userName))
+ 							.add(Expression.eq("status","saved")).list();
+ 			else privatePredictors = session.createCriteria(Predictor.class)
+				.add(Expression.eq("userName", userName))
+				.list();
  			tx.commit();
  		} catch (RuntimeException e) {
  			if (tx != null)
@@ -300,9 +303,12 @@ public class PopulateDataObjects {
  		tx = null;
  		try {
  			tx = session.beginTransaction();
- 			ADMEToxPredictors = session.createCriteria(Predictor.class)
- 			.add(Expression.eq("predictorType", "ADMETox"))
- 			.add(Expression.eq("status","saved")).list();
+ 			if(onlySaved) ADMEToxPredictors = session.createCriteria(Predictor.class)
+ 							.add(Expression.eq("predictorType", "ADMETox"))
+ 							.add(Expression.eq("status","saved")).list();
+ 			else ADMEToxPredictors = session.createCriteria(Predictor.class)
+				.add(Expression.eq("predictorType", "ADMETox"))
+				.list();
  			tx.commit();
  		} catch (RuntimeException e) {
  			if (tx != null)
@@ -318,9 +324,12 @@ public class PopulateDataObjects {
  		tx = null;
  		try {
  			tx = session.beginTransaction();
- 			DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
- 			.add(Expression.eq("predictorType", "DrugDiscovery"))
- 			.add(Expression.eq("status","saved")).list();
+ 			if(onlySaved) DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
+ 							.add(Expression.eq("predictorType", "DrugDiscovery"))
+ 							.add(Expression.eq("status","saved")).list();
+ 			else DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
+				.add(Expression.eq("predictorType", "DrugDiscovery"))
+				.list();
  			tx.commit();
  		} catch (RuntimeException e) {
  			if (tx != null)
@@ -336,7 +345,7 @@ public class PopulateDataObjects {
 	
 
 	@SuppressWarnings("unchecked")
-	public static List populatePredictions(String userName) {
+	public static List populatePredictions(String userName, boolean onlySaved) {
 		
 		List<PredictionJob> predictions = null;
 		try 
@@ -347,9 +356,12 @@ public class PopulateDataObjects {
 			try 
 			{
 				tx = session.beginTransaction();
-				predictions = session.createCriteria(PredictionJob.class)
+				if(onlySaved) predictions = session.createCriteria(PredictionJob.class)
 							.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
 							.add(Expression.eq("status","saved")).list();
+				else predictions = session.createCriteria(PredictionJob.class)
+				.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
+				.list();
 				tx.commit();
 			} catch (RuntimeException e) {
 				Utility.writeToDebug(e);
@@ -373,6 +385,9 @@ public class PopulateDataObjects {
 		return predictions;
 	}
 
+	
+	
+	
 	protected static String getPredictor(Long predictorIdUsed) throws ClassNotFoundException, SQLException {
 
 		Predictor predictor = null;
@@ -426,7 +441,7 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			dataset = (DataSet) session.createCriteria(DataSet.class)
 					.add(Expression.eq("fileName", datasetName))
-					.add(Expression.eq("username", userName))
+					.add(Expression.eq("userName", userName))
 					.uniqueResult();
 			tx.commit();
 		} catch (RuntimeException e) {
@@ -503,7 +518,7 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List populateTaskNames(String userName) {
+	public static List populateTaskNames(String userName, boolean justRunning) {
 		
 		List<String> taskNames = new ArrayList<String>();
 		List<QueueTask> tasks = null;
@@ -535,7 +550,9 @@ public class PopulateDataObjects {
 		        while(i.hasNext())
 		        {
 		        	QueueTask ti = (QueueTask) i.next();
-		        	taskNames.add(ti.getJobName());	        
+		        	if(!justRunning) taskNames.add(ti.getJobName());
+		        	else if(ti.getState()==QueueTask.State.started)
+		        			taskNames.add(ti.getJobName());
 		        }
 			}
 		}
@@ -544,5 +561,42 @@ public class PopulateDataObjects {
 		}
 		
 		return taskNames;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List populateTasks(String userName, boolean justRunning) {
+		
+		List<QueueTask> tasks = null;
+		try 
+		{
+			Session session = HibernateUtil.getSession();
+			Transaction tx = null;
+			try 
+			{
+				tx = session.beginTransaction();
+				if(justRunning)
+					tasks = session.createCriteria(QueueTask.class).
+						add(Expression.eq("userName", userName)).
+						add(Expression.eq("state", QueueTask.State.started)).
+						list();
+				else
+					tasks = session.createCriteria(QueueTask.class).
+					add(Expression.eq("userName", userName)).
+					list();
+				tx.commit();
+			} catch (RuntimeException e) {
+				Utility.writeToDebug(e);
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			} finally {
+				session.close();
+			}
+			
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+		}
+		
+		return tasks;
 	}
 }

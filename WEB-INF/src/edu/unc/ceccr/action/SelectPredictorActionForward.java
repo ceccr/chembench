@@ -63,7 +63,7 @@ public class SelectPredictorActionForward extends Action {
 				session.setAttribute("datasetNames", PopulateDataObjects.populateDatasetNames(user.getUserName(), true));
 				session.setAttribute("predictorNames", PopulateDataObjects.populatePredictorNames(user.getUserName(), true));
 				session.setAttribute("predictionNames", PopulateDataObjects.populatePredictionNames(user.getUserName(), true));
-				session.setAttribute("taskNames", PopulateDataObjects.populateTaskNames(user.getUserName()));
+				session.setAttribute("taskNames", PopulateDataObjects.populateTaskNames(user.getUserName(), false));
 				session.setAttribute("selectedPredictor", predictor);
 				
 			} catch (Exception e) {

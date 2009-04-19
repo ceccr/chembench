@@ -10,24 +10,21 @@
 <%@ page import="edu.unc.ceccr.global.Constants" %>
 <html:html>
 <head>
-<title>C-CHEMBENCH | library design</title>
+<title>C-CHEMBENCH | Error</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet"	type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
-<script src="javascript/script.js"></script>
 <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
-
+<script src="javascript/script.js"></script>
 </head>
+
 <body>
-<table width="749" border="0" align="center" cellpadding="0"	cellspacing="0">
-	<%@include file="/jsp/main/header.jsp" %>
-<%@include file="/jsp/main/centralNavigationBar.jsp" %>
-		</td>
-		</span>
-	</tr>
+<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
+<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
+<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 		<tr>
 		<span id="maincontent">
-		<td height="557" colspan="5" valign="top"
+		<td height="557" valign="top"
 			background="theme/img/backgrlibrary.jpg">
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<c:if test="${hasPredictions eq ''}">
@@ -60,7 +57,7 @@
             </td>
 		</span>
 	</tr>
-	<tr>
+</table>
 	<%@include file ="/jsp/main/footer.jsp" %>
 </body>
 </html:html>

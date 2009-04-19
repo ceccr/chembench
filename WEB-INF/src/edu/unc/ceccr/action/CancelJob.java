@@ -70,10 +70,10 @@ public class CancelJob extends Action {
 				File file=new File(BASE+task.getUserName()+"/"+task.jobName);
 				Utility.deleteDir(file);
 
-				file=new File(BASE+task.getUserName()+"/predictor/"+task.jobName);
+				file=new File(BASE+task.getUserName()+"/PREDICTIONS/"+task.jobName);
 				Utility.deleteDir(file);
 
-				file=new File(BASE+task.getUserName()+"/modelbuilder/"+task.jobName);
+				file=new File(BASE+task.getUserName()+"/PREDICTORS/"+task.jobName);
 				Utility.deleteDir(file);
 				
 				//remove the task. Gotta do this last.

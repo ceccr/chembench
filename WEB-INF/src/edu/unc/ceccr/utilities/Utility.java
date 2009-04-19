@@ -169,6 +169,7 @@ public class Utility {
 		  StreamGobbler errorGobbler = new StreamGobbler(errout, "errout", logFileOS);   
 		  outputGobbler.start();
 		  errorGobbler.start();
+		  logFileOS.close();
 		}
 		catch(Exception ex){
 	      writeToDebug(ex);
@@ -225,7 +226,7 @@ public class Utility {
 	}
 
 	public static boolean deleteDir(File dir) {
-		writeToMSDebug("deleteDir::"+dir);
+		//writeToMSDebug("deleteDir::"+dir);
         if (dir.isDirectory()) {
             String[] children = dir.list();
             for (int i=0; i<children.length; i++) {

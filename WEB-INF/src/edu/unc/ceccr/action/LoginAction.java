@@ -77,11 +77,11 @@ public class LoginAction extends Action {
 				response.addCookie(ckie);
 				
 				forward = mapping.findForward("success");	
-				session.setAttribute("predictors", PopulateDataObjects.populatePredictors(user.getUserName(), true));
+				session.setAttribute("predictors", PopulateDataObjects.populatePredictors(user.getUserName(), true, true));
 				
 				session.setAttribute("predictorDatabases", PopulateDataObjects.populateDataset(user.getUserName(), Constants.PREDICTION,true));
 				
-				session.setAttribute("predictions", PopulateDataObjects.populatePredictions(user.getUserName()));
+				session.setAttribute("predictions", PopulateDataObjects.populatePredictions(user.getUserName(), true));
 				
 				session.setAttribute("continuousdatafiles", PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS,true));
 				

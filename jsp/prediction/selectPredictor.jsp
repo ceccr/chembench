@@ -132,7 +132,7 @@ else{document.getElementById("fileManagementDiv").style.display='inline';}
         </table>
 		<b><html:errors /></b>
 		
-		<table border="0" align="left" cellpadding="4	"	cellspacing="4">
+		<table border="0" align="left" cellpadding="4"	cellspacing="4">
 		<tbody>
 		<tr>
 		<td>

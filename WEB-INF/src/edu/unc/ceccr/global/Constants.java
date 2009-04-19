@@ -9,15 +9,15 @@ public class Constants {
 	public static int SESSION_EXPIRATION_TIME = 1800; //How long a login will last if idle, measured in seconds. 1800 seconds = 30 minutes. 
 	
 	//Enums for Data Types
+	@SuppressWarnings("unchecked")
 	public enum DescriptorEnumeration { MOLCONNZ, DRAGON };
 	public enum KnnEnumeration { CONTINUOUS, CATEGORY };
 
 	//Types of kNN
 	public static final String CONTINUOUS = "CONTINUOUS";
 	public static final String CATEGORY = "CATEGORY";
-
-	public static final String MODELBUILDING="MODELING";
-	public static final String PREDICTION="PREDICTION";
+	public static final String MODELBUILDING = "MODELING";
+	public static final String PREDICTION = "PREDICTION";
 	public static final String MOLCONNZ = "MOLCONNZ";
 	public static final String DRAGON = "DRAGON";
 	
@@ -40,7 +40,6 @@ public class Constants {
 	public static final int CATEGORY_TEST_ACC_LOCATION = 8;
 	public static final int CATEGORY_NORMALIZED_TEST_ACC_LOCATION = 9;
 
-	
 	//External Validation Constants
 	public static final int COMPOUND_ID = 0;
 	public static final int STRUCTURE_FILE = 0; //This and following constants decreased by 1. Wonder what this will do... 
@@ -63,9 +62,10 @@ public class Constants {
 	public static String CONTINUOUS_DATAFILE_FILEPATH;
 	
 	public static String EXECUTABLEFILE_PATH;
-	public static String MOLCONNZ_DATFILE_PATH = "/usr/local/chemb/ParameterFiles/MZ405.dat";
+	public static String MOLCONNZ_DATFILE_PATH = "ParameterFiles/MZ405.dat";
+	public static String DRAGON_SCRIPT_PATH = "ParameterFiles/dragonScript.txt";
 	
-	public static final String kNN_OUTPUT_FILE = "knn-outputsort.tbl";
+	public static final String kNN_OUTPUT_FILE = "knn-output.tbl";
 	public static final String EXTERNAL_VALIDATION_OUTPUT_FILE = "external_prediction_table";
 	public static final String PRED_OUTPUT_FILE = "cons_pred";
 	public static final String KNN_DEFAULT_FILENAME = "knn.default";

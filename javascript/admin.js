@@ -22,8 +22,8 @@ function addmoreOut(){document.getElementById("info").innerHTML="";}
 
 function setAcceptance(set){ 
 if(set=="automatic")
-{document.getElementById("automatic").disabled="true";}
-else{document.getElementById("manual").disabled="true";}
+{document.getElementById("automatic").checked="true";}
+else{document.getElementById("manual").checked="true";}
 }
 
 

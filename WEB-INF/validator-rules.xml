@@ -3,8 +3,8 @@
           "http://jakarta.apache.org/commons/dtds/validator_1_1_3.dtd">
 <!--
   $Header$
-  $Revision$
-  $Date$
+  $Revision: 5 $
+  $Date: 2006-04-29 20:59:05 -0400 (Sat, 29 Apr 2006) $
 
    This file contains the default Struts Validator pluggable validator
    definitions.  It should be placed somewhere under /WEB-INF and

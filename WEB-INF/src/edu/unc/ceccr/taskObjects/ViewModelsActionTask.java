@@ -230,8 +230,8 @@ public class ViewModelsActionTask implements WorkflowTask {
 	}
 	public void cleanFiles()
 	{
-		Utility.writeToMSDebug("CleanFiles::"+Constants.CECCR_USER_BASE_PATH +this.userName+"/modelbuilder/"+this.jobName);
-		File file=new File(Constants.CECCR_USER_BASE_PATH +this.userName+"/modelbuilder/"+this.jobName);
+		Utility.writeToMSDebug("CleanFiles::"+Constants.CECCR_USER_BASE_PATH +this.userName+"/PREDICTORS/"+this.jobName);
+		File file=new File(Constants.CECCR_USER_BASE_PATH +this.userName+"/PREDICTORS/"+this.jobName);
 	   Utility.deleteDir(file);
 	}
 }

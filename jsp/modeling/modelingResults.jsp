@@ -1,4 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ taglib uri="/tags/struts-bean" prefix="bean"%>
+<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
+<%@ taglib uri="/tags/struts-html" prefix="html"%>
+<%@ taglib uri="/tags/struts-nested" prefix="nested"%>
+<%@ page import="edu.unc.ceccr.global.Constants" %>
+
+<!-- THIS PAGE IS IMPORTED FROM viewPreviouslyGeneratedModels.jsp -->
+
+<html:html>
+<head>
+<title>C-CHEMBENCH | Modeling Results</title>
+
+<link href="theme/ss.css" rel="stylesheet" type="text/css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="theme/standard.css" rel="stylesheet"	type="text/css" />
+<link href="theme/links.css" rel="stylesheet" type="text/css" />
+<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
+
+</head>
 <br />
+
 <table width="100%" align="center">
 	<logic:equal name="KnnType" value="CONTINUOUS">
 	<tr>
@@ -222,5 +244,9 @@ randomly shuffled activities. Ideally, there will be no models with high values(
 		</tr>
 	</logic:iterate>
 </table>
+</td>
+</tr>
+</table>
 
+</html:html>
 

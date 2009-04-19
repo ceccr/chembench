@@ -54,10 +54,11 @@ public static Vector<Vector<String>> readFile(String parameterData) throws IOExc
 
                     }
             }
-        catch(Exception e){                   
+        catch(Exception ex){         
+        	Utility.writeToDebug(ex);
             System.out.println("readFile returning null");
             return null;
-            }
+        }
     
 	//txtArea.append(strBuff.toString());
            
@@ -86,7 +87,8 @@ public static String readXMLFile(String parameterData) throws IOException{
                 
 	}
     }
-      catch(Exception e){                   
+      catch(Exception ex){   
+    	  Utility.writeToDebug(ex);
             System.out.println("readXMLFile returning null");
             return null;
             }

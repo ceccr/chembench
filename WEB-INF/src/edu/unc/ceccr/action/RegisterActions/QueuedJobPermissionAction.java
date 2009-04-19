@@ -87,10 +87,10 @@ public class QueuedJobPermissionAction extends Action
 								File file=new File(BASE+t.getUserName()+"/"+t.jobName);
 								Utility.deleteDir(file);
 
-								file=new File(BASE+t.getUserName()+"/predictor/"+t.jobName);
+								file=new File(BASE+t.getUserName()+"/PREDICTIONS/"+t.jobName);
 								Utility.deleteDir(file);
 
-								file=new File(BASE+t.getUserName()+"/modelbuilder/"+t.jobName);
+								file=new File(BASE+t.getUserName()+"/PREDICTORS/"+t.jobName);
 								Utility.deleteDir(file);
 
 								//remove the task. Gotta do this last.

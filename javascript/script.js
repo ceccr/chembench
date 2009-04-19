@@ -1,4 +1,30 @@
 
+function validateDatasetDelete(name, usedPredictorNames, usedPredictionNames, usedTaskNames){
+	
+	for (var i=0; i < usedPredictorNames.length; i++){
+		if(name == usedPredictorNames[i]){
+			alert("Cannot delete dataset! Predictor " + usedPredictorNames[i] + " is using it!");
+			return false;
+		}
+	}
+	
+	for (var i=0; i < usedPredictionNames.length; i++){
+		if(name == usedPredictionNames[i]){
+			alert("Cannot delete dataset! Prediction " + usedPredictionNames[i] + " is using it");
+			return false;
+		}
+	}
+	
+	for (var i=0; i < usedTaskNames.length; i++){
+		if(name == usedTaskNames[i] || name+"_sketches_generation"==usedTaskNames[i]){
+			alert("Cannot delete dataset! The job " + usedTaskNames[i] + " is running and using it.");
+			return false;
+		}
+	}
+	return true;
+}
+
+
 function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames){
 	
 	if(name.length > 250){

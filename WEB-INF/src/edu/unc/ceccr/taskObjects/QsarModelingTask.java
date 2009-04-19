@@ -247,17 +247,16 @@ public class QsarModelingTask implements WorkflowTask {
 		Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
 		MolconnZToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
 
-		queue.runningTask.setMessage("Splitting data");
 		//wtsequence.add(executePostDescriptorWorkflow);
+		queue.runningTask.setMessage("Splitting data");
 		KnnModelBuildingWorkflow.SplitData(userName, jobName, sdFileName, actFileName, numCompoundsExternalSet);
 
-		queue.runningTask.setMessage("Y-Randomization Setup");
 		//wtsequence.add(executeRandomizationWorkflow);
+		queue.runningTask.setMessage("Y-Randomization Setup");
 		Utility.writeToDebug("ExecuteYRandomization", userName, jobName);
 		KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 		
 		//wtsequence.add(executeKnnWorkflow);	
-
 		queue.runningTask.setMessage("kNN Modeling");
 		if(knnEnum == KnnEnumeration.CATEGORY){
 			KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path);
@@ -266,7 +265,6 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		
 		//wtsequence.add(executeYRandomKnnWorkflow);
-
 		queue.runningTask.setMessage("y-Randomization Modeling");
 		if(knnEnum == KnnEnumeration.CATEGORY){
 			KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path + "yRandom/");
@@ -283,7 +281,7 @@ public class QsarModelingTask implements WorkflowTask {
 		executeAntWorkflow.execute();
 		
 		//done with modeling. Read output files. 
-		queue.runningTask.setMessage("Reading output files");
+		queue.runningTask.setMessage("Reading kNN output from " + filePath);
 		if (knnType.equals(Constants.CATEGORY)){
 			parseCategorykNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
 			parseCategorykNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
@@ -302,7 +300,7 @@ public class QsarModelingTask implements WorkflowTask {
 		if (!noModelsGenerated)
 				sortModels();
 
-		setParameters(filePath,mainKNNValues, Constants.MAINKNN);
+		setParameters(filePath, mainKNNValues, Constants.MAINKNN);
 		setParameters(filePath+"yRandom/", randomKNNValues, Constants.RANDOMKNN);
 	}
 
@@ -857,6 +855,14 @@ public class QsarModelingTask implements WorkflowTask {
 	public void setNumSphereRadii(String radii)
 	{
 		this.numSphereRadii=radii;
+	}
+
+	public Long getDatasetID() {
+		return datasetID;
+	}
+
+	public void setDatasetID(Long datasetID) {
+		this.datasetID = datasetID;
 	}
 	
 	

@@ -32,11 +32,11 @@ public class PredictionForward extends Action {
 		else{
 			User user = (User) session.getAttribute("user");
 			session.removeAttribute("predictors");
-			session.setAttribute("predictors", PopulateDataObjects.populatePredictors(user.getUserName(), true));
+			session.setAttribute("predictors", PopulateDataObjects.populatePredictors(user.getUserName(), true, true));
 			session.removeAttribute("predictorDatabases");
 			session.setAttribute("predictorDatabases", PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true));
 			session.removeAttribute("predictions");
-			session.setAttribute("predictions", PopulateDataObjects.populatePredictions(user.getUserName()));
+			session.setAttribute("predictions", PopulateDataObjects.populatePredictions(user.getUserName(), true));
 			
 			forward = mapping.findForward("success");
 			}

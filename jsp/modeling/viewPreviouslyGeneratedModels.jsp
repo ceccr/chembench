@@ -13,10 +13,9 @@
 
 <html:html>
 <head>
-<title>C-CHEMBENCH | model builders</title>
+<title>C-CHEMBENCH | Modeling Results</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
-<link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 <link href="theme/standard.css" rel="stylesheet" 	type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
 <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
@@ -37,7 +36,10 @@ else{document.getElementById("yrandom").style.display='inline';}
 
 </head>
 <body>
-<table width="749" border="0" align="center" cellpadding="0"	cellspacing="0">
+<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
+	<tr>
+		<td>
+<table width="924" border="0" align="center" cellpadding="0"	cellspacing="0">
 	<%@include file="/jsp/main/header.jsp" %>
 <%@include file="/jsp/main/centralNavigationBar.jsp" %>
 	</td>
@@ -45,12 +47,11 @@ else{document.getElementById("yrandom").style.display='inline';}
 	</tr>
 	<tr>
 		<span id="maincontent">
-		<td height="557" colspan="5" valign="top"
-			background="theme/img/backgrmodelbuilders.jpg">
+		<td height="557" colspan="5" valign="top">
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<span class="Errors"><b><html:errors /></b></span> 
 		<span class="StandardTextDarkGray">
-		<table width="100%">
+		<table width="924">
 		<tr>
 			<td class="TableRowText01" >Job Name</td>
 			<td class="TableRowText01" >Date Created</td>
@@ -76,7 +77,7 @@ else{document.getElementById("yrandom").style.display='inline';}
 			<form action="cleanmb.do"><input type="submit" value="Discard Model" /></form>
 		</logic:empty>
 		<logic:notEmpty name="allkNNValues">
-		<p style="background:white;width:100%;">
+		<p style="background:white;width:924;">
 			<b>Of the <bean:write name="selectedPredictor" property="numTotalModels" /> models generated, 
 			<bean:write name="selectedPredictor" property="numTrainModels" /> passed the training set criteria and 
 			<bean:write name="selectedPredictor" property="numTestModels" /> passed both training and test set criteria. 
@@ -91,7 +92,7 @@ else{document.getElementById("yrandom").style.display='inline';}
 			<br /></logic:lessThan>
 			
 		<br />
-		<table width="100%" align="center">
+		<table width="924" align="center">
 		<tr>
 		<td><form action="savemb.do"><input type="submit" value="Save Models" /></form></td>
 		<td><form action="cleanmb.do"><input type="submit" value="Discard Models" /></form></td>

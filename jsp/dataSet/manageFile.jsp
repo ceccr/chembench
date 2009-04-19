@@ -82,25 +82,6 @@ function extendColumn(obj){
 	else cutString(obj.id);
 }
 
-
-function showDataset()
-{
-	if(document.getElementById("dataset").style.display=='inline'){
-		document.getElementById("dataset").style.display='none';
-	}
-	else{
-		document.getElementById("dataset").style.display='inline';
-	}
-}
-
-function showPredFile()
-{
-  if(document.getElementById("predFile").style.display=='inline'){
-	document.getElementById("predFile").style.display='none';
-  }
-  else{document.getElementById("predFile").style.display='inline';}
-
-}   
 function checkSpaces(btn, value){
 	var rejectName = false;
 	for(i=0; i < value.length; i++){
@@ -118,8 +99,11 @@ function checkSpaces(btn, value){
 
 function deleteDataset(text_msg){
 	var resp = confirm(text_msg);
+	//return resp;
 	if(resp){
-		showLoading("DELETING. PLEASE WAIT...")
+		showLoading("DELETING. PLEASE WAIT...");
+		
+		
 	}
 	else return false;
 }
@@ -151,6 +135,81 @@ function deleteDataset(text_msg){
     </span> </td>
   </tr>
   <tr>
+    <td><table width="100%" align="center" border="0">
+      <tr>
+        <td valign="top" border="1"><br/>
+              <a href="#dataset" >Manage Model Development Datasets</a><br/>
+              <div id="dataset">
+                <logic:notEqual name="userDatasets" value="">
+                  <table>
+                    <tr>
+                      <td class="TableRowText01">Dataset</td>
+                      <td class="TableRowText01"># Compounds</td>
+                      <td class="TableRowText01">KNN Type</td>
+                      <td class="TableRowText01">Date</td>
+                      <td class="TableRowText01">Description</td>
+                      <td class="TableRowText01">Create Vis</td>
+                      <td class="TableRowText01">Delete</td>
+                    </tr>
+                    <%int counter=0; %>
+                    <logic:iterate id="ud" name="userDatasets">
+                      <%counter++; %>
+                      <tr>
+                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="ud" property="fileName" />"> <b>
+                          <bean:write name="ud" property="fileName" />
+                        </b> </td>
+                        <td class="TableRowText02"><bean:write name="ud" property="numCompound" /></td>
+                        <td class="TableRowText02"><bean:write name="ud" property="modelType" /></td>
+                        <td class="TableRowText02"><bean:write name="ud" property="createdTime" /></td>
+                        <td class="TableRowText02" id="id_<%=counter%>" title='<bean:write name="ud" property="description"/>' onclick="extendColumn(this);"><script type="text/javascript">
+			cutString('id_<%=counter%>');
+			
+  </script>
+                        </td>
+                        <td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="ud" property="fileName" />&knnType=<bean:write name="ud" property="modelType"/>&sdfName=<bean:write name="ud" property="sdfFile"/>">
+                          create</a></td>
+                        <td class="TableRowText02"><a  href="deleteFile.do?userName=<bean:write name="user" property="userName"/>&fileName=<bean:write name="ud" property="fileName"/>" onclick="return deleteDataset('Are you sure to delete this dataset?')">
+                          delete</a></td>
+                      </tr>
+                    </logic:iterate>
+                  </table>
+                </logic:notEqual>
+                <logic:equal name="userDatasets" value=""> <span class="StandardTextDarkGrayParagraph">Not datasets avaibale.</span> </logic:equal>
+              </div>
+          <br/>
+              <a href="#predFile" >Manage Uploaded Prediction Files</a><br/>
+              <br/>
+              <div id="predFile">
+                <logic:notEqual name="userPredictionFiles" value="">
+                  <table>
+                    <tr>
+                      <td class="TableRowText01">File Name</td>
+                      <td class="TableRowText01"># Compounds</td>
+                      <td class="TableRowText01">Date</td>
+					  <td class="TableRowText01">Create Vis</td>
+                      <td class="TableRowText01">Delete</td>
+                    </tr>
+                    <logic:iterate id="up" name="userPredictionFiles">
+                      <tr>
+                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="up" property="fileName" />"> <b>
+                          <bean:write name="up" property="fileName" /></b></td>
+                        <td class="TableRowText02"><bean:write name="up" property="numCompound" /></td>
+                        <td class="TableRowText02"><bean:write name="up" property="createdTime" /></td>
+						<td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="up" property="fileName" />&knnType=<bean:write name="up" property="modelType"/>&sdfName=<bean:write name="up" property="sdfFile"/>">
+                          create</a></td>
+                        <td class="TableRowText02"><a href="deleteFile.do?userName=<bean:write name="user" property="userName"/>&fileName=<bean:write name="up" property="fileName" />
+                          " onclick="return deleteDataset('Are you sure to delete this dataset?')">
+                          delete</a></td>
+                      </tr>
+                    </logic:iterate>
+                  </table>
+                </logic:notEqual >
+                <logic:equal name="userPredictionFiles" value=""> <span class="StandardTextDarkGrayParagraph">Not prediction files avaibale.</span> </logic:equal>
+            </div><br /><br /></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
     <td colspan="5" valign="top">
     <html:form action="/submitDataset.do" enctype="multipart/form-data">
     <table cellpadding="3" cellspacing="3" style="border-color:#000000;border-style:solid; border-width:thin">
@@ -173,7 +232,7 @@ function deleteDataset(text_msg){
                               </tr>
                               <tr>
                                 <td><span tooltip="Upload an ACT file."><b class="StandardTextDarkGrayParagraph">ACT File:</b></span><br />
-                                    <span tooltip="Upload an SD file."><b class="StandardTextDarkGrayParagraph">SD File:</b></span></td>
+                                    <span tooltip="Upload an SD file."><b class="StandardTextDarkGrayParagraph">SDF File:</b></span></td>
                                 <td><input id="loadAct" name="actFile" type="file"/>
                                     <br />
                                     <input id="loadSdfModeling" name="sdFileModeling" onchange="setDatasetName(this)" type="file" /></td>
@@ -190,7 +249,7 @@ function deleteDataset(text_msg){
                                 <td colspan="2"><b class='StandardTextDarkGrayParagraph'>Upload:</b></td>
                               </tr>
                               <tr>
-                                <td align="right"><span tooltip="Upload an SD file."><b class="StandardTextDarkGrayParagraph">SD File:</b></span></td>
+                                <td align="right"><span tooltip="Upload an SD file."><b class="StandardTextDarkGrayParagraph">SDF File:</b></span></td>
                                 <td><input id="loadSdfPrediction" name="sdFilePrediction" onchange="setDatasetName(this)" type="file" disabled="disabled"/></td>
                               </tr>
                               
@@ -219,86 +278,7 @@ function deleteDataset(text_msg){
     </html:form>
     </td>
     </tr>
-    
-    
-      
   
-  <tr>
-    <td><table height="600" width="100%" align="center" border="0">
-      <tr>
-        <td valign="top" border="1"><br/>
-              <a href="#dataset" onclick="showDataset()">Manage Model Development Datasets</a><br/>
-              <div id="dataset" style="display:none">
-                <logic:notEqual name="userDatasets" value="">
-                  <table>
-                    <tr>
-                      <td class="TableRowText01">Dataset</td>
-                      <td class="TableRowText01"># Compounds</td>
-                      <td class="TableRowText01">KNN Type</td>
-                      <td class="TableRowText01">Date</td>
-                      <td class="TableRowText01">Description</td>
-                      <td class="TableRowText01">Create Vis</td>
-                      <td class="TableRowText01">Delete</td>
-                    </tr>
-                    <%int counter=0; %>
-                    <logic:iterate id="ud" name="userDatasets">
-                      <%counter++; %>
-                      <tr>
-                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="ud" property="fileName" />"> <b>
-                          <bean:write name="ud" property="fileName" />
-                        </b> </td>
-                        <td class="TableRowText02"><bean:write name="ud" property="numCompound" /></td>
-                        <td class="TableRowText02"><bean:write name="ud" property="modelType" /></td>
-                        <td class="TableRowText02"><bean:write name="ud" property="createdTime" /></td>
-                        <td class="TableRowText02" id="id_<%=counter%>" title='<bean:write name="ud" property="description"/>' onclick="extendColumn(this);"><script type="text/javascript">
-			cutString('id_<%=counter%>');
-			
-  </script>
-                        </td>
-                        <td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="ud" property="fileName" />&knnType=<bean:write name="ud" property="modelType"/>&sdfName=<bean:write name="ud" property="sdfFile"/>">
-                          create</td>
-                        <td class="TableRowText02"><a  href="deleteFile.do?userName=<bean:write name="user" property="userName"/>&fileName=<bean:write name="ud" property="fileName" />
-                          " onclick="deleteDataset('Are you sure to delete this dataset?')">
-                          delete</td>
-                      </tr>
-                    </logic:iterate>
-                  </table>
-                </logic:notEqual>
-                <logic:equal name="userDatasets" value=""> <span class="StandardTextDarkGrayParagraph">Not datasets avaibale.</span> </logic:equal>
-              </div>
-          <br/>
-              <a href="#predFile" onclick="showPredFile()" >Manage Uploaded Prediction Files</a><br/>
-              <br/>
-              <div id="predFile" style="display:none">
-                <logic:notEqual name="userPredictionFiles" value="">
-                  <table>
-                    <tr>
-                      <td class="TableRowText01">File Name</td>
-                      <td class="TableRowText01"># Compounds</td>
-                      <td class="TableRowText01">Date</td>
-					  <td class="TableRowText01">Create Vis</td>
-                      <td class="TableRowText01">Delete</td>
-                    </tr>
-                    <logic:iterate id="up" name="userPredictionFiles">
-                      <tr>
-                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="up" property="fileName" />"> <b>
-                          <bean:write name="up" property="fileName" /></b></td>
-                        <td class="TableRowText02"><bean:write name="up" property="numCompound" /></td>
-                        <td class="TableRowText02"><bean:write name="up" property="createdTime" /></td>
-						<td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="up" property="fileName" />&knnType=<bean:write name="up" property="modelType"/>&sdfName=<bean:write name="up" property="sdfFile"/>">
-                          create</td>
-                        <td class="TableRowText02"><a href="deleteFile.do?userName=<bean:write name="user" property="userName"/>&fileName=<bean:write name="up" property="fileName" />
-                          " onclick="deleteDataset('Are you sure to delete this file?')">
-                          delete</td>
-                      </tr>
-                    </logic:iterate>
-                  </table>
-                </logic:notEqual >
-                <logic:equal name="userPredictionFiles" value=""> <span class="StandardTextDarkGrayParagraph">Not prediction files avaibale.</span> </logic:equal>
-            </div></td>
-      </tr>
-    </table></td>
-  </tr>
 </table>
 <%@include file ="/jsp/main/footer.jsp" %>
 </body>

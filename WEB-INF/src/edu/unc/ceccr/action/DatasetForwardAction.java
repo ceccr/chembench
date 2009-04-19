@@ -51,7 +51,7 @@ public class DatasetForwardAction extends Action {
 			session.setAttribute("datasetNames", PopulateDataObjects.populateDatasetNames(userName, true));
 			session.setAttribute("predictorNames", PopulateDataObjects.populatePredictorNames(userName, true));
 			session.setAttribute("predictionNames", PopulateDataObjects.populatePredictionNames(userName, true));
-			session.setAttribute("taskNames", PopulateDataObjects.populateTaskNames(userName));
+			session.setAttribute("taskNames", PopulateDataObjects.populateTaskNames(userName, false));
 			
 		}
 	

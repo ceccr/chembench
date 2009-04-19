@@ -87,6 +87,14 @@ public class SubmitDatasetAction extends Action {
 				//saving files to username/DATASETS/datasetName/ folder
 				String msg = Utility.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
     			
+					if(msg!=""){
+					Utility.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName));
+					Utility.writeToMSDebug("Error::"+msg);
+					request.removeAttribute("validationMsg");
+					request.setAttribute("validationMsg", msg);
+					return forward = mapping.findForward("failure");
+				}
+				
 				GenerateSketchesTask sketchTask = new GenerateSketchesTask(userName, datasetName, Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName+"/",sdFile.getFileName(),"Visualization/Structures/", "Visualization/Sketches/");
 				 try {
 					 	sketchTask.setUp();
@@ -95,14 +103,6 @@ public class SubmitDatasetAction extends Action {
 						Utility.writeToMSDebug(e.getMessage());
 						msg = "Sketch generation caused an error: "+ e.getMessage();
 					}
-					
-				if(msg!=""){
-					Utility.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName));
-					Utility.writeToMSDebug("Error::"+msg);
-					request.removeAttribute("validationMsg");
-					request.setAttribute("validationMsg", msg);
-					return forward = mapping.findForward("failure");
-				}
 				
 				
 			} catch (Exception e) {

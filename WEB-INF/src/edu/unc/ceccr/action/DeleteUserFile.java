@@ -20,9 +20,13 @@ import org.hibernate.criterion.Expression;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.PredictionJob;
+import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
+import edu.unc.ceccr.taskObjects.QsarModelingTask;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
 public class DeleteUserFile extends Action {
@@ -47,9 +51,29 @@ public class DeleteUserFile extends Action {
 				
 				String fileName=request.getParameter("fileName");
 				
-				deleteDataset(userName, fileName);
+				String msg = "Cannot delete dataset! ";
 				
+				String jobname = checkJobNames(userName, fileName);
+				String predictionname = checkPredictions(userName,fileName);
+				String predictorname = checkPredictors(userName, fileName);
+				String modellingname = checkModelling(userName, fileName);
 				
+				Utility.writeToMSDebug("DELETE DATASET JOBNAMES CHECK:"+jobname);
+				Utility.writeToMSDebug("DELETE DATASET PREDICTIONNAMES CHECK:"+predictionname);
+				Utility.writeToMSDebug("DELETE DATASET PREDICTORNAMES CHECK:"+predictorname);
+				Utility.writeToMSDebug("DELETE DATASET ModellingNAMES CHECK:"+modellingname);
+				
+				if(jobname==null && predictionname==null && predictorname==null && modellingname==null) 
+					deleteDataset(userName, fileName);
+				else{
+					if(jobname!=null) msg += "Job "+jobname+" is using it! ";
+					if(predictionname!=null) msg += "Prediction "+predictionname+" is using it! ";
+					if(predictorname!=null) msg += "Predictor "+predictorname+" is using it! ";
+					if(modellingname!=null) msg += "Modelling job "+modellingname+" is using it! ";
+					request.removeAttribute("validationMsg");
+					request.setAttribute("validationMsg", msg);
+					forward = mapping.findForward("failure");
+				}
 			} catch (Exception e) {
 				forward = mapping.findForward("failure");
 				Utility.writeToDebug(e);
@@ -164,6 +188,71 @@ public class DeleteUserFile extends Action {
 		}
 		session.close();
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	private String checkJobNames(String userName, String fileName)throws ClassNotFoundException, SQLException{
+		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
+		
+		for(int i=0;i<jobnames.size();i++){
+			if(jobnames.get(i).equals(fileName)){
+				return fileName; 
+			}
+			else if(jobnames.get(i).equals(fileName+"_sketches_generation")){
+				return fileName+"_sketches_generation"; 
+			}
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private String checkModelling(String userName, String fileName) throws ClassNotFoundException, SQLException{
+		List<QueueTask> tasks  = PopulateDataObjects.populateTasks(userName, false);
+		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
+		if(tasks!=null && dataset!=null){
+			for(int i=0;i<tasks.size();i++ ){
+				if(tasks.get(i)!=null && 
+						tasks.get(i).task!=null && 
+						tasks.get(i).task instanceof QsarModelingTask){
+					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
+					if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
+						return job.getJobName();
+					}
+				}
+			}		
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
+		List<PredictionJob> predictions = PopulateDataObjects.populatePredictions(userName,false);
+		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
+		if(predictions!=null && dataset!=null){
+			for(int i=0;i<predictions.size();i++ ){
+				if(predictions.get(i)!=null && predictions.get(i).getDatasetId()!=null &&predictions.get(i).getDatasetId().equals(dataset.getFileId())){
+					Utility.writeToMSDebug(predictions.get(i).getDatasetId()+" "+dataset.getFileId());
+					return predictions.get(i).getPredictorName();
+				}
+			}
+		}
+		
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private String checkPredictors(String userName, String fileName)throws ClassNotFoundException, SQLException{
+		List<Predictor> predictors = PopulateDataObjects.populatePredictors(userName, true, false);
+		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
+		if(predictors!=null && dataset!=null){
+			for(int i=0;i<predictors.size();i++ ){
+				if(predictors.get(i)!=null && predictors.get(i).getDatasetId()!=null && predictors.get(i).getDatasetId().equals(dataset.getFileId())){
+					return predictors.get(i).getName();
+				}
+			}
+		}
+		
+		return null;
 	}
 
 }

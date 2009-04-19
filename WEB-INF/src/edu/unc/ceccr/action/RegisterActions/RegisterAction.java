@@ -130,7 +130,9 @@ public class RegisterAction extends Action {
     		 sendEmail2User(information);
     	  }
     	
-      }catch(Exception e){
+      }catch(Exception ex){
+    	  Utility.writeToDebug("Failed to send email : " + information);
+    	  Utility.writeToDebug(ex);
     	  forward = mapping.findForward("failure"); return forward;
       }
 		}
