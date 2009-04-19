@@ -1,0 +1,51 @@
+BODY {
+	background:          	#FCFCFC;
+   	color:               	#356B84;
+	font-family:			Verdana, Arial, Helvetica, sans-serif;
+	text-align:				center;
+}
+
+h2{ 
+color: red; 
+}
+
+input[type=file] {
+	background:				#E0ECEF;
+	color:					black;
+	border:					1px solid #C3DADF;
+	/*width:					150px;*/
+	/*padding-right:			10em;*/
+}
+
+
+input[type=text] {
+	background:				#E0ECEF;
+	color:					black;
+	border:					1px solid #C3DADF;
+	/*width:					150px;*/
+	padding-right:			1em;
+}
+
+
+TABLE {
+	border:					1px solid #C1DAD7;
+	width:					50%;
+}
+
+TR{
+	font-family:			Verdana, Arial, Helvetica, sans-serif;
+	font-size: 				smaller;
+	padding-bottom:			1000px;
+}
+/*
+TR, TH{
+	background:				#75A1D0;
+	color: 					black;
+	border-right: 			1px solid #C1DAD7;
+	border-bottom: 			1px dotted #6D929B;
+	font-weight:			bold;
+	padding:				5px;
+	height:					20px;
+	font-family:			Verdana, Arial, Helvetica, sans-serif;
+}*/
+

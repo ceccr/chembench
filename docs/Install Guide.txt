@@ -1,0 +1,171 @@
+CONTENTS
+========
+
+I. OVERVIEW
+II. WEBSERVER + DATABASE INSTALLATION
+III. SOFTWARE INSTALLATION
+IV. TROUBLESHOOTING
+
+I. OVERVIEW
+===========
+
+C-Chembench is a web-based tool for combining chemical structure analysis, 
+data mining tools, and visualization into a single interface. As such, it is considerably more
+efficient to work with than the individual software packages themselves. 
+
+As of July 2008, a running version of C-Chembench is available online at http://ceccr.ibilio.org .
+This will be moved to http://cchembench.unc.edu in future. 
+
+Most of what you will need in order to get your own copy of C-Chembench is included in this package.
+The installation process is divided into three parts. First, the webserver and database will be put up. 
+Second, the various programs that C-Chembench uses will be installed. Last, C-Chembench configuration
+files will be altered. A Troubleshooting section is at the end of this document for problems you may 
+encounter during and after installing.
+
+Linux is required for C-Chembench. This installation has been tested successfully on RedHat Enterprise Linux 4.
+Java 1.5, Tomcat 5.5, and MySQL Server 5 were used. Other versions may also be compatible, but have not been tested.
+
+II. WEBSERVER + DATABASE INSTALLATION
+======================================
+
+It is recommended that you log in as root for the setup process.
+
+After this step, Tomcat will be running the C-Chembench web server, and it will be accessing a MySQL database.
+New user accounts may then be added to C-Chembench.
+
+1) Install the Java 1.5 JDK (JDK 5). An RPM is included in this package; alternatively, you can 
+download it from http://java.sun.com/javase/downloads/index_jdk5.jsp .
+Set the environment variable JAVA_HOME to your jdk directory, e.g.:
+export JAVA_HOME="/usr/java/jdk1.5.0_15"
+Add this environment variable setting to /etc/profile as well.
+
+2) Install Tomcat 5.5. A compressed binary is included in this package. It may also be downloaded 
+from http://tomcat.apache.org/download-55.cgi .
+Decompress tomcat and place it in the directory /usr/local/tomcat. Start tomcat by running 
+/usr/local/tomcat/bin/startup.sh
+If JAVA_HOME is set correctly, Tomcat will now be running. Verify that tomcat is running by opening
+a browser window and going to http://127.0.0.1:8080/ . You should see Tomcat's intro page. 
+Stop Tomcat by running 
+/usr/local/tomcat/bin/shutdown.sh
+
+3) Create the Chembench directories and add the starter data files. 
+Create the base directory.
+mkdir /public/projects/ceccr
+Create subdirectories.
+mkdir /public/projects/ceccr/workflow-users	(Will contain data and some server log files.)
+mkdir /public/projects/ceccr/SDF		(Will contain data files.)
+mkdir /public/projects/ceccr/xml-files		(Will contain Ant code.)
+
+In this package, you will find the directories workflow-users, SDF, and xml-files. 
+Copy their contents to the directories you just created.
+cp -r workflow-users/* /public/projects/ceccr/workflow-users/
+cp -r SDF/* /public/projects/ceccr/SDF/
+cp -r xml-files/* /public/projects/ceccr/xml-files/
+
+4) Add the Chembench webserver to Tomcat's webapps and configure Tomcat.
+
+Copy the file "ROOT.war" included in this package to 
+/usr/local/tomcat/webapps, overwriting the existing ROOT.war.
+
+In a text editor, open /usr/local/tomcat/conf/server.xml.
+Change the Connector port from 8080 to 80.
+Add the following settings between the <host> and </host> tags in server.xml.
+<Context path="/BASE"  docBase="/public/projects/ceccr/workflow-users/" reloadable="true" /> 
+<Context path="/jchem" docBase="/usr/local/jchem/" reloadable="true" />
+
+Start Tomcat. Tomcat should automatically extract the contents of ROOT.war, creating
+a directory /usr/local/tomcat/webapps/ROOT that contains the C-Chembench website.
+Point your browser at http://127.0.0.1/ and you should see the C-Chembench welcome page.
+Leave Tomcat running.
+
+5) Install MySQL Server 5.0. An RPM for RHEL 4 is included; It may also be downloaded 
+from http://dev.mysql.com/downloads/mysql/5.0.html#downloads . You may need to uninstall existing 
+MySQL packages first.
+
+Install MySQL client, if you do not already have one. You should be able to connect to the MySQL server.
+You may wish to change the username and password for the MySQL server; by default, the username is "root" and 
+there is no password.
+
+Execute the SQL commands in "ceccr.sql" to create the database "ceccr", its tables, and populate some initial data.
+This can be done quickly using the command "mysql < ceccr.sql". 
+
+6) Obtain a free account from reCAPTCHA (http://recaptcha.net/). They will provide you with a license key
+which will be used in the next step.
+
+7) Configure the C-Chembench website to fit your MySQL and reCAPTCHA settings. 
+Edit /usr/local/tomcat/webapps/ROOT/WEB-INF/systemConfig.xml. 
+Replace the publicKey and privateKey fields with your own reCAPTCHA keys.
+In the <database> section, fill in the login information for your MySQL server.
+In the <mail> section, add in a mail server. This will be needed to create new users.
+
+Also in the configuration file, you will see list of users who are designated as "Administrators".
+Once you have created some user accounts, this is where you may designate one or more users  as
+admins. Admins have the power to permit or deny large model building jobs, manage user accounts,
+and so on. You will need at least one admin.
+
+8) Create an updated ROOT.war.
+From inside the directory ROOT, run the command "/usr/java/jdk1.5.0_15/bin/jar -cvf ROOT.war ."  
+(Your Java directory may differ.)
+Replace /usr/local/tomcat/webapps/ROOT.war with this newly created one. 
+Restart Tomcat. You should now be able to create a new user account, log in, and change your password.
+If any errors occur, consult the Troubleshooting section in this document.
+
+
+III. SOFTWARE INSTALLATION
+===========================
+
+1) Ant. 
+Apache Ant 1.7.1 is included in this package. Decompress it to create  
+/usr/bin/apache-ant-1.7.1. Add /usr/bin/apache-ant-1.7.1/bin to your PATH environment variable, e.g.
+export PATH=$PATH:/usr/bin/apache-ant-1.7.1/bin
+Add this line to your /etc/profile as well.
+
+2) Chembench Executables. 
+In the directory "programs/", you will find programs that C-Chembench requires. Copy all the subdirectories
+of "programs" into /usr/local/, and add their /bin/ directories to your PATH in /etc/profile.
+Additionally, the OpenEye programs need their directory specified by an environment variable, as shown below.
+
+export JAVA_HOME="/usr/java/jdk1.5.0_15/"
+export PATH=$PATH:/usr/bin/apache-ant-1.7.1/bin
+export PATH=$PATH:/usr/local/openeye/bin
+export PATH=$PATH:/usr/local/eduSoft/molconnz4.09_linux/bin
+export PATH=$PATH:/usr/local/chemb/bin/
+export OE_DIR="/usr/local/openeye"
+
+3) Licenses.
+OpenEye and MolconnZ will not run until you have obtained licenses for them. 
+Molconnz: http://www.edusoft-lc.com/molconn/ 
+OpenEye: http://www.eyesopen.com/
+Once obtained, these license locations will also need to be added as environment variables, e.g.:
+
+export MCONN_LICENSE="/usr/local/eduSoft/molconnz4.09_linux/license/MolconnZLicense.dat"
+export OE_LICENSE="/usr/local/openeye/etc/oe_license.txt"
+
+You may wish to check that the licenses are correctly installed by running molconnz
+and OpenEye's "babel3" program.
+
+4) Done!
+With the install completed, you can begin using the system. 
+Refer to the included user guide for details.
+
+IV. TROUBLESHOOTING
+===================
+
+If a problem occurs, a report will be noted in one of C-Chembench's log files (detailed below).
+You can either use the log files to find the problem yourself, or if you need help, send any
+questions to ceccrhelp@listserv.unc.edu . If you attach the log files, we will have an easier time
+diagnosing the problem.
+
+/public/projects/ceccr/workflow-users/javadebug.log : This logfile contains user actions and any
+Java-related errors. Most of C-Chembench is written in Java, so this is a good place to start on any errors.
+If a configuration file is wrong, programs are missing, or files are in the wrong place, it will likely
+show up here.
+
+/public/projects/ceccr/workflow-users/log.xml : This logfile is used solely by Ant code. Ant is
+responsible for execution of the programs associated with C-Chembench. A missing license or malfunctioning
+program will likely have its errors land here.
+
+/usr/local/tomcat/logs/ceccr.log : If your browser brings you to an error page when you are
+using C-Chembench, this is the place to look. HTML and Javascript errors are noted here.
+
+/usr/local/tomcat/logs/hibernate.log : Errors associated with the database appear here.

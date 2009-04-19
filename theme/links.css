@@ -1,0 +1,120 @@
+a:link {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #5F7692;
+	font-weight: bold;
+	text-decoration: none;
+	outline: none;
+	
+}
+
+
+.ActiveTab {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	font-weight: bold;
+	background-position: center center;
+	text-decoration: none;
+	outline: none;
+	
+}
+a:visited {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #5F7692;
+	font-weight: bold;
+	text-decoration: none;
+	outline: none;
+	
+}
+a:hover {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #000000;
+	font-weight: bold;
+	text-decoration: underline;
+	outline: none;
+	
+}
+a:active {
+
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #99FF00;
+	font-weight: bold;
+	text-decoration: none;
+	outline: none;
+	
+}
+
+
+
+
+a.sub:link {
+	font-family: Arial Narrow;
+	font-size: 9px;
+	color: #5F7692;
+font-weight: bold;
+	text-decoration: none;
+}
+
+
+
+a.sub:visited {
+
+	font-family: Arial Narrow;
+	font-size: 9px;
+	color: #5F7692;
+font-weight: bold;
+	text-decoration: none;
+}
+a.sub:hover {
+	font-family:Arial Narrow;
+	font-size: 12px;
+	color: white;
+	font-weight: bold;
+}
+a.sub:active {
+
+	font-family: Arial Narrow;
+	font-size: 9px;
+	color: #99FF00;
+font-weight: bold;
+	text-decoration: none;
+}
+
+
+
+
+a.small:link {
+	font-family: Arial Narrow;
+	font-size: 11px;
+	color: #666666;
+
+	text-decoration: none;
+}
+
+
+
+a.small:visited {
+
+	font-family: Arial Narrow;
+	font-size: 11px;
+	color: blue;
+
+	text-decoration: none;
+}
+a.small:hover {
+	font-family:Arial Narrow;
+color:blue;
+	font-size: 11px;
+}
+a.small:active {
+
+	font-family: Arial Narrow;
+	font-size: 11px;
+	color: #99FF00;
+	text-decoration: none;
+}

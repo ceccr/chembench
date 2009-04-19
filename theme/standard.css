@@ -1,0 +1,240 @@
+.StandardTextDarkGray2 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #ffffff;
+	text-indent: 20px;
+	background-color: #9DAffF;
+	outline: none;
+	
+	
+	}
+
+.StandardTextDarkGray3 {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color:  #42426F;
+	text-indent: 20px;
+	background-color: #ffffff;
+	outline: none;
+	
+	}
+
+.StandardTextDarkGray4{
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: gray;
+	text-indent: 1px;
+	outline: none;
+	
+}
+
+.StandardTextYellow{
+	font-family:GoudyOlSt BT;
+	font-size: 11px;
+	color: #FF4500;
+	text-indent: 0px;
+                border-width:1px;
+}
+
+
+.StandardTextDarkGray {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #4D5F75;
+	text-indent: 10px;
+}
+
+
+
+.StandardTextDarkGrayNoIndent {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #4D5F75;
+}
+
+body {
+	background-image: url(img/backgr.jpg);
+	margin: 0px;
+}
+
+.LoginBoxBackgr {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #333333;
+	background-image: url(img/ccbHeaderLoginBG.jpg);
+
+	font-weight: bold;
+}
+.BlankBar {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #99FF00;
+	background-image: url(img/blankbar.jpg);
+}
+.StandardTextBlack {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #303C49;
+	margin-left: 20px;
+}
+.StandardTextBlackBold {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #303C49;
+	text-indent: 20px;
+	font-weight: bold;
+}
+.StandardTextLiteGray {
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #4D5F75;
+	text-indent: 20px;
+}
+.StandardTextDarkGrayParagraph {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #4D5F75;
+	margin-left: 20px;
+}
+
+.StandardTextDarkGrayParagraph2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #4D5F75;
+	margin-left: 20px;
+}
+
+.StandardTextDarkGrayHelpText {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #4D5F75;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+
+.StandardTextDarkGrayParagraphBlue {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #3D95D0;
+	margin-left: 20px;
+}
+.LoginBoxes {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #303C49;
+	margin-left: 7px;
+}
+
+.LoginBoxes1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #303C49;
+	margin-left: 0px;
+}
+
+
+
+.LoginSubmit {
+
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #303C49;
+	margin-left: 10px;
+}
+
+.LoginSubmit1{
+
+
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 9px;
+	color: #303C49;
+	margin-left: 0px;  
+}
+
+.TableRowText01 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FFFFFF;
+	background-color: #9DACBF;
+	text-align: center;
+	vertical-align: middle;
+	height: 30px;
+	width: 120px;
+	font-weight: bold;
+}
+
+.TableRowText02 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666666;
+	background-color: #E6E9EC;
+	text-align: center;
+	vertical-align: middle;
+	height: 15px;
+	width: 100px;
+}
+
+.TableRowText029 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666666;
+	background-color: #E6E9EC;
+	text-align: left;
+	vertical-align: middle;
+	height: 15px;
+	width: 100px;
+}
+
+.TableRowText022 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #666666;
+	background-color: #E6E9EC;
+	text-align: left;
+	vertical-align: middle;
+	height: 12px;
+	
+}
+.Table5ColRowText01 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FFFFFF;
+	background-color: #9DACBF;
+	text-align: center;
+	font-weight: bold;
+	vertical-align: middle;
+	height: 17px;
+	width: 142px;
+}
+.Table5ColRowText02 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666666;
+	background-color: #E6E9EC;
+	text-align: center;
+	width: 142px;
+	vertical-align: middle;
+	height: 15px;
+}
+
+
+/* DIVS BY BERK - 20061003 */
+
+#columnsmain { 
+	width: 750px; 
+	}
+
+#leftcolumn { 
+	width: 430px; 
+	float: left;
+	padding: 10px 10px 10px 10px;
+	}
+
+#rightcolumn { 
+	width: 280px; 
+	float: right;
+	padding: 10px 10px 10px 10px;
+	}
+

@@ -1,0 +1,33 @@
+@charset "utf-8";
+.ccbHomeHeadings {
+	font-family:"myriad pro","bitstream vera sans","trebuchet ms","helvetica neue",helvetica,arial,sans-serif;
+	font-size: 22px;
+	color: #333333;
+	font-weight: normal;
+}
+.ccbHomeStandard {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #4F4F4F;
+	font-weight: normal;
+}
+.ccbLoginBoxHeading {
+	font-family:"myriad pro","bitstream vera sans","trebuchet ms","helvetica neue",helvetica,arial,sans-serif;
+	font-size: 24px;
+	color: #0977CC;
+	font-weight: normal;
+}
+a:link {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #404040;
+	font-weight: normal;
+	text-decoration: underline;
+}
+a:hover {
+	font-family: Geneva, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #000000;
+	font-weight: normal;
+	text-decoration: none;
+}

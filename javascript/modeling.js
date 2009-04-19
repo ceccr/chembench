@@ -1,0 +1,108 @@
+// Enable or disable parts of the form //
+var categoryParamIDs = new Array('selectedCategoryDataset', 'knnCat13', 'knnCat14', 'knnCatOpt01', 'knnCatOpt02', 'knnCatOpt03', 'knnCatOpt04');
+var continuousParamIDs = new Array('selectedContinuousDataset', 'knnCon13', 'knnCon14', 'knnCon15', 'knnCon16', 'knnCon17', 'knnCon18');
+
+function setToContinuous(){
+	var i;
+	for(i = 0; i < categoryParamIDs.length; i++){
+		document.getElementById(categoryParamIDs[i]).disabled = true;
+	}
+	for(var i = 0; i < continuousParamIDs.length; i++){
+		document.getElementById(continuousParamIDs[i]).disabled = false;
+	}
+}
+
+function enableEdit(){
+	document.getElementById("Edit").disabled = false;
+}
+
+function setToCategory(){
+	var i;
+	for(i = 0; i < categoryParamIDs.length; i++){
+		document.getElementById(categoryParamIDs[i]).disabled = false;
+	}
+	for(var i = 0; i < continuousParamIDs.length; i++){
+		document.getElementById(continuousParamIDs[i]).disabled = true;
+	}
+}
+
+// End Enable-Disable functions //
+
+// Form validation functions //
+
+function validateForm(){
+	//check that all the relevant kNN parameters are entered as numbers
+	
+	//check that the job name is not the same as any of the user's existing
+	//job names, model names, predictor names, or dataset names
+	
+	//check that there are no spaces in the job name.
+	
+	var rejectName = false;
+	var errorstring;
+	var jobname = document.getElementById("jobName").value;
+	for(i=0; i < jobname.length; i++){
+		if(jobname[i] == ' '){
+			rejectName = true;
+			errorstring="The job name must not contain a space.";
+		}
+	}
+	if(jobname.length == 0){
+		rejectName = true;
+		errorstring="Please enter a name for this job.";
+	}
+	if(rejectName){
+		window.alert(errorstring);
+		return false; 	
+	}
+	else{
+		return true;
+	}
+	/*for(n in ls)
+		if(value==ls[n]&&value!="") {
+                  window.alert("The model name of '"+value+"' is already in use.");
+                  document.getElementById("jobName").value="";
+   			btn.disabled=true;
+			return ; 	
+	}
+	btn.disabled=false;  
+	*/
+}
+
+function submitForm(button)
+{
+	if(validateForm()){
+		button.disabled=true;
+		button.form.submit();
+		document.getElementById('submitMessage').innerHTML="<i>Your workflow is being submitted, please wait.</i>";
+		return true;
+	}
+	else{
+		return false;
+	}
+}
+
+// End Form validation functions //
+
+// Visualization functions //
+
+function showActivityHistogram()
+{
+	//make sure that they've picked an existing continuous or category dataset
+	if(document.getElementById("continuousDataset").checked){
+		window.open("activityChartVisualization.do?datasetID="+document.getElementById("selectedContinuousDataset").value);
+		return true;
+	}
+	else if(document.getElementById("categoryDataset").checked){
+		window.open("activityChartVisualization.do?datasetID="+document.getElementById("selectedCategoryDataset").value);
+		return true;
+	}
+	else{
+		window.alert("Please specify a dataset to generate the activity histogram on.");
+		return false;
+	}
+}
+
+// End Visualization functions //
+
+
