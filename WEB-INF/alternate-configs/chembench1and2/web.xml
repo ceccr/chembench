@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="Shift_JIS"?>
+
+<!DOCTYPE web-app
+  PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+  "http://java.sun.com/dtd/web-app_2_3.dtd">
+
+
+<web-app>
+
+
+ <servlet>
+    <servlet-name>action</servlet-name>
+    <servlet-class>org.apache.struts.action.ActionServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/struts-config.xml</param-value>
+    </init-param>
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>detail</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+
+
+<servlet>
+     <servlet-name>ApplicationServlet</servlet-name>
+     <servlet-class>edu.unc.ceccr.servlet.ApplicationServlet</servlet-class>
+        </servlet>
+<servlet-mapping>
+      <servlet-name>ApplicationServlet</servlet-name>
+      <url-pattern>/apps/*</url-pattern>
+     </servlet-mapping>
+     
+     
+  <servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>Model Servlet</servlet-name>
+    <servlet-class>edu.unc.ceccr.servlet.ModelServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>Model Servlet</servlet-name>
+    <url-pattern>/model/*</url-pattern>
+</servlet-mapping>
+
+<servlet>
+    <servlet-name>File Servlet</servlet-name>
+    <servlet-class>edu.unc.ceccr.servlet.FileServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>File Servlet</servlet-name>
+    <url-pattern>/file/*</url-pattern>
+</servlet-mapping>
+
+<servlet>
+     <servlet-name>Structure</servlet-name>
+     <servlet-class>edu.unc.ceccr.servlet.Structure</servlet-class>
+        </servlet>
+<servlet-mapping>
+      <servlet-name>Structure</servlet-name>
+      <url-pattern>/Structure/*</url-pattern>
+     </servlet-mapping>
+
+<servlet>
+     <servlet-name>Sketch</servlet-name>
+     <servlet-class>edu.unc.ceccr.servlet.SketchServlet</servlet-class>
+        </servlet>
+<servlet-mapping>
+      <servlet-name>Sketch</servlet-name>
+      <url-pattern>/sketch</url-pattern>
+     </servlet-mapping>
+
+  
+  <servlet>
+  <servlet-name>ImageServlet</servlet-name>
+  <servlet-class>edu.unc.ceccr.servlet.ImageServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>ImageServlet</servlet-name>
+  <url-pattern>/imageServlet/*</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  <servlet-name>DescriptorMatrixServlet</servlet-name>
+  <servlet-class>edu.unc.ceccr.servlet.DescriptorMatrixServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>DescriptorMatrixServlet</servlet-name>
+  <url-pattern>/descriptorMatrixServlet/*</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+  <servlet-name>ProjectFilesServlet</servlet-name>
+  <servlet-class>edu.unc.ceccr.servlet.ProjectFilesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>ProjectFilesServlet</servlet-name>
+  <url-pattern>/projectFilesServlet/*</url-pattern>
+  </servlet-mapping>
+ 
+ <servlet>
+     <servlet-name>Chart</servlet-name>
+     <servlet-class>edu.unc.ceccr.servlet.ChartServlet</servlet-class>
+        </servlet>
+<servlet-mapping>
+      <servlet-name>Chart</servlet-name>
+      <url-pattern>/chart/*</url-pattern>
+     </servlet-mapping>
+     
+     <servlet>
+     <servlet-name>ActivityChart</servlet-name>
+     <servlet-class>edu.unc.ceccr.servlet.ActivityChartServlet</servlet-class>
+        </servlet>
+<servlet-mapping>
+      <servlet-name>ActivityChart</servlet-name>
+      <url-pattern>/activityChart/*</url-pattern>
+     </servlet-mapping>
+     
+<!--Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha-->
+  <servlet>
+  <servlet-name>Captcha</servlet-name>
+<display-name>Captcha</display-name>
+<servlet-class>nl.captcha.servlet.CaptchaServlet</servlet-class>
+<init-param>
+<param-name>cap.border</param-name>
+<param-value>yes</param-value>
+</init-param>
+
+<!--color of the border. Legal values are r,g,b(and optional alpaha) or white,black,etc. Other values will be ignored-->
+<init-param>
+<param-name>cap.border.c</param-name>
+<param-value>202,225,225</param-value>
+</init-param>
+
+<!--thickness of the border around captcha. Legal values are > 0 other values will be ignored. Defaults to one-->
+<init-param>
+<param-name>cap.border.th</param-name>
+<param-value>1</param-value>
+</init-param>
+
+<!-- the image producer. Currently only one-->
+<init-param>
+<param-name>cap.cap.producer</param-name>
+<param-value>nl.captcha.obscurity.imp.DefaultCaptchaIml</param-value>
+</init-param>
+
+<!-- the text producer. defaults to a random character thing. But there is a first name generator aswell-->
+<init-param>
+<param-name>cap.text.producer</param-name>
+<param-value>Default</param-value>
+<!--<param-value>nl.captcha.text.FiveLetterFirstNameTextCreator</param-value>-->
+</init-param>
+
+<!-- incase the default generator is chosen. The characters that will create the string can be configured aswell please-->
+<!-- notice that if japanese or chinese characters are chosen the fonts chosen below will have to support these-->
+<init-param>
+<param-name>cap.char.arr</param-name>
+<param-value>2,3,4,6,7,8,a,b,c,d,e,f,h,k,r,p,t,x,y</param-value>
+</init-param>
+
+<!--if default captcha producer is slelected this value represents the amount of chars that are supplied in the captcha. values below 2 are not exepted when omitted defaults to 5-->
+<init-param>
+<param-name>cap.char.arr.l</param-name>
+<param-value>5</param-value>
+</init-param>
+
+<!--optional font array for the captcha-->
+<init-param>
+<param-name>cap.font.arr</param-name>
+<param-value>Arial,Helvetica,Courier,TimesRoman</param-value>
+</init-param>
+
+<!-- image size-->
+<init-param>
+<param-name>cap.font.size</param-name>
+<param-value>45</param-value>
+</init-param>
+
+<!-- font color. values can be either red,yellow,blue,cya etc or r,g,b (optional alpha value)-->
+<init-param>
+<param-name>cap.font.color</param-name>
+<param-value>255,0,255</param-value>
+</init-param>
+
+
+<init-param>
+<param-name>cap.distortionImp</param-name>
+<param-value>10</param-value>
+</init-param>
+
+
+<init-param>
+<param-name>cap.backgroundImp</param-name>
+<param-value/>
+</init-param>
+
+<!--values can be either red,yellow,blue,cya etc or r,g,b,alpha value-->
+<init-param>
+<param-name>cap.background.c.to</param-name>
+<param-value>255,255,255</param-value>
+</init-param>
+
+<!--values can be either red,yellow,blue,cya etc or r,g,b,alpha value-->
+<init-param>
+<param-name>cap.background.c.from</param-name>
+<param-value>75,75,255</param-value>
+</init-param>
+</servlet>
+<servlet-mapping>
+<servlet-name>Captcha</servlet-name>
+<url-pattern>/Captcha.jpg</url-pattern>
+</servlet-mapping>
+<!--Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha-->
+     
+    <session-config>
+      <session-timeout>30</session-timeout>    <!-- 30 minutes -->
+	</session-config>
+	
+	<!-- This is a production server, so we want to prevent users from seeing error details -->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/jsp/error2.jsp</location>
+    </error-page>
+    
+    
+    <taglib>
+    <taglib-uri>/application/jstl/core</taglib-uri>
+    <taglib-location>/WEB-INF/tags/c.tld</taglib-location>
+  </taglib>
+    
+    <taglib>
+    <taglib-uri>/application/jstl/fmt</taglib-uri>
+    <taglib-location>/WEB-INF/tags/fmt.tld</taglib-location>
+  </taglib>
+  
+  <taglib>
+    <taglib-uri>/application/jstl/fn</taglib-uri>
+    <taglib-location>/WEB-INF/tags/fn.tld</taglib-location>
+  </taglib>
+    
+  <taglib>
+    <taglib-uri>/tags/struts-bean</taglib-uri>
+    <taglib-location>/WEB-INF/tags/struts-bean.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-html</taglib-uri>
+    <taglib-location>/WEB-INF/tags/struts-html.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-logic</taglib-uri>
+    <taglib-location>/WEB-INF/tags/struts-logic.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-nested</taglib-uri>
+    <taglib-location>/WEB-INF/tags/struts-nested.tld</taglib-location>
+  </taglib>
+
+  <taglib>
+    <taglib-uri>/tags/struts-tiles</taglib-uri>
+    <taglib-location>/WEB-INF/tags/struts-tiles.tld</taglib-location>
+  </taglib>
+  
+  <!-- tongan-->
+  <listener>
+  <listener-class>
+  edu.unc.ceccr.utilities.ActiveUser
+  </listener-class>
+  </listener>
+
+</web-app>
