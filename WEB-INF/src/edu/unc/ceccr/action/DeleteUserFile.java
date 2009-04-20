@@ -162,7 +162,7 @@ public class DeleteUserFile extends Action {
 		//deleting dataset from job
 		
 		List<QueueTask> tasks = (List<QueueTask>) Queue.getInstance().getUserTasks(userName);
-		for(Iterator<QueueTask> i=tasks.iterator();i.hasNext();){
+				for(Iterator<QueueTask> i=tasks.iterator();i.hasNext();){
 			QueueTask temp = i.next();
 			if(temp.component.equals(Component.visualisation) && temp.getJobName().equals(fileName)){
 				Queue.getInstance().deleteTask(temp);
@@ -171,6 +171,15 @@ public class DeleteUserFile extends Action {
 				Queue.getInstance().deleteTask(temp);
 			}
 		}
+				
+		tasks = (List<QueueTask>) Queue.getInstance().getQueuedTasks();
+		for(Iterator<QueueTask> i=tasks.iterator();i.hasNext();){
+			QueueTask temp = i.next();
+			if(temp.getUserName().equals(userName) && temp.getJobName().equals(fileName)){
+				Queue.getInstance().deleteTask(temp);
+			}
+		}
+			
 		///
 		Utility.writeToMSDebug("DeleteUserFile::"+dir);
 		if(Utility.deleteDir(new File(dir)))
@@ -215,6 +224,7 @@ public class DeleteUserFile extends Action {
 						tasks.get(i).task!=null && 
 						tasks.get(i).task instanceof QsarModelingTask){
 					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
+					Utility.writeToMSDebug("MODELLING:::"+job.getJobName()+"---"+job.getDatasetID()+"----"+dataset.getFileId());
 					if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
 						return job.getJobName();
 					}
