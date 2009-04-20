@@ -119,9 +119,9 @@ public class RegisterAction extends Action {
 		} finally {
 			s.close();
 		}
+  	  String errormessage = "";
       try{
     	  String setting=Constants.ACCEPTANCE;
-    	  String errormessage = "";
     	  if(setting.contains("manual"))
     	  {
     		 errormessage = sendEmail2Admin(information);
