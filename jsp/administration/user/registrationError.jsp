@@ -5,7 +5,6 @@
 <%@ taglib uri="/tags/struts-html" prefix="html"%>
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ page import="edu.unc.ceccr.global.Constants" %>
-<jsp:useBean class="edu.unc.ceccr.persistence.User" id="user"	scope="session"></jsp:useBean>
 <html:html>
 <head>
 <title>C-CHEMBENCH | User Registration</title>
