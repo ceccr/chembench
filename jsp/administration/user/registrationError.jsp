@@ -8,17 +8,14 @@
 <jsp:useBean class="edu.unc.ceccr.persistence.User" id="user"	scope="session"></jsp:useBean>
 <html:html>
 <head>
-<title>C-CHEMBENCH | library design</title>
+<title>C-CHEMBENCH | User Registration</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet"	type="text/css" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
 <script src="javascript/script.js"></script>
-<script>
-  function login() {
-	window.alert("Please login.");
-}
+
 </head>
 <body>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
@@ -31,7 +28,7 @@
 		<td height="557" colspan="5" valign="top"
 			background="theme/img/backgrlibrary.jpg">
 		<p class="StandardTextDarkGray">&nbsp;</p>
-		<p class="StandardTextDarkGray"><font size=4 color=red><b>ERROR<b/></font><br/>
+		<p class="StandardTextDarkGray"><font size=4 color=red><b><!-- ERROR: Email didn't get sent. --><b/></font><br/>
 		</p>
 		<p class="StandardTextDarkGrayParagraph">
 		<%if((String)session.getAttribute("error1")!=null){%>

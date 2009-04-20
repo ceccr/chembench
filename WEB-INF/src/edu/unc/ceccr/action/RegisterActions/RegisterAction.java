@@ -28,7 +28,7 @@ import net.tanesha.recaptcha.*;
 
 public class RegisterAction extends Action {
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form,	HttpServletRequest request, HttpServletResponse response)
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
 		ActionForward forward = new ActionForward(); 
@@ -133,6 +133,8 @@ public class RegisterAction extends Action {
       }catch(Exception ex){
     	  Utility.writeToDebug("Failed to send email : " + information);
     	  Utility.writeToDebug(ex);
+ 		  session.removeAttribute("error1");
+ 		  session.setAttribute("error1", information);
     	  forward = mapping.findForward("failure"); return forward;
       }
 		}
