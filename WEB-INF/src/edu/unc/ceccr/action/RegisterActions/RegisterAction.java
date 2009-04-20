@@ -153,7 +153,6 @@ public class RegisterAction extends Action {
 		return forward;
 	}
 	
-	
 	public void sendEmail2User(User userInfo, String password)throws Exception
 	{
 		userInfo.setStatus("agree");

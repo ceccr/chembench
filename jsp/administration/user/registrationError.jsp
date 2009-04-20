@@ -37,6 +37,8 @@
       	<%if((String)session.getAttribute("error3")!=null){%>
 		<%=(String)session.getAttribute("error3")%><%}%><br/><br/><br/><br/><br/><br/><br/>
       	
+      	<form action="home.do">
+      	<input type="submit" value="Return to Home Page" /></form>
       	<form action="gotoregister.do">&nbsp;&nbsp;&nbsp;&nbsp;
       	<input type="submit" value="Back to Registration" /></form>
 		
