@@ -102,8 +102,6 @@ public class RegisterAction extends Action {
 		information.setWorkbench(registerForm.getWorkbench());
 		information.setStatus("NOTSET");
 		
-		session.removeAttribute("userInfo");
-		session.setAttribute("userInfo", information);
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
