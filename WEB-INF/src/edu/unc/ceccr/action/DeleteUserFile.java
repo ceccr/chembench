@@ -175,7 +175,7 @@ public class DeleteUserFile extends Action {
 		tasks = (List<QueueTask>) Queue.getInstance().getQueuedTasks();
 		for(Iterator<QueueTask> i=tasks.iterator();i.hasNext();){
 			QueueTask temp = i.next();
-			if(temp.getUserName().equals(userName) && temp.getJobName().equals(fileName)){
+			if(temp.getUserName().equals(userName) && temp.getJobName().equals(fileName) || temp.getJobName().equals(fileName+"_sketches_generation")){
 				Queue.getInstance().deleteTask(temp);
 			}
 		}
