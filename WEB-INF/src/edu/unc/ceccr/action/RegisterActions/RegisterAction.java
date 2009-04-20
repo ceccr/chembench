@@ -146,7 +146,6 @@ public class RegisterAction extends Action {
     	  Utility.writeToDebug("Error message: " + errormessage);
  		  session.removeAttribute("error1");
  		  session.setAttribute("error1", errormessage);
- 		  session.removeAttribute("user");
     	  forward = mapping.findForward("failure"); 
     	  return forward;
       }
