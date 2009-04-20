@@ -132,6 +132,7 @@ public class RegisterAction extends Action {
       }catch(Exception ex){
     	  Utility.writeToDebug("Failed to send email for user registration: " + information.getUserName());
     	  Utility.writeToDebug(ex);
+    	  Utility.writeToDebug("Error message: " + errormessage);
  		  session.removeAttribute("error1");
  		  session.setAttribute("error1", errormessage);
     	  forward = mapping.findForward("failure"); return forward;
