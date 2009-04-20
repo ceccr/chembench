@@ -131,13 +131,13 @@ public class RegisterAction extends Action {
       	  }else{ 
       		 String password=Utility.randomPassword();
       		 errormessage = "Thank you for you interest in CECCR's C-Chembench. <br/>Your account has been approved.<br/>"
-      			+"<br/> Your user name : "+ information.getUserName()
-      			+"<br/> Your temporary password : " + password
+      			+"<br/> Your user name : <font color=red>"+ information.getUserName() + "</font>"
+      			+"<br/> Your temporary password : <font color=red>" + password + "</font>" 
       			+"<br/> Please note that passwords are case sensitive. "
-      			+"<br/> In order to change your password,  log in to C-Chembench "+Constants.WEBADDRESS+") and click the 'My Password' button at the upper right. <br/> It will take you to the change password page.  You may change your password any time through these pages."
-      			+"<br/><br/> If you forget your password, click the 'User' button next to the login.  Your password will be reset and the new password will be sent to you."
+      			+"<br/> In order to change your password,  log in to C-Chembench "+Constants.WEBADDRESS+") and click the 'edit profile' link at the upper right. <br/> It will take you to the change password page.  You may change your password any time through these pages."
+      			+"<br/>
       			+"<br/>We hope that you find C-Chembench to be a useful tool. <br/>If you have any problems or suggestions for improvements, please contact us at : "+Constants.WEBSITEEMAIL
-      			+"<br/><br/>Thank you. <br/>The C-Chembench Team<br/>"+ new Date();
+      			+"<br/><br/>Thank you. <br/>The C-Chembench Team<br/>";
       		 
       		 sendEmail2User(information, password);
       }
@@ -183,8 +183,8 @@ public class RegisterAction extends Action {
 		+"<br/> Your user name : "+userInfo.getUserName()
 		+"<br/> Your temporary password : " +password
 		+"<br/> Please note that passwords are case sensitive. "
-		+"<br/> In order to change your password,  log in to C-Chembench "+Constants.WEBADDRESS+") and click the 'My Password' button at the upper right. <br/> It will take you to the change password page.  You may change your password any time through these pages."
-		+"<br/><br/> If you forget your password, click the 'User' button next to the login.  Your password will be reset and the new password will be sent to you."
+		+"<br/> In order to change your password,  log in to C-Chembench "+Constants.WEBADDRESS+") and click the 'edit profile' link at the upper right. <br/> You may change your password any time."
+		+"<br/>
 		+"<br/>We hope that you find C-Chembench to be a useful tool. <br/>If you have any problems or suggestions for improvements, please contact us at : "+Constants.WEBSITEEMAIL
 		+"<br/><br/>Thank you. <br/>The C-Chembench Team<br/>"+ new Date();
 		
