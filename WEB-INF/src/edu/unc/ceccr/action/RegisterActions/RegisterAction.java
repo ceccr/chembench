@@ -119,15 +119,15 @@ public class RegisterAction extends Action {
 		} finally {
 			s.close();
 		}
-  	  String errormessage = ""; //used in case emailing their password to them won't work (e.g. mail server dead)
+  	  String errormessage = "error"; //used in case emailing their password to them won't work (e.g. mail server dead)
       try{
     	  String setting=Constants.ACCEPTANCE;
     	  if(setting.contains("manual"))
     	  {
     		 errormessage = "An error occurred while processing your request. Please contact " +
   		 		"an administrator to finish setting up your account.";
-    		 sendEmail2Admin(information);
     		 
+    		 sendEmail2Admin(information);
       	  }else{ 
       		 String password=Utility.randomPassword();
       		 errormessage = "Thank you for you interest in CECCR's C-Chembench. <br/>Your account has been approved.<br/>"
@@ -138,6 +138,7 @@ public class RegisterAction extends Action {
       			+"<br/><br/> If you forget your password, click the 'User' button next to the login.  Your password will be reset and the new password will be sent to you."
       			+"<br/>We hope that you find C-Chembench to be a useful tool. <br/>If you have any problems or suggestions for improvements, please contact us at : "+Constants.WEBSITEEMAIL
       			+"<br/><br/>Thank you. <br/>The C-Chembench Team<br/>"+ new Date();
+      		 
       		 sendEmail2User(information, password);
       }
     	
