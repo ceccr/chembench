@@ -134,7 +134,7 @@ public class RegisterAction extends Action {
       			+"<br/> Your user name : <font color=red>"+ information.getUserName() + "</font>"
       			+"<br/> Your temporary password : <font color=red>" + password + "</font>" 
       			+"<br/> Please note that passwords are case sensitive. "
-      			+"<br/> In order to change your password,  log in to C-Chembench "+Constants.WEBADDRESS+") and click the 'edit profile' link at the upper right. <br/> It will take you to the change password page.  You may change your password any time through these pages."
+      			+"<br/> In order to change your password,  log in to C-Chembench "+Constants.WEBADDRESS+") and click the 'edit profile' link at the upper right."
       			+"<br/>"
       			+"<br/>We hope that you find C-Chembench to be a useful tool. <br/>If you have any problems or suggestions for improvements, please contact us at : "+Constants.WEBSITEEMAIL
       			+"<br/><br/>Thank you. <br/>The C-Chembench Team<br/>";
@@ -148,6 +148,7 @@ public class RegisterAction extends Action {
     	  Utility.writeToDebug("Error message: " + errormessage);
  		  session.removeAttribute("error1");
  		  session.setAttribute("error1", errormessage);
+ 		  session.removeAttribute("user");
     	  forward = mapping.findForward("failure"); 
     	  return forward;
       }
