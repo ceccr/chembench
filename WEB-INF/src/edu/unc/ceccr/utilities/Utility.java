@@ -46,7 +46,7 @@ public class Utility {
 	public Utility() {
 	};
 
-	public byte[] encrypt(String str) throws NoSuchAlgorithmException {
+	public static byte[] encrypt(String str) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-1");
 		md.update(str.getBytes());
 		byte[] encryptedStr = md.digest();
@@ -63,7 +63,7 @@ public class Utility {
 		}
 	}
 
-	public String randomPassword() throws Exception {
+	public static String randomPassword() throws Exception {
 		String source = Constants.SOURCE;
 		String password = "";
 		Random generator = new Random();

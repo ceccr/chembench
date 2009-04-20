@@ -119,14 +119,26 @@ public class RegisterAction extends Action {
 		} finally {
 			s.close();
 		}
-  	  String errormessage = "";
+  	  String errormessage = ""; //used in case emailing their password to them won't work (e.g. mail server dead)
       try{
     	  String setting=Constants.ACCEPTANCE;
     	  if(setting.contains("manual"))
     	  {
-    		 errormessage = sendEmail2Admin(information);
+    		 sendEmail2Admin(information);
+    		 errormessage = "An error occurred while processing your request. Please contact " +
+    		 	"an administrator to finish setting up your account.";
       	  }else{ 
-      		 errormessage = sendEmail2User(information);
+      		 String password=Utility.randomPassword();
+      		 sendEmail2User(information, password);
+      		 errormessage = "Thank you for you interest in CECCR's C-Chembench. <br/>Your account has been approved.<br/>"
+      			+"<br/> Your user name : "+ information.getUserName()
+      			+"<br/> Your temporary password : " + password
+      			+"<br/> Please note that passwords are case sensitive. "
+      			+"<br/> In order to change your password,  log in to C-Chembench "+Constants.WEBADDRESS+") and click the 'My Password' button at the upper right. <br/> It will take you to the change password page.  You may change your password any time through these pages."
+      			+"<br/><br/> If you forget your password, click the 'User' button next to the login.  Your password will be reset and the new password will be sent to you."
+      			+"<br/>We hope that you find C-Chembench to be a useful tool. <br/>If you have any problems or suggestions for improvements, please contact us at : "+Constants.WEBSITEEMAIL
+      			+"<br/><br/>Thank you. <br/>The C-Chembench Team<br/>"+ new Date();
+      		
     	  }
     	
       }catch(Exception ex){
@@ -142,14 +154,11 @@ public class RegisterAction extends Action {
 	}
 	
 	
-	public String sendEmail2User(User userInfo)throws Exception
+	public void sendEmail2User(User userInfo, String password)throws Exception
 	{
-		Session s = HibernateUtil.getSession();
-		Utility utility=new Utility();
-		String password=utility.randomPassword();
-		
 		userInfo.setStatus("agree");
-		userInfo.setPassword(utility.encrypt(password));
+		userInfo.setPassword(Utility.encrypt(password));
+		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
@@ -181,10 +190,10 @@ public class RegisterAction extends Action {
 			
 		Transport.send(message);
 		Utility.writeToDebug("In case email failed: Temporary password for user '" + userInfo.getUserName() + "' is: " + password);
-		return HtmlBody;
+
 	}
 	
-	public String sendEmail2Admin(User userInfo)throws Exception
+	public void sendEmail2Admin(User userInfo)throws Exception
 	{
 		Properties props=System.getProperties();
 		props.put(Constants.MAILHOST,Constants.MAILSERVER);
@@ -210,9 +219,8 @@ public class RegisterAction extends Action {
 		Transport.send(message);
 		String errormessage = "A C-Chembench administrator will process your user request. " +
 			"If you are approved, you will be given a password to log in.";
-		return errormessage;
-	}
-	
+
+	}	
 	public boolean IsValid(String name)
 	{
 		String validatorStr=Constants.VALIDATOR_STRING;
