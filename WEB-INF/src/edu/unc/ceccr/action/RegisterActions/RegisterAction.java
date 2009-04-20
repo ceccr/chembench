@@ -120,21 +120,20 @@ public class RegisterAction extends Action {
 			s.close();
 		}
       try{
-    	  String  setting=Constants.ACCEPTANCE;
-    	
+    	  String setting=Constants.ACCEPTANCE;
+    	  String errormessage = "";
     	  if(setting.contains("manual"))
     	  {
-    		 sendEmail2Admin(information);
-    		 
-    	  }else{ 
-    		 sendEmail2User(information);
+    		 errormessage = sendEmail2Admin(information);
+      	  }else{ 
+      		 errormessage = sendEmail2User(information);
     	  }
     	
       }catch(Exception ex){
-    	  Utility.writeToDebug("Failed to send email : " + information);
+    	  Utility.writeToDebug("Failed to send email for user registration: " + information.getUserName());
     	  Utility.writeToDebug(ex);
  		  session.removeAttribute("error1");
- 		  session.setAttribute("error1", information);
+ 		  session.setAttribute("error1", errormessage);
     	  forward = mapping.findForward("failure"); return forward;
       }
 		}
@@ -142,7 +141,7 @@ public class RegisterAction extends Action {
 	}
 	
 	
-	public void sendEmail2User(User userInfo)throws Exception
+	public String sendEmail2User(User userInfo)throws Exception
 	{
 		Session s = HibernateUtil.getSession();
 		Utility utility=new Utility();
@@ -180,10 +179,11 @@ public class RegisterAction extends Action {
 		message.setContent(HtmlBody, "text/html");
 			
 		Transport.send(message);
-		Utility.writeToDebug("In case email failed: Temporary password for user '" + userInfo.getUserName() + "' is: " + password);	
+		Utility.writeToDebug("In case email failed: Temporary password for user '" + userInfo.getUserName() + "' is: " + password);
+		return HtmlBody;
 	}
 	
-	public void sendEmail2Admin(User userInfo)throws Exception
+	public String sendEmail2Admin(User userInfo)throws Exception
 	{
 		Properties props=System.getProperties();
 		props.put(Constants.MAILHOST,Constants.MAILSERVER);
@@ -207,7 +207,9 @@ public class RegisterAction extends Action {
 		
 		message.setContent(HtmlBody, "text/html");
 		Transport.send(message);
-		
+		String errormessage = "A C-Chembench administrator will process your user request. " +
+			"If you are approved, you will be given a password to log in.";
+		return errormessage;
 	}
 	
 	public boolean IsValid(String name)
