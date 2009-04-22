@@ -85,58 +85,6 @@ public class DeleteUserFile extends Action {
 	
 	
 	
-	public void deleteFromDB(String userName, String fileName)throws ClassNotFoundException, SQLException
-	{
-		Utility.writeToDebug("deleteFromDB: Function not implemented!!!! ", userName, "test");
-/*		PredictionDatabase pd=new PredictionDatabase();
-		
-		String filePath="";
-		
-		Session session = HibernateUtil.getSession();
-		
-		Transaction tx1=null, tx2 = null;
-
-		try {
-			tx1 = session.beginTransaction();
-			pd=(PredictionDatabase)session.createCriteria(PredictionDatabase.class).add(Expression.eq("userName",userName))
-			      .add(Expression.eq("databaseName", fileName)).add(Expression.eq("fileComeFrom", Constants.PREDICTION)).uniqueResult();
-			
-			pd.getPredictionDBSFiles().size();
-			
-			tx1.commit();
-		} catch (RuntimeException e) {
-			if (tx1 != null)
-				tx1.rollback();
-			Utility.writeToDebug(e);
-			Utility.writeToDebug("deleteFromDB___435__EXC____ "+e.getMessage(), userName, "test");
-		}
-	     Iterator it=(pd.getPredictionDBSFiles()).iterator();
-	     
-	     while(it.hasNext())
-	     {
-	    	 filePath=((PredictionDatabaseFile)it.next()).getFileLocation();
-	    	 Utility.writeToDebug("deleteFromDB____ "+filePath, userName, "test");
-	    	 new File(filePath+fileName+".sdf").delete();
-	     }
-		
-		
-		try {
-			tx2 = session.beginTransaction();
-			session.delete(pd);
-			tx2.commit();
-		} catch (RuntimeException e) {
-			if (tx2 != null)
-				tx2.rollback();
-			Utility.writeToDebug(e);
-			Utility.writeToDebug("deleteFromDB_____EXC____ "+e.getMessage(), userName, "test");
-		}finally {
-						
-			session.close();
-		}
-*/		
-	}
-	
-
 	public void deleteDataset(String userName, String fileName)throws ClassNotFoundException, SQLException
 	{
 		DataSet dataSet=new DataSet();
@@ -216,15 +164,13 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkModelling(String userName, String fileName) throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  = Queue.getInstance().getQueuedTasks();//PopulateDataObjects.populateTasks(userName, false);
+		List<QueueTask> tasks  = Queue.getInstance().getQueuedTasks();
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
-				Utility.writeToMSDebug("TASKS::"+tasks.get(i).task);
 				if(tasks.get(i)!=null && tasks.get(i).getComponent().equals(Component.modelbuilder) && tasks.get(i).getUserName().equals(userName)){
 					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
 					if(job!=null){
-						Utility.writeToMSDebug("MODELLING:::"+job.getJobName()+"---"+job.getDatasetID()+"----"+dataset.getFileId());
 						if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
 							return job.getJobName();
 						}
@@ -242,7 +188,6 @@ public class DeleteUserFile extends Action {
 		if(predictions!=null && dataset!=null){
 			for(int i=0;i<predictions.size();i++ ){
 				if(predictions.get(i)!=null && predictions.get(i).getDatasetId()!=null &&predictions.get(i).getDatasetId().equals(dataset.getFileId())){
-					Utility.writeToMSDebug(predictions.get(i).getDatasetId()+" "+dataset.getFileId());
 					return predictions.get(i).getPredictorName();
 				}
 			}

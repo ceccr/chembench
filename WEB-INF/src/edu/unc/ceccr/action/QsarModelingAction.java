@@ -89,8 +89,7 @@ public class QsarModelingAction extends Action {
 						formBean.getNumStartingPoints(),
 						formBean.getSelectedDatasetId());
 				
-				Utility.writeToMSDebug("QSARMODELLING DATASET ID::"+formBean.getSelectedDatasetId());
-			
+						
 				executeAntWorkflow.setUp();
 
 				tasklist = Queue.getInstance();
