@@ -60,7 +60,7 @@ public class QueuedJobPermissionAction extends Action
 							if(t.id.equals(jobId)){
 								t.setState(QueueTask.State.ready);
 								Utility.writeToDebug("Granting permission to task ID " + jobId);
-								if(t.getTask() != null){
+								if(t.task != null){
 									Utility.writeToDebug("Task has a workflowTask");
 								}
 								else{

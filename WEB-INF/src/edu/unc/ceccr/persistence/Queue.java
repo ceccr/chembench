@@ -58,7 +58,7 @@ public class Queue {
 		private Date finish;
 		private Date start;
 		private Date submit;
-		private WorkflowTask task;
+		public WorkflowTask task;
 		private String userName;
 		public String jobName;
 		public Long id = null;
@@ -69,16 +69,6 @@ public class Queue {
 		private String SDFile;
 		private int numCompounds;
 		private int numModels;
-		
-		@Transient
-		public WorkflowTask getTask() {
-			return task;
-		}
-		
-		@Transient
-		public void setTask(WorkflowTask task) {
-			this.task = task;
-		}
 		
 		public QueueTask(WorkflowTask task, String userName)throws FileNotFoundException,IOException {
 			
