@@ -155,7 +155,7 @@ public class DeleteUserFile extends Action {
 						queuedtasks.get(i).getComponent().equals(QueueTask.Component.visualisation) &&
 						queuedtasks.get(i).getState().equals(QueueTask.State.ready) &&
 						queuedtasks.get(i).getUserName().equals(userName)){
-					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).task;
+					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).getTask();
 					if(job!=null){
 						if(job.getDatasetID()!=null && job.getJobName().equals(fileName)){
 							return job.getJobName();
@@ -166,7 +166,7 @@ public class DeleteUserFile extends Action {
 						queuedtasks.get(i).getComponent().equals(QueueTask.Component.sketches) &&
 						queuedtasks.get(i).getState().equals(QueueTask.State.ready) &&
 						queuedtasks.get(i).getUserName().equals(userName)){
-					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).task;
+					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).getTask();
 					if(job!=null){
 						if(job.getDatasetID()!=null && job.getJobName().equals(fileName+"_sketches_generation")){
 							return job.getJobName();
@@ -192,11 +192,11 @@ public class DeleteUserFile extends Action {
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
-				Utility.writeToMSDebug("TASKSM::"+tasks.get(i).task);
+				Utility.writeToMSDebug("TASKSM::"+tasks.get(i).getTask());
 				if(tasks.get(i)!=null && 
-						tasks.get(i).task!=null && 
-						(tasks.get(i).task instanceof QsarModelingTask)){
-					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
+						tasks.get(i).getTask()!=null && 
+						(tasks.get(i).getTask() instanceof QsarModelingTask)){
+					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).getTask();
 					Utility.writeToMSDebug("MODELLING:::"+job.getJobName()+"---"+job.getDatasetID()+"----"+dataset.getFileId());
 					if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
 						return job.getJobName();
@@ -213,11 +213,11 @@ public class DeleteUserFile extends Action {
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
-				Utility.writeToMSDebug("TASKSP::"+tasks.get(i).task);
+				Utility.writeToMSDebug("TASKSP::"+tasks.get(i).getTask());
 				if(tasks.get(i)!=null && 
-						tasks.get(i).task!=null && 
-						(tasks.get(i).task instanceof QsarPredictionTask)){
-					QsarPredictionTask job = 	(QsarPredictionTask)tasks.get(i).task;
+						tasks.get(i).getTask()!=null && 
+						(tasks.get(i).getTask() instanceof QsarPredictionTask)){
+					QsarPredictionTask job = 	(QsarPredictionTask)tasks.get(i).getTask();
 					Utility.writeToMSDebug("PREDICTION:::"+job.getJobName()+"---"+job.getPredictionDataset().getFileId()+"----"+dataset.getFileId());
 					if(job.getPredictionDataset()!=null && job.getPredictionDataset().getFileId().equals(dataset.getFileId())){
 						return job.getJobName();

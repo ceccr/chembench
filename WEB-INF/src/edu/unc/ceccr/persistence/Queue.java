@@ -57,7 +57,15 @@ public class Queue {
 		private Date finish;
 		private Date start;
 		private Date submit;
-		public WorkflowTask task;
+		private WorkflowTask task;
+		public WorkflowTask getTask() {
+			return task;
+		}
+
+		public void setTask(WorkflowTask task) {
+			this.task = task;
+		}
+
 		private String userName;
 		public String jobName;
 		public Long id = null;
