@@ -54,21 +54,18 @@ public class DeleteUserFile extends Action {
 				String msg = "Cannot delete dataset! ";
 				
 				String jobname = checkJobNames(userName, fileName);
-				String predictionname = checkPredictions(userName,fileName);
-				String predictorname = checkPredictors(userName, fileName);
+				String predictorname = checkPredictions(userName, fileName);
 				String modellingname = checkModelling(userName, fileName);
 				
 				Utility.writeToMSDebug("DELETE DATASET JOBNAMES CHECK:"+jobname);
-				Utility.writeToMSDebug("DELETE DATASET PREDICTIONNAMES CHECK:"+predictionname);
 				Utility.writeToMSDebug("DELETE DATASET PREDICTORNAMES CHECK:"+predictorname);
 				Utility.writeToMSDebug("DELETE DATASET ModellingNAMES CHECK:"+modellingname);
 				
-				if(jobname==null && predictionname==null && predictorname==null && modellingname==null) 
+				if(jobname==null && predictorname==null && modellingname==null) 
 					deleteDataset(userName, fileName);
 				else{
 					if(jobname!=null) msg += "Job "+jobname+" is using it! ";
-					if(predictionname!=null) msg += "Prediction "+predictionname+" is using it! ";
-					if(predictorname!=null) msg += "Predictor "+predictorname+" is using it! ";
+					if(predictorname!=null) msg += "Prediction job "+predictorname+" is using it! ";
 					if(modellingname!=null) msg += "Modelling job "+modellingname+" is using it! ";
 					request.removeAttribute("validationMsg");
 					request.setAttribute("validationMsg", msg);
@@ -183,32 +180,21 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
-		List<PredictionJob> predictions = PopulateDataObjects.populatePredictions(userName,false);
+		List<QueueTask> tasks  = Queue.getInstance().getQueuedTasks();
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
-		if(predictions!=null && dataset!=null){
-			for(int i=0;i<predictions.size();i++ ){
-				if(predictions.get(i)!=null && predictions.get(i).getDatasetId()!=null &&predictions.get(i).getDatasetId().equals(dataset.getFileId())){
-					return predictions.get(i).getPredictorName();
+		if(tasks!=null && dataset!=null){
+			for(int i=0;i<tasks.size();i++ ){
+				if(tasks.get(i)!=null && tasks.get(i).getComponent().equals(Component.predictor) && tasks.get(i).getUserName().equals(userName)){
+					PredictionJob job = 	(PredictionJob)tasks.get(i).task;
+					if(job!=null){
+						if(job.getDatasetId()!=null && job.getDatasetId().equals(dataset.getFileId())){
+							return job.getJobName();
+						}
+					}
 				}
 			}
 		}
-		
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked")
-	private String checkPredictors(String userName, String fileName)throws ClassNotFoundException, SQLException{
-		List<Predictor> predictors = PopulateDataObjects.populatePredictors(userName, true, false);
-		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
-		if(predictors!=null && dataset!=null){
-			for(int i=0;i<predictors.size();i++ ){
-				if(predictors.get(i)!=null && predictors.get(i).getDatasetId()!=null && predictors.get(i).getDatasetId().equals(dataset.getFileId())){
-					return predictors.get(i).getName();
-				}
-			}
-		}
-		
-		return null;
-	}
-
 }
