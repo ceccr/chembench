@@ -55,6 +55,7 @@ public class LoginAction extends Action {
 		try{
 			s = HibernateUtil.getSession();// query
 		}
+		Utility.writeToDebug("Session started.");
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
