@@ -208,7 +208,7 @@ public class DeleteUserFile extends Action {
 					Utility.writeToMSDebug("TASKSP::"+tasks.get(i).getDatasetId());
 					//QsarPredictionTask job = 	(QsarPredictionTask)tasks.get(i).task;
 					Utility.writeToMSDebug("PREDICTION:::"+tasks.get(i).getJobName()+"---"+tasks.get(i).getDatasetId()+"----"+dataset.getFileId());
-					if(tasks.get(i).getDatasetId().equals(dataset.getFileId())){
+					if(tasks.get(i).getDatasetId()!=null && tasks.get(i).getDatasetId().equals(dataset.getFileId())){
 						return tasks.get(i).getJobName();
 					}
 				}
