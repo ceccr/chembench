@@ -150,35 +150,19 @@ public class DeleteUserFile extends Action {
 	@SuppressWarnings("unchecked")
 	private String checkJobNames(String userName, String fileName)throws ClassNotFoundException, SQLException{
 		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
-		List<QueueTask> queuedtasks  = Queue.getInstance().getUserTasks(userName);//PopulateDataObjects.populateTasks(userName, false);
-		if(queuedtasks!=null){
-			for(int i=0;i<queuedtasks.size();i++ ){
-				Utility.writeToMSDebug("INFOTASKS::"+queuedtasks.get(i).task);
-				if(queuedtasks.get(i)!=null && 
-						queuedtasks.get(i).getComponent().equals(QueueTask.Component.visualisation) &&
-						queuedtasks.get(i).getState().equals(QueueTask.State.ready) //&&
-						/*queuedtasks.get(i).getUserName().equals(userName)*/){
-					GenerateDatasetInfoActionTask job = 	(GenerateDatasetInfoActionTask)queuedtasks.get(i).task;
-					if(job!=null){
-						if(job.getJobName().equals(fileName)){
-							return job.getJobName();
-						}
-					}
-				}
-				if(queuedtasks.get(i)!=null && 
-						queuedtasks.get(i).getComponent().equals(QueueTask.Component.sketches) &&
-						queuedtasks.get(i).getState().equals(QueueTask.State.ready) /*&&
-						queuedtasks.get(i).getUserName().equals(userName)*/){
-					GenerateSketchesTask job = 	(GenerateSketchesTask)queuedtasks.get(i).task;
-					if(job!=null){
-						if(job.getJobName().equals(fileName+"_sketches_generation")){
-							return job.getJobName();
-						}
-					}
-				}
-			}		
+		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
+		for(int i=0;i<queuedtasks.size();i++){
+			Utility.writeToMSDebug("JobNames::"+queuedtasks.get(i).getJobName()+"=="+queuedtasks.get(i).getState());
+			if(queuedtasks.get(i).getJobName().equals(fileName) && queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
+				return fileName; 
+			}
+			else if(queuedtasks.get(i).getJobName().equals(fileName+"_sketches_generation")&& queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
+				return fileName+"_sketches_generation"; 
+			}
 		}
+		
 		for(int i=0;i<jobnames.size();i++){
+			Utility.writeToMSDebug("RunningJobNames::"+queuedtasks.get(i));
 			if(jobnames.get(i).equals(fileName)){
 				return fileName; 
 			}
@@ -213,19 +197,19 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  = Queue.getInstance().getUserTasks(userName);//PopulateDataObjects.populateTasks(userName, false);
+		List<PredictionJob> tasks  = PopulateDataObjects.populatePredictions(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
-				Utility.writeToMSDebug("TASKSP::"+tasks.get(i).task);
-				if(tasks.get(i)!=null && 
-						tasks.get(i).task!=null &&
+				Utility.writeToMSDebug("TASKSP::"+tasks.get(i).getDatasetId());
+				if(tasks.get(i)!=null //&& 
+						//tasks.get(i).task!=null &&
 						/*tasks.get(i).getUserName()==userName &&*/
-						(tasks.get(i).task instanceof QsarPredictionTask)){
-					QsarPredictionTask job = 	(QsarPredictionTask)tasks.get(i).task;
-					Utility.writeToMSDebug("PREDICTION:::"+job.getJobName()+"---"+job.getPredictionDataset().getFileId()+"----"+dataset.getFileId());
-					if(job.getPredictionDataset()!=null && job.getPredictionDataset().getFileId().equals(dataset.getFileId())){
-						return job.getJobName();
+						/*(tasks.get(i).task instanceof QsarPredictionTask)*/){
+					//QsarPredictionTask job = 	(QsarPredictionTask)tasks.get(i).task;
+					Utility.writeToMSDebug("PREDICTION:::"+tasks.get(i).getJobName()+"---"+tasks.get(i).getDatasetId()+"----"+dataset.getFileId());
+					if(tasks.get(i).getDatasetId().equals(dataset.getFileId())){
+						return tasks.get(i).getJobName();
 					}
 				}
 			}		
