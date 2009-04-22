@@ -162,7 +162,7 @@ public class DeleteUserFile extends Action {
 		}
 		
 		for(int i=0;i<jobnames.size();i++){
-			Utility.writeToMSDebug("RunningJobNames::"+queuedtasks.get(i));
+			Utility.writeToMSDebug("RunningJobNames::"+queuedtasks.get(i).getJobName());
 			if(jobnames.get(i).equals(fileName)){
 				return fileName; 
 			}
@@ -201,11 +201,11 @@ public class DeleteUserFile extends Action {
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
-				Utility.writeToMSDebug("TASKSP::"+tasks.get(i).getDatasetId());
 				if(tasks.get(i)!=null //&& 
 						//tasks.get(i).task!=null &&
 						/*tasks.get(i).getUserName()==userName &&*/
 						/*(tasks.get(i).task instanceof QsarPredictionTask)*/){
+					Utility.writeToMSDebug("TASKSP::"+tasks.get(i).getDatasetId());
 					//QsarPredictionTask job = 	(QsarPredictionTask)tasks.get(i).task;
 					Utility.writeToMSDebug("PREDICTION:::"+tasks.get(i).getJobName()+"---"+tasks.get(i).getDatasetId()+"----"+dataset.getFileId());
 					if(tasks.get(i).getDatasetId().equals(dataset.getFileId())){
