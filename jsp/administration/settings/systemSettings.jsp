@@ -274,22 +274,24 @@ function valid()
                 </tr>
                 </logic:iterate>
                 </table>
+                
+<!--  DOCS AREA STARTS HERE-->            
+<br /><br />
+            <tr><td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="#" onClick="showPanelDocs()"><img src="theme/img/ccb_settingsDocs.gif" border="0" /></a><br /></td>
+</tr>
+<tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>
+<!--  "BUILD DATE" AREA STARTS HERE-->              
+&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText">Build Date: <%=Constants.BUILD_DATE%></font><br /><br />
+<br />
+</div>
+ </td></tr>
+<!-- DOCS AREA ENDS HERE -->
                 </div> 
              
              </td></tr>
        
        
-<!--  DOCS AREA STARTS HERE-->            
-				<br /><br />
-                <tr><td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="#" onClick="showPanelDocs()"><img src="theme/img/ccb_settingsDocs.gif" border="0" /></a><br /></td>
-                </tr>
-                <tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>
-<!--  "BUILD DATE" AREA STARTS HERE-->              
-                &nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText">Build Date: <%=Constants.BUILD_DATE%></font><br /><br />
-                <br />
-                </div>
-                 </td></tr>
-<!-- DOCS AREA ENDS HERE -->
+
        
        
             
