@@ -177,13 +177,11 @@ function valid()
 				<br />
 				            <tr><td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="#" onClick="showPanelDocs()"><img src="theme/img/ccb_settingsDocs.gif" border="0" /></a><br /></td>
 				</tr>
-				<tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>
-<!--  "BUILD DATE" AREA STARTS HERE-->              
+				<tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>            
 				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/documentation/C-Chembench Developer Guide.docx">Chembench Developer's Guide</a></font><br /><br />
 				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/documentation/Database Design.docx">Database Design</a></font><br /><br />
 				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/documentation/ceccr design notes.txt">Notes</a></font><br /><br />
-				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/documentation/Install Guide.txt">Install Guide</a></font><br /><br />
-				
+				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/documentation/Install Guide.txt">Install Guide</a></font><br />
 				</div>
 				 </td></tr>
 				 <tr><td>&nbsp;</td></tr>
