@@ -216,18 +216,18 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkModelling(String userName, String fileName) throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  = PopulateDataObjects.populateTasks(userName, false);
+		List<QueueTask> tasks  = Queue.getInstance().getQueuedTasks();//PopulateDataObjects.populateTasks(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
 				Utility.writeToMSDebug("TASKS::"+tasks.get(i).task);
-				if(tasks.get(i)!=null && 
-						tasks.get(i).task!=null && 
-						(tasks.get(i).task instanceof QsarModelingTask)){
+				if(tasks.get(i)!=null && tasks.get(i).getComponent().equals(Component.modelbuilder) && tasks.get(i).getUserName().equals(userName)){
 					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
-					Utility.writeToMSDebug("MODELLING:::"+job.getJobName()+"---"+job.getDatasetID()+"----"+dataset.getFileId());
-					if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
-						return job.getJobName();
+					if(job!=null){
+						Utility.writeToMSDebug("MODELLING:::"+job.getJobName()+"---"+job.getDatasetID()+"----"+dataset.getFileId());
+						if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
+							return job.getJobName();
+						}
 					}
 				}
 			}		
