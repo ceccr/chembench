@@ -65,6 +65,15 @@ document.getElementById("updateDiv3").style.display='none';}
 else{document.getElementById("updateDiv3").style.display='inline';}
 
 }
+function showPanelDocs()
+{
+
+  if(document.getElementById("docsDiv").style.display=='inline')
+{
+document.getElementById("docsDiv").style.display='none';}
+else{document.getElementById("docsDiv").style.display='inline';}
+
+}
 
 // a new function has been defined for the manage users area.
 function showPanel4()
@@ -223,6 +232,19 @@ function valid()
                   </blockquote></blockquote>
                   </div>                 
 <!--  SYSTEM OPTIONS AREA ENDS HERE-->  
+
+<!--  DOCS AREA STARTS HERE-->            
+                <tr><td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="#" onClick="showPanelDocs()"><img src="theme/img/ccb_settingsDocs.gif" border="0" /></a><br /></td>
+                </tr>
+                <tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>
+<!--  "BUILD DATE" AREA STARTS HERE-->              
+                &nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText">Build Date: <%=Constants.BUILD_DATE%></font><br /><br />
+                <br />
+                </div>
+                 </td></tr>
+<!-- DOCS AREA ENDS HERE -->
+
+<!-- JOB MANAGEMENT AREA STARTS HERE -->
 	<tr >
 		<span id="maincontent">
 		<td height="557" colspan="5" valign="top" bgcolor="white"><br/> &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;<a href="#" onClick="showPanel2()"><img src="theme/img/ccb_settings06.gif" border="0" /></a> <br/>
