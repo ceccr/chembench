@@ -148,7 +148,27 @@ public class DeleteUserFile extends Action {
 	@SuppressWarnings("unchecked")
 	private String checkJobNames(String userName, String fileName)throws ClassNotFoundException, SQLException{
 		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
-		
+		List<QueueTask> queuedtasks  = Queue.getInstance().getQueuedTasks();
+		if(queuedtasks!=null){
+			for(int i=0;i<queuedtasks.size();i++ ){
+				if(queuedtasks.get(i)!=null && queuedtasks.get(i).getComponent().equals(Component.visualisation) && queuedtasks.get(i).getUserName().equals(userName)){
+					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).task;
+					if(job!=null){
+						if(job.getDatasetID()!=null && job.getJobName().equals(fileName)){
+							return job.getJobName();
+						}
+					}
+				}
+				if(queuedtasks.get(i)!=null && queuedtasks.get(i).getComponent().equals(Component.sketches) && queuedtasks.get(i).getUserName().equals(userName)){
+					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).task;
+					if(job!=null){
+						if(job.getDatasetID()!=null && job.getJobName().equals(fileName+"_sketches_generation")){
+							return job.getJobName();
+						}
+					}
+				}
+			}		
+		}
 		for(int i=0;i<jobnames.size();i++){
 			if(jobnames.get(i).equals(fileName)){
 				return fileName; 
