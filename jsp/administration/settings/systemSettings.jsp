@@ -37,6 +37,7 @@
 <script src="javascript/container/container_core.js"></script>
 <script src="javascript/admin.js"></script>
 <script type="text/javascript">
+
 function showPanel()
 {
 

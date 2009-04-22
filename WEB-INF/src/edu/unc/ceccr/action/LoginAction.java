@@ -50,7 +50,13 @@ public class LoginAction extends Action {
 
 		User user = new User();
 
-		Session s = HibernateUtil.getSession();// query
+		Session s = null;
+		try{
+			s = HibernateUtil.getSession();// query
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
