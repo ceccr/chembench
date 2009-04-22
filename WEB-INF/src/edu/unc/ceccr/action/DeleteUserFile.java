@@ -204,7 +204,8 @@ public class DeleteUserFile extends Action {
 				if(queuedtasks.get(i)!=null && queuedtasks.get(i).getComponent().equals(Component.predictor) && queuedtasks.get(i).getUserName().equals(userName)){
 					QsarPredictionTask job = (QsarPredictionTask)queuedtasks.get(i).task;
 					if(job!=null){
-						if(job.getPredictionDataset()!=null && job.getPredictionDataset().equals(dataset)){
+						Utility.writeToMSDebug("Prediction job::"+job.getPredictionDataset().getFileId());
+						if(job.getPredictionDataset()!=null && job.getPredictionDataset().getFileId().equals(dataset.getFileId())){
 							return job.getJobName();
 						}
 					}
@@ -214,7 +215,7 @@ public class DeleteUserFile extends Action {
 		if(predictions!=null && dataset!=null){
 			for(int i=0;i<predictions.size();i++ ){
 				if(predictions.get(i)!=null && predictions.get(i).getDatasetId()!=null &&predictions.get(i).getDatasetId().equals(dataset.getFileId())){
-					return predictions.get(i).getPredictorName();
+					return predictions.get(i).getJobName();
 				}
 			}
 		}
