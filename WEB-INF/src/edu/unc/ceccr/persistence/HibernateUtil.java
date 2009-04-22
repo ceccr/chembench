@@ -52,7 +52,6 @@ public class HibernateUtil {
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		Utility.writeToDebug("in getSession 3");
 		
 		return null;
 	}
