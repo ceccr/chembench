@@ -220,7 +220,7 @@ public class DeleteUserFile extends Action {
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
-				Utility.writeToMSDebug("TASKS::"+tasks.get(i).task.getClass());
+				Utility.writeToMSDebug("TASKS::"+tasks.get(i).task);
 				if(tasks.get(i)!=null && 
 						tasks.get(i).task!=null && 
 						(tasks.get(i).task instanceof QsarModelingTask)){
