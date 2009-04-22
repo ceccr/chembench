@@ -179,10 +179,10 @@ function valid()
 				</tr>
 				<tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>
 <!--  "BUILD DATE" AREA STARTS HERE-->              
-				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/docs/C-Chembench Developer Guide.docx">Build Date: </a></font><br /><br />
-				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/docs/Database Design.docx">Build Date: </a></font><br /><br />
-				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/docs/ceccr design notes.txt">Build Date: </a></font><br /><br />
-				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/docs/Install Guide.txt">Build Date: </a></font><br /><br />
+				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/documentation/C-Chembench Developer Guide.docx">Chembench Developer's Guide</a></font><br /><br />
+				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/documentation/Database Design.docx">Database Design</a></font><br /><br />
+				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/documentation/ceccr design notes.txt">Notes</a></font><br /><br />
+				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/documentation/Install Guide.txt">Install Guide</a></font><br /><br />
 				
 				</div>
 				 </td></tr>
