@@ -148,10 +148,13 @@ public class DeleteUserFile extends Action {
 	@SuppressWarnings("unchecked")
 	private String checkJobNames(String userName, String fileName)throws ClassNotFoundException, SQLException{
 		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
-		List<QueueTask> queuedtasks  = Queue.getInstance().getQueuedTasks();
+		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
 		if(queuedtasks!=null){
 			for(int i=0;i<queuedtasks.size();i++ ){
-				if(queuedtasks.get(i)!=null && queuedtasks.get(i).getComponent().equals(Component.visualisation) && queuedtasks.get(i).getUserName().equals(userName)){
+				if(queuedtasks.get(i)!=null && 
+						queuedtasks.get(i).getComponent().equals(QueueTask.Component.visualisation) &&
+						queuedtasks.get(i).getState().equals(QueueTask.State.ready) &&
+						queuedtasks.get(i).getUserName().equals(userName)){
 					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).task;
 					if(job!=null){
 						if(job.getDatasetID()!=null && job.getJobName().equals(fileName)){
@@ -159,7 +162,10 @@ public class DeleteUserFile extends Action {
 						}
 					}
 				}
-				if(queuedtasks.get(i)!=null && queuedtasks.get(i).getComponent().equals(Component.sketches) && queuedtasks.get(i).getUserName().equals(userName)){
+				if(queuedtasks.get(i)!=null && 
+						queuedtasks.get(i).getComponent().equals(QueueTask.Component.sketches) &&
+						queuedtasks.get(i).getState().equals(QueueTask.State.ready) &&
+						queuedtasks.get(i).getUserName().equals(userName)){
 					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).task;
 					if(job!=null){
 						if(job.getDatasetID()!=null && job.getJobName().equals(fileName+"_sketches_generation")){
@@ -182,24 +188,11 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkModelling(String userName, String fileName) throws ClassNotFoundException, SQLException{
-		List<QueueTask> queuedtasks  = Queue.getInstance().getQueuedTasks();
-		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
-		if(queuedtasks!=null && dataset!=null){
-			for(int i=0;i<queuedtasks.size();i++ ){
-				if(queuedtasks.get(i)!=null && queuedtasks.get(i).getComponent().equals(Component.modelbuilder) && queuedtasks.get(i).getUserName().equals(userName)){
-					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).task;
-					if(job!=null){
-						if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
-							return job.getJobName();
-						}
-					}
-				}
-			}		
-		}
 		List<QueueTask> tasks  = PopulateDataObjects.populateTasks(userName, false);
+		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
-				Utility.writeToMSDebug("TASKS::"+tasks.get(i).task);
+				Utility.writeToMSDebug("TASKSM::"+tasks.get(i).task);
 				if(tasks.get(i)!=null && 
 						tasks.get(i).task!=null && 
 						(tasks.get(i).task instanceof QsarModelingTask)){
@@ -216,28 +209,21 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
-		List<QueueTask> queuedtasks  = Queue.getInstance().getQueuedTasks();
-		List<PredictionJob> predictions  = PopulateDataObjects.populatePredictions(userName, false);
+		List<QueueTask> tasks  = PopulateDataObjects.populateTasks(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
-		if(queuedtasks!=null && dataset!=null){
-			for(int i=0;i<queuedtasks.size();i++ ){
-				if(queuedtasks.get(i)!=null && queuedtasks.get(i).getComponent().equals(Component.predictor) && queuedtasks.get(i).getUserName().equals(userName)){
-					QsarPredictionTask job = (QsarPredictionTask)queuedtasks.get(i).task;
-					if(job!=null){
-						Utility.writeToMSDebug("Prediction job::"+job.getPredictionDataset().getFileId());
-						if(job.getPredictionDataset()!=null && job.getPredictionDataset().getFileId().equals(dataset.getFileId())){
-							return job.getJobName();
-						}
+		if(tasks!=null && dataset!=null){
+			for(int i=0;i<tasks.size();i++ ){
+				Utility.writeToMSDebug("TASKSP::"+tasks.get(i).task);
+				if(tasks.get(i)!=null && 
+						tasks.get(i).task!=null && 
+						(tasks.get(i).task instanceof QsarPredictionTask)){
+					QsarPredictionTask job = 	(QsarPredictionTask)tasks.get(i).task;
+					Utility.writeToMSDebug("PREDICTION:::"+job.getJobName()+"---"+job.getPredictionDataset().getFileId()+"----"+dataset.getFileId());
+					if(job.getPredictionDataset()!=null && job.getPredictionDataset().getFileId().equals(dataset.getFileId())){
+						return job.getJobName();
 					}
 				}
-			}
-		}
-		if(predictions!=null && dataset!=null){
-			for(int i=0;i<predictions.size();i++ ){
-				if(predictions.get(i)!=null && predictions.get(i).getDatasetId()!=null &&predictions.get(i).getDatasetId().equals(dataset.getFileId())){
-					return predictions.get(i).getJobName();
-				}
-			}
+			}		
 		}
 		return null;
 	}
