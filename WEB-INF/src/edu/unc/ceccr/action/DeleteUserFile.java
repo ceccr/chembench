@@ -25,6 +25,8 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
+import edu.unc.ceccr.taskObjects.GenerateDatasetInfoActionTask;
+import edu.unc.ceccr.taskObjects.GenerateSketchesTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -148,16 +150,17 @@ public class DeleteUserFile extends Action {
 	@SuppressWarnings("unchecked")
 	private String checkJobNames(String userName, String fileName)throws ClassNotFoundException, SQLException{
 		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
-		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
+		List<QueueTask> queuedtasks  = (List<QueueTask>) Queue.getInstance().getTasks();//PopulateDataObjects.populateTasks(userName, false);
 		if(queuedtasks!=null){
 			for(int i=0;i<queuedtasks.size();i++ ){
+				Utility.writeToMSDebug("INFOTASKS::"+queuedtasks.get(i).task);
 				if(queuedtasks.get(i)!=null && 
 						queuedtasks.get(i).getComponent().equals(QueueTask.Component.visualisation) &&
 						queuedtasks.get(i).getState().equals(QueueTask.State.ready) &&
 						queuedtasks.get(i).getUserName().equals(userName)){
-					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).task;
+					GenerateDatasetInfoActionTask job = 	(GenerateDatasetInfoActionTask)queuedtasks.get(i).task;
 					if(job!=null){
-						if(job.getDatasetID()!=null && job.getJobName().equals(fileName)){
+						if(job.getJobName().equals(fileName)){
 							return job.getJobName();
 						}
 					}
@@ -166,9 +169,9 @@ public class DeleteUserFile extends Action {
 						queuedtasks.get(i).getComponent().equals(QueueTask.Component.sketches) &&
 						queuedtasks.get(i).getState().equals(QueueTask.State.ready) &&
 						queuedtasks.get(i).getUserName().equals(userName)){
-					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).task;
+					GenerateSketchesTask job = 	(GenerateSketchesTask)queuedtasks.get(i).task;
 					if(job!=null){
-						if(job.getDatasetID()!=null && job.getJobName().equals(fileName+"_sketches_generation")){
+						if(job.getJobName().equals(fileName+"_sketches_generation")){
 							return job.getJobName();
 						}
 					}
@@ -188,13 +191,14 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkModelling(String userName, String fileName) throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  = PopulateDataObjects.populateTasks(userName, false);
+		List<QueueTask> tasks  =(List<QueueTask>) Queue.getInstance().getTasks(); //PopulateDataObjects.populateTasks(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
 				Utility.writeToMSDebug("TASKSM::"+tasks.get(i).task);
 				if(tasks.get(i)!=null && 
 						tasks.get(i).task!=null && 
+						tasks.get(i).getUserName()==userName &&
 						(tasks.get(i).task instanceof QsarModelingTask)){
 					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
 					Utility.writeToMSDebug("MODELLING:::"+job.getJobName()+"---"+job.getDatasetID()+"----"+dataset.getFileId());
@@ -209,13 +213,14 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  = PopulateDataObjects.populateTasks(userName, false);
+		List<QueueTask> tasks  = (List<QueueTask>) Queue.getInstance().getTasks();//PopulateDataObjects.populateTasks(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
 				Utility.writeToMSDebug("TASKSP::"+tasks.get(i).task);
 				if(tasks.get(i)!=null && 
-						tasks.get(i).task!=null && 
+						tasks.get(i).task!=null &&
+						tasks.get(i).getUserName()==userName &&
 						(tasks.get(i).task instanceof QsarPredictionTask)){
 					QsarPredictionTask job = 	(QsarPredictionTask)tasks.get(i).task;
 					Utility.writeToMSDebug("PREDICTION:::"+job.getJobName()+"---"+job.getPredictionDataset().getFileId()+"----"+dataset.getFileId());
