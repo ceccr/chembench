@@ -26,6 +26,7 @@ import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
+import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -196,14 +197,14 @@ public class DeleteUserFile extends Action {
 	@SuppressWarnings("unchecked")
 	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
 		List<QueueTask> queuedtasks  = Queue.getInstance().getQueuedTasks();
-		List<PredictionJob> predictions  = PopulateDataObjects.populatePredictions(userName, true);
+		List<PredictionJob> predictions  = PopulateDataObjects.populatePredictions(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(queuedtasks!=null && dataset!=null){
 			for(int i=0;i<queuedtasks.size();i++ ){
 				if(queuedtasks.get(i)!=null && queuedtasks.get(i).getComponent().equals(Component.predictor) && queuedtasks.get(i).getUserName().equals(userName)){
-					PredictionJob job = 	(PredictionJob)queuedtasks.get(i).task;
+					QsarPredictionTask job = (QsarPredictionTask)queuedtasks.get(i).task;
 					if(job!=null){
-						if(job.getDatasetId()!=null && job.getDatasetId().equals(dataset.getFileId())){
+						if(job.getPredictionDataset()!=null && job.getPredictionDataset().equals(dataset)){
 							return job.getJobName();
 						}
 					}
