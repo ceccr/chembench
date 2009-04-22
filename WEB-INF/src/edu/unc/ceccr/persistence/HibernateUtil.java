@@ -40,6 +40,7 @@ public class HibernateUtil {
 
 		Utility.writeToDebug("in getSession 1");
 		
+		
 		USERNAME=Constants.DATABASE_USERNAME;
 		PASSWORD = Constants.CECCR_DATABASE_PASSWORD;
 		URL=Constants.DATABASE_URL;
