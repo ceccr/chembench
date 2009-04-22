@@ -50,6 +50,7 @@ public class LoginAction extends Action {
 
 		User user = new User();
 
+		Utility.writeToDebug("Starting session");
 		Session s = null;
 		try{
 			s = HibernateUtil.getSession();// query
