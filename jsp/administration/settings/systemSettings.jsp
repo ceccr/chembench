@@ -173,17 +173,20 @@ function valid()
 	        <span onmouseover="viewuserShow()" onmouseout="viewuserOut()">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;<img src="theme/img/ccbOrangeArrow.gif"><span class="ChangePSText"><a href="viewUsers.do" class="ChangePSText"><b> List of Users</b></a></span> </span></div></td>
       </tr>
       
-      <!--  DOCS AREA STARTS HERE-->            
-<br />
-            <tr><td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="#" onClick="showPanelDocs()"><img src="theme/img/ccb_settingsDocs.gif" border="0" /></a><br /></td>
-</tr>
-<tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>
+<!--  DOCS AREA STARTS HERE-->            
+				<br />
+				            <tr><td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="#" onClick="showPanelDocs()"><img src="theme/img/ccb_settingsDocs.gif" border="0" /></a><br /></td>
+				</tr>
+				<tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>
 <!--  "BUILD DATE" AREA STARTS HERE-->              
-&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText">Build Date: <%=Constants.BUILD_DATE%></font><br /><br />
-
-</div>
- </td></tr>
- <tr><td>&nbsp;</td></tr>
+				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/docs/C-Chembench Developer Guide.docx">Build Date: </a></font><br /><br />
+				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/docs/Database Design.docx">Build Date: </a></font><br /><br />
+				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/docs/ceccr design notes.txt">Build Date: </a></font><br /><br />
+				&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText"><a href="/docs/Install Guide.txt">Build Date: </a></font><br /><br />
+				
+				</div>
+				 </td></tr>
+				 <tr><td>&nbsp;</td></tr>
 <!-- DOCS AREA ENDS HERE -->
       
 <!--  "SYSTEM OPTIONS" AREA STARTS HERE-->            
