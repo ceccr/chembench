@@ -150,14 +150,14 @@ public class DeleteUserFile extends Action {
 	@SuppressWarnings("unchecked")
 	private String checkJobNames(String userName, String fileName)throws ClassNotFoundException, SQLException{
 		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
-		List<QueueTask> queuedtasks  = (List<QueueTask>) Queue.getInstance().getTasks();//PopulateDataObjects.populateTasks(userName, false);
+		List<QueueTask> queuedtasks  = Queue.getInstance().getUserTasks(userName);//PopulateDataObjects.populateTasks(userName, false);
 		if(queuedtasks!=null){
 			for(int i=0;i<queuedtasks.size();i++ ){
 				Utility.writeToMSDebug("INFOTASKS::"+queuedtasks.get(i).task);
 				if(queuedtasks.get(i)!=null && 
 						queuedtasks.get(i).getComponent().equals(QueueTask.Component.visualisation) &&
-						queuedtasks.get(i).getState().equals(QueueTask.State.ready) &&
-						queuedtasks.get(i).getUserName().equals(userName)){
+						queuedtasks.get(i).getState().equals(QueueTask.State.ready) //&&
+						/*queuedtasks.get(i).getUserName().equals(userName)*/){
 					GenerateDatasetInfoActionTask job = 	(GenerateDatasetInfoActionTask)queuedtasks.get(i).task;
 					if(job!=null){
 						if(job.getJobName().equals(fileName)){
@@ -167,8 +167,8 @@ public class DeleteUserFile extends Action {
 				}
 				if(queuedtasks.get(i)!=null && 
 						queuedtasks.get(i).getComponent().equals(QueueTask.Component.sketches) &&
-						queuedtasks.get(i).getState().equals(QueueTask.State.ready) &&
-						queuedtasks.get(i).getUserName().equals(userName)){
+						queuedtasks.get(i).getState().equals(QueueTask.State.ready) /*&&
+						queuedtasks.get(i).getUserName().equals(userName)*/){
 					GenerateSketchesTask job = 	(GenerateSketchesTask)queuedtasks.get(i).task;
 					if(job!=null){
 						if(job.getJobName().equals(fileName+"_sketches_generation")){
@@ -191,14 +191,14 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkModelling(String userName, String fileName) throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  =(List<QueueTask>) Queue.getInstance().getTasks(); //PopulateDataObjects.populateTasks(userName, false);
+		List<QueueTask> tasks  = Queue.getInstance().getUserTasks(userName); //PopulateDataObjects.populateTasks(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
 				Utility.writeToMSDebug("TASKSM::"+tasks.get(i).task);
 				if(tasks.get(i)!=null && 
 						tasks.get(i).task!=null && 
-						tasks.get(i).getUserName()==userName &&
+						/*tasks.get(i).getUserName()==userName &&*/
 						(tasks.get(i).task instanceof QsarModelingTask)){
 					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
 					Utility.writeToMSDebug("MODELLING:::"+job.getJobName()+"---"+job.getDatasetID()+"----"+dataset.getFileId());
@@ -213,14 +213,14 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  = (List<QueueTask>) Queue.getInstance().getTasks();//PopulateDataObjects.populateTasks(userName, false);
+		List<QueueTask> tasks  = Queue.getInstance().getUserTasks(userName);//PopulateDataObjects.populateTasks(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
 				Utility.writeToMSDebug("TASKSP::"+tasks.get(i).task);
 				if(tasks.get(i)!=null && 
 						tasks.get(i).task!=null &&
-						tasks.get(i).getUserName()==userName &&
+						/*tasks.get(i).getUserName()==userName &&*/
 						(tasks.get(i).task instanceof QsarPredictionTask)){
 					QsarPredictionTask job = 	(QsarPredictionTask)tasks.get(i).task;
 					Utility.writeToMSDebug("PREDICTION:::"+job.getJobName()+"---"+job.getPredictionDataset().getFileId()+"----"+dataset.getFileId());
