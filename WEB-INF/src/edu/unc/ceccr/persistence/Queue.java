@@ -69,6 +69,14 @@ public class Queue {
 		private int numCompounds;
 		private int numModels;
 		
+		public WorkflowTask getTask() {
+			return task;
+		}
+
+		public void setTask(WorkflowTask task) {
+			this.task = task;
+		}
+		
 		public QueueTask(WorkflowTask task, String userName)throws FileNotFoundException,IOException {
 			
 			this.setSubmit(new Date()); 
