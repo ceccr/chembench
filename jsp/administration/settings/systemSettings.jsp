@@ -172,6 +172,19 @@ function valid()
 	         &nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="checkNewUser.do" class="ChangePSText"><img src="theme/img/ccbOrangeArrow.gif" border="0"> Pending New User Approvals</a></span> <br />  <br /> 
 	        <span onmouseover="viewuserShow()" onmouseout="viewuserOut()">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;<img src="theme/img/ccbOrangeArrow.gif"><span class="ChangePSText"><a href="viewUsers.do" class="ChangePSText"><b> List of Users</b></a></span> </span></div></td>
       </tr>
+      
+      <!--  DOCS AREA STARTS HERE-->            
+<br /><br />
+            <tr><td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="#" onClick="showPanelDocs()"><img src="theme/img/ccb_settingsDocs.gif" border="0" /></a><br /></td>
+</tr>
+<tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>
+<!--  "BUILD DATE" AREA STARTS HERE-->              
+&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText">Build Date: <%=Constants.BUILD_DATE%></font><br /><br />
+<br />
+</div>
+ </td></tr>
+<!-- DOCS AREA ENDS HERE -->
+      
 <!--  "SYSTEM OPTIONS" AREA STARTS HERE-->            
                 <tr><td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="#" onClick="showPanel()"><img src="theme/img/ccb_settings05.gif" border="0" /></a><br /></td>
                 </tr>
@@ -275,17 +288,7 @@ function valid()
                 </logic:iterate>
                 </table>
                 
-<!--  DOCS AREA STARTS HERE-->            
-<br /><br />
-            <tr><td>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <a href="#" onClick="showPanelDocs()"><img src="theme/img/ccb_settingsDocs.gif" border="0" /></a><br /></td>
-</tr>
-<tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>
-<!--  "BUILD DATE" AREA STARTS HERE-->              
-&nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText">Build Date: <%=Constants.BUILD_DATE%></font><br /><br />
-<br />
-</div>
- </td></tr>
-<!-- DOCS AREA ENDS HERE -->
+
                 </div> 
              
              </td></tr>
