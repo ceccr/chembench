@@ -200,7 +200,7 @@ public class DeleteUserFile extends Action {
 		List<PredictionJob> tasks  = PopulateDataObjects.populatePredictions(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
-			for(int i=0;i<=tasks.size();i++ ){
+			for(int i=0;i<tasks.size();i++ ){
 				if(tasks.get(i)!=null //&& 
 						//tasks.get(i).task!=null &&
 						/*tasks.get(i).getUserName()==userName &&*/
