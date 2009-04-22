@@ -180,7 +180,7 @@ function valid()
 <tr><td><div id="docsDiv" style="display:none"><blockquote><blockquote>
 <!--  "BUILD DATE" AREA STARTS HERE-->              
 &nbsp; <img src="theme/img/ccbOrangeArrow.gif">&nbsp;<font class="AdminTableRowText">Build Date: <%=Constants.BUILD_DATE%></font><br /><br />
-<br />
+<br /><br />
 </div>
  </td></tr>
 <!-- DOCS AREA ENDS HERE -->
