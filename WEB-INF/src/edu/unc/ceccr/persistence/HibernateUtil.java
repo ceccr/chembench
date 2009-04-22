@@ -38,16 +38,11 @@ public class HibernateUtil {
 	public static Session getSession() throws HibernateException,
 			ClassNotFoundException, SQLException {
 
-		Utility.writeToDebug("in getSession 1");
-		
-		
 		USERNAME=Constants.DATABASE_USERNAME;
 		PASSWORD = Constants.CECCR_DATABASE_PASSWORD;
 		URL=Constants.DATABASE_URL;
 		DATABASENAME=Constants.CECCR_DATABASE_NAME;
 
-		Utility.writeToDebug("in getSession 2");
-		
 		try{
 			Class.forName(Constants.DATABASE_DRIVER);
 			java.sql.Connection con = DriverManager.getConnection(URL + DATABASENAME, USERNAME, PASSWORD);
