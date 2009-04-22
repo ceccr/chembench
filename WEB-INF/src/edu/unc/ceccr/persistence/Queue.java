@@ -26,6 +26,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Expression;
@@ -69,10 +70,12 @@ public class Queue {
 		private int numCompounds;
 		private int numModels;
 		
+		@Transient
 		public WorkflowTask getTask() {
 			return task;
 		}
-
+		
+		@Transient
 		public void setTask(WorkflowTask task) {
 			this.task = task;
 		}
