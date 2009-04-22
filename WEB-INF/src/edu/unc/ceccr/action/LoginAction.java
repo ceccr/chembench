@@ -29,8 +29,8 @@ public class LoginAction extends Action {
 		
 		if(!Constants.isCustomized)
 		{
-			String path=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
-			Utility.setAdminConfiguration(path);
+			//String path=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
+		//	Utility.setAdminConfiguration(path);
 		}
 		
 		ActionForward forward = new ActionForward(); 
