@@ -161,16 +161,31 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkModelling(String userName, String fileName) throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  = Queue.getInstance().getQueuedTasks();
+		List<QueueTask> queuedtasks  = Queue.getInstance().getQueuedTasks();
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
-		if(tasks!=null && dataset!=null){
-			for(int i=0;i<tasks.size();i++ ){
-				if(tasks.get(i)!=null && tasks.get(i).getComponent().equals(Component.modelbuilder) && tasks.get(i).getUserName().equals(userName)){
-					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
+		if(queuedtasks!=null && dataset!=null){
+			for(int i=0;i<queuedtasks.size();i++ ){
+				if(queuedtasks.get(i)!=null && queuedtasks.get(i).getComponent().equals(Component.modelbuilder) && queuedtasks.get(i).getUserName().equals(userName)){
+					QsarModelingTask job = 	(QsarModelingTask)queuedtasks.get(i).task;
 					if(job!=null){
 						if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
 							return job.getJobName();
 						}
+					}
+				}
+			}		
+		}
+		List<QueueTask> tasks  = PopulateDataObjects.populateTasks(userName, false);
+		if(tasks!=null && dataset!=null){
+			for(int i=0;i<tasks.size();i++ ){
+				Utility.writeToMSDebug("TASKS::"+tasks.get(i).task);
+				if(tasks.get(i)!=null && 
+						tasks.get(i).task!=null && 
+						(tasks.get(i).task instanceof QsarModelingTask)){
+					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
+					Utility.writeToMSDebug("MODELLING:::"+job.getJobName()+"---"+job.getDatasetID()+"----"+dataset.getFileId());
+					if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
+						return job.getJobName();
 					}
 				}
 			}		
@@ -180,17 +195,25 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  = Queue.getInstance().getQueuedTasks();
+		List<QueueTask> queuedtasks  = Queue.getInstance().getQueuedTasks();
+		List<PredictionJob> predictions  = PopulateDataObjects.populatePredictions(userName, true);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
-		if(tasks!=null && dataset!=null){
-			for(int i=0;i<tasks.size();i++ ){
-				if(tasks.get(i)!=null && tasks.get(i).getComponent().equals(Component.predictor) && tasks.get(i).getUserName().equals(userName)){
-					PredictionJob job = 	(PredictionJob)tasks.get(i).task;
+		if(queuedtasks!=null && dataset!=null){
+			for(int i=0;i<queuedtasks.size();i++ ){
+				if(queuedtasks.get(i)!=null && queuedtasks.get(i).getComponent().equals(Component.predictor) && queuedtasks.get(i).getUserName().equals(userName)){
+					PredictionJob job = 	(PredictionJob)queuedtasks.get(i).task;
 					if(job!=null){
 						if(job.getDatasetId()!=null && job.getDatasetId().equals(dataset.getFileId())){
 							return job.getJobName();
 						}
 					}
+				}
+			}
+		}
+		if(predictions!=null && dataset!=null){
+			for(int i=0;i<predictions.size();i++ ){
+				if(predictions.get(i)!=null && predictions.get(i).getDatasetId()!=null &&predictions.get(i).getDatasetId().equals(dataset.getFileId())){
+					return predictions.get(i).getPredictorName();
 				}
 			}
 		}
