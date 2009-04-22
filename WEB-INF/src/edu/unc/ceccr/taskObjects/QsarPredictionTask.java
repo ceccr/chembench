@@ -39,6 +39,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	private String userName;
 	private Long selectedPredictorId;
 	private DataSet predictionDataset;
+	
 	private Queue queue = Queue.getInstance();
 	
 	public QsarPredictionTask(String userName, String jobName,String fileOrDatabaseName, String cutoff,
@@ -312,5 +313,15 @@ public class QsarPredictionTask implements WorkflowTask {
 	public String getJobName() {
 		return jobName;
 	}
+	
+	public DataSet getPredictionDataset() {
+		return predictionDataset;
+	}
+
+
+	public void setPredictionDataset(DataSet predictionDataset) {
+		this.predictionDataset = predictionDataset;
+	}
+
 
 }
