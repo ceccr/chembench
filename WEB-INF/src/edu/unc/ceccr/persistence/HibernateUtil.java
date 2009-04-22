@@ -39,15 +39,17 @@ public class HibernateUtil {
 			ClassNotFoundException, SQLException {
 
 		Utility.writeToDebug("in getSession 1");
-			USERNAME=Constants.DATABASE_USERNAME;
-			PASSWORD = Constants.CECCR_DATABASE_PASSWORD;
-			URL=Constants.DATABASE_URL;
-			DATABASENAME=Constants.CECCR_DATABASE_NAME;
+		
+		USERNAME=Constants.DATABASE_USERNAME;
+		PASSWORD = Constants.CECCR_DATABASE_PASSWORD;
+		URL=Constants.DATABASE_URL;
+		DATABASENAME=Constants.CECCR_DATABASE_NAME;
 
-			Utility.writeToDebug("in getSession 2");
+		Utility.writeToDebug("in getSession 2");
+		
 		try{
 			Class.forName(Constants.DATABASE_DRIVER);
-			java.sql.Connection con = DriverManager.getConnection(URL+ DATABASENAME, USERNAME, PASSWORD);
+			java.sql.Connection con = DriverManager.getConnection(URL + DATABASENAME, USERNAME, PASSWORD);
 			Session s = sessionFactory.openSession(con);
 			return s;
 		}
