@@ -12,7 +12,7 @@
 				<include name="*.xml" />
 			</fileset>
 		</copy>
-		<war destfile="ROOT.war" basedir="ROOT" webxml="ROOT/WEB-INF/web.xml" defaultexcludes="yes" includes="WEB-INF/**/*, docs/*, theme/**/*, **/*.jsp, **/*.js,*.txt">
+		<war destfile="ROOT.war" basedir="ROOT" webxml="ROOT/WEB-INF/web.xml" defaultexcludes="yes" includes="WEB-INF/**/*, documentation/*, theme/**/*, **/*.jsp, **/*.js,*.txt">
 		</war>
 	</target>
 	
