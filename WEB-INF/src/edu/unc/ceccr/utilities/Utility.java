@@ -1030,29 +1030,24 @@ public class Utility {
 	
 		public static String saveSDFFile(String userName, FormFile sdFile, String datasetName,String path) throws Exception{
 			Utility.writeToMSDebug("saveSDFFile");
-			Utility.writeToDebug("1");
 			if(!sdFile.getFileName().endsWith(".sdf")) return ErrorMessages.SDF_NOT_VALID;
 			if(!new File(Constants.CECCR_USER_BASE_PATH+userName).exists())
 				new File(Constants.CECCR_USER_BASE_PATH+userName).mkdirs();
 			if(!new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").exists())
 				new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").mkdirs();
-			Utility.writeToDebug("2");
 					
 			String dir = path;
 			
 			// checking if directory with the same name already exists in our file system
 			File datasetDir = new File(dir);
-			Utility.writeToDebug("3");
 			
 			if(datasetDir.exists()) return ErrorMessages.DATABASE_CONTAINS_DATASET;
 			else{
-				Utility.writeToDebug("4");
 				
 				datasetDir.mkdirs();
-				Utility.writeToDebug("5");
 				
 				String filePath = dir+sdFile.getFileName();
-				Utility.writeToDebug("6");
+				Utility.writeToDebug("Creating file: " + filePath);
 				new File(filePath).createNewFile();
 				Utility.writeFiles(sdFile.getInputStream(),filePath);
 				Utility.writeToDebug("7");
