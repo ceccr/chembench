@@ -76,6 +76,7 @@ public class SubmitDatasetAction extends Action {
 				Utility.writeToMSDebug("ActionForward execute:sdf:"+sdFile.getFileName());
 				Utility.writeToMSDebug("ActionForward execute:act:"+actFile);
 				Utility.writeToMSDebug("ActionForward execute:knn:"+knnType);
+				Utility.writeToDebug("Creating " + knnType + " dataset \"" + datasetName + "\" with files: " + sdFile.getFileName() + " " + actFile.getFileName());
 				
 				User user = (User) session.getAttribute("user");
 				String userName = user.getUserName();
@@ -109,7 +110,7 @@ public class SubmitDatasetAction extends Action {
 				
 				errors.add("RUNTIME", new ActionMessage("error.RUNTIME"));
 				addErrors(request, errors);
-				
+				Utility.writeToDebug(e);
 				Utility.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+((User) session.getAttribute("user")).getUserName()+"/DATASETS/"+formBean.getDatasetname()));
 				forward = mapping.findForward("failure");
 				Utility.writeToMSDebug(e.getMessage());
