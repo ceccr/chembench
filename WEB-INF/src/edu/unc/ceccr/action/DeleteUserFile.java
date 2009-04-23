@@ -2,6 +2,7 @@ package edu.unc.ceccr.action;
 
 import java.sql.SQLException;
 import java.io.File;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -211,16 +212,17 @@ public class DeleteUserFile extends Action {
 			}		
 		}
 		// Checking queued tasks
-		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName,false);
+		Collection<QueueTask> queuedtasks  = Queue.getInstance().getTasks();
 		if(queuedtasks!=null && dataset!=null){
-			for(int i=0;i<queuedtasks.size();i++){
-				if(queuedtasks.get(i)!=null &&
-						queuedtasks.get(i).getComponent().equals(Queue.QueueTask.Component.predictor)&&
-						(queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready) ||
-								(queuedtasks.get(i).getState().equals(Queue.QueueTask.State.started)))){
-									Utility.writeToMSDebug("PREDICTION IN QUEUE::"+queuedtasks.get(i).getJobName());
-									Utility.writeToMSDebug("Preduiction Task::"+queuedtasks.get(i).task);
-									QsarPredictionTask job =  (QsarPredictionTask)queuedtasks.get(i).task;
+			for(Iterator iter = queuedtasks.iterator(); iter.hasNext();){
+				QueueTask temp = (QueueTask) iter.next();
+				if(temp!=null &&
+						temp.getComponent().equals(Queue.QueueTask.Component.predictor)&&
+						(temp.getState().equals(Queue.QueueTask.State.ready) ||
+								(temp.getState().equals(Queue.QueueTask.State.started)))){
+									Utility.writeToMSDebug("PREDICTION IN QUEUE::"+temp.getJobName());
+									Utility.writeToMSDebug("Preduiction Task::"+temp.task);
+									QsarPredictionTask job =  (QsarPredictionTask)temp.task;
 						}
 				}
 		}
