@@ -1047,11 +1047,8 @@ public class Utility {
 				datasetDir.mkdirs();
 				
 				String filePath = dir+sdFile.getFileName();
-				Utility.writeToDebug("Creating file: " + filePath);
 				new File(filePath).createNewFile();
-				Utility.writeToDebug("Writing from " + sdFile.getFileName());
 				Utility.writeFiles(sdFile.getInputStream(),filePath);
-				Utility.writeToDebug("8");
 				Utility.rewriteSdf(dir, sdFile.getFileName());
 			}
 			return "";
