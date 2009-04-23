@@ -81,7 +81,6 @@ public class SubmitDatasetAction extends Action {
 				User user = (User) session.getAttribute("user");
 				String userName = user.getUserName();
 				
-				
 				session.setAttribute("KnnType", knnType);
 				session.setAttribute("datasetname", datasetName);
 				

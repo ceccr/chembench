@@ -1086,6 +1086,8 @@ public class Utility {
 			String path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName+"/";
 			String dir = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName;
 
+			Utility.writeToDebug("Creating dataset at " + path);
+			
 			File f = new File(dir);
 			String msg="";
 			
