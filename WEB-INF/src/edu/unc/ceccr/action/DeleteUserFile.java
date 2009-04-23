@@ -201,18 +201,28 @@ public class DeleteUserFile extends Action {
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
-				if(tasks.get(i)!=null //&& 
-						//tasks.get(i).task!=null &&
-						/*tasks.get(i).getUserName()==userName &&*/
-						/*(tasks.get(i).task instanceof QsarPredictionTask)*/){
+				if(tasks.get(i)!=null){
 					Utility.writeToMSDebug("TASKSP::"+tasks.get(i).getDatasetId());
-					//QsarPredictionTask job = 	(QsarPredictionTask)tasks.get(i).task;
 					Utility.writeToMSDebug("PREDICTION:::"+tasks.get(i).getJobName()+"---"+tasks.get(i).getDatasetId()+"----"+dataset.getFileId());
 					if(tasks.get(i).getDatasetId()!=null && tasks.get(i).getDatasetId().equals(dataset.getFileId())){
 						return tasks.get(i).getJobName();
 					}
 				}
 			}		
+		}
+		// Checking queued tasks
+		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName,false);
+		if(queuedtasks!=null && dataset!=null){
+			for(int i=0;i<queuedtasks.size();i++){
+				if(queuedtasks.get(i)!=null &&
+						queuedtasks.get(i).getComponent().equals(Queue.QueueTask.Component.predictor)&&
+						(queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready) ||
+								(queuedtasks.get(i).getState().equals(Queue.QueueTask.State.started)))){
+									Utility.writeToMSDebug("PREDICTION IN QUEUE::"+queuedtasks.get(i).getJobName());
+									Utility.writeToMSDebug("Preduiction Task::"+queuedtasks.get(i).task);
+									QsarPredictionTask job =  (QsarPredictionTask)queuedtasks.get(i).task;
+						}
+				}
 		}
 		return null;
 	}
