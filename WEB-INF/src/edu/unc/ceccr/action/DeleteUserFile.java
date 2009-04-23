@@ -152,7 +152,7 @@ public class DeleteUserFile extends Action {
 		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
 		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
 		for(int i=0;i<queuedtasks.size();i++){
-			Utility.writeToMSDebug("JobNames::"+queuedtasks.get(i).getJobName()+"=="+queuedtasks.get(i).getState());
+			Utility.writeToMSDebug("JobNames::"+queuedtasks.get(i).getJobName()+"=="+queuedtasks.get(i).task);
 			if(queuedtasks.get(i).getJobName().equals(fileName) && queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
 				return fileName; 
 			}
