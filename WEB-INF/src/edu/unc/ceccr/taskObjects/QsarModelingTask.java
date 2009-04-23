@@ -281,7 +281,7 @@ public class QsarModelingTask implements WorkflowTask {
 		executeAntWorkflow.execute();
 		
 		//done with modeling. Read output files. 
-		queue.runningTask.setMessage("Reading kNN output from " + filePath);
+		queue.runningTask.setMessage("Reading kNN output");
 		if (knnType.equals(Constants.CATEGORY)){
 			parseCategorykNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
 			parseCategorykNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
