@@ -160,6 +160,10 @@
 					<b><bean:write name="task" property="message" /></b>
 					</logic:equal>
 					
+					<logic:equal name="task" property="state" value="ready">
+					<b><bean:write name="task" property="state" /></b>
+					</logic:equal>
+					
 					<br />
 					<html:link action="/cancelJob" paramName="task" paramProperty="id" paramId="id">
 					<logic:notEqual name="task" property="state" value="started">
