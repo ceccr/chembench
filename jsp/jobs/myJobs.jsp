@@ -161,7 +161,7 @@
 					</logic:equal>
 					
 					<logic:equal name="task" property="state" value="ready">
-					<b><bean:write name="task" property="state" /></b>
+					<b>Waiting</b>
 					</logic:equal>
 					
 					<br />

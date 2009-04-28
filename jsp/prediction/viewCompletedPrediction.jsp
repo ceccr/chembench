@@ -18,7 +18,7 @@
 <script src="javascript/script.js"></script>
 </head>
 <body>
-<table width="749" border="0" align="center" cellpadding="0"	cellspacing="0">
+<table width="924" border="0" align="center" cellpadding="0"	cellspacing="0">
 	<%@include file="/jsp/main/header.jsp" %>
 <%@include file="/jsp/main/centralNavigationBar.jsp" %>
 </td>
@@ -29,7 +29,7 @@
 		<td  colspan="5" valign="top" background="theme/img/backgrpredictors.jpg">
 			<p class="StandardTextDarkGray"></p>
 	
-		<table width="100%" align="center">
+		<table width="924" align="center">
 			<tr>
 			<td><form action="predictorsSave.do"><input type="submit" value="Save Prediction" /></form></td>
 			<td>		<form action="delete.do"><input type="submit" value="Delete Prediction" /></form></td>
