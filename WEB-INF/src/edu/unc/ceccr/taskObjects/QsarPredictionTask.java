@@ -120,6 +120,9 @@ public class QsarPredictionTask implements WorkflowTask {
 		queue.runningTask.setMessage("Normalizing descriptors");
 		Utility.writeToDebug("ExecutePredictor: Normalizing Descriptors", userName, jobName);
 		MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".S", path + "train_0.x", path + sdfile + ".renorm.x");
+		
+		queue.runningTask.setMessage("Making predictions");
+		Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
 		KnnPredictionWorkflow.RunKnnPrediction(userName, jobName, sdfile, Float.parseFloat(cutoff) );
 
 		queue.runningTask.setMessage("Reading predictions");

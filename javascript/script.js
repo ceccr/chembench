@@ -32,28 +32,28 @@ function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPre
 		return false;
 	}
 	
-	for (var i=0; i < usedDatasetNames.length; i++){
+	for (var i=0; i < usedDatasetNames.length - 1; i++){
 		if(name == usedDatasetNames[i]){
 			alert("You already have a Dataset named " + usedDatasetNames[i] + ". Please choose a different name.");
 			return false;
 		}
 	}
 	
-	for (var i=0; i < usedPredictorNames.length; i++){
+	for (var i=0; i < usedPredictorNames.length - 1; i++){
 		if(name == usedPredictorNames[i]){
 			alert("You already have a Predictor named " + usedPredictorNames[i] + ". Please choose a different name.");
 			return false;
 		}
 	}
 	
-	for (var i=0; i < usedPredictionNames.length; i++){
+	for (var i=0; i < usedPredictionNames.length - 1; i++){
 		if(name == usedPredictionNames[i]){
 			alert("You already have a Prediction named " + usedPredictionNames[i] + ". Please choose a different name.");
 			return false;
 		}
 	}
 	
-	for (var i=0; i < usedTaskNames.length; i++){
+	for (var i=0; i < usedTaskNames.length - 1; i++){
 		if(name == usedTaskNames[i]){
 			alert("You already have a running job named " + usedTaskNames[i] + ". Please choose a different name.");
 			return false;
