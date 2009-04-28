@@ -23,6 +23,7 @@ public class KnnPredictionWorkflow{
 	    }
 	    catch(Exception ex){
 	    	Utility.writeToDebug(ex);
+	    	throw(ex);
 	    }
 	    String execstr2 = "ConsPredContrwknnLIN pred_output.comp.list pred_output.list cons_pred";
 		  Utility.writeToDebug("Running external program: " + execstr2 + " in dir " + workingdir);
