@@ -25,7 +25,7 @@ public class KnnModelBuildingWorkflow{
 
 		String execstr2 = "se9v1_nl train_0.x train_0.a RAND_sets";
 		  Utility.writeToDebug("Running external program: " + execstr2 + " in dir " + workingdir);
-	      Process p = Runtime.getRuntime().exec(execstr2, null,  new File(workingdir));
+	      p = Runtime.getRuntime().exec(execstr2, null,  new File(workingdir));
 	      Utility.writeProgramLogfile(workingdir, "se9v1", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 	    
@@ -110,13 +110,13 @@ public class KnnModelBuildingWorkflow{
 	    
 	    String execstr2 = "ConsPredContrwknnLIN pred_output.comp.list pred_output.list cons_pred";
 		  Utility.writeToDebug("Running external program: " + execstr2 + " in dir " + workingdir);
-	      Process p = Runtime.getRuntime().exec(execstr2, null, new File(workingdir));
+	      p = Runtime.getRuntime().exec(execstr2, null, new File(workingdir));
 	      Utility.writeProgramLogfile(workingdir, "ConsPredContrwknnLIN", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 	    
 	    String execstr3 = "parse_structgen_merge.pl cons_pred ext_0.a fake_argument external_prediction_table";
 		  Utility.writeToDebug("Running external program: " + execstr3 + " in dir " + workingdir);
-	      Process p = Runtime.getRuntime().exec(execstr3, null, new File(workingdir));
+	      p = Runtime.getRuntime().exec(execstr3, null, new File(workingdir));
 	      Utility.writeProgramLogfile(workingdir, "parse_structgen_merge.pl", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 	}
