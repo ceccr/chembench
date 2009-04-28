@@ -18,9 +18,12 @@ public class KnnPredictionWorkflow{
 	      Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
 	      Utility.writeProgramLogfile(workingdir, "PredActivCont3rwknnLIN", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
-	    
+	    try{
 	      int j = 1 / 0;
-	      
+	    }
+	    catch(Exception ex){
+	    	Utility.writeToDebug(ex);
+	    }
 	    String execstr2 = "ConsPredContrwknnLIN pred_output.comp.list pred_output.list cons_pred";
 		  Utility.writeToDebug("Running external program: " + execstr2 + " in dir " + workingdir);
 	      p = Runtime.getRuntime().exec(execstr2, null, new File(workingdir));
