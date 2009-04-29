@@ -9,7 +9,7 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class SdfToJpgWorkflow {
 	
-	public static void makeSketchFiles(String filePath, String fileName, String structuresDir, String sketchesDir)
+	public static void makeSketchFiles(String filePath, String fileName, String structuresDir, String sketchesDir) throws Exception
 	{
 		//filePath = directory the SDF is in, e.g. /public/projects/ceccr/workflow-users/theo/DATASETS/
 		//fileName = name of sdfile, like anticonv_91.sdf
@@ -21,7 +21,7 @@ public class SdfToJpgWorkflow {
 		structuresDir = filePath + structuresDir;
 		sketchesDir = filePath + sketchesDir;
 		Utility.writeToDebug("Creating structures into dir: " + structuresDir);
-		try{
+
 			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>makeSdfhFiles<<<<<<<<<");
 			//make sure Structures dir exists. 
 			File stDir = new File(structuresDir);
@@ -100,10 +100,6 @@ public class SdfToJpgWorkflow {
 			Utility.writeToMSDebug("END Creating .jpg files into Sketches dir: " + sketchesDir);
 			Utility.writeToDebug("Done creating sketches. ");
 			
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-			Utility.writeToMSDebug(":::::::>>::"+ex.getMessage());
 		}
 	}
 

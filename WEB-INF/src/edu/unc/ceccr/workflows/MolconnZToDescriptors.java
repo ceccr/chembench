@@ -19,10 +19,10 @@ import java.util.Scanner;
 
 public class MolconnZToDescriptors{
 	
-	public static void MakeModelingDescriptors(String MolconnZOutputFile, String KnnInputFile){
+	public static void MakeModelingDescriptors(String MolconnZOutputFile, String KnnInputFile) throws Exception{
 		//reads in a MolconnZ output file (.S) and makes a kNN input file (.x)
 		Utility.writeToDebug("Normalizing Modeling Descriptors");
-		try{
+		
 		File file = new File(MolconnZOutputFile);
 		FileReader fin = new FileReader(file);
 		File file2 = new File(KnnInputFile);
@@ -204,24 +204,18 @@ public class MolconnZToDescriptors{
 */
 
 		fout.close();
-
-
-	}catch(Exception ex){
-		Utility.writeToDebug(ex);
-	}
-	
 	}
 
 
 
-	public static void MakePredictionDescriptors(String MolconnZOutputFile, String NormalizedModelingDescriptors, String KnnInputFile){
+	public static void MakePredictionDescriptors(String MolconnZOutputFile, String NormalizedModelingDescriptors, String KnnInputFile) throws Exception{
 		
 		//reads in a MolconnZ output file (.S) and the .x file used to make the model, and makes a kNN input file (.x)
 		Utility.writeToDebug("Normalizing Prediction Descriptors");
 		/*Utility.writeToDebug("MolconnZOutputFile: " + MolconnZOutputFile);
 		Utility.writeToDebug("NormalizedModelingDescriptors: " + NormalizedModelingDescriptors);
 		Utility.writeToDebug("KnnInputFile: " + KnnInputFile);*/
-try{
+
 		File file = new File(MolconnZOutputFile);
 		FileReader sfile = new FileReader(file);
 		File file2 = new File(NormalizedModelingDescriptors);
@@ -424,10 +418,6 @@ try{
 		outfile.close();
 
 		Utility.writeToDebug("MolconnZToDescriptors: Finished.");
-		
-	}catch(Exception ex){
-		Utility.writeToDebug(ex);
-	}
 	
 	}
 }
