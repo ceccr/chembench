@@ -58,10 +58,10 @@ public class CSV_X_Workflow {
 	public void performHeatMapAndTreeCreation(String method){
 		try{
 			String tanimoto =  "/usr/local/ceccr/installs/R-2.8.1/bin/R --slave --vanilla  --args \""+
-			viz_path+".x \" \"" +viz_path+"_tan.mat\" \""+viz_path+"_tan.xml\" \"e\""+ 
+			viz_path+".x\" \"" +viz_path+"_tan.mat\" \""+viz_path+"_tan.xml\" \"e\""+ 
 			"< /usr/local/ceccr/mmlsoft/perl/heatmap_script.R /usr/local/ceccr/mmlsoft/perl/out.txt";
 			String mahalanobis =  "/usr/local/ceccr/installs/R-2.8.1/bin/R --slave --vanilla  --args \""+
-			viz_path+".x \" \"" +viz_path+"_mah.mat\" \""+viz_path+"_mah.xml\" \"m\""+ 
+			viz_path+".x\" \"" +viz_path+"_mah.mat\" \""+viz_path+"_mah.xml\" \"m\""+ 
 			"< /usr/local/ceccr/mmlsoft/perl/heatmap_script.R /usr/local/ceccr/mmlsoft/perl/out.txt";
 			Process p;
 			if(method.equals("tanimoto")){
