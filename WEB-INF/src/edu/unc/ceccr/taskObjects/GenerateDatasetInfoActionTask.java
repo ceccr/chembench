@@ -1,6 +1,5 @@
 package edu.unc.ceccr.taskObjects;
 
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
@@ -81,7 +80,7 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`Data readed1<<<<<<<<<<<<<<<<<<<<<");
 			//dm.readData();
 			
-		Utility.writeToMSDebug("getSketches::END:");
+		/*Utility.writeToMSDebug("getSketches::END:");
 		Vector<DistanceMeasure> dmv = new Vector<DistanceMeasure>();
 		if(similarityMeasure!=null){
 			if(similarityMeasure.length>0){
@@ -110,10 +109,34 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 				}
 			}
 		}
-		
+		*/
+			
+			if(similarityMeasure.length>0){
+				for(int j=0;j<representations.length;j++){
+					if(representations[j].equals("PCA")){
+						queue.runningTask.setMessage("Creating PCA plots");
+						csv_x_workflow.performPCAcreation();
+					}
+					for(int i=0;i<similarityMeasure.length;i++){
+						if(similarityMeasure[i].equals("Mahalanobis")){
+							if(representations[j].equals("HeatmapAndTree")){
+								queue.runningTask.setMessage("Creating heatmap and tree using Mahalanobis distance measure");
+								csv_x_workflow.performHeatMapAndTreeCreation("mahalanobis");
+							}
+						
+						}
+						if(similarityMeasure[i].equals("Tanimoto")){
+							if(representations[j].equals("HeatmapAndTree")){
+								queue.runningTask.setMessage("Creating heatmap and tree using Tanimoto similarity measure");
+								csv_x_workflow.performHeatMapAndTreeCreation("tanimoto");
+							}
+						}
+					}
+				}
+			}
 		Utility.writeToMSDebug("getSketches::END2:");
 		
-		if(representations!=null){
+	/*	if(representations!=null){
 			if(representations.length>0){
 								
 				for(int i=0;i<representations.length;i++){
@@ -134,12 +157,12 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 							}
 						}
 					}
-				}
+				}*/
 				/*csv_x_workflow.performCSVCreation();
 				Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>CSV created<<<<<<<<<<<<<<<<<<<<<");
 				*/
-			}
-		}
+			//}
+		//}
 		
 	}
 
