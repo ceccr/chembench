@@ -437,7 +437,6 @@ public class Queue {
 					t.setStart(new Date());
 					t.setState(QueueTask.State.started);
 					resetFlagSet();
-					t.setMessage("Starting");
 					runningTask = t;
 					try {
 						saveTaskRecord(runningTask);

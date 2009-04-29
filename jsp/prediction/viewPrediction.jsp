@@ -69,7 +69,7 @@ function order(item)
 			
 		
 		<br />
-		<table width="100%" align="center">
+		<table width="924" align="center">
 			<tr>
 			<td><form action="predictors.do"><input type="submit" value="Save Prediction" /></form></td>
 			<td>		<form action="delete.do"><input type="submit" value="Delete Prediction" /></form></td>
@@ -118,7 +118,7 @@ function order(item)
 				<td class="TableRowText01">Date Created</td>
 				<td class="TableRowText01">Predictor Used</td>
 				<td class="TableRowText01">Database Predicted</td>
-				<td class="TableRowText01">Similiarity Cutoff</td>
+				<td class="TableRowText01">Similarity Cutoff</td>
 			</tr>
 			<tr>
 				<td class="TableRowText02"><bean:write name="predictionJob" property="jobName" /></td>
