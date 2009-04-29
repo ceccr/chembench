@@ -66,16 +66,17 @@ public class CSV_X_Workflow {
 			Process p;
 			if(method.equals("tanimoto")){
 				p = Runtime.getRuntime().exec(tanimoto);
-				Utility.writeToMSDebug("Heatmap script: "+"convert_x_to_csv.pl "+viz_path+".x "+viz_path+".csv");
+				Utility.writeToMSDebug("Heatmap script: "+tanimoto);
 				Utility.writeProgramLogfile(viz_path, "convert_x_to_csv",  p.getInputStream(), p.getErrorStream());
 				p.waitFor();
 			}
 			else if(method.equals("mahalanobis")){
 				p = Runtime.getRuntime().exec(mahalanobis);
-				Utility.writeToMSDebug("Heatmap script: "+"convert_x_to_csv.pl "+viz_path+".x "+viz_path+".csv");
+				Utility.writeToMSDebug("Heatmap script: "+mahalanobis);
 				Utility.writeProgramLogfile(viz_path, "convert_x_to_csv",  p.getInputStream(), p.getErrorStream());
 				p.waitFor();
 			}
+			else return;
 			
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
