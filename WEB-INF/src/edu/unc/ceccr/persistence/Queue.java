@@ -447,7 +447,7 @@ public class Queue {
 							t.task.execute();
 						}
 						else{
-							t.setMessage("server reset");
+							//t.setMessage("server reset");
 							throw new Exception("Job does not contain a workflowTask. Cannot execute.");
 						}
 	
