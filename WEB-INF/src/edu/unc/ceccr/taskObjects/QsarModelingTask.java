@@ -217,35 +217,39 @@ public class QsarModelingTask implements WorkflowTask {
  
 	@SuppressWarnings("unchecked")
 	public void execute() throws Exception {
-		/* Image generation is now done in datasets - we (probably) don't need this
-		queue.runningTask.setMessage("Creating JPGs");
-		Utility.writeToDebug("SubmitQsarActionWorkflow: makeSketchFiles", userName, jobName);
-		SdfToJpgWorkflow.makeSketchFiles(datasetPath, sdFileName, "Visualization/Structures/", "Visualization/Sketches/");
-		Utility.writeToDebug("SubmitQsarActionWorkflow: Sketch files made.", userName, jobName);
-		 */
-		//wtsequence.add(executeSetUpWorkflow);
+		
 		queue.runningTask.setMessage("Copying files");
 		GetJobFilesWorkflow.GetKnnFiles(userName, jobName, sdFileName, actFileName, isAllUser, knnType, datasetName);
 		
-		//wtsequence.add(executeDescriptorWorkflow);
 
 		if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
 			descriptorEnum = DescriptorEnumeration.MOLCONNZ;
-		}else if (descriptorGenerationType.equals(Constants.DRAGON)){
-			descriptorEnum = DescriptorEnumeration.DRAGON;
+			
+			queue.runningTask.setMessage("Generating molconnZ descriptors");
+			Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
+			String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+			Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
+			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".S");
+
+			queue.runningTask.setMessage("Normalizing descriptors");
+			Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
+			MolconnZToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
+			
 		}else{
-			descriptorEnum = DescriptorEnumeration.MOLCONNZ;
+			descriptorEnum = DescriptorEnumeration.DRAGON;
+			
+			queue.runningTask.setMessage("Generating Dragon descriptors");
+			Utility.writeToDebug("Generating Dragon Descriptors", userName, jobName);
+			String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+			Utility.writeToMSDebug("Generating Dragon Descriptors::"+ path);
+			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".dragon");
+
+			queue.runningTask.setMessage("Normalizing descriptors");
+			Utility.writeToDebug("Converting Dragon output to .x format", userName, jobName);
+			MolconnZToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
+			
 		}
-
-		queue.runningTask.setMessage("Generating descriptors");
-		Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
-		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
-		GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".S");
-
-		queue.runningTask.setMessage("Normalizing descriptors");
-		Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
-		MolconnZToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
+		
 
 		//wtsequence.add(executePostDescriptorWorkflow);
 		queue.runningTask.setMessage("Splitting data");

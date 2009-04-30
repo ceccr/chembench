@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.outputObjects.Pred_Output;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -26,7 +27,6 @@ import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnPredictionWorkflow;
 import edu.unc.ceccr.workflows.MolconnZToDescriptors;
-import edu.unc.ceccr.workflows.SdfToJpgWorkflow;
 
 public class QsarPredictionTask implements WorkflowTask {
 
@@ -44,7 +44,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	
 	public QsarPredictionTask(String userName, String jobName,String fileOrDatabaseName, String cutoff,
 			InputStream is, int uploadOrSelect, Long selectedPredictorId, DataSet predictionDataset) throws Exception {
-
+		
 		Utility.writeToMSDebug("Start ExecPredictorActionTask Constructor");
 		this.predictionDataset = predictionDataset;
 		this.jobName = jobName;
@@ -58,7 +58,6 @@ public class QsarPredictionTask implements WorkflowTask {
 		Utility.writeToMSDebug("Finish ExecPredictorActionTask Constructor");
 	}
 
-	
 	public void execute() throws Exception {
 
 		Utility.writeToDebug("ExecPredictorActionTask: ExecutePredictor",userName,jobName);
@@ -88,7 +87,6 @@ public class QsarPredictionTask implements WorkflowTask {
 		queue.runningTask.setMessage("Creating file structure");
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		
-		
 		String datasetPath = Constants.CECCR_USER_BASE_PATH;
 		if(predictionDataset.getUserName().equalsIgnoreCase("_all")){
 			datasetPath += "all-users";
@@ -98,12 +96,6 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 		datasetPath += "/DATASETS/" + predictionDataset.getFileName() + "/";
 		
-		/* Image generation is now done in datasets - we (probably) don't need this
-		Utility.writeToDebug("ExecPredictorAction : makeSketchFiles started", userName, jobName);
-		SdfToJpgWorkflow.makeSketchFiles(datasetPath,this.fileOrDatabaseName, "Visualization/Structures/", "Visualization/Sketches/");
-		Utility.writeToDebug("ExecPredictorAction : makeSketchFiles successful", userName, jobName);
-		*/
-		
 		boolean predictorIsAllUser = selectedPredictor.getUserName().equals(Constants.ALL_USERS_USERNAME);
 		boolean sdfIsAllUser = predictionDataset.getUserName().equals(Constants.ALL_USERS_USERNAME);
 		String sdfile = predictionDataset.getSdfFile();
@@ -112,14 +104,26 @@ public class QsarPredictionTask implements WorkflowTask {
 		GetJobFilesWorkflow.GetKnnPredictionFiles(userName, jobName, sdfile, sdfIsAllUser, predictorIsAllUser, selectedPredictor.getName(), predictionDataset.getFileName());
 
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-
-		queue.runningTask.setMessage("Generating descriptors");
-		Utility.writeToDebug("ExecutePredictor: Generating Descriptors", userName, jobName);
-		GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".S");
-
-		queue.runningTask.setMessage("Normalizing descriptors");
-		Utility.writeToDebug("ExecutePredictor: Normalizing Descriptors", userName, jobName);
-		MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".S", path + "train_0.x", path + sdfile + ".renorm.x");
+		
+		if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
+			queue.runningTask.setMessage("Generating molconnZ descriptors");
+			Utility.writeToDebug("ExecutePredictor: Generating molconnZ Descriptors", userName, jobName);
+			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".S");
+			
+			queue.runningTask.setMessage("Normalizing descriptors");
+			Utility.writeToDebug("ExecutePredictor: Normalizing Descriptors", userName, jobName);
+			MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".S", path + "train_0.x", path + sdfile + ".renorm.x");
+		}
+		else{
+			queue.runningTask.setMessage("Generating Dragon descriptors");
+			Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
+			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
+			
+			//NEED TO CHANGE THIS FOR DRAGON
+			queue.runningTask.setMessage("Normalizing descriptors");
+			Utility.writeToDebug("ExecutePredictor: Normalizing Descriptors", userName, jobName);
+			MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".dragon", path + "train_0.x", path + sdfile + ".renorm.x");
+		}
 		
 		queue.runningTask.setMessage("Making predictions");
 		Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);

@@ -78,7 +78,8 @@ public class ViewPredOutputActionForward extends Action {
 					ViewOutputFormBean formBean = (ViewOutputFormBean) form;
 					predictionId = formBean.getPredictionJobId();
 					predictionJob = getPrediction(predictionId);
-					predictionValues=getPredictionValues("NOTSET","",predictionId,pageNumber,PAGESIZE);
+					//Sort by number of models by default
+					predictionValues=getPredictionValues("numModel",direction,predictionId,pageNumber,PAGESIZE);
 					
 					total=getTotal(predictionId);
 					numberOfPage=getNumberOfPage(total,PAGESIZE);
