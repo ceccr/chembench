@@ -19,7 +19,14 @@ public class DatasetFilesBean extends ValidatorForm {
 	private String[] similarity_measure;
 	private String datasetname;
 	private String sdfName; 
+	private String actName;
 	
+	public String getActName() {
+		return actName;
+	}
+	public void setActName(String actName) {
+		this.actName = actName;
+	}
 	public String getSdfName() {
 		return sdfName;
 	}
