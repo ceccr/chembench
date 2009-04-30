@@ -166,7 +166,7 @@ function deleteDataset(text_msg){
 			
   </script>
                         </td>
-                        <td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="ud" property="fileName" />&knnType=<bean:write name="ud" property="modelType"/>&sdfName=<bean:write name="ud" property="sdfFile"/>&actName=<bean:write name="up" property="actFile"/>">
+                        <td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="ud" property="fileName" />&knnType=<bean:write name="ud" property="modelType"/>&sdfName=<bean:write name="ud" property="sdfFile"/>&actName=<bean:write name="ud" property="actFile"/>">
                           create</a></td>
                         <td class="TableRowText02"><a  href="deleteFile.do?userName=<bean:write name="user" property="userName"/>&fileName=<bean:write name="ud" property="fileName"/>" onclick="return deleteDataset('Are you sure to delete this dataset?')">
                           delete</a></td>
