@@ -31,7 +31,7 @@ public class GenerateDescriptorWorkflow{
 		  String execstr = "/usr/local/ceccr/dragon/dragonX -s " + workingDir + "dragon-script.txt";
 			
 	      Utility.writeToDebug("Running external program: " + execstr);
-	      Process p = Runtime.getRuntime().exec(execstr);
+	      Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
 	      Utility.writeProgramLogfile(workingDir, "dragonX", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 	}	
