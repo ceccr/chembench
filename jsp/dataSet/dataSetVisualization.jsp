@@ -68,13 +68,13 @@ else{
   Sketches<br/> -->
   &nbsp;&nbsp;<strong>Representations:</strong><br/>
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <input name="represent" type="checkbox" value="Heatmap" onclick="selectTanimoto(this);" checked/> 
-  Heat map<br/>
+  <input name="represent" type="checkbox" value="HeatmapAndTree" onclick="selectTanimoto(this);" checked/> 
+  Heat map and Tree<br/>
   &nbsp;&nbsp;&nbsp;&nbsp;
-  <input name="represent" type="checkbox" value="Trees" onclick="selectTanimoto(this);"/> 
+  <!-- <input name="represent" type="checkbox" value="Trees" onclick="selectTanimoto(this);"/> 
   Tree<br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <input name="represent" type="checkbox" value="PCA" onclick="selectTanimoto(this);"/> 
+  &nbsp;&nbsp;&nbsp;&nbsp;-->
+  <input name="represent" type="checkbox" value="PCA"/> 
   PCA plots<br/>    
   &nbsp;&nbsp;<strong>Similarity measure</strong><br/>
   &nbsp;&nbsp;&nbsp;&nbsp;
