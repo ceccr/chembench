@@ -25,7 +25,7 @@ public class GenerateDescriptorWorkflow{
 	public static void GenerateDragonDescriptors(String sdfile, String outfile) throws Exception{
 		  //dragonX -s data/script_w_H.txt
 
-		  String workingDir = sdfile.replaceAll("/[^/]+$", "");
+		  String workingDir = sdfile.replaceAll("/[^/]+$", "") + "/";
 		  
 		  writeDragonScriptFiles(sdfile, workingDir, outfile);
 		  String execstr = "dragonX -s " + workingDir + "dragon-script.txt";
