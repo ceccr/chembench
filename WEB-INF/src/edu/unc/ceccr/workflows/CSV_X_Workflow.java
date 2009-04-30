@@ -57,12 +57,8 @@ public class CSV_X_Workflow {
 	 */
 	public void performHeatMapAndTreeCreation(String method){
 		try{
-			String tanimoto =  "/usr/local/ceccr/installs/R-2.8.1/bin/R --slave --vanilla  --args \""+
-			viz_path+".x\" \"" +viz_path+"_tan.mat\" \""+viz_path+"_tan.xml\" \"e\""+ 
-			"< /usr/local/ceccr/mmlsoft/perl/heatmap_script.R /usr/local/ceccr/mmlsoft/perl/out.txt";
-			String mahalanobis =  "/usr/local/ceccr/installs/R-2.8.1/bin/R --slave --vanilla  --args \""+
-			viz_path+".x\" \"" +viz_path+"_mah.mat\" \""+viz_path+"_mah.xml\" \"m\""+ 
-			"< /usr/local/ceccr/mmlsoft/perl/heatmap_script.R /usr/local/ceccr/mmlsoft/perl/out.txt";
+			String tanimoto =  "run_heatmap_tree.sh "+ viz_path+".x " +viz_path+"_tan.mat "+ viz_path+"_tan.xml " +"e"; 
+			String mahalanobis =  "run_heatmap_tree.sh "+ viz_path+".x " +viz_path+"_mah.mat "+ viz_path+"_mah.xml " +"m";
 			Process p;
 			if(method.equals("tanimoto")){
 				p = Runtime.getRuntime().exec(tanimoto);
@@ -86,13 +82,13 @@ public class CSV_X_Workflow {
 	
 	public void performPCAcreation(){
 		try{
-			//Process p = Runtime.getRuntime().exec("convert_x_to_csv.pl "+viz_path+".x "+viz_path+".csv");
-			//Utility.writeToMSDebug("CVS script: "+"convert_x_to_csv.pl "+viz_path+".x "+viz_path+".csv");
-			//Utility.writeProgramLogfile(viz_path, "convert_x_to_csv",  p.getInputStream(), p.getErrorStream());
-			//p.waitFor();
+			Process p = Runtime.getRuntime().exec("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+"x "+ file_path+".act");
+			Utility.writeToMSDebug("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+"x "+ file_path+".act");
+			Utility.writeProgramLogfile(viz_path, "PCA",  p.getInputStream(), p.getErrorStream());
+			p.waitFor();
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
-			Utility.writeToMSDebug("performCSVCreation::"+ex.getMessage());
+			Utility.writeToMSDebug("PCACreation::"+ex.getMessage());
 		}
 	}
 }
