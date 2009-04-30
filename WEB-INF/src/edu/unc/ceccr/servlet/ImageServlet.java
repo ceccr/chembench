@@ -70,6 +70,7 @@ public class ImageServlet extends HttpServlet {
           response.reset();
             response.setContentLength(contentLength);
         	response.setContentType("image/jpeg");
+        	if(imageFileName.endsWith(".png")) response.setContentType("image/png");
             
             output = new BufferedOutputStream(response.getOutputStream());
 
