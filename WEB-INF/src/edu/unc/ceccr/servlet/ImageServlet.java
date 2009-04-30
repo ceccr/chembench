@@ -49,9 +49,7 @@ public class ImageServlet extends HttpServlet {
 	      	imageFileName=userName+"/PREDICTORS/"+project+"/Structures/mychart.jpeg";
       	}
     	else if(projectType.equalsIgnoreCase("PCA")){
-        	String imageFileName2=userName+"/DATASETS/"+project+"/Visualization/"+compoundId+".png";
         	imageFileName=userName+"/DATASETS/"+project+"/Visualization/"+compoundId+".jpg";
-        	Utility.writeToMSDebug("Renaming::"+new File(imageFileName2).renameTo(new File(imageFileName)));
         }
     	else if(projectType.equals("dataSet")){
     		imageFileName=userName+"/DATASETS/"+project+"/Visualization/Sketches/"+compoundId+".jpg";

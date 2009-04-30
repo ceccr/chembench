@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows;
 
+import java.io.File;
 import java.io.IOException;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
@@ -86,9 +87,12 @@ public class CSV_X_Workflow {
 		try{
 			if(act_path!=null && !act_path.isEmpty()){
 				Process p = Runtime.getRuntime().exec("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+".x "+ act_path+".act");
-				Utility.writeToMSDebug("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+"x "+ act_path+".act");
+				Utility.writeToMSDebug("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+".x "+ act_path+".act");
 				Utility.writeProgramLogfile(viz_path, "PCA",  p.getInputStream(), p.getErrorStream());
 				p.waitFor();
+				File old = new File(viz_path+".png");
+				File new_ =  new File(viz_path+".jpg");
+				Utility.writeToMSDebug("Rename::"+old.renameTo(new_));
 			}
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
