@@ -163,13 +163,15 @@ public class Utility {
 		  if(!file.exists()){
 		  	file.mkdirs();
 		  }
-			
+
 		  FileOutputStream logFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + programName + ".log"));
+		  FileOutputStream errFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + programName + ".err"));
 		  StreamGobbler outputGobbler = new StreamGobbler(stdout, "stdout", logFileOS);  
-		  StreamGobbler errorGobbler = new StreamGobbler(errout, "errout", logFileOS);   
+		  StreamGobbler errorGobbler = new StreamGobbler(errout, "errout", errFileOS);   
 		  outputGobbler.start();
 		  errorGobbler.start();
 		  logFileOS.close();
+		  errFileOS.close();
 		}
 		catch(Exception ex){
 	      writeToDebug(ex);
