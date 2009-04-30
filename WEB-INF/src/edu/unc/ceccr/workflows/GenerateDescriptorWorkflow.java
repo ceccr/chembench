@@ -71,8 +71,7 @@ public class GenerateDescriptorWorkflow{
 			out.println("/d GetB22 None /PCno");
 			out.println("/fm molfile -f4 -i2 -Hy -2D");
 			out.println("/fy None");
-			out.println("/f0 " + outfile + " -f1 -k -m -999");
-			out.println("");
+			out.println("/fo " + outfile + " -f1 -k -m -999");
 			out.close();
 			fout.close();
 			
