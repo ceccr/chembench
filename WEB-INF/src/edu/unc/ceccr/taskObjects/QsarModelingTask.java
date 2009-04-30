@@ -220,14 +220,14 @@ public class QsarModelingTask implements WorkflowTask {
 		
 		queue.runningTask.setMessage("Copying files");
 		GetJobFilesWorkflow.GetKnnFiles(userName, jobName, sdFileName, actFileName, isAllUser, knnType, datasetName);
-		
+
+		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
 		if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
 			descriptorEnum = DescriptorEnumeration.MOLCONNZ;
 			
 			queue.runningTask.setMessage("Generating molconnZ descriptors");
 			Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
-			String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 			Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
 			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".S");
 
@@ -240,7 +240,6 @@ public class QsarModelingTask implements WorkflowTask {
 			
 			queue.runningTask.setMessage("Generating Dragon descriptors");
 			Utility.writeToDebug("Generating Dragon Descriptors", userName, jobName);
-			String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 			Utility.writeToMSDebug("Generating Dragon Descriptors::"+ path);
 			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".dragon");
 
