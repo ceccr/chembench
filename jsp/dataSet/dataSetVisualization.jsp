@@ -105,8 +105,8 @@ else{
    <jsp:param name="type_" value="<%=ds.getModelType()%>" />
     <jsp:param name="creation_date" value="<%=ds.getCreatedTime()%>" />
      <jsp:param name="desc" value="<%=ds.getDescription()%>" />
-		<jsp:param name="actFile" value="<%=session.getAttribute("actFile")%>" />
-			<jsp:param name="viz_path" value="<%=session.getAttribute("viz_path")%>" />
+		<jsp:param name="actFile" value='<%=session.getAttribute("actFile")%>' />
+			<jsp:param name="viz_path" value='<%=session.getAttribute("viz_path")%>' />
 </jsp:params>
 <jsp:fallback>
 <strong>You should download JAVA to view this applet! </strong>
