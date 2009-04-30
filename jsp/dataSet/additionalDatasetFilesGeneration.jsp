@@ -75,6 +75,7 @@ function getParameter ( parameterName ) {
 function readParam(){
 	document.getElementById("datasetname").value = getParameter("datasetname");
 	document.getElementById("sdfName").value = getParameter("sdfName").replace(".sdf","");
+	document.getElementById("actName").value = getParameter("actName").replace(".act","");
 	document.getElementById("knnType").value = getParameter("knnType");
 }
 </script>
@@ -99,6 +100,7 @@ function readParam(){
   	<input type="hidden" name="datasetname" id="datasetname" value="" />
 	<input type="hidden" name="knnType" id="knnType" value=""/> 
 	<input type="hidden" name="sdfName" id="sdfName" value=""/> 
+	<input type="hidden" name="actName" id="actName" value=""/> 
   <!--&nbsp;&nbsp;&nbsp;&nbsp; <input name="sketches" type="checkbox" value="Sketches" checked/> 
   Sketches<br/> -->
   &nbsp;&nbsp;<strong>Representations:</strong><br/>

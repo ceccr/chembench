@@ -48,7 +48,7 @@ public class GenerateDatasetInfoAction extends Action {
 			
 			GenerateDatasetInfoActionTask task = new GenerateDatasetInfoActionTask(datasetname,
 					formBean.getRepresent(), formBean.getSimilarity_measure(), /*formBean.getSketches(),*/
-					user.getUserName(), formBean.getSdfName());
+					user.getUserName(), formBean.getSdfName(),formBean.getActName());
 				
 			try {
 				task.setUp();

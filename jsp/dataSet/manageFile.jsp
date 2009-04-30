@@ -166,7 +166,7 @@ function deleteDataset(text_msg){
 			
   </script>
                         </td>
-                        <td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="ud" property="fileName" />&knnType=<bean:write name="ud" property="modelType"/>&sdfName=<bean:write name="ud" property="sdfFile"/>">
+                        <td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="ud" property="fileName" />&knnType=<bean:write name="ud" property="modelType"/>&sdfName=<bean:write name="ud" property="sdfFile"/>&actName=<bean:write name="up" property="actFile"/>">
                           create</a></td>
                         <td class="TableRowText02"><a  href="deleteFile.do?userName=<bean:write name="user" property="userName"/>&fileName=<bean:write name="ud" property="fileName"/>" onclick="return deleteDataset('Are you sure to delete this dataset?')">
                           delete</a></td>
@@ -195,7 +195,7 @@ function deleteDataset(text_msg){
                           <bean:write name="up" property="fileName" /></b></td>
                         <td class="TableRowText02"><bean:write name="up" property="numCompound" /></td>
                         <td class="TableRowText02"><bean:write name="up" property="createdTime" /></td>
-						<td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="up" property="fileName" />&knnType=<bean:write name="up" property="modelType"/>&sdfName=<bean:write name="up" property="sdfFile"/>">
+						<td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="up" property="fileName" />&knnType=<bean:write name="up" property="modelType"/>&sdfName=<bean:write name="up" property="sdfFile"/>&actName=<bean:write name="up" property="actFile"/>">
                           create</a></td>
                         <td class="TableRowText02"><a href="deleteFile.do?userName=<bean:write name="user" property="userName"/>&fileName=<bean:write name="up" property="fileName" />
                           " onclick="return deleteDataset('Are you sure to delete this dataset?')">

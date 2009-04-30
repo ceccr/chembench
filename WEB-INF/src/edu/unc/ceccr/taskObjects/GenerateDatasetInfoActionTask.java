@@ -26,6 +26,7 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 	private String userName = null;
 	private String datasetName = null;
 	private String sdf_name = null;
+	private String act_name = null;
 	//private String[] sketches = null;
 	private String[] similarityMeasure = null;
 	private String[] representations = null;
@@ -35,7 +36,7 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 	
 	public GenerateDatasetInfoActionTask(String datasetName,
 			String[] representations, String[] similarityMeasure,
-			/*String[] sketches,*/ String userName, String sdfName) {
+			/*String[] sketches,*/ String userName, String sdfName, String actName) {
 		
 		this.datasetName = datasetName;
 		this.jobName = datasetName;
@@ -44,6 +45,7 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 		//this.sketches = sketches;
 		this.userName = userName;
 		this.sdf_name = sdfName;
+		this.act_name = actName;
 	}
 
 
@@ -64,7 +66,7 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 		Utility.writeToMSDebug("filePath:::"+filePath);
 		
 			Utility.writeToMSDebug("Starting X creation!!!");
-			CSV_X_Workflow csv_x_workflow = new CSV_X_Workflow(userName, datasetName, sdf_name);
+			CSV_X_Workflow csv_x_workflow = new CSV_X_Workflow(userName, datasetName, sdf_name, act_name);
 			
 			queue.runningTask.setMessage("Creating MACCS keys");
 			csv_x_workflow.performMACCSCreation();

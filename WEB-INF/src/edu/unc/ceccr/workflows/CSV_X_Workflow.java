@@ -8,10 +8,12 @@ public class CSV_X_Workflow {
 	
 	private String file_path;
 	private String viz_path;
+	private String act_path;
 	
-	public CSV_X_Workflow(String userName, String datasetName, String sdfName) throws IOException{
+	public CSV_X_Workflow(String userName, String datasetName, String sdfName, String actPath) throws IOException{
 		this.viz_path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/" +datasetName+"/Visualization/"+sdfName;
 		this.file_path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/" +datasetName+"/"+sdfName;
+		this.act_path  = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/" +datasetName+"/"+actPath;
 		
 	}
 	
@@ -82,10 +84,12 @@ public class CSV_X_Workflow {
 	
 	public void performPCAcreation(){
 		try{
-			Process p = Runtime.getRuntime().exec("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+"x "+ file_path+".act");
-			Utility.writeToMSDebug("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+"x "+ file_path+".act");
-			Utility.writeProgramLogfile(viz_path, "PCA",  p.getInputStream(), p.getErrorStream());
-			p.waitFor();
+			if(act_path!=null && !act_path.isEmpty()){
+				Process p = Runtime.getRuntime().exec("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+".x "+ act_path+".act");
+				Utility.writeToMSDebug("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+"x "+ act_path+".act");
+				Utility.writeProgramLogfile(viz_path, "PCA",  p.getInputStream(), p.getErrorStream());
+				p.waitFor();
+			}
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
 			Utility.writeToMSDebug("PCACreation::"+ex.getMessage());
