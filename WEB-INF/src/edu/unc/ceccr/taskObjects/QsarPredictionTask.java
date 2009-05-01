@@ -23,6 +23,7 @@ import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
+import edu.unc.ceccr.workflows.DragonToDescriptors;
 import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnPredictionWorkflow;
@@ -119,10 +120,9 @@ public class QsarPredictionTask implements WorkflowTask {
 			Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
 			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
 			
-			//NEED TO CHANGE THIS FOR DRAGON
 			queue.runningTask.setMessage("Processing Dragon descriptors");
 			Utility.writeToDebug("ExecutePredictor: Processing Dragon Descriptors", userName, jobName);
-			MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".dragon", path + "train_0.x", path + sdfile + ".renorm.x");
+			DragonToDescriptors.MakePredictionDescriptors(path + sdfile + ".dragon", path + "train_0.x", path + sdfile + ".renorm.x");
 		}
 		
 		queue.runningTask.setMessage("Making predictions");

@@ -247,7 +247,6 @@ public class QsarModelingTask implements WorkflowTask {
 			queue.runningTask.setMessage("Processing Dragon descriptors");
 			Utility.writeToDebug("Processing Dragon descriptors", userName, jobName);
 			DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".dragon", path + sdFileName + ".x");
-			
 		}
 		
 		//wtsequence.add(executePostDescriptorWorkflow);
