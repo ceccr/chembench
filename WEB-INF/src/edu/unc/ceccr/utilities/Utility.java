@@ -20,10 +20,8 @@ import edu.unc.ceccr.messages.ErrorMessages;
 import edu.unc.ceccr.persistence.AdminSettings;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Queue;
-import edu.unc.ceccr.taskObjects.GenerateSketchesTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
-import edu.unc.ceccr.workflows.SdfToJpgWorkflow;
+
 
 import org.apache.commons.validator.GenericValidator;
 
@@ -42,6 +40,8 @@ import org.hibernate.criterion.Expression;
 
 public class Utility {
 	private static Integer debug_counter = 0;
+	private static ArrayList<String> act_compounds;
+	private static ArrayList<String> sdf_compounds;
 
 	public Utility() {
 	};
@@ -402,6 +402,18 @@ public class Utility {
 		else fl += temp2;
 		if(numCompound==numCompoundSD && numCompound!=-1)	fl= "true";
 		
+		// check if compounds in act are the same as compounds in sdf
+		
+		if(fl.equals("true")){
+			for(int i = 0;i<act_compounds.size();i++)
+				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
+					fl += ErrorMessages.ACT_DOESNT_MATCH_SDF+"Compound "+act_compounds.get(i)+" from ACT file doesnt match compound "+sdf_compounds.get(i)+" fromm SDF file!";
+					Utility.writeToMSDebug(fl);
+				}
+		}
+		
+		
+		
 		Utility.writeToMSDebug(fl);
 			if(!fl.equals("true") && fl2==true){
 				Utility.writeToMSDebug("sdfMatchesActDelete::");
@@ -492,13 +504,13 @@ public class Utility {
 		int num = 0;
 		String temp;
 		//added compounds id uniqueness checking by msypa, Dec 02, 08
-		ArrayList<String> compounds = new ArrayList<String>();
+		sdf_compounds = new ArrayList<String>();
 		
 		Scanner src = new Scanner(fin);
 		//added compounds id uniqueness checking by msypa, Dec 02, 08
 		if(src.hasNext()){
 			temp = src.nextLine();
-			compounds.add(temp.trim());
+			sdf_compounds.add(temp.trim());
 			//Utility.writeToMSDebug(temp);
 		}
 		while (src.hasNext()) {
@@ -507,9 +519,9 @@ public class Utility {
 				num++;
 				if(src.hasNext()){
 					temp = src.nextLine();
-					if(compounds.contains(temp.trim())) return ErrorMessages.SDF_CONTAINS_DUPLICATES+temp.trim();
+					if(sdf_compounds.contains(temp.trim())) return ErrorMessages.SDF_CONTAINS_DUPLICATES+temp.trim();
 					else{
-						compounds.add(temp.trim());
+						sdf_compounds.add(temp.trim());
 						//Utility.writeToMSDebug(temp);
 					}
 				}
@@ -547,7 +559,7 @@ public class Utility {
 			throws FileNotFoundException, IOException {
 		int numCompounds = 0;
 		//added compounds id uniqueness checking by msypa, Dec 03, 08
-		ArrayList<String> compounds = new ArrayList<String>();
+		act_compounds = new ArrayList<String>();
 		File file = new File(fileLocation);
 		//added compounds id uniqueness checking by msypa, Dec 03, 08
 		
@@ -562,9 +574,9 @@ public class Utility {
 					if (GenericValidator.isDouble(array[1])) {
 						numCompounds++;
 						//added compounds id uniqueness checking by msypa, Dec 03, 08
-						if(compounds.contains(array[0].trim())) return ErrorMessages.ACT_CONTAINS_DUPLICATES+array[0].trim();
+						if(act_compounds.contains(array[0].trim())) return ErrorMessages.ACT_CONTAINS_DUPLICATES+array[0].trim();
 						else{
-							compounds.add(array[0].trim());
+							act_compounds.add(array[0].trim());
 							//Utility.writeToMSDebug(".act:::"+array[0].trim());
 						}
 					}
