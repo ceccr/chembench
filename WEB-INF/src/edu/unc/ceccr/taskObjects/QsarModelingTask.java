@@ -232,7 +232,7 @@ public class QsarModelingTask implements WorkflowTask {
 			Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
 			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".S");
 
-			queue.runningTask.setMessage("Normalizing descriptors");
+			queue.runningTask.setMessage("Processing MolconnZ descriptors");
 			Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
 			MolconnZToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
 			
@@ -242,11 +242,11 @@ public class QsarModelingTask implements WorkflowTask {
 			queue.runningTask.setMessage("Generating Dragon descriptors");
 			Utility.writeToDebug("Generating Dragon Descriptors", userName, jobName);
 			Utility.writeToMSDebug("Generating Dragon Descriptors::"+ path);
-			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".S");
+			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
 			
-			queue.runningTask.setMessage("Normalizing descriptors");
-			Utility.writeToDebug("Converting Dragon output to .x format", userName, jobName);
-			DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
+			queue.runningTask.setMessage("Processing Dragon descriptors");
+			Utility.writeToDebug("Processing Dragon descriptors", userName, jobName);
+			DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".dragon", path + sdFileName + ".x");
 			
 		}
 		

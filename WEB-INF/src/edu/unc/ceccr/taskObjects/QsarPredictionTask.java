@@ -106,23 +106,23 @@ public class QsarPredictionTask implements WorkflowTask {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
 		if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
-			queue.runningTask.setMessage("Generating molconnZ descriptors");
-			Utility.writeToDebug("ExecutePredictor: Generating molconnZ Descriptors", userName, jobName);
+			queue.runningTask.setMessage("Generating MolconnZ descriptors");
+			Utility.writeToDebug("ExecutePredictor: Generating MolconnZ Descriptors", userName, jobName);
 			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".S");
 			
-			queue.runningTask.setMessage("Normalizing descriptors");
-			Utility.writeToDebug("ExecutePredictor: Normalizing Descriptors", userName, jobName);
+			queue.runningTask.setMessage("Processing MolconnZ descriptors");
+			Utility.writeToDebug("ExecutePredictor: Processing MolconnZ Descriptors", userName, jobName);
 			MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".S", path + "train_0.x", path + sdfile + ".renorm.x");
 		}
 		else{
 			queue.runningTask.setMessage("Generating Dragon descriptors");
 			Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".S");
+			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
 			
 			//NEED TO CHANGE THIS FOR DRAGON
-			queue.runningTask.setMessage("Normalizing descriptors");
-			Utility.writeToDebug("ExecutePredictor: Normalizing Descriptors", userName, jobName);
-			MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".S", path + "train_0.x", path + sdfile + ".renorm.x");
+			queue.runningTask.setMessage("Processing Dragon descriptors");
+			Utility.writeToDebug("ExecutePredictor: Processing Dragon Descriptors", userName, jobName);
+			MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".dragon", path + "train_0.x", path + sdfile + ".renorm.x");
 		}
 		
 		queue.runningTask.setMessage("Making predictions");
