@@ -244,7 +244,6 @@ public class QsarModelingTask implements WorkflowTask {
 			Utility.writeToMSDebug("Generating Dragon Descriptors::"+ path);
 			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".S");
 			
-
 			queue.runningTask.setMessage("Normalizing descriptors");
 			Utility.writeToDebug("Converting Dragon output to .x format", userName, jobName);
 			DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
