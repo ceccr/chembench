@@ -132,9 +132,12 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<td>
 					<div class='StandardTextDarkGray'><html:radio value="DRAGON" property="descriptorGenerationType" onclick="">DRAGON</html:radio></div>
 					</td>
+					<td width="100%">
+					&nbsp;
+					</td>
 				</tr>
 				<tr>
-					<td colspan='2'>
+					<td width="600">
 					<div class='StandardTextDarkGray'><i>Note: For some datasets, DRAGON descriptors cannot be calculated. You will see an error message when your job is running if DRAGON descriptors cannot be calculated for your chosen dataset.</i></div>
 					</td>
 				</tr>
