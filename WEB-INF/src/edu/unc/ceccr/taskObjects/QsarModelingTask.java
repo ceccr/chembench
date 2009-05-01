@@ -37,6 +37,7 @@ import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
+import edu.unc.ceccr.workflows.DragonToDescriptors;
 import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnModelBuildingWorkflow;
@@ -241,15 +242,14 @@ public class QsarModelingTask implements WorkflowTask {
 			queue.runningTask.setMessage("Generating Dragon descriptors");
 			Utility.writeToDebug("Generating Dragon Descriptors", userName, jobName);
 			Utility.writeToMSDebug("Generating Dragon Descriptors::"+ path);
-			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
+			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".S");
 
 			queue.runningTask.setMessage("Normalizing descriptors");
 			Utility.writeToDebug("Converting Dragon output to .x format", userName, jobName);
-			MolconnZToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
+			DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
 			
 		}
 		
-
 		//wtsequence.add(executePostDescriptorWorkflow);
 		queue.runningTask.setMessage("Splitting data");
 		KnnModelBuildingWorkflow.SplitData(userName, jobName, sdFileName, actFileName, numCompoundsExternalSet);

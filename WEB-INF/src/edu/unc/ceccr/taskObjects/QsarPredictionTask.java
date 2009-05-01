@@ -117,12 +117,12 @@ public class QsarPredictionTask implements WorkflowTask {
 		else{
 			queue.runningTask.setMessage("Generating Dragon descriptors");
 			Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
+			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".S");
 			
 			//NEED TO CHANGE THIS FOR DRAGON
 			queue.runningTask.setMessage("Normalizing descriptors");
 			Utility.writeToDebug("ExecutePredictor: Normalizing Descriptors", userName, jobName);
-			MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".dragon", path + "train_0.x", path + sdfile + ".renorm.x");
+			MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".S", path + "train_0.x", path + sdfile + ".renorm.x");
 		}
 		
 		queue.runningTask.setMessage("Making predictions");

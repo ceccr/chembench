@@ -20,7 +20,7 @@ import java.util.Scanner;
 public class MolconnZToDescriptors{
 	
 	public static void MakeModelingDescriptors(String MolconnZOutputFile, String KnnInputFile) throws Exception{
-		//reads in a MolconnZ output file (.S) and makes a kNN input file (.x)
+		//reads in a MolconnZ output file (.S) and makes a range-scaled kNN input file (.x)
 		Utility.writeToDebug("Normalizing Modeling Descriptors");
 		
 		File file = new File(MolconnZOutputFile);
