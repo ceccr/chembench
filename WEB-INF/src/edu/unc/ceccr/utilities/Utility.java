@@ -381,7 +381,7 @@ public class Utility {
 		try{
 			String userDir = Constants.CECCR_USER_BASE_PATH + user + "/DATASETS/"+datasetname;
 			
-			if(!isFilesExist(new File(userDir), sdFile, actFile)){
+			if(createFiles(new File(userDir), sdFile, actFile)){
 				fl2 = true;
 				Utility.writeFiles(sdFile.getInputStream(),userDir+sdFile.getFileName());
 				//Utility.rewriteSdf(userDir, sdFile.getFileName());
@@ -407,14 +407,14 @@ public class Utility {
 		if(fl.equals("true")){
 			for(int i = 0;i<act_compounds.size();i++)
 				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
-					fl = "Error " + ErrorMessages.ACT_DOESNT_MATCH_SDF+"Compound "+act_compounds.get(i)+" from ACT file doesnt match compound "+sdf_compounds.get(i)+" fromm SDF file!";
+					fl = "Error " + ErrorMessages.ACT_DOESNT_MATCH_SDF+"Compound "+act_compounds.get(i)+" from ACT file doesnt match compound "+sdf_compounds.get(i)+" from SDF file!";
 					Utility.writeToMSDebug(fl);
 				}
 		}
 		
 		
 		
-		Utility.writeToMSDebug(fl);
+		Utility.writeToMSDebug(fl+"::"+fl2);
 			if(!fl.equals("true") && fl2==true){
 				Utility.writeToMSDebug("sdfMatchesActDelete::");
 				new File(userDir+"/"+sdFile.getFileName()).delete();
@@ -884,6 +884,10 @@ public class Utility {
 			{
 				msg+=ErrorMessages.ACT_DOESNT_MATCH_SDF;
 			}
+			if(sdf_act_match.contains("Error"))
+			{
+				msg+=sdf_act_match;
+			}
 			if(sdf_act_match.contains(ErrorMessages.ACT_CONTAINS_DUPLICATES) || sdf_act_match.contains(ErrorMessages.SDF_CONTAINS_DUPLICATES))
 			{
 				msg+=sdf_act_match;
@@ -954,22 +958,14 @@ public class Utility {
 	
 	
 	
-	public static boolean isFilesExist(File filePath, FormFile sdFile, FormFile actFile) throws IOException{
+	public static boolean createFiles(File filePath, FormFile sdFile, FormFile actFile) throws IOException{
 		boolean result = true; 
-		if(!filePath.exists())
-		{
-			boolean success=filePath.mkdirs();
-			if(success){result=false;}
-			}
-		else
-			{
-				if(!new File(filePath.getAbsolutePath()+"/"+sdFile.getFileName()).exists())
-		    	{
-					result=false;
-		    		new File(filePath.getAbsolutePath()+"/"+sdFile.getFileName()).createNewFile();
-		    		new File(filePath.getAbsolutePath()+"/"+actFile.getFileName()).createNewFile();
-		    	}
-		    }
+		if(!filePath.exists()) result = filePath.mkdirs();
+		if(result && !new File(filePath.getAbsolutePath()+"/"+sdFile.getFileName()).exists())
+		   result = new File(filePath.getAbsolutePath()+"/"+sdFile.getFileName()).createNewFile();
+		if(result && !new File(filePath.getAbsolutePath()+"/"+actFile.getFileName()).exists())
+		    result = new File(filePath.getAbsolutePath()+"/"+actFile.getFileName()).createNewFile();
+	    
 		return result;
 	}
 	
