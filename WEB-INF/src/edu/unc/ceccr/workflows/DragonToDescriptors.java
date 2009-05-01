@@ -30,9 +30,9 @@ public class DragonToDescriptors{
 		//contains some numbers
 		line = br.readLine();
 		Scanner tok = new Scanner(line);
-		int num_molecules = Integer.parseInt(tok.next()); 
+		//int num_molecules = Integer.parseInt(tok.next()); 
 		tok.next(); //just says "2" all the time, no idea what that means, so skip that
-		int num_descriptors = Integer.parseInt(tok.next());
+		//int num_descriptors = Integer.parseInt(tok.next());
 		
 		//the descriptor names are on this line
 		line = br.readLine();
@@ -57,6 +57,8 @@ public class DragonToDescriptors{
 			descriptorValueMatrix.add(descriptorValues);
 		}
 		
+		int num_molecules = descriptorValueMatrix.size();
+		int num_descriptors = descriptorNames.size();
 
 		//Find the min and max values for each descriptor
 		float[] descriptorMinimum = new float[num_descriptors];
