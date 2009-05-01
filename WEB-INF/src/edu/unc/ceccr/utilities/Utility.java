@@ -407,7 +407,7 @@ public class Utility {
 		if(fl.equals("true")){
 			for(int i = 0;i<act_compounds.size();i++)
 				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
-					fl += ErrorMessages.ACT_DOESNT_MATCH_SDF+"Compound "+act_compounds.get(i)+" from ACT file doesnt match compound "+sdf_compounds.get(i)+" fromm SDF file!";
+					fl = "Error " + ErrorMessages.ACT_DOESNT_MATCH_SDF+"Compound "+act_compounds.get(i)+" from ACT file doesnt match compound "+sdf_compounds.get(i)+" fromm SDF file!";
 					Utility.writeToMSDebug(fl);
 				}
 		}
