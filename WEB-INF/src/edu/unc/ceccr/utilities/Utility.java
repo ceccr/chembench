@@ -377,11 +377,11 @@ public class Utility {
 	private static String sdfMatchesAct(FormFile sdFile, FormFile actFile, String user, String datasetname)
 	throws IOException {
 		String fl = "Error";
-		boolean fl2 = false;
+		//boolean fl2 = false;
 		try{
 			String userDir = Constants.CECCR_USER_BASE_PATH + user + "/DATASETS/"+datasetname;
 			
-			if(createFiles(new File(userDir), sdFile, actFile)){
+		/*	if(createFiles(new File(userDir), sdFile, actFile)){
 				fl2 = true;
 				Utility.writeFiles(sdFile.getInputStream(),userDir+sdFile.getFileName());
 				//Utility.rewriteSdf(userDir, sdFile.getFileName());
@@ -389,17 +389,22 @@ public class Utility {
 				Utility.writeFiles(actFile.getInputStream(),userDir+actFile.getFileName());
 				Utility.writeToMSDebug("ACT Completed:::");
 			}
-		
+		*/
 		int numCompound=-1;
 		int numCompoundSD=-1;
+		
 		String temp = numCompounds(userDir+"/"+ actFile.getFileName());
 		Utility.writeToMSDebug("Number of compounds in ACT:::"+temp);
+		
 		if(!temp.contains(ErrorMessages.ACT_CONTAINS_DUPLICATES)) numCompound = new Integer(temp).intValue();
 		else fl = temp;
+		
 		String temp2 = numCompoundsFromSDFiles(userDir, sdFile.getFileName());
 		Utility.writeToMSDebug("Number of compounds in SDF:::"+temp2);
+		
 		if(!temp2.contains(ErrorMessages.SDF_CONTAINS_DUPLICATES)) numCompoundSD = new Integer(temp2).intValue();
 		else fl += temp2;
+		
 		if(numCompound==numCompoundSD && numCompound!=-1)	fl= "true";
 		
 		// check if compounds in act are the same as compounds in sdf
@@ -414,13 +419,13 @@ public class Utility {
 		
 		
 		
-		Utility.writeToMSDebug(fl+"::"+fl2);
-			if(!fl.equals("true") && fl2==true){
+		/*Utility.writeToMSDebug(fl);
+			if(!fl.equals("true")){
 				Utility.writeToMSDebug("sdfMatchesActDelete::");
 				new File(userDir+"/"+sdFile.getFileName()).delete();
 				new File(userDir+"/"+actFile.getFileName()).delete();
 			
-			}
+			}*/
 		}
 		catch (Exception e) {
 			writeToDebug(e);
@@ -960,7 +965,7 @@ public class Utility {
 	
 	public static boolean createFiles(File filePath, FormFile sdFile, FormFile actFile) throws IOException{
 		boolean result = true; 
-		if(!filePath.exists()) result = filePath.mkdirs();
+		if(!filePath.exists()) result = filePath.mkdir();
 		if(result && !new File(filePath.getAbsolutePath()+"/"+sdFile.getFileName()).exists())
 		   result = new File(filePath.getAbsolutePath()+"/"+sdFile.getFileName()).createNewFile();
 		if(result && !new File(filePath.getAbsolutePath()+"/"+actFile.getFileName()).exists())
