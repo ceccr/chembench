@@ -10,12 +10,12 @@
 
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-  <td valign="top"><a href="home.do"><img src="/theme/ccbTheme/images/delete_home.jpg" border="0" /></a></p></td>
-  <td valign="top"><a href="myjobs.do"><img src="/theme/ccbTheme/images/delete_jobs.jpg" border="0" /></a></td>
-  <td valign="top"><a href="manageFile.do"><img src="/theme/ccbTheme/images/delete_datamgmt.jpg" border="0" /></a></td>
-  <td valign="top"><a href="modelbuilders.do"><img src="/theme/ccbTheme/images/delete_modeling.jpg" border="0" /></a></td>
-  <td valign="top"><a href="predictors.do"><img src="/theme/ccbTheme/images/delete_prediction.jpg" border="0" /></a></td>
-  <td valign="top"><a href="vpubchem.do"><img src="/theme/ccbTheme/images/delete_ceccrbase.jpg" border="0" /></a></td>
+  <td valign="top"><a href="home.do"><img src="/theme/ccbTheme/images/home.jpg" border="0" /></a></p></td>
+  <td valign="top"><a href="myjobs.do"><img src="/theme/ccbTheme/images/jobs.jpg" border="0" /></a></td>
+  <td valign="top"><a href="manageFile.do"><img src="/theme/ccbTheme/images/datamgmt.jpg" border="0" /></a></td>
+  <td valign="top"><a href="modelbuilders.do"><img src="/theme/ccbTheme/images/modeling.jpg" border="0" /></a></td>
+  <td valign="top"><a href="predictors.do"><img src="/theme/ccbTheme/images/prediction.jpg" border="0" /></a></td>
+  <td valign="top"><a href="vpubchem.do"><img src="/theme/ccbTheme/images/ceccrbase.jpg" border="0" /></a></td>
   </tr>
 </table>
 

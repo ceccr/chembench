@@ -137,7 +137,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td colspan="3">
 					<div class='StandardTextDarkGray'><i>Note: For some datasets, DRAGON descriptors cannot be calculated. You will see an error message when your job is running if DRAGON descriptors cannot be calculated for your chosen dataset.</i></div>
 					</td>
 				</tr>
