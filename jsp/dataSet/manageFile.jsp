@@ -143,7 +143,7 @@ function deleteDataset(text_msg){
                 <logic:notEqual name="userDatasets" value="">
                   <table>
                     <tr>
-                      <td class="TableRowText01">Dataset</td>
+                      <td class="TableRowText01">Public Dataset</td>
                       <td class="TableRowText01"># Compounds</td>
                       <td class="TableRowText01">KNN Type</td>
                       <td class="TableRowText01">Date</td>
@@ -155,7 +155,7 @@ function deleteDataset(text_msg){
                     <logic:iterate id="pd" name="publicDatasets">
                       <%counter++; %>
                       <tr>
-                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="pd" property="fileName" />"> <b>
+                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="pd" property="fileName" />&isPublic=true"> <b>
                           <bean:write name="pd" property="fileName" />
                         </b> </td>
                         <td class="TableRowText02"><bean:write name="pd" property="numCompound" /></td>
@@ -168,9 +168,12 @@ function deleteDataset(text_msg){
                         </td>
                         <td colspan="2" class="TableRowText02">Download</td>
                         </tr>
-                    </logic:iterate>
+						</logic:iterate>
+</table>
+<br />
+<table>              
  <tr>
-                      <td class="TableRowText01">Dataset</td>
+                      <td class="TableRowText01">Users Dataset</td>
                       <td class="TableRowText01"># Compounds</td>
                       <td class="TableRowText01">KNN Type</td>
                       <td class="TableRowText01">Date</td>
@@ -182,7 +185,7 @@ function deleteDataset(text_msg){
                     <logic:iterate id="ud" name="userDatasets">
                       <%counter++; %>
                       <tr>
-                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="ud" property="fileName" />"> <b>
+                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="ud" property="fileName" />&isPublic=false"> <b>
                           <bean:write name="ud" property="fileName" />
                         </b> </td>
                         <td class="TableRowText02"><bean:write name="ud" property="numCompound" /></td>

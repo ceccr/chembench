@@ -39,6 +39,13 @@ else{
 
 }
 
+function checkPublicDataset(){
+	if(<%=session.getAttribute("isPublic")%> == "true"){
+		document.getElementById("download").style.display='inline';
+	}
+	else document.getElementById("vizualization").style.display='inline';
+}
+
 </script>
 </head>
 <body>
@@ -53,8 +60,13 @@ else{
 
 <table width="924px" align="center" border="0">
 <%DataSet ds = (DataSet)session.getAttribute("ds"); %>
-<tr>
-<td align="center">
+<tr id="download" style="display:none;">
+<td>
+Download this dataset
+</td>
+</tr>
+<tr id="vizualization" style="display:none;">
+<td align="center" >
 <a href="#panel" onclick="show_vis_panel();" id="panel_link">Show visualization control panel</a>
 <br />
 <div id="vis_panel" style="display:none;" style="border: 1px black solid;">

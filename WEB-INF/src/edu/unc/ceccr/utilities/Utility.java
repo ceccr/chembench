@@ -956,25 +956,6 @@ public class Utility {
 	}
 	
 	
-	public static DataSet getDataSetByFileAndUserName(String fileName, String userName)throws ClassNotFoundException, SQLException
-	{
-		DataSet dataset=null;
-		Session  session=HibernateUtil.getSession();
-		Transaction tx=null;
-		
-		try{
-			tx=session.beginTransaction();
-			dataset = (DataSet)session.createCriteria(DataSet.class).add(Expression.eq("fileName",fileName)).add(Expression.eq("userName",userName)).uniqueResult();
-		    tx.commit();
-		}catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			session.close();
-		}
-	   return dataset;
-	}
 	
 	@SuppressWarnings("unchecked")
 	public static Vector<Vector<String>> readFileToVector(String delimiter, String path) throws Exception {
