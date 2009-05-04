@@ -166,7 +166,7 @@ function deleteDataset(text_msg){
 			
   </script>
                         </td>
-                        <td colspan="2" class="TableRowText02"><a href="datasetFilesServlet?datasetName=<bean:write name="pd" property="fileName" />&user=all_users">
+                        <td colspan="2" class="TableRowText02"><a href="datasetFilesServlet?datasetName=<bean:write name="pd" property="fileName" />&user=all-users">
 						download</a></td>
                         </tr>
 						</logic:iterate>

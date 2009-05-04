@@ -62,7 +62,7 @@ function checkPublicDataset(){
 <%DataSet ds = (DataSet)session.getAttribute("ds"); %>
 <tr align="center" id="download" style="display:none;">
 <td align="center">
-<a href="datasetFilesServlet?datasetName=<%=ds.getFileName()%>&user=all_users">
+<a href="datasetFilesServlet?datasetName=<%=ds.getFileName()%>&user=all-users">
 						download</a>Download this dataset
 </td>
 </tr>
