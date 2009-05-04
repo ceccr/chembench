@@ -76,7 +76,7 @@ public class DatasetFilesServlet extends HttpServlet {
         }else{
         	PrintWriter writer=response.getWriter();
         	
-        	writer.write("An ERROR occured, can not download the project file.");
+        	writer.write("An ERROR occured, can not download the dataset file.");
         }
     }
     
