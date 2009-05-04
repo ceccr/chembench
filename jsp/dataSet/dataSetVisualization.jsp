@@ -48,7 +48,7 @@ function checkPublicDataset(){
 
 </script>
 </head>
-<body>
+<body onload="checkPublicDataset();">
 <table width="924px" border="0" align="center" cellpadding="0"	cellspacing="0">
 <%@include file="/jsp/main/header.jsp" %>
 <%@include file="/jsp/main/centralNavigationBar.jsp" %>
