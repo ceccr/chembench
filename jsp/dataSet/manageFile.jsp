@@ -148,9 +148,8 @@ function deleteDataset(text_msg){
                       <td class="TableRowText01">KNN Type</td>
                       <td class="TableRowText01">Date</td>
                       <td class="TableRowText01">Description</td>
-                      <td class="TableRowText01">Create Vis</td>
-                      <td class="TableRowText01">Delete</td>
-                    </tr>
+                      <td colspan="2" class="TableRowText01">Download dataset</td>
+                     </tr>
 
 					 <%int counter=0; %>
                     <logic:iterate id="pd" name="publicDatasets">
@@ -167,11 +166,18 @@ function deleteDataset(text_msg){
 			
   </script>
                         </td>
-                        <td class="TableRowText02"></td>
-                        <td class="TableRowText02"></td>
-                      </tr>
+                        <td colspan="2" class="TableRowText02">Download</td>
+                        </tr>
                     </logic:iterate>
-
+ <tr>
+                      <td class="TableRowText01">Dataset</td>
+                      <td class="TableRowText01"># Compounds</td>
+                      <td class="TableRowText01">KNN Type</td>
+                      <td class="TableRowText01">Date</td>
+                      <td class="TableRowText01">Description</td>
+                      <td class="TableRowText01">Create Vis</td>
+                      <td class="TableRowText01">Delete</td>
+                    </tr>
                     <%counter=0; %>
                     <logic:iterate id="ud" name="userDatasets">
                       <%counter++; %>
