@@ -155,7 +155,7 @@ function deleteDataset(text_msg){
                     <logic:iterate id="pd" name="publicDatasets">
                       <%counter++; %>
                       <tr>
-                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="ud" property="fileName" />"> <b>
+                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="pd" property="fileName" />"> <b>
                           <bean:write name="pd" property="fileName" />
                         </b> </td>
                         <td class="TableRowText02"><bean:write name="pd" property="numCompound" /></td>
