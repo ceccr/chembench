@@ -40,7 +40,6 @@ else{
 }
 
 function checkPublicDataset(){
-	alert(<%=session.getAttribute("isPublic")%>)
 	if(<%=session.getAttribute("isPublic")%>){
 		document.getElementById("download").style.display='inline';
 	}
@@ -54,19 +53,20 @@ function checkPublicDataset(){
 <%@include file="/jsp/main/header.jsp" %>
 <%@include file="/jsp/main/centralNavigationBar.jsp" %>
 		<tr>
-		<td height="557" colspan="5" valign="top"  background="theme/img/backgrmodelbuilders.jpg">
+		<td height="557" colspan="5" valign="top" background="theme/img/backgrmodelbuilders.jpg">
 		<span id="maincontent">
 
 		
 
 <table width="924px" align="center" border="0">
 <%DataSet ds = (DataSet)session.getAttribute("ds"); %>
-<tr id="download" style="display:none;">
-<td>
-Download this dataset
+<tr align="center" id="download" style="display:none;">
+<td align="center">
+<a href="datasetFilesServlet?datasetName=<%=ds.getFileName()%>&user=all_users">
+						download</a>Download this dataset
 </td>
 </tr>
-<tr id="vizualization" style="display:none;">
+<tr align="center" id="vizualization" style="display:none;">
 <td align="center" >
 <a href="#panel" onclick="show_vis_panel();" id="panel_link">Show visualization control panel</a>
 <br />

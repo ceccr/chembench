@@ -124,6 +124,15 @@
       <url-pattern>/activityChart/*</url-pattern>
      </servlet-mapping>
      
+          <servlet>
+  <servlet-name>DatasetFilesServlet</servlet-name>
+  <servlet-class>edu.unc.ceccr.servlet.DatasetFilesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>DatasetFilesServlet</servlet-name>
+      <url-pattern>/datasetFilesServlet/*</url-pattern>
+     </servlet-mapping>
+     
 <!--Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha-->
   <servlet>
   <servlet-name>Captcha</servlet-name>

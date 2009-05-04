@@ -54,8 +54,8 @@ public class ViewDatasetAction extends Action {
 							
 			session.setAttribute("ds", ds);
 			Utility.writeToMSDebug("ViewDatasetAction:::"+"descriptorMatrixServlet?user="+ds.getUserName()+"&project="+ds.getFileName()+"&name="+ds.getActFile());
-			session.setAttribute("actFile", "descriptorMatrixServlet?user="+ds.getUserName()+"&project="+ds.getFileName()+"&name="+ds.getActFile());
-			session.setAttribute("viz_path", "descriptorMatrixServlet?user="+ds.getUserName()+"&project="+ds.getFileName()+"/Visualization&name="+ds.getSdfFile().replace(".sdf", ""));
+			session.setAttribute("actFile", "descriptorMatrixServlet?user="+(isPublic?"all_users":ds.getUserName())+"&project="+ds.getFileName()+"&name="+ds.getActFile());
+			session.setAttribute("viz_path", "descriptorMatrixServlet?user="+(isPublic?"all_users":ds.getUserName())+"&project="+ds.getFileName()+"/Visualization&name="+ds.getSdfFile().replace(".sdf", ""));
 			session.setAttribute("isPublic",isPublic);
 			
 
