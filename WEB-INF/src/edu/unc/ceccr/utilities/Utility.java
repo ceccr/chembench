@@ -377,19 +377,10 @@ public class Utility {
 	private static String sdfMatchesAct(FormFile sdFile, FormFile actFile, String user, String datasetname)
 	throws IOException {
 		String fl = "Error";
-		//boolean fl2 = false;
+		
 		try{
 			String userDir = Constants.CECCR_USER_BASE_PATH + user + "/DATASETS/"+datasetname;
 			
-		/*	if(createFiles(new File(userDir), sdFile, actFile)){
-				fl2 = true;
-				Utility.writeFiles(sdFile.getInputStream(),userDir+sdFile.getFileName());
-				//Utility.rewriteSdf(userDir, sdFile.getFileName());
-				Utility.writeToMSDebug("SDF completed:::"+userDir+actFile.getFileName());
-				Utility.writeFiles(actFile.getInputStream(),userDir+actFile.getFileName());
-				Utility.writeToMSDebug("ACT Completed:::");
-			}
-		*/
 		int numCompound=-1;
 		int numCompoundSD=-1;
 		
@@ -412,20 +403,10 @@ public class Utility {
 		if(fl.equals("true")){
 			for(int i = 0;i<act_compounds.size();i++)
 				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
-					fl = "Error " + ErrorMessages.ACT_DOESNT_MATCH_SDF+"Compound "+act_compounds.get(i)+" from ACT file doesnt match compound "+sdf_compounds.get(i)+" from SDF file!";
+					fl = "Error " + ErrorMessages.ACT_DOESNT_MATCH_SDF+"Compound <b>"+act_compounds.get(i)+"</b> from ACT file doesnt match compound <b>"+sdf_compounds.get(i)+"</b> from SDF file!";
 					Utility.writeToMSDebug(fl);
 				}
-		}
-		
-		
-		
-		/*Utility.writeToMSDebug(fl);
-			if(!fl.equals("true")){
-				Utility.writeToMSDebug("sdfMatchesActDelete::");
-				new File(userDir+"/"+sdFile.getFileName()).delete();
-				new File(userDir+"/"+actFile.getFileName()).delete();
-			
-			}*/
+			}
 		}
 		catch (Exception e) {
 			writeToDebug(e);
