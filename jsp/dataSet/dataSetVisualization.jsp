@@ -41,8 +41,7 @@ else{
 
 function checkPublicDataset(){
 	alert(<%=session.getAttribute("isPublic")%>)
-	alert(<%=session.getAttribute("isPublic")%>=="true");
-	if(<%=session.getAttribute("isPublic")%> == "true"){
+	if(<%=session.getAttribute("isPublic")%>){
 		document.getElementById("download").style.display='inline';
 	}
 	else document.getElementById("vizualization").style.display='inline';
