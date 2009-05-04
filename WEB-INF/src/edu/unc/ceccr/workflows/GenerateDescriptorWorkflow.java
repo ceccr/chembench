@@ -8,7 +8,6 @@ import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-
 public class GenerateDescriptorWorkflow{
 	
 	//Given an SD file, run MolconnZ to get the chemical descriptors for each compound.

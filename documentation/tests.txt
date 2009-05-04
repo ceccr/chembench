@@ -1,0 +1,52 @@
+Here's a list of tests that Chembench needs to pass every time we put out a production build.
+
+======================
+ I. DATASETS / APPLET
+======================
+1. Create a continuous dataset (modeling)
+2. Create a category dataset (modeling)
+3. Create a continuous dataset (prediction)
+4. Create a category dataset (prediction)
+5. View the results of each of the dataset sketch generation jobs. Verify that the sketches are present on the applet.
+6. Check that the new modeling datasets are available on modeling page.
+7. Check that the new modeling and prediction datasets are available on the prediction page, if and only 
+if the predictor type (continuous / category) matches the dataset type
+8. Create Tanimoto and Mahalanobis distances for each of the new datasets.
+9. Create heatmap, tree, and PCA visualization plots for each dataset.
+10. Look at all the outputs of (8) and (9) in the applet.
+
+==============
+ II. MODELING
+==============
+
+1. Make a continuous model and a category from the all-user datasets. Use parameters that avoid getting "No models generated".
+2. Make models using the two modeling sets created in (I). 
+3. Test modeling with all the different descriptor generation methods. (Can be combined with tests 1 and 2.)
+4. Check that y-Randomization and external validation chart work.
+5. Check that 3D structure viewing works.
+6. Save the models and download them.
+
+=========================
+ III. PREDICTION / QUEUE
+=========================
+
+1. Make SMILES predictions using the 4 models (above). Check that drawn structures work.
+2. Run prediction jobs for each model, using high cutoff to force some predicted values to come out. 
+3. Run a prediction using the predictor's modeling dataset and check the results. The predicted values should be near the .act file values.
+4. Start some extra prediction jobs and cancel them before they run. Let at least one job run after a canceled job.
+5. Start prediction jobs from different users and cancel them, too. Really mess with the queue and try to break it.
+
+===================
+ IV. USERS / ADMIN
+===================
+
+1. Set the User Acceptance mode to "Automatic".
+2. Make a new user.
+3. Make some models or predictions or datasets as the new user.
+4. Delete the new user. Verify that their filesystem junk gets deleted.
+5. Set the User Acceptance mode to "Manual".
+6. Make two new users. Approve one and deny the other.
+7. Run two huge modeling jobs as the approved user (so it hits the modeling limit).
+8. Approve one modeling task and deny the other.
+9. Change the user's password.
+10. Test the "Forgot Password" page (comes up when you fail at password-remembering.)
