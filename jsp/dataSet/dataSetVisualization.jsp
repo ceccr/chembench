@@ -63,7 +63,7 @@ function checkPublicDataset(){
 <tr align="center" id="download" style="display:none;">
 <td align="center">
 <a href="datasetFilesServlet?datasetName=<%=ds.getFileName()%>&user=all-users">
-						download</a>Download this dataset
+						Download this dataset</a>(NOTE: Only SDF and ACT files are accessible for download!)
 </td>
 </tr>
 <tr align="center" id="vizualization" style="display:none;">
