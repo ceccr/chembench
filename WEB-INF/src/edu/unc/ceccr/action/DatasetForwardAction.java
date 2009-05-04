@@ -40,6 +40,12 @@ public class DatasetForwardAction extends Action {
 			datasets.addAll(PopulateDataObjects.populateDataset(userName, Constants.CATEGORY,false));
 			session.setAttribute("userDatasets", datasets);
 			
+			session.removeAttribute("publicDatasets");
+			
+			List<DataSet> publicdatasets = PopulateDataObjects.populateDataset(Constants.ALL_USERS_USERNAME, Constants.CONTINUOUS,false);
+			publicdatasets.addAll(PopulateDataObjects.populateDataset(Constants.ALL_USERS_USERNAME, Constants.CATEGORY,false));
+			session.setAttribute("publicDatasets", publicdatasets);
+			
 			session.removeAttribute("userPredictionFiles");
 			session.removeAttribute("datasetNames");
 			session.removeAttribute("predictorNames");

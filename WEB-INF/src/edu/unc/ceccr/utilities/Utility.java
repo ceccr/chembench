@@ -870,7 +870,7 @@ public class Utility {
 			{
 				msg+=ErrorMessages.ACT_DOESNT_MATCH_SDF;
 			}
-			if(sdf_act_match.contains("Error"))
+			if(sdf_act_match.contains("Error") && !sdf_act_match.equals("Error"))
 			{
 				msg+=sdf_act_match;
 			}

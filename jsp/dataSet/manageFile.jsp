@@ -151,7 +151,28 @@ function deleteDataset(text_msg){
                       <td class="TableRowText01">Create Vis</td>
                       <td class="TableRowText01">Delete</td>
                     </tr>
-                    <%int counter=0; %>
+
+					 <%int counter=0; %>
+                    <logic:iterate id="pd" name="publicDatasets">
+                      <%counter++; %>
+                      <tr>
+                        <td class="TableRowText02"><a  href="viewDataset.do?fileName=<bean:write name="ud" property="fileName" />"> <b>
+                          <bean:write name="ud" property="fileName" />
+                        </b> </td>
+                        <td class="TableRowText02"><bean:write name="pd" property="numCompound" /></td>
+                        <td class="TableRowText02"><bean:write name="pd" property="modelType" /></td>
+                        <td class="TableRowText02"><bean:write name="pd" property="createdTime" /></td>
+                        <td class="TableRowText02" id="id_<%=counter%>" title='<bean:write name="pd" property="description"/>' onclick="extendColumn(this);"><script type="text/javascript">
+			cutString('id_<%=counter%>');
+			
+  </script>
+                        </td>
+                        <td class="TableRowText02"></td>
+                        <td class="TableRowText02"></td>
+                      </tr>
+                    </logic:iterate>
+
+                    <%counter=0; %>
                     <logic:iterate id="ud" name="userDatasets">
                       <%counter++; %>
                       <tr>
