@@ -40,6 +40,8 @@ else{
 }
 
 function checkPublicDataset(){
+	alert(<%=session.getAttribute("isPublic")%>)
+	alert(<%=session.getAttribute("isPublic")%>=="true");
 	if(<%=session.getAttribute("isPublic")%> == "true"){
 		document.getElementById("download").style.display='inline';
 	}
