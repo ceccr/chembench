@@ -107,7 +107,19 @@ function deleteDataset(text_msg){
 	}
 	else return false;
 }
+function show_public_datasets()
+{
+  if(document.getElementById("public_datasets").style.display=='inline')
+{
+	  document.getElementById("public_datasets").style.display='none';
+	  document.getElementById("panel_link").innerHTML = "Show public datasets";
+}
+else{
+	document.getElementById("panel_link").innerHTML = "Hide public datasets";
+	document.getElementById("public_datasets").style.display='inline';
+	}
 
+}
 
 </script>
 
@@ -141,7 +153,8 @@ function deleteDataset(text_msg){
               <a href="#dataset" >Manage Model Development Datasets</a><br/>
               <div id="dataset">
                 <logic:notEqual name="userDatasets" value="">
-                  <table>
+				<a href="#dataset" onclick="show_public_datasets();" id="panel_link">Show public datasets</a>
+                  <table id="public_datasets" style="none">
                     <tr>
                       <td class="TableRowText01">Public Dataset</td>
                       <td class="TableRowText01"># Compounds</td>

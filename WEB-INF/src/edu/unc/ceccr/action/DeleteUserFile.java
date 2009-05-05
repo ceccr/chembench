@@ -22,12 +22,9 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.PredictionJob;
-import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
-import edu.unc.ceccr.taskObjects.GenerateDatasetInfoActionTask;
-import edu.unc.ceccr.taskObjects.GenerateSketchesTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -176,7 +173,7 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkModelling(String userName, String fileName) throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  = Queue.getInstance().getUserTasks(userName); //PopulateDataObjects.populateTasks(userName, false);
+		List<QueueTask> tasks  = PopulateDataObjects.populateTasks(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
@@ -212,7 +209,7 @@ public class DeleteUserFile extends Action {
 			}		
 		}
 		// Checking queued tasks
-		Collection<QueueTask> queuedtasks  = Queue.getInstance().getTasks();
+		Collection<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
 		if(queuedtasks!=null && dataset!=null){
 			for(Iterator iter = queuedtasks.iterator(); iter.hasNext();){
 				QueueTask temp = (QueueTask) iter.next();
