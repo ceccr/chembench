@@ -13,9 +13,10 @@ import org.hibernate.Transaction;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.Utility;
 
+@SuppressWarnings("serial")
 @Entity()
 @Table(name = "cbench_prediction_task")
-public class PredictionTask {
+public class PredictionTask implements java.io.Serializable{
 
 	private Long id = null;
 	
@@ -60,7 +61,7 @@ public class PredictionTask {
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			s.saveOrUpdate(t);
+			s.save(t);
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
