@@ -1,8 +1,17 @@
 package edu.unc.ceccr.taskObjects;
 
+import java.sql.SQLException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.utilities.Utility;
 
 @Entity()
 @Table(name = "cbench_visualization_task")
@@ -45,6 +54,23 @@ public class VisualizationTask {
 	 */
 	public void setDatasetId(Long datasetId) {
 		this.datasetId = datasetId;
+	}
+
+	public void save(VisualizationTask t) throws HibernateException, ClassNotFoundException, SQLException {
+		Session s = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.saveOrUpdate(t);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			s.close();
+		}
+			
 	}
 	
 	

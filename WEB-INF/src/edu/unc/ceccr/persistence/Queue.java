@@ -513,23 +513,17 @@ public class Queue {
 			if(t.getComponent().equals(QueueTask.Component.modelbuilder)){
 				Utility.writeToMSDebug("MoDELBUILDER QUEUE");
 				ModellingTask mt = new ModellingTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
-				tx = s.beginTransaction();
-				s.saveOrUpdate(mt);
-				tx.commit();
+				mt.save(mt);
 			}
 			if(t.getComponent().equals(QueueTask.Component.predictor)){
 				Utility.writeToMSDebug("PREDICTOR QUEUE");
 				PredictionTask pt = new PredictionTask(t.id, ((QsarPredictionTask)t.task).getPredictionDataset().getFileId());
-				tx = s.beginTransaction();
-				s.saveOrUpdate(pt);
-				tx.commit();
+				pt.save(pt);
 			}
 			if(t.getComponent().equals(QueueTask.Component.visualisation)){
 				Utility.writeToMSDebug("VISUALIZATION QUEUE");
 				VisualizationTask vt = new VisualizationTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
-				tx = s.beginTransaction();
-				s.saveOrUpdate(vt);
-				tx.commit();
+				vt.save(vt);
 			}
 		} catch (RuntimeException e) {
 			if (tx != null)
