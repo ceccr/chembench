@@ -26,7 +26,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Expression;
@@ -39,10 +38,13 @@ import edu.unc.ceccr.global.Constants.KnnEnumeration;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.messages.ErrorMessages;
 import edu.unc.ceccr.task.WorkflowTask;
+import edu.unc.ceccr.taskObjects.ModellingTask;
+import edu.unc.ceccr.taskObjects.PredictionTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.taskObjects.GenerateDatasetInfoActionTask;
 import edu.unc.ceccr.taskObjects.GenerateSketchesTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
+import edu.unc.ceccr.taskObjects.VisualizationTask;
 import edu.unc.ceccr.utilities.*;
 
 public class Queue {
@@ -508,6 +510,27 @@ public class Queue {
 			tx = s.beginTransaction();
 			s.saveOrUpdate(t);
 			tx.commit();
+			if(t.getComponent().equals(QueueTask.Component.modelbuilder)){
+				Utility.writeToMSDebug("MoDELBUILDER QUEUE");
+				ModellingTask mt = new ModellingTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
+				tx = s.beginTransaction();
+				s.saveOrUpdate(mt);
+				tx.commit();
+			}
+			if(t.getComponent().equals(QueueTask.Component.predictor)){
+				Utility.writeToMSDebug("PREDICTOR QUEUE");
+				PredictionTask pt = new PredictionTask(t.id, ((QsarPredictionTask)t.task).getPredictionDataset().getFileId());
+				tx = s.beginTransaction();
+				s.saveOrUpdate(pt);
+				tx.commit();
+			}
+			if(t.getComponent().equals(QueueTask.Component.visualisation)){
+				Utility.writeToMSDebug("VISUALIZATION QUEUE");
+				VisualizationTask vt = new VisualizationTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
+				tx = s.beginTransaction();
+				s.saveOrUpdate(vt);
+				tx.commit();
+			}
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();

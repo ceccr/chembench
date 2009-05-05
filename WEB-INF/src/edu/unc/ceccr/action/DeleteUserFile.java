@@ -195,9 +195,9 @@ public class DeleteUserFile extends Action {
 	
 	@SuppressWarnings("unchecked")
 	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
-		List<PredictionJob> tasks  = PopulateDataObjects.populatePredictions(userName, false);
+		//List<PredictionJob> tasks  = PopulateDataObjects.populatePredictions(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
-		if(tasks!=null && dataset!=null){
+	/*	if(tasks!=null && dataset!=null){
 			for(int i=0;i<tasks.size();i++ ){
 				if(tasks.get(i)!=null){
 					Utility.writeToMSDebug("TASKSP::"+tasks.get(i).getDatasetId());
@@ -207,7 +207,7 @@ public class DeleteUserFile extends Action {
 					}
 				}
 			}		
-		}
+		}*/
 		// Checking queued tasks
 		Collection<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
 		if(queuedtasks!=null && dataset!=null){
@@ -218,8 +218,10 @@ public class DeleteUserFile extends Action {
 						(temp.getState().equals(Queue.QueueTask.State.ready) ||
 								(temp.getState().equals(Queue.QueueTask.State.started)))){
 									Utility.writeToMSDebug("PREDICTION IN QUEUE::"+temp.getJobName());
-									Utility.writeToMSDebug("Preduiction Task::"+temp.task);
-									QsarPredictionTask job =  (QsarPredictionTask)temp.task;
+									//QsarPredictionTask job =  (QsarPredictionTask)temp.task;
+									Long id = PopulateDataObjects.populateDatasetForPredictionTaskById(temp.id);
+									Utility.writeToMSDebug("DATASET::"+id);
+									if(dataset.getFileId()== id) return temp.getJobName();
 						}
 				}
 		}

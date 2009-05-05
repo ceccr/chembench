@@ -17,6 +17,7 @@ import edu.unc.ceccr.persistence.PredictionJob;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
+import edu.unc.ceccr.taskObjects.PredictionTask;
 import edu.unc.ceccr.utilities.Utility;
 
 public class PopulateDataObjects {
@@ -598,5 +599,25 @@ public class PopulateDataObjects {
 		}
 		
 		return tasks;
+	}
+	
+	public static Long populateDatasetForPredictionTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException{
+		PredictionTask pTask = null;
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			pTask = (PredictionTask) session.createCriteria(PredictionTask.class)
+					.add(Expression.eq("id", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		return pTask.getDatasetId();
 	}
 }
