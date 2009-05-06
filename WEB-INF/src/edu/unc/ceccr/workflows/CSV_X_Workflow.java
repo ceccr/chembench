@@ -86,7 +86,7 @@ public class CSV_X_Workflow {
 	public void performPCAcreation(){
 		try{
 			if(act_path!=null && !act_path.isEmpty()){
-				Process p = Runtime.getRuntime().exec("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+".x "+ act_path+".act");
+				Process p = Runtime.getRuntime().exec("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+".x "+ act_path);
 				Utility.writeToMSDebug("run_PCA_ScatterPlot.sh ::act = "+ act_path);
 				Utility.writeProgramLogfile(viz_path, "PCA",  p.getInputStream(), p.getErrorStream());
 				p.waitFor();
