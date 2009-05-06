@@ -43,13 +43,15 @@ public class ViewDatasetAction extends Action {
 				else if(request.getParameter("fileName")==null){
 					Utility.writeToMSDebug("..................."+(String) session.getAttribute("fileName"));
 					fileName = (String) session.getAttribute("fileName");
-					isPublic = ((String)session.getAttribute("isPublic")==null?false:((String)session.getAttribute("isPublic")).equals("true"));
+					if((String)session.getAttribute("isPublic")!=null)
+					isPublic = ((String)session.getAttribute("isPublic")).equals("true");
 					Utility.writeToMSDebug("IsPublicReq::"+isPublic);
 					}
 					else{
 						Utility.writeToMSDebug("...............**...."+request.getParameter("fileName"));
 						fileName = request.getParameter("fileName");
-						isPublic = ((String)session.getAttribute("isPublic")==null?false:((String)session.getAttribute("isPublic")).equals("true"));
+						if((String)request.getParameter("isPublic")!=null)
+							isPublic = ((String)request.getParameter("isPublic")).equals("true");
 						Utility.writeToMSDebug("IsPublicSes::"+isPublic);
 					}
 			DataSet ds;
