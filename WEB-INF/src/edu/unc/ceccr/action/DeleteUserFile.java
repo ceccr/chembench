@@ -234,15 +234,19 @@ public class DeleteUserFile extends Action {
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
 		String result = "";
 		Long id = dataset.getFileId();
+		Utility.writeToMSDebug("DATASET::"+id);
 		if(id!=null){
 			Long temp = PopulateDataObjects.getPredictionTaskIdByDatasetId(id);
+			Utility.writeToMSDebug("PredictionTask::"+temp);
 			if(temp!=null) result+="Prediction task "+PopulateDataObjects.getTaskById(temp) +" using this dataset";
 			temp = PopulateDataObjects.getModelingTaskIdByDatasetId(id);
+			Utility.writeToMSDebug("Modeling taskTask::"+temp);
 			if(temp!=null) result+=" Modeling task "+PopulateDataObjects.getTaskById(temp) +" using this dataset";
 			//TODO add the same for visualization
 			/*temp = PopulateDataObjects.getVisualizationTaskIdByDatasetId(id);
 			if(temp!=null) result+=" Visualization task "+PopulateDataObjects.getTaskById(temp) +" using this dataset";*/
 		}
+		if(!result.isEmpty()) return result;
 		return null;
 	}
 	
