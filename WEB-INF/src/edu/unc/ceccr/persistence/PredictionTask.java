@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.HibernateException;
@@ -29,6 +30,7 @@ public class PredictionTask{
 	/**
 	 * @return the id
 	 */
+	@Id
 	@Column(name="id")
 	public Long getId() {
 		return id;
