@@ -38,13 +38,10 @@ import edu.unc.ceccr.global.Constants.KnnEnumeration;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.messages.ErrorMessages;
 import edu.unc.ceccr.task.WorkflowTask;
-import edu.unc.ceccr.taskObjects.ModellingTask;
-import edu.unc.ceccr.taskObjects.PredictionTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.taskObjects.GenerateDatasetInfoActionTask;
 import edu.unc.ceccr.taskObjects.GenerateSketchesTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
-import edu.unc.ceccr.taskObjects.VisualizationTask;
 import edu.unc.ceccr.utilities.*;
 
 public class Queue {
@@ -518,6 +515,7 @@ public class Queue {
 			if(t.getComponent().equals(QueueTask.Component.predictor)){
 				Utility.writeToMSDebug("PREDICTOR QUEUE");
 				PredictionTask pt = new PredictionTask(t.id, ((QsarPredictionTask)t.task).getPredictionDataset().getFileId());
+				Utility.writeToMSDebug("PREDICTOR QUEUE: "+pt.getId()+":::"+pt.getDatasetId());
 				pt.save(pt);
 			}
 			if(t.getComponent().equals(QueueTask.Component.visualisation)){

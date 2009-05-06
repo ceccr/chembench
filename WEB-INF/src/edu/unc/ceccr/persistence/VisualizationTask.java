@@ -1,4 +1,4 @@
-package edu.unc.ceccr.taskObjects;
+package edu.unc.ceccr.persistence;
 
 import java.sql.SQLException;
 
@@ -14,14 +14,14 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.Utility;
 
 @Entity()
-@Table(name = "cbench_modelling_task")
-public class ModellingTask {
+@Table(name = "cbench_visualization_task")
+public class VisualizationTask {
 
 	private Long id = null;
 	
 	private Long datasetId;	
 	
-	public ModellingTask(Long datasetId, Long id) {
+	public VisualizationTask(Long datasetId, Long id) {
 		this.datasetId = datasetId;
 		this.id = id;
 	}
@@ -55,7 +55,8 @@ public class ModellingTask {
 	public void setDatasetId(Long datasetId) {
 		this.datasetId = datasetId;
 	}
-	public void save(ModellingTask t) throws HibernateException, ClassNotFoundException, SQLException {
+
+	public void save(VisualizationTask t) throws HibernateException, ClassNotFoundException, SQLException {
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
@@ -71,5 +72,6 @@ public class ModellingTask {
 		}
 			
 	}
+	
 	
 }

@@ -1,4 +1,4 @@
-package edu.unc.ceccr.taskObjects;
+package edu.unc.ceccr.persistence;
 
 import java.sql.SQLException;
 
@@ -13,15 +13,16 @@ import org.hibernate.Transaction;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.Utility;
 
+@SuppressWarnings("serial")
 @Entity()
-@Table(name = "cbench_visualization_task")
-public class VisualizationTask {
+@Table(name = "cbench_prediction_task")
+public class PredictionTask implements java.io.Serializable{
 
 	private Long id = null;
 	
 	private Long datasetId;	
 	
-	public VisualizationTask(Long datasetId, Long id) {
+	public PredictionTask(Long datasetId, Long id) {
 		this.datasetId = datasetId;
 		this.id = id;
 	}
@@ -55,13 +56,12 @@ public class VisualizationTask {
 	public void setDatasetId(Long datasetId) {
 		this.datasetId = datasetId;
 	}
-
-	public void save(VisualizationTask t) throws HibernateException, ClassNotFoundException, SQLException {
+	public void save(PredictionTask t) throws HibernateException, ClassNotFoundException, SQLException {
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			s.saveOrUpdate(t);
+			s.save(t);
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -72,6 +72,5 @@ public class VisualizationTask {
 		}
 			
 	}
-	
 	
 }
