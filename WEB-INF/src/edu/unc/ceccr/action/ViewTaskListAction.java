@@ -11,7 +11,6 @@ import org.apache.struts.action.ActionMapping;
 
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.utilities.Utility;
 
 public class ViewTaskListAction extends Action {
 

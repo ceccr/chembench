@@ -44,13 +44,15 @@ public class ViewDatasetAction extends Action {
 					Utility.writeToMSDebug("..................."+(String) session.getAttribute("fileName"));
 					fileName = (String) session.getAttribute("fileName");
 					isPublic = ((String)session.getAttribute("isPublic")).equals("true");
+					Utility.writeToMSDebug("IsPublicReq::"+isPublic);
 					}
 					else{
 						Utility.writeToMSDebug("...............**...."+request.getParameter("fileName"));
 						fileName = request.getParameter("fileName");
 						isPublic = ((String)request.getParameter("isPublic")).equals("true");
+						Utility.writeToMSDebug("IsPublicSes::"+isPublic);
 					}
-			DataSet ds = PopulateDataObjects.getDataSetByName(fileName, isPublic?Constants.ALL_USERS_USERNAME:user);
+			DataSet ds = PopulateDataObjects.getDataSetByName(fileName, (isPublic?Constants.ALL_USERS_USERNAME:user));
 							
 			session.setAttribute("ds", ds);
 			Utility.writeToMSDebug("ViewDatasetAction:::"+"descriptorMatrixServlet?user="+ds.getUserName()+"&project="+ds.getFileName()+"&name="+ds.getActFile());

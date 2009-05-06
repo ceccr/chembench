@@ -22,7 +22,7 @@ public class PredictionTask{
 	
 	private Long datasetId;	
 	
-	public PredictionTask(Long datasetId, Long id) {
+	public PredictionTask(Long id, Long datasetId) {
 		this.datasetId = datasetId;
 		this.id = id;
 	}
@@ -62,7 +62,7 @@ public class PredictionTask{
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			s.save(t);
+			s.saveOrUpdate(t);
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
