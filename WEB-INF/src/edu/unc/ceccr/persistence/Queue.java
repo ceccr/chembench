@@ -520,7 +520,7 @@ public class Queue {
 			}
 			if(t.getComponent().equals(QueueTask.Component.visualisation)){
 				Utility.writeToMSDebug("VISUALIZATION QUEUE");
-				VisualizationTask vt = new VisualizationTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
+				VisualizationTask vt = new VisualizationTask(t.id, PopulateDataObjects.getDataSetByName(t.jobName, t.getUserName()).getFileId());
 				vt.save(vt);
 			}
 		} catch (RuntimeException e) {
