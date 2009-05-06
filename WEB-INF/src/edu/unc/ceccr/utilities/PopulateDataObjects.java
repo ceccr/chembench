@@ -618,6 +618,7 @@ public class PopulateDataObjects {
 		} finally {
 			session.close();
 		}
-		return (pTask==null?null:pTask.getDatasetId());
+		if(pTask!=null) return pTask.getDatasetId();
+		else return null;
 	}
 }
