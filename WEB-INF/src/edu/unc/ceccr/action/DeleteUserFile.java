@@ -55,19 +55,21 @@ public class DeleteUserFile extends Action {
 				String msg = "Cannot delete dataset! ";
 				
 				String jobname = checkJobNames(userName, fileName);
-				String predictorname = checkPredictions(userName, fileName);
+				/*String predictorname = checkPredictions(userName, fileName);
 				String modellingname = checkModelling(userName, fileName);
-				
+				*/
+				String mp = checkTasks(userName, fileName);
 				Utility.writeToMSDebug("DELETE DATASET JOBNAMES CHECK:"+jobname);
-				Utility.writeToMSDebug("DELETE DATASET PREDICTORNAMES CHECK:"+predictorname);
-				Utility.writeToMSDebug("DELETE DATASET ModellingNAMES CHECK:"+modellingname);
+				Utility.writeToMSDebug("DELETE DATASET PREDICTORNAMES CHECK:"+mp);
+				//Utility.writeToMSDebug("DELETE DATASET ModellingNAMES CHECK:"+modellingname);
 				
-				if(jobname==null && predictorname==null && modellingname==null) 
+				if(jobname==null && mp==null) 
 					deleteDataset(userName, fileName);
 				else{
 					if(jobname!=null) msg += "Job "+jobname+" is using it! ";
-					if(predictorname!=null) msg += "Prediction job "+predictorname+" is using it! ";
-					if(modellingname!=null) msg += "Modelling job "+modellingname+" is using it! ";
+					/*if(predictorname!=null) msg += "Prediction job "+predictorname+" is using it! ";
+					if(modellingname!=null) msg += "Modelling job "+modellingname+" is using it! ";*/
+					if(mp!=null) msg+=mp;
 					request.removeAttribute("validationMsg");
 					request.setAttribute("validationMsg", msg);
 					forward = mapping.findForward("failure");
@@ -171,7 +173,7 @@ public class DeleteUserFile extends Action {
 		return null;
 	}
 	
-	@SuppressWarnings("unchecked")
+/*	@SuppressWarnings("unchecked")
 	private String checkModelling(String userName, String fileName) throws ClassNotFoundException, SQLException{
 		List<QueueTask> tasks  = PopulateDataObjects.populateTasks(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
@@ -181,7 +183,7 @@ public class DeleteUserFile extends Action {
 				if(tasks.get(i)!=null && 
 						tasks.get(i).task!=null && 
 						/*tasks.get(i).getUserName()==userName &&*/
-						(tasks.get(i).task instanceof QsarModelingTask)){
+				/*		(tasks.get(i).task instanceof QsarModelingTask)){
 					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
 					Utility.writeToMSDebug("MODELLING:::"+job.getJobName()+"---"+job.getDatasetID()+"----"+dataset.getFileId());
 					if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
@@ -191,9 +193,9 @@ public class DeleteUserFile extends Action {
 			}		
 		}
 		return null;
-	}
+	}*/
 	
-	@SuppressWarnings("unchecked")
+/*	@SuppressWarnings("unchecked")
 	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
 		//List<PredictionJob> tasks  = PopulateDataObjects.populatePredictions(userName, false);
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
@@ -209,7 +211,7 @@ public class DeleteUserFile extends Action {
 			}		
 		}*/
 		// Checking queued tasks
-		Collection<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
+/*		Collection<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
 		if(queuedtasks!=null && dataset!=null){
 			for(Iterator iter = queuedtasks.iterator(); iter.hasNext();){
 				QueueTask temp = (QueueTask) iter.next();
@@ -226,6 +228,23 @@ public class DeleteUserFile extends Action {
 				}
 		}
 		return null;
+	}*/
+	
+	private String checkTasks(String userName, String fileName) throws ClassNotFoundException, SQLException{
+		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
+		String result = "";
+		Long id = dataset.getFileId();
+		if(id!=null){
+			Long temp = PopulateDataObjects.getPredictionTaskIdByDatasetId(id);
+			if(temp!=null) result+="Prediction task "+PopulateDataObjects.getTaskById(temp) +" using this dataset";
+			temp = PopulateDataObjects.getModelingTaskIdByDatasetId(id);
+			if(temp!=null) result+=" Modeling task "+PopulateDataObjects.getTaskById(temp) +" using this dataset";
+			//TODO add the same for visualization
+			/*temp = PopulateDataObjects.getVisualizationTaskIdByDatasetId(id);
+			if(temp!=null) result+=" Visualization task "+PopulateDataObjects.getTaskById(temp) +" using this dataset";*/
+		}
+		return null;
 	}
+	
 	
 }

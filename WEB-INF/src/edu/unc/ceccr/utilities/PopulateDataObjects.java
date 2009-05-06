@@ -13,6 +13,7 @@ import org.hibernate.criterion.Order;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.ModellingTask;
 import edu.unc.ceccr.persistence.PredictionJob;
 import edu.unc.ceccr.persistence.PredictionTask;
 import edu.unc.ceccr.persistence.Predictor;
@@ -601,13 +602,34 @@ public class PopulateDataObjects {
 		return tasks;
 	}
 	
-	public static Long populateDatasetForPredictionTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException{
+	public static Long getPredictionTaskIdByDatasetId(Long id) throws HibernateException, ClassNotFoundException, SQLException{
 		PredictionTask pTask = null;
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			pTask = (PredictionTask) session.createCriteria(PredictionTask.class)
+					.add(Expression.eq("datasetId", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		if(pTask!=null) return pTask.getId();
+		else return null;
+	}
+	
+	public static QueueTask getTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException{
+		QueueTask task = null;
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			task = (QueueTask) session.createCriteria(QueueTask.class)
 					.add(Expression.eq("id", id))
 					.uniqueResult();
 			tx.commit();
@@ -618,7 +640,28 @@ public class PopulateDataObjects {
 		} finally {
 			session.close();
 		}
-		if(pTask!=null) return pTask.getDatasetId();
+		if(task!=null) return task;
+		else return null;
+	}
+
+	public static Long getModelingTaskIdByDatasetId(Long id) throws HibernateException, ClassNotFoundException, SQLException {
+		ModellingTask mTask = null;
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			mTask = (ModellingTask) session.createCriteria(PredictionTask.class)
+					.add(Expression.eq("datasetId", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		if(mTask!=null) return mTask.getId();
 		else return null;
 	}
 }
