@@ -23,6 +23,8 @@ public class VisualizationTask implements java.io.Serializable{
 	
 	private Long datasetId;	
 	
+	public VisualizationTask(){}
+	
 	public VisualizationTask(Long datasetId, Long id) {
 		this.datasetId = datasetId;
 		this.id = id;

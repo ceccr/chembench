@@ -23,6 +23,8 @@ public class PredictionTask implements java.io.Serializable{
 	
 	private Long datasetId;	
 	
+	public PredictionTask(){}
+	
 	public PredictionTask(Long id, Long datasetId) {
 		this.datasetId = datasetId;
 		this.id = id;
