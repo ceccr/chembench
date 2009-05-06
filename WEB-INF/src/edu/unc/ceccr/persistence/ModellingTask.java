@@ -25,7 +25,7 @@ public class ModellingTask implements java.io.Serializable{
 	
 	public ModellingTask(){}
 	
-	public ModellingTask(Long datasetId, Long id) {
+	public ModellingTask(Long id, Long datasetId) {
 		this.datasetId = datasetId;
 		this.id = id;
 	}
