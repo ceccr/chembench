@@ -556,6 +556,7 @@ public class Queue {
 			
 			if(t.component.equals(Component.predictor)){
 				s.delete(PopulateDataObjects.getPredictionTaskById(t.id));
+				Utility.writeToMSDebug("DELETE PREDICTION TASK::"+t.id );
 				
 			}
 			if(t.component.equals(Component.modelbuilder)){
