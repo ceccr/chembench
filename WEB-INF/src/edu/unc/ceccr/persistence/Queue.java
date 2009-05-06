@@ -37,6 +37,7 @@ import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.global.Constants.KnnEnumeration;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.messages.ErrorMessages;
+import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
 import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.taskObjects.GenerateDatasetInfoActionTask;
@@ -506,23 +507,23 @@ public class Queue {
 		try {
 			tx = s.beginTransaction();
 			s.saveOrUpdate(t);
-			tx.commit();
 			if(t.getComponent().equals(QueueTask.Component.modelbuilder)){
 				Utility.writeToMSDebug("MoDELBUILDER QUEUE");
 				ModellingTask mt = new ModellingTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
-				mt.save(mt);
+				s.saveOrUpdate(mt);
 			}
 			if(t.getComponent().equals(QueueTask.Component.predictor)){
 				Utility.writeToMSDebug("PREDICTOR QUEUE");
 				PredictionTask pt = new PredictionTask(t.id, ((QsarPredictionTask)t.task).getPredictionDataset().getFileId());
 				Utility.writeToMSDebug("PREDICTOR QUEUE: "+pt.getId()+":::"+pt.getDatasetId());
-				pt.save(pt);
+				s.saveOrUpdate(pt);
 			}
 			if(t.getComponent().equals(QueueTask.Component.visualisation)){
 				Utility.writeToMSDebug("VISUALIZATION QUEUE");
 				VisualizationTask vt = new VisualizationTask(t.id, PopulateDataObjects.getDataSetByName(t.jobName, t.getUserName()).getFileId());
-				vt.save(vt);
+				s.saveOrUpdate(vt);
 			}
+			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
@@ -552,6 +553,15 @@ public class Queue {
 		try {
 			tx = s.beginTransaction();
 			s.delete(t);
+			
+			if(t.component.equals(Component.predictor)){
+				s.delete(PopulateDataObjects.getPredictionTaskById(t.id));
+				
+			}
+			if(t.component.equals(Component.modelbuilder)){
+				s.delete(PopulateDataObjects.getModelingTaskById(t.id));
+				
+			}
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)

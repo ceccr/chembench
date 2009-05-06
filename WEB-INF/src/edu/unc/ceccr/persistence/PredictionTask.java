@@ -76,5 +76,5 @@ public class PredictionTask implements java.io.Serializable{
 		}
 			
 	}
-	
+
 }
