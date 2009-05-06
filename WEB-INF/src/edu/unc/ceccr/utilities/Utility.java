@@ -1080,16 +1080,6 @@ public class Utility {
 				Utility.saveACTFile(userName, actFile, datasetName, path);
 				 msg =  Utility.checkUploadedFiles(sdFile, actFile, type, userName, datasetName);
 				 Utility.writeToMSDebug(">>>>>>>>>>>>>>>>checkingUploadedFiles2<<<<<<<<<");
-				 /*if(msg==""){
-					 new File(path + "Visualization/Structures").delete();
-					 new File(path + "Visualization/Structures").mkdirs();
-					 new File(path + "Visualization/Sketches").delete();
-					 new File(path + "Visualization/Sketches").mkdirs();
-					 
-					 Utility.writeToMSDebug("Directories created:"+path + "Visualization/Sketches");
-					 //SdfToJpgWorkflow.makeSketchFiles(path, sdFile.getFileName(), "Visualization/Structures/", "Visualization/Sketches/");
-					
-				 }*/
 			}
 			else if(type.equals(Constants.PREDICTION)){
 				try{
@@ -1207,4 +1197,5 @@ public class Utility {
 			          to_.close();
 			     }
 			 }
+		
 }
