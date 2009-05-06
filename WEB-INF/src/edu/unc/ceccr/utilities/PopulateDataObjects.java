@@ -650,7 +650,7 @@ public class PopulateDataObjects {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			mTask = (ModellingTask) session.createCriteria(PredictionTask.class)
+			mTask = (ModellingTask) session.createCriteria(ModellingTask.class)
 					.add(Expression.eq("datasetId", id))
 					.uniqueResult();
 			tx.commit();
