@@ -44,7 +44,7 @@ public class ViewDatasetAction extends Action {
 					Utility.writeToMSDebug("..................."+(String) session.getAttribute("fileName"));
 					fileName = (String) session.getAttribute("fileName");
 					if((String)session.getAttribute("isPublic")!=null)
-					isPublic = ((String)session.getAttribute("isPublic")).equals("true");
+					isPublic = (Boolean)session.getAttribute("isPublic");
 					Utility.writeToMSDebug("IsPublicReq::"+isPublic);
 					}
 					else{
