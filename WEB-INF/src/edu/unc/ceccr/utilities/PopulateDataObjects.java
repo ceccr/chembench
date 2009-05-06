@@ -664,4 +664,46 @@ public class PopulateDataObjects {
 		if(mTask!=null) return mTask.getId();
 		else return null;
 	}
+	
+	public static PredictionTask getPredictionTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException{
+		PredictionTask pTask = null;
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			pTask = (PredictionTask) session.createCriteria(PredictionTask.class)
+					.add(Expression.eq("id", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		if(pTask!=null) return pTask;
+		else return null;
+	}
+
+	public static ModellingTask getModelingTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException {
+		ModellingTask mTask = null;
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			mTask = (ModellingTask) session.createCriteria(ModellingTask.class)
+					.add(Expression.eq("id", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		if(mTask!=null) return mTask;
+		else return null;
+	}
 }
