@@ -18,6 +18,7 @@ import edu.unc.ceccr.persistence.PredictionJob;
 import edu.unc.ceccr.persistence.PredictionTask;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.VisualizationTask;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -704,6 +705,27 @@ public class PopulateDataObjects {
 			session.close();
 		}
 		if(mTask!=null) return mTask;
+		else return null;
+	}
+
+	public static VisualizationTask getVisualizationTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException {
+		VisualizationTask vTask = null;
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			vTask = (VisualizationTask) session.createCriteria(VisualizationTask.class)
+					.add(Expression.eq("id", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		if(vTask!=null) return vTask;
 		else return null;
 	}
 }

@@ -563,6 +563,9 @@ public class Queue {
 				s.delete(PopulateDataObjects.getModelingTaskById(t.id));
 				
 			}
+			if(t.component.equals(Component.visualisation)){
+				s.delete(PopulateDataObjects.getVisualizationTaskById(t.id));				
+			}
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
