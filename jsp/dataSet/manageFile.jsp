@@ -152,9 +152,8 @@ else{
         <td valign="top" border="1"><br/>
               <a href="#dataset" >Manage Model Development Datasets</a><br/>
               <div id="dataset">
-                <logic:notEqual name="userDatasets" value="">
-				<a href="#dataset" onclick="show_public_datasets();" id="panel_link">Show public datasets</a>
-                  <table id="public_datasets" style="none">
+                <div align="right"><a href="#dataset" onclick="show_public_datasets();" id="panel_link">Show public datasets</a></div>
+                  <table id="public_datasets" style="display:none;">
                     <tr>
                       <td class="TableRowText01">Public Dataset</td>
                       <td class="TableRowText01"># Compounds</td>
@@ -185,6 +184,7 @@ else{
 						</logic:iterate>
 </table>
 <br />
+<logic:notEqual name="userDatasets" value="">
 <table>              
  <tr>
                       <td class="TableRowText01">Users Dataset</td>
