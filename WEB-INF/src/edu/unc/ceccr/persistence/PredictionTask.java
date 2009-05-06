@@ -14,9 +14,10 @@ import org.hibernate.Transaction;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.Utility;
 
+@SuppressWarnings("serial")
 @Entity()
 @Table(name = "cbench_prediction_task")
-public class PredictionTask{
+public class PredictionTask implements java.io.Serializable{
 
 	private Long id;
 	

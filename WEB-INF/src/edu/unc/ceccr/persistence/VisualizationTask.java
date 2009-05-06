@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.HibernateException;
@@ -13,9 +14,10 @@ import org.hibernate.Transaction;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.Utility;
 
+@SuppressWarnings("serial")
 @Entity()
 @Table(name = "cbench_visualization_task")
-public class VisualizationTask {
+public class VisualizationTask implements java.io.Serializable{
 
 	private Long id = null;
 	
@@ -29,6 +31,7 @@ public class VisualizationTask {
 	/**
 	 * @return the id
 	 */
+	@Id
 	@Column(name="id")
 	public Long getId() {
 		return id;
