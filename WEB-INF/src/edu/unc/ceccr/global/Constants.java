@@ -13,6 +13,12 @@ public class Constants {
 	public enum DescriptorEnumeration { MOLCONNZ, DRAGON };
 	public enum KnnEnumeration { CONTINUOUS, CATEGORY };
 
+	//Descriptor constants
+	public static final int NUM_MACCS_KEYS = 400;
+		//In practice, there are only 2 different types of MACCS keys -- 166 and 320.
+		//We use the 166 version. Padding doesn't hurt, though -- the extra 0's get ignored later.
+	
+	
 	//Types of kNN
 	public static final String CONTINUOUS = "CONTINUOUS";
 	public static final String CATEGORY = "CATEGORY";
