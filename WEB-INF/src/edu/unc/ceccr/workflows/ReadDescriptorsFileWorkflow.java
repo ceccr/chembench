@@ -17,13 +17,13 @@ public class ReadDescriptorsFileWorkflow{
 
 	public static void readMolconnZDescriptors(String molconnZOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
 
-		Utility.writeToDebug("reading MolconnZ Descriptors");
+		System.out.println("reading MolconnZ Descriptors");
 		
 		File file = new File(molconnZOutputFile);
 		FileReader fin = new FileReader(file);
 
 		String temp;
-		Scanner src = new Scanner(fin);;
+		Scanner src = new Scanner(fin);
 		ArrayList<String> descriptorValues = new ArrayList<String>(); //values for each molecule
 
 		boolean readingDescriptorNames = true;
@@ -51,9 +51,10 @@ public class ReadDescriptorsFileWorkflow{
 				else{
 					if(descriptorValues.size() == descriptorNames.size()){
 						//done reading values for this molecule, we're on the next one now.
-
+						descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
+						descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
 						Descriptors di = new Descriptors();
-						di.setDescriptorValues(descriptorValues.toString().replace(",", ""));
+						di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
 						descriptorValueMatrix.add(di);
 						descriptorValues.clear();
 					}
@@ -62,8 +63,12 @@ public class ReadDescriptorsFileWorkflow{
 			}
 		}
 		//add the last molecule's descriptors
+		descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
+		descriptorNames.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS - 1);
+		descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
+		descriptorNames.remove(0);
 		Descriptors di = new Descriptors();
-		di.setDescriptorValues(descriptorValues.toString().replace(",", ""));
+		di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
 		descriptorValueMatrix.add(di);
 		
 		fin.close();
@@ -71,7 +76,7 @@ public class ReadDescriptorsFileWorkflow{
 
 	public static void readDragonDescriptors(String dragonOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
 		
-		Utility.writeToDebug("reading Dragon Descriptors");
+		System.out.println("reading Dragon Descriptors");
 		
 		File file = new File(dragonOutputFile);
 		FileReader fin = new FileReader(file);
@@ -110,7 +115,7 @@ public class ReadDescriptorsFileWorkflow{
 			}
 			
 			Descriptors di = new Descriptors();
-			di.setDescriptorValues(descriptorValues.toString().replace(",", ""));
+			di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
 			descriptorValueMatrix.add(di);
 			descriptorValues.clear();
 		}
@@ -119,7 +124,7 @@ public class ReadDescriptorsFileWorkflow{
 	public static void readMaccsDescriptors(String maccsOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
 		//generate with "moe2d.sh infile.sdf outfile.maccs"
 		
-		Utility.writeToDebug("reading Maccs Descriptors");
+		System.out.println("reading Maccs Descriptors");
 		
 		File file = new File(maccsOutputFile);
 		FileReader fin = new FileReader(file);
@@ -132,10 +137,11 @@ public class ReadDescriptorsFileWorkflow{
 			Scanner tok = new Scanner(line);
 			tok.useDelimiter(",");
 			tok.next();
-			tok.useDelimiter(" ");
+			tok = new Scanner(tok.next());
 			int last = 0;
+			int descriptor = 0;
 			while(tok.hasNext()){
-				int descriptor = Integer.parseInt(tok.next());
+				descriptor = Integer.parseInt(tok.next());
 				for(int i = last; i < descriptor; i++){
 					descriptorString += 0 + " ";
 				}
@@ -145,15 +151,20 @@ public class ReadDescriptorsFileWorkflow{
 			for(int i = last; i < Constants.NUM_MACCS_KEYS; i++){
 				descriptorString += 0 + " ";
 			}
+			
 			Descriptors di = new Descriptors();
 			di.setDescriptorValues(descriptorString);
 			descriptorValueMatrix.add(di);
+
+		}
+		for(int i = 0; i < Constants.NUM_MACCS_KEYS; i++){
+			descriptorNames.add((new Integer(i)).toString());
 		}
 	}
 	
 	public static void readMoe2DDescriptors(String moe2DOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
 		//generate with "moe2d.sh infile.sdf outfile.moe2D"
-		Utility.writeToDebug("reading Moe2D Descriptors");
+		System.out.println("reading Moe2D Descriptors");
 		
 		File file = new File(moe2DOutputFile);
 		FileReader fin = new FileReader(file);
@@ -166,14 +177,19 @@ public class ReadDescriptorsFileWorkflow{
 			descriptorNames.add(tok.next());
 		}
 		while((line = br.readLine()) != null){
-			tok.next(); //first descriptor value is the name of the compound
+			tok = new Scanner(line).useDelimiter(",");
+			if(tok.hasNext()){
+				tok.next(); //first descriptor value is the name of the compound
+			}
 			String descriptorString = new String("");
 			while(tok.hasNext()){
 				descriptorString += tok.next() + " ";
 			}
-			Descriptors di = new Descriptors();
-			di.setDescriptorValues(descriptorString);
-			descriptorValueMatrix.add(di);
+			if(! descriptorString.equalsIgnoreCase("")){
+				Descriptors di = new Descriptors();
+				di.setDescriptorValues(descriptorString);
+				descriptorValueMatrix.add(di);
+			}
 		}
 	}
-}
+}}

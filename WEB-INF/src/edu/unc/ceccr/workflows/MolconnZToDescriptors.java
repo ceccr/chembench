@@ -7,7 +7,8 @@ import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/* Take the output of the MolconnZ program, and 
+/* 
+ * Take the output of the MolconnZ program, and 
  * generate descriptors for use with kNN.
  * This code is accessed once for model building, and once for predictions.
  * The descriptors must be normalized according to the predictor for predictions but
