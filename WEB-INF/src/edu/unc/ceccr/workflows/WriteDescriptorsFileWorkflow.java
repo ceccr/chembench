@@ -48,7 +48,7 @@ public class WriteDescriptorsFileWorkflow{
 		//range-scales the values in the descriptor matrix.
 		//We know the min and max. Scaled value = ((value - min) / (max-min)).
 		
-		System.out.println("range-scaling descriptor matrix according to given max and min");
+		Utility.writeToDebug("range-scaling descriptor matrix according to given max and min");
 		
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
@@ -77,7 +77,7 @@ public class WriteDescriptorsFileWorkflow{
 		
 		//removes descriptors where the min and max are equal
 		//used only during modeling
-		System.out.println("removing zero-variance descriptors from descriptor matrix");
+		Utility.writeToDebug("removing zero-variance descriptors from descriptor matrix");
 		
 		ArrayList<Integer> zeroVariance = new ArrayList<Integer>();
 		for(int i = 0; i < descriptorValueMinima.size(); i++){
@@ -123,7 +123,7 @@ public class WriteDescriptorsFileWorkflow{
 		
 		//removes any descriptors that weren't in the predictor
 		//used only during prediction
-		System.out.println("removing descriptors that weren't in the predictor from the prediction descriptor matrix");
+		Utility.writeToDebug("removing descriptors that weren't in the predictor from the prediction descriptor matrix");
 		
 		String descriptorNameString = descriptorNameStringBuffer.toString();
 		ArrayList<String> descriptorNames = new ArrayList<String>();
@@ -142,7 +142,7 @@ public class WriteDescriptorsFileWorkflow{
 		int si = 0;
 		for(int i = 0; i < predictorDescriptorNames.size(); i++){
 			if(descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i))){
-				//System.out.println("I: " + i + " - " + xFileDescriptorNames.get(i) + " || si: " + si + " - " + sFileDescriptorNames.get(si));
+				//Utility.writeToDebug("I: " + i + " - " + xFileDescriptorNames.get(i) + " || si: " + si + " - " + sFileDescriptorNames.get(si));
 			}
 			while((si < descriptorNames.size()) && ! descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i)) ){
 				mapping.set(si, -1);
@@ -158,7 +158,7 @@ public class WriteDescriptorsFileWorkflow{
 			mapping.set(si, -1);
 			si++;
 		}
-		System.out.println("done creating mapping.");
+		Utility.writeToDebug("done creating mapping.");
 
 		//use the mapping to get rid of descriptors where mapping == -1.
 		for(int i = 0; i < descriptorMatrix.size(); i++){
@@ -193,7 +193,7 @@ public class WriteDescriptorsFileWorkflow{
 			String predictorXFile) throws Exception{
 		//get the descriptor names and min / max values of each descriptor 
 		//So, read in the name, min, and max of each descriptor from the modeling .x file
-		System.out.println("reading predictor .x file");
+		Utility.writeToDebug("reading predictor .x file");
 		
 		File file = new File(predictorXFile);
 		FileReader xFile = new FileReader(file);
@@ -288,10 +288,10 @@ public class WriteDescriptorsFileWorkflow{
 		//presumably, we should have the number of descriptors in descriptorNameString == predictorDescriptorValueMinima.size()
 		//check this to make sure nothing's going weird
 		if(predictorDescriptorValueMinima.size() == predictorDescriptorNameString.split(" ").length){
-			System.out.println("sizes look good: " + predictorDescriptorValueMinima.size()); 
+			Utility.writeToDebug("sizes look good: " + predictorDescriptorValueMinima.size()); 
 		}
 		else{
-			System.out.println("aww crap. got " + predictorDescriptorValueMinima.size() + " minimum values but " + predictorDescriptorNameString.split(" ").length + " descriptors."); 
+			Utility.writeToDebug("aww crap. got " + predictorDescriptorValueMinima.size() + " minimum values but " + predictorDescriptorNameString.split(" ").length + " descriptors."); 
 		}
 		
 		//do range scaling on descriptorMatrix

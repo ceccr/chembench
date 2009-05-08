@@ -17,7 +17,7 @@ public class ReadDescriptorsFileWorkflow{
 
 	public static void readMolconnZDescriptors(String molconnZOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
 
-		System.out.println("reading MolconnZ Descriptors");
+		Utility.writeToDebug("reading MolconnZ Descriptors");
 		
 		File file = new File(molconnZOutputFile);
 		FileReader fin = new FileReader(file);
@@ -76,7 +76,7 @@ public class ReadDescriptorsFileWorkflow{
 
 	public static void readDragonDescriptors(String dragonOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
 		
-		System.out.println("reading Dragon Descriptors");
+		Utility.writeToDebug("reading Dragon Descriptors");
 		
 		File file = new File(dragonOutputFile);
 		FileReader fin = new FileReader(file);
@@ -124,7 +124,7 @@ public class ReadDescriptorsFileWorkflow{
 	public static void readMaccsDescriptors(String maccsOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
 		//generate with "moe2d.sh infile.sdf outfile.maccs"
 		
-		System.out.println("reading Maccs Descriptors");
+		Utility.writeToDebug("reading Maccs Descriptors");
 		
 		File file = new File(maccsOutputFile);
 		FileReader fin = new FileReader(file);
@@ -164,7 +164,7 @@ public class ReadDescriptorsFileWorkflow{
 	
 	public static void readMoe2DDescriptors(String moe2DOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
 		//generate with "moe2d.sh infile.sdf outfile.moe2D"
-		System.out.println("reading Moe2D Descriptors");
+		Utility.writeToDebug("reading Moe2D Descriptors");
 		
 		File file = new File(moe2DOutputFile);
 		FileReader fin = new FileReader(file);
