@@ -423,14 +423,16 @@ public class Utility {
 		//skip any whitespace lines before the first molecule
 		while((line = br.readLine()) != null && !line.trim().isEmpty()){ }
 		//read first molecule
-		chemicalNames.add(line.trim().replace(" ", "_"));
+		if(line != null){
+			chemicalNames.add(line.trim().replace(" ", "_"));
+		}
 		//read subsequent molecules
 		while((line = br.readLine()) != null){
 			if(line.startsWith("$$$$")){
 				//skip any whitespace lines before the next molecule
 				while((line = br.readLine()) != null && !line.trim().isEmpty()){ }
 				//read next molecule
-				if(!line.trim().isEmpty()){
+				if(line != null && !line.trim().isEmpty()){
 					chemicalNames.add(line.trim().replace(" ", "_"));
 				}
 			}
