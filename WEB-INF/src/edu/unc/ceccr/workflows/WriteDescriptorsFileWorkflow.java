@@ -90,11 +90,14 @@ public class WriteDescriptorsFileWorkflow{
 				zeroVariance.add(0);
 			}
 		}
+		Utility.writeToDebug("mini " + descriptorValueMinima);
 
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
 			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
-				
+
+			Utility.writeToDebug("a " + descriptorValues.toString());
+			
 			for(int j = zeroVariance.size() - 1; j >= 0; j--){
 				if(zeroVariance.get(j) == 1){
 					descriptorValues.remove(j);
