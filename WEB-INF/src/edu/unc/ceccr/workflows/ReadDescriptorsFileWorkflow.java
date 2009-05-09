@@ -136,8 +136,9 @@ public class ReadDescriptorsFileWorkflow{
 			String descriptorString = new String("");
 			Scanner tok = new Scanner(line);
 			tok.useDelimiter(",");
-			tok.next(); //skip compound identifier
+			Utility.writeToDebug("junk: " + tok.next()); //skip compound identifier
 			String tmp = tok.next();
+			Utility.writeToDebug("descriptors: " + tmp);
 			tok = new Scanner(tmp).useDelimiter(" ");
 			int last = 0;
 			int descriptor = 0;
@@ -152,7 +153,7 @@ public class ReadDescriptorsFileWorkflow{
 			for(int i = last; i < Constants.NUM_MACCS_KEYS; i++){
 				descriptorString += 0 + " ";
 			}
-			
+			Utility.writeToDebug("descriptorstring: " + descriptorString);
 			Descriptors di = new Descriptors();
 			di.setDescriptorValues(descriptorString);
 			descriptorValueMatrix.add(di);
