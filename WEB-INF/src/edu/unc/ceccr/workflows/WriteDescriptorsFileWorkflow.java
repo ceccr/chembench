@@ -90,7 +90,6 @@ public class WriteDescriptorsFileWorkflow{
 				zeroVariance.add(0);
 			}
 		}
-		Utility.writeToDebug("mini " + descriptorValueMinima);
 
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
@@ -109,6 +108,7 @@ public class WriteDescriptorsFileWorkflow{
 			descriptorValues.clear();
 		}
 
+		Utility.writeToDebug(descriptorNames.toString());
 		for(int j = zeroVariance.size() - 1; j >= 0; j--){
 			if(zeroVariance.get(j) == 1){
 				descriptorValueMinima.remove(j);
