@@ -132,7 +132,13 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<td>
 					<div class='StandardTextDarkGray'><html:radio value="DRAGON" property="descriptorGenerationType" onclick="">DRAGON</html:radio></div>
 					</td>
-					<td width="60%">
+					<td>
+					<div class='StandardTextDarkGray'><html:radio value="MOE2D" property="descriptorGenerationType" onclick="">MOE2D</html:radio></div>
+					</td>
+					<td>
+					<div class='StandardTextDarkGray'><html:radio value="MACCS" property="descriptorGenerationType" onclick="">MACCS</html:radio></div>
+					</td>
+					<td width="30%">
 					&nbsp;
 					</td>
 				</tr>

@@ -115,7 +115,7 @@ public class QsarPredictionTask implements WorkflowTask {
 			Utility.writeToDebug("ExecutePredictor: Processing MolconnZ Descriptors", userName, jobName);
 			MolconnZToDescriptors.MakePredictionDescriptors(path + sdfile + ".S", path + "train_0.x", path + sdfile + ".renorm.x");
 		}
-		else{
+		else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.DRAGON)){
 			queue.runningTask.setMessage("Generating Dragon descriptors");
 			Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
 			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
@@ -123,6 +123,24 @@ public class QsarPredictionTask implements WorkflowTask {
 			queue.runningTask.setMessage("Processing Dragon descriptors");
 			Utility.writeToDebug("ExecutePredictor: Processing Dragon Descriptors", userName, jobName);
 			DragonToDescriptors.MakePredictionDescriptors(path + sdfile + ".dragon", path + "train_0.x", path + sdfile + ".renorm.x");
+		}
+		else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOE2D)){
+			queue.runningTask.setMessage("Generating Moe2D descriptors");
+			Utility.writeToDebug("ExecutePredictor: Generating Moe2D Descriptors", userName, jobName);
+			//GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
+			
+			queue.runningTask.setMessage("Processing Moe2D descriptors");
+			Utility.writeToDebug("ExecutePredictor: Processing Moe2D Descriptors", userName, jobName);
+			//DragonToDescriptors.MakePredictionDescriptors(path + sdfile + ".dragon", path + "train_0.x", path + sdfile + ".renorm.x");
+		}
+		else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MACCS)){
+			queue.runningTask.setMessage("Generating MACCS descriptors");
+			Utility.writeToDebug("ExecutePredictor: Generating MACCS Descriptors", userName, jobName);
+			//GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
+			
+			queue.runningTask.setMessage("Processing MACCS descriptors");
+			Utility.writeToDebug("ExecutePredictor: Processing MACCS Descriptors", userName, jobName);
+			//DragonToDescriptors.MakePredictionDescriptors(path + sdfile + ".dragon", path + "train_0.x", path + sdfile + ".renorm.x");
 		}
 		
 		queue.runningTask.setMessage("Making predictions");

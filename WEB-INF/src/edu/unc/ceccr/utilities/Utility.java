@@ -76,11 +76,6 @@ public class Utility {
 
 	public static void writeToDebug(String s, String userName, String jobName) {
 		//Debug output write function. Used throughout Java code.
-		/*
-		 * if (userName == null || jobName == null){ //for now, no debug
-		 * statements from the non-user jobs like loading pages, etc. //May
-		 * re-add these some other time. return; }
-		 */
 		try {
 			// Append to current-job file. For ease of use, really.
 			FileWriter fstream = new FileWriter(
@@ -91,6 +86,7 @@ public class Utility {
 					+ " " + s + "\n");
 			out.close();
 		} catch (Exception e) {
+			//fuck it
 		}
 
 		try {
@@ -102,6 +98,7 @@ public class Utility {
 			out.write(debug_counter.toString() + " " + s + "\n");
 			out.close();
 		} catch (Exception e) {
+			//whatever
 		}
 		debug_counter++;
 	}
@@ -413,6 +410,33 @@ public class Utility {
 		}
 		
 		return fl;
+	}
+	
+	public static ArrayList<String> getChemicalNamesFromSdf(String sdfPath) throws Exception{
+		
+		File infile = new File(sdfPath);
+		FileReader fin = new FileReader(infile);
+		BufferedReader br = new BufferedReader(fin);
+		ArrayList<String> chemicalNames = new ArrayList<String>();
+		
+		String line;
+		//skip any whitespace lines before the first molecule
+		while((line = br.readLine()) != null && !line.trim().isEmpty()){ }
+		//read first molecule
+		chemicalNames.add(line.trim().replace(" ", "_"));
+		//read subsequent molecules
+		while((line = br.readLine()) != null){
+			if(line.startsWith("$$$$")){
+				//skip any whitespace lines before the next molecule
+				while((line = br.readLine()) != null && !line.trim().isEmpty()){ }
+				//read next molecule
+				if(!line.trim().isEmpty()){
+					chemicalNames.add(line.trim().replace(" ", "_"));
+				}
+			}
+		}
+		
+		return chemicalNames;
 	}
 	
 	public static String[] strArray(InputStream is) throws IOException {

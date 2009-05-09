@@ -10,7 +10,7 @@ public class Constants {
 	
 	//Enums for Data Types
 	@SuppressWarnings("unchecked")
-	public enum DescriptorEnumeration { MOLCONNZ, DRAGON };
+	public enum DescriptorEnumeration { MOLCONNZ, DRAGON, MOE2D, MACCS };
 	public enum KnnEnumeration { CONTINUOUS, CATEGORY };
 
 	//Descriptor constants
@@ -26,6 +26,8 @@ public class Constants {
 	public static final String PREDICTION = "PREDICTION";
 	public static final String MOLCONNZ = "MOLCONNZ";
 	public static final String DRAGON = "DRAGON";
+	public static final String MOE2D = "MOE2D";
+	public static final String MACCS = "MACCS";
 	
 	//kNN Constants
 	public static final int CONTINUOUS_NNN_LOCATION = 1;

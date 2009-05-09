@@ -26,6 +26,7 @@ import edu.unc.ceccr.global.Constants.KnnEnumeration;
 import edu.unc.ceccr.global.KnnOutputComparator;
 import edu.unc.ceccr.global.CategoryKNNComparator;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Model;
@@ -42,7 +43,9 @@ import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnModelBuildingWorkflow;
 import edu.unc.ceccr.workflows.MolconnZToDescriptors;
+import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
 import edu.unc.ceccr.workflows.SdfToJpgWorkflow;
+import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
 public class QsarModelingTask implements WorkflowTask {
 
@@ -219,24 +222,36 @@ public class QsarModelingTask implements WorkflowTask {
 	@SuppressWarnings("unchecked")
 	public void execute() throws Exception {
 		
+		//copy the dataset files to the working directory
 		queue.runningTask.setMessage("Copying files");
 		GetJobFilesWorkflow.GetKnnFiles(userName, jobName, sdFileName, actFileName, isAllUser, knnType, datasetName);
 
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
+		//create the descriptors for the dataset and read them in
+		ArrayList<String> descriptorNames = new ArrayList<String>();
+		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+		ArrayList<String> chemicalNames = Utility.getChemicalNamesFromSdf(path + sdFileName);
+		
 		if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
 			descriptorEnum = DescriptorEnumeration.MOLCONNZ;
 			
-			queue.runningTask.setMessage("Generating molconnZ descriptors");
+			queue.runningTask.setMessage("Generating MolconnZ descriptors");
 			Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
 			Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
 			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".S");
 
 			queue.runningTask.setMessage("Processing MolconnZ descriptors");
 			Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
-			MolconnZToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
+			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".S", descriptorNames, descriptorValueMatrix);
+			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
 			
-		}else{
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
+			
+			//MolconnZToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
+			
+		}
+		else if (descriptorGenerationType.equals(Constants.DRAGON)){
 			descriptorEnum = DescriptorEnumeration.DRAGON;
 			
 			queue.runningTask.setMessage("Generating Dragon descriptors");
@@ -248,6 +263,37 @@ public class QsarModelingTask implements WorkflowTask {
 			Utility.writeToDebug("Processing Dragon descriptors", userName, jobName);
 			DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".dragon", path + sdFileName + ".x");
 		}
+		else if (descriptorGenerationType.equals(Constants.MOE2D)){
+			descriptorEnum = DescriptorEnumeration.MOE2D;
+			
+			queue.runningTask.setMessage("Generating Dragon descriptors");
+			Utility.writeToDebug("Generating MOE2D Descriptors", userName, jobName);
+			Utility.writeToMSDebug("Generating MOE2D Descriptors::"+ path);
+			//GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
+			
+			queue.runningTask.setMessage("Processing MOE2D descriptors");
+			Utility.writeToDebug("Processing MOE2D descriptors", userName, jobName);
+			//DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".dragon", path + sdFileName + ".x");
+		}
+		else if (descriptorGenerationType.equals(Constants.MACCS)){
+			descriptorEnum = DescriptorEnumeration.MACCS;
+			
+			queue.runningTask.setMessage("Generating MACCS descriptors");
+			Utility.writeToDebug("Generating MACCS Descriptors", userName, jobName);
+			Utility.writeToMSDebug("Generating MACCS Descriptors::" + path);
+			//GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
+			
+			queue.runningTask.setMessage("Processing MACCS descriptors");
+			readMoe2DDescriptors(path + sdFileName + ".moe2D", , ArrayList<Descriptors> descriptorValueMatrix)
+			
+			Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
+			//DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".dragon", path + sdFileName + ".x");
+		}
+		
+		//write out the descriptors for modeling
+		Utility.writeToDebug("writing kNN .x file", userName, jobName);
+		
+		
 		
 		//wtsequence.add(executePostDescriptorWorkflow);
 		queue.runningTask.setMessage("Splitting data");
