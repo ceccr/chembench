@@ -90,7 +90,6 @@ public class WriteDescriptorsFileWorkflow{
 				zeroVariance.add(0);
 			}
 		}
-		Utility.writeToDebug("hi");
 
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
@@ -106,14 +105,15 @@ public class WriteDescriptorsFileWorkflow{
 			descriptorMatrix.set(i, di);
 			descriptorValues.clear();
 		}
-		Utility.writeToDebug("heya");
 
 		Utility.writeToDebug(descriptorNames.toString());
 		for(int j = zeroVariance.size() - 1; j >= 0; j--){
-			Utility.writeToDebug("heya joe " + j);
 			if(zeroVariance.get(j) == 1){
+				Utility.writeToDebug("joe's here min " + j);
 				descriptorValueMinima.remove(j);
+				Utility.writeToDebug("joe's here max " + j);
 				descriptorValueMaxima.remove(j);
+				Utility.writeToDebug("joe's here dname " + j);
 				if(descriptorNames != null){
 					descriptorNames.remove(j);
 				}
