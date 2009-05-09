@@ -266,7 +266,7 @@ public class QsarModelingTask implements WorkflowTask {
 		else if (descriptorGenerationType.equals(Constants.MOE2D)){
 			descriptorEnum = DescriptorEnumeration.MOE2D;
 			
-			queue.runningTask.setMessage("Generating Dragon descriptors");
+			queue.runningTask.setMessage("Generating MOE2D descriptors");
 			Utility.writeToDebug("Generating MOE2D Descriptors", userName, jobName);
 			Utility.writeToMSDebug("Generating MOE2D Descriptors::"+ path);
 			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdFileName, path + sdFileName + ".moe2d");

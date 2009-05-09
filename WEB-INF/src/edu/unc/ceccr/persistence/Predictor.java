@@ -356,6 +356,10 @@ public class Predictor implements java.io.Serializable {
 			return "MOLCONNZ";
 		case DRAGON:
 			return "DRAGON";
+		case MOE2D:
+			return "MOE2D";
+		case MACCS:
+			return "MACCS";
 		default:
 			return "ERROR";
 		}
