@@ -113,7 +113,7 @@ public class WriteDescriptorsFileWorkflow{
 				descriptorValueMinima.remove(j);
 				Utility.writeToDebug("joe's here max " + j);
 				descriptorValueMaxima.remove(j);
-				Utility.writeToDebug("joe's here dname " + j);
+				Utility.writeToDebug(descriptorNames.toString());
 				if(descriptorNames != null){
 					descriptorNames.remove(j);
 				}
