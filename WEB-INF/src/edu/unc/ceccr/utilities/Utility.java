@@ -435,7 +435,7 @@ public class Utility {
 				}
 			}
 		}
-		
+		Utility.writeToDebug(chemicalNames.toString());
 		return chemicalNames;
 	}
 	

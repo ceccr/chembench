@@ -284,7 +284,7 @@ public class QsarModelingTask implements WorkflowTask {
 			//GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
 			
 			queue.runningTask.setMessage("Processing MACCS descriptors");
-			readMoe2DDescriptors(path + sdFileName + ".moe2D", , ArrayList<Descriptors> descriptorValueMatrix)
+			ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdFileName + ".moe2D", chemicalNames, descriptorValueMatrix);
 			
 			Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
 			//DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".dragon", path + sdFileName + ".x");
