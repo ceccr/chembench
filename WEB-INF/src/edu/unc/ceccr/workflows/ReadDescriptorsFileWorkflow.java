@@ -136,8 +136,9 @@ public class ReadDescriptorsFileWorkflow{
 			String descriptorString = new String("");
 			Scanner tok = new Scanner(line);
 			tok.useDelimiter(",");
-			tok.next();
-			tok = new Scanner(tok.next());
+			tok.next(); //skip compound identifier
+			String tmp = tok.next();
+			tok = new Scanner(tmp).useDelimiter(" ");
 			int last = 0;
 			int descriptor = 0;
 			while(tok.hasNext()){
