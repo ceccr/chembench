@@ -122,7 +122,7 @@ public class ReadDescriptorsFileWorkflow{
 	}
 	
 	public static void readMaccsDescriptors(String maccsOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
-		//generate with "moe2d.sh infile.sdf outfile.maccs"
+		//generate with "maccs.sh infile.sdf outfile.maccs"
 		
 		Utility.writeToDebug("reading Maccs Descriptors");
 		
@@ -163,7 +163,6 @@ public class ReadDescriptorsFileWorkflow{
 	}
 	
 	public static void readMoe2DDescriptors(String moe2DOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
-		//generate with "moe2d.sh infile.sdf outfile.moe2D"
 		Utility.writeToDebug("reading Moe2D Descriptors");
 		
 		File file = new File(moe2DOutputFile);

@@ -244,12 +244,9 @@ public class QsarModelingTask implements WorkflowTask {
 			queue.runningTask.setMessage("Processing MolconnZ descriptors");
 			Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
 			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".S", descriptorNames, descriptorValueMatrix);
+			
 			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-			
 			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
-			
-			//MolconnZToDescriptors.MakeModelingDescriptors(path + sdFileName + ".S", path + sdFileName + ".x");
-			
 		}
 		else if (descriptorGenerationType.equals(Constants.DRAGON)){
 			descriptorEnum = DescriptorEnumeration.DRAGON;
@@ -261,7 +258,10 @@ public class QsarModelingTask implements WorkflowTask {
 			
 			queue.runningTask.setMessage("Processing Dragon descriptors");
 			Utility.writeToDebug("Processing Dragon descriptors", userName, jobName);
-			DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".dragon", path + sdFileName + ".x");
+			ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdFileName + ".dragon", descriptorNames, descriptorValueMatrix);
+			
+			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
 		}
 		else if (descriptorGenerationType.equals(Constants.MOE2D)){
 			descriptorEnum = DescriptorEnumeration.MOE2D;
@@ -269,11 +269,15 @@ public class QsarModelingTask implements WorkflowTask {
 			queue.runningTask.setMessage("Generating Dragon descriptors");
 			Utility.writeToDebug("Generating MOE2D Descriptors", userName, jobName);
 			Utility.writeToMSDebug("Generating MOE2D Descriptors::"+ path);
-			//GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
+			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdFileName, path + sdFileName + ".moe2d");
 			
 			queue.runningTask.setMessage("Processing MOE2D descriptors");
 			Utility.writeToDebug("Processing MOE2D descriptors", userName, jobName);
-			//DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".dragon", path + sdFileName + ".x");
+			ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
+			
+			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
+
 		}
 		else if (descriptorGenerationType.equals(Constants.MACCS)){
 			descriptorEnum = DescriptorEnumeration.MACCS;
@@ -281,13 +285,14 @@ public class QsarModelingTask implements WorkflowTask {
 			queue.runningTask.setMessage("Generating MACCS descriptors");
 			Utility.writeToDebug("Generating MACCS Descriptors", userName, jobName);
 			Utility.writeToMSDebug("Generating MACCS Descriptors::" + path);
-			//GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
+			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdFileName, path + sdFileName + ".maccs");
 			
 			queue.runningTask.setMessage("Processing MACCS descriptors");
-			ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdFileName + ".moe2D", chemicalNames, descriptorValueMatrix);
-			
 			Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
-			//DragonToDescriptors.MakeModelingDescriptors(path + sdFileName + ".dragon", path + sdFileName + ".x");
+			ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", chemicalNames, descriptorValueMatrix);
+			
+			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
 		}
 		
 		//write out the descriptors for modeling
