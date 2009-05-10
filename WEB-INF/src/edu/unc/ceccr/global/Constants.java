@@ -17,7 +17,8 @@ public class Constants {
 	public static final int NUM_MACCS_KEYS = 400;
 		//In practice, there are only 2 different types of MACCS keys -- 166 and 320.
 		//We use the 166 version. Padding doesn't hurt, though -- the extra 0's get ignored later.
-	public static final int MOLCONNZ_COMPOUND_NAME_POS = 11;
+	public static final int MOLCONNZ_FORMULA_POS = 11;
+	public static final int MOLCONNZ_COMPOUND_NAME_POS = 10;
 	
 	//Types of kNN
 	public static final String CONTINUOUS = "CONTINUOUS";

@@ -52,6 +52,7 @@ public class ReadDescriptorsFileWorkflow{
 					if(descriptorValues.size() == descriptorNames.size()){
 						//done reading values for this molecule, we're on the next one now.
 						descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
+						descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS); //contains molecule name, which isn't a descriptor
 						descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
 						Descriptors di = new Descriptors();
 						di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
@@ -63,8 +64,10 @@ public class ReadDescriptorsFileWorkflow{
 			}
 		}
 		//add the last molecule's descriptors
+		descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS); //contains molecule name, which isn't a descriptor
+		descriptorNames.remove(Constants.MOLCONNZ_FORMULA_POS);
 		descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
-		descriptorNames.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS - 1);
+		descriptorNames.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
 		descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
 		descriptorNames.remove(0);
 		Descriptors di = new Descriptors();
