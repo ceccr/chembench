@@ -244,9 +244,6 @@ public class QsarModelingTask implements WorkflowTask {
 			queue.runningTask.setMessage("Processing MolconnZ descriptors");
 			Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
 			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".S", descriptorNames, descriptorValueMatrix);
-			
-			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
 		}
 		else if (descriptorGenerationType.equals(Constants.DRAGON)){
 			descriptorEnum = DescriptorEnumeration.DRAGON;
@@ -259,9 +256,6 @@ public class QsarModelingTask implements WorkflowTask {
 			queue.runningTask.setMessage("Processing Dragon descriptors");
 			Utility.writeToDebug("Processing Dragon descriptors", userName, jobName);
 			ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdFileName + ".dragon", descriptorNames, descriptorValueMatrix);
-			
-			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
 		}
 		else if (descriptorGenerationType.equals(Constants.MOE2D)){
 			descriptorEnum = DescriptorEnumeration.MOE2D;
@@ -274,10 +268,6 @@ public class QsarModelingTask implements WorkflowTask {
 			queue.runningTask.setMessage("Processing MOE2D descriptors");
 			Utility.writeToDebug("Processing MOE2D descriptors", userName, jobName);
 			ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
-			
-			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
-
 		}
 		else if (descriptorGenerationType.equals(Constants.MACCS)){
 			descriptorEnum = DescriptorEnumeration.MACCS;
@@ -290,15 +280,12 @@ public class QsarModelingTask implements WorkflowTask {
 			queue.runningTask.setMessage("Processing MACCS descriptors");
 			Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
 			ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
-			
-			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
 		}
 		
 		//write out the descriptors for modeling
-		Utility.writeToDebug("writing kNN .x file", userName, jobName);
-		
-		
+		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+		WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
+
 		
 		//wtsequence.add(executePostDescriptorWorkflow);
 		queue.runningTask.setMessage("Splitting data");
