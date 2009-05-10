@@ -289,7 +289,7 @@ public class QsarModelingTask implements WorkflowTask {
 			
 			queue.runningTask.setMessage("Processing MACCS descriptors");
 			Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
-			ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", chemicalNames, descriptorValueMatrix);
+			ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 			
 			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
 			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");

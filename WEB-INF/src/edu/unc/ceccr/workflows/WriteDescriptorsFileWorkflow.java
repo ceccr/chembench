@@ -109,11 +109,8 @@ public class WriteDescriptorsFileWorkflow{
 		Utility.writeToDebug(descriptorNames.toString());
 		for(int j = zeroVariance.size() - 1; j >= 0; j--){
 			if(zeroVariance.get(j) == 1){
-				Utility.writeToDebug("joe's here min " + j);
 				descriptorValueMinima.remove(j);
-				Utility.writeToDebug("joe's here max " + j);
 				descriptorValueMaxima.remove(j);
-				Utility.writeToDebug(descriptorNames.toString());
 				if(descriptorNames != null){
 					descriptorNames.remove(j);
 				}
@@ -251,7 +248,9 @@ public class WriteDescriptorsFileWorkflow{
 		//remove descriptors that are useless to modeling (zero variance)
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		descriptorNames.addAll(Arrays.asList(descriptorNameString.split(" ")));
+		
 		removeZeroVarianceDescriptors(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima, descriptorNames);
+		
 		
 		//write output
 		File file = new File(xFilePath);
