@@ -11,6 +11,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -35,7 +36,7 @@ public class SmilesPredictionWorkflow{
 		//create the descriptors for the chemical and read them in
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-		ArrayList<String> chemicalNames = Utility.getChemicalNamesFromSdf(sdfile);
+		ArrayList<String> chemicalNames = DatasetFileOperations.getChemicalNamesFromSdf(sdfile);
 
 		if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
 			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(sdfile, sdfile + ".S");

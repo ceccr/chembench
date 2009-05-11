@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.Generate3DMolWorkflow;
@@ -74,7 +75,7 @@ public class SketchServlet extends HttpServlet {
 			String warning = "ERROR, the SD file is not in correct format.\rThe structure can not be displayed.";
 			if (sdfile.exists()) {
 				InputStream twoDis = new FileInputStream(sdfile);
-				if (Utility.sdfIsValid(twoDis)) {
+				if (DatasetFileOperations.sdfIsValid(twoDis)) {
 					Utility.writeToMSDebug("VALID>>>>"+sdfile.getName());
 					
 					Generate3DMolWorkflow.Convert2Dto3D(userName, project, sdf, mol3D, workingDir);

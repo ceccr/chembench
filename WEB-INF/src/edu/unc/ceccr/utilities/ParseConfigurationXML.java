@@ -28,7 +28,7 @@ public class ParseConfigurationXML{
                         Constants.ADMIN_LIST.add(userName);
                 	}
                     String email=getNestedNodeValue((Element)adminNode,"email");
-                    if(email.length()>0&&Utility.isValidEmail(email)){
+                    if(email.length()>0&&SendEmails.isValidEmail(email)){
                     	Constants.ADMINEMAIL_LIST.add(email);
                     }
                 }

@@ -18,6 +18,7 @@ import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -51,7 +52,7 @@ public class QsarPredictionAction extends Action {
 				
 				if (upload == Constants.UPLOAD) {
 					file = formBean.getSdFile().getFileName();
-					String msg = Utility.uploadDataset(user.getUserName(), formBean.getSdFile(), null, formBean.getJobName(), "", Constants.PREDICTION);
+					String msg = DatasetFileOperations.uploadDataset(user.getUserName(), formBean.getSdFile(), null, formBean.getJobName(), "", Constants.PREDICTION);
 					datasetName = formBean.getJobName();
 					if(msg!=""){
 						forward = mapping.findForward("failure");
