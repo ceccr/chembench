@@ -158,7 +158,7 @@ public class DatasetFileOperations {
 		boolean isXlsFile = actFile.getFileName().endsWith(".x")
 		|| actFile.getFileName().endsWith(".xl") || actFile.getFileName().endsWith(".xls");
 		String act_file = actFile.getFileName();
-		act_file.toLowerCase();
+		act_file = act_file.toLowerCase();
 		boolean isActFile = act_file.endsWith(".act");		
 		if(!isXlsFile && !isActFile) return ErrorMessages.ACT_NOT_VALID; 
 		Utility.writeToMSDebug("saveACTFile");
