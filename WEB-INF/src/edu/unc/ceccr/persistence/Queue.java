@@ -366,7 +366,7 @@ public class Queue {
 					
 				while (queue.isEmpty()) {
 					try{
-						//Utility.writeToDebug("empty queue.");
+						Utility.writeToDebug("empty queue.");
 						sleep(500);
 					} catch (InterruptedException e) {
 						Utility.writeToDebug(e);
@@ -374,17 +374,17 @@ public class Queue {
 				}
 				
 				try{
-					//Utility.writeToDebug("empty queue.");
+					Utility.writeToDebug("empty queue.2");
 					sleep(500);
 				} catch (InterruptedException e) {
 					Utility.writeToDebug(e);
 				}
-				//Utility.writeToDebug("non-empty queue.");
+				Utility.writeToDebug("non-empty queue.");
 				
 				QueueTask.State state=QueueTask.State.ready;
 
 				QueueTask t = queue.poll();
-				//Utility.writeToDebug("Task found at top of queue.", t.userName, t.jobName);
+				Utility.writeToDebug("Task found at top of queue.", t.userName, t.jobName);
 				
 				try{ state=loadState(t);
 				}catch(ClassNotFoundException e){
@@ -529,12 +529,7 @@ public class Queue {
 			tx = s.beginTransaction();
 			s.delete(t);
 			
-			/* ...what?
-			 * This isn't going to work
-			 * s.delete will remove an object from the database
-			 * but these don't have objects in the database... right?
-			 */
-/*			if(t.component.equals(Component.predictor)){
+			if(t.component.equals(Component.predictor)){
 				s.delete(PopulateDataObjects.getPredictionTaskById(t.id));
 				Utility.writeToMSDebug("DELETE PREDICTION TASK::"+t.id );
 			}
@@ -544,7 +539,7 @@ public class Queue {
 			if(t.component.equals(Component.visualisation)){
 				s.delete(PopulateDataObjects.getVisualizationTaskById(t.id));				
 			}
-*/
+
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
