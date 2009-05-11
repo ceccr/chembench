@@ -579,7 +579,7 @@ public class DatasetFileOperations {
 		//This function will also remove the silly /r characters Windows likes
 		//to add to newlines.
 		Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_Start");
-		File infile = new File(filePath + fileName.toLowerCase());
+		File infile = new File(filePath + fileName);
 		File outfile = new File(filePath + fileName + ".temp");
 		FileReader fin = new FileReader(infile);
 		String temp;
@@ -597,7 +597,9 @@ public class DatasetFileOperations {
 		fin.close();
 		fout.close();
 		infile.delete();
-		outfile.renameTo(infile);
+		File infile_lowercase = new File(filePath + fileName.toLowerCase());
+		//outfile.renameTo(infile);
+		outfile.renameTo(infile_lowercase);
 		Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_End");
 	}
 
