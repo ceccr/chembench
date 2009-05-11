@@ -43,17 +43,16 @@ function displayChart()
 
 function setDatasetName(obj){
 	var val = obj.value;
+	var temp = "";
 	if(val.indexOf("\\")!=-1)
-		document.getElementById("datasetname").value =	val.substring(val.lastIndexOf("\\")+1, val.lastIndexOf("."));
+		temp =	val.substring(val.lastIndexOf("\\")+1, val.lastIndexOf("."));
 	else if(val.indexOf("/")!=-1)
-			document.getElementById("datasetname").value =	val.substring(val.lastIndexOf("/")+1, val.lastIndexOf("."));
+			temp =	val.substring(val.lastIndexOf("/")+1, val.lastIndexOf("."));
 	else{
-		alert(1);
-			var temp = document.getElementById("datasetname").value;
-			alert(temp);
 			if(temp.toLowerCase().match(".sdf"+"$")==".sdf")
-				document.getElementById("datasetname").value = val.substing(0, val.lastIndexOf("."));
+				temp = val.substing(0, val.lastIndexOf("."));
 		}
+	document.getElementById("datasetname").value = temp;
 }
 
 function validateLoad()
