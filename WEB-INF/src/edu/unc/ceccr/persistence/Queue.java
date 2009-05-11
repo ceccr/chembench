@@ -534,7 +534,7 @@ public class Queue {
 			 * s.delete will remove an object from the database
 			 * but these don't have objects in the database... right?
 			 */
-			if(t.component.equals(Component.predictor)){
+/*			if(t.component.equals(Component.predictor)){
 				s.delete(PopulateDataObjects.getPredictionTaskById(t.id));
 				Utility.writeToMSDebug("DELETE PREDICTION TASK::"+t.id );
 			}
@@ -544,7 +544,7 @@ public class Queue {
 			if(t.component.equals(Component.visualisation)){
 				s.delete(PopulateDataObjects.getVisualizationTaskById(t.id));				
 			}
-
+*/
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -553,7 +553,6 @@ public class Queue {
 		} finally {
 			s.close();
 		}
-		queue.remove(t);
 	}
 
 	@SuppressWarnings("unchecked")
