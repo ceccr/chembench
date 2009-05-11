@@ -1,10 +1,16 @@
 package edu.unc.ceccr.action.RegisterActions;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
+import java.util.Properties;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import javax.mail.Message;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -18,13 +24,16 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.formbean.EmailToAllBean;
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
 
 public class EmailAllAction extends Action {
-
+	
+	//sends out an email to every user of the system
+	
 	@SuppressWarnings("unchecked")
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)throws Exception {
@@ -55,7 +64,10 @@ public class EmailAllAction extends Action {
 				Iterator it=userList.iterator();
 				while(it.hasNext())
 				{
-					SendEmails.sendEmail((User)it.next(),formBean);
+					User userInfo = (User)it.next();
+					String HtmlBody="Hi,"+userInfo.getFirstName()+",<br/>"+ formBean.getContent()+
+					"<br/><br/><br/><br/>"+ new Date();
+					SendEmails.sendEmail(userInfo.getEmail(), formBean.getCc(), formBean.getBcc(), formBean.getSubject(), HtmlBody);
 				}
 				PrintWriter pw=response.getWriter();
 				pw.write("<script> window.alert('The emails have been sent to all users!');window.close();</script>");
@@ -68,5 +80,5 @@ public class EmailAllAction extends Action {
 		
 		return forward;
 	}
-		
+	
 }

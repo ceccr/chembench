@@ -21,6 +21,7 @@ import org.hibernate.Transaction;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
 
 public class DenyAction extends Action {
@@ -53,7 +54,18 @@ public class DenyAction extends Action {
 					forward = mapping.findForward("failure");
 				} finally {
 					s.close(); }
-				sendEmail(userInfo);
+				
+				String HtmlBody="Sorry,"+userInfo.getFirstName()+",<br/>"+"You are not qualified to be a member of CECCR......."
+				+"<br/>For the reasons list below: "
+				+"<br/> " 
+				+"<br/> "
+				+"<br/> If you have any question, please feel free to call <u><b>"+Constants.PHONRNUMBER+"</b></u>"
+				+"<br/>or email to : <a href='mailto:"+Constants.WEBSITEEMAIL+"'> "+Constants.WEBSITEEMAIL+"</a>"
+				+"<br/><br/> Thank you,"
+				+"<br/><br/><br/>"
+				+"Administrator <br/>"+ new Date();
+				SendEmails.sendEmail(userInfo.getEmail(), "", "", "Sorry,"+userInfo.getFirstName(), HtmlBody);
+				
 				forward=mapping.findForward("success");
 			} catch (Exception e) {
 				forward = mapping.findForward("failure");
@@ -64,28 +76,5 @@ public class DenyAction extends Action {
 		return forward;
 	}
 	
-	public void sendEmail(User userInfo)throws Exception
-	{
-		Properties props=System.getProperties();
-		props.put(Constants.MAILHOST,Constants.MAILSERVER);
-		javax.mail.Session session=javax.mail.Session.getInstance(props,null);
-		Message message=new MimeMessage(session);
-		message.setFrom(new InternetAddress(Constants.WEBSITEEMAIL));
-		message.addRecipient(Message.RecipientType.TO,new InternetAddress(userInfo.getEmail()));
-		message.setSubject("Sorry,"+userInfo.getFirstName());
-		String HtmlBody="Sorry,"+userInfo.getFirstName()+",<br/>"+"You are not qualified to be a member of CECCR......."
-		+"<br/>For the reasons list below: "
-		+"<br/> " 
-		+"<br/> "
-		+"<br/> If you have any question, please feel free to call <u><b>"+Constants.PHONRNUMBER+"</b></u>"
-		+"<br/>or email to : <a href='mailto:"+Constants.WEBSITEEMAIL+"'> "+Constants.WEBSITEEMAIL+"</a>"
-		+"<br/><br/> Thank you,"
-		+"<br/><br/><br/>"
-		+"Administrator <br/>"+ new Date();
-		
-		message.setContent(HtmlBody, "text/html");
-		Transport.send(message);
-		
-	}
 		
 }

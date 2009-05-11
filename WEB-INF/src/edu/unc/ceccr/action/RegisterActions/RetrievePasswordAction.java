@@ -21,6 +21,7 @@ import org.hibernate.criterion.Expression;
 import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -75,25 +76,6 @@ public class RetrievePasswordAction extends Action {
 		return forward;
 	}
 	
-	public void sendEmail(User userInfo, String randomPS)throws Exception
-	{
-		Properties props=System.getProperties();
-		props.put(Constants.MAILHOST,Constants.MAILSERVER);
-		javax.mail.Session session=javax.mail.Session.getInstance(props,null);
-		Message message=new MimeMessage(session);
-		message.setFrom(new InternetAddress(Constants.WEBSITEEMAIL));
-		message.addRecipient(Message.RecipientType.TO,new InternetAddress(userInfo.getEmail()));
-		message.setSubject("Your password");
-		String HtmlBody="Hi,"+userInfo.getFirstName()+",<br/>"+"Your user Name: "+userInfo.getUserName()
-		+"<br/> Your password: "+randomPS+"<br/><br/><br/>"
-		+"You may login from "+Constants.WEBADDRESS+"<br/> or chang your password form "+Constants.WEBADDRESS+"/alterPassword.do <br/><br/>"
-		+"Administrator <br/>"+ new Date();
-		
-		message.setContent(HtmlBody, "text/html");
-		Transport.send(message);
-		
-	}
-	
 	public void updateDB(User user)throws SQLException, ClassNotFoundException,Exception
 	{
 		Utility utility=new Utility();
@@ -111,7 +93,13 @@ public class RetrievePasswordAction extends Action {
 					tx.rollback();
 				e.printStackTrace(); 
 			} finally {s.close();}
-			sendEmail(user, randomPassword);
+			
+			String HtmlBody="Hi,"+user.getFirstName()+",<br/>"+"Your user Name: "+user.getUserName()
+			+"<br/> Your password: "+randomPassword+"<br/><br/><br/>"
+			+"You may login from "+Constants.WEBADDRESS+".<br/> <br/><br/>"
+			+"Administrator <br/>"+ new Date();
+			
+			SendEmails.sendEmail(user.getEmail(), "", "", "Your Chembench password", HtmlBody);
 	}
 	
 	
