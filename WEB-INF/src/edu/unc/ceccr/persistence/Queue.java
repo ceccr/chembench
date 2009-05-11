@@ -553,9 +553,7 @@ public class Queue {
 		} finally {
 			s.close();
 		}
-		Utility.writeToDebug("(before remove) Currently at top of queue: " + queue.peek().jobName);
 		queue.remove(t);
-		Utility.writeToDebug("(after remove) Currently at top of queue: " + queue.peek().jobName);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -582,7 +580,7 @@ public class Queue {
 		for (Iterator<QueueTask> i = ls.iterator( ); i.hasNext( ); ) {
 
 			QueueTask t = i.next( );
-			Utility.writeToDebug("task: " + t.jobName);
+			Utility.writeToDebug("task: " + t.jobName + " status: " + t.state);
 			
 			if(t.state==QueueTask.State.finished || t.state==QueueTask.State.error)
 			{

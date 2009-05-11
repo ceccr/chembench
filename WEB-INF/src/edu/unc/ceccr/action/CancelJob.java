@@ -78,7 +78,8 @@ public class CancelJob extends Action {
 				FileAndDirOperations.deleteDir(file);
 				
 				//remove the task. Gotta do this last.
-				queue.deleteTask(task);
+				//queue.deleteTask(task);
+				task.setState(QueueTask.State.deleted);
 
 			} catch (Exception e) {
 				forward = mapping.findForward("failure");
