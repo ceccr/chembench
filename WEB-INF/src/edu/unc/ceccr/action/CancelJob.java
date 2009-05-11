@@ -2,6 +2,9 @@ package edu.unc.ceccr.action;
 
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -79,8 +82,15 @@ public class CancelJob extends Action {
 				
 				//remove the task. Gotta do this last.
 				//queue.deleteTask(task);
-				task.setState(QueueTask.State.deleted);
-
+				List<QueueTask> ls = queue.getQueuedTasks();
+				
+				for (Iterator<QueueTask> i = ls.iterator( ); i.hasNext( ); ) {
+					QueueTask t = i.next( );
+					if(t.id == task.id)
+					{
+						task.setState(QueueTask.State.deleted)
+					}
+				}
 			} catch (Exception e) {
 				forward = mapping.findForward("failure");
 				Utility.writeToDebug(e);
