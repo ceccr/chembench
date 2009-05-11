@@ -127,7 +127,6 @@
 		
 		</action>
 		
-		<!-- activityChart?doGet -->
 		<action path="/activityChartVisualization" type="edu.unc.ceccr.action.VisualizationAction" 
 		input="/jsp/modeling/modeling.jsp" scope="request">
 		<forward name="success" path="/activityChart?doGet" />
@@ -163,7 +162,7 @@
 			name="qsarForm" scope="request">
 			<forward name="success" path="/jsp/modeling/modelingResults.jsp" />
 			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>s
+		</action>
 		
 		<action path="/viewObservedValue"
 			type="edu.unc.ceccr.action.ObservedVSPredictedAction"  scope="request">
@@ -336,8 +335,8 @@
 			type="edu.unc.ceccr.action.DeletePredOutputAction" scope="request">
 			<forward name="success" path="/viewTaskList.do"/>
 		</action>
-		<!-- Additional Actions Would Go Here -->
 	</action-mappings>
+	
 	<controller
 		processorClass="org.apache.struts.tiles.TilesRequestProcessor" />
 	<message-resources parameter="MessageResources" />
