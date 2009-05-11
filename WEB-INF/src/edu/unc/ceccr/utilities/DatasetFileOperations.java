@@ -104,7 +104,7 @@ public class DatasetFileOperations {
 			Utility.writeToMSDebug("Message::"+msg);
 		}
 		if(msg=="" && !type.equals(Constants.PREDICTION)){
-			saveACTFile(userName, actFile, datasetName, path);
+			 msg = saveACTFile(userName, actFile, datasetName, path);
 			 msg =  checkUploadedFiles(sdFile, actFile, type, userName, datasetName);
 			 Utility.writeToMSDebug(">>>>>>>>>>>>>>>>checkingUploadedFiles2<<<<<<<<<");
 		}
@@ -157,7 +157,10 @@ public class DatasetFileOperations {
 	public static String saveACTFile(String userName, FormFile actFile, String datasetName, String path) throws IOException{
 		boolean isXlsFile = actFile.getFileName().endsWith(".x")
 		|| actFile.getFileName().endsWith(".xl") || actFile.getFileName().endsWith(".xls");
-		if(!isXlsFile&& !actFile.getFileName().endsWith(".act")) return ErrorMessages.ACT_NOT_VALID; 
+		String act_file = actFile.getFileName();
+		act_file.toLowerCase();
+		boolean isActFile = act_file.endsWith(".act");		
+		if(!isXlsFile && !isActFile) return ErrorMessages.ACT_NOT_VALID; 
 		Utility.writeToMSDebug("saveACTFile");
 		String dir = path;
 		String filePath = dir+actFile.getFileName();
