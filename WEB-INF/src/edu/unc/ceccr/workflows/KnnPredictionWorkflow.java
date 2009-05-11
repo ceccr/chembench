@@ -19,9 +19,7 @@ public class KnnPredictionWorkflow{
 	      Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
 	      Utility.writeProgramLogfile(workingdir, "PredActivCont3rwknnLIN", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
-	    
-	    FileAndDirOperations.deleteFile(workingdir + "cons_pred");  //old file contains copied external pred values from modeling
-	      
+	   
 	    String execstr2 = "ConsPredContrwknnLIN pred_output.comp.list pred_output.list cons_pred";
 		  Utility.writeToDebug("Running external program: " + execstr2 + " in dir " + workingdir);
 	      p = Runtime.getRuntime().exec(execstr2, null, new File(workingdir));

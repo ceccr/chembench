@@ -10,14 +10,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import javax.mail.Message;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -488,7 +483,7 @@ public class Queue {
 			tx = s.beginTransaction();
 			s.saveOrUpdate(t);
 			if(t.getComponent().equals(QueueTask.Component.modelbuilder)){
-				Utility.writeToMSDebug("MoDELBUILDER QUEUE");
+				Utility.writeToMSDebug("MODELBUILDER QUEUE");
 				ModellingTask mt = new ModellingTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
 				s.saveOrUpdate(mt);
 			}
@@ -534,18 +529,20 @@ public class Queue {
 			tx = s.beginTransaction();
 			s.delete(t);
 			
+			/* ...what?
+			 * This isn't going to work
+			 * 
 			if(t.component.equals(Component.predictor)){
 				s.delete(PopulateDataObjects.getPredictionTaskById(t.id));
 				Utility.writeToMSDebug("DELETE PREDICTION TASK::"+t.id );
-				
 			}
 			if(t.component.equals(Component.modelbuilder)){
 				s.delete(PopulateDataObjects.getModelingTaskById(t.id));
-				
 			}
 			if(t.component.equals(Component.visualisation)){
 				s.delete(PopulateDataObjects.getVisualizationTaskById(t.id));				
 			}
+			*/
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)

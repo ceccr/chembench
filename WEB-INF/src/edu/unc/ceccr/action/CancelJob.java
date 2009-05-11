@@ -107,7 +107,6 @@ public class CancelJob extends Action {
 	}
 	protected static QueueTask getTask(Long selectedTaskId)	throws ClassNotFoundException, SQLException 
 	{
-
 		QueueTask task = null;
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
@@ -123,7 +122,7 @@ public class CancelJob extends Action {
 		} finally {
 			session.close();
 		}
-		System.out.println("Task returned from database: " + task.getJobName()
+		Utility.writeToDebug("Task returned from database: " + task.getJobName()
 				+ " " + task.getComponent());
 		return task;
 	}
