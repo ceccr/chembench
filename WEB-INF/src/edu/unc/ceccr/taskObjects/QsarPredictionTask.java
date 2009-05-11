@@ -154,7 +154,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 		
 		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdfile + "renorm.x", path + "train_0.x");
+		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdfile + ".renorm.x", path + "train_0.x");
 	
 		queue.runningTask.setMessage("Making predictions");
 		Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
