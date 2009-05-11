@@ -129,27 +129,27 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				</tr>
 				<tr>
 					<td>
-					<div class='StandardTextDarkGray'><html:radio value="MOLCONNZ" property="descriptorGenerationType" onclick="">MolconnZ</html:radio></div>
+					&nbsp;&nbsp;&nbsp;&nbsp;<div class='StandardTextDarkGray'><html:radio value="MOLCONNZ" property="descriptorGenerationType" onclick="">MolconnZ</html:radio></div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<div class='StandardTextDarkGray'><html:radio value="DRAGON" property="descriptorGenerationType" onclick="">DRAGON</html:radio></div>
+					&nbsp;&nbsp;&nbsp;&nbsp;<div class='StandardTextDarkGray'><html:radio value="DRAGON" property="descriptorGenerationType" onclick="">DRAGON</html:radio></div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<div class='StandardTextDarkGray'><html:radio value="MOE2D" property="descriptorGenerationType" onclick="">MOE2D</html:radio></div>
+					&nbsp;&nbsp;&nbsp;&nbsp;<div class='StandardTextDarkGray'><html:radio value="MOE2D" property="descriptorGenerationType" onclick="">MOE2D</html:radio></div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<div class='StandardTextDarkGray'><html:radio value="MACCS" property="descriptorGenerationType" onclick="">MACCS</html:radio></div>
+					&nbsp;&nbsp;&nbsp;&nbsp;<div class='StandardTextDarkGray'><html:radio value="MACCS" property="descriptorGenerationType" onclick="">MACCS</html:radio></div>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3">
-					<div class='StandardTextDarkGray'><i>Note: For some datasets, DRAGON descriptors cannot be calculated. You will see an error message when your job is running if DRAGON descriptors cannot be used with your chosen dataset.</i></div>
+					&nbsp;&nbsp;&nbsp;&nbsp;<div class='StandardTextDarkGray'><i>Note: For some datasets, DRAGON descriptors cannot be calculated. You will see an error message when your job is running if DRAGON descriptors cannot be used with your chosen dataset.</i></div>
 					</td>
 				</tr>
 				</table><br /></td></tr>
