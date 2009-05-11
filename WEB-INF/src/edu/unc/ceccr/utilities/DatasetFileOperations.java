@@ -250,7 +250,6 @@ public class DatasetFileOperations {
 			String line;
 			while (src.hasNext()) {
 				line = src.nextLine();
-				Utility.writeToMSDebug("ACT LIne::"+line);
 				String[] array = line.split("\\s+");
 				if (array.length == 2) {
 					if (GenericValidator.isDouble(array[1])) {
