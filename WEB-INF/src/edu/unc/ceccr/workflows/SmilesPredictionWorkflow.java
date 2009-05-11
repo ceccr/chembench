@@ -5,8 +5,11 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
+import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
@@ -16,8 +19,6 @@ public class SmilesPredictionWorkflow{
 
 		String sdfile = workingDir + "smiles.sdf";
 		Utility.writeToDebug("Running PredictSmilesSDF in dir " + workingDir);
-		//run MolconnZ to get descriptors
-		GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(sdfile, sdfile + ".S");
 		
 		//copy the predictor to the workingDir.
 		String predictorUsername = predictor.getUserName();
@@ -29,10 +30,35 @@ public class SmilesPredictionWorkflow{
 		Utility.writeToDebug("Copying predictor files from " + fromDir);
 		FileAndDirOperations.copyDirContents(fromDir, workingDir, false);
 
-		Utility.writeToDebug("Copying complete. Normalizing descriptors to fit predictor. ");
-		//normalize, prepare .x file for kNN
-		MolconnZToDescriptors.MakePredictionDescriptors(sdfile + ".S", workingDir + "train_0.x", sdfile + ".x");
+		Utility.writeToDebug("Copying complete. Generating descriptors. ");
 		
+		//create the descriptors for the chemical and read them in
+		ArrayList<String> descriptorNames = new ArrayList<String>();
+		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+		ArrayList<String> chemicalNames = Utility.getChemicalNamesFromSdf(sdfile);
+
+		if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
+			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(sdfile, sdfile + ".S");
+			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(sdfile + ".S", descriptorNames, descriptorValueMatrix);
+		}
+		else if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.DRAGON)){
+			GenerateDescriptorWorkflow.GenerateDragonDescriptors(sdfile, sdfile + ".dragon");
+			ReadDescriptorsFileWorkflow.readDragonDescriptors(sdfile + ".dragon", descriptorNames, descriptorValueMatrix);
+		}
+		else if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOE2D)){
+			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(sdfile, sdfile + ".moe2D");
+			ReadDescriptorsFileWorkflow.readMoe2DDescriptors(sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
+		}
+		else if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.MACCS)){
+			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(sdfile, sdfile + ".maccs");
+			ReadDescriptorsFileWorkflow.readMaccsDescriptors(sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
+		}
+
+		Utility.writeToDebug("Normalizing descriptors to fit predictor.");
+
+		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + "renorm.x", workingDir + "train_0.x");
+	
 		Utility.writeToDebug("Running prediction.");
 	    //Run prediction
 		String preddir = workingDir;
@@ -49,7 +75,7 @@ public class SmilesPredictionWorkflow{
 	        Utility.writeProgramLogfile(preddir, "ConsPredContrwknnLIN", p.getInputStream(), p.getErrorStream());
 	        p.waitFor();
 	    
-	    //read prediction output
+	        //read prediction output
 	    	Utility.writeToDebug("Reading file: " + workingDir + Constants.PRED_OUTPUT_FILE);
 			BufferedReader in = new BufferedReader(new FileReader(workingDir + Constants.PRED_OUTPUT_FILE));
 			String inputString;

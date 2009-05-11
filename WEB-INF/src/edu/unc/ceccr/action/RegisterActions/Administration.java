@@ -81,18 +81,6 @@ public class Administration extends Action {
 			SoftwareExpiration temp=new SoftwareExpiration();
 
 			String block="<tr>"+style+"</td></tr>";
-			
-			Long days=Utility.findExpire(Constants.EXECUTABLEFILE_PATH+"openeye/etc/oe_license.txt");
-
-			if(days != null && days > 0)
-			{
-				block=block+"<tr>"+style+"<b>OpenEye</b> will expire in "+"<font color='red'>"
-				+days+"</font>  days. (Set automatically).</td>";
-			}else
-			{
-				//OpenEye expiration statement has been removed, since we no longer use openEye.
-				//block=block+"<tr>"+style+"<font color='red'>ATTENTION! OPENEYE HAS EXPIRED!</font> </td>";
-			}
 					
 			Session s = HibernateUtil.getSession();// query
 			
