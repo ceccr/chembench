@@ -33,7 +33,8 @@ public class SendEmails {
 			
 			//create email file
 			Date t = new Date();
-			String fileName = t.toString();
+			String fileName = t.toString().replace(" ", "_");
+			fileName += ".txt";
 			
 			FileWriter fw = new FileWriter(new File(workingDir + fileName));
 			fw.write("Subject: " + subject + "\n");
@@ -41,7 +42,7 @@ public class SendEmails {
 			fw.write("From: " + "ceccr@listserv.unc.edu" + "\n\n");
 			fw.write(message);
 						
-			String execstr = "sendmail -t < email.txt";
+			String execstr = "sendmail -t < " + fileName;
 			Utility.writeToDebug("Running external program: " + execstr);
 		    Process p = Runtime.getRuntime().exec(execstr, null, wdFile);
 		    p.waitFor();
