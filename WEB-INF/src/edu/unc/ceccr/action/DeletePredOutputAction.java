@@ -19,6 +19,7 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.PredictionJob;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 
 public class DeletePredOutputAction extends Action {
