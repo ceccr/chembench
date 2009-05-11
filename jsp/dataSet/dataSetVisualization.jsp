@@ -9,7 +9,8 @@
 <%@ page import="edu.unc.ceccr.persistence.DataSet" %>
 <%@ page import="edu.unc.ceccr.persistence.ExternalValidation" %>
 <jsp:useBean id="user" class="edu.unc.ceccr.persistence.User" scope="session"/>
-<html>
+
+<%@page import="edu.unc.ceccr.utilities.DatasetFileOperations"%><html>
 <head>
 <title>C-CHEMBENCH | Tanimoto calculations</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -76,7 +77,7 @@ function checkPublicDataset(){
 		<div class="StandardTextDarkGray" align="left"><strong>Please choose what data representation you want to have:</strong><br/>
   	<input type="hidden" name="datasetname" id="datasetname" value="<%=ds.getFileName()%>" />
 	<input type="hidden" name="knnType" id="knnType" value="<%=ds.getModelType()%>"/> 
-	<input type="hidden" name="sdfName" id="sdfName" value="<%=ds.getSdfFile().replace(".sdf","")%>"/> 
+	<input type="hidden" name="sdfName" id="sdfName" value="<%=ds.getSdfFile().substring(0,ds.getSdfFile().lastIndexOf("."))%>"/> 
 	<input type="hidden" name="actName" id="actName" value="<%=ds.getActFile()%>"/> 
   <!--&nbsp;&nbsp;&nbsp;&nbsp; <input name="sketches" type="checkbox" value="Sketches" checked/> 
   Sketches<br/> -->

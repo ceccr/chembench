@@ -74,8 +74,8 @@ function getParameter ( parameterName ) {
 
 function readParam(){
 	document.getElementById("datasetname").value = getParameter("datasetname");
-	document.getElementById("sdfName").value = getParameter("sdfName").replace(".sdf","");
-	document.getElementById("actName").value = getParameter("actName").replace(".act","");
+	document.getElementById("sdfName").value = getParameter("sdfName").substring(0,getParameter("sdfName").lastIndexOf("."));
+	document.getElementById("actName").value = getParameter("actName").substring(0,getParameter("actName").lastIndexOf("."));
 	document.getElementById("knnType").value = getParameter("knnType");
 }
 </script>

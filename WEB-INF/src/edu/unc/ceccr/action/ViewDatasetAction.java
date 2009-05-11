@@ -12,6 +12,7 @@ import org.apache.struts.action.ActionMapping;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -61,7 +62,7 @@ public class ViewDatasetAction extends Action {
 			session.setAttribute("ds", ds);
 			Utility.writeToMSDebug("ViewDatasetAction:::"+"descriptorMatrixServlet?user="+ds.getUserName()+"&project="+ds.getFileName()+"&name="+ds.getActFile());
 			session.setAttribute("actFile", "descriptorMatrixServlet?user="+(isPublic?"all-users":ds.getUserName())+"&project="+ds.getFileName()+"&name="+ds.getActFile());
-			session.setAttribute("viz_path", "descriptorMatrixServlet?user="+(isPublic?"all-users":ds.getUserName())+"&project="+ds.getFileName()+"/Visualization&name="+ds.getSdfFile().replace(".sdf", ""));
+			session.setAttribute("viz_path", "descriptorMatrixServlet?user="+(isPublic?"all-users":ds.getUserName())+"&project="+ds.getFileName()+"/Visualization&name="+ds.getSdfFile().substring(0,ds.getSdfFile().lastIndexOf(".")));
 			session.setAttribute("isPublic",isPublic);
 			
 

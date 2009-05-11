@@ -30,12 +30,12 @@ public class SdfToJpgWorkflow {
 		}
 		
 		File file;
-		if(!fileName.contains(".sdf")){
+		/*if(!fileName.contains(".sdf")){
 			file = new File(filePath + fileName+".sdf");
 		}
-		else{ 
+		else{ */
 			file= new File(filePath + fileName);
-		}
+		//}
 		FileReader fin = new FileReader(file);
 		Scanner src = new Scanner(fin);
 		

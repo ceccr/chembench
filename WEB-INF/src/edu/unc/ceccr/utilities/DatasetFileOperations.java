@@ -110,7 +110,7 @@ public class DatasetFileOperations {
 		}
 		else if(type.equals(Constants.PREDICTION)){
 			try{
-				generateEmptyActFile(path, sdFile.getFileName().replace(".sdf", ""), path+sdFile.getFileName());
+				generateEmptyActFile(path, sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")), path+sdFile.getFileName());
 			}
 			catch(Exception e){
 			Utility.writeToMSDebug("ERROR:::"+e.getMessage());
@@ -122,7 +122,7 @@ public class DatasetFileOperations {
 		}
 		else{
 			Utility.writeToMSDebug("File saved");
-			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName(), actFile!=null?actFile.getFileName():sdFile.getFileName().replace(".sdf", ".act"), type, description);
+			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName(), actFile!=null?actFile.getFileName():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")), type, description);
 		}
 		return msg;
 	}
@@ -130,7 +130,7 @@ public class DatasetFileOperations {
 
 	public static String saveSDFFile(String userName, FormFile sdFile, String datasetName,String path) throws Exception{
 		Utility.writeToMSDebug("saveSDFFile");
-		if(!sdFile.getFileName().endsWith(".sdf")) return ErrorMessages.SDF_NOT_VALID;
+		if(!sdFile.getFileName().toLowerCase().endsWith(".sdf")) return ErrorMessages.SDF_NOT_VALID;
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName).exists())
 			new File(Constants.CECCR_USER_BASE_PATH+userName).mkdirs();
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").exists())
@@ -698,6 +698,5 @@ public class DatasetFileOperations {
 
 		return true;
 	}
-
-
+	
 }

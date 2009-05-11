@@ -47,7 +47,11 @@ function setDatasetName(obj){
 		document.getElementById("datasetname").value =	val.substring(val.lastIndexOf("\\")+1, val.lastIndexOf("."));
 	else if(val.indexOf("/")!=-1)
 			document.getElementById("datasetname").value =	val.substring(val.lastIndexOf("/")+1, val.lastIndexOf("."));
-	else document.getElementById("datasetname").value = val.replace(".sdf", "");
+	else{
+			var temp = document.getElementById("datasetname").value;
+			if(temp.toLowerCase().match(".sdf"+"$")==".sdf")
+			document.getElementById("datasetname").value = val.substing(0, val.lastIndexOf("."));
+		}
 }
 
 function validateLoad()
