@@ -41,7 +41,9 @@ public class SendEmails {
 			fw.write("To: " + address + "\n");
 			fw.write("From: " + "ceccr@listserv.unc.edu" + "\n\n");
 			fw.write(message);
-						
+
+			fw.close();
+			
 			String execstr = "sendmail -t < " + fileName;
 			Utility.writeToDebug("Running external program: " + execstr);
 		    Process p = Runtime.getRuntime().exec(execstr, null, wdFile);
