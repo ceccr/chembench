@@ -114,7 +114,8 @@ public class FileAndDirOperations {
 		//not here yet, cause exec "mv" works fine
 	}
 	
-	public static void deleteFile(String filePath) throws Exception{
+	public static void deleteFile(String filePath) {
+		try{
 	    // A File object to represent the filename
 	    File f = new File(filePath);
 
@@ -133,6 +134,10 @@ public class FileAndDirOperations {
 	    if (!success){
 	      throw new IllegalArgumentException("Delete: deletion failed");
 	    }
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 	}
 	
 	public static void deleteDirContents(String dirToErase){
