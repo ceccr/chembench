@@ -40,13 +40,14 @@ public class SendEmails {
 			fw.write("Subject: " + subject + "\n");
 			fw.write("To: " + address + "\n");
 			fw.write("From: " + "ceccr@listserv.unc.edu" + "\n");
-			fw.write("Content-Type: " + "text/html; charset=us-ascii" + "\n\n");
+			fw.write("MIME-Version: 1.0\n");
+			fw.write("Content-Type: " + "text/html" + "\n\n");
 
 			fw.write(message);
-
+			
 			fw.close();
 			
-			String execstr = "sendmail -t < " + workingDir + fileName;
+			String execstr = "sendmail.sh " + workingDir + fileName;
 			Utility.writeToDebug("Running external program: " + execstr);
 		    Process p = Runtime.getRuntime().exec(execstr);
 		    p.waitFor();
