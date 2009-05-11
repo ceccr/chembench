@@ -3,14 +3,9 @@ package edu.unc.ceccr.action.RegisterActions;
 import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
-import java.util.Properties;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import javax.mail.Message;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -24,7 +19,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.formbean.EmailToAllBean;
-import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.SendEmails;
@@ -59,7 +53,8 @@ public class EmailAllAction extends Action {
 				} catch (RuntimeException e) {
 					if (tx != null)
 						tx.rollback();
-					Utility.writeToDebug(e);				forward = mapping.findForward("failure");
+					Utility.writeToDebug(e);				
+					forward = mapping.findForward("failure");
 				} finally {	s.close(); }
 				Iterator it=userList.iterator();
 				while(it.hasNext())

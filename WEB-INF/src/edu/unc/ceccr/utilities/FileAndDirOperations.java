@@ -109,9 +109,30 @@ public class FileAndDirOperations {
 		     }
 		 }
 	
-	
+
 	public static void moveFile(String fromPath, String toPath){
 		//not here yet, cause exec "mv" works fine
+	}
+	
+	public static void deleteFile(String filePath) throws Exception{
+	    // A File object to represent the filename
+	    File f = new File(filePath);
+
+	    // Make sure the file or directory exists and isn't write protected
+	    if (!f.exists())
+	      throw new IllegalArgumentException(
+	          "Delete: no such file or directory: " + filePath);
+
+	    if (!f.canWrite())
+	      throw new IllegalArgumentException("Delete: write protected: "
+	          + filePath);
+
+	    // Attempt to delete it
+	    boolean success = f.delete();
+
+	    if (!success){
+	      throw new IllegalArgumentException("Delete: deletion failed");
+	    }
 	}
 	
 	public static void deleteDirContents(String dirToErase){
