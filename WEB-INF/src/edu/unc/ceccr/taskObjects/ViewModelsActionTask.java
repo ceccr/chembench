@@ -25,6 +25,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.task.AntTask;
 import edu.unc.ceccr.task.WorkflowTask;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 
 public class ViewModelsActionTask implements WorkflowTask {
@@ -232,6 +233,6 @@ public class ViewModelsActionTask implements WorkflowTask {
 	{
 		Utility.writeToMSDebug("CleanFiles::"+Constants.CECCR_USER_BASE_PATH +this.userName+"/PREDICTORS/"+this.jobName);
 		File file=new File(Constants.CECCR_USER_BASE_PATH +this.userName+"/PREDICTORS/"+this.jobName);
-	   Utility.deleteDir(file);
+	   FileAndDirOperations.deleteDir(file);
 	}
 }

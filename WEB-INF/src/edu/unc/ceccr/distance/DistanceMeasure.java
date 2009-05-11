@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Vector;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.Utility;
 
 
@@ -25,7 +26,7 @@ public class DistanceMeasure {
         }
         
 	public void readData() throws Exception{
-        data = Utility.readFileToVector(" ", file_path+".x");
+        data = DatasetFileOperations.readFileToVector(" ", file_path+".x");
 		// removing two first rows (general file info and names)
         //Utility.writeToMSDebug("-----readData-----Data readed");
 		data.remove(0);

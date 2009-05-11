@@ -35,6 +35,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.task.WTSequence;
 import edu.unc.ceccr.task.WorkflowTask;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
@@ -231,7 +232,7 @@ public class QsarModelingTask implements WorkflowTask {
 		//create the descriptors for the dataset and read them in
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-		ArrayList<String> chemicalNames = Utility.getChemicalNamesFromSdf(path + sdFileName);
+		ArrayList<String> chemicalNames = DatasetFileOperations.getChemicalNamesFromSdf(path + sdFileName);
 		
 		if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
 			descriptorEnum = DescriptorEnumeration.MOLCONNZ;

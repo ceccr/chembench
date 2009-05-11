@@ -9,7 +9,7 @@ import edu.unc.ceccr.global.Constants;
 
 public class GetJobFilesWorkflow{
 	
-	public static void GetKnnFiles(String userName, String jobName, String sdFile, String actFile, boolean isAllUser, String dataType, String datasetName){
+	public static void GetKnnFiles(String userName, String jobName, String sdFile, String actFile, boolean isAllUser, String dataType, String datasetName) throws Exception{
 		//gathers the files needed for a modeling run
 		
 		String jobDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
@@ -30,7 +30,7 @@ public class GetJobFilesWorkflow{
 		}
 	}
 	
-	public static void GetKnnPredictionFiles(String userName, String jobName, String sdFile, boolean sdfIsAllUser, boolean predictorIsAllUser, String predictorName, String datasetName){
+	public static void GetKnnPredictionFiles(String userName, String jobName, String sdFile, boolean sdfIsAllUser, boolean predictorIsAllUser, String predictorName, String datasetName) throws Exception{
 		//if the user selected a dataset instead of uploading
 		//we need to copy the .SDF they requested into their current dir.
 		String jobDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";

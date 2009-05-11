@@ -22,6 +22,8 @@ import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.task.WorkflowTask;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
 import edu.unc.ceccr.workflows.DragonToDescriptors;
@@ -112,7 +114,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		//create the descriptors for the dataset and read them in
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-		ArrayList<String> chemicalNames = Utility.getChemicalNamesFromSdf(path + sdfile);
+		ArrayList<String> chemicalNames = DatasetFileOperations.getChemicalNamesFromSdf(path + sdfile);
 		
 		if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
 			queue.runningTask.setMessage("Generating MolconnZ descriptors");
@@ -339,7 +341,8 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 		
 		File dir=new File(Constants.CECCR_USER_BASE_PATH+this.userName+"/"+this.jobName+"/");
-		Utility.deleteDir(dir);
+		FileAndDirOperations.deleteDir(dir);
+		
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);

@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
 
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.Utility;
 
 public class XMLTreeBuilderWorkflow {
@@ -27,7 +28,7 @@ public class XMLTreeBuilderWorkflow {
 	    }
 	    
 	    public void readFileToVector() throws Exception{
-	    	this.data = Utility.readFileToVector("\t", this.file_path+".mat");
+	    	this.data = DatasetFileOperations.readFileToVector("\t", this.file_path+".mat");
 	    }
 	    
 	    public void formatData(){
