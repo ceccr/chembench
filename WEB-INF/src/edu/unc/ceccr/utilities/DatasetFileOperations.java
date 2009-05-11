@@ -579,7 +579,7 @@ public class DatasetFileOperations {
 		//This function will also remove the silly /r characters Windows likes
 		//to add to newlines.
 		Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_Start");
-		File infile = new File(filePath + fileName);
+		File infile = new File(filePath + fileName.toLowerCase());
 		File outfile = new File(filePath + fileName + ".temp");
 		FileReader fin = new FileReader(infile);
 		String temp;
