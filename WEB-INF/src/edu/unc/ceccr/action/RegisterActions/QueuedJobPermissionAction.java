@@ -22,6 +22,7 @@ import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 
 public class QueuedJobPermissionAction extends Action 
@@ -85,13 +86,13 @@ public class QueuedJobPermissionAction extends Action
 								//remove associated files
 								String BASE=Constants.CECCR_USER_BASE_PATH;
 								File file=new File(BASE+t.getUserName()+"/"+t.jobName);
-								Utility.deleteDir(file);
+								FileAndDirOperations.deleteDir(file);
 
 								file=new File(BASE+t.getUserName()+"/PREDICTIONS/"+t.jobName);
-								Utility.deleteDir(file);
+								FileAndDirOperations.deleteDir(file);
 
 								file=new File(BASE+t.getUserName()+"/PREDICTORS/"+t.jobName);
-								Utility.deleteDir(file);
+								FileAndDirOperations.deleteDir(file);
 
 								//remove the task. Gotta do this last.
 								q.deleteTask(t);

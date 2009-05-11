@@ -27,6 +27,7 @@ import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -130,7 +131,7 @@ public class DeleteUserFile extends Action {
 			
 		///
 		Utility.writeToMSDebug("DeleteUserFile::"+dir);
-		if(Utility.deleteDir(new File(dir)))
+		if(FileAndDirOperations.deleteDir(new File(dir)))
 		{
 			try{
 				tx2=session.beginTransaction();

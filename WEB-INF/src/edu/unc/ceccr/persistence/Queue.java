@@ -83,7 +83,7 @@ public class Queue {
 				this.component = Component.modelbuilder;
 				this.ACTFile = t.getActFileName();
 				this.SDFile = t.getSdFileName();
-				String temp = Utility.numCompounds(Constants.CECCR_USER_BASE_PATH+userName+"/"+t.getJobName()+"/"+t.getActFileName());
+				String temp = DatasetFileOperations.numCompounds(Constants.CECCR_USER_BASE_PATH+userName+"/"+t.getJobName()+"/"+t.getActFileName());
 				this.numCompounds= -1;
 				if(!temp.contains(ErrorMessages.ACT_CONTAINS_DUPLICATES)) this.numCompounds= new Integer(temp).intValue(); 
 				this.numModels=Utility.numModels(t);
@@ -337,7 +337,7 @@ public class Queue {
 			Utility.writeToMSDebug("Cleaning files from queue::"+Constants.CECCR_USER_BASE_PATH +this.getUserName()+"/"+this.getJobName());
 			String BASE=Constants.CECCR_USER_BASE_PATH ;
 			File file=new File(BASE+this.getUserName()+"/"+this.getJobName());
-		    Utility.deleteDir(file);
+		    FileAndDirOperations.deleteDir(file);
 		}
 
 	}

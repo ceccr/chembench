@@ -19,6 +19,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 
 public class CancelJob extends Action {
@@ -68,13 +69,13 @@ public class CancelJob extends Action {
 				//remove associated files
 				String BASE=Constants.CECCR_USER_BASE_PATH;
 				File file=new File(BASE+task.getUserName()+"/"+task.jobName);
-				Utility.deleteDir(file);
+				FileAndDirOperations.deleteDir(file);
 
 				file=new File(BASE+task.getUserName()+"/PREDICTIONS/"+task.jobName);
-				Utility.deleteDir(file);
+				FileAndDirOperations.deleteDir(file);
 
 				file=new File(BASE+task.getUserName()+"/PREDICTORS/"+task.jobName);
-				Utility.deleteDir(file);
+				FileAndDirOperations.deleteDir(file);
 				
 				//remove the task. Gotta do this last.
 				queue.deleteTask(task);

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Iterator;
 import java.sql.SQLException;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
@@ -122,7 +123,7 @@ public class DeleteUserAction extends Action {
 	protected void deleteDirectory(String userName)
 	{
 		File dir=new File(Constants.CECCR_USER_BASE_PATH+userName);
-		Utility.deleteDir(dir);
+		FileAndDirOperations.deleteDir(dir);
 	}
 	
 	protected void deleteUserInfo(String userName)throws ClassNotFoundException,SQLException

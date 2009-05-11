@@ -19,6 +19,7 @@ import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -62,21 +63,20 @@ public class QsarPredictionAction extends Action {
 					datasetName = predictionDataset.getFileName();
 				}
 				
-				
 				try{
 					Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>"+predictionDataset.getFileName()+"::"+formBean.getJobName()+"::"+formBean.getPredictorName()+"::"+formBean.getSdFile());
 					//String datasetName = formBean.getSdFile().getFileName();
 					file = predictionDataset.getSdfFile();
 					new File(Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/"+ formBean.getJobName()).mkdir();
-					Utility.copyFile(
+					FileAndDirOperations.copyFile(
 						Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/DATASETS/"+datasetName+"/"+file, 
 						Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/"+ formBean.getJobName() + "/"+file
 						);
 				}
-					catch(Exception e){
-						Utility.writeToMSDebug(e.getMessage());
-					}
-					Utility.writeToMSDebug("Files copied");
+				catch(Exception e){
+					Utility.writeToMSDebug(e.getMessage());
+				}
+				Utility.writeToMSDebug("Files copied");
 				QsarPredictionTask executeAntWorkflow = new QsarPredictionTask(
 						user.getUserName(), formBean.getJobName(), file,
 						formBean.getCutOff(), is, formBean.getUploadOrSelect(),

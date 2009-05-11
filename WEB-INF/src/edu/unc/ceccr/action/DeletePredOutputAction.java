@@ -53,7 +53,7 @@ public class DeletePredOutputAction extends Action {
 				}
 				
 				File file=new File(Constants.CECCR_USER_BASE_PATH +user.getUserName()+"/predictor/"+predictionJob.getJobName());
-				Utility.deleteDir(file);
+				FileAndDirOperations.deleteDir(file);
 				
 				session.removeAttribute("predictionJob");
 				System.out.println("Just Deleted Predictor");

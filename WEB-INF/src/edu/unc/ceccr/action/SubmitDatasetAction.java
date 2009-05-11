@@ -23,6 +23,8 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.GenerateSketchesTask;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 
 
@@ -85,10 +87,10 @@ public class SubmitDatasetAction extends Action {
 				session.setAttribute("datasetname", datasetName);
 				
 				//saving files to username/DATASETS/datasetName/ folder
-				String msg = Utility.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
+				String msg = DatasetFileOperations.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
     			
 					if(msg!=""){
-					Utility.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName));
+					FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName));
 					Utility.writeToMSDebug("Error::"+msg);
 					request.removeAttribute("validationMsg");
 					request.setAttribute("validationMsg", msg);
@@ -110,7 +112,7 @@ public class SubmitDatasetAction extends Action {
 				errors.add("RUNTIME", new ActionMessage("error.RUNTIME"));
 				addErrors(request, errors);
 				Utility.writeToDebug(e);
-				Utility.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+((User) session.getAttribute("user")).getUserName()+"/DATASETS/"+formBean.getDatasetname()));
+				FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+((User) session.getAttribute("user")).getUserName()+"/DATASETS/"+formBean.getDatasetname()));
 				forward = mapping.findForward("failure");
 				Utility.writeToMSDebug(e.getMessage());
 			}

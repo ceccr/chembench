@@ -248,7 +248,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		
 		String fullFileLocation=dir+fileOrDatabaseName;
 		
-		Utility.writeFiles(is, fullFileLocation);
+		FileAndDirOperations.writeFiles(is, fullFileLocation);
 	}
 
 		

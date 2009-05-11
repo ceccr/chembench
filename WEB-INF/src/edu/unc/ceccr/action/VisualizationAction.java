@@ -22,6 +22,7 @@ import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -87,7 +88,7 @@ public class VisualizationAction extends Action {
 
 		HashMap hm = new HashMap();
 		try {
-			hm = Utility.parseActFile(filePath);
+			hm = DatasetFileOperations.parseActFile(filePath);
 
 		} catch (IOException e) {
 			Utility.writeToDebug(e);

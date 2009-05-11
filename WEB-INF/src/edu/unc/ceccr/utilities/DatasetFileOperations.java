@@ -557,7 +557,7 @@ public class DatasetFileOperations {
 			}
 		}
 		catch (Exception e) {
-			writeToDebug(e);
+			Utility.writeToDebug(e);
 		}
 		
 		return fl;

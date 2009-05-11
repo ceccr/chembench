@@ -36,6 +36,7 @@ import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.task.WTSequence;
 import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
@@ -412,7 +413,7 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		
 		File dir=new File(Constants.CECCR_USER_BASE_PATH+this.userName+"/"+this.jobName);
-		Utility.deleteDir(dir);
+		FileAndDirOperations.deleteDir(dir);
 	}
 	
 	private void setParameters(String path, ArrayList<Model> KNNValues, String flow) {
