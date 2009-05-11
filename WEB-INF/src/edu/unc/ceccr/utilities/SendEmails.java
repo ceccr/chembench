@@ -51,33 +51,8 @@ public class SendEmails {
 			Utility.writeToDebug("Running external program: " + execstr);
 		    Process p = Runtime.getRuntime().exec(execstr);
 		    p.waitFor();
-			
-			/*
-			Here's what we do:
-			//Create the header of the mail text in this case the file is called "x.txt":
-			From: research@unc.edu
-			To: fishback@email.unc.edu
-			test
-
-			Send the mail by the following command line:
-			$ sendmail -t < x.txt
-
-			So to shell script this:
-			cat > x.txt <<EOFmail
-			Subject: Emerald /largefs file(s) will be removed in two days for $i
-			To: $i@email.unc.edu
-			From: research@unc.edu
-			 Hey man!
-			EOFmail
-
-			 
-			sendmail -t < x.txt
-		*/
-			
-			
-
 		
-			Utility.writeToDebug("Email sent!");
+		    Utility.writeToDebug("Email sent!");
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}	
