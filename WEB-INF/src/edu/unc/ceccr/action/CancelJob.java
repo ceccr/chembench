@@ -88,8 +88,8 @@ public class CancelJob extends Action {
 					QueueTask t = i.next( );
 					if(t.id == task.id)
 					{
-						task.setState(QueueTask.State.deleted);
-						task.saveTask();
+						t.setState(QueueTask.State.deleted);
+						t.saveTask();
 					}
 				}
 			} catch (Exception e) {
