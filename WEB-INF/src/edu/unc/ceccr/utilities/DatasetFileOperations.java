@@ -597,9 +597,9 @@ public class DatasetFileOperations {
 		fin.close();
 		fout.close();
 		infile.delete();
-		File infile_lowercase = new File(filePath + fileName.toLowerCase());
-		//outfile.renameTo(infile);
-		outfile.renameTo(infile_lowercase);
+		//File infile_lowercase = new File(filePath + fileName.toLowerCase());
+		outfile.renameTo(infile);
+		//outfile.renameTo(infile_lowercase);
 		Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_End");
 	}
 
