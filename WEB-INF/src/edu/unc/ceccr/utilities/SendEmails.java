@@ -39,14 +39,16 @@ public class SendEmails {
 			FileWriter fw = new FileWriter(new File(workingDir + fileName));
 			fw.write("Subject: " + subject + "\n");
 			fw.write("To: " + address + "\n");
-			fw.write("From: " + "ceccr@listserv.unc.edu" + "\n\n");
+			fw.write("From: " + "ceccr@listserv.unc.edu" + "\n");
+			fw.write("Content-Type: " + "text/html; charset=us-ascii" + "\n\n");
+
 			fw.write(message);
 
 			fw.close();
 			
-			String execstr = "sendmail -t < " + fileName;
+			String execstr = "sendmail -t < " + workingDir + fileName;
 			Utility.writeToDebug("Running external program: " + execstr);
-		    Process p = Runtime.getRuntime().exec(execstr, null, wdFile);
+		    Process p = Runtime.getRuntime().exec(execstr);
 		    p.waitFor();
 			
 			/*
