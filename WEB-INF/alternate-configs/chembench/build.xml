@@ -2,8 +2,8 @@
 <project default="main">
   <target name="main" depends="copyFiles" />
 
-  <property name="home.directory" value="/afs/isis.unc.edu/home/t/h/theo/deploy"/>
-  <property name="tomcat.directory" value="/afs/isis.unc.edu/home/t/h/theo/tomcat6"/>
+  <property name="home.directory" value="/usr/local/ceccr/deploy"/>
+  <property name="tomcat.directory" value="/usr/local/ceccr/tomcat6"/>
 
   <target name="war" depends="compile">
     <copy toDir="ROOT/WEB-INF/classes">

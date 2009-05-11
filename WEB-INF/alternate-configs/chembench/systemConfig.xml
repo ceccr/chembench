@@ -36,9 +36,9 @@
 <privateKey>6LewzAAAAAAAAF9CsJTvdCFEej0aNkeurrroBGKV</privateKey>
 -->
 
-<!-- Keys for ceccrtest.mml.unc.edu -->
-<publicKey>6LcV3wUAAAAAAMvuF3h4zwYq3cQYXFoSylhQfFSF</publicKey>
-<privateKey>6LcV3wUAAAAAANYlZr7NXmwIGcjImeIUGaa0cdtu</privateKey>
+<!-- Keys for chembench.mml.unc.edu -->
+<publicKey>6LeZXQYAAAAAAAtCIR2g1btlSUvWW00lAGv0dn4G</publicKey>
+<privateKey>6LeZXQYAAAAAAF-BCVHNVW6OW6fqQkj1JV3zOWPt</privateKey>
 
 </webService>
 

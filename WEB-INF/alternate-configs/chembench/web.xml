@@ -224,12 +224,12 @@
       <session-timeout>30</session-timeout>    <!-- 30 minutes -->
 	</session-config>
 	
-	<!-- This is a production server, so we want to prevent users from seeing error details -->
+	<!-- This is a development server, so we want to show errors on the page 
     <error-page>
         <error-code>500</error-code>
         <location>/jsp/error2.jsp</location>
     </error-page>
-    
+    -->
     
     <taglib>
     <taglib-uri>/application/jstl/core</taglib-uri>
