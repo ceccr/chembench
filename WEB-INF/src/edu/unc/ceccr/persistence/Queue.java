@@ -482,7 +482,7 @@ public class Queue {
 		try {
 			tx = s.beginTransaction();
 			s.saveOrUpdate(t);
-			if(t.getComponent().equals(QueueTask.Component.modelbuilder)){
+			/*if(t.getComponent().equals(QueueTask.Component.modelbuilder)){
 				Utility.writeToMSDebug("MODELBUILDER QUEUE");
 				ModellingTask mt = new ModellingTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
 				s.saveOrUpdate(mt);
@@ -497,7 +497,7 @@ public class Queue {
 				Utility.writeToMSDebug("VISUALIZATION QUEUE");
 				VisualizationTask vt = new VisualizationTask(t.id, PopulateDataObjects.getDataSetByName(t.jobName, t.getUserName()).getFileId());
 				s.saveOrUpdate(vt);
-			}
+			}*/
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
