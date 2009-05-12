@@ -526,7 +526,7 @@ public class Queue {
 		Utility.writeToDebug("DeleteTaskRecord: " + t.id);
 		
 		Utility.writeToDebug("removing " + t.jobName);
-		
+		try{
 		for (Iterator<QueueTask> i = queue.iterator(); i.hasNext( ); ) {
 			QueueTask task = i.next( );
 			Utility.writeToDebug("on task: " + task.jobName + " with id: " + task.id);
@@ -541,6 +541,10 @@ public class Queue {
 			}
 		}
 		
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 		
 		
 		Session s = HibernateUtil.getSession();
