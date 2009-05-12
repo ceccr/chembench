@@ -529,6 +529,7 @@ public class Queue {
 		
 		for (Iterator<QueueTask> i = queue.iterator(); i.hasNext( ); ) {
 			QueueTask task = i.next( );
+			Utility.writeToDebug("on task: " + task.jobName + " with id: " + task.id);
 			if(t.id == task.id)
 			{
 				if(queue.remove(task)){
