@@ -122,7 +122,7 @@ public class DatasetFileOperations {
 		}
 		else{
 			Utility.writeToMSDebug("File saved");
-			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName(), actFile!=null?actFile.getFileName():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")), type, description);
+			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName().toLowerCase(), actFile!=null?actFile.getFileName().toLowerCase():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")).toLowerCase(), type, description);
 		}
 		return msg;
 	}
@@ -146,10 +146,10 @@ public class DatasetFileOperations {
 			
 			datasetDir.mkdirs();
 			
-			String filePath = dir+sdFile.getFileName();
+			String filePath = dir+sdFile.getFileName().toLowerCase();
 			new File(filePath).createNewFile();
 			FileAndDirOperations.writeFiles(sdFile.getInputStream(),filePath);
-			rewriteSdf(dir, sdFile.getFileName());
+			rewriteSdf(dir, sdFile.getFileName().toLowerCase());
 		}
 		return "";
 	}
@@ -162,7 +162,7 @@ public class DatasetFileOperations {
 		if(!isXlsFile && !isActFile) return ErrorMessages.ACT_NOT_VALID; 
 		Utility.writeToMSDebug("saveACTFile");
 		String dir = path;
-		String filePath = dir+actFile.getFileName();
+		String filePath = dir+actFile.getFileName().toLowerCase();
 		new File(filePath).createNewFile();
 		FileAndDirOperations.writeFiles(actFile.getInputStream(),filePath);
 		if(isXlsFile){
