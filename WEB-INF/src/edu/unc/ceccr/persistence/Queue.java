@@ -526,12 +526,21 @@ public class Queue {
 		Utility.writeToDebug("DeleteTaskRecord: " + t.id);
 		
 		Utility.writeToDebug("removing " + t.jobName);
-		if(queue.remove(t)){
-			Utility.writeToDebug("removed task.");
+		
+		for (Iterator<QueueTask> i = queue.iterator(); i.hasNext( ); ) {
+			QueueTask task = i.next( );
+			if(t.id == task.id)
+			{
+				if(queue.remove(task)){
+					Utility.writeToDebug("removed task.");
+				}
+				else{
+					Utility.writeToDebug("task not removed.");
+				}
+			}
 		}
-		else{
-			Utility.writeToDebug("task not removed.");
-		}
+		
+		
 		
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
