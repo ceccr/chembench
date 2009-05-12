@@ -532,12 +532,16 @@ public class Queue {
 			Utility.writeToDebug("on task: " + task.jobName + " with id: " + task.id);
 			if(t.id == task.id)
 			{
+				Utility.writeToDebug("removing, for real, " + t.jobName);
 				if(queue.remove(task)){
 					Utility.writeToDebug("removed task.");
 				}
 				else{
 					Utility.writeToDebug("task not removed.");
 				}
+			}
+			else{
+				Utility.writeToDebug(t.id + " doesn't equal " + task.id);
 			}
 		}
 		
