@@ -366,7 +366,7 @@ public class Queue {
 					
 				while (queue.isEmpty()) {
 					try{
-						Utility.writeToDebug("empty queue.");
+						//Utility.writeToDebug("empty queue.");
 						sleep(500);
 					} catch (InterruptedException e) {
 						Utility.writeToDebug(e);
@@ -374,12 +374,12 @@ public class Queue {
 				}
 				
 				try{
-					Utility.writeToDebug("empty queue.2");
+					//Utility.writeToDebug("empty queue.2");
 					sleep(500);
 				} catch (InterruptedException e) {
 					Utility.writeToDebug(e);
 				}
-				Utility.writeToDebug("non-empty queue.");
+				//Utility.writeToDebug("non-empty queue.");
 				
 				QueueTask.State state=QueueTask.State.ready;
 
@@ -483,7 +483,8 @@ public class Queue {
 		try {
 			tx = s.beginTransaction();
 			s.saveOrUpdate(t);
-			/*if(t.getComponent().equals(QueueTask.Component.modelbuilder)){
+			
+			if(t.getComponent().equals(QueueTask.Component.modelbuilder)){
 				Utility.writeToMSDebug("MODELBUILDER QUEUE");
 				ModellingTask mt = new ModellingTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
 				s.saveOrUpdate(mt);
@@ -498,7 +499,9 @@ public class Queue {
 				Utility.writeToMSDebug("VISUALIZATION QUEUE");
 				VisualizationTask vt = new VisualizationTask(t.id, PopulateDataObjects.getDataSetByName(t.jobName, t.getUserName()).getFileId());
 				s.saveOrUpdate(vt);
-			}*/
+			}
+			
+			
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -525,23 +528,18 @@ public class Queue {
 			ClassNotFoundException, SQLException {
 		Utility.writeToDebug("DeleteTaskRecord: " + t.id);
 		
-		Utility.writeToDebug("removing " + t.jobName);
 		try{
 		for (Iterator<QueueTask> i = queue.iterator(); i.hasNext( ); ) {
 			QueueTask task = i.next( );
-			Utility.writeToDebug("on task: " + task.jobName + " with id: " + task.id);
 			if(t.id.compareTo(task.id) == 0)
 			{
-				Utility.writeToDebug("removing, for real, " + t.jobName);
+				Utility.writeToDebug("removing " + t.jobName);
 				if(queue.remove(task)){
 					Utility.writeToDebug("removed task.");
 				}
 				else{
 					Utility.writeToDebug("task not removed.");
 				}
-			}
-			else{
-				Utility.writeToDebug(t.id + " doesn't equal " + task.id);
 			}
 		}
 		
@@ -556,7 +554,7 @@ public class Queue {
 		try {
 			tx = s.beginTransaction();
 			s.delete(t);
-			/*
+			
 			if(t.component.equals(Component.predictor)){
 				s.delete(PopulateDataObjects.getPredictionTaskById(t.id));
 				Utility.writeToMSDebug("DELETE PREDICTION TASK::"+t.id );
@@ -566,7 +564,7 @@ public class Queue {
 			}
 			if(t.component.equals(Component.visualisation)){
 				s.delete(PopulateDataObjects.getVisualizationTaskById(t.id));				
-			}*/
+			}
 
 			tx.commit();
 		} catch (RuntimeException e) {
