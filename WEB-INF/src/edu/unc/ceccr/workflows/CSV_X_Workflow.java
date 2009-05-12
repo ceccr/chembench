@@ -12,7 +12,7 @@ public class CSV_X_Workflow {
 	private String act_path;
 	
 	public CSV_X_Workflow(String userName, String datasetName, String sdfName, String actPath) throws IOException{
-		this.viz_path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/" +datasetName+"/Visualization/"+sdfName;
+		this.viz_path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/" +datasetName+"/Visualization/"+sdfName.substring(0,sdfName.lastIndexOf("."));
 		this.file_path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/" +datasetName+"/"+sdfName;
 		this.act_path  = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/" +datasetName+"/"+actPath;
 		
@@ -20,8 +20,8 @@ public class CSV_X_Workflow {
 	
 	public void performMACCSCreation(){
 		try{
-			Process p= Runtime.getRuntime().exec("moebatch_shell_script.sh "+file_path+".sdf "+viz_path+".maccs");
-			Utility.writeToMSDebug("Shell script: "+"moebatch_shell_script.sh "+file_path+".sdf "+viz_path+".maccs");
+			Process p= Runtime.getRuntime().exec("moebatch_shell_script.sh "+file_path +" "+viz_path+".maccs");
+			Utility.writeToMSDebug("Shell script: "+"moebatch_shell_script.sh "+file_path+" "+viz_path+".maccs");
 			Utility.writeProgramLogfile(file_path, "moebatch_shell_script",  p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 		}catch(Exception ex){

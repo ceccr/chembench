@@ -77,7 +77,7 @@ function checkPublicDataset(){
 		<div class="StandardTextDarkGray" align="left"><strong>Please choose what data representation you want to have:</strong><br/>
   	<input type="hidden" name="datasetname" id="datasetname" value="<%=ds.getFileName()%>" />
 	<input type="hidden" name="knnType" id="knnType" value="<%=ds.getModelType()%>"/> 
-	<input type="hidden" name="sdfName" id="sdfName" value="<%=ds.getSdfFile().substring(0,ds.getSdfFile().lastIndexOf("."))%>"/> 
+	<input type="hidden" name="sdfName" id="sdfName" value="<%=ds.getSdfFile()%>"/> 
 	<input type="hidden" name="actName" id="actName" value="<%=ds.getActFile()%>"/> 
   <!--&nbsp;&nbsp;&nbsp;&nbsp; <input name="sketches" type="checkbox" value="Sketches" checked/> 
   Sketches<br/> -->
