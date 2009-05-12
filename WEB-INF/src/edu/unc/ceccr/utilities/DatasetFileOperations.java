@@ -534,13 +534,13 @@ public class DatasetFileOperations {
 		int numCompound=-1;
 		int numCompoundSD=-1;
 		
-		String temp = numCompounds(userDir+"/"+ actFile.getFileName());
+		String temp = numCompounds(userDir+"/"+ actFile.getFileName().toLowerCase());
 		Utility.writeToMSDebug("Number of compounds in ACT:::"+temp);
 		
 		if(!temp.contains(ErrorMessages.ACT_CONTAINS_DUPLICATES)) numCompound = new Integer(temp).intValue();
 		else fl = temp;
 		
-		String temp2 = numCompoundsFromSDFiles(userDir, sdFile.getFileName());
+		String temp2 = numCompoundsFromSDFiles(userDir, sdFile.getFileName().toLowerCase());
 		Utility.writeToMSDebug("Number of compounds in SDF:::"+temp2);
 		
 		if(!temp2.contains(ErrorMessages.SDF_CONTAINS_DUPLICATES)) numCompoundSD = new Integer(temp2).intValue();
