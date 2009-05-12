@@ -548,6 +548,7 @@ public class Queue {
 		} finally {
 			s.close();
 		}
+		queue.remove(t);
 	}
 
 	@SuppressWarnings("unchecked")
