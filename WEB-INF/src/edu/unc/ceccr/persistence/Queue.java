@@ -530,7 +530,7 @@ public class Queue {
 		for (Iterator<QueueTask> i = queue.iterator(); i.hasNext( ); ) {
 			QueueTask task = i.next( );
 			Utility.writeToDebug("on task: " + task.jobName + " with id: " + task.id);
-			if(t.id == task.id)
+			if(t.id.compareTo(task.id) == 0)
 			{
 				Utility.writeToDebug("removing, for real, " + t.jobName);
 				if(queue.remove(task)){
