@@ -100,11 +100,11 @@ public class DatasetFileOperations {
 		
 		if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
 		if(msg==""){	
-			msg =  saveSDFFile(userName, sdFile, datasetName, path);
+			msg =  saveSDFFile(userName, sdFile, path);
 			Utility.writeToMSDebug("Message::"+msg);
 		}
 		if(msg=="" && !type.equals(Constants.PREDICTION)){
-			 msg = saveACTFile(userName, actFile, datasetName, path);
+			 msg = saveACTFile(actFile, path);
 			 msg =  checkUploadedFiles(sdFile, actFile, type, userName, datasetName);
 			 Utility.writeToMSDebug(">>>>>>>>>>>>>>>>checkingUploadedFiles2<<<<<<<<<");
 		}
@@ -128,7 +128,8 @@ public class DatasetFileOperations {
 	}
 	
 
-	public static String saveSDFFile(String userName, FormFile sdFile, String datasetName,String path) throws Exception{
+	
+	public static String saveSDFFile(String userName, FormFile sdFile, String path) throws Exception{
 		Utility.writeToMSDebug("saveSDFFile");
 		if(!sdFile.getFileName().toLowerCase().endsWith(".sdf")) return ErrorMessages.SDF_NOT_VALID;
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName).exists())
@@ -154,7 +155,7 @@ public class DatasetFileOperations {
 		return "";
 	}
 	
-	public static String saveACTFile(String userName, FormFile actFile, String datasetName, String path) throws IOException{
+	public static String saveACTFile(FormFile actFile, String path) throws IOException{
 		boolean isXlsFile = actFile.getFileName().endsWith(".x")
 		|| actFile.getFileName().endsWith(".xl") || actFile.getFileName().endsWith(".xls");
 		String act_file = actFile.getFileName();
@@ -698,5 +699,6 @@ public class DatasetFileOperations {
 
 		return true;
 	}
+
 	
 }
