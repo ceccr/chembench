@@ -122,7 +122,7 @@ public class DatasetFileOperations {
 		}
 		else{
 			Utility.writeToMSDebug("File saved");
-			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName().toLowerCase(), actFile!=null?actFile.getFileName().toLowerCase():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")).toLowerCase(), type, description);
+			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName(), actFile!=null?actFile.getFileName():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")), type, description);
 		}
 		return msg;
 	}
@@ -146,10 +146,10 @@ public class DatasetFileOperations {
 			
 			datasetDir.mkdirs();
 			
-			String filePath = dir+sdFile.getFileName().toLowerCase();
+			String filePath = dir+sdFile.getFileName();
 			new File(filePath).createNewFile();
 			FileAndDirOperations.writeFiles(sdFile.getInputStream(),filePath);
-			rewriteSdf(dir, sdFile.getFileName().toLowerCase());
+			rewriteSdf(dir, sdFile.getFileName());
 		}
 		return "";
 	}
@@ -162,7 +162,7 @@ public class DatasetFileOperations {
 		if(!isXlsFile && !isActFile) return ErrorMessages.ACT_NOT_VALID; 
 		Utility.writeToMSDebug("saveACTFile");
 		String dir = path;
-		String filePath = dir+actFile.getFileName().toLowerCase();
+		String filePath = dir+actFile.getFileName();
 		new File(filePath).createNewFile();
 		FileAndDirOperations.writeFiles(actFile.getInputStream(),filePath);
 		if(isXlsFile){
@@ -534,13 +534,13 @@ public class DatasetFileOperations {
 		int numCompound=-1;
 		int numCompoundSD=-1;
 		
-		String temp = numCompounds(userDir+"/"+ actFile.getFileName().toLowerCase());
+		String temp = numCompounds(userDir+"/"+ actFile.getFileName());
 		Utility.writeToMSDebug("Number of compounds in ACT:::"+temp);
 		
 		if(!temp.contains(ErrorMessages.ACT_CONTAINS_DUPLICATES)) numCompound = new Integer(temp).intValue();
 		else fl = temp;
 		
-		String temp2 = numCompoundsFromSDFiles(userDir, sdFile.getFileName().toLowerCase());
+		String temp2 = numCompoundsFromSDFiles(userDir, sdFile.getFileName());
 		Utility.writeToMSDebug("Number of compounds in SDF:::"+temp2);
 		
 		if(!temp2.contains(ErrorMessages.SDF_CONTAINS_DUPLICATES)) numCompoundSD = new Integer(temp2).intValue();

@@ -3,6 +3,7 @@ package edu.unc.ceccr.workflows;
 import java.io.File;
 import java.io.IOException;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 
 public class CSV_X_Workflow {
@@ -86,12 +87,20 @@ public class CSV_X_Workflow {
 	public void performPCAcreation(){
 		try{
 			if(act_path!=null && !act_path.isEmpty()){
+				boolean flag = false;
+				if(!act_path.endsWith(".act")){
+					String temp_act = act_path.substring(0,act_path.lastIndexOf("."))+".act";
+					FileAndDirOperations.copyFile(act_path, temp_act);
+					act_path = temp_act;
+					flag = true;
+				}
 				Process p = Runtime.getRuntime().exec("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+".x "+ act_path);
 				Utility.writeToMSDebug("run_PCA_ScatterPlot.sh ::act =" + "run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+".x "+ act_path);
 				Utility.writeProgramLogfile(viz_path, "PCA",  p.getInputStream(), p.getErrorStream());
 				p.waitFor();
 				File old = new File(viz_path+".png");
 				File new_ =  new File(viz_path+".jpg");
+				if(flag) new File(act_path).delete();
 				Utility.writeToMSDebug("Rename::"+old.renameTo(new_));
 			}
 		}catch(Exception ex){
