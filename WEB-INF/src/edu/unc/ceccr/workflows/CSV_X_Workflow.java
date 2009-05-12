@@ -91,6 +91,7 @@ public class CSV_X_Workflow {
 				if(!act_path.endsWith(".act")){
 					String temp_act = act_path.substring(0,act_path.lastIndexOf("."))+".act";
 					FileAndDirOperations.copyFile(act_path, temp_act);
+					Utility.writeToMSDebug("TTT:"+new File(temp_act).exists());
 					act_path = temp_act;
 					flag = true;
 				}
@@ -100,7 +101,7 @@ public class CSV_X_Workflow {
 				p.waitFor();
 				File old = new File(viz_path+".png");
 				File new_ =  new File(viz_path+".jpg");
-				if(flag) new File(act_path).delete();
+				//if(flag) new File(act_path).delete();
 				Utility.writeToMSDebug("Rename::"+old.renameTo(new_));
 			}
 		}catch(Exception ex){
