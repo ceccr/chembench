@@ -348,7 +348,7 @@ public class Queue {
 	}
 	public  void interruptRunning()throws InterruptedException
 	{
-		exec.done();
+		//exec.done();
 	}
 	public volatile Qthread exec;
 	
