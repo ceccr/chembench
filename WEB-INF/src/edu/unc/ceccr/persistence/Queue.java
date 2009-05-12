@@ -409,11 +409,11 @@ public class Queue {
 					catch (InterruptedException e) 	{	Utility.writeToDebug(e);	}
 				
 				}else{
-					t.setStart(new Date());
-					t.setState(QueueTask.State.started);
-					resetFlagSet();
-					runningTask = t;
 					try {
+						t.setStart(new Date());
+						t.setState(QueueTask.State.started);
+						resetFlagSet();
+						runningTask = t;
 						saveTaskRecord(runningTask);
 						Utility.writeToDebug("Starting task.", t.userName, t.jobName);
 	
@@ -445,6 +445,7 @@ public class Queue {
 						t.setState(QueueTask.State.error);
 					}
 				}
+				
 			}
 		}
 	}
