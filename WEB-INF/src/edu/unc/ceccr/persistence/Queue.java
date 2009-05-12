@@ -523,6 +523,15 @@ public class Queue {
 	protected void deleteTaskRecord(QueueTask t) throws HibernateException,
 			ClassNotFoundException, SQLException {
 		Utility.writeToDebug("DeleteTaskRecord: " + t.id);
+		
+		Utility.writeToDebug("removing " + t.jobName);
+		if(queue.remove(t)){
+			Utility.writeToDebug("removed task.");
+		}
+		else{
+			Utility.writeToDebug("task not removed.");
+		}
+		
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
@@ -548,7 +557,6 @@ public class Queue {
 		} finally {
 			s.close();
 		}
-		queue.remove(t);
 	}
 
 	@SuppressWarnings("unchecked")
