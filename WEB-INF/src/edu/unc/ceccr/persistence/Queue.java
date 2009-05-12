@@ -528,7 +528,7 @@ public class Queue {
 		try {
 			tx = s.beginTransaction();
 			s.delete(t);
-			
+			/*
 			if(t.component.equals(Component.predictor)){
 				s.delete(PopulateDataObjects.getPredictionTaskById(t.id));
 				Utility.writeToMSDebug("DELETE PREDICTION TASK::"+t.id );
@@ -538,7 +538,7 @@ public class Queue {
 			}
 			if(t.component.equals(Component.visualisation)){
 				s.delete(PopulateDataObjects.getVisualizationTaskById(t.id));				
-			}
+			}*/
 
 			tx.commit();
 		} catch (RuntimeException e) {
