@@ -187,8 +187,8 @@ protected void processRequest(HttpServletRequest request,
    Xaxis.setAutoRangeMinimumSize(0.01);
    Xaxis.setRange(min,max);
    
-   Utility.writeToDebug("Writing external validation chart to file: " + Constants.CECCR_USER_BASE_PATH+user+"/PREDICTORS/"+project+"/Structures/mychart.jpeg");
-  String basePath=Constants.CECCR_USER_BASE_PATH+user+"/PREDICTORS/"+project+"/Structures/";
+   Utility.writeToDebug("Writing external validation chart to file: " + Constants.CECCR_USER_BASE_PATH+user+"/PREDICTORS/"+project+"/mychart.jpeg");
+  String basePath=Constants.CECCR_USER_BASE_PATH+user+"/PREDICTORS/"+project+"/";
   FileOutputStream  fos_jpg = new FileOutputStream(basePath+"mychart.jpeg"); 
   ChartUtilities.writeChartAsJPEG(fos_jpg, 1.0f, chart, 650, 650, info); 
    FileOutputStream fos_cri = new FileOutputStream(basePath+"mychart.map"); 

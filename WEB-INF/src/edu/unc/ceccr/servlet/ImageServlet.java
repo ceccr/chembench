@@ -45,7 +45,7 @@ public class ImageServlet extends HttpServlet {
         String imageFileName;
         if(compoundId.startsWith("mychart"))
         {
-	      	imageFileName=userName+"/PREDICTORS/"+project+"/Structures/mychart.jpeg";
+	      	imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
       	}
     	else if(projectType.equalsIgnoreCase("PCA")){
         	imageFileName=userName+"/DATASETS/"+project+"/Visualization/"+compoundId+".jpg";
