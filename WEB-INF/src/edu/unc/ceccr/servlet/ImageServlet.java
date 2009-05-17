@@ -18,7 +18,8 @@ import edu.unc.ceccr.utilities.Utility;
 public class ImageServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-    	
+    	 //project=afghanistan&projectType=modelbuilder&user=theo&compoundId=mychart&task=chart
+        
     	//this servlet returns 2D images for compounds and external validation charts
     	
         String imageFilePath = Constants.CECCR_USER_BASE_PATH;
@@ -29,6 +30,8 @@ public class ImageServlet extends HttpServlet {
         String projectType = request.getParameter("projectType");
         String datasetID = request.getParameter("datasetID");
 		
+        Utility.writeToDebug("npe1");
+        
         DataSet ds = null;
         if(! compoundId.startsWith("mychart")){
 	        try{
@@ -39,7 +42,8 @@ public class ImageServlet extends HttpServlet {
 	        	Utility.writeToMSDebug("Error in ImageServlet::"+ex.getMessage());
 	        }
         }
-        
+
+        Utility.writeToDebug("npe2");
         if(!projectType.equals("dataSet") && !projectType.equalsIgnoreCase("PCA") && ds.getUserName().equalsIgnoreCase("_all")){
         	userName = "all-users";
         }
@@ -47,7 +51,9 @@ public class ImageServlet extends HttpServlet {
         String imageFileName;
         if(compoundId.startsWith("mychart"))
         {
+        	//ext validation chart
 	      	imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
+	        Utility.writeToDebug("npe3");
       	}
     	else if(projectType.equalsIgnoreCase("PCA")){
         	imageFileName=userName+"/DATASETS/"+project+"/Visualization/"+compoundId+".jpg";
@@ -61,6 +67,7 @@ public class ImageServlet extends HttpServlet {
     	}
         File imageFile = new File(imageFilePath+imageFileName);
 
+        Utility.writeToDebug("npe4");
         BufferedInputStream input = null;
         BufferedOutputStream output = null;
 
@@ -74,12 +81,14 @@ public class ImageServlet extends HttpServlet {
         	           
             output = new BufferedOutputStream(response.getOutputStream());
 
+            Utility.writeToDebug("npe5");
             // Write file contents to response.
             while (contentLength-- > 0) {
                 output.write(input.read());
             }
 
             output.flush();
+            Utility.writeToDebug("npe6");
         } catch (IOException e) {
             Utility.writeToDebug(e);
         } finally {
