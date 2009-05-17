@@ -150,10 +150,10 @@ protected void processRequest(HttpServletRequest request,
      
         
    JFreeChart chart =    ChartFactory.createXYLineChart("Observed  VS Predicted "+predictor.getActivityType(),    
-		   "Observed  "+predictor.getActivityType(), "Predicted  "+predictor.getActivityType(), ds,   PlotOrientation.VERTICAL, false,true,true);
+		   "Observed  "+predictor.getActivityType(), "Predicted  "+predictor.getActivityType(), ds, PlotOrientation.VERTICAL, false,true,true);
    
    chart.setBackgroundPaint(new Color(0xFF, 0xFF, 0xCC));
-   TextTitle tt = new TextTitle(   " http://ceccr.ibiblio.org",  new Font("Dialog", Font.PLAIN, 11));
+   TextTitle tt = new TextTitle(   " http://chembench.mml.unc.edu",  new Font("Dialog", Font.PLAIN, 11));
    tt.setPosition(RectangleEdge.BOTTOM); 
    tt.setHorizontalAlignment(HorizontalAlignment.RIGHT);
    tt.setMargin(0.0, 0.0, 4.0, 4.0);
@@ -187,6 +187,7 @@ protected void processRequest(HttpServletRequest request,
    Xaxis.setAutoRangeMinimumSize(0.01);
    Xaxis.setRange(min,max);
    
+   Utility.writeToDebug("Writing external validation chart to file: " + Constants.CECCR_USER_BASE_PATH+user+"/PREDICTORS/"+project+"/Structures/mychart.jpeg");
   String basePath=Constants.CECCR_USER_BASE_PATH+user+"/PREDICTORS/"+project+"/Structures/";
   FileOutputStream  fos_jpg = new FileOutputStream(basePath+"mychart.jpeg"); 
   ChartUtilities.writeChartAsJPEG(fos_jpg, 1.0f, chart, 650, 650, info); 
