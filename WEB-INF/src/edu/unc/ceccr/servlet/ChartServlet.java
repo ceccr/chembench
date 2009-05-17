@@ -191,8 +191,10 @@ protected void processRequest(HttpServletRequest request,
   String basePath=Constants.CECCR_USER_BASE_PATH+user+"/PREDICTORS/"+project+"/";
   FileOutputStream  fos_jpg = new FileOutputStream(basePath+"mychart.jpeg"); 
   ChartUtilities.writeChartAsJPEG(fos_jpg, 1.0f, chart, 650, 650, info); 
+  fos_jpg.close();
    FileOutputStream fos_cri = new FileOutputStream(basePath+"mychart.map"); 
   PrintWriter pw=new PrintWriter(fos_cri);
+  fos_cri.close();
    ChartUtilities.writeImageMap(pw, "mychart", info, true); 
 
    pw.flush();
