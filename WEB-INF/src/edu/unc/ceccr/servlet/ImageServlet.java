@@ -19,7 +19,7 @@ public class ImageServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
     	
-    	//this servlet returns 2D images for compounds
+    	//this servlet returns 2D images for compounds and external validation charts
     	
         String imageFilePath = Constants.CECCR_USER_BASE_PATH;
        
@@ -30,12 +30,14 @@ public class ImageServlet extends HttpServlet {
         String datasetID = request.getParameter("datasetID");
 		
         DataSet ds = null;
-        try{
-        	ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID));
-        }
-        catch(Exception ex){
-        	Utility.writeToDebug(ex);
-        	Utility.writeToMSDebug("Error in ImageServlet::"+ex.getMessage());
+        if(! compoundId.startsWith("mychart")){
+	        try{
+	        	ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID));
+	        }
+	        catch(Exception ex){
+	        	Utility.writeToDebug(ex);
+	        	Utility.writeToMSDebug("Error in ImageServlet::"+ex.getMessage());
+	        }
         }
         
         if(!projectType.equals("dataSet") && !projectType.equalsIgnoreCase("PCA") && ds.getUserName().equalsIgnoreCase("_all")){
