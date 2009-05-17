@@ -24,13 +24,13 @@ public class ImageServlet extends HttpServlet {
     	
         String imageFilePath = Constants.CECCR_USER_BASE_PATH;
        
+        //Note that some of these may be null, depending on the request type!
         String project = request.getParameter("project");
         String compoundId = request.getParameter("compoundId");
         String userName = request.getParameter("user");
         String projectType = request.getParameter("projectType");
         String datasetID = request.getParameter("datasetID");
 		
-        Utility.writeToDebug("npe1");
         
         DataSet ds = null;
         if(! compoundId.startsWith("mychart")){
@@ -43,7 +43,6 @@ public class ImageServlet extends HttpServlet {
 	        }
         }
 
-        Utility.writeToDebug("npe2");
         if(!projectType.equals("dataSet") && !projectType.equalsIgnoreCase("PCA") && ds != null && ds.getUserName().equalsIgnoreCase("_all")){
         	userName = "all-users";
         }
@@ -53,7 +52,6 @@ public class ImageServlet extends HttpServlet {
         {
         	//ext validation chart
 	      	imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
-	        Utility.writeToDebug("npe3");
       	}
     	else if(projectType.equalsIgnoreCase("PCA")){
         	imageFileName=userName+"/DATASETS/"+project+"/Visualization/"+compoundId+".jpg";
@@ -67,7 +65,6 @@ public class ImageServlet extends HttpServlet {
     	}
         File imageFile = new File(imageFilePath+imageFileName);
 
-        Utility.writeToDebug("npe4");
         BufferedInputStream input = null;
         BufferedOutputStream output = null;
 
@@ -81,14 +78,12 @@ public class ImageServlet extends HttpServlet {
         	           
             output = new BufferedOutputStream(response.getOutputStream());
 
-            Utility.writeToDebug("npe5");
             // Write file contents to response.
             while (contentLength-- > 0) {
                 output.write(input.read());
             }
 
             output.flush();
-            Utility.writeToDebug("npe6");
         } catch (IOException e) {
             Utility.writeToDebug(e);
         } finally {

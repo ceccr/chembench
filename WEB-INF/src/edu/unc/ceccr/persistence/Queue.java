@@ -600,7 +600,7 @@ public class Queue {
 		for (Iterator<QueueTask> i = ls.iterator( ); i.hasNext( ); ) {
 
 			QueueTask t = i.next( );
-			Utility.writeToDebug("task: " + t.jobName + " status: " + t.state);
+			//Utility.writeToDebug("task: " + t.jobName + " status: " + t.state);
 			
 			if(t.state==QueueTask.State.finished || t.state==QueueTask.State.error)
 			{
