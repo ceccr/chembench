@@ -44,7 +44,7 @@ public class ImageServlet extends HttpServlet {
         }
 
         Utility.writeToDebug("npe2");
-        if(!projectType.equals("dataSet") && !projectType.equalsIgnoreCase("PCA") && ds.getUserName().equalsIgnoreCase("_all")){
+        if(!projectType.equals("dataSet") && !projectType.equalsIgnoreCase("PCA") && ds != null && ds.getUserName().equalsIgnoreCase("_all")){
         	userName = "all-users";
         }
         
