@@ -28,10 +28,6 @@ public class ZipJobResultsWorkflow{
 			if(filenames[x].matches(".*S") || filenames[x].matches(".*x") || 
 					filenames[x].matches("RAND_sets.*[0-9]+") || filenames[x].matches(".*x_r") || 
 					filenames[x].matches(".*mod") || filenames[x].matches("Rand_sets_[a-zA-Z]+.[0-9]+")){
-				
-				if( filenames[x].matches("Rand_sets_[a-zA-Z]+.[0-9]+")){
-					Utility.writeToDebug("I am awesome: " + filenames[x]);
-				}
 				//these files contain descriptors! 
 				//We can't let people download them, or MolconnZ's lawyers will
 				//come get us.
