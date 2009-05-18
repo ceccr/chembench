@@ -23,7 +23,8 @@ public class SketchServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
-		
+
+		Utility.writeToDebug("doing a get, yo.");
 		//this servlet returns 3D rotatable images when a user clicks on the 2D molecule from a prediction or model.
 		
 		String project = request.getParameter("project");
@@ -107,7 +108,9 @@ public class SketchServlet extends HttpServlet {
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		Utility.writeToDebug("doing a post, yo.");
 		doGet(request, response);
+		Utility.writeToDebug("done wit da post, yo.");
 	}
 
 }

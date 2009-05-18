@@ -11,11 +11,8 @@ public class Generate3DMolWorkflow {
 		//So, this function will convert a 2D SDF to a 3D mol file on demand.
 		String command = "molconvert -3:S{fast} mol " + workingDir + fileName + " -o " + workingDir + outFileName;
 		Utility.writeToDebug("Running External Program: " + command, userName, jobName);
-		Utility.writeToDebug("execution starting");
 		Process p = Runtime.getRuntime().exec(command);
-		Utility.writeToDebug("execution started");
 		Utility.writeProgramLogfile(workingDir, "molconvert_3D", p.getInputStream(), p.getErrorStream());
 		p.waitFor();		
-		Utility.writeToDebug("execution finished");
 	}
 }
