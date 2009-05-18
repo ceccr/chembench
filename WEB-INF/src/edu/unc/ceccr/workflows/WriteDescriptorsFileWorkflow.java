@@ -104,7 +104,6 @@ public class WriteDescriptorsFileWorkflow{
 			descriptorValues.clear();
 		}
 
-		Utility.writeToDebug(descriptorNames.toString());
 		for(int j = zeroVariance.size() - 1; j >= 0; j--){
 			if(zeroVariance.get(j) == 1){
 				descriptorValueMinima.remove(j);

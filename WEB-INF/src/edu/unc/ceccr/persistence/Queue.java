@@ -596,7 +596,7 @@ public class Queue {
 		}
 
 		Utility.writeToDebug("Loading tasks from database.");
-		Utility.writeToDebug("tasks in queue:");
+		//Utility.writeToDebug("tasks in queue:");
 		for (Iterator<QueueTask> i = ls.iterator( ); i.hasNext( ); ) {
 
 			QueueTask t = i.next( );
