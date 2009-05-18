@@ -24,7 +24,6 @@ public class SketchServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 
-		Utility.writeToDebug("doing a get, yo.");
 		//this servlet returns 3D rotatable images when a user clicks on the 2D molecule from a prediction or model.
 		
 		String project = request.getParameter("project");
@@ -52,8 +51,6 @@ public class SketchServlet extends HttpServlet {
 
 		String urlBaseDir = "/BASE/" + userName+ "/DATASETS/" + ds.getFileName() + "/Visualization/Structures/";
 		
-		Utility.writeToDebug("Generating 3D structure for file : " + workingDir + sdf);
-		
 		String title = "<html><title>" + id
 				+ " 3D view</title><head></head><body bgcolor='black' ><div align='center'><font color='white' size='3'> Compound ID = "
 				+ id + "</div></font>";
@@ -63,14 +60,14 @@ public class SketchServlet extends HttpServlet {
 
 		String parameter = "mview_param('mol'," + "'" + urlBaseDir + mol3D + "'" + ");";
 
-
-		
 		String end = "</script><applet codebase='/jchem/marvin/' archive='jmarvin.jar' code='JMView' height='350' width='350'></applet></body></html>";
 
 		response.setContentType("text/html");
 
 		PrintWriter out = response.getWriter();
 
+		Utility.writeToDebug("Getting 3D structure for file : " + workingDir + sdf);
+		
 		try {
 			File sdfile = new File(sdfPath);
 			String warning = "ERROR, the SD file is not in correct format.\rThe structure can not be displayed.";
@@ -82,6 +79,9 @@ public class SketchServlet extends HttpServlet {
 					File mol3DFile = new File(workingDir + mol3D);
 					if(! mol3DFile.exists()){
 						Generate3DMolWorkflow.Convert2Dto3D(userName, project, sdf, mol3D, workingDir);
+					}
+					else{
+						Utility.writeToDebug("3D structure already calculated. Returning it.");
 					}
 
 					out.println(title);

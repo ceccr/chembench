@@ -76,7 +76,7 @@ public class Utility {
 	public static String getDate(){
 	    Date dateNow = new Date ();
 	    
-        SimpleDateFormat df = new SimpleDateFormat("dd:HH:mm:ss");
+        SimpleDateFormat df = new SimpleDateFormat("dd-HH:mm:ss");
         StringBuilder s = new StringBuilder( df.format( dateNow ) );
  
 		return s.toString();
