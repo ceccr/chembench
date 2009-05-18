@@ -103,11 +103,11 @@ public class SketchServlet extends HttpServlet {
 			out.close();
 		}
 		
-		
 	}
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		//Far as I can tell, this is never actually called anywhere.
 		Utility.writeToDebug("doing a post, yo.");
 		doGet(request, response);
 		Utility.writeToDebug("done wit da post, yo.");

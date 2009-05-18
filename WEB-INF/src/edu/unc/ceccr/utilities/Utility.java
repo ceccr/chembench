@@ -81,7 +81,7 @@ public class Utility {
 			BufferedWriter out = new BufferedWriter(fstream);
 
 			out.write(debug_counter.toString() + " " + userName + " " + jobName
-					+ " " + s + "\n");
+					+ " " + s + " [" + new Date() + "]" + "\n");
 			out.close();
 		} catch (Exception e) {
 			//ohnoes!
@@ -93,7 +93,7 @@ public class Utility {
 					Constants.CECCR_BASE_PATH + "/workflow-users/debug/" + userName
 							+ "-" + jobName + ".log", true);
 			BufferedWriter out = new BufferedWriter(fstream);
-			out.write(debug_counter.toString() + " " + s + "\n");
+			out.write(debug_counter.toString() + " " + s + " [" + new Date() + "]" + "\n");
 			out.close();
 		} catch (Exception e) {
 			//whatever
@@ -124,7 +124,7 @@ public class Utility {
 					Constants.CECCR_BASE_PATH + "/workflow-users/javadebug.log", true);
 			BufferedWriter out = new BufferedWriter(fstream);
 
-			out.write(debug_counter.toString() + " " + s + "\n");
+			out.write(debug_counter.toString() + " " + s + " [" + new Date() + "]" + "\n");
 			out.close();
 		} catch (Exception e) {
 		}
@@ -143,7 +143,7 @@ public class Utility {
 			ex.printStackTrace(printWriter);
 			s = result.toString();
 			BufferedWriter out = new BufferedWriter(fstream);
-			out.write(s);
+			out.write(s +  " [" + new Date() + "]");
 			// Close the output stream
 			out.close();
 		} catch (Exception e) {// Catch exception if any
