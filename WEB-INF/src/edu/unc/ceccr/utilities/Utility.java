@@ -2,6 +2,7 @@ package edu.unc.ceccr.utilities;
 
 import java.security.*;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -72,6 +73,15 @@ public class Utility {
 		return password;
 	}
 
+	public static String getDate(){
+	    Date dateNow = new Date ();
+	    
+        SimpleDateFormat df = new SimpleDateFormat("dd:HH:mm:ss");
+        StringBuilder s = new StringBuilder( df.format( dateNow ) );
+ 
+		return s.toString();
+	}
+	
 	public static void writeToDebug(String s, String userName, String jobName) {
 		//Debug output write function. Used throughout Java code.
 		try {
@@ -81,7 +91,7 @@ public class Utility {
 			BufferedWriter out = new BufferedWriter(fstream);
 
 			out.write(debug_counter.toString() + " " + userName + " " + jobName
-					+ " " + s + " [" + new Date() + "]" + "\n");
+					+ " " + s + " [" + getDate() + "]" + "\n");
 			out.close();
 		} catch (Exception e) {
 			//ohnoes!
@@ -93,7 +103,7 @@ public class Utility {
 					Constants.CECCR_BASE_PATH + "/workflow-users/debug/" + userName
 							+ "-" + jobName + ".log", true);
 			BufferedWriter out = new BufferedWriter(fstream);
-			out.write(debug_counter.toString() + " " + s + " [" + new Date() + "]" + "\n");
+			out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
 			out.close();
 		} catch (Exception e) {
 			//whatever
@@ -124,7 +134,7 @@ public class Utility {
 					Constants.CECCR_BASE_PATH + "/workflow-users/javadebug.log", true);
 			BufferedWriter out = new BufferedWriter(fstream);
 
-			out.write(debug_counter.toString() + " " + s + " [" + new Date() + "]" + "\n");
+			out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
 			out.close();
 		} catch (Exception e) {
 		}
@@ -143,7 +153,7 @@ public class Utility {
 			ex.printStackTrace(printWriter);
 			s = result.toString();
 			BufferedWriter out = new BufferedWriter(fstream);
-			out.write(s +  " [" + new Date() + "]");
+			out.write(s +  " [" + getDate() + "]");
 			// Close the output stream
 			out.close();
 		} catch (Exception e) {// Catch exception if any

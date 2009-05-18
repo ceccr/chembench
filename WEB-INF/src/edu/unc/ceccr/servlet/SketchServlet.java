@@ -32,8 +32,6 @@ public class SketchServlet extends HttpServlet {
 		String userName = request.getParameter("user");
         String datasetID = request.getParameter("datasetID");
 	
-        Utility.writeToDebug("called 3d servlet. project: " + project + " compound: " + id + " user: " + userName + " datasetID: " + datasetID);
-        
 		DataSet ds = null;
 		try{ 
 			ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID));
@@ -81,9 +79,10 @@ public class SketchServlet extends HttpServlet {
 				if (DatasetFileOperations.sdfIsValid(twoDis)) {
 					Utility.writeToMSDebug("VALID>>>>"+sdfile.getName());
 					
-					Utility.writeToDebug("Running 2d->3d convert");
-					Generate3DMolWorkflow.Convert2Dto3D(userName, project, sdf, mol3D, workingDir);
-					Utility.writeToDebug("2d->3d convert done");
+					File mol3DFile = new File(workingDir + mol3D);
+					if(! mol3DFile.exists()){
+						Generate3DMolWorkflow.Convert2Dto3D(userName, project, sdf, mol3D, workingDir);
+					}
 
 					out.println(title);
 					out.println(front);
