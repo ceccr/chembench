@@ -603,15 +603,16 @@ public class PopulateDataObjects {
 		return tasks;
 	}
 	
-	public static Long getPredictionTaskIdByDatasetId(Long id) throws HibernateException, ClassNotFoundException, SQLException{
-		PredictionTask pTask = null;
+	@SuppressWarnings("unchecked")
+	public static List<Long> getPredictionTasksIdByDatasetId(Long id) throws HibernateException, ClassNotFoundException, SQLException{
+		List<PredictionTask> pTasks = null;
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			pTask = (PredictionTask) session.createCriteria(PredictionTask.class)
+			pTasks = session.createCriteria(PredictionTask.class)
 					.add(Expression.eq("datasetId", id))
-					.uniqueResult();
+					.list();
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -620,7 +621,13 @@ public class PopulateDataObjects {
 		} finally {
 			session.close();
 		}
-		if(pTask!=null) return pTask.getId();
+		if(pTasks!=null){
+			List<Long> ids = new ArrayList<Long>();
+			for(Iterator<PredictionTask> i = pTasks.iterator();i.hasNext();){
+				ids.add(i.next().getId());
+			}
+			return ids;
+		}
 		else return null;
 	}
 	
@@ -645,15 +652,16 @@ public class PopulateDataObjects {
 		else return null;
 	}
 
-	public static Long getModelingTaskIdByDatasetId(Long id) throws HibernateException, ClassNotFoundException, SQLException {
-		ModellingTask mTask = null;
+	@SuppressWarnings("unchecked")
+	public static List<Long> getModelingTasksIdByDatasetId(Long id) throws HibernateException, ClassNotFoundException, SQLException {
+		List<ModellingTask> mTasks = null;
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			mTask = (ModellingTask) session.createCriteria(ModellingTask.class)
+			mTasks = session.createCriteria(ModellingTask.class)
 					.add(Expression.eq("datasetId", id))
-					.uniqueResult();
+					.list();
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -662,7 +670,13 @@ public class PopulateDataObjects {
 		} finally {
 			session.close();
 		}
-		if(mTask!=null) return mTask.getId();
+		if(mTasks!=null){
+			List<Long> ids = new ArrayList<Long>();
+			for(Iterator<ModellingTask> i = mTasks.iterator();i.hasNext();){
+				ids.add(i.next().getId());
+			}
+			return ids;
+		}
 		else return null;
 	}
 	

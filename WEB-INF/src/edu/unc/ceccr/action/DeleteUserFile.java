@@ -238,17 +238,21 @@ public class DeleteUserFile extends Action {
 			Long id = dataset.getFileId();
 			Utility.writeToMSDebug("DATASET::"+id);
 			if(id!=null){
-				Long temp = PopulateDataObjects.getPredictionTaskIdByDatasetId(id);
+				List<Long> temp = PopulateDataObjects.getPredictionTasksIdByDatasetId(id);
 				Utility.writeToMSDebug("PredictionTask::"+temp);
 				if(temp!=null){
-					QueueTask t = PopulateDataObjects.getTaskById(temp);
-					if(t!=null)	result+="Prediction task "+t.getJobName() +" using this dataset!";
+					for(Iterator<Long> i =temp.iterator();i.hasNext();){
+						QueueTask t = PopulateDataObjects.getTaskById(i.next());
+						if(t!=null)	result+="Prediction task "+t.getJobName() +" using this dataset! \n";
+					}
 				}
-				temp = PopulateDataObjects.getModelingTaskIdByDatasetId(id);
+				temp = PopulateDataObjects.getModelingTasksIdByDatasetId(id);
 				Utility.writeToMSDebug("Modeling taskTask::"+temp);
 				if(temp!=null){
-					QueueTask t = PopulateDataObjects.getTaskById(temp);
-					if(t!=null)	result+="Modeling task "+t.getJobName() +" using this dataset!";
+					for(Iterator<Long> i= temp.iterator();i.hasNext();){
+						QueueTask t = PopulateDataObjects.getTaskById(i.next());
+						if(t!=null)	result+="Modeling task "+t.getJobName() +" using this dataset! \n";
+					}
 				}
 				//TODO add the same for visualization
 				/*temp = PopulateDataObjects.getVisualizationTaskIdByDatasetId(id);
