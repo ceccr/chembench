@@ -104,8 +104,7 @@ public class QsarModelingTask implements WorkflowTask {
 	private KnnEnumeration knnEnum;
 	private String descriptorGenerationType;
 	private DescriptorEnumeration descriptorEnum;
-	private WorkflowTask executeAntWorkflow;	
-	private ExecuteExternal executeExternalPrediction;
+	private WorkflowTask executeAntWorkflow;
 	private String numSphereRadii;
 	private String selectionNextTrainPt;
 	private String numStartingPoints;
@@ -288,17 +287,13 @@ public class QsarModelingTask implements WorkflowTask {
 		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
 		WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
 
-		
-		//wtsequence.add(executePostDescriptorWorkflow);
 		queue.runningTask.setMessage("Splitting data");
 		KnnModelBuildingWorkflow.SplitData(userName, jobName, sdFileName, actFileName, numCompoundsExternalSet);
 
-		//wtsequence.add(executeRandomizationWorkflow);
 		queue.runningTask.setMessage("Y-Randomization Setup");
 		Utility.writeToDebug("ExecuteYRandomization", userName, jobName);
 		KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 		
-		//wtsequence.add(executeKnnWorkflow);	
 		queue.runningTask.setMessage("kNN Modeling");
 		if(knnEnum == KnnEnumeration.CATEGORY){
 			KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path);
@@ -306,7 +301,6 @@ public class QsarModelingTask implements WorkflowTask {
 			KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path);
 		}
 		
-		//wtsequence.add(executeYRandomKnnWorkflow);
 		queue.runningTask.setMessage("y-Randomization Modeling");
 		if(knnEnum == KnnEnumeration.CATEGORY){
 			KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path + "yRandom/");
@@ -314,13 +308,8 @@ public class QsarModelingTask implements WorkflowTask {
 			KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path + "yRandom/");
 		}
 		
-		//wtsequence.add(executeExternalPrediction);
 		queue.runningTask.setMessage("Predicting external set");
-		executeExternalPrediction = new ExecuteExternal(userName, jobName, sdFileName, actFileName);
-		WTSequence wtsequence = new WTSequence();
-		wtsequence.add(executeExternalPrediction);
-		executeAntWorkflow = wtsequence;
-		executeAntWorkflow.execute();
+		KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
 		
 		//done with modeling. Read output files. 
 		queue.runningTask.setMessage("Reading kNN output");

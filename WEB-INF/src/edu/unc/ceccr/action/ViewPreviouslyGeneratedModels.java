@@ -23,7 +23,6 @@ import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.ModelInterface;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.taskObjects.ViewModelsActionTask;
 import edu.unc.ceccr.utilities.Utility;
 
 public class ViewPreviouslyGeneratedModels extends Action {
@@ -64,12 +63,6 @@ public class ViewPreviouslyGeneratedModels extends Action {
 				session.removeAttribute("randomKNNValues");
 				session.setAttribute("randomKNNValues", yRandomModels);
 			
-				ViewModelsActionTask executeAntWorkflow = new ViewModelsActionTask(
-						user.getUserName(), /*formBean.getSelectedPredictorName()*/null);
-               
-				session.removeAttribute("workflow");
-				session.setAttribute("workflow", executeAntWorkflow);
-
 				session.removeAttribute("allExternalValues");
 				session.setAttribute("allExternalValues", predictor.getExternalValidationResults() );
 				

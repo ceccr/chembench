@@ -21,7 +21,6 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.PredictionJob;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
-import edu.unc.ceccr.taskObjects.ViewModelsActionTask;
 import edu.unc.ceccr.utilities.Utility;
 
 public class DeleteAction extends Action {
@@ -72,13 +71,7 @@ public class DeleteAction extends Action {
 						forward = actionMapping.findForward("failure");
 					}
 					else{
-						
 						deletePredictor(predictor);
-						
-						if (session.getAttribute("workflow") instanceof ViewModelsActionTask)
-						{
-							((ViewModelsActionTask) session.getAttribute("workflow")).cleanFiles();
-					    }
 					}
 				}
 			} catch (Exception e) {
