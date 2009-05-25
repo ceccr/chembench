@@ -15,7 +15,7 @@ public class StandardizeMoleculesWorkflow {
 		//Standardizes the molecules in this sdfile. Necessary to do this before running DRAGON
 		//descriptor generation. Also important to do this to any molecules that could go into our database.
 		
-		String execstr1 = "standardize -c \"dearomatize..aromatize..tautomerize..addExplicitH..clean:full\" -f sdf:-a -o " + sdfOut + " " + sdfIn;
+		String execstr1 = "standardize.sh " + sdfIn + " " + sdfOut;
 		Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "standardize", p.getInputStream(), p.getErrorStream());

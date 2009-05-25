@@ -520,7 +520,6 @@ public class DatasetFileOperations {
 				}
 			}
 		}
-		Utility.writeToDebug(chemicalNames.toString());
 		return chemicalNames;
 	}
 	
