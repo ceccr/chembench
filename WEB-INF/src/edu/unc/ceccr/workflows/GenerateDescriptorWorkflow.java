@@ -26,9 +26,9 @@ public class GenerateDescriptorWorkflow{
 
 		  String workingDir = sdfile.replaceAll("/[^/]+$", "") + "/";
 		  
-		  StandardizeMoleculesWorkflow.standardizeSdf(sdfile, sdfile, workingDir);
+		  StandardizeMoleculesWorkflow.standardizeSdf(sdfile, sdfile + ".standardized", workingDir);
 		  
-		  writeDragonScriptFiles(sdfile, workingDir, outfile);
+		  writeDragonScriptFiles(sdfile + ".standardized", workingDir, outfile);
 		  String execstr = "/usr/local/ceccr/dragon/dragonX -s " + workingDir + "dragon-script.txt";
 			
 	      Utility.writeToDebug("Running external program: " + execstr);
