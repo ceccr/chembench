@@ -3,7 +3,7 @@
           <tr>
           <td height="118" width="24%" colspan="5" align="center" valign="middle"
 			background="theme/img/infocell.jpg" class="StandardTextBlack">
-            <a href="http://www.unc.edu/" ><img src="theme/img/unclogotransparent.gif" border="0" height="46" width="36" /></a></div></td>
+            <a href="http://mml.unc.edu/" ><img src="theme/img/mml-logo.gif" border="0" height="46" width="36" /></a></div></td>
             <td height="118" width="50%" colspan="5" align="center" valign="middle"
 			background="theme/img/infocell.jpg" class="ccbHomeStandard"><br />
               Carolina Exploratory Center for Cheminformatics Research<br />
