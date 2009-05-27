@@ -248,7 +248,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				<td align="left" valign="top"><html:text name="knnCon11" property="numRuns" size="5" value="5"/></td></tr>	
 				
 				<!-- kNN, Advanced Parameters -->
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Nearest Neighbors:</b></div></td>
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Max. Number of Nearest Neighbors:</b></div></td>
 				<td align="left" valign="top"><html:text name="knnCon06" property="Nearest_Neighbors" size="5" value="5"/></td></tr>	
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Percentage of Pseudo Neighbors:</b></div></td>
 				<td align="left" valign="top"><html:text name="knnCon07" property="Pseudo_Neighbors" size="5" value="100"/></td></tr>	
