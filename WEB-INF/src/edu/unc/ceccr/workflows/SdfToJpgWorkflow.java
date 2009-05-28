@@ -74,7 +74,7 @@ public class SdfToJpgWorkflow {
 		}
 		int x = 0;
 		while(files != null && x<files.length){
-			if(files[x].contains(" ")){ files[x] = files[x].replace(".sdf", "").trim();
+			if(files[x].contains(" ") || files[x].contains("\t")){ files[x] = files[x].replace(".sdf", "").trim();
 				files[x]+=".sdf";
 				Utility.writeToMSDebug(files[x]);
 			}
