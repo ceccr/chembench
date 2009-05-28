@@ -74,10 +74,6 @@ public class SdfToJpgWorkflow {
 		}
 		int x = 0;
 		while(files != null && x<files.length){
-			/*if(files[x].contains(" ") || files[x].contains("\t")){ files[x] = files[x].replace(".sdf", "").trim();
-				files[x]+=".sdf";
-				Utility.writeToMSDebug(files[x]);
-			}*/
 			String jpgFilename = files[x].replace("sdf", "jpg");
 			
 			//only make the JPG if it's not already there - saves a lot of time!
