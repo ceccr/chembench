@@ -74,7 +74,7 @@ public class SdfToJpgWorkflow {
 		}
 		int x = 0;
 		while(files != null && x<files.length){
-			String jpgFilename = files[x].replace("sdf", "jpg");
+			String jpgFilename = files[x].trim().replace("sdf", "jpg");
 			
 			//only make the JPG if it's not already there - saves a lot of time!
 			if(! new File(sketchesDir + jpgFilename).exists()){ 
