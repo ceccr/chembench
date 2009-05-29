@@ -102,10 +102,7 @@
           <p><span class="ccbHomeHeadings">COLLABORATORS:<br />
             <br />
           </span></p>
-          <a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg" /></a>
-          <a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg" /></a>
-          <a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a>
-          <a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a>
+          <a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg" /></a> <a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg" /></a> <a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a> <a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a>
           <p>&nbsp;</p>
           <p>&nbsp;</p></td>
   </tr>
