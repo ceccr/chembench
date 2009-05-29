@@ -79,9 +79,9 @@
 		</logic:notEqual>
 	
 		<logic:equal name="user" property="userName" value="">    
-		<table width="260" border="0" align="right" cellpadding="5" cellspacing="2">
+		<table width="300" border="0" align="right" cellpadding="5" cellspacing="2">
 				  <tr><td valign="middle">	
-				<p align="right"><span><span class="StandardTextDarkGray4">
+				<p align="right"><span><span	class="StandardTextDarkGray4">
 				ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="LoginBoxes1" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
 				    &nbsp &nbsp &nbsp</span> </span>        
 				<p align="right"><a href="help.do" target="_top">help pages</a>&nbsp &nbsp &nbsp</td></tr> 
@@ -103,7 +103,7 @@
           </table>
           
           <br />
-          <table width="100%" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
+          <table width="300" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
           <tr><td>
           <p><span class="ccbHomeHeadings">COLLABORATORS<br />
           </span></p>
