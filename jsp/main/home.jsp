@@ -102,10 +102,10 @@
           <p><span class="ccbHomeHeadings">THANKS TO:<br />
             <br />
           </span><img src="/theme/ccbTheme/images/ccbHorizontalRule300.jpg" width="300" height="6" /></p>
-          <p><span class="ccbHomeStandard"><a href="http://www.chemcomp.com/"><img src="/theme/ccbTheme/images/logos/CCG.jpg" /></a></span></p>
-          <p><span class="ccbHomeStandard"><a href="http://www.talete.mi.it/"><img src="/theme/ccbTheme/images/logos/Talete.jpg" /></a></span></p>
-          <p><span class="ccbHomeStandard"><a href="http://www.chemaxon.com/"><img src="/theme/ccbTheme/images/logos/ChemAxon.jpg" /></a></span></p>
-          <p><span class="ccbHomeStandard"><a href="http://www.edusoft-lc.com"><img src="/theme/ccbTheme/images/logos/edusoft.jpg" /></a></span></p>
+          <p><span class="ccbHomeStandard"><a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg" /></a></span></p>
+          <p><span class="ccbHomeStandard"><a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg" /></a></span></p>
+          <p><span class="ccbHomeStandard"><a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a></span></p>
+          <p><span class="ccbHomeStandard"><a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a></span></p>
           <p>&nbsp;</p>
           <p>&nbsp;</p></td>
   </tr>
