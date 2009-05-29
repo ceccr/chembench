@@ -101,9 +101,7 @@
                 </table>
           
           <table width="300" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
-          <p><span class="ccbHomeHeadings">COLLABORATORS<br />
-            <br />
-          </span></p>
+          <p><div class="ccbHomeHeadings">COLLABORATORS</div><br />
           <tr><td>
           <a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg" /></a> <a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg" /></a> <a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a> <a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a>
           </td></tr><table>
