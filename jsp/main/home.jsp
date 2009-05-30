@@ -51,7 +51,7 @@
         <td width="300" align="left" valign="top">
 		
 			<!-- LOGIN BOX STARTS HERE -->        
-	        <table width="300" align="right" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
+	        <table width="300" align="left" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
 	        <tr><td width="284" valign="top" class="ccbLoginBoxHeading">Please login            
 			
 			
