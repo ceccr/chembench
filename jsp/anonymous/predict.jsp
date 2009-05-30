@@ -26,10 +26,6 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <br />
 
-
-
-
-
 <body onUnLoad="document.MSketch=null">
 <div id="bodyDIV"></div>
 <table width="924" border="0" align="center" cellpadding="0"	cellspacing="0">
@@ -57,10 +53,7 @@
 						<table><tr><td>
 							<div class="StandardTextDarkGray"><b>Chosen Predictor:</b></div>
 						</td>
-						<td height="26">
-						<div class="StandardTextDarkGray"><bean:write name="selectedPredictor" property="name" /></div>
-							<html:hidden property="selectedPredictorId" value="<%= selectedPredictor.getPredictorId().toString() %>" />
-						</td>
+						
 						</tr> 
 						<tr>
 							<td height="26">
@@ -122,7 +115,7 @@
 						<div align="right
 						" class="StandardTextDarkGray"><b>SMILES:</b></div>
 						</td>
-						<td width="150" align="left" valign="top"><input type="text" name="smiles" id="smiles" size="30" value=""/><html:hidden property="selectedPredictorId" value="<%= selectedPredictor.getPredictorId().toString() %>" />
+						<td width="150" align="left" valign="top"><input type="text" name="smiles" id="smiles" size="30" value=""/>
 						<html:hidden property="username" value="<%=user.getUserName()%>" /><span id="messageDiv2"></span></td>
 						
 					</tr>
