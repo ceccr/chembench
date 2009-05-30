@@ -44,7 +44,7 @@
     <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
   
       <tr>
-        <td width="41" height="307" valign="top">&nbsp;</td>
+        <td width="41" valign="top">&nbsp;</td>
         <td width="300" rowspan="2" align="left" valign="top">
 <!-- LOGIN BOX STARTS HERE -->        
         <table width="300" align="right" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
@@ -104,8 +104,8 @@
           </td>
           </tr>
           <tr>
+          <td width="41" valign="top">&nbsp;</td>
           <td>
-          <br />
           <table width="300" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
 	          <tr><td>
 	          <p><span class="ccbHomeHeadings">COLLABORATORS<br />
