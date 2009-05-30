@@ -7,6 +7,7 @@
 <%@ page import="edu.unc.ceccr.global.Constants" %>
 <%@ page import="edu.unc.ceccr.utilities.ActiveUser" %>
 <% ActiveUser au= new ActiveUser();%>
+<jsp:useBean id="user" class="edu.unc.ceccr.persistence.User" scope="session" />
 <%@ page import="edu.unc.ceccr.utilities.Utility" %>
 <%@ page import="edu.unc.ceccr.persistence.User"%>
 <% Utility u=new Utility();%>

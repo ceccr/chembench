@@ -31,7 +31,6 @@ import edu.unc.ceccr.utilities.Utility;
 //- interpreting requests from the page
 //- displaying results from single molecule predictions.
 
-
 public class AnonymousPredictForward extends Action {
 
 	ActionForward forward;
@@ -51,7 +50,7 @@ public class AnonymousPredictForward extends Action {
 		}else{
 			try {
 				User user = (User) session.getAttribute("user");
-				
+
 			} catch (Exception e) {
 				forward = mapping.findForward("failure");
 				Utility.writeToDebug(e);
