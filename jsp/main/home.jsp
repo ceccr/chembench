@@ -41,55 +41,61 @@
       <p class="ccbHomeHeadings">&nbsp;</p>
       <p>&nbsp;</p>
     <p>&nbsp;</p></td>
-    <td valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <td valign="top">
+
+    <!-- This table contains the right column of the page -->
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
   
       <tr>
-        <td width="41" valign="top">&nbsp;</td>
+        <td width="41" valign="top">&nbsp;</td> <!-- spacer -->
         <td width="300" rowspan="2" align="left" valign="top">
-<!-- LOGIN BOX STARTS HERE -->        
+		
+		<!-- LOGIN BOX STARTS HERE -->        
         <table width="300" align="right" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
         <tr><td width="284" valign="top" class="ccbLoginBoxHeading">Please login            
-<!-- LOGIN INPUT FIELD STARTS HERE. -->
-<logic:notPresent name="user">
-		<form id="form1" name="form1" method="post" action="submitLogin.do">
-		  <table width="250" border="0" >		          
-           <tr>
-           <td><label><input name="loginName" type="text" class="LoginBoxes1" size="12" value="username" onfocus="if(this.value=='username'){value=''}"/></label></td>
-	       <td><label><input name="loginPassword" type="password" class="LoginBoxes1" size="12" value="password" onfocus="if(this.value=='password'){value=''}"/></label></td>
-	       </tr>
-	       <tr>
-			<td><label> 
-			  <input name="Submit" type="submit" class="StandardTextDarkGray4" value="login"
-			style="border-style:solid; border-color:blue;border-width:1px" /></label></td></tr>        
-          </table>     
-        </form>
-</logic:notPresent>
+			
+			<!-- LOGIN INPUT FIELD STARTS HERE. -->
+			<logic:notPresent name="user">
+					<form id="form1" name="form1" method="post" action="submitLogin.do">
+					  <table width="250" border="0" >		          
+			           <tr>
+			           <td><label><input name="loginName" type="text" class="LoginBoxes1" size="12" value="username" onfocus="if(this.value=='username'){value=''}"/></label></td>
+				       <td><label><input name="loginPassword" type="password" class="LoginBoxes1" size="12" value="password" onfocus="if(this.value=='password'){value=''}"/></label></td>
+				       </tr>
+				       <tr>
+						<td><label> 
+						  <input name="Submit" type="submit" class="StandardTextDarkGray4" value="login"
+						style="border-style:solid; border-color:blue;border-width:1px" /></label></td></tr>        
+			          </table>     
+			        </form>
+			</logic:notPresent>
 		
-<logic:present name="user">
-		<logic:notEqual name="user" property="userName" value="">    
-			<table border="0">
-			  <tr><td>	
-			<span><span	class="ccbHomeStandard">Welcome, 
-			  </span></span><span><span	class="ccbHomeStandard">
-	  <bean:write name="user" 	property="userName" />
-	  <button onclick="logout()" type="button" class="LoginBoxes1" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
-			    </span> </span>        
-			</td></tr> 
-			</table>
-		</logic:notEqual>
+			<logic:present name="user">
+				<logic:notEqual name="user" property="userName" value="">    
+					<table border="0">
+					  <tr><td>	
+					<span><span	class="ccbHomeStandard">Welcome, 
+					  </span></span><span><span	class="ccbHomeStandard">
+					  <bean:write name="user" 	property="userName" />
+					  <button onclick="logout()" type="button" class="LoginBoxes1" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
+					    </span> </span>        
+					</td></tr> 
+					</table>
+				</logic:notEqual>
 	
-		<logic:equal name="user" property="userName" value="">    
-		<table width="250" border="0" align="right" cellpadding="5" cellspacing="2">
-				  <tr><td valign="middle">	
-				<p align="right"><span><span	class="StandardTextDarkGray4">
-				ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="LoginBoxes1" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
-				    &nbsp &nbsp &nbsp</span> </span>        
-				<p align="right"><a href="help.do" target="_top">help pages</a>&nbsp &nbsp &nbsp</td></tr> 
-		</table></p>
-			</logic:equal>
-		</logic:present>
-		<!-- LOGIN INPUT FIELD ENDS HERE-->
-                </p>
+				<logic:equal name="user" property="userName" value="">    
+				<table width="250" border="0" align="right" cellpadding="5" cellspacing="2">
+						  <tr><td valign="middle">	
+						<p align="right"><span><span	class="StandardTextDarkGray4">
+						ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="LoginBoxes1" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
+						    &nbsp &nbsp &nbsp</span> </span>        
+						<p align="right"><a href="help.do" target="_top">help pages</a>&nbsp &nbsp &nbsp</p></td></tr> 
+				</table>
+				</logic:equal>
+			</logic:present>
+			<!-- LOGIN INPUT FIELD ENDS HERE-->
+			
+			<!-- Other menus inside login box -->
               <p>New Users<br />
                 <span class="ccbHomeStandard">Please <a href="gotoregister.do">register here</a></span></p>
                <p>FAQ &amp; Help <br />
@@ -100,12 +106,14 @@
                 <span class="ccbHomeStandard"><a href="admin.do"> Please click here</a></span><br />
                 </td>
           </tr>
+          <!-- end login box -->
           </table>
+          
           </td>
           </tr>
           <tr>
-          <td width="41" valign="top">&nbsp;</td>
-          <td>
+          <td width="41" valign="top">&nbsp;</td> <!-- spacer -->
+          <td width="300" rowspan="2" align="left" valign="top">
           <table width="300" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
 	          <tr><td>
 	          <p><span class="ccbHomeHeadings">COLLABORATORS<br />
