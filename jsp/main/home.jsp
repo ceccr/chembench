@@ -109,9 +109,10 @@
           <!-- end login box -->
           </table>
           
+          <!-- Still in the table defining the right side column... -->
           </td>
-          </tr>
-          <tr>
+        </tr>
+        <tr>
           <td width="41" valign="top">&nbsp;</td> <!-- spacer -->
           <td width="300" rowspan="2" align="left" valign="top">
           <table width="300" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
