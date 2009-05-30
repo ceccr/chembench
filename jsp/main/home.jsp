@@ -117,11 +117,17 @@
          <td width="41" valign="top">&nbsp;</td> <!-- spacer -->
          <td width="300" align="left" valign="top">
          <br />
-          <table width="300" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
+          <table width="300" border="1" cellpadding="5" cellspacing="0" bordercolor="#CCCCCC">
 	          <tr><td>
-	          <p><span class="ccbHomeHeadings">COLLABORATORS<br />
-	          </span></p>
-	          <a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg" /></a> <a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg" /></a> <a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a> <a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a>
+	          <span class="ccbHomeHeadings">COLLABORATORS<br />
+	          </span>
+	          <table><tr>
+	          <td><a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg" /></a></td>
+	          <td><a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg" /></a></td>
+	          </tr><tr>
+	          <td><a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a></td>
+	          <td><a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a></td>
+	          </td></tr></table>
 	          </td></tr>
 	 	  </table>
    		 </td>
