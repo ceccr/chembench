@@ -116,6 +116,7 @@
        <tr>
          <td width="41" valign="top">&nbsp;</td> <!-- spacer -->
          <td width="300" align="left" valign="top">
+         <br />
           <table width="300" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
 	          <tr><td>
 	          <p><span class="ccbHomeHeadings">COLLABORATORS<br />
