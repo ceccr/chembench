@@ -51,20 +51,6 @@ public class AnonymousPredictForward extends Action {
 		}else{
 			try {
 				User user = (User) session.getAttribute("user");
-				Long predictorId = Long.parseLong(request.getParameter("id"));
-				Predictor predictor = PopulateDataObjects.getPredictorById(predictorId);
-				
-				session.removeAttribute("datasetNames");
-				session.removeAttribute("predictorNames");
-				session.removeAttribute("predictionNames");
-				session.removeAttribute("taskNames");
-				session.removeAttribute("selectedPredictor");
-				
-				session.setAttribute("datasetNames", PopulateDataObjects.populateDatasetNames(user.getUserName(), true));
-				session.setAttribute("predictorNames", PopulateDataObjects.populatePredictorNames(user.getUserName(), true));
-				session.setAttribute("predictionNames", PopulateDataObjects.populatePredictionNames(user.getUserName(), true));
-				session.setAttribute("taskNames", PopulateDataObjects.populateTaskNames(user.getUserName(), false));
-				session.setAttribute("selectedPredictor", predictor);
 				
 			} catch (Exception e) {
 				forward = mapping.findForward("failure");
