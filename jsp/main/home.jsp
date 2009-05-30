@@ -52,7 +52,7 @@
 <!-- LOGIN INPUT FIELD STARTS HERE. -->
 <logic:notPresent name="user">
 		<form id="form1" name="form1" method="post" action="submitLogin.do">
-		  <table width="300" border="0" >		          
+		  <table width="250" border="0" >		          
            <tr>
            <td><label><input name="loginName" type="text" class="LoginBoxes1" size="12" value="username" onfocus="if(this.value=='username'){value=''}"/></label></td>
 	       <td><label><input name="loginPassword" type="password" class="LoginBoxes1" size="12" value="password" onfocus="if(this.value=='password'){value=''}"/></label></td>
@@ -79,7 +79,7 @@
 		</logic:notEqual>
 	
 		<logic:equal name="user" property="userName" value="">    
-		<table width="300" border="0" align="right" cellpadding="5" cellspacing="2">
+		<table width="250" border="0" align="right" cellpadding="5" cellspacing="2">
 				  <tr><td valign="middle">	
 				<p align="right"><span><span	class="StandardTextDarkGray4">
 				ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="LoginBoxes1" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
@@ -104,18 +104,18 @@
           
           <br />
           <table width="300" border="1" cellpadding="10" cellspacing="0" bordercolor="#CCCCCC">
-          <tr><td>
-          <p><span class="ccbHomeHeadings">COLLABORATORS<br />
-          </span></p>
-          <a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg" /></a> <a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg" /></a> <a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a> <a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a>
-          </td></tr><table>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p></td>
-  </tr>
-      <tr>
-        <td height="358">&nbsp;</td>
-      </tr>
-    </table>
+	          <tr><td>
+	          <p><span class="ccbHomeHeadings">COLLABORATORS<br />
+	          </span></p>
+	          <a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg" /></a> <a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg" /></a> <a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a> <a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a>
+	          </td></tr><table>
+	          <p>&nbsp;</p>
+	          <p>&nbsp;</p></td>
+	  		  </tr>
+	     	  <tr>
+	    	  <td height="358">&nbsp;</td>
+	 	      </tr>
+	    </table>
     </td>
   </tr>
 </table>
