@@ -188,6 +188,11 @@
 			<forward name="success" path="/jsp/main/home.jsp" />
 			<forward name="failure" path="/jsp/administration/user/lostPasswordRetrieval.jsp"/>
 		</action>
+		<action path="/anonPredict"
+			type="edu.unc.ceccr.action.AnonymousPredictForward" input="/jsp/main/home.jsp">
+			<forward name="success" path="/jsp/anonymous/predict.jsp" />
+			<forward name="failure" path="/jsp/main/home.jsp"/>
+		</action>
 		
 		<action path="/deleteUser" type="edu.unc.ceccr.action.RegisterActions.DeleteUserAction" scope="request">
 		<forward name="success" path="/viewUsers.do"/>

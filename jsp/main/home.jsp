@@ -98,13 +98,15 @@
 			
 			<!-- Other menus inside login box -->
 	             <p>New Users<br />
-	               <span class="ccbHomeStandard">Please <a href="gotoregister.do">register here</a></span></p>
+	               <span class="ccbHomeStandard">Please <a href="gotoregister.do">register here</a><br/>
+	               or, <a href="anonPredict.do">make simple predictions</a> (no login required)
+	               </span></p>
 	              <p>FAQ &amp; Help <br />
 	               <span class="ccbHomeStandard"><a href="http://ceccr.ibiblio.org/c-chembench/theme/cchembench_userguide.pdf" target="_blank">                CCB User Guide</a><br />
 	               <a href="http://ceccr.ibiblio.org/c-chembench/theme/kNNQSAR.pdf" target="_blank">kNN-QSAR User Guide</a><br />
 	               <a href="http://chembench-dev.metalab.unc.edu/help.do" target="_blank">Frequently Asked Questions</a></span></p>
 	             <p>System Settings<br />
-	               <span class="ccbHomeStandard"><a href="admin.do"> Please click here</a></span><br />
+	               <span class="ccbHomeStandard"><a href="admin.do">Please click here</a></span><br />
 	               </td>
 	         </tr>
 	         <!-- end login box -->
@@ -119,8 +121,9 @@
          <br />
           <table width="300" border="1" cellpadding="5" cellspacing="0" bordercolor="#CCCCCC">
 	          <tr><td>
-	          <span class="ccbHomeHeadings">COLLABORATORS<br />
-	          </span>
+	          <span class="ccbHomeHeadings">THANKS TO</span>
+	          <br />
+	          <br />
 	          <table><tr>
 	          <td><a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg" /></a></td>
 	          <td><a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg" /></a></td>
