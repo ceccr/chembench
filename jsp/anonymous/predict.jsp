@@ -12,12 +12,6 @@
 <%@ page import="edu.unc.ceccr.utilities.Utility" %>
 <%@ page import="edu.unc.ceccr.persistence.User"%>
 <% Utility u=new Utility();%>
-<%
-if(user == null){
-	user = new User();
-	user.setUserName(anonUser.getUserName());	
-}
-%>
 <html:html>
 <head>
 <title>C-CHEMBENCH | Make Simple Predictions </title>
@@ -32,6 +26,13 @@ if(user == null){
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <br />
+
+<%
+if(user == null){
+	user = new User();
+	user.setUserName(anonUser.getUserName());	
+}
+%>
 
 <body onUnLoad="document.MSketch=null">
 <div id="bodyDIV"></div>
@@ -239,9 +240,10 @@ msketch_end();
 
 	</td>
 	</tr>
-	<tr>
-	<%@include file ="/jsp/main/footer.jsp" %>
 </table>	
 
+	<tr>
+	<%@include file ="/jsp/main/footer.jsp" %>
+	</tr>
 </body>
 </html:html>
