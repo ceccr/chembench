@@ -56,6 +56,7 @@ if(user == null){
         </table>
 		<b><html:errors /></b>
 		
+		<html:form action="/execPredictor.do">
 		<table border="0" align="left" cellpadding="4"	cellspacing="4">
 		<tbody>
 		<tr>
@@ -234,6 +235,7 @@ msketch_end();
 		
 	</tbody>
 	</table>
+	</html:form>
 
 	</td>
 	</tr>
