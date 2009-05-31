@@ -239,8 +239,9 @@ msketch_end();
 
 	</td>
 	</tr>
+	<tr>
+	<%@include file ="/jsp/main/footer.jsp" %>
 </table>	
 
-<%@include file ="/jsp/main/footer.jsp" %>
 </body>
 </html:html>

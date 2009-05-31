@@ -189,7 +189,7 @@
 			<forward name="failure" path="/jsp/administration/user/lostPasswordRetrieval.jsp"/>
 		</action>
 		<action path="/anonPredict"
-			type="edu.unc.ceccr.action.AnonymousPredictForward" input="/jsp/main/home.jsp">
+			name="predForm" scope="request" type="edu.unc.ceccr.action.AnonymousPredictForward" input="/jsp/main/home.jsp">
 			<forward name="success" path="/jsp/anonymous/predict.jsp" />
 			<forward name="failure" path="/jsp/main/home.jsp"/>
 		</action>
