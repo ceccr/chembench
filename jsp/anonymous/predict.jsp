@@ -14,7 +14,8 @@
 <% Utility u=new Utility();%>
 <%
 if(user == null){
-	user = anonUser;	
+	user = new User();
+	user.setUserName(anonUser.getUserName());	
 }
 %>
 <html:html>
