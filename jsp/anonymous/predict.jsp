@@ -7,7 +7,6 @@
 <%@ page import="edu.unc.ceccr.global.Constants" %>
 <%@ page import="edu.unc.ceccr.utilities.ActiveUser" %>
 <% ActiveUser au= new ActiveUser();%>
-<jsp:useBean id="user" class="edu.unc.ceccr.persistence.User" scope="session" />
 <jsp:useBean id="anonUser" class="edu.unc.ceccr.persistence.User" scope="session" />
 <%@ page import="edu.unc.ceccr.utilities.Utility" %>
 <%@ page import="edu.unc.ceccr.persistence.User"%>
@@ -27,6 +26,7 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <br />
 
+<jsp:useBean id="user" class="edu.unc.ceccr.persistence.User" scope="session" />
 <%
 if(user == null){
 	user = new User();
