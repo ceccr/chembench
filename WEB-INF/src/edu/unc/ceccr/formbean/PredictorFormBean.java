@@ -7,7 +7,7 @@ import edu.unc.ceccr.global.Constants;
 
 public class PredictorFormBean extends ValidatorForm {
 	
-	private String username;
+	private String userName;
 	
 	private String jobName;
 
@@ -24,11 +24,11 @@ public class PredictorFormBean extends ValidatorForm {
 	private int uploadOrSelect = Constants.SELECT;
 
 	public String getUserName() {
-		return username;
+		return userName;
 	}
 
 	public void setUserName(String userName) {
-		this.username = userName;
+		this.userName = userName;
 	}
 	
 	public String getJobName() {

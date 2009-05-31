@@ -168,7 +168,7 @@ if(user == null){
 						" class="StandardTextDarkGray"><b>SMILES:</b></div>
 						</td>
 						<td width="150" align="left" valign="top"><input type="text" name="smiles" id="smiles" size="30" value=""/>
-						<html:hidden property="username" value="<%=user.getUserName()%>" /><span id="messageDiv2"></span></td>
+						<html:hidden property="userName" value="<%=user.getUserName()%>" /><span id="messageDiv2"></span></td>
 						
 					</tr>
 					<tr>
