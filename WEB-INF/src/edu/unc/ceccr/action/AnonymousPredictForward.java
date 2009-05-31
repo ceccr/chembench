@@ -1,6 +1,7 @@
 package edu.unc.ceccr.action;
 
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,11 +12,13 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
+import edu.unc.ceccr.formbean.LoginFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Model;
@@ -43,19 +46,26 @@ public class AnonymousPredictForward extends Action {
 		forward = mapping.findForward("success");
 	
 		HttpSession session = request.getSession(false);
-		if (session == null) {
-			forward = mapping.findForward("login");
-		}else if (session.getAttribute("user") == null){
-			forward = mapping.findForward("login");
-		}else{
-			try {
-				User user = (User) session.getAttribute("user");
 
-			} catch (Exception e) {
-				forward = mapping.findForward("failure");
-				Utility.writeToDebug(e);
+		if (session == null || session.getAttribute("user") == null) {
+			//user is not logged in
+			//Create a temporary user (anonymous), and "log them in" as that.
+			session = request.getSession(true);
+			session.setMaxInactiveInterval(Constants.SESSION_EXPIRATION_TIME);
+			
+			User user = new User();
+			user.setUserName("anon_" + session.getCreationTime());
+			session.setAttribute("anonUser", user);
+			
+			try {
+				session.setAttribute("predictors", PopulateDataObjects.populatePredictors(user.getUserName(), true, true));
+			} catch (Exception ex) {
+				Utility.writeToDebug(ex);
 			}
+			
 		}
+		//if the user is logged in, though, they can stay logged in and they don't need an anonymous name.
+
 		return forward;
 	}
 

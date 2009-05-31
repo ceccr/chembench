@@ -144,7 +144,7 @@ function predictSmiles(){
 					<tr>
 						<td width="100%" height="24" align="left" colspan="2">
 						<p class="StandardTextDarkGrayParagraph2">
-						<b>Predict by SMILES string</b>
+						<b>Enter a SMILES string</b>
 						</p>
 						</td>
 					</tr>
@@ -152,6 +152,7 @@ function predictSmiles(){
 						<td align="left" colspan="2">
 						<p  class="StandardTextDarkGrayParagraph">
 						Enter a molecule in SMILES format, e.g. <b>C1=CC=C(C=C1)CC(C(=O)O)N</b> (phenylalanine).
+						Or, use the applet on the right to draw a molecule, then click "Get SMILES".
 						</p>
 					</tr>
 					<tr>

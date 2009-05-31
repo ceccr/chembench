@@ -8,13 +8,14 @@
 <%@ page import="edu.unc.ceccr.utilities.ActiveUser" %>
 <% ActiveUser au= new ActiveUser();%>
 <jsp:useBean id="user" class="edu.unc.ceccr.persistence.User" scope="session" />
+<jsp:useBean id="anonUser" class="edu.unc.ceccr.persistence.User" scope="session" />
 <%@ page import="edu.unc.ceccr.utilities.Utility" %>
 <%@ page import="edu.unc.ceccr.persistence.User"%>
 <% Utility u=new Utility();%>
 
 <html:html>
 <head>
-<title>C-CHEMBENCH | Make Predictions </title>
+<title>C-CHEMBENCH | Make Simple Predictions </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
@@ -29,69 +30,112 @@
 
 <body onUnLoad="document.MSketch=null">
 <div id="bodyDIV"></div>
-<table width="924" border="0" align="center" cellpadding="0"	cellspacing="0">
-<%@include file="/jsp/main/header.jsp" %>
-<%@include file="/jsp/main/centralNavigationBar.jsp" %>
+<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr>
 		<span id="maincontent">
 		<td height="557" colspan="5" valign="top"
 			background="theme/img/backgrpredictors.jpg">
 		<p class="StandardTextDarkGray">&nbsp;</p>
+		<p class="StandardTextDarkGrayParagraph">
+		<b>C-ChemBench Predictors</b>
+		</p>
 		
-		<html:form action="/execPredictor.do">
+		<table width="465" border="0" cellspacing="0" cellpadding="0">
+          <tr>
+            <td><p align="justify" class="StandardTextDarkGrayParagraph">
+		Here already developed models are available to make predictions on sets of compounds. Models generated and validated by the Laboratory for Molecular Modeling at UNC-CH are available as well as models that you generated through the Model Development section of the website. Compounds to screen can be upload in sdf format below. Currently, only 500 compounds may be predicted at one time. 
+		<br><br>Compound databases will soon be available for large scale virtual screening. 
+		<br><br>Click the name of a predictor. Then you may predict the activity of a dataset, a SMILES string, or a molecule sketch.
+<br><br></p></td>
+          </tr>
+        </table>
+		<b><html:errors /></b>
 		
-				<table width="924" frame="border" align="center" cellpadding="0"	cellspacing="4" colspan="2">
-					<tbody>
-						<tr>
-							<td align="left" colspan="2">
-							<div class="StandardTextDarkGrayParagraph2" align="left"><b>Dataset Prediction</b></div><br />
-							</td>
-							<td>
-							</td>
-					    </tr> 
-						<tr>
-						<td>
-						<table><tr><td>
-							<div class="StandardTextDarkGray"><b>Chosen Predictor:</b></div>
+		<table border="0" align="left" cellpadding="4"	cellspacing="4">
+		<tbody>
+		<tr>
+		<td>
+			
+		<p class="StandardTextDarkGrayParagraph">
+		<b>Drug Discovery Predictors</b>
+		</p>
+		<p align="justify" class="StandardTextDarkGrayParagraph">
+		These are public predictors useful for virtual screening.
+		</p>
+			<table>
+			<tr>
+				<td class="TableRowText01">Name</td>
+				<td class="TableRowText01">Keywords</td>
+				<td class="TableRowText01">Last Updated</td>
+				<td class="TableRowText01">Paper Reference</td>
+                   <td class="TableRowText01">Times Used</td>
+			</tr>
+			<logic:iterate id="p" type="edu.unc.ceccr.persistence.Predictor" name="predictors">
+				<%
+					if (p != null && p.getPredictorType() != null && p.getPredictorType().equalsIgnoreCase("DrugDiscovery")){
+					%>
+					<tr>
+						<td class="TableRowText02"><a href="selectPredictor.do?id=<%=p.getPredictorId()%>"><bean:write name="p" property="name" /></a>
 						</td>
-						
-						</tr> 
-						<tr>
-							<td height="26">
-							<div align="right" class="StandardTextDarkGray"><b>Select a Dataset:</b></div>
-							</td>
-							<td align="left" valign="top"><html:select styleId="SDFileSelection" property="selectedDatasetID">
-								<html:options collection="predictorDatabases" property="fileId" labelProperty="fileName" />
-							</html:select> <div class="StandardTextDarkGrayParagraph"><i>(Use the "DATA MGMT" page to create datasets.)</i></div>
-							</td>
-						</tr>		
-						<tr>
-							<td height="26">
-							<div align="right" class="StandardTextDarkGray"><b>Similarity Cut
-							Off:</b></div>
-							</td>
-							<td align="left" valign="top"><html:text property="cutOff"
-								size="4" value="0.5" /><span id="messageDiv2"></span></td>
-						</tr>
-						<tr>
-							<td height="26">
-							<div align="right" class="StandardTextDarkGray"><b>Prediction Name:</b></div>
-							</td>
-							<td width="400" align="left" valign="top"><html:text 
-								property="jobName" styleId="jobName" size="19" value="" onchange="" /><span id="messageDiv1"></span></td>
-						</tr>
-						<tr>
-							<td></td>
-							<td align="left" valign="top"><input type="button" name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('jobName').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ submitForm3(this); }" 
-							value="Submit Prediction Job" /> <span id="textarea"></span></td>
-						</tr>
-						</table></td></tr>
-					</tbody>
-				</table>
-			</html:form>
-					
+						<td class="TableRowText02">
+						<bean:write name="p" property="description" />
+						</td>
+						<td class="TableRowText02">
+						<bean:write name="p" property="dateUpdated" />
+						</td>
+						<td class="TableRowText02">
+						<bean:write name="p" property="paperReference" />
+						</td>
+						<td class="TableRowText02">
+						<bean:write name="p" property="numPredictions" />
+						</td>
+					</tr>
+				<%}%>
+			</logic:iterate>
+			</table>
+			<br /><br />
+			
+		<p class="StandardTextDarkGrayParagraph">
+		<b>Public ADME/Tox Predictors</b>
+		</p>
+		<p align="justify" class="StandardTextDarkGrayParagraph">
+		These are public predictors useful for toxicity prediction.
+		</p>
+			<table>
+			<tr>
+				<td class="TableRowText01">Name</td>
+				<td class="TableRowText01">Keywords</td>
+				<td class="TableRowText01">Last Updated</td>
+				<td class="TableRowText01">Paper Reference</td>
+                   <td class="TableRowText01">Times Used</td>
+			</tr>
+			<logic:iterate id="p" type="edu.unc.ceccr.persistence.Predictor" name="predictors">
+			<%
+					if (p != null && p.getPredictorType() != null && p.getPredictorType().equalsIgnoreCase("ADMETox")){
+					%>
+					<tr>
+						<td class="TableRowText02"><a href="selectPredictor.do?id=<%=p.getPredictorId()%>"><bean:write name="p" property="name" /></a>
+						</td>
+						<td class="TableRowText02">
+						<bean:write name="p" property="description" />
+						</td>
+						<td class="TableRowText02">
+						<bean:write name="p" property="dateUpdated" />
+						</td>
+						<td class="TableRowText02">
+						<bean:write name="p" property="paperReference" />
+						</td>
+						<td class="TableRowText02">
+						<bean:write name="p" property="numPredictions" />
+						</td>
+					</tr>
+					<%} %>
+			</logic:iterate>
+			</table>
 			<br />
-			<table width="924" frame="border" align="center" cellpadding="0"	cellspacing="4" colspan="2">
+			
+		
+			<table width="924" frame="border" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>
 				<tr>
 				<td valign="top">
@@ -101,14 +145,15 @@
 					<tr>
 						<td width="100%" height="24" align="left" colspan="2">
 						<p class="StandardTextDarkGrayParagraph2">
-						<b>Predict by SMILES string</b>
+						<b>Molecule to Predict</b>
 						</p>
 						</td>
 					</tr>
 					<tr>
 						<td align="left" colspan="2">
 						<p  class="StandardTextDarkGrayParagraph">
-						Enter a molecule in SMILES format, e.g. <b>C1=CC=C(C=C1)CC(C(=O)O)N</b> (phenylalanine).
+						Enter a molecule in SMILES format, e.g. <b>C1=CC=C(C=C1)CC(C(=O)O)N</b> (phenylalanine). 
+						Or, use the applet on the right to draw a molecule, then click "Get SMILES".
 						</p>
 					</tr>
 					<tr>
