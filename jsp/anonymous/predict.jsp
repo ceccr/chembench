@@ -12,7 +12,11 @@
 <%@ page import="edu.unc.ceccr.utilities.Utility" %>
 <%@ page import="edu.unc.ceccr.persistence.User"%>
 <% Utility u=new Utility();%>
-
+<%
+if(user == null){
+	user = anonUser;	
+}
+%>
 <html:html>
 <head>
 <title>C-CHEMBENCH | Make Simple Predictions </title>
