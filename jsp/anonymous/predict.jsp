@@ -27,6 +27,7 @@
 <%
 if(anonUser == null){
 	anonUser = new User();
+	User user = (User)session.getAttribute("user");
 	anonUser.setUserName(user.getUserName());	
 }
 %>
