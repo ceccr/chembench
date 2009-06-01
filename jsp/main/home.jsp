@@ -89,8 +89,7 @@
 						  <tr><td valign="middle">	
 						<p align="right"><span><span	class="StandardTextDarkGray4">
 						ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="LoginBoxes1" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
-						    &nbsp &nbsp &nbsp</span> </span>        
-						<p align="right"><a href="help.do" target="_top">help pages</a>&nbsp &nbsp &nbsp</p></td></tr> 
+						    &nbsp &nbsp &nbsp</span> </span></td></tr> 
 				</table>
 				</logic:equal>
 			</logic:present>

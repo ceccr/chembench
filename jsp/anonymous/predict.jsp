@@ -5,7 +5,6 @@
 <%@ taglib uri="/tags/struts-html" prefix="html"%>
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ page import="edu.unc.ceccr.global.Constants" %>
-<jsp:useBean id="anonUser" class="edu.unc.ceccr.persistence.User" scope="session" />
 <%@ page import="edu.unc.ceccr.utilities.Utility" %>
 <%@ page import="edu.unc.ceccr.persistence.User"%>
 <% Utility u=new Utility();%>
@@ -24,7 +23,7 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <br />
 
-<jsp:useBean id="user" class="edu.unc.ceccr.persistence.User" scope="session" />
+<jsp:useBean id="anonUser" class="edu.unc.ceccr.persistence.User" scope="session" />
 <%
 if(anonUser == null){
 	anonUser = new User();
