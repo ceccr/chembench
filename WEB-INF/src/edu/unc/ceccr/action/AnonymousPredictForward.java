@@ -53,12 +53,12 @@ public class AnonymousPredictForward extends Action {
 			session = request.getSession(true);
 			session.setMaxInactiveInterval(Constants.SESSION_EXPIRATION_TIME);
 			
-			User user = new User();
-			user.setUserName("anon_" + session.getCreationTime());
-			session.setAttribute("anonUser", user);
-			Utility.writeToDebug("Anonymous user created: " + user.getUserName());
+			User anonUser = new User();
+			anonUser.setUserName("anon_" + session.getCreationTime());
+			session.setAttribute("anonUser", anonUser);
+			Utility.writeToDebug("Anonymous user created: " + anonUser.getUserName());
 			try {
-				session.setAttribute("predictors", PopulateDataObjects.populatePredictors(user.getUserName(), true, true));
+				session.setAttribute("predictors", PopulateDataObjects.populatePredictors(anonUser.getUserName(), true, true));
 			} catch (Exception ex) {
 				Utility.writeToDebug(ex);
 			}
