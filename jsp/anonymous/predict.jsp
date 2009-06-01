@@ -5,8 +5,6 @@
 <%@ taglib uri="/tags/struts-html" prefix="html"%>
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 <%@ page import="edu.unc.ceccr.global.Constants" %>
-<%@ page import="edu.unc.ceccr.utilities.ActiveUser" %>
-<% ActiveUser au= new ActiveUser();%>
 <jsp:useBean id="anonUser" class="edu.unc.ceccr.persistence.User" scope="session" />
 <%@ page import="edu.unc.ceccr.utilities.Utility" %>
 <%@ page import="edu.unc.ceccr.persistence.User"%>
@@ -28,9 +26,9 @@
 
 <jsp:useBean id="user" class="edu.unc.ceccr.persistence.User" scope="session" />
 <%
-if(user == null){
-	user = new User();
-	user.setUserName(anonUser.getUserName());	
+if(anonUser == null){
+	anonUser = new User();
+	anonUser.setUserName(user.getUserName());	
 }
 %>
 
@@ -169,7 +167,7 @@ if(user == null){
 						" class="StandardTextDarkGray"><b>SMILES:</b></div>
 						</td>
 						<td width="150" align="left" valign="top"><input type="text" name="smiles" id="smiles" size="30" value=""/>
-						<html:hidden property="userName" value="<%=user.getUserName()%>" /><span id="messageDiv2"></span></td>
+						<html:hidden property="userName" value="<%=anonUser.getUserName()%>" /><span id="messageDiv2"></span></td>
 						
 					</tr>
 					<tr>
