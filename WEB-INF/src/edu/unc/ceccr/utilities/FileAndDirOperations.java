@@ -158,6 +158,12 @@ public class FileAndDirOperations {
 				if(! (new File(dir + files[x])).isDirectory()){
 					if(! (new File(dir + files[x])).delete()){
 						Utility.writeToDebug("Warning: Could not delete file " + files[x]);
+						if((new File(dir + files[x])).canWrite()){
+							Utility.writeToDebug("can write, so that's not it");
+						}
+						else{
+							Utility.writeToDebug("oh, I can't write to it. Okay....");
+						}
 					}
 				}
 				x++;
