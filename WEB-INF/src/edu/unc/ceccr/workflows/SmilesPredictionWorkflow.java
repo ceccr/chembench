@@ -108,7 +108,7 @@ public class SmilesPredictionWorkflow{
 		//write SMILES string to file
 			FileWriter fstream = new FileWriter(smilesDir + "tmp.smiles");
 	        BufferedWriter out = new BufferedWriter(fstream);
-		    out.write(smiles);
+		    out.write(smiles + " 1");
 		    out.close();
 		
 		//execute molconvert to change it to SDF
