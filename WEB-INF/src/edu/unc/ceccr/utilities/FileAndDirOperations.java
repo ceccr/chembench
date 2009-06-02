@@ -156,14 +156,16 @@ public class FileAndDirOperations {
 			int x = 0;
 			while(files != null && x<files.length){
 				if(! (new File(dir + files[x])).isDirectory()){
+					if(!(new File(dir + files[x])).canWrite()){
+						//we'll need write privileges to delete it.
+						//These are not on by default; files created by the server
+						//typically will not have them. We'll need to add it first.
+						//It's dirty, but it works...
+						(new File(dir + files[x])).setWritable(true, false);
+					}
 					if(! (new File(dir + files[x])).delete()){
 						Utility.writeToDebug("Warning: Could not delete file " + files[x]);
-						if((new File(dir + files[x])).canWrite()){
-							Utility.writeToDebug("can write, so that's not it");
-						}
-						else{
-							Utility.writeToDebug("oh, I can't write to it. Okay....");
-						}
+						
 					}
 				}
 				x++;
