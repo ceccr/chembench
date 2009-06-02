@@ -61,7 +61,30 @@ function validateLoad()
         if(sdfValue==""){ window.alert("Please upload SDF file.");return false;}
         else{
             if(actValue==""){window.alert("Please upload ACT file");return false;}
-            else{return true;}
+            else{
+            	
+            	var rejectName = false;
+            	var errorstring;
+            	var datasetname = document.getElementById("datasetname").value;
+            	for(i=0; i < datasetname.length; i++){
+            		if(datasetname[i] == ' '){
+            			rejectName = true;
+            			errorstring="The job name must not contain a space.";
+            		}
+            	}
+            	if(datasetname.length == 0){
+            		rejectName = true;
+            		errorstring="Please enter a name for this job.";
+            	}
+            	
+            	if(rejectName){
+            		window.alert(errorstring);
+            		return false; 	
+            	}
+            	else{
+            		return true;
+            	}
+            }
         }
     }
 }
