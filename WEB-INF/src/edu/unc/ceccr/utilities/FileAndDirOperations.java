@@ -156,7 +156,9 @@ public class FileAndDirOperations {
 			int x = 0;
 			while(files != null && x<files.length){
 				if(! (new File(dir + files[x])).isDirectory()){
-					(new File(dir + files[x])).delete();
+					if(! (new File(dir + files[x])).delete()){
+						Utility.writeToDebug("Warning: Could not delete file " + files[x]);
+					}
 				}
 				x++;
 			}
