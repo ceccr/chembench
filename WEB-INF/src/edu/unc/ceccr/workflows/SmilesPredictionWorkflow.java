@@ -102,9 +102,6 @@ public class SmilesPredictionWorkflow{
 		File dir = new File(smilesDir);
 		dir.mkdirs();
 		
-		//make sure there's nothing in the dir already.
-		FileAndDirOperations.deleteDirContents(smilesDir);
-		
 		//write SMILES string to file
 			FileWriter fstream = new FileWriter(smilesDir + "tmp.smiles");
 	        BufferedWriter out = new BufferedWriter(fstream);

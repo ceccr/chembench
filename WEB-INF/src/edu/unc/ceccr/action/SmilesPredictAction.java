@@ -42,7 +42,7 @@ public class SmilesPredictAction extends Action {
 			
 			String smilesDir = Constants.CECCR_USER_BASE_PATH + userName + "/SMILES/";
 			
-			//clear out the SMILES directory, so previous predictions don't mess anything up
+			//make sure there's nothing in the dir already.
 			FileAndDirOperations.deleteDirContents(smilesDir);
 			
 			//generate an SDF from this SMILES string

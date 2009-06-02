@@ -155,10 +155,8 @@ public class FileAndDirOperations {
 			}
 			int x = 0;
 			while(files != null && x<files.length){
-				if(! (new File(dir + files[x])).isDirectory()){
-					
-					deleteFile(dir + files[x]);
-						
+				if(! (new File(dirToErase + files[x])).isDirectory()){
+					deleteFile(dirToErase + files[x]);
 				}
 				x++;
 			}
