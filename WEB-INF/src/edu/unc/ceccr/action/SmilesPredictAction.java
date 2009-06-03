@@ -77,6 +77,9 @@ public class SmilesPredictAction extends Action {
 					//Standard deviation will only be calculated if there's more than one pred value
 					session.setAttribute("SmilesStdDev", predValues[3]);
 				}
+				else{
+					session.setAttribute("SmilesStdDev", "N/A");
+				}
 				session.setAttribute("SmilesTotalModels", predictor.getNumTotalModels());
 			}
 			
