@@ -73,7 +73,7 @@ public class SmilesPredictAction extends Action {
 			else{
 				session.setAttribute("SmilesUsedModels", predValues[1]);
 				session.setAttribute("SmilesPredictedValue", predValues[2]);
-				if(predValues.length >= 3){
+				if(predValues.length > 3){
 					//Standard deviation will only be calculated if there's more than one pred value
 					session.setAttribute("SmilesStdDev", predValues[3]);
 				}
