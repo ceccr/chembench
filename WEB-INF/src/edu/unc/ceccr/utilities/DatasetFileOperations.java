@@ -121,7 +121,7 @@ public class DatasetFileOperations {
 		}
 		else{
 			Utility.writeToMSDebug("File saved");
-			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName(), actFile!=null?actFile.getFileName():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")), type, description);
+			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName(), actFile!=null?actFile.getFileName():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf("."))+".act", type, description);
 		}
 		return msg;
 	}
