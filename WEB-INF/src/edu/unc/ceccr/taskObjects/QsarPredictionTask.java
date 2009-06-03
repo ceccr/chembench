@@ -26,11 +26,9 @@ import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
-//import edu.unc.ceccr.workflows.DragonToDescriptors;
 import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnPredictionWorkflow;
-//import edu.unc.ceccr.workflows.MolconnZToDescriptors;
 import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
 import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
@@ -187,7 +185,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		return pred;
 	}
 	
-	private Pred_Output createPredObject(String[] extValues) {
+	private static Pred_Output createPredObject(String[] extValues) {
 
 		if (extValues == null) {
 			return null;
@@ -206,7 +204,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	}
 	
     @SuppressWarnings("unchecked")
-	private ArrayList<Pred_Output> parsePredOutput(String fileLocation) throws IOException {
+	public static ArrayList<Pred_Output> parsePredOutput(String fileLocation) throws IOException {
 		Utility.writeToDebug("Reading prediction output from " + fileLocation);
 		ArrayList<Pred_Output> allPredValue = new ArrayList<Pred_Output>();
 		try{
