@@ -78,7 +78,7 @@ public class SubmitDatasetAction extends Action {
 				Utility.writeToMSDebug("ActionForward execute:sdf:"+sdFile.getFileName());
 				Utility.writeToMSDebug("ActionForward execute:act:"+actFile);
 				Utility.writeToMSDebug("ActionForward execute:knn:"+knnType);
-				Utility.writeToDebug("Creating " + knnType + " dataset \"" + datasetName + "\" with files: " + sdFile.getFileName() + " " + actFile.getFileName());
+				//Utility.writeToDebug("Creating " + knnType + " dataset \"" + datasetName + "\" with files: " + sdFile.getFileName() + " " + actFile.getFileName());
 				
 				User user = (User) session.getAttribute("user");
 				String userName = user.getUserName();
