@@ -68,7 +68,7 @@ public class SmilesPredictAction extends Action {
 				session.setAttribute("SmilesUsedModels", "0");
 				session.setAttribute("SmilesPredictedValue", "Molecule is outside the domain of this predictor. Use a higher cutoff value to force a low-confidence prediction.");
 				session.setAttribute("SmilesStdDev", "N/A");
-				session.setAttribute("SmilesTotalModels", predictor.getNumTotalModels());
+				session.setAttribute("SmilesTotalModels", "?");
 			}
 			else{
 				session.setAttribute("SmilesUsedModels", predValues[1]);
@@ -80,13 +80,13 @@ public class SmilesPredictAction extends Action {
 				else{
 					session.setAttribute("SmilesStdDev", "N/A");
 				}
-				session.setAttribute("SmilesTotalModels", predictor.getNumTotalModels());
+				session.setAttribute("SmilesTotalModels", "?"/*predictor.getNumTotalModels()*/);
 			}
 			
 		} catch (Exception e) {
+			Utility.writeToDebug(e);
 			Utility.writeToMSDebug("Error::"+e.getMessage());
 			forward = mapping.findForward("failure");
-			Utility.writeToDebug(e);
 		}
 		return forward;
 
