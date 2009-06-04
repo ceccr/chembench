@@ -110,6 +110,9 @@ public class DatasetFileOperations {
 		else if(type.equals(Constants.PREDICTION)){
 			try{
 				generateEmptyActFile(path, sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")), path+sdFile.getFileName());
+				if(!sdfIsValid(sdFile.getInputStream())){
+					msg = ErrorMessages.INVALID_SDF;
+				}
 			}
 			catch(Exception e){
 			Utility.writeToMSDebug("ERROR:::"+e.getMessage());
