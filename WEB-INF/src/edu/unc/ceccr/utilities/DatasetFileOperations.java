@@ -351,7 +351,7 @@ public class DatasetFileOperations {
 			
 		if(!sdfIsValid(sdFile.getInputStream()))
 		{
-				msg+=ErrorMessages.SDF_NOT_VALID;
+				msg+=ErrorMessages.INVALID_SDF;
 		}
 		return msg;
 	}
