@@ -5,15 +5,13 @@ Here's a list of tests that Chembench needs to pass every time we put out a prod
 ======================
 1. Create a continuous dataset (modeling)
 2. Create a category dataset (modeling)
-3. Create a continuous dataset (prediction)
-4. Create a category dataset (prediction)
-5. View the results of each of the dataset sketch generation jobs. Verify that the sketches are present on the applet.
-6. Check that the new modeling datasets are available on modeling page.
-7. Check that the new modeling and prediction datasets are available on the prediction page, if and only 
-if the predictor type (continuous / category) matches the dataset type
-8. Create Tanimoto and Mahalanobis distances for each of the new datasets.
-9. Create heatmap, tree, and PCA visualization plots for each dataset.
-10. Look at all the outputs of (8) and (9) in the applet.
+3. Create a prediction dataset 
+4. View the results of each of the dataset sketch generation jobs. Verify that the sketches are present on the applet.
+5. Check that the new modeling datasets are available on modeling page.
+6. Check that the new modeling and prediction datasets are available on the prediction page.
+7. Create Tanimoto and Mahalanobis distances for each of the new datasets.
+8. Create heatmap, tree, and PCA visualization plots for each dataset.
+9. Look at all the outputs of (7) and (8) in the applet.
 
 ==============
  II. MODELING

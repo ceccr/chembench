@@ -129,8 +129,6 @@ public class DatasetFileOperations {
 		return msg;
 	}
 	
-
-	
 	public static String saveSDFFile(String userName, FormFile sdFile, String path) throws Exception{
 		Utility.writeToMSDebug("saveSDFFile");
 		if(!sdFile.getFileName().toLowerCase().endsWith(".sdf")) return ErrorMessages.SDF_NOT_VALID;
@@ -568,7 +566,7 @@ public class DatasetFileOperations {
 	}
 	
 	public static void rewriteSdf(String filePath, String fileName)
-	throws FileNotFoundException, IOException {
+	throws FileNotFoundException, IOException, InterruptedException {
 		
 		//SDFs with lines longer than 1023 characters will
 		//not work properly with MolconnZ.
@@ -579,9 +577,21 @@ public class DatasetFileOperations {
 		
 		//This function will also remove the silly /r characters Windows likes
 		//to add to newlines.
+		
+		//screw it, let's just make jchem do this work for us.
+
 		Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_Start");
+		String execstr = "molconvert sdf " + filePath + fileName + " -o " + filePath + fileName + ".temp";
+		Process process = Runtime.getRuntime().exec(execstr);
+		Utility.writeProgramLogfile(filePath, "molconvert", process.getInputStream(), process.getErrorStream());
+		
+		process.waitFor();
+		
+		
 		File infile = new File(filePath + fileName);
 		File outfile = new File(filePath + fileName + ".temp");
+
+		/*
 		FileReader fin = new FileReader(infile);
 		String temp;
 		Scanner src = new Scanner(fin);
@@ -597,10 +607,13 @@ public class DatasetFileOperations {
 		}
 		fin.close();
 		fout.close();
+		*/
 		infile.delete();
+		
 		//File infile_lowercase = new File(filePath + fileName.toLowerCase());
 		outfile.renameTo(infile);
 		//outfile.renameTo(infile_lowercase);
+		
 		Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_End");
 	}
 
