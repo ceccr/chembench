@@ -565,8 +565,7 @@ public class DatasetFileOperations {
 		return fl;
 	}
 	
-	public static void rewriteSdf(String filePath, String fileName)
-	throws FileNotFoundException, IOException, InterruptedException {
+	public static void rewriteSdf(String filePath, String fileName) {
 		
 		//SDFs with lines longer than 1023 characters will
 		//not work properly with MolconnZ.
@@ -579,18 +578,22 @@ public class DatasetFileOperations {
 		//to add to newlines.
 		
 		//screw it, let's just make jchem do this work for us.
-
-		Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_Start");
-		String execstr = "molconvert sdf " + filePath + fileName + " -o " + filePath + fileName + ".temp";
-		Process process = Runtime.getRuntime().exec(execstr);
-		Utility.writeProgramLogfile(filePath, "molconvert", process.getInputStream(), process.getErrorStream());
-		
-		process.waitFor();
-		
-		
-		File infile = new File(filePath + fileName);
-		File outfile = new File(filePath + fileName + ".temp");
-
+		try{
+			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + fileName);
+			Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_Start");
+			String execstr = "molconvert sdf " + filePath + fileName + " -o " + filePath + fileName + ".temp";
+			Process process = Runtime.getRuntime().exec(execstr);
+			Utility.writeProgramLogfile(filePath, "molconvert", process.getInputStream(), process.getErrorStream());
+			
+			process.waitFor();
+			
+			
+			File infile = new File(filePath + fileName);
+			File outfile = new File(filePath + fileName + ".temp");
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 		/*
 		FileReader fin = new FileReader(infile);
 		String temp;
