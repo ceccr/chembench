@@ -131,13 +131,16 @@ public class DatasetFileOperations {
 	
 	public static String saveSDFFile(String userName, FormFile sdFile, String path) throws Exception{
 		Utility.writeToMSDebug("saveSDFFile");
+
+		String dir = path;
+		rewriteSdf(dir, sdFile.getFileName());
+		
 		if(!sdFile.getFileName().toLowerCase().endsWith(".sdf")) return ErrorMessages.SDF_NOT_VALID;
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName).exists())
 			new File(Constants.CECCR_USER_BASE_PATH+userName).mkdirs();
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").exists())
 			new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").mkdirs();
 				
-		String dir = path;
 		
 		// checking if directory with the same name already exists in our file system
 		File datasetDir = new File(dir);
@@ -150,7 +153,6 @@ public class DatasetFileOperations {
 			String filePath = dir+sdFile.getFileName();
 			new File(filePath).createNewFile();
 			FileAndDirOperations.writeFiles(sdFile.getInputStream(),filePath);
-			rewriteSdf(dir, sdFile.getFileName());
 		}
 		return "";
 	}
