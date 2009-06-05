@@ -100,7 +100,7 @@ public class DatasetFileOperations {
 		if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
 		if(msg==""){	
 			msg =  saveSDFFile(userName, sdFile, path);
-			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + fileName);
+			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + sdFile.getFileName());
 			rewriteSdf(path, sdFile.getFileName());
 			Utility.writeToDebug("Done rewriting SDF.");
 			Utility.writeToMSDebug("Message::"+msg);
