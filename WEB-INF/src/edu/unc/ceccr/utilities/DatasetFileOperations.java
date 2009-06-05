@@ -97,7 +97,7 @@ public class DatasetFileOperations {
 		File f = new File(dir);
 		String msg="";
 		
-		//if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
+		if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
 		if(msg==""){	
 			msg =  saveSDFFile(userName, sdFile, path);
 			Utility.writeToMSDebug("Message::"+msg);
@@ -133,27 +133,26 @@ public class DatasetFileOperations {
 		Utility.writeToMSDebug("saveSDFFile");
 
 		String dir = path;
-		rewriteSdf(dir, sdFile.getFileName());
-		
+		File datasetDir = new File(dir);
+		if(datasetDir.exists()) return ErrorMessages.DATABASE_CONTAINS_DATASET;
 		if(!sdFile.getFileName().toLowerCase().endsWith(".sdf")) return ErrorMessages.SDF_NOT_VALID;
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName).exists())
 			new File(Constants.CECCR_USER_BASE_PATH+userName).mkdirs();
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").exists())
 			new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").mkdirs();
-				
+
+		datasetDir.mkdirs();
+		String filePath = dir+sdFile.getFileName();
+		new File(filePath).createNewFile();
+		FileAndDirOperations.writeFiles(sdFile.getInputStream(),filePath);
 		
+		rewriteSdf(dir, sdFile.getFileName());
+		
+
 		// checking if directory with the same name already exists in our file system
-		File datasetDir = new File(dir);
 		
-		if(datasetDir.exists()) return ErrorMessages.DATABASE_CONTAINS_DATASET;
-		else{
 			
-			datasetDir.mkdirs();
-			
-			String filePath = dir+sdFile.getFileName();
-			new File(filePath).createNewFile();
-			FileAndDirOperations.writeFiles(sdFile.getInputStream(),filePath);
-		}
+		
 		return "";
 	}
 	
