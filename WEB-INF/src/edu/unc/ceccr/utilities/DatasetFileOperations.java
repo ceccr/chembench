@@ -575,8 +575,11 @@ public class DatasetFileOperations {
 		
 		//This function will also remove the silly /r characters Windows likes
 		//to add to newlines.
+
+		File infile = new File(filePath + fileName);
+		File outfile = new File(filePath + fileName + ".temp");
 		
-		//screw it, let's just make jchem do this work for us.
+		//First, run the file through jchem to eliminate anything totally bizarre
 		try{
 			Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_Start");
 			String execstr = "molconvert sdf " + filePath + fileName + " -o " + filePath + fileName + ".temp";
@@ -585,33 +588,36 @@ public class DatasetFileOperations {
 			
 			process.waitFor();
 			
-			File infile = new File(filePath + fileName);
-			File outfile = new File(filePath + fileName + ".temp");
-			//infile.delete();
-			//outfile.renameTo(infile);
+			infile.delete();
+			outfile.renameTo(infile);
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		/*
-		FileReader fin = new FileReader(infile);
-		String temp;
-		Scanner src = new Scanner(fin);
-		FileWriter fout = new FileWriter(outfile);
-		while (src.hasNextLine()) {
-			temp = src.nextLine();
-
-			//remove Windows-format \r "newline" characters
-			temp = temp.replace('\r', ' ');
-			if(temp.length() < 1000){
-				fout.write(temp + "\n");
+		
+		//now, remove the long lines from the input file
+		try{
+			FileReader fin = new FileReader(infile);
+			String temp;
+			Scanner src = new Scanner(fin);
+			FileWriter fout = new FileWriter(outfile);
+			while (src.hasNextLine()) {
+				temp = src.nextLine();
+	
+				//remove Windows-format \r "newline" characters
+				temp = temp.replace('\r', ' ');
+				if(temp.length() < 1000){
+					fout.write(temp + "\n");
+				}
 			}
+			fin.close();
+			fout.close();
+			infile.delete();
+			outfile.renameTo(infile);
 		}
-		fin.close();
-		fout.close();
-		infile.delete();
-		outfile.renameTo(infile);
-		*/
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 		
 		//File infile_lowercase = new File(filePath + fileName.toLowerCase());
 		//outfile.renameTo(infile_lowercase);
@@ -624,25 +630,28 @@ public class DatasetFileOperations {
 		if (sdFileStream.available() < 0) {
 			return false;
 		}
-		
+		/*
 		Scanner s = new Scanner(sdFileStream);
 		int size, index = 1;
 		String line;
 		String[] lineArray;
+		//for each line...
 		while (s.hasNextLine()) {
 			Scanner ss = new Scanner(s.nextLine());
 			if (ss.hasNext()) {
-				line = ss.nextLine();
-				lineArray = (line.trim()).split("\\s+");
-				size = lineArray.length;
+				line = ss.nextLine(); //pull the line into a string
+				lineArray = (line.trim()).split("\\s+"); //tokenize the string... why did he do it this way?
+				size = lineArray.length; //size = number of tokens in it
 		
-				if (index > 3) {
+				if (index > 3) { //the first three lines of the sdf can be anything, so skip till we're on line 4
 					if (!lineArray[0].startsWith("M")) {
-						if (size != 7 && size != 16) {
+						//"M END" signifies the end of the molecule
+						if (size != 7 && size != 16) { //Anything specifying a molecule will have 7 or 16 tokens in a line
 							ss.close();
 							return false;
 						}
-					} else {
+					} else { //this is just stupid... it only reads the first molecule?! 
+						//fuck it, I'm commenting this whole function out, this thing is worthless. Rewrite it later.
 						ss.close();
 						return true;
 					}
@@ -651,6 +660,8 @@ public class DatasetFileOperations {
 			}
 		}
 		s.close();
+		*/
+		//yessir, that's a great SDF ya got there!
 		return true;
 	}
 
