@@ -123,7 +123,7 @@ public class DatasetFileOperations {
 		}
 		if (msg != "") {
 			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>deleteDir<<<<<<<<<"+dir);
-			//if(f.exists() && !msg.contains(ErrorMessages.DATABASE_CONTAINS_DATASET)) FileAndDirOperations.deleteDir(f);
+			//dir will be deleted when this function returns to SubmitDatasetAction
 		}
 		else{
 			Utility.writeToMSDebug("File saved");

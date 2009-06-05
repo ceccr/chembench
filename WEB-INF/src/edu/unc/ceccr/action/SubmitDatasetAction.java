@@ -89,8 +89,8 @@ public class SubmitDatasetAction extends Action {
 				//saving files to username/DATASETS/datasetName/ folder
 				String msg = DatasetFileOperations.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
     			
-					if(msg!=""){
-					FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName));
+				if(msg!=""){
+					//FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName));
 					Utility.writeToMSDebug("Error::"+msg);
 					request.removeAttribute("validationMsg");
 					request.setAttribute("validationMsg", msg);
