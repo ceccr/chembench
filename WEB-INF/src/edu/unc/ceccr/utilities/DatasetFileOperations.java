@@ -97,7 +97,7 @@ public class DatasetFileOperations {
 		File f = new File(dir);
 		String msg="";
 		
-		if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
+		//if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
 		if(msg==""){	
 			msg =  saveSDFFile(userName, sdFile, path);
 			Utility.writeToMSDebug("Message::"+msg);
