@@ -100,17 +100,15 @@ public class DatasetFileOperations {
 		if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
 		if(msg==""){	
 			msg =  saveSDFFile(userName, sdFile, path);
-			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + sdFile.getFileName());
+			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + path + sdFile.getFileName());
 			rewriteSdf(path, sdFile.getFileName());
 			Utility.writeToDebug("Done rewriting SDF.");
 			Utility.writeToMSDebug("Message::"+msg);
-			Utility.writeToDebug("Message::"+msg);
 		}
 		if(msg=="" && !type.equals(Constants.PREDICTION)){
 			 msg = saveACTFile(actFile, path);
 			 msg =  checkUploadedFiles(sdFile, actFile, type, userName, datasetName);
 			 Utility.writeToMSDebug(">>>>>>>>>>>>>>>>checkingUploadedFiles2<<<<<<<<<");
-			 Utility.writeToDebug(">>>>>>>>>>>>>>>>checkingUploadedFiles2<<<<<<<<<");
 		}
 		else if(type.equals(Constants.PREDICTION)){
 			try{
@@ -586,7 +584,6 @@ public class DatasetFileOperations {
 			Utility.writeProgramLogfile(filePath, "molconvert", process.getInputStream(), process.getErrorStream());
 			
 			process.waitFor();
-			
 			
 			File infile = new File(filePath + fileName);
 			File outfile = new File(filePath + fileName + ".temp");
