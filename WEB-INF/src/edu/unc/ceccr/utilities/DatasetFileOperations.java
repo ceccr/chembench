@@ -123,7 +123,7 @@ public class DatasetFileOperations {
 		}
 		if (msg != "") {
 			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>deleteDir<<<<<<<<<"+dir);
-			if(f.exists() && !msg.contains(ErrorMessages.DATABASE_CONTAINS_DATASET)) FileAndDirOperations.deleteDir(f);
+			//if(f.exists() && !msg.contains(ErrorMessages.DATABASE_CONTAINS_DATASET)) FileAndDirOperations.deleteDir(f);
 		}
 		else{
 			Utility.writeToMSDebug("File saved");
