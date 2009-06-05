@@ -97,9 +97,10 @@ public class DatasetFileOperations {
 		File f = new File(dir);
 		String msg="";
 		
-		//if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
+		if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
 		if(msg==""){	
 			msg =  saveSDFFile(userName, sdFile, path);
+			rewriteSdf(path, sdFile.getFileName());
 			Utility.writeToMSDebug("Message::"+msg);
 		}
 		if(msg=="" && !type.equals(Constants.PREDICTION)){
@@ -146,7 +147,6 @@ public class DatasetFileOperations {
 		new File(filePath).createNewFile();
 		FileAndDirOperations.writeFiles(sdFile.getInputStream(),filePath);
 		
-		rewriteSdf(dir, sdFile.getFileName());
 		
 
 		// checking if directory with the same name already exists in our file system
@@ -323,17 +323,13 @@ public class DatasetFileOperations {
 		
 		if(!actIsValid(actFile.getInputStream()))
 		{
-			
 				msg=ErrorMessages.ACT_NOT_VALID;
-			
 		}
 		else
 		{
 			if(!actMatchProjectType(actFile.getInputStream(), knnType))
 			{
-				
 				msg=ErrorMessages.ACT_DOESNT_MATCH_PROJECT_TYPE;
-				
 			}
 		}
 			String sdf_act_match = sdfMatchesAct(sdFile , actFile, user, datasetname);
