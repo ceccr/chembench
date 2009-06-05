@@ -592,6 +592,8 @@ public class DatasetFileOperations {
 			
 			File infile = new File(filePath + fileName);
 			File outfile = new File(filePath + fileName + ".temp");
+			infile.delete();
+			outfile.renameTo(infile);
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
@@ -612,11 +614,11 @@ public class DatasetFileOperations {
 		}
 		fin.close();
 		fout.close();
-		*/
 		infile.delete();
+		outfile.renameTo(infile);
+		*/
 		
 		//File infile_lowercase = new File(filePath + fileName.toLowerCase());
-		outfile.renameTo(infile);
 		//outfile.renameTo(infile_lowercase);
 		
 		Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_End");
