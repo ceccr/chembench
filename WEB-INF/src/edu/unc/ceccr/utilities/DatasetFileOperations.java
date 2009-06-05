@@ -100,7 +100,9 @@ public class DatasetFileOperations {
 		if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
 		if(msg==""){	
 			msg =  saveSDFFile(userName, sdFile, path);
+			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + fileName);
 			rewriteSdf(path, sdFile.getFileName());
+			Utility.writeToDebug("Done rewriting SDF.");
 			Utility.writeToMSDebug("Message::"+msg);
 		}
 		if(msg=="" && !type.equals(Constants.PREDICTION)){
@@ -576,7 +578,6 @@ public class DatasetFileOperations {
 		
 		//screw it, let's just make jchem do this work for us.
 		try{
-			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + fileName);
 			Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_Start");
 			String execstr = "molconvert sdf " + filePath + fileName + " -o " + filePath + fileName + ".temp";
 			Process process = Runtime.getRuntime().exec(execstr);
