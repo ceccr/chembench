@@ -104,11 +104,13 @@ public class DatasetFileOperations {
 			rewriteSdf(path, sdFile.getFileName());
 			Utility.writeToDebug("Done rewriting SDF.");
 			Utility.writeToMSDebug("Message::"+msg);
+			Utility.writeToDebug("Message::"+msg);
 		}
 		if(msg=="" && !type.equals(Constants.PREDICTION)){
 			 msg = saveACTFile(actFile, path);
 			 msg =  checkUploadedFiles(sdFile, actFile, type, userName, datasetName);
 			 Utility.writeToMSDebug(">>>>>>>>>>>>>>>>checkingUploadedFiles2<<<<<<<<<");
+			 Utility.writeToDebug(">>>>>>>>>>>>>>>>checkingUploadedFiles2<<<<<<<<<");
 		}
 		else if(type.equals(Constants.PREDICTION)){
 			try{
