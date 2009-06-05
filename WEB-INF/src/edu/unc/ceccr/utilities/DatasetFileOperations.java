@@ -97,7 +97,7 @@ public class DatasetFileOperations {
 		File f = new File(dir);
 		String msg="";
 		
-		if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
+		//if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
 		if(msg==""){	
 			msg =  saveSDFFile(userName, sdFile, path);
 			Utility.writeToMSDebug("Message::"+msg);
@@ -134,7 +134,7 @@ public class DatasetFileOperations {
 
 		String dir = path;
 		File datasetDir = new File(dir);
-		if(datasetDir.exists()) return ErrorMessages.DATABASE_CONTAINS_DATASET;
+		//if(datasetDir.exists()) return ErrorMessages.DATABASE_CONTAINS_DATASET;
 		if(!sdFile.getFileName().toLowerCase().endsWith(".sdf")) return ErrorMessages.SDF_NOT_VALID;
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName).exists())
 			new File(Constants.CECCR_USER_BASE_PATH+userName).mkdirs();
