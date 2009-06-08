@@ -147,11 +147,6 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="MACCS" property="descriptorGenerationType" onclick="">MACCS</html:radio></div>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="3">
-					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<i>Note: For some datasets, DRAGON descriptors cannot be calculated. You will see an error message when your job is running if DRAGON descriptors cannot be used with your chosen dataset.</i></div>
-					</td>
-				</tr>
 				</table><br /></td></tr>
 				<!--  We may want to implement other scaling types some day...
 				If so, uncomment this.
