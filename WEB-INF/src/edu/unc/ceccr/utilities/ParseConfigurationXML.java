@@ -44,7 +44,7 @@ public class ParseConfigurationXML{
             Constants.DATABASE_DRIVER=getNestedNodeValue(getParentNode(doc,"database"),"driver");
             Constants.WEBADDRESS=getNestedNodeValue(getParentNode(doc,"website"),"address");
             Constants.WEBSITEEMAIL=getNestedNodeValue(getParentNode(doc,"website"),"email");
-            Constants.PHONRNUMBER=getNestedNodeValue(getParentNode(doc,"website"),"phone");
+            Constants.PHONENUMBER=getNestedNodeValue(getParentNode(doc,"website"),"phone");
             Constants.RECAPTCHA_PUBLICKEY=getNestedNodeValue(getParentNode(doc,"webService"),"publicKey");
             Constants.RECAPTCHA_PRIVATEKEY=getNestedNodeValue(getParentNode(doc,"webService"),"privateKey");
             

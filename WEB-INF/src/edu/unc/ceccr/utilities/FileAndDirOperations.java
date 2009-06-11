@@ -18,6 +18,12 @@ public class FileAndDirOperations {
 	
 	public static void copyDirContents(String fromDir, String toDir, boolean recurse){
 		try{
+			if(!fromDir.endsWith("/")){
+				fromDir += "/";
+			}
+			if(!toDir.endsWith("/")){
+				toDir += "/";
+			}
 			File dir = new File(fromDir);
 			String files[] = dir.list();
 			if(files == null){
@@ -25,10 +31,10 @@ public class FileAndDirOperations {
 			}
 			int x = 0;
 			while(files != null && x<files.length){
-				File xfile = new File(fromDir + "/" + files[x]);
+				File xfile = new File(fromDir + files[x]);
 				if(! xfile.isDirectory()){
-					FileChannel ic = new FileInputStream(fromDir + "/" + files[x]).getChannel();
-					FileChannel oc = new FileOutputStream(toDir + "/" + files[x]).getChannel();
+					FileChannel ic = new FileInputStream(fromDir + files[x]).getChannel();
+					FileChannel oc = new FileOutputStream(toDir + files[x]).getChannel();
 					ic.transferTo(0, ic.size(), oc);
 					ic.close();
 					oc.close(); 
@@ -36,9 +42,9 @@ public class FileAndDirOperations {
 				else{
 					//we hit a subdirectory. Recurse down into it if needed, otherwise ignore it.
 					if(recurse){
-						File newDir = new File(toDir + "/" + files[x]);
+						File newDir = new File(toDir + files[x]);
 						newDir.mkdir();
-						copyDirContents(fromDir + "/" + files[x], toDir + "/" + files[x], true);
+						copyDirContents(fromDir + files[x], toDir + files[x], true);
 					}
 				}
 				x++;
@@ -111,7 +117,7 @@ public class FileAndDirOperations {
 	
 
 	public static void moveFile(String fromPath, String toPath){
-		//not here yet, cause exec "mv" works fine
+		//not here yet, cause exec("mv") works fine
 	}
 	
 	public static void deleteFile(String filePath) {
@@ -144,6 +150,11 @@ public class FileAndDirOperations {
 		//Removes all files in a directory.
 		//For safety reasons, this function is not recursive. 
 		//(Don't want anyone to delete the whole filesystem by accident.)
+		
+		if(!dirToErase.endsWith("/")){
+			dirToErase += "/";
+		}
+		
 		File dir = new File(dirToErase);
 		try{
 			String files[] = dir.list();

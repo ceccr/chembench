@@ -59,7 +59,7 @@ public class DenyAction extends Action {
 				+"<br/>For the reasons list below: "
 				+"<br/> " 
 				+"<br/> "
-				+"<br/> If you have any question, please feel free to call <u><b>"+Constants.PHONRNUMBER+"</b></u>"
+				+"<br/> If you have any question, please feel free to call <u><b>"+Constants.PHONENUMBER+"</b></u>"
 				+"<br/>or email to : <a href='mailto:"+Constants.WEBSITEEMAIL+"'> "+Constants.WEBSITEEMAIL+"</a>"
 				+"<br/><br/> Thank you,"
 				+"<br/><br/><br/>"

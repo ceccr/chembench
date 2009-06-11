@@ -250,7 +250,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Permutations:</b></div></td>
 				<td align="left" valign="top"><html:text name="knnCon04" property="numMutations" size="5" value="2"/></td></tr>	
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Cycles:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon05" property="numCycles" size="5" value="1000"/></td></tr>	
+				<td align="left" valign="top"><html:text name="knnCon05" property="numCycles" size="5" value="100"/></td></tr>	
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Log Initial Temperature:</b></div></td>
 				<td align="left" valign="top"><html:text name="knnCon08" property="T1" size="5" value="2"/></td></tr>	
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Log Final Temperature:</b></div></td>

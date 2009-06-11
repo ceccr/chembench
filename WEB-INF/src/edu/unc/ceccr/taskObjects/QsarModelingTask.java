@@ -368,7 +368,7 @@ public class QsarModelingTask implements WorkflowTask {
 		predictor.setNumTotalModels(this.numTotalModels);
 		predictor.setNumTestModels(this.numTestModels);
 		predictor.setNumTrainModels(this.numTrainModels);
-		
+
 		predictor.setNumyTestModels(this.yTestModels);
 		predictor.setNumyTrainModels(this.yTrainModels);
 		predictor.setNumyTotalModels(this.yTotalModels);
@@ -380,7 +380,7 @@ public class QsarModelingTask implements WorkflowTask {
 		if(this.allkNNValues.size()<1){}else
 		{for (ModelInterface m : allkNNValues)
 			m.setPredictor(predictor);
-		
+
 		for (ExternalValidation ev : allExternalValues)
 			ev.setPredictor(predictor);
 		

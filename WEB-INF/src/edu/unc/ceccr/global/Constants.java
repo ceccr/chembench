@@ -16,7 +16,7 @@ public class Constants {
 	//Descriptor constants
 	public static final int NUM_MACCS_KEYS = 400;
 		//In practice, there are only 2 different types of MACCS keys -- 166 and 320.
-		//We use the 166 version. Padding doesn't hurt, though -- the extra 0's get ignored later.
+		//We use the 166 version. Padding doesn't hurt, though -- the extra 0's get removed later.
 	public static final int MOLCONNZ_FORMULA_POS = 11;
 	public static final int MOLCONNZ_COMPOUND_NAME_POS = 10;
 	
@@ -88,7 +88,7 @@ public class Constants {
 	
 	//administration
 	public static  String WEBADDRESS;
-	public static  String PHONRNUMBER;
+	public static  String PHONENUMBER;
 	public static  String WEBSITEEMAIL;
 	
 	//mail
