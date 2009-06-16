@@ -28,6 +28,7 @@ import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
+
 //This class handles all requests relating to single molecule prediction
 //This includes: 
 //- loading the single molecule prediction page
