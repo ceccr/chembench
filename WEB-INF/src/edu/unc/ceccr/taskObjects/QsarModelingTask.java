@@ -33,20 +33,16 @@ import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.ModelInterface;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
-import edu.unc.ceccr.task.WTSequence;
 import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
-//import edu.unc.ceccr.workflows.DragonToDescriptors;
 import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnModelBuildingWorkflow;
-//import edu.unc.ceccr.workflows.MolconnZToDescriptors;
 import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
-import edu.unc.ceccr.workflows.SdfToJpgWorkflow;
 import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
 public class QsarModelingTask implements WorkflowTask {
@@ -104,7 +100,6 @@ public class QsarModelingTask implements WorkflowTask {
 	private KnnEnumeration knnEnum;
 	private String descriptorGenerationType;
 	private DescriptorEnumeration descriptorEnum;
-	private WorkflowTask executeAntWorkflow;
 	private String numSphereRadii;
 	private String selectionNextTrainPt;
 	private String numStartingPoints;

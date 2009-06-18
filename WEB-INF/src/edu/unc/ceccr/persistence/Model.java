@@ -16,55 +16,30 @@ public class Model extends KnnOutput implements java.io.Serializable, ModelInter
 	// Fields
 
 	private Long id;
-
 	private Predictor predictor;
-
-	private Float nnn;
-
-	private Float QSquared;
-
-	private Float RSquared;
-
+	private Float nnn; //Exactly the same as "n", but we use it in category models
 	private Float n;
-
+	private Float QSquared;
+	private Float RSquared;
 	private Float b01;
-
 	private Float b02;
-
 	private Float b11;
-
 	private Float b12;
-
 	private Float r;
-
 	private Float slSquared;
-
 	private Float f1;
-
 	private Float s2Squared;
-
 	private Float f2;
-
 	private Float k1;
-
 	private Float k2;
-
 	private Float r01Squared;
-
 	private Float r02Squared;
-
 	private Float s01Squared;
-
 	private Float s02Squared;
-
 	private Float f01;
-
 	private Float f02;
-
 	private Float r451Squared;
-
 	private Float r452Squared;
-
 	private Float st45;
 	
 	//added values for knn-category
