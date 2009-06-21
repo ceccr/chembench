@@ -12,6 +12,7 @@
 <title>C-CHEMBENCH | Modeling</title>
 
 <link href="theme/ss.css" rel="stylesheet" type="text/css" />
+<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet"	type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
@@ -27,12 +28,13 @@
 
 <script language="javascript" src="javascript/script.js"></script>
 <script language="javascript" src="javascript/modeling.js"></script>
+<script language="javascript" src="javascript/ajaxtabs.js"></script>
+
 <script language="javascript">
 var usedDatasetNames = new Array(<logic:iterate id="dn" name="datasetNames" type="String">"<bean:write name='dn'/>",</logic:iterate>"");
 var usedPredictorNames = new Array(<logic:iterate id="pn" name="predictorNames" type="String">"<bean:write name='pn'/>",</logic:iterate>"");
 var usedPredictionNames = new Array(<logic:iterate id="pn" name="predictionNames" type="String">"<bean:write name='pn'/>",</logic:iterate>"");
 var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="String">"<bean:write name='tn'/>",</logic:iterate>"");
-
 </script>
 </head>
 <body bgcolor="#ffffff">
@@ -59,7 +61,8 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 		Current abilities include filtering through models. Additional tools such as
 		those necessary for viewing descriptors selected by a model and seeing
 		plots of predicted vs actual values for training and test sets will
-		soon be available.<br><br></p></td>
+		soon be available.<br><br></p>
+		</td>
           </tr>
         </table>
         
@@ -83,7 +86,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 			    </tr> 
 				<tr>
 					<td>
-					<div class="StandardTextDarkGrayParagraph"><b><html:radio value="CONTINUOUS" styleId="continuousDataset" property="knnType" onclick="setToContinuous(); disableUpload()">Choose a Continuous Dataset:</html:radio></b></div>
+					<div class="StandardTextDarkGrayParagraph"><b><html:radio value="CONTINUOUS" styleId="continuousDataset" property="datasetType" onclick="setToContinuous(); disableUpload()">Choose a Continuous Dataset:</html:radio></b></div>
 					<p class="StandardTextDarkGrayParagraph">
 					<html:select property="selectedDatasetId" styleId="selectedContinuousDataset">
 						<html:options collection="continuousDatasets" labelProperty="fileName" property="fileId" />
@@ -93,7 +96,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 			    </tr> 
 			    <tr>
 					<td>
-					<div class="StandardTextDarkGrayParagraph"><b><html:radio value="CATEGORY" styleId="categoryDataset" property="knnType" onclick="setToCategory(); disableUpload()">Choose a Category Dataset:</html:radio></b></div>
+					<div class="StandardTextDarkGrayParagraph"><b><html:radio value="CATEGORY" styleId="categoryDataset" property="datasetType" onclick="setToCategory(); disableUpload()">Choose a Category Dataset:</html:radio></b></div>
 					<p class="StandardTextDarkGrayParagraph">
 					<html:select property="selectedDatasetId" disabled="true" styleId="selectedCategoryDataset">
 						<html:options collection="categoryDatasets" labelProperty="fileName" property="fileId" />
@@ -217,93 +220,28 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 			    </tbody>
 			 </table>
 			 <br />
-			 
-			 <!-- kNN Parameters -->
-			 <table width="94%" frame="border" align="center" cellpadding="0" cellspacing="4" colspan="2">
-				<tbody>	
-				<tr>
-					<td width="100%" height="24" align="left" colspan="2">
-					<p class="StandardTextDarkGrayParagraph2">
-					<b>Set kNN Parameters</b>
-					</p>
-					</td>
-				</tr>	
-				<tr><td><table>
-				
-				<!-- kNN, Basic parameters  -->
-				<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph"><i>For information on what these parameters do, refer to the <u><a href="#help" onclick="window.open('/help.do'); return true;" >help pages</a></u>.<br /></i></div></td>
-				</tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Descriptor Step Size:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon01" property="stepSize" size="5" value="5"/></td></tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Number of Descriptors:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon02" property="minNumDescriptors" size="5" value="5"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Maximum Number of Descriptors:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon03" property="maxNumDescriptors" size="5" value="20"/></td></tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Runs:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon11" property="numRuns" size="5" value="5"/></td></tr>	
-				
-				<!-- kNN, Advanced Parameters -->
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Max. Number of Nearest Neighbors:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon06" property="Nearest_Neighbors" size="5" value="5"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Percentage of Pseudo Neighbors:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon07" property="Pseudo_Neighbors" size="5" value="100"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Permutations:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon04" property="numMutations" size="5" value="2"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Cycles:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon05" property="numCycles" size="5" value="100"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Log Initial Temperature:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon08" property="T1" size="5" value="2"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Log Final Temperature:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon09" property="T2" size="5" value="-5"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Mu:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon10" property="mu" size="5" value="0.90"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Applicability Domain Cutoff:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon19" styleId="knnCon19" property="cutoff" size="5" value="1.0"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Stop Condition:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon20" styleId="knnCon20" property="stop_cond" size="5" value="50"/></td></tr>	
-				<!-- Everything up to this point is used by both Continuous and Category kNN. -->
-			 
-				<!-- The following parameters are JUST for continuous kNN. -->
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Continuous kNN Parameters:</u></b></div></td>
-				<td><br /><br /></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum q<sup>2</sup>:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon13" styleId="knnCon13" property="minAccTraining" size="5" value="0.6"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum r<sup>2</sup>:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon14" styleId="knnCon14" property="minAccTest" size="5" value="0.6"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Slope:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon15" styleId="knnCon15" property="minSlopes" size="5" value="0.8"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Maximum Slope:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon16" styleId="knnCon16" property="maxSlopes" size="5" value="1.2"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Relative_diff_R_R0:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon17" styleId="knnCon17" property="relativeDiffRR0" size="5" value="0.2"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Diff_R01_R02:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCon18" styleId="knnCon18" property="diffR01R02" size="5" value="0.4"/></td></tr>	
-				<!-- End continuous kNN parameters -->
-				
-				<!-- The parameters below are specific to Category kNN -->
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Category kNN Parameters:</u></b></div></td>
-				<td><br /><br /></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Accuracy for Training Set:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCat13" styleId="knnCat13" disabled="true" property="minAccTraining" size="5" value="0"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Accuracy for Test Set:</b></div></td>
-				<td align="left" valign="top"><html:text name="knnCat14" styleId="knnCat14" disabled="true" property="minAccTest" size="5" value="0"/></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Optimization Method:</b></div></td>
-				<td>			
-				<html:radio value="1" property="knnCategoryOptimization" disabled="true" styleId="knnCatOpt01"><img src="/theme/img/formula01.gif" /></html:radio>
-				</td></tr><tr><td>&nbsp;</td><td>
-				<html:radio value="2" property="knnCategoryOptimization" disabled="true" styleId="knnCatOpt02"><img src="/theme/img/formula02.gif" /></html:radio>
-				</td></tr><tr><td>&nbsp;</td><td>
-				<html:radio value="3" property="knnCategoryOptimization" disabled="true" styleId="knnCatOpt03"><img src="/theme/img/formula03.gif" /></html:radio>
-				</td></tr><tr><td>&nbsp;</td><td>
-				<html:radio value="4" property="knnCategoryOptimization" disabled="true" styleId="knnCatOpt04"><img src="/theme/img/formula04.gif" /></html:radio>
-				</td></tr>
-				<!-- End Category Specific kNN Parameters  -->
-				
-			 
-				</table><br /></td></tr>
-				</tbody>
-			</table>
-			<br />
+			 	 
+			 	 <table width="94%" align="center" cellpadding="0" cellspacing="0" colspan="2"><tr><td>
+		<ul styleId="countrytabs" id="countrytabs" class="shadetabs">
+		<li><a href="jsp/modeling/modeling-knn.jsp" rel="countrycontainer" class="selected">k-Nearest Neighbors</a></li>
+		<li><a href="jsp/modeling/modeling-svm.jsp" rel="countrycontainer">Support Vector Machine</a></li>
+		</ul>
+		
+		<div styleId="countrydivcontainer" id="countrydivcontainer" align="center" style="border-left:1px solid grey; border-top:1px solid grey; border-bottom:1px solid #000; border-right:1px solid #000; width:100%; margin-bottom: 1em">
+		Error loading modeling properties (Missing JSPs?)
+		</div>
+		<html:hidden property="modelingType" styleId="modelingType" value=""/>
+		
+		<script type="text/javascript">
+			var countries=new ddajaxtabs("countrytabs", "countrydivcontainer")
+			countries.setpersist(true)
+			countries.set
+			countries.setselectedClassTarget("link") //"link" or "linkparent"
+			countries.init()
+		</script> 
+		</td></tr>
+		</table>
+		<br />
 			
 			 <!-- Begin Modeling Job -->
 			 <table width="94%" frame="border" align="center" cellpadding="0"	cellspacing="4" colspan="2">

@@ -14,63 +14,58 @@ public class QsarFormBean extends ValidatorForm {
 	private Long selectedDatasetId;
 	
 	private String selectedDatasetName;
+
+	private String modelingType;
 	
-	private String knnType = "CONTINUOUS"; //used in the 2 radio buttons
-
+	//kNN Parameters
+	
+	private String datasetType = "CONTINUOUS"; //used in the 2 radio buttons
 	private String minNumDescriptors = "10";
-
 	private String stepSize = "5";
-
 	private String numCycles = "100";
-
 	private String maxNumDescriptors = "10";
-
-	private String Nearest_Neighbors = "5";
-
-	private String Pseudo_Neighbors = "100";
-
+	private String nearest_Neighbors = "5";
+	private String pseudo_Neighbors = "100";
 	private String numRuns = "10";
-
 	private String numMutations = "2";
-
 	private String T1 = "100";
-
 	private String T2 = "-5.0";
-
 	private String mu = "0.9";
-
 	private String TcOverTb = "-6.0";
-
 	private String cutoff = "1.0";
-
 	private String minAccTraining = "-1";
-
 	private String minAccTest = "-1";
-
 	private String minSlopes = "-10";
-
 	private String maxSlopes = "10";
-
 	private String relativeDiffRR0 = "500.0";
-
 	private String diffR01R02 = "0.9";
-
 	private String stop_cond = "50";
-
 	private String numCompoundsExternalSet;
-
 	private String knnCategoryOptimization = "1";
-
+	private String descriptorGenerationType = Constants.MOLCONNZ;
+	
 	// end kNN Parameters
 
+	//SVM Parameters
+	private String svmTypeCategory = "0";
+	private String svmTypeContinuous = "0";
+	private String svmKernel = "2";
+	private String svmDegree = "3";
+	private String svmGamma = "1/k";
+	private String svmCost = "1";
+	private String svmNu = "0.5";
+	private String svmPEpsilon = "0.1";
+	private String svmEEpsilon = "0.001";
+	private String svmHeuristics = "1";
+	private String svmProbability = "0";
+	private String svmWeight ="1";
+	private String svmCrossValidation = "0";
+	//end SVM Parameters
+	
 	// being SE Parameters
 
-	private String descriptorGenerationType = Constants.MOLCONNZ;
-
 	private String numSphereRadii = "1";
-
 	private String selectionNextTrainPt = "3";
-
 	private String numStartingPoints = "2";
 
 	// Need to add in logic to support these functions
@@ -81,20 +76,18 @@ public class QsarFormBean extends ValidatorForm {
 	// end SE Parameters
 
 	private String jobName;
-
-	private FormFile sdFile = null;
-
-	private FormFile actFile = null;
-
-	private String file = null;
-
-	private int upload = 0;
-	
 	private String textValue;
-	
 	private String dataSetDescription;
-	
 	private String datasetname;
+	private String message;
+	
+	
+	public String getModelingType() {
+		return modelingType;
+	}
+	public void setModelingType(String modelingType) {
+		this.modelingType = modelingType;
+	}
 	
 	public String getDatasetname() {
 		return datasetname;
@@ -118,20 +111,9 @@ public class QsarFormBean extends ValidatorForm {
 		this.textValue=textValue;
 	}
 
-	public FormFile getActFile() {
-		return actFile;
-	}
-
-	private String message;
-
-	public void setActFile(FormFile actFile) {
-		this.actFile = actFile;
-	}
-
 	public String getJobName() {
 		return jobName;
 	}
-
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
 	}
@@ -144,14 +126,6 @@ public class QsarFormBean extends ValidatorForm {
 		this.message = message;
 	}
 
-	public FormFile getSdFile() {
-		return sdFile;
-	}
-
-	public void setSdFile(FormFile sdFile) {
-		this.sdFile = sdFile;
-	}
-
 	public String getNumCompoundsExternalSet() {
 		return numCompoundsExternalSet;
 	}
@@ -160,28 +134,13 @@ public class QsarFormBean extends ValidatorForm {
 		this.numCompoundsExternalSet = numCompoundsExternalSet;
 	}
 
-	public String getFile() {
-		return file;
+	//kNN
+	public String getDatasetType() {
+		return datasetType;
 	}
 
-	public void setFile(String file) {
-		this.file = file;
-	}
-
-	public int getUpload() {
-		return upload;
-	}
-
-	public void setUpload(int upload) {
-		this.upload = upload;
-	}
-
-	public String getKnnType() {
-		return knnType;
-	}
-
-	public void setKnnType(String knnType) {
-		this.knnType = knnType;
+	public void setDatasetType(String datasetType) {
+		this.datasetType = datasetType;
 	}
 
 	public String getDescriptorGenerationType() {
@@ -313,19 +272,19 @@ public class QsarFormBean extends ValidatorForm {
 	}
 
 	public String getNearest_Neighbors() {
-		return Nearest_Neighbors;
+		return nearest_Neighbors;
 	}
 
 	public void setNearest_Neighbors(String nearest_Neighbors) {
-		Nearest_Neighbors = nearest_Neighbors;
+		this.nearest_Neighbors = nearest_Neighbors;
 	}
 
 	public String getPseudo_Neighbors() {
-		return Pseudo_Neighbors;
+		return pseudo_Neighbors;
 	}
 
 	public void setPseudo_Neighbors(String pseudo_Neighbors) {
-		Pseudo_Neighbors = pseudo_Neighbors;
+		this.pseudo_Neighbors = pseudo_Neighbors;
 	}
 
 	public String getRelativeDiffRR0() {
@@ -399,7 +358,91 @@ public class QsarFormBean extends ValidatorForm {
 	public void setMinSlopes(String minSlopes) {
 		this.minSlopes = minSlopes;
 	}
-
+	//end kNN
+	
+	//SVM
+	public String getSvmTypeCategory() {
+		return svmTypeCategory;
+	}
+	public void setSvmTypeCategory(String svmTypeCategory) {
+		this.svmTypeCategory = svmTypeCategory;
+	}
+	public String getSvmTypeContinuous() {
+		return svmTypeContinuous;
+	}
+	public void setSvmTypeContinuous(String svmTypeContinuous) {
+		this.svmTypeContinuous = svmTypeContinuous;
+	}
+	public String getSvmKernel() {
+		return svmKernel;
+	}
+	public void setSvmKernel(String svmKernel) {
+		this.svmKernel = svmKernel;
+	}
+	public String getSvmDegree() {
+		return svmDegree;
+	}
+	public void setSvmDegree(String svmDegree) {
+		this.svmDegree = svmDegree;
+	}
+	public void setSvmGamma(String svmGamma) {
+		this.svmGamma = svmGamma;
+	}
+	public String getSvmGamma() {
+		return svmGamma;
+	}
+	public String getSvmCost() {
+		return svmCost;
+	}
+	public void setSvmCost(String svmCost) {
+		this.svmCost = svmCost;
+	}
+	public String getSvmNu() {
+		return svmNu;
+	}
+	public void setSvmNu(String svmNu) {
+		this.svmNu = svmNu;
+	}
+	public String getSvmPEpsilon() {
+		return svmPEpsilon;
+	}
+	public void setSvmPEpsilon(String svmPEpsilon) {
+		this.svmPEpsilon = svmPEpsilon;
+	}
+	public String getSvmEEpsilon() {
+		return svmEEpsilon;
+	}
+	public void setSvmEEpsilon(String svmEEpsilon) {
+		this.svmEEpsilon = svmEEpsilon;
+	}
+	public void setSvmHeuristics(String svmHeuristics) {
+		this.svmHeuristics = svmHeuristics;
+	}
+	public String getSvmHeuristics() {
+		return svmHeuristics;
+	}
+	public String getSvmProbability() {
+		return svmProbability;
+	}
+	public void setSvmProbability(String svmProbability) {
+		this.svmProbability = svmProbability;
+	}
+	public String getSvmWeight() {
+		return svmWeight;
+	}
+	public void setSvmWeight(String svmWeight) {
+		this.svmWeight = svmWeight;
+	}
+	public String getSvmCrossValidation() {
+		return svmCrossValidation;
+	}
+	public void setSvmCrossValidation(String svmCrossValidation) {
+		this.svmCrossValidation = svmCrossValidation;
+	}
+	
+	//end SVM
+	
+	
 	public Long getSelectedPredictorId() {
 		return selectedPredictorId;
 	}

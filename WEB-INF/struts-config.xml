@@ -84,7 +84,7 @@
 			type="edu.unc.ceccr.action.ModelingForward">
 			<forward name="success" path="/jsp/modeling/modeling.jsp" />
 			<forward name="login" path="/jsp/main/home.jsp" />
-		</action>				
+		</action>						
 		<action path="/predictorsSave"
 			type="edu.unc.ceccr.action.SaveOutputAction">
 			<forward name="success" path="/viewTaskList.do" />

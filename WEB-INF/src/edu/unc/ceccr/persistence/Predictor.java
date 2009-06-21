@@ -23,7 +23,7 @@ import javax.persistence.Transient;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
-import edu.unc.ceccr.global.Constants.KnnEnumeration;
+import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
 
 @Entity
 @Table(name = "cbench_predictor")
@@ -31,7 +31,7 @@ public class Predictor implements java.io.Serializable {
 
 	// Fields
 
-	private Constants.KnnEnumeration modelMethod;
+	private Constants.DataTypeEnumeration modelMethod;
 
 	private Constants.DescriptorEnumeration descriptorGeneration;
 
@@ -200,11 +200,11 @@ public class Predictor implements java.io.Serializable {
 
 	@Enumerated(EnumType.STRING)
 	@Column(name = "model_method")
-	public Constants.KnnEnumeration getModelMethod() {
+	public Constants.DataTypeEnumeration getModelMethod() {
 		return modelMethod;
 	}
 
-	public void setModelMethod(Constants.KnnEnumeration modelMethod) {
+	public void setModelMethod(Constants.DataTypeEnumeration modelMethod) {
 		this.modelMethod = modelMethod;
 	}
 
@@ -372,7 +372,7 @@ public class Predictor implements java.io.Serializable {
 
 	@Transient
 	public String getModelMethodDisplay() {
-		Constants.KnnEnumeration ke = getModelMethod();
+		Constants.DataTypeEnumeration ke = getModelMethod();
 		switch (ke) {
 		case CONTINUOUS:
 			return "QSAR Continuous";

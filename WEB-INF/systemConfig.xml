@@ -11,7 +11,7 @@
 <email>naroom@gmail.com</email>
 </admin>
 <admin>
-<name> grulke</name>
+<name>grulke</name>
 <email>grulke@email.unc.edu</email>
 </admin>
 <admin>
@@ -20,9 +20,9 @@
 </admin>
 </administrators>
 
-<systemBasePath>/public/projects/ceccr/</systemBasePath>
-<tomcatPath>/usr/local/tomcat/</tomcatPath>
-<executablesPath>/usr/local/</executablesPath>
+<systemBasePath>/home/theo/ceccr/</systemBasePath>
+<tomcatPath>/home/theo/ceccr/tomcat6/</tomcatPath>
+<executablesPath>/home/theo/ceccr/</executablesPath>
 
 <webService>
 
@@ -54,21 +54,11 @@
 <host>mail.smtp.host</host>
 </mail>
 
-<!--
 <database>
 <databaseName>ceccr</databaseName>
 <userName>root</userName>
-<password></password>
-<url>jdbc:mysql://192.168.210.218/</url>
-<driver>com.mysql.jdbc.Driver</driver>
-</database>
--->
-
-<database>
-<databaseName>ceccr</databaseName>
-<userName>qsar</userName>
-<password>#pEg3rump</password>
-<url>jdbc:mysql://mysql2.ibiblio.org/</url>
+<password>VeX</password>
+<url>jdbc:mysql://localhost/</url>
 <driver>com.mysql.jdbc.Driver</driver>
 </database>
 

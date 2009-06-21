@@ -44,15 +44,13 @@ public class QsarModelingAction extends Action {
 		}
 		else
 		{
-			session.setAttribute("KnnType", formBean.getKnnType());
+			session.setAttribute("KnnType", formBean.getDatasetType());
 			try
 			{				
 				User user = (User) session.getAttribute("user");
 				
 				QsarModelingTask executeAntWorkflow = null;
 				
-				boolean isUserFile=Utility.checkIfUserZfile(user.getUserName(), formBean.getFile(),formBean.getKnnType());
-
 				Utility.writeToDebug("Setting up task", user.getUserName(), formBean.getJobName());
 				
 				//owww... huge function call. My head hurts.
@@ -61,7 +59,7 @@ public class QsarModelingAction extends Action {
 						user.getUserName(), 
 						formBean.getJobName(), 
 						formBean.getNumCompoundsExternalSet(), 
-						formBean.getKnnType(), 
+						formBean.getDatasetType(), 
 						formBean.getDescriptorGenerationType(), 
 						formBean.getMaxNumDescriptors(), 
 						formBean.getMinNumDescriptors(), 
@@ -87,7 +85,22 @@ public class QsarModelingAction extends Action {
 						formBean.getNumSphereRadii(), 
 						formBean.getSelectionNextTrainPt(), 
 						formBean.getNumStartingPoints(),
-						formBean.getSelectedDatasetId());
+						formBean.getSelectedDatasetId(),
+						formBean.getSvmCost(),
+						formBean.getSvmCrossValidation(),
+						formBean.getSvmDegree(),
+						formBean.getSvmEEpsilon(),
+						formBean.getSvmGamma(),
+						formBean.getSvmHeuristics(),
+						formBean.getSvmKernel(),
+						formBean.getSvmNu(),
+						formBean.getSvmPEpsilon(),
+						formBean.getSvmProbability(),
+						formBean.getSvmTypeCategory(),
+						formBean.getSvmTypeContinuous(),
+						formBean.getSvmWeight(),
+						formBean.getModelingType()
+						);
 				
 						
 				executeAntWorkflow.setUp();

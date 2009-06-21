@@ -22,7 +22,8 @@ import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
-import edu.unc.ceccr.global.Constants.KnnEnumeration;
+import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
+import edu.unc.ceccr.global.Constants.ModelTypeEnumeration;
 import edu.unc.ceccr.global.KnnOutputComparator;
 import edu.unc.ceccr.global.CategoryKNNComparator;
 import edu.unc.ceccr.persistence.DataSet;
@@ -33,22 +34,26 @@ import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.ModelInterface;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
+import edu.unc.ceccr.task.WTSequence;
 import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
+//import edu.unc.ceccr.workflows.DragonToDescriptors;
 import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnModelBuildingWorkflow;
+//import edu.unc.ceccr.workflows.MolconnZToDescriptors;
 import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
+import edu.unc.ceccr.workflows.SdfToJpgWorkflow;
 import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
 public class QsarModelingTask implements WorkflowTask {
 
 	//knn parameters
-	private String knnType;
+	private String datasetType;
 	private String minNumDescriptors;
 	private String stepSize;
 	private String numCycles;
@@ -96,10 +101,11 @@ public class QsarModelingTask implements WorkflowTask {
 	int yTrainModels;
 	int yTestModels;
 	private boolean noModelsGenerated;
-	private boolean isAllUser;
-	private KnnEnumeration knnEnum;
+	private boolean datasetIsAllUser;
+	private DataTypeEnumeration dataTypeEnum;
 	private String descriptorGenerationType;
 	private DescriptorEnumeration descriptorEnum;
+	private ModelTypeEnumeration modelTypeEnum;
 	private String numSphereRadii;
 	private String selectionNextTrainPt;
 	private String numStartingPoints;
@@ -107,11 +113,25 @@ public class QsarModelingTask implements WorkflowTask {
 	private String datasetName;
 	private Long datasetID;
 
+	private String svmCost;
+	private String svmCrossValidation;
+	private String svmDegree;
+	private String svmEEpsilon;
+	private String svmGamma;
+	private String svmHeuristics;
+	private String svmKernel;
+	private String svmNu;
+	private String svmPEpsilon;
+	private String svmProbability;
+	private String svmTypeCategory;
+	private String svmTypeContinuous;
+	private String svmWeight;
+	
 	public QsarModelingTask(
 			String userName, 
 			String jobName,
 			String numCompoundsExternalSet,
-			String knnType, 
+			String datasetType, 
 			String descriptorType, 
 			String maxNumDescriptors,
 			String minNumDescriptors, 
@@ -137,8 +157,29 @@ public class QsarModelingTask implements WorkflowTask {
 			String numSphereRadii,
 			String selectionNextTrainPt, 
 			String numStartingPoints, 
-			Long selectedDatasetId)
+			Long selectedDatasetId,
+			String svmCost,
+			String svmCrossValidation,
+			String svmDegree,
+			String svmEEpsilon,
+			String svmGamma,
+			String svmHeuristics,
+			String svmKernel,
+			String svmNu,
+			String svmPEpsilon,
+			String svmProbability,
+			String svmTypeCategory,
+			String svmTypeContinuous,
+			String svmWeight,
+			String modelingType)
 			throws Exception	{
+		
+		if(modelingType.equalsIgnoreCase(Constants.KNN)){
+			modelTypeEnum = ModelTypeEnumeration.KNN;
+		}
+		else{ //if(modelingType.equalsIgnoreCase(Constants.SVM))
+			modelTypeEnum = ModelTypeEnumeration.SVM;
+		}
 		
 		DataSet dataset = PopulateDataObjects.getDataSetById(selectedDatasetId);
 		
@@ -146,15 +187,31 @@ public class QsarModelingTask implements WorkflowTask {
 		this.jobName = jobName;
 		this.actFileName = dataset.getActFile();
 		this.sdFileName = dataset.getSdfFile();
-		this.isAllUser = false;
+		this.datasetIsAllUser = false;
 		if(dataset.getUserName().equalsIgnoreCase("_all")){
-			this.isAllUser = true;
+			this.datasetIsAllUser = true;
 		}
 		this.datasetName = dataset.getFileName();
 		
-		this.numCompoundsExternalSet = numCompoundsExternalSet;
-		this.knnType = knnType;
+		this.datasetType = datasetType;
 		this.descriptorGenerationType = descriptorType;
+		
+		//start datasplit parameters
+		this.numStartingPoints = numStartingPoints;
+		this.numSphereRadii = numSphereRadii;
+		this.selectionNextTrainPt = selectionNextTrainPt;
+		this.numCompoundsExternalSet = numCompoundsExternalSet;
+		//end datasplit parameters
+		
+		//start kNN parameters
+		this.T1 = T1;
+		this.T2 = T2;
+		this.TcOverTb = TcOverTb;
+		this.minSlopes = minSlopes;
+		this.maxSlopes = maxSlopes;
+		this.Relative_diff_R_R0 = Relative_diff_R_R0;
+		this.Diff_R01_R02 = Diff_R01_R02;
+		this.knnCategoryOptimization = knnCategoryOptimization;
 		this.maxNumDescriptors = maxNumDescriptors;
 		this.minNumDescriptors = minNumDescriptors;
 		this.stepSize = stepSize;
@@ -167,19 +224,25 @@ public class QsarModelingTask implements WorkflowTask {
 		this.numRuns = numRuns;
 		this.Nearest_Neighbors = Nearest_Neighbors;
 		this.Pseudo_Neighbors = Pseudo_Neighbors;
-		this.T1 = T1;
-		this.T2 = T2;
-		this.TcOverTb = TcOverTb;
-		this.minSlopes = minSlopes;
-		this.maxSlopes = maxSlopes;
-		this.Relative_diff_R_R0 = Relative_diff_R_R0;
-		this.Diff_R01_R02 = Diff_R01_R02;
-		this.knnCategoryOptimization = knnCategoryOptimization;
-		this.numSphereRadii = numSphereRadii;
-		this.selectionNextTrainPt = selectionNextTrainPt;
-		this.numStartingPoints = numStartingPoints;
 		this.stop_cond = stop_cond;
 		this.datasetID = selectedDatasetId;
+		//end kNN parameters
+		
+		//start SVM parameters
+		this.svmCost = svmCost;
+		this.svmCrossValidation = svmCrossValidation;
+		this.svmDegree = svmDegree;
+		this.svmEEpsilon = svmEEpsilon;
+		this.svmGamma = svmGamma;
+		this.svmHeuristics = svmHeuristics;
+		this.svmKernel = svmKernel;
+		this.svmNu = svmNu;
+		this.svmPEpsilon = svmPEpsilon;
+		this.svmProbability = svmProbability;
+		this.svmTypeCategory = svmTypeCategory;
+		this.svmTypeContinuous = svmTypeContinuous;
+		this.svmWeight = svmWeight;
+		//end SVM parameters
 
 		user_path = userName + "/" + jobName + "/";
 		filePath = Constants.CECCR_USER_BASE_PATH + user_path;
@@ -192,10 +255,10 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		datasetPath += "/DATASETS/" + datasetName + "/";
 		
-		if (knnType.equals(Constants.CATEGORY)){
-			knnEnum = KnnEnumeration.CATEGORY;
-		}else if (knnType.equals(Constants.CONTINUOUS)){
-			knnEnum = KnnEnumeration.CONTINUOUS;
+		if (datasetType.equals(Constants.CATEGORY)){
+			dataTypeEnum = DataTypeEnumeration.CATEGORY;
+		}else if (datasetType.equals(Constants.CONTINUOUS)){
+			dataTypeEnum = DataTypeEnumeration.CONTINUOUS;
 		}
 		
 	}
@@ -204,11 +267,13 @@ public class QsarModelingTask implements WorkflowTask {
 
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		
-		if (knnType.equals(Constants.CONTINUOUS)){
-			writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME);
-		}
-		else if (knnType.equals(Constants.CATEGORY)){
-			writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME);
+		if(modelTypeEnum == ModelTypeEnumeration.KNN){
+			if (datasetType.equals(Constants.CONTINUOUS)){
+				writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME);
+			}
+			else if (datasetType.equals(Constants.CATEGORY)){
+				writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME);
+			}
 		}
 		
 		writeSEDefaultFile(filePath + Constants.SE_DEFAULT_FILENAME);
@@ -220,7 +285,7 @@ public class QsarModelingTask implements WorkflowTask {
 		
 		//copy the dataset files to the working directory
 		queue.runningTask.setMessage("Copying files");
-		GetJobFilesWorkflow.GetKnnFiles(userName, jobName, sdFileName, actFileName, isAllUser, knnType, datasetName);
+		GetJobFilesWorkflow.getDatasetFiles(userName, jobName, sdFileName, actFileName, datasetIsAllUser, datasetType, datasetName);
 
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
@@ -278,56 +343,61 @@ public class QsarModelingTask implements WorkflowTask {
 			ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 		}
 		
-		//write out the descriptors for modeling
-		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-		WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
-
-		queue.runningTask.setMessage("Splitting data");
-		KnnModelBuildingWorkflow.SplitData(userName, jobName, sdFileName, actFileName, numCompoundsExternalSet);
-
-		queue.runningTask.setMessage("Y-Randomization Setup");
-		Utility.writeToDebug("ExecuteYRandomization", userName, jobName);
-		KnnModelBuildingWorkflow.YRandomization(userName, jobName);
-		
-		queue.runningTask.setMessage("kNN Modeling");
-		if(knnEnum == KnnEnumeration.CATEGORY){
-			KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path);
-		}else if(knnEnum == KnnEnumeration.CONTINUOUS){
-			KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path);
+		if(modelTypeEnum == ModelTypeEnumeration.KNN){
+			//write out the descriptors for modeling
+			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
+	
+			queue.runningTask.setMessage("Splitting data");
+			KnnModelBuildingWorkflow.SplitData(userName, jobName, sdFileName, actFileName, numCompoundsExternalSet);
+	
+			queue.runningTask.setMessage("Y-Randomization Setup");
+			Utility.writeToDebug("ExecuteYRandomization", userName, jobName);
+			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
+			
+			queue.runningTask.setMessage("kNN Modeling");
+			if(dataTypeEnum == DataTypeEnumeration.CATEGORY){
+				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path);
+			}else if(dataTypeEnum == DataTypeEnumeration.CONTINUOUS){
+				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path);
+			}
+			
+			queue.runningTask.setMessage("y-Randomization Modeling");
+			if(dataTypeEnum == DataTypeEnumeration.CATEGORY){
+				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path + "yRandom/");
+			}else if(dataTypeEnum == DataTypeEnumeration.CONTINUOUS){
+				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path + "yRandom/");
+			}
+			
+			queue.runningTask.setMessage("Predicting external set");
+			KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
+			
+			//done with modeling. Read output files. 
+			queue.runningTask.setMessage("Reading kNN output");
+			if (datasetType.equals(Constants.CATEGORY)){
+				parseCategorykNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
+				parseCategorykNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
+			}else if (datasetType.equals(Constants.CONTINUOUS)){
+				parseContinuouskNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
+				parseContinuouskNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
+			}
+	
+			this.noModelsGenerated = this.mainKNNValues.isEmpty();
+			if (!noModelsGenerated)
+			{
+				allExternalValues = parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE, user_path);
+				addStdDeviation(allExternalValues,parseConpredStdDev(filePath + Constants.PRED_OUTPUT_FILE));
+			}
+	
+			if (!noModelsGenerated)
+					sortModels();
+	
+			setParameters(filePath, mainKNNValues, Constants.MAINKNN);
+			setParameters(filePath+"yRandom/", randomKNNValues, Constants.RANDOMKNN);
 		}
-		
-		queue.runningTask.setMessage("y-Randomization Modeling");
-		if(knnEnum == KnnEnumeration.CATEGORY){
-			KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path + "yRandom/");
-		}else if(knnEnum == KnnEnumeration.CONTINUOUS){
-			KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path + "yRandom/");
+		else { //if(modelTypeEnum == ModelTypeEnumeration.SVM){
+			throw new Exception("SVM behaviour is still undefined -- don't use it yet!");
 		}
-		
-		queue.runningTask.setMessage("Predicting external set");
-		KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
-		
-		//done with modeling. Read output files. 
-		queue.runningTask.setMessage("Reading kNN output");
-		if (knnType.equals(Constants.CATEGORY)){
-			parseCategorykNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
-			parseCategorykNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
-		}else if (knnType.equals(Constants.CONTINUOUS)){
-			parseContinuouskNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
-			parseContinuouskNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
-		}
-
-		this.noModelsGenerated = this.mainKNNValues.isEmpty();
-		if (!noModelsGenerated)
-		{
-			allExternalValues = parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE, user_path);
-			addStdDeviation(allExternalValues,parseConpredStdDev(filePath + Constants.PRED_OUTPUT_FILE));
-		}
-
-		if (!noModelsGenerated)
-				sortModels();
-
-		setParameters(filePath, mainKNNValues, Constants.MAINKNN);
-		setParameters(filePath+"yRandom/", randomKNNValues, Constants.RANDOMKNN);
 	}
 
 	Queue queue = Queue.getInstance();
@@ -355,7 +425,7 @@ public class QsarModelingTask implements WorkflowTask {
 		Predictor predictor = new Predictor();
 
 		predictor.setDescriptorGeneration(descriptorEnum);
-		predictor.setModelMethod(knnEnum);
+		predictor.setModelMethod(dataTypeEnum);
 		predictor.setName(this.jobName);
 		predictor.setUserName(this.userName);
 		predictor.setActFileName(this.actFileName);
@@ -483,7 +553,7 @@ public class QsarModelingTask implements WorkflowTask {
 		
 		java.util.Comparator knnOutputComparator;
 		
-		if(this.knnType.equals(Constants.CONTINUOUS))
+		if(this.datasetType.equals(Constants.CONTINUOUS))
 		{knnOutputComparator = new KnnOutputComparator();}
 		else{knnOutputComparator = new CategoryKNNComparator();}
 		

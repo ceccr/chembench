@@ -29,7 +29,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
-import edu.unc.ceccr.global.Constants.KnnEnumeration;
+import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.messages.ErrorMessages;
 import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
@@ -58,7 +58,7 @@ public class Queue {
 		public String jobName;
 		public Long id = null;
 		public Component component;
-		private KnnEnumeration modelMethod;
+		private DataTypeEnumeration modelMethod;
 		private DescriptorEnumeration modelDescriptors;
 		private String ACTFile;
 		private String SDFile;
@@ -289,11 +289,11 @@ public class Queue {
 
 		@Enumerated(EnumType.STRING)
 		@Column(name = "model_method")
-		public KnnEnumeration getModelMethod() {
+		public DataTypeEnumeration getModelMethod() {
 			return modelMethod;
 		}
 
-		public void setModelMethod(KnnEnumeration modelMethod) {
+		public void setModelMethod(DataTypeEnumeration modelMethod) {
 			this.modelMethod = modelMethod;
 		}
 

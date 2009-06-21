@@ -1,14 +1,18 @@
 // Enable or disable parts of the form //
-var categoryParamIDs = new Array('selectedCategoryDataset', 'knnCat13', 'knnCat14', 'knnCatOpt01', 'knnCatOpt02', 'knnCatOpt03', 'knnCatOpt04');
-var continuousParamIDs = new Array('selectedContinuousDataset', 'knnCon13', 'knnCon14', 'knnCon15', 'knnCon16', 'knnCon17', 'knnCon18');
+var categoryParamIDs = new Array('selectedCategoryDataset', 'knnCat13', 'knnCat14', 'knnCatOpt01', 'knnCatOpt02', 'knnCatOpt03', 'knnCatOpt04', 'svmTypeCategory0', 'svmTypeCategory1');
+var continuousParamIDs = new Array('selectedContinuousDataset', 'knnCon13', 'knnCon14', 'knnCon15', 'knnCon16', 'knnCon17', 'knnCon18', 'svmTypeContinuous0', 'svmTypeContinuous1');
 
 function setToContinuous(){
 	var i;
 	for(i = 0; i < categoryParamIDs.length; i++){
-		document.getElementById(categoryParamIDs[i]).disabled = true;
+		if(document.getElementById(categoryParamIDs[i]) != null){
+			document.getElementById(categoryParamIDs[i]).disabled = true;
+		}
 	}
 	for(var i = 0; i < continuousParamIDs.length; i++){
-		document.getElementById(continuousParamIDs[i]).disabled = false;
+		if(document.getElementById(continuousParamIDs[i]) != null){
+			document.getElementById(continuousParamIDs[i]).disabled = false;
+		}
 	}
 }
 
@@ -19,10 +23,14 @@ function enableEdit(){
 function setToCategory(){
 	var i;
 	for(i = 0; i < categoryParamIDs.length; i++){
-		document.getElementById(categoryParamIDs[i]).disabled = false;
+		if(document.getElementById(categoryParamIDs[i]) != null){
+			document.getElementById(categoryParamIDs[i]).disabled = false;
+		}
 	}
 	for(var i = 0; i < continuousParamIDs.length; i++){
-		document.getElementById(continuousParamIDs[i]).disabled = true;
+		if(document.getElementById(continuousParamIDs[i]) != null){
+			document.getElementById(continuousParamIDs[i]).disabled = true;
+		}
 	}
 }
 

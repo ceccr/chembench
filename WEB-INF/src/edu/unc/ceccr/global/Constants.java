@@ -11,8 +11,9 @@ public class Constants {
 	//Enums for Data Types
 	@SuppressWarnings("unchecked")
 	public enum DescriptorEnumeration { MOLCONNZ, DRAGON, MOE2D, MACCS };
-	public enum KnnEnumeration { CONTINUOUS, CATEGORY };
-
+	public enum DataTypeEnumeration { CONTINUOUS, CATEGORY };
+	public enum ModelTypeEnumeration { KNN, SVM };
+	
 	//Descriptor constants
 	public static final int NUM_MACCS_KEYS = 400;
 		//In practice, there are only 2 different types of MACCS keys -- 166 and 320.
@@ -20,7 +21,7 @@ public class Constants {
 	public static final int MOLCONNZ_FORMULA_POS = 11;
 	public static final int MOLCONNZ_COMPOUND_NAME_POS = 10;
 	
-	//Types of kNN
+	//Type strings
 	public static final String CONTINUOUS = "CONTINUOUS";
 	public static final String CATEGORY = "CATEGORY";
 	public static final String MODELBUILDING = "MODELING";
@@ -29,6 +30,9 @@ public class Constants {
 	public static final String DRAGON = "DRAGON";
 	public static final String MOE2D = "MOE2D";
 	public static final String MACCS = "MACCS";
+	public static final String KNN = "KNN";
+	public static final String SVM = "SVM";
+	
 	
 	//kNN Constants
 	public static final int CONTINUOUS_NNN_LOCATION = 1;
