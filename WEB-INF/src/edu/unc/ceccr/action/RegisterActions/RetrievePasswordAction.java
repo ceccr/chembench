@@ -67,23 +67,16 @@ public class RetrievePasswordAction extends Action {
 				}
 				else{ 
 					String newpassword = updateDB(user);
+					//For debugging, you may want to write the newly generated password
+					//to the page. (Never do this in a production build, of course...)
 				    
-					//This message is used when shipping out a copy of Chembench to a client.
-					//The client may not have a working "sendmail" on their machine, so this is a way...
 					MSG = "<font size=2 face=arial>Your password has been reset. <br />" +
 					"An email containing the password has been sent to </font><font size=2 face=arial color=red>" + user.getEmail()
 					+"</font><font size=2 face=arial>.<br />When the email arrives, you'll want to <a href='/home.do'>return to Home page</a> and log in. <br />"
 					+"You may change your password from the 'edit profile' page when you are logged in.</font>";
 					
-					//MSG="Your password has been successfully sent to:<br/><br/> "+user.getEmail()
-					
-					
 					session.setAttribute("MSG",MSG);
 					forward=mapping.findForward("success");
-					
-					
-					/*Your password has been reset. A new password has been generated and sent <br />to the email address associated with this account.
-					</font><br /><a href='/home.do'>Return to Home page</a>*/
 				}
 				
 		return forward;
@@ -106,12 +99,13 @@ public class RetrievePasswordAction extends Action {
 			e.printStackTrace(); 
 		} finally {s.close();}
 		
-		String HtmlBody="Hi,"+user.getFirstName()+",<br/>"+"Your user Name: "+user.getUserName()
-		+"<br/> Your password: "+randomPassword+"<br/><br/><br/>"
+		String HtmlBody="Hi,"+user.getFirstName()+",<br/>"+"Your username: "+user.getUserName()
+		+"<br/> Your new password is: "+randomPassword+"<br/><br/><br/>"
 		+"You may login from "+Constants.WEBADDRESS+".<br/> <br/><br/>"
+		+"Once you are logged in, you may change your password from the 'edit profile' page."
 		+"Administrator <br/>"+ new Date();
 		
-		SendEmails.sendEmail(user.getEmail(), "", "", "Your Chembench password", HtmlBody);
+		SendEmails.sendEmail(user.getEmail(), "", "", "Your chembench password has been reset", HtmlBody);
 		return randomPassword;
 	}
 	
