@@ -24,8 +24,7 @@
 	<tr>
 		<td height="557" colspan="5" valign="top" background="theme/img/backgrindex.jpg">
 		<br />
-		<font size=2 color=red face=arial>Your password has been reset. A new password has been generated and sent <br />to the email address associated with this account.
-</font><br /><a href='/home.do'>Return to Home page</a>
+		<%=session.getAttribute("MSG")%>
 		</td>
 			</tr>
 

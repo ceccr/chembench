@@ -66,40 +66,53 @@ public class RetrievePasswordAction extends Action {
 					forward=mapping.findForward("failure");
 				}
 				else{ 
-					updateDB(user);
-				    MSG="Your password has been successfully sent to:<br/><br/> "+user.getEmail()
-					+"<br/><br/><br/><a href='login.do'><font face='GoudyOlSt BT' size='3' color='red'>Click here to login</font></a>";
+					String newpassword = updateDB(user);
+				    
+					//This message is used when shipping out a copy of Chembench to a client.
+					//The client may not have a working "sendmail" on their machine, so this is a way...
+					MSG = "<font size=2 face=arial>Your password has been reset. <br />" +
+					"An email containing the password has been sent to </font><font size=2 face=arial color=red>" + user.getEmail()
+					+"</font><font size=2 face=arial>.<br />When the email arrives, you'll want to <a href='/home.do'>return to Home page</a> and log in. <br />"
+					+"You may change your password from the 'edit profile' page when you are logged in.</font>";
+					
+					//MSG="Your password has been successfully sent to:<br/><br/> "+user.getEmail()
+					
+					
 					session.setAttribute("MSG",MSG);
 					forward=mapping.findForward("success");
+					
+					
+					/*Your password has been reset. A new password has been generated and sent <br />to the email address associated with this account.
+					</font><br /><a href='/home.do'>Return to Home page</a>*/
 				}
 				
 		return forward;
 	}
 	
-	public void updateDB(User user)throws SQLException, ClassNotFoundException,Exception
+	public String updateDB(User user)throws SQLException, ClassNotFoundException,Exception
 	{
-		Utility utility=new Utility();
-		String randomPassword=utility.randomPassword();
-		user.setPassword(utility.encrypt(randomPassword));
+		String randomPassword=Utility.randomPassword();
+		user.setPassword(Utility.encrypt(randomPassword));
+	
+		Session s = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.saveOrUpdate(user);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			e.printStackTrace(); 
+		} finally {s.close();}
 		
-			Session s = HibernateUtil.getSession();
-			Transaction tx = null;
-			try {
-				tx = s.beginTransaction();
-				s.saveOrUpdate(user);
-				tx.commit();
-			} catch (RuntimeException e) {
-				if (tx != null)
-					tx.rollback();
-				e.printStackTrace(); 
-			} finally {s.close();}
-			
-			String HtmlBody="Hi,"+user.getFirstName()+",<br/>"+"Your user Name: "+user.getUserName()
-			+"<br/> Your password: "+randomPassword+"<br/><br/><br/>"
-			+"You may login from "+Constants.WEBADDRESS+".<br/> <br/><br/>"
-			+"Administrator <br/>"+ new Date();
-			
-			SendEmails.sendEmail(user.getEmail(), "", "", "Your Chembench password", HtmlBody);
+		String HtmlBody="Hi,"+user.getFirstName()+",<br/>"+"Your user Name: "+user.getUserName()
+		+"<br/> Your password: "+randomPassword+"<br/><br/><br/>"
+		+"You may login from "+Constants.WEBADDRESS+".<br/> <br/><br/>"
+		+"Administrator <br/>"+ new Date();
+		
+		SendEmails.sendEmail(user.getEmail(), "", "", "Your Chembench password", HtmlBody);
+		return randomPassword;
 	}
 	
 	

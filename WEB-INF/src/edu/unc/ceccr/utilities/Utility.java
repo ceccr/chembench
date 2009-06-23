@@ -37,7 +37,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
-
+//change password method (reset all passwords)
+//then send out results
 
 public class Utility {
 	private static Integer debug_counter = 0;
@@ -49,9 +50,24 @@ public class Utility {
 		MessageDigest md = MessageDigest.getInstance("SHA-1");
 		md.update(str.getBytes());
 		byte[] encryptedStr = md.digest();
-		writeToDebug("Encoding password: " + str  + " to " + encryptedStr + "\n");
+		//convert each byte to a readable ascii character for easy database access. 
+		//Values need to be inside the range [40..126].
+		for(int i = 0; i < encryptedStr.length; i++){
+			writeToDebug("before: " + (Math.abs(new Integer(encryptedStr[i]))) + " after: " + (Math.abs(new Integer(encryptedStr[i]) % 87) + 40) + " afterchar: " + (char)(Math.abs(new Integer(encryptedStr[i]) % 87) + 40)  );
+			encryptedStr[i] = (byte) (Math.abs(new Integer(encryptedStr[i]) % 87) + 40);
+		}
+		writeToDebug("Encoding password: " + str  + " to " + new String(encryptedStr));
 		return encryptedStr;
 	}
+	
+	/*
+	    public static byte[] encrypt(String str) throws NoSuchAlgorithmException {
+		MessageDigest md = MessageDigest.getInstance("SHA-1");
+		md.update(str.getBytes());
+		byte[] encryptedStr = md.digest();
+		writeToDebug("Encoding password: " + str  + " to " + encryptedStr + "\n");
+		return encryptedStr;
+	}*/
 
 	public boolean compareEncryption(byte[] byte1, byte[] byte2) {
 		if (new BigInteger(1, byte1).toString(16).equalsIgnoreCase(
@@ -361,7 +377,13 @@ public class Utility {
 			else if(as.getType().equalsIgnoreCase("maxModels")){
 				Constants.MAXMODELS = Integer.parseInt(as.getValue());
 			}
-			as = iter.next();			
+			
+			if(iter.hasNext()){
+				as = iter.next();			
+			}
+			else{
+				as = null;
+			}
 		}
 		
 	}

@@ -260,7 +260,6 @@ public class QsarModelingTask implements WorkflowTask {
 		}else if (datasetType.equals(Constants.CONTINUOUS)){
 			dataTypeEnum = DataTypeEnumeration.CONTINUOUS;
 		}
-		
 	}
 
 	public void setUp() throws Exception {
