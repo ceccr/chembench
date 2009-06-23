@@ -107,7 +107,5 @@ public class RetrievePasswordAction extends Action {
 		SendEmails.sendEmail(user.getEmail(), "", "", "C-Chembench Password Reset", HtmlBody);
 		return randomPassword;
 	}
-	
-	
 		
 }

@@ -39,7 +39,7 @@ public class SendEmails {
 			FileWriter fw = new FileWriter(new File(workingDir + fileName));
 			fw.write("Subject: " + subject + "\n");
 			fw.write("To: " + address + "\n");
-			fw.write("From: " + "ceccr@listserv.unc.edu" + "\n");
+			fw.write("From: " + Constants.WEBSITEEMAIL + "\n");
 			fw.write("MIME-Version: 1.0\n");
 			fw.write("Content-Type: " + "text/html" + "\n\n");
 
