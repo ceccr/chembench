@@ -35,8 +35,6 @@ public class ParseConfigurationXML{
             }
             
             Constants.WORKBENCH=getSingNodeValue(doc,"workbench");
-            Constants.MAILSERVER=getNestedNodeValue(getParentNode(doc,"mail"),"server");
-            Constants.MAILHOST=getNestedNodeValue(getParentNode(doc,"mail"),"host");
             Constants.CECCR_DATABASE_NAME=getNestedNodeValue(getParentNode(doc,"database"),"databaseName");
             Constants.DATABASE_USERNAME=getNestedNodeValue(getParentNode(doc,"database"),"userName");
             Constants.CECCR_DATABASE_PASSWORD=getNestedNodeValue(getParentNode(doc,"database"),"password");
@@ -44,7 +42,6 @@ public class ParseConfigurationXML{
             Constants.DATABASE_DRIVER=getNestedNodeValue(getParentNode(doc,"database"),"driver");
             Constants.WEBADDRESS=getNestedNodeValue(getParentNode(doc,"website"),"address");
             Constants.WEBSITEEMAIL=getNestedNodeValue(getParentNode(doc,"website"),"email");
-            Constants.PHONENUMBER=getNestedNodeValue(getParentNode(doc,"website"),"phone");
             Constants.RECAPTCHA_PUBLICKEY=getNestedNodeValue(getParentNode(doc,"webService"),"publicKey");
             Constants.RECAPTCHA_PRIVATEKEY=getNestedNodeValue(getParentNode(doc,"webService"),"privateKey");
             
