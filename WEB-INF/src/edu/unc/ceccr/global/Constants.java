@@ -91,13 +91,8 @@ public class Constants {
 	public static final Integer MAX_FILE_SIZE = new Integer("1024");
 	
 	//administration
-	public static final String WEBADDRESS = "http://chembench.mml.unc.edu";
-	public static String PHONENUMBER;
+	public static String WEBADDRESS;
 	public static String WEBSITEEMAIL;
-	
-	//mail
-	public static  String MAILSERVER;
-	public static  String MAILHOST;
 	
 	// web service validation
 	public static  String RECAPTCHA_PUBLICKEY;

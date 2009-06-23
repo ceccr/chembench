@@ -26,11 +26,6 @@
 
 <webService>
 
-<!-- Keys for ceccr.ibiblio.org 
-<publicKey>6Lev0gAAAAAAAI7345aPnzQ7tEPpAm4npB4at9NU</publicKey>
-<privateKey>6Lev0gAAAAAAAAWs-yNeKw6t9kiCGG2ADutercPK</privateKey>
--->
-
 <!-- Keys for chembench-dev.metalab.unc.edu 
 <publicKey>6LewzAAAAAAAABfkXvYwv-IeHBpNH0AVOXI9XqzI</publicKey>
 <privateKey>6LewzAAAAAAAAF9CsJTvdCFEej0aNkeurrroBGKV</privateKey>
@@ -44,24 +39,9 @@
 
 <website>
 <address>http://chembench.mml.unc.edu</address>
-<email>administrator@ceccr.ibiblio.org</email>
-<phone></phone>
+<email>ceccrhelp@listserv.unc.edu</email>
 </website>
 
-<mail>
-<server>isis.unc.edu</server>
-<host>mail.smtp.host</host>
-</mail>
-
-<!--
-<database>
-<databaseName>ceccr</databaseName>
-<userName>root</userName>
-<password></password>
-<url>jdbc:mysql://192.168.210.218/</url>
-<driver>com.mysql.jdbc.Driver</driver>
-</database>
--->
 
 <database>
 <databaseName>ceccr</databaseName>
