@@ -60,8 +60,7 @@ public class EmailAllAction extends Action {
 				while(it.hasNext())
 				{
 					User userInfo = (User)it.next();
-					String HtmlBody="Hi,"+userInfo.getFirstName()+",<br/>"+ formBean.getContent()+
-					"<br/><br/><br/><br/>"+ new Date();
+					String HtmlBody=formBean.getContent();
 					SendEmails.sendEmail(userInfo.getEmail(), formBean.getCc(), formBean.getBcc(), formBean.getSubject(), HtmlBody);
 				}
 				PrintWriter pw=response.getWriter();

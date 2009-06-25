@@ -53,14 +53,14 @@ public class Utility {
 		//convert each byte to a readable ascii character for easy database access. 
 		//Values need to be inside the range [40..126].
 		for(int i = 0; i < encryptedStr.length; i++){
-			writeToDebug("before: " + (Math.abs(new Integer(encryptedStr[i]))) + " after: " + (Math.abs(new Integer(encryptedStr[i]) % 87) + 40) + " afterchar: " + (char)(Math.abs(new Integer(encryptedStr[i]) % 87) + 40)  );
+			//writeToDebug("before: " + (Math.abs(new Integer(encryptedStr[i]))) + " after: " + (Math.abs(new Integer(encryptedStr[i]) % 87) + 40) + " afterchar: " + (char)(Math.abs(new Integer(encryptedStr[i]) % 87) + 40)  );
 			encryptedStr[i] = (byte) (Math.abs(new Integer(encryptedStr[i]) % 87) + 40);
 		}
-		writeToDebug("Encoding password: " + str  + " to " + new String(encryptedStr));
+		//writeToDebug("Encoding password: " + str  + " to " + new String(encryptedStr));
 		return encryptedStr;
 	}
 	
-	/*
+	/* the old hashing function... left here just in case the new one screws up somehow
 	    public static byte[] encrypt(String str) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-1");
 		md.update(str.getBytes());

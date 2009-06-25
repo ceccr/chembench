@@ -94,7 +94,7 @@ public class GenerateDescriptorWorkflow{
 
 	public static void GenerateMoe2DDescriptors(String sdfile, String outfile) throws Exception{
 		//command: "moe2D.sh infile.sdf outfile.moe2D"
-		String execstr = "moe2D.sh " + " " + sdfile + " " + sdfile + ".moe2D";
+		String execstr = "moe2D.sh " + " " + sdfile + " " + sdfile + ".moe2D" + " " + Constants.CECCR_BASE_PATH + "mmlsoft/SVL_DIR/batch_sd_2Ddesc.svl";
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
 		Utility.writeToDebug("Running external program: " + execstr);
 		Process p = Runtime.getRuntime().exec(execstr);
@@ -104,7 +104,7 @@ public class GenerateDescriptorWorkflow{
 	
 	public static void GenerateMaccsDescriptors(String sdfile, String outfile) throws Exception{
 		//command: "maccs.sh infile.sdf outfile.maccs"
-		String execstr = "maccs.sh " + sdfile + " " + sdfile + ".maccs";
+		String execstr = "maccs.sh " + sdfile + " " + sdfile + ".maccs" + " " + Constants.CECCR_BASE_PATH + "mmlsoft/SVL_DIR/batch_sd_MACCSFP.svl";
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
 		Utility.writeToDebug("Running external program: " + execstr);
 		Process p = Runtime.getRuntime().exec(execstr);
