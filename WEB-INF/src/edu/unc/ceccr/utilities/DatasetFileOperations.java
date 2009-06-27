@@ -332,34 +332,34 @@ public class DatasetFileOperations {
 				msg=ErrorMessages.ACT_NOT_VALID;
 		}
 		
-		if(!sdfIsValid(sdFile.getInputStream()))
+		else if(!sdfIsValid(sdFile.getInputStream()))
 		{
 				msg+=ErrorMessages.INVALID_SDF;
 		}
 		
-		if(!actMatchProjectType(actFile.getInputStream(), knnType))
+		else if(!actMatchProjectType(actFile.getInputStream(), knnType))
 		{
 			msg=ErrorMessages.ACT_DOESNT_MATCH_PROJECT_TYPE;
 		}
-		
-		//Check if ADF matches ACT file 
-		String sdf_act_match = sdfMatchesAct(sdFile , actFile, user, datasetname);
-		if(!sdf_act_match.equals("-1"))
-		{	
-			msg+=sdf_act_match;
+		else{
+			//Check if ADF matches ACT file 
+			String sdf_act_match = sdfMatchesAct(sdFile , actFile, user, datasetname);
+			if(!sdf_act_match.equals("-1"))
+			{	
+				msg+=sdf_act_match;
+			}
+			//* Check if ADF matches ACT file
+				
+			//Check if ACT file contains duplicates 
+			int act_duplicate_position = findDuplicates(true);
+			if(act_duplicate_position!=-1) msg+= ErrorMessages.ACT_CONTAINS_DUPLICATES + act_compounds.get(act_duplicate_position);
+			//* Check if ACT file contains duplicates
+				
+			//Check if SDF file contains duplicates 
+			int sdf_duplicate_position = findDuplicates(false);
+			if(sdf_duplicate_position!=-1) msg+= ErrorMessages.SDF_CONTAINS_DUPLICATES + act_compounds.get(sdf_duplicate_position);
+			//* Check if SDF file contains duplicates
 		}
-		//* Check if ADF matches ACT file
-			
-		//Check if ACT file contains duplicates 
-		int act_duplicate_position = findDuplicates(true);
-		if(act_duplicate_position!=-1) msg+= ErrorMessages.ACT_CONTAINS_DUPLICATES + act_compounds.get(act_duplicate_position);
-		//* Check if ACT file contains duplicates
-			
-		//Check if SDF file contains duplicates 
-		int sdf_duplicate_position = findDuplicates(false);
-		if(sdf_duplicate_position!=-1) msg+= ErrorMessages.SDF_CONTAINS_DUPLICATES + act_compounds.get(sdf_duplicate_position);
-		//* Check if SDF file contains duplicates
-		
 		return msg;
 	}
 	
