@@ -20,6 +20,7 @@ import org.apache.struts.upload.FormFile;
 
 import edu.unc.ceccr.formbean.DatasetFormBean;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.messages.ErrorMessages;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.GenerateSketchesTask;
@@ -90,7 +91,10 @@ public class SubmitDatasetAction extends Action {
 				String msg = DatasetFileOperations.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
     			
 				if(msg!=""){
-					//FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName));
+					// If the file system already contains a dataset there is no need to delete it
+					if(msg!=ErrorMessages.FILESYSTEM_CONTAINS_DATASET){
+						FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName));
+					}
 					Utility.writeToMSDebug("Error::"+msg);
 					request.removeAttribute("validationMsg");
 					request.setAttribute("validationMsg", msg);
@@ -112,6 +116,7 @@ public class SubmitDatasetAction extends Action {
 				errors.add("RUNTIME", new ActionMessage("error.RUNTIME"));
 				addErrors(request, errors);
 				Utility.writeToDebug(e);
+				// Deleting the dataset folder to give a user a chance to upload it again
 				FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+((User) session.getAttribute("user")).getUserName()+"/DATASETS/"+formBean.getDatasetname()));
 				forward = mapping.findForward("failure");
 				Utility.writeToMSDebug(e.getMessage());

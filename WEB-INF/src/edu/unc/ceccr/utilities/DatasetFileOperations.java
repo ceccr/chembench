@@ -97,7 +97,7 @@ public class DatasetFileOperations {
 		File f = new File(dir);
 		String msg="";
 		
-		if(f.exists()) msg =  ErrorMessages.DATABASE_CONTAINS_DATASET;
+		if(f.exists()) msg =  ErrorMessages.FILESYSTEM_CONTAINS_DATASET;
 		if(msg==""){	
 			msg =  saveSDFFile(userName, sdFile, path);
 			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + path + sdFile.getFileName());
@@ -107,25 +107,13 @@ public class DatasetFileOperations {
 		}
 		if(msg=="" && !type.equals(Constants.PREDICTION)){
 			 msg = saveACTFile(actFile, path);
-			 msg =  checkUploadedFiles(sdFile, actFile, type, userName, datasetName);
 			 Utility.writeToMSDebug(">>>>>>>>>>>>>>>>checkingUploadedFiles2<<<<<<<<<");
 		}
 		else if(type.equals(Constants.PREDICTION)){
-			try{
-				generateEmptyActFile(path, sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")), path+sdFile.getFileName());
-				if(!sdfIsValid(sdFile.getInputStream())){
-					msg = ErrorMessages.INVALID_SDF;
-				}
-			}
-			catch(Exception e){
-			Utility.writeToMSDebug("ERROR:::"+e.getMessage());
-			}
+			    generateEmptyActFile(path, sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")), path+sdFile.getFileName());
 		}
-		if (msg != "") {
-			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>deleteDir<<<<<<<<<"+dir);
-			//dir will be deleted when this function returns to SubmitDatasetAction
-		}
-		else{
+		msg =  checkUploadedFiles(sdFile, actFile, type, userName, datasetName);
+		if (msg == ""){
 			Utility.writeToMSDebug("File saved");
 			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName(), actFile!=null?actFile.getFileName():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf("."))+".act", type, description);
 		}
@@ -137,8 +125,7 @@ public class DatasetFileOperations {
 
 		String dir = path;
 		File datasetDir = new File(dir);
-		//if(datasetDir.exists()) return ErrorMessages.DATABASE_CONTAINS_DATASET;
-		if(!sdFile.getFileName().toLowerCase().endsWith(".sdf")) return ErrorMessages.SDF_NOT_VALID;
+		if(!sdFile.getFileName().toLowerCase().endsWith(".sdf")) return ErrorMessages.SDF_FILE_EXTENSION_INVALID;
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName).exists())
 			new File(Constants.CECCR_USER_BASE_PATH+userName).mkdirs();
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").exists())
@@ -163,7 +150,7 @@ public class DatasetFileOperations {
 		|| actFile.getFileName().endsWith(".xl") || actFile.getFileName().endsWith(".xls");
 		String act_file = actFile.getFileName();
 		boolean isActFile = act_file.toLowerCase().endsWith(".act");		
-		if(!isXlsFile && !isActFile) return ErrorMessages.ACT_NOT_VALID; 
+		if(!isXlsFile && !isActFile) return ErrorMessages.ACT_FILE_EXTENSION_INVALID; 
 		Utility.writeToMSDebug("saveACTFile");
 		String dir = path;
 		String filePath = dir+actFile.getFileName();
@@ -239,13 +226,14 @@ public class DatasetFileOperations {
 		return result;
 	}
 	
-	public static String numCompounds(String fileLocation)
+	public static int numCompounds(String fileLocation)
 			throws FileNotFoundException, IOException {
 		int numCompounds = 0;
 		//added compounds id uniqueness checking by msypa, Dec 03, 08
 		act_compounds = new ArrayList<String>();
-		File file = new File(fileLocation);
 		//added compounds id uniqueness checking by msypa, Dec 03, 08
+		File file = new File(fileLocation);
+		
 		
 		if (file.exists()) {
 			FileReader fin = new FileReader(file);
@@ -258,18 +246,38 @@ public class DatasetFileOperations {
 					if (GenericValidator.isDouble(array[1])) {
 						numCompounds++;
 						//added compounds id uniqueness checking by msypa, Dec 03, 08
-						if(act_compounds.contains(array[0].trim())) return ErrorMessages.ACT_CONTAINS_DUPLICATES+array[0].trim();
-						else{
 							act_compounds.add(array[0].trim());
 							//Utility.writeToMSDebug(".act:::"+array[0].trim());
-						}
 					}
 				}
 			}
 		}
-		return new Integer(numCompounds).toString();
+		return numCompounds;
 	}
 
+	// returns the position of the duplicate
+	private static int findDuplicates(boolean inACT){
+		ArrayList<String> a = new ArrayList<String>();
+		if(inACT)
+			a = act_compounds;
+		else a = sdf_compounds;
+		
+		ArrayList<String> temp_list = new ArrayList<String>();
+		for(int i= 0;i < a.size();i++){
+			if(temp_list.contains(a.get(i))) return i; 
+			temp_list.add(a.get(i));			
+		}
+		return -1;
+	}
+	
+	private static int checkCompoundsAreSameInACTAndSDF(){
+		for(int i = 0;i<act_compounds.size();i++)
+			if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
+				return i;
+			}
+		return -1;
+	}
+	
 	
 	private static void writeDatasetToDatabase(String userName, String name, String sdfFileName , String actFileName,
 			String modelType, String description) throws IOException,
@@ -278,10 +286,6 @@ public class DatasetFileOperations {
 			"modelType::"+modelType+"description::"+description);
 
 		int numCompound = -1;
-		if(actFileName!=null){
-			String temp = numCompounds(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + name + "/" + actFileName);
-			if(!temp.contains(ErrorMessages.ACT_CONTAINS_DUPLICATES)) numCompound = new Integer(temp).intValue();
-		}
 		if(modelType.equals(Constants.PREDICTION)){
 			numCompound = new Integer(numCompoundsFromSDFiles(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + name, sdfFileName)).intValue();
 		}
@@ -327,32 +331,35 @@ public class DatasetFileOperations {
 		{
 				msg=ErrorMessages.ACT_NOT_VALID;
 		}
-		else
-		{
-			if(!actMatchProjectType(actFile.getInputStream(), knnType))
-			{
-				msg=ErrorMessages.ACT_DOESNT_MATCH_PROJECT_TYPE;
-			}
-		}
-			String sdf_act_match = sdfMatchesAct(sdFile , actFile, user, datasetname);
-			if(sdf_act_match.equals("Error"))
-			{
-				msg+=ErrorMessages.ACT_DOESNT_MATCH_SDF;
-			}
-			if(sdf_act_match.contains("Error") && !sdf_act_match.equals("Error"))
-			{
-				msg+=sdf_act_match;
-			}
-			if(sdf_act_match.contains(ErrorMessages.ACT_CONTAINS_DUPLICATES) || sdf_act_match.contains(ErrorMessages.SDF_CONTAINS_DUPLICATES))
-			{
-				msg+=sdf_act_match;
-			}
-			
-			
+		
 		if(!sdfIsValid(sdFile.getInputStream()))
 		{
 				msg+=ErrorMessages.INVALID_SDF;
 		}
+		
+		if(!actMatchProjectType(actFile.getInputStream(), knnType))
+		{
+			msg=ErrorMessages.ACT_DOESNT_MATCH_PROJECT_TYPE;
+		}
+		
+		//Check if ADF matches ACT file 
+		String sdf_act_match = sdfMatchesAct(sdFile , actFile, user, datasetname);
+		if(!sdf_act_match.equals("-1"))
+		{	
+			msg+=sdf_act_match;
+		}
+		//* Check if ADF matches ACT file
+			
+		//Check if ACT file contains duplicates 
+		int act_duplicate_position = findDuplicates(true);
+		if(act_duplicate_position!=-1) msg+= ErrorMessages.ACT_CONTAINS_DUPLICATES + act_compounds.get(act_duplicate_position);
+		//* Check if ACT file contains duplicates
+			
+		//Check if SDF file contains duplicates 
+		int sdf_duplicate_position = findDuplicates(false);
+		if(sdf_duplicate_position!=-1) msg+= ErrorMessages.SDF_CONTAINS_DUPLICATES + act_compounds.get(sdf_duplicate_position);
+		//* Check if SDF file contains duplicates
+		
 		return msg;
 	}
 	
@@ -426,7 +433,7 @@ public class DatasetFileOperations {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static String numCompoundsFromSDFiles(String filePath, String fileName)
+	public static int numCompoundsFromSDFiles(String filePath, String fileName)
 			throws FileNotFoundException, IOException {
 		File file = new File(filePath +"/"+ fileName);
 		FileReader fin = new FileReader(file);
@@ -434,9 +441,9 @@ public class DatasetFileOperations {
 		String temp;
 		//added compounds id uniqueness checking by msypa, Dec 02, 08
 		sdf_compounds = new ArrayList<String>();
-		
-		Scanner src = new Scanner(fin);
 		//added compounds id uniqueness checking by msypa, Dec 02, 08
+		Scanner src = new Scanner(fin);
+		
 		if(src.hasNext()){
 			temp = src.nextLine();
 			sdf_compounds.add(temp.trim());
@@ -448,16 +455,12 @@ public class DatasetFileOperations {
 				num++;
 				if(src.hasNext()){
 					temp = src.nextLine();
-					if(sdf_compounds.contains(temp.trim())) return ErrorMessages.SDF_CONTAINS_DUPLICATES+temp.trim();
-					else{
-						sdf_compounds.add(temp.trim());
-						//Utility.writeToMSDebug(temp);
-					}
+					sdf_compounds.add(temp.trim());
 				}
 			}
 		}
 		fin.close();
-		return new Integer(num).toString();
+		return num;
 	}
 	
 	public static String rewriteACTFile(String filePath)
@@ -525,43 +528,23 @@ public class DatasetFileOperations {
 	
 	public static String sdfMatchesAct(FormFile sdFile, FormFile actFile, String user, String datasetname)
 	throws IOException {
-		String fl = "Error";
-		
-		try{
-			String userDir = Constants.CECCR_USER_BASE_PATH + user + "/DATASETS/"+datasetname;
 			
-		int numCompound=-1;
-		int numCompoundSD=-1;
+		String userDir = Constants.CECCR_USER_BASE_PATH + user + "/DATASETS/"+datasetname;
+			
+		// Checking if number of compounds in ACT is the same as in SDF file
+		int numACT = numCompounds(userDir+"/"+ actFile.getFileName());
+		int numSDF = numCompoundsFromSDFiles(userDir, sdFile.getFileName());
 		
-		String temp = numCompounds(userDir+"/"+ actFile.getFileName());
-		Utility.writeToMSDebug("Number of compounds in ACT:::"+temp);
+		Utility.writeToMSDebug("Number of compounds in ACT:::"+numACT);
 		
-		if(!temp.contains(ErrorMessages.ACT_CONTAINS_DUPLICATES)) numCompound = new Integer(temp).intValue();
-		else fl = temp;
+		if(numACT!=numSDF) return ErrorMessages.ACT_DOESNT_MATCH_SDF+ "ACT contains " + numACT+ " vs. "+numSDF+" in SDF file!";
+		//* Checking if number of compounds in ACT is the same as in SDF file
 		
-		String temp2 = numCompoundsFromSDFiles(userDir, sdFile.getFileName());
-		Utility.writeToMSDebug("Number of compounds in SDF:::"+temp2);
-		
-		if(!temp2.contains(ErrorMessages.SDF_CONTAINS_DUPLICATES)) numCompoundSD = new Integer(temp2).intValue();
-		else fl += temp2;
-		
-		if(numCompound==numCompoundSD && numCompound!=-1)	fl= "true";
-		
-		// check if compounds in act are the same as compounds in sdf
-		
-		if(fl.equals("true")){
-			for(int i = 0;i<act_compounds.size();i++)
-				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
-					fl = "Error " + ErrorMessages.ACT_DOESNT_MATCH_SDF+"Compound <b>"+act_compounds.get(i)+"</b> from ACT file doesnt match compound <b>"+sdf_compounds.get(i)+"</b> from SDF file!";
-					Utility.writeToMSDebug(fl);
-				}
-			}
-		}
-		catch (Exception e) {
-			Utility.writeToDebug(e);
-		}
-		
-		return fl;
+		// Check if compounds in act are the same as compounds in sdf
+		int compound_position = checkCompoundsAreSameInACTAndSDF();
+		if(compound_position!=-1) return ErrorMessages.ACT_DOESNT_MATCH_SDF + " Compound "+ act_compounds.get(compound_position)+" from ACT file does not match compound "+ sdf_compounds.get(compound_position)+" from SDF file!";
+		//* Check if compounds in act are the same as compounds in sdf
+		return "-1";
 	}
 	
 	public static void rewriteSdf(String filePath, String fileName) {

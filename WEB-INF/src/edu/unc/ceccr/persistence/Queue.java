@@ -78,9 +78,9 @@ public class Queue {
 				this.component = Component.modelbuilder;
 				this.ACTFile = t.getActFileName();
 				this.SDFile = t.getSdFileName();
-				String temp = DatasetFileOperations.numCompounds(Constants.CECCR_USER_BASE_PATH+userName+"/"+t.getJobName()+"/"+t.getActFileName());
+				int temp = DatasetFileOperations.numCompounds(Constants.CECCR_USER_BASE_PATH+userName+"/"+t.getJobName()+"/"+t.getActFileName());
 				this.numCompounds= -1;
-				if(!temp.contains(ErrorMessages.ACT_CONTAINS_DUPLICATES)) this.numCompounds= new Integer(temp).intValue(); 
+				this.numCompounds= temp; 
 				this.numModels=Utility.numModels(t);
 				
 				//if it's a big job, require an admin's approval before running it.
