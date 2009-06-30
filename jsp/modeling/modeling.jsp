@@ -161,12 +161,12 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				</tr>
 				<tr>
 					<td>
-					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="AUTOSCALING" property="scalingType">Auto Scaling</html:radio></div>
+					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="RANGESCALING" property="scalingType">Range Scaling</html:radio></div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="RANGESCALING" property="scalingType">Range Scaling</html:radio></div>
+					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="AUTOSCALING" property="scalingType">Auto Scaling</html:radio></div>
 					</td>
 				</tr>
 				<tr>

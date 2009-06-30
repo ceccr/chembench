@@ -57,7 +57,7 @@ public class WriteDescriptorsFileWorkflow{
 		
 		//divide to get averages
 		for(int j = 0; j < descriptorValueAvgs.size(); j++){
-			descriptorValueAvgs.set(j, "" +  (Float.parseFloat(descriptorValueAvgs.get(j)) / descriptorMatrix.size()));
+			descriptorValueAvgs.set(j, "" + (Float.parseFloat(descriptorValueAvgs.get(j)) / descriptorMatrix.size()));
 		}
 		
 		//now go through again to get stddev... what a pain

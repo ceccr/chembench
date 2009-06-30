@@ -15,7 +15,7 @@ public class QsarFormBean extends ValidatorForm {
 	private String modelingType;
 
 	private String descriptorGenerationType = Constants.MOLCONNZ;
-	private String scalingType = Constants.AUTOSCALING;
+	private String scalingType = Constants.RANGESCALING;
 
 	// being SE Parameters
 
