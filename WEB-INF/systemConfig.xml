@@ -7,16 +7,12 @@
 -->
 <administrators>
 <admin>
-<name>theo</name>
-<email>naroom@gmail.com</email>
+<name>admin</name>
+<email>ceccrhelp@listserv.unc.edu</email>
 </admin>
 <admin>
-<name>grulke</name>
-<email>grulke@email.unc.edu</email>
-</admin>
-<admin>
-<name>dpoz</name>
-<email>pozefsky@cs.unc.edu</email>
+<name>yourUsernameHere</name>
+<email>YourEmail@goes.here</email>
 </admin>
 </administrators>
 
@@ -25,15 +21,11 @@
 <executablesPath>/home/theo/ceccr/</executablesPath>
 
 <webService>
-<!-- Keys for chembench-dev.metalab.unc.edu 
-<publicKey>6LewzAAAAAAAABfkXvYwv-IeHBpNH0AVOXI9XqzI</publicKey>
-<privateKey>6LewzAAAAAAAAF9CsJTvdCFEej0aNkeurrroBGKV</privateKey>
--->
-
-<!-- Keys for ceccrtest.mml.unc.edu
-<publicKey>6LcV3wUAAAAAAMvuF3h4zwYq3cQYXFoSylhQfFSF</publicKey>
-<privateKey>6LcV3wUAAAAAANYlZr7NXmwIGcjImeIUGaa0cdtu</privateKey>
- -->
+ 
+ <!-- GLOBAL KEYS (will work anywhere)  -->
+ <publicKey>6LfkEwcAAAAAAOkmayIoxxxjQyaLPK7kQlEtn8Wf</publicKey>
+ <privateKey>6LfkEwcAAAAAAI4NaGk2dgSbSmioBvJCFRJbYtmt</privateKey>
+ 
 </webService>
 
 <website>

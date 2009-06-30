@@ -79,10 +79,9 @@ public class Queue {
 				this.ACTFile = t.getActFileName();
 				this.SDFile = t.getSdFileName();
 				int temp = DatasetFileOperations.numCompounds(Constants.CECCR_USER_BASE_PATH+userName+"/"+t.getJobName()+"/"+t.getActFileName());
-				this.numCompounds= -1;
 				this.numCompounds= temp; 
 				this.numModels=Utility.numModels(t);
-				
+				Utility.writeToDebug("compounds in job: " + numCompounds, userName, t.getJobName());
 				//if it's a big job, require an admin's approval before running it.
 				if(this.numCompounds>Constants.MAXCOMPOUNDS||this.numModels>Constants.MAXMODELS)
 				{

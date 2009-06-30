@@ -8,14 +8,27 @@ import edu.unc.ceccr.global.Constants;
 public class QsarFormBean extends ValidatorForm {
 	
 	private Long selectedPredictorId;
-	
 	private String selectedPredictorName;
-	
 	private Long selectedDatasetId;
-	
 	private String selectedDatasetName;
 
 	private String modelingType;
+
+	private String descriptorGenerationType = Constants.MOLCONNZ;
+	private String scalingType = Constants.AUTOSCALING;
+
+	// being SE Parameters
+
+	private String numSphereRadii = "1";
+	private String selectionNextTrainPt = "3";
+	private String numStartingPoints = "2";
+
+	// Need to add in logic to support these functions
+	private String startingCompounds;
+	private String mostActiveStartingComp;
+
+	// end SE Parameters
+	
 	
 	//kNN Parameters
 	
@@ -42,7 +55,6 @@ public class QsarFormBean extends ValidatorForm {
 	private String stop_cond = "50";
 	private String numCompoundsExternalSet;
 	private String knnCategoryOptimization = "1";
-	private String descriptorGenerationType = Constants.MOLCONNZ;
 	
 	// end kNN Parameters
 
@@ -62,25 +74,11 @@ public class QsarFormBean extends ValidatorForm {
 	private String svmCrossValidation = "0";
 	//end SVM Parameters
 	
-	// being SE Parameters
-
-	private String numSphereRadii = "1";
-	private String selectionNextTrainPt = "3";
-	private String numStartingPoints = "2";
-
-	// Need to add in logic to support these functions
-	private String startingCompounds;
-
-	private String mostActiveStartingComp;
-
-	// end SE Parameters
-
 	private String jobName;
 	private String textValue;
 	private String dataSetDescription;
 	private String datasetname;
 	private String message;
-	
 	
 	public String getModelingType() {
 		return modelingType;
@@ -116,6 +114,13 @@ public class QsarFormBean extends ValidatorForm {
 	}
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
+	}
+	
+	public String getScalingType() {
+		return scalingType;
+	}
+	public void setScalingType(String scalingType) {
+		this.scalingType = scalingType;
 	}
 
 	public String getMessage() {

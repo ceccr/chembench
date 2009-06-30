@@ -101,9 +101,9 @@
 	              or, <a href="anonPredict.do">make simple predictions</a> (no login required)
 	               </span></p>
 	              <p>FAQ &amp; Help <br />
-	               <span class="ccbHomeStandard"><a href="http://ceccr.ibiblio.org/c-chembench/theme/cchembench_userguide.pdf" target="_blank">                CCB User Guide</a><br />
-	               <a href="http://ceccr.ibiblio.org/c-chembench/theme/kNNQSAR.pdf" target="_blank">kNN-QSAR User Guide</a><br />
-	               <a href="http://chembench-dev.metalab.unc.edu/help.do" target="_blank">Frequently Asked Questions</a></span></p>
+	               <span class="ccbHomeStandard"><a href="theme/cchembench_userguide.pdf" target="_blank">                CCB User Guide</a><br />
+	               <a href="theme/kNNQSAR.pdf" target="_blank">kNN-QSAR User Guide</a><br />
+	               <a href="help.do" target="_blank">Frequently Asked Questions</a></span></p>
 	             <p>System Settings<br />
 	               <span class="ccbHomeStandard"><a href="admin.do">Please click here</a></span><br />
 	               </td>
@@ -129,7 +129,7 @@
 	          </tr><tr>
 	          <td><a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a></td>
 	          <td><a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a></td>
-	          </td></tr></table>
+	          </tr></table>
 	          </td></tr>
 	 	  </table>
    		 </td>

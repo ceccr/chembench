@@ -132,42 +132,41 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				</tr>
 				<tr>
 					<td>
-					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="MOLCONNZ" property="descriptorGenerationType" onclick="">MolconnZ</html:radio></div>
+					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="MOLCONNZ" property="descriptorGenerationType">MolconnZ</html:radio></div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="DRAGON" property="descriptorGenerationType" onclick="">DRAGON</html:radio></div>
+					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="DRAGON" property="descriptorGenerationType">DRAGON</html:radio></div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="MOE2D" property="descriptorGenerationType" onclick="">MOE2D</html:radio></div>
+					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="MOE2D" property="descriptorGenerationType">MOE2D</html:radio></div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="MACCS" property="descriptorGenerationType" onclick="">MACCS</html:radio></div>
+					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="MACCS" property="descriptorGenerationType">MACCS</html:radio></div>
 					</td>
 				</tr>
 				</table><br /></td></tr>
-				<!--  We may want to implement other scaling types some day...
-				If so, uncomment this.
+				
 				<tr>
 					<td>
 					<div class='StandardTextDarkGray'><b>Scaling:</b></div>
 					</td>
 					<td>
-					<html:radio value="1" property="descriptorGenerationType" onclick="disableSDInput()">Range Scaling</html:radio>
+					<html:radio value="AUTOSCALING" property="scalingType">Auto Scaling</html:radio>
 					</td>
 					<td>
-					<html:radio value="0" property="descriptorGenerationType" onclick="disableSDInput()">Auto Scaling</html:radio>
+					<html:radio value="RANGESCALING" property="scalingType">Range Scaling</html:radio>
 					</td>	
 					<td>
-					<html:radio value="0" property="descriptorGenerationType" onclick="disableSDInput()">None</html:radio>
+					<html:radio value="NOSCALING" property="scalingType">None</html:radio>
 					</td>	
 				</tr>	
-				-->
+				
 			    </tbody>
 			 </table>
 			 <br />

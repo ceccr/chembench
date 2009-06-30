@@ -2,6 +2,8 @@ package edu.unc.ceccr.workflows;
 
 import java.io.*;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.global.Constants.ScalingTypeEnumeration;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.utilities.Utility;
 import java.util.ArrayList;
@@ -14,16 +16,26 @@ public class WriteDescriptorsFileWorkflow{
 	//Performs operations on data matrices as well (e.g. range-scaling).
 	//All such operations are in-place -- the arguments will have their values modified.
 	
-	public static void findMinMax(ArrayList<Descriptors> descriptorMatrix, ArrayList<String> descriptorValueMinima, ArrayList<String> descriptorValueMaxima){
+	public static void findMinMaxAvgStdDev(ArrayList<Descriptors> descriptorMatrix, 
+			ArrayList<String> descriptorValueMinima, ArrayList<String> descriptorValueMaxima, 
+			ArrayList<String> descriptorValueAvgs, 
+			ArrayList<String> descriptorValueStdDevs){
 		//calculates the descriptorValueMinima and descriptorValueMaxima arrays based on descriptorMatrix
-		//used in range scaling and when finding zero-variance descriptors.
+		//used in scaling and when finding zero-variance descriptors.
 		
 		//Initialize the min and max values to equal the first compound's descriptors
 		descriptorValueMinima.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
 		descriptorValueMaxima.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
+		descriptorValueAvgs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
+		descriptorValueStdDevs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
+		
+		for(int j = 0; j < descriptorValueAvgs.size(); j++){
+			descriptorValueAvgs.set(j, "0");
+			descriptorValueStdDevs.set(j, "0");
+		}
 		
 		//Get the minimum and maximum value for each column.
-		//Then call RangeScaleGivenMinMax to get the scaled matrix. Return that.
+		//Get column totals for calculating the averages.
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
 			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
@@ -35,9 +47,36 @@ public class WriteDescriptorsFileWorkflow{
 				if(Float.parseFloat(descriptorValues.get(j)) > Float.parseFloat(descriptorValueMaxima.get(j))){
 					descriptorValueMaxima.set(j, descriptorValues.get(j));
 				}
+				Float totalSoFar = Float.parseFloat(descriptorValueAvgs.get(j));
+				descriptorValueAvgs.set(j, "" + (Float.parseFloat(descriptorValues.get(j) + totalSoFar)));
 			}
 			descriptorValues.clear(); //cleanup
 		}
+		
+		//divide to get averages
+		for(int j = 0; j < descriptorValueAvgs.size(); j++){
+			descriptorValueAvgs.set(j, "" +  (Float.parseFloat(descriptorValueAvgs.get(j)) / descriptorMatrix.size()));
+		}
+		
+		//now go through again to get stddev... what a pain
+		//wish there was a faster way
+		for(int i = 0; i < descriptorMatrix.size(); i++){
+			ArrayList<String> descriptorValues = new ArrayList<String>();
+			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
+			
+			
+			for(int j = 0; j < descriptorValues.size(); j++){
+				Float mean = Float.parseFloat(descriptorValueAvgs.get(j));
+				Float distFromMeanSquared = new Float(Math.pow((Double.parseDouble(descriptorValues.get(j))  - mean), 2));
+				descriptorValueStdDevs.set(j, "" + (Float.parseFloat(descriptorValueStdDevs.get(j)) + distFromMeanSquared));
+			}
+			descriptorValues.clear(); //cleanup
+		}
+		//take sqrt to get stddevs
+		for(int j = 0; j < descriptorValueAvgs.size(); j++){
+			descriptorValueAvgs.set(j, "" +  Math.sqrt( Double.parseDouble(descriptorValueAvgs.get(j)) ));
+		}
+		
 	}
 	
 	public static void rangeScaleGivenMinMax(ArrayList<Descriptors> descriptorMatrix, 
@@ -55,7 +94,10 @@ public class WriteDescriptorsFileWorkflow{
 				float value = Float.parseFloat(descriptorValues.get(j));
 				float min = Float.parseFloat(descriptorValueMinima.get(j));
 				float max = Float.parseFloat(descriptorValueMaxima.get(j));
-				descriptorValues.set(j, Float.toString(( (value - min) / (max - min) )));
+				if(max - min != 0){
+					descriptorValues.set(j, Float.toString(( (value - min) / (max - min) )));
+				}
+				//if max - min == 0, the descriptor is zero-variance and will be removed later.
 			}
 			
 			//we need to make the descriptors arraylist into a space separated string
@@ -65,6 +107,29 @@ public class WriteDescriptorsFileWorkflow{
 			di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
 			descriptorMatrix.set(i, di);
 			descriptorValues.clear(); // cleanup
+		}
+	}
+	
+	public static void autoScaleGivenAvgStdDev(ArrayList<Descriptors> descriptorMatrix, 
+			ArrayList<String> descriptorValueAvgs, 
+			ArrayList<String> descriptorValueStdDevs){
+		//subtract the mean from each value
+		//then divide by the stddev
+		
+		for(int i = 0; i < descriptorMatrix.size(); i++){
+			ArrayList<String> descriptorValues = new ArrayList<String>();
+			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
+			
+			for(int j = 0; j < descriptorValues.size(); j++){
+				Float mean = Float.parseFloat(descriptorValueAvgs.get(j));
+				Float stdDev = Float.parseFloat(descriptorValueStdDevs.get(j));
+				Float val = Float.parseFloat(descriptorValues.get(j));
+				if(stdDev != 0){
+					descriptorValues.set(j, "" + ((val - mean) / stdDev));
+				}
+			}
+			
+			descriptorValues.clear(); //cleanup
 		}
 	}
 	
@@ -188,6 +253,8 @@ public class WriteDescriptorsFileWorkflow{
 	public static void readPredictorXFile(StringBuffer predictorDescriptorNameString, 
 			ArrayList<String> predictorDescriptorValueMinima, 
 			ArrayList<String> predictorDescriptorValueMaxima,
+			ArrayList<String> predictorDescriptorValueAvgs, 
+			ArrayList<String> predictorDescriptorValueStdDevs,
 			String predictorXFile) throws Exception{
 		//get the descriptor names and min / max values of each descriptor 
 		//So, read in the name, min, and max of each descriptor from the modeling .x file
@@ -223,13 +290,25 @@ public class WriteDescriptorsFileWorkflow{
 		while(src.hasNext()){
 			predictorDescriptorValueMaxima.add(src.next());
 		}
+		line = br.readLine();
+		src = new Scanner(line);
+		while(src.hasNext()){
+			predictorDescriptorValueAvgs.add(src.next());
+		}
+		line = br.readLine();
+		src = new Scanner(line);
+		while(src.hasNext()){
+			predictorDescriptorValueStdDevs.add(src.next());
+		}
+		
 	}
 	
 	public static void writeModelingXFile(ArrayList<String> compoundNames, 
 			ArrayList<Descriptors> descriptorMatrix, 
 			String descriptorNameString, 
-			String xFilePath) throws Exception{
-		//Perform range-scaling on descriptorMatrix 
+			String xFilePath,
+			String scalingType) throws Exception{
+		//Perform scaling on descriptorMatrix 
 		//remove zero-variance descriptors from descriptorMatrix
 		//Write a new file at xFilePath containing descriptorMatrix and other data needed for .x file
 		//see Developer's Guide in documentation folder for .x file format details.
@@ -237,11 +316,21 @@ public class WriteDescriptorsFileWorkflow{
 		//find min/max values for each descriptor
 		ArrayList<String> descriptorValueMinima = new ArrayList<String>();
 		ArrayList<String> descriptorValueMaxima = new ArrayList<String>();
-		findMinMax(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima);
+		ArrayList<String> descriptorValueAvgs = new ArrayList<String>();
+		ArrayList<String> descriptorValueStdDevs = new ArrayList<String>();
+		findMinMaxAvgStdDev(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima, descriptorValueAvgs, descriptorValueStdDevs);
 		
-		//do range scaling on descriptorMatrix
-		rangeScaleGivenMinMax(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima);
-
+		//do scaling on descriptorMatrix
+		if(scalingType.equalsIgnoreCase(Constants.RANGESCALING)){
+			rangeScaleGivenMinMax(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima);
+		}
+		else if(scalingType.equalsIgnoreCase(Constants.AUTOSCALING)){
+			autoScaleGivenAvgStdDev(descriptorMatrix, descriptorValueAvgs, descriptorValueStdDevs);
+		}
+		else if(scalingType.equalsIgnoreCase(Constants.NOSCALING)){
+			//don't do anything!
+		}
+		
 		//remove descriptors that are useless to modeling (zero variance)
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		descriptorNames.addAll(Arrays.asList(descriptorNameString.split(" ")));
@@ -260,9 +349,11 @@ public class WriteDescriptorsFileWorkflow{
 			//each line of the descriptors matrix
 			xFileOut.write((i+1) + " " + compoundNames.get(i) + " " + descriptorMatrix.get(i).getDescriptorValues() + "\n");
 		}
-		
+
 		xFileOut.write(descriptorValueMinima.toString().replaceAll("[,\\[\\]]", "") + "\n"); //minima
 		xFileOut.write(descriptorValueMaxima.toString().replaceAll("[,\\[\\]]", "") + "\n"); //maxima
+		xFileOut.write(descriptorValueAvgs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //averages
+		xFileOut.write(descriptorValueStdDevs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //standard deviations
 
 		xFileOut.close();
 	}
@@ -271,13 +362,17 @@ public class WriteDescriptorsFileWorkflow{
 			ArrayList<Descriptors> descriptorMatrix, 
 			String descriptorNameString, 
 			String xFilePath,
-			String predictorXFilePath) throws Exception{
+			String predictorXFilePath,
+			String predictorScaleType) throws Exception{
 
 		//read in the xFile used to make the predictor
 		StringBuffer predictorDescriptorNameStringBuffer = new StringBuffer("");
 		ArrayList<String> predictorDescriptorValueMinima = new ArrayList<String>();
 		ArrayList<String> predictorDescriptorValueMaxima = new ArrayList<String>();
-		readPredictorXFile(predictorDescriptorNameStringBuffer, predictorDescriptorValueMinima, predictorDescriptorValueMaxima, predictorXFilePath);
+		ArrayList<String> predictorDescriptorValueAvgs = new ArrayList<String>();
+		ArrayList<String> predictorDescriptorValueStdDevs = new ArrayList<String>();
+		
+		readPredictorXFile(predictorDescriptorNameStringBuffer, predictorDescriptorValueMinima, predictorDescriptorValueMaxima, predictorDescriptorValueAvgs, predictorDescriptorValueStdDevs, predictorXFilePath);
 		String predictorDescriptorNameString = predictorDescriptorNameStringBuffer.toString();
 
 		//remove descriptors from prediction set that are not in the predictor
@@ -295,8 +390,16 @@ public class WriteDescriptorsFileWorkflow{
 		}
 		
 		//do range scaling on descriptorMatrix
-		rangeScaleGivenMinMax(descriptorMatrix, predictorDescriptorValueMinima, predictorDescriptorValueMaxima);
-		
+		if(predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)){
+			rangeScaleGivenMinMax(descriptorMatrix, predictorDescriptorValueMinima, predictorDescriptorValueMaxima);
+		}
+		else if(predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)){
+			autoScaleGivenAvgStdDev(descriptorMatrix, predictorDescriptorValueAvgs, predictorDescriptorValueStdDevs);
+		}
+		else if(predictorScaleType.equalsIgnoreCase(Constants.NOSCALING)){
+			//don't do anything
+		}
+			
 		//write output
 		File file = new File(xFilePath);
 		FileWriter xFileOut = new FileWriter(file);
@@ -311,6 +414,8 @@ public class WriteDescriptorsFileWorkflow{
 		
 		xFileOut.write(predictorDescriptorValueMinima.toString().replaceAll("[,\\[\\]]", "") + "\n"); //minima
 		xFileOut.write(predictorDescriptorValueMaxima.toString().replaceAll("[,\\[\\]]", "") + "\n"); //maxima
+		xFileOut.write(predictorDescriptorValueAvgs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //avgs
+		xFileOut.write(predictorDescriptorValueStdDevs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //stddevs
 		
 		xFileOut.close();
 	}

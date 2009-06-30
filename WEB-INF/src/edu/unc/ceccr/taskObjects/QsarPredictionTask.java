@@ -13,6 +13,7 @@ import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
+import edu.unc.ceccr.global.Constants.ScalingTypeEnumeration;
 import edu.unc.ceccr.outputObjects.Pred_Output;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Descriptors;
@@ -152,7 +153,13 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 		
 		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdfile + ".renorm.x", path + "train_0.x");
+		WriteDescriptorsFileWorkflow.writePredictionXFile(
+				chemicalNames, 
+				descriptorValueMatrix, 
+				descriptorString, 
+				path + sdfile + ".renorm.x", 
+				path + "train_0.x", 
+				selectedPredictor.getScalingType());
 	
 		queue.runningTask.setMessage("Making predictions");
 		Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);

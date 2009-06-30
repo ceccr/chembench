@@ -81,6 +81,8 @@ public class Predictor implements java.io.Serializable {
 	
 	private String paperReference;
 	
+	private String scalingType;
+	
 	// Constructors
 
 	/** default constructor */
@@ -304,7 +306,7 @@ public class Predictor implements java.io.Serializable {
 	{
 		this.activityType=type;
 	}
-	
+
 	@Column(name="type")
 	public String getPredictorType()
 	{
@@ -314,6 +316,18 @@ public class Predictor implements java.io.Serializable {
 	public void setPredictorType(String type)
 	{
 		this.predictorType=type;
+	}
+	
+
+	@Column(name="scalingtype")
+	public String getScalingType()
+	{
+		//public? private? etc
+		return this.scalingType;
+	}
+	public void setScalingType(String scalingtype)
+	{
+		this.scalingType=scalingtype;
 	}
 	
 	@Column(name="num_predictions_made")

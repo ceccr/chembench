@@ -13,6 +13,7 @@ public class Constants {
 	public enum DescriptorEnumeration { MOLCONNZ, DRAGON, MOE2D, MACCS };
 	public enum DataTypeEnumeration { CONTINUOUS, CATEGORY };
 	public enum ModelTypeEnumeration { KNN, SVM };
+	public enum ScalingTypeEnumeration { AUTOSCALING, RANGESCALING, NOSCALING};
 	
 	//Descriptor constants
 	public static final int NUM_MACCS_KEYS = 400;
@@ -24,14 +25,21 @@ public class Constants {
 	//Type strings
 	public static final String CONTINUOUS = "CONTINUOUS";
 	public static final String CATEGORY = "CATEGORY";
+	
 	public static final String MODELBUILDING = "MODELING";
 	public static final String PREDICTION = "PREDICTION";
+	
 	public static final String MOLCONNZ = "MOLCONNZ";
 	public static final String DRAGON = "DRAGON";
 	public static final String MOE2D = "MOE2D";
 	public static final String MACCS = "MACCS";
+	
 	public static final String KNN = "KNN";
 	public static final String SVM = "SVM";
+	
+	public static final String AUTOSCALING = "AUTOSCALING";
+	public static final String RANGESCALING = "RANGESCALING";
+	public static final String NOSCALING = "NOSCALING";
 	
 	
 	//kNN Constants

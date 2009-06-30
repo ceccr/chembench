@@ -24,6 +24,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
 import edu.unc.ceccr.global.Constants.ModelTypeEnumeration;
+import edu.unc.ceccr.global.Constants.ScalingTypeEnumeration;
 import edu.unc.ceccr.global.KnnOutputComparator;
 import edu.unc.ceccr.global.CategoryKNNComparator;
 import edu.unc.ceccr.persistence.DataSet;
@@ -106,10 +107,12 @@ public class QsarModelingTask implements WorkflowTask {
 	private String descriptorGenerationType;
 	private DescriptorEnumeration descriptorEnum;
 	private ModelTypeEnumeration modelTypeEnum;
+	private ScalingTypeEnumeration scalingTypeEnum;
 	private String numSphereRadii;
 	private String selectionNextTrainPt;
 	private String numStartingPoints;
 	private String activityType;
+	private String scalingType;
 	private String datasetName;
 	private Long datasetID;
 
@@ -171,7 +174,8 @@ public class QsarModelingTask implements WorkflowTask {
 			String svmTypeCategory,
 			String svmTypeContinuous,
 			String svmWeight,
-			String modelingType)
+			String modelingType,
+			String scalingType)
 			throws Exception	{
 		
 		if(modelingType.equalsIgnoreCase(Constants.KNN)){
@@ -179,6 +183,17 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		else{ //if(modelingType.equalsIgnoreCase(Constants.SVM))
 			modelTypeEnum = ModelTypeEnumeration.SVM;
+		}
+		
+		this.scalingType = scalingType;
+		if(scalingType.equalsIgnoreCase(Constants.RANGESCALING)){
+			scalingTypeEnum = ScalingTypeEnumeration.RANGESCALING;
+		}
+		else if(scalingType.equalsIgnoreCase(Constants.AUTOSCALING)){
+			scalingTypeEnum = ScalingTypeEnumeration.AUTOSCALING;
+		}
+		else if(scalingType.equalsIgnoreCase(Constants.NOSCALING)){
+			scalingTypeEnum = ScalingTypeEnumeration.NOSCALING;
 		}
 		
 		DataSet dataset = PopulateDataObjects.getDataSetById(selectedDatasetId);
@@ -345,7 +360,7 @@ public class QsarModelingTask implements WorkflowTask {
 		if(modelTypeEnum == ModelTypeEnumeration.KNN){
 			//write out the descriptors for modeling
 			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x");
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x", scalingTypeEnum);
 	
 			queue.runningTask.setMessage("Splitting data");
 			KnnModelBuildingWorkflow.SplitData(userName, jobName, sdFileName, actFileName, numCompoundsExternalSet);
@@ -423,6 +438,7 @@ public class QsarModelingTask implements WorkflowTask {
        
 		Predictor predictor = new Predictor();
 
+		predictor.setScalingType(scalingType);
 		predictor.setDescriptorGeneration(descriptorEnum);
 		predictor.setModelMethod(dataTypeEnum);
 		predictor.setName(this.jobName);
