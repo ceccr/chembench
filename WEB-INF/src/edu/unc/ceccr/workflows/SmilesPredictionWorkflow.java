@@ -58,7 +58,7 @@ public class SmilesPredictionWorkflow{
 		Utility.writeToDebug("Normalizing descriptors to fit predictor.");
 
 		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + ".renorm.x", workingDir + "train_0.x");
+		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + ".renorm.x", workingDir + "train_0.x", predictor.getScalingType());
 	
 		Utility.writeToDebug("Running prediction.");
 	    //Run prediction

@@ -360,7 +360,7 @@ public class QsarModelingTask implements WorkflowTask {
 		if(modelTypeEnum == ModelTypeEnumeration.KNN){
 			//write out the descriptors for modeling
 			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x", scalingTypeEnum);
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x", scalingType);
 	
 			queue.runningTask.setMessage("Splitting data");
 			KnnModelBuildingWorkflow.SplitData(userName, jobName, sdFileName, actFileName, numCompoundsExternalSet);
