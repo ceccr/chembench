@@ -48,7 +48,7 @@ public class WriteDescriptorsFileWorkflow{
 					descriptorValueMaxima.set(j, descriptorValues.get(j));
 				}
 				Float totalSoFar = Float.parseFloat(descriptorValueAvgs.get(j));
-				descriptorValueAvgs.set(j, "" + (Float.parseFloat(descriptorValues.get(j) + totalSoFar)));
+				descriptorValueAvgs.set(j, "" + (Float.parseFloat(descriptorValues.get(j)) + totalSoFar));
 			}
 			descriptorValues.clear(); //cleanup
 		}
