@@ -17,7 +17,8 @@ public class WriteDescriptorsFileWorkflow{
 	//All such operations are in-place -- the arguments will have their values modified.
 	
 	public static void findMinMaxAvgStdDev(ArrayList<Descriptors> descriptorMatrix, 
-			ArrayList<String> descriptorValueMinima, ArrayList<String> descriptorValueMaxima, 
+			ArrayList<String> descriptorValueMinima, 
+			ArrayList<String> descriptorValueMaxima, 
 			ArrayList<String> descriptorValueAvgs, 
 			ArrayList<String> descriptorValueStdDevs){
 		//calculates the descriptorValueMinima and descriptorValueMaxima arrays based on descriptorMatrix
@@ -26,9 +27,10 @@ public class WriteDescriptorsFileWorkflow{
 		//Initialize the min and max values to equal the first compound's descriptors
 		descriptorValueMinima.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
 		descriptorValueMaxima.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
+		
+		//initialize the avgs and stddevs to 0
 		descriptorValueAvgs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
 		descriptorValueStdDevs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
-		
 		for(int j = 0; j < descriptorValueAvgs.size(); j++){
 			descriptorValueAvgs.set(j, "0");
 			descriptorValueStdDevs.set(j, "0");
@@ -73,8 +75,8 @@ public class WriteDescriptorsFileWorkflow{
 			descriptorValues.clear(); //cleanup
 		}
 		//take sqrt to get stddevs
-		for(int j = 0; j < descriptorValueAvgs.size(); j++){
-			descriptorValueAvgs.set(j, "" +  Math.sqrt( Double.parseDouble(descriptorValueAvgs.get(j)) ));
+		for(int j = 0; j < descriptorValueStdDevs.size(); j++){
+			descriptorValueStdDevs.set(j, "" +  Math.sqrt( Double.parseDouble(descriptorValueStdDevs.get(j)) ));
 		}
 		
 	}
