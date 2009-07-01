@@ -74,9 +74,10 @@ public class WriteDescriptorsFileWorkflow{
 			}
 			descriptorValues.clear(); //cleanup
 		}
-		//take sqrt to get stddevs
+		//divide sum then take sqrt to get stddevs
 		for(int j = 0; j < descriptorValueStdDevs.size(); j++){
-			descriptorValueStdDevs.set(j, "" +  Math.sqrt( Double.parseDouble(descriptorValueStdDevs.get(j)) ));
+			double squareDistTotal = Double.parseDouble(descriptorValueStdDevs.get(j));
+			descriptorValueStdDevs.set(j, "" +  Math.sqrt( squareDistTotal / descriptorMatrix.size()));
 		}
 		
 	}
@@ -337,7 +338,7 @@ public class WriteDescriptorsFileWorkflow{
 			rangeScaleGivenMinMax(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima);
 		}
 		else if(scalingType.equalsIgnoreCase(Constants.AUTOSCALING)){
-			//autoScaleGivenAvgStdDev(descriptorMatrix, descriptorValueAvgs, descriptorValueStdDevs);
+			autoScaleGivenAvgStdDev(descriptorMatrix, descriptorValueAvgs, descriptorValueStdDevs);
 		}
 		else if(scalingType.equalsIgnoreCase(Constants.NOSCALING)){
 			//don't do anything!
