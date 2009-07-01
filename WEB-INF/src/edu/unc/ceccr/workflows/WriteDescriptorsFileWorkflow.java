@@ -31,11 +31,15 @@ public class WriteDescriptorsFileWorkflow{
 		//initialize the avgs and stddevs to 0
 		descriptorValueAvgs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
 		descriptorValueStdDevs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
+		
+		Utility.writeToDebug("avgs size 0: " + descriptorValueAvgs.size());
+		
 		for(int j = 0; j < descriptorValueAvgs.size(); j++){
 			descriptorValueAvgs.set(j, "0");
 			descriptorValueStdDevs.set(j, "0");
 		}
-		
+
+		Utility.writeToDebug("avgs size 1: " + descriptorValueAvgs.size());
 		//Get the minimum and maximum value for each column.
 		//Get column totals for calculating the averages.
 		for(int i = 0; i < descriptorMatrix.size(); i++){
@@ -56,6 +60,7 @@ public class WriteDescriptorsFileWorkflow{
 		}
 		
 		//divide to get averages
+		Utility.writeToDebug("avgs size 2: " + descriptorValueAvgs.size());
 		for(int j = 0; j < descriptorValueAvgs.size(); j++){
 			descriptorValueAvgs.set(j, "" + (Float.parseFloat(descriptorValueAvgs.get(j)) / descriptorMatrix.size()));
 		}
@@ -66,10 +71,9 @@ public class WriteDescriptorsFileWorkflow{
 			ArrayList<String> descriptorValues = new ArrayList<String>();
 			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
 			
-			
 			for(int j = 0; j < descriptorValues.size(); j++){
 				Float mean = Float.parseFloat(descriptorValueAvgs.get(j));
-				Float distFromMeanSquared = new Float(Math.pow((Double.parseDouble(descriptorValues.get(j))  - mean), 2));
+				Float distFromMeanSquared = new Float(Math.pow((Double.parseDouble(descriptorValues.get(j)) - mean), 2));
 				descriptorValueStdDevs.set(j, "" + (Float.parseFloat(descriptorValueStdDevs.get(j)) + distFromMeanSquared));
 			}
 			descriptorValues.clear(); //cleanup
@@ -131,7 +135,13 @@ public class WriteDescriptorsFileWorkflow{
 				}
 			}
 			
-			descriptorValues.clear(); //cleanup
+			//we need to make the descriptors arraylist into a space separated string
+			//ArrayList.toString() gives values separated by ", "
+			//so just remove the commas and we're done
+			Descriptors di = descriptorMatrix.get(i);
+			di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
+			descriptorMatrix.set(i, di);
+			descriptorValues.clear(); // cleanup
 		}
 	}
 	
