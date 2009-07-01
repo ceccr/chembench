@@ -160,7 +160,7 @@ public class QsarPredictionTask implements WorkflowTask {
 				path + sdfile + ".renorm.x", 
 				path + "train_0.x", 
 				selectedPredictor.getScalingType());
-	
+		
 		queue.runningTask.setMessage("Making predictions");
 		Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
 		KnnPredictionWorkflow.RunKnnPrediction(userName, jobName, sdfile, Float.parseFloat(cutoff) );

@@ -17,12 +17,14 @@ public class KnnModelBuildingWorkflow{
 		
 		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
+		//split dataset into [modeling set | external test set]
 		String execstr1 = "RandomDivSlow3 " + sdFile + ".x " + actFile + " train ext 1 list " + numCompoundsExternalSet + " n";
 		  Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
 	      Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
 	      Utility.writeProgramLogfile(workingdir, "randomDivSlow", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 
+	    //split modeling set, making several [ training | internal test ] sets
 		String execstr2 = "se9v1_nl train_0.x train_0.a RAND_sets";
 		  Utility.writeToDebug("Running external program: " + execstr2 + " in dir " + workingdir);
 	      p = Runtime.getRuntime().exec(execstr2, null,  new File(workingdir));

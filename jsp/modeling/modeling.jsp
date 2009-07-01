@@ -153,7 +153,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				</table><br /></td></tr>
 				
 				
-				
+				<tr><td><table>
 				<tr>
 					<td>
 					<div class='StandardTextDarkGrayParagraph'><b>Scaling Type:</b></div>
@@ -174,6 +174,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<div class='StandardTextDarkGray'>&nbsp;&nbsp;&nbsp;&nbsp;<html:radio value="NOSCALING" property="scalingType">None</html:radio></div>
 					</td>
 				</tr>
+				</table><br /></td></tr>
 				
 			    </tbody>
 			 </table>
