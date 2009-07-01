@@ -327,7 +327,7 @@ public class WriteDescriptorsFileWorkflow{
 			rangeScaleGivenMinMax(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima);
 		}
 		else if(scalingType.equalsIgnoreCase(Constants.AUTOSCALING)){
-			autoScaleGivenAvgStdDev(descriptorMatrix, descriptorValueAvgs, descriptorValueStdDevs);
+			//autoScaleGivenAvgStdDev(descriptorMatrix, descriptorValueAvgs, descriptorValueStdDevs);
 		}
 		else if(scalingType.equalsIgnoreCase(Constants.NOSCALING)){
 			//don't do anything!
