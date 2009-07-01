@@ -32,14 +32,11 @@ public class WriteDescriptorsFileWorkflow{
 		descriptorValueAvgs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
 		descriptorValueStdDevs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
 		
-		Utility.writeToDebug("avgs size 0: " + descriptorValueAvgs.size());
-		
 		for(int j = 0; j < descriptorValueAvgs.size(); j++){
 			descriptorValueAvgs.set(j, "0");
 			descriptorValueStdDevs.set(j, "0");
 		}
 
-		Utility.writeToDebug("avgs size 1: " + descriptorValueAvgs.size());
 		//Get the minimum and maximum value for each column.
 		//Get column totals for calculating the averages.
 		for(int i = 0; i < descriptorMatrix.size(); i++){
@@ -60,7 +57,6 @@ public class WriteDescriptorsFileWorkflow{
 		}
 		
 		//divide to get averages
-		Utility.writeToDebug("avgs size 2: " + descriptorValueAvgs.size());
 		for(int j = 0; j < descriptorValueAvgs.size(); j++){
 			descriptorValueAvgs.set(j, "" + (Float.parseFloat(descriptorValueAvgs.get(j)) / descriptorMatrix.size()));
 		}
@@ -148,6 +144,8 @@ public class WriteDescriptorsFileWorkflow{
 	public static void removeZeroVarianceDescriptors(ArrayList<Descriptors> descriptorMatrix, 
 			ArrayList<String> descriptorValueMinima, 
 			ArrayList<String> descriptorValueMaxima,
+			ArrayList<String> descriptorValueAvgs, 
+			ArrayList<String> descriptorValueStdDevs,
 			ArrayList<String> descriptorNames /* optional argument -- can be null */){
 		
 		//removes descriptors where the min and max are equal
@@ -185,6 +183,8 @@ public class WriteDescriptorsFileWorkflow{
 			if(zeroVariance.get(j) == 1){
 				descriptorValueMinima.remove(j);
 				descriptorValueMaxima.remove(j);
+				descriptorValueAvgs.remove(j);
+				descriptorValueStdDevs.remove(j);
 				if(descriptorNames != null){
 					descriptorNames.remove(j);
 				}
@@ -347,7 +347,10 @@ public class WriteDescriptorsFileWorkflow{
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		descriptorNames.addAll(Arrays.asList(descriptorNameString.split(" ")));
 		
-		removeZeroVarianceDescriptors(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima, descriptorNames);
+		removeZeroVarianceDescriptors(descriptorMatrix, 
+				descriptorValueMinima, descriptorValueMaxima, 
+				descriptorValueAvgs, descriptorValueStdDevs,
+				descriptorNames);
 		
 		
 		//write output
