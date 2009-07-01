@@ -303,17 +303,25 @@ public class WriteDescriptorsFileWorkflow{
 		while(src.hasNext()){
 			predictorDescriptorValueMaxima.add(src.next());
 		}
-		line = br.readLine();
-		src = new Scanner(line);
-		while(src.hasNext()){
-			predictorDescriptorValueAvgs.add(src.next());
-		}
-		line = br.readLine();
-		src = new Scanner(line);
-		while(src.hasNext()){
-			predictorDescriptorValueStdDevs.add(src.next());
-		}
 		
+		//get avg and stdDev values (if they exist)
+		line = br.readLine();
+		if(line != null && line.trim() != ""){
+			src = new Scanner(line);
+			while(src.hasNext()){
+				predictorDescriptorValueAvgs.add(src.next());
+			}
+		}
+		else{
+			Utility.writeToDebug("Predictor x-file does not have average and standard deviation values calculated.");
+		}
+		line = br.readLine();
+		if(line != null && line.trim() != ""){
+			src = new Scanner(line);
+			while(src.hasNext()){
+				predictorDescriptorValueStdDevs.add(src.next());
+			}
+		}
 	}
 	
 	public static void writeModelingXFile(ArrayList<String> compoundNames, 
