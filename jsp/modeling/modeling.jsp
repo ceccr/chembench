@@ -200,13 +200,13 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Number of Compounds in the External Set:</b></div>
 					</td>
-					<td align="left" valign="top"><input name="numCompoundsExternalSet" size="5"/></td>
+					<td align="left" valign="top"><html:text styleId="numCompoundsExternalSet" property="numCompoundsExternalSet" size="5"/></td>
 				</tr>
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Random Seed:</b></div>
 					</td>
-					<td align="left" valign="top"><input name="externalRandomSeed" size="5"/></td>
+					<td align="left" valign="top"><html:text styleId="externalRandomSeed" property="externalRandomSeed" size="5"/></td>
 				</tr>	
 				<tr>
 					<td colspan="2">
@@ -225,13 +225,13 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Number of Sphere Radii:</b></div>
 					</td>
-					<td align="left" valign="top"><input name="numSphereRadii" size="5" value="1"/></td>
+					<td align="left" valign="top"><html:text property="numSphereRadii" size="5"/></td>
 				</tr>		
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Number of Starting Points:</b></div>
 					</td>
-					<td align="left" valign="top"><input name="numStartingPoints" size="5" value="2"/></td>
+					<td align="left" valign="top"><html:text property="numStartingPoints" size="5"/></td>
 				</tr>
 				<tr>
 					<td>
