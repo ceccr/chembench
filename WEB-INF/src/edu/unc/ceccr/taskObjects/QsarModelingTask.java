@@ -61,6 +61,8 @@ public class QsarModelingTask implements WorkflowTask {
 	private String maxNumDescriptors;
 	private String Nearest_Neighbors;
 	private String Pseudo_Neighbors;	
+	private String externalRandomSeed;
+	
 	private String numRuns;	
 	private String numMutations;
 	private String T1;
@@ -175,7 +177,8 @@ public class QsarModelingTask implements WorkflowTask {
 			String svmTypeContinuous,
 			String svmWeight,
 			String modelingType,
-			String scalingType)
+			String scalingType,
+			String externalRandomSeed)
 			throws Exception	{
 		
 		if(modelingType.equalsIgnoreCase(Constants.KNN)){
@@ -216,6 +219,7 @@ public class QsarModelingTask implements WorkflowTask {
 		this.numSphereRadii = numSphereRadii;
 		this.selectionNextTrainPt = selectionNextTrainPt;
 		this.numCompoundsExternalSet = numCompoundsExternalSet;
+		this.externalRandomSeed = externalRandomSeed;
 		//end datasplit parameters
 		
 		//start kNN parameters
@@ -363,7 +367,7 @@ public class QsarModelingTask implements WorkflowTask {
 			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x", scalingType);
 	
 			queue.runningTask.setMessage("Splitting data");
-			KnnModelBuildingWorkflow.SplitData(userName, jobName, sdFileName, actFileName, numCompoundsExternalSet);
+			KnnModelBuildingWorkflow.SplitData(userName, jobName, sdFileName, actFileName, externalRandomSeed, numCompoundsExternalSet);
 	
 			queue.runningTask.setMessage("Y-Randomization Setup");
 			Utility.writeToDebug("ExecuteYRandomization", userName, jobName);

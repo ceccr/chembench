@@ -374,6 +374,7 @@ public class WriteDescriptorsFileWorkflow{
 		if(scalingType.equalsIgnoreCase(Constants.RANGESCALING)){
 			xFileOut.write(descriptorValueMinima.toString().replaceAll("[,\\[\\]]", "") + "\n"); //minima
 			xFileOut.write(descriptorValueMaxima.toString().replaceAll("[,\\[\\]]", "") + "\n"); //maxima
+		}
 		else if(scalingType.equalsIgnoreCase(Constants.AUTOSCALING)){
 			xFileOut.write(descriptorValueAvgs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //averages
 			

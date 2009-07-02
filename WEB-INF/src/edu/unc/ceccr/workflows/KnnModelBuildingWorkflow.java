@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
@@ -11,18 +12,24 @@ import java.util.Scanner;
 
 public class KnnModelBuildingWorkflow{
 	
-	public static void SplitData(String userName, String jobName, String sdFile, String actFile, String numCompoundsExternalSet) throws Exception {
+	public static void SplitData(String userName, String jobName, String sdFile, String actFile, String randomSeed, String numCompoundsExternalSet) throws Exception {
 		//Do the data set division things.
 		//Copy files over for y-randomization workflow.
 		
 		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
+		//copy the act file to a ".a" file because datasplit will expect it
+		FileAndDirOperations.copyFile(actFile, sdFile + ".a");
+		
 		//split dataset into [modeling set | external test set]
-		String execstr1 = "RandomDivSlow3 " + sdFile + ".x " + actFile + " train ext 1 list " + numCompoundsExternalSet + " n";
+		  String execstr1 = "datasplit activator_protein_43.sdf.x -4EXT -SRND=" + randomSeed + " -N=1 -OUT=modelext.list -M=R -S=" + numCompoundsExternalSet;
+		  //Sasha's datasplit (deprecated) was:
+		  //String execstr1 = "RandomDivSlow3 " + sdFile + ".x " + actFile + " train ext 1 list " + numCompoundsExternalSet + " n";
 		  Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
 	      Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
-	      Utility.writeProgramLogfile(workingdir, "randomDivSlow", p.getInputStream(), p.getErrorStream());
+	      Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
+	      
 
 	    //split modeling set, making several [ training | internal test ] sets
 		String execstr2 = "se9v1_nl train_0.x train_0.a RAND_sets";

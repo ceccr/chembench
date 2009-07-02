@@ -17,17 +17,19 @@ public class QsarFormBean extends ValidatorForm {
 	private String descriptorGenerationType = Constants.MOLCONNZ;
 	private String scalingType = Constants.RANGESCALING;
 
-	// being SE Parameters
+	// being datasplit Parameters
 
 	private String numSphereRadii = "1";
 	private String selectionNextTrainPt = "3";
 	private String numStartingPoints = "2";
-
+	private String externalRandomSeed = "" + Math.round(Math.random() * 16000);
+	private String numCompoundsExternalSet = "5";
+	
 	// Need to add in logic to support these functions
 	private String startingCompounds;
 	private String mostActiveStartingComp;
 
-	// end SE Parameters
+	// end datasplit Parameters
 	
 	
 	//kNN Parameters
@@ -53,7 +55,6 @@ public class QsarFormBean extends ValidatorForm {
 	private String relativeDiffRR0 = "500.0";
 	private String diffR01R02 = "0.9";
 	private String stop_cond = "50";
-	private String numCompoundsExternalSet;
 	private String knnCategoryOptimization = "1";
 	
 	// end kNN Parameters
@@ -126,7 +127,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getMessage() {
 		return message;
 	}
-
 	public void setMessage(String message) {
 		this.message = message;
 	}
@@ -134,7 +134,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getNumCompoundsExternalSet() {
 		return numCompoundsExternalSet;
 	}
-
 	public void setNumCompoundsExternalSet(String numCompoundsExternalSet) {
 		this.numCompoundsExternalSet = numCompoundsExternalSet;
 	}
@@ -143,7 +142,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getDatasetType() {
 		return datasetType;
 	}
-
 	public void setDatasetType(String datasetType) {
 		this.datasetType = datasetType;
 	}
@@ -151,7 +149,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getDescriptorGenerationType() {
 		return descriptorGenerationType;
 	}
-
 	public void setDescriptorGenerationType(String descriptorGenerationType) {
 		this.descriptorGenerationType = descriptorGenerationType;
 	}
@@ -159,7 +156,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getCutoff() {
 		return cutoff;
 	}
-
 	public void setCutoff(String cutoff) {
 		this.cutoff = cutoff;
 	}
@@ -167,7 +163,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getKnnCategoryOptimization() {
 		return knnCategoryOptimization;
 	}
-
 	public void setKnnCategoryOptimization(String knnCategoryOptimization) {
 		this.knnCategoryOptimization = knnCategoryOptimization;
 	}
@@ -175,7 +170,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getMaxNumDescriptors() {
 		return maxNumDescriptors;
 	}
-
 	public void setMaxNumDescriptors(String maxNumDescriptors) {
 		this.maxNumDescriptors = maxNumDescriptors;
 	}
@@ -183,7 +177,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getMinAccTest() {
 		return minAccTest;
 	}
-
 	public void setMinAccTest(String minAccTest) {
 		this.minAccTest = minAccTest;
 	}
@@ -191,7 +184,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getMinAccTraining() {
 		return minAccTraining;
 	}
-
 	public void setMinAccTraining(String minAccTraining) {
 		this.minAccTraining = minAccTraining;
 	}
@@ -199,7 +191,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getMinNumDescriptors() {
 		return minNumDescriptors;
 	}
-
 	public void setMinNumDescriptors(String minNumDescriptors) {
 		this.minNumDescriptors = minNumDescriptors;
 	}
@@ -207,7 +198,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getNumMutations() {
 		return numMutations;
 	}
-
 	public void setNumMutations(String numMutations) {
 		this.numMutations = numMutations;
 	}
@@ -215,7 +205,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getStepSize() {
 		return stepSize;
 	}
-
 	public void setStepSize(String stepSize) {
 		this.stepSize = stepSize;
 	}
@@ -223,7 +212,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getMu() {
 		return mu;
 	}
-
 	public void setMu(String mu) {
 		this.mu = mu;
 	}
@@ -231,7 +219,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getNumRuns() {
 		return numRuns;
 	}
-
 	public void setNumRuns(String numRuns) {
 		this.numRuns = numRuns;
 	}
@@ -239,7 +226,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getNumSphereRadii() {
 		return numSphereRadii;
 	}
-
 	public void setNumSphereRadii(String numSphereRadii) {
 		this.numSphereRadii = numSphereRadii;
 	}
@@ -247,7 +233,6 @@ public class QsarFormBean extends ValidatorForm {
 	public String getNumStartingPoints() {
 		return numStartingPoints;
 	}
-
 	public void setNumStartingPoints(String numStartingPoints) {
 		this.numStartingPoints = numStartingPoints;
 	}
@@ -255,11 +240,18 @@ public class QsarFormBean extends ValidatorForm {
 	public String getSelectionNextTrainPt() {
 		return selectionNextTrainPt;
 	}
-
 	public void setSelectionNextTrainPt(String selectionNextTrainPt) {
 		this.selectionNextTrainPt = selectionNextTrainPt;
 	}
-
+	
+	public String getExternalRandomSeed() {
+		return externalRandomSeed;
+	}
+	public void setExternalRandomSeed(String externalRandomSeed) {
+		this.externalRandomSeed = externalRandomSeed;
+	}
+	
+	
 	public String getDiffR01R02() {
 		return diffR01R02;
 	}

@@ -100,7 +100,8 @@ public class QsarModelingAction extends Action {
 						formBean.getSvmTypeContinuous(),
 						formBean.getSvmWeight(),
 						formBean.getModelingType(),
-						formBean.getScalingType()
+						formBean.getScalingType(),
+						formBean.getExternalRandomSeed()
 						);
 				
 						

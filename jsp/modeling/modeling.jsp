@@ -193,6 +193,36 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				<tr><td><table>
 				<tr>
 					<td>
+					<div class='StandardTextDarkGrayParagraph'><b><u>Division of Dataset into Modeling and External Sets</u></b></div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Number of Compounds in the External Set:</b></div>
+					</td>
+					<td align="left" valign="top"><input name="numCompoundsExternalSet" size="5" value=""/></td>
+				</tr>
+				<tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Random Seed:</b></div>
+					</td>
+					<td align="left" valign="top"><input name="externalRandomSeed" size="5" value=""/></td>
+				</tr>	
+				<tr>
+					<td colspan="2">
+					<div class="StandardTextDarkGrayParagraph"><i>Using the same random seed each time will cause the same compounds to be in the external set.</i></div>
+					</td>
+				</tr>	
+				</table>
+				<br />
+				<table>	
+				<tr>
+					<td>
+					<div class='StandardTextDarkGrayParagraph'><b><u>Division of Modeling Set into Training and Test Sets</u></b></div>
+					</td>
+				</tr>			
+				<tr>
+					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Number of Sphere Radii:</b></div>
 					</td>
 					<td align="left" valign="top"><input name="numSphereRadii" size="5" value="1"/></td>
@@ -214,13 +244,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 						<option value="2">Maximum Sphere Center Distances</option>
 					</select>			
 					</td>
-				</tr>
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Number of Compounds in the External Set:</b></div>
-					</td>
-					<td align="left" valign="top"><input name="numCompoundsExternalSet" size="5" value="5"/></td>
-				</tr>						
+				</tr>					
 				<tr>
 					<td><br /></td>
 				</tr>
