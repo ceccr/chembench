@@ -210,12 +210,9 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				</tr>	
 				<tr>
 					<td colspan="2">
-					<div class="StandardTextDarkGrayParagraph"><i>Using the same random seed each time will cause the same compounds to be in the external set.</i></div>
+					<div class="StandardTextDarkGrayParagraph"><i>Using the same random seed each time will cause the same compounds to be in the external set. <br /></i></div>
 					</td>
 				</tr>	
-				</table>
-				<br />
-				<table>	
 				<tr>
 					<td colspan="2">
 					<div class='StandardTextDarkGrayParagraph'><b><u>Division of Modeling Set into Training and Test Sets</u></b></div>

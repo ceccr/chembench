@@ -22,7 +22,7 @@ public class KnnModelBuildingWorkflow{
 		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + sdFile + ".a");
 		
 		//split dataset into [modeling set | external test set]
-		  String execstr1 = "datasplit activator_protein_43.sdf.x -4EXT -SRND=" + randomSeed + " -N=1 -OUT=modelext.list -M=R -S=" + numCompoundsExternalSet;
+		  String execstr1 = "datasplit activator_protein_43.sdf.x -4EXT -SRND=" + randomSeed + " -N=1 -M=R -S=" + numCompoundsExternalSet;
 		  //Sasha's datasplit (deprecated) was:
 		  //String execstr1 = "RandomDivSlow3 " + sdFile + ".x " + actFile + " train ext 1 list " + numCompoundsExternalSet + " n";
 		  Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
@@ -30,9 +30,10 @@ public class KnnModelBuildingWorkflow{
 	      Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 	      
+	    
 
 	    //split modeling set, making several [ training | internal test ] sets
-		String execstr2 = "se9v1_nl train_0.x train_0.a RAND_sets";
+		String execstr2 = "se9v1_nl mdl_0.x mdl_0.a RAND_sets";
 		  Utility.writeToDebug("Running external program: " + execstr2 + " in dir " + workingdir);
 	      p = Runtime.getRuntime().exec(execstr2, null,  new File(workingdir));
 	      Utility.writeProgramLogfile(workingdir, "se9v1", p.getInputStream(), p.getErrorStream());
