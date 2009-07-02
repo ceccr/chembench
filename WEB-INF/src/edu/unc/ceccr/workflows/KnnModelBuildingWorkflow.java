@@ -19,7 +19,7 @@ public class KnnModelBuildingWorkflow{
 		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
 		//copy the act file to a ".a" file because datasplit will expect it
-		FileAndDirOperations.copyFile(actFile, sdFile + ".a");
+		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + sdFile + ".a");
 		
 		//split dataset into [modeling set | external test set]
 		  String execstr1 = "datasplit activator_protein_43.sdf.x -4EXT -SRND=" + randomSeed + " -N=1 -OUT=modelext.list -M=R -S=" + numCompoundsExternalSet;
