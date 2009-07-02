@@ -215,7 +215,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				</tr>	
 				<tr>
 					<td colspan="2">
-					<div class='StandardTextDarkGrayParagraph'><b><u>Division of Modeling Set into Training and Test Sets</u></b></div>
+					<div class='StandardTextDarkGrayParagraph'><b><u><br />Division of Modeling Set into Training and Test Sets</u></b></div>
 					</td>
 				</tr>			
 				<tr>

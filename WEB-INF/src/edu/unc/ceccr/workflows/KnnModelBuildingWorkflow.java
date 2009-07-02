@@ -22,7 +22,7 @@ public class KnnModelBuildingWorkflow{
 		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + sdFile + ".a");
 		
 		//split dataset into [modeling set | external test set]
-		  String execstr1 = "datasplit activator_protein_43.sdf.x -4EXT -SRND=" + randomSeed + " -N=1 -M=R -S=" + numCompoundsExternalSet;
+		  String execstr1 = "datasplit activator_protein_43.sdf.x -4EXT -SRND=" + randomSeed + " -N=1 -M=R -OUT= -S=" + numCompoundsExternalSet;
 		  //Sasha's datasplit (deprecated) was:
 		  //String execstr1 = "RandomDivSlow3 " + sdFile + ".x " + actFile + " train ext 1 list " + numCompoundsExternalSet + " n";
 		  Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
