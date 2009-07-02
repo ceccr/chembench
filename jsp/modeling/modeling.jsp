@@ -192,7 +192,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				</tr>	
 				<tr><td><table>
 				<tr>
-					<td>
+					<td colspan="2">
 					<div class='StandardTextDarkGrayParagraph'><b><u>Division of Dataset into Modeling and External Sets</u></b></div>
 					</td>
 				</tr>
@@ -200,13 +200,13 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Number of Compounds in the External Set:</b></div>
 					</td>
-					<td align="left" valign="top"><input name="numCompoundsExternalSet" size="5" value=""/></td>
+					<td align="left" valign="top"><input name="numCompoundsExternalSet" size="5"/></td>
 				</tr>
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Random Seed:</b></div>
 					</td>
-					<td align="left" valign="top"><input name="externalRandomSeed" size="5" value=""/></td>
+					<td align="left" valign="top"><input name="externalRandomSeed" size="5"/></td>
 				</tr>	
 				<tr>
 					<td colspan="2">
@@ -217,7 +217,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				<br />
 				<table>	
 				<tr>
-					<td>
+					<td colspan="2">
 					<div class='StandardTextDarkGrayParagraph'><b><u>Division of Modeling Set into Training and Test Sets</u></b></div>
 					</td>
 				</tr>			
