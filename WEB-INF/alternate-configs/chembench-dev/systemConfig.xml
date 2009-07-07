@@ -26,11 +26,6 @@
 
 <webService>
 
-<!-- Keys for chembench-dev.metalab.unc.edu 
-<publicKey>6LewzAAAAAAAABfkXvYwv-IeHBpNH0AVOXI9XqzI</publicKey>
-<privateKey>6LewzAAAAAAAAF9CsJTvdCFEej0aNkeurrroBGKV</privateKey>
--->
-
 <!-- Keys for chembench.mml.unc.edu -->
 <publicKey>6LeZXQYAAAAAAAtCIR2g1btlSUvWW00lAGv0dn4G</publicKey>
 <privateKey>6LeZXQYAAAAAAF-BCVHNVW6OW6fqQkj1JV3zOWPt</privateKey>
@@ -41,7 +36,6 @@
 <address>http://chembench.mml.unc.edu</address>
 <email>ceccrhelp@listserv.unc.edu</email>
 </website>
-
 
 <database>
 <databaseName>ceccr</databaseName>

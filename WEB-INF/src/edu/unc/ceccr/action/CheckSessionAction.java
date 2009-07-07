@@ -38,13 +38,15 @@ public class CheckSessionAction extends Action
 		
 		//if(reqURL.toString().contains(Constants.WHICHBENCH))
 
+		/*
+		//commented out... seems to be no use for different "benches" anyway
 		if(Constants.WORKBENCH.toLowerCase().contains(""))
 		{
 			Constants.WORKBENCH=Constants.CCHEMBENCH;
 		}else{
 			Constants.WORKBENCH=Constants.CTOXBENCH;
 		}
-		
+		*/
 		HttpSession session=request.getSession(false);
 		//||(session.getAttribute("userName") != null && session.getAttribute("userName").equals("_all"))
 		if(session==null||session.getAttribute("user")==null)

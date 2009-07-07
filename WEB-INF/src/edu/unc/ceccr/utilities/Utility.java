@@ -366,7 +366,10 @@ public class Utility {
 			Utility.writeToDebug(ex);
 		}
 		Iterator<AdminSettings> iter = ls.iterator();
-		AdminSettings as = iter.next();
+		AdminSettings as = null;
+		if(iter.hasNext()){
+			as = iter.next();
+		}
 		while(as != null){
 			if(as.getType().equalsIgnoreCase("userAcceptanceMode")){
 				Constants.ACCEPTANCE = as.getValue();
