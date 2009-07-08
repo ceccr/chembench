@@ -25,10 +25,9 @@ public class QsarFormBean extends ValidatorForm {
 	private String externalRandomSeed = "" + Math.round(Math.random() * 16000);
 	private String numCompoundsExternalSet = "5";
 	
-	// Need to add in logic to support these functions
-	private String startingCompounds;
-	private String mostActiveStartingComp;
-
+	private String numSplits = "25";
+	private String trainTestSplitType = "0";
+	
 	// end datasplit Parameters
 	
 	
@@ -259,13 +258,13 @@ public class QsarFormBean extends ValidatorForm {
 	public void setDiffR01R02(String diff_R01_R02) {
 		diffR01R02 = diff_R01_R02;
 	}
-
-	public String getMostActiveStartingComp() {
-		return mostActiveStartingComp;
+	
+	public String getNumSplits() {
+		return numSplits;
 	}
 
-	public void setMostActiveStartingComp(String mostActiveStartingComp) {
-		this.mostActiveStartingComp = mostActiveStartingComp;
+	public void setNumSplits(String numSplits) {
+		this.numSplits = numSplits;
 	}
 
 	public String getNearest_Neighbors() {
@@ -291,13 +290,13 @@ public class QsarFormBean extends ValidatorForm {
 	public void setRelativeDiffRR0(String relative_diff_R_R0) {
 		relativeDiffRR0 = relative_diff_R_R0;
 	}
-
-	public String getStartingCompounds() {
-		return startingCompounds;
+	
+	public String getTrainTestSplitType() {
+		return trainTestSplitType;
 	}
 
-	public void setStartingCompounds(String startingCompounds) {
-		this.startingCompounds = startingCompounds;
+	public void setTrainTestSplitType(String trainTestSplitType) {
+		this.trainTestSplitType = trainTestSplitType;
 	}
 
 	public String getStop_cond() {

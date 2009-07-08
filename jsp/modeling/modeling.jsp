@@ -193,7 +193,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				<tr><td><table>
 				<tr>
 					<td colspan="2">
-					<div class='StandardTextDarkGrayParagraph'><b><u>Division of Dataset into Modeling and External Sets</u></b></div>
+					<div class='StandardTextDarkGrayParagraph'><b><u>Division of Dataset into Modeling and External Sets:</u></b></div>
 					</td>
 				</tr>
 				<tr>
@@ -206,39 +206,81 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Random Seed:</b></div>
 					</td>
-					<td align="left" valign="top"><html:text styleId="externalRandomSeed" property="externalRandomSeed" size="5"/></td>
+					<td align="left" valign="top"><html:text styleId="externalRandomSeed" property="externalRandomSeed" size="5"/> <input type="button" value="Get New Seed" onclick="getNewSeed()" /></td>
 				</tr>	
 				<tr>
 					<td colspan="2">
-					<div class="StandardTextDarkGrayParagraph"><i>Using the same random seed each time will cause the same compounds to be in the external set. <br /></i></div>
+					<div class="StandardTextDarkGrayParagraph"><i>Using the same random seed each time will cause the same compounds to be in the external set.<br /></i></div>
 					</td>
 				</tr>	
 				<tr>
 					<td colspan="2">
-					<div class='StandardTextDarkGrayParagraph'><b><u><br />Division of Modeling Set into Training and Test Sets</u></b></div>
+					<div class='StandardTextDarkGrayParagraph'><b><u><br />Division of Modeling Set into Training and Test Sets:</u></b></div>
 					</td>
-				</tr>			
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Number of Sphere Radii:</b></div>
-					</td>
-					<td align="left" valign="top"><html:text property="numSphereRadii" size="5"/></td>
 				</tr>		
 				<tr>
 					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Number of Starting Points:</b></div>
+					<div class="StandardTextDarkGrayParagraph"><b>Number of Data Splits:</b></div>
 					</td>
-					<td align="left" valign="top"><html:text property="numStartingPoints" size="5"/></td>
+					<td align="left" valign="top"><html:text property="numSplits" size="5"/></td>
+				</tr>
+				<tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Division Method:</b></div>
+					</td>
+					<td align="left" valign="top"><html:radio value="0" property="trainTestSplitType" styleId="sphereExclusionTrainTest" onclick="sphereTrainTest()">Sphere Exclusion</html:radio> <html:radio value="1" property="trainTestSplitType" styleId="randomTrainTest" onclick="randomTrainTest()">Random</html:radio></td>
+				</tr>		
+				<tr>
+					<td colspan="2">
+					<div class="StandardTextDarkGrayParagraph"><br /><i>The following parameters apply only if the Division Method is Random:</i></div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Minimum Test Set Size (percent):</b></div>
+					</td>
+					<td align="left" valign="top"><html:text property="randomSplitMinTestSize" styleId="randomSplitMinTestSize" size="5"/></td>
+				</tr>
+				<tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Maximum Test Set Size (percent):</b></div>
+					</td>
+					<td align="left" valign="top"><html:text property="randomSplitMaxTestSize" styleId="randomSplitMaxTestSize" size="5"/></td>
+				</tr>
+				<tr>
+					<td colspan="2">
+					<div class="StandardTextDarkGrayParagraph"><br /><i>The following parameters apply only if the Division Method is Sphere Exclusion:</i></div>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Force Minimum Activity Compound into all Training Sets:</b></div>
+					</td>
+					<td align="left" valign="top">
+					<html:radio value="0" property="sphereSplitIncludeMin" styleId="sphereSplitIncludeMin">Yes</html:radio> <html:radio value="1" property="sphereSplitIncludeMin" styleId="sphereSplitIncludeMin">No</html:radio></td>
+				</tr>
+				<tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Force Maximum Activity Compound into all Training Sets:</b></div>
+					</td>
+					<html:radio value="0" property="sphereSplitIncludeMax" styleId="sphereSplitIncludeMax">Yes</html:radio> <html:radio value="1" property="sphereSplitIncludeMax" styleId="sphereSplitIncludeMax">No</html:radio></td>
+				</tr>
+				<tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Number of Randomly Chosen Starting Points:</b></div>
+					</td>
+					<td align="left" valign="top"><html:text property="sphereSplitNumStarting" styleId="sphereSplitNumStarting" size="5"/></td>
 				</tr>
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Selection of Next Training Set Point is Based on:</b></div>
 					</td>
 					<td> 
-					<select name="selectionNextTrainPt" value="3">
-						<option value="3">Random Selection of Next Training Set Point</option>
-						<option value="1">Minimum Sphere Center Distances</option>
-						<option value="2">Maximum Sphere Center Distances</option>
+					<select name="selectionNextTrainPt" id="selectionNextTrainPt" value="0">
+						<option value="0">Random Selection</option>
+						<option value="1">Expand Outwards from Already Selected Points</option> <!-- SUM-MIN, tumor-like -->
+						<option value="2">Even Coverage of Descriptor Space</option> <!-- MIN_MAX, lattice-like -->
+						<option value="3">Work Inwards from Boundaries of Descriptor Space</option> <!-- SUM-MAX -->
 					</select>			
 					</td>
 				</tr>					

@@ -339,12 +339,44 @@ public class WriteDescriptorsFileWorkflow{
 		
 		findMinMaxAvgStdDev(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima, descriptorValueAvgs, descriptorValueStdDevs);
 		
+		//To maximize compatibility, what we actually store is the
+		//StdDev + average on the last line.
+		//This makes sense (I swear!)
+		
+		// Consider the process of range scaling: To scale 
+		// prediction descriptors so that they're in the same range as the predictor's descriptors,
+		// for each value you do:
+		// scaled_value = (descriptor_value - min) / (max - min), right?
+		// Well, we anticipate that other software is going to be using our modeling .x files.
+		// Since range scaling is a long-held tradition in our lab, that software might end up
+		// doing the same scaling process as range scaling:
+		// scaled_value = (descriptor_value - number_on_first_line) / (number_on_second_line - number_on_first_line)
+		// And we can make that work with the autoscaling as well!
+		
+		// To autoscale, we do:
+		// scaled_value = descriptor_value - average) / (standard_deviation)
+		// So if we make the second line (standard_deviation + average), then we can still do
+		// scaled_value = (descriptor_value - number_on_first_line) / (number_on_second_line - number_on_first_line)
+		// but now it's
+		// scaled_value = descriptor_value - average) / ((standard_deviation + average) - average)
+		// and that happily gives us a scaled result.
+		// The process for restoring descriptors to their unscaled state will also be 
+		// identical in both rangescale and autoscale with this standard. 
+		//(Figuring out why this is true is left as an exercise to the reader.)
+		
+		ArrayList<String> descriptorValueStdDevPlusAvgs = new ArrayList<String>();
+		for(int i = 0; i < descriptorValueStdDevs.size(); i++){
+			Float stddev = Float.parseFloat(descriptorValueStdDevs.get(i));
+			Float avg = Float.parseFloat(descriptorValueStdDevs.get(i));
+			descriptorValueStdDevPlusAvgs.add("" + (stddev + avg));
+		}
+		
 		//do scaling on descriptorMatrix
 		if(scalingType.equalsIgnoreCase(Constants.RANGESCALING)){
 			rangeScaleGivenMinMax(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima);
 		}
 		else if(scalingType.equalsIgnoreCase(Constants.AUTOSCALING)){
-			autoScaleGivenAvgStdDev(descriptorMatrix, descriptorValueAvgs, descriptorValueStdDevs);
+			autoScaleGivenAvgStdDev(descriptorMatrix, descriptorValueAvgs, descriptorValueStdDevPlusAvgs);
 		}
 		else if(scalingType.equalsIgnoreCase(Constants.NOSCALING)){
 			//don't do anything!
@@ -356,7 +388,7 @@ public class WriteDescriptorsFileWorkflow{
 		
 		removeZeroVarianceDescriptors(descriptorMatrix, 
 				descriptorValueMinima, descriptorValueMaxima, 
-				descriptorValueAvgs, descriptorValueStdDevs,
+				descriptorValueAvgs, descriptorValueStdDevPlusAvgs,
 				descriptorNames);
 		
 		//write output
@@ -377,38 +409,6 @@ public class WriteDescriptorsFileWorkflow{
 		}
 		else if(scalingType.equalsIgnoreCase(Constants.AUTOSCALING)){
 			xFileOut.write(descriptorValueAvgs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //averages
-			
-			//To maximize compatibility, what we actually store is the
-			//StdDev + average on the last line.
-			//This makes sense (I swear!)
-			
-			// Consider the process of range scaling: To scale 
-			// prediction descriptors so that they're in the same range as the predictor's descriptors,
-			// for each value you do:
-			// scaled_value = (descriptor_value - min) / (max - min), right?
-			// Well, we anticipate that other software is going to be using our modeling .x files.
-			// Since range scaling is a long-held tradition in our lab, that software might end up
-			// doing the same scaling process as range scaling:
-			// scaled_value = (descriptor_value - number_on_first_line) / (number_on_second_line - number_on_first_line)
-			// And we can make that work with the autoscaling as well!
-			
-			// To autoscale, we do:
-			// scaled_value = descriptor_value - average) / (standard_deviation)
-			// So if we make the second line (standard_deviation + average), then we can still do
-			// scaled_value = (descriptor_value - number_on_first_line) / (number_on_second_line - number_on_first_line)
-			// but now it's
-			// scaled_value = descriptor_value - average) / ((standard_deviation + average) - average)
-			// and that happily gives us a scaled result.
-			// The process for restoring descriptors to their unscaled state will also be 
-			// identical in both rangescale and autoscale with this standard. 
-			//(Figuring out why this is true is left as an exercise to the reader.)
-			
-			ArrayList<String> descriptorValueStdDevPlusAvgs = new ArrayList<String>();
-			for(int i = 0; i < descriptorValueStdDevs.size(); i++){
-				Float stddev = Float.parseFloat(descriptorValueStdDevs.get(i));
-				Float avg = Float.parseFloat(descriptorValueStdDevs.get(i));
-				descriptorValueStdDevPlusAvgs.add("" + (stddev + avg));
-			}
 			xFileOut.write(descriptorValueStdDevPlusAvgs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //standard deviations minus averages
 		}
 		

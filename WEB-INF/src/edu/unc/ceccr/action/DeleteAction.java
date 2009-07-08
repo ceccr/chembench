@@ -2,6 +2,7 @@ package edu.unc.ceccr.action;
 
 import java.util.List;
 import java.util.Iterator;
+import java.io.File;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +18,12 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Expression;
 import org.hibernate.Transaction;
 
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.PredictionJob;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 
 public class DeleteAction extends Action {
@@ -71,7 +74,10 @@ public class DeleteAction extends Action {
 						forward = actionMapping.findForward("failure");
 					}
 					else{
+						Utility.writeToDebug("Removing predictor " + predictor.getName());
 						deletePredictor(predictor);
+						File file=new File(Constants.CECCR_USER_BASE_PATH+predictor.getUserName()+"/"+predictor.getName());
+						FileAndDirOperations.deleteDir(file);
 					}
 				}
 			} catch (Exception e) {
@@ -82,10 +88,10 @@ public class DeleteAction extends Action {
 		return forward;
 	}
 	
-	protected static void deletePredictor(Predictor predictor)	throws ClassNotFoundException, SQLException {
+	protected static void deletePredictor(Predictor predictor) throws ClassNotFoundException, SQLException {
 
 		Session session = HibernateUtil.getSession();
-
+		
 		Transaction tx = null;
 		try 
 		{
@@ -124,6 +130,6 @@ public class DeleteAction extends Action {
 				} finally {
 					session.close();
 					}
- return predictionJob;
- }
+		return predictionJob;
+	}
 }

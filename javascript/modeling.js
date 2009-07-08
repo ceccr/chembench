@@ -16,6 +16,10 @@ function setToContinuous(){
 	}
 }
 
+function getNewSeed(){
+	document.getElementById("externalRandomSeed").value = Math.floor(Math.random()*16000);
+}
+	
 function enableEdit(){
 	document.getElementById("Edit").disabled = false;
 }
