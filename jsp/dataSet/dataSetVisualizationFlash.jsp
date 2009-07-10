@@ -26,6 +26,7 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 <script src="javascript/script.js"></script>
 <script src="javascript/AC_RunActiveContent.js"></script>
+  <script type="text/javascript" src="javascript/hookMouseWheel.js></script>
 <script type="text/javascript">
 function show_vis_panel()
 {
