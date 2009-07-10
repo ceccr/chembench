@@ -119,7 +119,7 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
   <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="950" height="950" title="ChembenchViz">
     <param name="movie" value="/jchem/myroslav/vis/heatmap.swf" />
     <param name="quality" value="high" />
-    <param name="FlashVars" value="web-addr=http://chembench-dev.mml.unc.edu&dataset=<%=ds.getFileName()%>&ncom=<%=ds.getNumCompound()%>&type_=<%=ds.getModelType()%>&creation_date=<%=ds.getCreatedTime()%>&desc=<%=ds.getDescription()%>&actFile=<%=ds.getActFile()%>&sdfFile=<%=ds.getSdfFile()%>" />
+    <param name="FlashVars" value="web-addr=http://chembench-dev.mml.unc.edu&dataset=<%=ds.getFileName()%>&ncom=<%=ds.getNumCompound()%>&type_=<%=ds.getModelType()%>&creation_date=<%=ds.getCreatedTime().toString().substring(0,ds.getCreatedTime().toString().indexOf(" "))%>&desc=<%=ds.getDescription()%>&actFile=<%=ds.getActFile()%>&sdfFile=<%=ds.getSdfFile()%>" />
     <param name="wmode" value="transparent" />
     <embed src="/jchem/myroslav/vis/heatmap.swf" width="950" height="950" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" flashvars="web-addr=http://chembench-dev.mml.unc.edu&dataset=<%=ds.getFileName()%>&ncom=<%=ds.getNumCompound()%>&type_=<%=ds.getModelType()%>&creation_date=<%=ds.getCreatedTime()%>&desc=<%=ds.getDescription()%>&actFile=<%=ds.getActFile()%>&sdfFile=<%=ds.getSdfFile()%>" wmode="transparent"></embed>
   </object>
