@@ -113,23 +113,16 @@ function checkPublicDataset(){
 <tr>
 <td align="center">
 <script type="text/javascript">
-AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','950','height','950','title','ChembenchViz','src','/jchem/myroslav/vis/heatmap','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','web_addr','http://chembench-dev.mml.unc.edu','dataset','<%=ds.getFileName()%>','ncom','<%=ds.getNumCompound()%>','type_','<%=ds.getModelType()%>','creation_date','<%=ds.getCreatedTime()%>','desc','<%=ds.getDescription()%>','actfile','<%=session.getAttribute("actFile")%>','viz_path','<%=session.getAttribute("viz_path")%>','movie','/jchem/myroslav/vis/heatmap' ); //end AC code
+AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0','width','950','height','950','title','ChembenchViz','src','/jchem/myroslav/vis/heatmap','quality','high','pluginspage','http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash','flashvars','web-addr=http://chembench-dev.mml.unc.edu&dataset=<%=ds.getFileName()%>&ncom=<%=ds.getNumCompound()%>&type_=<%=ds.getModelType()%>&creation_date=<%=ds.getCreatedTime()%>&desc=<%=ds.getDescription()%>&actFile=<%=session.getAttribute("actFile")%>&viz_path=<%=session.getAttribute("viz_path")%>','movie','/jchem/myroslav/vis/heatmap' ); //end AC code
 </script>
   <noscript>
   <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="950" height="950" title="ChembenchViz">
     <param name="movie" value="/jchem/myroslav/vis/heatmap.swf" />
     <param name="quality" value="high" />
     
-    <param name="web_addr" value="http://chembench-dev.mml.unc.edu" />
+    <param name="FlashVars" value="web-addr=http://chembench-dev.mml.unc.edu&dataset=<%=ds.getFileName()%>&ncom=<%=ds.getNumCompound()%>&type_=<%=ds.getModelType()%>&creation_date=<%=ds.getCreatedTime()%>&desc=<%=ds.getDescription()%>&actFile=<%=session.getAttribute("actFile")%>&viz_path=<%=session.getAttribute("viz_path")%>" />
     
-    <param name="dataset" value="<%=ds.getFileName()%>" />
-    <param name="ncom" value="<%=ds.getNumCompound()%>" />
-    <param name="type_" value="<%=ds.getModelType()%>" />
-    <param name="creation_date" value="<%=ds.getCreatedTime()%>" />
-    <param name="desc" value="<%=ds.getDescription()%>" />
-    <param name="actFile" value="<%=session.getAttribute("actFile")%>" />
-    <param name="viz_path" value="<%=session.getAttribute("viz_path")%>" />
-    <embed src="/jchem/myroslav/vis/heatmap.swf" width="950" height="950" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" web_addr="http://chembench-dev.mml.unc.edu" dataset="<%=ds.getFileName()%>" ncom="<%=ds.getNumCompound()%>" type_="<%=ds.getModelType()%>" creation_date="<%=ds.getCreatedTime()%>" desc="<%=ds.getDescription()%>" actfile="<%=session.getAttribute("actFile")%>" viz_path="<%=session.getAttribute("viz_path")%>"></embed>
+    <embed src="/jchem/myroslav/vis/heatmap.swf" width="950" height="950" quality="high" pluginspage="http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash" type="application/x-shockwave-flash" FlashVars ="web-addr=http://chembench-dev.mml.unc.edu&dataset=<%=ds.getFileName()%>&ncom=<%=ds.getNumCompound()%>&type_=<%=ds.getModelType()%>&creation_date=<%=ds.getCreatedTime()%>&desc=<%=ds.getDescription()%>&actFile=<%=session.getAttribute("actFile")%>&viz_path=<%=session.getAttribute("viz_path")%>"></embed>
   </object>
   </noscript>  
 
