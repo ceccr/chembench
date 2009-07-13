@@ -26,7 +26,6 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 <script src="javascript/script.js"></script>
 <script src="javascript/AC_RunActiveContent.js"></script>
-<script src="javascript/hookMouseWheel.js"></script>
 <script type="text/javascript">
 function show_vis_panel()
 {
@@ -47,6 +46,21 @@ function checkPublicDataset(){
 		document.getElementById("download").style.display='inline';
 	}
 	else document.getElementById("vizualization").style.display='inline';
+}
+
+if(!(document.attachEvent)) {
+    window.addEventListener("DOMMouseScroll", handleWheel, false);
+}
+function handleWheel(event) {
+    var app = window.document["${application}"];
+    if (app) {
+        var o = {x: event.screenX, y: event.screenY, 
+            delta: event.detail,
+            ctrlKey: event.ctrlKey, altKey: event.altKey, 
+            shiftKey: event.shiftKey}
+        
+        app.handleWheel(o);
+    }
 }
 
 </script>
