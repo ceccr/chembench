@@ -41,6 +41,8 @@ public class DatasetFileOperations {
 
 	private static ArrayList<String> act_compounds;
 	private static ArrayList<String> sdf_compounds;
+	private static String formula="";
+	
 
 	public static void generateEmptyActFile(String path, String name, String sdfPath) throws IOException {
 		File act = new File(path+name+".act");
@@ -98,6 +100,7 @@ public class DatasetFileOperations {
 		String msg="";
 		
 		if(f.exists()) msg =  ErrorMessages.FILESYSTEM_CONTAINS_DATASET;
+		
 		if(msg==""){	
 			msg =  saveSDFFile(userName, sdFile, path);
 			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + path + sdFile.getFileName());
@@ -105,17 +108,19 @@ public class DatasetFileOperations {
 			Utility.writeToDebug("Done rewriting SDF.");
 			Utility.writeToMSDebug("Message::"+msg);
 		}
+		
 		if(msg=="" && !type.equals(Constants.PREDICTION)){
 			 msg = saveACTFile(actFile, path);
 			 Utility.writeToMSDebug(">>>>>>>>>>>>>>>>checkingUploadedFiles2<<<<<<<<<");
 		}
+		
 		else if(type.equals(Constants.PREDICTION)){
 			    generateEmptyActFile(path, sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")), path+sdFile.getFileName());
 		}
 		msg =  checkUploadedFiles(sdFile, actFile, type, userName, datasetName);
 		if (msg == ""){
-			Utility.writeToMSDebug("File saved");
-			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName(), actFile!=null?actFile.getFileName():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf("."))+".act", type, description);
+			Utility.writeToMSDebug("File saved, formula="+formula);
+			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName(), actFile!=null?actFile.getFileName():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf("."))+".act", type, description, formula);
 		}
 		return msg;
 	}
@@ -161,8 +166,8 @@ public class DatasetFileOperations {
 			new File(dir +actFile.getFileName()).delete();
 		}
 			
-		rewriteACTFile(filePath);
-		return "";
+		 formula = rewriteACTFile(filePath);
+		 return "";
 	}
 	
 
@@ -280,7 +285,7 @@ public class DatasetFileOperations {
 	
 	
 	private static void writeDatasetToDatabase(String userName, String name, String sdfFileName , String actFileName,
-			String modelType, String description) throws IOException,
+			String modelType, String description, String formula) throws IOException,
 			SQLException, ClassNotFoundException {
 		Utility.writeToMSDebug("writeDartasetToDatabase::"+"userName::"+userName+ " name::" + name+" sdfFileName::"+sdfFileName +" actFileName::"+actFileName+
 			"modelType::"+modelType+"description::"+description);
@@ -306,6 +311,8 @@ public class DatasetFileOperations {
 		dataSet.setCreatedTime(new Date());
 
 		dataSet.setDescription(description);
+		
+		dataSet.setActFormula(formula);
 		
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;

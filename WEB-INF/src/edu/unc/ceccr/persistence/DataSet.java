@@ -29,6 +29,10 @@ public class DataSet implements java.io.Serializable{
 	
 	private String description;
 	
+	private String actFormula;
+	
+	
+
 	public DataSet(){}
 	
 	@Id
@@ -124,6 +128,21 @@ public class DataSet implements java.io.Serializable{
 		description = "";
 		}
 		this.description=description;
+	}
+	
+	/**
+	 * @return the actFormula
+	 */
+	@Column(name="actFormula")
+	public String getActFormula() {
+		return actFormula;
+	}
+
+	/**
+	 * @param actFormula the actFormula to set
+	 */
+	public void setActFormula(String actFormula) {
+		this.actFormula = actFormula;
 	}
 	
 }
