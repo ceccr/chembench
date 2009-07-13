@@ -257,19 +257,19 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<div class="StandardTextDarkGrayParagraph"><b>Force Minimum Activity Compound into all Training Sets:</b></div>
 					</td>
 					<td align="left" valign="top">
-					<html:radio value="0" property="sphereSplitIncludeMin" styleId="sphereSplitIncludeMin">Yes</html:radio> <html:radio value="1" property="sphereSplitIncludeMin" styleId="sphereSplitIncludeMin">No</html:radio></td>
+					<html:radio value="0" property="splitIncludesMin" styleId="splitIncludesMin">Yes</html:radio> <html:radio value="1" property="sphereSplitIncludeMin" styleId="sphereSplitIncludeMin">No</html:radio></td>
 				</tr>
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Force Maximum Activity Compound into all Training Sets:</b></div>
 					</td>
-					<html:radio value="0" property="sphereSplitIncludeMax" styleId="sphereSplitIncludeMax">Yes</html:radio> <html:radio value="1" property="sphereSplitIncludeMax" styleId="sphereSplitIncludeMax">No</html:radio></td>
+					<html:radio value="0" property="splitIncludesMax" styleId="splitIncludesMax">Yes</html:radio> <html:radio value="1" property="sphereSplitIncludeMax" styleId="sphereSplitIncludeMax">No</html:radio></td>
 				</tr>
 				<tr>
 					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Number of Randomly Chosen Starting Points:</b></div>
+					<div class="StandardTextDarkGrayParagraph"><b>Minimum Test Set Size (percent):</b></div>
 					</td>
-					<td align="left" valign="top"><html:text property="sphereSplitNumStarting" styleId="sphereSplitNumStarting" size="5"/></td>
+					<td align="left" valign="top"><html:text property="sphereSplitMinTestSize" styleId="sphereSplitMinTestSize" size="5"/></td>
 				</tr>
 				<tr>
 					<td>

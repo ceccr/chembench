@@ -1,6 +1,5 @@
 package edu.unc.ceccr.formbean;
 
-import org.apache.struts.upload.FormFile;
 import org.apache.struts.validator.ValidatorForm;
 
 import edu.unc.ceccr.global.Constants;
@@ -17,18 +16,29 @@ public class QsarFormBean extends ValidatorForm {
 	private String descriptorGenerationType = Constants.MOLCONNZ;
 	private String scalingType = Constants.RANGESCALING;
 
-	// being datasplit Parameters
 
-	private String numSphereRadii = "1";
-	private String selectionNextTrainPt = "3";
-	private String numStartingPoints = "2";
-	private String externalRandomSeed = "" + Math.round(Math.random() * 16000);
+	//begin modeling-external split parameters
 	private String numCompoundsExternalSet = "5";
+	private String externalRandomSeed = "" + Math.round(Math.random() * 16000);
 	
+	// end modeling-external split parameters
+	
+	// being train-test split parameters
+
 	private String numSplits = "25";
 	private String trainTestSplitType = "0";
+
+		//if random split
+		private String randomSplitMinTestSize = "20";
+		private String randomSplitMaxTestSize = "30";
 	
-	// end datasplit Parameters
+		//if sphere exclusion
+		private String splitIncludesMin = "1";
+		private String splitIncludesMax = "1";
+		private String sphereSplitMinTestSize = "25";
+		private String selectionNextTrainPt = "0";
+		
+	// end train-test split parameters
 	
 	
 	//kNN Parameters
@@ -136,6 +146,28 @@ public class QsarFormBean extends ValidatorForm {
 	public void setNumCompoundsExternalSet(String numCompoundsExternalSet) {
 		this.numCompoundsExternalSet = numCompoundsExternalSet;
 	}
+	
+	public String getSplitIncludesMin() {
+		return splitIncludesMin;
+	}
+	public void setSplitIncludesMin(String splitIncludesMin) {
+		this.splitIncludesMin = splitIncludesMin;
+	}
+	
+	public String getSplitIncludesMax() {
+		return splitIncludesMax;
+	}
+	public void setSplitIncludesMax(String splitIncludesMax) {
+		this.splitIncludesMax = splitIncludesMax;
+	}
+	
+	public String getSphereSplitMinTestSize() {
+		return sphereSplitMinTestSize;
+	}
+	public void setSphereSplitMinTestSize(String sphereSplitMinTestSize) {
+		this.sphereSplitMinTestSize = sphereSplitMinTestSize;
+	}
+	
 
 	//kNN
 	public String getDatasetType() {
@@ -221,19 +253,19 @@ public class QsarFormBean extends ValidatorForm {
 	public void setNumRuns(String numRuns) {
 		this.numRuns = numRuns;
 	}
+	
+	public String getRandomSplitMinTestSize() {
+		return randomSplitMinTestSize;
+	}
+	public void setRandomSplitMinTestSize(String randomSplitMinTestSize) {
+		this.randomSplitMinTestSize = randomSplitMinTestSize;
+	}
 
-	public String getNumSphereRadii() {
-		return numSphereRadii;
+	public String getRandomSplitMaxTestSize() {
+		return randomSplitMaxTestSize;
 	}
-	public void setNumSphereRadii(String numSphereRadii) {
-		this.numSphereRadii = numSphereRadii;
-	}
-
-	public String getNumStartingPoints() {
-		return numStartingPoints;
-	}
-	public void setNumStartingPoints(String numStartingPoints) {
-		this.numStartingPoints = numStartingPoints;
+	public void setRandomSplitMaxTestSize(String randomSplitMaxTestSize) {
+		this.randomSplitMaxTestSize = randomSplitMaxTestSize;
 	}
 
 	public String getSelectionNextTrainPt() {
