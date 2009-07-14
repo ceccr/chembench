@@ -92,7 +92,7 @@ public class DataSplitWorkflow{
 			String line = in.readLine(); //first line is a comment
 			line = in.readLine(); //second line has the list info
 			if(line != null){
-				listFileContents += line;
+				listFileContents += line + "\n";
 			}
 			
 		}
