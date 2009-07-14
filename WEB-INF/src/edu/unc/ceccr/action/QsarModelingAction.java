@@ -54,60 +54,7 @@ public class QsarModelingAction extends Action {
 				Utility.writeToDebug("Setting up task", user.getUserName(), formBean.getJobName());
 				
 				executeAntWorkflow = new QsarModelingTask(user.getUserName(), formBean);
-				
-<<<<<<< .mine
-=======
-				executeAntWorkflow = new QsarModelingTask(
-						user.getUserName(), 
-						formBean.getJobName(), 
-						formBean.getNumCompoundsExternalSet(), 
-						formBean.getDatasetType(), 
-						formBean.getDescriptorGenerationType(), 
-						formBean.getMaxNumDescriptors(), 
-						formBean.getMinNumDescriptors(), 
-						formBean.getStepSize(), 
-						formBean.getNumCycles(),
-						formBean.getNumMutations(), 
-						formBean.getMinAccTest(), 
-						formBean.getMinAccTraining(), 
-						formBean.getCutoff(),
-						formBean.getMu(), 
-						formBean.getNumRuns(), 
-						formBean.getNearest_Neighbors(), 
-						formBean.getPseudo_Neighbors(), 
-						formBean.getT1(),
-						formBean.getT2(), 
-						formBean.getTcOverTb(), 
-						formBean.getMinSlopes(), 
-						formBean.getMaxSlopes(),
-						formBean.getRelativeDiffRR0(), 
-						formBean.getDiffR01R02(), 
-						formBean.getStop_cond(),
-						formBean.getKnnCategoryOptimization(), 
-						/*formBean.getNumSphereRadii()*/"", 
-						formBean.getSelectionNextTrainPt(), 
-						/*formBean.getNumStartingPoints()*/"",
-						formBean.getSelectedDatasetId(),
-						formBean.getSvmCost(),
-						formBean.getSvmCrossValidation(),
-						formBean.getSvmDegree(),
-						formBean.getSvmEEpsilon(),
-						formBean.getSvmGamma(),
-						formBean.getSvmHeuristics(),
-						formBean.getSvmKernel(),
-						formBean.getSvmNu(),
-						formBean.getSvmPEpsilon(),
-						formBean.getSvmProbability(),
-						formBean.getSvmTypeCategory(),
-						formBean.getSvmTypeContinuous(),
-						formBean.getSvmWeight(),
-						formBean.getModelingType(),
-						formBean.getScalingType(),
-						formBean.getExternalRandomSeed()
-						);
-				
-						
->>>>>>> .r10570
+
 				executeAntWorkflow.setUp();
 
 				tasklist = Queue.getInstance();

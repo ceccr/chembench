@@ -31,8 +31,6 @@ public class DataSet implements java.io.Serializable{
 	
 	private String actFormula;
 	
-	
-
 	public DataSet(){}
 	
 	@Id
