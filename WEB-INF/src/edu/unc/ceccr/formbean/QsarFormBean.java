@@ -16,7 +16,6 @@ public class QsarFormBean extends ValidatorForm {
 	private String descriptorGenerationType = Constants.MOLCONNZ;
 	private String scalingType = Constants.RANGESCALING;
 
-
 	//begin modeling-external split parameters
 	private String numCompoundsExternalSet = "5";
 	private String externalRandomSeed = "" + Math.round(Math.random() * 16000);
@@ -24,9 +23,8 @@ public class QsarFormBean extends ValidatorForm {
 	// end modeling-external split parameters
 	
 	// being train-test split parameters
-
 	private String numSplits = "25";
-	private String trainTestSplitType = "0";
+	private String trainTestSplitType = Constants.SPHEREEXCLUSION;
 
 		//if random split
 		private String randomSplitMinTestSize = "20";
@@ -40,10 +38,9 @@ public class QsarFormBean extends ValidatorForm {
 		
 	// end train-test split parameters
 	
-	
 	//kNN Parameters
 	
-	private String datasetType = "CONTINUOUS"; //used in the 2 radio buttons
+	private String datasetType = Constants.CONTINUOUS; //used in the 2 radio buttons
 	private String minNumDescriptors = "10";
 	private String stepSize = "5";
 	private String numCycles = "100";

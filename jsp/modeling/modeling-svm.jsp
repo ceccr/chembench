@@ -5,7 +5,6 @@
 <%@ taglib uri="/tags/struts-html" prefix="html"%>
 <%@ taglib uri="/tags/struts-nested" prefix="nested"%>
 
-
 <script language="javascript" src="javascript/modeling.js"></script>
 
 <html:form action="/submitQsarWorkflow.do" enctype="multipart/form-data">
@@ -62,6 +61,6 @@
 				</tbody>
 			</table>
 </html:form>
-			<br />
+<br />
 <!--LibSVM is "L2" type, where all descriptors are used, and a weighting scheme is applied. -->
 <!--"L1" type SVM modeling might be useful as well! That's where some descriptors are eliminated before modeling even begins. -->

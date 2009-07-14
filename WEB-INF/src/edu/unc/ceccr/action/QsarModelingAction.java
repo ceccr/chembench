@@ -53,8 +53,10 @@ public class QsarModelingAction extends Action {
 				
 				Utility.writeToDebug("Setting up task", user.getUserName(), formBean.getJobName());
 				
-				//owww... huge function call. My head hurts.
+				executeAntWorkflow = new QsarModelingTask(user.getUserName(), formBean);
 				
+<<<<<<< .mine
+=======
 				executeAntWorkflow = new QsarModelingTask(
 						user.getUserName(), 
 						formBean.getJobName(), 
@@ -105,6 +107,7 @@ public class QsarModelingAction extends Action {
 						);
 				
 						
+>>>>>>> .r10570
 				executeAntWorkflow.setUp();
 
 				tasklist = Queue.getInstance();

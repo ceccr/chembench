@@ -20,11 +20,13 @@ import org.apache.commons.validator.GenericValidator;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
 import edu.unc.ceccr.global.Constants.ModelTypeEnumeration;
 import edu.unc.ceccr.global.Constants.ScalingTypeEnumeration;
+import edu.unc.ceccr.global.Constants.TrainTestSplitTypeEnumeration;
 import edu.unc.ceccr.global.KnnOutputComparator;
 import edu.unc.ceccr.global.CategoryKNNComparator;
 import edu.unc.ceccr.persistence.DataSet;
@@ -43,25 +45,72 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
 //import edu.unc.ceccr.workflows.DragonToDescriptors;
+import edu.unc.ceccr.workflows.DataSplitWorkflow;
 import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnModelBuildingWorkflow;
-//import edu.unc.ceccr.workflows.MolconnZToDescriptors;
 import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
 import edu.unc.ceccr.workflows.SdfToJpgWorkflow;
 import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
 public class QsarModelingTask implements WorkflowTask {
 
-	//knn parameters
+	//job details
+	private String sdFileName;
+	private String actFileName;
+	private String user_path;
+	private String userName;
+	private String jobName;
+	private ModelTypeEnumeration modelTypeEnum; // (svm || knn) \\
+	
+	//dataset
+	private String datasetName;
+	private Long datasetID;
+	String filePath;
+	String datasetPath;
 	private String datasetType;
+	private DataTypeEnumeration dataTypeEnum;
+	private boolean datasetIsAllUser;
+	
+	//descriptors
+	private String descriptorGenerationType;
+	private DescriptorEnumeration descriptorEnum;
+	private String scalingType;
+	private ScalingTypeEnumeration scalingTypeEnum;
+	
+	//datasplit
+	private String numCompoundsExternalSet;
+	private String externalRandomSeed;
+	private String numSplits;
+	private String trainTestSplitType;
+	private TrainTestSplitTypeEnumeration trainTestSplitTypeEnum;
+		
+		//if random split
+		private String randomSplitMinTestSize;
+		private String randomSplitMaxTestSize;		
+	
+		//if sphere exclusion
+		private String splitIncludesMin;
+		private String splitIncludesMax;
+		private String sphereSplitMinTestSize;
+		private String selectionNextTrainPt;
+		
+	//knn	
+	int numTotalModels;
+	int numTrainModels;
+	int numTestModels;
+	int yTotalModels;
+	int yTrainModels;
+	int yTestModels;
+	private String activityType;
+	private String knnCategoryOptimization;
+
 	private String minNumDescriptors;
 	private String stepSize;
 	private String numCycles;
 	private String maxNumDescriptors;
 	private String Nearest_Neighbors;
 	private String Pseudo_Neighbors;	
-	private String externalRandomSeed;
 	
 	private String numRuns;	
 	private String numMutations;
@@ -78,46 +127,7 @@ public class QsarModelingTask implements WorkflowTask {
 	private String Diff_R01_R02;
 	private String stop_cond;
 	
-	@SuppressWarnings("unused")
-	private String knnCategoryOptimization;
-	
-	private String numCompoundsExternalSet;
-	String filePath;
-	String datasetPath;
-	ArrayList<Model> allkNNValues=null;
-	ArrayList<Model> mainKNNValues=null;
-	ArrayList<Model> randomKNNValues=null;
-	ArrayList<Model> sortedYRKNNValues=null;
-	ArrayList<Model> sortedkNNValues = null;
-	String[] externalValues = null;
-	ArrayList<ExternalValidation> allExternalValues = null;
-	private String sdFileName;
-	private String actFileName;
-	private String user_path;
-	private String userName;
-	private String jobName;
-	int numTotalModels;
-	int numTrainModels;
-	int numTestModels;
-	int yTotalModels;
-	
-	int yTrainModels;
-	int yTestModels;
-	private boolean noModelsGenerated;
-	private boolean datasetIsAllUser;
-	private DataTypeEnumeration dataTypeEnum;
-	private String descriptorGenerationType;
-	private DescriptorEnumeration descriptorEnum;
-	private ModelTypeEnumeration modelTypeEnum;
-	private ScalingTypeEnumeration scalingTypeEnum;
-	private String numSphereRadii;
-	private String selectionNextTrainPt;
-	private String numStartingPoints;
-	private String activityType;
-	private String scalingType;
-	private String datasetName;
-	private Long datasetID;
-
+	//svm
 	private String svmCost;
 	private String svmCrossValidation;
 	private String svmDegree;
@@ -131,64 +141,30 @@ public class QsarModelingTask implements WorkflowTask {
 	private String svmTypeCategory;
 	private String svmTypeContinuous;
 	private String svmWeight;
+
+	//output
+	ArrayList<Model> allkNNValues=null;
+	ArrayList<Model> mainKNNValues=null;
+	ArrayList<Model> randomKNNValues=null;
+	ArrayList<Model> sortedYRKNNValues=null;
+	ArrayList<Model> sortedkNNValues = null;
+	String[] externalValues = null;
+	ArrayList<ExternalValidation> allExternalValues = null;
+	private boolean noModelsGenerated;
 	
-	public QsarModelingTask(
-			String userName, 
-			String jobName,
-			String numCompoundsExternalSet,
-			String datasetType, 
-			String descriptorType, 
-			String maxNumDescriptors,
-			String minNumDescriptors, 
-			String stepSize, 
-			String numCycles, 
-			String numMutations,
-			String minAccTest, 
-			String minAccTraining, 
-			String cutoff, 
-			String mu,
-			String numRuns, 
-			String Nearest_Neighbors, 
-			String Pseudo_Neighbors,	
-			String T1, 
-			String T2, 
-			String TcOverTb, 
-			String minSlopes, 
-			String maxSlopes,
-			String Relative_diff_R_R0, 
-			String Diff_R01_R02, 
-			String stop_cond,	
-			String knnCategoryOptimization, 
-			String numSphereRadii,
-			String selectionNextTrainPt, 
-			String numStartingPoints, 
-			Long selectedDatasetId,
-			String svmCost,
-			String svmCrossValidation,
-			String svmDegree,
-			String svmEEpsilon,
-			String svmGamma,
-			String svmHeuristics,
-			String svmKernel,
-			String svmNu,
-			String svmPEpsilon,
-			String svmProbability,
-			String svmTypeCategory,
-			String svmTypeContinuous,
-			String svmWeight,
-			String modelingType,
-			String scalingType,
-			String externalRandomSeed)
-			throws Exception	{
+	//constructor
+	public QsarModelingTask(String userName, QsarFormBean formBean) throws Exception {
 		
-		if(modelingType.equalsIgnoreCase(Constants.KNN)){
+		//This function just loads all the formBean parameters into local variables
+		
+		if(formBean.getModelingType().equalsIgnoreCase(Constants.KNN)){
 			modelTypeEnum = ModelTypeEnumeration.KNN;
 		}
 		else{ //if(modelingType.equalsIgnoreCase(Constants.SVM))
 			modelTypeEnum = ModelTypeEnumeration.SVM;
 		}
 		
-		this.scalingType = scalingType;
+		scalingType = formBean.getScalingType();
 		if(scalingType.equalsIgnoreCase(Constants.RANGESCALING)){
 			scalingTypeEnum = ScalingTypeEnumeration.RANGESCALING;
 		}
@@ -199,68 +175,84 @@ public class QsarModelingTask implements WorkflowTask {
 			scalingTypeEnum = ScalingTypeEnumeration.NOSCALING;
 		}
 		
-		DataSet dataset = PopulateDataObjects.getDataSetById(selectedDatasetId);
+		DataSet dataset = PopulateDataObjects.getDataSetById(formBean.getSelectedDatasetId());
 		
 		this.userName = userName;
-		this.jobName = jobName;
-		this.actFileName = dataset.getActFile();
-		this.sdFileName = dataset.getSdfFile();
-		this.datasetIsAllUser = false;
+		jobName = formBean.getJobName();
+		actFileName = dataset.getActFile();
+		sdFileName = dataset.getSdfFile();
+		datasetIsAllUser = false;
 		if(dataset.getUserName().equalsIgnoreCase("_all")){
-			this.datasetIsAllUser = true;
+			datasetIsAllUser = true;
 		}
-		this.datasetName = dataset.getFileName();
+		datasetName = dataset.getFileName();
 		
-		this.datasetType = datasetType;
-		this.descriptorGenerationType = descriptorType;
+		datasetType = formBean.getDatasetType();
+		descriptorGenerationType = formBean.getDescriptorGenerationType();
 		
 		//start datasplit parameters
-		this.numStartingPoints = numStartingPoints;
-		this.numSphereRadii = numSphereRadii;
-		this.selectionNextTrainPt = selectionNextTrainPt;
-		this.numCompoundsExternalSet = numCompoundsExternalSet;
-		this.externalRandomSeed = externalRandomSeed;
+		selectionNextTrainPt = formBean.getSelectionNextTrainPt();
+		numCompoundsExternalSet = formBean.getNumCompoundsExternalSet();
+		externalRandomSeed = formBean.getExternalRandomSeed();
+		
+		numSplits = formBean.getNumSplits();
+		trainTestSplitType = formBean.getTrainTestSplitType();
+		if(trainTestSplitType.equalsIgnoreCase(Constants.RANDOM)){
+			//random datasplit params
+			trainTestSplitTypeEnum = TrainTestSplitTypeEnumeration.RANDOM;
+			randomSplitMinTestSize = formBean.getRandomSplitMinTestSize();
+			randomSplitMaxTestSize = formBean.getRandomSplitMaxTestSize();	
+		}
+		else if(trainTestSplitType.equalsIgnoreCase(Constants.SPHEREEXCLUSION)){
+			//sphere exclusion datasplit params
+			trainTestSplitTypeEnum = TrainTestSplitTypeEnumeration.SPHEREEXCLUSION;
+			splitIncludesMin = formBean.getSplitIncludesMin();
+			splitIncludesMax = formBean.getSplitIncludesMax();
+			sphereSplitMinTestSize = formBean.getSphereSplitMinTestSize();
+			selectionNextTrainPt = formBean.getSelectionNextTrainPt();
+		}
+						
 		//end datasplit parameters
 		
 		//start kNN parameters
-		this.T1 = T1;
-		this.T2 = T2;
-		this.TcOverTb = TcOverTb;
-		this.minSlopes = minSlopes;
-		this.maxSlopes = maxSlopes;
-		this.Relative_diff_R_R0 = Relative_diff_R_R0;
-		this.Diff_R01_R02 = Diff_R01_R02;
-		this.knnCategoryOptimization = knnCategoryOptimization;
-		this.maxNumDescriptors = maxNumDescriptors;
-		this.minNumDescriptors = minNumDescriptors;
-		this.stepSize = stepSize;
-		this.numCycles = numCycles;
-		this.numMutations = numMutations;
-		this.minAccTraining=minAccTraining;
-		this.minAccTest=minAccTest;
-		this.cutoff = cutoff;
-		this.mu = mu;
-		this.numRuns = numRuns;
-		this.Nearest_Neighbors = Nearest_Neighbors;
-		this.Pseudo_Neighbors = Pseudo_Neighbors;
-		this.stop_cond = stop_cond;
-		this.datasetID = selectedDatasetId;
+		T1 = formBean.getT1();
+		T2 = formBean.getT2();
+		TcOverTb = formBean.getTcOverTb();
+		minSlopes = formBean.getMinSlopes();
+		maxSlopes = formBean.getMaxSlopes();
+		Relative_diff_R_R0 = formBean.getRelativeDiffRR0();
+		Diff_R01_R02 = formBean.getDiffR01R02();
+		knnCategoryOptimization = formBean.getKnnCategoryOptimization();
+		maxNumDescriptors = formBean.getMaxNumDescriptors();
+		minNumDescriptors = formBean.getMinNumDescriptors();
+		stepSize = formBean.getStepSize();
+		numCycles = formBean.getNumCycles();
+		numMutations = formBean.getNumMutations();
+		minAccTraining = formBean.getMinAccTraining();
+		minAccTest = formBean.getMinAccTest();
+		cutoff = formBean.getCutoff();
+		mu = formBean.getMu();
+		numRuns = formBean.getNumRuns();
+		Nearest_Neighbors = formBean.getNearest_Neighbors();
+		Pseudo_Neighbors = formBean.getPseudo_Neighbors();
+		stop_cond = formBean.getStop_cond();
+		datasetID = formBean.getSelectedDatasetId();
 		//end kNN parameters
 		
 		//start SVM parameters
-		this.svmCost = svmCost;
-		this.svmCrossValidation = svmCrossValidation;
-		this.svmDegree = svmDegree;
-		this.svmEEpsilon = svmEEpsilon;
-		this.svmGamma = svmGamma;
-		this.svmHeuristics = svmHeuristics;
-		this.svmKernel = svmKernel;
-		this.svmNu = svmNu;
-		this.svmPEpsilon = svmPEpsilon;
-		this.svmProbability = svmProbability;
-		this.svmTypeCategory = svmTypeCategory;
-		this.svmTypeContinuous = svmTypeContinuous;
-		this.svmWeight = svmWeight;
+		svmCost = formBean.getSvmCost();
+		svmCrossValidation = formBean.getSvmCrossValidation();
+		svmDegree = formBean.getSvmDegree();
+		svmEEpsilon = formBean.getSvmEEpsilon();
+		svmGamma = formBean.getSvmGamma();
+		svmHeuristics = formBean.getSvmHeuristics();
+		svmKernel = formBean.getSvmKernel();
+		svmNu = formBean.getSvmNu();
+		svmPEpsilon = formBean.getSvmPEpsilon();
+		svmProbability = formBean.getSvmProbability();
+		svmTypeCategory = formBean.getSvmTypeCategory();
+		svmTypeContinuous = formBean.getSvmTypeContinuous();
+		svmWeight = formBean.getSvmWeight();
 		//end SVM parameters
 
 		user_path = userName + "/" + jobName + "/";
@@ -293,9 +285,6 @@ public class QsarModelingTask implements WorkflowTask {
 				writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME);
 			}
 		}
-		
-		writeSEDefaultFile(filePath + Constants.SE_DEFAULT_FILENAME);
-		
 	}
  
 	@SuppressWarnings("unchecked")
@@ -361,15 +350,27 @@ public class QsarModelingTask implements WorkflowTask {
 			ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 		}
 		
+		//write out the descriptors for modeling
+		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+		WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x", scalingType);
+
+		//split the data into modeling and external sets
+		queue.runningTask.setMessage("Splitting data");
+		DataSplitWorkflow.SplitModelingExternal(userName, jobName, sdFileName, actFileName, externalRandomSeed, numCompoundsExternalSet);
+		
+		//make internal training / test sets for each model
+		if(trainTestSplitTypeEnum == TrainTestSplitTypeEnumeration.RANDOM){
+			DataSplitWorkflow.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize, randomSplitMaxTestSize);
+		}
+		else{
+			DataSplitWorkflow.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax, sphereSplitMinTestSize, selectionNextTrainPt);
+		}
+		
+		//Run modeling process
 		if(modelTypeEnum == ModelTypeEnumeration.KNN){
-			//write out the descriptors for modeling
-			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x", scalingType);
-	
-			queue.runningTask.setMessage("Splitting data");
-			KnnModelBuildingWorkflow.SplitData(userName, jobName, sdFileName, actFileName, externalRandomSeed, numCompoundsExternalSet);
-	
 			queue.runningTask.setMessage("Y-Randomization Setup");
+			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
+			
 			Utility.writeToDebug("ExecuteYRandomization", userName, jobName);
 			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 			
@@ -400,15 +401,13 @@ public class QsarModelingTask implements WorkflowTask {
 				parseContinuouskNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
 			}
 	
-			this.noModelsGenerated = this.mainKNNValues.isEmpty();
+			noModelsGenerated = mainKNNValues.isEmpty();
 			if (!noModelsGenerated)
 			{
 				allExternalValues = parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE, user_path);
 				addStdDeviation(allExternalValues,parseConpredStdDev(filePath + Constants.PRED_OUTPUT_FILE));
+				sortModels();
 			}
-	
-			if (!noModelsGenerated)
-					sortModels();
 	
 			setParameters(filePath, mainKNNValues, Constants.MAINKNN);
 			setParameters(filePath+"yRandom/", randomKNNValues, Constants.RANDOMKNN);
@@ -445,23 +444,23 @@ public class QsarModelingTask implements WorkflowTask {
 		predictor.setScalingType(scalingType);
 		predictor.setDescriptorGeneration(descriptorEnum);
 		predictor.setModelMethod(dataTypeEnum);
-		predictor.setName(this.jobName);
-		predictor.setUserName(this.userName);
-		predictor.setActFileName(this.actFileName);
-		predictor.setSdFileName(this.sdFileName);
-		predictor.setNumTotalModels(this.numTotalModels);
-		predictor.setNumTestModels(this.numTestModels);
-		predictor.setNumTrainModels(this.numTrainModels);
+		predictor.setName(jobName);
+		predictor.setUserName(userName);
+		predictor.setActFileName(actFileName);
+		predictor.setSdFileName(sdFileName);
+		predictor.setNumTotalModels(numTotalModels);
+		predictor.setNumTestModels(numTestModels);
+		predictor.setNumTrainModels(numTrainModels);
 
-		predictor.setNumyTestModels(this.yTestModels);
-		predictor.setNumyTrainModels(this.yTrainModels);
-		predictor.setNumyTotalModels(this.yTotalModels);
+		predictor.setNumyTestModels(yTestModels);
+		predictor.setNumyTrainModels(yTrainModels);
+		predictor.setNumyTotalModels(yTotalModels);
 		predictor.setActivityType(activityType);
 		predictor.setStatus("NOTSET");
 		predictor.setPredictorType("Unsaved");
 		predictor.setDatasetId(datasetID);
 		
-		if(this.allkNNValues.size()<1){}else
+		if(allkNNValues.size()<1){}else
 		{for (ModelInterface m : allkNNValues)
 			m.setPredictor(predictor);
 
@@ -485,7 +484,7 @@ public class QsarModelingTask implements WorkflowTask {
 			session.close();
 		}
 		
-		File dir=new File(Constants.CECCR_USER_BASE_PATH+this.userName+"/"+this.jobName);
+		File dir=new File(Constants.CECCR_USER_BASE_PATH+userName+"/"+jobName);
 		FileAndDirOperations.deleteDir(dir);
 	}
 	
@@ -572,7 +571,7 @@ public class QsarModelingTask implements WorkflowTask {
 		
 		java.util.Comparator knnOutputComparator;
 		
-		if(this.datasetType.equals(Constants.CONTINUOUS))
+		if(datasetType.equals(Constants.CONTINUOUS))
 		{knnOutputComparator = new KnnOutputComparator();}
 		else{knnOutputComparator = new CategoryKNNComparator();}
 		
@@ -800,74 +799,6 @@ public class QsarModelingTask implements WorkflowTask {
 			Utility.writeToDebug(e);
 		}
 	}
-
-	private void writeSEDefaultFile(String fullFileLocation)
-			throws IOException {
-
-		FileOutputStream fout;
-		PrintStream out;
-		try {
-			fout = new FileOutputStream(fullFileLocation);
-			out = new PrintStream(fout);
-
-			out.print("# -------------------------------------------------------------------\n"+
-			 "#\n"+
-			 "# DEFAULT PARAMETER FILE FOR SE8\n"+
-			 "#\n"+
-			 "# -------------------------------------------------------------------\n"+
-			 "#\n"+
-			 "# THIS FILE WAS GENERATED  8/ 1/2005 21: 5:52 GMT BY SE6 SOFTWARE\n"+
-			 "#\n"+
-			 "# Copyright (C) 2002 A.Golbraikh & A.Tropsha\n"+
-			 "# School of Pharmacy CB #7360 Beard Hall\n"+
-			 "# University of North Carolina at Chapel Hill\n"+
-			 "# Chapel Hill, NC 27599-7360 USA\n"+
-			 "#\n"+
-			 "# -------------------------------------------------------------------\n"+
-			 "#\n"); 
-			out.println("# MINIMUM NUMBER OF COMPOUNDS IN THE TRAINING OR THE TEST SET");
-			out.println("5");
-			out.println("# MINIMUM PERCENT OF COMPOUNDS IN THE TRAINING OR THE TEST SET");
-			out.println("6");
-			out.println("# DIVISION IS BASED ON:");
-			out.println("# 1 - DISSIMILARITY LEVELS");
-			out.println("# 2 - DISTANCES BETWEEN POINTS");
-			out.println("1");
-			out.println("# MINIMUM DISSIMILARITY LEVEL (USE IF 1 - DISSIMILARITY LEVELS)");
-			out.println("0.200000");
-			out.println("# MAXIMUM DISSIMILARITY LEVEL (USE IF 1 - DISSIMILARITY LEVELS)");
-			out.println("5.200000");
-			out.println("# THE NUMBER OF STEPS (IF 1 - DISSIMILARITY LEVELS)");
-			out.println("# THE NUMBER OF SPHERE RADII (IF 2 - DISTANCES BETWEEN POINTS)");
-			out.println(numSphereRadii);
-			out.println("# THE MAXIMUM NUMBER OF COMPOUNDS ASSIGNED TO THE TEST SET IN A ROW");
-			out.println("# THE MAXIMUM NUMBER OF COMPOUNDS ASSIGNED TO THE TRAINING SET IN A ROW");
-			out.println("1 1");
-			out.println("# 1 - SELECTION OF THE NEXT TRAINING SET POINT IS BASED ON THE MINIMUM SPHERE CENTER DISTANCES");
-			out.println("# 2 - SELECTION OF THE NEXT TRAINING SET POINT IS BASED ON THE MAXIMUM SPHERE CENTER DISTANCES");
-			out.println("# 3 - RANDOM SELECTION OF THE NEXT TRAINING SET POINT");
-			out.println(selectionNextTrainPt);
-			out.println("# THE NUMBER OF STARTING POINTS IN THE TRAINING SET");
-			out.println(numStartingPoints);
-			out.println("# 1 - MOST ACTIVE STARTING COMPOUNDS");
-			out.println("# 2 - THE NUMBERS WILL BE ENTERED");
-			out.println("# 3 - STARTING COMPOUNDS WILL BE SELECTED RANDOMLY");
-			out.println("# 4 - MOST ACTIVE AND MOST INACTIVE STARTING COMPOUNDS (THE NUMBER OF STARTING POINTS SHOULD BE 2)");
-			out.println("4");
-			out.println("# USE IF 1 - MOST ACTIVE STARTING COMPOUND:");
-			out.println("# 1 - MOST ACTIVE COMPOUND HAS THE HIGHEST ACTIVITY");
-			out.println("# 2 - MOST ACTIVE COMPOUND HAS THE LOWEST ACTIVITY");
-			out.println("# 1");
-			out.println("# NUMBERS OF COMPOUNDS (IF 2 - THE NUMBERS WILL BE ENTERED)");
-			out.println("# THE NUMBER OF ENTRIES BELOW MUST BE EQUAL TO THE NUMBER OF STARTING POINTS");
-			out.println("#");
-			out.println("");
-			out.close();
-			fout.close();
-		} catch (IOException e) {
-			Utility.writeToDebug(e);
-		}
-}
 	
 	public String getJobName() {
 		return jobName;
@@ -963,15 +894,6 @@ public class QsarModelingTask implements WorkflowTask {
 		this.numRuns=runs;
 	}
 	
-	public String getNumSphereRadii()
-	{
-		return this.numSphereRadii;
-	}
-	public void setNumSphereRadii(String radii)
-	{
-		this.numSphereRadii=radii;
-	}
-
 	public Long getDatasetID() {
 		return datasetID;
 	}
@@ -979,7 +901,5 @@ public class QsarModelingTask implements WorkflowTask {
 	public void setDatasetID(Long datasetID) {
 		this.datasetID = datasetID;
 	}
-	
-	
 	
 }

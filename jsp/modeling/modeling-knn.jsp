@@ -93,7 +93,4 @@
 				</tbody>
 			</table>
 </html:form>
-			<br />
- <script language="javascript"> 
- onChangeModelingMethod(); 
-  </script> 			
+<br />		

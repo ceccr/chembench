@@ -13,7 +13,8 @@ public class Constants {
 	public enum DescriptorEnumeration { MOLCONNZ, DRAGON, MOE2D, MACCS };
 	public enum DataTypeEnumeration { CONTINUOUS, CATEGORY };
 	public enum ModelTypeEnumeration { KNN, SVM };
-	public enum ScalingTypeEnumeration { AUTOSCALING, RANGESCALING, NOSCALING};
+	public enum ScalingTypeEnumeration { AUTOSCALING, RANGESCALING, NOSCALING };
+	public enum TrainTestSplitTypeEnumeration { RANDOM, SPHEREEXCLUSION };
 	
 	//Descriptor constants
 	public static final int NUM_MACCS_KEYS = 400;
@@ -40,7 +41,9 @@ public class Constants {
 	public static final String AUTOSCALING = "AUTOSCALING";
 	public static final String RANGESCALING = "RANGESCALING";
 	public static final String NOSCALING = "NOSCALING";
-	
+
+	public static final String RANDOM = "RANDOM";
+	public static final String SPHEREEXCLUSION = "SPHEREEXCLUSION";
 	
 	//kNN Constants
 	public static final int CONTINUOUS_NNN_LOCATION = 1;

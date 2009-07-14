@@ -228,7 +228,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Division Method:</b></div>
 					</td>
-					<td align="left" valign="top"><html:radio value="0" property="trainTestSplitType" styleId="sphereExclusionTrainTest" onclick="sphereTrainTest()">Sphere Exclusion</html:radio> <html:radio value="1" property="trainTestSplitType" styleId="randomTrainTest" onclick="randomTrainTest()">Random</html:radio></td>
+					<td align="left" valign="top"><html:radio value="SPHEREEXCLUSION" property="trainTestSplitType" styleId="sphereExclusionTrainTest" onclick="sphereTrainTest()">Sphere Exclusion</html:radio> <html:radio value="RANDOM" property="trainTestSplitType" styleId="randomTrainTest" onclick="randomTrainTest()">Random</html:radio></td>
 				</tr>		
 				<tr>
 					<td colspan="2">
@@ -257,13 +257,14 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<div class="StandardTextDarkGrayParagraph"><b>Force Minimum Activity Compound into all Training Sets:</b></div>
 					</td>
 					<td align="left" valign="top">
-					<html:radio value="0" property="splitIncludesMin" styleId="splitIncludesMin">Yes</html:radio> <html:radio value="1" property="sphereSplitIncludeMin" styleId="sphereSplitIncludeMin">No</html:radio></td>
+					<html:radio value="1" property="splitIncludesMin" styleId="splitIncludesMin">Yes</html:radio> <html:radio value="0" property="splitIncludesMin" styleId="splitIncludesMin">No</html:radio></td>
 				</tr>
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Force Maximum Activity Compound into all Training Sets:</b></div>
 					</td>
-					<html:radio value="0" property="splitIncludesMax" styleId="splitIncludesMax">Yes</html:radio> <html:radio value="1" property="sphereSplitIncludeMax" styleId="sphereSplitIncludeMax">No</html:radio></td>
+					<td align="left" valign="top">
+					<html:radio value="1" property="splitIncludesMax" styleId="splitIncludesMax">Yes</html:radio> <html:radio value="0" property="splitIncludesMax" styleId="splitIncludesMax">No</html:radio></td>
 				</tr>
 				<tr>
 					<td>
@@ -306,7 +307,6 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 		<script type="text/javascript">
 			var countries=new ddajaxtabs("countrytabs", "countrydivcontainer")
 			countries.setpersist(true)
-			countries.set
 			countries.setselectedClassTarget("link") //"link" or "linkparent"
 			countries.init()
 		</script> 

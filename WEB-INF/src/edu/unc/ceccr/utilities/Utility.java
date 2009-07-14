@@ -266,7 +266,7 @@ public class Utility {
 		int minDescriptor = Integer.parseInt(task.getMinNumDescriptors());
 		int stepSize = Integer.parseInt(task.getStepSize());
 		int runs = Integer.parseInt(task.getNumRuns());
-		int radii = Integer.parseInt(task.getNumSphereRadii());
+		int radii = 0;
 
 		steps = (maxDescriptor - minDescriptor) / stepSize + 1;
 
