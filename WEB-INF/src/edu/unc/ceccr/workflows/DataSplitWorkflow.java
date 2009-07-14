@@ -79,7 +79,7 @@ public class DataSplitWorkflow{
 			double testSize = Math.random()*testSizeRange + randomSplitMinTestSize;
 			testSize = testSize / 100; //it's a percent
 			
-			String listFileName = "RAND_sets_" + i + ".list";
+			String listFileName = "rand_sets_" + i + ".list";
 			String execstr1 = "datasplit train_0.x -N=1 -M=R -OUT=" + listFileName + " -F=" + testSize;
 			Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
 			Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
