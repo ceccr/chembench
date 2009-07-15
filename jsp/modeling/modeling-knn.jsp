@@ -8,8 +8,8 @@
 <script language="javascript" src="javascript/modeling.js"></script>
 
 <html:form action="/submitQsarWorkflow.do" enctype="multipart/form-data">
-			 <!-- kNN Parameters -->
-			 <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
+			<!-- kNN Parameters -->
+			<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>	
 				<tr>
 					<td width="100%" height="24" align="left" colspan="2">
@@ -89,7 +89,7 @@
 				</td></tr>
 				<!-- End Category Specific kNN Parameters  -->
 				
-				</table><br /></td></tr>
+				</table></td></tr>
 				</tbody>
 			</table>
 </html:form>

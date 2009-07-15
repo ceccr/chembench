@@ -57,7 +57,7 @@
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of cross-validations (e.g. 5 for 5-fold):</b></div></td>
 				<td align="left" valign="top"><html:text property="svmCrossValidation" size="5"/></td></tr>
 				
-				</table><br /></td></tr>
+				</table></td></tr>
 				</tbody>
 			</table>
 </html:form>

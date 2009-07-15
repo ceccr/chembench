@@ -180,13 +180,13 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 			 </table>
 			 <br />
 			 
-			 <!-- Data Split Parameters -->
-			 <table width="94%" frame="border" align="center" cellpadding="0"	cellspacing="4" colspan="2">
+			 <!-- External Data Split Parameters -->
+			 <table width="94%" frame="border" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>	
 			 	<tr>
 					<td width="100%" height="24" align="left" colspan="2">
 					<p class="StandardTextDarkGrayParagraph2">
-					<b>Set Data Splitting Parameters</b>
+					<b>Set External Data Splitting Parameters</b>
 					</p>
 					</td>
 				</tr>	
@@ -213,109 +213,58 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					<div class="StandardTextDarkGrayParagraph"><i>Using the same random seed each time will cause the same compounds to be in the external set.<br /></i></div>
 					</td>
 				</tr>	
-				<tr>
-					<td colspan="2">
-					<div class='StandardTextDarkGrayParagraph'><b><u><br />Division of Modeling Set into Training and Test Sets:</u></b></div>
-					</td>
-				</tr>		
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Number of Data Splits:</b></div>
-					</td>
-					<td align="left" valign="top"><html:text property="numSplits" size="5"/></td>
-				</tr>
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Division Method:</b></div>
-					</td>
-					<td align="left" valign="top"><html:radio value="SPHEREEXCLUSION" property="trainTestSplitType" styleId="sphereExclusionTrainTest" onclick="sphereTrainTest()">Sphere Exclusion</html:radio> <html:radio value="RANDOM" property="trainTestSplitType" styleId="randomTrainTest" onclick="randomTrainTest()">Random</html:radio></td>
-				</tr>		
-				<tr>
-					<td colspan="2">
-					<div class="StandardTextDarkGrayParagraph"><br /><i>The following parameters apply only if the Division Method is Random:</i></div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Minimum Test Set Size (percent):</b></div>
-					</td>
-					<td align="left" valign="top"><html:text property="randomSplitMinTestSize" styleId="randomSplitMinTestSize" size="5"/></td>
-				</tr>
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Maximum Test Set Size (percent):</b></div>
-					</td>
-					<td align="left" valign="top"><html:text property="randomSplitMaxTestSize" styleId="randomSplitMaxTestSize" size="5"/></td>
-				</tr>
-				<tr>
-					<td colspan="2">
-					<div class="StandardTextDarkGrayParagraph"><br /><i>The following parameters apply only if the Division Method is Sphere Exclusion:</i></div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Force Minimum Activity Compound into all Training Sets:</b></div>
-					</td>
-					<td align="left" valign="top">
-					<html:radio value="1" property="splitIncludesMin" styleId="splitIncludesMin">Yes</html:radio> <html:radio value="0" property="splitIncludesMin" styleId="splitIncludesMin">No</html:radio></td>
-				</tr>
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Force Maximum Activity Compound into all Training Sets:</b></div>
-					</td>
-					<td align="left" valign="top">
-					<html:radio value="1" property="splitIncludesMax" styleId="splitIncludesMax">Yes</html:radio> <html:radio value="0" property="splitIncludesMax" styleId="splitIncludesMax">No</html:radio></td>
-				</tr>
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Minimum Test Set Size (percent):</b></div>
-					</td>
-					<td align="left" valign="top"><html:text property="sphereSplitMinTestSize" styleId="sphereSplitMinTestSize" size="5"/></td>
-				</tr>
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Selection of Next Training Set Point is Based on:</b></div>
-					</td>
-					<td> 
-					<select name="selectionNextTrainPt" id="selectionNextTrainPt" value="0">
-						<option value="0">Random Selection</option>
-						<option value="1">Expand Outwards from Already Selected Points</option> <!-- SUM-MIN, tumor-like -->
-						<option value="2">Even Coverage of Descriptor Space</option> <!-- MIN_MAX, lattice-like -->
-						<option value="3">Work Inwards from Boundaries of Descriptor Space</option> <!-- SUM-MAX -->
-					</select>			
-					</td>
-				</tr>					
-				<tr>
-					<td><br /></td>
-				</tr>
+				
 				</table></td></tr>
 			    </tbody>
-			 </table>
-			 <br />
-			 	 
-			 	 <table width="94%" align="center" cellpadding="0" cellspacing="0" colspan="2"><tr><td>
-		<ul styleId="countrytabs" id="countrytabs" class="shadetabs">
-		<li><a href="jsp/modeling/modeling-knn.jsp" rel="countrycontainer" class="selected">k-Nearest Neighbors</a></li>
-		<li><a href="jsp/modeling/modeling-svm.jsp" rel="countrycontainer">Support Vector Machine</a></li>
-		</ul>
-		
-		<div styleId="countrydivcontainer" id="countrydivcontainer" align="center" style="border-left:1px solid grey; border-top:1px solid grey; border-bottom:1px solid #000; border-right:1px solid #000; width:100%; margin-bottom: 1em">
-		Error loading modeling properties (Missing JSPs?)
-		</div>
-		<html:hidden property="modelingType" styleId="modelingType" value=""/>
-		
-		<script type="text/javascript">
-			var countries=new ddajaxtabs("countrytabs", "countrydivcontainer")
-			countries.setpersist(true)
-			countries.setselectedClassTarget("link") //"link" or "linkparent"
-			countries.init()
-		</script> 
-		</td></tr>
-		</table>
-		<br />
+			</table>
+			<br />
 			
-			 <!-- Begin Modeling Job -->
-			 <table width="94%" frame="border" align="center" cellpadding="0"	cellspacing="4" colspan="2">
+			<!-- Internal Data Split Parameters -->
+			<table width="94%" align="center" cellpadding="0" cellspacing="0" colspan="2">
+				<ul styleId="internalDataSplitTabs" id="internalDataSplitTabs" class="shadetabs">
+				<li><a href="jsp/modeling/datasplit-traintest-sphere.jsp" rel="internalDataSplitContainer" class="selected">Sphere Exclusion Train/Test Split</a></li>
+				<li><a href="jsp/modeling/datasplit-traintest-random.jsp" rel="internalDataSplitContainer">Random Train/Test Split</a></li>
+				</ul>
+				
+				<div styleId="internalDataSplitDivContainer" id="internalDataSplitDivContainer" align="center" style="border-left:1px solid grey; border-top:1px solid grey; border-bottom:1px solid #000; border-right:1px solid #000; width:100%; margin-bottom: 1em">
+				Error loading internal division properties (Missing JSPs?)
+				</div>
+				
+				<html:hidden property="trainTestSplitType" styleId="trainTestSplitType" value=""/> <!-- SPHEREEXCLUSION or RANDOM -->
+					
+				<script type="text/javascript">
+					var internalDataSplit=new ddajaxtabs("internalDataSplitTabs", "internalDataSplitDivContainer")
+					internalDataSplit.setpersist(true)
+					internalDataSplit.setselectedClassTarget("link") //"link" or "linkparent"
+					internalDataSplit.init()
+				</script> 
+			</table>
+			<br />
+			 	
+			<!-- Modeling Method (kNN, SVM) --> 
+	 	 	<table width="94%" align="center" cellpadding="0" cellspacing="0" colspan="2"><tr><td>
+				<ul styleId="modelingtabs" id="modelingtabs" class="shadetabs">
+				<li><a href="jsp/modeling/modeling-knn.jsp" rel="modelingcontainer" class="selected">k-Nearest Neighbors</a></li>
+				<li><a href="jsp/modeling/modeling-svm.jsp" rel="modelingcontainer">Support Vector Machine</a></li>
+				</ul>
+				
+				<div styleId="modelingdivcontainer" id="modelingdivcontainer" align="center" style="border-left:1px solid grey; border-top:1px solid grey; border-bottom:1px solid #000; border-right:1px solid #000; width:100%; margin-bottom: 1em">
+				Error loading modeling properties (Missing JSPs?)
+				</div>
+				<html:hidden property="modelingType" styleId="modelingType" value=""/>
+				
+				<script type="text/javascript">
+					var modeling=new ddajaxtabs("modelingtabs", "modelingdivcontainer")
+					modeling.setpersist(true)
+					modeling.setselectedClassTarget("link") //"link" or "linkparent"
+					modeling.init()
+				</script> 
+				</td></tr>
+			</table>
+			<br />
+			
+			<!-- Begin Modeling Job -->
+			<table width="94%" frame="border" align="center" cellpadding="0"	cellspacing="4" colspan="2">
 				<tbody>	
 				 <tr>
 					<td width="100%" height="24" align="left" colspan="2">
@@ -350,6 +299,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 		</span></td>
 	</tr>
 	
+	<!-- Modeling form is done. Already-generated models are below. -->
 	<tr><td>
 	<br />
 	<p class="StandardTextDarkGrayParagraph2"><b>Previously Generated Predictors</b></p>
