@@ -120,6 +120,8 @@
 		
 		<action path="/setVisData" forward="/jsp/dataSet/additionalDatasetFilesGeneration.jsp" />
 		
+		<action path="/viewKnnParameters" forward="/jsp/modeling/modeling-knn.jsp" />
+		
 		<action path="/generateDatasetVis" type="edu.unc.ceccr.action.GenerateDatasetInfoAction"
 				input="jsp/dataSet/additionalDatasetFilesGeneration.jsp" name="visForm" scope="request">
 			<forward name="success" path="/jsp/dataSet/visualizationJobPosted.jsp" />

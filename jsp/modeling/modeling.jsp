@@ -244,7 +244,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 			<!-- Modeling Method (kNN, SVM) --> 
 	 	 	<table width="94%" align="center" cellpadding="0" cellspacing="0" colspan="2"><tr><td>
 				<ul styleId="modelingtabs" id="modelingtabs" class="shadetabs">
-				<li><a href="jsp/modeling/modeling-knn.jsp" rel="modelingcontainer" class="selected">k-Nearest Neighbors</a></li>
+				<li><a href="viewKnnParameters.do" rel="modelingcontainer" class="selected">k-Nearest Neighbors</a></li>
 				<li><a href="jsp/modeling/modeling-svm.jsp" rel="modelingcontainer">Support Vector Machine</a></li>
 				</ul>
 				
