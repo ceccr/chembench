@@ -68,7 +68,7 @@ ddajaxtabs.loadpage=function(page_request, pageurl, tabinstance){
 		alert(divId);
 		var response = page_request.responseText;
 		alert(response);
-		document.getElementById(divId);
+		alert(document.getElementById(divId).innerHTML);
 		document.getElementById(divId).innerHTML=response
 		ddajaxtabs.ajaxpageloadaction(pageurl, tabinstance)
 		}
