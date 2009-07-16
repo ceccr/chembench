@@ -1,7 +1,8 @@
-<%@ taglib uri="/tags/struts-bean" prefix="bean"%>
-<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <%@ taglib uri="/tags/struts-html" prefix="html"%>
-<%@ taglib uri="/tags/struts-nested" prefix="nested"%>
+
+<script language="javascript" src="javascript/modeling.js"></script>
 
 <html:form action="/submitQsarWorkflow.do" enctype="multipart/form-data">
 			<!-- kNN Parameters -->
