@@ -64,12 +64,13 @@ ddajaxtabs.loadpage=function(page_request, pageurl, tabinstance){
 	var divId=tabinstance.contentdivid
 	document.getElementById(divId).innerHTML=ddajaxtabssettings.loadstatustext //Display "fetching page message"
 	if (page_request.readyState == 4 && (page_request.status==200 || window.location.href.indexOf("http")==-1)){
-		alert("Hi!");
 		alert(divId);
 		var response = page_request.responseText;
 		alert(response);
-		alert(document.getElementById(divId).innerHTML);
-		document.getElementById(divId).innerHTML=response
+		if(document.getElementById(divId).firstChild)
+			document.getElementById(divId).removeChild(ocument.getElementById(divId).firstChild)
+		document.getElementById(divId).appendChild(response);
+
 		ddajaxtabs.ajaxpageloadaction(pageurl, tabinstance)
 		}
 }
