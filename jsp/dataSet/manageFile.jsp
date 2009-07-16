@@ -256,12 +256,12 @@ else{
   <tr>
     <td colspan="5" valign="top">
     <html:form action="/submitDataset.do" enctype="multipart/form-data">
-    <table cellpadding="3" cellspacing="3" style="border-color:#000000;border-style:solid; border-width:thin">
+    <table cellpadding="3" cellspacing="3" frame="border" rules="none" >
                 <tr>
                     <td align="left" width="49%">
                     <input type="radio" name="upload" checked="true" value="MODELING" id="modeling_select" onclick="showUpload();"/>
                       <b class='StandardTextDarkGrayParagraph'>Upload dataset for modeling</b>
-                    <table cellpadding="3" cellspacing="3" style="border-color:#000000;border-style:solid; border-width:thin" width="100%">
+                    <table cellpadding="3" cellspacing="3" frame="border" rules="none">
                               <tr>
                                 <td colspan="2"><b class='StandardTextDarkGrayParagraph'>Data type:</b></td>
                               </tr>
@@ -288,7 +288,7 @@ else{
                     <td align="left" valign="top">
                     <input type="radio" name="upload" id="prediction_select" value="PREDICTION" onclick="showUpload();"/>
                       <b class='StandardTextDarkGrayParagraph'>Upload dataset for prediction</b>
-                    <table cellpadding="3" cellspacing="3" style="border-color:#000000;border-style:solid; border-width:thin" width="100%">
+                    <table cellpadding="3" cellspacing="3" frame="border" rules="none">
                               <tr>
                                 <td colspan="2"><b class='StandardTextDarkGrayParagraph'>Upload:</b></td>
                               </tr>

@@ -69,7 +69,7 @@ function predictSmiles(){
 </head>
 <body onUnLoad="document.MSketch=null">
 <div id="bodyDIV"></div>
-<table width="924" border="0" align="center" cellpadding="0"	cellspacing="0">
+<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 <%@include file="/jsp/main/header.jsp" %>
 <%@include file="/jsp/main/centralNavigationBar.jsp" %>
 	<tr>
@@ -80,7 +80,7 @@ function predictSmiles(){
 		
 		<html:form action="/execPredictor.do">
 		
-				<table width="924" frame="border" align="center" cellpadding="0"	cellspacing="4" colspan="2">
+				<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 					<tbody>
 						<tr>
 							<td align="left" colspan="2">
@@ -134,11 +134,11 @@ function predictSmiles(){
 			</html:form>
 					
 			<br />
-			<table width="924" frame="border" align="center" cellpadding="0"	cellspacing="4" colspan="2">
+			<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>
 				<tr>
 				<td valign="top">
-					<table width="450" frame="border" align="center" cellpadding="0"	cellspacing="4" >
+					<table width="450" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" >
 					<tbody>
 						
 					<tr>
@@ -214,6 +214,7 @@ msketch_name = "MSketch";
 msketch_mayscript = true;
 msketch_begin("/jchem/marvin/", 440, 300);
 msketch_end();
+document.MSketch.style.zIndex="-1";
 //-->
 
 </script><br /><html:button value="Get SMILES" property="text" onclick="exportMol()"/>

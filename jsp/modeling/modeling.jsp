@@ -44,7 +44,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr>
 		<td height="557" colspan="5" valign="top"
-			background="theme/img/backgrmodelbuilders.jpg"><span id="maincontent">
+			background="theme/img/backgrmodelbuilders.jpg" style="background-repeat: no-repeat;"><span id="maincontent">
 		
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
           <tr>
@@ -68,7 +68,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
         
 		<html:form action="/submitQsarWorkflow.do" enctype="multipart/form-data">
 			<!-- Dataset Selection -->
-			<table width="94%" frame="border" align="center" cellpadding="0"	cellspacing="4" colspan="2">
+			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>		
 				<tr>
 					<td width="100%" height="24" align="left" colspan="2">
@@ -115,7 +115,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 			<br />
 			
 			<!-- Descriptor Type Selection -->
-			<table width="94%" frame="border" align="center" cellpadding="0" cellspacing="4" colspan="2">
+			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>			
 				<tr>
 					<td width="100%" height="24" align="left" colspan="2">
@@ -181,7 +181,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 			 <br />
 			 
 			 <!-- External Data Split Parameters -->
-			 <table width="94%" frame="border" align="center" cellpadding="0" cellspacing="4" colspan="2">
+			 <table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>	
 			 	<tr>
 					<td width="100%" height="24" align="left" colspan="2">
@@ -193,7 +193,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				<tr><td><table>
 				<tr>
 					<td colspan="2">
-					<div class='StandardTextDarkGrayParagraph'><b><u>Division of Dataset into Modeling and External Sets:</u></b></div>
+					<div class='StandardTextDarkGrayParagraph'><i>The dataset will be divided into a modeling set and an external validation set.</i></div>
 					</td>
 				</tr>
 				<tr>
@@ -220,7 +220,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 			<br />
 			
 			<!-- Internal Data Split Parameters -->
-			<table width="94%" align="center" cellpadding="0" cellspacing="0" colspan="2">
+			<table width="94%" align="center" cellpadding="0" cellspacing="0" colspan="2"><tr><td>
 				<ul styleId="internalDataSplitTabs" id="internalDataSplitTabs" class="shadetabs">
 				<li><a href="jsp/modeling/datasplit-traintest-sphere.jsp" rel="internalDataSplitContainer" class="selected">Sphere Exclusion Train/Test Split</a></li>
 				<li><a href="jsp/modeling/datasplit-traintest-random.jsp" rel="internalDataSplitContainer">Random Train/Test Split</a></li>
@@ -230,7 +230,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				Error loading internal division properties (Missing JSPs?)
 				</div>
 				
-				<html:hidden property="trainTestSplitType" styleId="trainTestSplitType" value=""/> <!-- SPHEREEXCLUSION or RANDOM -->
+				<html:hidden property="trainTestSplitType" styleId="trainTestSplitType" value=""/> <!-- SPHEREEXCLUSION or RANDOM; This is set in javascript/ajaxtabs.js.-->
 					
 				<script type="text/javascript">
 					var internalDataSplit=new ddajaxtabs("internalDataSplitTabs", "internalDataSplitDivContainer")
@@ -238,8 +238,8 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 					internalDataSplit.setselectedClassTarget("link") //"link" or "linkparent"
 					internalDataSplit.init()
 				</script> 
+				</td></tr>
 			</table>
-			<br />
 			 	
 			<!-- Modeling Method (kNN, SVM) --> 
 	 	 	<table width="94%" align="center" cellpadding="0" cellspacing="0" colspan="2"><tr><td>
@@ -251,7 +251,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				<div styleId="modelingdivcontainer" id="modelingdivcontainer" align="center" style="border-left:1px solid grey; border-top:1px solid grey; border-bottom:1px solid #000; border-right:1px solid #000; width:100%; margin-bottom: 1em">
 				Error loading modeling properties (Missing JSPs?)
 				</div>
-				<html:hidden property="modelingType" styleId="modelingType" value=""/>
+				<html:hidden property="modelingType" styleId="modelingType" value=""/> <!-- KNN or SVM; This is set in javascript/ajaxtabs.js -->
 				
 				<script type="text/javascript">
 					var modeling=new ddajaxtabs("modelingtabs", "modelingdivcontainer")
@@ -261,10 +261,9 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 				</script> 
 				</td></tr>
 			</table>
-			<br />
-			
+						
 			<!-- Begin Modeling Job -->
-			<table width="94%" frame="border" align="center" cellpadding="0"	cellspacing="4" colspan="2">
+			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>	
 				 <tr>
 					<td width="100%" height="24" align="left" colspan="2">

@@ -9,7 +9,7 @@
 
 <html:form action="/submitQsarWorkflow.do" enctype="multipart/form-data">
 			<!-- kNN Parameters -->
-			<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
+			<table width="100%" align="center" border="0" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>	
 				<tr>
 					<td width="100%" height="24" align="left" colspan="2">
@@ -93,4 +93,3 @@
 				</tbody>
 			</table>
 </html:form>
-<br />		

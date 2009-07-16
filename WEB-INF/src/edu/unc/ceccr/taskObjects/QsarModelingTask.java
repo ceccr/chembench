@@ -195,16 +195,17 @@ public class QsarModelingTask implements WorkflowTask {
 		numCompoundsExternalSet = formBean.getNumCompoundsExternalSet();
 		externalRandomSeed = formBean.getExternalRandomSeed();
 		
-		numSplits = formBean.getNumSplits();
 		trainTestSplitType = formBean.getTrainTestSplitType();
 		if(trainTestSplitType.equalsIgnoreCase(Constants.RANDOM)){
 			//random datasplit params
+			numSplits = formBean.getNumSplitsInternalRandom();
 			trainTestSplitTypeEnum = TrainTestSplitTypeEnumeration.RANDOM;
 			randomSplitMinTestSize = formBean.getRandomSplitMinTestSize();
 			randomSplitMaxTestSize = formBean.getRandomSplitMaxTestSize();	
 		}
 		else if(trainTestSplitType.equalsIgnoreCase(Constants.SPHEREEXCLUSION)){
 			//sphere exclusion datasplit params
+			numSplits = formBean.getNumSplitsInternalSphere();
 			trainTestSplitTypeEnum = TrainTestSplitTypeEnumeration.SPHEREEXCLUSION;
 			splitIncludesMin = formBean.getSplitIncludesMin();
 			splitIncludesMax = formBean.getSplitIncludesMax();

@@ -227,18 +227,14 @@ public class DatasetFileOperations {
 		   result = new File(filePath.getAbsolutePath()+"/"+sdFile.getFileName()).createNewFile();
 		if(result && !new File(filePath.getAbsolutePath()+"/"+actFile.getFileName()).exists())
 		    result = new File(filePath.getAbsolutePath()+"/"+actFile.getFileName()).createNewFile();
-	    
 		return result;
 	}
 	
 	public static int numCompounds(String fileLocation)
 			throws FileNotFoundException, IOException {
 		int numCompounds = 0;
-		//added compounds id uniqueness checking by msypa, Dec 03, 08
 		act_compounds = new ArrayList<String>();
-		//added compounds id uniqueness checking by msypa, Dec 03, 08
 		File file = new File(fileLocation);
-		
 		
 		if (file.exists()) {
 			FileReader fin = new FileReader(file);
@@ -250,9 +246,8 @@ public class DatasetFileOperations {
 				if (array.length == 2) {
 					if (GenericValidator.isDouble(array[1])) {
 						numCompounds++;
-						//added compounds id uniqueness checking by msypa, Dec 03, 08
-							act_compounds.add(array[0].trim());
-							//Utility.writeToMSDebug(".act:::"+array[0].trim());
+						act_compounds.add(array[0].trim());
+						//Utility.writeToMSDebug(".act:::"+array[0].trim());
 					}
 				}
 			}

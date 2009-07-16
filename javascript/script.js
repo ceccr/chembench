@@ -567,7 +567,7 @@ function showLoading(text){
 		text=text.substring(0,97)+"...";
 	}
 	var shaded_ ="" +
-			"<div id='shade' style='background:url(/theme/img/SHADE_BG.png );z-index:30; position:absolute; top:0px;  width:100%;height:300%;'>" +
+			"<div id='shade' style='background:url(/theme/img/SHADE_BG.png );z-index:5000; position:absolute; top:0px;  width:100%;height:300%;'>" +
 			"<div style='width:750px; height:200px;  margin: 0 auto;position: fixed;top:30%;left:20%;z-index: 100; '> " +
 				"<table cellpadding='0' cellspacing='0'; border='0' background='/theme/ccbTheme/images/ccbLogoWorking.png' style='height:200px;width:750px'>" +
 					"<tr>" +

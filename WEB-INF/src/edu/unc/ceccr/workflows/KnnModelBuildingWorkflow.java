@@ -50,7 +50,7 @@ public class KnnModelBuildingWorkflow{
 			}
 			int x = 0;
 			while(files != null && x<files.length){
-				if(files[x].matches(".*default.*") || files[x].matches(".*RAND_sets.*")){
+				if(files[x].matches(".*default.*") || files[x].matches(".*RAND_sets.*") || files[x].matches(".*rand_sets.*")){
 					FileChannel ic = new FileInputStream(fromDir + files[x]).getChannel();
 					FileChannel oc = new FileOutputStream(toDir + files[x]).getChannel();
 					ic.transferTo(0, ic.size(), oc);

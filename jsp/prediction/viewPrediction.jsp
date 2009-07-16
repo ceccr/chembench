@@ -25,8 +25,8 @@ function change()
 
          if(item=="compoundID")
            { if(direction=="ASC")
-               {document.getElementById("d1").innerHTML="Comp_Id &nbsp;<font color=white> &#8711</font>";}
-               else{document.getElementById("d1").innerHTML="Comp_Id &nbsp;<font color=white> &#916</font>";}
+               {document.getElementById("d1").innerHTML="Compound ID &nbsp;<font color=white> &#8711</font>";}
+               else{document.getElementById("d1").innerHTML="Compound ID &nbsp;<font color=white> &#916</font>";}
            }
            if(item=="value")
            { if(direction=="ASC")

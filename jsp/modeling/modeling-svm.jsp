@@ -61,6 +61,5 @@
 				</tbody>
 			</table>
 </html:form>
-<br />
 <!--LibSVM is "L2" type, where all descriptors are used, and a weighting scheme is applied. -->
 <!--"L1" type SVM modeling might be useful as well! That's where some descriptors are eliminated before modeling even begins. -->

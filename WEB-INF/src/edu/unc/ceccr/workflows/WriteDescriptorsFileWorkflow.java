@@ -436,16 +436,7 @@ public class WriteDescriptorsFileWorkflow{
 		StringBuffer descriptorNameStringBuffer = new StringBuffer(descriptorNameString);
 		removeDescriptorsNotInPredictor(descriptorMatrix, descriptorNameStringBuffer, predictorDescriptorNameString);
 		descriptorNameString = descriptorNameStringBuffer.toString();
-
-		//presumably, we should have the number of descriptors in descriptorNameString == predictorDescriptorValueMinima.size()
-		//check this to make sure nothing's going weird
-		if(predictorDescriptorValueMinima.size() == predictorDescriptorNameString.split(" ").length){
-			Utility.writeToDebug("sizes look good: " + predictorDescriptorValueMinima.size()); 
-		}
-		else{
-			Utility.writeToDebug("aww crap. got " + predictorDescriptorValueMinima.size() + " minimum values but " + predictorDescriptorNameString.split(" ").length + " descriptors."); 
-		}
-		
+	
 		//do range scaling on descriptorMatrix
 		if(predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)){
 			rangeScaleGivenMinMax(descriptorMatrix, predictorDescriptorValueMinima, predictorDescriptorValueMaxima);
@@ -461,7 +452,8 @@ public class WriteDescriptorsFileWorkflow{
 		File file = new File(xFilePath);
 		FileWriter xFileOut = new FileWriter(file);
 		
-		xFileOut.write(descriptorMatrix.size() + " " + predictorDescriptorValueMinima.size() + "\n"); // numcompounds numdescriptors
+		int numDescriptors = predictorDescriptorNameString.split(" ").length;
+		xFileOut.write(descriptorMatrix.size() + " " + numDescriptors + "\n"); // numcompounds numdescriptors
 		xFileOut.write(descriptorNameString + "\n"); //descriptor names
 		
 		for(int i = 0; i < descriptorMatrix.size(); i++){

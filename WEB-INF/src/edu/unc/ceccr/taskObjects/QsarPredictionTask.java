@@ -306,12 +306,14 @@ public class QsarPredictionTask implements WorkflowTask {
 				predValue.setNumModelsUsed(0);	
 			}
 			
+			/*
+			//Why the heck would we want the absolute value here? That makes no sense!
 			try{
 				predValue.setPredictedValue(Math.abs(new Float(predOutput.getPredictedValue())));
 				
 			}catch (NumberFormatException e){
 				predValue.setPredictedValue(null);	
-			}
+			}*/
 
 			if (predOutput.getStandardDeviation() != null){
 				try{

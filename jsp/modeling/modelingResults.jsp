@@ -195,7 +195,7 @@ randomly shuffled activities. Ideally, there will be no models with high values(
 	<!--DWLayoutTable-->
 	<tr>
 	<td width="93" height="31" align="center" valign="middle"
-			bgcolor="#0D439D" class="TableRowText01">Comp_ID</td>
+			bgcolor="#0D439D" class="TableRowText01">Compound ID</td>
 		<td width="93" align="center" valign="middle" bgcolor="#0D439D"
 			class="TableRowText01">Structure</td>
 		<td width="94" align="center" valign="middle" bgcolor="#0D439D"

@@ -78,7 +78,7 @@
 				
 			<tr>
 				<td width="93" height="31" align="center" valign="middle" bgcolor="#0D439D" class="TableRowText01">
-					<a href="viewPredOutput.do?sortBy=compoundID&id=<%=session.getAttribute("predictionId")%>">Comp_ID</a>
+					<a href="viewPredOutput.do?sortBy=compoundID&id=<%=session.getAttribute("predictionId")%>">Compound ID</a>
 				</td>
 			   	<td width="93" align="center" valign="middle" bgcolor="#0D439D" class="TableRowText01">Structure</td>
                 <td width="94" align="center" valign="middle" bgcolor="#0D439D" class="TableRowText01">Standard Deviation </td>

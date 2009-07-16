@@ -29,7 +29,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Number of Data Splits:</b></div>
 					</td>
-					<td align="left" valign="top"><html:text property="numSplits" size="5"/></td>
+					<td align="left" valign="top"><html:text property="numSplitsInternalRandom" size="5"/></td>
 				</tr>
 				<tr>
 					<td>
@@ -48,4 +48,3 @@
 				</tbody>
 			</table>
 </html:form>
-<br />		

@@ -49,8 +49,9 @@ ddajaxtabs.connect=function(pageurl, tabinstance){
 	}
 	else if (window.XMLHttpRequest) // if Mozilla, Safari etc
 		page_request = new XMLHttpRequest()
-	else
+	else{
 		return false
+	}
 	var ajaxfriendlyurl=pageurl.replace(/^http:\/\/[^\/]+\//i, "http://"+window.location.hostname+"/") 
 	page_request.onreadystatechange=function(){ ddajaxtabs.loadpage(page_request, pageurl, tabinstance);}
 	if (ddajaxtabssettings.bustcachevar) //if bust caching of external page
@@ -153,6 +154,12 @@ ddajaxtabs.prototype={
 		}
 		else if(pageurl == "jsp/modeling/modeling-knn.jsp"){
 			document.getElementById("modelingType").value = "KNN";
+		}
+		else if(pageurl == "jsp/modeling/datasplit-traintest-sphere.jsp"){
+			document.getElementById("trainTestSplitType").value = "SPHEREEXCLUSION";
+		}
+		else if(pageurl == "jsp/modeling/datasplit-traintest-random.jsp"){
+			document.getElementById("trainTestSplitType").value = "RANDOM";
 		}
 	
 	},

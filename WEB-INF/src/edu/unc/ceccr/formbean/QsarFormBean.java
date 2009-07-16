@@ -23,14 +23,15 @@ public class QsarFormBean extends ValidatorForm {
 	// end modeling-external split parameters
 	
 	// being train-test split parameters
-	private String numSplits = "25";
 	private String trainTestSplitType = Constants.SPHEREEXCLUSION;
 
 		//if random split
+		private String numSplitsInternalRandom = "25";
 		private String randomSplitMinTestSize = "20";
 		private String randomSplitMaxTestSize = "30";
-	
+		
 		//if sphere exclusion
+		private String numSplitsInternalSphere = "25";
 		private String splitIncludesMin = "1";
 		private String splitIncludesMax = "1";
 		private String sphereSplitMinTestSize = "25";
@@ -287,13 +288,21 @@ public class QsarFormBean extends ValidatorForm {
 	public void setDiffR01R02(String diff_R01_R02) {
 		diffR01R02 = diff_R01_R02;
 	}
-	
-	public String getNumSplits() {
-		return numSplits;
+
+	public String getNumSplitsInternalRandom() {
+		return numSplitsInternalRandom;
 	}
 
-	public void setNumSplits(String numSplits) {
-		this.numSplits = numSplits;
+	public void setNumSplitsInternalRandom(String numSplitsInternalRandom) {
+		this.numSplitsInternalRandom = numSplitsInternalRandom;
+	}
+	
+	public String getNumSplitsInternalSphere() {
+		return numSplitsInternalSphere;
+	}
+
+	public void setNumSplitsInternalSphere(String numSplitsInternalSphere) {
+		this.numSplitsInternalSphere = numSplitsInternalSphere;
 	}
 
 	public String getNearest_Neighbors() {
