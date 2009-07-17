@@ -285,9 +285,9 @@ public class DatasetFileOperations {
 		Utility.writeToMSDebug("writeDartasetToDatabase::"+"userName::"+userName+ " name::" + name+" sdfFileName::"+sdfFileName +" actFileName::"+actFileName+
 			"modelType::"+modelType+"description::"+description);
 
-		int numCompound = -1;
+		int numCompound = act_compounds.size();
 		if(modelType.equals(Constants.PREDICTION)){
-			numCompound = new Integer(numCompoundsFromSDFiles(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + name, sdfFileName)).intValue();
+			numCompound = sdf_compounds.size();//new Integer(numCompoundsFromSDFiles(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + name, sdfFileName)).intValue();
 		}
 		DataSet dataSet = new DataSet();
 
