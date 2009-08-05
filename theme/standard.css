@@ -98,6 +98,13 @@ body {
 	margin-left: 20px;
 }
 
+.StandardTextDarkGrayParagraphNoIndent {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	color: #4D5F75;
+	margin-left: 0px;
+}
+
 .StandardTextDarkGrayParagraph2 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 15px;

@@ -521,7 +521,7 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List populateTaskNames(String userName, boolean justRunning) {
+	public static List<String> populateTaskNames(String userName, boolean justRunning) {
 		
 		List<String> taskNames = new ArrayList<String>();
 		List<QueueTask> tasks = null;

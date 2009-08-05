@@ -88,3 +88,81 @@ function validateLoad()
         }
     }
 }
+
+function showUpload(){
+
+	if(document.getElementById("modeling_select").checked){
+			disableModelling(false);
+			disablePrediction(true);
+	}
+	else{
+			disableModelling(true);
+			disablePrediction(false);
+	}
+}
+
+function disableModelling(val){
+	document.getElementById("con").disabled = val;
+	document.getElementById("cat").disabled = val;
+	document.getElementById("loadAct").disabled=val;
+	document.getElementById("loadSdfModeling").disabled=val;
+}
+
+function disablePrediction(val){
+	document.getElementById("loadSdfPrediction").disabled=val;
+}
+
+
+function cutString(obj){
+	var str = document.getElementById(obj).title;
+	if(str.length>56)
+		document.getElementById(obj).innerHTML = str.substring(0,56)+"...";
+	else 
+		document.getElementById(obj).innerHTML = str;
+}
+
+function extendColumn(obj){
+	if(obj.title.length>56 && obj.innerHTML.length<=60){
+		obj.innerHTML = obj.title;
+	}
+	else cutString(obj.id);
+}
+
+function checkSpaces(btn, value){
+	var rejectName = false;
+	for(i=0; i < value.length; i++){
+		if(value[i] == ' '){
+			rejectName=true;
+		}
+	}
+	if(rejectName){
+		window.alert("The job name must not contain a space.");
+    	return; 	
+	}
+	
+	if(submitFilesForm(btn,document.getElementById('textarea'))) showLoading("UPLOADING FILES. PLEASE WAIT...");
+}
+
+function deleteDataset(text_msg){
+	var resp = confirm(text_msg);
+	//return resp;
+	if(resp){
+		showLoading("DELETING. PLEASE WAIT...");
+		
+		
+	}
+	else return false;
+}
+function show_public_datasets()
+{
+  if(document.getElementById("public_datasets").style.display=='inline')
+{
+	  document.getElementById("public_datasets").style.display='none';
+	  document.getElementById("panel_link").innerHTML = "Show public datasets";
+}
+else{
+	document.getElementById("panel_link").innerHTML = "Hide public datasets";
+	document.getElementById("public_datasets").style.display='inline';
+	}
+
+}

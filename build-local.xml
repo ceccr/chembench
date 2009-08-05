@@ -27,6 +27,13 @@
 
 			</classpath>
 		</javac>
+		
+		<copy toDir="WEB-INF/classes">
+			<fileset dir="WEB-INF/">
+				<include name="struts.xml" /> <!-- needed for struts2 to work -->
+			</fileset>
+		</copy>
+		
 	</target>
 	
 	<target name="war" depends="compile">

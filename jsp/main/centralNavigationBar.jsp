@@ -13,7 +13,7 @@
   <td valign="top"><a href="home.do"><img src="/theme/ccbTheme/images/home.jpg" border="0" /></a></p></td>
   <td valign="top"><a href="myjobs.do"><img src="/theme/ccbTheme/images/jobs.jpg" border="0" /></a></td>
   <td valign="top"><a href="manageFile.do"><img src="/theme/ccbTheme/images/datamgmt.jpg" border="0" /></a></td>
-  <td valign="top"><a href="modelbuilders.do"><img src="/theme/ccbTheme/images/modeling.jpg" border="0" /></a></td>
+  <td valign="top"><a href="modeling"><img src="/theme/ccbTheme/images/modeling.jpg" border="0" /></a></td>
   <td valign="top"><a href="predictors.do"><img src="/theme/ccbTheme/images/prediction.jpg" border="0" /></a></td>
   <td valign="top"><a href="vpubchem.do"><img src="/theme/ccbTheme/images/ceccrbase.jpg" border="0" /></a></td>
   </tr>

@@ -15,7 +15,7 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 
 public class ModelingForward extends Action {
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form,	HttpServletRequest request, HttpServletResponse response)
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
 		ActionForward forward = new ActionForward(); 
@@ -46,7 +46,6 @@ public class ModelingForward extends Action {
 			session.setAttribute("predictorNames", PopulateDataObjects.populatePredictorNames(user.getUserName(), true));
 			session.setAttribute("predictionNames", PopulateDataObjects.populatePredictionNames(user.getUserName(), true));
 			session.setAttribute("taskNames", PopulateDataObjects.populateTaskNames(user.getUserName(), false));
-			
 			
 			forward = mapping.findForward("success");
 		}

@@ -1,5 +1,5 @@
 // Enable or disable parts of the form //
-var categoryParamIDs = new Array('selectedCategoryDataset', 'knnCat13', 'knnCat14', 'knnCatOpt01', 'knnCatOpt02', 'knnCatOpt03', 'knnCatOpt04', 'svmTypeCategory0', 'svmTypeCategory1');
+var categoryParamIDs = new Array('selectedCategoryDataset', 'knnCat13', 'knnCat14', 'knnCategoryOptimization1', 'knnCategoryOptimization2', 'knnCategoryOptimization3', 'knnCategoryOptimization4', 'svmTypeCategory0', 'svmTypeCategory1');
 var continuousParamIDs = new Array('selectedContinuousDataset', 'knnCon13', 'knnCon14', 'knnCon15', 'knnCon16', 'knnCon17', 'knnCon18', 'svmTypeContinuous0', 'svmTypeContinuous1');
 
 function setToContinuous(){
@@ -16,14 +16,6 @@ function setToContinuous(){
 	}
 }
 
-function getNewSeed(){
-	document.getElementById("externalRandomSeed").value = Math.floor(Math.random()*16000);
-}
-	
-function enableEdit(){
-	document.getElementById("Edit").disabled = false;
-}
-
 function setToCategory(){
 	var i;
 	for(i = 0; i < categoryParamIDs.length; i++){
@@ -36,6 +28,19 @@ function setToCategory(){
 			document.getElementById(continuousParamIDs[i]).disabled = true;
 		}
 	}
+}
+
+function setCategoryOrContinuous(){
+	//check which type of dataset we've got, then set continuous / category options accordingly
+	alert("oh hai");
+}
+
+function getNewSeed(){
+	document.getElementById("externalRandomSeed").value = Math.floor(Math.random()*16000);
+}
+	
+function enableEdit(){
+	document.getElementById("Edit").disabled = false;
 }
 
 // End Enable-Disable functions //

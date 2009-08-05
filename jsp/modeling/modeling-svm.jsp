@@ -1,18 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ taglib uri="/tags/struts-bean" prefix="bean"%>
-<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
-<%@ taglib uri="/tags/struts-html" prefix="html"%>
-<%@ taglib uri="/tags/struts-nested" prefix="nested"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
+<%@ page language="java" import="java.util.*" %>
+
 
 <script language="javascript" src="javascript/modeling.js"></script>
-
-<html:form action="/submitQsarWorkflow.do" enctype="multipart/form-data">
+<s:div>
 			 <!-- SVM Parameters -->
-			 <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
+			  <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>	
 				<tr>
 					<td width="100%" height="24" align="left" colspan="2">
+					<br />
 					<p class="StandardTextDarkGrayParagraph2">
 					<b>Set SVM Parameters</b>
 					</p>
@@ -21,45 +20,49 @@
 				<tr><td><table>
 				
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>SVM Type (for Category data):</b></div></td>
-				<td align="left" valign="top"><html:radio value="0" property="svmTypeCategory" styleId="svmTypeCategory0">C-SVC</html:radio> <html:radio value="1" property="svmTypeCategory" styleId="svmTypeCategory1">nu-SVC</html:radio></td></tr>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmTypeCategory" disabled="true" id="svmTypeCategory" list="#{'0':'C-SVC','1':'nu-SVC'}" theme="simple" /></div>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>SVM Type (for Continuous data):</b></div></td>
-				<td align="left" valign="top"><html:radio value="0" property="svmTypeContinuous" styleId="svmTypeContinuous0">epsilon-SVR</html:radio> <html:radio value="1" property="svmTypeContinuous" styleId="svmTypeContinuous1">nu-SVR</html:radio></td></tr>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmTypeContinuous" id="svmTypeContinuous" list="#{'0':'epsilon-SVR','1':'nu-SVR'}" theme="simple" /></div>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Kernel Type:</b></div></td>
-				<td>			
-				<html:radio value="0" property="svmKernel" styleId="svmKernelType0">linear: u'*v</html:radio>
-				</td></tr><tr><td>&nbsp;</td><td>
-				<html:radio value="1" property="svmKernel" styleId="svmKernelType1">polynomial: (gamma*u'*v + coef0)^degree</html:radio>
-				</td></tr><tr><td>&nbsp;</td><td>
-				<html:radio value="2" property="svmKernel" styleId="svmKernelType2">radial basis function: exp(-gamma*|u-v|^2)</html:radio>
-				</td></tr><tr><td>&nbsp;</td><td>
-				<html:radio value="3" property="svmKernel" styleId="svmKernelType3">sigmoid: tanh(gamma*u'*v + coef0)</html:radio>
-				</td></tr><tr><td>&nbsp;</td><td>
-				<html:radio value="4" property="svmKernel" styleId="svmKernelType4">precomputed kernel (kernel values in training_set_file)</html:radio>
-				</td> 
+				<td><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmKernel" list="#{'0':'linear','1':'polynomial','2':'radial basis function','3':'sigmoid'}" theme="simple" /></div>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Degree in kernel function:</b></div></td>
-				<td align="left" valign="top"><html:text property="svmDegree" size="5"/></td></tr>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmDegreeFrom" name="svmDegreeFrom" size="5" theme="simple"/> To: <s:textfield id="svmDegreeTo" name="svmDegreeTo" size="5" theme="simple"/> Step: <s:textfield id="svmDegreeStep" name="svmDegreeStep" size="5" theme="simple"/></div>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Gamma in kernel function:</b></div></td>
-				<td align="left" valign="top"><html:text property="svmGamma" size="5"/></td></tr>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmGammaFrom" name="svmGammaFrom" size="5" theme="simple"/> To: <s:textfield id="svmGammaTo" name="svmGammaTo" size="5" theme="simple"/> Step: <s:textfield id="svmGammaStep" name="svmGammaStep" size="5" theme="simple"/></div>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Cost (C) of C-SVC, epsilon-SVR, and nu-SVR:</b></div></td>
-				<td align="left" valign="top"><html:text property="svmCost" size="5"/></td></tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Nu of nu-SVC, one-class SVM, and nu-SVR:</b></div></td>
-				<td align="left" valign="top"><html:text property="svmNu" size="5" /></td></tr>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmCostFrom" name="svmCostFrom" size="5" theme="simple"/> To: <s:textfield id="svmCostTo" name="svmCostTo" size="5" theme="simple"/> Step: <s:textfield id="svmCostStep" name="svmCostStep" size="5" theme="simple"/></div>
+				</td></tr>
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Nu of nu-SVC and nu-SVR:</b></div></td>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmNuFrom" name="svmNuFrom" size="5" theme="simple"/> To: <s:textfield id="svmNuTo" name="svmNuTo" size="5" theme="simple"/> Step: <s:textfield id="svmNuStep" name="svmNuStep" size="5" theme="simple"/></div>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Epsilon in loss function of epsilon-SVR:</b></div></td>
-				<td align="left" valign="top"><html:text property="svmPEpsilon" size="5"/></td></tr>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmPEpsilonFrom" name="svmPEpsilonFrom" size="5" theme="simple"/> To: <s:textfield id="svmPEpsilonTo" name="svmPEpsilonTo" size="5" theme="simple"/> Step: <s:textfield id="svmPEpsilonStep" name="svmPEpsilonStep" size="5" theme="simple"/></div>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Tolerance of termination criterion:</b></div></td>
-				<td align="left" valign="top"><html:text property="svmEEpsilon" size="5"/></td></tr>
+				<td align="left" valign="top"><s:textfield id="svmEEpsilon" name="svmEEpsilon" size="5" theme="simple"/>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Use Shrinking Heuristics:</b></div></td>
-				<td align="left" valign="top"><html:radio value="1" property="svmHeuristics" styleId="svmHeuristics1">Yes</html:radio> <html:radio value="0" property="svmHeuristics" styleId="svmHeuristics0">No</html:radio></td></tr>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmHeuristics" list="#{'true':'Yes','false':'No'}" theme="simple" /></div>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Use Probability Estimates:</b></div></td>
-				<td align="left" valign="top"><html:radio value="1" property="svmProbability" styleId="svmProbability1">Yes</html:radio> <html:radio value="0" property="svmProbability" styleId="svmProbability0">No</html:radio></td></tr>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmProbability" list="#{'true':'Yes','false':'No'}" theme="simple" /></div>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Parameter C of class i to weight*C, for C-SVC:</b></div></td>
-				<td align="left" valign="top"><html:text property="svmWeight" size="5"/></td></tr>
+				<td align="left" valign="top"><s:textfield id="svmWeight" name="svmWeight" size="5" theme="simple"/>
+				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of cross-validations (e.g. 5 for 5-fold):</b></div></td>
-				<td align="left" valign="top"><html:text property="svmCrossValidation" size="5"/></td></tr>
+				<td align="left" valign="top"><s:textfield id="svmCrossValidation" name="svmCrossValidation" size="5" theme="simple"/>
+				</td></tr>
 				
 				</table></td></tr>
 				</tbody>
 			</table>
-</html:form>
 <!--LibSVM is "L2" type, where all descriptors are used, and a weighting scheme is applied. -->
 <!--"L1" type SVM modeling might be useful as well! That's where some descriptors are eliminated before modeling even begins. -->
+
+</s:div>

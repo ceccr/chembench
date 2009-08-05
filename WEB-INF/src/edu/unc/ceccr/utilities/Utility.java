@@ -37,8 +37,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
-//change password method (reset all passwords)
-//then send out results
+//The Utility class is for cross-cutting concerns (logging, authentication / user stuff).
 
 public class Utility {
 	private static Integer debug_counter = 0;
@@ -59,15 +58,6 @@ public class Utility {
 		//writeToDebug("Encoding password: " + str  + " to " + new String(encryptedStr));
 		return encryptedStr;
 	}
-	
-	/* the old hashing function... left here just in case the new one screws up somehow
-	    public static byte[] encrypt(String str) throws NoSuchAlgorithmException {
-		MessageDigest md = MessageDigest.getInstance("SHA-1");
-		md.update(str.getBytes());
-		byte[] encryptedStr = md.digest();
-		writeToDebug("Encoding password: " + str  + " to " + encryptedStr + "\n");
-		return encryptedStr;
-	}*/
 
 	public boolean compareEncryption(byte[] byte1, byte[] byte2) {
 		if (new BigInteger(1, byte1).toString(16).equalsIgnoreCase(
@@ -163,6 +153,39 @@ public class Utility {
 			// Create file
 			FileWriter fstream = new FileWriter(
 					Constants.CECCR_BASE_PATH+"/workflow-users/javadebug.log", true);
+			String s;
+			final Writer result = new StringWriter();
+			final PrintWriter printWriter = new PrintWriter(result);
+			ex.printStackTrace(printWriter);
+			s = result.toString();
+			BufferedWriter out = new BufferedWriter(fstream);
+			out.write(s +  " [" + getDate() + "]");
+			// Close the output stream
+			out.close();
+		} catch (Exception e) {// Catch exception if any
+		}
+	}
+	
+	public static void writeToStrutsDebug(String s){
+		//Debug output write function. Used in Struts code.
+		try {
+			// Append to current-job file. For ease of use, really.
+			FileWriter fstream = new FileWriter(
+					Constants.CECCR_BASE_PATH + "/workflow-users/strutsdebug.log", true);
+			BufferedWriter out = new BufferedWriter(fstream);
+
+			out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
+			out.close();
+		} catch (Exception e) {
+		}
+		debug_counter++;
+	}
+	
+	public static void writeToStrutsDebug(Exception ex) {
+		try {
+			// Create file
+			FileWriter fstream = new FileWriter(
+					Constants.CECCR_BASE_PATH+"/workflow-users/strutsdebug.log", true);
 			String s;
 			final Writer result = new StringWriter();
 			final PrintWriter printWriter = new PrintWriter(result);

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	
+    <constant name="struts.enable.DynamicMethodInvocation" value="false" />
+    <constant name="struts.devMode" value="false" />
+
+    <package name="default" namespace="/" extends="struts-default">
+        <default-action-ref name="index" />
+        
+         <action name="index">
+            <result>jsp/main/home.jsp</result>
+        </action>
+        
+        <!-- Modeling Page -->
+        <action name="modeling" class="edu.unc.ceccr.action.ModelingFormActions" method="loadPage">
+        	<result>jsp/modeling/modeling.jsp</result>
+        </action>
+        
+        <action name="createModelingJob" class="edu.unc.ceccr.action.ModelingFormActions" method="execute">
+        	<result>jsp/modeling/modeling.jsp</result>
+        </action>
+        
+        <action name="loadKnnSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadKnn">
+        	<result>jsp/modeling/modeling-knn.jsp</result>
+        </action>
+        
+        <action name="loadSvmSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadSvm">
+        	<result>jsp/modeling/modeling-svm.jsp</result>
+        </action>
+        
+        <action name="loadRandomInternalSplitSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadRandomSplit">
+        	<result>jsp/modeling/modeling-randomsplit.jsp</result>
+        </action>
+        
+        <action name="loadSphereInternalSplitSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadSphereSplit">
+        	<result>jsp/modeling/modeling-spheresplit.jsp</result>
+        </action>
+        <!-- End Modeling Page -->
+        
+        <!-- Dataset Page -->
+        <action name="dataset" class="edu.unc.ceccr.action.DatasetFormActions" method="loadPage">
+        	<result>jsp/dataSet/dataset.jsp</result>
+        </action>
+        
+        <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
+        	<result>jsp/dataSet/dataset.jsp</result>
+        </action>
+        
+        <action name="loadModAndPredSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModAndPred">
+        	<result>jsp/dataSet/dataset-modandpred.jsp</result>
+        </action>
+        
+        <action name="loadPredictionOnlySection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModOnly">
+        	<result>jsp/dataSet/dataset-modonly.jsp</result>
+        </action>
+        
+        <action name="loadModelingOnlySection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadPredOnly">
+        	<result>jsp/dataSet/dataset-predonly.jsp</result>
+        </action>
+        <!-- End Dataset Page -->
+        
+    </package>
+
+    <!-- Add packages here -->
+
+</struts>
