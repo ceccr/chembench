@@ -37,6 +37,12 @@
 
         </classpath>
       </javac>
+      
+      <copy toDir="WEB-INF/classes">
+			<fileset dir="WEB-INF/">
+				<include name="struts.xml" /> <!-- needed for struts2 to work -->
+			</fileset>
+		</copy>
     </target>
 
   <target name="writeDate">
@@ -52,15 +58,6 @@
     <xslt style="${ROOT}/xsl/jsfxml.xsl" destdir="${ROOT}/jsp" extension=".jsp" includes="${ROOT}/html/*">
       </xslt>
     </target>
-<!-- Xujin-->
-
-<!--
-    <target name="xslt">
-      <xslt style="ROOT/xsl/jsfxml.xsl" destdir="ROOT/jsp" extension=".jsp" includes="ROOT/html/*">
-        </xslt>
-      </target>
--->
-
 
 </project>
 

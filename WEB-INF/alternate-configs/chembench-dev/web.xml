@@ -5,8 +5,7 @@
   "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 
-<web-app>
-
+<web-app id="WebApp_9" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
 
  <servlet>
     <servlet-name>action</servlet-name>
@@ -31,11 +30,10 @@
      <servlet-name>ApplicationServlet</servlet-name>
      <servlet-class>edu.unc.ceccr.servlet.ApplicationServlet</servlet-class>
         </servlet>
-<servlet-mapping>
+	<servlet-mapping>
       <servlet-name>ApplicationServlet</servlet-name>
       <url-pattern>/apps/*</url-pattern>
      </servlet-mapping>
-     
      
   <servlet-mapping>
     <servlet-name>action</servlet-name>
@@ -70,12 +68,12 @@
      </servlet-mapping>
 
 <servlet>
-     <servlet-name>Sketch</servlet-name>
-     <servlet-class>edu.unc.ceccr.servlet.SketchServlet</servlet-class>
+     <servlet-name>Compound3D</servlet-name>
+     <servlet-class>edu.unc.ceccr.servlet.Compound3DServlet</servlet-class>
         </servlet>
 <servlet-mapping>
-      <servlet-name>Sketch</servlet-name>
-      <url-pattern>/sketch</url-pattern>
+      <servlet-name>Compound3D</servlet-name>
+      <url-pattern>/compound3D.do</url-pattern>
      </servlet-mapping>
 
   
@@ -85,7 +83,7 @@
   </servlet>
   <servlet-mapping>
   <servlet-name>ImageServlet</servlet-name>
-  <url-pattern>/imageServlet/*</url-pattern>
+  <url-pattern>/imageServlet.do</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -119,9 +117,18 @@
      <servlet-name>ActivityChart</servlet-name>
      <servlet-class>edu.unc.ceccr.servlet.ActivityChartServlet</servlet-class>
         </servlet>
-<servlet-mapping>
+	<servlet-mapping>
       <servlet-name>ActivityChart</servlet-name>
       <url-pattern>/activityChart/*</url-pattern>
+     </servlet-mapping>
+     
+          <servlet>
+  <servlet-name>DatasetFilesServlet</servlet-name>
+  <servlet-class>edu.unc.ceccr.servlet.DatasetFilesServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+      <servlet-name>DatasetFilesServlet</servlet-name>
+      <url-pattern>/datasetFilesServlet/*</url-pattern>
      </servlet-mapping>
      
 <!--Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha-->
@@ -271,11 +278,32 @@
     <taglib-location>/WEB-INF/tags/struts-tiles.tld</taglib-location>
   </taglib>
   
-  <!-- tongan-->
   <listener>
   <listener-class>
   edu.unc.ceccr.utilities.ActiveUser
   </listener-class>
   </listener>
+  
+<!--  http://shazazepam.mml.unc.edu:8080/imageServlet?user=theo&projectType=predictor&compoundId=3234614&project=gifa&datasetID=3 -->
+<!-- http://shazazepam.mml.unc.edu:8080/viewPrediction.do?id=12 -->
+<!-- begin added for struts2 -->
+
+    <display-name>Struts Blank</display-name>
+
+    <filter>
+        <filter-name>struts2</filter-name>
+        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>struts2</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <welcome-file-list>
+        <welcome-file>/jsp/main/home.jsp</welcome-file>
+    </welcome-file-list>
+
+<!-- end added for struts2 -->
 
 </web-app>
