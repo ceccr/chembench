@@ -15,11 +15,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+
 @Entity
 @Table(name = "cbench_prediction")
-public class PredictionJob implements java.io.Serializable{
+public class Prediction implements java.io.Serializable{
 	
-	private Long predictionJobId;
+	private Long predictionId;
 	
 	private String jobName;
 	
@@ -34,6 +36,8 @@ public class PredictionJob implements java.io.Serializable{
 	private String userName;
 	
 	private Date dateCreated;
+
+	private String datasetDisplay;
 	
 	private List<PredictionValue> predictedValues = new ArrayList<PredictionValue>(0);
 	
@@ -51,7 +55,12 @@ public class PredictionJob implements java.io.Serializable{
 
 	@Transient
 	public String getPredictorName() {
-		return predictorName;
+		try{
+			return PopulateDataObjects.getPredictorById(predictorId).getName();
+		}
+		catch(Exception ex){
+			return "";
+		}
 	}
 
 	public void setPredictorName(String predictorName) {
@@ -61,12 +70,12 @@ public class PredictionJob implements java.io.Serializable{
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name = "prediction_id")
-	public Long getPredictionJobId() {
-		return predictionJobId;
+	public Long getPredictionId() {
+		return predictionId;
 	}
 
-	public void setPredictionJobId(Long predictionJobId) {
-		this.predictionJobId = predictionJobId;
+	public void setPredictionId(Long predictionId) {
+		this.predictionId = predictionId;
 	}
 	
 	@Column(name = "prediction_database")
@@ -141,5 +150,21 @@ public class PredictionJob implements java.io.Serializable{
 	
 	public void setDatasetId(Long datasetId) {
 		this.datasetId = datasetId;
+	}
+	
+
+	@Transient
+	public String getDatasetDisplay() {
+		try{
+			return PopulateDataObjects.getDataSetById(this.datasetId).getFileName();
+		}
+		catch(Exception ex){
+			//Utility.writeToDebug(ex);
+			return "";
+		}
+	}
+
+	public void setDatasetDisplay(String datasetDisplay) {
+		this.datasetDisplay = datasetDisplay;
 	}
 }

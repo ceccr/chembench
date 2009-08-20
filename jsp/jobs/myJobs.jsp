@@ -33,7 +33,6 @@
 <body>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
-
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr>
 		<td height="557" colspan="5" valign="top"
@@ -42,64 +41,81 @@
 		Use following refresh button to check the status of your job. <br>Please do not use your web browser's refresh button.<br>
 		<table width="100%" border="0" cellspacing="0" cellpadding="20">
   <tr>
-    <td><form action="viewTaskList.do">
-			<button type="submit">REFRESH STATUS</button>
-		</form></td>
+    <td></td>
   </tr>
 </table>
-<b><p class="StandardTextDarkGrayParagraph">Finished Jobs </p></b><br>
-<table width="100%" border="0" cellspacing="0" cellpadding="18">
-  <tr>
-    <td>		
-		
-		<table >
-			<tr>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Submitted</td>
-				<td class="TableRowText01">Status</td>
-				<td class="TableRowText01">Started</td>
-				<td class="TableRowText01">Finished</td>
-			</tr>
-			
-			<logic:iterate id="task" name="myTasks"
-				type="edu.unc.ceccr.persistence.Queue.QueueTask">
-				<tr>
-					<!-- If the task is finished, provide a link to its output -->
-					<td class="TableRowText02">
-					<logic:equal name="task" property="state" value="finished">
-						<html:link action="/viewmb" paramName="task" paramProperty="id" paramId="id">
-						<bean:write name="task" property="jobName" />
-						</html:link>
-						<br />
-					</logic:equal>
-					 <logic:notEqual name="task" property="state" value="finished">
-						<bean:write name="task" property="jobName" />
-						</logic:notEqual>
-					</td>
-					<td class="TableRowText02"><bean:write name="task" property="submit" /></td>
-					<td class="TableRowText02"><bean:write name="task" property="state" />
-					 <logic:notEqual name="task" property="state" value="finished">
-					 		: <bean:write name="task" property="message" />
-					 		<br />
-							<html:link action="/cancelJob" paramName="task" paramProperty="id" paramId="id">
-							Cancel Job
-							</html:link>
-							</logic:notEqual>
-							</td>
-					<td class="TableRowText02"><%=task.getStart() != null ? task.getStart()
-							: (char) 0%>
-							</td>
-							<!--<td></td>  Space for progress indicator. -->
-					<td class="TableRowText02"><%=task.getFinish() != null ? task.getFinish()
-							: (char) 0%></td>
-				</tr>
-			
-			</logic:iterate>
-		</table><br>
 
-			
-			
-<b><p class="StandardTextDarkGrayNoIndent">Jobs in Queue </p></b><br>
+	<!-- Finished Dataset Jobs -->
+	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>			
+		<tr>
+			<td height="24" align="left" colspan="2">
+			<p class="StandardTextDarkGrayParagraph2">
+			<br /><b>Finished Dataset Jobs</b>
+			</p></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of a finished dataset job to view the dataset it created.</i><br /></div></td>
+		 </tr>	
+	</tbody>
+	</table>
+	<br />
+
+	<!-- Finished Modeling Jobs -->
+	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>			
+		<tr>
+			<td height="24" align="left" colspan="2">
+			<p class="StandardTextDarkGrayParagraph2">
+			<br /><b>Finished Modeling Jobs</b>
+			</p></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of a finished modeling job to view the predictor it created.</i><br /></div></td>
+		 </tr>	
+	</tbody>
+	</table>
+	<br />
+	
+	<!-- Finished Prediction Jobs -->
+	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>			
+		<tr>
+			<td height="24" align="left" colspan="2">
+			<p class="StandardTextDarkGrayParagraph2">
+			<br /><b>Finished Prediction Jobs</b>
+			</p></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of a finished prediction job to view the prediction it created.</i><br /></div></td>
+		 </tr>	
+	</tbody>
+	</table>
+	<br />
+	
+	
+	<!-- Running Jobs -->
+	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>			
+		<tr>
+			<td height="24" align="left" colspan="2">
+			<p class="StandardTextDarkGrayParagraph2">
+			<br /><b>Job Queue</b>
+			</p></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<div class="StandardTextDarkGrayParagraph"><i>Running jobs are displayed below. Use the REFRESH STATUS button to update the list.</i><br /></div></td>
+		 </tr>	
+		 <tr><td></td><td>
+		 <form action="viewTaskList.do">
+			<button type="submit">REFRESH STATUS</button>
+		</form>
+		</td></tr>
+		<tr><td colspan="2">
 		<table>
 			<tr>
 				<td class="TableRowText01">Name</td>
@@ -126,8 +142,6 @@
 					</logic:notEqual>
 					
 					</td>
-					
-
 					<td class="TableRowText02">
 					<%
 					String username_output;
@@ -177,8 +191,63 @@
 				</tr>
 			</logic:iterate>
 		</table>
-</td>
-  </tr>
+		</td>
+	</tbody>
+	</table>
+	<br />
+
+<b><p class="StandardTextDarkGrayParagraph">Finished Jobs (this section will be removed)</p></b><br>
+<table width="100%" border="0" cellspacing="0" cellpadding="18">
+  <tr>
+    <td>		
+		
+		<table >
+			<tr>
+				<td class="TableRowText01">Name</td>
+				<td class="TableRowText01">Submitted</td>
+				<td class="TableRowText01">Status</td>
+				<td class="TableRowText01">Started</td>
+				<td class="TableRowText01">Finished</td>
+			</tr>
+			
+			<logic:iterate id="task" name="myTasks"
+				type="edu.unc.ceccr.persistence.Queue.QueueTask">
+				<tr>
+					<!-- If the task is finished, provide a link to its output -->
+					<td class="TableRowText02">
+					<logic:equal name="task" property="state" value="finished">
+						<html:link action="/viewmb" paramName="task" paramProperty="id" paramId="id">
+						<bean:write name="task" property="jobName" />
+						</html:link>
+						<br />
+					</logic:equal>
+					 <logic:notEqual name="task" property="state" value="finished">
+						<bean:write name="task" property="jobName" />
+						</logic:notEqual>
+					</td>
+					<td class="TableRowText02"><bean:write name="task" property="submit" /></td>
+					<td class="TableRowText02"><bean:write name="task" property="state" />
+					 <logic:notEqual name="task" property="state" value="finished">
+					 		: <bean:write name="task" property="message" />
+					 		<br />
+							<html:link action="/cancelJob" paramName="task" paramProperty="id" paramId="id">
+							Cancel Job
+							</html:link>
+							</logic:notEqual>
+							</td>
+					<td class="TableRowText02"><%=task.getStart() != null ? task.getStart()
+							: (char) 0%>
+							</td>
+							<!--<td></td>  Space for progress indicator. -->
+					<td class="TableRowText02"><%=task.getFinish() != null ? task.getFinish()
+							: (char) 0%></td>
+				</tr>
+			
+			</logic:iterate>
+		</table><br>
+
+
+	</td></tr>
 </table>
 		</td>
 	</tr>

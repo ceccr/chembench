@@ -66,13 +66,13 @@ protected void processRequest(HttpServletRequest request,
     XYSeriesCollection ds= new XYSeriesCollection();
 
     HashMap<Integer, String> map=new HashMap<Integer,String>();
-    Iterator  it=extValidation.iterator();
+    Iterator it=extValidation.iterator();
     
     List<String> tooltipList=new ArrayList<String>();
     List<XYSeries> subList=new  ArrayList<XYSeries>();
     
-     while(it.hasNext())
-   {
+	while(it.hasNext())
+	{
 	     extv=(ExternalValidation )it.next();
 		 series0.add(extv.getActualValue() ,extv.getPredictedValue());
          map.put(index, extv.getCompoundId());
@@ -149,8 +149,8 @@ protected void processRequest(HttpServletRequest request,
    final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());//
      
         
-   JFreeChart chart =    ChartFactory.createXYLineChart("Observed  VS Predicted "+predictor.getActivityType(),    
-		   "Observed  "+predictor.getActivityType(), "Predicted  "+predictor.getActivityType(), ds, PlotOrientation.VERTICAL, false,true,true);
+   JFreeChart chart =    ChartFactory.createXYLineChart("Observed VS Predicted",    
+		   "Observed", "Predicted", ds, PlotOrientation.VERTICAL, false,true,true);
    
    chart.setBackgroundPaint(new Color(0xFF, 0xFF, 0xCC));
    TextTitle tt = new TextTitle(   " http://chembench.mml.unc.edu",  new Font("Dialog", Font.PLAIN, 11));
@@ -158,7 +158,6 @@ protected void processRequest(HttpServletRequest request,
    tt.setHorizontalAlignment(HorizontalAlignment.RIGHT);
    tt.setMargin(0.0, 0.0, 4.0, 4.0);
    chart.addSubtitle(tt);
-   
    
    final XYPlot plot = chart.getXYPlot();
    

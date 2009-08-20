@@ -24,9 +24,9 @@ public interface ModelInterface {
 
 	public abstract void setPredictor(Predictor predictor);
 
-	public abstract Float getNnn();
+	public abstract Integer getNnn();
 
-	public abstract void setNnn(Float nnn);
+	public abstract void setNnn(Integer nnn);
 
 	@Column(name = "q_squared")
 	public abstract Float getQSquared();
@@ -38,9 +38,9 @@ public interface ModelInterface {
 
 	public abstract void setRSquared(Float RSquared);
 
-	public abstract Float getN();
+	public abstract Integer getN();
 
-	public abstract void setN(Float n);
+	public abstract void setN(Integer n);
 
 	public abstract Float getB01();
 

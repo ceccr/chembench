@@ -54,7 +54,7 @@ public class DeleteUserAction extends Action {
 	protected void deleteUser(String userName)throws ClassNotFoundException,SQLException
 	{
 		Utility.writeToDebug("Deleting user: " + userName);
-		List predictionJobs = getUserDatabase(userName, PredictionJob.class);
+		List predictionJobs = getUserDatabase(userName, Prediction.class);
 		List predictors = getUserDatabase(userName,Predictor.class);
 		List datasets = getUserDatabase(userName,DataSet.class);
 		List tasks = getUserDatabase(userName,QueueTask.class);;

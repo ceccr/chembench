@@ -126,7 +126,7 @@ public class CancelJob extends Action {
 			session.close();
 		}
 		Utility.writeToDebug("Task returned from database: " + task.getJobName()
-				+ " " + task.getComponent());
+				+ " " + task.getJobType());
 		return task;
 	}
 

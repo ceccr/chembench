@@ -10,7 +10,7 @@ import edu.unc.ceccr.distance.TanimotoDistanceMeasure;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
-import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
+import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 
 import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.utilities.Utility;
@@ -19,8 +19,6 @@ import edu.unc.ceccr.workflows.CSV_X_Workflow;
 /**
  * Class which should call all methods for generation of the additional files 
  * for dataset visualization.
- * @author msypa
- * @date 12/05/08
  */
 public class GenerateDatasetInfoActionTask implements WorkflowTask {
 	private String userName = null;
@@ -32,7 +30,6 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 	private String[] representations = null;
 	private String jobName = null;
 	private Queue queue = Queue.getInstance();
-	
 	
 	public GenerateDatasetInfoActionTask(String datasetName,
 			String[] representations, String[] similarityMeasure,
@@ -48,14 +45,12 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 		this.act_name = actName;
 	}
 
-
 	public void cleanUp() throws Exception {
 		queue.deleteTask(this);
 		
 	}
 
 	public void execute() throws Exception {
-		
 		
 		String file = userName + "/DATASETS/" +datasetName+"/";
 		String filePath = Constants.CECCR_USER_BASE_PATH + file;
@@ -177,14 +172,14 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 		List<QueueTask> tasks = queue.getUserTasks(userName);
 		for(Iterator<QueueTask> i=tasks.iterator();i.hasNext();){
 			QueueTask temp = i.next();
-			if(	temp.getComponent().equals(Component.visualisation) && temp.getJobName().equals(jobName)){
+			if(	temp.getJobType().equals(jobTypes.dataset) && temp.getJobName().equals(jobName)){
 				queue.deleteTask(temp);
 			}
 		}
 		List<QueueTask> qued_tasks = queue.getQueuedTasks();
 		for(Iterator<QueueTask> i=qued_tasks.iterator();i.hasNext();){
 			QueueTask temp = i.next();
-			if(temp.getUserName().equals(userName) && temp.getComponent().equals(Component.visualisation) && temp.getJobName().equals(jobName)){
+			if(temp.getUserName().equals(userName) && temp.getJobType().equals(jobTypes.dataset) && temp.getJobName().equals(jobName)){
 				throw new Exception("Duplicated entry in the queue!");
 			}
 		}

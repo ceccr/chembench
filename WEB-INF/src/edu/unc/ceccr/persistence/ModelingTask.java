@@ -17,15 +17,15 @@ import edu.unc.ceccr.utilities.Utility;
 @SuppressWarnings("serial")
 @Entity()
 @Table(name = "cbench_modelling_task")
-public class ModellingTask implements java.io.Serializable{
+public class ModelingTask implements java.io.Serializable{
 
 	private Long id = null;
 	
 	private Long datasetId;
 	
-	public ModellingTask(){}
+	public ModelingTask(){}
 	
-	public ModellingTask(Long id, Long datasetId) {
+	public ModelingTask(Long id, Long datasetId) {
 		this.datasetId = datasetId;
 		this.id = id;
 	}
@@ -60,7 +60,7 @@ public class ModellingTask implements java.io.Serializable{
 	public void setDatasetId(Long datasetId) {
 		this.datasetId = datasetId;
 	}
-	public void save(ModellingTask t) throws HibernateException, ClassNotFoundException, SQLException {
+	public void save(ModelingTask t) throws HibernateException, ClassNotFoundException, SQLException {
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {

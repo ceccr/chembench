@@ -12,9 +12,11 @@ import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.ModellingTask;
-import edu.unc.ceccr.persistence.PredictionJob;
+import edu.unc.ceccr.persistence.Model;
+import edu.unc.ceccr.persistence.ModelingTask;
+import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionTask;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.DataSet;
@@ -224,8 +226,8 @@ public class PopulateDataObjects {
 		
 		//returns a list of strings. Used in form validation, to make sure a user doesn't reuse an existing name.
 		
-		List<PredictionJob> userPredictions = null;
-		List<PredictionJob> allUserPredictions = null;
+		List<Prediction> userPredictions = null;
+		List<Prediction> allUserPredictions = null;
 		
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
@@ -233,14 +235,14 @@ public class PopulateDataObjects {
 		{
 			tx = session.beginTransaction();
 			if(isAllUserIncludes){
-				allUserPredictions = session.createCriteria(PredictionJob.class)
+				allUserPredictions = session.createCriteria(Prediction.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.addOrder(Order.asc("jobName")).list();
-				userPredictions = session.createCriteria(PredictionJob.class)
+				userPredictions = session.createCriteria(Prediction.class)
 							.add(Expression.eq("userName", userName))
 							.addOrder(Order.asc("jobName")).list();
 			}
-			else userPredictions = session.createCriteria(PredictionJob.class)
+			else userPredictions = session.createCriteria(Prediction.class)
 							.add(Expression.eq("userName", userName))
 							.addOrder(Order.asc("jobName")).list();
 			tx.commit();
@@ -256,7 +258,7 @@ public class PopulateDataObjects {
 				Iterator i = userPredictions.iterator();
 		        while(i.hasNext())
 		        {
-		        	PredictionJob pi = (PredictionJob) i.next();
+		        	Prediction pi = (Prediction) i.next();
 		        	predictionNames.add(pi.getJobName());	        
 		        }
 			}
@@ -264,7 +266,7 @@ public class PopulateDataObjects {
 	        if(allUserPredictions != null){
 		    	Iterator j = allUserPredictions.iterator();
 		    	while(j.hasNext()){
-		    		PredictionJob pj = (PredictionJob) j.next();
+		    		Prediction pj = (Prediction) j.next();
 		    		predictionNames.add(pj.getJobName());	
 		    	}
 	        }
@@ -350,7 +352,7 @@ public class PopulateDataObjects {
 	@SuppressWarnings("unchecked")
 	public static List populatePredictions(String userName, boolean onlySaved) {
 		
-		List<PredictionJob> predictions = null;
+		List<Prediction> predictions = null;
 		try 
 		{
 			//Utility.writeToDebug("Populating a list of the saved prediction results.", userName, "null");
@@ -359,10 +361,10 @@ public class PopulateDataObjects {
 			try 
 			{
 				tx = session.beginTransaction();
-				if(onlySaved) predictions = session.createCriteria(PredictionJob.class)
+				if(onlySaved) predictions = session.createCriteria(Prediction.class)
 							.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
 							.add(Expression.eq("status","saved")).list();
-				else predictions = session.createCriteria(PredictionJob.class)
+				else predictions = session.createCriteria(Prediction.class)
 				.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
 				.list();
 				tx.commit();
@@ -376,7 +378,7 @@ public class PopulateDataObjects {
 			}
 
 			
-			for (PredictionJob p : predictions) {
+			for (Prediction p : predictions) {
 				p.setPredictorName(getPredictor(p.getPredictorId()));
 
 				p.setDatabase(Utility.wrapFileName(p.getDatabase()));
@@ -389,29 +391,6 @@ public class PopulateDataObjects {
 	}
 
 	
-	
-	
-	protected static String getPredictor(Long predictorIdUsed) throws ClassNotFoundException, SQLException {
-
-		Predictor predictor = null;
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			predictor = (Predictor) session.createCriteria(Predictor.class)
-					.add(Expression.eq("predictorId", predictorIdUsed))
-					.uniqueResult();
-
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			session.close();
-		}
-		return predictor.getName();
-	}
 	
 	public static String getSdfFileForDataset(String datasetName, String userName) throws ClassNotFoundException, SQLException {
 		DataSet dataset = null;
@@ -478,6 +457,29 @@ public class PopulateDataObjects {
 		return dataset;
 	}
 
+
+	protected static String getPredictor(Long predictorIdUsed) throws ClassNotFoundException, SQLException {
+
+		Predictor predictor = null;
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			predictor = (Predictor) session.createCriteria(Predictor.class)
+					.add(Expression.eq("predictorId", predictorIdUsed))
+					.uniqueResult();
+
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		return predictor.getName();
+	}
+	
 	public static Predictor getPredictorById(Long predictorId) throws ClassNotFoundException, SQLException {
 		Predictor predictor = null;
 		Session session = HibernateUtil.getSession();
@@ -496,6 +498,26 @@ public class PopulateDataObjects {
 			session.close();
 		}
 		return predictor;
+	}
+	
+	public static List<Model> getModelsByPredictorId(Long predictorId)  throws ClassNotFoundException, SQLException {
+		List<Model> models = null;
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			
+			models = session.createCriteria(Model.class)
+					.add(Expression.eq("predictor", getPredictorById(predictorId))).list();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		return models;
 	}
 	
 	public static Predictor getPredictorByName(String selectedPredictorName, String user)	throws ClassNotFoundException, SQLException {
@@ -518,6 +540,29 @@ public class PopulateDataObjects {
 		}
 
 		return predictor;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static List getExternalValidationValues(Predictor pred)throws ClassNotFoundException, SQLException 
+	{
+
+		List<ExternalValidation> externalValValues = null;
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			externalValValues = session.createCriteria(ExternalValidation.class).add(Expression.eq("predictor", pred)).addOrder(Order.asc("predictedValue")).list();
+
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+
+		return externalValValues;
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -654,12 +699,12 @@ public class PopulateDataObjects {
 
 	@SuppressWarnings("unchecked")
 	public static List<Long> getModelingTasksIdByDatasetId(Long id) throws HibernateException, ClassNotFoundException, SQLException {
-		List<ModellingTask> mTasks = null;
+		List<ModelingTask> mTasks = null;
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			mTasks = session.createCriteria(ModellingTask.class)
+			mTasks = session.createCriteria(ModelingTask.class)
 					.add(Expression.eq("datasetId", id))
 					.list();
 			tx.commit();
@@ -672,7 +717,7 @@ public class PopulateDataObjects {
 		}
 		if(mTasks!=null){
 			List<Long> ids = new ArrayList<Long>();
-			for(Iterator<ModellingTask> i = mTasks.iterator();i.hasNext();){
+			for(Iterator<ModelingTask> i = mTasks.iterator();i.hasNext();){
 				ids.add(i.next().getId());
 			}
 			return ids;
@@ -701,13 +746,13 @@ public class PopulateDataObjects {
 		else return null;
 	}
 
-	public static ModellingTask getModelingTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException {
-		ModellingTask mTask = null;
+	public static ModelingTask getModelingTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException {
+		ModelingTask mTask = null;
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			mTask = (ModellingTask) session.createCriteria(ModellingTask.class)
+			mTask = (ModelingTask) session.createCriteria(ModelingTask.class)
 					.add(Expression.eq("id", id))
 					.uniqueResult();
 			tx.commit();

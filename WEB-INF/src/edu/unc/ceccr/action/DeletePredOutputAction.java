@@ -16,7 +16,7 @@ import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.PredictionJob;
+import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -41,7 +41,7 @@ public class DeletePredOutputAction extends Action {
 		} else {
 
 			User user = (User) session.getAttribute("user");
-			PredictionJob predictionJob = (PredictionJob) session
+			Prediction predictionJob = (Prediction) session
 					.getAttribute("predictionJob");
 
 			try {
@@ -77,7 +77,7 @@ public class DeletePredOutputAction extends Action {
 
 	}
 
-	protected static void deletePrediction(PredictionJob predictionJob)
+	protected static void deletePrediction(Prediction predictionJob)
 			throws ClassNotFoundException, SQLException {
 
 		Session session = HibernateUtil.getSession();

@@ -17,12 +17,12 @@ import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.formbean.ViewOutputFormBean;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.PredictionJob;
+import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.utilities.Utility;
 
-public class ViewPredOutputActionForward extends Action {
+public class ViewPrediction extends Action {
 
 	ActionMapping mapping;
 
@@ -70,13 +70,14 @@ public class ViewPredOutputActionForward extends Action {
 				{
 					pageNumber=Integer.parseInt(pageNum);
 				}
-				PredictionJob predictionJob=null;
+				Prediction predictionJob=null;
 				List<PredictionValue> predictionValues=null;
 				Long predictionId;
 				if(sortBy==null&&pageNum==null)
 				{
-					ViewOutputFormBean formBean = (ViewOutputFormBean) form;
-					predictionId = formBean.getPredictionJobId();
+					//ViewOutputFormBean formBean = (ViewOutputFormBean) form;
+					predictionId = Long.parseLong(request.getParameter("id"));
+					Utility.writeToDebug("Prediction ID: " + predictionId);
 					predictionJob = getPrediction(predictionId);
 					//Sort by number of models by default
 					predictionValues=getPredictionValues("numModel",direction,predictionId,pageNumber,PAGESIZE);
@@ -85,7 +86,9 @@ public class ViewPredOutputActionForward extends Action {
 					numberOfPage=getNumberOfPage(total,PAGESIZE);
 					start=1;
 					if(total<=PAGESIZE)
-						{end=total;}else{end=PAGESIZE;}
+						{end=total;}
+					else
+						{end=PAGESIZE;}
 				}
 				else
 				{
@@ -210,18 +213,18 @@ public class ViewPredOutputActionForward extends Action {
 @SuppressWarnings("unchecked")
 protected int  getTotal(Long predictionId ) throws ClassNotFoundException, SQLException {
 
-	PredictionJob predictionJob = null;
+	Prediction prediction = null;
 	List<PredictionValue> predVal=null;
 	Session session = HibernateUtil.getSession();
 	Transaction tx = null;
 	try {
 		tx = session.beginTransaction();
 		
-		predictionJob = (PredictionJob) session
-				.createCriteria(PredictionJob.class).add(Expression.eq("predictionJobId",predictionId))
+		prediction = (Prediction) session
+				.createCriteria(Prediction.class).add(Expression.eq("predictionId",predictionId))
 						.uniqueResult();
 		
-		predVal= session.createFilter( predictionJob.getPredictedValues(), "" ).list();
+		predVal= session.createFilter( prediction.getPredictedValues(), "" ).list();
 		tx.commit();
 		
 	} catch (RuntimeException e) {
@@ -252,8 +255,8 @@ protected int  getTotal(Long predictionId ) throws ClassNotFoundException, SQLEx
 		try {
 			tx = session.beginTransaction();
 
-			PredictionJob predictionJob = (PredictionJob) session.createCriteria(
-					PredictionJob.class).add(Expression.eq("predictionJobId", selectedPredictionId))
+			Prediction prediction = (Prediction) session.createCriteria(
+					Prediction.class).add(Expression.eq("predictionId", selectedPredictionId))
 					.uniqueResult();
             String columnName = "";
 			if(sortBy.equalsIgnoreCase("compoundId"))
@@ -269,11 +272,11 @@ protected int  getTotal(Long predictionId ) throws ClassNotFoundException, SQLEx
 			else{columnName="NOTSET";}
 			if(columnName!="NOTSET")
 			{
-			predictionValues = session.createFilter( predictionJob.getPredictedValues(), "order by this." + columnName +" "+direction )
+			predictionValues = session.createFilter( prediction.getPredictedValues(), "order by this." + columnName +" "+direction )
 			                        .setFirstResult(pageNumber*pageSize).setMaxResults(pageSize).list();
 			}
 			else{
-				predictionValues = session.createFilter( predictionJob.getPredictedValues(), "").setFirstResult(pageNumber*pageSize).setMaxResults(pageSize).list();
+				predictionValues = session.createFilter( prediction.getPredictedValues(), "").setFirstResult(pageNumber*pageSize).setMaxResults(pageSize).list();
 			}
 			tx.commit();
 
@@ -290,21 +293,21 @@ protected int  getTotal(Long predictionId ) throws ClassNotFoundException, SQLEx
 	
 	
 
-	protected static PredictionJob getPrediction(Long selectedPredictionId)
+	protected static Prediction getPrediction(Long selectedPredictionId)
 			throws ClassNotFoundException, SQLException {
 
-		PredictionJob predictionJob = null;
+		Prediction prediction = null;
 				
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			
-			predictionJob = (PredictionJob) session
-					.createCriteria(PredictionJob.class).add(Expression.eq("predictionJobId",selectedPredictionId))
+			prediction = (Prediction) session
+					.createCriteria(Prediction.class).add(Expression.eq("predictionId",selectedPredictionId))
 							.uniqueResult();
 			
-			predictionJob.getPredictedValues().size();
+			prediction.getPredictedValues().size();
 			tx.commit();
 			
 		} catch (RuntimeException e) {
@@ -315,7 +318,7 @@ protected int  getTotal(Long predictionId ) throws ClassNotFoundException, SQLEx
 			session.close();
 		}
 
-		return predictionJob;
+		return prediction;
 	}
 	
 	

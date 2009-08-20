@@ -21,10 +21,10 @@ import org.hibernate.criterion.Expression;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.PredictionJob;
+import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
-import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
+import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -113,10 +113,10 @@ public class DeleteUserFile extends Action {
 		List<QueueTask> tasks = (List<QueueTask>) Queue.getInstance().getUserTasks(userName);
 				for(Iterator<QueueTask> i=tasks.iterator();i.hasNext();){
 			QueueTask temp = i.next();
-			if(temp.component.equals(Component.visualisation) && temp.getJobName().equals(fileName)){
+			if(temp.jobType.equals(jobTypes.dataset) && temp.getJobName().equals(fileName)){
 				Queue.getInstance().deleteTask(temp);
 			}
-			if(temp.component.equals(Component.sketches) && temp.getJobName().equals(fileName+"_sketches_generation")){
+			if(temp.jobType.equals(jobTypes.dataset) && temp.getJobName().equals(fileName+"_sketches_generation")){
 				Queue.getInstance().deleteTask(temp);
 			}
 		}
@@ -173,63 +173,6 @@ public class DeleteUserFile extends Action {
 		}
 		return null;
 	}
-	
-/*	@SuppressWarnings("unchecked")
-	private String checkModelling(String userName, String fileName) throws ClassNotFoundException, SQLException{
-		List<QueueTask> tasks  = PopulateDataObjects.populateTasks(userName, false);
-		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
-		if(tasks!=null && dataset!=null){
-			for(int i=0;i<tasks.size();i++ ){
-				Utility.writeToMSDebug("TASKSM::"+tasks.get(i).task);
-				if(tasks.get(i)!=null && 
-						tasks.get(i).task!=null && 
-						/*tasks.get(i).getUserName()==userName &&*/
-				/*		(tasks.get(i).task instanceof QsarModelingTask)){
-					QsarModelingTask job = 	(QsarModelingTask)tasks.get(i).task;
-					Utility.writeToMSDebug("MODELLING:::"+job.getJobName()+"---"+job.getDatasetID()+"----"+dataset.getFileId());
-					if(job.getDatasetID()!=null && job.getDatasetID().equals(dataset.getFileId())){
-						return job.getJobName();
-					}
-				}
-			}		
-		}
-		return null;
-	}*/
-	
-/*	@SuppressWarnings("unchecked")
-	private String checkPredictions(String userName, String fileName)throws ClassNotFoundException, SQLException{
-		//List<PredictionJob> tasks  = PopulateDataObjects.populatePredictions(userName, false);
-		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
-	/*	if(tasks!=null && dataset!=null){
-			for(int i=0;i<tasks.size();i++ ){
-				if(tasks.get(i)!=null){
-					Utility.writeToMSDebug("TASKSP::"+tasks.get(i).getDatasetId());
-					Utility.writeToMSDebug("PREDICTION:::"+tasks.get(i).getJobName()+"---"+tasks.get(i).getDatasetId()+"----"+dataset.getFileId());
-					if(tasks.get(i).getDatasetId()!=null && tasks.get(i).getDatasetId().equals(dataset.getFileId())){
-						return tasks.get(i).getJobName();
-					}
-				}
-			}		
-		}*/
-		// Checking queued tasks
-/*		Collection<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
-		if(queuedtasks!=null && dataset!=null){
-			for(Iterator iter = queuedtasks.iterator(); iter.hasNext();){
-				QueueTask temp = (QueueTask) iter.next();
-				if(temp!=null &&
-						temp.getComponent().equals(Queue.QueueTask.Component.predictor)&&
-						(temp.getState().equals(Queue.QueueTask.State.ready) ||
-								(temp.getState().equals(Queue.QueueTask.State.started)))){
-									Utility.writeToMSDebug("PREDICTION IN QUEUE::"+temp.getJobName());
-									//QsarPredictionTask job =  (QsarPredictionTask)temp.task;
-									Long id = PopulateDataObjects.populateDatasetForPredictionTaskById(temp.id);
-									Utility.writeToMSDebug("DATASET::"+id);
-									if(dataset.getFileId()== id) return temp.getJobName();
-						}
-				}
-		}
-		return null;
-	}*/
 	
 	private String checkTasks(String userName, String fileName) throws ClassNotFoundException, SQLException{
 		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);

@@ -20,7 +20,7 @@ import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.PredictionJob;
+import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -52,7 +52,7 @@ public class DeleteAction extends Action {
 				if (session.getAttribute("selectedPredictor") != null) 
 				 {
 						Predictor predictor = (Predictor) session.getAttribute("selectedPredictor");
-						List<PredictionJob> predList=null;
+						List<Prediction> predList=null;
 						predList=hasPrediction(predictor.getPredictorId());
 						int size=predList.size();
 					if(size>0)
@@ -64,7 +64,7 @@ public class DeleteAction extends Action {
 						Iterator it=predList.iterator();
 						while(it.hasNext())
 						{
-							iterms=iterms+"<br/><font color=lightblue>"+((PredictionJob)(it.next())).getJobName()+"</font><br/>";
+							iterms=iterms+"<br/><font color=lightblue>"+((Prediction)(it.next())).getJobName()+"</font><br/>";
 						}
 						String warning="If you do want delete this predictor, you may delete these predictions first."
 							+"<br/><br/><br/><a href='modelbuilders.do'><u>Back to Model Building</u></a>";
@@ -110,17 +110,17 @@ public class DeleteAction extends Action {
 	
  
 	@SuppressWarnings("unchecked")
-	protected List<PredictionJob> hasPrediction(Long id)throws ClassNotFoundException, SQLException	
+	protected List<Prediction> hasPrediction(Long id)throws ClassNotFoundException, SQLException	
 	{
 		Session session = HibernateUtil.getSession();
 		
-		List<PredictionJob> predictionJob=null;
+		List<Prediction> predictionJob=null;
 		
 		Transaction tx = null;
 		try 
 		{
 			tx = session.beginTransaction();
-			predictionJob=session.createCriteria(PredictionJob.class).add(Expression.eq("predictorId",id)).list();
+			predictionJob=session.createCriteria(Prediction.class).add(Expression.eq("predictorId",id)).list();
 			tx.commit();
 			} catch (RuntimeException e) 
 			{

@@ -6,41 +6,37 @@
 
 <script language="javascript" src="javascript/datasetscripts.js"></script>
 <s:div>
-	 <b class='StandardTextDarkGrayParagraph'>Upload dataset for modeling</b>
-	 <table cellpadding="3" cellspacing="3" frame="border" rules="none">
+	<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>	
+		<tr>
+			<td width="100%" height="24" align="left" colspan="2">
+			<br />
+			<p class="StandardTextDarkGrayParagraph2">
+			<b>Upload Dataset for Modeling and Prediction</b>
+			</p>
+			</td>
+		</tr>	
+		<tr><td colspan="2"><table>
 	  <tr>
-	    <td colspan="2"><b class='StandardTextDarkGrayParagraph'>Data type:</b></td>
-	  </tr>
+		<td colspan="2">
+		<div class="StandardTextDarkGrayParagraph"><i>A dataset will be created from the <a href="">SDF</a> and <a href="">ACT</a> files you supply.</i><br /></div>
+	    </td>
+	  </tr>			
 	  <tr>
-	    <td colspan="2"><input id="con" name="knnType" value="CONTINUOUS" checked="true"  type="radio" />
-	        <b class="StandardTextDarkGrayParagraph"> QSAR Continuous</b><br />
+	    <td width="35%"><b class='StandardTextDarkGrayParagraph'>Data type:</b></td>
+	    <td align="left"><input id="con" name="knnType" value="CONTINUOUS" checked="true" type="radio" />
+	        <div class="StandardTextDarkGrayParagraphNoIndent">Continuous</div>
 	        <input id="cat" name="knnType" value="CATEGORY" type="radio" />
-	        <b class="StandardTextDarkGrayParagraph"> QSAR Category</b></td>
+	        <div class="StandardTextDarkGrayParagraphNoIndent">Category</div></td>
 	  </tr>
 	  <tr>
-	    <td colspan="2"><b class='StandardTextDarkGrayParagraph'>Upload:</b></td>
+	    <td><b class="StandardTextDarkGrayParagraph">ACT File:</b></td>
+	    <td align="left"><input id="loadAct" name="actFile" type="file"/></td>
 	  </tr>
 	  <tr>
-	    <td><span tooltip="Upload an ACT file."><b class="StandardTextDarkGrayParagraph">ACT File:</b></span><br />
-	        <span tooltip="Upload an SD file."><b class="StandardTextDarkGrayParagraph">SDF File:</b></span></td>
-	    <td><input id="loadAct" name="actFile" type="file"/>
-	        <br />
-	        <input id="loadSdfModeling" name="sdFileModeling" onchange="setDatasetName(this)" type="file" /></td>
+	    <td><b class="StandardTextDarkGrayParagraph">SDF File:</b></td>
+	    <td align="left"><input id="loadSdfModeling" name="sdFileModeling" onchange="setDatasetName(this)" type="file" /></td>
 	  </tr>
-            
-	  <tr>
-	  <td><div class='StandardTextDarkGrayParagraph'><b>Dataset name:</b>&nbsp;
-        <input type="text" id="datasetname" name="datasetname" size="60"/>
-	  </div></td>
-      </tr>
-      <tr>
-        <td><b class='StandardTextDarkGrayParagraph'>Files description:</b><br />
-        <textarea class='StandardTextDarkGrayParagraph' name="dataSetDescription" id="dataSetDescription" style="height: 50px; width: 100%"></textarea></td>
-      </tr>
-      <tr>
-        <td colspan="3"><input class='StandardTextDarkGrayParagraph' name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('datasetname').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ checkSpaces(this,document.getElementById('datasetname').value); }" value="Create Dataset" type="button" />
-        </td>
-      </tr>
   	  </table>
-       
+    </td></tr></tbody></table>
 </s:div>

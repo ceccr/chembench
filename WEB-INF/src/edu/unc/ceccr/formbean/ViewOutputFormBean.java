@@ -10,7 +10,7 @@ public class ViewOutputFormBean extends ValidatorForm {
 
 	//String file;
 	
-	Long predictionJobId;
+	Long predictionId;
 
 	List<String> propList = new ArrayList<String>();
 
@@ -63,12 +63,12 @@ public class ViewOutputFormBean extends ValidatorForm {
 		this.valList = valList;
 	}
 
-	public Long getPredictionJobId() {
-		return predictionJobId;
+	public Long getPredictionId() {
+		return predictionId;
 	}
 
-	public void setPredictionJobId(Long predictionJobId) {
-		this.predictionJobId = predictionJobId;
+	public void setPredictionId(Long predictionId) {
+		this.predictionId = predictionId;
 	}
 
 }

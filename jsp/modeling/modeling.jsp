@@ -145,44 +145,6 @@
 			 </table>
 			 <br />
 
-	 	<!-- External Data Split Parameters -->
-			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
-				<tbody>	
-			 	<tr>
-					<td width="100%" height="24" align="left" colspan="2">
-					<p class="StandardTextDarkGrayParagraph2">
-					<br /><b>Set External Data Splitting Parameters</b>
-					</p>
-					</td>
-				</tr>	
-				<tr><td><table>
-				<tr>
-					<td colspan="2">
-					<div class='StandardTextDarkGrayParagraph'><i>The dataset will be divided into a modeling set and an external validation set.</i></div>
-					</td>
-				</tr>
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Number of Compounds in the External Set:</b></div>
-					</td>
-					<td align="left" valign="top"><s:textfield name="numCompoundsExternalSet" id="numCompoundsExternalSet" size="5" /></td>
-				</tr>
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Random Seed:</b></div>
-					</td>
-					<td align="left" valign="top"><s:textfield name="externalRandomSeed" id="externalRandomSeed" size="5" />  <input type="button" value="Get New Seed" onclick="getNewSeed()" /></td>
-				</tr>	
-				<tr>
-					<td colspan="2">
-					<div class="StandardTextDarkGrayParagraph"><i>Using the same random seed each time will cause the same compounds to be in the external set.<br /><br /></i></div>
-					</td>
-				</tr>	
-				
-				</table></td></tr>
-			    </tbody>
-			</table>
-			<br />
 	
 		<!-- Internal Data Split Parameters -->
  			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
@@ -197,12 +159,23 @@
 					</td>
 				</tr>
 				<tr><td>
+				
+				<!-- script sets hidden field so we know which tab was selected -->
+				<script type="text/javascript">
+				   dojo.event.topic.subscribe('/internalDataSplitTypeSelect', function(tab, tabContainer) {
+				      //alert("Tab "+ tab.widgetId + " was selected");
+				      document.getElementById("trainTestSplitType").value = tab.widgetId;
+				   });
+				</script>
+				<s:hidden id="trainTestSplitType" name="trainTestSplitType" />
+				<!-- end script -->
+				
 				<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
-				<sx:tabbedpanel id="internalDataSplitMethod">
-					<sx:div id="randomsplit" theme="ajax" label="Random Split" href="/loadRandomInternalSplitSection" loadingText="Loading kNN parameters...">
+				<sx:tabbedpanel id="internalDataSplitTabbedPanel" afterSelectTabNotifyTopics="/internalDataSplitTypeSelect">
+					<sx:div id="RANDOM" theme="ajax" label="Random Split" href="/loadRandomInternalSplitSection" loadingText="Loading kNN parameters...">
 					</sx:div>
 					
-					<sx:div id="spheresplit" theme="ajax" label="Sphere Exclusion" href="/loadSphereInternalSplitSection" loadingText="Loading kNN parameters...">
+					<sx:div id="SPHEREEXCLUSION" theme="ajax" label="Sphere Exclusion" href="/loadSphereInternalSplitSection" loadingText="Loading kNN parameters...">
 					</sx:div>
 			    </sx:tabbedpanel>
 				</td></tr></table>
@@ -210,6 +183,7 @@
 			</table>
 			<br />
  	
+
 		<!-- Modeling Method (kNN, SVM) --> 
 			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>	
@@ -224,12 +198,22 @@
 				</tr>
 				<tr><td>
 				
+				<!-- script sets hidden field so we know which tab was selected -->
+				<script type="text/javascript">
+				   dojo.event.topic.subscribe('/modelingTypeSelect', function(tab, tabContainer) {
+				      //alert("Tab "+ tab.widgetId + " was selected");
+				      document.getElementById("modelingType").value = tab.widgetId;
+				   });
+				</script>
+				<s:hidden id="modelingType" name="modelingType" />
+				<!-- end script -->
+				
 				<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
-				<sx:tabbedpanel id="modelingMethod" >
-					<sx:div id="knn" theme="ajax" label="k-Nearest Neighbors" href="/loadKnnSection" loadingText="Loading kNN parameters...">
+				<sx:tabbedpanel id="modelingTypeTabbedPanel" afterSelectTabNotifyTopics="/modelingTypeSelect" >
+					<sx:div id="KNN" value="KNN" theme="ajax" label="k-Nearest Neighbors" href="/loadKnnSection" loadingText="Loading kNN parameters...">
 					</sx:div>
 					
-					<sx:div id="svm" theme="ajax" label="Support Vector Machine" href="/loadSvmSection" loadingText="Loading SVM parameters...">
+					<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machine" href="/loadSvmSection" loadingText="Loading SVM parameters...">
 					</sx:div>
 			    </sx:tabbedpanel>
 			    
@@ -278,10 +262,5 @@
 <br />
 
 <%@include file ="/jsp/main/footer.jsp" %>
-
-<s:iterator value="userPredictorList">
-	<s:property value="name" /> 
-</s:iterator>
-
 </body>
 </html>

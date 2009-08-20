@@ -65,6 +65,9 @@ public class ModelingFormActions extends ActionSupport{
 			Utility.writeToStrutsDebug("Cannot load page.");
 		}
 		
+		//load default tab selections
+		modelingType = Constants.KNN;
+		
 		//go to the page
 		return result;
 	}
@@ -85,11 +88,24 @@ public class ModelingFormActions extends ActionSupport{
 		
 		Utility.writeToDebug(s);
 		
+		//get user
+		ActionContext context = ActionContext.getContext();
+		user = (User) context.getSession().get("user");
+		
+		//set up job
+		Queue tasklist;
+		QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
+		Utility.writeToDebug("Setting up task", user.getUserName(), this.getJobName());
+		modelingTask.setUp();
+		tasklist = Queue.getInstance();
+		tasklist.addJob(modelingTask, user.getUserName(), this.getJobName());
+		Utility.writeToDebug("Task added to queue", user.getUserName(), this.getJobName());
+
 		return SUCCESS;
 	}
 
 	public String ajaxLoadKnn() throws Exception {
-		//todo: set modeling type
+
 		knnCategoryOptimizations = new HashMap<String, String>();
 		knnCategoryOptimizations.put("1", "<img src=\"/theme/img/formula01.gif\" />");
 		knnCategoryOptimizations.put("2", "<img src=\"/theme/img/formula02.gif\" />");
@@ -99,17 +115,13 @@ public class ModelingFormActions extends ActionSupport{
 		return SUCCESS;
 	}
 	public String ajaxLoadSvm() throws Exception {
-		//todo: set modeling type
 		return SUCCESS;
 	}
 	
 	public String ajaxLoadRandomSplit() throws Exception {
-		//todo: set internal datasplit type
 		return SUCCESS;
 	}
 	public String ajaxLoadSphereSplit() throws Exception {
-		//todo: set internal datasplit type
-		//these hidden params must be on the modeling.jsp page to work!
 		return SUCCESS;
 	}
 	
@@ -127,7 +139,6 @@ public class ModelingFormActions extends ActionSupport{
 	private List<DataSet> userCategoryDatasets;
 	
 	private Map<String, String> knnCategoryOptimizations;
-	
 	
 	public Map<String, String> getKnnCategoryOptimizations(){
 		return knnCategoryOptimizations;
@@ -193,7 +204,6 @@ public class ModelingFormActions extends ActionSupport{
 		this.userCategoryDatasets = userCategoryDatasets;
 	}
 	
-	
 	//====== variables populated by the forms on the JSP =====//
 	
 	
@@ -202,12 +212,10 @@ public class ModelingFormActions extends ActionSupport{
 	private Long selectedDatasetId;
 	private String selectedDatasetName;
 
-	private String modelingType;
-
 	//begin descriptor parameters
 	private String descriptorGenerationType = Constants.MOLCONNZ;
 	private String scalingType = Constants.RANGESCALING;
-	private String stdDevCutoff = "0.2";
+	private String stdDevCutoff = "0.0";
 	private String corellationCutoff = "1.0";
 	//end descriptor parameters
 	
@@ -218,7 +226,7 @@ public class ModelingFormActions extends ActionSupport{
 	// end modeling-external split parameters
 	
 	// being train-test split parameters
-	private String trainTestSplitType = Constants.SPHEREEXCLUSION;
+	private String trainTestSplitType = Constants.RANDOM;
 
 		//if random split
 		private String numSplitsInternalRandom = "25";
@@ -234,6 +242,8 @@ public class ModelingFormActions extends ActionSupport{
 		
 	// end train-test split parameters
 	
+	private String modelingType;	
+		
 	//kNN Parameters
 	
 	private String datasetType = Constants.CONTINUOUS; //used in the 2 radio buttons

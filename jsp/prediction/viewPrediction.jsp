@@ -150,7 +150,7 @@ function order(item)
 						
 					<td align="center" valign="middle" bgcolor="#0B3C8C"
 						class="TableRowText02">
-						<a href="#" onclick="window.open('sketch?compoundId=<bean:write name='predictionOutput' property='compoundName' />&projectType=predictor&user=<bean:write name='user' property='userName' />&project=<bean:write name='predictionJob' property='jobName' />&datasetID=<bean:write name='predictionJob' property='datasetId' />', '<% new java.util.Date().getTime(); %>','width=350, height=350');">
+						<a href="#" onclick="window.open('compound3D?compoundId=<bean:write name='predictionOutput' property='compoundName' />&projectType=predictor&user=<bean:write name='user' property='userName' />&project=<bean:write name='predictionJob' property='jobName' />&datasetID=<bean:write name='predictionJob' property='datasetId' />', '<% new java.util.Date().getTime(); %>','width=350, height=350');">
 						<img src="/imageServlet?user=<bean:write name='user' property='userName' />&projectType=predictor&compoundId=<bean:write name='predictionOutput' property='compoundName' />&project=<bean:write name='predictionJob' property='jobName' />&datasetID=<bean:write name='predictionJob' property='datasetId' />" border="0"/></a></td>
 					</td>
 					

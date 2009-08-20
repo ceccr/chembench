@@ -21,6 +21,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.HibernateException;
 import org.hibernate.criterion.Expression;
@@ -32,7 +33,7 @@ import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.messages.ErrorMessages;
-import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
+import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.taskObjects.GenerateDatasetInfoActionTask;
@@ -46,8 +47,8 @@ public class Queue {
 	@Table(name = "cbench_task")
 	public static class QueueTask {
 		
-		public enum State {	ready, started, finished, error, PermissionRequired, deleted};
-		public enum Component {	modelbuilder, predictor, visualisation, sketches };
+		public enum State {	ready, started, finished, error, PermissionRequired, deleted };
+		public enum jobTypes { modeling, prediction, dataset };
 		private State state;
 		private String message;
 		private Date finish;
@@ -57,7 +58,7 @@ public class Queue {
 		private String userName;
 		public String jobName;
 		public Long id = null;
-		public Component component;
+		public jobTypes jobType;
 		private DataTypeEnumeration modelMethod;
 		private DescriptorEnumeration modelDescriptors;
 		private String ACTFile;
@@ -75,7 +76,7 @@ public class Queue {
 			{
 				QsarModelingTask t = (QsarModelingTask) task;
 				this.jobName = t.getJobName();
-				this.component = Component.modelbuilder;
+				this.jobType = jobTypes.modeling;
 				this.ACTFile = t.getActFileName();
 				this.SDFile = t.getSdFileName();
 				int temp = DatasetFileOperations.numCompounds(Constants.CECCR_USER_BASE_PATH+userName+"/"+t.getJobName()+"/"+t.getActFileName());
@@ -120,19 +121,19 @@ public class Queue {
 				QsarPredictionTask t = (QsarPredictionTask) task;
 				this.setState(State.ready);
 				this.jobName = t.getJobName();
-				this.component = Component.predictor;
+				this.jobType = jobTypes.prediction;
 			}
 			else if(task instanceof GenerateDatasetInfoActionTask){
 				GenerateDatasetInfoActionTask t = (GenerateDatasetInfoActionTask) task;	
 				this.setState(State.ready);
 				this.jobName = t.getJobName();
-				this.component = Component.visualisation;
+				this.jobType = jobTypes.dataset;
 		}
 			else if(task instanceof GenerateSketchesTask){
 				GenerateSketchesTask t = (GenerateSketchesTask) task;
 				this.setState(State.ready);
 				this.jobName = t.getJobName();
-				this.component = Component.sketches;
+				this.jobType = jobTypes.dataset;
 			}
 			
 			saveTask();
@@ -254,17 +255,21 @@ public class Queue {
 			}
 		}
 		
-		public QueueTask() {	super(); }
+		public QueueTask() { super(); }
 
-	
 		@Enumerated(EnumType.STRING)
 		@Column(name = "job_type")
-		public Component getComponent() {
-			return component;
+		public jobTypes getJobType() {
+			return jobType;
 		}
 
-		public void setComponent(Component component) {
-			this.component = component;
+		public void setJobType(jobTypes jobType) {
+			this.jobType = jobType;
+		}
+		
+		@Transient
+		public String getJobTypeString() {
+			return jobType.toString();
 		}
 
 		@Column(name = "ACTFileName")
@@ -318,8 +323,8 @@ public class Queue {
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
-	public  static ConcurrentLinkedQueue<QueueTask> queue = new ConcurrentLinkedQueue<QueueTask>();
-	public ConcurrentLinkedQueue<QueueTask> finished = new ConcurrentLinkedQueue<QueueTask>();
+	public static ConcurrentLinkedQueue<QueueTask> queue = new ConcurrentLinkedQueue<QueueTask>();
+	public static ConcurrentLinkedQueue<QueueTask> finished = new ConcurrentLinkedQueue<QueueTask>();
 	public static Queue instance = new Queue();
 	
 	public Collection<QueueTask> getTasks() { return queue; }
@@ -455,7 +460,7 @@ public class Queue {
 		resetFlagSet();
 	}
 
-	protected QueueTask.State loadState(QueueTask task)throws HibernateException,	ClassNotFoundException, SQLException 
+	protected QueueTask.State loadState(QueueTask task) throws HibernateException, ClassNotFoundException, SQLException 
 	{
 		QueueTask t=null;
 		Session s = HibernateUtil.getSession();
@@ -483,18 +488,18 @@ public class Queue {
 			tx = s.beginTransaction();
 			s.saveOrUpdate(t);
 			
-			if(t.getComponent().equals(QueueTask.Component.modelbuilder)){
-				Utility.writeToMSDebug("MODELBUILDER QUEUE");
-				ModellingTask mt = new ModellingTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
+			if(t.getJobType().equals(QueueTask.jobTypes.modeling)){
+				Utility.writeToMSDebug("MODELING QUEUE");
+				ModelingTask mt = new ModelingTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
 				s.saveOrUpdate(mt);
 			}
-			if(t.getComponent().equals(QueueTask.Component.predictor)){
-				Utility.writeToMSDebug("PREDICTOR QUEUE");
+			if(t.getJobType().equals(QueueTask.jobTypes.prediction)){
+				Utility.writeToMSDebug("PREDICTION QUEUE");
 				PredictionTask pt = new PredictionTask(t.id, ((QsarPredictionTask)t.task).getPredictionDataset().getFileId());
-				Utility.writeToMSDebug("PREDICTOR QUEUE: "+pt.getId()+":::"+pt.getDatasetId());
+				Utility.writeToMSDebug("PREDICTION QUEUE: "+pt.getId()+":::"+pt.getDatasetId());
 				s.saveOrUpdate(pt);
 			}
-			if(t.getComponent().equals(QueueTask.Component.visualisation)){
+			if(t.getJobType().equals(QueueTask.jobTypes.dataset)){
 				Utility.writeToMSDebug("VISUALIZATION QUEUE");
 				VisualizationTask vt = new VisualizationTask(t.id, PopulateDataObjects.getDataSetByName(t.jobName, t.getUserName()).getFileId());
 				s.saveOrUpdate(vt);
@@ -554,14 +559,14 @@ public class Queue {
 			tx = s.beginTransaction();
 			s.delete(t);
 			
-			if(t.component.equals(Component.predictor)){
+			if(t.jobType.equals(jobTypes.prediction)){
 				s.delete(PopulateDataObjects.getPredictionTaskById(t.id));
 				Utility.writeToMSDebug("DELETE PREDICTION TASK::"+t.id );
 			}
-			if(t.component.equals(Component.modelbuilder)){
+			if(t.jobType.equals(jobTypes.modeling)){
 				s.delete(PopulateDataObjects.getModelingTaskById(t.id));
 			}
-			if(t.component.equals(Component.visualisation)){
+			if(t.jobType.equals(jobTypes.dataset)){
 				s.delete(PopulateDataObjects.getVisualizationTaskById(t.id));				
 			}
 

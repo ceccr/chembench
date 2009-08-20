@@ -1,4 +1,4 @@
- <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
@@ -6,19 +6,36 @@
 
 <script language="javascript" src="javascript/datasetscripts.js"></script>
 <s:div>
-<table>
- <tr>
-	  <td><div class='StandardTextDarkGrayParagraph'><b>Dataset name:</b>&nbsp;
-        <input type="text" id="datasetname" name="datasetname" size="60"/>
-	  </div></td>
-      </tr>
-      <tr>
-        <td><b class='StandardTextDarkGrayParagraph'>Files description:</b><br />
-        <textarea class='StandardTextDarkGrayParagraph' name="dataSetDescription" id="dataSetDescription" style="height: 50px; width: 100%"></textarea></td>
-      </tr>
-      <tr>
-        <td colspan="3"><input class='StandardTextDarkGrayParagraph' name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('datasetname').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ checkSpaces(this,document.getElementById('datasetname').value); }" value="Create Dataset" type="button" />
-        </td>
-      </tr>
-</table>
+	<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>	
+		<tr>
+			<td width="100%" height="24" align="left" colspan="2">
+			<br />
+			<p class="StandardTextDarkGrayParagraph2">
+			<b>Upload Dataset for Modeling Only</b>
+			</p></td>
+		</tr>	
+		<tr><td colspan="2"><table>
+	  <tr>
+		<td colspan="2">
+		<div class="StandardTextDarkGrayParagraph"><i>A dataset will be created from the <a href="">ACT</a> and <a href="">X</a> files you supply.</i><br /></div>
+	    </td>
+	  </tr>	
+	  <tr>
+	    <td width="35%"><b class='StandardTextDarkGrayParagraph'>Data type:</b></td>
+	    <td align="left"><input id="con" name="knnType" value="CONTINUOUS" checked="true" type="radio" />
+	        <div class="StandardTextDarkGrayParagraphNoIndent">Continuous</div>
+	        <input id="cat" name="knnType" value="CATEGORY" type="radio" />
+	        <div class="StandardTextDarkGrayParagraphNoIndent">Category</div></td>
+	  </tr>
+	  <tr>
+	    <td><b class="StandardTextDarkGrayParagraph">ACT File:</b></td>
+	    <td align="left"><input id="loadAct" name="actFile" type="file"/></td>
+	  </tr>
+	  <tr>
+	    <td><b class="StandardTextDarkGrayParagraph">X File:</b></td>
+	    <td align="left"><input id="loadXModeling" name="xFileModeling" onchange="setDatasetName(this)" type="file" /></td>
+	  </tr>
+  	  </table>
+    </td></tr></tbody></table>
 </s:div>

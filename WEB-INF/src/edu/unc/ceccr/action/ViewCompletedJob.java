@@ -21,12 +21,13 @@ import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.ModelInterface;
-import edu.unc.ceccr.persistence.PredictionJob;
+import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
-import edu.unc.ceccr.persistence.Queue.QueueTask.Component;
+import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
 public class ViewCompletedJob extends Action {
@@ -61,7 +62,7 @@ public class ViewCompletedJob extends Action {
 				Long selectedTaskId = Long.parseLong(request.getParameter("id"));
 				QueueTask task = getTask(selectedTaskId);
 
-				if (task.getComponent() == Component.modelbuilder) {
+				if (task.getJobType() == jobTypes.modeling) {
 
 					session.removeAttribute("workflow");
 					session.setAttribute("workflow",task);
@@ -83,17 +84,17 @@ public class ViewCompletedJob extends Action {
 					session.removeAttribute("randomKNNValues");
 					session.setAttribute("randomKNNValues", yRandomModels);
 					
-					List<ExternalValidation> externalValValues = getExternalValidationValues(predictor);
+					List<ExternalValidation> externalValValues = PopulateDataObjects.getExternalValidationValues(predictor);
 					session.setAttribute("allExternalValues", externalValValues);
 					
 					predictor.setStatus("saved");
 					changeStatus(predictor);
 					
 					forward = mapping.findForward("mod");
-				} else if(task.getComponent() == Component.predictor){
+				} else if(task.getJobType() == jobTypes.prediction){
 					
 					int page=1;
-					PredictionJob predictionJob = getPrediction(task.getUserName(), task.getJobName());
+					Prediction predictionJob = getPrediction(task.getUserName(), task.getJobName());
 					predictionJob.setStatus("saved");
 					changeStatus(predictionJob);
 					
@@ -140,24 +141,18 @@ public class ViewCompletedJob extends Action {
 					session.removeAttribute("predictionJob");
 					session.setAttribute("predictionJob", predictionJob);
 					session.removeAttribute("predictionId");
-					session.setAttribute("predictionId", predictionJob.getPredictionJobId());
+					session.setAttribute("predictionId", predictionJob.getPredictionId());
 					session.removeAttribute("predictionTask");
 					session.setAttribute("predictionTask", task);
 				    
 					
 					forward = mapping.findForward("predictor");
 				}
-				else if(task.getComponent() == Component.visualisation){
-					session.removeAttribute("fileName");
+				else if(task.getJobType() == jobTypes.dataset){
 					session.setAttribute("fileName", task.getJobName());
+					//session.setAttribute("fileName", task.getJobName().replace("_sketches_generation", ""));
 					queue.deleteTask(task);
-					forward = mapping.findForward("visualization");
-				}
-				else if(task.getComponent() == Component.sketches){
-					session.removeAttribute("fileName");
-					session.setAttribute("fileName", task.getJobName().replace("_sketches_generation", ""));
-					queue.deleteTask(task);
-					forward = mapping.findForward("visualization");
+					forward = mapping.findForward("dataset");
 				}
 				//queue.deleteTask(task);
 
@@ -175,13 +170,13 @@ public class ViewCompletedJob extends Action {
 @SuppressWarnings("unchecked")
 protected List<PredictionValue>  getPredictionVal(String userName, String jobName,int pageSize)throws ClassNotFoundException, SQLException {
 
-PredictionJob predictionJob = null;
+Prediction predictionJob = null;
 List<PredictionValue> predVal=null;
 Session session = HibernateUtil.getSession();
 Transaction tx = null;
 try {
 	tx = session.beginTransaction();
-	predictionJob = (PredictionJob) session.createCriteria(PredictionJob.class)
+	predictionJob = (Prediction) session.createCriteria(Prediction.class)
 			.add(Expression.eq("userName", userName))
 			.add(Expression.eq("jobName", jobName)).uniqueResult();
 
@@ -201,13 +196,13 @@ return predVal;
 @SuppressWarnings("unchecked")
 protected int  getPredictionValSize(String userName, String jobName)throws ClassNotFoundException, SQLException {
 
-PredictionJob predictionJob = null;
+Prediction predictionJob = null;
 List<PredictionValue> predVal=null;
 Session session = HibernateUtil.getSession();
 Transaction tx = null;
 try {
 	tx = session.beginTransaction();
-	predictionJob = (PredictionJob) session.createCriteria(PredictionJob.class).add(Expression.eq("userName", userName))
+	predictionJob = (Prediction) session.createCriteria(Prediction.class).add(Expression.eq("userName", userName))
 			.add(Expression.eq("jobName", jobName)).uniqueResult();
 
 	predVal= session.createFilter( predictionJob.getPredictedValues(), "").list();
@@ -260,7 +255,7 @@ return predVal.size();
 			session.close();
 		}
 		System.out.println("Task returned from database: " + task.getJobName()
-				+ " " + task.getComponent());
+				+ " " + task.getJobType());
 		return task;
 	}
 
@@ -317,38 +312,17 @@ return predVal.size();
 		return models;
 	}
 
-	@SuppressWarnings("unchecked")
-	protected static List getExternalValidationValues(Predictor pred)throws ClassNotFoundException, SQLException 
-	{
-
-		List<ExternalValidation> externalValValues = null;
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			externalValValues = session.createCriteria(ExternalValidation.class).add(Expression.eq("predictor", pred)).addOrder(Order.asc("predictedValue")).list();
-
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			session.close();
-		}
-
-		return externalValValues;
-	}
 	
-	protected static PredictionJob getPrediction(String userName, String jobName)
+	
+	protected static Prediction getPrediction(String userName, String jobName)
 			throws ClassNotFoundException, SQLException {
 
-		PredictionJob predictionJob = null;
+		Prediction predictionJob = null;
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			predictionJob = (PredictionJob) session.createCriteria(PredictionJob.class).add(Expression.eq("userName", userName))
+			predictionJob = (Prediction) session.createCriteria(Prediction.class).add(Expression.eq("userName", userName))
 					.add(Expression.eq("jobName", jobName)).uniqueResult();
 
 			predictionJob.getPredictedValues().size();

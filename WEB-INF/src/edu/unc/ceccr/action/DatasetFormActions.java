@@ -37,6 +37,12 @@ public class DatasetFormActions extends ActionSupport{
 	public String ajaxLoadModOnly() throws Exception {
 		return SUCCESS;
 	}
+	public String ajaxLoadAutoSplit() throws Exception {
+		return SUCCESS;
+	}
+	public String ajaxLoadManualSplit() throws Exception {
+		return SUCCESS;
+	}
 
 	public String loadPage() throws Exception {
 
@@ -80,6 +86,7 @@ public class DatasetFormActions extends ActionSupport{
 		return result;
 	}
 	public String execute() throws Exception {
+		
 		return SUCCESS;
 	}
 	

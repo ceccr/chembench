@@ -14,7 +14,7 @@
 
 <link href="theme/ss.css" rel="stylesheet" type="text/css" />
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="theme/standard.css" rel="stylesheet"	type="text/css" />
+<link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
 <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
 
@@ -219,20 +219,16 @@ randomly shuffled activities. Ideally, there will be no models with high values(
 			<bean:write	name="externalValidation" property="actualValue"	format="#0.00" /></td>
 			
 			
-			
-			
 			<td class="TableRowText02">
 			
 			<% if(externalValidation.getNumModels()>=3) { %>
 			<bean:write	name="externalValidation" property="predictedValue"
-				format="#0.00" />&#177;<bean:write	name="externalValidation" property="standDev" format="#0.00" /></td>
+				format="#0.00" />&#177;<bean:write name="externalValidation" property="standDev" format="#0.00" /></td>
 			<%}else{
                         if(externalValidation.getNumModels()!=0) { %><bean:write
 				name="externalValidation" property="predictedValue"
 				format="#0.00" /><% } }%>
-				
 				</td>
-				
 				
 			<%session.setAttribute("diff", externalValidation
 						.getActualValue()

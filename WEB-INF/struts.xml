@@ -21,7 +21,7 @@
         </action>
         
         <action name="createModelingJob" class="edu.unc.ceccr.action.ModelingFormActions" method="execute">
-        	<result>jsp/modeling/modeling.jsp</result>
+        	<result type="redirect">jobs</result>
         </action>
         
         <action name="loadKnnSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadKnn">
@@ -54,15 +54,47 @@
         	<result>jsp/dataSet/dataset-modandpred.jsp</result>
         </action>
         
-        <action name="loadPredictionOnlySection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModOnly">
+        <action name="loadPredictionOnlySection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadPredOnly">
+        	<result>jsp/dataSet/dataset-predonly.jsp</result>
+        </action>
+        
+        <action name="loadModelingOnlySection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModOnly">
         	<result>jsp/dataSet/dataset-modonly.jsp</result>
         </action>
         
-        <action name="loadModelingOnlySection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadPredOnly">
-        	<result>jsp/dataSet/dataset-predonly.jsp</result>
+        <action name="loadAutoExternalSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadAutoSplit">
+        	<result>jsp/dataSet/dataset-autosplit.jsp</result>
+        </action>
+        
+        <action name="loadManualExternalSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadManualSplit">
+        	<result>jsp/dataSet/dataset-manualsplit.jsp</result>
         </action>
         <!-- End Dataset Page -->
         
+        <!-- Jobs Page -->
+        <action name="jobs" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
+        	<result>jsp/jobs/jobs.jsp</result>
+        </action>
+        
+        <!-- End Jobs Page -->
+        
+        <!-- View Predictor Page -->
+        <action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
+        	<result>jsp/modeling/viewPredictor2.jsp</result>
+        </action>
+        <!-- End View Predictor Page -->
+        
+        <!-- Servlet forwards -->
+        <!-- these will forward to a path defined in web.xml. -->
+        <action name="imageServlet">
+            <result>imageServlet.do</result>
+        </action>
+       
+        <action name="compound3D">
+            <result>compound3D.do</result>
+        </action>
+        
+        <!-- End Servlet forwards -->
     </package>
 
     <!-- Add packages here -->

@@ -3,6 +3,7 @@ package edu.unc.ceccr.persistence;
 // default package
 // Generated Jun 20, 2006 1:22:16 PM by Hibernate Tools 3.1.0.beta5
 
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +25,8 @@ import javax.persistence.Transient;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.Utility;
 
 @Entity
 @Table(name = "cbench_predictor")
@@ -56,6 +59,8 @@ public class Predictor implements java.io.Serializable {
 	private String descriptorGenerationDisplay;
 
 	private String modelMethodDisplay;
+
+	private String datasetDisplay;
 	
 	private int numTotalModels;
 	
@@ -354,7 +359,6 @@ public class Predictor implements java.io.Serializable {
 	@Column(name="paper_reference")
 	public String getPaperReference()
 	{
-		//public? private? etc
 		return this.paperReference;
 	}
 	public void setPaperReference(String paperReference)
@@ -399,6 +403,21 @@ public class Predictor implements java.io.Serializable {
 
 	public void setModelMethodDisplay(String modelMethodDisplay) {
 		this.modelMethodDisplay = modelMethodDisplay;
+	}
+	
+	@Transient
+	public String getDatasetDisplay() {
+		try{
+			return PopulateDataObjects.getDataSetById(this.datasetId).getFileName();
+		}
+		catch(Exception ex){
+			//Utility.writeToDebug(ex);
+			return "";
+		}
+	}
+
+	public void setDatasetDisplay(String datasetDisplay) {
+		this.datasetDisplay = datasetDisplay;
 	}
 
 }

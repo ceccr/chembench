@@ -26,9 +26,9 @@
 
 <webService>
 
-<!-- Keys for chembench.mml.unc.edu -->
-<publicKey>6LeZXQYAAAAAAAtCIR2g1btlSUvWW00lAGv0dn4G</publicKey>
-<privateKey>6LeZXQYAAAAAAF-BCVHNVW6OW6fqQkj1JV3zOWPt</privateKey>
+<!-- GLOBAL KEYS (will work anywhere) -->
+<publicKey>6LfkEwcAAAAAAOkmayIoxxxjQyaLPK7kQlEtn8Wf</publicKey>
+<privateKey>6LfkEwcAAAAAAI4NaGk2dgSbSmioBvJCFRJbYtmt</privateKey>
 
 </webService>
 

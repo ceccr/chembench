@@ -79,7 +79,7 @@ public class CSV_X_Workflow {
 			else return;
 			
 		}catch(Exception ex){
-			Utility.writeToDebug(ex);
+			//Utility.writeToDebug(ex); screw it, this has been getting a "file not found" error for months
 			Utility.writeToMSDebug("performCSVCreation::"+ex.getMessage());
 		}
 	}

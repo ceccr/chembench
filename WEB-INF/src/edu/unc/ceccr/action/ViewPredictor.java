@@ -23,9 +23,10 @@ import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.ModelInterface;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
-public class ViewPreviouslyGeneratedModels extends Action {
+public class ViewPredictor extends Action {
 
 	ActionForward forward;
 
@@ -36,8 +37,6 @@ public class ViewPreviouslyGeneratedModels extends Action {
 
 		forward = mapping.findForward("success");
 
-		QsarFormBean formBean = (QsarFormBean) form;
-
 		HttpSession session = request.getSession(false);
 		if (session == null) {
 			forward = mapping.findForward("login");
@@ -46,8 +45,8 @@ public class ViewPreviouslyGeneratedModels extends Action {
 		}else{
 			try {
 				User user = (User) session.getAttribute("user");
-
-				Predictor predictor = getPredictor(formBean.getSelectedPredictorName(), user.getUserName());
+				Long predictorId = Long.parseLong(request.getParameter("id"));
+				Predictor predictor = PopulateDataObjects.getPredictorById(predictorId);
 				predictor.setActFileName(Utility.wrapFileName(predictor.getActFileName()));
 				predictor.setSdFileName(Utility.wrapFileName(predictor.getSdFileName()));
 				
@@ -64,9 +63,8 @@ public class ViewPreviouslyGeneratedModels extends Action {
 				session.setAttribute("randomKNNValues", yRandomModels);
 			
 				session.removeAttribute("allExternalValues");
-				session.setAttribute("allExternalValues", predictor.getExternalValidationResults() );
+				session.setAttribute("allExternalValues", predictor.getExternalValidationResults());
 				
-
 			} catch (Exception e) {
 				forward = mapping.findForward("failure");
 				Utility.writeToDebug(e);
@@ -74,30 +72,7 @@ public class ViewPreviouslyGeneratedModels extends Action {
 		}
 		return forward;
 	}
-	
-	protected static Predictor getPredictor(String selectedPredictorName, String user)	throws ClassNotFoundException, SQLException {
 
-		Predictor predictor = null;
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			predictor = (Predictor) session.createCriteria(Predictor.class)	.add(Expression.eq("name", selectedPredictorName))
-					.add(Expression.eq("userName", user)).uniqueResult();
-			
-			predictor.getExternalValidationResults().size();
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			session.close();
-		}
-
-		
-		return predictor;
-	}
 
 	@SuppressWarnings("unchecked")
 	protected static List<ModelInterface> getModels(Predictor pred, String flowType,String knnType)throws ClassNotFoundException, SQLException {

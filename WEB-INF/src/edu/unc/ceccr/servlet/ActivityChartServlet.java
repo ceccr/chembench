@@ -53,9 +53,9 @@ public class ActivityChartServlet extends HttpServlet
 		 
 		 final JFreeChart chart = ChartFactory.createHistogram("Activity Histogram",  "Range","Frequency", dataset, PlotOrientation.VERTICAL,false, false, false);
 		
-		 chart.setBackgroundPaint(Color.yellow);
-		 chart.getTitle().setPaint(Color.BLUE); 
-		 TextTitle tt = new TextTitle(" http://ceccr.ibiblio.org",  new Font("Dialog", Font.PLAIN, 11));
+		 chart.setBackgroundPaint(Color.gray);
+		 chart.getTitle().setPaint(Color.black); 
+		 TextTitle tt = new TextTitle("C-Chembench",  new Font("Dialog", Font.PLAIN, 11));
 		   tt.setPosition(RectangleEdge.BOTTOM); 
 		   tt.setHorizontalAlignment(HorizontalAlignment.RIGHT);
 		   tt.setMargin(0.0, 0.0, 4.0, 4.0);

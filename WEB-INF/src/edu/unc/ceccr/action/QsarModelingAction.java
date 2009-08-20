@@ -53,7 +53,7 @@ public class QsarModelingAction extends Action {
 				
 				Utility.writeToDebug("Setting up task", user.getUserName(), formBean.getJobName());
 				
-				executeAntWorkflow = new QsarModelingTask(user.getUserName(), formBean);
+				//executeAntWorkflow = new QsarModelingTask(user.getUserName(), formBean);
 
 				executeAntWorkflow.setUp();
 

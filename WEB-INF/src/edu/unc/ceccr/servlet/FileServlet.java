@@ -19,7 +19,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.PredictionJob;
+import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.Utility;
@@ -115,7 +115,7 @@ public String buildMainContent(String userName, Long predId,String predictor)thr
 {
 	String title="",body="";
 
-	PredictionJob predictionJob=null;
+	Prediction predictionJob=null;
 	List<PredictionValue> predictionValues=null;
 	
 	predictionJob = getPrediction(predId);
@@ -152,18 +152,18 @@ public String buildMainContent(String userName, Long predId,String predictor)thr
     
 
     
-protected static PredictionJob getPrediction(Long selectedPredictionId) 
+protected static Prediction getPrediction(Long selectedPredictionId) 
 throws ClassNotFoundException, SQLException {
 
-PredictionJob predictionJob = null;
+Prediction predictionJob = null;
 		
 Session session = HibernateUtil.getSession();
 Transaction tx = null;
 try {
 	tx = session.beginTransaction();
 	
-	predictionJob = (PredictionJob) session
-			.createCriteria(PredictionJob.class).add(Expression.eq("predictionJobId",selectedPredictionId))
+	predictionJob = (Prediction) session
+			.createCriteria(Prediction.class).add(Expression.eq("predictionJobId",selectedPredictionId))
 					.uniqueResult();
 	
 	predictionJob.getPredictedValues().size(); //initialize the 'predictionJob'
@@ -191,8 +191,8 @@ return predictionJob;
 		try {
 			tx = session.beginTransaction();
 
-			PredictionJob predictionJob = (PredictionJob) session.createCriteria(
-					PredictionJob.class).add(Expression.eq("predictionJobId", selectedPredictionId))
+			Prediction predictionJob = (Prediction) session.createCriteria(
+					Prediction.class).add(Expression.eq("predictionJobId", selectedPredictionId))
 					.uniqueResult();
            
 			predictionValues = session.createFilter( predictionJob.getPredictedValues(), " order by this.compoundName ASC" )

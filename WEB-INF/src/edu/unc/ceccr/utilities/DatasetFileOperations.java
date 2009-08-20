@@ -43,6 +43,32 @@ public class DatasetFileOperations {
 	private static ArrayList<String> sdf_compounds;
 	private static String formula="";
 	
+	public static ArrayList<String> getActFileValues(DataSet dataset) throws Exception {
+		ArrayList<String> actFileValues = new ArrayList<String>();
+
+		//find activity file
+		String datasetUserName = dataset.getUserName();
+		if(datasetUserName.equals("_all")){
+			datasetUserName = "all-users";
+		}
+		String dir = Constants.CECCR_USER_BASE_PATH + datasetUserName + "/DATASETS/"+ dataset.getFileName() + "/";
+		String fileName = dir + dataset.getActFile(); 
+		
+		File file = new File(fileName);
+		FileInputStream fis = new FileInputStream(file);
+		int length = fis.available();
+		byte[] bytes = new byte[length];
+		fis.read(bytes);
+		String byteStr = new String(bytes);
+
+		String[] array = byteStr.split("\\s+");
+
+		for (int i = 0; i < array.length; i+=2) {
+			actFileValues.add(array[i + 1]);
+		}
+		
+		return actFileValues;
+	}
 
 	public static void generateEmptyActFile(String path, String name, String sdfPath) throws IOException {
 		File act = new File(path+name+".act");

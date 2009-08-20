@@ -26,7 +26,7 @@ public class HibernateUtil {
 		.addAnnotatedClass(Model.class)
 		.addAnnotatedClass(Predictor.class)
 		.addAnnotatedClass(User.class)
-		.addAnnotatedClass(PredictionJob.class)
+		.addAnnotatedClass(Prediction.class)
 		.addAnnotatedClass(PredictionValue.class)
 		.addAnnotatedClass(ExternalValidation.class)
 		.addAnnotatedClass(DataSet.class)
@@ -35,7 +35,7 @@ public class HibernateUtil {
 		.addAnnotatedClass(Descriptors.class)
 		.addAnnotatedClass(DescriptorGenerator.class)
 		.addAnnotatedClass(PredictionTask.class)
-		.addAnnotatedClass(ModellingTask.class)
+		.addAnnotatedClass(ModelingTask.class)
 		.addAnnotatedClass(VisualizationTask.class)
 		.configure().buildSessionFactory();
 	}

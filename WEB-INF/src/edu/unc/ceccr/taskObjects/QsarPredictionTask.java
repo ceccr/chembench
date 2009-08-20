@@ -18,7 +18,7 @@ import edu.unc.ceccr.outputObjects.Pred_Output;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.PredictionJob;
+import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
@@ -277,7 +277,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	public void save(){
 		try{
 		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
-		PredictionJob predictionJob = new PredictionJob();
+		Prediction predictionJob = new Prediction();
 		predictionJob.setDatabase(this.fileOrDatabaseName);
 		predictionJob.setUserName(this.userName);
 		predictionJob.setSimilarityCutoff(new Float(this.cutoff));

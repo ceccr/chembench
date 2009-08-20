@@ -135,6 +135,8 @@
 		<forward name="failure" path="/jsp/main/error.jsp" />
 		</action>
 		
+		<action path="/externalValidationChart" forward="/chart?doGet" />
+		
 		<action path="/viewModels"
 			type="edu.unc.ceccr.action.ViewPreviouslyGeneratedModels"
 			input="/jsp/modeling/modeling.jsp" name="qsarForm" scope="request">
@@ -172,12 +174,18 @@
 			<forward name="failure" path="/jsp/main/error.jsp" />
 		</action>
 		
-		<action path="/viewPredOutput"
-			type="edu.unc.ceccr.action.ViewPredOutputActionForward"
-			input="/jsp/prediction/selectPredictor.jsp" name="viewOutputForm" scope="request">
+		<action path="/viewPrediction"
+			type="edu.unc.ceccr.action.ViewPrediction" scope="request">
 			<forward name="success" path="/jsp/prediction/viewPrediction.jsp" />
 			<forward name="failure" path="/jsp/main/error.jsp" />
 		</action>
+		
+		<action path="/viewPredictor"
+			type="edu.unc.ceccr.action.ViewPredictor" scope="request">
+			<forward name="success" path="/jsp/modeling/viewPredictor.jsp" />
+			<forward name="failure" path="/jsp/main/error.jsp" />
+		</action>
+		
 		<action path="/execPredictor"
 			type="edu.unc.ceccr.action.QsarPredictionAction"
 			input="/jsp/prediction/makePredictions.jsp" name="predictorForm" scope="request">

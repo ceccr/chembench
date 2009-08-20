@@ -51,25 +51,116 @@
     <td>
     <s:form action="/submitDataset" enctype="multipart/form-data" theme="simple">
      
-    <table><tr><td>
-    	Upload Dataset	
+   	<!-- Upload Files -->
+	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>			
+		<tr>
+			<td height="24" align="left" colspan="2">
+			<p class="StandardTextDarkGrayParagraph2">
+			<br /><b>Upload Dataset Files</b>
+			</p><br />
+			</td>
+		</tr>
+		<tr>
+			<td>
+		
     	<sx:tabbedpanel id="datasetTypeTabs">
     	
 	    	<sx:div id="typeModPred" href="/loadModAndPredSection" label="Modeling and Prediction Set" theme="ajax" loadingText="Loading dataset types...">
-			owls
 			</sx:div>
 			
 			<sx:div id="typeModOnly" href="/loadModelingOnlySection" label="Modeling-Only Set" theme="ajax" loadingText="Loading dataset types...">
-			yay
 			</sx:div>
 			
 			<sx:div id="typePredOnly" href="/loadPredictionOnlySection" label="Prediction-Only Set" theme="ajax" loadingText="Loading dataset types...">
-			stuff
 			</sx:div>
-    	
+			
     	</sx:tabbedpanel>
     </td></tr></table>
-
+	<br />
+	
+	<!-- Define External Set -->
+	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>		
+		<tr>
+			<td height="24" align="left" colspan="2">
+			<p class="StandardTextDarkGrayParagraph2">
+			<br /><b>Define External Set</b>
+			</p></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<div class="StandardTextDarkGrayParagraph"><i>A subset of the compounds in the dataset will be reserved for external validation of models.</i><br /></div></td>
+		</tr>	
+		<tr>
+			<td colspan="2">
+			<sx:tabbedpanel id="splitTypeTabs">
+    	
+		    	<sx:div id="randomSplit" href="/loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading dataset types...">
+				</sx:div>
+	    	
+				<sx:div id="userSplit" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading dataset types...">
+				</sx:div>
+				
+	    	</sx:tabbedpanel>
+	    	
+	</tbody>
+	</table>
+	<br />
+	
+	<!-- Generate Visualizations -->
+<!-- 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>			
+		<tr>
+			<td height="24" align="left" colspan="2">
+			<p class="StandardTextDarkGrayParagraph2">
+			<br /><b>Generate Visualizations</b>
+			</p></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<div class="StandardTextDarkGrayParagraph"><i>Pick which visualizations you would like available for this dataset.</i><br /></div></td>
+		 </tr>	
+		<tr>
+			<td colspan="2"><div class="StandardTextDarkGrayParagraph">
+			<input type="checkbox">Images of each compound</input><br />
+			<input type="checkbox">Heatmap based on Tanimoto distances</input><br />
+			<input type="checkbox">Heatmap based on Mahalanobis distances</input><br />
+			<input type="checkbox">PCA plots</input></div></td>
+		</tr>	
+	</tbody>
+	</table>
+	<br /> -->
+	
+	<!-- Submit Dataset -->
+	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>			
+		<tr><td height="24" align="left" colspan="2">
+			<p class="StandardTextDarkGrayParagraph2">
+			<br /><b>Create Dataset</b>
+			</p>
+		</td></tr>
+		<tr>
+			<td colspan="2">
+			<div class="StandardTextDarkGrayParagraph"><i>A job will be started to generate visualizations and images for this dataset.</i><br /></div></td>
+		 </tr>	
+		<tr>
+			<td><div class='StandardTextDarkGrayParagraph'><b>Dataset name:</b></div></td>
+			<td align="left"><input type="text" id="datasetname" name="datasetname" size="40"/>
+		  </td>
+		</tr>
+		<tr>
+			<td><b class='StandardTextDarkGrayParagraph'>Dataset description:</b></td>
+			<td align="left"><textarea class='StandardTextDarkGrayParagraph' align="left" name="dataSetDescription" id="dataSetDescription" style="height: 50px; width: 100%"></textarea></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td align="left"><input class='StandardTextDarkGrayParagraph' name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('datasetname').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ checkSpaces(this,document.getElementById('datasetname').value); }" value="Create Dataset" type="button" />
+			</td>
+		</tr>
+	</tbody>
+	</table>
+	
     </s:form>
     </td>
   </tr>

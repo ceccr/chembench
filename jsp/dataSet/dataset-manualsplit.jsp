@@ -12,20 +12,16 @@
 			<td width="100%" height="24" align="left" colspan="2">
 			<br />
 			<p class="StandardTextDarkGrayParagraph2">
-			<b>Upload Dataset for Prediction Only</b>
-			</p>
-			</td>
+			<b>Choose Compounds for External Set</b>
+			</p></td>
 		</tr>	
 		<tr><td colspan="2"><table>
-	  <tr>
-		<td colspan="2">
-		<div class="StandardTextDarkGrayParagraph"><i>A dataset will be created from the <a href="">SDF</a> file you supply.</i><br /></div>
-	    </td>
-	  </tr>		
-	  <tr>
-	    <td><b class="StandardTextDarkGrayParagraph">SDF File:</b></td>
-	    <td align="left"><input id="loadSdf" name="sdfFile" type="file"/></td>
-	  </tr>
-  	  </table>
-    </td></tr></tbody></table>
+	  <tr><td colspan="2">
+	  <div class='StandardTextDarkGrayParagraph'><i>List the compound names for the external set in the box below.</i></div>
+	  </td></tr>
+	  <tr><td><textarea class='StandardTextDarkGrayParagraph' align="left" style="height: 50px; width: 100%"></textarea>
+	  </td></tr></table>
+	  </td></tr>
+	  </tbody>
+	  </table>
 </s:div>

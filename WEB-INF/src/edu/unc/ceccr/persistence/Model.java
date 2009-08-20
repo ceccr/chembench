@@ -17,8 +17,8 @@ public class Model extends KnnOutput implements java.io.Serializable, ModelInter
 
 	private Long id;
 	private Predictor predictor;
-	private Float nnn; //Exactly the same as "n", but we use it in category models
-	private Float n;
+	private Integer nnn; //Exactly the same as "n", but we use it in category models
+	private Integer n;
 	private Float QSquared;
 	private Float RSquared;
 	private Float b01;
@@ -64,8 +64,8 @@ public class Model extends KnnOutput implements java.io.Serializable, ModelInter
 	}
 
 	/** full constructor */
-	public Model(Long id, Predictor predictor, Float nnn, Float QSquared,
-			Float RSquared, Float n, Float b01, Float b02, Float b11,
+	public Model(Long id, Predictor predictor, Integer nnn, Float QSquared,
+			Float RSquared, Integer n, Float b01, Float b02, Float b11,
 			Float b12, Float r, Float slSquared, Float f1, Float s2Squared,
 			Float f2, Float k1, Float k2, Float r01Squared, Float r02Squared,
 			Float s01Squared, Float s02Squared, Float f01, Float f02,
@@ -137,14 +137,14 @@ public class Model extends KnnOutput implements java.io.Serializable, ModelInter
 	/* (non-Javadoc)
 	 * @see edu.unc.ceccr.session.IModel#getNnn()
 	 */
-	public Float getNnn() {
+	public Integer getNnn() {
 		return this.nnn;
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.unc.ceccr.session.IModel#setNnn(Float)
 	 */
-	public void setNnn(Float nnn) {
+	public void setNnn(Integer nnn) {
 		this.nnn = nnn;
 	}
 
@@ -181,14 +181,14 @@ public class Model extends KnnOutput implements java.io.Serializable, ModelInter
 	/* (non-Javadoc)
 	 * @see edu.unc.ceccr.session.IModel#getN()
 	 */
-	public Float getN() {
+	public Integer getN() {
 		return this.n;
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.unc.ceccr.session.IModel#setN(Float)
 	 */
-	public void setN(Float n) {
+	public void setN(Integer n) {
 		this.n = n;
 	}
 
