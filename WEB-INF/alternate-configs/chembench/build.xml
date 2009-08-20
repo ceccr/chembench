@@ -38,8 +38,8 @@
         </classpath>
       </javac>
       
-      <copy toDir="WEB-INF/classes">
-			<fileset dir="WEB-INF/">
+      <copy toDir="ROOT/WEB-INF/classes">
+			<fileset dir="ROOT/WEB-INF/">
 				<include name="struts.xml" /> <!-- needed for struts2 to work -->
 			</fileset>
 		</copy>
