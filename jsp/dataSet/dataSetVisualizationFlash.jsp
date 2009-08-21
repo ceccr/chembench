@@ -61,24 +61,22 @@ function handleWheel(event) {
 </head>
 <body>
 <table width="924px" border="0" align="center" cellpadding="0"	cellspacing="0">
-<%@include file="/jsp/main/header.jsp" %>
-<%@include file="/jsp/main/centralNavigationBar.jsp" %>
 		<tr>
 		<td height="557" colspan="5" valign="top" background="theme/img/backgrmodelbuilders.jpg">
 		<span id="maincontent">
 
 <%DataSet ds = (DataSet)session.getAttribute("ds"); %>
 
-calling flash with params:
-web-addr=http://chembench-dev.mml.unc.edu
-dataset=<%=ds.getFileName()%>
-ncom=<%=ds.getNumCompound()%>
-type_=<%=ds.getModelType()%>
-creation_date=<%=ds.getCreatedTime().toString().substring(0,ds.getCreatedTime().toString().indexOf(" "))%>
-desc=<%=ds.getDescription()%>
-actFile=<%=ds.getActFile()%>
-sdfFile=<%=ds.getSdfFile()%>
-user=<%=ds.getUserName()%>"
+<u>calling flash with params:</u><br />
+web-addr=http://chembench-dev.mml.unc.edu<br />
+dataset=<%=ds.getFileName()%><br />
+ncom=<%=ds.getNumCompound()%><br />
+type_=<%=ds.getModelType()%><br />
+creation_date=<%=ds.getCreatedTime().toString().substring(0,ds.getCreatedTime().toString().indexOf(" "))%><br />
+desc=<%=ds.getDescription()%><br />
+actFile=<%=ds.getActFile()%><br />
+sdfFile=<%=ds.getSdfFile()%><br />
+user=<%=ds.getUserName()%><br />
 
 <table width="924px" align="center" border="0">
 <tr align="center" id="download" style="display:none;">
@@ -108,7 +106,6 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 		</span></td>
 	</tr>
 
-	<%@include file ="/jsp/main/footer.jsp" %>
 </table>
 </body>
 </html>
