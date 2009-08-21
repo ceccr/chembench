@@ -68,7 +68,17 @@ function handleWheel(event) {
 		<span id="maincontent">
 
 <%DataSet ds = (DataSet)session.getAttribute("ds"); %>
-Dataset Name: <%=ds.getFileName()%>
+
+calling flash with params:
+web-addr=http://chembench-dev.mml.unc.edu
+dataset=<%=ds.getFileName()%>
+ncom=<%=ds.getNumCompound()%>
+type_=<%=ds.getModelType()%>
+creation_date=<%=ds.getCreatedTime().toString().substring(0,ds.getCreatedTime().toString().indexOf(" "))%>
+desc=<%=ds.getDescription()%>
+actFile=<%=ds.getActFile()%>
+sdfFile=<%=ds.getSdfFile()%>
+user=<%=ds.getUserName()%>"
 
 <table width="924px" align="center" border="0">
 <tr align="center" id="download" style="display:none;">
