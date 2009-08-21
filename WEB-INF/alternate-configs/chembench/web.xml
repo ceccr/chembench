@@ -85,7 +85,7 @@
   </servlet>
   <servlet-mapping>
   <servlet-name>ImageServlet</servlet-name>
-  <url-pattern>/imageServlet/*</url-pattern>
+  <url-pattern>/imageServlet.do</url-pattern>
   </servlet-mapping>
   
   <servlet>
@@ -94,7 +94,7 @@
   </servlet>
   <servlet-mapping>
   <servlet-name>DescriptorMatrixServlet</servlet-name>
-  <url-pattern>/descriptorMatrixServlet/*</url-pattern>
+  <url-pattern>/descriptorMatrixServlet.do</url-pattern>
   </servlet-mapping>
   
    <servlet>

@@ -92,7 +92,7 @@
   </servlet>
   <servlet-mapping>
   <servlet-name>DescriptorMatrixServlet</servlet-name>
-  <url-pattern>/descriptorMatrixServlet/*</url-pattern>
+  <url-pattern>/descriptorMatrixServlet.do</url-pattern>
   </servlet-mapping>
   
    <servlet>
