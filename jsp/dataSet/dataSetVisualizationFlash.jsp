@@ -46,7 +46,7 @@ if(!(document.attachEvent)) {
     window.addEventListener("DOMMouseScroll", handleWheel, false);
 }
 function handleWheel(event) {
-    var app = window.document["${application}"];
+    //var app = window.document["${application}"];
     if (app) {
         var o = {x: event.screenX, y: event.screenY, 
             delta: event.detail,
