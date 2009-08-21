@@ -46,7 +46,7 @@ if(!(document.attachEvent)) {
     window.addEventListener("DOMMouseScroll", handleWheel, false);
 }
 function handleWheel(event) {
-    //var app = window.document["${application}"];
+    var app = window.document["${application}"];
     if (app) {
         var o = {x: event.screenX, y: event.screenY, 
             delta: event.detail,
@@ -67,10 +67,10 @@ function handleWheel(event) {
 		<td height="557" colspan="5" valign="top" background="theme/img/backgrmodelbuilders.jpg">
 		<span id="maincontent">
 
-		
+<%DataSet ds = (DataSet)session.getAttribute("ds"); %>
+Dataset Name: <%=ds.getFileName()%>
 
 <table width="924px" align="center" border="0">
-<%DataSet ds = (DataSet)session.getAttribute("ds"); %>
 <tr align="center" id="download" style="display:none;">
 <td align="center">
 </td>
@@ -92,6 +92,7 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 </td>
 </tr>
 </table>
+
 		</span></td>
 	</tr>
 
