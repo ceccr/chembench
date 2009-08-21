@@ -60,11 +60,12 @@
 					<td class="TableRowText01">Type</td>
 					<td class="TableRowText01">Public/Private</td>
 					<td class="TableRowText01">Download</td>
+					<!-- <a href=""></a> -->
 					<td class="TableRowText01">Delete</td>
 				</tr>
 				<s:iterator value="userDatasets">
 					<tr>
-					<td class="TableRowText02">
+					<td class="TableRowText02" align="center">
 						<a href="viewDatasetFlash.do?fileName=<s:property value="fileName" />&isPublic=<s:if test="userName=='_all'">true</s:if><s:else>false</s:else>">
 						<s:property value="fileName" />
 						</a>
@@ -72,11 +73,21 @@
 					<td class="TableRowText02"><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="numCompound" /></td>
 					<td class="TableRowText02"><s:property value="modelType" /></td>
-					<td class="TableRowText02"><s:if test="userName=='_all'">Public</s:if><s:else>Private</s:else></td>
-					<td class="TableRowText02"><a href="">download</a></td>
-					<td class="TableRowText02"><s:if test="userName=='_all'"></s:if><s:else><a href="">delete</a></s:else></td>
+					
+					<s:if test="userName=='_all'">
+					<td class="TableRowText02">Public</td>
+					<td class="TableRowText02"><a href="datasetFilesServlet?datasetName=<s:property value="fileName" />&user=all-users">download</a></td>
+					<td class="TableRowText02"><!-- dataset is public, so no delete option --></td>
+					</s:if>
+					<s:else>
+					<td class="TableRowText02">Private</td>
+					<td class="TableRowText02"><a href="datasetFilesServlet?datasetName=<s:property value="fileName" />&user=<s:property value="user.userName" />">download</a></td>
+					<td class="TableRowText02"><s:else><a href="">delete</a></s:else></td>
+					</s:else>
+					
 					</tr> 
 				</s:iterator>
+				<br />
 				<br />
 			</table>
 			</div>
@@ -127,6 +138,7 @@
 					</tr> 
 				</s:iterator>
 				<br />
+				<br />
 			</table>
 			
 			</div>
@@ -172,6 +184,7 @@
 					</tr> 
 				</s:iterator>
 				<br />
+				<br />
 			</table>
 			</div>
 			</td>
@@ -194,8 +207,8 @@
 			<div class="StandardTextDarkGrayParagraph"><i>Running jobs are displayed below. Use the REFRESH STATUS button to update the list.</i><br /></div></td>
 		 </tr>	
 		 <tr><td></td><td>
-		 <form action="jobs">
-			<button type="submit">REFRESH STATUS</button>
+		<form action="jobs">
+			<div class="StandardTextDarkGrayParagraph"><button type="submit">REFRESH STATUS</button></div>
 		</form>
 		</td></tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
@@ -213,17 +226,18 @@
 			</tr>
 			<s:iterator value="userQueueTasks">
 				<tr>
-				<td class="TableRowText02"><a href=""><s:property value="jobName" /></a></td>
-				<td class="TableRowText02"><a href=""><s:property value="userName" /></a></td>
-				<td class="TableRowText02"><a href=""><s:property value="jobTypeString" /></a></td>
+				<td class="TableRowText02"><s:property value="jobName" /></td>
+				<td class="TableRowText02"><s:property value="userName" /></td>
+				<td class="TableRowText02"><s:property value="jobTypeString" /></td>
 				<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-				<td class="TableRowText02"><a href=""><s:property value="numCompounds" /></a></td>
-				<td class="TableRowText02"><a href=""><s:property value="numModels" /></a></td>
+				<td class="TableRowText02"><s:property value="numCompounds" /></td>
+				<td class="TableRowText02"><s:property value="numModels" /></td>
 				<td class="TableRowText02"><s:date name="start" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><s:property value="state" /></td>
 				<td class="TableRowText02"><a href="">cancel</a></td>
 				</tr> 
 			</s:iterator>
+			<br />
 			<br />
 		</table>
 	</table>

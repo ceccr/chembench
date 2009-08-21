@@ -42,13 +42,6 @@ else{
 
 }
 
-function checkPublicDataset(){
-	if(<%=session.getAttribute("isPublic")%>){
-		document.getElementById("download").style.display='inline';
-	}
-	else document.getElementById("vizualization").style.display='inline';
-}
-
 if(!(document.attachEvent)) {
     window.addEventListener("DOMMouseScroll", handleWheel, false);
 }
@@ -66,7 +59,7 @@ function handleWheel(event) {
 
 </script>
 </head>
-<body onload="checkPublicDataset();">
+<body>
 <table width="924px" border="0" align="center" cellpadding="0"	cellspacing="0">
 <%@include file="/jsp/main/header.jsp" %>
 <%@include file="/jsp/main/centralNavigationBar.jsp" %>
@@ -80,52 +73,8 @@ function handleWheel(event) {
 <%DataSet ds = (DataSet)session.getAttribute("ds"); %>
 <tr align="center" id="download" style="display:none;">
 <td align="center">
-<a href="datasetFilesServlet?datasetName=<%=ds.getFileName()%>&user=all-users">
-						Download this dataset</a><strong class="StandardTextDarkGray">&nbsp;(NOTE: Only SDF and ACT files are accessible for download!)</strong>
 </td>
 </tr>
-<tr align="center" id="vizualization" style="display:none;">
-<td align="center" >
-<a href="#panel" onclick="show_vis_panel();" id="panel_link">Show visualization control panel</a>
-<br />
-<div id="vis_panel" style="display:none;" style="border: 1px black solid;">
-<form name="viz" action="/generateDatasetVis.do"
-			enctype="multipart/form-data">
-		<div class="StandardTextDarkGray" align="left"><strong>Please choose what data representation you want to have:</strong><br/>
-  	<input type="hidden" name="datasetname" id="datasetname" value="<%=ds.getFileName()%>" />
-	<input type="hidden" name="knnType" id="knnType" value="<%=ds.getModelType()%>"/> 
-	<input type="hidden" name="sdfName" id="sdfName" value="<%=ds.getSdfFile()%>"/> 
-	<input type="hidden" name="actName" id="actName" value="<%=ds.getActFile()%>"/> 
-  <!--&nbsp;&nbsp;&nbsp;&nbsp; <input name="sketches" type="checkbox" value="Sketches" checked/> 
-  Sketches<br/> -->
-  &nbsp;&nbsp;<strong>Representations:</strong><br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <input name="represent" type="checkbox" value="HeatmapAndTree" onclick="selectTanimoto(this);" checked/> 
-  Heat map and Tree<br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <!-- <input name="represent" type="checkbox" value="Trees" onclick="selectTanimoto(this);"/> 
-  Tree<br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;-->
-  <input name="represent" type="checkbox" value="PCA"/> 
-  PCA plots<br/>    
-  &nbsp;&nbsp;<strong>Similarity measure</strong><br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <input name="similarity_measure"  type="checkbox" value="Tanimoto" checked onclick="checkTanimoto();" /> 
-  Tanimoto<br/>
-  &nbsp;&nbsp;&nbsp;&nbsp;
-  <input name="similarity_measure"  type="checkbox" value="Mahalanobis" onclick="checkTanimoto();"/> 
-  Mahalanobis<br/> 
-  <br/>
-	<span id="textarea"></span>
-</div>
-<div class='StandardTextDarkGray'><input name="userAction" id="userAction" onclick="submitAdditionalDatasetOperations(this,document.getElementById('textarea'));" value="Process" type="button"></input></div>
-<br/>
-<span id="textarea"></span>
-</form>
-</div> 
-</td>
-</tr>
-
 <tr>
 <td align="center">
 <script type="text/javascript">

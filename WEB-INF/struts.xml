@@ -47,7 +47,7 @@
         </action>
         
         <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
-        	<result>jsp/dataSet/dataset.jsp</result>
+        	<result type="redirect">jobs</result>
         </action>
         
         <action name="loadModAndPredSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModAndPred">
@@ -70,6 +70,12 @@
         	<result>jsp/dataSet/dataset-manualsplit.jsp</result>
         </action>
         <!-- End Dataset Page -->
+        
+        <!-- Make Predictions Page -->
+	    <action name="makeDatasetPrediction">
+	        <result type="redirect">jobs</result>
+	    </action>
+        <!-- End Make Predictions Page -->
         
         <!-- Jobs Page -->
         <action name="jobs" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
