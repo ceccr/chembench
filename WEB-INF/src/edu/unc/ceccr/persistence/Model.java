@@ -17,8 +17,8 @@ public class Model extends KnnOutput implements java.io.Serializable, ModelInter
 
 	private Long id;
 	private Predictor predictor;
-	private Integer nnn; //Exactly the same as "n", but we use it in category models
-	private Integer n;
+	private Integer nnn; //number of nearest neighbors
+	private Integer n; //number of compounds used in... internal test set I think?
 	private Float QSquared;
 	private Float RSquared;
 	private Float b01;

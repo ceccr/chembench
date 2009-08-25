@@ -352,7 +352,7 @@ public class DatasetFileOperations {
 
 	}
 
-	public static String checkUploadedFiles(FormFile sdFile, FormFile actFile, String knnType, String user, String datasetname) throws FileNotFoundException, IOException{
+	public static String checkUploadedFiles(FormFile sdFile, FormFile actFile, String knnType, String user, String datasetName) throws FileNotFoundException, IOException{
 		String msg="";
 		
 		if(!actIsValid(actFile.getInputStream()))
@@ -371,7 +371,7 @@ public class DatasetFileOperations {
 		}
 		else{
 			//Check if ADF matches ACT file 
-			String sdf_act_match = sdfMatchesAct(sdFile , actFile, user, datasetname);
+			String sdf_act_match = sdfMatchesAct(sdFile , actFile, user, datasetName);
 			if(!sdf_act_match.equals("-1"))
 			{	
 				msg+=sdf_act_match;
@@ -554,10 +554,10 @@ public class DatasetFileOperations {
 		return chemicalNames;
 	}
 	
-	public static String sdfMatchesAct(FormFile sdFile, FormFile actFile, String user, String datasetname)
+	public static String sdfMatchesAct(FormFile sdFile, FormFile actFile, String user, String datasetName)
 	throws IOException {
 			
-		String userDir = Constants.CECCR_USER_BASE_PATH + user + "/DATASETS/"+datasetname;
+		String userDir = Constants.CECCR_USER_BASE_PATH + user + "/DATASETS/"+datasetName;
 			
 		// Checking if number of compounds in ACT is the same as in SDF file
 		int numACT = numCompounds(userDir+"/"+ actFile.getFileName());

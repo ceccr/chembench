@@ -19,7 +19,9 @@
 	  <tr>
 	  		<td>
 			<!-- ./datasplit activator_protein_43.sdf.x -M=R -4EXT -S=10 -N=1 -OUT=actbin -A=10 -->
-			<div class="StandardTextDarkGrayParagraph"><input type="checkbox" checked>Use activity binning</input></div></td>
+			<div class="StandardTextDarkGrayParagraph">
+			Use activity binning: <s:checkbox name="useActivityBinning" id="useActivityBinning" theme="simple" />
+			</div></td>
 		    <td></td>
 		</tr>	
 		<tr>

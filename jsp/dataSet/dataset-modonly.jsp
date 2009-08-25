@@ -18,23 +18,34 @@
 		<tr><td colspan="2"><table>
 	  <tr>
 		<td colspan="2">
-		<div class="StandardTextDarkGrayParagraph"><i>A dataset will be created from the <a href="">ACT</a> and <a href="">X</a> files you supply.</i><br /></div>
+		<div class="StandardTextDarkGrayParagraph"><i>A dataset will be created from the <a href="">ACT</a> and <a href="">X</a> files you supply.<br/>
+		This allows you to generate your own descriptors and use C-Chembench to build predictors. <br />
+		If you choose to supply an <a href="">SDF</a> file, images of your structures will be generated as well.</i><br /></div>
 	    </td>
 	  </tr>	
 	  <tr>
-	    <td width="35%"><b class='StandardTextDarkGrayParagraph'>Data type:</b></td>
-	    <td align="left"><input id="con" name="knnType" value="CONTINUOUS" checked="true" type="radio" />
-	        <div class="StandardTextDarkGrayParagraphNoIndent">Continuous</div>
-	        <input id="cat" name="knnType" value="CATEGORY" type="radio" />
-	        <div class="StandardTextDarkGrayParagraphNoIndent">Category</div></td>
+	    <td width="30%"><b class='StandardTextDarkGrayParagraph'>Data type:</b></td>
+	    <td align="left">
+		<s:radio name="dataTypeModOnly" value="dataTypeModOnly" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" />
+		</td>
 	  </tr>
 	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">ACT File:</b></td>
-	    <td align="left"><input id="loadAct" name="actFile" type="file"/></td>
+	    <td align="left">
+	    <s:file name="actFileModOnly" id="actFileModOnly" theme="simple" />
+	    </td>
 	  </tr>
 	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">X File:</b></td>
-	    <td align="left"><input id="loadXModeling" name="xFileModeling" onchange="setDatasetName(this)" type="file" /></td>
+	    <td align="left">
+	    <s:file name="xFileModOnly" id="xFileModOnly" theme="simple" />
+	    </td>
+	  </tr>
+	  <tr>
+	    <td><b class="StandardTextDarkGrayParagraph">SDF File (optional):</b></td>
+	    <td align="left">
+	    <s:file name="sdfFileModOnly" id="sdfFileModOnly" theme="simple" />
+	    </td>
 	  </tr>
   	  </table>
     </td></tr></tbody></table>

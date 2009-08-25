@@ -22,7 +22,7 @@ public class DatasetFormBean extends ValidatorForm {
 	
 	private String upload;
 
-	private String datasetname;
+	private String datasetName;
 
 	private FormFile sdFileModeling = null;
 
@@ -85,10 +85,10 @@ public class DatasetFormBean extends ValidatorForm {
 		this.knnType = knnType;
 	}
 	public String getDatasetname() {
-		return datasetname;
+		return datasetName;
 	}
-	public void setDatasetname(String datasetname) {
-		this.datasetname = datasetname;
+	public void setDatasetname(String datasetName) {
+		this.datasetName = datasetName;
 	}
 	
 }

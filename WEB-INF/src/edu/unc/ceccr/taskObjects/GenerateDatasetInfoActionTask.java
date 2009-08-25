@@ -73,7 +73,7 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 			queue.runningTask.setMessage("Creating CSV file");
 			csv_x_workflow.performCSVCreation();
 			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>X created<<<<<<<<<<<<<<<<<<<<<");
-			//DistanceMeasure dm = new DistanceMeasure(user.getUserName(), datasetname, knnType);
+			//DistanceMeasure dm = new DistanceMeasure(user.getUserName(), datasetName, knnType);
 			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`Data readed1<<<<<<<<<<<<<<<<<<<<<");
 			//dm.readData();
 			

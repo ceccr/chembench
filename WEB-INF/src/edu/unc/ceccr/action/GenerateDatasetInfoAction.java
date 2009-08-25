@@ -41,18 +41,18 @@ public class GenerateDatasetInfoAction extends Action {
 			User user = (User) session.getAttribute("user");
 			Utility.writeToMSDebug("sessionUser:::"+user.getUserName());
 			DatasetFilesBean formBean = (DatasetFilesBean) form;
-			String datasetname = formBean.getDatasetname();
-			Utility.writeToMSDebug("sessionDS:::"+datasetname);
+			String datasetName = formBean.getDatasetName();
+			Utility.writeToMSDebug("sessionDS:::"+datasetName);
 			
 			
 			
-			GenerateDatasetInfoActionTask task = new GenerateDatasetInfoActionTask(datasetname,
+			GenerateDatasetInfoActionTask task = new GenerateDatasetInfoActionTask(datasetName,
 					formBean.getRepresent(), formBean.getSimilarity_measure(), /*formBean.getSketches(),*/
 					user.getUserName(), formBean.getSdfName(),formBean.getActName());
 				
 			try {
 				task.setUp();
-				Queue.getInstance().addJob(task, user.getUserName(), datasetname);
+				Queue.getInstance().addJob(task, user.getUserName(), datasetName);
 			} catch (Exception e) {
 				request.setAttribute("message", e.getMessage());
 				forward = mapping.findForward("failure"); 

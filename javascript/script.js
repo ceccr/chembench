@@ -83,57 +83,6 @@ function submitForm(button, textarea)
 	}
 }
 
-function submitFilesForm(button, textarea)
-{
-	if(!validateUpload(button.form))	
-	{return false;}
-	else{
-	button.disabled=true;
-	button.form.submit();
-	textarea.innerHTML="Your data is being submitted, please wait";
-	return true;
-	}
-}
-
-function validateUpload(form) {
-	var messageDiv = document.getElementById("messageDiv");
-	messageDiv.innerHTML = "";					 			 
-    var valid = true;
-    
-    for(i in form.elements) {
-    	
-		 var elem = form.elements[i];
-		 
-		 if(elem!=null) {
-			 
-			 var str = elem.value;
-			 var msg;
-			 
-			 if(document.getElementById("modeling_select").checked){
-				 if (elem.name=="sdFileModeling"&&str=="") {
-				 	valid=false;
-		            messageDiv.innerHTML+="<p>Modeling SD File is required if you have selected the \"Upload\" option.</p>";
-		         } 		 
-				 if (elem.name=="actFile"&&str=="") {
-				 	valid=false;
-		            messageDiv.innerHTML+="<p>Activity File is required if you have selected the \"Upload\" option.</p>";
-		         }
-			 }
-			 else{
-				 if (elem.name=="sdFilePrediction"&&str=="") {
-					 	valid=false;
-			            messageDiv.innerHTML+="<p>Prediction SD File is required if you have selected the \"Upload\" option.</p>";
-			         }
-			 }
-		
-		}
-		 
-	 }
-   
-	 if(!valid)
-		 {return false;}else{ return true;}
-}
-
 function createCriteria(table, num)
 {
 	var i = table.rows.length

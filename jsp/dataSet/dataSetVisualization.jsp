@@ -75,7 +75,7 @@ function checkPublicDataset(){
 <form name="viz" action="/generateDatasetVis.do"
 			enctype="multipart/form-data">
 		<div class="StandardTextDarkGray" align="left"><strong>Please choose what data representation you want to have:</strong><br/>
-  	<input type="hidden" name="datasetname" id="datasetname" value="<%=ds.getFileName()%>" />
+  	<input type="hidden" name="datasetName" id="datasetName" value="<%=ds.getFileName()%>" />
 	<input type="hidden" name="knnType" id="knnType" value="<%=ds.getModelType()%>"/> 
 	<input type="hidden" name="sdfName" id="sdfName" value="<%=ds.getSdfFile()%>"/> 
 	<input type="hidden" name="actName" id="actName" value="<%=ds.getActFile()%>"/> 

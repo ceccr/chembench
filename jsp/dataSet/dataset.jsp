@@ -15,7 +15,7 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 
 <script src="javascript/script.js"></script>
-<script src="javascript/datasetScripts.js"></script>
+<script src="javascript/dataset.js"></script>
 
 <script language="javascript">
 	var usedDatasetNames = new Array(<s:iterator value="userDatasetNames">"<s:property />",</s:iterator>"");
@@ -26,6 +26,7 @@
 
 </head>
 <body>
+<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 
@@ -49,7 +50,7 @@
   </tr>
   <tr>
     <td>
-    <s:form action="/submitDataset" enctype="multipart/form-data" theme="simple">
+    <s:form action="submitDataset" enctype="multipart/form-data" method="post" theme="simple">
      
    	<!-- Upload Files -->
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
@@ -145,18 +146,30 @@
 			<div class="StandardTextDarkGrayParagraph"><i>A job will be started to generate visualizations and images for this dataset.</i><br /></div></td>
 		 </tr>	
 		<tr>
-			<td><div class='StandardTextDarkGrayParagraph'><b>Dataset name:</b></div></td>
-			<td align="left"><input type="text" id="datasetname" name="datasetname" size="40"/>
+			<td width="200"><div class='StandardTextDarkGrayParagraph'><b>Dataset Name:</b></div></td>
+			<td align="left"><s:textfield name="datasetName" id="datasetName" size="40"/>
 		  </td>
 		</tr>
 		<tr>
+			<td><b class='StandardTextDarkGrayParagraph'>Reference (optional):</b></td>
+			<td align="left"><s:textfield name="paperReference" id="paperReference" size="40"/>
+			</td>
+		</tr>
+		<tr>
 			<td><b class='StandardTextDarkGrayParagraph'>Dataset description:</b></td>
-			<td align="left"><textarea class='StandardTextDarkGrayParagraph' align="left" name="dataSetDescription" id="dataSetDescription" style="height: 50px; width: 100%"></textarea></td>
+			<td align="left"><s:textarea name="dataSetDescription" id="dataSetDescription" style="height: 50px; width: 70%"/>
+			</td>
 		</tr>
 		<tr>
 			<td></td>
-			<td align="left"><input class='StandardTextDarkGrayParagraph' name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('datasetname').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ checkSpaces(this,document.getElementById('datasetname').value); }" value="Create Dataset" type="button" />
+			<td align="left">
+			<input name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('datasetName').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ submitForm(this,document.getElementById('datasetName').value); }" value="Create Dataset" type="button" />
 			</td>
+		</tr>
+		<tr>
+			<!-- used for the "Please Wait..." box. Do not remove. -->
+			<td colspan="2"><span id="pleaseWaitText"></span>
+			<div id="messageDiv" style="color: red;"></div></td>
 		</tr>
 	</tbody>
 	</table>

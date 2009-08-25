@@ -305,7 +305,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String jobName;
 	private String textValue;
 	private String dataSetDescription;
-	private String datasetname;
+	private String datasetName;
 	private String message;
 
 	
@@ -331,10 +331,10 @@ public class ModelingFormActions extends ActionSupport{
 	}
 	
 	public String getDatasetname() {
-		return datasetname;
+		return datasetName;
 	}
-	public void setDatasetname(String datasetname) {
-		this.datasetname = datasetname;
+	public void setDatasetname(String datasetName) {
+		this.datasetName = datasetName;
 	}
 	public String getDataSetDescription() {
 		return dataSetDescription;

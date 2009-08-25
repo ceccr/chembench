@@ -44,10 +44,10 @@ function displayChart()
 function setDatasetName(obj){
 	var val = obj.value;
 	if(val.indexOf("\\")!=-1)
-		document.getElementById("datasetname").value =	val.substring(val.lastIndexOf("\\")+1, val.lastIndexOf("."));
+		document.getElementById("datasetName").value =	val.substring(val.lastIndexOf("\\")+1, val.lastIndexOf("."));
 	else if(val.indexOf("/")!=-1)
-			document.getElementById("datasetname").value =	val.substring(val.lastIndexOf("/")+1, val.lastIndexOf("."));
-	else document.getElementById("datasetname").value = val.substring(0, val.lastIndexOf("."));
+			document.getElementById("datasetName").value =	val.substring(val.lastIndexOf("/")+1, val.lastIndexOf("."));
+	else document.getElementById("datasetName").value = val.substring(0, val.lastIndexOf("."));
 }
 
 function validateLoad()
@@ -65,14 +65,14 @@ function validateLoad()
             	
             	var rejectName = false;
             	var errorstring;
-            	var datasetname = document.getElementById("datasetname").value;
-            	for(i=0; i < datasetname.length; i++){
-            		if(datasetname[i] == ' '){
+            	var datasetName = document.getElementById("datasetName").value;
+            	for(i=0; i < datasetName.length; i++){
+            		if(datasetName[i] == ' '){
             			rejectName = true;
             			errorstring="The job name must not contain a space.";
             		}
             	}
-            	if(datasetname.length == 0){
+            	if(datasetName.length == 0){
             		rejectName = true;
             		errorstring="Please enter a name for this job.";
             	}
@@ -89,30 +89,6 @@ function validateLoad()
     }
 }
 
-function showUpload(){
-
-	if(document.getElementById("modeling_select").checked){
-			disableModelling(false);
-			disablePrediction(true);
-	}
-	else{
-			disableModelling(true);
-			disablePrediction(false);
-	}
-}
-
-function disableModelling(val){
-	document.getElementById("con").disabled = val;
-	document.getElementById("cat").disabled = val;
-	document.getElementById("loadAct").disabled=val;
-	document.getElementById("loadSdfModeling").disabled=val;
-}
-
-function disablePrediction(val){
-	document.getElementById("loadSdfPrediction").disabled=val;
-}
-
-
 function cutString(obj){
 	var str = document.getElementById(obj).title;
 	if(str.length>56)
@@ -128,7 +104,8 @@ function extendColumn(obj){
 	else cutString(obj.id);
 }
 
-function checkSpaces(btn, value){
+function submitForm(btn, value){
+	//check that dataset name contains no spaces then submit form
 	var rejectName = false;
 	for(i=0; i < value.length; i++){
 		if(value[i] == ' '){
@@ -140,7 +117,58 @@ function checkSpaces(btn, value){
     	return; 	
 	}
 	
-	if(submitFilesForm(btn,document.getElementById('textarea'))) showLoading("UPLOADING FILES. PLEASE WAIT...");
+	if(submitFilesForm(btn,document.getElementById('pleaseWaitText'))) showLoading("UPLOADING FILES. PLEASE WAIT...");
+}
+
+function submitFilesForm(button, textarea)
+{
+	if(!validateUpload(button.form))	
+	{return false;}
+	else{
+		button.disabled=true;
+		button.form.submit();
+		textarea.innerHTML="Your data is being submitted, please wait";
+		return true;
+	}
+}
+
+function validateUpload(form) {
+	var messageDiv = document.getElementById("messageDiv");
+	messageDiv.innerHTML = "";					 			 
+    var valid = true;
+    
+    for(i in form.elements) {
+    	
+		 var elem = form.elements[i];
+		 
+		 if(elem!=null) {
+			 
+			 var str = elem.value;
+			 var msg;
+			 
+			 /*if(document.getElementById("modeling_select").checked){
+				 if (elem.name=="sdFileModeling"&&str=="") {
+				 	valid=false;
+		            messageDiv.innerHTML+="<p>Modeling SD File is required if you have selected the \"Upload\" option.</p>";
+		         } 		 
+				 if (elem.name=="actFile"&&str=="") {
+				 	valid=false;
+		            messageDiv.innerHTML+="<p>Activity File is required if you have selected the \"Upload\" option.</p>";
+		         }
+			// }
+			 //else{
+				 if (elem.name=="sdFilePrediction"&&str=="") {
+					 	valid=false;
+			            messageDiv.innerHTML+="<p>Prediction SD File is required if you have selected the \"Upload\" option.</p>";
+			         }
+			// }*/
+		
+		}
+		 
+	 }
+   
+	 if(!valid)
+		 {return false;}else{ return true;}
 }
 
 function deleteDataset(text_msg){
@@ -148,8 +176,6 @@ function deleteDataset(text_msg){
 	//return resp;
 	if(resp){
 		showLoading("DELETING. PLEASE WAIT...");
-		
-		
 	}
 	else return false;
 }

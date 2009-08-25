@@ -17,7 +17,7 @@ public class DatasetFilesBean extends ValidatorForm {
 	//private String[] sketches;
 	private String[] represent;
 	private String[] similarity_measure;
-	private String datasetname;
+	private String datasetName;
 	private String sdfName; 
 	private String actName;
 	
@@ -70,16 +70,16 @@ public class DatasetFilesBean extends ValidatorForm {
 		this.similarity_measure = similarity_measure;
 	}
 	/**
-	 * @return the datasetname
+	 * @return the datasetName
 	 */
-	public String getDatasetname() {
-		return datasetname;
+	public String getDatasetName() {
+		return datasetName;
 	}
 	/**
-	 * @param datasetname the datasetname to set
+	 * @param datasetName the datasetName to set
 	 */
-	public void setDatasetname(String datasetname) {
-		this.datasetname = datasetname;
+	public void setDatasetName(String datasetName) {
+		this.datasetName = datasetName;
 	}
 
 	

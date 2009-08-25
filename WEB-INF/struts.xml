@@ -47,6 +47,7 @@
         </action>
         
         <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
+        	<result name="input" type="redirect">jobs</result>
         	<result type="redirect">jobs</result>
         </action>
         
@@ -94,6 +95,10 @@
         <!-- these will forward to a path defined in web.xml. -->
         <action name="imageServlet">
             <result>imageServlet.do</result>
+        </action>
+        
+        <action name="descriptorMatrixServlet">
+            <result>descriptorMatrixServlet.do</result>
         </action>
        
         <action name="compound3D">

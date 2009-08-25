@@ -41,7 +41,7 @@ function selectTanimoto(){
 		&nbsp;&nbsp;<a href="myjobs.do"><font size=3 color='blue'><b><u>GO TO JOB</u></b></font></a><br/>
 		&nbsp;&nbsp;<a href="manageFile.do"><font size=3 color='blue'><b><u>BACK TO DATASET</u></b></font></a><br/><br/><br/><br/>
 		<% if(/*session.getAttribute("KnnType")!="PREDICTION"*/ true){ 
-			String vis = "setVisData.do?datasetname="+session.getAttribute("datasetname")+"&knnType="+session.getAttribute("KnnType");
+			String vis = "setVisData.do?datasetName="+session.getAttribute("datasetName")+"&knnType="+session.getAttribute("KnnType");
 			out.println("&nbsp;&nbsp;<a href="+vis+"><font size=3 color='blue'><b><u>GO TO DATASET VISUALISATION SETTINGS</u></b></font></a></p><br/><br/><br/><br/>");
 		}
 		%>

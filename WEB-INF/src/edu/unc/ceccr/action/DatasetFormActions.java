@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,6 +24,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -82,22 +84,57 @@ public class DatasetFormActions extends ActionSupport{
 			Utility.writeToStrutsDebug("Cannot load page.");
 		}
 		
+		dataTypeModPred = Constants.CONTINUOUS;
 		//go to the page
 		return result;
 	}
 	public String execute() throws Exception {
 		
+		try{
+			Utility.writeToDebug("Starting dataset task");
+			Utility.writeToDebug("datasetName: " + datasetName);
+			Utility.writeToDebug("useActivityBinning: " + useActivityBinning);
+			Utility.writeToDebug("sdfFile: " + sdfFileModPredFileName);
+			Utility.writeToDebug("actFile: " + actFileModPredFileName);
+			Utility.writeToDebug("Starting dataset task");
+			
+			String fullFileName = "c:/upload/myfile.txt";
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 		return SUCCESS;
 	}
+
+	private String dataTypeModPred = Constants.CONTINUOUS;
+	private String dataTypeModOnly = Constants.CONTINUOUS;
+	private String datasetName = "";
+	private String dataSetDescription = "";
+	private String externalCompoundList = "";
+	private String useActivityBinning = "true";
+	private String paperReference = "";
 	
-	private String knnType;
-	private String upload;
-	private String datasetname;
-	private FormFile sdFileModeling = null;
-	private FormFile actFile = null;
-	private FormFile sdFilePrediction= null;
-	private String dataSetDescription;
-	private String message;
+
+	public String getDatasetName() {
+		return datasetName;
+	}
+	public void setDatasetName(String datasetName) {
+		this.datasetName = datasetName;
+	}
+	
+	public String getDataTypeModPred() {
+		return dataTypeModPred;
+	}
+	public void setDataTypeModPred(String dataTypeModPred) {
+		this.dataTypeModPred = dataTypeModPred;
+	}
+	
+	public String getDataTypeModOnly() {
+		return dataTypeModOnly;
+	}
+	public void setDataTypeModOnly(String dataTypeModOnly) {
+		this.dataTypeModOnly = dataTypeModOnly;
+	}
 	
 	public String getDataSetDescription() {
 		return dataSetDescription;
@@ -106,54 +143,161 @@ public class DatasetFormActions extends ActionSupport{
 		this.dataSetDescription = dataSetDescription;
 	}
 	
-	public FormFile getActFile() {
-		return actFile;
+	public String getExternalCompoundList() {
+		return externalCompoundList;
 	}
-	public void setActFile(FormFile actFile) {
-		this.actFile = actFile;
+	public void setExternalCompoundList(String externalCompoundList) {
+		this.externalCompoundList = externalCompoundList;
 	}
+	public String getUseActivityBinning() {
+		return useActivityBinning;
+	}
+	public void setUseActivityBinning(String useActivityBinning) {
+		this.useActivityBinning = useActivityBinning;
+	}
+	
+	public String getPaperReference() {
+		return paperReference;
+	}
+	public void setPaperReference(String paperReference) {
+		this.paperReference = paperReference;
+	}
+	
+	//file upload stuff
+	private File sdfFileModPred = null;
+	private String sdfFileModPredContentType = "";
+	private String sdfFileModPredFileName = ""; 
 
-	public String getMessage() {
-		return message;
-	}
-	public void setMessage(String message) {
-		this.message = message;
-	}
+	private File sdfFileModOnly = null;
+	private String sdfFileModOnlyContentType = "";
+	private String sdfFileModOnlyFileName = ""; 
+	
+	private File sdfFilePredOnly = null;
+	private String sdfFilePredOnlyContentType = "";
+	private String sdfFilePredOnlyFileName = ""; 
 
-	public String getUpload() {
-		return upload;
-	}
-	public void setUpload(String upload) {
-		this.upload = upload;
-	}
+	private File actFileModPred = null;
+	private String actFileModPredContentType = "";
+	private String actFileModPredFileName = "";
+
+	private File actFileModOnly = null;
+	private String actFileModOnlyContentType = "";
+	private String actFileModOnlyFileName = "";
 	
-	public FormFile getSdFileModeling() {
-		return sdFileModeling;
-	}
-	public void setSdFileModeling(FormFile sdFileModeling) {
-		this.sdFileModeling = sdFileModeling;
-	}
+	private File xFileModOnly = null;
+	private String xFileModOnlyContentType= "";
+	private String xFileModOnlyFileName = "";
 	
-	public FormFile getSdFilePrediction() {
-		return sdFilePrediction;
+	public File getSdfFileModPred() {
+		return sdfFileModPred;
 	}
-	public void setSdFilePrediction(FormFile sdFilePrediction) {
-		this.sdFilePrediction = sdFilePrediction;
+	public void setSdfFileModPred(File sdfFileModPred) {
+		this.sdfFileModPred = sdfFileModPred;
 	}
+	public String getSdfFileModPredContentType() {
+		return sdfFileModPredContentType;
+	}
+	public void setSdfFileModPredContentType(String sdfFileModPredContentType) {
+		this.sdfFileModPredContentType = sdfFileModPredContentType;
+	}
+	public String getSdfFileModPredFileName() {
+		return sdfFileModPredFileName;
+	}
+	public void setSdfFileModPredFileName(String sdfFileModPredFileName) {
+		this.sdfFileModPredFileName = sdfFileModPredFileName;
+	}
+	public File getSdfFileModOnly() {
+		return sdfFileModOnly;
+	}
+	public void setSdfFileModOnly(File sdfFileModOnly) {
+		this.sdfFileModOnly = sdfFileModOnly;
+	}
+	public String getSdfFileModOnlyContentType() {
+		return sdfFileModOnlyContentType;
+	}
+	public void setSdfFileModOnlyContentType(String sdfFileModOnlyContentType) {
+		this.sdfFileModOnlyContentType = sdfFileModOnlyContentType;
+	}
+	public String getSdfFileModOnlyFileName() {
+		return sdfFileModOnlyFileName;
+	}
+	public void setSdfFileModOnlyFileName(String sdfFileModOnlyFileName) {
+		this.sdfFileModOnlyFileName = sdfFileModOnlyFileName;
+	}
+	public File getSdfFilePredOnly() {
+		return sdfFilePredOnly;
+	}
+	public void setSdfFilePredOnly(File sdfFilePredOnly) {
+		this.sdfFilePredOnly = sdfFilePredOnly;
+	}
+	public String getSdfFilePredOnlyContentType() {
+		return sdfFilePredOnlyContentType;
+	}
+	public void setSdfFilePredOnlyContentType(String sdfFilePredOnlyContentType) {
+		this.sdfFilePredOnlyContentType = sdfFilePredOnlyContentType;
+	}
+	public String getSdfFilePredOnlyFileName() {
+		return sdfFilePredOnlyFileName;
+	}
+	public void setSdfFilePredOnlyFileName(String sdfFilePredOnlyFileName) {
+		this.sdfFilePredOnlyFileName = sdfFilePredOnlyFileName;
+	}
+	public File getActFileModPred() {
+		return actFileModPred;
+	}
+	public void setActFileModPred(File actFileModPred) {
+		this.actFileModPred = actFileModPred;
+	}
+	public String getActFileModPredContentType() {
+		return actFileModPredContentType;
+	}
+	public void setActFileModPredContentType(String actFileModPredContentType) {
+		this.actFileModPredContentType = actFileModPredContentType;
+	}
+	public String getActFileModPredFileName() {
+		return actFileModPredFileName;
+	}
+	public void setActFileModPredFileName(String actFileModPredFileName) {
+		this.actFileModPredFileName = actFileModPredFileName;
+	}
+	public File getActFileModOnly() {
+		return actFileModOnly;
+	}
+	public void setActFileModOnly(File actFileModOnly) {
+		this.actFileModOnly = actFileModOnly;
+	}
+	public String getActFileModOnlyContentType() {
+		return actFileModOnlyContentType;
+	}
+	public void setActFileModOnlyContentType(String actFileModOnlyContentType) {
+		this.actFileModOnlyContentType = actFileModOnlyContentType;
+	}
+	public String getActFileModOnlyFileName() {
+		return actFileModOnlyFileName;
+	}
+	public void setActFileModOnlyFileName(String actFileModOnlyFileName) {
+		this.actFileModOnlyFileName = actFileModOnlyFileName;
+	}
+	public File getXFileModOnly() {
+		return xFileModOnly;
+	}
+	public void setXFileModOnly(File xFileModOnly) {
+		this.xFileModOnly = xFileModOnly;
+	}
+	public String getXFileModOnlyContentType() {
+		return xFileModOnlyContentType;
+	}
+	public void setXFileModOnlyContentType(String fileContentType) {
+		xFileModOnlyContentType = fileContentType;
+	}
+	public String getXFileModOnlyFileName() {
+		return xFileModOnlyFileName;
+	}
+	public void setXFileModOnlyFileName(String fileName) {
+		xFileModOnlyFileName = fileName;
+	}
+	//end file upload stuff
 	
-	public String getKnnType() {
-		return knnType;
-	}
-	public void setKnnType(String knnType) {
-		this.knnType = knnType;
-	}
-	
-	public String getDatasetname() {
-		return datasetname;
-	}
-	public void setDatasetname(String datasetname) {
-		this.datasetname = datasetname;
-	}
 	
 	//====== variables used for display on the JSP =====//
 	private User user;

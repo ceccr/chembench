@@ -78,7 +78,7 @@
 					<span><span	class="ccbHomeStandard">Welcome, 
 					  </span></span><span><span	class="ccbHomeStandard">
 					  <bean:write name="user" 	property="userName" />
-					  <button onclick="logout()" type="button" class="LoginBoxes1" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
+					  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
 					    </span> </span>        
 					</td></tr> 
 					</table>
@@ -88,7 +88,7 @@
 				<table width="250" border="0" align="right" cellpadding="5" cellspacing="2">
 						  <tr><td valign="middle">	
 						<p align="right"><span><span	class="StandardTextDarkGray4">
-						ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="LoginBoxes1" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
+						ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
 						    &nbsp &nbsp &nbsp</span> </span></td></tr> 
 				</table>
 				</logic:equal>

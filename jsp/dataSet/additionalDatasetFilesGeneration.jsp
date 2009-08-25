@@ -73,7 +73,7 @@ function getParameter ( parameterName ) {
 } 
 
 function readParam(){
-	document.getElementById("datasetname").value = getParameter("datasetname");
+	document.getElementById("datasetName").value = getParameter("datasetName");
 	document.getElementById("sdfName").value = getParameter("sdfName");
 	document.getElementById("actName").value = getParameter("actName");
 	document.getElementById("knnType").value = getParameter("knnType");
@@ -97,7 +97,7 @@ function readParam(){
 <form name="viz" action="/generateDatasetVis.do"
 			enctype="multipart/form-data">
 		<div class="StandardTextDarkGray" align="left"><strong>Please choose what data representation you want to have:</strong><br/>
-  	<input type="hidden" name="datasetname" id="datasetname" value="" />
+  	<input type="hidden" name="datasetName" id="datasetName" value="" />
 	<input type="hidden" name="knnType" id="knnType" value=""/> 
 	<input type="hidden" name="sdfName" id="sdfName" value=""/> 
 	<input type="hidden" name="actName" id="actName" value=""/> 

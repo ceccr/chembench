@@ -23,8 +23,10 @@
 	    </td>
 	  </tr>		
 	  <tr>
-	    <td><b class="StandardTextDarkGrayParagraph">SDF File:</b></td>
-	    <td align="left"><input id="loadSdf" name="sdfFile" type="file"/></td>
+	    <td width="30%"><b class="StandardTextDarkGrayParagraph">SDF File:</b></td>
+	    <td align="left">
+	    <s:file name="sdfFilePredOnly" id="sdfFilePredOnly" theme="simple" />
+		</td>
 	  </tr>
   	  </table>
     </td></tr></tbody></table>

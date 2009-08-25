@@ -14,18 +14,15 @@ import edu.unc.ceccr.utilities.Utility;
 
 @SuppressWarnings("serial")
 public class DescriptorMatrixServlet extends HttpServlet{
+	//serves up files for use with the dataset visualization Flash app
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
 	    	
-      
-	       
 	        String project = request.getParameter("project");
 	        String name=request.getParameter("name");
 	        String userName=request.getParameter("user");
-	       
-	              
+	         
 	        File matFile = new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+project+"/"+name);
-
 
 	        BufferedInputStream input = null;
 	        BufferedOutputStream output = null;

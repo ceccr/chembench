@@ -210,7 +210,7 @@ else{
 			
   </script>
                         </td>
-                        <td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="ud" property="fileName" />&knnType=<bean:write name="ud" property="modelType"/>&sdfName=<bean:write name="ud" property="sdfFile"/>&actName=<bean:write name="ud" property="actFile"/>">
+                        <td class="TableRowText02"><a  href="setVisData.do?datasetName=<bean:write name="ud" property="fileName" />&knnType=<bean:write name="ud" property="modelType"/>&sdfName=<bean:write name="ud" property="sdfFile"/>&actName=<bean:write name="ud" property="actFile"/>">
                           create</a></td>
                         <td class="TableRowText02"><a  href="deleteFile.do?userName=<bean:write name="user" property="userName"/>&fileName=<bean:write name="ud" property="fileName"/>" onclick="return deleteDataset('Are you sure to delete this dataset?')">
                           delete</a></td>
@@ -239,7 +239,7 @@ else{
                           <bean:write name="up" property="fileName" /></b></td>
                         <td class="TableRowText02"><bean:write name="up" property="numCompound" /></td>
                         <td class="TableRowText02"><bean:write name="up" property="createdTime" /></td>
-						<td class="TableRowText02"><a  href="setVisData.do?datasetname=<bean:write name="up" property="fileName" />&knnType=<bean:write name="up" property="modelType"/>&sdfName=<bean:write name="up" property="sdfFile"/>&actName=<bean:write name="up" property="actFile"/>">
+						<td class="TableRowText02"><a  href="setVisData.do?datasetName=<bean:write name="up" property="fileName" />&knnType=<bean:write name="up" property="modelType"/>&sdfName=<bean:write name="up" property="sdfFile"/>&actName=<bean:write name="up" property="actFile"/>">
                           create</a></td>
                         <td class="TableRowText02"><a href="deleteFile.do?userName=<bean:write name="user" property="userName"/>&fileName=<bean:write name="up" property="fileName" />
                           " onclick="return deleteDataset('Are you sure to delete this dataset?')">
@@ -303,7 +303,7 @@ else{
                 </tr>
                 <tr>
                     <td><div class='StandardTextDarkGrayParagraph'><b>Dataset name:</b>&nbsp;
-                            <input type="text" id="datasetname" name="datasetname" size="60"/>
+                            <input type="text" id="datasetName" name="datasetName" size="60"/>
                     </div></td>
               </tr>
               <tr>
@@ -311,7 +311,7 @@ else{
                         <textarea class='StandardTextDarkGrayParagraph' name="dataSetDescription" id="dataSetDescription" style="height: 50px; width: 100%"></textarea></td>
               </tr>
               <tr>
-                    <td colspan="3"><input class='StandardTextDarkGrayParagraph' name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('datasetname').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ checkSpaces(this,document.getElementById('datasetname').value); }" value="Create Dataset" type="button" />
+                    <td colspan="3"><input class='StandardTextDarkGrayParagraph' name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('datasetName').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ checkSpaces(this,document.getElementById('datasetName').value); }" value="Create Dataset" type="button" />
                     </td>
               </tr>
               <tr>

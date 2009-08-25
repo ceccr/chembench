@@ -23,19 +23,21 @@
 	    </td>
 	  </tr>			
 	  <tr>
-	    <td width="35%"><b class='StandardTextDarkGrayParagraph'>Data type:</b></td>
-	    <td align="left"><input id="con" name="knnType" value="CONTINUOUS" checked="true" type="radio" />
-	        <div class="StandardTextDarkGrayParagraphNoIndent">Continuous</div>
-	        <input id="cat" name="knnType" value="CATEGORY" type="radio" />
-	        <div class="StandardTextDarkGrayParagraphNoIndent">Category</div></td>
+	    <td width="30%"><b class='StandardTextDarkGrayParagraph'>Data type:</b></td>
+	    <td align="left">
+	    <s:radio name="dataTypeModPred" value="dataTypeModPred" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" />
+	    </td>
 	  </tr>
 	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">ACT File:</b></td>
-	    <td align="left"><input id="loadAct" name="actFile" type="file"/></td>
+	    <s:file name="actFileModPred" id="actFileModPred" theme="simple" />
+	    </td>
 	  </tr>
 	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">SDF File:</b></td>
-	    <td align="left"><input id="loadSdfModeling" name="sdFileModeling" onchange="setDatasetName(this)" type="file" /></td>
+	    <td align="left">
+	    <s:file name="sdfFileModPred" id="sdfFileModPred" theme="simple" />
+	    </td>
 	  </tr>
   	  </table>
     </td></tr></tbody></table>

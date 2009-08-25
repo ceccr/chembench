@@ -19,7 +19,8 @@
 	  <tr><td colspan="2">
 	  <div class='StandardTextDarkGrayParagraph'><i>List the compound names for the external set in the box below.</i></div>
 	  </td></tr>
-	  <tr><td><textarea class='StandardTextDarkGrayParagraph' align="left" style="height: 50px; width: 100%"></textarea>
+	  <tr><td>
+	  <s:textarea name="externalCompoundList" id="externalCompoundList" align="left" style="height: 50px; width: 100%" />
 	  </td></tr></table>
 	  </td></tr>
 	  </tbody>

@@ -85,7 +85,7 @@ public class SubmitDatasetAction extends Action {
 				String userName = user.getUserName();
 				
 				session.setAttribute("KnnType", knnType);
-				session.setAttribute("datasetname", datasetName);
+				session.setAttribute("datasetName", datasetName);
 				
 				//saving files to username/DATASETS/datasetName/ folder
 				String msg = DatasetFileOperations.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);

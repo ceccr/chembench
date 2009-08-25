@@ -85,7 +85,7 @@ public class QsarFormBean extends ValidatorForm {
 	private String jobName;
 	private String textValue;
 	private String dataSetDescription;
-	private String datasetname;
+	private String datasetName;
 	private String message;
 	
 	public String getModelingType() {
@@ -95,11 +95,11 @@ public class QsarFormBean extends ValidatorForm {
 		this.modelingType = modelingType;
 	}
 	
-	public String getDatasetname() {
-		return datasetname;
+	public String getDatasetName() {
+		return datasetName;
 	}
-	public void setDatasetname(String datasetname) {
-		this.datasetname = datasetname;
+	public void setDatasetName(String datasetName) {
+		this.datasetName = datasetName;
 	}
 	public String getDataSetDescription() {
 		return dataSetDescription;
