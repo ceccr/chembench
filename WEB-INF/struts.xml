@@ -105,6 +105,14 @@
             <result>compound3D.do</result>
         </action>
         
+        <action name="datasetFilesServlet">
+            <result>datasetFilesServlet.do</result>
+        </action>
+        
+        <action name="projectFilesServlet">
+            <result>projectFilesServlet.do</result>
+        </action>
+        
         <!-- End Servlet forwards -->
     </package>
 

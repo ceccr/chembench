@@ -76,12 +76,12 @@
 					
 					<s:if test="userName=='_all'">
 					<td class="TableRowText02">Public</td>
-					<td class="TableRowText02"><a href="datasetFilesServlet?datasetName=<s:property value="fileName" />&user=all-users">download</a></td>
+					<td class="TableRowText02"><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=all-users">download</a></td>
 					<td class="TableRowText02"><!-- dataset is public, so no delete option --></td>
 					</s:if>
 					<s:else>
 					<td class="TableRowText02">Private</td>
-					<td class="TableRowText02"><a href="datasetFilesServlet?datasetName=<s:property value="fileName" />&user=<s:property value="user.userName" />">download</a></td>
+					<td class="TableRowText02"><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=<s:property value="user.userName" />">download</a></td>
 					<td class="TableRowText02"><s:else><a href="">delete</a></s:else></td>
 					</s:else>
 					
@@ -133,7 +133,7 @@
 					<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
 					<td class="TableRowText02"><s:if test="userName=='_all'">Public</s:if><s:else>Private</s:else></td>
-					<td class="TableRowText02"><a href="">download</a></td>
+					<td class="TableRowText02"><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
 					<td class="TableRowText02"><s:if test="userName=='_all'"></s:if><s:else><a href="">delete</a></s:else></td>
 					</tr> 
 				</s:iterator>
@@ -179,7 +179,7 @@
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
 					<td class="TableRowText02"><s:property value="predictorName" /></td>
-					<td class="TableRowText02"><a href="">download</a></td>
+					<td class="TableRowText02"><a href="projectFilesServlet?project=<s:property value='jobName' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
 					<td class="TableRowText02"><a href="">delete</a></td>
 					</tr> 
 				</s:iterator>

@@ -18,6 +18,8 @@ import edu.unc.ceccr.workflows.ZipJobResultsWorkflow;
 @SuppressWarnings("serial")
 public class ProjectFilesServlet extends HttpServlet {
 
+	//provides zipfiles containing predictors and predictions
+	
     protected void doGet(HttpServletRequest request, HttpServletResponse response)   throws IOException
     {
     	String BASE=Constants.CECCR_USER_BASE_PATH;
@@ -28,7 +30,7 @@ public class ProjectFilesServlet extends HttpServlet {
        
        String projectType = request.getParameter("projectType");
       
-       if(projectType.equalsIgnoreCase("modelbuilder")){
+       if(projectType.equalsIgnoreCase("modeling")){
     	   projectType = "PREDICTORS";
        }
        else{

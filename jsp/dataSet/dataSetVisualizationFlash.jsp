@@ -60,6 +60,8 @@ function handleWheel(event) {
 </script>
 </head>
 <body>
+<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
+<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <table width="924px" border="0" align="center" cellpadding="0"	cellspacing="0">
 		<tr>
 		<td height="557" colspan="5" valign="top" background="theme/img/backgrmodelbuilders.jpg">
@@ -105,6 +107,8 @@ AC_FL_RunContent( 'codebase','http://download.macromedia.com/pub/shockwave/cabs/
 
 		</span></td>
 	</tr>
+	<tr>
+	<%@include file ="/jsp/main/footer.jsp" %>
 
 </table>
 </body>

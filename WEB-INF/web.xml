@@ -101,7 +101,7 @@
   </servlet>
   <servlet-mapping>
   <servlet-name>ProjectFilesServlet</servlet-name>
-  <url-pattern>/projectFilesServlet/*</url-pattern>
+  <url-pattern>/projectFilesServlet.do</url-pattern>
   </servlet-mapping>
  
  <servlet>
@@ -128,7 +128,7 @@
   </servlet>
   <servlet-mapping>
       <servlet-name>DatasetFilesServlet</servlet-name>
-      <url-pattern>/datasetFilesServlet/*</url-pattern>
+      <url-pattern>/datasetFilesServlet.do</url-pattern>
      </servlet-mapping>
      
 <!--Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha-->
