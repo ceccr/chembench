@@ -1,135 +1,164 @@
 package edu.unc.ceccr.action;
 
-import java.util.List;
-import java.util.Iterator;
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.struts.action.Action;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.hibernate.Session;
+//struts2
+import com.opensymphony.xwork2.ActionSupport; 
+import com.opensymphony.xwork2.ActionContext; 
 
-import org.hibernate.criterion.Expression;
+import org.apache.struts.upload.FormFile;
+import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Prediction;
+import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
+import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.persistence.Queue.QueueTask;
+import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
-public class DeleteAction extends Action {
 
-	public ActionForward execute(ActionMapping actionMapping, ActionForm arg1,HttpServletRequest request, HttpServletResponse arg3)
-			throws Exception
-	{
-		ActionForward forward = actionMapping.findForward("success");
+public class DeleteAction extends ActionSupport{
 
-		HttpSession session = request.getSession(false);
-		if (session == null) {
-			forward = actionMapping.findForward("login");
-		} else if (session.getAttribute("user") == null) {
-			forward = actionMapping.findForward("login");
-		} else {
-			
-			try
-			{
-				if (session.getAttribute("workflow") instanceof Queue.QueueTask)
-				{
-					((Queue.QueueTask)session.getAttribute("workflow")).cleanFiles();
-					Queue queue = Queue.getInstance();
-					queue.deleteTask((Queue.QueueTask)session.getAttribute("workflow"));
-				}
-				
-				if (session.getAttribute("selectedPredictor") != null) 
-				 {
-						Predictor predictor = (Predictor) session.getAttribute("selectedPredictor");
-						List<Prediction> predList=null;
-						predList=hasPrediction(predictor.getPredictorId());
-						int size=predList.size();
-					if(size>0)
-					{
-						String hasPrediction="<Font size='4' color='red'>Warning</font><br/><br/><br/><br/>"+
-							"The predictor <font color=blue>"+predictor.getName()+" </font>can not be deleted, because it has<font color=red> "+size
-						    +"</font>  predictions in database.<br/>";
-						String iterms="";
-						Iterator it=predList.iterator();
-						while(it.hasNext())
-						{
-							iterms=iterms+"<br/><font color=lightblue>"+((Prediction)(it.next())).getJobName()+"</font><br/>";
-						}
-						String warning="If you do want delete this predictor, you may delete these predictions first."
-							+"<br/><br/><br/><a href='modelbuilders.do'><u>Back to Model Building</u></a>";
 	
-						request.removeAttribute("hasPredictions");
-						request.setAttribute("hasPredictions", hasPrediction+iterms+warning);
-						forward = actionMapping.findForward("failure");
-					}
-					else{
-						Utility.writeToDebug("Removing predictor " + predictor.getName());
-						deletePredictor(predictor);
-						File file=new File(Constants.CECCR_USER_BASE_PATH+predictor.getUserName()+"/"+predictor.getName());
-						FileAndDirOperations.deleteDir(file);
-					}
-				}
-			} catch (Exception e) {
-				forward = actionMapping.findForward("failure");
-				Utility.writeToDebug(e);
+	private String checkDatasetDependencies(DataSet ds)throws ClassNotFoundException, SQLException{
+		
+		
+		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
+		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
+		for(int i=0;i<queuedtasks.size();i++){
+			Utility.writeToMSDebug("JobNames::"+queuedtasks.get(i).getJobName()+"=="+queuedtasks.get(i).task);
+			if(queuedtasks.get(i).getJobName().equals(fileName) && queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
+				return fileName; 
+			}
+			else if(queuedtasks.get(i).getJobName().equals(fileName+"_sketches_generation")&& queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
+				return fileName+"_sketches_generation"; 
 			}
 		}
-		return forward;
+		
+		for(int i=0;i<jobnames.size();i++){
+			Utility.writeToMSDebug("RunningJobNames::"+queuedtasks.get(i).getJobName());
+			if(jobnames.get(i).equals(fileName)){
+				return fileName; 
+			}
+			else if(jobnames.get(i).equals(fileName+"_sketches_generation")){
+				return fileName+"_sketches_generation"; 
+			}
+		}
+		return null;
 	}
 	
-	protected static void deletePredictor(Predictor predictor) throws ClassNotFoundException, SQLException {
-
-		Session session = HibernateUtil.getSession();
+	private boolean checkPermissions(String objectUser){
+		//make sure the user has permissions to delete this object
 		
+		ActionContext context = ActionContext.getContext();
+		
+		//check that there is a user logged in
+		User user = null;
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+			return false;
+		}
+		user = (User) context.getSession().get("user");
+		if(user == null){
+			Utility.writeToStrutsDebug("No user logged in.");
+			return false;
+		}
+		
+		//make sure the user can actually delete this object
+		if(user.getUserName().equalsIgnoreCase(objectUser)){
+			return true;
+		}
+		
+		return false;
+	}
+	
+	public String deleteDatasetAction() throws Exception{
+
+		ActionContext context = ActionContext.getContext();
+		
+		String datasetId;
+		DataSet ds = null;
+		
+		datasetId = ((String[]) context.getParameters().get("id"))[0];
+		Utility.writeToStrutsDebug("Deleting dataset with id: " + datasetId);
+
+		if(datasetId == null){
+			Utility.writeToStrutsDebug("No dataset ID supplied.");
+			return ERROR;
+		}
+
+		ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId));
+		if(ds == null){
+			Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
+		}
+		
+		if(! checkPermissions(ds.getUserName())){
+			Utility.writeToStrutsDebug("User does not own this dataset - cannot delete.");
+			return ERROR;
+		}
+		
+		//make sure nothing else depends on this dataset existing
+		String depends = checkDatasetDependencies(ds);
+		if(! depends.equals("")){
+			Utility.writeToStrutsDebug(depends);
+			return ERROR;
+		}
+
+		//delete the files associated with this dataset
+		ds.getUserName();
+		
+		//delete the database entry for the dataset
+		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
-		try 
-		{
+		try{
 			tx = session.beginTransaction();
-			session.delete(predictor);
+		    session.delete(ds);
 			tx.commit();
-		} catch (RuntimeException e) {
+		}catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			session.close();
 		}
+		
+		return SUCCESS;
+	}
+	
+	public String deletePredictorAction(){
+		
+		
+		return SUCCESS;
 	}
 
-	
- 
-	@SuppressWarnings("unchecked")
-	protected List<Prediction> hasPrediction(Long id)throws ClassNotFoundException, SQLException	
-	{
-		Session session = HibernateUtil.getSession();
+	public String deletePredictionAction(){
 		
-		List<Prediction> predictionJob=null;
 		
-		Transaction tx = null;
-		try 
-		{
-			tx = session.beginTransaction();
-			predictionJob=session.createCriteria(Prediction.class).add(Expression.eq("predictorId",id)).list();
-			tx.commit();
-			} catch (RuntimeException e) 
-			{
-				if (tx != null)
-					tx.rollback();
-				Utility.writeToDebug(e);
-				} finally {
-					session.close();
-					}
-		return predictionJob;
+		return SUCCESS;
 	}
+	
+	public String deleteJobAction(){
+		
+		
+		return SUCCESS;
+	}
+	
 }

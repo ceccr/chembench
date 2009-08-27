@@ -114,6 +114,26 @@
         </action>
         
         <!-- End Servlet forwards -->
+        
+        <!-- Delete Actions -->
+        <action name="deleteDataset" class="edu.unc.ceccr.action.DeleteAction" method="deleteDataset">
+        	<result type="redirect">jobs</result>
+        </action>
+        
+        <action name="deletePredictor" class="edu.unc.ceccr.action.DeleteAction" method="deletePredictor">
+        	<result type="redirect">jobs</result>
+        </action>
+        
+        <action name="deletePrediction" class="edu.unc.ceccr.action.DeleteAction" method="deletePrediction">
+        	<result type="redirect">jobs</result>
+        </action>
+        
+        <action name="deleteJob" class="edu.unc.ceccr.action.DeleteAction" method="deleteJob">
+        	<result type="redirect">jobs</result>
+        </action>
+        
+        <!-- End Delete Actions -->
+        
     </package>
 
     <!-- Add packages here -->

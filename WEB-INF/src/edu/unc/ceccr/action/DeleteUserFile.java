@@ -129,7 +129,7 @@ public class DeleteUserFile extends Action {
 			}
 		}
 			
-		///
+		//
 		Utility.writeToMSDebug("DeleteUserFile::"+dir);
 		if(FileAndDirOperations.deleteDir(new File(dir)))
 		{
@@ -148,63 +148,8 @@ public class DeleteUserFile extends Action {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
-	private String checkJobNames(String userName, String fileName)throws ClassNotFoundException, SQLException{
-		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
-		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
-		for(int i=0;i<queuedtasks.size();i++){
-			Utility.writeToMSDebug("JobNames::"+queuedtasks.get(i).getJobName()+"=="+queuedtasks.get(i).task);
-			if(queuedtasks.get(i).getJobName().equals(fileName) && queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
-				return fileName; 
-			}
-			else if(queuedtasks.get(i).getJobName().equals(fileName+"_sketches_generation")&& queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
-				return fileName+"_sketches_generation"; 
-			}
-		}
-		
-		for(int i=0;i<jobnames.size();i++){
-			Utility.writeToMSDebug("RunningJobNames::"+queuedtasks.get(i).getJobName());
-			if(jobnames.get(i).equals(fileName)){
-				return fileName; 
-			}
-			else if(jobnames.get(i).equals(fileName+"_sketches_generation")){
-				return fileName+"_sketches_generation"; 
-			}
-		}
-		return null;
-	}
+
 	
-	private String checkTasks(String userName, String fileName) throws ClassNotFoundException, SQLException{
-		DataSet dataset = PopulateDataObjects.getDataSetByName(fileName,userName);
-		String result = "";
-		if(dataset!=null){
-			Long id = dataset.getFileId();
-			Utility.writeToMSDebug("DATASET::"+id);
-			if(id!=null){
-				List<Long> temp = PopulateDataObjects.getPredictionTasksIdByDatasetId(id);
-				Utility.writeToMSDebug("PredictionTask::"+temp);
-				if(temp!=null){
-					for(Iterator<Long> i =temp.iterator();i.hasNext();){
-						QueueTask t = PopulateDataObjects.getTaskById(i.next());
-						if(t!=null)	result+="Prediction task "+t.getJobName() +" using this dataset! \n";
-					}
-				}
-				temp = PopulateDataObjects.getModelingTasksIdByDatasetId(id);
-				Utility.writeToMSDebug("Modeling taskTask::"+temp);
-				if(temp!=null){
-					for(Iterator<Long> i= temp.iterator();i.hasNext();){
-						QueueTask t = PopulateDataObjects.getTaskById(i.next());
-						if(t!=null)	result+="Modeling task "+t.getJobName() +" using this dataset! \n";
-					}
-				}
-				//TODO add the same for visualization
-				/*temp = PopulateDataObjects.getVisualizationTaskIdByDatasetId(id);
-				if(temp!=null) result+=" Visualization task "+PopulateDataObjects.getTaskById(temp) +" using this dataset";*/
-			}
-		}
-		if(!result.isEmpty()) return result;
-		return null;
-	}
 	
 	
 }

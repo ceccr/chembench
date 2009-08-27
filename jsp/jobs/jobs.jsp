@@ -1,3 +1,6 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
@@ -38,7 +41,55 @@
     <td></td>
   </tr>
 </table>
-
+	<!-- Running Jobs -->
+	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		<tbody>			
+		<tr>
+			<td height="24" align="left" colspan="2">
+			<p class="StandardTextDarkGrayParagraph2">
+			<br /><b>Job Queue</b>
+			</p></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+			<div class="StandardTextDarkGrayParagraph"><i>Running jobs are displayed below. Use the REFRESH STATUS button to update the list.</i><br /></div></td>
+		 </tr>	
+		 <tr><td colspan="2">
+		<form action="jobs">
+			<div class="StandardTextDarkGrayParagraph"><button type="submit">REFRESH STATUS</button></div>
+		</form>
+		</td></tr>
+		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
+		<table>
+			<tr>
+				<td class="TableRowText01">Name</td>
+				<td class="TableRowText01">Owner</td>
+				<td class="TableRowText01">Job Type</td>
+				<td class="TableRowText01">Dataset</td>
+				<td class="TableRowText01">Number of Compounds</td>
+				<td class="TableRowText01">Number of Models</td>
+				<td class="TableRowText01">Time Submitted</td>
+				<td class="TableRowText01">Status</td>
+				<td class="TableRowText01">Cancel</td>
+			</tr>
+			<s:iterator value="userQueueTasks">
+				<tr>
+				<td class="TableRowText02"><s:property value="jobName" /></td>
+				<td class="TableRowText02"><s:property value="userName" /></td>
+				<td class="TableRowText02"><s:property value="jobTypeString" /></td>
+				<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
+				<td class="TableRowText02"><s:property value="numCompounds" /></td>
+				<td class="TableRowText02"><s:property value="numModels" /></td>
+				<td class="TableRowText02"><s:date name="start" format="yyyy-MM-dd HH:mm" /></td>
+				<td class="TableRowText02"><s:property value="state" /></td>
+				<td class="TableRowText02"><a href="">cancel</a></td>
+				</tr> 
+			</s:iterator>
+			<br />
+			<br />
+		</table>
+	</table>
+		
 	<!-- Finished Dataset Jobs -->
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>			
@@ -60,7 +111,6 @@
 					<td class="TableRowText01">Type</td>
 					<td class="TableRowText01">Public/Private</td>
 					<td class="TableRowText01">Download</td>
-					<!-- <a href=""></a> -->
 					<td class="TableRowText01">Delete</td>
 				</tr>
 				<s:iterator value="userDatasets">
@@ -192,58 +242,8 @@
 	</tbody>
 	</table>
 	<br />
-	
-	<!-- Running Jobs -->
-	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
-		<tbody>			
-		<tr>
-			<td height="24" align="left" colspan="2">
-			<p class="StandardTextDarkGrayParagraph2">
-			<br /><b>Job Queue</b>
-			</p></td>
-		</tr>
-		<tr>
-			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>Running jobs are displayed below. Use the REFRESH STATUS button to update the list.</i><br /></div></td>
-		 </tr>	
-		 <tr><td></td><td>
-		<form action="jobs">
-			<div class="StandardTextDarkGrayParagraph"><button type="submit">REFRESH STATUS</button></div>
-		</form>
-		</td></tr>
-		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
-		<table>
-			<tr>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Owner</td>
-				<td class="TableRowText01">Job Type</td>
-				<td class="TableRowText01">Dataset</td>
-				<td class="TableRowText01">Number of Compounds</td>
-				<td class="TableRowText01">Number of Models</td>
-				<td class="TableRowText01">Time Submitted</td>
-				<td class="TableRowText01">Status</td>
-				<td class="TableRowText01">Cancel</td>
-			</tr>
-			<s:iterator value="userQueueTasks">
-				<tr>
-				<td class="TableRowText02"><s:property value="jobName" /></td>
-				<td class="TableRowText02"><s:property value="userName" /></td>
-				<td class="TableRowText02"><s:property value="jobTypeString" /></td>
-				<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-				<td class="TableRowText02"><s:property value="numCompounds" /></td>
-				<td class="TableRowText02"><s:property value="numModels" /></td>
-				<td class="TableRowText02"><s:date name="start" format="yyyy-MM-dd HH:mm" /></td>
-				<td class="TableRowText02"><s:property value="state" /></td>
-				<td class="TableRowText02"><a href="">cancel</a></td>
-				</tr> 
-			</s:iterator>
-			<br />
-			<br />
-		</table>
-	</table>
 	</div>
 	<br>
-
 	</td></tr>
 </table>
 		</td>
