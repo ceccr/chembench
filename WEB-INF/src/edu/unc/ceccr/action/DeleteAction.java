@@ -27,6 +27,7 @@ import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Model;
+import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
@@ -41,7 +42,17 @@ public class DeleteAction extends ActionSupport{
 
 	
 	private String checkDatasetDependencies(DataSet ds)throws ClassNotFoundException, SQLException{
+		//make sure there are no predictors, predictions, or jobs that depend on this dataset
+		String dependsMsg = "";
 		
+		ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(ds.getUserName(), true, false);
+		ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(ds.getUserName(), false);
+		
+		for(int i = 0; i < userPredictors.size();i++){
+			if(userPredictors.get(i).getDatasetId() == ds.getFileId()){
+				dependsMsg +=;
+			}
+		}
 		
 		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
 		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
@@ -50,7 +61,7 @@ public class DeleteAction extends ActionSupport{
 			if(queuedtasks.get(i).getJobName().equals(fileName) && queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
 				return fileName; 
 			}
-			else if(queuedtasks.get(i).getJobName().equals(fileName+"_sketches_generation")&& queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
+			else if(queuedtasks.get(i).getJobName().equals(fileName + "_sketches_generation")&& queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
 				return fileName+"_sketches_generation"; 
 			}
 		}
@@ -64,8 +75,15 @@ public class DeleteAction extends ActionSupport{
 				return fileName+"_sketches_generation"; 
 			}
 		}
-		return null;
+		return dependsMsg;
 	}
+
+	private String checkPredictorDependencies(DataSet ds)throws ClassNotFoundException, SQLException{
+		//make sure there are no predictions or prediction jobs that depend on this predictor
+		
+		return "";
+	}
+	
 	
 	private boolean checkPermissions(String objectUser){
 		//make sure the user has permissions to delete this object
@@ -125,7 +143,11 @@ public class DeleteAction extends ActionSupport{
 		}
 
 		//delete the files associated with this dataset
-		ds.getUserName();
+		String dir = Constants.CECCR_USER_BASE_PATH+ds.getUserName()+"/DATASETS/"+ds.getFileName();
+		if(! FileAndDirOperations.deleteDir(new File(dir))){
+			Utility.writeToStrutsDebug("error deleting dir: " + dir);
+			return ERROR;
+		}
 		
 		//delete the database entry for the dataset
 		Session session = HibernateUtil.getSession();
