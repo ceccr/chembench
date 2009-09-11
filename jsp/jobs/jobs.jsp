@@ -82,13 +82,14 @@
 				<td class="TableRowText02"><s:property value="numModels" /></td>
 				<td class="TableRowText02"><s:date name="start" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><s:property value="state" /></td>
-				<td class="TableRowText02"><a href="">cancel</a></td>
+				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />">cancel</a></td>
 				</tr> 
 			</s:iterator>
 			<br />
 			<br />
 		</table>
 	</table>
+	<br />
 		
 	<!-- Finished Dataset Jobs -->
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
@@ -132,7 +133,7 @@
 					<s:else>
 					<td class="TableRowText02">Private</td>
 					<td class="TableRowText02"><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=<s:property value="user.userName" />">download</a></td>
-					<td class="TableRowText02"><s:else><a href="">delete</a></s:else></td>
+					<td class="TableRowText02"><s:else><a href="deleteDataset?id=<s:property value="fileId" />">delete</a></s:else></td>
 					</s:else>
 					
 					</tr> 
@@ -184,7 +185,7 @@
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
 					<td class="TableRowText02"><s:if test="userName=='_all'">Public</s:if><s:else>Private</s:else></td>
 					<td class="TableRowText02"><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
-					<td class="TableRowText02"><s:if test="userName=='_all'"></s:if><s:else><a href="">delete</a></s:else></td>
+					<td class="TableRowText02"><s:if test="userName=='_all'"></s:if><s:else><a href="deletePredictor?id=<s:property value="predictorId" />">delete</a></s:else></td>
 					</tr> 
 				</s:iterator>
 				<br />
@@ -230,7 +231,7 @@
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
 					<td class="TableRowText02"><s:property value="predictorName" /></td>
 					<td class="TableRowText02"><a href="projectFilesServlet?project=<s:property value='jobName' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
-					<td class="TableRowText02"><a href="">delete</a></td>
+					<td class="TableRowText02"><a href="deletePrediction?id=<s:property value="predictionId" />">delete</a></td>
 					</tr> 
 				</s:iterator>
 				<br />

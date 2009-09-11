@@ -35,7 +35,6 @@ public class QsarPredictionAction extends Action {
 
 		forward = mapping.findForward("success");
 		
-		
 		HttpSession session = request.getSession(false);
 		if (session == null) {
 			forward = mapping.findForward("login");

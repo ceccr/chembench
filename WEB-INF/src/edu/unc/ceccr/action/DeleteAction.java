@@ -16,10 +16,16 @@ import javax.servlet.http.HttpSession;
 import com.opensymphony.xwork2.ActionSupport; 
 import com.opensymphony.xwork2.ActionContext; 
 
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
@@ -40,22 +46,34 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class DeleteAction extends ActionSupport{
 
-	
 	private String checkDatasetDependencies(DataSet ds)throws ClassNotFoundException, SQLException{
 		//make sure there are no predictors, predictions, or jobs that depend on this dataset
 		String dependsMsg = "";
 		
-		ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(ds.getUserName(), true, false);
-		ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(ds.getUserName(), false);
+		String userName = ds.getUserName();
+		ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName, true, false);
+		ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false);
 		
+		//check each predictor
 		for(int i = 0; i < userPredictors.size();i++){
 			if(userPredictors.get(i).getDatasetId() == ds.getFileId()){
-				dependsMsg +=;
+				dependsMsg += "The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset.\n";
 			}
 		}
 		
+		//check each prediction
+		for(int i = 0; i < userPredictions.size();i++){
+			if(userPredictions.get(i).getDatasetId() == ds.getFileId()){
+				dependsMsg += "The prediction '" + userPredictions.get(i).getJobName() + "' depends on this dataset.\n";
+			}
+		}
+		
+		//check each job
 		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
 		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
+		
+		//todo: Actually check the jobs! Needs some revision of how jobs work first.
+		/*
 		for(int i=0;i<queuedtasks.size();i++){
 			Utility.writeToMSDebug("JobNames::"+queuedtasks.get(i).getJobName()+"=="+queuedtasks.get(i).task);
 			if(queuedtasks.get(i).getJobName().equals(fileName) && queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
@@ -75,15 +93,28 @@ public class DeleteAction extends ActionSupport{
 				return fileName+"_sketches_generation"; 
 			}
 		}
+		*/
 		return dependsMsg;
 	}
 
-	private String checkPredictorDependencies(DataSet ds)throws ClassNotFoundException, SQLException{
+	private String checkPredictorDependencies(Predictor p)throws ClassNotFoundException, SQLException{
 		//make sure there are no predictions or prediction jobs that depend on this predictor
 		
-		return "";
+		String userName = p.getUserName();
+		ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false);
+		String dependsMsg = "";
+		
+		//check each prediction
+		for(int i = 0; i < userPredictions.size();i++){
+			if(userPredictions.get(i).getPredictorId() == p.getPredictorId()){
+				dependsMsg += "The prediction '" + userPredictions.get(i).getJobName() + "' depends on this predictor.\n";
+			}
+		}
+		
+		//todo: check running jobs (once jobs have been fixed up)
+		
+		return dependsMsg;
 	}
-	
 	
 	private boolean checkPermissions(String objectUser){
 		//make sure the user has permissions to delete this object
@@ -110,7 +141,7 @@ public class DeleteAction extends ActionSupport{
 		return false;
 	}
 	
-	public String deleteDatasetAction() throws Exception{
+	public String deleteDataset() throws Exception{
 
 		ActionContext context = ActionContext.getContext();
 		
@@ -165,22 +196,216 @@ public class DeleteAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
-	public String deletePredictorAction(){
+	public String deletePredictor() throws Exception{
+
+		ActionContext context = ActionContext.getContext();
+		
+		String predictorId;
+		Predictor p = null;
+		
+		predictorId = ((String[]) context.getParameters().get("id"))[0];
+		Utility.writeToStrutsDebug("Deleting predictor with id: " + predictorId);
+
+		if(predictorId == null){
+			Utility.writeToStrutsDebug("No predictor ID supplied.");
+			return ERROR;
+		}
+
+		p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId));
+		if(p == null){
+			Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
+		}
+		
+		if(! checkPermissions(p.getUserName())){
+			Utility.writeToStrutsDebug("User does not own this predictor - cannot delete.");
+			return ERROR;
+		}
+		
+		//make sure nothing else depends on this predictor existing
+		String depends = checkPredictorDependencies(p);
+		if(! depends.equals("")){
+			Utility.writeToStrutsDebug(depends);
+			return ERROR;
+		}
+
+		//delete the files associated with this predictor
+		String dir = Constants.CECCR_USER_BASE_PATH+p.getUserName()+"/PREDICTORS/"+p.getName();
+		if(! FileAndDirOperations.deleteDir(new File(dir))){
+			Utility.writeToStrutsDebug("error deleting dir: " + dir);
+			return ERROR;
+		}
+		
+		//delete the database entry for the dataset
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try{
+			tx = session.beginTransaction();
+		    session.delete(p);
+			tx.commit();
+		}catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		}
 		
 		
 		return SUCCESS;
 	}
 
-	public String deletePredictionAction(){
+	public String deletePrediction() throws Exception{
+
+		ActionContext context = ActionContext.getContext();
 		
+		String predictionId;
+		Prediction p = null;
+		
+		predictionId = ((String[]) context.getParameters().get("id"))[0];
+		Utility.writeToStrutsDebug("Deleting prediction with id: " + predictionId);
+
+		if(predictionId == null){
+			Utility.writeToStrutsDebug("No prediction ID supplied.");
+			return ERROR;
+		}
+
+		p = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId));
+		if(p == null){
+			Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
+		}
+		
+		if(! checkPermissions(p.getUserName())){
+			Utility.writeToStrutsDebug("User does not own this prediction - cannot delete.");
+			return ERROR;
+		}
+		
+		//delete the files associated with this prediction
+		String dir = Constants.CECCR_USER_BASE_PATH+p.getUserName()+"/PREDICTIONS/"+p.getJobName();
+		if(! FileAndDirOperations.deleteDir(new File(dir))){
+			Utility.writeToStrutsDebug("error deleting dir: " + dir);
+			return ERROR;
+		}
+		
+		//delete the database entry for the dataset
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try{
+			tx = session.beginTransaction();
+		    session.delete(p);
+			tx.commit();
+		}catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		}
 		
 		return SUCCESS;
 	}
 	
-	public String deleteJobAction(){
+	public String deleteJob() throws Exception{
+		//stops the job and removes all associated files
+
+		//Food for thought: What if a dataset job is deleted partway through executing?
+		//Could be a problem.
 		
+		ActionContext context = ActionContext.getContext();
+		
+		String taskId;
+		
+		taskId = ((String[]) context.getParameters().get("id"))[0];
+		Utility.writeToStrutsDebug("Deleting job with id: " + taskId);
+		
+		QueueTask task = PopulateDataObjects.getTaskById(Long.parseLong(taskId));
+		Queue queue = Queue.getInstance();
+		
+		
+		if(queue.runningTask != null && task.jobName.equals(queue.runningTask.jobName) && task.getUserName().equals( queue.runningTask.getUserName())){
+			Utility.writeToDebug("Job " + task.jobName + " is currently executing.");
+			//Right now there's no way to kill running jobs. 
+			
+			//check if kNN is running. Kill it if it is.
+			/*if(){
+				
+			}
+			else{
+				
+			}*/
+		}
+		else{
+			Utility.writeToDebug("Job " + task.jobName + " is not executing.");
+		}
+
+		//remove associated files
+		String BASE=Constants.CECCR_USER_BASE_PATH;
+		File file=new File(BASE+task.getUserName()+"/"+task.jobName);
+		FileAndDirOperations.deleteDir(file);
+
+		file=new File(BASE+task.getUserName()+"/DATASETS/"+task.jobName);
+		FileAndDirOperations.deleteDir(file);
+
+		file=new File(BASE+task.getUserName()+"/PREDICTORS/"+task.jobName);
+		FileAndDirOperations.deleteDir(file);
+		
+		file=new File(BASE+task.getUserName()+"/PREDICTIONS/"+task.jobName);
+		FileAndDirOperations.deleteDir(file);
+
+		//remove the task. Gotta do this last.
+		queue.deleteTask(task);
 		
 		return SUCCESS;
+		
+		/*public class DeleteRecordAction extends Action {
+
+	
+	public ActionForward execute(ActionMapping mapping, ActionForm form,
+			HttpServletRequest request, HttpServletResponse response)
+			throws Exception {
+
+		ActionForward forward = new ActionForward();
+
+		HttpSession session = request.getSession(false); 
+		if (session == null ){
+			forward = mapping.findForward("login");
+		}else if (session.getAttribute("user") == null){
+			forward = mapping.findForward("login");
+		}
+		else{
+			String taskName=request.getParameter("jobName");
+			try{
+				deleteTask(taskName);
+			}catch(SQLException e)
+			{Utility.writeToDebug(e);
+			forward = mapping.findForward("failure");
+			}catch(HibernateException e)
+			{
+				Utility.writeToDebug(e);
+				forward = mapping.findForward("failure");
+			}
+			
+			forward = mapping.findForward("success");
+			}
+		return forward;
+	}
+	
+	public void deleteTask(String taskName)throws HibernateException,ClassNotFoundException, SQLException
+	{
+		Queue.QueueTask task=null;
+		Session s = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			task=(QueueTask)s.createCriteria(QueueTask.class).add(Expression.eq("jobName", taskName)).uniqueResult();
+			s.delete(task);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			s.close();
+		}
+	}
+	
+}*/
+		
 	}
 	
 }

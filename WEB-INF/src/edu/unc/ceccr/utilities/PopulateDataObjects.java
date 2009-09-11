@@ -389,8 +389,6 @@ public class PopulateDataObjects {
 		}
 		return predictions;
 	}
-
-	
 	
 	public static String getSdfFileForDataset(String datasetName, String userName) throws ClassNotFoundException, SQLException {
 		DataSet dataset = null;
@@ -500,6 +498,28 @@ public class PopulateDataObjects {
 		return predictor;
 	}
 	
+
+	@SuppressWarnings("unchecked")
+	public static Prediction getPredictionById(Long predictionId) throws Exception{
+		Prediction prediction = null;
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			prediction = (Prediction) session.createCriteria(Prediction.class)
+					.add(Expression.eq("predictionId", predictionId))
+					.uniqueResult();
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		return prediction;
+	}
+	
 	public static List<Model> getModelsByPredictorId(Long predictorId)  throws ClassNotFoundException, SQLException {
 		List<Model> models = null;
 		Session session = HibernateUtil.getSession();
@@ -519,6 +539,7 @@ public class PopulateDataObjects {
 		}
 		return models;
 	}
+	
 	
 	public static Predictor getPredictorByName(String selectedPredictorName, String user)	throws ClassNotFoundException, SQLException {
 		Predictor predictor = null;
@@ -693,8 +714,7 @@ public class PopulateDataObjects {
 		} finally {
 			session.close();
 		}
-		if(task!=null) return task;
-		else return null;
+		return task;
 	}
 
 	@SuppressWarnings("unchecked")
