@@ -37,9 +37,8 @@ public class QsarPredictionTask implements WorkflowTask {
 
 	private String filePath;
 	private ArrayList<Pred_Output> allPredValue;
-	private InputStream is;
 	private String jobName;
-	private String fileOrDatabaseName;
+	private String sdf;
 	private String cutoff;
 	private String userName;
 	private Long selectedPredictorId;
@@ -47,26 +46,25 @@ public class QsarPredictionTask implements WorkflowTask {
 	
 	private Queue queue = Queue.getInstance();
 	
-	public QsarPredictionTask(String userName, String jobName,String fileOrDatabaseName, String cutoff,
-			InputStream is, int uploadOrSelect, Long selectedPredictorId, DataSet predictionDataset) throws Exception {
+	public QsarPredictionTask(String userName, String jobName, String sdf, String cutoff,
+			Long selectedPredictorId, DataSet predictionDataset) throws Exception {
 		
 		Utility.writeToMSDebug("Start ExecPredictorActionTask Constructor");
 		this.predictionDataset = predictionDataset;
 		this.jobName = jobName;
 		this.userName = userName;
-		this.fileOrDatabaseName = fileOrDatabaseName;
+		this.sdf = sdf;
 		this.cutoff = cutoff;
 		this.selectedPredictorId = selectedPredictorId;
 		this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/";
-		this.is = is;
-
-		Utility.writeToMSDebug("Finish ExecPredictorActionTask Constructor");
+		
+		Utility.writeToMSDebug("Finish QsarPredictionTask Constructor");
 	}
 
 	public void execute() throws Exception {
 
-		Utility.writeToDebug("ExecPredictorActionTask: ExecutePredictor",userName,jobName);
-		Utility.writeToMSDebug("ExecPredictorActionTask: Start"+userName+" "+jobName);
+		Utility.writeToDebug("QsarPredictionTask: ExecutePredictor",userName,jobName);
+		Utility.writeToMSDebug("QsarPredictionTask: Start"+userName+" "+jobName);
 		
         Predictor selectedPredictor = getPredictor(this.selectedPredictorId);
 
@@ -240,22 +238,6 @@ public class QsarPredictionTask implements WorkflowTask {
 		return allPredValue;
 	}
 	
-	
-	private void writeFileToDB(InputStream is, String fileOrDatabaseName)throws IOException {
-
-		String dir=Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/";
-		File fileDir=new File(dir);
-		if(!fileDir.exists())
-		{
-			@SuppressWarnings("unused")
-			boolean success=fileDir.mkdirs();
-		}
-		
-		String fullFileLocation=dir+fileOrDatabaseName;
-		
-		FileAndDirOperations.writeFiles(is, fullFileLocation);
-	}
-
 		
 	public void cleanUp() throws Exception {
 		//this.executeAntWorkflow.cleanUp();
@@ -267,18 +249,29 @@ public class QsarPredictionTask implements WorkflowTask {
 	}
 
 	public void setUp() throws Exception {
+
+		Utility.writeToDebug("Setting up prediction task", userName, jobName);
+		try{
+			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>"+predictionDataset.getFileName()+"::"+jobName);
+			new File(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName).mkdir();
+			FileAndDirOperations.copyFile(
+				Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
+				Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
+				);
+		}
+		catch(Exception e){
+			Utility.writeToMSDebug(e.getMessage());
+			Utility.writeToDebug(e);
+		}
+		Utility.writeToMSDebug("Files copied");
 		
-		if (is != null)
-		{
-			writeFileToDB(is, fileOrDatabaseName);
-			}
 	}
 
 	public void save(){
 		try{
 		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
 		Prediction predictionJob = new Prediction();
-		predictionJob.setDatabase(this.fileOrDatabaseName);
+		predictionJob.setDatabase(this.sdf);
 		predictionJob.setUserName(this.userName);
 		predictionJob.setSimilarityCutoff(new Float(this.cutoff));
 		predictionJob.setPredictorId(this.selectedPredictorId);

@@ -74,7 +74,7 @@
         
         <!-- Make Predictions Pages -->
 	    <action name="prediction" class="edu.unc.ceccr.action.PredictionFormActions" method="loadSelectPredictorPage">
-	        <result>jsp/prediction/selectPredictors2.jsp</result>
+	        <result>jsp/prediction/selectPredictor.jsp</result>
 	    </action>
 	    
 	    <action name="selectPredictor" class="edu.unc.ceccr.action.PredictionFormActions" method="loadMakePredictionsPage">
@@ -95,7 +95,7 @@
         
         <!-- View Predictor Page -->
         <action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
-        	<result>jsp/modeling/viewPredictor2.jsp</result>
+        	<result>jsp/modeling/viewPredictor.jsp</result>
         </action>
         <!-- End View Predictor Page -->
         

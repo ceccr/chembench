@@ -14,7 +14,7 @@
   <td valign="top"><a href="jobs"><img src="/theme/ccbTheme/images/jobs.jpg" border="0" /></a></td>
   <td valign="top"><a href="dataset"><img src="/theme/ccbTheme/images/datamgmt.jpg" border="0" /></a></td>
   <td valign="top"><a href="modeling"><img src="/theme/ccbTheme/images/modeling.jpg" border="0" /></a></td>
-  <td valign="top"><a href="predictors.do"><img src="/theme/ccbTheme/images/prediction.jpg" border="0" /></a></td>
+  <td valign="top"><a href="prediction"><img src="/theme/ccbTheme/images/prediction.jpg" border="0" /></a></td>
   <td valign="top"><a href="vpubchem.do"><img src="/theme/ccbTheme/images/ceccrbase.jpg" border="0" /></a></td>
   </tr>
 </table>
