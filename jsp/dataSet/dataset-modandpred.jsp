@@ -30,6 +30,7 @@
 	  </tr>
 	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">ACT File:</b></td>
+	    <td align="left">
 	    <s:file name="actFileModPred" id="actFileModPred" theme="simple" />
 	    </td>
 	  </tr>
