@@ -17,8 +17,6 @@
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 
-
-
 <script src="javascript/script.js"></script>
 
 </head>
@@ -31,7 +29,7 @@
 	<tr>
 		<span id="maincontent">
 		<td height="557" colspan="5" valign="top"
-			background="theme/img/backgrpredictors.jpg">
+			background="theme/img/backgrpredictors.jpg" STYLE="background-repeat: no-repeat;">
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<p class="StandardTextDarkGrayParagraph">
 		<b>C-ChemBench Predictors</b>
@@ -152,10 +150,7 @@
 			</s:iterator>
 			</table>
 			<br />	
-			</tr>
-	</tr>
-	</tbody>
-	</table>
+			
 <%@include file ="/jsp/main/footer.jsp" %>
 </body>
 </html>
