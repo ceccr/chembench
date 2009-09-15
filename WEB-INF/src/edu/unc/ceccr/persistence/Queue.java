@@ -547,6 +547,19 @@ public class Queue {
 			}
 		}
 		
+		for (Iterator<QueueTask> i = finished.iterator(); i.hasNext( ); ) {
+			QueueTask task = i.next( );
+			if(t.id.compareTo(task.id) == 0)
+			{
+				Utility.writeToDebug("removing " + t.jobName);
+				if(finished.remove(task)){
+					Utility.writeToDebug("removed task.");
+				}
+				else{
+					Utility.writeToDebug("task not removed.");
+				}
+			}
+		}
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
@@ -560,14 +573,14 @@ public class Queue {
 			s.delete(t);
 			
 			if(t.jobType.equals(jobTypes.prediction)){
-				s.delete(PopulateDataObjects.getPredictionTaskById(t.id));
+				//s.delete(PopulateDataObjects.getPredictionTaskById(t.id));
 				Utility.writeToMSDebug("DELETE PREDICTION TASK::"+t.id );
 			}
 			if(t.jobType.equals(jobTypes.modeling)){
-				s.delete(PopulateDataObjects.getModelingTaskById(t.id));
+				//s.delete(PopulateDataObjects.getModelingTaskById(t.id));
 			}
 			if(t.jobType.equals(jobTypes.dataset)){
-				s.delete(PopulateDataObjects.getVisualizationTaskById(t.id));				
+				//s.delete(PopulateDataObjects.getVisualizationTaskById(t.id));				
 			}
 
 			tx.commit();
@@ -705,7 +718,7 @@ public class Queue {
 			}
 		}
 		if (del != null) {
-			this.finished.remove(del);
+			finished.remove(del);
 			try {
 				deleteTaskRecord(del);
 			} catch (HibernateException e) {
@@ -722,7 +735,7 @@ public class Queue {
 	
 	public void deleteTask(QueueTask task) {
 		if (task != null) {
-			this.finished.remove(task);
+			finished.remove(task);
 			Utility.writeToDebug("DeleteTask: " + task.id);
 			try {
 				if(task.getState() == QueueTask.State.PermissionRequired){
