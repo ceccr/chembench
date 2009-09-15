@@ -154,7 +154,8 @@
 			<br />	
 			</tr>
 	</tr>
-	<tr>
+	</tbody>
+	</table>
 <%@include file ="/jsp/main/footer.jsp" %>
 </body>
 </html>

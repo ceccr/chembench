@@ -61,12 +61,6 @@
 	</script>
 </head>
 
-<tr>
-	<span id="maincontent">
-	<td height="557" colspan="5" valign="top"
-		background="theme/img/backgrpredictors.jpg">
-	<p class="StandardTextDarkGray">&nbsp;</p>
-	
 	<body bgcolor="#ffffff">
 	<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 	<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
@@ -79,7 +73,7 @@
 			<table width="465" border="0" cellspacing="0" cellpadding="0">
 	          <tr>
 	            <td>
-					<p class="StandardTextDarkGrayParagraph"><b><br>C-Chembench Predictions</b></p>
+					<!-- <p class="StandardTextDarkGrayParagraph"><b><br>C-Chembench Predictions</b></p> -->
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			<!-- description of predictions process goes here -->
 			<br><br>
