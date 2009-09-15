@@ -65,9 +65,8 @@
 			</p><br />
 			</td>
 		</tr>
-		<tr>
-			<td>
-		
+		<tr><td colspan="2">
+		<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
     	<sx:tabbedpanel id="datasetTypeTabs">
     	
 	    	<sx:div id="typeModPred" href="/loadModAndPredSection" label="Modeling and Prediction Set" theme="ajax" loadingText="Loading dataset types...">
@@ -80,7 +79,10 @@
 			</sx:div>
 			
     	</sx:tabbedpanel>
-    </td></tr></table>
+    	</td></tr></table>
+    	</td></tr>
+    	</tbody>
+    </table>
 	<br />
 	
 	<!-- Define External Set -->
@@ -94,10 +96,15 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>A subset of the compounds in the dataset will be reserved for external validation of models.</i><br /></div></td>
+			<div class="StandardTextDarkGrayParagraph"><i>A subset of the compounds in the dataset will be reserved for external validation of models.</i></div></td>
 		</tr>	
 		<tr>
 			<td colspan="2">
+			</td>
+		</tr>	
+		<tr>
+			<td colspan="2">
+			<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
 			<sx:tabbedpanel id="splitTypeTabs">
     	
 		    	<sx:div id="randomSplit" href="/loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading dataset types...">
@@ -107,8 +114,10 @@
 				</sx:div>
 				
 	    	</sx:tabbedpanel>
-	    	
-	</tbody>
+	    	</td></tr></table>
+	    	</td>
+	    </tr>	
+		</tbody>
 	</table>
 	<br />
 	
@@ -146,8 +155,12 @@
 		</td></tr>
 		<tr>
 			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>A job will be started to generate visualizations and images for this dataset.</i><br /></div></td>
+			<div class="StandardTextDarkGrayParagraph"><i>A job will be started to generate visualizations and images for this dataset.</i></div></td>
 		 </tr>	
+		<tr>
+			<td colspan="2">
+			</td>
+		</tr>	
 		<tr>
 			<td width="200"><div class='StandardTextDarkGrayParagraph'><b>Dataset Name:</b></div></td>
 			<td align="left"><s:textfield name="datasetName" id="datasetName" size="40"/>
