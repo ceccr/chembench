@@ -31,7 +31,7 @@ public class CreateDatasetTask implements WorkflowTask{
 		this.structDir = structDir;
 		this.sketchDir = sketchDir;
 	}
-
+/*
 	public CreateDatasetTask(String userName, String datasetName, String path, String sdFileName, String structDir, String sketchDir){
 		//for prediction sets without included descriptors
 		
@@ -43,7 +43,7 @@ public class CreateDatasetTask implements WorkflowTask{
 	public CreateDatasetTask(String userName, String datasetName, String path, String sdFileName, String structDir, String sketchDir){
 		//for prediction sets that include descriptors
 		
-	}
+	}*/
 	
 	public void cleanUp() throws Exception {
 		queue.deleteTask(this);

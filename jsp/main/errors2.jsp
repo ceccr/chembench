@@ -27,11 +27,6 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 	
-
-<body bgcolor="#ffffff">
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
-	
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr>
 		<td height="557" colspan="5" valign="top"
@@ -40,9 +35,12 @@
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td>
-				<p class="StandardTextDarkGrayParagraph"><b><br>Error</b></p>
+				<p class="StandardTextDarkGrayParagraph"><b><br>Error: </b></p>
 		<p align="justify" class="StandardTextDarkGrayParagraph">
-		<s:property name="errorString" /><br><br>
+		<s:property value="errorString" /><br><br>
+		To report a bug, or if you need help with C-Chembench, you can reach us at ceccrhelp@lists.unc.edu. <br />
+		Thanks, <br />
+		The Chembench Team
 		</p>
 		</td>
           </tr>

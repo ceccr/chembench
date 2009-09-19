@@ -12,7 +12,7 @@
 			<td width="100%" height="24" align="left" colspan="2">
 			<br />
 			<p class="StandardTextDarkGrayParagraph2">
-			<b>Upload Dataset for Prediction Only</b>
+			<b>Prediction Dataset</b>
 			</p>
 			</td>
 		</tr>	
@@ -23,10 +23,17 @@
 	    </td>
 	  </tr>		
 	  <tr>
-	    <td width="30%"><b class="StandardTextDarkGrayParagraph">SDF File:</b></td>
+	    <td><b class="StandardTextDarkGrayParagraph">SDF File:</b></td>
 	    <td align="left">
-	    <s:file name="sdfFilePredOnly" id="sdfFilePredOnly" theme="simple" />
+	    <s:file name="sdfFilePrediction" id="sdfFilePrediction" theme="simple" />
 		</td>
+	  </tr>
+	  <tr>
+		<td>
+		<div class="StandardTextDarkGrayParagraph">
+		<b>Standardize structures: </b>
+		</div></td>
+		<td><s:checkbox name="standardizePrediction" id="standardizePrediction" theme="simple" /></td>
 	  </tr>
   	  </table>
     </td></tr></tbody></table>

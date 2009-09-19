@@ -53,20 +53,24 @@
         
         <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
         	<result name="input" type="redirect">jobs</result>
-			<result name="error" type="redirect">error</result>
-			<result type="redirect">jobs</result>
+			<result name="error">jsp/main/errors2.jsp</result>
+        	<result name="success" type="redirect">jobs</result>
         </action>
         
-        <action name="loadModAndPredSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModAndPred">
-        	<result>jsp/dataSet/dataset-modandpred.jsp</result>
+        <action name="loadModelingSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModeling">
+        	<result>jsp/dataSet/dataset-modeling.jsp</result>
         </action>
         
-        <action name="loadPredictionOnlySection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadPredOnly">
-        	<result>jsp/dataSet/dataset-predonly.jsp</result>
+        <action name="loadPredictionSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadPrediction">
+        	<result>jsp/dataSet/dataset-prediction.jsp</result>
         </action>
         
-        <action name="loadModelingOnlySection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModOnly">
-        	<result>jsp/dataSet/dataset-modonly.jsp</result>
+        <action name="loadModelingWithDescriptorsSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModelingWithDescriptors">
+        	<result>jsp/dataSet/dataset-modelingWithDescriptors.jsp</result>
+        </action>
+        
+        <action name="loadPredictionWithDescriptorsSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadPredictionWithDescriptors">
+        	<result>jsp/dataSet/dataset-predictionWithDescriptors.jsp</result>
         </action>
         
         <action name="loadAutoExternalSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadAutoSplit">

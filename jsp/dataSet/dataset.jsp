@@ -62,20 +62,38 @@
 			<td height="24" align="left" colspan="2">
 			<p class="StandardTextDarkGrayParagraph2">
 			<br /><b>Upload Dataset Files</b>
-			</p><br />
+			</p>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="2">
+			<div class="StandardTextDarkGrayParagraph"><i>Select the type of dataset to create.</i></div></td>
+		</tr>
 		<tr><td colspan="2">
+		
+		<!-- script sets hidden field so we know which tab was selected -->
+		<script type="text/javascript">
+		   dojo.event.topic.subscribe('/datasetTypeSelect', function(tab, tabContainer) {
+		      //alert("Tab "+ tab.widgetId + " was selected");
+		      document.getElementById("datasetType").value = tab.widgetId;
+		   });
+		</script>
+		<s:hidden id="datasetType" name="datasetType" />
+		<!-- end script -->
+		
 		<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
-    	<sx:tabbedpanel id="datasetTypeTabs">
+    	<sx:tabbedpanel id="datasetTypeTabs" id="datasetTypeTabbedPanel" afterSelectTabNotifyTopics="/datasetTypeSelect">
     	
-	    	<sx:div id="typeModPred" href="/loadModAndPredSection" label="Modeling and Prediction Set" theme="ajax" loadingText="Loading dataset types...">
+	    	<sx:div id="MODELING" href="/loadModelingSection" label="Modeling Set" theme="ajax" loadingText="Loading dataset types...">
 			</sx:div>
 			
-			<sx:div id="typeModOnly" href="/loadModelingOnlySection" label="Modeling-Only Set" theme="ajax" loadingText="Loading dataset types...">
+			<sx:div id="PREDICTION" href="/loadPredictionSection" label="Prediction Set" theme="ajax" loadingText="Loading dataset types...">
 			</sx:div>
 			
-			<sx:div id="typePredOnly" href="/loadPredictionOnlySection" label="Prediction-Only Set" theme="ajax" loadingText="Loading dataset types...">
+			<sx:div id="MODELINGWITHDESCRIPTORS" href="/loadModelingWithDescriptorsSection" label="Modeling Set With Descriptors" theme="ajax" loadingText="Loading dataset types...">
+			</sx:div>
+			
+			<sx:div id="PREDICTIONWITHDESCRIPTORS" href="/loadPredictionWithDescriptorsSection" label="Prediction Set With Descriptors" theme="ajax" loadingText="Loading dataset types...">
 			</sx:div>
 			
     	</sx:tabbedpanel>
@@ -97,11 +115,7 @@
 		<tr>
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>A subset of the compounds in the dataset will be reserved for external validation of models.</i></div></td>
-		</tr>	
-		<tr>
-			<td colspan="2">
-			</td>
-		</tr>	
+		</tr>
 		<tr>
 			<td colspan="2">
 			<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
@@ -157,6 +171,10 @@
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>A job will be started to generate visualizations and images for this dataset.</i></div></td>
 		 </tr>	
+		<tr>
+			<td colspan="2">
+			</td>
+		</tr>	
 		<tr>
 			<td colspan="2">
 			</td>

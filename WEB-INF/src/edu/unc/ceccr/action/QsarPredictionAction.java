@@ -14,7 +14,7 @@ import org.apache.struts.action.ActionMapping;
 
 import edu.unc.ceccr.formbean.PredictorFormBean;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.messages.ErrorMessages;
+import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;

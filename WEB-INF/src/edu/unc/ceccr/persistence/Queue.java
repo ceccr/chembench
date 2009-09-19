@@ -32,7 +32,7 @@ import org.hibernate.criterion.Order;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.messages.ErrorMessages;
+import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
@@ -79,7 +79,7 @@ public class Queue {
 				this.jobType = jobTypes.modeling;
 				this.ACTFile = t.getActFileName();
 				this.SDFile = t.getSdFileName();
-				int temp = DatasetFileOperations.numCompounds(Constants.CECCR_USER_BASE_PATH+userName+"/"+t.getJobName()+"/"+t.getActFileName());
+				int temp = DatasetFileOperations.numCompoundsInActFile(Constants.CECCR_USER_BASE_PATH+userName+"/"+t.getJobName()+"/"+t.getActFileName());
 				this.numCompounds= temp; 
 				this.numModels=Utility.numModels(t);
 				Utility.writeToDebug("compounds in job: " + numCompounds, userName, t.getJobName());

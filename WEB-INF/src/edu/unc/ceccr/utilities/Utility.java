@@ -17,7 +17,7 @@ import java.util.Random;
 import java.io.*;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.messages.ErrorMessages;
+import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.AdminSettings;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;

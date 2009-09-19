@@ -20,7 +20,7 @@ import org.apache.struts.upload.FormFile;
 
 import edu.unc.ceccr.formbean.DatasetFormBean;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.messages.ErrorMessages;
+import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.GenerateSketchesTask;

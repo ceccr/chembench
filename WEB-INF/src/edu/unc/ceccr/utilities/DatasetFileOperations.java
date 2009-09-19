@@ -28,7 +28,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.messages.ErrorMessages;
+import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 
@@ -41,7 +41,6 @@ public class DatasetFileOperations {
 
 	private static ArrayList<String> act_compounds;
 	private static ArrayList<String> sdf_compounds;
-	private static String formula="";
 	
 	public static ArrayList<String> getActFileValues(DataSet dataset) throws Exception {
 		ArrayList<String> actFileValues = new ArrayList<String>();
@@ -104,153 +103,247 @@ public class DatasetFileOperations {
 		}
 	}
 	
-	/**
-	 * will take care of the upload SDF, SDF and ACT file, in case of the error will delete the directory 
-	 * @param userName
-	 * @param sdFile
-	 * @param actFile
-	 * @param datasetName
-	 * @param description
-	 * @param type
-	 * @return message in case of the error 
-	 * @throws Exception
-	 */
-	public static String uploadDataset(String userName, FormFile sdFile, FormFile actFile, String datasetName, String description, String type) throws Exception{
-		
+	
+	public static String uploadDataset(String userName, File sdfFile, File actFile, File xFile, String datasetName, String description, String type) throws Exception{
+		//will take care of the upload SDF, SDF and ACT file, in case of errors will delete the directory 
+			
 		String path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName+"/";
-		String dir = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName;
-
+		
 		Utility.writeToDebug("Creating dataset at " + path);
 		
-		File f = new File(dir);
 		String msg="";
-		
-		if(f.exists()) msg =  ErrorMessages.FILESYSTEM_CONTAINS_DATASET;
-		
-		if(msg==""){	
-			msg = saveSDFFile(userName, sdFile, path);
-			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + path + sdFile.getFileName());
-			rewriteSdf(path, sdFile.getFileName());
-			Utility.writeToDebug("Done rewriting SDF.");
-			Utility.writeToMSDebug("Message::"+msg);
-		}
-		
-		if(msg=="" && !type.equals(Constants.PREDICTION)){
-			 msg = saveACTFile(actFile, path);
-			 Utility.writeToMSDebug(">>>>>>>>>>>>>>>>checkingUploadedFiles2<<<<<<<<<");
-		}
-		
-		else if(type.equals(Constants.PREDICTION)){
-			    generateEmptyActFile(path, sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf(".")), path+sdFile.getFileName());
-		}
-		msg =  checkUploadedFiles(sdFile, actFile, type, userName, datasetName);
-		if (msg == ""){
-			Utility.writeToMSDebug("File saved, formula="+formula);
-			writeDatasetToDatabase(userName, datasetName, sdFile.getFileName(), actFile!=null?actFile.getFileName():sdFile.getFileName().substring(0,sdFile.getFileName().lastIndexOf("."))+".act", type, description, formula);
-		}
-		return msg;
-	}
-	
-	public static String saveSDFFile(String userName, FormFile sdFile, String path) throws Exception{
-		Utility.writeToMSDebug("saveSDFFile");
-
-		String dir = path;
-		File datasetDir = new File(dir);
-		if(!sdFile.getFileName().toLowerCase().endsWith(".sdf")) return ErrorMessages.SDF_FILE_EXTENSION_INVALID;
+		String formula = "";
+					
+		//create dir
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName).exists())
 			new File(Constants.CECCR_USER_BASE_PATH+userName).mkdirs();
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").exists())
 			new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").mkdirs();
-		
+		File datasetDir = new File(path);
 		datasetDir.mkdirs();
-		String filePath = dir+sdFile.getFileName();
-		new File(filePath).createNewFile();
-		FileAndDirOperations.writeFiles(sdFile.getInputStream(),filePath);
+		
+		//copy files from temp location into datasets dir
+		//run validations on each file after the copy
+		if(sdfFile != null){
+			msg += saveSDFFile(userName, sdfFile, path);
+			rewriteSdf(path, sdfFile.getName());
+			
+			if(!sdfIsValid(sdfFile.getInputStream()))
+			{
+					msg+=ErrorMessages.INVALID_SDF;
+			}
+			//Check if SDF file contains duplicates 
+			int sdf_duplicate_position = findDuplicates(false);
+			if(sdf_duplicate_position!=-1) msg+= ErrorMessages.SDF_CONTAINS_DUPLICATES + act_compounds.get(sdf_duplicate_position);
+		}
+		if(actFile != null){
+			 msg += saveACTFile(actFile, path);
+			 formula = rewriteACTFile(path + actFile.getName());
+			 
+			 if(!actIsValid(actFile.getInputStream()))
+			 {
+				msg=ErrorMessages.ACT_NOT_VALID;
+			 }
+			 else if(!actMatchProjectType(actFile.getInputStream(), knnType))
+			 {
+				msg=ErrorMessages.ACT_DOESNT_MATCH_PROJECT_TYPE;
+			 }
+			 //Check if ACT file contains duplicates 
+			 int act_duplicate_position = findDuplicates(true);
+			 if(act_duplicate_position!=-1) msg+= ErrorMessages.ACT_CONTAINS_DUPLICATES + act_compounds.get(act_duplicate_position);
+				
+		}
+		if(xFile != null){
+			 msg += saveXFile(actFile, path);
+		}
+
+		//generate an empty activity file (needed for... heatmaps or something...?)
+		if(type.equals(Constants.PREDICTION)){
+			generateEmptyActFile(path, sdfFile.getName().substring(0,sdfFile.getName().lastIndexOf(".")), path+sdfFile.getName());
+		}
+		if(type.equals(Constants.PREDICTIONWITHDESCRIPTORS)){
+			generateEmptyActFile(path, xFile.getName().substring(0,xFile.getName().lastIndexOf(".")), path+xFile.getName());
+		}
+		
+		//more validation: check that the information in the files lines up properly (act, sdf, x should all have the same compounds)
+		if(actFile != null && sdfFile != null){
+			//Check if SDF matches ACT file 
+			String sdf_act_match = sdfMatchesAct(sdfFile, actFile, userName, datasetName);
+			if(!sdf_act_match.equals("-1"))
+			{	
+				msg+=sdf_act_match;
+			}
+		}
+		
+		if (msg == ""){
+			//success - passed all validations
+			Utility.writeToMSDebug("File saved, formula="+formula);
+			writeDatasetToDatabase(userName, datasetName, sdfFile.getName(), actFile!=null?actFile.getName():sdfFile.getName().substring(0,sdfFile.getName().lastIndexOf("."))+".act", type, description, formula);
+		}
+		else{
+			//failed validation - completely delete directory of this dataset
+			FileAndDirOperations.deleteDirContents(path);
+			FileAndDirOperations.deleteDir(new File(path));
+		}
+		return msg;
+	}
+	
+	public static String saveSDFFile(String userName, File sdfFile, String path) throws Exception{
+		Utility.writeToMSDebug("saveSDFFile");
+
+		if(!sdfFile.getName().toLowerCase().endsWith(".sdf")) return ErrorMessages.SDF_FILE_EXTENSION_INVALID;
+		
+		String destFilePath = path+sdfFile.getName();
+		FileAndDirOperations.copyFile(sdfFile.getAbsolutePath(), destFilePath);
 		
 		return "";
 	}
 	
-	public static String saveACTFile(FormFile actFile, String path) throws IOException{
-		boolean isXlsFile = actFile.getFileName().endsWith(".x")
-		|| actFile.getFileName().endsWith(".xl") || actFile.getFileName().endsWith(".xls");
-		String act_file = actFile.getFileName();
+	public static void rewriteSdf(String filePath, String fileName) {
+		
+		//SDFs with lines longer than 1023 characters will not work properly with MolconnZ.
+		//This function gets rid of all such lines.
+		//Does not change the chemical information in the SD file; long lines in SDFs are always comments.
+		//MolconnZ is dumb. Creator has C Programmer's Disease.
+		
+		//This function will also remove the silly /r characters Windows likes
+		//to add to newlines.
+
+		File infile = new File(filePath + fileName);
+		File outfile = new File(filePath + fileName + ".temp");
+		
+		//First, run the file through jchem to eliminate anything totally bizarre
+		try{
+			String execstr = "molconvert sdf " + filePath + fileName + " -o " + filePath + fileName + ".temp";
+			Process process = Runtime.getRuntime().exec(execstr);
+			Utility.writeProgramLogfile(filePath, "molconvert", process.getInputStream(), process.getErrorStream());
+			
+			process.waitFor();
+			
+			infile.delete();
+			outfile.renameTo(infile);
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		
+		//now, remove the long lines from the input file
+		try{
+			FileReader fin = new FileReader(infile);
+			String temp;
+			Scanner src = new Scanner(fin);
+			FileWriter fout = new FileWriter(outfile);
+			while (src.hasNextLine()) {
+				temp = src.nextLine();
+	
+				//remove Windows-format \r "newline" characters
+				temp = temp.replace('\r', ' ');
+				if(temp.length() < 1000){
+					fout.write(temp + "\n");
+				}
+			}
+			fin.close();
+			fout.close();
+			infile.delete();
+			outfile.renameTo(infile);
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+	}
+	
+	public static String saveACTFile(File actFile, String path) throws IOException{
+		
+		boolean isXlsFile = actFile.getName().endsWith(".x") || actFile.getName().endsWith(".xl") || actFile.getName().endsWith(".xls");
+		String act_file = actFile.getName();
+		
 		boolean isActFile = act_file.toLowerCase().endsWith(".act");		
 		if(!isXlsFile && !isActFile) return ErrorMessages.ACT_FILE_EXTENSION_INVALID; 
 		Utility.writeToMSDebug("saveACTFile");
-		String dir = path;
-		String filePath = dir+actFile.getFileName();
-		new File(filePath).createNewFile();
-		FileAndDirOperations.writeFiles(actFile.getInputStream(),filePath);
+		String destFilePath = path+actFile.getName();
+		FileAndDirOperations.copyFile(actFile.getAbsolutePath(), destFilePath);
 		if(isXlsFile){
-			XLStoACT(dir, actFile.getFileName().substring(0,actFile.getFileName().indexOf("."))+".act",	actFile.getFileName());
-			new File(dir +actFile.getFileName()).delete();
+			XLStoACT(path, actFile.getName().substring(0,actFile.getName().indexOf("."))+".act", actFile.getName());
+			new File(path +actFile.getName()).delete();
 		}
 			
-		 formula = rewriteACTFile(filePath);
-		 return "";
+		return "";
 	}
 	
 
+	public static String rewriteACTFile(String filePath)
+	throws FileNotFoundException, IOException {
+		//removes the \r things (stupid Windows)
+		//and extracts the ACT file header so it can be stored in the DB.
+		File file = new File(filePath);
+		String fileType = " ";
+		if (file.exists()) {
+			FileReader fin = new FileReader(file);
+
+			Scanner src = new Scanner(fin);
+			StringBuilder sb = new StringBuilder();
+			String header = src.nextLine();
+			String[] type = header.split("\\s+");
+
+			if (GenericValidator.isFloat(type[1])) {
+				sb.append(header + "\n");
+			} else {
+				fileType = type[1];
+			}
+
+			String temp;
+			while (src.hasNext()) {
+				temp = src.nextLine();
+				sb.append(temp + "\n");
+			}
+
+			FileWriter fout = new FileWriter(filePath);
+			fout.write(sb.toString());
+			fout.close();
+			fin.close();
+			return fileType;
+		} else {
+			return "  ";
+		}
+
+	}
+
+	public static String saveXFile(File xFile, String path) throws IOException{
+		Utility.writeToMSDebug("saveXFile");
+
+		if(!xFile.getName().toLowerCase().endsWith("x")) return ErrorMessages.X_FILE_EXTENSION_INVALID;
+		
+		String destFilePath = path+xFile.getName();
+		FileAndDirOperations.copyFile(xFile.getAbsolutePath(), destFilePath);
+		
+		return "";
+	}
 	
 	@SuppressWarnings("unchecked")
 	public static Vector<Vector<String>> readFileToVector(String delimiter, String path) throws Exception {
     	
     	Vector<Vector<String>> result = new Vector<Vector<String>>();
         
-    	//Utility.writeToMSDebug("-----readFileToVector-----Starting read");
     	try{
-    	BigFile bf = new BigFile(path);
-    	for(Iterator i = bf.iterator();i.hasNext();){
-    		Vector<String> temp = new Vector<String>();
-    		String[] s = ((String)i.next()).split(delimiter);
-    		//Utility.writeToMSDebug("::::::::::::::::"+s.length);
-            for (int j = 0; j < s.length; j++) {
-                  temp.add(s[j]);
-              }  
-            //Utility.writeToMSDebug("::::"+temp.toString());
-            result.add(temp);
-    	}
+	    	BigFile bf = new BigFile(path);
+	    	for(Iterator i = bf.iterator();i.hasNext();){
+	    		Vector<String> temp = new Vector<String>();
+	    		String[] s = ((String)i.next()).split(delimiter);
+	            for (int j = 0; j < s.length; j++) {
+	                  temp.add(s[j]);
+	              }  
+	            result.add(temp);
+	    	}
     	}
     	catch(Exception e){
     			Utility.writeToMSDebug(e.getMessage());
     	}
     	
-		/*BufferedReader buffered_data = new BufferedReader(new InputStreamReader(new FileInputStream(new File(path))));
-		Utility.writeToMSDebug("-----readFileToVector-----Buffer read  "+buffered_data.ready());
-    	String line;    
-    	try{
-       while ((line = buffered_data.readLine()) != null) {
-          Vector<String> temp = new Vector<String>();
-          String[] s = line.split(delimiter);
-           for (int j = 0; j < s.length; j++) {
-                 temp.add(s[j]);
-             }
-          Utility.writeToMSDebug("::::"+temp.toString());
-        result.add(temp);
-       }
-
-       buffered_data.close();
-    	}catch(Exception e){
-    		Utility.writeToMSDebug("Exception:::"+ e.getMessage());
-    	}*/
-    	
-       Utility.writeToMSDebug("-----readFileToVector-----Data readed");
        return result;         
 
     }
 	
-
-	public static boolean createFiles(File filePath, FormFile sdFile, FormFile actFile) throws IOException{
-		boolean result = true; 
-		if(!filePath.exists()) result = filePath.mkdir();
-		if(result && !new File(filePath.getAbsolutePath()+"/"+sdFile.getFileName()).exists())
-		   result = new File(filePath.getAbsolutePath()+"/"+sdFile.getFileName()).createNewFile();
-		if(result && !new File(filePath.getAbsolutePath()+"/"+actFile.getFileName()).exists())
-		    result = new File(filePath.getAbsolutePath()+"/"+actFile.getFileName()).createNewFile();
-		return result;
-	}
-	
-	public static int numCompounds(String fileLocation)
+	public static int numCompoundsInActFile(String fileLocation)
 			throws FileNotFoundException, IOException {
 		int numCompounds = 0;
 		act_compounds = new ArrayList<String>();
@@ -298,8 +391,7 @@ public class DatasetFileOperations {
 		return -1;
 	}
 	
-	
-	private static void writeDatasetToDatabase(String userName, String name, String sdfFileName , String actFileName,
+	private static void writeDatasetToDatabase(String userName, String name, String sdfFileName, String actFileName,
 			String modelType, String description, String formula) throws IOException,
 			SQLException, ClassNotFoundException {
 		Utility.writeToMSDebug("writeDartasetToDatabase::"+"userName::"+userName+ " name::" + name+" sdfFileName::"+sdfFileName +" actFileName::"+actFileName+
@@ -307,7 +399,7 @@ public class DatasetFileOperations {
 
 		int numCompound = act_compounds.size();
 		if(modelType.equals(Constants.PREDICTION)){
-			numCompound = sdf_compounds.size();//new Integer(numCompoundsFromSDFiles(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + name, sdfFileName)).intValue();
+			numCompound = sdf_compounds.size();//new Integer(numCompoundsFromsdfFiles(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + name, sdfFileName)).intValue();
 		}
 		DataSet dataSet = new DataSet();
 
@@ -346,45 +438,6 @@ public class DatasetFileOperations {
 
 	}
 
-	public static String checkUploadedFiles(FormFile sdFile, FormFile actFile, String knnType, String user, String datasetName) throws FileNotFoundException, IOException{
-		String msg="";
-		
-		if(!actIsValid(actFile.getInputStream()))
-		{
-				msg=ErrorMessages.ACT_NOT_VALID;
-		}
-		
-		else if(!sdfIsValid(sdFile.getInputStream()))
-		{
-				msg+=ErrorMessages.INVALID_SDF;
-		}
-		
-		else if(!actMatchProjectType(actFile.getInputStream(), knnType))
-		{
-			msg=ErrorMessages.ACT_DOESNT_MATCH_PROJECT_TYPE;
-		}
-		else{
-			//Check if ADF matches ACT file 
-			String sdf_act_match = sdfMatchesAct(sdFile , actFile, user, datasetName);
-			if(!sdf_act_match.equals("-1"))
-			{	
-				msg+=sdf_act_match;
-			}
-			//* Check if ADF matches ACT file
-				
-			//Check if ACT file contains duplicates 
-			int act_duplicate_position = findDuplicates(true);
-			if(act_duplicate_position!=-1) msg+= ErrorMessages.ACT_CONTAINS_DUPLICATES + act_compounds.get(act_duplicate_position);
-			//* Check if ACT file contains duplicates
-				
-			//Check if SDF file contains duplicates 
-			int sdf_duplicate_position = findDuplicates(false);
-			if(sdf_duplicate_position!=-1) msg+= ErrorMessages.SDF_CONTAINS_DUPLICATES + act_compounds.get(sdf_duplicate_position);
-			//* Check if SDF file contains duplicates
-		}
-		return msg;
-	}
-	
 	public static HashMap parseActFile(String fileName)
 			throws FileNotFoundException, IOException {
 		File file = new File(fileName);
@@ -455,7 +508,7 @@ public class DatasetFileOperations {
 	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
-	public static int numCompoundsFromSDFiles(String filePath, String fileName)
+	public static int numCompoundsFromsdfFiles(String filePath, String fileName)
 			throws FileNotFoundException, IOException {
 		File file = new File(filePath +"/"+ fileName);
 		FileReader fin = new FileReader(file);
@@ -485,41 +538,6 @@ public class DatasetFileOperations {
 		return num;
 	}
 	
-	public static String rewriteACTFile(String filePath)
-	throws FileNotFoundException, IOException {
-		File file = new File(filePath);
-		String fileType = " ";
-		if (file.exists()) {
-			FileReader fin = new FileReader(file);
-
-			Scanner src = new Scanner(fin);
-			StringBuilder sb = new StringBuilder();
-			String header = src.nextLine();
-			String[] type = header.split("\\s+");
-
-			if (GenericValidator.isFloat(type[1])) {
-				sb.append(header + "\n");
-			} else {
-				fileType = type[1];
-			}
-
-			String temp;
-			while (src.hasNext()) {
-				temp = src.nextLine();
-				sb.append(temp + "\n");
-			}
-
-			FileWriter fout = new FileWriter(filePath);
-			fout.write(sb.toString());
-			fout.close();
-			fin.close();
-			return fileType;
-		} else {
-			return "  ";
-		}
-
-	}
-
 	public static ArrayList<String> getChemicalNamesFromSdf(String sdfPath) throws Exception{
 		
 		File infile = new File(sdfPath);
@@ -548,14 +566,14 @@ public class DatasetFileOperations {
 		return chemicalNames;
 	}
 	
-	public static String sdfMatchesAct(FormFile sdFile, FormFile actFile, String user, String datasetName)
+	public static String sdfMatchesAct(FormFile sdfFile, FormFile actFile, String user, String datasetName)
 	throws IOException {
 			
 		String userDir = Constants.CECCR_USER_BASE_PATH + user + "/DATASETS/"+datasetName;
 			
 		// Checking if number of compounds in ACT is the same as in SDF file
-		int numACT = numCompounds(userDir+"/"+ actFile.getFileName());
-		int numSDF = numCompoundsFromSDFiles(userDir, sdFile.getFileName());
+		int numACT = numCompoundsInActFile(userDir+"/"+ actFile.getFileName());
+		int numSDF = numCompoundsFromsdfFiles(userDir, sdfFile.getFileName());
 		
 		Utility.writeToMSDebug("Number of compounds in ACT:::"+numACT);
 		
@@ -569,74 +587,14 @@ public class DatasetFileOperations {
 		return "-1";
 	}
 	
-	public static void rewriteSdf(String filePath, String fileName) {
-		
-		//SDFs with lines longer than 1023 characters will
-		//not work properly with MolconnZ.
-		//This function gets rid of all such lines.
-		//Does not change the information in the SD file;
-		//long lines in SDFs are always comments.
-		//Google for "C Programmer's Disease" for more info.
-		
-		//This function will also remove the silly /r characters Windows likes
-		//to add to newlines.
 
-		File infile = new File(filePath + fileName);
-		File outfile = new File(filePath + fileName + ".temp");
-		
-		//First, run the file through jchem to eliminate anything totally bizarre
-		try{
-			Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_Start");
-			String execstr = "molconvert sdf " + filePath + fileName + " -o " + filePath + fileName + ".temp";
-			Process process = Runtime.getRuntime().exec(execstr);
-			Utility.writeProgramLogfile(filePath, "molconvert", process.getInputStream(), process.getErrorStream());
-			
-			process.waitFor();
-			
-			infile.delete();
-			outfile.renameTo(infile);
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
-		//now, remove the long lines from the input file
-		try{
-			FileReader fin = new FileReader(infile);
-			String temp;
-			Scanner src = new Scanner(fin);
-			FileWriter fout = new FileWriter(outfile);
-			while (src.hasNextLine()) {
-				temp = src.nextLine();
-	
-				//remove Windows-format \r "newline" characters
-				temp = temp.replace('\r', ' ');
-				if(temp.length() < 1000){
-					fout.write(temp + "\n");
-				}
-			}
-			fin.close();
-			fout.close();
-			infile.delete();
-			outfile.renameTo(infile);
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
-		//File infile_lowercase = new File(filePath + fileName.toLowerCase());
-		//outfile.renameTo(infile_lowercase);
-		
-		Utility.writeToMSDebug("=========="+filePath + fileName+"======Rewrite_End");
-	}
-
-	public static boolean sdfIsValid(InputStream sdFileStream)
+	public static boolean sdfIsValid(InputStream sdfFileStream)
 		throws IOException {
-		if (sdFileStream.available() < 0) {
+		if (sdfFileStream.available() < 0) {
 			return false;
 		}
 		/*
-		Scanner s = new Scanner(sdFileStream);
+		Scanner s = new Scanner(sdfFileStream);
 		int size, index = 1;
 		String line;
 		String[] lineArray;
@@ -666,7 +624,6 @@ public class DatasetFileOperations {
 		}
 		s.close();
 		*/
-		//yessir, that's a great SDF ya got there!
 		return true;
 	}
 
@@ -703,6 +660,10 @@ public class DatasetFileOperations {
 
 	public static boolean actMatchProjectType(InputStream actFileStream,
 			String projectType) throws IOException {
+		//checks that the categories are integers
+		//if they're not int's, the user probably meant to make a continuous
+		//dataset instead.
+		//(Or they forgot to discretize their input data.)
 		Scanner s = new Scanner(actFileStream);
 		int index = 1;
 		String line;
@@ -715,9 +676,7 @@ public class DatasetFileOperations {
 
 				if (index > 1) {
 					if (projectType.equalsIgnoreCase(Constants.CATEGORY)) {
-						if (GenericValidator.isInt(lineArray[1])
-								&& GenericValidator.isInRange(Integer
-										.parseInt(lineArray[1]), -1, 20)) {
+						if (GenericValidator.isInt(lineArray[1])) {
 						} else {
 							ss.close();
 							return false;

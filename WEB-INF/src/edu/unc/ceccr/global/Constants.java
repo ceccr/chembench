@@ -28,9 +28,11 @@ public class Constants {
 	//Type strings
 	public static final String CONTINUOUS = "CONTINUOUS";
 	public static final String CATEGORY = "CATEGORY";
-	
-	public static final String MODELBUILDING = "MODELING";
+
+	public static final String MODELING = "MODELING";
 	public static final String PREDICTION = "PREDICTION";
+	public static final String MODELINGWITHDESCRIPTORS = "MODELINGWITHDESCRIPTORS";
+	public static final String PREDICTIONWITHDESCRIPTORS = "PREDICTIONWITHDESCRIPTORS";
 	
 	public static final String MOLCONNZ = "MOLCONNZ";
 	public static final String DRAGON = "DRAGON";
@@ -46,6 +48,8 @@ public class Constants {
 
 	public static final String RANDOM = "RANDOM";
 	public static final String SPHEREEXCLUSION = "SPHEREEXCLUSION";
+	
+	
 	
 	//kNN Constants
 	public static final int CONTINUOUS_NNN_LOCATION = 1;

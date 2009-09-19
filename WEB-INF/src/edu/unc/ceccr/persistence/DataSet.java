@@ -18,10 +18,16 @@ public class DataSet implements java.io.Serializable{
 	private String userName;
 	
 	private String actFile;
-	
+
 	private String sdfFile;
 	
-	private String modelType;
+	private String xFile;
+
+	private String modelType; //continuous or category
+
+	private String datasetType; //prediction, modeling, predictionwithdescriptors, modelingwithdescriptors
+	
+	private String uploadedDescriptorType; //prediction, modeling, predictionwithdescriptors, modelingwithdescriptors
 	
 	private int numCompound;
 	
@@ -84,6 +90,24 @@ public class DataSet implements java.io.Serializable{
 	{
 		this.sdfFile=sdfFile;
 	}
+
+	@Column(name="xFile")
+	public String getXFile() {
+		return xFile;
+	}
+
+	public void setXFile(String file) {
+		xFile = file;
+	}
+
+	@Column(name="datasetType")
+	public String getDatasetType() {
+		return datasetType;
+	}
+
+	public void setDatasetType(String datasetType) {
+		this.datasetType = datasetType;
+	}
 	
 	@Column(name="modelType")
 	public String getModelType()
@@ -93,6 +117,14 @@ public class DataSet implements java.io.Serializable{
 	public void setModelType(String modelType)
 	{
 		this.modelType=modelType;
+	}
+	
+	@Column(name="uploadedDescriptorType")
+	public String getUploadedDescriptorType() {
+		return uploadedDescriptorType;
+	}
+	public void setUploadedDescriptorType(String uploadedDescriptorType) {
+		this.uploadedDescriptorType = uploadedDescriptorType;
 	}
 	
 	@Column(name="numCompound")
