@@ -128,7 +128,7 @@ public class DatasetFileOperations {
 		if(f.exists()) msg =  ErrorMessages.FILESYSTEM_CONTAINS_DATASET;
 		
 		if(msg==""){	
-			msg =  saveSDFFile(userName, sdFile, path);
+			msg = saveSDFFile(userName, sdFile, path);
 			Utility.writeToDebug("rewriting sdf into a standard 2D format: " + path + sdFile.getFileName());
 			rewriteSdf(path, sdFile.getFileName());
 			Utility.writeToDebug("Done rewriting SDF.");
@@ -161,17 +161,11 @@ public class DatasetFileOperations {
 			new File(Constants.CECCR_USER_BASE_PATH+userName).mkdirs();
 		if(!new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").exists())
 			new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS").mkdirs();
-
+		
 		datasetDir.mkdirs();
 		String filePath = dir+sdFile.getFileName();
 		new File(filePath).createNewFile();
 		FileAndDirOperations.writeFiles(sdFile.getInputStream(),filePath);
-		
-		
-
-		// checking if directory with the same name already exists in our file system
-		
-			
 		
 		return "";
 	}

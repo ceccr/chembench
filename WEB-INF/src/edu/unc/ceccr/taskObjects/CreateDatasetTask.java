@@ -11,7 +11,7 @@ import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.SdfToJpgWorkflow;
 
-public class GenerateSketchesTask implements WorkflowTask{
+public class CreateDatasetTask implements WorkflowTask{
 
 	private String userName = null;
 	private String jobName = null;
@@ -21,20 +21,33 @@ public class GenerateSketchesTask implements WorkflowTask{
 	private String sketchDir;
 	private Queue queue = Queue.getInstance();
 	
-	public GenerateSketchesTask(String userName, String datasetName,String path, String sdFileName, String structDir, String sketchDir){
-		this.jobName = datasetName+"_sketches_generation";
+	public CreateDatasetTask(String userName, String datasetName, String path, String sdFileName, String structDir, String sketchDir){
+		//for modeling sets without included descriptors
+		
+		this.jobName = datasetName;
 		this.userName = userName;
 		this.path = path;
 		this.sdfName = sdFileName;
 		this.structDir = structDir;
 		this.sketchDir = sketchDir;
 	}
-	
 
+	public CreateDatasetTask(String userName, String datasetName, String path, String sdFileName, String structDir, String sketchDir){
+		//for prediction sets without included descriptors
+		
+	}
+	public CreateDatasetTask(String userName, String datasetName, String path, String sdFileName, String structDir, String sketchDir){
+		//for modeling sets that include descriptors
+		
+	}
+	public CreateDatasetTask(String userName, String datasetName, String path, String sdFileName, String structDir, String sketchDir){
+		//for prediction sets that include descriptors
+		
+	}
+	
 	public void cleanUp() throws Exception {
 		queue.deleteTask(this);
 	}
-
 
 	public void execute() throws Exception {
 		String vizFilePath =this.path+"Visualization/"; 
@@ -56,28 +69,8 @@ public class GenerateSketchesTask implements WorkflowTask{
 	}
 
 	public void setUp() throws Exception {
-		List<QueueTask> tasks = queue.getUserTasks(userName);
-		for(Iterator<QueueTask> i=tasks.iterator();i.hasNext();){
-			QueueTask temp = i.next();
-			if(	temp.getJobType().equals(jobTypes.dataset) && temp.getJobName().equals(jobName)){
-				queue.deleteTask(temp);
-			}
-		}
-		List<QueueTask> qued_tasks = queue.getQueuedTasks();
-		for(Iterator<QueueTask> i=qued_tasks.iterator();i.hasNext();){
-			QueueTask temp = i.next();
-			if(temp.getUserName().equals(userName) && temp.getJobType().equals(jobTypes.dataset) && temp.getJobName().equals(jobName)){
-				throw new Exception("Duplicated entry in the queue!");
-			}
-		}
-		
-		Utility.writeToMSDebug("setUp()");
 		
 	}
 	
-public String getJobName() {
-		
-	return jobName;
-	}
 
 }

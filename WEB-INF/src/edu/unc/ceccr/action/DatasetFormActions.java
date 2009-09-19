@@ -19,11 +19,15 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.messages.ErrorMessages;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.taskObjects.CreateDatasetTask;
+import edu.unc.ceccr.taskObjects.GenerateSketchesTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
@@ -90,6 +94,12 @@ public class DatasetFormActions extends ActionSupport{
 	}
 	public String execute() throws Exception {
 		
+		String result = SUCCESS;
+
+		ActionContext context = ActionContext.getContext();
+		user = (User) context.getSession().get("user");
+		String userName = user.getUserName();
+		
 		try{
 			Utility.writeToDebug("Starting dataset task");
 			Utility.writeToDebug("datasetName: " + datasetName);
@@ -98,28 +108,114 @@ public class DatasetFormActions extends ActionSupport{
 			Utility.writeToDebug("actFile: " + actFileModPredFileName);
 			Utility.writeToDebug("Starting dataset task");
 			
-			String fullFileName = "c:/upload/myfile.txt";
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		return SUCCESS;
+		
+		private String datasetType = "Modeling";
+		private String dataTypeModPred = Constants.CONTINUOUS;
+		private String dataTypeModOnly = Constants.CONTINUOUS;
+		private String dataSetDescription = "";
+		private String externalCompoundList = "";
+		private String useActivityBinning = "true";
+		private String paperReference = "";
+		
+		/*
+			So what we want is really to have several independent validations.
+			First we need each individual file type validated (SDF, ACT, X)
+			Then we need SDF vs ACT, SDF vs X, and ACT vs X. (Can be all in one function - get compound lists from each
+			of the uploaded files != null then compare contents.)
+			
+			Sane error messages for each. Yay?
+			
+		 */
+		
+		if(datasetType.equalsIgnoreCase("Modeling")){
+			//do file check
+			if(sdfFileModPred == null || actFileModPred == null){
+				errorString += "File upload failed! <br />";
+				result = ERROR;
+			}
+			//verify uploaded files and copy them to the dataset dir
+			if(result.equalsIgnoreCase(SUCCESS)){
+				String msg = DatasetFileOperations.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
+				if(msg!=""){
+					errorString += msg + " <br />";
+					result = ERROR;
+				}
+			}
+			
+			if(result.equalsIgnoreCase(SUCCESS)){
+				CreateDatasetTask datasetTask = new CreateDatasetTask(datasetName, sdfFileModPred, actFileModPred, );
+			}
+		}
+		else if(datasetType.equalsIgnoreCase("Prediction")){
+			//do file check
+			if(sdfFilePredOnly == null){
+				errorString += "File upload failed! <br />";
+				result = ERROR;
+			}
+			//verify uploaded files and copy them to the dataset dir
+			if(result.equalsIgnoreCase(SUCCESS)){
+				String msg = DatasetFileOperations.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
+				if(msg!=""){
+					errorString += msg + " <br />";
+					result = ERROR;
+				}
+			}
+			if(result.equalsIgnoreCase(SUCCESS)){
+				CreateDatasetTask datasetTask = new CreateDatasetTask(datasetName, sdfFileModPred, actFileModPred, );
+			}
+		}
+		else if(datasetType.equalsIgnoreCase("ModelingWithDescriptors")){
+			
+		}
+		else if(datasetType.equalsIgnoreCase("PredictionWithDescriptors")){
+			
+		}
+		
+		GenerateSketchesTask sketchTask = new GenerateSketchesTask(userName, datasetName, Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName+"/",sdFile.getFileName(),"Visualization/Structures/", "Visualization/Sketches/");
+		 try {
+		 	sketchTask.setUp();
+			Queue.getInstance().addJob(sketchTask, userName, datasetName);
+		 } catch (Exception e) {
+			Utility.writeToMSDebug(e.getMessage());
+			msg = "Sketch generation caused an error: "+ e.getMessage();
+		 }
+		
+		return result;
 	}
-
+	
+	private String errorString = "";
+	private String datasetName = "";
+	private String datasetType = "Modeling";
 	private String dataTypeModPred = Constants.CONTINUOUS;
 	private String dataTypeModOnly = Constants.CONTINUOUS;
-	private String datasetName = "";
 	private String dataSetDescription = "";
 	private String externalCompoundList = "";
 	private String useActivityBinning = "true";
 	private String paperReference = "";
-	
 
+	public String getErrorString() {
+		return errorString;
+	}
+	public void setErrorString(String errorString) {
+		this.errorString = errorString;
+	}
+	
 	public String getDatasetName() {
 		return datasetName;
 	}
 	public void setDatasetName(String datasetName) {
 		this.datasetName = datasetName;
+	}
+
+	public String getDatasetType() {
+		return datasetType;
+	}
+	public void setDatasetType(String datasetType) {
+		this.datasetType = datasetType;
 	}
 	
 	public String getDataTypeModPred() {

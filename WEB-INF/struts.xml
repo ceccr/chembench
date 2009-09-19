@@ -11,8 +11,13 @@
     <package name="default" namespace="/" extends="struts-default">
         <default-action-ref name="index" />
         
+        <!-- Main pages -->
          <action name="index">
             <result>jsp/main/home.jsp</result>
+        </action>
+        
+         <action name="error">
+            <result>jsp/main/errors2.jsp</result>
         </action>
         
         <!-- Modeling Page -->
@@ -48,7 +53,8 @@
         
         <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
         	<result name="input" type="redirect">jobs</result>
-        	<result type="redirect">jobs</result>
+			<result name="error" type="redirect">error</result>
+			<result type="redirect">jobs</result>
         </action>
         
         <action name="loadModAndPredSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModAndPred">
