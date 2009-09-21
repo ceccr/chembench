@@ -587,10 +587,9 @@ public class DatasetFileOperations {
 		return "-1";
 	}
 	
-
-	public static boolean sdfIsValid(InputStream sdfFileStream)
+	public static boolean sdfIsValid(File sdfFile)
 		throws IOException {
-		if (sdfFileStream.available() < 0) {
+		if(! sdfFile.exists()){
 			return false;
 		}
 		/*
