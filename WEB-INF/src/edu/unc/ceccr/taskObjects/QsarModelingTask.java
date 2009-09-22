@@ -329,7 +329,7 @@ public class QsarModelingTask implements WorkflowTask {
 		//create the descriptors for the dataset and read them in
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-		ArrayList<String> chemicalNames = DatasetFileOperations.getChemicalNamesFromSdf(path + sdFileName);
+		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(path + sdFileName);
 		
 		if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
 			descriptorEnum = DescriptorEnumeration.MOLCONNZ;

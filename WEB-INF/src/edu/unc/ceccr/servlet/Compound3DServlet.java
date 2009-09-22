@@ -73,26 +73,22 @@ public class Compound3DServlet extends HttpServlet {
 			String warning = "ERROR, the SD file is not in correct format.\rThe structure can not be displayed.";
 			if (sdfile.exists()) {
 				InputStream twoDis = new FileInputStream(sdfile);
-				if (DatasetFileOperations.sdfIsValid(twoDis)) {
-					Utility.writeToMSDebug("VALID>>>>"+sdfile.getName());
-					
-					File mol3DFile = new File(workingDir + mol3D);
-					if(! mol3DFile.exists()){
-						Generate3DMolWorkflow.Convert2Dto3D(userName, project, sdf, mol3D, workingDir);
-					}
-					else{
-						Utility.writeToDebug("3D structure already calculated. Returning it.");
-					}
-
-					out.println(title);
-					out.println(front);
-					out.println(parameter);
-					out.println(end);
-					
-				} else {
-					out.println(warning);
+				Utility.writeToMSDebug("VALID>>>>"+sdfile.getName());
+				
+				File mol3DFile = new File(workingDir + mol3D);
+				if(! mol3DFile.exists()){
+					Generate3DMolWorkflow.Convert2Dto3D(userName, project, sdf, mol3D, workingDir);
+				}
+				else{
+					Utility.writeToDebug("3D structure already calculated. Returning it.");
 				}
 
+				out.println(title);
+				out.println(front);
+				out.println(parameter);
+				out.println(end);
+					
+				
 			} else {
 				out.println(" ERROR : Can not find SD file: " + id);
 			}

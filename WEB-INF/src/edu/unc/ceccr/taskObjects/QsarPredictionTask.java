@@ -111,7 +111,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		//create the descriptors for the dataset and read them in
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-		ArrayList<String> chemicalNames = DatasetFileOperations.getChemicalNamesFromSdf(path + sdfile);
+		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(path + sdfile);
 		
 		if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
 			queue.runningTask.setMessage("Generating MolconnZ descriptors");

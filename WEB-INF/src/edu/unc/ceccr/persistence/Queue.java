@@ -79,7 +79,7 @@ public class Queue {
 				this.jobType = jobTypes.modeling;
 				this.ACTFile = t.getActFileName();
 				this.SDFile = t.getSdFileName();
-				int temp = DatasetFileOperations.numCompoundsInActFile(Constants.CECCR_USER_BASE_PATH+userName+"/"+t.getJobName()+"/"+t.getActFileName());
+				int temp = DatasetFileOperations.getACTCompoundList(Constants.CECCR_USER_BASE_PATH+userName+"/"+t.getJobName()+"/"+t.getActFileName()).size();
 				this.numCompounds= temp; 
 				this.numModels=Utility.numModels(t);
 				Utility.writeToDebug("compounds in job: " + numCompounds, userName, t.getJobName());

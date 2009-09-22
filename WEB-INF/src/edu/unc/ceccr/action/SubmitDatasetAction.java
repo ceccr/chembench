@@ -88,13 +88,11 @@ public class SubmitDatasetAction extends Action {
 				session.setAttribute("datasetName", datasetName);
 				
 				//saving files to username/DATASETS/datasetName/ folder
-				String msg = DatasetFileOperations.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
+				//String msg = DatasetFileOperations.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
     			
 				if(msg!=""){
 					// If the file system already contains a dataset there is no need to delete it
-					if(msg!=ErrorMessages.FILESYSTEM_CONTAINS_DATASET){
-						FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName));
-					}
+					
 					Utility.writeToMSDebug("Error::"+msg);
 					request.removeAttribute("validationMsg");
 					request.setAttribute("validationMsg", msg);

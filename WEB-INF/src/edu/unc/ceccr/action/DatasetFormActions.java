@@ -115,16 +115,6 @@ public class DatasetFormActions extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		
-		/*
-			So what we want is really to have several independent validations.
-			First we need each individual file type validated (SDF, ACT, X)
-			Then we need SDF vs ACT, SDF vs X, and ACT vs X. (Can be all in one function - get compound lists from each
-			of the uploaded files != null then compare contents.)
-			
-			Sane error messages for each. Yay?
-			
-		 */
-		
 		if(datasetType.equalsIgnoreCase(Constants.MODELING)){
 			Utility.writeToDebug("type: " + datasetType);
 			//do file check
@@ -135,7 +125,7 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, actFileModeling, null, datasetName, dataSetDescription, dataTypeModeling);
+				String msg = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, actFileModeling, null, datasetName, dataSetDescription, dataTypeModeling, datasetType);
 				
 				if(msg!=""){
 					errorString += msg;
@@ -157,7 +147,7 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, null, null, datasetName, dataSetDescription, dataTypeModeling);
+				String msg = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, null, null, datasetName, dataSetDescription, dataTypeModeling, datasetType);
 				
 				if(msg!=""){
 					errorString += msg;
@@ -178,7 +168,7 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, actFileModDesc, xFileModDesc, datasetName, dataSetDescription, dataTypeModeling);
+				String msg = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, actFileModDesc, xFileModDesc, datasetName, dataSetDescription, dataTypeModeling, datasetType);
 				
 				if(msg!=""){
 					errorString += msg;
@@ -198,7 +188,7 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, null, xFilePredDesc, datasetName, dataSetDescription, dataTypeModeling);
+				String msg = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, null, xFilePredDesc, datasetName, dataSetDescription, dataTypeModeling, datasetType);
 				
 				if(msg!=""){
 					errorString += msg;
@@ -210,7 +200,6 @@ public class DatasetFormActions extends ActionSupport{
 			}
 		}
 		
-			
 		return result;
 	}
 	

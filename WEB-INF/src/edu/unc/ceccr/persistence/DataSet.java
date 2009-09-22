@@ -11,30 +11,19 @@ import java.util.Date;
 @Entity
 @Table(name="cbench_dataset")
 public class DataSet implements java.io.Serializable{
+	
 	private Long fileId;
-	
 	private String fileName;
-	
 	private String userName;
-	
 	private String actFile;
-
 	private String sdfFile;
-	
 	private String xFile;
-
 	private String modelType; //continuous or category
-
 	private String datasetType; //prediction, modeling, predictionwithdescriptors, modelingwithdescriptors
-	
 	private String uploadedDescriptorType; //prediction, modeling, predictionwithdescriptors, modelingwithdescriptors
-	
 	private int numCompound;
-	
 	private Date createdTime;
-	
 	private String description;
-	
 	private String actFormula;
 	
 	public DataSet(){}

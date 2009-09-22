@@ -51,27 +51,7 @@ public class QsarPredictionAction extends Action {
 				String file=null;
 				DataSet predictionDataset = PopulateDataObjects.getDataSetById(formBean.getSelectedDatasetID());
 				
-				if (upload == Constants.UPLOAD) {
-					try{
-					file = formBean.getSdFile().getFileName();
-					String msg = DatasetFileOperations.uploadDataset(user.getUserName(), formBean.getSdFile(), null, formBean.getJobName(), "", Constants.PREDICTION);
-					datasetName = formBean.getJobName();
-					if(msg!=""){
-						//If the file system already contains a dataset there is no need to delete it
-						if(msg!=ErrorMessages.FILESYSTEM_CONTAINS_DATASET){
-							FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+user.getUserName()+"/DATASETS/"+datasetName));
-						}
-						forward = mapping.findForward("failure");
-						Utility.writeToMSDebug(msg);
-					}
-					}
-					catch(Exception ex){
-						// Deleting the dataset folder to give a user a chance to upload it again
-						FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+user.getUserName()+"/DATASETS/"+datasetName));
-					}
-				} else if (upload == Constants.SELECT) {
 					datasetName = predictionDataset.getFileName();
-				}
 				
 				try{
 					Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>"+predictionDataset.getFileName()+"::"+formBean.getJobName()+"::"+formBean.getPredictorName()+"::"+formBean.getSdFile());
