@@ -98,8 +98,9 @@ public class DatasetFileOperations {
 		}
 	}
 	
-	public static String uploadDataset(String userName, File sdfFile, File actFile, File xFile, 
-			String datasetName, String description, String actFileType, String datasetType) throws Exception{
+	public static String uploadDataset(String userName, File sdfFile, String sdfFileName, File actFile, 
+			String actFileName, File xFile, String xFileName, String datasetName, String description, 
+			String actFileType, String datasetType) throws Exception{
 		//will take care of the upload SDF, SDF and ACT file, in case of errors will delete the directory 
 			
 		String path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName+"/";
@@ -125,11 +126,12 @@ public class DatasetFileOperations {
 		//copy files from temp location into datasets dir
 		//run validations on each file after the copy
 		if(sdfFile != null){
-			sdf_compounds = getSDFCompoundList(actFile.getAbsolutePath());
+			sdf_compounds = getSDFCompoundList(sdfFile.getAbsolutePath());
 			numCompounds = sdf_compounds.size();
-			msg += saveSDFFile(userName, sdfFile, path);
+			msg += saveSDFFile(userName, sdfFile, path, sdfFileName);
 			rewriteSdf(path, sdfFile.getName());
 			
+			sdfFile = new File(path + sdfFile);
 			if(!sdfIsValid(sdfFile))
 			{
 					msg+=ErrorMessages.INVALID_SDF;
@@ -143,7 +145,9 @@ public class DatasetFileOperations {
 		if(actFile != null){
 			 act_compounds = getACTCompoundList(actFile.getAbsolutePath());
 			 numCompounds = act_compounds.size();
-			 msg += saveACTFile(actFile, path);
+			 msg += saveACTFile(actFile, path, actFileName);
+			 
+			 actFile = new File(path + actFile.getName());
 			 formula = rewriteACTFile(path + actFile.getName());
 			 msg += actIsValid(actFile, actFileType);
 			 
@@ -153,7 +157,8 @@ public class DatasetFileOperations {
 				
 		}
 		if(xFile != null){
-			 msg += saveXFile(actFile, path);
+			 msg += saveXFile(xFile, path, xFileName);
+			 xFile = new File(path + xFile.getName());
 		}
 
 		//generate an empty activity file (needed for... heatmaps or something...?)
@@ -198,10 +203,9 @@ public class DatasetFileOperations {
 		return msg;
 	}
 	
-	public static String saveSDFFile(String userName, File sdfFile, String path) throws Exception{
-		Utility.writeToMSDebug("saveSDFFile");
-
-		String destFilePath = path+sdfFile.getName();
+	public static String saveSDFFile(String userName, File sdfFile, String path, String sdfFileName) throws Exception{
+		
+		String destFilePath = path + sdfFileName;
 		FileAndDirOperations.copyFile(sdfFile.getAbsolutePath(), destFilePath);
 		
 		return "";
@@ -260,12 +264,12 @@ public class DatasetFileOperations {
 		}
 	}
 	
-	public static String saveACTFile(File actFile, String path) throws IOException{
+	public static String saveACTFile(File actFile, String path, String actFileName) throws IOException{
 		
 		boolean isXlsFile = actFile.getName().endsWith(".x") || actFile.getName().endsWith(".xl") || actFile.getName().endsWith(".xls");
 		String act_file = actFile.getName();
 		
-		String destFilePath = path+actFile.getName();
+		String destFilePath = path + actFileName;
 		FileAndDirOperations.copyFile(actFile.getAbsolutePath(), destFilePath);
 		if(isXlsFile){
 			XLStoACT(path, actFile.getName().substring(0,actFile.getName().indexOf("."))+".act", actFile.getName());
@@ -312,10 +316,9 @@ public class DatasetFileOperations {
 
 	}
 
-	public static String saveXFile(File xFile, String path) throws IOException{
-		Utility.writeToMSDebug("saveXFile");
+	public static String saveXFile(File xFile, String path, String xFileName) throws IOException{
 		
-		String destFilePath = path+xFile.getName();
+		String destFilePath = path + xFileName;
 		FileAndDirOperations.copyFile(xFile.getAbsolutePath(), destFilePath);
 		
 		return "";

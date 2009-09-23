@@ -125,7 +125,7 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, actFileModeling, null, datasetName, dataSetDescription, dataTypeModeling, datasetType);
+				String msg = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, actFileModeling, actFileModelingFileName, null, "", datasetName, dataSetDescription, dataTypeModeling, datasetType);
 				
 				if(msg!=""){
 					errorString += msg;
@@ -147,7 +147,7 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, null, null, datasetName, dataSetDescription, dataTypeModeling, datasetType);
+				String msg = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, "", null, "", datasetName, dataSetDescription, dataTypeModeling, datasetType);
 				
 				if(msg!=""){
 					errorString += msg;
@@ -168,7 +168,7 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, actFileModDesc, xFileModDesc, datasetName, dataSetDescription, dataTypeModeling, datasetType);
+				String msg = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, dataSetDescription, dataTypeModeling, datasetType);
 				
 				if(msg!=""){
 					errorString += msg;
@@ -188,7 +188,7 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, null, xFilePredDesc, datasetName, dataSetDescription, dataTypeModeling, datasetType);
+				String msg = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", xFilePredDesc, xFilePredDescFileName, datasetName, dataSetDescription, dataTypeModeling, datasetType);
 				
 				if(msg!=""){
 					errorString += msg;

@@ -88,7 +88,7 @@ public class SubmitDatasetAction extends Action {
 				session.setAttribute("datasetName", datasetName);
 				
 				//saving files to username/DATASETS/datasetName/ folder
-				//String msg = DatasetFileOperations.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
+				String msg = "";// = DatasetFileOperations.uploadDataset(userName, sdFile, actFile, datasetName, formBean.getDataSetDescription(), knnType);
     			
 				if(msg!=""){
 					// If the file system already contains a dataset there is no need to delete it
