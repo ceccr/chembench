@@ -125,8 +125,17 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, actFileModeling, actFileModelingFileName, null, "", datasetName, dataSetDescription, dataTypeModeling, datasetType);
-				
+				String msg = "";
+				try{
+					msg = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
+							actFileModeling, actFileModelingFileName, null, "", datasetName, 
+							dataTypeModeling, datasetType);
+				}
+				catch(Exception ex){
+					Utility.writeToDebug(ex);
+					result = ERROR;
+					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
+				}
 				if(msg!=""){
 					errorString += msg;
 					result = ERROR;
@@ -134,7 +143,21 @@ public class DatasetFormActions extends ActionSupport{
 			}
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
-				//CreateDatasetTask datasetTask = new CreateDatasetTask(datasetName, sdfFileModeling, actFileModeling, );
+				CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
+						sdfFileModelingFileName, //sdfFileName
+						actFileModelingFileName, //actFileName
+						"", //xFileName
+						"", //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
+						dataTypeModeling, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS
+						standardizeModeling, //used in MODELING and PREDICTION
+						splitType, //RANDOM or USERDEFINED
+						numExternalCompounds, //if splitType is RANDOM
+						useActivityBinning, //if splitType is RANDOM
+						externalCompoundList, //if splitType is USERDEFINED
+						datasetName,
+						paperReference,
+						dataSetDescription);
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTION)){
@@ -147,8 +170,17 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, "", null, "", datasetName, dataSetDescription, dataTypeModeling, datasetType);
-				
+				String msg = "";
+				try{
+					msg = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, 
+							"", null, "", datasetName, dataTypeModeling, datasetType);
+				}
+				catch(Exception ex){
+					Utility.writeToDebug(ex);
+					result = ERROR;
+					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
+				}
+			
 				if(msg!=""){
 					errorString += msg;
 					result = ERROR;
@@ -156,6 +188,24 @@ public class DatasetFormActions extends ActionSupport{
 			}
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//CreateDatasetTask datasetTask = new CreateDatasetTask(datasetName, sdfFileModeling, actFileModeling, );
+				
+				CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
+						sdfFilePredictionFileName, //sdfFileName
+						"", //actFileName
+						"", //xFileName
+						"", //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
+						"", //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS
+						standardizePrediction, //used in MODELING and PREDICTION
+						splitType, //RANDOM or USERDEFINED
+						numExternalCompounds, //if splitType is RANDOM
+						useActivityBinning, //if splitType is RANDOM
+						externalCompoundList, //if splitType is USERDEFINED
+						datasetName,
+						paperReference,
+						dataSetDescription);
+				
+				
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)){
@@ -168,7 +218,17 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, dataSetDescription, dataTypeModeling, datasetType);
+				String msg = "";
+				try{
+					msg = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
+							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
+							dataTypeModeling, datasetType);
+				}
+				catch(Exception ex){
+					Utility.writeToDebug(ex);
+					result = ERROR;
+					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
+				}
 				
 				if(msg!=""){
 					errorString += msg;
@@ -176,7 +236,21 @@ public class DatasetFormActions extends ActionSupport{
 				}
 			}
 			if(result.equalsIgnoreCase(SUCCESS)){
-				//CreateDatasetTask datasetTask = new CreateDatasetTask(datasetName, sdfFileModeling, actFileModeling, );
+				CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
+						sdfFileModDescFileName, //sdfFileName
+						actFileModDescFileName, //actFileName
+						xFileModDescFileName, //xFileName
+						descriptorTypeModDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
+						dataTypeModDesc, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS
+						"", //used in MODELING and PREDICTION
+						splitType, //RANDOM or USERDEFINED
+						numExternalCompounds, //if splitType is RANDOM
+						useActivityBinning, //if splitType is RANDOM
+						externalCompoundList, //if splitType is USERDEFINED
+						datasetName,
+						paperReference,
+						dataSetDescription);
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)){
@@ -188,7 +262,16 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", xFilePredDesc, xFilePredDescFileName, datasetName, dataSetDescription, dataTypeModeling, datasetType);
+				String msg = "";
+				try{
+					msg = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
+							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType);
+				}
+				catch(Exception ex){
+					Utility.writeToDebug(ex);
+					result = ERROR;
+					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
+				}
 				
 				if(msg!=""){
 					errorString += msg;
@@ -196,7 +279,21 @@ public class DatasetFormActions extends ActionSupport{
 				}
 			}
 			if(result.equalsIgnoreCase(SUCCESS)){
-				//CreateDatasetTask datasetTask = new CreateDatasetTask(datasetName, sdfFileModeling, actFileModeling, );
+				CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
+						sdfFilePredDescFileName, //sdfFileName
+						"", //actFileName
+						xFilePredDescFileName, //xFileName
+						descriptorTypePredDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
+						"", //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS
+						"", //used in MODELING and PREDICTION
+						splitType, //RANDOM or USERDEFINED
+						numExternalCompounds, //if splitType is RANDOM
+						useActivityBinning, //if splitType is RANDOM
+						externalCompoundList, //if splitType is USERDEFINED
+						datasetName,
+						paperReference,
+						dataSetDescription);
 			}
 		}
 		
@@ -206,6 +303,7 @@ public class DatasetFormActions extends ActionSupport{
 	private String errorString = "";
 	private String datasetName = "";
 	private String datasetType = Constants.MODELING;
+	private String splitType = Constants.RANDOM;
 	private String dataTypeModeling = Constants.CONTINUOUS;
 	private String dataTypeModDesc = Constants.CONTINUOUS;
 	private String dataSetDescription = "";
@@ -215,8 +313,8 @@ public class DatasetFormActions extends ActionSupport{
 	private String standardizeModeling = "true";
 	private String standardizePrediction = "true";
 	private String paperReference = "";
-	private String modelingPreGeneratedDescriptors = "";
-	private String predictionPreGeneratedDescriptors = "";
+	private String descriptorTypeModDesc = "";
+	private String descriptorTypePredDesc = "";
 
 	public String getErrorString() {
 		return errorString;
@@ -291,18 +389,18 @@ public class DatasetFormActions extends ActionSupport{
 		this.paperReference = paperReference;
 	}
 
-	public String getModelingPreGeneratedDescriptors() {
-		return modelingPreGeneratedDescriptors;
+	public String getDescriptorTypeModDesc() {
+		return descriptorTypeModDesc;
 	}
-	public void setModelingPreGeneratedDescriptors(String modelingPreGeneratedDescriptors) {
-		this.modelingPreGeneratedDescriptors = modelingPreGeneratedDescriptors;
+	public void setDescriptorTypeModDesc(String descriptorTypeModDesc) {
+		this.descriptorTypeModDesc = descriptorTypeModDesc;
 	}
 	
-	public String getPredictionPreGeneratedDescriptors() {
-		return predictionPreGeneratedDescriptors;
+	public String getDescriptorTypePredDesc() {
+		return descriptorTypePredDesc;
 	}
-	public void setPredictionPreGeneratedDescriptors(String predictionPreGeneratedDescriptors) {
-		this.predictionPreGeneratedDescriptors = predictionPreGeneratedDescriptors;
+	public void setDescriptorTypePredDesc(String descriptorTypePredDesc) {
+		this.descriptorTypePredDesc = descriptorTypePredDesc;
 	}
 	
 	//file upload stuff

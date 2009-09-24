@@ -8,18 +8,7 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class CSV_X_Workflow {
 	
-	private String file_path;
-	private String viz_path;
-	private String act_path;
-	
-	public CSV_X_Workflow(String userName, String datasetName, String sdfName, String actPath) throws IOException{
-		this.viz_path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/" +datasetName+"/Visualization/"+sdfName.substring(0,sdfName.lastIndexOf("."));
-		this.file_path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/" +datasetName+"/"+sdfName;
-		this.act_path  = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/" +datasetName+"/"+actPath;
-		
-	}
-	
-	public void performMACCSCreation(){
+	public static void performMACCSCreation(String file_path, String viz_path){
 		try{
 			Process p= Runtime.getRuntime().exec("moebatch_shell_script.sh "+file_path +" "+viz_path+".maccs");
 			Utility.writeToMSDebug("Shell script: "+"moebatch_shell_script.sh "+file_path+" "+viz_path+".maccs");
@@ -31,7 +20,7 @@ public class CSV_X_Workflow {
 		}
 	}
 	
-	public void performXCreation(){
+	public static void performXCreation(String viz_path){
 		
 		try{
 			Process p = Runtime.getRuntime().exec("convert_maccs_to_X2.pl "+viz_path+".maccs "+viz_path+".x");
@@ -44,7 +33,7 @@ public class CSV_X_Workflow {
 		}
 	}
 	
-	public void performCSVCreation(){
+	public static void performCSVCreation(String viz_path){
 		try{
 			Process p = Runtime.getRuntime().exec("convert_x_to_csv.pl "+viz_path+".x "+viz_path+".csv");
 			Utility.writeToMSDebug("CVS script: "+"convert_x_to_csv.pl "+viz_path+".x "+viz_path+".csv");
@@ -55,11 +44,9 @@ public class CSV_X_Workflow {
 			Utility.writeToMSDebug("performCSVCreation::"+ex.getMessage());
 		}
 	}
-	/**
-	 * 
-	 * @param method - could be "tanimoto" or "mahalanobis" for now
-	 */
-	public void performHeatMapAndTreeCreation(String method){
+
+	public static void performHeatMapAndTreeCreation(String viz_path, String method){
+		//method = "tanimoto" or "mahalanobis"
 		try{
 			String tanimoto =  "run_heatmap_tree.sh "+ viz_path+".x " +viz_path+"_tan.mat "+ viz_path+"_tan.xml " +"e"; 
 			String mahalanobis =  "run_heatmap_tree.sh "+ viz_path+".x " +viz_path+"_mah.mat "+ viz_path+"_mah.xml " +"m";
@@ -84,7 +71,7 @@ public class CSV_X_Workflow {
 		}
 	}
 	
-	public void performPCAcreation(){
+	public static void performPCAcreation(String viz_path, String act_path){
 		try{
 			if(act_path!=null && !act_path.isEmpty()){
 				Process p = Runtime.getRuntime().exec("run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+".x "+ act_path);

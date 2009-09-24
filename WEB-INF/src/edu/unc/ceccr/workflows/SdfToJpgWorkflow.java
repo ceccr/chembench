@@ -22,7 +22,6 @@ public class SdfToJpgWorkflow {
 		sketchesDir = filePath + sketchesDir;
 		Utility.writeToDebug("Creating structures into dir: " + structuresDir);
 
-		Utility.writeToMSDebug(">>>>>>>>>>>>>>>>makeSdfhFiles<<<<<<<<<");
 		//make sure Structures dir exists. 
 		File stDir = new File(structuresDir);
 		if(!stDir.exists()){
@@ -53,7 +52,6 @@ public class SdfToJpgWorkflow {
 		}
 		fin.close();
 	
-		Utility.writeToMSDebug(">>>>>>>>>>>>>>>>makeSketchFiles<<<<<<<<<");
 		Utility.writeToDebug("Done creating structures. ");
 		Utility.writeToDebug("Creating sketches into dir: " + sketchesDir);
 

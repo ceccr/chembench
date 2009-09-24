@@ -99,7 +99,7 @@ public class DatasetFileOperations {
 	}
 	
 	public static String uploadDataset(String userName, File sdfFile, String sdfFileName, File actFile, 
-			String actFileName, File xFile, String xFileName, String datasetName, String description, 
+			String actFileName, File xFile, String xFileName, String datasetName, 
 			String actFileType, String datasetType) throws Exception{
 		//will take care of the upload SDF, SDF and ACT file, in case of errors will delete the directory 
 			
@@ -126,12 +126,14 @@ public class DatasetFileOperations {
 		//copy files from temp location into datasets dir
 		//run validations on each file after the copy
 		if(sdfFile != null){
+			Utility.writeToDebug("checking SDF");
+			msg += saveSDFFile(userName, sdfFile, path, sdfFileName);
+			sdfFile = new File(path + sdfFileName);
+			
 			sdf_compounds = getSDFCompoundList(sdfFile.getAbsolutePath());
 			numCompounds = sdf_compounds.size();
-			msg += saveSDFFile(userName, sdfFile, path, sdfFileName);
-			rewriteSdf(path, sdfFile.getName());
+			rewriteSdf(path, sdfFileName);
 			
-			sdfFile = new File(path + sdfFile);
 			if(!sdfIsValid(sdfFile))
 			{
 					msg+=ErrorMessages.INVALID_SDF;
@@ -141,34 +143,42 @@ public class DatasetFileOperations {
 			if(sdf_duplicate_position!=-1){
 				msg += ErrorMessages.SDF_CONTAINS_DUPLICATES + sdf_compounds.get(sdf_duplicate_position);
 			}
+			Utility.writeToDebug("done checking SDF");
 		}
 		if(actFile != null){
+			Utility.writeToDebug("checking ACT");
+			 msg += saveACTFile(actFile, path, actFileName);
+			 actFile = new File(path + actFileName);
+
 			 act_compounds = getACTCompoundList(actFile.getAbsolutePath());
 			 numCompounds = act_compounds.size();
-			 msg += saveACTFile(actFile, path, actFileName);
-			 
-			 actFile = new File(path + actFile.getName());
-			 formula = rewriteACTFile(path + actFile.getName());
+			 actFile = new File(path + actFileName);
+			 formula = rewriteACTFile(path + actFileName);
 			 msg += actIsValid(actFile, actFileType);
 			 
 			 //Check if ACT file contains duplicates 
 			 int act_duplicate_position = findDuplicates(act_compounds);
 			 if(act_duplicate_position!=-1) msg+= ErrorMessages.ACT_CONTAINS_DUPLICATES + act_compounds.get(act_duplicate_position);
-				
+			 Utility.writeToDebug("done checking ACT");
 		}
 		if(xFile != null){
+			 Utility.writeToDebug("checking X");
 			 msg += saveXFile(xFile, path, xFileName);
-			 xFile = new File(path + xFile.getName());
+			 xFile = new File(path + xFileName);
+			 Utility.writeToDebug("done checking X");
 		}
 
 		//generate an empty activity file (needed for... heatmaps or something...?)
 		if(actFileType.equals(Constants.PREDICTION)){
-			generateEmptyActFile(path, sdfFile.getName().substring(0,sdfFile.getName().lastIndexOf(".")), path+sdfFile.getName());
+			Utility.writeToDebug("Generating empty ACT");
+			generateEmptyActFile(path, sdfFileName.substring(0,sdfFileName.lastIndexOf(".")), path+sdfFileName);
 		}
 		if(actFileType.equals(Constants.PREDICTIONWITHDESCRIPTORS)){
-			generateEmptyActFile(path, xFile.getName().substring(0,xFile.getName().lastIndexOf(".")), path+xFile.getName());
+			Utility.writeToDebug("Generating empty ACT");
+			generateEmptyActFile(path, xFileName.substring(0,xFileName.lastIndexOf(".")), path+xFileName);
 		}
-		
+
+		Utility.writeToDebug("doing compound list validations");
 		//more validation: check that the information in the files lines up properly (act, sdf, x should all have the same compounds)
 		if(actFile != null && sdfFile != null){
 			//Check if SDF matches ACT file 
@@ -193,12 +203,17 @@ public class DatasetFileOperations {
 		
 		if (msg.equals("")){
 			//success - passed all validations
-			writeDatasetToDatabase(userName, datasetName, sdfFile, actFile, xFile, actFileType, description, formula, datasetType, numCompounds);
 		}
 		else{
+			Utility.writeToDebug("Validations failed - deleting");
 			//failed validation - completely delete directory of this dataset
 			FileAndDirOperations.deleteDirContents(path);
-			FileAndDirOperations.deleteDir(new File(path));
+			if(! FileAndDirOperations.deleteDir(new File(path))){
+				Utility.writeToDebug("Directory delete failed");
+			}
+			if((new File(path)).exists()){
+				Utility.writeToDebug("Directory still exists");
+			}
 		}
 		return msg;
 	}
@@ -211,7 +226,7 @@ public class DatasetFileOperations {
 		return "";
 	}
 	
-	public static void rewriteSdf(String filePath, String fileName) {
+	public static void rewriteSdf(String filePath, String fileName) throws Exception {
 		
 		//SDFs with lines longer than 1023 characters will not work properly with MolconnZ.
 		//This function gets rid of all such lines.
@@ -231,37 +246,34 @@ public class DatasetFileOperations {
 			Utility.writeProgramLogfile(filePath, "molconvert", process.getInputStream(), process.getErrorStream());
 			
 			process.waitFor();
-			
-			infile.delete();
-			outfile.renameTo(infile);
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
 		
-		//now, remove the long lines from the input file
-		try{
-			FileReader fin = new FileReader(infile);
-			String temp;
-			Scanner src = new Scanner(fin);
-			FileWriter fout = new FileWriter(outfile);
-			while (src.hasNextLine()) {
-				temp = src.nextLine();
-	
-				//remove Windows-format \r "newline" characters
-				temp = temp.replace('\r', ' ');
-				if(temp.length() < 1000){
-					fout.write(temp + "\n");
-				}
-			}
-			fin.close();
-			fout.close();
+		if(outfile.exists()){
 			infile.delete();
 			outfile.renameTo(infile);
 		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
+		
+		//now, remove the long lines from the input file
+		FileReader fin = new FileReader(infile);
+		String temp;
+		Scanner src = new Scanner(fin);
+		FileWriter fout = new FileWriter(outfile);
+		while (src.hasNextLine()) {
+			temp = src.nextLine();
+
+			//remove Windows-format \r "newline" characters
+			temp = temp.replace('\r', ' ');
+			if(temp.length() < 1000){
+				fout.write(temp + "\n");
+			}
 		}
+		fin.close();
+		fout.close();
+		infile.delete();
+		outfile.renameTo(infile);
 	}
 	
 	public static String saveACTFile(File actFile, String path, String actFileName) throws IOException{
@@ -386,8 +398,6 @@ public class DatasetFileOperations {
 			String actFileType, String description, String formula, String datasetType, int numCompounds) throws IOException,
 			SQLException, ClassNotFoundException {
 
-		writeDatasetToDatabase(userName, datasetName, sdfFile, actFile, xFile, actFileType, description, formula, datasetType, numCompounds);
-		
 		DataSet dataSet = new DataSet();
 
 		dataSet.setFileName(datasetName);

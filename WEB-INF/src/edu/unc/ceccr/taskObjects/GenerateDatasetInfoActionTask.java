@@ -185,7 +185,6 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 		}
 	}
 
-
 	public String getJobName() {
 		
 		// TODO Auto-generated method stub

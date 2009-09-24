@@ -35,6 +35,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 import edu.unc.ceccr.task.WorkflowTask;
+import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.taskObjects.GenerateDatasetInfoActionTask;
 import edu.unc.ceccr.taskObjects.GenerateSketchesTask;
@@ -123,14 +124,8 @@ public class Queue {
 				this.jobName = t.getJobName();
 				this.jobType = jobTypes.prediction;
 			}
-			else if(task instanceof GenerateDatasetInfoActionTask){
-				GenerateDatasetInfoActionTask t = (GenerateDatasetInfoActionTask) task;	
-				this.setState(State.ready);
-				this.jobName = t.getJobName();
-				this.jobType = jobTypes.dataset;
-		}
-			else if(task instanceof GenerateSketchesTask){
-				GenerateSketchesTask t = (GenerateSketchesTask) task;
+			else if(task instanceof CreateDatasetTask){
+				CreateDatasetTask t = (CreateDatasetTask) task;
 				this.setState(State.ready);
 				this.jobName = t.getJobName();
 				this.jobType = jobTypes.dataset;

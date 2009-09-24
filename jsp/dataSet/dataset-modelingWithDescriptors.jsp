@@ -50,7 +50,7 @@
 	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">Descriptor Type:</b></td>
 	    <td align="left">
-	    <s:textfield name="modelingPreGeneratedDescriptors" id="modelingPreGeneratedDescriptors" theme="simple" />
+	    <s:textfield name="descriptorTypeModDesc" id="descriptorTypeModDesc" theme="simple" />
 	    </td>
 	  </tr>
   	  </table>

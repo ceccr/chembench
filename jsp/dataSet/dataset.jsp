@@ -82,7 +82,7 @@
 		<!-- end script -->
 		
 		<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
-    	<sx:tabbedpanel id="datasetTypeTabs" id="datasetTypeTabbedPanel" afterSelectTabNotifyTopics="/datasetTypeSelect">
+    	<sx:tabbedpanel id="datasetTypeTabbedPanel" afterSelectTabNotifyTopics="/datasetTypeSelect">
     	
 	    	<sx:div id="MODELING" href="/loadModelingSection" label="Modeling Set" theme="ajax" loadingText="Loading dataset types...">
 			</sx:div>
@@ -118,8 +118,19 @@
 		</tr>
 		<tr>
 			<td colspan="2">
+			
+			<!-- script sets hidden field so we know which tab was selected -->
+			<script type="text/javascript">
+			   dojo.event.topic.subscribe('/splitTypeSelect', function(tab, tabContainer) {
+			      //alert("Tab "+ tab.widgetId + " was selected");
+			      document.getElementById("splitType").value = tab.widgetId;
+			   });
+			</script>
+			<s:hidden id="splitType" name="splitType" />
+			<!-- end script -->
+			
 			<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
-			<sx:tabbedpanel id="splitTypeTabs">
+			<sx:tabbedpanel id="splitTypeTabbedPanel" afterSelectTabNotifyTopics="/splitTypeSelect">
     	
 		    	<sx:div id="randomSplit" href="/loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading dataset types...">
 				</sx:div>

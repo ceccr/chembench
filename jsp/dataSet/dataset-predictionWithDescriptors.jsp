@@ -39,7 +39,7 @@
 	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">Descriptor Type:</b></td>
 	    <td align="left">
-	    <s:textfield name="predPreGeneratedDescriptors" id="predPreGeneratedDescriptors" theme="simple" />
+	    <s:textfield name="descriptorTypePredDesc" id="descriptorTypePredDesc" theme="simple" />
 	    </td>
 	  </tr>
   	  </table>
