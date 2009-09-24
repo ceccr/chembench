@@ -1,6 +1,7 @@
 package edu.unc.ceccr.taskObjects;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,6 +10,7 @@ import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 import edu.unc.ceccr.task.WorkflowTask;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CSV_X_Workflow;
 import edu.unc.ceccr.workflows.DataSplitWorkflow;
@@ -146,26 +148,50 @@ public class CreateDatasetTask implements WorkflowTask{
 			}
 		}
 				
-		//split dataset to get external set and modeling set
-		String dataSplitParameters = "";
-		if(splitType.equals(Constants.RANDOM)){
-			
-			if(useActivityBinning.equals("true")){
+		if(datasetType.equals(Constants.MODELING) || datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
+			//split dataset to get external set and modeling set
+			String dataSplitParameters = "";
+			if(splitType.equals(Constants.RANDOM)){
+				
+				if(datasetType.equals(Constants.MODELING)){
+					//we will need to make a .x file from the .act file
+					DatasetFileOperations.makeXFromACT(path, actFileName);
+					
+					//now run datasplit on the resulting .x file to get a list of compounds
+					
+					//delete the temporary .x file
+					
+				}
+				else if(datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
+					//already got a .x file, so just split that
+					
+					//DataSplitWorkflow.SplitModelingExternal(dataSplitParameters, path, sdFile, actFile, numCompoundsExternalSet, useActivityBinning);
+					
+				}
 				
 			}
-			else{
+			else if(splitType.equals(Constants.USERDEFINED)){
+				//get the list of compound IDs
+				ArrayList<String> compoundIDs = DatasetFileOperations.getACTCompoundList(path + actFileName);
+				externalCompoundList.replace(",", " ");
+				externalCompoundList.replaceAll("\n", " ");
 				
-			}
-		}
-		else if(splitType.equals(Constants.USERDEFINED)){
-			//process the list of compound IDs
+				String[] externalCompounds = externalCompoundList.split("\\s+");
+				
+				//find the index of each of the compound IDs provided
+				ArrayList<String> compoundIndexes = new ArrayList<String>();
+				for(int i = 0; i < compoundIDs.size(); i++){
+					for(int j = 0; j < externalCompounds.length; j++){
+						if(compoundIndexes.get(i).equals(externalCompounds[j])){
+							compoundIDs.add("" + i);
+						}
+					}
+				}
+				String compoundIDString = compoundIDs.toString().replaceAll("[,\\[\\]]", "");
+				
+			}			
 			
-			//get the list of compounds and find the index of each of the compound IDs provided
-			
 		}
-		//run datasplit
-		DataSplitWorkflow.SplitModelingExternal(dataSplitParameters, path, sdFile, actFile, numCompoundsExternalSet);
-		
 	}
 
 	public void cleanUp() throws Exception {

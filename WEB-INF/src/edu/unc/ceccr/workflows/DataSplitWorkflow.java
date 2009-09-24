@@ -32,6 +32,7 @@ public class DataSplitWorkflow{
 			String jobName, 
 			String sdFile, 
 			String actFile, 
+			String xFile, 
 			String numCompoundsExternalSet) throws Exception {
 		//splits the input dataset into modeling and external validation set
 		
@@ -72,7 +73,6 @@ public class DataSplitWorkflow{
 		
 		//We will want to combine each of the "RAND_sets_i.list" files to form RAND_sets.list.
 		String listFileContents = "";
-		
 		
 		for(int i = 0; i < numSplits; i++){
 			double testSize = Math.random()*testSizeRange + randomSplitMinTestSize;

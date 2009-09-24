@@ -16,7 +16,7 @@ function validateDatasetDelete(name, usedPredictorNames, usedPredictionNames, us
 	}
 	
 	for (var i=0; i < usedTaskNames.length; i++){
-		if(name == usedTaskNames[i] || name+"_sketches_generation"==usedTaskNames[i]){
+		if(name == usedTaskNames[i]){
 			alert("Cannot delete dataset! The job " + usedTaskNames[i] + " is running and using it.");
 			return false;
 		}

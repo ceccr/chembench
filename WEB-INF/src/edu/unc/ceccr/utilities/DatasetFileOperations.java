@@ -98,6 +98,36 @@ public class DatasetFileOperations {
 		}
 	}
 	
+	public static String makeXFromACT(String path, String actFileName) throws Exception{
+		//creates an X file with no descriptors using the compound list from the ACT file.
+		//Needed in order to use datasplit on modeling sets that are specified by ACT and 
+		//SDF files (no X file provided). This is because datasplit only works on X files.
+		
+		String msg = "";
+		String xFileName = actFileName.substring(0,actFileName.lastIndexOf(".")) + ".x";
+		File actFile = new File(path + actFileName);
+		File xFile = new File(path + xFileName);
+		
+		BufferedReader fin = new BufferedReader(new FileReader(actFile));
+		FileWriter fout = new FileWriter(xFile);
+		
+		int numActCompounds = getACTCompoundList(path + actFileName).size();
+		int numDescriptors = 0;
+		fout.write("" + numActCompounds + " " + numDescriptors + "\n");
+		String descriptorsLine = "\n";
+		fout.write(descriptorsLine);
+		
+		String line;
+		while((line = fin.readLine()) != null){
+			String[] array = line.split("\\s+");
+			if(array.length == 2){
+				fout.write(array[0] + "\n");
+			}
+		}
+		
+		return msg;
+	}
+	
 	public static String uploadDataset(String userName, File sdfFile, String sdfFileName, File actFile, 
 			String actFileName, File xFile, String xFileName, String datasetName, 
 			String actFileType, String datasetType) throws Exception{
@@ -222,7 +252,6 @@ public class DatasetFileOperations {
 		
 		String destFilePath = path + sdfFileName;
 		FileAndDirOperations.copyFile(sdfFile.getAbsolutePath(), destFilePath);
-		
 		return "";
 	}
 	

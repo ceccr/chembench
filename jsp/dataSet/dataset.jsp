@@ -76,6 +76,24 @@
 		   dojo.event.topic.subscribe('/datasetTypeSelect', function(tab, tabContainer) {
 		      //alert("Tab "+ tab.widgetId + " was selected");
 		      document.getElementById("datasetType").value = tab.widgetId;
+		      
+		      var externalParameterIds = new Array("useActivityBinning", "numCompoundsExternalSet", "externalCompoundList");
+		      if(tab.widgetId == "MODELING" || tab.widgetId == "MODELINGWITHDESCRIPTORS"){
+		      	//if it's a modeling dataset, enable the external split parameters 
+		      	for (var i=0; i < externalParameterIds.length; i++){
+					if(document.getElementById(externalParameterIds[i]) != null){
+						document.getElementById(externalParameterIds[i]).disabled = false;
+					}
+				}
+		      }
+		      else{
+		      	//if not, disable them
+		      	for (var i=0; i < externalParameterIds.length; i++){
+					if(document.getElementById(externalParameterIds[i]) != null){
+						document.getElementById(externalParameterIds[i]).disabled = true;
+					}
+				}
+		      }
 		   });
 		</script>
 		<s:hidden id="datasetType" name="datasetType" />
@@ -114,7 +132,8 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>A subset of the compounds in the dataset will be reserved for external validation of models.</i></div></td>
+			<div class="StandardTextDarkGrayParagraph"><i>A subset of the compounds in the dataset will be reserved for external validation of models. 
+			<br />These parameters only apply to modeling sets.</i></div></td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -180,7 +199,7 @@
 		</td></tr>
 		<tr>
 			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>A job will be started to generate visualizations and images for this dataset.</i></div></td>
+			<div class="StandardTextDarkGrayParagraph"><i>A job will be started to generate visualizations and chemical sketches for this dataset.</i></div></td>
 		 </tr>	
 		<tr>
 			<td colspan="2">
