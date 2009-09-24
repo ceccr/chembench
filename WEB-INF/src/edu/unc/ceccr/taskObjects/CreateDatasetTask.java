@@ -164,7 +164,7 @@ public class CreateDatasetTask implements WorkflowTask{
 			
 		}
 		//run datasplit
-		DataSplitWorkflow.SplitModelingExternal(dataSplitParameters, path, sdFile, actFile, randomSeed, numCompoundsExternalSet);
+		DataSplitWorkflow.SplitModelingExternal(dataSplitParameters, path, sdFile, actFile, numCompoundsExternalSet);
 		
 	}
 

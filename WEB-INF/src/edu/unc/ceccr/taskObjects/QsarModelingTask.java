@@ -254,7 +254,6 @@ public class QsarModelingTask implements WorkflowTask {
 		//end kNN parameters
 		
 		//start SVM parameters
-		
 		svmDegreeFrom = ModelingForm.getSvmCostFrom();
 		svmDegreeTo = ModelingForm.getSvmCostTo();
 		svmDegreeStep = ModelingForm.getSvmDegreeStep();

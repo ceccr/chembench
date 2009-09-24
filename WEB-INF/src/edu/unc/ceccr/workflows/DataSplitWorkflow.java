@@ -32,7 +32,6 @@ public class DataSplitWorkflow{
 			String jobName, 
 			String sdFile, 
 			String actFile, 
-			String randomSeed, 
 			String numCompoundsExternalSet) throws Exception {
 		//splits the input dataset into modeling and external validation set
 		
@@ -42,11 +41,11 @@ public class DataSplitWorkflow{
 		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + sdFile + ".a");
 		
 		//split dataset into [modeling set | external test set]
-		  String execstr1 = "datasplit "+ sdFile + ".x" + " -4EXT -SRND=" + randomSeed + " -N=1 -M=R -OUT=mdlext.list -S=" + numCompoundsExternalSet;
-		  Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
-	      Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
-	      Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
+		String execstr1 = "datasplit "+ sdFile + ".x" + " -4EXT" + " -N=1 -M=R -OUT=mdlext.list -S=" + numCompoundsExternalSet;
+		Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
+	    Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
+	    Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
+	    p.waitFor();
 	      
 	    //put the split files in the right spots
 		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.a", workingdir + "train_0.a");
