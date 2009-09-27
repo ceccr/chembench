@@ -384,14 +384,13 @@ public class Queue {
 
 				QueueTask t = queue.poll();
 				Utility.writeToDebug("Task found at top of queue.", t.userName, t.jobName);
-				
-				try{ state=loadState(t);
-				}catch(ClassNotFoundException e){
-					Utility.writeToDebug(e);
-				}catch(SQLException e){
+
+				try{ 
+					state=loadState(t);
+				}catch(Exception e){
 					Utility.writeToDebug(e);
 				}
-									
+				
 				if(state==QueueTask.State.deleted)
 			    {
 			    	deleteTask(t);

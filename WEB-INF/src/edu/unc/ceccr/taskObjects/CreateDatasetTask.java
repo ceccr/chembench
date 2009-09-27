@@ -85,11 +85,11 @@ public class CreateDatasetTask implements WorkflowTask{
 
 
 	public void execute() throws Exception {
-		String path = userName + "/DATASETS/" + jobName + "/";
+		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
 		
 		String vizFilePath = path + "Visualization/"; 
-		String structDir = "Visualization/Structures";
-		String sketchDir = "Visualization/Structures";
+		String structDir = path + "Visualization/Structures";
+		String sketchDir = path + "Visualization/Sketches";
 
 		if(!new File(vizFilePath).exists()) {
 			new File(vizFilePath).mkdirs();
@@ -101,7 +101,6 @@ public class CreateDatasetTask implements WorkflowTask{
 			new File(sketchDir).mkdirs();
 		}
 
-		
 		if(!sdfFileName.equals("") && standardize.equals("true")){
 			//standardize the SDF	
 			StandardizeMoleculesWorkflow.standardizeSdf(sdfFileName, sdfFileName + ".standardize", path);
@@ -143,13 +142,14 @@ public class CreateDatasetTask implements WorkflowTask{
 			}
 		}
 		
-		if(!actFileName.equals("")){
+		/* ACT file headers removed for now. We will assume ACT files do not have headers.
+		 * if(!actFileName.equals("")){
 			//grab header info for the database
 			actFileHeader = DatasetFileOperations.getActFileHeader(path + actFileName);
 		}
 		else{
 			actFileHeader = "";
-		}
+		}*/
 		
 		if(!xFileName.equals("")){
 			this.numCompounds = DatasetFileOperations.getXCompoundList(path+xFileName).size();
@@ -165,7 +165,7 @@ public class CreateDatasetTask implements WorkflowTask{
 				if(datasetType.equals(Constants.MODELING)){
 					//we will need to make a .x file from the .act file
 					DatasetFileOperations.makeXFromACT(path, actFileName);
-					String tempXFileName = actFileName.substring(0, actFileName.lastIndexOf('.')) + "x";
+					String tempXFileName = actFileName.substring(0, actFileName.lastIndexOf('.')) + ".x";
 					
 					//now run datasplit on the resulting .x file to get a list of compounds
 					DataSplitWorkflow.SplitModelingExternal(path, actFileName, tempXFileName, numExternalCompounds, useActivityBinning);
@@ -214,7 +214,7 @@ public class CreateDatasetTask implements WorkflowTask{
 		dataSet.setNumCompound(numCompounds);
 		dataSet.setCreatedTime(new Date());
 		dataSet.setDescription(dataSetDescription);
-		dataSet.setActFormula(actFileHeader);
+		//dataSet.setActFormula(actFileHeader);
 		dataSet.setUploadedDescriptorType(descriptorType);
 
 		Session session = HibernateUtil.getSession();

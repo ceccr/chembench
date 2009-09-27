@@ -113,30 +113,35 @@ public class DatasetFileOperations {
 		FileWriter fout = new FileWriter(xFile);
 		
 		int numActCompounds = getACTCompoundList(path + actFileName).size();
-		int numDescriptors = 0;
+		int numDescriptors = 2; //datasplit will refuse any inputs without at least 2 descriptors
 		fout.write("" + numActCompounds + " " + numDescriptors + "\n");
-		String descriptorsLine = "\n";
+		String descriptorsLine = "junk1 junk2\n";
 		fout.write(descriptorsLine);
 		
 		String line;
+		int index = 1;
 		while((line = fin.readLine()) != null){
 			String[] array = line.split("\\s+");
 			if(array.length == 2){
-				fout.write(array[0] + "\n");
+				//fake descriptor values of "1" and "2" are added in.
+				fout.write("" + index + " " + array[0] + " 1 2\n");
 			}
+			index++;
 		}
-		
+		fin.close();
+		fout.close();
 		return msg;
 	}
 	
 	public static String uploadDataset(String userName, File sdfFile, String sdfFileName, File actFile, 
 			String actFileName, File xFile, String xFileName, String datasetName, 
 			String actFileType, String datasetType) throws Exception{
-		//will take care of the upload SDF, SDF and ACT file, in case of errors will delete the directory 
+		//will take care of the upload SDF, SDF and ACT file
+		// in case of errors will delete the directory 
 			
 		String path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName+"/";
 		
-		Utility.writeToDebug("Creating dataset at " + path);
+		Utility.writeToDebug("Copying dataset files to " + path);
 		
 		String msg=""; //holds any error messages from validations
 		String formula = "";
@@ -158,7 +163,7 @@ public class DatasetFileOperations {
 		//run validations on each file after the copy
 		if(sdfFile != null){
 			Utility.writeToDebug("checking SDF");
-			msg += saveSDFFile(userName, sdfFile, path, sdfFileName);
+			msg += saveSDFFile(sdfFile, path, sdfFileName);
 			sdfFile = new File(path + sdfFileName);
 			
 			sdf_compounds = getSDFCompoundList(sdfFile.getAbsolutePath());
@@ -233,6 +238,7 @@ public class DatasetFileOperations {
 		}
 		
 		if (msg.equals("")){
+			Utility.writeToDebug("Dataset file validation successful!");
 			//success - passed all validations
 		}
 		else{
@@ -249,7 +255,7 @@ public class DatasetFileOperations {
 		return msg;
 	}
 	
-	public static String saveSDFFile(String userName, File sdfFile, String path, String sdfFileName) throws Exception{
+	public static String saveSDFFile(File sdfFile, String path, String sdfFileName) throws Exception{
 		
 		String destFilePath = path + sdfFileName;
 		FileAndDirOperations.copyFile(sdfFile.getAbsolutePath(), destFilePath);
@@ -320,7 +326,7 @@ public class DatasetFileOperations {
 			
 		return "";
 	}
-	
+	/*
 	public static String getActFileHeader(String filePath) throws Exception{
 		File file = new File(filePath);
 		FileReader fin = new FileReader(file);
@@ -330,7 +336,7 @@ public class DatasetFileOperations {
 
 		fin.close();
 		return header;
-	}
+	}*/
 	
 	public static String rewriteACTFile(String filePath)
 	throws FileNotFoundException, IOException {
@@ -341,8 +347,6 @@ public class DatasetFileOperations {
 
 			Scanner src = new Scanner(fin);
 			StringBuilder sb = new StringBuilder();
-			String header = src.nextLine();
-			sb.append(header + "\n");
 			
 			String temp;
 			while (src.hasNext()) {
@@ -594,23 +598,20 @@ public class DatasetFileOperations {
 		while((line = br.readLine()) != null){
 			lineArray = (line.trim()).split("\\s+");
 			size = lineArray.length;
-			//first line will have header info on it
-			if (index > 1) {
-				//skip blank lines
-				//make sure each line has 2 things on it
-				if (size == 2 && GenericValidator.isFloat(lineArray[1]) || size == 0) {
-					//good so far
-				} 
-				else {
-					//bad line found
-					return ErrorMessages.ACT_NOT_VALID;
-				}
+			//skip blank lines
+			//make sure each line has 2 things on it
+			if (size == 2 && GenericValidator.isFloat(lineArray[1]) || size == 0) {
+				//good so far
+			} 
+			else {
+				//bad line found
+				return ErrorMessages.ACT_NOT_VALID;
+			}
 
-				if (actFileType.equalsIgnoreCase(Constants.CATEGORY)) {
-					if (GenericValidator.isInt(lineArray[1])) {
-					} else {
-						return ErrorMessages.ACT_DOESNT_MATCH_PROJECT_TYPE;
-					}
+			if (actFileType.equalsIgnoreCase(Constants.CATEGORY)) {
+				if (GenericValidator.isInt(lineArray[1])) {
+				} else {
+					return ErrorMessages.ACT_DOESNT_MATCH_PROJECT_TYPE;
 				}
 			}
 			index++;

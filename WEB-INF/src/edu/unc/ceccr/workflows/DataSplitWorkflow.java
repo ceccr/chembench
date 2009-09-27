@@ -89,6 +89,11 @@ public class DataSplitWorkflow{
 		outXModelingWriter.write("" + (numCompounds - compoundIDs.length) + " " + numDescriptors);
 		outXExternalWriter.write("" + (compoundIDs.length) + " " + numDescriptors);
 		
+		//next do the descriptors line
+		outXModelingWriter.write(line + "\n");
+		outXExternalWriter.write(line + "\n");
+		
+		//then all the rest
 		while((line = inXReader.readLine()) != null){
 			array = line.split("\\s+");
 			boolean lineIsExternal = false;
@@ -103,13 +108,9 @@ public class DataSplitWorkflow{
 				outXModelingWriter.write(line + "\n");
 			}
 		}
-		//done splitting the x file
+		//done splitting the X file
 
 		//split the ACT file
-		//header line first
-		line = inActReader.readLine(); //line contains: numCompounds numDescriptors
-		outActModelingWriter.write(line + "\n");
-		outActExternalWriter.write(line + "\n");
 		
 		while((line = inActReader.readLine()) != null){
 			array = line.split("\\s+");
