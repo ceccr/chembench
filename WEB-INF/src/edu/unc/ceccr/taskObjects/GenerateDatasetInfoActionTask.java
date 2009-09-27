@@ -61,17 +61,17 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 		Utility.writeToMSDebug("filePath:::"+filePath);
 		
 			Utility.writeToMSDebug("Starting X creation!!!");
-			CSV_X_Workflow csv_x_workflow = new CSV_X_Workflow(userName, datasetName, sdf_name, act_name);
+			//CSV_X_Workflow csv_x_workflow = new CSV_X_Workflow(userName, datasetName, sdf_name, act_name);
 			
 			queue.runningTask.setMessage("Creating MACCS keys");
-			csv_x_workflow.performMACCSCreation();
+			//csv_x_workflow.performMACCSCreation();
 			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>MACCS created<<<<<<<<<<<<<<<<<<<<<");
 			
 			queue.runningTask.setMessage("Creating X file");
-			csv_x_workflow.performXCreation();
+			//csv_x_workflow.performXCreation();
 			
 			queue.runningTask.setMessage("Creating CSV file");
-			csv_x_workflow.performCSVCreation();
+			//csv_x_workflow.performCSVCreation();
 			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>X created<<<<<<<<<<<<<<<<<<<<<");
 			//DistanceMeasure dm = new DistanceMeasure(user.getUserName(), datasetName, knnType);
 			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>`Data readed1<<<<<<<<<<<<<<<<<<<<<");
@@ -112,20 +112,20 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 				for(int j=0;j<representations.length;j++){
 					if(representations[j].equals("PCA")){
 						queue.runningTask.setMessage("Creating PCA plots");
-						csv_x_workflow.performPCAcreation();
+					//	csv_x_workflow.performPCAcreation();
 					}
 					for(int i=0;i<similarityMeasure.length;i++){
 						if(similarityMeasure[i].equals("Mahalanobis")){
 							if(representations[j].equals("HeatmapAndTree")){
 								queue.runningTask.setMessage("Creating heatmap and tree using Mahalanobis distance measure");
-								csv_x_workflow.performHeatMapAndTreeCreation("mahalanobis");
+					//			csv_x_workflow.performHeatMapAndTreeCreation("mahalanobis");
 							}
 						
 						}
 						if(similarityMeasure[i].equals("Tanimoto")){
 							if(representations[j].equals("HeatmapAndTree")){
-								queue.runningTask.setMessage("Creating heatmap and tree using Tanimoto similarity measure");
-								csv_x_workflow.performHeatMapAndTreeCreation("tanimoto");
+					//			queue.runningTask.setMessage("Creating heatmap and tree using Tanimoto similarity measure");
+					//			csv_x_workflow.performHeatMapAndTreeCreation("tanimoto");
 							}
 						}
 					}

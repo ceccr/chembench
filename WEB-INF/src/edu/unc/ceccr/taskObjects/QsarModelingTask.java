@@ -385,7 +385,7 @@ public class QsarModelingTask implements WorkflowTask {
 
 		//split the data into modeling and external sets
 		queue.runningTask.setMessage("Splitting data");
-		DataSplitWorkflow.SplitModelingExternal(userName, jobName, sdFileName, actFileName, externalRandomSeed, numCompoundsExternalSet);
+		//DataSplitWorkflow.SplitModelingExternal(userName, jobName, sdFileName, actFileName, externalRandomSeed, numCompoundsExternalSet);
 		
 		//make internal training / test sets for each model
 		if(trainTestSplitTypeEnum == TrainTestSplitTypeEnumeration.RANDOM){
