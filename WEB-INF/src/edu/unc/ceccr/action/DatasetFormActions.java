@@ -158,6 +158,8 @@ public class DatasetFormActions extends ActionSupport{
 						datasetName,
 						paperReference,
 						dataSetDescription);
+				
+				Queue.getInstance().addJob(datasetTask, userName, datasetName);
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTION)){

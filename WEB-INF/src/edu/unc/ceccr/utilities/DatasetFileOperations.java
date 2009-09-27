@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -320,39 +321,43 @@ public class DatasetFileOperations {
 		return "";
 	}
 	
+	public static String getActFileHeader(String filePath) throws Exception{
+		File file = new File(filePath);
+		FileReader fin = new FileReader(file);
+
+		Scanner src = new Scanner(fin);
+		String header = src.nextLine();
+
+		fin.close();
+		return header;
+	}
+	
 	public static String rewriteACTFile(String filePath)
 	throws FileNotFoundException, IOException {
 		//removes the \r things (stupid Windows)
-		//and extracts the ACT file header so it can be stored in the DB.
 		File file = new File(filePath);
-		String fileType = " ";
 		if (file.exists()) {
 			FileReader fin = new FileReader(file);
 
 			Scanner src = new Scanner(fin);
 			StringBuilder sb = new StringBuilder();
 			String header = src.nextLine();
-			String[] type = header.split("\\s+");
-
-			if (GenericValidator.isFloat(type[1])) {
-				sb.append(header + "\n");
-			} else {
-				fileType = type[1];
-			}
-
+			sb.append(header + "\n");
+			
 			String temp;
 			while (src.hasNext()) {
 				temp = src.nextLine();
 				sb.append(temp + "\n");
 			}
+			fin.close();
 
 			FileWriter fout = new FileWriter(filePath);
 			fout.write(sb.toString());
 			fout.close();
-			fin.close();
-			return fileType;
-		} else {
-			return "  ";
+			return "";
+		}
+		else {
+			return "File does not exist: " + filePath;
 		}
 
 	}
@@ -389,6 +394,57 @@ public class DatasetFileOperations {
 
     }
 	
+	public static ArrayList<String> getXCompoundList(String fileLocation) throws Exception{
+		ArrayList<String> x_compounds = new ArrayList<String>();
+		File file = new File(fileLocation);
+		
+		if (file.exists()) {
+			FileReader fin = new FileReader(file);
+			Scanner src = new Scanner(fin);
+			String line;
+			while (src.hasNext()) {
+				line = src.nextLine();
+				String[] array = line.split("\\s+");
+				if (array.length != 2 && array.length != 0) { //this will skip the first line and any blank lines
+					x_compounds.add(array[0].trim());
+				}
+			}
+		}
+		Collections.sort(x_compounds);
+		return x_compounds;
+	}
+	
+
+	public static ArrayList<String> getSDFCompoundList(String sdfPath) throws Exception{
+		
+		File infile = new File(sdfPath);
+		FileReader fin = new FileReader(infile);
+		BufferedReader br = new BufferedReader(fin);
+		ArrayList<String> chemicalNames = new ArrayList<String>();
+		
+		String line;
+		//skip any whitespace lines before the first molecule
+		while((line = br.readLine()) != null && line.trim().isEmpty()){ }
+		//read first molecule
+		if(line != null){
+			chemicalNames.add(line.trim().replace(" ", "_"));
+		}
+		//read subsequent molecules
+		while((line = br.readLine()) != null){
+			if(line.startsWith("$$$$")){
+				//skip any whitespace lines before the next molecule
+				while((line = br.readLine()) != null && line.trim().isEmpty()){ }
+				//read next molecule
+				if(line != null && !line.trim().isEmpty()){
+					chemicalNames.add(line.trim().replace(" ", "_"));
+				}
+			}
+		}
+		Collections.sort(chemicalNames);
+		return chemicalNames;
+	}
+	
+	
 	public static ArrayList<String> getACTCompoundList(String fileLocation)
 			throws FileNotFoundException, IOException {
 		ArrayList<String> act_compounds = new ArrayList<String>();
@@ -408,6 +464,7 @@ public class DatasetFileOperations {
 				}
 			}
 		}
+		Collections.sort(act_compounds);
 		return act_compounds;
 	}
 
@@ -422,42 +479,6 @@ public class DatasetFileOperations {
 		return -1;
 	}
 	
-	
-	private static void writeDatasetToDatabase(String userName, String datasetName, File sdfFile, File actFile, File xFile, 
-			String actFileType, String description, String formula, String datasetType, int numCompounds) throws IOException,
-			SQLException, ClassNotFoundException {
-
-		DataSet dataSet = new DataSet();
-
-		dataSet.setFileName(datasetName);
-		dataSet.setUserName(userName);
-		dataSet.setDatasetType(datasetType);
-		dataSet.setActFile(actFile.getName());
-		dataSet.setSdfFile(sdfFile.getName());
-		dataSet.setXFile(xFile.getName());
-		dataSet.setModelType(actFileType);
-		dataSet.setNumCompound(numCompounds);
-		dataSet.setCreatedTime(new Date());
-		dataSet.setDescription(description);
-		dataSet.setActFormula(formula);
-		
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			session.save(dataSet);
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			session.close();
-		}
-
-	}
-
 	public static HashMap parseActFile(String fileName)
 			throws FileNotFoundException, IOException {
 		File file = new File(fileName);
@@ -516,34 +537,6 @@ public class DatasetFileOperations {
 		} catch (Exception ioe) {
 			Utility.writeToDebug(ioe);
 		}
-	}
-	
-	public static ArrayList<String> getSDFCompoundList(String sdfPath) throws Exception{
-		
-		File infile = new File(sdfPath);
-		FileReader fin = new FileReader(infile);
-		BufferedReader br = new BufferedReader(fin);
-		ArrayList<String> chemicalNames = new ArrayList<String>();
-		
-		String line;
-		//skip any whitespace lines before the first molecule
-		while((line = br.readLine()) != null && line.trim().isEmpty()){ }
-		//read first molecule
-		if(line != null){
-			chemicalNames.add(line.trim().replace(" ", "_"));
-		}
-		//read subsequent molecules
-		while((line = br.readLine()) != null){
-			if(line.startsWith("$$$$")){
-				//skip any whitespace lines before the next molecule
-				while((line = br.readLine()) != null && line.trim().isEmpty()){ }
-				//read next molecule
-				if(line != null && !line.trim().isEmpty()){
-					chemicalNames.add(line.trim().replace(" ", "_"));
-				}
-			}
-		}
-		return chemicalNames;
 	}
 	
 	

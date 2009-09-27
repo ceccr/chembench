@@ -28,31 +28,103 @@ import java.util.Scanner;
 public class DataSplitWorkflow{
 	
 	public static void SplitModelingExternal(
-			String userName, 
-			String jobName, 
-			String sdFile, 
+			String workingdir,
 			String actFile, 
 			String xFile, 
-			String numCompoundsExternalSet) throws Exception {
+			String numCompoundsExternalSet,
+			String useActivityBinning) throws Exception {
 		//splits the input dataset into modeling and external validation set
 		
-		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		
 		//copy the act file to a ".a" file because datasplit will expect it that way
-		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + sdFile + ".a");
+		String actFileBase = actFile.substring(0, actFile.lastIndexOf("."));
+		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + actFileBase + ".a");
 		
 		//split dataset into [modeling set | external test set]
-		String execstr1 = "datasplit "+ sdFile + ".x" + " -4EXT" + " -N=1 -M=R -OUT=mdlext.list -S=" + numCompoundsExternalSet;
+		String execstr1 = "datasplit "+ xFile + " -4EXT" + " -N=1 -M=R -OUT=mdlext.list -S=" + numCompoundsExternalSet;
+		if(useActivityBinning.equalsIgnoreCase("true")){
+			execstr1 += " -A=" + numCompoundsExternalSet;
+		}
 		Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
 	    Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
 	    Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
 	    p.waitFor();
-	      
+	    
 	    //put the split files in the right spots
 		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.a", workingdir + "train_0.a");
 		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.x", workingdir + "train_0.x");
 		FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.a", workingdir + "ext_0.a");
 		FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.x", workingdir + "ext_0.x");
+	}
+	
+	public static void splitModelingExternalGivenList(
+			String workingdir,
+			String actFileName, 
+			String xFileName, 
+			String compoundIdString) throws Exception {
+
+		String[] compoundIDs = compoundIdString.split("\\s+");
+		
+		File inX = new File(workingdir + xFileName);
+		BufferedReader inXReader = new BufferedReader(new FileReader(inX));
+		File inAct = new File(workingdir + actFileName);
+		BufferedReader inActReader = new BufferedReader(new FileReader(inAct));
+		
+		File outActModeling = new File(workingdir + "train_0.a");
+		FileWriter outActModelingWriter = new FileWriter(outActModeling);
+		File outActExternal = new File(workingdir + "ext_0.a");
+		FileWriter outActExternalWriter = new FileWriter(outActExternal);
+		File outXModeling = new File(workingdir + "train_0.x");
+		FileWriter outXModelingWriter = new FileWriter(outXModeling);
+		File outXExternal = new File(workingdir + "ext_0.x");
+		FileWriter outXExternalWriter = new FileWriter(outXExternal);
+		
+		//split the X file
+		//header line first
+		String line;
+		line = inXReader.readLine(); //line contains: numCompounds numDescriptors
+		String[] array = line.split("\\s+");
+		int numCompounds = Integer.parseInt(array[0]);
+		int numDescriptors = Integer.parseInt(array[1]);
+
+		outXModelingWriter.write("" + (numCompounds - compoundIDs.length) + " " + numDescriptors);
+		outXExternalWriter.write("" + (compoundIDs.length) + " " + numDescriptors);
+		
+		while((line = inXReader.readLine()) != null){
+			array = line.split("\\s+");
+			boolean lineIsExternal = false;
+			for(int i = 0; i < compoundIDs.length; i++){
+				if(array[0].equals(compoundIDs[i])){
+					outXExternalWriter.write(line + "\n");
+					lineIsExternal = true;
+				}
+			}
+			if(!lineIsExternal){
+				//compound belongs in modeling set
+				outXModelingWriter.write(line + "\n");
+			}
+		}
+		//done splitting the x file
+
+		//split the ACT file
+		//header line first
+		line = inActReader.readLine(); //line contains: numCompounds numDescriptors
+		outActModelingWriter.write(line + "\n");
+		outActExternalWriter.write(line + "\n");
+		
+		while((line = inActReader.readLine()) != null){
+			array = line.split("\\s+");
+			boolean lineIsExternal = false;
+			for(int i = 0; i < compoundIDs.length; i++){
+				if(array[0].equals(compoundIDs[i])){
+					outActExternalWriter.write(line + "\n");
+					lineIsExternal = true;
+				}
+			}
+			if(!lineIsExternal){
+				//compound belongs in modeling set
+				outActModelingWriter.write(line + "\n");
+			}
+		}
 	}
 
 	public static void SplitTrainTestRandom(String userName,
@@ -158,36 +230,5 @@ public class DataSplitWorkflow{
 		FileAndDirOperations.copyFile(workingdir + "rand_sets.list", workingdir + "RAND_sets.list");
 	}
 	
-	
-	public static void SplitData(String userName, String jobName, String sdFile, String actFile, String randomSeed, String numCompoundsExternalSet) throws Exception {
-		//Do the data set division things.
-		
-		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		
-		//copy the act file to a ".a" file because datasplit will expect it
-		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + sdFile + ".a");
-		
-		//split dataset into [modeling set | external test set]
-		  String execstr1 = "datasplit "+ sdFile + ".x" + " -4EXT -SRND=" + randomSeed + " -N=1 -M=R -OUT=mdlext.list -S=" + numCompoundsExternalSet;
-		  //Sasha's datasplit (deprecated) was:
-		  //String execstr1 = "RandomDivSlow3 " + sdFile + ".x " + actFile + " train ext 1 list " + numCompoundsExternalSet + " n";
-		  Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
-	      Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
-	      Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
-	      
-	    //put the split files in the right spots
-			FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.a", workingdir + "train_0.a");
-			FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.x", workingdir + "train_0.x");
-			FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.a", workingdir + "ext_0.a");
-			FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.x", workingdir + "ext_0.x");
-
-	    //split modeling set, making several [ training | internal test ] sets
-		String execstr2 = "se9v1_nl train_0.x train_0.a RAND_sets";
-		  Utility.writeToDebug("Running external program: " + execstr2 + " in dir " + workingdir);
-	      p = Runtime.getRuntime().exec(execstr2, null,  new File(workingdir));
-	      Utility.writeProgramLogfile(workingdir, "se9v1", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
-	}
 	    	
 }
