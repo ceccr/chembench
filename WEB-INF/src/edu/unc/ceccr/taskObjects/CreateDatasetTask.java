@@ -104,6 +104,12 @@ public class CreateDatasetTask implements WorkflowTask{
 		if(!sdfFileName.equals("") && standardize.equals("true")){
 			//standardize the SDF	
 			StandardizeMoleculesWorkflow.standardizeSdf(sdfFileName, sdfFileName + ".standardize", path);
+			File standardized = new File(path + sdfFileName + ".standardize");
+			if(standardized.exists()){
+				//
+				FileAndDirOperations.copyFile(path + sdfFileName + ".standardize", path + sdfFileName);
+				FileAndDirOperations.deleteFile(path + sdfFileName + ".standardize");
+			}
 		}
 		
 		if(!sdfFileName.equals("")){
