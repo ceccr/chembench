@@ -13,8 +13,8 @@ public class SdfToJpgWorkflow {
 	{
 		//filePath = directory the SDF is in, e.g. /public/projects/ceccr/workflow-users/theo/DATASETS/
 		//fileName = name of sdfile, like anticonv_91.sdf
-		//structuresDir = subdirectory for structures, e.g. Visualization/Structures
-		//sketchesDir = subdirectory for sketches, e.g. Visualization/Sketches
+		//structuresDir = subdirectory for structures, e.g. Visualization/Structures/
+		//sketchesDir = subdirectory for sketches, e.g. Visualization/Sketches/
 		
 		//Split the input SDF (lots of compounds) into separate SDFs (1 compound each).
 		//Put that in the Structures dir.

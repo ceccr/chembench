@@ -104,8 +104,8 @@ public class CreateDatasetTask implements WorkflowTask{
 			this.numCompounds = DatasetFileOperations.getSDFCompoundList(path+sdfFileName).size();
 
 			String vizFilePath = "Visualization/"; 
-			String structDir = "Visualization/Structures";
-			String sketchDir = "Visualization/Sketches";
+			String structDir = "Visualization/Structures/";
+			String sketchDir = "Visualization/Sketches/";
 
 			if(!new File(path + vizFilePath).exists()) {
 				new File(path + vizFilePath).mkdirs();
