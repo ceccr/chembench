@@ -87,26 +87,13 @@ public class CreateDatasetTask implements WorkflowTask{
 	public void execute() throws Exception {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
 		
-		String vizFilePath = path + "Visualization/"; 
-		String structDir = path + "Visualization/Structures";
-		String sketchDir = path + "Visualization/Sketches";
-
-		if(!new File(vizFilePath).exists()) {
-			new File(vizFilePath).mkdirs();
-		}
-		if(!new File(structDir).exists()) {
-			new File(structDir).mkdirs();
-		}
-		if(!new File(sketchDir).exists()) {
-			new File(sketchDir).mkdirs();
-		}
 
 		if(!sdfFileName.equals("") && standardize.equals("true")){
 			//standardize the SDF	
 			StandardizeMoleculesWorkflow.standardizeSdf(sdfFileName, sdfFileName + ".standardize", path);
 			File standardized = new File(path + sdfFileName + ".standardize");
 			if(standardized.exists()){
-				//
+				//replace old SDF with new standardized SDF
 				FileAndDirOperations.copyFile(path + sdfFileName + ".standardize", path + sdfFileName);
 				FileAndDirOperations.deleteFile(path + sdfFileName + ".standardize");
 			}
@@ -115,12 +102,20 @@ public class CreateDatasetTask implements WorkflowTask{
 		if(!sdfFileName.equals("")){
 			//generate compound sketches and visualization files
 			this.numCompounds = DatasetFileOperations.getSDFCompoundList(path+sdfFileName).size();
-			
-			if(!new File(vizFilePath).exists()) new File(vizFilePath).mkdirs();
-			else{
-				new File(vizFilePath).mkdirs();
+
+			String vizFilePath = "Visualization/"; 
+			String structDir = "Visualization/Structures";
+			String sketchDir = "Visualization/Sketches";
+
+			if(!new File(path + vizFilePath).exists()) {
+				new File(path + vizFilePath).mkdirs();
 			}
-			
+			if(!new File(path + structDir).exists()) {
+				new File(path + structDir).mkdirs();
+			}
+			if(!new File(path + sketchDir).exists()) {
+				new File(path + sketchDir).mkdirs();
+			}
 			
 			queue.runningTask.setMessage("Generating JPGs");
 			Utility.writeToDebug("Generating JPGs", userName, jobName);
@@ -130,6 +125,13 @@ public class CreateDatasetTask implements WorkflowTask{
 
 			queue.runningTask.setMessage("Generating Visualizations");
 			Utility.writeToDebug("Generating Visualizations", userName, jobName);
+			
+			queue.runningTask.setMessage("Creating MACCS keys");
+			CSV_X_Workflow.performMACCSCreation(path + sdfFileName, viz_path);
+			
+			queue.runningTask.setMessage("Creating X file");
+			CSV_X_Workflow.performXCreation(viz_path);
+						
 			queue.runningTask.setMessage("Creating heatmap and tree using Mahalanobis distance measure");
 			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "mahalanobis");
 
@@ -147,15 +149,6 @@ public class CreateDatasetTask implements WorkflowTask{
 	
 			}
 		}
-		
-		/* ACT file headers removed for now. We will assume ACT files do not have headers.
-		 * if(!actFileName.equals("")){
-			//grab header info for the database
-			actFileHeader = DatasetFileOperations.getActFileHeader(path + actFileName);
-		}
-		else{
-			actFileHeader = "";
-		}*/
 		
 		if(!xFileName.equals("")){
 			this.numCompounds = DatasetFileOperations.getXCompoundList(path+xFileName).size();

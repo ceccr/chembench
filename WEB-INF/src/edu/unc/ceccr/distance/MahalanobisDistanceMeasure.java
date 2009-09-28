@@ -37,7 +37,6 @@ public class MahalanobisDistanceMeasure extends DistanceMeasure{
             return result;
         }
         
-        
         private double[][] multiplyMatrix(double[][] m1, double[][] m2){
                       int m1rows = m1.length;
                     int m1cols = m1[0].length;
@@ -56,8 +55,6 @@ public class MahalanobisDistanceMeasure extends DistanceMeasure{
           
         }
 
-   
-        
         private double multiplyVectors(double[] v1, double[] v2){
             return v1[0]*v2[0]+v1[1]*v2[1];                    
         }
@@ -73,10 +70,6 @@ public class MahalanobisDistanceMeasure extends DistanceMeasure{
                     return result;
         }
         
-        
-        
-        
-        
         private double[][] transpose(double[][] matrix){
             double[][] result = new double[matrix[0].length][matrix.length];
             for(int i = 0; i< matrix.length;i++){
@@ -87,7 +80,6 @@ public class MahalanobisDistanceMeasure extends DistanceMeasure{
             }
             return result;
         }
-        
         
         private double[] multiplyVectorOnMatrix(double[] v1, double[][] mat){
             double[] rv = new double[v1.length];    
@@ -100,8 +92,7 @@ public class MahalanobisDistanceMeasure extends DistanceMeasure{
             return rv;
         }
         
-        
-          private  double[][] invert(double a[][]) {
+          private double[][] invert(double a[][]) {
               double[][] res = new double[2][2];
               double det = 1/(a[0][0]*a[1][1]- a[0][1]*a[1][0]);
               res[0][0] = a[1][1]*det;
@@ -184,7 +175,4 @@ public void performMatrixCreation() throws IOException{
      	xml_builder.writeXMLFile();
     }
 
-    
-    
-	
 }

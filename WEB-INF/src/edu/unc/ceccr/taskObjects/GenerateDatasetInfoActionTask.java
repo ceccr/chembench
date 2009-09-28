@@ -82,7 +82,6 @@ public class GenerateDatasetInfoActionTask implements WorkflowTask {
 		if(similarityMeasure!=null){
 			if(similarityMeasure.length>0){
 				
-						
 				for(int i=0;i<similarityMeasure.length;i++){
 					Utility.writeToMSDebug("SIM::"+similarityMeasure[i]+"__"+datasetName+"____");
 					if(similarityMeasure[i].equals("Tanimoto")){
