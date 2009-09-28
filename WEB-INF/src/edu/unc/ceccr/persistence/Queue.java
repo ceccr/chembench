@@ -423,11 +423,12 @@ public class Queue {
 						Utility.writeToDebug("Task finished.", t.userName, t.jobName);
 						t.setFinish(new Date());
 						t.task.save();
-						t.setState(QueueTask.State.finished);					
+						t.setState(QueueTask.State.finished);		
+						
 						resetFlagSet();
 
 						runningTask = null;
-						finished.add(t);
+						//finished.add(t);
 						
 						for(QueueTask ta : queue){
 							if(ta.jobName.equals(t.jobName) && ta.userName.equals(t.userName)){

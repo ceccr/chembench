@@ -81,7 +81,7 @@
 				<td class="TableRowText02"><s:property value="numCompounds" /></td>
 				<td class="TableRowText02"><s:property value="numModels" /></td>
 				<td class="TableRowText02"><s:date name="start" format="yyyy-MM-dd HH:mm" /></td>
-				<td class="TableRowText02"><s:property value="state" /></td>
+				<td class="TableRowText02"><s:property value="message" /><br /><s:property value="state" /></td>
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />">cancel</a></td>
 				</tr> 
 			</s:iterator>
