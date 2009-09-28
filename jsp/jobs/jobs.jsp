@@ -133,7 +133,7 @@
 					<s:else>
 					<td class="TableRowText02">Private</td>
 					<td class="TableRowText02"><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=<s:property value="user.userName" />">download</a></td>
-					<td class="TableRowText02"><s:else><a href="deleteDataset?id=<s:property value="fileId" />">delete</a></s:else></td>
+					<td class="TableRowText02"><a href="deleteDataset?id=<s:property value="fileId" />">delete</a></td>
 					</s:else>
 					
 					</tr> 

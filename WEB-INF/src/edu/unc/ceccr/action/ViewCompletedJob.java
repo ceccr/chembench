@@ -150,7 +150,6 @@ public class ViewCompletedJob extends Action {
 				}
 				else if(task.getJobType() == jobTypes.dataset){
 					session.setAttribute("fileName", task.getJobName());
-					//session.setAttribute("fileName", task.getJobName().replace("_sketches_generation", ""));
 					queue.deleteTask(task);
 					forward = mapping.findForward("dataset");
 				}

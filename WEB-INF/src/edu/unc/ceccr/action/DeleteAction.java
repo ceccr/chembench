@@ -73,27 +73,7 @@ public class DeleteAction extends ActionSupport{
 		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
 		
 		//todo: Actually check the jobs! Needs some revision of how jobs work first.
-		/*
-		for(int i=0;i<queuedtasks.size();i++){
-			Utility.writeToMSDebug("JobNames::"+queuedtasks.get(i).getJobName()+"=="+queuedtasks.get(i).task);
-			if(queuedtasks.get(i).getJobName().equals(fileName) && queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
-				return fileName; 
-			}
-			else if(queuedtasks.get(i).getJobName().equals(fileName + "_sketches_generation")&& queuedtasks.get(i).getState().equals(Queue.QueueTask.State.ready)){
-				return fileName+"_sketches_generation"; 
-			}
-		}
 		
-		for(int i=0;i<jobnames.size();i++){
-			Utility.writeToMSDebug("RunningJobNames::"+queuedtasks.get(i).getJobName());
-			if(jobnames.get(i).equals(fileName)){
-				return fileName; 
-			}
-			else if(jobnames.get(i).equals(fileName+"_sketches_generation")){
-				return fileName+"_sketches_generation"; 
-			}
-		}
-		*/
 		return dependsMsg;
 	}
 

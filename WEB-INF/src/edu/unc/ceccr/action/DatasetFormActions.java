@@ -25,7 +25,6 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
-import edu.unc.ceccr.taskObjects.GenerateSketchesTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;

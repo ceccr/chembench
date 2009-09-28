@@ -80,9 +80,7 @@ public class CreateDatasetTask implements WorkflowTask{
 		this.jobName = datasetName;
 		this.paperReference = paperReference;
 		this.dataSetDescription = dataSetDescription;
-		
 	}
-
 
 	public void execute() throws Exception {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
