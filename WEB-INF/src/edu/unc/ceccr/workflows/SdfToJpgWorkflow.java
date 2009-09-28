@@ -18,8 +18,6 @@ public class SdfToJpgWorkflow {
 		
 		//Split the input SDF (lots of compounds) into separate SDFs (1 compound each).
 		//Put that in the Structures dir.
-		structuresDir = filePath + structuresDir;
-		sketchesDir = filePath + sketchesDir;
 		Utility.writeToDebug("Creating structures into dir: " + structuresDir);
 
 		//make sure Structures dir exists. 

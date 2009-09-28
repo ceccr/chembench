@@ -53,13 +53,13 @@ public class CSV_X_Workflow {
 			Process p;
 			if(method.equals("tanimoto")){
 				p = Runtime.getRuntime().exec(tanimoto);
-				Utility.writeToMSDebug("Heatmap script: "+tanimoto);
+				Utility.writeToDebug("Heatmap script: "+tanimoto);
 				Utility.writeProgramLogfile(viz_path, "convert_x_to_csv",  p.getInputStream(), p.getErrorStream());
 				p.waitFor();
 			}
 			else if(method.equals("mahalanobis")){
 				p = Runtime.getRuntime().exec(mahalanobis);
-				Utility.writeToMSDebug("Heatmap script: "+mahalanobis);
+				Utility.writeToDebug("Heatmap script: "+mahalanobis);
 				Utility.writeProgramLogfile(viz_path, "convert_x_to_csv",  p.getInputStream(), p.getErrorStream());
 				p.waitFor();
 			}
@@ -67,7 +67,7 @@ public class CSV_X_Workflow {
 			
 		}catch(Exception ex){
 			//Utility.writeToDebug(ex); screw it, this has been getting a "file not found" error for months
-			Utility.writeToMSDebug("performCSVCreation::"+ex.getMessage());
+			Utility.writeToDebug(ex);
 		}
 	}
 	
