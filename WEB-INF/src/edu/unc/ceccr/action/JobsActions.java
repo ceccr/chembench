@@ -72,6 +72,7 @@ public class JobsActions extends ActionSupport {
 				userQueueTasks.add(qt);
 			//}
 		}	
+		userQueueTasks.add(Queue.getInstance().runningTask);
 		
 		//log the results
 		if(result.equals(SUCCESS)){
