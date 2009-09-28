@@ -132,7 +132,7 @@ public class Queue {
 		}
 
 		public void saveTask(){
-			//saves the task into the database (in chembench_task table)
+			//saves the task into the database (in cbench_task table)
 			try{
 			instance.saveTaskRecord(this);}
 			catch(SQLException e){
@@ -478,24 +478,20 @@ public class Queue {
 		try {
 			tx = s.beginTransaction();
 			s.saveOrUpdate(t);
-			
+			/*
 			if(t.getJobType().equals(QueueTask.jobTypes.modeling)){
-				Utility.writeToMSDebug("MODELING QUEUE");
 				ModelingTask mt = new ModelingTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
 				s.saveOrUpdate(mt);
 			}
 			if(t.getJobType().equals(QueueTask.jobTypes.prediction)){
-				Utility.writeToMSDebug("PREDICTION QUEUE");
 				PredictionTask pt = new PredictionTask(t.id, ((QsarPredictionTask)t.task).getPredictionDataset().getFileId());
-				Utility.writeToMSDebug("PREDICTION QUEUE: "+pt.getId()+":::"+pt.getDatasetId());
 				s.saveOrUpdate(pt);
 			}
 			if(t.getJobType().equals(QueueTask.jobTypes.dataset)){
-				Utility.writeToMSDebug("VISUALIZATION QUEUE");
 				VisualizationTask vt = new VisualizationTask(t.id, PopulateDataObjects.getDataSetByName(t.jobName, t.getUserName()).getFileId());
 				s.saveOrUpdate(vt);
 			}
-			
+			*/
 			
 			tx.commit();
 		} catch (RuntimeException e) {

@@ -155,9 +155,11 @@ public class DeleteAction extends ActionSupport{
 
 		//delete the files associated with this dataset
 		String dir = Constants.CECCR_USER_BASE_PATH+ds.getUserName()+"/DATASETS/"+ds.getFileName();
-		if(! FileAndDirOperations.deleteDir(new File(dir))){
-			Utility.writeToStrutsDebug("error deleting dir: " + dir);
-			return ERROR;
+		if((new File(dir)).exists()){
+			if(! FileAndDirOperations.deleteDir(new File(dir))){
+				Utility.writeToStrutsDebug("error deleting dir: " + dir);
+				return ERROR;
+			}
 		}
 		
 		//delete the database entry for the dataset
@@ -171,6 +173,7 @@ public class DeleteAction extends ActionSupport{
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
+			return ERROR;
 		}
 		
 		return SUCCESS;
@@ -282,9 +285,6 @@ public class DeleteAction extends ActionSupport{
 	
 	public String deleteJob() throws Exception{
 		//stops the job and removes all associated files
-
-		//Food for thought: What if a dataset job is deleted partway through executing?
-		//Could be a problem.
 		
 		ActionContext context = ActionContext.getContext();
 		
