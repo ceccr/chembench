@@ -82,9 +82,6 @@ public class KnnModelBuildingWorkflow{
 			      p.waitFor();
 			    
 			}
-			else{
-				Utility.writeToDebug("mismatch: .*rand_sets.* " + files[x], userName, jobName);
-			}
 			x++;
 		}
 	}

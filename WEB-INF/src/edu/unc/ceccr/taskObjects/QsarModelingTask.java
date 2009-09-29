@@ -65,7 +65,7 @@ public class QsarModelingTask implements WorkflowTask {
 	private Long datasetID;
 	String filePath;
 	String datasetPath;
-	private String datasetType;
+	private String actFileDataType;
 	private DataTypeEnumeration dataTypeEnum;
 	private boolean datasetIsAllUser;
 	
@@ -198,7 +198,7 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		datasetName = dataset.getFileName();
 		
-		datasetType = ModelingForm.getActFileDataType();
+		actFileDataType = ModelingForm.getActFileDataType();
 		descriptorGenerationType = ModelingForm.getDescriptorGenerationType();
 		
 		//start datasplit parameters
@@ -291,9 +291,9 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		datasetPath += "/DATASETS/" + datasetName + "/";
 		
-		if (datasetType.equals(Constants.CATEGORY)){
+		if (actFileDataType.equals(Constants.CATEGORY)){
 			dataTypeEnum = DataTypeEnumeration.CATEGORY;
-		}else if (datasetType.equals(Constants.CONTINUOUS)){
+		}else if (actFileDataType.equals(Constants.CONTINUOUS)){
 			dataTypeEnum = DataTypeEnumeration.CONTINUOUS;
 		}
 	}
@@ -303,10 +303,10 @@ public class QsarModelingTask implements WorkflowTask {
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		
 		if(modelTypeEnum == ModelTypeEnumeration.KNN){
-			if (datasetType.equals(Constants.CONTINUOUS)){
+			if (actFileDataType.equals(Constants.CONTINUOUS)){
 				writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME);
 			}
-			else if (datasetType.equals(Constants.CATEGORY)){
+			else if (actFileDataType.equals(Constants.CATEGORY)){
 				writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME);
 			}
 		}
@@ -317,7 +317,7 @@ public class QsarModelingTask implements WorkflowTask {
 		
 		//copy the dataset files to the working directory
 		queue.runningTask.setMessage("Copying files");
-		GetJobFilesWorkflow.getDatasetFiles(userName, jobName, sdFileName, actFileName, "", "ext_0.x", datasetIsAllUser, datasetType, datasetName);
+		GetJobFilesWorkflow.getDatasetFiles(userName, jobName, sdFileName, actFileName, "", "ext_0.x", datasetIsAllUser, actFileDataType, datasetName);
 
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
@@ -421,10 +421,10 @@ public class QsarModelingTask implements WorkflowTask {
 			
 			//done with modeling. Read output files. 
 			queue.runningTask.setMessage("Reading kNN output");
-			if (datasetType.equals(Constants.CATEGORY)){
+			if (actFileDataType.equals(Constants.CATEGORY)){
 				parseCategorykNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
 				parseCategorykNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
-			}else if (datasetType.equals(Constants.CONTINUOUS)){
+			}else if (actFileDataType.equals(Constants.CONTINUOUS)){
 				parseContinuouskNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
 				parseContinuouskNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
 			}
@@ -599,7 +599,7 @@ public class QsarModelingTask implements WorkflowTask {
 		
 		java.util.Comparator knnOutputComparator;
 		
-		if(datasetType.equals(Constants.CONTINUOUS))
+		if(actFileDataType.equals(Constants.CONTINUOUS))
 		{knnOutputComparator = new KnnOutputComparator();}
 		else{knnOutputComparator = new CategoryKNNComparator();}
 		
