@@ -85,35 +85,52 @@ public class DataSplitWorkflow{
 		String[] array = line.split("\\s+");
 		int numCompounds = Integer.parseInt(array[0]);
 		int numDescriptors = Integer.parseInt(array[1]);
-
-		outXModelingWriter.write("" + (numCompounds - compoundIDs.length) + " " + numDescriptors);
-		outXExternalWriter.write("" + (compoundIDs.length) + " " + numDescriptors);
+		int numCompoundsModelingSet = numCompounds - compoundIDs.length;
+		outXModelingWriter.write("" + numCompoundsModelingSet + " " + numDescriptors + "\n");
+		outXExternalWriter.write("" + compoundIDs.length + " " + numDescriptors + "\n");
 		
 		//next do the descriptors line
+		line = inXReader.readLine();
 		outXModelingWriter.write(line + "\n");
 		outXExternalWriter.write(line + "\n");
 		
 		//then all the rest
+		int lineIndex = 0;
 		while((line = inXReader.readLine()) != null){
-			array = line.split("\\s+");
-			boolean lineIsExternal = false;
-			for(int i = 0; i < compoundIDs.length; i++){
-				if(array[0].equals(compoundIDs[i])){
-					outXExternalWriter.write(line + "\n");
-					lineIsExternal = true;
+			if(lineIndex < numCompounds){
+				//this line contains a compound and descriptor values
+				array = line.split("\\s+");
+				boolean lineIsExternal = false;
+				for(int i = 0; i < compoundIDs.length; i++){
+					//in an X file, first value is an index, second is compoundID
+					if(array[1].equals(compoundIDs[i])){
+						outXExternalWriter.write(line + "\n");
+						lineIsExternal = true;
+					}
+				}
+				if(!lineIsExternal){
+					//compound belongs in modeling set
+					outXModelingWriter.write(line + "\n");
 				}
 			}
-			if(!lineIsExternal){
-				//compound belongs in modeling set
+			else{
+				//we've read all the compounds
+				//we're at the bottom lines that give min/max or stddev/offset
+				//those go in both modeling and external.
+				outXExternalWriter.write(line + "\n");
 				outXModelingWriter.write(line + "\n");
 			}
+			lineIndex++;
 		}
+		outXModelingWriter.close();
+		outXExternalWriter.close();
 		//done splitting the X file
 
 		//split the ACT file
-		
+		Utility.writeToDebug("reading ACT file from: " + workingdir + actFileName);
 		while((line = inActReader.readLine()) != null){
 			array = line.split("\\s+");
+			Utility.writeToDebug(line);
 			boolean lineIsExternal = false;
 			for(int i = 0; i < compoundIDs.length; i++){
 				if(array[0].equals(compoundIDs[i])){
@@ -126,6 +143,8 @@ public class DataSplitWorkflow{
 				outActModelingWriter.write(line + "\n");
 			}
 		}
+		outActModelingWriter.close();
+		outActExternalWriter.close();
 	}
 
 	public static void SplitTrainTestRandom(String userName,
@@ -166,7 +185,6 @@ public class DataSplitWorkflow{
 			if(line != null){
 				listFileContents += line + "\n";
 			}
-			
 		}
 		
 		//Now print out a list file that kNN will like.

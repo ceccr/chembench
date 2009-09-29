@@ -76,8 +76,6 @@ public class QsarModelingTask implements WorkflowTask {
 	private ScalingTypeEnumeration scalingTypeEnum;
 	
 	//datasplit
-	private String numCompoundsExternalSet;
-	private String externalRandomSeed;
 	private String numSplits;
 	private String trainTestSplitType;
 	private TrainTestSplitTypeEnumeration trainTestSplitTypeEnum;
@@ -200,13 +198,11 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		datasetName = dataset.getFileName();
 		
-		datasetType = ModelingForm.getDatasetType();
+		datasetType = ModelingForm.getActFileDataType();
 		descriptorGenerationType = ModelingForm.getDescriptorGenerationType();
 		
 		//start datasplit parameters
 		selectionNextTrainPt = ModelingForm.getSelectionNextTrainPt();
-		numCompoundsExternalSet = ModelingForm.getNumCompoundsExternalSet();
-		externalRandomSeed = ModelingForm.getExternalRandomSeed();
 		
 		trainTestSplitType = ModelingForm.getTrainTestSplitType();
 		if(trainTestSplitType.equalsIgnoreCase(Constants.RANDOM)){
@@ -321,7 +317,7 @@ public class QsarModelingTask implements WorkflowTask {
 		
 		//copy the dataset files to the working directory
 		queue.runningTask.setMessage("Copying files");
-		GetJobFilesWorkflow.getDatasetFiles(userName, jobName, sdFileName, actFileName, datasetIsAllUser, datasetType, datasetName);
+		GetJobFilesWorkflow.getDatasetFiles(userName, jobName, sdFileName, actFileName, "", "ext_0.x", datasetIsAllUser, datasetType, datasetName);
 
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
@@ -380,12 +376,15 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		
 		//write out the descriptors for modeling
+		String xFileName = sdFileName + ".x";
 		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-		WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + sdFileName + ".x", scalingType);
+		WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + xFileName, scalingType);
 
-		//split the data into modeling and external sets
+		//apply the dataset's external split to the generated .X file
 		queue.runningTask.setMessage("Splitting data");
-		//DataSplitWorkflow.SplitModelingExternal(userName, jobName, sdFileName, actFileName, externalRandomSeed, numCompoundsExternalSet);
+		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundList(path + "ext_0.x");
+		String externalCompoundIdString = extCompoundArray.toString().replaceAll("[,\\[\\]]", "");
+		DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundIdString);
 		
 		//make internal training / test sets for each model
 		if(trainTestSplitTypeEnum == TrainTestSplitTypeEnumeration.RANDOM){
@@ -485,8 +484,8 @@ public class QsarModelingTask implements WorkflowTask {
 		predictor.setNumyTrainModels(yTrainModels);
 		predictor.setNumyTotalModels(yTotalModels);
 		predictor.setActivityType(activityType);
-		predictor.setStatus("NOTSET");
-		predictor.setPredictorType("Unsaved");
+		predictor.setStatus("saved");
+		predictor.setPredictorType("saved");
 		predictor.setDatasetId(datasetID);
 		
 		if(allkNNValues.size()<1){}else

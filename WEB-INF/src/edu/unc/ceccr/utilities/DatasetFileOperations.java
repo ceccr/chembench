@@ -401,16 +401,19 @@ public class DatasetFileOperations {
 	public static ArrayList<String> getXCompoundList(String fileLocation) throws Exception{
 		ArrayList<String> x_compounds = new ArrayList<String>();
 		File file = new File(fileLocation);
-		
+		Utility.writeToDebug("Getting X file compounds from " + fileLocation);
 		if (file.exists()) {
 			FileReader fin = new FileReader(file);
 			Scanner src = new Scanner(fin);
 			String line;
+			src.nextLine(); //skip header
+			src.nextLine(); //skip descriptors
 			while (src.hasNext()) {
 				line = src.nextLine();
 				String[] array = line.split("\\s+");
-				if (array.length != 2 && array.length != 0) { //this will skip the first line and any blank lines
-					x_compounds.add(array[0].trim());
+				if (array.length != 0) { //this will skip any blank lines
+					//in an X file, first value is an index, second is compoundID
+					x_compounds.add(array[1].trim()); 
 				}
 			}
 		}

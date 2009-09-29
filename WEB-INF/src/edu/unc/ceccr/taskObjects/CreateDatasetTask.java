@@ -142,8 +142,10 @@ public class CreateDatasetTask implements WorkflowTask{
 				
 				String act_path  = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/" + actFileName;
 					
-				queue.runningTask.setMessage("Creating PCA plots");
-				CSV_X_Workflow.performPCAcreation(viz_path, act_path);
+				//PCA plot creation works
+				//however, there is no way to visualize the result right now.
+				//queue.runningTask.setMessage("Creating PCA plots");
+				//CSV_X_Workflow.performPCAcreation(viz_path, act_path);
 	
 			}
 		}

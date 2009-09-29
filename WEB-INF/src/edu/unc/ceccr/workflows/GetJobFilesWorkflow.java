@@ -9,7 +9,7 @@ import edu.unc.ceccr.global.Constants;
 
 public class GetJobFilesWorkflow{
 	
-	public static void getDatasetFiles(String userName, String jobName, String sdFile, String actFile, boolean isAllUser, String dataType, String datasetName) throws Exception{
+	public static void getDatasetFiles(String userName, String jobName, String sdFile, String actFile, String xFile, String externalSplitXFile, boolean isAllUser, String dataType, String datasetName) throws Exception{
 		//gathers the files needed for a modeling run
 		
 		String jobDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
@@ -19,14 +19,34 @@ public class GetJobFilesWorkflow{
 		if(! isAllUser){
 			//get it from the user's DATASET directory
 			Utility.writeToDebug("Fetching data from " + userFilesDir, userName, jobName);
-			FileAndDirOperations.copyFile(userFilesDir + sdFile, jobDir + sdFile);
-			FileAndDirOperations.copyFile(userFilesDir + actFile, jobDir + actFile);
+			if(!sdFile.equals("")){
+				FileAndDirOperations.copyFile(userFilesDir + sdFile, jobDir + sdFile);
+			}
+			if(!actFile.equals("")){
+				FileAndDirOperations.copyFile(userFilesDir + actFile, jobDir + actFile);
+			}
+			if(!xFile.equals("")){
+				FileAndDirOperations.copyFile(userFilesDir + xFile, jobDir + xFile);
+			}
+			if(!externalSplitXFile.equals("")){
+				FileAndDirOperations.copyFile(userFilesDir + externalSplitXFile, jobDir + externalSplitXFile);
+			}
 		}
 		else{
 			//get it from the all-users directory
 			Utility.writeToDebug("Fetching data from " + allUserDir, userName, jobName);
-			FileAndDirOperations.copyFile(allUserDir + sdFile, jobDir + sdFile);
-			FileAndDirOperations.copyFile(allUserDir + actFile, jobDir + actFile);
+			if(!sdFile.equals("")){
+				FileAndDirOperations.copyFile(allUserDir + sdFile, jobDir + sdFile);
+			}
+			if(!actFile.equals("")){
+				FileAndDirOperations.copyFile(allUserDir + actFile, jobDir + actFile);
+			}
+			if(!xFile.equals("")){
+				FileAndDirOperations.copyFile(allUserDir + xFile, jobDir + xFile);
+			}
+			if(!externalSplitXFile.equals("")){
+				FileAndDirOperations.copyFile(allUserDir + externalSplitXFile, jobDir + externalSplitXFile);
+			}
 		}
 	}
 	

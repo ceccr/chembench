@@ -81,7 +81,6 @@ public class ModelingFormActions extends ActionSupport{
 		s += "\n Dataset ID: " + selectedDatasetId;
 		s += "\n Dataset Name: " + PopulateDataObjects.getDataSetById(selectedDatasetId).getFileName();
 		s += "\n Descriptor Type: " + descriptorGenerationType;
-		s += "\n Num. External Set Compounds: " + numCompoundsExternalSet;
 		s += "\n (Sphere Exclusion) Split Includes Min: " + splitIncludesMin;
 		s += "\n (Random Internal Split) Max. Test Set Size: " + randomSplitMaxTestSize;
 		s += "\n knnCategoryOptimization: " + knnCategoryOptimization;
@@ -218,13 +217,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String stdDevCutoff = "0.0";
 	private String corellationCutoff = "1.0";
 	//end descriptor parameters
-	
-	//begin modeling-external split parameters
-	private String numCompoundsExternalSet = "5";
-	private String externalRandomSeed = "" + Math.round(Math.random() * 16000);
-	
-	// end modeling-external split parameters
-	
+		
 	// being train-test split parameters
 	private String trainTestSplitType = Constants.RANDOM;
 
@@ -246,7 +239,7 @@ public class ModelingFormActions extends ActionSupport{
 		
 	//kNN Parameters
 	
-	private String datasetType = Constants.CONTINUOUS; //used in the 2 radio buttons
+	private String actFileDataType = Constants.CONTINUOUS; //used in the 2 radio buttons
 	private String minNumDescriptors = "5";
 	private String maxNumDescriptors = "10";
 	private String stepSize = "5";
@@ -373,13 +366,6 @@ public class ModelingFormActions extends ActionSupport{
 		this.message = message;
 	}
 
-	public String getNumCompoundsExternalSet() {
-		return numCompoundsExternalSet;
-	}
-	public void setNumCompoundsExternalSet(String numCompoundsExternalSet) {
-		this.numCompoundsExternalSet = numCompoundsExternalSet;
-	}
-	
 	public String getSplitIncludesMin() {
 		return splitIncludesMin;
 	}
@@ -403,11 +389,11 @@ public class ModelingFormActions extends ActionSupport{
 	
 	
 	//kNN
-	public String getDatasetType() {
-		return datasetType;
+	public String getActFileDataType() {
+		return actFileDataType;
 	}
-	public void setDatasetType(String datasetType) {
-		this.datasetType = datasetType;
+	public void setActFileDataType(String actFileDataType) {
+		this.actFileDataType = actFileDataType;
 	}
 
 	public String getDescriptorGenerationType() {
@@ -507,14 +493,6 @@ public class ModelingFormActions extends ActionSupport{
 	public void setSelectionNextTrainPt(String selectionNextTrainPt) {
 		this.selectionNextTrainPt = selectionNextTrainPt;
 	}
-	
-	public String getExternalRandomSeed() {
-		return externalRandomSeed;
-	}
-	public void setExternalRandomSeed(String externalRandomSeed) {
-		this.externalRandomSeed = externalRandomSeed;
-	}
-	
 	
 	public String getDiffR01R02() {
 		return diffR01R02;
@@ -774,7 +752,6 @@ public class ModelingFormActions extends ActionSupport{
 	public void setSvmCrossValidation(String svmCrossValidation) {
 		this.svmCrossValidation = svmCrossValidation;
 	}
-	
 	//end SVM
 	
 	
