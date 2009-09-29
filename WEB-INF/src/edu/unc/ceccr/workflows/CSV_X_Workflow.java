@@ -12,10 +12,11 @@ public class CSV_X_Workflow {
 		try{
 			Process p= Runtime.getRuntime().exec("moebatch_shell_script.sh "+file_path +" "+viz_path+".maccs");
 			Utility.writeToMSDebug("Shell script: "+"moebatch_shell_script.sh "+file_path+" "+viz_path+".maccs");
-			Utility.writeProgramLogfile(file_path, "moebatch_shell_script",  p.getInputStream(), p.getErrorStream());
+			Utility.writeProgramLogfile(file_path.substring(0,file_path.lastIndexOf("/")), "moebatch_shell_script",  p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
+			
 			Utility.writeToMSDebug("performMACCSCreation::"+ex.getMessage());
 		}
 	}

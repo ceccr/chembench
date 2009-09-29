@@ -65,6 +65,7 @@ public class KnnModelBuildingWorkflow{
 		//Run y-randomization test on kNN model.
 		
 		String yRandomDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/";
+		Utility.writeToDebug("YRandomization", userName, jobName);
 		File dir = new File(yRandomDir);
 		String files[] = dir.list();
 		if(files == null){
@@ -72,7 +73,7 @@ public class KnnModelBuildingWorkflow{
 		}
 		int x = 0;
 		while(files != null && x<files.length){
-			if(files[x].matches(".*RAND_sets_a1.*")){
+			if(files[x].matches(".*rand_sets.*")){
 				//generate model building results for each randomized file
 				String execstr = "RandomizationSlowLIN " + files[x] + " tempfile";
 				  Utility.writeToDebug("Running external program: " + execstr + " in dir " + yRandomDir);
@@ -80,6 +81,9 @@ public class KnnModelBuildingWorkflow{
 			      Utility.writeProgramLogfile(yRandomDir, "RandomizationSlowLIN", p.getInputStream(), p.getErrorStream());
 			      p.waitFor();
 			    
+			}
+			else{
+				Utility.writeToDebug("mismatch: .*rand_sets.* " + files[x], userName, jobName);
 			}
 			x++;
 		}
