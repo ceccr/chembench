@@ -67,7 +67,12 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>Select the type of dataset to create.</i></div></td>
+			<div class="StandardTextDarkGrayParagraph"><i>Select the type of dataset to create.<br />
+			For the	"Modeling Set" and "Prediction Set", you do not need to provide descriptors; Chembench will <br />
+			generate descriptors as needed for visualization, modeling, prediction. <br />
+			For the "Modeling Set With Descriptors" and "Prediction Set With Descriptors", you will need to <br />
+			upload an <a href="">X</a> file containing the descriptor values.
+			</i></div></td>
 		</tr>
 		<tr><td colspan="2">
 		

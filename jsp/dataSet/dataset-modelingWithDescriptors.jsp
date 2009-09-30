@@ -24,6 +24,12 @@
 	    </td>
 	  </tr>	
 	  <tr>
+	    <td><b class='StandardTextDarkGrayParagraph'>ACT data type:</b></td>
+	    <td align="left">
+		<s:radio name="dataTypeModDesc" value="dataTypeModDesc" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" />
+		</td>
+	  </tr>
+	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">ACT File:</b></td>
 	    <td align="left">
 	    <s:file name="actFileModDesc" id="actFileModDesc" theme="simple" />
@@ -40,12 +46,6 @@
 	    <td align="left">
 	    <s:file name="xFileModDesc" id="xFileModDesc" theme="simple" />
 	    </td>
-	  </tr>
-	  <tr>
-	    <td><b class='StandardTextDarkGrayParagraph'>ACT data type:</b></td>
-	    <td align="left">
-		<s:radio name="dataTypeModDesc" value="dataTypeModDesc" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" />
-		</td>
 	  </tr>
 	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">Descriptor Type:</b></td>
