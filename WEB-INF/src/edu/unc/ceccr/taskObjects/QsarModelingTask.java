@@ -162,7 +162,7 @@ public class QsarModelingTask implements WorkflowTask {
 	ArrayList<ExternalValidation> allExternalValues = null;
 	private boolean noModelsGenerated;
 	
-	private String step = ""; //stores what step we're on 
+	private String step = Constants.SETUP; //stores what step we're on 
 	
 	public String getProgress(){
 		String percent = "";

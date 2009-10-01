@@ -46,7 +46,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	private String userName;
 	private Long selectedPredictorId;
 	private DataSet predictionDataset;
-	private String step = ""; //stores what step we're on 
+	private String step = Constants.SETUP; //stores what step we're on 
 	
 	public String getProgress(){
 		String percent = "";

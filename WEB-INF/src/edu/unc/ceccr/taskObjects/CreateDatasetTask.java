@@ -46,7 +46,7 @@ public class CreateDatasetTask implements WorkflowTask{
 	private String actFileHeader;
 	private int numCompounds;
 	
-	private String step = ""; //stores what step we're on 
+	private String step = Constants.SETUP; //stores what step we're on 
 	
 	public String getProgress(){
 		String percent = "";

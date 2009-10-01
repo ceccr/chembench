@@ -41,6 +41,7 @@
     <td></td>
   </tr>
 </table>
+
 	<!-- Running Jobs -->
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>			
