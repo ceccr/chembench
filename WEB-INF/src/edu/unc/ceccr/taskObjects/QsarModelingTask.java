@@ -173,7 +173,7 @@ public class QsarModelingTask implements WorkflowTask {
 			//divide by the number of models to be built
 			p /= Queue.getInstance().runningTask.getNumModels();
 			p *= 100; //it's a percent
-			percent = " (" + p + "%)"; 
+			percent = " (" + Math.round(p) + "%)"; 
 		}
 		if(step.equals(Constants.YMODELS)){
 			//count the number of *.jpg files in the working directory
@@ -182,7 +182,7 @@ public class QsarModelingTask implements WorkflowTask {
 			//divide by the number of models to be built
 			p /= Queue.getInstance().runningTask.getNumModels();
 			p *= 100; //it's a percent
-			percent = " (" + p + "%)"; 
+			percent = " (" + Math.round(p) + "%)"; 
 		}
 		return step + percent;
 	}

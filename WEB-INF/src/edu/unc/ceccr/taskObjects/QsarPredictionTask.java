@@ -56,7 +56,7 @@ public class QsarPredictionTask implements WorkflowTask {
 			//divide by the number of compounds in the dataset
 			p /= predictionDataset.getNumCompound();
 			p *= 100; //it's a percent
-			percent = " (" + p + "%)"; 
+			percent = " (" + Math.round(p) + "%)"; 
 		}
 		return step + percent;
 	}
