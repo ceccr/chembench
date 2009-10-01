@@ -414,6 +414,7 @@ public class Queue {
 	
 						if(t.task != null){
 							t.task.execute();
+							t.task.cleanUp();
 						}
 						else{
 							//t.setMessage("server reset");

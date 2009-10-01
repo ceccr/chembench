@@ -469,7 +469,6 @@ public class QsarModelingTask implements WorkflowTask {
 	Queue queue = Queue.getInstance();
 
 	public void cleanUp() throws Exception {
-		Utility.writeToDebug("Cleaning up.", userName, jobName);
 		queue.deleteTask(this);
 	}
 
