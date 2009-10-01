@@ -168,7 +168,7 @@ public class QsarModelingTask implements WorkflowTask {
 		String percent = "";
 		if(step.equals(Constants.MODELS)){
 			//count the number of *.jpg files in the working directory
-			String workingDir = Constants.CECCR_BASE_PATH + userName + "/" + jobName + "/";
+			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
 			//divide by the number of models to be built
 			p /= Queue.getInstance().runningTask.getNumModels();
@@ -177,7 +177,7 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		if(step.equals(Constants.YMODELS)){
 			//count the number of *.jpg files in the working directory
-			String workingDir = Constants.CECCR_BASE_PATH + userName + "/" + jobName + "/yRandom/";
+			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/";
 			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
 			//divide by the number of models to be built
 			p /= Queue.getInstance().runningTask.getNumModels();

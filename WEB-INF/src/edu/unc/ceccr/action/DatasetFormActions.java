@@ -158,9 +158,9 @@ public class DatasetFormActions extends ActionSupport{
 						paperReference,
 						dataSetDescription);
 				try{
-					Utility.writeToDebug("getting ACT compound count from " + Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName);
+					Utility.writeToDebug("getting ACT compound count from " + Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName);
 					int numCompounds = DatasetFileOperations.getACTCompoundList(
-							Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName).size();
+							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName).size();
 					int numModels = 0;
 					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
@@ -214,7 +214,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataSetDescription);
 				
 				int numCompounds = DatasetFileOperations.getSDFCompoundList(
-						Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
+						Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
 				int numModels = 0;
 				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 			}
@@ -264,7 +264,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataSetDescription);
 
 				int numCompounds = DatasetFileOperations.getACTCompoundList(
-						Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModDescFileName).size();
+						Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModDescFileName).size();
 				int numModels = 0;
 				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 			}
@@ -312,7 +312,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataSetDescription);
 				
 				int numCompounds = DatasetFileOperations.getXCompoundList(
-						Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + xFilePredDescFileName).size();
+						Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + xFilePredDescFileName).size();
 				int numModels = 0;
 				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 			}
