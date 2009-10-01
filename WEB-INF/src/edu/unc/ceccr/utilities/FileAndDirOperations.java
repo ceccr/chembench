@@ -18,7 +18,8 @@ public class FileAndDirOperations {
 	
 	public static int countFilesInDirMatchingPattern(String dir, String pattern){
 		int count = 0;
-		
+
+		Utility.writeToDebug("counting files matching " + pattern + " in " + dir);
 		File d = new File(dir);
 		String files[] = d.list();
 		if(files == null){
@@ -28,6 +29,9 @@ public class FileAndDirOperations {
 		while(files != null && x<files.length){
 			if(files[x].matches(pattern)){
 				count++;
+			}
+			else{
+				Utility.writeToDebug("file " + files[x] + " does not match " + pattern);
 			}
 			x++;
 		}
