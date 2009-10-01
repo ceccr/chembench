@@ -159,7 +159,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataSetDescription);
 				try{
 					int numCompounds = DatasetFileOperations.getACTCompoundList(
-							Constants.CECCR_BASE_PATH + userName + "/DATASET/" + datasetName + "/" + actFileModelingFileName).size();
+							Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName).size();
 					int numModels = 0;
 					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
@@ -213,7 +213,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataSetDescription);
 				
 				int numCompounds = DatasetFileOperations.getSDFCompoundList(
-						Constants.CECCR_BASE_PATH + userName + "/DATASET/" + datasetName + "/" + sdfFilePredictionFileName).size();
+						Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
 				int numModels = 0;
 				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 			}
@@ -263,7 +263,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataSetDescription);
 
 				int numCompounds = DatasetFileOperations.getACTCompoundList(
-						Constants.CECCR_BASE_PATH + userName + "/DATASET/" + datasetName + "/" + actFileModDescFileName).size();
+						Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModDescFileName).size();
 				int numModels = 0;
 				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 			}
@@ -311,7 +311,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataSetDescription);
 				
 				int numCompounds = DatasetFileOperations.getXCompoundList(
-						Constants.CECCR_BASE_PATH + userName + "/DATASET/" + datasetName + "/" + xFilePredDescFileName).size();
+						Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + xFilePredDescFileName).size();
 				int numModels = 0;
 				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 			}
