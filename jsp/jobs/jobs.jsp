@@ -65,7 +65,6 @@
 				<td class="TableRowText01">Name</td>
 				<td class="TableRowText01">Owner</td>
 				<td class="TableRowText01">Job Type</td>
-				<td class="TableRowText01">Dataset</td>
 				<td class="TableRowText01">Number of Compounds</td>
 				<td class="TableRowText01">Number of Models</td>
 				<td class="TableRowText01">Time Submitted</td>
@@ -77,11 +76,10 @@
 				<td class="TableRowText02"><s:property value="jobName" /></td>
 				<td class="TableRowText02"><s:property value="userName" /></td>
 				<td class="TableRowText02"><s:property value="jobTypeString" /></td>
-				<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
 				<td class="TableRowText02"><s:property value="numCompounds" /></td>
 				<td class="TableRowText02"><s:property value="numModels" /></td>
 				<td class="TableRowText02"><s:date name="start" format="yyyy-MM-dd HH:mm" /></td>
-				<td class="TableRowText02"><s:property value="message" /><br /><s:property value="state" /></td>
+				<td class="TableRowText02"><s:if test="state!='started'"><s:property value="state" /><br /></s:if><s:property value="message" /></td>
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />">cancel</a></td>
 				</tr> 
 			</s:iterator>
