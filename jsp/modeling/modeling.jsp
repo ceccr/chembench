@@ -75,14 +75,15 @@
 			    </tr> 
 				<tr>
 					<td colspan="2">
-					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataType" id="continuousDataset" onclick="setToContinuous()" checked>Choose a Continuous Dataset:</input></b>
+					<s:hidden id="actFileDataType" name="actFileDataType" />
+					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataTypeRadio" id="continuousDataset" onclick="setToContinuous()" checked>Choose a Continuous Dataset:</input></b>
 					<br /><s:select name="selectedDatasetId" list="userContinuousDatasets" id="selectedContinuousDataset" listKey="fileId" listValue="fileName" />
 					</div>
 					</td>
 			    </tr> 
 			    <tr>
 					<td colspan="2">
-					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataType" id="categoryDataset" onclick="setToCategory()">Choose a Category Dataset:</input></b>
+					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataTypeRadio" id="categoryDataset" onclick="setToCategory()">Choose a Category Dataset:</input></b>
 					<br /><s:select name="selectedDatasetId" disabled="true" list="userCategoryDatasets" id="selectedCategoryDataset" listKey="fileId" listValue="fileName" />
 					</div>
 					</td>
