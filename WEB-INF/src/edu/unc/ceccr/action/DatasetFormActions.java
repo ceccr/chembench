@@ -158,6 +158,7 @@ public class DatasetFormActions extends ActionSupport{
 						paperReference,
 						dataSetDescription);
 				try{
+					Utility.writeToDebug("getting ACT compound count from " + Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName);
 					int numCompounds = DatasetFileOperations.getACTCompoundList(
 							Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName).size();
 					int numModels = 0;
