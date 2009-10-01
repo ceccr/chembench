@@ -43,9 +43,14 @@ public class QsarPredictionTask implements WorkflowTask {
 	private String userName;
 	private Long selectedPredictorId;
 	private DataSet predictionDataset;
+	private String step = ""; //stores what step we're on 
 	
-	private Queue queue = Queue.getInstance();
-	
+	public String getProgress(){
+		String percent = "";
+		
+		return step + percent;
+	}
+		
 	public QsarPredictionTask(String userName, String jobName, String sdf, String cutoff,
 			Long selectedPredictorId, DataSet predictionDataset) throws Exception {
 		
@@ -87,7 +92,7 @@ public class QsarPredictionTask implements WorkflowTask {
 			s.close();
 		}
 
-		queue.runningTask.setMessage("Creating file structure");
+		step = Constants.SETUP;
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		
 		String datasetPath = Constants.CECCR_USER_BASE_PATH;
@@ -102,8 +107,8 @@ public class QsarPredictionTask implements WorkflowTask {
 		boolean predictorIsAllUser = selectedPredictor.getUserName().equals(Constants.ALL_USERS_USERNAME);
 		boolean sdfIsAllUser = predictionDataset.getUserName().equals(Constants.ALL_USERS_USERNAME);
 		String sdfile = predictionDataset.getSdfFile();
-
-		queue.runningTask.setMessage("Copying predictor");
+		
+		step = Constants.COPYPREDICTOR;
 		GetJobFilesWorkflow.GetKnnPredictionFiles(userName, jobName, sdfile, sdfIsAllUser, predictorIsAllUser, selectedPredictor.getName(), predictionDataset.getFileName());
 
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
@@ -114,38 +119,38 @@ public class QsarPredictionTask implements WorkflowTask {
 		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(path + sdfile);
 		
 		if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
-			queue.runningTask.setMessage("Generating MolconnZ descriptors");
+			step = Constants.DESCRIPTORS;
 			Utility.writeToDebug("ExecutePredictor: Generating MolconnZ Descriptors", userName, jobName);
 			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".S");
 			
-			queue.runningTask.setMessage("Processing MolconnZ descriptors");
+			step = Constants.PROCDESCRIPTORS;
 			Utility.writeToDebug("ExecutePredictor: Processing MolconnZ Descriptors", userName, jobName);
 			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdfile + ".S", descriptorNames, descriptorValueMatrix);
 		}
 		else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.DRAGON)){
-			queue.runningTask.setMessage("Generating Dragon descriptors");
+			step = Constants.DESCRIPTORS;
 			Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
 			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
 			
-			queue.runningTask.setMessage("Processing Dragon descriptors");
+			step = Constants.PROCDESCRIPTORS;
 			Utility.writeToDebug("ExecutePredictor: Processing Dragon Descriptors", userName, jobName);
 			ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdfile + ".dragon", descriptorNames, descriptorValueMatrix);
 		}
 		else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOE2D)){
-			queue.runningTask.setMessage("Generating Moe2D descriptors");
+			step = Constants.DESCRIPTORS;
 			Utility.writeToDebug("ExecutePredictor: Generating Moe2D Descriptors", userName, jobName);
 			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdfile, path + sdfile + ".moe2D");
 			
-			queue.runningTask.setMessage("Processing Moe2D descriptors");
+			step = Constants.PROCDESCRIPTORS;
 			Utility.writeToDebug("ExecutePredictor: Processing Moe2D Descriptors", userName, jobName);
 			ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
 		}
 		else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MACCS)){
-			queue.runningTask.setMessage("Generating MACCS descriptors");
+			step = Constants.DESCRIPTORS;
 			Utility.writeToDebug("ExecutePredictor: Generating MACCS Descriptors", userName, jobName);
 			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdfile, path + sdfile + ".maccs");
 			
-			queue.runningTask.setMessage("Processing MACCS descriptors");
+			step = Constants.PROCDESCRIPTORS;
 			Utility.writeToDebug("ExecutePredictor: Processing MACCS Descriptors", userName, jobName);
 			ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
 		}
@@ -159,11 +164,11 @@ public class QsarPredictionTask implements WorkflowTask {
 				path + "train_0.x", 
 				selectedPredictor.getScalingType());
 		
-		queue.runningTask.setMessage("Making predictions");
+		step = Constants.PREDICTING;
 		Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
 		KnnPredictionWorkflow.RunKnnPrediction(userName, jobName, sdfile, Float.parseFloat(cutoff) );
 
-		queue.runningTask.setMessage("Reading predictions");
+		step = Constants.READPRED;
 		this.allPredValue = parsePredOutput(this.filePath + Constants.PRED_OUTPUT_FILE);
 		KnnPredictionWorkflow.MoveToPredictionsDir(userName, jobName);
 		Utility.writeToDebug("ExecPredictorActionTask: Complete", userName, jobName);
@@ -240,8 +245,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	
 		
 	public void cleanUp() throws Exception {
-		//this.executeAntWorkflow.cleanUp();
-		queue.deleteTask(this);
+		Queue.getInstance().deleteTask(this);
 	}
 
 	public ArrayList getAllPredValue() {

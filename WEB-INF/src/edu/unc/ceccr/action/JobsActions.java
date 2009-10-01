@@ -73,6 +73,8 @@ public class JobsActions extends ActionSupport {
 			//}
 		}	
 		if(Queue.getInstance().runningTask != null){
+			QueueTask t = Queue.getInstance().runningTask;
+			t.setMessage(t.task.getProgress());
 			userQueueTasks.add(Queue.getInstance().runningTask);
 		}
 		

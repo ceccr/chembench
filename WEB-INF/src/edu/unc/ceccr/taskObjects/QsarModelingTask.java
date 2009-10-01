@@ -123,7 +123,6 @@ public class QsarModelingTask implements WorkflowTask {
 	private String stop_cond;
 	
 	//svm
-	
 	private String svmDegreeFrom;
 	private String svmDegreeTo;
 	private String svmDegreeStep;
@@ -162,6 +161,14 @@ public class QsarModelingTask implements WorkflowTask {
 	String[] externalValues = null;
 	ArrayList<ExternalValidation> allExternalValues = null;
 	private boolean noModelsGenerated;
+	
+	private String step = ""; //stores what step we're on 
+	
+	public String getProgress(){
+		String percent = "";
+		
+		return step + percent;
+	}
 	
 	//constructor
 	public QsarModelingTask(String userName, ModelingFormActions ModelingForm) throws Exception {
@@ -314,7 +321,7 @@ public class QsarModelingTask implements WorkflowTask {
 	public void execute() throws Exception {
 		
 		//copy the dataset files to the working directory
-		queue.runningTask.setMessage("Copying files");
+		step = Constants.SETUP;
 		GetJobFilesWorkflow.getDatasetFiles(userName, jobName, sdFileName, actFileName, "", "ext_0.x", datasetIsAllUser, actFileDataType, datasetName);
 
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
@@ -327,48 +334,48 @@ public class QsarModelingTask implements WorkflowTask {
 		if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
 			descriptorEnum = DescriptorEnumeration.MOLCONNZ;
 			
-			queue.runningTask.setMessage("Generating MolconnZ descriptors");
+			step = Constants.DESCRIPTORS;
 			Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
 			Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
 			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".S");
 
-			queue.runningTask.setMessage("Processing MolconnZ descriptors");
+			step = Constants.PROCDESCRIPTORS;
 			Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
 			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".S", descriptorNames, descriptorValueMatrix);
 		}
 		else if (descriptorGenerationType.equals(Constants.DRAGON)){
 			descriptorEnum = DescriptorEnumeration.DRAGON;
 			
-			queue.runningTask.setMessage("Generating Dragon descriptors");
+			step = Constants.DESCRIPTORS;
 			Utility.writeToDebug("Generating Dragon Descriptors", userName, jobName);
 			Utility.writeToMSDebug("Generating Dragon Descriptors::"+ path);
 			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
 			
-			queue.runningTask.setMessage("Processing Dragon descriptors");
+			step = Constants.PROCDESCRIPTORS;
 			Utility.writeToDebug("Processing Dragon descriptors", userName, jobName);
 			ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdFileName + ".dragon", descriptorNames, descriptorValueMatrix);
 		}
 		else if (descriptorGenerationType.equals(Constants.MOE2D)){
 			descriptorEnum = DescriptorEnumeration.MOE2D;
 			
-			queue.runningTask.setMessage("Generating MOE2D descriptors");
+			step = Constants.DESCRIPTORS;
 			Utility.writeToDebug("Generating MOE2D Descriptors", userName, jobName);
 			Utility.writeToMSDebug("Generating MOE2D Descriptors::"+ path);
 			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdFileName, path + sdFileName + ".moe2d");
 			
-			queue.runningTask.setMessage("Processing MOE2D descriptors");
+			step = Constants.PROCDESCRIPTORS;
 			Utility.writeToDebug("Processing MOE2D descriptors", userName, jobName);
 			ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
 		}
 		else if (descriptorGenerationType.equals(Constants.MACCS)){
 			descriptorEnum = DescriptorEnumeration.MACCS;
 			
-			queue.runningTask.setMessage("Generating MACCS descriptors");
+			step = Constants.DESCRIPTORS;
 			Utility.writeToDebug("Generating MACCS Descriptors", userName, jobName);
 			Utility.writeToMSDebug("Generating MACCS Descriptors::" + path);
 			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdFileName, path + sdFileName + ".maccs");
 			
-			queue.runningTask.setMessage("Processing MACCS descriptors");
+			step = Constants.PROCDESCRIPTORS;
 			Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
 			ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 		}
@@ -379,7 +386,7 @@ public class QsarModelingTask implements WorkflowTask {
 		WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + xFileName, scalingType);
 
 		//apply the dataset's external split to the generated .X file
-		queue.runningTask.setMessage("Splitting data");
+		step = Constants.SPLITDATA;
 		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundList(path + "ext_0.x");
 		String externalCompoundIdString = extCompoundArray.toString().replaceAll("[,\\[\\]]", "");
 		DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundIdString);
@@ -394,31 +401,30 @@ public class QsarModelingTask implements WorkflowTask {
 		
 		//Run modeling process
 		if(modelTypeEnum == ModelTypeEnumeration.KNN){
-			queue.runningTask.setMessage("Y-Randomization Setup");
+			step = Constants.YRANDOMSETUP;
 			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 			
-			Utility.writeToDebug("ExecuteYRandomization", userName, jobName);
 			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
-			
-			queue.runningTask.setMessage("kNN Modeling");
+
+			step = Constants.MODELS;
 			if(dataTypeEnum == DataTypeEnumeration.CATEGORY){
 				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path);
 			}else if(dataTypeEnum == DataTypeEnumeration.CONTINUOUS){
 				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path);
 			}
-			
-			queue.runningTask.setMessage("y-Randomization Modeling");
+
+			step = Constants.YMODELS;
 			if(dataTypeEnum == DataTypeEnumeration.CATEGORY){
 				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path + "yRandom/");
 			}else if(dataTypeEnum == DataTypeEnumeration.CONTINUOUS){
 				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path + "yRandom/");
 			}
 			
-			queue.runningTask.setMessage("Predicting external set");
+			step = Constants.PREDEXT;
 			KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
 			
 			//done with modeling. Read output files. 
-			queue.runningTask.setMessage("Reading kNN output");
+			step = Constants.READING;
 			if (actFileDataType.equals(Constants.CATEGORY)){
 				parseCategorykNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
 				parseCategorykNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
@@ -636,15 +642,16 @@ public class QsarModelingTask implements WorkflowTask {
 			
 			if(externalValues.length==4)
 			{
-				if(GenericValidator.isFloat(externalValues[Constants.STD_DEVIATION]))
-				{stdDevValues.add(externalValues[Constants.STD_DEVIATION]);}
+				if(GenericValidator.isFloat(externalValues[Constants.STD_DEVIATION])){
+					stdDevValues.add(externalValues[Constants.STD_DEVIATION]);}
 				else{
 					stdDevValues.add("No value");
 				}
-				}
+			}
 			else{
-				if(externalValues.length==3)
-				{stdDevValues.add("No value");}
+				if(externalValues.length==3){
+					stdDevValues.add("No value");
+				}
 			}
 		}
 		return stdDevValues;

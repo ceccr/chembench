@@ -46,6 +46,14 @@ public class CreateDatasetTask implements WorkflowTask{
 	private String actFileHeader;
 	private int numCompounds;
 	
+	private String step = ""; //stores what step we're on 
+	
+	public String getProgress(){
+		String percent = "";
+		
+		return step + percent;
+	}
+	
 	private Queue queue = Queue.getInstance();
 	
 	public CreateDatasetTask(String userName, 
@@ -115,25 +123,21 @@ public class CreateDatasetTask implements WorkflowTask{
 				new File(path + sketchDir).mkdirs();
 			}
 			
-			queue.runningTask.setMessage("Generating JPGs");
+			step = Constants.SKETCHES;
 			Utility.writeToDebug("Generating JPGs", userName, jobName);
 			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
 			
 			String viz_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/" + sdfFileName.substring(0,sdfFileName.lastIndexOf("."));
 
-			queue.runningTask.setMessage("Generating Visualizations");
+			step = Constants.VISUALIZATION;
 			Utility.writeToDebug("Generating Visualizations", userName, jobName);
 			
-			queue.runningTask.setMessage("Creating MACCS keys");
 			CSV_X_Workflow.performMACCSCreation(path + sdfFileName, viz_path);
 			
-			queue.runningTask.setMessage("Creating X file");
 			CSV_X_Workflow.performXCreation(viz_path);
 						
-			queue.runningTask.setMessage("Creating heatmap and tree using Mahalanobis distance measure");
 			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "mahalanobis");
 
-			queue.runningTask.setMessage("Creating heatmap and tree using Tanimoto similarity measure");
 			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "tanimoto");
 
 			if(!actFileName.equals("")){
@@ -144,7 +148,6 @@ public class CreateDatasetTask implements WorkflowTask{
 					
 				//PCA plot creation works
 				//however, there is no way to visualize the result right now.
-				//queue.runningTask.setMessage("Creating PCA plots");
 				//CSV_X_Workflow.performPCAcreation(viz_path, act_path);
 	
 			}
@@ -156,7 +159,9 @@ public class CreateDatasetTask implements WorkflowTask{
 		
 		if(datasetType.equals(Constants.MODELING) || datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
 			//split dataset to get external set and modeling set
-			queue.runningTask.setMessage("Creating External Validation Set");
+
+			step = Constants.SPLITDATA;
+			
 			Utility.writeToDebug("Creating External Validation Set", userName, jobName);
 			
 			if(splitType.equals(Constants.RANDOM)){

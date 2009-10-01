@@ -50,7 +50,27 @@ public class Constants {
 	public static final String SPHEREEXCLUSION = "SPHEREEXCLUSION";
 	public static final String USERDEFINED = "USERDEFINED";
 	
+	//steps in dataset task
+	public static final String SETUP = "Setting up task";
+	public static final String VISUALIZATION = "Generating visualizations";
+	public static final String SKETCHES = "Generating compound sketches";
+	public static final String SPLITDATA = "Splitting Data";
 	
+	//steps in modeling task
+	//also uses SETUP and SPLITDATA
+	public static final String DESCRIPTORS = "Generating descriptors";
+	public static final String PROCDESCRIPTORS = "Processing descriptors";
+	public static final String YRANDOMSETUP = "Y-Randomization setup";
+	public static final String MODELS = "Generating models";
+	public static final String YMODELS = "Generating y-Randomization models";
+	public static final String PREDEXT = "Predicting external set";
+	public static final String READING = "Reading output files";
+	
+	//steps in prediction task
+	//also uses DESCRIPTORS and SETUP
+	public static final String COPYPREDICTOR = "Copying predictor";
+	public static final String PREDICTING = "Predicting dataset";
+	public static final String READPRED = "Reading predictions";
 	
 	//kNN Constants
 	public static final int CONTINUOUS_NNN_LOCATION = 1;

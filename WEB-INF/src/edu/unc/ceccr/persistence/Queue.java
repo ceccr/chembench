@@ -446,8 +446,11 @@ public class Queue {
 		}
 	}
 	
-	public void addJob(WorkflowTask job, String userName, String jobName) throws FileNotFoundException,IOException,SQLException,ClassNotFoundException{
-		queue.add(new QueueTask(job, userName));
+	public void addJob(WorkflowTask job, String userName, String jobName, int numCompounds, int numModels) throws FileNotFoundException,IOException,SQLException,ClassNotFoundException{
+		QueueTask qt = new QueueTask(job, userName);
+		qt.setNumCompounds(numCompounds);
+		qt.setNumModels(numModels);
+		queue.add(qt);
 		Utility.writeToDebug("Adding Task ", userName, jobName);
 		resetFlagSet();
 	}

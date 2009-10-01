@@ -67,16 +67,6 @@ public class QsarPredictionAction extends Action {
 					Utility.writeToMSDebug(e.getMessage());
 				}
 				Utility.writeToMSDebug("Files copied");
-				/*QsarPredictionTask executeAntWorkflow = new QsarPredictionTask(
-						user.getUserName(), formBean.getJobName(), file,
-						formBean.getCutOff(), is, formBean.getUploadOrSelect(),
-						formBean.getSelectedPredictorId(), predictionDataset);
-
-				executeAntWorkflow.setUp();
-
-				Queue.getInstance().addJob(executeAntWorkflow,
-						user.getUserName(), formBean.getJobName());
-					*/	
 			} catch (Exception e) {
 				forward = mapping.findForward("failure");
 				Utility.writeToDebug(e);

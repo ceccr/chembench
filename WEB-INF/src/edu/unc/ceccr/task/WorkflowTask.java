@@ -10,4 +10,6 @@ public interface WorkflowTask {
 
 	public abstract void save() throws Exception;
 
+	public abstract String getProgress() throws Exception;
+	
 }

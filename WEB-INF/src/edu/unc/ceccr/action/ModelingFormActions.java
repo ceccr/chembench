@@ -99,7 +99,28 @@ public class ModelingFormActions extends ActionSupport{
 			modelingTask.setUp();
 			Utility.writeToDebug("wtf done Setting up task", user.getUserName(), this.getJobName());
 			tasklist = Queue.getInstance();
-			tasklist.addJob(modelingTask, user.getUserName(), this.getJobName());
+			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId).getNumCompound();
+			
+			//count the number of models that will be generated
+			int numModels = 0;
+			if(trainTestSplitType.equals(Constants.RANDOM)){
+				numModels = Integer.parseInt(numSplitsInternalRandom);
+			}
+			else if(trainTestSplitType.equals(Constants.SPHEREEXCLUSION)){
+				numModels = Integer.parseInt(numSplitsInternalSphere);
+			}
+			
+			if(modelingType.equals(Constants.KNN)){
+				numModels *= Integer.parseInt(numRuns);
+				int numDescriptorSizes = 0;
+				for(int i = Integer.parseInt(minNumDescriptors); i <= Integer.parseInt(maxNumDescriptors); i += Integer.parseInt(stepSize)){
+					numDescriptorSizes++;
+				}
+				numModels *= numDescriptorSizes;
+			}
+			
+			//add job to queue
+			tasklist.addJob(modelingTask, user.getUserName(), this.getJobName(), numCompounds, numModels);
 			Utility.writeToDebug("Task added to queue", user.getUserName(), this.getJobName());
 		}
 		catch(Exception ex){
@@ -258,10 +279,10 @@ public class ModelingFormActions extends ActionSupport{
 	private String mu = "0.9";
 	private String TcOverTb = "-6.0";
 	private String cutoff = "1.0";
-	private String minAccTraining = "-1";
-	private String minAccTest = "-1";
-	private String minSlopes = "-10";
-	private String maxSlopes = "10";
+	private String minAccTraining = "0.6";
+	private String minAccTest = "0.6";
+	private String minSlopes = "0";
+	private String maxSlopes = "1";
 	private String relativeDiffRR0 = "500.0";
 	private String diffR01R02 = "0.9";
 	private String stop_cond = "50";

@@ -113,8 +113,9 @@ public class PredictionFormActions extends ActionSupport{
 				cutOff, Long.parseLong(selectedPredictorId), predictionDataset);
 
 		predTask.setUp();
-		
-		Queue.getInstance().addJob(predTask,user.getUserName(), jobName);
+		int numCompounds = predictionDataset.getNumCompound();
+		int numModels = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorId)).getNumTestModels();
+		Queue.getInstance().addJob(predTask,user.getUserName(), jobName, numCompounds, numModels);
 			
 		return SUCCESS;
 	}	

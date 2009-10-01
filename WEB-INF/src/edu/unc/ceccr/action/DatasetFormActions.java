@@ -158,7 +158,10 @@ public class DatasetFormActions extends ActionSupport{
 						paperReference,
 						dataSetDescription);
 				try{
-				Queue.getInstance().addJob(datasetTask, userName, datasetName);
+					int numCompounds = DatasetFileOperations.getACTCompoundList(
+							Constants.CECCR_BASE_PATH + userName + "/DATASET/" + datasetName + "/" + actFileModelingFileName).size();
+					int numModels = 0;
+					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -192,7 +195,6 @@ public class DatasetFormActions extends ActionSupport{
 				}
 			}
 			if(result.equalsIgnoreCase(SUCCESS)){
-				//CreateDatasetTask datasetTask = new CreateDatasetTask(datasetName, sdfFileModeling, actFileModeling, );
 				
 				CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
 						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
@@ -210,7 +212,10 @@ public class DatasetFormActions extends ActionSupport{
 						paperReference,
 						dataSetDescription);
 				
-				
+				int numCompounds = DatasetFileOperations.getSDFCompoundList(
+						Constants.CECCR_BASE_PATH + userName + "/DATASET/" + datasetName + "/" + sdfFilePredictionFileName).size();
+				int numModels = 0;
+				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)){
@@ -256,6 +261,11 @@ public class DatasetFormActions extends ActionSupport{
 						datasetName,
 						paperReference,
 						dataSetDescription);
+
+				int numCompounds = DatasetFileOperations.getACTCompoundList(
+						Constants.CECCR_BASE_PATH + userName + "/DATASET/" + datasetName + "/" + actFileModDescFileName).size();
+				int numModels = 0;
+				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)){
@@ -299,6 +309,11 @@ public class DatasetFormActions extends ActionSupport{
 						datasetName,
 						paperReference,
 						dataSetDescription);
+				
+				int numCompounds = DatasetFileOperations.getXCompoundList(
+						Constants.CECCR_BASE_PATH + userName + "/DATASET/" + datasetName + "/" + xFilePredDescFileName).size();
+				int numModels = 0;
+				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 			}
 		}
 		
