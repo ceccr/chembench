@@ -94,11 +94,11 @@ public class ViewPredictorAction extends ActionSupport {
 			int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
 			while(eit.hasNext()){
 				ExternalValidation e = eit.next();
-
 				residuals.add(Utility.roundSignificantFigures("" + (e.getActualValue() - e.getPredictedValue()), sigfigs));
 				e.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(""+e.getPredictedValue(), sigfigs)));  
-				e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
-				
+				if(! e.getStandDev().equalsIgnoreCase("No value")){
+					e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
+				}
 			}
 		}
 
