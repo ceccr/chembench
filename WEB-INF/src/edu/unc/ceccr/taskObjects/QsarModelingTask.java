@@ -301,7 +301,7 @@ public class QsarModelingTask implements WorkflowTask {
 	public void setUp() throws Exception {
 
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
-		
+		Utility.writeToDebug("wtf mate: " + modelTypeEnum + " == " + ModelTypeEnumeration.KNN + " && " + actFileDataType + " == " + Constants.CONTINUOUS);
 		if(modelTypeEnum == ModelTypeEnumeration.KNN){
 			if (actFileDataType.equals(Constants.CONTINUOUS)){
 				writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME);
