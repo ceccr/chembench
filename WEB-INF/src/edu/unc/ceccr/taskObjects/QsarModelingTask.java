@@ -299,7 +299,7 @@ public class QsarModelingTask implements WorkflowTask {
 	}
 
 	public void setUp() throws Exception {
-
+		Utility.writeToDebug("wtf mate");
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		Utility.writeToDebug("wtf mate: " + modelTypeEnum + " == " + ModelTypeEnumeration.KNN + " && " + actFileDataType + " == " + Constants.CONTINUOUS);
 		if(modelTypeEnum == ModelTypeEnumeration.KNN){

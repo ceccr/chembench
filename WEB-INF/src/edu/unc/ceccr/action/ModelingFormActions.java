@@ -92,14 +92,19 @@ public class ModelingFormActions extends ActionSupport{
 		user = (User) context.getSession().get("user");
 		
 		//set up job
-		Queue tasklist;
-		QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
-		Utility.writeToDebug("Setting up task", user.getUserName(), this.getJobName());
-		modelingTask.setUp();
-		tasklist = Queue.getInstance();
-		tasklist.addJob(modelingTask, user.getUserName(), this.getJobName());
-		Utility.writeToDebug("Task added to queue", user.getUserName(), this.getJobName());
-
+		try{
+			Queue tasklist;
+			QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
+			Utility.writeToDebug("wtf Setting up task", user.getUserName(), this.getJobName());
+			modelingTask.setUp();
+			Utility.writeToDebug("wtf done Setting up task", user.getUserName(), this.getJobName());
+			tasklist = Queue.getInstance();
+			tasklist.addJob(modelingTask, user.getUserName(), this.getJobName());
+			Utility.writeToDebug("Task added to queue", user.getUserName(), this.getJobName());
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 		return SUCCESS;
 	}
 
