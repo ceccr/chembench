@@ -50,7 +50,15 @@ public class CreateDatasetTask implements WorkflowTask{
 	
 	public String getProgress(){
 		String percent = "";
-		
+		if(step.equals(Constants.SKETCHES)){
+			//count the number of *.jpg files in the working directory
+			String workingDir = Constants.CECCR_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/Sketches/";
+			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*jpg");
+			//divide by the number of compounds in the dataset
+			p /= numCompounds;
+			p *= 100; //it's a percent
+			percent = " (" + p + "%)"; 
+		}
 		return step + percent;
 	}
 	

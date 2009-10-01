@@ -166,7 +166,24 @@ public class QsarModelingTask implements WorkflowTask {
 	
 	public String getProgress(){
 		String percent = "";
-		
+		if(step.equals(Constants.MODELS)){
+			//count the number of *.jpg files in the working directory
+			String workingDir = Constants.CECCR_BASE_PATH + userName + "/" + jobName + "/";
+			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
+			//divide by the number of models to be built
+			p /= Queue.getInstance().runningTask.getNumModels();
+			p *= 100; //it's a percent
+			percent = " (" + p + "%)"; 
+		}
+		if(step.equals(Constants.YMODELS)){
+			//count the number of *.jpg files in the working directory
+			String workingDir = Constants.CECCR_BASE_PATH + userName + "/" + jobName + "/yRandom/";
+			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
+			//divide by the number of models to be built
+			p /= Queue.getInstance().runningTask.getNumModels();
+			p *= 100; //it's a percent
+			percent = " (" + p + "%)"; 
+		}
 		return step + percent;
 	}
 	

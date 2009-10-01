@@ -1,10 +1,13 @@
 package edu.unc.ceccr.taskObjects;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.hibernate.Session;
@@ -47,7 +50,14 @@ public class QsarPredictionTask implements WorkflowTask {
 	
 	public String getProgress(){
 		String percent = "";
-		
+		if(step.equals(Constants.PREDICTING)){
+			//count the number of *.pred files in the working directory
+			float p = FileAndDirOperations.countFilesInDirMatchingPattern(filePath, ".*pred");
+			//divide by the number of compounds in the dataset
+			p /= predictionDataset.getNumCompound();
+			p *= 100; //it's a percent
+			percent = " (" + p + "%)"; 
+		}
 		return step + percent;
 	}
 		

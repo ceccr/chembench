@@ -34,7 +34,7 @@
         </action>
         
         <action name="loadSvmSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadSvm">
-        	<result>jsp/modeling/modeling-svm.jsp</result>
+        	<result>jsp/modeling/modeling-svm-dummy.jsp</result>
         </action>
         
         <action name="loadRandomInternalSplitSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadRandomSplit">

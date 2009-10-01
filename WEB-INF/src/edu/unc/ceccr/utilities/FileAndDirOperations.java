@@ -16,6 +16,25 @@ We need to put all of this in one place. Here's good.
 
 public class FileAndDirOperations {
 	
+	public static int countFilesInDirMatchingPattern(String dir, String pattern){
+		int count = 0;
+		
+		File d = new File(dir);
+		String files[] = d.list();
+		if(files == null){
+			Utility.writeToDebug("Error reading directory: " + dir);
+		}
+		int x = 0;
+		while(files != null && x<files.length){
+			if(files[x].matches(pattern)){
+				count++;
+			}
+			x++;
+		}
+		
+		return count;
+	}
+	
 	public static void copyDirContents(String fromDir, String toDir, boolean recurse){
 		try{
 			if(!fromDir.endsWith("/")){

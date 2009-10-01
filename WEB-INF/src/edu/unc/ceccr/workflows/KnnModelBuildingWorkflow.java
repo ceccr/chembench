@@ -15,7 +15,7 @@ public class KnnModelBuildingWorkflow{
 	
 	public static void buildKnnCategoryModel(String userName, String jobName, String optimizationValue, String workingDir) throws Exception{
 			String command = "AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue;
-			Utility.writeToDebug("Running Category kNN in dir " + workingDir, userName, jobName);
+			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "AllKnn_category_nl", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
@@ -25,7 +25,7 @@ public class KnnModelBuildingWorkflow{
 
 	public static void buildKnnContinuousModel(String userName, String jobName, String workingDir) throws Exception{
 			String command = "AllKnn2LIN_nl 1 RAND_sets.list knn-output";
-			Utility.writeToDebug("Running Continuous kNN in dir " + workingDir, userName, jobName);
+			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "AllKnn2LIN_nl", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
@@ -62,7 +62,7 @@ public class KnnModelBuildingWorkflow{
 	}
 	
 	public static void YRandomization(String userName, String jobName) throws Exception{
-		//Run y-randomization test on kNN model.
+		//Do y-randomization shuffling
 		
 		String yRandomDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/";
 		Utility.writeToDebug("YRandomization", userName, jobName);
@@ -72,11 +72,11 @@ public class KnnModelBuildingWorkflow{
 			Utility.writeToDebug("Error reading directory: " + yRandomDir);
 		}
 		int x = 0;
+		Utility.writeToDebug("Running external program: " + "RandomizationSlowLIN each_act_file.a tempfile" + " in dir " + yRandomDir);
 		while(files != null && x<files.length){
 			if(files[x].matches(".*rand_sets.*a")){
 				//shuffle the values in each .a file (ACT file)
 				String execstr = "RandomizationSlowLIN " + files[x] + " tempfile";
-				Utility.writeToDebug("Running external program: " + execstr + " in dir " + yRandomDir);
 			    Process p = Runtime.getRuntime().exec(execstr, null, new File(yRandomDir));
 			    Utility.writeProgramLogfile(yRandomDir, "RandomizationSlowLIN", p.getInputStream(), p.getErrorStream());
 			    p.waitFor();
