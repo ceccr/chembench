@@ -73,13 +73,14 @@ public class KnnModelBuildingWorkflow{
 		}
 		int x = 0;
 		while(files != null && x<files.length){
-			if(files[x].matches(".*rand_sets.*")){
-				//generate model building results for each randomized file
+			if(files[x].matches(".*rand_sets.*a")){
+				//shuffle the values in each .a file (ACT file)
 				String execstr = "RandomizationSlowLIN " + files[x] + " tempfile";
-				  Utility.writeToDebug("Running external program: " + execstr + " in dir " + yRandomDir);
-			      Process p = Runtime.getRuntime().exec(execstr, null, new File(yRandomDir));
-			      Utility.writeProgramLogfile(yRandomDir, "RandomizationSlowLIN", p.getInputStream(), p.getErrorStream());
-			      p.waitFor();
+				Utility.writeToDebug("Running external program: " + execstr + " in dir " + yRandomDir);
+			    Process p = Runtime.getRuntime().exec(execstr, null, new File(yRandomDir));
+			    Utility.writeProgramLogfile(yRandomDir, "RandomizationSlowLIN", p.getInputStream(), p.getErrorStream());
+			    p.waitFor();
+			    FileAndDirOperations.copyFile(yRandomDir + "tempfile", yRandomDir + files[x]);
 			    
 			}
 			x++;
