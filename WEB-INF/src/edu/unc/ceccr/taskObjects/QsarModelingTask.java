@@ -348,60 +348,71 @@ public class QsarModelingTask implements WorkflowTask {
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(path + sdFileName);
 		
-		if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
-			descriptorEnum = DescriptorEnumeration.MOLCONNZ;
+		DataSet dataset = PopulateDataObjects.getDataSetById(datasetID);
+		
+		String xFileName = "";
+		if(dataset.getDatasetType().equals(Constants.MODELING)){
+			//the dataset did not include descriptors so we need to generate them
+			if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
+				descriptorEnum = DescriptorEnumeration.MOLCONNZ;
+				
+				step = Constants.DESCRIPTORS;
+				Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
+				Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
+				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".S");
+	
+				step = Constants.PROCDESCRIPTORS;
+				Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
+				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".S", descriptorNames, descriptorValueMatrix);
+			}
+			else if (descriptorGenerationType.equals(Constants.DRAGON)){
+				descriptorEnum = DescriptorEnumeration.DRAGON;
+				
+				step = Constants.DESCRIPTORS;
+				Utility.writeToDebug("Generating Dragon Descriptors", userName, jobName);
+				Utility.writeToMSDebug("Generating Dragon Descriptors::"+ path);
+				GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
+				
+				step = Constants.PROCDESCRIPTORS;
+				Utility.writeToDebug("Processing Dragon descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdFileName + ".dragon", descriptorNames, descriptorValueMatrix);
+			}
+			else if (descriptorGenerationType.equals(Constants.MOE2D)){
+				descriptorEnum = DescriptorEnumeration.MOE2D;
+				
+				step = Constants.DESCRIPTORS;
+				Utility.writeToDebug("Generating MOE2D Descriptors", userName, jobName);
+				Utility.writeToMSDebug("Generating MOE2D Descriptors::"+ path);
+				GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdFileName, path + sdFileName + ".moe2d");
+				
+				step = Constants.PROCDESCRIPTORS;
+				Utility.writeToDebug("Processing MOE2D descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
+			}
+			else if (descriptorGenerationType.equals(Constants.MACCS)){
+				descriptorEnum = DescriptorEnumeration.MACCS;
+				
+				step = Constants.DESCRIPTORS;
+				Utility.writeToDebug("Generating MACCS Descriptors", userName, jobName);
+				Utility.writeToMSDebug("Generating MACCS Descriptors::" + path);
+				GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdFileName, path + sdFileName + ".maccs");
+				
+				step = Constants.PROCDESCRIPTORS;
+				Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
+			}
 			
-			step = Constants.DESCRIPTORS;
-			Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
-			Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
-			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".S");
-
-			step = Constants.PROCDESCRIPTORS;
-			Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
-			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".S", descriptorNames, descriptorValueMatrix);
+			//write out the descriptors for modeling
+			xFileName = sdFileName + ".x";
+			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + xFileName, scalingType);
 		}
-		else if (descriptorGenerationType.equals(Constants.DRAGON)){
-			descriptorEnum = DescriptorEnumeration.DRAGON;
-			
-			step = Constants.DESCRIPTORS;
-			Utility.writeToDebug("Generating Dragon Descriptors", userName, jobName);
-			Utility.writeToMSDebug("Generating Dragon Descriptors::"+ path);
-			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
-			
-			step = Constants.PROCDESCRIPTORS;
-			Utility.writeToDebug("Processing Dragon descriptors", userName, jobName);
-			ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdFileName + ".dragon", descriptorNames, descriptorValueMatrix);
-		}
-		else if (descriptorGenerationType.equals(Constants.MOE2D)){
-			descriptorEnum = DescriptorEnumeration.MOE2D;
-			
-			step = Constants.DESCRIPTORS;
-			Utility.writeToDebug("Generating MOE2D Descriptors", userName, jobName);
-			Utility.writeToMSDebug("Generating MOE2D Descriptors::"+ path);
-			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdFileName, path + sdFileName + ".moe2d");
-			
-			step = Constants.PROCDESCRIPTORS;
-			Utility.writeToDebug("Processing MOE2D descriptors", userName, jobName);
-			ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
-		}
-		else if (descriptorGenerationType.equals(Constants.MACCS)){
-			descriptorEnum = DescriptorEnumeration.MACCS;
-			
-			step = Constants.DESCRIPTORS;
-			Utility.writeToDebug("Generating MACCS Descriptors", userName, jobName);
-			Utility.writeToMSDebug("Generating MACCS Descriptors::" + path);
-			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdFileName, path + sdFileName + ".maccs");
-			
-			step = Constants.PROCDESCRIPTORS;
-			Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
-			ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
+		else if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
+			//dataset has descriptors already, we don't need to do anything
+			xFileName = dataset.getXFile();
 		}
 		
-		//write out the descriptors for modeling
-		String xFileName = sdFileName + ".x";
-		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-		WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + xFileName, scalingType);
-
+		
 		//apply the dataset's external split to the generated .X file
 		step = Constants.SPLITDATA;
 		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundList(path + "ext_0.x");

@@ -136,7 +136,7 @@ public class DatasetFileOperations {
 	public static String uploadDataset(String userName, File sdfFile, String sdfFileName, File actFile, 
 			String actFileName, File xFile, String xFileName, String datasetName, 
 			String actFileType, String datasetType) throws Exception{
-		//will take care of the upload SDF, SDF and ACT file
+		//will take care of the upload SDF, X, and ACT file
 		// in case of errors will delete the directory 
 			
 		String path = Constants.CECCR_USER_BASE_PATH+userName+"/DATASETS/"+datasetName+"/";

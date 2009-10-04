@@ -104,15 +104,12 @@ public class DatasetFormActions extends ActionSupport{
 		try{
 			Utility.writeToDebug("Starting dataset task");
 			Utility.writeToDebug("datasetName: " + datasetName);
-			Utility.writeToDebug("useActivityBinning: " + useActivityBinning);
-			Utility.writeToDebug("sdfFile: " + sdfFileModelingFileName);
-			Utility.writeToDebug("actFile: " + actFileModelingFileName);
-			Utility.writeToDebug("Starting dataset task");
-			
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		
+		String msg = "";
 		
 		if(datasetType.equalsIgnoreCase(Constants.MODELING)){
 			Utility.writeToDebug("type: " + datasetType);
@@ -124,7 +121,6 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = "";
 				try{
 					msg = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
 							actFileModeling, actFileModelingFileName, null, "", datasetName, 
@@ -135,7 +131,7 @@ public class DatasetFormActions extends ActionSupport{
 					result = ERROR;
 					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
 				}
-				if(msg!=""){
+				if(!msg.equals("")){
 					errorString += msg;
 					result = ERROR;
 				}
@@ -179,7 +175,6 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = "";
 				try{
 					msg = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, 
 							"", null, "", datasetName, dataTypeModeling, datasetType);
@@ -190,33 +185,39 @@ public class DatasetFormActions extends ActionSupport{
 					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
 				}
 			
-				if(msg!=""){
+				if(!msg.equals("")){
 					errorString += msg;
 					result = ERROR;
 				}
 			}
 			if(result.equalsIgnoreCase(SUCCESS)){
-				
-				CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
-						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
-						sdfFilePredictionFileName, //sdfFileName
-						"", //actFileName
-						"", //xFileName
-						"", //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
-						"", //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS
-						standardizePrediction, //used in MODELING and PREDICTION
-						splitType, //RANDOM or USERDEFINED
-						numExternalCompounds, //if splitType is RANDOM
-						useActivityBinning, //if splitType is RANDOM
-						externalCompoundList, //if splitType is USERDEFINED
-						datasetName,
-						paperReference,
-						dataSetDescription);
-				
-				int numCompounds = DatasetFileOperations.getSDFCompoundList(
-						Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
-				int numModels = 0;
-				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+				try{
+					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+							datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
+							sdfFilePredictionFileName, //sdfFileName
+							"", //actFileName
+							"", //xFileName
+							"", //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
+							"", //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS
+							standardizePrediction, //used in MODELING and PREDICTION
+							splitType, //RANDOM or USERDEFINED
+							numExternalCompounds, //if splitType is RANDOM
+							useActivityBinning, //if splitType is RANDOM
+							externalCompoundList, //if splitType is USERDEFINED
+							datasetName,
+							paperReference,
+							dataSetDescription);
+					
+					int numCompounds = DatasetFileOperations.getSDFCompoundList(
+							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
+					int numModels = 0;
+					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+				}
+				catch(Exception ex){
+					Utility.writeToDebug(ex);
+					result = ERROR;
+					msg += "An exception occurred while creating this dataset: " + ex.getMessage();
+				}
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)){
@@ -229,7 +230,6 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = "";
 				try{
 					msg = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
 							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
@@ -241,13 +241,14 @@ public class DatasetFormActions extends ActionSupport{
 					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
 				}
 				
-				if(msg!=""){
+				if(!msg.equals("")){
 					errorString += msg;
 					result = ERROR;
 				}
 			}
 			if(result.equalsIgnoreCase(SUCCESS)){
-				CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+				try{
+					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
 						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
 						sdfFileModDescFileName, //sdfFileName
 						actFileModDescFileName, //actFileName
@@ -263,10 +264,16 @@ public class DatasetFormActions extends ActionSupport{
 						paperReference,
 						dataSetDescription);
 
-				int numCompounds = DatasetFileOperations.getACTCompoundList(
-						Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModDescFileName).size();
-				int numModels = 0;
-				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+					int numCompounds = DatasetFileOperations.getACTCompoundList(
+							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModDescFileName).size();
+					int numModels = 0;
+					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+				}
+				catch(Exception ex){
+					Utility.writeToDebug(ex);
+					result = ERROR;
+					msg += "An exception occurred while creating this dataset: " + ex.getMessage();
+				}
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)){
@@ -278,7 +285,6 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(SUCCESS)){
 				//verify uploaded files and copy them to the dataset dir
-				String msg = "";
 				try{
 					msg = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
 							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType);
@@ -289,13 +295,15 @@ public class DatasetFormActions extends ActionSupport{
 					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
 				}
 				
-				if(msg!=""){
+				if(!msg.equals("")){
 					errorString += msg;
 					result = ERROR;
 				}
 			}
+			
 			if(result.equalsIgnoreCase(SUCCESS)){
-				CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+				try{
+					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
 						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
 						sdfFilePredDescFileName, //sdfFileName
 						"", //actFileName
@@ -311,10 +319,16 @@ public class DatasetFormActions extends ActionSupport{
 						paperReference,
 						dataSetDescription);
 				
-				int numCompounds = DatasetFileOperations.getXCompoundList(
-						Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + xFilePredDescFileName).size();
-				int numModels = 0;
-				Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+					int numCompounds = DatasetFileOperations.getXCompoundList(
+							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + xFilePredDescFileName).size();
+					int numModels = 0;
+					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+				}
+				catch(Exception ex){
+					Utility.writeToDebug(ex);
+					result = ERROR;
+					msg += "An exception occurred while creating this dataset: " + ex.getMessage();
+				}
 			}
 		}
 		
