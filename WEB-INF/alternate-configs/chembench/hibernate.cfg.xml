@@ -4,12 +4,12 @@
 		"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory>
-		<property name="hibernate.dialect">org.hibernate.dialect.stupid</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 		
 		<!-- Connection Pooling -->
 		
-		<property name="hibernate.c3p0.min_size">20</property>
-		<property name="hibernate.c3p0.max_size">100</property>
+		<property name="hibernate.c3p0.min_size">5</property>
+		<property name="hibernate.c3p0.max_size">20</property>
 		<property name="hibernate.c3p0.timeout">300</property>
 		<property name="hibernate.c3p0.max_statements">50</property>
 		<property name="hibernate.c3p0.idle_test_period">3000</property>
