@@ -10,8 +10,8 @@
 		<property name="hibernate.c3p0.min_size">10</property>
 		<property name="hibernate.c3p0.max_size">100</property>
 		<property name="hibernate.c3p0.timeout">20</property>
-		<property name="hibernate.c3p0.acquireRetryAttempts">30</property>
-		<property name="hibernate.c3p0.acquireIncrement">5</property>
+		<property name="hibernate.c3p0.acquireRetryAttempts">32</property>
+		<property name="hibernate.c3p0.acquireIncrement">2</property>
 		<property name="hibernate.c3p0.idleConnectionTestPeriod">900</property>
 		<property name="hibernate.c3p0.initialPoolSize">20</property>
 		<property name="hibernate.c3p0.maxPoolSize">100</property>
