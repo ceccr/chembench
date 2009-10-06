@@ -444,13 +444,11 @@ public class PopulateDataObjects {
 	public static Predictor getPredictorById(Long predictorId, Session session) throws ClassNotFoundException, SQLException {
 		Predictor predictor = null;
 		if(session.getTransaction().isActive()){
-			Utility.writeToDebug("tx active at getPredictorById:1");
 		}
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			if(session.getTransaction().isActive()){
-				Utility.writeToDebug("tx active at getPredictorById:2");
 			}
 			predictor = (Predictor) session.createCriteria(Predictor.class)
 					.add(Expression.eq("predictorId", predictorId))
@@ -496,18 +494,19 @@ public class PopulateDataObjects {
 	}
 	
 	public static List<Model> getModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
+		
+		Predictor predictor = getPredictorById(predictorId, session);
+		
 		List<Model> models = null;
 		if(session.getTransaction().isActive()){
-			Utility.writeToDebug("tx active at getModelsByPredictorId:1");
 		}
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			if(session.getTransaction().isActive()){
-				Utility.writeToDebug("tx active at getModelsByPredictorId:2");
 			}
 			models = session.createCriteria(Model.class)
-					.add(Expression.eq("predictor", getPredictorById(predictorId, session))).list();
+					.add(Expression.eq("predictor", predictor)).list();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
