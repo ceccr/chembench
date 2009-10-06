@@ -339,9 +339,7 @@ public class PopulateDataObjects {
  		}
  		predictors.addAll(DrugDiscoveryPredictors);
 
-		Utility.writeToDebug("going through predictors");
  		for(int i = 0; i < predictors.size(); i++){
- 			Utility.writeToDebug("predictor name: " + predictors.get(i).getName());
  			if(predictors.get(i).getDatasetId() != null && getDataSetById(predictors.get(i).getDatasetId(), session) != null){
  				predictors.get(i).setDatasetDisplay(PopulateDataObjects.getDataSetById(predictors.get(i).getDatasetId(), session).getFileName());
  			}
