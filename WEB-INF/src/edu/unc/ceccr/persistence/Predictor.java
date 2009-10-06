@@ -57,12 +57,6 @@ public class Predictor implements java.io.Serializable {
 	private Date dateCreated;
 	
 	private Date dateUpdated;
-
-	private String descriptorGenerationDisplay;
-
-	private String modelMethodDisplay;
-
-	private String datasetDisplay;
 	
 	private int numTotalModels;
 	
@@ -369,6 +363,7 @@ public class Predictor implements java.io.Serializable {
 	}
 
 	@Transient
+	private String descriptorGenerationDisplay;
 	public String getDescriptorGenerationDisplay() {
 		Constants.DescriptorEnumeration de = getDescriptorGeneration();
 		switch (de) {
@@ -391,6 +386,9 @@ public class Predictor implements java.io.Serializable {
 	}
 
 	@Transient
+
+	private String modelMethodDisplay;
+
 	public String getModelMethodDisplay() {
 		Constants.DataTypeEnumeration ke = getModelMethod();
 		switch (ke) {
@@ -408,21 +406,15 @@ public class Predictor implements java.io.Serializable {
 	}
 	
 	@Transient
+	private String datasetDisplay;
+	//this needs to be manually set before it can be returned
+	//since it does not correspond to any database field
 	public String getDatasetDisplay() {
-		try{
-			Session session = HibernateUtil.getSession();
-			String name = PopulateDataObjects.getDataSetById(this.datasetId, session).getFileName();
-			session.close();
-			return name;
-		}
-		catch(Exception ex){
-			//Utility.writeToDebug(ex);
-			return "";
-		}
+		return datasetDisplay;
 	}
 
 	public void setDatasetDisplay(String datasetDisplay) {
 		this.datasetDisplay = datasetDisplay;
 	}
-
+	
 }

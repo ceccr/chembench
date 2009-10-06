@@ -39,11 +39,9 @@ public class Prediction implements java.io.Serializable{
 	
 	private Date dateCreated;
 
-	private String datasetDisplay;
 	
 	private List<PredictionValue> predictedValues = new ArrayList<PredictionValue>(0);
 	
-	private String predictorName;
 	private String status;
 	@Column(name="status")
 	public String getStatus()
@@ -56,20 +54,27 @@ public class Prediction implements java.io.Serializable{
 	}
 
 	@Transient
+	private String predictorName;
 	public String getPredictorName() {
-		try{
-			Session session = HibernateUtil.getSession();
-			String name = PopulateDataObjects.getPredictorById(predictorId, session).getName();
-			session.close();
-			return name;
-		}
-		catch(Exception ex){
-			return "";
-		}
+		//this needs to be manually set before it can be returned
+		//since it does not correspond to any database field
+		return predictorName;
 	}
 
 	public void setPredictorName(String predictorName) {
 		this.predictorName = predictorName;
+	}
+
+	@Transient
+	private String datasetDisplay;
+	//this needs to be manually set before it can be returned
+	//since it does not correspond to any database field
+	public String getDatasetDisplay() {
+		return datasetDisplay;
+	}
+
+	public void setDatasetDisplay(String datasetDisplay) {
+		this.datasetDisplay = datasetDisplay;
 	}
 
 	@Id
@@ -158,21 +163,4 @@ public class Prediction implements java.io.Serializable{
 	}
 	
 
-	@Transient
-	public String getDatasetDisplay() {
-		try{
-			Session session = HibernateUtil.getSession();
-			String name = PopulateDataObjects.getDataSetById(this.datasetId, session).getFileName();
-			session.close();
-			return name;
-		}
-		catch(Exception ex){
-			//Utility.writeToDebug(ex);
-			return "";
-		}
-	}
-
-	public void setDatasetDisplay(String datasetDisplay) {
-		this.datasetDisplay = datasetDisplay;
-	}
 }

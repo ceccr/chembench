@@ -102,10 +102,6 @@ public class PopulateDataObjects {
 				tx.rollback();
 		} finally{; }
 			
-		for(int i = 0; i < dataSets.size(); i++){
-			dataSets.get(i).getNumCompound();
-		}
-		
 		return dataSets;
 	}
 	
@@ -343,6 +339,10 @@ public class PopulateDataObjects {
  		}
  		predictors.addAll(DrugDiscoveryPredictors);
      
+ 		for(int i = 0; i < predictors.size(); i++){
+ 			predictors.get(i).setDatasetDisplay(PopulateDataObjects.getDataSetById(predictors.get(i).getDatasetId(), session).getFileName());
+ 		}
+ 		
 		return predictors;
 	}
 	
@@ -375,11 +375,10 @@ public class PopulateDataObjects {
 				
 			}
 
-			
 			for (Prediction p : predictions) {
-				p.setPredictorName(getPredictor(p.getPredictorId(), session));
-
+				p.setPredictorName(getPredictorById(p.getPredictorId(), session).getName());
 				p.setDatabase(Utility.wrapFileName(p.getDatabase()));
+				p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getFileName());
 			}
 			
 		} catch (Exception e) {
@@ -450,28 +449,6 @@ public class PopulateDataObjects {
 		return dataset;
 	}
 
-
-	protected static String getPredictor(Long predictorIdUsed, Session session) throws ClassNotFoundException, SQLException {
-
-		Predictor predictor = null;
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			predictor = (Predictor) session.createCriteria(Predictor.class)
-					.add(Expression.eq("predictorId", predictorIdUsed))
-					.uniqueResult();
-
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
-		return predictor.getName();
-	}
-	
 	public static Predictor getPredictorById(Long predictorId, Session session) throws ClassNotFoundException, SQLException {
 		Predictor predictor = null;
 		Transaction tx = null;
@@ -488,6 +465,9 @@ public class PopulateDataObjects {
 		} finally {
 			; 
 		}
+
+		predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
+		
 		return predictor;
 	}
 	
@@ -509,6 +489,11 @@ public class PopulateDataObjects {
 		} finally {
 			; 
 		}
+
+		prediction.setPredictorName(getPredictorById(prediction.getPredictorId(), session).getName());
+		prediction.setDatabase(Utility.wrapFileName(prediction.getDatabase()));
+		prediction.setDatasetDisplay(getDataSetById(prediction.getDatasetId(), session).getFileName());
+		
 		return prediction;
 	}
 	
@@ -549,6 +534,7 @@ public class PopulateDataObjects {
 		} finally {
 			; 
 		}
+		predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
 
 		return predictor;
 	}
@@ -656,32 +642,6 @@ public class PopulateDataObjects {
 		return tasks;
 	}
 	
-	@SuppressWarnings("unchecked")
-	public static List<Long> getPredictionTasksIdByDatasetId(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{
-		List<PredictionTask> pTasks = null;
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			pTasks = session.createCriteria(PredictionTask.class)
-					.add(Expression.eq("datasetId", id))
-					.list();
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
-		if(pTasks!=null){
-			List<Long> ids = new ArrayList<Long>();
-			for(Iterator<PredictionTask> i = pTasks.iterator();i.hasNext();){
-				ids.add(i.next().getId());
-			}
-			return ids;
-		}
-		else return null;
-	}
 	
 	public static QueueTask getTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		QueueTask task = null;
