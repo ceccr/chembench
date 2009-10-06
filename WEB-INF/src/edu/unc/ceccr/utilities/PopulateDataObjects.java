@@ -513,13 +513,15 @@ public class PopulateDataObjects {
 			if (tx != null)
 				tx.rollback();
 		} 
+		//if the model type is continuous,
 		//sort models in decreasing order by r^2 value
-		//(used when displaying top 10 models on view predictor page) 
-		Collections.sort(models, new Comparator<Model>() {
-		    public int compare(Model o1, Model o2) {
-		    	return (o2.getR_squared() > o1.getR_squared()? 1:-1);
-		    }});
-		
+		//(used when displaying top 10 models on view predictor page)
+		if(predictor.getActivityType().equals(Constants.CONTINUOUS)){
+			Collections.sort(models, new Comparator<Model>() {
+			    public int compare(Model o1, Model o2) {
+		    		return (o2.getR_squared() > o1.getR_squared()? 1:-1);
+			    }});
+		}
 		return models;
 	}
 	
