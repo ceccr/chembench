@@ -342,7 +342,7 @@ public class PopulateDataObjects {
 		Utility.writeToDebug("going through predictors");
  		for(int i = 0; i < predictors.size(); i++){
  			Utility.writeToDebug("predictor name: " + predictors.get(i).getName());
- 			if(predictors.get(i).getDatasetId() != null){
+ 			if(predictors.get(i).getDatasetId() != null && getDataSetById(predictors.get(i).getDatasetId(), session) != null){
  				predictors.get(i).setDatasetDisplay(PopulateDataObjects.getDataSetById(predictors.get(i).getDatasetId(), session).getFileName());
  			}
  		}
@@ -383,7 +383,7 @@ public class PopulateDataObjects {
 			for (Prediction p : predictions) {
 				p.setPredictorName(getPredictorById(p.getPredictorId(), session).getName());
 				p.setDatabase(Utility.wrapFileName(p.getDatabase()));
-	 			if(p.getDatasetId() != null){
+	 			if(p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null){
 	 				p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getFileName());
 	 			}
 			}
@@ -473,7 +473,7 @@ public class PopulateDataObjects {
 			; 
 		}
 
-		if(predictor.getDatasetId() != null){
+		if(predictor.getDatasetId() != null && getDataSetById(predictor.getDatasetId(), session) != null){
 			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
 		}
 		return predictor;
@@ -501,7 +501,7 @@ public class PopulateDataObjects {
 		prediction.setPredictorName(getPredictorById(prediction.getPredictorId(), session).getName());
 		prediction.setDatabase(Utility.wrapFileName(prediction.getDatabase()));
 
-		if(prediction.getDatasetId() != null){
+		if(prediction.getDatasetId() != null && getDataSetById(prediction.getDatasetId(), session) != null){
 			prediction.setDatasetDisplay(getDataSetById(prediction.getDatasetId(), session).getFileName());
 		}
 		
@@ -546,7 +546,7 @@ public class PopulateDataObjects {
 			; 
 		}
 
-		if(predictor.getDatasetId() != null){
+		if(predictor.getDatasetId() != null && getDataSetById(predictor.getDatasetId(), session) != null){
 			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
 		}
 		return predictor;
