@@ -449,9 +449,7 @@ public class PopulateDataObjects {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 		
 		return dataset;
 	}

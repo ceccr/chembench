@@ -65,10 +65,12 @@ public class ViewPredictorAction extends ActionSupport {
 			else{
 				Utility.writeToStrutsDebug("predictor id: " + predictorId);
 				selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+				session.close();
 				if(selectedPredictor == null){
 					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
 				}
 			}
+			session = HibernateUtil.getSession();
 			Utility.writeToDebug("getting predictor models");
 			//get models associated with predictor
 			dataType = selectedPredictor.getModelMethod().toString();
