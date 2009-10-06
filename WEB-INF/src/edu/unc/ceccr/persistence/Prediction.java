@@ -53,8 +53,8 @@ public class Prediction implements java.io.Serializable{
 		this.status=status;
 	}
 
-	@Transient
 	private String predictorName;
+	@Transient
 	public String getPredictorName() {
 		//this needs to be manually set before it can be returned
 		//since it does not correspond to any database field
@@ -65,8 +65,8 @@ public class Prediction implements java.io.Serializable{
 		this.predictorName = predictorName;
 	}
 
-	@Transient
 	private String datasetDisplay;
+	@Transient
 	//this needs to be manually set before it can be returned
 	//since it does not correspond to any database field
 	public String getDatasetDisplay() {
