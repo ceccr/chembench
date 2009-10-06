@@ -63,7 +63,7 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(ex);
 			if (tx != null)
 				tx.rollback();
-		} finally{; }
+		} 
 			
 		return dataSets;
 	}
@@ -102,7 +102,7 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(ex);
 			if (tx != null)
 				tx.rollback();
-		} finally{; }
+		}
 			
 		return dataSets;
 	}
@@ -131,11 +131,11 @@ public class PopulateDataObjects {
 			else usersDataSet = session.createCriteria(DataSet.class).add(Expression.eq("userName", userName))
 							.addOrder(Order.asc("fileName")).list();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally{; }
+		}
 
 		
 		List <String> datasetNames = new ArrayList<String>();
@@ -187,11 +187,11 @@ public class PopulateDataObjects {
 							.add(Expression.eq("userName", userName))
 							.addOrder(Order.asc("name")).list();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally{; }
+		} 
 
 
 		List <String> predictorNames = new ArrayList<String>();
@@ -243,11 +243,11 @@ public class PopulateDataObjects {
 							.add(Expression.eq("userName", userName))
 							.addOrder(Order.asc("jobName")).list();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally{; }
+		}
 
 		List <String> predictionNames = new ArrayList<String>();
 		try{
@@ -290,13 +290,11 @@ public class PopulateDataObjects {
 				.add(Expression.eq("userName", userName))
 				.list();
  			tx.commit();
- 		} catch (RuntimeException e) {
+ 		} catch (Exception e) {
  			if (tx != null)
  				tx.rollback();
  			Utility.writeToDebug(e);
- 		} finally {
- 			; 
- 		}
+ 		} 
  		predictors.addAll(privatePredictors);
  		
  		List ADMEToxPredictors = null;
@@ -311,13 +309,11 @@ public class PopulateDataObjects {
 				.add(Expression.eq("predictorType", "ADMETox"))
 				.list();
  			tx.commit();
- 		} catch (RuntimeException e) {
+ 		} catch (Exception e) {
  			if (tx != null)
  				tx.rollback();
  			Utility.writeToDebug(e);
- 		} finally {
- 			; 
- 		}
+ 		} 
  		predictors.addAll(ADMEToxPredictors);
  		
  		List DrugDiscoveryPredictors = null;
@@ -332,13 +328,11 @@ public class PopulateDataObjects {
 				.add(Expression.eq("predictorType", "DrugDiscovery"))
 				.list();
  			tx.commit();
- 		} catch (RuntimeException e) {
+ 		} catch (Exception e) {
  			if (tx != null)
  				tx.rollback();
  			Utility.writeToDebug(e);
- 		} finally {
- 			; 
- 		}
+ 		} 
  		predictors.addAll(DrugDiscoveryPredictors);
 
  		for(int i = 0; i < predictors.size(); i++){
@@ -370,15 +364,12 @@ public class PopulateDataObjects {
 				.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
 				.list();
 				tx.commit();
-			} catch (RuntimeException e) {
+			} catch (Exception e) {
 				Utility.writeToDebug(e);
 				if (tx != null)
 					tx.rollback();
 				Utility.writeToDebug(e);
-			} finally {
-				;
-				
-			}
+			} 
 
 			for (Prediction p : predictions) {
 				p.setPredictorName(getPredictorById(p.getPredictorId(), session).getName());
@@ -405,13 +396,11 @@ public class PopulateDataObjects {
 					.uniqueResult();
 
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 
 		return dataset.getSdfFile();
 	}
@@ -426,12 +415,10 @@ public class PopulateDataObjects {
 					.add(Expression.eq("userName", userName))
 					.uniqueResult();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
 		}
 		return dataset;
 	}
@@ -445,7 +432,7 @@ public class PopulateDataObjects {
 					.add(Expression.eq("fileId", fileId))
 					.uniqueResult();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
@@ -463,7 +450,7 @@ public class PopulateDataObjects {
 					.add(Expression.eq("predictorId", predictorId))
 					.uniqueResult();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
@@ -486,13 +473,11 @@ public class PopulateDataObjects {
 					.add(Expression.eq("predictionId", predictionId))
 					.uniqueResult();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 
 		prediction.setPredictorName(getPredictorById(prediction.getPredictorId(), session).getName());
 		prediction.setDatabase(Utility.wrapFileName(prediction.getDatabase()));
@@ -514,7 +499,7 @@ public class PopulateDataObjects {
 					.add(Expression.eq("predictor", getPredictorById(predictorId, session))).
 					list();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			Utility.writeToDebug(e);
 			if (tx != null)
 				tx.rollback();
@@ -540,13 +525,11 @@ public class PopulateDataObjects {
 			
 			predictor.getExternalValidationResults().size();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 
 		if(predictor.getDatasetId() != null && getDataSetById(predictor.getDatasetId(), session) != null){
 			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
@@ -565,13 +548,11 @@ public class PopulateDataObjects {
 			externalValValues = session.createCriteria(ExternalValidation.class).add(Expression.eq("predictor", pred)).addOrder(Order.asc("predictedValue")).list();
 
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 
 		return externalValValues;
 	}
@@ -590,13 +571,11 @@ public class PopulateDataObjects {
 				tasks = session.createCriteria(QueueTask.class).add(
 						Expression.eq("userName", userName)).list();
 				tx.commit();
-			} catch (RuntimeException e) {
+			} catch (Exception e) {
 				Utility.writeToDebug(e);
 				if (tx != null)
 					tx.rollback();
 				Utility.writeToDebug(e);
-			} finally {
-				; 
 			}
 			
 		} catch (Exception e) {
@@ -641,14 +620,12 @@ public class PopulateDataObjects {
 					add(Expression.eq("userName", userName)).
 					list();
 				tx.commit();
-			} catch (RuntimeException e) {
+			} catch (Exception e) {
 				Utility.writeToDebug(e);
 				if (tx != null)
 					tx.rollback();
 				Utility.writeToDebug(e);
-			} finally {
-				; 
-			}
+			} 
 			
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
@@ -667,13 +644,11 @@ public class PopulateDataObjects {
 					.add(Expression.eq("id", id))
 					.uniqueResult();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 		return task;
 	}
 
@@ -687,13 +662,11 @@ public class PopulateDataObjects {
 					.add(Expression.eq("datasetId", id))
 					.list();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 		if(mTasks!=null){
 			List<Long> ids = new ArrayList<Long>();
 			for(Iterator<ModelingTask> i = mTasks.iterator();i.hasNext();){
@@ -713,13 +686,11 @@ public class PopulateDataObjects {
 					.add(Expression.eq("id", id))
 					.uniqueResult();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 		if(pTask!=null) return pTask;
 		else return null;
 	}
@@ -733,13 +704,11 @@ public class PopulateDataObjects {
 					.add(Expression.eq("id", id))
 					.uniqueResult();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 		if(mTask!=null) return mTask;
 		else return null;
 	}
@@ -753,13 +722,11 @@ public class PopulateDataObjects {
 					.add(Expression.eq("id", id))
 					.uniqueResult();
 			tx.commit();
-		} catch (RuntimeException e) {
+		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 		if(vTask!=null) return vTask;
 		else return null;
 	}
