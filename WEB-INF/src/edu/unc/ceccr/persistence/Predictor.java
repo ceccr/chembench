@@ -362,7 +362,7 @@ public class Predictor implements java.io.Serializable {
 		this.paperReference=paperReference;
 	}
 
-	private String descriptorGenerationDisplay;
+	private String descriptorGenerationDisplay = "";
 	@Transient
 	public String getDescriptorGenerationDisplay() {
 		Constants.DescriptorEnumeration de = getDescriptorGeneration();
@@ -385,7 +385,7 @@ public class Predictor implements java.io.Serializable {
 		this.descriptorGenerationDisplay = descriptorGenerationDisplay;
 	}
 
-	private String modelMethodDisplay;
+	private String modelMethodDisplay = "";
 	@Transient
 	public String getModelMethodDisplay() {
 		Constants.DataTypeEnumeration ke = getModelMethod();
@@ -403,7 +403,7 @@ public class Predictor implements java.io.Serializable {
 		this.modelMethodDisplay = modelMethodDisplay;
 	}
 
-	private String datasetDisplay;
+	private String datasetDisplay = "";
 	@Transient
 	//this needs to be manually set before it can be returned
 	//since it does not correspond to any database field
