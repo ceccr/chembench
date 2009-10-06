@@ -469,9 +469,7 @@ public class PopulateDataObjects {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			; 
-		}
+		} 
 
 		if(predictor.getDatasetId() != null && getDataSetById(predictor.getDatasetId(), session) != null){
 			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
@@ -522,16 +520,14 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(e);
 			if (tx != null)
 				tx.rollback();
-		} finally {
-			; 
-		}
+		} 
 		//sort models in decreasing order by r^2 value
 		//(used when displaying top 10 models on view predictor page) 
-		/*Collections.sort(models, new Comparator<Model>() {
+		Collections.sort(models, new Comparator<Model>() {
 		    public int compare(Model o1, Model o2) {
 		    	return (o2.getR_squared() > o1.getR_squared()? 1:-1);
 		    }});
-*/
+		
 		return models;
 	}
 	
