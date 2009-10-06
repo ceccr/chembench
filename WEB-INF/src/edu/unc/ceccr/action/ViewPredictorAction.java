@@ -69,7 +69,7 @@ public class ViewPredictorAction extends ActionSupport {
 					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
 				}
 			}
-			
+			Utility.writeToDebug("getting predictor models");
 			//get models associated with predictor
 			dataType = selectedPredictor.getModelMethod().toString();
 			models = new ArrayList<Model>();

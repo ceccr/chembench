@@ -529,7 +529,7 @@ public class PopulateDataObjects {
 		//(used when displaying top 10 models on view predictor page) 
 		Collections.sort(models, new Comparator<Model>() {
 		    public int compare(Model o1, Model o2) {
-		    	return o2.getR_squared() > o1.getR_squared()? 1:-1;
+		    	return (o2.getR_squared() > o1.getR_squared()? 1:-1);
 		    }});
 
 		return models;
