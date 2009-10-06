@@ -61,7 +61,7 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(ex);
 			if (tx != null)
 				tx.rollback();
-		} finally{session.close(); }
+		} finally{; }
 			
 		return dataSets;
 	}
@@ -100,7 +100,7 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(ex);
 			if (tx != null)
 				tx.rollback();
-		} finally{session.close(); }
+		} finally{; }
 			
 		return dataSets;
 	}
@@ -133,7 +133,7 @@ public class PopulateDataObjects {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally{session.close(); }
+		} finally{; }
 
 		
 		List <String> datasetNames = new ArrayList<String>();
@@ -189,7 +189,7 @@ public class PopulateDataObjects {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally{session.close(); }
+		} finally{; }
 
 
 		List <String> predictorNames = new ArrayList<String>();
@@ -245,7 +245,7 @@ public class PopulateDataObjects {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally{session.close(); }
+		} finally{; }
 
 		List <String> predictionNames = new ArrayList<String>();
 		try{
@@ -293,7 +293,7 @@ public class PopulateDataObjects {
  				tx.rollback();
  			Utility.writeToDebug(e);
  		} finally {
- 			session.close(); 
+ 			; 
  		}
  		predictors.addAll(privatePredictors);
  		
@@ -314,7 +314,7 @@ public class PopulateDataObjects {
  				tx.rollback();
  			Utility.writeToDebug(e);
  		} finally {
- 			session.close(); 
+ 			; 
  		}
  		predictors.addAll(ADMEToxPredictors);
  		
@@ -335,7 +335,7 @@ public class PopulateDataObjects {
  				tx.rollback();
  			Utility.writeToDebug(e);
  		} finally {
- 			session.close(); 
+ 			; 
  		}
  		predictors.addAll(DrugDiscoveryPredictors);
      
@@ -367,7 +367,7 @@ public class PopulateDataObjects {
 					tx.rollback();
 				Utility.writeToDebug(e);
 			} finally {
-				session.close();
+				;
 				
 			}
 
@@ -400,7 +400,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 
 		return dataset.getSdfFile();
@@ -421,7 +421,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		return dataset;
 	}
@@ -440,7 +440,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		
 		return dataset;
@@ -463,7 +463,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		return predictor.getName();
 	}
@@ -482,7 +482,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		return predictor;
 	}
@@ -503,7 +503,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		return prediction;
 	}
@@ -522,7 +522,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		return models;
 	}
@@ -543,7 +543,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 
 		return predictor;
@@ -565,7 +565,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 
 		return externalValValues;
@@ -591,7 +591,7 @@ public class PopulateDataObjects {
 					tx.rollback();
 				Utility.writeToDebug(e);
 			} finally {
-				session.close(); 
+				; 
 			}
 			
 		} catch (Exception e) {
@@ -642,7 +642,7 @@ public class PopulateDataObjects {
 					tx.rollback();
 				Utility.writeToDebug(e);
 			} finally {
-				session.close(); 
+				; 
 			}
 			
 		} catch (Exception e) {
@@ -667,7 +667,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		if(pTasks!=null){
 			List<Long> ids = new ArrayList<Long>();
@@ -693,7 +693,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		return task;
 	}
@@ -713,7 +713,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		if(mTasks!=null){
 			List<Long> ids = new ArrayList<Long>();
@@ -739,7 +739,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		if(pTask!=null) return pTask;
 		else return null;
@@ -759,7 +759,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		if(mTask!=null) return mTask;
 		else return null;
@@ -779,7 +779,7 @@ public class PopulateDataObjects {
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			session.close(); 
+			; 
 		}
 		if(vTask!=null) return vTask;
 		else return null;
