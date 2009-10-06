@@ -8,9 +8,11 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -56,9 +58,11 @@ public class ViewDatasetAction extends Action {
 						Utility.writeToMSDebug("IsPublicSes::"+isPublic);
 					}
 			DataSet ds;
-			if(isPublic) ds= PopulateDataObjects.getDataSetByName(fileName, Constants.ALL_USERS_USERNAME);
-			else ds= PopulateDataObjects.getDataSetByName(fileName, user);
-							
+			Session hibernateSession = HibernateUtil.getSession();
+			if(isPublic) ds= PopulateDataObjects.getDataSetByName(fileName, Constants.ALL_USERS_USERNAME, hibernateSession);
+			else ds= PopulateDataObjects.getDataSetByName(fileName, user, hibernateSession);
+			hibernateSession.close();
+			
 			session.setAttribute("ds", ds);
 			Utility.writeToMSDebug("ViewDatasetAction:::"+"descriptorMatrixServlet?user="+ds.getUserName()+"&project="+ds.getFileName()+"&name="+ds.getActFile());
 			session.setAttribute("actFile", "descriptorMatrixServlet?user="+(isPublic?"all-users":ds.getUserName())+"&project="+ds.getFileName()+"&name="+ds.getActFile());
