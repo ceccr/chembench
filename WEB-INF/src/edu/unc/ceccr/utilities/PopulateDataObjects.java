@@ -519,9 +519,9 @@ public class PopulateDataObjects {
 					list();
 			tx.commit();
 		} catch (RuntimeException e) {
+			Utility.writeToDebug(e);
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
 		} finally {
 			; 
 		}
