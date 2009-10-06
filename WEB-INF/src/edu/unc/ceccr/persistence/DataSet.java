@@ -5,15 +5,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
-
-import org.hibernate.annotations.Proxy;
-
 import java.util.Date;
 
 @SuppressWarnings("serial")
 @Entity
 @Table(name="cbench_dataset")
-@Proxy(lazy=false)
 public class DataSet implements java.io.Serializable{
 	
 	private Long fileId;

@@ -102,6 +102,10 @@ public class PopulateDataObjects {
 				tx.rollback();
 		} finally{; }
 			
+		for(int i = 0; i < dataSets.size(); i++){
+			dataSets.get(i).getNumCompound();
+		}
+		
 		return dataSets;
 	}
 	

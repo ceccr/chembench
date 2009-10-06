@@ -23,7 +23,6 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.hibernate.Session;
-import org.hibernate.annotations.Proxy;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
@@ -33,7 +32,6 @@ import edu.unc.ceccr.utilities.Utility;
 
 @Entity
 @Table(name = "cbench_predictor")
-@Proxy(lazy=false)
 public class Predictor implements java.io.Serializable {
 
 	// Fields
