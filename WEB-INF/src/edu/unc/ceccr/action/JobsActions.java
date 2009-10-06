@@ -89,7 +89,8 @@ public class JobsActions extends ActionSupport {
 		else{
 			Utility.writeToStrutsDebug("Cannot load page.");
 		}
-		
+
+		Utility.writeToDebug("finished loading jobs page.");
 		//go to the page
 		return result;
 	}
