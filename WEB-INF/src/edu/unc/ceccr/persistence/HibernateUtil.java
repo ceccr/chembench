@@ -19,6 +19,7 @@ public class HibernateUtil {
 	private static String URL;
 	private static String USERNAME;
 	private static String DATABASENAME;
+	private static int count = 0;
 	
 	static {
 		sessionFactory = new AnnotationConfiguration()
@@ -51,6 +52,8 @@ public class HibernateUtil {
 
 		
 		try{
+			count++;
+			Utility.writeToDebug("Making connection number: " + count);
 			Class.forName(Constants.DATABASE_DRIVER);
 			java.sql.Connection con = DriverManager.getConnection(URL + DATABASENAME, USERNAME, PASSWORD);
 			Session s = sessionFactory.openSession(con);
