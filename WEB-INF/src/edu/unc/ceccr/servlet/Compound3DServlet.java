@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Session;
 
 @SuppressWarnings("serial")
 public class Compound3DServlet extends HttpServlet {
@@ -32,8 +35,10 @@ public class Compound3DServlet extends HttpServlet {
         String datasetID = request.getParameter("datasetID");
 	
 		DataSet ds = null;
-		try{ 
-			ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID));
+		try{
+			Session session = HibernateUtil.getSession();
+			ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID), session);
+			session.close();
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);

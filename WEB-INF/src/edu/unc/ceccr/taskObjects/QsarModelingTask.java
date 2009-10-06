@@ -210,7 +210,9 @@ public class QsarModelingTask implements WorkflowTask {
 			scalingTypeEnum = ScalingTypeEnumeration.NOSCALING;
 		}
 		
-		DataSet dataset = PopulateDataObjects.getDataSetById(ModelingForm.getSelectedDatasetId());
+		Session session = HibernateUtil.getSession();
+		DataSet dataset = PopulateDataObjects.getDataSetById(ModelingForm.getSelectedDatasetId(),session);
+		session.close();
 		
 		this.userName = userName;
 		jobName = ModelingForm.getJobName();
@@ -348,7 +350,10 @@ public class QsarModelingTask implements WorkflowTask {
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(path + sdFileName);
 		
-		DataSet dataset = PopulateDataObjects.getDataSetById(datasetID);
+
+		Session session = HibernateUtil.getSession();
+		DataSet dataset = PopulateDataObjects.getDataSetById(datasetID,session);
+		session.close();
 		
 		String xFileName = "";
 		if(dataset.getDatasetType().equals(Constants.MODELING)){

@@ -28,10 +28,9 @@ public class PopulateDataObjects {
 
 
 	@SuppressWarnings("unchecked")
-	public static List populateDatasetsForPrediction(String userName, boolean isAllUserIncludes) throws HibernateException, ClassNotFoundException, SQLException{
+	public static List populateDatasetsForPrediction(String userName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		List <DataSet> dataSets = null;
 		List <DataSet> usersDataSet = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try
 		{
@@ -67,13 +66,12 @@ public class PopulateDataObjects {
 		return dataSets;
 	}
 	
-	public static List populateDataset(String userName,String modelType, boolean isAllUserIncludes) throws HibernateException, ClassNotFoundException, SQLException{
+	public static List populateDataset(String userName,String modelType, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		//returns a list of datasets.
 		//Used to populate the dropdowns on the Modeling and Dataset pages.
 		
 		List <DataSet> dataSets = null;
 		List <DataSet> usersDataSet = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try
 		{
@@ -108,13 +106,12 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List<String> populateDatasetNames(String userName, boolean isAllUserIncludes) throws HibernateException, ClassNotFoundException, SQLException{
+	public static List<String> populateDatasetNames(String userName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 
 		//returns a list of strings. Used in form validation, to make sure a user doesn't reuse an existing name.
 		
 		List <DataSet> allUserDataSets = null;
 		List <DataSet> usersDataSet = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try
 		{
@@ -165,14 +162,13 @@ public class PopulateDataObjects {
 		return datasetNames;
 	}
 	
-	public static List<String> populatePredictorNames(String userName, boolean isAllUserIncludes)  throws HibernateException, ClassNotFoundException, SQLException{
+	public static List<String> populatePredictorNames(String userName, boolean isAllUserIncludes, Session session)  throws HibernateException, ClassNotFoundException, SQLException{
 		
 		//returns a list of strings. Used in form validation, to make sure a user doesn't reuse an existing name.
 		
 		List <Predictor> userPredictors = null;
 		List <Predictor> allUserPredictors = null;
 		
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try
 		{
@@ -222,14 +218,13 @@ public class PopulateDataObjects {
 		return predictorNames;
 	}	
 	
-	public static List<String> populatePredictionNames(String userName, boolean isAllUserIncludes) throws HibernateException, ClassNotFoundException, SQLException{
+	public static List<String> populatePredictionNames(String userName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		
 		//returns a list of strings. Used in form validation, to make sure a user doesn't reuse an existing name.
 		
 		List<Prediction> userPredictions = null;
 		List<Prediction> allUserPredictions = null;
 		
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try
 		{
@@ -279,11 +274,10 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List populatePredictors(String userName, boolean isAllUserIncludes, boolean onlySaved) throws HibernateException, ClassNotFoundException, SQLException{
+	public static List populatePredictors(String userName, boolean isAllUserIncludes, boolean onlySaved, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		
  		List<Predictor> predictors = new ArrayList();
  		List privatePredictors = null;
- 		Session session = HibernateUtil.getSession();
  		Transaction tx = null;
  		try {
  			tx = session.beginTransaction();
@@ -350,13 +344,12 @@ public class PopulateDataObjects {
 	
 
 	@SuppressWarnings("unchecked")
-	public static List populatePredictions(String userName, boolean onlySaved) {
+	public static List populatePredictions(String userName, boolean onlySaved, Session session) {
 		
 		List<Prediction> predictions = null;
 		try 
 		{
 			//Utility.writeToDebug("Populating a list of the saved prediction results.", userName, "null");
-			Session session = HibernateUtil.getSession();
 			Transaction tx = null;
 			try 
 			{
@@ -380,7 +373,7 @@ public class PopulateDataObjects {
 
 			
 			for (Prediction p : predictions) {
-				p.setPredictorName(getPredictor(p.getPredictorId()));
+				p.setPredictorName(getPredictor(p.getPredictorId(), session));
 
 				p.setDatabase(Utility.wrapFileName(p.getDatabase()));
 			}
@@ -391,9 +384,8 @@ public class PopulateDataObjects {
 		return predictions;
 	}
 	
-	public static String getSdfFileForDataset(String datasetName, String userName) throws ClassNotFoundException, SQLException {
+	public static String getSdfFileForDataset(String datasetName, String userName, Session session) throws ClassNotFoundException, SQLException {
 		DataSet dataset = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -414,9 +406,8 @@ public class PopulateDataObjects {
 		return dataset.getSdfFile();
 	}
 	
-	public static DataSet getDataSetByName(String datasetName, String userName) throws ClassNotFoundException, SQLException {
+	public static DataSet getDataSetByName(String datasetName, String userName, Session session) throws ClassNotFoundException, SQLException {
 		DataSet dataset = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -435,9 +426,8 @@ public class PopulateDataObjects {
 		return dataset;
 	}
 	
-	public static DataSet getDataSetById(Long fileId) throws ClassNotFoundException, SQLException {
+	public static DataSet getDataSetById(Long fileId, Session session) throws ClassNotFoundException, SQLException {
 		DataSet dataset = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -457,10 +447,9 @@ public class PopulateDataObjects {
 	}
 
 
-	protected static String getPredictor(Long predictorIdUsed) throws ClassNotFoundException, SQLException {
+	protected static String getPredictor(Long predictorIdUsed, Session session) throws ClassNotFoundException, SQLException {
 
 		Predictor predictor = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -479,9 +468,8 @@ public class PopulateDataObjects {
 		return predictor.getName();
 	}
 	
-	public static Predictor getPredictorById(Long predictorId) throws ClassNotFoundException, SQLException {
+	public static Predictor getPredictorById(Long predictorId, Session session) throws ClassNotFoundException, SQLException {
 		Predictor predictor = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -501,9 +489,8 @@ public class PopulateDataObjects {
 	
 
 	@SuppressWarnings("unchecked")
-	public static Prediction getPredictionById(Long predictionId) throws Exception{
+	public static Prediction getPredictionById(Long predictionId, Session session) throws Exception{
 		Prediction prediction = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -521,15 +508,14 @@ public class PopulateDataObjects {
 		return prediction;
 	}
 	
-	public static List<Model> getModelsByPredictorId(Long predictorId)  throws ClassNotFoundException, SQLException {
+	public static List<Model> getModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
 		List<Model> models = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			
 			models = session.createCriteria(Model.class)
-					.add(Expression.eq("predictor", getPredictorById(predictorId))).list();
+					.add(Expression.eq("predictor", getPredictorById(predictorId, session))).list();
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -542,9 +528,8 @@ public class PopulateDataObjects {
 	}
 	
 	
-	public static Predictor getPredictorByName(String selectedPredictorName, String user)	throws ClassNotFoundException, SQLException {
+	public static Predictor getPredictorByName(String selectedPredictorName, String user, Session session)	throws ClassNotFoundException, SQLException {
 		Predictor predictor = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -565,11 +550,10 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List getExternalValidationValues(Predictor pred)throws ClassNotFoundException, SQLException 
+	public static List getExternalValidationValues(Predictor pred, Session session)throws ClassNotFoundException, SQLException 
 	{
 
 		List<ExternalValidation> externalValValues = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -588,13 +572,12 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List<String> populateTaskNames(String userName, boolean justRunning) {
+	public static List<String> populateTaskNames(String userName, boolean justRunning, Session session) {
 		
 		List<String> taskNames = new ArrayList<String>();
 		List<QueueTask> tasks = null;
 		try 
 		{
-			Session session = HibernateUtil.getSession();
 			Transaction tx = null;
 			try 
 			{
@@ -634,12 +617,11 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List populateTasks(String userName, boolean justRunning) {
+	public static List populateTasks(String userName, boolean justRunning, Session session) {
 		
 		List<QueueTask> tasks = null;
 		try 
 		{
-			Session session = HibernateUtil.getSession();
 			Transaction tx = null;
 			try 
 			{
@@ -671,9 +653,8 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List<Long> getPredictionTasksIdByDatasetId(Long id) throws HibernateException, ClassNotFoundException, SQLException{
+	public static List<Long> getPredictionTasksIdByDatasetId(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		List<PredictionTask> pTasks = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -698,9 +679,8 @@ public class PopulateDataObjects {
 		else return null;
 	}
 	
-	public static QueueTask getTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException{
+	public static QueueTask getTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		QueueTask task = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -719,9 +699,8 @@ public class PopulateDataObjects {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Long> getModelingTasksIdByDatasetId(Long id) throws HibernateException, ClassNotFoundException, SQLException {
+	public static List<Long> getModelingTasksIdByDatasetId(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException {
 		List<ModelingTask> mTasks = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -746,9 +725,8 @@ public class PopulateDataObjects {
 		else return null;
 	}
 	
-	public static PredictionTask getPredictionTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException{
+	public static PredictionTask getPredictionTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		PredictionTask pTask = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -767,9 +745,8 @@ public class PopulateDataObjects {
 		else return null;
 	}
 
-	public static ModelingTask getModelingTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException {
+	public static ModelingTask getModelingTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException {
 		ModelingTask mTask = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -788,9 +765,8 @@ public class PopulateDataObjects {
 		else return null;
 	}
 
-	public static VisualizationTask getVisualizationTaskById(Long id) throws HibernateException, ClassNotFoundException, SQLException {
+	public static VisualizationTask getVisualizationTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException {
 		VisualizationTask vTask = null;
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();

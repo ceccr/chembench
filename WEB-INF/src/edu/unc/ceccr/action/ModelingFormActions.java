@@ -13,10 +13,12 @@ import javax.servlet.http.HttpSession;
 import com.opensymphony.xwork2.ActionSupport; 
 import com.opensymphony.xwork2.ActionContext; 
 import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.Session;
 
 import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
@@ -47,15 +49,17 @@ public class ModelingFormActions extends ActionSupport{
 		}
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
+
+		Session session = HibernateUtil.getSession();
+		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
+		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
+		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
+		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
 		
-		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true);
-		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true);
-		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true);
-		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false);
-		
-		userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true);
-		userContinuousDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS,true);
-		userCategoryDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY,true);
+		userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
+		userContinuousDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS,true, session);
+		userCategoryDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY,true, session);
+		session.close();
 
 		//log the results
 		if(result.equals(SUCCESS)){
@@ -74,12 +78,14 @@ public class ModelingFormActions extends ActionSupport{
 	
 	public String execute() throws Exception {
 		//form has been submitted
+
+		Session session = HibernateUtil.getSession();
 		
 		//debug output
 		String s = "";
 		s += "\n Job Name: " + jobName;
 		s += "\n Dataset ID: " + selectedDatasetId;
-		s += "\n Dataset Name: " + PopulateDataObjects.getDataSetById(selectedDatasetId).getFileName();
+		s += "\n Dataset Name: " + PopulateDataObjects.getDataSetById(selectedDatasetId, session).getFileName();
 		s += "\n Descriptor Type: " + descriptorGenerationType;
 		s += "\n (Sphere Exclusion) Split Includes Min: " + splitIncludesMin;
 		s += "\n (Random Internal Split) Max. Test Set Size: " + randomSplitMaxTestSize;
@@ -99,7 +105,9 @@ public class ModelingFormActions extends ActionSupport{
 			modelingTask.setUp();
 			Utility.writeToDebug("wtf done Setting up task", user.getUserName(), this.getJobName());
 			tasklist = Queue.getInstance();
-			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId).getNumCompound();
+			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId, session).getNumCompound();
+			
+			session.close();
 			
 			//count the number of models that will be generated
 			int numModels = 0;

@@ -11,11 +11,13 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hibernate.Session;
 
 import edu.unc.ceccr.formbean.PredictorFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
@@ -49,8 +51,9 @@ public class QsarPredictionAction extends Action {
 				InputStream is = null;
 				String datasetName = null;
 				String file=null;
-				DataSet predictionDataset = PopulateDataObjects.getDataSetById(formBean.getSelectedDatasetID());
-				
+				Session hibernateSession = HibernateUtil.getSession();
+				DataSet predictionDataset = PopulateDataObjects.getDataSetById(formBean.getSelectedDatasetID(), hibernateSession);
+				hibernateSession.close();
 					datasetName = predictionDataset.getFileName();
 				
 				try{

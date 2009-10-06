@@ -17,11 +17,13 @@ import com.opensymphony.xwork2.ActionContext;
 
 import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.Session;
 
 import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
@@ -43,6 +45,8 @@ public class ViewPredictorAction extends ActionSupport {
 		
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
 		
 		if(context == null){
 			Utility.writeToStrutsDebug("No ActionContext available");
@@ -60,7 +64,7 @@ public class ViewPredictorAction extends ActionSupport {
 			}
 			else{
 				Utility.writeToStrutsDebug("predictor id: " + predictorId);
-				selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId));
+				selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
 				if(selectedPredictor == null){
 					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
 				}
@@ -71,7 +75,7 @@ public class ViewPredictorAction extends ActionSupport {
 			models = new ArrayList<Model>();
 			randomModels = new ArrayList<Model>();
 			ArrayList<Model> allModels = new ArrayList<Model>();
-			allModels.addAll(PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId)));
+			allModels.addAll(PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session));
 			Iterator<Model> it = allModels.iterator();
 			while(it.hasNext()){
 				Model m = it.next();
@@ -86,7 +90,7 @@ public class ViewPredictorAction extends ActionSupport {
 			Utility.writeToStrutsDebug("Got " + allModels.size() + " models and " + randomModels.size() + " random models.");
 			
 			//get external validation compounds of predictor
-			externalValValues = PopulateDataObjects.getExternalValidationValues(selectedPredictor);
+			externalValValues = PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
 			
 			//calculate residuals and fix significant figures on output data
 			residuals = new ArrayList<String>();
@@ -102,8 +106,7 @@ public class ViewPredictorAction extends ActionSupport {
 			}
 		}
 
-		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
-		
+		session.close();
 		
 		//log the results
 		if(result.equals(SUCCESS)){

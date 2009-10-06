@@ -16,10 +16,12 @@ import com.opensymphony.xwork2.ActionContext;
 
 import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.Session;
 
 import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
@@ -53,10 +55,12 @@ public class JobsActions extends ActionSupport {
 		}
 
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
-		userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true);
-		userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true));
-		userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false);
-		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false);
+		Session session = HibernateUtil.getSession();
+		userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
+		userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
+		userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false, session);
+		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
+		session.close();
 		
 		userQueueTasks = new ArrayList<QueueTask>();
 		Iterator<QueueTask> runningTasks = Queue.queue.iterator();

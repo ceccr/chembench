@@ -9,8 +9,12 @@ import java.io.IOException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.hibernate.Session;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -35,7 +39,9 @@ public class ImageServlet extends HttpServlet {
         DataSet ds = null;
         if(! compoundId.startsWith("mychart")){
 	        try{
-	        	ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID));
+				Session session = HibernateUtil.getSession();
+				ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID), session);
+				session.close();
 	        }
 	        catch(Exception ex){
 	        	Utility.writeToDebug(ex);

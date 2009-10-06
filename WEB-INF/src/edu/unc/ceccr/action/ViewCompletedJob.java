@@ -83,8 +83,10 @@ public class ViewCompletedJob extends Action {
 					
 					session.removeAttribute("randomKNNValues");
 					session.setAttribute("randomKNNValues", yRandomModels);
-					
-					List<ExternalValidation> externalValValues = PopulateDataObjects.getExternalValidationValues(predictor);
+
+					Session hibernateSession = HibernateUtil.getSession();
+					List<ExternalValidation> externalValValues = PopulateDataObjects.getExternalValidationValues(predictor, hibernateSession);
+					hibernateSession.close();
 					session.setAttribute("allExternalValues", externalValValues);
 					
 					predictor.setStatus("saved");

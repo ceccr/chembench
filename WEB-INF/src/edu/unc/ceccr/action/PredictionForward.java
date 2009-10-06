@@ -8,8 +8,10 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
+import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -20,6 +22,9 @@ public class PredictionForward extends Action {
 			HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
 
+		//use the same session for all data requests
+		Session hibernateSession = HibernateUtil.getSession();
+		
 		ActionForward forward = new ActionForward(); // return value
 
 		// get session state
@@ -29,17 +34,20 @@ public class PredictionForward extends Action {
 		}else if (session.getAttribute("user") == null){
 			forward = mapping.findForward("login");
 		}
-		else{
+		else
+		{
 			User user = (User) session.getAttribute("user");
 			session.removeAttribute("predictors");
-			session.setAttribute("predictors", PopulateDataObjects.populatePredictors(user.getUserName(), true, true));
+			session.setAttribute("predictors", PopulateDataObjects.populatePredictors(user.getUserName(), true, true, hibernateSession));
 			session.removeAttribute("predictorDatabases");
-			session.setAttribute("predictorDatabases", PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true));
+			session.setAttribute("predictorDatabases", PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true, hibernateSession));
 			session.removeAttribute("predictions");
-			session.setAttribute("predictions", PopulateDataObjects.populatePredictions(user.getUserName(), true));
+			session.setAttribute("predictions", PopulateDataObjects.populatePredictions(user.getUserName(), true, hibernateSession));
 			
 			forward = mapping.findForward("success");
-			}
+		}
+		hibernateSession.close();
+		
 		return forward;
 	}
 }

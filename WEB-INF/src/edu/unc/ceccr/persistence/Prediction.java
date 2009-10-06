@@ -15,6 +15,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.Session;
+
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 
 @Entity
@@ -56,7 +58,10 @@ public class Prediction implements java.io.Serializable{
 	@Transient
 	public String getPredictorName() {
 		try{
-			return PopulateDataObjects.getPredictorById(predictorId).getName();
+			Session session = HibernateUtil.getSession();
+			String name = PopulateDataObjects.getPredictorById(predictorId, session).getName();
+			session.close();
+			return name;
 		}
 		catch(Exception ex){
 			return "";
@@ -156,7 +161,10 @@ public class Prediction implements java.io.Serializable{
 	@Transient
 	public String getDatasetDisplay() {
 		try{
-			return PopulateDataObjects.getDataSetById(this.datasetId).getFileName();
+			Session session = HibernateUtil.getSession();
+			String name = PopulateDataObjects.getDataSetById(this.datasetId, session).getFileName();
+			session.close();
+			return name;
 		}
 		catch(Exception ex){
 			//Utility.writeToDebug(ex);

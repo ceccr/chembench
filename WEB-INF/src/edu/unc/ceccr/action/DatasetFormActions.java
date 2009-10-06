@@ -16,11 +16,13 @@ import com.opensymphony.xwork2.ActionContext;
 
 import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.Session;
 
 import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
@@ -71,16 +73,19 @@ public class DatasetFormActions extends ActionSupport{
 		}
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
-		
-		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true);
-		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true);
-		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true);
-		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false);
-		
-		userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true);
-		userContinuousDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS,true);
-		userCategoryDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY,true);
 
+		Session session = HibernateUtil.getSession();
+		
+		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
+		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
+		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
+		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
+		
+		userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
+		userContinuousDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS,true, session);
+		userCategoryDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY,true, session);
+
+		session.close();
 		//log the results
 		if(result.equals(SUCCESS)){
 			Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to dataset page.");

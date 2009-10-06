@@ -22,6 +22,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
+import org.hibernate.Session;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
@@ -408,7 +410,10 @@ public class Predictor implements java.io.Serializable {
 	@Transient
 	public String getDatasetDisplay() {
 		try{
-			return PopulateDataObjects.getDataSetById(this.datasetId).getFileName();
+			Session session = HibernateUtil.getSession();
+			String name = PopulateDataObjects.getDataSetById(this.datasetId, session).getFileName();
+			session.close();
+			return name;
 		}
 		catch(Exception ex){
 			//Utility.writeToDebug(ex);

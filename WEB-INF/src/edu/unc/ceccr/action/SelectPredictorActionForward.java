@@ -52,7 +52,8 @@ public class SelectPredictorActionForward extends Action {
 			try {
 				User user = (User) session.getAttribute("user");
 				Long predictorId = Long.parseLong(request.getParameter("id"));
-				Predictor predictor = PopulateDataObjects.getPredictorById(predictorId);
+				Session hibernateSession = HibernateUtil.getSession();
+				Predictor predictor = PopulateDataObjects.getPredictorById(predictorId, hibernateSession);
 				
 				session.removeAttribute("datasetNames");
 				session.removeAttribute("predictorNames");
@@ -60,11 +61,12 @@ public class SelectPredictorActionForward extends Action {
 				session.removeAttribute("taskNames");
 				session.removeAttribute("selectedPredictor");
 				
-				session.setAttribute("datasetNames", PopulateDataObjects.populateDatasetNames(user.getUserName(), true));
-				session.setAttribute("predictorNames", PopulateDataObjects.populatePredictorNames(user.getUserName(), true));
-				session.setAttribute("predictionNames", PopulateDataObjects.populatePredictionNames(user.getUserName(), true));
-				session.setAttribute("taskNames", PopulateDataObjects.populateTaskNames(user.getUserName(), false));
+				session.setAttribute("datasetNames", PopulateDataObjects.populateDatasetNames(user.getUserName(), true, hibernateSession));
+				session.setAttribute("predictorNames", PopulateDataObjects.populatePredictorNames(user.getUserName(), true, hibernateSession));
+				session.setAttribute("predictionNames", PopulateDataObjects.populatePredictionNames(user.getUserName(), true, hibernateSession));
+				session.setAttribute("taskNames", PopulateDataObjects.populateTaskNames(user.getUserName(), false, hibernateSession));
 				session.setAttribute("selectedPredictor", predictor);
+				hibernateSession.close();
 				
 			} catch (Exception e) {
 				forward = mapping.findForward("failure");

@@ -14,10 +14,12 @@ import javax.servlet.http.HttpSession;
 import com.opensymphony.xwork2.ActionSupport; 
 import com.opensymphony.xwork2.ActionContext; 
 import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.Session;
 
 import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
@@ -48,8 +50,10 @@ public class PredictionFormActions extends ActionSupport{
 				result = LOGIN;
 			}
 		}
-		
-		userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false);
+
+		Session session = HibernateUtil.getSession();
+		userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false, session);
+		session.close();
 		
 		return result;
 	}
@@ -57,7 +61,6 @@ public class PredictionFormActions extends ActionSupport{
 	public String loadMakePredictionsPage() throws Exception{
 		
 		String result = SUCCESS;
-		
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
 		
@@ -72,25 +75,31 @@ public class PredictionFormActions extends ActionSupport{
 				result = LOGIN;
 			}
 		}
+
+		//use the same session for all data requests
+		Session session = HibernateUtil.getSession();
 		
 		//get the selected predictor
 		String predictorId = ((String[]) context.getParameters().get("id"))[0];
 		if(predictorId == null){
 			Utility.writeToStrutsDebug("no predictor id");
 		}
-		selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId));
+		selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
 		if(selectedPredictor == null){
 			Utility.writeToStrutsDebug("invalid predictor id: " + predictorId);
 		}
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
-		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true);
-		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true);
-		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true);
-		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false);
+		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
+		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
+		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
+		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
 		
-		userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true);
+		userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true, session);
 		selectedPredictorId = "" + selectedPredictor.getPredictorId();
+		
+		//give back the session at the end
+		session.close();
 		return result;
 	}
 
@@ -100,9 +109,10 @@ public class PredictionFormActions extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 		user = (User) context.getSession().get("user");
 		
-		Utility.writeToDebug("dwygfugay7wf");
+		//use the same session for all data requests
+		Session session = HibernateUtil.getSession();
 		
-		DataSet predictionDataset = PopulateDataObjects.getDataSetById(selectedDatasetId);
+		DataSet predictionDataset = PopulateDataObjects.getDataSetById(selectedDatasetId, session);
 		String sdf = predictionDataset.getSdfFile();
 		
 		Utility.writeToDebug(user.getUserName());
@@ -114,9 +124,11 @@ public class PredictionFormActions extends ActionSupport{
 
 		predTask.setUp();
 		int numCompounds = predictionDataset.getNumCompound();
-		int numModels = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorId)).getNumTestModels();
+		int numModels = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorId), session).getNumTestModels();
 		Queue.getInstance().addJob(predTask,user.getUserName(), jobName, numCompounds, numModels);
-			
+
+		//give back the session at the end
+		session.close();
 		return SUCCESS;
 	}	
 	

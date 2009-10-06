@@ -58,7 +58,9 @@ public class AnonymousPredictForward extends Action {
 			session.setAttribute("anonUser", anonUser);
 			Utility.writeToDebug("Anonymous user created: " + anonUser.getUserName());
 			try {
-				session.setAttribute("predictors", PopulateDataObjects.populatePredictors(anonUser.getUserName(), true, true));
+				Session hibernateSession = HibernateUtil.getSession();
+				session.setAttribute("predictors", PopulateDataObjects.populatePredictors(anonUser.getUserName(), true, true, hibernateSession));
+				hibernateSession.close();
 			} catch (Exception ex) {
 				Utility.writeToDebug(ex);
 			}

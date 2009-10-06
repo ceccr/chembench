@@ -49,10 +49,11 @@ public class DeleteAction extends ActionSupport{
 	private String checkDatasetDependencies(DataSet ds)throws ClassNotFoundException, SQLException{
 		//make sure there are no predictors, predictions, or jobs that depend on this dataset
 		String dependsMsg = "";
-		
+
+		Session session = HibernateUtil.getSession();
 		String userName = ds.getUserName();
-		ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName, true, false);
-		ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false);
+		ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName, true, false, session);
+		ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false, session);
 		
 		//check each predictor
 		for(int i = 0; i < userPredictors.size();i++){
@@ -69,8 +70,9 @@ public class DeleteAction extends ActionSupport{
 		}
 		
 		//check each job
-		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true);
-		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false);
+		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true, session);
+		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false, session);
+		session.close();
 		
 		//todo: Actually check the jobs! Needs some revision of how jobs work first.
 		
@@ -81,7 +83,9 @@ public class DeleteAction extends ActionSupport{
 		//make sure there are no predictions or prediction jobs that depend on this predictor
 		
 		String userName = p.getUserName();
-		ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false);
+		Session session = HibernateUtil.getSession();
+		ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false, session);
+		session.close();
 		String dependsMsg = "";
 		
 		//check each prediction
@@ -136,7 +140,9 @@ public class DeleteAction extends ActionSupport{
 			return ERROR;
 		}
 
-		ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId));
+		Session session = HibernateUtil.getSession();
+		ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId),session);
+		
 		if(ds == null){
 			Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
 		}
@@ -163,7 +169,6 @@ public class DeleteAction extends ActionSupport{
 		}
 		
 		//delete the database entry for the dataset
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
@@ -174,6 +179,9 @@ public class DeleteAction extends ActionSupport{
 				tx.rollback();
 			Utility.writeToDebug(e);
 			return ERROR;
+		}
+		finally{
+			session.close();
 		}
 		
 		return SUCCESS;
@@ -194,7 +202,9 @@ public class DeleteAction extends ActionSupport{
 			return ERROR;
 		}
 
-		p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId));
+		Session session = HibernateUtil.getSession();
+		p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+		
 		if(p == null){
 			Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
 		}
@@ -219,7 +229,6 @@ public class DeleteAction extends ActionSupport{
 		}
 		
 		//delete the database entry for the dataset
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
@@ -229,6 +238,9 @@ public class DeleteAction extends ActionSupport{
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
+		}
+		finally{
+			session.close();
 		}
 		
 		
@@ -250,7 +262,8 @@ public class DeleteAction extends ActionSupport{
 			return ERROR;
 		}
 
-		p = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId));
+		Session session = HibernateUtil.getSession();
+		p = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
 		if(p == null){
 			Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
 		}
@@ -268,7 +281,6 @@ public class DeleteAction extends ActionSupport{
 		}
 		
 		//delete the database entry for the dataset
-		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
@@ -278,6 +290,9 @@ public class DeleteAction extends ActionSupport{
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
+		}
+		finally{
+			session.close();
 		}
 		
 		return SUCCESS;
@@ -292,28 +307,17 @@ public class DeleteAction extends ActionSupport{
 		
 		taskId = ((String[]) context.getParameters().get("id"))[0];
 		Utility.writeToStrutsDebug("Deleting job with id: " + taskId);
-		
-		QueueTask task = PopulateDataObjects.getTaskById(Long.parseLong(taskId));
+
+		Session session = HibernateUtil.getSession();
+		QueueTask task = PopulateDataObjects.getTaskById(Long.parseLong(taskId), session);
 		Queue queue = Queue.getInstance();
 		
-		
-		if(queue.runningTask != null && task.jobName.equals(queue.runningTask.jobName) && task.getUserName().equals( queue.runningTask.getUserName())){
-			Utility.writeToDebug("Job " + task.jobName + " is currently executing.");
-			//Right now there's no way to kill running jobs. 
-			
-			//check if kNN is running. Kill it if it is.
-			/*if(){
-				
-			}
-			else{
-				
-			}*/
-		}
-		else{
-			Utility.writeToDebug("Job " + task.jobName + " is not executing.");
-		}
-
 		//remove associated files
+		//this has a side-effect. If any programs are operating on these files
+		//(such as sketch generation or kNN processes)
+		//the deletion of the files will, in practice, kill the kNN process and free up
+		//the processing resources for something else.
+		//It's dirty, but it works. 
 		String BASE=Constants.CECCR_USER_BASE_PATH;
 		File file=new File(BASE+task.getUserName()+"/"+task.jobName);
 		FileAndDirOperations.deleteDir(file);
@@ -329,62 +333,20 @@ public class DeleteAction extends ActionSupport{
 
 		//remove the task. Gotta do this last.
 		queue.deleteTask(task);
-		
-		return SUCCESS;
-		
-		/*public class DeleteRecordAction extends Action {
-
-	
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
-			HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-
-		ActionForward forward = new ActionForward();
-
-		HttpSession session = request.getSession(false); 
-		if (session == null ){
-			forward = mapping.findForward("login");
-		}else if (session.getAttribute("user") == null){
-			forward = mapping.findForward("login");
-		}
-		else{
-			String taskName=request.getParameter("jobName");
-			try{
-				deleteTask(taskName);
-			}catch(SQLException e)
-			{Utility.writeToDebug(e);
-			forward = mapping.findForward("failure");
-			}catch(HibernateException e)
-			{
-				Utility.writeToDebug(e);
-				forward = mapping.findForward("failure");
-			}
-			
-			forward = mapping.findForward("success");
-			}
-		return forward;
-	}
-	
-	public void deleteTask(String taskName)throws HibernateException,ClassNotFoundException, SQLException
-	{
-		Queue.QueueTask task=null;
-		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
-			tx = s.beginTransaction();
-			task=(QueueTask)s.createCriteria(QueueTask.class).add(Expression.eq("jobName", taskName)).uniqueResult();
-			s.delete(task);
+			tx = session.beginTransaction();
+			task=(QueueTask)session.createCriteria(QueueTask.class).add(Expression.eq("jobName", task.jobName)).uniqueResult();
+			session.delete(task);
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			s.close();
+			session.close();
 		}
-	}
-	
-}*/
+		return SUCCESS;
 		
 	}
 	
