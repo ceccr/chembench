@@ -458,6 +458,7 @@ public class Queue {
 
 	protected QueueTask.State loadState(QueueTask task) throws HibernateException, ClassNotFoundException, SQLException 
 	{
+		Utility.writeToDebug("loadState");
 		QueueTask t=null;
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
@@ -478,6 +479,7 @@ public class Queue {
 	}
 
 	protected void saveTaskRecord(QueueTask t) throws HibernateException,	ClassNotFoundException, SQLException {
+		Utility.writeToDebug("saveTaskRecord");
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
@@ -557,7 +559,7 @@ public class Queue {
 			Utility.writeToDebug(ex);
 		}
 		
-		
+		Utility.writeToDebug("deleteTaskRecord");
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
@@ -588,6 +590,7 @@ public class Queue {
 	@SuppressWarnings("unchecked")
 	public void loadTaskRecords() throws HibernateException,
 			ClassNotFoundException, SQLException {
+		Utility.writeToDebug("loadTaskRecords");
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		List<QueueTask> ls = new LinkedList<QueueTask>();
@@ -629,7 +632,7 @@ public class Queue {
 		List<QueueTask> ls = new LinkedList<QueueTask>();
 		
 		if(runningTask!=null){ls.add(runningTask);}
-		
+		Utility.writeToDebug("getQueuedTasks");
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
@@ -651,6 +654,7 @@ public class Queue {
 	@SuppressWarnings("unchecked")
 	public List<QueueTask> totalTasksInQ() throws HibernateException,ClassNotFoundException, SQLException {
 		List<QueueTask> ls = new LinkedList<QueueTask>();
+		Utility.writeToDebug("totalTasksInQ");
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
