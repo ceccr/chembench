@@ -2,6 +2,8 @@ package edu.unc.ceccr.utilities;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -513,7 +515,8 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			
 			models = session.createCriteria(Model.class)
-					.add(Expression.eq("predictor", getPredictorById(predictorId, session))).list();
+					.add(Expression.eq("predictor", getPredictorById(predictorId, session))).
+					list();
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -522,6 +525,13 @@ public class PopulateDataObjects {
 		} finally {
 			; 
 		}
+		//sort models in decreasing order by r^2 value
+		//(used when displaying top 10 models on view predictor page) 
+		Collections.sort(models, new Comparator<Model>() {
+		    public int compare(Model o1, Model o2) {
+		    	return o2.getR_squared() > o1.getR_squared()? 1:-1;
+		    }});
+
 		return models;
 	}
 	
