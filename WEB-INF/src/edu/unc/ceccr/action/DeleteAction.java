@@ -334,18 +334,6 @@ public class DeleteAction extends ActionSupport{
 		//remove the task. Gotta do this last.
 		queue.deleteTask(task);
 		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			task=(QueueTask)session.createCriteria(QueueTask.class).add(Expression.eq("jobName", task.jobName)).uniqueResult();
-			session.delete(task);
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			session.close();
-		}
 		return SUCCESS;
 		
 	}
