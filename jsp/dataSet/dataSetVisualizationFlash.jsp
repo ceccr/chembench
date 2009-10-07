@@ -10,8 +10,9 @@
 <%@ page import="edu.unc.ceccr.persistence.ExternalValidation" %>
 <jsp:useBean id="user" class="edu.unc.ceccr.persistence.User" scope="session"/>
 
-<%@page import="edu.unc.ceccr.utilities.DatasetFileOperations"%><html>
-<%@page import="edu.unc.ceccr.global.Constants"%><html>
+<%@page import="edu.unc.ceccr.utilities.DatasetFileOperations"%>
+<%@page import="edu.unc.ceccr.global.Constants"%>
+<html>
 <head>
 <title>C-CHEMBENCH | Tanimoto calculations</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -73,6 +74,7 @@ function handleWheel(event) {
 <table width="924px" align="center" border="0">
 <tr align="center" id="download" style="display:none;">
 <td align="center">
+Address argument: <%=Constants.WEBADDRESS%>
 </td>
 </tr>
 <tr>
