@@ -214,8 +214,8 @@ public class Utility {
 		  StreamGobbler errorGobbler = new StreamGobbler(errout, "errout", errFileOS);   
 		  outputGobbler.start();
 		  errorGobbler.start();
-		  logFileOS.close();
-		  errFileOS.close();
+		  //logFileOS.close();
+		  //errFileOS.close();
 		}
 		catch(Exception ex){
 	      writeToDebug(ex);
