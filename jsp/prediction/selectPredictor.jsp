@@ -40,6 +40,8 @@
 		Here already developed models are available to make predictions on sets of compounds. Models generated and validated by the Laboratory for Molecular Modeling at UNC-CH are available as well as models that you generated through the Model Development section of the website. Compounds to screen can be upload in sdf format below. Currently, only 500 compounds may be predicted at one time. 
 		<br><br>Compound databases will soon be available for large scale virtual screening. 
 		<br><br>Click the name of a predictor. Then you may predict the activity of a dataset, a SMILES string, or a molecule sketch.
+		<br />Or, you may select multiple predictors. To do this, use the checkboxes next to each one you want to choose, then click "Select Multiple Predictors" at the bottom of the page.
+		
 <br><br></p></td>
           </tr>
         </table>
@@ -58,6 +60,7 @@
 		</p>	
 			<table>
 			<tr>
+				<td class="TableRowText01"><!-- Select --></td>
 				<td class="TableRowText01">Name</td>
 				<td class="TableRowText01">Date Created</td>
 				<td class="TableRowText01">Modeling Method</td>
@@ -71,6 +74,7 @@
 					<s:url id="predictorLink" value="/selectPredictor" includeParams="none">
 						<s:param name="id" value='predictorId' />
 					</s:url>
+					<td class="TableRowText02"><s:checkbox /></td>
 					<td class="TableRowText02"><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
@@ -93,6 +97,7 @@
 		</p>
 			<table>
 			<tr>
+				<td class="TableRowText01"><!-- Select --></td>
 				<td class="TableRowText01">Name</td>
 				<td class="TableRowText01">Date Created</td>
 				<td class="TableRowText01">Modeling Method</td>
@@ -106,6 +111,7 @@
 					<s:url id="predictorLink" value="/selectPredictor" includeParams="none">
 						<s:param name="id" value='predictorId' />
 					</s:url>
+					<td class="TableRowText02"><s:checkbox /></td>
 					<td class="TableRowText02"><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
@@ -126,6 +132,7 @@
 			</p>
 			<table>
 			<tr>
+				<td class="TableRowText01"><!-- Select --></td>
 				<td class="TableRowText01">Name</td>
 				<td class="TableRowText01">Date Created</td>
 				<td class="TableRowText01">Modeling Method</td>
@@ -139,6 +146,7 @@
 					<s:url id="predictorLink" value="/selectPredictor" includeParams="none">
 						<s:param name="id" value='predictorId' />
 					</s:url>
+					<td class="TableRowText02"><s:checkbox /></td>
 					<td class="TableRowText02"><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>

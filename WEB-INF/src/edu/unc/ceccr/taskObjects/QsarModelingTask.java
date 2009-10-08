@@ -74,6 +74,8 @@ public class QsarModelingTask implements WorkflowTask {
 	private DescriptorEnumeration descriptorEnum;
 	private String scalingType;
 	private ScalingTypeEnumeration scalingTypeEnum;
+	private String stdDevCutoff;
+	private String corellationCutoff;
 	
 	//datasplit
 	private String numSplits;
@@ -209,6 +211,9 @@ public class QsarModelingTask implements WorkflowTask {
 		else if(scalingType.equalsIgnoreCase(Constants.NOSCALING)){
 			scalingTypeEnum = ScalingTypeEnumeration.NOSCALING;
 		}
+		
+		stdDevCutoff = ModelingForm.getStdDevCutoff();
+		corellationCutoff = ModelingForm.getCorellationCutoff();
 		
 		Session session = HibernateUtil.getSession();
 		DataSet dataset = PopulateDataObjects.getDataSetById(ModelingForm.getSelectedDatasetId(),session);
@@ -410,7 +415,8 @@ public class QsarModelingTask implements WorkflowTask {
 			//write out the descriptors for modeling
 			xFileName = sdFileName + ".x";
 			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + xFileName, scalingType);
+			
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + xFileName, scalingType, stdDevCutoff, corellationCutoff);
 		}
 		else if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
 			//dataset has descriptors already, we don't need to do anything

@@ -5,6 +5,7 @@ import java.io.*;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.ScalingTypeEnumeration;
 import edu.unc.ceccr.persistence.Descriptors;
+import edu.unc.ceccr.taskObjects.stdDevCutoff;
 import edu.unc.ceccr.utilities.Utility;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -141,6 +142,136 @@ public class WriteDescriptorsFileWorkflow{
 			descriptorValues.clear(); // cleanup
 		}
 	}
+
+	public static void removeLowStdDevDescriptors(ArrayList<Descriptors> descriptorMatrix, 
+			ArrayList<String> descriptorValueMinima, 
+			ArrayList<String> descriptorValueMaxima,
+			ArrayList<String> descriptorValueAvgs, 
+			ArrayList<String> descriptorValueStdDevs,
+			ArrayList<String> descriptorNames, /* optional argument -- can be null */
+			Float stdDevCutoff){
+		
+		//lol write this later
+		//should be easy, just like removeZeroVariance but with a stddev cutoff instead
+		//eventually merge into removeZeroVariance cause they do pretty much the same thing
+	}
+
+
+	public static void removeHighlyCorellatedDescriptors(ArrayList<Descriptors> descriptorMatrix, 
+			ArrayList<String> descriptorValueMinima, 
+			ArrayList<String> descriptorValueMaxima,
+			ArrayList<String> descriptorValueAvgs, 
+			ArrayList<String> descriptorValueStdDevs,
+			ArrayList<String> descriptorNames, /* optional argument -- can be null */
+			Float corellationCutoff){
+		
+		//lol write this later
+		//will end up using the same algorithm as "remove high sequence identity" thing.
+		//that was a recursive one, right...? how *did* I do that?
+		//Right, here it is. Algorithm in perl:
+		
+		/*
+		 if($#ARGV + 1 != 4 || $ARGV[2] < 0 || ($ARGV[3] ne "s" && $ARGV[3] ne "i")){
+	#didn't provide 4 arguments, so print usage info
+	print "\nThis program runs a maximal independent set algorithm to eliminate \nsequences that exceed the threshold similarity or identity to any other sequence.\n";
+	print "It processes outputs from 'needle' (Needleman-Wunsch alignment tool), \npart of the free Emboss biology tool suite.\n\n";
+	print "Usage: 'seqfilter.pl infile outfile percentage i' (for identity filter)\n";
+	print "Or: 'seqfilter.pl infile outfile percentage s' (for similarity filter)\n\n";
+	print "Example: 'seqfilter.pl sample_input.score sample_input_90_s.score 90.5 s'\n";
+	exit;
+}
+
+$first = true;
+
+#read input file
+
+$input_file = "$ARGV[0]";
+
+$running = "true";
+while($running){
+	open(FH, $input_file) or die "can't open input file: $input_file\n";
+	%tallies = {};
+	while($line = <FH>){
+		if($line =~ m/\# 1:\s+(\S+)/){
+			$p1 = $1;
+		}
+		if($line =~ m/\# 2:\s+(\S+)/){
+			$p2 = $1;
+		}
+		if($line =~ m/\# Identity:\s+\S+\s+\(\s*(\S+)\s*%\)/){
+			if(($ARGV[3] eq "i") && ($1 >= $ARGV[2]) && ($p1 ne $p2)){
+				$tallies{$p1}++;
+				$tallies{$p2}++;
+			}
+		}
+		if($line =~ m/\# Similarity:\s+\S+\s+\(\s*(\S+)\s*%\)/){
+			if(($ARGV[3] eq "s") && ($1 >= $ARGV[2]) && ($p1 ne $p2)){
+				$tallies{$p1}++;
+				$tallies{$p2}++;
+			}
+		}
+
+	}
+	close(FH);
+
+	#find highest valued key (i.e. protein with the most above-threshold connections to other proteins)
+	$max_value = 0;
+	$max_key = "";
+	while(my($key, $value) = each(%tallies)) {
+		if($value > $max_value){
+			$max_key = $key;
+			$max_value = $value;
+		}
+	}
+	if($max_key eq ""){
+		#finished; we have eliminated all proteins above threshold
+		#move temp file to output file location
+		$outfile = $ARGV[1];
+		if($infile eq $ARGV[0]){
+			print `cp $input_file $outfile`;
+		}
+		else{
+			print `mv $input_file $outfile`;
+		}
+		$running = "";
+	}
+	else{
+		print "Removing protein $max_key with tally $max_value.\n";
+		#reread input file and print it out, skipping any sections that involve the highest-value protein
+		open(FH, $input_file) or die "can't open file: $input_file";
+		open(TEMPOUT, ">$ARGV[1].temp.out")  or die "can't open temp file: $ARGV[1].temp.out\n";
+
+		$section = "";
+		while($line = <FH>){
+			if($line =~ m/\# 1:\s+(\S+)/){
+				$p1 = $1;
+				$section = $line;
+			}
+			if($line =~ m/\# 2:\s+(\S+)/){
+				$p2 = $1;
+				$section .= $line;
+			}
+			if($line =~ m/\# Identity:/){
+				$section .= $line;
+				
+			}
+			if($line =~ m/\# Similarity:/){
+				$section .= $line;
+				if($p1 ne $max_key && $p2 ne $max_key){
+					print TEMPOUT $section;
+				}
+			}
+		}
+		close(TEMPOUT);
+		close(FH);
+		print `mv $ARGV[1].temp.out $ARGV[1].temp.in`;
+	}
+	$input_file = "$ARGV[1].temp.in"; #read from the temp file for the next iteration
+
+}
+		 */
+	}
+	
 	
 	public static void removeZeroVarianceDescriptors(ArrayList<Descriptors> descriptorMatrix, 
 			ArrayList<String> descriptorValueMinima, 
@@ -325,7 +456,9 @@ public class WriteDescriptorsFileWorkflow{
 			ArrayList<Descriptors> descriptorMatrix, 
 			String descriptorNameString, 
 			String xFilePath,
-			String scalingType) throws Exception{
+			String scalingType,
+			String stdDevCutoff, 
+			String corellationCutoff) throws Exception{
 		//Perform scaling on descriptorMatrix 
 		//remove zero-variance descriptors from descriptorMatrix
 		//Write a new file at xFilePath containing descriptorMatrix and other data needed for .x file
@@ -340,7 +473,7 @@ public class WriteDescriptorsFileWorkflow{
 		findMinMaxAvgStdDev(descriptorMatrix, descriptorValueMinima, descriptorValueMaxima, descriptorValueAvgs, descriptorValueStdDevs);
 		
 		//To maximize compatibility, what we actually store is the
-		//StdDev + average on the last line.
+		//value of (StdDev + average) on the last line.
 		//This makes sense (I swear!)
 		
 		// Consider the process of range scaling: To scale 
@@ -390,6 +523,19 @@ public class WriteDescriptorsFileWorkflow{
 				descriptorValueMinima, descriptorValueMaxima, 
 				descriptorValueAvgs, descriptorValueStdDevPlusAvgs,
 				descriptorNames);
+		
+		if(Float.parseFloat(stdDevCutoff) > 0){
+			removeLowStdDevDescriptors(descriptorMatrix, 
+					descriptorValueMinima, descriptorValueMaxima, 
+					descriptorValueAvgs, descriptorValueStdDevPlusAvgs,
+					descriptorNames, Float.parseFloat(stdDevCutoff));
+		}
+		if(Float.parseFloat(corellationCutoff) < 1){
+			removeHighlyCorellatedDescriptors(descriptorMatrix, 
+					descriptorValueMinima, descriptorValueMaxima, 
+					descriptorValueAvgs, descriptorValueStdDevPlusAvgs,
+					descriptorNames, Float.parseFloat(corellationCutoff));
+		}
 		
 		//write output
 		File file = new File(xFilePath);
