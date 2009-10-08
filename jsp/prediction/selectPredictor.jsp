@@ -130,7 +130,7 @@
 			<b>Private Predictors</b>
 			</p>
 			<p align="justify" class="StandardTextDarkGrayParagraph">
-			These are private predictors you have created or uploaded. Other users cannot access them.
+			These are private predictors you have created. Other users cannot access them.
 			</p>
 			<table>
 			<tr>
@@ -160,7 +160,8 @@
 			</s:iterator>
 			</table>
 			<br />	
-
+			
+			<br />
 			<p class="StandardTextDarkGrayParagraph">
 			<b>Choose Predictors</b>
 			</p>

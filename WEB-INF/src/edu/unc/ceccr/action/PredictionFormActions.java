@@ -60,6 +60,8 @@ public class PredictionFormActions extends ActionSupport{
 
 	public String loadMakePredictionsPage() throws Exception{
 		
+		Utility.writeToDebug("check boxes say: " + checkBoxSet);
+		
 		String result = SUCCESS;
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
@@ -146,6 +148,15 @@ public class PredictionFormActions extends ActionSupport{
 	private Predictor selectedPredictor;
 	private List<DataSet> userDatasets;
 	
+	private String checkBoxSet = "maballz";
+	
+	public String getCheckBoxSet() {
+		return checkBoxSet;
+	}
+	public void setCheckBoxSet(String checkBoxSet) {
+		this.checkBoxSet = checkBoxSet;
+	}
+
 	public User getUser(){
 		return user;
 	}
