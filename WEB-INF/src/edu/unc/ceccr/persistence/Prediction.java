@@ -27,7 +27,7 @@ public class Prediction implements java.io.Serializable{
 	
 	private String jobName;
 	
-	private Long predictorId;
+	private String predictorIds;
 	
 	private Long datasetId;
 	
@@ -107,13 +107,13 @@ public class Prediction implements java.io.Serializable{
 	}
 
 
-	@Column(name = "predictor_id")
-	public Long getPredictorId() {
-		return predictorId;
+	@Column(name = "predictor_ids")
+	public String getPredictorIds() {
+		return predictorIds;
 	}
 
-	public void setPredictorId(Long predictorId) {
-		this.predictorId = predictorId;
+	public void setPredictorIds(String predictorId) {
+		this.predictorIds = predictorIds;
 	}
 
 	@Column(name = "cutoff_value")

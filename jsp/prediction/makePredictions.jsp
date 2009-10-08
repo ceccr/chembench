@@ -38,7 +38,7 @@
 			return false;
 		}
 		else{
-	
+			
 			//prepare the AJAX object
 			var ajaxObject = GetXmlHttpObject();
 			ajaxObject.onreadystatechange=function(){
@@ -51,7 +51,7 @@
 			showLoading("PREDICTING. PLEASE WAIT.")
 		
 			//send request
-			var url="smilesPredict.do?smiles=" + smiles + "&cutoff=" + cutoff;
+			var url="smilesPredict.do?smiles=" + smiles + "&cutoff=" + cutoff + "&predictorIds=" + <s:property value="selectedPredictorIds" />;
 			ajaxObject.open("GET",url,true);
 			ajaxObject.send(null);
 			
@@ -95,10 +95,10 @@
 				<tr>
 				<td>
 				<table><tr><td>
-					<div class="StandardTextDarkGray"><b>Chosen Predictor:</b></div>
+					<div class="StandardTextDarkGray"><b>Chosen Predictors:</b></div>
 				</td>
 				<td height="26">
-				<div class="StandardTextDarkGray"><s:property value="selectedPredictor.name"/></div>
+				<div class="StandardTextDarkGray"><s:iterator name="selectedPredictors"><s:property value="name"/> </s:iterator></div>
 				</td>
 				</tr> 
 				<tr>
@@ -123,7 +123,7 @@
 					<td width="400" align="left" valign="top"><s:textfield name="jobName" id="jobName" size="19"/><span id="messageDiv1"></span></td>
 				</tr>
 				<tr>
-					<td><s:hidden name="selectedPredictorId" /></td>
+					<td><s:hidden name="selectedPredictorIds" /></td>
 					<td align="left" valign="top"><input type="button" name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('jobName').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ submitForm3(this); }" 
 					value="Submit Prediction Job" /> <span id="textarea"></span></td>
 				</tr>
@@ -183,12 +183,11 @@
 			</tr>
 				</tbody>
 				</table>
-
 		</td>
 		<td style="width: 10">
 		</td>
 		<td>
-			<table frame="border" align="center" cellpadding="0"	cellspacing="4">
+			<table frame="border" align="center" cellpadding="0" cellspacing="4">
 			<tbody>
 			<tr>
 			<td>

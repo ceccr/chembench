@@ -44,7 +44,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	private String sdf;
 	private String cutoff;
 	private String userName;
-	private Long selectedPredictorId;
+	private String selectedPredictorIds;
 	private DataSet predictionDataset;
 	private String step = Constants.SETUP; //stores what step we're on 
 	
@@ -62,7 +62,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	}
 		
 	public QsarPredictionTask(String userName, String jobName, String sdf, String cutoff,
-			Long selectedPredictorId, DataSet predictionDataset) throws Exception {
+			String selectedPredictorIds, DataSet predictionDataset) throws Exception {
 		
 		Utility.writeToMSDebug("Start ExecPredictorActionTask Constructor");
 		this.predictionDataset = predictionDataset;
@@ -70,7 +70,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		this.userName = userName;
 		this.sdf = sdf;
 		this.cutoff = cutoff;
-		this.selectedPredictorId = selectedPredictorId;
+		this.selectedPredictorIds = selectedPredictorIds;
 		this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/";
 		
 		Utility.writeToMSDebug("Finish QsarPredictionTask Constructor");
@@ -266,7 +266,6 @@ public class QsarPredictionTask implements WorkflowTask {
 
 		Utility.writeToDebug("Setting up prediction task", userName, jobName);
 		try{
-			Utility.writeToMSDebug(">>>>>>>>>>>>>>>>>>>>>>>>"+predictionDataset.getFileName()+"::"+jobName);
 			new File(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName).mkdir();
 			FileAndDirOperations.copyFile(
 				Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
@@ -278,7 +277,6 @@ public class QsarPredictionTask implements WorkflowTask {
 			Utility.writeToDebug(e);
 		}
 		Utility.writeToMSDebug("Files copied");
-		
 	}
 
 	public void save(){
@@ -288,7 +286,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		predictionJob.setDatabase(this.sdf);
 		predictionJob.setUserName(this.userName);
 		predictionJob.setSimilarityCutoff(new Float(this.cutoff));
-		predictionJob.setPredictorId(this.selectedPredictorId);
+		predictionJob.setPredictorIds(this.selectedPredictorIds);
 		predictionJob.setJobName(this.jobName);
 		predictionJob.setStatus("NOTSET");
 		predictionJob.setDatasetId(predictionDataset.getFileId());
@@ -313,15 +311,6 @@ public class QsarPredictionTask implements WorkflowTask {
 				predValue.setNumModelsUsed(0);	
 			}
 			
-			/*
-			//Why the heck would we want the absolute value here? That makes no sense!
-			try{
-				predValue.setPredictedValue(Math.abs(new Float(predOutput.getPredictedValue())));
-				
-			}catch (NumberFormatException e){
-				predValue.setPredictedValue(null);	
-			}*/
-
 			if (predOutput.getStandardDeviation() != null){
 				try{
 					predValue.setStandardDeviation(new Float(predOutput.getStandardDeviation()));
@@ -371,10 +360,8 @@ public class QsarPredictionTask implements WorkflowTask {
 		return predictionDataset;
 	}
 
-
 	public void setPredictionDataset(DataSet predictionDataset) {
 		this.predictionDataset = predictionDataset;
 	}
-
 
 }

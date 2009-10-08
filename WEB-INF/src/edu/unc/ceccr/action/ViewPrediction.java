@@ -112,7 +112,7 @@ public class ViewPrediction extends Action {
 					}
 				}
 				
-				predictionJob.setPredictorName(getPredictor(predictionJob.getPredictorId()));
+				//predictionJob.setPredictorName(getPredictor(predictionJob.getPredictorId()));
 				predictionJob.setDatabase(Utility.wrapFileName(predictionJob.getDatabase()));
 				
 				int numOfTurn=numberOfPage/LISTSIZE;

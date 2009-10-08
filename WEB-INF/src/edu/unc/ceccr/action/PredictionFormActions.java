@@ -2,6 +2,7 @@ package edu.unc.ceccr.action;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,6 @@ import com.opensymphony.xwork2.ActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 
-import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -60,8 +60,6 @@ public class PredictionFormActions extends ActionSupport{
 
 	public String loadMakePredictionsPage() throws Exception{
 		
-		Utility.writeToDebug("check boxes say: " + predictorCheckBoxes);
-		
 		String result = SUCCESS;
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
@@ -80,15 +78,18 @@ public class PredictionFormActions extends ActionSupport{
 
 		//use the same session for all data requests
 		Session session = HibernateUtil.getSession();
-		
-		//get the selected predictor
-		String predictorId = ((String[]) context.getParameters().get("id"))[0];
-		if(predictorId == null){
-			Utility.writeToStrutsDebug("no predictor id");
+
+		//get list of predictor IDs from the checked checkboxes
+		selectedPredictorIds = predictorCheckBoxes;
+		ArrayList<String> predictorIds = new ArrayList<String>();
+		predictorIds.addAll(Arrays.asList(predictorCheckBoxes.split("\\s+")));
+		if(predictorIds.size() == 0){
+			Utility.writeToStrutsDebug("no predictor chosen!");
+			result = ERROR;
 		}
-		selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
-		if(selectedPredictor == null){
-			Utility.writeToStrutsDebug("invalid predictor id: " + predictorId);
+		for(int i = 0; i < predictorIds.size(); i++){
+			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds.get(i)), session);
+			selectedPredictors.add(p);
 		}
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
@@ -96,9 +97,7 @@ public class PredictionFormActions extends ActionSupport{
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
 		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
-		
 		userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true, session);
-		selectedPredictorId = "" + selectedPredictor.getPredictorId();
 		
 		//give back the session at the end
 		session.close();
@@ -118,15 +117,19 @@ public class PredictionFormActions extends ActionSupport{
 		String sdf = predictionDataset.getSdfFile();
 		
 		Utility.writeToDebug(user.getUserName());
-		Utility.writeToDebug("predid: " + selectedPredictorId);
+		Utility.writeToDebug("predids: " + selectedPredictorIds);
 
 		
 		QsarPredictionTask predTask = new QsarPredictionTask(user.getUserName(), jobName, sdf, 
-				cutOff, Long.parseLong(selectedPredictorId), predictionDataset);
+				cutOff, selectedPredictorIds, predictionDataset);
 
 		predTask.setUp();
 		int numCompounds = predictionDataset.getNumCompound();
-		int numModels = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorId), session).getNumTestModels();
+		String[] ids = selectedPredictorIds.split("\\s+");
+		int numModels = 0;
+		for(int i = 0; i < ids.length; i++){
+			numModels += PopulateDataObjects.getPredictorById(Long.parseLong(ids[i]), session).getNumTestModels();
+		}
 		Queue.getInstance().addJob(predTask,user.getUserName(), jobName, numCompounds, numModels);
 
 		//give back the session at the end
@@ -145,13 +148,10 @@ public class PredictionFormActions extends ActionSupport{
 	private List<String> userPredictorNames;
 	private List<String> userPredictionNames;
 	private List<String> userTaskNames;
-	private Predictor selectedPredictor;
 	private List<Predictor> selectedPredictors;
 	private List<DataSet> userDatasets;
 	private String predictorCheckBoxes;
 	
-
-
 	public User getUser(){
 		return user;
 	}
@@ -194,13 +194,6 @@ public class PredictionFormActions extends ActionSupport{
 		this.userTaskNames = userTaskNames;
 	}
 	
-	public Predictor getSelectedPredictor() {
-		return selectedPredictor;
-	}
-	public void setSelectedPredictor(Predictor selectedPredictor) {
-		this.selectedPredictor = selectedPredictor;
-	}
-	
 	public List<DataSet> getUserDatasets(){
 		return userDatasets;
 	}
@@ -212,7 +205,7 @@ public class PredictionFormActions extends ActionSupport{
 	private Long selectedDatasetId;
 	private String cutOff = "0.5";
 	private String jobName;
-	private String selectedPredictorId;
+	private String selectedPredictorIds;
 	
 	public Long getSelectedDatasetId() {
 		return selectedDatasetId;
@@ -235,17 +228,18 @@ public class PredictionFormActions extends ActionSupport{
 		this.jobName = jobName;
 	}
 	
-	public String getSelectedPredictorId() {
-		return selectedPredictorId;
-	}
-	public void setSelectedPredictorId(String selectedPredictorId) {
-		this.selectedPredictorId = selectedPredictorId;
-	}
-	
 	public String getPredictorCheckBoxes() {
 		return predictorCheckBoxes;
 	}
 	public void setPredictorCheckBoxes(String predictorCheckBoxes) {
 		this.predictorCheckBoxes = predictorCheckBoxes;
 	}
+
+	public String getSelectedPredictorIds() {
+		return selectedPredictorIds;
+	}
+	public void setSelectedPredictorIds(String selectedPredictorIds) {
+		this.selectedPredictorIds = selectedPredictorIds;
+	}
+
 }

@@ -98,7 +98,7 @@
 			<!-- Other menus inside login box -->
 	             <p>New Users<br />
 	               <span class="ccbHomeStandard">Please <a href="gotoregister.do">register here</a><br/>
-	              or, <a href="anonPredict.do">make simple predictions</a> (no login required)
+	             <!-- or, <a href="anonPredict.do">make simple predictions</a> (no login required) --> 
 	               </span></p>
 	              <p>FAQ &amp; Help <br />
 	               <span class="ccbHomeStandard"><a href="theme/cchembench_userguide.pdf" target="_blank">                CCB User Guide</a><br />
