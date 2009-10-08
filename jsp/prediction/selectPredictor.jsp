@@ -9,7 +9,7 @@
 <html>
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
-<title>C-CHEMBENCH | Select Predictor</title>
+<title>C-CHEMBENCH | Select Predictors</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
@@ -37,17 +37,18 @@
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td><p align="justify" class="StandardTextDarkGrayParagraph">
-		Here already developed models are available to make predictions on sets of compounds. Models generated and validated by the Laboratory for Molecular Modeling at UNC-CH are available as well as models that you generated through the Model Development section of the website. Compounds to screen can be upload in sdf format below. Currently, only 500 compounds may be predicted at one time. 
+		Here already-developed models are available to make predictions on sets of compounds. Models generated and validated by the Laboratory for Molecular Modeling at UNC-CH are available as well as models that you generated through the Model Development section of the website. Compounds to screen can be upload in sdf format below. Currently, only 500 compounds may be predicted at one time. 
 		<br><br>Compound databases will soon be available for large scale virtual screening. 
 		<br><br>Click the name of a predictor. Then you may predict the activity of a dataset, a SMILES string, or a molecule sketch.
 		<br />Or, you may select multiple predictors. To do this, use the checkboxes next to each one you want to predict with, then click "Select Multiple Predictors" at the bottom of the page.
 		
-<br><br></p></td>
+		<br /><br />
+		</p></td>
           </tr>
         </table>
 		<b></b>
 		
-		<s:form>
+		<s:form theme="simple" action="selectPredictors" enctype="multipart/form-data" method="post">
 		<table border="0" align="left" cellpadding="4"	cellspacing="4">
 		<tbody>
 		<tr>
@@ -61,7 +62,7 @@
 		</p>
 			<table>
 			<tr>
-				<td class="TableRowText01"><!-- Select --></td>
+				<td class="TableRowText01">Select</td>
 				<td class="TableRowText01">Name</td>
 				<td class="TableRowText01">Date Created</td>
 				<td class="TableRowText01">Modeling Method</td>
@@ -75,7 +76,7 @@
 					<s:url id="predictorLink" value="/selectPredictor" includeParams="none">
 						<s:param name="id" value='predictorId' />
 					</s:url>
-					<td class="TableRowText02"><s:checkbox name="<s:property value="name" />" /></td>
+					<td class="TableRowText02"><s:checkbox name="checkBoxSet" fieldValue="%{predictorLink}" /></td>
 					<td class="TableRowText02"><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
@@ -98,7 +99,7 @@
 		</p>
 			<table>
 			<tr>
-				<td class="TableRowText01"><!-- Select --></td>
+				<td class="TableRowText01">Select</td>
 				<td class="TableRowText01">Name</td>
 				<td class="TableRowText01">Date Created</td>
 				<td class="TableRowText01">Modeling Method</td>
@@ -112,7 +113,7 @@
 					<s:url id="predictorLink" value="/selectPredictor" includeParams="none">
 						<s:param name="id" value='predictorId' />
 					</s:url>
-					<td class="TableRowText02"><s:checkbox name="<s:property value="name" />" /></td>
+					<td class="TableRowText02"><s:checkbox name="checkBoxSet" fieldValue="%{predictorLink}" /></td>
 					<td class="TableRowText02"><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
@@ -133,7 +134,7 @@
 			</p>
 			<table>
 			<tr>
-				<td class="TableRowText01"><!-- Select --></td>
+				<td class="TableRowText01">Select</td>
 				<td class="TableRowText01">Name</td>
 				<td class="TableRowText01">Date Created</td>
 				<td class="TableRowText01">Modeling Method</td>
@@ -147,7 +148,7 @@
 					<s:url id="predictorLink" value="/selectPredictor" includeParams="none">
 						<s:param name="id" value='predictorId' />
 					</s:url>
-					<td class="TableRowText02"><s:checkbox name="<s:property value="name" />" /></td>
+					<td class="TableRowText02"><s:checkbox name="checkBoxSet" fieldValue="%{predictorLink}" /></td>
 					<td class="TableRowText02"><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
@@ -159,7 +160,26 @@
 			</s:iterator>
 			</table>
 			<br />	
-		</s:form>		
+
+			<p class="StandardTextDarkGrayParagraph">
+			<b>Choose Predictors</b>
+			</p>
+			<p align="justify" class="StandardTextDarkGrayParagraph">
+			When you have checked the boxes next to the predictors you want to use, click on the button below. 
+			</p>
+			<table>
+				<tr><td>
+					<s:submit value="Select Multiple Predictors" />
+				</td></tr>
+			</table>
+			</s:form>
+		
+	
+		</tr>
+		</tbody>
+		</table>
+		<br />
+		
 <%@include file ="/jsp/main/footer.jsp" %>
 </body>
 </html>
