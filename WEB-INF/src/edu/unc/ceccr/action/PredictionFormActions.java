@@ -60,7 +60,7 @@ public class PredictionFormActions extends ActionSupport{
 
 	public String loadMakePredictionsPage() throws Exception{
 		
-		Utility.writeToDebug("check boxes say: " + checkBoxSet);
+		Utility.writeToDebug("check boxes say: " + predictorCheckBoxes);
 		
 		String result = SUCCESS;
 		//check that the user is logged in
@@ -146,16 +146,11 @@ public class PredictionFormActions extends ActionSupport{
 	private List<String> userPredictionNames;
 	private List<String> userTaskNames;
 	private Predictor selectedPredictor;
+	private List<Predictor> selectedPredictors;
 	private List<DataSet> userDatasets;
+	private String predictorCheckBoxes;
 	
-	private String checkBoxSet = "maballz";
-	
-	public String getCheckBoxSet() {
-		return checkBoxSet;
-	}
-	public void setCheckBoxSet(String checkBoxSet) {
-		this.checkBoxSet = checkBoxSet;
-	}
+
 
 	public User getUser(){
 		return user;
@@ -245,5 +240,12 @@ public class PredictionFormActions extends ActionSupport{
 	}
 	public void setSelectedPredictorId(String selectedPredictorId) {
 		this.selectedPredictorId = selectedPredictorId;
+	}
+	
+	public String getPredictorCheckBoxes() {
+		return predictorCheckBoxes;
+	}
+	public void setPredictorCheckBoxes(String predictorCheckBoxes) {
+		this.predictorCheckBoxes = predictorCheckBoxes;
 	}
 }

@@ -48,7 +48,7 @@
         </table>
 		<b></b>
 		
-		<s:form theme="simple" action="selectPredictors" enctype="multipart/form-data" method="post">
+		<s:form theme="simple" action="selectPredictor" enctype="multipart/form-data" method="post">
 		<table border="0" align="left" cellpadding="4"	cellspacing="4">
 		<tbody>
 		<tr>
@@ -73,11 +73,8 @@
 			<s:iterator value="userPredictors">
 				<s:if test="predictorType=='DrugDiscovery'">
 					<tr>
-					<s:url id="predictorLink" value="/selectPredictor" includeParams="none">
-						<s:param name="id" value='predictorId' />
-					</s:url>
-					<td class="TableRowText02"><s:checkbox name="checkBoxSet" fieldValue="%{predictorLink}" /></td>
-					<td class="TableRowText02"><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
+					<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+					<td class="TableRowText02"><s:property value="name" /></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
 					<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
@@ -110,11 +107,8 @@
 			<s:iterator value="userPredictors">
 				<s:if test="predictorType=='ADMETox'">
 					<tr>
-					<s:url id="predictorLink" value="/selectPredictor" includeParams="none">
-						<s:param name="id" value='predictorId' />
-					</s:url>
-					<td class="TableRowText02"><s:checkbox name="checkBoxSet" fieldValue="%{predictorLink}" /></td>
-					<td class="TableRowText02"><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
+					<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+					<td class="TableRowText02"><s:property value="name" /></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
 					<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
@@ -145,11 +139,8 @@
 			<s:iterator value="userPredictors">
 				<s:if test="predictorType=='Private'">
 					<tr>
-					<s:url id="predictorLink" value="/selectPredictor" includeParams="none">
-						<s:param name="id" value='predictorId' />
-					</s:url>
-					<td class="TableRowText02"><s:checkbox name="checkBoxSet" fieldValue="%{predictorLink}" /></td>
-					<td class="TableRowText02"><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
+					<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+					<td class="TableRowText02"><s:property value="name" /></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
 					<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
