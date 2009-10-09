@@ -721,6 +721,7 @@ public class Queue {
 			} catch (Exception ex) {
 				Utility.writeToDebug(ex);
 			}
+			runningTask = null;
 		}
 		else if (del != null) {
 			finished.remove(del);
