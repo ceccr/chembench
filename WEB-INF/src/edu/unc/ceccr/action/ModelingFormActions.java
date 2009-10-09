@@ -15,7 +15,6 @@ import com.opensymphony.xwork2.ActionContext;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 
-import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;

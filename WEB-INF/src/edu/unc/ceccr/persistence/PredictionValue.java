@@ -17,7 +17,7 @@ import edu.unc.ceccr.utilities.Utility;
 public class PredictionValue implements java.io.Serializable{
 
 	@SuppressWarnings("unused")
-	private Long predictorJobId;
+	private Long predictorId;
 	
 	private String compoundName;
 	
@@ -32,6 +32,14 @@ public class PredictionValue implements java.io.Serializable{
 	private Long id;
 	
 	private float observedValue;
+	
+	@Column(name="predictor_id")
+	public Long getPredictorId() {
+		return predictorId;
+	}
+	public void setPredictorId(Long predictorId) {
+		this.predictorId = predictorId;
+	}
 	
 	@Column(name="observed_value")
 	public Float getObservedValue()

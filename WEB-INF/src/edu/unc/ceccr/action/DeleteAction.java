@@ -27,7 +27,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
-import edu.unc.ceccr.formbean.QsarFormBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
@@ -90,8 +89,12 @@ public class DeleteAction extends ActionSupport{
 		
 		//check each prediction
 		for(int i = 0; i < userPredictions.size();i++){
-			if(userPredictions.get(i).getPredictorId() == p.getPredictorId()){
-				dependsMsg += "The prediction '" + userPredictions.get(i).getJobName() + "' depends on this predictor.\n";
+			Prediction prediction = userPredictions.get(i);
+			String[] predictorIds = prediction.getPredictorIds().split("\\s+");
+			for(int j = 0; j < predictorIds.length; j++){
+				if(Long.parseLong(predictorIds[j]) == p.getPredictorId()){
+					dependsMsg += "The prediction '" + userPredictions.get(i).getJobName() + "' depends on this predictor.\n";
+				}
 			}
 		}
 		

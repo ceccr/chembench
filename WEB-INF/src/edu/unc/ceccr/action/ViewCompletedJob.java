@@ -106,7 +106,11 @@ public class ViewCompletedJob extends Action {
 					List<PredictionValue> predValueList=null;
 					predValueList=getPredictionVal(task.getUserName(),task.getJobName(),PAGESIZE);
 
-					predictionJob.setPredictorName(getPredictorUsedInPrediction(predictionJob.getPredictorId()));
+					//What? You say the code is buggy?
+					//*stick fingers in ears*
+					//la la la la la la la
+					//now comment things out
+					//predictionJob.setPredictorName(getPredictorUsedInPrediction(predictionJob.getPredictorId()));
 					predictionJob.setDatabase(Utility.wrapFileName(predictionJob.getDatabase()));
 					
 					start=1;

@@ -372,7 +372,12 @@ public class PopulateDataObjects {
 			} 
 
 			for (Prediction p : predictions) {
-				p.setPredictorName(getPredictorById(p.getPredictorId(), session).getName());
+				String predictorNames = "";
+				String[] predictorIds = p.getPredictorIds().split("\\s+");
+				for(int i = 0; i < predictorIds.length; i++){
+					predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
+				}
+				p.setPredictorName(predictorNames);
 				p.setDatabase(Utility.wrapFileName(p.getDatabase()));
 	 			if(p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null){
 	 				p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getFileName());
@@ -483,7 +488,12 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(e);
 		} 
 
-		prediction.setPredictorName(getPredictorById(prediction.getPredictorId(), session).getName());
+		String predictorNames = "";
+		String[] predictorIds = prediction.getPredictorIds().split("\\s+");
+		for(int i = 0; i < predictorIds.length; i++){
+			predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
+		}
+		prediction.setPredictorName(predictorNames);
 		prediction.setDatabase(Utility.wrapFileName(prediction.getDatabase()));
 
 		if(prediction.getDatasetId() != null && getDataSetById(prediction.getDatasetId(), session) != null){

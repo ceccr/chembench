@@ -28,6 +28,7 @@ import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
 import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
@@ -80,28 +81,35 @@ public class QsarPredictionTask implements WorkflowTask {
 
 		Utility.writeToDebug("QsarPredictionTask: ExecutePredictor",userName,jobName);
 		Utility.writeToMSDebug("QsarPredictionTask: Start"+userName+" "+jobName);
-		
-        Predictor selectedPredictor = getPredictor(this.selectedPredictorId);
 
-        Utility.writeToMSDebug("execute::"+selectedPredictor.getName());
-		
-        //We're keeping a count of how many times each predictor was used.
-        //So, increment number of times used and save predictor object.
-        selectedPredictor.setNumPredictions(selectedPredictor.getNumPredictions() + 1);
 		Session s = HibernateUtil.getSession();
-		Transaction tx = null;
-		try {
-			tx = s.beginTransaction();
-			s.saveOrUpdate(selectedPredictor);
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			s.close();
+		
+		ArrayList<Predictor> selectedPredictors = new ArrayList<Predictor>();
+		String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
+		for(int i = 0; i < selectedPredictorIdArray.length; i++){
+			Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
+			
+			//We're keeping a count of how many times each predictor was used.
+	        //So, increment number of times used on each and save each predictor object.
+	        selectedPredictor.setNumPredictions(selectedPredictor.getNumPredictions() + 1);
+			Transaction tx = null;
+			try {
+				tx = s.beginTransaction();
+				s.saveOrUpdate(selectedPredictor);
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			} finally {
+				s.close();
+			}
+
+			selectedPredictors.add(selectedPredictor);
 		}
 
+		
+		//Right... Now, make the prediction with each predictor. Why am I doing it this way..?
 		step = Constants.SETUP;
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		
