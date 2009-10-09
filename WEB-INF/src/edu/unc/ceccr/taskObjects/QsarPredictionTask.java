@@ -109,7 +109,18 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 
 		
-		//Right... Now, make the prediction with each predictor. Why am I doing it this way..?
+		//Right... Now, make the prediction with each predictor.
+		//Workflow will be:
+		//0. copy dataset into jobDir.
+		//for each predictor do {
+		//	1. copy predictor into jobDir/predictorDir
+		//	2. copy dataset from jobDir to jobDir/predictorDir
+		//	3. make predictions in jobDir/predictorDir
+		//	4. get output, put it into predictionValue objects
+		//}
+		//5. move jobDir into PREDICTIONS, save prediction database object, clean up.
+		
+		/*
 		step = Constants.SETUP;
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		
@@ -190,6 +201,8 @@ public class QsarPredictionTask implements WorkflowTask {
 		this.allPredValue = parsePredOutput(this.filePath + Constants.PRED_OUTPUT_FILE);
 		KnnPredictionWorkflow.MoveToPredictionsDir(userName, jobName);
 		Utility.writeToDebug("ExecPredictorActionTask: Complete", userName, jobName);
+		
+		*/
 	}
 	
 	protected static Predictor getPredictor(
