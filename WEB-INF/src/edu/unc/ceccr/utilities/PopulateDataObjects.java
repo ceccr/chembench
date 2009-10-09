@@ -504,7 +504,7 @@ public class PopulateDataObjects {
 	}
 	
 	public static List<Model> getModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
-		
+		Utility.writeToDebug("PredictorById: " + predictorId);
 		Predictor predictor = getPredictorById(predictorId, session);
 		
 		List<Model> models = null;
@@ -523,15 +523,20 @@ public class PopulateDataObjects {
 			if (tx != null)
 				tx.rollback();
 		} 
+		Utility.writeToDebug("models");
+		Utility.writeToDebug("modelsSize: " + models.size());
+		
 		//if the model type is continuous,
 		//sort models in decreasing order by r^2 value
 		//(used when displaying top 10 models on view predictor page)
-		if(predictor.getActivityType().equals(Constants.CONTINUOUS)){
+		if(predictor.getActivityType().equals(Constants.CONTINUOUS) && models != null && models.size() > 1){
+			Utility.writeToDebug("sorting");
 			Collections.sort(models, new Comparator<Model>() {
 			    public int compare(Model o1, Model o2) {
 		    		return (o2.getR_squared() > o1.getR_squared()? 1:-1);
 			    }});
 		}
+		Utility.writeToDebug("done");
 		return models;
 	}
 	

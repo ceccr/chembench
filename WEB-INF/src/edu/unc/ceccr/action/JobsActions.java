@@ -62,6 +62,11 @@ public class JobsActions extends ActionSupport {
 		session.close();
 		
 		userQueueTasks = new ArrayList<QueueTask>();
+		if(Queue.getInstance().runningTask != null){
+			QueueTask t = Queue.getInstance().runningTask;
+			t.setMessage(t.task.getProgress());
+			userQueueTasks.add(Queue.getInstance().runningTask);
+		}
 		Iterator<QueueTask> runningTasks = Queue.queue.iterator();
 		while(runningTasks.hasNext()){
 			QueueTask qt = runningTasks.next();
@@ -75,11 +80,6 @@ public class JobsActions extends ActionSupport {
 				userQueueTasks.add(qt);
 			//}
 		}	
-		if(Queue.getInstance().runningTask != null){
-			QueueTask t = Queue.getInstance().runningTask;
-			t.setMessage(t.task.getProgress());
-			userQueueTasks.add(Queue.getInstance().runningTask);
-		}
 		
 		//log the results
 		if(result.equals(SUCCESS)){
