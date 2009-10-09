@@ -151,9 +151,9 @@ public class PredictionFormActions extends ActionSupport{
 	private List<String> userPredictorNames;
 	private List<String> userPredictionNames;
 	private List<String> userTaskNames;
-	private List<Predictor> selectedPredictors = new ArrayList<Predictor>();
 	private List<DataSet> userDatasets;
 	private String predictorCheckBoxes;
+	private List<Predictor> selectedPredictors = new ArrayList<Predictor>();
 	
 	public User getUser(){
 		return user;
@@ -202,6 +202,13 @@ public class PredictionFormActions extends ActionSupport{
 	}
 	public void setUserDatasets(List<DataSet> userDatasets) {
 		this.userDatasets = userDatasets;
+	}
+	
+	public List<Predictor> getSelectedPredictors() {
+		return selectedPredictors;
+	}
+	public void setSelectedPredictors(List<Predictor> selectedPredictors) {
+		this.selectedPredictors = selectedPredictors;
 	}
 	
 	//populated by the JSP form
