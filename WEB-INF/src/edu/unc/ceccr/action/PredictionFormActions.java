@@ -81,7 +81,6 @@ public class PredictionFormActions extends ActionSupport{
 		Session session = HibernateUtil.getSession();
 
 		//get list of predictor IDs from the checked checkboxes
-		Utility.writeToDebug("input: " + predictorCheckBoxes);
 		selectedPredictorIds = predictorCheckBoxes.replaceAll(",", " ");
 		String[] predictorIds = selectedPredictorIds.split("\\s+");
 		if(predictorIds.length == 0){
@@ -89,9 +88,7 @@ public class PredictionFormActions extends ActionSupport{
 			result = ERROR;
 		}
 		for(int i = 0; i < predictorIds.length; i++){
-			Utility.writeToDebug("loading predictor id: |" + Long.parseLong(predictorIds[i]) + "|");
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session);
-			Utility.writeToDebug("name is: |" + p.getName() + "|");
 			selectedPredictors.add(p);
 		}
 		

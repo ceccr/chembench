@@ -51,7 +51,7 @@
 			showLoading("PREDICTING. PLEASE WAIT.")
 		
 			//send request
-			var url="smilesPredict.do?smiles=" + smiles + "&cutoff=" + cutoff + "&predictorIds=" + <s:property value="selectedPredictorIds" />;
+			var url="smilesPredict.do?smiles=" + smiles + "&cutoff=" + cutoff + "&predictorIds=" + '<s:property value="selectedPredictorIds" />';
 			ajaxObject.open("GET",url,true);
 			ajaxObject.send(null);
 			
@@ -98,7 +98,7 @@
 					<div class="StandardTextDarkGray"><b>Chosen Predictors:</b></div>
 				</td>
 				<td height="26">
-				<div class="StandardTextDarkGray"><s:iterator value="selectedPredictors"><s:property value="name"/> </s:iterator></div>
+				<div class="StandardTextDarkGray"><b><s:iterator value="selectedPredictors"><s:property value="name"/> &nbsp;</s:iterator></b></div>
 				</td>
 				</tr> 
 				<tr>
