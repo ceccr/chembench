@@ -80,9 +80,9 @@ public class PredictionFormActions extends ActionSupport{
 		Session session = HibernateUtil.getSession();
 
 		//get list of predictor IDs from the checked checkboxes
-		selectedPredictorIds = predictorCheckBoxes;
+		selectedPredictorIds = predictorCheckBoxes.replaceAll(",", " ");
 		ArrayList<String> predictorIds = new ArrayList<String>();
-		predictorIds.addAll(Arrays.asList(predictorCheckBoxes.split("\\s+")));
+		predictorIds.addAll(Arrays.asList(selectedPredictorIds.split("\\s+")));
 		if(predictorIds.size() == 0){
 			Utility.writeToStrutsDebug("no predictor chosen!");
 			result = ERROR;

@@ -60,7 +60,7 @@
 			<div class="StandardTextDarkGrayParagraph"><button type="submit">REFRESH STATUS</button></div>
 		</form>
 		</td></tr>
-		<s:if test="! userQueueTasks.isEmpty()>
+		<s:if test="! userQueueTasks.isEmpty()">
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
 		<table>
 			<tr>
