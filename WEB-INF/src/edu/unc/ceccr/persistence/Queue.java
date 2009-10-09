@@ -713,7 +713,16 @@ public class Queue {
 				}
 			}
 		}
-		if (del != null) {
+		
+		if (del == null && runningTask.task == task) {
+			del = runningTask;
+			try {
+				deleteTaskRecord(del);
+			} catch (Exception ex) {
+				Utility.writeToDebug(ex);
+			}
+		}
+		else if (del != null) {
 			finished.remove(del);
 			try {
 				deleteTaskRecord(del);
