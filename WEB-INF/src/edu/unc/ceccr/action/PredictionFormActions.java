@@ -88,7 +88,9 @@ public class PredictionFormActions extends ActionSupport{
 			result = ERROR;
 		}
 		for(int i = 0; i < predictorIds.size(); i++){
+			Utility.writeToDebug("loading predictor id: |" + Long.parseLong(predictorIds.get(i)) + "|");
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds.get(i)), session);
+			Utility.writeToDebug("name is: |" + p.getName() + "|");
 			selectedPredictors.add(p);
 		}
 		
