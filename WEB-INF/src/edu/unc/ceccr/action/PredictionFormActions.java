@@ -151,7 +151,7 @@ public class PredictionFormActions extends ActionSupport{
 	private List<String> userPredictorNames;
 	private List<String> userPredictionNames;
 	private List<String> userTaskNames;
-	private List<Predictor> selectedPredictors;
+	private List<Predictor> selectedPredictors = new ArrayList<Predictor>();
 	private List<DataSet> userDatasets;
 	private String predictorCheckBoxes;
 	
