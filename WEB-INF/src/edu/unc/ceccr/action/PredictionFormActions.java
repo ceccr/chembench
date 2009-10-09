@@ -75,11 +75,13 @@ public class PredictionFormActions extends ActionSupport{
 				result = LOGIN;
 			}
 		}
-
+		
+		
 		//use the same session for all data requests
 		Session session = HibernateUtil.getSession();
 
 		//get list of predictor IDs from the checked checkboxes
+		Utility.writeToDebug("input: " + predictorCheckBoxes);
 		selectedPredictorIds = predictorCheckBoxes.replaceAll(",", " ");
 		String[] predictorIds = selectedPredictorIds.split("\\s+");
 		if(predictorIds.length == 0){
