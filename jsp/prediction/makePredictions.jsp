@@ -98,7 +98,7 @@
 					<div class="StandardTextDarkGray"><b>Chosen Predictors:</b></div>
 				</td>
 				<td height="26">
-				<div class="StandardTextDarkGray"><s:iterator name="selectedPredictors"><s:property value="name"/> </s:iterator></div>
+				<div class="StandardTextDarkGray"><s:iterator value="selectedPredictors"><s:property value="name"/> </s:iterator></div>
 				</td>
 				</tr> 
 				<tr>
