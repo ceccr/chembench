@@ -81,15 +81,14 @@ public class PredictionFormActions extends ActionSupport{
 
 		//get list of predictor IDs from the checked checkboxes
 		selectedPredictorIds = predictorCheckBoxes.replaceAll(",", " ");
-		ArrayList<String> predictorIds = new ArrayList<String>();
-		predictorIds.addAll(Arrays.asList(selectedPredictorIds.split("\\s+")));
-		if(predictorIds.size() == 0){
+		String[] predictorIds = selectedPredictorIds.split("\\s+");
+		if(predictorIds.length == 0){
 			Utility.writeToStrutsDebug("no predictor chosen!");
 			result = ERROR;
 		}
-		for(int i = 0; i < predictorIds.size(); i++){
-			Utility.writeToDebug("loading predictor id: |" + Long.parseLong(predictorIds.get(i)) + "|");
-			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds.get(i)), session);
+		for(int i = 0; i < predictorIds.length; i++){
+			Utility.writeToDebug("loading predictor id: |" + Long.parseLong(predictorIds[i]) + "|");
+			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session);
 			Utility.writeToDebug("name is: |" + p.getName() + "|");
 			selectedPredictors.add(p);
 		}
