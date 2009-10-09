@@ -164,14 +164,14 @@
 					<s:submit value="Select Multiple Predictors" />
 				</td></tr>
 			</table>
-			</s:form>
 		
 	
 		</tr>
 		</tbody>
 		</table>
+		</s:form>
 		<br />
-		
+		</p></td></tr></table></td></span></tr></table>
 <%@include file ="/jsp/main/footer.jsp" %>
 </body>
 </html>
