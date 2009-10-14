@@ -110,8 +110,8 @@
         <!-- End View Predictor Page -->
         
         <!-- View Prediction Page -->
-        <action name="viewPrediction" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
-        	<result>jsp/modeling/viewPredictor.jsp</result>
+        <action name="viewPrediction" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadPage">
+        	<result>jsp/prediction/viewPrediction.jsp</result>
         </action>
         <!-- End View Prediction Page -->
         
