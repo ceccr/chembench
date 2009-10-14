@@ -17,7 +17,6 @@ import org.hibernate.criterion.Expression;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.global.Constants.ScalingTypeEnumeration;
-import edu.unc.ceccr.outputObjects.Pred_Output;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -174,7 +173,6 @@ public class QsarPredictionTask implements WorkflowTask {
 			String predictionDir = path + selectedPredictor.getName() + "/";
 			new File(predictionDir).mkdirs();
 			
-			boolean predictorIsAllUser = selectedPredictor.getUserName().equals(Constants.ALL_USERS_USERNAME);
 			step = Constants.COPYPREDICTOR;
 			GetJobFilesWorkflow.getPredictorFiles(userName, selectedPredictor, predictionDir);
 
@@ -293,7 +291,6 @@ public class QsarPredictionTask implements WorkflowTask {
 			BufferedReader in = new BufferedReader(new FileReader(fileLocation));
 			String inputString;
 	
-	
 			//skip all the non-blank lines with junk in them
 			while (!(inputString = in.readLine()).equals(""))
 				;
@@ -304,6 +301,7 @@ public class QsarPredictionTask implements WorkflowTask {
 			do {
 				String[] predValues = inputString.split("\\s+");
 				PredictionValue extValOutput = createPredObject(predValues);
+				extValOutput.setPredictorId(predictorId);
 				allPredValue.add(extValOutput);
 			} while ((inputString = in.readLine()) != null);
 		} catch(Exception ex){
@@ -356,14 +354,14 @@ public class QsarPredictionTask implements WorkflowTask {
 			Utility.writeToDebug("Saving prediction to database.");
 		}
 		
-		for (Pred_Output predOutput : this.allPredValues){
+		for (PredictionValue predOutput : this.allPredValues){
 			
 			PredictionValue predValue = new PredictionValue();
 
-			predValue.setCompoundName(predOutput.getCompoundID());
+			predValue.setCompoundName(predOutput.getCompoundName());
 			
 			try{
-				predValue.setNumModelsUsed(new Integer(predOutput.getNumOfModels()));	
+				predValue.setNumModelsUsed(new Integer(predOutput.getNumModelsUsed()));	
 				
 			}catch (NumberFormatException e){
 				predValue.setNumModelsUsed(0);	
