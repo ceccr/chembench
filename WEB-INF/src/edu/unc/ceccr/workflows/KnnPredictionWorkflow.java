@@ -10,9 +10,7 @@ public class KnnPredictionWorkflow{
 	
 	//Execute external programs to generate a prediction for a given molecule set.
 	
-	public static void RunKnnPrediction(String userName, String jobName, String sdFile, float cutoffValue ) throws Exception{
-
-		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+	public static void RunKnnPrediction(String userName, String jobName, String workingdir, String sdFile, float cutoffValue ) throws Exception{
 		
 		String execstr1 = "PredActivCont3rwknnLIN knn-output.list " + sdFile + ".renorm.x pred_output " + cutoffValue;
 		  Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);

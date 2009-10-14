@@ -12,7 +12,7 @@ public class GenerateDescriptorWorkflow{
 	
 	//Given an SD file, run MolconnZ to get the chemical descriptors for each compound.
 	public static void GenerateMolconnZDescriptors(String sdfile, String outfile) throws Exception{
-		  String execstr = "molconnz " + Constants.CECCR_BASE_PATH + Constants.MOLCONNZ_DATFILE_PATH + " " + sdfile + " " + sdfile + ".S";
+		  String execstr = "molconnz " + Constants.CECCR_BASE_PATH + Constants.MOLCONNZ_DATFILE_PATH + " " + sdfile + " " + sdfile + ".mz";
 		  String workingDir = sdfile.replaceAll("/[^/]+$", "");
 	      Utility.writeToDebug("Running external program: " + execstr);
 	      Process p = Runtime.getRuntime().exec(execstr);

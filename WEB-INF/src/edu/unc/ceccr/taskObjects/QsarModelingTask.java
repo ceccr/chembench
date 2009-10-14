@@ -68,6 +68,7 @@ public class QsarModelingTask implements WorkflowTask {
 	private String actFileDataType;
 	private DataTypeEnumeration dataTypeEnum;
 	private boolean datasetIsAllUser;
+	private DataSet dataset;
 	
 	//descriptors
 	private String descriptorGenerationType;
@@ -216,7 +217,7 @@ public class QsarModelingTask implements WorkflowTask {
 		corellationCutoff = ModelingForm.getCorellationCutoff();
 		
 		Session session = HibernateUtil.getSession();
-		DataSet dataset = PopulateDataObjects.getDataSetById(ModelingForm.getSelectedDatasetId(),session);
+		dataset = PopulateDataObjects.getDataSetById(ModelingForm.getSelectedDatasetId(),session);
 		session.close();
 		
 		this.userName = userName;
@@ -346,9 +347,9 @@ public class QsarModelingTask implements WorkflowTask {
 		
 		//copy the dataset files to the working directory
 		step = Constants.SETUP;
-		GetJobFilesWorkflow.getDatasetFiles(userName, jobName, sdFileName, actFileName, "", "ext_0.x", datasetIsAllUser, actFileDataType, datasetName);
-
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+		
+		GetJobFilesWorkflow.getDatasetFiles(userName, dataset, path);
 
 		//create the descriptors for the dataset and read them in
 		ArrayList<String> descriptorNames = new ArrayList<String>();
@@ -369,11 +370,11 @@ public class QsarModelingTask implements WorkflowTask {
 				step = Constants.DESCRIPTORS;
 				Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
 				Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
-				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".S");
+				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".mz");
 	
 				step = Constants.PROCDESCRIPTORS;
 				Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".S", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".mz", descriptorNames, descriptorValueMatrix);
 			}
 			else if (descriptorGenerationType.equals(Constants.DRAGON)){
 				descriptorEnum = DescriptorEnumeration.DRAGON;

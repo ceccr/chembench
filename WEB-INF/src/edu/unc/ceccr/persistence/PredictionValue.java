@@ -18,19 +18,12 @@ public class PredictionValue implements java.io.Serializable{
 
 	@SuppressWarnings("unused")
 	private Long predictorId;
-	
 	private String compoundName;
-	
 	private int numModelsUsed;
-	
 	private Float predictedValue;
-	
 	private Float standardDeviation;
-	
 	private Prediction predictionJob;
-	
 	private Long id;
-	
 	private float observedValue;
 	
 	@Column(name="predictor_id")

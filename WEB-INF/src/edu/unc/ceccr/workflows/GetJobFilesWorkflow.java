@@ -3,82 +3,60 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 import java.nio.channels.FileChannel;
 
+import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.global.Constants;
 
 public class GetJobFilesWorkflow{
 	
-	public static void getDatasetFiles(String userName, String jobName, String sdFile, String actFile, String xFile, String externalSplitXFile, boolean isAllUser, String dataType, String datasetName) throws Exception{
-		//gathers the files needed for a modeling run
+	public static void getDatasetFiles(String userName, DataSet dataset, String toDir) throws Exception{
+		//gathers the dataset files needed for a modeling or prediction run
 		
-		String jobDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		String allUserDir = Constants.CECCR_USER_BASE_PATH + "all-users/DATASETS/" + datasetName + "/";
-		String userFilesDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/";
+		String allUserDir = Constants.CECCR_USER_BASE_PATH + "all-users/DATASETS/" + dataset.getFileName() + "/";
+		String userFilesDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + dataset.getFileName() + "/";
 		
-		if(! isAllUser){
+		String fromDir = "";
+		if(dataset.getUserName().equals(userName)){
 			//get it from the user's DATASET directory
-			Utility.writeToDebug("Fetching data from " + userFilesDir, userName, jobName);
-			if(!sdFile.equals("")){
-				FileAndDirOperations.copyFile(userFilesDir + sdFile, jobDir + sdFile);
-			}
-			if(!actFile.equals("")){
-				FileAndDirOperations.copyFile(userFilesDir + actFile, jobDir + actFile);
-			}
-			if(!xFile.equals("")){
-				FileAndDirOperations.copyFile(userFilesDir + xFile, jobDir + xFile);
-			}
-			if(!externalSplitXFile.equals("")){
-				FileAndDirOperations.copyFile(userFilesDir + externalSplitXFile, jobDir + externalSplitXFile);
-			}
+			fromDir = userFilesDir;
 		}
 		else{
-			//get it from the all-users directory
-			Utility.writeToDebug("Fetching data from " + allUserDir, userName, jobName);
-			if(!sdFile.equals("")){
-				FileAndDirOperations.copyFile(allUserDir + sdFile, jobDir + sdFile);
-			}
-			if(!actFile.equals("")){
-				FileAndDirOperations.copyFile(allUserDir + actFile, jobDir + actFile);
-			}
-			if(!xFile.equals("")){
-				FileAndDirOperations.copyFile(allUserDir + xFile, jobDir + xFile);
-			}
-			if(!externalSplitXFile.equals("")){
-				FileAndDirOperations.copyFile(allUserDir + externalSplitXFile, jobDir + externalSplitXFile);
-			}
+			fromDir = allUserDir;
+		}
+		
+		String sdFile = dataset.getSdfFile();
+		String actFile = dataset.getActFile();
+		String xFile = dataset.getXFile();
+		String externalSplitXFile = "ext_0.x";
+		
+		Utility.writeToDebug("Fetching dataset files from " + userFilesDir, userName, "");
+		if(!sdFile.equals("")){
+			FileAndDirOperations.copyFile(fromDir + sdFile, toDir + sdFile);
+		}
+		if(!actFile.equals("")){
+			FileAndDirOperations.copyFile(fromDir + actFile, toDir + actFile);
+		}
+		if(!xFile.equals("")){
+			FileAndDirOperations.copyFile(fromDir + xFile, toDir + xFile);
+		}
+		if(!externalSplitXFile.equals("")){
+			FileAndDirOperations.copyFile(fromDir + externalSplitXFile, toDir + externalSplitXFile);
 		}
 	}
 	
-	public static void GetKnnPredictionFiles(String userName, String jobName, String sdFile, boolean sdfIsAllUser, boolean predictorIsAllUser, String predictorName, String datasetName) throws Exception{
-		//if the user selected a dataset instead of uploading
-		//we need to copy the .SDF they requested into their current dir.
-		String jobDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		String allUserDir = Constants.CECCR_USER_BASE_PATH + "all-users/DATASETS/" + datasetName + "/";
-		String userFilesDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/";
-		
-		Utility.writeToDebug("Called GetKnnPredictionFiles with args: " + userName + " " + jobName + " " + sdFile + " " + sdfIsAllUser + " " + predictorIsAllUser + " " + predictorName + " " + datasetName);
-		//Get the SD file
-		if(! sdfIsAllUser){
-			//copy SDF from the user's DATASETS directory
-			FileAndDirOperations.copyFile(userFilesDir + sdFile, jobDir + sdFile);
-		}
-		else{
-			//get it from the all-users/DATASETS directory
-			FileAndDirOperations.copyFile(allUserDir + sdFile, jobDir + sdFile);
-		}
-		
-		//Get the predictor
+	public static void getPredictorFiles(String userName, Predictor predictor, String toDir) throws Exception{
+		//gathers the predictor files needed for a prediction run
 		String fromDir;
-		String toDir = jobDir;
 		
-		if(predictorIsAllUser){
-			fromDir = Constants.CECCR_USER_BASE_PATH + "all-users/PREDICTORS/" + predictorName;
+		if(predictor.getUserName().equals(userName)){
+			fromDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + predictor.getName();
 		}
 		else{
-			fromDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + predictorName;
+			fromDir = Constants.CECCR_USER_BASE_PATH + "all-users/PREDICTORS/" + predictor.getName();
 		}
-		Utility.writeToDebug("Copying predictor from " + fromDir);
+		Utility.writeToDebug("Copying predictor from " + fromDir, userName, "");
 		FileAndDirOperations.copyDirContents(fromDir, toDir, false);
 	}
 }

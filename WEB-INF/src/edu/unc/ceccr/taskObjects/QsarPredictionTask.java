@@ -39,8 +39,8 @@ import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
 public class QsarPredictionTask implements WorkflowTask {
 
+	ArrayList<PredictionValue> allPredValues = new ArrayList<PredictionValue>();
 	private String filePath;
-	private ArrayList<Pred_Output> allPredValue;
 	private String jobName;
 	private String sdf;
 	private String cutoff;
@@ -111,98 +111,139 @@ public class QsarPredictionTask implements WorkflowTask {
 		
 		//Right... Now, make the prediction with each predictor.
 		//Workflow will be:
-		//0. copy dataset into jobDir.
+		//0. copy dataset into jobDir. 
+		//1. Create each of the descriptor types that will be needed.
 		//for each predictor do {
-		//	1. copy predictor into jobDir/predictorDir
-		//	2. copy dataset from jobDir to jobDir/predictorDir
-		//	3. make predictions in jobDir/predictorDir
-		//	4. get output, put it into predictionValue objects
+		//	2. copy predictor into jobDir/predictorDir
+		//	3. copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.
+		//	4. make predictions in jobDir/predictorDir
+		//	5. get output, put it into predictionValue objects and save them
 		//}
-		//5. move jobDir into PREDICTIONS, save prediction database object, clean up.
+		//6. move jobDir into PREDICTIONS, save prediction database object, clean up.
 		
-		/*
+		
+		//Here we go!
+		//0. copy dataset into jobDir.
 		step = Constants.SETUP;
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		
-		String datasetPath = Constants.CECCR_USER_BASE_PATH;
-		if(predictionDataset.getUserName().equalsIgnoreCase("_all")){
-			datasetPath += "all-users";
-		}
-		else{
-			datasetPath += predictionDataset.getUserName();
-		}
-		datasetPath += "/DATASETS/" + predictionDataset.getFileName() + "/";
-		
-		boolean predictorIsAllUser = selectedPredictor.getUserName().equals(Constants.ALL_USERS_USERNAME);
-		boolean sdfIsAllUser = predictionDataset.getUserName().equals(Constants.ALL_USERS_USERNAME);
-		String sdfile = predictionDataset.getSdfFile();
-		
-		step = Constants.COPYPREDICTOR;
-		GetJobFilesWorkflow.GetKnnPredictionFiles(userName, jobName, sdfile, sdfIsAllUser, predictorIsAllUser, selectedPredictor.getName(), predictionDataset.getFileName());
-
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
-		//create the descriptors for the dataset and read them in
-		ArrayList<String> descriptorNames = new ArrayList<String>();
-		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(path + sdfile);
+		GetJobFilesWorkflow.getDatasetFiles(userName, predictionDataset, path);
 		
-		if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
-			step = Constants.DESCRIPTORS;
-			Utility.writeToDebug("ExecutePredictor: Generating MolconnZ Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".S");
-			
-			step = Constants.PROCDESCRIPTORS;
-			Utility.writeToDebug("ExecutePredictor: Processing MolconnZ Descriptors", userName, jobName);
-			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdfile + ".S", descriptorNames, descriptorValueMatrix);
-		}
-		else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.DRAGON)){
-			step = Constants.DESCRIPTORS;
-			Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
-			
-			step = Constants.PROCDESCRIPTORS;
-			Utility.writeToDebug("ExecutePredictor: Processing Dragon Descriptors", userName, jobName);
-			ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdfile + ".dragon", descriptorNames, descriptorValueMatrix);
-		}
-		else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOE2D)){
-			step = Constants.DESCRIPTORS;
-			Utility.writeToDebug("ExecutePredictor: Generating Moe2D Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdfile, path + sdfile + ".moe2D");
-			
-			step = Constants.PROCDESCRIPTORS;
-			Utility.writeToDebug("ExecutePredictor: Processing Moe2D Descriptors", userName, jobName);
-			ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
-		}
-		else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MACCS)){
-			step = Constants.DESCRIPTORS;
-			Utility.writeToDebug("ExecutePredictor: Generating MACCS Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdfile, path + sdfile + ".maccs");
-			
-			step = Constants.PROCDESCRIPTORS;
-			Utility.writeToDebug("ExecutePredictor: Processing MACCS Descriptors", userName, jobName);
-			ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
-		}
+		//done with 0. (copy dataset into jobDir.)
+		//1. Create each of the descriptor types that will be needed.
+		step = Constants.DESCRIPTORS;
 		
-		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-		WriteDescriptorsFileWorkflow.writePredictionXFile(
-				chemicalNames, 
-				descriptorValueMatrix, 
-				descriptorString, 
-				path + sdfile + ".renorm.x", 
-				path + "train_0.x", 
-				selectedPredictor.getScalingType());
-		
-		step = Constants.PREDICTING;
-		Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
-		KnnPredictionWorkflow.RunKnnPrediction(userName, jobName, sdfile, Float.parseFloat(cutoff) );
+		ArrayList<String> requiredDescriptors = new ArrayList<String>();
+		for(int i = 0; i < selectedPredictors.size(); i++){
+			String descType = selectedPredictors.get(i).getDescriptorGenerationDisplay();
+			if(! requiredDescriptors.contains(descType)){
+				requiredDescriptors.add(descType);
+			}
+		}
 
-		step = Constants.READPRED;
-		this.allPredValue = parsePredOutput(this.filePath + Constants.PRED_OUTPUT_FILE);
-		KnnPredictionWorkflow.MoveToPredictionsDir(userName, jobName);
-		Utility.writeToDebug("ExecPredictorActionTask: Complete", userName, jobName);
+		String sdfile = predictionDataset.getSdfFile();
 		
-		*/
+		for(int i = 0; i < requiredDescriptors.size(); i++){
+			if(requiredDescriptors.get(i).equals(DescriptorEnumeration.MOLCONNZ)){
+				Utility.writeToDebug("ExecutePredictor: Generating MolconnZ Descriptors", userName, jobName);
+				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".mz");
+			}
+			else if(requiredDescriptors.get(i).equals(DescriptorEnumeration.DRAGON)){
+				Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
+				GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
+			}
+			else if(requiredDescriptors.get(i).equals(DescriptorEnumeration.MOE2D)){
+				Utility.writeToDebug("ExecutePredictor: Generating Moe2D Descriptors", userName, jobName);
+				GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdfile, path + sdfile + ".moe2D");
+			}
+			else if(requiredDescriptors.get(i).equals(DescriptorEnumeration.MACCS)){
+				Utility.writeToDebug("ExecutePredictor: Generating MACCS Descriptors", userName, jobName);
+				GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdfile, path + sdfile + ".maccs");
+			}
+		}
+		//done with step 1. (Create each of the descriptor types that will be needed.)
+		
+		//for each predictor do {
+		for(int i = 0; i < selectedPredictors.size(); i++){
+			Predictor selectedPredictor = selectedPredictors.get(i);
+			
+			//	2. copy predictor into jobDir/predictorDir
+			
+			String predictionDir = path + selectedPredictor.getName() + "/";
+			new File(predictionDir).mkdirs();
+			
+			boolean predictorIsAllUser = selectedPredictor.getUserName().equals(Constants.ALL_USERS_USERNAME);
+			step = Constants.COPYPREDICTOR;
+			GetJobFilesWorkflow.getPredictorFiles(userName, selectedPredictor, predictionDir);
+
+			//  done with 2. (copy predictor into jobDir/predictorDir)
+			
+			//	3. copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.
+			FileAndDirOperations.copyDirContents(path, predictionDir, false);
+			ArrayList<String> descriptorNames = new ArrayList<String>();
+			ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+			ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(path + sdfile);
+			
+			step = Constants.PROCDESCRIPTORS;
+			
+			if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
+				Utility.writeToDebug("ExecutePredictor: Processing MolconnZ Descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdfile + ".mz", descriptorNames, descriptorValueMatrix);
+			}
+			else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.DRAGON)){
+				Utility.writeToDebug("ExecutePredictor: Processing Dragon Descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdfile + ".dragon", descriptorNames, descriptorValueMatrix);
+			}
+			else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOE2D)){
+				Utility.writeToDebug("ExecutePredictor: Processing Moe2D Descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
+			}
+			else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MACCS)){
+				Utility.writeToDebug("ExecutePredictor: Processing MACCS Descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
+			}
+			
+			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+			WriteDescriptorsFileWorkflow.writePredictionXFile(
+					chemicalNames, 
+					descriptorValueMatrix, 
+					descriptorString, 
+					path + sdfile + ".renorm.x", 
+					path + "train_0.x", 
+					selectedPredictor.getScalingType());
+			
+			//  done with 3. (copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.)
+			
+			//	4. make predictions in jobDir/predictorDir
+
+			step = Constants.PREDICTING;
+			Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
+			KnnPredictionWorkflow.RunKnnPrediction(userName, jobName, predictionDir, sdfile, Float.parseFloat(cutoff) );
+
+			//  done with 4. (make predictions in jobDir/predictorDir)
+			
+			//	5. get output, put it into predictionValue objects and save them
+			
+			step = Constants.READPRED;
+			ArrayList<PredictionValue> predValues = parsePredOutput(predictionDir + Constants.PRED_OUTPUT_FILE, selectedPredictor.getPredictorId());
+			Utility.writeToDebug("ExecPredictorActionTask: Complete", userName, jobName);
+			
+			allPredValues.addAll(predValues);
+			
+			//  done with 5. (get output, put it into predictionValue objects and save them)
+			
+		}
+		//}
+		
+		//6. move jobDir into PREDICTIONS, save prediction database object, clean up.
+
+		KnnPredictionWorkflow.MoveToPredictionsDir(userName, jobName);
+		
+		//  done with 6. (move jobDir into PREDICTIONS, save prediction database object, clean up.)
+		
+		
 	}
 	
 	protected static Predictor getPredictor(
@@ -226,28 +267,28 @@ public class QsarPredictionTask implements WorkflowTask {
 		return pred;
 	}
 	
-	private static Pred_Output createPredObject(String[] extValues) {
+	private static PredictionValue createPredObject(String[] extValues) {
 
 		if (extValues == null) {
 			return null;
 		}
 		int arraySize = extValues.length;
 		
-		Pred_Output predOutput = new Pred_Output();
-		predOutput.setCompoundID(extValues[0]);
-		predOutput.setNumOfModels(extValues[1]);
-		predOutput.setPredictedValue(extValues[2]);
+		PredictionValue predOutput = new PredictionValue();
+		predOutput.setCompoundName(extValues[0]);
+		predOutput.setNumModelsUsed(Integer.parseInt(extValues[1]));
+		predOutput.setPredictedValue(Float.parseFloat(extValues[2]));
 		if (arraySize > 3){
-			predOutput.setStandardDeviation(extValues[3]);
+			predOutput.setStandardDeviation(Float.parseFloat(extValues[3]));
 		}
 		return predOutput;
 
 	}
 	
     @SuppressWarnings("unchecked")
-	public static ArrayList<Pred_Output> parsePredOutput(String fileLocation) throws IOException {
+	public static ArrayList<PredictionValue> parsePredOutput(String fileLocation, Long predictorId) throws IOException {
 		Utility.writeToDebug("Reading prediction output from " + fileLocation);
-		ArrayList<Pred_Output> allPredValue = new ArrayList<Pred_Output>();
+		ArrayList<PredictionValue> allPredValue = new ArrayList<PredictionValue>();
 		try{
 			BufferedReader in = new BufferedReader(new FileReader(fileLocation));
 			String inputString;
@@ -262,7 +303,7 @@ public class QsarPredictionTask implements WorkflowTask {
 			//now we're at the data we need
 			do {
 				String[] predValues = inputString.split("\\s+");
-				Pred_Output extValOutput = createPredObject(predValues);
+				PredictionValue extValOutput = createPredObject(predValues);
 				allPredValue.add(extValOutput);
 			} while ((inputString = in.readLine()) != null);
 		} catch(Exception ex){
@@ -277,10 +318,6 @@ public class QsarPredictionTask implements WorkflowTask {
 		
 	public void cleanUp() throws Exception {
 		Queue.getInstance().deleteTask(this);
-	}
-
-	public ArrayList getAllPredValue() {
-		return this.allPredValue;
 	}
 
 	public void setUp() throws Exception {
@@ -312,14 +349,14 @@ public class QsarPredictionTask implements WorkflowTask {
 		predictionJob.setStatus("NOTSET");
 		predictionJob.setDatasetId(predictionDataset.getFileId());
 
-		if(this.allPredValue == null){
+		if(this.allPredValues == null){
 			Utility.writeToDebug("Warning: allPredValue is null.");
 		}
 		else{
 			Utility.writeToDebug("Saving prediction to database.");
 		}
 		
-		for (Pred_Output predOutput : this.allPredValue){
+		for (Pred_Output predOutput : this.allPredValues){
 			
 			PredictionValue predValue = new PredictionValue();
 
