@@ -30,7 +30,6 @@
 		</span>
 	</tr>
 	
-	
 	<!-- Header Info -->
 		<table width="924" align="center">
 			<tr>
@@ -47,6 +46,47 @@
 				<td class="TableRowText02"><s:property value="selectedPrediction.datasetDisplay" /></td>
 				<td class="TableRowText02"><s:property value="selectedPrediction.similarityCutoff" /></td>
 			</tr>
+		</table>
+		<br />
+		
+		<table width="924" align="center">
+			<tr><td>
+			<table>
+				<tr>
+				<!-- header for left side table -->
+				<td>Compound ID</td>
+				<td>Structure</td>
+				</tr>
+				<!-- body for left side table -->
+				<s:iterator value="compounds" status="compoundsStatus">
+					<tr>
+						<td><s:property /></td>
+						<td>
+							<a href="#" onclick="window.open('compound3D?compoundId=<s:property />&project=<s:property value="prediction.jobName" />&projectType=predictor&user=<s:property value="user.userName" />&datasetID=<s:property value="prediction.datasetId" />, '<% new java.util.Date().getTime(); %>','width=350, height=350');">
+							<img src="/imageServlet?user=<s:property value="user.userName" />&projectType=predictor&compoundId=<bean:write name='predictionOutput' property='compoundName' />&project=<s:property value="prediction.jobName" />&datasetID=<s:property value="prediction.datasetId" />" border="0"/></a>
+						</td>
+					</tr>
+				</s:iterator>
+			</table>
+			</td><td>
+			<table STYLE="overflow: scroll">
+				<tr>
+				<!-- header for right side table -->
+				<s:iterator value="predictors" status="predictorsStatus">
+				<td><s:property value="name" />: Prediction</td>
+				<td><s:property value="name" />: # Models</td>
+				</s:iterator>
+				</tr>
+				<!-- body for right side table -->
+				<s:iterator value="compounds" status="modelsStatus">
+					<tr>
+					<s:iterator value="predictionValues" status="predictionValuesStatus">
+					<td><!-- prediction value +/- stddev --></td>
+					<td><!-- number of models in prediction --></td>
+					</s:iterator>
+					</tr>
+				</s:iterator>
+			</table>
 		</table>
 	<!-- End Header Info -->
 	

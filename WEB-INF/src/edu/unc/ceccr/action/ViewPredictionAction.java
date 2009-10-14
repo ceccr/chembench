@@ -39,9 +39,11 @@ import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 public class ViewPredictionAction extends ActionSupport {
 	
 	private User user;
-	private Prediction selectedPrediction;
 	private String predictionId;
-	
+	private Prediction prediction;
+	private List<Predictor> predictors;
+	private List<String> compounds; //list of compoundIds for display & image requests
+
 	public String loadPage() throws Exception {
 
 		String result = SUCCESS;
@@ -67,10 +69,15 @@ public class ViewPredictionAction extends ActionSupport {
 			}
 			else{
 				Utility.writeToStrutsDebug("prediction id: " + predictionId);
-				selectedPrediction = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
-				selectedPrediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(selectedPrediction.getDatasetId(), session).getFileName());
+				prediction = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
+				prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getFileName());
 				if(predictionId == null){
 					Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
+				}
+				predictors = new ArrayList<Predictor>();
+				String[] predictorIds = prediction.getPredictorIds().split("\\s+");
+				for(int i = 0; i < predictorIds.length; i++){
+					predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
 				}
 			}
 		}
@@ -89,11 +96,31 @@ public class ViewPredictionAction extends ActionSupport {
 	}
 
 	
-
-	public Prediction getSelectedPrediction() {
-		return selectedPrediction;
+	public String getPredictionId() {
+		return predictionId;
 	}
-	public void setSelectedPrediction(Prediction selectedPrediction) {
-		this.selectedPrediction = selectedPrediction;
+	public void setPredictionId(String predictionId) {
+		this.predictionId = predictionId;
+	}
+
+	public Prediction getPrediction() {
+		return prediction;
+	}
+	public void setPrediction(Prediction prediction) {
+		this.prediction = prediction;
+	}
+
+	public List<Predictor> getPredictors() {
+		return predictors;
+	}
+	public void setPredictors(List<Predictor> predictors) {
+		this.predictors = predictors;
+	}
+	
+	public List<String> getCompounds() {
+		return compounds;
+	}
+	public void setCompounds(List<String> compounds) {
+		this.compounds = compounds;
 	}
 }
