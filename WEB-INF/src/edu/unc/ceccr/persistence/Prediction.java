@@ -69,7 +69,7 @@ public class Prediction implements java.io.Serializable{
 	@Transient
 	//this needs to be manually set before it can be returned
 	//since it does not correspond to any database field
-	public String getDatasetDisplay() {
+	public String getDatasetDisplay() { //the name of the *dataset* being predicted
 		return datasetDisplay;
 	}
 
@@ -88,7 +88,7 @@ public class Prediction implements java.io.Serializable{
 		this.predictionId = predictionId;
 	}
 	
-	@Column(name = "prediction_database")
+	@Column(name = "prediction_database") //the name of the *SDF* being predicted
 	public String getDatabase() {
 		return database;
 	}

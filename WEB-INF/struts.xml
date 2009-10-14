@@ -109,6 +109,12 @@
         </action>
         <!-- End View Predictor Page -->
         
+        <!-- View Prediction Page -->
+        <action name="viewPrediction" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
+        	<result>jsp/modeling/viewPredictor.jsp</result>
+        </action>
+        <!-- End View Prediction Page -->
+        
         <!-- Servlet forwards -->
         <!-- these will forward to a path defined in web.xml. -->
         <action name="imageServlet">

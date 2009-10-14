@@ -68,7 +68,7 @@ public class ViewPredictionAction extends ActionSupport {
 			else{
 				Utility.writeToStrutsDebug("prediction id: " + predictionId);
 				selectedPrediction = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
-				
+				selectedPrediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(selectedPrediction.getDatasetId(), session).getFileName());
 				if(predictionId == null){
 					Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
 				}
@@ -88,4 +88,12 @@ public class ViewPredictionAction extends ActionSupport {
 		return result;
 	}
 
+	
+
+	public Prediction getSelectedPrediction() {
+		return selectedPrediction;
+	}
+	public void setSelectedPrediction(Prediction selectedPrediction) {
+		this.selectedPrediction = selectedPrediction;
+	}
 }
