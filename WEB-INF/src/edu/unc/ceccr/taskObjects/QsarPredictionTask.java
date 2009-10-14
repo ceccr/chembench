@@ -108,7 +108,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 
 		
-		//Right... Now, make the prediction with each predictor.
+		//Now, make the prediction with each predictor.
 		//Workflow will be:
 		//0. copy dataset into jobDir. 
 		//1. Create each of the descriptor types that will be needed.
@@ -118,7 +118,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		//	4. make predictions in jobDir/predictorDir
 		//	5. get output, put it into predictionValue objects and save them
 		//}
-		//6. move jobDir into PREDICTIONS, save prediction database object, clean up.
+		//6. move jobDir into PREDICTIONS.
 		
 		
 		//Here we go!
@@ -129,8 +129,8 @@ public class QsarPredictionTask implements WorkflowTask {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
 		GetJobFilesWorkflow.getDatasetFiles(userName, predictionDataset, path);
-		
 		//done with 0. (copy dataset into jobDir.)
+		
 		//1. Create each of the descriptor types that will be needed.
 		step = Constants.DESCRIPTORS;
 		
@@ -235,12 +235,11 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 		//}
 		
-		//6. move jobDir into PREDICTIONS, save prediction database object, clean up.
+		//6. move jobDir into PREDICTIONS.
 
 		KnnPredictionWorkflow.MoveToPredictionsDir(userName, jobName);
 		
-		//  done with 6. (move jobDir into PREDICTIONS, save prediction database object, clean up.)
-		
+		//done with 6. (move jobDir into PREDICTIONS.)
 		
 	}
 	
@@ -337,7 +336,6 @@ public class QsarPredictionTask implements WorkflowTask {
 
 	public void save(){
 		try{
-		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
 		Prediction predictionJob = new Prediction();
 		predictionJob.setDatabase(this.sdf);
 		predictionJob.setUserName(this.userName);
@@ -355,35 +353,10 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 		
 		for (PredictionValue predOutput : this.allPredValues){
-			
-			PredictionValue predValue = new PredictionValue();
-
-			predValue.setCompoundName(predOutput.getCompoundName());
-			
-			try{
-				predValue.setNumModelsUsed(new Integer(predOutput.getNumModelsUsed()));	
-				
-			}catch (NumberFormatException e){
-				predValue.setNumModelsUsed(0);	
-			}
-			
-			if (predOutput.getStandardDeviation() != null){
-				try{
-					predValue.setStandardDeviation(new Float(predOutput.getStandardDeviation()));
-					
-				}catch (NumberFormatException e){
-					predValue.setStandardDeviation(null);	
-				}
-			}else{
-				predValue.setStandardDeviation(null);	
-			}
-
-			predValue.setPredictionJob(predictionJob);
-			predictionValues.add(predValue);
-		
+			predOutput.setPredictionJob(predictionJob);
 		}
 		
-		predictionJob.setPredictedValues(new ArrayList<PredictionValue>(predictionValues));
+		predictionJob.setPredictedValues(new ArrayList<PredictionValue>(allPredValues));
 
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;

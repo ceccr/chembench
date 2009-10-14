@@ -38,6 +38,14 @@ import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 
 public class ViewPredictorAction extends ActionSupport {
 
+	private User user;
+	private Predictor selectedPredictor;
+	private String predictorId;
+	private List<Model> models;
+	private List<Model> randomModels;
+	private List<ExternalValidation> externalValValues;
+	private List<String> residuals;
+	
 	public String loadPage() throws Exception {
 
 		String result = SUCCESS;
@@ -124,13 +132,6 @@ public class ViewPredictorAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
-	private User user;
-	private Predictor selectedPredictor;
-	private String predictorId;
-	private List<Model> models;
-	private List<Model> randomModels;
-	private List<ExternalValidation> externalValValues;
-	private List<String> residuals;
 	
 	private String dataType;
 	
