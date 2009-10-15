@@ -30,7 +30,7 @@
 		</span>
 	</tr>
 	
-	<!-- Header Info -->
+	<!-- Predictions -->
 		<table width="924" align="center">
 			<tr>
 				<td class="TableRowText01">Prediction Name</td>
@@ -78,22 +78,17 @@
 				</s:iterator>
 				</tr>
 				<!-- body for right side table -->
-				<s:iterator value="compounds" status="modelsStatus">
+				<s:iterator value="compoundPredictionValues" status="compoundPredictionValuesStatus">
 					<tr>
-					<s:iterator value="predictionValues" status="predictionValuesStatus">
-					<td><!-- prediction value +/- stddev --></td>
-					<td><!-- number of models in prediction --></td>
+					<s:iterator value="<s:property/>" status="compoundPredictionValuesStatus2">
+					<td><s:property/> +/- <s:property/><!-- prediction value +/- stddev --></td>
+					<td><s:property/><!-- number of models in prediction --></td>
 					</s:iterator>
 					</tr>
 				</s:iterator>
 			</table>
 		</table>
-	<!-- End Header Info -->
-	
-	<!-- Predictions For Each Compound -->	
-	
-	<!-- End Predictions For Each Compound -->	
-	
+	<!-- End Predictions -->
 	
 <%@include file ="/jsp/main/footer.jsp" %>
 </table>

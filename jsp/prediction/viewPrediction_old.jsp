@@ -61,13 +61,11 @@ function order(item)
 		</span>
 	</tr>
 	
-	
 	<tr>
 		<span id="maincontent">
 		<td  colspan="5" valign="top"
 			background="theme/img/backgrpredictors.jpg">
 			
-		
 		<br />
 		<table width="924" align="center">
 			<tr>

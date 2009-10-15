@@ -20,6 +20,7 @@ import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.ModelingTask;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionTask;
+import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.VisualizationTask;
@@ -28,6 +29,12 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class PopulateDataObjects {
 
+	public static List getPredictionValuesByPredictionIdAndCompoundId(){
+		List<PredictionValue> predictionValues = null;
+		
+		
+		return predictionValues;
+	}
 
 	@SuppressWarnings("unchecked")
 	public static List populateDatasetsForPrediction(String userName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{

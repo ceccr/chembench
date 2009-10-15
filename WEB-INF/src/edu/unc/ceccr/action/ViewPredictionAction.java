@@ -25,6 +25,7 @@ import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.Prediction;
+import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
@@ -41,9 +42,51 @@ public class ViewPredictionAction extends ActionSupport {
 	private User user;
 	private String predictionId;
 	private Prediction prediction;
-	private List<Predictor> predictors;
-	private List<String> compounds; //list of compoundIds for display & image requests
+	private List<Predictor> predictors; //put these in order by predictorId
+	private DataSet dataset; //dataset used in prediction
+	ArrayList<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
+	
+	class CompoundPredictions{
+		String compound;
+		ArrayList<PredictionValue> predictionValues;
 
+		public String getCompound() {
+			return compound;
+		}
+		public void setCompound(String compound) {
+			this.compound = compound;
+		}
+		public ArrayList<PredictionValue> getPredictionValues() {
+			return predictionValues;
+		}
+		public void setPredictionValues(ArrayList<PredictionValue> predictionValues) {
+			this.predictionValues = predictionValues;
+		}
+	}
+	
+	private void populateCompoundPredictionValues(String orderBy, String pageNumber, String compoundsPerPage, Session session){
+		
+		//get compounds
+		String predictionDir = Constants.CECCR_USER_BASE_PATH + "/PREDICTIONS/" + prediction.getJobName() + "/";
+		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
+		
+		for(int i = 0; i < compounds.size(); i++){
+			CompoundPredictions cp;
+			cp.compound = compounds.get(i);
+			//get prediction values
+			cp.predictionValues = PopulateDataObjects.getPredictionValuesByPredictionIdAndCompoundId(predictionId, session);
+			compoundPredictionValues.add(cp);
+		}
+		
+		//sort the compound predictions array
+		if(orderBy.equals("")){
+			//sort by compoundId
+		}
+			
+		//pick out the ones to be displayed on the page based on orderBy, pageNumber, and compoundsPerPage
+		
+	}
+	
 	public String loadPage() throws Exception {
 
 		String result = SUCCESS;
@@ -74,11 +117,18 @@ public class ViewPredictionAction extends ActionSupport {
 				if(predictionId == null){
 					Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
 				}
+				
+				//get predictors for this prediction
 				predictors = new ArrayList<Predictor>();
 				String[] predictorIds = prediction.getPredictorIds().split("\\s+");
 				for(int i = 0; i < predictorIds.length; i++){
 					predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
 				}
+				
+				//get dataset
+				dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
+				
+				//get compounds for the predicted dataset
 			}
 		}
 
@@ -116,11 +166,26 @@ public class ViewPredictionAction extends ActionSupport {
 	public void setPredictors(List<Predictor> predictors) {
 		this.predictors = predictors;
 	}
-	
-	public List<String> getCompounds() {
-		return compounds;
+		
+	public User getUser() {
+		return user;
 	}
-	public void setCompounds(List<String> compounds) {
-		this.compounds = compounds;
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public DataSet getDataset() {
+		return dataset;
+	}
+	public void setDataset(DataSet dataset) {
+		this.dataset = dataset;
+	}
+	
+	public ArrayList<CompoundPredictions> getCompoundPredictionValues() {
+		return compoundPredictionValues;
+	}
+	public void setCompoundPredictionValues(
+			ArrayList<CompoundPredictions> compoundPredictionValues) {
+		this.compoundPredictionValues = compoundPredictionValues;
 	}
 }
