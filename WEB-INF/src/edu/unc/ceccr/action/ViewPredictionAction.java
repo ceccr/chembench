@@ -74,7 +74,7 @@ public class ViewPredictionAction extends ActionSupport {
 			CompoundPredictions cp;
 			cp.compound = compounds.get(i);
 			//get prediction values
-			cp.predictionValues = PopulateDataObjects.getPredictionValuesByPredictionIdAndCompoundId(predictionId, session);
+	//		cp.predictionValues = PopulateDataObjects.getPredictionValuesByPredictionIdAndCompoundId(predictionId, session);
 			compoundPredictionValues.add(cp);
 		}
 		
