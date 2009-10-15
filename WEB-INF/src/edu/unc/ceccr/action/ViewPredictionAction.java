@@ -68,7 +68,7 @@ public class ViewPredictionAction extends ActionSupport {
 		
 		//get compounds
 		String predictionDir = Constants.CECCR_USER_BASE_PATH + "/PREDICTIONS/" + prediction.getJobName() + "/";
-		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
+	/*	ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
 		
 		for(int i = 0; i < compounds.size(); i++){
 			CompoundPredictions cp;
@@ -82,7 +82,7 @@ public class ViewPredictionAction extends ActionSupport {
 		if(orderBy.equals("")){
 			//sort by compoundId
 		}
-			
+		*/	
 		//pick out the ones to be displayed on the page based on orderBy, pageNumber, and compoundsPerPage
 		
 	}
