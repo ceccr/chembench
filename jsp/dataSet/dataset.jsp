@@ -232,7 +232,6 @@
 		<tr>
 			<td></td>
 			<td align="left">
-			<s:submit /> <br />
 			<input name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('datasetName').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ submitForm(this,document.getElementById('datasetName').value); }" value="Create Dataset" type="button" />
 			</td>
 		</tr>

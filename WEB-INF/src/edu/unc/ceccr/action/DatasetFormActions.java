@@ -117,6 +117,26 @@ public class DatasetFormActions extends ActionSupport{
 		
 		if(datasetType.equalsIgnoreCase(Constants.MODELING)){
 			Utility.writeToDebug("type: " + datasetType);
+
+			if(sdfFileModeling == null){
+				Utility.writeToDebug("sdf file is null");
+			}
+			else{
+				Utility.writeToDebug("sdf file is good");
+			}
+			if(sdfFileModelingContentType == ""){
+				Utility.writeToDebug("sdf file is empty");
+			}
+			else{
+				Utility.writeToDebug("sdf file is " + sdfFileModelingContentType);
+			}
+			if(sdfFileModelingFileName == ""){
+				Utility.writeToDebug("sdf file is empty");
+			}
+			else{
+				Utility.writeToDebug("sdf file is " + sdfFileModelingFileName);
+			}
+			
 			//do file check
 			if(sdfFileModeling == null || actFileModeling == null){
 				errorString += "File upload failed or no files supplied.";

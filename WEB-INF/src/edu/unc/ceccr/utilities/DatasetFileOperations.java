@@ -348,16 +348,19 @@ public class DatasetFileOperations {
 					}
 					catch(Exception ex){
 						//second thing isn't a number -- line was a header!
+						Utility.writeToDebug("is a header: " + temp + " {" + temp.split("\\s+")[1].trim() + "}");
 						firstLineContainsHeader = true;
 					}
 				}
 				else{
 					//contains more than 2 things -- it was a header!
+					Utility.writeToDebug("is a header 2: " + temp);
 					firstLineContainsHeader = true;
 				}
 			}
 			
 			if(! firstLineContainsHeader){
+				Utility.writeToDebug("not a header: " + temp);
 				sb.append(temp + "\n");
 			}
 			
