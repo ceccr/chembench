@@ -29,7 +29,7 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class PopulateDataObjects {
 
-	public static List getPredictionValuesByPredictionIdAndCompoundId(){
+	public static List<PredictionValue> getPredictionValuesByPredictionIdAndCompoundId(String predictionId, String compoundId, Session session){
 		List<PredictionValue> predictionValues = null;
 		
 		
