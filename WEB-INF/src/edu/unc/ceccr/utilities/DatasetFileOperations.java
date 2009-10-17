@@ -344,7 +344,7 @@ public class DatasetFileOperations {
 				temp = src.nextLine();
 				if(temp.split("\\s+").length == 2){
 					try{
-						Long.parseLong(temp.split("\\s+")[1].trim());
+						Float.parseFloat(temp.split("\\s+")[1].trim());
 					}
 					catch(Exception ex){
 						//second thing isn't a number -- line was a header!
