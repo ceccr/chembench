@@ -29,10 +29,26 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class PopulateDataObjects {
 
-	public static List<PredictionValue> getPredictionValuesByPredictionIdAndCompoundId(String predictionId, String compoundId, Session session){
-		List<PredictionValue> predictionValues = null;
-		
-		
+	@SuppressWarnings("unchecked")
+	public static List<PredictionValue> getPredictionValuesByPredictionIdAndCompoundId(Long predictionId, 
+			String compoundId, Session session) throws Exception{
+		ArrayList<PredictionValue> predictionValues = null; //will contain all predvalues for this compound
+		Prediction p = PopulateDataObjects.getPredictionById(predictionId, session);
+		Transaction tx = null;
+		try
+		{
+			tx = session.beginTransaction();
+			predictionValues = (ArrayList<PredictionValue>) session.createCriteria(PredictionValue.class)
+			.add(Expression.eq("compoundName", compoundId))
+			.add(Expression.eq("predictionJob", p))
+			.addOrder(Order.asc("predictorId"))
+			.list();
+		} catch (Exception ex) {
+			Utility.writeToDebug(ex);
+			if (tx != null)
+				tx.rollback();
+		} 
+				
 		return predictionValues;
 	}
 
@@ -311,7 +327,8 @@ public class PopulateDataObjects {
  			tx = session.beginTransaction();
  			if(onlySaved) ADMEToxPredictors = session.createCriteria(Predictor.class)
  							.add(Expression.eq("predictorType", "ADMETox"))
- 							.add(Expression.eq("status","saved")).list();
+ 							.add(Expression.eq("status","saved"))
+ 							.addOrder(Order.asc("name")).list();
  			else ADMEToxPredictors = session.createCriteria(Predictor.class)
 				.add(Expression.eq("predictorType", "ADMETox"))
 				.list();
@@ -330,7 +347,8 @@ public class PopulateDataObjects {
  			tx = session.beginTransaction();
  			if(onlySaved) DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
  							.add(Expression.eq("predictorType", "DrugDiscovery"))
- 							.add(Expression.eq("status","saved")).list();
+ 							.add(Expression.eq("status","saved"))
+ 							.addOrder(Order.asc("name")).list();
  			else DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
 				.add(Expression.eq("predictorType", "DrugDiscovery"))
 				.list();
@@ -366,10 +384,11 @@ public class PopulateDataObjects {
 				tx = session.beginTransaction();
 				if(onlySaved) predictions = session.createCriteria(Prediction.class)
 							.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
-							.add(Expression.eq("status","saved")).list();
+							.add(Expression.eq("status","saved"))
+							.addOrder(Order.asc("jobName")).list();
 				else predictions = session.createCriteria(Prediction.class)
 				.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
-				.list();
+				.addOrder(Order.asc("jobName")).list();
 				tx.commit();
 			} catch (Exception e) {
 				Utility.writeToDebug(e);
@@ -602,7 +621,8 @@ public class PopulateDataObjects {
 			{
 				tx = session.beginTransaction();
 				tasks = session.createCriteria(QueueTask.class).add(
-						Expression.eq("userName", userName)).list();
+						Expression.eq("userName", userName))
+						.list();
 				tx.commit();
 			} catch (Exception e) {
 				Utility.writeToDebug(e);

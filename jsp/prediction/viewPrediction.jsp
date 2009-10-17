@@ -58,12 +58,12 @@
 				<td>Structure</td>
 				</tr>
 				<!-- body for left side table -->
-				<s:iterator value="compounds" status="compoundsStatus">
+				<s:iterator value="compoundPredictionValues" status="compoundsStatus">
 					<tr>
-						<td><s:property /></td>
+						<td><s:property value="compound" /></td>
 						<td>
-							<a href="#" onclick="window.open('compound3D?compoundId=<s:property />&project=<s:property value="prediction.jobName" />&projectType=predictor&user=<s:property value="user.userName" />&datasetID=<s:property value="prediction.datasetId" />, '<% new java.util.Date().getTime(); %>','width=350, height=350');">
-							<img src="/imageServlet?user=<s:property value="user.userName" />&projectType=predictor&compoundId=<bean:write name='predictionOutput' property='compoundName' />&project=<s:property value="prediction.jobName" />&datasetID=<s:property value="prediction.datasetId" />" border="0"/></a>
+							<a href="#" onclick="window.open('compound3D?compoundId=<s:property value="compound" />&project=<s:property value="prediction.jobName" />&projectType=predictor&user=<s:property value="user.userName" />&datasetID=<s:property value="prediction.datasetId" />, '<% new java.util.Date().getTime(); %>','width=350, height=350');">
+							<img src="/imageServlet?user=<s:property value="compound" value="user.userName" />&projectType=predictor&compoundId=<bean:write name='predictionOutput' property='compoundName' />&project=<s:property value="prediction.jobName" />&datasetID=<s:property value="prediction.datasetId" />" border="0"/></a>
 						</td>
 					</tr>
 				</s:iterator>
@@ -78,11 +78,12 @@
 				</s:iterator>
 				</tr>
 				<!-- body for right side table -->
+				<!-- I bet this will have a bug: if some predictor doesn't make one of the predictions then there will be missing information which will upset the other outputs -->
 				<s:iterator value="compoundPredictionValues" status="compoundPredictionValuesStatus">
 					<tr>
-					<s:iterator value="<s:property/>" status="compoundPredictionValuesStatus2">
-					<td><s:property/> +/- <s:property/><!-- prediction value +/- stddev --></td>
-					<td><s:property/><!-- number of models in prediction --></td>
+					<s:iterator value="predictionValues" status="predictionValuesStatus">
+					<td><s:property value="predictedValue" /> +/- <s:property value="standardDeviation" /><!-- prediction value +/- stddev --></td>
+					<td><s:property  value="numModelsUsed" /><!-- number of models in prediction --></td>
 					</s:iterator>
 					</tr>
 				</s:iterator>

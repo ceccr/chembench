@@ -64,17 +64,17 @@ public class ViewPredictionAction extends ActionSupport {
 		}
 	}
 	
-	private void populateCompoundPredictionValues(String orderBy, String pageNumber, String compoundsPerPage, Session session){
+	private void populateCompoundPredictionValues(String orderBy, String pageNumber, String compoundsPerPage, Session session) throws Exception{
 		
 		//get compounds
 		String predictionDir = Constants.CECCR_USER_BASE_PATH + "/PREDICTIONS/" + prediction.getJobName() + "/";
 		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
 		
 		for(int i = 0; i < compounds.size(); i++){
-			CompoundPredictions cp;
+			CompoundPredictions cp = new CompoundPredictions();
 			cp.compound = compounds.get(i);
 			//get prediction values
-			cp.predictionValues = PopulateDataObjects.getPredictionValuesByPredictionIdAndCompoundId(predictionId, cp.compound, session);
+			cp.predictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionIdAndCompoundId(Long.parseLong(predictionId), cp.compound, session);
 			compoundPredictionValues.add(cp);
 		}
 		
