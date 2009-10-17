@@ -87,7 +87,6 @@ public class Queue {
 					//if the user's an admin, just let the job run - no permission required.
 					if(! Utility.isAdmin(userName)){	
 						this.setState(State.PermissionRequired);
-						Utility.writeToDebug("constructor");
 						
 						try{
 							instance.saveTaskRecord(this);
@@ -134,7 +133,6 @@ public class Queue {
 
 		public void saveTask(){
 			//saves the task into the database (in cbench_task table)
-			Utility.writeToDebug("saveTask");
 			try{
 			instance.saveTaskRecord(this);}
 			catch(SQLException e){
@@ -318,7 +316,7 @@ public class Queue {
 	//////////////////////////////////////////////////////////////////////////////////////////////
 
 	public static ConcurrentLinkedQueue<QueueTask> queue = new ConcurrentLinkedQueue<QueueTask>();
-	public static ConcurrentLinkedQueue<QueueTask> finished = new ConcurrentLinkedQueue<QueueTask>();
+	public static ConcurrentLinkedQueue<QueueTask> errorqueue = new ConcurrentLinkedQueue<QueueTask>();
 	public static Queue instance = new Queue();
 	
 	public Collection<QueueTask> getTasks() { return queue; }
@@ -431,7 +429,6 @@ public class Queue {
 						resetFlagSet();
 
 						runningTask = null;
-						//finished.add(t);
 						
 						for(QueueTask ta : queue){
 							if(ta.jobName.equals(t.jobName) && ta.userName.equals(t.userName)){
@@ -442,6 +439,7 @@ public class Queue {
 					} catch (Exception e) {
 						Utility.writeToDebug(e);
 						t.setState(QueueTask.State.error);
+						errorqueue.add(t);
 					}
 				}
 				
@@ -480,10 +478,8 @@ public class Queue {
 		return t.getState();
 	}
 
-	protected void saveTaskRecord(QueueTask t) throws HibernateException,	ClassNotFoundException, SQLException {
+	protected void saveTaskRecord(QueueTask t) throws HibernateException, ClassNotFoundException, SQLException {
 		Utility.writeToDebug("saveTaskRecord");
-		Utility.writeToDebug("task: " + t.jobName);
-		
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
@@ -497,7 +493,6 @@ public class Queue {
 		} finally {
 			s.close();
 		}
-		Utility.writeToDebug("done saveTaskRecord");
 	}
 	
 	protected void resetFlagSet() {
@@ -531,12 +526,12 @@ public class Queue {
 			}
 		}
 		
-		for (Iterator<QueueTask> i = finished.iterator(); i.hasNext( ); ) {
+		for (Iterator<QueueTask> i = errorqueue.iterator(); i.hasNext( ); ) {
 			QueueTask task = i.next( );
 			if(t.id.compareTo(task.id) == 0)
 			{
 				Utility.writeToDebug("removing " + t.jobName);
-				if(finished.remove(task)){
+				if(errorqueue.remove(task)){
 					Utility.writeToDebug("removed task.");
 				}
 				else{
@@ -607,7 +602,7 @@ public class Queue {
 			if(t.state==QueueTask.State.finished || t.state==QueueTask.State.error)
 			{
 				//Utility.writeToDebug("Adding job " + t.jobName + " to finished.");
-				finished.add(t);
+				errorqueue.add(t);
 			}
 			else{
 				//Utility.writeToDebug("Adding job " + t.jobName + " to queue.");
@@ -665,13 +660,13 @@ public class Queue {
 	
 	public List<QueueTask> getUserTasks(String userName) {
 		List<QueueTask> ls = new LinkedList<QueueTask>();
-		finished.clear();
+		errorqueue.clear();
 		try{
 			loadTaskRecords();
 		}catch(Exception e){
 			Utility.writeToDebug(e);
 		}
-		for (QueueTask t : finished) {
+		for (QueueTask t : errorqueue) {
 			if (t.getUserName().equals(userName)) {
 				if(t.getState().equals(QueueTask.State.finished) || t.getState().equals(QueueTask.State.error))
 				{ls.add(t);}
@@ -690,7 +685,7 @@ public class Queue {
 	public void deleteTask(WorkflowTask task) {
 		QueueTask del = null;
 		Utility.writeToDebug("Looking for task in 'finished' queue.");
-		for (QueueTask t : finished) {
+		for (QueueTask t : errorqueue) {
 			if (t.task == task)
 				del = t;
 		}
@@ -714,7 +709,7 @@ public class Queue {
 			runningTask = null;
 		}
 		else if (del != null) {
-			finished.remove(del);
+			errorqueue.remove(del);
 			try {
 				deleteTaskRecord(del);
 			} catch (HibernateException e) {
@@ -731,7 +726,7 @@ public class Queue {
 	
 	public void deleteTask(QueueTask task) {
 		if (task != null) {
-			finished.remove(task);
+			errorqueue.remove(task);
 			Utility.writeToDebug("DeleteTask: " + task.id);
 			try {
 				if(task.getState() == QueueTask.State.PermissionRequired){

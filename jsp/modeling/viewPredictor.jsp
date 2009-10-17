@@ -63,10 +63,10 @@
 		<p class="StandardTextDarkGray"><b><u>Modeling Results</u></b></p>
 		<s:if test="models.size==0">
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-				<br/><br/><b class="StandardTextDarkGray">No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.</b><br/><br/
+				<br/><b class="StandardTextDarkGray">No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.</b><br/><br/>
 			</s:if>
 			<s:else>
-				<br/><br/><b class="StandardTextDarkGray">No models were generated.</b><br/><br/
+				<b class="StandardTextDarkGray">No models were generated.</b><br/><br/>
 			</s:else>
 		</s:if>
 		<s:else>

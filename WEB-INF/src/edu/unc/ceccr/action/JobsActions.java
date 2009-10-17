@@ -72,13 +72,11 @@ public class JobsActions extends ActionSupport {
 			QueueTask qt = runningTasks.next();
 			userQueueTasks.add(qt);
 		}
-		Iterator<QueueTask> finishedTasks = Queue.finished.iterator();
-		while(finishedTasks.hasNext()){
-			QueueTask qt = finishedTasks.next();
-			//if(qt.getState().compareTo(QueueTask.State.finished) != 0){
-				//finished tasks are handled elsewhere on the page. (Actually they shouldn't exist as tasks... but we'll fix that later.)
-				userQueueTasks.add(qt);
-			//}
+		Iterator<QueueTask> errorTasks = Queue.errorqueue.iterator();
+		while(errorTasks.hasNext()){
+			QueueTask qt = errorTasks.next();
+			qt.setState(QueueTask.State.error);
+			userQueueTasks.add(qt);
 		}	
 		
 		//log the results
