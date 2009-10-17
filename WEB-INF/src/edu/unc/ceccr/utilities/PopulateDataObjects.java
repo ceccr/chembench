@@ -17,13 +17,10 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Model;
-import edu.unc.ceccr.persistence.ModelingTask;
 import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.PredictionTask;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.VisualizationTask;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -703,82 +700,4 @@ public class PopulateDataObjects {
 		return task;
 	}
 
-	@SuppressWarnings("unchecked")
-	public static List<Long> getModelingTasksIdByDatasetId(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException {
-		List<ModelingTask> mTasks = null;
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			mTasks = session.createCriteria(ModelingTask.class)
-					.add(Expression.eq("datasetId", id))
-					.list();
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} 
-		if(mTasks!=null){
-			List<Long> ids = new ArrayList<Long>();
-			for(Iterator<ModelingTask> i = mTasks.iterator();i.hasNext();){
-				ids.add(i.next().getId());
-			}
-			return ids;
-		}
-		else return null;
-	}
-	
-	public static PredictionTask getPredictionTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{
-		PredictionTask pTask = null;
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			pTask = (PredictionTask) session.createCriteria(PredictionTask.class)
-					.add(Expression.eq("id", id))
-					.uniqueResult();
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} 
-		if(pTask!=null) return pTask;
-		else return null;
-	}
-
-	public static ModelingTask getModelingTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException {
-		ModelingTask mTask = null;
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			mTask = (ModelingTask) session.createCriteria(ModelingTask.class)
-					.add(Expression.eq("id", id))
-					.uniqueResult();
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} 
-		if(mTask!=null) return mTask;
-		else return null;
-	}
-
-	public static VisualizationTask getVisualizationTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException {
-		VisualizationTask vTask = null;
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			vTask = (VisualizationTask) session.createCriteria(VisualizationTask.class)
-					.add(Expression.eq("id", id))
-					.uniqueResult();
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} 
-		if(vTask!=null) return vTask;
-		else return null;
-	}
 }

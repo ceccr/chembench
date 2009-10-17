@@ -35,9 +35,6 @@ public class HibernateUtil {
 		.addAnnotatedClass(SoftwareExpiration.class)
 		.addAnnotatedClass(Descriptors.class)
 		.addAnnotatedClass(DescriptorGenerator.class)
-		.addAnnotatedClass(PredictionTask.class)
-		.addAnnotatedClass(ModelingTask.class)
-		.addAnnotatedClass(VisualizationTask.class)
 		.configure().buildSessionFactory();
 	}
 

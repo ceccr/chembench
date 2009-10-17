@@ -87,6 +87,7 @@ public class Queue {
 					//if the user's an admin, just let the job run - no permission required.
 					if(! Utility.isAdmin(userName)){	
 						this.setState(State.PermissionRequired);
+						Utility.writeToDebug("constructor");
 						
 						try{
 							instance.saveTaskRecord(this);
@@ -133,6 +134,7 @@ public class Queue {
 
 		public void saveTask(){
 			//saves the task into the database (in cbench_task table)
+			Utility.writeToDebug("saveTask");
 			try{
 			instance.saveTaskRecord(this);}
 			catch(SQLException e){
@@ -480,26 +482,13 @@ public class Queue {
 
 	protected void saveTaskRecord(QueueTask t) throws HibernateException,	ClassNotFoundException, SQLException {
 		Utility.writeToDebug("saveTaskRecord");
+		Utility.writeToDebug("task: " + t.jobName);
+		
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			s.saveOrUpdate(t);
-			/*
-			if(t.getJobType().equals(QueueTask.jobTypes.modeling)){
-				ModelingTask mt = new ModelingTask(t.id, ((QsarModelingTask)t.task).getDatasetID());
-				s.saveOrUpdate(mt);
-			}
-			if(t.getJobType().equals(QueueTask.jobTypes.prediction)){
-				PredictionTask pt = new PredictionTask(t.id, ((QsarPredictionTask)t.task).getPredictionDataset().getFileId());
-				s.saveOrUpdate(pt);
-			}
-			if(t.getJobType().equals(QueueTask.jobTypes.dataset)){
-				VisualizationTask vt = new VisualizationTask(t.id, PopulateDataObjects.getDataSetByName(t.jobName, t.getUserName()).getFileId());
-				s.saveOrUpdate(vt);
-			}
-			*/
-			
+			s.saveOrUpdate(t);			
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -508,6 +497,7 @@ public class Queue {
 		} finally {
 			s.close();
 		}
+		Utility.writeToDebug("done saveTaskRecord");
 	}
 	
 	protected void resetFlagSet() {

@@ -36,53 +36,38 @@ public class Predictor implements java.io.Serializable {
 
 	// Fields
 
-	private Constants.DataTypeEnumeration modelMethod;
-
-	private Constants.DescriptorEnumeration descriptorGeneration;
-
 	private String userName;
-
 	private Long predictorId;
-	
 	private Long datasetId;
-
 	private String name;
-
-	private String sdFileName, actFileName;
-
+	
+	private String sdFileName;
+	private String actFileName;
+	
 	private Set<Model> models = new HashSet<Model>(0);
-	
 	private Set<ExternalValidation> externalValidationResults = new HashSet<ExternalValidation>(0);
-
-	private Date dateCreated;
 	
+	private Date dateCreated;
 	private Date dateUpdated;
 	
 	private int numTotalModels;
-	
 	private int numTrainModels;
-	
 	private int numTestModels;
-	
 	private String status;
 	
 	private int numyTotalModels;
-	
 	private int numyTrainModels;
-	
 	private int numyTestModels;
-	
-	private String activityType;
 
+	private Constants.DataTypeEnumeration modelMethod;
+	private Constants.DescriptorEnumeration descriptorGeneration;
+	private String activityType;
 	private String predictorType;
+	private String scalingType;
 	
 	private int numPredictions;
-
 	private String description;
-	
 	private String paperReference;
-	
-	private String scalingType;
 	
 	// Constructors
 
