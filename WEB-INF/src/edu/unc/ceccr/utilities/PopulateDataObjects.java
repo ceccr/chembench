@@ -549,8 +549,9 @@ public class PopulateDataObjects {
 			if (tx != null)
 				tx.rollback();
 		} 
-		Utility.writeToDebug("models");
 		Utility.writeToDebug("modelsSize: " + models.size());
+		Utility.writeToDebug("models");
+		Utility.writeToDebug("predictor.getActivityType(): " + predictor.getActivityType());
 		
 		//if the model type is continuous,
 		//sort models in decreasing order by r^2 value

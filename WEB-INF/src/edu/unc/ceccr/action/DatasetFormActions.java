@@ -139,7 +139,7 @@ public class DatasetFormActions extends ActionSupport{
 			
 			//do file check
 			if(sdfFileModeling == null || actFileModeling == null){
-				errorString += "File upload failed or no files supplied.";
+				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
 				result = ERROR;
 			}
 			
@@ -193,7 +193,7 @@ public class DatasetFormActions extends ActionSupport{
 			Utility.writeToDebug("type: " + datasetType);
 			//do file check
 			if(sdfFilePrediction == null){
-				errorString += "File upload failed or no files supplied.";
+				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
 				result = ERROR;
 			}
 			
@@ -248,7 +248,7 @@ public class DatasetFormActions extends ActionSupport{
 			Utility.writeToDebug("type: " + datasetType);
 			
 			if(xFileModDesc == null || actFileModDesc == null){
-				errorString += "File upload failed or no files supplied.";
+				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
 				result = ERROR;
 			}
 			
@@ -303,7 +303,7 @@ public class DatasetFormActions extends ActionSupport{
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)){
 			Utility.writeToDebug("type: " + datasetType);
 			if(xFilePredDesc == null){
-				errorString += "File upload failed or no files supplied.";
+				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
 				result = ERROR;
 			}
 			
