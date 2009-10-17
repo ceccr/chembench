@@ -186,10 +186,10 @@ public class DatasetFileOperations {
 			 msg += saveACTFile(actFile, path, actFileName);
 			 actFile = new File(path + actFileName);
 
+			 msg += rewriteACTFile(path + actFileName);
 			 act_compounds = getACTCompoundList(actFile.getAbsolutePath());
 			 numCompounds = act_compounds.size();
 			 actFile = new File(path + actFileName);
-			 formula = rewriteACTFile(path + actFileName);
 			 msg += actIsValid(actFile, actFileType);
 			 
 			 //Check if ACT file contains duplicates 
@@ -326,17 +326,6 @@ public class DatasetFileOperations {
 			
 		return "";
 	}
-	/*
-	public static String getActFileHeader(String filePath) throws Exception{
-		File file = new File(filePath);
-		FileReader fin = new FileReader(file);
-
-		Scanner src = new Scanner(fin);
-		String header = src.nextLine();
-
-		fin.close();
-		return header;
-	}*/
 	
 	public static String rewriteACTFile(String filePath)
 	throws FileNotFoundException, IOException {
