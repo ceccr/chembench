@@ -100,7 +100,6 @@ public class QsarModelingTask implements WorkflowTask {
 	int yTotalModels;
 	int yTrainModels;
 	int yTestModels;
-	private String activityType;
 	private String knnCategoryOptimization;
 
 	private String minNumDescriptors;
@@ -229,6 +228,7 @@ public class QsarModelingTask implements WorkflowTask {
 			datasetIsAllUser = true;
 		}
 		datasetName = dataset.getFileName();
+
 		
 		actFileDataType = ModelingForm.getActFileDataType();
 		descriptorGenerationType = ModelingForm.getDescriptorGenerationType();
@@ -526,7 +526,7 @@ public class QsarModelingTask implements WorkflowTask {
 		predictor.setNumyTestModels(yTestModels);
 		predictor.setNumyTrainModels(yTrainModels);
 		predictor.setNumyTotalModels(yTotalModels);
-		predictor.setActivityType(activityType);
+		predictor.setActivityType(actFileDataType);
 		predictor.setStatus("saved");
 		predictor.setPredictorType("saved");
 		predictor.setDatasetId(datasetID);
@@ -908,14 +908,6 @@ public class QsarModelingTask implements WorkflowTask {
 		this.yTestModels=test;
 	}
 	
-	public String getActivityType()
-	{
-		return this.activityType;
-	}
-	public void setActivityType(String type)
-	{
-		this.activityType=type;
-	}
 	public String getMaxNumDescriptors()
 	{
 		return this.maxNumDescriptors;

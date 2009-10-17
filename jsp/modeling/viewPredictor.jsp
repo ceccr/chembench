@@ -62,9 +62,7 @@
 		<br />
 		<p class="StandardTextDarkGray"><b><u>Modeling Results</u></b></p>
 		<s:if test="models.size==0">
-		<br/><br/><br/>	<b class="StandardTextDarkGray">No models generated.</b><br/><br/><br/>
-			<form action="modelbuilders.do"><input type="submit" value="Back to Model Building" /></form>&nbsp&nbsp&nbsp&nbsp&nbsp
-			<form action="cleanmb.do"><input type="submit" value="Discard Model" /></form>
+		<br/><br/>1<b class="StandardTextDarkGray">No models generated.</b><br/><br/
 		</s:if>
 		<s:else>
 		<p style="background:white;width:924;">
