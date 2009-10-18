@@ -67,8 +67,11 @@ public class JobsActions extends ActionSupport {
 			Utility.writeToDebug("id: " + Queue.getInstance().runningTask.id);
 			QueueTask t = PopulateDataObjects.getTaskById(Queue.getInstance().runningTask.id, session);
 			if(t != null){
+				Utility.writeToDebug("444444444");
 				t.setMessage(t.task.getProgress());
+				Utility.writeToDebug("5555555555");
 				userQueueTasks.add(t);
+				Utility.writeToDebug("6666666666666");
 			}
 		}
 		Iterator<QueueTask> queuedTasks = Queue.queue.iterator();
