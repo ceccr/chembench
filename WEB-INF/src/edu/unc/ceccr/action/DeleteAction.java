@@ -314,6 +314,9 @@ public class DeleteAction extends ActionSupport{
 		Session session = HibernateUtil.getSession();
 		QueueTask task = PopulateDataObjects.getTaskById(Long.parseLong(taskId), session);
 		Queue queue = Queue.getInstance();
+
+		//remove the task.
+		queue.deleteTask(task);
 		
 		//remove associated files
 		//this has a side-effect. If any programs are operating on these files
@@ -334,9 +337,6 @@ public class DeleteAction extends ActionSupport{
 		file=new File(BASE+task.getUserName()+"/PREDICTIONS/"+task.jobName);
 		FileAndDirOperations.deleteDir(file);
 
-		//remove the task. Gotta do this last.
-		queue.deleteTask(task);
-		Transaction tx = null;
 		return SUCCESS;
 		
 	}
