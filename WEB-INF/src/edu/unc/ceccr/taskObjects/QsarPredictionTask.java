@@ -135,7 +135,6 @@ public class QsarPredictionTask implements WorkflowTask {
 		ArrayList<String> requiredDescriptors = new ArrayList<String>();
 		for(int i = 0; i < selectedPredictors.size(); i++){
 			String descType = selectedPredictors.get(i).getDescriptorGenerationDisplay();
-			Utility.writeToDebug("we will need " + descType);
 			if(! requiredDescriptors.contains(descType)){
 				requiredDescriptors.add(descType);
 			}
@@ -144,19 +143,19 @@ public class QsarPredictionTask implements WorkflowTask {
 		String sdfile = predictionDataset.getSdfFile();
 		
 		for(int i = 0; i < requiredDescriptors.size(); i++){
-			if(requiredDescriptors.get(i).equals(DescriptorEnumeration.MOLCONNZ)){
+			if(requiredDescriptors.get(i).equals(Constants.MOLCONNZ)){
 				Utility.writeToDebug("ExecutePredictor: Generating MolconnZ Descriptors", userName, jobName);
 				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".mz");
 			}
-			else if(requiredDescriptors.get(i).equals(DescriptorEnumeration.DRAGON)){
+			else if(requiredDescriptors.get(i).equals(Constants.DRAGON)){
 				Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
 				GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
 			}
-			else if(requiredDescriptors.get(i).equals(DescriptorEnumeration.MOE2D)){
+			else if(requiredDescriptors.get(i).equals(Constants.MOE2D)){
 				Utility.writeToDebug("ExecutePredictor: Generating Moe2D Descriptors", userName, jobName);
 				GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdfile, path + sdfile + ".moe2D");
 			}
-			else if(requiredDescriptors.get(i).equals(DescriptorEnumeration.MACCS)){
+			else if(requiredDescriptors.get(i).equals(Constants.MACCS)){
 				Utility.writeToDebug("ExecutePredictor: Generating MACCS Descriptors", userName, jobName);
 				GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdfile, path + sdfile + ".maccs");
 			}
