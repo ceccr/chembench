@@ -104,7 +104,7 @@ public class Prediction implements java.io.Serializable{
 		return predictorIds;
 	}
 
-	public void setPredictorIds(String predictorId) {
+	public void setPredictorIds(String predictorIds) {
 		this.predictorIds = predictorIds;
 	}
 
