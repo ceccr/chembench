@@ -330,8 +330,6 @@ public class Queue {
 
 	public QueueTask runningTask;
 	
-	public Set<String> f = new HashSet<String>();
-
 	private Queue() {
 		super();
 		try {
@@ -412,7 +410,6 @@ public class Queue {
 					try {
 						t.setStart(new Date());
 						t.setState(QueueTask.State.started);
-						resetFlagSet();
 						runningTask = t;
 						saveTaskRecord(runningTask);
 						Utility.writeToDebug("Starting task.", t.userName, t.jobName);
@@ -431,7 +428,6 @@ public class Queue {
 						t.task.save();
 						t.setState(QueueTask.State.finished);		
 						
-						resetFlagSet();
 
 						runningTask = null;
 						
@@ -440,7 +436,6 @@ public class Queue {
 								queue.remove(ta);
 							}
 						}						
-						resetFlagSet();
 					} catch (Exception e) {
 						Utility.writeToDebug(e);
 						t.setState(QueueTask.State.error);
@@ -459,7 +454,6 @@ public class Queue {
 		qt.setNumModels(numModels);
 		queue.add(qt);
 		Utility.writeToDebug("Adding Task ", userName, jobName);
-		resetFlagSet();
 	}
 
 	protected QueueTask.State loadState(QueueTask task) throws HibernateException, ClassNotFoundException, SQLException 
@@ -501,18 +495,6 @@ public class Queue {
 		}
 	}
 	
-	protected void resetFlagSet() {
-		f.clear();
-	}
-	
-	public boolean testFlag(String name) {
-		return f.contains(name);
-	}
-	
-	public void setFlag(String name) {
-		f.add(name);
-	}
-
 	protected void deleteTaskRecord(QueueTask t) throws HibernateException,
 			ClassNotFoundException, SQLException {
 		Utility.writeToDebug("DeleteTaskRecord: " + t.id);
@@ -726,8 +708,6 @@ public class Queue {
 				Utility.writeToDebug(e);
 			}
 		}
-	
-		resetFlagSet();
 	}
 	
 	public void deleteTask(QueueTask task) {
@@ -741,16 +721,9 @@ public class Queue {
 				else{
 					deleteTaskRecord(task);
 				}
-			} catch (HibernateException e) {
-				Utility.writeToDebug(e);
-			} catch (ClassNotFoundException e) {
-				Utility.writeToDebug(e);
-			} catch (SQLException e) {
-				Utility.writeToDebug(e);
-			} catch (Exception e) {
-				Utility.writeToDebug(e);
-			}
+			} catch (Exception ex) {
+				Utility.writeToDebug(ex);
+			} 
 		}
-		resetFlagSet();
 	}
 }
