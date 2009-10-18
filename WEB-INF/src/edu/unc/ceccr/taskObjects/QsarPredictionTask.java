@@ -135,6 +135,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		ArrayList<String> requiredDescriptors = new ArrayList<String>();
 		for(int i = 0; i < selectedPredictors.size(); i++){
 			String descType = selectedPredictors.get(i).getDescriptorGenerationDisplay();
+			Utility.writeToDebug("we will need " + descType);
 			if(! requiredDescriptors.contains(descType)){
 				requiredDescriptors.add(descType);
 			}
