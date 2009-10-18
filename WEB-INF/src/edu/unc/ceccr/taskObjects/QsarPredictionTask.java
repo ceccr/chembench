@@ -100,8 +100,6 @@ public class QsarPredictionTask implements WorkflowTask {
 				if (tx != null)
 					tx.rollback();
 				Utility.writeToDebug(e);
-			} finally {
-				s.close();
 			}
 
 			selectedPredictors.add(selectedPredictor);
