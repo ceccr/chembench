@@ -224,7 +224,7 @@
 				<s:iterator value="userPredictions">
 					<tr>
 					
-					<s:url id="predictionLink" value="/viewPrediction.do" includeParams="none">
+					<s:url id="predictionLink" value="/viewPrediction" includeParams="none">
 						<s:param name="id" value='predictionId' />
 					</s:url>
 					<td class="TableRowText02"><s:a href="%{predictionLink}"><s:property value="jobName" /></s:a></td>
