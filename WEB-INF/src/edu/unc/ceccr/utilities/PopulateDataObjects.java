@@ -362,7 +362,6 @@ public class PopulateDataObjects {
  				predictors.get(i).setDatasetDisplay(PopulateDataObjects.getDataSetById(predictors.get(i).getDatasetId(), session).getFileName());
  			}
  		}
-		Utility.writeToDebug("done");
  		
 		return predictors;
 	}
@@ -557,7 +556,6 @@ public class PopulateDataObjects {
 		    		return (o2.getR_squared() > o1.getR_squared()? 1:-1);
 			    }});
 		}
-		Utility.writeToDebug("done");
 		return models;
 	}
 	

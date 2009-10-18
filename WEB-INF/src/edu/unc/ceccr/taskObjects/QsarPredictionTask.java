@@ -271,11 +271,18 @@ public class QsarPredictionTask implements WorkflowTask {
 		
 		PredictionValue predOutput = new PredictionValue();
 		predOutput.setCompoundName(extValues[0]);
-		predOutput.setNumModelsUsed(Integer.parseInt(extValues[1]));
-		predOutput.setPredictedValue(Float.parseFloat(extValues[2]));
-		if (arraySize > 3){
-			predOutput.setStandardDeviation(Float.parseFloat(extValues[3]));
+		try{
+			predOutput.setNumModelsUsed(Integer.parseInt(extValues[1]));
+			predOutput.setPredictedValue(Float.parseFloat(extValues[2]));
+			if (arraySize > 3){
+				predOutput.setStandardDeviation(Float.parseFloat(extValues[3]));
+			}
 		}
+		catch(Exception ex){
+			//if it couldn't get the information, then there is no prediction for this compound.
+			//Don't worry about the NumberFormatException, it doesn't matter.
+		}
+		
 		return predOutput;
 
 	}

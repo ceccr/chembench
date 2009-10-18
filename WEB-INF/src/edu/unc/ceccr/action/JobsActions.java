@@ -60,6 +60,7 @@ public class JobsActions extends ActionSupport {
 		userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false, session);
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
 		
+		//load the queue
 		userQueueTasks = new ArrayList<QueueTask>();
 		if(Queue.getInstance().runningTask != null){
 			QueueTask t = Queue.getInstance().runningTask;
@@ -88,6 +89,12 @@ public class JobsActions extends ActionSupport {
 			}
 		}	
 		session.close();
+		
+		//populate the datasets on finished predictions
+		for(int i = 0; i < userPredictions.size(); i++){
+			DataSet ds = PopulateDataObjects.getDataSetById(userPredictions.get(i).getDatasetId(), session);
+			userPredictions.get(i).setDatasetDisplay(ds.getFileName());
+		}
 		
 		//log the results
 		if(result.equals(SUCCESS)){

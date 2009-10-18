@@ -24,22 +24,14 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 public class Prediction implements java.io.Serializable{
 	
 	private Long predictionId;
-	
 	private String jobName;
-	
 	private String predictorIds;
-	
 	private Long datasetId;
-	
 	private String database;
-	
 	private float similarityCutoff;
-	
 	private String userName;
-	
 	private Date dateCreated;
 
-	
 	private List<PredictionValue> predictedValues = new ArrayList<PredictionValue>(0);
 	
 	private String status;
