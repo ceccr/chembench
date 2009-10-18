@@ -45,16 +45,16 @@ public class Prediction implements java.io.Serializable{
 		this.status=status;
 	}
 
-	private String predictorName = "";
+	private String predictorNames = "";
 	@Transient
-	public String getPredictorName() {
+	public String getPredictorNames() {
 		//this needs to be manually set before it can be returned
 		//since it does not correspond to any database field
-		return predictorName;
+		return predictorNames;
 	}
 
-	public void setPredictorName(String predictorName) {
-		this.predictorName = predictorName;
+	public void setPredictorNames(String predictorNames) {
+		this.predictorNames = predictorNames;
 	}
 
 	private String datasetDisplay = "";

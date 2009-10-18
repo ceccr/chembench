@@ -393,19 +393,24 @@ public class PopulateDataObjects {
 				Utility.writeToDebug(e);
 			} 
 
+			Utility.writeToDebug("BEFORE EXCEPTION");
 			for (Prediction p : predictions) {
 				String predictorNames = "";
 				String[] predictorIds = p.getPredictorIds().split("\\s+");
 				for(int i = 0; i < predictorIds.length; i++){
+					Utility.writeToDebug("BEFORE EXCEPTION 2: " + predictorIds[i]);
 					predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
 				}
-				p.setPredictorName(predictorNames);
+				Utility.writeToDebug("BEFORE EXCEPTION 3");
+				p.setPredictorNames(predictorNames);
+				Utility.writeToDebug("BEFORE EXCEPTION 4");
 				p.setDatabase(Utility.wrapFileName(p.getDatabase()));
 	 			if(p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null){
+					Utility.writeToDebug("BEFORE EXCEPTION 5: " + p.getDatasetId());
 	 				p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getFileName());
 	 			}
 			}
-			
+
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
 		}
@@ -515,7 +520,7 @@ public class PopulateDataObjects {
 		for(int i = 0; i < predictorIds.length; i++){
 			predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
 		}
-		prediction.setPredictorName(predictorNames);
+		prediction.setPredictorNames(predictorNames);
 		prediction.setDatabase(Utility.wrapFileName(prediction.getDatabase()));
 
 		if(prediction.getDatasetId() != null && getDataSetById(prediction.getDatasetId(), session) != null){

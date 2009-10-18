@@ -230,7 +230,7 @@
 					<td class="TableRowText02"><s:a href="%{predictionLink}"><s:property value="jobName" /></s:a></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-					<td class="TableRowText02"><s:property value="predictorName" /></td>
+					<td class="TableRowText02"><s:property value="predictorNames" /></td>
 					<td class="TableRowText02"><a href="projectFilesServlet?project=<s:property value='jobName' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
 					<td class="TableRowText02"><a href="deletePrediction?id=<s:property value="predictionId" />">delete</a></td>
 					</tr> 

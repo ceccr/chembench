@@ -90,12 +90,6 @@ public class JobsActions extends ActionSupport {
 		}	
 		session.close();
 		
-		//populate the datasets on finished predictions
-		for(int i = 0; i < userPredictions.size(); i++){
-			DataSet ds = PopulateDataObjects.getDataSetById(userPredictions.get(i).getDatasetId(), session);
-			userPredictions.get(i).setDatasetDisplay(ds.getFileName());
-		}
-		
 		//log the results
 		if(result.equals(SUCCESS)){
 			Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to jobs page.");
