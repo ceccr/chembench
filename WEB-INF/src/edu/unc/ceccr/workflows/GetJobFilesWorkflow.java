@@ -2,6 +2,7 @@ package edu.unc.ceccr.workflows;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
+import java.util.ArrayList;
 
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Predictor;
@@ -51,12 +52,49 @@ public class GetJobFilesWorkflow{
 		String fromDir;
 		
 		if(predictor.getUserName().equals(userName)){
-			fromDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + predictor.getName();
+			fromDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + predictor.getName() + "/";
 		}
 		else{
-			fromDir = Constants.CECCR_USER_BASE_PATH + "all-users/PREDICTORS/" + predictor.getName();
+			fromDir = Constants.CECCR_USER_BASE_PATH + "all-users/PREDICTORS/" + predictor.getName() + "/";
 		}
+		
+		ArrayList<String> fileList = new ArrayList<String>();
+		
+		File knnOutputFile = new File(fromDir + "knn-output.list");
+		if(knnOutputFile.exists()){
+			//copy only the models listed in knn-output
+			BufferedReader br = new BufferedReader(new FileReader(knnOutputFile));
+			String line;
+			while((line = br.readLine()) != null){
+				String[] tokens = line.split("\\s+");
+				for(int i = 0; i < tokens.length; i++){
+					if(tokens[i].endsWith("mod")){
+						fileList.add(tokens[i]);
+					}
+				}
+			}
+		}
+		else{
+			//copy all the model files
+			File dir = new File(fromDir);
+			File[] files = dir.listFiles();
+			if(files == null){
+				Utility.writeToDebug("Error reading directory: " + fromDir);
+			}
+			else{
+				for(int i = 0; i < files.length; i++){
+					if(files[i].getName().endsWith("mod")){
+						fileList.add(files[i].getName());
+					}
+				}
+			}
+		}
+		//copy the X file (needed for scaling)
+		fileList.add("train_0.x");
+		
 		Utility.writeToDebug("Copying predictor from " + fromDir, userName, "");
-		FileAndDirOperations.copyDirContents(fromDir, toDir, false);
+		for(String s: fileList){
+			FileAndDirOperations.copyFile(fromDir + s, toDir);
+		}
 	}
 }

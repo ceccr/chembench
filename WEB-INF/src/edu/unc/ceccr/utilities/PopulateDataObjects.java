@@ -393,20 +393,15 @@ public class PopulateDataObjects {
 				Utility.writeToDebug(e);
 			} 
 
-			Utility.writeToDebug("BEFORE EXCEPTION");
 			for (Prediction p : predictions) {
 				String predictorNames = "";
 				String[] predictorIds = p.getPredictorIds().split("\\s+");
 				for(int i = 0; i < predictorIds.length; i++){
-					Utility.writeToDebug("BEFORE EXCEPTION 2: " + predictorIds[i]);
 					predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
 				}
-				Utility.writeToDebug("BEFORE EXCEPTION 3");
 				p.setPredictorNames(predictorNames);
-				Utility.writeToDebug("BEFORE EXCEPTION 4");
 				p.setDatabase(Utility.wrapFileName(p.getDatabase()));
 	 			if(p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null){
-					Utility.writeToDebug("BEFORE EXCEPTION 5: " + p.getDatasetId());
 	 				p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getFileName());
 	 			}
 			}
