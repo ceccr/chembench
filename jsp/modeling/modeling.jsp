@@ -115,6 +115,11 @@
 					<td align="left" valign="top">
 					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGON':'Dragon','MACCS':'Maccs','MOE2D':'MOE2D'}" /></div>
 					</td>
+				</tr>		
+				<tr>
+					<td colspan="2">
+					<div class="StandardTextDarkGrayParagraph"><i>Note: The Dragon license file has expired. Use one of the other descriptor types for now.<br /></i></div>
+					</td>
 				</tr>
 				<tr>
 					<td>

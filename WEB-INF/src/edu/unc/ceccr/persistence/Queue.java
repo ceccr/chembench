@@ -440,6 +440,7 @@ public class Queue {
 						Utility.writeToDebug(e);
 						t.setState(QueueTask.State.error);
 						errorqueue.add(t);
+						queue.remove(t);
 					}
 				}
 				

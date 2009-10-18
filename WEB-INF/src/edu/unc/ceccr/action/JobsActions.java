@@ -74,8 +74,7 @@ public class JobsActions extends ActionSupport {
 		}
 		Iterator<QueueTask> errorTasks = Queue.errorqueue.iterator();
 		while(errorTasks.hasNext()){
-			QueueTask qt = errorTasks.next();
-			qt.setState(QueueTask.State.error);
+			QueueTask qt = PopulateDataObjects.getTaskById(errorTasks.next().id, session);
 			userQueueTasks.add(qt);
 		}	
 		
