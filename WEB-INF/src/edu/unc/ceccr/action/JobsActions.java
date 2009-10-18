@@ -62,14 +62,9 @@ public class JobsActions extends ActionSupport {
 		
 		userQueueTasks = new ArrayList<QueueTask>();
 		if(Queue.getInstance().runningTask != null){
-			QueueTask t = PopulateDataObjects.getTaskById(Queue.getInstance().runningTask.id, session);
-			if(t != null){
-				try{
-					Queue.getInstance().runningTask.setMessage(t.task.getProgress());
-				}
-				catch(Exception ex){
-					Utility.writeToDebug(ex);
-				}
+			QueueTask t = Queue.getInstance().runningTask;
+			if(t != null && t.task != null){
+				t.setMessage(t.task.getProgress());
 				userQueueTasks.add(Queue.getInstance().runningTask);
 			}
 		}
