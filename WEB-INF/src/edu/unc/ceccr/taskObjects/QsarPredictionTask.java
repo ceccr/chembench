@@ -186,19 +186,19 @@ public class QsarPredictionTask implements WorkflowTask {
 			
 			if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
 				Utility.writeToDebug("ExecutePredictor: Processing MolconnZ Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdfile + ".mz", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(predictionDir + sdfile + ".mz", descriptorNames, descriptorValueMatrix);
 			}
 			else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.DRAGON)){
 				Utility.writeToDebug("ExecutePredictor: Processing Dragon Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdfile + ".dragon", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(predictionDir + sdfile + ".dragon", descriptorNames, descriptorValueMatrix);
 			}
 			else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOE2D)){
 				Utility.writeToDebug("ExecutePredictor: Processing Moe2D Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(predictionDir + sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
 			}
 			else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MACCS)){
 				Utility.writeToDebug("ExecutePredictor: Processing MACCS Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMaccsDescriptors(predictionDir + sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
 			}
 			
 			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
@@ -206,8 +206,8 @@ public class QsarPredictionTask implements WorkflowTask {
 					chemicalNames, 
 					descriptorValueMatrix, 
 					descriptorString, 
-					path + sdfile + ".renorm.x", 
-					path + "train_0.x", 
+					predictionDir + sdfile + ".renorm.x", 
+					predictionDir + "train_0.x", 
 					selectedPredictor.getScalingType());
 			
 			//  done with 3. (copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.)
