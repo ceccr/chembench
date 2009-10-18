@@ -712,7 +712,11 @@ public class Queue {
 	
 	public void deleteTask(QueueTask task) {
 		if (task != null) {
+			if(task == runningTask){
+				runningTask = null;
+			}
 			errorqueue.remove(task);
+			queue.remove(task);
 			Utility.writeToDebug("DeleteTask: " + task.id);
 			try {
 				if(task.getState() == QueueTask.State.PermissionRequired){
