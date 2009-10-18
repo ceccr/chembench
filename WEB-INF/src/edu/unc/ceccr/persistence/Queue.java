@@ -174,7 +174,7 @@ public class Queue {
 		}
 
 		public void setState(State state) {
-			if(this.state == QueueTask.State.finished){
+			if(this.state == QueueTask.State.deleted){
 				return;
 			}
 			
