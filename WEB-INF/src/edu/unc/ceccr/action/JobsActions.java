@@ -59,7 +59,6 @@ public class JobsActions extends ActionSupport {
 		userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
 		userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false, session);
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
-		session.close();
 		
 		userQueueTasks = new ArrayList<QueueTask>();
 		if(Queue.getInstance().runningTask != null){
@@ -77,6 +76,7 @@ public class JobsActions extends ActionSupport {
 			QueueTask qt = PopulateDataObjects.getTaskById(errorTasks.next().id, session);
 			userQueueTasks.add(qt);
 		}	
+		session.close();
 		
 		//log the results
 		if(result.equals(SUCCESS)){
