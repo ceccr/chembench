@@ -61,17 +61,16 @@ public class JobsActions extends ActionSupport {
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
 		
 		userQueueTasks = new ArrayList<QueueTask>();
-		Utility.writeToDebug("2222222");
 		if(Queue.getInstance().runningTask != null){
-			Utility.writeToDebug("3333333");
-			Utility.writeToDebug("id: " + Queue.getInstance().runningTask.id);
 			QueueTask t = PopulateDataObjects.getTaskById(Queue.getInstance().runningTask.id, session);
 			if(t != null){
-				Utility.writeToDebug("444444444");
-				t.setMessage(t.task.getProgress());
-				Utility.writeToDebug("5555555555");
+				try{
+					t.setMessage(t.task.getProgress());
+				}
+				catch(Exception ex){
+					Utility.writeToDebug(ex);
+				}
 				userQueueTasks.add(t);
-				Utility.writeToDebug("6666666666666");
 			}
 		}
 		Iterator<QueueTask> queuedTasks = Queue.queue.iterator();
