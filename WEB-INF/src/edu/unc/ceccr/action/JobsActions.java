@@ -62,9 +62,11 @@ public class JobsActions extends ActionSupport {
 		
 		userQueueTasks = new ArrayList<QueueTask>();
 		if(Queue.getInstance().runningTask != null){
-			QueueTask t = Queue.getInstance().runningTask;
-			t.setMessage(t.task.getProgress());
-			userQueueTasks.add(Queue.getInstance().runningTask);
+			QueueTask t = PopulateDataObjects.getTaskById(Queue.getInstance().runningTask.id, session);
+			if(t != null){
+				t.setMessage(t.task.getProgress());
+				userQueueTasks.add(Queue.getInstance().runningTask);
+			}
 		}
 		Iterator<QueueTask> queuedTasks = Queue.queue.iterator();
 		while(queuedTasks.hasNext()){
