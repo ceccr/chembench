@@ -119,7 +119,6 @@ public class PredictionFormActions extends ActionSupport{
 		Utility.writeToDebug(user.getUserName());
 		Utility.writeToDebug("predids: " + selectedPredictorIds);
 
-		
 		QsarPredictionTask predTask = new QsarPredictionTask(user.getUserName(), jobName, sdf, 
 				cutOff, selectedPredictorIds, predictionDataset);
 

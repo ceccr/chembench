@@ -345,9 +345,10 @@ public class QsarPredictionTask implements WorkflowTask {
 		predictionJob.setDatabase(this.sdf);
 		predictionJob.setUserName(this.userName);
 		predictionJob.setSimilarityCutoff(new Float(this.cutoff));
+		Utility.writeToDebug("saving selected predictor ids: " + selectedPredictorIds);
 		predictionJob.setPredictorIds(this.selectedPredictorIds);
 		predictionJob.setJobName(this.jobName);
-		predictionJob.setStatus("NOTSET");
+		predictionJob.setStatus("saved");
 		predictionJob.setDatasetId(predictionDataset.getFileId());
 
 		if(this.allPredValues == null){
