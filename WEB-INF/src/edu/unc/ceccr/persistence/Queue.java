@@ -167,6 +167,11 @@ public class Queue {
 		public State getState() {
 			return state;
 		}
+		
+		@Transient
+		public String getStateDisplay() {
+			return state.toString();
+		}
 
 		public void setState(State state) {
 			if(this.state == QueueTask.State.finished){
