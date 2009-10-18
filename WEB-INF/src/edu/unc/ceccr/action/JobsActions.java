@@ -64,14 +64,18 @@ public class JobsActions extends ActionSupport {
 		if(Queue.getInstance().runningTask != null){
 			QueueTask t = Queue.getInstance().runningTask;
 			if(t != null && t.task != null){
+				Utility.writeToDebug("running task: " + t.jobName);
 				t.setMessage(t.task.getProgress());
-				userQueueTasks.add(Queue.getInstance().runningTask);
+				if(PopulateDataObjects.getDataSetById(t.id, session) != null){
+					userQueueTasks.add(Queue.getInstance().runningTask);
+				}
 			}
 		}
 		Iterator<QueueTask> queuedTasks = Queue.queue.iterator();
 		while(queuedTasks.hasNext()){
 			QueueTask qt = PopulateDataObjects.getTaskById(queuedTasks.next().id, session);
 			if(qt != null){
+				Utility.writeToDebug("queued task: " + qt.jobName);
 				userQueueTasks.add(qt);
 			}
 		}
@@ -79,6 +83,7 @@ public class JobsActions extends ActionSupport {
 		while(errorTasks.hasNext()){
 			QueueTask qt = PopulateDataObjects.getTaskById(errorTasks.next().id, session);
 			if(qt != null){
+				Utility.writeToDebug("error task: " + qt.jobName);
 				userQueueTasks.add(qt);
 			}
 		}	
