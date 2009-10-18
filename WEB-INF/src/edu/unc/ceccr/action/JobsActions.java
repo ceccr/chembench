@@ -66,7 +66,7 @@ public class JobsActions extends ActionSupport {
 			if(t != null && t.task != null){
 				Utility.writeToDebug("running task: " + t.jobName);
 				t.setMessage(t.task.getProgress());
-				if(PopulateDataObjects.getDataSetById(t.id, session) != null){
+				if(t.task != null){
 					userQueueTasks.add(Queue.getInstance().runningTask);
 				}
 			}
