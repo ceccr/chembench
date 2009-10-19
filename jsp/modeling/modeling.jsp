@@ -144,12 +144,12 @@
 					<div class="StandardTextDarkGrayParagraph"><b>Maximum Corellation:</b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="corellationCutoff" id="corellationCutoff" size="5" disabled="true" /></td>
-				</tr>-->
+				</tr>
 				<tr>
 					<td colspan="2">
 					<div class="StandardTextDarkGrayParagraph"><i>For each pair of descriptors, if the corellation coefficient is above the maximum, one of the two will be removed (chosen randomly).<br /><br /></i></div>
 					</td>
-				</tr>	
+				</tr>	-->
 			    </tbody>
 			 </table>
 			 <br />
