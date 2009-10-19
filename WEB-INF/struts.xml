@@ -49,7 +49,8 @@
         
         <!-- Dataset Page -->
         <action name="dataset" class="edu.unc.ceccr.action.DatasetFormActions" method="loadPage">
-        	<result>jsp/dataSet/dataset.jsp</result>
+        	<result name="success">jsp/dataSet/dataset.jsp</result>
+        	<result name="login">jsp/main/home.jsp</result>
         </action>
         
         <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
