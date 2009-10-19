@@ -47,14 +47,23 @@ public class QsarPredictionTask implements WorkflowTask {
 	private String selectedPredictorIds;
 	private DataSet predictionDataset;
 	private String step = Constants.SETUP; //stores what step we're on 
+
+	private ArrayList<String> selectedPredictorNames = new ArrayList<String>();//used in indicating progress
 	
 	public String getProgress(){
 		String percent = "";
 		if(step.equals(Constants.PREDICTING)){
 			//count the number of *.pred files in the working directory
-			float p = FileAndDirOperations.countFilesInDirMatchingPattern(filePath, ".*pred");
-			//divide by the number of compounds in the dataset
-			p /= predictionDataset.getNumCompound();
+			float p = 0;
+			int numTotalModels = 0;
+			for(int i = 0; i < selectedPredictorNames.size(); i++){
+				p += FileAndDirOperations.countFilesInDirMatchingPattern(filePath + selectedPredictorNames.get(i) + "/", ".*pred");
+				numTotalModels += FileAndDirOperations.countFilesInDirMatchingPattern(filePath + selectedPredictorNames.get(i) + "/", ".*mod");
+			}
+			
+			//divide by the total number of models in all predictors used
+						
+			p /= numTotalModels;
 			p *= 100; //it's a percent
 			percent = " (" + Math.round(p) + "%)"; 
 		}
@@ -85,6 +94,8 @@ public class QsarPredictionTask implements WorkflowTask {
 		String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
 		for(int i = 0; i < selectedPredictorIdArray.length; i++){
 			Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
+			
+			selectedPredictorNames.add(selectedPredictor.getName());
 			
 			//We're keeping a count of how many times each predictor was used.
 	        //So, increment number of times used on each and save each predictor object.

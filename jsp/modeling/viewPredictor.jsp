@@ -260,6 +260,7 @@
 	<!-- End External Validation Compound Predictions -->
 	
 	<!-- External Validation Chart -->
+	<s:if test="models.size!=0">
 	<s:if test="dataType=='CONTINUOUS'">
 		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
 		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
@@ -273,6 +274,7 @@
 		<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
 		</sx:div>
 		</p>
+	</s:if>
 	</s:if>
 	<!-- End External Validation Chart -->
 	
