@@ -22,7 +22,8 @@
         
         <!-- Modeling Page -->
         <action name="modeling" class="edu.unc.ceccr.action.ModelingFormActions" method="loadPage">
-        	<result>jsp/modeling/modeling.jsp</result>
+        	<result name="success">jsp/modeling/modeling.jsp</result>
+        	<result name="login">jsp/main/home.jsp</result>
         </action>
         
         <action name="createModelingJob" class="edu.unc.ceccr.action.ModelingFormActions" method="execute">
