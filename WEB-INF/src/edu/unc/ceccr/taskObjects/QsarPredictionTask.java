@@ -64,7 +64,6 @@ public class QsarPredictionTask implements WorkflowTask {
 	public QsarPredictionTask(String userName, String jobName, String sdf, String cutoff,
 			String selectedPredictorIds, DataSet predictionDataset) throws Exception {
 		
-		Utility.writeToMSDebug("Start ExecPredictorActionTask Constructor");
 		this.predictionDataset = predictionDataset;
 		this.jobName = jobName;
 		this.userName = userName;
@@ -73,7 +72,6 @@ public class QsarPredictionTask implements WorkflowTask {
 		this.selectedPredictorIds = selectedPredictorIds;
 		this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/";
 		
-		Utility.writeToMSDebug("Finish QsarPredictionTask Constructor");
 	}
 
 	public void execute() throws Exception {
