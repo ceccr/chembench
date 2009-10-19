@@ -130,7 +130,7 @@
 				</tr>
 				<tr>
 					<td colspan="2">
-					<div class="StandardTextDarkGrayParagraph"><i><br /><br /></i></div>
+					<div class="StandardTextDarkGrayParagraph"><i><br /></i></div>
 					</td>
 				</tr>	
 				<!--<tr>
