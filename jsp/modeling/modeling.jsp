@@ -125,7 +125,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Scaling Type:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingType" value="scalingType" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingType" value="scalingType" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /><br /><br /></div>
 					</td>
 				</tr>
 				<!--<tr>
