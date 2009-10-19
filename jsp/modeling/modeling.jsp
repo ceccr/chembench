@@ -121,7 +121,7 @@
 					<div class="StandardTextDarkGrayParagraph"><i>Note: The Dragon license file has expired. Use one of the other descriptor types for now.<br /></i></div>
 					</td>
 				</tr>
-				<tr>
+				<!-- <tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Scaling Type:</b></div></td>
 					<td align="left" valign="top">
@@ -138,7 +138,7 @@
 					<td colspan="2">
 					<div class="StandardTextDarkGrayParagraph"><i>Each descriptor that has values with lower standard deviation than the minimum will be removed.<br /></i></div>
 					</td>
-				</tr>	
+				</tr>	-->
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Maximum Corellation:</b></div>

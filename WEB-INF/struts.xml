@@ -23,6 +23,7 @@
         <!-- Modeling Page -->
         <action name="modeling" class="edu.unc.ceccr.action.ModelingFormActions" method="loadPage">
         	<result>jsp/modeling/modeling.jsp</result>
+        	<result type="login">jsp/main/home.jsp</result>
         </action>
         
         <action name="createModelingJob" class="edu.unc.ceccr.action.ModelingFormActions" method="execute">
@@ -49,6 +50,7 @@
         <!-- Dataset Page -->
         <action name="dataset" class="edu.unc.ceccr.action.DatasetFormActions" method="loadPage">
         	<result>jsp/dataSet/dataset.jsp</result>
+        	<result type="login">jsp/main/home.jsp</result>
         </action>
         
         <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
@@ -85,10 +87,12 @@
         <!-- Make Predictions Pages -->
 	    <action name="prediction" class="edu.unc.ceccr.action.PredictionFormActions" method="loadSelectPredictorPage">
 	        <result>jsp/prediction/selectPredictor.jsp</result>
+        	<result type="login">jsp/main/home.jsp</result>
 	    </action>
 	    
 	    <action name="selectPredictor" class="edu.unc.ceccr.action.PredictionFormActions" method="loadMakePredictionsPage">
 	        <result>jsp/prediction/makePredictions.jsp</result>
+        	<result type="login">jsp/main/home.jsp</result>
 	    </action>
         
 	    <action name="makeDatasetPrediction" class="edu.unc.ceccr.action.PredictionFormActions" method="makeDatasetPrediction">
@@ -99,6 +103,7 @@
         <!-- Jobs Page -->
         <action name="jobs" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
         	<result>jsp/jobs/jobs.jsp</result>
+        	<result type="login">jsp/main/home.jsp</result>
         </action>
         
         <!-- End Jobs Page -->
