@@ -46,7 +46,7 @@ public class ViewPredictionAction extends ActionSupport {
 	private DataSet dataset; //dataset used in prediction
 	ArrayList<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
 	
-	class CompoundPredictions{
+	public class CompoundPredictions{
 		String compound;
 		ArrayList<PredictionValue> predictionValues;
 
@@ -67,9 +67,10 @@ public class ViewPredictionAction extends ActionSupport {
 	private void populateCompoundPredictionValues(String orderBy, String pageNumber, String compoundsPerPage, Session session) throws Exception{
 		
 		//get compounds
-		String predictionDir = Constants.CECCR_USER_BASE_PATH + "/PREDICTIONS/" + prediction.getJobName() + "/";
+		String predictionDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/";
 		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
 		
+		Utility.writeToDebug("numCompounds: " + compounds.size());
 		for(int i = 0; i < compounds.size(); i++){
 			CompoundPredictions cp = new CompoundPredictions();
 			cp.compound = compounds.get(i);
@@ -129,6 +130,7 @@ public class ViewPredictionAction extends ActionSupport {
 				dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
 				
 				//get compounds for the predicted dataset
+				populateCompoundPredictionValues("", "", "", session);
 			}
 		}
 

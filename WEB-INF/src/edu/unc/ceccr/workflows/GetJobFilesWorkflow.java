@@ -15,7 +15,7 @@ public class GetJobFilesWorkflow{
 	public static void getDatasetFiles(String userName, DataSet dataset, String toDir) throws Exception{
 		//gathers the dataset files needed for a modeling or prediction run
 		
-		String allUserDir = Constants.CECCR_USER_BASE_PATH + "all-users/DATASETS/" + dataset.getFileName() + "/";
+		String allUserDir = Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/" + dataset.getFileName() + "/";
 		String userFilesDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + dataset.getFileName() + "/";
 		
 		String fromDir = "";
@@ -57,44 +57,37 @@ public class GetJobFilesWorkflow{
 		else{
 			fromDir = Constants.CECCR_USER_BASE_PATH + "all-users/PREDICTORS/" + predictor.getName() + "/";
 		}
+
+		Utility.writeToDebug("Copying predictor from " + fromDir, userName, "");
 		
-		ArrayList<String> fileList = new ArrayList<String>();
 		
 		File knnOutputFile = new File(fromDir + "knn-output.list");
 		if(knnOutputFile.exists()){
 			//copy only the models listed in knn-output
+			ArrayList<String> fileList = new ArrayList<String>();
+			
 			BufferedReader br = new BufferedReader(new FileReader(knnOutputFile));
 			String line;
 			while((line = br.readLine()) != null){
 				String[] tokens = line.split("\\s+");
 				for(int i = 0; i < tokens.length; i++){
-					if(tokens[i].endsWith("mod")){
-						fileList.add(tokens[i]);
-					}
+					fileList.add(tokens[i]);
 				}
+			}
+			
+			//copy the X file (needed for scaling)
+			fileList.add("train_0.x");
+			//copy the models list (needed for kNN prediction to run)
+			fileList.add("knn-output.list");
+			
+			for(String s: fileList){
+				FileAndDirOperations.copyFile(fromDir + s, toDir);
 			}
 		}
 		else{
-			//copy all the model files
-			File dir = new File(fromDir);
-			File[] files = dir.listFiles();
-			if(files == null){
-				Utility.writeToDebug("Error reading directory: " + fromDir);
-			}
-			else{
-				for(int i = 0; i < files.length; i++){
-					if(files[i].getName().endsWith("mod")){
-						fileList.add(files[i].getName());
-					}
-				}
-			}
-		}
-		//copy the X file (needed for scaling)
-		fileList.add("train_0.x");
-		
-		Utility.writeToDebug("Copying predictor from " + fromDir, userName, "");
-		for(String s: fileList){
-			FileAndDirOperations.copyFile(fromDir + s, toDir);
+			//copy all the files
+			//(This shouldn't happen with any kNN models, but it's there just in case)
+			FileAndDirOperations.copyDirContents(fromDir, toDir, false);
 		}
 	}
 }

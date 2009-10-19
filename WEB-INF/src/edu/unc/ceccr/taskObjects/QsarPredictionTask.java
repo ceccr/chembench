@@ -327,10 +327,20 @@ public class QsarPredictionTask implements WorkflowTask {
 		Utility.writeToDebug("Setting up prediction task", userName, jobName);
 		try{
 			new File(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName).mkdir();
-			FileAndDirOperations.copyFile(
-				Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
-				Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
-				);
+			
+			if(predictionDataset.getUserName().equals(userName)){
+				FileAndDirOperations.copyFile(
+						Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
+						Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
+						);
+			}
+			else{
+				FileAndDirOperations.copyFile(
+						Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
+						Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
+						);
+			}
+			
 		}
 		catch(Exception e){
 			Utility.writeToMSDebug(e.getMessage());

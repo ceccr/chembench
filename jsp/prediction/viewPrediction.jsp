@@ -30,65 +30,67 @@
 		</span>
 	</tr>
 	
-	<!-- Predictions -->
-		<table width="924" align="center">
-			<tr>
-				<td class="TableRowText01">Prediction Name</td>
-				<td class="TableRowText01">Date Created</td>
-				<td class="TableRowText01">Predictor Used</td>
-				<td class="TableRowText01">Dataset Predicted</td>
-				<td class="TableRowText01">Similarity Cutoff</td>
-			</tr>
-			<tr>
-				<td class="TableRowText02"><s:property value="selectedPrediction.jobName" /></td>
-				<td class="TableRowText02"><s:property value="selectedPrediction.dateCreated" /></td>
-				<td class="TableRowText02"><s:property value="selectedPrediction.predictorName" /></td>
-				<td class="TableRowText02"><s:property value="selectedPrediction.datasetDisplay" /></td>
-				<td class="TableRowText02"><s:property value="selectedPrediction.similarityCutoff" /></td>
-			</tr>
-		</table>
-		<br />
+	<!-- Header Info -->
+	<tr>
+	<span id="maincontent">
+	<td height="557" colspan="5" valign="top">
+	<p class="StandardTextDarkGray">&nbsp;</p>
+	<span class="Errors"><b><!-- errors go here..? --></b></span> 
+	<span class="StandardTextDarkGray">
+
+
+	<table width="924" align="center">
+		<tr>
+			<td class="TableRowText01">Prediction Name</td>
+			<td class="TableRowText01">Date Created</td>
+			<td class="TableRowText01">Predictors Used</td>
+			<td class="TableRowText01">Dataset Predicted</td>
+			<td class="TableRowText01">Similarity Cutoff</td>
+		</tr>
+		<tr>
+			<td class="TableRowText02"><s:property value="prediction.jobName" /></td>
+			<td class="TableRowText02"><s:property value="prediction.dateCreated" /></td>
+			<td class="TableRowText02"><s:property value="prediction.predictorNames" /></td>
+			<td class="TableRowText02"><s:property value="prediction.datasetDisplay" /></td>
+			<td class="TableRowText02"><s:property value="prediction.similarityCutoff" /></td>
+		</tr>
+	</table>
+	<br />
+	<!-- End Header Info -->
 		
-		<table width="924" align="center">
-			<tr><td>
+	<!-- Predictions -->	
+	<br />
+		<p class="StandardTextDarkGray"><b><u>Prediction Results</u></b></p>
+		
+	<table width="924" align="center">
+		<tr><td>
 			<table>
 				<tr>
 				<!-- header for left side table -->
-				<td>Compound ID</td>
-				<td>Structure</td>
+				<td class="TableRowText01">Compound ID</td>
+				<td class="TableRowText01">Structure</td>
+				<s:iterator value="predictors" status="predictorsStatus">
+				<td class="TableRowText01">(<s:property value="name" />) Prediction</td>
+				<td class="TableRowText01">(<s:property value="name" />) Number of Predicting Models</td>
+				</s:iterator>
 				</tr>
 				<!-- body for left side table -->
-				<s:iterator value="compoundPredictionValues" status="compoundsStatus">
-					<tr>
-						<td><s:property value="compound" /></td>
-						<td>
-							<a href="#" onclick="window.open('compound3D?compoundId=<s:property value="compound" />&project=<s:property value="prediction.jobName" />&projectType=predictor&user=<s:property value="user.userName" />&datasetID=<s:property value="prediction.datasetId" />, '<% new java.util.Date().getTime(); %>','width=350, height=350');">
-							<img src="/imageServlet?user=<s:property value="compound" value="user.userName" />&projectType=predictor&compoundId=<bean:write name='predictionOutput' property='compoundName' />&project=<s:property value="prediction.jobName" />&datasetID=<s:property value="prediction.datasetId" />" border="0"/></a>
-						</td>
-					</tr>
-				</s:iterator>
-			</table>
-			</td><td>
-			<table STYLE="overflow: scroll">
-				<tr>
-				<!-- header for right side table -->
-				<s:iterator value="predictors" status="predictorsStatus">
-				<td><s:property value="name" />: Prediction</td>
-				<td><s:property value="name" />: # Models</td>
-				</s:iterator>
-				</tr>
-				<!-- body for right side table -->
-				<!-- I bet this will have a bug: if some predictor doesn't make one of the predictions then there will be missing information which will upset the other outputs -->
 				<s:iterator value="compoundPredictionValues" status="compoundPredictionValuesStatus">
 					<tr>
-					<s:iterator value="predictionValues" status="predictionValuesStatus">
-					<td><s:property value="predictedValue" /> +/- <s:property value="standardDeviation" /><!-- prediction value +/- stddev --></td>
-					<td><s:property  value="numModelsUsed" /><!-- number of models in prediction --></td>
-					</s:iterator>
+						<td class="TableRowText02"><s:property value="compound" /></td>
+						<td class="TableRowText02">
+							<a href="#" onclick="window.open('compound3D?compoundId=<s:property value="compound" />&project=<s:property value="prediction.jobName" />&projectType=predictor&user=<s:property value="user.userName" />&datasetID=<s:property value="prediction.datasetId" />, '<% new java.util.Date().getTime(); %>','width=350, height=350');">
+							<img src="/imageServlet?user=<s:property value="compound" value="user.userName" />&projectType=predictor&compoundId=<s:property value='compound' />&project=<s:property value="prediction.jobName" />&datasetID=<s:property value="prediction.datasetId" />" border="0"/></a>
+						</td>
+						<s:iterator value="predictionValues" status="predictionValuesStatus">
+						<td class="TableRowText02"><s:property value="predictedValue" /><s:if test="standardDeviation!=null"> &#177; </s:if><s:property value="standardDeviation" /><!-- prediction value +/- stddev --></td>
+						<td class="TableRowText02"><s:property  value="numModelsUsed" /><!-- number of models in prediction --></td>
+						</s:iterator>
 					</tr>
 				</s:iterator>
 			</table>
-		</table>
+		</td></tr>
+	</table>
 	<!-- End Predictions -->
 	
 <%@include file ="/jsp/main/footer.jsp" %>

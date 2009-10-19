@@ -161,7 +161,7 @@
 			</p>
 			<table>
 				<tr><td>
-					<s:submit value="Select Multiple Predictors" />
+					&nbsp;&nbsp;&nbsp;&nbsp;<s:submit value="Select Predictors" />
 				</td></tr>
 			</table>
 		
