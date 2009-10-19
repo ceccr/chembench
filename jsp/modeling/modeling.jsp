@@ -125,9 +125,14 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Scaling Type:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingType" value="scalingType" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /><br /><br /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingType" value="scalingType" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
 					</td>
 				</tr>
+				<tr>
+					<td colspan="2">
+					<div class="StandardTextDarkGrayParagraph"><i><br /><br /></i></div>
+					</td>
+				</tr>	
 				<!--<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Minimum Standard Deviation:</b></div>
