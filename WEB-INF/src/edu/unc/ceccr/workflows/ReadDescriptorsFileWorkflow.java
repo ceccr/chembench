@@ -28,7 +28,7 @@ public class ReadDescriptorsFileWorkflow{
 
 		boolean readingDescriptorNames = true;
 		while (src.hasNext()) {
-			//sometimes MolconnZ spits out nonsensical crap like ¿­¤C along with
+			//sometimes MolconnZ spits out nonsensical crap like ï¿½ï¿½ï¿½C along with
 			//a descriptor value. Filter that out.
 			temp = src.next();
 			if(temp.matches("not_available")){
@@ -51,7 +51,9 @@ public class ReadDescriptorsFileWorkflow{
 				else{
 					if(descriptorValues.size() == descriptorNames.size()){
 						//done reading values for this molecule, we're on the next one now.
+						Utility.writeToDebug("removed formula: " + descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS));
 						descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS); //contains molecule name, which isn't a descriptor
+						Utility.writeToDebug("removed compound name: " + descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS));
 						descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
 						descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
 						Descriptors di = new Descriptors();
