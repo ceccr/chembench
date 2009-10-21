@@ -26,7 +26,7 @@ public class GenerateDescriptorWorkflow{
 
 		  String workingDir = sdfile.replaceAll("/[^/]+$", "") + "/";
 		  
-		  writeDragonScriptFiles(sdfile + ".standardize", workingDir, outfile);
+		  writeDragonScriptFiles(sdfile, workingDir, outfile);
 		  String execstr = "/usr/local/ceccr/dragon/dragonX -s " + workingDir + "dragon-script.txt";
 			
 	      Utility.writeToDebug("Running external program: " + execstr);
