@@ -4,7 +4,7 @@
   <tr><td>
 <div class="ccbHomeStandard">
 
-Datasets
+<b>Datasets</b>
 
 <p align="justify" class="ccbHomeStandard">
 <b>Upload Dataset Files box:</b>

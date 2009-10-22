@@ -1,6 +1,6 @@
 
 <div class="ccbHomeStandard">
-<b>Contents</b><br />
+<b>Help Contents</b><br />
 <ul>
 <li><a href="/help-overview">Overview</a></li>
 <li><a href="/help-dataset">Data Management</a></li>

@@ -69,16 +69,18 @@
 						style="border-style:solid; border-color:blue;border-width:1px" /></label></td></tr>        
 			          </table>     
 			        </form>
-			        <span class="StandardTextDarkGray4">Forget your password? <a href="/getPassword.do">click here</a></span>
+			        <table width="250" border="0" ><tr><td>
+			        <span class="ccbHomeStandard">
+			        Forget your password? <a href="/getPassword.do">click here</a></span>
+			        </td></tr></table>
 			</logic:notPresent>
 		
 			<logic:present name="user">
 				<logic:notEqual name="user" property="userName" value="">    
-					<table border="0">
-					  <tr><td>	
+					<table border="0"><tr><td>	
 					<span><span	class="ccbHomeStandard">Welcome, 
 					  </span></span><span><span	class="ccbHomeStandard">
-					  <bean:write name="user" 	property="userName" />
+					  <bean:write name="user" property="userName" />
 					  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
 					    </span> </span>        
 					</td></tr> 
@@ -97,7 +99,7 @@
 			<!-- LOGIN INPUT FIELD ENDS HERE-->
 			
 			<!-- Other menus inside login box -->
-	             <p>New Users<br />
+	             <br />New Users<br />
 	               <span class="ccbHomeStandard">Please <a href="gotoregister.do">register here</a><br/>
 	             <!-- or, <a href="anonPredict.do">make simple predictions</a> (no login required) --> 
 	               </span></p>
