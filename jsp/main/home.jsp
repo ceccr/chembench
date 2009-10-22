@@ -69,7 +69,7 @@
 						style="border-style:solid; border-color:blue;border-width:1px" /></label></td></tr>        
 			          </table>     
 			        </form>
-			        <span class="ccbHomeStandard">Forget your password? <a href="/getPassword.do">click here</a></span>
+			        <span class="StandardTextDarkGray4">Forget your password? <a href="/getPassword.do">click here</a></span>
 			</logic:notPresent>
 		
 			<logic:present name="user">
@@ -88,7 +88,7 @@
 				<logic:equal name="user" property="userName" value="">    
 				<table width="250" border="0" align="right" cellpadding="5" cellspacing="2">
 						  <tr><td valign="middle">	
-						<p align="right"><span><span	class="StandardTextDarkGray4">
+						<p align="right"><span><span class="StandardTextDarkGray4">
 						ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
 						    &nbsp &nbsp &nbsp</span> </span></td></tr> 
 				</table>
