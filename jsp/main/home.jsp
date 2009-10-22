@@ -69,6 +69,7 @@
 						style="border-style:solid; border-color:blue;border-width:1px" /></label></td></tr>        
 			          </table>     
 			        </form>
+			        Forget your password? <a href="/getPassword.do">click here</a>
 			</logic:notPresent>
 		
 			<logic:present name="user">
