@@ -5,5 +5,10 @@
 </div>
 </td></tr></table>
 
+
+<%@include file ="/jsp/help/helpcontents.jsp" %>
+
+</div></td></tr></table>
+
 	<%@include file ="/jsp/main/footer.jsp" %>
 </body>

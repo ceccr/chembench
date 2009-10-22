@@ -4,7 +4,6 @@
   <tr><td>
 <div class="ccbHomeStandard">
 
-
 Datasets
 
 <p align="justify" class="ccbHomeStandard">
@@ -73,7 +72,10 @@ when the job has finished. When the dataset job finishes, if it is a modeling da
 from the Modeling and Prediction pages. (Prediction datasets can only be used from the Prediction page.)</p>
 </p>
 
+
 <%@include file ="/jsp/help/helpcontents.jsp" %>
+
+</div></td></tr></table>
 
 <%@include file ="/jsp/main/footer.jsp" %>
 

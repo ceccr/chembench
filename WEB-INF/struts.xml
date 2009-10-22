@@ -159,35 +159,35 @@
         
         <!-- Help forwards -->
         <action name="help-overview">
-        	<result type="redirect">jsp/help/overview.jsp</result>
+        	<result>jsp/help/overview.jsp</result>
         </action>
         
         <action name="help-dataset">
-        	<result type="redirect">jsp/help/datasetpage.jsp</result>
+        	<result>jsp/help/datasetpage.jsp</result>
         </action>
         
         <action name="help-modeling">
-        	<result type="redirect">jsp/help/modelingpage.jsp</result>
+        	<result>jsp/help/modelingpage.jsp</result>
         </action>
         
         <action name="help-prediction">
-        	<result type="redirect">jsp/help/predictionpage.jsp</result>
+        	<result>jsp/help/predictionpage.jsp</result>
         </action>
         
         <action name="help-jobs">
-        	<result type="redirect">jsp/help/jobspage.jsp</result>
+        	<result>jsp/help/jobspage.jsp</result>
         </action>
         
         <action name="help-knn">
-        	<result type="redirect">jsp/help/knnparams.jsp</result>
+        	<result>jsp/help/knnparams.jsp</result>
         </action>
         
         <action name="help-faq">
-        	<result type="redirect">jsp/help/faq.jsp</result>
+        	<result>jsp/help/faq.jsp</result>
         </action>
         
         <action name="help-fileformats">
-        	<result type="redirect">jsp/help/fileformats.jsp</result>
+        	<result>jsp/help/fileformats.jsp</result>
         </action>
         <!-- End Help forwards -->
         

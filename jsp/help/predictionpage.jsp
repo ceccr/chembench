@@ -41,6 +41,10 @@ set. Then, the predictors are each applied to the scaled descriptor sets to crea
 be viewed by clicking on the name of the prediction in the Predictions section of the jobs page. </p>
 </p>
 
+<%@include file ="/jsp/help/helpcontents.jsp" %>
+
+</div></td></tr></table>
+
 <%@include file ="/jsp/main/footer.jsp" %>
 
 </body>

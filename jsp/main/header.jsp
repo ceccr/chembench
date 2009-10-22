@@ -24,7 +24,7 @@
 			  </span></span><span><span	class="StandardTextDarkGray4">
 		  <b><bean:write name="user" property="userName" /></b>.
 		  &nbsp &nbsp &nbsp &nbsp</span> </span>        
-			<p align="right"><a href="#" onclick="logout()">log out</a> | <a href="admin.do">edit profile</a> | <a href="help.do" target="_top">help pages</a>&nbsp &nbsp &nbsp</p></td>
+			<p align="right"><a href="#" onclick="logout()">log out</a> | <a href="admin.do">edit profile</a> | <a href="help-overview" target="_top">help pages</a>&nbsp &nbsp &nbsp</p></td>
 			  </tr> 
 			</table>
 	   </logic:notEqual>

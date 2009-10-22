@@ -97,3 +97,9 @@ The .S file is straightforward to interpret. First, all the descriptors are list
 .act files
 The .act files store activities (numerical results associated with each chemical; these are what we're building a model on or trying to predict). They must have a corresponding .sdf file with them to describe the chemical.  The system validates that there are the same number of compounds in the .sdf file and its associated .act file.
 
+<%@include file ="/jsp/help/helpcontents.jsp" %>
+
+</div></td></tr></table>
+
+	<%@include file ="/jsp/main/footer.jsp" %>
+</body>

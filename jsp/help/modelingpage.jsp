@@ -96,6 +96,10 @@ applied to the external validation set. When the job is finished, it can be view
 Predictors section of the jobs page.</p>
 </p>
 
+<%@include file ="/jsp/help/helpcontents.jsp" %>
+
+</div></td></tr></table>
+
 <%@include file ="/jsp/main/footer.jsp" %>
 
 </body>
