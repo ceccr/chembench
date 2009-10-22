@@ -56,8 +56,8 @@ public class ReadDescriptorsFileWorkflow{
 						descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS); //contains molecule name, which isn't a descriptor
 						Utility.writeToDebug("removed compound name: " + descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS));
 						descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
+						Utility.writeToDebug("thing before compound name is: " + descriptorValues.get(9));
 						descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
-						Utility.writeToDebug("thing before formula is: " + descriptorValues.get(9));
 						Descriptors di = new Descriptors();
 						di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
 						descriptorValueMatrix.add(di);
