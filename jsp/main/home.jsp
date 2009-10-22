@@ -101,12 +101,16 @@
 	             <!-- or, <a href="anonPredict.do">make simple predictions</a> (no login required) --> 
 	               </span></p>
 	              <p>FAQ &amp; Help <br />
-	               <span class="ccbHomeStandard"><a href="theme/cchembench_userguide.pdf" target="_blank">                CCB User Guide</a><br />
-	               <a href="theme/kNNQSAR.pdf" target="_blank">kNN-QSAR User Guide</a><br />
-	               <a href="help.do" target="_blank">Frequently Asked Questions</a></span></p>
-	             <p>System Settings<br />
-	               <span class="ccbHomeStandard"><a href="admin.do">Please click here</a></span><br />
-	               </td>
+	               <span class="ccbHomeStandard">
+	               <a href="help-overview" target="_blank">Chembench Overview</a><br />
+	               <a href="help-faq" target="_blank">Frequently Asked Questions</a>
+	             </span></p>
+	            <logic:present name="user">
+				<logic:notEqual name="user" property="userName" value="">    
+				 <p>Edit Profile<br />
+		               <span class="ccbHomeStandard"><a href="admin.do">Please click here</a></span><br />
+		               </td>
+	            </logic:notEqual></logic:present>
 	         </tr>
 	         <!-- end login box -->
 	         </table>

@@ -18,10 +18,11 @@ management and running sets of programs, so you can focus on making and applying
 DATA MGMT, and so on. Once logged in, you can also change your password from "edit profile" at the top right of the 
 screen.</p>
 
-<p>In Chembench, you can create <u>Datasets</u>, <u>Predictors</u>, and <u>Predictions</u>.  
-A dataset is created from files that you upload. Typically, you will use a set of compounds (an SDF), along with 
+<p>In Chembench, you can create <u>Datasets</u>, <u>Predictors</u>, and <u>Predictions</u>.</p>
+
+<p>A dataset is created from files that you upload. Typically, you will use a set of compounds (an SDF), along with 
 experimental values for those compounds (an ACT file) to make a dataset. Datasets can be created using the DATA MGMT 
-tab. There are many benchmark datasets already on Chembench for you to use.</p>
+tab. There are also many benchmark datasets available on Chembench for you to experiment with.</p>
 
 <p>A predictor is a set of models that can be used to make a prediction. You need a modeling dataset (a dataset that 
 contains activity values) to make a predictor. You create predictors from the MODELING tab.</p>

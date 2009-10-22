@@ -20,7 +20,7 @@
 	   <logic:notEqual name="user" property="userName" value="">    
 			<table width="400" border="0" align="right" cellpadding="5" cellspacing="2">
 			  <tr><td align="right" valign="middle">	
-			<p align="right"><span><span	class="StandardTextDarkGray4">Logged in as  
+			<p align="right"><span><span class="StandardTextDarkGray4">Logged in as  
 			  </span></span><span><span	class="StandardTextDarkGray4">
 		  <b><bean:write name="user" property="userName" /></b>.
 		  &nbsp &nbsp &nbsp &nbsp</span> </span>        
