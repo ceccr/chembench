@@ -76,6 +76,13 @@ public class ReadDescriptorsFileWorkflow{
 		di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
 		descriptorValueMatrix.add(di);
 		
+
+		Utility.writeToDebug(di.getDescriptorValues());
+		for(int i = 0; i < descriptorValueMatrix.size(); i++){
+			Descriptors matrixLine = descriptorValueMatrix.get(i);
+			Utility.writeToDebug(matrixLine.getDescriptorValues());
+		}
+		
 		fin.close();
 	}
 
