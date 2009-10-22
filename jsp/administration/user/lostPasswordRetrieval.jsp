@@ -47,7 +47,7 @@
            &nbsp &nbsp Your email address: <br/>
 		    &nbsp  &nbsp <input type="text" size="35" name="email"> &nbsp &nbsp<input type="submit" value="Submit" ></form>
      </td></tr></table>
-     <!--  the form below fixes the IE CSS bug. do not remove. 20080727 Berk Zafer. -->
+     <!--  the form below fixes the IE CSS bug. do not remove. -->
                      <html:form action="/register.do" focus="firstName">
                 <table border="0" align="center" >
   <tr height="20">

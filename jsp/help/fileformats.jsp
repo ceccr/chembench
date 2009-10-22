@@ -1,3 +1,8 @@
+<%@include file ="/jsp/help/helpheader.jsp" %>
+
+<table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
+  <tr><td>
+<div class="ccbHomeStandard">
 
 .SDF files
 (Also referred to as "SD files", since SDF stands for "structure data file".)
@@ -87,7 +92,7 @@ X0   X1   X2   Xp3   Xp4   Xp5   Xp6   Xp7   Xp8   Xp9   Xp10
 19 21 30 39 49 56 60 62 64 64 62
 13.294681 9.185071 8.442608 7.163390 5.869330 4.134155 2.965950 1.912135 1.281447 0.819887 0.555201
 
-The .S file is ugly, but straightforward to interpret. First, all the descriptors are listed, and then their values are provided for each compound. There are 11 elements on each line of the file. Occasionally, molconnZ will spit out something insane with crazy characters instead of numbers. This will be caught by the current Java code and dealt with - if you write your own code to deal with .S files from molconnZ, you might need to do that too.
+The .S file is straightforward to interpret. First, all the descriptors are listed, and then their values are provided for each compound. There are 11 elements on each line of the file. Occasionally, molconnZ will spit out something insane with crazy characters instead of numbers. This will be caught by the current Java code and dealt with - if you write your own code to deal with .S files from molconnZ, you might need to do that too.
 
 .act files
 The .act files store activities (numerical results associated with each chemical; these are what we're building a model on or trying to predict). They must have a corresponding .sdf file with them to describe the chemical.  The system validates that there are the same number of compounds in the .sdf file and its associated .act file.

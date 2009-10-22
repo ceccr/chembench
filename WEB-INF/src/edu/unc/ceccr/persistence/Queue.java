@@ -45,7 +45,7 @@ public class Queue {
 	@Table(name = "cbench_task")
 	public static class QueueTask {
 		
-		public enum State {	ready, started, finished, error, PermissionRequired, deleted };
+		public enum State {	queued, started, finished, error, PermissionRequired, deleted };
 		public enum jobTypes { modeling, prediction, dataset };
 		private State state;
 		private String message;
@@ -108,22 +108,22 @@ public class Queue {
 						}
 					}
 					else{
-						this.setState(State.ready);
+						this.setState(State.queued);
 					}
 				}
 				else {
-					this.setState(State.ready);
+					this.setState(State.queued);
 				}
 				
 			}else if(task instanceof QsarPredictionTask){
 				QsarPredictionTask t = (QsarPredictionTask) task;
-				this.setState(State.ready);
+				this.setState(State.queued);
 				this.jobName = t.getJobName();
 				this.jobType = jobTypes.prediction;
 			}
 			else if(task instanceof CreateDatasetTask){
 				CreateDatasetTask t = (CreateDatasetTask) task;
-				this.setState(State.ready);
+				this.setState(State.queued);
 				this.jobName = t.getJobName();
 				this.jobType = jobTypes.dataset;
 			}
@@ -380,7 +380,7 @@ public class Queue {
 				}
 				//Utility.writeToDebug("non-empty queue.");
 				
-				QueueTask.State state=QueueTask.State.ready;
+				QueueTask.State state=QueueTask.State.queued;
 
 				QueueTask t = queue.poll();
 				Utility.writeToDebug("Task found at top of queue.", t.userName, t.jobName);

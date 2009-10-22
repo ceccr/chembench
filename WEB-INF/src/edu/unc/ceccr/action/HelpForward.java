@@ -1,5 +1,4 @@
 	package edu.unc.ceccr.action;
-// this file is created by Berk Zafer on 20080531 for the Help Section of CCB.
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
