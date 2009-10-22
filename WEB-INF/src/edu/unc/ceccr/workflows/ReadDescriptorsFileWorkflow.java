@@ -35,7 +35,7 @@ public class ReadDescriptorsFileWorkflow{
 				//molconnz will spit out a not_available if it gets a bad molecule.
 				descriptorValues.clear();
 			}
-			if(temp.matches("[a-zA-Z0-9[-.()]]+")){
+			if(temp.matches("[a-zA-Z0-9[-=_.()]]+")){ //note that this can remove compound names by accident sometimes... :-/
 
 				if(temp.equals("1") && readingDescriptorNames){
 					//The first occurrence of the number "1" indicates we're no
@@ -51,12 +51,8 @@ public class ReadDescriptorsFileWorkflow{
 				else{
 					if(descriptorValues.size() == descriptorNames.size()){
 						//done reading values for this molecule, we're on the next one now.
-						Utility.writeToDebug("thing after formula is: " + descriptorValues.get(12));
-						Utility.writeToDebug("removed formula: " + descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS));
 						descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS); //contains molecule name, which isn't a descriptor
-						Utility.writeToDebug("removed compound name: " + descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS));
 						descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
-						Utility.writeToDebug("thing before compound name is: " + descriptorValues.get(9));
 						descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
 						Descriptors di = new Descriptors();
 						di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
@@ -78,12 +74,12 @@ public class ReadDescriptorsFileWorkflow{
 		di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
 		descriptorValueMatrix.add(di);
 		
-
+/*
 		Utility.writeToDebug(di.getDescriptorValues());
 		for(int i = 0; i < descriptorValueMatrix.size(); i++){
 			Descriptors matrixLine = descriptorValueMatrix.get(i);
 			Utility.writeToDebug(matrixLine.getDescriptorValues());
-		}
+		}*/
 		
 		fin.close();
 	}
