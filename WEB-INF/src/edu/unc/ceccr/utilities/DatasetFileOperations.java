@@ -348,19 +348,19 @@ public class DatasetFileOperations {
 					}
 					catch(Exception ex){
 						//second thing isn't a number -- line was a header!
-						Utility.writeToDebug("is a header: " + temp + " {" + temp.split("\\s+")[1].trim() + "}");
+						Utility.writeToDebug("Activity file contains a header: " + temp + " {" + temp.split("\\s+")[1].trim() + "}");
 						firstLineContainsHeader = true;
 					}
 				}
 				else{
 					//contains more than 2 things -- it was a header!
-					Utility.writeToDebug("is a header 2: " + temp);
+					Utility.writeToDebug("Activity file header: " + temp);
 					firstLineContainsHeader = true;
 				}
 			}
 			
 			if(! firstLineContainsHeader){
-				Utility.writeToDebug("not a header: " + temp);
+				Utility.writeToDebug("Activity file has no header. First line: " + temp);
 				sb.append(temp + "\n");
 			}
 			
