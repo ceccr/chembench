@@ -347,13 +347,15 @@ while($running){
 		
 		int si = 0;
 		for(int i = 0; i < predictorDescriptorNames.size(); i++){
+			Utility.writeToDebug("1 i: " + i);
 			if(descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i))){
-				//Utility.writeToDebug("I: " + i + " - " + xFileDescriptorNames.get(i) + " || si: " + si + " - " + sFileDescriptorNames.get(si));
+				Utility.writeToDebug("I: " + i + " - " + predictorDescriptorNames.get(i) + " || si: " + si + " - " + descriptorNames.get(si));
 			}
 			while((si < descriptorNames.size()) && ! descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i)) ){
 				mapping.set(si, -1);
 				si++;
 			}
+			Utility.writeToDebug("2 i: " + i);
 			
 			if(si < descriptorNames.size()){
 				mapping.set(si, i);
@@ -361,6 +363,7 @@ while($running){
 			si++;
 		}
 		while(si < descriptorNames.size()){
+			Utility.writeToDebug("3 si: " + si);
 			mapping.set(si, -1);
 			si++;
 		}

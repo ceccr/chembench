@@ -57,6 +57,12 @@ public class PredictionFormActions extends ActionSupport{
 		
 		return result;
 	}
+	
+	public String makeSmilesPrediction() throws Exception{
+		String result = SUCCESS;
+		
+		return result;
+	}
 
 	public String loadMakePredictionsPage() throws Exception{
 		
