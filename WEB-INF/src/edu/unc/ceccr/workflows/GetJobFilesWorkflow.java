@@ -30,7 +30,11 @@ public class GetJobFilesWorkflow{
 		String sdFile = dataset.getSdfFile();
 		String actFile = dataset.getActFile();
 		String xFile = dataset.getXFile();
-		String externalSplitXFile = "ext_0.x";
+		String externalSplitXFile = "";
+		
+		if(dataset.getDatasetType().equals(Constants.MODELING) || dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
+			externalSplitXFile = "ext_0.x";
+		}
 		
 		Utility.writeToDebug("Fetching dataset files from " + userFilesDir, userName, "");
 		if(!sdFile.equals("")){
