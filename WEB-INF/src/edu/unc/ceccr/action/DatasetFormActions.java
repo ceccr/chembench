@@ -188,6 +188,7 @@ public class DatasetFormActions extends ActionSupport{
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTION)){
+			Utility.writeToDebug("got into function");
 			//do file check
 			if(sdfFilePrediction == null){
 				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
@@ -213,6 +214,7 @@ public class DatasetFormActions extends ActionSupport{
 			}
 			if(result.equalsIgnoreCase(SUCCESS)){
 				try{
+					Utility.writeToDebug("creating task");
 					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
 							datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
 							sdfFilePredictionFileName, //sdfFileName
@@ -232,6 +234,7 @@ public class DatasetFormActions extends ActionSupport{
 					int numCompounds = DatasetFileOperations.getSDFCompoundList(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
 					int numModels = 0;
+					Utility.writeToDebug("adding task");
 					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
 				catch(Exception ex){

@@ -100,7 +100,8 @@ public class CreateDatasetTask implements WorkflowTask{
 
 	public void execute() throws Exception {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
-		
+
+		Utility.writeToDebug("executing task");
 
 		if(!sdfFileName.equals("") && standardize.equals("true")){
 			//standardize the SDF	
