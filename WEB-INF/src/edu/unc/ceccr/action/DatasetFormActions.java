@@ -68,6 +68,7 @@ public class DatasetFormActions extends ActionSupport{
 			if(user == null){
 				Utility.writeToStrutsDebug("No user is logged in.");
 				result = LOGIN;
+				return result;
 			}
 		}
 		

@@ -59,7 +59,6 @@
         <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
         	<result name="input" type="redirect">jobs</result>
 			<result name="error">jsp/main/errors2.jsp</result>
-        	<result type="redirect">jobs</result>
         </action>
         
         <action name="loadModelingSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModeling">

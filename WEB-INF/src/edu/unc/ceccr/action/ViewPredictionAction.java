@@ -107,6 +107,7 @@ public class ViewPredictionAction extends ActionSupport {
 			if(user == null){
 				Utility.writeToStrutsDebug("No user is logged in.");
 				result = LOGIN;
+				return result;
 			}
 			if(predictionId == null){
 				Utility.writeToStrutsDebug("No prediction ID supplied.");
