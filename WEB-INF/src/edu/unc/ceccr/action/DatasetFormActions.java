@@ -98,7 +98,7 @@ public class DatasetFormActions extends ActionSupport{
 	}
 	public String execute() throws Exception {
 		
-		String result = SUCCESS;
+		String result = INPUT;
 
 		ActionContext context = ActionContext.getContext();
 		user = (User) context.getSession().get("user");
@@ -141,7 +141,7 @@ public class DatasetFormActions extends ActionSupport{
 				result = ERROR;
 			}
 			
-			if(result.equalsIgnoreCase(SUCCESS)){
+			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					msg = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
@@ -159,7 +159,7 @@ public class DatasetFormActions extends ActionSupport{
 				}
 			}
 			
-			if(result.equalsIgnoreCase(SUCCESS)){
+			if(result.equalsIgnoreCase(INPUT)){
 				CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
 						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
 						sdfFileModelingFileName, //sdfFileName
@@ -195,7 +195,7 @@ public class DatasetFormActions extends ActionSupport{
 				result = ERROR;
 			}
 			
-			if(result.equalsIgnoreCase(SUCCESS)){
+			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					msg = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, 
@@ -212,7 +212,7 @@ public class DatasetFormActions extends ActionSupport{
 					result = ERROR;
 				}
 			}
-			if(result.equalsIgnoreCase(SUCCESS)){
+			if(result.equalsIgnoreCase(INPUT)){
 				try{
 					Utility.writeToDebug("creating task");
 					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
@@ -251,7 +251,7 @@ public class DatasetFormActions extends ActionSupport{
 				result = ERROR;
 			}
 			
-			if(result.equalsIgnoreCase(SUCCESS)){
+			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					msg = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
@@ -269,7 +269,7 @@ public class DatasetFormActions extends ActionSupport{
 					result = ERROR;
 				}
 			}
-			if(result.equalsIgnoreCase(SUCCESS)){
+			if(result.equalsIgnoreCase(INPUT)){
 				try{
 					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
 						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
@@ -305,7 +305,7 @@ public class DatasetFormActions extends ActionSupport{
 				result = ERROR;
 			}
 			
-			if(result.equalsIgnoreCase(SUCCESS)){
+			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					msg = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
@@ -323,7 +323,7 @@ public class DatasetFormActions extends ActionSupport{
 				}
 			}
 			
-			if(result.equalsIgnoreCase(SUCCESS)){
+			if(result.equalsIgnoreCase(INPUT)){
 				try{
 					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
 						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
