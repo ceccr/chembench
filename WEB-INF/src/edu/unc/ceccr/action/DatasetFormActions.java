@@ -81,8 +81,6 @@ public class DatasetFormActions extends ActionSupport{
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
 		
 		userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
-		userContinuousDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS,true, session);
-		userCategoryDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY,true, session);
 
 		session.close();
 		//log the results
@@ -654,10 +652,7 @@ public class DatasetFormActions extends ActionSupport{
 	private List<String> userPredictorNames;
 	private List<String> userPredictionNames;
 	private List<String> userTaskNames;
-	
 	private List<Predictor> userPredictorList;
-	private List<DataSet> userContinuousDatasets;
-	private List<DataSet> userCategoryDatasets;
 
 	public User getUser(){
 		return user;
@@ -701,19 +696,5 @@ public class DatasetFormActions extends ActionSupport{
 	public void setUserPredictorList(List<Predictor> userPredictorList) {
 		this.userPredictorList = userPredictorList;
 	}
-	
-	public List<DataSet> getUserContinuousDatasets(){
-		return userContinuousDatasets;
-	}
-	public void setUserContinuousDatasets(List<DataSet> userContinuousDatasets) {
-		this.userContinuousDatasets = userContinuousDatasets;
-	}
-	
-	public List<DataSet> getUserCategoryDatasets(){
-		return userCategoryDatasets;
-	}
-	public void setUserCategoryDatasets(List<DataSet> userCategoryDatasets) {
-		this.userCategoryDatasets = userCategoryDatasets;
-	}
-	
+		
 }

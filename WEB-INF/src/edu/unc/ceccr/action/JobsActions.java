@@ -57,6 +57,7 @@ public class JobsActions extends ActionSupport {
 		Session session = HibernateUtil.getSession();
 		userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
 		userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
+		userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.PREDICTION, true, session));
 		userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false, session);
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
 		
