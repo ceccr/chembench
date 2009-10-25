@@ -166,7 +166,7 @@ public class DatasetFormActions extends ActionSupport{
 						actFileModelingFileName, //actFileName
 						"", //xFileName
 						"", //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
-						dataTypeModeling, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS
+						dataTypeModeling, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 						standardizeModeling, //used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
 						numExternalCompounds, //if splitType is RANDOM
@@ -220,7 +220,7 @@ public class DatasetFormActions extends ActionSupport{
 							"", //actFileName
 							"", //xFileName
 							"", //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
-							"", //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS
+							Constants.PREDICTION, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 							standardizePrediction, //used in MODELING and PREDICTION
 							splitType, //RANDOM or USERDEFINED
 							numExternalCompounds, //if splitType is RANDOM
@@ -276,7 +276,7 @@ public class DatasetFormActions extends ActionSupport{
 						actFileModDescFileName, //actFileName
 						xFileModDescFileName, //xFileName
 						descriptorTypeModDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
-						dataTypeModDesc, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS
+						dataTypeModDesc, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 						"", //used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
 						numExternalCompounds, //if splitType is RANDOM
@@ -331,7 +331,7 @@ public class DatasetFormActions extends ActionSupport{
 						"", //actFileName
 						xFilePredDescFileName, //xFileName
 						descriptorTypePredDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
-						"", //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS
+						Constants.PREDICTION, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 						"", //used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
 						numExternalCompounds, //if splitType is RANDOM
