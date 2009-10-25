@@ -112,10 +112,9 @@ public class DatasetFormActions extends ActionSupport{
 		}
 		
 		String msg = "";
-		
+		Utility.writeToDebug("type: " + datasetType);
 		if(datasetType.equalsIgnoreCase(Constants.MODELING)){
-			Utility.writeToDebug("type: " + datasetType);
-
+			
 			if(sdfFileModeling == null){
 				Utility.writeToDebug("sdf file is null");
 			}
@@ -188,7 +187,6 @@ public class DatasetFormActions extends ActionSupport{
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTION)){
-			Utility.writeToDebug("type: " + datasetType);
 			//do file check
 			if(sdfFilePrediction == null){
 				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
@@ -243,7 +241,6 @@ public class DatasetFormActions extends ActionSupport{
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)){
-			Utility.writeToDebug("type: " + datasetType);
 			
 			if(xFileModDesc == null || actFileModDesc == null){
 				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
@@ -299,7 +296,6 @@ public class DatasetFormActions extends ActionSupport{
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)){
-			Utility.writeToDebug("type: " + datasetType);
 			if(xFilePredDesc == null){
 				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
 				result = ERROR;
