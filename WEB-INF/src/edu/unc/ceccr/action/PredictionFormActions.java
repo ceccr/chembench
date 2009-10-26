@@ -62,6 +62,30 @@ public class PredictionFormActions extends ActionSupport{
 	public String makeSmilesPrediction() throws Exception{
 		String result = SUCCESS;
 		
+		ActionContext context = ActionContext.getContext();
+		user = (User) context.getSession().get("user");
+		//use the same session for all data requests
+		Session session = HibernateUtil.getSession();
+		
+		String smiles = (String) context.getSession().get("smiles");
+		String cutoff = (String) context.getSession().get("cutoff");
+		Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff);
+		
+		/*		
+		Utility.writeToDebug(user.getUserName());
+		Utility.writeToDebug("SMILES predids: " + selectedPredictorIds);
+
+		int numCompounds = predictionDataset.getNumCompound();
+		String[] ids = selectedPredictorIds.split("\\s+");
+		int numModels = 0;
+		for(int i = 0; i < ids.length; i++){
+			numModels += PopulateDataObjects.getPredictorById(Long.parseLong(ids[i]), session).getNumTestModels();
+		}
+		Queue.getInstance().addJob(predTask,user.getUserName(), jobName, numCompounds, numModels);
+		 */
+		//give back the session at the end
+		session.close();
+		
 		return result;
 	}
 

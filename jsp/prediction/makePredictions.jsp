@@ -51,7 +51,7 @@
 			showLoading("PREDICTING. PLEASE WAIT.")
 		
 			//send request
-			var url="smilesPredict.do?smiles=" + smiles + "&cutoff=" + cutoff + "&predictorIds=" + '<s:property value="selectedPredictorIds" />';
+			var url="makeSmilesPrediction?smiles=" + smiles + "&cutoff=" + cutoff + "&predictorIds=" + '<s:property value="selectedPredictorIds" />';
 			ajaxObject.open("GET",url,true);
 			ajaxObject.send(null);
 			
@@ -61,7 +61,8 @@
 	</script>
 </head>
 
-	<body bgcolor="#ffffff">
+<body bgcolor="#ffffff">
+	<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
 	<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 	<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 	
@@ -231,5 +232,6 @@ document.MSketch.style.zIndex="-1";
 </table>	
 
 <%@include file ="/jsp/main/footer.jsp" %>
+</div>
 </body>
 </html>	

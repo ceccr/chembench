@@ -528,7 +528,7 @@ public class QsarModelingTask implements WorkflowTask {
 		predictor.setNumyTotalModels(yTotalModels);
 		predictor.setActivityType(actFileDataType);
 		predictor.setStatus("saved");
-		predictor.setPredictorType("saved");
+		predictor.setPredictorType("Private");
 		predictor.setDatasetId(datasetID);
 		
 		if(allkNNValues.size()<1){}else

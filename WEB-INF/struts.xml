@@ -10,20 +10,7 @@
     <constant name="struts.multipart.maxSize" value="52428800" /><!-- no files over 50 MB allowed; defaults to 2MB if unset -->
 
     <package name="default" namespace="/" extends="struts-default">
-		<!-- Interceptor configs -->
-		<interceptors>
-			<interceptor name="fileUpload" class="org.apache.struts2.interceptor.FileUploadInterceptor" />
-
-			<interceptor-stack name="basicStack">
-				<interceptor-ref name="fileUpload">
-					<param name="maximumSize">52428800</param> <!-- no files over 50 MB allowed; defaults to 2MB if unset --> 			
-				</interceptor-ref>
-			</interceptor-stack>		
-
-		</interceptors>
-		<!-- End Interceptor configs -->
                 
-        
         <default-action-ref name="index" />
 		
 		<global-results>
@@ -112,6 +99,10 @@
         
 	    <action name="makeDatasetPrediction" class="edu.unc.ceccr.action.PredictionFormActions" method="makeDatasetPrediction">
 	        <result type="redirect">jobs</result>
+	    </action>
+	    
+	    <action name="makeSmilesPrediction" class="edu.unc.ceccr.action.PredictionFormActions" method="makeSmilesPrediction">
+	        <result type="redirect">/jsp/prediction/predictionResults.jsp</result>
 	    </action>
         <!-- End Make Predictions Pages -->
         
