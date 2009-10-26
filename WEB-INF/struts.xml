@@ -7,10 +7,29 @@
 	
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="false" />
+    <constant name="struts.multipart.maxSize" value="52428800" /><!-- no files over 50 MB allowed; defaults to 2MB if unset -->
 
     <package name="default" namespace="/" extends="struts-default">
-        <default-action-ref name="index" />
+		<!-- Interceptor configs -->
+		<interceptors>
+			<interceptor name="fileUpload" class="org.apache.struts2.interceptor.FileUploadInterceptor" />
+
+			<interceptor-stack name="basicStack">
+				<interceptor-ref name="fileUpload">
+					<param name="maximumSize">52428800</param> <!-- no files over 50 MB allowed; defaults to 2MB if unset --> 			
+				</interceptor-ref>
+			</interceptor-stack>		
+
+		</interceptors>
+		<!-- End Interceptor configs -->
+                
         
+        <default-action-ref name="index" />
+		
+		<global-results>
+		<result name="login">jsp/main/home.jsp</result>
+		</global-results>
+		
         <!-- Main pages -->
          <action name="index">
             <result>jsp/main/home.jsp</result>
@@ -20,41 +39,10 @@
             <result>jsp/main/errors2.jsp</result>
         </action>
         
-         <action name="login">
-            <result>jsp/main/home.jsp</result>
-        </action>
-        
-        <!-- Modeling Page -->
-        <action name="modeling" class="edu.unc.ceccr.action.ModelingFormActions" method="loadPage">
-        	<result>jsp/modeling/modeling.jsp</result>
-        	<result name="login">jsp/main/home.jsp</result>
-        </action>
-        
-        <action name="createModelingJob" class="edu.unc.ceccr.action.ModelingFormActions" method="execute">
-        	<result type="redirect">jobs</result>
-        </action>
-        
-        <action name="loadKnnSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadKnn">
-        	<result>jsp/modeling/modeling-knn.jsp</result>
-        </action>
-        
-        <action name="loadSvmSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadSvm">
-        	<result>jsp/modeling/modeling-svm-dummy.jsp</result>
-        </action>
-        
-        <action name="loadRandomInternalSplitSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadRandomSplit">
-        	<result>jsp/modeling/modeling-randomsplit.jsp</result>
-        </action>
-        
-        <action name="loadSphereInternalSplitSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadSphereSplit">
-        	<result>jsp/modeling/modeling-spheresplit.jsp</result>
-        </action>
-        <!-- End Modeling Page -->
         
         <!-- Dataset Page -->
         <action name="dataset" class="edu.unc.ceccr.action.DatasetFormActions" method="loadPage">
         	<result name="success">jsp/dataSet/dataset.jsp</result>
-        	<result name="login">jsp/main/home.jsp</result>
         </action>
         
         <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
@@ -87,15 +75,39 @@
         </action>
         <!-- End Dataset Page -->
         
+        <!-- Modeling Page -->
+        <action name="modeling" class="edu.unc.ceccr.action.ModelingFormActions" method="loadPage">
+        	<result>jsp/modeling/modeling.jsp</result>
+        </action>
+        
+        <action name="createModelingJob" class="edu.unc.ceccr.action.ModelingFormActions" method="execute">
+        	<result type="redirect">jobs</result>
+        </action>
+        
+        <action name="loadKnnSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadKnn">
+        	<result>jsp/modeling/modeling-knn.jsp</result>
+        </action>
+        
+        <action name="loadSvmSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadSvm">
+        	<result>jsp/modeling/modeling-svm-dummy.jsp</result>
+        </action>
+        
+        <action name="loadRandomInternalSplitSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadRandomSplit">
+        	<result>jsp/modeling/modeling-randomsplit.jsp</result>
+        </action>
+        
+        <action name="loadSphereInternalSplitSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadSphereSplit">
+        	<result>jsp/modeling/modeling-spheresplit.jsp</result>
+        </action>
+        <!-- End Modeling Page -->
+        
         <!-- Make Predictions Pages -->
 	    <action name="prediction" class="edu.unc.ceccr.action.PredictionFormActions" method="loadSelectPredictorPage">
 	        <result>jsp/prediction/selectPredictor.jsp</result>
-	        <result name="login">jsp/main/home.jsp</result>
 	    </action>
 	    
 	    <action name="selectPredictor" class="edu.unc.ceccr.action.PredictionFormActions" method="loadMakePredictionsPage">
 	        <result>jsp/prediction/makePredictions.jsp</result>
-	        <result name="login">jsp/main/home.jsp</result>
 	    </action>
         
 	    <action name="makeDatasetPrediction" class="edu.unc.ceccr.action.PredictionFormActions" method="makeDatasetPrediction">
@@ -106,7 +118,6 @@
         <!-- Jobs Page -->
         <action name="jobs" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
         	<result>jsp/jobs/jobs.jsp</result>
-        	<result name="login">jsp/main/home.jsp</result>
         </action>
         
         <!-- End Jobs Page -->
@@ -114,14 +125,12 @@
         <!-- View Predictor Page -->
         <action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
         	<result>jsp/modeling/viewPredictor.jsp</result>
-        	<result name="login">jsp/main/home.jsp</result>
         </action>
         <!-- End View Predictor Page -->
         
         <!-- View Prediction Page -->
         <action name="viewPrediction" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadPage">
         	<result>jsp/prediction/viewPrediction.jsp</result>
-        	<result name="login">jsp/main/home.jsp</result>
         </action>
         <!-- End View Prediction Page -->
         
