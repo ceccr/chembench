@@ -25,12 +25,14 @@ public class ZipJobResultsWorkflow{
 		int x = 0;
 		while(filenames != null && x<filenames.length){
 			
-			if(filenames[x].matches(".*S") || filenames[x].matches(".*x") || 
+			if(filenames[x].matches(".*mz") || filenames[x].matches(".*dragon") || 
+					filenames[x].matches(".*moe") || filenames[x].matches(".*maccs") ||
+					filenames[x].matches(".*S") || filenames[x].matches(".*x") || 
 					filenames[x].matches("RAND_sets.*[0-9]+") || filenames[x].matches(".*x_r") || 
 					filenames[x].matches(".*mod") || filenames[x].matches("Rand_sets_[a-zA-Z]+.[0-9]+")){
-				//these files contain descriptors! 
-				//We can't let people download them, or MolconnZ's lawyers will
-				//come get us.
+				//these files contain descriptor values! 
+				//We can't let people download them, or lawyers will
+				//eat us. Scary!
 			}
 			else{
 				//add the file into the zip
