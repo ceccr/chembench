@@ -14,6 +14,9 @@ public class ZipJobResultsWorkflow{
 	public static void ZipKnnResults(String userName, String jobName, String zipFile, String jobType) throws Exception{
 		Utility.writeToDebug("Creating archive of project: " + jobName);
 	    // These are the files to include in the ZIP file
+		if(userName.equals(Constants.ALL_USERS_USERNAME)){
+			userName = "all-users";
+		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobType + "/" + jobName + "/";
 		//ArrayList<String> filesForZip = new ArrayList<String>();
 		File file = new File(projectDir);
