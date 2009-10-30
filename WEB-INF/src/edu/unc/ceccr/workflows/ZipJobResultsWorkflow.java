@@ -4,6 +4,9 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.zip.*;
 
 public class ZipJobResultsWorkflow{
@@ -23,16 +26,40 @@ public class ZipJobResultsWorkflow{
 		byte[] buf = new byte[1024];
 		
 		int x = 0;
+		//get subdirectories (needed for predictions now, grr)
+		ArrayList<String> stringList = new ArrayList<String>();
+		stringList.addAll(Arrays.asList(filenames));
 		while(filenames != null && x<filenames.length){
-			
-			if(filenames[x].matches(".*mz") || filenames[x].matches(".*dragon") || 
+			File subdir = new File(projectDir + filenames[x]);
+			if(subdir.isDirectory()){
+				String[] subdir_files = subdir.list();
+				for(int i = 0; i < subdir_files.length; i++){
+					stringList.add(filenames[x] + subdir_files[i]);
+				}
+			}
+		}
+		
+		filenames = (String[]) stringList.toArray();
+		x = 0;
+		while(filenames != null && x<filenames.length){
+			if(new File(projectDir + filenames[x]).isDirectory() )
+			if(
+					(//files matching this stuff can contain descriptor values
+					 //if we let people download that, we get sued X_X
+					filenames[x].matches(".*mz") || filenames[x].matches(".*dragon") || 
 					filenames[x].matches(".*moe") || filenames[x].matches(".*maccs") ||
 					filenames[x].matches(".*S") || filenames[x].matches(".*x") || 
 					filenames[x].matches("RAND_sets.*[0-9]+") || filenames[x].matches(".*x_r") || 
-					filenames[x].matches(".*mod") || filenames[x].matches("Rand_sets_[a-zA-Z]+.[0-9]+")){
-				//these files contain descriptor values! 
-				//We can't let people download them, or lawyers will
-				//eat us. Scary!
+					filenames[x].matches("Rand_sets_[a-zA-Z]+.[0-9]+")
+					)
+					&& 
+					( //the mod and pred files are fine -- those are regular kNN outputs and are needed
+					!filenames[x].matches(".*mod") &&
+					!filenames[x].matches(".*pred") 
+					)
+					)
+			{
+				//don't include these files (do nothing)
 			}
 			else{
 				//add the file into the zip
