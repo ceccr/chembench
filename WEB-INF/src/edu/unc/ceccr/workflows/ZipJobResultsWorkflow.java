@@ -34,7 +34,7 @@ public class ZipJobResultsWorkflow{
 			if(subdir.isDirectory()){
 				String[] subdir_files = subdir.list();
 				for(int i = 0; i < subdir_files.length; i++){
-					stringList.add(filenames[x] + subdir_files[i]);
+					stringList.add(filenames[x] + "/" + subdir_files[i]);
 				}
 			}
 		}
@@ -42,7 +42,6 @@ public class ZipJobResultsWorkflow{
 		filenames = (String[]) stringList.toArray();
 		x = 0;
 		while(filenames != null && x<filenames.length){
-			if(new File(projectDir + filenames[x]).isDirectory() )
 			if(
 					(//files matching this stuff can contain descriptor values
 					 //if we let people download that, we get sued X_X
@@ -50,7 +49,8 @@ public class ZipJobResultsWorkflow{
 					filenames[x].matches(".*moe") || filenames[x].matches(".*maccs") ||
 					filenames[x].matches(".*S") || filenames[x].matches(".*x") || 
 					filenames[x].matches("RAND_sets.*[0-9]+") || filenames[x].matches(".*x_r") || 
-					filenames[x].matches("Rand_sets_[a-zA-Z]+.[0-9]+")
+					filenames[x].matches("Rand_sets_[a-zA-Z]+.[0-9]+") ||
+					new File(projectDir + filenames[x]).isDirectory() //don't want dirs either
 					)
 					&& 
 					( //the mod and pred files are fine -- those are regular kNN outputs and are needed
