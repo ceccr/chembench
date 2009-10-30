@@ -25,7 +25,9 @@ public class ProjectFilesServlet extends HttpServlet {
     	String BASE=Constants.CECCR_USER_BASE_PATH;
     	
        String userName=request.getParameter("user");
-
+       if(userName.equals(Constants.ALL_USERS_USERNAME)){
+		  userName = "all-users";
+	   }	
        String projectName = request.getParameter("project");
        
        String projectType = request.getParameter("projectType");
@@ -42,9 +44,6 @@ public class ProjectFilesServlet extends HttpServlet {
        BufferedInputStream input=null;
        
        try {
-    	   if(userName.equals(Constants.ALL_USERS_USERNAME)){
-    		   userName = "all-users";
-   		   }	
     	   ZipJobResultsWorkflow.ZipKnnResults(userName, projectName, zipFile, projectType);
     	   
 	   } catch (Exception e) 
