@@ -44,7 +44,7 @@ public class ZipJobResultsWorkflow{
 		}
 		
 		filenames = new String[stringList.size()];
-		filenames = stringList.toArray(filenames);
+		stringList.toArray(filenames);
 		x = 0;
 		while(filenames != null && x<filenames.length){
 			if(
