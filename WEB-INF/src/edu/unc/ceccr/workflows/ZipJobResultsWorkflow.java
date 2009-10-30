@@ -40,6 +40,7 @@ public class ZipJobResultsWorkflow{
 					stringList.add(filenames[x] + "/" + subdir_files[i]);
 				}
 			}
+			x++;
 		}
 		
 		filenames = (String[]) stringList.toArray();
