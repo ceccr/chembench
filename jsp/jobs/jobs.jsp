@@ -18,7 +18,6 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 
 <script src="javascript/script.js"></script>
-
 </head>
 <body>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
@@ -134,7 +133,7 @@
 					<s:else>
 					<td class="TableRowText02">Private</td>
 					<td class="TableRowText02"><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=<s:property value="user.userName" />">download</a></td>
-					<td class="TableRowText02"><a href="deleteDataset?id=<s:property value="fileId" />">delete</a></td>
+					<td class="TableRowText02"><a onclick="return confirmDelete('dataset')" href="deleteDataset?id=<s:property value="fileId" />">delete</a></td>
 					</s:else>
 					
 					</tr> 
@@ -186,7 +185,7 @@
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
 					<td class="TableRowText02"><s:if test="userName=='_all'">Public</s:if><s:else>Private</s:else></td>
 					<td class="TableRowText02"><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
-					<td class="TableRowText02"><s:if test="userName=='_all'"></s:if><s:else><a href="deletePredictor?id=<s:property value="predictorId" />">delete</a></s:else></td>
+					<td class="TableRowText02"><s:if test="userName=='_all'"></s:if><s:else><a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="predictorId" />">delete</a></s:else></td>
 					</tr> 
 				</s:iterator>
 				<br />
@@ -232,7 +231,7 @@
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
 					<td class="TableRowText02"><s:property value="predictorNames" /></td>
 					<td class="TableRowText02"><a href="projectFilesServlet?project=<s:property value='jobName' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
-					<td class="TableRowText02"><a href="deletePrediction?id=<s:property value="predictionId" />">delete</a></td>
+					<td class="TableRowText02"><a onclick="return confirmDelete('prediction')" href="deletePrediction?id=<s:property value="predictionId" />">delete</a></td>
 					</tr> 
 				</s:iterator>
 				<br />

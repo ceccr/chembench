@@ -1,3 +1,10 @@
+function confirmDelete(objectType){
+	var x=window.confirm("Are you sure you want to delete this " + objectType + "?");
+	if (x)
+		return true;
+	else
+		return false;
+}
 
 function validateDatasetDelete(name, usedPredictorNames, usedPredictionNames, usedTaskNames){
 	

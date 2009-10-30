@@ -18,6 +18,10 @@ public class ZipJobResultsWorkflow{
 			userName = "all-users";
 		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobType + "/" + jobName + "/";
+		if(projectDir.contains("..") || projectDir.contains("~")){
+			//someone's trying to download something they shouldn't be!
+			return;
+		}
 		//ArrayList<String> filesForZip = new ArrayList<String>();
 		File file = new File(projectDir);
 		String[] filenames = file.list();
