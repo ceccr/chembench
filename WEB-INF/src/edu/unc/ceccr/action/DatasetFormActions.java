@@ -143,6 +143,9 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
+				if(actFileModelingFileName.endsWith(".a")){
+					actFileModelingFileName = actFileModelingFileName.substring(0, actFileModelingFileName.lastIndexOf(".")) + ".act";
+				}
 				try{
 					msg = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
 							actFileModeling, actFileModelingFileName, null, "", datasetName, 
@@ -254,6 +257,9 @@ public class DatasetFormActions extends ActionSupport{
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
+					if(actFileModDescFileName.endsWith(".a")){
+						actFileModDescFileName = actFileModDescFileName.substring(0, actFileModDescFileName.lastIndexOf(".")) + ".act";
+					}
 					msg = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
 							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
 							dataTypeModeling, datasetType);

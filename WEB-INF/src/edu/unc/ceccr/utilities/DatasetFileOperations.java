@@ -181,28 +181,29 @@ public class DatasetFileOperations {
 			}
 			Utility.writeToDebug("done checking SDF");
 		}
+		
 		if(actFile != null){
 			Utility.writeToDebug("checking ACT");
-			 actFileName = actFileName.substring(0, actFileName.lastIndexOf(".")) + ".act";
-			 msg += saveACTFile(actFile, path, actFileName);
-			 actFile = new File(path + actFileName);
+			msg += saveACTFile(actFile, path, actFileName);
+			actFile = new File(path + actFileName);
 			 
-			 msg += rewriteACTFile(path + actFileName);
-			 act_compounds = getACTCompoundList(actFile.getAbsolutePath());
-			 numCompounds = act_compounds.size();
-			 actFile = new File(path + actFileName);
-			 msg += actIsValid(actFile, actFileType);
+			msg += rewriteACTFile(path + actFileName);
+			act_compounds = getACTCompoundList(actFile.getAbsolutePath());
+			numCompounds = act_compounds.size();
+			actFile = new File(path + actFileName);
+			msg += actIsValid(actFile, actFileType);
 			 
-			 //Check if ACT file contains duplicates 
-			 int act_duplicate_position = findDuplicates(act_compounds);
-			 if(act_duplicate_position!=-1) msg+= ErrorMessages.ACT_CONTAINS_DUPLICATES + act_compounds.get(act_duplicate_position);
-			 Utility.writeToDebug("done checking ACT");
+			//Check if ACT file contains duplicates 
+			int act_duplicate_position = findDuplicates(act_compounds);
+			if(act_duplicate_position!=-1) msg+= ErrorMessages.ACT_CONTAINS_DUPLICATES + act_compounds.get(act_duplicate_position);
+			Utility.writeToDebug("done checking ACT");
 		}
+		
 		if(xFile != null){
-			 Utility.writeToDebug("checking X");
-			 msg += saveXFile(xFile, path, xFileName);
-			 xFile = new File(path + xFileName);
-			 Utility.writeToDebug("done checking X");
+			Utility.writeToDebug("checking X");
+			msg += saveXFile(xFile, path, xFileName);
+			xFile = new File(path + xFileName);
+			Utility.writeToDebug("done checking X");
 		}
 
 		//generate an empty activity file (needed for... heatmaps or something...?)
