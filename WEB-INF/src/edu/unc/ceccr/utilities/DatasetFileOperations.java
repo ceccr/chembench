@@ -184,7 +184,7 @@ public class DatasetFileOperations {
 		if(actFile != null){
 			Utility.writeToDebug("checking ACT");
 			 msg += saveACTFile(actFile, path, actFileName);
-			 actFile = new File(path + actFileName);
+			 actFile = new File(path + actFileName.substring(0, actFileName.lastIndexOf(".")) + "act");
 
 			 msg += rewriteACTFile(path + actFileName);
 			 act_compounds = getACTCompoundList(actFile.getAbsolutePath());
@@ -319,11 +319,19 @@ public class DatasetFileOperations {
 		
 		String destFilePath = path + actFileName;
 		FileAndDirOperations.copyFile(actFile.getAbsolutePath(), destFilePath);
+		
+
+		if(actFile.getName().endsWith(".a")){
+			//rename it to ".act" for compatibility
+			destFilePath = destFilePath.substring(0, destFilePath.lastIndexOf(".")) + "act"; 
+			FileAndDirOperations.copyFile(actFile.getAbsolutePath(), destFilePath);
+		}
+		
 		if(isXlsFile){
 			XLStoACT(path, actFile.getName().substring(0,actFile.getName().indexOf("."))+".act", actFile.getName());
 			new File(path +actFile.getName()).delete();
 		}
-			
+		
 		return "";
 	}
 	
