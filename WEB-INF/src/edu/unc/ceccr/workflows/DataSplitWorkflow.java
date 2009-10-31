@@ -69,7 +69,7 @@ public class DataSplitWorkflow{
 			String xFileName, 
 			String compoundIdString) throws Exception {
 
-		String[] compoundIDs = compoundIdString.split("\\s+");
+		String[] compoundIDs = compoundIdString.trim().split("\\s+");
 		
 		File inX = new File(workingdir + xFileName);
 		BufferedReader inXReader = new BufferedReader(new FileReader(inX));
