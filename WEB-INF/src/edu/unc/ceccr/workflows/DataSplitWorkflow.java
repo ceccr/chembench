@@ -110,7 +110,7 @@ public class DataSplitWorkflow{
 				boolean lineIsExternal = false;
 				for(int i = 0; i < compoundIDs.length; i++){
 					//in an X file, first value is an index, second is compoundID
-					if(array[1].equals(compoundIDs[i])){
+					if(array[1].equals(compoundIDs[i]) && ! array[1].trim().equals("")){
 						outXExternalWriter.write(line + "\n");
 						lineIsExternal = true;
 					}
