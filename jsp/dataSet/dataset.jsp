@@ -82,7 +82,7 @@
 		      //alert("Tab "+ tab.widgetId + " was selected");
 		      document.getElementById("datasetType").value = tab.widgetId;
 		      
-		      var externalParameterIds = new Array("useActivityBinning", "numCompoundsExternalSet", "externalCompoundList");
+		      var externalParameterIds = new Array("useActivityBinning", "numExternalCompounds", "externalCompoundList");
 		      if(tab.widgetId == "MODELING" || tab.widgetId == "MODELINGWITHDESCRIPTORS"){
 		      	//if it's a modeling dataset, enable the external split parameters 
 		      	for (var i=0; i < externalParameterIds.length; i++){

@@ -35,6 +35,13 @@ public class DataSplitWorkflow{
 			String useActivityBinning) throws Exception {
 		//splits the input dataset into modeling and external validation set
 		
+		if(numCompoundsExternalSet.equals("0")){
+			//datasplit will do something weird if you specify 0 as the size. 
+			//Gotta do this manually.
+			splitModelingExternalGivenList(workingdir, actFile, xFile, "");
+			return;
+		}
+		
 		//copy the act file to a ".a" file because datasplit will expect it that way
 		String actFileBase = actFile.substring(0, actFile.lastIndexOf("."));
 		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + actFileBase + ".a");
