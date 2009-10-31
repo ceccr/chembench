@@ -183,9 +183,10 @@ public class DatasetFileOperations {
 		}
 		if(actFile != null){
 			Utility.writeToDebug("checking ACT");
+			 actFileName = actFileName.substring(0, actFileName.lastIndexOf(".")) + "act";
 			 msg += saveACTFile(actFile, path, actFileName);
-			 actFile = new File(path + actFileName.substring(0, actFileName.lastIndexOf(".")) + "act");
-
+			 actFile = new File(path + actFileName);
+			 
 			 msg += rewriteACTFile(path + actFileName);
 			 act_compounds = getACTCompoundList(actFile.getAbsolutePath());
 			 numCompounds = act_compounds.size();
