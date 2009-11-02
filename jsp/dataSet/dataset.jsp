@@ -156,10 +156,10 @@
 			<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
 			<sx:tabbedpanel id="splitTypeTabbedPanel" afterSelectTabNotifyTopics="/splitTypeSelect">
     	
-		    	<sx:div id="randomSplit" href="/loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading dataset types...">
+		    	<sx:div id="RANDOM" href="/loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading dataset types...">
 				</sx:div>
 	    	
-				<sx:div id="userSplit" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading dataset types...">
+				<sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading dataset types...">
 				</sx:div>
 				
 	    	</sx:tabbedpanel>
@@ -169,30 +169,6 @@
 		</tbody>
 	</table>
 	<br />
-	
-	<!-- Generate Visualizations -->
-<!-- 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
-		<tbody>			
-		<tr>
-			<td height="24" align="left" colspan="2">
-			<p class="StandardTextDarkGrayParagraph2">
-			<br /><b>Generate Visualizations</b>
-			</p></td>
-		</tr>
-		<tr>
-			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>Pick which visualizations you would like available for this dataset.</i><br /></div></td>
-		 </tr>	
-		<tr>
-			<td colspan="2"><div class="StandardTextDarkGrayParagraph">
-			<input type="checkbox">Images of each compound</input><br />
-			<input type="checkbox">Heatmap based on Tanimoto distances</input><br />
-			<input type="checkbox">Heatmap based on Mahalanobis distances</input><br />
-			<input type="checkbox">PCA plots</input></div></td>
-		</tr>	
-	</tbody>
-	</table>
-	<br /> -->
 	
 	<!-- Submit Dataset -->
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
