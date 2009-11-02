@@ -397,6 +397,12 @@ public class DatasetFormActions extends ActionSupport{
 	public void setDatasetType(String datasetType) {
 		this.datasetType = datasetType;
 	}
+	public String getSplitType() {
+		return splitType;
+	}
+	public void setSplitType(String splitType) {
+		this.splitType = splitType;
+	}
 	public String getDataTypeModeling() {
 		return dataTypeModeling;
 	}
