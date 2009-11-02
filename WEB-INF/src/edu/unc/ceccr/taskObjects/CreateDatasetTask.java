@@ -171,7 +171,7 @@ public class CreateDatasetTask implements WorkflowTask{
 
 			step = Constants.SPLITDATA;
 			
-			Utility.writeToDebug("Creating External Validation Set", userName, jobName);
+			Utility.writeToDebug("Creating " + splitType + " External Validation Set", userName, jobName);
 			
 			if(splitType.equals(Constants.RANDOM)){
 				Utility.writeToDebug("Making random external split");
