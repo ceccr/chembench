@@ -71,6 +71,7 @@ public class DataSplitWorkflow{
 
 		String[] compoundIDs = compoundIdString.trim().split("\\s+");
 		
+		
 		File inX = new File(workingdir + xFileName);
 		BufferedReader inXReader = new BufferedReader(new FileReader(inX));
 		File inAct = new File(workingdir + actFileName);
@@ -92,9 +93,15 @@ public class DataSplitWorkflow{
 		String[] array = line.split("\\s+");
 		int numCompounds = Integer.parseInt(array[0]);
 		int numDescriptors = Integer.parseInt(array[1]);
-		int numCompoundsModelingSet = numCompounds - compoundIDs.length;
+		int numExternalCompounds = compoundIDs.length;
+		Utility.writeToDebug("numExternalCompounds0:" + numExternalCompounds);
+		if(compoundIDs.length == 1 && compoundIDs[0].equals("")){
+			numExternalCompounds = 0;
+		}
+		Utility.writeToDebug("numExternalCompounds1:" + numExternalCompounds);
+		int numCompoundsModelingSet = numCompounds - numExternalCompounds;
 		outXModelingWriter.write("" + numCompoundsModelingSet + " " + numDescriptors + "\n");
-		outXExternalWriter.write("" + compoundIDs.length + " " + numDescriptors + "\n");
+		outXExternalWriter.write("" + numExternalCompounds + " " + numDescriptors + "\n");
 		
 		//next do the descriptors line
 		line = inXReader.readLine();
@@ -108,7 +115,7 @@ public class DataSplitWorkflow{
 				//this line contains a compound and descriptor values
 				array = line.split("\\s+");
 				boolean lineIsExternal = false;
-				for(int i = 0; i < compoundIDs.length; i++){
+				for(int i = 0; i < numExternalCompounds; i++){
 					//in an X file, first value is an index, second is compoundID
 					if(array[1].equals(compoundIDs[i]) && ! array[1].trim().equals("")){
 						outXExternalWriter.write(line + "\n");
@@ -139,7 +146,7 @@ public class DataSplitWorkflow{
 			array = line.split("\\s+");
 			Utility.writeToDebug(line);
 			boolean lineIsExternal = false;
-			for(int i = 0; i < compoundIDs.length; i++){
+			for(int i = 0; i < numExternalCompounds; i++){
 				if(array[0].equals(compoundIDs[i])){
 					outActExternalWriter.write(line + "\n");
 					lineIsExternal = true;
