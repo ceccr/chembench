@@ -174,7 +174,7 @@ public class CreateDatasetTask implements WorkflowTask{
 			Utility.writeToDebug("Creating External Validation Set", userName, jobName);
 			
 			if(splitType.equals(Constants.RANDOM)){
-				
+				Utility.writeToDebug("Making random external split");
 				if(datasetType.equals(Constants.MODELING)){
 					//we will need to make a .x file from the .act file
 					DatasetFileOperations.makeXFromACT(path, actFileName);
@@ -193,6 +193,7 @@ public class CreateDatasetTask implements WorkflowTask{
 				
 			}
 			else if(splitType.equals(Constants.USERDEFINED)){
+				Utility.writeToDebug("Making user-defined external split");
 				//get the list of compound IDs
 				externalCompoundList.replace(",", " ");
 				externalCompoundList.replaceAll("\n", " ");
