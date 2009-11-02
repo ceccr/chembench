@@ -194,12 +194,10 @@ public class CreateDatasetTask implements WorkflowTask{
 			}
 			else if(splitType.equals(Constants.USERDEFINED)){
 				//get the list of compound IDs
-				ArrayList<String> compoundIDs = DatasetFileOperations.getACTCompoundList(path + actFileName);
 				externalCompoundList.replace(",", " ");
 				externalCompoundList.replaceAll("\n", " ");
 				
-				String compoundIDString = compoundIDs.toString().replaceAll("[,\\[\\]]", "");
-				DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, compoundIDString);				
+				DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundList);				
 			}			
 
 		}
