@@ -70,7 +70,7 @@ public class DataSplitWorkflow{
 			String compoundIdString) throws Exception {
 
 		String[] compoundIDs = compoundIdString.trim().split("\\s+");
-		
+		Utility.writeToDebug("called splitModelingExternalGivenList in dir: " + workingdir + " actfile: " + actFileName + " xfile: " + xFileName + " compoundIdString: " + compoundIdString);
 		
 		File inX = new File(workingdir + xFileName);
 		BufferedReader inXReader = new BufferedReader(new FileReader(inX));
