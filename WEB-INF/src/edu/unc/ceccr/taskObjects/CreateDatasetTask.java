@@ -194,11 +194,28 @@ public class CreateDatasetTask implements WorkflowTask{
 			}
 			else if(splitType.equals(Constants.USERDEFINED)){
 				Utility.writeToDebug("Making user-defined external split");
+
 				//get the list of compound IDs
 				externalCompoundList.replace(",", " ");
 				externalCompoundList.replaceAll("\n", " ");
 				
-				DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundList);				
+				if(datasetType.equals(Constants.MODELING)){
+
+					//we will need to make a .x file from the .act file
+					DatasetFileOperations.makeXFromACT(path, actFileName);
+					String tempXFileName = actFileName.substring(0, actFileName.lastIndexOf('.')) + ".x";
+					
+					//now split the resulting .x file 
+					DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, tempXFileName, externalCompoundList);	
+					
+					//delete the temporary .x file
+					FileAndDirOperations.deleteFile(path + tempXFileName);
+				}
+				else if(datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
+					//already got a .x file, so just split that
+					DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundList);
+				}
+							
 			}			
 
 		}
