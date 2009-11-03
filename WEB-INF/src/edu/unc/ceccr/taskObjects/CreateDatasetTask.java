@@ -197,8 +197,8 @@ public class CreateDatasetTask implements WorkflowTask{
 
 				//get the list of compound IDs
 				Utility.writeToDebug("externalCompoundList before: " + externalCompoundList);
-				externalCompoundList.replaceAll(",", " ");
-				externalCompoundList.replaceAll("\n", " ");
+				externalCompoundList = externalCompoundList.replaceAll(",", " ");
+				externalCompoundList = externalCompoundList.replaceAll("\n", " ");
 				Utility.writeToDebug("externalCompoundList after: " + externalCompoundList);
 				
 				if(datasetType.equals(Constants.MODELING)){
