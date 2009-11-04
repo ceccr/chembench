@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
 import edu.unc.ceccr.utilities.Utility;
 
 @SuppressWarnings("serial")
@@ -25,6 +27,8 @@ public class PredictionValue implements java.io.Serializable{
 	private Prediction predictionJob;
 	private Long id;
 	private float observedValue;
+
+	private int numTotalModels;
 	
 	@Column(name="predictor_id")
 	public Long getPredictorId() {
@@ -63,7 +67,7 @@ public class PredictionValue implements java.io.Serializable{
 	public void setCompoundName(String compoundName) {
 		this.compoundName = compoundName;
 	}
-	
+
 	@Column(name = "num_models")
 	public int getNumModelsUsed() {
 		return numModelsUsed;
@@ -72,7 +76,7 @@ public class PredictionValue implements java.io.Serializable{
 	public void setNumModelsUsed(int numModelsUsed) {
 		this.numModelsUsed = numModelsUsed;
 	}
-
+	
 	@Column(name = "predicted_value")
 	public Float getPredictedValue() {
 		return predictedValue;
@@ -101,4 +105,13 @@ public class PredictionValue implements java.io.Serializable{
 		this.predictionJob = predictionJob;
 	}
 
+
+	@Transient
+	public int getNumTotalModels() {
+		return numTotalModels;
+	}
+
+	public void setNumTotalModels(int numTotalModels) {
+		this.numTotalModels = numTotalModels;
+	}
 }
