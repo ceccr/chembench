@@ -17,7 +17,8 @@
 		</tr>	
 		<tr><td colspan="2"><table>
 	  <tr><td colspan="2">
-	  <div class='StandardTextDarkGrayParagraph'><i>List the compound names for the external set in the box below.</i></div>
+	  <div class='StandardTextDarkGrayParagraph'><i>List the compound names for the external set in the box below. 
+	  The compound names may be separated by commas, spaces, tabs, and/or newlines.</i></div>
 	  </td></tr>
 	  <tr><td>
 	  <s:textarea name="externalCompoundList" id="externalCompoundList" align="left" style="height: 50px; width: 100%" />
