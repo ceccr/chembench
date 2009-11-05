@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.ZipDatasetsWorkflow;
+import edu.unc.ceccr.workflows.ZipJobResultsWorkflow;
 
 @SuppressWarnings("serial")
 public class DatasetFilesServlet extends HttpServlet {
@@ -33,7 +33,7 @@ public class DatasetFilesServlet extends HttpServlet {
        BufferedInputStream input=null;
        
        try {
-    	   ZipDatasetsWorkflow.ZipDatasets(userName, datasetName, zipFile);
+    	   ZipJobResultsWorkflow.ZipDatasets(userName, datasetName, zipFile);
     	   
 	   } catch (Exception e) 
 	   {

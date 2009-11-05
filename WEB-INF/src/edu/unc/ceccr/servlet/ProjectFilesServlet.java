@@ -44,7 +44,7 @@ public class ProjectFilesServlet extends HttpServlet {
        BufferedInputStream input=null;
        
        try {
-    	   ZipJobResultsWorkflow.ZipKnnResults(userName, projectName, zipFile, projectType);
+    	   ZipJobResultsWorkflow.ZipKnnModelingResults(userName, projectName, zipFile, projectType);
     	   
 	   } catch (Exception e) 
 	   {

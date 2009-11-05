@@ -76,6 +76,12 @@ public class ViewPredictionAction extends ActionSupport {
 			cp.compound = compounds.get(i);
 			//get prediction values
 			cp.predictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionIdAndCompoundId(Long.parseLong(predictionId), cp.compound, session);
+
+			//round them to a reasonable number of significant figures
+			for(PredictionValue pv : cp.predictionValues){
+				int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
+				pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures("" + pv.getPredictedValue(), sigfigs)));
+			}
 			compoundPredictionValues.add(cp);
 		}
 		
