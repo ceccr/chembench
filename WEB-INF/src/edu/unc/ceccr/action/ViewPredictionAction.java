@@ -1,6 +1,7 @@
 package edu.unc.ceccr.action;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -81,10 +82,12 @@ public class ViewPredictionAction extends ActionSupport {
 			for(PredictionValue pv : cp.predictionValues){
 				int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
 				if(pv.getPredictedValue() != null){
-					pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures("" + pv.getPredictedValue(), sigfigs)));
+					String predictedValue = DecimalFormat.getInstance().format(pv.getPredictedValue());
+					pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
 				}
 				if(pv.getStandardDeviation() != null){
-					pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures("" + pv.getStandardDeviation(), sigfigs)));
+					String stddev = DecimalFormat.getInstance().format(pv.getStandardDeviation());
+					pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
 				}
 			}
 			compoundPredictionValues.add(cp);
