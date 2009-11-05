@@ -151,6 +151,7 @@ public class ZipJobResultsWorkflow{
 				Utility.writeToDebug(ex);
 			}
 		}
+		out.close();
 	}
 	
 	public static void ZipKnnModelingResults(String userName, String jobName, String zipFile, String jobType) throws Exception{
@@ -227,6 +228,7 @@ public class ZipJobResultsWorkflow{
 				Utility.writeToDebug(ex);
 			}
 		}
+		out.close();
 	}
 		
 	public static void ZipKnnPredictionResults(String userName, String jobName, String zipFile) throws Exception{
@@ -317,6 +319,7 @@ public class ZipJobResultsWorkflow{
 				Utility.writeToDebug(ex);
 			}
 		}
+		out.close();
 	}
 	
 }
