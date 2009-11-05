@@ -283,11 +283,9 @@ public class ZipJobResultsWorkflow{
 		
 		//scan for the predictor subdirectories
 		x = 0;
-		Utility.writeToDebug("hey duh" );
 		ArrayList<String> predictorSubDirs = new ArrayList<String>();
 		while(projectDirFilenames != null && x<projectDirFilenames.length){
 			if((new File(projectDir + projectDirFilenames[x])).isDirectory() && !projectDirFilenames[x].equals("Logs")){
-				Utility.writeToDebug("grarg " + projectDirFilenames[x]);
 				predictorSubDirs.add(projectDirFilenames[x] + "/");
 			}
 			x++;
@@ -296,7 +294,6 @@ public class ZipJobResultsWorkflow{
 		//for each predictor, get the Logs and cons_pred output
 		for(String subdir : predictorSubDirs){
 			//add in the Logs subdirectory
-			Utility.writeToDebug("yo " + subdir);
 			File predictorLogsFile = new File(projectDir + subdir + "Logs/");
 			String[] predictorLogsFilenames = predictorLogsFile.list();
 			x = 0;
