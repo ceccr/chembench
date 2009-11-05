@@ -154,7 +154,7 @@ public class ZipJobResultsWorkflow{
 		out.close();
 	}
 	
-	public static void ZipKnnModelingResults(String userName, String jobName, String zipFile, String jobType) throws Exception{
+	public static void ZipKnnModelingResults(String userName, String jobName, String zipFile) throws Exception{
 		Utility.writeToDebug("Creating archive of predictor: " + jobName);
 	    // These are the files to include in the ZIP file
 		if(userName.equals(Constants.ALL_USERS_USERNAME)){

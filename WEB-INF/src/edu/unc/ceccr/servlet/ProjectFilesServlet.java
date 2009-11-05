@@ -44,8 +44,12 @@ public class ProjectFilesServlet extends HttpServlet {
        BufferedInputStream input=null;
        
        try {
-    	   ZipJobResultsWorkflow.ZipKnnModelingResults(userName, projectName, zipFile, projectType);
-    	   
+    	   if(projectType.equalsIgnoreCase(Constants.MODELING)){
+    		   ZipJobResultsWorkflow.ZipKnnModelingResults(userName, projectName, zipFile);
+    	   }
+    	   else{
+    		   ZipJobResultsWorkflow.ZipKnnPredictionResults(userName, projectName, zipFile);
+    	   }
 	   } catch (Exception e) 
 	   {
 		   Utility.writeToDebug(e);
