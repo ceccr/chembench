@@ -286,7 +286,7 @@ public class ZipJobResultsWorkflow{
 		x = 0;
 		ArrayList<String> predictorSubDirs = new ArrayList<String>();
 		while(projectDirFilenames != null && x<projectDirFilenames.length){
-			if((new File(projectDirFilenames[x])).isDirectory() && ! projectDirFilenames[x].equals("Logs")){
+			if((new File(projectDir + projectDirFilenames[x])).isDirectory() && !projectDirFilenames[x].equals("Logs")){
 				predictorSubDirs.add(projectDirFilenames[x] + "/");
 			}
 			x++;
