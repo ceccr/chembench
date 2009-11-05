@@ -270,6 +270,7 @@ public class ZipJobResultsWorkflow{
 					|| projectDirFilenames[x].endsWith(".a")){
 				predictionFiles.add(projectDirFilenames[x]);
 			}
+			x++;
 		}
 		
 		//add in the Logs subdirectory
@@ -278,6 +279,7 @@ public class ZipJobResultsWorkflow{
 		x = 0;
 		while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
 			predictionFiles.add("Logs/" + projectDirLogsFilenames[x]);
+			x++;
 		}
 		
 		//scan for the predictor subdirectories
@@ -287,6 +289,7 @@ public class ZipJobResultsWorkflow{
 			if((new File(projectDirFilenames[x])).isDirectory() && ! projectDirFilenames[x].equals("Logs")){
 				predictorSubDirs.add(projectDirFilenames[x] + "/");
 			}
+			x++;
 		}
 		
 		//for each predictor, get the Logs and cons_pred output
@@ -297,6 +300,7 @@ public class ZipJobResultsWorkflow{
 			x = 0;
 			while(predictorLogsFilenames != null && x<predictorLogsFilenames.length){
 				predictionFiles.add(subdir + "Logs/" + predictorLogsFilenames[x]);
+				x++;
 			}
 			
 			//add in cons_pred
