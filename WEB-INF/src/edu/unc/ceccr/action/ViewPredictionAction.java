@@ -80,7 +80,12 @@ public class ViewPredictionAction extends ActionSupport {
 			//round them to a reasonable number of significant figures
 			for(PredictionValue pv : cp.predictionValues){
 				int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
-				pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures("" + pv.getPredictedValue(), sigfigs)));
+				if(pv.getPredictedValue() != null){
+					pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures("" + pv.getPredictedValue(), sigfigs)));
+				}
+				if(pv.getStandardDeviation() != null){
+					pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures("" + pv.getStandardDeviation(), sigfigs)));
+				}
 			}
 			compoundPredictionValues.add(cp);
 		}
