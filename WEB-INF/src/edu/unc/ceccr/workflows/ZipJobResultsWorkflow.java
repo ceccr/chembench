@@ -11,10 +11,9 @@ import java.util.zip.*;
 
 public class ZipJobResultsWorkflow{
 
-	public static void ZipEntireDirectory(String projectDir, String zipFile) throws Exception{
+	public static void ZipEntireDirectory(String workingDir, String projectDir, String zipFile) throws Exception{
 		//will be used for MML members - they can access all files on every project type
 
-		String baseDir = Constants.CECCR_USER_BASE_PATH;
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 		byte[] buf = new byte[1024];
 		
@@ -32,7 +31,7 @@ public class ZipJobResultsWorkflow{
 			
 			int x = 0;
 			while(dirFilenames != null && x<dirFilenames.length){
-				if((new File(baseDir + dirNames.get(i) + dirFilenames[x])).isDirectory()){
+				if((new File(workingDir + dirNames.get(i) + dirFilenames[x])).isDirectory()){
 					dirNames.add(dirNames.get(i) + dirFilenames[x] + "/");
 				}
 				else{
@@ -284,9 +283,11 @@ public class ZipJobResultsWorkflow{
 		
 		//scan for the predictor subdirectories
 		x = 0;
+		Utility.writeToDebug("hey duh" );
 		ArrayList<String> predictorSubDirs = new ArrayList<String>();
 		while(projectDirFilenames != null && x<projectDirFilenames.length){
 			if((new File(projectDir + projectDirFilenames[x])).isDirectory() && !projectDirFilenames[x].equals("Logs")){
+				Utility.writeToDebug("grarg " + projectDirFilenames[x]);
 				predictorSubDirs.add(projectDirFilenames[x] + "/");
 			}
 			x++;
@@ -295,6 +296,7 @@ public class ZipJobResultsWorkflow{
 		//for each predictor, get the Logs and cons_pred output
 		for(String subdir : predictorSubDirs){
 			//add in the Logs subdirectory
+			Utility.writeToDebug("yo " + subdir);
 			File predictorLogsFile = new File(projectDir + subdir + "Logs/");
 			String[] predictorLogsFilenames = predictorLogsFile.list();
 			x = 0;
