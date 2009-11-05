@@ -105,6 +105,7 @@ public class ZipJobResultsWorkflow{
 					|| projectDirFilenames[x].endsWith(".x")){
 				datasetFiles.add(projectDirFilenames[x]);
 			}
+			x++;
 		}
 		
 		//add the Logs files in
@@ -113,6 +114,7 @@ public class ZipJobResultsWorkflow{
 		x = 0;
 		while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
 			datasetFiles.add("Logs/" + projectDirLogsFilenames[x]);
+			x++;
 		}
 		
 		//add the Visualization/Structures dir
@@ -121,6 +123,7 @@ public class ZipJobResultsWorkflow{
 		x = 0;
 		while(ProjectDirStructuresFilenames != null && x<ProjectDirStructuresFilenames.length){
 			datasetFiles.add("Visualization/Structures/" + ProjectDirStructuresFilenames[x]);
+			x++;
 		}
 		
 		//add in the Visualization/Sketches dir
@@ -129,6 +132,7 @@ public class ZipJobResultsWorkflow{
 		x = 0;
 		while(ProjectDirSketchesFilenames != null && x<ProjectDirSketchesFilenames.length){
 			datasetFiles.add("Visualization/Sketches/" + ProjectDirSketchesFilenames[x]);
+			x++;
 		}
 		
 		//datasetFiles now contains names of all the files we need. Package it up!
@@ -195,6 +199,7 @@ public class ZipJobResultsWorkflow{
 					|| projectDirFilenames[x].endsWith(".a")){
 				modelingFiles.add(projectDirFilenames[x]);
 			}
+			x++;
 		}
 		
 		//add the Logs files in
@@ -203,6 +208,7 @@ public class ZipJobResultsWorkflow{
 		x = 0;
 		while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
 			modelingFiles.add("Logs/" + projectDirLogsFilenames[x]);
+			x++;
 		}
 		
 		//modelingFiles now contains names of all the files we need. Package it up!
