@@ -83,8 +83,8 @@ public class PredictionFormActions extends ActionSupport{
 		
 		Utility.writeToDebug(" 7: " + smiles4 + " 8: " + cutoff4);
 
-		String smiles5 = (String) context.getValueStack().pop();
-		String cutoff5 = (String) context.getValueStack().pop();
+		String smiles5 = context.getValueStack().pop().toString();
+		String cutoff5 = context.getValueStack().pop().toString();
 		
 		Utility.writeToDebug(" 9: " + smiles5 + " 0: " + cutoff5);
 
