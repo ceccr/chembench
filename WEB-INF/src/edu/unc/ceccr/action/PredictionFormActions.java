@@ -72,18 +72,14 @@ public class PredictionFormActions extends ActionSupport{
 		
 		Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff);
 
-		String smiles2 = (String) context.get("smiles");
-		String cutoff2 = (String) context.get("cutoff");
-		
-		Utility.writeToDebug(" 3: " + smiles2 + " 4: " + cutoff2);
 
-		String smiles3 = (String) context.getValueStack().findString("smiles");
-		String cutoff3 = (String) context.getValueStack().findString("cutoff");
+		String smiles3 = context.getValueStack().findString("smiles").toString();
+		String cutoff3 = context.getValueStack().findString("cutoff").toString();
 		
 		Utility.writeToDebug(" 5: " + smiles3 + " 6: " + cutoff3);
 
-		String smiles4 = (String) context.getContextMap().get("smiles");
-		String cutoff4 = (String) context.getContextMap().get("cutoff");
+		String smiles4 = context.getContextMap().get("smiles").toString();
+		String cutoff4 = context.getContextMap().get("cutoff").toString();
 		
 		Utility.writeToDebug(" 7: " + smiles4 + " 8: " + cutoff4);
 
@@ -91,7 +87,11 @@ public class PredictionFormActions extends ActionSupport{
 		String cutoff5 = (String) context.getValueStack().pop();
 		
 		Utility.writeToDebug(" 9: " + smiles5 + " 0: " + cutoff5);
+
+		String smiles2 = context.get("smiles").toString();
+		String cutoff2 = context.get("cutoff").toString();
 		
+		Utility.writeToDebug(" 3: " + smiles2 + " 4: " + cutoff2);
 		/*		
 		Utility.writeToDebug(user.getUserName());
 		Utility.writeToDebug("SMILES predids: " + selectedPredictorIds);
