@@ -67,31 +67,56 @@ public class PredictionFormActions extends ActionSupport{
 		//use the same session for all data requests
 		Session session = HibernateUtil.getSession();
 
+		try{
 		String smiles = (String) context.getParameters().get("smiles");
 		String cutoff = (String) context.getParameters().get("cutoff");
 		
 		Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff);
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 
-
+		try{
 		String smiles3 = context.getValueStack().findString("smiles").toString();
 		String cutoff3 = context.getValueStack().findString("cutoff").toString();
 		
 		Utility.writeToDebug(" 5: " + smiles3 + " 6: " + cutoff3);
-
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+	
+		try{
 		String smiles4 = context.getContextMap().get("smiles").toString();
 		String cutoff4 = context.getContextMap().get("cutoff").toString();
 		
 		Utility.writeToDebug(" 7: " + smiles4 + " 8: " + cutoff4);
-
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		
+		try{
 		String smiles5 = context.getValueStack().pop().toString();
 		String cutoff5 = context.getValueStack().pop().toString();
 		
 		Utility.writeToDebug(" 9: " + smiles5 + " 0: " + cutoff5);
-
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		
+		try{
 		String smiles2 = context.get("smiles").toString();
 		String cutoff2 = context.get("cutoff").toString();
 		
 		Utility.writeToDebug(" 3: " + smiles2 + " 4: " + cutoff2);
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		
 		/*		
 		Utility.writeToDebug(user.getUserName());
 		Utility.writeToDebug("SMILES predids: " + selectedPredictorIds);
