@@ -21,6 +21,7 @@ import org.hibernate.Transaction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
@@ -68,7 +69,7 @@ public class PredictionFormActions extends ActionSupport{
 		user = (User) context.getSession().get("user");
 		//use the same session for all data requests
 		Session session = HibernateUtil.getSession();
-
+		
 		Map k = context.getParameters();
 		Utility.writeToDebug("starting params");
 		for(Object key : k.keySet()){
@@ -77,7 +78,9 @@ public class PredictionFormActions extends ActionSupport{
 		Utility.writeToDebug("ending params");
 			
 		String smiles = ((String[]) context.getParameters().get("smiles"))[0];
+		smilesString = smiles;
 		String cutoff = ((String[]) context.getParameters().get("cutoff"))[0];
+		smilesCutoff = cutoff;
 		String predictorIds = ((String[]) context.getParameters().get("predictorIds"))[0];
 
 		Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff + " 3: " + predictorIds);
@@ -89,44 +92,12 @@ public class PredictionFormActions extends ActionSupport{
 		String[] selectedPredictorIdArray = predictorIds.split("\\s+");
 		int numModels = 0;
 		
-		/*
+		smilesPredictions = new ArrayList<SmilesPrediction>(); //stores results
 		for(int i = 0; i < selectedPredictorIdArray.length; i++){
-			numModels += PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), session).getNumTestModels();
-		}*/
-		
-		Predictor: <%=session.getAttribute("SmilesPredictPredictor")%><br />
-		Predicted value: <%=session.getAttribute("SmilesPredictedValue")%><br />
-		Predicting Models / Total Models: <%=session.getAttribute("SmilesUsedModels")%> / <%=session.getAttribute("SmilesTotalModels")%><br />
-		Standard deviation: <%=session.getAttribute("SmilesStdDev")%><br />
-		
-		for(int i = 0; i < selectedPredictorIdArray.length; i++){
-			Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
+			Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), session);
 			
-			selectedPredictorNames.add(selectedPredictor.getName());
-			
-			//We're keeping a count of how many times each predictor was used.
-	        //So, increment number of times used on each and save each predictor object.
-	        selectedPredictor.setNumPredictions(selectedPredictor.getNumPredictions() + 1);
-			Transaction tx = null;
-			try {
-				tx = s.beginTransaction();
-				s.saveOrUpdate(selectedPredictor);
-				tx.commit();
-			} catch (RuntimeException e) {
-				if (tx != null)
-					tx.rollback();
-				Utility.writeToDebug(e);
-			}
-
-			selectedPredictors.add(selectedPredictor);
-		}
-		
-		/*
-		 getPredictorFiles(userName, predictor, String toDir);
-		 Utility.writeToDebug("Called SMILES predict action. Predictor ID: " + predictor+" SMILES: "+smiles);
-			Utility.writeToMSDebug("user::"+userName+" predictor::"+predictor+" smiles::"+smiles);
-			
-			String smilesDir = Constants.CECCR_USER_BASE_PATH + userName + "/SMILES/";
+			//make smiles dir
+			String smilesDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/SMILES/" + predictor.getName() + "/";
 			
 			//make sure there's nothing in the dir already.
 			FileAndDirOperations.deleteDirContents(smilesDir);
@@ -135,62 +106,35 @@ public class PredictionFormActions extends ActionSupport{
 			SmilesPredictionWorkflow.smilesToSDF(smiles, smilesDir);
 			
 			//create descriptors for the SDF, normalize them, and make a prediction
-			String[] predValues = SmilesPredictionWorkflow.PredictSmilesSDF(smilesDir, userName, predictor, Float.parseFloat(cutoff));
-			
-			session.removeAttribute("SmilesPredictPredictor");
-			session.removeAttribute("SmilesPredictSmiles");
-			session.removeAttribute("SmilesCutoff");
-			session.removeAttribute("SmilesUsedModels");
-			session.removeAttribute("SmilesTotalModels");
-			session.removeAttribute("SmilesStdDev");
-			session.removeAttribute("SmilesPredictedValue");
-			
-			session.setAttribute("SmilesPredictPredictor", predictor.getName());
-			session.setAttribute("SmilesPredictSmiles", smiles);
-			session.setAttribute("SmilesCutoff", cutoff);
-			
+			String[] predValues = SmilesPredictionWorkflow.PredictSmilesSDF(smilesDir, user.getUserName(), predictor, Float.parseFloat(cutoff));
+
+			//read predValues and build the prediction output object
+			SmilesPrediction sp = new SmilesPrediction();
+			sp.setPredictorName(predictor.getName());
+			sp.setTotalModels(predictor.getNumTestModels());
 			if(predValues[2].equalsIgnoreCase("no")){
 				//no prediction.
-				session.setAttribute("SmilesUsedModels", "0");
-				session.setAttribute("SmilesPredictedValue", "Molecule is outside the domain of this predictor. Use a higher cutoff value to force a low-confidence prediction.");
-				session.setAttribute("SmilesStdDev", "N/A");
-				session.setAttribute("SmilesTotalModels", "?");
+				sp.setPredictingModels(0);
+				sp.setPredictedValue("Molecule is outside the domain of this predictor. "+
+						"Use a higher cutoff value to force a low-confidence prediction.");
+				sp.setStdDeviation("N/A");
 			}
 			else{
-				session.setAttribute("SmilesUsedModels", predValues[1]);
-				session.setAttribute("SmilesPredictedValue", predValues[2]);
+				sp.setPredictingModels(Integer.parseInt(predValues[1]));
+				sp.setPredictedValue(predValues[2]);
+				
 				if(predValues.length > 3){
 					//Standard deviation will only be calculated if there's more than one pred value
-					session.setAttribute("SmilesStdDev", predValues[3]);
+					sp.setStdDeviation(predValues[3]);
 				}
 				else{
-					session.setAttribute("SmilesStdDev", "N/A");
+					sp.setStdDeviation("N/A");
 				}
-				session.setAttribute("SmilesTotalModels", predictor.getNumTotalModels());
 			}
-		 */
-		
-		
-		
-		
-		
-		//we need to populate a set of vars for the page to read from
-		/*
-	Input:
-	SMILES string: <%=session.getAttribute("SmilesPredictSmiles")%><br />
-	Cutoff: <%=session.getAttribute("SmilesCutoff")%><br />
-	
-	Results:
-	<s:iterator>
-	Predictor: <%=session.getAttribute("SmilesPredictPredictor")%><br />
-	Predicted value: <%=session.getAttribute("SmilesPredictedValue")%><br />
-	Predicting Models / Total Models: <%=session.getAttribute("SmilesUsedModels")%> / <%=session.getAttribute("SmilesTotalModels")%><br />
-	Standard deviation: <%=session.getAttribute("SmilesStdDev")%><br />
-	<br />
-	</s:iterator>
-	
-</font></body>
-*/
+			
+			//add it to the array
+			smilesPredictions.add(sp);
+		}
 		
 		//give back the session at the end
 		session.close();
@@ -292,6 +236,10 @@ public class PredictionFormActions extends ActionSupport{
 	private String predictorCheckBoxes;
 	private List<Predictor> selectedPredictors = new ArrayList<Predictor>();
 	
+	private List<SmilesPrediction> smilesPredictions;
+	private String smilesString;
+	private String smilesCutoff;
+	
 	public User getUser(){
 		return user;
 	}
@@ -389,4 +337,67 @@ public class PredictionFormActions extends ActionSupport{
 		this.selectedPredictorIds = selectedPredictorIds;
 	}
 
+	public List<SmilesPrediction> getSmilesPredictions() {
+		return smilesPredictions;
+	}
+	public void setSmilesPredictions(List<SmilesPrediction> smilesPredictions) {
+		this.smilesPredictions = smilesPredictions;
+	}
+	
+	public String getSmilesString() {
+		return smilesString;
+	}
+	public void setSmilesString(String smilesString) {
+		this.smilesString = smilesString;
+	}
+
+	public String getSmilesCutoff() {
+		return smilesCutoff;
+	}
+	public void setSmilesCutoff(String smilesCutoff) {
+		this.smilesCutoff = smilesCutoff;
+	}
+
+
+	public class SmilesPrediction{
+		//used by makeSmilesPrediction()
+		String predictedValue;
+		String stdDeviation;
+		int predictingModels;
+		int totalModels;
+		String predictorName;
+		
+		public String getPredictedValue() {
+			return predictedValue;
+		}
+		public void setPredictedValue(String predictedValue) {
+			this.predictedValue = predictedValue;
+		}
+		public String getStdDeviation() {
+			return stdDeviation;
+		}
+		public void setStdDeviation(String stdDeviation) {
+			this.stdDeviation = stdDeviation;
+		}
+		public int getPredictingModels() {
+			return predictingModels;
+		}
+		public void setPredictingModels(int predictingModels) {
+			this.predictingModels = predictingModels;
+		}
+		public int getTotalModels() {
+			return totalModels;
+		}
+		public void setTotalModels(int totalModels) {
+			this.totalModels = totalModels;
+		}
+		public String getPredictorName() {
+			return predictorName;
+		}
+		public void setPredictorName(String predictorName) {
+			this.predictorName = predictorName;
+		}
+	}
+	
+	
 }
