@@ -16,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ActionContext; 
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -28,6 +29,7 @@ import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.SmilesPredictionWorkflow;
 
 
 public class PredictionFormActions extends ActionSupport{
@@ -67,37 +69,129 @@ public class PredictionFormActions extends ActionSupport{
 		//use the same session for all data requests
 		Session session = HibernateUtil.getSession();
 
-		try{
-			Map k = context.getParameters();
-			Utility.writeToDebug("starting params");
-			for(Object key : k.keySet()){
-				Utility.writeToDebug(key.toString() + " : " + ((String[]) k.get(key))[0]);
-			}
-			Utility.writeToDebug("ending params");
-				
-			String smiles = ((String[]) context.getParameters().get("smiles"))[0];
-			String cutoff = ((String[]) context.getParameters().get("cutoff"))[0];
-			String predictorIds = ((String[]) context.getParameters().get("predictorIds"))[0];
+		Map k = context.getParameters();
+		Utility.writeToDebug("starting params");
+		for(Object key : k.keySet()){
+			Utility.writeToDebug(key.toString() + " : " + ((String[]) k.get(key))[0]);
+		}
+		Utility.writeToDebug("ending params");
+			
+		String smiles = ((String[]) context.getParameters().get("smiles"))[0];
+		String cutoff = ((String[]) context.getParameters().get("cutoff"))[0];
+		String predictorIds = ((String[]) context.getParameters().get("predictorIds"))[0];
+
+		Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff + " 3: " + predictorIds);
 	
-			Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff + " 3: " + predictorIds);
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-
-		
-		/*		
 		Utility.writeToDebug(user.getUserName());
-		Utility.writeToDebug("SMILES predids: " + selectedPredictorIds);
+		Utility.writeToDebug("SMILES predids: " + predictorIds);
 
-		int numCompounds = predictionDataset.getNumCompound();
-		String[] ids = selectedPredictorIds.split("\\s+");
+		int numCompounds = 1;
+		String[] selectedPredictorIdArray = predictorIds.split("\\s+");
 		int numModels = 0;
-		for(int i = 0; i < ids.length; i++){
-			numModels += PopulateDataObjects.getPredictorById(Long.parseLong(ids[i]), session).getNumTestModels();
+		
+		/*
+		for(int i = 0; i < selectedPredictorIdArray.length; i++){
+			numModels += PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), session).getNumTestModels();
+		}*/
+		
+		Predictor: <%=session.getAttribute("SmilesPredictPredictor")%><br />
+		Predicted value: <%=session.getAttribute("SmilesPredictedValue")%><br />
+		Predicting Models / Total Models: <%=session.getAttribute("SmilesUsedModels")%> / <%=session.getAttribute("SmilesTotalModels")%><br />
+		Standard deviation: <%=session.getAttribute("SmilesStdDev")%><br />
+		
+		for(int i = 0; i < selectedPredictorIdArray.length; i++){
+			Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
+			
+			selectedPredictorNames.add(selectedPredictor.getName());
+			
+			//We're keeping a count of how many times each predictor was used.
+	        //So, increment number of times used on each and save each predictor object.
+	        selectedPredictor.setNumPredictions(selectedPredictor.getNumPredictions() + 1);
+			Transaction tx = null;
+			try {
+				tx = s.beginTransaction();
+				s.saveOrUpdate(selectedPredictor);
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			}
+
+			selectedPredictors.add(selectedPredictor);
 		}
-		Queue.getInstance().addJob(predTask,user.getUserName(), jobName, numCompounds, numModels);
+		
+		/*
+		 getPredictorFiles(userName, predictor, String toDir);
+		 Utility.writeToDebug("Called SMILES predict action. Predictor ID: " + predictor+" SMILES: "+smiles);
+			Utility.writeToMSDebug("user::"+userName+" predictor::"+predictor+" smiles::"+smiles);
+			
+			String smilesDir = Constants.CECCR_USER_BASE_PATH + userName + "/SMILES/";
+			
+			//make sure there's nothing in the dir already.
+			FileAndDirOperations.deleteDirContents(smilesDir);
+			
+			//generate an SDF from this SMILES string
+			SmilesPredictionWorkflow.smilesToSDF(smiles, smilesDir);
+			
+			//create descriptors for the SDF, normalize them, and make a prediction
+			String[] predValues = SmilesPredictionWorkflow.PredictSmilesSDF(smilesDir, userName, predictor, Float.parseFloat(cutoff));
+			
+			session.removeAttribute("SmilesPredictPredictor");
+			session.removeAttribute("SmilesPredictSmiles");
+			session.removeAttribute("SmilesCutoff");
+			session.removeAttribute("SmilesUsedModels");
+			session.removeAttribute("SmilesTotalModels");
+			session.removeAttribute("SmilesStdDev");
+			session.removeAttribute("SmilesPredictedValue");
+			
+			session.setAttribute("SmilesPredictPredictor", predictor.getName());
+			session.setAttribute("SmilesPredictSmiles", smiles);
+			session.setAttribute("SmilesCutoff", cutoff);
+			
+			if(predValues[2].equalsIgnoreCase("no")){
+				//no prediction.
+				session.setAttribute("SmilesUsedModels", "0");
+				session.setAttribute("SmilesPredictedValue", "Molecule is outside the domain of this predictor. Use a higher cutoff value to force a low-confidence prediction.");
+				session.setAttribute("SmilesStdDev", "N/A");
+				session.setAttribute("SmilesTotalModels", "?");
+			}
+			else{
+				session.setAttribute("SmilesUsedModels", predValues[1]);
+				session.setAttribute("SmilesPredictedValue", predValues[2]);
+				if(predValues.length > 3){
+					//Standard deviation will only be calculated if there's more than one pred value
+					session.setAttribute("SmilesStdDev", predValues[3]);
+				}
+				else{
+					session.setAttribute("SmilesStdDev", "N/A");
+				}
+				session.setAttribute("SmilesTotalModels", predictor.getNumTotalModels());
+			}
 		 */
+		
+		
+		
+		
+		
+		//we need to populate a set of vars for the page to read from
+		/*
+	Input:
+	SMILES string: <%=session.getAttribute("SmilesPredictSmiles")%><br />
+	Cutoff: <%=session.getAttribute("SmilesCutoff")%><br />
+	
+	Results:
+	<s:iterator>
+	Predictor: <%=session.getAttribute("SmilesPredictPredictor")%><br />
+	Predicted value: <%=session.getAttribute("SmilesPredictedValue")%><br />
+	Predicting Models / Total Models: <%=session.getAttribute("SmilesUsedModels")%> / <%=session.getAttribute("SmilesTotalModels")%><br />
+	Standard deviation: <%=session.getAttribute("SmilesStdDev")%><br />
+	<br />
+	</s:iterator>
+	
+</font></body>
+*/
+		
 		//give back the session at the end
 		session.close();
 		
