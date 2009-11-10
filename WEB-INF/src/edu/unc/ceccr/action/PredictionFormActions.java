@@ -69,13 +69,6 @@ public class PredictionFormActions extends ActionSupport{
 		user = (User) context.getSession().get("user");
 		//use the same session for all data requests
 		Session session = HibernateUtil.getSession();
-		
-		Map k = context.getParameters();
-		Utility.writeToDebug("starting params");
-		for(Object key : k.keySet()){
-			Utility.writeToDebug(key.toString() + " : " + ((String[]) k.get(key))[0]);
-		}
-		Utility.writeToDebug("ending params");
 			
 		String smiles = ((String[]) context.getParameters().get("smiles"))[0];
 		smilesString = smiles;
@@ -92,12 +85,21 @@ public class PredictionFormActions extends ActionSupport{
 		String[] selectedPredictorIdArray = predictorIds.split("\\s+");
 		int numModels = 0;
 		
-		smilesPredictions = new ArrayList<SmilesPrediction>(); //stores results
+		ArrayList<Predictor> predictors = new ArrayList<Predictor>();
 		for(int i = 0; i < selectedPredictorIdArray.length; i++){
 			Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), session);
+			predictors.add(predictor);
+		}
+		//we don't need the session again
+		session.close();
+		
+		smilesPredictions = new ArrayList<SmilesPrediction>(); //stores results
+		for(int i = 0; i < predictors.size(); i++){
+			Predictor predictor = predictors.get(i);
 			
 			//make smiles dir
 			String smilesDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/SMILES/" + predictor.getName() + "/";
+			new File(smilesDir).mkdirs();
 			
 			//make sure there's nothing in the dir already.
 			FileAndDirOperations.deleteDirContents(smilesDir);
@@ -136,8 +138,6 @@ public class PredictionFormActions extends ActionSupport{
 			smilesPredictions.add(sp);
 		}
 		
-		//give back the session at the end
-		session.close();
 		
 		return result;
 	}
