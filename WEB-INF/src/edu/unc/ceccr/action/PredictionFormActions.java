@@ -74,18 +74,12 @@ public class PredictionFormActions extends ActionSupport{
 				Utility.writeToDebug(key.toString() + " : " + ((String[]) k.get(key))[0]);
 			}
 			Utility.writeToDebug("ending params");
-			
-/*
-			3 cutoff : [Ljava.lang.String;@604c9c17 [10-02:00:36]
-			4 predictorIds : [Ljava.lang.String;@459bdb65 [10-02:00:36]
-			5 smiles : [Ljava.lang.String;@7b60e796 [10-02:00:36]
-*/
-			
-		String smiles = ((String[]) context.getParameters().get("smiles"))[0];
-		String cutoff = ((String[]) context.getParameters().get("cutoff"))[0];
-		String predictorIds = ((String[]) context.getParameters().get("predictorIds"))[0];
-
-		Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff + " 3: " + predictorIds);
+				
+			String smiles = ((String[]) context.getParameters().get("smiles"))[0];
+			String cutoff = ((String[]) context.getParameters().get("cutoff"))[0];
+			String predictorIds = ((String[]) context.getParameters().get("predictorIds"))[0];
+	
+			Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff + " 3: " + predictorIds);
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
