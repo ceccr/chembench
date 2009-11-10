@@ -22,10 +22,7 @@ import edu.unc.ceccr.persistence.AdminSettings;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
-
-
 import org.apache.commons.validator.GenericValidator;
-
 
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 import org.apache.poi.hssf.usermodel.HSSFCell;

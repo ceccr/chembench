@@ -68,6 +68,13 @@ public class PredictionFormActions extends ActionSupport{
 		Session session = HibernateUtil.getSession();
 
 		try{
+			Map k = context.getParameters();
+			Utility.writeToDebug("starting params");
+			for(Object key : k.keySet()){
+				Utility.writeToDebug(key.toString() + " : " + k.get(key).toString());
+			}
+			Utility.writeToDebug("ending params");
+			
 		String smiles = (String) context.getParameters().get("smiles");
 		String cutoff = (String) context.getParameters().get("cutoff");
 		
