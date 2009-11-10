@@ -71,58 +71,26 @@ public class PredictionFormActions extends ActionSupport{
 			Map k = context.getParameters();
 			Utility.writeToDebug("starting params");
 			for(Object key : k.keySet()){
-				Utility.writeToDebug(key.toString() + " : " + k.get(key).toString());
+				Utility.writeToDebug(key.toString() + " : " + ((String[]) k.get(key))[0]);
 			}
 			Utility.writeToDebug("ending params");
 			
-		String smiles = (String) context.getParameters().get("smiles");
-		String cutoff = (String) context.getParameters().get("cutoff");
-		
-		Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff);
+/*
+			3 cutoff : [Ljava.lang.String;@604c9c17 [10-02:00:36]
+			4 predictorIds : [Ljava.lang.String;@459bdb65 [10-02:00:36]
+			5 smiles : [Ljava.lang.String;@7b60e796 [10-02:00:36]
+*/
+			
+		String smiles = ((String[]) context.getParameters().get("smiles"))[0];
+		String cutoff = ((String[]) context.getParameters().get("cutoff"))[0];
+		String predictorIds = ((String[]) context.getParameters().get("predictorIds"))[0];
+
+		Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff + " 3: " + predictorIds);
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
 
-		try{
-		String smiles3 = context.getValueStack().findString("smiles").toString();
-		String cutoff3 = context.getValueStack().findString("cutoff").toString();
-		
-		Utility.writeToDebug(" 5: " + smiles3 + " 6: " + cutoff3);
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-	
-		try{
-		String smiles4 = context.getContextMap().get("smiles").toString();
-		String cutoff4 = context.getContextMap().get("cutoff").toString();
-		
-		Utility.writeToDebug(" 7: " + smiles4 + " 8: " + cutoff4);
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
-		try{
-		String smiles5 = context.getValueStack().pop().toString();
-		String cutoff5 = context.getValueStack().pop().toString();
-		
-		Utility.writeToDebug(" 9: " + smiles5 + " 0: " + cutoff5);
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
-		try{
-		String smiles2 = context.get("smiles").toString();
-		String cutoff2 = context.get("cutoff").toString();
-		
-		Utility.writeToDebug(" 3: " + smiles2 + " 4: " + cutoff2);
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
 		
 		/*		
 		Utility.writeToDebug(user.getUserName());
