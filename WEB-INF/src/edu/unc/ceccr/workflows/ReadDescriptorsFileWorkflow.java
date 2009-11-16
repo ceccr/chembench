@@ -35,7 +35,7 @@ public class ReadDescriptorsFileWorkflow{
 				//molconnz will spit out a not_available if it gets a bad molecule.
 				descriptorValues.clear();
 			}
-			if(temp.matches("[a-zA-Z0-9[-=_.()]]+")){ //note that this can remove compound names by accident sometimes... :-/
+			if(temp.matches("[\\p{Graph}]+")){ 
 
 				if(temp.equals("1") && readingDescriptorNames){
 					//The first occurrence of the number "1" indicates we're no
