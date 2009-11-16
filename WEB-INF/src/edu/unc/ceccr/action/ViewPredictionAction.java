@@ -82,11 +82,11 @@ public class ViewPredictionAction extends ActionSupport {
 			for(PredictionValue pv : cp.predictionValues){
 				int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
 				if(pv.getPredictedValue() != null){
-					String predictedValue = DecimalFormat.getInstance().format(pv.getPredictedValue());
+					String predictedValue = DecimalFormat.getInstance().format(pv.getPredictedValue()).replaceAll(",", "");
 					pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
 				}
 				if(pv.getStandardDeviation() != null){
-					String stddev = DecimalFormat.getInstance().format(pv.getStandardDeviation());
+					String stddev = DecimalFormat.getInstance().format(pv.getStandardDeviation()).replaceAll(",", "");
 					pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
 				}
 			}
