@@ -34,6 +34,14 @@ function validateDatasetDelete(name, usedPredictorNames, usedPredictionNames, us
 
 function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames){
 	
+
+     // Check for white space
+	 reWhiteSpace = new RegExp(/^\s+$/);
+     if (reWhiteSpace.test(name)) {
+          alert("You cannot use spaces in your job name. You might want to replace them with underscores or dashes.");
+          return false;
+     }
+	
 	if(name.length > 250){
 		alert("The name you have entered is too long. Please choose another.");
 		return false;
