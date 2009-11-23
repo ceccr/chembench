@@ -90,7 +90,7 @@ public class SmilesPredictionWorkflow{
 			//get output for each model
 			
 			ArrayList<String> predValueArray = new ArrayList<String>();
-			while (!(inputString = in.readLine()).equals("")){
+			while (!(inputString = in.readLine()).equals("") && inputString != null){
 				String[] predValues = inputString.split("\\s+");
 				//Utility.writeToDebug(predValues[1] + " " + predValues[2]);
 				if(predValues!= null && predValues.length > 2 && ! predValues[2].equals("NA")){
