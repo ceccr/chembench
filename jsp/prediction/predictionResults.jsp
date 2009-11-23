@@ -6,7 +6,7 @@
 <head></head>
 <body><font color="red"><b>Input: </b><br />
 SMILES string: <s:property value="smilesString" /><br />
-<s:property value="smilesCutoff" /><br />
+Cutoff: <s:property value="smilesCutoff" /><br />
 <br />
 <s:iterator value="smilesPredictions">
 <b>Results from <s:property value="predictorName" />:</b><br />
