@@ -5,7 +5,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
@@ -28,9 +30,11 @@ public class SmilesPredictionWorkflow{
 		}
 		String fromDir = Constants.CECCR_USER_BASE_PATH + predictorUsername + "/PREDICTORS/" + predictor.getName() + "/";
 
+		
+		//get train_0.x file from the predictor dir.
 		Utility.writeToDebug("Copying predictor files from " + fromDir);
-		FileAndDirOperations.copyDirContents(fromDir, workingDir, false);
-
+		GetJobFilesWorkflow.getPredictorFiles(username, predictor, workingDir);
+		
 		Utility.writeToDebug("Copying complete. Generating descriptors. ");
 		
 		//create the descriptors for the chemical and read them in
@@ -64,32 +68,83 @@ public class SmilesPredictionWorkflow{
 	    //Run prediction
 		String preddir = workingDir;
 		
-			String execstr = "PredActivCont3rwknnLIN " + "knn-output.list " + sdfile + ".renorm.x " + "pred_output " + cutoff;
-			Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
-			Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
-			Utility.writeProgramLogfile(preddir, "PredActivCont3rwknnLIN", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-			
-			execstr = "ConsPredContrwknnLIN " + "pred_output.comp.list " + "pred_output.list " + "cons_pred";
-	    	Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
-	        p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
-	        Utility.writeProgramLogfile(preddir, "ConsPredContrwknnLIN", p.getInputStream(), p.getErrorStream());
-	        p.waitFor();
-	    
+		String xfile = sdfile + ".renorm"; //the ".x" will be added on by knn+
+		String execstr = "/knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
+		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
+		Utility.writeProgramLogfile(preddir, "PredActivCont3rwknnLIN", p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		
 	        //read prediction output
-	    	Utility.writeToDebug("Reading file: " + workingDir + Constants.PRED_OUTPUT_FILE);
-			BufferedReader in = new BufferedReader(new FileReader(workingDir + Constants.PRED_OUTPUT_FILE));
+			String outputFile = Constants.PRED_OUTPUT_FILE + ".preds"; //the .preds is added automatically by knn+
+	    	Utility.writeToDebug("Reading file: " + workingDir + outputFile);
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 			String inputString;
-			//skip all the non-blank lines with junk in them
-			while (!(inputString = in.readLine()).equals(""))
-				;
-			//now skip some blank lines
-			while ((inputString = in.readLine()).equals(""))
-				;
-			//now we're at the data we need
-			String[] predValues = inputString.split("\\s+");
-		    Utility.writeToDebug("Finished prediction. Output: " + inputString);
-		    return predValues;
+			
+			//Skip the first four lines (header data)
+			in.readLine();
+			in.readLine();
+			in.readLine();
+			in.readLine();
+			
+			//get output for each model
+			
+			ArrayList<String> predValueArray = new ArrayList<String>();
+			while (!(inputString = in.readLine()).equals("")){
+				String[] predValues = inputString.split("\\s+");
+				if(! predValues[2].equals("NA")){
+					predValueArray.add(predValues[2]);
+				}
+			}
+
+			Utility.writeToDebug("numModels: " + predValueArray.size());
+			
+			double sum = 0;
+			double mean = 0;
+			if(predValueArray.size() > 0){
+				for(String predValue : predValueArray){
+					sum += Float.parseFloat(predValue);
+				}
+				mean = sum / predValueArray.size();
+			}
+
+			double stddev = 0;
+			if(predValueArray.size() > 1){
+				for(String predValue : predValueArray){
+					double distFromMeanSquared = Math.pow((Double.parseDouble(predValue) - mean), 2);
+					stddev += distFromMeanSquared;
+				}
+				//divide sum then take sqrt to get stddev
+				stddev = Math.sqrt( stddev / predValueArray.size());
+			}
+				
+			Utility.writeToDebug("prediction: " + mean);
+			Utility.writeToDebug("stddev: " + stddev);
+
+			//format numbers nicely and return them
+			int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
+			String predictedValue = DecimalFormat.getInstance().format("" + mean).replaceAll(",", "");
+			predictedValue = (Utility.roundSignificantFigures(predictedValue, sigfigs));
+			
+			String stdDevStr = DecimalFormat.getInstance().format("" + stddev).replaceAll(",", "");
+			stdDevStr = (Utility.roundSignificantFigures(stdDevStr, sigfigs));
+			
+			String[] prediction = new String[3];
+			prediction[0] = "" + predValueArray.size();
+			if(predValueArray.size() > 0){
+				prediction[1] = predictedValue;
+			}
+			else{
+				prediction[1] = "N/A";
+			}
+			if(predValueArray.size() > 1){
+				prediction[2] = stdDevStr;
+			}
+			else{
+				prediction[2] = "N/A";
+			}
+			
+		    return prediction;
 	}
 	
 	public static void smilesToSDF(String smiles, String smilesDir) throws Exception{

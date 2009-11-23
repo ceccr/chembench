@@ -114,25 +114,10 @@ public class PredictionFormActions extends ActionSupport{
 			SmilesPrediction sp = new SmilesPrediction();
 			sp.setPredictorName(predictor.getName());
 			sp.setTotalModels(predictor.getNumTestModels());
-			if(predValues[2].equalsIgnoreCase("no")){
-				//no prediction.
-				sp.setPredictingModels(0);
-				sp.setPredictedValue("Molecule is outside the domain of this predictor. "+
-						"Use a higher cutoff value to force a low-confidence prediction.");
-				sp.setStdDeviation("N/A");
-			}
-			else{
-				sp.setPredictingModels(Integer.parseInt(predValues[1]));
-				sp.setPredictedValue(predValues[2]);
-				
-				if(predValues.length > 3){
-					//Standard deviation will only be calculated if there's more than one pred value
-					sp.setStdDeviation(predValues[3]);
-				}
-				else{
-					sp.setStdDeviation("N/A");
-				}
-			}
+			
+			sp.setPredictingModels(Integer.parseInt(predValues[0]));
+			sp.setPredictedValue(predValues[1]);
+			sp.setStdDeviation(predValues[2]);
 			
 			//add it to the array
 			smilesPredictions.add(sp);
