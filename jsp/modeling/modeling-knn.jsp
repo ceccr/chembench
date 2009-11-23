@@ -20,7 +20,7 @@
 				<tr><td><table>
 
 				<!-- kNN, Basic parameters  -->
-				<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph"><i>For information on what these parameters do, refer to the <u><a href="#help" onclick="window.open('/help.do'); return true;" >help pages</a></u>.<br /></i></div></td>
+				<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph"><i>For information on what these parameters do, refer to the <u><a href="/help-faq" onclick="window.open('/help-faq'); return true;" >help pages</a></u>.<br /></i></div></td>
 				</tr>
 				<tr><td width="33%"><div class="StandardTextDarkGrayParagraph"><b>Descriptors Per Model:</b></div></td>
 				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent">From: <s:textfield id="knnCon02" name="minNumDescriptors" size="5" theme="simple"/> To: <s:textfield id="knnCon03" name="maxNumDescriptors" size="5" theme="simple"/> Step: <s:textfield id="knnCon01" name="stepSize" size="5" theme="simple"/></div></td></tr>
