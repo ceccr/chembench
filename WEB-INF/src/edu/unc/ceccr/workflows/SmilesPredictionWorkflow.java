@@ -62,13 +62,13 @@ public class SmilesPredictionWorkflow{
 		Utility.writeToDebug("Normalizing descriptors to fit predictor.");
 
 		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
-		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + ".renorm.x", workingDir + "train_0.x", predictor.getScalingType());
+		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + "_renorm.x", workingDir + "train_0.x", predictor.getScalingType());
 	
 		Utility.writeToDebug("Running prediction.");
 	    //Run prediction
 		String preddir = workingDir;
 		
-		String xfile = sdfile + ".renorm"; //the ".x" will be added on by knn+
+		String xfile = sdfile + "_renorm"; //the ".x" will be added on by knn+
 		String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
 		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
 		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
