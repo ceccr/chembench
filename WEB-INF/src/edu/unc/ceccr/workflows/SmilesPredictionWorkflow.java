@@ -92,6 +92,7 @@ public class SmilesPredictionWorkflow{
 			ArrayList<String> predValueArray = new ArrayList<String>();
 			while (!(inputString = in.readLine()).equals("")){
 				String[] predValues = inputString.split("\\s+");
+				Utility.writeToDebug(predValues[1] + " " + predValues[2]);
 				if(! predValues[2].equals("NA")){
 					predValueArray.add(predValues[2]);
 				}
