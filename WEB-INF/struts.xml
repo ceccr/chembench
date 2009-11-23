@@ -102,7 +102,7 @@
 	    </action>
 	    
 	    <action name="makeSmilesPrediction" class="edu.unc.ceccr.action.PredictionFormActions" method="makeSmilesPrediction">
-	        <result type="redirect">/jsp/prediction/predictionResults.jsp</result>
+	        <result>/jsp/prediction/predictionResults.jsp</result>
 	    </action>
         <!-- End Make Predictions Pages -->
         

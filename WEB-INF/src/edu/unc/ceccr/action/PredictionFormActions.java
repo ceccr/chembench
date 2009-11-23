@@ -69,7 +69,7 @@ public class PredictionFormActions extends ActionSupport{
 		user = (User) context.getSession().get("user");
 		//use the same session for all data requests
 		Session session = HibernateUtil.getSession();
-			
+		
 		String smiles = ((String[]) context.getParameters().get("smiles"))[0];
 		smilesString = smiles;
 		String cutoff = ((String[]) context.getParameters().get("cutoff"))[0];
