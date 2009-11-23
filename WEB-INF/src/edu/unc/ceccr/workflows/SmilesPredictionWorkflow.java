@@ -93,7 +93,7 @@ public class SmilesPredictionWorkflow{
 			while ((inputString = in.readLine()) != null && ! inputString.equals("")){
 				String[] predValues = inputString.split("\\s+");
 				if(predValues!= null && predValues.length > 2 && ! predValues[2].equals("NA")){
-					Utility.writeToDebug(predValues[1] + " " + predValues[2]);
+					//Utility.writeToDebug(predValues[1] + " " + predValues[2]);
 					predValueArray.add(predValues[2]);
 				}
 			}
@@ -123,22 +123,23 @@ public class SmilesPredictionWorkflow{
 			Utility.writeToDebug("stddev: " + stddev);
 
 			//format numbers nicely and return them
-			int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
-			String predictedValue = DecimalFormat.getInstance().format("" + mean).replaceAll(",", "");
-			predictedValue = (Utility.roundSignificantFigures(predictedValue, sigfigs));
 			
-			String stdDevStr = DecimalFormat.getInstance().format("" + stddev).replaceAll(",", "");
-			stdDevStr = (Utility.roundSignificantFigures(stdDevStr, sigfigs));
 			
 			String[] prediction = new String[3];
 			prediction[0] = "" + predValueArray.size();
 			if(predValueArray.size() > 0){
+				String predictedValue = DecimalFormat.getInstance().format("" + mean).replaceAll(",", "");
+				Utility.writeToDebug("String-formatted prediction: " + predictedValue);
+				predictedValue = (Utility.roundSignificantFigures(predictedValue, Constants.REPORTED_SIGNIFICANT_FIGURES));
 				prediction[1] = predictedValue;
 			}
 			else{
 				prediction[1] = "N/A";
 			}
 			if(predValueArray.size() > 1){
+				String stdDevStr = DecimalFormat.getInstance().format("" + stddev).replaceAll(",", "");
+				Utility.writeToDebug("String-formatted stddev: " + stdDevStr);
+				stdDevStr = (Utility.roundSignificantFigures(stdDevStr, Constants.REPORTED_SIGNIFICANT_FIGURES));
 				prediction[2] = stdDevStr;
 			}
 			else{
