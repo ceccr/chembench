@@ -128,7 +128,7 @@ public class SmilesPredictionWorkflow{
 			String[] prediction = new String[3];
 			prediction[0] = "" + predValueArray.size();
 			if(predValueArray.size() > 0){
-				String predictedValue = DecimalFormat.getInstance().format("" + mean).replaceAll(",", "");
+				String predictedValue = DecimalFormat.getInstance().format(mean).replaceAll(",", "");
 				Utility.writeToDebug("String-formatted prediction: " + predictedValue);
 				predictedValue = (Utility.roundSignificantFigures(predictedValue, Constants.REPORTED_SIGNIFICANT_FIGURES));
 				prediction[1] = predictedValue;
@@ -137,7 +137,7 @@ public class SmilesPredictionWorkflow{
 				prediction[1] = "N/A";
 			}
 			if(predValueArray.size() > 1){
-				String stdDevStr = DecimalFormat.getInstance().format("" + stddev).replaceAll(",", "");
+				String stdDevStr = DecimalFormat.getInstance().format(stddev).replaceAll(",", "");
 				Utility.writeToDebug("String-formatted stddev: " + stdDevStr);
 				stdDevStr = (Utility.roundSignificantFigures(stdDevStr, Constants.REPORTED_SIGNIFICANT_FIGURES));
 				prediction[2] = stdDevStr;
