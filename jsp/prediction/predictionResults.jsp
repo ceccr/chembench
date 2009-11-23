@@ -5,24 +5,16 @@
 <html>
 <head></head>
 <body><font color="red"><b>Input: </b><br />
-Predictor: <%=session.getAttribute("SmilesPredictPredictor")%><br />
-SMILES string: <%=session.getAttribute("SmilesPredictSmiles")%><br />
-Cutoff: <%=session.getAttribute("SmilesCutoff")%><br />
-<br />
-<b>Results:</b><br />
-Predicted value: <%=session.getAttribute("SmilesPredictedValue")%><br />
-Predicting Models / Total Models: <%=session.getAttribute("SmilesUsedModels")%> / <%=session.getAttribute("SmilesTotalModels")%><br />
-Standard deviation: <%=session.getAttribute("SmilesStdDev")%><br />
-</font>
-
-<br /><br />
-<s:property value="smilesString" /><br />
+SMILES string: <s:property value="smilesString" /><br />
 <s:property value="smilesCutoff" /><br />
+<br />
 <s:iterator value="smilesPredictions">
-	<s:property value="predictorName" /><br />
-	<s:property value="predictedValue" /><br />
-	<s:property value="stdDeviation" /><br />
-	<s:property value="predictingModels" /> / <s:property value="totalModels" /><br />
+<b>Results from <s:property value="predictorName" />:</b><br />
+Predicted value: <s:property value="predictedValue" /><br />
+Predicting Models / Total Models: <s:property value="predictingModels" /> / <s:property value="totalModels" /><br />
+Standard deviation: <s:property value="stdDeviation" /><br />
+<br />
 </s:iterator>
+</font>
 </body>
 </html>
