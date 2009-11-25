@@ -1,3 +1,11 @@
+
+function enlargeImage(me){
+	me.height *= 2;
+}
+function shrinkImage(me){
+	me.height /= 2;
+}
+	
 function confirmDelete(objectType){
 	var x=window.confirm("Are you sure you want to delete this " + objectType + "?");
 	if (x)
