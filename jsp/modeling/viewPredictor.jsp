@@ -247,7 +247,7 @@
 			<td class="TableRowText02"><s:property value="compoundId" /></td>
 			<td class="TableRowText02">
 			<a href="#" onclick="window.open('compound3D?project=<s:property value='selectedPredictor.name' />&projectType=modeling&compoundId=<s:property value='compoundId' />&user=<s:property value='user.userName' />&datasetID=<s:property value='selectedPredictor.datasetId' />', '<% new java.util.Date().getTime(); %>','width=350, height=350');">
-			<img src="/imageServlet?projectType=modeling&user=<s:property value='user.userName' />&project=<s:property value='selectedPredictor.name' />&compoundId=<s:property value='compoundId' />&datasetID=<s:property value='selectedPredictor.datasetId' />" border="0" height="100" onmouseover='Big(this);' onmouseout='Small(This)'/>
+			<img src="/imageServlet?projectType=modeling&user=<s:property value='user.userName' />&project=<s:property value='selectedPredictor.name' />&compoundId=<s:property value='compoundId' />&datasetID=<s:property value='selectedPredictor.datasetId' />" border="0" height="150" onmouseover='Big(this);' onmouseout='Small(this)'/>
 			</a>
 			</td>
 			<td class="TableRowText02"><s:property value="actualValue" /></td>
