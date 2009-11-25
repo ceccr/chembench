@@ -77,7 +77,7 @@ public class SdfToJpgWorkflow {
 			//only make the JPG if it's not already there - saves a lot of time!
 			if(! new File(sketchesDir + jpgFilename).exists()){ 
 				
-				String command = "molconvert -2 jpeg:w100,Q90 "+ structuresDir + files[x]+ " -o "+ sketchesDir + jpgFilename;
+				String command = "molconvert -2 jpeg:w120,Q90 "+ structuresDir + files[x]+ " -o "+ sketchesDir + jpgFilename;
 				Utility.writeToMSDebug("Creating image::"+command);
 				
 				// run molconvert
