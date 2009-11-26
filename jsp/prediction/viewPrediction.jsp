@@ -86,7 +86,7 @@
 					<tr>
 						<td class="TableRowText02"><s:property value="compound" /></td>
 						<td class="TableRowText02">
-							<a onclick="window.open('compound3D?compoundId=<s:property value="compound" />&project=<s:property value="prediction.jobName" />&projectType=predictor&user=<s:property value="user.userName" />&datasetID=<s:property value="prediction.datasetId" />, '<% new java.util.Date().getTime(); %>','width=350, height=350');">
+							<a href="" onclick="window.open('compound3D?compoundId=<s:property value="compound" />&project=<s:property value="prediction.jobName" />&projectType=predictor&user=<s:property value="user.userName" />&datasetID=<s:property value="prediction.datasetId" />, '<% new java.util.Date().getTime(); %>','width=350, height=350');">
 							<img src="/imageServlet?user=<s:property value="compound" value="user.userName" />&projectType=predictor&compoundId=<s:property value='compound' />&project=<s:property value="prediction.jobName" />&datasetID=<s:property value="prediction.datasetId" />" border="0" height="150" onmouseover='enlargeImage(this);' onmouseout='shrinkImage(this)'/></a>
 						</td>
 						<s:iterator value="predictionValues" status="predictionValuesStatus">
