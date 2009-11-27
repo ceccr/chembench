@@ -39,6 +39,7 @@
 	<span class="StandardTextDarkGray">
 
 
+	<br />
 	<table width="924" align="center">
 		<tr>
 			<td class="TableRowText01">Prediction Name</td>
@@ -55,20 +56,18 @@
 			<td class="TableRowText02"><s:property value="prediction.similarityCutoff" /></td>
 		</tr>
 	</table>
-	<br />
 	<!-- End Header Info -->
 	
 	<!-- Page description -->	
 	<br />
-	<p class="StandardTextDarkGray">The predicted values for the compounds in your dataset are below.</p>
-	<p class="StandardTextDarkGray">For each predictor, there are two columns. The first column contains the
+	<p class="StandardTextDarkGray" width="550">The predicted values for the compounds in your dataset are below.</p>
+	<p class="StandardTextDarkGray" width="550">For each predictor, there are two columns. The first column contains the
 	prediction. If more than one of the predictor's models were used to make the prediction, the average value
 	across all models is displayed, &#177; the standard deviation. If there is no value shown, the compound
 	could not be predicted using any of the predictor's models with the cutoff value you specified.</p>
-	<p class="StandardTextDarkGray">The second column for each predictor tells how many models' predictions were
+	<p class="StandardTextDarkGray" width="550">The second column for each predictor tells how many models' predictions were
 	used to calculate the value in the first column. It is often the case that not all of the models in a predictor
 	can be used to predict a compound, because the compounds lie outside the cutoff range of some of the models.</p>	
-	<br />
 	<!-- End page description -->
 	
 	<!-- Predictions -->	
