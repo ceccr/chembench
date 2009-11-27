@@ -3,19 +3,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>CCB Central Navigation 20090204</title>
+<title>CCB Central Navigation</title>
+
+<script language="javascript">
+
+function setActiveButton(){
+	alert("hi");
+	alert(document.location.href);
+    alert(document.location);
+    aObj[i].className='active';
+        
+    //check if it's the Home button that should be lit
+ 	var homePageNames = new Array("home");
+ 	for(i=0; i < homePageNames.length; i++) {
+	 	if(document.location.href.indexOf(homePageNames[i])>=0)){
+	 		document.getElementById("").innerHTML = "<img src='/theme/navbar/button-home-grey.jpg' />"
+	 	}
+	 }
+    
+    //check if it's the MyBench button that should be lit
+ 	
+ 	
+    //check if it's the Dataset button that should be lit
+    
+    //check if it's the Modeling button that should be lit
+    
+    //check if it's the Prediction button that should be lit
+    
+    //check if it's the CeccrBase button that should be lit
+    
+    
+}
+
+alert("boo");
+setActiveButton();
+alert("oob");
+	
+</script>
 </head>
 
 <body>
-
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-  <td valign="top"><a href="home.do"><img src="/theme/ccbTheme/images/home.jpg" border="0" /></a></p></td>
-  <td valign="top"><a href="jobs"><img src="/theme/ccbTheme/images/jobs.jpg" border="0" /></a></td>
-  <td valign="top"><a href="dataset"><img src="/theme/ccbTheme/images/datamgmt.jpg" border="0" /></a></td>
-  <td valign="top"><a href="modeling"><img src="/theme/ccbTheme/images/modeling.jpg" border="0" /></a></td>
-  <td valign="top"><a href="prediction"><img src="/theme/ccbTheme/images/prediction.jpg" border="0" /></a></td>
-  <td valign="top"><a href="vpubchem.do"><img src="/theme/ccbTheme/images/ceccrbase.jpg" border="0" /></a></td>
+  <td valign="top"><a href="home.do"><div id="homeButton"><img src="/theme/navbar/button-home-blue.jpg" border="0" /></div></a></p></td>
+  <td valign="top"><a href="jobs"><div id="myBenchButton"><img src="/theme/navbar/button-mybench-blue.jpg" border="0" /></div></a></td>
+  <td valign="top"><a href="dataset"><div id="datasetButton"><img src="/theme/navbar/button-dataset-blue.jpg" border="0" /></div></a></td>
+  <td valign="top"><a href="modeling"><div id="modelingButton"><img src="/theme/navbar/button-modeling-blue.jpg" border="0" /></div></a></td>
+  <td valign="top"><a href="prediction"><div id="predictionButton"><img src="/theme/navbar/button-prediction-blue.jpg" border="0" /></div></a></td>
+  <td valign="top"><a href="vpubchem.do"><div id="ceccrBaseButton"><img src="/theme/navbar/button-ceccrbase-blue.jpg" border="0" /></div></a></td>
   </tr>
 </table>
 
