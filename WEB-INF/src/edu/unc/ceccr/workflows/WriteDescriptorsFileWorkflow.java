@@ -164,7 +164,7 @@ public class WriteDescriptorsFileWorkflow{
 			ArrayList<String> descriptorNames, /* optional argument -- can be null */
 			Float corellationCutoff){
 		
-		//lol write this later
+		//write this later
 		//will end up using the same algorithm as "remove high sequence identity" thing.
 		//that was a recursive one, right...? how *did* I do that?
 		//Right, here it is. Algorithm in perl:
@@ -347,9 +347,10 @@ while($running){
 		
 		int si = 0;
 		for(int i = 0; i < predictorDescriptorNames.size(); i++){
-			/*if(si < descriptorNames.size() && descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i))){
-				Utility.writeToDebug("I: " + i + " - " + predictorDescriptorNames.get(i) + " || si: " + si + " - " + descriptorNames.get(si));
-			}*/
+			//<><>
+			if(si < descriptorNames.size() && descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i))){
+				Utility.writeToDebug("Match found! Predictor descriptor: " + i + " - " + predictorDescriptorNames.get(i) + " || Input descriptor: " + si + " - " + descriptorNames.get(si));
+			}//<><>
 			while((si < descriptorNames.size()) && ! descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i)) ){
 				mapping.set(si, -1);
 				si++;
