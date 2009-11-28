@@ -16,9 +16,9 @@ function setActiveButton(){
     //check if it's the Home button that should be lit
  	var homePageNames = new Array("home");
  	for(i=0; i < homePageNames.length; i++) {
-	 	if(document.location.href.indexOf(homePageNames[i])>=0)){
-	 		document.getElementById("").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' />"
-	 	}
+	 	//if(document.location.href.indexOf(homePageNames[i])>=0){
+	 	//	document.getElementById("").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' />"
+	 	//}
 	 }
     
     //check if it's the MyBench button that should be lit

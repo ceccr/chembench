@@ -28,6 +28,7 @@
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
 	
+	//setTabToModeling();
 	</script>
 </head>
 

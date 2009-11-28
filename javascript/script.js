@@ -1,3 +1,7 @@
+function setTabToModeling{
+
+}
+
 
 function enlargeImage(me){
 	me.height *= 2;
