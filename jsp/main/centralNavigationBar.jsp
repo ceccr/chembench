@@ -14,30 +14,56 @@ function setActiveButton(){
     aObj[i].className='active';
         
     //check if it's the Home button that should be lit
- 	var homePageNames = new Array("home");
+ 	var homePageNames = new Array("home.do");
  	for(i=0; i < homePageNames.length; i++) {
-	 	//if(document.location.href.indexOf(homePageNames[i])>=0){
-	 	//	document.getElementById("").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' />"
-	 	//}
-	 }
+	 	if(document.location.href.indexOf(homePageNames[i])>=0){
+	 		document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' />"
+	 	}
+	}
     
     //check if it's the MyBench button that should be lit
- 	
+ 	var myBenchPageNames = new Array("jobs");
+ 	for(i=0; i < myBenchPageNames.length; i++) {
+	 	if(document.location.href.indexOf(myBenchPageNames[i])>=0){
+	 		document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' />"
+	 	}
+	}
  	
     //check if it's the Dataset button that should be lit
+    var datasetPageNames = new Array("dataset");
+ 	for(i=0; i < datasetPageNames.length; i++) {
+	 	if(document.location.href.indexOf(datasetPageNames[i])>=0){
+	 		document.getElementById("datasetButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' />"
+	 	}
+	}
     
     //check if it's the Modeling button that should be lit
+    var modelingPageNames = new Array("modeling");
+ 	for(i=0; i < modelingPageNames.length; i++) {
+	 	if(document.location.href.indexOf(modelingPageNames[i])>=0){
+	 		document.getElementById("modelingButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' />"
+	 	}
+	}
     
     //check if it's the Prediction button that should be lit
+    var predictionPageNames = new Array("prediction", "selectPredictors");
+ 	for(i=0; i < predictionPageNames.length; i++) {
+	 	if(document.location.href.indexOf(predictionPageNames[i])>=0){
+	 		document.getElementById("predictionButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' />"
+	 	}
+	}
     
     //check if it's the CeccrBase button that should be lit
-    
+    var ceccrBasePageNames = new Array("ceccrbase");
+ 	for(i=0; i < ceccrBasePageNames.length; i++) {
+	 	if(document.location.href.indexOf(ceccrBasePageNames[i])>=0){
+	 		document.getElementById("ceccrBaseButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' />"
+	 	}
+	}
     
 }
 
-alert("boo");
 setActiveButton();
-alert("oob");
 	
 </script>
 </head>
