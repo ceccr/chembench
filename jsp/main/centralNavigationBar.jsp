@@ -15,7 +15,7 @@ function setActiveButton(){
  	for(i=0; i < homePageNames.length; i++) {
 	 	if(document.location.href.indexOf(homePageNames[i])>=0){
 	 		alert("changing home button blue");
-	 		document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' />"
+	 		document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' border="0" />"
 	 	}
 	}
     
@@ -24,7 +24,7 @@ function setActiveButton(){
  	for(i=0; i < myBenchPageNames.length; i++) {
 	 	if(document.location.href.indexOf(myBenchPageNames[i])>=0){
 	 		alert("changing mybench button blue");
-	 		document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-mybench-blue.jpg' />"
+	 		document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-mybench-blue.jpg' border="0" />"
 	 	}
 	}
  	
@@ -33,7 +33,7 @@ function setActiveButton(){
  	for(i=0; i < datasetPageNames.length; i++) {
 	 	if(document.location.href.indexOf(datasetPageNames[i])>=0){
 	 		alert("changing dataset button blue");
-	 		document.getElementById("datasetButton").innerHTML = "<img src='/theme/navbar/button-dataset-blue.jpg' />"
+	 		document.getElementById("datasetButton").innerHTML = "<img src='/theme/navbar/button-dataset-blue.jpg' border="0" />"
 	 	}
 	}
     
@@ -42,7 +42,7 @@ function setActiveButton(){
  	for(i=0; i < modelingPageNames.length; i++) {
 	 	if(document.location.href.indexOf(modelingPageNames[i])>=0){
 	 		alert("changing modeling button blue");
-	 		document.getElementById("modelingButton").innerHTML = "<img src='/theme/navbar/button-modeling-blue.jpg' />"
+	 		document.getElementById("modelingButton").innerHTML = "<img src='/theme/navbar/button-modeling-blue.jpg' border="0" />"
 	 	}
 	}
     
@@ -51,7 +51,7 @@ function setActiveButton(){
  	for(i=0; i < predictionPageNames.length; i++) {
 	 	if(document.location.href.indexOf(predictionPageNames[i])>=0){
 	 		alert("changing prediction button blue");
-	 		document.getElementById("predictionButton").innerHTML = "<img src='/theme/navbar/button-prediction-blue.jpg' />"
+	 		document.getElementById("predictionButton").innerHTML = "<img src='/theme/navbar/button-prediction-blue.jpg' border="0" />"
 	 	}
 	}
     
@@ -60,7 +60,7 @@ function setActiveButton(){
  	for(i=0; i < ceccrBasePageNames.length; i++) {
 	 	if(document.location.href.indexOf(ceccrBasePageNames[i])>=0){
 	 		alert("changing ceccrbase button blue");
-	 		document.getElementById("ceccrBaseButton").innerHTML = "<img src='/theme/navbar/button-ceccrbase-blue.jpg' />"
+	 		document.getElementById("ceccrBaseButton").innerHTML = "<img src='/theme/navbar/button-ceccrbase-blue.jpg' border="0" />"
 	 	}
 	}
     
