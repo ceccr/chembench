@@ -18,11 +18,11 @@
 	
 	<script language="javascript" src="javascript/script.js" />
 	<script language="javascript">
-	setTabToPrediction();
+	
 	</script>
 </head>
 
-<body>
+<body onload="setTabToMyBench();">
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr>
 		<td>

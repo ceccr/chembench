@@ -17,7 +17,7 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 <script src="javascript/script.js"></script>
 </head>
-<body onload="selection()">
+<body onload="setTabToCeccrBase(); selection()">
 <table width="749" border="0" align="center" cellpadding="0" cellspacing="0">
       <%@include file="/jsp/main/header.jsp" %>
 <%@include file="/jsp/main/centralNavigationBar.jsp" %></td>
