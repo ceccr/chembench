@@ -1,7 +1,7 @@
  
 function setTabToHome(){
 	alert("changing home button blue");
-	//document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' border="0" />";
+	document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' border="0" />";
 } 
 function setTabToMyBench(){
 	//document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-mybench-blue.jpg' border="0" />";
