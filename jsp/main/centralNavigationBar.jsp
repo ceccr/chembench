@@ -8,83 +8,23 @@
 <script language="javascript">
  
 function setTabToHome(){
-	document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' border="0" />"
+	document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' border="0" />";
 } 
 function setTabToMyBench(){
-	document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-mybench-blue.jpg' border="0" />"
+	document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-mybench-blue.jpg' border="0" />";
 } 
 function setTabToDataset(){
-	document.getElementById("datasetButton").innerHTML = "<img src='/theme/navbar/button-dataset-blue.jpg' border="0" />"
+	document.getElementById("datasetButton").innerHTML = "<img src='/theme/navbar/button-dataset-blue.jpg' border="0" />";
 } 
 function setTabToModeling(){
-	document.getElementById("modelingButton").innerHTML = "<img src='/theme/navbar/button-modeling-blue.jpg' border="0" />"
+	document.getElementById("modelingButton").innerHTML = "<img src='/theme/navbar/button-modeling-blue.jpg' border="0" />";
 } 
 function setTabToPrediction(){
-	document.getElementById("predictionButton").innerHTML = "<img src='/theme/navbar/button-prediction-blue.jpg' border="0" />"
+	document.getElementById("predictionButton").innerHTML = "<img src='/theme/navbar/button-prediction-blue.jpg' border="0" />";
 } 
 function setTabToCeccrBase(){
-	document.getElementById("ceccrBaseButton").innerHTML = "<img src='/theme/navbar/button-ceccrbase-blue.jpg' border="0" />"
+	document.getElementById("ceccrBaseButton").innerHTML = "<img src='/theme/navbar/button-ceccrbase-blue.jpg' border="0" />";
 } 
- 
-function setActiveButton(){
-	alert(document.location.href);
-        
-    //check if it's the Home button that should be lit
- 	var homePageNames = new Array("home.do");
- 	for(i=0; i < homePageNames.length; i++) {
-	 	if(document.location.href.indexOf(homePageNames[i])>=0){
-	 		alert("changing home button blue");
-	 		document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' border="0" />"
-	 	}
-	}
-    
-    //check if it's the MyBench button that should be lit
- 	var myBenchPageNames = new Array("jobs");
- 	for(i=0; i < myBenchPageNames.length; i++) {
-	 	if(document.location.href.indexOf(myBenchPageNames[i])>=0){
-	 		alert("changing mybench button blue");
-	 		document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-mybench-blue.jpg' border="0" />"
-	 	}
-	}
- 	
-    //check if it's the Dataset button that should be lit
-    var datasetPageNames = new Array("dataset");
- 	for(i=0; i < datasetPageNames.length; i++) {
-	 	if(document.location.href.indexOf(datasetPageNames[i])>=0){
-	 		alert("changing dataset button blue");
-	 		document.getElementById("datasetButton").innerHTML = "<img src='/theme/navbar/button-dataset-blue.jpg' border="0" />"
-	 	}
-	}
-    
-    //check if it's the Modeling button that should be lit
-    var modelingPageNames = new Array("modeling");
- 	for(i=0; i < modelingPageNames.length; i++) {
-	 	if(document.location.href.indexOf(modelingPageNames[i])>=0){
-	 		alert("changing modeling button blue");
-	 		document.getElementById("modelingButton").innerHTML = "<img src='/theme/navbar/button-modeling-blue.jpg' border="0" />"
-	 	}
-	}
-    
-    //check if it's the Prediction button that should be lit
-    var predictionPageNames = new Array("prediction", "selectPredictors");
- 	for(i=0; i < predictionPageNames.length; i++) {
-	 	if(document.location.href.indexOf(predictionPageNames[i])>=0){
-	 		alert("changing prediction button blue");
-	 		document.getElementById("predictionButton").innerHTML = "<img src='/theme/navbar/button-prediction-blue.jpg' border="0" />"
-	 	}
-	}
-    
-    //check if it's the CeccrBase button that should be lit
-    var ceccrBasePageNames = new Array("ceccrbase");
- 	for(i=0; i < ceccrBasePageNames.length; i++) {
-	 	if(document.location.href.indexOf(ceccrBasePageNames[i])>=0){
-	 		alert("changing ceccrbase button blue");
-	 		document.getElementById("ceccrBaseButton").innerHTML = "<img src='/theme/navbar/button-ceccrbase-blue.jpg' border="0" />"
-	 	}
-	}
-    
-}
-
 	
 </script>
 </head>
