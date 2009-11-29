@@ -25,8 +25,8 @@
 	var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />",</s:iterator>"");
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
+	setTabToDataset();
 </script>
-
 </head>
 <body>
 <div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->

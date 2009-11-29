@@ -347,16 +347,13 @@ while($running){
 		
 		int si = 0;
 		for(int i = 0; i < predictorDescriptorNames.size(); i++){
-			//<><>
-			if(si < descriptorNames.size() && descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i))){
-				Utility.writeToDebug("Match found! Predictor descriptor: " + i + " - " + predictorDescriptorNames.get(i) + " || Input descriptor: " + si + " - " + descriptorNames.get(si));
-			}//<><>
 			while((si < descriptorNames.size()) && ! descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i)) ){
 				mapping.set(si, -1);
 				si++;
 			}
 			
 			if(si < descriptorNames.size()){
+				//Utility.writeToDebug("Match found! Predictor descriptor: " + i + " - " + predictorDescriptorNames.get(i) + " || Input descriptor: " + si + " - " + descriptorNames.get(si));
 				mapping.set(si, i);
 			}
 			si++;

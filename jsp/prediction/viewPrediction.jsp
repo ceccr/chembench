@@ -16,7 +16,10 @@
 	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
-	<script language="javascript" src="javascript/script.js"></script>
+	<script language="javascript" src="javascript/script.js" />
+	<script language="javascript">
+	setTabToPrediction();
+	</script>
 </head>
 
 <body>
@@ -37,7 +40,6 @@
 	
 	<span class="Errors"><b><!-- errors go here..? --></b></span> 
 	<span class="StandardTextDarkGray">
-
 
 	<br />
 	<table width="924" align="center">
