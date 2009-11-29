@@ -9,7 +9,7 @@
 <html>
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
-<title>C-CHEMBENCH | My Jobs</title>
+<title>C-CHEMBENCH | My Bench</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
@@ -30,7 +30,7 @@
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr><td>
         <p class="StandardTextDarkGrayParagraph">
-		Every completed job you have run on C-Chembench is available on this page. 
+		Every dataset, predictor, and prediction you have created on C-Chembench is available on this page. 
 		You can also track progress of running jobs using the job queue.
 		</p>
 		</td></tr>
@@ -97,7 +97,7 @@
 		<tr>
 			<td height="24" align="left" colspan="2">
 			<p class="StandardTextDarkGrayParagraph2">
-			<br /><b>Finished Dataset Jobs</b>
+			<br /><b>Datasets</b>
 			</p></td>
 		</tr>
 		<tr>
@@ -154,7 +154,7 @@
 		<tr>
 			<td height="24" align="left" colspan="2">
 			<p class="StandardTextDarkGrayParagraph2">
-			<br /><b>Finished Modeling Jobs</b>
+			<br /><b>Predictors</b>
 			</p></td>
 		</tr>
 		<tr>
@@ -205,7 +205,7 @@
 		<tr>
 			<td height="24" align="left" colspan="2">
 			<p class="StandardTextDarkGrayParagraph2">
-			<br /><b>Finished Prediction Jobs</b>
+			<br /><b>Predictions</b>
 			</p></td>
 		</tr>
 		<tr>

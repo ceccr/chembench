@@ -14,7 +14,7 @@
 <%@page import="edu.unc.ceccr.global.Constants"%>
 <html>
 <head>
-<title>C-CHEMBENCH | Tanimoto calculations</title>
+<title>C-CHEMBENCH | View Dataset</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <link href="theme/yahoo_ui/menu.css" rel="stylesheet" type="text/css"></link>
