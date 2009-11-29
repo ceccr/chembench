@@ -1,23 +1,21 @@
  
 function setTabToHome(){
-	alert("changing home button blue");
-	var ele = document.getElementById("homeButton");
-	ele.innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' border="0" />";
+	document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' border='0' />";
 } 
 function setTabToMyBench(){
-	//document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-mybench-blue.jpg' border="0" />";
+	document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-mybench-blue.jpg' border='0' />";
 } 
 function setTabToDataset(){
-	//document.getElementById("datasetButton").innerHTML = "<img src='/theme/navbar/button-dataset-blue.jpg' border="0" />";
+	document.getElementById("datasetButton").innerHTML = "<img src='/theme/navbar/button-dataset-blue.jpg' border='0' />";
 } 
 function setTabToModeling(){
-	//document.getElementById("modelingButton").innerHTML = "<img src='/theme/navbar/button-modeling-blue.jpg' border="0" />";
+	document.getElementById("modelingButton").innerHTML = "<img src='/theme/navbar/button-modeling-blue.jpg' border='0' />";
 } 
 function setTabToPrediction(){
-	//document.getElementById("predictionButton").innerHTML = "<img src='/theme/navbar/button-prediction-blue.jpg' border="0" />";
+	document.getElementById("predictionButton").innerHTML = "<img src='/theme/navbar/button-prediction-blue.jpg' border='0' />";
 } 
 function setTabToCeccrBase(){
-	//document.getElementById("ceccrBaseButton").innerHTML = "<img src='/theme/navbar/button-ceccrbase-blue.jpg' border="0" />";
+	document.getElementById("ceccrBaseButton").innerHTML = "<img src='/theme/navbar/button-ceccrbase-blue.jpg' border='0' />";
 } 
 
 
