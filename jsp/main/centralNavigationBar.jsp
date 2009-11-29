@@ -8,6 +8,7 @@
 <script language="javascript">
  
 function setTabToHome(){
+	alert("changing home button blue");
 	document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-blue.jpg' border="0" />";
 } 
 function setTabToMyBench(){
@@ -29,7 +30,7 @@ function setTabToCeccrBase(){
 </script>
 </head>
 
-<body onload="setActiveButton();">
+<body>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
   <td valign="top"><a href="home.do"><div id="homeButton"><img src="/theme/navbar/button-home-grey.jpg" border="0" /></div></a></p></td>
