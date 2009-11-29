@@ -10,10 +10,12 @@ function setTabsToOff(){
 
 function setTabToHome(){
 	setTabsToOff();
+	selectedTab="home";
 	document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-grey.jpg' border='0' />";
 } 
 function setTabToMyBench(){
 	setTabsToOff();
+	selectedTab="myBench";
 	document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-mybench-grey.jpg' border='0' />";
 } 
 function setTabToDataset(){
