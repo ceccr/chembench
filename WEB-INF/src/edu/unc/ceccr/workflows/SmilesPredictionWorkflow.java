@@ -180,7 +180,7 @@ public class SmilesPredictionWorkflow{
 			if(standardized.exists()){
 				//replace old SDF with new standardized SDF
 				FileAndDirOperations.copyFile(smilesDir + sdfFileName + ".standardize", smilesDir + sdfFileName);
-				FileAndDirOperations.deleteFile(smilesDir + sdfFileName + ".standardize");
+				//FileAndDirOperations.deleteFile(smilesDir + sdfFileName + ".standardize");
 			}
 	    	
 	    Utility.writeToDebug("Finished smilesToSDF");
