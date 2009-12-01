@@ -165,12 +165,23 @@ public class SmilesPredictionWorkflow{
 		    out.write(smiles + " 1");
 		    out.close();
 		
+		    String sdfFileName = "smiles.sdf";
+		   
 		//execute molconvert to change it to SDF
-	    	String execstr = "molconvert -2:O1 sdf " + smilesDir + "tmp.smiles -o " + smilesDir + "smiles.sdf";
+	    	String execstr = "molconvert -2:O1 sdf " + smilesDir + "tmp.smiles -o " + smilesDir + " " + sdfFileName;
 	    	Utility.writeToDebug("Running external program: " + execstr);
 	    	Process p = Runtime.getRuntime().exec(execstr);
 	    	Utility.writeProgramLogfile(smilesDir, "molconvert", p.getInputStream(), p.getErrorStream());
 	    	p.waitFor();
+	    
+    	//standardize the SDF	
+			StandardizeMoleculesWorkflow.standardizeSdf(sdfFileName, sdfFileName + ".standardize", smilesDir);
+			File standardized = new File(smilesDir + sdfFileName + ".standardize");
+			if(standardized.exists()){
+				//replace old SDF with new standardized SDF
+				FileAndDirOperations.copyFile(smilesDir + sdfFileName + ".standardize", smilesDir + sdfFileName);
+				FileAndDirOperations.deleteFile(smilesDir + sdfFileName + ".standardize");
+			}
 	    	
 	    Utility.writeToDebug("Finished smilesToSDF");
 	}	
