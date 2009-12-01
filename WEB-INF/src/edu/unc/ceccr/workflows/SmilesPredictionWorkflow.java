@@ -168,7 +168,7 @@ public class SmilesPredictionWorkflow{
 		    String sdfFileName = "smiles.sdf";
 		   
 		//execute molconvert to change it to SDF
-	    	String execstr = "molconvert -2:O1 sdf " + smilesDir + "tmp.smiles -o " + smilesDir + " " + sdfFileName;
+	    	String execstr = "molconvert -2:O1 sdf " + smilesDir + "tmp.smiles -o " + smilesDir + sdfFileName;
 	    	Utility.writeToDebug("Running external program: " + execstr);
 	    	Process p = Runtime.getRuntime().exec(execstr);
 	    	Utility.writeProgramLogfile(smilesDir, "molconvert", p.getInputStream(), p.getErrorStream());
