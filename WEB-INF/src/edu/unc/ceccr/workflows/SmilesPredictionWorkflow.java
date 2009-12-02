@@ -63,9 +63,15 @@ public class SmilesPredictionWorkflow{
 
 		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
 		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + ".renorm.x", workingDir + "train_0.x", predictor.getScalingType());
-	
-		Utility.writeToDebug("Running prediction.");
+
+		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
+		String actfile = sdfile + ".renorm.a";
+		BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
+		aout.write("1 0");
+		aout.close();
+		
 	    //Run prediction
+		Utility.writeToDebug("Running prediction.");
 		String preddir = workingDir;
 		
 		String xfile = sdfile + ".renorm.x";
@@ -88,7 +94,6 @@ public class SmilesPredictionWorkflow{
 			in.readLine();
 			
 			//get output for each model
-			
 			ArrayList<String> predValueArray = new ArrayList<String>();
 			while ((inputString = in.readLine()) != null && ! inputString.equals("")){
 				String[] predValues = inputString.split("\\s+");
@@ -123,8 +128,6 @@ public class SmilesPredictionWorkflow{
 			Utility.writeToDebug("stddev: " + stddev);
 
 			//format numbers nicely and return them
-			
-			
 			String[] prediction = new String[3];
 			prediction[0] = "" + predValueArray.size();
 			if(predValueArray.size() > 0){
@@ -180,7 +183,7 @@ public class SmilesPredictionWorkflow{
 			if(standardized.exists()){
 				//replace old SDF with new standardized SDF
 				FileAndDirOperations.copyFile(smilesDir + sdfFileName + ".standardize", smilesDir + sdfFileName);
-				//FileAndDirOperations.deleteFile(smilesDir + sdfFileName + ".standardize");
+				FileAndDirOperations.deleteFile(smilesDir + sdfFileName + ".standardize");
 			}
 	    	
 	    Utility.writeToDebug("Finished smilesToSDF");
