@@ -33,6 +33,7 @@ public class ParseConfigurationXML{
                 }
             }
             
+            /*
             NodeList listOfDescriptorAccessUsers = doc.getElementsByTagName("descriptorUser");
             for(int s=0; s<listOfDescriptorAccessUsers.getLength() ; s++){
                 Node descriptorUserNode = listOfDescriptorAccessUsers.item(s);
@@ -42,7 +43,7 @@ public class ParseConfigurationXML{
                         Constants.DESCRIPTOR_DOWNLOAD_USERS_LIST.add(userName);
                 	}
                 }
-            }
+            }*/
             
             Constants.WORKBENCH=getSingNodeValue(doc,"workbench");
             Constants.CECCR_DATABASE_NAME=getNestedNodeValue(getParentNode(doc,"database"),"databaseName");
