@@ -19,7 +19,6 @@ public class ParseConfigurationXML{
             doc.getDocumentElement ().normalize ();
 
             NodeList listOfAdmins = doc.getElementsByTagName("admin");
-            
             for(int s=0; s<listOfAdmins.getLength() ; s++){
                 Node adminNode = listOfAdmins.item(s);
                 if(adminNode.getNodeType() == Node.ELEMENT_NODE){
@@ -31,6 +30,18 @@ public class ParseConfigurationXML{
                     if(email.length()>0&&SendEmails.isValidEmail(email)){
                     	Constants.ADMINEMAIL_LIST.add(email);
                     }
+                }
+            }
+            
+            NodeList listOfDescriptorAccessUsers = doc.getElementsByTagName("descriptorUser");
+            for(int s=0; s<listOfDescriptorAccessUsers.getLength() ; s++){
+                Node descriptorUserNode = listOfDescriptorAccessUsers.item(s);
+                if(descriptorUserNode.getNodeType() == Node.ELEMENT_NODE){
+                	String userName=descriptorUserNode.getNodeValue();
+                	if(userName.length()>0){
+                        Constants.DESCRIPTOR_DOWNLOAD_USERS_LIST.add(userName);
+                	}
+                    
                 }
             }
             

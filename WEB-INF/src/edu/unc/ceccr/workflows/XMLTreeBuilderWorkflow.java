@@ -53,21 +53,19 @@ public class XMLTreeBuilderWorkflow {
 	    	data_map = result; 
 	    }
 	    
-	 		    
-   
 	    private Integer[] findMax(Double[][] data){
 	    	Integer[] key = new Integer[2];
 	    	try{
-	    	max = new Double(0);
-	        for(int i=0;i<data.length;i++){
-	            for(int j=0;j<data.length;j++){
-	            	if(max<data[i][j] && i!=j){ 
-	                    max = data[i][j];
-	                    key[0] = i;
-	                    key[1] = j;
-	                }
-	            }
-	        }
+		    	max = new Double(0);
+		        for(int i=0;i<data.length;i++){
+		            for(int j=0;j<data.length;j++){
+		            	if(max<data[i][j] && i!=j){ 
+		                    max = data[i][j];
+		                    key[0] = i;
+		                    key[1] = j;
+		                }
+		            }
+		        }
 	        }
 	         catch(Exception e){
 	        	 Utility.writeToMSDebug("-------"+e.getMessage());

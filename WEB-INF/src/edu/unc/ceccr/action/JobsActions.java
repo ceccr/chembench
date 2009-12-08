@@ -36,6 +36,12 @@ public class JobsActions extends ActionSupport {
 
 	public String loadPage() throws Exception {
 
+		Utility.writeToDebug("Descriptor users:");
+		for(String t: Constants.DESCRIPTOR_DOWNLOAD_USERS_LIST){
+			Utility.writeToDebug(t);
+		}
+		Utility.writeToDebug("End descriptor users");
+		
 		String result = SUCCESS;
 		
 		//check that the user is logged in

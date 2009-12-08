@@ -131,6 +131,10 @@ public class Constants {
 	//administration
 	public static String WEBADDRESS;
 	public static String WEBSITEEMAIL;
+
+	public static ArrayList<String> ADMIN_LIST=new ArrayList<String>();
+	public static ArrayList<String> ADMINEMAIL_LIST=new ArrayList<String>();
+	public static ArrayList<String> DESCRIPTOR_DOWNLOAD_USERS_LIST=new ArrayList<String>();
 	
 	// web service validation
 	public static  String RECAPTCHA_PUBLICKEY;
@@ -152,9 +156,6 @@ public class Constants {
 	public static final String CTOXBENCH="ctoxbench";
 	public static final String MAINKNN="MAINKNN";
 	public static final String RANDOMKNN="RANDOMKNN";
-	
-	public static ArrayList<String> ADMIN_LIST=new ArrayList<String>();
-	public static ArrayList<String> ADMINEMAIL_LIST=new ArrayList<String>();
 	
 	//used by password hash function when user gets or changes their password
 	public static final String SOURCE="qwertyuio123NBV456pasdfghOPASDFGHjklm7890QWERTYUInbvcxzJKLMCXZ";
