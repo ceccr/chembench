@@ -3,17 +3,8 @@
 <struts-config>
 	<data-sources></data-sources>
 	<form-beans>
-		<form-bean name="qsarForm"
-			type="edu.unc.ceccr.formbean.QsarFormBean">
-		</form-bean>
 		<form-bean name="viewOutputForm"
 			type="edu.unc.ceccr.formbean.ViewOutputFormBean">
-		</form-bean>
-		<form-bean name="predictorForm"
-			type="edu.unc.ceccr.formbean.PredictorFormBean">
-		</form-bean>
-		<form-bean name="viewModelsForm"
-			type="org.apache.struts.validator.LazyValidatorForm">
 		</form-bean>
 		<form-bean name="loginForm"
 			type="edu.unc.ceccr.formbean.LoginFormBean">
@@ -27,14 +18,8 @@
 		 <form-bean name="EmailToAllBean"
 		      type="edu.unc.ceccr.formbean.EmailToAllBean">
 		 </form-bean> 
-        <form-bean name="visForm"
-			type="edu.unc.ceccr.formbean.DatasetFilesBean">
-		</form-bean>
-		<form-bean name="datasetForm" 
-		type="edu.unc.ceccr.formbean.DatasetFormBean">
-		</form-bean>
-             
 	</form-beans>
+	
 	<global-exceptions></global-exceptions>
 	<!-- ========== Global Forwards =============================== -->
 	<global-forwards>
