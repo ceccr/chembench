@@ -33,17 +33,18 @@ public class ParseConfigurationXML{
                 }
             }
             
-            /*
+            
             NodeList listOfDescriptorAccessUsers = doc.getElementsByTagName("descriptorUser");
             for(int s=0; s<listOfDescriptorAccessUsers.getLength() ; s++){
                 Node descriptorUserNode = listOfDescriptorAccessUsers.item(s);
                 if(descriptorUserNode.getNodeType() == Node.ELEMENT_NODE){
-                	String userName=descriptorUserNode.getNodeValue();
-                	if(userName.length()>0){
+                	NodeList userChildNodes = descriptorUserNode.getChildNodes();
+                	String userName= (userChildNodes.item(0)).getNodeValue();
+                	if(userName != null && userName.trim().length()>0){
                         Constants.DESCRIPTOR_DOWNLOAD_USERS_LIST.add(userName);
                 	}
                 }
-            }*/
+            }
             
             Constants.WORKBENCH=getSingNodeValue(doc,"workbench");
             Constants.CECCR_DATABASE_NAME=getNestedNodeValue(getParentNode(doc,"database"),"databaseName");
