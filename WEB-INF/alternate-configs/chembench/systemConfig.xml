@@ -20,10 +20,10 @@
 </administrators>
 
 <!-- Users with descriptor access may download descriptors. This must be monitored carefully and changed manually so only MML users may use descriptors. -->
-<descriptor-access>
+<descriptorUsers>
 <descriptorUser>theo</descriptorUser>
 <descriptorUser>CountChocula</descriptorUser>
-</descriptor-access>
+</descriptorUsers>
 
 <systemBasePath>/usr/local/ceccr/</systemBasePath>
 <tomcatPath>/usr/local/ceccr/tomcat6/</tomcatPath>
