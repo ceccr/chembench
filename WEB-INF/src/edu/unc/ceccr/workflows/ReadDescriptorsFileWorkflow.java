@@ -114,7 +114,6 @@ public class ReadDescriptorsFileWorkflow{
 		descriptorNames.remove(1); //contains molecule name, which isn't a descriptor
 		descriptorNames.remove(0); //contains molecule number, which isn't a descriptor
 		
-		
 		//read in the descriptor values. If one of them is the word "Error", quit this shit - means Dragon failed at descriptoring.
 		while((line = br.readLine()) != null){
 			tok = new Scanner(line);

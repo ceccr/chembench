@@ -435,7 +435,6 @@ public class DatasetFileOperations {
 				}
 			}
 		}
-		Collections.sort(x_compounds);
 		return x_compounds;
 	}
 	
@@ -465,7 +464,10 @@ public class DatasetFileOperations {
 				}
 			}
 		}
-		Collections.sort(chemicalNames);
+		
+		//Do not sort this output. It is used to generate the identifiers in .X files.
+		//Sorting this would screw with the indexing; these should be left alone.
+		//Collections.sort(chemicalNames);
 		return chemicalNames;
 	}
 	
@@ -489,7 +491,6 @@ public class DatasetFileOperations {
 				}
 			}
 		}
-		Collections.sort(act_compounds);
 		return act_compounds;
 	}
 
