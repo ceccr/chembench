@@ -33,20 +33,15 @@ public class ParseConfigurationXML{
                 }
             }
             
-            Utility.writeToDebug("getting descriptor users");
             NodeList listOfDescriptorAccessUsers = doc.getElementsByTagName("descriptorUser");
             for(int s=0; s<listOfDescriptorAccessUsers.getLength() ; s++){
-                Utility.writeToDebug("getting descriptor users 1");
                 Node descriptorUserNode = listOfDescriptorAccessUsers.item(s);
-                Utility.writeToDebug("getting descriptor users 2");
                 if(descriptorUserNode.getNodeType() == Node.ELEMENT_NODE){
                 	String userName=descriptorUserNode.getNodeValue();
                 	if(userName.length()>0){
                         Constants.DESCRIPTOR_DOWNLOAD_USERS_LIST.add(userName);
                 	}
-                    
                 }
-                Utility.writeToDebug("getting descriptor users 3");
             }
             
             Constants.WORKBENCH=getSingNodeValue(doc,"workbench");
