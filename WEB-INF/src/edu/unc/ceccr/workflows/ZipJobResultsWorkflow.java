@@ -25,21 +25,16 @@ public class ZipJobResultsWorkflow{
 			//read through the directory's files.
 			//Add each subdirectory to dirNames.
 			//Add each file to fileNames.
-			Utility.writeToDebug("Opening dir: " + dirNames.get(i));
 			
 			File dirFile = new File(workingDir + dirNames.get(i));
 			String[] dirFilenames = dirFile.list();
 
-			Utility.writeToDebug("Found " + dirFilenames.length + " files.");
-			
 			int x = 0;
 			while(dirFilenames != null && x<dirFilenames.length){
 				if((new File(workingDir + dirNames.get(i) + dirFilenames[x])).isDirectory()){
-					Utility.writeToDebug("Adding subdir: " + dirNames.get(i) + dirFilenames[x] + "/");
 					dirNames.add(dirNames.get(i) + dirFilenames[x] + "/");
 				}
 				else{
-					Utility.writeToDebug("Adding file: " + dirNames.get(i) + dirFilenames[x]);
 					fileNames.add(dirNames.get(i) + dirFilenames[x]);
 				}
 				x++;
