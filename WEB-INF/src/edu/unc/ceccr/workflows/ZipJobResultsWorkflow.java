@@ -39,6 +39,8 @@ public class ZipJobResultsWorkflow{
 				}
 			}
 		}
+		Utility.writeToDebug("Compressing " + workingDir + projectDir + " : " + fileNames.size() + " files into " + zipFile);
+		
 		
 		for(String fileName : fileNames){
 			try{
