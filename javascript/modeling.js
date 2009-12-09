@@ -14,7 +14,7 @@ function setToContinuous(){
 			document.getElementById(continuousParamIDs[i]).disabled = false;
 		}
 	}
-	document.getElementById(actFileDataType).value = "CONTINUOUS";
+	document.getElementById("actFileDataType").value = "CONTINUOUS";
 }
 
 function setToCategory(){
@@ -29,7 +29,7 @@ function setToCategory(){
 			document.getElementById(continuousParamIDs[i]).disabled = true;
 		}
 	}
-	document.getElementById(actFileDataType).value = "CATEGORY";
+	document.getElementById("actFileDataType").value = "CATEGORY";
 }
 
 function setCategoryOrContinuous(){
