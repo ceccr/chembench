@@ -55,6 +55,7 @@ public class ZipJobResultsWorkflow{
 				Utility.writeToDebug(ex);
 			}
 		}
+		out.close();
 	}
 	
 	public static void ZipDatasets(String userName, String datasetName, String zipFile) throws Exception{
