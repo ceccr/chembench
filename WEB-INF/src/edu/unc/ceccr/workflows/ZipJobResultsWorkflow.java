@@ -69,7 +69,15 @@ public class ZipJobResultsWorkflow{
 			return;
 		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
-
+		
+		if(Utility.canDownloadDescriptors(userName)){
+			//this is a special user - just give them the whole damn directory
+			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/";
+			String subDir = datasetName + "/";
+			ZipEntireDirectory(workingDir, subDir, zipFile);
+			return;
+		}
+		
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 		byte[] buf = new byte[1024];
 		
@@ -166,6 +174,14 @@ public class ZipJobResultsWorkflow{
 		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
 		
+		if(Utility.canDownloadDescriptors(userName)){
+			//this is a special user - just give them the whole damn directory
+			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/";
+			String subDir = jobName + "/";
+			ZipEntireDirectory(workingDir, subDir, zipFile);
+			return;
+		}
+		
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 		byte[] buf = new byte[1024];
 		
@@ -241,6 +257,14 @@ public class ZipJobResultsWorkflow{
 			return;
 		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
+		
+		if(Utility.canDownloadDescriptors(userName)){
+			//this is a special user - just give them the whole damn directory
+			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/";
+			String subDir = jobName + "/";
+			ZipEntireDirectory(workingDir, subDir, zipFile);
+			return;
+		}
 		
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 		byte[] buf = new byte[1024];

@@ -218,7 +218,7 @@ public class Utility {
 	      writeToDebug(ex);
 		}
 	}
-	
+
 	public static boolean isAdmin(String userName){
 		boolean user_is_admin = false;
 		Iterator it=Constants.ADMIN_LIST.iterator();
@@ -230,6 +230,19 @@ public class Utility {
 		}
 		
 		return user_is_admin;
+	}
+	
+	public static boolean canDownloadDescriptors(String userName){
+		boolean user_can_download = false;
+		Iterator it=Constants.DESCRIPTOR_DOWNLOAD_USERS_LIST.iterator();
+		while(it.hasNext())
+		{
+			if(userName.equals((String)it.next())){
+				user_can_download = true;
+			}
+		}
+		
+		return user_can_download;
 	}
 
 	public int getCounter() throws FileNotFoundException, IOException {
