@@ -179,7 +179,7 @@ public class ZipJobResultsWorkflow{
 		
 		if(Utility.canDownloadDescriptors(userName)){
 			//this is a special user - just give them the whole damn directory
-			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/";
+			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/";
 			String subDir = jobName + "/";
 			ZipEntireDirectory(workingDir, subDir, zipFile);
 			return;
@@ -263,7 +263,7 @@ public class ZipJobResultsWorkflow{
 		
 		if(Utility.canDownloadDescriptors(userName)){
 			//this is a special user - just give them the whole damn directory
-			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/";
+			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/";
 			String subDir = jobName + "/";
 			ZipEntireDirectory(workingDir, subDir, zipFile);
 			return;
