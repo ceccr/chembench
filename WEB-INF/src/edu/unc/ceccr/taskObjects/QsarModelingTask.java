@@ -331,6 +331,7 @@ public class QsarModelingTask implements WorkflowTask {
 	}
 
 	public void setUp() throws Exception {
+		Utility.writeToDebug("DEBUG: actFileDataType is " + actFileDataType);
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		if(modelTypeEnum == ModelTypeEnumeration.KNN){
 			if (actFileDataType.equals(Constants.CONTINUOUS)){

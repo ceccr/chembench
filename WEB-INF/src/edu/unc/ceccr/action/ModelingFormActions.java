@@ -101,9 +101,9 @@ public class ModelingFormActions extends ActionSupport{
 		try{
 			Queue tasklist;
 			QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
-			Utility.writeToDebug("wtf Setting up task", user.getUserName(), this.getJobName());
+			Utility.writeToDebug("Setting up task", user.getUserName(), this.getJobName());
 			modelingTask.setUp();
-			Utility.writeToDebug("wtf done Setting up task", user.getUserName(), this.getJobName());
+			Utility.writeToDebug("done Setting up task", user.getUserName(), this.getJobName());
 			tasklist = Queue.getInstance();
 			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId, session).getNumCompound();
 			

@@ -23,7 +23,8 @@
 <!-- This must be monitored carefully and changed manually to ensure only MML users may use descriptors. -->
 <descriptorUsers>
 	<descriptorUser>theo</descriptorUser>
-	<descriptorUser>CountChocula</descriptorUser>
+	<descriptorUser>dongqiuyepu</descriptorUser>
+	<descriptorUser>grulke</descriptorUser>
 </descriptorUsers>
 
 <systemBasePath>/usr/local/ceccr/</systemBasePath>
