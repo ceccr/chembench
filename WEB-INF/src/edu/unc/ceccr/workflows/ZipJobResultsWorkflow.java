@@ -42,6 +42,7 @@ public class ZipJobResultsWorkflow{
 					Utility.writeToDebug("Adding file: " + dirNames.get(i) + dirFilenames[x]);
 					fileNames.add(dirNames.get(i) + dirFilenames[x]);
 				}
+				x++;
 			}
 		}
 		Utility.writeToDebug("Compressing " + workingDir + projectDir + " : " + fileNames.size() + " files into " + zipFile);
