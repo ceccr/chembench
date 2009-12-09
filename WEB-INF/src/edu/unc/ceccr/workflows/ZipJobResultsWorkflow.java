@@ -50,7 +50,7 @@ public class ZipJobResultsWorkflow{
 		
 		for(String fileName : fileNames){
 			try{
-				FileInputStream in = new FileInputStream(projectDir + fileName);
+				FileInputStream in = new FileInputStream(workingDir + fileName);
 				out.putNextEntry(new ZipEntry(fileName));
 				int len;
 	            while ((len = in.read(buf)) > 0) {
