@@ -27,7 +27,7 @@ public class ZipJobResultsWorkflow{
 			//Add each file to fileNames.
 			Utility.writeToDebug("Opening dir: " + dirNames.get(i));
 			
-			File dirFile = new File(dirNames.get(i));
+			File dirFile = new File(workingDir + dirNames.get(i));
 			String[] dirFilenames = dirFile.list();
 
 			Utility.writeToDebug("Found " + dirFilenames.length + " files.");
