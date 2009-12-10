@@ -53,7 +53,15 @@
 		<tr>
 			<td class="TableRowText02"><s:property value="prediction.jobName" /></td>
 			<td class="TableRowText02"><s:property value="prediction.dateCreated" /></td>
-			<td class="TableRowText02"><s:property value="prediction.predictorNames" /></td>
+			<td class="TableRowText02">
+			<s:iterator value="predictors" status="predictorsStatus1">
+			<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
+				<s:param name="id" value='predictorId' />
+			</s:url>
+			<s:a href="%{predictorLink}"><s:property value="name" /></s:a><br />
+			</s:iterator>
+			
+			</td>
 			<td class="TableRowText02"><s:property value="prediction.datasetDisplay" /></td>
 			<td class="TableRowText02"><s:property value="prediction.similarityCutoff" /></td>
 		</tr>
