@@ -72,6 +72,7 @@
 			generate descriptors as needed for visualization, modeling, prediction. <br />
 			For the "Modeling Set With Descriptors" and "Prediction Set With Descriptors", you will need to <br />
 			upload an <a href="">X</a> file containing the descriptor values.
+			<br />
 			</i></div></td>
 		</tr>
 		<tr><td colspan="2">
@@ -138,7 +139,7 @@
 		<tr>
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>A subset of the compounds in the dataset will be reserved for external validation of models. 
-			<br />These parameters only apply to modeling sets.</i></div></td>
+			<br />These parameters only apply to modeling sets.</i><br /></div></td>
 		</tr>
 		<tr>
 			<td colspan="2">
