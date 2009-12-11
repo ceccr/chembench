@@ -595,6 +595,10 @@ while($running){
 		File file = new File(xFilePath);
 		FileWriter xFileOut = new FileWriter(file);
 		
+		if(predictorDescriptorNameString.split(" ").length != descriptorNameString.split(" ").length){
+			Utility.writeToDebug("WARNING: predictor had " + predictorDescriptorNameString.split(" ").length + " descriptors and output has " +  descriptorNameString.split(" ").length);
+		}
+		
 		int numDescriptors = predictorDescriptorNameString.split(" ").length;
 		xFileOut.write(descriptorMatrix.size() + " " + numDescriptors + "\n"); // numcompounds numdescriptors
 		xFileOut.write(descriptorNameString + "\n"); //descriptor names
