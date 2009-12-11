@@ -346,11 +346,11 @@ while($running){
 		}
 		
 		int si = 0;
-		int num_matches = 0;
 		for(int i = 0; i < predictorDescriptorNames.size(); i++){
 			
 			//skip all non-matching ones
 			while((si < descriptorNames.size()) && ! descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i)) ){
+				//Utility.writeToDebug("No match; skipping predictor descriptor: " + i + " - " + predictorDescriptorNames.get(i) + " || Input descriptor: " + si + " - " + descriptorNames.get(si));
 				mapping.set(si, -1);
 				si++;
 			}
@@ -360,10 +360,8 @@ while($running){
 				//Utility.writeToDebug("Match found! Predictor descriptor: " + i + " - " + predictorDescriptorNames.get(i) + " || Input descriptor: " + si + " - " + descriptorNames.get(si));
 				mapping.set(si, i);
 				si++;
-				num_matches++;
 			}
 		}
-		Utility.writeToDebug("num matching descriptor names: " + num_matches);
 		
 		while(si < descriptorNames.size()){
 			mapping.set(si, -1);
