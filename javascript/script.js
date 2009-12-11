@@ -18,7 +18,6 @@ function setTabToCeccrBase(){
 	document.getElementById("ceccrBaseButton").innerHTML = "<img src='/theme/navbar/button-ceccrbase-grey.jpg' border='0' />";
 } 
 
-
 function enlargeImage(me){
 	me.height *= 2;
 }
@@ -67,6 +66,12 @@ function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPre
 	 reWhiteSpace = new RegExp(/^\s+$/);
      if (reWhiteSpace.test(name)) {
           alert("You cannot use spaces in your job name. You might want to replace them with underscores or dashes.");
+          return false;
+     }
+    
+     reWhiteSpace = new RegExp(/^\/$/);
+     if (reWhiteSpace.test(name)) {
+          alert("You cannot use slashes in your job name. You might want to replace them with underscores or dashes.");
           return false;
      }
 	
