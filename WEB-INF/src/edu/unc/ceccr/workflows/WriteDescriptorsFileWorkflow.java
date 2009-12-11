@@ -574,12 +574,20 @@ while($running){
 		
 		readPredictorXFile(predictorDescriptorNameStringBuffer, predictorDescriptorValueMinima, predictorDescriptorValueMaxima, predictorDescriptorValueAvgs, predictorDescriptorValueStdDevsPlusAvgs, predictorScaleType, predictorXFilePath);
 		String predictorDescriptorNameString = predictorDescriptorNameStringBuffer.toString();
-
+		
+		if(predictorDescriptorNameString.split(" ").length != descriptorNameString.split(" ").length){
+			Utility.writeToDebug("WARNING 0: predictor had " + predictorDescriptorNameString.split(" ").length + " descriptors and output has " +  descriptorNameString.split(" ").length);
+		}
+		
 		//remove descriptors from prediction set that are not in the predictor
 		StringBuffer descriptorNameStringBuffer = new StringBuffer(descriptorNameString);
 		removeDescriptorsNotInPredictor(descriptorMatrix, descriptorNameStringBuffer, predictorDescriptorNameString);
 		descriptorNameString = descriptorNameStringBuffer.toString();
 	
+		if(predictorDescriptorNameString.split(" ").length != descriptorNameString.split(" ").length){
+			Utility.writeToDebug("WARNING 1: predictor had " + predictorDescriptorNameString.split(" ").length + " descriptors and output has " +  descriptorNameString.split(" ").length);
+		}
+		
 		//do range scaling on descriptorMatrix
 		if(predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)){
 			rangeScaleGivenMinMax(descriptorMatrix, predictorDescriptorValueMinima, predictorDescriptorValueMaxima);
@@ -596,7 +604,7 @@ while($running){
 		FileWriter xFileOut = new FileWriter(file);
 		
 		if(predictorDescriptorNameString.split(" ").length != descriptorNameString.split(" ").length){
-			Utility.writeToDebug("WARNING: predictor had " + predictorDescriptorNameString.split(" ").length + " descriptors and output has " +  descriptorNameString.split(" ").length);
+			Utility.writeToDebug("WARNING 2: predictor had " + predictorDescriptorNameString.split(" ").length + " descriptors and output has " +  descriptorNameString.split(" ").length);
 		}
 		
 		int numDescriptors = predictorDescriptorNameString.split(" ").length;
