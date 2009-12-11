@@ -346,18 +346,25 @@ while($running){
 		}
 		
 		int si = 0;
+		int num_matches = 0;
 		for(int i = 0; i < predictorDescriptorNames.size(); i++){
+			
+			//skip all non-matching ones
 			while((si < descriptorNames.size()) && ! descriptorNames.get(si).equalsIgnoreCase(predictorDescriptorNames.get(i)) ){
 				mapping.set(si, -1);
 				si++;
 			}
 			
+			//find a match
 			if(si < descriptorNames.size()){
 				//Utility.writeToDebug("Match found! Predictor descriptor: " + i + " - " + predictorDescriptorNames.get(i) + " || Input descriptor: " + si + " - " + descriptorNames.get(si));
 				mapping.set(si, i);
+				si++;
+				num_matches++;
 			}
-			si++;
 		}
+		Utility.writeToDebug("num matching descriptor names: " + num_matches);
+		
 		while(si < descriptorNames.size()){
 			mapping.set(si, -1);
 			si++;
@@ -575,17 +582,13 @@ while($running){
 		readPredictorXFile(predictorDescriptorNameStringBuffer, predictorDescriptorValueMinima, predictorDescriptorValueMaxima, predictorDescriptorValueAvgs, predictorDescriptorValueStdDevsPlusAvgs, predictorScaleType, predictorXFilePath);
 		String predictorDescriptorNameString = predictorDescriptorNameStringBuffer.toString();
 		
-		if(predictorDescriptorNameString.split(" ").length != descriptorNameString.split(" ").length){
-			Utility.writeToDebug("WARNING 0: predictor had " + predictorDescriptorNameString.split(" ").length + " descriptors and output has " +  descriptorNameString.split(" ").length);
-		}
-		
 		//remove descriptors from prediction set that are not in the predictor
 		StringBuffer descriptorNameStringBuffer = new StringBuffer(descriptorNameString);
 		removeDescriptorsNotInPredictor(descriptorMatrix, descriptorNameStringBuffer, predictorDescriptorNameString);
 		descriptorNameString = descriptorNameStringBuffer.toString();
 	
 		if(predictorDescriptorNameString.split(" ").length != descriptorNameString.split(" ").length){
-			Utility.writeToDebug("WARNING 1: predictor had " + predictorDescriptorNameString.split(" ").length + " descriptors and output has " +  descriptorNameString.split(" ").length);
+			Utility.writeToDebug("WARNING: predictor had " + predictorDescriptorNameString.split(" ").length + " descriptors and output has " +  descriptorNameString.split(" ").length);
 		}
 		
 		//do range scaling on descriptorMatrix
@@ -602,10 +605,6 @@ while($running){
 		//write output
 		File file = new File(xFilePath);
 		FileWriter xFileOut = new FileWriter(file);
-		
-		if(predictorDescriptorNameString.split(" ").length != descriptorNameString.split(" ").length){
-			Utility.writeToDebug("WARNING 2: predictor had " + predictorDescriptorNameString.split(" ").length + " descriptors and output has " +  descriptorNameString.split(" ").length);
-		}
 		
 		int numDescriptors = predictorDescriptorNameString.split(" ").length;
 		xFileOut.write(descriptorMatrix.size() + " " + numDescriptors + "\n"); // numcompounds numdescriptors
