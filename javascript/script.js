@@ -69,7 +69,7 @@ function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPre
           return false;
      }
     
-     reWhiteSpace = new RegExp(/^\/$/);
+     reWhiteSpace = new RegExp("/");
      if (reWhiteSpace.test(name)) {
           alert("You cannot use slashes in your job name. You might want to replace them with underscores or dashes.");
           return false;
