@@ -149,8 +149,10 @@
 	<p style="background:white;width:100%;">
 		<b>Y-randomization</b> is a statistical QSAR model validation technique where the performance of the model 
 		built with original data is compared to that of models built for multiple artificial datasets with
-		randomly shuffled activities. Ideally, there will be no models with high values(> 0.6) of both 
-		q<sup>2</sup> (training set) and R<sup>2 </sup>(test set) found.
+		randomly shuffled activities. The models of the randomized data are built using the same parameters
+		used for the actual predictor. Ideally, there will be no models from the randomized data with high 
+		values of both q<sup>2</sup> (internal test set) and R<sup>2</sup> (external set). Your modeling parameters
+		need to be adjusted if many y-randomized models are being produced.
 		<br/>For your data, <font color="red"><s:property value="selectedPredictor.numyTotalModels" /> </font> 
 		models for randomized datasets were built and <font color="red">
 		<s:property value="selectedPredictor.numyTestModels" /> </font>models were found to have high 
