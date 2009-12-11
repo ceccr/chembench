@@ -470,6 +470,10 @@ public class Utility {
 		if(debug)
 			Utility.writeToDebug("Rounding " + number + " to " + numFigs + " significant figures.");
 		
+		if(number.length() < numFigs){
+			return number;
+		}
+		
 		//check if number is negative. Remove and remember.
 		boolean isNegative = false;
 		if(number.charAt(0) == '-'){
