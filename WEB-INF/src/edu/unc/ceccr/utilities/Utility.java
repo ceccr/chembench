@@ -465,8 +465,10 @@ public class Utility {
 		//outputs a numerical string 
 		//e.g., 12345 to 2 significant figures is 12000, not 1.2*10^4
 		//although the latter is more correct, the former is more intuitive.
-		Utility.writeToDebug("Rounding " + number + " to " + numFigs + " significant figures.");
-		boolean debug = false;
+		boolean debug = true;
+		
+		if(debug)
+			Utility.writeToDebug("Rounding " + number + " to " + numFigs + " significant figures.");
 		
 		//check if number is negative. Remove and remember.
 		boolean isNegative = false;
@@ -475,7 +477,7 @@ public class Utility {
 			number = number.substring(1);
 		}
 		//remove any leading zeros from the number
-		while(number.charAt(0) == '0'){
+		while(number.charAt(0) == '0' && number.length() > 0){
 			number = number.substring(1);
 		}
 
