@@ -109,10 +109,8 @@ public class ViewPredictorAction extends ActionSupport {
 			while(eit.hasNext()){
 				ExternalValidation e = eit.next();
 				String residual = DecimalFormat.getInstance().format(e.getActualValue() - e.getPredictedValue()).replaceAll(",", "");
-				Utility.writeToDebug("residual: " + residual);
 				residuals.add(Utility.roundSignificantFigures(residual, sigfigs));
 				String predictedValue = DecimalFormat.getInstance().format(e.getPredictedValue()).replaceAll(",", "");
-				Utility.writeToDebug("predicted value: "+ predictedValue);
 				e.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));  
 				if(! e.getStandDev().equalsIgnoreCase("No value")){
 					Utility.writeToDebug("stddev: "+ e.getStandDev());
