@@ -78,9 +78,10 @@ public class ViewPredictorAction extends ActionSupport {
 					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
 				}
 			}
-
+			
 			Utility.writeToDebug("getting predictor models");
 			//get models associated with predictor
+			datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
 			dataType = selectedPredictor.getModelMethod().toString();
 			models = new ArrayList<Model>();
 			randomModels = new ArrayList<Model>();
@@ -136,7 +137,6 @@ public class ViewPredictorAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
-	
 	private String dataType;
 	
 	public User getUser(){
@@ -144,6 +144,14 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	String datasetUserName;
+	public String getDatasetUserName() {
+		return datasetUserName;
+	}
+	public void setDatasetUserName(String datasetUserName) {
+		this.datasetUserName = datasetUserName;
 	}
 	
 	public Predictor getSelectedPredictor() {

@@ -17,7 +17,7 @@
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
 	<script language="javascript" src="javascript/script.js"></script>
-	
+
 </head>
 
 <body onload="setTabToMyBench();">
@@ -43,16 +43,17 @@
 		<tr>
 			<td class="TableRowText01">Job Name</td>
 			<td class="TableRowText01">Date Created</td>
-			<td class="TableRowText01">SD File</td>
-			<td class="TableRowText01">ACT File</td>
+			<td class="TableRowText01">Dataset</td>
 			<td class="TableRowText01">Modeling Method</td>
 			<td class="TableRowText01">Descriptor Generation Method</td>
 		</tr>
 		<tr>
 			<td class="TableRowText02"><s:property value="selectedPredictor.name" /></td>
 			<td class="TableRowText02"><s:property value="selectedPredictor.dateCreated" /></td>
-			<td class="TableRowText02"><span style="width:100"><s:property value="selectedPredictor.sdFileName" /></span></td>
-			<td class="TableRowText02"><span style="width:100"><s:property value="selectedPredictor.actFileName" /></span></td>
+			
+			<a href="viewDatasetFlash.do?fileName=<s:property value="selectedPredictor.datasetDisplay" />&isPublic=<s:if test="datasetUserName=='_all'">true</s:if><s:else>false</s:else>">
+						
+			<td class="TableRowText02"><span style="width:100"><s:property value="selectedPredictor.datasetDisplay" /></span></td>
 			<td class="TableRowText02"><s:property value="selectedPredictor.modelMethodDisplay" /></td>
 			<td class="TableRowText02"><s:property value="selectedPredictor.descriptorGenerationDisplay" /></td>
 		</tr>
