@@ -43,11 +43,11 @@ public class SmilesPredictionWorkflow{
 		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(sdfile);
 
 		if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
-			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(sdfile, sdfile + ".mz");
+			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(sdfile, sdfile + ".mz", Constants.PREDICTION);
 			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(sdfile + ".mz", descriptorNames, descriptorValueMatrix);
 		}
 		else if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.DRAGON)){
-			GenerateDescriptorWorkflow.GenerateDragonDescriptors(sdfile, sdfile + ".dragon");
+			GenerateDescriptorWorkflow.GenerateDragonDescriptors(sdfile, sdfile + ".dragon", Constants.PREDICTION);
 			ReadDescriptorsFileWorkflow.readDragonDescriptors(sdfile + ".dragon", descriptorNames, descriptorValueMatrix);
 		}
 		else if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOE2D)){
