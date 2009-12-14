@@ -380,7 +380,7 @@ public class QsarModelingTask implements WorkflowTask {
 				step = Constants.DESCRIPTORS;
 				Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
 				Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
-				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".mz");
+				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".mz", Constants.MODELING);
 	
 				step = Constants.PROCDESCRIPTORS;
 				Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
@@ -392,7 +392,7 @@ public class QsarModelingTask implements WorkflowTask {
 				step = Constants.DESCRIPTORS;
 				Utility.writeToDebug("Generating Dragon Descriptors", userName, jobName);
 				Utility.writeToMSDebug("Generating Dragon Descriptors::"+ path);
-				GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon");
+				GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon", Constants.MODELING);
 				
 				step = Constants.PROCDESCRIPTORS;
 				Utility.writeToDebug("Processing Dragon descriptors", userName, jobName);

@@ -154,11 +154,11 @@ public class QsarPredictionTask implements WorkflowTask {
 		for(int i = 0; i < requiredDescriptors.size(); i++){
 			if(requiredDescriptors.get(i).equals(Constants.MOLCONNZ)){
 				Utility.writeToDebug("ExecutePredictor: Generating MolconnZ Descriptors", userName, jobName);
-				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".mz");
+				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".mz", Constants.PREDICTION);
 			}
 			else if(requiredDescriptors.get(i).equals(Constants.DRAGON)){
 				Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
-				GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon");
+				GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon", Constants.PREDICTION);
 			}
 			else if(requiredDescriptors.get(i).equals(Constants.MOE2D)){
 				Utility.writeToDebug("ExecutePredictor: Generating Moe2D Descriptors", userName, jobName);

@@ -29,12 +29,18 @@ public class GenerateDescriptorWorkflow{
 	}
 	
 	//Given an SD file, run Dragon to get the chemical descriptors for each compound.
-	public static void GenerateDragonDescriptors(String sdfile, String outfile) throws Exception{
+	public static void GenerateDragonDescriptors(String sdfile, String outfile, String taskType) throws Exception{
 		  //dragonX -s data/script_w_H.txt
 
 		  String workingDir = sdfile.replaceAll("/[^/]+$", "") + "/";
 		  
-		  writeDragonScriptFiles(sdfile, workingDir, outfile);
+		  if(taskType.equalsIgnoreCase(Constants.MODELING)){
+			  writeModelingDragonScriptFiles(sdfile, workingDir, outfile);
+		  }
+		  else{
+			  writePredictionDragonScriptFiles(sdfile, workingDir, outfile);
+		  }
+		  
 		  String execstr = "/usr/local/ceccr/dragon/dragonX -s " + workingDir + "dragon-script.txt";
 			
 	      Utility.writeToDebug("Running external program: " + execstr);
@@ -43,7 +49,12 @@ public class GenerateDescriptorWorkflow{
 	      p.waitFor();
 	}	
 	
-	private static void writeDragonScriptFiles(String sdFile, String workingDir, String outfile) throws IOException {
+	private static void writePredictionDragonScriptFiles(String sdFile, String workingDir, String outfile) throws IOException {
+		Utility.writeToDebug("Writing Dragon scripts for " + sdFile + " into " + workingDir);
+
+	}
+	
+	private static void writeModelingDragonScriptFiles(String sdFile, String workingDir, String outfile) throws IOException {
 		
 		Utility.writeToDebug("Writing Dragon scripts for " + sdFile + " into " + workingDir);
 		
