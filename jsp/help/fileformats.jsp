@@ -11,6 +11,11 @@ what we're building a model on or trying to predict). They must have a correspon
 them to describe the chemical.  The system validates that there are the same compounds in 
 the .sdf file and its associated .act file.</p>
 
+<p>Here is an example of an activity file without any header information: </p>
+
+
+<p>Here is an example of an activity file with header information: </p>
+
 <p><b>.x files</b></p>
 
 <p>.x is a file format used by the kNN executables. It is similar to the matrix format accepted by other 

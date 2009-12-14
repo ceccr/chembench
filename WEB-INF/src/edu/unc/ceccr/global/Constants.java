@@ -113,7 +113,8 @@ public class Constants {
 	public static String CONTINUOUS_DATAFILE_FILEPATH;
 	
 	public static String EXECUTABLEFILE_PATH;
-	public static String MOLCONNZ_DATFILE_PATH = "ParameterFiles/MZ405.dat";
+	public static String MOLCONNZ_MODELING_DATFILE_PATH = "ParameterFiles/MZ405Modeling.dat";
+	public static String MOLCONNZ_PREDICTION_DATFILE_PATH = "ParameterFiles/MZ405Prediction.dat";
 	public static String DRAGON_SCRIPT_PATH = "ParameterFiles/dragonScript.txt";
 	
 	public static final String kNN_OUTPUT_FILE = "knn-output.tbl";

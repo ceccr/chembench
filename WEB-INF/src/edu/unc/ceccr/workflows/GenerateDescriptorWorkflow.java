@@ -11,13 +11,21 @@ import java.util.Scanner;
 public class GenerateDescriptorWorkflow{
 	
 	//Given an SD file, run MolconnZ to get the chemical descriptors for each compound.
-	public static void GenerateMolconnZDescriptors(String sdfile, String outfile) throws Exception{
-		  String execstr = "molconnz " + Constants.CECCR_BASE_PATH + Constants.MOLCONNZ_DATFILE_PATH + " " + sdfile + " " + sdfile + ".mz";
-		  String workingDir = sdfile.replaceAll("/[^/]+$", "");
-	      Utility.writeToDebug("Running external program: " + execstr);
-	      Process p = Runtime.getRuntime().exec(execstr);
-	      Utility.writeProgramLogfile(workingDir, "molconnz", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
+	public static void GenerateMolconnZDescriptors(String sdfile, String outfile, String taskType) throws Exception{
+		String datFile;
+		if(taskType.equalsIgnoreCase(Constants.PREDICTION)){		
+			datFile = Constants.MOLCONNZ_PREDICTION_DATFILE_PATH;
+		}
+		else{
+			datFile = Constants.MOLCONNZ_MODELING_DATFILE_PATH;
+		}
+		String execstr = "molconnz " + Constants.CECCR_BASE_PATH + datFile + " " + sdfile + " " + sdfile + ".mz";
+		String workingDir = sdfile.replaceAll("/[^/]+$", "");
+		Utility.writeToDebug("Running external program: " + execstr);
+		Process p = Runtime.getRuntime().exec(execstr);
+		Utility.writeProgramLogfile(workingDir, "molconnz", p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+	
 	}
 	
 	//Given an SD file, run Dragon to get the chemical descriptors for each compound.

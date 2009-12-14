@@ -234,14 +234,16 @@ public class ZipJobResultsWorkflow{
 		//modelingFiles now contains names of all the files we need. Package it up!
 		for(String fileName : modelingFiles){
 			try{
-				FileInputStream in = new FileInputStream(projectDir + fileName);
-				out.putNextEntry(new ZipEntry(fileName));
-				int len;
-	            while ((len = in.read(buf)) > 0) {
-	                out.write(buf, 0, len);
-	            }
-	            out.closeEntry();
-	            in.close();
+				if( (new File(projectDir + fileName)).exists() ){
+					FileInputStream in = new FileInputStream(projectDir + fileName);
+					out.putNextEntry(new ZipEntry(fileName));
+					int len;
+		            while ((len = in.read(buf)) > 0) {
+		                out.write(buf, 0, len);
+		            }
+		            out.closeEntry();
+		            in.close();
+				}
 			}
 			catch(Exception ex){
 				Utility.writeToDebug(ex);

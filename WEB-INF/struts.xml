@@ -184,8 +184,8 @@
         	<result>jsp/help/predictionpage.jsp</result>
         </action>
         
-        <action name="help-jobs">
-        	<result>jsp/help/jobspage.jsp</result>
+        <action name="help-mybench">
+        	<result>jsp/help/mybenchpage.jsp</result>
         </action>
         
         <action name="help-knn">

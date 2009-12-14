@@ -26,12 +26,12 @@
 	<tr>
 		<td height="557" colspan="5" valign="top"
 			background="theme/img/backgrindex.jpg" STYLE="background-repeat: no-repeat;">
-		<p class="StandardTextDarkGrayParagraph"><br><br><b>My Jobs</b> <br><br>
+		<p class="StandardTextDarkGrayParagraph"><br><br><b>My Bench</b> <br><br>
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr><td>
         <p class="StandardTextDarkGrayParagraph">
 		Every dataset, predictor, and prediction you have created on C-Chembench is available on this page. 
-		You can also track progress of running jobs using the job queue.
+		You can also track progress of all the running jobs using the job queue.
 		</p>
 		</td></tr>
 		</table>
@@ -52,7 +52,7 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>Running jobs are displayed below. Use the REFRESH STATUS button to update the list.</i><br /></div></td>
+			<div class="StandardTextDarkGrayParagraph"><i>Running jobs from all Chembench users are displayed below. Use the REFRESH STATUS button to update the list. Other users can see the names and progress of jobs you are running, but only you may access your completed datasets, predictors, and predictions.</i><br /></div></td>
 		 </tr>	
 		 <tr><td colspan="2">
 		<form action="jobs">

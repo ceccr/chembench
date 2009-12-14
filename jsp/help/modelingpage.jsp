@@ -24,7 +24,7 @@ equal-length bins to show the distribution of activity in your dataset.</p>
 
 <p>The descriptor type option defines what descriptors will be used to represent your compounds in the modeling 
 process.  If you want to use other descriptor types besides what Chembench can generate, you can create a 
-dataset with your own descriptors in it from the DATA MGMT page. Descriptor generation and scaling are 
+dataset with your own descriptors in it from the DATASET page. Descriptor generation and scaling are 
 skipped if you supply your own descriptors.</p>
 
 <p>The generated descriptor values can be scaled by range scaling or auto scaling, or they can be left unscaled. 
