@@ -375,6 +375,7 @@ while($running){
 			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
 			for(int j = mapping.size() - 1; j >= 0; j--){
 				if(mapping.get(j) == -1){
+					Utility.writeToDebug("removing descriptor " + j + " array size: " + descriptorValues.size());
 					descriptorValues.remove(j);
 				}
 			}
@@ -383,9 +384,11 @@ while($running){
 			descriptorMatrix.set(i, di);
 			descriptorValues.clear(); // cleanup
 		}
+		Utility.writeToDebug("====removed descriptor values with name = -1; removing names.");
 		if(descriptorNames != null){
 			for(int j = mapping.size() - 1; j >= 0; j--){
 				if(mapping.get(j) == -1){
+					Utility.writeToDebug("removing descriptor index " + j + " array size: " + descriptorNames.size());
 					descriptorNames.remove(j);
 				}
 			}
