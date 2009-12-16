@@ -74,7 +74,7 @@ public class GenerateDescriptorWorkflow{
 			out.println("/d GetB11 All /PCno");
 			out.println("/d GetB12 All /PCno");
 			out.println("/d GetB13 All /PCno");
-			out.println("/d GetB14 All /PCno");
+			out.println("/d GetB14 None /PCno"); //these are 3D descriptors; we only use 2D on Chembench.
 			out.println("/d GetB15 All /PCno");
 			out.println("/d GetB16 All /PCno");
 			out.println("/d GetB17 All /PCno");
@@ -138,7 +138,7 @@ public class GenerateDescriptorWorkflow{
 			out.println("/d GetB20 None /PCno");
 			out.println("/d GetB21 None /PCno");
 			out.println("/d GetB22 None /PCno");
-			out.println("/fm molfile -f4 -i2 -Hy -2D");
+			out.println("/fm molfile -f4 -i2 -Hn -2D");
 			out.println("/fy None");
 			out.println("/fo " + outfile + " -f1 -k -m -999");
 			out.close();
