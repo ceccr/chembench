@@ -66,7 +66,7 @@ public class ReadDescriptorsFileWorkflow{
 						descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
 						descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
 						Descriptors di = new Descriptors();
-						di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
+						di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
 						descriptorValueMatrix.add(di);
 						descriptorValues.clear();
 					}
@@ -84,7 +84,7 @@ public class ReadDescriptorsFileWorkflow{
 		descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
 		descriptorNames.remove(0);
 		Descriptors di = new Descriptors();
-		di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
+		di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
 		descriptorValueMatrix.add(di);
 		
 /*
@@ -122,7 +122,6 @@ public class ReadDescriptorsFileWorkflow{
 		while(tok.hasNext()){
 			String dname =  tok.next();
 			descriptorNames.add(dname);
-			Utility.writeToDebug(dname);
 		}
 
 		descriptorNames.remove(1); //contains molecule name, which isn't a descriptor
@@ -146,7 +145,7 @@ public class ReadDescriptorsFileWorkflow{
 			descriptorValues.remove(1); //contains molecule name, which isn't a descriptor
 			descriptorValues.remove(0); //contains molecule number, which isn't a descriptor
 			
-			di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
+			di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
 
 			descriptorValueMatrix.add(di);
 			descriptorValues.clear();

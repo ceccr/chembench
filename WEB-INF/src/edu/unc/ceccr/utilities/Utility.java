@@ -461,6 +461,19 @@ public class Utility {
 		return sigfigs;
 	}
 
+	public static String StringArrayListToString(ArrayList<String> stringArrayList){
+		String ret = "";
+		int size = stringArrayList.size();
+		for(int i = 0; i < size; i++){
+			String s = stringArrayList.get(i);
+			ret += s;
+			if(i < size - 1){
+				ret += " ";
+			}
+		}
+		return ret;
+	}
+	
 	public static String roundSignificantFigures(String number, int numFigs){
 		//outputs a numerical string 
 		//e.g., 12345 to 2 significant figures is 12000, not 1.2*10^4

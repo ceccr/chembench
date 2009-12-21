@@ -61,7 +61,7 @@ public class SmilesPredictionWorkflow{
 
 		Utility.writeToDebug("Normalizing descriptors to fit predictor.");
 
-		String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+		String descriptorString = Utility.StringArrayListToString(descriptorNames);
 		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + ".renorm.x", workingDir + "train_0.x", predictor.getScalingType());
 
 		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X

@@ -107,7 +107,7 @@ public class WriteDescriptorsFileWorkflow{
 			//ArrayList.toString() gives values separated by ", "
 			//so just remove the commas and we're done
 			Descriptors di = descriptorMatrix.get(i);
-			di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
+			di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
 			descriptorMatrix.set(i, di);
 			descriptorValues.clear(); // cleanup
 		}
@@ -136,7 +136,7 @@ public class WriteDescriptorsFileWorkflow{
 			//ArrayList.toString() gives values separated by ", "
 			//so just remove the commas and we're done
 			Descriptors di = descriptorMatrix.get(i);
-			di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
+			di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
 			descriptorMatrix.set(i, di);
 			descriptorValues.clear(); // cleanup
 		}
@@ -305,7 +305,7 @@ while($running){
 				}
 			}
 			Descriptors di = descriptorMatrix.get(i);
-			di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
+			di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
 			descriptorMatrix.set(i, di);
 			descriptorValues.clear();
 		}
@@ -380,7 +380,7 @@ while($running){
 				}
 			}
 			Descriptors di = descriptorMatrix.get(i);
-			di.setDescriptorValues(descriptorValues.toString().replaceAll("[,\\[\\]]", ""));
+			di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
 			descriptorMatrix.set(i, di);
 			descriptorValues.clear(); // cleanup
 		}
@@ -392,7 +392,7 @@ while($running){
 				}
 			}
 		}
-		descriptorNameString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+		descriptorNameString = Utility.StringArrayListToString(descriptorNames);
 		descriptorNameStringBuffer.setLength(0);
 		descriptorNameStringBuffer.append(descriptorNameString);
 
@@ -545,8 +545,8 @@ while($running){
 		File file = new File(xFilePath);
 		FileWriter xFileOut = new FileWriter(file);
 		
-		xFileOut.write(descriptorMatrix.size() + " " + descriptorNames.size() + "\n"); // numcompounds numdescriptors
-		xFileOut.write(descriptorNames.toString().replaceAll("[,\\[\\]]", "") + "\n"); //descriptor names
+		xFileOut.write(descriptorMatrix.size() + " " + descriptorNames.size() + "\n"); // numcompounds 
+		xFileOut.write(Utility.StringArrayListToString(descriptorNames) + "\n");
 		
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			//each line of the descriptors matrix
@@ -554,12 +554,12 @@ while($running){
 		}
 
 		if(scalingType.equalsIgnoreCase(Constants.RANGESCALING)){
-			xFileOut.write(descriptorValueMinima.toString().replaceAll("[,\\[\\]]", "") + "\n"); //minima
-			xFileOut.write(descriptorValueMaxima.toString().replaceAll("[,\\[\\]]", "") + "\n"); //maxima
+			xFileOut.write(Utility.StringArrayListToString(descriptorValueMinima) + "\n");
+			xFileOut.write(Utility.StringArrayListToString(descriptorValueMaxima) + "\n");
 		}
 		else if(scalingType.equalsIgnoreCase(Constants.AUTOSCALING)){
-			xFileOut.write(descriptorValueAvgs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //averages
-			xFileOut.write(descriptorValueStdDevPlusAvgs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //standard deviations minus averages
+			xFileOut.write(Utility.StringArrayListToString(descriptorValueAvgs) + "\n");
+			xFileOut.write(Utility.StringArrayListToString(descriptorValueStdDevPlusAvgs) + "\n");
 		}
 		
 		xFileOut.close();
@@ -615,12 +615,12 @@ while($running){
 		}
 		
 		if(predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)){
-			xFileOut.write(predictorDescriptorValueMinima.toString().replaceAll("[,\\[\\]]", "") + "\n"); //minima
-			xFileOut.write(predictorDescriptorValueMaxima.toString().replaceAll("[,\\[\\]]", "") + "\n"); //maxima
+			xFileOut.write(Utility.StringArrayListToString(predictorDescriptorValueMinima) + "\n");
+			xFileOut.write(Utility.StringArrayListToString(predictorDescriptorValueMaxima) + "\n");
 		}
 		else if(predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)){
-			xFileOut.write(predictorDescriptorValueAvgs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //avgs
-			xFileOut.write(predictorDescriptorValueStdDevsPlusAvgs.toString().replaceAll("[,\\[\\]]", "") + "\n"); //stddevs + avgs
+			xFileOut.write(Utility.StringArrayListToString(predictorDescriptorValueAvgs) + "\n");
+			xFileOut.write(Utility.StringArrayListToString(predictorDescriptorValueStdDevsPlusAvgs) + "\n");
 		}
 		xFileOut.close();
 	}

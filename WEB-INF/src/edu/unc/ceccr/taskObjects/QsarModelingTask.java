@@ -425,7 +425,7 @@ public class QsarModelingTask implements WorkflowTask {
 			
 			//write out the descriptors for modeling
 			xFileName = sdFileName + ".x";
-			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+			String descriptorString = Utility.StringArrayListToString(descriptorNames);
 			
 			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + xFileName, scalingType, stdDevCutoff, corellationCutoff);
 		}
@@ -438,7 +438,7 @@ public class QsarModelingTask implements WorkflowTask {
 		//apply the dataset's external split to the generated .X file
 		step = Constants.SPLITDATA;
 		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundList(path + "ext_0.x");
-		String externalCompoundIdString = extCompoundArray.toString().replaceAll("[,\\[\\]]", "");
+		String externalCompoundIdString = Utility.StringArrayListToString(extCompoundArray);
 		DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundIdString);
 		
 		//make internal training / test sets for each model

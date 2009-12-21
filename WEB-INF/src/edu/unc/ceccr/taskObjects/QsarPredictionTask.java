@@ -210,7 +210,7 @@ public class QsarPredictionTask implements WorkflowTask {
 				ReadDescriptorsFileWorkflow.readMaccsDescriptors(predictionDir + sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
 			}
 			
-			String descriptorString = descriptorNames.toString().replaceAll("[,\\[\\]]", "");
+			String descriptorString = Utility.StringArrayListToString(descriptorNames);
 			WriteDescriptorsFileWorkflow.writePredictionXFile(
 					chemicalNames, 
 					descriptorValueMatrix, 
