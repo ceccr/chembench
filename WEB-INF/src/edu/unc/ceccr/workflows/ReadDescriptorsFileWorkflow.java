@@ -122,6 +122,7 @@ public class ReadDescriptorsFileWorkflow{
 		while(tok.hasNext()){
 			String dname =  tok.next();
 			descriptorNames.add(dname);
+			Utility.writeToDebug(dname);
 		}
 
 		descriptorNames.remove(1); //contains molecule name, which isn't a descriptor
