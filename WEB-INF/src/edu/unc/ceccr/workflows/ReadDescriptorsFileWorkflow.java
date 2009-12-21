@@ -50,9 +50,18 @@ public class ReadDescriptorsFileWorkflow{
 				}
 				else{
 					if(descriptorValues.size() == descriptorNames.size()){
-						//done reading values for this molecule, we're on the next one now.
-						Utility.writeToDebug("Molecule " + descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + 
-								" has formula " + descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS));
+						//done reading values for this molecule.
+						
+						String formula = descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS);
+						//formula should look something like C(12)H(22)O(11)
+						if(! formula.contains("(")){
+							//the formula for the molecule isn't a formula
+							//usually indicates missing descriptors on the previous molecule
+							throw new Exception("MolconnZ error: Molecule " + 
+									descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + 
+									" has formula " + descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS));
+						}
+						
 						descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS); //contains molecule name, which isn't a descriptor
 						descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
 						descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor

@@ -35,7 +35,7 @@ public class GenerateDescriptorWorkflow{
 		  String workingDir = sdfile.replaceAll("/[^/]+$", "") + "/";
 		  
 		  if(taskType.equalsIgnoreCase(Constants.MODELING)){
-			  writeChrisModelingDragonScriptFiles(sdfile, workingDir, outfile);
+			  writeHDepletedDragonScriptFiles(sdfile, workingDir, outfile);
 		  }
 		  else{
 			  writeExplicitHDragonScriptFiles(sdfile, workingDir, outfile);
@@ -71,15 +71,15 @@ public class GenerateDescriptorWorkflow{
 			out.println("/d GetB8 All /PCno");
 			out.println("/d GetB9 All /PCno");
 			out.println("/d GetB10 All /PCno");
-			out.println("/d GetB11 All /PCno");
-			out.println("/d GetB12 All /PCno");
-			out.println("/d GetB13 All /PCno");
-			out.println("/d GetB14 None /PCno"); //these are 3D descriptors; we only use 2D on Chembench.
-			out.println("/d GetB15 All /PCno");
-			out.println("/d GetB16 All /PCno");
+			out.println("/d GetB11 None /PCno"); //blocks 11-16 and 19 are 3D descriptors; we only use 2D on Chembench.
+			out.println("/d GetB12 None /PCno");
+			out.println("/d GetB13 None /PCno");
+			out.println("/d GetB14 None /PCno"); 
+			out.println("/d GetB15 None /PCno"); 
+			out.println("/d GetB16 None /PCno");
 			out.println("/d GetB17 All /PCno");
 			out.println("/d GetB18 All /PCno");
-			out.println("/d GetB19 All /PCno");
+			out.println("/d GetB19 None /PCno");
 			out.println("/d GetB20 All /PCno");
 			out.println("/d GetB21 All /PCno");
 			out.println("/d GetB22 All /PCno");
@@ -160,61 +160,6 @@ public class GenerateDescriptorWorkflow{
 		}	
 	}
 	
-	private static void writeChrisModelingDragonScriptFiles(String sdFile, String workingDir, String outfile) throws IOException {
-		
-		Utility.writeToDebug("Writing Dragon scripts for " + sdFile + " into " + workingDir);
-		
-		FileOutputStream fout;
-		PrintStream out;
-		try {
-			fout = new FileOutputStream(workingDir + "dragon-script.txt");
-			out = new PrintStream(fout);
-			
-			out.println("DRAGON script Ver 2");
-			out.println("/d GetB1 All /PCno");
-			out.println("/d GetB2 All /PCno");
-			out.println("/d GetB3 All /PCno");
-			out.println("/d GetB4 All /PCno");
-			out.println("/d GetB5 All /PCno");
-			out.println("/d GetB6 All /PCno");
-			out.println("/d GetB7 All /PCno");
-			out.println("/d GetB8 All /PCno");
-			out.println("/d GetB9 All /PCno");
-			out.println("/d GetB10 All /PCno");
-			out.println("/d GetB11 None /PCno");
-			out.println("/d GetB12 None /PCno");
-			out.println("/d GetB13 None /PCno");
-			out.println("/d GetB14 None /PCno");
-			out.println("/d GetB15 None /PCno");
-			out.println("/d GetB16 None /PCno");
-			out.println("/d GetB17 All /PCno");
-			out.println("/d GetB18 All /PCno");
-			out.println("/d GetB19 None /PCno");
-			out.println("/d GetB20 None /PCno");
-			out.println("/d GetB21 None /PCno");
-			out.println("/d GetB22 None /PCno");
-			out.println("/fm molfile -f4 -i2 -Hy -2D");
-			out.println("/fy None");
-			out.println("/fo " + outfile + " -f1 -k -m -999");
-			out.close();
-			fout.close();
-			
-		} catch (IOException e) {
-			Utility.writeToDebug(e);
-		}	
-		try {
-			fout = new FileOutputStream(workingDir + "molfile");
-			out = new PrintStream(fout);
-			out.println(sdFile);
-			out.println("");
-			out.close();
-			fout.close();
-			
-		} catch (IOException e) {
-			Utility.writeToDebug(e);
-		}	
-	}
-
 	public static void GenerateMoe2DDescriptors(String sdfile, String outfile) throws Exception{
 		//command: "moe2D.sh infile.sdf outfile.moe2D"
 		String execstr = "moe2D.sh " + " " + sdfile + " " + sdfile + ".moe2D" + " " + Constants.CECCR_BASE_PATH + "mmlsoft/SVL_DIR/batch_sd_2Ddesc.svl";

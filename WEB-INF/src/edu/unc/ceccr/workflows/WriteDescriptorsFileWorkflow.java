@@ -606,8 +606,7 @@ while($running){
 		File file = new File(xFilePath);
 		FileWriter xFileOut = new FileWriter(file);
 		
-		int numDescriptors = predictorDescriptorNameString.split(" ").length;
-		xFileOut.write(descriptorMatrix.size() + " " + numDescriptors + "\n"); // numcompounds numdescriptors
+		xFileOut.write(descriptorMatrix.size() + " " + descriptorNameString.split(" ").length + "\n"); // numcompounds numdescriptors
 		xFileOut.write(descriptorNameString + "\n"); //descriptor names
 		
 		for(int i = 0; i < descriptorMatrix.size(); i++){
