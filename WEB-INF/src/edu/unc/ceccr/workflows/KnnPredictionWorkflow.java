@@ -50,7 +50,7 @@ public class KnnPredictionWorkflow{
 	}
 	
 	
-	public static void RunKnnPlusPrediction(String userName, String jobName, String sdfile, String workingDir, float cutoffValue) throws Exception{
+	public static void RunKnnPlusPrediction(String userName, String jobName, String workingDir, String sdfile, float cutoffValue) throws Exception{
 
 		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
 		String actfile = workingDir + sdfile + ".renorm.a";
