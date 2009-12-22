@@ -87,7 +87,7 @@ public class ReadDescriptorsFileWorkflow{
 		di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
 		descriptorValueMatrix.add(di);
 		
-/*
+		/*
 		Utility.writeToDebug(di.getDescriptorValues());
 		for(int i = 0; i < descriptorValueMatrix.size(); i++){
 			Descriptors matrixLine = descriptorValueMatrix.get(i);

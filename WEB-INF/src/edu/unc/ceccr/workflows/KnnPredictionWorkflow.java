@@ -1,10 +1,20 @@
 package edu.unc.ceccr.workflows;
 
 
+import edu.unc.ceccr.persistence.PredictionValue;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class KnnPredictionWorkflow{
 	
@@ -38,4 +48,114 @@ public class KnnPredictionWorkflow{
 	      p.waitFor();
 
 	}
+	
+	
+	public static void RunKnnPlusPrediction(String userName, String jobName, String sdfile, String workingDir, float cutoffValue) throws Exception{
+
+		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
+		String actfile = workingDir + sdfile + ".renorm.a";
+		BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
+		ArrayList<String> compoundNames = DatasetFileOperations.getSDFCompoundList(workingDir + sdfile);
+		for(String compoundName : compoundNames){
+			aout.write(compoundName + " 0");
+		}
+		aout.close();
+		
+	    //Run prediction
+		String preddir = workingDir;
+		
+		String xfile = sdfile + ".renorm.x";
+		String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
+		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
+		Utility.writeProgramLogfile(preddir, "knn+_prediction", p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		
+	}
+	
+	public static ArrayList<PredictionValue> ReadPredictionOutput(String workingDir) throws Exception{
+		
+        //read prediction output
+		String outputFile = Constants.PRED_OUTPUT_FILE + ".preds"; //the ".preds" is added automatically by knn+
+    	Utility.writeToDebug("Reading file: " + workingDir + outputFile);
+		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
+		String inputString;
+		
+		//The first four lines are all header data
+		in.readLine(); //junk
+		inputString = in.readLine(); //compound names are here; we'll need them
+		String[] compoundNames = inputString.split("\\s+");
+		
+		in.readLine(); //junk
+		in.readLine(); //junk
+		
+		
+		ArrayList<ArrayList<String>> predictionMatrix = new ArrayList<ArrayList<String>>(); //read output file into this
+		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); //holds objects to be returned
+
+		//each line of output represents a model
+		//(which is really the transform of the matrix we're looking for... *sigh*
+		while ((inputString = in.readLine()) != null && ! inputString.equals("")){
+
+			ArrayList<String> modelValues = new ArrayList<String>();
+			
+			//get output for each compound in model
+			String[] predValues = inputString.split("\\s+");
+			
+			//predValues(0) will be model_id, which is just an index.
+			for(int i = 1; i < predValues.length; i+=2){
+				String adDistanceValue = predValues[i];
+				String predictValue = predValues[i+1];
+				//capture just the predictValue for now... AD-distance may become important someday
+				modelValues.add(predictValue);
+			}
+			predictionMatrix.add(modelValues);
+		}
+		
+		//for each compound, calculate nummodels, avg, and stddev
+		int numCompounds = predictionMatrix.get(0).size();
+		for(int i = 0; i < numCompounds; i++){
+
+			//calculate stddev and avg for each compound
+			float sum = 0;
+			float mean = 0;
+			int numPredictingModels = predictionMatrix.size();
+			
+			for(int j = 0; j < predictionMatrix.size(); j++){
+				for(String predValue : predictionMatrix.get(j)){
+					if(predValue.equalsIgnoreCase("NA")){
+						numPredictingModels--;
+					}
+					else{
+						sum += Float.parseFloat(predValue);
+					}
+				}
+			}
+			mean = sum / numPredictingModels;
+			
+			float stddev = 0;
+			for(int j = 0; j < predictionMatrix.get(j).size(); j++){
+				for(String predValue : predictionMatrix.get(j)){
+					float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
+					stddev += distFromMeanSquared;
+				}
+				//divide sum then take sqrt to get stddev
+				stddev = (float) Math.sqrt( stddev / numPredictingModels);
+			}
+			
+			//create prediction value object
+			PredictionValue p = new PredictionValue();
+			p.setNumModelsUsed(numPredictingModels);
+			p.setNumTotalModels(predictionMatrix.size());
+			p.setPredictedValue(mean);
+			p.setStandardDeviation(stddev);
+			p.setCompoundName(compoundNames[i+1]);
+			
+			predictionValues.add(p);
+		}
+	
+	    return predictionValues;
+	}
+	
+	
 }
