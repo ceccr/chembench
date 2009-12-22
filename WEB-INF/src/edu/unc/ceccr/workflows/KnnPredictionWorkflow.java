@@ -73,7 +73,7 @@ public class KnnPredictionWorkflow{
 		
 	}
 	
-	public static ArrayList<PredictionValue> ReadPredictionOutput(String workingDir) throws Exception{
+	public static ArrayList<PredictionValue> ReadPredictionOutput(String workingDir, Long predictorId) throws Exception{
 		
         //read prediction output
 		String outputFile = Constants.PRED_OUTPUT_FILE + ".preds"; //the ".preds" is added automatically by knn+
@@ -150,6 +150,7 @@ public class KnnPredictionWorkflow{
 			p.setPredictedValue(mean);
 			p.setStandardDeviation(stddev);
 			p.setCompoundName(compoundNames[i+1]);
+			p.setPredictorId(predictorId);
 			
 			predictionValues.add(p);
 		}
