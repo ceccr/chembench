@@ -95,6 +95,7 @@ public class KnnPredictionWorkflow{
 
 		//each line of output represents a model
 		//(which is really the transform of the matrix we're looking for... *sigh*
+		Utility.writeToDebug("skiddly bop");
 		while ((inputString = in.readLine()) != null && ! inputString.equals("")){
 
 			ArrayList<String> modelValues = new ArrayList<String>();
@@ -111,7 +112,8 @@ public class KnnPredictionWorkflow{
 			}
 			predictionMatrix.add(modelValues);
 		}
-		
+
+		Utility.writeToDebug("doo wet");
 		//for each compound, calculate nummodels, avg, and stddev
 		int numCompounds = predictionMatrix.get(0).size();
 		for(int i = 0; i < numCompounds; i++){
@@ -120,6 +122,8 @@ public class KnnPredictionWorkflow{
 			float sum = 0;
 			float mean = 0;
 			int numPredictingModels = predictionMatrix.size();
+			
+			Utility.writeToDebug("Doing compound " + i);
 			
 			for(int j = 0; j < predictionMatrix.size(); j++){
 				for(String predValue : predictionMatrix.get(j)){
@@ -132,6 +136,8 @@ public class KnnPredictionWorkflow{
 				}
 			}
 			mean = sum / numPredictingModels;
+
+			Utility.writeToDebug("I'm hungry, baby " + i);
 			
 			float stddev = 0;
 			for(int j = 0; j < predictionMatrix.get(j).size(); j++){
@@ -142,6 +148,8 @@ public class KnnPredictionWorkflow{
 				//divide sum then take sqrt to get stddev
 				stddev = (float) Math.sqrt( stddev / numPredictingModels);
 			}
+
+			Utility.writeToDebug("Like the wolf " + i);
 			
 			//create prediction value object
 			PredictionValue p = new PredictionValue();
@@ -154,7 +162,8 @@ public class KnnPredictionWorkflow{
 			
 			predictionValues.add(p);
 		}
-	
+
+		Utility.writeToDebug("doo wah");
 	    return predictionValues;
 	}
 	
