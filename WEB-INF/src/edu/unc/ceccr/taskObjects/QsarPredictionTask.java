@@ -236,7 +236,7 @@ public class QsarPredictionTask implements WorkflowTask {
 			step = Constants.READPRED;
 			
 			
-			ArrayList<PredictionValue> predValues = KnnPredictionWorkflow.ReadPredictionOutput(predictionDir + Constants.PRED_OUTPUT_FILE, selectedPredictor.getPredictorId());
+			ArrayList<PredictionValue> predValues = KnnPredictionWorkflow.ReadPredictionOutput(predictionDir, selectedPredictor.getPredictorId());
 			//ArrayList<PredictionValue> predValues = parsePredOutput(predictionDir + Constants.PRED_OUTPUT_FILE, selectedPredictor.getPredictorId());
 			Utility.writeToDebug("ExecPredictorActionTask: Complete", userName, jobName);
 			
