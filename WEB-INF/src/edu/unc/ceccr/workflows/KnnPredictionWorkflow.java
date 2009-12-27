@@ -103,6 +103,8 @@ public class KnnPredictionWorkflow{
 			//get output for each compound in model
 			String[] predValues = inputString.split("\\s+");
 			
+			Utility.writeToDebug("num fields: " + predValues.length + " model id: " + predValues[0]);
+			
 			//predValues(0) will be model_id, which is just an index.
 			for(int i = 1; i < predValues.length; i+=2){
 				String adDistanceValue = predValues[i];
