@@ -138,8 +138,10 @@ public class KnnPredictionWorkflow{
 				}
 			}
 			mean = sum / numPredictingModels;
-
+			
 			Utility.writeToDebug("I'm hungry, baby " + i);
+			
+			//ERROR AFTER THIS WITH READING "NA" AS A NUMBER!
 			
 			float stddev = 0;
 			for(int j = 0; j < predictionMatrix.get(j).size(); j++){
