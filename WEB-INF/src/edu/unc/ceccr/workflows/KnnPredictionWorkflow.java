@@ -57,7 +57,7 @@ public class KnnPredictionWorkflow{
 		BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
 		ArrayList<String> compoundNames = DatasetFileOperations.getSDFCompoundList(workingDir + sdfile);
 		for(String compoundName : compoundNames){
-			aout.write(compoundName + " 0");
+			aout.write(compoundName + " 0\n");
 		}
 		aout.close();
 		
