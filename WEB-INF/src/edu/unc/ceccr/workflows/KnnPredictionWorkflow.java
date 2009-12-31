@@ -104,12 +104,12 @@ public class KnnPredictionWorkflow{
 			String[] predValues = inputString.split("\\s+");
 			
 			Utility.writeToDebug("num fields: " + predValues.length + " model id: " + predValues[0]);
-			
+
 			//predValues(0) will be model_id, which is just an index.
-			for(int i = 1; i < predValues.length; i+=2){
-				String adDistanceValue = predValues[i];
-				String predictValue = predValues[i+1];
-				//capture just the predictValue for now... AD-distance may become important someday
+			//predValues(1) will be AD_distance, which we may want to capture someday.
+			//String adDistanceValue = predValues[1];
+			for(int i = 2; i < predValues.length; i++){
+				String predictValue = predValues[i];
 				modelValues.add(predictValue);
 			}
 			predictionMatrix.add(modelValues);
