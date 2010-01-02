@@ -146,8 +146,10 @@ public class KnnPredictionWorkflow{
 			float stddev = 0;
 			for(int j = 0; j < predictionMatrix.get(j).size(); j++){
 				for(String predValue : predictionMatrix.get(j)){
-					float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
-					stddev += distFromMeanSquared;
+					if(!predValue.equalsIgnoreCase("NA")){
+						float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
+						stddev += distFromMeanSquared;
+					}
 				}
 				//divide sum then take sqrt to get stddev
 				stddev = (float) Math.sqrt( stddev / numPredictingModels);
