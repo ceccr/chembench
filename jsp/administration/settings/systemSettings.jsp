@@ -69,7 +69,7 @@ else{document.getElementById("updateDiv3").style.display='inline';}
 function showPanelDocs()
 {
 
-  if(document.getElementById("docsDiv").style.display=='inline')
+if(document.getElementById("docsDiv").style.display=='inline')
 {
 document.getElementById("docsDiv").style.display='none';}
 else{document.getElementById("docsDiv").style.display='inline';}
@@ -127,7 +127,41 @@ function valid()
 	<tr>
 		<td height="220" colspan="5" valign="top" background="theme/img/backgrindex.jpg">
 		<br/><br/><br/>
-<!-- ACCOUNT SETTINGS: CHANGE PASSWORD FORM STARTS HERE -->
+		
+<!-- ACCOUNT SETTINGS: CHANGE USER INFO FORM  -->
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img src="theme/img/ccb_settings01.gif" /> <br/><br/>
+              &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="#" onClick="showPanel3()"><img src="theme/img/updateInfo" border=0 /></a>
+<div id="updateDiv3" style="display:none">
+<form action="changeInfo.do">
+            &nbsp; &nbsp; &nbsp; <table width="367" height="200" border="0" cellpadding="0" cellspacing="0">
+                  <tr>
+            <td height="19" align="left" valign="top" ><input type="hidden" name="userName" size="27"  value="<bean:write name="user" property="userName" />              "></td>
+          </tr>
+<tr>
+       <td height="38" align="right" valign="middle" class="ChangePSText" >Current Password: &nbsp;</td>
+       <td align="left" valign="middle" ><input type="password" name="oldPs" size="27"></td>
+       <td >&nbsp;</td>
+</tr>
+
+<tr>
+       <td height="38" align="right" valign="middle" class="ChangePSText" >New Password: &nbsp;</td>
+       <td align="left" valign="middle" ><input type="password" name="newPs" id="newPs" size="27"></td>
+       <td >&nbsp;</td>
+</tr>
+
+<tr>
+       <td height="38" align="right" valign="middle"  class="ChangePSText">Confirm Password: &nbsp;</td>
+       <td align="left" valign="middle" ><input type="password" id="rePs" size="27"></td>
+       <td >&nbsp;</td>
+</tr>
+<tr>
+       <td height="62" valign="middle" align="left" ></td>
+       <td align="left" valign="middle" ><div id="error1"></div>
+         <br />
+             <input type="submit" value="Submit" onclick="return valid();" /></td></tr></table></form></div>
+		
+		
+<!-- ACCOUNT SETTINGS: CHANGE PASSWORD FORM -->
 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img src="theme/img/ccb_settings01.gif" /> <br/><br/>
               &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a href="#" onClick="showPanel3()"><img src="theme/img/ccb_settings02.gif" border=0 /></a>
 <div id="updateDiv3" style="display:none">
@@ -157,7 +191,6 @@ function valid()
        <td height="62" valign="middle" align="left" ></td>
        <td align="left" valign="middle" ><div id="error1"></div>
          <br />
-             <input type="reset" onclick="return confirm('Are you sure to reset all the fields?')"/>
              <input type="submit" value="Submit" onclick="return valid();" /></td></tr></table></form></div>
 <!-- THE ADMINISTRATION PANEL STARTS HERE --><% if(Utility.isAdmin(usr.getUserName())){ %>
 <table width="100%" border="0" cellpadding="0" cellspacing="0">
