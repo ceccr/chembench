@@ -123,11 +123,11 @@ var RecaptchaOptions = {
 };
 </script>
 <script type="text/javascript"
-   src="http://api.recaptcha.net/challenge?k=<s:property name="recaptchaPublicKey" />">
+   src="http://api.recaptcha.net/challenge?k=<s:property name='recaptchaPublicKey' />">
 </script>
 
 <noscript>
-   <iframe src="http://api.recaptcha.net/noscript?k=<s:property name="recaptchaPublicKey" />"
+   <iframe src="http://api.recaptcha.net/noscript?k=<s:property name='recaptchaPublicKey' />"
        height="40" width="200" frameborder="0"></iframe><br>
    <textarea name="recaptcha_challenge_field" rows="1" cols="35">
    </textarea>
