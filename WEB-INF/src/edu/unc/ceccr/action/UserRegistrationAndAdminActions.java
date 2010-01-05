@@ -46,8 +46,6 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	
 	public String loadUserRegistration() throws Exception{
 		String result = SUCCESS;
-		recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
-		Utility.writeToDebug("recaptcha: " + recaptchaPublicKey);
 		organizationType = "Academia";
 		return result;
 	}
@@ -63,10 +61,6 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 			//check if CAPTCHA was passed
 			ReCaptcha captcha = ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY,Constants.RECAPTCHA_PRIVATEKEY, false);
 
-			Utility.writeToDebug("trying recaptcha.");
-			Utility.writeToDebug("recaptcha_challenge_field: " + ((String[])context.getParameters().get("recaptcha_challenge_field"))[0]);
-			Utility.writeToDebug("recaptcha_response_field: " + ((String[])context.getParameters().get("recaptcha_response_field"))[0]);
-			
 			ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1", 
 	        		((String[])context.getParameters().get("recaptcha_challenge_field"))[0], 
 	        		((String[])context.getParameters().get("recaptcha_response_field"))[0]);
@@ -343,6 +337,10 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	
 	private boolean IsValid(String name)
 	{
+		if(name.length() == 0){
+			return false;
+		}
+		//check that no illegal characters are in the string
 		String validatorStr=Constants.VALIDATOR_STRING;
 		char[]validator=validatorStr.toCharArray();
 		char[] nameArray=name.toCharArray();
@@ -369,7 +367,7 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	private User user;
 
 	/* Variables used for user registration and updates */
-	private String recaptchaPublicKey;
+	private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
 	private String outputMessage;
 	
 	private String userName;
