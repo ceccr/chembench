@@ -17,16 +17,25 @@
 		<result name="login">jsp/main/home.jsp</result>
 		</global-results>
 		
-        <!-- Main pages -->
-         <action name="index">
-            <result>jsp/main/home.jsp</result>
-        </action>
+       <!-- Main pages -->
+       <action name="index">
+           <result>jsp/main/home.jsp</result>
+       </action>
         
-         <action name="error">
+       <action name="error">
             <result>jsp/main/errors2.jsp</result>
+       </action>
+        
+       <!-- User Registration and Administration Pages -->
+       <action name="loadRegistrationPage">
+            <result>jsp/administration/user/registrationForm2.jsp</result>
         </action>
         
-        
+        <action name="registerUser" class="edu.unc.ceccr.action.UserRegistrationAndAdminActions" method="loadRegistrationPage">
+            <result name="success">jsp/administration/user/registrationApprovalMessage.jsp</result>
+			<result name="error">jsp/administration/user/registrationForm2.jsp</result>
+        </action>
+       
         <!-- Dataset Page -->
         <action name="dataset" class="edu.unc.ceccr.action.DatasetFormActions" method="loadPage">
         	<result name="success">jsp/dataSet/dataset.jsp</result>
