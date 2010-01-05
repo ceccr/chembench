@@ -62,7 +62,8 @@
 <td width="250"><s:textfield name="lastName" size="30"/></td><td width="250" align="left"><span id="messageDiv2"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Type of Organization</td>
-<td width="250"><s:radio name="organizationType" list="#{'Academia':'Academia','Government':'Government','Industry':'Industry,'Nonprofit':'Nonprofit','Other':'Other'}" /></td><td width="250" align="left"></td></tr>
+<td width="250"><s:select name="organizationType" list="#{'Academia':'Academia','Government':'Government','Industry':'Industry','Nonprofit':'Nonprofit','Other':'Other'}" />
+</td><td width="250" align="left"></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Name of Organization</td>
 <td width="250"><s:textfield name="organizationName" size="30"/></td><td width="250" align="left"><span id="messageDiv4"></span></td></tr>
@@ -88,20 +89,20 @@
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Phone Number</td>
 <td width="250"><s:textfield name="phoneNumber" size="30"/></td><td width="250" align="left"><span id="messageDiv11"></td></tr>
 
-<tr height="6"><td align="right" width="180" align="left"></td><td width="250"><font size="1"><i>Please use your organization email account.</i></font></td>
-<td width="250" align="left"><span id="messageDiv11"></span></td></tr>
-
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Email</td>
 <td width="250"><s:textfield name="email" size="30"/></td><td width="250" align="left"><span id="messageDiv12"></span></td></tr>
+
+<tr height="6"><td align="right" width="180" align="left"></td><td width="250"><font size="1"><i>Please use your organization email account.</i></font></td>
+<td width="250" align="left"><span id="messageDiv11"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Work Bench</td>
 <td width="250"><s:radio name="workBench" list="#{'cchem':'C-CHEM','ctox':'C-TOX'}" /></td>
 
-<tr height="6"><td align="right" width="180" align="left"></td><td width="250"><font size="1"><i>The user name must be at least 4 characters.</i></font></td>
-<td width="250" align="left"></td></tr>
-
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">User Name</td>
 <td width="250"><s:textfield name="userName" size="30"  /></td><td width="250" align="left"><span id="messageDiv13"></span></td></tr>
+
+<tr height="6"><td align="right" width="180" align="left"></td><td width="250"><font size="1"><i>The user name must be at least 4 characters.</i></font></td>
+<td width="250" align="left"></td></tr>
 
 <!--
 <%! String image()
