@@ -30,10 +30,10 @@
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<p class="StandardTextDarkGray">
 		</p>
-		<p class="TextDarkGray" sytle="background:white;"><font size=4><s:property name="firstName" />,</font><br/><br/>
+		<p class="TextDarkGray" sytle="background:white;"><font size=4><s:property value="firstName" />,</font><br/><br/>
 		&nbsp&nbsp&nbsp&nbsp&nbsp;Thank you for your interest in Chembench. 
 		
-		<s:property name="outputMessage" />
+		<s:property value="outputMessage" />
 		            
 	     &nbsp&nbsp&nbsp&nbsp&nbsp; Thank you.<br/><br/>
 		
