@@ -47,6 +47,7 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	public String loadUserRegistration() throws Exception{
 		String result = SUCCESS;
 		recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
+		organizationType = "Academia";
 		return result;
 	}
 	

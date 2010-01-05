@@ -54,7 +54,7 @@
         <s:form action="registerUser" enctype="multipart/form-data" theme="simple">
 	
         <table border="0" align="center" width="680">
-        
+  
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">First Name</td>
 <td width="250"><s:textfield name="firstName" size="30"/></td><td width="250" align="left"><span id="messageDiv1"></span></td></tr>
 
@@ -62,13 +62,13 @@
 <td width="250"><s:textfield name="lastName" size="30"/></td><td width="250" align="left"><span id="messageDiv2"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Type of Organization</td>
-<td width="250"><s:radio name="organization" list="#{'Academia':'Academia','Government':'Government','Industry':'Industry,'Nonprofit':'Nonprofit','Other':'Other'}" /></td><td width="250" align="left"></td></tr>
+<td width="250"><s:radio name="organizationType" list="#{'Academia':'Academia','Government':'Government','Industry':'Industry,'Nonprofit':'Nonprofit','Other':'Other'}" /></td><td width="250" align="left"></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Name of Organization</td>
-<td width="250"><s:textfield name="nameOfOrg" size="30"/></td><td width="250" align="left"><span id="messageDiv4"></span></td></tr>
+<td width="250"><s:textfield name="organizationName" size="30"/></td><td width="250" align="left"><span id="messageDiv4"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Position in Organization</td>
-<td width="250"><s:textfield name="position" size="30"/></td><td width="250" align="left"><span id="messageDiv5"></span></td></tr>
+<td width="250"><s:textfield name="organizationPosition" size="30"/></td><td width="250" align="left"><span id="messageDiv5"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Address</td>
 <td width="250"><s:textfield name="address" size="30"/></td><td width="250" align="left"><span id="messageDiv6"></span></td></tr>
@@ -77,8 +77,8 @@
 <td width="250"><s:textfield name="city" size="30"/></td><td width="250" align="left"><span id="messageDiv7"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">State/Province</td>
-<td width="250"><s:textfield name="state" size="30"/></td><td width="250" align="left"><span id="messageDiv8"></span></td></tr>
-
+<td width="250"><s:textfield name="stateOrProvince" size="30"/></td><td width="250" align="left"><span id="messageDiv8"></span></td></tr>
+	
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Country</td>
 <td width="250"><s:textfield name="country" size="30"/></td><td width="250" align="left"></td></tr>
 
@@ -86,7 +86,7 @@
 <td width="250"><s:textfield name="zipCode" size="30"/></td><td width="250" align="left"><span id="messageDiv9"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Phone Number</td>
-<td width="250"><s:textfield name="phone" size="30"/></td><td width="250" align="left"><span id="messageDiv11"></td></tr>
+<td width="250"><s:textfield name="phoneNumber" size="30"/></td><td width="250" align="left"><span id="messageDiv11"></td></tr>
 
 <tr height="6"><td align="right" width="180" align="left"></td><td width="250"><font size="1"><i>Please use your organization email account.</i></font></td>
 <td width="250" align="left"><span id="messageDiv11"></span></td></tr>
@@ -95,7 +95,7 @@
 <td width="250"><s:textfield name="email" size="30"/></td><td width="250" align="left"><span id="messageDiv12"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Work Bench</td>
-<td width="250"><s:radio name="workbench" list="#{'cchem':'C-CHEM','ctox':'C-TOX'}" /></td>
+<td width="250"><s:radio name="workBench" list="#{'cchem':'C-CHEM','ctox':'C-TOX'}" /></td>
 
 <tr height="6"><td align="right" width="180" align="left"></td><td width="250"><font size="1"><i>The user name must be at least 4 characters.</i></font></td>
 <td width="250" align="left"></td></tr>
