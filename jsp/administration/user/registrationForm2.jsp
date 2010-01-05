@@ -154,9 +154,10 @@ var RecaptchaOptions = {
 <tr height="20"><td align="right" width="180" align="left"></td>
 
 <td width="250">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-<input type="button" name="userAction" id="userAction" onclick="if(true){ submitForm(this); }" value="Submit" />
+<input type="button" name="userAction" id="userAction" onclick="if(true){ this.form.submit() }" value="Submit" />
 	<!-- <html:submit property="userAction" onclick="return submitForm1(this,document.getElementById('textarea'));" value="Submit" />  -->
 </td>
+
 
 <td width="250" align="left"><span id="textarea"></span></td></tr>
 <tr height="20"><td align="right" width="180" align="left"></td><td width="250"></td><td width="250" align="left"></td></tr>

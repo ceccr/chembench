@@ -111,13 +111,6 @@ function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPre
 	return true;
 }
 
-function submitAdditionalDatasetOperations(button, textarea)
-{
-	button.disabled=true;
-	button.form.submit();
-	textarea.innerHTML="Please wait while your data is being generated!";
-	return true;
-}
 
 function submitForm(button, textarea)
 {
