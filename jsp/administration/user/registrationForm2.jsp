@@ -95,9 +95,13 @@
 <tr height="6"><td align="right" width="180" align="left"></td><td width="250"><font size="1"><i>Please use your organization email account.</i></font></td>
 <td width="250" align="left"><span id="messageDiv11"></span></td></tr>
 
+<!-- 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Work Bench</td>
 <td width="250"><s:radio name="workBench" list="#{'cchem':'C-CHEM','ctox':'C-TOX'}" /></td>
-
+ -->
+ <!-- The idea of having a separate workbench for tox people and for chem people may come back someday. Removed it for now. -->
+<s:hidden name="workbench" value="cchem" /> 
+ 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">User Name</td>
 <td width="250"><s:textfield name="userName" size="30"  /></td><td width="250" align="left"><span id="messageDiv13"></span></td></tr>
 
