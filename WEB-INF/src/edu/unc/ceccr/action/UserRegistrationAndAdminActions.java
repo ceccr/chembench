@@ -44,6 +44,12 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 
 	/* USER FUNCTIONS */
 	
+	public String loadUserRegistration() throws Exception{
+		String result = SUCCESS;
+		recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
+		return result;
+	}
+	
 	public String RegisterUser() throws Exception{
 		ActionContext context = ActionContext.getContext();
 		String result = SUCCESS;
@@ -361,6 +367,7 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	private User user;
 
 	/* Variables used for user registration and updates */
+	private String recaptchaPublicKey;
 	private String outputMessage;
 	
 	private String userName;
@@ -388,6 +395,12 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	}
 	
 	/* Variables used for user registration and updates */
+	public String getRecaptchaPublicKey() {
+		return recaptchaPublicKey;
+	}
+	public void setRecaptchaPublicKey(String recaptchaPublicKey) {
+		this.recaptchaPublicKey = recaptchaPublicKey;
+	}
 	
 	public String getOutputMessage() {
 		return outputMessage;
