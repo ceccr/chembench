@@ -89,7 +89,6 @@ public class KnnPredictionWorkflow{
 		in.readLine(); //junk
 		in.readLine(); //junk
 		
-		
 		ArrayList<ArrayList<String>> predictionMatrix = new ArrayList<ArrayList<String>>(); //read output file into this
 		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); //holds objects to be returned
 
@@ -125,8 +124,6 @@ public class KnnPredictionWorkflow{
 			float mean = 0;
 			int numPredictingModels = predictionMatrix.size();
 			
-			Utility.writeToDebug("Doing compound " + i);
-			
 			for(int j = 0; j < predictionMatrix.size(); j++){
 				for(String predValue : predictionMatrix.get(j)){
 					if(predValue.equalsIgnoreCase("NA")){
@@ -137,9 +134,9 @@ public class KnnPredictionWorkflow{
 					}
 				}
 			}
-			mean = sum / numPredictingModels;
-			
-			Utility.writeToDebug("I'm hungry, baby " + i);
+			if(numPredictingModels > 0){
+				mean = sum / numPredictingModels;
+			}
 			
 			//ERROR AFTER THIS WITH READING "NA" AS A NUMBER!
 			
@@ -152,10 +149,10 @@ public class KnnPredictionWorkflow{
 					}
 				}
 				//divide sum then take sqrt to get stddev
-				stddev = (float) Math.sqrt( stddev / numPredictingModels);
+				if(numPredictingModels > 0){
+					stddev = (float) Math.sqrt( stddev / numPredictingModels);
+				}
 			}
-
-			Utility.writeToDebug("Like the wolf " + i);
 			
 			//create prediction value object
 			PredictionValue p = new PredictionValue();
