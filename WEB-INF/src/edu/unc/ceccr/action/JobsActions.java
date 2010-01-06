@@ -54,6 +54,8 @@ public class JobsActions extends ActionSupport {
 			}
 		}
 
+		Thread.sleep(500);
+		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 		Session session = HibernateUtil.getSession();
 		userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
