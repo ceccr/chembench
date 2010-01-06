@@ -123,13 +123,12 @@ public class KnnPredictionWorkflow{
 			int numPredictingModels = predictionMatrix.size();
 			
 			for(int j = 0; j < predictionMatrix.size(); j++){
-				for(String predValue : predictionMatrix.get(j)){
-					if(predValue.equalsIgnoreCase("NA")){
-						numPredictingModels--;
-					}
-					else{
-						sum += Float.parseFloat(predValue);
-					}
+				String predValue = predictionMatrix.get(j).get(i);
+				if(predValue.equalsIgnoreCase("NA")){
+					numPredictingModels--;
+				}
+				else{
+					sum += Float.parseFloat(predValue);
 				}
 			}
 			if(numPredictingModels > 0){
@@ -140,16 +139,15 @@ public class KnnPredictionWorkflow{
 			
 			float stddev = 0;
 			for(int j = 0; j < predictionMatrix.get(j).size(); j++){
-				for(String predValue : predictionMatrix.get(j)){
-					if(!predValue.equalsIgnoreCase("NA")){
-						float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
-						stddev += distFromMeanSquared;
-					}
+				String predValue = predictionMatrix.get(j).get(i);
+				if(!predValue.equalsIgnoreCase("NA")){
+					float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
+					stddev += distFromMeanSquared;
 				}
-				//divide sum then take sqrt to get stddev
-				if(numPredictingModels > 0){
-					stddev = (float) Math.sqrt( stddev / numPredictingModels);
-				}
+			}
+			//divide sum then take sqrt to get stddev
+			if(numPredictingModels > 0){
+				stddev = (float) Math.sqrt( stddev / numPredictingModels);
 			}
 			
 			//create prediction value object
