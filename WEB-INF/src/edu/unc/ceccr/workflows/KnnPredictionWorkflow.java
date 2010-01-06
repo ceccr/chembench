@@ -94,7 +94,6 @@ public class KnnPredictionWorkflow{
 
 		//each line of output represents a model
 		//(which is really the transform of the matrix we're looking for... *sigh*
-		Utility.writeToDebug("skiddly bop");
 		while ((inputString = in.readLine()) != null && ! inputString.equals("")){
 
 			ArrayList<String> modelValues = new ArrayList<String>();
@@ -102,7 +101,7 @@ public class KnnPredictionWorkflow{
 			//get output for each compound in model
 			String[] predValues = inputString.split("\\s+");
 			
-			Utility.writeToDebug("num fields: " + predValues.length + " model id: " + predValues[0]);
+			//Utility.writeToDebug("num fields: " + predValues.length + " model id: " + predValues[0]);
 
 			//predValues(0) will be model_id, which is just an index.
 			//predValues(1) will be AD_distance, which we may want to capture someday.
@@ -114,7 +113,6 @@ public class KnnPredictionWorkflow{
 			predictionMatrix.add(modelValues);
 		}
 
-		Utility.writeToDebug("doo wet");
 		//for each compound, calculate nummodels, avg, and stddev
 		int numCompounds = predictionMatrix.get(0).size();
 		for(int i = 0; i < numCompounds; i++){
@@ -171,7 +169,6 @@ public class KnnPredictionWorkflow{
 			predictionValues.add(p);
 		}
 
-		Utility.writeToDebug("doo wah");
 	    return predictionValues;
 	}
 	
