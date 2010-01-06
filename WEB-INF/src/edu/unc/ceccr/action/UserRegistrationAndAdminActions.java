@@ -138,8 +138,7 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 			
 		//send user an email
 			
-			String outputMessage; //shown to user on registration result page (not in email)
-		    if(Constants.ACCEPTANCE.contains("manual")){
+			if(Constants.ACCEPTANCE.contains("manual")){
 		    	//user needs approval; contact admins
 				user.setStatus("NOTSET");
 
@@ -160,7 +159,7 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 
 				outputMessage = "Your account has been created! " +
 				"An email containing your password has been sent to " + email + 
-				". Please check your email and log in to Chembench. <br />" +
+				". Please check your email and log in to Chembench. " +
 				"Note: Email delivery may be delayed up to 15 minutes depending on email server load.";
 				
 				String HtmlBody = "Thank you for you interest in CECCR's C-Chembench. <br/>Your account has been approved.<br/>"

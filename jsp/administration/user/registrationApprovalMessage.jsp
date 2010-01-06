@@ -26,18 +26,17 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr>
 		<span id="maincontent">
-		<td height="557" colspan="5" valign="top" background="theme/img/backgrlibrary.jpg">
+		<td height="557" width="465" colspan="5" valign="top" background="theme/img/backgrlibrary.jpg">
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<p class="StandardTextDarkGray">
 		</p>
-		<p class="TextDarkGray" sytle="background:white;"><font size=4><s:property value="firstName" />,</font><br/><br/>
-		&nbsp&nbsp&nbsp&nbsp&nbsp;Thank you for your interest in Chembench. 
+		<p class="TextDarkGray" sytle="background:white;"><s:property value="firstName" />,<br/><br/>
+		Thank you for your interest in Chembench. 
 		
 		<s:property value="outputMessage" />
-		            
-	     &nbsp&nbsp&nbsp&nbsp&nbsp; Thank you.<br/><br/>
 		
-		&nbsp&nbsp&nbsp&nbsp&nbsp;The C-Chembench Team.
+		Enjoy,<br/>
+		The C-Chembench Team.
 		<br/>
 		<br/></p>
 				
