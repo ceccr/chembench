@@ -99,7 +99,7 @@ public class KnnPredictionWorkflow{
 			ArrayList<String> modelValues = new ArrayList<String>();
 			
 			//get output for each compound in model
-			String[] predValues = inputString.split("\\s+");
+			String[] predValues = inputString.split("\\s+"); //Note: [0] and [1] in this array will be junk.
 			
 			//Utility.writeToDebug("num fields: " + predValues.length + " model id: " + predValues[0]);
 
@@ -158,8 +158,8 @@ public class KnnPredictionWorkflow{
 			Utility.writeToDebug("mean: " + mean);
 			p.setStandardDeviation(stddev);
 			Utility.writeToDebug("stddev: " + stddev);
-			p.setCompoundName(compoundNames[i]);
-			Utility.writeToDebug("compoundName: " + compoundNames[i]);
+			p.setCompoundName(compoundNames[i+2]);
+			Utility.writeToDebug("compoundName: " + compoundNames[i+2]);
 			p.setPredictorId(predictorId);
 			
 			predictionValues.add(p);
