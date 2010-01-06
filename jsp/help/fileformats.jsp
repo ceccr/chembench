@@ -9,48 +9,30 @@
 <p>The .act files store activities (numerical results associated with each chemical; these are 
 what we're building a model on or trying to predict). They must have a corresponding .sdf file with 
 them to describe the chemical.  The system validates that there are the same compounds in 
-the .sdf file and its associated .act file.</p>
+the .sdf file and its associated .act file. The first line of an activity file may contain a header (optional). </p>
 
 <p>Here is an example of an activity file without any header information: </p>
 
+Bulbocapnine 5.36
+Chlorpromazine 4.1
+Clozapine 4.8
+fluphenazine 4.95
+NNC01-0004 5.85
+NNC01-0012 4.69
 
 <p>Here is an example of an activity file with header information: </p>
 
-<p><b>.x files</b></p>
+Activities of selected compounds in binding assay
+Bulbocapnine	5.36
+Chlorpromazine	4.1
+Clozapine	4.8
+fluphenazine	4.95
+NNC01-0004	5.85
+NNC01-0012	4.69
 
-<p>.x is a file format used by the kNN executables. It is similar to the matrix format accepted by other 
-data mining programs such as LibSVM.</p>
-
-<p>
-The .x file contains a matrix of compounds and descriptor values, as below:
-[LINE 1]: 7 315
-The line indicates that a 7 by 315 matrix follows: There are 7 compounds, each with 315 descriptor values.</p>
-
-<p>
-[LINE 2]: narecs nvx nedges nrings ncircuits...</p>
-
-<p>The second line contains the names of the descriptors.</p>
-
-<p>[LINE 3]: 1 4254097 0.5 0.609756 0.5625 ...</p>
-
-<p>From the third line on, each line represents one compound. The first value on each line is an index. 
-The second value is an ID for the compound. The remaining numbers are the values of the descriptors for 
-the compound.
-[LINE 4]: 2 4239291 0 0 0.0208333 0.142857 ...</p>
-
-
-<p>At the end of the file, there may be two additional lines. If a .x file has been normalized, the 
-original descriptor values need to be preserved; these lines tell what the range of each descriptor 
-was before normalization.
-
-<p>[SECOND TO LAST LINE]: 2 19 2 ...
-[LAST LINE]: 4 60 68 ... </p>
-
-<p>The "2" and "4" that begin these two lines indicates that the first descriptor, "narecs", 
-originally had a minimum value of 2 and a maximum value of 4 over all compounds in the set.  The 
-next two values, 19 and 60, indicate the minimum and maximum values for the second descriptor, "nvx."  
-It continues this for all descriptors.
-</p>
+<p>The chemical identifiers in an activity file may be anything: SMILES strings, chemical names, and index numbers are commonly used. The
+only constraint is that the chemical identifiers in your activity file <i>must match</i> the identifiers in your SDF (see below). In
+an activity file, each line describes one compound's activity. A space or tab separates the chemical identifier and the activity on each line. </p>
 
 <p>
 .SDF files
@@ -100,7 +82,7 @@ $$$$
 </pre>
 
 <p>
-The first line is the ID of the first compound. The atom coordinates and bond information come after that. 
+The first line is the chemical identifier of the first compound. The atom coordinates and bond information come after that. 
 There can be many optional fields. These come in an XML-like format (e.g. <MolWeight>128</MolWeight>) A 
 compound description ends with $$$$. Officially, an SDF is not allowed to contain lines of over 200 
 characters. In practice, many do. This can cause programs like MolconnZ to fail ungracefully, so C-Chembench 
@@ -108,6 +90,48 @@ chops off SDF lines past 200 characters.
 <a href="http://www.epa.gov/NCCT/dsstox/MoreonSDF.html">http://www.epa.gov/NCCT/dsstox/MoreonSDF.html</a>
  has more details on the SDF format.
 </p>
+
+<!-- 
+We don't need this for now.
+
+<p><b>.x files</b></p>
+
+<p>.x is a file format used by the kNN executables. It is similar to the matrix format accepted by other 
+data mining programs such as LibSVM.</p>
+
+<p>
+The .x file contains a matrix of compounds and descriptor values, as below:
+[LINE 1]: 7 315
+The line indicates that a 7 by 315 matrix follows: There are 7 compounds, each with 315 descriptor values.</p>
+
+<p>
+[LINE 2]: narecs nvx nedges nrings ncircuits...</p>
+
+<p>The second line contains the names of the descriptors.</p>
+
+<p>[LINE 3]: 1 4254097 0.5 0.609756 0.5625 ...</p>
+
+<p>From the third line on, each line represents one compound. The first value on each line is an index. 
+The second value is an ID for the compound. The remaining numbers are the values of the descriptors for 
+the compound.
+[LINE 4]: 2 4239291 0 0 0.0208333 0.142857 ...</p>
+
+
+<p>At the end of the file, there may be two additional lines. If a .x file has been normalized, the 
+original descriptor values need to be preserved; these lines tell what the range of each descriptor 
+was before normalization.
+
+<p>[SECOND TO LAST LINE]: 2 19 2 ...
+[LAST LINE]: 4 60 68 ... </p>
+
+<p>The "2" and "4" that begin these two lines indicates that the first descriptor, "narecs", 
+originally had a minimum value of 2 and a maximum value of 4 over all compounds in the set.  The 
+next two values, 19 and 60, indicate the minimum and maximum values for the second descriptor, "nvx."  
+It continues this for all descriptors.
+</p>
+
+
+ -->
 
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
