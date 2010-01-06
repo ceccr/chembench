@@ -135,8 +135,6 @@ public class KnnPredictionWorkflow{
 				mean = sum / numPredictingModels;
 			}
 			
-			//ERROR AFTER THIS WITH READING "NA" AS A NUMBER!
-			
 			float stddev = 0;
 			for(int j = 0; j < predictionMatrix.get(j).size(); j++){
 				String predValue = predictionMatrix.get(j).get(i);
@@ -160,8 +158,8 @@ public class KnnPredictionWorkflow{
 			Utility.writeToDebug("mean: " + mean);
 			p.setStandardDeviation(stddev);
 			Utility.writeToDebug("stddev: " + stddev);
-			p.setCompoundName(compoundNames[i+1]);
-			Utility.writeToDebug("compoundName: " + compoundNames[i+1]);
+			p.setCompoundName(compoundNames[i]);
+			Utility.writeToDebug("compoundName: " + compoundNames[i]);
 			p.setPredictorId(predictorId);
 			
 			predictionValues.add(p);
