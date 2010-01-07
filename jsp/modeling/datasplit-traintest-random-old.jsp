@@ -29,19 +29,19 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Number of Data Splits:</b></div>
 					</td>
-					<td align="left" valign="top"><html:text property="numSplitsInternalRandom" size="5" id="numSplitsInternalRandom" onchange="alert('hi')" /></td>
+					<td align="left" valign="top"><html:text onchange="alert('hi')" property="numSplitsInternalRandom" size="5" id="numSplitsInternalRandom"  /></td>
 				</tr>
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Minimum Test Set Size (percent):</b></div>
 					</td>
-					<td align="left" valign="top"><html:text property="randomSplitMinTestSize" styleId="randomSplitMinTestSize" size="5" /></td>
+					<td align="left" valign="top"><html:text onchange="alert('hi')" property="randomSplitMinTestSize" styleId="randomSplitMinTestSize" size="5" /></td>
 				</tr>
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Maximum Test Set Size (percent):</b></div>
 					</td>
-					<td align="left" valign="top"><html:text property="randomSplitMaxTestSize" styleId="randomSplitMaxTestSize" size="5"/></td>
+					<td align="left" valign="top"><html:text onchange="alert('hi')" property="randomSplitMaxTestSize" styleId="randomSplitMaxTestSize" size="5"/></td>
 				</tr>	
 						
 				</table></td></tr>

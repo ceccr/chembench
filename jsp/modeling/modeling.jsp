@@ -79,7 +79,7 @@
 					<td colspan="2">
 					<s:hidden id="actFileDataType" name="actFileDataType" />
 					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataTypeRadio" id="continuousDataset" onclick="setToContinuous()" checked>Choose a Continuous Dataset:</input></b>
-					<br /><s:select onchange="alert('hi')" name="selectedDatasetId" list="userContinuousDatasets" id="selectedContinuousDataset" listKey="fileId" listValue="fileName" />
+					<br /><s:select name="selectedDatasetId" list="userContinuousDatasets" id="selectedContinuousDataset" listKey="fileId" listValue="fileName" />
 					</div>
 					</td>
 			    </tr> 
