@@ -71,7 +71,7 @@
 				<tr>
 					<td width="100%" height="24" align="left" colspan="2">
 					<p class="StandardTextDarkGrayParagraph">
-					<i>(Use the "DATA MGMT" page to create datasets.)</i>
+					<i>(Use the "DATASET" page to create datasets.)</i>
 					</p> 
 					</td>
 			    </tr> 
@@ -79,7 +79,7 @@
 					<td colspan="2">
 					<s:hidden id="actFileDataType" name="actFileDataType" />
 					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataTypeRadio" id="continuousDataset" onclick="setToContinuous()" checked>Choose a Continuous Dataset:</input></b>
-					<br /><s:select name="selectedDatasetId" list="userContinuousDatasets" id="selectedContinuousDataset" listKey="fileId" listValue="fileName" />
+					<br /><s:select onchange="alert('hi')" name="selectedDatasetId" list="userContinuousDatasets" id="selectedContinuousDataset" listKey="fileId" listValue="fileName" />
 					</div>
 					</td>
 			    </tr> 
