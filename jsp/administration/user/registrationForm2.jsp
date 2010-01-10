@@ -56,6 +56,11 @@
 	
         <table border="0" align="center" width="680">
   
+<!-- error message (if any) -->
+<tr height="20"><td colspan="2" class="StandardTextDarkGray"><div class="class="StandardTextDarkGray""><font color="red"><s:property value="outputMessage" /></font></div></td>
+<td width="250" align="left"></td></tr>
+  
+<!-- user information form -->
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">First Name *</td>
 <td width="250"><s:textfield name="firstName" size="30"/></td><td width="250" align="left"><span id="messageDiv1"></span></td></tr>
 
@@ -71,13 +76,6 @@
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Position in Organization *</td>
 <td width="250"><s:textfield name="organizationPosition" size="30"/></td><td width="250" align="left"><span id="messageDiv5"></span></td></tr>
-
-<tr height="6"><td align="right" width="180" align="left"></td><td width="250"><div class="StandardTextDarkGray"><i>Please use your organization email account. <br />
-Your password will be sent to this email address.</i></div></font></td>
-<td width="250" align="left"><span id="messageDiv11"></span></td></tr>
-
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Email *</td>
-<td width="250"><s:textfield name="email" size="30"/></td><td width="250" align="left"><span id="messageDiv12"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Address</td>
 <td width="250"><s:textfield name="address" size="30"/></td><td width="250" align="left"><span id="messageDiv6"></span></td></tr>
@@ -97,6 +95,12 @@ Your password will be sent to this email address.</i></div></font></td>
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Phone Number</td>
 <td width="250"><s:textfield name="phoneNumber" size="30"/></td><td width="250" align="left"><span id="messageDiv11"></td></tr>
 
+<tr height="6"><td colspan="2" width="180" align="right"><div class="StandardTextDarkGray"><i><small>Please use your organization email account.
+Your password will be sent to this email address when you register.</small></i></div></td><td width="250" align="left"></span></td></tr>
+
+<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Email *</td>
+<td width="250"><s:textfield name="email" size="30"/></td><td width="250" align="left"><span id="messageDiv12"></span></td></tr>
+
 <!-- 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Work Bench</td>
 <td width="250"><s:radio name="workBench" list="#{'cchem':'C-CHEM','ctox':'C-TOX'}" /></td>
@@ -106,6 +110,8 @@ Your password will be sent to this email address.</i></div></font></td>
  
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">User Name *</td>
 <td width="250"><s:textfield name="userName" size="30"  /></td><td width="250" align="left"><span id="messageDiv13"></span></td></tr>
+
+<!-- CAPTCHA -->
 
 <!--
 <%! String image()
@@ -147,8 +153,7 @@ var RecaptchaOptions = {
 
 <tr height="40"><td align="right" width="180" align="left"></td><td width="250"></td><td width="250" align="left"></td></tr>
 
-<tr height="20"><td colspan="2" class="StandardTextDarkGray"><s:property value="outputMessage" /></td>
-<td width="250" align="left"><span id="messageDiv11"></td></tr>
+<!-- Submit Button -->
 
 <tr height="20"><td align="right" width="180" align="left"></td>
 <td width="250">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp

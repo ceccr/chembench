@@ -66,40 +66,40 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	        		((String[])context.getParameters().get("recaptcha_response_field"))[0]);
 	        
 		    if (!resp.isValid()) {
-	        	outputMessage += "The text you typed for the CAPTCHA test did not match the picture. Try again. <br />";
+	        	outputMessage += "The text you typed for the CAPTCHA test did not match the picture. Try again.\n";
 	        	result = ERROR;
 	        }
 	        //CAPTCHA passed. Validate that each required field has something in it.
 			if(firstName.isEmpty()){
-				outputMessage += "Please enter your first name.<br />\n";
+				outputMessage += "Please enter your first name.\n";
 				result = ERROR;
 			}
 			if(lastName.isEmpty()){
-				outputMessage += "Please enter your last name.<br />\n";
+				outputMessage += "Please enter your last name.\n";
 				result = ERROR;
 			}
 			if(organizationName.isEmpty()){
-				outputMessage += "Please enter your organization name.<br />\n";
+				outputMessage += "Please enter your organization name.\n";
 				result = ERROR;
 			}
 			if(organizationPosition.isEmpty()){
-				outputMessage += "Please enter your organization position.<br />\n";
+				outputMessage += "Please enter your organization position.\n";
 				result = ERROR;
 			}
 			if(email.isEmpty() || ! email.contains("@") || ! email.contains(".")){
-				outputMessage += "Please enter a valid email address.<br />\n";
+				outputMessage += "Please enter a valid email address.\n";
 				result = ERROR;
 			}
 			if(city.isEmpty()){
-				outputMessage += "Please enter your city.<br />\n";
+				outputMessage += "Please enter your city.\n";
 				result = ERROR;
 			}
 			if(country.isEmpty()){
-				outputMessage += "Please enter your country.<br />\n";
+				outputMessage += "Please enter your country.\n";
 				result = ERROR;
 			}
 			if(userName.isEmpty()){
-				outputMessage += "Please enter a user name.<br />\n";
+				outputMessage += "Please enter a user name.\n";
 				result = ERROR;
 			}
 			
