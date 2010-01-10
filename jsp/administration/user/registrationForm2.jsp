@@ -46,7 +46,8 @@
             <td>
 		<p align="justify" class="StandardTextDarkGrayParagraph"><br />
 		Welcome to Carolina Cheminformatics Workbench (C-ChemBench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
-		Research (CECCR) with the support of the National Institutes of Health. <br/><br/><br/>Please enter your information here in order to start using C-ChemBench. An asterisk (*) indicated required fields.<br/><br/><br/>
+		Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using C-ChemBench. 
+		An asterisk (*) indicates required fields.<br/><br/><br/>
         </td>
           </tr>
         </table>        
@@ -71,27 +72,27 @@
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Position in Organization *</td>
 <td width="250"><s:textfield name="organizationPosition" size="30"/></td><td width="250" align="left"><span id="messageDiv5"></span></td></tr>
 
+<tr height="6"><td align="right" width="180" align="left"></td><td width="250"><div class="StandardTextDarkGray"><i>Please use your organization email account. <br />
+Your password will be sent to this email address.</i></div></font></td>
+<td width="250" align="left"><span id="messageDiv11"></span></td></tr>
+
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Email *</td>
 <td width="250"><s:textfield name="email" size="30"/></td><td width="250" align="left"><span id="messageDiv12"></span></td></tr>
 
-<tr height="6"><td align="right" width="180" align="left"></td><td width="250"><font size="1"><i>Please use your organization email account. <br />
-Your password will be sent to this email address.</i></font></td>
-<td width="250" align="left"><span id="messageDiv11"></span></td></tr>
+<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Address</td>
+<td width="250"><s:textfield name="address" size="30"/></td><td width="250" align="left"><span id="messageDiv6"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">City *</td>
 <td width="250"><s:textfield name="city" size="30"/></td><td width="250" align="left"><span id="messageDiv7"></span></td></tr>
 
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Country *</td>
-<td width="250"><s:textfield name="country" size="30"/></td><td width="250" align="left"></td></tr>
-
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">State/Province</td>
 <td width="250"><s:textfield name="stateOrProvince" size="30"/></td><td width="250" align="left"><span id="messageDiv8"></span></td></tr>
 	
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Address</td>
-<td width="250"><s:textfield name="address" size="30"/></td><td width="250" align="left"><span id="messageDiv6"></span></td></tr>
-
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Zip Code</td>
 <td width="250"><s:textfield name="zipCode" size="30"/></td><td width="250" align="left"><span id="messageDiv9"></span></td></tr>
+	
+<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Country *</td>
+<td width="250"><s:textfield name="country" size="30"/></td><td width="250" align="left"></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Phone Number</td>
 <td width="250"><s:textfield name="phoneNumber" size="30"/></td><td width="250" align="left"><span id="messageDiv11"></td></tr>
@@ -142,16 +143,11 @@ var RecaptchaOptions = {
 <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray"></td>
 <td width="250">
 
-<!-- 
-<logic:equal name="notValid" value="true">
-<font size="1" color="red" face="arial">Incorrect input, Please try again!</font>
-</logic:equal> -->
-
 </td><td width="250" align="left"></td></tr>
 
 <tr height="40"><td align="right" width="180" align="left"></td><td width="250"></td><td width="250" align="left"></td></tr>
 
-<tr height="20"><td colspan="2" class="StandardTextDarkGray"><s:property value="errorMessage" /></td>
+<tr height="20"><td colspan="2" class="StandardTextDarkGray"><s:property value="outputMessage" /></td>
 <td width="250" align="left"><span id="messageDiv11"></td></tr>
 
 <tr height="20"><td align="right" width="180" align="left"></td>
