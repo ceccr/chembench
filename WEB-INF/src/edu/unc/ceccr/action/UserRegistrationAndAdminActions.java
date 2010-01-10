@@ -72,7 +72,7 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 				result = ERROR;
 			}
 			if(lastName.isEmpty()){
-		    	errorMessages.add("TPlease enter your last name.");
+		    	errorMessages.add("Please enter your last name.");
 				result = ERROR;
 			}
 			if(organizationName.isEmpty()){

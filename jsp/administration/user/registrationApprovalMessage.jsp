@@ -26,7 +26,10 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr>
 		<span id="maincontent">
-		<td height="557" width="465" colspan="5" valign="top" background="theme/img/backgrlibrary.jpg">
+		<td height="557" colspan="5" valign="top" background="theme/img/backgrlibrary.jpg">
+		
+		<table width="465" border="0" cellspacing="0" cellpadding="0"><tr><td>
+		
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<p class="StandardTextDarkGray">
 		</p>
@@ -39,6 +42,9 @@
 		The C-Chembench Team.
 		<br/>
 		<br/></p>
+			
+        </td></tr></table>     
+				
 				
 		<p class="StandardTextBlack">&nbsp;</p>
 		</td>
