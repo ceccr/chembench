@@ -154,7 +154,6 @@ var RecaptchaOptions = {
 <tr height="20"><td colspan="2" class="StandardTextDarkGray"><s:property value="errorMessage" /></td>
 <td width="250" align="left"><span id="messageDiv11"></td></tr>
 
-
 <tr height="20"><td align="right" width="180" align="left"></td>
 <td width="250">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
 <input type="button" name="userAction" id="userAction" onclick="if(true){ this.form.submit() }" value="Submit" />
