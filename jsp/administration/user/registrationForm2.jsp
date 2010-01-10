@@ -58,7 +58,7 @@
   
 <!-- error message (if any) -->
 <tr height="20"><td colspan="2" class="StandardTextDarkGray"><div class="class="StandardTextDarkGray""><font color="red">
-<<s:iterator name="errorMessages"><s:property /><br /></s:iterator></font></div></td>
+<s:iterator value="errorMessages"><s:property /><br /></s:iterator></font></div></td>
 <td width="250" align="left"></td></tr>
   
 <!-- user information form -->
