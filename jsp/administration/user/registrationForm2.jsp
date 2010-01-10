@@ -96,7 +96,7 @@
 <tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Phone Number</td>
 <td width="250"><s:textfield name="phoneNumber" size="30"/></td><td width="250" align="left"><span id="messageDiv11"></td></tr>
 
-<tr height="6"><td width="180" class="StandardTextDarkGray"></td><td colspan="2" width="180"><div class="StandardTextDarkGray"><i><small>Please use your organization email account.
+<tr height="6"><td width="180" class="StandardTextDarkGray"></td><td width="250"><div class="StandardTextDarkGray"><i><small>Please use your organization email account.
 Your password will be sent to this email address when you register.</small></i></div></td><td width="250" align="left"></span></td></tr>
 
 <tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Email *</td>
