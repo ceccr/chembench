@@ -262,7 +262,7 @@ public class Utility {
 		}
 		DataOutputStream out = new DataOutputStream(new FileOutputStream(
 				counterFile));
-		out.writeInt(counter);
+		out.writeInt(0);
 		out.close();
 	}
 

@@ -69,16 +69,40 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	        	outputMessage += "The text you typed for the CAPTCHA test did not match the picture. Try again. <br />";
 	        	result = ERROR;
 	        }
-	        //CAPTCHA passed. Validate first name.
-			if(!IsValid(firstName)){
-				outputMessage += "This is not a valid first name : <font color=red><u>"+firstName+"</u></font>";
+	        //CAPTCHA passed. Validate that each required field has something in it.
+			if(firstName.isEmpty()){
+				outputMessage += "Please enter your first name.<br />\n";
 				result = ERROR;
 			}
-	    	//Validate last name.
-			if(!IsValid(lastName)){
-				outputMessage += "This is not a valid last name : <font color=red><u>"+lastName+"</u></font>";
+			if(lastName.isEmpty()){
+				outputMessage += "Please enter your last name.<br />\n";
 				result = ERROR;
 			}
+			if(organizationName.isEmpty()){
+				outputMessage += "Please enter your organization name.<br />\n";
+				result = ERROR;
+			}
+			if(organizationPosition.isEmpty()){
+				outputMessage += "Please enter your organization position.<br />\n";
+				result = ERROR;
+			}
+			if(email.isEmpty() || ! email.contains("@") || ! email.contains(".")){
+				outputMessage += "Please enter a valid email address.<br />\n";
+				result = ERROR;
+			}
+			if(city.isEmpty()){
+				outputMessage += "Please enter your city.<br />\n";
+				result = ERROR;
+			}
+			if(country.isEmpty()){
+				outputMessage += "Please enter your country.<br />\n";
+				result = ERROR;
+			}
+			if(userName.isEmpty()){
+				outputMessage += "Please enter a user name.<br />\n";
+				result = ERROR;
+			}
+			
 			//Check whether the username already exists 
 			//(queries database)
 			if(UserExists(userName)){
