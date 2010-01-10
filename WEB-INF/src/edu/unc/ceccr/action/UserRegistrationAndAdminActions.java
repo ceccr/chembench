@@ -55,18 +55,7 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 		String result = SUCCESS;
 		
 		//form validation
-			//check if CAPTCHA was passed
-			ReCaptcha captcha = ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY,Constants.RECAPTCHA_PRIVATEKEY, false);
-
-			ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1", 
-	        		((String[])context.getParameters().get("recaptcha_challenge_field"))[0], 
-	        		((String[])context.getParameters().get("recaptcha_response_field"))[0]);
-	        
-		    if (!resp.isValid()) {
-		    	errorMessages.add("The text you typed for the CAPTCHA test did not match the picture. Try again.");
-	        	result = ERROR;
-	        }
-	        //CAPTCHA passed. Validate that each required field has something in it.
+			//Validate that each required field has something in it.
 			if(firstName.isEmpty()){
 		    	errorMessages.add("Please enter your first name.");
 				result = ERROR;
@@ -106,6 +95,19 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 		    	errorMessages.add("The user name '"+userName+"' is already in use.");
 				result = ERROR;
 			}
+			
+			//check CAPTCHA
+			ReCaptcha captcha = ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY,Constants.RECAPTCHA_PRIVATEKEY, false);
+
+			ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1", 
+	        		((String[])context.getParameters().get("recaptcha_challenge_field"))[0], 
+	        		((String[])context.getParameters().get("recaptcha_response_field"))[0]);
+	        
+		    if (!resp.isValid()) {
+		    	errorMessages.add("The text you typed for the CAPTCHA test did not match the picture. Try again.");
+	        	result = ERROR;
+	        }
+		    
 			if(result.equals(ERROR)){
 				return result;
 			}
