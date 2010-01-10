@@ -53,11 +53,8 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	public String RegisterUser() throws Exception{
 		ActionContext context = ActionContext.getContext();
 		String result = SUCCESS;
-				
+		
 		//form validation
-		
-			outputMessage = "";
-		
 			//check if CAPTCHA was passed
 			ReCaptcha captcha = ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY,Constants.RECAPTCHA_PRIVATEKEY, false);
 
@@ -66,47 +63,47 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	        		((String[])context.getParameters().get("recaptcha_response_field"))[0]);
 	        
 		    if (!resp.isValid()) {
-	        	outputMessage += "The text you typed for the CAPTCHA test did not match the picture. Try again.\n";
+		    	errorMessages.add("The text you typed for the CAPTCHA test did not match the picture. Try again.");
 	        	result = ERROR;
 	        }
 	        //CAPTCHA passed. Validate that each required field has something in it.
 			if(firstName.isEmpty()){
-				outputMessage += "Please enter your first name.\n";
+		    	errorMessages.add("Please enter your first name.");
 				result = ERROR;
 			}
 			if(lastName.isEmpty()){
-				outputMessage += "Please enter your last name.\n";
+		    	errorMessages.add("TPlease enter your last name.");
 				result = ERROR;
 			}
 			if(organizationName.isEmpty()){
-				outputMessage += "Please enter your organization name.\n";
+		    	errorMessages.add("Please enter your organization name.");
 				result = ERROR;
 			}
 			if(organizationPosition.isEmpty()){
-				outputMessage += "Please enter your organization position.\n";
+		    	errorMessages.add("Please enter your organization position.");
 				result = ERROR;
 			}
 			if(email.isEmpty() || ! email.contains("@") || ! email.contains(".")){
-				outputMessage += "Please enter a valid email address.\n";
+		    	errorMessages.add("Please enter a valid email address.");
 				result = ERROR;
 			}
 			if(city.isEmpty()){
-				outputMessage += "Please enter your city.\n";
+		    	errorMessages.add("Please enter your city.");
 				result = ERROR;
 			}
 			if(country.isEmpty()){
-				outputMessage += "Please enter your country.\n";
+		    	errorMessages.add("Please enter your country.");
 				result = ERROR;
 			}
 			if(userName.isEmpty()){
-				outputMessage += "Please enter a user name.\n";
+		    	errorMessages.add("Please enter a user name.");
 				result = ERROR;
 			}
 			
 			//Check whether the username already exists 
 			//(queries database)
-			if(UserExists(userName)){
-				outputMessage += "The user name <font color=red><u>"+userName+"</u></font>"+" already in use.";
+			if(!userName.equals("") && UserExists(userName)){
+		    	errorMessages.add("The user name '"+userName+"' is already in use.");
 				result = ERROR;
 			}
 			if(result.equals(ERROR)){
@@ -120,13 +117,10 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 			user.setEmail(email);
 			user.setFirstName(firstName);
 			user.setLastName(lastName);
-			
 			user.setOrgName(organizationName);
 			user.setOrgType(organizationType);
 			user.setOrgPosition(organizationPosition);
 			user.setPhone(phoneNumber);
-
-			//optional fields
 			user.setAddress(address);
 			user.setState(stateOrProvince);
 			user.setCity(city);
@@ -144,7 +138,6 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 				user.setStatus("agree");
 			}
 				
-			
 			Session s = HibernateUtil.getSession();
 			Transaction tx = null;
 		
@@ -391,6 +384,7 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 
 	/* Variables used for user registration and updates */
 	private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
+	private ArrayList<String> errorMessages = new ArrayList<String>();
 	private String outputMessage;
 	
 	private String userName;
