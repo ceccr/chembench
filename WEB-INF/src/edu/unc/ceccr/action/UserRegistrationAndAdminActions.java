@@ -417,6 +417,13 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	}
 	public void setRecaptchaPublicKey(String recaptchaPublicKey) {
 		this.recaptchaPublicKey = recaptchaPublicKey;
+	}	
+	
+	public ArrayList<String> getErrorMessages() {
+		return errorMessages;
+	}
+	public void setErrorMessages(ArrayList<String> errorMessages) {
+		this.errorMessages = errorMessages;
 	}
 	
 	public String getOutputMessage() {
