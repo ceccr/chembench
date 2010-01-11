@@ -106,17 +106,17 @@ public class PopulateDataObjects {
 				dataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.eq("modelType",modelType))
-							.addOrder(Order.asc("fileName")).list();
+							.addOrder(Order.desc("fileName")).list();
 				usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("modelType",modelType))
-							.addOrder(Order.asc("fileName")).list();
+							.addOrder(Order.desc("fileName")).list();
 			}
 			else {
 				dataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("modelType",modelType))
-							.addOrder(Order.asc("fileName")).list();
+							.addOrder(Order.desc("fileName")).list();
 			}
 			tx.commit();
 			if(usersDataSet != null){
@@ -127,7 +127,7 @@ public class PopulateDataObjects {
 			if (tx != null)
 				tx.rollback();
 		}
-			
+		Collections.reverse(dataSets);
 		return dataSets;
 	}
 	
@@ -145,15 +145,15 @@ public class PopulateDataObjects {
 			if(isAllUserIncludes){
 				allUserDataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
-							.addOrder(Order.asc("fileName")).list();
+							.addOrder(Order.desc("fileName")).list();
 				
 				usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
-							.addOrder(Order.asc("fileName")).list();
+							.addOrder(Order.desc("fileName")).list();
 				
 			}
 			else usersDataSet = session.createCriteria(DataSet.class).add(Expression.eq("userName", userName))
-							.addOrder(Order.asc("fileName")).list();
+							.addOrder(Order.desc("fileName")).list();
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
@@ -184,7 +184,8 @@ public class PopulateDataObjects {
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		
+
+		Collections.reverse(datasetNames);
 		return datasetNames;
 	}
 	
@@ -202,14 +203,14 @@ public class PopulateDataObjects {
 			if(isAllUserIncludes){
 				allUserPredictors = session.createCriteria(Predictor.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
-							.addOrder(Order.asc("name")).list();
+							.addOrder(Order.desc("name")).list();
 				userPredictors = session.createCriteria(Predictor.class)
 							.add(Expression.eq("userName", userName))
-							.addOrder(Order.asc("name")).list();
+							.addOrder(Order.desc("name")).list();
 			}
 			else userPredictors = session.createCriteria(Predictor.class)
 							.add(Expression.eq("userName", userName))
-							.addOrder(Order.asc("name")).list();
+							.addOrder(Order.desc("name")).list();
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
@@ -241,6 +242,7 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(ex);
 		}
 		
+		Collections.reverse(predictorNames);
 		return predictorNames;
 	}	
 	
@@ -258,14 +260,14 @@ public class PopulateDataObjects {
 			if(isAllUserIncludes){
 				allUserPredictions = session.createCriteria(Prediction.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
-							.addOrder(Order.asc("jobName")).list();
+							.addOrder(Order.desc("jobName")).list();
 				userPredictions = session.createCriteria(Prediction.class)
 							.add(Expression.eq("userName", userName))
-							.addOrder(Order.asc("jobName")).list();
+							.addOrder(Order.desc("jobName")).list();
 			}
 			else userPredictions = session.createCriteria(Prediction.class)
 							.add(Expression.eq("userName", userName))
-							.addOrder(Order.asc("jobName")).list();
+							.addOrder(Order.desc("jobName")).list();
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
@@ -296,6 +298,7 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(ex);
 		}
 		
+		Collections.reverse(predictionNames);
 		return predictionNames;
 	}
 	
@@ -309,7 +312,8 @@ public class PopulateDataObjects {
  			tx = session.beginTransaction();
  			if(onlySaved) privatePredictors = session.createCriteria(Predictor.class)
  							.add(Expression.eq("userName", userName))
- 							.add(Expression.eq("status","saved")).list();
+ 							.add(Expression.eq("status","saved"))
+ 							.addOrder(Order.desc("name")).list();
  			else privatePredictors = session.createCriteria(Predictor.class)
 				.add(Expression.eq("userName", userName))
 				.list();
@@ -329,7 +333,7 @@ public class PopulateDataObjects {
  			if(onlySaved) ADMEToxPredictors = session.createCriteria(Predictor.class)
  							.add(Expression.eq("predictorType", "ADMETox"))
  							.add(Expression.eq("status","saved"))
- 							.addOrder(Order.asc("name")).list();
+ 							.addOrder(Order.desc("name")).list();
  			else ADMEToxPredictors = session.createCriteria(Predictor.class)
 				.add(Expression.eq("predictorType", "ADMETox"))
 				.list();
@@ -349,7 +353,7 @@ public class PopulateDataObjects {
  			if(onlySaved) DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
  							.add(Expression.eq("predictorType", "DrugDiscovery"))
  							.add(Expression.eq("status","saved"))
- 							.addOrder(Order.asc("name")).list();
+ 							.addOrder(Order.desc("name")).list();
  			else DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
 				.add(Expression.eq("predictorType", "DrugDiscovery"))
 				.list();
@@ -367,6 +371,7 @@ public class PopulateDataObjects {
  			}
  		}
  		
+ 		Collections.reverse(predictors);
 		return predictors;
 	}
 	
@@ -382,13 +387,17 @@ public class PopulateDataObjects {
 			try 
 			{
 				tx = session.beginTransaction();
-				if(onlySaved) predictions = session.createCriteria(Prediction.class)
+				if(onlySaved){
+					predictions = session.createCriteria(Prediction.class)
 							.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
 							.add(Expression.eq("status","saved"))
-							.addOrder(Order.asc("jobName")).list();
-				else predictions = session.createCriteria(Prediction.class)
-				.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
-				.addOrder(Order.asc("jobName")).list();
+							.addOrder(Order.desc("jobName")).list();
+				}
+				else {
+					predictions = session.createCriteria(Prediction.class)
+						.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
+						.addOrder(Order.desc("jobName")).list();
+				}
 				tx.commit();
 			} catch (Exception e) {
 				Utility.writeToDebug(e);
@@ -413,6 +422,8 @@ public class PopulateDataObjects {
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
 		}
+		
+		Collections.reverse(predictions);
 		return predictions;
 	}
 	
