@@ -153,7 +153,7 @@ IV. TROUBLESHOOTING
 
 If a problem occurs, a report will be noted in one of C-Chembench's log files (detailed below).
 You can either use the log files to find the problem yourself, or if you need help, send any
-questions to ceccrhelp@listserv.unc.edu . If you attach the log files, we will have an easier time
+questions to ceccr@email.unc.edu . If you attach the log files, we will have an easier time
 diagnosing the problem.
 
 /public/projects/ceccr/workflow-users/javadebug.log : This logfile contains user actions and any

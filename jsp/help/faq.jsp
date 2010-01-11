@@ -168,7 +168,7 @@
  <p align="justify" class="ccbHomeStandard"><strong><a name="14" id="132"></a><br />
 14. How can I reach the C-ChemBench Development Team?</strong><br />
 <strong><br />
-</strong>The C-ChemBench Development team can be reached at ceccrhelp (at) listserv.unc.edu.</p>
+</strong>The C-ChemBench Development team can be reached at ceccr (at) email.unc.edu.</p>
  <br /> 
  <br /> 
 

@@ -38,7 +38,7 @@
 				<p class="StandardTextDarkGrayParagraph"><b><br>Error: </b></p>
 		<p align="justify" class="StandardTextDarkGrayParagraph">
 		<s:property value="errorString" /><br><br>
-		To report a bug, or if you need help with C-Chembench, you can reach us at <a href="ceccrhelp@listserv.unc.edu">ceccrhelp@listserv.unc.edu</a>. <br />
+		To report a bug, or if you need help with C-Chembench, you can reach us at <a href="ceccr@email.unc.edu">ceccr@email.unc.edu</a>. <br />
 		Include this error text in your email, along with a description of the problem.<br />
 		Thanks, <br />
 		The Chembench Team

@@ -38,7 +38,7 @@ prediction section of the MY BENCH page.</p>
 
 <p>That should be enough information to get you started -- the other help sections give more detail on each part 
 of Chembench, explaining the modeling workflows and the different parameters you can set. You can refer back to 
-them as needed, and you can contact <a href="mailto:ceccrhelp@listserv.unc.edu">ceccrhelp@listserv.unc.edu</a> 
+them as needed, and you can contact <a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a> 
 with questions.</p>
 </p>
 
