@@ -191,10 +191,10 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 		  			+"<br/><br/>Thank you. <br/>The C-Chembench Team<br/>";
 		
 	  			SendEmails.sendEmail(user.getEmail(), "", "", "Chembench User Registration", HtmlBody);
-	  			
+
+	  			Utility.writeToUsageLog("just registered!", newUserName);
 		  		Utility.writeToDebug("In case email failed, temp password for user: " + user.getUserName() + " is: " + password);
 		  	}
-		
 		return result;
 	}
 	
