@@ -119,10 +119,12 @@ public class KnnPredictionWorkflow{
 		int numCompounds = predictionMatrix.get(0).size();
 		for(int i = 0; i < numCompounds; i++){
 
+			try{
 			//calculate stddev and avg for each compound
 			float sum = 0;
 			float mean = 0;
 			int numPredictingModels = predictionMatrix.size();
+			Utility.writeToDebug("doing sum for compound " + i);
 			
 			for(int j = 0; j < predictionMatrix.size(); j++){
 				String predValue = predictionMatrix.get(j).get(i);
@@ -136,6 +138,8 @@ public class KnnPredictionWorkflow{
 			if(numPredictingModels > 0){
 				mean = sum / numPredictingModels;
 			}
+
+			Utility.writeToDebug("doing stddev for compound " + i);
 			
 			float stddev = 0;
 			for(int j = 0; j < predictionMatrix.get(j).size(); j++){
@@ -149,6 +153,8 @@ public class KnnPredictionWorkflow{
 			if(numPredictingModels > 0){
 				stddev = (float) Math.sqrt( stddev / numPredictingModels);
 			}
+			
+			Utility.writeToDebug("making predvalue object for compound " + i);
 			
 			//create prediction value object
 			PredictionValue p = new PredictionValue();
@@ -165,6 +171,10 @@ public class KnnPredictionWorkflow{
 			p.setPredictorId(predictorId);
 			
 			predictionValues.add(p);
+	
+			}catch(Exception ex){
+				Utility.writeToDebug(ex);
+			}
 		}
 
 	    return predictionValues;
