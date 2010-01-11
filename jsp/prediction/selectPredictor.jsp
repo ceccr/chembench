@@ -37,11 +37,11 @@
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td><p align="justify" class="StandardTextDarkGrayParagraph">
-		Here already-developed models are available to make predictions on sets of compounds. Models generated and validated by the Laboratory for Molecular Modeling at UNC-CH are available as well as models that you generated through the Model Development section of the website. Compounds to screen can be upload in sdf format below. Currently, only 500 compounds may be predicted at one time. 
-		<br><br>Compound databases will soon be available for large scale virtual screening. 
-		<br><br>Click the name of a predictor. Then you may predict the activity of a dataset, a SMILES string, or a molecule sketch.
-		<br />Or, you may select multiple predictors. To do this, use the checkboxes next to each one you want to predict with, then click "Select Multiple Predictors" at the bottom of the page.
-		
+		From this page, predictors are available. You may use them to make predictions on compounds. 
+		To start with, predictors generated and validated by UNC's Molecular Modeling Laboratory are available. 
+		When you create new predictors using the MODELING page, they will be shown to you here as well. 
+		<br><br>Click the checkboxes to the left of each predictor you want to use, and hit the "Select Predictors" button. Then you may predict the activity of a dataset, a SMILES string, or a molecule sketch.
+			
 		<br /><br />
 		</p></td>
           </tr>

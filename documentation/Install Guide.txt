@@ -161,10 +161,6 @@ Java-related errors. Most of C-Chembench is written in Java, so this is a good p
 If a configuration file is wrong, programs are missing, or files are in the wrong place, it will likely
 show up here.
 
-/public/projects/ceccr/workflow-users/log.xml : This logfile is used solely by Ant code. Ant is
-responsible for execution of the programs associated with C-Chembench. A missing license or malfunctioning
-program will likely have its errors land here.
-
 /usr/local/tomcat/logs/ceccr.log : If your browser brings you to an error page when you are
 using C-Chembench, this is the place to look. HTML and Javascript errors are noted here.
 
