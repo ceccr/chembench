@@ -101,7 +101,7 @@ public class KnnPredictionWorkflow{
 			//get output for each compound in model
 			String[] predValues = inputString.split("\\s+"); //Note: [0] and [1] in this array will be junk.
 			
-			//Utility.writeToDebug("num fields: " + predValues.length + " model id: " + predValues[0]);
+			Utility.writeToDebug("num fields: " + predValues.length + " model id: " + predValues[0]);
 
 			//predValues(0) will be model_id, which is just an index.
 			//predValues(1) will be AD_distance, which we may want to capture someday.
@@ -112,7 +112,9 @@ public class KnnPredictionWorkflow{
 			}
 			predictionMatrix.add(modelValues);
 		}
-
+		
+		Utility.writeToDebug("calculating nummodels, avg, and stddev for each compound");
+		
 		//for each compound, calculate nummodels, avg, and stddev
 		int numCompounds = predictionMatrix.get(0).size();
 		for(int i = 0; i < numCompounds; i++){

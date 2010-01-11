@@ -1,13 +1,9 @@
 package edu.unc.ceccr.taskObjects;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.channels.FileChannel;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.hibernate.Session;
@@ -51,23 +47,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	private ArrayList<String> selectedPredictorNames = new ArrayList<String>();//used in indicating progress
 	
 	public String getProgress(){
-		String percent = "";
-		if(step.equals(Constants.PREDICTING)){
-			//count the number of *.pred files in the working directory
-			float p = 0;
-			int numTotalModels = 0;
-			for(int i = 0; i < selectedPredictorNames.size(); i++){
-				p += FileAndDirOperations.countFilesInDirMatchingPattern(filePath + selectedPredictorNames.get(i) + "/", ".*pred");
-				numTotalModels += FileAndDirOperations.countFilesInDirMatchingPattern(filePath + selectedPredictorNames.get(i) + "/", ".*mod");
-			}
-			
-			//divide by the total number of models in all predictors used
-						
-			p /= numTotalModels;
-			p *= 100; //it's a percent
-			percent = " (" + Math.round(p) + "%)"; 
-		}
-		return step + percent;
+		return step; 
 	}
 		
 	public QsarPredictionTask(String userName, String jobName, String sdf, String cutoff,
