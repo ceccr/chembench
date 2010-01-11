@@ -1,11 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ taglib uri="/tags/struts-bean" prefix="bean"%>
-<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
-<%@ taglib uri="/tags/struts-html" prefix="html"%>
-<%@ taglib uri="/tags/struts-nested" prefix="nested"%>
-<%@ page import="edu.unc.ceccr.global.Constants" %>
-<html:html>
+
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
+<%@ page language="java" import="java.util.*" %>
+
+<html>
 <head>
 <title>C-CHEMBENCH | Registration </title>
 <link href="theme/miscellaneous.css" rel="stylesheet" type="text/css"/>
@@ -27,11 +28,6 @@
 <script src="javascript/container/container_core.js"></script>
 <script src="javascript/registerFormValidation.js"></script>
 
-<script>
-  function login() {
-	window.alert("You need to create an account in order to view this page.");
-}
-</script>
 </head>
 <body>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
@@ -49,92 +45,75 @@
           <tr>
             <td>
 		<p align="justify" class="StandardTextDarkGrayParagraph"><br />
-		
 		Welcome to Carolina Cheminformatics Workbench (C-ChemBench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
-		Research (CECCR) with the support of the National Institutes of Health. <br/><br/><br/>Please register your information here in order to start using C-ChemBench. Thank you. <br/><br/><br/>
-        
-		</td>
+		Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using C-ChemBench. 
+		An asterisk (*) indicates required fields.<br/>
+        </td>
           </tr>
         </table>        
-        
-        <html:form action="/register.do" focus="firstName">
+       
+        <s:form action="registerUser" enctype="multipart/form-data" theme="simple">
+	
         <table border="0" align="center" width="680">
-        <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">First Name</td>
-            <td width="250"><html:text property="firstName" size="30"/></td>
-            <td width="250" align="left"><span id="messageDiv1"></span></td></tr>
-            <tr height="20">
-            <td align="right" width="180" align="left" class="StandardTextDarkGray">Last Name</td>
-            <td width="250"><html:text property="lastName" size="30"/></td><td width="250" align="left"><span id="messageDiv2"></span></td></tr>
-
-            <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Type of Organization</td>
-            <td width="250"><html:select property="organization">
-
-           <html:option value="Academia">Academia</html:option>
-           
-            <html:option value="Goverment">Government</html:option>
-             <html:option value="Industry">Industry</html:option>
-
-            <html:option value="Other">Other</html:option>
-
-            </html:select>
-            </td><td width="250" align="left"></td></tr>
-
-           <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Name of Organization</td><td width="250">
-           <html:text property="nameOfOrg" size="30"/></td><td width="250" align="left"><span id="messageDiv4"></span></td></tr>
-
-          <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Position in Organization</td>
-          <td width="250"><html:text property="position" size="30"/></td><td width="250" align="left"><span id="messageDiv5"></span></td></tr>
-
-         <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Address</td>
-         <td width="250"><html:text property="address" size="30"/></td><td width="250" align="left"><span id="messageDiv6"></span></td></tr>
-        <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">City</td>
-        <td width="250"><html:text property="city" size="30"/></td><td width="250" align="left"><span id="messageDiv7"></span></td></tr>
-
-        <tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">State/Province</td>
-       <td width="250"><html:text property="state" size="30"/></td><td width="250" align="left"><span id="messageDiv8"></span></td></tr>
-
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Country</td>
-<td width="250"><html:select property="country">
-<html:option value="USA">United States</html:option>
-<html:option value="Russia">Russia</html:option>
-
-<html:option value="China">China</html:option>
-
-<html:option value="India">India</html:option>
-
-<html:option value="France">France</html:option>
-
-<html:option value="Other">Other</html:option>
-
-
-</html:select>
-
-</td>
+  
+<!-- error message (if any) -->
+<tr height="20"><td colspan="2" class="StandardTextDarkGray"><div class="StandardTextDarkGray"><font color="red"><br />
+<s:iterator value="errorMessages"><s:property /><br /></s:iterator></font></div></td>
 <td width="250" align="left"></td></tr>
+  
+<!-- user information form -->
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">First Name *</td>
+<td width="250"><s:textfield name="firstName" size="30"/></td><td width="250" align="left"><span id="messageDiv1"></span></td></tr>
 
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Zip Code</td>
-<td width="250"><html:text property="zipCode" size="30"/></td><td width="250" align="left"><span id="messageDiv9"></span></td></tr>
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Last Name *</td>
+<td width="250"><s:textfield name="lastName" size="30"/></td><td width="250" align="left"><span id="messageDiv2"></span></td></tr>
 
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Phone Number</td>
-<td width="250"><html:text property="phone" size="30"/></td><td width="250" align="left"><span id="messageDiv11"></td></tr>
-<tr height="6"><td align="right" width="180" align="left"></td><td width="250"><font size="1"><u>Please use your orgnization email account</u></font></td>
-<td width="250" align="left"><span id="messageDiv11"></span></td></tr>
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Type of Organization *</td>
+<td width="250"><s:select name="organizationType" list="#{'Academia':'Academia','Government':'Government','Industry':'Industry','Nonprofit':'Nonprofit','Other':'Other'}" />
+</td><td width="250" align="left"></td></tr>
 
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Email</td>
-<td width="250"><html:text property="email" size="30"/></td><td width="250" align="left"><span id="messageDiv12"></span></td></tr>
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Name of Organization *</td>
+<td width="250"><s:textfield name="organizationName" size="30"/></td><td width="250" align="left"><span id="messageDiv4"></span></td></tr>
 
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">Work Bench</td>
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Position in Organization *</td>
+<td width="250"><s:textfield name="organizationPosition" size="30"/></td><td width="250" align="left"><span id="messageDiv5"></span></td></tr>
 
-<td width="250"><html:select property="workbench">
-<html:option value="cchem">C-CHEM</html:option>
-<html:option value="ctox">C-TOX</html:option>
-</html:select>
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Address</td>
+<td width="250"><s:textfield name="address" size="30"/></td><td width="250" align="left"><span id="messageDiv6"></span></td></tr>
 
-<tr height="6"><td align="right" width="180" align="left"></td><td width="250"><font size="1"><u>The user name must be at least 4 characters.</u></font></td>
-<td width="250" align="left"></td></tr>
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">City *</td>
+<td width="250"><s:textfield name="city" size="30"/></td><td width="250" align="left"><span id="messageDiv7"></span></td></tr>
 
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray">User Name</td>
-<td width="250"><html:text property="userName" size="30"  /></td><td width="250" align="left"><span id="messageDiv13"></span></td></tr>
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">State/Province</td>
+<td width="250"><s:textfield name="stateOrProvince" size="30"/></td><td width="250" align="left"><span id="messageDiv8"></span></td></tr>
+	
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Zip Code</td>
+<td width="250"><s:textfield name="zipCode" size="30"/></td><td width="250" align="left"><span id="messageDiv9"></span></td></tr>
+	
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Country *</td>
+<td width="250"><s:textfield name="country" size="30"/></td><td width="250" align="left"></td></tr>
+
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Phone Number</td>
+<td width="250"><s:textfield name="phoneNumber" size="30"/></td><td width="250" align="left"><span id="messageDiv11"></td></tr>
+
+<tr height="6"><td width="180" class="StandardTextDarkGray"></td><td width="250"><div class="StandardTextDarkGray"><i><small><br />Please use your organization email account.
+Your password will be sent to this email address when you register.</small></i></div></td><td width="250" align="left"></span></td></tr>
+
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Email *</td>
+<td width="250"><s:textfield name="email" size="30"/></td><td width="250" align="left"><span id="messageDiv12"></span></td></tr>
+
+<!-- 
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Work Bench</td>
+<td width="250"><s:radio name="workBench" list="#{'cchem':'C-CHEM','ctox':'C-TOX'}" /></td>
+ -->
+ <!-- The idea of having a separate workbench for tox people and for chem people may come back someday. Removed it for now. -->
+<s:hidden name="workbench" value="cchem" /> 
+ 
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray">User Name *</td>
+<td width="250"><s:textfield name="newUserName" size="30"  /></td><td width="250" align="left"><span id="messageDiv13"></span></td></tr>
+
+<!-- CAPTCHA -->
+
 <!--
 <%! String image()
 {
@@ -144,8 +123,8 @@ return imgNum;
 }
 %>
 -->
-<tr height="50"><td align="right" width="180" align="left"></td><td width="250"></td><td width="250" align="left"></td></tr>
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray"><u>Verification</u></td><td width="250"></td><td width="250" align="left"></td></tr>
+<tr height="50"><td align="right" width="180"></td><td width="250"></td><td width="250" align="left"></td></tr>
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray"><u>Verification</u></td><td width="250"></td><td width="250" align="left"></td></tr>
 <tr height="20"><td  colspan="2" align="right">
 
 <script>
@@ -155,11 +134,11 @@ var RecaptchaOptions = {
 };
 </script>
 <script type="text/javascript"
-   src="http://api.recaptcha.net/challenge?k=<%=Constants.RECAPTCHA_PUBLICKEY%>">
+   src="http://api.recaptcha.net/challenge?k=<s:property value="recaptchaPublicKey" />">
 </script>
 
 <noscript>
-   <iframe src="http://api.recaptcha.net/noscript?k=<%=Constants.RECAPTCHA_PUBLICKEY%>"
+   <iframe src="http://api.recaptcha.net/noscript?k=<s:property value="recaptchaPublicKey" />"
        height="40" width="200" frameborder="0"></iframe><br>
    <textarea name="recaptcha_challenge_field" rows="1" cols="35">
    </textarea>
@@ -168,31 +147,29 @@ var RecaptchaOptions = {
 
 </td><td width="250" align="left"></td></tr>
 
-<tr height="20"><td align="right" width="180" align="left" class="StandardTextDarkGray"></td>
+<tr height="20"><td align="right" width="180" class="StandardTextDarkGray"></td>
 <td width="250">
-
-<logic:equal name="notValid" value="true">
-<font size="1" color="red" face="arial">Incorrect input, Please try again!</font>
-</logic:equal>
 
 </td><td width="250" align="left"></td></tr>
 
-<tr height="40"><td align="right" width="180" align="left"></td><td width="250"></td><td width="250" align="left"></td></tr>
-<tr height="20"><td align="right" width="180" align="left"></td>
-<td width="250"><html:reset onclick="return confirm('Are you sure to reset all the fields?')" value="Reset"></html:reset>&nbsp&nbsp&nbsp&nbsp
-&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<html:submit property="userAction" onclick="return submitForm1(this,document.getElementById('textarea'));"
-								value="Submit" /> </td>
+<tr height="40"><td align="right" width="180"></td><td width="250"></td><td width="250" align="left"></td></tr>
+
+<!-- Submit Button -->
+
+<tr height="20"><td align="right" width="180"></td>
+<td width="250">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+<input type="button" name="userAction" id="userAction" onclick="if(true){ this.form.submit() }" value="Submit" />
+	<!-- <html:submit property="userAction" onclick="return submitForm1(this,document.getElementById('textarea'));" value="Submit" />  -->
+</td>
 <td width="250" align="left"><span id="textarea"></span></td></tr>
-<tr height="20"><td align="right" width="180" align="left"></td><td width="250"></td><td width="250" align="left"></td></tr>
+<tr height="20"><td align="right" width="180"></td><td width="250"></td><td width="250" align="left"></td></tr>
+<tr height="20"><td align="right" width="180"></td><td width="250"></td><td width="250" align="left"></td></tr>
 
-<tr height="20"><td align="right" width="180" align="left"></td><td width="250"></td><td width="250" align="left"></td></tr>
-
-				
-		</table></p></html:form>
+		</table></p></s:form>
 		</td>
 		</span>
 	</tr>
 	<tr>
 	<%@include file ="/jsp/main/footer.jsp" %>
 </body>
-</html:html>
+</html>

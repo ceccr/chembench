@@ -84,15 +84,15 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 		    	errorMessages.add("Please enter your country.");
 				result = ERROR;
 			}
-			if(userName.isEmpty()){
+			if(newUserName.isEmpty()){
 		    	errorMessages.add("Please enter a user name.");
 				result = ERROR;
 			}
 			
 			//Check whether the username already exists 
 			//(queries database)
-			if(!userName.equals("") && UserExists(userName)){
-		    	errorMessages.add("The user name '"+userName+"' is already in use.");
+			if(!newUserName.equals("") && UserExists(newUserName)){
+		    	errorMessages.add("The user name '"+newUserName+"' is already in use.");
 				result = ERROR;
 			}
 			
@@ -115,7 +115,7 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 		//make user
 			user = new User();
 
-			user.setUserName(userName);
+			user.setUserName(newUserName);
 			user.setEmail(email);
 			user.setFirstName(firstName);
 			user.setLastName(lastName);
@@ -389,7 +389,7 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 	private ArrayList<String> errorMessages = new ArrayList<String>();
 	private String outputMessage;
 	
-	private String userName;
+	private String newUserName;
 	private String address;
 	private String city;
 	private String country;
@@ -435,11 +435,11 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 		this.outputMessage = outputMessage;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getNewUserName() {
+		return newUserName;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setNewUserName(String newUserName) {
+		this.newUserName = newUserName;
 	}
 
 	public String getAddress() {

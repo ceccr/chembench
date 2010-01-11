@@ -28,12 +28,12 @@
         
        <!-- User Registration and Administration Pages -->
        <action name="loadRegistrationPage" class="edu.unc.ceccr.action.UserRegistrationAndAdminActions" method="loadUserRegistration">
-            <result>jsp/administration/user/registrationForm2.jsp</result>
+            <result>jsp/administration/user/registrationForm.jsp</result>
         </action>
         
         <action name="registerUser" class="edu.unc.ceccr.action.UserRegistrationAndAdminActions" method="RegisterUser">
             <result name="success">jsp/administration/user/registrationApprovalMessage.jsp</result>
-			<result name="error">jsp/administration/user/registrationForm2.jsp</result>
+			<result name="error">jsp/administration/user/registrationForm.jsp</result>
         </action>
        
         <!-- Dataset Page -->
