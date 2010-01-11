@@ -25,7 +25,8 @@ public class DataSet implements java.io.Serializable{
 	private Date createdTime;
 	private String description;
 	private String actFormula;
-	
+	private String showByDefault;
+
 	public DataSet(){}
 	
 	@Id
@@ -156,5 +157,12 @@ public class DataSet implements java.io.Serializable{
 	public void setActFormula(String actFormula) {
 		this.actFormula = actFormula;
 	}
-	
+
+	@Column(name="showByDefault")
+	public String getShowByDefault() {
+		return showByDefault;
+	}
+	public void setShowByDefault(String showByDefault) {
+		this.showByDefault = showByDefault;
+	}
 }

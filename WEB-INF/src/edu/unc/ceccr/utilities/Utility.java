@@ -5,31 +5,20 @@ import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
-import java.util.Vector;
 import java.math.*;
 import java.util.Random;
 import java.io.*;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.AdminSettings;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
-import org.apache.commons.validator.GenericValidator;
 
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.struts.upload.FormFile;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
@@ -142,6 +131,20 @@ public class Utility {
 		} catch (Exception e) {
 		}
 		debug_counter++;
+	}
+
+	public static void writeToUsageLog(String s, String username) {
+		//Usage output write function. Used throughout Java code.
+		try {
+			FileWriter fstream = new FileWriter(
+					Constants.CECCR_BASE_PATH + "/workflow-users/usage.log", true);
+			BufferedWriter out = new BufferedWriter(fstream);
+
+			out.write(username + ": " + s + " [" + getDate() + "]" + "\n");
+			out.close();
+		} catch (Exception e) {
+			//oh well
+		}
 	}
 
 	
@@ -262,7 +265,7 @@ public class Utility {
 		}
 		DataOutputStream out = new DataOutputStream(new FileOutputStream(
 				counterFile));
-		out.writeInt(0);
+		out.writeInt(counter);
 		out.close();
 	}
 
