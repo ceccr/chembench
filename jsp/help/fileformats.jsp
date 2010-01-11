@@ -4,7 +4,7 @@
   <tr><td>
 <div class="ccbHomeStandard">
 
-<p><b>.act files</b></p>
+<p id="ACT"><b>.act files</b></p>
 
 <p>The .act files store activities (numerical results associated with each chemical; these are 
 what we're building a model on or trying to predict). They must have a corresponding .sdf file with 
@@ -34,8 +34,11 @@ NNC01-0012	4.69
 only constraint is that the chemical identifiers in your activity file <i>must match</i> the identifiers in your SDF (see below). In
 an activity file, each line describes one compound's activity. A space or tab separates the chemical identifier and the activity on each line. </p>
 
+
+
+<p id="SDF"><b>.SDF files</b></p>
+
 <p>
-.SDF files
 (Also referred to as "SD files", since SDF stands for "structure data file".)
 SDFs are used to store sets of chemical structures and can be 2D or 3D. 
 They are typically the input files we use. Here's a sample: </p>
