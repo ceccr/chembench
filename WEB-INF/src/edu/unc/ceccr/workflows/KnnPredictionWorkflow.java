@@ -142,7 +142,7 @@ public class KnnPredictionWorkflow{
 			Utility.writeToDebug("doing stddev for compound " + i);
 			
 			float stddev = 0;
-			for(int j = 0; j < predictionMatrix.get(j).size(); j++){
+			for(int j = 0; j < predictionMatrix.size(); j++){
 				String predValue = predictionMatrix.get(j).get(i);
 				if(!predValue.equalsIgnoreCase("NA")){
 					float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
