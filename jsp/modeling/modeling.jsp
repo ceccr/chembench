@@ -46,14 +46,13 @@
             <td>
 				<p class="StandardTextDarkGrayParagraph"><b><br>C-Chembench Model
 		Development</b></p>
-		<p align="justify" class="StandardTextDarkGrayParagraph">kNN QSAR models can currently
-		be developed for any dataset using the Model Building section of this
-		page. Upload an sdf file and activity file below. Jobs will be queued
-		and will run as soon as computer resources are available. Some sample
+		<p align="justify" class="StandardTextDarkGrayParagraph">kNN QSAR predictors can 
+		be developed for any dataset using this page. Some sample
 		datasets are available for your use.<br><br>
-		</p>
+		For more information about creating predictors and selecting the right parameters, use the <a href="/help-modeling">Modeling help page</a>.  
+   		</p>
 		</td>
-          </tr>
+        </tr>
         </table>
 
 <s:form action="createModelingJob" enctype="multipart/form-data" theme="simple">

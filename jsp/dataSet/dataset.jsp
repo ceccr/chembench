@@ -39,13 +39,16 @@
       <table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td><p class="StandardTextDarkGrayParagraph"><b><br />
-            C-Chembench Dataset Management</b></p>
-              <p align="justify" class="StandardTextDarkGrayParagraph">This part of C-Chembench allows you to manage and explore data sets.  Aside from the basic functions of uploading and deleting data sets, this part of our web site lets you better understand the datasets that you are working with.<br />
-                  <br />
-                In order to properly evaluate the quality of a model, you will often want to understand the dataset from which it was built.  How similar or diverse are the compounds that you were using?  What were the key differentiators that exist? <br />
-                <br />
-                Capabilities offered in this section include the ability to look at distant matrices, various clustering techniques and principal component analysis of the datasets.  Options provide visualization and numeric results.<br />
-                <br />
+            C-Chembench Dataset Creation</b></p>
+              <p align="justify" class="StandardTextDarkGrayParagraph">
+              From this page, you may upload compounds to Chembench for use in modeling or prediction. <br />
+              Compounds that have activities associated with them may be used to build models or in predictions. 
+              Compounds without activities may only be used in predictions. <br /> Once a dataset has been created, you can
+              view the results on the "My Bench" page. Each modeling dataset you create will appear as an option on the 
+              "Modeling" page and on the "Prediction" page. Prediction datasets will only appear on the "Prediction" page. <br />
+              When you submit a dataset, images will be generated for each compound and a heatmap visualization will be created.
+              <br /><br />
+              For more information about dataset creation and defining external sets, try the <a href="/help-dataset">Dataset help page</a>.  
             </p></td>
         </tr>
       </table>
@@ -68,7 +71,7 @@
 		<tr>
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Select the type of dataset to create.<br />
-			<!-- For the "Modeling Set" and "Prediction Set", -->You do not need to provide descriptors; Chembench will <br />
+			<!-- For the "Modeling Set" and "Prediction Set", -->You do not need to provide descriptors; Chembench will
 			generate descriptors as needed for visualization, modeling, and prediction. <br />
 			<!-- For the "Modeling Set With Descriptors" and "Prediction Set With Descriptors", you will need to <br />
 			upload an <a href="">X</a> file containing the descriptor values. -->

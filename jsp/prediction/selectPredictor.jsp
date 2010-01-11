@@ -40,6 +40,7 @@
 		From this page, predictors are available. You may use them to make predictions on compounds. 
 		To start with, predictors generated and validated by UNC's Molecular Modeling Laboratory are available. 
 		When you create new predictors using the MODELING page, they will appear here as well, under "Private Predictors". 
+		<br><br>For more information about making predictions, try the <a href="/help-prediction">Prediction help page</a>.  
 		<br><br>Click the checkboxes to the left of each predictor you want to use, and hit the "Select Predictors" button. Then you may predict the activity of a dataset, a SMILES string, or a molecule sketch.
 			
 		<br /><br />

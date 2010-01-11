@@ -4,10 +4,10 @@
   <tr><td>
 <div class="ccbHomeStandard">
 
-Prediction
+<b>Prediction</b>
 
 <p align="justify" class="ccbHomeStandard">
-Selecting Predictors:
+<b>Selecting Predictors:</b>
 
 <p>Start by selecting one or more of the predictors. If you have built many predictors on the same modeling dataset, 
 you may want to choose all of them, so that you can compare their predictions. In most cases, however, you will 
