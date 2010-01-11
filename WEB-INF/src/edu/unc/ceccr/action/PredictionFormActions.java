@@ -123,7 +123,7 @@ public class PredictionFormActions extends ActionSupport{
 			smilesPredictions.add(sp);
 		}
 		
-		
+		Utility.writeToUsageLog("made SMILES prediction on string " + smiles + " with predictors " + predictorIds, user.getUserName());
 		return result;
 	}
 
@@ -201,6 +201,8 @@ public class PredictionFormActions extends ActionSupport{
 		}
 		Queue.getInstance().addJob(predTask,user.getUserName(), jobName, numCompounds, numModels);
 
+		Utility.writeToUsageLog("making prediction run on dataset " + predictionDataset.getFileName() + " with predictors " + selectedPredictorIds, user.getUserName());
+		
 		//give back the session at the end
 		session.close();
 		return SUCCESS;

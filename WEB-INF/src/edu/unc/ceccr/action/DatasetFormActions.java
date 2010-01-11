@@ -111,6 +111,8 @@ public class DatasetFormActions extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+
+		Utility.writeToUsageLog("Uploaded dataset " + datasetName, userName);
 		
 		String msg = "";
 		Utility.writeToDebug("type: " + datasetType);
@@ -184,6 +186,7 @@ public class DatasetFormActions extends ActionSupport{
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName).size();
 					int numModels = 0;
 					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+					
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);

@@ -129,6 +129,9 @@ public class ModelingFormActions extends ActionSupport{
 			
 			//add job to queue
 			tasklist.addJob(modelingTask, user.getUserName(), this.getJobName(), numCompounds, numModels);
+
+			Utility.writeToUsageLog("Started modeling job", user.getUserName());
+			
 			Utility.writeToDebug("Task added to queue", user.getUserName(), this.getJobName());
 		}
 		catch(Exception ex){

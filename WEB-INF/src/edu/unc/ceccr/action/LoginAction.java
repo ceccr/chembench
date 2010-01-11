@@ -84,6 +84,7 @@ public class LoginAction extends Action {
 				Cookie ckie=new Cookie("login","true");
 				response.addCookie(ckie);
 				
+				Utility.writeToUsageLog("Logged in", user.getUserName());
 				forward = mapping.findForward("success");	
 				utility.increaseCounter();
 			}
