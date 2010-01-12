@@ -37,9 +37,7 @@
    <tr>
    <td height="25" colspan="17" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
      <tr><td height="80"></td></tr>
-     <tr><td width="200" height="40" valign="middle" align="right" class="ChangePSText">User Name</td>
-     <td width="218" align="left" ><s:textfield name="newUserName" size="27" /></td><td width="300"></td></tr>
-    
+
 	<tr><td width="200" height="40" valign="middle" align="right" class="ChangePSText" >Password</td>
     <td width="218" align="left" ><s:textfield name="oldPassword" size="27" /></td><td width="300" ></td></tr>
 
@@ -62,7 +60,7 @@
 <!-- UPDATE USER INFO -->
 
 <div id="updateUserInfo">
-<table width="465" border="0" cellspacing="0" cellpadding="0">
+ <table border="0" align="center" width="680">
           <tr>
             <td>
 		<p align="justify" class="StandardTextDarkGrayParagraph"><br />
@@ -142,7 +140,7 @@ Your password will be sent to this email address when you register.</small></i><
 
 <!-- USER OPTIONS -->
 
-<s:form action="changeUserOptions" enctype="multipart/form-data" theme="simple">
+<s:form action="updateUserOptions" enctype="multipart/form-data" theme="simple">
 <table border="0" align="center" width="680">
  
 <tr>
@@ -169,6 +167,12 @@ Your password will be sent to this email address when you register.</small></i><
 	<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="showPublicPredictors" value="showPublicPredictors" list="#{'NONE':'None','ALL':'all'}" /></div>
 	</td>
 </tr>	
+
+<tr>
+	<td width="100%" height="24" align="left" colspan="2">
+	<p class="StandardTextDarkGrayParagraph"><!-- spacer --></p> 
+	</td>
+</tr>  
 
 <tr>
 	<td></td>
