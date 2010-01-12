@@ -81,7 +81,9 @@ public class ViewPredictorAction extends ActionSupport {
 			
 			Utility.writeToDebug("getting predictor models");
 			//get models associated with predictor
-			datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
+			if(selectedPredictor.getDatasetId() != null){
+				datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
+			}
 			dataType = selectedPredictor.getModelMethod().toString();
 			models = new ArrayList<Model>();
 			randomModels = new ArrayList<Model>();
