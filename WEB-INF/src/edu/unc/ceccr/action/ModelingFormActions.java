@@ -259,12 +259,12 @@ public class ModelingFormActions extends ActionSupport{
 	private String trainTestSplitType = Constants.RANDOM;
 
 		//if random split
-		private String numSplitsInternalRandom = "25";
+		private String numSplitsInternalRandom = "5";
 		private String randomSplitMinTestSize = "20";
 		private String randomSplitMaxTestSize = "30";
 		
 		//if sphere exclusion
-		private String numSplitsInternalSphere = "25";
+		private String numSplitsInternalSphere = "5";
 		private String sphereSplitMinTestSize = "25";
 		private String splitIncludesMin = "true";
 		private String splitIncludesMax = "true";

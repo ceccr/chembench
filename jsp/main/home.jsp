@@ -39,7 +39,7 @@
 		C-ChemBench web site has been visited <%=u.getCounter()%> times and currently there are <%=au.getActiveSessions()%> online users. Thank you for your visit.
 		<!-- C-ChemBench Stats end. --></p>
       <p class="ccbHomeHeadings">&nbsp;</p>
-      <p>&nbsp;</p>
+      <p>&nbsp;<noscript><font color="red">Warning: JavaScript is disabled on your computer. Some parts of Chembench may not work properly. Please enable JavaScript.</font></noscript></p>
     <p>&nbsp;</p></td>
     <td valign="top">
 

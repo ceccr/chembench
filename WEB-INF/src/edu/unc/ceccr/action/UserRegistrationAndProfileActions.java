@@ -40,13 +40,25 @@ import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.SmilesPredictionWorkflow;
 
-public class UserRegistrationAndAdminActions extends ActionSupport{
+public class UserRegistrationAndProfileActions extends ActionSupport{
 
 	/* USER FUNCTIONS */
 	
 	public String loadUserRegistration() throws Exception{
 		String result = SUCCESS;
 		organizationType = "Academia";
+		return result;
+	}
+	
+	public String loadEditProfilePage() throws Exception{
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+		user = getLoggedInUser(context);
+		if(user == null){
+			return LOGIN;
+		}
+		
 		return result;
 	}
 	
@@ -209,7 +221,9 @@ public class UserRegistrationAndAdminActions extends ActionSupport{
 		}
 		
 		// Change user object to have new password
-		
+		if(! newPassword1.equals(newPassword2)){
+			errorMessage = "Error: Passwords do not match.";
+		}
 		
 		// Commit changes
 
