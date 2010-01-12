@@ -35,6 +35,22 @@
             <result name="success">jsp/administration/user/registrationApprovalMessage.jsp</result>
 			<result name="error">jsp/administration/user/registrationForm.jsp</result>
         </action>
+        
+        <action name="editProfile" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadEditProfilePage">
+            <result name="success">jsp/administration/user/editProfile.jsp</result>
+        </action>
+        
+        <action name="changePassword" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="ChangePassword">
+            <result name="success">jsp/administration/user/editProfile.jsp</result>
+        </action>
+        
+        <action name="updateUserInfo" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="UpdateUserInformation">
+            <result name="success">jsp/administration/user/editProfile.jsp</result>
+        </action>
+        
+        <action name="updateUserOptions" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="UpdateUserOptions">
+            <result name="success">jsp/administration/user/editProfile.jsp</result>
+        </action>
        
         <!-- Dataset Page -->
         <action name="dataset" class="edu.unc.ceccr.action.DatasetFormActions" method="loadPage">

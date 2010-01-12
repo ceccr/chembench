@@ -58,10 +58,46 @@ public class JobsActions extends ActionSupport {
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 		Session session = HibernateUtil.getSession();
-		userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
-		userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
-		userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.PREDICTION, true, session));
-		userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false, session);
+		
+		//get datasets
+		if(user.getShowPublicDatasets().equals(Constants.ALL)){	
+			//get the user's datasets and all public ones
+			userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
+			userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
+			userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.PREDICTION, true, session));
+		}
+		else if(user.getShowPublicDatasets().equals(Constants.NONE)){
+			//just get the user's datasets
+			userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, false, session);
+			userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, false, session));
+			userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.PREDICTION, false, session));
+		}
+		else if(user.getShowPublicDatasets().equals(Constants.SOME)){
+			//get all the datasets and filter out all the public ones that aren't "show by default"
+			userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
+			userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
+			userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.PREDICTION, true, session));
+			
+			for(int i = 0; i < userDatasets.size(); i++){
+				String s = userDatasets.get(i).getShowByDefault();
+				if(s != null && s.equals(Constants.NO)){
+					userDatasets.remove(i);
+					i--;
+				}
+			}
+		}
+		
+		//get predictors
+		if(user.getShowPublicPredictors().equals(Constants.ALL)){	
+			//get the user's predictors and all public ones
+			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false, session);
+		}
+		else{
+			//just get the user's predictors
+			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), false, false, session);
+		}
+		
+		//get predictions
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
 		
 		//load the queue

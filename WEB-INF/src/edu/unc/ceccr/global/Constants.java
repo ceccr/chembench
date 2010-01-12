@@ -29,6 +29,13 @@ public class Constants {
 	public static final String CONTINUOUS = "CONTINUOUS";
 	public static final String CATEGORY = "CATEGORY";
 
+	public static final String NONE = "NONE";
+	public static final String SOME = "SOME";
+	public static final String ALL = "ALL";
+
+	public static final String YES = "YES";
+	public static final String NO = "NO";
+
 	public static final String MODELING = "MODELING";
 	public static final String PREDICTION = "PREDICTION";
 	public static final String MODELINGWITHDESCRIPTORS = "MODELINGWITHDESCRIPTORS";

@@ -56,7 +56,17 @@ public class PredictionFormActions extends ActionSupport{
 		}
 
 		Session session = HibernateUtil.getSession();
-		userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false, session);
+		
+		//get predictors
+		if(user.getShowPublicPredictors().equals(Constants.ALL)){	
+			//get the user's predictors and all public ones
+			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false, session);
+		}
+		else{
+			//just get the user's predictors
+			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), false, false, session);
+		}
+		
 		session.close();
 		
 		return result;
@@ -146,7 +156,6 @@ public class PredictionFormActions extends ActionSupport{
 			}
 		}
 		
-		
 		//use the same session for all data requests
 		Session session = HibernateUtil.getSession();
 
@@ -167,7 +176,27 @@ public class PredictionFormActions extends ActionSupport{
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
 		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
-		userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true, session);
+		
+		if(user.getShowPublicDatasets().equals(Constants.ALL)){
+			//get user and public datasets
+			userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true, session);
+		}
+		else if(user.getShowPublicDatasets().equals(Constants.NONE)){
+			//just get user datasets
+			userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), false, session);
+		}
+		else if(user.getShowPublicDatasets().equals(Constants.SOME)){
+			//get all datasets and filter out all the public ones that aren't "show by default"
+			userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true, session);
+			
+			for(int i = 0; i < userDatasets.size(); i++){
+				String s = userDatasets.get(i).getShowByDefault();
+				if(s != null && s.equals(Constants.NO)){
+					userDatasets.remove(i);
+					i--;
+				}
+			}
+		}
 		
 		//give back the session at the end
 		session.close();

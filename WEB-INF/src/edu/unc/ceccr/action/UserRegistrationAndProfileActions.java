@@ -141,6 +141,10 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 			user.setCountry(country);
 			user.setZipCode(zipCode);
 			user.setWorkbench(workBench); //deprecated, but some people think it's still important
+			
+			//options
+			user.setShowPublicDatasets(Constants.SOME);
+			user.setShowPublicPredictors(Constants.ALL);
 
 			String password = Utility.randomPassword();
 			user.setPassword(Utility.encrypt(password));
@@ -221,17 +225,18 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		}
 		
 		// Change user object to have new password
-		if(! newPassword1.equals(newPassword2)){
+		/*if(! newPassword.equals()){
 			errorMessage = "Error: Passwords do not match.";
-		}
+		}*/
 		
 		// Commit changes
 
+		Utility.writeToDebug("Changing user password");
 		
 		return result;
 	}
 	
-	public String EditUserInformation() throws Exception{
+	public String UpdateUserInformation() throws Exception{
 		String result = SUCCESS;
 		
 		//check that the user is logged in
@@ -242,7 +247,27 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		}
 		
 		// Change user object according to edited fields
+		Utility.writeToDebug("Changing user information");
 		
+		// Commit changes
+		
+		
+		return result;
+	}
+	
+	public String UpdateUserOptions() throws Exception{
+		String result = SUCCESS;
+		
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+		user = getLoggedInUser(context);
+		if(user == null){
+			return LOGIN;
+		}
+		
+		// Change user object according to edited fields
+
+		Utility.writeToDebug("Changing user options");
 		
 		// Commit changes
 		
@@ -253,7 +278,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	/* USER FUNCTIONS */
 	
 	/* ADMIN-ONLY FUNCTIONS */
-	
+	//These do not belong here. They should be moved when 
+	//the Admin page has been struts2ified.
+	/*
 	public String ChangeModelingLimits() throws Exception{
 		String result = SUCCESS;
 		
@@ -325,7 +352,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		
 		return result;
 	}
-	
+	*/
 	/* END ADMIN-ONLY FUNCTIONS */
 	
 	/* HELPER FUNCTIONS */
@@ -419,6 +446,13 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	private String workBench; //deprecated, but some people think it's still important
 	/* End Variables used for user registration and updates */
 	
+	/* Variables used in password changes and user options */
+	private String oldPassword;
+	private String newPassword;
+	private String showPublicDatasets;
+	private String showPublicPredictors;
+	private boolean userIsAdmin;
+	/* End Variables used in password changes and user options */
 	
 	public User getUser() {
 		return user;
@@ -548,6 +582,44 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	}
 	
 	/* End Variables used for user registration and updates */
+	
+
+	/* Variables used in password changes and user options */
+	public String getOldPassword() {
+		return oldPassword;
+	}
+	public void setOldPassword(String oldPassword) {
+		this.oldPassword = oldPassword;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	public String getShowPublicDatasets() {
+		return showPublicDatasets;
+	}
+	public void setShowPublicDatasets(String showPublicDatasets) {
+		this.showPublicDatasets = showPublicDatasets;
+	}
+
+	public String getShowPublicPredictors() {
+		return showPublicPredictors;
+	}
+	public void setShowPublicPredictors(String showPublicPredictors) {
+		this.showPublicPredictors = showPublicPredictors;
+	}
+
+	public boolean isUserIsAdmin() {
+		return userIsAdmin;
+	}
+	public void setUserIsAdmin(boolean userIsAdmin) {
+		this.userIsAdmin = userIsAdmin;
+	}
+	/* End Variables used in password changes and user options */
 	
 	/* END DATA OBJECTS, GETTERS, AND SETTERS */
 }	

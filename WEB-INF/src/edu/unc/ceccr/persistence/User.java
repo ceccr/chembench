@@ -20,9 +20,6 @@ public class User implements java.io.Serializable{
 	private String email;
 	private String workbench;
 	private String status;
-	private Date dateCreated;
-	private Date dateUpdated;
-	private Date dateRegistered;
 	
 	//professional information
 	private String firstName;
@@ -38,6 +35,11 @@ public class User implements java.io.Serializable{
 	private String country;
 	private String address;
 	private String city;
+	
+	//user options (may eventually become a new table of its own)
+	private String showPublicDatasets;
+	private String showPublicPredictors;
+	
 	
 	public User(){};
     public User(String userName)
@@ -206,5 +208,21 @@ public class User implements java.io.Serializable{
 	public void setPhone(String phone)
 	{
 		this.phone=phone;
+	}
+	
+	@Column(name="showPublicDatasets")
+	public String getShowPublicDatasets() {
+		return showPublicDatasets;
+	}
+	public void setShowPublicDatasets(String showPublicDatasets) {
+		this.showPublicDatasets = showPublicDatasets;
+	}
+
+	@Column(name="showPublicPredictors")
+	public String getShowPublicPredictors() {
+		return showPublicPredictors;
+	}
+	public void setShowPublicPredictors(String showPublicPredictors) {
+		this.showPublicPredictors = showPublicPredictors;
 	}
 }

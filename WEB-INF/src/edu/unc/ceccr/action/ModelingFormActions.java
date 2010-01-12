@@ -57,8 +57,39 @@ public class ModelingFormActions extends ActionSupport{
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
 		
 		userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
-		userContinuousDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS,true, session);
-		userCategoryDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY,true, session);
+		
+		if(user.getShowPublicDatasets().equals(Constants.ALL)){
+			//get user and public datasets
+			userContinuousDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS,true, session);
+			userCategoryDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY,true, session);
+		}
+		else if(user.getShowPublicDatasets().equals(Constants.NONE)){
+			//just get user datasets
+			userContinuousDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS,false, session);
+			userCategoryDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY,false, session);
+		}
+		else if(user.getShowPublicDatasets().equals(Constants.SOME)){
+			//get all datasets and filter out all the public ones that aren't "show by default"
+			userContinuousDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS,true, session);
+			userCategoryDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY,true, session);
+			
+			for(int i = 0; i < userContinuousDatasets.size(); i++){
+				String s = userContinuousDatasets.get(i).getShowByDefault();
+				if(s != null && s.equals(Constants.NO)){
+					userContinuousDatasets.remove(i);
+					i--;
+				}
+			}
+			
+			for(int i = 0; i < userCategoryDatasets.size(); i++){
+				String s = userCategoryDatasets.get(i).getShowByDefault();
+				if(s != null && s.equals(Constants.NO)){
+					userCategoryDatasets.remove(i);
+					i--;
+				}
+			}
+		}
+		
 		session.close();
 
 		//log the results

@@ -86,7 +86,11 @@ public class ViewPredictorAction extends ActionSupport {
 			models = new ArrayList<Model>();
 			randomModels = new ArrayList<Model>();
 			ArrayList<Model> allModels = new ArrayList<Model>();
-			allModels.addAll(PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session));
+			List temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session);
+			if(temp != null){
+				allModels.addAll(temp);
+			}
+
 			Iterator<Model> it = allModels.iterator();
 			while(it.hasNext()){
 				Model m = it.next();
