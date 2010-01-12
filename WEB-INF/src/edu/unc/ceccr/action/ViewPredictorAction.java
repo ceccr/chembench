@@ -89,16 +89,16 @@ public class ViewPredictorAction extends ActionSupport {
 			List temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session);
 			if(temp != null){
 				allModels.addAll(temp);
-			}
 
-			Iterator<Model> it = allModels.iterator();
-			while(it.hasNext()){
-				Model m = it.next();
-				if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)){
-					models.add(m);
-				}
-				else{
-					randomModels.add(m);
+				Iterator<Model> it = allModels.iterator();
+				while(it.hasNext()){
+					Model m = it.next();
+					if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)){
+						models.add(m);
+					}
+					else{
+						randomModels.add(m);
+					}
 				}
 			}
 			
