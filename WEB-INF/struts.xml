@@ -40,18 +40,30 @@
             <result name="success">jsp/administration/user/editProfile.jsp</result>
         </action>
         
+        <action name="loadChangePasswordSection" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadChangePassword">
+            <result name="success">jsp/administration/user/editProfile-changePassword.jsp</result>
+        </action>
+        
         <action name="changePassword" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="ChangePassword">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
+        </action>
+        
+        <action name="loadUpdateInfoSection" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadUpdateUserInformation">
+            <result name="success">jsp/administration/user/editProfile-updateInfo.jsp</result>
         </action>
         
         <action name="updateUserInfo" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="UpdateUserInformation">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
         </action>
         
+        <action name="loadUserOptionsSection" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadUpdateUserOptions">
+            <result name="success">jsp/administration/user/editProfile-options.jsp</result>
+        </action>
+        
         <action name="updateUserOptions" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="UpdateUserOptions">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
         </action>
-       
+        
         <!-- Dataset Page -->
         <action name="dataset" class="edu.unc.ceccr.action.DatasetFormActions" method="loadPage">
         	<result name="success">jsp/dataSet/dataset.jsp</result>

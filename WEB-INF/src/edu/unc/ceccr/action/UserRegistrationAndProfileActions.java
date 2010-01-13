@@ -58,7 +58,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		if(user == null){
 			return LOGIN;
 		}
-		
+		if(Utility.isAdmin(user.getUserName()){
+			userIsAdmin = true;
+		}
 		return result;
 	}
 	
@@ -214,6 +216,11 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		return result;
 	}
 	
+	public String loadChangePassword() throws Exception{
+		String result = SUCCESS;
+		return result;
+	}
+	
 	public String ChangePassword() throws Exception{
 		String result = SUCCESS;
 		
@@ -235,6 +242,19 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		
 		return result;
 	}
+
+	public String loadUpdateUserInformation() throws Exception{
+		String result = SUCCESS;
+		ActionContext context = ActionContext.getContext();
+		user = getLoggedInUser(context);
+		if(user == null){
+			return LOGIN;
+		}
+		showPublicDatasets = user.getShowPublicDatasets();
+		showPublicPredictors = user.getShowPublicPredictors();
+		
+		return result;
+	}
 	
 	public String UpdateUserInformation() throws Exception{
 		String result = SUCCESS;
@@ -250,6 +270,18 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		Utility.writeToDebug("Changing user information");
 		
 		// Commit changes
+		
+		return result;
+	}
+
+	public String loadUpdateUserOptions() throws Exception{
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+		user = getLoggedInUser(context);
+		if(user == null){
+			return LOGIN;
+		}
 		
 		
 		return result;
@@ -451,7 +483,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	private String newPassword;
 	private String showPublicDatasets;
 	private String showPublicPredictors;
-	private boolean userIsAdmin;
+	private boolean userIsAdmin = false;
 	/* End Variables used in password changes and user options */
 	
 	public User getUser() {
