@@ -11,15 +11,21 @@
 <div id="updateUserInfo">
 
 <table border="0" align="center" width="680">
- <tr><td>
-  <p align="justify" class="StandardTextDarkGrayParagraph"><br />
-  <br/><br/>This is the information collected when you first registered for C-Chembench. 
+
+<tr height="20"><td colspan="2" class="StandardTextDarkGray">
+<p align="justify" class="StandardTextDarkGrayParagraph"><br />
+  <br/>This is the information collected when you first registered for C-Chembench. 
   Update any fields you need to, then click "Submit". An asterisk (*) indicates required fields.<br/> 
+</td>
+<td width="250" align="left"></td></tr>
+
+ <tr><td>
+  
  </td></tr>
 </table>       
 
 <s:form action="updateUserInfo" enctype="multipart/form-data" theme="simple">
-<table border="0" align="center" width="680">
+<table border="0"  align="left" width="680">
   
 <!-- error message (if any) -->
 <tr height="20"><td colspan="2" class="StandardTextDarkGray"><div class="StandardTextDarkGray"><font color="red"><br />
@@ -62,7 +68,7 @@
 <td width="250"><s:textfield name="phoneNumber" size="30"/></td><td width="250" align="left"></td></tr>
 
 <tr height="6"><td width="180" class="StandardTextDarkGray"></td><td width="250"><div class="StandardTextDarkGray"><i><small><br />Please use your organization email account.
-Your password will be sent to this email address when you register.</small></i></div></td><td width="250" align="left"></td></tr>
+</small></i></div></td><td width="250" align="left"></td></tr>
 
 <tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Email *</td>
 <td width="250"><s:textfield name="email" size="30"/></td><td width="250" align="left"></td></tr>
@@ -73,6 +79,9 @@ Your password will be sent to this email address when you register.</small></i><
  -->
  <!-- The idea of having a separate workbench for tox people and for chem people may come back someday. Removed it for now. -->
 <s:hidden name="workbench" value="cchem" /> 
+
+<tr height="20"><td width="180" class="StandardTextDarkGray"></td><td width="250"><div class="StandardTextDarkGray">
+<!-- spacer --></td><td width="250" align="left"></td></tr>
 
 <tr height="20"><td align="right" width="180"></td>
 <td width="250">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp

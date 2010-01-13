@@ -70,36 +70,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		
 		//form validation
 			//Validate that each required field has something in it.
-			if(firstName.isEmpty()){
-		    	errorMessages.add("Please enter your first name.");
-				result = ERROR;
-			}
-			if(lastName.isEmpty()){
-		    	errorMessages.add("Please enter your last name.");
-				result = ERROR;
-			}
-			if(organizationName.isEmpty()){
-		    	errorMessages.add("Please enter your organization name.");
-				result = ERROR;
-			}
-			if(organizationPosition.isEmpty()){
-		    	errorMessages.add("Please enter your organization position.");
-				result = ERROR;
-			}
-			if(email.isEmpty() || ! email.contains("@") || ! email.contains(".")){
-		    	errorMessages.add("Please enter a valid email address.");
-				result = ERROR;
-			}
-			if(city.isEmpty()){
-		    	errorMessages.add("Please enter your city.");
-				result = ERROR;
-			}
-			if(country.isEmpty()){
-		    	errorMessages.add("Please enter your country.");
-				result = ERROR;
-			}
-			if(newUserName.isEmpty()){
-		    	errorMessages.add("Please enter a user name.");
+			validateUserInfo(); //this function will populate the errorMessages arraylist.
+			
+			if(errorMessages.isEmpty()){
 				result = ERROR;
 			}
 			
@@ -250,8 +223,20 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		if(user == null){
 			return LOGIN;
 		}
-		showPublicDatasets = user.getShowPublicDatasets();
-		showPublicPredictors = user.getShowPublicPredictors();
+		
+		address = user.getAddress();
+		city = user.getCity();
+		country = user.getCountry();
+		email = user.getEmail();
+		firstName = user.getFirstName();
+		lastName = user.getLastName();
+		organizationName = user.getOrgName();
+		organizationType = user.getOrgType();
+		organizationPosition = user.getOrgType();
+		phoneNumber = user.getPhone();
+		stateOrProvince = user.getState();
+		zipCode = user.getZipCode();
+		workBench = user.getWorkbench();
 		
 		return result;
 	}
@@ -265,6 +250,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		if(user == null){
 			return LOGIN;
 		}
+		
+		//validate each field
+		
 		
 		// Change user object according to edited fields
 		Utility.writeToDebug("Changing user information");
@@ -282,7 +270,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		if(user == null){
 			return LOGIN;
 		}
-		
+		showPublicDatasets = user.getShowPublicDatasets();
+		showPublicPredictors = user.getShowPublicPredictors();
 		
 		return result;
 	}
@@ -449,6 +438,32 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		return true;
 	}
 	
+	public void validateUserInfo(){
+		if(firstName.isEmpty()){
+	    	errorMessages.add("Please enter your first name.");
+		}
+		if(lastName.isEmpty()){
+	    	errorMessages.add("Please enter your last name.");
+		}
+		if(organizationName.isEmpty()){
+	    	errorMessages.add("Please enter your organization name.");
+		}
+		if(organizationPosition.isEmpty()){
+	    	errorMessages.add("Please enter your organization position.");
+		}
+		if(email.isEmpty() || ! email.contains("@") || ! email.contains(".")){
+	    	errorMessages.add("Please enter a valid email address.");
+		}
+		if(city.isEmpty()){
+	    	errorMessages.add("Please enter your city.");
+		}
+		if(country.isEmpty()){
+	    	errorMessages.add("Please enter your country.");
+		}
+		if(newUserName.isEmpty()){
+	    	errorMessages.add("Please enter a user name.");
+		}	
+	}
 	
 	/* END HELPER FUNCTIONS */
 		

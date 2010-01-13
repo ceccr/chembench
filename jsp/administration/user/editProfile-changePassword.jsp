@@ -13,17 +13,41 @@
 <s:form action="changePassword" enctype="multipart/form-data" theme="simple">
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
    <tr>
-   <td height="25" colspan="17" valign="top"><table width="100%" border="0" cellpadding="0" cellspacing="0">
+   <td height="25" colspan="17" valign="top">
+   <table width="100%" border="0" cellpadding="0" cellspacing="0" align="left">
      <tr><td height="80"></td></tr>
+     
+<tr>
+	<td height="24" align="left" colspan="2">
+	<p class="StandardTextDarkGrayParagraph2">
+	<br /><b>Change Password</b>
+	</p></td>
+</tr>
+<tr>
 
-	<tr><td width="200" height="40" valign="middle" align="right" class="ChangePSText" >Password</td>
-    <td width="218" align="left" ><s:textfield name="oldPassword" size="27" /></td><td width="300" ></td></tr>
+	<td>
+	<div class="StandardTextDarkGrayParagraph"><b>Password: </b></div></td>
+	<td align="left" valign="top">
+	<div class="StandardTextDarkGrayParagraphNoIndent"><s:textfield name="oldPassword" size="27" /></div>
+	</td>
+</tr>
 
-	<tr><td width="200" height="40" valign="middle" align="right" class="ChangePSText" >New Password</td>
-    <td width="218" align="left" ><s:textfield name="newPassword" id="confirmNewPassword" size="27" /></td><td width="300" ></td></tr>
+<tr>
+	<td>
+	<div class="StandardTextDarkGrayParagraph"><b>New Password: </b></div></td>
+	<td align="left" valign="top">
+	<div class="StandardTextDarkGrayParagraphNoIndent"><s:textfield name="newPassword" id="confirmNewPassword" size="27" /></div>
+	</td>
+</tr>
 
-	<tr><td width="200" height="40" valign="middle" align="right"  class="ChangePSText">Confirm New Password</td>
-    <td width="218" align="left" ><s:textfield name="confirmNewPassword" id="confirmNewPassword" size="27" /></td><td width="300" align="left"><div id="passwordMatchin"></div></td></tr>
+<tr>
+	<td>
+	<div class="StandardTextDarkGrayParagraph"><b>Confirm New Password: </b></div></td>
+	<td align="left" valign="top">
+	<div class="StandardTextDarkGrayParagraphNoIndent"><s:textfield name="confirmNewPassword" id="confirmNewPassword" size="27" /></div>
+	</td>
+</tr>
+
 
 <tr><td width="200" height="40" valign="middle" align="right" ></td>
 <td width="218" align="right" ><input type="submit" value="Submit" onclick="return validateMatchingPasswords()"/></td><td width="300" ></td>

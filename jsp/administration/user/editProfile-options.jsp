@@ -11,7 +11,7 @@
 <!-- USER OPTIONS -->
 
 <s:form action="updateUserOptions" enctype="multipart/form-data" theme="simple">
-<table border="0" align="center" width="680">
+<table border="0" align="left" width="680">
  
 <tr>
 	<td width="100%" height="24" align="left" colspan="2">

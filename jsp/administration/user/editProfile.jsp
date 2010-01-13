@@ -45,7 +45,7 @@
               <br /><br />
 			   <!-- ADMIN SETTINGS LINK -->
 			   <s:if test="userIsAdmin">
-			   You are currently logged in with administrative rights. You may <a href="/admin">go to the Administrator Settings page.</a>
+			   You are currently logged in with administrative rights. You may <a href="/admin.do">go to the Administrator Settings page.</a>
 			   </s:if>
 			   <!-- END ADMIN SETTINGS LINK -->
             </p></td>
@@ -74,4 +74,6 @@
    </table>
 <br />
 
+<%@include file ="/jsp/main/footer.jsp" %>
 </body>
+</html>
