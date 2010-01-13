@@ -225,4 +225,5 @@ public class User implements java.io.Serializable{
 	public void setShowPublicPredictors(String showPublicPredictors) {
 		this.showPublicPredictors = showPublicPredictors;
 	}
+	
 }

@@ -22,8 +22,8 @@
 </tr>
 
 <tr height="20"><td colspan="2" class="StandardTextDarkGray">
-<p align="justify" class="StandardTextDarkGrayParagraph"><br />
-  <br/>This is the information collected when you first registered for C-Chembench. 
+<p align="justify" class="StandardTextDarkGrayParagraph">
+  This is the information collected when you first registered for C-Chembench. 
   Update any fields you need to, then click "Submit". An asterisk (*) indicates required fields.<br/> 
 </td>
 <td width="250" align="left"></td></tr>

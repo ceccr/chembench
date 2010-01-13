@@ -71,6 +71,10 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		//form validation
 			//Validate that each required field has something in it.
 			validateUserInfo(); //this function will populate the errorMessages arraylist.
+
+			if(newUserName.isEmpty()){
+		    	errorMessages.add("Please enter a user name.");
+			}	
 			
 			if(errorMessages.isEmpty()){
 				result = ERROR;
@@ -317,12 +321,19 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		Utility.writeToDebug("Changing user options");
 		user.setShowPublicDatasets(showPublicDatasets);
 		user.setShowPublicPredictors(showPublicPredictors);
-		Utility.writeToDebug("setting showPublicDatasets to: " + showPublicDatasets);
-		Utility.writeToDebug("setting showPublicPredictors to: " + showPublicPredictors);
 		
 		// Commit changes
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.saveOrUpdate(user);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {s.close();}
 		
 		return result;
 	}
@@ -491,9 +502,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		if(country.isEmpty()){
 	    	errorMessages.add("Please enter your country.");
 		}
-		if(newUserName.isEmpty()){
-	    	errorMessages.add("Please enter a user name.");
-		}	
 	}
 	
 	/* END HELPER FUNCTIONS */

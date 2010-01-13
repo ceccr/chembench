@@ -6,6 +6,19 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@page language="java" import="java.util.*" %>
 
+<script language="javascript">
+function validatePasswordsMatch(){
+	var p1 = document.getElementById("").value;
+	var p2 = document.getElementById("").value;
+	if(p1 == p2){
+		return true;
+	}
+	else{
+		alert("Passwords do not match! Try again.");
+		return false;
+	}
+}
+</script>
 
 <!-- CHANGE PASSWORD -->
 
@@ -19,12 +32,12 @@
 <tr>
 	<td height="24" align="left" colspan="2">
 	<p class="StandardTextDarkGrayParagraph2">
-	<b>Change Password</b>
+	<br /><b>Change Password</b>
 	</p></td>
 </tr>
 
 <tr>
-	<td width="180">
+	<td width="240">
 	<div class="StandardTextDarkGrayParagraph"><b>Current Password: </b></div></td>
 	<td align="left" valign="top">
 	<div class="StandardTextDarkGrayParagraphNoIndent"><s:textfield name="oldPassword" size="27" /></div>
@@ -32,7 +45,7 @@
 </tr>
 
 <tr>
-	<td width="180">
+	<td width="240">
 	<div class="StandardTextDarkGrayParagraph"><b>New Password: </b></div></td>
 	<td align="left" valign="top">
 	<div class="StandardTextDarkGrayParagraphNoIndent"><s:textfield name="newPassword" id="confirmNewPassword" size="27" /></div>
@@ -40,7 +53,7 @@
 </tr>
 
 <tr>
-	<td width="180">
+	<td width="240">
 	<div class="StandardTextDarkGrayParagraph"><b>Confirm New Password: </b></div></td>
 	<td align="left" valign="top">
 	<div class="StandardTextDarkGrayParagraphNoIndent"><s:textfield name="confirmNewPassword" id="confirmNewPassword" size="27" /></div>
@@ -48,10 +61,10 @@
 </tr>
 
 <tr>
-	<td width="180">
+	<td width="240">
 	<div class="StandardTextDarkGrayParagraph"></div></td>
 	<td align="left" valign="top">
-	<div class="StandardTextDarkGrayParagraphNoIndent"><input type="submit" value="Submit" onclick="this.form.submit()"/></div>
+	<div class="StandardTextDarkGrayParagraphNoIndent"><input type="submit" value="Submit" onclick="return validatePasswordsMatch(); this.form.submit()"/></div>
 	</td>
 </tr>
 
