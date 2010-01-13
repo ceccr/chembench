@@ -58,7 +58,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		if(user == null){
 			return LOGIN;
 		}
-		if(Utility.isAdmin(user.getUserName()){
+		if(Utility.isAdmin(user.getUserName())){
 			userIsAdmin = true;
 		}
 		return result;
