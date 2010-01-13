@@ -252,12 +252,39 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		}
 		
 		//validate each field
-		
+		validateUserInfo();
+		if(! errorMessages.isEmpty()){
+			return ERROR;
+		}
 		
 		// Change user object according to edited fields
-		Utility.writeToDebug("Changing user information");
+		Utility.writeToDebug("Updating user information");
+		user.setEmail(email);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setOrgName(organizationName);
+		user.setOrgType(organizationType);
+		user.setOrgPosition(organizationPosition);
+		user.setPhone(phoneNumber);
+		user.setAddress(address);
+		user.setState(stateOrProvince);
+		user.setCity(city);
+		user.setCountry(country);
+		user.setZipCode(zipCode);
+		user.setWorkbench(workBench); //deprecated, but some people think it's still important
 		
 		// Commit changes
+		Session s = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.saveOrUpdate(user);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {s.close();}
 		
 		return result;
 	}
@@ -287,11 +314,13 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		}
 		
 		// Change user object according to edited fields
-
 		Utility.writeToDebug("Changing user options");
+		user.setShowPublicDatasets(showPublicDatasets);
+		user.setShowPublicPredictors(showPublicPredictors);
 		
 		// Commit changes
-		
+		Session s = HibernateUtil.getSession();
+		Transaction tx = null;
 		
 		return result;
 	}
