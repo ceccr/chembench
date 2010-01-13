@@ -317,6 +317,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		Utility.writeToDebug("Changing user options");
 		user.setShowPublicDatasets(showPublicDatasets);
 		user.setShowPublicPredictors(showPublicPredictors);
+		Utility.writeToDebug("setting showPublicDatasets to: " + showPublicDatasets);
+		Utility.writeToDebug("setting showPublicPredictors to: " + showPublicPredictors);
 		
 		// Commit changes
 		Session s = HibernateUtil.getSession();

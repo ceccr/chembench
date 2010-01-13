@@ -10,19 +10,6 @@
 
 <div id="updateUserInfo">
 
-<table border="0" align="center" width="680">
-
-<tr height="20"><td colspan="2" class="StandardTextDarkGray">
-<p align="justify" class="StandardTextDarkGrayParagraph"><br />
-  <br/>This is the information collected when you first registered for C-Chembench. 
-  Update any fields you need to, then click "Submit". An asterisk (*) indicates required fields.<br/> 
-</td>
-<td width="250" align="left"></td></tr>
-
- <tr><td>
-  
- </td></tr>
-</table>       
 
 <s:form action="updateUserInfo" enctype="multipart/form-data" theme="simple">
 <table border="0"  align="left" width="680">
@@ -33,6 +20,13 @@
 	<br /><b>Update Information</b>
 	</p></td>
 </tr>
+
+<tr height="20"><td colspan="2" class="StandardTextDarkGray">
+<p align="justify" class="StandardTextDarkGrayParagraph"><br />
+  <br/>This is the information collected when you first registered for C-Chembench. 
+  Update any fields you need to, then click "Submit". An asterisk (*) indicates required fields.<br/> 
+</td>
+<td width="250" align="left"></td></tr>
 
 <!-- error message (if any) -->
 <tr height="20"><td colspan="2" class="StandardTextDarkGray"><div class="StandardTextDarkGray"><font color="red"><br />

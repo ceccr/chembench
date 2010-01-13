@@ -33,7 +33,7 @@
 	<td>
 	<div class="StandardTextDarkGrayParagraph"><b>Show Public Datasets:</b></div></td>
 	<td align="left" valign="top">
-	<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="showPublicDatasets" value="showPublicDatasets" list="#{'NONE':'None','SOME':'Some','ALL':'all'}" /></div>
+	<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="showPublicDatasets" value="showPublicDatasets" list="#{'NONE':'None','SOME':'Some','ALL':'All'}" /></div>
 	</td>
 </tr>
 
@@ -41,7 +41,7 @@
 	<td>
 	<div class="StandardTextDarkGrayParagraph"><b>Show Public Predictors:</b></div></td>
 	<td align="left" valign="top">
-	<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="showPublicPredictors" value="showPublicPredictors" list="#{'NONE':'None','ALL':'all'}" /></div>
+	<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="showPublicPredictors" value="showPublicPredictors" list="#{'NONE':'None','ALL':'All'}" /></div>
 	</td>
 </tr>	
 
