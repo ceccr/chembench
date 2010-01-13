@@ -14,6 +14,13 @@
 <table border="0" align="left" width="680">
  
 <tr>
+	<td height="24" align="left" colspan="2">
+	<p class="StandardTextDarkGrayParagraph2">
+	<br /><b>Chembench Options</b>
+	</p></td>
+</tr> 
+ 
+<tr>
 	<td width="100%" height="24" align="left" colspan="2">
 	<p class="StandardTextDarkGrayParagraph">
 	<i>Chembench provides sample datasets and predictors for you to experiment with. <br />If you choose

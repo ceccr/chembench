@@ -26,7 +26,14 @@
 
 <s:form action="updateUserInfo" enctype="multipart/form-data" theme="simple">
 <table border="0"  align="left" width="680">
-  
+ 
+ <tr>
+	<td height="24" align="left" colspan="2">
+	<p class="StandardTextDarkGrayParagraph2">
+	<br /><b>Update Information</b>
+	</p></td>
+</tr>
+
 <!-- error message (if any) -->
 <tr height="20"><td colspan="2" class="StandardTextDarkGray"><div class="StandardTextDarkGray"><font color="red"><br />
 <s:iterator value="errorMessages"><s:property /><br /></s:iterator></font></div></td>
