@@ -72,7 +72,7 @@ function validatePasswordsMatch(){
 	<td width="240">
 	<div class="StandardTextDarkGrayParagraph"></div></td>
 	<td align="left" valign="top">
-	<div class="StandardTextDarkGrayParagraphNoIndent"><input type="submit" value="Submit" onclick="if(document.getElementById('newPassword').value == (document.getElementById('confirmNewPassword').value)) this.form.submit(); else alert('Passwords do not match. Please retype your new password.');"/></div>
+	<div class="StandardTextDarkGrayParagraphNoIndent"><input type="submit" value="Submit" onclick="if(document.getElementById('newPassword').value == (document.getElementById('confirmNewPassword').value)) this.form.submit(); else{ alert('Passwords do not match. Please retype your new password.'); return false;}"/></div>
 	</td>
 </tr>
 
