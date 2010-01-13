@@ -40,7 +40,7 @@ function validatePasswordsMatch(){
 	<td width="240">
 	<div class="StandardTextDarkGrayParagraph"><b>Current Password: </b></div></td>
 	<td align="left" valign="top">
-	<div class="StandardTextDarkGrayParagraphNoIndent"><s:textfield name="oldPassword" size="27" /></div>
+	<div class="StandardTextDarkGrayParagraphNoIndent"><s:password name="oldPassword" size="27" /></div>
 	</td>
 </tr>
 
@@ -48,7 +48,7 @@ function validatePasswordsMatch(){
 	<td width="240">
 	<div class="StandardTextDarkGrayParagraph"><b>New Password: </b></div></td>
 	<td align="left" valign="top">
-	<div class="StandardTextDarkGrayParagraphNoIndent"><s:textfield name="newPassword" id="confirmNewPassword" size="27" /></div>
+	<div class="StandardTextDarkGrayParagraphNoIndent"><s:password name="newPassword" id="newPassword" size="27" /></div>
 	</td>
 </tr>
 
@@ -56,7 +56,7 @@ function validatePasswordsMatch(){
 	<td width="240">
 	<div class="StandardTextDarkGrayParagraph"><b>Confirm New Password: </b></div></td>
 	<td align="left" valign="top">
-	<div class="StandardTextDarkGrayParagraphNoIndent"><s:textfield name="confirmNewPassword" id="confirmNewPassword" size="27" /></div>
+	<div class="StandardTextDarkGrayParagraphNoIndent"><s:password name="confirmNewPassword" id="confirmNewPassword" size="27" /></div>
 	</td>
 </tr>
 
@@ -64,7 +64,23 @@ function validatePasswordsMatch(){
 	<td width="240">
 	<div class="StandardTextDarkGrayParagraph"></div></td>
 	<td align="left" valign="top">
-	<div class="StandardTextDarkGrayParagraphNoIndent"><input type="submit" value="Submit" onclick="return validatePasswordsMatch(); this.form.submit()"/></div>
+	<div class="StandardTextDarkGrayParagraphNoIndent"><!-- spacer --></div>
+	</td>
+</tr>
+
+<tr>
+	<td width="240">
+	<div class="StandardTextDarkGrayParagraph"></div></td>
+	<td align="left" valign="top">
+	<div class="StandardTextDarkGrayParagraphNoIndent"><input type="submit" value="Submit" onclick="if(document.getElementById('newPassword').value == (document.getElementById('confirmNewPassword').value)) this.form.submit() else alert('Passwords do not match. Please retype your new password.')"/></div>
+	</td>
+</tr>
+
+<tr>
+	<td width="240">
+	<div class="StandardTextDarkGrayParagraph"></div></td>
+	<td align="left" valign="top">
+	<div class="StandardTextDarkGrayParagraphNoIndent"><!-- spacer --></div>
 	</td>
 </tr>
 

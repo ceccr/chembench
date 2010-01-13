@@ -45,7 +45,7 @@ public class Utility {
 		return encryptedStr;
 	}
 
-	public boolean compareEncryption(byte[] byte1, byte[] byte2) {
+	public static boolean compareEncryption(byte[] byte1, byte[] byte2) {
 		if (new BigInteger(1, byte1).toString(16).equalsIgnoreCase(
 				new BigInteger(1, byte2).toString(16))) {
 			return true;

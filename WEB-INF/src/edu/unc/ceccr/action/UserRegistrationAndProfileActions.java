@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -103,7 +104,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 				return result;
 			}
 				
-		//make user
+			//make user
 			user = new User();
 
 			user.setUserName(newUserName);
@@ -208,14 +209,37 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 			return LOGIN;
 		}
 		
+		byte[] password=user.getPassword();
+		
+		if (! Utility.compareEncryption(Utility.encrypt(oldPassword),password))
+		{
+			errorMessages.add("You entered your old password incorrectly. Your password was not changed. Please try again.");
+		}
+		
+		if(!errorMessages.isEmpty()){
+			errorMessages.add(0, "Error changing password.");
+			return ERROR;
+		}
+			
 		// Change user object to have new password
-		/*if(! newPassword.equals()){
-			errorMessage = "Error: Passwords do not match.";
-		}*/
+		Utility.writeToDebug("Changing user password");
+		user.setPassword(Utility.encrypt(newPassword));
 		
 		// Commit changes
-
-		Utility.writeToDebug("Changing user password");
+		
+		Session s = HibernateUtil.getSession();
+		Transaction tx = null;
+	
+		try {
+			tx = s.beginTransaction();
+			s.saveOrUpdate(user);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {s.close();}
+		
 		
 		return result;
 	}

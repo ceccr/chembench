@@ -55,7 +55,7 @@
   </tr>
   <tr><td colspan="2">
 		
-	<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
+	<table width="915" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
    	<sx:tabbedpanel id="editProfileTabs" >
    	
     	<sx:div href="/loadChangePasswordSection" label="Change Password" theme="ajax" loadingText="Loading password change form...">

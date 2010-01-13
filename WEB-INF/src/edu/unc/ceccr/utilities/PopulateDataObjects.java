@@ -325,45 +325,49 @@ public class PopulateDataObjects {
  		} 
  		predictors.addAll(privatePredictors);
  		
- 		List ADMEToxPredictors = null;
- 		session = HibernateUtil.getSession();
- 		tx = null;
- 		try {
- 			tx = session.beginTransaction();
- 			if(onlySaved) ADMEToxPredictors = session.createCriteria(Predictor.class)
- 							.add(Expression.eq("predictorType", "ADMETox"))
- 							.add(Expression.eq("status","saved"))
- 							.addOrder(Order.desc("name")).list();
- 			else ADMEToxPredictors = session.createCriteria(Predictor.class)
-				.add(Expression.eq("predictorType", "ADMETox"))
-				.list();
- 			tx.commit();
- 		} catch (Exception e) {
- 			if (tx != null)
- 				tx.rollback();
- 			Utility.writeToDebug(e);
- 		} 
- 		predictors.addAll(ADMEToxPredictors);
+ 		if(isAllUserIncludes){
+	 		List ADMEToxPredictors = null;
+	 		session = HibernateUtil.getSession();
+	 		tx = null;
+	 		try {
+	 			tx = session.beginTransaction();
+	 			if(onlySaved) ADMEToxPredictors = session.createCriteria(Predictor.class)
+	 							.add(Expression.eq("predictorType", "ADMETox"))
+	 							.add(Expression.eq("status","saved"))
+	 							.addOrder(Order.desc("name")).list();
+	 			else ADMEToxPredictors = session.createCriteria(Predictor.class)
+					.add(Expression.eq("predictorType", "ADMETox"))
+					.list();
+	 			tx.commit();
+	 		} catch (Exception e) {
+	 			if (tx != null)
+	 				tx.rollback();
+	 			Utility.writeToDebug(e);
+	 		} 
+	 		predictors.addAll(ADMEToxPredictors);
+ 		}
  		
- 		List DrugDiscoveryPredictors = null;
- 		session = HibernateUtil.getSession();
- 		tx = null;
- 		try {
- 			tx = session.beginTransaction();
- 			if(onlySaved) DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
- 							.add(Expression.eq("predictorType", "DrugDiscovery"))
- 							.add(Expression.eq("status","saved"))
- 							.addOrder(Order.desc("name")).list();
- 			else DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
-				.add(Expression.eq("predictorType", "DrugDiscovery"))
-				.list();
- 			tx.commit();
- 		} catch (Exception e) {
- 			if (tx != null)
- 				tx.rollback();
- 			Utility.writeToDebug(e);
- 		} 
- 		predictors.addAll(DrugDiscoveryPredictors);
+ 		if(isAllUserIncludes){
+	 		List DrugDiscoveryPredictors = null;
+	 		session = HibernateUtil.getSession();
+	 		tx = null;
+	 		try {
+	 			tx = session.beginTransaction();
+	 			if(onlySaved) DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
+	 							.add(Expression.eq("predictorType", "DrugDiscovery"))
+	 							.add(Expression.eq("status","saved"))
+	 							.addOrder(Order.desc("name")).list();
+	 			else DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
+					.add(Expression.eq("predictorType", "DrugDiscovery"))
+					.list();
+	 			tx.commit();
+	 		} catch (Exception e) {
+	 			if (tx != null)
+	 				tx.rollback();
+	 			Utility.writeToDebug(e);
+	 		} 
+	 		predictors.addAll(DrugDiscoveryPredictors);
+		}
 
  		for(int i = 0; i < predictors.size(); i++){
  			if(predictors.get(i).getDatasetId() != null && getDataSetById(predictors.get(i).getDatasetId(), session) != null){

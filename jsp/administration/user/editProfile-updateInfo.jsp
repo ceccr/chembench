@@ -10,7 +10,6 @@
 
 <div id="updateUserInfo">
 
-
 <s:form action="updateUserInfo" enctype="multipart/form-data" theme="simple">
 <table border="0"  align="left" width="680">
  
