@@ -70,6 +70,14 @@ public class ReadDescriptorsFileWorkflow{
 						descriptorValueMatrix.add(di);
 						descriptorValues.clear();
 					}
+					
+					//a couple more special cases for when MolconnZ decides to go crazy
+					if(temp.equals("inf")){
+						temp = "9999";
+					}
+					else if(temp.equals("-inf")){
+						temp = "-9999";
+					}
 					descriptorValues.add(temp);
 				}
 			}
