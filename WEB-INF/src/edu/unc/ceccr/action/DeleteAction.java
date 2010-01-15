@@ -315,8 +315,10 @@ public class DeleteAction extends ActionSupport{
 		QueueTask task = PopulateDataObjects.getTaskById(Long.parseLong(taskId), session);
 		Queue queue = Queue.getInstance();
 		if(task != null){
+			Utility.writeToStrutsDebug("tiger");
 			task.setState(QueueTask.State.deleted);
 		}
+		Utility.writeToStrutsDebug("got here");
 		
 		//remove associated files
 		//this has a side-effect. If any programs are operating on these files
@@ -340,9 +342,13 @@ public class DeleteAction extends ActionSupport{
 		//Once the files are removed, whatever program is running will soon die.
 		//flag the task for removal so it will be cleaned up instead of sitting around
 		//as an "error".
+		Utility.writeToStrutsDebug("got here2");
 		if(task != null){
+			Utility.writeToStrutsDebug("maroon");
 			queue.deleteTask(task);
+			Utility.writeToStrutsDebug("tangerine");
 		}
+		Utility.writeToStrutsDebug("got here3");
 		return SUCCESS;
 		
 	}
