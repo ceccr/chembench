@@ -78,6 +78,10 @@ public class ReadDescriptorsFileWorkflow{
 					else if(temp.equals("-inf")){
 						temp = "-9999";
 					}
+					else if(temp.equals("not_available")){
+						//quit this shit - means MolconnZ failed at descriptoring and all values past this point will be offset.
+						throw new Exception("MolconnZ descriptors invalid!");
+					}
 					descriptorValues.add(temp);
 				}
 			}
