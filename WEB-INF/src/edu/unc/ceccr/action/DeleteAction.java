@@ -329,7 +329,7 @@ public class DeleteAction extends ActionSupport{
 		//the deletion of the files will, in practice, kill the kNN process and free up
 		//the processing resources for something else.
 		//It's dirty, but it works. 
-		if(task.jobName != null){
+		if(task != null && task.jobName != null){
 			String BASE=Constants.CECCR_USER_BASE_PATH;
 			Utility.writeToStrutsDebug("1");
 			Utility.writeToStrutsDebug("" + task.jobName);
