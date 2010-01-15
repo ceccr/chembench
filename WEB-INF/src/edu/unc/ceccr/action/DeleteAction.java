@@ -329,19 +329,21 @@ public class DeleteAction extends ActionSupport{
 		//the deletion of the files will, in practice, kill the kNN process and free up
 		//the processing resources for something else.
 		//It's dirty, but it works. 
-		String BASE=Constants.CECCR_USER_BASE_PATH;
-		File file=new File(BASE+task.getUserName()+"/"+task.jobName);
-		FileAndDirOperations.deleteDir(file);
-
-		file=new File(BASE+task.getUserName()+"/DATASETS/"+task.jobName);
-		FileAndDirOperations.deleteDir(file);
-
-		file=new File(BASE+task.getUserName()+"/PREDICTORS/"+task.jobName);
-		FileAndDirOperations.deleteDir(file);
+		if(task.jobName != null){
+			String BASE=Constants.CECCR_USER_BASE_PATH;
+			File file=new File(BASE+task.getUserName()+"/"+task.jobName);
+			FileAndDirOperations.deleteDir(file);
+	
+			file=new File(BASE+task.getUserName()+"/DATASETS/"+task.jobName);
+			FileAndDirOperations.deleteDir(file);
+	
+			file=new File(BASE+task.getUserName()+"/PREDICTORS/"+task.jobName);
+			FileAndDirOperations.deleteDir(file);
+			
+			file=new File(BASE+task.getUserName()+"/PREDICTIONS/"+task.jobName);
+			FileAndDirOperations.deleteDir(file);
+		}
 		
-		file=new File(BASE+task.getUserName()+"/PREDICTIONS/"+task.jobName);
-		FileAndDirOperations.deleteDir(file);
-
 		//Once the files are removed, whatever program is running will soon die.
 		//flag the task for removal so it will be cleaned up instead of sitting around
 		//as an "error".
