@@ -312,16 +312,12 @@ public class DeleteAction extends ActionSupport{
 		Utility.writeToStrutsDebug("Deleting job with id: " + taskId);
 
 		Session session = HibernateUtil.getSession();
-		Utility.writeToStrutsDebug("tigerowl");
 		QueueTask task = PopulateDataObjects.getTaskById(Long.parseLong(taskId), session);
-		Utility.writeToStrutsDebug("tigernutrient");
 		Queue queue = Queue.getInstance();
 		
 		if(task != null){
-			Utility.writeToStrutsDebug("tiger");
 			task.setState(QueueTask.State.deleted);
 		}
-		Utility.writeToStrutsDebug("got here");
 		
 		//remove associated files
 		//this has a side-effect. If any programs are operating on these files
@@ -331,9 +327,6 @@ public class DeleteAction extends ActionSupport{
 		//It's dirty, but it works. 
 		if(task != null && task.jobName != null){
 			String BASE=Constants.CECCR_USER_BASE_PATH;
-			Utility.writeToStrutsDebug("1");
-			Utility.writeToStrutsDebug("" + task.jobName);
-			Utility.writeToStrutsDebug("1a");
 			File file=new File(BASE+task.getUserName()+"/"+task.jobName);
 			FileAndDirOperations.deleteDir(file);
 			Utility.writeToStrutsDebug("2");
@@ -354,13 +347,14 @@ public class DeleteAction extends ActionSupport{
 		//Once the files are removed, whatever program is running will soon die.
 		//flag the task for removal so it will be cleaned up instead of sitting around
 		//as an "error".
-		Utility.writeToStrutsDebug("got here2");
 		if(task != null){
-			Utility.writeToStrutsDebug("maroon");
 			queue.deleteTask(task);
-			Utility.writeToStrutsDebug("tangerine");
 		}
-		Utility.writeToStrutsDebug("got here3");
+		else{
+			if(queue.runningTask != null && queue.runningTask.id == Long.parseLong(taskId)){
+				queue.runningTask = null;
+			}
+		}
 		return SUCCESS;
 		
 	}
