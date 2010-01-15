@@ -312,8 +312,11 @@ public class DeleteAction extends ActionSupport{
 		Utility.writeToStrutsDebug("Deleting job with id: " + taskId);
 
 		Session session = HibernateUtil.getSession();
+		Utility.writeToStrutsDebug("tigerowl");
 		QueueTask task = PopulateDataObjects.getTaskById(Long.parseLong(taskId), session);
+		Utility.writeToStrutsDebug("tigernutrient");
 		Queue queue = Queue.getInstance();
+		
 		if(task != null){
 			Utility.writeToStrutsDebug("tiger");
 			task.setState(QueueTask.State.deleted);
