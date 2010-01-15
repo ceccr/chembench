@@ -331,17 +331,24 @@ public class DeleteAction extends ActionSupport{
 		//It's dirty, but it works. 
 		if(task.jobName != null){
 			String BASE=Constants.CECCR_USER_BASE_PATH;
+			Utility.writeToStrutsDebug("1");
+			Utility.writeToStrutsDebug("" + task.jobName);
+			Utility.writeToStrutsDebug("1a");
 			File file=new File(BASE+task.getUserName()+"/"+task.jobName);
 			FileAndDirOperations.deleteDir(file);
+			Utility.writeToStrutsDebug("2");
 	
 			file=new File(BASE+task.getUserName()+"/DATASETS/"+task.jobName);
 			FileAndDirOperations.deleteDir(file);
+			Utility.writeToStrutsDebug("3");
 	
 			file=new File(BASE+task.getUserName()+"/PREDICTORS/"+task.jobName);
 			FileAndDirOperations.deleteDir(file);
+			Utility.writeToStrutsDebug("4");
 			
 			file=new File(BASE+task.getUserName()+"/PREDICTIONS/"+task.jobName);
 			FileAndDirOperations.deleteDir(file);
+			Utility.writeToStrutsDebug("5");
 		}
 		
 		//Once the files are removed, whatever program is running will soon die.
