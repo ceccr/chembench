@@ -31,6 +31,13 @@ public class Constants {
 
 	public static final String NONE = "NONE";
 	public static final String SOME = "SOME";
+	public static final String TOP10 = "TOP10";
+	public static final String TOP25 = "TOP25";
+	public static final String TOP100 = "TOP100";
+	public static final String TEN = "10";
+	public static final String TWENTYFIVE = "25";
+	public static final String FIFTY = "50";
+	public static final String ONEHUNDRED = "100";
 	public static final String ALL = "ALL";
 
 	public static final String YES = "YES";

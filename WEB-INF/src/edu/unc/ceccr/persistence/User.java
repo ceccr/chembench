@@ -39,7 +39,9 @@ public class User implements java.io.Serializable{
 	//user options (may eventually become a new table of its own)
 	private String showPublicDatasets;
 	private String showPublicPredictors;
-	
+	private String viewDatasetCompoundsPerPage;
+	private String viewPredictorModels;
+	private String viewPredictionCompoundsPerPage;
 	
 	public User(){};
     public User(String userName)
@@ -210,6 +212,8 @@ public class User implements java.io.Serializable{
 		this.phone=phone;
 	}
 	
+	//user options
+	
 	@Column(name="showPublicDatasets")
 	public String getShowPublicDatasets() {
 		return showPublicDatasets;
@@ -224,6 +228,31 @@ public class User implements java.io.Serializable{
 	}
 	public void setShowPublicPredictors(String showPublicPredictors) {
 		this.showPublicPredictors = showPublicPredictors;
+	}
+
+	@Column(name="viewDatasetCompoundsPerPage")
+	public String getViewDatasetCompoundsPerPage() {
+		return viewDatasetCompoundsPerPage;
+	}
+	public void setViewDatasetCompoundsPerPage(String viewDatasetCompoundsPerPage) {
+		this.viewDatasetCompoundsPerPage = viewDatasetCompoundsPerPage;
+	}
+	
+	@Column(name="viewPredictorModels")
+	public String getViewPredictorModels() {
+		return viewPredictorModels;
+	}
+	public void setViewPredictorModels(String viewPredictorModels) {
+		this.viewPredictorModels = viewPredictorModels;
+	}
+	
+	@Column(name="viewPredictionCompoundsPerPage")
+	public String getViewPredictionCompoundsPerPage() {
+		return viewPredictionCompoundsPerPage;
+	}
+	public void setViewPredictionCompoundsPerPage(
+			String viewPredictionCompoundsPerPage) {
+		this.viewPredictionCompoundsPerPage = viewPredictionCompoundsPerPage;
 	}
 	
 }

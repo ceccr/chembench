@@ -125,6 +125,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 			//options
 			user.setShowPublicDatasets(Constants.SOME);
 			user.setShowPublicPredictors(Constants.ALL);
+			user.setViewDatasetCompoundsPerPage(Constants.TWENTYFIVE);
+			user.setViewPredictorModels(Constants.TOP10);
+			user.setViewPredictionCompoundsPerPage(Constants.TWENTYFIVE);
 
 			String password = Utility.randomPassword();
 			user.setPassword(Utility.encrypt(password));
@@ -327,6 +330,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		}
 		showPublicDatasets = user.getShowPublicDatasets();
 		showPublicPredictors = user.getShowPublicPredictors();
+		viewDatasetCompoundsPerPage = user.getViewDatasetCompoundsPerPage();
+		viewPredictorModels = user.getViewPredictorModels();
+		viewPredictionCompoundsPerPage = user.getViewPredictionCompoundsPerPage();
 		
 		return result;
 	}
@@ -345,6 +351,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		Utility.writeToDebug("Changing user options");
 		user.setShowPublicDatasets(showPublicDatasets);
 		user.setShowPublicPredictors(showPublicPredictors);
+		user.setViewDatasetCompoundsPerPage(viewDatasetCompoundsPerPage);
+		user.setViewPredictorModels(viewPredictorModels);
+		user.setViewPredictionCompoundsPerPage(viewPredictionCompoundsPerPage);
 		
 		// Commit changes
 		Session s = HibernateUtil.getSession();
@@ -561,7 +570,11 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	private String newPassword;
 	private String showPublicDatasets;
 	private String showPublicPredictors;
+	private String viewDatasetCompoundsPerPage;
+	private String viewPredictorModels;
+	private String viewPredictionCompoundsPerPage;
 	private boolean userIsAdmin = false;
+	
 	/* End Variables used in password changes and user options */
 	
 	public User getUser() {
@@ -690,10 +703,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	public void setWorkBench(String workBench) {
 		this.workBench = workBench;
 	}
-	
 	/* End Variables used for user registration and updates */
 	
-
+	
 	/* Variables used in password changes and user options */
 	public String getOldPassword() {
 		return oldPassword;
@@ -722,7 +734,28 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	public void setShowPublicPredictors(String showPublicPredictors) {
 		this.showPublicPredictors = showPublicPredictors;
 	}
+	
+	public String getViewDatasetCompoundsPerPage() {
+		return viewDatasetCompoundsPerPage;
+	}
+	public void setViewDatasetCompoundsPerPage(String viewDatasetCompoundsPerPage) {
+		this.viewDatasetCompoundsPerPage = viewDatasetCompoundsPerPage;
+	}
 
+	public String getViewPredictorModels() {
+		return viewPredictorModels;
+	}
+	public void setViewPredictorModels(String viewPredictorModels) {
+		this.viewPredictorModels = viewPredictorModels;
+	}
+
+	public String getViewPredictionCompoundsPerPage() {
+		return viewPredictionCompoundsPerPage;
+	}
+	public void setViewPredictionCompoundsPerPage(String viewPredictionCompoundsPerPage) {
+		this.viewPredictionCompoundsPerPage = viewPredictionCompoundsPerPage;
+	}
+	
 	public boolean isUserIsAdmin() {
 		return userIsAdmin;
 	}

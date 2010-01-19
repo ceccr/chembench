@@ -117,6 +117,9 @@ public class ViewPredictionAction extends ActionSupport {
 		else{
 			user = (User) context.getSession().get("user");
 			predictionId = ((String[]) context.getParameters().get("id"))[0];
+			String orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+			String limit = ((String[]) context.getParameters().get("limit"))[0]; //how many to get
+			String offset = ((String[]) context.getParameters().get("offset"))[0]; //how many to skip (pagination)
 			
 			if(user == null){
 				Utility.writeToStrutsDebug("No user is logged in.");

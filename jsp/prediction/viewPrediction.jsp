@@ -62,7 +62,12 @@
 			</s:iterator>
 			
 			</td>
-			<td class="TableRowText02"><s:property value="prediction.datasetDisplay" /></td>
+			<td class="TableRowText02">
+			<s:url id="datasetLink" value="/viewDataset" includeParams="none">
+				<s:param name="id" value='predictorId' />
+			</s:url>
+			<s:property value="prediction.datasetDisplay" />
+			</td>
 			<td class="TableRowText02"><s:property value="prediction.similarityCutoff" /></td>
 		</tr>
 	</table>

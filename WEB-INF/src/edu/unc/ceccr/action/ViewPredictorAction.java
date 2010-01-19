@@ -73,6 +73,7 @@ public class ViewPredictorAction extends ActionSupport {
 			else{
 				Utility.writeToStrutsDebug("predictor id: " + predictorId);
 				selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+				String numModelsToShow = user.getViewPredictorModels(); 
 				
 				if(selectedPredictor == null){
 					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
