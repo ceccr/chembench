@@ -40,6 +40,25 @@ We might move this to the Workflows package later, but it's OK here for now.
 
 public class DatasetFileOperations {
 	
+	public static HashMap<String, String> getActFileIdsAndValues(String filePath) throws Exception {
+		HashMap<String, String> idsAndValues = new HashMap<String, String>();
+		
+		File file = new File(filePath);
+		FileInputStream fis = new FileInputStream(file);
+		int length = fis.available();
+		byte[] bytes = new byte[length];
+		fis.read(bytes);
+		String byteStr = (new String(bytes)).trim();
+
+		String[] array = byteStr.split("\\s+");
+
+		for (int i = 0; i < array.length; i+=2) {
+			idsAndValues.put(array[i], array[i + 1]);
+		}
+		
+		return idsAndValues;
+	}
+	
 	public static ArrayList<String> getActFileValues(DataSet dataset) throws Exception {
 		ArrayList<String> actFileValues = new ArrayList<String>();
 
@@ -95,7 +114,6 @@ public class DatasetFileOperations {
 					}
 				}
 			}
-		
 		}
 	}
 	

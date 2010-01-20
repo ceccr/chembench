@@ -3,6 +3,8 @@ package edu.unc.ceccr.action;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +47,7 @@ public class ViewDataset extends ActionSupport {
 
 	public class Compound{
 		//using a class instead of two arraylists for sortability.
-		String compound;
+		String compoundId;
 		String activityValue;
 	}
 	private ArrayList<Compound> datasetCompounds; 
@@ -65,8 +67,12 @@ public class ViewDataset extends ActionSupport {
 			user = (User) context.getSession().get("user");
 			String datasetId = ((String[]) context.getParameters().get("id"))[0];
 			String orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
-			String limit = ((String[]) context.getParameters().get("limit"))[0]; //how many to get
-			String offset = ((String[]) context.getParameters().get("offset"))[0]; //how many to skip (pagination)
+			String pagenumstr = ((String[]) context.getParameters().get("pagenum"))[0]; //how many to skip (pagination)
+			
+			int pagenum = 0;
+			if(pagenumstr != null){
+				pagenum = Integer.parseInt(pagenumstr);
+			}
 			
 			if(user == null){
 				Utility.writeToStrutsDebug("No user is logged in.");
@@ -77,29 +83,64 @@ public class ViewDataset extends ActionSupport {
 				Utility.writeToStrutsDebug("No dataset ID supplied.");
 			}
 			else{
-				user.getViewDatasetCompoundsPerPage();
-				user.getViewPredictionCompoundsPerPage();
+				//get dataset
+				Utility.writeToStrutsDebug("dataset id: " + datasetId);
+				dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
+				if(datasetId == null){
+					Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
+				}
+				
+				int limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
+				int offset = pagenum * limit; //which compoundid to start on
 				
 				//get compounds
 				String datasetDir = Constants.CECCR_USER_BASE_PATH + "DATASETS/" + dataset.getFileName() + "/";
-				ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
+				ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
+				
+				for(String cid: compoundIDs){
+					Compound c = new Compound();
+					c.compoundId = cid;
+					datasetCompounds.add(c);
+				}
 				
 				//get activity values (if applicable)
-				if(dataset.getDatasetType().equals(Constants.))
-				DatasetFileOperations.getACTCompoundList(datasetDir + dataset.getActFile());
-				DatasetFileOperations.getActFileValues(datasetDir + dataset.getActFile());
+				if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
+					HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile());
+					
+					for(Compound c: datasetCompounds){
+						c.activityValue = actIdsAndValues.get(c.compoundId);
+					}
+				}
 				
 				//sort the compound array
 				if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
 					//sort by compoundId
-					
+					Collections.sort(datasetCompounds, new Comparator<Compound>() {
+					    public int compare(Compound o1, Compound o2) {
+				    		return o2.compoundId.compareTo(o1.compoundId);
+					    }});
+				}
+				else if(orderBy == "activityValue" && ! dataset.getDatasetType().equals(Constants.PREDICTION)){
+					Collections.sort(datasetCompounds, new Comparator<Compound>() {
+					    public int compare(Compound o1, Compound o2) {
+					    	float f1 = Float.parseFloat(o1.activityValue);
+					    	float f2 = Float.parseFloat(o2.activityValue);
+					    	return (f2 > f1? 1:-1);
+					    }});
 				}
 			
-				//pick out the ones to be displayed on the page based on orderBy, offset, and limit
-				Utility.writeToStrutsDebug("dataset id: " + datasetId);
-				dataset = PopulateDataObjects.getDataSetById(datasetId, session);
-				if(datasetId == null){
-					Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
+				//pick out the ones to be displayed on the page based on offset and limit
+				if(offset != -1 && limit != -1){
+					for(int i = 0; i < datasetCompounds.size(); i++){
+						if(i < offset || i > offset + limit){
+							//don't display this compound
+							datasetCompounds.remove(i);
+							i--;
+						}				
+						else{
+							//leave it in the array
+						}
+					}
 				}
 				
 			}
