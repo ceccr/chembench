@@ -117,7 +117,7 @@
 				<s:iterator value="userDatasets">
 					<tr>
 					<td class="TableRowText02" align="center">
-						<a href="viewDatasetFlash.do?fileName=<s:property value="fileName" />&isPublic=<s:if test="userName=='_all'">true</s:if><s:else>false</s:else>">
+						<a href="viewDataset?id=<s:property value="fileId" />">
 						<s:property value="fileName" />
 						</a>
 					</td>
