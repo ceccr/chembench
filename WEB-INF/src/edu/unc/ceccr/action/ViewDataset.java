@@ -54,7 +54,7 @@ public class ViewDataset extends ActionSupport {
 	
 	public String loadPage() throws Exception {
 		String result = SUCCESS;
-		
+		Utility.writeToDebug("a");
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
 
@@ -64,6 +64,7 @@ public class ViewDataset extends ActionSupport {
 			Utility.writeToStrutsDebug("No ActionContext available");
 		}
 		else{
+			Utility.writeToDebug("b");
 			user = (User) context.getSession().get("user");
 			String datasetId = ((String[]) context.getParameters().get("id"))[0];
 			String orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
@@ -73,7 +74,8 @@ public class ViewDataset extends ActionSupport {
 			if(pagenumstr != null){
 				pagenum = Integer.parseInt(pagenumstr);
 			}
-			
+
+			Utility.writeToDebug("c");
 			if(user == null){
 				Utility.writeToStrutsDebug("No user is logged in.");
 				result = LOGIN;
@@ -83,6 +85,7 @@ public class ViewDataset extends ActionSupport {
 				Utility.writeToStrutsDebug("No dataset ID supplied.");
 			}
 			else{
+				Utility.writeToDebug("d");
 				//get dataset
 				Utility.writeToStrutsDebug("dataset id: " + datasetId);
 				dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
@@ -92,7 +95,8 @@ public class ViewDataset extends ActionSupport {
 				
 				int limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
 				int offset = pagenum * limit; //which compoundid to start on
-				
+
+				Utility.writeToDebug("e");
 				//get compounds
 				String datasetDir = Constants.CECCR_USER_BASE_PATH + "DATASETS/" + dataset.getFileName() + "/";
 				ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
@@ -102,7 +106,8 @@ public class ViewDataset extends ActionSupport {
 					c.compoundId = cid;
 					datasetCompounds.add(c);
 				}
-				
+
+				Utility.writeToDebug("f");
 				//get activity values (if applicable)
 				if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
 					HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile());
@@ -111,7 +116,8 @@ public class ViewDataset extends ActionSupport {
 						c.activityValue = actIdsAndValues.get(c.compoundId);
 					}
 				}
-				
+
+				Utility.writeToDebug("g");
 				//sort the compound array
 				if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
 					//sort by compoundId
@@ -128,7 +134,8 @@ public class ViewDataset extends ActionSupport {
 					    	return (f2 > f1? 1:-1);
 					    }});
 				}
-			
+
+				Utility.writeToDebug("h");
 				//pick out the ones to be displayed on the page based on offset and limit
 				if(offset != -1 && limit != -1){
 					for(int i = 0; i < datasetCompounds.size(); i++){
@@ -142,6 +149,7 @@ public class ViewDataset extends ActionSupport {
 						}
 					}
 				}
+				Utility.writeToDebug("i");
 				
 			}
 		}
