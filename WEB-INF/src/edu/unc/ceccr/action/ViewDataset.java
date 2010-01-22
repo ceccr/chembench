@@ -67,8 +67,15 @@ public class ViewDataset extends ActionSupport {
 			Utility.writeToDebug("b");
 			user = (User) context.getSession().get("user");
 			String datasetId = ((String[]) context.getParameters().get("id"))[0];
-			String orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
-			String pagenumstr = ((String[]) context.getParameters().get("pagenum"))[0]; //how many to skip (pagination)
+			
+			String orderBy = null;
+			if(context.getParameters().get("orderBy") != null){
+				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+			}
+			String pagenumstr = null;
+			if(context.getParameters().get("pagenum") != null){
+				pagenumstr = ((String[]) context.getParameters().get("pagenum"))[0]; //how many to skip (pagination)
+			}
 			
 			int pagenum = 0;
 			if(pagenumstr != null){
