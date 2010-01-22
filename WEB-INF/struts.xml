@@ -150,6 +150,12 @@
         
         <!-- End Jobs Page -->
         
+        <!-- View Dataset Page -->
+        <action name="viewDataset" class="edu.unc.ceccr.action.ViewDataset" method="loadPage">
+        	<result>jsp/dataSet/viewDataset.jsp</result>
+        </action>
+        <!-- End View Dataset Page -->
+        
         <!-- View Predictor Page -->
         <action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
         	<result>jsp/modeling/viewPredictor.jsp</result>
