@@ -26,6 +26,10 @@ public class Constants {
 	public static final int MOLCONNZ_COMPOUND_NAME_POS = 10;
 	
 	//Type strings
+	//The point of having these is to define capitalizations 
+	//(prevents case-sensitivity bugs)
+	//and to define all possible settings for various objects.
+	
 	public static final String CONTINUOUS = "CONTINUOUS";
 	public static final String CATEGORY = "CATEGORY";
 
@@ -42,6 +46,11 @@ public class Constants {
 
 	public static final String YES = "YES";
 	public static final String NO = "NO";
+	
+	public static final String PRIVATE = "Private";
+	public static final String ADME = "ADME";
+	public static final String TOXICITY = "Toxicity";
+	public static final String DRUGDISCOVERY = "DrugDiscovery";
 
 	public static final String MODELING = "MODELING";
 	public static final String PREDICTION = "PREDICTION";

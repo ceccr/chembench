@@ -325,18 +325,19 @@ public class PopulateDataObjects {
  		} 
  		predictors.addAll(privatePredictors);
  		
+ 		//adme
  		if(isAllUserIncludes){
-	 		List ADMEToxPredictors = null;
+	 		List ADMEPredictors = null;
 	 		session = HibernateUtil.getSession();
 	 		tx = null;
 	 		try {
 	 			tx = session.beginTransaction();
-	 			if(onlySaved) ADMEToxPredictors = session.createCriteria(Predictor.class)
-	 							.add(Expression.eq("predictorType", "ADMETox"))
+	 			if(onlySaved) ADMEPredictors = session.createCriteria(Predictor.class)
+	 							.add(Expression.eq("predictorType", Constants.ADME))
 	 							.add(Expression.eq("status","saved"))
 	 							.addOrder(Order.desc("name")).list();
-	 			else ADMEToxPredictors = session.createCriteria(Predictor.class)
-					.add(Expression.eq("predictorType", "ADMETox"))
+	 			else ADMEPredictors = session.createCriteria(Predictor.class)
+					.add(Expression.eq("predictorType", Constants.ADME))
 					.list();
 	 			tx.commit();
 	 		} catch (Exception e) {
@@ -344,9 +345,33 @@ public class PopulateDataObjects {
 	 				tx.rollback();
 	 			Utility.writeToDebug(e);
 	 		} 
-	 		predictors.addAll(ADMEToxPredictors);
+	 		predictors.addAll(ADMEPredictors);
  		}
  		
+ 		//tox
+ 		if(isAllUserIncludes){
+	 		List ToxicityPredictors = null;
+	 		session = HibernateUtil.getSession();
+	 		tx = null;
+	 		try {
+	 			tx = session.beginTransaction();
+	 			if(onlySaved) ToxicityPredictors = session.createCriteria(Predictor.class)
+	 							.add(Expression.eq("predictorType", Constants.TOXICITY))
+	 							.add(Expression.eq("status","saved"))
+	 							.addOrder(Order.desc("name")).list();
+	 			else ToxicityPredictors = session.createCriteria(Predictor.class)
+					.add(Expression.eq("predictorType", Constants.TOXICITY))
+					.list();
+	 			tx.commit();
+	 		} catch (Exception e) {
+	 			if (tx != null)
+	 				tx.rollback();
+	 			Utility.writeToDebug(e);
+	 		} 
+	 		predictors.addAll(ToxicityPredictors);
+ 		}
+ 		
+ 		//drugdiscovery
  		if(isAllUserIncludes){
 	 		List DrugDiscoveryPredictors = null;
 	 		session = HibernateUtil.getSession();
@@ -354,11 +379,11 @@ public class PopulateDataObjects {
 	 		try {
 	 			tx = session.beginTransaction();
 	 			if(onlySaved) DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
-	 							.add(Expression.eq("predictorType", "DrugDiscovery"))
+	 							.add(Expression.eq("predictorType", Constants.DRUGDISCOVERY))
 	 							.add(Expression.eq("status","saved"))
 	 							.addOrder(Order.desc("name")).list();
 	 			else DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
-					.add(Expression.eq("predictorType", "DrugDiscovery"))
+					.add(Expression.eq("predictorType", Constants.DRUGDISCOVERY))
 					.list();
 	 			tx.commit();
 	 		} catch (Exception e) {
