@@ -54,105 +54,107 @@
 		<tbody>
 		<tr>
 		<td>
-			
-		<p class="StandardTextDarkGrayParagraph">
-		<b>Drug Discovery Predictors</b>
-		</p>
-		<p align="justify" class="StandardTextDarkGrayParagraph">
-		These are public predictors useful for virtual screening.
-		</p>
-			<table>
-			<tr>
-				<td class="TableRowText01">Select</td>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Date Created</td>
-				<td class="TableRowText01">Modeling Method</td>
-				<td class="TableRowText01">Descriptor Type</td>
-				<td class="TableRowText01">Dataset</td>
-				<td class="TableRowText01">Description</td>
-			</tr>
-			<s:iterator value="userPredictors">
-				<s:if test="predictorType=='DrugDiscovery'">
-					<tr>
-					<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
-					<td class="TableRowText02"><s:property value="name" /></td>
-					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
-					<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
-					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-					<td class="TableRowText02"><s:property value="description" /></td>
-					</tr> 
-				</s:if>
-			</s:iterator>
-			
-			</table>
-			<br /><br />
 		
-		<p class="StandardTextDarkGrayParagraph">
-		<b>ADME Predictors</b>
-		</p>
-		<p align="justify" class="StandardTextDarkGrayParagraph">
-		These are public predictors useful for prediction of absorption, distribution, metabolism, and excretion properties.
-		</p>
-			<table>
-			<tr>
-				<td class="TableRowText01">Select</td>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Date Created</td>
-				<td class="TableRowText01">Modeling Method</td>
-				<td class="TableRowText01">Descriptor Type</td>
-				<td class="TableRowText01">Dataset</td>
-				<td class="TableRowText01">Description</td>
-			</tr>
-			<s:iterator value="userPredictors">
-				<s:if test="predictorType=='ADME'">
-					<tr>
-					<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
-					<td class="TableRowText02"><s:property value="name" /></td>
-					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
-					<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
-					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-					<td class="TableRowText02"><s:property value="description" /></td>
-					</tr> 
-				</s:if>
-			</s:iterator>
-			</table>
-			<br /><br />
+		<s:if test="user.showPublicPredictors!='NONE'" >		
+			<p class="StandardTextDarkGrayParagraph">
+			<b>Drug Discovery Predictors</b>
+			</p>
+			<p align="justify" class="StandardTextDarkGrayParagraph">
+			These are public predictors useful for virtual screening.
+			</p>
+				<table>
+				<tr>
+					<td class="TableRowText01">Select</td>
+					<td class="TableRowText01">Name</td>
+					<td class="TableRowText01">Date Created</td>
+					<td class="TableRowText01">Modeling Method</td>
+					<td class="TableRowText01">Descriptor Type</td>
+					<td class="TableRowText01">Dataset</td>
+					<td class="TableRowText01">Description</td>
+				</tr>
+				<s:iterator value="userPredictors">
+					<s:if test="predictorType=='DrugDiscovery'">
+						<tr>
+						<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+						<td class="TableRowText02"><s:property value="name" /></td>
+						<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+						<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
+						<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
+						<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
+						<td class="TableRowText02"><s:property value="description" /></td>
+						</tr> 
+					</s:if>
+				</s:iterator>
+				
+				</table>
+				<br /><br />
 			
-			
-		<p class="StandardTextDarkGrayParagraph">
-		<b>Toxicity Predictors</b>
-		</p>
-		<p align="justify" class="StandardTextDarkGrayParagraph">
-		These are public predictors useful for toxicity prediction.
-		</p>
-			<table>
-			<tr>
-				<td class="TableRowText01">Select</td>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Date Created</td>
-				<td class="TableRowText01">Modeling Method</td>
-				<td class="TableRowText01">Descriptor Type</td>
-				<td class="TableRowText01">Dataset</td>
-				<td class="TableRowText01">Description</td>
-			</tr>
-			<s:iterator value="userPredictors">
-				<s:if test="predictorType=='Toxicity'">
-					<tr>
-					<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
-					<td class="TableRowText02"><s:property value="name" /></td>
-					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
-					<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
-					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-					<td class="TableRowText02"><s:property value="description" /></td>
-					</tr> 
-				</s:if>
-			</s:iterator>
-			</table>
-			<br /><br />
-		
+			<p class="StandardTextDarkGrayParagraph">
+			<b>ADME Predictors</b>
+			</p>
+			<p align="justify" class="StandardTextDarkGrayParagraph">
+			These are public predictors useful for prediction of absorption, distribution, metabolism, and excretion properties.
+			</p>
+				<table>
+				<tr>
+					<td class="TableRowText01">Select</td>
+					<td class="TableRowText01">Name</td>
+					<td class="TableRowText01">Date Created</td>
+					<td class="TableRowText01">Modeling Method</td>
+					<td class="TableRowText01">Descriptor Type</td>
+					<td class="TableRowText01">Dataset</td>
+					<td class="TableRowText01">Description</td>
+				</tr>
+				<s:iterator value="userPredictors">
+					<s:if test="predictorType=='ADME'">
+						<tr>
+						<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+						<td class="TableRowText02"><s:property value="name" /></td>
+						<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+						<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
+						<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
+						<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
+						<td class="TableRowText02"><s:property value="description" /></td>
+						</tr> 
+					</s:if>
+				</s:iterator>
+				</table>
+				<br /><br />
+				
+				
+			<p class="StandardTextDarkGrayParagraph">
+			<b>Toxicity Predictors</b>
+			</p>
+			<p align="justify" class="StandardTextDarkGrayParagraph">
+			These are public predictors useful for toxicity prediction.
+			</p>
+				<table>
+				<tr>
+					<td class="TableRowText01">Select</td>
+					<td class="TableRowText01">Name</td>
+					<td class="TableRowText01">Date Created</td>
+					<td class="TableRowText01">Modeling Method</td>
+					<td class="TableRowText01">Descriptor Type</td>
+					<td class="TableRowText01">Dataset</td>
+					<td class="TableRowText01">Description</td>
+				</tr>
+				<s:iterator value="userPredictors">
+					<s:if test="predictorType=='Toxicity'">
+						<tr>
+						<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+						<td class="TableRowText02"><s:property value="name" /></td>
+						<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+						<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
+						<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
+						<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
+						<td class="TableRowText02"><s:property value="description" /></td>
+						</tr> 
+					</s:if>
+				</s:iterator>
+				</table>
+				<br /><br />
+		</s:if>	
+	
 		<p class="StandardTextDarkGrayParagraph">
 			<b>Private Predictors</b>
 			</p>
