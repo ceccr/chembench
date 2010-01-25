@@ -47,8 +47,21 @@ public class ViewDataset extends ActionSupport {
 
 	public class Compound{
 		//using a class instead of two arraylists for sortability.
-		public String compoundId;
-		public String activityValue;
+		private String compoundId;
+		private String activityValue;
+		
+		public String getCompoundId() {
+			return compoundId;
+		}
+		public void setCompoundId(String compoundId) {
+			this.compoundId = compoundId;
+		}
+		public String getActivityValue() {
+			return activityValue;
+		}
+		public void setActivityValue(String activityValue) {
+			this.activityValue = activityValue;
+		}
 	}
 	private ArrayList<Compound> datasetCompounds; 
 	
@@ -122,9 +135,13 @@ public class ViewDataset extends ActionSupport {
 				
 				Utility.writeToDebug("f0");
 				for(String cid: compoundIDs){
+					Utility.writeToDebug("string: " + cid);
 					Compound c = new Compound();
+					Utility.writeToDebug("yay");
 					c.compoundId = cid;
+					Utility.writeToDebug("ckltert");
 					datasetCompounds.add(c);
+					Utility.writeToDebug("blarg");
 				}
 				
 				Utility.writeToDebug("f");
