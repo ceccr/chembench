@@ -104,9 +104,14 @@ public class ViewDataset extends ActionSupport {
 				int offset = pagenum * limit; //which compoundid to start on
 
 				Utility.writeToDebug("e");
-				//get compounds
-				String datasetDir = Constants.CECCR_USER_BASE_PATH;
 				
+				//get compounds
+				String datasetUser = dataset.getUserName();
+				if(datasetUser.equals("_all")){
+					datasetUser = "all-users";
+				}
+				
+				String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
 				datasetDir += "DATASETS/" + dataset.getFileName() + "/";
 				ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
 				
