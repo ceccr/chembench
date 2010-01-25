@@ -138,7 +138,7 @@ public class ViewDataset extends ActionSupport {
 					Utility.writeToDebug("string: " + cid);
 					Compound c = new Compound();
 					Utility.writeToDebug("yay");
-					c.compoundId = cid;
+					c.setCompoundId(cid);
 					Utility.writeToDebug("ckltert");
 					datasetCompounds.add(c);
 					Utility.writeToDebug("blarg");
@@ -150,7 +150,7 @@ public class ViewDataset extends ActionSupport {
 					HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile());
 					
 					for(Compound c: datasetCompounds){
-						c.activityValue = actIdsAndValues.get(c.compoundId);
+						c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
 					}
 				}
 
@@ -160,14 +160,14 @@ public class ViewDataset extends ActionSupport {
 					//sort by compoundId
 					Collections.sort(datasetCompounds, new Comparator<Compound>() {
 					    public int compare(Compound o1, Compound o2) {
-				    		return o2.compoundId.compareTo(o1.compoundId);
+				    		return o2.getCompoundId().compareTo(o1.getCompoundId());
 					    }});
 				}
 				else if(orderBy == "activityValue" && ! dataset.getDatasetType().equals(Constants.PREDICTION)){
 					Collections.sort(datasetCompounds, new Comparator<Compound>() {
 					    public int compare(Compound o1, Compound o2) {
-					    	float f1 = Float.parseFloat(o1.activityValue);
-					    	float f2 = Float.parseFloat(o2.activityValue);
+					    	float f1 = Float.parseFloat(o1.getActivityValue());
+					    	float f2 = Float.parseFloat(o2.getActivityValue());
 					    	return (f2 > f1? 1:-1);
 					    }});
 				}
