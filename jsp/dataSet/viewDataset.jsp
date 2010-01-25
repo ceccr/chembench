@@ -88,11 +88,10 @@
 				<s:iterator value="datasetCompounds" status="datasetCompoundsStatus">
 				<tr>
 					<td class="TableRowText02"><s:property value="compoundId" /></td>
-					
+					<td class="TableRowText02">
 <a href="#" onclick="window.open('compound3D?compoundId=<s:property value="compoundId" />&project=<s:property value="dataset.fileName" />&projectType=dataset&user=<s:property value="user.userName" />&datasetID=<s:property value="dataset.fileId" />, '<% new java.util.Date().getTime(); %>','width=350, height=350'); return false;">
 <img src="/imageServlet?user=<s:property value="user.userName" />&projectType=dataset&compoundId=<s:property value='compoundId' />&project=<s:property value="dataset.fileName" />&datasetID=<s:property value="dataset.fileId" />" border="0" height="150" onmouseover='enlargeImage(this);' onmouseout='shrinkImage(this)'/></a>					
-					
-					<td class="TableRowText02"><s:property value="name" /></td>
+					</td>
 					<s:if test="dataset.datasetType=='MODELING'">
 					<td class="TableRowText02"><s:property value="activityValue" /></td>
 					</s:if>
