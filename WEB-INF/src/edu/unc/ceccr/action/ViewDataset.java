@@ -47,8 +47,8 @@ public class ViewDataset extends ActionSupport {
 
 	public class Compound{
 		//using a class instead of two arraylists for sortability.
-		String compoundId;
-		String activityValue;
+		public String compoundId;
+		public String activityValue;
 	}
 	private ArrayList<Compound> datasetCompounds; 
 	
@@ -116,17 +116,17 @@ public class ViewDataset extends ActionSupport {
 				Utility.writeToDebug("opening file: " + datasetDir + dataset.getSdfFile());
 				ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
 
-				Utility.writeToDebug("f0");
-				try{
-					for(String cid: compoundIDs){
-						Compound c = new Compound();
-						c.compoundId = cid;
-						datasetCompounds.add(c);
-					}
-				}catch(Exception ex){
-					Utility.writeToDebug(ex);
-					
+				if(compoundIDs == null){
+					Utility.writeToDebug("why would this be null?");
 				}
+				
+				Utility.writeToDebug("f0");
+				for(String cid: compoundIDs){
+					Compound c = new Compound();
+					c.compoundId = cid;
+					datasetCompounds.add(c);
+				}
+				
 				Utility.writeToDebug("f");
 				//get activity values (if applicable)
 				if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
