@@ -113,7 +113,10 @@ public class ViewDataset extends ActionSupport {
 				
 				String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
 				datasetDir += "DATASETS/" + dataset.getFileName() + "/";
+				Utility.writeToDebug("opening file: " + datasetDir + dataset.getSdfFile());
 				ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
+
+				Utility.writeToDebug("f0");
 				
 				for(String cid: compoundIDs){
 					Compound c = new Compound();
