@@ -117,13 +117,16 @@ public class ViewDataset extends ActionSupport {
 				ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
 
 				Utility.writeToDebug("f0");
-				
+				try{
 				for(String cid: compoundIDs){
 					Compound c = new Compound();
 					c.compoundId = cid;
 					datasetCompounds.add(c);
 				}
-
+				catch(Exception ex){
+					Utility.writeToDebug(ex);
+					
+				}
 				Utility.writeToDebug("f");
 				//get activity values (if applicable)
 				if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
