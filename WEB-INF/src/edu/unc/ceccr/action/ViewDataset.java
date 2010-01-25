@@ -44,6 +44,8 @@ public class ViewDataset extends ActionSupport {
 	
 	private User user;
 	private DataSet dataset; 
+	private ArrayList<Compound> datasetCompounds; 
+	private ArrayList<String> pageNums;
 
 	public class Compound{
 		//using a class instead of two arraylists for sortability.
@@ -63,7 +65,6 @@ public class ViewDataset extends ActionSupport {
 			this.activityValue = activityValue;
 		}
 	}
-	private ArrayList<Compound> datasetCompounds; 
 	
 	public String loadPage() throws Exception {
 		String result = SUCCESS;
@@ -90,7 +91,7 @@ public class ViewDataset extends ActionSupport {
 			
 			int pagenum = 0;
 			if(pagenumstr != null){
-				pagenum = Integer.parseInt(pagenumstr);
+				pagenum = Integer.parseInt(pagenumstr) - 1;
 			}
 
 			if(user == null){
@@ -111,8 +112,7 @@ public class ViewDataset extends ActionSupport {
 				
 				int limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
 				int offset = pagenum * limit; //which compoundid to start on
-
-				
+             	
 				//get compounds
 				datasetCompounds = new ArrayList<Compound>();
 				String datasetUser = dataset.getUserName();
@@ -129,14 +129,12 @@ public class ViewDataset extends ActionSupport {
 					Utility.writeToDebug("why would this be null?");
 				}
 				
-				Utility.writeToDebug("f0");
 				for(String cid: compoundIDs){
 					Compound c = new Compound();
 					c.setCompoundId(cid);
 					datasetCompounds.add(c);
 				}
 				
-				Utility.writeToDebug("f");
 				//get activity values (if applicable)
 				if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
 					HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile());
@@ -146,7 +144,6 @@ public class ViewDataset extends ActionSupport {
 					}
 				}
 
-				Utility.writeToDebug("g");
 				//sort the compound array
 				if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
 					//sort by compoundId
@@ -164,7 +161,6 @@ public class ViewDataset extends ActionSupport {
 					    }});
 				}
 
-				Utility.writeToDebug("h");
 				//pick out the ones to be displayed on the page based on offset and limit
 				if(offset != -1 && limit != -1){
 					for(int i = 0; i < datasetCompounds.size(); i++){
@@ -178,7 +174,11 @@ public class ViewDataset extends ActionSupport {
 						}
 					}
 				}
-				Utility.writeToDebug("i");
+				pageNums = new ArrayList<String>(); //displays the page numbers at the top
+				for(int i = 0; i < compoundIDs.size(); i += limit){
+					String page = Integer.toString(i + 1);
+					pageNums.add(page);
+				}
 				
 			}
 		}
@@ -203,6 +203,13 @@ public class ViewDataset extends ActionSupport {
 		this.user = user;
 	}
 
+	public ArrayList<String> getPageNums() {
+		return pageNums;
+	}
+	public void setPageNums(ArrayList<String> pageNums) {
+		this.pageNums = pageNums;
+	}
+	
 	public DataSet getDataset() {
 		return dataset;
 	}
