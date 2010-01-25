@@ -75,7 +75,7 @@
 		
 	<table width="924" align="center">
 		<tr><td>
-			<p class="StandardTextDarkGray" width="550">Page Number: <s:iterator name="pageNums"><a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a> </s:iterator></p>
+			<p class="StandardTextDarkGray" width="550">Page Number: <s:iterator value="pageNums"><a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a> </s:iterator></p>
 			<table>
 				<tr>
 					<!-- header for left side table -->
