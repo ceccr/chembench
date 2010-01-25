@@ -118,12 +118,12 @@ public class ViewDataset extends ActionSupport {
 
 				Utility.writeToDebug("f0");
 				try{
-				for(String cid: compoundIDs){
-					Compound c = new Compound();
-					c.compoundId = cid;
-					datasetCompounds.add(c);
-				}
-				catch(Exception ex){
+					for(String cid: compoundIDs){
+						Compound c = new Compound();
+						c.compoundId = cid;
+						datasetCompounds.add(c);
+					}
+				}catch(Exception ex){
 					Utility.writeToDebug(ex);
 					
 				}
