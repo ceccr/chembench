@@ -67,7 +67,6 @@ public class ViewDataset extends ActionSupport {
 	
 	public String loadPage() throws Exception {
 		String result = SUCCESS;
-		Utility.writeToDebug("a");
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
 
@@ -77,7 +76,6 @@ public class ViewDataset extends ActionSupport {
 			Utility.writeToStrutsDebug("No ActionContext available");
 		}
 		else{
-			Utility.writeToDebug("b");
 			user = (User) context.getSession().get("user");
 			String datasetId = ((String[]) context.getParameters().get("id"))[0];
 			
@@ -95,7 +93,6 @@ public class ViewDataset extends ActionSupport {
 				pagenum = Integer.parseInt(pagenumstr);
 			}
 
-			Utility.writeToDebug("c");
 			if(user == null){
 				Utility.writeToStrutsDebug("No user is logged in.");
 				result = LOGIN;
@@ -105,7 +102,6 @@ public class ViewDataset extends ActionSupport {
 				Utility.writeToStrutsDebug("No dataset ID supplied.");
 			}
 			else{
-				Utility.writeToDebug("d");
 				//get dataset
 				Utility.writeToStrutsDebug("dataset id: " + datasetId);
 				dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
@@ -116,9 +112,9 @@ public class ViewDataset extends ActionSupport {
 				int limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
 				int offset = pagenum * limit; //which compoundid to start on
 
-				Utility.writeToDebug("e");
 				
 				//get compounds
+				datasetCompounds = new ArrayList<Compound>();
 				String datasetUser = dataset.getUserName();
 				if(datasetUser.equals("_all")){
 					datasetUser = "all-users";
@@ -135,13 +131,9 @@ public class ViewDataset extends ActionSupport {
 				
 				Utility.writeToDebug("f0");
 				for(String cid: compoundIDs){
-					Utility.writeToDebug("string: " + cid);
 					Compound c = new Compound();
-					Utility.writeToDebug("yay");
 					c.setCompoundId(cid);
-					Utility.writeToDebug("ckltert");
 					datasetCompounds.add(c);
-					Utility.writeToDebug("blarg");
 				}
 				
 				Utility.writeToDebug("f");
