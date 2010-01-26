@@ -162,19 +162,19 @@ public class ViewDataset extends ActionSupport {
 					    }});
 				}
 
+				Utility.writeToDebug("pagenum: " + pagenum + " offset: " + offset +" limit: " + limit + " numDatasetCompounds: " + datasetCompounds.size());
 				//pick out the ones to be displayed on the page based on offset and limit
-				if(offset != -1 && limit != -1){
-					for(int i = 0; i < datasetCompounds.size(); i++){
-						if(i < offset || i > offset + limit){
-							//don't display this compound
-							datasetCompounds.remove(i);
-							i--;
-						}				
-						else{
-							//leave it in the array
-						}
+				for(int i = 0; i < datasetCompounds.size(); i++){
+					if(i < offset || i > offset + limit){
+						//don't display this compound
+						datasetCompounds.remove(i);
+						i--;
+					}				
+					else{
+						//leave it in the array
 					}
 				}
+
 				pageNums = new ArrayList<String>(); //displays the page numbers at the top
 				int j = 1;
 				for(int i = 0; i < compoundIDs.size(); i += limit){
