@@ -117,8 +117,13 @@ public class ViewPredictorAction extends ActionSupport {
 			int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
 			while(eit.hasNext()){
 				ExternalValidation e = eit.next();
-				String residual = DecimalFormat.getInstance().format(e.getActualValue() - e.getPredictedValue()).replaceAll(",", "");
-				residuals.add(Utility.roundSignificantFigures(residual, sigfigs));
+				if(e.getNumModels() != 0){
+					String residual = DecimalFormat.getInstance().format(e.getActualValue() - e.getPredictedValue()).replaceAll(",", "");
+					residuals.add(Utility.roundSignificantFigures(residual, sigfigs));
+				}
+				else{
+					residuals.add("");
+				}
 				String predictedValue = DecimalFormat.getInstance().format(e.getPredictedValue()).replaceAll(",", "");
 				e.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));  
 				if(! e.getStandDev().equalsIgnoreCase("No value")){

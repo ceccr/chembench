@@ -176,9 +176,11 @@ public class ViewDataset extends ActionSupport {
 					}
 				}
 				pageNums = new ArrayList<String>(); //displays the page numbers at the top
+				int j = 1;
 				for(int i = 0; i < compoundIDs.size(); i += limit){
-					String page = Integer.toString(i + 1);
+					String page = Integer.toString(j);
 					pageNums.add(page);
+					j++;
 				}
 				
 				//the dataset has now been viewed. Update DB accordingly.
