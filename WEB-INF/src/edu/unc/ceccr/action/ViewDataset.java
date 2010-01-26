@@ -164,8 +164,9 @@ public class ViewDataset extends ActionSupport {
 
 				Utility.writeToDebug("pagenum: " + pagenum + " offset: " + offset +" limit: " + limit + " numDatasetCompounds: " + datasetCompounds.size());
 				//pick out the ones to be displayed on the page based on offset and limit
+				int compoundNum = 0;
 				for(int i = 0; i < datasetCompounds.size(); i++){
-					if(i < offset || i > offset + limit){
+					if(compoundNum < offset || compoundNum > (offset + limit)){
 						//don't display this compound
 						datasetCompounds.remove(i);
 						i--;
@@ -173,6 +174,7 @@ public class ViewDataset extends ActionSupport {
 					else{
 						//leave it in the array
 					}
+					compoundNum++;
 				}
 
 				pageNums = new ArrayList<String>(); //displays the page numbers at the top
