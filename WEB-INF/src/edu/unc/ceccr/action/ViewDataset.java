@@ -150,7 +150,7 @@ public class ViewDataset extends ActionSupport {
 					//sort by compoundId
 					Collections.sort(datasetCompounds, new Comparator<Compound>() {
 					    public int compare(Compound o1, Compound o2) {
-				    		return o2.getCompoundId().compareTo(o1.getCompoundId());
+				    		return o1.getCompoundId().compareTo(o2.getCompoundId());
 					    }});
 				}
 				else if(orderBy == "activityValue" && ! dataset.getDatasetType().equals(Constants.PREDICTION)){
@@ -166,7 +166,7 @@ public class ViewDataset extends ActionSupport {
 				//pick out the ones to be displayed on the page based on offset and limit
 				int compoundNum = 0;
 				for(int i = 0; i < datasetCompounds.size(); i++){
-					if(compoundNum < offset || compoundNum > (offset + limit)){
+					if(compoundNum < offset || compoundNum >= (offset + limit)){
 						//don't display this compound
 						datasetCompounds.remove(i);
 						i--;
