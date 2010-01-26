@@ -52,7 +52,7 @@
 		</tr>
 		<tr>
 			<td class="TableRowText02"><s:property value="dataset.fileName" /></td>
-			<td class="TableRowText02"><s:property value="dataset.numCompounds" /></td>
+			<td class="TableRowText02"><s:property value="dataset.numCompound" /></td>
 			<td class="TableRowText02"><s:property value="dataset.createdTime" /></td>
 			<td class="TableRowText02"><s:property value="dataset.description" /></td>
 			<td class="TableRowText02"><s:property value="dataset.paperReference" /></td>
@@ -77,7 +77,7 @@
 		
 	<table width="924" align="center">
 		<tr><td>
-			<p class="StandardTextDarkGray" width="550">Page Number: <s:iterator value="pageNums"><a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a> </s:iterator></p>
+			<p class="StandardTextDarkGray" width="550">Page Number: <s:iterator value="pageNums"><s:if test='${}==currentPageNumber'><u></s:if><a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a><s:if test='${}==currentPageNumber'></u></s:if> </s:iterator></p>
 			<table>
 				<tr>
 					<!-- header for left side table -->

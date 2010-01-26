@@ -47,6 +47,7 @@ public class ViewDataset extends ActionSupport {
 	private DataSet dataset; 
 	private ArrayList<Compound> datasetCompounds; 
 	private ArrayList<String> pageNums;
+	private String currentPageNumber = "1";
 
 	public class Compound{
 		//using a class instead of two arraylists for sortability.
@@ -92,6 +93,7 @@ public class ViewDataset extends ActionSupport {
 			
 			int pagenum = 0;
 			if(pagenumstr != null){
+				currentPageNumber = pagenumstr;
 				pagenum = Integer.parseInt(pagenumstr) - 1;
 			}
 
@@ -162,7 +164,6 @@ public class ViewDataset extends ActionSupport {
 					    }});
 				}
 
-				Utility.writeToDebug("pagenum: " + pagenum + " offset: " + offset +" limit: " + limit + " numDatasetCompounds: " + datasetCompounds.size());
 				//pick out the ones to be displayed on the page based on offset and limit
 				int compoundNum = 0;
 				for(int i = 0; i < datasetCompounds.size(); i++){
@@ -242,6 +243,13 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setDatasetCompounds(ArrayList<Compound> datasetCompounds) {
 		this.datasetCompounds = datasetCompounds;
+	}
+	
+	public String getCurrentPageNumber() {
+		return currentPageNumber;
+	}
+	public void setCurrentPageNumber(String currentPageNumber) {
+		this.currentPageNumber = currentPageNumber;
 	}
 	
 }
