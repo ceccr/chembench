@@ -175,8 +175,8 @@ body {
 .TableRowText02 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
-	color: #666666;
-	background-color: #D0D3D9;
+	color: #444444;
+	background-color: #D0D6DF;
 	text-align: center;
 	vertical-align: middle;
 	height: 30px;
@@ -186,7 +186,7 @@ body {
 .TableRowText03 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
-	color: #666666;
+	color: #444444;
 	background-color: #E6E9EC;
 	text-align: center;
 	vertical-align: middle;
