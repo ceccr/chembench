@@ -64,6 +64,7 @@ public class Predictor implements java.io.Serializable {
 	private String activityType;
 	private String predictorType;
 	private String scalingType;
+	private String hasBeenViewed;
 	
 	private int numPredictions;
 	private String description;
@@ -346,6 +347,15 @@ public class Predictor implements java.io.Serializable {
 	{
 		this.paperReference=paperReference;
 	}
+	
+	@Column(name = "hasBeenViewed")
+	public String getHasBeenViewed() {
+		return hasBeenViewed;
+	}
+	public void setHasBeenViewed(String hasBeenViewed) {
+		this.hasBeenViewed = hasBeenViewed;
+	}
+
 
 	private String descriptorGenerationDisplay = "";
 	@Transient

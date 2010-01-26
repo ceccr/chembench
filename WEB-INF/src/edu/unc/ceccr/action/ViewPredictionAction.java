@@ -19,6 +19,7 @@ import com.opensymphony.xwork2.ActionContext;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -149,6 +150,21 @@ public class ViewPredictionAction extends ActionSupport {
 				
 				//get compounds for the predicted dataset
 				populateCompoundPredictionValues("", "", "", session);
+				
+				//the prediction has now been viewed. Update DB accordingly.
+				if(! prediction.getHasBeenViewed().equals(Constants.YES)){
+					prediction.setHasBeenViewed(Constants.YES);
+					Transaction tx = null;
+					try {
+						tx = session.beginTransaction();
+						session.saveOrUpdate(prediction);
+						tx.commit();
+					} catch (RuntimeException e) {
+						if (tx != null)
+							tx.rollback();
+						Utility.writeToDebug(e);
+					}
+				}
 			}
 		}
 

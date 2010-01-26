@@ -1,6 +1,8 @@
 package edu.unc.ceccr.action;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +20,7 @@ import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 
+import edu.unc.ceccr.action.ViewDataset.Compound;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -86,6 +89,10 @@ public class JobsActions extends ActionSupport {
 				}
 			}
 		}
+		Collections.sort(userDatasets, new Comparator<DataSet>() {
+		    public int compare(DataSet d1, DataSet d2) {
+	    		return d2.getFileName().compareTo(d1.getFileName());
+		    }});
 		
 		//get predictors
 		if(user.getShowPublicPredictors().equals(Constants.ALL)){	
@@ -96,9 +103,18 @@ public class JobsActions extends ActionSupport {
 			//just get the user's predictors
 			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), false, false, session);
 		}
+		Collections.sort(userPredictors, new Comparator<Predictor>() {
+		    public int compare(Predictor p1, Predictor p2) {
+	    		return p2.getName().compareTo(p1.getName());
+		    }});
 		
 		//get predictions
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
+		Collections.sort(userPredictions, new Comparator<Prediction>() {
+		    public int compare(Prediction p1, Prediction p2) {
+	    		return p2.getJobName().compareTo(p1.getJobName());
+		    }});
+		
 		
 		//load the queue
 		userQueueTasks = new ArrayList<QueueTask>();

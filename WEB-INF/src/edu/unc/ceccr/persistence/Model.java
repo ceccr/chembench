@@ -2,6 +2,8 @@ package edu.unc.ceccr.persistence;
 
 import javax.persistence.*;
 
+import edu.unc.ceccr.utilities.Utility;
+
 
 // default package
 // Generated Jun 20, 2006 1:22:16 PM by Hibernate Tools 3.1.0.beta5
@@ -42,6 +44,8 @@ public class Model extends KnnOutput implements java.io.Serializable, ModelInter
 	private Float r452Squared;
 	private Float st45;
 	
+	private String descriptorsUsed;
+
 	//added values for knn-category
 	private Float trainingAcc;
 
@@ -521,5 +525,17 @@ public class Model extends KnnOutput implements java.io.Serializable, ModelInter
 		this.trainingAcc = trainingAcc;
 	}
 
+	@Column(name = "descriptorsUsed")
+	public String getDescriptorsUsed() {
+		return descriptorsUsed;
+	}
+	public void setDescriptorsUsed(String descriptorsUsed) {
+		if(descriptorsUsed.length() > 4000){
+			//truncate to 4000 and log an error
+			Utility.writeToDebug("Warning: Descriptors truncated for model " + id + " in predictor " + predictor);
+			descriptorsUsed = descriptorsUsed.substring(0, 3999);
+		}
+		this.descriptorsUsed = descriptorsUsed;
+	}
 
 }

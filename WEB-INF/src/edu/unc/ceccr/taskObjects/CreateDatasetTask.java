@@ -247,6 +247,7 @@ public class CreateDatasetTask implements WorkflowTask{
 		dataSet.setDescription(dataSetDescription);
 		//dataSet.setActFormula(actFileHeader);
 		dataSet.setUploadedDescriptorType(descriptorType);
+		dataSet.setHasBeenViewed(Constants.NO);
 
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;

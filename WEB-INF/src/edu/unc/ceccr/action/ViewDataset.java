@@ -21,6 +21,7 @@ import com.opensymphony.xwork2.ActionContext;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -178,6 +179,21 @@ public class ViewDataset extends ActionSupport {
 				for(int i = 0; i < compoundIDs.size(); i += limit){
 					String page = Integer.toString(i + 1);
 					pageNums.add(page);
+				}
+				
+				//the dataset has now been viewed. Update DB accordingly.
+				if(! dataset.getHasBeenViewed().equals(Constants.YES)){
+					dataset.setHasBeenViewed(Constants.YES);
+					Transaction tx = null;
+					try {
+						tx = session.beginTransaction();
+						session.saveOrUpdate(dataset);
+						tx.commit();
+					} catch (RuntimeException e) {
+						if (tx != null)
+							tx.rollback();
+						Utility.writeToDebug(e);
+					}
 				}
 				
 			}

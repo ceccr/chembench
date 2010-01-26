@@ -18,6 +18,7 @@ import com.opensymphony.xwork2.ActionContext;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -123,6 +124,21 @@ public class ViewPredictorAction extends ActionSupport {
 				if(! e.getStandDev().equalsIgnoreCase("No value")){
 					Utility.writeToDebug("stddev: "+ e.getStandDev());
 					e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
+				}
+			}
+			
+			//the predictor has now been viewed. Update DB accordingly.
+			if(! selectedPredictor.getHasBeenViewed().equals(Constants.YES)){
+				selectedPredictor.setHasBeenViewed(Constants.YES);
+				Transaction tx = null;
+				try {
+					tx = session.beginTransaction();
+					session.saveOrUpdate(selectedPredictor);
+					tx.commit();
+				} catch (RuntimeException e) {
+					if (tx != null)
+						tx.rollback();
+					Utility.writeToDebug(e);
 				}
 			}
 		}

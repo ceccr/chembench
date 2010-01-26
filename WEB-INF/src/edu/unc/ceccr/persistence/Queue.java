@@ -63,6 +63,7 @@ public class Queue {
 		private String SDFile;
 		private int numCompounds;
 		private int numModels;
+		private String hasBeenViewed;
 		
 		public QueueTask(WorkflowTask task, String userName)throws FileNotFoundException,IOException {
 			
@@ -251,6 +252,15 @@ public class Queue {
 				this.saveTask();
 			}
 		}
+		
+		@Column(name = "hasBeenViewed")
+		public String getHasBeenViewed() {
+			return hasBeenViewed;
+		}
+		public void setHasBeenViewed(String hasBeenViewed) {
+			this.hasBeenViewed = hasBeenViewed;
+		}
+
 		
 		public QueueTask() { super(); }
 

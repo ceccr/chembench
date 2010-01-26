@@ -27,6 +27,7 @@ public class DataSet implements java.io.Serializable{
 	private String actFormula;
 	private String showByDefault;
 	private String paperReference;
+	private String hasBeenViewed;
 
 	public DataSet(){}
 	
@@ -174,4 +175,13 @@ public class DataSet implements java.io.Serializable{
 	public void setPaperReference(String paperReference) {
 		this.paperReference = paperReference;
 	}
+	
+	@Column(name = "hasBeenViewed")
+	public String getHasBeenViewed() {
+		return hasBeenViewed;
+	}
+	public void setHasBeenViewed(String hasBeenViewed) {
+		this.hasBeenViewed = hasBeenViewed;
+	}
+
 }

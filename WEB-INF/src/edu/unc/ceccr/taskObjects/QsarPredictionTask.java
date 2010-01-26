@@ -354,6 +354,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		predictionJob.setJobName(this.jobName);
 		predictionJob.setStatus("saved");
 		predictionJob.setDatasetId(predictionDataset.getFileId());
+		predictionJob.setHasBeenViewed(Constants.NO);
 
 		if(this.allPredValues == null){
 			Utility.writeToDebug("Warning: allPredValue is null.");

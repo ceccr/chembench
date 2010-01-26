@@ -115,25 +115,25 @@
 					<td class="TableRowText01">Delete</td>
 				</tr>
 				<s:iterator value="userDatasets">
-					<tr>
-					<td class="TableRowText02" align="center">
+					<tr class="TableRowText02">
+					<td align="center">
 						<a href="viewDataset?id=<s:property value="fileId" />">
 						<s:property value="fileName" />
 						</a>
 					</td>
-					<td class="TableRowText02"><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
-					<td class="TableRowText02"><s:property value="numCompound" /></td>
-					<td class="TableRowText02"><s:property value="modelType" /></td>
+					<td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
+					<td><s:property value="numCompound" /></td>
+					<td><s:property value="modelType" /></td>
 					
 					<s:if test="userName=='_all'">
-					<td class="TableRowText02">Public</td>
-					<td class="TableRowText02"><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=all-users">download</a></td>
-					<td class="TableRowText02"><!-- dataset is public, so no delete option --></td>
+					<td>Public</td>
+					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=all-users">download</a></td>
+					<td><!-- dataset is public, so no delete option --></td>
 					</s:if>
 					<s:else>
-					<td class="TableRowText02">Private</td>
-					<td class="TableRowText02"><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=<s:property value="user.userName" />">download</a></td>
-					<td class="TableRowText02"><a onclick="return confirmDelete('dataset')" href="deleteDataset?id=<s:property value="fileId" />">delete</a></td>
+					<td>Private</td>
+					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=<s:property value="user.userName" />">download</a></td>
+					<td><a onclick="return confirmDelete('dataset')" href="deleteDataset?id=<s:property value="fileId" />">delete</a></td>
 					</s:else>
 					
 					</tr> 

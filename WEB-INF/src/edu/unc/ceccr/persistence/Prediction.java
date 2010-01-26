@@ -31,6 +31,7 @@ public class Prediction implements java.io.Serializable{
 	private float similarityCutoff;
 	private String userName;
 	private Date dateCreated;
+	private String hasBeenViewed;
 
 	private List<PredictionValue> predictedValues = new ArrayList<PredictionValue>(0);
 	
@@ -153,6 +154,14 @@ public class Prediction implements java.io.Serializable{
 	public void setDatasetId(Long datasetId) {
 		this.datasetId = datasetId;
 	}
-	
+
+	@Column(name = "hasBeenViewed")
+	public String getHasBeenViewed() {
+		return hasBeenViewed;
+	}
+	public void setHasBeenViewed(String hasBeenViewed) {
+		this.hasBeenViewed = hasBeenViewed;
+	}
+
 
 }
