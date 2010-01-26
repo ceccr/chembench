@@ -16,6 +16,15 @@ public class SdfToJpgWorkflow {
 		//structuresDir = subdirectory for structures, e.g. Visualization/Structures/
 		//sketchesDir = subdirectory for sketches, e.g. Visualization/Sketches/
 		
+		//remove explicit hydrogens from SDFs; they are noise as far as the JPG is concerned.
+		String execstr1 = "removeExplicitH.sh " + filePath + fileName + " " + filePath + fileName + ".removedH";
+		Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + filePath);
+		Process p = Runtime.getRuntime().exec(execstr1, null, new File(filePath));
+		Utility.writeProgramLogfile(filePath, "removeExplicitH", p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		
+		fileName += ".removedH";
+		
 		//Split the input SDF (lots of compounds) into separate SDFs (1 compound each).
 		//Put that in the Structures dir.
 		structuresDir = filePath + structuresDir;
