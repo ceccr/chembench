@@ -115,7 +115,7 @@
 					<td class="TableRowText01">Delete</td>
 				</tr>
 				<s:iterator value="userDatasets">
-					<s:if test="hasBeenViewed==YES">
+					<s:if test="hasBeenViewed=='YES'">
 					<tr class="TableRowText02">
 					</s:if>
 					<s:else>
@@ -179,7 +179,7 @@
 					<td class="TableRowText01">Delete</td>
 				</tr>
 				<s:iterator value="userPredictors">
-					<s:if test="hasBeenViewed==YES">
+					<s:if test="hasBeenViewed=='YES'">
 					<tr class="TableRowText02">
 					</s:if>
 					<s:else>
@@ -232,7 +232,7 @@
 					<td class="TableRowText01">Delete</td>
 				</tr>
 				<s:iterator value="userPredictions">
-					<s:if test="hasBeenViewed==YES">
+					<s:if test="hasBeenViewed=='YES'">
 					<tr class="TableRowText02">
 					</s:if>
 					<s:else>
