@@ -67,6 +67,23 @@ public class ViewDataset extends ActionSupport {
 			this.activityValue = activityValue;
 		}
 	}
+
+
+	public String loadCompoundsSection() throws Exception {
+		return SUCCESS;
+	}
+	
+	public String loadExternalCompoundsSection() throws Exception {
+		return SUCCESS;
+	}
+
+	public String loadVisualizationSection() throws Exception {
+		return SUCCESS;
+	}
+
+	public String loadWarningsSection() throws Exception {
+		return SUCCESS;
+	}
 	
 	public String loadPage() throws Exception {
 		String result = SUCCESS;
