@@ -154,6 +154,23 @@
         <action name="viewDataset" class="edu.unc.ceccr.action.ViewDataset" method="loadPage">
         	<result>jsp/dataSet/viewDataset.jsp</result>
         </action>
+        
+        <action name="loadViewDatasetCompoundsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadCompoundsSection">
+        	<result>jsp/dataSet/viewDataset-compounds.jsp</result>
+        </action>
+        
+        <action name="loadViewDatasetExternalCompoundsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadExternalCompoundsSection">
+        	<result>jsp/dataSet/viewDataset-externalCompounds.jsp</result>
+        </action>
+        
+        <action name="loadViewDatasetVisualizationSection" class="edu.unc.ceccr.action.ViewDataset" method="loadVisualizationSection">
+        	<result>jsp/dataSet/viewDataset-visualization.jsp</result>
+        </action>
+        
+        <action name="loadViewDatasetWarningsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadWarningsSection">
+        	<result>jsp/dataSet/viewDataset-warnings.jsp</result>
+        </action>
+        
         <!-- End View Dataset Page -->
         
         <!-- View Predictor Page -->

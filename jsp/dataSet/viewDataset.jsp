@@ -59,7 +59,7 @@
 		</tr>
 	</table>
 	<!-- End Header Info -->
-	
+
 	<!-- Page description -->	
 	<br />
 	<s:if test="dataset.datasetType=='PREDICTION'">
@@ -71,48 +71,26 @@
 	</s:elseif>
 	<!-- End page description -->
 	
-	<!-- Compounds -->	
-	<br />
-		<p class="StandardTextDarkGray"><b><u>Dataset Compounds</u></b></p>
+	
+	<sx:tabbedpanel id="viewDatasetTabs" >
+	
+    	<sx:div href="/loadViewDatasetCompoundsSection" label="Compounds" theme="ajax" loadingText="Loading compounds...">
+		</sx:div>
 		
-	<table width="924" align="center">
-		<tr><td>
+		<s:if test="dataset.datasetType=='MODELING'">
+		<sx:div href="/loadViewDatasetExternalCompoundsSection" label="Update Info" theme="ajax" loadingText="Loading external compounds...">
+		</sx:div>
+		</s:if>
 		
+		<sx:div href="/loadViewDatasetVisualizationSection" label="Heatmap" theme="ajax" loadingText="Loading heatmap...">
+		</sx:div>
 		
-			<p class="StandardTextDarkGray" width="550">Go To Page: 
-			<s:iterator value="pageNums" status="pageNumsStatus">
-			<s:if test="pageNums[%{pageNumsStatus.index}]==currentPageNumber"><u></s:if>
-			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="pageNums[%{pageNumsStatus.index}]==currentPageNumber"></u></s:if> 
-			</s:iterator>
-			</p>
-
-			<table>
-				<tr>
-					<!-- header for left side table -->
-					<td class="TableRowText01">Compound ID</td>
-					<td class="TableRowText01">Structure</td>
-					<s:if test="dataset.datasetType=='MODELING'">
-					<td class="TableRowText01">Activity</td>
-					</s:if>
-				</tr>
-				<!-- body for left side table -->
-				<s:iterator value="datasetCompounds" status="datasetCompoundsStatus">
-				<tr>
-					<td class="TableRowText02"><s:property value="compoundId" /></td>
-					<td class="TableRowText02">
-<a href="#" onclick="window.open('compound3D?compoundId=<s:property value="compoundId" />&project=<s:property value="dataset.fileName" />&projectType=dataset&user=<s:property value="user.userName" />&datasetID=<s:property value="dataset.fileId" />, '<% new java.util.Date().getTime(); %>','width=350, height=350'); return false;">
-<img src="/imageServlet?user=<s:property value="user.userName" />&projectType=dataset&compoundId=<s:property value='compoundId' />&project=<s:property value="dataset.fileName" />&datasetID=<s:property value="dataset.fileId" />" border="0" height="150" onmouseover='enlargeImage(this);' onmouseout='shrinkImage(this)'/></a>					
-					</td>
-					<s:if test="dataset.datasetType=='MODELING'">
-					<td class="TableRowText02"><s:property value="activityValue" /></td>
-					</s:if>
-				</tr>
-				</s:iterator>
-			</table>
-		</td></tr>
-	</table>
-	<!-- End Predictions -->
+		<sx:div href="/loadViewDatasetWarningsSection" label="Warnings" theme="ajax" loadingText="Loading heatmap...">
+		</sx:div>
+		
+   	</sx:tabbedpanel>
+	
+	
 	
 <%@include file ="/jsp/main/footer.jsp" %>
 </table>
