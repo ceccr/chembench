@@ -127,10 +127,6 @@ public class ViewDataset extends ActionSupport {
 				datasetDir += "DATASETS/" + dataset.getFileName() + "/";
 				Utility.writeToDebug("opening file: " + datasetDir + dataset.getSdfFile());
 				ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
-
-				if(compoundIDs == null){
-					Utility.writeToDebug("why would this be null?");
-				}
 				
 				for(String cid: compoundIDs){
 					Compound c = new Compound();

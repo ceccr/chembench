@@ -45,7 +45,7 @@
 	<table width="924" align="center">
 		<tr>
 			<td class="TableRowText01">Dataset Name</td>
-			<td class="TableRowText01">Num. Compounds</td>
+			<td class="TableRowText01">Number of Compounds</td>
 			<td class="TableRowText01">Date Created</td>
 			<td class="TableRowText01">Description</td>
 			<td class="TableRowText01">Paper Reference</td>
@@ -77,7 +77,8 @@
 		
 	<table width="924" align="center">
 		<tr><td>
-			<p class="StandardTextDarkGray" width="550">Page Number: <s:iterator value="pageNums"><s:if test='==currentPageNumber'><u></s:if><a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a><s:if test='${}==currentPageNumber'></u></s:if> </s:iterator></p>
+			<p class="StandardTextDarkGray" width="550">Page Number: <s:iterator value="pageNums"><s:if test='[0]==currentPageNumber'><u></s:if><a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a><s:if test='%{}==currentPageNumber'></u></s:if> </s:iterator></p>
+			<p><s:property value="currentPageNumber" /></p>
 			<table>
 				<tr>
 					<!-- header for left side table -->
