@@ -77,14 +77,16 @@
 		
 	<table width="924" align="center">
 		<tr><td>
-			<p class="StandardTextDarkGray" width="550">Page Number: 
+		
+			<p class="StandardTextDarkGray" width="550">Go To Page: 
 			<s:iterator value="pageNums">
-			<s:if test="<s:property />==currentPageNumber"><u></s:if>
+			<s:if test="[0]==currentPageNumber"><u></s:if>
 			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="<s:property />==currentPageNumber"></u></s:if> 
+			<s:if test="[0]==currentPageNumber"></u></s:if> 
 			</s:iterator>
 			</p>
 			<p class="StandardTextDarkGray"><u><a href=""><s:property value="currentPageNumber" /></a></p>
+			
 			<table>
 				<tr>
 					<!-- header for left side table -->
