@@ -80,44 +80,24 @@
 		
 		
 			<p class="StandardTextDarkGray" width="550">Go To Page: 
-			<s:iterator value="pageNums">
-			<s:if test="${}==currentPageNumber"><u></s:if>
+			<s:iterator value="pageNums" status="pageNumsStatus">
+			<s:if test="%{pageNums[pageNumsStatus.index]}==currentPageNumber"><u></s:if>
 			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="${}==currentPageNumber"></u></s:if> 
+			<s:if test="%{pageNums[pageNumsStatus.index]}==currentPageNumber"></u></s:if> 
 			</s:iterator>
 			
 			<s:iterator value="pageNums">
-			<s:if test="%{}==currentPageNumber"><u></s:if>
+			<s:if test="#{}==currentPageNumber"><u></s:if>
 			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="%{}==currentPageNumber"></u></s:if> 
+			<s:if test="#{}==currentPageNumber"></u></s:if> 
 			</s:iterator>
 			
 			<s:iterator value="pageNums">
-			<s:if test="%{[0]}==currentPageNumber"><u></s:if>
+			<s:if test="#{[0]}==currentPageNumber"><u></s:if>
 			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="%[0]}==currentPageNumber"></u></s:if> 
-			</s:iterator>
-
-
-
-
-			<s:iterator value="pageNums">
-			<s:if test="#this==currentPageNumber"><u></s:if>
-			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="#this==currentPageNumber"></u></s:if> 
+			<s:if test="#[0]}==currentPageNumber"></u></s:if> 
 			</s:iterator>
 			
-			<s:iterator value="pageNums">
-			<s:if test="#parameters.messageKey[0]==currentPageNumber"><u></s:if>
-			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="#parameters.messageKey[0]==currentPageNumber"></u></s:if> 
-			</s:iterator>
-			
-			<s:iterator value="pageNums">
-			<s:if test="#parameters[0]==currentPageNumber"><u></s:if>
-			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="#parameters[0]==currentPageNumber"></u></s:if> 
-			</s:iterator>
 			</p>
 			<p class="StandardTextDarkGray"><u><a href=""><s:property value="currentPageNumber" /></a></p>
 			
