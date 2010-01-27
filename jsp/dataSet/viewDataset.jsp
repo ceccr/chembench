@@ -81,9 +81,9 @@
 		
 			<p class="StandardTextDarkGray" width="550">Go To Page: 
 			<s:iterator value="pageNums" status="pageNumsStatus">
-			<s:if test="%{pageNums[pageNumsStatus.index]}==currentPageNumber"><u></s:if>
+			<s:if test="pageNums[pageNumsStatus.index]==currentPageNumber"><u></s:if>
 			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="%{pageNums[pageNumsStatus.index]}==currentPageNumber"></u></s:if> 
+			<s:if test="pageNums[pageNumsStatus.index]==currentPageNumber"></u></s:if> 
 			</s:iterator>
 			
 			<s:iterator value="pageNums">
@@ -91,9 +91,9 @@
 			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
 			<s:if test="#{}==currentPageNumber"></u></s:if> 
 			</s:iterator>
-			
+
 			<s:iterator value="pageNums">
-			<s:if test="#{[0]}==currentPageNumber"><u></s:if>
+			<s:if test="<s:property/>==currentPageNumber"><u></s:if>
 			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
 			<s:if test="#[0]}==currentPageNumber"></u></s:if> 
 			</s:iterator>
