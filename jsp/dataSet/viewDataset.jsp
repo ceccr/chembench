@@ -87,12 +87,6 @@
 			</s:iterator>
 			
 			<s:iterator value="pageNums">
-			<s:if test="${[0]}==currentPageNumber"><u></s:if>
-			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="${[0]}==currentPageNumber"></u></s:if> 
-			</s:iterator>
-			
-			<s:iterator value="pageNums">
 			<s:if test="%{}==currentPageNumber"><u></s:if>
 			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
 			<s:if test="%{}==currentPageNumber"></u></s:if> 
