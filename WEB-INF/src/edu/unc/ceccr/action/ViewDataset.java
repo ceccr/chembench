@@ -90,6 +90,17 @@ public class ViewDataset extends ActionSupport {
 				return result;
 			}
 			try{
+
+			if(context.getParameters().get("orderBy") != null){
+				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+			}
+			if(context.getParameters().get("currentPageNumber") != null){
+				currentPageNumber = ((String[]) context.getParameters().get("currentPageNumber"))[0]; 	
+			}
+			if(context.getParameters().get("datasetId") != null){
+				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
+			}
+				
 			//get dataset
 			Utility.writeToStrutsDebug("dataset id: " + datasetId);
 			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
