@@ -89,7 +89,7 @@ public class ViewDataset extends ActionSupport {
 				result = LOGIN;
 				return result;
 			}
-			
+			try{
 			//get dataset
 			Utility.writeToStrutsDebug("dataset id: " + datasetId);
 			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
@@ -168,7 +168,10 @@ public class ViewDataset extends ActionSupport {
 				pageNums.add(page);
 				j++;
 			}
-			
+			}
+			catch(Exception ex){
+				Utility.writeToDebug(ex);
+			}
 		}
 		return result;
 	}
