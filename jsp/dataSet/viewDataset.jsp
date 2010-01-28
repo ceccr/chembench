@@ -84,7 +84,8 @@
 			<s:param name="orderBy" value='orderBy' />
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
-    	<sx:div href="/datasetCompoundsLink" label="Compounds" theme="ajax" loadingText="Loading compounds...">
+		
+    	<sx:div href="%{datasetCompoundsLink}" label="Compounds" theme="ajax" loadingText="Loading compounds...">
 		</sx:div>
 		
 		<s:if test="dataset.datasetType=='MODELING'">
