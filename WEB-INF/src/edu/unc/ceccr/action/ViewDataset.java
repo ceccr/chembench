@@ -94,7 +94,7 @@ public class ViewDataset extends ActionSupport {
 			Utility.writeToStrutsDebug("dataset id: " + datasetId);
 			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
 			if(datasetId == null){
-				Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
+				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
 			}
 			
 			//define which compounds will appear on page
@@ -119,6 +119,7 @@ public class ViewDataset extends ActionSupport {
 				c.setCompoundId(cid);
 				datasetCompounds.add(c);
 			}
+			Utility.writeToDebug("compoundIds: " + datasetCompounds.size());
 			
 			//get activity values (if applicable)
 			if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
@@ -244,7 +245,7 @@ public class ViewDataset extends ActionSupport {
 		
 		//log the results
 		if(result.equals(SUCCESS)){
-			Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to viewPrediction page.");
+			Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to viewDataset page.");
 		}
 		else{
 			Utility.writeToStrutsDebug("Cannot load page.");
