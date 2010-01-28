@@ -71,7 +71,12 @@
 	</s:elseif>
 	<!-- End page description -->
 	
+	<!-- pass URL arguments on to tab pages -->
+	<s:hidden name="currentPageNumber" value="currentPageNumber" />
+	<s:hidden name="orderBy" value="orderBy" />
+	<s:hidden name="datasetId" value="datasetId" />
 	
+	<!-- load tabs -->
 	<sx:tabbedpanel id="viewDatasetTabs" >
 	
     	<sx:div href="/loadViewDatasetCompoundsSection" label="Compounds" theme="ajax" loadingText="Loading compounds...">

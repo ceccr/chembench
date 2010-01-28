@@ -47,7 +47,9 @@ public class ViewDataset extends ActionSupport {
 	private DataSet dataset; 
 	private ArrayList<Compound> datasetCompounds; 
 	private ArrayList<String> pageNums;
-	private String currentPageNumber = "1";
+	private String currentPageNumber;
+	private String orderBy;
+	private String datasetId; 
 
 	public class Compound{
 		//using a class instead of two arraylists for sortability.
@@ -70,7 +72,104 @@ public class ViewDataset extends ActionSupport {
 
 
 	public String loadCompoundsSection() throws Exception {
-		return SUCCESS;
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			
+			//get dataset
+			Utility.writeToStrutsDebug("dataset id: " + datasetId);
+			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
+			if(datasetId == null){
+				Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
+			}
+			
+			//define which compounds will appear on page
+			int pagenum = Integer.parseInt(currentPageNumber) - 1;
+			int limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
+			int offset = pagenum * limit; //which compoundid to start on
+         	
+			//get compounds
+			datasetCompounds = new ArrayList<Compound>();
+			String datasetUser = dataset.getUserName();
+			if(datasetUser.equals("_all")){
+				datasetUser = "all-users";
+			}
+			
+			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
+			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
+			Utility.writeToDebug("opening file: " + datasetDir + dataset.getSdfFile());
+			ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
+			
+			for(String cid: compoundIDs){
+				Compound c = new Compound();
+				c.setCompoundId(cid);
+				datasetCompounds.add(c);
+			}
+			
+			//get activity values (if applicable)
+			if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
+				HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile());
+				
+				for(Compound c: datasetCompounds){
+					c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
+				}
+			}
+
+			//sort the compound array
+			if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
+				//sort by compoundId
+				Collections.sort(datasetCompounds, new Comparator<Compound>() {
+				    public int compare(Compound o1, Compound o2) {
+			    		return o1.getCompoundId().compareTo(o2.getCompoundId());
+				    }});
+			}
+			else if(orderBy == "activityValue" && ! dataset.getDatasetType().equals(Constants.PREDICTION)){
+				Collections.sort(datasetCompounds, new Comparator<Compound>() {
+				    public int compare(Compound o1, Compound o2) {
+				    	float f1 = Float.parseFloat(o1.getActivityValue());
+				    	float f2 = Float.parseFloat(o2.getActivityValue());
+				    	return (f2 > f1? 1:-1);
+				    }});
+			}
+
+			//pick out the ones to be displayed on the page based on offset and limit
+			int compoundNum = 0;
+			for(int i = 0; i < datasetCompounds.size(); i++){
+				if(compoundNum < offset || compoundNum >= (offset + limit)){
+					//don't display this compound
+					datasetCompounds.remove(i);
+					i--;
+				}				
+				else{
+					//leave it in the array
+				}
+				compoundNum++;
+			}
+
+			pageNums = new ArrayList<String>(); //displays the page numbers at the top
+			int j = 1;
+			for(int i = 0; i < compoundIDs.size(); i += limit){
+				String page = Integer.toString(j);
+				pageNums.add(page);
+				j++;
+			}
+			
+		}
+		return result;
 	}
 	
 	public String loadExternalCompoundsSection() throws Exception {
@@ -97,9 +196,8 @@ public class ViewDataset extends ActionSupport {
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			String datasetId = ((String[]) context.getParameters().get("id"))[0];
+			datasetId = ((String[]) context.getParameters().get("id"))[0];
 			
-			String orderBy = null;
 			if(context.getParameters().get("orderBy") != null){
 				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
 			}
@@ -108,10 +206,9 @@ public class ViewDataset extends ActionSupport {
 				pagenumstr = ((String[]) context.getParameters().get("pagenum"))[0]; //how many to skip (pagination)
 			}
 			
-			int pagenum = 0;
+			currentPageNumber = "1";
 			if(pagenumstr != null){
 				currentPageNumber = pagenumstr;
-				pagenum = Integer.parseInt(pagenumstr) - 1;
 			}
 
 			if(user == null){
@@ -123,81 +220,7 @@ public class ViewDataset extends ActionSupport {
 				Utility.writeToStrutsDebug("No dataset ID supplied.");
 			}
 			else{
-				//get dataset
-				Utility.writeToStrutsDebug("dataset id: " + datasetId);
 				dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
-				if(datasetId == null){
-					Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
-				}
-				
-				int limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
-				int offset = pagenum * limit; //which compoundid to start on
-             	
-				//get compounds
-				datasetCompounds = new ArrayList<Compound>();
-				String datasetUser = dataset.getUserName();
-				if(datasetUser.equals("_all")){
-					datasetUser = "all-users";
-				}
-				
-				String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
-				datasetDir += "DATASETS/" + dataset.getFileName() + "/";
-				Utility.writeToDebug("opening file: " + datasetDir + dataset.getSdfFile());
-				ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
-				
-				for(String cid: compoundIDs){
-					Compound c = new Compound();
-					c.setCompoundId(cid);
-					datasetCompounds.add(c);
-				}
-				
-				//get activity values (if applicable)
-				if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
-					HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile());
-					
-					for(Compound c: datasetCompounds){
-						c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
-					}
-				}
-
-				//sort the compound array
-				if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
-					//sort by compoundId
-					Collections.sort(datasetCompounds, new Comparator<Compound>() {
-					    public int compare(Compound o1, Compound o2) {
-				    		return o1.getCompoundId().compareTo(o2.getCompoundId());
-					    }});
-				}
-				else if(orderBy == "activityValue" && ! dataset.getDatasetType().equals(Constants.PREDICTION)){
-					Collections.sort(datasetCompounds, new Comparator<Compound>() {
-					    public int compare(Compound o1, Compound o2) {
-					    	float f1 = Float.parseFloat(o1.getActivityValue());
-					    	float f2 = Float.parseFloat(o2.getActivityValue());
-					    	return (f2 > f1? 1:-1);
-					    }});
-				}
-
-				//pick out the ones to be displayed on the page based on offset and limit
-				int compoundNum = 0;
-				for(int i = 0; i < datasetCompounds.size(); i++){
-					if(compoundNum < offset || compoundNum >= (offset + limit)){
-						//don't display this compound
-						datasetCompounds.remove(i);
-						i--;
-					}				
-					else{
-						//leave it in the array
-					}
-					compoundNum++;
-				}
-
-				pageNums = new ArrayList<String>(); //displays the page numbers at the top
-				int j = 1;
-				for(int i = 0; i < compoundIDs.size(); i += limit){
-					String page = Integer.toString(j);
-					pageNums.add(page);
-					j++;
-				}
 				
 				//the dataset has now been viewed. Update DB accordingly.
 				if(! dataset.getHasBeenViewed().equals(Constants.YES)){
@@ -264,5 +287,18 @@ public class ViewDataset extends ActionSupport {
 	public void setCurrentPageNumber(String currentPageNumber) {
 		this.currentPageNumber = currentPageNumber;
 	}
-	
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public String getDatasetId() {
+		return datasetId;
+	}
+	public void setDatasetId(String datasetId) {
+		this.datasetId = datasetId;
+	}
 }
