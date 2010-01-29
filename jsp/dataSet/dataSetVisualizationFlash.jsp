@@ -71,6 +71,9 @@ function handleWheel(event) {
 
 <%DataSet ds = (DataSet)session.getAttribute("ds"); %>
 
+<p>web-addr=<%=Constants.WEBADDRESS%>/&dataset=<%=ds.getFileName()%>&ncom=<%=ds.getNumCompound()%>&type_=<%=ds.getModelType()%>&creation_date=<%=ds.getCreatedTime().toString().substring(0,ds.getCreatedTime().toString().indexOf(" "))%>&desc=<%=ds.getDescription()%>&actFile=<%=ds.getActFile()%>&sdfFile=<%=ds.getSdfFile()%>&user=<%=ds.getUserName()%>','movie','/visFlash/heatmap' 
+		</p>
+
 <table width="924px" align="center" border="0">
 <tr align="center" id="download" style="display:none;">
 <td align="center">
