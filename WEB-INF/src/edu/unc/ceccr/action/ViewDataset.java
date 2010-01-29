@@ -193,6 +193,8 @@ public class ViewDataset extends ActionSupport {
 		else{
 			user = (User) context.getSession().get("user");
 			
+			try{
+			
 			if(user == null){
 				Utility.writeToStrutsDebug("No user is logged in.");
 				result = LOGIN;
@@ -227,6 +229,7 @@ public class ViewDataset extends ActionSupport {
 				Compound c = new Compound();
 				c.setCompoundId(compoundId);
 				c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
+				externalCompounds.add(c);
 			}
 			
 			//sort by activity, that seems good
@@ -236,6 +239,10 @@ public class ViewDataset extends ActionSupport {
 			    	float f2 = Float.parseFloat(o2.getActivityValue());
 			    	return (f2 > f1? 1:-1);
 			    }});
+			
+			}catch(Exception ex){
+				Utility.writeToDebug(ex);
+			}
 		}
 		return SUCCESS;
 	}
