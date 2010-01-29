@@ -6,7 +6,7 @@
 
 <!-- Compounds -->	
 	<br />
-		<p class="StandardTextDarkGray"><b><u>Dataset Compounds</u></b></p>
+		<p class="StandardTextDarkGray"><b><u>All Compounds In Dataset</u></b></p>
 		
 	<table width="924" align="center">
 		<tr><td>

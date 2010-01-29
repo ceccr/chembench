@@ -39,7 +39,7 @@
 	<td height="557" colspan="5" valign="top">
 	
 	<span class="Errors"><b><!-- errors go here..? --></b></span> 
-	<span class="StandardTextDarkGray">
+	<span class="StandardTextDarkGray"></span>
 
 	<br />
 	<table width="924" align="center">
@@ -67,7 +67,7 @@
 	</s:if>
 	<s:elseif test="dataset.datasetType=='MODELING'">
 	<p class="StandardTextDarkGray" width="550">The compounds in your dataset are below, with the activity values you supplied.
-	 The compounds in the external set are shown at the bottom of the page.</p>
+	 The compounds of the external set are shown in the second tab.</p>
 	</s:elseif>
 	<!-- End page description -->
 	
