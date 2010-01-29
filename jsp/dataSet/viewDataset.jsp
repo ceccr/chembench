@@ -89,7 +89,7 @@
 		</sx:div>
 		
 		<s:if test="dataset.datasetType=='MODELING'">
-		<sx:div href="/loadViewDatasetExternalCompoundsSection" label="Update Info" theme="ajax" loadingText="Loading external compounds...">
+		<sx:div href="/loadViewDatasetExternalCompoundsSection" label="External Set" theme="ajax" loadingText="Loading external compounds...">
 		</sx:div>
 		</s:if>
 		

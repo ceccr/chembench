@@ -19,7 +19,7 @@
 			<s:if test="pageNums[%{pageNumsStatus.index}]==currentPageNumber"></u></s:if> 
 			</s:iterator>
 			</p>
-
+	<p class="StandardTextDarkGray" width="550"><s:property value="currentPageNumber" /> </p>
 			<table>
 				<tr>
 					<!-- header for left side table -->
