@@ -130,7 +130,6 @@ public class ViewDataset extends ActionSupport {
 				c.setCompoundId(cid);
 				datasetCompounds.add(c);
 			}
-			Utility.writeToDebug("compoundIds: " + datasetCompounds.size());
 			
 			//get activity values (if applicable)
 			if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
