@@ -367,4 +367,11 @@ public class ViewDataset extends ActionSupport {
 	public void setDatasetId(String datasetId) {
 		this.datasetId = datasetId;
 	}
+
+	public ArrayList<Compound> getExternalCompounds() {
+		return externalCompounds;
+	}
+	public void setExternalCompounds(ArrayList<Compound> externalCompounds) {
+		this.externalCompounds = externalCompounds;
+	}
 }
