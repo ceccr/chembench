@@ -530,7 +530,7 @@ public class Model extends KnnOutput implements java.io.Serializable, ModelInter
 		return descriptorsUsed;
 	}
 	public void setDescriptorsUsed(String descriptorsUsed) {
-		if(descriptorsUsed.length() > 4000){
+		if(descriptorsUsed != null && descriptorsUsed.length() > 4000){
 			//truncate to 4000 and log an error
 			Utility.writeToDebug("Warning: Descriptors truncated for model " + id + " in predictor " + predictor);
 			descriptorsUsed = descriptorsUsed.substring(0, 3999);
