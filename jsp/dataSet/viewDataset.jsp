@@ -89,14 +89,24 @@
 		</sx:div>
 		
 		<s:if test="dataset.datasetType=='MODELING'">
-		<sx:div href="/loadViewDatasetExternalCompoundsSection" label="External Set" theme="ajax" loadingText="Loading external compounds...">
-		</sx:div>
+			<s:url id="externalCompoundsLink" value="/loadViewDatasetExternalCompoundsSection" includeParams="none">
+				<s:param name="datasetId" value='datasetId' />
+			</s:url>
+			
+			<sx:div href="%{externalCompoundsLink}" label="External Set" theme="ajax" loadingText="Loading external compounds...">
+			</sx:div>
 		</s:if>
 		
-		<sx:div href="/loadViewDatasetVisualizationSection" label="Heatmap" theme="ajax" loadingText="Loading heatmap...">
+		<s:url id="heatmapLink" value="/loadViewDatasetVisualizationSection" includeParams="none">
+			<s:param name="datasetId" value='datasetId' />
+		</s:url>
+		<sx:div href="%{heatmapLink}" label="Heatmap" theme="ajax" loadingText="Loading heatmap...">
 		</sx:div>
 		
-		<sx:div href="/loadViewDatasetWarningsSection" label="Warnings" theme="ajax" loadingText="Loading heatmap...">
+		<s:url id="warningsLink" value="/loadViewDatasetWarningsSection" includeParams="none">
+			<s:param name="datasetId" value='datasetId' />
+		</s:url>
+		<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading heatmap...">
 		</sx:div>
 		
    	</sx:tabbedpanel>
