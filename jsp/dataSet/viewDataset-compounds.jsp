@@ -28,12 +28,6 @@
 			</p>
 			
 			
-			<s:if test="pageNums[%{pageNumsStatus.index}]==currentPageNumber"><u></s:if>
-			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="pageNums[%{pageNumsStatus.index}]==currentPageNumber"></u></s:if> 
-			</s:iterator>
-			</p>
-			
 	<p class="StandardTextDarkGray" width="550"><s:property value="currentPageNumber" /> </p>
 			<table>
 				<tr>
