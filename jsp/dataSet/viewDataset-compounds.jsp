@@ -18,7 +18,6 @@
 			</s:iterator>
 			</p>
 			
-	<p class="StandardTextDarkGray" width="550"><s:property value="currentPageNumber" /> </p>
 			<table>
 				<tr>
 					<!-- header for left side table -->
