@@ -3,6 +3,9 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
+<script src="javascript/script.js"></script>
+<script src="javascript/AC_RunActiveContent.js"></script>
+<script src="javascript/hookMouseWheel.js"></script>
 <script type="text/javascript">
 function show_vis_panel()
 {

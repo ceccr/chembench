@@ -17,6 +17,8 @@
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
 	<script language="javascript" src="javascript/script.js" />
+	<script src="javascript/AC_RunActiveContent.js"></script>
+	<script src="javascript/hookMouseWheel.js"></script>
 	<script language="javascript">
 	
 	</script>
