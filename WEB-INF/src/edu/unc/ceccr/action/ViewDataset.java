@@ -193,6 +193,8 @@ public class ViewDataset extends ActionSupport {
 		else{
 			user = (User) context.getSession().get("user");
 			
+			try{
+			
 			if(user == null){
 				Utility.writeToStrutsDebug("No user is logged in.");
 				result = LOGIN;
@@ -203,7 +205,7 @@ public class ViewDataset extends ActionSupport {
 				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
 			}
 			//get dataset
-			Utility.writeToStrutsDebug("dataset id: " + datasetId);
+			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
 			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
 			if(datasetId == null){
 				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
@@ -236,6 +238,10 @@ public class ViewDataset extends ActionSupport {
 			    	float f2 = Float.parseFloat(o2.getActivityValue());
 			    	return (f2 > f1? 1:-1);
 			    }});
+			
+			}catch(Exception ex){
+				Utility.writeToDebug(ex);
+			}
 		}
 		return SUCCESS;
 	}
