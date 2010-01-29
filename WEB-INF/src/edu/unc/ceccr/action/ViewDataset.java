@@ -271,7 +271,6 @@ public class ViewDataset extends ActionSupport {
 				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
 			}
 			
-			
 		}
 			
 		return result;
