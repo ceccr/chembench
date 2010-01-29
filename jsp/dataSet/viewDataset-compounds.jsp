@@ -10,44 +10,11 @@
 		
 	<table width="924" align="center">
 		<tr><td>
-		
-			<p class="StandardTextDarkGray" width="550">Go To Page: 
-			<s:iterator value="pageNums" status="pageNumsStatus">
-			<s:if test="pageNums[%{#pageNumsStatus.index}]==currentPageNumber"><u></s:if>
-			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="pageNums[%{#pageNumsStatus.index}]==currentPageNumber"></u></s:if> 
-			</s:iterator>
-			</p>
 			
 			<p class="StandardTextDarkGray" width="550">Go To Page: 
 			<s:iterator value="pageNums" status="pageNumsStatus">
 			<s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"><u></s:if>
-			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"></u></s:if> 
-			</s:iterator>
-			</p>
-			
-			<p class="StandardTextDarkGray" width="550">Go To Page: 
-			<s:iterator value="pageNums" status="pageNumsStatus"><br />
-			<s:property value="pageNums[%{pageNumsStatus.index}]" /><br />
-			<s:property value="%{pageNums[pageNumsStatus.index]}" /><br />
-			<s:property value="pageNums[pageNumsStatus.index]" /><br />
-			full array: <s:property value="pageNums" /><br />
-			of 0: <s:property value="pageNums[0]" /><br />
-			<s:set name="varname" value="pageNums[0]" />
-			set1: <s:property value="varname" />
-			set2: <s:property value="%{varname}" />
-			set3: <s:property value="%{#varname}" />
-			index0: <s:property value="%{#pageNumsStatus.index}" /><br />
-			of index0: <s:property value="pageNums[%{#pageNumsStatus.index}]" /><br />
-			index1: <s:property value="%{pageNumsStatus.index}" /><br />
-			index2: <s:property value="#pageNumsStatus.index" /><br />
-			of index2: <s:property value="pageNums[#pageNumsStatus.index]" /><br />
-			index3: <s:property value="pageNumsStatus.index" /><br />
-			
-			<s:if test="pageNums[%{pageNumsStatus.index}]==currentPageNumber"><u></s:if>
-			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a>
-			<s:if test="pageNums[%{pageNumsStatus.index}]==currentPageNumber"></u></s:if> 
+			<a href="viewDataset?id=<s:property value='dataset.fileId' />&pagenum=<s:property/>"><s:property/></a><s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"></u> </s:if> 
 			</s:iterator>
 			</p>
 			
