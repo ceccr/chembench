@@ -51,6 +51,7 @@ public class ViewDataset extends ActionSupport {
 	private String currentPageNumber;
 	private String orderBy;
 	private String datasetId; 
+	private String webAddress = Constants.WEBADDRESS;
 
 	public class Compound{
 		//using a class instead of two arraylists for sortability.
@@ -431,5 +432,12 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setExternalCompounds(ArrayList<Compound> externalCompounds) {
 		this.externalCompounds = externalCompounds;
+	}
+	
+	public String getWebAddress() {
+		return webAddress;
+	}
+	public void setWebAddress(String webAddress) {
+		this.webAddress = webAddress;
 	}
 }
