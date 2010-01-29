@@ -91,7 +91,7 @@ public class KnnModelBuildingWorkflow{
 
 		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
 		
-		String execstr1 = "PredActivCont3rwknnLIN knn-output.list ext_0.x pred_output 1.0";
+		String execstr1 = "PredActivCont3rwknnLIN knn-output.list " + Constants.EXTERNAL_SET_X_FILE + " pred_output 1.0";
 		  Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
 	      Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
 	      Utility.writeProgramLogfile(workingdir, "PredActivCont3rwknnLIN", p.getInputStream(), p.getErrorStream());
@@ -103,7 +103,7 @@ public class KnnModelBuildingWorkflow{
 	      Utility.writeProgramLogfile(workingdir, "ConsPredContrwknnLIN", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 	    
-	    String execstr3 = "parse_structgen_merge.pl cons_pred ext_0.a fake_argument external_prediction_table";
+	    String execstr3 = "parse_structgen_merge.pl cons_pred " + Constants.EXTERNAL_SET_A_FILE + " fake_argument external_prediction_table";
 		  Utility.writeToDebug("Running external program: " + execstr3 + " in dir " + workingdir);
 	      p = Runtime.getRuntime().exec(execstr3, null, new File(workingdir));
 	      Utility.writeProgramLogfile(workingdir, "parse_structgen_merge.pl", p.getInputStream(), p.getErrorStream());

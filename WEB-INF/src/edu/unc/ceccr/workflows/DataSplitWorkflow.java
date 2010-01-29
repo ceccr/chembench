@@ -57,10 +57,11 @@ public class DataSplitWorkflow{
 	    p.waitFor();
 	    
 	    //put the split files in the right spots
-		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.a", workingdir + "train_0.a");
-		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.x", workingdir + "train_0.x");
-		FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.a", workingdir + "ext_0.a");
-		FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.x", workingdir + "ext_0.x");
+		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.a", workingdir + Constants.MODELING_SET_A_FILE);
+		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.x", workingdir + Constants.MODELING_SET_X_FILE);
+		FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.a", workingdir + Constants.EXTERNAL_SET_A_FILE);
+		FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.x", workingdir + Constants.EXTERNAL_SET_X_FILE);
+		
 	}
 	
 	public static void splitModelingExternalGivenList(
@@ -77,14 +78,15 @@ public class DataSplitWorkflow{
 		File inAct = new File(workingdir + actFileName);
 		BufferedReader inActReader = new BufferedReader(new FileReader(inAct));
 		
-		File outActModeling = new File(workingdir + "train_0.a");
+		File outActModeling = new File(workingdir + Constants.MODELING_SET_A_FILE);
 		FileWriter outActModelingWriter = new FileWriter(outActModeling);
-		File outActExternal = new File(workingdir + "ext_0.a");
+		File outActExternal = new File(workingdir + Constants.EXTERNAL_SET_A_FILE);
 		FileWriter outActExternalWriter = new FileWriter(outActExternal);
-		File outXModeling = new File(workingdir + "train_0.x");
+		File outXModeling = new File(workingdir + Constants.MODELING_SET_X_FILE);
 		FileWriter outXModelingWriter = new FileWriter(outXModeling);
-		File outXExternal = new File(workingdir + "ext_0.x");
+		File outXExternal = new File(workingdir + Constants.EXTERNAL_SET_X_FILE);
 		FileWriter outXExternalWriter = new FileWriter(outXExternal);
+		
 		
 		//split the X file
 		//header line first

@@ -46,6 +46,7 @@ public class ViewDataset extends ActionSupport {
 	private User user;
 	private DataSet dataset; 
 	private ArrayList<Compound> datasetCompounds; 
+	private ArrayList<Compound> externalCompounds; 
 	private ArrayList<String> pageNums;
 	private String currentPageNumber;
 	private String orderBy;
@@ -70,7 +71,6 @@ public class ViewDataset extends ActionSupport {
 		}
 	}
 
-
 	public String loadCompoundsSection() throws Exception {
 		String result = SUCCESS;
 		//check that the user is logged in
@@ -89,8 +89,6 @@ public class ViewDataset extends ActionSupport {
 				result = LOGIN;
 				return result;
 			}
-			try{
-
 			if(context.getParameters().get("orderBy") != null){
 				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
 			}
@@ -178,23 +176,77 @@ public class ViewDataset extends ActionSupport {
 				pageNums.add(page);
 				j++;
 			}
-			}
-			catch(Exception ex){
-				Utility.writeToDebug(ex);
-			}
 		}
 		return result;
 	}
 	
 	public String loadExternalCompoundsSection() throws Exception {
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			
+			if(context.getParameters().get("datasetId") != null){
+				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
+			}
+			//get dataset
+			Utility.writeToStrutsDebug("dataset id: " + datasetId);
+			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
+			if(datasetId == null){
+				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
+			}
+			
+			//load external compounds from file
+			externalCompounds = new ArrayList<Compound>();
+			String datasetUser = dataset.getUserName();
+			if(datasetUser.equals("_all")){
+				datasetUser = "all-users";
+			}
+			
+			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
+			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
+			Utility.writeToDebug("opening file: " + datasetDir + Constants.EXTERNAL_SET_A_FILE);
+			
+			HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE);
+			
+			ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+			for(String compoundId : compoundIds){
+				Compound c = new Compound();
+				c.setCompoundId(compoundId);
+				c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
+			}
+			
+			//sort by activity, that seems good
+			Collections.sort(externalCompounds, new Comparator<Compound>() {
+			    public int compare(Compound o1, Compound o2) {
+			    	float f1 = Float.parseFloat(o1.getActivityValue());
+			    	float f2 = Float.parseFloat(o2.getActivityValue());
+			    	return (f2 > f1? 1:-1);
+			    }});
+		}
 		return SUCCESS;
 	}
 
 	public String loadVisualizationSection() throws Exception {
+		
 		return SUCCESS;
 	}
 
 	public String loadWarningsSection() throws Exception {
+		
 		return SUCCESS;
 	}
 	

@@ -100,8 +100,8 @@ public class ZipJobResultsWorkflow{
 		ArrayList<String> datasetFiles = new ArrayList<String>();
 		
 		//add in the basic dataset files
-		datasetFiles.add("train_0.a");
-		datasetFiles.add("ext_0.a");
+		datasetFiles.add(Constants.MODELING_SET_A_FILE);
+		datasetFiles.add(Constants.EXTERNAL_SET_A_FILE);
 		
 		//add in the .act, .sdf, and .x files
 		File projectDirFile = new File(projectDir);

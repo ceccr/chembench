@@ -33,7 +33,7 @@ public class GetJobFilesWorkflow{
 		String externalSplitXFile = "";
 		
 		if(dataset.getDatasetType().equals(Constants.MODELING) || dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
-			externalSplitXFile = "ext_0.x";
+			externalSplitXFile = Constants.EXTERNAL_SET_X_FILE;
 		}
 		
 		Utility.writeToDebug("Fetching dataset files from " + userFilesDir, userName, "");
