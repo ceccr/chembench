@@ -48,6 +48,7 @@
 		<tr>
 			<td class="TableRowText01">Dataset Name</td>
 			<td class="TableRowText01">Number of Compounds</td>
+			<td class="TableRowText01">Dataset Type</td>
 			<td class="TableRowText01">Date Created</td>
 			<td class="TableRowText01">Description</td>
 			<td class="TableRowText01">Paper Reference</td>
@@ -55,6 +56,7 @@
 		<tr>
 			<td class="TableRowText02"><s:property value="dataset.fileName" /></td>
 			<td class="TableRowText02"><s:property value="dataset.numCompound" /></td>
+			<td class="TableRowText02"><s:property value="dataset.datasetType" /></td>
 			<td class="TableRowText02"><s:property value="dataset.createdTime" /></td>
 			<td class="TableRowText02"><s:property value="dataset.description" /></td>
 			<td class="TableRowText02"><s:property value="dataset.paperReference" /></td>

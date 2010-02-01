@@ -189,10 +189,8 @@
         </action>
         
         <action name="viewPredictionWarningsSection" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadWarningsSection">
-        	<result>jsp/prediction/viewPrediction-predictions.jsp</result>
+        	<result>jsp/prediction/viewPrediction-warnings.jsp</result>
         </action>
-        
-        
         <!-- End View Prediction Page -->
         
         <!-- Servlet forwards -->
