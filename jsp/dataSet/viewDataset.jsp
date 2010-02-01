@@ -73,11 +73,6 @@
 	</s:elseif>
 	<!-- End page description -->
 	
-	<!-- pass URL arguments on to tab pages -->
-	<s:hidden name="currentPageNumber" value="currentPageNumber" />
-	<s:hidden name="orderBy" value="orderBy" />
-	<s:hidden name="datasetId" value="datasetId" />
-	
 	<!-- load tabs -->
 	<sx:tabbedpanel id="viewDatasetTabs" >
 	
@@ -108,11 +103,11 @@
 		<s:url id="warningsLink" value="/loadViewDatasetWarningsSection" includeParams="none">
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
-		<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading heatmap...">
+		<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading warnings...">
 		</sx:div>
 		
    	</sx:tabbedpanel>
-	
+	<!-- end load tabs -->
 	
 	
 <%@include file ="/jsp/main/footer.jsp" %>
