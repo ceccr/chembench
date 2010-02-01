@@ -159,15 +159,10 @@ public class KnnPredictionWorkflow{
 			//create prediction value object
 			PredictionValue p = new PredictionValue();
 			p.setNumModelsUsed(numPredictingModels);
-			Utility.writeToDebug("numPredictingModels: " + numPredictingModels);
 			p.setNumTotalModels(predictionMatrix.size());
-			Utility.writeToDebug("NumTotalModels: " + predictionMatrix.size());
 			p.setPredictedValue(mean);
-			Utility.writeToDebug("mean: " + mean);
 			p.setStandardDeviation(stddev);
-			Utility.writeToDebug("stddev: " + stddev);
 			p.setCompoundName(compoundNames[i+2]);
-			Utility.writeToDebug("compoundName: " + compoundNames[i+2]);
 			p.setPredictorId(predictorId);
 			
 			predictionValues.add(p);
