@@ -76,7 +76,7 @@
 	<!-- load tabs -->
 	<sx:tabbedpanel id="viewDatasetTabs" >
 	
-		<s:url id="datasetCompoundsLink" value="/loadViewDatasetCompoundsSection" includeParams="none">
+		<s:url id="datasetCompoundsLink" value="/viewDatasetCompoundsSection" includeParams="none">
 			<s:param name="currentPageNumber" value='currentPageNumber' />
 			<s:param name="orderBy" value='orderBy' />
 			<s:param name="datasetId" value='datasetId' />
@@ -86,7 +86,7 @@
 		</sx:div>
 		
 		<s:if test="dataset.datasetType=='MODELING'">
-			<s:url id="externalCompoundsLink" value="/loadViewDatasetExternalCompoundsSection" includeParams="none">
+			<s:url id="externalCompoundsLink" value="/viewDatasetExternalCompoundsSection" includeParams="none">
 				<s:param name="datasetId" value='datasetId' />
 			</s:url>
 			
@@ -94,13 +94,13 @@
 			</sx:div>
 		</s:if>
 		
-		<s:url id="heatmapLink" value="/loadViewDatasetVisualizationSection" includeParams="none">
+		<s:url id="heatmapLink" value="/viewDatasetVisualizationSection" includeParams="none">
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
 		<sx:div href="%{heatmapLink}" label="Heatmap" theme="ajax" loadingText="Loading heatmap...">
 		</sx:div>
 		
-		<s:url id="warningsLink" value="/loadViewDatasetWarningsSection" includeParams="none">
+		<s:url id="warningsLink" value="/viewDatasetWarningsSection" includeParams="none">
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
 		<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading warnings...">

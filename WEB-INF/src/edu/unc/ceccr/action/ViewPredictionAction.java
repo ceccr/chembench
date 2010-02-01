@@ -52,12 +52,13 @@ public class ViewPredictionAction extends ActionSupport {
 	ArrayList<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
 	private String currentPageNumber;
 	private String orderBy;
-	private String datasetId; 
+	private ArrayList<String> pageNums;
 	
 	public class CompoundPredictions{
 		String compound;
 		ArrayList<PredictionValue> predictionValues;
-
+		int sortByIndex = 0; //only used when sorting by prediction value
+		
 		public String getCompound() {
 			return compound;
 		}
@@ -69,6 +70,12 @@ public class ViewPredictionAction extends ActionSupport {
 		}
 		public void setPredictionValues(ArrayList<PredictionValue> predictionValues) {
 			this.predictionValues = predictionValues;
+		}
+		public int getSortByIndex() {
+			return sortByIndex;
+		}
+		public void setSortByIndex(int sortByIndex) {
+			this.sortByIndex = sortByIndex;
 		}
 	}
 	
@@ -103,9 +110,20 @@ public class ViewPredictionAction extends ActionSupport {
 			//get prediction
 			Utility.writeToStrutsDebug("prediction id: " + predictionId);
 			prediction = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
+			prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getFileName());
 			if(predictionId == null){
 				Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
 			}
+			
+			//get predictors for this prediction
+			predictors = new ArrayList<Predictor>();
+			String[] predictorIds = prediction.getPredictorIds().split("\\s+");
+			for(int i = 0; i < predictorIds.length; i++){
+				predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
+			}
+			
+			//get dataset
+			dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
 			
 			//define which compounds will appear on page
 			int pagenum = Integer.parseInt(currentPageNumber) - 1;
@@ -113,55 +131,59 @@ public class ViewPredictionAction extends ActionSupport {
 			int offset = pagenum * limit; //which compoundid to start on
          	
 			//get prediction values
-			compoundPredictionValues = new ArrayList<CompoundPredictions>();
+			populateCompoundPredictionValues(session);
 			String datasetUser = dataset.getUserName();
 			if(datasetUser.equals("_all")){
 				datasetUser = "all-users";
 			}
 			
-			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
-			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
-			Utility.writeToDebug("opening file: " + datasetDir + dataset.getSdfFile());
-			ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
-			
-			for(String cid: compoundIDs){
-				Compound c = new Compound();
-				c.setCompoundId(cid);
-				datasetCompounds.add(c);
-			}
-			
-			//get activity values (if applicable)
-			if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
-				HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile());
-				
-				for(Compound c: datasetCompounds){
-					c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
-				}
-			}
-
-			//sort the compound array
+			//sort the compoundPrediction array
 			if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
 				//sort by compoundId
-				Collections.sort(datasetCompounds, new Comparator<Compound>() {
-				    public int compare(Compound o1, Compound o2) {
-			    		return o1.getCompoundId().compareTo(o2.getCompoundId());
+				Collections.sort(compoundPredictionValues, new Comparator<CompoundPredictions>() {
+				    public int compare(CompoundPredictions o1, CompoundPredictions o2) {
+			    		return o1.getCompound().compareTo(o2.getCompound());
 				    }});
 			}
-			else if(orderBy == "activityValue" && ! dataset.getDatasetType().equals(Constants.PREDICTION)){
-				Collections.sort(datasetCompounds, new Comparator<Compound>() {
-				    public int compare(Compound o1, Compound o2) {
-				    	float f1 = Float.parseFloat(o1.getActivityValue());
-				    	float f2 = Float.parseFloat(o2.getActivityValue());
-				    	return (f2 > f1? 1:-1);
-				    }});
+			else if(orderBy != null && !orderBy.equals("")){
+				//check if orderBy equals one of the predictor names,
+				//and order by those values if so.
+			
+				for(int i = 0; i < predictors.size();i++){
+					if(predictors.get(i).getName().equals(orderBy)){
+						//tell each sub-object what its sortBy index is
+						for(CompoundPredictions c : compoundPredictionValues){
+							c.setSortByIndex(i*2);
+						}
+						Collections.sort(compoundPredictionValues, new Comparator<CompoundPredictions>() {
+							public int compare(CompoundPredictions o1, CompoundPredictions o2) {
+								float f1;
+								float f2;
+								if(o1.getPredictionValues().get(o1.getSortByIndex()).getPredictedValue() == null){
+									f1 = -999999;
+								}
+								else{
+									f1 = o1.getPredictionValues().get(o1.getSortByIndex()).getPredictedValue();
+								}
+								if(o2.getPredictionValues().get(o2.getSortByIndex()).getPredictedValue() == null){
+									f2 = -999999;
+								}
+								else{
+									f2 = o2.getPredictionValues().get(o2.getSortByIndex()).getPredictedValue();
+								}
+						    	return (f2 > f1? 1:-1);
+						    }});
+		    		}
+				}
+					
 			}
-
+		
 			//pick out the ones to be displayed on the page based on offset and limit
 			int compoundNum = 0;
-			for(int i = 0; i < datasetCompounds.size(); i++){
+			for(int i = 0; i < compoundPredictionValues.size(); i++){
 				if(compoundNum < offset || compoundNum >= (offset + limit)){
 					//don't display this compound
-					datasetCompounds.remove(i);
+					compoundPredictionValues.remove(i);
 					i--;
 				}				
 				else{
@@ -172,7 +194,7 @@ public class ViewPredictionAction extends ActionSupport {
 
 			pageNums = new ArrayList<String>(); //displays the page numbers at the top
 			int j = 1;
-			for(int i = 0; i < compoundIDs.size(); i += limit){
+			for(int i = 0; i < compoundPredictionValues.size(); i += limit){
 				String page = Integer.toString(j);
 				pageNums.add(page);
 				j++;
@@ -181,6 +203,35 @@ public class ViewPredictionAction extends ActionSupport {
 		return result;
 	}
 
+	private void populateCompoundPredictionValues(Session session) throws Exception{
+		
+		//get compounds from SDF
+		String predictionDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/";
+		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
+		
+		Utility.writeToDebug("numCompounds: " + compounds.size());
+		for(int i = 0; i < compounds.size(); i++){
+			CompoundPredictions cp = new CompoundPredictions();
+			cp.compound = compounds.get(i);
+			//get prediction values
+			cp.predictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionIdAndCompoundId(Long.parseLong(predictionId), cp.compound, session);
+
+			//round them to a reasonable number of significant figures
+			for(PredictionValue pv : cp.predictionValues){
+				int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
+				if(pv.getPredictedValue() != null){
+					String predictedValue = DecimalFormat.getInstance().format(pv.getPredictedValue()).replaceAll(",", "");
+					pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
+				}
+				if(pv.getStandardDeviation() != null){
+					String stddev = DecimalFormat.getInstance().format(pv.getStandardDeviation()).replaceAll(",", "");
+					pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
+				}
+			}
+			compoundPredictionValues.add(cp);
+		}
+	}
+	
 	public String loadWarningsSection() throws Exception {
 		String result = SUCCESS;
 		//check that the user is logged in
@@ -211,44 +262,6 @@ public class ViewPredictionAction extends ActionSupport {
 			}
 		}
 		return result;
-	}
-	
-	
-	private void populateCompoundPredictionValues(String orderBy, String pageNumber, String compoundsPerPage, Session session) throws Exception{
-		
-		//get compounds
-		String predictionDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/";
-		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
-		
-		Utility.writeToDebug("numCompounds: " + compounds.size());
-		for(int i = 0; i < compounds.size(); i++){
-			CompoundPredictions cp = new CompoundPredictions();
-			cp.compound = compounds.get(i);
-			//get prediction values
-			cp.predictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionIdAndCompoundId(Long.parseLong(predictionId), cp.compound, session);
-
-			//round them to a reasonable number of significant figures
-			for(PredictionValue pv : cp.predictionValues){
-				int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
-				if(pv.getPredictedValue() != null){
-					String predictedValue = DecimalFormat.getInstance().format(pv.getPredictedValue()).replaceAll(",", "");
-					pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
-				}
-				if(pv.getStandardDeviation() != null){
-					String stddev = DecimalFormat.getInstance().format(pv.getStandardDeviation()).replaceAll(",", "");
-					pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
-				}
-			}
-			compoundPredictionValues.add(cp);
-		}
-		
-		//sort the compound predictions array
-		if(orderBy.equals("")){
-			//sort by compoundId
-		}
-	
-		//pick out the ones to be displayed on the page based on orderBy, pageNumber, and compoundsPerPage
-		
 	}
 	
 	public String loadPage() throws Exception {
@@ -384,5 +397,26 @@ public class ViewPredictionAction extends ActionSupport {
 	public void setCompoundPredictionValues(
 			ArrayList<CompoundPredictions> compoundPredictionValues) {
 		this.compoundPredictionValues = compoundPredictionValues;
+	}
+
+	public String getCurrentPageNumber() {
+		return currentPageNumber;
+	}
+	public void setCurrentPageNumber(String currentPageNumber) {
+		this.currentPageNumber = currentPageNumber;
+	}
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public ArrayList<String> getPageNums() {
+		return pageNums;
+	}
+	public void setPageNums(ArrayList<String> pageNums) {
+		this.pageNums = pageNums;
 	}
 }

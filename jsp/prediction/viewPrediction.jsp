@@ -89,7 +89,7 @@
 	<!-- load tabs -->
 	<sx:tabbedpanel id="viewPredictionTabs" >
 	
-		<s:url id="predictionsLink" value="/loadViewPredictionPredictionsSection" includeParams="none">
+		<s:url id="predictionsLink" value="/viewPredictionPredictionsSection" includeParams="none">
 			<s:param name="currentPageNumber" value='currentPageNumber' />
 			<s:param name="orderBy" value='orderBy' />
 			<s:param name="predictionId" value='predictionId' />
@@ -98,7 +98,7 @@
     	<sx:div href="%{predictionsLink}" label="All Compounds" theme="ajax" loadingText="Loading predictions...">
 		</sx:div>
 		
-		<s:url id="warningsLink" value="/loadViewPredictionWarningsSection" includeParams="none">
+		<s:url id="warningsLink" value="/viewPredictionWarningsSection" includeParams="none">
 			<s:param name="predictionId" value='predictionId' />
 		</s:url>
 		<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading warnings...">

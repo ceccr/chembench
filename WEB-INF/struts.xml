@@ -155,19 +155,19 @@
         	<result>jsp/dataSet/viewDataset.jsp</result>
         </action>
         
-        <action name="loadViewDatasetCompoundsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadCompoundsSection">
+        <action name="viewDatasetCompoundsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadCompoundsSection">
         	<result>jsp/dataSet/viewDataset-compounds.jsp</result>
         </action>
         
-        <action name="loadViewDatasetExternalCompoundsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadExternalCompoundsSection">
+        <action name="viewDatasetExternalCompoundsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadExternalCompoundsSection">
         	<result>jsp/dataSet/viewDataset-externalCompounds.jsp</result>
         </action>
         
-        <action name="loadViewDatasetVisualizationSection" class="edu.unc.ceccr.action.ViewDataset" method="loadVisualizationSection">
+        <action name="viewDatasetVisualizationSection" class="edu.unc.ceccr.action.ViewDataset" method="loadVisualizationSection">
         	<result>jsp/dataSet/viewDataset-visualization.jsp</result>
         </action>
         
-        <action name="loadViewDatasetWarningsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadWarningsSection">
+        <action name="viewDatasetWarningsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadWarningsSection">
         	<result>jsp/dataSet/viewDataset-warnings.jsp</result>
         </action>
         
@@ -183,6 +183,16 @@
         <action name="viewPrediction" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadPage">
         	<result>jsp/prediction/viewPrediction.jsp</result>
         </action>
+        
+        <action name="viewPredictionPredictionsSection" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadPredictionsSection">
+        	<result>jsp/prediction/viewPrediction-predictions.jsp</result>
+        </action>
+        
+        <action name="viewPredictionWarningsSection" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadWarningsSection">
+        	<result>jsp/prediction/viewPrediction-predictions.jsp</result>
+        </action>
+        
+        
         <!-- End View Prediction Page -->
         
         <!-- Servlet forwards -->
