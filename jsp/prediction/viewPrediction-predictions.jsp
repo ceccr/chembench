@@ -9,6 +9,14 @@
 		
 	<table width="924" align="center">
 		<tr><td>
+		
+			<p class="StandardTextDarkGray" width="550">Go To Page: 
+			<s:iterator value="pageNums" status="pageNumsStatus">
+			<s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"><u></s:if>
+			<a href="viewPrediction?id=<s:property value='prediction.id' />&pagenum=<s:property/>"><s:property/></a><s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"></u> </s:if> 
+			</s:iterator>
+			</p>
+			
 			<table>
 				<tr>
 				<!-- header for left side table -->
