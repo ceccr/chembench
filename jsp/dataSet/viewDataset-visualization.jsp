@@ -41,8 +41,9 @@ function handleWheel(event) {
 
 <table width="924px" align="center" border="0">
 <tr>
-<td align="center">
-
+<td align="left">
+<br />
+<p class="StandardTextDarkGray"><b><u>Heatmap Flash Application</u></b></p>
 <p class="StandardTextDarkGrayParagraph">
 The Heatmap tool is useful for visualizing similarity between all pairs of compounds in your dataset. 
 MACCS keys are generated and compared to produce the heatmap. The similarity is based on Tanimoto or Mahalanobis; you can select
@@ -59,7 +60,7 @@ These four arrows sort the rows / columns based on the activity values of the co
 by hovering the mouse over a compound ID. The activity of each compound is also represented by the blue shading under each compound;
 darker blues indicate lower activity values.
 </p>
-
+<br />
   <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="924" height="924">
     <param name="movie" value="/visFlash/heatmap.swf" />
     <param name="quality" value="high" />

@@ -84,7 +84,7 @@
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
 		
-    	<sx:div href="%{datasetCompoundsLink}" label="All Compounds" theme="ajax" loadingText="Loading compounds..." preload="false">
+    	<sx:div href="%{datasetCompoundsLink}" id="allCompoundsDiv" label="All Compounds" theme="ajax" loadingText="Loading compounds..." preload="false">
 		</sx:div>
 		
 		<s:if test="dataset.datasetType=='MODELING'">
@@ -109,6 +109,19 @@
 		</sx:div>
 		
    	</sx:tabbedpanel>
+   	
+   	<s:url id="refreshURL" action="/RefreshAction" />
+
+
+	<s:url id="datasetCompoundsLinkTwo" value="/viewDatasetCompoundsSection" includeParams="none">
+		<s:param name="currentPageNumber" value='3' />
+		<s:param name="orderBy" value='orderBy' />
+		<s:param name="datasetId" value='datasetId' />
+	</s:url>
+		
+	<s:submit key="button.add" theme="ajax" targets="allCompoundsDiv"
+	disabled="false"href="%{datasetCompoundsLinkTwo}" />
+   	
 	<!-- end load tabs -->
 	
 	
