@@ -87,7 +87,7 @@
 		
 	<!-- load tabs -->
 	<sx:tabbedpanel id="viewPredictionTabs" >
-	
+
 		<s:url id="predictionsLink" value="/viewPredictionPredictionsSection" includeParams="none">
 			<s:param name="currentPageNumber" value='currentPageNumber' />
 			<s:param name="orderBy" value='orderBy' />

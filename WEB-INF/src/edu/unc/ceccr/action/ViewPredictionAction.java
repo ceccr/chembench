@@ -199,6 +199,9 @@ public class ViewPredictionAction extends ActionSupport {
 				pageNums.add(page);
 				j++;
 			}
+			Utility.writeToDebug("limit: " + limit);
+			Utility.writeToDebug("compoundPredictionValues size: " + compoundPredictionValues.size());	
+			Utility.writeToDebug("pagenums size: " + pageNums.size());	
 		}
 		return result;
 	}
@@ -303,13 +306,11 @@ public class ViewPredictionAction extends ActionSupport {
 			}
 			else{
 
-				Utility.writeToDebug("A");
 				currentPageNumber = "1";
 				if(pagenumstr != null){
 					currentPageNumber = pagenumstr;
 				}
 
-				Utility.writeToDebug("B");
 				Utility.writeToStrutsDebug("prediction id: " + predictionId);
 				prediction = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
 				prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getFileName());
@@ -317,7 +318,6 @@ public class ViewPredictionAction extends ActionSupport {
 					Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
 				}
 
-				Utility.writeToDebug("C");
 				//get predictors for this prediction
 				predictors = new ArrayList<Predictor>();
 				String[] predictorIds = prediction.getPredictorIds().split("\\s+");
@@ -325,11 +325,9 @@ public class ViewPredictionAction extends ActionSupport {
 					predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
 				}
 
-				Utility.writeToDebug("D");
 				//get dataset
 				dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
 
-				Utility.writeToDebug("E");
 				//the prediction has now been viewed. Update DB accordingly.
 				if(! prediction.getHasBeenViewed().equals(Constants.YES)){
 					prediction.setHasBeenViewed(Constants.YES);
@@ -344,7 +342,6 @@ public class ViewPredictionAction extends ActionSupport {
 						Utility.writeToDebug(e);
 					}
 				}
-				Utility.writeToDebug("F");
 			}
 		}
 
