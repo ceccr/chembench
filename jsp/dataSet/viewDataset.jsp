@@ -21,27 +21,26 @@
 	<script src="javascript/hookMouseWheel.js"></script>
 
 	<script language="javascript">
-	
-		function ohais(){
+		function loadAllCompoundsTab(newUrl){
+			//When the user changes which page they're on in the All Compounds tab
+			//or changes the sorted element, run this function to update the tab's content
+			
+			//prepare the AJAX object
+			var ajaxObject = GetXmlHttpObject();
+			ajaxObject.onreadystatechange=function(){
+				if(ajaxObject.readyState==4){
+					hideLoading();
+				  	document.getElementById("allCompoundsDiv").innerHTML=ajaxObject.responseText;
+				}
+			}
+			
+			//send request
+			ajaxObject.open("GET",newUrl,true);
+			ajaxObject.send(null);
+			
+			return true;
+		}
 
-		}
-	
-		function omais(){
-			alert("<s:property value='datasetCompoundsLink'/>");
-		}
-		
-		function orais(){
-			alert(document.getElementById("allCompoundsDiv").innerHTML);
-			document.getElementById("allCompoundsDiv").innerHTML = "bruifuiefheui";
-		}
-		
-		function oqais(){
-			alert(document.getElementById("allCompoundsDiv").href);
-		}
-		
-		function owais(){
-
-		}
 	</script>
 </head>
 
