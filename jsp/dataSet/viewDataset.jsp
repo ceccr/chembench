@@ -23,15 +23,23 @@
 	<script language="javascript">
 	
 		function ohais(){
-			alert("Javascript works");
+			document.getElementById("allCompoundsDiv").href="<s:property value='%{datasetCompoundsLink}'/>";
 		}
 	
 		function omais(){
-			alert(document.getElementById("myDiv").innerHTML);
+			alert("<s:property value='%{datasetCompoundsLink}'/>");
 		}
 		
 		function orais(){
 			alert(document.getElementById("allCompoundsDiv").innerHTML);
+		}
+		
+		function oqais(){
+			alert(document.getElementById("allCompoundsDiv").href);
+		}
+		
+		function owais(){
+			document.getElementById("allCompoundsDiv").href="<s:property value='%{datasetCompoundsLinkTwo}'/>";
 		}
 	</script>
 </head>
@@ -86,6 +94,25 @@
 	 The compounds of the external set are shown in the second tab.</p>
 	</s:elseif>
 	<!-- End page description -->
+	
+	
+	<p>
+	<input type="button" onclick="ohais()" value="heya" /><br />
+	<input type="button" onclick="omais()" value="woot" /><br />
+	<input type="button" onclick="orais()" value="mega" /><br />
+	
+
+	<s:url id="datasetCompoundsLinkTwo" value="/viewDatasetCompoundsSection" includeParams="none">
+		<s:param name="currentPageNumber" value='3' />
+		<s:param name="orderBy" value='orderBy' />
+		<s:param name="datasetId" value='datasetId' />
+	</s:url>
+	
+	<input type="button" onclick="oqais()" value="giga" /><br />
+	<input type="button" onclick="owais()" value="tera" /><br />
+
+	</p>
+	
 	
 	<!-- load tabs -->
 	<sx:tabbedpanel id="viewDatasetTabs" >

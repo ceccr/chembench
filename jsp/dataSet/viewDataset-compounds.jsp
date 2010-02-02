@@ -5,37 +5,11 @@
 
 <script language="javascript">
 
-	function ohai(){
-		alert("Javascript works");
-	}
-
-	function omai(){
-		alert(document.getElementById("myDiv").innerHTML);
-	}
-	
-	function orai(){
-		alert(document.getElementById("allCompoundsDiv").innerHTML);
-	}
 </script>
 
 <!-- Compounds -->	
 	<div id="myDiv">
 	
-	<s:url id="datasetCompoundsLinkTwo" value="/viewDatasetCompoundsSection" includeParams="none">
-		<s:param name="currentPageNumber" value='3' />
-		<s:param name="orderBy" value='orderBy' />
-		<s:param name="datasetId" value='datasetId' />
-	</s:url>
-	<br />
-	<input type="button" onclick="ohais()" value="heya" /><br />
-	<input type="button" onclick="omais()" value="woot" /><br />
-	<input type="button" onclick="orais()" value="mega" /><br />
-	<input type="button" onclick="ohai()" value="heya" /><br />
-	<input type="button" onclick="omai()" value="woot" /><br />
-	<input type="button" onclick="orai()" value="mega" /><br />
-	
-	
-	<br />
 		<p class="StandardTextDarkGray"><b><u>All Compounds In Dataset</u></b></p>
 		
 	<table width="924" align="center">
