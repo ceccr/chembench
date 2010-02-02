@@ -84,7 +84,7 @@
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
 		
-    	<sx:div href="%{datasetCompoundsLink}" id="allCompoundsDiv" label="All Compounds" theme="ajax" loadingText="Loading compounds..." preload="false">
+    	<sx:div href="%{datasetCompoundsLink}" id="allCompoundsDiv" executeScripts="true" label="All Compounds" theme="ajax" loadingText="Loading compounds..." preload="false">
 		</sx:div>
 		
 		<s:if test="dataset.datasetType=='MODELING'">

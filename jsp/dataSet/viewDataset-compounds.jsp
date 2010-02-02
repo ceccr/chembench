@@ -26,10 +26,10 @@
 		<s:param name="orderBy" value='orderBy' />
 		<s:param name="datasetId" value='datasetId' />
 	</s:url>
-	
-	<input type="button" onclick="ohai()" value="heya" />
-	<input type="button" onclick="omai()" value="woot" />
-	<input type="button" onclick="orai()" value="mega" />
+	<br />
+	<input type="button" onclick="ohai()" value="heya" /><br />
+	<input type="button" onclick="omai()" value="woot" /><br />
+	<input type="button" onclick="orai()" value="mega" /><br />
 	
 	
 	<br />
