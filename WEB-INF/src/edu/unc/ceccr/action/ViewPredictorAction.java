@@ -127,7 +127,6 @@ public class ViewPredictorAction extends ActionSupport {
 				String predictedValue = DecimalFormat.getInstance().format(e.getPredictedValue()).replaceAll(",", "");
 				e.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));  
 				if(! e.getStandDev().equalsIgnoreCase("No value")){
-					Utility.writeToDebug("stddev: "+ e.getStandDev());
 					e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
 				}
 			}

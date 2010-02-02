@@ -94,7 +94,7 @@
 			<s:param name="predictionId" value='predictionId' />
 		</s:url>
 		
-    	<sx:div href="%{predictionsLink}" label="All Compounds" theme="ajax" loadingText="Loading predictions...">
+    	<sx:div href="%{predictionsLink}" label="Prediction Values" theme="ajax" loadingText="Loading predictions...">
 		</sx:div>
 		
 		<s:url id="warningsLink" value="/viewPredictionWarningsSection" includeParams="none">

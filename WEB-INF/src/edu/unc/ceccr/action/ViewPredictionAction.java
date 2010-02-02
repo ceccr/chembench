@@ -211,7 +211,6 @@ public class ViewPredictionAction extends ActionSupport {
 		String predictionDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/";
 		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
 		
-		Utility.writeToDebug("numCompounds: " + compounds.size());
 		for(int i = 0; i < compounds.size(); i++){
 			CompoundPredictions cp = new CompoundPredictions();
 			cp.compound = compounds.get(i);

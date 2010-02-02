@@ -114,7 +114,7 @@
 	    	<sx:div id="MODELING" href="/loadModelingSection" label="Modeling Set" theme="ajax" loadingText="Loading dataset types...">
 			</sx:div>
 			
-			<sx:div id="PREDICTION" href="/loadPredictionSection" label="Prediction Set" theme="ajax" loadingText="Loading dataset types...">
+			<sx:div id="PREDICTION" href="/loadPredictionSection" label="Prediction Set" theme="ajax" loadingText="Loading dataset types..." preload="false">
 			</sx:div>
 			
 			<!-- 
@@ -164,7 +164,7 @@
 		    	<sx:div id="RANDOM" href="/loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading dataset types...">
 				</sx:div>
 	    	
-				<sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading dataset types...">
+				<sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading dataset types..." preload="false">
 				</sx:div>
 				
 	    	</sx:tabbedpanel>

@@ -84,7 +84,7 @@
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
 		
-    	<sx:div href="%{datasetCompoundsLink}" label="All Compounds" theme="ajax" loadingText="Loading compounds...">
+    	<sx:div href="%{datasetCompoundsLink}" label="All Compounds" theme="ajax" loadingText="Loading compounds..." preload="false">
 		</sx:div>
 		
 		<s:if test="dataset.datasetType=='MODELING'">
@@ -92,20 +92,20 @@
 				<s:param name="datasetId" value='datasetId' />
 			</s:url>
 			
-			<sx:div href="%{externalCompoundsLink}" label="External Set" theme="ajax" loadingText="Loading external compounds...">
+			<sx:div href="%{externalCompoundsLink}" label="External Set" theme="ajax" loadingText="Loading external compounds..." preload="false">
 			</sx:div>
 		</s:if>
 		
 		<s:url id="heatmapLink" value="/viewDatasetVisualizationSection" includeParams="none">
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
-		<sx:div href="%{heatmapLink}" label="Heatmap" theme="ajax" loadingText="Loading heatmap...">
+		<sx:div href="%{heatmapLink}" label="Heatmap" theme="ajax" loadingText="Loading heatmap..." preload="false">
 		</sx:div>
 		
 		<s:url id="warningsLink" value="/viewDatasetWarningsSection" includeParams="none">
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
-		<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading warnings...">
+		<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading warnings..." preload="false">
 		</sx:div>
 		
    	</sx:tabbedpanel>
