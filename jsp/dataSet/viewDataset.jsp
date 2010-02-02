@@ -23,15 +23,16 @@
 	<script language="javascript">
 	
 		function ohais(){
-			document.getElementById("allCompoundsDiv").href="<s:property value='%{datasetCompoundsLink}'/>";
+
 		}
 	
 		function omais(){
-			alert("<s:property value='%{datasetCompoundsLink}'/>");
+			alert("<s:property value='datasetCompoundsLink'/>");
 		}
 		
 		function orais(){
 			alert(document.getElementById("allCompoundsDiv").innerHTML);
+			document.getElementById("allCompoundsDiv").innerHTML = "bruifuiefheui";
 		}
 		
 		function oqais(){
@@ -39,7 +40,7 @@
 		}
 		
 		function owais(){
-			document.getElementById("allCompoundsDiv").href="<s:property value='%{datasetCompoundsLinkTwo}'/>";
+
 		}
 	</script>
 </head>
