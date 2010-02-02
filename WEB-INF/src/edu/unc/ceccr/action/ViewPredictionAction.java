@@ -106,7 +106,7 @@ public class ViewPredictionAction extends ActionSupport {
 			if(context.getParameters().get("predictionId") != null){
 				predictionId = ((String[]) context.getParameters().get("predictionId"))[0]; 	
 			}
-				
+			
 			//get prediction
 			Utility.writeToStrutsDebug("prediction id: " + predictionId);
 			prediction = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
