@@ -39,7 +39,6 @@
 	<td height="557" colspan="5" valign="top">
 	
 	<span class="Errors"><b><!-- errors go here..? --></b></span> 
-	<span class="StandardTextDarkGray">
 
 	<br />
 	<table width="924" align="center">

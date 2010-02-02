@@ -37,6 +37,7 @@ import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.task.Task;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
+import edu.unc.ceccr.utilities.NaturalSortComparator;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
@@ -142,9 +143,10 @@ public class ViewDataset extends ActionSupport {
 			//sort the compound array
 			if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
 				//sort by compoundId
+				
 				Collections.sort(datasetCompounds, new Comparator<Compound>() {
 				    public int compare(Compound o1, Compound o2) {
-			    		return o1.getCompoundId().compareTo(o2.getCompoundId());
+			    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
 				    }});
 			}
 			else if(orderBy == "activityValue" && ! dataset.getDatasetType().equals(Constants.PREDICTION)){

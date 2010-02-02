@@ -142,7 +142,7 @@ public class ViewPredictionAction extends ActionSupport {
 				//sort by compoundId
 				Collections.sort(compoundPredictionValues, new Comparator<CompoundPredictions>() {
 				    public int compare(CompoundPredictions o1, CompoundPredictions o2) {
-			    		return o1.getCompound().compareTo(o2.getCompound());
+			    		return Utility.naturalSortCompare(o1.getCompound(), o2.getCompound());
 				    }});
 			}
 			else if(orderBy != null && !orderBy.equals("")){
