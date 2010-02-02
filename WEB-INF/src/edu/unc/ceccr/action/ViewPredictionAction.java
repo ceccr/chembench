@@ -177,7 +177,16 @@ public class ViewPredictionAction extends ActionSupport {
 				}
 					
 			}
-		
+
+			//displays the page numbers at the top
+			pageNums = new ArrayList<String>(); 
+			int j = 1;
+			for(int i = 0; i < compoundPredictionValues.size(); i += limit){
+				String page = Integer.toString(j);
+				pageNums.add(page);
+				j++;
+			}
+			
 			//pick out the ones to be displayed on the page based on offset and limit
 			int compoundNum = 0;
 			for(int i = 0; i < compoundPredictionValues.size(); i++){
@@ -192,16 +201,6 @@ public class ViewPredictionAction extends ActionSupport {
 				compoundNum++;
 			}
 
-			pageNums = new ArrayList<String>(); //displays the page numbers at the top
-			int j = 1;
-			for(int i = 0; i < compoundPredictionValues.size(); i += limit){
-				String page = Integer.toString(j);
-				pageNums.add(page);
-				j++;
-			}
-			Utility.writeToDebug("limit: " + limit);
-			Utility.writeToDebug("compoundPredictionValues size: " + compoundPredictionValues.size());	
-			Utility.writeToDebug("pagenums size: " + pageNums.size());	
 		}
 		return result;
 	}
