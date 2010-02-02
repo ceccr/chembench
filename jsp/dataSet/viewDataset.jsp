@@ -96,17 +96,22 @@
 	<!-- End page description -->
 	
 	
-	<p>
-	<input type="button" onclick="ohais()" value="heya" /><br />
-	<input type="button" onclick="omais()" value="woot" /><br />
-	<input type="button" onclick="orais()" value="mega" /><br />
-	
-
 	<s:url id="datasetCompoundsLinkTwo" value="/viewDatasetCompoundsSection" includeParams="none">
 		<s:param name="currentPageNumber" value='3' />
 		<s:param name="orderBy" value='orderBy' />
 		<s:param name="datasetId" value='datasetId' />
 	</s:url>
+
+	<s:url id="datasetCompoundsLink" value="/viewDatasetCompoundsSection" includeParams="none">
+		<s:param name="currentPageNumber" value='currentPageNumber' />
+		<s:param name="orderBy" value='orderBy' />
+		<s:param name="datasetId" value='datasetId' />
+	</s:url>
+		
+	<p>
+	<input type="button" onclick="ohais()" value="heya" /><br />
+	<input type="button" onclick="omais()" value="woot" /><br />
+	<input type="button" onclick="orais()" value="mega" /><br />
 	
 	<input type="button" onclick="oqais()" value="giga" /><br />
 	<input type="button" onclick="owais()" value="tera" /><br />
@@ -117,11 +122,6 @@
 	<!-- load tabs -->
 	<sx:tabbedpanel id="viewDatasetTabs" >
 	
-		<s:url id="datasetCompoundsLink" value="/viewDatasetCompoundsSection" includeParams="none">
-			<s:param name="currentPageNumber" value='currentPageNumber' />
-			<s:param name="orderBy" value='orderBy' />
-			<s:param name="datasetId" value='datasetId' />
-		</s:url>
 		
     	<sx:div href="%{datasetCompoundsLink}" id="allCompoundsDiv" executeScripts="true" label="All Compounds" theme="ajax" loadingText="Loading compounds..." preload="false">
 		</sx:div>
