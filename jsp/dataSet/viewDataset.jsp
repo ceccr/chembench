@@ -110,16 +110,6 @@
 		
    	</sx:tabbedpanel>
    	
-	<s:url id="datasetCompoundsLinkTwo" value="/viewDatasetCompoundsSection" includeParams="none">
-		<s:param name="currentPageNumber" value='3' />
-		<s:param name="orderBy" value='orderBy' />
-		<s:param name="datasetId" value='datasetId' />
-	</s:url>
-		
-	<sx:form>
-	<sx:submit theme="ajax" targets="allCompoundsDiv" disabled="false" href="%{datasetCompoundsLinkTwo}" />
-   	</sx:form>
-   	
 	<!-- end load tabs -->
 	
 	

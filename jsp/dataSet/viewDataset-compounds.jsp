@@ -3,8 +3,35 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
+<script language="javascript">
+
+	function ohai(){
+		alert("Javascript works");
+	}
+
+	function omai(){
+		alert(document.getElementById("myDiv").innerHTML);
+	}
+	
+	function orai(){
+		alert(document.getElementById("allCompoundsDiv").innerHTML);
+	}
+</script>
 
 <!-- Compounds -->	
+	<div id="myDiv">
+	
+	<s:url id="datasetCompoundsLinkTwo" value="/viewDatasetCompoundsSection" includeParams="none">
+		<s:param name="currentPageNumber" value='3' />
+		<s:param name="orderBy" value='orderBy' />
+		<s:param name="datasetId" value='datasetId' />
+	</s:url>
+	
+	<input type="button" onclick="ohai()" value="heya" />
+	<input type="button" onclick="omai()" value="woot" />
+	<input type="button" onclick="orai()" value="mega" />
+	
+	
 	<br />
 		<p class="StandardTextDarkGray"><b><u>All Compounds In Dataset</u></b></p>
 		
@@ -46,4 +73,5 @@
 			</table>
 		</td></tr>
 	</table>
+	</div>
 	<!-- End Compounds -->
