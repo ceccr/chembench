@@ -27,6 +27,9 @@
 		<s:param name="datasetId" value='datasetId' />
 	</s:url>
 	<br />
+	<input type="button" onclick="ohais()" value="heya" /><br />
+	<input type="button" onclick="omais()" value="woot" /><br />
+	<input type="button" onclick="orais()" value="mega" /><br />
 	<input type="button" onclick="ohai()" value="heya" /><br />
 	<input type="button" onclick="omai()" value="woot" /><br />
 	<input type="button" onclick="orai()" value="mega" /><br />

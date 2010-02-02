@@ -19,8 +19,20 @@
 	<script language="javascript" src="javascript/script.js" />
 	<script src="javascript/AC_RunActiveContent.js"></script>
 	<script src="javascript/hookMouseWheel.js"></script>
+
 	<script language="javascript">
 	
+		function ohais(){
+			alert("Javascript works");
+		}
+	
+		function omais(){
+			alert(document.getElementById("myDiv").innerHTML);
+		}
+		
+		function orais(){
+			alert(document.getElementById("allCompoundsDiv").innerHTML);
+		}
 	</script>
 </head>
 
