@@ -119,7 +119,9 @@
 		<s:param name="datasetId" value='datasetId' />
 	</s:url>
 		
-	<s:submit key="button.add" theme="ajax" targets="allCompoundsDiv" disabled="false"href="%{datasetCompoundsLinkTwo}" />
+	<s:form>
+	<s:submit theme="ajax" targets="allCompoundsDiv" disabled="false" href="%{datasetCompoundsLinkTwo}" />
+   	</s:form>
    	
 	<!-- end load tabs -->
 	
