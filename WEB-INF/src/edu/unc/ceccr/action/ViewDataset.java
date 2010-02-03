@@ -126,7 +126,6 @@ public class ViewDataset extends ActionSupport {
 			
 			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
 			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
-			Utility.writeToDebug("opening file: " + datasetDir + dataset.getSdfFile());
 			ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundList(datasetDir + dataset.getSdfFile());
 			
 			for(String cid: compoundIDs){
@@ -246,7 +245,6 @@ public class ViewDataset extends ActionSupport {
 			
 			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
 			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
-			Utility.writeToDebug("opening file: " + datasetDir + Constants.EXTERNAL_SET_A_FILE);
 			
 			HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE);
 			
