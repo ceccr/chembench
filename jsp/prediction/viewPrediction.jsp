@@ -16,26 +16,27 @@
 	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
-	<script language="javascript" src="javascript/script.js" />
-		<script language="javascript">
-		function loadPredictionValuesTab(newUrl){
-			//When the user changes which page they're on in the Prediction Values tab
-			//or changes the sorted element, run this function to update the tab's content
-			
-			//prepare the AJAX object
-			var ajaxObject = GetXmlHttpObject();
-			ajaxObject.onreadystatechange=function(){
-				if(ajaxObject.readyState==4){
-				  	document.getElementById("predictionValuesDiv").innerHTML=ajaxObject.responseText;
-				}
+	<script language="javascript" src="javascript/script.js"></script>
+
+	<script language="javascript">
+	function loadPredictionValuesTab(newUrl){
+		//When the user changes which page they're on in the Prediction Values tab
+		//or changes the sorted element, run this function to update the tab's content
+		
+		//prepare the AJAX object
+		var ajaxObject = GetXmlHttpObject();
+		ajaxObject.onreadystatechange=function(){
+			if(ajaxObject.readyState==4){
+			  	document.getElementById("predictionValuesDiv").innerHTML=ajaxObject.responseText;
 			}
-			
-			//send request
-			ajaxObject.open("GET",newUrl,true);
-			ajaxObject.send(null);
-			
-			return true;
 		}
+		
+		//send request
+		ajaxObject.open("GET",newUrl,true);
+		ajaxObject.send(null);
+		
+		return true;
+	}
 
 	</script>
 </head>
