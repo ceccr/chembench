@@ -135,11 +135,11 @@
 		</sx:div>
 		
 		<s:if test="dataset.datasetType=='MODELING'">
-			<s:url id="externalCompoundsLink" id="externalCompoundsDiv" value="/viewDatasetExternalCompoundsSection" includeParams="none">
+			<s:url id="externalCompoundsLink" value="/viewDatasetExternalCompoundsSection" includeParams="none">
 				<s:param name="datasetId" value='datasetId' />
 			</s:url>
 			
-			<sx:div href="%{externalCompoundsLink}" label="External Set" theme="ajax" loadingText="Loading external compounds...">
+			<sx:div href="%{externalCompoundsLink}" id="externalCompoundsDiv" label="External Set" theme="ajax" loadingText="Loading external compounds..." preload="false">
 			</sx:div>
 		</s:if>
 		
