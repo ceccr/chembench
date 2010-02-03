@@ -153,7 +153,6 @@ public class ViewDataset extends ActionSupport {
 				    }});
 			}
 			else if(orderBy.equals("activityValue")){
-				Utility.writeToDebug("Sorting by activity");
 				Collections.sort(datasetCompounds, new Comparator<Compound>() {
 				    public int compare(Compound o1, Compound o2) {
 				    	float f1 = Float.parseFloat(o1.getActivityValue());
