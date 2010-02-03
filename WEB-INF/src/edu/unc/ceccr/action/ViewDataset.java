@@ -145,6 +145,13 @@ public class ViewDataset extends ActionSupport {
 			}
 
 			//sort the compound array
+			if(orderBy == null){
+				Utility.writeToDebug("orderby is null");
+			}
+			else{
+				Utility.writeToDebug("orderby is " + orderBy);
+			}
+			
 			if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
 				//sort by compoundId
 				
@@ -153,7 +160,8 @@ public class ViewDataset extends ActionSupport {
 			    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
 				    }});
 			}
-			else if(orderBy == "activityValue" && ! dataset.getDatasetType().equals(Constants.PREDICTION)){
+			else if(orderBy == "activityValue"){
+				Utility.writeToDebug("Sorting by activity");
 				Collections.sort(datasetCompounds, new Comparator<Compound>() {
 				    public int compare(Compound o1, Compound o2) {
 				    	float f1 = Float.parseFloat(o1.getActivityValue());
@@ -165,7 +173,6 @@ public class ViewDataset extends ActionSupport {
 				Collections.reverse(datasetCompounds);
 			}
 			
-
 			//pick out the ones to be displayed on the page based on offset and limit
 			int compoundNum = 0;
 			for(int i = 0; i < datasetCompounds.size(); i++){
@@ -219,6 +226,10 @@ public class ViewDataset extends ActionSupport {
 			if(context.getParameters().get("sortDirection") != null){
 				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
 			}
+			//Right now there's no pagination on external compounds. This is because
+			//typical datasets have <50 external compounds in them. If a real need arises to add
+			//pagination, it's easy enough to add.
+			
 			//get dataset
 			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
 			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
