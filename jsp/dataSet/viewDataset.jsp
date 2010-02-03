@@ -122,7 +122,6 @@
 	<a name="tabs"></a> 
 	<sx:tabbedpanel id="viewDatasetTabs" >
 	
-		
     	<sx:div href="%{datasetCompoundsLink}" id="allCompoundsDiv" executeScripts="true" label="All Compounds" theme="ajax" loadingText="Loading compounds..." preload="false">
 		</sx:div>
 		
