@@ -119,6 +119,7 @@
 	
 	
 	<!-- load tabs -->
+	<a name="tabs"></a> 
 	<sx:tabbedpanel id="viewDatasetTabs" >
 	
 		
