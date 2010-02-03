@@ -52,6 +52,7 @@ public class ViewPredictionAction extends ActionSupport {
 	ArrayList<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
 	private String currentPageNumber;
 	private String orderBy;
+	private String sortDirection;
 	private ArrayList<String> pageNums;
 	
 	public class CompoundPredictions{
@@ -105,6 +106,9 @@ public class ViewPredictionAction extends ActionSupport {
 			}
 			if(context.getParameters().get("predictionId") != null){
 				predictionId = ((String[]) context.getParameters().get("predictionId"))[0]; 	
+			}
+			if(context.getParameters().get("sortDirection") != null){
+				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0];
 			}
 			
 			//get prediction
@@ -419,5 +423,12 @@ public class ViewPredictionAction extends ActionSupport {
 	}
 	public void setPageNums(ArrayList<String> pageNums) {
 		this.pageNums = pageNums;
+	}
+	
+	public String getSortDirection() {
+		return sortDirection;
+	}
+	public void setSortDirection(String sortDirection) {
+		this.sortDirection = sortDirection;
 	}
 }
