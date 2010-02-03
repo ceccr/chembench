@@ -144,13 +144,6 @@ public class ViewDataset extends ActionSupport {
 			}
 
 			//sort the compound array
-			if(orderBy == null){
-				Utility.writeToDebug("orderby is null");
-			}
-			else{
-				Utility.writeToDebug("orderby is " + orderBy);
-			}
-			
 			if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
 				//sort by compoundId
 				
@@ -159,7 +152,7 @@ public class ViewDataset extends ActionSupport {
 			    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
 				    }});
 			}
-			else if(orderBy == "activityValue"){
+			else if(orderBy.equals("activityValue")){
 				Utility.writeToDebug("Sorting by activity");
 				Collections.sort(datasetCompounds, new Comparator<Compound>() {
 				    public int compare(Compound o1, Compound o2) {
