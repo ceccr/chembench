@@ -139,7 +139,7 @@
 				<s:param name="datasetId" value='datasetId' />
 			</s:url>
 			
-			<sx:div href="%{externalCompoundsLink}" label="External Set" theme="ajax" loadingText="Loading external compounds..." preload="false">
+			<sx:div href="%{externalCompoundsLink}" label="External Set" theme="ajax" loadingText="Loading external compounds...">
 			</sx:div>
 		</s:if>
 		
