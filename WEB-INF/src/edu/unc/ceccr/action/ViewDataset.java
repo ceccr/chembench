@@ -51,6 +51,7 @@ public class ViewDataset extends ActionSupport {
 	private ArrayList<String> pageNums;
 	private String currentPageNumber;
 	private String orderBy;
+	private String sortDirection;
 	private String datasetId; 
 	private String webAddress = Constants.WEBADDRESS;
 
@@ -99,6 +100,9 @@ public class ViewDataset extends ActionSupport {
 			}
 			if(context.getParameters().get("datasetId") != null){
 				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
+			}
+			if(context.getParameters().get("sortDirection") != null){
+				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
 			}
 				
 			//get dataset
@@ -157,6 +161,10 @@ public class ViewDataset extends ActionSupport {
 				    	return (f2 > f1? 1:-1);
 				    }});
 			}
+			if(sortDirection != null && sortDirection.equals("desc")){
+				Collections.reverse(datasetCompounds);
+			}
+			
 
 			//pick out the ones to be displayed on the page based on offset and limit
 			int compoundNum = 0;
@@ -420,6 +428,13 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setOrderBy(String orderBy) {
 		this.orderBy = orderBy;
+	}
+	
+	public String getSortDirection() {
+		return sortDirection;
+	}
+	public void setSortDirection(String sortDirection) {
+		this.sortDirection = sortDirection;
 	}
 
 	public String getDatasetId() {

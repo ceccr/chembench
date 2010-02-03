@@ -42,6 +42,7 @@
 </table>
 
 	<!-- Running Jobs -->
+	<a name="jobs"></a>
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>			
 		<tr>
@@ -81,7 +82,7 @@
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
 				<td class="TableRowText02"><s:date name="start" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><b><s:if test="stateDisplay!='started'"><s:property value="state" /><br /></s:if><s:property value="message" /><b></td>
-				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />">cancel</a></td>
+				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
 			<br />
@@ -92,6 +93,7 @@
 	<br />
 		
 	<!-- Finished Dataset Jobs -->
+	<a name="datasets"></a>
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>			
 		<tr>
@@ -139,7 +141,7 @@
 					<s:else>
 					<td>Private</td>
 					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=<s:property value="user.userName" />">download</a></td>
-					<td><a onclick="return confirmDelete('dataset')" href="deleteDataset?id=<s:property value="fileId" />">delete</a></td>
+					<td><a onclick="return confirmDelete('dataset')" href="deleteDataset?id=<s:property value="fileId" />#datasets">delete</a></td>
 					</s:else>
 					
 					</tr> 
@@ -155,6 +157,7 @@
 	<br />
 
 	<!-- Finished Modeling Jobs -->
+	<a name="predictors"></a>
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>			
 		<tr>
@@ -196,7 +199,7 @@
 					<td><s:property value="datasetDisplay" /></td>
 					<td><s:if test="userName=='_all'">Public</s:if><s:else>Private</s:else></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
-					<td><s:if test="userName=='_all'"></s:if><s:else><a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="predictorId" />">delete</a></s:else></td>
+					<td><s:if test="userName=='_all'"></s:if><s:else><a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="predictorId" />#predictors">delete</a></s:else></td>
 					</tr> 
 				</s:iterator>
 				<br />
@@ -211,6 +214,7 @@
 	<br />
 	
 	<!-- Finished Prediction Jobs -->
+	<a name="predictions"></a>
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>			
 		<tr>
@@ -247,7 +251,7 @@
 					<td><s:property value="datasetDisplay" /></td>
 					<td><s:property value="predictorNames" /></td>
 					<td><a href="projectFilesServlet?project=<s:property value='jobName' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
-					<td><a onclick="return confirmDelete('prediction')" href="deletePrediction?id=<s:property value="predictionId" />">delete</a></td>
+					<td><a onclick="return confirmDelete('prediction')" href="deletePrediction?id=<s:property value="predictionId" />#predictions">delete</a></td>
 					</tr> 
 				</s:iterator>
 				<br />
