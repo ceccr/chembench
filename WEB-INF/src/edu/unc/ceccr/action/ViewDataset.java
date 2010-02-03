@@ -158,7 +158,7 @@ public class ViewDataset extends ActionSupport {
 				    public int compare(Compound o1, Compound o2) {
 				    	float f1 = Float.parseFloat(o1.getActivityValue());
 				    	float f2 = Float.parseFloat(o2.getActivityValue());
-				    	return (f2 > f1? 1:-1);
+				    	return (f2 < f1? 1:-1);
 				    }});
 			}
 			if(sortDirection != null && sortDirection.equals("desc")){
@@ -255,16 +255,14 @@ public class ViewDataset extends ActionSupport {
 				    public int compare(Compound o1, Compound o2) {
 				    	float f1 = Float.parseFloat(o1.getActivityValue());
 				    	float f2 = Float.parseFloat(o2.getActivityValue());
-				    	return (f2 > f1? 1:-1);
+				    	return (f2 < f1? 1:-1);
 				    }});
 			}
 			else{
 				Collections.sort(externalCompounds, new Comparator<Compound>() {
-				    public int compare(Compound o1, Compound o2) {
-				    	float f1 = Float.parseFloat(o1.getActivityValue());
-				    	float f2 = Float.parseFloat(o2.getActivityValue());
-				    	return (f1 > f2? 1:-1);
-				    }});
+					  public int compare(Compound o1, Compound o2) {
+				    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
+					    }});
 			}
 			if(sortDirection != null && sortDirection.equals("desc")){
 				Collections.reverse(externalCompounds);
