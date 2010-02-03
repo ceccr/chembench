@@ -40,6 +40,26 @@
 			return true;
 		}
 
+		function loadExternalCompoundsTab(newUrl){
+			//When the user changes which page they're on in the External Compounds tab
+			//or changes the sorted element, run this function to update the tab's content
+			
+			//prepare the AJAX object
+			var ajaxObject = GetXmlHttpObject();
+			ajaxObject.onreadystatechange=function(){
+				if(ajaxObject.readyState==4){
+				  	document.getElementById("externalCompoundsDiv").innerHTML=ajaxObject.responseText;
+				}
+			}
+			
+			//send request
+			ajaxObject.open("GET",newUrl,true);
+			ajaxObject.send(null);
+			
+			return true;
+		}
+		
+		
 	</script>
 </head>
 
@@ -115,7 +135,7 @@
 		</sx:div>
 		
 		<s:if test="dataset.datasetType=='MODELING'">
-			<s:url id="externalCompoundsLink" value="/viewDatasetExternalCompoundsSection" includeParams="none">
+			<s:url id="externalCompoundsLink" id="externalCompoundsDiv" value="/viewDatasetExternalCompoundsSection" includeParams="none">
 				<s:param name="datasetId" value='datasetId' />
 			</s:url>
 			
