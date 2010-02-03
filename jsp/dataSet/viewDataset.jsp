@@ -29,7 +29,6 @@
 			var ajaxObject = GetXmlHttpObject();
 			ajaxObject.onreadystatechange=function(){
 				if(ajaxObject.readyState==4){
-					hideLoading();
 				  	document.getElementById("allCompoundsDiv").innerHTML=ajaxObject.responseText;
 				}
 			}
