@@ -17,8 +17,26 @@
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
 	<script language="javascript" src="javascript/script.js" />
-	<script language="javascript">
-	
+		<script language="javascript">
+		function loadPredictionValuesTab(newUrl){
+			//When the user changes which page they're on in the Prediction Values tab
+			//or changes the sorted element, run this function to update the tab's content
+			
+			//prepare the AJAX object
+			var ajaxObject = GetXmlHttpObject();
+			ajaxObject.onreadystatechange=function(){
+				if(ajaxObject.readyState==4){
+				  	document.getElementById("predictionValuesDiv").innerHTML=ajaxObject.responseText;
+				}
+			}
+			
+			//send request
+			ajaxObject.open("GET",newUrl,true);
+			ajaxObject.send(null);
+			
+			return true;
+		}
+
 	</script>
 </head>
 
@@ -86,6 +104,7 @@
 	
 		
 	<!-- load tabs -->
+	<a name="tabs"></a> 
 	<sx:tabbedpanel id="viewPredictionTabs" >
 
 		<s:url id="predictionsLink" value="/viewPredictionPredictionsSection" includeParams="none">
@@ -94,7 +113,7 @@
 			<s:param name="predictionId" value='predictionId' />
 		</s:url>
 		
-    	<sx:div href="%{predictionsLink}" label="Prediction Values" theme="ajax" loadingText="Loading predictions...">
+    	<sx:div href="%{predictionsLink}" id="predictionValuesDiv" label="Prediction Values" theme="ajax" loadingText="Loading predictions...">
 		</sx:div>
 		
 		<s:url id="warningsLink" value="/viewPredictionWarningsSection" includeParams="none">
