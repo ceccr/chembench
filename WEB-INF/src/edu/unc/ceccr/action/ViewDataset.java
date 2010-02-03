@@ -209,9 +209,15 @@ public class ViewDataset extends ActionSupport {
 				result = LOGIN;
 				return result;
 			}
-			
+
 			if(context.getParameters().get("datasetId") != null){
 				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
+			}
+			if(context.getParameters().get("orderBy") != null){
+				orderBy = ((String[]) context.getParameters().get("orderBy"))[0]; 	
+			}
+			if(context.getParameters().get("sortDirection") != null){
+				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
 			}
 			//get dataset
 			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
@@ -241,13 +247,26 @@ public class ViewDataset extends ActionSupport {
 				externalCompounds.add(c);
 			}
 			
-			//sort by activity, that seems good
-			Collections.sort(externalCompounds, new Comparator<Compound>() {
-			    public int compare(Compound o1, Compound o2) {
-			    	float f1 = Float.parseFloat(o1.getActivityValue());
-			    	float f2 = Float.parseFloat(o2.getActivityValue());
-			    	return (f1 > f2? 1:-1);
-			    }});
+			//sort by activity by default, that seems good
+			if(orderBy != null && orderBy.equals("activityValue")){
+				Collections.sort(externalCompounds, new Comparator<Compound>() {
+				    public int compare(Compound o1, Compound o2) {
+				    	float f1 = Float.parseFloat(o1.getActivityValue());
+				    	float f2 = Float.parseFloat(o2.getActivityValue());
+				    	return (f2 > f1? 1:-1);
+				    }});
+			}
+			else{
+				Collections.sort(externalCompounds, new Comparator<Compound>() {
+				    public int compare(Compound o1, Compound o2) {
+				    	float f1 = Float.parseFloat(o1.getActivityValue());
+				    	float f2 = Float.parseFloat(o2.getActivityValue());
+				    	return (f1 > f2? 1:-1);
+				    }});
+			}
+			if(sortDirection != null && sortDirection.equals("desc")){
+				Collections.reverse(externalCompounds);
+			}
 			
 		}
 		return result;
