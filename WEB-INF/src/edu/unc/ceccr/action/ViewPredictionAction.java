@@ -181,6 +181,9 @@ public class ViewPredictionAction extends ActionSupport {
 				}
 					
 			}
+			if(sortDirection != null && sortDirection.equals("desc")){
+				Collections.reverse(compoundPredictionValues);
+			}
 
 			//displays the page numbers at the top
 			pageNums = new ArrayList<String>(); 
