@@ -47,6 +47,158 @@ public class ViewPredictorAction extends ActionSupport {
 	private List<ExternalValidation> externalValValues;
 	private List<String> residuals;
 	
+	
+	public String loadExternalValidationSection() throws Exception {
+
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			predictorId = ((String[]) context.getParameters().get("id"))[0];
+			if(predictorId == null){
+				Utility.writeToStrutsDebug("No predictor ID supplied.");
+			}
+			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+			
+		}
+		
+		return result;
+	}
+	
+	
+	public String loadModelsSection() throws Exception {
+
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			predictorId = ((String[]) context.getParameters().get("id"))[0];
+			if(predictorId == null){
+				Utility.writeToStrutsDebug("No predictor ID supplied.");
+			}
+			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+			String numModelsToShow = user.getViewPredictorModels(); 
+			
+			if(selectedPredictor == null){
+				Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
+			}
+			
+			Utility.writeToDebug("getting predictor models");
+			//get models associated with predictor
+			if(selectedPredictor.getDatasetId() != null){
+				datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
+			}
+			dataType = selectedPredictor.getModelMethod().toString();
+			models = new ArrayList<Model>();
+			randomModels = new ArrayList<Model>();
+			ArrayList<Model> allModels = new ArrayList<Model>();
+			List temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session);
+			if(temp != null){
+				allModels.addAll(temp);
+
+				Iterator<Model> it = allModels.iterator();
+				while(it.hasNext()){
+					Model m = it.next();
+					if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)){
+						models.add(m);
+					}
+					else{
+						randomModels.add(m);
+					}
+				}
+			}
+			
+			Utility.writeToStrutsDebug("Got " + allModels.size() + " models and " + randomModels.size() + " random models.");
+		}
+		
+		return result;
+	}
+	
+	
+	public String loadYRandomSection() throws Exception {
+
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			predictorId = ((String[]) context.getParameters().get("id"))[0];
+			if(predictorId == null){
+				Utility.writeToStrutsDebug("No predictor ID supplied.");
+			}
+			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+			
+		
+			Utility.writeToDebug("getting predictor models");
+			//get models associated with predictor
+			if(selectedPredictor.getDatasetId() != null){
+				datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
+			}
+			dataType = selectedPredictor.getModelMethod().toString();
+			models = new ArrayList<Model>();
+			randomModels = new ArrayList<Model>();
+			ArrayList<Model> allModels = new ArrayList<Model>();
+			List temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session);
+			if(temp != null){
+				allModels.addAll(temp);
+	
+				Iterator<Model> it = allModels.iterator();
+				while(it.hasNext()){
+					Model m = it.next();
+					if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)){
+						models.add(m);
+					}
+					else{
+						randomModels.add(m);
+					}
+				}
+			}
+			
+			Utility.writeToStrutsDebug("Got " + allModels.size() + " models and " + randomModels.size() + " random models.");
+		}
+		
+		return result;
+	}
+	
+	
 	public String loadPage() throws Exception {
 
 		String result = SUCCESS;
@@ -80,33 +232,6 @@ public class ViewPredictorAction extends ActionSupport {
 					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
 				}
 			}
-			
-			Utility.writeToDebug("getting predictor models");
-			//get models associated with predictor
-			if(selectedPredictor.getDatasetId() != null){
-				datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
-			}
-			dataType = selectedPredictor.getModelMethod().toString();
-			models = new ArrayList<Model>();
-			randomModels = new ArrayList<Model>();
-			ArrayList<Model> allModels = new ArrayList<Model>();
-			List temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session);
-			if(temp != null){
-				allModels.addAll(temp);
-
-				Iterator<Model> it = allModels.iterator();
-				while(it.hasNext()){
-					Model m = it.next();
-					if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)){
-						models.add(m);
-					}
-					else{
-						randomModels.add(m);
-					}
-				}
-			}
-			
-			Utility.writeToStrutsDebug("Got " + allModels.size() + " models and " + randomModels.size() + " random models.");
 			
 			//get external validation compounds of predictor
 			externalValValues = PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
