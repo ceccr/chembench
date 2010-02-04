@@ -29,9 +29,11 @@
 			var ajaxObject = GetXmlHttpObject();
 			ajaxObject.onreadystatechange=function(){
 				if(ajaxObject.readyState==4){
+					hideLoading();
 				  	document.getElementById("allCompoundsDiv").innerHTML=ajaxObject.responseText;
 				}
 			}
+			showLoading("LOADING. PLEASE WAIT.")
 			
 			//send request
 			ajaxObject.open("GET",newUrl,true);
@@ -129,6 +131,7 @@
 		
 	<!-- load tabs -->
 	<a name="tabs"></a> 
+	<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
 	<sx:tabbedpanel id="viewDatasetTabs" >
 	
     	<sx:div href="%{datasetCompoundsLink}" id="allCompoundsDiv" executeScripts="true" label="All Compounds" theme="ajax" loadingText="Loading compounds..." preload="false">

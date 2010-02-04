@@ -138,8 +138,16 @@ public class DatasetFormActions extends ActionSupport{
 			}
 			
 			//do file check
-			if(sdfFileModeling == null || actFileModeling == null){
+			if(sdfFileModeling == null && actFileModeling == null){
 				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
+				result = ERROR;
+			}
+			else if(sdfFileModeling == null){
+				errorString += "Missing SDF or file upload error.";
+				result = ERROR;
+			}
+			else if(actFileModeling == null){
+				errorString += "Missing Activity file or file upload error. If you do not have an Activity file for this dataset, use the Prediction Set option when uploading.";
 				result = ERROR;
 			}
 			

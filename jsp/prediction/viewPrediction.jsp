@@ -27,9 +27,11 @@
 		var ajaxObject = GetXmlHttpObject();
 		ajaxObject.onreadystatechange=function(){
 			if(ajaxObject.readyState==4){
+				hideLoading();
 			  	document.getElementById("predictionValuesDiv").innerHTML=ajaxObject.responseText;
 			}
 		}
+		showLoading("LOADING. PLEASE WAIT.")
 		
 		//send request
 		ajaxObject.open("GET",newUrl,true);
@@ -106,6 +108,7 @@
 		
 	<!-- load tabs -->
 	<a name="tabs"></a> 
+	<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
 	<sx:tabbedpanel id="viewPredictionTabs" >
 
 		<s:url id="predictionsLink" value="/viewPredictionPredictionsSection" includeParams="none">

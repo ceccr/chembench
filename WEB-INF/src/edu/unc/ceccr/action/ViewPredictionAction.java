@@ -164,18 +164,18 @@ public class ViewPredictionAction extends ActionSupport {
 								float f1;
 								float f2;
 								if(o1.getPredictionValues().get(o1.getSortByIndex()).getPredictedValue() == null){
-									return 1;
+									return -1;
 								}
 								else{
 									f1 = o1.getPredictionValues().get(o1.getSortByIndex()).getPredictedValue();
 								}
 								if(o2.getPredictionValues().get(o2.getSortByIndex()).getPredictedValue() == null){
-									return -1;
+									return 1;
 								}
 								else{
 									f2 = o2.getPredictionValues().get(o2.getSortByIndex()).getPredictedValue();
 								}
-						    	return (f2 > f1? 1:-1);
+						    	return (f2 < f1? 1:-1);
 						    }});
 		    		}
 				}
