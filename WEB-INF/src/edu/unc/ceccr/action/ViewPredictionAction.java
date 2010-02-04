@@ -164,13 +164,13 @@ public class ViewPredictionAction extends ActionSupport {
 								float f1;
 								float f2;
 								if(o1.getPredictionValues().get(o1.getSortByIndex()).getPredictedValue() == null){
-									f1 = -999999;
+									return 1;
 								}
 								else{
 									f1 = o1.getPredictionValues().get(o1.getSortByIndex()).getPredictedValue();
 								}
 								if(o2.getPredictionValues().get(o2.getSortByIndex()).getPredictedValue() == null){
-									f2 = -999999;
+									return -1;
 								}
 								else{
 									f2 = o2.getPredictionValues().get(o2.getSortByIndex()).getPredictedValue();
