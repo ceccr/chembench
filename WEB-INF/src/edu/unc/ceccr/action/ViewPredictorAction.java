@@ -73,6 +73,29 @@ public class ViewPredictorAction extends ActionSupport {
 			}
 			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
 			
+
+			//get external validation compounds of predictor
+			externalValValues = PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
+			
+			//calculate residuals and fix significant figures on output data
+			residuals = new ArrayList<String>();
+			Iterator<ExternalValidation> eit = externalValValues.iterator();
+			int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
+			while(eit.hasNext()){
+				ExternalValidation e = eit.next();
+				if(e.getNumModels() != 0){
+					String residual = DecimalFormat.getInstance().format(e.getActualValue() - e.getPredictedValue()).replaceAll(",", "");
+					residuals.add(Utility.roundSignificantFigures(residual, sigfigs));
+				}
+				else{
+					residuals.add("");
+				}
+				String predictedValue = DecimalFormat.getInstance().format(e.getPredictedValue()).replaceAll(",", "");
+				e.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));  
+				if(! e.getStandDev().equalsIgnoreCase("No value")){
+					e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
+				}
+			}
 		}
 		
 		return result;
@@ -103,7 +126,7 @@ public class ViewPredictorAction extends ActionSupport {
 				Utility.writeToStrutsDebug("No predictor ID supplied.");
 			}
 			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
-			String numModelsToShow = user.getViewPredictorModels(); 
+			String numModelsToShow = user.getViewPredictorModels(); //maybe another pagination trick thingy.
 			
 			if(selectedPredictor == null){
 				Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
@@ -233,28 +256,6 @@ public class ViewPredictorAction extends ActionSupport {
 				}
 			}
 			
-			//get external validation compounds of predictor
-			externalValValues = PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
-			
-			//calculate residuals and fix significant figures on output data
-			residuals = new ArrayList<String>();
-			Iterator<ExternalValidation> eit = externalValValues.iterator();
-			int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
-			while(eit.hasNext()){
-				ExternalValidation e = eit.next();
-				if(e.getNumModels() != 0){
-					String residual = DecimalFormat.getInstance().format(e.getActualValue() - e.getPredictedValue()).replaceAll(",", "");
-					residuals.add(Utility.roundSignificantFigures(residual, sigfigs));
-				}
-				else{
-					residuals.add("");
-				}
-				String predictedValue = DecimalFormat.getInstance().format(e.getPredictedValue()).replaceAll(",", "");
-				e.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));  
-				if(! e.getStandDev().equalsIgnoreCase("No value")){
-					e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
-				}
-			}
 			
 			//the predictor has now been viewed. Update DB accordingly.
 			if(! selectedPredictor.getHasBeenViewed().equals(Constants.YES)){

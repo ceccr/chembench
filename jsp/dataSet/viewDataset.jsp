@@ -149,13 +149,13 @@
 		<s:url id="heatmapLink" value="/viewDatasetVisualizationSection" includeParams="none">
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
-		<sx:div href="%{heatmapLink}" label="Heatmap" theme="ajax" loadingText="Loading heatmap..." preload="false">
+		<sx:div href="%{heatmapLink}" label="Heatmap" theme="ajax" loadingText="Loading heatmap..." showLoadingText="true" preload="false">
 		</sx:div>
 		
 		<s:url id="warningsLink" value="/viewDatasetWarningsSection" includeParams="none">
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
-		<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading warnings..." preload="false">
+		<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading warnings..." showLoadingText="true" preload="false">
 		</sx:div>
 		
    	</sx:tabbedpanel>
