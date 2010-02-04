@@ -157,7 +157,7 @@ public class ViewPredictionAction extends ActionSupport {
 					if(predictors.get(i).getName().equals(orderBy)){
 						//tell each sub-object what its sortBy index is
 						for(CompoundPredictions c : compoundPredictionValues){
-							c.setSortByIndex(i*2);
+							c.setSortByIndex(i);
 						}
 						Collections.sort(compoundPredictionValues, new Comparator<CompoundPredictions>() {
 							public int compare(CompoundPredictions o1, CompoundPredictions o2) {
