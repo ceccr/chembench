@@ -207,11 +207,8 @@ public class ViewPrediction extends Action {
 
 	}
 	
-	
-	
-	
 @SuppressWarnings("unchecked")
-protected int  getTotal(Long predictionId ) throws ClassNotFoundException, SQLException {
+protected int getTotal(Long predictionId ) throws ClassNotFoundException, SQLException {
 
 	Prediction prediction = null;
 	List<PredictionValue> predVal=null;

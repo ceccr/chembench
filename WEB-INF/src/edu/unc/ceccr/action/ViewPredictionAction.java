@@ -125,7 +125,7 @@ public class ViewPredictionAction extends ActionSupport {
 			for(int i = 0; i < predictorIds.length; i++){
 				predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
 			}
-			
+
 			//get dataset
 			dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
 			
