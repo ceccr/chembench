@@ -6,7 +6,6 @@
 <!-- Models -->	
 	<br />
 		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
-		<br />
 		<s:if test="models.size==0">
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 				<br/><b class="StandardTextDarkGray">No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.</b><br/><br/>
@@ -23,6 +22,7 @@
 			<b>Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
 			<s:property value="selectedPredictor.numTrainModels" /> passed the training set criteria and 
 			<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 
+			For information on what each statistic means, check the <a href="/help-faq#05">FAQ in the help pages</a>.
 			<br />
 			<s:if test="selectedPredictor.numTestModels>=10">
                The top 10 models are displayed below.</b></p>

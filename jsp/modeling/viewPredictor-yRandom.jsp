@@ -78,5 +78,4 @@
 	</s:elseif>
 	</table>
 	</s:if>
-	<br />
 <!-- End y-Random Models -->	

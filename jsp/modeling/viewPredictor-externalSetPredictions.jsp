@@ -7,7 +7,6 @@
 
 	<!-- External Validation Compound Predictions -->
 		<p class="StandardTextDarkGray"><b><u>Predictions for External Validation Set</u></b></p>
-	<br></br>
 	<table width="100%" align="center">
 		<!--DWLayoutTable-->
 		<tr>
@@ -16,7 +15,7 @@
 		<td class="TableRowText01">Observed Value</td>
 		<td class="TableRowText01">Predicted Value</td>
 		<td class="TableRowText01">Residual</td>
-		<td class="TableRowText01"># of Models</td>
+		<td class="TableRowText01">Predicting Models / Total Models</td>
 		</tr>
 		
 	<s:iterator value="externalValValues" status="extValStatus">
@@ -39,7 +38,7 @@
 			<td class="TableRowText02">
 				<s:property value="residuals[#extValStatus.index]" />
 			</td>
-			<td class="TableRowText02"><s:property value="numModels" /></td>
+			<td class="TableRowText02"><s:property value="numModels" /> / <s:property value="selectedPredictor.numTestModels" /></td>
 		</tr>
 	</s:iterator>
 	
