@@ -1,9 +1,12 @@
 package edu.unc.ceccr.taskObjects;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import org.hibernate.Session;
@@ -50,14 +53,35 @@ public class QsarPredictionTask implements WorkflowTask {
 	public String getProgress() {
 		try{
 			if(step.equals(Constants.PREDICTING)){
-				float progress = 0;
+				//get the % done of the overall prediction
+				float allPredsTotalModels = 0;
+				int modelsPredictedSoFar = 0;
 				Session s = HibernateUtil.getSession();
 				String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
 				for(int i = 0; i < selectedPredictorIdArray.length; i++){
 					Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
-					progress += selectedPredictor.getNumTestModels();
+					allPredsTotalModels += selectedPredictor.getNumTestModels();
+					
+					if(filePath != null){
+						File predOutFile = new File(filePath + selectedPredictor.getName() + "/" + Constants.PRED_OUTPUT_FILE + ".preds");
+						if(predOutFile.exists()){
+							//quickly count the number of lines in the file
+							InputStream is = new BufferedInputStream(new FileInputStream(predOutFile));
+						    byte[] c = new byte[1024];
+						    int count = 0;
+						    int readChars = 0;
+						    while ((readChars = is.read(c)) != -1) {
+						        for (int j = 0; j < readChars; ++j) {
+						            if (c[j] == '\n')
+						                ++count;
+						        }
+						    }
+						    modelsPredictedSoFar += count - 4; //there are 4 header lines in the cons_pred.preds file
+						}
+						
+					}
 				}
-				progress = progress / allPredsTotalModels;
+				float progress = modelsPredictedSoFar / allPredsTotalModels;
 				progress *= 100; //it's a percent
 				s.close();
 				return step + " (" + Math.round(progress) + "%)"; 
