@@ -43,11 +43,32 @@ public class QsarPredictionTask implements WorkflowTask {
 	private String selectedPredictorIds;
 	private DataSet predictionDataset;
 	private String step = Constants.SETUP; //stores what step we're on 
+	private int allPredsTotalModels;
 
 	private ArrayList<String> selectedPredictorNames = new ArrayList<String>();//used in indicating progress
 	
-	public String getProgress(){
-		return step; 
+	public String getProgress() {
+		try{
+			if(step.equals(Constants.PREDICTING)){
+				float progress = 0;
+				Session s = HibernateUtil.getSession();
+				String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
+				for(int i = 0; i < selectedPredictorIdArray.length; i++){
+					Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
+					progress += selectedPredictor.getNumTestModels();
+				}
+				progress = progress / allPredsTotalModels;
+				progress *= 100; //it's a percent
+				s.close();
+				return step + " (" + Math.round(progress) + "%)"; 
+			}
+			else{
+				return step; 
+			}
+		}catch(Exception ex){
+			Utility.writeToDebug(ex);
+			return "";
+		}
 	}
 		
 	public QsarPredictionTask(String userName, String jobName, String sdf, String cutoff,
@@ -72,6 +93,8 @@ public class QsarPredictionTask implements WorkflowTask {
 		
 		ArrayList<Predictor> selectedPredictors = new ArrayList<Predictor>();
 		String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
+
+		allPredsTotalModels = 0;
 		for(int i = 0; i < selectedPredictorIdArray.length; i++){
 			Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
 			
@@ -79,6 +102,11 @@ public class QsarPredictionTask implements WorkflowTask {
 			
 			//We're keeping a count of how many times each predictor was used.
 	        //So, increment number of times used on each and save each predictor object.
+			//At the same time, count up the total number of models across all predictors - will be used to
+			//estimate how long the overall prediction will take.
+			
+			allPredsTotalModels += selectedPredictor.getNumTestModels();
+			
 	        selectedPredictor.setNumPredictions(selectedPredictor.getNumPredictions() + 1);
 			Transaction tx = null;
 			try {
@@ -90,7 +118,8 @@ public class QsarPredictionTask implements WorkflowTask {
 					tx.rollback();
 				Utility.writeToDebug(e);
 			}
-
+			
+			
 			selectedPredictors.add(selectedPredictor);
 		}
 
@@ -333,14 +362,12 @@ public class QsarPredictionTask implements WorkflowTask {
 						Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
 						Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
 						);
-			}
-			
+			}			
 		}
 		catch(Exception e){
 			Utility.writeToMSDebug(e.getMessage());
 			Utility.writeToDebug(e);
 		}
-		Utility.writeToMSDebug("Files copied");
 	}
 
 	public void save(){
