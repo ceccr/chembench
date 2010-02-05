@@ -47,7 +47,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	private DataSet predictionDataset;
 	private String step = Constants.SETUP; //stores what step we're on 
 	private int allPredsTotalModels = -1; //used by getProgress function
-	private ArrayList<String> selectedPredictorNames = new ArrayList<String>(); //used by getProgress function
+	private ArrayList<String> selectedPredictorNames; //used by getProgress function
 	
 	public String getProgress() {
 		
@@ -135,10 +135,6 @@ public class QsarPredictionTask implements WorkflowTask {
 			
 			//We're keeping a count of how many times each predictor was used.
 	        //So, increment number of times used on each and save each predictor object.
-			//At the same time, count up the total number of models across all predictors - will be used to
-			//estimate how long the overall prediction will take.
-			
-			allPredsTotalModels += selectedPredictor.getNumTestModels();
 			
 	        selectedPredictor.setNumPredictions(selectedPredictor.getNumPredictions() + 1);
 			Transaction tx = null;
