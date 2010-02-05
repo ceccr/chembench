@@ -177,6 +177,22 @@
         <action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
         	<result>jsp/modeling/viewPredictor.jsp</result>
         </action>
+        
+        <action name="viewPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadYRandomSection">
+        	<result>jsp/modeling/viewPredictor-yRandom.jsp</result>
+        </action>
+        
+        <action name="viewPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadModelsSection">
+        	<result>jsp/modeling/viewPredictor-models.jsp</result>
+        </action>
+        
+        <action name="viewPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
+        	<result>jsp/modeling/viewPredictor-externalSetPredictions.jsp</result>
+        </action>
+        
+        <action name="viewPredictorWarningsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadWarningsSection">
+        	<result>jsp/modeling/viewPredictor-warnings.jsp</result>
+        </action>
         <!-- End View Predictor Page -->
         
         <!-- View Prediction Page -->
