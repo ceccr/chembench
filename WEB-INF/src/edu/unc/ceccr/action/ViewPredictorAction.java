@@ -220,6 +220,35 @@ public class ViewPredictorAction extends ActionSupport {
 		
 		return result;
 	}
+
+	public String loadWarningsSection() throws Exception {
+
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			predictorId = ((String[]) context.getParameters().get("id"))[0];
+			if(predictorId == null){
+				Utility.writeToStrutsDebug("No predictor ID supplied.");
+			}
+			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+			
+		}
+		return result;
+	}
 	
 	
 	public String loadPage() throws Exception {

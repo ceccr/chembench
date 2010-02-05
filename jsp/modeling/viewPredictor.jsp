@@ -68,7 +68,8 @@
 		</td></tr></table>
 		</s:if>
 		<!-- End description -->
-
+	
+		<br /><br />
 		<!-- load tabs -->
 		<a name="tabs"></a> 
 		<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
@@ -80,13 +81,13 @@
 	    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." showLoadingText="true">
 			</sx:div>
 			
-			<s:url id="modelsLink" value="/viewPredictorExternalValidationSection" includeParams="none">
+			<s:url id="modelsLink" value="/viewPredictorModelsSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
 	    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." showLoadingText="true">
 			</sx:div>
 			
-			<s:url id="yRandomLink" value="/viewPredictorExternalValidationSection" includeParams="none">
+			<s:url id="yRandomLink" value="/viewPredictorYRandomSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
 	    	<sx:div href="%{yRandomLink}" id="predictionValuesDiv" label="Prediction Values" theme="ajax" loadingText="Loading predictions..." showLoadingText="true">
