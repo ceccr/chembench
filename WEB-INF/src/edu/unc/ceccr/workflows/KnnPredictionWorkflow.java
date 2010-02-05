@@ -119,8 +119,8 @@ public class KnnPredictionWorkflow{
 
 			try{
 			//calculate stddev and avg for each compound
-			float sum = 0;
-			float mean = 0;
+			Float sum = new Float(0);
+			Float mean = new Float(0);
 			int numPredictingModels = predictionMatrix.size();
 			//Utility.writeToDebug("doing sum for compound " + i);
 			
@@ -136,20 +136,26 @@ public class KnnPredictionWorkflow{
 			if(numPredictingModels > 0){
 				mean = sum / numPredictingModels;
 			}
+			else{
+				mean = null;
+			}
 
 			//Utility.writeToDebug("doing stddev for compound " + i);
-			
-			float stddev = 0;
-			for(int j = 0; j < predictionMatrix.size(); j++){
-				String predValue = predictionMatrix.get(j).get(i);
-				if(!predValue.equalsIgnoreCase("NA")){
-					float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
-					stddev += distFromMeanSquared;
-				}
-			}
-			//divide sum then take sqrt to get stddev
+
+			Float stddev = new Float(0);
 			if(numPredictingModels > 0){
+				for(int j = 0; j < predictionMatrix.size(); j++){
+					String predValue = predictionMatrix.get(j).get(i);
+					if(!predValue.equalsIgnoreCase("NA")){
+						float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
+						stddev += distFromMeanSquared;
+					}
+				}
+				//divide sum then take sqrt to get stddev
 				stddev = (float) Math.sqrt( stddev / numPredictingModels);
+			}
+			else{
+				stddev = null;
 			}
 			
 			//Utility.writeToDebug("making predvalue object for compound " + i);
