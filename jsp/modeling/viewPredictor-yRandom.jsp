@@ -6,7 +6,7 @@
 <!-- y-Random Models -->	
 	<br />
 	<p class="StandardTextDarkGray"><b><u>y-Randomization Results</u></b></p>
-	<p style="background:white;width:100%;">
+	<p class="StandardTextDarkGray">
 		<b>Y-randomization</b> is a statistical QSAR model validation technique where the performance of the model 
 		built with original data is compared to that of models built for multiple artificial datasets with
 		randomly shuffled activities. The models of the randomized data are built using the same parameters
@@ -78,5 +78,5 @@
 	</s:elseif>
 	</table>
 	</s:if>
-	
+	<br />
 <!-- End y-Random Models -->	

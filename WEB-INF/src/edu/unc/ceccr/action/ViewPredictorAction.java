@@ -96,6 +96,33 @@ public class ViewPredictorAction extends ActionSupport {
 					e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
 				}
 			}
+			
+			Utility.writeToDebug("getting predictor models");
+			//get models associated with predictor
+			if(selectedPredictor.getDatasetId() != null){
+				datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
+			}
+			dataType = selectedPredictor.getModelMethod().toString();
+			models = new ArrayList<Model>();
+			randomModels = new ArrayList<Model>();
+			ArrayList<Model> allModels = new ArrayList<Model>();
+			List temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session);
+			if(temp != null){
+				allModels.addAll(temp);
+
+				Iterator<Model> it = allModels.iterator();
+				while(it.hasNext()){
+					Model m = it.next();
+					if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)){
+						models.add(m);
+					}
+					else{
+						randomModels.add(m);
+					}
+				}
+			}
+			
+			Utility.writeToStrutsDebug("Got " + allModels.size() + " models and " + randomModels.size() + " random models.");
 		}
 		
 		return result;

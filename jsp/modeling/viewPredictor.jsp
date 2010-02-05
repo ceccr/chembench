@@ -90,7 +90,7 @@
 			<s:url id="yRandomLink" value="/viewPredictorYRandomSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
-	    	<sx:div href="%{yRandomLink}" id="predictionValuesDiv" label="Prediction Values" theme="ajax" loadingText="Loading predictions..." showLoadingText="true">
+	    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="y-Randomization" theme="ajax" loadingText="Loading y-Randomization Models..." showLoadingText="true">
 			</sx:div>
 			
 			<s:url id="warningsLink" value="/viewPredictorWarningsSection" includeParams="none">

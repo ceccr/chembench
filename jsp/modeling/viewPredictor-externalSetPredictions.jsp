@@ -4,10 +4,9 @@
 <%@ page language="java" import="java.util.*" %>
 
 	<br />
-		<p class="StandardTextDarkGray"><b><u>Predictions for External Validation Set</u></b></p>
 
 	<!-- External Validation Compound Predictions -->
-	<p class="StandardTextDarkGray"><b><u>External Validation Results</u></b>
+		<p class="StandardTextDarkGray"><b><u>Predictions for External Validation Set</u></b></p>
 	<br></br>
 	<table width="100%" align="center">
 		<!--DWLayoutTable-->
@@ -65,5 +64,6 @@
 		</p>
 	</s:if>
 	</s:if>
+	<br />
 	<!-- End External Validation Chart -->
 	
