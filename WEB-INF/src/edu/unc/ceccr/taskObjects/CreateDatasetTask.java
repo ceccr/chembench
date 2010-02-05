@@ -96,6 +96,19 @@ public class CreateDatasetTask implements WorkflowTask{
 		this.jobName = datasetName;
 		this.paperReference = paperReference;
 		this.dataSetDescription = dataSetDescription;
+		
+		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
+		try{
+			if(!sdfFileName.equals("")){
+				this.numCompounds = DatasetFileOperations.getSDFCompoundList(path+sdfFileName).size();
+			}
+			else if(!xFileName.equals("")){
+				this.numCompounds = DatasetFileOperations.getXCompoundList(path+xFileName).size();
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 	}
 
 	public void execute() throws Exception {
