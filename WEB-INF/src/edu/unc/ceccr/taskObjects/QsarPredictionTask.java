@@ -46,26 +46,39 @@ public class QsarPredictionTask implements WorkflowTask {
 	private String selectedPredictorIds;
 	private DataSet predictionDataset;
 	private String step = Constants.SETUP; //stores what step we're on 
-	private int allPredsTotalModels;
-
-	private ArrayList<String> selectedPredictorNames = new ArrayList<String>();//used in indicating progress
+	private int allPredsTotalModels = -1; //used by getProgress function
+	private ArrayList<String> selectedPredictorNames; //used by getProgress function
 	
 	public String getProgress() {
+		
 		try{
-			if(step.equals(Constants.PREDICTING)){
+			if(! step.equals(Constants.PREDICTING)){
+				return step; 
+			}
+			else{
 				//get the % done of the overall prediction
-				float allPredsTotalModels = 0;
+				
+				if(allPredsTotalModels < 0){
+					//we haven't read the needed predictor data yet
+					//get the number of models in all predictors, and their names
+					allPredsTotalModels = 0;
+					selectedPredictorNames = new ArrayList<String>();	
+					Session s = HibernateUtil.getSession();
+					String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
+					for(int i = 0; i < selectedPredictorIdArray.length; i++){
+						Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
+						allPredsTotalModels += selectedPredictor.getNumTestModels();
+						selectedPredictorNames.add(selectedPredictor.getName());
+					}
+					s.close();
+				}
+				
 				int modelsPredictedSoFar = 0;
-				Session s = HibernateUtil.getSession();
-				String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
-				for(int i = 0; i < selectedPredictorIdArray.length; i++){
-					Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
-					allPredsTotalModels += selectedPredictor.getNumTestModels();
-					
+				for(int i = 0; i < selectedPredictorNames.size(); i++){
 					if(filePath != null){
-						File predOutFile = new File(filePath + selectedPredictor.getName() + "/" + Constants.PRED_OUTPUT_FILE + ".preds");
+						File predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + ".preds");
 						if(predOutFile.exists()){
-							//quickly count the number of lines in the file
+							//quickly count the number of lines in the output file for this predictor
 							InputStream is = new BufferedInputStream(new FileInputStream(predOutFile));
 						    byte[] c = new byte[1024];
 						    int count = 0;
@@ -81,14 +94,12 @@ public class QsarPredictionTask implements WorkflowTask {
 						
 					}
 				}
+				
 				float progress = modelsPredictedSoFar / allPredsTotalModels;
 				progress *= 100; //it's a percent
-				s.close();
 				return step + " (" + Math.round(progress) + "%)"; 
 			}
-			else{
-				return step; 
-			}
+			
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
 			return "";
