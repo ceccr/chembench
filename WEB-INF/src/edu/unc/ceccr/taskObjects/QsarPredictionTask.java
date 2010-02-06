@@ -47,7 +47,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	private DataSet predictionDataset;
 	private String step = Constants.SETUP; //stores what step we're on 
 	private int allPredsTotalModels = -1; //used by getProgress function
-	private ArrayList<String> selectedPredictorNames; //used by getProgress function
+	private ArrayList<String> selectedPredictorNames = new ArrayList<String>(); //used by getProgress function
 	
 	public String getProgress() {
 		
@@ -63,7 +63,6 @@ public class QsarPredictionTask implements WorkflowTask {
 					//get the number of models in all predictors, and their names
 					Session s = HibernateUtil.getSession();
 					allPredsTotalModels = 0;
-					selectedPredictorNames = new ArrayList<String>();	
 					String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
 					Utility.writeToDebug("fuck thinking");
 					for(int i = 0; i < selectedPredictorIdArray.length; i++){
@@ -71,7 +70,6 @@ public class QsarPredictionTask implements WorkflowTask {
 						allPredsTotalModels += selectedPredictor.getNumTestModels();
 						selectedPredictorNames.add(selectedPredictor.getName());
 					}
-					Utility.writeToDebug("fuck thinking1");
 					
 					s.close();
 				}
