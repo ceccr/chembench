@@ -11,8 +11,7 @@
 		<p class="StandardTextDarkGray"><b><u>Activity Histogram</u></b>
 		<p class="StandardTextDarkGray">
 		<s:property value='dataset.fileId' />
-		<s:url id="activityChartLink" value="/activityChartVisualization.do" includeParams="none">
-			<s:param name="datasetID" value="<s:property value='dataset.fileId' />" />
+		<s:url id="activityChartLink" value="/activityChartVisualization.do?datasetID=<s:property value='dataset.fileId' />" includeParams="none">
 		</s:url>
 		
 		<!-- old way: have it open in a new window <s:a href="%{externalChartLink}" target="_blank"><u>Chart View</u></s:a> -->
