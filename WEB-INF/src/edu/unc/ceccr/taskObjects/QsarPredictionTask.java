@@ -61,20 +61,26 @@ public class QsarPredictionTask implements WorkflowTask {
 				if(allPredsTotalModels < 0){
 					//we haven't read the needed predictor data yet
 					//get the number of models in all predictors, and their names
+					Session s = HibernateUtil.getSession();
 					allPredsTotalModels = 0;
 					selectedPredictorNames = new ArrayList<String>();	
-					Session s = HibernateUtil.getSession();
 					String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
+					Utility.writeToDebug("fuck thinking");
 					for(int i = 0; i < selectedPredictorIdArray.length; i++){
 						Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
 						allPredsTotalModels += selectedPredictor.getNumTestModels();
 						selectedPredictorNames.add(selectedPredictor.getName());
 					}
+					Utility.writeToDebug("fuck thinking1");
+					
 					s.close();
 				}
+				Utility.writeToDebug("fuck thinking2");
 				
 				int modelsPredictedSoFar = 0;
 				for(int i = 0; i < selectedPredictorNames.size(); i++){
+					Utility.writeToDebug("fuck thinking3");
+					
 					if(filePath != null){
 						File predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + ".preds");
 						if(predOutFile.exists()){
@@ -94,6 +100,7 @@ public class QsarPredictionTask implements WorkflowTask {
 						
 					}
 				}
+				Utility.writeToDebug("fuck thinking4");
 				
 				float progress = modelsPredictedSoFar / allPredsTotalModels;
 				progress *= 100; //it's a percent
