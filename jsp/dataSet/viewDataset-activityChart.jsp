@@ -10,9 +10,15 @@
 			
 		<p class="StandardTextDarkGray"><b><u>Activity Histogram</u></b>
 		<p class="StandardTextDarkGray">
+		<s:set name="link" value="/activityChartVisualization.do?datasetID=%{#dataset.fileId}" />
+		Link1: <s:property value="%{#link}" /><br/>
+		<s:set name="link2" value="/activityChartVisualization.do?datasetID=%{dataset.fileId}" />
+		Link2: <s:property value="%{#link2}" /><br/>
+		<s:set name="link3" value="/activityChartVisualization.do?datasetID=<s:property value=dataset.fileId" /> />
+		Link3: <s:property value="%{#link3}" /><br/>
 		
 		<br />
-		<sx:div id="activityChartSection" href="/activityChartVisualization.do?datasetID=<s:property value='dataset.fileId' />" theme="ajax">
+		<sx:div id="activityChartSection" href="/activityChartVisualization.do?datasetID=%{#dataset.fileId} />" theme="ajax">
 		</sx:div>
 		</p>
 		</td></tr>
