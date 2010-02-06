@@ -74,8 +74,8 @@ public class QsarPredictionTask implements WorkflowTask {
 					s.close();
 				}
 				Utility.writeToDebug("fuck thinking2");
-				
-				int modelsPredictedSoFar = 0;
+
+				float modelsPredictedSoFar = 0;
 				for(int i = 0; i < selectedPredictorNames.size(); i++){
 					Utility.writeToDebug("fuck thinking3");
 					
