@@ -13,24 +13,7 @@
 		fileId: <s:property value='dataset.fileId'/> <br />
 		
 		<br />
-		1
-		<sx:div href="/activityChartVisualization.do?datasetID=%{#dataset.fileId} />" theme="ajax">
-		</sx:div>
-		<br />
-		2
-		<sx:div href="/activityChartVisualization.do?datasetID=633>" theme="ajax">
-		</sx:div>
-		<br />
-		3
-		<sx:div href="/activityChartVisualization.do?datasetID=<s:property value='dataset.fileId' />" theme="ajax">
-		</sx:div>
-		<br />
-		4
-		<sx:div href="/activityChartVisualization.do?datasetID=%{#dataset.fileId} />" theme="ajax">
-		</sx:div>
-		<br />
-		45
-		<sx:div href="/activityChartVisualization.do?datasetID=%{dataset.fileId} />" theme="ajax">
+		<sx:div href="activityChartVisualization.do?datasetID=%{dataset.fileId}" theme="ajax">
 		</sx:div>
 		<br />
 		</p>
