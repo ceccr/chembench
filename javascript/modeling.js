@@ -109,25 +109,5 @@ function submitForm(button)
 
 // End Form validation functions //
 
-// Visualization functions //
-
-function showActivityHistogram()
-{
-	//make sure that they've picked an existing continuous or category dataset
-	if(document.getElementById("continuousDataset").checked){
-		window.open("activityChartVisualization.do?datasetID="+document.getElementById("selectedContinuousDataset").value);
-		return true;
-	}
-	else if(document.getElementById("categoryDataset").checked){
-		window.open("activityChartVisualization.do?datasetID="+document.getElementById("selectedCategoryDataset").value);
-		return true;
-	}
-	else{
-		window.alert("Please specify a dataset to generate the activity histogram on.");
-		return false;
-	}
-}
-
-// End Visualization functions //
 
 

@@ -163,6 +163,10 @@
         	<result>jsp/dataSet/viewDataset-externalCompounds.jsp</result>
         </action>
         
+        <action name="viewDatasetActivityChartSection" class="edu.unc.ceccr.action.ViewDataset" method="loadVisualizationSection">
+        	<result>jsp/dataSet/viewDataset-activityChart.jsp</result>
+        </action>
+        
         <action name="viewDatasetVisualizationSection" class="edu.unc.ceccr.action.ViewDataset" method="loadVisualizationSection">
         	<result>jsp/dataSet/viewDataset-visualization.jsp</result>
         </action>

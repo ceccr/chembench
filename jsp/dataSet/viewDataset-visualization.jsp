@@ -43,14 +43,14 @@ function handleWheel(event) {
 <tr>
 <td align="left">
 <br />
-<p class="StandardTextDarkGray"><b><u>Heatmap Flash Application</u></b></p>
+<p class="StandardTextDarkGray"><b><u>Heatmap Application</u></b></p>
 <p class="StandardTextDarkGrayParagraph">
 The Heatmap tool is useful for visualizing similarity between all pairs of compounds in your dataset. 
 MACCS keys are generated and compared to produce the heatmap. The similarity is based on Tanimoto or Mahalanobis; you can select
-either using the buttons on the Flash application.
+either using the buttons on the Heatmap.
 </p>
 <p class="StandardTextDarkGrayParagraph">
-When the Flash application finishes loading, select "HEATMAP" to see it. You can zoom in and out of the heatmap
+When the application finishes loading, select "HEATMAP" to see it. You can zoom in and out of the heatmap
 using the mouse wheel. Click and drag the top of a column to shift it left or right. You may also drag rows up and down.
 To reset the rows and columns to their original configuration, use the "Reset" button. 
 </p>

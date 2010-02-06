@@ -59,7 +59,7 @@
 			ajaxObject.send(null);
 			
 			return true;
-		}
+		}		
 		
 		
 	</script>
@@ -143,6 +143,13 @@
 			</s:url>
 			
 			<sx:div href="%{externalCompoundsLink}" id="externalCompoundsDiv" label="External Set" theme="ajax" loadingText="Loading external compounds..." showLoadingText="true">
+			</sx:div>
+			
+			<s:url id="activityChartLink" value="/viewDatasetActivityChartSection" includeParams="none">
+				<s:param name="datasetId" value='datasetId' />
+			</s:url>
+			
+			<sx:div href="%{activityChartLink}" id="activityChartDiv" label="Activity Histogram" theme="ajax" loadingText="Loading activity chart..." showLoadingText="true">
 			</sx:div>
 		</s:if>
 		
