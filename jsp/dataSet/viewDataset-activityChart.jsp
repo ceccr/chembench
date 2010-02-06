@@ -10,13 +10,10 @@
 			
 		<p class="StandardTextDarkGray"><b><u>Activity Histogram</u></b>
 		
-		<s:url id="activityChartLink" value="/activityChartVisualization.do?datasetID=<s:property value='dataset.fileId'>" includeParams="none">
-		</s:url>
-		
 		<!-- old way: have it open in a new window <s:a href="%{externalChartLink}" target="_blank"><u>Chart View</u></s:a> -->
 		<!-- new way: ajax it onto the page, woots! -->
 		<br />
-		<sx:div id="activityChartLink" href="%{activityChartLink}" theme="ajax">
+		<sx:div id="activityChartLink" href="/activityChartVisualization.do?datasetID=<s:property value='dataset.fileId'>" theme="ajax">
 		</sx:div>
 		</p>
 		</td></tr>
