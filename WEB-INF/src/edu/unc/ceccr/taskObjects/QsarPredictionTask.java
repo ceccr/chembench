@@ -83,7 +83,6 @@ public class QsarPredictionTask implements WorkflowTask {
 						File predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + ".preds");
 						Utility.writeToDebug("pof: " + predOutFile);
 						if(predOutFile.exists()){
-							Utility.writeToDebug("happyland");
 							//quickly count the number of lines in the output file for this predictor
 							InputStream is = new BufferedInputStream(new FileInputStream(predOutFile));
 						    byte[] c = new byte[1024];
@@ -96,6 +95,7 @@ public class QsarPredictionTask implements WorkflowTask {
 						        }
 						    }
 						    modelsPredictedSoFar += count - 4; //there are 4 header lines in the cons_pred.preds file
+							Utility.writeToDebug("mpso: " + modelsPredictedSoFar);
 						}
 						
 					}
