@@ -64,7 +64,6 @@ public class QsarPredictionTask implements WorkflowTask {
 					Session s = HibernateUtil.getSession();
 					allPredsTotalModels = 0;
 					String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
-					Utility.writeToDebug("fuck thinking");
 					for(int i = 0; i < selectedPredictorIdArray.length; i++){
 						Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
 						allPredsTotalModels += selectedPredictor.getNumTestModels();
@@ -73,15 +72,12 @@ public class QsarPredictionTask implements WorkflowTask {
 					
 					s.close();
 				}
-				Utility.writeToDebug("fuck thinking2");
 
 				float modelsPredictedSoFar = 0;
 				for(int i = 0; i < selectedPredictorNames.size(); i++){
-					Utility.writeToDebug("fuck thinking3");
 					
 					if(filePath != null){
 						File predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + ".preds");
-						Utility.writeToDebug("pof: " + predOutFile);
 						if(predOutFile.exists()){
 							//quickly count the number of lines in the output file for this predictor
 							InputStream is = new BufferedInputStream(new FileInputStream(predOutFile));
@@ -95,12 +91,10 @@ public class QsarPredictionTask implements WorkflowTask {
 						        }
 						    }
 						    modelsPredictedSoFar += count - 4; //there are 4 header lines in the cons_pred.preds file
-							Utility.writeToDebug("mpso: " + modelsPredictedSoFar);
 						}
 						
 					}
 				}
-				Utility.writeToDebug("fuck thinking4");
 				if(allPredsTotalModels == 0){
 					return Constants.PREDICTING; //missing database information, probably
 				}
