@@ -149,7 +149,7 @@
 				<s:param name="datasetId" value='datasetId' />
 			</s:url>
 			
-			<sx:div href="%{activityChartLink}" id="activityChartDiv" label="Activity Histogram" theme="ajax" loadingText="Loading activity chart..." showLoadingText="true">
+			<sx:div href="activityChartVisualization.do?datasetID=<s:property value='dataset.fileId'/> />" id="activityChartDiv" label="Activity Histogram" theme="ajax" loadingText="Loading activity chart..." showLoadingText="true">
 			</sx:div>
 		</s:if>
 		
