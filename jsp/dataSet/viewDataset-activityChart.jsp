@@ -10,16 +10,29 @@
 			
 		<p class="StandardTextDarkGray"><b><u>Activity Histogram</u></b>
 		<p class="StandardTextDarkGray">
-		<s:set name="link" value="/activityChartVisualization.do?datasetID=%{#dataset.fileId}" />
-		Link1: <s:property value="%{#link}" /><br/>
-		<s:set name="link2" value="/activityChartVisualization.do?datasetID=%{dataset.fileId}" />
-		Link2: <s:property value="%{#link2}" /><br/>
-		<s:set name="link3" value="/activityChartVisualization.do?datasetID=<s:property value=dataset.fileId" /> />
-		Link3: <s:property value="%{#link3}" /><br/>
+		fileId: <s:property value='dataset.fileId'/> <br />
 		
 		<br />
-		<sx:div id="activityChartSection" href="/activityChartVisualization.do?datasetID=%{#dataset.fileId} />" theme="ajax">
+		1
+		<sx:div href="/activityChartVisualization.do?datasetID=%{#dataset.fileId} />" theme="ajax">
 		</sx:div>
+		<br />
+		2
+		<sx:div href="/activityChartVisualization.do?datasetID=633>" theme="ajax">
+		</sx:div>
+		<br />
+		3
+		<sx:div href="/activityChartVisualization.do?datasetID=<s:property value='dataset.fileId' />" theme="ajax">
+		</sx:div>
+		<br />
+		4
+		<sx:div href="/activityChartVisualization.do?datasetID=%{#dataset.fileId} />" theme="ajax">
+		</sx:div>
+		<br />
+		45
+		<sx:div href="/activityChartVisualization.do?datasetID=%{dataset.fileId} />" theme="ajax">
+		</sx:div>
+		<br />
 		</p>
 		</td></tr>
 	</table>
