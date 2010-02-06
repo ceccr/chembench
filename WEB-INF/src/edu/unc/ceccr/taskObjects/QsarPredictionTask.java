@@ -99,7 +99,9 @@ public class QsarPredictionTask implements WorkflowTask {
 					}
 				}
 				Utility.writeToDebug("fuck thinking4");
-				
+				if(allPredsTotalModels == 0){
+					return Constants.PREDICTING; //missing database information, probably
+				}
 				float progress = modelsPredictedSoFar / allPredsTotalModels;
 				progress *= 100; //it's a percent
 				return step + " (" + Math.round(progress) + "%)"; 
@@ -134,7 +136,6 @@ public class QsarPredictionTask implements WorkflowTask {
 		ArrayList<Predictor> selectedPredictors = new ArrayList<Predictor>();
 		String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
 
-		allPredsTotalModels = 0;
 		for(int i = 0; i < selectedPredictorIdArray.length; i++){
 			Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
 			
