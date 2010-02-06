@@ -304,6 +304,41 @@ public class ViewDataset extends ActionSupport {
 			
 		return result;
 	}
+	
+
+	public String loadActivityChartSection() throws Exception {
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			
+			if(context.getParameters().get("datasetId") != null){
+				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
+			}
+			//get dataset
+			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
+			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
+			if(datasetId == null){
+				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
+			}
+			
+		}
+			
+		return result;
+	}
 
 	public String loadWarningsSection() throws Exception {
 		String result = SUCCESS;
