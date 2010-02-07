@@ -120,7 +120,7 @@ public class VisualizationAction extends Action {
 			   domainAxis.setRange(getMinimum(getValues(dataMap)), getMaximum(getValues(dataMap)));
 			   plot.setDomainAxis(domainAxis);
 			 
-			String outputFileStr = userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/Visualization/activityChart.png";
+			String outputFileStr = Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/Visualization/activityChart.png";
 		     ChartUtilities.saveChartAsPNG(new File(outputFileStr), chart, 550, 550);
 			
 			forward = mapping.findForward("success");
