@@ -24,14 +24,6 @@
 			<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 
 			For information on what each statistic means, check the <a href="/help-faq#05">FAQ in the help pages</a>.
 			<br />
-			<s:if test="selectedPredictor.numTestModels>=10">
-               The top 10 models are displayed below.</b></p>
-			<br />
-			</s:if>
-			<s:elseif test="selectedPredictor.numTestModels<10">
-				The top <s:property value="selectedPredictor.numTestModels" />
-				models are displayed below.</b></p><br />
-			</s:elseif>
 		</s:else>	
 	
 		<table width="100%" align="center">
@@ -74,7 +66,6 @@
 		</tr>
 		
 		<s:iterator value="models" status="modelsStatus">
-			<s:if test="#modelsStatus.index<10">
 			<tr>
 				<td class="TableRowText02"><s:property value="nnn" /></td>
 				<td class="TableRowText02"><s:property value="trainingAcc" /></td>
@@ -82,7 +73,6 @@
 				<td class="TableRowText02"><s:property value="testAcc" /></td>
 				<td class="TableRowText02"><s:property value="normalizedTestAcc" /></td>
 			</tr>
-			</s:if>
 		</s:iterator>
 	
 		</s:elseif>
