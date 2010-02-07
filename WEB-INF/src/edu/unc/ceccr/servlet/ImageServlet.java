@@ -22,12 +22,11 @@ import edu.unc.ceccr.utilities.Utility;
 public class ImageServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
-    	 //project=afghanistan&projectType=modelbuilder&user=theo&compoundId=mychart&task=chart
-        
-    	//this servlet returns 2D images for compounds and external validation charts
     	
-        String imageFilePath = Constants.CECCR_USER_BASE_PATH;
-       
+    	//this servlet returns 2D images for compounds, external validation charts, and activity charts
+    	//the code is really awful, my only excuse is 
+    	//"it was like that when I got here and there's no time to fix it now"
+    	
         //Note that some of these may be null, depending on the request type!
         String project = request.getParameter("project");
         String compoundId = request.getParameter("compoundId");
@@ -35,7 +34,6 @@ public class ImageServlet extends HttpServlet {
         String projectType = request.getParameter("projectType");
         String datasetID = request.getParameter("datasetID");
 		
-        
         DataSet ds = null;
         if(! compoundId.startsWith("mychart")){
 	        try{
@@ -48,7 +46,7 @@ public class ImageServlet extends HttpServlet {
 	        	Utility.writeToMSDebug("Error in ImageServlet::"+ex.getMessage());
 	        }
         }
-
+        
         if(!projectType.equals("dataSet") && !projectType.equalsIgnoreCase("PCA") && ds != null && ds.getUserName().equalsIgnoreCase("_all")){
         	userName = "all-users";
         }
@@ -56,8 +54,17 @@ public class ImageServlet extends HttpServlet {
         String imageFileName;
         if(compoundId.startsWith("mychart"))
         {
-        	//ext validation chart
-	      	imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
+        	if(compoundId.startsWith("mychartActivity")){
+        		//activity chart for dataset 
+        		if(userName.equalsIgnoreCase("_all")){
+        			userName = "all-users";
+        		}
+        		imageFileName=userName+"/DATASETS/"+project+"/activityChart.png";
+        	}
+        	else{
+        		//ext validation chart for modeling
+        		imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
+        	}
       	}
     	else if(projectType.equalsIgnoreCase("PCA")){
         	imageFileName=userName+"/DATASETS/"+project+"/Visualization/"+compoundId+".jpg";
@@ -69,7 +76,8 @@ public class ImageServlet extends HttpServlet {
         	//modeling and prediction images
     		imageFileName=userName+"/DATASETS/"+ds.getFileName()+"/Visualization/Sketches/"+compoundId+".jpg";
     	}
-        File imageFile = new File(imageFilePath+imageFileName);
+        
+        File imageFile = new File(Constants.CECCR_USER_BASE_PATH + imageFileName);
 
         BufferedInputStream input = null;
         BufferedOutputStream output = null;

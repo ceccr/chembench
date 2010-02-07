@@ -1,9 +1,7 @@
 package edu.unc.ceccr.workflows;
-
 import java.io.File;
 
 import edu.unc.ceccr.global.Constants;
-
 public class CreateDirectoriesWorkflow {
 	public static void createDirs(String userName, String jobName) throws Exception {
 		String basedir = Constants.CECCR_USER_BASE_PATH;
@@ -14,6 +12,5 @@ public class CreateDirectoriesWorkflow {
 			File fp = new File(basedir + dirs[i]);
 			fp.mkdir();
 		}
-		
-	}
+	}	
 }

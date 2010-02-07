@@ -1,50 +1,68 @@
+package edu.unc.ceccr.workflows;
 
-
-package edu.unc.ceccr.servlet;
-
-import java.io.*;
-import java.text.DecimalFormat;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.awt.Color;
-import java.awt.Font;
 
 import org.apache.commons.validator.GenericValidator;
+import org.hibernate.Session;
 import org.jfree.data.statistics.HistogramDataset;
 import org.jfree.data.xy.IntervalXYDataset;
+
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.Utility;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.text.DecimalFormat;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.NumberAxis;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.title.TextTitle;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
-import org.jfree.chart.*;
-import org.jfree.chart.axis.*;
-import org.jfree.chart.plot.*;
-import org.jfree.chart.title.TextTitle;
 
-public class ActivityChartServlet extends HttpServlet 
-{
-	 
-	private static final long serialVersionUID = 1L;
 
-	public final static double MAXIMUM=-1000.0;
+public class CreateActivityChartWorkflow {
 	
+	public final static double MAXIMUM=-1000.0;
 	public final static double MINIMUM=1000.0;
 	
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException
-	 {
-		 HttpSession session = request.getSession(false);
-		 OutputStream out = response.getOutputStream();
-		 response.setContentType("image/gif");
-		 
-		 if(session==null){
-			 PrintWriter writer=response.getWriter();
-			writer.write("<font color='red'> Sorry, session expired!</font>");
-			writer.close();
-		 }
-		 
-		 HashMap dataMap=(HashMap)session.getAttribute("ACTDataSet");
-		 session.removeAttribute("ACTDataSet");
+	public static void createChart(String datasetId) throws Exception {
+		//given a datasetId, get the dataset's actFile and make a chart out of it
+		//(assumes the dataset is a modeling dataset and that it has an actfile.)
+		
+		Long datasetID = Long.parseLong(datasetId);
+		
+		Session s = HibernateUtil.getSession();
+		DataSet selectedDataSet = PopulateDataObjects.getDataSetById(datasetID, s);
+		s.close();
+		
+		String fullPath = Constants.CECCR_USER_BASE_PATH;
+		
+		String userDir;
+		if(selectedDataSet.getUserName().equalsIgnoreCase("_all")){
+		userDir = "all-users";
+		}
+		else{
+			userDir = selectedDataSet.getUserName();
+		}
+		fullPath += userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/" + selectedDataSet.getActFile();
+		
+		Utility.writeToDebug("Generating Activity Histogram for Dataset: " + datasetID + " from ACT file: " + fullPath);
+		
+		HashMap dataMap  = DatasetFileOperations.parseActFile(fullPath);
+		
 		 IntervalXYDataset dataset =new HistogramDataset();
+		 
 		 dataset=createDataset(dataMap);
 		 
 		 final JFreeChart chart = ChartFactory.createHistogram("Activity Histogram", "Range","Frequency", dataset, PlotOrientation.VERTICAL,false, false, false);
@@ -58,7 +76,7 @@ public class ActivityChartServlet extends HttpServlet
 		   chart.addSubtitle(tt);
 		 
 		   XYPlot plot = (XYPlot) chart.getPlot();
-	     		 
+		 		 
 		   final NumberAxis Yaxis =(NumberAxis)plot.getRangeAxis();
 		   Yaxis.setAutoRange(true);
 		   Yaxis.setAutoRangeMinimumSize(3);
@@ -74,23 +92,13 @@ public class ActivityChartServlet extends HttpServlet
 		   domainAxis.setRange(getMinimum(getValues(dataMap)), getMaximum(getValues(dataMap)));
 		   plot.setDomainAxis(domainAxis);
 		 
-		 try{ 
-		 ChartUtilities.writeChartAsPNG(out, chart, 550, 500);
-		 }
-		 catch (Exception e) {
-		 System.err.println(e.toString());
-		 }
-		 finally {
-		 out.close();
-		 }
+		String outputFileStr = Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/Visualization/activityChart.png";
+		 ChartUtilities.saveChartAsPNG(new File(outputFileStr), chart, 550, 550);
 		
-	 }
-	
-	
-	 public void doPost(HttpServletRequest request,  HttpServletResponse response) throws ServletException, IOException 
-     { doGet(request, response);}
+		
+	}
 
-	   public HistogramDataset createDataset(HashMap map) {
+	public static HistogramDataset createDataset(HashMap map) {
 		   double[] values;  
 		   double min,max;
 		   
@@ -102,10 +110,9 @@ public class ActivityChartServlet extends HttpServlet
 		   dataset.addSeries(0,values,10,min,max);
 		   
 		   return dataset;
-	    }
-	   
-	   
-	   public double[] getValues(HashMap map)  {
+	 }
+
+	public static double[] getValues(HashMap map)  {
 		   
 		   int i=0;
 		   
@@ -132,10 +139,10 @@ public class ActivityChartServlet extends HttpServlet
 			   values[m]=temp[m];
 		   }
 		   return values;
-	   }
-	   
-	   public double getMinimum(double[] values)
-	   {
+	}
+	
+	public static double getMinimum(double[] values)
+	{
 		   double min=MINIMUM;
 		  
 		   for(int i=0;i<values.length;i++)
@@ -145,9 +152,10 @@ public class ActivityChartServlet extends HttpServlet
 			   }
 		   }
 		   return min;
-	   }
-	   public double getMaximum(double[] values)
-	   {
+	}
+	
+	public static double getMaximum(double[] values)
+	{
 		   double max=MAXIMUM;
 		   for(int i=0;i<values.length;i++){
 			   if(max<values[i]){
@@ -155,7 +163,7 @@ public class ActivityChartServlet extends HttpServlet
 			   }
 		   }
 		   return max;
-	   }
-	   
+	}
+
 }
 

@@ -113,14 +113,6 @@
       <url-pattern>/chart/*</url-pattern>
      </servlet-mapping>
      
-     <servlet>
-     <servlet-name>ActivityChart</servlet-name>
-     <servlet-class>edu.unc.ceccr.servlet.ActivityChartServlet</servlet-class>
-        </servlet>
-	<servlet-mapping>
-      <servlet-name>ActivityChart</servlet-name>
-      <url-pattern>/activityChart/*</url-pattern>
-     </servlet-mapping>
      
           <servlet>
   <servlet-name>DatasetFilesServlet</servlet-name>

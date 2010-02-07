@@ -53,8 +53,6 @@ public class VisualizationAction extends Action {
 
 		ActionForward forward = new ActionForward();
 		
-		try{
-
 		HttpSession session = request.getSession(false);
 
 		ActionErrors errors = new ActionErrors();
@@ -64,74 +62,9 @@ public class VisualizationAction extends Action {
 		} else if (session.getAttribute("user") == null) {
 			forward = mapping.findForward("login");
 		} else {
-			String userName = ((User) session.getAttribute("user"))
-					.getUserName();
-			
-			Long datasetID = Long.parseLong(request.getParameter("datasetID"));
-			
-			Session s = HibernateUtil.getSession();
-			DataSet selectedDataSet = PopulateDataObjects.getDataSetById(datasetID, s);
-			s.close();
-			
-			String fullPath = Constants.CECCR_USER_BASE_PATH;
-			
-			String userDir;
-			if(selectedDataSet.getUserName().equalsIgnoreCase("_all")){
-				userDir = "all-users";
-			}
-			else{
-				userDir = selectedDataSet.getUserName();
-			}
-			fullPath += userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/" + selectedDataSet.getActFile();
-			
-			Utility.writeToDebug("Generating Activity Histogram for Dataset: " + datasetID + " from ACT file: " + fullPath);
-			
-			HashMap dataMap  = DatasetFileOperations.parseActFile(fullPath);
-			
-			 session.removeAttribute("ACTDataSet");
-			 IntervalXYDataset dataset =new HistogramDataset();
-			 
-			 dataset=createDataset(dataMap);
-			 
-			 final JFreeChart chart = ChartFactory.createHistogram("Activity Histogram", "Range","Frequency", dataset, PlotOrientation.VERTICAL,false, false, false);
-			
-			 chart.setBackgroundPaint(Color.gray);
-			 chart.getTitle().setPaint(Color.black); 
-			 TextTitle tt = new TextTitle("C-Chembench", new Font("Dialog", Font.PLAIN, 11));
-			   tt.setPosition(RectangleEdge.BOTTOM); 
-			   tt.setHorizontalAlignment(HorizontalAlignment.RIGHT);
-			   tt.setMargin(0.0, 0.0, 4.0, 4.0);
-			   chart.addSubtitle(tt);
-			 
-			   XYPlot plot = (XYPlot) chart.getPlot();
-		     		 
-			   final NumberAxis Yaxis =(NumberAxis)plot.getRangeAxis();
-			   Yaxis.setAutoRange(true);
-			   Yaxis.setAutoRangeMinimumSize(3);
-			   
-			   final NumberAxis domainAxis = new NumberAxis("Range");
-			   
-			   DecimalFormat format = new DecimalFormat("0.00");
-			   
-			   domainAxis.setAutoRange(false);
-			   domainAxis.setAutoRangeIncludesZero(false);
-			   domainAxis.setNumberFormatOverride(format);
-			   domainAxis.setAutoRangeMinimumSize(0.1);
-			   domainAxis.setRange(getMinimum(getValues(dataMap)), getMaximum(getValues(dataMap)));
-			   plot.setDomainAxis(domainAxis);
-			 
-			String outputFileStr = Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/Visualization/activityChart.png";
-		     ChartUtilities.saveChartAsPNG(new File(outputFileStr), chart, 550, 550);
-			
-			forward = mapping.findForward("success");
+			Utility.writeToDebug("blah blah I am useless haha");
 		}
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-			forward = mapping.findForward("failure");
-			return forward;
-		}
-		return forward;
+		return null;
 	}
 
 	   public HistogramDataset createDataset(HashMap map) {
