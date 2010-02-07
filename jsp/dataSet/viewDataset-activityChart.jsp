@@ -11,6 +11,7 @@
 		<p class="StandardTextDarkGray"><b><u>Activity Histogram</u></b></p>
 		<br />
 		<p class="StandardTextDarkGray">
+		The range of activity values is divided into 10 bins.<br /><br />
 		<img src="/imageServlet?projectType=dataset&user=<s:property value='user.userName' />&project=<s:property value='dataset.fileName' />&compoundId=mychartActivity&datasetID=<s:property value='dataset.fileId' />" border="0"/>
 		<br />
 		</p>

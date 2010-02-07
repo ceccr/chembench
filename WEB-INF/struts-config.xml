@@ -44,82 +44,6 @@
 		
         <action path="/home" forward="/jsp/main/home.jsp" />	
 		
-		<action path="/vpubchem"
-			type="edu.unc.ceccr.action.CheckSessionAction">
-			<forward name="login" path="/jsp/main/home.jsp" />
-			<forward name="loggedin" path="/jsp/main/underConstruction.jsp" />
-		</action>		
-		
-		<action path="/deleteRecord"
-			type="edu.unc.ceccr.action.DeleteRecordAction"  scope="request">
-			<forward name="success" path="/viewTaskList.do"/>
-			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		<action path="/smilesPredict"
-		type="edu.unc.ceccr.action.SmilesPredictAction"  scope="request">
-			<forward name="success" path="/jsp/prediction/predictionResults.jsp"/>
-			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		<action path="/modelbuilders"
-			type="edu.unc.ceccr.action.CheckSessionAction">
-			<forward name="loggedin" path="/loadModelingPage.do" />
-			<forward name="login" path="/jsp/main/home.jsp" />
-		</action>		
-		<action path="/loadModelingPage"
-			type="edu.unc.ceccr.action.ModelingForward">
-			<forward name="success" path="/jsp/modeling/modeling.jsp" />
-			<forward name="login" path="/jsp/main/home.jsp" />
-		</action>						
-		<action path="/predictorsSave"
-			type="edu.unc.ceccr.action.SaveOutputAction">
-			<forward name="success" path="/viewTaskList.do" />
-		</action>
-		<action path="/predictors"
-			type="edu.unc.ceccr.action.PredictionForward">
-			<forward name="success" path="/jsp/prediction/selectPredictor.jsp" />
-			<forward name="login" path="/jsp/main/home.jsp" />
-		</action>
-		
-		<action path="/cancelJob"	
-			type="edu.unc.ceccr.action.CancelJob">
-			<forward name="success" path="/viewTaskList.do" />
-			<forward name="mod" path="/viewTaskList.do" />
-			<forward name="predictor" path="/viewTaskList.do" />
-			<forward name="failure" path="/viewTaskList.do" />
-		</action>
-		
-		<action path="/submitQsarWorkflow"
-			type="edu.unc.ceccr.action.QsarModelingAction"
-			input="/jsp/modeling/modeling.jsp" name="qsarForm" scope="session">
-			<forward name="success" path="/viewTaskList.do" />
-			<forward name="failure" path="/jsp/main/error.jsp" />
-			<forward name="login" path="/jsp/main/home.jsp" />
-		</action>
-		
-		<action path="/submitDataset"
-			type="edu.unc.ceccr.action.SubmitDatasetAction"
-			input="/jsp/manageFile.jsp" name="datasetForm" scope="session">
-			<forward name="success" path="/jsp/dataSet/dataSetUploadSuccessful.jsp" />
-			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		
-		<action path="/setVisData" forward="/jsp/dataSet/additionalDatasetFilesGeneration.jsp" />
-		
-		<action path="/viewKnnParameters" forward="/jsp/modeling/modeling-knn.jsp" />
-		
-		<action path="/generateDatasetVis" type="edu.unc.ceccr.action.GenerateDatasetInfoAction"
-				input="jsp/dataSet/additionalDatasetFilesGeneration.jsp" name="visForm" scope="request">
-			<forward name="success" path="/jsp/dataSet/visualizationJobPosted.jsp" />
-			<forward name="failure" path="/jsp/dataSet/visualizationJobPostError.jsp" />		
-		
-		</action>
-		
-		<action path="/activityChartVisualization" type="edu.unc.ceccr.action.VisualizationAction" 
-		input="/jsp/modeling/modeling.jsp" scope="request">
-		<forward name="success" path="/activityChart?doGet" />
-		<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		
 		<action path="/externalValidationChart" forward="/chart?doGet" />
 		
 		<action path="/viewModels"
@@ -129,60 +53,13 @@
 			<forward name="failure" path="/jsp/main/error.jsp" />
 		</action>
 		
-		<action path="/filterModels" forward ="/jsp/modeling/filterModels.jsp" />
-		
-		<action path="/selectPredictor"
-			type="edu.unc.ceccr.action.SelectPredictorActionForward"
-			input="/jsp/prediction/selectPredictor.jsp" name="predForm" scope="request">
-			<forward name="success" path="/jsp/prediction/makePredictions.jsp" />
-			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		
-		<action path="/viewmb"
-			type="edu.unc.ceccr.action.ViewCompletedJob">
-			<forward name="success" path="/jsp/modeling/viewPreviouslyGeneratedModels.jsp" />
-			<forward name="mod" path="/jsp/modeling/viewPreviouslyGeneratedModels.jsp" />
-			<forward name="predictor" path="/jsp/prediction/viewCompletedPrediction.jsp" />
-			<forward name="visualization"  path="/viewDataset.do" />
-			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		<action path="/viewModelStat"
-			type="edu.unc.ceccr.action.ViewPreviouslyGeneratedModels" input="/jsp/modeling/viewPreviouslyGeneratedModels.jsp"
-			name="qsarForm" scope="request">
-			<forward name="success" path="/jsp/modeling/modelingResults.jsp" />
-			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		
-		<action path="/viewObservedValue"
-			type="edu.unc.ceccr.action.ObservedVSPredictedAction"  scope="request">
-			<forward name="success" path="/jsp/observedVsPredictedValue.jsp" />
-			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		
-		<action path="/viewPrediction"
-			type="edu.unc.ceccr.action.ViewPrediction" scope="request">
-			<forward name="success" path="/jsp/prediction/viewPrediction.jsp" />
-			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		
-		<action path="/viewPredictor"
-			type="edu.unc.ceccr.action.ViewPredictor" scope="request">
-			<forward name="success" path="/jsp/modeling/viewPredictor.jsp" />
-			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		
-		<action path="/execPredictor"
-			type="edu.unc.ceccr.action.QsarPredictionAction"
-			input="/jsp/prediction/makePredictions.jsp" name="predictorForm" scope="request">
-			<forward name="success" path="/jobs" />
-			<forward name="failure" path="/jsp/main/error.jsp"  />
-		</action>
 		<action path="/submitLogin"
 			type="edu.unc.ceccr.action.LoginAction" input="/jsp/main/home.jsp"
 			name="loginForm" scope="request">
 			<forward name="success" path="/jsp/main/home.jsp" />
 			<forward name="failure" path="/jsp/administration/user/lostPasswordRetrieval.jsp"/>
 		</action>
+		
 		<action path="/anonPredict"
 			name="predForm" scope="request" type="edu.unc.ceccr.action.AnonymousPredictForward" input="/jsp/main/home.jsp">
 			<forward name="success" path="/jsp/anonymous/predict.jsp" />
@@ -201,13 +78,7 @@
 	    <forward name="failure" path="/jsp/main/error.jsp" />
 		</action>
 		
-
 		<action path="/help" forward="/jsp/main/helpPage.jsp" />
-
-		<!--  <action path="/request" forward="/jsp/RequestObjectTest.jsp" />-->
-		<!-- <action path="/request2" forward="/jsp/RequestObjectInJSP.jsp" />-->
-		
-		 <!-- <action path="/forUser" forward="/jsp/forUser.jsp" /> -->
 		 
 		 <action path="/forUser"
 			type="edu.unc.ceccr.action.CheckSessionAction">
@@ -275,21 +146,6 @@
 		<forward name="failure" path="/jsp/main/error.jsp"/>
 		</action>
 		
-		<action path="/deleteFile" type="edu.unc.ceccr.action.DeleteUserFile" scope="request">
-		<forward name="success" path="/manageFile.do"/>
-		<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		
-		<action path="/viewDataset" type="edu.unc.ceccr.action.ViewDatasetAction">
-			<forward name="success" path="/jsp/dataSet/dataSetVisualization.jsp" />
-			<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		
-		<action path="/viewDatasetFlash" type="edu.unc.ceccr.action.ViewDatasetAction">
-			<forward name="success" path="/jsp/dataSet/dataSetVisualizationFlash.jsp" />
-			<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		
 		<action path="/retrievePassword" type="edu.unc.ceccr.action.RegisterActions.RetrievePasswordAction" 
 		input="/jsp/administration/user/lostPasswordRetrieval.jsp" scope="request">
 		<forward name="success" path="/jsp/administration/user/forgetPasswordSent.jsp"/>
@@ -311,23 +167,6 @@
 		<action path="/logout" type="edu.unc.ceccr.action.LogoutAction" scope="request">
 			<forward name="success" path="/jsp/main/home.jsp" />
 		</action>
-		<action path="/cleanmb" type="edu.unc.ceccr.action.DeleteAction"
-			scope="request">
-			<forward name="success" path="/viewTaskList.do" />
-		</action>
-		<action path="/savemb" type="edu.unc.ceccr.action.SaveOutputAction"
-			scope="request">
-			<forward name="success" path="/viewTaskList.do" />
-		</action>
-		<action path="/cleanpr" type="edu.unc.ceccr.action.DeleteAction"
-			scope="request">
-			<forward name="success" path="/viewTaskList.do" />
-		</action>
-		<action path="/savepr"
-			type="edu.unc.ceccr.action.SaveOutputAction" scope="request">
-			<forward name="success" path="/viewTaskList.do" />
-		</action>
-		<action path="/myjobs" forward="/viewTaskList.do" />
 		<action path="/taskListChange"
 			type="edu.unc.ceccr.action.TaskListChangeAction" scope="request">
 			<forward name="success" path="/jsp/jobs/taskList.jsp" />
@@ -335,10 +174,6 @@
 		<action path="/viewTaskList"
 			type="edu.unc.ceccr.action.ViewTaskListAction" scope="request">
 			<forward name="success" path="/jsp/jobs/myJobs.jsp" />
-		</action>
-		<action path="/delete"
-			type="edu.unc.ceccr.action.DeletePredOutputAction" scope="request">
-			<forward name="success" path="/viewTaskList.do"/>
 		</action>
 	</action-mappings>
 	
