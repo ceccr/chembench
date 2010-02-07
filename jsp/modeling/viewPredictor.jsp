@@ -18,6 +18,49 @@
 	
 	<script language="javascript" src="javascript/script.js"></script>
 
+	<script language="javascript">
+		function loadModelsTab(newUrl){
+			//When the user changes which page they're on in the Models tab
+			//or changes the sorted element, run this function to update the tab's content
+			
+			//prepare the AJAX object
+			var ajaxObject = GetXmlHttpObject();
+			ajaxObject.onreadystatechange=function(){
+				if(ajaxObject.readyState==4){
+					hideLoading();
+				  	document.getElementById("modelsDiv").innerHTML=ajaxObject.responseText;
+				}
+			}
+			showLoading("LOADING. PLEASE WAIT.")
+			
+			//send request
+			ajaxObject.open("GET",newUrl,true);
+			ajaxObject.send(null);
+			
+			return true;
+		}
+
+		function loadYRandomTab(newUrl){
+			//When the user changes which page they're on in the yRandom tab
+			//or changes the sorted element, run this function to update the tab's content
+			
+			//prepare the AJAX object
+			var ajaxObject = GetXmlHttpObject();
+			ajaxObject.onreadystatechange=function(){
+				if(ajaxObject.readyState==4){
+				  	document.getElementById("yRandomDiv").innerHTML=ajaxObject.responseText;
+				}
+			}
+			
+			//send request
+			ajaxObject.open("GET",newUrl,true);
+			ajaxObject.send(null);
+			
+			return true;
+		}		
+		
+		
+	</script>
 </head>
 
 <body onload="setTabToMyBench();">
@@ -90,7 +133,7 @@
 			<s:url id="yRandomLink" value="/viewPredictorYRandomSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
-	    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="y-Randomization" theme="ajax" loadingText="Loading y-Randomization Models..." showLoadingText="true">
+	    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax" loadingText="Loading Y-Randomization Models..." showLoadingText="true">
 			</sx:div>
 			
 			<s:url id="warningsLink" value="/viewPredictorWarningsSection" includeParams="none">

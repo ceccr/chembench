@@ -47,6 +47,8 @@ public class ViewPredictorAction extends ActionSupport {
 	private List<ExternalValidation> externalValValues;
 	private List<String> residuals;
 	private String dataType;
+	private String orderBy;
+	private String sortDirection;
 	
 	public String loadExternalValidationSection() throws Exception {
 
@@ -123,6 +125,14 @@ public class ViewPredictorAction extends ActionSupport {
 				result = LOGIN;
 				return result;
 			}
+
+			if(context.getParameters().get("orderBy") != null){
+				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+			}
+			if(context.getParameters().get("sortDirection") != null){
+				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0];
+			}
+			
 			predictorId = ((String[]) context.getParameters().get("id"))[0];
 			if(predictorId == null){
 				Utility.writeToStrutsDebug("No predictor ID supplied.");
@@ -363,6 +373,19 @@ public class ViewPredictorAction extends ActionSupport {
 		this.residuals = residuals;
 	}
 
+	public String getOrderBy() {
+		return orderBy;
+	}
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public String getSortDirection() {
+		return sortDirection;
+	}
+	public void setSortDirection(String sortDirection) {
+		this.sortDirection = sortDirection;
+	}
 	
 	
 }

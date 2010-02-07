@@ -49,7 +49,6 @@ public class ModelingFormActions extends ActionSupport{
 		}
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
-
 		Session session = HibernateUtil.getSession();
 		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);

@@ -11,14 +11,14 @@
 				<br/><b class="StandardTextDarkGray">No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.</b><br/><br/>
 			</s:if>
 			<s:else>
-				<b class="StandardTextDarkGray">No models were generated.</b><br/><br/>
+				<b class="StandardTextDarkGray">No models were generated that passed your cutoffs.</b><br/><br/>
 			</s:else>
 		</s:if>
 		<s:elseif test="">
 			<br/><b class="StandardTextDarkGray">Model information is not available for public predictors.</b><br/><br/>
 		</s:elseif>
 		<s:else>
-		<p class="StandardTextDarkGray">
+		<p class="StandardTextDarkGray" width="500">
 			<b>Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
 			<s:property value="selectedPredictor.numTrainModels" /> passed the training set criteria and 
 			<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 

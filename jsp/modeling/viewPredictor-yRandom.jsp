@@ -6,7 +6,7 @@
 <!-- y-Random Models -->	
 	<br />
 	<p class="StandardTextDarkGray"><b><u>y-Randomization Results</u></b></p>
-	<p class="StandardTextDarkGray">
+	<p class="StandardTextDarkGray" width="500">
 		<b>Y-randomization</b> is a statistical QSAR model validation technique where the performance of the model 
 		built with original data is compared to that of models built for multiple artificial datasets with
 		randomly shuffled activities. The models of the randomized data are built using the same parameters
@@ -18,9 +18,6 @@
 		models for randomized datasets were built and <font color="red">
 		<s:property value="selectedPredictor.numyTestModels" /> </font>models were found to have high 
 		prediction accuracy. <br />
-		<s:if test="selectedPredictor.numyTestModels>=10">
-             The top 10 models are displayed below.</b></p><br />
-		</s:if>
 	</p>
 
 	<s:if test="selectedPredictor.numyTestModels>0">
@@ -39,7 +36,6 @@
 	</tr>
 	
 	<s:iterator value="randomModels" status="randomModelsStatus">
-		<s:if test="#randomModelsStatus.index<10">
 		<tr>
 		<td class="TableRowText02"><s:property value="nnn" /></td>
 		<td class="TableRowText02"><s:property value="q_squared" /></td>
@@ -51,7 +47,6 @@
 		<td class="TableRowText02"><s:property value="k1" /></td>
 		<td class="TableRowText02"><s:property value="k2" /></td>
 		</tr> 
-		</s:if>
 	</s:iterator>
 	</s:if>
 	<s:elseif test="dataType=='CATEGORY'">
