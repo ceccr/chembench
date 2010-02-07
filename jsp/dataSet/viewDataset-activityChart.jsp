@@ -13,8 +13,7 @@
 		fileId: <s:property value='dataset.fileId'/> <br />
 		
 		<br />
-		<sx:div href="activityChartVisualization.do?datasetID=%{dataset.fileId}" theme="ajax">
-		</sx:div>
+		<img src="activityChartVisualization.do?datasetID=%{dataset.fileId}">
 		<br />
 		</p>
 		</td></tr>

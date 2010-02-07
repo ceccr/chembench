@@ -96,18 +96,11 @@ protected void processRequest(HttpServletRequest request,
          index++;
    }
    
-        
-     
    double min=setMin(MinRange(extValidation,0),MinRange(extValidation,1));
-   
    double max=setMax(MaxRange(extValidation,0),MaxRange(extValidation,1));
-   
    series1.add(min,min);
-   
    series1.add(max, max);
-   
    ds.addSeries(series0);
-   
    ds.addSeries(series1);
    
    int i=0;
@@ -115,7 +108,6 @@ protected void processRequest(HttpServletRequest request,
    while(it2.hasNext())
    {
 	   ds.addSeries((XYSeries)it2.next());
-	   
 	   renderer.setSeriesLinesVisible(i+2, true);
 	   renderer.setSeriesShapesVisible(i+2, true);
 	   renderer.setSeriesPaint(i+2,Color.RED);
@@ -124,8 +116,6 @@ protected void processRequest(HttpServletRequest request,
 	   renderer.setSeriesShape(i+2, new Rectangle2D.Double(-3.0, -3.0, 8.0, 0.10 ));
 	     i++;
    }
-   
-   
    
    CustomXYToolTipGenerator ctg=new CustomXYToolTipGenerator();
    ctg.addToolTipSeries(tooltipList);
@@ -148,7 +138,6 @@ protected void processRequest(HttpServletRequest request,
      
    final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());//
      
-        
    JFreeChart chart =    ChartFactory.createXYLineChart("Observed VS Predicted",    
 		   "Observed", "Predicted", ds, PlotOrientation.VERTICAL, false,true,true);
    
@@ -198,8 +187,6 @@ protected void processRequest(HttpServletRequest request,
 
    pw.flush();
    
-  
- 
  final InputStream input = new BufferedInputStream(new FileInputStream(basePath+"mychart.map"));
  int contentLength = input.available();
  PrintWriter writer=response.getWriter();

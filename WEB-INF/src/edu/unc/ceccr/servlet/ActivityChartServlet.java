@@ -32,7 +32,6 @@ public class ActivityChartServlet extends HttpServlet
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException
 	 {
-		
 		 HttpSession session = request.getSession(false);
 		 OutputStream out = response.getOutputStream();
 		 response.setContentType("image/gif");
@@ -58,9 +57,9 @@ public class ActivityChartServlet extends HttpServlet
 		   tt.setMargin(0.0, 0.0, 4.0, 4.0);
 		   chart.addSubtitle(tt);
 		 
-		 XYPlot plot = (XYPlot) chart.getPlot();
+		   XYPlot plot = (XYPlot) chart.getPlot();
 	     		 
-		final NumberAxis Yaxis =(NumberAxis)plot.getRangeAxis();
+		   final NumberAxis Yaxis =(NumberAxis)plot.getRangeAxis();
 		   Yaxis.setAutoRange(true);
 		   Yaxis.setAutoRangeMinimumSize(3);
 		   
