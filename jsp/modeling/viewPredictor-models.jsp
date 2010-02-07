@@ -5,6 +5,7 @@
 
 <!-- Models -->	
 	<br />
+		<table width="500"><tr><td>
 		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
 		<s:if test="models.size==0">
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
@@ -25,6 +26,7 @@
 			For information on what each statistic means, check the <a href="/help-faq#05">FAQ in the help pages</a>.
 			<br />
 		</s:else>	
+		</td></tr></table>
 	
 		<table width="100%" align="center">
 		<s:if test="dataType=='CONTINUOUS'">
