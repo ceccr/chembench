@@ -91,7 +91,7 @@
 			    </tr>
 				<tr>
 				<td colspan="2">
-				<div class="StandardTextDarkGrayParagraph"><br /><input type="button" value="View Activity Histogram" property="text" onclick="showActivityHistogram()"/> <i> Opens in a new window. Check your browser settings if the new window does not appear.</i></div>
+				<div class="StandardTextDarkGrayParagraph"><br /><input type="button" value="View Dataset" property="text" onclick="showDataset()"/> <i> Opens in a new window. Check your browser settings if the new window does not appear.</i></div>
 				<br />
 				</td>
 				</tr>

@@ -110,4 +110,21 @@ function submitForm(button)
 // End Form validation functions //
 
 
+function showDataset()
+{
+	//Open dataset in new window
+	//make sure that they've picked an existing continuous or category dataset
+	if(document.getElementById("continuousDataset").checked){
+		window.open("viewDataset?id="+document.getElementById("selectedContinuousDataset").value);
+		return true;
+	}
+	else if(document.getElementById("categoryDataset").checked){
+		window.open("viewDataset?id="+document.getElementById("selectedCategoryDataset").value);
+		return true;
+	}
+	else{
+		window.alert("Please specify a dataset.");
+		return false;
+	}
+}
 
