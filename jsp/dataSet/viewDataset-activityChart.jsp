@@ -14,7 +14,7 @@
 		
 		<br />
 		
-		<img src="/imageServlet?projectType=dataset&user=<s:property value='user.userName' />&project=<s:property value='dataset.fileName' />&compoundId=mychartActivity&datasetID=<s:property value='dataset.fileId' />" border="0" height="150" onmouseover='enlargeImage(this);' onmouseout='shrinkImage(this)'/>
+		<img src="/imageServlet?projectType=dataset&user=<s:property value='user.userName' />&project=<s:property value='dataset.fileName' />&compoundId=mychartActivity&datasetID=<s:property value='dataset.fileId' />" border="0"/>
 			
 		<br />
 		<sx:div href="activityChartVisualization.do?datasetID=%{dataset.fileId}" theme="ajax">

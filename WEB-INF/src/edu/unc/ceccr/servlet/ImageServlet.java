@@ -59,7 +59,7 @@ public class ImageServlet extends HttpServlet {
         		if(userName.equalsIgnoreCase("_all")){
         			userName = "all-users";
         		}
-        		imageFileName=userName+"/DATASETS/"+project+"/activityChart.png";
+        		imageFileName=userName+"/DATASETS/"+project+"/Visualization/activityChart.png";
         	}
         	else{
         		//ext validation chart for modeling
