@@ -126,7 +126,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 			user.setShowPublicDatasets(Constants.SOME);
 			user.setShowPublicPredictors(Constants.ALL);
 			user.setViewDatasetCompoundsPerPage(Constants.TWENTYFIVE);
-			user.setViewPredictorModels(Constants.TOP10);
 			user.setViewPredictionCompoundsPerPage(Constants.TWENTYFIVE);
 
 			String password = Utility.randomPassword();
@@ -331,7 +330,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		showPublicDatasets = user.getShowPublicDatasets();
 		showPublicPredictors = user.getShowPublicPredictors();
 		viewDatasetCompoundsPerPage = user.getViewDatasetCompoundsPerPage();
-		viewPredictorModels = user.getViewPredictorModels();
 		viewPredictionCompoundsPerPage = user.getViewPredictionCompoundsPerPage();
 		
 		return result;
@@ -352,7 +350,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		user.setShowPublicDatasets(showPublicDatasets);
 		user.setShowPublicPredictors(showPublicPredictors);
 		user.setViewDatasetCompoundsPerPage(viewDatasetCompoundsPerPage);
-		user.setViewPredictorModels(viewPredictorModels);
 		user.setViewPredictionCompoundsPerPage(viewPredictionCompoundsPerPage);
 		
 		// Commit changes

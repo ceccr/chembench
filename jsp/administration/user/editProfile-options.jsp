@@ -69,14 +69,6 @@
 
 <tr>
 	<td width="240">
-	<div class="StandardTextDarkGrayParagraph"><b>Models Shown on View Predictors: </b></div></td>
-	<td align="left" valign="top">
-	<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="viewPredictorModels" value="viewPredictorModels" list="#{'TOP10':'Top 10','TOP25':'Top 25','TOP100':'Top 100','ALL':'All'}" /></div>
-	</td>
-</tr>	
-
-<tr>
-	<td width="240">
 	<div class="StandardTextDarkGrayParagraph"><b>Compounds Per Page on View Predictions: </b></div></td>
 	<td align="left" valign="top">
 	<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="viewPredictionCompoundsPerPage" value="viewPredictionCompoundsPerPage" list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" /></div>

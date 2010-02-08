@@ -137,7 +137,6 @@ public class ViewPredictorAction extends ActionSupport {
 				Utility.writeToStrutsDebug("No predictor ID supplied.");
 			}
 			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
-			String numModelsToShow = user.getViewPredictorModels(); //maybe another pagination trick thingy.
 			
 			if(selectedPredictor == null){
 				Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
@@ -238,7 +237,6 @@ public class ViewPredictorAction extends ActionSupport {
 			else{
 				Utility.writeToStrutsDebug("predictor id: " + predictorId);
 				selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
-				String numModelsToShow = user.getViewPredictorModels(); 
 				
 				if(selectedPredictor == null){
 					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
