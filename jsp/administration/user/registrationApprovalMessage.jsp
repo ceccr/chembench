@@ -38,6 +38,8 @@
 		
 		<s:property value="outputMessage" />
 		<br /><br />
+		While you wait, you might like to read the <a href="help-overview#justRegistered">overview of Chembench</a>.
+		<br /><br />
 		Enjoy,<br/>
 		The C-Chembench Team.
 		<br/>

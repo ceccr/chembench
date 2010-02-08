@@ -19,7 +19,7 @@
 		<tr><td colspan="2"><table>
 	  <tr>
 		<td colspan="2">
-		<div class="StandardTextDarkGrayParagraph"><i>A dataset will be created from the <a href="/jsp/help/fileformats.jsp#SDF">SDF</a> file you supply.</i><br /></div>
+		<div class="StandardTextDarkGrayParagraph"><i>A dataset will be created from the <a href="/help-fileformats#SDF">SDF</a> file you supply.</i><br /></div>
 	    </td>
 	  </tr>		
 	  <tr>

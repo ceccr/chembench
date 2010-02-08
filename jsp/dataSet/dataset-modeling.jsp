@@ -19,7 +19,7 @@
 		<tr><td colspan="2"><table>
 	  <tr>
 		<td colspan="2">
-		<div class="StandardTextDarkGrayParagraph"><i>A dataset for modeling and prediction will be created from the <a href="/jsp/help/fileformats.jsp#SDF">SDF</a> and <a href="/jsp/help/fileformats.jsp#ACT">ACT</a> files you supply.</i><br />
+		<div class="StandardTextDarkGrayParagraph"><i>A dataset for modeling and prediction will be created from the <a href="/help-fileformats#SDF">SDF</a> and <a href="/help-fileformats#ACT">ACT</a> files you supply.</i><br />
 		Chembench will generate descriptors for this dataset during the modeling process.</div>
 	    </td>
 	  </tr>	
