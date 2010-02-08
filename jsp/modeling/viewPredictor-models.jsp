@@ -5,7 +5,6 @@
 
 <!-- Models -->	
 	<br />
-		<table width="500"><tr><td>
 		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
 		
 		<p class="StandardTextDarkGrayParagraph">
@@ -24,7 +23,7 @@
 			<b>Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
 			<s:property value="selectedPredictor.numTrainModels" /> passed the training set criteria and 
 			<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 
-			For information on what each statistic means, check the <a href="/help-faq#05">FAQ in the help pages</a>.
+			For information on what each statistic means, check the <a href="/help-faq#05">FAQ</a> in the help pages.
 			<br />
 		</s:else>	
 		</p>
