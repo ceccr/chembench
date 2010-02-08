@@ -40,7 +40,6 @@ public class User implements java.io.Serializable{
 	private String showPublicDatasets;
 	private String showPublicPredictors;
 	private String viewDatasetCompoundsPerPage;
-	private String viewPredictorModels;
 	private String viewPredictionCompoundsPerPage;
 	
 	public User(){};
@@ -236,14 +235,6 @@ public class User implements java.io.Serializable{
 	}
 	public void setViewDatasetCompoundsPerPage(String viewDatasetCompoundsPerPage) {
 		this.viewDatasetCompoundsPerPage = viewDatasetCompoundsPerPage;
-	}
-	
-	@Column(name="viewPredictorModels")
-	public String getViewPredictorModels() {
-		return viewPredictorModels;
-	}
-	public void setViewPredictorModels(String viewPredictorModels) {
-		this.viewPredictorModels = viewPredictorModels;
 	}
 	
 	@Column(name="viewPredictionCompoundsPerPage")

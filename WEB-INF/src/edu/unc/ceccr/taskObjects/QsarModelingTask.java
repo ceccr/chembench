@@ -476,11 +476,11 @@ public class QsarModelingTask implements WorkflowTask {
 			//done with modeling. Read output files. 
 			step = Constants.READING;
 			if (actFileDataType.equals(Constants.CATEGORY)){
-				parseCategorykNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
-				parseCategorykNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
+				parseCategorykNNOutput(filePath, Constants.MAINKNN);
+				parseCategorykNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
 			}else if (actFileDataType.equals(Constants.CONTINUOUS)){
-				parseContinuouskNNOutput(filePath+Constants.kNN_OUTPUT_FILE, Constants.MAINKNN);
-				parseContinuouskNNOutput(filePath+"yRandom/"+Constants.kNN_OUTPUT_FILE, Constants.RANDOMKNN);
+				parseContinuouskNNOutput(filePath, Constants.MAINKNN);
+				parseContinuouskNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
 			}
 	
 			noModelsGenerated = mainKNNValues.isEmpty();
@@ -542,7 +542,6 @@ public class QsarModelingTask implements WorkflowTask {
 		predictor.setDatasetId(datasetID);
 		predictor.setHasBeenViewed(Constants.NO);
 
-		
 		if(allkNNValues.size()<1){}else
 		{for (ModelInterface m : allkNNValues)
 			m.setPredictor(predictor);
@@ -590,11 +589,10 @@ public class QsarModelingTask implements WorkflowTask {
         	yTestModels=test;
         	yTrainModels=train;
         }
-        
 	}
 
 	private void parseContinuouskNNOutput(String fileLocation, String flowType) throws IOException {
-	BufferedReader in = new BufferedReader(new FileReader(fileLocation));
+	BufferedReader in = new BufferedReader(new FileReader(fileLocation + Constants.kNN_OUTPUT_FILE));
 	String inputString;
 	String[] kNNValues = null;
 	if(flowType.equals(Constants.MAINKNN)){ mainKNNValues=new ArrayList<Model>();}
@@ -615,7 +613,7 @@ public class QsarModelingTask implements WorkflowTask {
 			// skip all rows that don't have data
 		} else {
 			kNNValues = inputString.split("\\s+");
-			Model knnOutput = createContinuousKnnOutputObject(kNNValues, flowType);
+			Model knnOutput = createContinuousKnnOutputObject(fileLocation, kNNValues, flowType);
 			if(flowType.equals(Constants.MAINKNN) ){ mainKNNValues.add(knnOutput);}
 			else{ randomKNNValues.add(knnOutput);}
 		}
@@ -623,7 +621,7 @@ public class QsarModelingTask implements WorkflowTask {
 	in.close();
 }
 	private void parseCategorykNNOutput(String fileLocation, String flowType) throws IOException {
-		BufferedReader in = new BufferedReader(new FileReader(fileLocation));
+		BufferedReader in = new BufferedReader(new FileReader(fileLocation + Constants.kNN_OUTPUT_FILE));
 		String inputString;
 		String[] kNNValues = null;
 		if(flowType.equals(Constants.MAINKNN)){ mainKNNValues=new ArrayList<Model>();}
@@ -641,7 +639,7 @@ public class QsarModelingTask implements WorkflowTask {
 				// skip all rows that don't have data
 			} else {
 				kNNValues = inputString.split("\\s+");
-				Model knnOutput = createCategoryKnnOutputObject(kNNValues, flowType);
+				Model knnOutput = createCategoryKnnOutputObject(fileLocation, kNNValues, flowType);
 				if(flowType.equals(Constants.MAINKNN) ){ mainKNNValues.add(knnOutput);}
 				else{ randomKNNValues.add(knnOutput);}
 			}
@@ -745,7 +743,7 @@ public class QsarModelingTask implements WorkflowTask {
 		return extValOutput;
 	}
 
-	public static Model createContinuousKnnOutputObject(String[] kNNValues, String flowType) {
+	public static Model createContinuousKnnOutputObject(String filePath, String[] kNNValues, String flowType) {
 		// The values array starts at 1 - not 0!
 		if (kNNValues == null) {
 			return null;
@@ -767,12 +765,27 @@ public class QsarModelingTask implements WorkflowTask {
 				.parseFloat(kNNValues[Constants.CONTINUOUS_R02_SQUARED_LOCATION]));
 		knnOutput.setK1(Float.parseFloat(kNNValues[Constants.CONTINUOUS_K1_LOCATION]));
 		knnOutput.setK2(Float.parseFloat(kNNValues[Constants.CONTINUOUS_K2_LOCATION]));
-		knnOutput.setFile(kNNValues[25]);
 		knnOutput.setFlowType(flowType);
+		
+		String fileName = kNNValues[25];
+		knnOutput.setFile(fileName);
+		
+		//get descriptors from model file
+		try{
+			File modelFile = new File(filePath + fileName);
+			BufferedReader br = new BufferedReader(new FileReader(modelFile));
+			br.readLine(); 
+			br.readLine();
+			//descriptor names are the third line of the model file
+			knnOutput.setDescriptorsUsed(br.readLine());
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 		return knnOutput;
 	}
 
-	public static Model createCategoryKnnOutputObject(String[] kNNValues, String flowType) {
+	public static Model createCategoryKnnOutputObject(String filePath, String[] kNNValues, String flowType) {
 		// The values array starts at 1 - not 0!
 		if (kNNValues == null) {
 			return null;
@@ -791,8 +804,25 @@ public class QsarModelingTask implements WorkflowTask {
 		knnOutput.setNormalizedTestAcc(Float
 				.parseFloat(kNNValues[Constants.CATEGORY_NORMALIZED_TEST_ACC_LOCATION]));
 
-		knnOutput.setFile(kNNValues[12]);
 		knnOutput.setFlowType(flowType);
+		
+		String fileName = kNNValues[12];
+		knnOutput.setFile(fileName);
+		
+		//get descriptors from model file
+		try{
+			//noncritical; if this fails, just write out the error, don't fail the job
+			File modelFile = new File(filePath + fileName);
+			BufferedReader br = new BufferedReader(new FileReader(modelFile));
+			br.readLine(); 
+			br.readLine();
+			//descriptor names are the third line of the model file
+			knnOutput.setDescriptorsUsed(br.readLine());
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		
 		return knnOutput;
 	}
 
