@@ -6,21 +6,22 @@
 <!-- y-Random Models -->	
 	<br />
 	<p class="StandardTextDarkGray"><b><u>y-Randomization Results</u></b></p>
-		<table width="500"><tr><td>
-	<p class="StandardTextDarkGray">
-		<b>Y-randomization</b> is a statistical QSAR model validation technique where the performance of the model 
-		built with original data is compared to that of models built for multiple artificial datasets with
-		randomly shuffled activities. The models of the randomized data are built using the same parameters
-		used for the actual predictor. Ideally, there will be no models from the randomized data with high 
-		values of both q<sup>2</sup> (internal test set) and R<sup>2</sup> (external set). Your modeling parameters
-		need to be adjusted if many y-randomized models are being produced with q<sup>2</sup> and R<sup>2</sup> 
-		above your cutoff values.
-		<br/>For your data, <font color="red"><s:property value="selectedPredictor.numyTotalModels" /> </font> 
-		models for randomized datasets were built and <font color="red">
-		<s:property value="selectedPredictor.numyTestModels" /> </font>models were found to have high 
-		prediction accuracy. <br />
+	
+	<p class="StandardTextDarkGrayParagraph">
+			<b>Y-randomization</b> is a statistical QSAR model validation technique where the performance of the model 
+			built with original data is compared to that of models built for multiple artificial datasets with
+			randomly shuffled activities. The models of the randomized data are built using the same parameters
+			used for the actual predictor. Ideally, there will be no models from the randomized data with high 
+			values of both q<sup>2</sup> (internal test set) and R<sup>2</sup> (external set). Your modeling parameters
+			need to be adjusted if many y-randomized models are being produced with q<sup>2</sup> and R<sup>2</sup> 
+			above your cutoff values.
 	</p>
-	</td></tr></table>
+	<p class="StandardTextDarkGrayParagraph">
+			<br/>For your data, <font color="red"><s:property value="selectedPredictor.numyTotalModels" /> </font> 
+			models for randomized datasets were built and <font color="red">
+			<s:property value="selectedPredictor.numyTestModels" /> </font>models were found to have high 
+			prediction accuracy. <br />
+	</p>
 
 	<s:if test="selectedPredictor.numyTestModels>0">
 	<table width="100%" align="center">
@@ -35,6 +36,7 @@
 		<td class="TableRowText01">R<sub>02</sub><sup>2</sup></td>
 		<td class="TableRowText01">k1</td>
 		<td class="TableRowText01">k2</td>
+		<td class="TableRowText01">Descriptors</td>
 	</tr>
 	
 	<s:iterator value="randomModels" status="randomModelsStatus">
@@ -48,6 +50,7 @@
 		<td class="TableRowText02"><s:property value="r02_squared" /></td>
 		<td class="TableRowText02"><s:property value="k1" /></td>
 		<td class="TableRowText02"><s:property value="k2" /></td>
+		<td class="TableRowText02"><s:property value="descriptorsUsed" /></td>
 		</tr> 
 	</s:iterator>
 	</s:if>
@@ -58,6 +61,7 @@
 		<td class="TableRowText01">Normalized Training Accuracy</td>
 		<td class="TableRowText01">Test Accuracy</td>
 		<td class="TableRowText01">Normalized Test Accuracy</td>
+			<td class="TableRowText01">Descriptors</td>
 	</tr>
 	
 	<s:iterator value="randomModels" status="randomModelsStatus">
@@ -68,6 +72,7 @@
 			<td class="TableRowText02"><s:property value="normalizedTrainingAcc" /></td>
 			<td class="TableRowText02"><s:property value="testAcc" /></td>
 			<td class="TableRowText02"><s:property value="normalizedTestAcc" /></td>
+			<td class="TableRowText02"><s:property value="descriptorsUsed" /></td>
 		</tr>
 		</s:if>
 	</s:iterator>

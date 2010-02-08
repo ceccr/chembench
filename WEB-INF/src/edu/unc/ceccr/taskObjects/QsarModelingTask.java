@@ -771,7 +771,11 @@ public class QsarModelingTask implements WorkflowTask {
 		knnOutput.setFile(fileName);
 		
 		//get descriptors from model file
+		//noncritical; if this fails, just write out the error, don't fail the job
 		try{
+			//fileName contains the .pred file, but we want the .mod file
+			fileName = fileName.substring(0,fileName.lastIndexOf(".")) + ".mod";
+			
 			File modelFile = new File(filePath + fileName);
 			BufferedReader br = new BufferedReader(new FileReader(modelFile));
 			br.readLine(); 
@@ -810,8 +814,10 @@ public class QsarModelingTask implements WorkflowTask {
 		knnOutput.setFile(fileName);
 		
 		//get descriptors from model file
+		//noncritical; if this fails, just write out the error, don't fail the job
 		try{
-			//noncritical; if this fails, just write out the error, don't fail the job
+			//fileName contains the .pred file, but we want the .mod file
+			fileName = fileName.substring(0,fileName.lastIndexOf(".")) + ".mod";
 			File modelFile = new File(filePath + fileName);
 			BufferedReader br = new BufferedReader(new FileReader(modelFile));
 			br.readLine(); 

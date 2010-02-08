@@ -120,11 +120,13 @@
     	<sx:div href="%{predictionsLink}" id="predictionValuesDiv" label="Prediction Values" theme="ajax" loadingText="Loading predictions..." showLoadingText="true">
 		</sx:div>
 		
+		<!--  
 		<s:url id="warningsLink" value="/viewPredictionWarningsSection" includeParams="none">
 			<s:param name="predictionId" value='predictionId' />
 		</s:url>
 		<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading warnings..." showLoadingText="true">
 		</sx:div>
+		-->
 		
    	</sx:tabbedpanel>
 	<!-- end load tabs -->

@@ -7,26 +7,27 @@
 	<br />
 		<table width="500"><tr><td>
 		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
+		
+		<p class="StandardTextDarkGrayParagraph">
 		<s:if test="models.size==0">
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-				<br/><b class="StandardTextDarkGray">No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.</b><br/><br/>
+				<br/>No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.<br/>
 			</s:if>
 			<s:else>
-				<b class="StandardTextDarkGray">No models were generated that passed your cutoffs.</b><br/><br/>
+				No models were generated that passed your cutoffs.<br/>
 			</s:else>
 		</s:if>
-		<s:elseif test="">
-			<br/><b class="StandardTextDarkGray">Model information is not available for public predictors.</b><br/><br/>
+		<s:elseif test="selectedPredictor.userName=='_all'">
+			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
-		<p class="StandardTextDarkGray" width="500">
 			<b>Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
 			<s:property value="selectedPredictor.numTrainModels" /> passed the training set criteria and 
 			<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 
 			For information on what each statistic means, check the <a href="/help-faq#05">FAQ in the help pages</a>.
 			<br />
 		</s:else>	
-		</td></tr></table>
+		</p>
 	
 		<table width="100%" align="center">
 		<s:if test="dataType=='CONTINUOUS'">
@@ -67,6 +68,7 @@
 			<td class="TableRowText01">Normalized Training Accuracy</td>
 			<td class="TableRowText01">Test Accuracy</td>
 			<td class="TableRowText01">Normalized Test Accuracy</td>
+			<td class="TableRowText01">Descriptors</td>
 		</tr>
 		
 		<s:iterator value="models" status="modelsStatus">
@@ -76,6 +78,7 @@
 				<td class="TableRowText02"><s:property value="normalizedTrainingAcc" /></td>
 				<td class="TableRowText02"><s:property value="testAcc" /></td>
 				<td class="TableRowText02"><s:property value="normalizedTestAcc" /></td>
+				<td class="TableRowText02"><s:property value="descriptorsUsed" /></td>
 			</tr>
 		</s:iterator>
 	

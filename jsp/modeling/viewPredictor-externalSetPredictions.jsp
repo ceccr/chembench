@@ -4,6 +4,15 @@
 <%@ page language="java" import="java.util.*" %>
 
 	<br />
+	
+	<s:if test="models.size==0">
+		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
+			<br/><b class="StandardTextDarkGray">No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.</b><br/><br/>
+		</s:if>
+		<s:else>
+			<b class="StandardTextDarkGray">No models were generated that passed your cutoffs.</b><br/><br/>
+		</s:else>
+	</s:if>
 
 	<!-- External Validation Compound Predictions -->
 		<p class="StandardTextDarkGray"><b><u>Predictions for External Validation Set</u></b></p>

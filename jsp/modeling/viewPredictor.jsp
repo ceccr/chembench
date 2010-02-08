@@ -101,12 +101,11 @@
 		</tr>
 		</table>
 		
-		<!-- Show description if it is a public predictor -->
-		<s:if test="datasetUserName=='_all'">
+		<s:if test="selectedPredictor.userName=='_all'">
 		<table width="500">
 		<tr><td>
 		<p class="StandardTextDarkGrayParagraph">
-		<s:property value="selectedPredictor.description"/>
+		<b>Description:</b> <s:property value="selectedPredictor.description"/>
 		</p>
 		</td></tr></table>
 		</s:if>
@@ -135,12 +134,14 @@
 			</s:url>
 	    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax" loadingText="Loading Y-Randomization Models..." showLoadingText="true">
 			</sx:div>
-			
+		
+		<!--
 			<s:url id="warningsLink" value="/viewPredictorWarningsSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
 			<sx:div href="%{warningsLink}" label="Warnings" theme="ajax" loadingText="Loading warnings..." showLoadingText="true">
 			</sx:div>
+		-->	
 			
 	   	</sx:tabbedpanel>
 		<!-- end load tabs -->
