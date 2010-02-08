@@ -178,7 +178,7 @@
 			</tr>
 			<tr>
 				<td width="70" height="26" align="left" colspan="3">
-				<div class="StandardTextDarkGrayParagraph" id="smilesResults"><i>Your SMILES prediction results will appear here. Prediction will take 2-3 minutes on average per predictor.</i></div>
+				<div class="StandardTextDarkGrayParagraph" id="smilesResults"><i>Your SMILES prediction results will appear here. Prediction will take 3-5 minutes on average per predictor.</i></div>
 				</td>
 				<td align="left" valign="top"><span id="messageDiv2"></span></td>
 			</tr>
