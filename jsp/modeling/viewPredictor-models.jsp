@@ -40,6 +40,7 @@
 			<td class="TableRowText01">R<sub>02</sub><sup>2</sup></td>
 			<td class="TableRowText01">k1</td>
 			<td class="TableRowText01">k2</td>
+			<td class="TableRowText01">Descriptors</td>
 		</tr>
 		
 		<s:iterator value="models" status="modelsStatus">
@@ -54,6 +55,7 @@
 			<td class="TableRowText02"><s:property value="r02_squared" /></td>
 			<td class="TableRowText02"><s:property value="k1" /></td>
 			<td class="TableRowText02"><s:property value="k2" /></td>
+			<td class="TableRowText02"><s:property value="descriptorsUsed" /></td>
 			</tr> 
 			</s:if>
 		</s:iterator>
