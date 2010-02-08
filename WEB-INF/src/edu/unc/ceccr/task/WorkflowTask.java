@@ -11,5 +11,8 @@ public interface WorkflowTask {
 	public abstract void save() throws Exception;
 
 	public abstract String getProgress() throws Exception;
+
+	public abstract String getNumCompounds() throws Exception;
 	
+	public abstract String getNumModels() throws Exception;
 }

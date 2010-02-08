@@ -48,6 +48,13 @@ public class CreateDatasetTask implements WorkflowTask{
 	
 	private String step = Constants.SETUP; //stores what step we're on 
 	
+	public String getNumCompounds(){
+		return "" + numCompounds;		
+	}
+	public String getNumModels(){
+		return "N/A";		
+	}
+	
 	public String getProgress(){
 		String percent = "";
 		if(step.equals(Constants.SKETCHES)){

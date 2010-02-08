@@ -165,6 +165,13 @@ public class QsarModelingTask implements WorkflowTask {
 	private boolean noModelsGenerated;
 	
 	private String step = Constants.SETUP; //stores what step we're on 
+
+	public String getNumCompounds(){
+		return "N/A";		
+	}
+	public String getNumModels(){
+		return "N/A";		
+	}
 	
 	public String getProgress(){
 		String percent = "";
