@@ -20,7 +20,7 @@
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
-			<b>Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
+			Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
 			<s:property value="selectedPredictor.numTrainModels" /> passed the training set criteria and 
 			<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 
 			For information on what each statistic means, check the <a href="/help-faq#05">FAQ</a> in the help pages.
@@ -30,6 +30,7 @@
 	
 		<table width="100%" align="center">
 		<s:if test="dataType=='CONTINUOUS'">
+		<s:if test="models.size!=0">
 		<tr>
 			<td class="TableRowText01narrow">nnn</td>
 			<td class="TableRowText01narrow">q<sup>2</sup></td>
@@ -42,7 +43,7 @@
 			<td class="TableRowText01narrow">k2</td>
 			<td class="TableRowText01narrow" colspan="2">Descriptors</td>
 		</tr>
-		
+		</s:if>
 		<s:iterator value="models" status="modelsStatus">
 			<s:if test="#modelsStatus.index<10">
 			<tr>
@@ -61,6 +62,7 @@
 		</s:iterator>
 		</s:if>
 		<s:elseif test="dataType=='CATEGORY'">
+		<s:if test="models.size!=0">
 		<tr>
 			<td class="TableRowText01">nnn</td>
 			<td class="TableRowText01">Training Accuracy</td>
@@ -69,6 +71,7 @@
 			<td class="TableRowText01">Normalized Test Accuracy</td>
 			<td class="TableRowText01" colspan="2">Descriptors</td>
 		</tr>
+		</s:if>
 		
 		<s:iterator value="models" status="modelsStatus">
 			<tr>
