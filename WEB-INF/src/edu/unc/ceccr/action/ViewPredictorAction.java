@@ -164,22 +164,20 @@ public class ViewPredictorAction extends ActionSupport {
 					}
 				}
 			}
-			Utility.writeToDebug("hashMap size: " + descriptorFreqMap.size());
 			
 			ArrayList<descriptorFrequency> descriptorFrequencies = new ArrayList<descriptorFrequency>();
 			ArrayList<String> mapKeys = new ArrayList(descriptorFreqMap.keySet());
-			Utility.writeToDebug("mapKeys size: " + mapKeys.size());
 			for(String k: mapKeys){
 				descriptorFrequency df = new descriptorFrequency();
 				df.setDescriptor(k);
 				df.setNumOccs(descriptorFreqMap.get(k));
+				descriptorFrequencies.add(df);
 			}
 			
 			Collections.sort(descriptorFrequencies, new Comparator<descriptorFrequency>() {
 			    public int compare(descriptorFrequency df1, descriptorFrequency df2) {
 			    	return (df1.getNumOccs() < df2.getNumOccs()? -1 : 1);
 			    }});
-			Utility.writeToDebug("descriptorFrequencies size: " + descriptorFrequencies.size());
 			if(descriptorFrequencies.size() >= 5){
 				//if there weren't at least 5 descriptors, don't even bother - no summary needed
 				mostFrequentDescriptors = "The 5 most frequent descriptors used in your models were: ";
@@ -192,7 +190,6 @@ public class ViewPredictorAction extends ActionSupport {
 				}
 				mostFrequentDescriptors += ".";
 			}
-			Utility.writeToDebug("mostFrequentDescriptors: " + mostFrequentDescriptors);
 			
 		}
 		
