@@ -10,7 +10,7 @@
 		<p class="StandardTextDarkGray">
 		<s:if test="models.size==0">
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-				<br/>No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.<br/>
+				No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.<br/>
 			</s:if>
 			<s:else>
 				No models were generated that passed your cutoffs.<br/>
