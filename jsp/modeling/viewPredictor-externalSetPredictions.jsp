@@ -5,6 +5,9 @@
 
 	<br />
 	
+	<!-- External Validation Compound Predictions -->
+		<p class="StandardTextDarkGrayParagraph"><b><u>Predictions for External Validation Set</u></b></p>
+	
 	<s:if test="models.size==0">
 		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 			<br/><b class="StandardTextDarkGray">No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.</b><br/><br/>
@@ -13,9 +16,7 @@
 			<b class="StandardTextDarkGray">No models were generated that passed your cutoffs.</b><br/><br/>
 		</s:else>
 	</s:if>
-
-	<!-- External Validation Compound Predictions -->
-		<p class="StandardTextDarkGray"><b><u>Predictions for External Validation Set</u></b></p>
+	<s:else>
 	<table width="100%" align="center">
 		<!--DWLayoutTable-->
 		<tr>
@@ -26,6 +27,7 @@
 		<td class="TableRowText01">Residual</td>
 		<td class="TableRowText01">Predicting Models / Total Models</td>
 		</tr>
+	</s:else>	
 		
 	<s:iterator value="externalValValues" status="extValStatus">
 		<tr>
@@ -58,14 +60,11 @@
 	<!-- External Validation Chart -->
 	<s:if test="models.size!=0">
 	<s:if test="dataType=='CONTINUOUS'">
-		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
+		<p class="StandardTextDarkGrayParagraph"><u>External Validation Chart</u>
 		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
 			<s:param name="user" value="user.userName" />
 			<s:param name="project" value="selectedPredictor.name" />
 		</s:url>
-		
-		<!-- old way: have it open in a new window <s:a href="%{externalChartLink}" target="_blank"><u>Chart View</u></s:a> -->
-		<!-- new way: ajax it onto the page, woots! -->
 		<br />
 		<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
 		</sx:div>

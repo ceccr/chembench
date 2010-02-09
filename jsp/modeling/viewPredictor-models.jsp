@@ -5,9 +5,9 @@
 
 <!-- Models -->	
 	<br />
-		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
+		<p class="StandardTextDarkGrayParagraph"><b><u>Models</u></b></p>
 		
-		<p class="StandardTextDarkGrayParagraph">
+		<p class="StandardTextDarkGray">
 		<s:if test="models.size==0">
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 				<br/>No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.<br/>
@@ -31,31 +31,31 @@
 		<table width="100%" align="center">
 		<s:if test="dataType=='CONTINUOUS'">
 		<tr>
-			<td class="TableRowText01">nnn</td>
-			<td class="TableRowText01">q<sup>2</sup></td>
-			<td class="TableRowText01">n</td>
-			<td class="TableRowText01">r</td>
-			<td class="TableRowText01">r<sup>2</sup></td>
-			<td class="TableRowText01">R<sub>01</sub><sup>2</sup></td>
-			<td class="TableRowText01">R<sub>02</sub><sup>2</sup></td>
-			<td class="TableRowText01">k1</td>
-			<td class="TableRowText01">k2</td>
-			<td class="TableRowText01" colspan="2">Descriptors</td>
+			<td class="TableRowText01narrow">nnn</td>
+			<td class="TableRowText01narrow">q<sup>2</sup></td>
+			<td class="TableRowText01narrow">n</td>
+			<td class="TableRowText01narrow">r</td>
+			<td class="TableRowText01narrow">r<sup>2</sup></td>
+			<td class="TableRowText01narrow">R<sub>01</sub><sup>2</sup></td>
+			<td class="TableRowText01narrow">R<sub>02</sub><sup>2</sup></td>
+			<td class="TableRowText01narrow">k1</td>
+			<td class="TableRowText01narrow">k2</td>
+			<td class="TableRowText01narrow" colspan="2">Descriptors</td>
 		</tr>
 		
 		<s:iterator value="models" status="modelsStatus">
 			<s:if test="#modelsStatus.index<10">
 			<tr>
-			<td class="TableRowText02"><s:property value="nnn" /></td>
-			<td class="TableRowText02"><s:property value="q_squared" /></td>
-			<td class="TableRowText02"><s:property value="n" /></td>
-			<td class="TableRowText02"><s:property value="r" /></td>
-			<td class="TableRowText02"><s:property value="r_squared" /></td>
-			<td class="TableRowText02"><s:property value="r01_squared" /></td>
-			<td class="TableRowText02"><s:property value="r02_squared" /></td>
-			<td class="TableRowText02"><s:property value="k1" /></td>
-			<td class="TableRowText02"><s:property value="k2" /></td>
-			<td class="TableRowText02" colspan="2"><s:property value="descriptorsUsed" /></td>
+			<td class="TableRowText02narrow"><s:property value="nnn" /></td>
+			<td class="TableRowText02narrow"><s:property value="q_squared" /></td>
+			<td class="TableRowText02narrow"><s:property value="n" /></td>
+			<td class="TableRowText02narrow"><s:property value="r" /></td>
+			<td class="TableRowText02narrow"><s:property value="r_squared" /></td>
+			<td class="TableRowText02narrow"><s:property value="r01_squared" /></td>
+			<td class="TableRowText02narrow"><s:property value="r02_squared" /></td>
+			<td class="TableRowText02narrow"><s:property value="k1" /></td>
+			<td class="TableRowText02narrow"><s:property value="k2" /></td>
+			<td class="TableRowText02narrow" colspan="2"><s:property value="descriptorsUsed" /></td>
 			</tr> 
 			</s:if>
 		</s:iterator>
@@ -86,8 +86,8 @@
 		
 		<s:if test="mostFrequentDescriptors!=''">
 			<br />
-			<p class="StandardTextDarkGray"><b><u>Descriptor Frequencies</u></b></p>
-			<p class="StandardTextDarkGrayParagraph"><s:property value="mostFrequentDescriptors" /></p>
+			<p class="StandardTextDarkGrayParagraph"><b><u>Descriptor Frequencies</u></b></p>
+			<p class="StandardTextDarkGray"><s:property value="mostFrequentDescriptors" /></p>
 		</s:if>
 		
 <!-- End Models -->

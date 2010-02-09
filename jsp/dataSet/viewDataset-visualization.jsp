@@ -43,7 +43,7 @@ function handleWheel(event) {
 <tr>
 <td align="left">
 <br />
-<p class="StandardTextDarkGray"><b><u>Heatmap Application</u></b></p>
+<p class="StandardTextDarkGray"><u>Heatmap Application</u></p>
 <p class="StandardTextDarkGrayParagraph">
 The Heatmap tool is useful for visualizing similarity between all pairs of compounds in your dataset. 
 MACCS keys are generated and compared to produce the heatmap. The similarity is based on Tanimoto 

@@ -5,7 +5,7 @@
 
 <!-- External Compounds -->	
 	<br />
-		<p class="StandardTextDarkGray"><b><u>Compounds Chosen for External Set</u></b></p>
+		<p class="StandardTextDarkGrayParagraph"><u>Compounds Chosen for External Set</u></p>
 		
 	<table width="924" align="center">
 		<tr><td>

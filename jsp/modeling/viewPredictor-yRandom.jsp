@@ -5,9 +5,9 @@
 
 <!-- y-Random Models -->	
 	<br />
-	<p class="StandardTextDarkGray"><b><u>y-Randomization Results</u></b></p>
+	<p class="StandardTextDarkGrayParagraph"><b><u>y-Randomization Results</u></b></p>
 	
-	<p class="StandardTextDarkGrayParagraph">
+	<p class="StandardTextDarkGray">
 			<b>Y-randomization</b> is a statistical QSAR model validation technique where the performance of the model 
 			built with original data is compared to that of models built for multiple artificial datasets with
 			randomly shuffled activities. The models of the randomized data are built using the same parameters
@@ -16,7 +16,7 @@
 			need to be adjusted if many y-randomized models are being produced with q<sup>2</sup> and R<sup>2</sup> 
 			above your cutoff values.
 	</p>
-	<p class="StandardTextDarkGrayParagraph">
+	<p class="StandardTextDarkGray">
 			<br/>For your data, <font color="red"><s:property value="selectedPredictor.numyTotalModels" /> </font> 
 			models for randomized datasets were built and <font color="red">
 			<s:property value="selectedPredictor.numyTestModels" /> </font>models were found that passed your cutoffs. <br />

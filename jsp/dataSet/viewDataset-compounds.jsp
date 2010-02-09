@@ -10,7 +10,7 @@
 <!-- Compounds -->	
 	<div id="myDiv">
 	
-		<p class="StandardTextDarkGray"><b><u>All Compounds In Dataset</u></b></p>
+		<p class="StandardTextDarkGrayParagraph"><u>All Compounds In Dataset</u></p>
 		
 	<table width="924" align="center">
 		<tr><td>

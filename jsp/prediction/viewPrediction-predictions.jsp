@@ -5,7 +5,7 @@
 
 	<!-- Predictions -->	
 	<br />
-		<p class="StandardTextDarkGray"><b><u>Prediction Results</u></b></p>
+		<p class="StandardTextDarkGrayParagraph"><b><u>Prediction Results</u></b></p>
 		
 	<table width="924" align="center">
 		<tr><td>
