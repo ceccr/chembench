@@ -6,7 +6,7 @@
 	<br />
 	
 	<!-- External Validation Compound Predictions -->
-		<p class="StandardTextDarkGrayParagraph"><b><u>Predictions for External Validation Set</u></b></p>
+		<p class="StandardTextDarkGray"><b><u>Predictions for External Validation Set</u></b></p>
 	
 	<s:if test="models.size==0">
 		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
@@ -60,7 +60,7 @@
 	<!-- External Validation Chart -->
 	<s:if test="models.size!=0">
 	<s:if test="dataType=='CONTINUOUS'">
-		<p class="StandardTextDarkGrayParagraph"><u>External Validation Chart</u>
+		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
 		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
 			<s:param name="user" value="user.userName" />
 			<s:param name="project" value="selectedPredictor.name" />

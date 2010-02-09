@@ -5,7 +5,7 @@
 
 <!-- Models -->	
 	<br />
-		<p class="StandardTextDarkGrayParagraph"><b><u>Models</u></b></p>
+		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
 		
 		<p class="StandardTextDarkGray">
 		<s:if test="models.size==0">
@@ -86,7 +86,7 @@
 		
 		<s:if test="mostFrequentDescriptors!=''">
 			<br />
-			<p class="StandardTextDarkGrayParagraph"><b><u>Descriptor Frequencies</u></b></p>
+			<p class="StandardTextDarkGray"><b><u>Descriptor Frequencies</u></b></p>
 			<p class="StandardTextDarkGray"><s:property value="mostFrequentDescriptors" /></p>
 		</s:if>
 		

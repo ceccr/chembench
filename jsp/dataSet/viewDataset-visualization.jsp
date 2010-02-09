@@ -43,18 +43,18 @@ function handleWheel(event) {
 <tr>
 <td align="left">
 <br />
-<p class="StandardTextDarkGray"><u>Heatmap Application</u></p>
-<p class="StandardTextDarkGrayParagraph">
+<p class="StandardTextDarkGray"><b><u>Heatmap Application</u></b></p></b>
+<p class="StandardTextDarkGray">
 The Heatmap tool is useful for visualizing similarity between all pairs of compounds in your dataset. 
 MACCS keys are generated and compared to produce the heatmap. The similarity is based on Tanimoto 
 similarity or Mahalanobis distance; you can select either using the buttons on the Heatmap.
 </p>
-<p class="StandardTextDarkGrayParagraph">
+<p class="StandardTextDarkGray">
 When the application finishes loading, select "HEATMAP". You can zoom in and out of the heatmap
 using the mouse wheel. Click and drag the top of a column to shift it left or right. You may also drag rows up and down.
 To reset the rows and columns to their original configuration, use the "Reset" button. 
 </p>
-<p class="StandardTextDarkGrayParagraph">
+<p class="StandardTextDarkGray">
 The "Keep Diagonal" button will shift rows and columns at the same time. Just below "Keep Diagonal" are four arrow buttons.
 These four arrows sort the rows / columns based on the activity values of the compounds. You can see the activity of each compound
 by hovering the mouse over a compound ID. The activity of each compound is also represented by the blue shading under each compound;
