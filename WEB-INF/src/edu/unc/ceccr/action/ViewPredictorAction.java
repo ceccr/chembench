@@ -52,7 +52,7 @@ public class ViewPredictorAction extends ActionSupport {
 	private String dataType;
 	private String orderBy;
 	private String sortDirection;
-	private String mostFrequentDescriptors;
+	private String mostFrequentDescriptors = "";
 	
 	public String loadExternalValidationSection() throws Exception {
 
@@ -164,9 +164,11 @@ public class ViewPredictorAction extends ActionSupport {
 					}
 				}
 			}
+			Utility.writeToDebug("hashMap size: " + descriptorFreqMap.size());
 			
 			ArrayList<descriptorFrequency> descriptorFrequencies = new ArrayList<descriptorFrequency>();
 			ArrayList<String> mapKeys = new ArrayList(descriptorFreqMap.keySet());
+			Utility.writeToDebug("mapKeys size: " + mapKeys.size());
 			for(String k: mapKeys){
 				descriptorFrequency df = new descriptorFrequency();
 				df.setDescriptor(k);
@@ -177,6 +179,7 @@ public class ViewPredictorAction extends ActionSupport {
 			    public int compare(descriptorFrequency df1, descriptorFrequency df2) {
 			    	return (df1.getNumOccs() < df2.getNumOccs()? -1 : 1);
 			    }});
+			Utility.writeToDebug("descriptorFrequencies size: " + descriptorFrequencies.size());
 			if(descriptorFrequencies.size() >= 5){
 				//if there weren't at least 5 descriptors, don't even bother - no summary needed
 				mostFrequentDescriptors = "The 5 most frequent descriptors used in your models were: ";
@@ -189,6 +192,7 @@ public class ViewPredictorAction extends ActionSupport {
 				}
 				mostFrequentDescriptors += ".";
 			}
+			Utility.writeToDebug("mostFrequentDescriptors: " + mostFrequentDescriptors);
 			
 		}
 		
@@ -327,7 +331,6 @@ public class ViewPredictorAction extends ActionSupport {
 
 	private void getModels(Session session) throws Exception{
 		
-		Utility.writeToDebug("getting predictor models");
 		//get models associated with predictor
 		if(selectedPredictor.getDatasetId() != null){
 			datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
@@ -351,7 +354,6 @@ public class ViewPredictorAction extends ActionSupport {
 				}
 			}
 		}
-		Utility.writeToStrutsDebug("Got " + allModels.size() + " models and " + randomModels.size() + " random models.");
 	}
 	
 	public class descriptorFrequency{
