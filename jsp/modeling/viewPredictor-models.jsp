@@ -67,7 +67,7 @@
 			<td class="TableRowText01">Normalized Training Accuracy</td>
 			<td class="TableRowText01">Test Accuracy</td>
 			<td class="TableRowText01">Normalized Test Accuracy</td>
-			<td class="TableRowText01">Descriptors</td>
+			<td class="TableRowText01" colspan="2">Descriptors</td>
 		</tr>
 		
 		<s:iterator value="models" status="modelsStatus">
@@ -77,7 +77,7 @@
 				<td class="TableRowText02"><s:property value="normalizedTrainingAcc" /></td>
 				<td class="TableRowText02"><s:property value="testAcc" /></td>
 				<td class="TableRowText02"><s:property value="normalizedTestAcc" /></td>
-				<td class="TableRowText02"><s:property value="descriptorsUsed" /></td>
+				<td class="TableRowText02" colspan="2"><s:property value="descriptorsUsed" /></td>
 			</tr>
 		</s:iterator>
 	
@@ -85,7 +85,7 @@
 		</table>
 		
 		<s:if test="mostFrequentDescriptors!=''">
-			<br /><br />
+			<br />
 			<p class="StandardTextDarkGray"><b><u>Descriptor Frequencies</u></b></p>
 			<p class="StandardTextDarkGrayParagraph"><s:property value="mostFrequentDescriptors" /></p>
 		</s:if>

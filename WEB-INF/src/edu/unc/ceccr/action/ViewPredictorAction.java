@@ -176,7 +176,7 @@ public class ViewPredictorAction extends ActionSupport {
 			
 			Collections.sort(descriptorFrequencies, new Comparator<descriptorFrequency>() {
 			    public int compare(descriptorFrequency df1, descriptorFrequency df2) {
-			    	return (df1.getNumOccs() < df2.getNumOccs()? -1 : 1);
+			    	return (df1.getNumOccs() > df2.getNumOccs()? -1 : 1);
 			    }});
 			if(descriptorFrequencies.size() >= 5){
 				//if there weren't at least 5 descriptors, don't even bother - no summary needed
