@@ -19,8 +19,7 @@
 	<p class="StandardTextDarkGrayParagraph">
 			<br/>For your data, <font color="red"><s:property value="selectedPredictor.numyTotalModels" /> </font> 
 			models for randomized datasets were built and <font color="red">
-			<s:property value="selectedPredictor.numyTestModels" /> </font>models were found to have high 
-			prediction accuracy. <br />
+			<s:property value="selectedPredictor.numyTestModels" /> </font>models were found that passed your cutoffs. <br />
 	</p>
 
 	<s:if test="selectedPredictor.numyTestModels>0">

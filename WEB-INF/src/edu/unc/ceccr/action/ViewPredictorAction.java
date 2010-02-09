@@ -2,6 +2,8 @@ package edu.unc.ceccr.action;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -20,6 +22,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.unc.ceccr.action.ViewPredictionAction.CompoundPredictions;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
@@ -49,6 +52,7 @@ public class ViewPredictorAction extends ActionSupport {
 	private String dataType;
 	private String orderBy;
 	private String sortDirection;
+	private String mostFrequentDescriptors;
 	
 	public String loadExternalValidationSection() throws Exception {
 
@@ -141,8 +145,51 @@ public class ViewPredictorAction extends ActionSupport {
 			if(selectedPredictor == null){
 				Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
 			}
-			
+
 			getModels(session);
+			
+			//get descriptor freqs from models
+			HashMap<String, Integer> descriptorFreqMap  = new HashMap<String, Integer>();
+			for(Model m : models){
+				if(m.getDescriptorsUsed() != null && ! m.getDescriptorsUsed().equals("")){
+					String[] descriptorArray = m.getDescriptorsUsed().split("\\s+");
+					for(int i = 0; i < descriptorArray.length; i++){
+						if(descriptorFreqMap.get(descriptorArray[i]) == null){
+							descriptorFreqMap.put(descriptorArray[i], 1);
+						}
+						else{
+							//increment
+							descriptorFreqMap.put(descriptorArray[i], descriptorFreqMap.get(descriptorArray[i]) + 1);
+						}
+					}
+				}
+			}
+			
+			ArrayList<descriptorFrequency> descriptorFrequencies = new ArrayList<descriptorFrequency>();
+			ArrayList<String> mapKeys = new ArrayList(descriptorFreqMap.keySet());
+			for(String k: mapKeys){
+				descriptorFrequency df = new descriptorFrequency();
+				df.setDescriptor(k);
+				df.setNumOccs(descriptorFreqMap.get(k));
+			}
+			
+			Collections.sort(descriptorFrequencies, new Comparator<descriptorFrequency>() {
+			    public int compare(descriptorFrequency df1, descriptorFrequency df2) {
+			    	return (df1.getNumOccs() < df2.getNumOccs()? -1 : 1);
+			    }});
+			if(descriptorFrequencies.size() >= 5){
+				//if there weren't at least 5 descriptors, don't even bother - no summary needed
+				mostFrequentDescriptors = "The 5 most frequent descriptors used in your models were: ";
+				for(int i = 0; i < 5; i++){
+					mostFrequentDescriptors += descriptorFrequencies.get(i).getDescriptor() + " (" + 
+						descriptorFrequencies.get(i).getNumOccs() + " models)";
+					if(i < 4){
+						mostFrequentDescriptors += ", ";
+					}
+				}
+				mostFrequentDescriptors += ".";
+			}
+			
 		}
 		
 		return result;
@@ -307,6 +354,23 @@ public class ViewPredictorAction extends ActionSupport {
 		Utility.writeToStrutsDebug("Got " + allModels.size() + " models and " + randomModels.size() + " random models.");
 	}
 	
+	public class descriptorFrequency{
+		private String descriptor;
+		private int numOccs;
+		
+		public String getDescriptor() {
+			return descriptor;
+		}
+		public void setDescriptor(String descriptor) {
+			this.descriptor = descriptor;
+		}
+		public int getNumOccs() {
+			return numOccs;
+		}
+		public void setNumOccs(int numOccs) {
+			this.numOccs = numOccs;
+		}
+	}
 	
 	public User getUser(){
 		return user;
@@ -384,5 +448,11 @@ public class ViewPredictorAction extends ActionSupport {
 		this.sortDirection = sortDirection;
 	}
 	
-	
+	public String getMostFrequentDescriptors() {
+		return mostFrequentDescriptors;
+	}
+	public void setMostFrequentDescriptors(String mostFrequentDescriptors) {
+		this.mostFrequentDescriptors = mostFrequentDescriptors;
+	}
+
 }
