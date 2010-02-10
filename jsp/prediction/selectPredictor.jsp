@@ -62,7 +62,7 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are public predictors useful for virtual screening.
 			</p>
-				<table>
+				<table width="100%">
 				<tr>
 					<td class="TableRowText01narrow">Select</td>
 					<td class="TableRowText01narrow">Name</td>
@@ -93,7 +93,7 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are public predictors useful for prediction of absorption, distribution, metabolism, and excretion properties.
 			</p>
-				<table>
+				<table width="100%">
 				<tr>
 					<td class="TableRowText01narrow">Select</td>
 					<td class="TableRowText01narrow">Name</td>
@@ -124,7 +124,7 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are public predictors useful for toxicity prediction.
 			</p>
-				<table>
+				<table width="100%">
 				<tr>
 					<td class="TableRowText01narrow">Select</td>
 					<td class="TableRowText01narrow">Name</td>
@@ -155,7 +155,7 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are private predictors you have created. Other users cannot access them.
 			</p>
-			<table>
+			<table width="100%">
 			<tr>
 				<td class="TableRowText01">Select</td>
 				<td class="TableRowText01">Name</td>
