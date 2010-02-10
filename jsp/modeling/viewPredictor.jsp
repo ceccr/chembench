@@ -106,7 +106,7 @@
 		<p class="StandardTextDarkGrayParagraph">
 		<b>Predictor Description:</b> <s:property value="selectedPredictor.description"/>
 		</p>
-		<p>For this and the other public predictors, there is no detailed information on the external set or models available for display.
+		<p class="StandardTextDarkGray">For this and the other public predictors, there is no detailed information on the external set or models available for display.
 		</p>
 		</s:if>
 		<!-- End description -->
