@@ -29,7 +29,7 @@
 	var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />",</s:iterator>"");
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
-	
+
 	function predictSmiles(){
 		var smiles = document.getElementById("smiles").value;
 		var cutoff = document.getElementById("cutOffSmiles").value;
@@ -110,6 +110,17 @@
 					<div class="StandardTextDarkGrayParagraph"><i>(Use the "DATASET" page to create datasets.)</i></div>
 					</td>
 				</tr>		
+				<tr>
+				<td colspan="2">
+				<div class="StandardTextDarkGrayParagraph"><br /><input type="button" value="View Dataset" property="text" onclick="window.open("viewDataset?id="+document.getElementById("selectedDataset").value)"/> <i> Opens in a new window. Check your browser settings if the new window does not appear.</i></div>
+				<br />
+				</td>
+				</tr>
+				<tr>
+				<td colspan="2">
+				<br />
+				</td>
+				</tr>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Similarity Cut
