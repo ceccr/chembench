@@ -70,7 +70,7 @@
 					<td class="TableRowText01">Modeling Method</td>
 					<td class="TableRowText01">Descriptor Type</td>
 					<td class="TableRowText01">Dataset</td>
-					<td class="TableRowText01">Description</td>
+					<td class="TableRowText01" colspan="2">Description</td>
 				</tr>
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='DrugDiscovery'">
@@ -81,7 +81,7 @@
 						<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
 						<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
 						<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-						<td class="TableRowText02"><s:property value="description" /></td>
+						<td class="TableRowText02" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
 				</s:iterator>
@@ -103,7 +103,7 @@
 					<td class="TableRowText01">Modeling Method</td>
 					<td class="TableRowText01">Descriptor Type</td>
 					<td class="TableRowText01">Dataset</td>
-					<td class="TableRowText01">Description</td>
+					<td class="TableRowText01" colspan="2">Description</td>
 				</tr>
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='ADME'">
@@ -114,7 +114,7 @@
 						<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
 						<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
 						<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-						<td class="TableRowText02"><s:property value="description" /></td>
+						<td class="TableRowText02" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
 				</s:iterator>
@@ -136,7 +136,7 @@
 					<td class="TableRowText01">Modeling Method</td>
 					<td class="TableRowText01">Descriptor Type</td>
 					<td class="TableRowText01">Dataset</td>
-					<td class="TableRowText01">Description</td>
+					<td class="TableRowText01" colspan="2">Description</td>
 				</tr>
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='Toxicity'">
@@ -147,7 +147,7 @@
 						<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
 						<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
 						<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-						<td class="TableRowText02"><s:property value="description" /></td>
+						<td class="TableRowText02" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
 				</s:iterator>
@@ -169,7 +169,6 @@
 				<td class="TableRowText01">Modeling Method</td>
 				<td class="TableRowText01">Descriptor Type</td>
 				<td class="TableRowText01">Dataset</td>
-				<td class="TableRowText01">Description</td>
 			</tr>
 			<s:iterator value="userPredictors">
 				<s:if test="predictorType=='Private'">
@@ -180,7 +179,6 @@
 					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
 					<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-					<td class="TableRowText02"><s:property value="description" /></td>
 					</tr> 
 				</s:if>
 			</s:iterator>
