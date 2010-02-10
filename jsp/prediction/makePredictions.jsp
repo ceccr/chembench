@@ -111,8 +111,9 @@
 					</td>
 				</tr>		
 				<tr>
-				<td colspan="2">
-				<div class="StandardTextDarkGrayParagraph"><br /><input type="button" value="View Dataset" property="text" onclick="window.open("viewDataset?id="+document.getElementById("selectedDataset").value)"/> <i> Opens in a new window. Check your browser settings if the new window does not appear.</i></div>
+				<td></td>
+				<td>
+				<div class="StandardTextDarkGrayParagraph"><input type="button" value="View Dataset" property="text" onclick="window.open("viewDataset?id="+document.getElementById("selectedDataset").value)"/> <i> Opens in a new window. Check your browser settings if the new window does not appear.</i></div>
 				<br />
 				</td>
 				</tr>
