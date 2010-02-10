@@ -107,20 +107,10 @@
 					<div align="right" class="StandardTextDarkGray"><b>Select a Dataset:</b></div>
 					</td>
 					<td align="left" valign="top"><s:select name="selectedDatasetId" list="userDatasets" id="selectedDataset" listKey="fileId" listValue="fileName" />
+					<input type="button" value="View Dataset" property="text" onclick="window.open('viewDataset?id='+document.getElementById('selectedDataset').value)"/>
 					<div class="StandardTextDarkGrayParagraph"><i>(Use the "DATASET" page to create datasets.)</i></div>
 					</td>
 				</tr>		
-				<tr>
-				<td></td>
-				<td>
-				<div class="StandardTextDarkGrayParagraph"><input type="button" value="View Dataset" property="text" onclick="window.open('viewDataset?id='+document.getElementById('selectedDataset').value)"/> <i> Opens in a new window. Check your browser settings if the new window does not appear.</i></div>
-				</td>
-				</tr>
-				<tr>
-				<td colspan="2">
-				<br />
-				</td>
-				</tr>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Similarity Cut
