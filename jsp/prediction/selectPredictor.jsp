@@ -64,24 +64,22 @@
 			</p>
 				<table>
 				<tr>
-					<td class="TableRowText01">Select</td>
-					<td class="TableRowText01">Name</td>
-					<td class="TableRowText01">Date Created</td>
-					<td class="TableRowText01">Modeling Method</td>
-					<td class="TableRowText01">Descriptor Type</td>
-					<td class="TableRowText01">Dataset</td>
-					<td class="TableRowText01" colspan="2">Description</td>
+					<td class="TableRowText01narrow">Select</td>
+					<td class="TableRowText01narrow">Name</td>
+					<td class="TableRowText01narrow">Date Created</td>
+					<td class="TableRowText01narrow">Modeling Method</td>
+					<td class="TableRowText01narrow">Descriptor Type</td>
+					<td class="TableRowText01narrow" colspan="2">Description</td>
 				</tr>
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='DrugDiscovery'">
 						<tr>
-						<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
-						<td class="TableRowText02"><s:property value="name" /></td>
-						<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-						<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
-						<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
-						<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-						<td class="TableRowText02" colspan="2"><s:property value="description" /></td>
+						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+						<td class="TableRowText02narrow"><s:property value="name" /></td>
+						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+						<td class="TableRowText02narrow"><s:property value="modelMethodDisplay" /></td>
+						<td class="TableRowText02narrow"><s:property value="descriptorGenerationDisplay" /></td>
+						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
 				</s:iterator>
@@ -97,24 +95,22 @@
 			</p>
 				<table>
 				<tr>
-					<td class="TableRowText01">Select</td>
-					<td class="TableRowText01">Name</td>
-					<td class="TableRowText01">Date Created</td>
-					<td class="TableRowText01">Modeling Method</td>
-					<td class="TableRowText01">Descriptor Type</td>
-					<td class="TableRowText01">Dataset</td>
-					<td class="TableRowText01" colspan="2">Description</td>
+					<td class="TableRowText01narrow">Select</td>
+					<td class="TableRowText01narrow">Name</td>
+					<td class="TableRowText01narrow">Date Created</td>
+					<td class="TableRowText01narrow">Modeling Method</td>
+					<td class="TableRowText01narrow">Descriptor Type</td>
+					<td class="TableRowText01narrow" colspan="2">Description</td>
 				</tr>
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='ADME'">
 						<tr>
-						<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
-						<td class="TableRowText02"><s:property value="name" /></td>
-						<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-						<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
-						<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
-						<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-						<td class="TableRowText02" colspan="2"><s:property value="description" /></td>
+						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+						<td class="TableRowText02narrow"><s:property value="name" /></td>
+						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+						<td class="TableRowText02narrow"><s:property value="modelMethodDisplay" /></td>
+						<td class="TableRowText02narrow"><s:property value="descriptorGenerationDisplay" /></td>
+						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
 				</s:iterator>
@@ -130,24 +126,22 @@
 			</p>
 				<table>
 				<tr>
-					<td class="TableRowText01">Select</td>
-					<td class="TableRowText01">Name</td>
-					<td class="TableRowText01">Date Created</td>
-					<td class="TableRowText01">Modeling Method</td>
-					<td class="TableRowText01">Descriptor Type</td>
-					<td class="TableRowText01">Dataset</td>
-					<td class="TableRowText01" colspan="2">Description</td>
+					<td class="TableRowText01narrow">Select</td>
+					<td class="TableRowText01narrow">Name</td>
+					<td class="TableRowText01narrow">Date Created</td>
+					<td class="TableRowText01narrow">Modeling Method</td>
+					<td class="TableRowText01narrow">Descriptor Type</td>
+					<td class="TableRowText01narrow" colspan="2">Description</td>
 				</tr>
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='Toxicity'">
 						<tr>
-						<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
-						<td class="TableRowText02"><s:property value="name" /></td>
-						<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-						<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
-						<td class="TableRowText02"><s:property value="descriptorGenerationDisplay" /></td>
-						<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
-						<td class="TableRowText02" colspan="2"><s:property value="description" /></td>
+						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+						<td class="TableRowText02narrow"><s:property value="name" /></td>
+						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+						<td class="TableRowText02narrow"><s:property value="modelMethodDisplay" /></td>
+						<td class="TableRowText02narrow"><s:property value="descriptorGenerationDisplay" /></td>
+						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
 				</s:iterator>
