@@ -102,12 +102,12 @@
 		</table>
 		
 		<s:if test="selectedPredictor.userName=='_all'">
-		<table width="500">
-		<tr><td>
+		<br />
 		<p class="StandardTextDarkGrayParagraph">
-		<b>Description:</b> <s:property value="selectedPredictor.description"/>
+		<b>Predictor Description:</b> <s:property value="selectedPredictor.description"/>
 		</p>
-		</td></tr></table>
+		<p>For this and the other public predictors, there is no detailed information on the external set or models available for display.
+		</p>
 		</s:if>
 		<!-- End description -->
 	
