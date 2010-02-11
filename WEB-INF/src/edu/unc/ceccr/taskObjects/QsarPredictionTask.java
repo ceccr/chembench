@@ -49,13 +49,6 @@ public class QsarPredictionTask implements WorkflowTask {
 	private int allPredsTotalModels = -1; //used by getProgress function
 	private ArrayList<String> selectedPredictorNames = new ArrayList<String>(); //used by getProgress function
 
-	public String getNumCompounds(){
-		return "" + predictionDataset.getNumCompound();		
-	}
-	public String getNumModels(){
-		return "" + allPredsTotalModels;		
-	}
-	
 	public String getProgress() {
 		
 		try{

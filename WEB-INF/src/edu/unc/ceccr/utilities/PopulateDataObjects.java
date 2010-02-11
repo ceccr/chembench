@@ -442,7 +442,6 @@ public class PopulateDataObjects {
 					predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
 				}
 				p.setPredictorNames(predictorNames);
-				p.setDatabase(Utility.wrapFileName(p.getDatabase()));
 	 			if(p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null){
 	 				p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getFileName());
 	 			}
@@ -560,7 +559,7 @@ public class PopulateDataObjects {
 			predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
 		}
 		prediction.setPredictorNames(predictorNames);
-		prediction.setDatabase(Utility.wrapFileName(prediction.getDatabase()));
+		prediction.setDatabase(prediction.getDatabase());
 
 		if(prediction.getDatasetId() != null && getDataSetById(prediction.getDatasetId(), session) != null){
 			prediction.setDatasetDisplay(getDataSetById(prediction.getDatasetId(), session).getFileName());
