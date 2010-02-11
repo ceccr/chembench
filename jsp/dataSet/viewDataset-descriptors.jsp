@@ -8,8 +8,8 @@
 		
 <s:iterator value="descriptorGenerationResults">
 <b><s:property value="descriptorType" />:</b> <s:property value="generationResult" /> <br />
-<p class="StandardTextDarkGrey"><b>Output:</b> <s:property value="programOutput" /></p>
-<p class="StandardTextDarkGrey"><b>Errors:</b> <s:property value="programErrorOutput" /></p><br /><br />
+<p class="StandardTextDarkGray"><b>Output:</b> <s:property value="programOutput" /></p>
+<p class="StandardTextDarkGray"><b>Errors:</b> <s:property value="programErrorOutput" /></p><br /><br />
 </s:iterator>
 
 <br />
