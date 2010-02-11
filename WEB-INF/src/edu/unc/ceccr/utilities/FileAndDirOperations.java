@@ -1,8 +1,10 @@
 package edu.unc.ceccr.utilities;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,6 +35,28 @@ public class FileAndDirOperations {
 		}
 		
 		return count;
+	}
+	
+	public static String readFileIntoString(String filePath){
+		String fileContents = "";
+		try{
+			File fromFile = new File(filePath);
+			BufferedReader br = new BufferedReader(new FileReader(fromFile));
+			char[] buf = new char[1024];
+	        int numRead=0;
+	        while((numRead=br.read(buf)) != -1){
+	            String readData = String.valueOf(buf, 0, numRead);
+	            fileContents += readData;
+	            buf = new char[1024];
+	        }
+	        br.close();
+
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+			
+		return fileContents;
 	}
 	
 	public static void copyDirContents(String fromDir, String toDir, boolean recurse){
@@ -141,24 +165,24 @@ public class FileAndDirOperations {
 	
 	public static void deleteFile(String filePath) {
 		try{
-	    // A File object to represent the filename
-	    File f = new File(filePath);
-
-	    // Make sure the file or directory exists and isn't write protected
-	    if (!f.exists())
-	      throw new IllegalArgumentException(
-	          "Delete: no such file or directory: " + filePath);
-
-	    if (!f.canWrite())
-	      throw new IllegalArgumentException("Delete: write protected: "
-	          + filePath);
-
-	    // Attempt to delete it
-	    boolean success = f.delete();
-
-	    if (!success){
-	      throw new IllegalArgumentException("Delete: deletion failed");
-	    }
+		    // A File object to represent the filename
+		    File f = new File(filePath);
+	
+		    // Make sure the file or directory exists and isn't write protected
+		    if (!f.exists())
+		      throw new IllegalArgumentException(
+		          "Delete: no such file or directory: " + filePath);
+	
+		    if (!f.canWrite())
+		      throw new IllegalArgumentException("Delete: write protected: "
+		          + filePath);
+	
+		    // Attempt to delete it
+		    boolean success = f.delete();
+	
+		    if (!success){
+		      throw new IllegalArgumentException("Delete: deletion failed");
+		    }
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);

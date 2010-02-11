@@ -37,6 +37,7 @@ import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.task.Task;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.NaturalSortComparator;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
@@ -55,7 +56,41 @@ public class ViewDataset extends ActionSupport {
 	private String sortDirection;
 	private String datasetId; 
 	private String webAddress = Constants.WEBADDRESS;
-
+	private ArrayList<DescriptorGenerationResult> descriptorGenerationResults;
+	
+	public class DescriptorGenerationResult{
+		private String descriptorType;
+		private String generationResult;
+		private String programOutput;
+		private String programErrorOutput;
+		
+		public String getDescriptorType() {
+			return descriptorType;
+		}
+		public void setDescriptorType(String descriptorType) {
+			this.descriptorType = descriptorType;
+		}
+		public String getGenerationResult() {
+			return generationResult;
+		}
+		public void setGenerationResult(String generationResult) {
+			this.generationResult = generationResult;
+		}
+		public String getProgramOutput() {
+			return programOutput;
+		}
+		public void setProgramOutput(String programOutput) {
+			this.programOutput = programOutput;
+		}
+		public String getProgramErrorOutput() {
+			return programErrorOutput;
+		}
+		public void setProgramErrorOutput(String programErrorOutput) {
+			this.programErrorOutput = programErrorOutput;
+		}
+		
+	}
+	
 	public class Compound{
 		//using a class instead of two arraylists for sortability.
 		private String compoundId;
@@ -373,6 +408,42 @@ public class ViewDataset extends ActionSupport {
 				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
 			}
 		}
+		
+		descriptorGenerationResults = new ArrayList<DescriptorGenerationResult>();
+		String descriptorsDir = Constants.CECCR_USER_BASE_PATH;
+		if(dataset.getUserName().equals("_all")){
+			descriptorsDir += "all-users/";
+		}
+		else{
+			descriptorsDir += dataset.getUserName() + "/";
+		}
+		descriptorsDir += "DATASETS/Descriptors/";
+		
+		//read descriptor program outputs
+		DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
+		molconnZResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.out"));
+		molconnZResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.err"));
+		molconnZResult.setGenerationResult("Yay"); //replace with some validation or parsing function output somehow.
+		descriptorGenerationResults.add(molconnZResult);
+		
+		DescriptorGenerationResult dragonResult = new DescriptorGenerationResult();
+		dragonResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragon.out"));
+		dragonResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragon.err"));
+		dragonResult.setGenerationResult("Nay");
+		descriptorGenerationResults.add(dragonResult);
+		
+		DescriptorGenerationResult moe2DResult = new DescriptorGenerationResult();
+		moe2DResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.out"));
+		moe2DResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.err"));
+		moe2DResult.setGenerationResult("Yay");
+		descriptorGenerationResults.add(moe2DResult);
+		
+		DescriptorGenerationResult maccsResult = new DescriptorGenerationResult();
+		maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.out"));
+		maccsResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.err"));
+		maccsResult.setGenerationResult("Nay");
+		descriptorGenerationResults.add(maccsResult);
+		
 		return result;
 	}
 	
