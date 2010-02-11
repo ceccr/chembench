@@ -11,14 +11,22 @@ import java.util.Scanner;
 public class GenerateDescriptorWorkflow{
 	
 	//Given an SD file, run MolconnZ to get the chemical descriptors for each compound.
-	public static void GenerateMolconnZDescriptors(String sdfile, String outfile, String taskType) throws Exception{
+	public static void GenerateMolconnZDescriptors(String sdfile, String outfile) throws Exception{
 		String datFile;
+		
+	  //For now let's just use the prediction descriptors all the time
+	  //until there's actually a problem with it.
+		/*
 		if(taskType.equalsIgnoreCase(Constants.PREDICTION)){		
 			datFile = Constants.MOLCONNZ_PREDICTION_DATFILE_PATH;
 		}
 		else{
 			datFile = Constants.MOLCONNZ_MODELING_DATFILE_PATH;
 		}
+		*/
+		datFile = Constants.MOLCONNZ_MODELING_DATFILE_PATH;
+		
+		
 		String execstr = "molconnz " + Constants.CECCR_BASE_PATH + datFile + " " + sdfile + " " + sdfile + ".mz";
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
 		Utility.writeToDebug("Running external program: " + execstr);
@@ -29,17 +37,22 @@ public class GenerateDescriptorWorkflow{
 	}
 	
 	//Given an SD file, run Dragon to get the chemical descriptors for each compound.
-	public static void GenerateDragonDescriptors(String sdfile, String outfile, String taskType) throws Exception{
+	public static void GenerateDragonDescriptors(String sdfile, String outfile) throws Exception{
 		  //dragonX -s data/script_w_H.txt
 
 		  String workingDir = sdfile.replaceAll("/[^/]+$", "") + "/";
 		  
+		  //For now let's just use the prediction descriptors all the time
+		  //until there's actually a problem with it.
+		  /*
 		  if(taskType.equalsIgnoreCase(Constants.MODELING)){
 			  writeHDepletedDragonScriptFiles(sdfile, workingDir, outfile);
 		  }
 		  else{
 			  writeExplicitHDragonScriptFiles(sdfile, workingDir, outfile);
 		  }
+		  */
+		  writeExplicitHDragonScriptFiles(sdfile, workingDir, outfile);
 		  
 		  String execstr = "/usr/local/ceccr/dragon/dragonX -s " + workingDir + "dragon-script.txt";
 			

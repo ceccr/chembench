@@ -128,7 +128,7 @@ public class CreateDatasetTask implements WorkflowTask{
 		}
 		
 		if(!sdfFileName.equals("")){
-			//generate compound sketches and visualization files
+			//generate compound sketches, descriptors, and visualization files
 			this.numCompounds = DatasetFileOperations.getSDFCompoundList(path+sdfFileName).size();
 
 			String vizFilePath = "Visualization/"; 
@@ -151,15 +151,16 @@ public class CreateDatasetTask implements WorkflowTask{
 			
 			String viz_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/" + sdfFileName.substring(0,sdfFileName.lastIndexOf("."));
 
+			step = Constants.DESCRIPTORS;
+			Utility.writeToDebug("Generating Descriptors", userName, jobName);
+			
+			
 			step = Constants.VISUALIZATION;
 			Utility.writeToDebug("Generating Visualizations", userName, jobName);
 			
 			CSV_X_Workflow.performMACCSCreation(path + sdfFileName, viz_path);
-			
 			CSV_X_Workflow.performXCreation(viz_path);
-						
 			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "mahalanobis");
-
 			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "tanimoto");
 
 			if(!actFileName.equals("")){
