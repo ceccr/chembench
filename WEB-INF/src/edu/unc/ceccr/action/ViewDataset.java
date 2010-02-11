@@ -421,24 +421,28 @@ public class ViewDataset extends ActionSupport {
 		
 		//read descriptor program outputs
 		DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
+		molconnZResult.setDescriptorType(Constants.MOLCONNZ);
 		molconnZResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.out"));
 		molconnZResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.err"));
 		molconnZResult.setGenerationResult("Yay"); //replace with some validation or parsing function output somehow.
 		descriptorGenerationResults.add(molconnZResult);
 		
 		DescriptorGenerationResult dragonResult = new DescriptorGenerationResult();
+		dragonResult.setDescriptorType(Constants.DRAGON);
 		dragonResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragon.out"));
 		dragonResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragon.err"));
 		dragonResult.setGenerationResult("Nay");
 		descriptorGenerationResults.add(dragonResult);
 		
 		DescriptorGenerationResult moe2DResult = new DescriptorGenerationResult();
+		moe2DResult.setDescriptorType(Constants.MOE2D);
 		moe2DResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.out"));
 		moe2DResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.err"));
 		moe2DResult.setGenerationResult("Yay");
 		descriptorGenerationResults.add(moe2DResult);
 		
 		DescriptorGenerationResult maccsResult = new DescriptorGenerationResult();
+		maccsResult.setDescriptorType(Constants.MACCS);
 		maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.out"));
 		maccsResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.err"));
 		maccsResult.setGenerationResult("Nay");
