@@ -6,7 +6,7 @@
 	<br />
 		<p class="StandardTextDarkGray"><u><b>Descriptor Generation Results</b></u></p>
 		
-<s:iterator name="descriptorResults">
+<s:iterator value="descriptorResults">
 <s:property value="descriptorType" />: <s:property value="generationResult" /> <br />
 <p class="StandardTextDarkGrey"><s:property value="programOutput" /></p>
 <p class="StandardTextDarkGrey"><s:property value="programErrorOutput" /></p><br /><br />
