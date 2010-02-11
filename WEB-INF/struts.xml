@@ -171,8 +171,8 @@
         	<result>jsp/dataSet/viewDataset-visualization.jsp</result>
         </action>
         
-        <action name="viewDatasetWarningsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadWarningsSection">
-        	<result>jsp/dataSet/viewDataset-warnings.jsp</result>
+        <action name="viewDatasetDescriptorsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadDescriptorsSection">
+        	<result>jsp/dataSet/viewDataset-descriptors.jsp</result>
         </action>
         
         <!-- End View Dataset Page -->

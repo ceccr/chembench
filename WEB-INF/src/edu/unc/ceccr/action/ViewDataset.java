@@ -344,7 +344,7 @@ public class ViewDataset extends ActionSupport {
 		return result;
 	}
 
-	public String loadWarningsSection() throws Exception {
+	public String loadDescriptorsSection() throws Exception {
 		String result = SUCCESS;
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
