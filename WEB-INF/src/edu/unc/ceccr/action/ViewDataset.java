@@ -417,7 +417,7 @@ public class ViewDataset extends ActionSupport {
 		else{
 			descriptorsDir += dataset.getUserName() + "/";
 		}
-		descriptorsDir += "DATASETS/Descriptors/";
+		descriptorsDir += "DATASETS/" + dataset.getFileName() + "/Descriptors/";
 		
 		//read descriptor program outputs
 		DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
