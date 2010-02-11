@@ -4,12 +4,12 @@
 <%@ page language="java" import="java.util.*" %>
 
 	<br />
-		<p class="StandardTextDarkGray"><u><b>Descriptor Generation Results</b></u></p>
+		<p class="StandardTextDarkGray"><u><b>Descriptor Generation Results</b></u></p><br />
 		
-<s:iterator value="descriptorResults">
-<s:property value="descriptorType" />: <s:property value="generationResult" /> <br />
-<p class="StandardTextDarkGrey"><s:property value="programOutput" /></p>
-<p class="StandardTextDarkGrey"><s:property value="programErrorOutput" /></p><br /><br />
+<s:iterator value="descriptorGenerationResults">
+<b><s:property value="descriptorType" />:</b> <s:property value="generationResult" /> <br />
+<p class="StandardTextDarkGrey"><b>Output:</b> <s:property value="programOutput" /></p>
+<p class="StandardTextDarkGrey"><b>Errors:</b> <s:property value="programErrorOutput" /></p><br /><br />
 </s:iterator>
 
 <br />
