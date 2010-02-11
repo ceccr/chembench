@@ -585,4 +585,12 @@ public class ViewDataset extends ActionSupport {
 	public void setWebAddress(String webAddress) {
 		this.webAddress = webAddress;
 	}
+
+	public ArrayList<DescriptorGenerationResult> getDescriptorGenerationResults() {
+		return descriptorGenerationResults;
+	}
+	public void setDescriptorGenerationResults(
+			ArrayList<DescriptorGenerationResult> descriptorGenerationResults) {
+		this.descriptorGenerationResults = descriptorGenerationResults;
+	}
 }
