@@ -14,8 +14,6 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
-import edu.unc.ceccr.global.Constants.ScalingTypeEnumeration;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -183,7 +181,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		
 		ArrayList<String> requiredDescriptors = new ArrayList<String>();
 		for(int i = 0; i < selectedPredictors.size(); i++){
-			String descType = selectedPredictors.get(i).getDescriptorGenerationDisplay();
+			String descType = selectedPredictors.get(i).getDescriptorGeneration();
 			if(! requiredDescriptors.contains(descType)){
 				requiredDescriptors.add(descType);
 			}
@@ -194,11 +192,15 @@ public class QsarPredictionTask implements WorkflowTask {
 		for(int i = 0; i < requiredDescriptors.size(); i++){
 			if(requiredDescriptors.get(i).equals(Constants.MOLCONNZ)){
 				Utility.writeToDebug("ExecutePredictor: Generating MolconnZ Descriptors", userName, jobName);
-				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".mz", Constants.PREDICTION);
+				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".mz");
 			}
-			else if(requiredDescriptors.get(i).equals(Constants.DRAGON)){
+			else if(requiredDescriptors.get(i).equals(Constants.DRAGONH)){
 				Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
-				GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdfile, path + sdfile + ".dragon", Constants.PREDICTION);
+				GenerateDescriptorWorkflow.GenerateHExplicitDragonDescriptors(path + sdfile, path + sdfile + ".dragonH");
+			}
+			else if(requiredDescriptors.get(i).equals(Constants.DRAGONNOH)){
+				Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
+				GenerateDescriptorWorkflow.GenerateHDepletedDragonDescriptors(path + sdfile, path + sdfile + ".dragonNoH");
 			}
 			else if(requiredDescriptors.get(i).equals(Constants.MOE2D)){
 				Utility.writeToDebug("ExecutePredictor: Generating Moe2D Descriptors", userName, jobName);
@@ -233,19 +235,23 @@ public class QsarPredictionTask implements WorkflowTask {
 			
 			step = Constants.PROCDESCRIPTORS;
 			
-			if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
+			if(selectedPredictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)){
 				Utility.writeToDebug("ExecutePredictor: Processing MolconnZ Descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(predictionDir + sdfile + ".mz", descriptorNames, descriptorValueMatrix);
 			}
-			else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.DRAGON)){
-				Utility.writeToDebug("ExecutePredictor: Processing Dragon Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readDragonDescriptors(predictionDir + sdfile + ".dragon", descriptorNames, descriptorValueMatrix);
+			else if(selectedPredictor.getDescriptorGeneration().equals(Constants.DRAGONH)){
+				Utility.writeToDebug("ExecutePredictor: Processing DragonH Descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(predictionDir + sdfile + ".dragonH", descriptorNames, descriptorValueMatrix);
 			}
-			else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOE2D)){
+			else if(selectedPredictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)){
+				Utility.writeToDebug("ExecutePredictor: Processing DragonNoH Descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(predictionDir + sdfile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+			}
+			else if(selectedPredictor.getDescriptorGeneration().equals(Constants.MOE2D)){
 				Utility.writeToDebug("ExecutePredictor: Processing Moe2D Descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(predictionDir + sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
 			}
-			else if(selectedPredictor.getDescriptorGeneration().equals(DescriptorEnumeration.MACCS)){
+			else if(selectedPredictor.getDescriptorGeneration().equals(Constants.MACCS)){
 				Utility.writeToDebug("ExecutePredictor: Processing MACCS Descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMaccsDescriptors(predictionDir + sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
 			}

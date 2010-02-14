@@ -25,8 +25,6 @@ import javax.persistence.Transient;
 import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
-import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -59,8 +57,8 @@ public class Predictor implements java.io.Serializable {
 	private int numyTrainModels;
 	private int numyTestModels;
 
-	private Constants.DataTypeEnumeration modelMethod;
-	private Constants.DescriptorEnumeration descriptorGeneration;
+	private String modelMethod;
+	private String descriptorGeneration;
 	private String activityType;
 	private String predictorType;
 	private String scalingType;
@@ -177,23 +175,21 @@ public class Predictor implements java.io.Serializable {
 				+ " ACTFile: " + actFileName;
 	}
 
-	@Enumerated(EnumType.STRING)
 	@Column(name = "model_descriptors")
-	public Constants.DescriptorEnumeration getDescriptorGeneration() {
+	public String getDescriptorGeneration() {
 		return descriptorGeneration;
 	}
 
-	public void setDescriptorGeneration(Constants.DescriptorEnumeration descriptorGeneration) {
+	public void setDescriptorGeneration(String descriptorGeneration) {
 		this.descriptorGeneration = descriptorGeneration;
 	}
 
-	@Enumerated(EnumType.STRING)
 	@Column(name = "model_method")
-	public Constants.DataTypeEnumeration getModelMethod() {
+	public String getModelMethod() {
 		return modelMethod;
 	}
 
-	public void setModelMethod(Constants.DataTypeEnumeration modelMethod) {
+	public void setModelMethod(String modelMethod) {
 		this.modelMethod = modelMethod;
 	}
 
@@ -354,48 +350,6 @@ public class Predictor implements java.io.Serializable {
 	}
 	public void setHasBeenViewed(String hasBeenViewed) {
 		this.hasBeenViewed = hasBeenViewed;
-	}
-
-
-	private String descriptorGenerationDisplay = "";
-	@Transient
-	public String getDescriptorGenerationDisplay() {
-		Constants.DescriptorEnumeration de = getDescriptorGeneration();
-		switch (de) {
-		case MOLCONNZ:
-			return "MOLCONNZ";
-		case DRAGON:
-			return "DRAGON";
-		case MOE2D:
-			return "MOE2D";
-		case MACCS:
-			return "MACCS";
-		default:
-			return "ERROR";
-		}
-	}
-
-	public void setDescriptorGenerationDisplay(
-			String descriptorGenerationDisplay) {
-		this.descriptorGenerationDisplay = descriptorGenerationDisplay;
-	}
-
-	private String modelMethodDisplay = "";
-	@Transient
-	public String getModelMethodDisplay() {
-		Constants.DataTypeEnumeration ke = getModelMethod();
-		switch (ke) {
-		case CONTINUOUS:
-			return "QSAR Continuous";
-		case CATEGORY:
-			return "QSAR Category";
-		default:
-			return "Error";
-		}
-	}
-
-	public void setModelMethodDisplay(String modelMethodDisplay) {
-		this.modelMethodDisplay = modelMethodDisplay;
 	}
 
 	private String datasetDisplay = "";

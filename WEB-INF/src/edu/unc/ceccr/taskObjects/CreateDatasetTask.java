@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.Queue.QueueTask;
@@ -23,6 +24,8 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CSV_X_Workflow;
 import edu.unc.ceccr.workflows.DataSplitWorkflow;
+import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
+import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
 import edu.unc.ceccr.workflows.SdfToJpgWorkflow;
 import edu.unc.ceccr.workflows.StandardizeMoleculesWorkflow;
 
@@ -154,7 +157,66 @@ public class CreateDatasetTask implements WorkflowTask{
 			step = Constants.DESCRIPTORS;
 			Utility.writeToDebug("Generating Descriptors", userName, jobName);
 			
+
+			//the dataset did not include descriptors so we need to generate them
+		
+			Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
+			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfFileName, path + sdfFileName + ".mz");
+
+			Utility.writeToDebug("Generating DragonH Descriptors", userName, jobName);
+			GenerateDescriptorWorkflow.GenerateHExplicitDragonDescriptors(path + sdfFileName, path + sdfFileName + ".dragonH");
 			
+			Utility.writeToDebug("Generating DragonNoH Descriptors", userName, jobName);
+			GenerateDescriptorWorkflow.GenerateHDepletedDragonDescriptors(path + sdfFileName, path + sdfFileName + ".dragonNoH");
+			
+			Utility.writeToDebug("Generating MOE2D Descriptors", userName, jobName);
+			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdfFileName, path + sdfFileName + ".moe2d");
+			
+			Utility.writeToDebug("Generating MACCS Descriptors", userName, jobName);
+			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdfFileName, path + sdfFileName + ".maccs");
+
+			step = Constants.CHECKDESCRIPTORS;
+			ArrayList<String> descriptorNames = new ArrayList<String>();
+			ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+			try{
+				Utility.writeToDebug("Checking MolconnZ descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdfFileName + ".mz", descriptorNames, descriptorValueMatrix);
+			}
+			catch(Exception ex){
+				
+			}
+				
+			try{
+				Utility.writeToDebug("Checking DragonH descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdfFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
+			}
+			catch(Exception ex){
+				
+			}
+			
+			try{
+				Utility.writeToDebug("Checking DragonNoH descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdfFileName + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+			}
+			catch(Exception ex){
+				
+			}
+			
+			try{
+				Utility.writeToDebug("Checking MOE2D descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdfFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
+			}
+			catch(Exception ex){
+				
+			}
+			try{
+				Utility.writeToDebug("Checking MACCS descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdfFileName + ".maccs", descriptorNames, descriptorValueMatrix);
+			}
+			catch(Exception ex){
+				
+			}
+
 			step = Constants.VISUALIZATION;
 			Utility.writeToDebug("Generating Visualizations", userName, jobName);
 			

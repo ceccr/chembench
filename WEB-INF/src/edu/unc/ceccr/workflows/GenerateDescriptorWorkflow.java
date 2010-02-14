@@ -10,22 +10,11 @@ import java.util.Scanner;
 
 public class GenerateDescriptorWorkflow{
 	
-	//Given an SD file, run MolconnZ to get the chemical descriptors for each compound.
 	public static void GenerateMolconnZDescriptors(String sdfile, String outfile) throws Exception{
+		//Given an SD file, run MolconnZ to get the chemical descriptors for each compound.
 		String datFile;
 		
-	  //For now let's just use the prediction descriptors all the time
-	  //until there's actually a problem with it.
-		/*
-		if(taskType.equalsIgnoreCase(Constants.PREDICTION)){		
-			datFile = Constants.MOLCONNZ_PREDICTION_DATFILE_PATH;
-		}
-		else{
-			datFile = Constants.MOLCONNZ_MODELING_DATFILE_PATH;
-		}
-		*/
-		datFile = Constants.MOLCONNZ_MODELING_DATFILE_PATH;
-		
+		datFile = Constants.MOLCONNZ_PREDICTION_DATFILE_PATH;
 		
 		String execstr = "molconnz " + Constants.CECCR_BASE_PATH + datFile + " " + sdfile + " " + sdfile + ".mz";
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
@@ -35,34 +24,32 @@ public class GenerateDescriptorWorkflow{
 		p.waitFor();
 	
 	}
-	
-	//Given an SD file, run Dragon to get the chemical descriptors for each compound.
-	public static void GenerateDragonDescriptors(String sdfile, String outfile) throws Exception{
-		  //dragonX -s data/script_w_H.txt
 
-		  String workingDir = sdfile.replaceAll("/[^/]+$", "") + "/";
+	public static void GenerateHExplicitDragonDescriptors(String sdfile, String outfile) throws Exception{
+		String workingDir = sdfile.replaceAll("/[^/]+$", "") + "/";
+		writeHExplicitDragonScriptFiles(sdfile, workingDir, outfile);
 		  
-		  //For now let's just use the prediction descriptors all the time
-		  //until there's actually a problem with it.
-		  /*
-		  if(taskType.equalsIgnoreCase(Constants.MODELING)){
-			  writeHDepletedDragonScriptFiles(sdfile, workingDir, outfile);
-		  }
-		  else{
-			  writeExplicitHDragonScriptFiles(sdfile, workingDir, outfile);
-		  }
-		  */
-		  writeExplicitHDragonScriptFiles(sdfile, workingDir, outfile);
-		  
-		  String execstr = "/usr/local/ceccr/dragon/dragonX -s " + workingDir + "dragon-script.txt";
+		String execstr = "/usr/local/ceccr/dragon/dragonX -s " + workingDir + "dragon-scriptH.txt";
 			
-	      Utility.writeToDebug("Running external program: " + execstr);
-	      Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
-	      Utility.writeProgramLogfile(workingDir, "dragonX", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
+	    Utility.writeToDebug("Running external program: " + execstr);
+	    Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
+	    Utility.writeProgramLogfile(workingDir, "dragonH", p.getInputStream(), p.getErrorStream());
+	    p.waitFor();
 	}	
 	
-	private static void writeExplicitHDragonScriptFiles(String sdFile, String workingDir, String outfile) throws IOException {
+	public static void GenerateHDepletedDragonDescriptors(String sdfile, String outfile) throws Exception{
+		String workingDir = sdfile.replaceAll("/[^/]+$", "") + "/";
+		writeHDepletedDragonScriptFiles(sdfile, workingDir, outfile);
+		  
+		String execstr = "/usr/local/ceccr/dragon/dragonX -s " + workingDir + "dragon-scriptNoH.txt";
+			
+	    Utility.writeToDebug("Running external program: " + execstr);
+	    Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
+	    Utility.writeProgramLogfile(workingDir, "dragonNoH", p.getInputStream(), p.getErrorStream());
+	    p.waitFor();
+	}
+	
+	private static void writeHExplicitDragonScriptFiles(String sdFile, String workingDir, String outfile) throws IOException {
 		//also used for descriptor generation for prediction sets.
 		
 		Utility.writeToDebug("Writing Dragon scripts for " + sdFile + " into " + workingDir);
@@ -70,7 +57,7 @@ public class GenerateDescriptorWorkflow{
 		FileOutputStream fout;
 		PrintStream out;
 		try {
-			fout = new FileOutputStream(workingDir + "dragon-script.txt");
+			fout = new FileOutputStream(workingDir + "dragon-scriptH.txt");
 			out = new PrintStream(fout);
 			
 			out.println("DRAGON script Ver 2");
@@ -125,7 +112,7 @@ public class GenerateDescriptorWorkflow{
 		FileOutputStream fout;
 		PrintStream out;
 		try {
-			fout = new FileOutputStream(workingDir + "dragon-script.txt");
+			fout = new FileOutputStream(workingDir + "dragon-scriptNoH.txt");
 			out = new PrintStream(fout);
 			
 			out.println("DRAGON script Ver 2");
@@ -151,7 +138,7 @@ public class GenerateDescriptorWorkflow{
 			out.println("/d GetB20 None /PCno");
 			out.println("/d GetB21 None /PCno");
 			out.println("/d GetB22 None /PCno");
-			out.println("/fm molfile -f4 -i2 -Hn -2D");
+			out.println("/fm molfile -f4 -i2 -Hy -2D");
 			out.println("/fy None");
 			out.println("/fo " + outfile + " -f1 -k -m -999");
 			out.close();

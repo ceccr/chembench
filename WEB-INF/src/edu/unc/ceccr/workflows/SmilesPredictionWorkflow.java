@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
@@ -29,7 +28,6 @@ public class SmilesPredictionWorkflow{
 			predictorUsername = "all-users";	
 		}
 		String fromDir = Constants.CECCR_USER_BASE_PATH + predictorUsername + "/PREDICTORS/" + predictor.getName() + "/";
-
 		
 		//get train_0.x file from the predictor dir.
 		Utility.writeToDebug("Copying predictor files from " + fromDir);
@@ -42,19 +40,23 @@ public class SmilesPredictionWorkflow{
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(sdfile);
 
-		if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOLCONNZ)){
-			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(sdfile, sdfile + ".mz", Constants.PREDICTION);
+		if(predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)){
+			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(sdfile, sdfile + ".mz");
 			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(sdfile + ".mz", descriptorNames, descriptorValueMatrix);
 		}
-		else if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.DRAGON)){
-			GenerateDescriptorWorkflow.GenerateDragonDescriptors(sdfile, sdfile + ".dragon", Constants.PREDICTION);
-			ReadDescriptorsFileWorkflow.readDragonDescriptors(sdfile + ".dragon", descriptorNames, descriptorValueMatrix);
+		else if(predictor.getDescriptorGeneration().equals(Constants.DRAGONH)){
+			GenerateDescriptorWorkflow.GenerateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");
+			ReadDescriptorsFileWorkflow.readDragonDescriptors(sdfile + ".dragonH", descriptorNames, descriptorValueMatrix);
 		}
-		else if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.MOE2D)){
+		else if(predictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)){
+			GenerateDescriptorWorkflow.GenerateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonNoH");
+			ReadDescriptorsFileWorkflow.readDragonDescriptors(sdfile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+		}
+		else if(predictor.getDescriptorGeneration().equals(Constants.MOE2D)){
 			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(sdfile, sdfile + ".moe2D");
 			ReadDescriptorsFileWorkflow.readMoe2DDescriptors(sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
 		}
-		else if(predictor.getDescriptorGeneration().equals(DescriptorEnumeration.MACCS)){
+		else if(predictor.getDescriptorGeneration().equals(Constants.MACCS)){
 			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(sdfile, sdfile + ".maccs");
 			ReadDescriptorsFileWorkflow.readMaccsDescriptors(sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
 		}

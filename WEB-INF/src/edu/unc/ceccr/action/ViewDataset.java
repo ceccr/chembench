@@ -426,13 +426,20 @@ public class ViewDataset extends ActionSupport {
 		molconnZResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.err"));
 		molconnZResult.setGenerationResult("Yay"); //replace with some validation or parsing function output somehow.
 		descriptorGenerationResults.add(molconnZResult);
+
+		DescriptorGenerationResult dragonHResult = new DescriptorGenerationResult();
+		dragonHResult.setDescriptorType(Constants.DRAGONH);
+		dragonHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.out"));
+		dragonHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.err"));
+		dragonHResult.setGenerationResult("Nay");
+		descriptorGenerationResults.add(dragonHResult);
 		
-		DescriptorGenerationResult dragonResult = new DescriptorGenerationResult();
-		dragonResult.setDescriptorType(Constants.DRAGON);
-		dragonResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragon.out"));
-		dragonResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragon.err"));
-		dragonResult.setGenerationResult("Nay");
-		descriptorGenerationResults.add(dragonResult);
+		DescriptorGenerationResult dragonNoHResult = new DescriptorGenerationResult();
+		dragonNoHResult.setDescriptorType(Constants.DRAGONNOH);
+		dragonNoHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.out"));
+		dragonNoHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.err"));
+		dragonNoHResult.setGenerationResult("Nay");
+		descriptorGenerationResults.add(dragonNoHResult);
 		
 		DescriptorGenerationResult moe2DResult = new DescriptorGenerationResult();
 		moe2DResult.setDescriptorType(Constants.MOE2D);

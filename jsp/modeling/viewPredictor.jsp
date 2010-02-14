@@ -96,8 +96,8 @@
 			<a href="viewDatasetFlash.do?fileName=<s:property value="selectedPredictor.datasetDisplay" />&isPublic=<s:if test="datasetUserName=='_all'">true</s:if><s:else>false</s:else>">
 						
 			<td class="TableRowText02"><span style="width:100"><s:property value="selectedPredictor.datasetDisplay" /></span></td>
-			<td class="TableRowText02"><s:property value="selectedPredictor.modelMethodDisplay" /></td>
-			<td class="TableRowText02"><s:property value="selectedPredictor.descriptorGenerationDisplay" /></td>
+			<td class="TableRowText02"><s:property value="selectedPredictor.modelMethod" /></td>
+			<td class="TableRowText02"><s:property value="selectedPredictor.descriptorGeneration" /></td>
 		</tr>
 		</table>
 		

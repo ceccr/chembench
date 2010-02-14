@@ -132,7 +132,7 @@ public class ReadDescriptorsFileWorkflow{
 		line = br.readLine();
 		tok = new Scanner(line);
 		while(tok.hasNext()){
-			String dname =  tok.next();
+			String dname = tok.next();
 			descriptorNames.add(dname);
 		}
 

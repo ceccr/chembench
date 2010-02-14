@@ -29,8 +29,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 
-import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
-import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 import edu.unc.ceccr.task.WorkflowTask;
@@ -57,8 +55,8 @@ public class Queue {
 		public String jobName;
 		public Long id = null;
 		public jobTypes jobType;
-		private DataTypeEnumeration modelMethod;
-		private DescriptorEnumeration modelDescriptors;
+		private String modelMethod;
+		private String modelDescriptors;
 		private String ACTFile;
 		private String SDFile;
 		private int numCompounds;
@@ -286,23 +284,19 @@ public class Queue {
 			ACTFile = file;
 		}
 
-		@Enumerated(EnumType.STRING)
 		@Column(name = "model_descriptors")
-		public DescriptorEnumeration getModelDescriptors() {
+		public String getModelDescriptors() {
 			return modelDescriptors;
 		}
-
-		public void setModelDescriptors(DescriptorEnumeration modelDescriptors) {
+		public void setModelDescriptors(String modelDescriptors) {
 			this.modelDescriptors = modelDescriptors;
 		}
 
-		@Enumerated(EnumType.STRING)
 		@Column(name = "model_method")
-		public DataTypeEnumeration getModelMethod() {
+		public String getModelMethod() {
 			return modelMethod;
 		}
-
-		public void setModelMethod(DataTypeEnumeration modelMethod) {
+		public void setModelMethod(String modelMethod) {
 			this.modelMethod = modelMethod;
 		}
 
@@ -311,7 +305,6 @@ public class Queue {
 		public String getSDFile() {
 			return SDFile;
 		}
-
 		public void setSDFile(String file) {
 			SDFile = file;
 		}
@@ -460,6 +453,7 @@ public class Queue {
 		QueueTask qt = new QueueTask(job, userName);
 		qt.setNumCompounds(numCompounds);
 		qt.setNumModels(numModels);
+		qt.setSubmit(new Date());
 		saveTaskRecord(qt);
 		queue.add(qt);
 		Utility.writeToDebug("Adding Task ", userName, jobName);

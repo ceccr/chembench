@@ -12,8 +12,6 @@ public class Constants {
 	
 	//Enums for Data Types
 	@SuppressWarnings("unchecked")
-	public enum DescriptorEnumeration { MOLCONNZ, DRAGON, MOE2D, MACCS };
-	public enum DataTypeEnumeration { CONTINUOUS, CATEGORY };
 	public enum ModelTypeEnumeration { KNN, SVM };
 	public enum ScalingTypeEnumeration { AUTOSCALING, RANGESCALING, NOSCALING };
 	public enum TrainTestSplitTypeEnumeration { RANDOM, SPHEREEXCLUSION };
@@ -58,7 +56,8 @@ public class Constants {
 	public static final String PREDICTIONWITHDESCRIPTORS = "PREDICTIONWITHDESCRIPTORS";
 	
 	public static final String MOLCONNZ = "MOLCONNZ";
-	public static final String DRAGON = "DRAGON";
+	public static final String DRAGONH = "DRAGONH";
+	public static final String DRAGONNOH = "DRAGONNOH";
 	public static final String MOE2D = "MOE2D";
 	public static final String MACCS = "MACCS";
 	
@@ -82,6 +81,7 @@ public class Constants {
 	//steps in modeling task
 	//also uses SETUP and SPLITDATA
 	public static final String DESCRIPTORS = "Generating descriptors";
+	public static final String CHECKDESCRIPTORS = "Checking descriptors";
 	public static final String PROCDESCRIPTORS = "Processing descriptors";
 	public static final String YRANDOMSETUP = "Y-Randomization setup";
 	public static final String MODELS = "Generating models";
@@ -138,7 +138,6 @@ public class Constants {
 	public static String EXECUTABLEFILE_PATH;
 	public static String MOLCONNZ_MODELING_DATFILE_PATH = "ParameterFiles/MZ405Modeling.dat";
 	public static String MOLCONNZ_PREDICTION_DATFILE_PATH = "ParameterFiles/MZ405Prediction.dat";
-	public static String DRAGON_SCRIPT_PATH = "ParameterFiles/dragonScript.txt";
 	
 	public static final String kNN_OUTPUT_FILE = "knn-output.tbl";
 	public static final String EXTERNAL_VALIDATION_OUTPUT_FILE = "external_prediction_table";

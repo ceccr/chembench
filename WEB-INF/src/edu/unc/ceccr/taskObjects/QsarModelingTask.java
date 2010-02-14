@@ -22,8 +22,6 @@ import org.hibernate.Transaction;
 
 import edu.unc.ceccr.action.ModelingFormActions;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.Constants.DescriptorEnumeration;
-import edu.unc.ceccr.global.Constants.DataTypeEnumeration;
 import edu.unc.ceccr.global.Constants.ModelTypeEnumeration;
 import edu.unc.ceccr.global.Constants.ScalingTypeEnumeration;
 import edu.unc.ceccr.global.Constants.TrainTestSplitTypeEnumeration;
@@ -66,13 +64,13 @@ public class QsarModelingTask implements WorkflowTask {
 	String filePath;
 	String datasetPath;
 	private String actFileDataType;
-	private DataTypeEnumeration dataTypeEnum;
+	private String dataTypeEnum;
 	private boolean datasetIsAllUser;
 	private DataSet dataset;
 	
 	//descriptors
 	private String descriptorGenerationType;
-	private DescriptorEnumeration descriptorEnum;
+	private String descriptorEnum;
 	private String scalingType;
 	private ScalingTypeEnumeration scalingTypeEnum;
 	private String stdDevCutoff;
@@ -324,9 +322,9 @@ public class QsarModelingTask implements WorkflowTask {
 		datasetPath += "/DATASETS/" + datasetName + "/";
 		
 		if (actFileDataType.equals(Constants.CATEGORY)){
-			dataTypeEnum = DataTypeEnumeration.CATEGORY;
+			dataTypeEnum = Constants.CATEGORY;
 		}else if (actFileDataType.equals(Constants.CONTINUOUS)){
-			dataTypeEnum = DataTypeEnumeration.CONTINUOUS;
+			dataTypeEnum = Constants.CONTINUOUS;
 		}
 	}
 
@@ -371,54 +369,27 @@ public class QsarModelingTask implements WorkflowTask {
 		- Find some overarching properties of the traintest dataset (activity cliffs? Diversity / Tanimoto coefficient? Number & size of clusters?)
 		- Apply those to feature selection. (Which descriptors corellate best to activity? Which ones separate clusters? Which are useful for low/high Tanimoto values?)
 		*/
-		
+		descriptorEnum = descriptorGenerationType;
 		if(dataset.getDatasetType().equals(Constants.MODELING)){
 			//the dataset did not include descriptors so we need to generate them
+			step = Constants.PROCDESCRIPTORS;
 			if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
-				descriptorEnum = DescriptorEnumeration.MOLCONNZ;
-				
-				step = Constants.DESCRIPTORS;
-				Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
-				Utility.writeToMSDebug("Generating MolconnZ Descriptors::"+ path);
-				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdFileName, path + sdFileName + ".mz", Constants.MODELING);
-	
-				step = Constants.PROCDESCRIPTORS;
 				Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".mz", descriptorNames, descriptorValueMatrix);
 			}
-			else if (descriptorGenerationType.equals(Constants.DRAGON)){
-				descriptorEnum = DescriptorEnumeration.DRAGON;
-				
-				step = Constants.DESCRIPTORS;
-				Utility.writeToDebug("Generating Dragon Descriptors", userName, jobName);
-				Utility.writeToMSDebug("Generating Dragon Descriptors::"+ path);
-				GenerateDescriptorWorkflow.GenerateDragonDescriptors(path + sdFileName, path + sdFileName + ".dragon", Constants.MODELING);
-				
-				step = Constants.PROCDESCRIPTORS;
-				Utility.writeToDebug("Processing Dragon descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdFileName + ".dragon", descriptorNames, descriptorValueMatrix);
+			else if (descriptorGenerationType.equals(Constants.DRAGONH)){
+				Utility.writeToDebug("Processing DragonH descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
+			}
+			else if (descriptorGenerationType.equals(Constants.DRAGONNOH)){
+				Utility.writeToDebug("Processing DragonNoH descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdFileName + ".dragonNoH", descriptorNames, descriptorValueMatrix);
 			}
 			else if (descriptorGenerationType.equals(Constants.MOE2D)){
-				descriptorEnum = DescriptorEnumeration.MOE2D;
-				
-				step = Constants.DESCRIPTORS;
-				Utility.writeToDebug("Generating MOE2D Descriptors", userName, jobName);
-				Utility.writeToMSDebug("Generating MOE2D Descriptors::"+ path);
-				GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdFileName, path + sdFileName + ".moe2d");
-				
-				step = Constants.PROCDESCRIPTORS;
 				Utility.writeToDebug("Processing MOE2D descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
 			}
 			else if (descriptorGenerationType.equals(Constants.MACCS)){
-				descriptorEnum = DescriptorEnumeration.MACCS;
-				
-				step = Constants.DESCRIPTORS;
-				Utility.writeToDebug("Generating MACCS Descriptors", userName, jobName);
-				Utility.writeToMSDebug("Generating MACCS Descriptors::" + path);
-				GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdFileName, path + sdFileName + ".maccs");
-				
-				step = Constants.PROCDESCRIPTORS;
 				Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 			}
@@ -457,16 +428,16 @@ public class QsarModelingTask implements WorkflowTask {
 			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 
 			step = Constants.MODELS;
-			if(dataTypeEnum == DataTypeEnumeration.CATEGORY){
+			if(dataTypeEnum == Constants.CATEGORY){
 				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path);
-			}else if(dataTypeEnum == DataTypeEnumeration.CONTINUOUS){
+			}else if(dataTypeEnum == Constants.CONTINUOUS){
 				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path);
 			}
 
 			step = Constants.YMODELS;
-			if(dataTypeEnum == DataTypeEnumeration.CATEGORY){
+			if(dataTypeEnum == Constants.CATEGORY){
 				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path + "yRandom/");
-			}else if(dataTypeEnum == DataTypeEnumeration.CONTINUOUS){
+			}else if(dataTypeEnum == Constants.CONTINUOUS){
 				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path + "yRandom/");
 			}
 			

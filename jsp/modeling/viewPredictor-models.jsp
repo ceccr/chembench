@@ -45,7 +45,6 @@
 		</tr>
 		</s:if>
 		<s:iterator value="models" status="modelsStatus">
-			<s:if test="#modelsStatus.index<10">
 			<tr>
 			<td class="TableRowText02narrow"><s:property value="nnn" /></td>
 			<td class="TableRowText02narrow"><s:property value="q_squared" /></td>
@@ -58,7 +57,6 @@
 			<td class="TableRowText02narrow"><s:property value="k2" /></td>
 			<td class="TableRowText02narrow" colspan="2"><s:property value="descriptorsUsed" /></td>
 			</tr> 
-			</s:if>
 		</s:iterator>
 		</s:if>
 		<s:elseif test="dataType=='CATEGORY'">
