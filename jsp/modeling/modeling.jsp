@@ -222,7 +222,7 @@
 					<sx:div id="KNN" value="KNN" theme="ajax" label="k-Nearest Neighbors" href="/loadKnnSection" loadingText="Loading kNN parameters...">
 					</sx:div>
 					
-					<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machine" href="/loadSvmSection" loadingText="Loading SVM parameters...">
+					<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">
 					</sx:div>
 			    </sx:tabbedpanel>
 			    
