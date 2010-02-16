@@ -146,10 +146,6 @@ public class CreateDatasetTask implements WorkflowTask{
 				new File(path + descriptorDir).mkdirs();
 			}
 			
-			step = Constants.SKETCHES;
-			Utility.writeToDebug("Generating JPGs", userName, jobName);
-			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
-			
 			step = Constants.DESCRIPTORS;
 			Utility.writeToDebug("Generating Descriptors", userName, jobName);
 			
@@ -177,7 +173,7 @@ public class CreateDatasetTask implements WorkflowTask{
 				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + descriptorDir + sdfFileName + ".mz", descriptorNames, descriptorValueMatrix);
 			}
 			catch(Exception ex){
-				
+				Utility.writeToDebug(ex);
 			}
 				
 			try{
@@ -185,7 +181,7 @@ public class CreateDatasetTask implements WorkflowTask{
 				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
 			}
 			catch(Exception ex){
-				
+				Utility.writeToDebug(ex);
 			}
 			
 			try{
@@ -193,7 +189,7 @@ public class CreateDatasetTask implements WorkflowTask{
 				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonNoH", descriptorNames, descriptorValueMatrix);
 			}
 			catch(Exception ex){
-				
+				Utility.writeToDebug(ex);
 			}
 			
 			try{
@@ -201,14 +197,14 @@ public class CreateDatasetTask implements WorkflowTask{
 				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + descriptorDir + sdfFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
 			}
 			catch(Exception ex){
-				
+				Utility.writeToDebug(ex);
 			}
 			try{
 				Utility.writeToDebug("Checking MACCS descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + descriptorDir + sdfFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 			}
 			catch(Exception ex){
-				
+				Utility.writeToDebug(ex);
 			}
 
 			step = Constants.VISUALIZATION;
@@ -231,6 +227,11 @@ public class CreateDatasetTask implements WorkflowTask{
 				CSV_X_Workflow.performPCAcreation(viz_path, act_path);
 	
 			}
+
+			step = Constants.SKETCHES;
+			Utility.writeToDebug("Generating JPGs", userName, jobName);
+			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
+			
 		}
 		
 		if(!xFileName.equals("")){

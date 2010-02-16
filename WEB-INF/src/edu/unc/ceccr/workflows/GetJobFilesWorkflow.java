@@ -49,6 +49,10 @@ public class GetJobFilesWorkflow{
 		if(!externalSplitXFile.equals("")){
 			FileAndDirOperations.copyFile(fromDir + externalSplitXFile, toDir + externalSplitXFile);
 		}
+		String descriptorDir = "Descriptors/";
+		if(new File(fromDir + descriptorDir).exists()){
+			FileAndDirOperations.copyDirContents(fromDir + descriptorDir, toDir, false);
+		}
 	}
 	
 	public static void getPredictorFiles(String userName, Predictor predictor, String toDir) throws Exception{

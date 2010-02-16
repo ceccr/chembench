@@ -355,7 +355,6 @@ public class QsarModelingTask implements WorkflowTask {
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(path + sdFileName);
 		
-
 		Session session = HibernateUtil.getSession();
 		DataSet dataset = PopulateDataObjects.getDataSetById(datasetID,session);
 		session.close();
