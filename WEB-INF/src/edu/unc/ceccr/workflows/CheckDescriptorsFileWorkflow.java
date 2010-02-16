@@ -22,7 +22,7 @@ public class CheckDescriptorsFileWorkflow{
 		String errors = "";
 		 
 		File file = new File(molconnZOutputFile);
-		if(! file.exists()){
+		if(! file.exists() || file.length() == 0){
 			return "Could not read descriptor file.\n";
 		}
 		
@@ -128,7 +128,7 @@ public class CheckDescriptorsFileWorkflow{
 		String errors = "";
 		
 		File file = new File(dragonOutputFile);
-		if(! file.exists()){
+		if(! file.exists() || file.length() == 0){
 			return "Could not read descriptor file.\n";
 		}
 		FileReader fin = new FileReader(file);
@@ -192,7 +192,7 @@ public class CheckDescriptorsFileWorkflow{
 		String errors = "";
 		
 		File file = new File(maccsOutputFile);
-		if(! file.exists()){
+		if(! file.exists() || file.length() == 0){
 			return "Could not read descriptor file.\n";
 		}
 		FileReader fin = new FileReader(file);
@@ -239,7 +239,7 @@ public class CheckDescriptorsFileWorkflow{
 		String errors = "";
 		
 		File file = new File(moe2DOutputFile);
-		if(! file.exists()){
+		if(! file.exists() || file.length() == 0){
 			return "Could not read descriptor file.\n";
 		}
 		FileReader fin = new FileReader(file);

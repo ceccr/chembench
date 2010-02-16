@@ -20,7 +20,7 @@ public class ReadDescriptorsFileWorkflow{
 		Utility.writeToDebug("reading MolconnZ Descriptors");
 		
 		File file = new File(molconnZOutputFile);
-		if(!file.exists()){
+		if(!file.exists() || file.length() == 0){
 			throw new Exception("Could not read MolconnZ descriptors.\n");
 		}
 		FileReader fin = new FileReader(file);
@@ -115,7 +115,7 @@ public class ReadDescriptorsFileWorkflow{
 		Utility.writeToDebug("reading Dragon Descriptors");
 		
 		File file = new File(dragonOutputFile);
-		if(!file.exists()){
+		if(!file.exists() || file.length() == 0){
 			throw new Exception("Could not read Dragon descriptors.\n");
 		}
 		FileReader fin = new FileReader(file);
@@ -174,7 +174,7 @@ public class ReadDescriptorsFileWorkflow{
 		Utility.writeToDebug("reading Maccs Descriptors");
 		
 		File file = new File(maccsOutputFile);
-		if(!file.exists()){
+		if(!file.exists() || file.length() == 0){
 			throw new Exception("Could not read MACCS keys.\n");
 		}
 		FileReader fin = new FileReader(file);
@@ -216,7 +216,7 @@ public class ReadDescriptorsFileWorkflow{
 		Utility.writeToDebug("reading Moe2D Descriptors");
 		
 		File file = new File(moe2DOutputFile);
-		if(!file.exists()){
+		if(!file.exists() || file.length() == 0){
 			throw new Exception("Could not read MOE2D descriptors.\n");
 		}
 		FileReader fin = new FileReader(file);
