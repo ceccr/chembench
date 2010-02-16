@@ -421,7 +421,7 @@ public class ViewDataset extends ActionSupport {
 		
 		//read descriptor program outputs
 		DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
-		molconnZResult.setDescriptorType(Constants.MOLCONNZ);
+		molconnZResult.setDescriptorType("MolconnZ");
 		molconnZResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.out"));
 		molconnZResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.err"));
 		if(dataset.getAvailableDescriptors().contains(Constants.MOLCONNZ)){
@@ -433,7 +433,7 @@ public class ViewDataset extends ActionSupport {
 		descriptorGenerationResults.add(molconnZResult);
 
 		DescriptorGenerationResult dragonHResult = new DescriptorGenerationResult();
-		dragonHResult.setDescriptorType(Constants.DRAGONH);
+		dragonHResult.setDescriptorType("Dragon (with hydrogens)");
 		dragonHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.out"));
 		dragonHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.err"));
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONH)){
@@ -445,7 +445,7 @@ public class ViewDataset extends ActionSupport {
 		descriptorGenerationResults.add(dragonHResult);
 		
 		DescriptorGenerationResult dragonNoHResult = new DescriptorGenerationResult();
-		dragonNoHResult.setDescriptorType(Constants.DRAGONNOH);
+		dragonNoHResult.setDescriptorType("Dragon (without hydrogens)");
 		dragonNoHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.out"));
 		dragonNoHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.err"));
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONNOH)){
