@@ -10,19 +10,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class ReadDescriptorsFileWorkflow{
+public class CheckDescriptorsFileWorkflow{
 	//Read in the output of a descriptor generation program (molconnZ, dragon, etc.)
-	//Create a Descriptors object for each compound. 
-	//puts results into descriptorNames and descriptorValueMatrix.
+	//Look for any errors that would make the output unusable in modeling
+	//Return an HTML-formatted string with user-readable feedback
 
-	public static void readMolconnZDescriptors(String molconnZOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
+	public static String checkMolconnZDescriptors(String molconnZOutputFile) throws Exception{
 
-		Utility.writeToDebug("reading MolconnZ Descriptors");
-		
+		 ArrayList<String> descriptorNames = new ArrayList<String>();
+		 ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+		String errors = "";
+		 
 		File file = new File(molconnZOutputFile);
-		if(!file.exists()){
-			throw new Exception("Could not read MolconnZ descriptors.\n");
+		if(! file.exists()){
+			return "Could not read descriptor file.\n";
 		}
+		
 		FileReader fin = new FileReader(file);
 
 		String temp;
@@ -60,9 +63,9 @@ public class ReadDescriptorsFileWorkflow{
 						if(! formula.contains("(")){
 							//the formula for the molecule isn't a formula
 							//usually indicates missing descriptors on the previous molecule
-							throw new Exception("MolconnZ error: Molecule " + 
-									descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + 
-									" has formula " + descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS));
+							errors += "Molecule " + 
+								descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + 
+								" has formula " + descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS) + "<br />";
 						}
 						
 						descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS); //contains molecule name, which isn't a descriptor
@@ -83,7 +86,13 @@ public class ReadDescriptorsFileWorkflow{
 					}
 					else if(temp.equals("not_available")){
 						//quit this shit - means MolconnZ failed at descriptoring and all values past this point will be offset.
-						throw new Exception("MolconnZ descriptors invalid!");
+						if(descriptorValues.size() > Constants.MOLCONNZ_COMPOUND_NAME_POS &&
+								! errors.contains("Descriptor generation failed for molecule: " + 
+										descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + "<br />\n")){
+							errors += "Descriptors could not be calculated for molecule: " + 
+								descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + "<br />\n";
+						}
+						temp = "-1"; //junk value. 
 					}
 					descriptorValues.add(temp);
 				}
@@ -108,15 +117,19 @@ public class ReadDescriptorsFileWorkflow{
 		}*/
 		
 		fin.close();
+		return errors;
 	}
 
-	public static void readDragonDescriptors(String dragonOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
+	public static String checkDragonDescriptors(String dragonOutputFile) throws Exception{
 		
 		Utility.writeToDebug("reading Dragon Descriptors");
+		ArrayList<String> descriptorNames = new ArrayList<String>();
+		 ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+		String errors = "";
 		
 		File file = new File(dragonOutputFile);
-		if(!file.exists()){
-			throw new Exception("Could not read Dragon descriptors.\n");
+		if(! file.exists()){
+			return "Could not read descriptor file.\n";
 		}
 		FileReader fin = new FileReader(file);
 		BufferedReader br = new BufferedReader(fin);
@@ -151,7 +164,8 @@ public class ReadDescriptorsFileWorkflow{
 			while(tok.hasNext()){
 				String dvalue = tok.next();
 				if(dvalue.equalsIgnoreCase("Error")){
-					throw new Exception("Dragon descriptors invalid!");
+					if(!errors.contains("Descriptor generation failed for molecule: " + descriptorValues.get(1) +".<br />"))
+					errors += "Descriptor generation failed for molecule: " + descriptorValues.get(1) +".<br />";
 				}
 				descriptorValues.add(dvalue);
 			}
@@ -166,16 +180,20 @@ public class ReadDescriptorsFileWorkflow{
 			descriptorValueMatrix.add(di);
 			descriptorValues.clear();
 		}
+		return errors;
 	}
 	
-	public static void readMaccsDescriptors(String maccsOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
-		//generate with "maccs.sh infile.sdf outfile.maccs"
-		
+	public static String checkMaccsDescriptors(String maccsOutputFile) throws Exception{
+		//right now this doesn't check anything. The MACCS keys never seem to cause issues.
+
 		Utility.writeToDebug("reading Maccs Descriptors");
+		ArrayList<String> descriptorNames = new ArrayList<String>();
+		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+		String errors = "";
 		
 		File file = new File(maccsOutputFile);
-		if(!file.exists()){
-			throw new Exception("Could not read MACCS keys.\n");
+		if(! file.exists()){
+			return "Could not read descriptor file.\n";
 		}
 		FileReader fin = new FileReader(file);
 		BufferedReader br = new BufferedReader(fin);
@@ -210,14 +228,19 @@ public class ReadDescriptorsFileWorkflow{
 		for(int i = 0; i < Constants.NUM_MACCS_KEYS; i++){
 			descriptorNames.add((new Integer(i)).toString());
 		}
+		return errors;
 	}
 	
-	public static void readMoe2DDescriptors(String moe2DOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
+	public static String checkMoe2DDescriptors(String moe2DOutputFile) throws Exception{
+		//right now this doesn't check anything. The MOE2D descriptors never seem to cause issues.
 		Utility.writeToDebug("reading Moe2D Descriptors");
+		ArrayList<String> descriptorNames = new ArrayList<String>();
+		 ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+		String errors = "";
 		
 		File file = new File(moe2DOutputFile);
-		if(!file.exists()){
-			throw new Exception("Could not read MOE2D descriptors.\n");
+		if(! file.exists()){
+			return "Could not read descriptor file.\n";
 		}
 		FileReader fin = new FileReader(file);
 		BufferedReader br = new BufferedReader(fin);
@@ -243,5 +266,6 @@ public class ReadDescriptorsFileWorkflow{
 				descriptorValueMatrix.add(di);
 			}
 		}
+		return errors;
 	}
 }

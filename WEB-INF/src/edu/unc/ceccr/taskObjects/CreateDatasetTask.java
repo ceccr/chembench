@@ -19,6 +19,7 @@ import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CSV_X_Workflow;
+import edu.unc.ceccr.workflows.CheckDescriptorsFileWorkflow;
 import edu.unc.ceccr.workflows.DataSplitWorkflow;
 import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
@@ -169,56 +170,62 @@ public class CreateDatasetTask implements WorkflowTask{
 			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".maccs");
 
 			step = Constants.CHECKDESCRIPTORS;
-			File errorSummaryFile = new File(path + descriptorDir + Constants.DESCRIPTORERRORFILE);
-			BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
-			
-			ArrayList<String> descriptorNames = new ArrayList<String>();
-			ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-			
-			try{
-				Utility.writeToDebug("Checking MolconnZ descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + descriptorDir + sdfFileName + ".mz", descriptorNames, descriptorValueMatrix);
+			//MolconnZ
+			String errors = CheckDescriptorsFileWorkflow.checkMolconnZDescriptors(path + descriptorDir + sdfFileName + ".mz");
+			if(errors.equals("")){
 				availableDescriptors += Constants.MOLCONNZ + " ";
 			}
-			catch(Exception ex){
-				errorSummary.write(ex.getMessage());
+			else{
+				File errorSummaryFile = new File(path + descriptorDir + "Logs/molconnz.out");
+				BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+				errorSummary.write(errors);
+				errorSummary.close();
 			}
-				
-			try{
-				Utility.writeToDebug("Checking DragonH descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
+			//DragonH
+			errors = CheckDescriptorsFileWorkflow.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonH");
+			if(errors.equals("")){
 				availableDescriptors += Constants.DRAGONH + " ";
 			}
-			catch(Exception ex){ 
-				errorSummary.write(ex.getMessage());
+			else{
+				File errorSummaryFile = new File(path + descriptorDir + "Logs/dragonH.out");
+				BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+				errorSummary.write(errors);
+				errorSummary.close();
 			}
-			
-			try{
-				Utility.writeToDebug("Checking DragonNoH descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+			//DragonNoH
+			errors = CheckDescriptorsFileWorkflow.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonNoH");
+			if(errors.equals("")){
 				availableDescriptors += Constants.DRAGONNOH + " ";
 			}
-			catch(Exception ex){
-				errorSummary.write(ex.getMessage());
+			else{
+				File errorSummaryFile = new File(path + descriptorDir + "Logs/dragonNoH.out");
+				BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+				errorSummary.write(errors);
+				errorSummary.close();
 			}
-			
-			try{
-				Utility.writeToDebug("Checking MOE2D descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + descriptorDir + sdfFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
+			//MOE2D
+			errors = CheckDescriptorsFileWorkflow.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".moe2D");
+			if(errors.equals("")){
 				availableDescriptors += Constants.MOE2D + " ";
 			}
-			catch(Exception ex){
-				errorSummary.write(ex.getMessage());
+			else{
+				File errorSummaryFile = new File(path + descriptorDir + "Logs/moe2d.out");
+				BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+				errorSummary.write(errors);
+				errorSummary.close();
 			}
-			try{
-				Utility.writeToDebug("Checking MACCS descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + descriptorDir + sdfFileName + ".maccs", descriptorNames, descriptorValueMatrix);
+			//MACCS
+			errors = CheckDescriptorsFileWorkflow.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".maccs");
+			if(errors.equals("")){
 				availableDescriptors += Constants.MACCS + " ";
 			}
-			catch(Exception ex){
-				errorSummary.write(ex.getMessage());
+			else{
+				File errorSummaryFile = new File(path + descriptorDir + "Logs/maccs.out");
+				BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+				errorSummary.write(errors);
+				errorSummary.close();
 			}
-			errorSummary.close();
+			
 			
 			step = Constants.VISUALIZATION;
 			Utility.writeToDebug("Generating Visualizations", userName, jobName);
@@ -232,7 +239,6 @@ public class CreateDatasetTask implements WorkflowTask{
 			if(!actFileName.equals("")){
 				//generate ACT-file related visualizations
 				this.numCompounds = DatasetFileOperations.getACTCompoundList(path+actFileName).size();
-				
 				String act_path  = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/" + actFileName;
 					
 				//PCA plot creation works
