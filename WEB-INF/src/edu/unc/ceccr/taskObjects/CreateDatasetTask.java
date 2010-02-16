@@ -163,7 +163,7 @@ public class CreateDatasetTask implements WorkflowTask{
 			GenerateDescriptorWorkflow.GenerateHDepletedDragonDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".dragonNoH");
 			
 			Utility.writeToDebug("Generating MOE2D Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".moe2d");
+			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".moe2D");
 			
 			Utility.writeToDebug("Generating MACCS Descriptors", userName, jobName);
 			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".maccs");

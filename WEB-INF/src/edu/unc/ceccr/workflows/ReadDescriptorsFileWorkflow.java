@@ -219,7 +219,7 @@ public class ReadDescriptorsFileWorkflow{
 		
 		File file = new File(moe2DOutputFile);
 		if(!file.exists()){
-			throw new Exception("Could not read MOE2D keys.\n");
+			throw new Exception("Could not read MOE2D descriptors.\n");
 		}
 		FileReader fin = new FileReader(file);
 		BufferedReader br = new BufferedReader(fin);

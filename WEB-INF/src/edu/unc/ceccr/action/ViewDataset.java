@@ -417,42 +417,67 @@ public class ViewDataset extends ActionSupport {
 		else{
 			descriptorsDir += dataset.getUserName() + "/";
 		}
-		descriptorsDir += "DATASETS/" + dataset.getFileName() + "/Descriptors/";
+		descriptorsDir += "DATASETS/" + dataset.getFileName() + "/Descriptors/Logs/";
 		
 		//read descriptor program outputs
 		DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
 		molconnZResult.setDescriptorType(Constants.MOLCONNZ);
 		molconnZResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.out"));
 		molconnZResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.err"));
-		molconnZResult.setGenerationResult("Yay"); //replace with some validation or parsing function output somehow.
+		if(dataset.getAvailableDescriptors().contains(Constants.MOLCONNZ)){
+			molconnZResult.setGenerationResult("Successful");
+		}
+		else{
+			molconnZResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+		}
 		descriptorGenerationResults.add(molconnZResult);
 
 		DescriptorGenerationResult dragonHResult = new DescriptorGenerationResult();
 		dragonHResult.setDescriptorType(Constants.DRAGONH);
 		dragonHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.out"));
 		dragonHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.err"));
-		dragonHResult.setGenerationResult("Nay");
+		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONH)){
+			dragonHResult.setGenerationResult("Successful");
+		}
+		else{
+			dragonHResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+		}
 		descriptorGenerationResults.add(dragonHResult);
 		
 		DescriptorGenerationResult dragonNoHResult = new DescriptorGenerationResult();
 		dragonNoHResult.setDescriptorType(Constants.DRAGONNOH);
 		dragonNoHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.out"));
 		dragonNoHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.err"));
-		dragonNoHResult.setGenerationResult("Nay");
+		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONNOH)){
+			dragonNoHResult.setGenerationResult("Successful");
+		}
+		else{
+			dragonNoHResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+		}
 		descriptorGenerationResults.add(dragonNoHResult);
 		
 		DescriptorGenerationResult moe2DResult = new DescriptorGenerationResult();
 		moe2DResult.setDescriptorType(Constants.MOE2D);
 		moe2DResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.out"));
 		moe2DResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.err"));
-		moe2DResult.setGenerationResult("Yay");
+		if(dataset.getAvailableDescriptors().contains(Constants.MOE2D)){
+			moe2DResult.setGenerationResult("Successful");
+		}
+		else{
+			moe2DResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+		}
 		descriptorGenerationResults.add(moe2DResult);
 		
 		DescriptorGenerationResult maccsResult = new DescriptorGenerationResult();
 		maccsResult.setDescriptorType(Constants.MACCS);
 		maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.out"));
 		maccsResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.err"));
-		maccsResult.setGenerationResult("Nay");
+		if(dataset.getAvailableDescriptors().contains(Constants.MOE2D)){
+			maccsResult.setGenerationResult("Successful");
+		}
+		else{
+			maccsResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+		}
 		descriptorGenerationResults.add(maccsResult);
 		
 		return result;

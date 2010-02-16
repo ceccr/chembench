@@ -404,7 +404,6 @@ public class QsarModelingTask implements WorkflowTask {
 			xFileName = dataset.getXFile();
 		}
 		
-		
 		//apply the dataset's external split to the generated .X file
 		step = Constants.SPLITDATA;
 		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundList(path + "ext_0.x");
