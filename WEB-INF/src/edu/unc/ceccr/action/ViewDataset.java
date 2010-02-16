@@ -424,7 +424,7 @@ public class ViewDataset extends ActionSupport {
 		DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
 		molconnZResult.setDescriptorType("MolconnZ");
 		if((new File(descriptorsDir + "molconnz.out")).exists()){
-			molconnZResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.out"));
+			molconnZResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.log"));
 		}
 		if((new File(descriptorsDir + "molconnz.err")).exists()){
 			molconnZResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.err"));
@@ -440,7 +440,7 @@ public class ViewDataset extends ActionSupport {
 		DescriptorGenerationResult dragonHResult = new DescriptorGenerationResult();
 		dragonHResult.setDescriptorType("Dragon (with hydrogens)");
 		if((new File(descriptorsDir + "dragonH.out")).exists()){
-			dragonHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.out"));
+			dragonHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.log"));
 		}
 		if((new File(descriptorsDir + "dragonH.err")).exists()){
 			String dragonErrStr = FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.err");
@@ -460,7 +460,7 @@ public class ViewDataset extends ActionSupport {
 		DescriptorGenerationResult dragonNoHResult = new DescriptorGenerationResult();
 		dragonNoHResult.setDescriptorType("Dragon (without hydrogens)");
 		if((new File(descriptorsDir + "dragonNoH.out")).exists()){
-			dragonNoHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.out"));
+			dragonNoHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.log"));
 		}
 		if((new File(descriptorsDir + "dragonNoH.err")).exists()){
 			String dragonErrStr = FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.err");
@@ -480,7 +480,7 @@ public class ViewDataset extends ActionSupport {
 		DescriptorGenerationResult moe2DResult = new DescriptorGenerationResult();
 		moe2DResult.setDescriptorType(Constants.MOE2D);
 		if((new File(descriptorsDir + "moe2d.sh.out")).exists()){
-			moe2DResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2d.sh.out"));
+			moe2DResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2d.sh.log"));
 		}
 		if((new File(descriptorsDir + "moe2d.sh.err")).exists()){
 			moe2DResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2d.sh.err"));
@@ -496,7 +496,7 @@ public class ViewDataset extends ActionSupport {
 		DescriptorGenerationResult maccsResult = new DescriptorGenerationResult();
 		maccsResult.setDescriptorType(Constants.MACCS);
 		if((new File(descriptorsDir + "maccs.sh.out")).exists()){
-			maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.sh.out"));
+			maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.sh.log"));
 		}
 		if((new File(descriptorsDir + "maccs.sh.err")).exists()){
 			maccsResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.sh.err"));
