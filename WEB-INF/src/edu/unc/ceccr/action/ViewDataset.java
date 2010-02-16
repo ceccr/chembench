@@ -479,11 +479,11 @@ public class ViewDataset extends ActionSupport {
 		
 		DescriptorGenerationResult moe2DResult = new DescriptorGenerationResult();
 		moe2DResult.setDescriptorType(Constants.MOE2D);
-		if((new File(descriptorsDir + "moe2D.out")).exists()){
-			moe2DResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.out"));
+		if((new File(descriptorsDir + "moe2d.sh.out")).exists()){
+			moe2DResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2d.sh.out"));
 		}
-		if((new File(descriptorsDir + "moe2D.err")).exists()){
-			moe2DResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.err"));
+		if((new File(descriptorsDir + "moe2d.sh.err")).exists()){
+			moe2DResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2d.sh.err"));
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.MOE2D)){
 			moe2DResult.setGenerationResult("Successful");
@@ -495,11 +495,11 @@ public class ViewDataset extends ActionSupport {
 		
 		DescriptorGenerationResult maccsResult = new DescriptorGenerationResult();
 		maccsResult.setDescriptorType(Constants.MACCS);
-		if((new File(descriptorsDir + "maccs.out")).exists()){
-			maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.out"));
+		if((new File(descriptorsDir + "maccs.sh.out")).exists()){
+			maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.sh.out"));
 		}
-		if((new File(descriptorsDir + "maccs.err")).exists()){
-			maccsResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.err"));
+		if((new File(descriptorsDir + "maccs.sh.err")).exists()){
+			maccsResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.sh.err"));
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.MOE2D)){
 			maccsResult.setGenerationResult("Successful");
