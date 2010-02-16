@@ -56,7 +56,7 @@ public class QsarModelingTask implements WorkflowTask {
 	private String user_path;
 	private String userName;
 	private String jobName;
-	private ModelTypeEnumeration modelTypeEnum; // (svm || knn) \\
+	private ModelTypeEnumeration modelTypeEnum; // (svm || knn) 
 	
 	//dataset
 	private String datasetName;

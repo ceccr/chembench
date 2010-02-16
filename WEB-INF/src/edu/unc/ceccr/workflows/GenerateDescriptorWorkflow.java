@@ -169,12 +169,13 @@ public class GenerateDescriptorWorkflow{
 		Utility.writeProgramLogfile(workingDir, "moe2d.sh", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 	}
-	
+
 	public static void GenerateMaccsDescriptors(String sdfile, String outfile) throws Exception{
 		//command: "maccs.sh infile.sdf outfile.maccs"
 		String execstr = "maccs.sh " + sdfile + " " + sdfile + ".maccs" + " " + Constants.CECCR_BASE_PATH + "mmlsoft/SVL_DIR/batch_sd_MACCSFP.svl";
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
 		Utility.writeToDebug("Running external program: " + execstr);
+		//Process p= Runtime.getRuntime().exec("moebatch_shell_script.sh "+file_path +" "+viz_path+".maccs");
 		Process p = Runtime.getRuntime().exec(execstr);
 		Utility.writeProgramLogfile(workingDir, "maccs.sh", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
