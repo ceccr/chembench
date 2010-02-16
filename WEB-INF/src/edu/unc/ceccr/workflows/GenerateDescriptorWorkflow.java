@@ -20,7 +20,7 @@ public class GenerateDescriptorWorkflow{
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
 		Utility.writeToDebug("Running external program: " + execstr);
 		Process p = Runtime.getRuntime().exec(execstr);
-		Utility.writeProgramLogfile(workingDir + "Descriptors/", "molconnz", p.getInputStream(), p.getErrorStream());
+		Utility.writeProgramLogfile(workingDir + "/Descriptors/", "molconnz", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 	
 	}
@@ -166,7 +166,7 @@ public class GenerateDescriptorWorkflow{
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
 		Utility.writeToDebug("Running external program: " + execstr);
 		Process p = Runtime.getRuntime().exec(execstr);
-		Utility.writeProgramLogfile(workingDir + "Descriptors/", "moe2d.sh", p.getInputStream(), p.getErrorStream());
+		Utility.writeProgramLogfile(workingDir + "/Descriptors/", "moe2d.sh", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 	}
 
@@ -177,7 +177,7 @@ public class GenerateDescriptorWorkflow{
 		Utility.writeToDebug("Running external program: " + execstr);
 		//Process p= Runtime.getRuntime().exec("moebatch_shell_script.sh "+file_path +" "+viz_path+".maccs");
 		Process p = Runtime.getRuntime().exec(execstr);
-		Utility.writeProgramLogfile(workingDir + "Descriptors/", "maccs.sh", p.getInputStream(), p.getErrorStream());
+		Utility.writeProgramLogfile(workingDir + "/Descriptors/", "maccs.sh", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 	}
 	
