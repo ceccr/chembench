@@ -77,7 +77,7 @@
 						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-						<td class="TableRowText02narrow"><s:property value="modelMethodDisplay" /></td>
+						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
 						<td class="TableRowText02narrow"><s:property value="descriptorGeneration" /></td>
 						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
@@ -108,7 +108,7 @@
 						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-						<td class="TableRowText02narrow"><s:property value="modelMethodDisplay" /></td>
+						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
 						<td class="TableRowText02narrow"><s:property value="descriptorGeneration" /></td>
 						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
@@ -139,7 +139,7 @@
 						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-						<td class="TableRowText02narrow"><s:property value="modelMethodDisplay" /></td>
+						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
 						<td class="TableRowText02narrow"><s:property value="descriptorGeneration" /></td>
 						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
@@ -170,7 +170,7 @@
 					<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
 					<td class="TableRowText02"><s:property value="name" /></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-					<td class="TableRowText02"><s:property value="modelMethodDisplay" /></td>
+					<td class="TableRowText02"><s:property value="modelMethod" /></td>
 					<td class="TableRowText02"><s:property value="descriptorGeneration" /></td>
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
 					</tr> 

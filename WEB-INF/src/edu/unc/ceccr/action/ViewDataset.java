@@ -443,7 +443,11 @@ public class ViewDataset extends ActionSupport {
 			dragonHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.out"));
 		}
 		if((new File(descriptorsDir + "dragonH.err")).exists()){
-			dragonHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.err"));
+			String dragonErrStr = FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.err");
+			if(dragonErrStr.contains("error: license not valid on the computer in use")){
+				dragonErrStr = "Dragon license invalid or expired.";
+			}
+			dragonHResult.setProgramErrorOutput(dragonErrStr);
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONH)){
 			dragonHResult.setGenerationResult("Successful");
@@ -459,7 +463,11 @@ public class ViewDataset extends ActionSupport {
 			dragonNoHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.out"));
 		}
 		if((new File(descriptorsDir + "dragonNoH.err")).exists()){
-			dragonNoHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.err"));
+			String dragonErrStr = FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.err");
+			if(dragonErrStr.contains("error: license not valid on the computer in use")){
+				dragonErrStr = "Dragon license invalid or expired.";
+			}
+			dragonNoHResult.setProgramErrorOutput(dragonErrStr);
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONNOH)){
 			dragonNoHResult.setGenerationResult("Successful");
@@ -491,7 +499,7 @@ public class ViewDataset extends ActionSupport {
 			maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.out"));
 		}
 		if((new File(descriptorsDir + "maccs.err")).exists()){
-		maccsResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.err"));
+			maccsResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.err"));
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.MOE2D)){
 			maccsResult.setGenerationResult("Successful");

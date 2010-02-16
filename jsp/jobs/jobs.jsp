@@ -194,8 +194,8 @@
 					</s:url>
 					<td><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
 					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-					<td><s:property value="modelMethodDisplay" /></td>
-					<td><s:property value="descriptorGenerationDisplay" /></td>
+					<td><s:property value="modelMethod" /></td>
+					<td><s:property value="descriptorGeneration" /></td>
 					<td><s:property value="datasetDisplay" /></td>
 					<td><s:if test="userName=='_all'">Public</s:if><s:else>Private</s:else></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
