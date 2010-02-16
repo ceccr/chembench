@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -422,8 +423,12 @@ public class ViewDataset extends ActionSupport {
 		//read descriptor program outputs
 		DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
 		molconnZResult.setDescriptorType("MolconnZ");
-		molconnZResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.out"));
-		molconnZResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.err"));
+		if((new File(descriptorsDir + "molconnz.out")).exists()){
+			molconnZResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.out"));
+		}
+		if((new File(descriptorsDir + "molconnz.err")).exists()){
+			molconnZResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.err"));
+		}
 		if(dataset.getAvailableDescriptors().contains(Constants.MOLCONNZ)){
 			molconnZResult.setGenerationResult("Successful");
 		}
@@ -434,8 +439,12 @@ public class ViewDataset extends ActionSupport {
 
 		DescriptorGenerationResult dragonHResult = new DescriptorGenerationResult();
 		dragonHResult.setDescriptorType("Dragon (with hydrogens)");
-		dragonHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.out"));
-		dragonHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.err"));
+		if((new File(descriptorsDir + "dragonH.out")).exists()){
+			dragonHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.out"));
+		}
+		if((new File(descriptorsDir + "dragonH.err")).exists()){
+			dragonHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonH.err"));
+		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONH)){
 			dragonHResult.setGenerationResult("Successful");
 		}
@@ -446,8 +455,12 @@ public class ViewDataset extends ActionSupport {
 		
 		DescriptorGenerationResult dragonNoHResult = new DescriptorGenerationResult();
 		dragonNoHResult.setDescriptorType("Dragon (without hydrogens)");
-		dragonNoHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.out"));
-		dragonNoHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.err"));
+		if((new File(descriptorsDir + "dragonNoH.out")).exists()){
+			dragonNoHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.out"));
+		}
+		if((new File(descriptorsDir + "dragonNoH.err")).exists()){
+			dragonNoHResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.err"));
+		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONNOH)){
 			dragonNoHResult.setGenerationResult("Successful");
 		}
@@ -458,8 +471,12 @@ public class ViewDataset extends ActionSupport {
 		
 		DescriptorGenerationResult moe2DResult = new DescriptorGenerationResult();
 		moe2DResult.setDescriptorType(Constants.MOE2D);
-		moe2DResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.out"));
-		moe2DResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.err"));
+		if((new File(descriptorsDir + "moe2D.out")).exists()){
+			moe2DResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.out"));
+		}
+		if((new File(descriptorsDir + "moe2D.err")).exists()){
+			moe2DResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "moe2D.err"));
+		}
 		if(dataset.getAvailableDescriptors().contains(Constants.MOE2D)){
 			moe2DResult.setGenerationResult("Successful");
 		}
@@ -470,8 +487,12 @@ public class ViewDataset extends ActionSupport {
 		
 		DescriptorGenerationResult maccsResult = new DescriptorGenerationResult();
 		maccsResult.setDescriptorType(Constants.MACCS);
-		maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.out"));
+		if((new File(descriptorsDir + "maccs.out")).exists()){
+			maccsResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.out"));
+		}
+		if((new File(descriptorsDir + "maccs.err")).exists()){
 		maccsResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "maccs.err"));
+		}
 		if(dataset.getAvailableDescriptors().contains(Constants.MOE2D)){
 			maccsResult.setGenerationResult("Successful");
 		}
