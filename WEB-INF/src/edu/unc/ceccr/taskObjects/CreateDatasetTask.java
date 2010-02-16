@@ -218,6 +218,7 @@ public class CreateDatasetTask implements WorkflowTask{
 			catch(Exception ex){
 				errorSummary.write(ex.getMessage());
 			}
+			errorSummary.close();
 			
 			step = Constants.VISUALIZATION;
 			Utility.writeToDebug("Generating Visualizations", userName, jobName);
