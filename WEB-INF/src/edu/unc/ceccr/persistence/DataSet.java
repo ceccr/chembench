@@ -28,7 +28,6 @@ public class DataSet implements java.io.Serializable{
 	private String showByDefault;
 	private String paperReference;
 	private String hasBeenViewed;
-	private String descriptorGenerationErrors;
 	private String availableDescriptors;
 	
 	public DataSet(){}
@@ -186,14 +185,6 @@ public class DataSet implements java.io.Serializable{
 		this.hasBeenViewed = hasBeenViewed;
 	}
 
-	@Column(name = "descriptorGenerationErrors")
-	public String getDescriptorGenerationErrors() {
-		return descriptorGenerationErrors;
-	}
-	public void setDescriptorGenerationErrors(String descriptorGenerationErrors) {
-		this.descriptorGenerationErrors = descriptorGenerationErrors;
-	}
-	
 	@Column(name = "availableDescriptors")
 	public String getAvailableDescriptors() {
 		return availableDescriptors;

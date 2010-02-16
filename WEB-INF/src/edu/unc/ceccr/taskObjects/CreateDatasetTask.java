@@ -1,6 +1,8 @@
 package edu.unc.ceccr.taskObjects;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -41,6 +43,7 @@ public class CreateDatasetTask implements WorkflowTask{
 	private String paperReference;
 	private String dataSetDescription;
 	private String actFileHeader;
+	private String availableDescriptors;
 	private int numCompounds;
 	
 	private String step = Constants.SETUP; //stores what step we're on 
@@ -166,47 +169,56 @@ public class CreateDatasetTask implements WorkflowTask{
 			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".maccs");
 
 			step = Constants.CHECKDESCRIPTORS;
+			File errorSummaryFile = new File(path + descriptorDir + Constants.DESCRIPTORERRORFILE);
+			BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+			
 			ArrayList<String> descriptorNames = new ArrayList<String>();
 			ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+			
 			try{
 				Utility.writeToDebug("Checking MolconnZ descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + descriptorDir + sdfFileName + ".mz", descriptorNames, descriptorValueMatrix);
+				availableDescriptors += Constants.MOLCONNZ + " ";
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				errorSummary.write(ex.getMessage());
 			}
 				
 			try{
 				Utility.writeToDebug("Checking DragonH descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
+				availableDescriptors += Constants.DRAGONH + " ";
 			}
-			catch(Exception ex){
-				Utility.writeToDebug(ex);
+			catch(Exception ex){ 
+				errorSummary.write(ex.getMessage());
 			}
 			
 			try{
 				Utility.writeToDebug("Checking DragonNoH descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+				availableDescriptors += Constants.DRAGONNOH + " ";
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				errorSummary.write(ex.getMessage());
 			}
 			
 			try{
 				Utility.writeToDebug("Checking MOE2D descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + descriptorDir + sdfFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
+				availableDescriptors += Constants.MOE2D + " ";
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				errorSummary.write(ex.getMessage());
 			}
 			try{
 				Utility.writeToDebug("Checking MACCS descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + descriptorDir + sdfFileName + ".maccs", descriptorNames, descriptorValueMatrix);
+				availableDescriptors += Constants.MACCS + " ";
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				errorSummary.write(ex.getMessage());
 			}
-
+			
 			step = Constants.VISUALIZATION;
 			Utility.writeToDebug("Generating Visualizations", userName, jobName);
 			
@@ -320,6 +332,7 @@ public class CreateDatasetTask implements WorkflowTask{
 		//dataSet.setActFormula(actFileHeader);
 		dataSet.setUploadedDescriptorType(descriptorType);
 		dataSet.setHasBeenViewed(Constants.NO);
+		dataSet.setAvailableDescriptors(availableDescriptors);
 
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
