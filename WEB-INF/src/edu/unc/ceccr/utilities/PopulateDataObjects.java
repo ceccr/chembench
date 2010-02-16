@@ -569,7 +569,7 @@ public class PopulateDataObjects {
 	}
 	
 	public static List<Model> getModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
-		Utility.writeToDebug("getting models for predictorId: " + predictorId);
+		//Utility.writeToDebug("getting models for predictorId: " + predictorId);
 		Predictor predictor = getPredictorById(predictorId, session);
 		
 		List<Model> models = null;

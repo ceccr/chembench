@@ -57,7 +57,7 @@ public class CreateActivityChartWorkflow {
 		}
 		fullPath += userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/" + selectedDataSet.getActFile();
 		
-		Utility.writeToDebug("Generating Activity Histogram for Dataset: " + datasetID + " from ACT file: " + fullPath);
+		//Utility.writeToDebug("Generating Activity Histogram for Dataset: " + datasetID + " from ACT file: " + fullPath);
 		
 		HashMap dataMap  = DatasetFileOperations.parseActFile(fullPath);
 		
