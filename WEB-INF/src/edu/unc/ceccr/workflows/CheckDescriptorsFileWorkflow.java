@@ -121,8 +121,7 @@ public class CheckDescriptorsFileWorkflow{
 	}
 
 	public static String checkDragonDescriptors(String dragonOutputFile) throws Exception{
-		
-		Utility.writeToDebug("reading Dragon Descriptors");
+		Utility.writeToDebug("reading from: " + dragonOutputFile);
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		 ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		String errors = "";
@@ -131,6 +130,7 @@ public class CheckDescriptorsFileWorkflow{
 		if(! file.exists() || file.length() == 0){
 			return "Could not read descriptor file.\n";
 		}
+		Utility.writeToDebug("wtf: ");
 		FileReader fin = new FileReader(file);
 		BufferedReader br = new BufferedReader(fin);
 
@@ -138,6 +138,7 @@ public class CheckDescriptorsFileWorkflow{
 		
 		String line = br.readLine();  //junk line, should say "dragonX: Descriptors"
 
+		Utility.writeToDebug("wtf: 2");
 		//contains some numbers
 		line = br.readLine();
 		Scanner tok = new Scanner(line);
@@ -185,8 +186,6 @@ public class CheckDescriptorsFileWorkflow{
 	
 	public static String checkMaccsDescriptors(String maccsOutputFile) throws Exception{
 		//right now this doesn't check anything. The MACCS keys never seem to cause issues.
-
-		Utility.writeToDebug("reading Maccs Descriptors");
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		String errors = "";
@@ -233,7 +232,6 @@ public class CheckDescriptorsFileWorkflow{
 	
 	public static String checkMoe2DDescriptors(String moe2DOutputFile) throws Exception{
 		//right now this doesn't check anything. The MOE2D descriptors never seem to cause issues.
-		Utility.writeToDebug("reading Moe2D Descriptors");
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		 ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		String errors = "";
