@@ -63,9 +63,13 @@ public class CheckDescriptorsFileWorkflow{
 						if(! formula.contains("(")){
 							//the formula for the molecule isn't a formula
 							//usually indicates missing descriptors on the previous molecule
-							errors += "Molecule " + 
-								descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + 
-								" has formula " + descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS) + "<br />";
+							errors += "Error reading descriptors file at line: ";
+							for(int i = 0; i < 15; i++){
+								if(i < descriptorValues.size()){
+									errors += descriptorValues.get(i) + " ";
+								}
+							}
+							errors += "<br />\n";
 						}
 					}
 					

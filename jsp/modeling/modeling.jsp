@@ -113,7 +113,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Generation Type:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGONH':'Dragon (with hydrogens)','DRAGONNOH':'Dragon (without hydrogens)','MACCS':'Maccs','MOE2D':'MOE2D'}" /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGONH':'Dragon (with hydrogens)','DRAGONNOH':'Dragon (no hydrogens)','MACCS':'Maccs','MOE2D':'MOE2D'}" /></div>
 					</td>
 				</tr>	
 				<tr>
