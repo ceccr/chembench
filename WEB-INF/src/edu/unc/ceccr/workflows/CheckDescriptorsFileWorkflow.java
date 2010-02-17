@@ -129,6 +129,9 @@ public class CheckDescriptorsFileWorkflow{
 		if(! file.exists() || file.length() == 0){
 			return "Could not read descriptor file.\n";
 		}
+		else{
+			Utility.writeToDebug("Dragon file exists: " + dragonOutputFile + " and has size: " + file.length());
+		}
 		FileReader fin = new FileReader(file);
 		BufferedReader br = new BufferedReader(fin);
 
