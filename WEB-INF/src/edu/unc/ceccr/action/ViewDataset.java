@@ -457,9 +457,8 @@ public class ViewDataset extends ActionSupport {
 			 * (Single Workstation) - Expiration Date: 2010/12/31 - MAC address: 00:14:5E:3D:75:24 
 			 * Decimal Separator set to: '.' - Thousands Separator set to: ','
 			 */
-			dragonErrStr = dragonErrStr.replaceAll("\\\n", "");
-			dragonErrStr = dragonErrStr.replace("dragonX\\.+Thousands", "");
-			dragonErrStr = dragonErrStr.replace(" Separator set to: ','", "");
+			dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
+			dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
 			dragonHResult.setProgramErrorOutput(dragonErrStr);
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONH)){
@@ -480,20 +479,8 @@ public class ViewDataset extends ActionSupport {
 			if(dragonErrStr.contains("error: license not valid on the computer in use")){
 				dragonErrStr = "Dragon license invalid or expired.";
 			}
-	String str = "dragonX version 1.4 - Command line version for Linux - v.1.4.2 - built on: 2007-12-04License file (/usr/local/ceccr/dragon/2010-12-31_drgx_license_UNC.txt) is a valid license fileUser: ceccr (). Date: 2010/02/17 - 01:04:41Licensed to: UNC-Chapel Hill - License type: Academic (Single Workstation) - Expiration Date: 2010/12/31 - MAC address: 00:14:5E:3D:75:24Decimal Separator set to: '.' - Thousands";
-	Utility.writeToDebug("\n1: " + str.replace("dragonX[.]+", ""));
-	Utility.writeToDebug("\n2: " + str.replace("dragonX[\\.]+License", ""));
-	Utility.writeToDebug("\n3: " + str.replace("dragonX[.]+License", ""));
-	Utility.writeToDebug("\n4: " + dragonErrStr.replace("dragonX[\\\\.]+License", ""));
-	Utility.writeToDebug("\n5: " + dragonErrStr.replace("(?m)dragonX[.]+License", ""));
-	Utility.writeToDebug("\n6: " + dragonErrStr.replace("dragonX[.]+License", ""));
-	dragonErrStr = dragonErrStr.replace("\\\n", " ");
-	Utility.writeToDebug("\n7: " + dragonErrStr.replace("dragonX[(.]+License", ""));
-	Utility.writeToDebug("\n8: " + dragonErrStr.replace("(?m)dragonX[.]+License", ""));
-	Utility.writeToDebug("\n9: " + dragonErrStr.replace("dragonX[.]+License", ""));
-	
-			dragonErrStr = dragonErrStr.replace("dragonX\\.+Thousands", "");
-			dragonErrStr = dragonErrStr.replace(" Separator set to: ','", "");
+			dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
+			dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
 			dragonNoHResult.setProgramErrorOutput(dragonErrStr);
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONNOH)){
