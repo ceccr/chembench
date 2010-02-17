@@ -121,7 +121,6 @@ public class CheckDescriptorsFileWorkflow{
 	}
 
 	public static String checkDragonDescriptors(String dragonOutputFile) throws Exception{
-		Utility.writeToDebug("reading from: " + dragonOutputFile);
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		 ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		String errors = "";
@@ -130,7 +129,6 @@ public class CheckDescriptorsFileWorkflow{
 		if(! file.exists() || file.length() == 0){
 			return "Could not read descriptor file.\n";
 		}
-		Utility.writeToDebug("wtf: ");
 		FileReader fin = new FileReader(file);
 		BufferedReader br = new BufferedReader(fin);
 
@@ -138,7 +136,6 @@ public class CheckDescriptorsFileWorkflow{
 		
 		String line = br.readLine();  //junk line, should say "dragonX: Descriptors"
 
-		Utility.writeToDebug("wtf: 2");
 		//contains some numbers
 		line = br.readLine();
 		Scanner tok = new Scanner(line);
@@ -186,83 +183,22 @@ public class CheckDescriptorsFileWorkflow{
 	
 	public static String checkMaccsDescriptors(String maccsOutputFile) throws Exception{
 		//right now this doesn't check anything. The MACCS keys never seem to cause issues.
-		ArrayList<String> descriptorNames = new ArrayList<String>();
-		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		String errors = "";
 		
 		File file = new File(maccsOutputFile);
 		if(! file.exists() || file.length() == 0){
-			return "Could not read descriptor file.\n";
-		}
-		FileReader fin = new FileReader(file);
-		BufferedReader br = new BufferedReader(fin);
-
-		String line = br.readLine(); // first line is junk, it says "name,FP:MACCS".
-		
-		while((line = br.readLine()) != null){
-			String descriptorString = new String("");
-			Scanner tok = new Scanner(line);
-			tok.useDelimiter(",");
-			tok.next(); //skip compound identifier
-			String tmp = tok.next();
-			tok = new Scanner(tmp).useDelimiter(" ");
-			int last = 0;
-			int descriptor = 0;
-			while(tok.hasNext()){
-				descriptor = Integer.parseInt(tok.next());
-				for(int i = last; i < descriptor; i++){
-					descriptorString += 0 + " ";
-				}
-				descriptorString += 1 + " ";
-				last = descriptor + 1;
-			}
-			for(int i = last; i < Constants.NUM_MACCS_KEYS; i++){
-				descriptorString += 0 + " ";
-			}
-			Descriptors di = new Descriptors();
-			di.setDescriptorValues(descriptorString);
-			descriptorValueMatrix.add(di);
-
-		}
-		for(int i = 0; i < Constants.NUM_MACCS_KEYS; i++){
-			descriptorNames.add((new Integer(i)).toString());
+			errors = "Could not read descriptor file.\n";
 		}
 		return errors;
 	}
 	
 	public static String checkMoe2DDescriptors(String moe2DOutputFile) throws Exception{
 		//right now this doesn't check anything. The MOE2D descriptors never seem to cause issues.
-		ArrayList<String> descriptorNames = new ArrayList<String>();
-		 ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		String errors = "";
 		
 		File file = new File(moe2DOutputFile);
 		if(! file.exists() || file.length() == 0){
-			return "Could not read descriptor file.\n";
-		}
-		FileReader fin = new FileReader(file);
-		BufferedReader br = new BufferedReader(fin);
-
-		String line = br.readLine(); // contains descriptor names
-		Scanner tok = new Scanner(line).useDelimiter(",");
-		tok.next(); //first descriptor says "name"; we don't need that.
-		while(tok.hasNext()){
-			descriptorNames.add(tok.next());
-		}
-		while((line = br.readLine()) != null){
-			tok = new Scanner(line).useDelimiter(",");
-			if(tok.hasNext()){
-				tok.next(); //first descriptor value is the name of the compound
-			}
-			String descriptorString = new String("");
-			while(tok.hasNext()){
-				descriptorString += tok.next() + " ";
-			}
-			if(! descriptorString.equalsIgnoreCase("")){
-				Descriptors di = new Descriptors();
-				di.setDescriptorValues(descriptorString);
-				descriptorValueMatrix.add(di);
-			}
+			errors =  "Could not read descriptor file.\n";
 		}
 		return errors;
 	}
