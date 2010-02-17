@@ -67,14 +67,6 @@ public class CheckDescriptorsFileWorkflow{
 								descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + 
 								" has formula " + descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS) + "<br />";
 						}
-						
-						descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS); //contains molecule name, which isn't a descriptor
-						descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
-						descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
-						Descriptors di = new Descriptors();
-						di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
-						descriptorValueMatrix.add(di);
-						descriptorValues.clear();
 					}
 					
 					//a couple more special cases for when MolconnZ decides to go crazy
@@ -98,23 +90,6 @@ public class CheckDescriptorsFileWorkflow{
 				}
 			}
 		}
-		//add the last molecule's descriptors
-		descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS); //contains molecule name, which isn't a descriptor
-		descriptorNames.remove(Constants.MOLCONNZ_FORMULA_POS);
-		descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS); //contains molecule name, which isn't a descriptor
-		descriptorNames.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
-		descriptorValues.remove(0); //contains molecule ID, which isn't a descriptor
-		descriptorNames.remove(0);
-		Descriptors di = new Descriptors();
-		di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
-		descriptorValueMatrix.add(di);
-		
-		/*
-		Utility.writeToDebug(di.getDescriptorValues());
-		for(int i = 0; i < descriptorValueMatrix.size(); i++){
-			Descriptors matrixLine = descriptorValueMatrix.get(i);
-			Utility.writeToDebug(matrixLine.getDescriptorValues());
-		}*/
 		
 		fin.close();
 		return errors;
