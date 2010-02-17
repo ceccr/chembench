@@ -3,6 +3,7 @@ package edu.unc.ceccr.workflows;
 
 import java.io.*;
 
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 
@@ -74,6 +75,10 @@ public class ZipJobResultsWorkflow{
 		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
 		
+		File file = new File(zipFile);
+		if(file.exists()){
+			FileAndDirOperations.deleteFile(zipFile);
+		}
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 		byte[] buf = new byte[1024];
 		
