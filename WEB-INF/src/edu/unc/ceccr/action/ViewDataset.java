@@ -457,7 +457,7 @@ public class ViewDataset extends ActionSupport {
 			 * (Single Workstation) - Expiration Date: 2010/12/31 - MAC address: 00:14:5E:3D:75:24 
 			 * Decimal Separator set to: '.' - Thousands Separator set to: ','
 			 */
-			dragonErrStr = dragonErrStr.replace("dragonX\\.*Thousands Separator", "");
+			dragonErrStr = dragonErrStr.replace("dragonX\\.+Thousands Separator", "");
 			dragonErrStr = dragonErrStr.replace("set to: ','", "");
 			dragonHResult.setProgramErrorOutput(dragonErrStr);
 		}
@@ -479,7 +479,7 @@ public class ViewDataset extends ActionSupport {
 			if(dragonErrStr.contains("error: license not valid on the computer in use")){
 				dragonErrStr = "Dragon license invalid or expired.";
 			}
-			dragonErrStr = dragonErrStr.replace("dragonX\\.*Thousands Separator", "");
+			dragonErrStr = dragonErrStr.replace("dragonX\\.+Thousands Separator", "");
 			dragonErrStr = dragonErrStr.replace("set to: ','", "");
 			dragonNoHResult.setProgramErrorOutput(dragonErrStr);
 		}
