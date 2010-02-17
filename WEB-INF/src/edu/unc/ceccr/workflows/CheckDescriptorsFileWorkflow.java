@@ -129,9 +129,6 @@ public class CheckDescriptorsFileWorkflow{
 		if(! file.exists() || file.length() == 0){
 			return "Could not read descriptor file.\n";
 		}
-		else{
-			Utility.writeToDebug("Dragon file exists: " + dragonOutputFile + " and has size: " + file.length());
-		}
 		FileReader fin = new FileReader(file);
 		BufferedReader br = new BufferedReader(fin);
 
@@ -154,10 +151,8 @@ public class CheckDescriptorsFileWorkflow{
 			descriptorNames.add(dname);
 		}
 
-		if(line != null){
-			descriptorNames.remove(1); //contains molecule name, which isn't a descriptor
-			descriptorNames.remove(0); //contains molecule number, which isn't a descriptor
-		}
+		descriptorNames.remove(1); //contains molecule name, which isn't a descriptor
+		descriptorNames.remove(0); //contains molecule number, which isn't a descriptor
 		
 		//read in the descriptor values. If one of them is the word "Error", quit this shit - means Dragon failed at descriptoring.
 		while((line = br.readLine()) != null){

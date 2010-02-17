@@ -204,7 +204,7 @@ public class CreateDatasetTask implements WorkflowTask{
 				errorSummary.close();
 			}
 			//MOE2D
-			errors = CheckDescriptorsFileWorkflow.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".moe2D");
+			errors = CheckDescriptorsFileWorkflow.checkMoe2DDescriptors(path + descriptorDir + sdfFileName + ".moe2D");
 			if(errors.equals("")){
 				availableDescriptors += Constants.MOE2D + " ";
 			}
@@ -215,7 +215,7 @@ public class CreateDatasetTask implements WorkflowTask{
 				errorSummary.close();
 			}
 			//MACCS
-			errors = CheckDescriptorsFileWorkflow.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".maccs");
+			errors = CheckDescriptorsFileWorkflow.checkMaccsDescriptors(path + descriptorDir + sdfFileName + ".maccs");
 			if(errors.equals("")){
 				availableDescriptors += Constants.MACCS + " ";
 			}
