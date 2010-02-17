@@ -149,14 +149,18 @@ public class ZipJobResultsWorkflow{
 		//if descriptorUser, add Descriptors and Descriptor Logs
 		if(Utility.canDownloadDescriptors(userName)){
 			File ProjectDirDescriptorsFile = new File(projectDir + "Descriptors/");
+			Utility.writeToDebug("Downloading descriptors dir: " + projectDir + "Descriptors/");
 			String[] ProjectDirDescriptorsFilenames = ProjectDirDescriptorsFile.list();
+			Utility.writeToDebug("desc dir size: " + ProjectDirDescriptorsFilenames.length);
 			x = 0;
 			while(ProjectDirDescriptorsFilenames != null && x<ProjectDirDescriptorsFilenames.length){
 				datasetFiles.add("Descriptors/" + ProjectDirDescriptorsFilenames[x]);
 				x++;
 			}
 			File ProjectDirDescriptorsLogsFile = new File(projectDir + "Descriptors/Logs/");
+			Utility.writeToDebug("Downloading descriptors log dir: " + projectDir + "Descriptors/Logs");
 			String[] ProjectDirDescriptorsLogsFilenames = ProjectDirDescriptorsLogsFile.list();
+			Utility.writeToDebug("log dir size: " + ProjectDirDescriptorsLogsFilenames.length);
 			x = 0;
 			while(ProjectDirDescriptorsLogsFilenames != null && x<ProjectDirDescriptorsLogsFilenames.length){
 				datasetFiles.add("Descriptors/Logs/" + ProjectDirDescriptorsLogsFilenames[x]);
