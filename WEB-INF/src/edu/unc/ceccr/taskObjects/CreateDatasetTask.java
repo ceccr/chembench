@@ -226,6 +226,10 @@ public class CreateDatasetTask implements WorkflowTask{
 				errorSummary.close();
 			}
 			
+
+			step = Constants.SKETCHES;
+			Utility.writeToDebug("Generating JPGs", userName, jobName);
+			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
 			
 			step = Constants.VISUALIZATION;
 			Utility.writeToDebug("Generating Visualizations", userName, jobName);
@@ -247,9 +251,6 @@ public class CreateDatasetTask implements WorkflowTask{
 	
 			}
 
-			step = Constants.SKETCHES;
-			Utility.writeToDebug("Generating JPGs", userName, jobName);
-			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
 		}
 		
 		if(!xFileName.equals("")){
