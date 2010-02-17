@@ -44,7 +44,7 @@ public class CreateDatasetTask implements WorkflowTask{
 	private String paperReference;
 	private String dataSetDescription;
 	private String actFileHeader;
-	private String availableDescriptors;
+	private String availableDescriptors = "";
 	private int numCompounds;
 	
 	private String step = Constants.SETUP; //stores what step we're on 
@@ -230,7 +230,6 @@ public class CreateDatasetTask implements WorkflowTask{
 			step = Constants.VISUALIZATION;
 			Utility.writeToDebug("Generating Visualizations", userName, jobName);
 			
-			/*
 			String viz_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/" + sdfFileName.substring(0,sdfFileName.lastIndexOf("."));
 			FileAndDirOperations.copyFile(path + descriptorDir + sdfFileName + ".maccs", viz_path + ".maccs");
 			CSV_X_Workflow.performXCreation(viz_path);
@@ -251,7 +250,6 @@ public class CreateDatasetTask implements WorkflowTask{
 			step = Constants.SKETCHES;
 			Utility.writeToDebug("Generating JPGs", userName, jobName);
 			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
-			*/
 		}
 		
 		if(!xFileName.equals("")){

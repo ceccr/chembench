@@ -69,7 +69,7 @@ public class CheckDescriptorsFileWorkflow{
 									errors += descriptorValues.get(i) + " ";
 								}
 							}
-							errors += "<br />\n";
+							errors += "\n";
 						}
 					}
 					
@@ -84,9 +84,9 @@ public class CheckDescriptorsFileWorkflow{
 						//quit this shit - means MolconnZ failed at descriptoring and all values past this point will be offset.
 						if(descriptorValues.size() > Constants.MOLCONNZ_COMPOUND_NAME_POS &&
 								! errors.contains("Descriptor generation failed for molecule: " + 
-										descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + "<br />\n")){
+										descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + "\n")){
 							errors += "Descriptors could not be calculated for molecule: " + 
-								descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + "<br />\n";
+								descriptorValues.get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + "\n";
 						}
 						temp = "-1"; //junk value. 
 					}
@@ -141,8 +141,8 @@ public class CheckDescriptorsFileWorkflow{
 			while(tok.hasNext()){
 				String dvalue = tok.next();
 				if(dvalue.equalsIgnoreCase("Error")){
-					if(!errors.contains("Descriptor generation failed for molecule: " + descriptorValues.get(1) +".<br />"))
-					errors += "Descriptor generation failed for molecule: " + descriptorValues.get(1) +".<br />";
+					if(!errors.contains("Descriptor generation failed for molecule: " + descriptorValues.get(1) +".\n"))
+					errors += "Descriptor generation failed for molecule: " + descriptorValues.get(1) +".\n";
 				}
 				descriptorValues.add(dvalue);
 			}
