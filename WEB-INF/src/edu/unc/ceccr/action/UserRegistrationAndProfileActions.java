@@ -68,11 +68,11 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	public String RegisterUser() throws Exception{
 		ActionContext context = ActionContext.getContext();
 		String result = SUCCESS;
-		
+		Utility.writeToDebug("hrm?");
 		//form validation
 			//Validate that each required field has something in it.
 			validateUserInfo(); //this function will populate the errorMessages arraylist.
-try{
+			
 			if(newUserName.isEmpty()){
 		    	errorMessages.add("Please enter a user name.");
 			}	
@@ -80,6 +80,7 @@ try{
 			if(errorMessages.isEmpty()){
 				result = ERROR;
 			}
+			Utility.writeToDebug("hrm: " + errorMessages);
 			
 			//Check whether the username already exists 
 			//(queries database)
@@ -99,7 +100,9 @@ try{
 		    	errorMessages.add("The text you typed for the CAPTCHA test did not match the picture. Try again.");
 	        	result = ERROR;
 	        }
-		    
+
+			Utility.writeToDebug("hrm 2: " + errorMessages);
+			
 			if(result.equals(ERROR)){
 				return result;
 			}
@@ -193,9 +196,6 @@ try{
 	  			Utility.writeToUsageLog("just registered!", newUserName);
 		  		Utility.writeToDebug("In case email failed, temp password for user: " + user.getUserName() + " is: " + password);
 		  	}
-}catch(Exception ex){
-	Utility.writeToDebug(ex);
-}
 		return result;
 	}
 	
