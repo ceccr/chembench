@@ -71,6 +71,7 @@ public class ZipJobResultsWorkflow{
 		String projectSubDir = userName + "/DATASETS/" + datasetName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
 			//someone's trying to download something they shouldn't be!
+			Utility.writeToDebug("Access attempt on directory: " + projectSubDir);
 			return;
 		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
