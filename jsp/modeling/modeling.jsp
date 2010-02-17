@@ -105,20 +105,20 @@
 				<tr>
 					<td height="24" align="left" colspan="2">
 					<p class="StandardTextDarkGrayParagraph2">
-					<br /><b>Set Descriptor Generation Parameters</b>
+					<br /><b>Select Descriptors</b>
 					</p>
 					</td>
 				</tr>
 				<tr>
 					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Generation Type:</b></div></td>
+					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Type:</b></div></td>
 					<td align="left" valign="top">
 					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGONH':'Dragon (with hydrogens)','DRAGONNOH':'Dragon (no hydrogens)','MACCS':'Maccs','MOE2D':'MOE2D'}" /></div>
 					</td>
 				</tr>	
 				<tr>
 					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Scaling Type:</b></div></td>
+					<div class="StandardTextDarkGrayParagraph"><b>Scale Descriptors Using:</b></div></td>
 					<td align="left" valign="top">
 					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingType" value="scalingType" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
 					</td>
