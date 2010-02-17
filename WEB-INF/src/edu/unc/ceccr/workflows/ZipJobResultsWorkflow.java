@@ -167,14 +167,16 @@ public class ZipJobResultsWorkflow{
 		//datasetFiles now contains names of all the files we need. Package it up!
 		for(String fileName : datasetFiles){
 			try{
-				FileInputStream in = new FileInputStream(projectDir + fileName);
-				out.putNextEntry(new ZipEntry(fileName));
-				int len;
-	            while ((len = in.read(buf)) > 0) {
-	                out.write(buf, 0, len);
-	            }
-	            out.closeEntry();
-	            in.close();
+				if(! new File(projectDir + fileName).isDirectory()){
+					FileInputStream in = new FileInputStream(projectDir + fileName);
+					out.putNextEntry(new ZipEntry(fileName));
+					int len;
+		            while ((len = in.read(buf)) > 0) {
+		                out.write(buf, 0, len);
+		            }
+		            out.closeEntry();
+		            in.close();
+				}
 			}
 			catch(Exception ex){
 				Utility.writeToDebug(ex);
