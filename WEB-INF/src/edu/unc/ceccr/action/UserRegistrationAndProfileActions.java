@@ -72,6 +72,10 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 			//Validate that each required field has something in it.
 			validateUserInfo(); //this function will populate the errorMessages arraylist.
 			
+			if(! errorMessages.isEmpty()){
+				result = ERROR;
+			}
+			
 			if(newUserName.isEmpty()){
 		    	errorMessages.add("Please enter a user name.");
 		    	result = ERROR;
