@@ -68,19 +68,14 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	public String RegisterUser() throws Exception{
 		ActionContext context = ActionContext.getContext();
 		String result = SUCCESS;
-		Utility.writeToDebug("hrm?");
 		//form validation
 			//Validate that each required field has something in it.
 			validateUserInfo(); //this function will populate the errorMessages arraylist.
 			
 			if(newUserName.isEmpty()){
 		    	errorMessages.add("Please enter a user name.");
+		    	result = ERROR;
 			}	
-			
-			if(errorMessages.isEmpty()){
-				result = ERROR;
-			}
-			Utility.writeToDebug("hrm: " + errorMessages);
 			
 			//Check whether the username already exists 
 			//(queries database)
@@ -100,8 +95,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		    	errorMessages.add("The text you typed for the CAPTCHA test did not match the picture. Try again.");
 	        	result = ERROR;
 	        }
-
-			Utility.writeToDebug("hrm 2: " + errorMessages);
 			
 			if(result.equals(ERROR)){
 				return result;
@@ -123,7 +116,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 			user.setCity(city);
 			user.setCountry(country);
 			user.setZipCode(zipCode);
-			user.setWorkbench(workBench); //deprecated, but some people think it's still important
+			user.setWorkbench(workBench); //deprecated, but may come back
 			
 			//options
 			user.setShowPublicDatasets(Constants.SOME);
