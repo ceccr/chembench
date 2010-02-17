@@ -10,8 +10,10 @@ import java.io.PrintWriter;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.ZipJobResultsWorkflow;
 
@@ -23,10 +25,13 @@ public class ProjectFilesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)   throws IOException
     {
     	String BASE=Constants.CECCR_USER_BASE_PATH;
-    	
-       String userName=request.getParameter("user");
-       if(userName.equals(Constants.ALL_USERS_USERNAME)){
-		  userName = "all-users";
+
+		HttpSession session=request.getSession(false);
+       String userName = ((User) session.getAttribute("user")).getUserName();
+       
+       String projectUserName=request.getParameter("user");
+       if(projectUserName.equals(Constants.ALL_USERS_USERNAME)){
+		  projectUserName = "all-users";
 	   }	
        String projectName = request.getParameter("project");
        
@@ -38,17 +43,17 @@ public class ProjectFilesServlet extends HttpServlet {
        else{
     	   projectType = "PREDICTIONS";
        }
-       String zipFile = BASE+userName+"/" + projectType +"/"+projectName+".zip"; 
+       String zipFile = BASE+projectUserName+"/" + projectType +"/"+projectName+".zip"; 
        File filePath=new File(zipFile);
        
        BufferedInputStream input=null;
        
        try {
     	   if(projectType.equalsIgnoreCase("PREDICTORS")){
-    		   ZipJobResultsWorkflow.ZipKnnModelingResults(userName, projectName, zipFile);
+    		   ZipJobResultsWorkflow.ZipKnnModelingResults(userName, projectUserName, projectName, zipFile);
     	   }
     	   else{
-    		   ZipJobResultsWorkflow.ZipKnnPredictionResults(userName, projectName, zipFile);
+    		   ZipJobResultsWorkflow.ZipKnnPredictionResults(userName, projectUserName, projectName, zipFile);
     	   }
 	   } catch (Exception e) 
 	   {

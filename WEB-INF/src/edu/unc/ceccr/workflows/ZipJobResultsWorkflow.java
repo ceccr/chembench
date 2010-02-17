@@ -62,13 +62,13 @@ public class ZipJobResultsWorkflow{
 		out.close();
 	}
 	
-	public static void ZipDatasets(String userName, String datasetName, String zipFile) throws Exception{
+	public static void ZipDatasets(String userName, String datasetUserName, String datasetName, String zipFile) throws Exception{
 		Utility.writeToDebug("Creating archive of dataset: " + datasetName + " into file: " + zipFile);
 	    // These are the files to include in the ZIP file
-		if(userName.equals(Constants.ALL_USERS_USERNAME)){
-			userName = "all-users";
+		if(datasetUserName.equals(Constants.ALL_USERS_USERNAME)){
+			datasetUserName = "all-users";
 		}
-		String projectSubDir = userName + "/DATASETS/" + datasetName + "/";
+		String projectSubDir = datasetUserName + "/DATASETS/" + datasetName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
 			//someone's trying to download something they shouldn't be!
 			Utility.writeToDebug("Access attempt on directory: " + projectSubDir);
@@ -76,13 +76,20 @@ public class ZipJobResultsWorkflow{
 		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
 		
+		if(Utility.canDownloadDescriptors(userName)){
+			//this is a special user - just give them the whole damn directory
+			String workingDir = Constants.CECCR_USER_BASE_PATH + datasetUserName + "/DATASETS/";
+			String subDir = datasetName + "/";
+			ZipEntireDirectory(workingDir, subDir, zipFile);
+			return;
+		}
+		
 		File file = new File(zipFile);
 		if(file.exists()){
 			FileAndDirOperations.deleteFile(zipFile);
 		}
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 		byte[] buf = new byte[1024];
-		Utility.writeToDebug("shitstorm");
 		
 		/*
 			Dataset Output zipfile should contain:
@@ -101,7 +108,6 @@ public class ZipJobResultsWorkflow{
 		//add in the basic dataset files
 		datasetFiles.add(Constants.MODELING_SET_A_FILE);
 		datasetFiles.add(Constants.EXTERNAL_SET_A_FILE);
-		Utility.writeToDebug("shitstorm 2");
 		
 		//add in the .act, .sdf, and .x files
 		File projectDirFile = new File(projectDir);
@@ -118,7 +124,6 @@ public class ZipJobResultsWorkflow{
 			}
 			x++;
 		}
-		Utility.writeToDebug("shitstorm 3");
 		
 		//add the Logs files in
 		File ProjectDirLogsFile = new File(projectDir + "Logs/");
@@ -147,30 +152,6 @@ public class ZipJobResultsWorkflow{
 			x++;
 		}
 
-		Utility.writeToDebug("shitstorm 4");
-		//if descriptorUser, add Descriptors and Descriptor Logs
-		if(Utility.canDownloadDescriptors(userName)){
-			File ProjectDirDescriptorsFile = new File(projectDir + "Descriptors/");
-			Utility.writeToDebug("Downloading descriptors dir: " + projectDir + "Descriptors/");
-			String[] ProjectDirDescriptorsFilenames = ProjectDirDescriptorsFile.list();
-			Utility.writeToDebug("desc dir size: " + ProjectDirDescriptorsFilenames.length);
-			x = 0;
-			while(ProjectDirDescriptorsFilenames != null && x<ProjectDirDescriptorsFilenames.length){
-				datasetFiles.add("Descriptors/" + ProjectDirDescriptorsFilenames[x]);
-				x++;
-			}
-			File ProjectDirDescriptorsLogsFile = new File(projectDir + "Descriptors/Logs/");
-			Utility.writeToDebug("Downloading descriptors log dir: " + projectDir + "Descriptors/Logs");
-			String[] ProjectDirDescriptorsLogsFilenames = ProjectDirDescriptorsLogsFile.list();
-			Utility.writeToDebug("log dir size: " + ProjectDirDescriptorsLogsFilenames.length);
-			x = 0;
-			while(ProjectDirDescriptorsLogsFilenames != null && x<ProjectDirDescriptorsLogsFilenames.length){
-				datasetFiles.add("Descriptors/Logs/" + ProjectDirDescriptorsLogsFilenames[x]);
-				x++;
-			}
-		}
-
-		Utility.writeToDebug("shitstorm 5");
 		//datasetFiles now contains names of all the files we need. Package it up!
 		for(String fileName : datasetFiles){
 			try{
@@ -189,17 +170,16 @@ public class ZipJobResultsWorkflow{
 				Utility.writeToDebug(ex);
 			}
 		}
-		Utility.writeToDebug("shitstorm 6");
 		out.close();
 	}
 	
-	public static void ZipKnnModelingResults(String userName, String jobName, String zipFile) throws Exception{
+	public static void ZipKnnModelingResults(String userName, String predictorUserName, String jobName, String zipFile) throws Exception{
 		Utility.writeToDebug("Creating archive of predictor: " + jobName);
 	    // These are the files to include in the ZIP file
-		if(userName.equals(Constants.ALL_USERS_USERNAME)){
-			userName = "all-users";
+		if(predictorUserName.equals(Constants.ALL_USERS_USERNAME)){
+			predictorUserName = "all-users";
 		}
-		String projectSubDir = userName + "/PREDICTORS/" + jobName + "/";
+		String projectSubDir = predictorUserName + "/PREDICTORS/" + jobName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
 			//someone's trying to download something they shouldn't be!
 			return;
@@ -208,7 +188,7 @@ public class ZipJobResultsWorkflow{
 		
 		if(Utility.canDownloadDescriptors(userName)){
 			//this is a special user - just give them the whole damn directory
-			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/";
+			String workingDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/PREDICTORS/";
 			String subDir = jobName + "/";
 			ZipEntireDirectory(workingDir, subDir, zipFile);
 			return;
@@ -280,12 +260,12 @@ public class ZipJobResultsWorkflow{
 		out.close();
 	}
 		
-	public static void ZipKnnPredictionResults(String userName, String jobName, String zipFile) throws Exception{
+	public static void ZipKnnPredictionResults(String userName, String predictionUserName, String jobName, String zipFile) throws Exception{
 		Utility.writeToDebug("Creating archive of prediction: " + jobName);
-		if(userName.equals(Constants.ALL_USERS_USERNAME)){
-			userName = "all-users";
+		if(predictionUserName.equals(Constants.ALL_USERS_USERNAME)){
+			predictionUserName = "all-users";
 		}
-		String projectSubDir = userName + "/PREDICTIONS/" + jobName + "/";
+		String projectSubDir = predictionUserName + "/PREDICTIONS/" + jobName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
 			//someone's trying to download something they shouldn't be!
 			return;
@@ -294,7 +274,7 @@ public class ZipJobResultsWorkflow{
 		
 		if(Utility.canDownloadDescriptors(userName)){
 			//this is a special user - just give them the whole damn directory
-			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/";
+			String workingDir = Constants.CECCR_USER_BASE_PATH + predictionUserName + "/PREDICTIONS/";
 			String subDir = jobName + "/";
 			ZipEntireDirectory(workingDir, subDir, zipFile);
 			return;
