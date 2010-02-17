@@ -467,6 +467,18 @@ public class ViewDataset extends ActionSupport {
 			if(dragonErrStr.contains("error: license not valid on the computer in use")){
 				dragonErrStr = "Dragon license invalid or expired.";
 			}
+			//The Dragon output contains lots of extra info (MAC address of server, that sorta thing)
+			//that should not be displayed. Remove it.
+			//Sample of stuff we don't want to show:
+			/*
+			 * dragonX version 1.4 - Command line version for Linux - v.1.4.2 - built on: 2007-12-04 
+			 * License file (/usr/local/ceccr/dragon/2010-12-31_drgx_license_UNC.txt) is a valid license file 
+			 * User: ceccr (). Date: 2010/02/17 - 00:56:10 Licensed to: UNC-Chapel Hill - License type: Academic 
+			 * (Single Workstation) - Expiration Date: 2010/12/31 - MAC address: 00:14:5E:3D:75:24 
+			 * Decimal Separator set to: '.' - Thousands Separator set to: ','
+			 */
+			dragonErrStr = dragonErrStr.replace("dragonX.*Thousands Separator", "");
+			dragonErrStr = dragonErrStr.replace("set to: ','", "");
 			dragonNoHResult.setProgramErrorOutput(dragonErrStr);
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONNOH)){
