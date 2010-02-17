@@ -72,7 +72,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		//form validation
 			//Validate that each required field has something in it.
 			validateUserInfo(); //this function will populate the errorMessages arraylist.
-
+try{
 			if(newUserName.isEmpty()){
 		    	errorMessages.add("Please enter a user name.");
 			}	
@@ -193,6 +193,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	  			Utility.writeToUsageLog("just registered!", newUserName);
 		  		Utility.writeToDebug("In case email failed, temp password for user: " + user.getUserName() + " is: " + password);
 		  	}
+}catch(Exception ex){
+	Utility.writeToDebug(ex);
+}
 		return result;
 	}
 	

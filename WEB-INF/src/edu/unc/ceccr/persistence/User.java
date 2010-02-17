@@ -147,9 +147,6 @@ public class User implements java.io.Serializable{
 		this.orgPosition=orgPosition;
 	}
 	
-	
-	
-	
 	//stalker info get-sets
 
 	@Column(name="address")
