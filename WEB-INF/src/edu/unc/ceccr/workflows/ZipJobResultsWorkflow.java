@@ -146,6 +146,24 @@ public class ZipJobResultsWorkflow{
 			x++;
 		}
 		
+		//if descriptorUser, add Descriptors and Descriptor Logs
+		if(Utility.canDownloadDescriptors(userName)){
+			File ProjectDirDescriptorsFile = new File(projectDir + "Descriptors/");
+			String[] ProjectDirDescriptorsFilenames = ProjectDirDescriptorsFile.list();
+			x = 0;
+			while(ProjectDirDescriptorsFilenames != null && x<ProjectDirDescriptorsFilenames.length){
+				datasetFiles.add("Descriptors/" + ProjectDirDescriptorsFilenames[x]);
+				x++;
+			}
+			File ProjectDirDescriptorsLogsFile = new File(projectDir + "Descriptors/Logs/");
+			String[] ProjectDirDescriptorsLogsFilenames = ProjectDirDescriptorsLogsFile.list();
+			x = 0;
+			while(ProjectDirDescriptorsLogsFilenames != null && x<ProjectDirDescriptorsLogsFilenames.length){
+				datasetFiles.add("Descriptors/Logs/" + ProjectDirDescriptorsLogsFilenames[x]);
+				x++;
+			}
+		}
+		
 		//datasetFiles now contains names of all the files we need. Package it up!
 		for(String fileName : datasetFiles){
 			try{
