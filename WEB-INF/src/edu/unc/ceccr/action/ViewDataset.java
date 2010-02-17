@@ -459,6 +459,7 @@ public class ViewDataset extends ActionSupport {
 			 */
 			dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
 			dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
+			dragonErrStr.replaceAll("/usr/local/ceccr/workflow-users", "");
 			dragonHResult.setProgramErrorOutput(dragonErrStr);
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONH)){
@@ -481,6 +482,7 @@ public class ViewDataset extends ActionSupport {
 			}
 			dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
 			dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
+			dragonErrStr.replaceAll("/usr/local/ceccr/workflow-users", "");
 			dragonNoHResult.setProgramErrorOutput(dragonErrStr);
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONNOH)){
