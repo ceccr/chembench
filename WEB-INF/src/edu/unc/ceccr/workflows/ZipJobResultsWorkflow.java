@@ -82,6 +82,7 @@ public class ZipJobResultsWorkflow{
 		}
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 		byte[] buf = new byte[1024];
+		Utility.writeToDebug("shitstorm");
 		
 		/*
 			Dataset Output zipfile should contain:
@@ -100,6 +101,7 @@ public class ZipJobResultsWorkflow{
 		//add in the basic dataset files
 		datasetFiles.add(Constants.MODELING_SET_A_FILE);
 		datasetFiles.add(Constants.EXTERNAL_SET_A_FILE);
+		Utility.writeToDebug("shitstorm 2");
 		
 		//add in the .act, .sdf, and .x files
 		File projectDirFile = new File(projectDir);
@@ -116,6 +118,7 @@ public class ZipJobResultsWorkflow{
 			}
 			x++;
 		}
+		Utility.writeToDebug("shitstorm 3");
 		
 		//add the Logs files in
 		File ProjectDirLogsFile = new File(projectDir + "Logs/");
@@ -143,7 +146,8 @@ public class ZipJobResultsWorkflow{
 			datasetFiles.add("Visualization/Sketches/" + ProjectDirSketchesFilenames[x]);
 			x++;
 		}
-		
+
+		Utility.writeToDebug("shitstorm 4");
 		//if descriptorUser, add Descriptors and Descriptor Logs
 		if(Utility.canDownloadDescriptors(userName)){
 			File ProjectDirDescriptorsFile = new File(projectDir + "Descriptors/");
@@ -165,7 +169,8 @@ public class ZipJobResultsWorkflow{
 				x++;
 			}
 		}
-		
+
+		Utility.writeToDebug("shitstorm 5");
 		//datasetFiles now contains names of all the files we need. Package it up!
 		for(String fileName : datasetFiles){
 			try{
@@ -184,6 +189,7 @@ public class ZipJobResultsWorkflow{
 				Utility.writeToDebug(ex);
 			}
 		}
+		Utility.writeToDebug("shitstorm 6");
 		out.close();
 	}
 	
