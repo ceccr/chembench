@@ -63,7 +63,7 @@ public class ZipJobResultsWorkflow{
 	}
 	
 	public static void ZipDatasets(String userName, String datasetName, String zipFile) throws Exception{
-		Utility.writeToDebug("Creating archive of dataset: " + datasetName);
+		Utility.writeToDebug("Creating archive of dataset: " + datasetName + " into file: " + zipFile);
 	    // These are the files to include in the ZIP file
 		if(userName.equals(Constants.ALL_USERS_USERNAME)){
 			userName = "all-users";
