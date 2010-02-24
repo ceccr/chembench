@@ -457,9 +457,11 @@ public class ViewDataset extends ActionSupport {
 			 * (Single Workstation) - Expiration Date: 2010/12/31 - MAC address: 00:14:5E:3D:75:24 
 			 * Decimal Separator set to: '.' - Thousands Separator set to: ','
 			 */
-			dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
-			dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
-			dragonErrStr = dragonErrStr.replaceAll("/usr/local/ceccr/workflow-users", "");
+			if(dragonErrStr.contains("Thousands")){
+				dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
+				dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
+				dragonErrStr = dragonErrStr.replaceAll("/usr/local/ceccr/workflow-users", "");
+			}
 			dragonHResult.setProgramErrorOutput(dragonErrStr);
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONH)){
