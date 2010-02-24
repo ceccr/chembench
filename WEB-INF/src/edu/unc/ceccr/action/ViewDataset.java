@@ -482,9 +482,11 @@ public class ViewDataset extends ActionSupport {
 			if(dragonErrStr.contains("error: license not valid on the computer in use")){
 				dragonErrStr = "Dragon license invalid or expired.";
 			}
-			dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
-			dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
-			dragonErrStr = dragonErrStr.replaceAll("/usr/local/ceccr/workflow-users", "");
+			if(dragonErrStr.contains("Thousands")){
+				dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
+				dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
+				dragonErrStr = dragonErrStr.replaceAll("/usr/local/ceccr/workflow-users", "");
+			}
 			dragonNoHResult.setProgramErrorOutput(dragonErrStr);
 		}
 		if(dataset.getAvailableDescriptors().contains(Constants.DRAGONNOH)){
