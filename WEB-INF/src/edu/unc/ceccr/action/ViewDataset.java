@@ -485,8 +485,8 @@ public class ViewDataset extends ActionSupport {
 				dragonErrStr = "Dragon license invalid or expired.";
 			}
 			if(dragonErrStr.contains("Thousands")){
-				Utility.writeToDebug("text1: " + dragonErrStr);
-				Utility.writeToDebug("index1: " + dragonErrStr.indexOf("Thousands"));
+				Utility.writeToDebug("text2: " + dragonErrStr);
+				Utility.writeToDebug("index2: " + dragonErrStr.indexOf("Thousands"));
 				dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
 				dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
 				dragonErrStr = dragonErrStr.replaceAll("/usr/local/ceccr/workflow-users", "");
