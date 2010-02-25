@@ -192,7 +192,7 @@ public class QsarPredictionTask implements WorkflowTask {
 		for(int i = 0; i < requiredDescriptors.size(); i++){
 			if(requiredDescriptors.get(i).equals(Constants.MOLCONNZ)){
 				Utility.writeToDebug("ExecutePredictor: Generating MolconnZ Descriptors", userName, jobName);
-				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".mz");
+				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".molconnz");
 			}
 			else if(requiredDescriptors.get(i).equals(Constants.DRAGONH)){
 				Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
@@ -237,7 +237,7 @@ public class QsarPredictionTask implements WorkflowTask {
 			
 			if(selectedPredictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)){
 				Utility.writeToDebug("ExecutePredictor: Processing MolconnZ Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(predictionDir + sdfile + ".mz", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(predictionDir + sdfile + ".molconnz", descriptorNames, descriptorValueMatrix);
 			}
 			else if(selectedPredictor.getDescriptorGeneration().equals(Constants.DRAGONH)){
 				Utility.writeToDebug("ExecutePredictor: Processing DragonH Descriptors", userName, jobName);

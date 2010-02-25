@@ -374,7 +374,7 @@ public class QsarModelingTask implements WorkflowTask {
 			step = Constants.PROCDESCRIPTORS;
 			if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
 				Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".mz", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".molconnz", descriptorNames, descriptorValueMatrix);
 			}
 			else if (descriptorGenerationType.equals(Constants.DRAGONH)){
 				Utility.writeToDebug("Processing DragonH descriptors", userName, jobName);
