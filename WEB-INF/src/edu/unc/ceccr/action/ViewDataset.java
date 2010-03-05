@@ -447,6 +447,9 @@ public class ViewDataset extends ActionSupport {
 			if(dragonErrStr.contains("error: license not valid on the computer in use")){
 				dragonErrStr = "Dragon license invalid or expired.";
 			}
+			if(dragonErrStr.contains("Access violation")){
+				Utility.writeToDebug("DragonX crashed; please contact the system administrator at " + Constants.WEBSITEEMAIL + " to fix this problem.");
+			}
 			//The Dragon output contains lots of extra info (MAC address of server, that sorta thing)
 			//that should not be displayed. Remove it.
 			//Sample of stuff we don't want to show:
@@ -458,8 +461,6 @@ public class ViewDataset extends ActionSupport {
 			 * Decimal Separator set to: '.' - Thousands Separator set to: ','
 			 */
 			if(dragonErrStr.contains("Thousands")){
-				Utility.writeToDebug("text1: " + dragonErrStr);
-				Utility.writeToDebug("index1: " + dragonErrStr.indexOf("Thousands"));
 				dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
 				dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
 				dragonErrStr = dragonErrStr.replaceAll("/usr/local/ceccr/workflow-users", "");
@@ -484,9 +485,10 @@ public class ViewDataset extends ActionSupport {
 			if(dragonErrStr.contains("error: license not valid on the computer in use")){
 				dragonErrStr = "Dragon license invalid or expired.";
 			}
+			if(dragonErrStr.contains("Access violation")){
+				Utility.writeToDebug("DragonX crashed; please contact the system administrator at " + Constants.WEBSITEEMAIL + " to fix this problem.");
+			}
 			if(dragonErrStr.contains("Thousands")){
-				Utility.writeToDebug("text2: " + dragonErrStr);
-				Utility.writeToDebug("index2: " + dragonErrStr.indexOf("Thousands"));
 				dragonErrStr = dragonErrStr.substring(dragonErrStr.indexOf("Thousands"), dragonErrStr.length());
 				dragonErrStr = dragonErrStr.replace("Thousands Separator set to: ','", "");
 				dragonErrStr = dragonErrStr.replaceAll("/usr/local/ceccr/workflow-users", "");
