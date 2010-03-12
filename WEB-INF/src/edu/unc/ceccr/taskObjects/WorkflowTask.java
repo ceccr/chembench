@@ -1,4 +1,4 @@
-package edu.unc.ceccr.task;
+package edu.unc.ceccr.taskObjects;
 
 public interface WorkflowTask {
 

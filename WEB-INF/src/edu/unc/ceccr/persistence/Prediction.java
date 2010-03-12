@@ -32,6 +32,7 @@ public class Prediction implements java.io.Serializable{
 	private String userName;
 	private Date dateCreated;
 	private String hasBeenViewed;
+	private String jobCompleted; //Initially NO; YES on completion.
 
 	private List<PredictionValue> predictedValues = new ArrayList<PredictionValue>(0);
 	
@@ -141,7 +142,6 @@ public class Prediction implements java.io.Serializable{
 	public Date getDateCreated() {
 		return dateCreated;
 	}
-
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
@@ -150,7 +150,6 @@ public class Prediction implements java.io.Serializable{
 	public Long getDatasetId() {
 		return this.datasetId;
 	}
-	
 	public void setDatasetId(Long datasetId) {
 		this.datasetId = datasetId;
 	}
@@ -163,5 +162,11 @@ public class Prediction implements java.io.Serializable{
 		this.hasBeenViewed = hasBeenViewed;
 	}
 
-
+	@Column(name = "jobCompleted")
+	public String getJobCompleted() {
+		return jobCompleted;
+	}
+	public void setJobCompleted(String jobCompleted) {
+		this.jobCompleted = jobCompleted;
+	}
 }

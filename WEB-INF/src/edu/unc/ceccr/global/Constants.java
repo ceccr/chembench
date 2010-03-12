@@ -31,6 +31,10 @@ public class Constants {
 	public static final String CONTINUOUS = "CONTINUOUS";
 	public static final String CATEGORY = "CATEGORY";
 
+	public static final String INCOMING = "INCOMING";
+	public static final String LSF = "LSF";
+	public static final String LOCAL = "LOCAL";
+	
 	public static final String NONE = "NONE";
 	public static final String SOME = "SOME";
 	public static final String TOP10 = "TOP10";
@@ -50,6 +54,7 @@ public class Constants {
 	public static final String TOXICITY = "Toxicity";
 	public static final String DRUGDISCOVERY = "DrugDiscovery";
 
+	public static final String DATASET = "DATASET"; 
 	public static final String MODELING = "MODELING";
 	public static final String PREDICTION = "PREDICTION";
 	public static final String MODELINGWITHDESCRIPTORS = "MODELINGWITHDESCRIPTORS";
@@ -188,7 +193,7 @@ public class Constants {
 	
 	//used by password hash function when user gets or changes their password
 	public static final String SOURCE="qwertyuio123NBV456pasdfghOPASDFGHjklm7890QWERTYUInbvcxzJKLMCXZ";
-	public static final String VALIDATOR_STRING="1234567890~!@#$%^&*()=+[]{}|:;'<>?"; 
+	public static final String VALIDATOR_STRING="1234567890~!@#$%^&*()=+[]{}|:;'<>?";
 	
 
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Vector;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import javax.persistence.Column;
@@ -31,10 +33,10 @@ import org.hibernate.criterion.Order;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
-import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
+import edu.unc.ceccr.taskObjects.WorkflowTask;
 import edu.unc.ceccr.utilities.*;
 
 public class Queue {
@@ -323,9 +325,9 @@ public class Queue {
 
 	public static ConcurrentLinkedQueue<QueueTask> queue = new ConcurrentLinkedQueue<QueueTask>();
 	public static ConcurrentLinkedQueue<QueueTask> errorqueue = new ConcurrentLinkedQueue<QueueTask>();
-	public static Queue instance = new Queue();
+	public static Vector<QueueTask> lsfQueue = new Vector<QueueTask>(); //actual queueing is done by LSF, not by us.
 	
-	public Collection<QueueTask> getTasks() { return queue; }
+	public static Queue instance = new Queue();
 	
 	public static Queue getInstance() {	return instance;	}
 
@@ -363,7 +365,9 @@ public class Queue {
 		public void run() 
 		{
 			while (!threadDone){
-					
+				
+				//check if any jobs in the lsfQueue need to be started, or are finished.
+				
 				while (queue.isEmpty()) {
 					try{
 						//Utility.writeToDebug("empty queue.");
@@ -456,7 +460,17 @@ public class Queue {
 		qt.setSubmit(new Date());
 		saveTaskRecord(qt);
 		queue.add(qt);
-		Utility.writeToDebug("Adding Task ", userName, jobName);
+		Utility.writeToDebug("Adding Task to Chembench queue ", userName, jobName);
+	}
+	
+	public void addJobForLsf(WorkflowTask job, String userName, String jobName, int numCompounds, int numModels) throws FileNotFoundException,IOException,SQLException,ClassNotFoundException{
+		QueueTask qt = new QueueTask(job, userName);
+		qt.setNumCompounds(numCompounds);
+		qt.setNumModels(numModels);
+		qt.setSubmit(new Date());
+		saveTaskRecord(qt);
+		lsfQueue.add(qt);
+		Utility.writeToDebug("Adding Task to LSF Queue ", userName, jobName);
 	}
 
 	protected QueueTask.State loadState(QueueTask task) throws HibernateException, ClassNotFoundException, SQLException 

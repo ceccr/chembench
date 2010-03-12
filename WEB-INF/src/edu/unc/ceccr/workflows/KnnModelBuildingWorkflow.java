@@ -22,7 +22,6 @@ public class KnnModelBuildingWorkflow{
 			Utility.writeToDebug("Category kNN finished.", userName, jobName);
 	}
 	
-
 	public static void buildKnnContinuousModel(String userName, String jobName, String workingDir) throws Exception{
 			String command = "AllKnn2LIN_nl 1 RAND_sets.list knn-output";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);

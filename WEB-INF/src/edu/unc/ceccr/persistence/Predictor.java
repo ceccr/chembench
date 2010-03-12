@@ -63,6 +63,7 @@ public class Predictor implements java.io.Serializable {
 	private String predictorType;
 	private String scalingType;
 	private String hasBeenViewed;
+	private String jobCompleted; //Initially NO; YES on completion.
 	
 	private int numPredictions;
 	private String description;
@@ -350,6 +351,14 @@ public class Predictor implements java.io.Serializable {
 	}
 	public void setHasBeenViewed(String hasBeenViewed) {
 		this.hasBeenViewed = hasBeenViewed;
+	}
+
+	@Column(name = "jobCompleted")
+	public String getJobCompleted() {
+		return jobCompleted;
+	}
+	public void setJobCompleted(String jobCompleted) {
+		this.jobCompleted = jobCompleted;
 	}
 
 	private String datasetDisplay = "";

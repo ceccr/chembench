@@ -29,7 +29,14 @@ public class DataSet implements java.io.Serializable{
 	private String paperReference;
 	private String hasBeenViewed;
 	private String availableDescriptors;
-	
+	private String jobCompleted; //Initially NO; YES on completion.
+
+	private String standardize; 
+	private String splitType; 
+	private String numExternalCompounds; 
+	private String useActivityBinning; 
+	private String externalCompoundList;
+
 	public DataSet(){}
 	
 	@Id
@@ -88,7 +95,6 @@ public class DataSet implements java.io.Serializable{
 	public String getXFile() {
 		return xFile;
 	}
-
 	public void setXFile(String file) {
 		xFile = file;
 	}
@@ -192,4 +198,53 @@ public class DataSet implements java.io.Serializable{
 	public void setAvailableDescriptors(String availableDescriptors) {
 		this.availableDescriptors = availableDescriptors;
 	}
+
+	@Column(name = "jobCompleted")
+	public String getJobCompleted() {
+		return jobCompleted;
+	}
+	public void setJobCompleted(String jobCompleted) {
+		this.jobCompleted = jobCompleted;
+	}
+
+	@Column(name = "standardize")
+	public String getStandardize() {
+		return standardize;
+	}
+	public void setStandardize(String standardize) {
+		this.standardize = standardize;
+	}
+
+	@Column(name = "splitType")
+	public String getSplitType() {
+		return splitType;
+	}
+	public void setSplitType(String splitType) {
+		this.splitType = splitType;
+	}
+
+	@Column(name = "numExternalCompounds")
+	public String getNumExternalCompounds() {
+		return numExternalCompounds;
+	}
+	public void setNumExternalCompounds(String numExternalCompounds) {
+		this.numExternalCompounds = numExternalCompounds;
+	}
+
+	@Column(name = "useActivityBinning")
+	public String getUseActivityBinning() {
+		return useActivityBinning;
+	}
+	public void setUseActivityBinning(String useActivityBinning) {
+		this.useActivityBinning = useActivityBinning;
+	}
+
+	@Column(name = "externalCompoundList")
+	public String getExternalCompoundList() {
+		return externalCompoundList;
+	}
+	public void setExternalCompoundList(String externalCompoundList) {
+		this.externalCompoundList = externalCompoundList;
+	}
+	
 }

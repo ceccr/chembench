@@ -16,6 +16,7 @@ import org.hibernate.criterion.Order;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
@@ -722,6 +723,34 @@ public class PopulateDataObjects {
 		return tasks;
 	}
 	
+	public static ArrayList<Job> populateJobs(Session session) throws Exception{
+		Transaction tx = null;
+		ArrayList<Job> jobs = null;
+		try {
+			tx = session.beginTransaction();
+			jobs = (ArrayList<Job>) session.createCriteria(Job.class).list();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} 
+		
+		//get the modelingJob, datasetJob, or predictionJob associated with each Job
+		for(Job j : jobs){
+			if(j.getJobType().equals(Constants.DATASET)){
+				
+			}
+			if(j.getJobType().equals(Constants.MODELING)){
+				
+			}
+			else if(j.getJobType().equals(Constants.PREDICTION)){
+				
+			}
+		}
+		
+		return jobs;
+	}
 	
 	public static QueueTask getTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		QueueTask task = null;

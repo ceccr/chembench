@@ -14,7 +14,6 @@ import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Queue;
-import edu.unc.ceccr.task.WorkflowTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
@@ -46,6 +45,7 @@ public class CreateDatasetTask implements WorkflowTask{
 	private String actFileHeader;
 	private String availableDescriptors = "";
 	private int numCompounds;
+	private DataSet dataset; //contains pretty much all the member variables. This is dumb but hopefully temporary.
 	
 	private String step = Constants.SETUP; //stores what step we're on 
 	
@@ -64,6 +64,41 @@ public class CreateDatasetTask implements WorkflowTask{
 	}
 	
 	private Queue queue = Queue.getInstance();
+	
+
+	public CreateDatasetTask(DataSet dataset){
+		this.dataset = dataset;
+
+		userName = dataset.getUserName();
+		jobName = dataset.getFileName();
+		datasetType = dataset.getDatasetType();
+		sdfFileName = dataset.getSdfFile();
+		actFileName = dataset.getActFile();
+		xFileName = dataset.getXFile();
+		descriptorType = dataset.getUploadedDescriptorType();
+		actFileDataType = dataset.getModelType();
+		paperReference = dataset.getPaperReference();
+		dataSetDescription = dataset.getDescription();
+
+		standardize = dataset.getStandardize();
+		splitType = dataset.getSplitType();
+		numExternalCompounds = dataset.getNumExternalCompounds();
+		useActivityBinning = dataset.getUseActivityBinning();
+		externalCompoundList = dataset.getExternalCompoundList();
+		
+		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
+		try{
+			if(!sdfFileName.equals("")){
+				this.numCompounds = DatasetFileOperations.getSDFCompoundList(path+sdfFileName).size();
+			}
+			else if(!xFileName.equals("")){
+				this.numCompounds = DatasetFileOperations.getXCompoundList(path+xFileName).size();
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+	}
 	
 	public CreateDatasetTask(String userName, 
 			String datasetType, 
@@ -324,29 +359,15 @@ public class CreateDatasetTask implements WorkflowTask{
 
 		Utility.writeToDebug("Saving dataset to database", userName, jobName);
 		//add dataset to DB
-		DataSet dataSet = new DataSet();
-
-		dataSet.setFileName(jobName);
-		dataSet.setUserName(userName);
-		dataSet.setDatasetType(datasetType);
-		dataSet.setActFile(actFileName);
-		dataSet.setSdfFile(sdfFileName);
-		dataSet.setXFile(xFileName);
-		dataSet.setModelType(actFileDataType);
-		dataSet.setNumCompound(numCompounds);
-		dataSet.setCreatedTime(new Date());
-		dataSet.setDescription(dataSetDescription);
-		//dataSet.setActFormula(actFileHeader);
-		dataSet.setUploadedDescriptorType(descriptorType);
-		dataSet.setHasBeenViewed(Constants.NO);
-		dataSet.setAvailableDescriptors(availableDescriptors);
+		dataset.setHasBeenViewed(Constants.YES);
+		dataset.setAvailableDescriptors(availableDescriptors);
 
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 
 		try {
 			tx = session.beginTransaction();
-			session.save(dataSet);
+			session.saveOrUpdate(dataset);
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -357,8 +378,49 @@ public class CreateDatasetTask implements WorkflowTask{
 		}
 
 	}
-
+	
 	public void setUp() throws Exception {
+		//create DataSet object in DB to allow for recovery of this job if it fails.
+		//done here instead of in constructor to make loading of Jobs page on submit a little faster.
+
+		dataset = new DataSet();
+
+		dataset.setFileName(jobName);
+		dataset.setUserName(userName);
+		dataset.setDatasetType(datasetType);
+		dataset.setActFile(actFileName);
+		dataset.setSdfFile(sdfFileName);
+		dataset.setXFile(xFileName);
+		dataset.setModelType(actFileDataType);
+		dataset.setNumCompound(numCompounds);
+		dataset.setCreatedTime(new Date());
+		dataset.setDescription(dataSetDescription);
+		dataset.setPaperReference(paperReference);
+		dataset.setActFormula(actFileHeader);
+		dataset.setUploadedDescriptorType(descriptorType);
+		dataset.setHasBeenViewed(Constants.NO);
+		
+		dataset.setStandardize(standardize);
+		dataset.setSplitType(splitType);
+		dataset.setNumExternalCompounds(numExternalCompounds);
+		dataset.setUseActivityBinning(useActivityBinning);
+		dataset.setExternalCompoundList(externalCompoundList);
+
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+
+		try {
+			tx = session.beginTransaction();
+			session.saveOrUpdate(dataset);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+
 	}
 	
 	public String getJobName() {
