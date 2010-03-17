@@ -3,7 +3,6 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.Constants.ScalingTypeEnumeration;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.utilities.Utility;
 import java.util.ArrayList;

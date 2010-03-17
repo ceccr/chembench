@@ -3,27 +3,12 @@ package edu.unc.ceccr.workflows;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.nio.channels.FileChannel;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
-
-import java.io.*;
-import java.nio.channels.FileChannel;
-
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.Constants.TrainTestSplitTypeEnumeration;
-
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class DataSplitWorkflow{
 	

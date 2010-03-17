@@ -108,13 +108,29 @@ public class QsarPredictionTask implements WorkflowTask {
 		
 	public QsarPredictionTask(String userName, String jobName, String sdf, String cutoff,
 			String selectedPredictorIds, DataSet predictionDataset) throws Exception {
-		
 		this.predictionDataset = predictionDataset;
 		this.jobName = jobName;
 		this.userName = userName;
 		this.sdf = sdf;
 		this.cutoff = cutoff;
 		this.selectedPredictorIds = selectedPredictorIds;
+		this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/";
+	}
+	
+	public QsarPredictionTask(Prediction prediction){
+		Long fileId = prediction.getDatasetId();
+		try{
+			Session session = HibernateUtil.getSession();
+			this.predictionDataset = PopulateDataObjects.getDataSetById(fileId, session);
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		this.jobName = prediction.getJobName();
+		this.userName = prediction.getUserName();
+		this.sdf = predictionDataset.getSdfFile();
+		this.cutoff = "" + prediction.getSimilarityCutoff();
+		this.selectedPredictorIds = prediction.getPredictorIds();
 		this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/";
 		
 	}
@@ -462,7 +478,6 @@ public class QsarPredictionTask implements WorkflowTask {
 	public DataSet getPredictionDataset() {
 		return predictionDataset;
 	}
-
 	public void setPredictionDataset(DataSet predictionDataset) {
 		this.predictionDataset = predictionDataset;
 	}

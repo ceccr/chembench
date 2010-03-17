@@ -22,9 +22,6 @@ import org.hibernate.Transaction;
 
 import edu.unc.ceccr.action.ModelingFormActions;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.Constants.ModelTypeEnumeration;
-import edu.unc.ceccr.global.Constants.ScalingTypeEnumeration;
-import edu.unc.ceccr.global.Constants.TrainTestSplitTypeEnumeration;
 import edu.unc.ceccr.global.KnnOutputComparator;
 import edu.unc.ceccr.global.CategoryKNNComparator;
 import edu.unc.ceccr.persistence.DataSet;
@@ -55,30 +52,26 @@ public class QsarModelingTask implements WorkflowTask {
 	private String user_path;
 	private String userName;
 	private String jobName;
-	private ModelTypeEnumeration modelTypeEnum; // (svm || knn) 
+	private String modelType; // (svm || knn) 
 	
 	//dataset
 	private String datasetName;
 	private Long datasetID;
-	String filePath;
-	String datasetPath;
+	private String filePath;
+	private String datasetPath;
 	private String actFileDataType;
 	private String dataTypeEnum;
-	private boolean datasetIsAllUser;
 	private DataSet dataset;
 	
 	//descriptors
 	private String descriptorGenerationType;
-	private String descriptorEnum;
 	private String scalingType;
-	private ScalingTypeEnumeration scalingTypeEnum;
 	private String stdDevCutoff;
 	private String corellationCutoff;
 	
 	//datasplit
 	private String numSplits;
 	private String trainTestSplitType;
-	private TrainTestSplitTypeEnumeration trainTestSplitTypeEnum;
 		
 		//if random split
 		private String randomSplitMinTestSize;
@@ -103,8 +96,8 @@ public class QsarModelingTask implements WorkflowTask {
 	private String stepSize;
 	private String numCycles;
 	private String maxNumDescriptors;
-	private String Nearest_Neighbors;
-	private String Pseudo_Neighbors;	
+	private String nearestNeighbors;
+	private String pseudoNeighbors;
 	
 	private String numRuns;	
 	private String numMutations;
@@ -186,28 +179,102 @@ public class QsarModelingTask implements WorkflowTask {
 		return step + percent;
 	}
 	
+	public QsarModelingTask(Predictor predictor) throws Exception{
+		
+		//get dataset
+		datasetID = predictor.getDatasetId();
+		Session s = HibernateUtil.getSession();
+		dataset = PopulateDataObjects.getDataSetById(datasetID, s);
+		datasetName = dataset.getFileName();
+		sdFileName = dataset.getSdfFile();
+		actFileName = dataset.getActFile();
+		actFileDataType = dataset.getModelType();
+		
+		if(dataset.getUserName().equalsIgnoreCase("_all")){
+			datasetPath += "all-users";
+		}
+		else{
+			datasetPath += dataset.getUserName();
+		}
+		datasetPath += "/DATASETS/" + datasetName + "/";
+		
+		
+		if (actFileDataType.equals(Constants.CATEGORY)){
+			dataTypeEnum = Constants.CATEGORY;
+		} else if (actFileDataType.equals(Constants.CONTINUOUS)){
+			dataTypeEnum = Constants.CONTINUOUS;
+		}
+
+		userName = predictor.getUserName();
+		jobName = predictor.getJobCompleted();
+		user_path = userName + "/" + jobName + "/";
+		filePath = Constants.CECCR_USER_BASE_PATH + user_path;
+		
+		modelType = predictor.getModelMethod();
+		
+		
+		//descriptors
+		descriptorGenerationType = predictor.getDescriptorGeneration();
+		scalingType = predictor.getScalingType();
+		stdDevCutoff = "";//
+		corellationCutoff = "";//
+		
+		//datasplit
+		numSplits = predictor.getNumSplits();
+		trainTestSplitType = predictor.getTrainTestSplitType();
+			
+			//if random split
+			randomSplitMaxTestSize = predictor.getRandomSplitMinTestSize();
+			randomSplitMaxTestSize = predictor.getRandomSplitMaxTestSize();
+			
+			//if sphere exclusion
+			splitIncludesMin = predictor.getSplitIncludesMin();
+			splitIncludesMax = predictor.getSplitIncludesMax();
+			sphereSplitMinTestSize = predictor.getSphereSplitMinTestSize();
+			selectionNextTrainPt = predictor.getSelectionNextTrainPt();
+			
+		//knn params
+		knnCategoryOptimization = predictor.getKnnCategoryOptimization();
+		minNumDescriptors = predictor.getMinNumDescriptors();
+		stepSize = predictor.getStepSize();
+		maxNumDescriptors = predictor.getMaxNumDescriptors();
+		numCycles = predictor.getNumCycles();
+		nearestNeighbors = predictor.getNearestNeighbors();
+		pseudoNeighbors = predictor.getPseudoNeighbors();
+		
+		numRuns = predictor.getNumRuns();
+		numMutations = predictor.getNumMutations();
+		T1 = predictor.getT1();
+		T2 = predictor.getT2();
+		mu = predictor.getMu();
+		TcOverTb = predictor.getTcOverTb();
+		cutoff = predictor.getCutoff();
+		minAccTraining = predictor.getMinAccTraining();
+		minAccTest = predictor.getMinAccTest();
+		minSlopes = predictor.getMinSlopes();
+		maxSlopes = predictor.getMaxSlopes();
+		Relative_diff_R_R0 = predictor.getRelativeDiffRR0();
+		Diff_R01_R02 = predictor.getDiffR01R02();
+		stop_cond = predictor.getStopCond();
+		
+		//skipping SVM params for now. Will do that later.
+		
+		//other things in constructor that need doing?
+	}
+	
 	//constructor
 	public QsarModelingTask(String userName, ModelingFormActions ModelingForm) throws Exception {
 		
 		//This function just loads all the ModelingForm parameters into local variables
 		Utility.writeToDebug("[[Modeling Type: " + ModelingForm.getModelingType());
 		if(ModelingForm.getModelingType().equalsIgnoreCase(Constants.KNN)){
-			modelTypeEnum = ModelTypeEnumeration.KNN;
+			modelType = Constants.KNN;
 		}
 		else{ //if(modelingType.equalsIgnoreCase(Constants.SVM))
-			modelTypeEnum = ModelTypeEnumeration.SVM;
+			modelType = Constants.SVM;
 		}
 		
 		scalingType = ModelingForm.getScalingType();
-		if(scalingType.equalsIgnoreCase(Constants.RANGESCALING)){
-			scalingTypeEnum = ScalingTypeEnumeration.RANGESCALING;
-		}
-		else if(scalingType.equalsIgnoreCase(Constants.AUTOSCALING)){
-			scalingTypeEnum = ScalingTypeEnumeration.AUTOSCALING;
-		}
-		else if(scalingType.equalsIgnoreCase(Constants.NOSCALING)){
-			scalingTypeEnum = ScalingTypeEnumeration.NOSCALING;
-		}
 		
 		stdDevCutoff = ModelingForm.getStdDevCutoff();
 		corellationCutoff = ModelingForm.getCorellationCutoff();
@@ -220,12 +287,7 @@ public class QsarModelingTask implements WorkflowTask {
 		jobName = ModelingForm.getJobName();
 		actFileName = dataset.getActFile();
 		sdFileName = dataset.getSdfFile();
-		datasetIsAllUser = false;
-		if(dataset.getUserName().equalsIgnoreCase("_all")){
-			datasetIsAllUser = true;
-		}
 		datasetName = dataset.getFileName();
-
 		
 		actFileDataType = ModelingForm.getActFileDataType();
 		descriptorGenerationType = ModelingForm.getDescriptorGenerationType();
@@ -237,14 +299,12 @@ public class QsarModelingTask implements WorkflowTask {
 		if(trainTestSplitType.equalsIgnoreCase(Constants.RANDOM)){
 			//random datasplit params
 			numSplits = ModelingForm.getNumSplitsInternalRandom();
-			trainTestSplitTypeEnum = TrainTestSplitTypeEnumeration.RANDOM;
 			randomSplitMinTestSize = ModelingForm.getRandomSplitMinTestSize();
 			randomSplitMaxTestSize = ModelingForm.getRandomSplitMaxTestSize();	
 		}
 		else if(trainTestSplitType.equalsIgnoreCase(Constants.SPHEREEXCLUSION)){
 			//sphere exclusion datasplit params
 			numSplits = ModelingForm.getNumSplitsInternalSphere();
-			trainTestSplitTypeEnum = TrainTestSplitTypeEnumeration.SPHEREEXCLUSION;
 			splitIncludesMin = ModelingForm.getSplitIncludesMin();
 			splitIncludesMax = ModelingForm.getSplitIncludesMax();
 			sphereSplitMinTestSize = ModelingForm.getSphereSplitMinTestSize();
@@ -272,8 +332,8 @@ public class QsarModelingTask implements WorkflowTask {
 		cutoff = ModelingForm.getCutoff();
 		mu = ModelingForm.getMu();
 		numRuns = ModelingForm.getNumRuns();
-		Nearest_Neighbors = ModelingForm.getNearest_Neighbors();
-		Pseudo_Neighbors = ModelingForm.getPseudo_Neighbors();
+		nearestNeighbors = ModelingForm.getNearest_Neighbors();
+		pseudoNeighbors = ModelingForm.getPseudo_Neighbors();
 		stop_cond = ModelingForm.getStop_cond();
 		datasetID = ModelingForm.getSelectedDatasetId();
 		//end kNN parameters
@@ -330,7 +390,7 @@ public class QsarModelingTask implements WorkflowTask {
 	public void setUp() throws Exception {
 		Utility.writeToDebug("DEBUG: actFileDataType is " + actFileDataType);
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
-		if(modelTypeEnum == ModelTypeEnumeration.KNN){
+		if(modelType == Constants.KNN){
 			if (actFileDataType.equals(Constants.CONTINUOUS)){
 				writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME);
 			}
@@ -339,7 +399,7 @@ public class QsarModelingTask implements WorkflowTask {
 			}
 		}
 	}
- 
+	
 	@SuppressWarnings("unchecked")
 	public void execute() throws Exception {
 		
@@ -367,7 +427,6 @@ public class QsarModelingTask implements WorkflowTask {
 		- Find some overarching properties of the traintest dataset (activity cliffs? Diversity / Tanimoto coefficient? Number & size of clusters?)
 		- Apply those to feature selection. (Which descriptors corellate best to activity? Which ones separate clusters? Which are useful for low/high Tanimoto values?)
 		*/
-		descriptorEnum = descriptorGenerationType;
 		if(dataset.getDatasetType().equals(Constants.MODELING)){
 			//the dataset did not include descriptors so we need to generate them
 			step = Constants.PROCDESCRIPTORS;
@@ -410,7 +469,7 @@ public class QsarModelingTask implements WorkflowTask {
 		DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundIdString);
 		
 		//make internal training / test sets for each model
-		if(trainTestSplitTypeEnum == TrainTestSplitTypeEnumeration.RANDOM){
+		if(trainTestSplitType.equals(Constants.RANDOM)){
 			DataSplitWorkflow.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize, randomSplitMaxTestSize);
 		}
 		else{
@@ -418,7 +477,7 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		
 		//Run modeling process
-		if(modelTypeEnum == ModelTypeEnumeration.KNN){
+		if(modelType == Constants.KNN){
 			step = Constants.YRANDOMSETUP;
 			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 			
@@ -462,7 +521,7 @@ public class QsarModelingTask implements WorkflowTask {
 			setParameters(filePath, mainKNNValues, Constants.MAINKNN);
 			setParameters(filePath+"yRandom/", randomKNNValues, Constants.RANDOMKNN);
 		}
-		else { //if(modelTypeEnum == ModelTypeEnumeration.SVM){
+		else { //if(modelType == Constants.SVM){
 			throw new Exception("SVM behaviour is still undefined -- don't use it yet!");
 		}
 	}
@@ -491,7 +550,7 @@ public class QsarModelingTask implements WorkflowTask {
 		Predictor predictor = new Predictor();
 
 		predictor.setScalingType(scalingType);
-		predictor.setDescriptorGeneration(descriptorEnum);
+		predictor.setDescriptorGeneration(descriptorGenerationType);
 		predictor.setModelMethod(dataTypeEnum);
 		predictor.setName(jobName);
 		predictor.setUserName(userName);
@@ -815,8 +874,8 @@ public class QsarModelingTask implements WorkflowTask {
 		    out.println("Step: " + stepSize);
 		    out.println("Number_Of_Steps: " + ((new Integer(maxNumDescriptors).intValue() - new Integer(minNumDescriptors).intValue())/new Integer(stepSize).intValue()));
 		    out.println("Number_Of_Cycles: " + numCycles);
-		    out.println("Number_Of_Neares_Neighbors: " + Nearest_Neighbors);
-		    out.println("Number_Of_Pseudo_Neighbors: " + Pseudo_Neighbors);
+		    out.println("Number_Of_Neares_Neighbors: " + nearestNeighbors);
+		    out.println("Number_Of_Pseudo_Neighbors: " + pseudoNeighbors);
 		    out.println("Number_Of_Mutations: " + numMutations);
 		    out.println("Runs_For_Each_Set_Of_Parameters: " + numRuns);
 		    out.println("T1: " + T1);
@@ -853,8 +912,8 @@ public class QsarModelingTask implements WorkflowTask {
 									minNumDescriptors).intValue()) / new Integer(
 									stepSize).intValue()));
 		    out.println("Number_Of_Cycles: " + numCycles);
-		    out.println("Number_Of_Neares_Neighbors: " + Nearest_Neighbors);
-		    out.println("Number_Of_Pseudo_Neighbors: " + Pseudo_Neighbors);
+		    out.println("Number_Of_Neares_Neighbors: " + nearestNeighbors);
+		    out.println("Number_Of_Pseudo_Neighbors: " + pseudoNeighbors);
 			out.println("Number_Of_Mutations: " + numMutations);
 			out.println("Runs_For_Each_Set_Of_Parameters: " + numRuns);
 		    out.println("T1: " + T1);

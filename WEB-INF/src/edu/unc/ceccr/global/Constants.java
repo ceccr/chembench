@@ -12,9 +12,6 @@ public class Constants {
 	
 	//Enums for Data Types
 	@SuppressWarnings("unchecked")
-	public enum ModelTypeEnumeration { KNN, SVM };
-	public enum ScalingTypeEnumeration { AUTOSCALING, RANGESCALING, NOSCALING };
-	public enum TrainTestSplitTypeEnumeration { RANDOM, SPHEREEXCLUSION };
 	
 	//Descriptor constants
 	public static final int NUM_MACCS_KEYS = 400;
