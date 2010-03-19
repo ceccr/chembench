@@ -59,6 +59,8 @@ public class Predictor implements java.io.Serializable {
 
 	private String modelMethod;
 	private String descriptorGeneration;
+	private String stdDevCutoff;
+	private String correlationCutoff;
 	private String activityType;
 	private String predictorType;
 	private String scalingType;
@@ -230,13 +232,28 @@ public class Predictor implements java.io.Serializable {
 	public void setModelMethod(String modelMethod) {
 		this.modelMethod = modelMethod;
 	}
+	
+	@Column(name = "stdDevCutoff")
+	public String getStdDevCutoff() {
+		return stdDevCutoff;
+	}
+	public void setStdDevCutoff(String stdDevCutoff) {
+		this.stdDevCutoff = stdDevCutoff;
+	}
+
+	@Column(name = "correlationCutoff")
+	public String getCorrelationCutoff() {
+		return correlationCutoff;
+	}
+	public void setCorrelationCutoff(String correlationCutoff) {
+		this.correlationCutoff = correlationCutoff;
+	}
 
 	@Column(name = "created_datetime", updatable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDateCreated() {
 		return dateCreated;
 	}
-
 	public void setDateCreated(Date dateCreated) {
 		this.dateCreated = dateCreated;
 	}
@@ -246,7 +263,6 @@ public class Predictor implements java.io.Serializable {
 	public Date getDateUpdated() {
 		return dateUpdated;
 	}
-
 	public void setDateUpdated(Date dateUpdated) {
 		this.dateUpdated = dateUpdated;
 	}
@@ -255,7 +271,6 @@ public class Predictor implements java.io.Serializable {
 	public int getNumTestModels() {
 		return numTestModels;
 	}
-
 	public void setNumTestModels(int numTestModels) {
 		this.numTestModels = numTestModels;
 	}
@@ -264,7 +279,6 @@ public class Predictor implements java.io.Serializable {
 	public int getNumTotalModels() {
 		return numTotalModels;
 	}
-
 	public void setNumTotalModels(int numTotalModels) {
 		this.numTotalModels = numTotalModels;
 	}
@@ -273,7 +287,6 @@ public class Predictor implements java.io.Serializable {
 	public int getNumTrainModels() {
 		return numTrainModels;
 	}
-
 	public void setNumTrainModels(int numTrainModels) {
 		this.numTrainModels = numTrainModels;
 	}

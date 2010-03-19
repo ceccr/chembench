@@ -20,6 +20,7 @@ import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
+import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
@@ -83,6 +84,7 @@ public class DatasetFormActions extends ActionSupport{
 		
 		userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
 
+		
 		session.close();
 		//log the results
 		if(result.equals(SUCCESS)){
@@ -193,7 +195,10 @@ public class DatasetFormActions extends ActionSupport{
 					int numCompounds = DatasetFileOperations.getACTCompoundList(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName).size();
 					int numModels = 0;
-					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+
+					CentralDogma centralDogma = CentralDogma.getInstance();
+					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels);
+					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 					
 				}
 				catch(Exception ex){
@@ -249,7 +254,11 @@ public class DatasetFormActions extends ActionSupport{
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
 					int numModels = 0;
 					Utility.writeToDebug("adding task");
-					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+					
+					CentralDogma centralDogma = CentralDogma.getInstance();
+					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels);
+					
+					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -307,7 +316,12 @@ public class DatasetFormActions extends ActionSupport{
 					int numCompounds = DatasetFileOperations.getACTCompoundList(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModDescFileName).size();
 					int numModels = 0;
-					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+					
+
+					CentralDogma centralDogma = CentralDogma.getInstance();
+					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels);
+					
+					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -361,7 +375,11 @@ public class DatasetFormActions extends ActionSupport{
 					int numCompounds = DatasetFileOperations.getXCompoundList(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + xFilePredDescFileName).size();
 					int numModels = 0;
-					Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
+				
+					CentralDogma centralDogma = CentralDogma.getInstance();
+					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels);
+					
+					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);

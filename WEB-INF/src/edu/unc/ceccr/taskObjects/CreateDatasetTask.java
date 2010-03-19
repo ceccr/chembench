@@ -381,7 +381,6 @@ public class CreateDatasetTask implements WorkflowTask{
 	
 	public void setUp() throws Exception {
 		//create DataSet object in DB to allow for recovery of this job if it fails.
-		//done here instead of in constructor to make loading of Jobs page on submit a little faster.
 
 		dataset = new DataSet();
 

@@ -19,6 +19,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.PredictionValue;
@@ -228,7 +229,11 @@ public class PredictionFormActions extends ActionSupport{
 		for(int i = 0; i < ids.length; i++){
 			numModels += PopulateDataObjects.getPredictorById(Long.parseLong(ids[i]), session).getNumTestModels();
 		}
-		Queue.getInstance().addJob(predTask,user.getUserName(), jobName, numCompounds, numModels);
+		
+		CentralDogma centralDogma = CentralDogma.getInstance();
+		centralDogma.addJobToIncomingList(user.getUserName(), jobName, predTask, numCompounds, numModels);
+		
+		//Queue.getInstance().addJob(predTask,user.getUserName(), jobName, numCompounds, numModels);
 
 		Utility.writeToUsageLog("making prediction run on dataset " + predictionDataset.getFileName() + " with predictors " + selectedPredictorIds, user.getUserName());
 		

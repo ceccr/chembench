@@ -18,6 +18,7 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 
 
@@ -35,6 +36,9 @@ public class LoginAction extends Action {
 		
 		ActionForward forward = new ActionForward(); 
 	
+		//start up the queues, if they're not running yet
+		CentralDogma.getInstance();
+		
 		//getSession(false) means: Don't create a session if it doesn't exist yet
 		HttpSession session = request.getSession(false);
 		if (session != null)

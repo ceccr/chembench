@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import java.io.PrintStream;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,14 +61,13 @@ public class QsarModelingTask implements WorkflowTask {
 	private String filePath;
 	private String datasetPath;
 	private String actFileDataType;
-	private String dataTypeEnum;
 	private DataSet dataset;
 	
 	//descriptors
 	private String descriptorGenerationType;
 	private String scalingType;
 	private String stdDevCutoff;
-	private String corellationCutoff;
+	private String correlationCutoff;
 	
 	//datasplit
 	private String numSplits;
@@ -114,7 +114,7 @@ public class QsarModelingTask implements WorkflowTask {
 	private String Diff_R01_R02;
 	private String stop_cond;
 	
-	//svm
+	//svm - not yet used
 	private String svmDegreeFrom;
 	private String svmDegreeTo;
 	private String svmDegreeStep;
@@ -143,6 +143,9 @@ public class QsarModelingTask implements WorkflowTask {
 	private String svmTypeCategory;
 	private String svmTypeContinuous;
 	private String svmWeight;
+	
+	//predictor object created during task
+	private Predictor predictor;
 
 	//output
 	ArrayList<Model> allkNNValues=null;
@@ -157,6 +160,7 @@ public class QsarModelingTask implements WorkflowTask {
 	private String step = Constants.SETUP; //stores what step we're on 
 	
 	public String getProgress(){
+		return step;/*
 		String percent = "";
 		if(step.equals(Constants.MODELS)){
 			//count the number of *.jpg files in the working directory
@@ -176,7 +180,7 @@ public class QsarModelingTask implements WorkflowTask {
 			p *= 100; //it's a percent
 			percent = " (" + Math.round(p) + "%)"; 
 		}
-		return step + percent;
+		return step + percent;*/
 	}
 	
 	public QsarModelingTask(Predictor predictor) throws Exception{
@@ -197,16 +201,9 @@ public class QsarModelingTask implements WorkflowTask {
 			datasetPath += dataset.getUserName();
 		}
 		datasetPath += "/DATASETS/" + datasetName + "/";
-		
-		
-		if (actFileDataType.equals(Constants.CATEGORY)){
-			dataTypeEnum = Constants.CATEGORY;
-		} else if (actFileDataType.equals(Constants.CONTINUOUS)){
-			dataTypeEnum = Constants.CONTINUOUS;
-		}
 
 		userName = predictor.getUserName();
-		jobName = predictor.getJobCompleted();
+		jobName = predictor.getName();
 		user_path = userName + "/" + jobName + "/";
 		filePath = Constants.CECCR_USER_BASE_PATH + user_path;
 		
@@ -216,15 +213,15 @@ public class QsarModelingTask implements WorkflowTask {
 		//descriptors
 		descriptorGenerationType = predictor.getDescriptorGeneration();
 		scalingType = predictor.getScalingType();
-		stdDevCutoff = "";//
-		corellationCutoff = "";//
+		stdDevCutoff = predictor.getStdDevCutoff();
+		correlationCutoff = predictor.getCorrelationCutoff();
 		
 		//datasplit
 		numSplits = predictor.getNumSplits();
 		trainTestSplitType = predictor.getTrainTestSplitType();
 			
 			//if random split
-			randomSplitMaxTestSize = predictor.getRandomSplitMinTestSize();
+			randomSplitMinTestSize = predictor.getRandomSplitMinTestSize();
 			randomSplitMaxTestSize = predictor.getRandomSplitMaxTestSize();
 			
 			//if sphere exclusion
@@ -249,6 +246,8 @@ public class QsarModelingTask implements WorkflowTask {
 		mu = predictor.getMu();
 		TcOverTb = predictor.getTcOverTb();
 		cutoff = predictor.getCutoff();
+		stdDevCutoff = predictor.getStdDevCutoff();
+		correlationCutoff = predictor.getCorrelationCutoff();
 		minAccTraining = predictor.getMinAccTraining();
 		minAccTest = predictor.getMinAccTest();
 		minSlopes = predictor.getMinSlopes();
@@ -277,7 +276,7 @@ public class QsarModelingTask implements WorkflowTask {
 		scalingType = ModelingForm.getScalingType();
 		
 		stdDevCutoff = ModelingForm.getStdDevCutoff();
-		corellationCutoff = ModelingForm.getCorellationCutoff();
+		correlationCutoff = ModelingForm.getCorellationCutoff();
 		
 		Session session = HibernateUtil.getSession();
 		dataset = PopulateDataObjects.getDataSetById(ModelingForm.getSelectedDatasetId(),session);
@@ -380,14 +379,66 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 		datasetPath += "/DATASETS/" + datasetName + "/";
 		
-		if (actFileDataType.equals(Constants.CATEGORY)){
-			dataTypeEnum = Constants.CATEGORY;
-		}else if (actFileDataType.equals(Constants.CONTINUOUS)){
-			dataTypeEnum = Constants.CONTINUOUS;
-		}
 	}
 
 	public void setUp() throws Exception {
+		
+		//create Predictor object in DB to allow for recovery of this job if it fails.
+
+		predictor.setName(jobName);
+		predictor.setUserName(userName);
+		
+		predictor.setDatasetId(datasetID);
+		predictor.setSdFileName(dataset.getSdfFile());
+		predictor.setActFileName(dataset.getActFile());
+		predictor.setActivityType(actFileDataType);
+		predictor.setModelMethod(modelType);
+		
+		//descriptors
+		predictor.setDescriptorGeneration(descriptorGenerationType);
+		predictor.setScalingType(scalingType);
+		predictor.setStdDevCutoff(stdDevCutoff);
+		predictor.setCorrelationCutoff(correlationCutoff);
+		
+		//datasplit
+		predictor.setNumSplits(numSplits);
+		predictor.setTrainTestSplitType(trainTestSplitType);
+		
+			//if random split
+			predictor.setRandomSplitMinTestSize(randomSplitMinTestSize);
+			predictor.setRandomSplitMaxTestSize(randomSplitMaxTestSize);
+			
+			//if sphere exclusion
+			predictor.setSplitIncludesMin(splitIncludesMin);
+			predictor.setSplitIncludesMax(splitIncludesMax);
+			predictor.setSphereSplitMinTestSize(sphereSplitMinTestSize);
+			predictor.setSelectionNextTrainPt(selectionNextTrainPt);
+			
+		//knn params
+		predictor.setKnnCategoryOptimization(knnCategoryOptimization);
+		predictor.setMinNumDescriptors(minNumDescriptors);
+		predictor.setStepSize(stepSize);
+		predictor.setMaxNumDescriptors(maxNumDescriptors);
+		predictor.setNumCycles(numCycles);
+		
+		predictor.setNearestNeighbors(nearestNeighbors);
+		predictor.setPseudoNeighbors(pseudoNeighbors);
+		
+		predictor.setNumRuns(numRuns);
+		predictor.setNumMutations(numMutations);
+		predictor.setT1(T1);
+		predictor.setT2(T2);
+		predictor.setMu(mu);
+		predictor.setTcOverTb(TcOverTb);
+		predictor.setCutoff(cutoff);
+		predictor.setMinAccTraining(minAccTraining);
+		predictor.setMinAccTest(minAccTest);
+		predictor.setMinSlopes(minSlopes);
+		predictor.setMaxSlopes(maxSlopes);
+		predictor.setRelativeDiffRR0(Relative_diff_R_R0);
+		predictor.setDiffR01R02(Diff_R01_R02);
+		predictor.setStopCond(stop_cond);
+		
 		Utility.writeToDebug("DEBUG: actFileDataType is " + actFileDataType);
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		if(modelType == Constants.KNN){
@@ -455,7 +506,7 @@ public class QsarModelingTask implements WorkflowTask {
 			xFileName = sdFileName + ".x";
 			String descriptorString = Utility.StringArrayListToString(descriptorNames);
 			
-			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + xFileName, scalingType, stdDevCutoff, corellationCutoff);
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + xFileName, scalingType, stdDevCutoff, correlationCutoff);
 		}
 		else if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
 			//dataset has descriptors already, we don't need to do anything
@@ -484,16 +535,16 @@ public class QsarModelingTask implements WorkflowTask {
 			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 
 			step = Constants.MODELS;
-			if(dataTypeEnum == Constants.CATEGORY){
+			if(actFileDataType.equals(Constants.CATEGORY)){
 				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path);
-			}else if(dataTypeEnum == Constants.CONTINUOUS){
+			}else if(actFileDataType.equals(Constants.CONTINUOUS)){
 				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path);
 			}
 
 			step = Constants.YMODELS;
-			if(dataTypeEnum == Constants.CATEGORY){
+			if(actFileDataType.equals(Constants.CATEGORY)){
 				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path + "yRandom/");
-			}else if(dataTypeEnum == Constants.CONTINUOUS){
+			}else if(actFileDataType.equals(Constants.CONTINUOUS)){
 				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path + "yRandom/");
 			}
 			
@@ -551,7 +602,7 @@ public class QsarModelingTask implements WorkflowTask {
 
 		predictor.setScalingType(scalingType);
 		predictor.setDescriptorGeneration(descriptorGenerationType);
-		predictor.setModelMethod(dataTypeEnum);
+		predictor.setModelMethod(modelType);
 		predictor.setName(jobName);
 		predictor.setUserName(userName);
 		predictor.setActFileName(actFileName);

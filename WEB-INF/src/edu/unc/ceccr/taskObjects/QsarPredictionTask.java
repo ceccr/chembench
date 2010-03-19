@@ -45,6 +45,7 @@ public class QsarPredictionTask implements WorkflowTask {
 	private String step = Constants.SETUP; //stores what step we're on 
 	private int allPredsTotalModels = -1; //used by getProgress function
 	private ArrayList<String> selectedPredictorNames = new ArrayList<String>(); //used by getProgress function
+	private Prediction prediction;
 
 	public String getProgress() {
 		
@@ -115,9 +116,12 @@ public class QsarPredictionTask implements WorkflowTask {
 		this.cutoff = cutoff;
 		this.selectedPredictorIds = selectedPredictorIds;
 		this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/";
+		prediction = new Prediction();
+		
 	}
 	
 	public QsarPredictionTask(Prediction prediction){
+		this.prediction = prediction;
 		Long fileId = prediction.getDatasetId();
 		try{
 			Session session = HibernateUtil.getSession();
@@ -398,7 +402,35 @@ public class QsarPredictionTask implements WorkflowTask {
 	}
 
 	public void setUp() throws Exception {
+		//create Prediction object in DB to allow for recovery of this job if it fails.
+		
+		if(prediction == null){
+			prediction = new Prediction();
+		}
+		
+		prediction.setDatabase(this.sdf);
+		prediction.setUserName(this.userName);
+		prediction.setSimilarityCutoff(new Float(this.cutoff));
+		prediction.setPredictorIds(this.selectedPredictorIds);
+		prediction.setJobName(this.jobName);
+		prediction.setDatasetId(predictionDataset.getFileId());
+		prediction.setHasBeenViewed(Constants.NO);
+		prediction.setJobCompleted(Constants.NO);
 
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.saveOrUpdate(prediction);		
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		
 		Utility.writeToDebug("Setting up prediction task", userName, jobName);
 		try{
 			new File(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName).mkdir();
@@ -424,17 +456,8 @@ public class QsarPredictionTask implements WorkflowTask {
 
 	public void save(){
 		try{
-		Prediction predictionJob = new Prediction();
-		predictionJob.setDatabase(this.sdf);
-		predictionJob.setUserName(this.userName);
-		predictionJob.setSimilarityCutoff(new Float(this.cutoff));
-		Utility.writeToDebug("saving selected predictor ids: " + selectedPredictorIds);
-		predictionJob.setPredictorIds(this.selectedPredictorIds);
-		predictionJob.setJobName(this.jobName);
-		predictionJob.setStatus("saved");
-		predictionJob.setDatasetId(predictionDataset.getFileId());
-		predictionJob.setHasBeenViewed(Constants.NO);
 
+			
 		if(this.allPredValues == null){
 			Utility.writeToDebug("Warning: allPredValue is null.");
 		}
@@ -443,16 +466,18 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 		
 		for (PredictionValue predOutput : this.allPredValues){
-			predOutput.setPredictionJob(predictionJob);
+			predOutput.setPredictionJob(prediction);
 		}
-		
-		predictionJob.setPredictedValues(new ArrayList<PredictionValue>(allPredValues));
+
+		prediction.setJobCompleted(Constants.YES);
+		prediction.setStatus("saved");
+		prediction.setPredictedValues(new ArrayList<PredictionValue>(allPredValues));
 
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.save(predictionJob);		
+			session.saveOrUpdate(prediction);		
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)

@@ -1,6 +1,7 @@
 package edu.unc.ceccr.action;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,12 +17,15 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
+import edu.unc.ceccr.taskObjects.WorkflowTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -157,10 +161,13 @@ public class ModelingFormActions extends ActionSupport{
 				numModels *= numDescriptorSizes;
 			}
 			
-			//add job to queue
-			tasklist.addJob(modelingTask, user.getUserName(), this.getJobName(), numCompounds, numModels);
+			//make job and add to incoming joblist
+			CentralDogma centralDogma = CentralDogma.getInstance();
+			centralDogma.addJobToIncomingList(user.getUserName(), jobName, modelingTask, numCompounds, numModels);
+			
+			//tasklist.addJob(modelingTask, user.getUserName(), this.getJobName(), numCompounds, numModels);
 
-			Utility.writeToUsageLog("Started modeling job", user.getUserName());
+			Utility.writeToUsageLog("Added modeling job", user.getUserName());
 			
 			Utility.writeToDebug("Task added to queue", user.getUserName(), this.getJobName());
 		}
