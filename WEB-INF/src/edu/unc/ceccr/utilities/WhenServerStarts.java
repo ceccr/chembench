@@ -4,7 +4,7 @@ public class WhenServerStarts {
 	
 	private boolean hasBeenCalledBefore = false;
 	
-	public static WhenServerStarts(){
+	public WhenServerStarts(){
 		
 	}
 	
