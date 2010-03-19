@@ -4,6 +4,9 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import edu.unc.ceccr.persistence.Queue.QueueTask.State;
@@ -36,7 +39,9 @@ public class Job {
 	
 	private String timeFinishedEstimate;
 	public WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask.
-	
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	public Long getId() {
 		return id;
