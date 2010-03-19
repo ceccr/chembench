@@ -24,6 +24,7 @@ public class HibernateUtil {
 	static {
 		sessionFactory = new AnnotationConfiguration()
 		.addAnnotatedClass(QueueTask.class)
+		.addAnnotatedClass(Job.class)
 		.addAnnotatedClass(Model.class)
 		.addAnnotatedClass(Predictor.class)
 		.addAnnotatedClass(User.class)

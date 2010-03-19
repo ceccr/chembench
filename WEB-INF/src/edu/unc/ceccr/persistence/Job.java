@@ -31,9 +31,10 @@ public class Job {
 	private Date timeStarted;
 	private Date timeStartedByLsf; //jobs may remain pending in LSF for a long time before actually started.
 	private Date timeFinished;
+
+	private String emailOnCompletion;
 	
 	private String timeFinishedEstimate;
-	
 	public WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask.
 	
 	@Column(name = "id")
@@ -146,6 +147,14 @@ public class Job {
 	}
 	public void setTimeFinished(Date timeFinished) {
 		this.timeFinished = timeFinished;
+	}
+
+	@Column(name = "emailOnCompletion")
+	public String getEmailOnCompletion() {
+		return emailOnCompletion;
+	}
+	public void setEmailOnCompletion(String emailOnCompletion) {
+		this.emailOnCompletion = emailOnCompletion;
 	}
 
 	public String getTimeFinishedEstimate() {
