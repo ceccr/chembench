@@ -100,6 +100,8 @@ public class DatasetFormActions extends ActionSupport{
 	}
 	public String execute() throws Exception {
 		
+		String emailOnCompletion = Constants.NO; //for now
+		
 		String result = INPUT;
 
 		ActionContext context = ActionContext.getContext();
@@ -197,7 +199,7 @@ public class DatasetFormActions extends ActionSupport{
 					int numModels = 0;
 
 					CentralDogma centralDogma = CentralDogma.getInstance();
-					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels);
+					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
 					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 					
 				}
@@ -256,7 +258,7 @@ public class DatasetFormActions extends ActionSupport{
 					Utility.writeToDebug("adding task");
 					
 					CentralDogma centralDogma = CentralDogma.getInstance();
-					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels);
+					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
 					
 					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
@@ -319,7 +321,7 @@ public class DatasetFormActions extends ActionSupport{
 					
 
 					CentralDogma centralDogma = CentralDogma.getInstance();
-					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels);
+					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
 					
 					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
@@ -377,7 +379,7 @@ public class DatasetFormActions extends ActionSupport{
 					int numModels = 0;
 				
 					CentralDogma centralDogma = CentralDogma.getInstance();
-					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels);
+					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
 					
 					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}

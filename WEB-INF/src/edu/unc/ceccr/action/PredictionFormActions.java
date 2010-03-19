@@ -231,7 +231,8 @@ public class PredictionFormActions extends ActionSupport{
 		}
 		
 		CentralDogma centralDogma = CentralDogma.getInstance();
-		centralDogma.addJobToIncomingList(user.getUserName(), jobName, predTask, numCompounds, numModels);
+		String emailOnCompletion = Constants.NO;
+		centralDogma.addJobToIncomingList(user.getUserName(), jobName, predTask, numCompounds, numModels, emailOnCompletion);
 		
 		//Queue.getInstance().addJob(predTask,user.getUserName(), jobName, numCompounds, numModels);
 

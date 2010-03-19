@@ -634,7 +634,7 @@ public class QsarModelingTask implements WorkflowTask {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.save(predictor);
+			session.saveOrUpdate(predictor);
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)

@@ -163,7 +163,8 @@ public class ModelingFormActions extends ActionSupport{
 			
 			//make job and add to incoming joblist
 			CentralDogma centralDogma = CentralDogma.getInstance();
-			centralDogma.addJobToIncomingList(user.getUserName(), jobName, modelingTask, numCompounds, numModels);
+			String emailOnCompletion = Constants.NO;
+			centralDogma.addJobToIncomingList(user.getUserName(), jobName, modelingTask, numCompounds, numModels, emailOnCompletion);
 			
 			//tasklist.addJob(modelingTask, user.getUserName(), this.getJobName(), numCompounds, numModels);
 

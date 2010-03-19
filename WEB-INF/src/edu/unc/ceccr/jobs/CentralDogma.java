@@ -6,6 +6,7 @@ import java.util.Date;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -85,24 +86,40 @@ public class CentralDogma{
 		 return instance; 
 	} 
 
-	public void addJobToIncomingList(String userName, String jobName, WorkflowTask wt, int numCompounds, int numModels) throws Exception{
+	public void addJobToIncomingList(String userName, String jobName, WorkflowTask wt, int numCompounds, int numModels, String emailOnCompletion) throws Exception{
 		//first, run setUp on the workflowTask
 		//this will make sure the workflowTask gets into the DB. Then we can create a job to contain it.
 		wt.setUp();
 		
 		Job j = new Job();
-		Job modelingJob = new Job();
-		modelingJob.setJobName(jobName);
-		modelingJob.setUserName(userName);
-		modelingJob.setNumCompounds(numCompounds);
-		modelingJob.setNumModels(numModels);
-		modelingJob.setWorkflowTask(wt);
-		modelingJob.setTimeCreated(new Date());
-		modelingJob.setStatus("Queued");
-		modelingJob.setJobList(Constants.INCOMING);
-		Session s = HibernateUtil.getSession();
+		j.setJobName(jobName);
+		j.setUserName(userName);
+		j.setNumCompounds(numCompounds);
+		j.setNumModels(numModels);
+		j.setWorkflowTask(wt);
+		j.setTimeCreated(new Date());
+		j.setStatus("Queued");
+		j.setJobList(Constants.INCOMING);
+		j.setEmailOnCompletion(emailOnCompletion);
+
 		//commit job to DB
-		s.close();
+		Session s = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.save(j);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			s.close();
+		}
+		
+		//put into incoming queue
+		incomingJobs.addJob(j);
+		
 	}
 	
 }
