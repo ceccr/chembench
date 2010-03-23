@@ -32,20 +32,18 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.ModelInterface;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
 import edu.unc.ceccr.workflows.DataSplitWorkflow;
-import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnModelBuildingWorkflow;
 import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
 import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
-public class QsarModelingTask implements WorkflowTask {
+public class QsarModelingTask extends WorkflowTask {
 
 	//job details
 	private String sdFileName;
@@ -159,28 +157,35 @@ public class QsarModelingTask implements WorkflowTask {
 	
 	private String step = Constants.SETUP; //stores what step we're on 
 	
+	
+	
 	public String getProgress(){
-		return step;/*
+
 		String percent = "";
-		if(step.equals(Constants.MODELS)){
-			//count the number of *.jpg files in the working directory
-			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+		if(step.equals(Constants.MODELS) || step.equals(Constants.YMODELS)){
+			String workingDir = "";
+			if(jobList.equals(Constants.LSF)){
+				//running on LSF so check LSF dir
+				
+			}
+			else{
+				//running locally so check local dir
+				 workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+				 
+			}
+			if(step.equals(Constants.YMODELS)){
+			 	workingDir += "yRandom/";
+			 }
+			
 			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
 			//divide by the number of models to be built
-			p /= Queue.getInstance().runningTask.getNumModels();
+			
+			//p /= Queue.getInstance().runningTask.getNumModels();
 			p *= 100; //it's a percent
-			percent = " (" + Math.round(p) + "%)"; 
+			percent = " (" + Math.round(p) + "%)";
 		}
-		if(step.equals(Constants.YMODELS)){
-			//count the number of *.jpg files in the working directory
-			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/";
-			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
-			//divide by the number of models to be built
-			p /= Queue.getInstance().runningTask.getNumModels();
-			p *= 100; //it's a percent
-			percent = " (" + Math.round(p) + "%)"; 
-		}
-		return step + percent;*/
+		
+		return step + percent;
 	}
 	
 	public QsarModelingTask(Predictor predictor) throws Exception{
@@ -261,7 +266,6 @@ public class QsarModelingTask implements WorkflowTask {
 		//other things in constructor that need doing?
 	}
 	
-	//constructor
 	public QsarModelingTask(String userName, ModelingFormActions ModelingForm) throws Exception {
 		
 		//This function just loads all the ModelingForm parameters into local variables
@@ -451,9 +455,8 @@ public class QsarModelingTask implements WorkflowTask {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
-	public void execute() throws Exception {
-		
+	public void preProcess() throws Exception{
+
 		//copy the dataset files to the working directory
 		step = Constants.SETUP;
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
@@ -527,6 +530,20 @@ public class QsarModelingTask implements WorkflowTask {
 			DataSplitWorkflow.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax, sphereSplitMinTestSize, selectionNextTrainPt);
 		}
 		
+
+		if(jobList.equals(Constants.LSF)){
+			//copy needed files out to LSF
+		}
+	}
+
+	public void executeLSF() throws Exception{
+		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void executeLocal() throws Exception {
+		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+		
 		//Run modeling process
 		if(modelType == Constants.KNN){
 			step = Constants.YRANDOMSETUP;
@@ -551,41 +568,39 @@ public class QsarModelingTask implements WorkflowTask {
 			step = Constants.PREDEXT;
 			KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
 			
-			//done with modeling. Read output files. 
-			step = Constants.READING;
-			if (actFileDataType.equals(Constants.CATEGORY)){
-				parseCategorykNNOutput(filePath, Constants.MAINKNN);
-				parseCategorykNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
-			}else if (actFileDataType.equals(Constants.CONTINUOUS)){
-				parseContinuouskNNOutput(filePath, Constants.MAINKNN);
-				parseContinuouskNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
-			}
-	
-			noModelsGenerated = mainKNNValues.isEmpty();
-			if (!noModelsGenerated)
-			{
-				allExternalValues = parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE, user_path);
-				addStdDeviation(allExternalValues,parseConpredStdDev(filePath + Constants.PRED_OUTPUT_FILE));
-				sortModels();
-			}
-	
-			setParameters(filePath, mainKNNValues, Constants.MAINKNN);
-			setParameters(filePath+"yRandom/", randomKNNValues, Constants.RANDOMKNN);
 		}
 		else { //if(modelType == Constants.SVM){
 			throw new Exception("SVM behaviour is still undefined -- don't use it yet!");
 		}
 	}
+	
+	public void postProcess() throws Exception {
+		if(jobList.equals(Constants.LSF)){
+			//copy needed files back from LSF
+		}
 
-	Queue queue = Queue.getInstance();
+		//done with modeling. Read output files. 
+		step = Constants.READING;
+		if (actFileDataType.equals(Constants.CATEGORY)){
+			parseCategorykNNOutput(filePath, Constants.MAINKNN);
+			parseCategorykNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
+		}else if (actFileDataType.equals(Constants.CONTINUOUS)){
+			parseContinuouskNNOutput(filePath, Constants.MAINKNN);
+			parseContinuouskNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
+		}
 
-	public void cleanUp() throws Exception {
-		queue.deleteTask(this);
-	}
+		noModelsGenerated = mainKNNValues.isEmpty();
+		if (!noModelsGenerated)
+		{
+			allExternalValues = parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE, user_path);
+			addStdDeviation(allExternalValues,parseConpredStdDev(filePath + Constants.PRED_OUTPUT_FILE));
+			sortModels();
+		}
 
-	public void save() throws Exception {
-
-		Utility.writeToDebug("SubmitQsarWorkflowActionTask: save()", userName, jobName);
+		setParameters(filePath, mainKNNValues, Constants.MAINKNN);
+		setParameters(filePath+"yRandom/", randomKNNValues, Constants.RANDOMKNN);
+		
+		//save output to database
 		KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName);
 
 		allkNNValues=new ArrayList<Model>();
@@ -647,6 +662,11 @@ public class QsarModelingTask implements WorkflowTask {
 		File dir=new File(Constants.CECCR_USER_BASE_PATH+userName+"/"+jobName);
 		FileAndDirOperations.deleteDir(dir);
 	}
+
+	public void delete() throws Exception {
+		
+	}
+	
 	
 	private void setParameters(String path, ArrayList<Model> KNNValues, String flow) {
 		File dir;
@@ -670,34 +690,35 @@ public class QsarModelingTask implements WorkflowTask {
 	}
 
 	private void parseContinuouskNNOutput(String fileLocation, String flowType) throws IOException {
-	BufferedReader in = new BufferedReader(new FileReader(fileLocation + Constants.kNN_OUTPUT_FILE));
-	String inputString;
-	String[] kNNValues = null;
-	if(flowType.equals(Constants.MAINKNN)){ mainKNNValues=new ArrayList<Model>();}
-	else{ randomKNNValues=new ArrayList<Model>();}
-
-	while ((inputString = in.readLine()) != null) {
-		// 5 types of lines found in the knn-outputsort.tbl file:
-		// | STATISTICS OF REGRESSION LINES Y = b11*X + b01 AND X =
-		// b12*numTrainModels + b02 ...
-		// nnn q^2 n ...
-		// ----------------------------------- ...
-		// blank lines
-		// data lines (keep only the data)
-		if (inputString.trim().startsWith("|")
-				|| inputString.trim().startsWith("-")
-				|| inputString.trim().equals("")
-				|| inputString.trim().startsWith("nnn")) {
-			// skip all rows that don't have data
-		} else {
-			kNNValues = inputString.split("\\s+");
-			Model knnOutput = createContinuousKnnOutputObject(fileLocation, kNNValues, flowType);
-			if(flowType.equals(Constants.MAINKNN) ){ mainKNNValues.add(knnOutput);}
-			else{ randomKNNValues.add(knnOutput);}
+		BufferedReader in = new BufferedReader(new FileReader(fileLocation + Constants.kNN_OUTPUT_FILE));
+		String inputString;
+		String[] kNNValues = null;
+		if(flowType.equals(Constants.MAINKNN)){ mainKNNValues=new ArrayList<Model>();}
+		else{ randomKNNValues=new ArrayList<Model>();}
+	
+		while ((inputString = in.readLine()) != null) {
+			// 5 types of lines found in the knn-outputsort.tbl file:
+			// | STATISTICS OF REGRESSION LINES Y = b11*X + b01 AND X =
+			// b12*numTrainModels + b02 ...
+			// nnn q^2 n ...
+			// ----------------------------------- ...
+			// blank lines
+			// data lines (keep only the data)
+			if (inputString.trim().startsWith("|")
+					|| inputString.trim().startsWith("-")
+					|| inputString.trim().equals("")
+					|| inputString.trim().startsWith("nnn")) {
+				// skip all rows that don't have data
+			} else {
+				kNNValues = inputString.split("\\s+");
+				Model knnOutput = createContinuousKnnOutputObject(fileLocation, kNNValues, flowType);
+				if(flowType.equals(Constants.MAINKNN) ){ mainKNNValues.add(knnOutput);}
+				else{ randomKNNValues.add(knnOutput);}
+			}
 		}
+		in.close();
 	}
-	in.close();
-}
+	
 	private void parseCategorykNNOutput(String fileLocation, String flowType) throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader(fileLocation + Constants.kNN_OUTPUT_FILE));
 		String inputString;
@@ -986,7 +1007,6 @@ public class QsarModelingTask implements WorkflowTask {
 	public String getJobName() {
 		return jobName;
 	}
-
 	public void setJobName(String jobName) {
 		this.jobName = jobName;
 	}
@@ -994,7 +1014,6 @@ public class QsarModelingTask implements WorkflowTask {
 	public String getActFileName() {
 		return actFileName;
 	}
-
 	public void setActFileName(String actFileName) {
 		this.actFileName = actFileName;
 	}
@@ -1002,7 +1021,6 @@ public class QsarModelingTask implements WorkflowTask {
 	public String getSdFileName() {
 		return sdFileName;
 	}
-
 	public void setSdFileName(String sdFileName) {
 		this.sdFileName = sdFileName;
 	}
@@ -1072,9 +1090,8 @@ public class QsarModelingTask implements WorkflowTask {
 	public Long getDatasetID() {
 		return datasetID;
 	}
-
 	public void setDatasetID(Long datasetID) {
 		this.datasetID = datasetID;
 	}
 	
-}
+	}

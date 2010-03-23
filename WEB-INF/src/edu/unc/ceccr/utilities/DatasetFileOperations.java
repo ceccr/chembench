@@ -91,7 +91,6 @@ public class DatasetFileOperations {
 		act.createNewFile();
 		FileOutputStream to = new FileOutputStream(act);
 		if(!act.canWrite()){
-			Utility.writeToMSDebug("Cannot write to ACT file!!!");
 			return;
 		}
 		
@@ -240,8 +239,6 @@ public class DatasetFileOperations {
 			//Check if SDF matches ACT file 
 			int numACT = act_compounds.size();
 			int numSDF = sdf_compounds.size();
-			
-			Utility.writeToMSDebug("Number of compounds in ACT:::"+numACT);
 			
 			if(numACT!=numSDF) return ErrorMessages.COMPOUND_IDS_DONT_MATCH + " The ACT file contains " + numACT + " compounds; the SDF contains "+numSDF+" compounds!";
 			
@@ -427,7 +424,7 @@ public class DatasetFileOperations {
 	    	}
     	}
     	catch(Exception e){
-    			Utility.writeToMSDebug(e.getMessage());
+    			Utility.writeToDebug(e);
     	}
     	
        return result;         

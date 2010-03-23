@@ -103,21 +103,6 @@ public class Utility {
 		debug_counter++;
 	}
 	
-	public static void writeToMSDebug(String s) {
-		//Debug output write function. SPECIFIC AND TEMPORARY FOR msypa USER. Used throughout Java code.
-		
-		try {
-			// Append to file
-			FileWriter fstream = new FileWriter(
-					Constants.CECCR_BASE_PATH + "/workflow-users/debug/msypa-test.log", true);
-			BufferedWriter out = new BufferedWriter(fstream);
-			out.write(new Date() + ":: " + s + "\n");
-			out.close();
-		} catch (Exception e) {
-		}
-	}
-	
-
 	public static void writeToDebug(String s) {
 		//Debug output write function. Used throughout Java code.
 		try {

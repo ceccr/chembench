@@ -9,7 +9,6 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.utilities.Utility;
 
 public class HibernateUtil {
@@ -23,7 +22,6 @@ public class HibernateUtil {
 	
 	static {
 		sessionFactory = new AnnotationConfiguration()
-		.addAnnotatedClass(QueueTask.class)
 		.addAnnotatedClass(Job.class)
 		.addAnnotatedClass(Model.class)
 		.addAnnotatedClass(Predictor.class)

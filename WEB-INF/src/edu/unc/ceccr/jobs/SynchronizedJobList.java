@@ -4,7 +4,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
+import edu.unc.ceccr.utilities.Utility;
 
 public class SynchronizedJobList{
 	//stores a concurrent-access arraylist of jobs
@@ -14,7 +20,7 @@ public class SynchronizedJobList{
 	
 	private List<Job> jobList = Collections.synchronizedList(new ArrayList<Job>());
 
-	public void removeJob(String job){
+	public void removeJob(Job job){
 		synchronized(jobList){
 			for(int i = 0; i < jobList.size(); i++){
 				if(jobList.get(i).equals(job)){
@@ -44,6 +50,37 @@ public class SynchronizedJobList{
 				if(jobList.get(i).equals(job)){
 					jobList.set(i, newJob);
 				}
+			}
+		}
+	}
+
+	public boolean startJob(Job j) {
+		synchronized(jobList){
+			if(! j.getStatus().equals(Constants.QUEUED)){
+				//some other thread has already grabbed this job and is working on it.
+				return false;
+			}
+			else{
+				j.setStatus(Constants.RUNNING);
+				
+				//commit the job's "running" status to DB
+
+				Session s = null; 
+				Transaction tx = null;
+				try {
+					s = HibernateUtil.getSession();
+					tx = s.beginTransaction();
+					s.saveOrUpdate(j);
+					tx.commit();
+				} catch (Exception e) {
+					if (tx != null)
+						tx.rollback();
+					Utility.writeToDebug(e);
+				} finally {
+					s.close();
+				}
+				
+				return true;
 			}
 		}
 	}

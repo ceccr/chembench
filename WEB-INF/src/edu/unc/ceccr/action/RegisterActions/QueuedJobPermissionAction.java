@@ -18,15 +18,12 @@ import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Queue;
-import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 
 public class QueuedJobPermissionAction extends Action 
 {
-	Queue holder = Queue.getInstance();
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,HttpServletRequest request, HttpServletResponse response)throws Exception {
 
@@ -46,7 +43,7 @@ public class QueuedJobPermissionAction extends Action
 			{
 				try{
 					
-
+/*
 					String decision=request.getParameter("decision");
 					
 					if(decision.equalsIgnoreCase("AGREE")){
@@ -99,7 +96,7 @@ public class QueuedJobPermissionAction extends Action
 							}
 						}
 					}
-					
+					*/
 				}catch (Exception e)
 				{
 					forward = mapping.findForward("failure");
@@ -113,7 +110,7 @@ public class QueuedJobPermissionAction extends Action
 		return forward;
 	}
 	
-	
+	/*
 	
 	@SuppressWarnings("unchecked")
 	protected QueueTask loadTaskRecord(Long id) throws HibernateException, ClassNotFoundException, SQLException
@@ -151,6 +148,6 @@ public class QueuedJobPermissionAction extends Action
 				} finally {
 					s.close();
 					}
-	}
+	}*/
 	
 }

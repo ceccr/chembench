@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import edu.unc.ceccr.persistence.Queue.QueueTask.State;
-import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 import edu.unc.ceccr.taskObjects.WorkflowTask;
 
 @Entity()

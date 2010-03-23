@@ -12,24 +12,20 @@ public class CSV_X_Workflow {
 		
 		try{
 			Process p = Runtime.getRuntime().exec("convert_maccs_to_X2.pl "+viz_path+".maccs "+viz_path+".x");
-			Utility.writeToMSDebug("X2 script: "+"convert_maccs_to_X2.pl "+viz_path+".maccs "+viz_path+".x");
 			Utility.writeProgramLogfile(viz_path, "convert_maccs_to_X2",  p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
-			Utility.writeToMSDebug("performXCreation::"+ex.getMessage());
 		}
 	}
 	
 	public static void performCSVCreation(String viz_path){
 		try{
 			Process p = Runtime.getRuntime().exec("convert_x_to_csv.pl "+viz_path+".x "+viz_path+".csv");
-			Utility.writeToMSDebug("CVS script: "+"convert_x_to_csv.pl "+viz_path+".x "+viz_path+".csv");
 			Utility.writeProgramLogfile(viz_path, "convert_x_to_csv",  p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
-			Utility.writeToMSDebug("performCSVCreation::"+ex.getMessage());
 		}
 	}
 
@@ -68,11 +64,9 @@ public class CSV_X_Workflow {
 				p.waitFor();
 				File old = new File(viz_path+".png");
 				File new_ =  new File(viz_path+".jpg");
-				Utility.writeToMSDebug("Rename::"+old.renameTo(new_));
 			}
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
-			Utility.writeToMSDebug("PCACreation::"+ex.getMessage());
 		}
 	}
 }

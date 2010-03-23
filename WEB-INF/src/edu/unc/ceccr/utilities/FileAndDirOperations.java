@@ -222,7 +222,6 @@ public class FileAndDirOperations {
 
 	public static void writeFiles(InputStream is, String fullFileLocation)
 			throws IOException {
-		Utility.writeToMSDebug("----------"+fullFileLocation+"------------Start");
 		OutputStream bos = new FileOutputStream(fullFileLocation);
 
 		int bytesRead = 0;
@@ -232,11 +231,9 @@ public class FileAndDirOperations {
 		}
 		bos.close();
 		is.close();
-		Utility.writeToMSDebug("----------"+fullFileLocation+"---------End");
 	}
 
 	public static boolean deleteDir(File dir) {
-		//writeToMSDebug("deleteDir::"+dir);
         if (dir.isDirectory()) {
             String[] children = dir.list();
             for (int i=0; i<children.length; i++) {

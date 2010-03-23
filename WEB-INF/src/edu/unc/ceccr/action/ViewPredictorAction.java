@@ -30,14 +30,11 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 
 public class ViewPredictorAction extends ActionSupport {
 

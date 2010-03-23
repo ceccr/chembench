@@ -18,22 +18,19 @@ public class LsfProcessingThread extends Thread {
 	//this works on the LSFJobs joblist.
 	//You should only ever have one of these threads running - don't start a second one!
 	
-	SynchronizedJobList jobList;
-
-	LsfProcessingThread(SynchronizedJobList jobList) {
-		this.jobList = jobList;
-	}
-	
-
 	public void run() {
 		try {
 			sleep(500);
 			
 			//did any jobs just get added to this structure? If so, preprocess them and bsub them.
-			ArrayList<Job> readOnlyJobArray = jobList.getReadOnlyCopy();
+			ArrayList<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
 			for(Job j : readOnlyJobArray){
-				
-				
+				if(j.getStatus().equals(Constants.QUEUED)){
+					//try to grab the job and preproc it
+					if(CentralDogma.getInstance().lsfJobs.startJob(j)){
+						j.workflowTask.preProcess();
+					}
+				}
 			}
 			
 			//If there's a finished job that needs postprocessing, do so.
@@ -42,8 +39,9 @@ public class LsfProcessingThread extends Thread {
 				if(jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")){
 					//check if this is a running job
 					for(Job j : readOnlyJobArray){
-						
-						
+						if(CentralDogma.getInstance().lsfJobs.startJob(j)){
+							j.workflowTask.postProcess();
+						}
 					}
 				}
 			}
@@ -52,6 +50,14 @@ public class LsfProcessingThread extends Thread {
 			Utility.writeToDebug(ex);
 		}
     }
+	
+	public static boolean lsfHasFreePendSlots(){
+		//check how many pending jobs there are
+		//if that number is less than the limit return true
+		//else return false
+		//to do : look up these limits
+		return true;
+	}
 	
 	//static functions for checking the status of the LSF queue(s) on Emerald.
 	public static ArrayList<String> getCompletedJobNames(){

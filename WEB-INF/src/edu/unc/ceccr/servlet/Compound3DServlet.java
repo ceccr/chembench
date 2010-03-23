@@ -78,7 +78,6 @@ public class Compound3DServlet extends HttpServlet {
 			String warning = "ERROR, the SD file is not in correct format.\rThe structure can not be displayed.";
 			if (sdfile.exists()) {
 				InputStream twoDis = new FileInputStream(sdfile);
-				Utility.writeToMSDebug("VALID>>>>"+sdfile.getName());
 				
 				File mol3DFile = new File(workingDir + mol3D);
 				if(! mol3DFile.exists()){

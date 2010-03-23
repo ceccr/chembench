@@ -32,6 +32,12 @@ public class Constants {
 	public static final String LSF = "LSF";
 	public static final String LOCAL = "LOCAL";
 	
+	public static final String QUEUED = "QUEUED";
+	public static final String PREPROC = "PREPROC";
+	public static final String RUNNING = "RUNNING";
+	public static final String POSTPROC = "POSTPROC";
+	public static final String LSFWAIT = "LSFWAIT"; 
+	
 	public static final String NONE = "NONE";
 	public static final String SOME = "SOME";
 	public static final String TOP10 = "TOP10";

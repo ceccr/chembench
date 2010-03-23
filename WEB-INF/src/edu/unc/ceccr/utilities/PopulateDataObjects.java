@@ -22,7 +22,6 @@ import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.utilities.Utility;
 
 public class PopulateDataObjects {
@@ -649,14 +648,14 @@ public class PopulateDataObjects {
 	public static List<String> populateTaskNames(String userName, boolean justRunning, Session session) {
 		
 		List<String> taskNames = new ArrayList<String>();
-		List<QueueTask> tasks = null;
+		List<Job> tasks = null;
 		try 
 		{
 			Transaction tx = null;
 			try 
 			{
 				tx = session.beginTransaction();
-				tasks = session.createCriteria(QueueTask.class).add(
+				tasks = session.createCriteria(Job.class).add(
 						Expression.eq("userName", userName))
 						.list();
 				tx.commit();
@@ -675,9 +674,9 @@ public class PopulateDataObjects {
 				Iterator i = tasks.iterator();
 		        while(i.hasNext())
 		        {
-		        	QueueTask ti = (QueueTask) i.next();
+		        	Job ti = (Job) i.next();
 		        	if(!justRunning) taskNames.add(ti.getJobName());
-		        	else if(ti.getState()==QueueTask.State.started)
+		        	else if(!ti.getStatus().equals(Constants.QUEUED))
 		        			taskNames.add(ti.getJobName());
 		        }
 			}
@@ -692,7 +691,7 @@ public class PopulateDataObjects {
 	@SuppressWarnings("unchecked")
 	public static List populateTasks(String userName, boolean justRunning, Session session) {
 		
-		List<QueueTask> tasks = null;
+		List<Job> tasks = null;
 		try 
 		{
 			Transaction tx = null;
@@ -700,12 +699,12 @@ public class PopulateDataObjects {
 			{
 				tx = session.beginTransaction();
 				if(justRunning)
-					tasks = session.createCriteria(QueueTask.class).
+					tasks = session.createCriteria(Job.class).
 						add(Expression.eq("userName", userName)).
-						add(Expression.eq("state", QueueTask.State.started)).
+						add(Expression.eq("state", Constants.QUEUED)).
 						list();
 				else
-					tasks = session.createCriteria(QueueTask.class).
+					tasks = session.createCriteria(Job.class).
 					add(Expression.eq("userName", userName)).
 					list();
 				tx.commit();
@@ -736,28 +735,15 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(e);
 		} 
 		
-		//get the modelingJob, datasetJob, or predictionJob associated with each Job
-		for(Job j : jobs){
-			if(j.getJobType().equals(Constants.DATASET)){
-				
-			}
-			if(j.getJobType().equals(Constants.MODELING)){
-				
-			}
-			else if(j.getJobType().equals(Constants.PREDICTION)){
-				
-			}
-		}
-		
 		return jobs;
 	}
 	
-	public static QueueTask getTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{
-		QueueTask task = null;
+	public static Job getTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{
+		Job task = null;
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			task = (QueueTask) session.createCriteria(QueueTask.class)
+			task = (Job) session.createCriteria(Job.class)
 					.add(Expression.eq("id", id))
 					.uniqueResult();
 			tx.commit();

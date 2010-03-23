@@ -26,13 +26,13 @@ public class CentralDogma{
 	//Holds the LSF jobs list, the incoming jobs list, and the local processing jobs list.
 	//Initiates the threads that work on these data structures.
 	
-	int numLocalThreads = 4; //as many as you want; tune it based on server load.
-	int numLsfThreads = 1; //don't change this unless you've REALLY thought through all possible concurrency issues
-	int numIncomingThreads = 1; //don't change this; the thread does no processing so having > 1 makes no sense
+	private int numLocalThreads = 4; //as many as you want; tune it based on server load.
+	private int numLsfThreads = 1; //don't change this unless you've REALLY thought through all possible concurrency issues
+	private int numIncomingThreads = 1; //don't change this; the thread does no processing so having > 1 makes no sense
 
-	SynchronizedJobList incomingJobs;
-	SynchronizedJobList localJobs;
-	SynchronizedJobList lsfJobs;
+	public SynchronizedJobList incomingJobs;
+	public SynchronizedJobList localJobs;
+	public SynchronizedJobList lsfJobs;
 	
 	private static CentralDogma instance = new CentralDogma(); 
 	
@@ -62,6 +62,7 @@ public class CentralDogma{
 					Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
 					wt = new QsarPredictionTask(prediction);
 				} 
+				wt.jobList = j.getJobList();
 				j.setWorkflowTask(wt);
 				
 				if(j.getJobList().equals(Constants.INCOMING)){
@@ -98,7 +99,7 @@ public class CentralDogma{
 		j.setNumModels(numModels);
 		j.setWorkflowTask(wt);
 		j.setTimeCreated(new Date());
-		j.setStatus("Queued");
+		j.setStatus(Constants.QUEUED);
 		j.setJobList(Constants.INCOMING);
 		j.setEmailOnCompletion(emailOnCompletion);
 

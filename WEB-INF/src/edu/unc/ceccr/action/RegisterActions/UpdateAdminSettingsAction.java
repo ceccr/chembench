@@ -21,15 +21,12 @@ import org.hibernate.criterion.Order;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.AdminSettings;
-import edu.unc.ceccr.persistence.Queue.QueueTask;
 
 //Called whenever the Admin page loads.
 
 public class UpdateAdminSettingsAction extends Action {
 
-	Queue taskList = Queue.getInstance();
 	
 	@SuppressWarnings("unchecked")
 	public ActionForward execute(ActionMapping mapping, ActionForm form,

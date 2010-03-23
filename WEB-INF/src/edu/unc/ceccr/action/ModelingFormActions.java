@@ -22,7 +22,6 @@ import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.WorkflowTask;
@@ -133,12 +132,10 @@ public class ModelingFormActions extends ActionSupport{
 		
 		//set up job
 		try{
-			Queue tasklist;
 			QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
 			Utility.writeToDebug("Setting up task", user.getUserName(), this.getJobName());
 			modelingTask.setUp();
 			Utility.writeToDebug("done Setting up task", user.getUserName(), this.getJobName());
-			tasklist = Queue.getInstance();
 			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId, session).getNumCompound();
 			
 			session.close();

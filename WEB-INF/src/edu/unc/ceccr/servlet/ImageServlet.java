@@ -43,7 +43,6 @@ public class ImageServlet extends HttpServlet {
 	        }
 	        catch(Exception ex){
 	        	Utility.writeToDebug(ex);
-	        	Utility.writeToMSDebug("Error in ImageServlet::"+ex.getMessage());
 	        }
         }
         

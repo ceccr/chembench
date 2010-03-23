@@ -20,7 +20,6 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -32,7 +31,7 @@ import edu.unc.ceccr.workflows.KnnPredictionWorkflow;
 import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
 import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
-public class QsarPredictionTask implements WorkflowTask {
+public class QsarPredictionTask extends WorkflowTask {
 
 	ArrayList<PredictionValue> allPredValues = new ArrayList<PredictionValue>();
 	private String filePath;
@@ -47,6 +46,9 @@ public class QsarPredictionTask implements WorkflowTask {
 	private ArrayList<String> selectedPredictorNames = new ArrayList<String>(); //used by getProgress function
 	private Prediction prediction;
 
+	//for internal use only
+	ArrayList<Predictor> selectedPredictors = null; 
+	
 	public String getProgress() {
 		
 		try{
@@ -139,14 +141,63 @@ public class QsarPredictionTask implements WorkflowTask {
 		
 	}
 
-	public void execute() throws Exception {
+	public void setUp() throws Exception {
+		//create Prediction object in DB to allow for recovery of this job if it fails.
+		
+		if(prediction == null){
+			prediction = new Prediction();
+		}
+		
+		prediction.setDatabase(this.sdf);
+		prediction.setUserName(this.userName);
+		prediction.setSimilarityCutoff(new Float(this.cutoff));
+		prediction.setPredictorIds(this.selectedPredictorIds);
+		prediction.setJobName(this.jobName);
+		prediction.setDatasetId(predictionDataset.getFileId());
+		prediction.setHasBeenViewed(Constants.NO);
+		prediction.setJobCompleted(Constants.NO);
 
-		Utility.writeToDebug("QsarPredictionTask: ExecutePredictor",userName,jobName);
-		Utility.writeToMSDebug("QsarPredictionTask: Start"+userName+" "+jobName);
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.saveOrUpdate(prediction);		
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+		
+		Utility.writeToDebug("Setting up prediction task", userName, jobName);
+		try{
+			new File(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName).mkdir();
+			
+			if(predictionDataset.getUserName().equals(userName)){
+				FileAndDirOperations.copyFile(
+						Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
+						Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
+						);
+			}
+			else{
+				FileAndDirOperations.copyFile(
+						Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
+						Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
+						);
+			}			
+		}
+		catch(Exception e){
+			Utility.writeToDebug(e);
+		}
+	}
+
+	public void preProcess() throws Exception {
 
 		Session s = HibernateUtil.getSession();
 		
-		ArrayList<Predictor> selectedPredictors = new ArrayList<Predictor>();
+		selectedPredictors = new ArrayList<Predictor>();
 		String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
 
 		for(int i = 0; i < selectedPredictorIdArray.length; i++){
@@ -167,7 +218,6 @@ public class QsarPredictionTask implements WorkflowTask {
 				Utility.writeToDebug(e);
 			}
 			
-			
 			selectedPredictors.add(selectedPredictor);
 		}
 
@@ -176,21 +226,13 @@ public class QsarPredictionTask implements WorkflowTask {
 		//Workflow will be:
 		//0. copy dataset into jobDir. 
 		//1. Create each of the descriptor types that will be needed.
-		//for each predictor do {
-		//	2. copy predictor into jobDir/predictorDir
-		//	3. copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.
-		//	4. make predictions in jobDir/predictorDir
-		//	5. get output, put it into predictionValue objects and save them
-		//}
-		//6. move jobDir into PREDICTIONS.
 		
-		
-		//Here we go!
 		//0. copy dataset into jobDir.
 		step = Constants.SETUP;
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+		String sdfile = predictionDataset.getSdfFile();
 		
 		GetJobFilesWorkflow.getDatasetFiles(userName, predictionDataset, path);
 		//done with 0. (copy dataset into jobDir.)
@@ -205,8 +247,6 @@ public class QsarPredictionTask implements WorkflowTask {
 				requiredDescriptors.add(descType);
 			}
 		}
-
-		String sdfile = predictionDataset.getSdfFile();
 		
 		for(int i = 0; i < requiredDescriptors.size(); i++){
 			if(requiredDescriptors.get(i).equals(Constants.MOLCONNZ)){
@@ -231,6 +271,31 @@ public class QsarPredictionTask implements WorkflowTask {
 			}
 		}
 		//done with step 1. (Create each of the descriptor types that will be needed.)
+		
+		if(jobList.equals(Constants.LSF)){
+			//move files out to LSF
+		}
+	}
+	
+	public void executeLSF() throws Exception {
+		
+	}
+	
+	public void executeLocal() throws Exception {
+
+		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+		String sdfile = predictionDataset.getSdfFile();
+		
+		//Workflow for this section will be:
+		//for each predictor do {
+		//	2. copy predictor into jobDir/predictorDir
+		//	3. copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.
+		//	4. make predictions in jobDir/predictorDir
+		//	5. get output, put it into predictionValue objects and save them
+		//}
+		
+		//this is gonna need some major changes if we ever want it to work with LSF.
+		//basically the workflow will need to be written into a shell script the LSF can execute
 		
 		//for each predictor do {
 		for(int i = 0; i < selectedPredictors.size(); i++){
@@ -312,11 +377,60 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 		//}
 		
-		//6. move jobDir into PREDICTIONS.
+		
+	}
+	
+	public void postProcess() throws Exception {
 
+		if(jobList.equals(Constants.LSF)){
+			//move files back from LSF
+		}
+		
+		
+		
 		KnnPredictionWorkflow.MoveToPredictionsDir(userName, jobName);
 		
-		//done with 6. (move jobDir into PREDICTIONS.)
+		try{
+
+			if(this.allPredValues == null){
+				Utility.writeToDebug("Warning: allPredValue is null.");
+			}
+			else{
+				Utility.writeToDebug("Saving prediction to database.");
+			}
+			
+			for (PredictionValue predOutput : this.allPredValues){
+				predOutput.setPredictionJob(prediction);
+			}
+
+			prediction.setJobCompleted(Constants.YES);
+			prediction.setStatus("saved");
+			prediction.setPredictedValues(new ArrayList<PredictionValue>(allPredValues));
+
+			Session session = HibernateUtil.getSession();
+			Transaction tx = null;
+			try {
+				tx = session.beginTransaction();
+				session.saveOrUpdate(prediction);		
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			} finally {
+				session.close();
+			}
+			
+			File dir=new File(Constants.CECCR_USER_BASE_PATH+this.userName+"/"+this.jobName+"/");
+			FileAndDirOperations.deleteDir(dir);
+			
+			}
+			catch(Exception ex){
+				Utility.writeToDebug(ex);
+			}
+	}
+	
+	public void delete() throws Exception {
 		
 	}
 	
@@ -395,106 +509,8 @@ public class QsarPredictionTask implements WorkflowTask {
 		}
 		return allPredValue;
 	}
-	
-		
-	public void cleanUp() throws Exception {
-		Queue.getInstance().deleteTask(this);
-	}
 
-	public void setUp() throws Exception {
-		//create Prediction object in DB to allow for recovery of this job if it fails.
-		
-		if(prediction == null){
-			prediction = new Prediction();
-		}
-		
-		prediction.setDatabase(this.sdf);
-		prediction.setUserName(this.userName);
-		prediction.setSimilarityCutoff(new Float(this.cutoff));
-		prediction.setPredictorIds(this.selectedPredictorIds);
-		prediction.setJobName(this.jobName);
-		prediction.setDatasetId(predictionDataset.getFileId());
-		prediction.setHasBeenViewed(Constants.NO);
-		prediction.setJobCompleted(Constants.NO);
-
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			session.saveOrUpdate(prediction);		
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			session.close();
-		}
-		
-		Utility.writeToDebug("Setting up prediction task", userName, jobName);
-		try{
-			new File(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName).mkdir();
-			
-			if(predictionDataset.getUserName().equals(userName)){
-				FileAndDirOperations.copyFile(
-						Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
-						Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
-						);
-			}
-			else{
-				FileAndDirOperations.copyFile(
-						Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
-						Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
-						);
-			}			
-		}
-		catch(Exception e){
-			Utility.writeToMSDebug(e.getMessage());
-			Utility.writeToDebug(e);
-		}
-	}
-
-	public void save(){
-		try{
-
-			
-		if(this.allPredValues == null){
-			Utility.writeToDebug("Warning: allPredValue is null.");
-		}
-		else{
-			Utility.writeToDebug("Saving prediction to database.");
-		}
-		
-		for (PredictionValue predOutput : this.allPredValues){
-			predOutput.setPredictionJob(prediction);
-		}
-
-		prediction.setJobCompleted(Constants.YES);
-		prediction.setStatus("saved");
-		prediction.setPredictedValues(new ArrayList<PredictionValue>(allPredValues));
-
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			session.saveOrUpdate(prediction);		
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			session.close();
-		}
-		
-		File dir=new File(Constants.CECCR_USER_BASE_PATH+this.userName+"/"+this.jobName+"/");
-		FileAndDirOperations.deleteDir(dir);
-		
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-	}
+    
 	
 	public String getJobName() {
 		return jobName;

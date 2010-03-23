@@ -68,7 +68,7 @@ public class XMLTreeBuilderWorkflow {
 		        }
 	        }
 	         catch(Exception e){
-	        	 Utility.writeToMSDebug("-------"+e.getMessage());
+	        	 Utility.writeToDebug(e);
 	         }
 	         
 	        return key;

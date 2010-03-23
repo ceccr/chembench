@@ -13,7 +13,6 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
@@ -25,7 +24,7 @@ import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
 import edu.unc.ceccr.workflows.SdfToJpgWorkflow;
 import edu.unc.ceccr.workflows.StandardizeMoleculesWorkflow;
 
-public class CreateDatasetTask implements WorkflowTask{
+public class CreateDatasetTask extends WorkflowTask{
 
 	private String userName = null;
 	private String datasetType; 
@@ -51,21 +50,27 @@ public class CreateDatasetTask implements WorkflowTask{
 	
 	public String getProgress(){
 		String percent = "";
+		
 		if(step.equals(Constants.SKETCHES)){
 			//count the number of *.jpg files in the working directory
-			String workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/Sketches/";
+			
+			String workingDir = "";
+			if(jobList.equals(Constants.LSF)){
+				
+			}
+			else{
+				workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/Sketches/";
+			}
 			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*jpg");
 			//divide by the number of compounds in the dataset
 			p /= numCompounds;
 			p *= 100; //it's a percent
 			percent = " (" + Math.round(p) + "%)"; 
 		}
+		
 		return step + percent;
 	}
 	
-	private Queue queue = Queue.getInstance();
-	
-
 	public CreateDatasetTask(DataSet dataset){
 		this.dataset = dataset;
 
@@ -146,8 +151,52 @@ public class CreateDatasetTask implements WorkflowTask{
 			Utility.writeToDebug(ex);
 		}
 	}
+	
 
-	public void execute() throws Exception {
+	public void setUp() throws Exception {
+		//create DataSet object in DB to allow for recovery of this job if it fails.
+
+		dataset = new DataSet();
+
+		dataset.setFileName(jobName);
+		dataset.setUserName(userName);
+		dataset.setDatasetType(datasetType);
+		dataset.setActFile(actFileName);
+		dataset.setSdfFile(sdfFileName);
+		dataset.setXFile(xFileName);
+		dataset.setModelType(actFileDataType);
+		dataset.setNumCompound(numCompounds);
+		dataset.setCreatedTime(new Date());
+		dataset.setDescription(dataSetDescription);
+		dataset.setPaperReference(paperReference);
+		dataset.setActFormula(actFileHeader);
+		dataset.setUploadedDescriptorType(descriptorType);
+		dataset.setHasBeenViewed(Constants.NO);
+		
+		dataset.setStandardize(standardize);
+		dataset.setSplitType(splitType);
+		dataset.setNumExternalCompounds(numExternalCompounds);
+		dataset.setUseActivityBinning(useActivityBinning);
+		dataset.setExternalCompoundList(externalCompoundList);
+
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+
+		try {
+			tx = session.beginTransaction();
+			session.saveOrUpdate(dataset);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+
+	}
+	
+	public void preProcess() throws Exception {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
 
 		Utility.writeToDebug("executing task");
@@ -163,24 +212,13 @@ public class CreateDatasetTask implements WorkflowTask{
 			}
 		}
 		
+
+		
 		if(!sdfFileName.equals("")){
-			//generate compound sketches, descriptors, and visualization files
+			//generate descriptors
 			this.numCompounds = DatasetFileOperations.getSDFCompoundList(path+sdfFileName).size();
-
-			String vizFilePath = "Visualization/"; 
-			String structDir = "Visualization/Structures/";
-			String sketchDir = "Visualization/Sketches/";
+			
 			String descriptorDir = "Descriptors/";
-
-			if(!new File(path + vizFilePath).exists()) {
-				new File(path + vizFilePath).mkdirs();
-			}
-			if(!new File(path + structDir).exists()) {
-				new File(path + structDir).mkdirs();
-			}
-			if(!new File(path + sketchDir).exists()) {
-				new File(path + sketchDir).mkdirs();
-			}
 			if(!new File(path + descriptorDir).exists()) {
 				new File(path + descriptorDir).mkdirs();
 			}
@@ -261,36 +299,8 @@ public class CreateDatasetTask implements WorkflowTask{
 				errorSummary.close();
 			}
 			
-
-			step = Constants.SKETCHES;
-			Utility.writeToDebug("Generating JPGs", userName, jobName);
-			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
-			
-			step = Constants.VISUALIZATION;
-			Utility.writeToDebug("Generating Visualizations", userName, jobName);
-			
-			String viz_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/" + sdfFileName.substring(0,sdfFileName.lastIndexOf("."));
-			FileAndDirOperations.copyFile(path + descriptorDir + sdfFileName + ".maccs", viz_path + ".maccs");
-			CSV_X_Workflow.performXCreation(viz_path);
-			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "mahalanobis");
-			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "tanimoto");
-
-			if(!actFileName.equals("")){
-				//generate ACT-file related visualizations
-				this.numCompounds = DatasetFileOperations.getACTCompoundList(path+actFileName).size();
-				String act_path  = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/" + actFileName;
-					
-				//PCA plot creation works
-				//however, there is no way to visualize the result right now.
-				CSV_X_Workflow.performPCAcreation(viz_path, act_path);
-	
-			}
-
 		}
 		
-		if(!xFileName.equals("")){
-			this.numCompounds = DatasetFileOperations.getXCompoundList(path+xFileName).size();
-		}
 		
 		if(datasetType.equals(Constants.MODELING) || datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
 			//split dataset to get external set and modeling set
@@ -343,21 +353,80 @@ public class CreateDatasetTask implements WorkflowTask{
 					//already got a .x file, so just split that
 					DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundList);
 				}
-							
-			}			
+			}
+		}
+		
+		if(jobList.equals(Constants.LSF)){
+			//copy needed files out to LSF
+		}
+	}
+	
+	public void executeLSF() throws Exception {
+		//this should do the same thing as executeLocal functionally
+		//it will create a job on LSF and return immediately.
+	}
+	
+	public void executeLocal() throws Exception {
+
+		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
+
+		if(!sdfFileName.equals("")){
+			//generate compound sketches and visualization files
+
+			String descriptorDir = "Descriptors/";
+			String vizFilePath = "Visualization/"; 
+			String structDir = "Visualization/Structures/";
+			String sketchDir = "Visualization/Sketches/";
+
+			if(!new File(path + vizFilePath).exists()) {
+				new File(path + vizFilePath).mkdirs();
+			}
+			if(!new File(path + structDir).exists()) {
+				new File(path + structDir).mkdirs();
+			}
+			if(!new File(path + sketchDir).exists()) {
+				new File(path + sketchDir).mkdirs();
+			}
+			
+			step = Constants.SKETCHES;
+			Utility.writeToDebug("Generating JPGs", userName, jobName);
+			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
+			
+			step = Constants.VISUALIZATION;
+			Utility.writeToDebug("Generating Visualizations", userName, jobName);
+			
+			String viz_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/" + sdfFileName.substring(0,sdfFileName.lastIndexOf("."));
+			FileAndDirOperations.copyFile(path + descriptorDir + sdfFileName + ".maccs", viz_path + ".maccs");
+			CSV_X_Workflow.performXCreation(viz_path);
+			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "mahalanobis");
+			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "tanimoto");
+
+			if(!actFileName.equals("")){
+				//generate ACT-file related visualizations
+				this.numCompounds = DatasetFileOperations.getACTCompoundList(path+actFileName).size();
+				String act_path  = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/" + actFileName;
+					
+				//PCA plot creation works
+				//however, there is no way to visualize the result right now.
+				CSV_X_Workflow.performPCAcreation(viz_path, act_path);
+	
+			}
 
 		}
-		Utility.writeToDebug("Finished creating dataset.", userName, jobName);
+		
+		if(!xFileName.equals("")){
+			this.numCompounds = DatasetFileOperations.getXCompoundList(path+xFileName).size();
+		}
+		
 	}
-
-	public void cleanUp() throws Exception {
-		queue.deleteTask(this);
-	}
-
-	public void save() throws Exception {
-		//move dataset to DATASET dir
-
+	
+	public void postProcess() throws Exception {
 		Utility.writeToDebug("Saving dataset to database", userName, jobName);
+		
+		if(jobList.equals(Constants.LSF)){
+			//copy needed back from LSF
+		}
+		
 		//add dataset to DB
 		dataset.setHasBeenViewed(Constants.YES);
 		dataset.setAvailableDescriptors(availableDescriptors);
@@ -376,54 +445,11 @@ public class CreateDatasetTask implements WorkflowTask{
 		} finally {
 			session.close();
 		}
-
-	}
-	
-	public void setUp() throws Exception {
-		//create DataSet object in DB to allow for recovery of this job if it fails.
-
-		dataset = new DataSet();
-
-		dataset.setFileName(jobName);
-		dataset.setUserName(userName);
-		dataset.setDatasetType(datasetType);
-		dataset.setActFile(actFileName);
-		dataset.setSdfFile(sdfFileName);
-		dataset.setXFile(xFileName);
-		dataset.setModelType(actFileDataType);
-		dataset.setNumCompound(numCompounds);
-		dataset.setCreatedTime(new Date());
-		dataset.setDescription(dataSetDescription);
-		dataset.setPaperReference(paperReference);
-		dataset.setActFormula(actFileHeader);
-		dataset.setUploadedDescriptorType(descriptorType);
-		dataset.setHasBeenViewed(Constants.NO);
 		
-		dataset.setStandardize(standardize);
-		dataset.setSplitType(splitType);
-		dataset.setNumExternalCompounds(numExternalCompounds);
-		dataset.setUseActivityBinning(useActivityBinning);
-		dataset.setExternalCompoundList(externalCompoundList);
+	}
 
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
-
-		try {
-			tx = session.beginTransaction();
-			session.saveOrUpdate(dataset);
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			session.close();
-		}
-
+	public void delete() throws Exception {
+		
 	}
 	
-	public String getJobName() {
-		return jobName;
-	}
-
 }

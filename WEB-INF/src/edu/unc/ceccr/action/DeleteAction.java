@@ -34,9 +34,7 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -70,7 +68,6 @@ public class DeleteAction extends ActionSupport{
 		
 		//check each job
 		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true, session);
-		List<QueueTask> queuedtasks  = PopulateDataObjects.populateTasks(userName, false, session);
 		session.close();
 		
 		//todo: Actually check the jobs! Needs some revision of how jobs work first.
@@ -312,6 +309,7 @@ public class DeleteAction extends ActionSupport{
 		Utility.writeToStrutsDebug("Deleting job with id: " + taskId);
 
 		Session session = HibernateUtil.getSession();
+		/*
 		QueueTask task = PopulateDataObjects.getTaskById(Long.parseLong(taskId), session);
 		Queue queue = Queue.getInstance();
 		
@@ -355,6 +353,7 @@ public class DeleteAction extends ActionSupport{
 				queue.runningTask = null;
 			}
 		}
+		*/
 		return SUCCESS;
 		
 	}

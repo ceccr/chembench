@@ -24,7 +24,6 @@ import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;

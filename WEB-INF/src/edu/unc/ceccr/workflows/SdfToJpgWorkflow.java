@@ -87,19 +87,16 @@ public class SdfToJpgWorkflow {
 			if(! new File(sketchesDir + jpgFilename).exists()){ 
 				
 				String command = "molconvert -2 jpeg:w300,Q95 "+ structuresDir + files[x]+ " -o "+ sketchesDir + jpgFilename;
-				Utility.writeToMSDebug("Creating image::"+command);
 				
 				// run molconvert
 				Process process = Runtime.getRuntime().exec(command);
 				Utility.writeProgramLogfile(sketchesDir, "molconvert" + x, process.getInputStream(), process.getErrorStream());
 				
 				process.waitFor();
-				//Utility.writeToMSDebug("exit value = " + process.exitValue());
 			
 			}
 			x++;
 		}
-		Utility.writeToMSDebug("END Creating .jpg files into Sketches dir: " + sketchesDir);
 		Utility.writeToDebug("Done creating sketches. ");
 		
 	}

@@ -28,14 +28,12 @@ public class DistanceMeasure {
 	public void readData() throws Exception{
         data = DatasetFileOperations.readFileToVector(" ", file_path+".x");
 		// removing two first rows (general file info and names)
-        //Utility.writeToMSDebug("-----readData-----Data readed");
-		data.remove(0);
+        data.remove(0);
 		data.remove(0);
              names = new String[data.size()];
 		for(int i=0;i<data.size();i++){
 			names[i] = data.get(i).get(1);
 		}
-		//Utility.writeToMSDebug("-----readData-----Names readed");
 		for(int i=0;i<data.size();i++){
 			data.get(i).remove(0);
 			data.get(i).remove(0);
@@ -52,7 +50,6 @@ public class DistanceMeasure {
 			}
 			outvector.add(temp);
 		}
-		Utility.writeToMSDebug("-----convertStringVectorToDoubleVector-----");
 		return outvector;
 	}
 	
@@ -81,7 +78,7 @@ public class DistanceMeasure {
      
      
      public void performXMLCreation() throws IOException{
-    	 Utility.writeToMSDebug("performMatrixCreation");
+    	 
      }
      
      public void performPCAcreation(){

@@ -8,7 +8,6 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.persistence.*;
-import edu.unc.ceccr.persistence.Queue.QueueTask;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -57,7 +56,7 @@ public class DeleteUserAction extends Action {
 		List predictionJobs = getUserDatabase(userName, Prediction.class);
 		List predictors = getUserDatabase(userName,Predictor.class);
 		List datasets = getUserDatabase(userName,DataSet.class);
-		List tasks = getUserDatabase(userName,QueueTask.class);;
+		List tasks = getUserDatabase(userName,Job.class);;
 		
 		deleteDatabaseData(predictionJobs);
 		deleteDatabaseData(predictors);

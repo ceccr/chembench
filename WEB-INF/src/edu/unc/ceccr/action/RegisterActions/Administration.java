@@ -19,7 +19,6 @@ import org.hibernate.Transaction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.SoftwareExpiration;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -27,7 +26,6 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class Administration extends Action {
 
-	Queue taskList = Queue.getInstance();
 	
 	@SuppressWarnings("unchecked")
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
@@ -128,8 +126,6 @@ public class Administration extends Action {
 			}
 			
 			session.removeAttribute("queuedTasks");
-			
-			session.setAttribute("queuedTasks",taskList.getQueuedTasks());
 			
 			forward = mapping.findForward("admin");
 		}

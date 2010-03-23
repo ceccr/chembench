@@ -24,15 +24,13 @@ import edu.unc.ceccr.action.ViewDataset.Compound;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.persistence.Queue.QueueTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.persistence.Queue.QueueTask.jobTypes;
 
 public class JobsActions extends ActionSupport {
 
@@ -114,7 +112,7 @@ public class JobsActions extends ActionSupport {
 	    		return p1.getJobName().toLowerCase().compareTo(p2.getJobName().toLowerCase());
 		    }});
 		
-		
+		/*
 		//load the queue
 		userQueueTasks = new ArrayList<QueueTask>();
 		if(Queue.getInstance().runningTask != null){
@@ -144,7 +142,7 @@ public class JobsActions extends ActionSupport {
 			}
 		}	
 		session.close();
-		
+		*/
 		//log the results
 		if(result.equals(SUCCESS)){
 			Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to jobs page.");
@@ -175,7 +173,7 @@ public class JobsActions extends ActionSupport {
 	private List<DataSet> userDatasets;
 	private List<Predictor> userPredictors;
 	private List<Prediction> userPredictions;
-	private List<QueueTask> userQueueTasks;
+	private List<Job> userQueueTasks;
 	
 	public List<DataSet> getUserDatasets(){
 		return userDatasets;
@@ -198,10 +196,10 @@ public class JobsActions extends ActionSupport {
 		this.userPredictions = userPredictions;
 	}
 		
-	public List<QueueTask> getUserQueueTasks(){
+	public List<Job> getUserQueueTasks(){
 		return userQueueTasks;
 	}
-	public void setUserQueueTasks(List<QueueTask> userQueueTasks) {
+	public void setUserQueueTasks(List<Job> userQueueTasks) {
 		this.userQueueTasks = userQueueTasks;
 	}
 

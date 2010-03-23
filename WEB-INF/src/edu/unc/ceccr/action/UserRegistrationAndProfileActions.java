@@ -31,7 +31,6 @@ import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.Queue;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;

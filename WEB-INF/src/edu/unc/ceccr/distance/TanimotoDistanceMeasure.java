@@ -20,7 +20,6 @@ public class TanimotoDistanceMeasure extends DistanceMeasure{
 
 	@Override
 public void performMatrixCreation() throws IOException{
-		Utility.writeToMSDebug("performMatrixCreation_TANA");
 		Vector<Vector<String>> res = new Vector<Vector<String>>();
                 distance_matrix = new Vector<Vector<Double>>();
 		
@@ -59,8 +58,7 @@ public void performMatrixCreation() throws IOException{
 }
 	
 	public void performXMLCreation() throws IOException{
-		Utility.writeToMSDebug("TAN:::performXMLCreation");
-    	XMLTreeBuilderWorkflow xml_builder = new XMLTreeBuilderWorkflow();
+		XMLTreeBuilderWorkflow xml_builder = new XMLTreeBuilderWorkflow();
      	xml_builder.setFilePath(file_path+"_tan");
      	xml_builder.formatData(new Vector<String>(Arrays.asList(names)), distance_matrix);
      	xml_builder.writeXMLFile();

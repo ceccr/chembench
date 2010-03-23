@@ -111,8 +111,7 @@ private double[] convertVectorToDouble(Vector<Double> v){
   }
     @Override
 public void performMatrixCreation() throws IOException{
-    	Utility.writeToMSDebug("performMatrixCreation_MAHA");
-		Vector<Vector<Double>> res_d = new Vector<Vector<Double>>();
+    	Vector<Vector<Double>> res_d = new Vector<Vector<Double>>();
 		double min = 1000000000;
                 for(int k=0;k<bit_matrix.size();k++){
                     Double similarity = new Double(0);
@@ -168,7 +167,6 @@ public void performMatrixCreation() throws IOException{
     }
     
     public void performXMLCreation() throws IOException{
-    	Utility.writeToMSDebug("MAH:::performXMLCreation");
     	XMLTreeBuilderWorkflow xml_builder = new XMLTreeBuilderWorkflow();
      	xml_builder.setFilePath(file_path+"_mah");
      	xml_builder.formatData(new Vector<String>(Arrays.asList(names)), distance_matrix);
