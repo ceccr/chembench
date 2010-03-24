@@ -92,7 +92,7 @@ public class CentralDogma{
 */
 			Utility.writeToDebug("Starting incomingJobThread");
 			inThread = new IncomingJobProcessingThread();
-			inThread.start();
+			//inThread.start();
 
 			Utility.writeToDebug("incomingJobThread started.");
 			
