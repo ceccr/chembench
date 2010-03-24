@@ -557,6 +557,11 @@ public class QsarModelingTask extends WorkflowTask {
 
 	public void executeLSF() throws Exception{
 		
+		//this function will submit a single LSF job.
+		//To submit this workflowTask as multiple jobs (to distribute the computation)
+		//change this function and the LsfProcessingThread so that it will work with
+		//an LSF jobArray instead.
+		
 	}
 	
 	@SuppressWarnings("unchecked")

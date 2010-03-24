@@ -184,6 +184,16 @@ public class Utility {
 		}
 	}
 	
+	public static void close(Closeable c) {
+		if (c != null) {
+		  try {
+		    c.close();
+		  } catch (IOException e) {
+			  // ignored
+	      }
+	    }
+	 }
+	
 	public static void writeProgramLogfile(String workingDir, String programName, InputStream stdout, InputStream errout){
 		//Take the inputStreams from an external program execution, write them to a logfile
 		    

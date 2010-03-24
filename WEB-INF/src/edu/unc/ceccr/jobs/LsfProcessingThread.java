@@ -80,8 +80,15 @@ public class LsfProcessingThread extends Thread {
 		String command = "bjobs.sh";
 		//Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		//Utility.writeProgramLogfile(workingDir, "bjobs.sh", p.getInputStream(), p.getErrorStream());
+		Utility.writeProgramLogfile(workingDir, "bjobs.sh", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
+		
+		if (p != null) {
+	        Utility.close(p.getOutputStream());
+	        Utility.close(p.getInputStream());
+	        Utility.close(p.getErrorStream());
+	        p.destroy();
+	    }
 		
 		//read in results
 		ArrayList<LsfJobStatus> lsfStatusList = new ArrayList<LsfJobStatus>();
