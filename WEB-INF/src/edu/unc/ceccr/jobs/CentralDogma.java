@@ -34,6 +34,8 @@ public class CentralDogma{
 	public SynchronizedJobList localJobs;
 	public SynchronizedJobList lsfJobs;
 	
+	private IncomingJobProcessingThread inThread;
+	
 	private static CentralDogma instance = new CentralDogma(); 
 	
 	private CentralDogma(){
@@ -89,7 +91,7 @@ public class CentralDogma{
 			}
 */
 			Utility.writeToDebug("Starting incomingJobThread");
-			IncomingJobProcessingThread inThread = new IncomingJobProcessingThread();
+			inThread = new IncomingJobProcessingThread();
 			inThread.start();
 
 			Utility.writeToDebug("incomingJobThread started.");
