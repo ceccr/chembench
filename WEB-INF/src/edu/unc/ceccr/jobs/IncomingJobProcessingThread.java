@@ -21,6 +21,7 @@ public class IncomingJobProcessingThread extends Thread {
 	public void run() {
 		try {
 			sleep(500);
+			Utility.writeToDebug("IncomingThread awake!");
 			//determine which jobs should be sent to the LSF jobs list, 
 			//which should stay here, and which should go to the local jobs list.
 			ArrayList<Job> incomingJobs = CentralDogma.getInstance().incomingJobs.getReadOnlyCopy();
@@ -29,6 +30,7 @@ public class IncomingJobProcessingThread extends Thread {
 				if(j.getJobType().equals(Constants.DATASET)){
 					//send it to local
 					movedJob = true;
+					Utility.writeToDebug("Sending job " + j.getJobName() + " to local queue");
 					j.setJobList(Constants.LOCAL);
 					j.workflowTask.jobList = Constants.LOCAL;
 					CentralDogma.getInstance().localJobs.addJob(j);
@@ -36,6 +38,7 @@ public class IncomingJobProcessingThread extends Thread {
 				}
 				else if(j.getJobType().equals(Constants.PREDICTION)){
 					//send it to local
+					Utility.writeToDebug("Sending job " + j.getJobName() + " to local queue");
 					movedJob = true;
 					j.setJobList(Constants.LOCAL);
 					j.workflowTask.jobList = Constants.LOCAL;
@@ -44,6 +47,7 @@ public class IncomingJobProcessingThread extends Thread {
 				}
 				else if(j.getJobType().equals(Constants.MODELING)){
 					//check LSF status. If LSF can accept another job, put it there.
+					Utility.writeToDebug("Sending job " + j.getJobName() + " to LSF queue");
 					if(LsfProcessingThread.lsfHasFreePendSlots()){
 						movedJob = true;
 						j.setJobList(Constants.LSF);

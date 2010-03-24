@@ -26,9 +26,9 @@ public class CentralDogma{
 	//Holds the LSF jobs list, the incoming jobs list, and the local processing jobs list.
 	//Initiates the threads that work on these data structures.
 	
-	private int numLocalThreads = 4; //as many as you want; tune it based on server load.
-	private int numLsfThreads = 1; //don't change this unless you've REALLY thought through all possible concurrency issues
-	private int numIncomingThreads = 1; //don't change this; the thread does no processing so having > 1 makes no sense
+	private final int numLocalThreads = 4; //as many as you want; tune it based on server load.
+	private final int numLsfThreads = 1; //don't change this unless you've REALLY thought through all possible concurrency issues
+	private final int numIncomingThreads = 1; //don't change this; the thread does no processing so having > 1 makes no sense
 
 	public SynchronizedJobList incomingJobs;
 	public SynchronizedJobList localJobs;
@@ -75,6 +75,24 @@ public class CentralDogma{
 					lsfJobs.addJob(j);
 				}
 			}
+			
+			//start job processing threads
+			for(int i = 0; i < numLocalThreads; i++){
+				LocalProcessingThread localThread = new LocalProcessingThread();
+				localThread.start();
+			}
+			
+
+			for(int i = 0; i < numLsfThreads; i++){
+				LsfProcessingThread lsfThread = new LsfProcessingThread();
+				lsfThread.start();
+			}
+
+			IncomingJobProcessingThread inThread = new IncomingJobProcessingThread();
+			inThread.start();
+			
+			inThread.wait();
+			
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}

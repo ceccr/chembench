@@ -16,13 +16,16 @@ public class LocalProcessingThread extends Thread {
 	public void run() {
 		try {
 			sleep(500);
-			
+			Utility.writeToDebug("LocalProcessingThread awake!");
 			//pull out a job and start it running
 			ArrayList<Job> jobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
 			for(Job j: jobs){
 				if(j.getStatus().equals(Constants.QUEUED)){
 					//try to get this job. Note that another thread may be trying to get it too.
 					if(CentralDogma.getInstance().localJobs.startJob(j)){
+
+						Utility.writeToDebug("Local queue: Started job " + j.getJobName());
+						
 						j.setStatus(Constants.PREPROC);
 						j.workflowTask.preProcess();
 						j.setStatus(Constants.RUNNING);
