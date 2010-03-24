@@ -91,7 +91,7 @@ public class CentralDogma{
 			IncomingJobProcessingThread inThread = new IncomingJobProcessingThread();
 			inThread.start();
 			
-			inThread.wait();
+			wait();
 			
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
