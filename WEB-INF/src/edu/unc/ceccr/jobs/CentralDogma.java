@@ -52,37 +52,38 @@ public class CentralDogma{
 			}
 			for(Job j : jobs){
 				WorkflowTask wt = null;
-				if(j.getJobType().equals(Constants.DATASET)){
-					Long datasetId = Long.parseLong(j.getLookupId());
-					DataSet dataset = PopulateDataObjects.getDataSetById(datasetId, s);
-					wt = new CreateDatasetTask(dataset);
-				}
-				else if(j.getJobType().equals(Constants.MODELING)){
-					Long modelingId = Long.parseLong(j.getLookupId());
-					Predictor predictor = PopulateDataObjects.getPredictorById(modelingId, s);
-					wt = new QsarModelingTask(predictor);
-				} 
-				else if(j.getJobType().equals(Constants.PREDICTION)){
-					Long predictionId = Long.parseLong(j.getLookupId());
-					Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
-					wt = new QsarPredictionTask(prediction);
-				} 
-				wt.jobList = j.getJobList();
-				j.setWorkflowTask(wt);
-				
-				if(j.getJobList().equals(Constants.INCOMING)){
-					incomingJobs.addJob(j);
-				}
-				else if(j.getJobList().equals(Constants.LOCAL)){
-					localJobs.addJob(j);
-				}
-				else if(j.getJobList().equals(Constants.LSF)){
-					lsfJobs.addJob(j);
+				if(j.getLookupId() != null){
+					if(j.getJobType().equals(Constants.DATASET)){
+						Long datasetId = Long.parseLong(j.getLookupId());
+						DataSet dataset = PopulateDataObjects.getDataSetById(datasetId, s);
+						wt = new CreateDatasetTask(dataset);
+					}
+					else if(j.getJobType().equals(Constants.MODELING)){
+						Long modelingId = Long.parseLong(j.getLookupId());
+						Predictor predictor = PopulateDataObjects.getPredictorById(modelingId, s);
+						wt = new QsarModelingTask(predictor);
+					} 
+					else if(j.getJobType().equals(Constants.PREDICTION)){
+						Long predictionId = Long.parseLong(j.getLookupId());
+						Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
+						wt = new QsarPredictionTask(prediction);
+					} 
+					wt.jobList = j.getJobList();
+					j.setWorkflowTask(wt);
+					
+					if(j.getJobList().equals(Constants.INCOMING)){
+						incomingJobs.addJob(j);
+					}
+					else if(j.getJobList().equals(Constants.LOCAL)){
+						localJobs.addJob(j);
+					}
+					else if(j.getJobList().equals(Constants.LSF)){
+						lsfJobs.addJob(j);
+					}
 				}
 			}
 			
 			//start job processing threads
-			/*
 			for(int i = 0; i < numLocalThreads; i++){
 				LocalProcessingThread localThread = new LocalProcessingThread();
 				localThread.start();
@@ -92,7 +93,6 @@ public class CentralDogma{
 				LsfProcessingThread lsfThread = new LsfProcessingThread();
 				lsfThread.start();
 			}
-			*/
 			
 			//Utility.writeToDebug("Starting incomingJobThread");
 			//inThread = new IncomingJobProcessingThread();
