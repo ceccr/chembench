@@ -5,6 +5,8 @@ import edu.unc.ceccr.global.Constants;
 public abstract class WorkflowTask {
 
 	public String jobList = Constants.INCOMING;
+	public Long lookupId;
+	public String jobType;
 	
 	public abstract void setUp() throws Exception; 
 	//creates any needed dirs

@@ -193,7 +193,9 @@ public class CreateDatasetTask extends WorkflowTask{
 		} finally {
 			session.close();
 		}
-
+		
+		lookupId = dataset.getFileId();
+		jobType = Constants.DATASET;
 	}
 	
 	public void preProcess() throws Exception {

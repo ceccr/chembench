@@ -171,6 +171,11 @@ public class QsarPredictionTask extends WorkflowTask {
 			session.close();
 		}
 		
+		lookupId = prediction.getPredictionId();
+		jobType = Constants.DATASET;
+		
+		
+		
 		Utility.writeToDebug("Setting up prediction task", userName, jobName);
 		try{
 			new File(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName).mkdir();

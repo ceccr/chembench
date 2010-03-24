@@ -25,7 +25,7 @@ public class Job {
 	private String jobList; //which jobList it's in. {NONE, INCOMING, LSF, LOCAL}
 	
 	private String jobType; //can be one of {MODELING, PREDICTION, DATASET};
-	private String lookupId; //a primary key for the datasetJob, modelingJob, or predictionJob tables (as determined by jobType)
+	private Long lookupId; //a primary key for the datasetJob, modelingJob, or predictionJob tables (as determined by jobType)
 	private int numCompounds;
 	private int numModels;
 	
@@ -98,10 +98,10 @@ public class Job {
 	}
 
 	@Column(name = "lookupId")
-	public String getLookupId() {
+	public Long getLookupId() {
 		return lookupId;
 	}
-	public void setLookupId(String lookupId) {
+	public void setLookupId(Long lookupId) {
 		this.lookupId = lookupId;
 	}
 

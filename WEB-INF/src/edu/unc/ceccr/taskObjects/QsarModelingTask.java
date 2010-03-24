@@ -453,6 +453,25 @@ public class QsarModelingTask extends WorkflowTask {
 				writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME);
 			}
 		}
+		
+
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+
+		try {
+			tx = session.beginTransaction();
+			session.saveOrUpdate(predictor);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			session.close();
+		}
+
+		lookupId = predictor.getPredictorId();
+		jobType = Constants.MODELING;
 	}
 	
 	public void preProcess() throws Exception{

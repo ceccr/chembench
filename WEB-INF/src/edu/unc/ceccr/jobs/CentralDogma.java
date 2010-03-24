@@ -54,17 +54,17 @@ public class CentralDogma{
 				WorkflowTask wt = null;
 				if(j.getLookupId() != null){
 					if(j.getJobType().equals(Constants.DATASET)){
-						Long datasetId = Long.parseLong(j.getLookupId());
+						Long datasetId = j.getLookupId();
 						DataSet dataset = PopulateDataObjects.getDataSetById(datasetId, s);
 						wt = new CreateDatasetTask(dataset);
 					}
 					else if(j.getJobType().equals(Constants.MODELING)){
-						Long modelingId = Long.parseLong(j.getLookupId());
+						Long modelingId = j.getLookupId();
 						Predictor predictor = PopulateDataObjects.getPredictorById(modelingId, s);
 						wt = new QsarModelingTask(predictor);
 					} 
 					else if(j.getJobType().equals(Constants.PREDICTION)){
-						Long predictionId = Long.parseLong(j.getLookupId());
+						Long predictionId = j.getLookupId();
 						Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
 						wt = new QsarPredictionTask(prediction);
 					} 
@@ -125,6 +125,8 @@ public class CentralDogma{
 		j.setStatus(Constants.QUEUED);
 		j.setJobList(Constants.INCOMING);
 		j.setEmailOnCompletion(emailOnCompletion);
+		j.setJobType(wt.jobType);
+		j.setLookupId(wt.lookupId);
 
 		//commit job to DB
 		Session s = HibernateUtil.getSession();
