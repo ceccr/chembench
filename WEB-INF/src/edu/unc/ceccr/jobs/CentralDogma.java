@@ -47,6 +47,9 @@ public class CentralDogma{
 			//Fill job lists from the database
 			Session s = HibernateUtil.getSession();
 			ArrayList<Job> jobs = PopulateDataObjects.populateJobs(s);
+			if(jobs == null){
+				jobs = new ArrayList<Job>();
+			}
 			for(Job j : jobs){
 				WorkflowTask wt = null;
 				if(j.getJobType().equals(Constants.DATASET)){
