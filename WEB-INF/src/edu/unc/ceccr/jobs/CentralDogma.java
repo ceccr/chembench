@@ -93,7 +93,6 @@ public class CentralDogma{
 			inThread.start();
 
 			Utility.writeToDebug("incomingJobThread started.");
-			Thread.sleep(9000);
 			
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);

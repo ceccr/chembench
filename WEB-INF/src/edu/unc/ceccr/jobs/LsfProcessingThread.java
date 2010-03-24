@@ -19,35 +19,38 @@ public class LsfProcessingThread extends Thread {
 	//You should only ever have one of these threads running - don't start a second one!
 	
 	public void run() {
-		try {
-			sleep(500);
-			
-			//did any jobs just get added to this structure? If so, preprocess them and bsub them.
-			ArrayList<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
-			for(Job j : readOnlyJobArray){
-				if(j.getStatus().equals(Constants.QUEUED)){
-					//try to grab the job and preproc it
-					if(CentralDogma.getInstance().lsfJobs.startJob(j)){
-						j.workflowTask.preProcess();
-					}
-				}
-			}
-			
-			//If there's a finished job that needs postprocessing, do so.
-			ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
-			for(LsfJobStatus jobStatus : lsfJobStatuses){
-				if(jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")){
-					//check if this is a running job
-					for(Job j : readOnlyJobArray){
+
+		while(true){
+			try {
+				sleep(500);
+				
+				//did any jobs just get added to this structure? If so, preprocess them and bsub them.
+				ArrayList<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
+				for(Job j : readOnlyJobArray){
+					if(j.getStatus().equals(Constants.QUEUED)){
+						//try to grab the job and preproc it
 						if(CentralDogma.getInstance().lsfJobs.startJob(j)){
-							j.workflowTask.postProcess();
+							j.workflowTask.preProcess();
 						}
 					}
 				}
+				
+				//If there's a finished job that needs postprocessing, do so.
+				ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
+				for(LsfJobStatus jobStatus : lsfJobStatuses){
+					if(jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")){
+						//check if this is a running job
+						for(Job j : readOnlyJobArray){
+							if(CentralDogma.getInstance().lsfJobs.startJob(j)){
+								j.workflowTask.postProcess();
+							}
+						}
+					}
+				}
+				
+			} catch (Exception ex) {
+				Utility.writeToDebug(ex);
 			}
-			
-		} catch (Exception ex) {
-			Utility.writeToDebug(ex);
 		}
     }
 	
