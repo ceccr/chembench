@@ -214,8 +214,6 @@ public class CreateDatasetTask extends WorkflowTask{
 			}
 		}
 		
-
-		
 		if(!sdfFileName.equals("")){
 			//generate descriptors
 			this.numCompounds = DatasetFileOperations.getSDFCompoundList(path+sdfFileName).size();

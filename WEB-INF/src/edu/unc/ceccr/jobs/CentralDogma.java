@@ -113,7 +113,7 @@ public class CentralDogma{
 	public void addJobToIncomingList(String userName, String jobName, WorkflowTask wt, int numCompounds, int numModels, String emailOnCompletion) throws Exception{
 		//first, run setUp on the workflowTask
 		//this will make sure the workflowTask gets into the DB. Then we can create a job to contain it.
-		wt.setUp();
+		wt.setUp(); //create dataset, predictor, or prediction object in DB
 		
 		Job j = new Job();
 		j.setJobName(jobName);
@@ -128,6 +128,7 @@ public class CentralDogma{
 		j.setJobType(wt.jobType);
 		j.setLookupId(wt.lookupId);
 
+		Utility.writeToDebug("Creating Job in job table: " + jobName);
 		//commit job to DB
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
