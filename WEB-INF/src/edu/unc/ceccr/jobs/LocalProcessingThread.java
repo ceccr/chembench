@@ -17,7 +17,7 @@ public class LocalProcessingThread extends Thread {
 		while(true){
 			try {
 				sleep(500);
-				Utility.writeToDebug("LocalProcessingThread awake!");
+				//Utility.writeToDebug("LocalProcessingThread awake!");
 				//pull out a job and start it running
 				ArrayList<Job> jobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
 				for(Job j: jobs){
@@ -33,6 +33,8 @@ public class LocalProcessingThread extends Thread {
 							j.workflowTask.executeLocal();
 							j.setStatus(Constants.POSTPROC);
 							j.workflowTask.postProcess();
+							
+							CentralDogma.getInstance().localJobs.removeJob(j);
 						}
 						else{
 							//some other thread already got this job. Don't worry about it.

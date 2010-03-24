@@ -22,7 +22,7 @@ public class IncomingJobProcessingThread extends Thread {
 		while(true){
 			try {
 				sleep(500);
-				Utility.writeToDebug("IncomingThread awake!");
+				//Utility.writeToDebug("IncomingThread awake!");
 				//determine which jobs should be sent to the LSF jobs list, 
 				//which should stay here, and which should go to the local jobs list.
 				ArrayList<Job> incomingJobs = CentralDogma.getInstance().incomingJobs.getReadOnlyCopy();

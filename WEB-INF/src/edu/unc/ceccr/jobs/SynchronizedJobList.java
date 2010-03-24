@@ -25,6 +25,22 @@ public class SynchronizedJobList{
 			for(int i = 0; i < jobList.size(); i++){
 				if(jobList.get(i).equals(job)){
 					jobList.remove(i);
+
+					Session s = null; 
+					Transaction tx = null;
+					try {
+						s = HibernateUtil.getSession();
+						tx = s.beginTransaction();
+						s.delete(job);
+						tx.commit();
+					} catch (Exception e) {
+						if (tx != null)
+							tx.rollback();
+						Utility.writeToDebug(e);
+					} finally {
+						s.close();
+					}
+					
 				}
 			}
 		}
@@ -49,6 +65,7 @@ public class SynchronizedJobList{
 			for(int i = 0; i < jobList.size(); i++){
 				if(jobList.get(i).equals(job)){
 					jobList.set(i, newJob);
+					commitJobChanges(newJob);
 				}
 			}
 		}
@@ -64,26 +81,28 @@ public class SynchronizedJobList{
 				j.setStatus(Constants.RUNNING);
 				
 				//commit the job's "running" status to DB
-
-				Session s = null; 
-				Transaction tx = null;
-				try {
-					s = HibernateUtil.getSession();
-					tx = s.beginTransaction();
-					s.saveOrUpdate(j);
-					tx.commit();
-				} catch (Exception e) {
-					if (tx != null)
-						tx.rollback();
-					Utility.writeToDebug(e);
-				} finally {
-					s.close();
-				}
-				
+				commitJobChanges(j);
+			
 				return true;
 			}
 		}
 	}
 	
+	private void commitJobChanges(Job j){
+		Session s = null; 
+		Transaction tx = null;
+		try {
+			s = HibernateUtil.getSession();
+			tx = s.beginTransaction();
+			s.saveOrUpdate(j);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			s.close();
+		}
+	}
 	
 }

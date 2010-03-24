@@ -43,6 +43,8 @@ public class LsfProcessingThread extends Thread {
 						for(Job j : readOnlyJobArray){
 							if(CentralDogma.getInstance().lsfJobs.startJob(j)){
 								j.workflowTask.postProcess();
+								//finished; remove job object
+								CentralDogma.getInstance().localJobs.removeJob(j);
 							}
 						}
 					}
@@ -76,7 +78,7 @@ public class LsfProcessingThread extends Thread {
 		
 		//run bjobs
 		String command = "bjobs.sh";
-		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
+		//Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "bjobs.sh", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
