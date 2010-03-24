@@ -88,10 +88,12 @@ public class CentralDogma{
 				lsfThread.start();
 			}
 */
+			Utility.writeToDebug("Starting incomingJobThread");
 			IncomingJobProcessingThread inThread = new IncomingJobProcessingThread();
 			inThread.start();
-			
-			wait();
+
+			Utility.writeToDebug("incomingJobThread started.");
+			Thread.sleep(9000);
 			
 		}catch(Exception ex){
 			Utility.writeToDebug(ex);
