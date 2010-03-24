@@ -91,8 +91,8 @@ public class CentralDogma{
 			}
 			*/
 			
-			Utility.writeToDebug("Starting incomingJobThread");
-			inThread = new IncomingJobProcessingThread();
+			//Utility.writeToDebug("Starting incomingJobThread");
+			//inThread = new IncomingJobProcessingThread();
 			//inThread.start();
 
 			Utility.writeToDebug("incomingJobThread started.");
