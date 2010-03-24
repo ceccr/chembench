@@ -77,17 +77,17 @@ public class CentralDogma{
 			}
 			
 			//start job processing threads
+			/*
 			for(int i = 0; i < numLocalThreads; i++){
 				LocalProcessingThread localThread = new LocalProcessingThread();
 				localThread.start();
 			}
 			
-
 			for(int i = 0; i < numLsfThreads; i++){
 				LsfProcessingThread lsfThread = new LsfProcessingThread();
 				lsfThread.start();
 			}
-
+*/
 			IncomingJobProcessingThread inThread = new IncomingJobProcessingThread();
 			inThread.start();
 			
