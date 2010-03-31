@@ -16,7 +16,7 @@ import edu.unc.ceccr.taskObjects.WorkflowTask;
 @Table(name = "cbench_job")
 public class Job {
 	
-	public Long id = null;
+	public Long id;
 	private String userName;
 	private String jobName; 
 	
