@@ -32,8 +32,7 @@ public class LsfProcessingThread extends Thread {
 						if(CentralDogma.getInstance().lsfJobs.startJob(j)){
 							j.workflowTask.preProcess();
 							j.workflowTask.executeLSF();
-							j.setStatus(Constants.QUEUED);
-							CentralDogma.getInstance().lsfJobs.finishJob(j);
+							j.setStatus(Constants.RUNNING);
 						}
 					}
 				}
@@ -44,7 +43,7 @@ public class LsfProcessingThread extends Thread {
 					if(jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")){
 						//check if this is a running job
 						for(Job j : readOnlyJobArray){
-							if(CentralDogma.getInstance().lsfJobs.startJob(j)){
+							if(CentralDogma.getInstance().lsfJobs.startPostJob(j)){
 								j.workflowTask.postProcess();
 								//finished; remove job object
 								CentralDogma.getInstance().localJobs.removeJob(j);

@@ -77,6 +77,24 @@ public class SynchronizedJobList{
 			}
 		}
 	}
+
+	public boolean startPostJob(Job j) {
+		//called when a thread picks a job from the list and starts working on postprocessing for it
+		synchronized(jobList){
+			if(! j.getStatus().equals(Constants.RUNNING)){
+				//some other thread has already grabbed this job and is working on it.
+				return false;
+			}
+			else{
+				j.setStatus(Constants.POSTPROC);
+				
+				//commit the job's "running" status to DB
+				commitJobChanges(j);
+			
+				return true;
+			}
+		}
+	}
 	
 	public void finishJob(Job j){
 		//called when a thread finishes work on a job
