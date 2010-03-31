@@ -385,13 +385,20 @@ public class QsarModelingTask extends WorkflowTask {
 
 		Utility.writeToDebug("2");
 		predictor.setName(jobName);
+		Utility.writeToDebug("2a");
 		predictor.setUserName(userName);
+		Utility.writeToDebug("2b");
 		
 		predictor.setDatasetId(datasetID);
+		Utility.writeToDebug("2c");
 		predictor.setSdFileName(dataset.getSdfFile());
+		Utility.writeToDebug("2d");
 		predictor.setActFileName(dataset.getActFile());
+		Utility.writeToDebug("2e");
 		predictor.setActivityType(actFileDataType);
+		Utility.writeToDebug("2f");
 		predictor.setModelMethod(modelType);
+		Utility.writeToDebug("2g");
 
 		Utility.writeToDebug("3");
 		//descriptors
