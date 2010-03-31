@@ -13,7 +13,9 @@ public class LsfJobStatus{
 	public String exec_host = "";
 	public String job_name = "";
 	public String submit_time = "";
-	
+
+	//744771  ceccr   DONE  week       chembench-d bc14-n04    bsubKnn.sh Mar 31 02:27
+
 	LsfJobStatus(String bjobsLine){
 		if(! bjobsLine.trim().isEmpty()){
 			Scanner s = new Scanner(bjobsLine);
@@ -23,9 +25,9 @@ public class LsfJobStatus{
 			String queue = s.next();
 			String from_host = s.next();
 			String exec_host = "";
-			if(! stat.equals("PEND")){
-				exec_host = s.next();
-			}
+			//if(! stat.equals("PEND")){
+			//	exec_host = s.next();
+			//}
 			String job_name = s.next();
 			String submit_time = "";
 			String temp;

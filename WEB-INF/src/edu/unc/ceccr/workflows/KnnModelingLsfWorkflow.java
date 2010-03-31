@@ -53,9 +53,9 @@ public class KnnModelingLsfWorkflow{
 			fout = new FileOutputStream(workingDir + "bsubKnn.sh");
 			out = new PrintStream(fout);
 			
-			out.println("bsub -q week AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
+			out.println("AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
 			out.println("cd yRandom");
-			out.println("bsub -q week AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
+			out.println("AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
 			
 			
 			out.close();
@@ -66,7 +66,7 @@ public class KnnModelingLsfWorkflow{
 			f.setExecutable(true);
 			
 			//exec shell script
-			String command = "bsubKnn.sh";
+			String command = "bsub -q week bsubKnn.sh";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
@@ -93,7 +93,7 @@ public class KnnModelingLsfWorkflow{
 		f.setExecutable(true);
 		
 		//exec shell script
-		String command = "bsubKnn.sh";
+		String command = "bsub -q week bsubKnn.sh";
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
