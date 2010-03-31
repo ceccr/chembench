@@ -40,6 +40,7 @@ import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
 import edu.unc.ceccr.workflows.DataSplitWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnModelBuildingWorkflow;
+import edu.unc.ceccr.workflows.KnnModelingLsfWorkflow;
 import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
 import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
@@ -270,12 +271,6 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		//This function just loads all the ModelingForm parameters into local variables
 		Utility.writeToDebug("[[Modeling Type: " + ModelingForm.getModelingType());
-		if(ModelingForm.getModelingType().equalsIgnoreCase(Constants.KNN)){
-			modelType = Constants.KNN;
-		}
-		else{ //if(modelingType.equalsIgnoreCase(Constants.SVM))
-			modelType = Constants.SVM;
-		}
 		
 		scalingType = ModelingForm.getScalingType();
 		
@@ -475,17 +470,16 @@ public class QsarModelingTask extends WorkflowTask {
 	}
 	
 	public void preProcess() throws Exception{
-
+		
 		//copy the dataset files to the working directory
 		step = Constants.SETUP;
-		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
-		GetJobFilesWorkflow.getDatasetFiles(userName, dataset, path);
+		GetJobFilesWorkflow.getDatasetFiles(userName, dataset, filePath);
 
 		//create the descriptors for the dataset and read them in
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(path + sdFileName);
+		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(filePath + sdFileName);
 		
 		Session session = HibernateUtil.getSession();
 		DataSet dataset = PopulateDataObjects.getDataSetById(datasetID,session);
@@ -505,30 +499,30 @@ public class QsarModelingTask extends WorkflowTask {
 			step = Constants.PROCDESCRIPTORS;
 			if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
 				Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(path + sdFileName + ".molconnz", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(filePath + sdFileName + ".molconnz", descriptorNames, descriptorValueMatrix);
 			}
 			else if (descriptorGenerationType.equals(Constants.DRAGONH)){
 				Utility.writeToDebug("Processing DragonH descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(filePath + sdFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
 			}
 			else if (descriptorGenerationType.equals(Constants.DRAGONNOH)){
 				Utility.writeToDebug("Processing DragonNoH descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readDragonDescriptors(path + sdFileName + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readDragonDescriptors(filePath + sdFileName + ".dragonNoH", descriptorNames, descriptorValueMatrix);
 			}
 			else if (descriptorGenerationType.equals(Constants.MOE2D)){
 				Utility.writeToDebug("Processing MOE2D descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(path + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(filePath + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
 			}
 			else if (descriptorGenerationType.equals(Constants.MACCS)){
 				Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMaccsDescriptors(path + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMaccsDescriptors(filePath + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 			}
 			
 			//write out the descriptors for modeling
 			xFileName = sdFileName + ".x";
 			String descriptorString = Utility.StringArrayListToString(descriptorNames);
 			
-			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, path + xFileName, scalingType, stdDevCutoff, correlationCutoff);
+			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
 		}
 		else if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
 			//dataset has descriptors already, we don't need to do anything
@@ -537,9 +531,9 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		//apply the dataset's external split to the generated .X file
 		step = Constants.SPLITDATA;
-		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundList(path + "ext_0.x");
+		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundList(filePath + "ext_0.x");
 		String externalCompoundIdString = Utility.StringArrayListToString(extCompoundArray);
-		DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundIdString);
+		DataSplitWorkflow.splitModelingExternalGivenList(filePath, actFileName, xFileName, externalCompoundIdString);
 		
 		//make internal training / test sets for each model
 		if(trainTestSplitType.equals(Constants.RANDOM)){
@@ -549,9 +543,17 @@ public class QsarModelingTask extends WorkflowTask {
 			DataSplitWorkflow.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax, sphereSplitMinTestSize, selectionNextTrainPt);
 		}
 		
-
 		if(jobList.equals(Constants.LSF)){
 			//copy needed files out to LSF
+			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
+			
+			if(modelType.equals(Constants.KNN)){
+				step = Constants.YRANDOMSETUP;
+				KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
+				KnnModelBuildingWorkflow.YRandomization(userName, jobName);
+			}
+			
+			FileAndDirOperations.copyDirContents(filePath, lsfPath, true);
 		}
 	}
 
@@ -562,6 +564,20 @@ public class QsarModelingTask extends WorkflowTask {
 		//change this function and the LsfProcessingThread so that it will work with
 		//an LSF jobArray instead.
 		
+		String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
+		
+		if(modelType.equals(Constants.KNN)){
+			step = Constants.MODELS;
+			if(actFileDataType.equals(Constants.CONTINUOUS)){
+				KnnModelingLsfWorkflow.buildKnnContinuousModel(userName, jobName, lsfPath);
+			}
+			else if(actFileDataType.equals(Constants.CATEGORY)){
+				KnnModelingLsfWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, lsfPath);
+			}
+		}
+		else {//if(modelType.equals(Constants.SVM)){
+			throw new Exception("SVM behaviour is still undefined -- don't use it yet!");
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -569,10 +585,9 @@ public class QsarModelingTask extends WorkflowTask {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
 		//Run modeling process
-		if(modelType == Constants.KNN){
+		if(modelType.equals(Constants.KNN)){
 			step = Constants.YRANDOMSETUP;
 			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
-			
 			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 
 			step = Constants.MODELS;
@@ -593,7 +608,7 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
 			
 		}
-		else { //if(modelType == Constants.SVM){
+		else { //if(modelType.equals(Constants.SVM)){
 			throw new Exception("SVM behaviour is still undefined -- don't use it yet!");
 		}
 	}
@@ -601,6 +616,13 @@ public class QsarModelingTask extends WorkflowTask {
 	public void postProcess() throws Exception {
 		if(jobList.equals(Constants.LSF)){
 			//copy needed files back from LSF
+			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
+			FileAndDirOperations.copyDirContents(lsfPath, filePath, true);
+			
+			if(modelType.equals(Constants.KNN)){
+				step = Constants.PREDEXT;
+				KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
+			}
 		}
 
 		//done with modeling. Read output files. 

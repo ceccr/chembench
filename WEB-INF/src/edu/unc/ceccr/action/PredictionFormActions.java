@@ -233,8 +233,6 @@ public class PredictionFormActions extends ActionSupport{
 		String emailOnCompletion = Constants.NO;
 		centralDogma.addJobToIncomingList(user.getUserName(), jobName, predTask, numCompounds, numModels, emailOnCompletion);
 		
-		//Queue.getInstance().addJob(predTask,user.getUserName(), jobName, numCompounds, numModels);
-
 		Utility.writeToUsageLog("making prediction run on dataset " + predictionDataset.getFileName() + " with predictors " + selectedPredictorIds, user.getUserName());
 		
 		//give back the session at the end

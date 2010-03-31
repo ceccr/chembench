@@ -258,7 +258,6 @@ public class DatasetFormActions extends ActionSupport{
 					CentralDogma centralDogma = CentralDogma.getInstance();
 					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
 					
-					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -321,7 +320,6 @@ public class DatasetFormActions extends ActionSupport{
 					CentralDogma centralDogma = CentralDogma.getInstance();
 					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
 					
-					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);

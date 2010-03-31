@@ -21,39 +21,88 @@ public class KnnModelingLsfWorkflow{
 	
 	public static void retrieveCompletedPredictor(String userName, String jobName) throws Exception{
 		//open the directory in /smallfs/ceccr/ where the job was run
-		
 		//copy directory contents back
+		
 		
 		//remove /smallfs/ceccr/ directory
 		
 	}
 	
-	public static void makeModelingDirectory(String userName, String jobName) throws Exception{
+	public static void makeLsfModelingDirectory(String userName, String jobName) throws Exception{
 		//create a dir out in /smallfs/ceccr/ to run the calculation of the job
+		
 		
 		//copy all files from current modeling dir out there
 		
 		//copy kNN executables to the temp directory
 		
 	}
+	/*
+	 * 
+	 * 
+					
+					KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path);
+					KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path);
+
+				
+				
+	 */
 
 	public static void buildKnnCategoryModel(String userName, String jobName, String optimizationValue, String workingDir) throws Exception{
-			String command = "AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue;
+			//write shell script containing LSF submission (both yRandom and regular kNN run in one exec)
+			
+			FileOutputStream fout;
+			PrintStream out;
+			fout = new FileOutputStream(workingDir + "bsubKnn.sh");
+			out = new PrintStream(fout);
+			
+			out.println("bsub -q week AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
+			out.println("cd yRandom");
+			out.println("bsub -q week AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
+			
+			
+			out.close();
+			fout.close();
+			
+			//give exec permissions to script file
+			File f = new File(workingDir + "bsubKnn.sh");
+			f.setExecutable(true);
+			
+			//exec shell script
+			String command = "bsubKnn.sh";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "AllKnn_category_nl", p.getInputStream(), p.getErrorStream());
+			Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
-			Utility.writeToDebug("Category kNN finished.", userName, jobName);
+			Utility.writeToDebug("Category kNN submitted.", userName, jobName);
 	}
 	
 
 	public static void buildKnnContinuousModel(String userName, String jobName, String workingDir) throws Exception{
-			String command = "AllKnn2LIN_nl 1 RAND_sets.list knn-output";
-			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "AllKnn2LIN_nl", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-			Utility.writeToDebug("Continuous kNN finished.", userName, jobName);
+
+		FileOutputStream fout;
+		PrintStream out;
+		fout = new FileOutputStream(workingDir + "bsubKnn.sh");
+		out = new PrintStream(fout);
+		
+		out.println("AllKnn2LIN_nl 1 RAND_sets.list knn-output");
+		out.println("cd yRandom/");
+		out.println("AllKnn2LIN_nl 1 RAND_sets.list knn-output");
+		out.close();
+		fout.close();
+		
+		//give exec permissions to script file
+		File f = new File(workingDir + "bsubKnn.sh");
+		f.setExecutable(true);
+		
+		//exec shell script
+		String command = "bsubKnn.sh";
+		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
+		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+		Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		Utility.writeToDebug("Continuous kNN submitted.", userName, jobName);	
+		
 	}
 	
 	

@@ -163,8 +163,6 @@ public class ModelingFormActions extends ActionSupport{
 			String emailOnCompletion = Constants.NO;
 			centralDogma.addJobToIncomingList(user.getUserName(), jobName, modelingTask, numCompounds, numModels, emailOnCompletion);
 			
-			//tasklist.addJob(modelingTask, user.getUserName(), this.getJobName(), numCompounds, numModels);
-
 			Utility.writeToUsageLog("Added modeling job", user.getUserName());
 			
 			Utility.writeToDebug("Task added to queue", user.getUserName(), this.getJobName());
