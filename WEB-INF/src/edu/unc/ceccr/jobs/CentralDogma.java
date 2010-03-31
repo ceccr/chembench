@@ -134,7 +134,7 @@ public class CentralDogma{
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			s.save(j);
+			s.saveOrUpdate(j);
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
