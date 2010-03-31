@@ -190,7 +190,6 @@ public class QsarModelingTask extends WorkflowTask {
 	}
 	
 	public QsarModelingTask(Predictor predictor) throws Exception{
-		
 		//get dataset
 		datasetID = predictor.getDatasetId();
 		Session s = HibernateUtil.getSession();
@@ -384,6 +383,7 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		//create Predictor object in DB to allow for recovery of this job if it fails.
 
+		Utility.writeToDebug("2");
 		predictor.setName(jobName);
 		predictor.setUserName(userName);
 		
@@ -392,13 +392,15 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setActFileName(dataset.getActFile());
 		predictor.setActivityType(actFileDataType);
 		predictor.setModelMethod(modelType);
-		
+
+		Utility.writeToDebug("3");
 		//descriptors
 		predictor.setDescriptorGeneration(descriptorGenerationType);
 		predictor.setScalingType(scalingType);
 		predictor.setStdDevCutoff(stdDevCutoff);
 		predictor.setCorrelationCutoff(correlationCutoff);
-		
+
+		Utility.writeToDebug("4");
 		//datasplit
 		predictor.setNumSplits(numSplits);
 		predictor.setTrainTestSplitType(trainTestSplitType);
@@ -406,13 +408,15 @@ public class QsarModelingTask extends WorkflowTask {
 			//if random split
 			predictor.setRandomSplitMinTestSize(randomSplitMinTestSize);
 			predictor.setRandomSplitMaxTestSize(randomSplitMaxTestSize);
-			
+
+			Utility.writeToDebug("5");
 			//if sphere exclusion
 			predictor.setSplitIncludesMin(splitIncludesMin);
 			predictor.setSplitIncludesMax(splitIncludesMax);
 			predictor.setSphereSplitMinTestSize(sphereSplitMinTestSize);
 			predictor.setSelectionNextTrainPt(selectionNextTrainPt);
-			
+
+			Utility.writeToDebug("6");
 		//knn params
 		predictor.setKnnCategoryOptimization(knnCategoryOptimization);
 		predictor.setMinNumDescriptors(minNumDescriptors);
@@ -422,7 +426,8 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		predictor.setNearestNeighbors(nearestNeighbors);
 		predictor.setPseudoNeighbors(pseudoNeighbors);
-		
+
+		Utility.writeToDebug("7");
 		predictor.setNumRuns(numRuns);
 		predictor.setNumMutations(numMutations);
 		predictor.setT1(T1);
@@ -437,7 +442,8 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setRelativeDiffRR0(Relative_diff_R_R0);
 		predictor.setDiffR01R02(Diff_R01_R02);
 		predictor.setStopCond(stop_cond);
-		
+
+		Utility.writeToDebug("8");
 		Utility.writeToDebug("DEBUG: actFileDataType is " + actFileDataType);
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		if(modelType == Constants.KNN){
@@ -448,7 +454,8 @@ public class QsarModelingTask extends WorkflowTask {
 				writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME);
 			}
 		}
-		
+
+		Utility.writeToDebug("9");
 
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
@@ -465,6 +472,7 @@ public class QsarModelingTask extends WorkflowTask {
 			session.close();
 		}
 
+		Utility.writeToDebug("10");
 		lookupId = predictor.getPredictorId();
 		jobType = Constants.MODELING;
 	}
