@@ -19,34 +19,26 @@ public class KnnModelingLsfWorkflow{
 		
 	}
 	
-	public static void retrieveCompletedPredictor(String userName, String jobName) throws Exception{
+	public static void retrieveCompletedPredictor(String filePath, String lsfPath) throws Exception{
 		//open the directory in /smallfs/ceccr/ where the job was run
 		//copy directory contents back
+		FileAndDirOperations.copyDirContents(lsfPath, filePath, true);
 		
-		
-		//remove /smallfs/ceccr/ directory
-		
+		//remove /smallfs/ceccr/ subdirectory
+		FileAndDirOperations.deleteDir(new File(lsfPath));
 	}
 	
-	public static void makeLsfModelingDirectory(String userName, String jobName) throws Exception{
+	public static void makeLsfModelingDirectory(String filePath, String lsfPath) throws Exception{
 		//create a dir out in /smallfs/ceccr/ to run the calculation of the job
-		
+		File dir = new File(lsfPath);
+		dir.mkdirs();
 		
 		//copy all files from current modeling dir out there
+		FileAndDirOperations.copyDirContents(filePath, lsfPath, true);
 		
 		//copy kNN executables to the temp directory
-		
+		FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH + "mmlsoft/bin/", lsfPath, false);
 	}
-	/*
-	 * 
-	 * 
-					
-					KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path);
-					KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path);
-
-				
-				
-	 */
 
 	public static void buildKnnCategoryModel(String userName, String jobName, String optimizationValue, String workingDir) throws Exception{
 			//write shell script containing LSF submission (both yRandom and regular kNN run in one exec)

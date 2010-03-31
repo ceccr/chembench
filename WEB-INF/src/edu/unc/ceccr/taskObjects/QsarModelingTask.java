@@ -555,8 +555,8 @@ public class QsarModelingTask extends WorkflowTask {
 				KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 				KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 			}
-			
-			FileAndDirOperations.copyDirContents(filePath, lsfPath, true);
+
+			KnnModelingLsfWorkflow.makeLsfModelingDirectory(filePath, lsfPath);
 		}
 	}
 
@@ -620,7 +620,7 @@ public class QsarModelingTask extends WorkflowTask {
 		if(jobList.equals(Constants.LSF)){
 			//copy needed files back from LSF
 			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
-			FileAndDirOperations.copyDirContents(lsfPath, filePath, true);
+			KnnModelingLsfWorkflow.retrieveCompletedPredictor(filePath, lsfPath);
 			
 			if(modelType.equals(Constants.KNN)){
 				step = Constants.PREDEXT;
