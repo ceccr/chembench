@@ -66,16 +66,13 @@ public class FileAndDirOperations {
 			if(files == null){
 				Utility.writeToDebug("Error reading directory: " + fromDir);
 			}
-			else{
-				Utility.writeToDebug("Reading directory: " + fromDir);
-			}
 			int x = 0;
 			while(files != null && x<files.length){
 				File xfile = new File(fromDir + files[x]);
 				if(! xfile.isDirectory()){
 					boolean success = xfile.setExecutable(true);
-					Utility.writeToDebug("Setting " + fromDir + files[x] + " to executable: " + success);
 				}
+				x++;
 			}
 		}
 		catch(Exception ex){
