@@ -124,7 +124,7 @@ public class SynchronizedJobList{
 		}
 		
 		/*
-		//could limit this to only jobs that are in this list..?
+		//could limit this to only jobs that are actually in this list..?
 		synchronized(jobList){
 			for(int i = 0; i < jobList.size(); i++){
 				if(jobList.get(i).equals(job)){

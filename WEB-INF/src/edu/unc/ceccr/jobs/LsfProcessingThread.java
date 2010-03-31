@@ -43,10 +43,24 @@ public class LsfProcessingThread extends Thread {
 					if(jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")){
 						//check if this is a running job
 						for(Job j : readOnlyJobArray){
-							if(CentralDogma.getInstance().lsfJobs.startPostJob(j)){
-								j.workflowTask.postProcess();
-								//finished; remove job object
-								CentralDogma.getInstance().localJobs.removeJob(j);
+							Scanner s = new Scanner(jobStatus.job_name);
+							s.useDelimiter("_");
+							s.next();
+							String userName = "";
+							String jobName = "";
+							if(s.hasNext()){
+								userName = s.next();
+							}
+							if(s.hasNext()){
+								jobName = s.next();
+							}
+							if(!userName.isEmpty() && !jobName.isEmpty() && 
+									j.getJobName().equals(jobName) && j.getUserName().equals(userName)){
+								if(CentralDogma.getInstance().lsfJobs.startPostJob(j)){
+									j.workflowTask.postProcess();
+									//finished; remove job object
+									CentralDogma.getInstance().localJobs.removeJob(j);
+								}
 							}
 						}
 					}
