@@ -66,7 +66,7 @@ public class KnnModelingLsfWorkflow{
 			f.setExecutable(true);
 			
 			//exec shell script
-			String command = "bsub -q week -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt bsubKnn.sh";
+			String command = "bsub -q week -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnn.sh";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
@@ -94,7 +94,7 @@ public class KnnModelingLsfWorkflow{
 		f.setExecutable(true);
 		
 		//exec shell script
-		String command = "bsub -q week -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt bsubKnn.sh";
+		String command = "bsub -q week -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnn.sh";
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
