@@ -443,7 +443,7 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		Utility.writeToDebug("DEBUG: actFileDataType is " + actFileDataType);
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
-		if(modelType == Constants.KNN){
+		if(modelType.equals(Constants.KNN)){
 			if (actFileDataType.equals(Constants.CONTINUOUS)){
 				writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME);
 			}
