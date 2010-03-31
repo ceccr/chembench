@@ -52,11 +52,11 @@ public class KnnModelingLsfWorkflow{
 			PrintStream out;
 			fout = new FileOutputStream(workingDir + "bsubKnn.sh");
 			out = new PrintStream(fout);
-			
+
+			out.println("cd " + workingDir);
 			out.println("AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
 			out.println("cd yRandom");
 			out.println("AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
-			
 			
 			out.close();
 			fout.close();
@@ -66,8 +66,7 @@ public class KnnModelingLsfWorkflow{
 			f.setExecutable(true);
 			
 			//exec shell script
-			long timestamp = System.currentTimeMillis()/1000;
-			String command = "bsub -q week -J cbench_" + userName + "_" + jobName + "_" + timestamp + " -o bsubOutput.txt bsubKnn.sh";
+			String command = "bsub -q week -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt bsubKnn.sh";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
@@ -82,7 +81,8 @@ public class KnnModelingLsfWorkflow{
 		PrintStream out;
 		fout = new FileOutputStream(workingDir + "bsubKnn.sh");
 		out = new PrintStream(fout);
-		
+
+		out.println("cd " + workingDir);
 		out.println("AllKnn2LIN_nl 1 RAND_sets.list knn-output");
 		out.println("cd yRandom/");
 		out.println("AllKnn2LIN_nl 1 RAND_sets.list knn-output");
@@ -94,8 +94,7 @@ public class KnnModelingLsfWorkflow{
 		f.setExecutable(true);
 		
 		//exec shell script
-		long timestamp = System.currentTimeMillis()/1000;
-		String command = "bsub -q week -J cbench_" + userName + "_" + jobName + "_" + timestamp + " -o bsubOutput.txt bsubKnn.sh";
+		String command = "bsub -q week -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt bsubKnn.sh";
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());

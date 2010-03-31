@@ -131,7 +131,7 @@ public class DataSplitWorkflow{
 		Utility.writeToDebug("reading ACT file from: " + workingdir + actFileName);
 		while((line = inActReader.readLine()) != null){
 			array = line.split("\\s+");
-			Utility.writeToDebug(line);
+			//Utility.writeToDebug(line);
 			boolean lineIsExternal = false;
 			for(int i = 0; i < numExternalCompounds; i++){
 				if(array[0].equals(compoundIDs[i])){
