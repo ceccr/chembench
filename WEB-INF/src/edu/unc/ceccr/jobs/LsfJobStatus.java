@@ -14,6 +14,7 @@ public class LsfJobStatus{
 	public String job_name = "";
 	public String submit_time = "";
 
+	//744782  ceccr   PEND  week       chembench-d             bsubKnn.sh Mar 31 02:47
 	//744771  ceccr   DONE  week       chembench-d bc14-n04    bsubKnn.sh Mar 31 02:27
 	//744779  ceccr   DONE  week       chembench-d bc16-n06    bsubKnn.sh Mar 31 02:36
 	//744780  ceccr   DONE  week       chembench-d bc16-n06    bsubKnn.sh Mar 31 02:39

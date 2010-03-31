@@ -59,19 +59,9 @@ public class SynchronizedJobList{
 		}
 		return jobListCopy;
 	}
-	
-	public void modifyJob(Job job, Job newJob){
-		synchronized(jobList){
-			for(int i = 0; i < jobList.size(); i++){
-				if(jobList.get(i).equals(job)){
-					jobList.set(i, newJob);
-					commitJobChanges(newJob);
-				}
-			}
-		}
-	}
 
 	public boolean startJob(Job j) {
+		//called when a thread picks a job from the list and starts working on it
 		synchronized(jobList){
 			if(! j.getStatus().equals(Constants.QUEUED)){
 				//some other thread has already grabbed this job and is working on it.
@@ -85,6 +75,17 @@ public class SynchronizedJobList{
 			
 				return true;
 			}
+		}
+	}
+	
+	public void finishJob(Job j){
+		//called when a thread finishes work on a job
+		synchronized(jobList){
+			j.setStatus(Constants.QUEUED);
+			
+			//commit the job's "queued" status to DB
+			commitJobChanges(j);
+			
 		}
 	}
 	
@@ -103,6 +104,18 @@ public class SynchronizedJobList{
 		} finally {
 			s.close();
 		}
+		
+		/*
+		//could limit this to only jobs that are in this list..?
+		synchronized(jobList){
+			for(int i = 0; i < jobList.size(); i++){
+				if(jobList.get(i).equals(job)){
+					jobList.set(i, newJob);
+					commitJobChanges(newJob);
+				}
+			}
+		}
+		 */
 	}
 	
 }

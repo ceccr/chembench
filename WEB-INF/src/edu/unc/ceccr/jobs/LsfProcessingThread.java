@@ -32,6 +32,8 @@ public class LsfProcessingThread extends Thread {
 						if(CentralDogma.getInstance().lsfJobs.startJob(j)){
 							j.workflowTask.preProcess();
 							j.workflowTask.executeLSF();
+							j.setStatus(Constants.QUEUED);
+							CentralDogma.getInstance().lsfJobs.finishJob(j);
 						}
 					}
 				}
