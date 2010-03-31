@@ -31,6 +31,7 @@ public class LsfProcessingThread extends Thread {
 						//try to grab the job and preproc it
 						if(CentralDogma.getInstance().lsfJobs.startJob(j)){
 							j.workflowTask.preProcess();
+							j.workflowTask.executeLSF();
 						}
 					}
 				}

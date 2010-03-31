@@ -36,8 +36,13 @@ public class KnnModelingLsfWorkflow{
 		//copy all files from current modeling dir out there
 		FileAndDirOperations.copyDirContents(filePath, lsfPath, true);
 		
-		//copy kNN executables to the temp directory
+		//copy kNN executables to the temp directory and to the yRandom subdirectory
+		//also, make them executable
 		FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH + "mmlsoft/bin/", lsfPath, false);
+		FileAndDirOperations.makeDirContentsExecutable(lsfPath);
+		FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH + "mmlsoft/bin/", lsfPath + "yRandom/", false);
+		FileAndDirOperations.makeDirContentsExecutable(lsfPath + "yRandom/");
+		
 	}
 
 	public static void buildKnnCategoryModel(String userName, String jobName, String optimizationValue, String workingDir) throws Exception{

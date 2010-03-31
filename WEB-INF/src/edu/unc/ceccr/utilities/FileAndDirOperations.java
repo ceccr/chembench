@@ -59,6 +59,26 @@ public class FileAndDirOperations {
 		return fileContents;
 	}
 	
+	public static void makeDirContentsExecutable(String fromDir){
+		try{
+			File dir = new File(fromDir);
+			String files[] = dir.list();
+			if(files == null){
+				Utility.writeToDebug("Error reading directory: " + fromDir);
+			}
+			int x = 0;
+			while(files != null && x<files.length){
+				File xfile = new File(fromDir + files[x]);
+				if(! xfile.isDirectory()){
+					xfile.setExecutable(true);
+				}
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+	}
+	
 	public static void copyDirContents(String fromDir, String toDir, boolean recurse){
 		try{
 			if(!fromDir.endsWith("/")){
