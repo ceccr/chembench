@@ -137,7 +137,9 @@ public class CreateDatasetTask extends WorkflowTask{
 		this.jobName = datasetName;
 		this.paperReference = paperReference;
 		this.dataSetDescription = dataSetDescription;
-		
+
+		this.dataset = new DataSet();
+
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
 		try{
 			if(!sdfFileName.equals("")){
@@ -155,8 +157,6 @@ public class CreateDatasetTask extends WorkflowTask{
 
 	public void setUp() throws Exception {
 		//create DataSet object in DB to allow for recovery of this job if it fails.
-
-		dataset = new DataSet();
 
 		dataset.setFileName(jobName);
 		dataset.setUserName(userName);
