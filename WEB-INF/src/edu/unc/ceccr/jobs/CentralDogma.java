@@ -136,6 +136,7 @@ public class CentralDogma{
 			tx = s.beginTransaction();
 			s.saveOrUpdate(j);
 			tx.commit();
+			Utility.writeToDebug("Job created job table: " + jobName);
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
