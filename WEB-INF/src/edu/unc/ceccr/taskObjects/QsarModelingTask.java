@@ -272,7 +272,7 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		//This function just loads all the ModelingForm parameters into local variables
 		Utility.writeToDebug("[[Modeling Type: " + ModelingForm.getModelingType());
-		
+		modelType = ModelingForm.getModelingType();
 		scalingType = ModelingForm.getScalingType();
 		
 		stdDevCutoff = ModelingForm.getStdDevCutoff();
