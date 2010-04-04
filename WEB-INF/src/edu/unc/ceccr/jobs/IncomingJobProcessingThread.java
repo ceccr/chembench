@@ -33,7 +33,7 @@ public class IncomingJobProcessingThread extends Thread {
 						movedJob = true;
 						Utility.writeToDebug("Sending job " + j.getJobName() + " to local queue");
 						j.setJobList(Constants.LOCAL);
-						j.workflowTask.jobList = Constants.LOCAL;
+						j.getWorkflowTask().jobList = Constants.LOCAL;
 						CentralDogma.getInstance().localJobs.addJob(j);
 						CentralDogma.getInstance().incomingJobs.removeJob(j);
 					}
@@ -42,7 +42,7 @@ public class IncomingJobProcessingThread extends Thread {
 						Utility.writeToDebug("Sending job " + j.getJobName() + " to local queue");
 						movedJob = true;
 						j.setJobList(Constants.LOCAL);
-						j.workflowTask.jobList = Constants.LOCAL;
+						j.getWorkflowTask().jobList = Constants.LOCAL;
 						CentralDogma.getInstance().localJobs.addJob(j);
 						CentralDogma.getInstance().incomingJobs.removeJob(j);
 					}
@@ -52,7 +52,7 @@ public class IncomingJobProcessingThread extends Thread {
 						if(LsfProcessingThread.lsfHasFreePendSlots()){
 							movedJob = true;
 							j.setJobList(Constants.LSF);
-							j.workflowTask.jobList = Constants.LSF;
+							j.getWorkflowTask().jobList = Constants.LSF;
 							CentralDogma.getInstance().lsfJobs.addJob(j);
 							CentralDogma.getInstance().incomingJobs.removeJob(j);
 						}

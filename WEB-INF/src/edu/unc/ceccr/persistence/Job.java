@@ -16,7 +16,7 @@ import edu.unc.ceccr.taskObjects.WorkflowTask;
 @Table(name = "cbench_job")
 public class Job {
 	
-	public Long id = new Long(0);
+	public Long id;
 	private String lsfJobId; //the job ID assigned by LSF. Used to track the job.
 	private String userName;
 	private String jobName; 
@@ -38,7 +38,7 @@ public class Job {
 	private String emailOnCompletion;
 	
 	private String timeFinishedEstimate;
-	public WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask.
+	private WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask.
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

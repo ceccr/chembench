@@ -34,8 +34,8 @@ public class LsfProcessingThread extends Thread {
 					if(j.getStatus().equals(Constants.QUEUED)){
 						//try to grab the job and preproc it
 						if(CentralDogma.getInstance().lsfJobs.startJob(j)){
-							j.workflowTask.preProcess();
-							j.workflowTask.executeLSF();
+							j.getWorkflowTask().preProcess();
+							j.getWorkflowTask().executeLSF();
 							j.setStatus(Constants.RUNNING);
 						}
 					}
@@ -61,7 +61,7 @@ public class LsfProcessingThread extends Thread {
 							//WARNING - bug if user submits two jobs with the same name within a short time period
 							if(j.getJobName().equals(jobName) && j.getUserName().equals(userName)){
 								if(CentralDogma.getInstance().lsfJobs.startPostJob(j)){
-									j.workflowTask.postProcess();
+									j.getWorkflowTask().postProcess();
 									//finished; remove job object
 									CentralDogma.getInstance().localJobs.removeJob(j);
 								}
