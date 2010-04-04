@@ -81,26 +81,25 @@ public class SynchronizedJobList{
 		synchronized(jobList){
 			//refresh jobList from database
 			
-			jobList = null;
+			jobList.clear();
 			Session s = null; 
 			try {
 				s = HibernateUtil.getSession();
-				jobList = (ArrayList<Job>) s.createCriteria(Job.class)
+				ArrayList<Job> jobListTemp = (ArrayList<Job>) s.createCriteria(Job.class)
 				.add(Expression.eq("jobList", name))
 				.addOrder(Order.asc("id"))
 				.list();
+				jobList.addAll(jobListTemp);
 			} catch (Exception e) {
 				Utility.writeToDebug("over here!");
 				Utility.writeToDebug(e);
 			} finally {
 				s.close();
 			}
+			
 
 			ArrayList<Job> jobListCopy = new ArrayList<Job>();
 			try{
-			if(jobList == null){
-				jobList = new ArrayList<Job>();
-			}
 			
 			//return a copy of it
 			jobListCopy.addAll(jobList);
