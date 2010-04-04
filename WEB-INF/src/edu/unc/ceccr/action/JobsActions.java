@@ -142,7 +142,7 @@ public class JobsActions extends ActionSupport {
 		
 		//get local jobs
 		localJobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
-		
+
 		//get lsf jobs
 		lsfJobs = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
 		

@@ -61,8 +61,15 @@
 			<div class="StandardTextDarkGrayParagraph"><button type="submit">REFRESH STATUS</button></div>
 		</form>
 		</td></tr>
+		
+		<!-- Queued (incomingJobs) -->
+		<tr><td>
+			<div class="StandardTextDarkGrayParagraph">
+			<b>Queued Jobs: </b>
+			</div></td>
+		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
-		<s:if test="! userQueueTasks.isEmpty()">
+		<s:if test="! incomingJobs.isEmpty()">
 		<table>
 			<tr>
 				<td class="TableRowText01">Name</td>
@@ -70,19 +77,19 @@
 				<td class="TableRowText01">Job Type</td>
 				<td class="TableRowText01">Number of Compounds</td>
 				<td class="TableRowText01">Number of Models</td>
-				<td class="TableRowText01">Time Submitted</td>
+				<td class="TableRowText01">Time Created</td>
 				<td class="TableRowText01">Status</td>
 				<td class="TableRowText01">Cancel</td>
 			</tr>
-			<s:iterator value="userQueueTasks">
+			<s:iterator value="incomingJobs">
 				<tr>
 				<td class="TableRowText02"><s:property value="jobName" /></td>
 				<td class="TableRowText02"><s:property value="userName" /></td>
-				<td class="TableRowText02"><s:property value="jobTypeString" /></td>
+				<td class="TableRowText02"><s:property value="jobType" /></td>
 				<td class="TableRowText02"><s:property value="numCompounds" /></td>
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
-				<td class="TableRowText02"><s:date name="submit" format="yyyy-MM-dd HH:mm" /></td>
-				<td class="TableRowText02"><b><s:if test="stateDisplay!='started'"><s:property value="state" /><br /></s:if><s:property value="message" /><b></td>
+				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
+				<td class="TableRowText02"><b><s:property value="stats" /><br /><s:property value="message" /><b></td>
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
@@ -90,6 +97,101 @@
 			<br />
 		</table>
 		</s:if>
+		<s:else>
+		<table>
+			<tr><td>
+			<div class="StandardTextDarkGrayParagraph">(No jobs are waiting to start.)</div>
+			</td></tr>
+		</table>
+		</s:else>
+		
+		<!-- Local Jobs -->
+		<tr><td>
+			<div class="StandardTextDarkGrayParagraph">
+			<b>Jobs Running Locally: </b>
+			</div></td>
+		</tr>
+		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
+		<s:if test="! localJobs.isEmpty()">
+		<table>
+			<tr>
+				<td class="TableRowText01">Name</td>
+				<td class="TableRowText01">Owner</td>
+				<td class="TableRowText01">Job Type</td>
+				<td class="TableRowText01">Number of Compounds</td>
+				<td class="TableRowText01">Number of Models</td>
+				<td class="TableRowText01">Time Created</td>
+				<td class="TableRowText01">Status</td>
+				<td class="TableRowText01">Cancel</td>
+			</tr>
+			<s:iterator value="localJobs">
+				<tr>
+				<td class="TableRowText02"><s:property value="jobName" /></td>
+				<td class="TableRowText02"><s:property value="userName" /></td>
+				<td class="TableRowText02"><s:property value="jobType" /></td>
+				<td class="TableRowText02"><s:property value="numCompounds" /></td>
+				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
+				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
+				<td class="TableRowText02"><b><s:property value="stats" /><br /><s:property value="message" /><b></td>
+				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
+				</tr> 
+			</s:iterator>
+			<br />
+			<br />
+		</table>
+		</s:if>
+		<s:else>
+		<table>
+			<tr><td>
+			<div class="StandardTextDarkGrayParagraph">(No local jobs are currently running.)</div>
+			</td></tr>
+		</table>
+		</s:else>
+		
+		
+		<!-- Local Jobs -->
+		<tr><td>
+			<div class="StandardTextDarkGrayParagraph">
+			<b>Jobs Running on LSF: </b>
+			</div></td>
+		</tr>
+		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
+		<s:if test="! lsfJobs.isEmpty()">
+		<table>
+			<tr>
+				<td class="TableRowText01">Name</td>
+				<td class="TableRowText01">Owner</td>
+				<td class="TableRowText01">Job Type</td>
+				<td class="TableRowText01">Number of Compounds</td>
+				<td class="TableRowText01">Number of Models</td>
+				<td class="TableRowText01">Time Created</td>
+				<td class="TableRowText01">Status</td>
+				<td class="TableRowText01">Cancel</td>
+			</tr>
+			<s:iterator value="lsfJobs">
+				<tr>
+				<td class="TableRowText02"><s:property value="jobName" /></td>
+				<td class="TableRowText02"><s:property value="userName" /></td>
+				<td class="TableRowText02"><s:property value="jobType" /></td>
+				<td class="TableRowText02"><s:property value="numCompounds" /></td>
+				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
+				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
+				<td class="TableRowText02"><b><s:property value="stats" /><br /><s:property value="message" /><b></td>
+				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
+				</tr> 
+			</s:iterator>
+			<br />
+			<br />
+		</table>
+		</s:if>
+		<s:else>
+		<table>
+			<tr><td>
+			<div class="StandardTextDarkGrayParagraph">(No LSF jobs are currently running.)</div>
+			</td></tr>
+		</table>
+		</s:else>
+		
 	</table>
 	<br />
 		
