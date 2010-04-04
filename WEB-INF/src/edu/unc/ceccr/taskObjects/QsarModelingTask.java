@@ -717,6 +717,14 @@ public class QsarModelingTask extends WorkflowTask {
 		
 	}
 	
+	public String getStatus(){
+		return step;
+	}
+	
+	
+	
+	
+	//helper functions and member variables defined below this point.
 	
 	private void setParameters(String path, ArrayList<Model> KNNValues, String flow) {
 		File dir;
@@ -1143,5 +1151,5 @@ public class QsarModelingTask extends WorkflowTask {
 	public void setDatasetID(Long datasetID) {
 		this.datasetID = datasetID;
 	}
-	
-	}
+
+}

@@ -438,6 +438,13 @@ public class QsarPredictionTask extends WorkflowTask {
 	public void delete() throws Exception {
 		
 	}
+
+	public String getStatus(){
+		return step;
+	}
+	
+	
+	//helpers below this point.
 	
 	protected static Predictor getPredictor(
 			Long selectedPredictorId) throws ClassNotFoundException,

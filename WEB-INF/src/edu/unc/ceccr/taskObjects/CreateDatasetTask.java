@@ -452,5 +452,8 @@ public class CreateDatasetTask extends WorkflowTask{
 	public void delete() throws Exception {
 		
 	}
-	
+
+	public String getStatus(){
+		return step;
+	}
 }

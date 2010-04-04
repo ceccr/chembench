@@ -142,12 +142,36 @@ public class JobsActions extends ActionSupport {
 		
 		//get local jobs
 		localJobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
-
+		for(Job j : localJobs){
+			if(j.workflowTask != null){
+				j.setMessage(j.workflowTask.getProgress());
+			}
+			else{
+				j.setStatus("Error");
+				j.setMessage("Could not resume task.");
+			}
+		}
+		
 		//get lsf jobs
 		lsfJobs = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
+		for(Job j : lsfJobs){
+			if(j.workflowTask != null){
+				j.setStatus(j.workflowTask.getStatus());
+				j.setMessage(j.workflowTask.getProgress());
+			}
+			else{
+				j.setStatus("Error");
+				j.setMessage("Could not resume task.");
+			}
+		}
 		
 		//get incoming jobs
 		incomingJobs = CentralDogma.getInstance().incomingJobs.getReadOnlyCopy();
+		for(Job j : incomingJobs){
+			if(j.workflowTask != null){
+				j.setMessage("Waiting in queue");
+			}
+		}
 		
 		session.close();
 

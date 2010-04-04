@@ -35,6 +35,9 @@ public abstract class WorkflowTask {
 	public abstract void delete() throws Exception; 
 	//Removes files, directories, and database entries associated with a workflowTask
 
+	public abstract String getStatus() throws Exception; 
+	//returns a basic (one-word) status
+	
 	public abstract String getProgress() throws Exception; 
 	//returns a detailed status message (% progress, etc)
 }
