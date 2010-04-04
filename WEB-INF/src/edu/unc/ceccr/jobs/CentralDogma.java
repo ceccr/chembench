@@ -43,53 +43,12 @@ public class CentralDogma{
 	private CentralDogma(){
 		try{
 			
-			
-			
 			lsfJobs = new SynchronizedJobList();
 			incomingJobs = new SynchronizedJobList();
 			localJobs = new SynchronizedJobList();
 			
 			//Fill job lists from the database
 			Session s = HibernateUtil.getSession();
-			
-			
-
-			//junk insert into jobStats for debugging, whee
-			
-			/*
-			JobStats js = new JobStats();
-			js.setJobName("yHelloThar");
-			js.setJobType("Magrid The Sly");
-
-			Transaction tx = null;
-			try {
-				tx = s.beginTransaction();
-				s.saveOrUpdate(js);
-				tx.commit();
-			} catch (RuntimeException e) {
-				if (tx != null)
-					tx.rollback();
-				Utility.writeToDebug(e);
-			}
-			finally{
-				s.close();
-			}*/
-			Job ja = new Job();
-			ja.setJobName("yweiof");
-			ja.setJobType("djiwojw");
-			Transaction tx = null;
-			try {
-				tx = s.beginTransaction();
-				s.saveOrUpdate(ja);
-				tx.commit();
-			} catch (RuntimeException e) {
-				if (tx != null)
-					tx.rollback();
-				Utility.writeToDebug(e);
-			}
-			finally{
-				s.close();
-			}
 			
 			ArrayList<Job> jobs = PopulateDataObjects.populateJobs(s);
 			if(jobs == null){
@@ -165,13 +124,13 @@ public class CentralDogma{
 		j.setUserName(userName);
 		j.setNumCompounds(numCompounds);
 		j.setNumModels(numModels);
-		j.setWorkflowTask(wt);
+/*		j.setWorkflowTask(wt);
 		j.setTimeCreated(new Date());
 		j.setStatus(Constants.QUEUED);
 		j.setJobList(Constants.INCOMING);
 		j.setEmailOnCompletion(emailOnCompletion);
 		j.setJobType(wt.jobType);
-		j.setLookupId(wt.lookupId);
+		j.setLookupId(wt.lookupId);*/
 
 		Utility.writeToDebug("Creating Job in job table: " + jobName);
 		//commit job to DB

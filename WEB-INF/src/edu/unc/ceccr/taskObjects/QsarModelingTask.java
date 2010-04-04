@@ -481,7 +481,7 @@ public class QsarModelingTask extends WorkflowTask {
 
 		//create the descriptors for the dataset and read them in
 		ArrayList<String> descriptorNames = new ArrayList<String>();
-		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>(); 
 		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(filePath + sdFileName);
 		
 		Session session = HibernateUtil.getSession();
@@ -495,7 +495,7 @@ public class QsarModelingTask extends WorkflowTask {
 		 
 		Context-dependent feature selection in the context of dataset->descriptor selection:
 		- Find some overarching properties of the traintest dataset (activity cliffs? Diversity / Tanimoto coefficient? Number & size of clusters?)
-		- Apply those to feature selection. (Which descriptors corellate best to activity? Which ones separate clusters? Which are useful for low/high Tanimoto values?)
+		- Apply those to feature selection. (Which descriptors correlate best to activity? Which ones separate clusters? Which are useful for low/high Tanimoto values?)
 		*/
 		if(dataset.getDatasetType().equals(Constants.MODELING)){
 			//the dataset did not include descriptors so we need to generate them
