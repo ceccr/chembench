@@ -130,6 +130,9 @@ public class CentralDogma{
 		j.setEmailOnCompletion(emailOnCompletion);
 		j.setJobType(wt.jobType);
 		j.setLookupId(wt.lookupId);
+
+		j.spinach = "spinach";
+//		j.workflowTask = wt; //argh breaky why this line so breaky arrrrgh.
 		
 		Utility.writeToDebug("Creating Job in job table: " + jobName);
 		//commit job to DB
@@ -147,7 +150,6 @@ public class CentralDogma{
 		} finally {
 			s.close();
 		}
-		//j.workflowTask = wt;
 		
 		
 		//put into incoming queue

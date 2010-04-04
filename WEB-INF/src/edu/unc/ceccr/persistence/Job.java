@@ -38,6 +38,8 @@ public class Job {
 	private String emailOnCompletion;
 	
 	private String timeFinishedEstimate;
+	
+	public String spinach; //not hibernated either
 	public WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask. Not persisted to database.
 
 	public Job(){}
