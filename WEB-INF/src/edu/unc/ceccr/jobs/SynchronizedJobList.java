@@ -81,6 +81,8 @@ public class SynchronizedJobList{
 		synchronized(jobList){
 			//refresh jobList from database
 			
+			/*
+			 Wait, crap! We can't reload all the jobs because then they won't have WorkflowTasks! Argh...
 			jobList.clear();
 			Session s = null; 
 			try {
@@ -96,7 +98,7 @@ public class SynchronizedJobList{
 			} finally {
 				s.close();
 			}
-			
+			*/
 
 			ArrayList<Job> jobListCopy = new ArrayList<Job>();
 			try{
