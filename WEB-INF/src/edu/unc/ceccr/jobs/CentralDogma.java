@@ -147,7 +147,7 @@ public class CentralDogma{
 		} finally {
 			s.close();
 		}
-		j.workflowTask = wt;
+		//j.workflowTask = wt;
 		
 		
 		//put into incoming queue
