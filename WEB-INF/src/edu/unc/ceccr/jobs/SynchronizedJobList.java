@@ -90,17 +90,25 @@ public class SynchronizedJobList{
 				.addOrder(Order.asc("id"))
 				.list();
 			} catch (Exception e) {
+				Utility.writeToDebug("over here!");
 				Utility.writeToDebug(e);
 			} finally {
 				s.close();
 			}
+
+			ArrayList<Job> jobListCopy = new ArrayList<Job>();
+			try{
 			if(jobList == null){
 				jobList = new ArrayList<Job>();
 			}
 			
 			//return a copy of it
-			ArrayList<Job> jobListCopy = new ArrayList<Job>();
 			jobListCopy.addAll(jobList);
+			}
+			catch(Exception ex){
+				Utility.writeToDebug("over there");
+				Utility.writeToDebug(ex);
+			}
 			return jobListCopy;
 		}
 	}
