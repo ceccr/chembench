@@ -83,17 +83,13 @@ public class SynchronizedJobList{
 			
 			jobList = null;
 			Session s = null; 
-			Transaction tx = null;
 			try {
 				s = HibernateUtil.getSession();
-				tx = s.beginTransaction();
 				jobList = (ArrayList<Job>) s.createCriteria(Job.class)
 				.add(Expression.eq("jobList", name))
 				.addOrder(Order.asc("id"))
 				.list();
 			} catch (Exception e) {
-				if (tx != null)
-					tx.rollback();
 				Utility.writeToDebug(e);
 			} finally {
 				s.close();
