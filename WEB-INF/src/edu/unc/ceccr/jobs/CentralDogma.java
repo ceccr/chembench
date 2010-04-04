@@ -130,9 +130,8 @@ public class CentralDogma{
 		j.setEmailOnCompletion(emailOnCompletion);
 		j.setJobType(wt.jobType);
 		j.setLookupId(wt.lookupId);
-		/*		j.setWorkflowTask(wt);
-		*/
-
+		j.setWorkflowTask(wt);
+		
 		Utility.writeToDebug("Creating Job in job table: " + jobName);
 		//commit job to DB
 		Session s = HibernateUtil.getSession();
