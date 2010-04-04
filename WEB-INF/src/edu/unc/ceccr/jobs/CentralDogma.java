@@ -55,6 +55,8 @@ public class CentralDogma{
 			
 
 			//junk insert into jobStats for debugging, whee
+			
+			/*
 			JobStats js = new JobStats();
 			js.setJobName("yHelloThar");
 			js.setJobType("Magrid The Sly");
@@ -63,6 +65,22 @@ public class CentralDogma{
 			try {
 				tx = s.beginTransaction();
 				s.saveOrUpdate(js);
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			}
+			finally{
+				s.close();
+			}*/
+			Job ja = new Job();
+			ja.setJobName("yweiof");
+			ja.setJobType("djiwojw");
+			Transaction tx = null;
+			try {
+				tx = s.beginTransaction();
+				s.saveOrUpdate(ja);
 				tx.commit();
 			} catch (RuntimeException e) {
 				if (tx != null)
