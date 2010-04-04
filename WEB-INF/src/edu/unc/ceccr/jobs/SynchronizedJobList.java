@@ -23,7 +23,12 @@ public class SynchronizedJobList{
 	//a third instance is used to store freshly-submitted jobs that have not yet been processed.
 	
 	private List<Job> jobList = Collections.synchronizedList(new ArrayList<Job>());
-
+	private String name; //LSF, LOCAL, or INCOMING
+	
+	SynchronizedJobList(String name){
+		this.name = name;
+	}
+	
 	public void removeJob(Job job){
 		//removes the job from this list.
 		synchronized(jobList){
@@ -76,7 +81,6 @@ public class SynchronizedJobList{
 		synchronized(jobList){
 			//refresh jobList from database
 			
-			/*
 			jobList = null;
 			Session s = null; 
 			Transaction tx = null;
@@ -84,6 +88,7 @@ public class SynchronizedJobList{
 				s = HibernateUtil.getSession();
 				tx = s.beginTransaction();
 				jobList = (ArrayList<Job>) s.createCriteria(Job.class)
+				.add(Expression.eq("jobList", name))
 				.addOrder(Order.asc("id"))
 				.list();
 			} catch (Exception e) {
@@ -92,7 +97,7 @@ public class SynchronizedJobList{
 				Utility.writeToDebug(e);
 			} finally {
 				s.close();
-			}*/
+			}
 			
 			//return a copy of it
 			ArrayList<Job> jobListCopy = new ArrayList<Job>();
