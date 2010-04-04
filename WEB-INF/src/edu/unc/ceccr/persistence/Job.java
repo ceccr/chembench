@@ -39,7 +39,7 @@ public class Job {
 	
 	private String timeFinishedEstimate;
 	
-	public String spinach; //not hibernated either
+	@Transient
 	public WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask. Not persisted to database.
 
 	public Job(){}

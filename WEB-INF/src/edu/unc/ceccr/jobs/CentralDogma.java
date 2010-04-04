@@ -131,8 +131,7 @@ public class CentralDogma{
 		j.setJobType(wt.jobType);
 		j.setLookupId(wt.lookupId);
 
-		j.spinach = "spinach";
-//		j.workflowTask = wt; //argh breaky why this line so breaky arrrrgh.
+		j.workflowTask = wt;
 		
 		Utility.writeToDebug("Creating Job in job table: " + jobName);
 		//commit job to DB
