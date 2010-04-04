@@ -98,6 +98,9 @@ public class SynchronizedJobList{
 			} finally {
 				s.close();
 			}
+			if(jobList == null){
+				jobList = new ArrayList<Job>();
+			}
 			
 			//return a copy of it
 			ArrayList<Job> jobListCopy = new ArrayList<Job>();
