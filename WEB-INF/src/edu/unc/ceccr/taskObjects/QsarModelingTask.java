@@ -683,6 +683,7 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setPredictorType("Private");
 		predictor.setDatasetId(datasetID);
 		predictor.setHasBeenViewed(Constants.NO);
+		predictor.setJobCompleted(Constants.NO);
 
 		if(allkNNValues.size()<1){}else
 		{for (ModelInterface m : allkNNValues)

@@ -172,6 +172,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		dataset.setActFormula(actFileHeader);
 		dataset.setUploadedDescriptorType(descriptorType);
 		dataset.setHasBeenViewed(Constants.NO);
+		dataset.setJobCompleted(Constants.NO);
 		
 		dataset.setStandardize(standardize);
 		dataset.setSplitType(splitType);
