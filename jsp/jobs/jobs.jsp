@@ -61,6 +61,7 @@
 			<div class="StandardTextDarkGrayParagraph"><button type="submit">REFRESH STATUS</button></div>
 		</form>
 		</td></tr>
+		<br />
 		
 		<!-- Queued (incomingJobs) -->
 		<tr><td>
@@ -100,7 +101,7 @@
 		<s:else>
 		<table>
 			<tr><td>
-			<div class="StandardTextDarkGrayParagraph">(No jobs are waiting to start.)</div>
+			<div class="StandardTextDarkGrayParagraph">(No jobs are waiting to start.)<br /><br /></div>
 			</td></tr>
 		</table>
 		</s:else>
@@ -143,7 +144,7 @@
 		<s:else>
 		<table>
 			<tr><td>
-			<div class="StandardTextDarkGrayParagraph">(No local jobs are currently running.)</div>
+			<div class="StandardTextDarkGrayParagraph">(No local jobs are currently running.)<br /><br /></div>
 			</td></tr>
 		</table>
 		</s:else>
@@ -187,7 +188,7 @@
 		<s:else>
 		<table>
 			<tr><td>
-			<div class="StandardTextDarkGrayParagraph">(No LSF jobs are currently running.)</div>
+			<div class="StandardTextDarkGrayParagraph">(No LSF jobs are currently running.)<br /><br /></div>
 			</td></tr>
 		</table>
 		</s:else>

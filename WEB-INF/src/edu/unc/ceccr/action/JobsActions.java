@@ -93,7 +93,7 @@ public class JobsActions extends ActionSupport {
 		    }});
 
 		for(int i = 0; i < userDatasets.size(); i++){
-			if(userDatasets.get(i).getJobCompleted().equals(Constants.NO)){
+			if(userDatasets.get(i).getJobCompleted() == null || userDatasets.get(i).getJobCompleted().equals(Constants.NO)){
 				userDatasets.remove(i);
 			}
 			else{
@@ -116,7 +116,7 @@ public class JobsActions extends ActionSupport {
 		    }});
 
 		for(int i = 0; i < userPredictors.size(); i++){
-			if(userPredictors.get(i).getJobCompleted().equals(Constants.NO)){
+			if(userPredictors.get(i).getJobCompleted() == null || userPredictors.get(i).getJobCompleted().equals(Constants.NO)){
 				userPredictors.remove(i);
 			}
 			else{
@@ -132,7 +132,7 @@ public class JobsActions extends ActionSupport {
 		    }});
 		
 		for(int i = 0; i < userPredictions.size(); i++){
-			if(userPredictions.get(i).getJobCompleted().equals(Constants.NO)){
+			if(userPredictions.get(i).getJobCompleted() == null || userPredictions.get(i).getJobCompleted().equals(Constants.NO)){
 				userPredictions.remove(i);
 			}
 			else{

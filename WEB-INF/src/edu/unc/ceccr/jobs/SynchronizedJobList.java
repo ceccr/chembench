@@ -6,11 +6,14 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
+import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.utilities.Utility;
 
 public class SynchronizedJobList{
@@ -67,13 +70,34 @@ public class SynchronizedJobList{
 			jobList.add(job);
 		}
 	}
-	
+
+
 	public ArrayList<Job> getReadOnlyCopy(){
-		ArrayList<Job> jobListCopy = new ArrayList<Job>();
 		synchronized(jobList){
+			//refresh jobList from database
+			
+			jobList = null;
+			Session s = null; 
+			Transaction tx = null;
+			try {
+				s = HibernateUtil.getSession();
+				tx = s.beginTransaction();
+				jobList = (ArrayList<Job>) s.createCriteria(Job.class)
+				.addOrder(Order.asc("id"))
+				.list();
+			} catch (Exception e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			} finally {
+				s.close();
+			}
+			
+			//return a copy of it
+			ArrayList<Job> jobListCopy = new ArrayList<Job>();
 			jobListCopy.addAll(jobList);
+			return jobListCopy;
 		}
-		return jobListCopy;
 	}
 
 	public boolean startJob(Job j) {
