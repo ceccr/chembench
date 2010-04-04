@@ -22,6 +22,7 @@ import org.hibernate.Session;
 
 import edu.unc.ceccr.action.ViewDataset.Compound;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
@@ -90,6 +91,15 @@ public class JobsActions extends ActionSupport {
 		    public int compare(DataSet d1, DataSet d2) {
 	    		return d1.getFileName().toLowerCase().compareTo(d2.getFileName().toLowerCase());
 		    }});
+
+		for(int i = 0; i < userDatasets.size(); i++){
+			if(userDatasets.get(i).getJobCompleted().equals(Constants.NO)){
+				userDatasets.remove(i);
+			}
+			else{
+				i++;
+			}
+		}
 		
 		//get predictors
 		if(user.getShowPublicPredictors().equals(Constants.ALL)){	
@@ -104,6 +114,15 @@ public class JobsActions extends ActionSupport {
 		    public int compare(Predictor p1, Predictor p2) {
 	    		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
 		    }});
+
+		for(int i = 0; i < userPredictors.size(); i++){
+			if(userPredictors.get(i).getJobCompleted().equals(Constants.NO)){
+				userPredictors.remove(i);
+			}
+			else{
+				i++;
+			}
+		}
 		
 		//get predictions
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
@@ -112,47 +131,28 @@ public class JobsActions extends ActionSupport {
 	    		return p1.getJobName().toLowerCase().compareTo(p2.getJobName().toLowerCase());
 		    }});
 		
-		/*
-		//load the queue
-		userQueueTasks = new ArrayList<QueueTask>();
-		if(Queue.getInstance().runningTask != null){
-			QueueTask t = Queue.getInstance().runningTask;
-			if(t != null && t.task != null){
-				Utility.writeToDebug("running task: " + t.jobName);
-				if(t.task != null){
-					t.setMessage(t.task.getProgress());
-					userQueueTasks.add(Queue.getInstance().runningTask);
-				}
+		for(int i = 0; i < userPredictions.size(); i++){
+			if(userPredictions.get(i).getJobCompleted().equals(Constants.NO)){
+				userPredictions.remove(i);
+			}
+			else{
+				i++;
 			}
 		}
-		Iterator<QueueTask> queuedTasks = Queue.queue.iterator();
-		while(queuedTasks.hasNext()){
-			QueueTask qt = PopulateDataObjects.getTaskById(queuedTasks.next().id, session);
-			if(qt != null){
-				Utility.writeToDebug("queued task: " + qt.jobName);
-				userQueueTasks.add(qt);
-			}
-		}
-		Iterator<QueueTask> errorTasks = Queue.errorqueue.iterator();
-		while(errorTasks.hasNext()){
-			QueueTask qt = PopulateDataObjects.getTaskById(errorTasks.next().id, session);
-			if(qt != null){
-				Utility.writeToDebug("error task: " + qt.jobName);
-				userQueueTasks.add(qt);
-			}
-		}	
+		
+		//get local jobs
+		localJobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
+		
+		//get lsf jobs
+		lsfJobs = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
+		
+		//get incoming jobs
+		incomingJobs = CentralDogma.getInstance().incomingJobs.getReadOnlyCopy();
+		
 		session.close();
-		*/
-		//log the results
-		if(result.equals(SUCCESS)){
-			Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to jobs page.");
-		}
-		else{
-			Utility.writeToStrutsDebug("Cannot load page.");
-		}
 
-		Utility.writeToDebug("finished loading jobs page.");
-		//go to the page
+		Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to jobs page.");
+		
 		return result;
 	}
 	public String execute() throws Exception {
@@ -173,7 +173,12 @@ public class JobsActions extends ActionSupport {
 	private List<DataSet> userDatasets;
 	private List<Predictor> userPredictors;
 	private List<Prediction> userPredictions;
-	private List<Job> userQueueTasks;
+
+	private List<Job> incomingJobs;
+	private List<Job> lsfJobs;
+	private List<Job> localJobs;
+	
+	
 	
 	public List<DataSet> getUserDatasets(){
 		return userDatasets;
@@ -195,13 +200,25 @@ public class JobsActions extends ActionSupport {
 	public void setUserPredictions(List<Prediction> userPredictions) {
 		this.userPredictions = userPredictions;
 	}
-		
-	public List<Job> getUserQueueTasks(){
-		return userQueueTasks;
-	}
-	public void setUserQueueTasks(List<Job> userQueueTasks) {
-		this.userQueueTasks = userQueueTasks;
-	}
-
 	
+	public List<Job> getIncomingJobs() {
+		return incomingJobs;
+	}
+	public void setIncomingJobs(List<Job> incomingJobs) {
+		this.incomingJobs = incomingJobs;
+	}
+	
+	public List<Job> getLsfJobs() {
+		return lsfJobs;
+	}
+	public void setLsfJobs(List<Job> lsfJobs) {
+		this.lsfJobs = lsfJobs;
+	}
+	
+	public List<Job> getLocalJobs() {
+		return localJobs;
+	}
+	public void setLocalJobs(List<Job> localJobs) {
+		this.localJobs = localJobs;
+	}
 }
