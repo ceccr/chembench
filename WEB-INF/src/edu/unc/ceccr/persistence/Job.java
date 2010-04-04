@@ -38,7 +38,7 @@ public class Job {
 	private String emailOnCompletion;
 	
 	private String timeFinishedEstimate;
-	private WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask.
+	@Transient public WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask.
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -176,14 +176,6 @@ public class Job {
 	}
 	public void setTimeFinishedEstimate(String timeFinishedEstimate) {
 		this.timeFinishedEstimate = timeFinishedEstimate;
-	}
-	
-	@Transient
-	public WorkflowTask getWorkflowTask() {
-		return workflowTask;
-	}
-	public void setWorkflowTask(WorkflowTask workflowTask) {
-		this.workflowTask = workflowTask;
 	}
 	
 }

@@ -28,11 +28,11 @@ public class LocalProcessingThread extends Thread {
 							Utility.writeToDebug("Local queue: Started job " + j.getJobName());
 							
 							j.setStatus(Constants.PREPROC);
-							j.getWorkflowTask().preProcess();
+							j.workflowTask.preProcess();
 							j.setStatus(Constants.RUNNING);
-							j.getWorkflowTask().executeLocal();
+							j.workflowTask.executeLocal();
 							j.setStatus(Constants.POSTPROC);
-							j.getWorkflowTask().postProcess();
+							j.workflowTask.postProcess();
 							
 							CentralDogma.getInstance().localJobs.removeJob(j);
 						}
