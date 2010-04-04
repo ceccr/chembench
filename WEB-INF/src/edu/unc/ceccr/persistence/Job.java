@@ -16,7 +16,7 @@ import edu.unc.ceccr.taskObjects.WorkflowTask;
 @Table(name = "cbench_job")
 public class Job {
 	
-	public Long id;
+	public Long id = new Long(0);
 	private String lsfJobId; //the job ID assigned by LSF. Used to track the job.
 	private String userName;
 	private String jobName; 
