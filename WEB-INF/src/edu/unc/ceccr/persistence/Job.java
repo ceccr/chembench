@@ -38,7 +38,7 @@ public class Job {
 	private String emailOnCompletion;
 	
 	private String timeFinishedEstimate;
-	public WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask.
+	public WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask. Not persisted to database.
 
 	public Job(){}
 	
@@ -178,14 +178,6 @@ public class Job {
 	}
 	public void setTimeFinishedEstimate(String timeFinishedEstimate) {
 		this.timeFinishedEstimate = timeFinishedEstimate;
-	}
-	
-	@Transient
-	public WorkflowTask getWorkflowTask() {
-		return workflowTask;
-	}
-	public void setWorkflowTask(WorkflowTask workflowTask) {
-		this.workflowTask = workflowTask;
 	}
 	
 }
