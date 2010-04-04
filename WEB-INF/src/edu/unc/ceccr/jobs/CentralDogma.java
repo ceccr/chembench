@@ -124,11 +124,11 @@ public class CentralDogma{
 		j.setUserName(userName);
 		j.setNumCompounds(numCompounds);
 		j.setNumModels(numModels);
-/*		j.setWorkflowTask(wt);
 		j.setTimeCreated(new Date());
 		j.setStatus(Constants.QUEUED);
 		j.setJobList(Constants.INCOMING);
 		j.setEmailOnCompletion(emailOnCompletion);
+		/*		j.setWorkflowTask(wt);
 		j.setJobType(wt.jobType);
 		j.setLookupId(wt.lookupId);*/
 
