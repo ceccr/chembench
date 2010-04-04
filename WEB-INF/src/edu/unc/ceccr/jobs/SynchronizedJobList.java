@@ -76,6 +76,7 @@ public class SynchronizedJobList{
 		synchronized(jobList){
 			//refresh jobList from database
 			
+			/*
 			jobList = null;
 			Session s = null; 
 			Transaction tx = null;
@@ -91,7 +92,7 @@ public class SynchronizedJobList{
 				Utility.writeToDebug(e);
 			} finally {
 				s.close();
-			}
+			}*/
 			
 			//return a copy of it
 			ArrayList<Job> jobListCopy = new ArrayList<Job>();
