@@ -12,8 +12,10 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
+import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.SoftwareExpiration;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
@@ -40,12 +42,37 @@ public class CentralDogma{
 	
 	private CentralDogma(){
 		try{
+			
+			
+			
 			lsfJobs = new SynchronizedJobList();
 			incomingJobs = new SynchronizedJobList();
 			localJobs = new SynchronizedJobList();
 			
 			//Fill job lists from the database
 			Session s = HibernateUtil.getSession();
+			
+			
+
+			//junk insert into jobStats for debugging, whee
+			JobStats js = new JobStats();
+			js.setJobName("yHelloThar");
+			js.setJobType("Magrid The Sly");
+
+			Transaction tx = null;
+			try {
+				tx = s.beginTransaction();
+				s.saveOrUpdate(js);
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			}
+			finally{
+				s.close();
+			}
+			
 			ArrayList<Job> jobs = PopulateDataObjects.populateJobs(s);
 			if(jobs == null){
 				jobs = new ArrayList<Job>();

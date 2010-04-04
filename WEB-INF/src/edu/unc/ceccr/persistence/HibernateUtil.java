@@ -23,6 +23,7 @@ public class HibernateUtil {
 	static {
 		sessionFactory = new AnnotationConfiguration()
 		.addAnnotatedClass(Job.class)
+		.addAnnotatedClass(JobStats.class)
 		.addAnnotatedClass(Model.class)
 		.addAnnotatedClass(Predictor.class)
 		.addAnnotatedClass(User.class)

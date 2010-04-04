@@ -4,10 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
@@ -54,8 +58,8 @@ public class LsfProcessingThread extends Thread {
 							if(s.hasNext()){
 								jobName = s.next();
 							}
-							if(!userName.isEmpty() && !jobName.isEmpty() && 
-									j.getJobName().equals(jobName) && j.getUserName().equals(userName)){
+							//WARNING - bug if user submits two jobs with the same name within a short time period
+							if(j.getJobName().equals(jobName) && j.getUserName().equals(userName)){
 								if(CentralDogma.getInstance().lsfJobs.startPostJob(j)){
 									j.workflowTask.postProcess();
 									//finished; remove job object

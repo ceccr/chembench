@@ -17,6 +17,7 @@ import edu.unc.ceccr.taskObjects.WorkflowTask;
 public class Job {
 	
 	public Long id;
+	private String lsfJobId; //the job ID assigned by LSF. Used to track the job.
 	private String userName;
 	private String jobName; 
 	
@@ -39,6 +40,8 @@ public class Job {
 	private String timeFinishedEstimate;
 	public WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask.
 
+	public Job(){}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
@@ -49,6 +52,14 @@ public class Job {
 		this.id = id;
 	}
 
+	@Column(name = "lsfJobId")
+	public String getLsfJobId() {
+		return lsfJobId;
+	}
+	public void setLsfJobId(String lsfJobId) {
+		this.lsfJobId = lsfJobId;
+	}
+	
 	@Column(name = "userName")
 	public String getUserName() {
 		return userName;
