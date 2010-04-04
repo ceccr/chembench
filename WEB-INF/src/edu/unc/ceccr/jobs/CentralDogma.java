@@ -132,7 +132,6 @@ public class CentralDogma{
 		j.setLookupId(wt.lookupId);
 		j.workflowTask = wt;
 		
-		Utility.writeToDebug("Creating Job in job table: " + jobName);
 		//commit job to DB
 		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
@@ -140,7 +139,6 @@ public class CentralDogma{
 			tx = s.beginTransaction();
 			s.save(j);
 			tx.commit();
-			Utility.writeToDebug("Job created job table: " + jobName);
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
@@ -148,8 +146,6 @@ public class CentralDogma{
 		} finally {
 			s.close();
 		}
-		
-		Thread.sleep(20000);
 		
 		//put into incoming queue
 		incomingJobs.addJob(j);

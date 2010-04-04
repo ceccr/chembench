@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
+import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.utilities.Utility;
 
 public class SynchronizedJobList{
@@ -21,28 +22,43 @@ public class SynchronizedJobList{
 	private List<Job> jobList = Collections.synchronizedList(new ArrayList<Job>());
 
 	public void removeJob(Job job){
+		//removes the job from this list.
 		synchronized(jobList){
 			for(int i = 0; i < jobList.size(); i++){
 				if(jobList.get(i).equals(job)){
 					jobList.remove(i);
-
-					Session s = null; 
-					Transaction tx = null;
-					try {
-						s = HibernateUtil.getSession();
-						tx = s.beginTransaction();
-						s.delete(job);
-						tx.commit();
-					} catch (Exception e) {
-						if (tx != null)
-							tx.rollback();
-						Utility.writeToDebug(e);
-					} finally {
-						s.close();
-					}
-					
 				}
 			}
+		}
+	}
+	
+	public void deleteJob(Job job){
+		//delete the job. Add its info to a new JobStats.
+		JobStats js = new JobStats();
+		js.setJobName(job.getJobName());
+		js.setJobType(job.getJobType());
+		js.setNumCompounds(job.getNumCompounds());
+		js.setNumModels(job.getNumModels());
+		js.setTimeCreated(job.getTimeCreated());
+		js.setTimeFinished(job.getTimeFinished());
+		js.setTimeStarted(job.getTimeStarted());
+		js.setTimeStartedByLsf(job.getTimeStartedByLsf());
+		js.setUserName(job.getUserName());
+		
+		Session s = null; 
+		Transaction tx = null;
+		try {
+			s = HibernateUtil.getSession();
+			tx = s.beginTransaction();
+			s.delete(job);
+			s.save(js);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			s.close();
 		}
 	}
 	
