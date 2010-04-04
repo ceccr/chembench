@@ -149,6 +149,8 @@ public class CentralDogma{
 			s.close();
 		}
 		
+		Thread.sleep(20000);
+		
 		//put into incoming queue
 		incomingJobs.addJob(j);
 		
