@@ -41,7 +41,7 @@
   </tr>
 </table>
 
-	<!-- Running Jobs -->
+	<!-- Queued, Local, and LSF Jobs -->
 	<a name="jobs"></a>
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>			
@@ -53,7 +53,8 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>Running jobs from all Chembench users are displayed below. Use the REFRESH STATUS button to update the list. Other users can see the names and progress of jobs you are running, but only you may access your completed datasets, predictors, and predictions.</i><br /></div></td>
+			<div class="StandardTextDarkGrayParagraph"><i>Running jobs from all Chembench users are displayed below. Use the REFRESH STATUS button to update the list. 
+			Other users can see your jobs while they are running, but only you can access your completed datasets, predictors, and predictions.</i><br /></div></td>
 		 </tr>	
 		 <tr><td colspan="2">
 		<form action="jobs">
