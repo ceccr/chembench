@@ -128,9 +128,10 @@ public class CentralDogma{
 		j.setStatus(Constants.QUEUED);
 		j.setJobList(Constants.INCOMING);
 		j.setEmailOnCompletion(emailOnCompletion);
-		/*		j.setWorkflowTask(wt);
 		j.setJobType(wt.jobType);
-		j.setLookupId(wt.lookupId);*/
+		j.setLookupId(wt.lookupId);
+		/*		j.setWorkflowTask(wt);
+		*/
 
 		Utility.writeToDebug("Creating Job in job table: " + jobName);
 		//commit job to DB
