@@ -73,7 +73,7 @@ public class CentralDogma{
 						wt = new QsarPredictionTask(prediction);
 					} 
 					wt.jobList = j.getJobList();
-					j.workflowTask = wt;
+					j.setWorkflowTask(wt);
 					
 					if(j.getJobList().equals(Constants.INCOMING)){
 						incomingJobs.addJob(j);
@@ -130,8 +130,7 @@ public class CentralDogma{
 		j.setEmailOnCompletion(emailOnCompletion);
 		j.setJobType(wt.jobType);
 		j.setLookupId(wt.lookupId);
-
-		j.workflowTask = wt;
+		j.setWorkflowTask(new QsarModelingTask(new Predictor()));
 		
 		Utility.writeToDebug("Creating Job in job table: " + jobName);
 		//commit job to DB
@@ -149,7 +148,6 @@ public class CentralDogma{
 		} finally {
 			s.close();
 		}
-		
 		
 		//put into incoming queue
 		incomingJobs.addJob(j);
