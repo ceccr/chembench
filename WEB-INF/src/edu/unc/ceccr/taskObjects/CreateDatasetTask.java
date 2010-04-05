@@ -430,6 +430,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		
 		//add dataset to DB
 		dataset.setHasBeenViewed(Constants.YES);
+		dataset.setJobCompleted(Constants.YES);
 		dataset.setAvailableDescriptors(availableDescriptors);
 
 		Session session = HibernateUtil.getSession();
