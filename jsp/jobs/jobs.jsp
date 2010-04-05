@@ -100,9 +100,9 @@
 		<s:else>
 		<table>
 			<tr><td>
-			<div class="StandardTextDarkGrayParagraph">(No jobs are waiting to start.)</div>
+			<div class="StandardTextDarkGray">(No jobs are waiting to start.)</div>
 			</td></tr>
-			<tr><br /><!-- spacer --></tr>
+			<tr><td>&nbsp;</td></tr>
 		</table>
 		</s:else>
 		
@@ -137,14 +137,14 @@
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
-			<tr><br /><!-- spacer --></tr>
+			<tr><td>&nbsp;</td></tr>
 		</table>
 		</s:if>
 		<s:else>
 		<table>
 			<tr><td>
-			<div class="StandardTextDarkGrayParagraph">(No local jobs are currently running.)</div>
-			<tr><br /><!-- spacer --></tr>
+			<div class="StandardTextDarkGray">(No local jobs are currently running.)</div>
+			<tr><td>&nbsp;</td></tr>
 			</td></tr>
 		</table>
 		</s:else>
@@ -181,15 +181,15 @@
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
-			<tr><br /><!-- spacer --></tr>
+			<tr><td>&nbsp;</td></tr>
 		</table>
 		</s:if>
 		<s:else>
 		<table>
 			<tr><td>
-			<div class="StandardTextDarkGrayParagraph">(No LSF jobs are currently running.)</div>
+			<div class="StandardTextDarkGray">(No LSF jobs are currently running.)</div>
 			</td></tr>
-			<tr><br /><!-- spacer --></tr>
+			<tr><td>&nbsp;</td></tr>
 		</table>
 		</s:else>
 		
