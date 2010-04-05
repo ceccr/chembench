@@ -74,6 +74,7 @@ public class CentralDogma{
 					} 
 					wt.jobList = j.getJobList();
 					j.workflowTask = wt;
+					j.setStatus(Constants.QUEUED);
 					
 					if(j.getJobList().equals(Constants.INCOMING)){
 						incomingJobs.addJob(j);
