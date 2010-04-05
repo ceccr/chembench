@@ -78,15 +78,16 @@ public class JobsActions extends ActionSupport {
 			userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
 			userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
 			userDatasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.PREDICTION, true, session));
-			
-			for(int i = 0; i < userDatasets.size(); i++){
-				String s = userDatasets.get(i).getShowByDefault();
-				if(s != null && s.equals(Constants.NO)){
-					userDatasets.remove(i);
-					i--;
-				}
+		}
+
+		for(int i = 0; i < userDatasets.size(); i++){
+			String s = userDatasets.get(i).getShowByDefault();
+			if(s != null && s.equals(Constants.NO)){
+				userDatasets.remove(i);
+				i--;
 			}
 		}
+		
 		Collections.sort(userDatasets, new Comparator<DataSet>() {
 		    public int compare(DataSet d1, DataSet d2) {
 	    		return d1.getFileName().toLowerCase().compareTo(d2.getFileName().toLowerCase());
