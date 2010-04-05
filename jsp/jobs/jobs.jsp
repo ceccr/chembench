@@ -61,7 +61,7 @@
 			<div class="StandardTextDarkGrayParagraph"><button type="submit">REFRESH STATUS</button></div>
 		</form>
 		</td></tr>
-		<tr><td><br /></td></tr>
+		<tr><td>&nbsp;</td></tr>
 		
 		<!-- Queued (incomingJobs) -->
 		<tr><td>
@@ -94,7 +94,7 @@
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
-			<tr><br /><!-- spacer --></tr>
+			<tr><td>&nbsp;</td></tr>
 		</table>
 		</s:if>
 		<s:else>
