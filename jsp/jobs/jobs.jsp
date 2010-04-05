@@ -66,7 +66,7 @@
 		<!-- Queued (incomingJobs) -->
 		<tr><td>
 			<div class="StandardTextDarkGrayParagraph">
-			<b>Queued Jobs: </b>
+			<b>Unassigned Jobs: </b>
 			</div></td>
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
@@ -100,7 +100,7 @@
 		<s:else>
 		<table>
 			<tr><td>
-			<div class="StandardTextDarkGray">(No jobs are waiting to start.)</div>
+			<div class="StandardTextDarkGray">(No jobs are waiting to be assigned.)</div>
 			</td></tr>
 			<tr><td>&nbsp;</td></tr>
 		</table>
@@ -109,7 +109,7 @@
 		<!-- Local Jobs -->
 		<tr><td>
 			<div class="StandardTextDarkGrayParagraph">
-			<b>Jobs Running Locally: </b>
+			<b>Jobs on Local Queue: </b>
 			</div></td>
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
@@ -143,7 +143,7 @@
 		<s:else>
 		<table>
 			<tr><td>
-			<div class="StandardTextDarkGray">(No local jobs are currently running.)</div>
+			<div class="StandardTextDarkGray">(The local processing queue is empty.)</div>
 			<tr><td>&nbsp;</td></tr>
 			</td></tr>
 		</table>
@@ -153,7 +153,7 @@
 		<!-- Local Jobs -->
 		<tr><td>
 			<div class="StandardTextDarkGrayParagraph">
-			<b>Jobs Running on LSF: </b>
+			<b>Jobs on LSF Queue: </b>
 			</div></td>
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
@@ -187,7 +187,7 @@
 		<s:else>
 		<table>
 			<tr><td>
-			<div class="StandardTextDarkGray">(No LSF jobs are currently running.)</div>
+			<div class="StandardTextDarkGray">(The LSF queue is empty.)</div>
 			</td></tr>
 			<tr><td>&nbsp;</td></tr>
 		</table>
