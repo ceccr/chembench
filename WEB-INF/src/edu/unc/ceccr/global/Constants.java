@@ -84,7 +84,7 @@ public class Constants {
 	public static final String USERDEFINED = "USERDEFINED";
 	
 	//steps in dataset task
-	public static final String SETUP = "Setting up task";
+	public static final String SETUP = "Waiting in queue";
 	public static final String VISUALIZATION = "Generating visualizations";
 	public static final String SKETCHES = "Generating compound sketches";
 	public static final String SPLITDATA = "Splitting Data";

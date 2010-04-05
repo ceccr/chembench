@@ -96,7 +96,10 @@ public class LsfProcessingThread extends Thread {
 	//exec bjobs and get results
 	public static ArrayList<LsfJobStatus> checkLsfStatus(String workingDir) throws Exception{
 		//remove outfile if already exists
-		FileAndDirOperations.deleteFile(workingDir + "bjobs-out.txt");
+		
+		if((new File(workingDir + "bjobs-out.txt")).exists()){
+			FileAndDirOperations.deleteFile(workingDir + "bjobs-out.txt");
+		}
 		
 		//run bjobs
 		String command = "bjobs.sh";
