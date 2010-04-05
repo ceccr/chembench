@@ -61,7 +61,7 @@
 			<div class="StandardTextDarkGrayParagraph"><button type="submit">REFRESH STATUS</button></div>
 		</form>
 		</td></tr>
-		<br />
+		<tr><td><br /></td></tr>
 		
 		<!-- Queued (incomingJobs) -->
 		<tr><td>
@@ -94,7 +94,7 @@
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
-			<tr><!-- spacer --></tr>
+			<tr><br /><!-- spacer --></tr>
 		</table>
 		</s:if>
 		<s:else>
@@ -102,7 +102,7 @@
 			<tr><td>
 			<div class="StandardTextDarkGrayParagraph">(No jobs are waiting to start.)</div>
 			</td></tr>
-			<tr><!-- spacer --></tr>
+			<tr><br /><!-- spacer --></tr>
 		</table>
 		</s:else>
 		
@@ -137,14 +137,14 @@
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
-			<tr><!-- spacer --></tr>
+			<tr><br /><!-- spacer --></tr>
 		</table>
 		</s:if>
 		<s:else>
 		<table>
 			<tr><td>
 			<div class="StandardTextDarkGrayParagraph">(No local jobs are currently running.)</div>
-			<tr><!-- spacer --></tr>
+			<tr><br /><!-- spacer --></tr>
 			</td></tr>
 		</table>
 		</s:else>
@@ -181,7 +181,7 @@
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
-			<tr><!-- spacer --></tr>
+			<tr><br /><!-- spacer --></tr>
 		</table>
 		</s:if>
 		<s:else>
@@ -189,7 +189,7 @@
 			<tr><td>
 			<div class="StandardTextDarkGrayParagraph">(No LSF jobs are currently running.)</div>
 			</td></tr>
-			<tr><!-- spacer --></tr>
+			<tr><br /><!-- spacer --></tr>
 		</table>
 		</s:else>
 		
