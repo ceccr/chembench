@@ -64,7 +64,8 @@ public class LsfProcessingThread extends Thread {
 								if(CentralDogma.getInstance().lsfJobs.startPostJob(j)){
 									j.workflowTask.postProcess();
 									//finished; remove job object
-									CentralDogma.getInstance().localJobs.removeJob(j);
+									CentralDogma.getInstance().lsfJobs.removeJob(j);						
+									CentralDogma.getInstance().lsfJobs.deleteJob(j);
 								}
 							}
 						}

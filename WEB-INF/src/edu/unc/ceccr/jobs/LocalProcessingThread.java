@@ -34,7 +34,9 @@ public class LocalProcessingThread extends Thread {
 							j.setStatus(Constants.POSTPROC);
 							j.workflowTask.postProcess();
 							
-							CentralDogma.getInstance().localJobs.removeJob(j);
+							CentralDogma.getInstance().localJobs.removeJob(j);							
+							CentralDogma.getInstance().localJobs.deleteJob(j);
+							
 						}
 						else{
 							//some other thread already got this job. Don't worry about it.
