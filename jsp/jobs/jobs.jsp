@@ -90,7 +90,7 @@
 				<td class="TableRowText02"><s:property value="numCompounds" /></td>
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
-				<td class="TableRowText02"><b><s:property value="status" /><br /><s:property value="message" /><b></td>
+				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
@@ -133,7 +133,7 @@
 				<td class="TableRowText02"><s:property value="numCompounds" /></td>
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
-				<td class="TableRowText02"><b><s:property value="status" /><br /><s:property value="message" /><b></td>
+				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
@@ -177,7 +177,7 @@
 				<td class="TableRowText02"><s:property value="numCompounds" /></td>
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
-				<td class="TableRowText02"><b><s:property value="status" /><br /><s:property value="message" /><b></td>
+				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
