@@ -14,6 +14,7 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.PredictionValue;
+import edu.unc.ceccr.taskObjects.WorkflowTask;
 import edu.unc.ceccr.utilities.Utility;
 
 public class SynchronizedJobList{
@@ -76,29 +77,33 @@ public class SynchronizedJobList{
 		}
 	}
 
+/*
+	private void updateJobsFromDB(){
 
+		ArrayList<Job> freshJobList = new ArrayList<Job>();
+		Session s = null; 
+		try {
+			s = HibernateUtil.getSession();
+			freshJobList = (ArrayList<Job>) s.createCriteria(Job.class)
+			.add(Expression.eq("jobList", name))
+			.addOrder(Order.asc("id"))
+			.list();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+		} finally {
+			s.close();
+		}
+
+		synchronized(jobList){
+			for(int i = 0; i < jobList.size(); i++){
+				WorkflowTask wt = jobList.get(i).workflowTask;
+				
+			}
+		}
+	}*/
+	
 	public ArrayList<Job> getReadOnlyCopy(){
 		synchronized(jobList){
-			//refresh jobList from database
-			
-			/*
-			 Wait, crap! We can't reload all the jobs because then they won't have WorkflowTasks! Argh...
-			jobList.clear();
-			Session s = null; 
-			try {
-				s = HibernateUtil.getSession();
-				ArrayList<Job> jobListTemp = (ArrayList<Job>) s.createCriteria(Job.class)
-				.add(Expression.eq("jobList", name))
-				.addOrder(Order.asc("id"))
-				.list();
-				jobList.addAll(jobListTemp);
-			} catch (Exception e) {
-				Utility.writeToDebug("over here!");
-				Utility.writeToDebug(e);
-			} finally {
-				s.close();
-			}
-			*/
 
 			ArrayList<Job> jobListCopy = new ArrayList<Job>();
 			try{
@@ -135,6 +140,7 @@ public class SynchronizedJobList{
 	public boolean startPostJob(Job j) {
 		//called when a thread picks a job from the list and starts working on postprocessing for it
 		synchronized(jobList){
+
 			if(! j.getStatus().equals(Constants.RUNNING)){
 				//some other thread has already grabbed this job and is working on it.
 				return false;
@@ -150,18 +156,8 @@ public class SynchronizedJobList{
 		}
 	}
 	
-	public void finishJob(Job j){
-		//called when a thread finishes work on a job
-		synchronized(jobList){
-			j.setStatus(Constants.QUEUED);
-			
-			//commit the job's "queued" status to DB
-			commitJobChanges(j);
-			
-		}
-	}
-	
-	private void commitJobChanges(Job j){
+	public void commitJobChanges(Job j){
+		
 		Session s = null; 
 		Transaction tx = null;
 		try {

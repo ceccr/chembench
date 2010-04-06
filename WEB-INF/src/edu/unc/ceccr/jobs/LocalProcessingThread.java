@@ -1,6 +1,7 @@
 package edu.unc.ceccr.jobs;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import edu.unc.ceccr.global.Constants;
@@ -16,7 +17,7 @@ public class LocalProcessingThread extends Thread {
 	public void run() {
 		while(true){
 			try {
-				sleep(500);
+				sleep(1500);
 				//Utility.writeToDebug("LocalProcessingThread awake!");
 				//pull out a job and start it running
 				ArrayList<Job> jobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
@@ -26,6 +27,7 @@ public class LocalProcessingThread extends Thread {
 						if(CentralDogma.getInstance().localJobs.startJob(j)){
 	
 							Utility.writeToDebug("Local queue: Started job " + j.getJobName());
+							j.setTimeStarted(new Date());
 							
 							j.setStatus(Constants.PREPROC);
 							j.workflowTask.preProcess();
@@ -33,7 +35,8 @@ public class LocalProcessingThread extends Thread {
 							j.workflowTask.executeLocal();
 							j.setStatus(Constants.POSTPROC);
 							j.workflowTask.postProcess();
-							
+
+							j.setTimeFinished(new Date());
 							CentralDogma.getInstance().localJobs.removeJob(j);							
 							CentralDogma.getInstance().localJobs.deleteJob(j);
 							

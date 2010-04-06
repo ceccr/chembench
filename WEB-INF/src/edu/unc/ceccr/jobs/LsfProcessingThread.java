@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -22,6 +23,8 @@ public class LsfProcessingThread extends Thread {
 	//this works on the LSFJobs joblist.
 	//You should only ever have one of these threads running - don't start a second one!
 	
+	HashMap<String, String> oldLsfStatuses = new HashMap<String, String>(); //used to determine when a job goes from PEND to RUN.
+	
 	public void run() {
 
 		while(true){
@@ -35,19 +38,39 @@ public class LsfProcessingThread extends Thread {
 						//try to grab the job and preproc it
 						if(CentralDogma.getInstance().lsfJobs.startJob(j)){
 							Utility.writeToDebug("LSFQueue: Starting job " + j.getJobName() + " from user " + j.getUserName());
+							j.setTimeStarted(new Date());
 							j.setStatus(Constants.PREPROC);
 							j.workflowTask.preProcess();
 							j.setStatus(Constants.RUNNING);
 							j.setLsfJobId(j.workflowTask.executeLSF());
-							//get job ID from job submission logfile
-							
-							
+							CentralDogma.getInstance().lsfJobs.commitJobChanges(j);
 						}
 					}
 				}
 				
-				//If there's a finished job that needs postprocessing, do so.
+				
 				ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
+				
+				//determine if any pending jobs in LSF have started; update the Job objects if so.
+				//compare the new job statuses against the ones from the previous check
+				for(LsfJobStatus jobStatus : lsfJobStatuses){
+					if( (oldLsfStatuses.containsKey(jobStatus.jobid) && 
+							oldLsfStatuses.get(jobStatus.jobid).equals("PEND") && 
+							jobStatus.stat.equals("RUN")) ||
+							(! oldLsfStatuses.containsKey(jobStatus.jobid) && 
+									jobStatus.stat.equals("RUN"))){
+						//the job *just* started on LSF. Find the job with this lsfJobId and set its date.
+						for(Job j: readOnlyJobArray){
+							if(j.getLsfJobId().equals(jobStatus.jobid)){
+								j.setTimeStartedByLsf(new Date());
+								CentralDogma.getInstance().lsfJobs.commitJobChanges(j);
+							}
+						}
+					}
+					oldLsfStatuses.put(jobStatus.jobid, jobStatus.stat);
+				}
+
+				//If there's a finished job that needs postprocessing, do so.
 				for(LsfJobStatus jobStatus : lsfJobStatuses){
 					if(jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")){
 						//check if this is a running job
@@ -59,6 +82,7 @@ public class LsfProcessingThread extends Thread {
 								if(CentralDogma.getInstance().lsfJobs.startPostJob(j)){
 									Utility.writeToDebug("Postprocessing job: " + j.getJobName() + " from user: " + j.getUserName());
 									j.workflowTask.postProcess();
+									j.setTimeFinished(new Date());
 									//finished; remove job object
 									CentralDogma.getInstance().lsfJobs.removeJob(j);						
 									CentralDogma.getInstance().lsfJobs.deleteJob(j);
