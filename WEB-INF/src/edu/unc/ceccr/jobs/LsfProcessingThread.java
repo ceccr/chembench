@@ -26,7 +26,7 @@ public class LsfProcessingThread extends Thread {
 
 		while(true){
 			try {
-				sleep(500);
+				sleep(1500);
 				
 				//did any jobs just get added to this structure? If so, preprocess them and bsub them.
 				ArrayList<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
@@ -104,7 +104,7 @@ public class LsfProcessingThread extends Thread {
 		//run bjobs
 		String command = "bjobs.sh";
 		//Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		/*
+		
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "bjobs.sh", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
@@ -114,11 +114,10 @@ public class LsfProcessingThread extends Thread {
 	        Utility.close(p.getErrorStream());
 	        p.destroy();
 	    }
-		*/
 		
 		//read in results
 		ArrayList<LsfJobStatus> lsfStatusList = new ArrayList<LsfJobStatus>();
-		/*
+		
 		BufferedReader br = new BufferedReader(new FileReader(workingDir + "bjobs-out.txt"));
 		String line = "";
 		br.readLine(); //skip header
@@ -131,7 +130,7 @@ public class LsfProcessingThread extends Thread {
 		}
 		
 		br.close();
-		*/
+		
 		return lsfStatusList;
 	}
 	
