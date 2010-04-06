@@ -169,8 +169,7 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 			else{
 				//running locally so check local dir
-				 workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-				 
+				 workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/"; 
 			}
 			
 			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");

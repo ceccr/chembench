@@ -39,6 +39,10 @@ public class LsfProcessingThread extends Thread {
 							j.workflowTask.preProcess();
 							j.setStatus(Constants.RUNNING);
 							j.workflowTask.executeLSF();
+							//get job ID from job submission logfile
+							
+							String logFilePath = Constants.LSFJOBPATH + j.getUserName() + "/" + j.getJobName() + "/Logs/bsubKnn.log";
+							j.setLsfJobId(getLsfJobId(logFilePath));
 						}
 					}
 				}
@@ -49,20 +53,12 @@ public class LsfProcessingThread extends Thread {
 					if(jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")){
 						//check if this is a running job
 						for(Job j : readOnlyJobArray){
-							Scanner s = new Scanner(jobStatus.job_name);
-							s.useDelimiter("_");
-							s.next();
-							String userName = "";
-							String jobName = "";
-							if(s.hasNext()){
-								userName = s.next();
-							}
-							if(s.hasNext()){
-								jobName = s.next();
-							}
+							
 							//WARNING - bug if user submits two jobs with the same name within a short time period
-							if(j.getJobName().equals(jobName) && j.getUserName().equals(userName)){
+							if(j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)){
+								Utility.writeToDebug("trying postprocessing on job: " + j.getJobName() + " from user: " + j.getUserName());
 								if(CentralDogma.getInstance().lsfJobs.startPostJob(j)){
+									Utility.writeToDebug("Postprocessing job: " + j.getJobName() + " from user: " + j.getUserName());
 									j.workflowTask.postProcess();
 									//finished; remove job object
 									CentralDogma.getInstance().lsfJobs.removeJob(j);						
@@ -134,4 +130,18 @@ public class LsfProcessingThread extends Thread {
 		return lsfStatusList;
 	}
 	
+	public static String getLsfJobId(String logFilePath) throws Exception{
+		BufferedReader in = new BufferedReader(new FileReader(logFilePath));
+		String line = in.readLine(); //junk
+		Scanner sc = new Scanner(line);
+		String jobId = "";
+		if(sc.hasNext()){
+			sc.next();
+		}
+		if(sc.hasNext()){
+			jobId = sc.next();
+		}
+		Utility.writeToDebug(jobId.substring(1, jobId.length() - 1));
+		return jobId.substring(1, jobId.length() - 1);
+	}
 }
