@@ -53,6 +53,8 @@ public class SynchronizedJobList{
 				listJob.setTimeFinishedEstimate(job.getTimeFinishedEstimate());
 				listJob.setTimeStarted(job.getTimeStarted());
 				listJob.setTimeStartedByLsf(job.getTimeStartedByLsf());
+
+				commitJobChanges(job);
 			}
 		}
 	}
@@ -233,7 +235,7 @@ public class SynchronizedJobList{
 		}
 	}
 	
-	public void commitJobChanges(Job j){
+	private void commitJobChanges(Job j){
 		
 		Session s = null; 
 		Transaction tx = null;

@@ -47,7 +47,6 @@ public class LsfProcessingThread extends Thread {
 								j.setStatus(Constants.RUNNING);
 								j.setLsfJobId(j.workflowTask.executeLSF());
 								CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-								CentralDogma.getInstance().lsfJobs.commitJobChanges(j);
 							}
 							catch(Exception ex){
 								//Job failed or threw an exception
@@ -77,7 +76,6 @@ public class LsfProcessingThread extends Thread {
 							if(j.getLsfJobId().equals(jobStatus.jobid)){
 								j.setTimeStartedByLsf(new Date());
 								CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-								CentralDogma.getInstance().lsfJobs.commitJobChanges(j);
 							}
 						}
 					}
