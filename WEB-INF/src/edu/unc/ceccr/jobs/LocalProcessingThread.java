@@ -27,24 +27,31 @@ public class LocalProcessingThread extends Thread {
 
 						Utility.writeToDebug("Local queue: Started job " + j.getJobName());
 						j.setTimeStarted(new Date());
-						
 						j.setStatus(Constants.PREPROC);
 						CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
-						j.workflowTask.preProcess();
 						
-						j.setStatus(Constants.RUNNING);
-						CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
-						j.workflowTask.executeLocal();
-						
-						j.setStatus(Constants.POSTPROC);
-						CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
-						j.workflowTask.postProcess();
-
-						j.setTimeFinished(new Date());
-						CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
-						CentralDogma.getInstance().localJobs.removeJob(j.getId());							
-						CentralDogma.getInstance().localJobs.deleteJobFromDB(j.getId());
-						
+						try{
+							j.workflowTask.preProcess();
+							
+							j.setStatus(Constants.RUNNING);
+							CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
+							j.workflowTask.executeLocal();
+							
+							j.setStatus(Constants.POSTPROC);
+							CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
+							j.workflowTask.postProcess();
+							j.setTimeFinished(new Date());
+							CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
+						}
+						catch(Exception ex){
+							//Job failed or threw an exception
+							Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
+							Utility.writeToDebug(ex);
+						}
+						finally{
+							CentralDogma.getInstance().localJobs.removeJob(j.getId());							
+							CentralDogma.getInstance().localJobs.deleteJobFromDB(j.getId());
+						}						
 					}
 					else{
 						//some other thread already got this job. Don't worry about it.

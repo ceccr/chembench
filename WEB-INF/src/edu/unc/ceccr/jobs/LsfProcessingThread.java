@@ -37,14 +37,26 @@ public class LsfProcessingThread extends Thread {
 					if(j.getStatus().equals(Constants.QUEUED)){
 						//try to grab the job and preproc it
 						if(CentralDogma.getInstance().lsfJobs.startJob(j.getId())){
-							Utility.writeToDebug("LSFQueue: Starting job " + j.getJobName() + " from user " + j.getUserName());
-							j.setTimeStarted(new Date());
-							j.setStatus(Constants.PREPROC);
-							j.workflowTask.preProcess();
-							j.setStatus(Constants.RUNNING);
-							j.setLsfJobId(j.workflowTask.executeLSF());
-							CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-							CentralDogma.getInstance().lsfJobs.commitJobChanges(j);
+							
+
+							try{
+								Utility.writeToDebug("LSFQueue: Starting job " + j.getJobName() + " from user " + j.getUserName());
+								j.setTimeStarted(new Date());
+								j.setStatus(Constants.PREPROC);
+								j.workflowTask.preProcess();
+								j.setStatus(Constants.RUNNING);
+								j.setLsfJobId(j.workflowTask.executeLSF());
+								CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
+								CentralDogma.getInstance().lsfJobs.commitJobChanges(j);
+							}
+							catch(Exception ex){
+								//Job failed or threw an exception
+								Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
+								Utility.writeToDebug(ex);
+								CentralDogma.getInstance().localJobs.removeJob(j.getId());							
+								CentralDogma.getInstance().localJobs.deleteJobFromDB(j.getId());
+							}
+							
 						}
 					}
 				}
@@ -77,17 +89,28 @@ public class LsfProcessingThread extends Thread {
 					if(jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")){
 						//check if this is a running job
 						for(Job j : readOnlyJobArray){
-							
 							if(j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)){
 								Utility.writeToDebug("trying postprocessing on job: " + j.getJobName() + " from user: " + j.getUserName());
 								if(CentralDogma.getInstance().lsfJobs.startPostJob(j.getId())){
-									Utility.writeToDebug("Postprocessing job: " + j.getJobName() + " from user: " + j.getUserName());
-									j.workflowTask.postProcess();
-									j.setTimeFinished(new Date());
-									CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-									//finished; remove job object
-									CentralDogma.getInstance().lsfJobs.removeJob(j.getId());						
-									CentralDogma.getInstance().lsfJobs.deleteJobFromDB(j.getId());
+									
+									try{
+										Utility.writeToDebug("Postprocessing job: " + j.getJobName() + " from user: " + j.getUserName());
+										j.workflowTask.postProcess();
+										j.setTimeFinished(new Date());
+										CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
+
+									}
+									catch(Exception ex){
+										//Job failed or threw an exception
+										Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
+										Utility.writeToDebug(ex);
+									}
+									finally{
+										//finished; remove job object
+										CentralDogma.getInstance().lsfJobs.removeJob(j.getId());						
+										CentralDogma.getInstance().lsfJobs.deleteJobFromDB(j.getId());
+									}
+									
 								}
 							}
 						}
