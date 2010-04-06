@@ -106,7 +106,6 @@ public class LsfProcessingThread extends Thread {
 		//Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		Utility.writeProgramLogfile(workingDir, "bjobs.sh", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 		if (p != null) {
 	        Utility.close(p.getOutputStream());
