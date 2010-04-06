@@ -35,7 +35,7 @@ public class IncomingJobProcessingThread extends Thread {
 						j.setJobList(Constants.LOCAL);
 						j.workflowTask.jobList = Constants.LOCAL;
 						CentralDogma.getInstance().localJobs.addJob(j);
-						CentralDogma.getInstance().incomingJobs.removeJob(j);
+						CentralDogma.getInstance().incomingJobs.removeJob(j.getId());
 					}
 					else if(j.getJobType().equals(Constants.PREDICTION)){
 						//send it to local
@@ -44,7 +44,7 @@ public class IncomingJobProcessingThread extends Thread {
 						j.setJobList(Constants.LOCAL);
 						j.workflowTask.jobList = Constants.LOCAL;
 						CentralDogma.getInstance().localJobs.addJob(j);
-						CentralDogma.getInstance().incomingJobs.removeJob(j);
+						CentralDogma.getInstance().incomingJobs.removeJob(j.getId());
 					}
 					else if(j.getJobType().equals(Constants.MODELING)){
 						//check LSF status. If LSF can accept another job, put it there.
@@ -54,7 +54,7 @@ public class IncomingJobProcessingThread extends Thread {
 							j.setJobList(Constants.LSF);
 							j.workflowTask.jobList = Constants.LSF;
 							CentralDogma.getInstance().lsfJobs.addJob(j);
-							CentralDogma.getInstance().incomingJobs.removeJob(j);
+							CentralDogma.getInstance().incomingJobs.removeJob(j.getId());
 						}
 					}
 					
