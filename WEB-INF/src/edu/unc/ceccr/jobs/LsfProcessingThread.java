@@ -36,13 +36,14 @@ public class LsfProcessingThread extends Thread {
 				for(Job j : readOnlyJobArray){
 					if(j.getStatus().equals(Constants.QUEUED)){
 						//try to grab the job and preproc it
-						if(CentralDogma.getInstance().lsfJobs.startJob(j)){
+						if(CentralDogma.getInstance().lsfJobs.startJob(j.getId())){
 							Utility.writeToDebug("LSFQueue: Starting job " + j.getJobName() + " from user " + j.getUserName());
 							j.setTimeStarted(new Date());
 							j.setStatus(Constants.PREPROC);
 							j.workflowTask.preProcess();
 							j.setStatus(Constants.RUNNING);
 							j.setLsfJobId(j.workflowTask.executeLSF());
+							CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
 							CentralDogma.getInstance().lsfJobs.commitJobChanges(j);
 						}
 					}
@@ -63,6 +64,7 @@ public class LsfProcessingThread extends Thread {
 						for(Job j: readOnlyJobArray){
 							if(j.getLsfJobId().equals(jobStatus.jobid)){
 								j.setTimeStartedByLsf(new Date());
+								CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
 								CentralDogma.getInstance().lsfJobs.commitJobChanges(j);
 							}
 						}
@@ -76,16 +78,16 @@ public class LsfProcessingThread extends Thread {
 						//check if this is a running job
 						for(Job j : readOnlyJobArray){
 							
-							//WARNING - bug if user submits two jobs with the same name within a short time period
 							if(j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)){
 								Utility.writeToDebug("trying postprocessing on job: " + j.getJobName() + " from user: " + j.getUserName());
-								if(CentralDogma.getInstance().lsfJobs.startPostJob(j)){
+								if(CentralDogma.getInstance().lsfJobs.startPostJob(j.getId())){
 									Utility.writeToDebug("Postprocessing job: " + j.getJobName() + " from user: " + j.getUserName());
 									j.workflowTask.postProcess();
 									j.setTimeFinished(new Date());
+									CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
 									//finished; remove job object
-									CentralDogma.getInstance().lsfJobs.removeJob(j);						
-									CentralDogma.getInstance().lsfJobs.deleteJob(j);
+									CentralDogma.getInstance().lsfJobs.removeJob(j.getId());						
+									CentralDogma.getInstance().lsfJobs.deleteJobFromDB(j.getId());
 								}
 							}
 						}

@@ -10,6 +10,7 @@ import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
@@ -30,34 +31,87 @@ public class SynchronizedJobList{
 		this.name = name;
 	}
 	
-	public void removeJob(Job job){
+	public void saveJobChangesToList(Job job){
+		synchronized(jobList){
+			saveJobChangesToListSync(job);
+		}
+	}
+	
+	private void saveJobChangesToListSync(Job job){
+		//only call this from inside a synchronized block
+		for(int i = 0; i < jobList.size(); i++){
+			if(jobList.get(i).getId() == job.getId()){
+				Job listJob = jobList.get(i);
+				//note that this does not alter all possible job parameters, 
+				//just the ones expected to change.
+				listJob.setEmailOnCompletion(job.getEmailOnCompletion());
+				listJob.setLsfJobId(job.getLsfJobId());
+				listJob.setMessage(job.getMessage());
+				listJob.setStatus(job.getStatus());
+				listJob.setTimeCreated(job.getTimeCreated());
+				listJob.setTimeFinished(job.getTimeFinished());
+				listJob.setTimeFinishedEstimate(job.getTimeFinishedEstimate());
+				listJob.setTimeStarted(job.getTimeStarted());
+				listJob.setTimeStartedByLsf(job.getTimeStartedByLsf());
+			}
+		}
+	}
+	
+	public void printJobListStates(){
+		synchronized(jobList){
+			for(Job j: jobList){
+				Utility.writeToDebug(j.getJobName() + " : " + j.getStatus() );
+			}
+		}
+	}
+	
+	public void removeJob(Long jobId){
 		//removes the job from this list.
 		synchronized(jobList){
 			for(int i = 0; i < jobList.size(); i++){
-				if(jobList.get(i).equals(job)){
+				if(jobList.get(i).getId() == jobId){
 					jobList.remove(i);
 				}
 			}
 		}
 	}
 	
-	public void deleteJob(Job job){
+	public void deleteJobFromDB(Long jobId){
+		//used whenever a job is finished or canceled.
 		//delete the job. Add its info to a new JobStats.
-		JobStats js = new JobStats();
-		js.setJobName(job.getJobName());
-		js.setJobType(job.getJobType());
-		js.setNumCompounds(job.getNumCompounds());
-		js.setNumModels(job.getNumModels());
-		js.setTimeCreated(job.getTimeCreated());
-		js.setTimeFinished(job.getTimeFinished());
-		js.setTimeStarted(job.getTimeStarted());
-		js.setTimeStartedByLsf(job.getTimeStartedByLsf());
-		js.setUserName(job.getUserName());
 		
 		Session s = null; 
 		Transaction tx = null;
-		try {
+		Job job = null;
+		try{
 			s = HibernateUtil.getSession();
+			tx = s.beginTransaction();
+			job = (Job) s.createCriteria(Job.class)
+			.add(Expression.eq("id", jobId))
+			.uniqueResult();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		}
+
+		JobStats js = new JobStats();
+		try{
+			js.setJobName(job.getJobName());
+			js.setJobType(job.getJobType());
+			js.setNumCompounds(job.getNumCompounds());
+			js.setNumModels(job.getNumModels());
+			js.setTimeCreated(job.getTimeCreated());
+			js.setTimeFinished(job.getTimeFinished());
+			js.setTimeStarted(job.getTimeStarted());
+			js.setTimeStartedByLsf(job.getTimeStartedByLsf());
+			js.setUserName(job.getUserName());
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+
+		try {
 			tx = s.beginTransaction();
 			s.delete(job);
 			s.save(js);
@@ -78,6 +132,15 @@ public class SynchronizedJobList{
 	}
 
 /*
+ * You basically never want to do update the jobList from the DB. Why?
+ * While the server is running, it will write job updates to the DB, ensuring
+ * that the DB record of each job is as updated as possible. However,
+ * the job records are never read FROM the database, except when the server
+ * starts (when CentralDogma is instantiated).
+ * So, during normal server operation, you're never going to want to read from
+ * the Jobs table. It's really only there for recovering jobs if the server
+ * needs to be stopped / restarted, or if there's an outage.
+ * 
 	private void updateJobsFromDB(){
 
 		ArrayList<Job> freshJobList = new ArrayList<Job>();
@@ -119,40 +182,53 @@ public class SynchronizedJobList{
 		}
 	}
 
-	public boolean startJob(Job j) {
+	public boolean startJob(Long jobId) {
 		//called when a thread picks a job from the list and starts working on it
 		synchronized(jobList){
-			if(! j.getStatus().equals(Constants.QUEUED)){
-				//some other thread has already grabbed this job and is working on it.
-				return false;
+			for(Job j: jobList){
+				if(j.getId() == jobId){
+					if(! j.getStatus().equals(Constants.QUEUED)){
+						//some other thread has already grabbed this job and is working on it.
+						return false;
+					}
+					else{
+						j.setStatus(Constants.RUNNING);
+						//commit the job's "running" status to DB
+						saveJobChangesToListSync(j);
+						commitJobChanges(j);
+					
+						return true;
+					}
+				}
 			}
-			else{
-				j.setStatus(Constants.RUNNING);
-				
-				//commit the job's "running" status to DB
-				commitJobChanges(j);
-			
-				return true;
-			}
+			//if job not found
+			return false;
 		}
 	}
 
-	public boolean startPostJob(Job j) {
+	public boolean startPostJob(Long jobId) {
 		//called when a thread picks a job from the list and starts working on postprocessing for it
 		synchronized(jobList){
 
-			if(! j.getStatus().equals(Constants.RUNNING)){
-				//some other thread has already grabbed this job and is working on it.
-				return false;
+			for(Job j: jobList){
+				if(j.getId() == jobId){
+					if(! j.getStatus().equals(Constants.RUNNING)){
+						//some other thread has already grabbed this job and is working on it.
+						return false;
+					}
+					else{
+						j.setStatus(Constants.POSTPROC);
+						
+						//commit the job's "running" status to DB
+						saveJobChangesToListSync(j);
+						commitJobChanges(j);
+					
+						return true;
+					}
+				}
 			}
-			else{
-				j.setStatus(Constants.POSTPROC);
-				
-				//commit the job's "running" status to DB
-				commitJobChanges(j);
-			
-				return true;
-			}
+			//if job not found
+			return false;
 		}
 	}
 	
@@ -173,17 +249,6 @@ public class SynchronizedJobList{
 			s.close();
 		}
 		
-		/*
-		//could limit this to only jobs that are actually in this list..?
-		synchronized(jobList){
-			for(int i = 0; i < jobList.size(); i++){
-				if(jobList.get(i).equals(job)){
-					jobList.set(i, newJob);
-					commitJobChanges(newJob);
-				}
-			}
-		}
-		 */
 	}
 	
 }

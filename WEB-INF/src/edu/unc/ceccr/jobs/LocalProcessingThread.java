@@ -24,11 +24,10 @@ public class LocalProcessingThread extends Thread {
 				for(Job j: jobs){
 					if(j.getStatus().equals(Constants.QUEUED)){
 						//try to get this job. Note that another thread may be trying to get it too.
-						if(CentralDogma.getInstance().localJobs.startJob(j)){
+						if(CentralDogma.getInstance().localJobs.startJob(j.getId())){
 	
 							Utility.writeToDebug("Local queue: Started job " + j.getJobName());
 							j.setTimeStarted(new Date());
-							
 							j.setStatus(Constants.PREPROC);
 							j.workflowTask.preProcess();
 							j.setStatus(Constants.RUNNING);
@@ -37,8 +36,8 @@ public class LocalProcessingThread extends Thread {
 							j.workflowTask.postProcess();
 
 							j.setTimeFinished(new Date());
-							CentralDogma.getInstance().localJobs.removeJob(j);							
-							CentralDogma.getInstance().localJobs.deleteJob(j);
+							CentralDogma.getInstance().localJobs.removeJob(j.getId());							
+							CentralDogma.getInstance().localJobs.deleteJobFromDB(j.getId());
 							
 						}
 						else{
