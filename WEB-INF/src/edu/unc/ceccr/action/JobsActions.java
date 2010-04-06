@@ -141,7 +141,6 @@ public class JobsActions extends ActionSupport {
 				j.setMessage(j.workflowTask.getProgress());
 			}
 			else{
-				j.setStatus("Error");
 				j.setMessage("Could not resume task.");
 			}
 		}
@@ -150,11 +149,9 @@ public class JobsActions extends ActionSupport {
 		lsfJobs = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
 		for(Job j : lsfJobs){
 			if(j.workflowTask != null){
-				j.setStatus(j.workflowTask.getStatus());
 				j.setMessage(j.workflowTask.getProgress());
 			}
 			else{
-				j.setStatus("Error");
 				j.setMessage("Could not resume task.");
 			}
 		}
