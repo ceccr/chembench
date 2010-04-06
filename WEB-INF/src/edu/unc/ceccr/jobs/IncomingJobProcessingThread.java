@@ -21,11 +21,13 @@ public class IncomingJobProcessingThread extends Thread {
 	public void run() {
 		while(true){
 			try {
-				sleep(8000);
+				sleep(2000);
 
+				/*
 				CentralDogma.getInstance().incomingJobs.printJobListStates();
 				CentralDogma.getInstance().localJobs.printJobListStates();
 				CentralDogma.getInstance().lsfJobs.printJobListStates();
+				*/
 				
 				//determine which jobs should be sent to the LSF jobs list, 
 				//which should stay here, and which should go to the local jobs list.
