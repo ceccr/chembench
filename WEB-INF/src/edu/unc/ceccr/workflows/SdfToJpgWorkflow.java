@@ -90,7 +90,7 @@ public class SdfToJpgWorkflow {
 				
 				// run molconvert
 				Process process = Runtime.getRuntime().exec(command);
-				Utility.writeProgramLogfile(sketchesDir, "molconvert" + x, process.getInputStream(), process.getErrorStream());
+				//Utility.writeProgramLogfile(sketchesDir, "molconvert" + x, process.getInputStream(), process.getErrorStream());
 				
 				process.waitFor();
 			
