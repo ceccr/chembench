@@ -20,11 +20,12 @@ public abstract class WorkflowTask {
 	//does the main calculation work using the Chembench server's processing power
 	//Things that go in here: Calls to kNN Modeling, kNN prediction. 
 	
-	public abstract void executeLSF() throws Exception;
+	public abstract String executeLSF() throws Exception;
 	//an alternative to executeLocal; should perform the same functions as executeLocal.
 	//does the main calculation work by submitting it to LSF
 	//Things that go in here: Calls to kNN Modeling, kNN prediction. 
 	//Copying files to / from LSF is done in the preProcess / postProcess step.
+	//returns a string containing the LSF-assigned job ID so the job can be tracked
 
 	public abstract void postProcess() throws Exception; 
 	//Does any work that must be done locally, after the main calculation work is done

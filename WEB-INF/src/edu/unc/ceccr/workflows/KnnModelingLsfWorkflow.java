@@ -45,7 +45,7 @@ public class KnnModelingLsfWorkflow{
 		
 	}
 
-	public static void buildKnnCategoryModel(String userName, String jobName, String optimizationValue, String workingDir) throws Exception{
+	public static String buildKnnCategoryModel(String userName, String jobName, String optimizationValue, String workingDir) throws Exception{
 			//write shell script containing LSF submission (both yRandom and regular kNN run in one exec)
 			
 			FileOutputStream fout;
@@ -72,10 +72,13 @@ public class KnnModelingLsfWorkflow{
 			Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			Utility.writeToDebug("Category kNN submitted.", userName, jobName);
+
+			String logFilePath = workingDir + "/Logs/bsubKnn.log";
+			return getLsfJobId(logFilePath);
 	}
 	
 
-	public static void buildKnnContinuousModel(String userName, String jobName, String workingDir) throws Exception{
+	public static String buildKnnContinuousModel(String userName, String jobName, String workingDir) throws Exception{
 
 		FileOutputStream fout;
 		PrintStream out;
@@ -100,9 +103,27 @@ public class KnnModelingLsfWorkflow{
 		Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 		Utility.writeToDebug("Continuous kNN submitted.", userName, jobName);	
-		
+
+		String logFilePath = workingDir + "/Logs/bsubKnn.log";
+		return getLsfJobId(logFilePath);
 	}
 	
+
+
 	
+	public static String getLsfJobId(String logFilePath) throws Exception{
+		BufferedReader in = new BufferedReader(new FileReader(logFilePath));
+		String line = in.readLine(); //junk
+		Scanner sc = new Scanner(line);
+		String jobId = "";
+		if(sc.hasNext()){
+			sc.next();
+		}
+		if(sc.hasNext()){
+			jobId = sc.next();
+		}
+		Utility.writeToDebug(jobId.substring(1, jobId.length() - 1));
+		return jobId.substring(1, jobId.length() - 1);
+	}
 	
 }

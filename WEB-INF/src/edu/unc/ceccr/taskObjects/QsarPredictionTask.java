@@ -282,8 +282,8 @@ public class QsarPredictionTask extends WorkflowTask {
 		}
 	}
 	
-	public void executeLSF() throws Exception {
-		
+	public String executeLSF() throws Exception {
+		return "";
 	}
 	
 	public void executeLocal() throws Exception {

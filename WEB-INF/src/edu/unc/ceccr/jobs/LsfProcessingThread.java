@@ -38,11 +38,10 @@ public class LsfProcessingThread extends Thread {
 							j.setStatus(Constants.PREPROC);
 							j.workflowTask.preProcess();
 							j.setStatus(Constants.RUNNING);
-							j.workflowTask.executeLSF();
+							j.setLsfJobId(j.workflowTask.executeLSF());
 							//get job ID from job submission logfile
 							
-							String logFilePath = Constants.LSFJOBPATH + j.getUserName() + "/" + j.getJobName() + "/Logs/bsubKnn.log";
-							j.setLsfJobId(getLsfJobId(logFilePath));
+							
 						}
 					}
 				}
@@ -130,18 +129,4 @@ public class LsfProcessingThread extends Thread {
 		return lsfStatusList;
 	}
 	
-	public static String getLsfJobId(String logFilePath) throws Exception{
-		BufferedReader in = new BufferedReader(new FileReader(logFilePath));
-		String line = in.readLine(); //junk
-		Scanner sc = new Scanner(line);
-		String jobId = "";
-		if(sc.hasNext()){
-			sc.next();
-		}
-		if(sc.hasNext()){
-			jobId = sc.next();
-		}
-		Utility.writeToDebug(jobId.substring(1, jobId.length() - 1));
-		return jobId.substring(1, jobId.length() - 1);
-	}
 }

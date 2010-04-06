@@ -362,9 +362,10 @@ public class CreateDatasetTask extends WorkflowTask{
 		}
 	}
 	
-	public void executeLSF() throws Exception {
+	public String executeLSF() throws Exception {
 		//this should do the same thing as executeLocal functionally
 		//it will create a job on LSF and return immediately.
+		return "";
 	}
 	
 	public void executeLocal() throws Exception {

@@ -568,7 +568,7 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 	}
 
-	public void executeLSF() throws Exception{
+	public String executeLSF() throws Exception{
 		
 		//this function will submit a single LSF job.
 		//To submit this workflowTask as multiple jobs (to distribute the computation)
@@ -576,19 +576,22 @@ public class QsarModelingTask extends WorkflowTask {
 		//an LSF jobArray instead.
 		
 		String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
+		String lsfJobId = "";
 		
 		if(modelType.equals(Constants.KNN)){
 			step = Constants.MODELS;
 			if(actFileDataType.equals(Constants.CONTINUOUS)){
-				KnnModelingLsfWorkflow.buildKnnContinuousModel(userName, jobName, lsfPath);
+				lsfJobId = KnnModelingLsfWorkflow.buildKnnContinuousModel(userName, jobName, lsfPath);
 			}
 			else if(actFileDataType.equals(Constants.CATEGORY)){
-				KnnModelingLsfWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, lsfPath);
+				lsfJobId = KnnModelingLsfWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, lsfPath);
 			}
 		}
 		else {//if(modelType.equals(Constants.SVM)){
 			throw new Exception("SVM behaviour is still undefined -- don't use it yet!");
 		}
+		
+		return lsfJobId;
 	}
 	
 	@SuppressWarnings("unchecked")
