@@ -60,7 +60,7 @@ public class SynchronizedJobList{
 	public void printJobListStates(){
 		synchronized(jobList){
 			for(Job j: jobList){
-				Utility.writeToDebug(j.getJobName() + " : " + j.getStatus() );
+				Utility.writeToDebug(j.getJobName() + " : " + j.getJobList() + " : " + j.getStatus() );
 			}
 		}
 	}
@@ -71,6 +71,7 @@ public class SynchronizedJobList{
 			for(int i = 0; i < jobList.size(); i++){
 				if(jobList.get(i).getId() == jobId){
 					jobList.remove(i);
+					i = jobList.size();
 				}
 			}
 		}
