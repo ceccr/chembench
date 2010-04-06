@@ -158,30 +158,39 @@ public class QsarModelingTask extends WorkflowTask {
 	
 	private String step = Constants.SETUP; //stores what step we're on 
 	
-	
-	
 	public String getProgress(){
 
 		String percent = "";
-		if(step.equals(Constants.MODELS) || step.equals(Constants.YMODELS)){
+		if(step.equals(Constants.MODELS)){
 			String workingDir = "";
 			if(jobList.equals(Constants.LSF)){
 				//running on LSF so check LSF dir
-				
+				workingDir = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
 			}
 			else{
 				//running locally so check local dir
 				 workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 				 
 			}
-			if(step.equals(Constants.YMODELS)){
-			 	workingDir += "yRandom/";
-			 }
 			
 			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
+		 	workingDir += "yRandom/";
+			p += FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
 			//divide by the number of models to be built
+
+			int numModels = Integer.parseInt(numSplits);
 			
-			//p /= Queue.getInstance().runningTask.getNumModels();
+			if(modelType.equals(Constants.KNN)){
+				numModels *= Integer.parseInt(numRuns);
+				int numDescriptorSizes = 0;
+				for(int i = Integer.parseInt(minNumDescriptors); i <= Integer.parseInt(maxNumDescriptors); i += Integer.parseInt(stepSize)){
+					numDescriptorSizes++;
+				}
+				numModels *= numDescriptorSizes;
+			}
+			numModels *= 2; //include yRandom models also
+			
+			p /= numModels;
 			p *= 100; //it's a percent
 			percent = " (" + Math.round(p) + "%)";
 		}
@@ -599,8 +608,7 @@ public class QsarModelingTask extends WorkflowTask {
 			}else if(actFileDataType.equals(Constants.CONTINUOUS)){
 				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path);
 			}
-
-			step = Constants.YMODELS;
+			
 			if(actFileDataType.equals(Constants.CATEGORY)){
 				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path + "yRandom/");
 			}else if(actFileDataType.equals(Constants.CONTINUOUS)){

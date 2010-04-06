@@ -96,7 +96,6 @@ public class Constants {
 	public static final String PROCDESCRIPTORS = "Processing descriptors";
 	public static final String YRANDOMSETUP = "Y-Randomization setup";
 	public static final String MODELS = "Generating models";
-	public static final String YMODELS = "Generating y-Randomization models";
 	public static final String PREDEXT = "Predicting external set";
 	public static final String READING = "Reading output files";
 	
