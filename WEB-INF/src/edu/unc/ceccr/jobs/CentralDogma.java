@@ -158,17 +158,20 @@ public class CentralDogma{
 	public void cancelJob(Long jobId){
 		//Find job's information, then remove the job from any lists it's in.
 
-		Utility.writeToStrutsDebug("Deleting job with id: " + jobId);
+		Utility.writeToDebug("Deleting job with id: " + jobId);
 		
 		Job j = incomingJobs.removeJob(jobId);
 		if(j == null){
+			Utility.writeToDebug("checking lsf queue");
 			j = lsfJobs.removeJob(jobId);
 		}
 		if(j == null){
+			Utility.writeToDebug("checking local queue");
 			j = localJobs.removeJob(jobId);
 		}
 		
 		if(j != null){
+			Utility.writeToDebug("in main delete");
 			//delete files associated with the job.
 			//Generally this will cause any executables involved in the job
 			//to just crash, so we don't worry about them. Crude but effective.
