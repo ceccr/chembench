@@ -375,6 +375,8 @@ public class QsarModelingTask extends WorkflowTask {
 		svmTypeContinuous = ModelingForm.getSvmTypeContinuous();
 		svmWeight = ModelingForm.getSvmWeight();
 		//end SVM parameters
+
+		this.predictor = new Predictor();
 		
 		user_path = userName + "/" + jobName + "/";
 		filePath = Constants.CECCR_USER_BASE_PATH + user_path;
@@ -670,7 +672,6 @@ public class QsarModelingTask extends WorkflowTask {
     	   allkNNValues.addAll(sortedYRKNNValues);
        }
        
-		Predictor predictor = new Predictor();
 
 		predictor.setScalingType(scalingType);
 		predictor.setDescriptorGeneration(descriptorGenerationType);
