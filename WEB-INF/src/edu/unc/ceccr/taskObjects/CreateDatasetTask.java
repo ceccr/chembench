@@ -430,7 +430,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		}
 		
 		//add dataset to DB
-		dataset.setHasBeenViewed(Constants.YES);
+		dataset.setHasBeenViewed(Constants.NO);
 		dataset.setJobCompleted(Constants.YES);
 		dataset.setAvailableDescriptors(availableDescriptors);
 

@@ -375,8 +375,6 @@ public class QsarModelingTask extends WorkflowTask {
 		svmTypeContinuous = ModelingForm.getSvmTypeContinuous();
 		svmWeight = ModelingForm.getSvmWeight();
 		//end SVM parameters
-
-		this.predictor = new Predictor();
 		
 		user_path = userName + "/" + jobName + "/";
 		filePath = Constants.CECCR_USER_BASE_PATH + user_path;
@@ -693,7 +691,7 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setPredictorType("Private");
 		predictor.setDatasetId(datasetID);
 		predictor.setHasBeenViewed(Constants.NO);
-		predictor.setJobCompleted(Constants.NO);
+		predictor.setJobCompleted(Constants.YES);
 
 		if(allkNNValues.size()<1){}else
 		{for (ModelInterface m : allkNNValues)
@@ -902,7 +900,7 @@ public class QsarModelingTask extends WorkflowTask {
 		if (GenericValidator.isFloat(extValues[Constants.PREDICTED]))
 			extValOutput.setPredictedValue(Float.parseFloat(extValues[Constants.PREDICTED]));
 		
-		Utility.writeToDebug(((Integer)Constants.NUM_MODELS).toString());
+		//Utility.writeToDebug(((Integer)Constants.NUM_MODELS).toString());
 		
 		if (GenericValidator.isFloat(extValues[Constants.PREDICTED]))
 			extValOutput.setNumModels(Integer.parseInt(extValues[Constants.NUM_MODELS]));
