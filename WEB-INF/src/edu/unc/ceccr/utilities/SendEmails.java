@@ -31,7 +31,7 @@ public class SendEmails {
 		Session s = HibernateUtil.getSession();
 		User user = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
 		String subject = "Chembench Job Completed: " + j.getJobName();
-		String message = user.getUserName() + ","
+		String message = user.getFirstName() + ","
 			+"<br /> Your " + j.getJobType().toLowerCase() + " job, '" + j.getJobName() + "', is finished." 
 			+"<br /> Please log in to check the results!";
 		
