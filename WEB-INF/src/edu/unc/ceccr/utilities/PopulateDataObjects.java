@@ -70,12 +70,14 @@ public class PopulateDataObjects {
 				
 				usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
+							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
 							.addOrder(Order.asc("fileName")).list();
 			}
 			else {
 				dataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
+							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
 							.addOrder(Order.asc("fileName")).list();
 			}
@@ -109,12 +111,14 @@ public class PopulateDataObjects {
 							.addOrder(Order.desc("fileName")).list();
 				usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
+							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.eq("modelType",modelType))
 							.addOrder(Order.desc("fileName")).list();
 			}
 			else {
 				dataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
+							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.eq("modelType",modelType))
 							.addOrder(Order.desc("fileName")).list();
 			}
@@ -312,7 +316,7 @@ public class PopulateDataObjects {
  			tx = session.beginTransaction();
  			if(onlySaved) privatePredictors = session.createCriteria(Predictor.class)
  							.add(Expression.eq("userName", userName))
- 							.add(Expression.eq("status","saved"))
+							.add(Expression.eq("jobCompleted", Constants.YES))
  							.addOrder(Order.desc("name")).list();
  			else privatePredictors = session.createCriteria(Predictor.class)
 				.add(Expression.eq("userName", userName))
@@ -334,7 +338,7 @@ public class PopulateDataObjects {
 	 			tx = session.beginTransaction();
 	 			if(onlySaved) ADMEPredictors = session.createCriteria(Predictor.class)
 	 							.add(Expression.eq("predictorType", Constants.ADME))
-	 							.add(Expression.eq("status","saved"))
+								.add(Expression.eq("jobCompleted", Constants.YES))
 	 							.addOrder(Order.desc("name")).list();
 	 			else ADMEPredictors = session.createCriteria(Predictor.class)
 					.add(Expression.eq("predictorType", Constants.ADME))
@@ -357,7 +361,7 @@ public class PopulateDataObjects {
 	 			tx = session.beginTransaction();
 	 			if(onlySaved) ToxicityPredictors = session.createCriteria(Predictor.class)
 	 							.add(Expression.eq("predictorType", Constants.TOXICITY))
-	 							.add(Expression.eq("status","saved"))
+								.add(Expression.eq("jobCompleted", Constants.YES))
 	 							.addOrder(Order.desc("name")).list();
 	 			else ToxicityPredictors = session.createCriteria(Predictor.class)
 					.add(Expression.eq("predictorType", Constants.TOXICITY))
@@ -380,7 +384,7 @@ public class PopulateDataObjects {
 	 			tx = session.beginTransaction();
 	 			if(onlySaved) DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
 	 							.add(Expression.eq("predictorType", Constants.DRUGDISCOVERY))
-	 							.add(Expression.eq("status","saved"))
+								.add(Expression.eq("jobCompleted", Constants.YES))
 	 							.addOrder(Order.desc("name")).list();
 	 			else DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
 					.add(Expression.eq("predictorType", Constants.DRUGDISCOVERY))
@@ -411,22 +415,15 @@ public class PopulateDataObjects {
 		List<Prediction> predictions = null;
 		try 
 		{
-			//Utility.writeToDebug("Populating a list of the saved prediction results.", userName, "null");
+			//Utility.writeToDebug("Populating a list of the prediction results.", userName, "null");
 			Transaction tx = null;
 			try 
 			{
 				tx = session.beginTransaction();
-				if(onlySaved){
-					predictions = session.createCriteria(Prediction.class)
-							.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
-							.add(Expression.eq("status","saved"))
-							.addOrder(Order.desc("jobName")).list();
-				}
-				else {
-					predictions = session.createCriteria(Prediction.class)
-						.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
-						.addOrder(Order.desc("jobName")).list();
-				}
+				predictions = session.createCriteria(Prediction.class)
+					.add(Expression.eq("jobCompleted", Constants.YES))
+					.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
+					.addOrder(Order.desc("jobName")).list();
 				tx.commit();
 			} catch (Exception e) {
 				Utility.writeToDebug(e);
