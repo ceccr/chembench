@@ -328,7 +328,7 @@ public class ViewPredictorAction extends ActionSupport {
 		if(selectedPredictor.getDatasetId() != null){
 			datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
 		}
-		dataType = selectedPredictor.getModelMethod().toString();
+		dataType = selectedPredictor.getActivityType();
 		models = new ArrayList<Model>();
 		randomModels = new ArrayList<Model>();
 		ArrayList<Model> allModels = new ArrayList<Model>();
