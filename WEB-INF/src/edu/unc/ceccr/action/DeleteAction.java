@@ -311,52 +311,13 @@ public class DeleteAction extends ActionSupport{
 
 		Session session = HibernateUtil.getSession();
 		
-		CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
-		/*
-		QueueTask task = PopulateDataObjects.getTaskById(Long.parseLong(taskId), session);
-		Queue queue = Queue.getInstance();
-		
-		if(task != null){
-			task.setState(QueueTask.State.deleted);
+		try{
+			CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
 		}
-		
-		//remove associated files
-		//this has a side-effect. If any programs are operating on these files
-		//(such as sketch generation or kNN processes)
-		//the deletion of the files will, in practice, kill the kNN process and free up
-		//the processing resources for something else.
-		//It's dirty, but it works. 
-		if(task != null && task.jobName != null){
-			String BASE=Constants.CECCR_USER_BASE_PATH;
-			File file=new File(BASE+task.getUserName()+"/"+task.jobName);
-			FileAndDirOperations.deleteDir(file);
-			Utility.writeToStrutsDebug("2");
-	
-			file=new File(BASE+task.getUserName()+"/DATASETS/"+task.jobName);
-			FileAndDirOperations.deleteDir(file);
-			Utility.writeToStrutsDebug("3");
-	
-			file=new File(BASE+task.getUserName()+"/PREDICTORS/"+task.jobName);
-			FileAndDirOperations.deleteDir(file);
-			Utility.writeToStrutsDebug("4");
-			
-			file=new File(BASE+task.getUserName()+"/PREDICTIONS/"+task.jobName);
-			FileAndDirOperations.deleteDir(file);
-			Utility.writeToStrutsDebug("5");
+		catch(Exception ex){
+			//if it failed, no big deal - just write out the exception.
+			Utility.writeToDebug(ex);
 		}
-		
-		//Once the files are removed, whatever program is running will soon die.
-		//flag the task for removal so it will be cleaned up instead of sitting around
-		//as an "error".
-		if(task != null){
-			queue.deleteTask(task);
-		}
-		else{
-			if(queue.runningTask != null && queue.runningTask.id == Long.parseLong(taskId)){
-				queue.runningTask = null;
-			}
-		}
-		*/
 		return SUCCESS;
 		
 	}

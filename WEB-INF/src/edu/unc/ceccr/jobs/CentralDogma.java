@@ -157,6 +157,8 @@ public class CentralDogma{
 	
 	public void cancelJob(Long jobId){
 		//Find job's information, then remove the job from any lists it's in.
+
+		Utility.writeToStrutsDebug("Deleting job with id: " + jobId);
 		
 		Job j = incomingJobs.removeJob(jobId);
 		if(j == null){
