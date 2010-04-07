@@ -25,13 +25,13 @@
 			<table>
 				<tr>
 					<!-- header for left side table -->
-					<td class="TableRowText01">Compound ID 
+					<td class="TableRowText01">Compound ID<br />
 						<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=compoundId&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
 						<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=compoundId&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
 						</td>
 					<td class="TableRowText01">Structure</td>
 					<s:if test="dataset.datasetType=='MODELING'">
-					<td class="TableRowText01">Activity
+					<td class="TableRowText01">Activity<br />
 						<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=activityValue&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
 						<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=activityValue&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
 						</td>
