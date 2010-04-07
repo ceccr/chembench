@@ -28,6 +28,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -309,6 +310,8 @@ public class DeleteAction extends ActionSupport{
 		Utility.writeToStrutsDebug("Deleting job with id: " + taskId);
 
 		Session session = HibernateUtil.getSession();
+		
+		CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
 		/*
 		QueueTask task = PopulateDataObjects.getTaskById(Long.parseLong(taskId), session);
 		Queue queue = Queue.getInstance();

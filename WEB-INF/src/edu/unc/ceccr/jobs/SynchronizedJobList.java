@@ -67,16 +67,18 @@ public class SynchronizedJobList{
 		}
 	}
 	
-	public void removeJob(Long jobId){
+	public Job removeJob(Long jobId){
 		//removes the job from this list.
 		synchronized(jobList){
 			for(int i = 0; i < jobList.size(); i++){
 				if(jobList.get(i).getId() == jobId){
+					Job j = jobList.get(i);
 					jobList.remove(i);
-					i = jobList.size();
+					return j;
 				}
 			}
 		}
+		return null;
 	}
 	
 	public void deleteJobFromDB(Long jobId){

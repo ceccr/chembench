@@ -1,5 +1,6 @@
 package edu.unc.ceccr.jobs;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,6 +21,7 @@ import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.taskObjects.WorkflowTask;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -151,6 +153,52 @@ public class CentralDogma{
 		//put into incoming queue
 		incomingJobs.addJob(j);
 		
+	}
+	
+	public void cancelJob(Long jobId){
+		//Find job's information, then remove the job from any lists it's in.
+		
+		Job j = incomingJobs.removeJob(jobId);
+		if(j == null){
+			j = lsfJobs.removeJob(jobId);
+		}
+		if(j == null){
+			j = localJobs.removeJob(jobId);
+		}
+		
+		if(j != null){
+			//delete files associated with the job.
+			//Generally this will cause any executables involved in the job
+			//to just crash, so we don't worry about them. Crude but effective.
+
+			String baseDir = Constants.CECCR_USER_BASE_PATH;
+			String lsfBaseDir = Constants.LSFJOBPATH;
+			
+			File file=new File(baseDir+j.getUserName()+"/"+j.getJobName());
+			FileAndDirOperations.deleteDir(file);
+			file=new File(lsfBaseDir+j.getUserName()+"/"+j.getJobName());
+			FileAndDirOperations.deleteDir(file);
+	
+			file=new File(baseDir+j.getUserName()+"/DATASETS/"+j.getJobName());
+			FileAndDirOperations.deleteDir(file);
+			file=new File(lsfBaseDir+j.getUserName()+"/DATASETS/"+j.getJobName());
+			FileAndDirOperations.deleteDir(file);
+	
+			file=new File(baseDir+j.getUserName()+"/PREDICTORS/"+j.getJobName());
+			FileAndDirOperations.deleteDir(file);
+			file=new File(lsfBaseDir+j.getUserName()+"/PREDICTORS/"+j.getJobName());
+			FileAndDirOperations.deleteDir(file);
+			
+			file=new File(baseDir+j.getUserName()+"/PREDICTIONS/"+j.getJobName());
+			FileAndDirOperations.deleteDir(file);
+			file=new File(lsfBaseDir+j.getUserName()+"/PREDICTIONS/"+j.getJobName());
+			FileAndDirOperations.deleteDir(file);
+			
+		}
+		
+		//doesn't matter which list it was in, this will delete the job's DB entry
+		//and make a jobstats entry for it.
+		incomingJobs.deleteJobFromDB(jobId);
 	}
 	
 }
