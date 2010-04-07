@@ -22,6 +22,7 @@ import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
 
 public class PopulateDataObjects {
@@ -563,6 +564,26 @@ public class PopulateDataObjects {
 		}
 		
 		return prediction;
+	}
+	
+	public static User getUserByUserName(String userName, Session session){
+		User user = null;
+		
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			if(session.getTransaction().isActive()){
+			}
+			user = (User) session.createCriteria(User.class)
+					.add(Expression.eq("userName", userName)).uniqueResult();
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+			if (tx != null)
+				tx.rollback();
+		} 
+		
+		return user;
 	}
 	
 	public static List<Model> getModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {

@@ -15,6 +15,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
 
 
@@ -95,6 +96,11 @@ public class LsfProcessingThread extends Thread {
 										Utility.writeToDebug("Postprocessing job: " + j.getJobName() + " from user: " + j.getUserName());
 										j.workflowTask.postProcess();
 										j.setTimeFinished(new Date());
+										
+										if(j.getEmailOnCompletion().equalsIgnoreCase("true")){
+											SendEmails.sendJobCompletedEmail(j);
+										}
+										
 										CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
 
 									}

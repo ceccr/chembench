@@ -230,7 +230,7 @@ public class PredictionFormActions extends ActionSupport{
 		}
 		
 		CentralDogma centralDogma = CentralDogma.getInstance();
-		String emailOnCompletion = Constants.NO;
+		String emailOnCompletion = "false";
 		centralDogma.addJobToIncomingList(user.getUserName(), jobName, predTask, numCompounds, numModels, emailOnCompletion);
 		
 		Utility.writeToUsageLog("making prediction run on dataset " + predictionDataset.getFileName() + " with predictors " + selectedPredictorIds, user.getUserName());

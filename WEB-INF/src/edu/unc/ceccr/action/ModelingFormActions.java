@@ -160,7 +160,6 @@ public class ModelingFormActions extends ActionSupport{
 			
 			//make job and add to incoming joblist
 			CentralDogma centralDogma = CentralDogma.getInstance();
-			String emailOnCompletion = Constants.NO;
 			centralDogma.addJobToIncomingList(user.getUserName(), jobName, modelingTask, numCompounds, numModels, emailOnCompletion);
 			
 			Utility.writeToUsageLog("Added modeling job", user.getUserName());
@@ -280,7 +279,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String selectedPredictorName;
 	private Long selectedDatasetId;
 	private String selectedDatasetName;
-
+	
 	//begin descriptor parameters
 	private String descriptorGenerationType = Constants.MOLCONNZ;
 	private String scalingType = Constants.RANGESCALING;
@@ -370,8 +369,8 @@ public class ModelingFormActions extends ActionSupport{
 	private String dataSetDescription;
 	private String datasetName;
 	private String message;
+	private String emailOnCompletion = "false";
 
-	
 	public String getStdDevCutoff() {
 		return stdDevCutoff;
 	}
@@ -852,9 +851,14 @@ public class ModelingFormActions extends ActionSupport{
 	public String getSelectedDatasetName() {
 		return selectedDatasetName;
 	}
-
 	public void setSelectedDatasetName(String selectedDatasetName) {
 		this.selectedDatasetName = selectedDatasetName;
 	}
-	
+
+	public String getEmailOnCompletion() {
+		return emailOnCompletion;
+	}
+	public void setEmailOnCompletion(String emailOnCompletion) {
+		this.emailOnCompletion = emailOnCompletion;
+	}
 }

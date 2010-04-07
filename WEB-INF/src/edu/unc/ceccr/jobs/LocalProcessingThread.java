@@ -6,6 +6,7 @@ import java.util.List;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Job;
+import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
 
 
@@ -41,6 +42,10 @@ public class LocalProcessingThread extends Thread {
 							CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
 							j.workflowTask.postProcess();
 							j.setTimeFinished(new Date());
+							
+							if(j.getEmailOnCompletion().equalsIgnoreCase("true")){
+								SendEmails.sendJobCompletedEmail(j);
+							}
 							CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
 						}
 						catch(Exception ex){

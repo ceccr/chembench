@@ -35,7 +35,7 @@ public class Job {
 	private Date timeStartedByLsf; //jobs may remain pending in LSF for a long time before actually started.
 	private Date timeFinished;
 
-	private String emailOnCompletion;
+	private String emailOnCompletion; //"true" or "false"
 	
 	private String timeFinishedEstimate;
 	@Transient public WorkflowTask workflowTask; //contains one modelingTask, predictionTask, or datasetTask.

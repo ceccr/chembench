@@ -258,6 +258,13 @@
 					<td align="left" valign="top"><s:textfield name="jobName" id="jobName" size="19"/></td>
 				</tr>
 			     
+			    <tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Send email when job finishes: </b></div>
+					</td>
+					<td align="left" valign="top"><s:checkbox name="emailOnCompletion" id="emailOnCompletion" /></td>
+				</tr>
+			     
 				<tr>
 					<td ></td>
 					<td class="" valign="top"><input type="button" name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('jobName').value ,usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ submitForm(this); }"

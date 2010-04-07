@@ -99,7 +99,7 @@ public class DatasetFormActions extends ActionSupport{
 	}
 	public String execute() throws Exception {
 		
-		String emailOnCompletion = Constants.NO; //for now
+		String emailOnCompletion = "false"; //for now
 		
 		String result = INPUT;
 

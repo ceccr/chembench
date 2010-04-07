@@ -2,6 +2,7 @@ package edu.unc.ceccr.utilities;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Properties;
@@ -11,14 +12,30 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+
 import edu.unc.ceccr.formbean.EmailToAllBean;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.User;
 
 public class SendEmails {
 
 	public static boolean isValidEmail(String email) {
 		return (email.indexOf("@") > 0) && (email.indexOf(".") > 2);
+	}
+	
+	public static void sendJobCompletedEmail(Job j) throws Exception{
+		Session s = HibernateUtil.getSession();
+		User user = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
+		String subject = "Chembench Job Completed: " + j.getJobName();
+		String message = user.getUserName() + ","
+			+"<br /> Your " + j.getJobType().toLowerCase() + " job, '" + j.getJobName() + "', is finished." 
+			+"<br /> Please log in to check the results!";
+		
+		sendEmail(user.getEmail(), "", "", subject, message);
 	}
 
 	public static void sendEmail(String address, String cc, String bcc, String subject, String message){
