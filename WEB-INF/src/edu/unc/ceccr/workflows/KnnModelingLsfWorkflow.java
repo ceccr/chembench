@@ -20,16 +20,17 @@ public class KnnModelingLsfWorkflow{
 	}
 	
 	public static void retrieveCompletedPredictor(String filePath, String lsfPath) throws Exception{
-		//open the directory in /smallfs/ceccr/ where the job was run
+		//open the directory in /largefs/ceccr/ where the job was run
 		//copy directory contents back
 		FileAndDirOperations.copyDirContents(lsfPath, filePath, true);
+		FileAndDirOperations.copyDirContents(lsfPath + "yRandom/", filePath + "yRandom/", true);
 		
-		//remove /smallfs/ceccr/ subdirectory
+		//remove /largefs/ceccr/ subdirectory
 		FileAndDirOperations.deleteDir(new File(lsfPath));
 	}
 	
 	public static void makeLsfModelingDirectory(String filePath, String lsfPath) throws Exception{
-		//create a dir out in /smallfs/ceccr/ to run the calculation of the job
+		//create a dir out in /largefs/ceccr/ to run the calculation of the job
 		File dir = new File(lsfPath);
 		dir.mkdirs();
 		

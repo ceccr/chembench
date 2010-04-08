@@ -410,7 +410,8 @@ public class CreateDatasetTask extends WorkflowTask{
 					
 				//PCA plot creation works
 				//however, there is no way to visualize the result right now.
-				CSV_X_Workflow.performPCAcreation(viz_path, act_path);
+				//also, it's broken for some reason, so fuck that - just fix it later.
+				//CSV_X_Workflow.performPCAcreation(viz_path, act_path);
 	
 			}
 

@@ -21,7 +21,7 @@ public class Constants {
 	public static final int MOLCONNZ_COMPOUND_NAME_POS = 10;
 	
 	//file paths
-	public static final String LSFJOBPATH = "/smallfs/ceccr/workflow-users/";
+	public static final String LSFJOBPATH = "/largefs/ceccr/workflow-users/";
 	
 	//Type strings
 	//The point of having these is to define capitalizations 
