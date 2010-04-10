@@ -261,7 +261,7 @@ public class FileAndDirOperations {
             for (int i=0; i<children.length; i++) {
                 boolean success = deleteDir(new File(dir, children[i]));
                 if (!success) {
-                	Utility.writeToDebug("Delete failed for file: " + dir + "/" + children[i]);
+                	Utility.writeToDebug("Delete failed for: " + dir + "/" + children[i]);
                    return false;
                 }
             }

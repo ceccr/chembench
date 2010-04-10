@@ -71,8 +71,9 @@ public class SynchronizedJobList{
 		//removes the job from this list.
 		synchronized(jobList){
 			for(int i = 0; i < jobList.size(); i++){
-				if(jobList.get(i).getId() == jobId){
+				if(jobList.get(i).getId().equals(jobId)){
 					Job j = jobList.get(i);
+					Utility.writeToDebug("removed job: " + j.getJobName());
 					jobList.remove(i);
 					return j;
 				}
