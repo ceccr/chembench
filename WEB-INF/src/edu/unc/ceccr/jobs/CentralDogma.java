@@ -198,7 +198,43 @@ public class CentralDogma{
 			FileAndDirOperations.deleteDir(file);
 			file=new File(lsfBaseDir+j.getUserName()+"/PREDICTIONS/"+j.getJobName());
 			FileAndDirOperations.deleteDir(file);
-			
+
+			//delete corresponding workflowTask object (DataSet, Predictor, or Prediction)
+			Session s = null; 
+			Transaction tx = null;
+
+			try{
+				s = HibernateUtil.getSession();
+				
+				if(j.getJobType().equals(Constants.DATASET)){
+					//delete corresponding DataSet in DB
+					DataSet ds = PopulateDataObjects.getDataSetById(j.getLookupId(), s);
+					tx = s.beginTransaction();
+					s.delete(ds);
+					tx.commit();
+				}
+				else if(j.getJobType().equals(Constants.MODELING)){
+					//delete corresponding Predictor in DB
+					Predictor p = PopulateDataObjects.getPredictorById(j.getLookupId(), s);
+					tx = s.beginTransaction();
+					s.delete(p);
+					tx.commit();
+					
+				}
+				else if(j.getJobType().equals(Constants.PREDICTION)){
+					//delete corresponding Prediction in DB
+					Prediction p = PopulateDataObjects.getPredictionById(j.getLookupId(), s);
+					tx = s.beginTransaction();
+					s.delete(p);
+					tx.commit();
+				}
+			}
+			catch(Exception ex){
+				Utility.writeToDebug(ex);
+			}
+			finally{
+				s.close();
+			}
 		}
 		
 		//doesn't matter which list it was in, this will delete the job's DB entry

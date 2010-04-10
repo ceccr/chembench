@@ -255,6 +255,7 @@ public class FileAndDirOperations {
 	}
 
 	public static boolean deleteDir(File dir) {
+		//recursive, delete directory and all subdirs. Be careful!
         if (dir.isDirectory()) {
             String[] children = dir.list();
             for (int i=0; i<children.length; i++) {

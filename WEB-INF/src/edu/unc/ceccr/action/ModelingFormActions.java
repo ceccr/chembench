@@ -28,7 +28,6 @@ import edu.unc.ceccr.taskObjects.WorkflowTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
-
 public class ModelingFormActions extends ActionSupport{
 	
 	public String loadPage() throws Exception{
