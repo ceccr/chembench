@@ -177,18 +177,8 @@ public class QsarModelingTask extends WorkflowTask {
 			p += FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
 			//divide by the number of models to be built
 
-			int numModels = Integer.parseInt(numSplits);
-			
-			if(modelType.equals(Constants.KNN)){
-				numModels *= Integer.parseInt(numRuns);
-				int numDescriptorSizes = 0;
-				for(int i = Integer.parseInt(minNumDescriptors); i <= Integer.parseInt(maxNumDescriptors); i += Integer.parseInt(stepSize)){
-					numDescriptorSizes++;
-				}
-				numModels *= numDescriptorSizes;
-			}
+			int numModels = getNumTotalModels();
 			numModels *= 2; //include yRandom models also
-			
 			p /= numModels;
 			p *= 100; //it's a percent
 			percent = " (" + Math.round(p) + "%)";
@@ -735,14 +725,32 @@ public class QsarModelingTask extends WorkflowTask {
 	
 	//helper functions and member variables defined below this point.
 	
+	private int getNumTotalModels(){
+		 int numModels = Integer.parseInt(numSplits);
+		
+		if(modelType.equals(Constants.KNN)){
+			numModels *= Integer.parseInt(numRuns);
+			int numDescriptorSizes = 0;
+			for(int i = Integer.parseInt(minNumDescriptors); i <= Integer.parseInt(maxNumDescriptors); i += Integer.parseInt(stepSize)){
+				numDescriptorSizes++;
+			}
+			numModels *= numDescriptorSizes;
+		}
+		
+		return numModels;
+	}
+	
 	private void setParameters(String path, ArrayList<Model> KNNValues, String flow) {
 		File dir;
 		dir = new File(path);
         int total, test, train;
-        total= dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}}).length;
         
+        total= dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}}).length;
+        total = getNumTotalModels();
         test=KNNValues.size();
         train=dir.list(new FilenameFilter() {	public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}	}).length - test;
+        
+        
         if(flow.equals(Constants.MAINKNN))
         {
         	numTotalModels=total;

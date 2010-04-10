@@ -243,7 +243,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		//done with 0. (copy dataset into jobDir.)
 		
 		//1. Create each of the descriptor types that will be needed.
-		step = Constants.DESCRIPTORS;
+		step = "Processing Descriptors"; //lol fakeout!
 		
 		ArrayList<String> requiredDescriptors = new ArrayList<String>();
 		for(int i = 0; i < selectedPredictors.size(); i++){

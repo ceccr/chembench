@@ -34,7 +34,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Minimum Test Set Size (percent):</b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield onchange="alert('hi')" name="randomSplitMinTestSize" id="randomSplitMinTestSize" size="5" theme="simple"/></td>
+					<td align="left" valign="top"><s:textfield name="randomSplitMinTestSize" id="randomSplitMinTestSize" size="5" theme="simple"/></td>
 				</tr>
 				<tr>
 					<td>
