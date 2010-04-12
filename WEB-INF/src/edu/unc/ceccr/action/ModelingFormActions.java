@@ -28,6 +28,7 @@ import edu.unc.ceccr.taskObjects.WorkflowTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
+
 public class ModelingFormActions extends ActionSupport{
 	
 	public String loadPage() throws Exception{
@@ -172,7 +173,11 @@ public class ModelingFormActions extends ActionSupport{
 	}
 
 	public String ajaxLoadKnn() throws Exception {
-
+		ActionContext context = ActionContext.getContext();
+		if(context != null){
+			user = (User) context.getSession().get("user");
+		}
+		
 		knnCategoryOptimizations = new HashMap<String, String>();
 		knnCategoryOptimizations.put("1", "<img src=\"/theme/img/formula01.gif\" />");
 		knnCategoryOptimizations.put("2", "<img src=\"/theme/img/formula02.gif\" />");
