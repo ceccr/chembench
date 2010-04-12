@@ -132,7 +132,13 @@ public class LsfProcessingThread extends Thread {
 		//if that number is less than the limit return true
 		//else return false
 		//to do : look up these limits
-		return true;
+		
+		if(CentralDogma.getInstance().lsfJobs.getReadOnlyCopy().size() > Constants.MAXLSFJOBS){
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 	
 	//static functions for checking the status of the LSF queue(s) on Emerald.

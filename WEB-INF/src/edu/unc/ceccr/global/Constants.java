@@ -8,6 +8,8 @@ public class Constants {
 	public static String ACCEPTANCE; //can be "automatic" or "manual".
 	public static int SESSION_EXPIRATION_TIME = 1800; //How long a login will last if idle, measured in seconds. 1800 seconds = 30 minutes. 
 	
+	public static final int MAXLSFJOBS = 200; //After submitting around 250 jobs, LSF won't let you submit more, it just returns an error.
+	
 	public static final int REPORTED_SIGNIFICANT_FIGURES = 4;
 	
 	//Enums for Data Types
