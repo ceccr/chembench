@@ -154,6 +154,29 @@ public class WriteDescriptorsFileWorkflow{
 		//eventually merge into removeZeroVariance cause they do pretty much the same thing
 	}
 
+	private double findCorrelation(ArrayList<Double> d1, ArrayList<Double> d2){
+	    double result = 0;
+        double sum_sq_x = 0;
+        double sum_sq_y = 0;
+        double sum_coproduct = 0;
+        double mean_x = d1.get(0);
+        double mean_y = d2.get(0);
+        for(int i=2; i < d1.size() + 1; i++){
+            double sweep = Double.valueOf(i-1) / i;
+            double delta_x = d1.get(i-1) - mean_x;
+            double delta_y = d2.get(i-1) - mean_y;
+            sum_sq_x += delta_x * delta_x * sweep;
+            sum_sq_y += delta_y * delta_y * sweep;
+            sum_coproduct += delta_x * delta_y * sweep;
+            mean_x += delta_x / i;
+            mean_y += delta_y / i;
+        }
+        double pop_sd_x = (double) Math.sqrt(sum_sq_x/d1.size());
+        double pop_sd_y = (double) Math.sqrt(sum_sq_y/d1.size());
+        double cov_x_y = sum_coproduct / d1.size();
+        result = cov_x_y / (pop_sd_x*pop_sd_y);
+        return result;
+	}
 
 	public static void removeHighlyCorellatedDescriptors(ArrayList<Descriptors> descriptorMatrix, 
 			ArrayList<String> descriptorValueMinima, 
@@ -162,8 +185,45 @@ public class WriteDescriptorsFileWorkflow{
 			ArrayList<String> descriptorValueStdDevs,
 			ArrayList<String> descriptorNames, /* optional argument -- can be null */
 			Float corellationCutoff){
+
+		//first thing: we need to transpose the descriptor matrix.
+		//By default, it's organized by compound - we need it organized by descriptor.
+		ArrayList< ArrayList<Double> > descriptorMatrixT = new ArrayList< ArrayList<Double> >();
 		
-		//write this later
+		//populate the first values of each row in descriptorMatrix
+		String[] sa = descriptorMatrix.get(0).getDescriptorValues().split(" ");
+		for(int i = 0; i < sa.length; i++){
+			ArrayList<Double> doubleArray = new ArrayList<Double>();
+			doubleArray.add(Double.parseDouble(sa[i]));
+			descriptorMatrixT.add(doubleArray);
+		}
+		
+		//now go through the rest of the descriptorMatrix and add in each value
+		for(int i = 1; i < descriptorMatrix.size(); i++){
+			sa = descriptorMatrix.get(i).getDescriptorValues().split(" ");
+			for(int j = 0; j < sa.length; j++){
+				descriptorMatrixT.get(j).add(Double.parseDouble(sa[j]));
+			}
+		}
+
+		try {
+			FileOutputStream fout;
+			PrintStream out;
+			fout = new FileOutputStream(Constants.CECCR_USER_BASE_PATH + "transform.txt");
+			out = new PrintStream(fout);
+			//print the transposed matrix to a file so we can look at it
+			for(ArrayList<Double> da: descriptorMatrixT){
+				String line = "";
+				for(Double d: da){
+					line += d + " ";
+				}
+				out.println(line);
+			}
+			out.close();
+
+		} catch (Exception ex) {
+			Utility.writeToDebug(ex);
+		}
 		//will end up using the same algorithm as "remove high sequence identity" thing.
 		//that was a recursive one, right...? how *did* I do that?
 		//Right, here it is. Algorithm in perl:
