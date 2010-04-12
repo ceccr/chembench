@@ -126,6 +126,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 			user.setShowPublicPredictors(Constants.ALL);
 			user.setViewDatasetCompoundsPerPage(Constants.TWENTYFIVE);
 			user.setViewPredictionCompoundsPerPage(Constants.TWENTYFIVE);
+			user.setShowAdvancedKnnModeling(Constants.NO);
 
 			String password = Utility.randomPassword();
 			user.setPassword(Utility.encrypt(password));
@@ -441,8 +442,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		if(! Utility.isAdmin(user.getUserName())){
 			return LOGIN;
 		}
-		
-		
 		
 		return result;
 	}
