@@ -41,6 +41,7 @@ public class User implements java.io.Serializable{
 	private String showPublicPredictors;
 	private String viewDatasetCompoundsPerPage;
 	private String viewPredictionCompoundsPerPage;
+	private String showAdvancedKnnModeling;
 	
 	public User(){};
     public User(String userName)
@@ -241,6 +242,14 @@ public class User implements java.io.Serializable{
 	public void setViewPredictionCompoundsPerPage(
 			String viewPredictionCompoundsPerPage) {
 		this.viewPredictionCompoundsPerPage = viewPredictionCompoundsPerPage;
+	}
+
+	@Column(name="showAdvancedKnnModeling")
+	public String getShowAdvancedKnnModeling() {
+		return showAdvancedKnnModeling;
+	}
+	public void setShowAdvancedKnnModeling(String showAdvancedKnnModeling) {
+		this.showAdvancedKnnModeling = showAdvancedKnnModeling;
 	}
 	
 }

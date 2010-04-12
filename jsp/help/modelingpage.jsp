@@ -87,13 +87,13 @@ below your cutoffs will be eliminated. This can result in modeling runs which pr
 <p align="justify" class="ccbHomeStandard">
 <b>The Modeling Job:</b>
 <p>
-Modeling goes through several steps. First, descriptors for the selected dataset are generated and scaled. Second, 
+Modeling goes through several steps. First, descriptors for the selected dataset are scaled. Second, 
 the training and test sets are created. Third, a y-randomized version of each train-test set  is created, where 
 the activity values are scrambled; this is set aside for later. Fourth, the kNN modeling procedure is performed 
 on the train-test sets, generating models. Fifth, the kNN procedure is run again, this time on the y-randomized 
 train-test sets; this creates the y-randomized models. Sixth, the kNN models are bundled into a predictor and 
 applied to the external validation set. When the job is finished, it can be viewed by clicking on its name in the 
-Predictors section of the jobs page.</p>
+Predictors section of the My Bench page.</p>
 </p>
 
 <%@include file ="/jsp/help/helpcontents.jsp" %>

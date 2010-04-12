@@ -76,11 +76,34 @@
 </tr>	
 
 <tr>
+	<td height="24" align="left" colspan="2">
+	<p class="StandardTextDarkGrayParagraph">
+	<br /><b>Modeling Options</b>
+	</p></td>
+</tr> 
+
+<tr>
+	<td width="100%" height="24" align="left" colspan="2">
+	<p class="StandardTextDarkGrayParagraph">
+	<i>Under the Modeling tab, there are parameters that would only be of interest to advanced users. <br /> 
+	Before turning this option on, you should familiarize yourself with the fine details of the kNN modeling procedure.</i>
+	</p> 
+	</td>
+</tr>  
+
+<tr>
+	<td width="240">
+	<div class="StandardTextDarkGrayParagraph"><b>Show Advanced kNN Modeling Controls:</b></div></td>
+	<td align="left" valign="top">
+	<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="showAdvancedKnnModeling" value="showAdvancedKnnModeling" list="#{'YES':'Yes','NO':'No'}" /></div>
+	</td>
+</tr>	
+
+<tr>
 	<td width="100%" height="24" align="left" colspan="2">
 	<p class="StandardTextDarkGrayParagraph"><!-- spacer --></p> 
 	</td>
 </tr>  
-
 <tr>
 	<td></td>
 	<td class="" valign="top"><input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Submit" /> 

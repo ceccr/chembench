@@ -330,6 +330,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		showPublicPredictors = user.getShowPublicPredictors();
 		viewDatasetCompoundsPerPage = user.getViewDatasetCompoundsPerPage();
 		viewPredictionCompoundsPerPage = user.getViewPredictionCompoundsPerPage();
+		showAdvancedKnnModeling = user.getShowAdvancedKnnModeling();
 		
 		return result;
 	}
@@ -350,6 +351,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 		user.setShowPublicPredictors(showPublicPredictors);
 		user.setViewDatasetCompoundsPerPage(viewDatasetCompoundsPerPage);
 		user.setViewPredictionCompoundsPerPage(viewPredictionCompoundsPerPage);
+		user.setShowAdvancedKnnModeling(showAdvancedKnnModeling);
 		
 		// Commit changes
 		Session s = HibernateUtil.getSession();
@@ -569,6 +571,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	private String viewDatasetCompoundsPerPage;
 	private String viewPredictorModels;
 	private String viewPredictionCompoundsPerPage;
+	private String showAdvancedKnnModeling;
+
 	private boolean userIsAdmin = false;
 	
 	/* End Variables used in password changes and user options */
@@ -750,6 +754,13 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 	}
 	public void setViewPredictionCompoundsPerPage(String viewPredictionCompoundsPerPage) {
 		this.viewPredictionCompoundsPerPage = viewPredictionCompoundsPerPage;
+	}
+
+	public String getShowAdvancedKnnModeling() {
+		return showAdvancedKnnModeling;
+	}
+	public void setShowAdvancedKnnModeling(String showAdvancedKnnModeling) {
+		this.showAdvancedKnnModeling = showAdvancedKnnModeling;
 	}
 	
 	public boolean isUserIsAdmin() {

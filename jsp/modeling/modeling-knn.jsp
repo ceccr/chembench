@@ -28,6 +28,7 @@
 				<td align="left" valign="top"><s:textfield id="knnCon11" name="numRuns" size="5" value="5" theme="simple"/></td></tr>	
 				
 				<!-- kNN, Advanced Parameters -->
+				<s:if test="user.showAdvancedKnnModeling=='YES'">
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Max. Number of Nearest Neighbors:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="knnCon06" name="nearest_Neighbors" size="5" theme="simple"/></td></tr>	
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Percentage of Pseudo Neighbors:</b></div></td>
@@ -46,6 +47,7 @@
 				<td align="left" valign="top"><s:textfield id="knnCon19" name="cutoff" size="5" theme="simple"/></td></tr>	
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Stop Condition:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="knnCon20" name="stop_cond" size="5" theme="simple"/></td></tr>	
+				</s:if>
 				<!-- Everything up to this point is used by both Continuous and Category kNN. -->
 			 
 				<!-- The following parameters are JUST for continuous kNN. -->
