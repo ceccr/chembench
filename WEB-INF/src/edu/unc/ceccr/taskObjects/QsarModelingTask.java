@@ -387,6 +387,7 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		predictor.setName(jobName);
 		predictor.setUserName(userName);
+		predictor.setJobCompleted(Constants.NO);
 		
 		predictor.setDatasetId(datasetID);
 		predictor.setSdFileName(dataset.getSdfFile());
