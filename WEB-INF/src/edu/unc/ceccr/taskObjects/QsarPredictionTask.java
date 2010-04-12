@@ -172,7 +172,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		}
 		
 		lookupId = prediction.getPredictionId();
-		jobType = Constants.DATASET;
+		jobType = Constants.PREDICTION;
 		
 		
 		
