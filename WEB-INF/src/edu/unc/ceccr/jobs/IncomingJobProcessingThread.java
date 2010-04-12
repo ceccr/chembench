@@ -21,7 +21,7 @@ public class IncomingJobProcessingThread extends Thread {
 	public void run() {
 		while(true){
 			try {
-				sleep(3000);
+				sleep(1000);
 
 				/*
 				CentralDogma.getInstance().incomingJobs.printJobListStates();
