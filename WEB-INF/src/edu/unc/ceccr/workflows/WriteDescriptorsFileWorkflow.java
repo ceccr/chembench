@@ -262,8 +262,6 @@ public class WriteDescriptorsFileWorkflow{
 			}
 		}
 		
-		
-
 		try {
 			FileOutputStream fout;
 			PrintStream out;
