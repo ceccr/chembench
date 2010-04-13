@@ -293,7 +293,7 @@ function valid()
              
              <tr><td valign="top" height="52">
              <table>
-			<tr>
+				<tr>
 				<td class="TableRowText01">Name</td>
 				<td class="TableRowText01">Owner</td>
 				<td class="TableRowText01">Submitted</td>
@@ -310,11 +310,6 @@ function valid()
                 </div> 
              
              </td></tr>
-       
-       
-
-       
-       
             
              </table>   </tr>   
       </table></blockquote> 
