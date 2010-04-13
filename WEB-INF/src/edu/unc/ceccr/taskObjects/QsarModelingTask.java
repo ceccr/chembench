@@ -618,6 +618,9 @@ public class QsarModelingTask extends WorkflowTask {
 	}
 	
 	public void postProcess() throws Exception {
+		step = Constants.READING;
+		//done with modeling. Read output files. 
+		
 		if(jobList.equals(Constants.LSF)){
 			//copy needed files back from LSF
 			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
@@ -629,8 +632,6 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 		}
 
-		//done with modeling. Read output files. 
-		step = Constants.READING;
 		if (actFileDataType.equals(Constants.CATEGORY)){
 			parseCategorykNNOutput(filePath, Constants.MAINKNN);
 			parseCategorykNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);

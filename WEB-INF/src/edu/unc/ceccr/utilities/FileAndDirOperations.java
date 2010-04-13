@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 
 /*
 There is a lot of code strewn around the system for doing things like
@@ -182,6 +185,7 @@ public class FileAndDirOperations {
 
 	public static void moveFile(String fromPath, String toPath){
 		//not here yet, cause exec("mv") works fine
+		//actually exec("mv") works much faster!
 	}
 	
 	public static void deleteFile(String filePath) {
@@ -253,7 +257,7 @@ public class FileAndDirOperations {
 		bos.close();
 		is.close();
 	}
-
+	
 	public static boolean deleteDir(File dir) {
 		//recursive as hell! Deletes everything in dir! Be careful!
         if (dir.isDirectory()) {
@@ -261,7 +265,6 @@ public class FileAndDirOperations {
             for (int i=0; i<children.length; i++) {
                 boolean success = deleteDir(new File(dir, children[i]));
                 if (!success) {
-                	Utility.writeToDebug("Delete failed for: " + dir + "/" + children[i]);
                    return false;
                 }
             }
