@@ -50,6 +50,9 @@
 			   <!-- END ADMIN SETTINGS LINK -->
             </p></td>
         </tr>
+        <tr><td>
+        <font color='red'><s:property value="errorMessage" /></font>
+        </td></tr>
       </table>
    </td>
   </tr>
