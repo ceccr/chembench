@@ -24,13 +24,13 @@ public class KnnModelingLsfWorkflow{
 		//open the directory in /largefs/ceccr/ where the job was run
 		
 		String execstr = "mv " + lsfPath + "* " + filePath;
-		  System.out.println("Running external program: " + execstr);
+		  Utility.writeToDebug("Running external program: " + execstr);
 	      Process p = Runtime.getRuntime().exec(execstr);
 	      //Utility.writeProgramLogfile(moveTo, "mv", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 
 		execstr = "mv " + lsfPath + "yRandom/* " + filePath + "yRandom/ ";
-		  System.out.println("Running external program: " + execstr);
+		  Utility.writeToDebug("Running external program: " + execstr);
 	      p = Runtime.getRuntime().exec(execstr);
 	      //Utility.writeProgramLogfile(moveTo, "mv", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
