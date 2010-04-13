@@ -303,25 +303,7 @@ function valid()
                 <td class="TableRowText01">Deny</td>
                 </tr>
                 
-                <logic:iterate id="task" name="queuedTasks"	type="edu.unc.ceccr.persistence.Queue.QueueTask">
-               	<tr>
-					<!--<%edu.unc.ceccr.task.WorkflowTask wt = (edu.unc.ceccr.task.WorkflowTask) task.task;%>-->
-					<td class="TableRowText02"><%=task.getJobName()%></td>
-					<td class="TableRowText02"><%=task.getUserName()%></td>
-					<td class="TableRowText02"><%=task.getSubmit()%></td>
-					<td class="TableRowText02"><%=task.getNumCompounds()%></td>
-					<td class="TableRowText02"><%=task.getNumModels()%></td>
-					<logic:equal name="task" property="state" value="started">
-					 <td class="TableRowText02"><font color="red" face="Arial"> Running </font></td>
-                    <td class="TableRowText02">&nbsp</td>  
-					</logic:equal>
-					<logic:notEqual name="task" property="state" value="started">
-					
-				   <td class="TableRowText02"><a href="permission.do?jobId=<%=task.getId()%>&decision=AGREE">Permit</a></td>
-                    <td class="TableRowText02"><a href="permission.do?jobId=<%=task.getId()%>&decision=DENY">Delete</a></td>  
-                    </logic:notEqual>              
-                </tr>
-                </logic:iterate>
+                
                 </table>
                 
 

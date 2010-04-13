@@ -24,8 +24,7 @@ public class LocalProcessingThread extends Thread {
 				ArrayList<Job> jobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
 				for(Job j: jobs){
 					//try to get this job. Note that another thread may be trying to get it too.
-					if(CentralDogma.getInstance().localJobs.startJob(j.getId())){
-
+					if(j != null && CentralDogma.getInstance().localJobs.startJob(j.getId())){
 						Utility.writeToDebug("Local queue: Started job " + j.getJobName());
 						j.setTimeStarted(new Date());
 						j.setStatus(Constants.PREPROC);
