@@ -7,6 +7,7 @@ import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.utilities.Utility;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class WriteDescriptorsFileWorkflow{
@@ -206,25 +207,7 @@ public class WriteDescriptorsFileWorkflow{
 			}
 		}
 
-		try {
-			FileOutputStream fout;
-			PrintStream out;
-			fout = new FileOutputStream(Constants.CECCR_USER_BASE_PATH + "transform.txt");
-			out = new PrintStream(fout);
-			//print the transposed matrix to a file so we can look at it
-			for(ArrayList<Double> da: descriptorMatrixT){
-				String line = "";
-				for(Double d: da){
-					line += d + " ";
-				}
-				out.println(line);
-			}
-			out.close();
-
-		} catch (Exception ex) {
-			Utility.writeToDebug(ex);
-		}
-		
+		ArrayList<Integer> removedDescriptorIndexes = new ArrayList<Integer>();
 		boolean done = false;
 		while(!done){
 			//find the one descriptor with the most high correlations to others and remove it. 
@@ -257,15 +240,34 @@ public class WriteDescriptorsFileWorkflow{
 			}
 			else{
 				//remove descriptor with largest number of correlations
-				Utility.writeToDebug("Removing descriptor: " + max_index);
+				removedDescriptorIndexes.add(max_index);
 				descriptorMatrixT.remove(max_index);
 			}
 		}
+		Collections.sort(removedDescriptorIndexes);
 		
+		//now, apply those changes into the original descriptor matrix
+		for(int i = 0; i < descriptorMatrix.size(); i++){
+			String[] values = descriptorMatrix.get(i).getDescriptorValues().split(" ");
+			String newValues = "";
+			int removed_i = 0;
+			for(int j = 0; j < values.length; j++){
+				if(removed_i < removedDescriptorIndexes.size() && removedDescriptorIndexes.get(removed_i) == j){
+					//this descriptor should be removed
+					removed_i++;
+				}
+				else{
+					newValues += values[i] + " ";
+				}
+			}
+			descriptorMatrix.get(i).setDescriptorValues(newValues);
+		}
+
+
 		try {
 			FileOutputStream fout;
 			PrintStream out;
-			fout = new FileOutputStream(Constants.CECCR_USER_BASE_PATH + "transform-cutoff.txt");
+			fout = new FileOutputStream(Constants.CECCR_USER_BASE_PATH + "transform-after.txt");
 			out = new PrintStream(fout);
 			//print the transposed matrix to a file so we can look at it
 			for(ArrayList<Double> da: descriptorMatrixT){
