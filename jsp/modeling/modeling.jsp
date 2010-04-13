@@ -128,7 +128,7 @@
 					<div class="StandardTextDarkGrayParagraph"><i><br /></i></div>
 					</td>
 				</tr>	
-				<!--<tr>
+				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Minimum Standard Deviation:</b></div>
 					</td>
@@ -149,7 +149,7 @@
 					<td colspan="2">
 					<div class="StandardTextDarkGrayParagraph"><i>For each pair of descriptors, if the corellation coefficient is above the maximum, one of the two will be removed (chosen randomly).<br /><br /></i></div>
 					</td>
-				</tr>	-->
+				</tr>
 			    </tbody>
 			 </table>
 			 <br />
