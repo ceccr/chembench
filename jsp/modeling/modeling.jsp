@@ -132,7 +132,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Minimum Standard Deviation:</b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="stdDevCutoff" id="stdDevCutoff" size="5" disabled="true" /></td>
+					<td align="left" valign="top"><s:textfield name="stdDevCutoff" id="stdDevCutoff" size="5" /></td>
 				</tr>		
 				<tr>
 					<td colspan="2">
@@ -143,7 +143,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Maximum Corellation:</b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="corellationCutoff" id="corellationCutoff" size="5" disabled="true" /></td>
+					<td align="left" valign="top"><s:textfield name="corellationCutoff" id="corellationCutoff" size="5" /></td>
 				</tr>
 				<tr>
 					<td colspan="2">
