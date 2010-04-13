@@ -23,46 +23,21 @@ public class KnnModelingLsfWorkflow{
 	public static void retrieveCompletedPredictor(String filePath, String lsfPath) throws Exception{
 		//open the directory in /largefs/ceccr/ where the job was run
 		
-		Utility.writeToDebug("mv method start: " + (new Date()).toString());
-		
-		String execstr = "mv " + lsfPath + " " + filePath;
+		String execstr = "mv " + lsfPath + "* " + filePath;
 		  System.out.println("Running external program: " + execstr);
 	      Process p = Runtime.getRuntime().exec(execstr);
 	      //Utility.writeProgramLogfile(moveTo, "mv", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 
-		execstr = "mv " + lsfPath + "yRandom/ " + filePath + "yRandom/ ";
+		execstr = "mv " + lsfPath + "yRandom/* " + filePath + "yRandom/ ";
 		  System.out.println("Running external program: " + execstr);
 	      p = Runtime.getRuntime().exec(execstr);
 	      //Utility.writeProgramLogfile(moveTo, "mv", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 	      
-		Utility.writeToDebug("mv method end: " + (new Date()).toString());
-		
-		//mv it back
-
-		execstr = "mv " + filePath + " " + lsfPath;
-		  System.out.println("Running external program: " + execstr);
-	      p = Runtime.getRuntime().exec(execstr);
-	      //Utility.writeProgramLogfile(moveTo, "mv", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
-
-		execstr = "mv " + filePath + "yRandom/ " + lsfPath + "yRandom/ ";
-		  System.out.println("Running external program: " + execstr);
-	      p = Runtime.getRuntime().exec(execstr);
-	      //Utility.writeProgramLogfile(moveTo, "mv", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
-
-	    Utility.writeToDebug("copy/delete method start: " + (new Date()).toString());
-			
-		//copy directory contents back
-		FileAndDirOperations.copyDirContents(lsfPath, filePath, true);
-		FileAndDirOperations.copyDirContents(lsfPath + "yRandom/", filePath + "yRandom/", true);
-		
-		//remove /largefs/ceccr/ subdirectory
+		//remove the empty /largefs/ceccr/userName/jobName/ subdirectory
 		FileAndDirOperations.deleteDir(new File(lsfPath));
 		
-		Utility.writeToDebug("copy/delete method end: " + (new Date()).toString());
 	}
 	
 	public static void makeLsfModelingDirectory(String filePath, String lsfPath) throws Exception{

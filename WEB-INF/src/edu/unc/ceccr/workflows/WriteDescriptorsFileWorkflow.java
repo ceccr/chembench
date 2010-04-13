@@ -154,7 +154,7 @@ public class WriteDescriptorsFileWorkflow{
 		//eventually merge into removeZeroVariance cause they do pretty much the same thing
 	}
 
-	private double findCorrelation(ArrayList<Double> d1, ArrayList<Double> d2){
+	private static double findCorrelation(ArrayList<Double> d1, ArrayList<Double> d2){
 	    double result = 0;
         double sum_sq_x = 0;
         double sum_sq_y = 0;
@@ -224,110 +224,65 @@ public class WriteDescriptorsFileWorkflow{
 		} catch (Exception ex) {
 			Utility.writeToDebug(ex);
 		}
-		//will end up using the same algorithm as "remove high sequence identity" thing.
-		//that was a recursive one, right...? how *did* I do that?
-		//Right, here it is. Algorithm in perl:
 		
-		/*
-		 if($#ARGV + 1 != 4 || $ARGV[2] < 0 || ($ARGV[3] ne "s" && $ARGV[3] ne "i")){
-	#didn't provide 4 arguments, so print usage info
-	print "\nThis program runs a maximal independent set algorithm to eliminate \nsequences that exceed the threshold similarity or identity to any other sequence.\n";
-	print "It processes outputs from 'needle' (Needleman-Wunsch alignment tool), \npart of the free Emboss biology tool suite.\n\n";
-	print "Usage: 'seqfilter.pl infile outfile percentage i' (for identity filter)\n";
-	print "Or: 'seqfilter.pl infile outfile percentage s' (for similarity filter)\n\n";
-	print "Example: 'seqfilter.pl sample_input.score sample_input_90_s.score 90.5 s'\n";
-	exit;
-}
-
-$first = true;
-
-#read input file
-
-$input_file = "$ARGV[0]";
-
-$running = "true";
-while($running){
-	open(FH, $input_file) or die "can't open input file: $input_file\n";
-	%tallies = {};
-	while($line = <FH>){
-		if($line =~ m/\# 1:\s+(\S+)/){
-			$p1 = $1;
-		}
-		if($line =~ m/\# 2:\s+(\S+)/){
-			$p2 = $1;
-		}
-		if($line =~ m/\# Identity:\s+\S+\s+\(\s*(\S+)\s*%\)/){
-			if(($ARGV[3] eq "i") && ($1 >= $ARGV[2]) && ($p1 ne $p2)){
-				$tallies{$p1}++;
-				$tallies{$p2}++;
+		boolean done = false;
+		while(!done){
+			//find the one descriptor with the most high correlations to others and remove it. 
+			
+			int[] counts = new int[descriptorMatrixT.size()];
+			for(int i = 0; i < counts.length; i++){
+				counts[i] = 0;
 			}
-		}
-		if($line =~ m/\# Similarity:\s+\S+\s+\(\s*(\S+)\s*%\)/){
-			if(($ARGV[3] eq "s") && ($1 >= $ARGV[2]) && ($p1 ne $p2)){
-				$tallies{$p1}++;
-				$tallies{$p2}++;
-			}
-		}
-
-	}
-	close(FH);
-
-	#find highest valued key (i.e. protein with the most above-threshold connections to other proteins)
-	$max_value = 0;
-	$max_key = "";
-	while(my($key, $value) = each(%tallies)) {
-		if($value > $max_value){
-			$max_key = $key;
-			$max_value = $value;
-		}
-	}
-	if($max_key eq ""){
-		#finished; we have eliminated all proteins above threshold
-		#move temp file to output file location
-		$outfile = $ARGV[1];
-		if($infile eq $ARGV[0]){
-			print `cp $input_file $outfile`;
-		}
-		else{
-			print `mv $input_file $outfile`;
-		}
-		$running = "";
-	}
-	else{
-		print "Removing protein $max_key with tally $max_value.\n";
-		#reread input file and print it out, skipping any sections that involve the highest-value protein
-		open(FH, $input_file) or die "can't open file: $input_file";
-		open(TEMPOUT, ">$ARGV[1].temp.out")  or die "can't open temp file: $ARGV[1].temp.out\n";
-
-		$section = "";
-		while($line = <FH>){
-			if($line =~ m/\# 1:\s+(\S+)/){
-				$p1 = $1;
-				$section = $line;
-			}
-			if($line =~ m/\# 2:\s+(\S+)/){
-				$p2 = $1;
-				$section .= $line;
-			}
-			if($line =~ m/\# Identity:/){
-				$section .= $line;
-				
-			}
-			if($line =~ m/\# Similarity:/){
-				$section .= $line;
-				if($p1 ne $max_key && $p2 ne $max_key){
-					print TEMPOUT $section;
+			
+			for(int i = 0; i < descriptorMatrixT.size(); i++){
+				for(int j = i + 1; j < descriptorMatrixT.size(); j++){
+					double correlation = findCorrelation(descriptorMatrixT.get(i), descriptorMatrixT.get(j));
+					if(correlation > corellationCutoff){
+						counts[j]++;
+						counts[i]++;
+					}
 				}
 			}
+			
+			int max_count = 0; 
+			int max_index = -1;
+			for(int i = 0; i < counts.length; i++){
+				if(counts[i] > max_count){
+					max_index = i;
+					max_count = counts[i];
+				}
+			}
+			if(max_index == -1){
+				done = true;
+			}
+			else{
+				//remove descriptor with largest number of correlations
+				Utility.writeToDebug("Removing descriptor: " + max_index);
+				descriptorMatrixT.remove(max_index);
+			}
 		}
-		close(TEMPOUT);
-		close(FH);
-		print `mv $ARGV[1].temp.out $ARGV[1].temp.in`;
-	}
-	$input_file = "$ARGV[1].temp.in"; #read from the temp file for the next iteration
+		
+		
 
-}
-		 */
+		try {
+			FileOutputStream fout;
+			PrintStream out;
+			fout = new FileOutputStream(Constants.CECCR_USER_BASE_PATH + "transform-cutoff.txt");
+			out = new PrintStream(fout);
+			//print the transposed matrix to a file so we can look at it
+			for(ArrayList<Double> da: descriptorMatrixT){
+				String line = "";
+				for(Double d: da){
+					line += d + " ";
+				}
+				out.println(line);
+			}
+			out.close();
+
+		} catch (Exception ex) {
+			Utility.writeToDebug(ex);
+		}
+		
 	}
 	
 	
