@@ -60,6 +60,9 @@ These four arrows sort the rows / columns based on the activity values of the co
 by hovering the mouse over a compound ID. The activity of each compound is also represented by the blue shading under each compound;
 darker blues indicate lower activity values.
 </p>
+<p class="StandardTextDarkGray">
+Note: For very large datasets (500 or more compounds), the heatmap generation step will be skipped.
+</p>
 <br />
   <object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0" width="924" height="924">
     <param name="movie" value="/visFlash/heatmap.swf" />
