@@ -394,25 +394,29 @@ public class CreateDatasetTask extends WorkflowTask{
 			Utility.writeToDebug("Generating JPGs", userName, jobName);
 			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
 			
-			step = Constants.VISUALIZATION;
-			Utility.writeToDebug("Generating Visualizations", userName, jobName);
-			
-			String viz_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/" + sdfFileName.substring(0,sdfFileName.lastIndexOf("."));
-			FileAndDirOperations.copyFile(path + descriptorDir + sdfFileName + ".maccs", viz_path + ".maccs");
-			CSV_X_Workflow.performXCreation(viz_path);
-			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "mahalanobis");
-			CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "tanimoto");
-
-			if(!actFileName.equals("")){
-				//generate ACT-file related visualizations
-				this.numCompounds = DatasetFileOperations.getACTCompoundList(path+actFileName).size();
-				String act_path  = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/" + actFileName;
-					
-				//PCA plot creation works
-				//however, there is no way to visualize the result right now.
-				//also, it's broken for some reason, so fuck that - just fix it later.
-				//CSV_X_Workflow.performPCAcreation(viz_path, act_path);
+			if(numCompounds < 500){
+				//totally not worth doing visualizations on huge datasets, the heatmap is 
+				//just nonsense at that point and it wastes a ton of time.
+				step = Constants.VISUALIZATION;
+				Utility.writeToDebug("Generating Visualizations", userName, jobName);
+				
+				String viz_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/" + sdfFileName.substring(0,sdfFileName.lastIndexOf("."));
+				FileAndDirOperations.copyFile(path + descriptorDir + sdfFileName + ".maccs", viz_path + ".maccs");
+				CSV_X_Workflow.performXCreation(viz_path);
+				CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "mahalanobis");
+				CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "tanimoto");
 	
+				if(!actFileName.equals("")){
+					//generate ACT-file related visualizations
+					this.numCompounds = DatasetFileOperations.getACTCompoundList(path+actFileName).size();
+					String act_path  = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/" + actFileName;
+						
+					//PCA plot creation works
+					//however, there is no way to visualize the result right now.
+					//also, it's broken for some reason, so fuck that - just fix it later.
+					//CSV_X_Workflow.performPCAcreation(viz_path, act_path);
+		
+				}
 			}
 
 		}
