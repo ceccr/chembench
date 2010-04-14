@@ -253,7 +253,7 @@ public class WriteDescriptorsFileWorkflow{
 			int removed_i = 0;
 			
 			for(int j = 0; j < values.length; j++){
-				if(removed_i < removedDescriptorIndexes.size() && removedDescriptorIndexes.get(removed_i) == j){
+				if(removed_i < removedDescriptorIndexes.size() && removedDescriptorIndexes.get(removed_i).equals(j)){
 					//this descriptor should be removed
 					removed_i++;
 				}
