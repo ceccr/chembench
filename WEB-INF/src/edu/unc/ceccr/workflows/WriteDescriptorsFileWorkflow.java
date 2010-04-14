@@ -291,7 +291,7 @@ public class WriteDescriptorsFileWorkflow{
 		}
 		
 		for(int i = 1; i < descriptorMatrixT.size(); i++){
-			for(int j = 0; j < descriptorMatrixT.get(i).size(); i++){
+			for(int j = 0; j < descriptorMatrixT.get(i).size(); j++){
 				descriptorMatrixTT.set(j, (descriptorMatrixTT.get(j) + " " + descriptorMatrixT.get(i).get(j)));
 			}
 		}
