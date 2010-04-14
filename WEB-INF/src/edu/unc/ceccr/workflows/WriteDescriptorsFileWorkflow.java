@@ -142,19 +142,6 @@ public class WriteDescriptorsFileWorkflow{
 		}
 	}
 
-	public static void removeLowStdDevDescriptors(ArrayList<Descriptors> descriptorMatrix, 
-			ArrayList<String> descriptorValueMinima, 
-			ArrayList<String> descriptorValueMaxima,
-			ArrayList<String> descriptorValueAvgs, 
-			ArrayList<String> descriptorValueStdDevs,
-			ArrayList<String> descriptorNames, /* optional argument -- can be null */
-			Float stdDevCutoff){
-		
-		//lol write this later
-		//should be easy, just like removeZeroVariance but with a stddev cutoff instead
-		//eventually merge into removeZeroVariance cause they do pretty much the same thing
-	}
-
 	private static double findCorrelation(ArrayList<Double> d1, ArrayList<Double> d2){
 	    double result = 0;
         double sum_sq_x = 0;
@@ -262,26 +249,6 @@ public class WriteDescriptorsFileWorkflow{
 		}
 		Collections.sort(removedDescriptorIndexes);
 		
-		/*
-		ArrayList< ArrayList<Double> > descriptorMatrixT = new ArrayList< ArrayList<Double> >();
-		
-		//populate the first values of each row in descriptorMatrix
-		String[] sa = descriptorMatrix.get(0).getDescriptorValues().split(" ");
-		for(int i = 0; i < sa.length; i++){
-			ArrayList<Double> doubleArray = new ArrayList<Double>();
-			doubleArray.add(Double.parseDouble(sa[i]));
-			descriptorMatrixT.add(doubleArray);
-		}
-		
-		//now go through the rest of the descriptorMatrix and add in each value
-		for(int i = 1; i < descriptorMatrix.size(); i++){
-			sa = descriptorMatrix.get(i).getDescriptorValues().split(" ");
-			for(int j = 0; j < sa.length; j++){
-				descriptorMatrixT.get(j).add(Double.parseDouble(sa[j]));
-			}
-		}
-		
-		*/
 		//now, transpose the descriptor matrix back
 		ArrayList<String> descriptorMatrixTT = new ArrayList<String>();
 		
@@ -303,6 +270,19 @@ public class WriteDescriptorsFileWorkflow{
 		
 	}
 	
+
+	public static void removeLowStdDevDescriptors(ArrayList<Descriptors> descriptorMatrix, 
+			ArrayList<String> descriptorValueMinima, 
+			ArrayList<String> descriptorValueMaxima,
+			ArrayList<String> descriptorValueAvgs, 
+			ArrayList<String> descriptorValueStdDevs,
+			ArrayList<String> descriptorNames, /* optional argument -- can be null */
+			Float stdDevCutoff){
+		
+		//lol write this later
+		//should be easy, just like removeZeroVariance but with a stddev cutoff instead
+		//eventually merge into removeZeroVariance cause they do pretty much the same thing
+	}
 	
 	public static void removeZeroVarianceDescriptors(ArrayList<Descriptors> descriptorMatrix, 
 			ArrayList<String> descriptorValueMinima, 
