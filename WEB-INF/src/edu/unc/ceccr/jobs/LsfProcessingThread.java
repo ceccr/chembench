@@ -39,7 +39,6 @@ public class LsfProcessingThread extends Thread {
 						//try to grab the job and preproc it
 						if(CentralDogma.getInstance().lsfJobs.startJob(j.getId())){
 							
-
 							try{
 								Utility.writeToDebug("LSFQueue: Starting job " + j.getJobName() + " from user " + j.getUserName());
 								j.setTimeStarted(new Date());
@@ -61,26 +60,31 @@ public class LsfProcessingThread extends Thread {
 					}
 				}
 				
-				
 				ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
 				
-				//determine if any pending jobs in LSF have started; update the Job objects if so.
-				//compare the new job statuses against the ones from the previous check
-				for(LsfJobStatus jobStatus : lsfJobStatuses){
-					if( (oldLsfStatuses.containsKey(jobStatus.jobid) && 
-							oldLsfStatuses.get(jobStatus.jobid).equals("PEND") && 
-							jobStatus.stat.equals("RUN")) ||
-							(! oldLsfStatuses.containsKey(jobStatus.jobid) && 
-									jobStatus.stat.equals("RUN"))){
-						//the job *just* started on LSF. Find the job with this lsfJobId and set its date.
-						for(Job j: readOnlyJobArray){
-							if(j.getLsfJobId().equals(jobStatus.jobid)){
-								j.setTimeStartedByLsf(new Date());
-								CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
+				try{
+					//determine if any pending jobs in LSF have started; update the Job objects if so.
+					//compare the new job statuses against the ones from the previous check
+					for(LsfJobStatus jobStatus : lsfJobStatuses){
+						if( (oldLsfStatuses.containsKey(jobStatus.jobid) && 
+								oldLsfStatuses.get(jobStatus.jobid).equals("PEND") && 
+								jobStatus.stat.equals("RUN")) ||
+								(! oldLsfStatuses.containsKey(jobStatus.jobid) && 
+										jobStatus.stat.equals("RUN"))){
+							//the job *just* started on LSF. Find the job with this lsfJobId and set its date.
+							for(Job j: readOnlyJobArray){
+								if(j.getLsfJobId().equals(jobStatus.jobid)){
+									j.setTimeStartedByLsf(new Date());
+									CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
+								}
 							}
 						}
+						oldLsfStatuses.put(jobStatus.jobid, jobStatus.stat);
 					}
-					oldLsfStatuses.put(jobStatus.jobid, jobStatus.stat);
+				}
+				catch(Exception ex){
+					Utility.writeToDebug("Error checking job completion.");
+					Utility.writeToDebug(ex);
 				}
 
 				//If there's a finished job that needs postprocessing, do so.

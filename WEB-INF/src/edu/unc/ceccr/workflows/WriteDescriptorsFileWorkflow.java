@@ -242,44 +242,63 @@ public class WriteDescriptorsFileWorkflow{
 				//remove descriptor with largest number of correlations
 				removedDescriptorIndexes.add(max_index);
 				descriptorMatrixT.remove(max_index);
+				
+				if(descriptorValueMinima != null){
+					descriptorValueMinima.remove(max_index);
+				}
+				if(descriptorValueMaxima != null){
+					descriptorValueMaxima.remove(max_index);
+				}
+				if(descriptorNames != null){
+					descriptorNames.remove(max_index);
+				}
+				if(descriptorValueAvgs != null){
+					descriptorValueAvgs.remove(max_index);
+				}
+				if(descriptorValueStdDevs != null){
+					descriptorValueStdDevs.remove(max_index);
+				}
 			}
 		}
 		Collections.sort(removedDescriptorIndexes);
 		
-		//now, apply those changes into the original descriptor matrix
-		for(int i = 0; i < descriptorMatrix.size(); i++){
-			String[] values = descriptorMatrix.get(i).getDescriptorValues().split(" ");
-			String newValues = "";
-			int removed_i = 0;
-			
-			for(int j = 0; j < values.length; j++){
-				if(removed_i < removedDescriptorIndexes.size() && removedDescriptorIndexes.get(removed_i).equals(j)){
-					//this descriptor should be removed
-					removed_i++;
-				}
-				else{
-					newValues += values[j] + " ";					
-				}
-			}
-			descriptorMatrix.get(i).setDescriptorValues(newValues);
+		/*
+		ArrayList< ArrayList<Double> > descriptorMatrixT = new ArrayList< ArrayList<Double> >();
+		
+		//populate the first values of each row in descriptorMatrix
+		String[] sa = descriptorMatrix.get(0).getDescriptorValues().split(" ");
+		for(int i = 0; i < sa.length; i++){
+			ArrayList<Double> doubleArray = new ArrayList<Double>();
+			doubleArray.add(Double.parseDouble(sa[i]));
+			descriptorMatrixT.add(doubleArray);
 		}
-		Collections.reverse(removedDescriptorIndexes);
-		for(Integer i : removedDescriptorIndexes){
-			if(descriptorValueMinima != null){
-				descriptorValueMinima.remove(i);
+		
+		//now go through the rest of the descriptorMatrix and add in each value
+		for(int i = 1; i < descriptorMatrix.size(); i++){
+			sa = descriptorMatrix.get(i).getDescriptorValues().split(" ");
+			for(int j = 0; j < sa.length; j++){
+				descriptorMatrixT.get(j).add(Double.parseDouble(sa[j]));
 			}
-			if(descriptorValueMaxima != null){
-				descriptorValueMaxima.remove(i);
+		}
+		
+		*/
+		//now, transpose the descriptor matrix back
+		ArrayList<String> descriptorMatrixTT = new ArrayList<String>();
+		
+		for(int i = 0; i < descriptorMatrixT.get(0).size(); i++){
+			String as = "" + descriptorMatrixT.get(0).get(i);
+			descriptorMatrixTT.add(as);
+		}
+		
+		for(int i = 1; i < descriptorMatrixT.size(); i++){
+			for(int j = 0; j < descriptorMatrixT.get(i).size(); i++){
+				descriptorMatrixTT.set(j, (descriptorMatrixTT.get(j) + " " + descriptorMatrixT.get(i).get(j)));
 			}
-			if(descriptorNames != null){
-				descriptorNames.remove(i);
-			}
-			if(descriptorValueAvgs != null){
-				descriptorValueAvgs.remove(i);
-			}
-			if(descriptorValueStdDevs != null){
-				descriptorValueStdDevs.remove(i);
-			}
+		}
+		
+		//and put it back into the original descriptor matrix
+		for(int i = 0; i < descriptorMatrix.size(); i++){
+			descriptorMatrix.get(i).setDescriptorValues(descriptorMatrixTT.get(i));
 		}
 		
 	}

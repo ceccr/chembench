@@ -36,7 +36,7 @@ public class KnnModelingLsfWorkflow{
 	      p.waitFor();
 	      
 		//remove the empty /largefs/ceccr/userName/jobName/ subdirectory
-		FileAndDirOperations.deleteDir(new File(lsfPath));
+		//FileAndDirOperations.deleteDir(new File(lsfPath));
 		
 	}
 	
