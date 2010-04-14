@@ -26,13 +26,13 @@ public class KnnModelingLsfWorkflow{
 		String execstr = "mv " + lsfPath + "* " + filePath;
 		  Utility.writeToDebug("Running external program: " + execstr);
 	      Process p = Runtime.getRuntime().exec(execstr);
-	      //Utility.writeProgramLogfile(moveTo, "mv", p.getInputStream(), p.getErrorStream());
+	      Utility.writeProgramLogfile(filePath, "mv", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 
 		execstr = "mv " + lsfPath + "yRandom/* " + filePath + "yRandom/ ";
 		  Utility.writeToDebug("Running external program: " + execstr);
 	      p = Runtime.getRuntime().exec(execstr);
-	      //Utility.writeProgramLogfile(moveTo, "mv", p.getInputStream(), p.getErrorStream());
+	      Utility.writeProgramLogfile(filePath, "mv2", p.getInputStream(), p.getErrorStream());
 	      p.waitFor();
 	      
 		//remove the empty /largefs/ceccr/userName/jobName/ subdirectory
