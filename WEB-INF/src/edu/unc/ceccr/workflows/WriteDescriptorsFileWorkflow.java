@@ -251,36 +251,35 @@ public class WriteDescriptorsFileWorkflow{
 			String[] values = descriptorMatrix.get(i).getDescriptorValues().split(" ");
 			String newValues = "";
 			int removed_i = 0;
+			
 			for(int j = 0; j < values.length; j++){
 				if(removed_i < removedDescriptorIndexes.size() && removedDescriptorIndexes.get(removed_i) == j){
 					//this descriptor should be removed
 					removed_i++;
 				}
 				else{
-					newValues += values[i] + " ";
+					newValues += values[j] + " ";					
 				}
 			}
 			descriptorMatrix.get(i).setDescriptorValues(newValues);
 		}
-
-
-		try {
-			FileOutputStream fout;
-			PrintStream out;
-			fout = new FileOutputStream(Constants.CECCR_USER_BASE_PATH + "transform-after.txt");
-			out = new PrintStream(fout);
-			//print the transposed matrix to a file so we can look at it
-			for(ArrayList<Double> da: descriptorMatrixT){
-				String line = "";
-				for(Double d: da){
-					line += d + " ";
-				}
-				out.println(line);
+		Collections.reverse(removedDescriptorIndexes);
+		for(Integer i : removedDescriptorIndexes){
+			if(descriptorValueMinima != null){
+				descriptorValueMinima.remove(i);
 			}
-			out.close();
-
-		} catch (Exception ex) {
-			Utility.writeToDebug(ex);
+			if(descriptorValueMaxima != null){
+				descriptorValueMaxima.remove(i);
+			}
+			if(descriptorNames != null){
+				descriptorNames.remove(i);
+			}
+			if(descriptorValueAvgs != null){
+				descriptorValueAvgs.remove(i);
+			}
+			if(descriptorValueStdDevs != null){
+				descriptorValueStdDevs.remove(i);
+			}
 		}
 		
 	}
