@@ -68,18 +68,23 @@ function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPre
           alert("You cannot use spaces in your job name. You might want to replace them with underscores or dashes.");
           return false;
      }
-    
+
      reWhiteSpace = new RegExp("/");
      if (reWhiteSpace.test(name)) {
           alert("You cannot use slashes in your job name. You might want to replace them with underscores or dashes.");
           return false;
      }
 	
-	if(name.length > 250){
-		alert("The name you have entered is too long. Please choose another.");
-		return false;
-	}
-	
+     if(name.length > 250){
+ 		alert("The name you have entered is too long. Please choose another.");
+ 		return false;
+ 	}
+ 	
+    if(name.length == 0){
+ 		alert("Please enter a name for this job.");
+ 		return false;
+ 	}
+ 	
 	for (var i=0; i < usedDatasetNames.length - 1; i++){
 		if(name == usedDatasetNames[i]){
 			alert("You already have a Dataset named " + usedDatasetNames[i] + ". Please choose a different name.");
