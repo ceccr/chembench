@@ -41,11 +41,11 @@
 <form action="retrievePassword.do" >
 		<b><br/><br/>Did You Forget Your Password?</b>
 		<br/><br/>
-          &nbsp &nbsp   Your current username: <br/>
-		 &nbsp &nbsp <input type="text" size="20" name="userName">
+          &nbsp; &nbsp;   Your current username: <br/>
+		 &nbsp; &nbsp; <input type="text" size="20" name="userName">
 		 <br/><br/>
-           &nbsp &nbsp Your email address: <br/>
-		    &nbsp  &nbsp <input type="text" size="35" name="email"> &nbsp &nbsp<input type="submit" value="Submit" ></form>
+           &nbsp; &nbsp; Your email address: <br/>
+		    &nbsp;  &nbsp; <input type="text" size="35" name="email"> &nbsp &nbsp<input type="submit" value="Submit" ></form>
      </td></tr></table>
         
 		</td>
