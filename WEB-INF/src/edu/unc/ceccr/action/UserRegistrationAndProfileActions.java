@@ -242,6 +242,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 			Utility.writeToDebug(e);
 		} finally {s.close();}
 		
+		errorMessages.add("Password change successful!");
 		
 		return result;
 	}
@@ -315,6 +316,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {s.close();}
+
+		errorMessages.add("Your information has been updated!");
 		
 		return result;
 	}
@@ -366,6 +369,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport{
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {s.close();}
+
+		errorMessages.add("Your settings have been saved!");
 		
 		return result;
 	}
