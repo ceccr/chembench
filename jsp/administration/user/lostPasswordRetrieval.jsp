@@ -48,8 +48,6 @@
 		    &nbsp  &nbsp <input type="text" size="35" name="email"> &nbsp &nbsp<input type="submit" value="Submit" ></form>
      </td></tr></table>
         
-     <!--  end of the fix. -->    
-        
 		</td>
 		</span>
 	</tr>
