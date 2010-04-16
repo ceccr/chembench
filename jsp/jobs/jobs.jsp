@@ -91,7 +91,10 @@
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
-				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
+				<td class="TableRowText02">
+					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
+					<s:elseif test="user.userName==userName"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
+				</td>
 				</tr> 
 			</s:iterator>
 			<tr><td colspan="2">&nbsp;</td></tr>
@@ -134,7 +137,10 @@
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
-				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
+				<td class="TableRowText02">
+					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
+					<s:elseif test="user.userName==userName"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif></td>
+				</td>
 				</tr> 
 			</s:iterator>
 			<tr><td colspan="2">&nbsp;</td></tr>
@@ -178,7 +184,10 @@
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
-				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
+				<td class="TableRowText02">
+					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
+					<s:elseif test="user.userName==userName"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
+				</td>
 				</tr> 
 			</s:iterator>
 			<tr><td colspan="2">&nbsp;</td></tr>

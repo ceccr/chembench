@@ -55,6 +55,13 @@ public class JobsActions extends ActionSupport {
 			}
 		}
 		
+		if(Utility.isAdmin(user.getUserName())){
+			adminUser = true;
+		}
+		else{
+			adminUser = false;
+		}
+		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 		Session session = HibernateUtil.getSession();
 		
@@ -174,13 +181,22 @@ public class JobsActions extends ActionSupport {
 	
 	//====== variables used for displaying the JSP =====//
 	private User user;
-		
+	private boolean adminUser;	
+	
 	public User getUser(){
 		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	public boolean isAdminUser() {
+		return adminUser;
+	}
+	public void setAdminUser(boolean adminUser) {
+		this.adminUser = adminUser;
+	}
+	
 
 	//====== variables used to hold the queue and finished jobs information =====//
 	private List<DataSet> userDatasets;

@@ -37,6 +37,7 @@ public class CentralDogma{
 	public SynchronizedJobList incomingJobs;
 	public SynchronizedJobList localJobs;
 	public SynchronizedJobList lsfJobs;
+	public SynchronizedJobList errorJobs;
 	
 	private IncomingJobProcessingThread inThread;
 	
