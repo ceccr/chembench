@@ -61,7 +61,7 @@
 			<div class="StandardTextDarkGrayParagraph"><button type="submit">REFRESH STATUS</button></div>
 		</form>
 		</td></tr>
-		<tr><td>&nbsp; </td></tr>
+		<tr><td colspan="2">&nbsp; </td></tr>
 		
 		<!-- Queued (incomingJobs) -->
 		<tr><td colspan="2">
@@ -110,7 +110,7 @@
 		</s:else>
 		
 		<!-- Local Jobs -->
-		<tr><td>
+		<tr><td colspan="2">
 			<div class="StandardTextDarkGrayParagraph">
 			<b>Jobs on Local Queue: </b>
 			</div></td>
@@ -157,7 +157,7 @@
 		
 		
 		<!-- LSF Jobs -->
-		<tr><<td colspan="2">
+		<tr><td colspan="2">
 			<div class="StandardTextDarkGrayParagraph">
 			<b>Jobs on LSF Queue: </b>
 			</div></td>
@@ -204,7 +204,7 @@
 		
 		<!-- Error Jobs -->
 		<s:if test="! errorJobs.isEmpty()">
-		<tr><<td colspan="2">
+		<tr><td colspan="2">
 			<div class="StandardTextDarkGrayParagraph">
 			<b>Jobs with errors: </b>
 			</div></td>

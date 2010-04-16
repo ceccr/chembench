@@ -61,7 +61,6 @@ function validateDatasetDelete(name, usedPredictorNames, usedPredictionNames, us
 
 function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames){
 	
-
      // Check for white space
 	 reWhiteSpace = new RegExp(/^\s+$/);
      if (reWhiteSpace.test(name)) {
@@ -79,11 +78,16 @@ function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPre
  		alert("The name you have entered is too long. Please choose another.");
  		return false;
  	}
- 	
-    if(name.length == 0){
- 		alert("Please enter a name for this job.");
- 		return false;
- 	}
+
+     if(name.length == 0){
+  		alert("Please enter a name for this job.");
+  		return false;
+  	}
+
+    if(name[0] == '.' || name[0] == '~' || name[0] == '?'){
+  		alert("Your job name should start with a number or letter.");
+  		return false;
+  	}
  	
 	for (var i=0; i < usedDatasetNames.length - 1; i++){
 		if(name == usedDatasetNames[i]){
