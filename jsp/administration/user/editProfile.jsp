@@ -51,7 +51,9 @@
             </p></td>
         </tr>
         <tr><td>
-        <font color='red'><s:property value="errorMessage" /></font>
+        <font color='red'><s:iterator value="errorMessages">
+        <s:property /><br />
+        </s:iterator></font>
         </td></tr>
       </table>
    </td>
