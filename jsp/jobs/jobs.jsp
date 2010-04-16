@@ -61,10 +61,10 @@
 			<div class="StandardTextDarkGrayParagraph"><button type="submit">REFRESH STATUS</button></div>
 		</form>
 		</td></tr>
-		<tr><td>&nbsp;</td></tr>
+		<tr><td>&nbsp; </td></tr>
 		
 		<!-- Queued (incomingJobs) -->
-		<tr><td>
+		<tr><td colspan="2">
 			<div class="StandardTextDarkGrayParagraph">
 			<b>Unassigned Jobs: </b>
 			</div></td>
@@ -94,7 +94,7 @@
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
-			<tr><td>&nbsp;</td></tr>
+			<tr><td colspan="2">&nbsp;</td></tr>
 		</table>
 		</s:if>
 		<s:else>
@@ -137,7 +137,7 @@
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
-			<tr><td>&nbsp;</td></tr>
+			<tr><td colspan="2">&nbsp;</td></tr>
 		</table>
 		</s:if>
 		<s:else>
@@ -151,7 +151,7 @@
 		
 		
 		<!-- Local Jobs -->
-		<tr><td>
+		<tr><<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph">
 			<b>Jobs on LSF Queue: </b>
 			</div></td>
@@ -181,7 +181,7 @@
 				<td class="TableRowText02"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></td>
 				</tr> 
 			</s:iterator>
-			<tr><td>&nbsp;</td></tr>
+			<tr><td colspan="2">&nbsp;</td></tr>
 		</table>
 		</s:if>
 		<s:else>

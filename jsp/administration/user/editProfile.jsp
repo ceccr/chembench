@@ -51,9 +51,11 @@
             </p></td>
         </tr>
         <tr><td>
+        <p class="StandardTextDarkGrayParagraph">
         <font color='red'><s:iterator value="errorMessages">
         <s:property /><br />
         </s:iterator></font>
+        </p><br />
         </td></tr>
       </table>
    </td>
