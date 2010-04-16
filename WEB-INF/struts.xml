@@ -38,7 +38,6 @@
         
         <action name="editProfile" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadEditProfilePage">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
-            <result name="error">jsp/administration/user/editProfile.jsp</result>
         </action>
         
         <action name="loadChangePasswordSection" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadChangePassword">
@@ -47,6 +46,7 @@
         
         <action name="changePassword" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="ChangePassword">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
+            <result name="error">jsp/administration/user/editProfile.jsp</result>
         </action>
         
         <action name="loadUpdateInfoSection" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadUpdateUserInformation">
@@ -55,6 +55,7 @@
         
         <action name="updateUserInfo" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="UpdateUserInformation">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
+            <result name="error">jsp/administration/user/editProfile.jsp</result>
         </action>
         
         <action name="loadUserOptionsSection" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadUpdateUserOptions">
@@ -63,6 +64,7 @@
         
         <action name="updateUserOptions" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="UpdateUserOptions">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
+            <result name="error">jsp/administration/user/editProfile.jsp</result>
         </action>
         
         <!-- Dataset Page -->
