@@ -49,6 +49,7 @@ public class CentralDogma{
 			lsfJobs = new SynchronizedJobList(Constants.LSF);
 			incomingJobs = new SynchronizedJobList(Constants.INCOMING);
 			localJobs = new SynchronizedJobList(Constants.LOCAL);
+			errorJobs = new SynchronizedJobList(Constants.ERROR);
 			
 			//Fill job lists from the database
 			Session s = HibernateUtil.getSession();

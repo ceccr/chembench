@@ -64,7 +64,6 @@
 	</tr>
 	
 	<s:iterator value="randomModels" status="randomModelsStatus">
-		<s:if test="#randomModelsStatus.index<10">
 		<tr>
 			<td class="TableRowText02"><s:property value="nnn" /></td>
 			<td class="TableRowText02"><s:property value="trainingAcc" /></td>
@@ -73,7 +72,6 @@
 			<td class="TableRowText02"><s:property value="normalizedTestAcc" /></td>
 			<td class="TableRowText02" colspan="2"><s:property value="descriptorsUsed" /></td>
 		</tr>
-		</s:if>
 	</s:iterator>
 
 	</s:elseif>

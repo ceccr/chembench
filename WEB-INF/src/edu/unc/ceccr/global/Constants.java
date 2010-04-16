@@ -36,6 +36,7 @@ public class Constants {
 	public static final String INCOMING = "INCOMING";
 	public static final String LSF = "LSF";
 	public static final String LOCAL = "LOCAL";
+	public static final String ERROR = "ERROR";
 	
 	public static final String QUEUED = "QUEUED";
 	public static final String PREPROC = "PREPROC";
