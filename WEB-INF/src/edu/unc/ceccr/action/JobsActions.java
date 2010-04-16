@@ -160,13 +160,21 @@ public class JobsActions extends ActionSupport {
 				j.setMessage("Could not resume task.");
 			}
 		}
-		
+
 		//get incoming jobs
 		incomingJobs = CentralDogma.getInstance().incomingJobs.getReadOnlyCopy();
 		for(Job j : incomingJobs){
 			if(j.workflowTask != null){
 				j.setMessage("Waiting in queue");
 			}
+		}
+		
+		//get error jobs
+		errorJobs = CentralDogma.getInstance().errorJobs.getReadOnlyCopy();
+		for(Job j : errorJobs){
+			/*if(j.workflowTask != null){
+				j.setMessage("");
+			}*/
 		}
 		
 		session.close();
@@ -206,6 +214,7 @@ public class JobsActions extends ActionSupport {
 	private List<Job> incomingJobs;
 	private List<Job> lsfJobs;
 	private List<Job> localJobs;
+	private List<Job> errorJobs;
 	
 	
 	
@@ -249,5 +258,12 @@ public class JobsActions extends ActionSupport {
 	}
 	public void setLocalJobs(List<Job> localJobs) {
 		this.localJobs = localJobs;
+	}
+
+	public List<Job> getErrorJobs() {
+		return errorJobs;
+	}
+	public void setErrorJobs(List<Job> errorJobs) {
+		this.errorJobs = errorJobs;
 	}
 }

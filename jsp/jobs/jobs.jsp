@@ -156,7 +156,7 @@
 		</s:else>
 		
 		
-		<!-- Local Jobs -->
+		<!-- LSF Jobs -->
 		<tr><<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph">
 			<b>Jobs on LSF Queue: </b>
@@ -201,6 +201,44 @@
 			<tr><td>&nbsp;</td></tr>
 		</table>
 		</s:else>
+		
+		<!-- Error Jobs -->
+		<s:if test="! errorJobs.isEmpty()">
+		<tr><<td colspan="2">
+			<div class="StandardTextDarkGrayParagraph">
+			<b>Jobs with errors: </b>
+			</div></td>
+		</tr>
+		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
+		<table>
+			<tr>
+				<td class="TableRowText01">Name</td>
+				<td class="TableRowText01">Owner</td>
+				<td class="TableRowText01">Job Type</td>
+				<td class="TableRowText01">Number of Compounds</td>
+				<td class="TableRowText01">Number of Models</td>
+				<td class="TableRowText01">Time Created</td>
+				<td class="TableRowText01">Status</td>
+				<td class="TableRowText01">Cancel</td>
+			</tr>
+			<s:iterator value="lsfJobs">
+				<tr>
+				<td class="TableRowText02"><s:property value="jobName" /></td>
+				<td class="TableRowText02"><s:property value="userName" /></td>
+				<td class="TableRowText02"><s:property value="jobType" /></td>
+				<td class="TableRowText02"><s:property value="numCompounds" /></td>
+				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
+				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
+				<td class="TableRowText02"><b><s:property value="message" /><b></td>
+				<td class="TableRowText02">
+					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
+					<s:elseif test="user.userName==userName"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
+				</td>
+				</tr> 
+			</s:iterator>
+			<tr><td colspan="2">&nbsp;</td></tr>
+		</table>
+		</s:if>
 		
 	</table>
 	<br />
