@@ -295,12 +295,12 @@ public class ModelingFormActions extends ActionSupport{
 	private String trainTestSplitType = Constants.RANDOM;
 
 		//if random split
-		private String numSplitsInternalRandom = "5";
+		private String numSplitsInternalRandom = "20";
 		private String randomSplitMinTestSize = "20";
 		private String randomSplitMaxTestSize = "30";
 		
 		//if sphere exclusion
-		private String numSplitsInternalSphere = "5";
+		private String numSplitsInternalSphere = "20";
 		private String sphereSplitMinTestSize = "25";
 		private String splitIncludesMin = "true";
 		private String splitIncludesMax = "true";
@@ -314,7 +314,7 @@ public class ModelingFormActions extends ActionSupport{
 	
 	private String actFileDataType = Constants.CONTINUOUS; //used in the 2 radio buttons
 	private String minNumDescriptors = "5";
-	private String maxNumDescriptors = "10";
+	private String maxNumDescriptors = "30";
 	private String stepSize = "5";
 	private String numCycles = "100";
 	private String nearest_Neighbors = "5";
@@ -325,7 +325,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String T2 = "-5.0";
 	private String mu = "0.9";
 	private String TcOverTb = "-6.0";
-	private String cutoff = "1.0";
+	private String cutoff = "0.5";
 	private String minAccTraining = "0.6";
 	private String minAccTest = "0.6";
 	private String minSlopes = "0";
