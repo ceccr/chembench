@@ -52,7 +52,7 @@ protected void processRequest(HttpServletRequest request,
 	 String project=request.getParameter("project");
 	 String user=request.getParameter("user");
 	Predictor predictor;
-	predictor=getPredictor( project);
+	predictor=getPredictor(project);
 	 
 	int index=0;
 	float high,low;
@@ -279,8 +279,18 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
 	  } finally {
 	  	session.close();
 	  }
-	  return extValidation ;
+	  
+	  for(int i = 0; i < extValidation.size(); i++){
+		  if(extValidation.get(i).getNumModels() == 0){
+			  //no models predicted this point; remove it 
+			  //so it doesn't skew the chart.
+			  extValidation.remove(i);
+			  i--;
+		  }
 	  }
+	  
+	  return extValidation;
+  }
   
   
   protected double setMax(double max1,double max2)
@@ -296,21 +306,22 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
 	  double min=100.00;
 	  double extvalue;
 	  ExternalValidation extv=null;
-	  Iterator  it= extValidation.iterator();
+	  Iterator it= extValidation.iterator();
 	   
-	   while(it.hasNext())
-	   {
-		 extv=( ExternalValidation)it.next();
-			 if(option==0)
-			 {
+		while(it.hasNext()) {
+			extv=( ExternalValidation)it.next();
+			
+			if(option==0){
 				 extvalue=extv.getPredictedValue();
-			 }else{extvalue=extv.getActualValue();}
+			}
+			else{
+				extvalue=extv.getActualValue();
+			}
 			 
-			if(min>extvalue) 
-			{
+			if(min>extvalue) {
 				min=extvalue;
 			}
-		 }
+		}
 	   
 	   return min-0.5;
   }
