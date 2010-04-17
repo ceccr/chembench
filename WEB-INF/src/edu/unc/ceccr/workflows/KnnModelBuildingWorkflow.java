@@ -12,7 +12,6 @@ import java.util.Scanner;
 
 public class KnnModelBuildingWorkflow{
 	
-	
 	public static void buildKnnCategoryModel(String userName, String jobName, String optimizationValue, String workingDir) throws Exception{
 			String command = "AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue;
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);

@@ -62,6 +62,8 @@ public class JobsActions extends ActionSupport {
 			adminUser = false;
 		}
 		
+		Thread.sleep(200);
+		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 		Session session = HibernateUtil.getSession();
 		

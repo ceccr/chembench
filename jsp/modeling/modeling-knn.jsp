@@ -25,7 +25,9 @@
 				<tr><td width="33%"><div class="StandardTextDarkGrayParagraph"><b>Descriptors Per Model:</b></div></td>
 				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent">From: <s:textfield id="knnCon02" name="minNumDescriptors" size="5" theme="simple"/> To: <s:textfield id="knnCon03" name="maxNumDescriptors" size="5" theme="simple"/> Step: <s:textfield id="knnCon01" name="stepSize" size="5" theme="simple"/></div></td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Runs:</b></div></td>
-				<td align="left" valign="top"><s:textfield id="knnCon11" name="numRuns" size="5" value="5" theme="simple"/></td></tr>	
+				<td align="left" valign="top"><s:textfield id="knnCon11" name="numRuns" size="5" value="5" theme="simple"/></td></tr>
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Applicability Domain Cutoff:</b></div></td>
+				<td align="left" valign="top"><s:textfield id="knnCon19" name="cutoff" size="5" theme="simple"/></td></tr>		
 				
 				<!-- kNN, Advanced Parameters -->
 				<s:if test="user.showAdvancedKnnModeling=='YES'">
@@ -43,8 +45,6 @@
 				<td align="left" valign="top"><s:textfield id="knnCon09" name="t2" size="5" theme="simple" /></td></tr>	
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Mu:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="knnCon10" name="mu" size="5" theme="simple" /></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Applicability Domain Cutoff:</b></div></td>
-				<td align="left" valign="top"><s:textfield id="knnCon19" name="cutoff" size="5" theme="simple"/></td></tr>	
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Stop Condition:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="knnCon20" name="stop_cond" size="5" theme="simple"/></td></tr>	
 				</s:if>
