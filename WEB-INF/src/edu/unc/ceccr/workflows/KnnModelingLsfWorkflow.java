@@ -85,7 +85,7 @@ public class KnnModelingLsfWorkflow{
 			p.waitFor();
 			Utility.writeToDebug("Category kNN submitted.", userName, jobName);
 
-			String logFilePath = workingDir + "/Logs/bsubKnn.log";
+			String logFilePath = workingDir + "Logs/bsubKnn.log";
 			return getLsfJobId(logFilePath);
 	}
 	
@@ -116,14 +116,12 @@ public class KnnModelingLsfWorkflow{
 		p.waitFor();
 		Utility.writeToDebug("Continuous kNN submitted.", userName, jobName);	
 
-		String logFilePath = workingDir + "/Logs/bsubKnn.log";
+		String logFilePath = workingDir + "Logs/bsubKnn.log";
 		return getLsfJobId(logFilePath);
 	}
 	
-
-
-	
 	public static String getLsfJobId(String logFilePath) throws Exception{
+		Thread.sleep(200); //give the file time to close properly? I guess?
 		BufferedReader in = new BufferedReader(new FileReader(logFilePath));
 		String line = in.readLine(); //junk
 		Scanner sc = new Scanner(line);

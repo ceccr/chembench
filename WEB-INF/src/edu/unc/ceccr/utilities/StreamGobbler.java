@@ -45,9 +45,9 @@ public class StreamGobbler extends Thread
             if (pw != null)
                 pw.flush();
         } catch (IOException ioe)
-            {
-            ioe.printStackTrace();  
-            }
+        {
+        ioe.printStackTrace();  
+        }
     }
     
 }
