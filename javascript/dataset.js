@@ -1,29 +1,3 @@
-function selectedDatasetID()
-{ 
-	var dpd = document.getElementById("file");
-	var i = dpd.selectedIndex;
-
-	var datasetIDsWithBlanks = [];
-	var datasetIDs = [];
-	for (var i=0; i<document.forms[0].knnType.length; i++){
-		if (document.forms[0].knnType[i].checked && document.forms[0].knnType[i].value =="CONTINUOUS") 
-		{	
-			datasetIDsWithBlanks =[<logic:iterate id="df" name="continuousDatasets" type="edu.unc.ceccr.persistence.DataSet">"<bean:write name='df' property='fileId'/>",</logic:iterate>];
-		}
-		else if (document.forms[0].knnType[i].checked && document.forms[0].knnType[i].value =="CATEGORY")  {
-			datasetIDsWithBlanks =[<logic:iterate id="dg" name="categoryDatasets" type="edu.unc.ceccr.persistence.DataSet">"<bean:write name='dg' property='fileId'/>",</logic:iterate>];
-		}
-	}
-	var datasetIDs=[];
-	for (i in datasetIDsWithBlanks){
-		if (datasetIDsWithBlanks[i]!=null){
-			datasetIDs[i] = datasetIDsWithBlanks[i];
-		}
-	}	
-	
-    return datasetIDs[i];
-}
-
 function knnType()
 {
                   for (var i=0; i<document.forms[0].knnType.length; i++){
