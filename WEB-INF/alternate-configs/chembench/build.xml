@@ -24,7 +24,7 @@
   <target name="compile" depends="writeDate">
     <mkdir dir="ROOT/WEB-INF/classes" />
     <mkdir dir="ROOT/WEB-INF/src"/> <!-- T A-->
-    <javac srcdir="ROOT/WEB-INF/src" destdir="ROOT/WEB-INF/classes" source="1.6" fork="yes" executable="/usr/java/jdk1.6.0_13/bin/javac">
+    <javac srcdir="ROOT/WEB-INF/src" destdir="ROOT/WEB-INF/classes" source="1.6" fork="yes" executable="/usr/java/jdk1.6.0_13/bin/javac" debug="true">
       <classpath>
 
         <fileset dir="ROOT/WEB-INF/lib">

@@ -14,7 +14,7 @@
 	<target name="compile" depends="writeDate">
 		<mkdir dir="ROOT/WEB-INF/classes" />
 		<mkdir dir="ROOT/WEB-INF/src"/> <!-- T A-->
-		<javac srcdir="ROOT/WEB-INF/src" destdir="ROOT/WEB-INF/classes" debug="on" debuglevel="lines,vars,source">
+		<javac srcdir="ROOT/WEB-INF/src" destdir="ROOT/WEB-INF/classes" debug="true">
 			<classpath>
 
 				<fileset dir="ROOT/WEB-INF/lib">
