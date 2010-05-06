@@ -149,6 +149,12 @@ public class Utility {
 			out.close();
 		} catch (Exception e) {// Catch exception if any
 		}
+		/*
+		NOTE: If you're getting (Unknown source) instead of line numbers in your output
+		make sure, in your build.xml, on the javac line, you have set
+		debug="true" 
+		Your life will get so much easier. javac -g will do this too.
+		*/
 	}
 	
 	public static void writeToStrutsDebug(String s){
