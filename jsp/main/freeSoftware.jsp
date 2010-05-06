@@ -6,7 +6,7 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@page language="java" import="java.util.*" %>
 
-<html:html>
+<html>
 <head>
 <title>C-CHEMBENCH | Freely Available Software</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -27,4 +27,4 @@ End table text.
 
 <%@include file ="/jsp/main/footer.jsp" %>
 </body>
-</html:html>
+</html>
