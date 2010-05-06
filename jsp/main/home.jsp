@@ -106,15 +106,9 @@
 	              <p>FAQ &amp; Help <br />
 	               <span class="ccbHomeStandard">
 	               <a href="help-overview" target="_blank">Chembench Overview</a><br />
-	               <a href="help-faq" target="_blank">Frequently Asked Questions</a>
-	               <a href="softwareList" target="_blank">Other Free Cheminformatics Tools</a><br />
+	               <a href="help-faq" target="_blank">Frequently Asked Questions</a><br />
+	               <a href="softwareList" target="_blank">Other Free Cheminformatics Tools</a>
 	             </span></p>
-	            <logic:present name="user">
-				<logic:notEqual name="user" property="userName" value="">    
-				 <p>Edit Profile<br />
-		               <span class="ccbHomeStandard"><a href="admin.do">Please click here</a></span><br />
-		               </td>
-	            </logic:notEqual></logic:present>
 	         </tr>
 	         <!-- end login box -->
 	         </table>
