@@ -46,7 +46,7 @@
 				<!-- allow admins to delete bad entries.
 				<s:if test="adminUser"><td class="TableRowText01">Delete</td></s:if> -->
 			</tr>
-			<s:iterator value="incomingJobs">
+			<s:iterator value="softwareLinks">
 				<tr>
 				<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
 				<!-- <td class="TableRowText02">type</td> -->
@@ -62,9 +62,62 @@
 			<tr><td colspan="2">&nbsp;</td></tr>
 		</table>
 
+		<!-- Add a Tool -->
+		<!-- only allow logged in users to do this -->
+		<s:form action="addSoftware" enctype="multipart/form-data" theme="simple">
+		<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+				<tbody>
+					<tr>
+						<td align="left" colspan="2">
+						<div class="StandardTextDarkGrayParagraph2" align="left"><b>Add New Tool</b></div><br />
+						</td>
+						<td>
+						</td>
+				    </tr> 
+					<tr>
+					<td>
+					<table>
+					<tr>
+						<td height="26">
+						<div align="right" class="StandardTextDarkGray"><b>Select a Tool Type: </b></div>
+						</td>
+						<td align="left" valign="top">
+						<!-- <s:select name="selectedDatasetId" list="userDatasets" id="selectedDataset" listKey="fileId" listValue="fileName" />
+						-->
+						</td>
+					</tr>		
+					<tr>
+						<td height="26">
+						<div align="right" class="StandardTextDarkGray"><b>Name: </b></div>
+						</td>
+						<td align="left" valign="top"><s:textfield name="name" id="name" size="4" /><span id="messageDiv2"></span></td>
+					</tr>
+					<tr>
+						<td height="26">
+						<div align="right" class="StandardTextDarkGray"><b>URL: </b></div>
+						</td>
+						<td align="left" valign="top"><s:textfield name="url" id="url" size="4" /><span id="messageDiv2"></span></td>
+					</tr>
+					<tr>
+						<td height="26">
+						<div align="right" class="StandardTextDarkGray"><b>Function: </b></div>
+						</td>
+						<td align="left" valign="top"><s:textfield name="function" id="function" size="4" /><span id="messageDiv2"></span></td>
+					</tr>
+					<tr>
+						<td height="26">
+						<div align="right" class="StandardTextDarkGray"><b>&nbsp;</b></div>
+						</td>
+						<td align="left" valign="top">
+						<input type="button" name="userAction" id="userAction" onclick="submitForm3(this);" value="Add" />
+						</td>
+					</tr>
+					</table></td></tr>
+				</tbody>
+			</table>
+		</s:form>
 
-<s:iterator value="softwareLinks" />
-<s:property value="tableText" />
+</div></td></tr></tbody></table>
 
 <%@include file ="/jsp/main/footer.jsp" %>
 </body>
