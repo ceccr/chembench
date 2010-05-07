@@ -41,13 +41,15 @@ public class SoftwareLinksAction extends ActionSupport {
 
 	private ArrayList<SoftwareLink> softwareLinks = new ArrayList<SoftwareLink>();
 	
-	public ArrayList<SoftwareLink> getSoftwareLinks() {
-		return softwareLinks;
-	}
-	public void setSoftwareLinks(ArrayList<SoftwareLink> softwareLinks) {
-		this.softwareLinks = softwareLinks;
-	}
-
+	private boolean userIsAdmin = true;
+	private String name;
+	private String type;
+	private String availability;
+	private String function;
+	private String reference;
+	
+	private ArrayList<String> availableTypes = new ArrayList<String>();
+	
 	public String loadPage() throws Exception {
 
 		String result = SUCCESS;
@@ -82,4 +84,79 @@ public class SoftwareLinksAction extends ActionSupport {
 		
 		return result;
 	}
+	
+	public String deleteSoftwareLink() throws Exception {
+
+		String result = SUCCESS;
+		
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("FreeSoftwareAction: No ActionContext available");
+		}
+		else{
+			//verify that the user is logged in and is an admin
+		}
+		
+		return result;
+	}
+	
+	public ArrayList<SoftwareLink> getSoftwareLinks() {
+		return softwareLinks;
+	}
+	public void setSoftwareLinks(ArrayList<SoftwareLink> softwareLinks) {
+		this.softwareLinks = softwareLinks;
+	}
+
+	public boolean isUserIsAdmin() {
+		return userIsAdmin;
+	}
+	public void setUserIsAdmin(boolean userIsAdmin) {
+		this.userIsAdmin = userIsAdmin;
+	}
+
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getAvailability() {
+		return availability;
+	}
+	public void setAvailability(String availability) {
+		this.availability = availability;
+	}
+
+	public String getFunction() {
+		return function;
+	}
+	public void setFunction(String function) {
+		this.function = function;
+	}
+
+	public String getReference() {
+		return reference;
+	}
+	public void setReference(String reference) {
+		this.reference = reference;
+	}
+
+	public ArrayList<String> getAvailableTypes() {
+		return availableTypes;
+	}
+	public void setAvailableTypes(ArrayList<String> availableTypes) {
+		this.availableTypes = availableTypes;
+	}
+
+	
 }

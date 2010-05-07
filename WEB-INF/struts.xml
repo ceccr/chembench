@@ -43,6 +43,10 @@
             <result name="success">jsp/main/softwareLinks.jsp</result>
         </action>
         
+        <action name="deleteSoftwareLink" class="edu.unc.ceccr.action.SoftwareLinksAction" method="deleteSoftwareLink">
+            <result name="success">jsp/main/softwareLinks.jsp</result>
+        </action>
+        
        <!-- User Registration and Edit Profile Pages -->
        <action name="loadRegistrationPage" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadUserRegistration">
             <result>jsp/administration/user/registrationForm.jsp</result>

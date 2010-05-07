@@ -43,8 +43,8 @@
 				<td class="TableRowText01">Function</td>
 				<td class="TableRowText01">Availability</td>
 				<td class="TableRowText01">Reference</td>
-				<!-- allow admins to delete bad entries.
-				<s:if test="adminUser"><td class="TableRowText01">Delete</td></s:if> -->
+				<!-- allow admins to delete bad entries. -->
+				<s:if test="userIsAdmin"><td class="TableRowText01">Delete</td></s:if>
 			</tr>
 			<s:iterator value="softwareLinks">
 				<tr>
@@ -53,10 +53,9 @@
 				<td class="TableRowText02"><s:property value="function" /></td>
 				<td class="TableRowText02"><s:property value="availability" /></td>
 				<td class="TableRowText02"><s:property value="reference" /></td>
-				<!-- allow admins to delete bad entries.
-				<s:if test="adminUser">
-				<td class="TableRowText02">Delete (image or something?)
-				</td></s:if> -->
+				<s:if test="userIsAdmin">
+				<td class="TableRowText02"><a href="deleteSoftwareLink?id=<s:property value="id" />">Delete</a></td>
+				</s:if>
 				</tr> 
 			</s:iterator>
 			<tr><td colspan="2">&nbsp;</td></tr>
@@ -82,8 +81,7 @@
 						<div align="right" class="StandardTextDarkGray"><b>Select a Tool Type: </b></div>
 						</td>
 						<td align="left" valign="top">
-						<!-- <s:select name="selectedDatasetId" list="userDatasets" id="selectedDataset" listKey="fileId" listValue="fileName" />
-						-->
+						
 						</td>
 					</tr>		
 					<tr>
