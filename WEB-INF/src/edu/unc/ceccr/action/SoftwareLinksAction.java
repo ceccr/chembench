@@ -31,20 +31,21 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.SoftwareLink;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
-public class FreeSoftwareAction extends ActionSupport {
+public class SoftwareLinksAction extends ActionSupport {
 
-	private String tableText = "whee!";
+	private ArrayList<SoftwareLink> softwareLinks = new ArrayList<SoftwareLink>();
 	
-	public String getTableText() {
-		return tableText;
+	public ArrayList<SoftwareLink> getSoftwareLinks() {
+		return softwareLinks;
 	}
-	public void setTableText(String tableText) {
-		this.tableText = tableText;
+	public void setSoftwareLinks(ArrayList<SoftwareLink> softwareLinks) {
+		this.softwareLinks = softwareLinks;
 	}
 
 	public String loadPage() throws Exception {
@@ -58,7 +59,8 @@ public class FreeSoftwareAction extends ActionSupport {
 			Utility.writeToStrutsDebug("FreeSoftwareAction: No ActionContext available");
 		}
 		else{
-			
+			Session s = HibernateUtil.getSession();
+			softwareLinks = (ArrayList<SoftwareLink>) PopulateDataObjects.populateSoftwareLinks(s);
 		}
 		
 		return result;

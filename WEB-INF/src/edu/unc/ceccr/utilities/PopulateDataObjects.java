@@ -22,6 +22,7 @@ import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.SoftwareLink;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -773,4 +774,38 @@ public class PopulateDataObjects {
 		return task;
 	}
 
+	
+	
+	
+	
+	
+	
+
+	@SuppressWarnings("unchecked")
+	public static List populateSoftwareLinks(Session session) {
+		
+		List<SoftwareLink> softwareLinks = null;
+		try 
+		{
+			Transaction tx = null;
+			try 
+			{
+				tx = session.beginTransaction();
+				softwareLinks = session.createCriteria(SoftwareLink.class).list();
+				tx.commit();
+			} catch (Exception e) {
+				Utility.writeToDebug(e);
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			} 
+			
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+		}
+		
+		return softwareLinks;
+	}
+	
+	
 }
