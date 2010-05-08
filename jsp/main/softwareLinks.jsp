@@ -63,6 +63,8 @@ function validateSoftwareLinkForm(){
 	</td></tr>
 </table>
 
+		<s:set name="loggedInUser" value="userName" />
+		
 		<!-- Tables of software links, one table for each software type -->
 		<s:iterator value="softwareTypes" var="softwareType">
 			<table width="924" align="center">
@@ -83,10 +85,9 @@ function validateSoftwareLinkForm(){
 				<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
 				<td class="TableRowText02"><s:property value="function" /></td>
 				<td class="TableRowText02"><s:property value="availability" /></td>
-				<td class="TableRowText02"><s:property value="reference" />  | <s:property value="{#userName}" /> A <s:property value="$userName" /> | <s:property value="userName" /> | <s:property value="#userName" /> | <s:property value="%{userName}" /> | <s:property value="%{#userName}" />  </td>
-				<s:if test="userIsAdmin || userName==#userName">
-				<td class="TableRowText02"><a href="deleteSoftwareLink?id=<s:property value="id" />">Delete</a></td>
-				</s:if>
+				<td class="TableRowText02"><s:property value="reference" /> </td>
+				<td class="TableRowText02"><s:if test="userIsAdmin || userName==loggedInUser"><a href="deleteSoftwareLink?id=<s:property value="id" />">Delete</a></s:if></td>
+				
 			</tr> 
 			</s:if>
 			</s:iterator>
