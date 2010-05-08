@@ -117,6 +117,18 @@
 				</tr>
 				<tr>
 					<td height="26">
+					<div align="right" class="StandardTextDarkGray"><b>Availability: </b></div>
+					</td>
+					<td align="left" valign="top"><s:textfield name="availability" id="availability" size="60" maxlength="950" /></td>
+				</tr>
+				<tr>
+					<td height="26">
+					<div align="right" class="StandardTextDarkGray"><b>Reference: </b></div>
+					</td>
+					<td align="left" valign="top"><s:textfield name="reference" id="reference" size="60" maxlength="950" /></td>
+				</tr>
+				<tr>
+					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>&nbsp;</b></div>
 					</td>
 					<td align="left" valign="top">
