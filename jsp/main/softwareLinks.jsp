@@ -84,10 +84,10 @@
 				<!-- only allow logged in users to do this -->
 				<tr>
 					<td height="26">
-					<div align="right" class="StandardTextDarkGray"><b>Select a Tool Type: </b></div>
+					<div align="right" class="StandardTextDarkGray"><b>Select a Type: </b></div>
 					</td>
 					<td align="left" valign="top">
-					<s:select name="type" list="softwareTypes" id="type" listKey="" listValue="" />
+					<s:select name="type" list="softwareTypes" id="type" />
 					</td>
 				</tr>		
 				<s:if test="userIsAdmin">
