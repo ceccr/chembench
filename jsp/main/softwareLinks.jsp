@@ -38,11 +38,14 @@
 		
 		<s:iterator value="softwareTypes" var="softwareType">
 		
-			<br />
+			<tr>
+				<td colspan="2">
+				<div class="StandardTextDarkGrayParagraph">&nbsp;</div></td>
+			</tr>	
 			<tr><td colspan="2"> 
 			<table>
 			<tr><td>
-			<div class="StandardTextDarkGrayParagraph"><s:property value="value" /> | <s:property value="softwareType.value" /> |  <s:property value="#softwareType.value" /> <s:property value="{#softwareType.value}" />  </div>
+			<div class="StandardTextDarkGrayParagraph"><s:property value="value" /></div>
 			</td></tr>
 			<tr>
 				<td class="TableRowText01">Name</td>
@@ -54,7 +57,7 @@
 				<s:if test="userIsAdmin"><td class="TableRowText01">Delete</td></s:if>
 			</tr>
 			<s:iterator value="softwareLinks">
-			<s:if test="type=softwareType.value">
+			<s:if test="type=#softwareType.value">
 			<tr>
 				<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
 				<!-- <td class="TableRowText02">type</td> -->
