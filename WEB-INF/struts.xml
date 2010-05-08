@@ -40,11 +40,11 @@
         </action>
         
         <action name="addSoftware" class="edu.unc.ceccr.action.SoftwareLinksAction" method="addSoftware">
-            <result name="success">jsp/main/softwareLinks.jsp</result>
+           <result type="redirect">softwareList</result>
         </action>
         
         <action name="deleteSoftwareLink" class="edu.unc.ceccr.action.SoftwareLinksAction" method="deleteSoftwareLink">
-            <result name="success">jsp/main/softwareLinks.jsp</result>
+           <result type="redirect">softwareList</result>
         </action>
         
        <!-- User Registration and Edit Profile Pages -->

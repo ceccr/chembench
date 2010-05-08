@@ -98,10 +98,6 @@ public class SoftwareLinksAction extends ActionSupport {
 				return ERROR;
 			}
 			else{
-				userName = user.getUserName();
-				if(Utility.isAdmin(userName)){
-					userIsAdmin = true;
-				}
 				
 				SoftwareLink sl = new SoftwareLink();
 				sl.setAvailability(availability);
@@ -145,10 +141,7 @@ public class SoftwareLinksAction extends ActionSupport {
 			//verify that the user is logged in and is an admin
 			User user = (User) context.getSession().get("user");
 			
-			if(user != null && userIsAdmin){
-
-				userName = user.getUserName();
-				userIsAdmin = true;
+			if(user != null && Utility.isAdmin(user.getUserName())){
 				
 				//get the software link to be deleted
 				Long idToDelete = Long.parseLong(((String[]) context.getParameters().get("id"))[0]);
