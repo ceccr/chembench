@@ -46,6 +46,7 @@ public class SoftwareLinksAction extends ActionSupport {
 	private String userName = "";
 	private String name;
 	private String type;
+	private String newType;
 	private String availability;
 	private String function;
 	private String reference;
@@ -109,7 +110,12 @@ public class SoftwareLinksAction extends ActionSupport {
 				sl.setFunction(function);
 				sl.setName(name);
 				sl.setReference(reference);
-				sl.setType(type);
+				if(newType != null && ! newType.isEmpty()){
+					sl.setType(newType);
+				}
+				else{
+					sl.setType(type);
+				}
 				sl.setUrl(url);
 				
 				Session s = HibernateUtil.getSession();
@@ -212,6 +218,13 @@ public class SoftwareLinksAction extends ActionSupport {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getNewType() {
+		return newType;
+	}
+	public void setNewType(String newType) {
+		this.newType = newType;
 	}
 
 	public String getAvailability() {

@@ -21,8 +21,6 @@ public class SoftwareLink implements java.io.Serializable{
 	private String url; //link
 	private String type; //dataset, modeling, workflows, etc. Separate tables.
 	
-	public SoftwareLink(){}
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
