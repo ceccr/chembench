@@ -42,7 +42,7 @@
 			<tr><td colspan="2"> 
 			<table>
 			<tr><td>
-			<div class="StandardTextDarkGrayParagraph"><s:property value="value" /></div>
+			<div class="StandardTextDarkGrayParagraph"><s:property value="value" /> | <s:property value="softwareType.value" /> |  <s:property value="#softwareType.value" /> <s:property value="{#softwareType.value}" />  </div>
 			</td></tr>
 			<tr>
 				<td class="TableRowText01">Name</td>
