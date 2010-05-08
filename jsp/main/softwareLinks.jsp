@@ -23,18 +23,15 @@
 	<tr>
 		<td height="557" colspan="5" valign="top"
 			background="theme/img/backgrindex.jpg" STYLE="background-repeat: no-repeat;">
-		<p class="StandardTextDarkGrayParagraph"><br><br><b>Links to Cheminformatics Tools</b> <br><br>
+		<p class="StandardTextDarkGrayParagraph"><br /><br /><b>Links to Cheminformatics Tools</b> <br /><br /></p>
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr><td>
         <p class="StandardTextDarkGrayParagraph">
 		This page links to other online cheminformatics resources and downloadable software. If you know of software
-		that is not listed here, please use the form at the bottom to add in a link to it!
+		that is not listed here, please use the form at the bottom to add a link to it!
 		</p>
 		</td></tr>
 		</table>
-	<tr>
-    <td></td>
-  </tr>
 </table>
 
 		<!-- Tables of software links, one table for each software type -->
