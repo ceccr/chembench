@@ -30,23 +30,19 @@
 		This page links to other online cheminformatics resources and downloadable software. If you know of software
 		that is not listed here, please use the form at the bottom to add in a link to it!
 		</p>
-		<br />
 		</td></tr>
 		</table>
 	<tr>
     <td></td>
   </tr>
 </table>
-
 		<!-- Tables of software links, one table for each software type -->
 		
 		<s:iterator value="softwareTypes" var="softwareType">
 		
-		
 			<table width="924" align="center">
 
 			<tr><td>
-			<br /><br />
 			<p class="StandardTextDarkGrayParagraph2"><b><s:property value="value" /></b></p>
 			</td></tr>
 			<tr>
