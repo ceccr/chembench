@@ -20,10 +20,10 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
-		<td height="557" colspan="5" valign="top"
+	<tr><td height="557" colspan="5" valign="top"
 			background="theme/img/backgrindex.jpg" STYLE="background-repeat: no-repeat;">
 		<p class="StandardTextDarkGrayParagraph"><br /><br /><b>Links to Cheminformatics Tools</b> <br /><br /></p>
+		
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr><td>
         <p class="StandardTextDarkGrayParagraph">
@@ -32,7 +32,9 @@
 		</p>
 		</td></tr>
 		</table>
+		</td></tr>
 </table>
+
 
 		<!-- Tables of software links, one table for each software type -->
 		<s:iterator value="softwareTypes" var="softwareType">
