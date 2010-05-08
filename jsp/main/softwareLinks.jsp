@@ -20,11 +20,11 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr><td height="200" colspan="5" valign="top"
+	<tr><td height="180" colspan="5" valign="top"
 			background="theme/img/backgrindex.jpg" STYLE="background-repeat: no-repeat;">
-			<br /><br />
+			<br />
 		<p class="StandardTextDarkGrayParagraph"><b>Links to Cheminformatics Tools</b></p>
-		<br /><br />
+		<br />
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr><td>
         <p class="StandardTextDarkGrayParagraph">
@@ -92,28 +92,28 @@
 				<s:if test="userIsAdmin">
 				<tr>
 					<td height="26">
-					<div align="right" class="StandardTextDarkGray"><b>(admin only) Add New Type: </b></div>
+					<div align="right" class="StandardTextDarkGray"><b>Or, Add New Type (admin only): </b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="newType" id="newType" size="60" /></td>
+					<td align="left" valign="top"><s:textfield name="newType" id="newType" size="60" maxlength="950" /></td>
 				</tr>
 				</s:if>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Name: </b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="name" id="name" size="60" /></td>
+					<td align="left" valign="top"><s:textfield name="name" id="name" size="60" maxlength="950" /></td>
 				</tr>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>URL: </b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="url" id="url" size="60" /></td>
+					<td align="left" valign="top"><s:textfield name="url" id="url" size="60" maxlength="950" /></td>
 				</tr>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Function: </b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="function" id="function" size="60" /></td>
+					<td align="left" valign="top"><s:textfield name="function" id="function" size="60" maxlength="950" /></td>
 				</tr>
 				<tr>
 					<td height="26">
