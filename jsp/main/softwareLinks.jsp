@@ -54,7 +54,7 @@
 				<s:if test="userIsAdmin"><td class="TableRowText01">Delete</td></s:if>
 			</tr>
 			<s:iterator value="softwareLinks">
-			<s:if test="type=softwareType">
+			<s:if test="type=softwareType.value">
 			<tr>
 				<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
 				<!-- <td class="TableRowText02">type</td> -->
