@@ -104,11 +104,13 @@ public class SoftwareLinksAction extends ActionSupport {
 				return ERROR;
 			}
 			else{
+				userName = user.getUserName();
 				
 				SoftwareLink sl = new SoftwareLink();
 				sl.setAvailability(availability);
 				sl.setFunction(function);
 				sl.setName(name);
+				sl.setUserName(userName);
 				sl.setReference(reference);
 				if(newType != null && ! newType.isEmpty()){
 					sl.setType(newType);

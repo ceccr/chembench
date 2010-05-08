@@ -154,7 +154,6 @@ function validateSoftwareLinkForm(){
 					</td>
 					<td align="left" valign="top"><s:textfield name="reference" id="reference" size="60" maxlength="950" /></td>
 				</tr>
-				<s:hidden name="userName" />
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>&nbsp;</b></div>
