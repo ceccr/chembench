@@ -21,23 +21,26 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <br />
 
- 	<table width="924" frame="border" rules="none" align="center" cellspacing="4">
+ 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>			
 		<tr>
-			<td height="24" align="left">
+			<td height="24" align="left" colspan="2">
 			<p class="StandardTextDarkGrayParagraph2">
 			<br /><b>Free Cheminformatics Tools</b>
 			</p></td>
 		</tr>
 		<tr>
-			<td>
+			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Free tools! Yay!</i><br /></div></td>
 		 </tr>	
 		 
 		<!-- Table of software and links -->
 		
 		<s:iterator value="softwareTypes" var="softwareType">
-			
+		
+			<br />
+			<tr><td colspan="2"> 
+			<table>
 			<tr><td>
 			<div class="StandardTextDarkGrayParagraph"><s:property value="value" /></div>
 			</td></tr>
@@ -64,6 +67,8 @@
 			</tr> 
 			</s:if>
 			</s:iterator>
+			</table>
+			</td></tr>
 			
 		</s:iterator>
 		<tr><td colspan="2">&nbsp;</td></tr>
