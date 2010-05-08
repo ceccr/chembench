@@ -59,6 +59,7 @@
 		<tr><td colspan="2">&nbsp;</td></tr>
 	</table>
 
+	<br /><br />
 	<!-- Add a Tool -->
 	<s:form action="addSoftware" enctype="multipart/form-data" theme="simple">
 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
@@ -105,7 +106,7 @@
 					<div align="right" class="StandardTextDarkGray"><b>&nbsp;</b></div>
 					</td>
 					<td align="left" valign="top">
-					<input type="button" name="userAction" id="userAction" onclick="submitForm3(this);" value="Submit" />
+					<input type="button" name="userAction" id="userAction" onclick="this.submit();" value="Submit" />
 					</td>
 				</tr>
 				</table>
@@ -115,7 +116,7 @@
 				<!-- User isn't logged in; make them do that first. -->
 				<tr>
 					<td align="left" colspan="2">
-					<div class="StandardTextDarkGrayParagraph" align="left"><i>To add a tool to the list, you must <a href="home.do"></a>log in</a> first.</i></div><br />
+					<div class="StandardTextDarkGrayParagraph" align="left"><i>To add a tool to the list, you must <a href="home.do">log in</a> first.</i></div><br />
 					</td>
 			    </tr> 
 				</s:else>	

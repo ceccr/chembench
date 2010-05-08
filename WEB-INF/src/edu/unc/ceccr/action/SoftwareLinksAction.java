@@ -42,7 +42,7 @@ public class SoftwareLinksAction extends ActionSupport {
 
 	private ArrayList<SoftwareLink> softwareLinks = new ArrayList<SoftwareLink>();
 	
-	private boolean userIsAdmin = true;
+	private boolean userIsAdmin = false;
 	private String userName = "";
 	private String name;
 	private String type;
@@ -71,6 +71,9 @@ public class SoftwareLinksAction extends ActionSupport {
 			User user = (User) context.getSession().get("user");
 			if(user != null){
 				userName = user.getUserName();
+				if(Utility.isAdmin(userName)){
+					userIsAdmin = true;
+				}
 			}
 		}
 		
@@ -95,6 +98,11 @@ public class SoftwareLinksAction extends ActionSupport {
 				return ERROR;
 			}
 			else{
+				userName = user.getUserName();
+				if(Utility.isAdmin(userName)){
+					userIsAdmin = true;
+				}
+				
 				SoftwareLink sl = new SoftwareLink();
 				sl.setAvailability(availability);
 				sl.setFunction(function);
@@ -136,7 +144,12 @@ public class SoftwareLinksAction extends ActionSupport {
 		else{
 			//verify that the user is logged in and is an admin
 			User user = (User) context.getSession().get("user");
-			if(user != null && Utility.isAdmin(user.getUserName())){
+			
+			if(user != null && userIsAdmin){
+
+				userName = user.getUserName();
+				userIsAdmin = true;
+				
 				//get the software link to be deleted
 				Long idToDelete = Long.parseLong(((String[]) context.getParameters().get("id"))[0]);
 
