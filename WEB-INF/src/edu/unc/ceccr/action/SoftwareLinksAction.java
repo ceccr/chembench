@@ -51,7 +51,8 @@ public class SoftwareLinksAction extends ActionSupport {
 	private String reference;
 	private String url;
 	
-	private ArrayList<String> softwareTypes = new ArrayList<String>();
+	//this has to be a hashmap for struts2 to be able to make an <s:select> dropdown.
+	private HashMap<String, String> softwareTypes = new HashMap<String, String>();
 	
 	public String loadPage() throws Exception {
 
@@ -68,9 +69,7 @@ public class SoftwareLinksAction extends ActionSupport {
 			softwareLinks = (ArrayList<SoftwareLink>) PopulateDataObjects.populateSoftwareLinks(s);
 			
 			for(SoftwareLink sl: softwareLinks){
-				if(! softwareTypes.contains(sl.getType())){
-					softwareTypes.add(sl.getType());
-				}
+				softwareTypes.put(sl.getType(), sl.getType());
 			}
 			
 			//get the username if the user is logged in
@@ -235,11 +234,11 @@ public class SoftwareLinksAction extends ActionSupport {
 	public void setReference(String reference) {
 		this.reference = reference;
 	}
-
-	public ArrayList<String> getSoftwareTypes() {
+	
+	public HashMap<String, String> getSoftwareTypes() {
 		return softwareTypes;
 	}
-	public void setSoftwareTypes(ArrayList<String> softwareTypes) {
+	public void setSoftwareTypes(HashMap<String, String> softwareTypes) {
 		this.softwareTypes = softwareTypes;
 	}
 

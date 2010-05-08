@@ -87,7 +87,7 @@
 					<div align="right" class="StandardTextDarkGray"><b>Select a Type: </b></div>
 					</td>
 					<td align="left" valign="top">
-					<s:select name="type" list="softwareTypes" id="type" />
+					<s:select name="type" list="softwareTypes" id="type" listKey="key" listValue="value" />
 					</td>
 				</tr>		
 				<s:if test="userIsAdmin">
