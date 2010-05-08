@@ -34,6 +34,10 @@
             <result name="success">jsp/administration/user/registrationApprovalMessage.jsp</result>
         </action>
         
+        <action name="ceccrBase" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="RegisterUser">
+            <result name="success">jsp/main/underConstruction.jsp</result>
+        </action>
+        
         <!-- Free Software List page -->
         <action name="softwareList" class="edu.unc.ceccr.action.SoftwareLinksAction" method="loadPage">
             <result name="success">jsp/main/softwareLinks.jsp</result>

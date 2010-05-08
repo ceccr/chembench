@@ -18,7 +18,7 @@
   <td valign="top"><a href="dataset"><div id="datasetButton"><img src="/theme/navbar/button-dataset-blue.jpg" border="0" /></div></a></td>
   <td valign="top"><a href="modeling"><div id="modelingButton"><img src="/theme/navbar/button-modeling-blue.jpg" border="0" /></div></a></td>
   <td valign="top"><a href="prediction"><div id="predictionButton"><img src="/theme/navbar/button-prediction-blue.jpg" border="0" /></div></a></td>
-  <td valign="top"><a href="vpubchem.do"><div id="ceccrBaseButton"><img src="/theme/navbar/button-ceccrbase-blue.jpg" border="0" /></div></a></td>
+  <td valign="top"><a href="ceccrBase"><div id="ceccrBaseButton"><img src="/theme/navbar/button-ceccrbase-blue.jpg" border="0" /></div></a></td>
   </tr>
 </table>
 
