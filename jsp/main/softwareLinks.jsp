@@ -36,13 +36,12 @@
     <td></td>
   </tr>
 </table>
-		<!-- Tables of software links, one table for each software type -->
-		
-		<s:iterator value="softwareTypes" var="softwareType">
-		
-			<table width="924" align="center">
 
+		<!-- Tables of software links, one table for each software type -->
+		<s:iterator value="softwareTypes" var="softwareType">
+			<table width="924" align="center">
 			<tr><td>
+			<br /><br />
 			<p class="StandardTextDarkGrayParagraph2"><b><s:property value="value" /></b></p>
 			</td></tr>
 			<tr>
@@ -66,10 +65,8 @@
 			</s:if>
 			</s:iterator>
 			</table>
-			
 		</s:iterator>
 		
-
 	<br /><br />
 	<!-- Add a Resource -->
 	<s:form id="addSoftware" action="addSoftware" enctype="multipart/form-data" theme="simple">
