@@ -39,7 +39,7 @@
 		<s:iterator value="softwareTypes" var="softwareType">
 			
 			<tr><td>
-			<div class="StandardTextDarkGrayParagraph"><s:property value="softwareType" /></div>
+			<div class="StandardTextDarkGrayParagraph"><s:property value="value" /></div>
 			</td></tr>
 			<tr>
 				<td class="TableRowText01">Name</td>
