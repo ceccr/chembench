@@ -87,19 +87,19 @@
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Name: </b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="name" id="name" size="40" /><span id="messageDiv2"></span></td>
+					<td align="left" valign="top"><s:textfield name="name" id="name" size="40" /></td>
 				</tr>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>URL: </b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="url" id="url" size="40" /><span id="messageDiv2"></span></td>
+					<td align="left" valign="top"><s:textfield name="url" id="url" size="40" /></td>
 				</tr>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Function: </b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="function" id="function" size="40" /><span id="messageDiv2"></span></td>
+					<td align="left" valign="top"><s:textfield name="function" id="function" size="40" /></td>
 				</tr>
 				<tr>
 					<td height="26">
