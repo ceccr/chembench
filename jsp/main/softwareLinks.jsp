@@ -24,7 +24,7 @@
 		<td height="557" colspan="5" valign="top"
 			background="theme/img/backgrindex.jpg" STYLE="background-repeat: no-repeat;">
 		<p class="StandardTextDarkGrayParagraph"><br><br><b>Links to Cheminformatics Tools</b> <br><br>
-		<table width="465" border="0" cellspacing="0" cellpadding="0">
+		<table width="465" height="557" border="0" cellspacing="0" cellpadding="0">
         <tr><td>
         <p class="StandardTextDarkGrayParagraph">
 		This page links to other online cheminformatics resources and downloadable software. If you know of software
@@ -32,7 +32,6 @@
 		</p>
 		</td></tr>
 		</table>
-		<table width="100%" border="0" cellspacing="0" cellpadding="20">
 	<tr>
     <td></td>
   </tr>
@@ -42,10 +41,12 @@
 		
 		<s:iterator value="softwareTypes" var="softwareType">
 		
-			<table width="924" border="0" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+		
+			<table width="924" align="center">
 
 			<tr><td>
-			<div class="StandardTextDarkGrayParagraph"><s:property value="value" /></div>
+			<br /><br />
+			<p class="StandardTextDarkGrayParagraph"><s:property value="value" /></p>
 			</td></tr>
 			<tr>
 				<td class="TableRowText01">Name</td>
