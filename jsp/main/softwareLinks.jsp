@@ -75,7 +75,9 @@ function validateSoftwareLinkForm(){
 				<td class="TableRowText01">Function</td>
 				<td class="TableRowText01">Availability</td>
 				<td class="TableRowText01">Reference</td>
-				<s:if test="userIsAdmin"><td class="TableRowText01">Delete</td></s:if>
+				<s:if test="userIsAdmin || userName==#userName">
+				<td class="TableRowText01">Delete</td>
+				</s:if>
 			</tr>
 			<s:iterator value="softwareLinks">
 			<s:if test="type==#softwareType.value">
@@ -84,7 +86,7 @@ function validateSoftwareLinkForm(){
 				<td class="TableRowText02"><s:property value="function" /></td>
 				<td class="TableRowText02"><s:property value="availability" /></td>
 				<td class="TableRowText02"><s:property value="reference" /></td>
-				<s:if test="userIsAdmin">
+				<s:if test="userIsAdmin || userName==#userName">
 				<td class="TableRowText02"><a href="deleteSoftwareLink?id=<s:property value="id" />">Delete</a></td>
 				</s:if>
 			</tr> 
@@ -100,16 +102,9 @@ function validateSoftwareLinkForm(){
 			<tbody>
 				<tr>
 					<td width="100%" height="24" align="left" colspan="2">
-					<p class="StandardTextDarkGrayParagraph2">
-					<br /><b>Add a Resource</b>
-					</p>
-					</td>
-				</tr>	
-				<tr>
-					<td width="100%" height="24" align="left" colspan="2">
-					<p class="StandardTextDarkGrayParagraph">
-					<br /><i>(Fields marked with a * are required.)</i>
-					</p>
+					<div class="StandardTextDarkGrayParagraph2">
+					<br /><b>Add a Resource</b></div><br />
+					<s:if test="userName!=''"><div class="StandardTextDarkGrayParagraph"><i>(Fields marked with a * are required.)</i></div></s:if>
 					</td>
 				</tr>	
 				
@@ -133,31 +128,31 @@ function validateSoftwareLinkForm(){
 				</s:if>
 				<tr>
 					<td height="26">
-					<div align="right" class="StandardTextDarkGray"><b>Name *: </b></div>
+					<div align="right" class="StandardTextDarkGray"><b>Name * : </b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="name" id="name" size="60" maxlength="950" /></td>
 				</tr>
 				<tr>
 					<td height="26">
-					<div align="right" class="StandardTextDarkGray"><b>URL: </b></div>
+					<div align="right" class="StandardTextDarkGray"><b>URL : </b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="url" id="url" size="60" maxlength="950" /></td>
 				</tr>
 				<tr>
 					<td height="26">
-					<div align="right" class="StandardTextDarkGray"><b>Function *: </b></div>
+					<div align="right" class="StandardTextDarkGray"><b>Function * : </b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="function" id="function" size="60" maxlength="950" /></td>
 				</tr>
 				<tr>
 					<td height="26">
-					<div align="right" class="StandardTextDarkGray"><b>Availability *: </b></div>
+					<div align="right" class="StandardTextDarkGray"><b>Availability * : </b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="availability" id="availability" size="60" maxlength="950" /></td>
 				</tr>
 				<tr>
 					<td height="26">
-					<div align="right" class="StandardTextDarkGray"><b>Reference: </b></div>
+					<div align="right" class="StandardTextDarkGray"><b>Reference : </b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="reference" id="reference" size="60" maxlength="950" /></td>
 				</tr>

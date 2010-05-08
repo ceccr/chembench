@@ -153,16 +153,19 @@ public class SoftwareLinksAction extends ActionSupport {
 			Utility.writeToStrutsDebug("FreeSoftwareAction: No ActionContext available");
 		}
 		else{
-			//verify that the user is logged in and is an admin
+			//verify that the user is logged in
 			User user = (User) context.getSession().get("user");
-			
-			if(user != null && Utility.isAdmin(user.getUserName())){
-				
-				//get the software link to be deleted
-				Long idToDelete = Long.parseLong(((String[]) context.getParameters().get("id"))[0]);
 
-				Session s = HibernateUtil.getSession();
-				SoftwareLink sl = PopulateDataObjects.getSoftwareLinkById(idToDelete, s);
+			//get the software link to be deleted
+			Long idToDelete = Long.parseLong(((String[]) context.getParameters().get("id"))[0]);
+
+			Session s = HibernateUtil.getSession();
+			SoftwareLink sl = PopulateDataObjects.getSoftwareLinkById(idToDelete, s);
+			
+			if(user != null && 
+					(Utility.isAdmin(user.getUserName()) ||
+					user.getUserName().equals(sl.getUserName()))){
+				
 				
 				//remove it from the database
 				Transaction tx = null;
