@@ -22,8 +22,9 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr><td height="557" colspan="5" valign="top"
 			background="theme/img/backgrindex.jpg" STYLE="background-repeat: no-repeat;">
-		<p class="StandardTextDarkGrayParagraph"><br /><br /><b>Links to Cheminformatics Tools</b> <br /><br /></p>
-		
+			<br /><br />
+		<p class="StandardTextDarkGrayParagraph"><b>Links to Cheminformatics Tools</b></p>
+		<br /><br />
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr><td>
         <p class="StandardTextDarkGrayParagraph">
