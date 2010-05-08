@@ -797,6 +797,10 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(e);
 		}
 		
+		Collections.sort(softwareLinks, new Comparator<SoftwareLink>() {
+		    public int compare(SoftwareLink sl1, SoftwareLink sl2) {
+	    		return sl1.getName().toLowerCase().compareTo(sl2.getName().toLowerCase());
+		    }});
 		return softwareLinks;
 	}
 	
