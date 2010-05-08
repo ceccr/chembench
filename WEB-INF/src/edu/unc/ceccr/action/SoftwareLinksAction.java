@@ -67,11 +67,9 @@ public class SoftwareLinksAction extends ActionSupport {
 			Session s = HibernateUtil.getSession();
 			softwareLinks = (ArrayList<SoftwareLink>) PopulateDataObjects.populateSoftwareLinks(s);
 			
-			if(softwareLinks != null){
-				for(SoftwareLink sl: softwareLinks){
-					if(! softwareTypes.contains(sl.getType())){
-						softwareTypes.add(sl.getType());
-					}
+			for(SoftwareLink sl: softwareLinks){
+				if(! softwareTypes.contains(sl.getType())){
+					softwareTypes.add(sl.getType());
 				}
 			}
 			
