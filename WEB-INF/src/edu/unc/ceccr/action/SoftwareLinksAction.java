@@ -236,11 +236,11 @@ public class SoftwareLinksAction extends ActionSupport {
 		this.reference = reference;
 	}
 
-	public ArrayList<String> getAvailableTypes() {
+	public ArrayList<String> getSoftwareTypes() {
 		return softwareTypes;
 	}
-	public void setAvailableTypes(ArrayList<String> availableTypes) {
-		this.softwareTypes = availableTypes;
+	public void setSoftwareTypes(ArrayList<String> softwareTypes) {
+		this.softwareTypes = softwareTypes;
 	}
 
 	public String getUrl() {
