@@ -14,6 +14,33 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 <link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="javascript/script.js"> </script>
+<script language="JavaScript"> 
+
+function validateSoftwareLinkForm(){
+	var func = document.getElementById('function').value;
+	var name = document.getElementById('name').value;
+	var avail = document.getElementById('availability').value;
+
+
+    if(name.length == 0){
+ 		alert("Please enter a name for the software.");
+ 		return false;
+ 	}
+
+    if(name.length == 0){
+ 		alert("Please enter the software's availability.");
+ 		return false;
+ 	}
+
+    if(func.length == 0){
+ 		alert("Please enter the software's functions.");
+ 		return false;
+ 	}
+
+	return true;
+}
+
+</script>
  
 </head>
 <body onload="setTabToHome();">
@@ -78,6 +105,13 @@
 					</p>
 					</td>
 				</tr>	
+				<tr>
+					<td width="100%" height="24" align="left" colspan="2">
+					<p class="StandardTextDarkGrayParagraph">
+					<br /><i>(Fields marked with a * are required.)</i>
+					</p>
+					</td>
+				</tr>	
 				
 				<s:if test="userName!=''">
 				<!-- only allow logged in users to do this -->
@@ -99,7 +133,7 @@
 				</s:if>
 				<tr>
 					<td height="26">
-					<div align="right" class="StandardTextDarkGray"><b>Name: </b></div>
+					<div align="right" class="StandardTextDarkGray"><b>Name *: </b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="name" id="name" size="60" maxlength="950" /></td>
 				</tr>
@@ -111,13 +145,13 @@
 				</tr>
 				<tr>
 					<td height="26">
-					<div align="right" class="StandardTextDarkGray"><b>Function: </b></div>
+					<div align="right" class="StandardTextDarkGray"><b>Function *: </b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="function" id="function" size="60" maxlength="950" /></td>
 				</tr>
 				<tr>
 					<td height="26">
-					<div align="right" class="StandardTextDarkGray"><b>Availability: </b></div>
+					<div align="right" class="StandardTextDarkGray"><b>Availability *: </b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="availability" id="availability" size="60" maxlength="950" /></td>
 				</tr>
@@ -132,7 +166,7 @@
 					<div align="right" class="StandardTextDarkGray"><b>&nbsp;</b></div>
 					</td>
 					<td align="left" valign="top">
-					<input type="button" name="userAction" id="userAction" onclick="document.forms['addSoftware'].submit();" value="Submit" />
+					<input type="button" name="userAction" id="userAction" onclick="if(validateSoftwareLinkForm) { document.forms['addSoftware'].submit(); }" value="Submit" />
 					</td>
 				</tr>
 				</s:if>
