@@ -49,7 +49,6 @@
 			</td></tr>
 			<tr>
 				<td class="TableRowText01">Name</td>
-				<!-- <td class="TableRowText01">Type</td> -->
 				<td class="TableRowText01">Function</td>
 				<td class="TableRowText01">Availability</td>
 				<td class="TableRowText01">Reference</td>
@@ -60,7 +59,6 @@
 			<s:if test="type=#softwareType.value">
 			<tr>
 				<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
-				<!-- <td class="TableRowText02">type</td> -->
 				<td class="TableRowText02"><s:property value="function" /></td>
 				<td class="TableRowText02"><s:property value="availability" /></td>
 				<td class="TableRowText02"><s:property value="reference" /></td>

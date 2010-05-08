@@ -116,6 +116,10 @@ public class SoftwareLinksAction extends ActionSupport {
 				else{
 					sl.setType(type);
 				}
+				if(url.startsWith("www")){
+					//fix the most common error people make when typing urls...
+					url = "http://" + url;
+				}
 				sl.setUrl(url);
 				
 				Session s = HibernateUtil.getSession();
