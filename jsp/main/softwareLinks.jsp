@@ -83,7 +83,7 @@ function validateSoftwareLinkForm(){
 				<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
 				<td class="TableRowText02"><s:property value="function" /></td>
 				<td class="TableRowText02"><s:property value="availability" /></td>
-				<td class="TableRowText02"><s:property value="reference" />  | <s:property value="{#userName}" /> A <s:property value="$userName" /> B <s:property value="${userName}" /> C <s:property value="${#userName}" /> | <s:property value="userName" /> | <s:property value="#userName" /> | <s:property value="%{userName}" /> | <s:property value="%{#userName}" />  </td>
+				<td class="TableRowText02"><s:property value="reference" />  | <s:property value="{#userName}" /> A <s:property value="$userName" /> C <s:property value="${userName}" /> | <s:property value="userName" /> | <s:property value="#userName" /> | <s:property value="%{userName}" /> | <s:property value="%{#userName}" />  </td>
 				<s:if test="userIsAdmin || userName==#userName">
 				<td class="TableRowText02"><a href="deleteSoftwareLink?id=<s:property value="id" />">Delete</a></td>
 				</s:if>
