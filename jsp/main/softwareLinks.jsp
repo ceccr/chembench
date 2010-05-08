@@ -61,7 +61,7 @@
 
 	<br /><br />
 	<!-- Add a Tool -->
-	<s:form action="addSoftware" enctype="multipart/form-data" theme="simple">
+	<s:form id="addSoftware" action="addSoftware" enctype="multipart/form-data" theme="simple">
 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 			<tbody>
 				<tr>
@@ -106,7 +106,7 @@
 					<div align="right" class="StandardTextDarkGray"><b>&nbsp;</b></div>
 					</td>
 					<td align="left" valign="top">
-					<input type="button" name="userAction" id="userAction" onclick="this.submit();" value="Submit" />
+					<input type="button" name="userAction" id="userAction" onclick="document.forms['addSoftware'].submit();" value="Submit" />
 					</td>
 				</tr>
 				</table>
