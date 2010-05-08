@@ -19,31 +19,31 @@
 <body onload="setTabToHome();">
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
-<br />
+<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
+	<tr>
+		<td height="557" colspan="5" valign="top"
+			background="theme/img/backgrindex.jpg" STYLE="background-repeat: no-repeat;">
+		<p class="StandardTextDarkGrayParagraph"><br><br><b>Links to Cheminformatics Tools</b> <br><br>
+		<table width="465" border="0" cellspacing="0" cellpadding="0">
+        <tr><td>
+        <p class="StandardTextDarkGrayParagraph">
+		This page links to other online cheminformatics resources and downloadable software. If you know of software
+		that is not listed here, please use the form at the bottom to add in a link to it!
+		</p>
+		</td></tr>
+		</table>
+		<table width="100%" border="0" cellspacing="0" cellpadding="20">
+	<tr>
+    <td></td>
+  </tr>
+</table>
 
- 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
-		<tbody>			
-		<tr>
-			<td height="24" align="left" colspan="2">
-			<p class="StandardTextDarkGrayParagraph2">
-			<br /><b>Free Cheminformatics Tools</b>
-			</p></td>
-		</tr>
-		<tr>
-			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>Free tools! Yay!</i><br /></div></td>
-		 </tr>	
-		 
-		<!-- Table of software and links -->
+		<!-- Tables of software links, one table for each software type -->
 		
 		<s:iterator value="softwareTypes" var="softwareType">
 		
-			<tr>
-				<td colspan="2">
-				<div class="StandardTextDarkGrayParagraph">&nbsp;</div></td>
-			</tr>	
-			<tr><td colspan="2"> 
-			<table>
+			<table width="924" border="0" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+
 			<tr><td>
 			<div class="StandardTextDarkGrayParagraph"><s:property value="value" /></div>
 			</td></tr>
@@ -52,7 +52,6 @@
 				<td class="TableRowText01">Function</td>
 				<td class="TableRowText01">Availability</td>
 				<td class="TableRowText01">Reference</td>
-				<!-- allow admins to delete bad entries. -->
 				<s:if test="userIsAdmin"><td class="TableRowText01">Delete</td></s:if>
 			</tr>
 			<s:iterator value="softwareLinks">
@@ -69,22 +68,22 @@
 			</s:if>
 			</s:iterator>
 			</table>
-			</td></tr>
 			
 		</s:iterator>
-		<tr><td colspan="2">&nbsp;</td></tr>
-	</table>
+		
 
 	<br /><br />
-	<!-- Add a Tool -->
+	<!-- Add a Resource -->
 	<s:form id="addSoftware" action="addSoftware" enctype="multipart/form-data" theme="simple">
 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 			<tbody>
 				<tr>
-					<td align="left" colspan="2">
-					<div class="StandardTextDarkGrayParagraph2" align="left"><b>Add New Tool</b></div><br />
+					<td width="100%" height="24" align="left" colspan="2">
+					<p class="StandardTextDarkGrayParagraph2">
+					<br /><b>Add a Resource</b>
+					</p>
 					</td>
-			    </tr> 
+				</tr>	
 				
 				<s:if test="userName!=''">
 				<!-- only allow logged in users to do this -->
@@ -136,7 +135,9 @@
 				<!-- User isn't logged in; make them do that first. -->
 				<tr>
 					<td align="left" colspan="2">
-					<div class="StandardTextDarkGrayParagraph" align="left"><i>To add a tool to the list, you must <a href="home.do">log in</a> first.</i></div><br />
+					<div class="StandardTextDarkGrayParagraph" align="left"><i>To add a new link, you must <a href="home.do">log in</a> 
+					first. If you don't have an account yet, you can register one. Registration is fast and free, 
+					and will give you access to all the Chembench tools.</i></div><br />
 					</td>
 			    </tr> 
 				</s:else>	
