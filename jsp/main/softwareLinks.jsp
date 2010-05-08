@@ -21,7 +21,7 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <br />
 
-	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+ 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4">
 		<tbody>			
 		<tr>
 			<td height="24" align="left">
@@ -35,85 +35,95 @@
 		 </tr>	
 		 
 		<!-- Table of software and links -->
-		<tr><td><div class="StandardTextDarkGrayParagraph">
-		<table>
+		<tr>
+			<td class="TableRowText01">Name</td>
+			<!-- <td class="TableRowText01">Type</td> -->
+			<td class="TableRowText01">Function</td>
+			<td class="TableRowText01">Availability</td>
+			<td class="TableRowText01">Reference</td>
+			<!-- allow admins to delete bad entries. -->
+			<s:if test="userIsAdmin"><td class="TableRowText01">Delete</td></s:if>
+		</tr>
+		<s:iterator value="softwareLinks">
 			<tr>
-				<td class="TableRowText01">Name</td>
-				<!-- <td class="TableRowText01">Type</td> -->
-				<td class="TableRowText01">Function</td>
-				<td class="TableRowText01">Availability</td>
-				<td class="TableRowText01">Reference</td>
-				<!-- allow admins to delete bad entries. -->
-				<s:if test="userIsAdmin"><td class="TableRowText01">Delete</td></s:if>
-			</tr>
-			<s:iterator value="softwareLinks">
-				<tr>
-				<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
-				<!-- <td class="TableRowText02">type</td> -->
-				<td class="TableRowText02"><s:property value="function" /></td>
-				<td class="TableRowText02"><s:property value="availability" /></td>
-				<td class="TableRowText02"><s:property value="reference" /></td>
-				<s:if test="userIsAdmin">
-				<td class="TableRowText02"><a href="deleteSoftwareLink?id=<s:property value="id" />">Delete</a></td>
-				</s:if>
-				</tr> 
-			</s:iterator>
-			<tr><td colspan="2">&nbsp;</td></tr>
-		</table>
+			<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
+			<!-- <td class="TableRowText02">type</td> -->
+			<td class="TableRowText02"><s:property value="function" /></td>
+			<td class="TableRowText02"><s:property value="availability" /></td>
+			<td class="TableRowText02"><s:property value="reference" /></td>
+			<s:if test="userIsAdmin">
+			<td class="TableRowText02"><a href="deleteSoftwareLink?id=<s:property value="id" />">Delete</a></td>
+			</s:if>
+			</tr> 
+		</s:iterator>
+		<tr><td colspan="2">&nbsp;</td></tr>
+	</table>
 
-		<!-- Add a Tool -->
-		<!-- only allow logged in users to do this -->
-		<s:form action="addSoftware" enctype="multipart/form-data" theme="simple">
-		<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
-				<tbody>
-					<tr>
-						<td align="left" colspan="2">
-						<div class="StandardTextDarkGrayParagraph2" align="left"><b>Add New Tool</b></div><br />
-						</td>
-						<td>
-						</td>
-				    </tr> 
-					<tr>
-					<td>
-					<table>
-					<tr>
-						<td height="26">
-						<div align="right" class="StandardTextDarkGray"><b>Select a Tool Type: </b></div>
-						</td>
-						<td align="left" valign="top">
-						
-						</td>
-					</tr>		
-					<tr>
-						<td height="26">
-						<div align="right" class="StandardTextDarkGray"><b>Name: </b></div>
-						</td>
-						<td align="left" valign="top"><s:textfield name="name" id="name" size="4" /><span id="messageDiv2"></span></td>
-					</tr>
-					<tr>
-						<td height="26">
-						<div align="right" class="StandardTextDarkGray"><b>URL: </b></div>
-						</td>
-						<td align="left" valign="top"><s:textfield name="url" id="url" size="4" /><span id="messageDiv2"></span></td>
-					</tr>
-					<tr>
-						<td height="26">
-						<div align="right" class="StandardTextDarkGray"><b>Function: </b></div>
-						</td>
-						<td align="left" valign="top"><s:textfield name="function" id="function" size="4" /><span id="messageDiv2"></span></td>
-					</tr>
-					<tr>
-						<td height="26">
-						<div align="right" class="StandardTextDarkGray"><b>&nbsp;</b></div>
-						</td>
-						<td align="left" valign="top">
-						<input type="button" name="userAction" id="userAction" onclick="submitForm3(this);" value="Add" />
-						</td>
-					</tr>
-					</table></td></tr>
-				</tbody>
-			</table>
-		</s:form>
+	<!-- Add a Tool -->
+	<s:form action="addSoftware" enctype="multipart/form-data" theme="simple">
+	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+			<tbody>
+				<tr>
+					<td align="left" colspan="2">
+					<div class="StandardTextDarkGrayParagraph2" align="left"><b>Add New Tool</b></div><br />
+					</td>
+			    </tr> 
+				<tr>
+				<td>
+				
+				<s:if test="userName!=''">
+				<!-- only allow logged in users to do this -->
+				<table>
+				<tr>
+					<td height="26">
+					<div align="right" class="StandardTextDarkGray"><b>Select a Tool Type: </b></div>
+					</td>
+					<td align="left" valign="top">
+					
+					</td>
+				</tr>		
+				<tr>
+					<td height="26">
+					<div align="right" class="StandardTextDarkGray"><b>Name: </b></div>
+					</td>
+					<td align="left" valign="top"><s:textfield name="name" id="name" size="40" /><span id="messageDiv2"></span></td>
+				</tr>
+				<tr>
+					<td height="26">
+					<div align="right" class="StandardTextDarkGray"><b>URL: </b></div>
+					</td>
+					<td align="left" valign="top"><s:textfield name="url" id="url" size="40" /><span id="messageDiv2"></span></td>
+				</tr>
+				<tr>
+					<td height="26">
+					<div align="right" class="StandardTextDarkGray"><b>Function: </b></div>
+					</td>
+					<td align="left" valign="top"><s:textfield name="function" id="function" size="40" /><span id="messageDiv2"></span></td>
+				</tr>
+				<tr>
+					<td height="26">
+					<div align="right" class="StandardTextDarkGray"><b>&nbsp;</b></div>
+					</td>
+					<td align="left" valign="top">
+					<input type="button" name="userAction" id="userAction" onclick="submitForm3(this);" value="Submit" />
+					</td>
+				</tr>
+				</table>
+				</s:if>
+				
+				<s:else>
+				<!-- User isn't logged in; make them do that first. -->
+				<tr>
+					<td align="left" colspan="2">
+					<div class="StandardTextDarkGrayParagraph" align="left"><i>To add a tool to the list, you must <a href="home.do"></a>log in</a> first.</i></div><br />
+					</td>
+			    </tr> 
+				</s:else>	
+				
+				</td></tr>
+			</tbody>
+		</table>
+	</s:form>
 
 </div></td></tr></tbody></table>
 

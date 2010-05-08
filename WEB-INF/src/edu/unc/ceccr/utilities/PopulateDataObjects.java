@@ -774,13 +774,6 @@ public class PopulateDataObjects {
 		return task;
 	}
 
-	
-	
-	
-	
-	
-	
-
 	@SuppressWarnings("unchecked")
 	public static List populateSoftwareLinks(Session session) {
 		
@@ -806,6 +799,24 @@ public class PopulateDataObjects {
 		
 		return softwareLinks;
 	}
+	
+	public static SoftwareLink getSoftwareLinkById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{
+		SoftwareLink sl = null;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			sl = (SoftwareLink) session.createCriteria(SoftwareLink.class)
+					.add(Expression.eq("id", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} 
+		return sl;
+	}
+	
 	
 	
 }

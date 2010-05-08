@@ -22,6 +22,7 @@ import com.opensymphony.xwork2.ActionContext;
 import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import edu.unc.ceccr.action.ViewDataset.Compound;
 import edu.unc.ceccr.global.Constants;
@@ -42,11 +43,13 @@ public class SoftwareLinksAction extends ActionSupport {
 	private ArrayList<SoftwareLink> softwareLinks = new ArrayList<SoftwareLink>();
 	
 	private boolean userIsAdmin = true;
+	private String userName = "";
 	private String name;
 	private String type;
 	private String availability;
 	private String function;
 	private String reference;
+	private String url;
 	
 	private ArrayList<String> availableTypes = new ArrayList<String>();
 	
@@ -63,6 +66,12 @@ public class SoftwareLinksAction extends ActionSupport {
 		else{
 			Session s = HibernateUtil.getSession();
 			softwareLinks = (ArrayList<SoftwareLink>) PopulateDataObjects.populateSoftwareLinks(s);
+			
+			//get the username if the user is logged in
+			User user = (User) context.getSession().get("user");
+			if(user != null){
+				userName = user.getUserName();
+			}
 		}
 		
 		return result;
@@ -79,7 +88,36 @@ public class SoftwareLinksAction extends ActionSupport {
 			Utility.writeToStrutsDebug("FreeSoftwareAction: No ActionContext available");
 		}
 		else{
-			
+			//verify the user is logged in
+			//get the username if the user is logged in
+			User user = (User) context.getSession().get("user");
+			if(user == null){
+				return ERROR;
+			}
+			else{
+				SoftwareLink sl = new SoftwareLink();
+				sl.setAvailability(availability);
+				sl.setFunction(function);
+				sl.setName(name);
+				sl.setReference(reference);
+				sl.setType(type);
+				sl.setUrl(url);
+				
+				Session s = HibernateUtil.getSession();
+				Transaction tx = null;
+				
+				try {
+					tx = s.beginTransaction();
+					s.saveOrUpdate(sl);
+					tx.commit();
+				} catch (RuntimeException e) {
+					if (tx != null)
+						tx.rollback();
+					Utility.writeToDebug(e);
+				} finally {
+					s.close();
+				}
+			}
 		}
 		
 		return result;
@@ -97,6 +135,34 @@ public class SoftwareLinksAction extends ActionSupport {
 		}
 		else{
 			//verify that the user is logged in and is an admin
+			User user = (User) context.getSession().get("user");
+			if(user != null && Utility.isAdmin(user.getUserName())){
+				//get the software link to be deleted
+				Long idToDelete = Long.parseLong(((String[]) context.getParameters().get("id"))[0]);
+
+				Session s = HibernateUtil.getSession();
+				SoftwareLink sl = PopulateDataObjects.getSoftwareLinkById(idToDelete, s);
+				
+				//remove it from the database
+				Transaction tx = null;
+				try{
+					tx = s.beginTransaction();
+				    s.delete(sl);
+					tx.commit();
+				}catch (RuntimeException e) {
+					if (tx != null)
+						tx.rollback();
+					Utility.writeToDebug(e);
+					return ERROR;
+				}
+				finally{
+					s.close();
+				}
+				
+			}
+			else{
+				return ERROR;
+			}
 		}
 		
 		return result;
@@ -107,6 +173,13 @@ public class SoftwareLinksAction extends ActionSupport {
 	}
 	public void setSoftwareLinks(ArrayList<SoftwareLink> softwareLinks) {
 		this.softwareLinks = softwareLinks;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public boolean isUserIsAdmin() {
@@ -158,5 +231,10 @@ public class SoftwareLinksAction extends ActionSupport {
 		this.availableTypes = availableTypes;
 	}
 
-	
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
 }
