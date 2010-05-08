@@ -51,7 +51,7 @@ public class SoftwareLinksAction extends ActionSupport {
 	private String reference;
 	private String url;
 	
-	private ArrayList<String> availableTypes = new ArrayList<String>();
+	private ArrayList<String> softwareTypes = new ArrayList<String>();
 	
 	public String loadPage() throws Exception {
 
@@ -66,6 +66,12 @@ public class SoftwareLinksAction extends ActionSupport {
 		else{
 			Session s = HibernateUtil.getSession();
 			softwareLinks = (ArrayList<SoftwareLink>) PopulateDataObjects.populateSoftwareLinks(s);
+			
+			for(SoftwareLink sl: softwareLinks){
+				if(! softwareTypes.contains(sl.getType())){
+					softwareTypes.add(sl.getType());
+				}
+			}
 			
 			//get the username if the user is logged in
 			User user = (User) context.getSession().get("user");
@@ -231,10 +237,10 @@ public class SoftwareLinksAction extends ActionSupport {
 	}
 
 	public ArrayList<String> getAvailableTypes() {
-		return availableTypes;
+		return softwareTypes;
 	}
 	public void setAvailableTypes(ArrayList<String> availableTypes) {
-		this.availableTypes = availableTypes;
+		this.softwareTypes = availableTypes;
 	}
 
 	public String getUrl() {

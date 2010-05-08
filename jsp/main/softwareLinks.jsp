@@ -21,7 +21,7 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <br />
 
- 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4">
+ 	<table width="924" frame="border" rules="none" align="center" cellspacing="4">
 		<tbody>			
 		<tr>
 			<td height="24" align="left">
@@ -31,30 +31,40 @@
 		</tr>
 		<tr>
 			<td>
-			<div class="StandardTextDarkGrayParagraph"><i><!-- space for a description if needed --></i><br /></div></td>
+			<div class="StandardTextDarkGrayParagraph"><i>Free tools! Yay!</i><br /></div></td>
 		 </tr>	
 		 
 		<!-- Table of software and links -->
-		<tr>
-			<td class="TableRowText01">Name</td>
-			<!-- <td class="TableRowText01">Type</td> -->
-			<td class="TableRowText01">Function</td>
-			<td class="TableRowText01">Availability</td>
-			<td class="TableRowText01">Reference</td>
-			<!-- allow admins to delete bad entries. -->
-			<s:if test="userIsAdmin"><td class="TableRowText01">Delete</td></s:if>
-		</tr>
-		<s:iterator value="softwareLinks">
+		
+		<s:iterator value="softwareTypes" var="softwareType">
+			
+			<tr><td>
+			<div class="StandardTextDarkGrayParagraph"><s:property value="softwareType" /></div>
+			</td></tr>
 			<tr>
-			<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
-			<!-- <td class="TableRowText02">type</td> -->
-			<td class="TableRowText02"><s:property value="function" /></td>
-			<td class="TableRowText02"><s:property value="availability" /></td>
-			<td class="TableRowText02"><s:property value="reference" /></td>
-			<s:if test="userIsAdmin">
-			<td class="TableRowText02"><a href="deleteSoftwareLink?id=<s:property value="id" />">Delete</a></td>
-			</s:if>
+				<td class="TableRowText01">Name</td>
+				<!-- <td class="TableRowText01">Type</td> -->
+				<td class="TableRowText01">Function</td>
+				<td class="TableRowText01">Availability</td>
+				<td class="TableRowText01">Reference</td>
+				<!-- allow admins to delete bad entries. -->
+				<s:if test="userIsAdmin"><td class="TableRowText01">Delete</td></s:if>
+			</tr>
+			<s:iterator value="softwareLinks">
+			<s:if test="type=softwareType">
+			<tr>
+				<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
+				<!-- <td class="TableRowText02">type</td> -->
+				<td class="TableRowText02"><s:property value="function" /></td>
+				<td class="TableRowText02"><s:property value="availability" /></td>
+				<td class="TableRowText02"><s:property value="reference" /></td>
+				<s:if test="userIsAdmin">
+				<td class="TableRowText02"><a href="deleteSoftwareLink?id=<s:property value="id" />">Delete</a></td>
+				</s:if>
 			</tr> 
+			</s:if>
+			</s:iterator>
+			
 		</s:iterator>
 		<tr><td colspan="2">&nbsp;</td></tr>
 	</table>
@@ -69,37 +79,42 @@
 					<div class="StandardTextDarkGrayParagraph2" align="left"><b>Add New Tool</b></div><br />
 					</td>
 			    </tr> 
-				<tr>
-				<td>
 				
 				<s:if test="userName!=''">
 				<!-- only allow logged in users to do this -->
-				<table>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Select a Tool Type: </b></div>
 					</td>
 					<td align="left" valign="top">
-					
+					<s:select name="type" list="softwareTypes" id="type" />
 					</td>
 				</tr>		
+				<s:if test="userIsAdmin">
+				<tr>
+					<td height="26">
+					<div align="right" class="StandardTextDarkGray"><b>(admin only) Add New Type: </b></div>
+					</td>
+					<td align="left" valign="top"><s:textfield name="newType" id="newType" size="60" /></td>
+				</tr>
+				</s:if>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Name: </b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="name" id="name" size="40" /></td>
+					<td align="left" valign="top"><s:textfield name="name" id="name" size="60" /></td>
 				</tr>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>URL: </b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="url" id="url" size="40" /></td>
+					<td align="left" valign="top"><s:textfield name="url" id="url" size="60" /></td>
 				</tr>
 				<tr>
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Function: </b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="function" id="function" size="40" /></td>
+					<td align="left" valign="top"><s:textfield name="function" id="function" size="60" /></td>
 				</tr>
 				<tr>
 					<td height="26">
@@ -109,7 +124,6 @@
 					<input type="button" name="userAction" id="userAction" onclick="document.forms['addSoftware'].submit();" value="Submit" />
 					</td>
 				</tr>
-				</table>
 				</s:if>
 				
 				<s:else>
@@ -120,8 +134,6 @@
 					</td>
 			    </tr> 
 				</s:else>	
-				
-				</td></tr>
 			</tbody>
 		</table>
 	</s:form>
