@@ -32,8 +32,11 @@
 		</p>
 		</td></tr>
 		</table>
+		hi 1
 	</td></tr>
 </table>
+
+hi 2
 
 		<!-- Tables of software links, one table for each software type -->
 		<s:iterator value="softwareTypes" var="softwareType">
