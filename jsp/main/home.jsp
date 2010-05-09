@@ -107,7 +107,7 @@
 	               <span class="ccbHomeStandard">
 	               <a href="help-overview" target="_blank">Chembench Overview</a><br />
 	               <a href="help-faq" target="_blank">Frequently Asked Questions</a><br />
-	               <a href="softwareList" target="_blank">List of Available Cheminformatics Tools</a>
+	               <a href="softwareList" target="_blank">List of Online Cheminformatics Tools</a>
 	             </span></p>
 	         </tr>
 	         <!-- end login box -->
