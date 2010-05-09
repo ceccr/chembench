@@ -25,7 +25,7 @@
 	</p>
 
 	<s:if test="selectedPredictor.numyTestModels>0">
-	<table width="100%" align="center" class="sortable">
+	<table width="100%" align="center" class="sortable" id="yRandomModels">
 	<s:if test="dataType=='CONTINUOUS'">
 	<tr>
 		<th class="TableRowText01narrow">nnn</th>

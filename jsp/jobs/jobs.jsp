@@ -72,7 +72,7 @@
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
 		<s:if test="! incomingJobs.isEmpty()">
-		<table class="sortable">
+		<table class="sortable" id="incomingJobs">
 			<tr>
 				<th class="TableRowText01">Name</th>
 				<th class="TableRowText01">Owner</th>
@@ -118,7 +118,7 @@
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
 		<s:if test="! localJobs.isEmpty()">
-		<table class="sortable">
+		<table class="sortable" id="localJobs">
 			<tr>
 				<th class="TableRowText01">Name</th>
 				<th class="TableRowText01">Owner</th>
@@ -165,7 +165,7 @@
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
 		<s:if test="! lsfJobs.isEmpty()">
-		<table class="sortable">
+		<table class="sortable" id="lsfJobs">
 			<tr>
 				<th class="TableRowText01">Name</th>
 				<th class="TableRowText01">Owner</th>

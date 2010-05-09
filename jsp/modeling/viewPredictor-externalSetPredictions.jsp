@@ -19,7 +19,7 @@
 		</s:else>
 	</s:if>
 	<s:else>
-	<table width="100%" align="center" class="sortable">
+	<table width="100%" align="center" class="sortable" id="externalSetPredictions">
 		<!--DWLayoutTable-->
 		<tr>
 		<th class="TableRowText01">Compound ID</th>

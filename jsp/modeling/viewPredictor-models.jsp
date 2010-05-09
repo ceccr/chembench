@@ -30,7 +30,7 @@
 		</s:else>	
 		</p>
 	
-		<table width="100%" align="center" class="sortable">
+		<table width="100%" align="center" class="sortable" id="models">
 		<s:if test="dataType=='CONTINUOUS'">
 		<s:if test="models.size!=0">
 		<tr>
