@@ -317,8 +317,8 @@ function alphanumSort(a, b) {
   }
 
   //remove the toLowers if you want to make this case-sensitive
-  var aa = chunkify(a.toLower());
-  var bb = chunkify(b.toLower());
+  var aa = chunkify(a.toLowerCase());
+  var bb = chunkify(b.toLowerCase());
 
   for (x = 0; aa[x] && bb[x]; x++) {
     if (aa[x] !== bb[x]) {
