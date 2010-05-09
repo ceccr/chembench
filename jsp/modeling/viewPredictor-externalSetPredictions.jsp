@@ -3,8 +3,6 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
-<script language="JavaScript" src="javascript/sortableTable.js"></script>
-
 	<br />
 	
 	<!-- External Validation Compound Predictions -->
