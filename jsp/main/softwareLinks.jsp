@@ -17,14 +17,10 @@
 <script language="JavaScript" src="javascript/sortableTable.js"></script>
 <script language="JavaScript"> 
 
-alert("cool");
-
 function validateSoftwareLinkForm(){
 	var func = document.getElementById('function').value;
 	var name = document.getElementById('name').value;
 	var avail = document.getElementById('availability').value;
-
-	alert(avail);
 
     if(name.length == 0){
  		alert("Please enter a name for the software.");
@@ -47,7 +43,7 @@ function validateSoftwareLinkForm(){
 </script>
  
 </head>
-<body onload="setTabToHome();">
+<body onload="setTabToHome(); sortables_init();">
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
