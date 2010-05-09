@@ -21,9 +21,15 @@ var alternate_row_colors = true;
 
 var SORT_COLUMN_INDEX;
 var thead = false;
+var initHasBeenRun = false;
 
 function sortables_init() {
 	// Find all tables with class sortable and make them sortable
+	if(initHasBeenRun){
+		return;
+	}
+	initHasBeenRun = true;
+	
 	if (!document.getElementsByTagName) return;
 	tbls = document.getElementsByTagName("table");
 	for (ti=0;ti<tbls.length;ti++) {

@@ -16,6 +16,7 @@
 	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
+	<script language="JavaScript" src="javascript/sortableTable.js"></script>
 	
 </head>
 

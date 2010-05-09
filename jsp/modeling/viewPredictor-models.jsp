@@ -3,9 +3,8 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
-	<!-- Only put this call in ONE of the sub-tabs when you have a tabbedPanel. -->
 	<script language="JavaScript" src="javascript/sortableTable.js"></script>
-	
+		
 <!-- Models -->	
 	<br />
 		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
