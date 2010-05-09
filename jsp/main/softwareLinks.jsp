@@ -43,7 +43,7 @@ function validateSoftwareLinkForm(){
 </script>
  
 </head>
-<body onload="setTabToHome();">
+<body onload="setTabToHome(); sortables_init();">
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -82,7 +82,7 @@ function validateSoftwareLinkForm(){
 			<s:iterator value="softwareLinks">
 			<s:if test="type==#softwareType.value">
 			<tr>
-				<td class="TableRowText02"><s:if test="url!=''"><a href="<s:property value="url" />"></s:if><s:property value="name" /><s:if test="url!=''"></a></s:if></td>
+				<td class="TableRowText02"><s:if test="url!=''"><a href="<s:property value="url" />"></s:if><s:else><b></s:else><s:property value="name" /><s:if test="url!=''"></a></s:if><s:else></b></s:else></td>
 				<td class="TableRowText02"><s:property value="function" /></td>
 				<td class="TableRowText02"><s:property value="availability" /></td>
 				<td class="TableRowText02"><s:property value="reference" /> </td>
