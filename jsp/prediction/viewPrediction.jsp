@@ -83,10 +83,9 @@
 			
 			</td>
 			<td class="TableRowText02">
-			<s:url id="datasetLink" value="/viewDataset" includeParams="none">
-				<s:param name="id" value='predictorId' />
-			</s:url>
+			<a href="viewDataset?id=<s:property value="prediction.datasetId" />">
 			<s:property value="prediction.datasetDisplay" />
+			</a>
 			</td>
 			<td class="TableRowText02"><s:property value="prediction.similarityCutoff" /></td>
 		</tr>

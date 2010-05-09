@@ -50,10 +50,7 @@
 		<tr>
 			<td class="TableRowText02"><s:property value="selectedPredictor.name" /></td>
 			<td class="TableRowText02"><s:property value="selectedPredictor.dateCreated" /></td>
-			
-			<a href="viewDatasetFlash.do?fileName=<s:property value="selectedPredictor.datasetDisplay" />&isPublic=<s:if test="datasetUserName=='_all'">true</s:if><s:else>false</s:else>">
-						
-			<td class="TableRowText02"><span style="width:100"><s:property value="selectedPredictor.datasetDisplay" /></span></td>
+			<td class="TableRowText02"><a href="viewDataset?id=<s:property value="selectedPredictor.datasetId" />"><s:property value="selectedPredictor.datasetDisplay" /></a></td>
 			<td class="TableRowText02"><s:property value="selectedPredictor.modelMethod" /></td>
 			<td class="TableRowText02"><s:property value="selectedPredictor.descriptorGeneration" /></td>
 		</tr>
