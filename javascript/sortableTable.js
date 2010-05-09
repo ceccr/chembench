@@ -88,7 +88,7 @@ function ts_resortTable(lnk, clid) {
 	for (var ci=0;ci<lnk.childNodes.length;ci++) {
 		if (lnk.childNodes[ci].tagName && lnk.childNodes[ci].tagName.toLowerCase() == 'span') span = lnk.childNodes[ci];
 	}
-	var spantext = ts_getInnerText(span);
+	var spantext = span.innerHTML;
 	var td = lnk.parentNode;
 	var column = clid || td.cellIndex;
 	var t = getParent(td,'TABLE');
