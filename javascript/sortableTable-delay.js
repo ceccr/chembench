@@ -20,7 +20,7 @@ var SORT_COLUMN_INDEX;
 var thead = false;
 
 function sortables_init_delay(){
-	setTimeout("sortables_init()",1500);
+	setTimeout("sortables_init()",2000);
 }
 
 function sortables_init() {
