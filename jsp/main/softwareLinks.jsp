@@ -43,7 +43,7 @@ function validateSoftwareLinkForm(){
 </script>
  
 </head>
-<body onload="setTabToHome(); sortables_init();">
+<body onload="setTabToHome();">
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
@@ -67,11 +67,14 @@ function validateSoftwareLinkForm(){
 		
 		<!-- Tables of software links, one table for each software type -->
 		<s:iterator value="softwareTypes" var="softwareType">
-			<table width="924" align="center" class="sortable" id="<s:property value="value" />" >
+			<table width="924" align="center">
 			<tr><td>
 			<br /><br />
 			<p class="StandardTextDarkGrayParagraph2"><b><s:property value="value" /></b></p>
 			</td></tr>
+			</table>
+			
+			<table width="924" align="center" class="sortable" id="<s:property value="value" />" >
 			<tr>
 				<th class="TableRowText01">Name</th>
 				<th class="TableRowText01">Function</th>
