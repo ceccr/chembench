@@ -7,6 +7,7 @@ Copyright (c) 1997-2007 Stuart Langridge, Joost de Valk.
 
 Version 1.5.7
 */
+addEvent(window, "load", sortables_init);
 
 /* You can change these values */
 var image_path = "/theme/img/";
@@ -17,7 +18,6 @@ var europeandate = false;
 var alternate_row_colors = true;
 
 /* Don't change anything below this unless you know what you're doing */
-addEvent(window, "load", sortables_init);
 
 var SORT_COLUMN_INDEX;
 var thead = false;
