@@ -17,6 +17,7 @@
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
 	<script language="javascript" src="javascript/script.js"></script>
+	<script language="JavaScript" src="javascript/sortableTable.js"></script>
 
 	<script language="javascript">
 		function loadModelsTab(newUrl){

@@ -4,9 +4,6 @@
 <%@ page language="java" import="java.util.*" %>
 
 <script language="JavaScript" src="javascript/sortableTable.js"></script>
-<script language="JavaScript">
-alert("execing javascript in externalSetPredictions");
-</script>
 
 	<br />
 	
