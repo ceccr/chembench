@@ -51,7 +51,7 @@
 		<b></b>
 		
 		<s:form theme="simple" action="selectPredictor" enctype="multipart/form-data" method="post">
-		<table border="0" align="left" cellpadding="4"	cellspacing="4">
+		<table border="0" align="left" cellpadding="4" cellspacing="4">
 		<tbody>
 		<tr>
 		<td>
@@ -63,7 +63,7 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are public predictors useful for virtual screening.
 			</p>
-				<table width="100%" class="sortable">
+				<table width="100%" class="sortable" id="drugdisc">
 				<tr>
 					<th class="TableRowText01narrow_unsortable">Select</th>
 					<th class="TableRowText01narrow">Name</td>
@@ -94,7 +94,7 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are public predictors useful for prediction of absorption, distribution, metabolism, and excretion properties.
 			</p>
-				<table width="100%" class="sortable">
+				<table width="100%" class="sortable" id="adme">
 				<tr>
 					<th class="TableRowText01narrow_unsortable">Select</th>
 					<th class="TableRowText01narrow">Name</td>
@@ -125,7 +125,7 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are public predictors useful for toxicity prediction.
 			</p>
-				<table width="100%" class="sortable">
+				<table width="100%" class="sortable" id="toxicity">
 				<tr>
 					<th class="TableRowText01narrow_unsortable">Select</th>
 					<th class="TableRowText01narrow">Name</td>
@@ -156,7 +156,7 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are private predictors you have created. Other users cannot access them.
 			</p>
-			<table width="100%" class="sortable">
+			<table width="100%" class="sortable" id="private">
 				<tr>
 				<th class="TableRowText01narrow_unsortable">Select</th>
 				<th class="TableRowText01narrow">Name</td>

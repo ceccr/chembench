@@ -101,11 +101,15 @@ function ts_resortTable(lnk, clid) {
 		i++;
 	}
 	if (itm == "") return; 
-	sortfn = ts_sort_caseinsensitive;
-	if (itm.match(/^\d\d[\/\.-][a-zA-z][a-zA-Z][a-zA-Z][\/\.-]\d\d\d\d$/)) sortfn = ts_sort_date;
-	if (itm.match(/^\d\d[\/\.-]\d\d[\/\.-]\d\d\d{2}?$/)) sortfn = ts_sort_date;
-	if (itm.match(/^-?[£$€Û¢´]\d/)) sortfn = ts_sort_numeric;
-	if (itm.match(/^-?(\d+[,\.]?)+(E[-+][\d]+)?%?$/)) sortfn = ts_sort_numeric;
+	
+	sortfn = ts_sort_alphanumeric;
+	//Commented these out. All we actually use is sort_alphanum on Chembench.
+	//sortfn = ts_sort_caseinsensitive;
+	//if (itm.match(/^\d\d[\/\.-][a-zA-z][a-zA-Z][a-zA-Z][\/\.-]\d\d\d\d$/)) sortfn = ts_sort_date;
+	//if (itm.match(/^\d\d[\/\.-]\d\d[\/\.-]\d\d\d{2}?$/)) sortfn = ts_sort_date;
+	//if (itm.match(/^-?[£$€Û¢´]\d/)) sortfn = ts_sort_numeric;
+	//if (itm.match(/^-?(\d+[,\.]?)+(E[-+][\d]+)?%?$/)) sortfn = ts_sort_numeric;
+	
 	SORT_COLUMN_INDEX = column;
 	var firstRow = new Array();
 	var newRows = new Array();
@@ -290,6 +294,50 @@ function clean_num(str) {
 function trim(s) {
 	return s.replace(/^\s+|\s+$/g, "");
 }
+
+function ts_sort_alphanumeric(a,b) {
+	an1 = sort_date(ts_getInnerText(a.cells[SORT_COLUMN_INDEX]));
+	an2 = sort_date(ts_getInnerText(b.cells[SORT_COLUMN_INDEX]));
+	
+	return alphanumSort(an1, an2);
+}
+
+function alphanumSort(a, b) {
+  function chunkify(t) {
+    var tz = [], x = 0, y = -1, n = 0, i, j;
+
+    while (i = (j = t.charAt(x++)).charCodeAt(0)) {
+      var m = (i == 46 || (i >=48 && i <= 57));
+      if (m !== n) {
+        tz[++y] = "";
+        n = m;
+      }
+      tz[y] += j;
+    }
+    return tz;
+  }
+
+  //remove the toLowers if you want to make this case-sensitive
+  var aa = chunkify(a.toLower());
+  var bb = chunkify(b.toLower());
+
+  for (x = 0; aa[x] && bb[x]; x++) {
+    if (aa[x] !== bb[x]) {
+      var c = Number(aa[x]), d = Number(bb[x]);
+      if (c == aa[x] && d == bb[x]) {
+        return c - d;
+      } else return (aa[x] > bb[x]) ? 1 : -1;
+    }
+  }
+  return aa.length - bb.length;
+}
+
+
+
+
+
+
+
 function alternate(table) {
 	// Take object table and get all it's tbodies.
 	var tableBodies = table.getElementsByTagName("tbody");
