@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<title>C-CHEMBENCH | Freely Available Software</title>
+<title>C-CHEMBENCH | Cheminformatics Tools</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
@@ -64,7 +64,7 @@ function validateSoftwareLinkForm(){
 </table>
 
 		<s:set name="loggedInUser" value="userName" />
-		
+
 		<!-- Tables of software links, one table for each software type -->
 		<s:iterator value="softwareTypes" var="softwareType">
 			<table width="924" align="center">
@@ -80,7 +80,7 @@ function validateSoftwareLinkForm(){
 				<th class="TableRowText01">Function</th>
 				<th class="TableRowText01">Availability</th>
 				<th class="TableRowText01">Reference</th>
-				<th class="TableRowText01">Delete</th>
+				<th class="unsortable" class="TableRowText01">Delete</th>
 			</tr>
 			<s:iterator value="softwareLinks">
 			<s:if test="type==#softwareType.value">
