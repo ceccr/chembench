@@ -120,19 +120,19 @@
 			<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
-	    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." showLoadingText="true">
+	    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
 			</sx:div>
 			
 			<s:url id="modelsLink" value="/viewPredictorModelsSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
-	    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." showLoadingText="true">
+	    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
 			</sx:div>
 			
 			<s:url id="yRandomLink" value="/viewPredictorYRandomSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
-	    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax" loadingText="Loading Y-Randomization Models..." showLoadingText="true">
+	    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax" loadingText="Loading Y-Randomization Models..." executeScripts="true" showLoadingText="true">
 			</sx:div>
 		
 		<!--
