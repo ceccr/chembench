@@ -50,7 +50,7 @@ function ts_makeSortable(t) {
 		var cell = firstRow.cells[i];
 		var txt = ts_getInnerText(cell);
 		if (cell.className != "unsortable" && cell.className.indexOf("unsortable") == -1) {
-			cell.innerText = '<a href="#" onclick="ts_resortTable(this, '+i+');return false;">'+txt+'<span class="sortarrow">&nbsp;&nbsp;<img src="'+ image_path + image_none + '" alt="&darr;"/></span></a>';
+			cell.innerHTML = '<a href="#" onclick="ts_resortTable(this, '+i+');return false;">'+txt+'<span class="sortarrow">&nbsp;&nbsp;<img src="'+ image_path + image_none + '" alt="&darr;"/></span></a>';
 		}
 	}
 	if (alternate_row_colors) {
@@ -62,6 +62,10 @@ function ts_getInnerText(el) {
 	if (typeof el == "string") return el;
 	if (typeof el == "undefined") { return el };
 	if (el.innerText) return el.innerText;	//Not needed but it is faster
+	return el.innerHTML;
+	
+	//all this childnodes crap breaks my r<sup>2</sup> type table headers. Removing it until it's proven worthy.
+	/*
 	var str = "";
 	
 	var cs = el.childNodes;
@@ -76,7 +80,7 @@ function ts_getInnerText(el) {
 				break;
 		}
 	}
-	return str;
+	return str;*/
 }
 
 function ts_resortTable(lnk, clid) {
