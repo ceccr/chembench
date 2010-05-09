@@ -258,7 +258,7 @@
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of dataset to visualize it.</i><br />
 			
-			<table class="sortable">
+			<table class="sortable" id="datasets">
 				<tr>
 					<th class="TableRowText01">Name</th>
 					<th class="TableRowText01">Date Created</th>
@@ -322,7 +322,7 @@
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of a predictor to analyze the modeling results.</i><br />
 			
-			<table class="sortable">
+			<table class="sortable" id="predictors">
 				<tr>
 					<th class="TableRowText01">Name</th>
 					<th class="TableRowText01">Date Created</th>
@@ -378,7 +378,7 @@
 		<tr>
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of a prediction to see the results.</i><br />
-			<table class="sortable">
+			<table class="sortable" id="predictions">
 				<tr>
 					<th class="TableRowText01">Name</th>
 					<th class="TableRowText01">Date Created</th>
