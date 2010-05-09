@@ -82,7 +82,7 @@ function validateSoftwareLinkForm(){
 			<s:iterator value="softwareLinks">
 			<s:if test="type==#softwareType.value">
 			<tr>
-				<td class="TableRowText02"><a href="<s:property value="url" />"><s:property value="name" /></a></td>
+				<td class="TableRowText02"><s:if test="url!=''"><a href="<s:property value="url" />"></s:if><s:property value="name" /><s:if test="url!=''"></a></s:if></td>
 				<td class="TableRowText02"><s:property value="function" /></td>
 				<td class="TableRowText02"><s:property value="availability" /></td>
 				<td class="TableRowText02"><s:property value="reference" /> </td>
