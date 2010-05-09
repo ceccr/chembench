@@ -14,6 +14,7 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 <link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="javascript/script.js"> </script>
+<script type="text/javascript" src="javascript/sortableTable.js"></script>
 <script language="JavaScript"> 
 
 function validateSoftwareLinkForm(){
@@ -21,13 +22,14 @@ function validateSoftwareLinkForm(){
 	var name = document.getElementById('name').value;
 	var avail = document.getElementById('availability').value;
 
+	alert(avail);
 
     if(name.length == 0){
  		alert("Please enter a name for the software.");
  		return false;
  	}
 
-    if(name.length == 0){
+    if(avail.length == 0){
  		alert("Please enter the software's availability.");
  		return false;
  	}
@@ -67,7 +69,7 @@ function validateSoftwareLinkForm(){
 		
 		<!-- Tables of software links, one table for each software type -->
 		<s:iterator value="softwareTypes" var="softwareType">
-			<table width="924" align="center">
+			<table width="924" align="center" class="sortable" >
 			<tr><td>
 			<br /><br />
 			<p class="StandardTextDarkGrayParagraph2"><b><s:property value="value" /></b></p>
