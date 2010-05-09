@@ -23,12 +23,15 @@ var SORT_COLUMN_INDEX;
 var thead = false;
 
 function sortables_init() {
+	alert("finding sortable tables");
 	// Find all tables with class sortable and make them sortable
 	if (!document.getElementsByTagName) return;
 	tbls = document.getElementsByTagName("table");
 	for (ti=0;ti<tbls.length;ti++) {
 		thisTbl = tbls[ti];
+		alert("found table");
 		if (((' '+thisTbl.className+' ').indexOf("sortable") != -1) && (thisTbl.id)) {
+			alert("making table sortable");
 			ts_makeSortable(thisTbl);
 		}
 	}

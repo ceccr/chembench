@@ -75,11 +75,11 @@ function validateSoftwareLinkForm(){
 			<p class="StandardTextDarkGrayParagraph2"><b><s:property value="value" /></b></p>
 			</td></tr>
 			<tr>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Function</td>
-				<td class="TableRowText01">Availability</td>
-				<td class="TableRowText01">Reference</td>
-				<td class="TableRowText01">Delete</td>
+				<th class="TableRowText01">Name</th>
+				<th class="TableRowText01">Function</th>
+				<th class="TableRowText01">Availability</th>
+				<th class="TableRowText01">Reference</th>
+				<th class="TableRowText01">Delete</th>
 			</tr>
 			<s:iterator value="softwareLinks">
 			<s:if test="type==#softwareType.value">
