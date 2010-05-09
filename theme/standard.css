@@ -172,7 +172,31 @@ body {
 	font-weight: bold;
 }
 
+.TableRowText01_unsortable {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FFFFFF;
+	background-color: #9DACBF;
+	text-align: center;
+	vertical-align: middle;
+	height: 30px;
+	width: 120px;
+	font-weight: bold;
+}
+
 .TableRowText01narrow {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FFFFFF;
+	background-color: #9DACBF;
+	text-align: center;
+	vertical-align: middle;
+	height: 30px;
+	width: 80px;
+	font-weight: bold;
+}
+
+.TableRowText01narrow_unsortable {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
 	color: #FFFFFF;

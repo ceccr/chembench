@@ -80,7 +80,7 @@ function validateSoftwareLinkForm(){
 				<th class="TableRowText01">Function</th>
 				<th class="TableRowText01">Availability</th>
 				<th class="TableRowText01">Reference</th>
-				<th class="unsortable" class="TableRowText01">Delete</th>
+				<th class="TableRowText01_unsortable">Delete</th>
 			</tr>
 			<s:iterator value="softwareLinks">
 			<s:if test="type==#softwareType.value">

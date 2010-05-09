@@ -10,9 +10,9 @@ Version 1.5.7
 
 /* You can change these values */
 var image_path = "/theme/img/";
-var image_up = "/theme/img/sortArrowUp.png";
-var image_down = "/theme/img/sortArrowDown.png";
-var image_none = "/theme/img/sortArrowUpDown.png";
+var image_up = "sortArrowUp.png";
+var image_down = "sortArrowDown.png";
+var image_none = "sortArrowUpDown.png";
 var europeandate = false;
 var alternate_row_colors = true;
 
