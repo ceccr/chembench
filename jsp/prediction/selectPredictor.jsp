@@ -18,6 +18,7 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 
 <script src="javascript/script.js"></script>
+<script language="JavaScript" src="javascript/sortableTable.js"></script>
 
 </head>
 <body onload="setTabToPrediction();">
@@ -62,14 +63,14 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are public predictors useful for virtual screening.
 			</p>
-				<table width="100%">
+				<table width="100%" class="sortable">
 				<tr>
-					<td class="TableRowText01narrow">Select</td>
-					<td class="TableRowText01narrow">Name</td>
-					<td class="TableRowText01narrow">Date Created</td>
-					<td class="TableRowText01narrow">Modeling Method</td>
-					<td class="TableRowText01narrow">Descriptor Type</td>
-					<td class="TableRowText01narrow" colspan="2">Description</td>
+					<th class="TableRowText01narrow_unsortable">Select</th>
+					<th class="TableRowText01narrow">Name</td>
+					<th class="TableRowText01narrow">Date Created</th>
+					<th class="TableRowText01narrow">Modeling Method</th>
+					<th class="TableRowText01narrow">Descriptor Type</th>
+					<th class="TableRowText01narrow_unsortable" colspan="2">Description</th>
 				</tr>
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='DrugDiscovery'">
@@ -93,14 +94,14 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are public predictors useful for prediction of absorption, distribution, metabolism, and excretion properties.
 			</p>
-				<table width="100%">
+				<table width="100%" class="sortable">
 				<tr>
-					<td class="TableRowText01narrow">Select</td>
-					<td class="TableRowText01narrow">Name</td>
-					<td class="TableRowText01narrow">Date Created</td>
-					<td class="TableRowText01narrow">Modeling Method</td>
-					<td class="TableRowText01narrow">Descriptor Type</td>
-					<td class="TableRowText01narrow" colspan="2">Description</td>
+					<th class="TableRowText01narrow_unsortable">Select</th>
+					<th class="TableRowText01narrow">Name</td>
+					<th class="TableRowText01narrow">Date Created</th>
+					<th class="TableRowText01narrow">Modeling Method</th>
+					<th class="TableRowText01narrow">Descriptor Type</th>
+					<th class="TableRowText01narrow_unsortable" colspan="2">Description</th>
 				</tr>
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='ADME'">
@@ -124,14 +125,14 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are public predictors useful for toxicity prediction.
 			</p>
-				<table width="100%">
+				<table width="100%" class="sortable">
 				<tr>
-					<td class="TableRowText01narrow">Select</td>
-					<td class="TableRowText01narrow">Name</td>
-					<td class="TableRowText01narrow">Date Created</td>
-					<td class="TableRowText01narrow">Modeling Method</td>
-					<td class="TableRowText01narrow">Descriptor Type</td>
-					<td class="TableRowText01narrow" colspan="2">Description</td>
+					<th class="TableRowText01narrow_unsortable">Select</th>
+					<th class="TableRowText01narrow">Name</td>
+					<th class="TableRowText01narrow">Date Created</th>
+					<th class="TableRowText01narrow">Modeling Method</th>
+					<th class="TableRowText01narrow">Descriptor Type</th>
+					<th class="TableRowText01narrow_unsortable" colspan="2">Description</th>
 				</tr>
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='Toxicity'">
@@ -155,15 +156,15 @@
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			These are private predictors you have created. Other users cannot access them.
 			</p>
-			<table width="100%">
-			<tr>
-				<td class="TableRowText01">Select</td>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Date Created</td>
-				<td class="TableRowText01">Modeling Method</td>
-				<td class="TableRowText01">Descriptor Type</td>
-				<td class="TableRowText01">Dataset</td>
-			</tr>
+			<table width="100%" class="sortable">
+				<tr>
+				<th class="TableRowText01narrow_unsortable">Select</th>
+				<th class="TableRowText01narrow">Name</td>
+				<th class="TableRowText01narrow">Date Created</th>
+				<th class="TableRowText01narrow">Modeling Method</th>
+				<th class="TableRowText01narrow">Descriptor Type</th>
+				<th class="TableRowText01">Dataset</th>
+			</tr>			
 			<s:iterator value="userPredictors">
 				<s:if test="predictorType=='Private'">
 					<tr>

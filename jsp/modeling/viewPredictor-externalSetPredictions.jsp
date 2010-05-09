@@ -3,6 +3,8 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
+<script language="JavaScript" src="javascript/sortableTable.js"></script>
+
 	<br />
 	
 	<!-- External Validation Compound Predictions -->
@@ -17,15 +19,15 @@
 		</s:else>
 	</s:if>
 	<s:else>
-	<table width="100%" align="center">
+	<table width="100%" align="center" class="sortable">
 		<!--DWLayoutTable-->
 		<tr>
-		<td class="TableRowText01">Compound ID</td>
-		<td class="TableRowText01">Structure</td>
-		<td class="TableRowText01">Observed Value</td>
-		<td class="TableRowText01">Predicted Value</td>
-		<td class="TableRowText01">Residual</td>
-		<td class="TableRowText01">Predicting Models / Total Models</td>
+		<th class="TableRowText01">Compound ID</th>
+		<th class="TableRowText01_unsortable">Structure</th>
+		<th class="TableRowText01">Observed Value</th>
+		<th class="TableRowText01">Predicted Value</th>
+		<th class="TableRowText01">Residual</th>
+		<th class="TableRowText01">Predicting Models / Total Models</th>
 		</tr>
 	</s:else>	
 		

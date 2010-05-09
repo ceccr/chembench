@@ -18,6 +18,7 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 
 <script src="javascript/script.js"></script>
+<script language="JavaScript" src="javascript/sortableTable.js"></script>
 </head>
 <body onload="setTabToMyBench();">
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
@@ -71,16 +72,16 @@
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
 		<s:if test="! incomingJobs.isEmpty()">
-		<table>
+		<table class="sortable">
 			<tr>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Owner</td>
-				<td class="TableRowText01">Job Type</td>
-				<td class="TableRowText01">Number of Compounds</td>
-				<td class="TableRowText01">Number of Models</td>
-				<td class="TableRowText01">Time Created</td>
-				<td class="TableRowText01">Status</td>
-				<td class="TableRowText01">Cancel</td>
+				<th class="TableRowText01">Name</th>
+				<th class="TableRowText01">Owner</th>
+				<th class="TableRowText01">Job Type</th>
+				<th class="TableRowText01">Number of Compounds</th>
+				<th class="TableRowText01">Number of Models</th>
+				<th class="TableRowText01">Time Created</th>
+				<th class="TableRowText01">Status</th>
+				<th class="TableRowText01_unsortable">Cancel</th>
 			</tr>
 			<s:iterator value="incomingJobs">
 				<tr>
@@ -117,16 +118,16 @@
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
 		<s:if test="! localJobs.isEmpty()">
-		<table>
+		<table class="sortable">
 			<tr>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Owner</td>
-				<td class="TableRowText01">Job Type</td>
-				<td class="TableRowText01">Number of Compounds</td>
-				<td class="TableRowText01">Number of Models</td>
-				<td class="TableRowText01">Time Created</td>
-				<td class="TableRowText01">Status</td>
-				<td class="TableRowText01">Cancel</td>
+				<th class="TableRowText01">Name</th>
+				<th class="TableRowText01">Owner</th>
+				<th class="TableRowText01">Job Type</th>
+				<th class="TableRowText01">Number of Compounds</th>
+				<th class="TableRowText01">Number of Models</th>
+				<th class="TableRowText01">Time Created</th>
+				<th class="TableRowText01">Status</th>
+				<th class="TableRowText01_unsortable">Cancel</th>
 			</tr>
 			<s:iterator value="localJobs">
 				<tr>
@@ -164,16 +165,16 @@
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
 		<s:if test="! lsfJobs.isEmpty()">
-		<table>
+		<table class="sortable">
 			<tr>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Owner</td>
-				<td class="TableRowText01">Job Type</td>
-				<td class="TableRowText01">Number of Compounds</td>
-				<td class="TableRowText01">Number of Models</td>
-				<td class="TableRowText01">Time Created</td>
-				<td class="TableRowText01">Status</td>
-				<td class="TableRowText01">Cancel</td>
+				<th class="TableRowText01">Name</th>
+				<th class="TableRowText01">Owner</th>
+				<th class="TableRowText01">Job Type</th>
+				<th class="TableRowText01">Number of Compounds</th>
+				<th class="TableRowText01">Number of Models</th>
+				<th class="TableRowText01">Time Created</th>
+				<th class="TableRowText01">Status</th>
+				<th class="TableRowText01_unsortable">Cancel</th>
 			</tr>
 			<s:iterator value="lsfJobs">
 				<tr>
@@ -210,16 +211,16 @@
 			</div></td>
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
-		<table>
+		<table class="sortable">
 			<tr>
-				<td class="TableRowText01">Name</td>
-				<td class="TableRowText01">Owner</td>
-				<td class="TableRowText01">Job Type</td>
-				<td class="TableRowText01">Number of Compounds</td>
-				<td class="TableRowText01">Number of Models</td>
-				<td class="TableRowText01">Time Created</td>
-				<td class="TableRowText01">Status</td>
-				<td class="TableRowText01">Cancel</td>
+				<th class="TableRowText01">Name</th>
+				<th class="TableRowText01">Owner</th>
+				<th class="TableRowText01">Job Type</th>
+				<th class="TableRowText01">Number of Compounds</th>
+				<th class="TableRowText01">Number of Models</th>
+				<th class="TableRowText01">Time Created</th>
+				<th class="TableRowText01">Status</th>
+				<th class="TableRowText01_unsortable">Cancel</th>
 			</tr>
 			<s:iterator value="lsfJobs">
 				<tr>
@@ -257,15 +258,15 @@
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of dataset to visualize it.</i><br />
 			
-			<table>
+			<table class="sortable">
 				<tr>
-					<td class="TableRowText01">Name</td>
-					<td class="TableRowText01">Date Created</td>
-					<td class="TableRowText01">Number of Compounds</td>
-					<td class="TableRowText01">Type</td>
-					<td class="TableRowText01">Public/Private</td>
-					<td class="TableRowText01">Download</td>
-					<td class="TableRowText01">Delete</td>
+					<th class="TableRowText01">Name</th>
+					<th class="TableRowText01">Date Created</th>
+					<th class="TableRowText01">Number of Compounds</th>
+					<th class="TableRowText01">Type</th>
+					<th class="TableRowText01">Public/Private</th>
+					<th class="TableRowText01_unsortable">Download</th>
+					<th class="TableRowText01_unsortable">Delete</th>
 				</tr>
 				<s:iterator value="userDatasets">
 					<s:if test="hasBeenViewed=='YES'">
@@ -321,16 +322,16 @@
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of a predictor to analyze the modeling results.</i><br />
 			
-			<table>
+			<table class="sortable">
 				<tr>
-					<td class="TableRowText01">Name</td>
-					<td class="TableRowText01">Date Created</td>
-					<td class="TableRowText01">Modeling Method</td>
-					<td class="TableRowText01">Descriptor Type</td>
-					<td class="TableRowText01">Dataset</td>
-					<td class="TableRowText01">Public/Private</td>
-					<td class="TableRowText01">Download</td>
-					<td class="TableRowText01">Delete</td>
+					<th class="TableRowText01">Name</th>
+					<th class="TableRowText01">Date Created</th>
+					<th class="TableRowText01">Modeling Method</th>
+					<th class="TableRowText01">Descriptor Type</th>
+					<th class="TableRowText01">Dataset</th>
+					<th class="TableRowText01">Public/Private</th>
+					<th class="TableRowText01_unsortable">Download</th>
+					<th class="TableRowText01_unsortable">Delete</th>
 				</tr>
 				<s:iterator value="userPredictors">
 					<s:if test="hasBeenViewed=='YES'">
@@ -377,14 +378,14 @@
 		<tr>
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of a prediction to see the results.</i><br />
-			<table>
+			<table class="sortable">
 				<tr>
-					<td class="TableRowText01">Name</td>
-					<td class="TableRowText01">Date Created</td>
-					<td class="TableRowText01">Dataset</td>
-					<td class="TableRowText01">Predictor</td>
-					<td class="TableRowText01">Download</td>
-					<td class="TableRowText01">Delete</td>
+					<th class="TableRowText01">Name</th>
+					<th class="TableRowText01">Date Created</th>
+					<th class="TableRowText01">Dataset</th>
+					<th class="TableRowText01">Predictor</th>
+					<th class="TableRowText01_unsortable">Download</th>
+					<th class="TableRowText01_unsortable">Delete</th>
 				</tr>
 				<s:iterator value="userPredictions">
 					<s:if test="hasBeenViewed=='YES'">

@@ -3,6 +3,8 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
+<script language="JavaScript" src="javascript/sortableTable.js"></script>
+
 <!-- y-Random Models -->	
 	<br />
 	<p class="StandardTextDarkGray"><b><u>y-Randomization Results</u></b></p>
@@ -23,19 +25,19 @@
 	</p>
 
 	<s:if test="selectedPredictor.numyTestModels>0">
-	<table width="100%" align="center">
+	<table width="100%" align="center" class="sortable">
 	<s:if test="dataType=='CONTINUOUS'">
 	<tr>
-		<td class="TableRowText01narrow">nnn</td>
-		<td class="TableRowText01narrow">q<sup>2</sup></td>
-		<td class="TableRowText01narrow">n</td>
-		<td class="TableRowText01narrow">r</td>
-		<td class="TableRowText01narrow">r<sup>2</sup></td>
-		<td class="TableRowText01narrow">R<sub>01</sub><sup>2</sup></td>
-		<td class="TableRowText01narrow">R<sub>02</sub><sup>2</sup></td>
-		<td class="TableRowText01narrow">k1</td>
-		<td class="TableRowText01narrow">k2</td>
-		<td class="TableRowText01narrow" colspan="2">Descriptors</td>
+		<th class="TableRowText01narrow">nnn</th>
+		<th class="TableRowText01narrow">q<sup>2</sup></th>
+		<th class="TableRowText01narrow">n</th>
+		<th class="TableRowText01narrow">r</th>
+		<th class="TableRowText01narrow">r<sup>2</sup></th>
+		<th class="TableRowText01narrow">R<sub>01</sub><sup>2</sup></th>
+		<th class="TableRowText01narrow">R<sub>02</sub><sup>2</sup></th>
+		<th class="TableRowText01narrow">k1</th>
+		<th class="TableRowText01narrow">k2</th>
+		<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors</th>
 	</tr>
 	
 	<s:iterator value="randomModels" status="randomModelsStatus">
@@ -55,12 +57,12 @@
 	</s:if>
 	<s:elseif test="dataType=='CATEGORY'">
 	<tr>
-		<td class="TableRowText01">nnn</td>
-		<td class="TableRowText01">Training Accuracy</td>
-		<td class="TableRowText01">Normalized Training Accuracy</td>
-		<td class="TableRowText01">Test Accuracy</td>
-		<td class="TableRowText01">Normalized Test Accuracy</td>
-		<td class="TableRowText01" colspan="2">Descriptors</td>
+		<th class="TableRowText01">nnn</th>
+		<th class="TableRowText01">Training Accuracy</th>
+		<th class="TableRowText01">Normalized Training Accuracy</th>
+		<th class="TableRowText01">Test Accuracy</th>
+		<th class="TableRowText01">Normalized Test Accuracy</th>
+		<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors</th>
 	</tr>
 	
 	<s:iterator value="randomModels" status="randomModelsStatus">
