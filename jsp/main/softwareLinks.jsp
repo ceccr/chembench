@@ -14,8 +14,10 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 <link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="javascript/script.js"> </script>
-<script type="text/javascript" src="javascript/sortableTable.js"></script>
+<script language="JavaScript" src="javascript/sortableTable.js"></script>
 <script language="JavaScript"> 
+
+alert("cool");
 
 function validateSoftwareLinkForm(){
 	var func = document.getElementById('function').value;
@@ -162,7 +164,7 @@ function validateSoftwareLinkForm(){
 					<div align="right" class="StandardTextDarkGray"><b>&nbsp;</b></div>
 					</td>
 					<td align="left" valign="top">
-					<input type="button" name="userAction" id="userAction" onclick="if(validateSoftwareLinkForm) { document.forms['addSoftware'].submit(); }" value="Submit" />
+					<input type="button" name="userAction" id="userAction" onclick="if(validateSoftwareLinkForm()) { document.forms['addSoftware'].submit(); }" value="Submit" />
 					</td>
 				</tr>
 				</s:if>

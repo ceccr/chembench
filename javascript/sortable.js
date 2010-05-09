@@ -16,6 +16,8 @@ var image_none = "arrow-none.gif";
 var europeandate = false;
 var alternate_row_colors = true;
 
+alert("supercool");
+
 /* Don't change anything below this unless you know what you're doing */
 addEvent(window, "load", sortables_init);
 
