@@ -48,7 +48,7 @@ function ts_makeSortable(t) {
 	// We have a first row: assume it's the header, and make its contents clickable links
 	for (var i=0;i<firstRow.cells.length;i++) {
 		var cell = firstRow.cells[i];
-		var txt = cell.innerText;
+		var txt = cell.innerHTML;
 		if (cell.className != "unsortable" && cell.className.indexOf("unsortable") == -1) {
 			cell.innerText = '<a href="#" onclick="ts_resortTable(this, '+i+');return false;">'+txt+'<span class="sortarrow">&nbsp;&nbsp;<img src="'+ image_path + image_none + '" alt="&darr;"/></span></a>';
 		}
