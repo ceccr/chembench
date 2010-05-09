@@ -172,7 +172,16 @@ body {
 	font-weight: bold;
 }
 
-.TableRowText01.a {
+.TableRowText01 a:link {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-decoration: none;
+	outline: none;
+}
+
+.TableRowText01 a:visited {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	color: #FFFFFF;
