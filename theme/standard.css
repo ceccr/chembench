@@ -173,8 +173,8 @@ body {
 }
 
 .TableRowText01 a:link {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
 	color: #FFFFFF;
 	font-weight: bold;
 	text-decoration: none;
@@ -182,8 +182,8 @@ body {
 }
 
 .TableRowText01 a:visited {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
 	color: #FFFFFF;
 	font-weight: bold;
 	text-decoration: none;
@@ -214,9 +214,18 @@ body {
 	font-weight: bold;
 }
 
-.TableRowText01narrow.a {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
+.TableRowText01narrow a:link {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #FFFFFF;
+	font-weight: bold;
+	text-decoration: none;
+	outline: none;
+}
+
+.TableRowText01narrow a:visited {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
 	color: #FFFFFF;
 	font-weight: bold;
 	text-decoration: none;
