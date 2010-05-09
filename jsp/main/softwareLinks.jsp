@@ -69,7 +69,7 @@ function validateSoftwareLinkForm(){
 		
 		<!-- Tables of software links, one table for each software type -->
 		<s:iterator value="softwareTypes" var="softwareType">
-			<table width="924" align="center" class="sortable" >
+			<table width="924" align="center" class="sortable" id="<s:property value="value" />" >
 			<tr><td>
 			<br /><br />
 			<p class="StandardTextDarkGrayParagraph2"><b><s:property value="value" /></b></p>
