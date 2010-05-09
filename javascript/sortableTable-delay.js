@@ -1,13 +1,10 @@
 /*
-Table sorting script  by Joost de Valk, check it out at http://www.joostdevalk.nl/code/sortable-table/.
-Based on a script from http://www.kryogenix.org/code/browser/sorttable/.
-Distributed under the MIT license: http://www.kryogenix.org/code/browser/licence.html .
-
-Copyright (c) 1997-2007 Stuart Langridge, Joost de Valk.
-
-Version 1.5.7
+Copy of sortableTable - only difference is, it uses a delay 
+before adding the sorts to the table elements on the page.
+This is a dirty hack, but it's useful where there's <sx:tabbedpanel> doing dynamic
+loading - without the delay, it's possible for the init() function to miss some tables.
 */
-addEvent(window, "load", sortables_init);
+addEvent(window, "load", sortables_init_delay);
 
 /* You can change these values */
 var image_path = "/theme/img/";

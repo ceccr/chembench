@@ -17,6 +17,8 @@
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
 	<script language="JavaScript" src="javascript/script.js"></script>
+	setTimeout("javascript statement",milliseconds);
+	<script language="JavaScript" src="javascript/sortableTable-delay.js"></script>
 	
 </head>
 
@@ -101,8 +103,6 @@
 		-->	
 			
 	   	</sx:tabbedpanel>
-	   	
-	<script language="JavaScript" src="javascript/sortableTable.js"></script>
 		<!-- end load tabs -->
 
 	<!-- End Header Info -->
