@@ -296,10 +296,9 @@ function trim(s) {
 }
 
 function ts_sort_alphanumeric(a,b) {
-	an1 = sort_date(ts_getInnerText(a.cells[SORT_COLUMN_INDEX]));
-	an2 = sort_date(ts_getInnerText(b.cells[SORT_COLUMN_INDEX]));
-	
-	return alphanumSort(an1, an2);
+	var aa = ts_getInnerText(a.cells[SORT_COLUMN_INDEX]);
+	var bb = ts_getInnerText(b.cells[SORT_COLUMN_INDEX]);
+	return alphanumSort(aa,bb);
 }
 
 function alphanumSort(a, b) {
