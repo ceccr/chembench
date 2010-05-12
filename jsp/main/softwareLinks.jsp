@@ -80,6 +80,7 @@ function validateSoftwareLinkForm(){
 				<th class="TableRowText01">Function</th>
 				<th class="TableRowText01">Availability</th>
 				<th class="TableRowText01">Reference</th>
+				<th class="TableRowText01">Submitted By</th>
 				<th class="TableRowText01_unsortable">Delete</th>
 			</tr>
 			<s:iterator value="softwareLinks">
@@ -89,6 +90,7 @@ function validateSoftwareLinkForm(){
 				<td class="TableRowText02"><s:property value="function" /></td>
 				<td class="TableRowText02"><s:property value="availability" /></td>
 				<td class="TableRowText02"><s:property value="reference" /> </td>
+				<td class="TableRowText02"><s:property value="userName" /> </td>
 				<td class="TableRowText02"><s:if test="userIsAdmin || userName==#loggedInUser"><a href="deleteSoftwareLink?id=<s:property value="id" />">Delete</a></s:if></td>
 				
 			</tr> 
