@@ -61,13 +61,13 @@ function ts_makeSortable(t) {
 }
 
 function ts_getInnerText(el) {
+	//For table fields we want to remove any HTML tags that might be there
+	//so that we alphabetize based on what the user can actually see.
+	
 	if (typeof el == "string") return el;
 	if (typeof el == "undefined") { return el };
 	if (el.innerText) return el.innerText;	//Not needed but it is faster
-	return el.innerHTML;
 	
-	//all this childnodes crap breaks my r<sup>2</sup> type table headers. Removing it until it's proven worthy.
-	/*
 	var str = "";
 	
 	var cs = el.childNodes;
@@ -82,7 +82,7 @@ function ts_getInnerText(el) {
 				break;
 		}
 	}
-	return str;*/
+	return str;
 }
 
 function ts_resortTable(lnk, clid) {
