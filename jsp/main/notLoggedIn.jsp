@@ -28,11 +28,12 @@
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr><td>
         <p class="StandardTextDarkGrayParagraph">
-		You are seeing this page because you are currently not logged in or your session has expired.
-		<br />
-		If you need to make an account, you can do so from the <a href="home.do">Home</a> page. 
-		You can log in from the <a href="home.do">Home</a> page as well.
-		<br />
+		You are seeing this page because you are currently not logged in, or your session has expired.
+		<br /><br />
+		If you need an account, you can make one from the <a href="home.do">Home</a> page. Creating an account is quick and free.
+		<br /><br />
+		If you already have an account, uou can log in from the <a href="home.do">Home</a> page as well.
+		<br /><br />
 		Thanks for using Chembench! If you encounter any problems, please contact us at ceccr@email.unc.edu.
 		</p>
 		</td></tr>

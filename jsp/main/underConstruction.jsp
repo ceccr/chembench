@@ -23,8 +23,8 @@
 	<tr><td height="180" colspan="5" valign="top"
 			background="theme/img/backgrindex.jpg" STYLE="background-repeat: no-repeat;">
 			<br />
-		<p class="StandardTextDarkGrayParagraph"><b>
-		COMING SOON.<br />This page is currently under construction.</b></p>
+		<p class="StandardTextDarkGrayParagraph">
+		COMING SOON.<br />This page is currently under construction.</p>
 		</td></tr>
 		</table>
 	</td></tr>
