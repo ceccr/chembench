@@ -206,7 +206,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td><b class='StandardTextDarkGrayParagraph'>Dataset description:</b></td>
+			<td><b class='StandardTextDarkGrayParagraph'>Description (optional):</b></td>
 			<td align="left"><s:textarea name="dataSetDescription" id="dataSetDescription" style="height: 50px; width: 70%"/>
 			</td>
 		</tr>

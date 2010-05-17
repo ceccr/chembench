@@ -14,7 +14,7 @@
         <default-action-ref name="index" />
 		
 		<global-results>
-		<result name="login">jsp/main/home.jsp</result>
+		<result name="login">jsp/main/notLoggedIn.jsp</result>
 		</global-results>
 		
        <!-- Main pages -->

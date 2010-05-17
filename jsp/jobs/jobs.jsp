@@ -96,10 +96,10 @@
 					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
 					<s:elseif test="user.userName==userName"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
 				</td>
-				</tr> 
+				</tr>
 			</s:iterator>
-			<tr><td colspan="2">&nbsp;</td></tr>
 		</table>
+		<table><tr><td colspan="2">&nbsp;</td></tr></table>
 		</s:if>
 		<s:else>
 		<table>
@@ -144,8 +144,8 @@
 				</td>
 				</tr> 
 			</s:iterator>
-			<tr><td colspan="2">&nbsp;</td></tr>
 		</table>
+		<table><tr><td colspan="2">&nbsp;</td></tr></table>
 		</s:if>
 		<s:else>
 		<table>
@@ -191,8 +191,8 @@
 				</td>
 				</tr> 
 			</s:iterator>
-			<tr><td colspan="2">&nbsp;</td></tr>
 		</table>
+		<table><tr><td colspan="2">&nbsp;</td></tr></table>
 		</s:if>
 		<s:else>
 		<table>
