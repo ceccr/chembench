@@ -41,7 +41,7 @@ if(anonUser == null){
 			background="theme/img/backgrpredictors.jpg">
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<p class="StandardTextDarkGrayParagraph">
-		<b>ChemBench Predictors</b>
+		<b>Chembench Predictors</b>
 		</p>
 		
 		<table width="465" border="0" cellspacing="0" cellpadding="0">

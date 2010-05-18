@@ -45,8 +45,8 @@
           <tr>
             <td>
 		<p align="justify" class="StandardTextDarkGrayParagraph"><br />
-		Welcome to Carolina Cheminformatics Workbench (ChemBench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
-		Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using ChemBench. 
+		Welcome to Carolina Cheminformatics Workbench (Chembench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
+		Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using Chembench. 
 		An asterisk (*) indicates required fields.<br/>
         </td>
           </tr>

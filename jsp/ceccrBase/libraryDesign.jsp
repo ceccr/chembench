@@ -36,7 +36,7 @@
             <td>
 		<p align="justify" class="StandardTextDarkGrayParagraph"><br />
 		
-		<b>Coming Soon: ChemBench Library Design</b><br/><br/>
+		<b>Coming Soon: Chembench Library Design</b><br/><br/>
 		
 		'CECCR Library Design' provides a comprehensive set of tools that can be used to enumerate virtual libraries, computationally profile virtual compound sets, and
 		select subsets of compounds for <strong>synthesis and/or screening</strong>. <br/><br/>CECCR Library Design uses a multiobjective optimization algorithm to
