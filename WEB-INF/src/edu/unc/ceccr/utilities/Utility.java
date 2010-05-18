@@ -253,11 +253,6 @@ public class Utility {
 		return user_can_download;
 	}
 
-	public synchronized void increaseCounter() throws IOException {
-		int counter = readCounter();
-		writeCounter(counter + 1);
-	}
-
 	public int readCounter() throws FileNotFoundException, IOException {
 		int counter = 0;
 		try{
@@ -267,6 +262,9 @@ public class Utility {
 				BufferedReader br = new BufferedReader(new FileReader(counterFile));
 				String counterStr = br.readLine();
 				counter = Integer.parseInt(counterStr);
+				
+				//increase by 1
+				writeCounter(counter + 1);
 			}
 		}
 		catch(Exception ex){
