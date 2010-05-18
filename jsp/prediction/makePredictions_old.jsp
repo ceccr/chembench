@@ -10,7 +10,7 @@
 
 <html:html>
 <head>
-<title>C-CHEMBENCH | Make Predictions</title>
+<title>CHEMBENCH | Make Predictions</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />

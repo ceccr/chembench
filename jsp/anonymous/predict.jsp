@@ -10,7 +10,7 @@
 <% Utility u=new Utility();%>
 <html:html>
 <head>
-<title>C-CHEMBENCH | Make Simple Predictions </title>
+<title>CHEMBENCH | Make Simple Predictions </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
@@ -41,7 +41,7 @@ if(anonUser == null){
 			background="theme/img/backgrpredictors.jpg">
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<p class="StandardTextDarkGrayParagraph">
-		<b>C-ChemBench Predictors</b>
+		<b>ChemBench Predictors</b>
 		</p>
 		
 		<table width="465" border="0" cellspacing="0" cellpadding="0">

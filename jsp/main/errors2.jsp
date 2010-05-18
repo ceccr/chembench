@@ -9,7 +9,7 @@
 <%@page language="java" import="java.util.*" %>
 <html>
 <head>
-    <title>C-CHEMBENCH | Error</title>
+    <title>CHEMBENCH | Error</title>
     
     <link href="theme/ss.css" rel="stylesheet" type="text/css" />
 	<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
@@ -38,7 +38,7 @@
 				<p class="StandardTextDarkGrayParagraph"><b><br>Error: </b></p>
 		<p align="justify" class="StandardTextDarkGrayParagraph">
 		<s:property value="errorString" /><br><br>
-		To report a bug, or if you need help with C-Chembench, you can reach us at <a href="ceccr@email.unc.edu">ceccr@email.unc.edu</a>. <br />
+		To report a bug, or if you need help with Chembench, you can reach us at <a href="ceccr@email.unc.edu">ceccr@email.unc.edu</a>. <br />
 		Include this error text in your email, along with a description of the problem.<br />
 		Thanks, <br />
 		The Chembench Team

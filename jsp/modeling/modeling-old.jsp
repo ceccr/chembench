@@ -9,7 +9,7 @@
 
 <html:html>
 <head>
-<title>C-CHEMBENCH | Modeling</title>
+<title>CHEMBENCH | Modeling</title>
 
 <link href="theme/ss.css" rel="stylesheet" type="text/css" />
 <link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
@@ -49,7 +49,7 @@ var usedTaskNames = new Array(<logic:iterate id="tn" name="taskNames" type="Stri
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td>
-				<p class="StandardTextDarkGrayParagraph"><b><br>C-Chembench Model
+				<p class="StandardTextDarkGrayParagraph"><b><br>Chembench Model
 		Development</b></p>
 		<p align="justify" class="StandardTextDarkGrayParagraph">kNN QSAR models can currently
 		be developed for any dataset using the Model Building section of this

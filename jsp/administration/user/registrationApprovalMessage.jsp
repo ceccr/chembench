@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<title>C-CHEMBENCH | New User Registration</title>
+<title>CHEMBENCH | New User Registration</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet"	type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
@@ -41,7 +41,7 @@
 		While you wait, you might like to read the <a href="/help-overview#justRegistered">overview of Chembench</a>.
 		<br /><br />
 		Enjoy,<br/>
-		The C-Chembench Team.
+		The Chembench Team.
 		<br/>
 		<br/></p>
 			

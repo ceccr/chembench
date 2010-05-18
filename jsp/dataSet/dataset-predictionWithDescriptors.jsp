@@ -19,7 +19,7 @@
 	  <tr>
 		<td colspan="2">
 		<div class="StandardTextDarkGrayParagraph"><i>A dataset will be created from the <a href="">X</a> file you supply.<br/>
-		This allows you to generate descriptors outside of C-Chembench, and use them for prediction. <br />
+		This allows you to generate descriptors outside of Chembench, and use them for prediction. <br />
 		The descriptor type for the prediction dataset must match the descriptor type used in the modeling dataset. <br />
 		If you choose to supply an <a href="">SDF</a> file, images of your structures will be created.</i><br /></div>
 	    </td>

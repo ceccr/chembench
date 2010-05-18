@@ -9,7 +9,7 @@
 <html>
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
-<title>C-CHEMBENCH | My Bench</title>
+<title>CHEMBENCH | My Bench</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
@@ -31,7 +31,7 @@
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr><td>
         <p class="StandardTextDarkGrayParagraph">
-		Every dataset, predictor, and prediction you have created on C-Chembench is available on this page. 
+		Every dataset, predictor, and prediction you have created on Chembench is available on this page. 
 		You can also track progress of all the running jobs using the job queue.
 		</p>
 		</td></tr>

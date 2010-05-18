@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<title>C-CHEMBENCH | Registration </title>
+<title>CHEMBENCH | Registration </title>
 <link href="theme/miscellaneous.css" rel="stylesheet" type="text/css"/>
 <link href="theme/ss.css" rel="stylesheet" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -45,8 +45,8 @@
           <tr>
             <td>
 		<p align="justify" class="StandardTextDarkGrayParagraph"><br />
-		Welcome to Carolina Cheminformatics Workbench (C-ChemBench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
-		Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using C-ChemBench. 
+		Welcome to Carolina Cheminformatics Workbench (ChemBench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
+		Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using ChemBench. 
 		An asterisk (*) indicates required fields.<br/>
         </td>
           </tr>
@@ -104,7 +104,7 @@ Your password will be sent to this email address when you register.</small></i><
 
 <!-- 
 <tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Work Bench</td>
-<td width="250"><s:radio name="workBench" list="#{'cchem':'C-CHEM','ctox':'C-TOX'}" /></td>
+<td width="250"><s:radio name="workBench" list="#{'cchem':'CHEM','ctox':'TOX'}" /></td>
  -->
  <!-- The idea of having a separate workbench for tox people and for chem people may come back someday. Removed it for now. -->
 <s:hidden name="workbench" value="cchem" /> 

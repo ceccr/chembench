@@ -13,7 +13,7 @@
 
 <html:html>
 <head>
-<title>C-CHEMBENCH | Home </title>
+<title>CHEMBENCH | Home </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
@@ -31,18 +31,18 @@
       ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS<br />
         <br />
         <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
-      <p align="justify" class="ccbHomeStandard">The Carolina Cheminformatics Workbench (C-ChemBench) is an integrated toolkit developed by the <a href="http://ceccr.unc.edu" target="_blank">Carolina Exploratory Center for Cheminformatics Research (CECCR)</a> with the support of the <a href="http://www.nih.gov" target="_blank">National Institutes of Health</a> (grants  P20HG003898 and R01GM066940).</p>
+      <p align="justify" class="ccbHomeStandard">The Carolina Cheminformatics Workbench (Chembench) is an integrated toolkit developed by the <a href="http://ceccr.unc.edu" target="_blank">Carolina Exploratory Center for Cheminformatics Research (CECCR)</a> with the support of the <a href="http://www.nih.gov" target="_blank">National Institutes of Health</a> (grants  P20HG003898 and R01GM066940).</p>
       <p class="ccbHomeStandard"><img src="/theme/ccbTheme/images/ccbHomeMolecule3d.jpg" height="97" /></p>
       <p align="justify" class="ccbHomeStandard">It provides cheminformatics research support to molecular modelers, experimental chemists in the Chemical Synthesis Centers and quantitative biologists in the <a href="http://nihroadmap.nih.gov/molecularlibraries/" target="_blank">Molecular Libraries Screening Centers Network (MLSCN)</a> by integrating robust model builders, property and activity predictors, virtual library of available chemicals with predicted biological and drug-like properties, and special tools for chemical library design.</p>
-      <p align="justify" class="ccbHomeStandard">The Workbench is intended in part as a data analytical extension of the <a href="http://pubchem.ncbi.nlm.nih.gov/" target="_blank">PubChem</a>. C-ChemBench enables researchers to mine available chemical and biological data to rationally design or select new compounds or compound libraries with significantly enhanced hit rates in screening experiments.</p>
-      <!-- C-ChemBench Stats Notification Area starts here. -->
+      <p align="justify" class="ccbHomeStandard">The Workbench is intended in part as a data analytical extension of the <a href="http://pubchem.ncbi.nlm.nih.gov/" target="_blank">PubChem</a>. Chembench enables researchers to mine available chemical and biological data to rationally design or select new compounds or compound libraries with significantly enhanced hit rates in screening experiments.</p>
+      <!-- ChemBench Stats Notification Area starts here. -->
       <p align="justify" class="ccbHomeStandard">
-		C-ChemBench web site has been visited <%=u.getCounter()%> times and currently there are <%=au.getActiveSessions()%> users logged in. Thank you for your visit.
+		Chembench has been visited <%=u.getCounter()%> times and currently there are <%=au.getActiveSessions()%> users logged in. Thank you for your visit.
 	  </p>
 	  <p align="justify" class="ccbHomeStandard">	
 	  	<%=u.getJobStats()%>
 	  </p>
-	  <!-- C-ChemBench Stats end. -->
+	  <!-- ChemBench Stats end. -->
       <p class="ccbHomeHeadings">&nbsp;</p>
       <p>&nbsp;<noscript><font color="red">Warning: JavaScript is disabled on your computer. Some parts of Chembench may not work properly. Please enable JavaScript.</font></noscript></p>
     <p>&nbsp;</p></td>

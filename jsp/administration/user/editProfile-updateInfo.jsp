@@ -22,7 +22,7 @@
 
 <tr height="20"><td colspan="2" class="StandardTextDarkGray">
 <p align="justify" class="StandardTextDarkGrayParagraph">
-  This is the information collected when you first registered for C-Chembench. 
+  This is the information collected when you first registered for Chembench. 
   Update any fields you need to, then click "Submit". An asterisk (*) indicates required fields.<br/> 
 </td>
 <td width="250" align="left"></td></tr>
@@ -75,7 +75,7 @@
 
 <!-- 
 <tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Work Bench</td>
-<td width="250"><s:radio name="workBench" list="#{'cchem':'C-CHEM','ctox':'C-TOX'}" /></td>
+<td width="250"><s:radio name="workBench" list="#{'cchem':'CHEM','ctox':'TOX'}" /></td>
  -->
  <!-- The idea of having a separate workbench for tox people and for chem people may come back someday. Removed it for now. -->
 <s:hidden name="workbench" value="cchem" /> 

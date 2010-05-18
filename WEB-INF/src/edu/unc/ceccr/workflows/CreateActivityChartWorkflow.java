@@ -69,7 +69,7 @@ public class CreateActivityChartWorkflow {
 		
 		 chart.setBackgroundPaint(Color.gray);
 		 chart.getTitle().setPaint(Color.black); 
-		 TextTitle tt = new TextTitle("C-Chembench", new Font("Dialog", Font.PLAIN, 11));
+		 TextTitle tt = new TextTitle("Chembench", new Font("Dialog", Font.PLAIN, 11));
 		   tt.setPosition(RectangleEdge.BOTTOM); 
 		   tt.setHorizontalAlignment(HorizontalAlignment.RIGHT);
 		   tt.setMargin(0.0, 0.0, 4.0, 4.0);

@@ -8,7 +8,7 @@
 
 <html>
 <head>
-<title>C-CHEMBENCH | Cheminformatics Tools</title>
+<title>CHEMBENCH | Cheminformatics Tools</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>

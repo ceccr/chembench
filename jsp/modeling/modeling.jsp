@@ -8,7 +8,7 @@
 <html>
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
-    <title>C-CHEMBENCH | Modeling</title>
+    <title>CHEMBENCH | Modeling</title>
     
     <link href="theme/ss.css" rel="stylesheet" type="text/css" />
 	<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
@@ -44,7 +44,7 @@
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td>
-				<p class="StandardTextDarkGrayParagraph"><b><br>C-Chembench Model
+				<p class="StandardTextDarkGrayParagraph"><b><br>Chembench Model
 		Development</b></p>
 		<p align="justify" class="StandardTextDarkGrayParagraph">kNN QSAR predictors can 
 		be developed for any dataset using this page. Some sample

@@ -131,7 +131,7 @@ public String buildContent(String modelName,String userName)throws ClassNotFound
 	
    String newline=System.getProperty("line.separator");
 	
-	title=title+newline+newline+"C-ChemBench Models Output "+newline
+	title=title+newline+newline+"Chembench Models Output "+newline
 	+"========================================================="+newline
 	+"User Name                :  "+userName+newline
 	+"Model Name              :  "+predictor.getName()+newline

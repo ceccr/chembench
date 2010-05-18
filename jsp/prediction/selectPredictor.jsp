@@ -9,7 +9,7 @@
 <html>
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
-<title>C-CHEMBENCH | Select Predictors</title>
+<title>CHEMBENCH | Select Predictors</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
@@ -33,7 +33,7 @@
 			background="theme/img/backgrpredictors.jpg" STYLE="background-repeat: no-repeat;">
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<p class="StandardTextDarkGrayParagraph">
-		<b>C-ChemBench Predictors</b>
+		<b>ChemBench Predictors</b>
 		</p>
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
           <tr>

@@ -123,7 +123,7 @@ public String buildMainContent(String userName, Long predId,String predictor)thr
 	
    String newline=System.getProperty("line.separator");
 	
-	title=title+newline+newline+"C-ChemBench Prediction Output "+newline
+	title=title+newline+newline+"Chembench Prediction Output "+newline
 	+"========================================="+newline
 	+"User Name                :  "+userName+newline
 	+"Prediction Name       :  "+predictionJob.getJobName()+newline

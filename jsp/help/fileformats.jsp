@@ -87,8 +87,8 @@ $$$$
 <p>
 The first line is the chemical identifier of the first compound. The atom coordinates and bond information come after that. 
 There can be many optional fields. These come in an XML-like format (e.g. <MolWeight>128</MolWeight>) A 
-compound description ends with $$$$. Officially, an SDF is not allowed to contain lines of over 200 
-characters. In practice, many do. This can cause programs like MolconnZ to fail ungracefully, so C-Chembench 
+compound description ends with $$$$. By the official SDF standards, an SDF is not allowed to contain lines of over 200 
+characters. But in practice, many do. This can cause some programs to fail ungracefully, so Chembench 
 chops off SDF lines past 200 characters. 
 <a href="http://www.epa.gov/NCCT/dsstox/MoreonSDF.html">http://www.epa.gov/NCCT/dsstox/MoreonSDF.html</a>
  has more details on the SDF format.

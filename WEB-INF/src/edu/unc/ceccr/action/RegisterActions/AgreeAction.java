@@ -57,14 +57,14 @@ public class AgreeAction extends Action {
 				} finally {s.close();
 				
 				try{
-					String HtmlBody="Thank you for you interest in CECCR's C-Chembench. <br/>Your account has been approved.<br/>"
+					String HtmlBody="Thank you for you interest in Chembench. <br/>Your account has been approved.<br/>"
 						+"<br/> Your user name : "+userInfo.getUserName()
 						+"<br/> Your temporary password : " +password
 						+"<br/> Please note that passwords are case sensitive. "
-						+"<br/> In order to change your password, log in to C-Chembench ("+ Constants.WEBADDRESS+") and click the 'My Password' button at the upper right. <br/> It will take you to the change password page.  You may change your password any time through these pages."
+						+"<br/> In order to change your password, log in to Chembench ("+ Constants.WEBADDRESS+") and click the 'My Password' button at the upper right. <br/> It will take you to the change password page.  You may change your password any time through these pages."
 						+"<br/><br/> If you forget your password, click the 'User' button next to the login.  Your password will be reset and the new password will be sent to you."
-						+"<br/>We hope that you find C-Chembench to be a useful tool. <br/>If you have any problems or suggestions for improvements, please contact us at : "+Constants.WEBSITEEMAIL
-						+"<br/><br/>Thank you. <br/>The C-Chembench Team<br/>"+ new Date();
+						+"<br/>We hope that you find Chembench to be a useful tool. <br/>If you have any problems or suggestions for improvements, please contact us at : "+Constants.WEBSITEEMAIL
+						+"<br/><br/>Thank you. <br/>The Chembench Team<br/>"+ new Date();
 						
 					SendEmails.sendEmail(userInfo.getEmail(), "", "", "Congratulations, "+userInfo.getFirstName(), HtmlBody);
 					

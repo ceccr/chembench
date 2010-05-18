@@ -8,7 +8,7 @@
 
 <html:html>
 <head>
-<title>C-CHEMBENCH | Account Settings</title>
+<title>CHEMBENCH | Account Settings</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" 	type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />

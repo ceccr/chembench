@@ -9,7 +9,7 @@
 <html>
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
-    <title>C-CHEMBENCH | Make Predictions</title>
+    <title>CHEMBENCH | Make Predictions</title>
     
     <link href="theme/ss.css" rel="stylesheet" type="text/css" />
 	<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
@@ -74,7 +74,7 @@
 			<table width="465" border="0" cellspacing="0" cellpadding="0">
 	          <tr>
 	            <td>
-					<!-- <p class="StandardTextDarkGrayParagraph"><b><br>C-Chembench Predictions</b></p> -->
+					<!-- <p class="StandardTextDarkGrayParagraph"><b><br>Chembench Predictions</b></p> -->
 			<p align="justify" class="StandardTextDarkGrayParagraph">
 			<!-- description of predictions process goes here -->
 			<br><br>

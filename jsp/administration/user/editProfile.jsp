@@ -10,7 +10,7 @@
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
  
-    <title>C-CHEMBENCH | Edit Profile</title>
+    <title>CHEMBENCH | Edit Profile</title>
     
     <link href="theme/ss.css" rel="stylesheet" type="text/css" />
 	<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />

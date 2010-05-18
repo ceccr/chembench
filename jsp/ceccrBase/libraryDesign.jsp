@@ -11,7 +11,7 @@
 
 <html:html>
 <head>
-<title>C-CHEMBENCH | Library Design</title>
+<title>CHEMBENCH | Library Design</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" 	type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
@@ -36,7 +36,7 @@
             <td>
 		<p align="justify" class="StandardTextDarkGrayParagraph"><br />
 		
-		<b>Coming Soon: C-ChemBench Library Design</b><br/><br/>
+		<b>Coming Soon: ChemBench Library Design</b><br/><br/>
 		
 		'CECCR Library Design' provides a comprehensive set of tools that can be used to enumerate virtual libraries, computationally profile virtual compound sets, and
 		select subsets of compounds for <strong>synthesis and/or screening</strong>. <br/><br/>CECCR Library Design uses a multiobjective optimization algorithm to

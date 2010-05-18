@@ -7,7 +7,7 @@
 <%@ page import="edu.unc.ceccr.global.Constants" %>
 <html:html>
 <head>
-<title>C-CHEMBENCH | Registration </title>
+<title>CHEMBENCH | Registration </title>
 <link href="theme/miscellaneous.css" rel="stylesheet" type="text/css"/>
 <link href="theme/ss.css" rel="stylesheet" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />

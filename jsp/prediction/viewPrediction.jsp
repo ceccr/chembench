@@ -5,7 +5,7 @@
 <html>
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
-    <title>C-CHEMBENCH | View Prediction</title>
+    <title>CHEMBENCH | View Prediction</title>
       
     <link href="theme/ss.css" rel="stylesheet" type="text/css" />
 	<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />

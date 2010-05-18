@@ -8,7 +8,7 @@
 <jsp:useBean id="user" class="edu.unc.ceccr.persistence.User" scope="session"/>
 <html:html>
 <head>
-<title>C-CHEMBENCH | Virtual Pubchem</title>
+<title>CHEMBENCH | Virtual Pubchem</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />

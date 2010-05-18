@@ -99,12 +99,12 @@ public class RetrievePasswordAction extends Action {
 			e.printStackTrace(); 
 		} finally {s.close();}
 		
-		String HtmlBody=user.getFirstName()+", your C-Chembench password has been reset."+"<br/>"+"Your username: "+user.getUserName()
+		String HtmlBody=user.getFirstName()+", your Chembench password has been reset."+"<br/>"+"Your username: "+user.getUserName()
 		+"<br/> Your new password is: "+randomPassword+"<br/><br/><br/>"
 		+"You may login from "+Constants.WEBADDRESS+".<br/> <br/><br/>"
 		+"Once you are logged in, you may change your password from the 'edit profile' page.";
 		
-		SendEmails.sendEmail(user.getEmail(), "", "", "C-Chembench Password Reset", HtmlBody);
+		SendEmails.sendEmail(user.getEmail(), "", "", "Chembench Password Reset", HtmlBody);
 		return randomPassword;
 	}
 		

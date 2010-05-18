@@ -20,7 +20,7 @@
   <a href="#11">11. How are data sets divided?</a><br />
   <a href="#12">12. What methods of data set splitting are supported?</a><br />
   <a href="#13">13. How do the sphere exclusion parameters affect data set splitting?</a><br />
-  <a href="#14"><strong>14. How can I reach the C-ChemBench development team?</strong></a></p>
+  <a href="#14"><strong>14. How can I reach the ChemBench development team?</strong></a></p>
  <p align="justify" class="ccbHomeStandard">&nbsp;</p>
 </blockquote>
 <p align="justify" class="ccbHomeStandard"><a name="01" id="01"></a></p>
@@ -166,9 +166,9 @@
     <br />
     Selection of Next Training Set Point is Based on: When the assigned compounds are removed from the data set, another point needs to be selected. This parameter determines how that next point is chose: randomly or as close or as far as possible from the previous sphere center. </p>
  <p align="justify" class="ccbHomeStandard"><strong><a name="14" id="132"></a><br />
-14. How can I reach the C-ChemBench Development Team?</strong><br />
+14. How can I reach the ChemBench Development Team?</strong><br />
 <strong><br />
-</strong>The C-ChemBench Development team can be reached at ceccr (at) email.unc.edu.</p>
+</strong>The ChemBench Development team can be reached at ceccr (at) email.unc.edu.</p>
  <br /> 
  <br /> 
 

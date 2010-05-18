@@ -13,7 +13,7 @@
 <jsp:useBean id="au" class="edu.unc.ceccr.utilities.ActiveUser" scope="request" />
 <html:html>
 <head>
-<title>C-CHEMBENCH | Welcome</title>
+<title>CHEMBENCH | Welcome</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" 	type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />

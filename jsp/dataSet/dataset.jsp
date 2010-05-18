@@ -9,7 +9,7 @@
 <html>
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
-<title>C-CHEMBENCH | Dataset Management</title>
+<title>CHEMBENCH | Dataset Management</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
@@ -39,7 +39,7 @@
       <table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr>
           <td><p class="StandardTextDarkGrayParagraph"><b><br />
-            C-Chembench Dataset Creation</b></p>
+            Chembench Dataset Creation</b></p>
               <p align="justify" class="StandardTextDarkGrayParagraph">
               From this page, you may upload compounds to Chembench for use in modeling or prediction. <br />
               Compounds that have activities associated with them may be used to build models or in predictions. 
