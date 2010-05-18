@@ -253,7 +253,7 @@ public class Utility {
 		return user_can_download;
 	}
 
-	public int readCounter() throws FileNotFoundException, IOException {
+	public String readCounter() throws FileNotFoundException, IOException {
 		int counter = 0;
 		try{
 			File counterFile = new File(Constants.CECCR_USER_BASE_PATH
@@ -270,7 +270,7 @@ public class Utility {
 		catch(Exception ex){
 			//not worth killing the page for, do nothing
 		}
-		return counter;
+		return Integer.toString(counter);
 	}
 	
 	public void writeCounter(int counter) {
