@@ -596,7 +596,7 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			if(session.getTransaction().isActive()){
 			}
-			users = (List<User>) session.createCriteria(User.class);
+			users = (List<User>) session.createCriteria(User.class).list();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
@@ -615,7 +615,7 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			if(session.getTransaction().isActive()){
 			}
-			jobStats = (List<JobStats>) session.createCriteria(JobStats.class);
+			jobStats = session.createCriteria(JobStats.class).list();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
