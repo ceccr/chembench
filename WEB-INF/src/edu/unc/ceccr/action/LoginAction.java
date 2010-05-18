@@ -90,7 +90,6 @@ public class LoginAction extends Action {
 				
 				Utility.writeToUsageLog("Logged in", user.getUserName());
 				forward = mapping.findForward("success");	
-				utility.increaseCounter();
 			}
 			else
 				forward = mapping.findForward("failure");
