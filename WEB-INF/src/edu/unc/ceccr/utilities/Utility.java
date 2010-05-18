@@ -253,19 +253,21 @@ public class Utility {
 		return user_can_download;
 	}
 
-	public String readCounter() throws FileNotFoundException, IOException {
+	public String readCounter(){
 		int counter = 0;
 		try{
-			File counterFile = new File(Constants.CECCR_USER_BASE_PATH
-					+ "counter.txt");
+			Utility.writeToDebug("opening file");
+			File counterFile = new File(Constants.CECCR_USER_BASE_PATH + "counter.txt");
 			if (counterFile.exists()) {
 				BufferedReader br = new BufferedReader(new FileReader(counterFile));
 				String counterStr = br.readLine();
 				counter = Integer.parseInt(counterStr);
 				br.close();
+				Utility.writeToDebug("closed file");
 				
 				//increase by 1
 				writeCounter(counter + 1);
+				Utility.writeToDebug("increased counter by 1");
 			}
 		}
 		catch(Exception ex){
@@ -291,9 +293,10 @@ public class Utility {
 		}
 	}
 
-	public String getJobStats() throws FileNotFoundException, IOException {
+	public String getJobStats() {
 		//get info from database
-		
+
+		Utility.writeToDebug("getting job stats");
 		int numUsers = 0;
 		int computeHours = 0;
 		int numJobs = 0;
@@ -313,6 +316,8 @@ public class Utility {
 					computeHours += timeDiffInHours;
 				}
 			}
+
+			Utility.writeToDebug("got job stats");
 			
 		} catch (Exception e) {
 			//don't sweat it - it's just a counter, not worth killing the page for if it fails
