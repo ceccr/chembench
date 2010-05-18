@@ -256,18 +256,15 @@ public class Utility {
 	public String readCounter(){
 		int counter = 0;
 		try{
-			Utility.writeToDebug("opening file");
 			File counterFile = new File(Constants.CECCR_USER_BASE_PATH + "counter.txt");
 			if (counterFile.exists()) {
 				BufferedReader br = new BufferedReader(new FileReader(counterFile));
 				String counterStr = br.readLine();
 				counter = Integer.parseInt(counterStr);
 				br.close();
-				Utility.writeToDebug("closed file");
 				
 				//increase by 1
 				writeCounter(counter + 1);
-				Utility.writeToDebug("increased counter by 1");
 			}
 		}
 		catch(Exception ex){
@@ -296,7 +293,6 @@ public class Utility {
 	public String getJobStats() {
 		//get info from database
 
-		Utility.writeToDebug("getting job stats");
 		int numUsers = 0;
 		int computeHours = 0;
 		int numJobs = 0;
@@ -309,15 +305,14 @@ public class Utility {
 			numJobs = jobStatList.size();
 			numUsers = users.size();
 			
+			long timeDiffs = 0;
 			for(JobStats js: jobStatList){
-				if(js.getTimeFinished() != null){
-					long timeDiff = js.getTimeFinished().getTime() - js.getTimeCreated().getTime();	
-					int timeDiffInHours = Math.round(timeDiff / 1000 / 60 / 60);
-					computeHours += timeDiffInHours;
+				if(js.getTimeFinished() != null && js.getTimeStarted() != null){
+					timeDiffs += js.getTimeFinished().getTime() - js.getTimeCreated().getTime();	
 				}
 			}
-
-			Utility.writeToDebug("got job stats");
+			int timeDiffInHours = Math.round(timeDiffs / 1000 / 60 / 60);
+			computeHours = timeDiffInHours;
 			
 		} catch (Exception e) {
 			//don't sweat it - it's just a counter, not worth killing the page for if it fails
