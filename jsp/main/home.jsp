@@ -37,7 +37,7 @@
       <p align="justify" class="ccbHomeStandard">The Workbench is intended in part as a data analytical extension of the <a href="http://pubchem.ncbi.nlm.nih.gov/" target="_blank">PubChem</a>. Chembench enables researchers to mine available chemical and biological data to rationally design or select new compounds or compound libraries with significantly enhanced hit rates in screening experiments.</p>
       <!-- ChemBench Stats Notification Area starts here. -->
       <p align="justify" class="ccbHomeStandard">
-		Chembench has been visited <%=u.getCounter()%> times and currently there are <%=au.getActiveSessions()%> users logged in. <%=u.getJobStats()%> Thank you for your visit.
+		Chembench has been visited <%=u.readCounter()%> times and currently there are <%=au.getActiveSessions()%> users logged in. <%=u.getJobStats()%> Thank you for your visit.
 	  </p>
 	  <!-- ChemBench Stats end. -->
       <p class="ccbHomeHeadings">&nbsp;</p>

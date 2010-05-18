@@ -253,10 +253,6 @@ public class Utility {
 		return user_can_download;
 	}
 
-	public int getCounter() throws FileNotFoundException, IOException {
-		return readCounter();
-	}
-
 	public synchronized void increaseCounter() throws IOException {
 		int counter = readCounter();
 		writeCounter(counter + 1);
@@ -264,28 +260,35 @@ public class Utility {
 
 	public int readCounter() throws FileNotFoundException, IOException {
 		int counter = 0;
-		File counterFile = new File(Constants.CECCR_USER_BASE_PATH
-				+ "counter.txt");
-		if (counterFile.exists()) {
-			FileInputStream fin = new FileInputStream(counterFile);
-			DataInputStream in = new DataInputStream(fin);
-			counter = in.readInt();
-			return counter;
-		} else {
-			return counter;
+		try{
+			File counterFile = new File(Constants.CECCR_USER_BASE_PATH
+					+ "counter.txt");
+			if (counterFile.exists()) {
+				BufferedReader br = new BufferedReader(new FileReader(counterFile));
+				String counterStr = br.readLine();
+				counter = Integer.parseInt(counterStr);
+			}
 		}
+		catch(Exception ex){
+			//not worth killing the page for, do nothing
+		}
+		return counter;
 	}
 	
-	public void writeCounter(int counter) throws IOException {
-		File counterFile = new File(Constants.CECCR_USER_BASE_PATH
-				+ "counter.txt");
-		if (!counterFile.exists()) {
-			counterFile.createNewFile();
+	public void writeCounter(int counter) {
+		try{
+			File counterFile = new File(Constants.CECCR_USER_BASE_PATH
+					+ "counter.txt");
+			if (!counterFile.exists()) {
+				counterFile.createNewFile();
+			}
+			FileWriter fw = new FileWriter(counterFile);
+			fw.write(Integer.toString(counter));
+			fw.close();
 		}
-		DataOutputStream out = new DataOutputStream(new FileOutputStream(
-				counterFile));
-		out.writeChars(Integer.toString(counter));
-		out.close();
+		catch(Exception ex){
+			//not worth killing the page for, do nothing
+		}
 	}
 
 	public String getJobStats() throws FileNotFoundException, IOException {
