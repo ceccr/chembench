@@ -17,6 +17,9 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.AdminSettings;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.JobStats;
+import edu.unc.ceccr.persistence.SoftwareExpiration;
+import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 
 import org.hibernate.HibernateException;
@@ -259,6 +262,20 @@ public class Utility {
 		writeCounter(counter + 1);
 	}
 
+	public int readCounter() throws FileNotFoundException, IOException {
+		int counter = 0;
+		File counterFile = new File(Constants.CECCR_USER_BASE_PATH
+				+ "counter.txt");
+		if (counterFile.exists()) {
+			FileInputStream fin = new FileInputStream(counterFile);
+			DataInputStream in = new DataInputStream(fin);
+			counter = in.readInt();
+			return counter;
+		} else {
+			return counter;
+		}
+	}
+	
 	public void writeCounter(int counter) throws IOException {
 		File counterFile = new File(Constants.CECCR_USER_BASE_PATH
 				+ "counter.txt");
@@ -274,33 +291,36 @@ public class Utility {
 	public String getJobStats() throws FileNotFoundException, IOException {
 		//get info from database
 		
-		int numUsers = 3;
-		int computeHours = 9000;
-		int numJobs = 40;
+		int numUsers = 0;
+		int computeHours = 0;
+		int numJobs = 0;
 		
 		try {
 			Session s = HibernateUtil.getSession();
+			List<JobStats> jobStatList = PopulateDataObjects.getJobStats(s);
+			List<User> users = PopulateDataObjects.getUsers(s);
+			
+			numJobs = jobStatList.size();
+			numUsers = users.size();
+			
+			for(JobStats js: jobStatList){
+				if(js.getTimeFinished() != null){
+					long timeDiff = js.getTimeFinished().getTime() - js.getTimeCreated().getTime();	
+					int timeDiffInHours = Math.round(timeDiff / 1000 / 60 / 60);
+					computeHours += timeDiffInHours;
+				}
+			}
+			
 		} catch (Exception e) {
-			//don't sweat it - it's just a counter, right?
+			//don't sweat it - it's just a counter, not worth killing the page for if it fails
 		}
 		
-		String jobstats = "Chembench has " + numUsers + " registered users. Since April 2010, " + numJobs + " jobs have been submitted, totaling " + computeHours + " hours of compute time.";
-		return jobstats;
-	}
-	
-	public int readCounter() throws FileNotFoundException, IOException {
-		int counter = 0;
-		File counterFile = new File(Constants.CECCR_USER_BASE_PATH
-				+ "counter.txt");
-		if (counterFile.exists()) {
-			FileInputStream fin = new FileInputStream(counterFile);
-			DataInputStream in = new DataInputStream(fin);
-			counter = in.readInt();
-			return counter;
-		} else {
-			return counter;
+		String jobstats = "";
+		if(numJobs > 0){
+			jobstats = "Chembench has " + numUsers + " registered users. Since April 2010, " + numJobs + " jobs have been submitted, totaling " + computeHours + " hours of compute time.";
 		}
-
+		
+		return jobstats;
 	}
 
 	public static Long checkExpiration(int year, int month, int day) {

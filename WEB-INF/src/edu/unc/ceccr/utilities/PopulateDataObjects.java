@@ -17,6 +17,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
+import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
@@ -566,7 +567,7 @@ public class PopulateDataObjects {
 		
 		return prediction;
 	}
-	
+
 	public static User getUserByUserName(String userName, Session session){
 		User user = null;
 		
@@ -585,6 +586,44 @@ public class PopulateDataObjects {
 		} 
 		
 		return user;
+	}
+
+	public static List<User> getUsers(Session session){
+		List<User> users = null;
+		
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			if(session.getTransaction().isActive()){
+			}
+			users = (List<User>) session.createCriteria(User.class);
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+			if (tx != null)
+				tx.rollback();
+		} 
+		
+		return users;
+	}
+	
+	public static List<JobStats> getJobStats(Session session){
+		List<JobStats> jobStats = null;
+		
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			if(session.getTransaction().isActive()){
+			}
+			jobStats = (List<JobStats>) session.createCriteria(JobStats.class);
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+			if (tx != null)
+				tx.rollback();
+		} 
+		
+		return jobStats;
 	}
 	
 	public static List<Model> getModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
