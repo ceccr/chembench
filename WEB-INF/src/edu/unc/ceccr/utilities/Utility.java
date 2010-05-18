@@ -19,6 +19,7 @@ import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
@@ -266,10 +267,27 @@ public class Utility {
 		}
 		DataOutputStream out = new DataOutputStream(new FileOutputStream(
 				counterFile));
-		out.writeInt(counter);
+		out.writeChars(Integer.toString(counter));
 		out.close();
 	}
 
+	public String getJobStats() throws FileNotFoundException, IOException {
+		//get info from database
+		
+		int numUsers = 3;
+		int computeHours = 9000;
+		int numJobs = 40;
+		
+		try {
+			Session s = HibernateUtil.getSession();
+		} catch (Exception e) {
+			//don't sweat it - it's just a counter, right?
+		}
+		
+		String jobstats = "Chembench has " + numUsers + " registered users. Since April 2010, " + numJobs + " jobs have been submitted, totaling " + computeHours + " hours of compute time.";
+		return jobstats;
+	}
+	
 	public int readCounter() throws FileNotFoundException, IOException {
 		int counter = 0;
 		File counterFile = new File(Constants.CECCR_USER_BASE_PATH
