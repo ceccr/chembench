@@ -77,13 +77,11 @@ public class LoginAction extends Action {
 		} finally {s.close();}
 		
 
-		if (user != null) 
-		{
+		if (user != null){
 			byte[] password=user.getPassword();
 			String loginPassword = loginBean.getLoginPassword().trim();
 			
-			if (utility.compareEncryption(utility.encrypt(loginPassword),password))
-			{
+			if (utility.compareEncryption(utility.encrypt(loginPassword),password)){
 				session.setAttribute("user", user);
 				Cookie ckie=new Cookie("login","true");
 				response.addCookie(ckie);
@@ -91,10 +89,12 @@ public class LoginAction extends Action {
 				Utility.writeToUsageLog("Logged in", user.getUserName());
 				forward = mapping.findForward("success");	
 			}
-			else
+			else{
 				forward = mapping.findForward("failure");
-		} else
+			}
+		} else{
 			forward = mapping.findForward("failure");
+		}
 		return forward;
 	}
 	

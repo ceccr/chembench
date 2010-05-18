@@ -262,12 +262,14 @@ public class Utility {
 				BufferedReader br = new BufferedReader(new FileReader(counterFile));
 				String counterStr = br.readLine();
 				counter = Integer.parseInt(counterStr);
+				br.close();
 				
 				//increase by 1
 				writeCounter(counter + 1);
 			}
 		}
 		catch(Exception ex){
+			Utility.writeToDebug(ex);
 			//not worth killing the page for, do nothing
 		}
 		return Integer.toString(counter);
