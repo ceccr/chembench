@@ -33,7 +33,7 @@
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Max. Nearest Neighbors:</b></div></td>
 			<td align="left" valign="top"><s:textfield id="knnMaxNearestNeighbors" name="knnMaxNearestNeighbors" size="5" theme="simple"/></td></tr>		
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Descriptor Selection Method:</b></div></td>
-			<td align="left" valign="top"><s:radio name="knnVarSelectionMethod" value="knnVarSelectionMethod" list="#{'SIMULATEDANNEALING':'Simulated Annealing','GENETICALGORITHM':'Genetic Algorithm'}" /></td></tr>		
+			<td align="left" valign="top"><s:radio name="knnVarSelectionMethod" value="knnVarSelectionMethod" list="#{'SIMULATEDANNEALING':'Simulated Annealing','GENETICALGORITHM':'Genetic Algorithm'}" theme="simple" /></td></tr>		
 			<!-- end overall parameters -->
 			
 			<!-- Descriptor Selection Parameters -->
