@@ -193,7 +193,7 @@
 			<br />
  	
 
-		<!-- Modeling Method (kNN, SVM) --> 
+		<!-- Modeling Method (kNN, kNN+, SVM) --> 
 			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>	
 				<tr>
@@ -220,6 +220,9 @@
 				<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
 				<sx:tabbedpanel id="modelingTypeTabbedPanel" afterSelectTabNotifyTopics="/modelingTypeSelect" >
 					<sx:div id="KNN" value="KNN" theme="ajax" label="k-Nearest Neighbors" href="/loadKnnSection" loadingText="Loading kNN parameters...">
+					</sx:div>
+					
+					<sx:div id="KNN+" value="KNN+" theme="ajax" label="k-Nearest Neighbors Plus" href="/loadKnnPlusSection" loadingText="Loading kNN+ parameters...">
 					</sx:div>
 					
 					<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">

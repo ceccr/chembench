@@ -186,6 +186,11 @@ public class ModelingFormActions extends ActionSupport{
 		
 		return SUCCESS;
 	}
+	
+	public String ajaxLoadKnnPlus() throws Exception{
+		return SUCCESS;
+	}
+	
 	public String ajaxLoadSvm() throws Exception {
 		return SUCCESS;
 	}

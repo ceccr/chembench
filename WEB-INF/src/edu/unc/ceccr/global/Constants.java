@@ -78,6 +78,9 @@ public class Constants {
 	public static final String KNN = "KNN";
 	public static final String SVM = "SVM";
 	
+	public static final String SIMULATEDANNEALING = "SIMULATEDANNEALING";
+	public static final String GENETICALGORITHM = "GENETICALGORITHM";
+	
 	public static final String AUTOSCALING = "AUTOSCALING";
 	public static final String RANGESCALING = "RANGESCALING";
 	public static final String NOSCALING = "NOSCALING";
