@@ -13,7 +13,7 @@
 			<td width="100%" height="24" align="left" colspan="2">
 			<br />
 			<p class="StandardTextDarkGrayParagraph2">
-			<b>Set kNN+ Parameters</b>
+			<b>Set Parameters for k-Nearest Neighbors with Genetic Algorithm Descriptor Selection</b>
 			</p>
 			</td>
 		</tr>	
