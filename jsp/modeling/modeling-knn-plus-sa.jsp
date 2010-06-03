@@ -17,7 +17,7 @@
 			</p>
 			</td>
 		</tr>	
-		<tr><td><table>
+		<tr><td><table width="100%">
 
 		<!-- knn+ parameters  -->
 		
