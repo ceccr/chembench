@@ -32,8 +32,6 @@
 			<td align="left" valign="top"><s:textfield id="knnMinNearestNeighbors" name="knnMinNearestNeighbors" size="5" theme="simple"/></td></tr>		
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Max. Nearest Neighbors:</b></div></td>
 			<td align="left" valign="top"><s:textfield id="knnMaxNearestNeighbors" name="knnMaxNearestNeighbors" size="5" theme="simple"/></td></tr>		
-			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Descriptor Selection Method:</b></div></td>
-			<td align="left" valign="top"><s:radio name="knnVarSelectionMethod" value="knnVarSelectionMethod" list="#{'SIMULATEDANNEALING':'Simulated Annealing','GENETICALGORITHM':'Genetic Algorithm'}" theme="simple" /></td></tr>		
 			<!-- end overall parameters -->
 			
 			<!-- Descriptor Selection Parameters -->
@@ -46,6 +44,10 @@
 				<td align="left" valign="top"><s:textfield id="saNumMutationsPerDescriptor" name="saNumMutationsPerDescriptor" size="5" value="5" theme="simple"/></td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Best Models To Store:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="saNumBestModels" name="saNumBestModels" size="5" value="5" theme="simple"/></td></tr>
+				<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph"><i>Moving the Temperature Decrease Coefficient closer to 0 will make descriptor selection faster but less optimal.<br /></i></div></td>
+				</tr>
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Temperature Decrease Coefficient:</b></div></td>
+				<td align="left" valign="top"><s:textfield id="saTempDecreaseCoefficient" value="0.9" name="saTempDecreaseCoefficient" size="5" value="5" theme="simple"/></td></tr>
 				<!-- End Simulated Annealing Parameters (basic) -->
 				
 				<!-- Simulated Annealing Parameters (advanced) -->
@@ -57,28 +59,8 @@
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Temperature Convergence Range:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="saTempConvergence" name="saTempConvergence" size="5" value="5" theme="simple"/></td></tr>
 				</s:if>
-				<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph"><i>Moving the Temperature Decrease Coefficient closer to 0 will make descriptor selection faster but less optimal.<br /></i></div></td>
-				</tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Temperature Decrease Coefficient:</b></div></td>
-				<td align="left" valign="top"><s:textfield id="saTempDecreaseCoefficient" value="0.9" name="saTempDecreaseCoefficient" size="5" value="5" theme="simple"/></td></tr>
 				<!-- end Simulated Annealing Parameters (advanced) -->
 				
-				<!-- Genetic Algorithm Parameters -->
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Genetic Algorithm Parameters:</u></b></div></td>
-				<td><br /><br /></td></tr>	
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Population Size:</b></div></td>
-				<td align="left" valign="top"><s:textfield disabled="true" id="gaPopulationSize" name="gaPopulationSize" size="5" value="5" theme="simple"/></td></tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Maximum Number of Generations:</b></div></td>
-				<td align="left" valign="top"><s:textfield disabled="true" id="gaMaxNumGenerations" name="gaMaxNumGenerations" size="5" value="5" theme="simple"/></td></tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Stop if Stable For This Many Generations:</b></div></td>
-				<td align="left" valign="top"><s:textfield disabled="true" id="gaMaxNumGenerations" name="gaNumStableGenerations" size="5" value="5" theme="simple"/></td></tr>
-				<s:if test="user.showAdvancedKnnModeling=='YES'">
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Fitness Difference To Proceed:</b></div></td>
-				<td align="left" valign="top"><s:textfield disabled="true" id="gaMinFitnessDifference" name="gaMinFitnessDifference" size="5" value="5" theme="simple"/></td></tr>
-				</s:if>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Group Size for Tournament Selection:</b></div></td>
-				<td align="left" valign="top"><s:textfield disabled="true" id="gaTournamentGroupSize" name="gaTournamentGroupSize" size="5" value="5" theme="simple"/></td></tr>
-				<!-- end Genetic Algorithm Parameters -->
 			<!-- end Descriptor Selection Parameters -->
 			
 			<!-- Model Acceptance Parameters -->

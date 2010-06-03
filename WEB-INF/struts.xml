@@ -140,8 +140,12 @@
         	<result>jsp/modeling/modeling-knn.jsp</result>
         </action>
         
-        <action name="loadKnnPlusSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadKnnPlus">
-        	<result>jsp/modeling/modeling-knn-plus.jsp</result>
+        <action name="loadKnnPlusSASection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadKnnPlus">
+        	<result>jsp/modeling/modeling-knn-plus-sa.jsp</result>
+        </action>
+        
+        <action name="loadKnnPlusGASection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadKnnPlus">
+        	<result>jsp/modeling/modeling-knn-plus-ga.jsp</result>
         </action>
         
         <action name="loadSvmSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadSvm">
