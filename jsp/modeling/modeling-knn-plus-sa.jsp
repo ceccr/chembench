@@ -51,14 +51,14 @@
 				<!-- End Simulated Annealing Parameters (basic) -->
 				
 				<!-- Simulated Annealing Parameters (advanced) -->
-				<s:if test="user.showAdvancedKnnModeling=='YES'">
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Simulated Annealing Parameters (Advanced):</u></b></div></td>
+				<td><br /><br /></td></tr>	
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Log Initial Temperature:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="saLogInitialTemp" name="saLogInitialTemp" size="5" value="5" theme="simple"/></td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Final Temperature:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="saFinalTemp" name="saFinalTemp" size="5" value="5" theme="simple"/></td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Temperature Convergence Range:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="saTempConvergence" name="saTempConvergence" size="5" value="5" theme="simple"/></td></tr>
-				</s:if>
 				<!-- end Simulated Annealing Parameters (advanced) -->
 				
 			<!-- end Descriptor Selection Parameters -->

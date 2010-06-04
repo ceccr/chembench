@@ -38,20 +38,20 @@
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Genetic Algorithm Parameters:</u></b></div></td>
 			<td><br /><br /></td></tr>	
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Population Size:</b></div></td>
-			<td align="left" valign="top"><s:textfield disabled="true" id="gaPopulationSize" name="gaPopulationSize" size="5" value="500" theme="simple"/></td></tr>
+			<td align="left" valign="top"><s:textfield id="gaPopulationSize" name="gaPopulationSize" size="5" value="500" theme="simple"/></td></tr>
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Maximum Number of Generations:</b></div></td>
-			<td align="left" valign="top"><s:textfield disabled="true" id="gaMaxNumGenerations" name="gaMaxNumGenerations" size="5" value="1000" theme="simple"/></td></tr>
+			<td align="left" valign="top"><s:textfield id="gaMaxNumGenerations" name="gaMaxNumGenerations" size="5" value="1000" theme="simple"/></td></tr>
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Stop if Stable For This Many Generations:</b></div></td>
-			<td align="left" valign="top"><s:textfield disabled="true" id="gaMaxNumGenerations" name="gaNumStableGenerations" size="5" value="20" theme="simple"/></td></tr>
+			<td align="left" valign="top"><s:textfield id="gaMaxNumGenerations" name="gaNumStableGenerations" size="5" value="20" theme="simple"/></td></tr>
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Group Size for Tournament Selection:</b></div></td>
-			<td align="left" valign="top"><s:textfield disabled="true" id="gaTournamentGroupSize" name="gaTournamentGroupSize" size="5" value="7" theme="simple"/></td></tr>
+			<td align="left" valign="top"><s:textfield id="gaTournamentGroupSize" name="gaTournamentGroupSize" size="5" value="7" theme="simple"/></td></tr>
 			<!-- end Genetic Algorithm Parameters (basic) -->
 			
 			<!-- Genetic Algorithm Parameters (advanced) -->
-			<s:if test="user.showAdvancedKnnModeling=='YES'">
-			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Fitness Difference To Proceed:</b></div></td>
+			<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Genetic Algorithm Parameters (Advanced):</u></b></div></td>
+			<td><br /><br /></td></tr>	
+			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Fitness Difference To Proceed (in log<sub>10</sub> units):</b></div></td>
 			<td align="left" valign="top"><s:textfield disabled="true" id="gaMinFitnessDifference" name="gaMinFitnessDifference" size="5" value="-4" theme="simple"/></td></tr>
-			</s:if>
 			<!-- end Genetic Algorithm Parameters (advanced) -->
 			
 			<!-- Model Acceptance Parameters -->
