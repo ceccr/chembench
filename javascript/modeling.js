@@ -21,10 +21,6 @@ function setToContinuous(){
 		}
 	}
 	document.getElementById("actFileDataType").value = "CONTINUOUS";
-	if(document.getElementById("knnErrorBasedFit").value === false){
-		document.getElementById("trainingSetMinimumDescription").value = "q<sup>2</sup>";
-		document.getElementById("testSetMinimumDescription").value = "r<sup>2</sup>";
-	}
 }
 
 function setToCategory(){
@@ -40,28 +36,6 @@ function setToCategory(){
 		}
 	}
 	document.getElementById("actFileDataType").value = "CATEGORY";
-	if(document.getElementById("knnErrorBasedFit").value === false){
-		document.getElementById("trainingSetMinimumDescription").value = "accuracy";
-		document.getElementById("testSetMinimumDescription").value = "accuracy";
-	}
-}
-
-function setToErrorBasedFit(){
-	if(document.getElementById("knnErrorBasedFit").value === false){
-		document.getElementById("trainingSetMinimumDescription").value = "error";
-		document.getElementById("testSetMinimumDescription").value = "error";
-	}
-}
-
-function setToNonErrorBasedFit(){
-	if(document.getElementById("actFileDataType").value === "CATEGORY"){
-		document.getElementById("trainingSetMinimumDescription").value = "accuracy";
-		document.getElementById().value = "accuracy";
-	}
-	else{
-		document.getElementById("trainingSetMinimumDescription").value = "q<sup>2</sup>";
-		document.getElementById("testSetMinimumDescription").value = "r<sup>2</sup>";
-	}
 }
 
 function setCategoryOrContinuous(){
