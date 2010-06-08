@@ -41,7 +41,7 @@
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Runs:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="saNumRuns" name="saNumRuns" size="5" value="5" theme="simple"/></td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Mutation Probability Per Descriptor:</b></div></td>
-				<td align="left" valign="top"><s:textfield id="saMutationProbabilityPerDescriptor" name="saMutationProbabilityPerDescriptor" size="5" value="?" theme="simple"/></td></tr>
+				<td align="left" valign="top"><s:textfield id="saMutationProbabilityPerDescriptor" name="saMutationProbabilityPerDescriptor" size="5" value="0.2" theme="simple"/></td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Best Models To Store:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="saNumBestModels" name="saNumBestModels" size="5" value="3" theme="simple"/></td></tr>
 				<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph"><i>Moving the Temperature Decrease Coefficient closer to 0 will make descriptor selection faster but less optimal.<br /></i></div></td>

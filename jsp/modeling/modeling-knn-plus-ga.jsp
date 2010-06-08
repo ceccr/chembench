@@ -25,7 +25,7 @@
 			<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph"><i>For information on what these parameters do, refer to the <u><a href="/help-faq" onclick="window.open('/help-faq'); return true;" >help pages</a></u>.<br /></i></div></td>
 			</tr>
 			<tr><td width="33%"><div class="StandardTextDarkGrayParagraph"><b>Descriptors Per Model:</b></div></td>
-			<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent">From: <s:textfield id="knnMinNumDescriptors" name="knnMinNumDescriptors" size="5" value="5" theme="simple"/> To: <s:textfield id="knnMaxNumDescriptors" name="knnMaxNumDescriptors" size="5" value="30" theme="simple"/></div></td></tr>
+			<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent">Minimum: <s:textfield id="knnMinNumDescriptors" name="knnMinNumDescriptors" size="5" value="5" theme="simple"/> Maximum: <s:textfield id="knnMaxNumDescriptors" name="knnMaxNumDescriptors" size="5" value="30" theme="simple"/></div></td></tr>
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Applicability Domain Cutoff:</b></div></td>
 			<td align="left" valign="top"><s:textfield id="knnApplicabilityDomain" name="knnApplicabilityDomain" size="5" value="0.5" theme="simple"/></td></tr>	
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Min. Nearest Neighbors:</b></div></td>

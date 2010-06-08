@@ -190,8 +190,12 @@ public class ModelingFormActions extends ActionSupport{
 	public String ajaxLoadKnnPlus() throws Exception{
 		return SUCCESS;
 	}
-	
+
 	public String ajaxLoadSvm() throws Exception {
+		return SUCCESS;
+	}
+
+	public String ajaxLoadRandomForest() throws Exception {
 		return SUCCESS;
 	}
 	

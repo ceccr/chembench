@@ -152,6 +152,10 @@
         	<result>jsp/modeling/modeling-svm.jsp</result>
         </action>
         
+        <action name="loadRFSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadRandomForest">
+        	<result>jsp/modeling/modeling-randomForest.jsp</result>
+        </action>
+        
         <action name="loadRandomInternalSplitSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadRandomSplit">
         	<result>jsp/modeling/modeling-randomsplit.jsp</result>
         </action>
