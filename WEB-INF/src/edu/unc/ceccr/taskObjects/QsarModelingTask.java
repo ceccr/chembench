@@ -315,7 +315,10 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			//DEBUG - print out knnPlus params from both forms, check which one
 			//gets taken in case of duplicates. (May need to compress 2 tabs into one.)
-			Utility.writeToDebug("");
+			Utility.writeToDebug("KNN PLUS PARAMETERS:\n" +
+					"Applicability Domain: " + ModelingForm.getKnnApplicabilityDomain() + "\n" +
+					"Min Training: " + ModelingForm.getKnnMinTraining() + "\n" +
+					"Min Test: " + ModelingForm.getKnnMinTest());
 		}
 		else if(ModelingForm.getModelingType().equals(Constants.RANDOMFOREST)){
 			randomForestParameters = new RandomForestParameters();
@@ -341,7 +344,6 @@ public class QsarModelingTask extends WorkflowTask {
 			datasetPath += dataset.getUserName();
 		}
 		datasetPath += "/DATASETS/" + datasetName + "/";
-		
 	}
 
 	public void setUp() throws Exception {
