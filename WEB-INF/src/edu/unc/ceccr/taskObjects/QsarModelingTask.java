@@ -389,11 +389,11 @@ public class QsarModelingTask extends WorkflowTask {
 			if(knnParameters != null)
 				session.saveOrUpdate(knnParameters);
 			if(svmParameters != null)
-				session.saveOrUpdate(knnParameters);
+				session.saveOrUpdate(svmParameters);
 			if(knnPlusParameters != null)
-				session.saveOrUpdate(knnParameters);
+				session.saveOrUpdate(knnPlusParameters);
 			if(randomForestParameters != null)
-				session.saveOrUpdate(knnParameters);
+				session.saveOrUpdate(randomForestParameters);
 			
 			tx.commit();
 		} catch (RuntimeException e) {

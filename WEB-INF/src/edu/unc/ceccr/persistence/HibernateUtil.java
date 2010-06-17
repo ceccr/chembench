@@ -36,6 +36,10 @@ public class HibernateUtil {
 		.addAnnotatedClass(SoftwareLink.class)
 		.addAnnotatedClass(Descriptors.class)
 		.addAnnotatedClass(DescriptorGenerator.class)
+		.addAnnotatedClass(KnnParameters.class)
+		.addAnnotatedClass(KnnPlusParameters.class)
+		.addAnnotatedClass(SvmParameters.class)
+		.addAnnotatedClass(RandomForestParameters.class)
 		.configure().buildSessionFactory();
 	}
 
