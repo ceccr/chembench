@@ -18,12 +18,16 @@ import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
+import edu.unc.ceccr.persistence.KnnParameters;
+import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.SoftwareLink;
+import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -860,6 +864,74 @@ public class PopulateDataObjects {
 		return sl;
 	}
 	
+
+	public static RandomForestParameters getRandomForestParametersById(Long id, Session session) throws Exception {
+		RandomForestParameters params = null;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			params = (RandomForestParameters) session.createCriteria(RandomForestParameters.class)
+					.add(Expression.eq("id", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} 
+		return params;
+	}
+	
+	public static KnnParameters getKnnParametersById(Long id, Session session) throws Exception {
+		KnnParameters params = null;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			params = (KnnParameters) session.createCriteria(KnnParameters.class)
+					.add(Expression.eq("id", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} 
+		return params;
+	}
+	
+	public static KnnPlusParameters getKnnPlusParametersById(Long id, Session session) throws Exception {
+		KnnPlusParameters params = null;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			params = (KnnPlusParameters) session.createCriteria(KnnPlusParameters.class)
+					.add(Expression.eq("id", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} 
+		return params;
+	}
+	
+	public static SvmParameters getSvmParametersById(Long id, Session session) throws Exception {
+		SvmParameters params = null;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			params = (SvmParameters) session.createCriteria(SvmParameters.class)
+					.add(Expression.eq("id", id))
+					.uniqueResult();
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} 
+		return params;
+	}
 	
 	
 }

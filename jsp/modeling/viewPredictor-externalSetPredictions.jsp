@@ -5,6 +5,23 @@
 
 	<br />
 	
+	<!-- External Validation Chart -->
+	<s:if test="models.size!=0">
+	<s:if test="dataType=='CONTINUOUS'">
+		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
+		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
+			<s:param name="user" value="user.userName" />
+			<s:param name="project" value="selectedPredictor.name" />
+		</s:url>
+		<br />
+		<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
+		</sx:div>
+		</p>
+	</s:if>
+	</s:if>
+	<br />
+	<!-- End External Validation Chart -->
+	
 	<!-- External Validation Compound Predictions -->
 		<p class="StandardTextDarkGray"><b><u>Predictions for External Validation Set</u></b></p>
 	
@@ -56,21 +73,4 @@
 	</table>
 	<br />
 	<!-- End External Validation Compound Predictions -->
-	
-	<!-- External Validation Chart -->
-	<s:if test="models.size!=0">
-	<s:if test="dataType=='CONTINUOUS'">
-		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
-		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
-			<s:param name="user" value="user.userName" />
-			<s:param name="project" value="selectedPredictor.name" />
-		</s:url>
-		<br />
-		<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
-		</sx:div>
-		</p>
-	</s:if>
-	</s:if>
-	<br />
-	<!-- End External Validation Chart -->
 	

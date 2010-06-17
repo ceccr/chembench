@@ -148,11 +148,19 @@ public class ModelingFormActions extends ActionSupport{
 			else if(trainTestSplitType.equals(Constants.SPHEREEXCLUSION)){
 				numModels = Integer.parseInt(numSplitsInternalSphere);
 			}
-			
+
 			if(modelingType.equals(Constants.KNN)){
 				numModels *= Integer.parseInt(numRuns);
 				int numDescriptorSizes = 0;
 				for(int i = Integer.parseInt(minNumDescriptors); i <= Integer.parseInt(maxNumDescriptors); i += Integer.parseInt(stepSize)){
+					numDescriptorSizes++;
+				}
+				numModels *= numDescriptorSizes;
+			}
+			else if(modelingType.equals(Constants.KNNSA)){
+				numModels *= Integer.parseInt(numRuns);
+				int numDescriptorSizes = 0;
+				for(int i = Integer.parseInt(knnMinNumDescriptors); i <= Integer.parseInt(knnMaxNumDescriptors); i += Integer.parseInt(knnDescriptorStepSize)){
 					numDescriptorSizes++;
 				}
 				numModels *= numDescriptorSizes;
@@ -345,6 +353,35 @@ public class ModelingFormActions extends ActionSupport{
 	private String knnCategoryOptimization = "1";
 	// end kNN Parameters
 
+	//begin knn+ parameters
+	
+	private String knnMinNumDescriptors = "5";
+	private String knnMaxNumDescriptors = "30";
+	private String knnDescriptorStepSize = "5";
+	private String knnMinNearestNeighbors = "5";
+	private String knnMaxNearestNeighbors = "5";
+
+	private String saNumRuns = "5";
+	private String saMutationProbabilityPerDescriptor = "0.2";
+	private String saNumBestModels = "3";
+	private String saTempDecreaseCoefficient = "0.6";
+	private String saLogInitialTemp = "5";
+	private String saFinalTemp = "5";
+	private String saTempConvergence = "5";
+
+	private String gaPopulationSize = "500";
+	private String gaMinNumGenerations = "1000";
+	private String gaNumStableGenerations = "20";
+	private String gaTournamentGroupSize = "7";
+	private String gaMinFitnessDifference = "-4";
+
+	private String knnApplicabilityDomain = "0.5";
+	private String knnMinTraining = "0.6";
+	private String knnMinTest = "0.6";
+	private String knnErrorBasedFit = "false";
+
+	//end knn+ parameters
+	
 	//SVM Parameters
 	private String svmTypeCategory = "0";
 	private String svmTypeContinuous = "0";
@@ -377,6 +414,16 @@ public class ModelingFormActions extends ActionSupport{
 	private String svmCrossValidation = "0";
 	//end SVM Parameters
 	
+	//Random Forest parameters
+
+	private String numTrees = "50";
+	private String trainSetSize = "10";
+	private String descriptorsPerTree = "15";
+	private String sampleWithReplacement = "true";
+	private String classWeights = "";
+	
+	//end Random Forest parameters
+
 	private String jobName;
 	private String textValue;
 	private String dataSetDescription;
@@ -405,12 +452,13 @@ public class ModelingFormActions extends ActionSupport{
 		this.modelingType = modelingType;
 	}
 	
-	public String getDatasetname() {
+	public String getDatasetName() {
 		return datasetName;
 	}
-	public void setDatasetname(String datasetName) {
+	public void setDatasetName(String datasetName) {
 		this.datasetName = datasetName;
 	}
+	
 	public String getDataSetDescription() {
 		return dataSetDescription;
 	}
@@ -689,6 +737,179 @@ public class ModelingFormActions extends ActionSupport{
 	}
 	//end kNN
 	
+	//knn+
+	
+	public String getKnnMinNumDescriptors() {
+		return knnMinNumDescriptors;
+	}
+
+	public void setKnnMinNumDescriptors(String knnMinNumDescriptors) {
+		this.knnMinNumDescriptors = knnMinNumDescriptors;
+	}
+
+	public String getKnnMaxNumDescriptors() {
+		return knnMaxNumDescriptors;
+	}
+
+	public void setKnnMaxNumDescriptors(String knnMaxNumDescriptors) {
+		this.knnMaxNumDescriptors = knnMaxNumDescriptors;
+	}
+
+	public String getKnnDescriptorStepSize() {
+		return knnDescriptorStepSize;
+	}
+
+	public void setKnnDescriptorStepSize(String knnDescriptorStepSize) {
+		this.knnDescriptorStepSize = knnDescriptorStepSize;
+	}
+
+	public String getKnnMinNearestNeighbors() {
+		return knnMinNearestNeighbors;
+	}
+
+	public void setKnnMinNearestNeighbors(String knnMinNearestNeighbors) {
+		this.knnMinNearestNeighbors = knnMinNearestNeighbors;
+	}
+
+	public String getKnnMaxNearestNeighbors() {
+		return knnMaxNearestNeighbors;
+	}
+
+	public void setKnnMaxNearestNeighbors(String knnMaxNearestNeighbors) {
+		this.knnMaxNearestNeighbors = knnMaxNearestNeighbors;
+	}
+
+	public String getSaNumRuns() {
+		return saNumRuns;
+	}
+
+	public void setSaNumRuns(String saNumRuns) {
+		this.saNumRuns = saNumRuns;
+	}
+
+	public String getSaMutationProbabilityPerDescriptor() {
+		return saMutationProbabilityPerDescriptor;
+	}
+
+	public void setSaMutationProbabilityPerDescriptor(
+			String saMutationProbabilityPerDescriptor) {
+		this.saMutationProbabilityPerDescriptor = saMutationProbabilityPerDescriptor;
+	}
+
+	public String getSaNumBestModels() {
+		return saNumBestModels;
+	}
+
+	public void setSaNumBestModels(String saNumBestModels) {
+		this.saNumBestModels = saNumBestModels;
+	}
+
+	public String getSaTempDecreaseCoefficient() {
+		return saTempDecreaseCoefficient;
+	}
+
+	public void setSaTempDecreaseCoefficient(String saTempDecreaseCoefficient) {
+		this.saTempDecreaseCoefficient = saTempDecreaseCoefficient;
+	}
+
+	public String getSaLogInitialTemp() {
+		return saLogInitialTemp;
+	}
+
+	public void setSaLogInitialTemp(String saLogInitialTemp) {
+		this.saLogInitialTemp = saLogInitialTemp;
+	}
+
+	public String getSaFinalTemp() {
+		return saFinalTemp;
+	}
+
+	public void setSaFinalTemp(String saFinalTemp) {
+		this.saFinalTemp = saFinalTemp;
+	}
+
+	public String getSaTempConvergence() {
+		return saTempConvergence;
+	}
+
+	public void setSaTempConvergence(String saTempConvergence) {
+		this.saTempConvergence = saTempConvergence;
+	}
+
+	public String getGaPopulationSize() {
+		return gaPopulationSize;
+	}
+
+	public void setGaPopulationSize(String gaPopulationSize) {
+		this.gaPopulationSize = gaPopulationSize;
+	}
+
+	public String getGaMinNumGenerations() {
+		return gaMinNumGenerations;
+	}
+
+	public void setGaMinNumGenerations(String gaMinNumGenerations) {
+		this.gaMinNumGenerations = gaMinNumGenerations;
+	}
+
+	public String getGaNumStableGenerations() {
+		return gaNumStableGenerations;
+	}
+
+	public void setGaNumStableGenerations(String gaNumStableGenerations) {
+		this.gaNumStableGenerations = gaNumStableGenerations;
+	}
+
+	public String getGaTournamentGroupSize() {
+		return gaTournamentGroupSize;
+	}
+
+	public void setGaTournamentGroupSize(String gaTournamentGroupSize) {
+		this.gaTournamentGroupSize = gaTournamentGroupSize;
+	}
+
+	public String getGaMinFitnessDifference() {
+		return gaMinFitnessDifference;
+	}
+
+	public void setGaMinFitnessDifference(String gaMinFitnessDifference) {
+		this.gaMinFitnessDifference = gaMinFitnessDifference;
+	}
+
+	public String getKnnApplicabilityDomain() {
+		return knnApplicabilityDomain;
+	}
+
+	public void setKnnApplicabilityDomain(String knnApplicabilityDomain) {
+		this.knnApplicabilityDomain = knnApplicabilityDomain;
+	}
+
+	public String getKnnMinTraining() {
+		return knnMinTraining;
+	}
+
+	public void setKnnMinTraining(String knnMinTraining) {
+		this.knnMinTraining = knnMinTraining;
+	}
+
+	public String getKnnMinTest() {
+		return knnMinTest;
+	}
+
+	public void setKnnMinTest(String knnMinTest) {
+		this.knnMinTest = knnMinTest;
+	}
+
+	public String getKnnErrorBasedFit() {
+		return knnErrorBasedFit;
+	}
+
+	public void setKnnErrorBasedFit(String knnErrorBasedFit) {
+		this.knnErrorBasedFit = knnErrorBasedFit;
+	}
+
+	//end knn+
+	
 	//SVM
 	public String getSvmTypeCategory() {
 		return svmTypeCategory;
@@ -788,9 +1009,10 @@ public class ModelingFormActions extends ActionSupport{
 	public String getSvmPEpsilonFrom() {
 		return svmPEpsilonFrom;
 	}
-	public void setSvmPEpsilon(String svmPEpsilonFrom) {
+	public void setSvmPEpsilonFrom(String svmPEpsilonFrom) {
 		this.svmPEpsilonFrom = svmPEpsilonFrom;
 	}
+
 	public String getSvmPEpsilonTo() {
 		return svmPEpsilonTo;
 	}
@@ -835,6 +1057,45 @@ public class ModelingFormActions extends ActionSupport{
 		this.svmCrossValidation = svmCrossValidation;
 	}
 	//end SVM
+	
+	//start RF
+	
+	public String getNumTrees() {
+		return numTrees;
+	}
+	public void setNumTrees(String numTrees) {
+		this.numTrees = numTrees;
+	}
+
+	public String getTrainSetSize() {
+		return trainSetSize;
+	}
+	public void setTrainSetSize(String trainSetSize) {
+		this.trainSetSize = trainSetSize;
+	}
+
+	public String getDescriptorsPerTree() {
+		return descriptorsPerTree;
+	}
+	public void setDescriptorsPerTree(String descriptorsPerTree) {
+		this.descriptorsPerTree = descriptorsPerTree;
+	}
+
+	public String getSampleWithReplacement() {
+		return sampleWithReplacement;
+	}
+	public void setSampleWithReplacement(String sampleWithReplacement) {
+		this.sampleWithReplacement = sampleWithReplacement;
+	}
+
+	public String getClassWeights() {
+		return classWeights;
+	}
+	public void setClassWeights(String classWeights) {
+		this.classWeights = classWeights;
+	}
+
+	//end RF
 	
 	
 	public Long getSelectedPredictorId() {

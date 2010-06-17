@@ -29,9 +29,13 @@ import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.KnnParameters;
+import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.Model;
 import edu.unc.ceccr.persistence.ModelInterface;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.RandomForestParameters;
+import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -52,7 +56,7 @@ public class QsarModelingTask extends WorkflowTask {
 	private String user_path;
 	private String userName;
 	private String jobName;
-	private String modelType; // (svm || knn) 
+	private String modelType; // (svm, knn, etc) 
 	
 	//dataset
 	private String datasetName;
@@ -81,67 +85,21 @@ public class QsarModelingTask extends WorkflowTask {
 		private String splitIncludesMax;
 		private String sphereSplitMinTestSize;
 		private String selectionNextTrainPt;
+
+	private KnnParameters knnParameters;
+	private SvmParameters svmParameters;
+	private RandomForestParameters randomForestParameters;
+	private KnnPlusParameters knnPlusParameters;
 		
-	//knn	
+	//technically these are probably kNN parameters? Not sure what they're for.
 	int numTotalModels;
-	int numTrainModels;
 	int numTestModels;
+	int numTrainModels;
 	int yTotalModels;
-	int yTrainModels;
 	int yTestModels;
-	private String knnCategoryOptimization;
-
-	private String minNumDescriptors;
-	private String stepSize;
-	private String numCycles;
-	private String maxNumDescriptors;
-	private String nearestNeighbors;
-	private String pseudoNeighbors;
+	int yTrainModels;
+	//end 
 	
-	private String numRuns;	
-	private String numMutations;
-	private String T1;
-	private String T2;
-	private String mu;
-	private String TcOverTb;
-	private String cutoff;
-	private String minAccTraining;
-	private String minAccTest;
-	private String minSlopes;
-	private String maxSlopes;
-	private String Relative_diff_R_R0;
-	private String Diff_R01_R02;
-	private String stop_cond;
-	
-	//svm - not yet used
-	private String svmDegreeFrom;
-	private String svmDegreeTo;
-	private String svmDegreeStep;
-
-	private String svmGammaFrom;
-	private String svmGammaTo;
-	private String svmGammaStep;
-	
-	private String svmCostFrom;
-	private String svmCostTo;
-	private String svmCostStep;
-
-	private String svmNuFrom;
-	private String svmNuTo;
-	private String svmNuStep;
-
-	private String svmPEpsilonFrom;
-	private String svmPEpsilonTo;
-	private String svmPEpsilonStep;
-	
-	private String svmCrossValidation;
-	private String svmEEpsilon;
-	private String svmHeuristics;
-	private String svmKernel;
-	private String svmProbability;
-	private String svmTypeCategory;
-	private String svmTypeContinuous;
-	private String svmWeight;
 	
 	//predictor object created during task
 	private Predictor predictor;
@@ -193,7 +151,7 @@ public class QsarModelingTask extends WorkflowTask {
 		//get dataset
 		datasetID = predictor.getDatasetId();
 		Session s = HibernateUtil.getSession();
-		dataset = PopulateDataObjects.getDataSetById(datasetID, s);
+		dataset = PopulateDataObjects.getDataSetById(datasetID, s);		
 		datasetName = dataset.getFileName();
 		sdFileName = dataset.getSdfFile();
 		actFileName = dataset.getActFile();
@@ -220,7 +178,7 @@ public class QsarModelingTask extends WorkflowTask {
 		scalingType = predictor.getScalingType();
 		stdDevCutoff = predictor.getStdDevCutoff();
 		correlationCutoff = predictor.getCorrelationCutoff();
-		
+
 		//datasplit
 		numSplits = predictor.getNumSplits();
 		trainTestSplitType = predictor.getTrainTestSplitType();
@@ -235,35 +193,22 @@ public class QsarModelingTask extends WorkflowTask {
 			sphereSplitMinTestSize = predictor.getSphereSplitMinTestSize();
 			selectionNextTrainPt = predictor.getSelectionNextTrainPt();
 			
-		//knn params
-		knnCategoryOptimization = predictor.getKnnCategoryOptimization();
-		minNumDescriptors = predictor.getMinNumDescriptors();
-		stepSize = predictor.getStepSize();
-		maxNumDescriptors = predictor.getMaxNumDescriptors();
-		numCycles = predictor.getNumCycles();
-		nearestNeighbors = predictor.getNearestNeighbors();
-		pseudoNeighbors = predictor.getPseudoNeighbors();
+		//modeling params
+		if(predictor.getModelMethod().equals(Constants.KNN)){
+			knnParameters = PopulateDataObjects.getKnnParametersById(predictor.getModelingParametersId(), s);
+		}
+		else if(predictor.getModelMethod().equals(Constants.SVM)){
+			svmParameters = PopulateDataObjects.getSvmParametersById(predictor.getModelingParametersId(), s);
+		}
+		else if(predictor.getModelMethod().equals(Constants.KNNSA) || 
+				predictor.getModelMethod().equals(Constants.KNNGA)){
+			knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(predictor.getModelingParametersId(), s);
+		}
+		else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+			randomForestParameters = PopulateDataObjects.getRandomForestParametersById(predictor.getModelingParametersId(), s);
+		}
+		s.close();
 		
-		numRuns = predictor.getNumRuns();
-		numMutations = predictor.getNumMutations();
-		T1 = predictor.getT1();
-		T2 = predictor.getT2();
-		mu = predictor.getMu();
-		TcOverTb = predictor.getTcOverTb();
-		cutoff = predictor.getCutoff();
-		stdDevCutoff = predictor.getStdDevCutoff();
-		correlationCutoff = predictor.getCorrelationCutoff();
-		minAccTraining = predictor.getMinAccTraining();
-		minAccTest = predictor.getMinAccTest();
-		minSlopes = predictor.getMinSlopes();
-		maxSlopes = predictor.getMaxSlopes();
-		Relative_diff_R_R0 = predictor.getRelativeDiffRR0();
-		Diff_R01_R02 = predictor.getDiffR01R02();
-		stop_cond = predictor.getStopCond();
-		
-		//skipping SVM params for now. Will do that later.
-		
-		//other things in constructor that need doing?
 	}
 	
 	public QsarModelingTask(String userName, ModelingFormActions ModelingForm) throws Exception {
@@ -285,6 +230,7 @@ public class QsarModelingTask extends WorkflowTask {
 		actFileName = dataset.getActFile();
 		sdFileName = dataset.getSdfFile();
 		datasetName = dataset.getFileName();
+		datasetID = ModelingForm.getSelectedDatasetId();
 		
 		actFileDataType = ModelingForm.getActFileDataType();
 		descriptorGenerationType = ModelingForm.getDescriptorGenerationType();
@@ -310,61 +256,78 @@ public class QsarModelingTask extends WorkflowTask {
 						
 		//end datasplit parameters
 		
-		//start kNN parameters
-		T1 = ModelingForm.getT1();
-		T2 = ModelingForm.getT2();
-		TcOverTb = ModelingForm.getTcOverTb();
-		minSlopes = ModelingForm.getMinSlopes();
-		maxSlopes = ModelingForm.getMaxSlopes();
-		Relative_diff_R_R0 = ModelingForm.getRelativeDiffRR0();
-		Diff_R01_R02 = ModelingForm.getDiffR01R02();
-		knnCategoryOptimization = ModelingForm.getKnnCategoryOptimization();
-		maxNumDescriptors = ModelingForm.getMaxNumDescriptors();
-		minNumDescriptors = ModelingForm.getMinNumDescriptors();
-		stepSize = ModelingForm.getStepSize();
-		numCycles = ModelingForm.getNumCycles();
-		numMutations = ModelingForm.getNumMutations();
-		minAccTraining = ModelingForm.getMinAccTraining();
-		minAccTest = ModelingForm.getMinAccTest();
-		cutoff = ModelingForm.getCutoff();
-		mu = ModelingForm.getMu();
-		numRuns = ModelingForm.getNumRuns();
-		nearestNeighbors = ModelingForm.getNearest_Neighbors();
-		pseudoNeighbors = ModelingForm.getPseudo_Neighbors();
-		stop_cond = ModelingForm.getStop_cond();
-		datasetID = ModelingForm.getSelectedDatasetId();
-		//end kNN parameters
+		//load modeling parameters from form
+		if(ModelingForm.getModelingType().equals(Constants.KNN)){
+			knnParameters = new KnnParameters();
+			
+			knnParameters.setT1(ModelingForm.getT1());
+			knnParameters.setT2(ModelingForm.getT2());
+			knnParameters.setTcOverTb(ModelingForm.getTcOverTb());
+			knnParameters.setMinSlopes(ModelingForm.getMinSlopes());
+			knnParameters.setMaxSlopes(ModelingForm.getMaxSlopes());
+			knnParameters.setRelativeDiffRR0(ModelingForm.getRelativeDiffRR0());
+			knnParameters.setDiffR01R02(ModelingForm.getDiffR01R02());
+			knnParameters.setKnnCategoryOptimization(ModelingForm.getKnnCategoryOptimization());
+			knnParameters.setMaxNumDescriptors(ModelingForm.getMaxNumDescriptors());
+			knnParameters.setMinNumDescriptors(ModelingForm.getMinNumDescriptors());
+			knnParameters.setStepSize(ModelingForm.getStepSize());
+			knnParameters.setNumCycles(ModelingForm.getNumCycles());
+			knnParameters.setNumMutations(ModelingForm.getNumMutations());
+			knnParameters.setMinAccTraining(ModelingForm.getMinAccTraining());
+			knnParameters.setMinAccTest(ModelingForm.getMinAccTest());
+			knnParameters.setCutoff(ModelingForm.getCutoff());
+			knnParameters.setMu(ModelingForm.getMu());
+			knnParameters.setNumRuns(ModelingForm.getNumRuns());
+			knnParameters.setNearestNeighbors(ModelingForm.getNearest_Neighbors());
+			knnParameters.setPseudoNeighbors(ModelingForm.getPseudo_Neighbors());
+			knnParameters.setStopCond(ModelingForm.getStop_cond());
+		}
+		else if(ModelingForm.getModelingType().equals(Constants.SVM)){
+			svmParameters = new SvmParameters();
+
+			svmParameters.setSvmDegreeFrom(ModelingForm.getSvmCostFrom());
+			svmParameters.setSvmDegreeTo(ModelingForm.getSvmCostTo());
+			svmParameters.setSvmDegreeStep(ModelingForm.getSvmDegreeStep());
+			svmParameters.setSvmGammaFrom(ModelingForm.getSvmGammaFrom());
+			svmParameters.setSvmGammaTo(ModelingForm.getSvmGammaTo());
+			svmParameters.setSvmGammaStep(ModelingForm.getSvmGammaStep());
+			svmParameters.setSvmCostFrom(ModelingForm.getSvmCostFrom());
+			svmParameters.setSvmCostTo(ModelingForm.getSvmCostTo());
+			svmParameters.setSvmCostStep(ModelingForm.getSvmCostStep());
+			svmParameters.setSvmNuFrom(ModelingForm.getSvmNuFrom());
+			svmParameters.setSvmNuTo(ModelingForm.getSvmNuTo());
+			svmParameters.setSvmNuStep(ModelingForm.getSvmNuStep());
+			svmParameters.setSvmPEpsilonFrom(ModelingForm.getSvmPEpsilonFrom());
+			svmParameters.setSvmPEpsilonTo(ModelingForm.getSvmPEpsilonTo());
+			svmParameters.setSvmPEpsilonStep(ModelingForm.getSvmPEpsilonStep());
+			svmParameters.setSvmCrossValidation(ModelingForm.getSvmCrossValidation());
+			svmParameters.setSvmEEpsilon(ModelingForm.getSvmEEpsilon());
+			svmParameters.setSvmHeuristics(ModelingForm.getSvmHeuristics());
+			svmParameters.setSvmKernel(ModelingForm.getSvmKernel());
+			svmParameters.setSvmProbability(ModelingForm.getSvmProbability());
+			svmParameters.setSvmTypeCategory(ModelingForm.getSvmTypeCategory());
+			svmParameters.setSvmTypeContinuous(ModelingForm.getSvmTypeContinuous());
+			svmParameters.setSvmWeight(ModelingForm.getSvmWeight());
+		}
+		else if(ModelingForm.getModelingType().equals(Constants.KNNSA) || 
+				ModelingForm.getModelingType().equals(Constants.KNNGA)){
+			knnPlusParameters = new KnnPlusParameters();
+			
+			//DEBUG - print out knnPlus params from both forms, check which one
+			//gets taken in case of duplicates. (May need to compress 2 tabs into one.)
+			Utility.writeToDebug("");
+		}
+		else if(ModelingForm.getModelingType().equals(Constants.RANDOMFOREST)){
+			randomForestParameters = new RandomForestParameters();
+
+			randomForestParameters.setClassWeights(ModelingForm.getClassWeights());
+			randomForestParameters.setDescriptorsPerTree(ModelingForm.getDescriptorsPerTree());
+			randomForestParameters.setNumTrees(ModelingForm.getNumTrees());
+			randomForestParameters.setSampleWithReplacement(ModelingForm.getSampleWithReplacement());
+			randomForestParameters.setTrainSetSize(ModelingForm.getTrainSetSize());
+		}
 		
-		//start SVM parameters
-		svmDegreeFrom = ModelingForm.getSvmCostFrom();
-		svmDegreeTo = ModelingForm.getSvmCostTo();
-		svmDegreeStep = ModelingForm.getSvmDegreeStep();
-		
-		svmGammaFrom = ModelingForm.getSvmGammaFrom();
-		svmGammaTo = ModelingForm.getSvmGammaTo();
-		svmGammaStep = ModelingForm.getSvmGammaStep();
-		
-		svmCostFrom = ModelingForm.getSvmCostFrom();
-		svmCostTo = ModelingForm.getSvmCostTo();
-		svmCostStep = ModelingForm.getSvmCostStep();
-		
-		svmNuFrom = ModelingForm.getSvmNuFrom();
-		svmNuTo = ModelingForm.getSvmNuTo();
-		svmNuStep = ModelingForm.getSvmNuStep();
-		
-		svmPEpsilonFrom = ModelingForm.getSvmPEpsilonFrom();
-		svmPEpsilonTo = ModelingForm.getSvmPEpsilonTo();
-		svmPEpsilonStep = ModelingForm.getSvmPEpsilonStep();
-		
-		svmCrossValidation = ModelingForm.getSvmCrossValidation();
-		svmEEpsilon = ModelingForm.getSvmEEpsilon();
-		svmHeuristics = ModelingForm.getSvmHeuristics();
-		svmKernel = ModelingForm.getSvmKernel();
-		svmProbability = ModelingForm.getSvmProbability();
-		svmTypeCategory = ModelingForm.getSvmTypeCategory();
-		svmTypeContinuous = ModelingForm.getSvmTypeContinuous();
-		svmWeight = ModelingForm.getSvmWeight();
-		//end SVM parameters
+		//end load modeling parameters from form
 
 		this.predictor = new Predictor();
 		
@@ -415,46 +378,45 @@ public class QsarModelingTask extends WorkflowTask {
 			predictor.setSphereSplitMinTestSize(sphereSplitMinTestSize);
 			predictor.setSelectionNextTrainPt(selectionNextTrainPt);
 			
-		//knn params
-		predictor.setKnnCategoryOptimization(knnCategoryOptimization);
-		predictor.setMinNumDescriptors(minNumDescriptors);
-		predictor.setStepSize(stepSize);
-		predictor.setMaxNumDescriptors(maxNumDescriptors);
-		predictor.setNumCycles(numCycles);
-		
-		predictor.setNearestNeighbors(nearestNeighbors);
-		predictor.setPseudoNeighbors(pseudoNeighbors);
-		
-		predictor.setNumRuns(numRuns);
-		predictor.setNumMutations(numMutations);
-		predictor.setT1(T1);
-		predictor.setT2(T2);
-		predictor.setMu(mu);
-		predictor.setTcOverTb(TcOverTb);
-		predictor.setCutoff(cutoff);
-		predictor.setMinAccTraining(minAccTraining);
-		predictor.setMinAccTest(minAccTest);
-		predictor.setMinSlopes(minSlopes);
-		predictor.setMaxSlopes(maxSlopes);
-		predictor.setRelativeDiffRR0(Relative_diff_R_R0);
-		predictor.setDiffR01R02(Diff_R01_R02);
-		predictor.setStopCond(stop_cond);
-		
-		Utility.writeToDebug("DEBUG: actFileDataType is " + actFileDataType);
-		CreateDirectoriesWorkflow.createDirs(userName, jobName);
-		if(modelType.equals(Constants.KNN)){
-			if (actFileDataType.equals(Constants.CONTINUOUS)){
-				writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME);
-			}
-			else if (actFileDataType.equals(Constants.CATEGORY)){
-				writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME);
-			}
-		}
-		
-
+			
+		//save modeling params to database
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			if(knnParameters != null)
+				session.saveOrUpdate(knnParameters);
+			if(svmParameters != null)
+				session.saveOrUpdate(knnParameters);
+			if(knnPlusParameters != null)
+				session.saveOrUpdate(knnParameters);
+			if(randomForestParameters != null)
+				session.saveOrUpdate(knnParameters);
+			
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		}
+		
+		//set modeling params id in predictor
+		if(modelType.equals(Constants.KNN)){
+			
+			predictor.setModelingParametersId(knnParameters.getId());	
+		}
+		else if(modelType.equals(Constants.SVM)){
+			predictor.setModelingParametersId(svmParameters.getId());	
+		}
+		else if(modelType.equals(Constants.KNNGA) ||
+				modelType.equals(Constants.KNNSA)){
+			predictor.setModelingParametersId(knnPlusParameters.getId());	
+		}
+		else if(modelType.equals(Constants.RANDOMFOREST)){
+			predictor.setModelingParametersId(randomForestParameters.getId());	
+		}
 
+		//save predictor to DB
 		try {
 			tx = session.beginTransaction();
 			session.saveOrUpdate(predictor);
@@ -469,6 +431,17 @@ public class QsarModelingTask extends WorkflowTask {
 
 		lookupId = predictor.getPredictorId();
 		jobType = Constants.MODELING;
+		
+		//make sure directories exist
+		CreateDirectoriesWorkflow.createDirs(userName, jobName);
+		if(modelType.equals(Constants.KNN)){
+			if (actFileDataType.equals(Constants.CONTINUOUS)){
+				writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME);
+			}
+			else if (actFileDataType.equals(Constants.CATEGORY)){
+				writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME);
+			}
+		}
 	}
 	
 	public void preProcess() throws Exception{
@@ -575,7 +548,7 @@ public class QsarModelingTask extends WorkflowTask {
 				lsfJobId = KnnModelingLsfWorkflow.buildKnnContinuousModel(userName, jobName, lsfPath);
 			}
 			else if(actFileDataType.equals(Constants.CATEGORY)){
-				lsfJobId = KnnModelingLsfWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, lsfPath);
+				lsfJobId = KnnModelingLsfWorkflow.buildKnnCategoryModel(userName, jobName, knnParameters.getKnnCategoryOptimization(), lsfPath);
 			}
 		}
 		else {//if(modelType.equals(Constants.SVM)){
@@ -597,13 +570,13 @@ public class QsarModelingTask extends WorkflowTask {
 
 			step = Constants.MODELS;
 			if(actFileDataType.equals(Constants.CATEGORY)){
-				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path);
+				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnParameters.getKnnCategoryOptimization(), path);
 			}else if(actFileDataType.equals(Constants.CONTINUOUS)){
 				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path);
 			}
 			
 			if(actFileDataType.equals(Constants.CATEGORY)){
-				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnCategoryOptimization, path + "yRandom/");
+				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnParameters.getKnnCategoryOptimization(), path + "yRandom/");
 			}else if(actFileDataType.equals(Constants.CONTINUOUS)){
 				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path + "yRandom/");
 			}
@@ -723,17 +696,14 @@ public class QsarModelingTask extends WorkflowTask {
 	}
 	
 	
-	
-	
 	//helper functions and member variables defined below this point.
 	
 	private int getNumTotalModels(){
 		 int numModels = Integer.parseInt(numSplits);
-		
 		if(modelType.equals(Constants.KNN)){
-			numModels *= Integer.parseInt(numRuns);
+			numModels *= Integer.parseInt(knnParameters.getNumRuns());
 			int numDescriptorSizes = 0;
-			for(int i = Integer.parseInt(minNumDescriptors); i <= Integer.parseInt(maxNumDescriptors); i += Integer.parseInt(stepSize)){
+			for(int i = Integer.parseInt(knnParameters.getMinNumDescriptors()); i <= Integer.parseInt(knnParameters.getMaxNumDescriptors()); i += Integer.parseInt(knnParameters.getStepSize())){
 				numDescriptorSizes++;
 			}
 			numModels *= numDescriptorSizes;
@@ -751,7 +721,6 @@ public class QsarModelingTask extends WorkflowTask {
         total = getNumTotalModels();
         test=KNNValues.size();
         train=dir.list(new FilenameFilter() {	public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}	}).length - test;
-        
         
         if(flow.equals(Constants.MAINKNN))
         {
@@ -1019,25 +988,28 @@ public class QsarModelingTask extends WorkflowTask {
 		    fout = new FileOutputStream (fullFileLocation);
 		    out = new PrintStream(fout);
 
-		    out.println("Min_Number_Of_Descriptors: " + minNumDescriptors);
-		    out.println("Step: " + stepSize);
-		    out.println("Number_Of_Steps: " + ((new Integer(maxNumDescriptors).intValue() - new Integer(minNumDescriptors).intValue())/new Integer(stepSize).intValue()));
-		    out.println("Number_Of_Cycles: " + numCycles);
-		    out.println("Number_Of_Neares_Neighbors: " + nearestNeighbors);
-		    out.println("Number_Of_Pseudo_Neighbors: " + pseudoNeighbors);
-		    out.println("Number_Of_Mutations: " + numMutations);
-		    out.println("Runs_For_Each_Set_Of_Parameters: " + numRuns);
-		    out.println("T1: " + T1);
-		    out.println("T2: " + T2);
-		    out.println("Mu: " + mu);
-		    out.println("TcOverTb: " + TcOverTb);
-		    out.println("CutOff: " + cutoff);
-		    out.println("Minimum_q2: " + minAccTraining);
-		    out.println("Minimum_R2: " + minAccTest);
-		    out.println("Minimum_and_maximum_slopes: " + minSlopes + " " + maxSlopes);
-		    out.println("Relative_diff_R_R0: " + Relative_diff_R_R0);
-		    out.println("Diff_R01_R02: " + Diff_R01_R02);
-		    out.println("stop_cond: " + stop_cond);
+		    out.println("Min_Number_Of_Descriptors: " + knnParameters.getMinNumDescriptors());
+			out.println("Step: " + knnParameters.getStepSize());
+			out.println("Number_Of_Steps: "
+					+ ((new Integer(knnParameters.getMaxNumDescriptors()).intValue() - new Integer(
+							knnParameters.getMinNumDescriptors()).intValue()) / new Integer(
+								knnParameters.getStepSize()).intValue()));
+		    out.println("Number_Of_Cycles: " + knnParameters.getNumCycles());
+		    out.println("Number_Of_Neares_Neighbors: " + knnParameters.getNearestNeighbors());
+		    out.println("Number_Of_Pseudo_Neighbors: " + knnParameters.getPseudoNeighbors());
+		    out.println("Number_Of_Mutations: " + knnParameters.getNumMutations());
+			out.println("Runs_For_Each_Set_Of_Parameters: " + knnParameters.getNumRuns());
+		    out.println("T1: " + knnParameters.getT1());
+		    out.println("T2: " + knnParameters.getT2());
+			out.println("Mu: " + knnParameters.getMu());
+		    out.println("TcOverTb: " + knnParameters.getTcOverTb());
+		    out.println("CutOff: " + knnParameters.getCutoff());
+		    out.println("Minimum_acc_train: " + knnParameters.getMinAccTraining());
+			out.println("Minimum_acc_test: " + knnParameters.getMinAccTest());	
+		    out.println("Minimum_and_maximum_slopes: " + knnParameters.getMinSlopes() + " " + knnParameters.getMaxSlopes());
+		    out.println("Relative_diff_R_R0: " + knnParameters.getRelativeDiffRR0());
+		    out.println("Diff_R01_R02: " + knnParameters.getDiffR01R02());
+		    out.println("Stop: " + knnParameters.getStopCond());
 
 		    out.close();
 		    fout.close();	
@@ -1054,25 +1026,25 @@ public class QsarModelingTask extends WorkflowTask {
 		try {
 			fout = new FileOutputStream(fullFileLocation);
 			out = new PrintStream(fout);
-			out.println("Min_Number_Of_Descriptors: " + minNumDescriptors);
-			out.println("Step: " + stepSize);
+			out.println("Min_Number_Of_Descriptors: " + knnParameters.getMinNumDescriptors());
+			out.println("Step: " + knnParameters.getStepSize());
 			out.println("Number_Of_Steps: "
-							+ ((new Integer(maxNumDescriptors).intValue() - new Integer(
-									minNumDescriptors).intValue()) / new Integer(
-									stepSize).intValue()));
-		    out.println("Number_Of_Cycles: " + numCycles);
-		    out.println("Number_Of_Neares_Neighbors: " + nearestNeighbors);
-		    out.println("Number_Of_Pseudo_Neighbors: " + pseudoNeighbors);
-			out.println("Number_Of_Mutations: " + numMutations);
-			out.println("Runs_For_Each_Set_Of_Parameters: " + numRuns);
-		    out.println("T1: " + T1);
-		    out.println("T2: " + T2);
-			out.println("Mu: " + mu);
-		    out.println("TcOverTb: " + TcOverTb);
-			out.println("Minimum_acc_train: " + minAccTraining);
-			out.println("Minimum_acc_test: " + minAccTest);			
-			out.println("CutOff: " + cutoff);
-			out.println("Stop: " + stop_cond);
+							+ ((new Integer(knnParameters.getMaxNumDescriptors()).intValue() - new Integer(
+									knnParameters.getMinNumDescriptors()).intValue()) / new Integer(
+										knnParameters.getStepSize()).intValue()));
+		    out.println("Number_Of_Cycles: " + knnParameters.getNumCycles());
+		    out.println("Number_Of_Neares_Neighbors: " + knnParameters.getNearestNeighbors());
+		    out.println("Number_Of_Pseudo_Neighbors: " + knnParameters.getPseudoNeighbors());
+			out.println("Number_Of_Mutations: " + knnParameters.getNumMutations());
+			out.println("Runs_For_Each_Set_Of_Parameters: " + knnParameters.getNumRuns());
+		    out.println("T1: " + knnParameters.getT1());
+		    out.println("T2: " + knnParameters.getT2());
+			out.println("Mu: " + knnParameters.getMu());
+		    out.println("TcOverTb: " + knnParameters.getTcOverTb());
+			out.println("Minimum_acc_train: " + knnParameters.getMinAccTraining());
+			out.println("Minimum_acc_test: " + knnParameters.getMinAccTest());			
+			out.println("CutOff: " + knnParameters.getCutoff());
+			out.println("Stop: " + knnParameters.getStopCond());
 
 			out.close();
 			fout.close();
@@ -1100,68 +1072,6 @@ public class QsarModelingTask extends WorkflowTask {
 	}
 	public void setSdFileName(String sdFileName) {
 		this.sdFileName = sdFileName;
-	}
-	
-	public int getYTotalModels()
-	{
-		return yTotalModels;
-	}
-	public void setYTotalModels(int total)
-	{
-		this.yTotalModels=total;
-	}
-	
-	public int getYTrainModels()
-	{
-		return yTrainModels;
-	}
-	public void setYTrainModels(int train)
-	{
-		this.yTrainModels=train;
-	}
-	
-	public int getYTestModels()
-	{
-		return yTestModels;
-	}
-	public void setYTestModels(int test)
-	{
-		this.yTestModels=test;
-	}
-	
-	public String getMaxNumDescriptors()
-	{
-		return this.maxNumDescriptors;
-	}
-	public void setMaxNumDescriptors(String maxNum)
-	{
-		this.maxNumDescriptors=maxNum;
-	}
-	
-	public String getMinNumDescriptors()
-	{
-		return this.minNumDescriptors;
-	}
-	public void setMinNumDescriptors(String maxNum)
-	{
-		this.minNumDescriptors=maxNum;
-	}
-	
-	public String getStepSize()
-	{
-		return this.stepSize;
-	}
-	public void setStepSize(String size){
-		this.stepSize=size;
-	}
-	
-	public String getNumRuns()
-	{
-		return this.numRuns;
-	}
-	public void setNumRuns(String runs)
-	{
-		this.numRuns=runs;
 	}
 	
 	public Long getDatasetID() {

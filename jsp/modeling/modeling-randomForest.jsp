@@ -3,7 +3,6 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
-
 <script language="javascript" src="javascript/modeling.js"></script>
 <s:div>
 			 <!-- SVM Parameters -->
@@ -32,7 +31,7 @@
 				<td align="left" valign="top"><s:radio name="sampleWithReplacement" list="#{'true':'Yes','false':'No'}" theme="simple" /></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Class Weights:</b></div></td>
-				<td align="left" valign="top"><s:textfield id="classWeight" name="classWeight" size="5" theme="simple"/>
+				<td align="left" valign="top"><s:textfield id="classWeights" name="classWeights" size="5" theme="simple"/>
 				</td></tr>
 				
 				</table></td></tr>

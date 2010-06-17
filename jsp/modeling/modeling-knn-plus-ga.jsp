@@ -25,42 +25,42 @@
 			<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph"><i>For information on what these parameters do, refer to the <u><a href="/help-faq" onclick="window.open('/help-faq'); return true;" >help pages</a></u>.<br /></i></div></td>
 			</tr>
 			<tr><td width="33%"><div class="StandardTextDarkGrayParagraph"><b>Descriptors Per Model:</b></div></td>
-			<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent">Minimum: <s:textfield id="knnMinNumDescriptors" name="knnMinNumDescriptors" size="5" value="5" theme="simple"/> Maximum: <s:textfield id="knnMaxNumDescriptors" name="knnMaxNumDescriptors" size="5" value="30" theme="simple"/></div></td></tr>
-			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Applicability Domain Cutoff:</b></div></td>
-			<td align="left" valign="top"><s:textfield id="knnApplicabilityDomain" name="knnApplicabilityDomain" size="5" value="0.5" theme="simple"/></td></tr>	
+			<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent">Minimum: <s:textfield id="knnMinNumDescriptors" name="knnMinNumDescriptors" size="5" theme="simple"/> Maximum: <s:textfield id="knnMaxNumDescriptors" name="knnMaxNumDescriptors" size="5" value="30" theme="simple"/></div></td></tr>
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Min. Nearest Neighbors:</b></div></td>
-			<td align="left" valign="top"><s:textfield id="knnMinNearestNeighbors" name="knnMinNearestNeighbors" size="5" value="5" theme="simple"/></td></tr>		
+			<td align="left" valign="top"><s:textfield id="knnMinNearestNeighbors" name="knnMinNearestNeighbors" size="5" theme="simple"/></td></tr>		
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Max. Nearest Neighbors:</b></div></td>
-			<td align="left" valign="top"><s:textfield id="knnMaxNearestNeighbors" name="knnMaxNearestNeighbors" size="5" value="5" theme="simple"/></td></tr>		
+			<td align="left" valign="top"><s:textfield id="knnMaxNearestNeighbors" name="knnMaxNearestNeighbors" size="5" theme="simple"/></td></tr>		
 			<!-- end overall parameters -->
 			
 			<!-- Genetic Algorithm Parameters (basic) -->
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Genetic Algorithm Parameters:</u></b></div></td>
 			<td><br /><br /></td></tr>	
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Population Size:</b></div></td>
-			<td align="left" valign="top"><s:textfield id="gaPopulationSize" name="gaPopulationSize" size="5" value="500" theme="simple"/></td></tr>
+			<td align="left" valign="top"><s:textfield id="gaPopulationSize" name="gaPopulationSize" size="5" theme="simple"/></td></tr>
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Maximum Number of Generations:</b></div></td>
-			<td align="left" valign="top"><s:textfield id="gaMaxNumGenerations" name="gaMaxNumGenerations" size="5" value="1000" theme="simple"/></td></tr>
+			<td align="left" valign="top"><s:textfield id="gaMaxNumGenerations" name="gaMaxNumGenerations" size="5" theme="simple"/></td></tr>
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Stop if Stable For This Many Generations:</b></div></td>
-			<td align="left" valign="top"><s:textfield id="gaMaxNumGenerations" name="gaNumStableGenerations" size="5" value="20" theme="simple"/></td></tr>
+			<td align="left" valign="top"><s:textfield id="gaNumStableGenerations" name="gaNumStableGenerations" size="5" theme="simple"/></td></tr>
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Group Size for Tournament Selection:</b></div></td>
-			<td align="left" valign="top"><s:textfield id="gaTournamentGroupSize" name="gaTournamentGroupSize" size="5" value="7" theme="simple"/></td></tr>
+			<td align="left" valign="top"><s:textfield id="gaTournamentGroupSize" name="gaTournamentGroupSize" size="5" theme="simple"/></td></tr>
 			<!-- end Genetic Algorithm Parameters (basic) -->
 			
 			<!-- Genetic Algorithm Parameters (advanced) -->
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Genetic Algorithm Parameters (Advanced):</u></b></div></td>
 			<td><br /><br /></td></tr>	
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Fitness Difference To Proceed (in log<sub>10</sub> units):</b></div></td>
-			<td align="left" valign="top"><s:textfield disabled="true" id="gaMinFitnessDifference" name="gaMinFitnessDifference" size="5" value="-4" theme="simple"/></td></tr>
+			<td align="left" valign="top"><s:textfield disabled="true" id="gaMinFitnessDifference" name="gaMinFitnessDifference" size="5" theme="simple"/></td></tr>
 			<!-- end Genetic Algorithm Parameters (advanced) -->
 			
 			<!-- Model Acceptance Parameters -->
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Model Acceptance Parameters:</u></b></div></td>
 			<td><br /><br /></td></tr>	
-			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum for Training Set :</b></div></td>
-			<td align="left" valign="top"><s:textfield id="minAccTraining" name="knnMinAccTraining" size="5" value="0.6" theme="simple"/></td></tr>	
+			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Applicability Domain Cutoff:</b></div></td>
+			<td align="left" valign="top"><s:textfield id="knnApplicabilityDomain" name="knnApplicabilityDomain" size="5" theme="simple"/></td></tr>	
+			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum for Training Set:</b></div></td>
+			<td align="left" valign="top"><s:textfield id="knnMinTraining" name="knnMinTraining" size="5" theme="simple"/></td></tr>	
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum for Test Set:</b></div></td>
-			<td align="left" valign="top"><s:textfield id="minAccTest" name="knnMinAccTest" size="5" value="0.6" theme="simple"/></td></tr>	
+			<td align="left" valign="top"><s:textfield id="knnMinTest" name="knnMinTest" size="5" theme="simple"/></td></tr>	
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Use Error Based Fit Index:</b></div></td>
 			<td align="left" valign="top"><s:checkbox id="knnErrorBasedFit" name="knnErrorBasedFit" theme="simple"/></td></tr>	
 			<!-- end Model Acceptance Parameters -->

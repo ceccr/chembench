@@ -74,9 +74,13 @@ public class Constants {
 	public static final String DRAGONNOH = "DRAGONNOH";
 	public static final String MOE2D = "MOE2D";
 	public static final String MACCS = "MACCS";
-	
+
 	public static final String KNN = "KNN";
+	public static final String KNNSA = "KNN-SA";
+	public static final String KNNGA = "KNN-GA";
+	//public static final String KNNPLUS = "KNNPLUS"; not used. May merge knn-ga and knn-sa into this someday.
 	public static final String SVM = "SVM";
+	public static final String RANDOMFOREST = "RANDOMFOREST";
 	
 	public static final String SIMULATEDANNEALING = "SIMULATEDANNEALING";
 	public static final String GENETICALGORITHM = "GENETICALGORITHM";
