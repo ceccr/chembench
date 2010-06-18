@@ -10,6 +10,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.SoftwareExpiration;
+import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.Utility;
 
 
@@ -54,12 +55,26 @@ public class IncomingJobProcessingThread extends Thread {
 					}
 					else if(j.getJobType().equals(Constants.MODELING)){
 						//check LSF status. If LSF can accept another job, put it there.
-						Utility.writeToDebug("Sending job " + j.getJobName() + " to LSF queue");
-						if(LsfProcessingThread.lsfHasFreePendSlots()){
+						QsarModelingTask qs = (QsarModelingTask) j.workflowTask;
+						if(qs.getModelType().equals(Constants.KNN)){
+							
+							Utility.writeToDebug("Sending job " + j.getJobName() + " to LSF queue");
+							if(LsfProcessingThread.lsfHasFreePendSlots()){
+								movedJob = true;
+								j.setJobList(Constants.LSF);
+								j.workflowTask.jobList = Constants.LSF;
+								CentralDogma.getInstance().lsfJobs.addJob(j);
+								CentralDogma.getInstance().incomingJobs.removeJob(j.getId());
+							}
+						}
+						else{
+							//it's a KNNPLUS, SVM, or RF job.
+							//send it to local
+							Utility.writeToDebug("Sending job " + j.getJobName() + " to local queue");
 							movedJob = true;
-							j.setJobList(Constants.LSF);
-							j.workflowTask.jobList = Constants.LSF;
-							CentralDogma.getInstance().lsfJobs.addJob(j);
+							j.setJobList(Constants.LOCAL);
+							j.workflowTask.jobList = Constants.LOCAL;
+							CentralDogma.getInstance().localJobs.addJob(j);
 							CentralDogma.getInstance().incomingJobs.removeJob(j.getId());
 						}
 					}
@@ -82,7 +97,6 @@ public class IncomingJobProcessingThread extends Thread {
 						finally {
 							s.close();
 						}
-					
 					}
 				}
 			} catch (Exception ex) {

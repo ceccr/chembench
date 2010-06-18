@@ -45,7 +45,10 @@ import edu.unc.ceccr.workflows.DataSplitWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnModelBuildingWorkflow;
 import edu.unc.ceccr.workflows.KnnModelingLsfWorkflow;
+import edu.unc.ceccr.workflows.KnnPlusWorkflow;
+import edu.unc.ceccr.workflows.RandomForestWorkflow;
 import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
+import edu.unc.ceccr.workflows.SvmWorkflow;
 import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
 public class QsarModelingTask extends WorkflowTask {
@@ -464,15 +467,8 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		String xFileName = "";
 		
-		/*
-		 I bet we could do some awesome stuff with feature selection here.
-		 
-		Context-dependent feature selection in the context of dataset->descriptor selection:
-		- Find some overarching properties of the traintest dataset (activity cliffs? Diversity / Tanimoto coefficient? Number & size of clusters?)
-		- Apply those to feature selection. (Which descriptors correlate best to activity? Which ones separate clusters? Which are useful for low/high Tanimoto values?)
-		*/
 		if(dataset.getDatasetType().equals(Constants.MODELING)){
-			//the dataset did not include descriptors so we need to generate them
+			//read in descriptors from the dataset
 			step = Constants.PROCDESCRIPTORS;
 			if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
 				Utility.writeToDebug("Converting MolconnZ output to .x format", userName, jobName);
@@ -495,14 +491,14 @@ public class QsarModelingTask extends WorkflowTask {
 				ReadDescriptorsFileWorkflow.readMaccsDescriptors(filePath + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 			}
 			
-			//write out the descriptors for modeling
+			//write out the descriptors into a .x file for modeling
 			xFileName = sdFileName + ".x";
 			String descriptorString = Utility.StringArrayListToString(descriptorNames);
 			
 			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
 		}
 		else if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
-			//dataset has descriptors already, we don't need to do anything
+			//dataset has .x file already, we're done
 			xFileName = dataset.getXFile();
 		}
 		
@@ -587,8 +583,14 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
 			
 		}
-		else { //if(modelType.equals(Constants.SVM)){
-			throw new Exception("SVM behaviour is still undefined -- don't use it yet!");
+		else if(modelType.equals(Constants.SVM)){
+			SvmWorkflow.buildSvmModels(svmParameters);
+		}
+		else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
+			KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters);
+		}
+		else if(modelType.equals(Constants.RANDOMFOREST)){
+			RandomForestWorkflow.buildRandomForestModels(randomForestParameters);
 		}
 	}
 	
@@ -1082,5 +1084,14 @@ public class QsarModelingTask extends WorkflowTask {
 	public void setDatasetID(Long datasetID) {
 		this.datasetID = datasetID;
 	}
+
+	public String getModelType() {
+		return modelType;
+	}
+	public void setModelType(String modelType) {
+		this.modelType = modelType;
+	}
+	
+	
 
 }

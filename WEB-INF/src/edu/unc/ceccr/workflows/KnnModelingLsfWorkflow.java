@@ -13,12 +13,6 @@ import java.util.Scanner;
 
 public class KnnModelingLsfWorkflow{
 	
-	public static void checkJobStatus() throws Exception{
-		//called periodically during running job
-		//gets information from bjobs about whether the running job has completed
-		//bjobs -a: gives all jobs, even ones that are completed (within the past hour, anyway).
-		
-	}
 	
 	public static void retrieveCompletedPredictor(String filePath, String lsfPath) throws Exception{
 		//open the directory in /largefs/ceccr/ where the job was run
