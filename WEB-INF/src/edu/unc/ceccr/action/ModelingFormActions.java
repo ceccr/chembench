@@ -144,8 +144,8 @@ public class ModelingFormActions extends ActionSupport{
 			knnMinNearestNeighbors = knnMinNearestNeighbors.split("\\, ")[index];
 			knnMaxNearestNeighbors = knnMaxNearestNeighbors.split("\\, ")[index];
 			knnApplicabilityDomain = knnApplicabilityDomain.split("\\, ")[index];
-			knnMinTraining = knnMinTraining.split("\\\\, ")[index];
-			knnMinTest = knnMinTest.split("\\,\\ ")[index];
+			knnMinTraining = knnMinTraining.split("\\, ")[index];
+			knnMinTest = knnMinTest.split("\\, ")[index];
 			knnErrorBasedFit = knnErrorBasedFit.split("\\, ")[index];
 			
 			QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
