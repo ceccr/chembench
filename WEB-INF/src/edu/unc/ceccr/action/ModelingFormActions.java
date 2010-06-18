@@ -145,15 +145,15 @@ public class ModelingFormActions extends ActionSupport{
 			if(modelingType.equals(Constants.KNNGA)){
 				index = 1;
 			}
-			knnMinNumDescriptors = knnMinNumDescriptors.split(", ")[index];
-			knnMaxNumDescriptors = knnMaxNumDescriptors.split(", ")[index];
-			knnDescriptorStepSize = knnDescriptorStepSize.split(", ")[index];
-			knnMinNearestNeighbors = knnMinNearestNeighbors.split(", ")[index];
-			knnMaxNearestNeighbors = knnMaxNearestNeighbors.split(", ")[index];
-			knnApplicabilityDomain = knnApplicabilityDomain.split(", ")[index];
-			knnMinTraining = knnMinTraining.split(", ")[index];
-			knnMinTest = knnMinTest.split(", ")[index];
-			knnErrorBasedFit = knnErrorBasedFit.split(", ")[index];
+			knnMinNumDescriptors = knnMinNumDescriptors.split("\\,\\ ")[index];
+			knnMaxNumDescriptors = knnMaxNumDescriptors.split("\\,\\ ")[index];
+			knnDescriptorStepSize = knnDescriptorStepSize.split("\\,\\ ")[index];
+			knnMinNearestNeighbors = knnMinNearestNeighbors.split("\\,\\ ")[index];
+			knnMaxNearestNeighbors = knnMaxNearestNeighbors.split("\\,\\ ")[index];
+			knnApplicabilityDomain = knnApplicabilityDomain.split("\\,\\ ")[index];
+			knnMinTraining = knnMinTraining.split("\\,\\ ")[index];
+			knnMinTest = knnMinTest.split("\\,\\ ")[index];
+			knnErrorBasedFit = knnErrorBasedFit.split("\\,\\ ")[index];
 			
 			//count the number of models that will be generated
 			int numModels = 0;
