@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class KnnPlusWorkflow{
 
-	public static void buildKnnPlusModels(KnnPlusParameters knnPlusParameters) throws Exception{
+	public static void buildKnnPlusModels(KnnPlusParameters knnPlusParameters, String actFileDataType, String workingDir) throws Exception{
 		
 	}
 

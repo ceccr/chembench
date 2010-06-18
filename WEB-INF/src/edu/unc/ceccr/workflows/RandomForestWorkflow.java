@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class RandomForestWorkflow{
 
-	public static void buildRandomForestModels(RandomForestParameters randomForestParameters) throws Exception{
+	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String workingDir) throws Exception{
 		
 	}
 

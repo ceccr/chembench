@@ -441,10 +441,10 @@ public class QsarModelingTask extends WorkflowTask {
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		if(modelType.equals(Constants.KNN)){
 			if (actFileDataType.equals(Constants.CONTINUOUS)){
-				writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME);
+				KnnModelBuildingWorkflow.writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME, knnParameters);
 			}
 			else if (actFileDataType.equals(Constants.CATEGORY)){
-				writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME);
+				KnnModelBuildingWorkflow.writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME, knnParameters);
 			}
 		}
 	}
@@ -584,13 +584,13 @@ public class QsarModelingTask extends WorkflowTask {
 			
 		}
 		else if(modelType.equals(Constants.SVM)){
-			SvmWorkflow.buildSvmModels(svmParameters);
+			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path);
 		}
 		else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
-			KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters);
+			KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters, actFileDataType, path);
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
-			RandomForestWorkflow.buildRandomForestModels(randomForestParameters);
+			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, path);
 		}
 	}
 	
@@ -608,7 +608,7 @@ public class QsarModelingTask extends WorkflowTask {
 				KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
 			}
 		}
-
+		
 		if (actFileDataType.equals(Constants.CATEGORY)){
 			parseCategorykNNOutput(filePath, Constants.MAINKNN);
 			parseCategorykNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
@@ -616,7 +616,7 @@ public class QsarModelingTask extends WorkflowTask {
 			parseContinuouskNNOutput(filePath, Constants.MAINKNN);
 			parseContinuouskNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
 		}
-
+		
 		noModelsGenerated = mainKNNValues.isEmpty();
 		if (!noModelsGenerated)
 		{
@@ -624,24 +624,24 @@ public class QsarModelingTask extends WorkflowTask {
 			addStdDeviation(allExternalValues,parseConpredStdDev(filePath + Constants.PRED_OUTPUT_FILE));
 			sortModels();
 		}
-
+		
 		setParameters(filePath, mainKNNValues, Constants.MAINKNN);
 		setParameters(filePath+"yRandom/", randomKNNValues, Constants.RANDOMKNN);
 		
 		//save output to database
 		KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName);
-
+	
 		allkNNValues=new ArrayList<Model>();
-      
-       if(sortedkNNValues == null){
-    	   Utility.writeToDebug("Warning: No models were generated.");
-       }
-       else{
-    	   allkNNValues.addAll(sortedkNNValues);
-    	   allkNNValues.addAll(sortedYRKNNValues);
-       }
-       
-
+	  
+		if(sortedkNNValues == null){
+			Utility.writeToDebug("Warning: No models were generated.");
+		}
+		else{
+			allkNNValues.addAll(sortedkNNValues);
+			allkNNValues.addAll(sortedYRKNNValues);
+		}
+		   
+		//save updated predictor to database
 		predictor.setScalingType(scalingType);
 		predictor.setDescriptorGeneration(descriptorGenerationType);
 		predictor.setModelMethod(modelType);
@@ -701,6 +701,7 @@ public class QsarModelingTask extends WorkflowTask {
 	
 	
 	//helper functions and member variables defined below this point.
+	//Most of these should be moved into Workflows package.
 	
 	private int getNumTotalModels(){
 		 int numModels = Integer.parseInt(numSplits);
@@ -981,81 +982,6 @@ public class QsarModelingTask extends WorkflowTask {
 		return knnOutput;
 	}
 
-	
-	private void writeKnnContinuousDefaultFile(String fullFileLocation)
-			throws IOException {
-		
-		FileOutputStream fout;	
-		PrintStream out;
-		try
-		{
-		    fout = new FileOutputStream (fullFileLocation);
-		    out = new PrintStream(fout);
-
-		    out.println("Min_Number_Of_Descriptors: " + knnParameters.getMinNumDescriptors());
-			out.println("Step: " + knnParameters.getStepSize());
-			out.println("Number_Of_Steps: "
-					+ ((new Integer(knnParameters.getMaxNumDescriptors()).intValue() - new Integer(
-							knnParameters.getMinNumDescriptors()).intValue()) / new Integer(
-								knnParameters.getStepSize()).intValue()));
-		    out.println("Number_Of_Cycles: " + knnParameters.getNumCycles());
-		    out.println("Number_Of_Neares_Neighbors: " + knnParameters.getNearestNeighbors());
-		    out.println("Number_Of_Pseudo_Neighbors: " + knnParameters.getPseudoNeighbors());
-		    out.println("Number_Of_Mutations: " + knnParameters.getNumMutations());
-			out.println("Runs_For_Each_Set_Of_Parameters: " + knnParameters.getNumRuns());
-		    out.println("T1: " + knnParameters.getT1());
-		    out.println("T2: " + knnParameters.getT2());
-			out.println("Mu: " + knnParameters.getMu());
-		    out.println("TcOverTb: " + knnParameters.getTcOverTb());
-		    out.println("CutOff: " + knnParameters.getCutoff());
-		    out.println("Minimum_acc_train: " + knnParameters.getMinAccTraining());
-			out.println("Minimum_acc_test: " + knnParameters.getMinAccTest());	
-		    out.println("Minimum_and_maximum_slopes: " + knnParameters.getMinSlopes() + " " + knnParameters.getMaxSlopes());
-		    out.println("Relative_diff_R_R0: " + knnParameters.getRelativeDiffRR0());
-		    out.println("Diff_R01_R02: " + knnParameters.getDiffR01R02());
-		    out.println("Stop: " + knnParameters.getStopCond());
-
-		    out.close();
-		    fout.close();	
-		    } catch (IOException e) {
-		    	Utility.writeToDebug(e);
-		    }
-	}
-
-	private void writeKnnCategoryDefaultFile(String fullFileLocation)
-			throws IOException {
-
-		FileOutputStream fout;
-		PrintStream out;
-		try {
-			fout = new FileOutputStream(fullFileLocation);
-			out = new PrintStream(fout);
-			out.println("Min_Number_Of_Descriptors: " + knnParameters.getMinNumDescriptors());
-			out.println("Step: " + knnParameters.getStepSize());
-			out.println("Number_Of_Steps: "
-							+ ((new Integer(knnParameters.getMaxNumDescriptors()).intValue() - new Integer(
-									knnParameters.getMinNumDescriptors()).intValue()) / new Integer(
-										knnParameters.getStepSize()).intValue()));
-		    out.println("Number_Of_Cycles: " + knnParameters.getNumCycles());
-		    out.println("Number_Of_Neares_Neighbors: " + knnParameters.getNearestNeighbors());
-		    out.println("Number_Of_Pseudo_Neighbors: " + knnParameters.getPseudoNeighbors());
-			out.println("Number_Of_Mutations: " + knnParameters.getNumMutations());
-			out.println("Runs_For_Each_Set_Of_Parameters: " + knnParameters.getNumRuns());
-		    out.println("T1: " + knnParameters.getT1());
-		    out.println("T2: " + knnParameters.getT2());
-			out.println("Mu: " + knnParameters.getMu());
-		    out.println("TcOverTb: " + knnParameters.getTcOverTb());
-			out.println("Minimum_acc_train: " + knnParameters.getMinAccTraining());
-			out.println("Minimum_acc_test: " + knnParameters.getMinAccTest());			
-			out.println("CutOff: " + knnParameters.getCutoff());
-			out.println("Stop: " + knnParameters.getStopCond());
-
-			out.close();
-			fout.close();
-		} catch (IOException e) {
-			Utility.writeToDebug(e);
-		}
-	}
 	
 	public String getJobName() {
 		return jobName;

@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class SvmWorkflow{
 
-	public static void buildSvmModels(SvmParameters svmParameters) throws Exception{
+	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
 		
 	}
 	public static void runSvmPrediction() throws Exception{
