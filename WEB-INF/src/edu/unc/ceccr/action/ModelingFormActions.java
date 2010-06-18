@@ -132,14 +132,7 @@ public class ModelingFormActions extends ActionSupport{
 		
 		//set up job
 		try{
-			QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
-			Utility.writeToDebug("Setting up task", user.getUserName(), this.getJobName());
-			modelingTask.setUp();
-			Utility.writeToDebug("done Setting up task", user.getUserName(), this.getJobName());
-			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId, session).getNumCompound();
-			
-			session.close();
-			
+
 			//unsplit any variables repeated between knn-GA and knn-SA
 			int index = 0;
 			if(modelingType.equals(Constants.KNNGA)){
@@ -154,6 +147,14 @@ public class ModelingFormActions extends ActionSupport{
 			knnMinTraining = knnMinTraining.split("\\\\, ")[index];
 			knnMinTest = knnMinTest.split("\\,\\ ")[index];
 			knnErrorBasedFit = knnErrorBasedFit.split("\\, ")[index];
+			
+			QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
+			Utility.writeToDebug("Setting up task", user.getUserName(), this.getJobName());
+			modelingTask.setUp();
+			Utility.writeToDebug("done Setting up task", user.getUserName(), this.getJobName());
+			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId, session).getNumCompound();
+			
+			session.close();
 			
 			//count the number of models that will be generated
 			int numModels = 0;
