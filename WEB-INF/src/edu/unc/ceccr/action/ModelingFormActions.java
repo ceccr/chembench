@@ -386,7 +386,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String saTempConvergence = "5";
 
 	private String gaPopulationSize = "500";
-	private String gaMinNumGenerations = "1000";
+	private String gaMaxNumGenerations = "1000";
 	private String gaNumStableGenerations = "20";
 	private String gaTournamentGroupSize = "7";
 	private String gaMinFitnessDifference = "-4";
@@ -860,12 +860,12 @@ public class ModelingFormActions extends ActionSupport{
 		this.gaPopulationSize = gaPopulationSize;
 	}
 
-	public String getGaMinNumGenerations() {
-		return gaMinNumGenerations;
+	public String getGaMaxNumGenerations() {
+		return gaMaxNumGenerations;
 	}
 
-	public void setGaMinNumGenerations(String gaMinNumGenerations) {
-		this.gaMinNumGenerations = gaMinNumGenerations;
+	public void setGaMaxNumGenerations(String gaMaxNumGenerations) {
+		this.gaMaxNumGenerations = gaMaxNumGenerations;
 	}
 
 	public String getGaNumStableGenerations() {
