@@ -215,8 +215,7 @@ public class KnnOutputWorkflow{
 		return knnOutput;
 	}
 
-	public static void addStdDeviation(ArrayList<ExternalValidation> externalSetPredictions, String consPredFile)
-	{
+	public static void addStdDeviation(ArrayList<ExternalValidation> externalSetPredictions, String consPredFile) throws Exception {
 		ArrayList<String> stdDevList = parseConpredStdDev(consPredFile);
 		
 		Iterator it1=externalSetPredictions.iterator();
@@ -227,8 +226,7 @@ public class KnnOutputWorkflow{
 		}
 	}
 
-	public static ArrayList parseConpredStdDev(String path)throws IOException
-	{
+	public static ArrayList parseConpredStdDev(String path) throws Exception {
 		BufferedReader in = new BufferedReader(new FileReader(path));
 		String inputString;
 		ArrayList<String> stdDevValues = new ArrayList<String>();
