@@ -12,9 +12,7 @@ import java.util.Iterator;
 import org.apache.commons.validator.GenericValidator;
 
 import edu.unc.ceccr.action.ViewPredictorAction.descriptorFrequency;
-import edu.unc.ceccr.global.CategoryKNNComparator;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.KnnOutputComparator;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.ModelInterface;
