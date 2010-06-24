@@ -87,15 +87,14 @@ public class KnnOutputWorkflow{
 	}
 
 	@SuppressWarnings("unchecked")
-	public static ArrayList<ExternalValidation> parseExternalValidationOutput(String fileLocation,
-			String file_path) throws Exception {
+	public static ArrayList<ExternalValidation> parseExternalValidationOutput(String fileLocation) throws Exception {
 		BufferedReader in = new BufferedReader(new FileReader(fileLocation));
 		String inputString;
 
 		ArrayList<ExternalValidation> externalSetPredictions = new ArrayList<ExternalValidation>();
 		while ((inputString = in.readLine()) != null) {
 			String[] externalValues = inputString.split("\\s+");
-			ExternalValidation extPrediction = createExternalValidationObject(file_path, externalValues);
+			ExternalValidation extPrediction = createExternalValidationObject(externalValues);
 			externalSetPredictions.add(extPrediction);
 		}
 		
@@ -104,8 +103,7 @@ public class KnnOutputWorkflow{
 		return externalSetPredictions;
 	}
 	
-	private static ExternalValidation createExternalValidationObject(
-			String file_path, String[] extValues) throws Exception {
+	private static ExternalValidation createExternalValidationObject(String[] extValues) throws Exception {
 		if (extValues == null) {
 			return null;
 		}
@@ -119,8 +117,6 @@ public class KnnOutputWorkflow{
 		
 		if (GenericValidator.isFloat(extValues[Constants.PREDICTED]))
 			extValOutput.setNumModels(Integer.parseInt(extValues[Constants.NUM_MODELS]));
-		
-		parseConpredStdDev(file_path);
 		
 		return extValOutput;
 	}
@@ -216,7 +212,7 @@ public class KnnOutputWorkflow{
 	}
 
 	public static void addStdDeviation(ArrayList<ExternalValidation> externalSetPredictions, String consPredFile) throws Exception {
-		ArrayList<String> stdDevList = parseConpredStdDev(consPredFile);
+		ArrayList<String> stdDevList = parseConsPredStdDev(consPredFile);
 		
 		Iterator it1=externalSetPredictions.iterator();
 		Iterator it2=stdDevList.iterator();
@@ -226,7 +222,7 @@ public class KnnOutputWorkflow{
 		}
 	}
 
-	public static ArrayList parseConpredStdDev(String path) throws Exception {
+	public static ArrayList<String> parseConsPredStdDev(String path) throws Exception {
 		BufferedReader in = new BufferedReader(new FileReader(path));
 		String inputString;
 		ArrayList<String> stdDevValues = new ArrayList<String>();

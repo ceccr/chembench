@@ -59,7 +59,6 @@ public class QsarModelingTask extends WorkflowTask {
 	//job details
 	private String sdFileName;
 	private String actFileName;
-	private String user_path;
 	private String userName;
 	private String jobName;
 	private String modelType; // (svm, knn, etc) 
@@ -160,8 +159,7 @@ public class QsarModelingTask extends WorkflowTask {
 
 		userName = predictor.getUserName();
 		jobName = predictor.getName();
-		user_path = userName + "/" + jobName + "/";
-		filePath = Constants.CECCR_USER_BASE_PATH + user_path;
+		filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
 		modelType = predictor.getModelMethod();
 		
@@ -327,8 +325,7 @@ public class QsarModelingTask extends WorkflowTask {
 
 		this.predictor = new Predictor();
 		
-		user_path = userName + "/" + jobName + "/";
-		filePath = Constants.CECCR_USER_BASE_PATH + user_path;
+		filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		datasetPath = Constants.CECCR_USER_BASE_PATH;
 		if(dataset.getUserName().equalsIgnoreCase("_all")){
 			datasetPath += "all-users";
@@ -660,7 +657,7 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			//read external validation set predictions
 			if (!noModelsGenerated) {
-				externalSetPredictions = KnnOutputWorkflow.parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE, user_path);
+				externalSetPredictions = KnnOutputWorkflow.parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE);
 				KnnOutputWorkflow.addStdDeviation(externalSetPredictions, filePath + Constants.PRED_OUTPUT_FILE);
 
 				for (ExternalValidation ev : externalSetPredictions){
