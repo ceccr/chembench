@@ -41,7 +41,7 @@ public class Predictor implements java.io.Serializable {
 	private String sdFileName;
 	private String actFileName;
 	
-	private Set<Model> models = new HashSet<Model>(0);
+	private Set<KnnModel> models = new HashSet<KnnModel>(0);
 	private Set<ExternalValidation> externalValidationResults = new HashSet<ExternalValidation>(0);
 	
 	private Date dateCreated;
@@ -104,7 +104,7 @@ public class Predictor implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Predictor(Long predictorId, String name, Set<Model> models,
+	public Predictor(Long predictorId, String name, Set<KnnModel> models,
 			String sdFileName, String actFileName, String userName) {
 		this.predictorId = predictorId;
 		this.name = name;
@@ -131,11 +131,11 @@ public class Predictor implements java.io.Serializable {
 	}
 
 	@OneToMany(mappedBy = "predictor", cascade = CascadeType.ALL)
-	public Set<Model> getModels() {
+	public Set<KnnModel> getModels() {
 		return this.models;
 	}
 
-	public void setModels(Set<Model> models) {
+	public void setModels(Set<KnnModel> models) {
 		this.models = models;
 	}
 	

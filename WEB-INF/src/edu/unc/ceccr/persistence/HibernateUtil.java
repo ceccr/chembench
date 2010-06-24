@@ -24,7 +24,7 @@ public class HibernateUtil {
 		sessionFactory = new AnnotationConfiguration()
 		.addAnnotatedClass(Job.class)
 		.addAnnotatedClass(JobStats.class)
-		.addAnnotatedClass(Model.class)
+		.addAnnotatedClass(KnnModel.class)
 		.addAnnotatedClass(Predictor.class)
 		.addAnnotatedClass(User.class)
 		.addAnnotatedClass(Prediction.class)

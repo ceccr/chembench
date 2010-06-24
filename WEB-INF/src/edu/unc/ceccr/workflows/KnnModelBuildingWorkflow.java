@@ -3,13 +3,20 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 import java.nio.channels.FileChannel;
 
+import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.KnnParameters;
+import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.Scanner;
+
+import org.apache.commons.validator.GenericValidator;
 
 public class KnnModelBuildingWorkflow{
 	
@@ -132,7 +139,7 @@ public class KnnModelBuildingWorkflow{
 				x++;
 			}
 	}
-	
+
 	public static void YRandomization(String userName, String jobName) throws Exception{
 		//Do y-randomization shuffling
 		

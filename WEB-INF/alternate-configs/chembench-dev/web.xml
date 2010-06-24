@@ -40,14 +40,6 @@
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
   
-  <servlet>
-    <servlet-name>Model Servlet</servlet-name>
-    <servlet-class>edu.unc.ceccr.servlet.ModelServlet</servlet-class>
-</servlet>
-<servlet-mapping>
-    <servlet-name>Model Servlet</servlet-name>
-    <url-pattern>/model/*</url-pattern>
-</servlet-mapping>
 
 <servlet>
     <servlet-name>File Servlet</servlet-name>

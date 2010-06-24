@@ -20,7 +20,7 @@ import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.KnnParameters;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
-import edu.unc.ceccr.persistence.Model;
+import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
@@ -630,11 +630,11 @@ public class PopulateDataObjects {
 		return jobStats;
 	}
 	
-	public static List<Model> getModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
+	public static List<KnnModel> getModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
 		//Utility.writeToDebug("getting models for predictorId: " + predictorId);
 		Predictor predictor = getPredictorById(predictorId, session);
 		
-		List<Model> models = null;
+		List<KnnModel> models = null;
 		if(session.getTransaction().isActive()){
 		}
 		Transaction tx = null;
@@ -642,7 +642,7 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			if(session.getTransaction().isActive()){
 			}
-			models = session.createCriteria(Model.class)
+			models = session.createCriteria(KnnModel.class)
 					.add(Expression.eq("predictor", predictor)).list();
 			tx.commit();
 		} catch (Exception e) {
@@ -655,8 +655,8 @@ public class PopulateDataObjects {
 		//sort models in decreasing order by r^2 value
 		//(used when displaying top 10 models on view predictor page)
 		if(predictor.getActivityType().equals(Constants.CONTINUOUS) && models != null && models.size() > 1){
-			Collections.sort(models, new Comparator<Model>() {
-			    public int compare(Model o1, Model o2) {
+			Collections.sort(models, new Comparator<KnnModel>() {
+			    public int compare(KnnModel o1, KnnModel o2) {
 		    		return (o2.getR_squared() > o1.getR_squared()? 1:-1);
 			    }});
 		}

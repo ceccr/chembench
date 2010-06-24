@@ -27,7 +27,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Model;
+import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
@@ -41,8 +41,8 @@ public class ViewPredictorAction extends ActionSupport {
 	private User user;
 	private Predictor selectedPredictor;
 	private String predictorId;
-	private List<Model> models;
-	private List<Model> randomModels;
+	private List<KnnModel> models;
+	private List<KnnModel> randomModels;
 	private List<ExternalValidation> externalValValues;
 	private List<String> residuals;
 	private String dataType;
@@ -146,7 +146,7 @@ public class ViewPredictorAction extends ActionSupport {
 			
 			//get descriptor freqs from models
 			HashMap<String, Integer> descriptorFreqMap  = new HashMap<String, Integer>();
-			for(Model m : models){
+			for(KnnModel m : models){
 				if(m.getDescriptorsUsed() != null && ! m.getDescriptorsUsed().equals("")){
 					String[] descriptorArray = m.getDescriptorsUsed().split("\\s+");
 					for(int i = 0; i < descriptorArray.length; i++){
@@ -329,16 +329,16 @@ public class ViewPredictorAction extends ActionSupport {
 			datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
 		}
 		dataType = selectedPredictor.getActivityType();
-		models = new ArrayList<Model>();
-		randomModels = new ArrayList<Model>();
-		ArrayList<Model> allModels = new ArrayList<Model>();
+		models = new ArrayList<KnnModel>();
+		randomModels = new ArrayList<KnnModel>();
+		ArrayList<KnnModel> allModels = new ArrayList<KnnModel>();
 		List temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session);
 		if(temp != null){
 			allModels.addAll(temp);
 
-			Iterator<Model> it = allModels.iterator();
+			Iterator<KnnModel> it = allModels.iterator();
 			while(it.hasNext()){
-				Model m = it.next();
+				KnnModel m = it.next();
 				if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)){
 					models.add(m);
 				}
@@ -396,17 +396,17 @@ public class ViewPredictorAction extends ActionSupport {
 		this.predictorId = predictorId;
 	}
 	
-	public List<Model> getModels() {
+	public List<KnnModel> getModels() {
 		return models;
 	}
-	public void setModels(List<Model> models) {
+	public void setModels(List<KnnModel> models) {
 		this.models = models;
 	}
 	
-	public List<Model> getRandomModels() {
+	public List<KnnModel> getRandomModels() {
 		return randomModels;
 	}
-	public void setRandomModels(List<Model> randomModels) {
+	public void setRandomModels(List<KnnModel> randomModels) {
 		this.randomModels = randomModels;
 	}
 	

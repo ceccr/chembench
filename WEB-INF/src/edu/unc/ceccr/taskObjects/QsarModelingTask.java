@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import java.io.PrintStream;
 
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -23,18 +24,19 @@ import org.hibernate.Transaction;
 
 import edu.unc.ceccr.action.ModelingFormActions;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.KnnOutputComparator;
-import edu.unc.ceccr.global.CategoryKNNComparator;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnParameters;
+import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
-import edu.unc.ceccr.persistence.Model;
+import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.ModelInterface;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.RandomForestModel;
 import edu.unc.ceccr.persistence.RandomForestParameters;
+import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -44,6 +46,7 @@ import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
 import edu.unc.ceccr.workflows.DataSplitWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
 import edu.unc.ceccr.workflows.KnnModelBuildingWorkflow;
+import edu.unc.ceccr.workflows.KnnOutputWorkflow;
 import edu.unc.ceccr.workflows.KnnModelingLsfWorkflow;
 import edu.unc.ceccr.workflows.KnnPlusWorkflow;
 import edu.unc.ceccr.workflows.RandomForestWorkflow;
@@ -89,32 +92,19 @@ public class QsarModelingTask extends WorkflowTask {
 		private String sphereSplitMinTestSize;
 		private String selectionNextTrainPt;
 
+	//sets of input parameters
 	private KnnParameters knnParameters;
 	private SvmParameters svmParameters;
 	private RandomForestParameters randomForestParameters;
 	private KnnPlusParameters knnPlusParameters;
-		
-	//technically these are probably kNN parameters? Not sure what they're for.
-	int numTotalModels;
-	int numTestModels;
-	int numTrainModels;
-	int yTotalModels;
-	int yTestModels;
-	int yTrainModels;
-	//end 
 	
+	//predicted external set values
+	ArrayList<ExternalValidation> externalSetPredictions = null;	
 	
 	//predictor object created during task
 	private Predictor predictor;
 
 	//output
-	ArrayList<Model> allkNNValues=null;
-	ArrayList<Model> mainKNNValues=null;
-	ArrayList<Model> randomKNNValues=null;
-	ArrayList<Model> sortedYRKNNValues=null;
-	ArrayList<Model> sortedkNNValues = null;
-	String[] externalValues = null;
-	ArrayList<ExternalValidation> allExternalValues = null;
 	private boolean noModelsGenerated;
 	
 	private String step = Constants.SETUP; //stores what step we're on 
@@ -597,9 +587,9 @@ public class QsarModelingTask extends WorkflowTask {
 	public void postProcess() throws Exception {
 		step = Constants.READING;
 		//done with modeling. Read output files. 
-		
+
+		//first, copy needed files back from LSF if needed
 		if(jobList.equals(Constants.LSF)){
-			//copy needed files back from LSF
 			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
 			KnnModelingLsfWorkflow.retrieveCompletedPredictor(filePath, lsfPath);
 			
@@ -609,38 +599,97 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 		}
 		
-		if (actFileDataType.equals(Constants.CATEGORY)){
-			parseCategorykNNOutput(filePath, Constants.MAINKNN);
-			parseCategorykNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
-		}else if (actFileDataType.equals(Constants.CONTINUOUS)){
-			parseContinuouskNNOutput(filePath, Constants.MAINKNN);
-			parseContinuouskNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
+		//the next step is to read in the results from the modeling program,
+		//getting data about the models and external prediction values so we can
+		//save it to the database.
+		if(modelType.equals(Constants.KNN)){
+			ArrayList<KnnModel> knnModels = null;
+			ArrayList<KnnModel> yRandomModels = null;
+			
+			if (actFileDataType.equals(Constants.CATEGORY)){
+				knnModels = KnnOutputWorkflow.parseCategorykNNOutput(filePath, Constants.MAINKNN);
+				yRandomModels = KnnOutputWorkflow.parseCategorykNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
+			} 
+			else if (actFileDataType.equals(Constants.CONTINUOUS)){
+				knnModels = KnnOutputWorkflow.parseContinuouskNNOutput(filePath, Constants.MAINKNN);
+				yRandomModels = KnnOutputWorkflow.parseContinuouskNNOutput(filePath+"yRandom/", Constants.RANDOMKNN);
+			}
+			
+			//get counts of the number of models that were created
+			File dir;
+			dir = new File(filePath);
+			File yRandomDir = new File(filePath + "yRandom/");
+			
+	        predictor.setNumTotalModels(dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}}).length);
+	        predictor.setNumTestModels(knnModels.size());
+	        predictor.setNumTrainModels(dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}	}).length - knnModels.size());
+	        
+	        predictor.setNumyTotalModels(yRandomDir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}}).length);
+	        predictor.setNumyTestModels(yRandomModels.size());
+			predictor.setNumyTrainModels(yRandomDir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}	}).length - yRandomModels.size());
+	        
+			
+			if(knnModels.isEmpty()){
+				noModelsGenerated = true;
+				Utility.writeToDebug("Warning: No models were generated.");
+			}
+			
+			//Add the yRandom models into the knnModels list
+			knnModels.addAll(yRandomModels);
+			
+			//Sort the models in decreasing order by r^2 (continuous) or test set accuracy (category)
+			if(actFileDataType.equals(Constants.CONTINUOUS)){ 
+				Collections.sort(knnModels, new Comparator<KnnModel>() {
+				    public int compare(KnnModel one, KnnModel two) {
+						return (one.getRSquared().compareTo(two.getRSquared()));
+				    }});
+				
+			}
+			else{
+				Collections.sort(knnModels, new Comparator<KnnModel>() {
+				    public int compare(KnnModel one, KnnModel two) {
+						return (one.getNormalizedTestAcc().compareTo(two.getNormalizedTestAcc()));
+				    }});
+			}
+			
+			//associate the models with this predictor
+			for (ModelInterface m : knnModels){
+				m.setPredictor(predictor);
+			}
+			predictor.setModels(new HashSet<KnnModel>(knnModels));
+			
+			//read external validation set predictions
+			if (!noModelsGenerated) {
+				externalSetPredictions = KnnOutputWorkflow.parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE, user_path);
+				KnnOutputWorkflow.addStdDeviation(externalSetPredictions, filePath + Constants.PRED_OUTPUT_FILE);
+
+				for (ExternalValidation ev : externalSetPredictions){
+					ev.setPredictor(predictor);
+				}
+			}
+		}
+		else if(modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)){
+			//read in models and associate them with the predictor
+			ArrayList<KnnPlusModel> knnPlusModels = new ArrayList<KnnPlusModel>();
+			
+			//read external set predictions
+			externalSetPredictions = null;
+		}
+		else if(modelType.equals(Constants.RANDOMFOREST)){
+			//read in models and associate them with the predictor
+			ArrayList<RandomForestModel> randomForestModels = new ArrayList<RandomForestModel>();
+			
+			//read external set predictions
+			externalSetPredictions = null;
+		}
+		else if(modelType.equals(Constants.SVM)){
+			//read in models and associate them with the predictor
+			ArrayList<SvmModel> svmModels = new ArrayList<SvmModel>();
+
+			//read external set predictions
+			externalSetPredictions = null;
 		}
 		
-		noModelsGenerated = mainKNNValues.isEmpty();
-		if (!noModelsGenerated)
-		{
-			allExternalValues = parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE, user_path);
-			addStdDeviation(allExternalValues,parseConpredStdDev(filePath + Constants.PRED_OUTPUT_FILE));
-			sortModels();
-		}
-		
-		setParameters(filePath, mainKNNValues, Constants.MAINKNN);
-		setParameters(filePath+"yRandom/", randomKNNValues, Constants.RANDOMKNN);
-		
-		//save output to database
-		KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName);
-	
-		allkNNValues=new ArrayList<Model>();
-	  
-		if(sortedkNNValues == null){
-			Utility.writeToDebug("Warning: No models were generated.");
-		}
-		else{
-			allkNNValues.addAll(sortedkNNValues);
-			allkNNValues.addAll(sortedYRKNNValues);
-		}
-		   
 		//save updated predictor to database
 		predictor.setScalingType(scalingType);
 		predictor.setDescriptorGeneration(descriptorGenerationType);
@@ -649,29 +698,14 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setUserName(userName);
 		predictor.setActFileName(actFileName);
 		predictor.setSdFileName(sdFileName);
-		predictor.setNumTotalModels(numTotalModels);
-		predictor.setNumTestModels(numTestModels);
-		predictor.setNumTrainModels(numTrainModels);
-
-		predictor.setNumyTestModels(yTestModels);
-		predictor.setNumyTrainModels(yTrainModels);
-		predictor.setNumyTotalModels(yTotalModels);
 		predictor.setActivityType(actFileDataType);
 		predictor.setStatus("saved");
 		predictor.setPredictorType("Private");
 		predictor.setDatasetId(datasetID);
 		predictor.setHasBeenViewed(Constants.NO);
 		predictor.setJobCompleted(Constants.YES);
-
-		if(allkNNValues.size()<1){}else
-		{for (ModelInterface m : allkNNValues)
-			m.setPredictor(predictor);
-
-		for (ExternalValidation ev : allExternalValues)
-			ev.setPredictor(predictor);
 		
-		predictor.setModels(new HashSet<Model>(allkNNValues));
-		predictor.setExternalValidationResults(new HashSet<ExternalValidation>(allExternalValues));}
+		predictor.setExternalValidationResults(new HashSet<ExternalValidation>(externalSetPredictions));
 
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
@@ -687,8 +721,9 @@ public class QsarModelingTask extends WorkflowTask {
 			session.close();
 		}
 		
-		File dir=new File(Constants.CECCR_USER_BASE_PATH+userName+"/"+jobName);
-		FileAndDirOperations.deleteDir(dir);
+		//clean up dirs
+		KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName);
+		FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/"+jobName));
 	}
 
 	public void delete() throws Exception {
@@ -700,8 +735,7 @@ public class QsarModelingTask extends WorkflowTask {
 	}
 	
 	
-	//helper functions and member variables defined below this point.
-	//Most of these should be moved into Workflows package.
+	//helper functions and get/sets defined below this point.
 	
 	private int getNumTotalModels(){
 		 int numModels = Integer.parseInt(numSplits);
@@ -717,271 +751,7 @@ public class QsarModelingTask extends WorkflowTask {
 		return numModels;
 	}
 	
-	private void setParameters(String path, ArrayList<Model> KNNValues, String flow) {
-		File dir;
-		dir = new File(path);
-        int total, test, train;
-        
-        total= dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}}).length;
-        total = getNumTotalModels();
-        test=KNNValues.size();
-        train=dir.list(new FilenameFilter() {	public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}	}).length - test;
-        
-        if(flow.equals(Constants.MAINKNN))
-        {
-        	numTotalModels=total;
-        	numTestModels=test;
-        	numTrainModels=train;
-        }else
-        {
-        	yTotalModels=total;
-        	yTestModels=test;
-        	yTrainModels=train;
-        }
-	}
-
-	private void parseContinuouskNNOutput(String fileLocation, String flowType) throws IOException {
-		BufferedReader in = new BufferedReader(new FileReader(fileLocation + Constants.kNN_OUTPUT_FILE));
-		String inputString;
-		String[] kNNValues = null;
-		if(flowType.equals(Constants.MAINKNN)){ mainKNNValues=new ArrayList<Model>();}
-		else{ randomKNNValues=new ArrayList<Model>();}
 	
-		while ((inputString = in.readLine()) != null) {
-			// 5 types of lines found in the knn-outputsort.tbl file:
-			// | STATISTICS OF REGRESSION LINES Y = b11*X + b01 AND X =
-			// b12*numTrainModels + b02 ...
-			// nnn q^2 n ...
-			// ----------------------------------- ...
-			// blank lines
-			// data lines (keep only the data)
-			if (inputString.trim().startsWith("|")
-					|| inputString.trim().startsWith("-")
-					|| inputString.trim().equals("")
-					|| inputString.trim().startsWith("nnn")) {
-				// skip all rows that don't have data
-			} else {
-				kNNValues = inputString.split("\\s+");
-				Model knnOutput = createContinuousKnnOutputObject(fileLocation, kNNValues, flowType);
-				if(flowType.equals(Constants.MAINKNN) ){ mainKNNValues.add(knnOutput);}
-				else{ randomKNNValues.add(knnOutput);}
-			}
-		}
-		in.close();
-	}
-	
-	private void parseCategorykNNOutput(String fileLocation, String flowType) throws IOException {
-		BufferedReader in = new BufferedReader(new FileReader(fileLocation + Constants.kNN_OUTPUT_FILE));
-		String inputString;
-		String[] kNNValues = null;
-		if(flowType.equals(Constants.MAINKNN)){ mainKNNValues=new ArrayList<Model>();}
-		else{ randomKNNValues=new ArrayList<Model>();}
-
-		while ((inputString = in.readLine()) != null) 
-		{
-			// data lines (keep only the data)
-			if (inputString.trim().startsWith("|")
-					|| inputString.trim().startsWith("-")
-					|| inputString.trim().equals("")
-					|| inputString.trim().startsWith("STATISTICS")
-					|| inputString.trim().startsWith("NCompTrain")) 
-			{
-				// skip all rows that don't have data
-			} else {
-				kNNValues = inputString.split("\\s+");
-				Model knnOutput = createCategoryKnnOutputObject(fileLocation, kNNValues, flowType);
-				if(flowType.equals(Constants.MAINKNN) ){ mainKNNValues.add(knnOutput);}
-				else{ randomKNNValues.add(knnOutput);}
-			}
-		}
-		in.close();
-	}
-
-	@SuppressWarnings("unchecked")
-	private void sortModels() {
-		
-		java.util.Comparator knnOutputComparator;
-		
-		if(actFileDataType.equals(Constants.CONTINUOUS))
-		{knnOutputComparator = new KnnOutputComparator();}
-		else{knnOutputComparator = new CategoryKNNComparator();}
-		
-		Collections.sort(mainKNNValues, knnOutputComparator);
-		Collections.sort(randomKNNValues, knnOutputComparator);
-		
-		// Get all the models for the database. 
-		sortedkNNValues = new ArrayList<Model>();
-		sortedYRKNNValues=new ArrayList<Model>();
-		
-		for (int i = mainKNNValues.size(); i > 0; i--) {
-			sortedkNNValues.add(mainKNNValues.get(i - 1));
-		}
-		for (int i = randomKNNValues.size(); i > 0; i--) {
-			sortedYRKNNValues.add(randomKNNValues.get(i - 1));
-		}
-	}
-	
-	protected void addStdDeviation(ArrayList<ExternalValidation> allExternalValue, ArrayList<String> stdDevList)
-	{
-		Iterator it1=allExternalValues.iterator();
-		Iterator it2=stdDevList.iterator();
-		while(it1.hasNext()&&it2.hasNext())
-		{
-			((ExternalValidation)it1.next()).setStandDev((String)it2.next());
-		}
-	}
-
-	public static ArrayList parseConpredStdDev(String path)throws IOException
-	{
-		BufferedReader in = new BufferedReader(new FileReader(path));
-		String inputString;
-		ArrayList<String> stdDevValues = new ArrayList<String>();
-		while ((inputString = in.readLine()) != null) {
-			String[] externalValues = inputString.split("\\s+");
-			
-			if(externalValues.length==4)
-			{
-				if(GenericValidator.isFloat(externalValues[Constants.STD_DEVIATION])){
-					stdDevValues.add(externalValues[Constants.STD_DEVIATION]);}
-				else{
-					stdDevValues.add("No value");
-				}
-			}
-			else{
-				if(externalValues.length==3){
-					stdDevValues.add("No value");
-				}
-			}
-		}
-		return stdDevValues;
-	}
-
-	@SuppressWarnings("unchecked")
-	public static ArrayList parseExternalValidationOutput(String fileLocation,
-			String file_path) throws IOException {
-		BufferedReader in = new BufferedReader(new FileReader(fileLocation));
-		String inputString;
-
-		ArrayList allExternalValues = new ArrayList();
-		while ((inputString = in.readLine()) != null) {
-			String[] externalValues = inputString.split("\\s+");
-			ExternalValidation extValOutput = createExternalValidationObject(
-					file_path, externalValues);
-			allExternalValues.add(extValOutput);
-		}
-		
-		return allExternalValues;
-	}
-	
-	private static ExternalValidation createExternalValidationObject(
-			String file_path, String[] extValues) throws FileNotFoundException,IOException {
-		if (extValues == null) {
-			return null;
-		}
-		ExternalValidation extValOutput = new ExternalValidation();
-		extValOutput.setCompoundId(extValues[Constants.COMPOUND_ID]);
-	
-		extValOutput.setActualValue(Float.parseFloat(extValues[Constants.ACTUAL]));
-		if (GenericValidator.isFloat(extValues[Constants.PREDICTED]))
-			extValOutput.setPredictedValue(Float.parseFloat(extValues[Constants.PREDICTED]));
-		
-		//Utility.writeToDebug(((Integer)Constants.NUM_MODELS).toString());
-		
-		if (GenericValidator.isFloat(extValues[Constants.PREDICTED]))
-			extValOutput.setNumModels(Integer.parseInt(extValues[Constants.NUM_MODELS]));
-		
-		return extValOutput;
-	}
-
-	public static Model createContinuousKnnOutputObject(String filePath, String[] kNNValues, String flowType) {
-		// The values array starts at 1 - not 0!
-		if (kNNValues == null) {
-			return null;
-		}
-		if (kNNValues.length <= 1) {
-			return null;
-		}
-		Model knnOutput = new Model();
-		knnOutput.setKnnType(Constants.CONTINUOUS);
-		knnOutput.setNnn(Integer.parseInt(kNNValues[Constants.CONTINUOUS_NNN_LOCATION]));
-		knnOutput.setQSquared(Float.parseFloat(kNNValues[Constants.CONTINUOUS_Q_SQUARED_LOCATION]));
-		knnOutput.setN(Integer.parseInt(kNNValues[Constants.CONTINUOUS_N_LOCATION]));
-		knnOutput.setR(Float.parseFloat(kNNValues[Constants.CONTINUOUS_R_LOCATION]));
-		knnOutput.setRSquared(Float
-				.parseFloat(kNNValues[Constants.CONTINUOUS_R_SQUARED_LOCATION]));
-		knnOutput.setR01Squared(Float
-				.parseFloat(kNNValues[Constants.CONTINUOUS_R01_SQUARED_LOCATION]));
-		knnOutput.setR02Squared(Float
-				.parseFloat(kNNValues[Constants.CONTINUOUS_R02_SQUARED_LOCATION]));
-		knnOutput.setK1(Float.parseFloat(kNNValues[Constants.CONTINUOUS_K1_LOCATION]));
-		knnOutput.setK2(Float.parseFloat(kNNValues[Constants.CONTINUOUS_K2_LOCATION]));
-		knnOutput.setFlowType(flowType);
-		
-		String fileName = kNNValues[25];
-		knnOutput.setFile(fileName);
-		
-		//get descriptors from model file
-		//noncritical; if this fails, just write out the error, don't fail the job
-		try{
-			//fileName contains the .pred file, but we want the .mod file
-			fileName = fileName.substring(0,fileName.lastIndexOf(".")) + ".mod";
-			
-			File modelFile = new File(filePath + fileName);
-			BufferedReader br = new BufferedReader(new FileReader(modelFile));
-			br.readLine(); 
-			br.readLine();
-			//descriptor names are the third line of the model file
-			knnOutput.setDescriptorsUsed(br.readLine());
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		return knnOutput;
-	}
-
-	public static Model createCategoryKnnOutputObject(String filePath, String[] kNNValues, String flowType) {
-		// The values array starts at 1 - not 0!
-		if (kNNValues == null) {
-			return null;
-		}
-		if (kNNValues.length <= 1) {
-			return null;
-		}
-		Model knnOutput = new Model();
-		knnOutput.setKnnType(Constants.CATEGORY);
-		knnOutput.setNnn(Integer.parseInt(kNNValues[Constants.CATEGORY_NNN_LOCATION]));
-		knnOutput.setTrainingAcc(Float
-				.parseFloat(kNNValues[Constants.CATEGORY_TRAINING_ACC_LOCATION]));
-		knnOutput.setNormalizedTrainingAcc(Float.parseFloat(kNNValues[Constants.CATEGORY_NORMALIZED_TRAINING_ACC_LOCATION]));
-		
-		knnOutput.setTestAcc(Float.parseFloat(kNNValues[Constants.CATEGORY_TEST_ACC_LOCATION]));
-		knnOutput.setNormalizedTestAcc(Float
-				.parseFloat(kNNValues[Constants.CATEGORY_NORMALIZED_TEST_ACC_LOCATION]));
-
-		knnOutput.setFlowType(flowType);
-		
-		String fileName = kNNValues[12];
-		knnOutput.setFile(fileName);
-		
-		//get descriptors from model file
-		//noncritical; if this fails, just write out the error, don't fail the job
-		try{
-			//fileName contains the .pred file, but we want the .mod file
-			fileName = fileName.substring(0,fileName.lastIndexOf(".")) + ".mod";
-			File modelFile = new File(filePath + fileName);
-			BufferedReader br = new BufferedReader(new FileReader(modelFile));
-			br.readLine(); 
-			br.readLine();
-			//descriptor names are the third line of the model file
-			knnOutput.setDescriptorsUsed(br.readLine());
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
-		return knnOutput;
-	}
-
 	
 	public String getJobName() {
 		return jobName;
