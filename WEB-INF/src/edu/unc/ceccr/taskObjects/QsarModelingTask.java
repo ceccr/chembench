@@ -577,6 +577,26 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters, actFileDataType, path);
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
+			// Test to set the content of the variables
+			//job details
+			Utility.writeToDebug("sdFileName: " + sdFileName, userName, jobName);
+			Utility.writeToDebug("actFileName: " + actFileName, userName, jobName);
+			Utility.writeToDebug("userName: " + userName, userName, jobName);
+			Utility.writeToDebug("jobName: " + jobName, userName, jobName);
+			Utility.writeToDebug("modelType: " + modelType, userName, jobName);
+			Utility.writeToDebug("modelType: " + modelType, userName, jobName);
+			
+			//dataset
+			Utility.writeToDebug("datasetName: " + datasetName, userName, jobName);
+			Utility.writeToDebug("datasetID: " + datasetID, userName, jobName);
+			Utility.writeToDebug("filePath: " + filePath, userName, jobName);
+			Utility.writeToDebug("datasetPath: " + datasetPath, userName, jobName);
+			Utility.writeToDebug("actFileDataType: " + actFileDataType, userName, jobName);
+			
+			//descriptors
+			Utility.writeToDebug("descriptorGenerationType: " + descriptorGenerationType, userName, jobName);
+			Utility.writeToDebug("scalingType: " + scalingType, userName, jobName);
+			
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, path);
 		}
 	}
