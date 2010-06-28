@@ -231,7 +231,7 @@
 					<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">
 					</sx:div>
 					
-					<sx:div id="RF" value="RF" theme="ajax" label="Random Forest" href="/loadRFSection" loadingText="Loading randomForest parameters...">
+					<sx:div id="RANDOMFOREST" value="RANDOMFOREST" theme="ajax" label="Random Forest" href="/loadRFSection" loadingText="Loading randomForest parameters...">
 					</sx:div>
 			    </sx:tabbedpanel>
 			    
