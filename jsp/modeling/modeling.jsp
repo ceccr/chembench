@@ -222,10 +222,10 @@
 					<sx:div id="KNN" value="KNN" theme="ajax" label="k-Nearest Neighbors" href="/loadKnnSection" loadingText="Loading kNN parameters...">
 					</sx:div>
 					
-					<sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="kNN+ (SA)" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
+					<sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
 					</sx:div>
 					
-					<sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="kNN+ (GA)" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
+					<sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
 					</sx:div>
 					
 					<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">
