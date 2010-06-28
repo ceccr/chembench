@@ -14,8 +14,16 @@ import java.util.Scanner;
 
 public class RandomForestWorkflow{
 
-	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String workingDir) throws Exception{
+	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String scalingType, String workingDir) throws Exception{
 		Utility.writeToDebug("Running Random Forest Modeling...");
+		if(scalingType.equals(Constants.NOSCALING)){
+			//the last two lines of the .x file do not need to be removed
+			
+		}
+		else{
+			//the last two lines of the .x file need to be removed
+			
+		}
 	}
 
 	public static void runRandomForestPrediction() throws Exception{
