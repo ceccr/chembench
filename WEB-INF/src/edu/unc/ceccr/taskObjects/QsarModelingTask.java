@@ -546,40 +546,6 @@ public class QsarModelingTask extends WorkflowTask {
 	@SuppressWarnings("unchecked")
 	public void executeLocal() throws Exception {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		// Test to set the content of the variables
-		// path
-		Utility.writeToDebug("CECCR_BASE_PATH: " + Constants.CECCR_BASE_PATH, userName, jobName);
-		Utility.writeToDebug("TOMCAT_PATH: " + Constants.TOMCAT_PATH, userName, jobName);
-		Utility.writeToDebug("BUILD_DATE_FILE_PATH: " + Constants.BUILD_DATE_FILE_PATH, userName, jobName);
-		Utility.writeToDebug("BUILD_DATE: " + Constants.BUILD_DATE, userName, jobName);
-		Utility.writeToDebug("CECCR_USER_BASE_PATH: " + Constants.CECCR_USER_BASE_PATH, userName, jobName);
-		Utility.writeToDebug("XML_FILE_PATH: " + Constants.XML_FILE_PATH, userName, jobName);
-		Utility.writeToDebug("SDFILE_FILEPATH: " + Constants.SDFILE_FILEPATH, userName, jobName);
-		Utility.writeToDebug("DATAFILE_FILEPATH: " + Constants.DATAFILE_FILEPATH, userName, jobName);
-		Utility.writeToDebug("CATEGORY_DATAFILE_FILEPATH: " + Constants.CATEGORY_DATAFILE_FILEPATH, userName, jobName);
-		Utility.writeToDebug("CONTINUOUS_DATAFILE_FILEPATH: " + Constants.CONTINUOUS_DATAFILE_FILEPATH, userName, jobName);
-		Utility.writeToDebug("EXECUTABLEFILE_PATH: " + Constants.EXECUTABLEFILE_PATH, userName, jobName);
-		Utility.writeToDebug("path: " + path, userName, jobName);
-		Utility.writeToDebug("R script path: " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH, userName, jobName);
-		Utility.writeToDebug("RF build model script path: " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + Constants.RF_BUILD_MODEL_RSCRIPT, userName, jobName);
-		Utility.writeToDebug("RF predict script path: " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH  + Constants.RF_PREDICT_RSCRIPT, userName, jobName);
-		//job details
-		Utility.writeToDebug("sdFileName: " + sdFileName, userName, jobName);
-		Utility.writeToDebug("actFileName: " + actFileName, userName, jobName);
-		Utility.writeToDebug("userName: " + userName, userName, jobName);
-		Utility.writeToDebug("jobName: " + jobName, userName, jobName);
-		Utility.writeToDebug("modelType: " + modelType, userName, jobName);
-		
-		//dataset
-		Utility.writeToDebug("datasetName: " + datasetName, userName, jobName);
-		Utility.writeToDebug("datasetID: " + datasetID, userName, jobName);
-		Utility.writeToDebug("filePath: " + filePath, userName, jobName);
-		Utility.writeToDebug("datasetPath: " + datasetPath, userName, jobName);
-		Utility.writeToDebug("actFileDataType: " + actFileDataType, userName, jobName);
-		
-		//descriptors
-		Utility.writeToDebug("descriptorGenerationType: " + descriptorGenerationType, userName, jobName);
-		Utility.writeToDebug("scalingType: " + scalingType, userName, jobName);
 		
 		//Run modeling process
 		if(modelType.equals(Constants.KNN)){
