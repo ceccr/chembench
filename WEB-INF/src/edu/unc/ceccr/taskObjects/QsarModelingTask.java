@@ -547,6 +547,18 @@ public class QsarModelingTask extends WorkflowTask {
 	public void executeLocal() throws Exception {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		// Test to set the content of the variables
+		// path
+		Utility.writeToDebug("CECCR_BASE_PATH: " + Constants.CECCR_BASE_PATH, userName, jobName);
+		Utility.writeToDebug("TOMCAT_PATH: " + Constants.TOMCAT_PATH, userName, jobName);
+		Utility.writeToDebug("BUILD_DATE_FILE_PATH: " + Constants.BUILD_DATE_FILE_PATH, userName, jobName);
+		Utility.writeToDebug("BUILD_DATE: " + Constants.BUILD_DATE, userName, jobName);
+		Utility.writeToDebug("CECCR_USER_BASE_PATH: " + Constants.CECCR_USER_BASE_PATH, userName, jobName);
+		Utility.writeToDebug("XML_FILE_PATH: " + Constants.XML_FILE_PATH, userName, jobName);
+		Utility.writeToDebug("SDFILE_FILEPATH: " + Constants.SDFILE_FILEPATH, userName, jobName);
+		Utility.writeToDebug("DATAFILE_FILEPATH: " + Constants.DATAFILE_FILEPATH, userName, jobName);
+		Utility.writeToDebug("CATEGORY_DATAFILE_FILEPATH: " + Constants.CATEGORY_DATAFILE_FILEPATH, userName, jobName);
+		Utility.writeToDebug("CONTINUOUS_DATAFILE_FILEPATH: " + Constants.CONTINUOUS_DATAFILE_FILEPATH, userName, jobName);
+		Utility.writeToDebug("EXECUTABLEFILE_PATH: " + Constants.EXECUTABLEFILE_PATH, userName, jobName);
 		Utility.writeToDebug("path: " + path, userName, jobName);
 		//job details
 		Utility.writeToDebug("sdFileName: " + sdFileName, userName, jobName);
