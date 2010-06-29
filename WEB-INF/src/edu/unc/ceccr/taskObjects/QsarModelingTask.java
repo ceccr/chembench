@@ -561,8 +561,8 @@ public class QsarModelingTask extends WorkflowTask {
 		Utility.writeToDebug("EXECUTABLEFILE_PATH: " + Constants.EXECUTABLEFILE_PATH, userName, jobName);
 		Utility.writeToDebug("path: " + path, userName, jobName);
 		Utility.writeToDebug("R script path: " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH, userName, jobName);
-		Utility.writeToDebug("RF build model script path: " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH, userName, jobName);
-		Utility.writeToDebug("RF predict script path: " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH, userName, jobName);
+		Utility.writeToDebug("RF build model script path: " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + Constants.RF_BUILD_MODEL_RSCRIPT, userName, jobName);
+		Utility.writeToDebug("RF predict script path: " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH  + Constants.RF_PREDICT_RSCRIPT, userName, jobName);
 		//job details
 		Utility.writeToDebug("sdFileName: " + sdFileName, userName, jobName);
 		Utility.writeToDebug("actFileName: " + actFileName, userName, jobName);
