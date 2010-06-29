@@ -158,6 +158,10 @@ public class Constants {
 	public static String EXECUTABLEFILE_PATH;
 	public static String MOLCONNZ_MODELING_DATFILE_PATH = "ParameterFiles/MZ405Modeling.dat";
 	public static String MOLCONNZ_PREDICTION_DATFILE_PATH = "ParameterFiles/MZ405Prediction.dat";
+
+	public static final String SCRIPTS_PATH = "mmlsoft/bin/";
+	public static final String RF_BUILD_MODEL_RSCRIPT = "randomForestBuildModel.R";
+    public static final String RF_PREDICT_RSCRIPT = "randomForestPredict.R";
 	
 	public static final String kNN_OUTPUT_FILE = "knn-output.tbl";
 	public static final String EXTERNAL_VALIDATION_OUTPUT_FILE = "external_prediction_table";
