@@ -29,24 +29,26 @@ public class RandomForestWorkflow{
 			command = "rm2LastLines.sh " + Constants.MODELING_SET_X_FILE + ".s";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.MODELING_SET_X_FILE, p.getInputStream(), p.getErrorStream());
+//			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.MODELING_SET_X_FILE, p.getInputStream(), p.getErrorStream());
+			Utility.writeProgramLogfile(workingDir, "rm2LastLines", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			Utility.writeToDebug("Exit value: " + p.exitValue());
 			if(p.exitValue() != 0)
 			{
-				Utility.writeToDebug("See error log");
+				Utility.writeToDebug("	See error log");
 			}
 			
 			Utility.writeToDebug("Removing last 2 lines from " + Constants.EXTERNAL_SET_X_FILE);
 			command = "rm2LastLines.sh " + Constants.EXTERNAL_SET_X_FILE + ".s";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.EXTERNAL_SET_X_FILE, p.getInputStream(), p.getErrorStream());
+//			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.EXTERNAL_SET_X_FILE, p.getInputStream(), p.getErrorStream());
+			Utility.writeProgramLogfile(workingDir, "rm2LastLines", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			Utility.writeToDebug("Exit value: " + p.exitValue());
 			if(p.exitValue() != 0)
 			{
-				Utility.writeToDebug("See error log");
+				Utility.writeToDebug("	See error log");
 			}
 		}
 		
