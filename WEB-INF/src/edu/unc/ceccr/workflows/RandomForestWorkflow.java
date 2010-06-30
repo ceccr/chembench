@@ -17,6 +17,7 @@ public class RandomForestWorkflow{
 	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String scalingType, String workingDir) throws Exception{
 //		String trainingXFile = workingDir + Constants.MODELING_SET_X_FILE;
 //		String externalXFile = workingDir + Constants.EXTERNAL_SET_X_FILE;
+		String logsDir = workingDir + "/Logs/";
 		String command = "";
 		Utility.writeToDebug("Running Random Forest Modeling...");
 //		Utility.writeToDebug("scalingType: " + scalingType);
@@ -38,13 +39,13 @@ public class RandomForestWorkflow{
 			*/
 			
 			Utility.writeToDebug("Removing last 2 lines from " + Constants.MODELING_SET_X_FILE);
-			command = "sed 'N;$!P;$!D;$d' < " + Constants.MODELING_SET_X_FILE + " > " + Constants.MODELING_SET_X_FILE + ".tmp : mv " + Constants.MODELING_SET_X_FILE + ".tmp " + Constants.MODELING_SET_X_FILE;
+			command = "rm2LastLines.sh " + Constants.MODELING_SET_X_FILE + " 2>" + logsDir + "rm2LastLines_" + Constants.MODELING_SET_X_FILE + ".err";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			p.waitFor();
 			
 			Utility.writeToDebug("Removing last 2 lines from " + Constants.EXTERNAL_SET_X_FILE);
-			command = "sed 'N;$!P;$!D;$d' < " + Constants.EXTERNAL_SET_X_FILE + " > " + Constants.EXTERNAL_SET_X_FILE + ".tmp : mv " + Constants.EXTERNAL_SET_X_FILE + ".tmp " + Constants.EXTERNAL_SET_X_FILE;
+			command = "rm2LastLines.sh " + Constants.EXTERNAL_SET_X_FILE + " 2>" + logsDir + "rm2LastLines_" + Constants.EXTERNAL_SET_X_FILE + ".err";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			p.waitFor();
