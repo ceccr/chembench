@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+import javax.print.attribute.standard.JobName;
+
 public class RandomForestWorkflow{
 
-	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String scalingType, String workingDir) throws Exception{
+	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String scalingType, String workingDir, String jobName) throws Exception{
 //		String trainingXFile = workingDir + Constants.MODELING_SET_X_FILE;
 //		String externalXFile = workingDir + Constants.EXTERNAL_SET_X_FILE;
-		String logsDir = workingDir + "Logs/";
+
 		String command = "";
 		Utility.writeToDebug("Running Random Forest Modeling...");
 //		Utility.writeToDebug("scalingType: " + scalingType);
@@ -29,8 +31,7 @@ public class RandomForestWorkflow{
 			command = "rm2LastLines.sh " + Constants.MODELING_SET_X_FILE + ".s";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-//			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.MODELING_SET_X_FILE, p.getInputStream(), p.getErrorStream());
-			Utility.writeProgramLogfile(workingDir, "rm2LastLines", p.getInputStream(), p.getErrorStream());
+			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.MODELING_SET_X_FILE, p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			Utility.writeToDebug("Exit value: " + p.exitValue());
 			if(p.exitValue() != 0)
@@ -42,8 +43,7 @@ public class RandomForestWorkflow{
 			command = "rm2LastLines.sh " + Constants.EXTERNAL_SET_X_FILE + ".s";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-//			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.EXTERNAL_SET_X_FILE, p.getInputStream(), p.getErrorStream());
-			Utility.writeProgramLogfile(workingDir, "rm2LastLines", p.getInputStream(), p.getErrorStream());
+			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.EXTERNAL_SET_X_FILE, p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			Utility.writeToDebug("Exit value: " + p.exitValue());
 			if(p.exitValue() != 0)
@@ -57,6 +57,42 @@ public class RandomForestWorkflow{
 		Utility.writeToDebug("descriptorsPerTree: " + randomForestParameters.getDescriptorsPerTree());
 		Utility.writeToDebug("sampleWithReplacement: " + randomForestParameters.getSampleWithReplacement());
 		Utility.writeToDebug("classWeights: " + randomForestParameters.getClassWeights());
+		
+		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
+		Utility.writeToDebug("scriptDir: " + scriptDir);
+		String buildModelScript = scriptDir + Constants.RF_BUILD_MODEL_RSCRIPT;
+		Utility.writeToDebug("buildModelScript: " + buildModelScript);
+		
+		// build model script parameter
+		String modelFile = jobName + ".RData";
+		String modelName = jobName;
+		String type = actFileDataType.equals(Constants.CATEGORY) ? "classification" : "regression";
+		String ntree = randomForestParameters.getNumTrees().trim();
+		String mtry = randomForestParameters.getDescriptorsPerTree().trim();
+		String replace = randomForestParameters.getSampleWithReplacement().trim().toUpperCase();
+		String classwt = randomForestParameters.getClassWeights().trim().equals("") ? "NULL" : randomForestParameters.getClassWeights().trim();
+		String sampsize = randomForestParameters.getTrainSetSize().trim();
+		command = "Rscript --vanilla " + buildModelScript
+					   + " --scriptsDir " + scriptDir
+					   + " --trainingFile " + Constants.MODELING_SET_X_FILE
+					   + " --activityFile " + Constants.MODELING_SET_A_FILE
+					   + " --modelFile " + modelFile
+					   + " --modelName " + modelName
+					   + " --type " + type
+					   + " --ntree " + ntree
+					   + " --mtry " + mtry
+					   + " --replace " + replace
+					   + " --classwt " + classwt
+					   + " --sampsize " + sampsize;
+		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
+		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+		Utility.writeProgramLogfile(workingDir, "randomForestBuildModel", p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		Utility.writeToDebug("Exit value: " + p.exitValue());
+		if(p.exitValue() != 0)
+		{
+			Utility.writeToDebug("	See error log");
+		}
 	}
 
 	public static void runRandomForestPrediction() throws Exception{
