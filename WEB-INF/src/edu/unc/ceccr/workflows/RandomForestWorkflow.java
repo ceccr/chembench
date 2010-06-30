@@ -17,26 +17,14 @@ public class RandomForestWorkflow{
 	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String scalingType, String workingDir) throws Exception{
 //		String trainingXFile = workingDir + Constants.MODELING_SET_X_FILE;
 //		String externalXFile = workingDir + Constants.EXTERNAL_SET_X_FILE;
-		String logsDir = workingDir + "/Logs/";
+//		String logsDir = workingDir + "Logs/";
+		String logsDir = "Logs/";
 		String command = "";
 		Utility.writeToDebug("Running Random Forest Modeling...");
 //		Utility.writeToDebug("scalingType: " + scalingType);
 //		Utility.writeToDebug("Constants.NOSCALING: " + Constants.NOSCALING);
 		if(!scalingType.equals(Constants.NOSCALING)){
 			//the last two lines of the .x file need to be removed
-			/*
-			Utility.writeToDebug("Removing last 2 lines from " + trainingXFile);
-			command = "sed 'N;$!P;$!D;$d' < " + trainingXFile + " > " + trainingXFile + ".tmp : mv " + trainingXFile + ".tmp " + trainingXFile;
-			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			p.waitFor();
-			
-			Utility.writeToDebug("Removing last 2 lines from " + externalXFile);
-			command = "sed 'N;$!P;$!D;$d' < " + trainingXFile + " > " + trainingXFile + ".tmp : mv " + trainingXFile + ".tmp " + trainingXFile;
-			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			p.waitFor();
-			*/
 			
 			Utility.writeToDebug("Removing last 2 lines from " + Constants.MODELING_SET_X_FILE);
 			command = "rm2LastLines.sh " + Constants.MODELING_SET_X_FILE + " 2>" + logsDir + "rm2LastLines_" + Constants.MODELING_SET_X_FILE + ".err";
