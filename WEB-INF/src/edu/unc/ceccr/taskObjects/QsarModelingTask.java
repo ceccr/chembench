@@ -577,7 +577,7 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters, actFileDataType, path);
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
-			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, path);
+			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, path, jobName);
 		}
 	}
 	
