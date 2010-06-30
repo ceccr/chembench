@@ -31,12 +31,14 @@ public class RandomForestWorkflow{
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			p.waitFor();
+			Utility.writeToDebug("Exit value: " + p.exitValue());
 			
 			Utility.writeToDebug("Removing last 2 lines from " + Constants.EXTERNAL_SET_X_FILE);
 			command = "rm2LastLines.sh " + Constants.EXTERNAL_SET_X_FILE + ".s 2>" + logsDir + "rm2LastLines_" + Constants.EXTERNAL_SET_X_FILE + ".err";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			p.waitFor();
+			Utility.writeToDebug("Exit value: " + p.exitValue());
 		}
 	}
 
