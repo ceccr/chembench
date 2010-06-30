@@ -17,8 +17,7 @@ public class RandomForestWorkflow{
 	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String scalingType, String workingDir) throws Exception{
 //		String trainingXFile = workingDir + Constants.MODELING_SET_X_FILE;
 //		String externalXFile = workingDir + Constants.EXTERNAL_SET_X_FILE;
-//		String logsDir = workingDir + "Logs/";
-		String logsDir = "Logs/";
+		String logsDir = workingDir + "Logs/";
 		String command = "";
 		Utility.writeToDebug("Running Random Forest Modeling...");
 //		Utility.writeToDebug("scalingType: " + scalingType);
