@@ -28,7 +28,7 @@ public class RandomForestWorkflow{
 			//the last two lines of the .x file need to be removed
 			
 			Utility.writeToDebug("Removing last 2 lines from " + Constants.MODELING_SET_X_FILE);
-			command = "rm2LastLines.sh " + Constants.MODELING_SET_X_FILE + ".s";
+			command = "rm2LastLines.sh " + Constants.MODELING_SET_X_FILE;
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.MODELING_SET_X_FILE, p.getInputStream(), p.getErrorStream());
@@ -40,7 +40,7 @@ public class RandomForestWorkflow{
 			}
 			
 			Utility.writeToDebug("Removing last 2 lines from " + Constants.EXTERNAL_SET_X_FILE);
-			command = "rm2LastLines.sh " + Constants.EXTERNAL_SET_X_FILE + ".s";
+			command = "rm2LastLines.sh " + Constants.EXTERNAL_SET_X_FILE;
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.EXTERNAL_SET_X_FILE, p.getInputStream(), p.getErrorStream());
