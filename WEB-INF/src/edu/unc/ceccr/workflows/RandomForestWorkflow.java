@@ -26,19 +26,35 @@ public class RandomForestWorkflow{
 			//the last two lines of the .x file need to be removed
 			
 			Utility.writeToDebug("Removing last 2 lines from " + Constants.MODELING_SET_X_FILE);
-			command = "rm2LastLines.sh " + Constants.MODELING_SET_X_FILE + ".s 2>" + logsDir + "rm2LastLines_" + Constants.MODELING_SET_X_FILE + ".err";
+			command = "rm2LastLines.sh " + Constants.MODELING_SET_X_FILE + ".s";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.MODELING_SET_X_FILE, p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			Utility.writeToDebug("Exit value: " + p.exitValue());
+			if(p.exitValue() != 0)
+			{
+				Utility.writeToDebug("See error log");
+			}
 			
 			Utility.writeToDebug("Removing last 2 lines from " + Constants.EXTERNAL_SET_X_FILE);
-			command = "rm2LastLines.sh " + Constants.EXTERNAL_SET_X_FILE + ".s 2>" + logsDir + "rm2LastLines_" + Constants.EXTERNAL_SET_X_FILE + ".err";
+			command = "rm2LastLines.sh " + Constants.EXTERNAL_SET_X_FILE + ".s";
 			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 			p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.EXTERNAL_SET_X_FILE, p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			Utility.writeToDebug("Exit value: " + p.exitValue());
+			if(p.exitValue() != 0)
+			{
+				Utility.writeToDebug("See error log");
+			}
 		}
+		
+		Utility.writeToDebug("numTrees: " + randomForestParameters.getNumTrees());
+		Utility.writeToDebug("trainSetSize: " + randomForestParameters.getTrainSetSize());
+		Utility.writeToDebug("descriptorsPerTree: " + randomForestParameters.getDescriptorsPerTree());
+		Utility.writeToDebug("sampleWithReplacement: " + randomForestParameters.getSampleWithReplacement());
+		Utility.writeToDebug("classWeights: " + randomForestParameters.getClassWeights());
 	}
 
 	public static void runRandomForestPrediction() throws Exception{
