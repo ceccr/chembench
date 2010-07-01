@@ -29,6 +29,7 @@ public class KnnPlusWorkflow{
 			command += " -M=CNT";
 		}
 		else if(actFileDataType.equals(Constants.CATEGORY)){
+			//'-M=...' - model type: 'CNT' continuous <def.>,'CTG' - category,'CLS' - classes
 			command += " -M=CTG";
 		}
 		
@@ -39,7 +40,7 @@ public class KnnPlusWorkflow{
 				knnPlusParameters.getKnnMaxNumDescriptors().trim();
 
 			//'-GA@...' - Genetic Algorithm settings: e.g. -GA@N=500@D=1000@S=20@V=-4@G=7
-			command += "-O=GA";
+			command += " -O=GA";
 
 			//'..@N=' - population size; 
 			command += "@N=" + knnPlusParameters.getGaPopulationSize().trim();
@@ -61,45 +62,58 @@ public class KnnPlusWorkflow{
 			//Example: '-D=5@50@3'
 			command += " -D=" + knnPlusParameters.getKnnMinNumDescriptors().trim() + "@" + 
 				knnPlusParameters.getKnnMaxNumDescriptors().trim() + "@" +
-				knnPlusParameters.getKnnDescriptorStepSize();
+				knnPlusParameters.getKnnDescriptorStepSize().trim();
+
+			//'-SA@...' - Simulated Annealing settings: e.g. -SA@B=3@TE=-2@K=0.6@DT=-3@ET=-5
+			command += " -O=SA";
 			
-			command += "-O=SA";
+			//'..@N=' - #SA runs to repeat; '..@D=' - #mutations at each T
+			command += "@N=" + knnPlusParameters.getSaNumRuns().trim();
 			
-			knnPlusParameters.getKnnMinNumDescriptors();
-			knnPlusParameters.getKnnMaxNumDescriptors();
-			knnPlusParameters.getKnnDescriptorStepSize();
-			//'-D=5@50@3'
+			//'..@T0=x' - start T (10^x);
+			command += "@T0=" + knnPlusParameters.getSaLogInitialTemp().trim();
 			
-			knnPlusParameters.getSaLogInitialTemp();
-			knnPlusParameters.getSaFinalTemp();
-			knnPlusParameters.getSaMutationProbabilityPerDescriptor();
-			knnPlusParameters.getSaNumBestModels();
-			knnPlusParameters.getSaNumRuns();
-			knnPlusParameters.getSaTempConvergence();
-			knnPlusParameters.getSaTempDecreaseCoefficient();
+			//'..@TE=' - final T; 
+			command += "@TE=" + knnPlusParameters.getSaFinalTemp().trim();
+			
+			//'..@DT=' - convergence range of T
+			command += "@DT=" + knnPlusParameters.getSaTempConvergence().trim();
+			
+			//'..@M=' - mutation probability per dimension
+			command += "@M=" + knnPlusParameters.getSaMutationProbabilityPerDescriptor().trim();
+			
+			//'..@B=' - #best models to store
+			command += "@B=" + knnPlusParameters.getSaNumBestModels().trim();
+			
+			//'..@K=' - T decreasing coeff.; 
+			command += "@K=" + knnPlusParameters.getSaTempDecreaseCoefficient().trim();
 			
 		}
 
-		knnPlusParameters.getKnnMaxNearestNeighbors();
-		knnPlusParameters.getKnnMinNearestNeighbors();
 		//'-KR=1@9' (to try from 1 to 9 neighbors)
+		command += " -KR=" + knnPlusParameters.getKnnMinNearestNeighbors().trim() + "@" + 
+			knnPlusParameters.getKnnMaxNearestNeighbors().trim();
 		
-		knnPlusParameters.getKnnApplicabilityDomain();
 		//'-AD=' - applicability domain: e.g. -AD=0.5, -AD=0.5d1_mxk
 		//'0.5' is z-cutoff <def.>; d1 - direct-distance based AD <def. is dist^2>
 		//Additional options of AD-checking before making prediction:
 		//'_avd' - av.dist to k neighbors should be within AD (traditional)
 		//'_mxk' - all k neighbors should be within AD
 		//'_avk' - k/2 neighbors within AD, '_mnk' - at least 1 within AD <def.>
+		command += " -AD=" + knnPlusParameters.getKnnApplicabilityDomain().trim();
 		
-		knnPlusParameters.getKnnErrorBasedFit();
-		knnPlusParameters.getKnnMinTraining();
-		knnPlusParameters.getKnnMinTest();
-		//'-EVL=...' - model's quality controls; e.g. -EVL=A0.5@0.8
+		//'-EVL=...' - model's quality controls; e.g. -EVL=A0.5@0.6
 		//For continuous kNN it means q2 >0.5 and R2>0.6
 		//A - alternative control-indices; E - error-based
 		//V - aver.error based (only for discrete-act.); S - simple post-evaluation
-		
+		if(knnPlusParameters.getKnnErrorBasedFit().equalsIgnoreCase("true")){
+			command += " -EVL=E" + knnPlusParameters.getKnnMinTraining().trim() + "@" +
+			knnPlusParameters.getKnnMinTest().trim();
+		}
+		else{
+			command += " -EVL=" + knnPlusParameters.getKnnMinTraining().trim() + "@" +
+			knnPlusParameters.getKnnMinTest().trim();
+		}
 		
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
