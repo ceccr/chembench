@@ -45,28 +45,16 @@ public class KnnPlusWorkflow{
 			command += "@N=" + knnPlusParameters.getGaPopulationSize().trim();
 			
 			//'..@D=' - max.#generations; 
-			command += "@N=" + knnPlusParameters.getGaMinNumGenerations().trim();
+			command += "@N=" + knnPlusParameters.getGaMaxNumGenerations().trim();
 			
 			//'..@S=' - #stable generations to stop
-			knnPlusParameters.getGaNumStableGenerations();
+			command += "@S=" + knnPlusParameters.getGaNumStableGenerations().trim();
 			
 			//'..@V=' - minimum fitness difference to proceed
-			knnPlusParameters.getGaMinFitnessDifference();
+			command += "@V=" + knnPlusParameters.getGaMinFitnessDifference().trim();
 			
 			//'..@G=' - group size for tournament ('TOUR') selection of parents
-			knnPlusParameters.getGaTournamentGroupSize();
-			
-			//'..@E=' - to retain best solutions; e.g. '@E=0.01' (population portion)
-			//or '@E=7' (#solutions). Use '@E=OFF' to disable, default is ON with 0.01
-			//'..@Z=' - to set a penalty term for the solution size <default is 0.1>
-
-			
-
-			//'..@X=' - crossover rate; '..@M=' - mutation rate
-			//'..@C=' - crossover mode: 1P, 2P, UN, 12
-			//(i.e. ONE_POINT, TWO_POINT, UNIFORM, TWO_OR_ONE_POINT modes)
-			//'..@P=' - parent selection mode: RANK, TOUR, RLTT
-			
+			command += "@G=" + knnPlusParameters.getGaTournamentGroupSize().trim();
 		}
 		else if(modelType.equals(Constants.KNNSA)){
 			//Number of dimensions, min-max-step. Step can't be used in genetic alg. 
