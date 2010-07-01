@@ -56,9 +56,9 @@ public class KnnPlusWorkflow{
 			//'..@G=' - group size for tournament ('TOUR') selection of parents
 			knnPlusParameters.getGaTournamentGroupSize();
 			
-			'..@E=' - to retain best solutions; e.g. '@E=0.01' (population portion)
-			or '@E=7' (#solutions). Use '@E=OFF' to disable, default is ON with 0.01
-			'..@Z=' - to set a penalty term for the solution size <default is 0.1>
+			//'..@E=' - to retain best solutions; e.g. '@E=0.01' (population portion)
+			//or '@E=7' (#solutions). Use '@E=OFF' to disable, default is ON with 0.01
+			//'..@Z=' - to set a penalty term for the solution size <default is 0.1>
 
 			
 
