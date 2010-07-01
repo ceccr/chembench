@@ -703,8 +703,10 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setHasBeenViewed(Constants.NO);
 		predictor.setJobCompleted(Constants.YES);
 		
-		predictor.setExternalValidationResults(new HashSet<ExternalValidation>(externalSetPredictions));
-
+		if(externalSetPredictions != null){
+			predictor.setExternalValidationResults(new HashSet<ExternalValidation>(externalSetPredictions));
+		}
+		
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
