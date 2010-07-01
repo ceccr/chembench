@@ -103,9 +103,9 @@ public class KnnPlusWorkflow{
 		
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		Utility.writeProgramLogfile(workingDir, "AllKnn_category_nl", p.getInputStream(), p.getErrorStream());
+		Utility.writeProgramLogfile(workingDir, "knnPlus", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
-		Utility.writeToDebug("Category kNN finished.", userName, jobName);
+		//Utility.writeToDebug("Category kNN finished.", userName, jobName);
 	}
 
 	public static void runKnnPlusPrediction() throws Exception{
