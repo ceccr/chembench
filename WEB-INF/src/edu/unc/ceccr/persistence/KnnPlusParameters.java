@@ -31,7 +31,7 @@ public class KnnPlusParameters {
 	private String saTempConvergence;
 
 	private String gaPopulationSize;
-	private String gaMinNumGenerations;
+	private String gaMaxNumGenerations;
 	private String gaNumStableGenerations;
 	private String gaTournamentGroupSize;
 	private String gaMinFitnessDifference;
@@ -156,12 +156,12 @@ public class KnnPlusParameters {
 		this.gaPopulationSize = gaPopulationSize;
 	}
 	
-	@Column(name = "gaMinNumGenerations")
-	public String getGaMinNumGenerations() {
-		return gaMinNumGenerations;
+	@Column(name = "gaMaxNumGenerations")
+	public String getGaMaxNumGenerations() {
+		return gaMaxNumGenerations;
 	}
-	public void setGaMinNumGenerations(String gaMinNumGenerations) {
-		this.gaMinNumGenerations = gaMinNumGenerations;
+	public void setGaMaxNumGenerations(String gaMaxNumGenerations) {
+		this.gaMaxNumGenerations = gaMaxNumGenerations;
 	}
 	
 	@Column(name = "gaNumStableGenerations")

@@ -170,6 +170,7 @@ public class Constants {
 	public static final String KNN_CATEGORY_DEFAULT_FILENAME = "knn_category.default";
 	public static final String SE_DEFAULT_FILENAME = "param9.txt";
 	public static final String DESCRIPTORERRORFILE = "descriptorErrors.txt";
+	public static final String KNNPLUSMODELSFILENAME = "models";
 	
 	public static final String EXTERNAL_SET_A_FILE = "ext_0.a";
 	public static final String EXTERNAL_SET_X_FILE = "ext_0.x";

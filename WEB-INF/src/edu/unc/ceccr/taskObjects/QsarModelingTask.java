@@ -562,7 +562,8 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			if(actFileDataType.equals(Constants.CATEGORY)){
 				KnnModelBuildingWorkflow.buildKnnCategoryModel(userName, jobName, knnParameters.getKnnCategoryOptimization(), path + "yRandom/");
-			}else if(actFileDataType.equals(Constants.CONTINUOUS)){
+			}
+			else if(actFileDataType.equals(Constants.CONTINUOUS)){
 				KnnModelBuildingWorkflow.buildKnnContinuousModel(userName, jobName, path + "yRandom/");
 			}
 			
@@ -574,7 +575,7 @@ public class QsarModelingTask extends WorkflowTask {
 			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path);
 		}
 		else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
-			KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters, actFileDataType, path);
+			KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters, actFileDataType, modelType, path);
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, path, jobName);
