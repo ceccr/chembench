@@ -259,8 +259,8 @@ public class QsarModelingTask extends WorkflowTask {
 			knnParameters.setRelativeDiffRR0(ModelingForm.getRelativeDiffRR0());
 			knnParameters.setDiffR01R02(ModelingForm.getDiffR01R02());
 			knnParameters.setKnnCategoryOptimization(ModelingForm.getKnnCategoryOptimization());
-			knnParameters.setMaxNumDescriptors(ModelingForm.getMaxNumDescriptors());
 			knnParameters.setMinNumDescriptors(ModelingForm.getMinNumDescriptors());
+			knnParameters.setMaxNumDescriptors(ModelingForm.getMaxNumDescriptors());
 			knnParameters.setStepSize(ModelingForm.getStepSize());
 			knnParameters.setNumCycles(ModelingForm.getNumCycles());
 			knnParameters.setNumMutations(ModelingForm.getNumMutations());

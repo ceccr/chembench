@@ -140,7 +140,6 @@ public class ModelingFormActions extends ActionSupport{
 			}
 			knnMinNumDescriptors = knnMinNumDescriptors.split("\\, ")[index];
 			knnMaxNumDescriptors = knnMaxNumDescriptors.split("\\, ")[index];
-			knnDescriptorStepSize = knnDescriptorStepSize.split("\\, ")[index];
 			knnMinNearestNeighbors = knnMinNearestNeighbors.split("\\, ")[index];
 			knnMaxNearestNeighbors = knnMaxNearestNeighbors.split("\\, ")[index];
 			knnApplicabilityDomain = knnApplicabilityDomain.split("\\, ")[index];

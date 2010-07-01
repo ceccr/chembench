@@ -18,8 +18,8 @@ public class KnnPlusWorkflow{
 		//this converts the parameters entered on the web page into command-line
 		//arguments formatted to work with knn+.
 		//The comments in this function are excerpts from the knn+ help file.
-		
-		String command = "knn+";
+
+		String command = "knn+ RAND_sets.list";
 
 		//'-OUT=...' - output file
 		command += " -OUT=" + Constants.KNNPLUSMODELSFILENAME;
