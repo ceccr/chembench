@@ -52,16 +52,16 @@ public class RandomForestWorkflow{
 			}
 		}
 		
-		Utility.writeToDebug("numTrees: " + randomForestParameters.getNumTrees());
-		Utility.writeToDebug("trainSetSize: " + randomForestParameters.getTrainSetSize());
-		Utility.writeToDebug("descriptorsPerTree: " + randomForestParameters.getDescriptorsPerTree());
-		Utility.writeToDebug("sampleWithReplacement: " + randomForestParameters.getSampleWithReplacement());
-		Utility.writeToDebug("classWeights: " + randomForestParameters.getClassWeights());
+//		Utility.writeToDebug("numTrees: " + randomForestParameters.getNumTrees());
+//		Utility.writeToDebug("trainSetSize: " + randomForestParameters.getTrainSetSize());
+//		Utility.writeToDebug("descriptorsPerTree: " + randomForestParameters.getDescriptorsPerTree());
+//		Utility.writeToDebug("sampleWithReplacement: " + randomForestParameters.getSampleWithReplacement());
+//		Utility.writeToDebug("classWeights: " + randomForestParameters.getClassWeights());
 		
 		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
-		Utility.writeToDebug("scriptDir: " + scriptDir);
+//		Utility.writeToDebug("scriptDir: " + scriptDir);
 		String buildModelScript = scriptDir + Constants.RF_BUILD_MODEL_RSCRIPT;
-		Utility.writeToDebug("buildModelScript: " + buildModelScript);
+//		Utility.writeToDebug("buildModelScript: " + buildModelScript);
 		
 		// build model script parameter
 		String modelFile = jobName + ".RData";
@@ -95,7 +95,27 @@ public class RandomForestWorkflow{
 		}
 	}
 
-	public static void runRandomForestPrediction() throws Exception{
+	public static void runRandomForestPrediction(String workingDir, String jobName) throws Exception{
+		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
+		String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
+		String modelFile = jobName + ".RData";
+		String modelName = jobName;
+		String predictionFile = jobName + ".pred";
+		String command = "Rscript --vanilla " + predictScript
+							  + " --scriptsDir " + scriptDir
+							  + " --modelFile " + modelFile
+							  + " --modelName " + modelName
+							  + " --externalFile " + Constants.EXTERNAL_SET_X_FILE
+							  + " --predictionFile " + predictionFile;
 		
+		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
+		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+		Utility.writeProgramLogfile(workingDir, "randomForestPredict", p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		Utility.writeToDebug("Exit value: " + p.exitValue());
+		if(p.exitValue() != 0)
+		{
+			Utility.writeToDebug("	See error log");
+		}
 	}
 }
