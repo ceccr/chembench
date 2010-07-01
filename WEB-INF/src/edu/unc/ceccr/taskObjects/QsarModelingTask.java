@@ -275,7 +275,6 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(ModelingForm.getModelingType().equals(Constants.SVM)){
 			svmParameters = new SvmParameters();
-
 			svmParameters.setSvmDegreeFrom(ModelingForm.getSvmCostFrom());
 			svmParameters.setSvmDegreeTo(ModelingForm.getSvmCostTo());
 			svmParameters.setSvmDegreeStep(ModelingForm.getSvmDegreeStep());
@@ -302,14 +301,29 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(ModelingForm.getModelingType().equals(Constants.KNNSA) || 
 				ModelingForm.getModelingType().equals(Constants.KNNGA)){
-			knnPlusParameters = new KnnPlusParameters();
 			
-			//DEBUG - print out knnPlus params from both forms, check which one
-			//gets taken in case of duplicates. (May need to compress 2 tabs into one.)
-			Utility.writeToDebug("KNN PLUS PARAMETERS:\n" +
-					"Applicability Domain: " + ModelingForm.getKnnApplicabilityDomain() + "\n" +
-					"Min Training: " + ModelingForm.getKnnMinTraining() + "\n" +
-					"Min Test: " + ModelingForm.getKnnMinTest());
+			knnPlusParameters = new KnnPlusParameters();
+			knnPlusParameters.setGaMaxNumGenerations(ModelingForm.getGaMaxNumGenerations());
+			knnPlusParameters.setGaMinFitnessDifference(ModelingForm.getGaMinFitnessDifference());
+			knnPlusParameters.setGaNumStableGenerations(ModelingForm.getGaNumStableGenerations());
+			knnPlusParameters.setGaPopulationSize(ModelingForm.getGaPopulationSize());
+			knnPlusParameters.setGaTournamentGroupSize(ModelingForm.getGaTournamentGroupSize());
+			knnPlusParameters.setKnnApplicabilityDomain(ModelingForm.getKnnApplicabilityDomain());
+			knnPlusParameters.setKnnDescriptorStepSize(ModelingForm.getKnnDescriptorStepSize());
+			knnPlusParameters.setKnnErrorBasedFit(ModelingForm.getKnnErrorBasedFit());
+			knnPlusParameters.setKnnMaxNearestNeighbors(ModelingForm.getKnnMaxNearestNeighbors());
+			knnPlusParameters.setKnnMinNearestNeighbors(ModelingForm.getKnnMinNearestNeighbors());
+			knnPlusParameters.setKnnMaxNumDescriptors(ModelingForm.getKnnMaxNumDescriptors());
+			knnPlusParameters.setKnnMinNumDescriptors(ModelingForm.getKnnMinNumDescriptors());
+			knnPlusParameters.setKnnMinTest(ModelingForm.getKnnMinTest());
+			knnPlusParameters.setKnnMinTraining(ModelingForm.getKnnMinTraining());
+			knnPlusParameters.setSaFinalTemp(ModelingForm.getSaFinalTemp());
+			knnPlusParameters.setSaLogInitialTemp(ModelingForm.getSaLogInitialTemp());
+			knnPlusParameters.setSaMutationProbabilityPerDescriptor(ModelingForm.getSaMutationProbabilityPerDescriptor());
+			knnPlusParameters.setSaNumBestModels(ModelingForm.getSaNumBestModels());
+			knnPlusParameters.setSaNumRuns(ModelingForm.getSaNumRuns());
+			knnPlusParameters.setSaTempConvergence(ModelingForm.getSaTempConvergence());
+			knnPlusParameters.setSaTempDecreaseCoefficient(ModelingForm.getSaTempDecreaseCoefficient());
 		}
 		else if(ModelingForm.getModelingType().equals(Constants.RANDOMFOREST)){
 			randomForestParameters = new RandomForestParameters();
