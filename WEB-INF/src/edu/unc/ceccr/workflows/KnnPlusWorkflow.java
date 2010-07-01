@@ -19,7 +19,11 @@ public class KnnPlusWorkflow{
 		//arguments formatted to work with knn+.
 		//The comments in this function are excerpts from the knn+ help file.
 
-		String command = "knn+ RAND_sets.list";
+		//knn+ will automatically convert all input filenames to lowercase.
+		//so, our list file has to be lowercase.
+		FileAndDirOperations.copyFile(workingDir + "RAND_sets.list", workingDir + "rand_sets.list");
+		
+		String command = "knn+ rand_sets.list";
 
 		//'-OUT=...' - output file
 		command += " -OUT=" + Constants.KNNPLUSMODELSFILENAME;
