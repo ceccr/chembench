@@ -27,8 +27,11 @@ import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
 import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
+import edu.unc.ceccr.workflows.KnnPlusWorkflow;
 import edu.unc.ceccr.workflows.KnnPredictionWorkflow;
+import edu.unc.ceccr.workflows.RandomForestWorkflow;
 import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
+import edu.unc.ceccr.workflows.SvmWorkflow;
 import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
 public class QsarPredictionTask extends WorkflowTask {
@@ -227,12 +230,9 @@ public class QsarPredictionTask extends WorkflowTask {
 		}
 
 		
-		//Now, make the prediction with each predictor.
-		//Workflow will be:
-		//0. copy dataset into jobDir. 
-		//1. Create each of the descriptor types that will be needed.
+		//Now, make the prediction with each predictor. 
+		//First, copy dataset into jobDir. 
 		
-		//0. copy dataset into jobDir.
 		step = Constants.SETUP;
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
 		
@@ -240,42 +240,6 @@ public class QsarPredictionTask extends WorkflowTask {
 		String sdfile = predictionDataset.getSdfFile();
 		
 		GetJobFilesWorkflow.getDatasetFiles(userName, predictionDataset, path);
-		//done with 0. (copy dataset into jobDir.)
-		
-		//1. Create each of the descriptor types that will be needed.
-		step = "Processing Descriptors"; //lol fakeout!
-		
-		ArrayList<String> requiredDescriptors = new ArrayList<String>();
-		for(int i = 0; i < selectedPredictors.size(); i++){
-			String descType = selectedPredictors.get(i).getDescriptorGeneration();
-			if(! requiredDescriptors.contains(descType)){
-				requiredDescriptors.add(descType);
-			}
-		}
-		
-		for(int i = 0; i < requiredDescriptors.size(); i++){
-			if(requiredDescriptors.get(i).equals(Constants.MOLCONNZ)){
-				Utility.writeToDebug("ExecutePredictor: Generating MolconnZ Descriptors", userName, jobName);
-				GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfile, path + sdfile + ".molconnz");
-			}
-			else if(requiredDescriptors.get(i).equals(Constants.DRAGONH)){
-				Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
-				GenerateDescriptorWorkflow.GenerateHExplicitDragonDescriptors(path + sdfile, path + sdfile + ".dragonH");
-			}
-			else if(requiredDescriptors.get(i).equals(Constants.DRAGONNOH)){
-				Utility.writeToDebug("ExecutePredictor: Generating Dragon Descriptors", userName, jobName);
-				GenerateDescriptorWorkflow.GenerateHDepletedDragonDescriptors(path + sdfile, path + sdfile + ".dragonNoH");
-			}
-			else if(requiredDescriptors.get(i).equals(Constants.MOE2D)){
-				Utility.writeToDebug("ExecutePredictor: Generating Moe2D Descriptors", userName, jobName);
-				GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdfile, path + sdfile + ".moe2D");
-			}
-			else if(requiredDescriptors.get(i).equals(Constants.MACCS)){
-				Utility.writeToDebug("ExecutePredictor: Generating MACCS Descriptors", userName, jobName);
-				GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdfile, path + sdfile + ".maccs");
-			}
-		}
-		//done with step 1. (Create each of the descriptor types that will be needed.)
 		
 		if(jobList.equals(Constants.LSF)){
 			//move files out to LSF
@@ -361,9 +325,19 @@ public class QsarPredictionTask extends WorkflowTask {
 			step = Constants.PREDICTING;
 			Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
 			
-			KnnPredictionWorkflow.RunKnnPlusPrediction(userName, jobName, predictionDir, sdfile, Float.parseFloat(cutoff) );
-			//KnnPredictionWorkflow.RunKnnPrediction(userName, jobName, predictionDir, sdfile, Float.parseFloat(cutoff) );
-
+			if(selectedPredictor.getModelMethod().equals(Constants.KNN)){
+				KnnPredictionWorkflow.RunKnnPlusPrediction(userName, jobName, predictionDir, sdfile, Float.parseFloat(cutoff) );
+			}
+			else if(selectedPredictor.getModelMethod().equals(Constants.SVM)){
+				SvmWorkflow.runSvmPrediction();
+			}
+			else if(selectedPredictor.getModelMethod().equals(Constants.KNNGA) || 
+					selectedPredictor.getModelMethod().equals(Constants.KNNSA)){
+				KnnPlusWorkflow.runKnnPlusPrediction();
+			}
+			else if(selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+				RandomForestWorkflow.runRandomForestPrediction();
+			}
 			//  done with 4. (make predictions in jobDir/predictorDir)
 			
 			//	5. get output, put it into predictionValue objects and save them

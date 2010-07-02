@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class SvmWorkflow{
 
-	public static void convertXtoSvm(){
+	public static void convertXtoSvm(String xFileName, String svmFileName, String workingDir){
 		//generates an SVM-compatible input descriptor file
 		
 	}
@@ -22,7 +22,8 @@ public class SvmWorkflow{
 	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
 		//
 		
-		/*Usage: svm-train [options] training_set_file [model_file]
+		/*
+		Usage: svm-train [options] training_set_file [model_file]
 		options:
 		-s svm_type : set type of SVM (default 0)
 		        0 -- C-SVC
@@ -48,7 +49,6 @@ public class SvmWorkflow{
 		-b probability_estimates : whether to train a SVC or SVR model for probability estimates, 0 or 1 (default 0)
 		-wi weight : set the parameter C of class i to weight*C, for C-SVC (default 1)
 		-v n: n-fold cross validation mode
-		
 		*/
 		
 	}
