@@ -344,7 +344,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			step = Constants.READPRED;
 			
-			ArrayList<PredictionValue> predValues;
+			ArrayList<PredictionValue> predValues = null;
 			if(selectedPredictor.getModelMethod().equals(Constants.KNN)){
 				predValues = KnnPredictionWorkflow.readPredictionOutput(predictionDir, selectedPredictor.getPredictorId());
 			}
