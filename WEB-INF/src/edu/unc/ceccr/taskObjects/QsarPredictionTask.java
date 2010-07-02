@@ -336,7 +336,7 @@ public class QsarPredictionTask extends WorkflowTask {
 				KnnPlusWorkflow.runKnnPlusPrediction();
 			}
 			else if(selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){
-				RandomForestWorkflow.runRandomForestPrediction();
+				RandomForestWorkflow.runRandomForestPrediction(predictionDir, jobName);
 			}
 			//  done with 4. (make predictions in jobDir/predictorDir)
 			
