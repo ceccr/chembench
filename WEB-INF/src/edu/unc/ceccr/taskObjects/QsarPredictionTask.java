@@ -344,8 +344,21 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			step = Constants.READPRED;
 			
+			ArrayList<PredictionValue> predValues;
+			if(selectedPredictor.getModelMethod().equals(Constants.KNN)){
+				predValues = KnnPredictionWorkflow.readPredictionOutput(predictionDir, selectedPredictor.getPredictorId());
+			}
+			else if(selectedPredictor.getModelMethod().equals(Constants.SVM)){
+				predValues = SvmWorkflow.readPredictionOutput(predictionDir, selectedPredictor.getPredictorId());
+			}
+			else if(selectedPredictor.getModelMethod().equals(Constants.KNNGA) ||
+					selectedPredictor.getModelMethod().equals(Constants.KNNSA)){
+				predValues = KnnPlusWorkflow.readPredictionOutput(predictionDir, selectedPredictor.getPredictorId());
+			}
+			else if(selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+				predValues = RandomForestWorkflow.readPredictionOutput(predictionDir, selectedPredictor.getPredictorId());
+			}
 			
-			ArrayList<PredictionValue> predValues = KnnPredictionWorkflow.ReadPredictionOutput(predictionDir, selectedPredictor.getPredictorId());
 			//ArrayList<PredictionValue> predValues = parsePredOutput(predictionDir + Constants.PRED_OUTPUT_FILE, selectedPredictor.getPredictorId());
 			Utility.writeToDebug("ExecPredictorActionTask: Complete", userName, jobName);
 			

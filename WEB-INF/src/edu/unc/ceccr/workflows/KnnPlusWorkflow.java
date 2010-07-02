@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 
 import edu.unc.ceccr.persistence.KnnPlusParameters;
+import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
@@ -128,5 +129,9 @@ public class KnnPlusWorkflow{
 
 	public static void runKnnPlusPrediction() throws Exception{
 		
+	}
+	
+	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
+		return null;
 	}
 }

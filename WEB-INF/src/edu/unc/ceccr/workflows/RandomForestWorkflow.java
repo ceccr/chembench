@@ -3,6 +3,7 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 import java.nio.channels.FileChannel;
 
+import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -117,5 +118,12 @@ public class RandomForestWorkflow{
 		{
 			Utility.writeToDebug("	See error log");
 		}
+	}
+	
+	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
+		//see readPredictionOutput implementation in KnnPredictionWorkflow.java
+		//to get an idea of how this works
+		
+		return null;
 	}
 }

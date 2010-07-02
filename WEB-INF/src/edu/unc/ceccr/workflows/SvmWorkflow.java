@@ -3,6 +3,7 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 import java.nio.channels.FileChannel;
 
+import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -54,5 +55,10 @@ public class SvmWorkflow{
 	}
 	public static void runSvmPrediction() throws Exception{
 		
+	}
+	
+	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
+		return null;
+	}
 	}
 }
