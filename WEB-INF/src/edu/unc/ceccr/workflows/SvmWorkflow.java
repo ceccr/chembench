@@ -60,5 +60,4 @@ public class SvmWorkflow{
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
 		return null;
 	}
-	}
 }
