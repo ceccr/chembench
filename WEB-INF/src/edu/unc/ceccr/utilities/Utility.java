@@ -260,7 +260,9 @@ public class Utility {
 			if (counterFile.exists()) {
 				BufferedReader br = new BufferedReader(new FileReader(counterFile));
 				String counterStr = br.readLine();
-				counter = Integer.parseInt(counterStr);
+				if(counterStr != null) {
+					counter = Integer.parseInt(counterStr);
+				}
 				br.close();
 				
 				//increase by 1
