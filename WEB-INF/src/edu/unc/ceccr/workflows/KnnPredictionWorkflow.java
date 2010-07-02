@@ -93,7 +93,7 @@ public class KnnPredictionWorkflow{
 		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); //holds objects to be returned
 
 		//each line of output represents a model
-		//(which is really the transform of the matrix we're looking for... *sigh*)
+		//(which is really the transpose of the matrix we're looking for... *sigh*)
 		while ((inputString = in.readLine()) != null && ! inputString.equals("")){
 
 			ArrayList<String> modelValues = new ArrayList<String>();
