@@ -18,17 +18,14 @@ import javax.print.attribute.standard.JobName;
 public class RandomForestWorkflow{
 
 	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String scalingType, String workingDir, String jobName) throws Exception{
-//		String trainingXFile = workingDir + Constants.MODELING_SET_X_FILE;
-//		String externalXFile = workingDir + Constants.EXTERNAL_SET_X_FILE;
-
-		String trainingXFileForRF = workingDir + "RF_" +Constants.MODELING_SET_X_FILE;
-		String externalXFileForRF = workingDir + "RF_" + Constants.EXTERNAL_SET_X_FILE;
-		String preProcessScript;
-		String preProcessMsg;
+		String newTrainingXFile = "RF_" +Constants.MODELING_SET_X_FILE;
+		String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
 		
 		String command = "";
 		Utility.writeToDebug("Running Random Forest Modeling...");
-		
+		preProcessXFile(scalingType, Constants.MODELING_SET_X_FILE, newTrainingXFile, workingDir);
+		preProcessXFile(scalingType, Constants.EXTERNAL_SET_X_FILE, newExternalXFile, workingDir);
+		/*
 		if(scalingType.equals(Constants.NOSCALING))
 		{
 			preProcessScript = "copy.sh ";
@@ -62,48 +59,10 @@ public class RandomForestWorkflow{
 		{
 			Utility.writeToDebug("	See error log");
 		}
-		
-//		Utility.writeToDebug("scalingType: " + scalingType);
-//		Utility.writeToDebug("Constants.NOSCALING: " + Constants.NOSCALING);
-/*		
-		if(!scalingType.equals(Constants.NOSCALING)){
-			//the last two lines of the .x file need to be removed
-			
-			Utility.writeToDebug("Removing last 2 lines from " + Constants.MODELING_SET_X_FILE);
-			command = "rm2LastLines.sh " + Constants.MODELING_SET_X_FILE;
-			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.MODELING_SET_X_FILE, p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-			Utility.writeToDebug("Exit value: " + p.exitValue());
-			if(p.exitValue() != 0)
-			{
-				Utility.writeToDebug("	See error log");
-			}
-			
-			Utility.writeToDebug("Removing last 2 lines from " + Constants.EXTERNAL_SET_X_FILE);
-			command = "rm2LastLines.sh " + Constants.EXTERNAL_SET_X_FILE;
-			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-			p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "rm2LastLines_" + Constants.EXTERNAL_SET_X_FILE, p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-			Utility.writeToDebug("Exit value: " + p.exitValue());
-			if(p.exitValue() != 0)
-			{
-				Utility.writeToDebug("	See error log");
-			}
-		}
-*/		
-//		Utility.writeToDebug("numTrees: " + randomForestParameters.getNumTrees());
-//		Utility.writeToDebug("trainSetSize: " + randomForestParameters.getTrainSetSize());
-//		Utility.writeToDebug("descriptorsPerTree: " + randomForestParameters.getDescriptorsPerTree());
-//		Utility.writeToDebug("sampleWithReplacement: " + randomForestParameters.getSampleWithReplacement());
-//		Utility.writeToDebug("classWeights: " + randomForestParameters.getClassWeights());
+		*/
 		
 		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
-//		Utility.writeToDebug("scriptDir: " + scriptDir);
 		String buildModelScript = scriptDir + Constants.RF_BUILD_MODEL_RSCRIPT;
-//		Utility.writeToDebug("buildModelScript: " + buildModelScript);
 		
 		// build model script parameter
 		String modelFile = jobName + ".RData";
@@ -116,9 +75,9 @@ public class RandomForestWorkflow{
 		String sampsize = randomForestParameters.getTrainSetSize().trim();
 		command = "Rscript --vanilla " + buildModelScript
 					   + " --scriptsDir " + scriptDir
-					   + " --trainingXFile " + trainingXFileForRF
+					   + " --trainingXFile " + newTrainingXFile
 					   + " --trainingActFile " + Constants.MODELING_SET_A_FILE
-					   + " --externalXFile " + externalXFileForRF
+					   + " --externalXFile " + newExternalXFile
 					   + " --externalActFile " + Constants.EXTERNAL_SET_A_FILE
 					   + " --modelFile " + modelFile
 					   + " --modelName " + modelName
@@ -130,7 +89,7 @@ public class RandomForestWorkflow{
 					   + " --sampsize " + sampsize
 					   + " --keep.forest TRUE";
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "randomForestBuildModel", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 		Utility.writeToDebug("Exit value: " + p.exitValue());
@@ -141,7 +100,9 @@ public class RandomForestWorkflow{
 	}
 
 	public static void runRandomForestPrediction(String workingDir, String jobName, String sdfile, Predictor predictor) throws Exception{
-		String xfile = sdfile + ".renorm.x";
+		String xFile = sdfile + ".renorm.x";
+		String newXFile = "RF_" + xFile;
+		preProcessXFile(predictor.getScalingType(), xFile, newXFile, workingDir);
 		
 		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
 		String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
@@ -153,7 +114,7 @@ public class RandomForestWorkflow{
 							  + " --scriptsDir " + scriptDir
 							  + " --modelFile " + modelFile
 							  + " --modelName " + modelName
-							  + " --xFile " + xfile
+							  + " --xFile " + newXFile
 							  + " --predictionFile " + predictionFile;
 		
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
@@ -176,5 +137,33 @@ public class RandomForestWorkflow{
 		//to get an idea of how this works
 		
 		return null;
+	}
+	
+	private static void preProcessXFile(String scalingType, String xFile, String newXFile, String workingDir) throws Exception
+	{
+		String preProcessScript;
+		String preProcessMsg;
+		String command;
+		if(scalingType.equals(Constants.NOSCALING))
+		{
+			preProcessScript = "copy.sh ";
+			preProcessMsg = "Copy: ";
+		}
+		else
+		{
+			preProcessScript = "rm2LastLines.sh ";
+			preProcessMsg = "Copy and remove last 2 lines: ";
+		}
+		Utility.writeToDebug(preProcessMsg + xFile + " to " + newXFile);
+		command = preProcessScript + xFile + " " + newXFile;
+		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
+		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+		Utility.writeProgramLogfile(workingDir, preProcessScript.replace(".sh", "_") + xFile, p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		Utility.writeToDebug("Exit value: " + p.exitValue());
+		if(p.exitValue() != 0)
+		{
+			Utility.writeToDebug("	See error log");
+		}
 	}
 }
