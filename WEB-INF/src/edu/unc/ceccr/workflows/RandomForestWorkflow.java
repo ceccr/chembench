@@ -23,6 +23,7 @@ public class RandomForestWorkflow{
 
 		String command = "";
 		Utility.writeToDebug("Running Random Forest Modeling...");
+		/*
 //		Utility.writeToDebug("scalingType: " + scalingType);
 //		Utility.writeToDebug("Constants.NOSCALING: " + Constants.NOSCALING);
 		if(!scalingType.equals(Constants.NOSCALING)){
@@ -97,6 +98,7 @@ public class RandomForestWorkflow{
 		{
 			Utility.writeToDebug("	See error log");
 		}
+		*/
 	}
 
 	public static void runRandomForestPrediction(String workingDir, String jobName, String sdfile, Predictor predictor) throws Exception{
