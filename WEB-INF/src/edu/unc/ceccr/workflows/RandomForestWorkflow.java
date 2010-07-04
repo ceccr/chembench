@@ -110,12 +110,14 @@ public class RandomForestWorkflow{
 		String modelFile = modelName + ".RData";
 		
 		String predictionFile = jobName + ".pred";
+		String allPredictionsFile = jobName + ".all.pred";
 		String command = "Rscript --vanilla " + predictScript
 							  + " --scriptsDir " + scriptDir
 							  + " --modelFile " + modelFile
 							  + " --modelName " + modelName
 							  + " --xFile " + newXFile
-							  + " --predictionFile " + predictionFile;
+							  + " --predictionFile " + predictionFile
+							  + " --allPredictionsFile " + allPredictionsFile;
 		
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
