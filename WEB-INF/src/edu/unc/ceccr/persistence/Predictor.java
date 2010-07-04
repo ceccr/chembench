@@ -69,7 +69,9 @@ public class Predictor implements java.io.Serializable {
 	private int numPredictions;
 	private String description;
 	private String paperReference;
+	private String randomForestConfusionMatrix;
 	
+
 	//references a row in KnnParameters, SvmParameters, RandomForestParameters, 
 	//or KnnPlusParameters depending on modelMethod.
 	private Long modelingParametersId; 
@@ -331,6 +333,14 @@ public class Predictor implements java.io.Serializable {
 	public void setPredictorType(String type)
 	{
 		this.predictorType=type;
+	}
+	
+	@Column(name="randomForestConfusionMatrix")
+	public String getRandomForestConfusionMatrix() {
+		return randomForestConfusionMatrix;
+	}
+	public void setRandomForestConfusionMatrix(String randomForestConfusionMatrix) {
+		this.randomForestConfusionMatrix = randomForestConfusionMatrix;
 	}
 	
 

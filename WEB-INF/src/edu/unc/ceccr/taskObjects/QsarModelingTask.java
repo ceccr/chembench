@@ -690,9 +690,14 @@ public class QsarModelingTask extends WorkflowTask {
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			//read in models and associate them with the predictor
 			ArrayList<RandomForestModel> randomForestModels = new ArrayList<RandomForestModel>();
+//			RandomForestWorkflow.somethingelse();
 			
 			//read external set predictions
 			externalSetPredictions = null;
+//			RandomForestWorkflow.something();
+			
+			//read confusion matrix
+//			predictor.setRandomForestConfusionMatrix(RandomForestWorkflow.readConfusionMatrix(String workingDir));
 		}
 		else if(modelType.equals(Constants.SVM)){
 			//read in models and associate them with the predictor
