@@ -21,11 +21,51 @@ public class RandomForestWorkflow{
 //		String trainingXFile = workingDir + Constants.MODELING_SET_X_FILE;
 //		String externalXFile = workingDir + Constants.EXTERNAL_SET_X_FILE;
 
+		String trainingXFileForRF = workingDir + "RF_" +Constants.MODELING_SET_X_FILE;
+		String externalXFileForRF = workingDir + "RF_" + Constants.EXTERNAL_SET_X_FILE;
+		String preProcessScript;
+		String preProcessMsg;
+		
 		String command = "";
 		Utility.writeToDebug("Running Random Forest Modeling...");
-
+		
+		if(scalingType.equals(Constants.NOSCALING))
+		{
+			preProcessScript = "copy.sh ";
+			preProcessMsg = "Copy: ";
+		}
+		else
+		{
+			preProcessScript = "rm2LastLines.sh ";
+			preProcessMsg = "Copy and remove last 2 lines: ";
+		}
+		Utility.writeToDebug(preProcessMsg + Constants.MODELING_SET_X_FILE + " to " + trainingXFileForRF);
+		command = preProcessScript + Constants.MODELING_SET_X_FILE + " " + trainingXFileForRF;
+		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
+		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+		Utility.writeProgramLogfile(workingDir, preProcessScript.replace(".sh", "_") + Constants.MODELING_SET_X_FILE, p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		Utility.writeToDebug("Exit value: " + p.exitValue());
+		if(p.exitValue() != 0)
+		{
+			Utility.writeToDebug("	See error log");
+		}
+		
+		Utility.writeToDebug(preProcessMsg + Constants.EXTERNAL_SET_X_FILE + " to " + externalXFileForRF);
+		command = preProcessScript + Constants.EXTERNAL_SET_X_FILE + " " + externalXFileForRF;
+		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
+		p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+		Utility.writeProgramLogfile(workingDir, preProcessScript.replace(".sh", "_") + Constants.EXTERNAL_SET_X_FILE, p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		Utility.writeToDebug("Exit value: " + p.exitValue());
+		if(p.exitValue() != 0)
+		{
+			Utility.writeToDebug("	See error log");
+		}
+		
 //		Utility.writeToDebug("scalingType: " + scalingType);
 //		Utility.writeToDebug("Constants.NOSCALING: " + Constants.NOSCALING);
+/*		
 		if(!scalingType.equals(Constants.NOSCALING)){
 			//the last two lines of the .x file need to be removed
 			
@@ -53,7 +93,7 @@ public class RandomForestWorkflow{
 				Utility.writeToDebug("	See error log");
 			}
 		}
-		
+*/		
 //		Utility.writeToDebug("numTrees: " + randomForestParameters.getNumTrees());
 //		Utility.writeToDebug("trainSetSize: " + randomForestParameters.getTrainSetSize());
 //		Utility.writeToDebug("descriptorsPerTree: " + randomForestParameters.getDescriptorsPerTree());
@@ -76,9 +116,9 @@ public class RandomForestWorkflow{
 		String sampsize = randomForestParameters.getTrainSetSize().trim();
 		command = "Rscript --vanilla " + buildModelScript
 					   + " --scriptsDir " + scriptDir
-					   + " --trainingXFile " + Constants.MODELING_SET_X_FILE
+					   + " --trainingXFile " + trainingXFileForRF
 					   + " --trainingActFile " + Constants.MODELING_SET_A_FILE
-					   + " --externalXFile " + Constants.EXTERNAL_SET_X_FILE
+					   + " --externalXFile " + externalXFileForRF
 					   + " --externalActFile " + Constants.EXTERNAL_SET_A_FILE
 					   + " --modelFile " + modelFile
 					   + " --modelName " + modelName
@@ -90,7 +130,7 @@ public class RandomForestWorkflow{
 					   + " --sampsize " + sampsize
 					   + " --keep.forest TRUE";
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+		p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "randomForestBuildModel", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 		Utility.writeToDebug("Exit value: " + p.exitValue());
