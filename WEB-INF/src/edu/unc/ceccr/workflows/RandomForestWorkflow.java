@@ -75,8 +75,10 @@ public class RandomForestWorkflow{
 		String sampsize = randomForestParameters.getTrainSetSize().trim();
 		command = "Rscript --vanilla " + buildModelScript
 					   + " --scriptsDir " + scriptDir
-					   + " --trainingFile " + Constants.MODELING_SET_X_FILE
-					   + " --activityFile " + Constants.MODELING_SET_A_FILE
+					   + " --trainingXFile " + Constants.MODELING_SET_X_FILE
+					   + " --trainingActFile " + Constants.MODELING_SET_A_FILE
+					   + " --externalXFile " + Constants.EXTERNAL_SET_X_FILE
+					   + " --externalActFile" + Constants.EXTERNAL_SET_A_FILE
 					   + " --modelFile " + modelFile
 					   + " --modelName " + modelName
 					   + " --type " + type
@@ -84,7 +86,8 @@ public class RandomForestWorkflow{
 					   + " --mtry " + mtry
 					   + " --replace " + replace
 					   + " --classwt " + classwt
-					   + " --sampsize " + sampsize;
+					   + " --sampsize " + sampsize
+					   + " --keep.forest TRUE";
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "randomForestBuildModel", p.getInputStream(), p.getErrorStream());
@@ -96,17 +99,20 @@ public class RandomForestWorkflow{
 		}
 	}
 
-	public static void runRandomForestPrediction(String workingDir, String jobName) throws Exception{
+	public static void runRandomForestPrediction(String workingDir, String jobName, String sdfile, Predictor predictor) throws Exception{
+		String xfile = sdfile + ".renorm.x";
+		
 		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
 		String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
-		String modelFile = jobName + ".RData";
-		String modelName = jobName;
+		String modelName = predictor.getName();
+		String modelFile = modelName + ".RData";
+		
 		String predictionFile = jobName + ".pred";
 		String command = "Rscript --vanilla " + predictScript
 							  + " --scriptsDir " + scriptDir
 							  + " --modelFile " + modelFile
 							  + " --modelName " + modelName
-							  + " --externalFile " + Constants.EXTERNAL_SET_X_FILE
+							  + " --xFile " + xfile
 							  + " --predictionFile " + predictionFile;
 		
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
@@ -118,6 +124,10 @@ public class RandomForestWorkflow{
 		{
 			Utility.writeToDebug("	See error log");
 		}
+	}
+	
+	public static String readConfusionMatrix(String workingDir){
+		return "";
 	}
 	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
