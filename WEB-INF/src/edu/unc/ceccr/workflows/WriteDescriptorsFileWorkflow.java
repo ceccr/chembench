@@ -420,7 +420,7 @@ public class WriteDescriptorsFileWorkflow{
 		//get the descriptor names and min / max values of each descriptor 
 		//So, read in the name, min, and max of each descriptor from the modeling .x file
 		Utility.writeToDebug("reading predictor .x file");
-		
+		Utility.writeToDebug("predictorXFile " + predictorXFile);
 		File file = new File(predictorXFile);
 		FileReader xFile = new FileReader(file);
 		BufferedReader br = new BufferedReader(xFile);
