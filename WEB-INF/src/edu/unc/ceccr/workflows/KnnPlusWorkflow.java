@@ -6,6 +6,7 @@ import java.nio.channels.FileChannel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
@@ -88,6 +89,8 @@ public class KnnPlusWorkflow{
 			command += "@M=" + knnPlusParameters.getSaMutationProbabilityPerDescriptor().trim();
 			
 			//'..@B=' - #best models to store
+			//Constraint: Number of best models must be less than or equal to the number
+			//of runs. If #best > #runs, it will set #runs = #best.
 			command += "@B=" + knnPlusParameters.getSaNumBestModels().trim();
 			
 			//'..@K=' - T decreasing coeff.; 
@@ -96,6 +99,9 @@ public class KnnPlusWorkflow{
 		}
 
 		//'-KR=1@9' (to try from 1 to 9 neighbors)
+		//Constraint: Max is strictly greater (>) than min. If this is not true,
+		//it will automatically user '9' as the maximum, making the modeling take
+		//a REALLY FUCKIN' LONG TIME.
 		command += " -KR=" + knnPlusParameters.getKnnMinNearestNeighbors().trim() + "@" + 
 			knnPlusParameters.getKnnMaxNearestNeighbors().trim();
 		
@@ -126,7 +132,48 @@ public class KnnPlusWorkflow{
 		p.waitFor();
 		//Utility.writeToDebug("Category kNN finished.", userName, jobName);
 	}
+	
+	public static void predictExternalSet(String userName, String jobName, String workingDir, String sdfile, float cutoffValue) throws Exception{
+		
+		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
+		String actfile = workingDir + sdfile + ".renorm.a";
+		BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
+		ArrayList<String> compoundNames = DatasetFileOperations.getSDFCompoundList(workingDir + sdfile);
+		for(String compoundName : compoundNames){
+			aout.write(compoundName + " 0\n");
+		}
+		aout.close();
+		
+	    //Run prediction
+		String preddir = workingDir;
+		
+		String xfile = "ext_0.x";
+		//knn+ models -4PRED=ext_0.x -AD=0.5_avd -OUT=external_set_predictions;
+		String execstr = "knn+ models -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
+		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
+		Utility.writeProgramLogfile(preddir, "knn+_prediction", p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		
+	}
+	
+	public static void getModelingProgress(String workingDir){
 
+		try{
+			String execstr = "checkKnnPlusProgress.sh";
+			Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
+			Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
+			Utility.writeProgramLogfile(workingDir, "checkKnnPlusProgress", p.getInputStream(), p.getErrorStream());
+			p.waitFor();
+	
+			FileAndDirOperations.readFileIntoString(workingDir + "knnPlusProgress");
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+	}
+	
+	
 	public static void runKnnPlusPrediction() throws Exception{
 		
 	}

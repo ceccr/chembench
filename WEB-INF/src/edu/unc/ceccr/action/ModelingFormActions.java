@@ -373,7 +373,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String knnMinNumDescriptors = "5";
 	private String knnMaxNumDescriptors = "30";
 	private String knnDescriptorStepSize = "5";
-	private String knnMinNearestNeighbors = "5";
+	private String knnMinNearestNeighbors = "4";
 	private String knnMaxNearestNeighbors = "5";
 
 	private String saNumRuns = "5";

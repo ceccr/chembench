@@ -25,7 +25,7 @@
 			<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph"><i>For information on what these parameters do, refer to the <u><a href="/help-faq" onclick="window.open('/help-faq'); return true;" >help pages</a></u>.<br /></i></div></td>
 			</tr>
 			<tr><td width="33%"><div class="StandardTextDarkGrayParagraph"><b>Descriptors Per Model:</b></div></td>
-			<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent">From: <s:textfield id="knnMinNumDescriptors" name="knnMinNumDescriptors" size="5" theme="simple"/> To: <s:textfield id="knnMaxNumDescriptors" name="knnMaxNumDescriptors" size="5" value="30" theme="simple"/> Step: <s:textfield id="knnDescriptorStepSize" name="knnDescriptorStepSize" size="5" value="30" theme="simple"/></div></td></tr>
+			<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent">From: <s:textfield id="knnMinNumDescriptors" name="knnMinNumDescriptors" size="5" theme="simple"/> To: <s:textfield id="knnMaxNumDescriptors" name="knnMaxNumDescriptors" size="5" theme="simple"/> Step: <s:textfield id="knnDescriptorStepSize" name="knnDescriptorStepSize" size="5" theme="simple"/></div></td></tr>
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Min. Nearest Neighbors:</b></div></td>
 			<td align="left" valign="top"><s:textfield id="knnMinNearestNeighbors" name="knnMinNearestNeighbors" size="5" theme="simple"/></td></tr>		
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Max. Nearest Neighbors:</b></div></td>
@@ -45,7 +45,7 @@
 				<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph"><i>Moving the Temperature Decrease Coefficient closer to 0 will make descriptor selection faster but less optimal.<br /></i></div></td>
 				</tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Temperature Decrease Coefficient:</b></div></td>
-				<td align="left" valign="top"><s:textfield id="saTempDecreaseCoefficient" value="0.6" name="saTempDecreaseCoefficient" size="5" theme="simple"/></td></tr>
+				<td align="left" valign="top"><s:textfield id="saTempDecreaseCoefficient" name="saTempDecreaseCoefficient" size="5" theme="simple"/></td></tr>
 				<!-- End Simulated Annealing Parameters (basic) -->
 				
 				<!-- Simulated Annealing Parameters (advanced) -->

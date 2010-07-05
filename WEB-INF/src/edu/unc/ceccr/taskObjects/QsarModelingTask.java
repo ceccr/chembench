@@ -122,16 +122,26 @@ public class QsarModelingTask extends WorkflowTask {
 				 workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/"; 
 			}
 			
-			float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
-		 	workingDir += "yRandom/";
-			p += FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
-			//divide by the number of models to be built
-
-			int numModels = getNumTotalModels();
-			numModels *= 2; //include yRandom models also
-			p /= numModels;
-			p *= 100; //it's a percent
-			percent = " (" + Math.round(p) + "%)";
+			if(modelType.equals(Constants.KNN)){
+				
+				float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
+			 	workingDir += "yRandom/";
+				p += FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
+				//divide by the number of models to be built
+	
+				int numModels = getNumTotalModels();
+				numModels *= 2; //include yRandom models also
+				p /= numModels;
+				p *= 100; //it's a percent
+				percent = " (" + Math.round(p) + "%)";
+			}
+			else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
+				//number of models produced so far can be gotten by:
+				//cat knn+.log | grep q2= | wc 
+				//which is in a script "checkKnnPlusProgress.sh" in mmlsoft/bin.
+				
+				KnnPlusWorkflow.getModelingProgress(workingDir);
+			}
 		}
 		
 		return step + percent;
@@ -521,12 +531,11 @@ public class QsarModelingTask extends WorkflowTask {
 			//copy needed files out to LSF
 			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
 			
-			if(modelType.equals(Constants.KNN)){
-				step = Constants.YRANDOMSETUP;
-				KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
-				KnnModelBuildingWorkflow.YRandomization(userName, jobName);
-			}
-
+			//get y-randomization ready
+			step = Constants.YRANDOMSETUP;
+			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
+			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
+		
 			KnnModelingLsfWorkflow.makeLsfModelingDirectory(filePath, lsfPath);
 		}
 	}
@@ -560,6 +569,8 @@ public class QsarModelingTask extends WorkflowTask {
 	@SuppressWarnings("unchecked")
 	public void executeLocal() throws Exception {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+
+		step = Constants.MODELS;
 		
 		//Run modeling process
 		if(modelType.equals(Constants.KNN)){
