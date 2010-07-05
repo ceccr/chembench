@@ -8,5 +8,4 @@ import edu.unc.ceccr.utilities.Utility;
 @Table(name = "cbench_SvmModel")
 public class SvmModel implements java.io.Serializable{
 	
-	
 }

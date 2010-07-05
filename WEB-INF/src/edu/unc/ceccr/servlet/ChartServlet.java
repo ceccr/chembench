@@ -98,6 +98,7 @@ protected void processRequest(HttpServletRequest request,
    
    double min=setMin(MinRange(extValidation,0),MinRange(extValidation,1));
    double max=setMax(MaxRange(extValidation,0),MaxRange(extValidation,1));
+   
    series1.add(min,min);
    series1.add(max, max);
    ds.addSeries(series0);
@@ -301,8 +302,9 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
   {
 	  if(min1>min2){return min2;}else{return min1;}
   }
-  protected double MinRange(List<ExternalValidation> extValidation,int option)
+  protected double MinRange(List<ExternalValidation> extValidation, int option)
   {
+	  Utility.writeToDebug("===Finding MinRange===");
 	  double min=100.00;
 	  double extvalue;
 	  ExternalValidation extv=null;
@@ -310,6 +312,8 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
 	   
 		while(it.hasNext()) {
 			extv=( ExternalValidation)it.next();
+			
+			Utility.writeToDebug("   Actual: " + extv.getActualValue() + " Predicted: " + extv.getPredictedValue());
 			
 			if(option==0){
 				 extvalue=extv.getPredictedValue();
@@ -322,12 +326,14 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
 				min=extvalue;
 			}
 		}
+		Utility.writeToDebug("=== Done Finding MinRange. Got " + min + "===");
 	   
 	   return min-0.5;
   }
 
-  protected double MaxRange(List<ExternalValidation> extValidation,int option)
+  protected double MaxRange(List<ExternalValidation> extValidation, int option)
   {
+	  Utility.writeToDebug("===Finding MaxRange===");
 	  double max=-100.00;
 	  double extvalue;
 	  ExternalValidation extv=null;
@@ -336,6 +342,8 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
 	   while(it.hasNext())
 	   {
 		 extv=( ExternalValidation)it.next();
+		 Utility.writeToDebug("   Actual: " + extv.getActualValue() + " Predicted: " + extv.getPredictedValue());
+			
 			 if(option==0)
 			 {
 				 extvalue=extv.getPredictedValue();
@@ -346,7 +354,8 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
 				max=extvalue;
 			}
 		 }
-	   
+		Utility.writeToDebug("=== Done Finding MaxRange. Got " + max + "===");
+		
 	   return max+0.5;
 	  
 	   }
