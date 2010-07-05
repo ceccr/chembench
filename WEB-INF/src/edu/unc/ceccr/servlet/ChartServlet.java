@@ -54,13 +54,23 @@ protected void processRequest(HttpServletRequest request,
 	 String user=request.getParameter("user");
 	
 	
-	Session session = HibernateUtil.getSession();
-	Predictor predictor = PopulateDataObjects.getPredictorByName(project, user, session);
+	 Session session = HibernateUtil.getSession();
+	 Predictor predictor = PopulateDataObjects.getPredictorByName(project, user, session);
 	 
-	int index=0;
-	float high,low;
+	 int index=0;
+	 float high,low;
 	 List<ExternalValidation> extValidation=PopulateDataObjects.getExternalValidationValues(predictor, session);
+	 session.close();
 	 ExternalValidation extv=null;
+	 
+	  for(int i = 0; i < extValidation.size(); i++){
+		  if(extValidation.get(i).getNumModels() == 0){
+			  //no models predicted this point; remove it 
+			  //so it doesn't skew the chart.
+			  extValidation.remove(i);
+			  i--;
+		  }
+	  }
 	 
     XYSeries series0 = new XYSeries(0,false);
     XYSeries series1 = new XYSeries("");
