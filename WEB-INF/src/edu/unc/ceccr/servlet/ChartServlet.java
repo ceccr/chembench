@@ -40,6 +40,7 @@ import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 
 import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
 @SuppressWarnings("serial")
@@ -51,12 +52,14 @@ protected void processRequest(HttpServletRequest request,
 
 	 String project=request.getParameter("project");
 	 String user=request.getParameter("user");
-	Predictor predictor;
-	predictor=getPredictor(project);
+	
+	
+	Session session = HibernateUtil.getSession();
+	Predictor predictor = PopulateDataObjects.getPredictorByName(project, user, session);
 	 
 	int index=0;
 	float high,low;
-	 List<ExternalValidation> extValidation=getExternalValidation(predictor);
+	 List<ExternalValidation> extValidation=PopulateDataObjects.getExternalValidationValues(predictor, session);
 	 ExternalValidation extv=null;
 	 
     XYSeries series0 = new XYSeries(0,false);
@@ -240,58 +243,7 @@ protected void processRequest(HttpServletRequest request,
 	 return list;
  }
  
- protected Predictor getPredictor(String predictorName)throws ClassNotFoundException, SQLException
- {
-	 Predictor predictor=null;
-	 Session session = HibernateUtil.getSession();
-	  Transaction tx = null;
-	  try {
-	  	tx = session.beginTransaction();
-	  	
-	  	predictor = (Predictor)session.createCriteria(Predictor.class).add(Expression.eq("name",predictorName)).uniqueResult();
-	  	tx.commit();
-	  	
-	  } catch (RuntimeException e) {
-	  	if (tx != null)
-	  		tx.rollback();
-	  	Utility.writeToDebug(e);
-	  } finally {
-	  	session.close();
-	  }
-	  return predictor ;
- }
   @SuppressWarnings("unchecked")
-protected List< ExternalValidation> getExternalValidation(Predictor predictor)throws ClassNotFoundException, SQLException
-  {
-	  List<ExternalValidation> extValidation = new ArrayList<ExternalValidation>();
-		
-	  Session session = HibernateUtil.getSession();
-	  Transaction tx = null;
-	  try {
-	  	tx = session.beginTransaction();
-	  	
-	  	extValidation = session.createCriteria(ExternalValidation.class).add(Expression.eq("predictor",predictor)).list();
-	  	tx.commit();
-	  	
-	  } catch (RuntimeException e) {
-	  	if (tx != null)
-	  		tx.rollback();
-	  	Utility.writeToDebug(e);
-	  } finally {
-	  	session.close();
-	  }
-	  
-	  for(int i = 0; i < extValidation.size(); i++){
-		  if(extValidation.get(i).getNumModels() == 0){
-			  //no models predicted this point; remove it 
-			  //so it doesn't skew the chart.
-			  extValidation.remove(i);
-			  i--;
-		  }
-	  }
-	  
-	  return extValidation;
-  }
   
   
   protected double setMax(double max1,double max2)
@@ -304,7 +256,6 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
   }
   protected double MinRange(List<ExternalValidation> extValidation, int option)
   {
-	  Utility.writeToDebug("===Finding MinRange===");
 	  double min=100.00;
 	  double extvalue;
 	  ExternalValidation extv=null;
@@ -313,7 +264,6 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
 		while(it.hasNext()) {
 			extv=( ExternalValidation)it.next();
 			
-			Utility.writeToDebug("   Actual: " + extv.getActualValue() + " Predicted: " + extv.getPredictedValue());
 			
 			if(option==0){
 				 extvalue=extv.getPredictedValue();
@@ -326,14 +276,12 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
 				min=extvalue;
 			}
 		}
-		Utility.writeToDebug("=== Done Finding MinRange. Got " + min + "===");
 	   
 	   return min-0.5;
   }
 
   protected double MaxRange(List<ExternalValidation> extValidation, int option)
   {
-	  Utility.writeToDebug("===Finding MaxRange===");
 	  double max=-100.00;
 	  double extvalue;
 	  ExternalValidation extv=null;
@@ -342,7 +290,6 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
 	   while(it.hasNext())
 	   {
 		 extv=( ExternalValidation)it.next();
-		 Utility.writeToDebug("   Actual: " + extv.getActualValue() + " Predicted: " + extv.getPredictedValue());
 			
 			 if(option==0)
 			 {
@@ -354,7 +301,6 @@ protected List< ExternalValidation> getExternalValidation(Predictor predictor)th
 				max=extvalue;
 			}
 		 }
-		Utility.writeToDebug("=== Done Finding MaxRange. Got " + max + "===");
 		
 	   return max+0.5;
 	  
