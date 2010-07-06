@@ -699,6 +699,7 @@ public class QsarModelingTask extends WorkflowTask {
 			externalSetPredictions = null;
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
+			predictor.setNumTotalModels(new Integer(randomForestParameters.getNumTrees()));
 			//read in models and associate them with the predictor
 			ArrayList<RandomForestModel> randomForestModels = new ArrayList<RandomForestModel>();
 //			RandomForestWorkflow.somethingelse();
