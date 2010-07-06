@@ -162,7 +162,11 @@ public class Constants {
 	public static final String SCRIPTS_PATH = "mmlsoft/bin/";
 	public static final String RF_BUILD_MODEL_RSCRIPT = "randomForestBuildModel.R";
     public static final String RF_PREDICT_RSCRIPT = "randomForestPredict.R";
-	
+    // file with the values predicted by the forest
+	public static final String RF_AGGREGATE_PRED_OUTPUT_FILE = "aggregate.pred";
+	// file with the value predicted by each tree of the forest
+	public static final String RF_INDIVIDUAL_PRED_OUTPUT_FILE = "aggregate.pred";
+    
 	public static final String kNN_OUTPUT_FILE = "knn-output.tbl";
 	public static final String EXTERNAL_VALIDATION_OUTPUT_FILE = "external_prediction_table";
 	public static final String PRED_OUTPUT_FILE = "cons_pred";
