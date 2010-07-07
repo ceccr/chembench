@@ -226,7 +226,7 @@ public class KnnPlusParameters {
 		return knnGaErrorBasedFit;
 	}
 	public void setKnnGaErrorBasedFit(String knnGaErrorBasedFit) {
-		this.knnGaErrorBasedFit = knnErrorBasedFit;
+		this.knnGaErrorBasedFit = knnGaErrorBasedFit;
 	}
 	
 	
