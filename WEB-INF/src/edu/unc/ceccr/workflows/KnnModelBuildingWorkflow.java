@@ -114,8 +114,13 @@ public class KnnModelBuildingWorkflow{
 	public static void SetUpYRandomization(String userName, String jobName) throws Exception{
 		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
+		//create yRandom dirs
 		new File(workingdir + "yRandom/").mkdir();
 		new File(workingdir + "yRandom/Logs/").mkdir();
+
+		//make sure dirs are empty
+		FileAndDirOperations.deleteDirContents(workingdir + "yRandom/");
+		FileAndDirOperations.deleteDirContents(workingdir + "yRandom/Logs/");
 		
 		//copy *.default and RAND_sets* to yRandom
 		File file;

@@ -38,6 +38,7 @@ public class KnnModelingLsfWorkflow{
 		//create a dir out in /largefs/ceccr/ to run the calculation of the job
 		File dir = new File(lsfPath);
 		dir.mkdirs();
+		FileAndDirOperations.deleteDirContents(lsfPath);
 		
 		//copy all files from current modeling dir out there
 		FileAndDirOperations.copyDirContents(filePath, lsfPath, true);

@@ -448,8 +448,10 @@ public class QsarModelingTask extends WorkflowTask {
 		lookupId = predictor.getPredictorId();
 		jobType = Constants.MODELING;
 		
-		//make sure directories exist
+		//make sure job dir exists and is empty
 		CreateDirectoriesWorkflow.createDirs(userName, jobName);
+		FileAndDirOperations.deleteDirContents(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
+		
 		if(modelType.equals(Constants.KNN)){
 			if (actFileDataType.equals(Constants.CONTINUOUS)){
 				KnnModelBuildingWorkflow.writeKnnContinuousDefaultFile(filePath + Constants.KNN_DEFAULT_FILENAME, knnParameters);

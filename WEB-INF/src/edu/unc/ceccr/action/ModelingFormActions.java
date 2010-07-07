@@ -145,6 +145,7 @@ public class ModelingFormActions extends ActionSupport{
 			knnApplicabilityDomain = knnApplicabilityDomain.split("\\, ")[index];
 			knnMinTraining = knnMinTraining.split("\\, ")[index];
 			knnMinTest = knnMinTest.split("\\, ")[index];
+			Utility.writeToDebug("knnErrorBasedFit: " + knnErrorBasedFit);
 			knnErrorBasedFit = knnErrorBasedFit.split("\\, ")[index];
 			
 			QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
