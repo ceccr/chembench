@@ -72,6 +72,8 @@
 		<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
 		<sx:tabbedpanel id="viewPredictionTabs" >
 	
+			<s:if test="selectedPredictor.modelType=='KNN'">
+			
 			<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
@@ -83,6 +85,24 @@
 			</s:url>
 	    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
 			</sx:div>
+			
+			</s:if>
+			<s:elseif test="selectedPredictor.modelType=='KNNGA' || selectedPredictor.modelType=='KNNSA'">
+			
+			<s:url id="externalValidationLink" value="/viewKnnPlusPredictorExternalValidationSection" includeParams="none">
+				<s:param name="id" value='selectedPredictor.predictorId' />
+			</s:url>
+	    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
+			</sx:div>
+			
+			<s:url id="modelsLink" value="/viewKnnPlusPredictorModelsSection" includeParams="none">
+				<s:param name="id" value='selectedPredictor.predictorId' />
+			</s:url>
+	    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
+			</sx:div>
+			
+			
+			</s:elseif>
 			
 			<s:url id="yRandomLink" value="/viewPredictorYRandomSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
