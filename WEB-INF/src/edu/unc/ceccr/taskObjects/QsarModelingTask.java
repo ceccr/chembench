@@ -320,7 +320,8 @@ public class QsarModelingTask extends WorkflowTask {
 			knnPlusParameters.setGaTournamentGroupSize(ModelingForm.getGaTournamentGroupSize());
 			knnPlusParameters.setKnnApplicabilityDomain(ModelingForm.getKnnApplicabilityDomain());
 			knnPlusParameters.setKnnDescriptorStepSize(ModelingForm.getKnnDescriptorStepSize());
-			knnPlusParameters.setKnnErrorBasedFit(ModelingForm.getKnnErrorBasedFit());
+			knnPlusParameters.setKnnSaErrorBasedFit(ModelingForm.getKnnSaErrorBasedFit());
+			knnPlusParameters.setKnnGaErrorBasedFit(ModelingForm.getKnnGaErrorBasedFit());
 			knnPlusParameters.setKnnMaxNearestNeighbors(ModelingForm.getKnnMaxNearestNeighbors());
 			knnPlusParameters.setKnnMinNearestNeighbors(ModelingForm.getKnnMinNearestNeighbors());
 			knnPlusParameters.setKnnMaxNumDescriptors(ModelingForm.getKnnMaxNumDescriptors());

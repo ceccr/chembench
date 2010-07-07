@@ -393,6 +393,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String knnMinTraining = "0.6";
 	private String knnMinTest = "0.6";
 	private String knnSaErrorBasedFit = "false";
+	private String knnGaErrorBasedFit = "false";
 
 	//end knn+ parameters
 	
@@ -914,12 +915,20 @@ public class ModelingFormActions extends ActionSupport{
 		this.knnMinTest = knnMinTest;
 	}
 
-	public String getKnnErrorBasedFit() {
+	public String getKnnSaErrorBasedFit() {
 		return knnSaErrorBasedFit;
 	}
 
-	public void setKnnErrorBasedFit(String knnErrorBasedFit) {
-		this.knnSaErrorBasedFit = knnErrorBasedFit;
+	public void setKnnSaErrorBasedFit(String knnSaErrorBasedFit) {
+		this.knnSaErrorBasedFit = knnSaErrorBasedFit;
+	}
+
+	public String getKnnGaErrorBasedFit() {
+		return knnGaErrorBasedFit;
+	}
+
+	public void setKnnGaErrorBasedFit(String knnGaErrorBasedFit) {
+		this.knnGaErrorBasedFit = knnGaErrorBasedFit;
 	}
 
 	//end knn+

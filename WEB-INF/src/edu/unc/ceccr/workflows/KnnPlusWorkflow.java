@@ -117,7 +117,8 @@ public class KnnPlusWorkflow{
 		//For continuous kNN it means q2 >0.5 and R2>0.6
 		//A - alternative control-indices; E - error-based
 		//V - aver.error based (only for discrete-act.); S - simple post-evaluation
-		if(knnPlusParameters.getKnnErrorBasedFit().equalsIgnoreCase("true")){
+		if((modelType.equals(Constants.KNNSA) && knnPlusParameters.getKnnSaErrorBasedFit().equalsIgnoreCase("true"))
+				|| (modelType.equals(Constants.KNNGA) && knnPlusParameters.getKnnGaErrorBasedFit().equalsIgnoreCase("true"))){
 			command += " -EVL=E" + knnPlusParameters.getKnnMinTraining().trim() + "@" +
 			knnPlusParameters.getKnnMinTest().trim();
 		}
