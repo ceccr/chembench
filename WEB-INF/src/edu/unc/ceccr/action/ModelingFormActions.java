@@ -145,8 +145,6 @@ public class ModelingFormActions extends ActionSupport{
 			knnApplicabilityDomain = knnApplicabilityDomain.split("\\, ")[index];
 			knnMinTraining = knnMinTraining.split("\\, ")[index];
 			knnMinTest = knnMinTest.split("\\, ")[index];
-			Utility.writeToDebug("knnErrorBasedFit: " + knnErrorBasedFit);
-			knnErrorBasedFit = knnErrorBasedFit.split("\\, ")[index];
 			
 			QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
 			Utility.writeToDebug("Setting up task", user.getUserName(), this.getJobName());
@@ -394,7 +392,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String knnApplicabilityDomain = "0.5";
 	private String knnMinTraining = "0.6";
 	private String knnMinTest = "0.6";
-	private String knnErrorBasedFit = "false";
+	private String knnSaErrorBasedFit = "false";
 
 	//end knn+ parameters
 	
@@ -917,11 +915,11 @@ public class ModelingFormActions extends ActionSupport{
 	}
 
 	public String getKnnErrorBasedFit() {
-		return knnErrorBasedFit;
+		return knnSaErrorBasedFit;
 	}
 
 	public void setKnnErrorBasedFit(String knnErrorBasedFit) {
-		this.knnErrorBasedFit = knnErrorBasedFit;
+		this.knnSaErrorBasedFit = knnErrorBasedFit;
 	}
 
 	//end knn+

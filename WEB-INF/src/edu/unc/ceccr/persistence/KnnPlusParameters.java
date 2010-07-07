@@ -39,7 +39,8 @@ public class KnnPlusParameters {
 	private String knnApplicabilityDomain;
 	private String knnMinTraining;
 	private String knnMinTest;
-	private String knnErrorBasedFit;
+	private String knnSaErrorBasedFit;
+	private String knnGaErrorBasedFit;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -211,13 +212,21 @@ public class KnnPlusParameters {
 	public void setKnnMinTest(String knnMinTest) {
 		this.knnMinTest = knnMinTest;
 	}
-	
-	@Column(name = "knnErrorBasedFit")
-	public String getKnnErrorBasedFit() {
-		return knnErrorBasedFit;
+
+	@Column(name = "knnSaErrorBasedFit")
+	public String getKnnSaErrorBasedFit() {
+		return knnSaErrorBasedFit;
 	}
-	public void setKnnErrorBasedFit(String knnErrorBasedFit) {
-		this.knnErrorBasedFit = knnErrorBasedFit;
+	public void setKnnSaErrorBasedFit(String knnSaErrorBasedFit) {
+		this.knnSaErrorBasedFit = knnSaErrorBasedFit;
+	}
+	
+	@Column(name = "knnGaErrorBasedFit")
+	public String getKnnGaErrorBasedFit() {
+		return knnGaErrorBasedFit;
+	}
+	public void setKnnGaErrorBasedFit(String knnGaErrorBasedFit) {
+		this.knnGaErrorBasedFit = knnErrorBasedFit;
 	}
 	
 	

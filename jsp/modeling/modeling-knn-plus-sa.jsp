@@ -71,7 +71,7 @@
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum for Test Set:</b></div></td>
 			<td align="left" valign="top"><s:textfield id="knnMinTest" name="knnMinTest" size="5" theme="simple"/></td></tr>	
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Use Error Based Fit Index:</b></div></td>
-			<td align="left" valign="top"><s:checkbox id="knnErrorBasedFit" name="knnErrorBasedFit" theme="simple"/></td></tr>	
+			<td align="left" valign="top"><s:checkbox id="knnGaErrorBasedFit" name="knnGaErrorBasedFit" theme="simple"/></td></tr>	
 			<!-- end Model Acceptance Parameters -->
 			
 		<!-- end knn+ parameters -->
