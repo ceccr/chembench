@@ -18,7 +18,7 @@
 				</tr>	
 				<tr><td><table>
 				
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of trees:</b></div></td>
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Trees Per Split:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="numTrees" name="numTrees" size="5" theme="simple"/>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Training Set Size:</b></div></td>
