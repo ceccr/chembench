@@ -708,7 +708,7 @@ public class QsarModelingTask extends WorkflowTask {
 			ArrayList<KnnPlusModel> knnPlusModels = new ArrayList<KnnPlusModel>();
 			
 			//read external set predictions
-			externalSetPredictions = KnnPlusWorkflow.readExternalPredictionOutput(filePath);
+			externalSetPredictions = KnnPlusWorkflow.readExternalPredictionOutput(filePath, predictor);
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			predictor.setNumTotalModels(new Integer(randomForestParameters.getNumTrees()));

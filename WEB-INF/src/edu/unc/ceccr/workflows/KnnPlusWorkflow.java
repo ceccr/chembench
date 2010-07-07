@@ -148,7 +148,7 @@ public class KnnPlusWorkflow{
 		
 	}
 
-	public static ArrayList<ExternalValidation> readExternalPredictionOutput(String workingDir) throws Exception{
+	public static ArrayList<ExternalValidation> readExternalPredictionOutput(String workingDir, Predictor predictor) throws Exception{
 		
         //read prediction output
 		String outputFile = Constants.PRED_OUTPUT_FILE + ".preds"; //the ".preds" is added automatically by knn+
@@ -241,6 +241,7 @@ public class KnnPlusWorkflow{
 			ev.setPredictedValue(mean);
 			ev.setStandDev("" + stddev);
 			ev.setCompoundId(compoundNames[i+2]);
+			ev.setPredictor(predictor);
 			
 			predictionValues.add(ev);
 	
@@ -262,8 +263,9 @@ public class KnnPlusWorkflow{
 			Utility.writeProgramLogfile(workingDir, "checkKnnPlusProgress", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 	
-			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnPlusProgress");
-			return Integer.parseInt(file);
+			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnPlusProgress").trim();
+			String[] tokens = file.split(" ");
+			return Integer.parseInt(tokens[0]);
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
