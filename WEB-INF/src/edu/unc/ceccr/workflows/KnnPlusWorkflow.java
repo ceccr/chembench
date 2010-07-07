@@ -158,7 +158,7 @@ public class KnnPlusWorkflow{
 		
 	}
 	
-	public static void getModelingProgress(String workingDir){
+	public static int getModelingProgress(String workingDir){
 
 		try{
 			String execstr = "checkKnnPlusProgress.sh";
@@ -167,11 +167,13 @@ public class KnnPlusWorkflow{
 			Utility.writeProgramLogfile(workingDir, "checkKnnPlusProgress", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 	
-			FileAndDirOperations.readFileIntoString(workingDir + "knnPlusProgress");
+			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnPlusProgress");
+			return Integer.parseInt(file);
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		return -1;
 	}
 	
 	

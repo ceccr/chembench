@@ -81,11 +81,9 @@ public class DataSplitWorkflow{
 		int numCompounds = Integer.parseInt(array[0]);
 		int numDescriptors = Integer.parseInt(array[1]);
 		int numExternalCompounds = compoundIDs.length;
-		Utility.writeToDebug("numExternalCompounds0:" + numExternalCompounds);
 		if(compoundIDs.length == 1 && compoundIDs[0].equals("")){
 			numExternalCompounds = 0;
 		}
-		Utility.writeToDebug("numExternalCompounds1:" + numExternalCompounds);
 		int numCompoundsModelingSet = numCompounds - numExternalCompounds;
 		outXModelingWriter.write("" + numCompoundsModelingSet + " " + numDescriptors + "\n");
 		outXExternalWriter.write("" + numExternalCompounds + " " + numDescriptors + "\n");
