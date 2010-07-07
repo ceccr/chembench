@@ -150,13 +150,20 @@ public class KnnPlusWorkflow{
 		
 		String xfile = "ext_0.x";
 		//knn+ models -4PRED=ext_0.x -AD=0.5_avd -OUT=external_set_predictions;
-		String execstr = "knn+ models -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+		String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
 		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
 		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
 		Utility.writeProgramLogfile(preddir, "knn+_prediction", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 		
 	}
+
+	public static ArrayList<PredictionValue> readExternalPredictionOutput(String workingDir, Long predictorId) throws Exception{
+		
+		
+		return null;
+	}
+	
 	
 	public static int getModelingProgress(String workingDir){
 
@@ -180,7 +187,7 @@ public class KnnPlusWorkflow{
 	public static void runKnnPlusPrediction() throws Exception{
 		
 	}
-	
+
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
 		return null;
 	}
