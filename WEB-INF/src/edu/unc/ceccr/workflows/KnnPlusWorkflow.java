@@ -3,6 +3,7 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 import java.nio.channels.FileChannel;
 
+import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
@@ -134,34 +135,121 @@ public class KnnPlusWorkflow{
 		//Utility.writeToDebug("Category kNN finished.", userName, jobName);
 	}
 	
-	public static void predictExternalSet(String userName, String jobName, String workingDir, String sdfile, float cutoffValue) throws Exception{
-		
-		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
-		String actfile = workingDir + sdfile + ".renorm.a";
-		BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
-		ArrayList<String> compoundNames = DatasetFileOperations.getSDFCompoundList(workingDir + sdfile);
-		for(String compoundName : compoundNames){
-			aout.write(compoundName + " 0\n");
-		}
-		aout.close();
-		
-	    //Run prediction
-		String preddir = workingDir;
+	public static void predictExternalSet(String userName, String jobName, String workingDir, String cutoffValue) throws Exception{
+		//Run prediction
 		
 		String xfile = "ext_0.x";
-		//knn+ models -4PRED=ext_0.x -AD=0.5_avd -OUT=external_set_predictions;
+		//knn+ models -4PRED=ext_0.x -AD=0.5_avd -OUT=cons_pred;
 		String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
-		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
-		Utility.writeProgramLogfile(preddir, "knn+_prediction", p.getInputStream(), p.getErrorStream());
+		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
+		Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
+		Utility.writeProgramLogfile(workingDir, "knn+_prediction", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 		
 	}
 
-	public static ArrayList<PredictionValue> readExternalPredictionOutput(String workingDir, Long predictorId) throws Exception{
+	public static ArrayList<ExternalValidation> readExternalPredictionOutput(String workingDir) throws Exception{
 		
+        //read prediction output
+		String outputFile = Constants.PRED_OUTPUT_FILE + ".preds"; //the ".preds" is added automatically by knn+
+    	Utility.writeToDebug("Reading file: " + workingDir + outputFile);
+		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
+		String inputString;
 		
-		return null;
+		//The first four lines are all header data
+		in.readLine(); //junk
+		inputString = in.readLine(); //compound names are here; we'll need them
+		String[] compoundNames = inputString.split("\\s+");
+		
+		in.readLine(); //junk
+		in.readLine(); //junk
+		
+		ArrayList<ArrayList<String>> predictionMatrix = new ArrayList<ArrayList<String>>(); //read output file into this
+		ArrayList<ExternalValidation> predictionValues = new ArrayList<ExternalValidation>(); //to be returned
+
+		//each line of output represents a model
+		//(which is really the transpose of the matrix we're looking for... *sigh*)
+		while ((inputString = in.readLine()) != null && ! inputString.equals("")){
+
+			ArrayList<String> modelValues = new ArrayList<String>();
+			
+			//get output for each compound in model
+			String[] predValues = inputString.split("\\s+"); //Note: [0] and [1] in this array will be junk.
+			
+			//predValues(0) will be model_id, which is just an index.
+			//predValues(1) will be AD_distance, which we may want to capture someday.
+			//String adDistanceValue = predValues[1];
+			for(int i = 2; i < predValues.length; i++){
+				String predictValue = predValues[i];
+				modelValues.add(predictValue);
+			}
+			predictionMatrix.add(modelValues);
+		}
+		
+		//Utility.writeToDebug("calculating nummodels, avg, and stddev for each compound");
+		
+		//for each compound, calculate nummodels, avg, and stddev
+		int numCompounds = predictionMatrix.get(0).size();
+		for(int i = 0; i < numCompounds; i++){
+
+			try{
+			//calculate stddev and avg for each compound
+			Float sum = new Float(0);
+			Float mean = new Float(0);
+			int numPredictingModels = predictionMatrix.size();
+			//Utility.writeToDebug("doing sum for compound " + i);
+			
+			for(int j = 0; j < predictionMatrix.size(); j++){
+				String predValue = predictionMatrix.get(j).get(i);
+				if(predValue.equalsIgnoreCase("NA")){
+					numPredictingModels--;
+				}
+				else{
+					sum += Float.parseFloat(predValue);
+				}
+			}
+			if(numPredictingModels > 0){
+				mean = sum / numPredictingModels;
+			}
+			else{
+				mean = null;
+			}
+
+			//Utility.writeToDebug("doing stddev for compound " + i);
+
+			Float stddev = new Float(0);
+			if(numPredictingModels > 0){
+				for(int j = 0; j < predictionMatrix.size(); j++){
+					String predValue = predictionMatrix.get(j).get(i);
+					if(!predValue.equalsIgnoreCase("NA")){
+						float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
+						stddev += distFromMeanSquared;
+					}
+				}
+				//divide sum then take sqrt to get stddev
+				stddev = (float) Math.sqrt( stddev / numPredictingModels);
+			}
+			else{
+				stddev = null;
+			}
+			
+			//Utility.writeToDebug("making predvalue object for compound " + i);
+			
+			//create prediction value object
+			ExternalValidation ev = new ExternalValidation();
+			ev.setNumModels(numPredictingModels);
+			ev.setPredictedValue(mean);
+			ev.setStandDev("" + stddev);
+			ev.setCompoundId(compoundNames[i+2]);
+			
+			predictionValues.add(ev);
+	
+			}catch(Exception ex){
+				Utility.writeToDebug(ex);
+			}
+		}
+		
+		return predictionValues;
 	}
 	
 	

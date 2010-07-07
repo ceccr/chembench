@@ -604,6 +604,9 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
 			KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters, actFileDataType, modelType, path);
+			
+			step = Constants.PREDEXT;
+			KnnPlusWorkflow.predictExternalSet(userName, jobName, path, knnPlusParameters.getKnnApplicabilityDomain());
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, path, jobName);
@@ -622,6 +625,12 @@ public class QsarModelingTask extends WorkflowTask {
 			if(modelType.equals(Constants.KNN)){
 				step = Constants.PREDEXT;
 				KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
+			}
+			else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
+				KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters, actFileDataType, modelType, lsfPath);
+				
+				step = Constants.PREDEXT;
+				KnnPlusWorkflow.predictExternalSet(userName, jobName, lsfPath, knnPlusParameters.getKnnApplicabilityDomain());
 			}
 		}
 		
@@ -699,7 +708,7 @@ public class QsarModelingTask extends WorkflowTask {
 			ArrayList<KnnPlusModel> knnPlusModels = new ArrayList<KnnPlusModel>();
 			
 			//read external set predictions
-			externalSetPredictions = null;
+			externalSetPredictions = KnnPlusWorkflow.readExternalPredictionOutput(filePath);
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			predictor.setNumTotalModels(new Integer(randomForestParameters.getNumTrees()));
