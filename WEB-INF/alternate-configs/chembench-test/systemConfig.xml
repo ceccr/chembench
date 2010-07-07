@@ -61,7 +61,7 @@
 <databaseName>ceccr</databaseName>
 <userName>root</userName>
 <password>VeX</password>
-<url>jdbc:mysql://localhost/</url>
+<url>jdbc:mysql://localhost:3306/</url>
 <driver>com.mysql.jdbc.Driver</driver>
 </database>
 
