@@ -101,7 +101,6 @@
 	    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
 			</sx:div>
 			
-			
 			</s:elseif>
 			
 			<s:url id="yRandomLink" value="/viewPredictorYRandomSection" includeParams="none">
