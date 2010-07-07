@@ -87,7 +87,7 @@
 			</sx:div>
 			
 			</s:if>
-			<s:elseif test="selectedPredictor.modelMethod=='KNNGA' || selectedPredictor.modelMethod=='KNNSA'">
+			<s:elseif test="selectedPredictor.modelMethod=='KNN-GA' || selectedPredictor.modelMethod=='KNN-SA'">
 			
 			<s:url id="externalValidationLink" value="/viewKnnPlusPredictorExternalValidationSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
