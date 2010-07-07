@@ -72,7 +72,7 @@
 		<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
 		<sx:tabbedpanel id="viewPredictionTabs" >
 	
-			<s:if test="selectedPredictor.modelType=='KNN'">
+			<s:if test="selectedPredictor.modelMethod=='KNN'">
 			
 			<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
@@ -87,7 +87,7 @@
 			</sx:div>
 			
 			</s:if>
-			<s:elseif test="selectedPredictor.modelType=='KNNGA' || selectedPredictor.modelType=='KNNSA'">
+			<s:elseif test="selectedPredictor.modelMethod=='KNNGA' || selectedPredictor.modelMethod=='KNNSA'">
 			
 			<s:url id="externalValidationLink" value="/viewKnnPlusPredictorExternalValidationSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
