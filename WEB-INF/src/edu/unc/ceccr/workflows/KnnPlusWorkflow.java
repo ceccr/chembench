@@ -289,7 +289,7 @@ public class KnnPlusWorkflow{
 	
 			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnGaProgress").trim();
 			String[] tokens = file.split(" ");
-			return Integer.parseInt(tokens[0]) / 9;
+			return Integer.parseInt(tokens[0]) / 9 - 1;
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
