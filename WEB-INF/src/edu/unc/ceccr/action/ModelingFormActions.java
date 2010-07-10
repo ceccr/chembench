@@ -173,6 +173,7 @@ public class ModelingFormActions extends ActionSupport{
 			}
 			else if(modelingType.equals(Constants.KNNSA)){
 				numModels *= Integer.parseInt(numRuns);
+				numModels *= Integer.parseInt(saNumBestModels);
 				int numDescriptorSizes = 0;
 				for(int i = Integer.parseInt(knnMinNumDescriptors); i <= Integer.parseInt(knnMaxNumDescriptors); i += Integer.parseInt(knnDescriptorStepSize)){
 					numDescriptorSizes++;

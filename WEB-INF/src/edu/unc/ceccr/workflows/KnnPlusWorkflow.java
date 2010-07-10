@@ -149,9 +149,9 @@ public class KnnPlusWorkflow{
 	}
 
 	public static ArrayList<ExternalValidation> readExternalPredictionOutput(String workingDir, Predictor predictor) throws Exception{
-		
+		 
         //read prediction output
-		String outputFile = Constants.PRED_OUTPUT_FILE + ".preds"; //the ".preds" is added automatically by knn+
+		String outputFile = "cons_pred_vs_ext_0.preds"; //the ".preds" is added automatically by knn+
     	Utility.writeToDebug("Reading file: " + workingDir + outputFile);
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 		String inputString;
