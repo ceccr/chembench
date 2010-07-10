@@ -172,13 +172,16 @@ public class ModelingFormActions extends ActionSupport{
 				numModels *= numDescriptorSizes;
 			}
 			else if(modelingType.equals(Constants.KNNSA)){
-				numModels *= Integer.parseInt(numRuns);
+				numModels *= Integer.parseInt(saNumRuns);
 				numModels *= Integer.parseInt(saNumBestModels);
 				int numDescriptorSizes = 0;
 				for(int i = Integer.parseInt(knnMinNumDescriptors); i <= Integer.parseInt(knnMaxNumDescriptors); i += Integer.parseInt(knnDescriptorStepSize)){
 					numDescriptorSizes++;
 				}
 				numModels *= numDescriptorSizes;
+			}
+			else if(modelingType.equals(Constants.KNNGA)){
+				
 			}
 			
 			//make job and add to incoming joblist

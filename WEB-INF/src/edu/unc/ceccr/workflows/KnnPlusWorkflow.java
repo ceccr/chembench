@@ -13,6 +13,7 @@ import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class KnnPlusWorkflow{
@@ -188,6 +189,9 @@ public class KnnPlusWorkflow{
 		
 		//Utility.writeToDebug("calculating nummodels, avg, and stddev for each compound");
 		
+		//get the actual (observed) values for each compound
+		HashMap<String,String> observedValues = DatasetFileOperations.getActFileIdsAndValues(workingDir + "ext_0.a");
+		
 		//for each compound, calculate nummodels, avg, and stddev
 		int numCompounds = predictionMatrix.get(0).size();
 		for(int i = 0; i < numCompounds; i++){
@@ -242,6 +246,7 @@ public class KnnPlusWorkflow{
 			ev.setStandDev("" + stddev);
 			ev.setCompoundId(compoundNames[i+2]);
 			ev.setPredictor(predictor);
+			ev.setActualValue(Float.parseFloat(observedValues.get(compoundNames[i+2])));
 			
 			predictionValues.add(ev);
 	
