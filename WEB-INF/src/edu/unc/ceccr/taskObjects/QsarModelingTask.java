@@ -135,15 +135,18 @@ public class QsarModelingTask extends WorkflowTask {
 				p *= 100; //it's a percent
 				percent = " (" + Math.round(p) + "%)";
 			}
-			else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
+			else if(modelType.equals(Constants.KNNSA)){
 				//number of models produced so far can be gotten by:
 				//cat knn+.log | grep q2= | wc 
-				//which is in a script "checkKnnPlusProgress.sh" in mmlsoft/bin.
+				//which is in a script "checkKnnSaProgress.sh" in mmlsoft/bin.
 				
-				float p = KnnPlusWorkflow.getModelingProgress(workingDir);
+				float p = KnnPlusWorkflow.getSaModelingProgress(workingDir);
 				p /= getNumTotalModels();
 				p *= 100; //it's a percent
 				percent = " (" + Math.round(p) + "%)";
+			}
+			else if(modelType.equals(Constants.KNNSA)){
+				
 			}
 		}
 		
@@ -784,11 +787,22 @@ public class QsarModelingTask extends WorkflowTask {
 	//helper functions and get/sets defined below this point.
 	
 	private int getNumTotalModels(){
-		 int numModels = Integer.parseInt(numSplits);
+		int numModels = Integer.parseInt(numSplits);
 		if(modelType.equals(Constants.KNN)){
 			numModels *= Integer.parseInt(knnParameters.getNumRuns());
 			int numDescriptorSizes = 0;
 			for(int i = Integer.parseInt(knnParameters.getMinNumDescriptors()); i <= Integer.parseInt(knnParameters.getMaxNumDescriptors()); i += Integer.parseInt(knnParameters.getStepSize())){
+				numDescriptorSizes++;
+			}
+			numModels *= numDescriptorSizes;
+		}
+		else if(modelType.equals(Constants.KNNSA)){
+			numModels *= Integer.parseInt(knnPlusParameters.getSaNumRuns());
+			numModels *= Integer.parseInt(knnPlusParameters.getSaNumBestModels());
+			int numDescriptorSizes = 0;
+			for(int i = Integer.parseInt(knnPlusParameters.getKnnMinNumDescriptors()); 
+			i <= Integer.parseInt(knnPlusParameters.getKnnMaxNumDescriptors()); 
+			i += Integer.parseInt(knnPlusParameters.getKnnDescriptorStepSize())){
 				numDescriptorSizes++;
 			}
 			numModels *= numDescriptorSizes;

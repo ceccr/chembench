@@ -259,18 +259,37 @@ public class KnnPlusWorkflow{
 	}
 	
 	
-	public static int getModelingProgress(String workingDir){
+	public static int getSaModelingProgress(String workingDir){
 
 		try{
-			String execstr = "checkKnnPlusProgress.sh";
+			String execstr = "checkKnnSaProgress.sh";
 			Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
 			Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "checkKnnPlusProgress", p.getInputStream(), p.getErrorStream());
+			Utility.writeProgramLogfile(workingDir, "checkKnnSaProgress", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 	
-			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnPlusProgress").trim();
+			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnSaProgress").trim();
 			String[] tokens = file.split(" ");
-			return Integer.parseInt(tokens[0]);
+			return Integer.parseInt(tokens[0]) / 2;
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		return -1;
+	}
+
+	public static int getGaModelingProgress(String workingDir){
+
+		try{
+			String execstr = "checkKnnGaProgress.sh";
+			Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
+			Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
+			Utility.writeProgramLogfile(workingDir, "checkKnnGaProgress", p.getInputStream(), p.getErrorStream());
+			p.waitFor();
+	
+			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnGaProgress").trim();
+			String[] tokens = file.split(" ");
+			return Integer.parseInt(tokens[0]) / 9;
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
