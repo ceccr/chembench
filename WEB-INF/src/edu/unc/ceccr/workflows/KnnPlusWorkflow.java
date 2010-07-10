@@ -47,7 +47,7 @@ public class KnnPlusWorkflow{
 				knnPlusParameters.getKnnMaxNumDescriptors().trim();
 
 			//'-GA@...' - Genetic Algorithm settings: e.g. -GA@N=500@D=1000@S=20@V=-4@G=7
-			command += " -O=GA";
+			command += " -O=GA GA";
 
 			//'..@N=' - population size; 
 			command += "@N=" + knnPlusParameters.getGaPopulationSize().trim();
@@ -72,7 +72,7 @@ public class KnnPlusWorkflow{
 				knnPlusParameters.getKnnDescriptorStepSize().trim();
 
 			//'-SA@...' - Simulated Annealing settings: e.g. -SA@B=3@TE=-2@K=0.6@DT=-3@ET=-5
-			command += " -O=SA";
+			command += " -O=SA -SA";
 			
 			//'..@N=' - #SA runs to repeat; '..@D=' - #mutations at each T
 			command += "@N=" + knnPlusParameters.getSaNumRuns().trim();
