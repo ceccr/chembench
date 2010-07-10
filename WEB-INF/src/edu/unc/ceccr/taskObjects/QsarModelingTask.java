@@ -145,8 +145,11 @@ public class QsarModelingTask extends WorkflowTask {
 				p *= 100; //it's a percent
 				percent = " (" + Math.round(p) + "%)";
 			}
-			else if(modelType.equals(Constants.KNNSA)){
-				
+			else if(modelType.equals(Constants.KNNGA)){
+				float p = KnnPlusWorkflow.getGaModelingProgress(workingDir);
+				p /= getNumTotalModels();
+				p *= 100; //it's a percent
+				percent = " (" + Math.round(p) + "%)";
 			}
 		}
 		
