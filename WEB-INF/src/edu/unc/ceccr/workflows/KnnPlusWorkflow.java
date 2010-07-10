@@ -270,7 +270,7 @@ public class KnnPlusWorkflow{
 	
 			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnSaProgress").trim();
 			String[] tokens = file.split(" ");
-			return Integer.parseInt(tokens[0]) / 2;
+			return Integer.parseInt(tokens[0]);
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
@@ -289,7 +289,7 @@ public class KnnPlusWorkflow{
 	
 			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnGaProgress").trim();
 			String[] tokens = file.split(" ");
-			return Integer.parseInt(tokens[0]) / 9 - 1;
+			return Integer.parseInt(tokens[0]) - 1;
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
