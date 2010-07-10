@@ -18,15 +18,11 @@ import java.util.Scanner;
 
 public class KnnPlusWorkflow{
 
-	public static void buildKnnPlusModels(KnnPlusParameters knnPlusParameters, String actFileDataType, String modelType, String workingDir) throws Exception{
+	private static String getKnnPlusCommandFromParams(KnnPlusParameters knnPlusParameters, String actFileDataType, String modelType){
 		//this converts the parameters entered on the web page into command-line
 		//arguments formatted to work with knn+.
 		//The comments in this function are excerpts from the knn+ help file.
-		
-		//knn+ will automatically convert all input filenames to lowercase.
-		//so, our list file has to be lowercase.
-		FileAndDirOperations.copyFile(workingDir + "RAND_sets.list", workingDir + "rand_sets.list");
-		
+
 		String command = "knn+ rand_sets.list";
 
 		//'-OUT=...' - output file
@@ -128,6 +124,52 @@ public class KnnPlusWorkflow{
 			command += " -EVL=" + knnPlusParameters.getKnnMinTraining().trim() + "@" +
 			knnPlusParameters.getKnnMinTest().trim();
 		}
+		return command;
+	}
+	
+	
+	public static String buildKnnPlusModelsLsf(KnnPlusParameters knnPlusParameters, String actFileDataType, String modelType, String userName, String jobName, String workingDir) throws Exception{
+		//starts modeling process
+		//returns the LSF Job ID
+
+		String knnPlusCommand = getKnnPlusCommandFromParams(knnPlusParameters, actFileDataType, modelType);
+		
+		FileOutputStream fout;
+		PrintStream out;
+		fout = new FileOutputStream(workingDir + "bsubKnnPlus.sh");
+		out = new PrintStream(fout);
+
+		out.println("cd " + workingDir);
+		out.println(knnPlusCommand);
+		out.println("cd yRandom/");
+		out.println(knnPlusCommand);
+		out.close();
+		fout.close();
+		
+		//give exec permissions to script file
+		File f = new File(workingDir + "bsubKnnPlus.sh");
+		f.setExecutable(true);
+		
+		//exec shell script
+		String command = "bsub -q week -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
+		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
+		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+		Utility.writeProgramLogfile(workingDir, "bsubKnnPlus", p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		Utility.writeToDebug("kNNPlus submitted.", userName, jobName);	
+
+		String logFilePath = workingDir + "Logs/bsubKnnPlus.log";
+		return KnnModelingLsfWorkflow.getLsfJobId(logFilePath);
+		
+	}
+	
+	public static void buildKnnPlusModels(KnnPlusParameters knnPlusParameters, String actFileDataType, String modelType, String workingDir) throws Exception{
+		
+		//knn+ will automatically convert all input filenames to lowercase.
+		//so, our list file has to be lowercase.
+		FileAndDirOperations.copyFile(workingDir + "RAND_sets.list", workingDir + "rand_sets.list");
+		
+		String command = getKnnPlusCommandFromParams(knnPlusParameters, actFileDataType, modelType);
 		
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));

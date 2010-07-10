@@ -571,6 +571,9 @@ public class QsarModelingTask extends WorkflowTask {
 				lsfJobId = KnnModelingLsfWorkflow.buildKnnCategoryModel(userName, jobName, knnParameters.getKnnCategoryOptimization(), lsfPath);
 			}
 		}
+		else if(modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)){
+			lsfJobId = KnnPlusWorkflow.buildKnnPlusModelsLsf(knnPlusParameters, lsfJobId, lsfPath, userName, jobName, filePath);
+		}
 		else {//if(modelType.equals(Constants.SVM)){
 			throw new Exception("SVM behaviour is still undefined -- don't use it yet!");
 		}
@@ -636,10 +639,8 @@ public class QsarModelingTask extends WorkflowTask {
 				KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
 			}
 			else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
-				KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters, actFileDataType, modelType, lsfPath);
-				
 				step = Constants.PREDEXT;
-				KnnPlusWorkflow.predictExternalSet(userName, jobName, lsfPath, knnPlusParameters.getKnnApplicabilityDomain());
+				KnnPlusWorkflow.predictExternalSet(userName, jobName, filePath, knnPlusParameters.getKnnApplicabilityDomain());
 			}
 		}
 		
