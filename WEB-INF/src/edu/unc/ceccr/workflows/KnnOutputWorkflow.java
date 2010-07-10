@@ -29,7 +29,6 @@ public class KnnOutputWorkflow{
 	String[] externalValues = null;
 	ArrayList<ExternalValidation> allExternalValues = null;
 	
-	
 	public static ArrayList<KnnModel> parseContinuouskNNOutput(String fileLocation, String flowType) throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader(fileLocation + Constants.kNN_OUTPUT_FILE));
 		String inputString;
