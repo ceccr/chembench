@@ -572,7 +572,7 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 		}
 		else if(modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)){
-			lsfJobId = KnnPlusWorkflow.buildKnnPlusModelsLsf(knnPlusParameters, lsfJobId, lsfPath, userName, jobName, filePath);
+			lsfJobId = KnnPlusWorkflow.buildKnnPlusModelsLsf(knnPlusParameters, actFileDataType, modelType, userName, jobName, filePath);
 		}
 		else {//if(modelType.equals(Constants.SVM)){
 			throw new Exception("SVM behaviour is still undefined -- don't use it yet!");
