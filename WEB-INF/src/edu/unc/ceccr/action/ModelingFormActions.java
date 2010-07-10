@@ -181,7 +181,8 @@ public class ModelingFormActions extends ActionSupport{
 				numModels *= numDescriptorSizes;
 			}
 			else if(modelingType.equals(Constants.KNNGA)){
-				
+				//no changes; parameters affect generation time of 
+				//each model but not te total number of models to be generated
 			}
 			
 			//make job and add to incoming joblist

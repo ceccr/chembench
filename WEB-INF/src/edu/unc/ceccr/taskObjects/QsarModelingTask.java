@@ -140,7 +140,10 @@ public class QsarModelingTask extends WorkflowTask {
 				//cat knn+.log | grep q2= | wc 
 				//which is in a script "checkKnnPlusProgress.sh" in mmlsoft/bin.
 				
-				KnnPlusWorkflow.getModelingProgress(workingDir);
+				float p = KnnPlusWorkflow.getModelingProgress(workingDir);
+				p /= getNumTotalModels();
+				p *= 100; //it's a percent
+				percent = " (" + Math.round(p) + "%)";
 			}
 		}
 		
