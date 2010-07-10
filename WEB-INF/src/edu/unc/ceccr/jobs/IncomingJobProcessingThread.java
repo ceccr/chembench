@@ -70,7 +70,7 @@ public class IncomingJobProcessingThread extends Thread {
 							}
 						}
 						else{
-							//it's a KNNPLUS, SVM, or RF job.
+							//it's an SVM or RF job.
 							//send it to local
 							Utility.writeToDebug("Sending job " + j.getJobName() + " to local queue");
 							movedJob = true;

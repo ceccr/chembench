@@ -133,6 +133,10 @@ public class KnnPlusWorkflow{
 		//returns the LSF Job ID
 
 		String knnPlusCommand = getKnnPlusCommandFromParams(knnPlusParameters, actFileDataType, modelType);
+
+		//knn+ will automatically convert all input filenames to lowercase.
+		//so, our list file has to be lowercase.
+		FileAndDirOperations.copyFile(workingDir + "RAND_sets.list", workingDir + "rand_sets.list");
 		
 		FileOutputStream fout;
 		PrintStream out;

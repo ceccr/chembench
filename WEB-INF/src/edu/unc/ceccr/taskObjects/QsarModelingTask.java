@@ -540,14 +540,14 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		
 		if(jobList.equals(Constants.LSF)){
-			//copy needed files out to LSF
 			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
 			
 			//get y-randomization ready
 			step = Constants.YRANDOMSETUP;
 			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
-		
+
+			//copy needed files out to LSF
 			KnnModelingLsfWorkflow.makeLsfModelingDirectory(filePath, lsfPath);
 		}
 	}
@@ -572,6 +572,7 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 		}
 		else if(modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)){
+			step = Constants.MODELS;
 			lsfJobId = KnnPlusWorkflow.buildKnnPlusModelsLsf(knnPlusParameters, actFileDataType, modelType, userName, jobName, lsfPath);
 		}
 		else {//if(modelType.equals(Constants.SVM)){
