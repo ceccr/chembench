@@ -38,6 +38,7 @@ public class HibernateUtil {
 		.addAnnotatedClass(DescriptorGenerator.class)
 		.addAnnotatedClass(KnnParameters.class)
 		.addAnnotatedClass(KnnPlusParameters.class)
+		.addAnnotatedClass(KnnPlusModel.class)
 		.addAnnotatedClass(SvmParameters.class)
 		.addAnnotatedClass(RandomForestParameters.class)
 		.configure().buildSessionFactory();
@@ -46,13 +47,11 @@ public class HibernateUtil {
 	public static Session getSession() throws HibernateException,
 			ClassNotFoundException, SQLException {
 
-		
 		USERNAME=Constants.DATABASE_USERNAME;
 		PASSWORD=Constants.CECCR_DATABASE_PASSWORD;
 		URL=Constants.DATABASE_URL;
 		DATABASENAME=Constants.CECCR_DATABASE_NAME;
 
-		
 		try{
 			count++;
 			//IMPORTANT: If you get a "too many connections" error
