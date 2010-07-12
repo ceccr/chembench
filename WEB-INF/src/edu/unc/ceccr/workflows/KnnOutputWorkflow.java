@@ -17,7 +17,6 @@ import edu.unc.ceccr.action.ViewPredictorAction.descriptorFrequency;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.KnnModel;
-import edu.unc.ceccr.persistence.ModelInterface;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 

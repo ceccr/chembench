@@ -703,10 +703,10 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 			
 			//associate the models with this predictor
-			for (ModelInterface m : knnModels){
+			for (KnnModel m : knnModels){
 				m.setPredictor(predictor);
 			}
-			predictor.setModels(new HashSet<KnnModel>(knnModels));
+			predictor.setModels(new HashSet<ModelInterface>(knnModels));
 			
 			//read external validation set predictions
 			if (!noModelsGenerated) {
@@ -723,9 +723,17 @@ public class QsarModelingTask extends WorkflowTask {
 			externalSetPredictions = KnnPlusWorkflow.readExternalPredictionOutput(filePath, predictor);
 			
 			//read in models and associate them with the predictor
-			ArrayList<KnnPlusModel> knnPlusModels = KnnPlusWorkflow.readModelsFile(filePath, predictor);
-			ArrayList<KnnPlusModel> knnPlusYRandomModels = KnnPlusWorkflow.readModelsFile(filePath + "yRandom/", predictor);
+			ArrayList<KnnPlusModel> knnPlusModels = KnnPlusWorkflow.readModelsFile(filePath, predictor, Constants.NO);
+			ArrayList<KnnPlusModel> knnPlusYRandomModels = KnnPlusWorkflow.readModelsFile(filePath + "yRandom/", predictor, Constants.YES);
+			predictor.setNumTotalModels(getNumTotalModels());
+			predictor.setNumTestModels(knnPlusYRandomModels.size());
+			predictor.setNumyTotalModels(getNumTotalModels());
+			predictor.setNumyTestModels(knnPlusYRandomModels.size());
 			
+			if(! knnPlusYRandomModels.isEmpty()){
+				knnPlusModels.addAll(knnPlusYRandomModels);
+			}
+			predictor.setModels(new HashSet<ModelInterface>(knnPlusModels));
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			predictor.setNumTotalModels(new Integer(randomForestParameters.getNumTrees()));

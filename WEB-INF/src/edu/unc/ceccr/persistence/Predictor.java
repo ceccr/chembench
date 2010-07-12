@@ -4,6 +4,7 @@ package edu.unc.ceccr.persistence;
 // Generated Jun 20, 2006 1:22:16 PM by Hibernate Tools 3.1.0.beta5
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,7 +42,7 @@ public class Predictor implements java.io.Serializable {
 	private String sdFileName;
 	private String actFileName;
 	
-	private Set<KnnModel> models = new HashSet<KnnModel>(0);
+	private Set<ModelInterface> models = new HashSet<ModelInterface>(0);
 	private Set<ExternalValidation> externalValidationResults = new HashSet<ExternalValidation>(0);
 	
 	private Date dateCreated;
@@ -106,7 +107,7 @@ public class Predictor implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Predictor(Long predictorId, String name, Set<KnnModel> models,
+	public Predictor(Long predictorId, String name, Set<ModelInterface> models,
 			String sdFileName, String actFileName, String userName) {
 		this.predictorId = predictorId;
 		this.name = name;
@@ -133,13 +134,13 @@ public class Predictor implements java.io.Serializable {
 	}
 
 	@OneToMany(mappedBy = "predictor", cascade = CascadeType.ALL)
-	public Set<KnnModel> getModels() {
+	public Set<ModelInterface> getModels() {
 		return this.models;
 	}
-
-	public void setModels(Set<KnnModel> models) {
+	public void setModels(Set<ModelInterface> models) {
 		this.models = models;
 	}
+
 	
 	@OneToMany(mappedBy = "predictor", cascade = CascadeType.ALL)
 	public Set<ExternalValidation> getExternalValidationResults() {
@@ -486,5 +487,6 @@ public class Predictor implements java.io.Serializable {
 	public void setDatasetDisplay(String datasetDisplay) {
 		this.datasetDisplay = datasetDisplay;
 	}
+
 	
 }

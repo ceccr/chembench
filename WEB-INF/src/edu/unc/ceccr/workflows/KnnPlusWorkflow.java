@@ -346,7 +346,7 @@ public class KnnPlusWorkflow{
 		return -1;
 	}
 	
-	public static ArrayList<KnnPlusModel> readModelsFile(String workingDir, Predictor predictor){
+	public static ArrayList<KnnPlusModel> readModelsFile(String workingDir, Predictor predictor, String isYRandomModel){
 		ArrayList<KnnPlusModel> knnPlusModels = new ArrayList<KnnPlusModel>();
 		try{
 			String modelsFile = FileAndDirOperations.readFileIntoString(workingDir + "models.tbl");
@@ -447,6 +447,8 @@ public class KnnPlusWorkflow{
 					model.setAccuracyAvErrBasedTest(tokens[28]);  
 					model.setCCRAvErrBasedTest(tokens[29]);
 				}
+				
+				model.setIsYRandomModel(isYRandomModel);
 				knnPlusModels.add(model);
 			}
 			
