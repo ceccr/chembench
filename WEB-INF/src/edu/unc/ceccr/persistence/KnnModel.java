@@ -416,22 +416,6 @@ public class KnnModel implements java.io.Serializable {
 		this.f02 = f02;
 	}
 
-	// public Float getR451Squared() {
-	// return this.r451Squared;
-	// }
-	//
-	// public void setR451Squared(Float r451Squared) {
-	// this.r451Squared = r451Squared;
-	// }
-	//
-	// public Float getR452Squared() {
-	// return this.r452Squared;
-	// }
-	//
-	// public void setR452Squared(Float r452Squared) {
-	// this.r452Squared = r452Squared;
-	// }
-
 	/* (non-Javadoc)
 	 * @see edu.unc.ceccr.session.IModel#getSt45()
 	 */

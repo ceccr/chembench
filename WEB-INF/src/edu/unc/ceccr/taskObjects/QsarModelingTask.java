@@ -706,11 +706,6 @@ public class QsarModelingTask extends WorkflowTask {
 				    }});
 			}
 			
-			//associate the models with this predictor
-			for (KnnModel m : knnModels){
-				m.setPredictor(predictor);
-			}
-			
 			//read external validation set predictions
 			if (!noModelsGenerated) {
 				externalSetPredictions = KnnOutputWorkflow.parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE);
@@ -786,11 +781,13 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			if(knnModels != null){
 				for(KnnModel m: knnModels){
+					m.setPredictor(predictor);
 					session.saveOrUpdate(m);
 				}
 			}
 			else if(knnPlusModels != null){
 				for(KnnPlusModel m: knnPlusModels){
+					m.setPredictor(predictor);
 					session.saveOrUpdate(m);
 				}
 			}

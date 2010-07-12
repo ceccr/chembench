@@ -47,12 +47,12 @@
 		<s:iterator value="models" status="modelsStatus">
 			<tr>
 			<td class="TableRowText02narrow"><s:property value="nnn" /></td>
-			<td class="TableRowText02narrow"><s:property value="q_squared" /></td>
+			<td class="TableRowText02narrow"><s:property value="QSquared" /></td>
 			<td class="TableRowText02narrow"><s:property value="n" /></td>
 			<td class="TableRowText02narrow"><s:property value="r" /></td>
-			<td class="TableRowText02narrow"><s:property value="r_squared" /></td>
-			<td class="TableRowText02narrow"><s:property value="r01_squared" /></td>
-			<td class="TableRowText02narrow"><s:property value="r02_squared" /></td>
+			<td class="TableRowText02narrow"><s:property value="RSquared" /></td>
+			<td class="TableRowText02narrow"><s:property value="R01Squared" /></td>
+			<td class="TableRowText02narrow"><s:property value="R02Squared" /></td>
 			<td class="TableRowText02narrow"><s:property value="k1" /></td>
 			<td class="TableRowText02narrow"><s:property value="k2" /></td>
 			<td class="TableRowText02narrow" colspan="2"><s:property value="descriptorsUsed" /></td>
