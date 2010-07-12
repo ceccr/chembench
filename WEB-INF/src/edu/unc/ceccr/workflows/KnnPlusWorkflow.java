@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 
 import edu.unc.ceccr.persistence.ExternalValidation;
+import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
@@ -343,6 +344,117 @@ public class KnnPlusWorkflow{
 			Utility.writeToDebug(ex);
 		}
 		return -1;
+	}
+	
+	public static ArrayList<KnnPlusModel> readModelsFile(String workingDir, Predictor predictor){
+		ArrayList<KnnPlusModel> knnPlusModels = new ArrayList<KnnPlusModel>();
+		try{
+			String modelsFile = FileAndDirOperations.readFileIntoString(workingDir + "models.tbl");
+			String[] lines = modelsFile.split("\n");
+			for(int i = 5; i < lines.length; i++){
+				//each line contains one model
+				KnnPlusModel model = new KnnPlusModel();
+				
+				//split it to get each piece of information
+				String[] tokens = lines[i].split("\t");
+				
+					model.setNDims(tokens[2]);
+					model.setDimsIDs(tokens[3]);				
+					model.setDimsNames(tokens[4]);								
+					model.setKOrR(tokens[5]);		
+				
+				if(predictor.getActivityType().equalsIgnoreCase(Constants.CONTINUOUS)){
+
+					model.setQualityLimitTraining(tokens[6]);	
+					model.setNDatapointsTraining(tokens[7]);		
+					model.setStdevActTraining(tokens[8]);	
+					model.setStdevActCalcTraining(tokens[9]);	
+					model.setB01Training(tokens[10]);			
+					model.setB11Training(tokens[11]);			
+					model.setB02Training(tokens[12]);			
+					model.setB12Training(tokens[13]);			
+					model.setRTraining(tokens[14]);			
+					model.setR2Training(tokens[15]);			
+					model.setMSE1Training(tokens[16]);		
+					model.setMSE2Training(tokens[17]);	
+					model.setF1Training(tokens[18]);		
+					model.setF2Training(tokens[19]);		
+					model.setK1Training(tokens[20]);			
+					model.setK2Training(tokens[21]);			
+					model.setR02Training(tokens[22]);		
+					model.setR012Training(tokens[23]);		
+					model.setMSE01Training(tokens[24]);		
+					model.setMSE02Training(tokens[25]);		
+					model.setF01Training(tokens[26]);		
+					model.setF02Training(tokens[27]);		
+					model.setQ2Training(tokens[28]);			
+					model.setQPrime2Training(tokens[29]);	
+					model.setMAEqTraining(tokens[30]);		
+					model.setMAEqPrimeTraining(tokens[31]);		
+					model.setMSETraining(tokens[32]);			
+					model.setMAETraining(tokens[33]);	
+					
+					model.setQualityLimitTest(tokens[34]);	
+					model.setNDatapointsTest(tokens[35]);	
+					model.setStdevActTest(tokens[36]);	
+					model.setStdevActCalcTest(tokens[37]);	
+					model.setB01Test(tokens[38]);			
+					model.setB11Test(tokens[39]);			
+					model.setB02Test(tokens[40]);			
+					model.setB12Test(tokens[41]);			
+					model.setRTest(tokens[42]);			
+					model.setR2Test(tokens[43]);			
+					model.setMSE1Test(tokens[44]);		
+					model.setMSE2Test(tokens[45]);	
+					model.setF1Test(tokens[46]);		
+					model.setF2Test(tokens[47]);		
+					model.setK1Test(tokens[48]);			
+					model.setK2Test(tokens[49]);			
+					model.setR02Test(tokens[50]);		
+					model.setR012Test(tokens[51]);		
+					model.setMSE01Test(tokens[52]);		
+					model.setMSE02Test(tokens[53]);		
+					model.setF01Test(tokens[54]);		
+					model.setF02Test(tokens[55]);		
+					model.setQ2Test(tokens[56]);			
+					model.setQPrime2Test(tokens[57]);	
+					model.setMAEqTest(tokens[58]);		
+					model.setMAEqPrimeTest(tokens[59]);		
+					model.setMSETest(tokens[60]);			
+					model.setMAETest(tokens[61]);	
+				}
+				else{ //category
+
+					model.setQualityLimitTraining(tokens[6]);	
+					model.setNDatapointsTraining(tokens[7]);
+					model.setAccuracyTraining(tokens[8]);
+					model.setCCRNormalizedAccuracyTraining(tokens[9]);    
+					model.setAccuracyWithGroupWeightsTraining(tokens[10]);    
+					model.setCCRWithGroupWeightsTraining(tokens[11]); 	
+					model.setAccuracyMaxErrBasedTraining(tokens[12]);	
+					model.setCCRMaxErrBasedTraining(tokens[13]);	      
+					model.setAccuracyAvErrBasedTraining(tokens[14]);  
+					model.setCCRAvErrBasedTraining(tokens[15]);         
+
+					model.setQualityLimitTraining(tokens[20]);	
+					model.setNDatapointsTraining(tokens[21]);	
+					model.setAccuracyTest(tokens[22]);        
+					model.setCCRNormalizedAccuracyTest(tokens[23]);    
+					model.setAccuracyWithGroupWeightsTest(tokens[24]);    
+					model.setCCRWithGroupWeightsTest(tokens[25]); 	
+					model.setAccuracyMaxErrBasedTest(tokens[26]);	
+					model.setCCRMaxErrBasedTest(tokens[27]);	      
+					model.setAccuracyAvErrBasedTest(tokens[28]);  
+					model.setCCRAvErrBasedTest(tokens[29]);
+				}
+				knnPlusModels.add(model);
+			}
+			
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		return knnPlusModels;
 	}
 	
 	

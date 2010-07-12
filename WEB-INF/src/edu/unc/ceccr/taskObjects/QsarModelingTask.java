@@ -719,11 +719,13 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 		}
 		else if(modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)){
-			//read in models and associate them with the predictor
-			ArrayList<KnnPlusModel> knnPlusModels = new ArrayList<KnnPlusModel>();
-			
 			//read external set predictions
 			externalSetPredictions = KnnPlusWorkflow.readExternalPredictionOutput(filePath, predictor);
+			
+			//read in models and associate them with the predictor
+			ArrayList<KnnPlusModel> knnPlusModels = KnnPlusWorkflow.readModelsFile(filePath, predictor);
+			ArrayList<KnnPlusModel> knnPlusYRandomModels = KnnPlusWorkflow.readModelsFile(filePath + "yRandom/", predictor);
+			
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			predictor.setNumTotalModels(new Integer(randomForestParameters.getNumTrees()));

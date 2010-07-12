@@ -10,9 +10,9 @@ public class KnnPlusModel implements java.io.Serializable{
 
 	private Long id;
 	private Predictor predictor;
+	private String isYRandomModel;
 	
-	//Outputs for both category and continuous models
-		private String datafile;								
+	//Outputs for both category and continuous models	
 		private String nDims;
 		private String dimsIDs;				
 		private String dimsNames;								
@@ -116,7 +116,7 @@ public class KnnPlusModel implements java.io.Serializable{
 	
 	//End Outputs for just category models
 	
-	
+		
 	//GETTERS AND SETTERS
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -136,20 +136,20 @@ public class KnnPlusModel implements java.io.Serializable{
 	public void setPredictor(Predictor predictor) {
 		this.predictor = predictor;
 	}
-	
-	@Column(name = "datafile")
-	public String getDatafile() {
-		return datafile;
+
+	@Column(name = "isYRandomModel")
+	public String getIsYRandomModel() {
+		return isYRandomModel;
 	}
-	public void setDatafile(String datafile) {
-		this.datafile = datafile;
+	public void setIsYRandomModel(String isYRandomModel) {
+		this.isYRandomModel = isYRandomModel;
 	}
 	
 	@Column(name = "nDims")
-	public String getnDims() {
+	public String getNDims() {
 		return nDims;
 	}
-	public void setnDims(String nDims) {
+	public void setNDims(String nDims) {
 		this.nDims = nDims;
 	}
 	
@@ -170,10 +170,10 @@ public class KnnPlusModel implements java.io.Serializable{
 	}
 
 	@Column(name = "kOrR")
-	public String  getkOrR() {
+	public String  getKOrR() {
 		return kOrR;
 	}
-	public void setkOrR(String kOrR) {
+	public void setKOrR(String kOrR) {
 		this.kOrR = kOrR;
 	}
 
@@ -186,10 +186,10 @@ public class KnnPlusModel implements java.io.Serializable{
 	}
 
 	@Column(name = "nDatapointsTraining")
-	public String getnDatapointsTraining() {
+	public String getNDatapointsTraining() {
 		return nDatapointsTraining;
 	}
-	public void setnDatapointsTraining(String nDatapointsTraining) {
+	public void setNDatapointsTraining(String nDatapointsTraining) {
 		this.nDatapointsTraining = nDatapointsTraining;
 	}
 
@@ -202,10 +202,10 @@ public class KnnPlusModel implements java.io.Serializable{
 	}
 
 	@Column(name = "nDatapointsTest")
-	public String getnDatapointsTest() {
+	public String getNDatapointsTest() {
 		return nDatapointsTest;
 	}
-	public void setnDatapointsTest(String nDatapointsTest) {
+	public void setNDatapointsTest(String nDatapointsTest) {
 		this.nDatapointsTest = nDatapointsTest;
 	}
 
@@ -378,10 +378,10 @@ public class KnnPlusModel implements java.io.Serializable{
 	}
 
 	@Column(name = "qPrime2Training")
-	public String getqPrime2Training() {
+	public String getQPrime2Training() {
 		return qPrime2Training;
 	}
-	public void setqPrime2Training(String qPrime2Training) {
+	public void setQPrime2Training(String qPrime2Training) {
 		this.qPrime2Training = qPrime2Training;
 	}
 
@@ -586,10 +586,10 @@ public class KnnPlusModel implements java.io.Serializable{
 	}
 
 	@Column(name = "qPrime2Test")
-	public String getqPrime2Test() {
+	public String getQPrime2Test() {
 		return qPrime2Test;
 	}
-	public void setqPrime2Test(String qPrime2Test) {
+	public void setQPrime2Test(String qPrime2Test) {
 		this.qPrime2Test = qPrime2Test;
 	}
 
