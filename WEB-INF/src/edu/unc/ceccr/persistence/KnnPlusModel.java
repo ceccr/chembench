@@ -7,7 +7,7 @@ import edu.unc.ceccr.utilities.Utility;
 
 @Entity
 @Table(name = "cbench_knnPlusModel")
-public class KnnPlusModel implements java.io.Serializable, ModelInterface{
+public class KnnPlusModel implements java.io.Serializable{
 
 	private Long id;
 	private Predictor predictor;
@@ -758,8 +758,4 @@ public class KnnPlusModel implements java.io.Serializable, ModelInterface{
 	
 	//END GETTERS AND SETTERS
 	
-	@Transient
-	public String getModelType() {
-		return Constants.KNNPLUS;
-	}
 }

@@ -32,7 +32,6 @@ import edu.unc.ceccr.persistence.KnnParameters;
 import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.KnnModel;
-import edu.unc.ceccr.persistence.ModelInterface;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestModel;
 import edu.unc.ceccr.persistence.RandomForestParameters;
@@ -706,7 +705,6 @@ public class QsarModelingTask extends WorkflowTask {
 			for (KnnModel m : knnModels){
 				m.setPredictor(predictor);
 			}
-			predictor.setModels(new HashSet<ModelInterface>(knnModels));
 			
 			//read external validation set predictions
 			if (!noModelsGenerated) {
@@ -733,7 +731,6 @@ public class QsarModelingTask extends WorkflowTask {
 			if(! knnPlusYRandomModels.isEmpty()){
 				knnPlusModels.addAll(knnPlusYRandomModels);
 			}
-			predictor.setModels(new HashSet<ModelInterface>(knnPlusModels));
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			predictor.setNumTotalModels(new Integer(randomForestParameters.getNumTrees()));

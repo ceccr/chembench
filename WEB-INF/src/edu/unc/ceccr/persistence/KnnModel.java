@@ -10,7 +10,7 @@ import edu.unc.ceccr.utilities.Utility;
 
 @Entity
 @Table(name = "cbench_model")
-public class KnnModel implements java.io.Serializable, ModelInterface {
+public class KnnModel implements java.io.Serializable {
 
 	// Fields
 	private Long id;
@@ -526,11 +526,6 @@ public class KnnModel implements java.io.Serializable, ModelInterface {
 			descriptorsUsed = descriptorsUsed.substring(0, 3999);
 		}
 		this.descriptorsUsed = descriptorsUsed;
-	}
-
-	@Transient
-	public String getModelType() {
-		return Constants.KNN;
 	}
 
 }

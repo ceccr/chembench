@@ -42,7 +42,6 @@ public class Predictor implements java.io.Serializable {
 	private String sdFileName;
 	private String actFileName;
 	
-	private Set<ModelInterface> models = new HashSet<ModelInterface>(0);
 	private Set<ExternalValidation> externalValidationResults = new HashSet<ExternalValidation>(0);
 	
 	private Date dateCreated;
@@ -107,11 +106,10 @@ public class Predictor implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Predictor(Long predictorId, String name, Set<ModelInterface> models,
+	public Predictor(Long predictorId, String name,
 			String sdFileName, String actFileName, String userName) {
 		this.predictorId = predictorId;
 		this.name = name;
-		this.models = models;
 		this.sdFileName = sdFileName;
 		this.actFileName = actFileName;
 		this.userName = userName;
@@ -134,19 +132,9 @@ public class Predictor implements java.io.Serializable {
 	}
 
 	@OneToMany(mappedBy = "predictor", cascade = CascadeType.ALL)
-	public Set<ModelInterface> getModels() {
-		return this.models;
-	}
-	public void setModels(Set<ModelInterface> models) {
-		this.models = models;
-	}
-
-	
-	@OneToMany(mappedBy = "predictor", cascade = CascadeType.ALL)
 	public Set<ExternalValidation> getExternalValidationResults() {
 		return externalValidationResults;
 	}
-
 	public void setExternalValidationResults(
 			Set<ExternalValidation> externalValidationResults) {
 		this.externalValidationResults = externalValidationResults;
