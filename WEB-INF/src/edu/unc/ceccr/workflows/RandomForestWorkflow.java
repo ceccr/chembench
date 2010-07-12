@@ -5,6 +5,7 @@ import java.nio.channels.FileChannel;
 
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.RandomForestModel;
 import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
@@ -130,6 +131,10 @@ public class RandomForestWorkflow{
 	
 	public static String readConfusionMatrix(String workingDir){
 		return "";
+	}
+	
+	public static ArrayList<RandomForestModel> readRandomForestModels(){
+		return null;
 	}
 	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{

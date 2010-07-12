@@ -651,8 +651,13 @@ public class QsarModelingTask extends WorkflowTask {
 		//the next step is to read in the results from the modeling program,
 		//getting data about the models and external prediction values so we can
 		//save it to the database.
+
+		ArrayList<KnnModel> knnModels = null;
+		ArrayList<KnnPlusModel> knnPlusModels = null;
+		ArrayList<SvmModel> svmModels = null;
+		ArrayList<RandomForestModel> randomForestModels = null;
+		
 		if(modelType.equals(Constants.KNN)){
-			ArrayList<KnnModel> knnModels = null;
 			ArrayList<KnnModel> yRandomModels = null;
 			
 			if (actFileDataType.equals(Constants.CATEGORY)){
@@ -721,7 +726,7 @@ public class QsarModelingTask extends WorkflowTask {
 			externalSetPredictions = KnnPlusWorkflow.readExternalPredictionOutput(filePath, predictor);
 			
 			//read in models and associate them with the predictor
-			ArrayList<KnnPlusModel> knnPlusModels = KnnPlusWorkflow.readModelsFile(filePath, predictor, Constants.NO);
+			knnPlusModels = KnnPlusWorkflow.readModelsFile(filePath, predictor, Constants.NO);
 			ArrayList<KnnPlusModel> knnPlusYRandomModels = KnnPlusWorkflow.readModelsFile(filePath + "yRandom/", predictor, Constants.YES);
 			predictor.setNumTotalModels(getNumTotalModels());
 			predictor.setNumTestModels(knnPlusYRandomModels.size());
@@ -735,7 +740,7 @@ public class QsarModelingTask extends WorkflowTask {
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			predictor.setNumTotalModels(new Integer(randomForestParameters.getNumTrees()));
 			//read in models and associate them with the predictor
-			ArrayList<RandomForestModel> randomForestModels = new ArrayList<RandomForestModel>();
+			randomForestModels = RandomForestWorkflow.readRandomForestModels();
 //			RandomForestWorkflow.somethingelse();
 			
 			//read external set predictions
@@ -747,7 +752,7 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(modelType.equals(Constants.SVM)){
 			//read in models and associate them with the predictor
-			ArrayList<SvmModel> svmModels = new ArrayList<SvmModel>();
+			svmModels = SvmWorkflow.readSvmModels();
 
 			//read external set predictions
 			externalSetPredictions = null;
@@ -772,11 +777,34 @@ public class QsarModelingTask extends WorkflowTask {
 			predictor.setExternalValidationResults(new HashSet<ExternalValidation>(externalSetPredictions));
 		}
 		
+		//commit the predictor and models
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			session.saveOrUpdate(predictor);
+			
+			if(knnModels != null){
+				for(KnnModel m: knnModels){
+					session.saveOrUpdate(m);
+				}
+			}
+			else if(knnPlusModels != null){
+				for(KnnPlusModel m: knnPlusModels){
+					session.saveOrUpdate(m);
+				}
+			}
+			else if(svmModels != null){
+				for(SvmModel m: svmModels){
+					session.saveOrUpdate(m);
+				}
+			}
+			else if(randomForestModels != null){
+				for(RandomForestModel m: randomForestModels){
+					session.saveOrUpdate(m);
+				}
+			}
+			
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)

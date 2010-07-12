@@ -5,6 +5,7 @@ import java.nio.channels.FileChannel;
 
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
@@ -53,6 +54,11 @@ public class SvmWorkflow{
 		*/
 		
 	}
+	
+	public static ArrayList<SvmModel> readSvmModels(){
+		return null;
+	}
+	
 	public static void runSvmPrediction() throws Exception{
 		
 	}
