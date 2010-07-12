@@ -2,6 +2,7 @@ package edu.unc.ceccr.persistence;
 
 import javax.persistence.*;
 
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
 
 @Entity
@@ -757,4 +758,8 @@ public class KnnPlusModel implements java.io.Serializable, ModelInterface{
 	
 	//END GETTERS AND SETTERS
 	
+	@Transient
+	public String getModelType() {
+		return Constants.KNNPLUS;
+	}
 }

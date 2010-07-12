@@ -657,7 +657,7 @@ public class PopulateDataObjects {
 		if(predictor.getActivityType().equals(Constants.CONTINUOUS) && models != null && models.size() > 1){
 			Collections.sort(models, new Comparator<KnnModel>() {
 			    public int compare(KnnModel o1, KnnModel o2) {
-		    		return (o2.getR_squared() > o1.getR_squared()? 1:-1);
+		    		return (o2.getRSquared() > o1.getRSquared()? 1:-1);
 			    }});
 		}
 		return models;

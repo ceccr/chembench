@@ -9,5 +9,5 @@ import javax.persistence.ManyToOne;
 
 
 public interface ModelInterface {
-
+	public String getModelType();
 }

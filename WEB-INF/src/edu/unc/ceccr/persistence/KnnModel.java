@@ -2,6 +2,7 @@ package edu.unc.ceccr.persistence;
 
 import javax.persistence.*;
 
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
 
 // default package
@@ -525,6 +526,11 @@ public class KnnModel implements java.io.Serializable, ModelInterface {
 			descriptorsUsed = descriptorsUsed.substring(0, 3999);
 		}
 		this.descriptorsUsed = descriptorsUsed;
+	}
+
+	@Transient
+	public String getModelType() {
+		return Constants.KNN;
 	}
 
 }
