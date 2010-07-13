@@ -455,6 +455,20 @@ public class ViewPredictorAction extends ActionSupport {
 		this.randomModels = randomModels;
 	}
 	
+	public List<KnnPlusModel> getKnnPlusModels() {
+		return knnPlusModels;
+	}
+	public void setKnnPlusModels(List<KnnPlusModel> knnPlusModels) {
+		this.knnPlusModels = knnPlusModels;
+	}
+	
+	public List<KnnPlusModel> getKnnPlusRandomModels() {
+		return knnPlusRandomModels;
+	}
+	public void setKnnPlusRandomModels(List<KnnPlusModel> knnPlusRandomModels) {
+		this.knnPlusRandomModels = knnPlusRandomModels;
+	}
+
 	public String getDataType() {
 		return dataType;
 	}
