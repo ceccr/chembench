@@ -28,6 +28,7 @@ import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnModel;
+import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
@@ -43,6 +44,8 @@ public class ViewPredictorAction extends ActionSupport {
 	private String predictorId;
 	private List<KnnModel> models;
 	private List<KnnModel> randomModels;
+	private List<KnnPlusModel> knnPlusModels;
+	private List<KnnPlusModel> knnPlusRandomModels;
 	private List<ExternalValidation> externalValValues;
 	private List<String> residuals;
 	private String dataType;
@@ -329,21 +332,45 @@ public class ViewPredictorAction extends ActionSupport {
 			datasetUserName = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session).getUserName();
 		}
 		dataType = selectedPredictor.getActivityType();
-		models = new ArrayList<KnnModel>();
-		randomModels = new ArrayList<KnnModel>();
-		ArrayList<KnnModel> allModels = new ArrayList<KnnModel>();
-		List temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session);
-		if(temp != null){
-			allModels.addAll(temp);
-
-			Iterator<KnnModel> it = allModels.iterator();
-			while(it.hasNext()){
-				KnnModel m = it.next();
-				if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)){
-					models.add(m);
+		
+		if(selectedPredictor.getModelMethod().equals(Constants.KNN)){
+			models = new ArrayList<KnnModel>();
+			randomModels = new ArrayList<KnnModel>();
+			ArrayList<KnnModel> allModels = new ArrayList<KnnModel>();
+			List temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(predictorId), session);
+			if(temp != null){
+				allModels.addAll(temp);
+	
+				Iterator<KnnModel> it = allModels.iterator();
+				while(it.hasNext()){
+					KnnModel m = it.next();
+					if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)){
+						models.add(m);
+					}
+					else{
+						randomModels.add(m);
+					}
 				}
-				else{
-					randomModels.add(m);
+			}
+		}
+		else if(selectedPredictor.getModelMethod().equals(Constants.KNNSA) ||
+				selectedPredictor.getModelMethod().equals(Constants.KNNGA)){
+			knnPlusModels = new ArrayList<KnnPlusModel>();
+			knnPlusRandomModels = new ArrayList<KnnPlusModel>();
+			ArrayList<KnnPlusModel> allModels = new ArrayList<KnnPlusModel>();
+			List temp = PopulateDataObjects.getKnnPlusModelsByPredictorId(Long.parseLong(predictorId), session);
+			if(temp != null){
+				allModels.addAll(temp);
+	
+				Iterator<KnnPlusModel> it = allModels.iterator();
+				while(it.hasNext()){
+					KnnPlusModel m = it.next();
+					if(m.getIsYRandomModel().equals(Constants.NO)){
+						knnPlusModels.add(m);
+					}
+					else{
+						knnPlusRandomModels.add(m);
+					}
 				}
 			}
 		}

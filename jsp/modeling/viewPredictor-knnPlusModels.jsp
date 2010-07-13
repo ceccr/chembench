@@ -8,7 +8,7 @@
 		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
 
 		<p class="StandardTextDarkGray">
-		<s:if test="models.size==0">
+		<s:if test="knnPlusModels.size==0">
 			No models that passed your training and test set cutoffs were generated.<br/>
 		</s:if>
 		<s:elseif test="selectedPredictor.userName=='_all'">
@@ -31,9 +31,9 @@
 	
 	<!-- Table of Models -->
 		
-		<table width="100%" align="center" class="sortable" id="models">
+		<table width="100%" align="center" class="sortable" id="knnPlusModels">
 		<s:if test="dataType=='CONTINUOUS'">
-		<s:if test="models.size!=0">
+		<s:if test="knnPlusModels.size!=0">
 		<tr>
 		<th class="TableRowText01narrow">k</th>
 		<th class="TableRowText01narrow">q<sup>2 (Training)</sup></th>
@@ -45,7 +45,7 @@
 		<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors</th>
 		</tr>
 		</s:if>
-		<s:iterator value="models" status="modelsStatus">
+		<s:iterator value="knnPlusModels" status="modelsStatus">
 			<tr>
 			<td class="TableRowText02narrow"><s:property value="kOrR" /></td>
 			<td class="TableRowText02narrow"><s:property value="Q2Training" /></td>
@@ -61,7 +61,7 @@
 		
 		
 		<s:elseif test="dataType=='CATEGORY'">
-		<s:if test="models.size!=0">
+		<s:if test="knnPlusModels.size!=0">
 		<tr>
 			<th class="TableRowText01">k</th>
 			<th class="TableRowText01">Training Accuracy</th>
@@ -76,7 +76,7 @@
 		</tr>
 		</s:if>
 		
-		<s:iterator value="models" status="modelsStatus">
+		<s:iterator value="knnPlusModels" status="modelsStatus">
 			<tr>
 				<td class="TableRowText02"><s:property value="kOrR" /></td>
 				<td class="TableRowText02"><s:property value="AccuracyTraining" /></td>

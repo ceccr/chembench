@@ -19,6 +19,7 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.KnnParameters;
+import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Prediction;
@@ -629,6 +630,31 @@ public class PopulateDataObjects {
 		
 		return jobStats;
 	}
+	
+	public static List<KnnPlusModel> getKnnPlusModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
+		//Utility.writeToDebug("getting models for predictorId: " + predictorId);
+		Predictor predictor = getPredictorById(predictorId, session);
+		
+		List<KnnPlusModel> models = null;
+		if(session.getTransaction().isActive()){
+		}
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			if(session.getTransaction().isActive()){
+			}
+			models = session.createCriteria(KnnPlusModel.class)
+					.add(Expression.eq("predictor", predictor)).list();
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+			if (tx != null)
+				tx.rollback();
+		} 
+		
+		return models;
+	}
+	
 	
 	public static List<KnnModel> getModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
 		//Utility.writeToDebug("getting models for predictorId: " + predictorId);
