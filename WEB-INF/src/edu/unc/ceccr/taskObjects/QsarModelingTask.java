@@ -724,7 +724,7 @@ public class QsarModelingTask extends WorkflowTask {
 			knnPlusModels = KnnPlusWorkflow.readModelsFile(filePath, predictor, Constants.NO);
 			ArrayList<KnnPlusModel> knnPlusYRandomModels = KnnPlusWorkflow.readModelsFile(filePath + "yRandom/", predictor, Constants.YES);
 			predictor.setNumTotalModels(getNumTotalModels());
-			predictor.setNumTestModels(knnPlusYRandomModels.size());
+			predictor.setNumTestModels(knnPlusModels.size());
 			predictor.setNumyTotalModels(getNumTotalModels());
 			predictor.setNumyTestModels(knnPlusYRandomModels.size());
 			

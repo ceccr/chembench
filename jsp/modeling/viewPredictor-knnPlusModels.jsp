@@ -16,7 +16,7 @@
 		</s:elseif>
 		<s:else>
 		
-			<s:if test="selectedPredictor.modelMethod==KNN-SA">
+			<s:if test="selectedPredictor.modelMethod=='KNN-SA'">
 				Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
 				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 
 			</s:if>
@@ -36,8 +36,8 @@
 		<s:if test="knnPlusModels.size!=0">
 		<tr>
 		<th class="TableRowText01narrow">k</th>
-		<th class="TableRowText01narrow">q<sup>2 (Training)</sup></th>
-		<th class="TableRowText01narrow">r<sup>2 (Test)</sup></th>
+		<th class="TableRowText01narrow">q<sup>2</sup> (Training)</th>
+		<th class="TableRowText01narrow">r<sup>2</sup> (Test)</th>
 		<th class="TableRowText01narrow">R<sub>0</sub><sup>2</sup></th>
 		<th class="TableRowText01narrow">R<sub>01</sub><sup>2</sup></th>
 		<th class="TableRowText01narrow">k1</th>
