@@ -79,7 +79,7 @@
 				<td class="TableRowText02"><s:property value="CCRNormalizedAccuracyTraining" /></td>
 				<td class="TableRowText02"><s:property value="AccuracyTest" /></td>
 				<td class="TableRowText02"><s:property value="CCRNormalizedAccuracyTest" /></td>
-				<td class="TableRowText02" colspan="2"><s:property value="descriptorsUsed" /></td>
+				<td class="TableRowText02" colspan="2"><s:property value="dimsNames" /></td>
 			</tr>
 		</s:iterator>
 	
