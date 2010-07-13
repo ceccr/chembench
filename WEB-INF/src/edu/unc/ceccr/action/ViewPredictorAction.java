@@ -149,16 +149,34 @@ public class ViewPredictorAction extends ActionSupport {
 			
 			//get descriptor freqs from models
 			HashMap<String, Integer> descriptorFreqMap  = new HashMap<String, Integer>();
-			for(KnnModel m : models){
-				if(m.getDescriptorsUsed() != null && ! m.getDescriptorsUsed().equals("")){
-					String[] descriptorArray = m.getDescriptorsUsed().split("\\s+");
-					for(int i = 0; i < descriptorArray.length; i++){
-						if(descriptorFreqMap.get(descriptorArray[i]) == null){
-							descriptorFreqMap.put(descriptorArray[i], 1);
+			if(models != null){
+				for(KnnModel m : models){
+					if(m.getDescriptorsUsed() != null && ! m.getDescriptorsUsed().equals("")){
+						String[] descriptorArray = m.getDescriptorsUsed().split("\\s+");
+						for(int i = 0; i < descriptorArray.length; i++){
+							if(descriptorFreqMap.get(descriptorArray[i]) == null){
+								descriptorFreqMap.put(descriptorArray[i], 1);
+							}
+							else{
+								//increment
+								descriptorFreqMap.put(descriptorArray[i], descriptorFreqMap.get(descriptorArray[i]) + 1);
+							}
 						}
-						else{
-							//increment
-							descriptorFreqMap.put(descriptorArray[i], descriptorFreqMap.get(descriptorArray[i]) + 1);
+					}
+				}
+			}
+			if(knnPlusModels != null){
+				for(KnnPlusModel m : knnPlusModels){
+					if(m.getDimsNames() != null && ! m.getDimsNames().equals("")){
+						String[] descriptorArray = m.getDimsNames().split("\\s+");
+						for(int i = 0; i < descriptorArray.length; i++){
+							if(descriptorFreqMap.get(descriptorArray[i]) == null){
+								descriptorFreqMap.put(descriptorArray[i], 1);
+							}
+							else{
+								//increment
+								descriptorFreqMap.put(descriptorArray[i], descriptorFreqMap.get(descriptorArray[i]) + 1);
+							}
 						}
 					}
 				}
