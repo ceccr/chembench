@@ -65,13 +65,9 @@
 		<tr>
 			<th class="TableRowText01">k</th>
 			<th class="TableRowText01">Training Accuracy</th>
-			<th class="TableRowText01">Training Accuracy (with group weights)</th>
 			<th class="TableRowText01">Normalized Training Accuracy</th>
-			<th class="TableRowText01">Normalized Training Accuracy (with group weights)</th>
 			<th class="TableRowText01">Test Accuracy</th>
-			<th class="TableRowText01">Test Accuracy (with group weights)</th>
 			<th class="TableRowText01">Normalized Test Accuracy</th>
-			<th class="TableRowText01">Normalized Test Accuracy (with group weights)</th>
 			<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors</th>
 		</tr>
 		</s:if>
@@ -80,13 +76,9 @@
 			<tr>
 				<td class="TableRowText02"><s:property value="kOrR" /></td>
 				<td class="TableRowText02"><s:property value="AccuracyTraining" /></td>
-				<td class="TableRowText02"><s:property value="AccuracyWithGroupWeightsTraining" /></td>
 				<td class="TableRowText02"><s:property value="CCRNormalizedAccuracyTraining" /></td>
-				<td class="TableRowText02"><s:property value="CCRWithGroupWeightsTraining" /></td>
 				<td class="TableRowText02"><s:property value="AccuracyTest" /></td>
-				<td class="TableRowText02"><s:property value="AccuracyWithGroupWeightsTest" /></td>
 				<td class="TableRowText02"><s:property value="CCRNormalizedAccuracyTest" /></td>
-				<td class="TableRowText02"><s:property value="CCRWithGroupWeightsTest" /></td>
 				<td class="TableRowText02" colspan="2"><s:property value="descriptorsUsed" /></td>
 			</tr>
 		</s:iterator>
