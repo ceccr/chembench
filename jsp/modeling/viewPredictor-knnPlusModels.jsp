@@ -35,9 +35,9 @@
 		<s:if test="dataType=='CONTINUOUS'">
 		<s:if test="models.size!=0">
 		<tr>
+		<th class="TableRowText01narrow">k</th>
 		<th class="TableRowText01narrow">q<sup>2 (Training)</sup></th>
 		<th class="TableRowText01narrow">r<sup>2 (Test)</sup></th>
-		<th class="TableRowText01narrow">k</th>
 		<th class="TableRowText01narrow">R<sub>0</sub><sup>2</sup></th>
 		<th class="TableRowText01narrow">R<sub>01</sub><sup>2</sup></th>
 		<th class="TableRowText01narrow">k1</th>
@@ -47,9 +47,9 @@
 		</s:if>
 		<s:iterator value="models" status="modelsStatus">
 			<tr>
+			<td class="TableRowText02narrow"><s:property value="kOrR" /></td>
 			<td class="TableRowText02narrow"><s:property value="Q2Training" /></td>
 			<td class="TableRowText02narrow"><s:property value="R2Test" /></td>
-			<td class="TableRowText02narrow"><s:property value="kOrR" /></td>
 			<td class="TableRowText02narrow"><s:property value="R02Test" /></td>
 			<td class="TableRowText02narrow"><s:property value="R012Test" /></td>
 			<td class="TableRowText02narrow"><s:property value="k1Test" /></td>
@@ -63,22 +63,30 @@
 		<s:elseif test="dataType=='CATEGORY'">
 		<s:if test="models.size!=0">
 		<tr>
-			<th class="TableRowText01">nnn</th>
+			<th class="TableRowText01">k</th>
 			<th class="TableRowText01">Training Accuracy</th>
+			<th class="TableRowText01">Training Accuracy (with group weights)</th>
 			<th class="TableRowText01">Normalized Training Accuracy</th>
+			<th class="TableRowText01">Normalized Training Accuracy (with group weights)</th>
 			<th class="TableRowText01">Test Accuracy</th>
+			<th class="TableRowText01">Test Accuracy (with group weights)</th>
 			<th class="TableRowText01">Normalized Test Accuracy</th>
+			<th class="TableRowText01">Normalized Test Accuracy (with group weights)</th>
 			<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors</th>
 		</tr>
 		</s:if>
 		
 		<s:iterator value="models" status="modelsStatus">
 			<tr>
-				<td class="TableRowText02"><s:property value="nnn" /></td>
-				<td class="TableRowText02"><s:property value="trainingAcc" /></td>
-				<td class="TableRowText02"><s:property value="normalizedTrainingAcc" /></td>
-				<td class="TableRowText02"><s:property value="testAcc" /></td>
-				<td class="TableRowText02"><s:property value="normalizedTestAcc" /></td>
+				<td class="TableRowText02"><s:property value="kOrR" /></td>
+				<td class="TableRowText02"><s:property value="AccuracyTraining" /></td>
+				<td class="TableRowText02"><s:property value="AccuracyWithGroupWeightsTraining" /></td>
+				<td class="TableRowText02"><s:property value="CCRNormalizedAccuracyTraining" /></td>
+				<td class="TableRowText02"><s:property value="CCRWithGroupWeightsTraining" /></td>
+				<td class="TableRowText02"><s:property value="AccuracyTest" /></td>
+				<td class="TableRowText02"><s:property value="AccuracyWithGroupWeightsTest" /></td>
+				<td class="TableRowText02"><s:property value="CCRNormalizedAccuracyTest" /></td>
+				<td class="TableRowText02"><s:property value="CCRWithGroupWeightsTest" /></td>
 				<td class="TableRowText02" colspan="2"><s:property value="descriptorsUsed" /></td>
 			</tr>
 		</s:iterator>
