@@ -75,16 +75,12 @@ public class RandomForestWorkflow{
 		
 		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
 		String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
-		String modelName = predictor.getName();
-		String modelFile = modelName + ".RData";
-		
+		String modelsListFile = "models.list";
 		String command = "Rscript --vanilla " + predictScript
 							  + " --scriptsDir " + scriptDir
-							  + " --modelFile " + modelFile
-							  + " --modelName " + modelName
-							  + " --xFile " + newXFile
-							  + " --predictionFile " + Constants.RF_AGGREGATE_PRED_OUTPUT_FILE
-							  + " --allPredictionsFile " + Constants.RF_INDIVIDUAL_PRED_OUTPUT_FILE;
+							  + " --workDir " + workingDir
+							  + " --modelsListFile " + modelsListFile
+							  + " --xFile " + newXFile;
 		
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
@@ -109,28 +105,20 @@ public class RandomForestWorkflow{
 		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); //holds objects to be returned
 		
 		// Get the predicted values of the forest
-		Utility.writeToDebug("Reading aggregate prediction file: " + workingDir + Constants.RF_AGGREGATE_PRED_OUTPUT_FILE);
-		BufferedReader in = new BufferedReader(new FileReader(workingDir + Constants.RF_AGGREGATE_PRED_OUTPUT_FILE));
+		String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
+		Utility.writeToDebug("Reading consensus prediction file: " + workingDir + outputFile);
+		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 		String inputString;
+		
+		in.readLine(); // first line is the header with the model name
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
 			String[] data = inputString.split("\\s+"); //Note: [0] is the compound name and [1] is the predicted value.
+			
 			PredictionValue p = new  PredictionValue();
 			p.setPredictorId(predictorId);
 			p.setCompoundName(data[0]);
-			p.setPredictedValue((new Float(data[1])));
-			predictionValues.add(p);
-		}
-		in.close();
-		
-		// Get the predicted value of each trees to calculate the standard deviation
-		Utility.writeToDebug("Reading individual prediction file: " + workingDir + Constants.RF_INDIVIDUAL_PRED_OUTPUT_FILE);
-		in = new BufferedReader(new FileReader(workingDir + Constants.RF_INDIVIDUAL_PRED_OUTPUT_FILE));
-		int compoundIndex = 0;
-		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
-		{
-			PredictionValue p = predictionValues.get(compoundIndex);
-			String[] data = inputString.split("\\s+"); //Note: [0] is the compound name.
+			
 			Float[] compoundPredictedValues = new Float[data.length -1];
 			p.setNumTotalModels(compoundPredictedValues.length);
 			p.setNumModelsUsed(compoundPredictedValues.length);
@@ -141,6 +129,7 @@ public class RandomForestWorkflow{
 				sum += compoundPredictedValues[i].floatValue();
 			}
 			float mean = sum / compoundPredictedValues.length;
+			p.setPredictedValue((new Float(mean)));
 			
 			double sumDistFromMeanSquared = 0.0;
 			for(int i=0; i<compoundPredictedValues.length; i++)
@@ -149,9 +138,9 @@ public class RandomForestWorkflow{
 				sumDistFromMeanSquared += Math.pow(distFromMean, (double)2);
 			}
 			double stdDev = Math.sqrt(sumDistFromMeanSquared/(double)compoundPredictedValues.length);
-			
 			p.setStandardDeviation(new Float(stdDev));
-			compoundIndex++;
+			
+			predictionValues.add(p);
 		}
 		in.close();
 		
