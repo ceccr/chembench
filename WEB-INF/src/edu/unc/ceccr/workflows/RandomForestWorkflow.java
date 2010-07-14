@@ -33,7 +33,7 @@ public class RandomForestWorkflow{
 			String[] data = inputString.split("\\s+");
 			preProcessXFile(scalingType, data[0], "RF_" + data[0], workingDir);
 			preProcessXFile(scalingType, data[3], "RF_" + data[3], workingDir);
-			out.write(inputString.replace(data[0], "RF_" + data[0]).replace(data[3], "RF_" + data[3]));
+			out.write(inputString.replace(data[0], "RF_" + data[0]).replace(data[3], "RF_" + data[3]) + System.getProperty("line.separator"));
 		}
 		in.close();
 		out.flush();
