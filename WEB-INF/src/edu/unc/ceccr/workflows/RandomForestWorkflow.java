@@ -3,6 +3,7 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 import java.nio.channels.FileChannel;
 
+import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestModel;
@@ -101,6 +102,58 @@ public class RandomForestWorkflow{
 		return null;
 	}
 	
+	public static ArrayList<ExternalValidation> readExternalSetPredictionOutput(String workingDir, Predictor predictor) throws Exception
+	{
+		ArrayList<ExternalValidation> allExternalValues = new ArrayList<ExternalValidation>();
+		BufferedReader in = new BufferedReader(new FileReader(workingDir + Constants.EXTERNAL_SET_A_FILE));
+		String inputString;
+		
+		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+		{
+			String data[] = inputString.split("\\s+"); //Note: [0] is the compound name and [1] is the activity value.
+			ExternalValidation externalValidationValue = new ExternalValidation();
+			externalValidationValue.setPredictor(predictor);
+			externalValidationValue.setCompoundId(data[0]);
+			externalValidationValue.setActualValue(new Float(data[1]).floatValue());
+			allExternalValues.add(externalValidationValue);
+		}
+		in.close();
+		
+		in = new BufferedReader(new FileReader(workingDir + Constants.EXTERNAL_SET_X_FILE.replace(".x", ".pred")));
+		inputString = in.readLine(); // header
+		for(int i=0; i<allExternalValues.size(); i++)
+		{
+			ExternalValidation externalValidationValue = allExternalValues.get(i);
+			inputString = in.readLine();
+			String[] data = inputString.split("\\s+"); //Note: [0] is the compound name and the following are the predicted values.
+			
+			Float[] compoundPredictedValues = new Float[data.length -1];
+			
+			externalValidationValue.setNumModels(compoundPredictedValues.length);
+			
+			float sum=0;
+			for(int j=0; j<compoundPredictedValues.length; j++)
+			{
+				compoundPredictedValues[j] = new Float(data[j+1]);
+				sum += compoundPredictedValues[j].floatValue();
+			}
+			
+			float mean = sum / compoundPredictedValues.length;
+			externalValidationValue.setPredictedValue((new Float(mean)));
+			
+			double sumDistFromMeanSquared = 0.0;
+			for(int j=0; j<compoundPredictedValues.length; j++)
+			{
+				double distFromMean = compoundPredictedValues[j].doubleValue() - (double)mean;
+				sumDistFromMeanSquared += Math.pow(distFromMean, (double)2);
+			}
+			double stdDev = Math.sqrt(sumDistFromMeanSquared/(double)compoundPredictedValues.length);
+			externalValidationValue.setStandDev(Double.toString(stdDev));
+		}
+		
+		return allExternalValues;
+	}
+	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
 		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); //holds objects to be returned
 		
@@ -113,7 +166,7 @@ public class RandomForestWorkflow{
 		in.readLine(); // first line is the header with the model name
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
-			String[] data = inputString.split("\\s+"); //Note: [0] is the compound name and [1] is the predicted value.
+			String[] data = inputString.split("\\s+"); //Note: [0] is the compound name and the following are the predicted values.
 			
 			PredictionValue p = new  PredictionValue();
 			p.setPredictorId(predictorId);
