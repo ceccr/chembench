@@ -119,7 +119,7 @@ public class RandomForestWorkflow{
 		}
 		in.close();
 		
-		in = new BufferedReader(new FileReader(workingDir + Constants.EXTERNAL_SET_X_FILE.replace(".x", ".pred")));
+		in = new BufferedReader(new FileReader(workingDir + "RF_" + Constants.EXTERNAL_SET_X_FILE.replace(".x", ".pred")));
 		inputString = in.readLine(); // header
 		for(int i=0; i<allExternalValues.size(); i++)
 		{
