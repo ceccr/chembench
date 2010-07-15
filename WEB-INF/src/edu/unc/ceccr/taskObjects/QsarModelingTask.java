@@ -739,7 +739,7 @@ public class QsarModelingTask extends WorkflowTask {
 //			RandomForestWorkflow.somethingelse();
 			
 			//read external set predictions
-			externalSetPredictions = null;
+			externalSetPredictions = RandomForestWorkflow.readExternalSetPredictionOutput(filePath, predictor);
 //			RandomForestWorkflow.something();
 			
 			//read confusion matrix
