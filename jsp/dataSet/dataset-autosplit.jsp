@@ -30,6 +30,7 @@
 			<div class="StandardTextDarkGrayParagraph"><b>Number of Compounds in the External Set:</b></div>
 			</td>
 			<td align="left" valign="top"><s:textfield name="numExternalCompounds" id="numExternalCompounds" size="5" theme="simple" /></td>
+			<!-- <s:> dropdown percent or compounds -->
 		</tr>
 		</table>
 		</td></tr>
