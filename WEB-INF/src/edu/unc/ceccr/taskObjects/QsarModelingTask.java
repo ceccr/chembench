@@ -772,13 +772,6 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		if(externalSetPredictions != null){
 			predictor.setExternalValidationResults(new HashSet<ExternalValidation>(externalSetPredictions));
-			//Debug
-			Iterator<ExternalValidation> extVals = predictor.getExternalValidationResults().iterator();
-			while(extVals.hasNext())
-			{
-				ExternalValidation val = extVals.next();
-				Utility.writeToDebug(val.getCompoundId() + "\t" + val.getActualValue() + "\t" + val.getPredictedValue() + System.getProperty("line.separator"));				
-			}
 		}
 		
 		//commit the predictor and models
