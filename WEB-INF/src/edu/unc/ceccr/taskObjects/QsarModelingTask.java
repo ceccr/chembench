@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.commons.validator.GenericValidator;
 import org.hibernate.Session;
@@ -733,14 +734,15 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
-			predictor.setNumTotalModels(new Integer(randomForestParameters.getNumTrees()));
 			//read in models and associate them with the predictor
 			randomForestModels = RandomForestWorkflow.readRandomForestModels();
 //			RandomForestWorkflow.somethingelse();
 			
 			//read external set predictions
 			externalSetPredictions = RandomForestWorkflow.readExternalSetPredictionOutput(filePath, predictor);
-//			RandomForestWorkflow.something();
+			File dir;
+			dir = new File(filePath);
+			predictor.setNumTotalModels(dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".RData");}}).length);
 			
 			//read confusion matrix
 //			predictor.setRandomForestConfusionMatrix(RandomForestWorkflow.readConfusionMatrix(String workingDir));
@@ -770,6 +772,13 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		if(externalSetPredictions != null){
 			predictor.setExternalValidationResults(new HashSet<ExternalValidation>(externalSetPredictions));
+			//Debug
+			Iterator<ExternalValidation> extVals = predictor.getExternalValidationResults().iterator();
+			while(extVals.hasNext())
+			{
+				ExternalValidation val = extVals.next();
+				Utility.writeToDebug(val.getCompoundId() + "\t" + val.getActualValue() + "\t" + val.getPredictedValue() + System.getProperty("line.separator"));				
+			}
 		}
 		
 		//commit the predictor and models
