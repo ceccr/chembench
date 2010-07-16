@@ -73,34 +73,42 @@
 		<sx:tabbedpanel id="viewPredictionTabs" >
 	
 			<s:if test="selectedPredictor.modelMethod=='KNN'">
-			
-			<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
-				<s:param name="id" value='selectedPredictor.predictorId' />
-			</s:url>
-	    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
-			</sx:div>
-			
-			<s:url id="modelsLink" value="/viewPredictorModelsSection" includeParams="none">
-				<s:param name="id" value='selectedPredictor.predictorId' />
-			</s:url>
-	    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
-			</sx:div>
+				
+				<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
+				</sx:div>
+				
+				<s:url id="modelsLink" value="/viewPredictorModelsSection" includeParams="none">
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
+				</sx:div>
 			
 			</s:if>
 			<s:elseif test="selectedPredictor.modelMethod=='KNN-GA' || selectedPredictor.modelMethod=='KNN-SA'">
 			
-			<s:url id="externalValidationLink" value="/viewKnnPlusPredictorExternalValidationSection" includeParams="none">
-				<s:param name="id" value='selectedPredictor.predictorId' />
-			</s:url>
-	    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
-			</sx:div>
+				<s:url id="externalValidationLink" value="/viewKnnPlusPredictorExternalValidationSection" includeParams="none">
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
+				</sx:div>
+				
+				<s:url id="modelsLink" value="/viewKnnPlusPredictorModelsSection" includeParams="none">
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
+				</sx:div>
 			
-			<s:url id="modelsLink" value="/viewKnnPlusPredictorModelsSection" includeParams="none">
-				<s:param name="id" value='selectedPredictor.predictorId' />
-			</s:url>
-	    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
-			</sx:div>
+			</s:elseif>
 			
+			<s:elseif test="selectedPredictor.modelMethod=='RANDOMFOREST'">
+				<s:url id="externalValidationLink" value="/viewRandomForestExternalValidationSection" includeParams="none">
+						<s:param name="id" value='selectedPredictor.predictorId' />
+					</s:url>
+			    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
+					</sx:div>
 			</s:elseif>
 			
 			<s:url id="yRandomLink" value="/viewPredictorYRandomSection" includeParams="none">

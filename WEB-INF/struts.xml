@@ -261,6 +261,14 @@
         	
         	<!-- end knn+ -->
         	
+        	<!-- random forest -->
+        	
+        	 <action name="viewRandomForestExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
+	        	<result>jsp/modeling/viewPredictor-knnPlusExternalSetPredictions.jsp</result>
+	        </action>
+	        
+        	<!-- end random forest -->
+        	
         <!-- End View Predictor Page -->
         
         <!-- View Prediction Page -->
