@@ -775,6 +775,12 @@ public class QsarModelingTask extends WorkflowTask {
 			dir = new File(filePath);
 		
 			predictor.setNumTotalModels(getNumTotalModels());
+
+			//numTestModels is what's displayed on the output webpage
+			//reason is, we may decide to discard some of the models so they
+			//will not be used in external set prediction
+			//hence, numTestModels may not equal numTotalModels in future.
+			predictor.setNumTestModels(getNumTotalModels()); 
 		}
 		else if(modelType.equals(Constants.SVM)){
 			//read in models and associate them with the predictor
