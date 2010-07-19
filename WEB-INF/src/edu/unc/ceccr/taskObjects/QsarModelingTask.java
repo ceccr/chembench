@@ -159,6 +159,7 @@ public class QsarModelingTask extends WorkflowTask {
 				//divide by (number of models * trees per model)
 				p /= (getNumTotalModels() * Integer.parseInt(randomForestParameters.getNumTrees()));
 				p *= 100;
+				percent = " (" + Math.round(p) + "%)";
 			}
 		}
 		
