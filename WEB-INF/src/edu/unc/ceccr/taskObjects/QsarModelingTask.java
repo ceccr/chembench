@@ -749,7 +749,7 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			//read in models and associate them with the predictor
-			randomForestModels = RandomForestWorkflow.readRandomForestModels(filePath, predictor);
+			randomForestModels = RandomForestWorkflow.readRandomForestGroves(filePath, predictor);
 			
 			//commit models to database so we get the model id back so we can use it in the trees
 			try{

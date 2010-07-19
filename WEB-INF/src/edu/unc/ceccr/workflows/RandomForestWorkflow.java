@@ -99,7 +99,7 @@ public class RandomForestWorkflow{
 		return "";
 	}
 
-	public static ArrayList<RandomForestGrove> readRandomForestModels(String workingDir, Predictor predictor){
+	public static ArrayList<RandomForestGrove> readRandomForestGroves(String workingDir, Predictor predictor){
 		ArrayList<RandomForestGrove> randomForestModels = new ArrayList<RandomForestGrove>();
 		//for each model
 		RandomForestGrove m = new RandomForestGrove();
