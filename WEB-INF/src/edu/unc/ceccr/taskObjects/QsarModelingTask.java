@@ -154,8 +154,10 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 			else if(modelType.equals(Constants.RANDOMFOREST)){
 				File dir = new File(workingDir);
-				float p = (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".RData");}}).length);
-				p /= getNumTotalModels();
+				//get num of trees produced so far
+				float p = (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".tree");}}).length);
+				//divide by (number of models * trees per model)
+				p /= (getNumTotalModels() * Integer.parseInt(randomForestParameters.getNumTrees()));
 				p *= 100;
 			}
 		}
