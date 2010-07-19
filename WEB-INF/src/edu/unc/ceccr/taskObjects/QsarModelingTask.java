@@ -35,6 +35,7 @@ import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestModel;
+import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
@@ -657,6 +658,7 @@ public class QsarModelingTask extends WorkflowTask {
 		ArrayList<KnnPlusModel> knnPlusModels = null;
 		ArrayList<SvmModel> svmModels = null;
 		ArrayList<RandomForestModel> randomForestModels = null;
+		ArrayList<RandomForestTree> randomForestTrees = null;
 		
 		if(modelType.equals(Constants.KNN)){
 			ArrayList<KnnModel> yRandomModels = null;
@@ -736,16 +738,13 @@ public class QsarModelingTask extends WorkflowTask {
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			//read in models and associate them with the predictor
 			randomForestModels = RandomForestWorkflow.readRandomForestModels();
-//			RandomForestWorkflow.somethingelse();
+			randomForestTrees = RandomForestWorkflow.readRandomForestTrees();
 			
 			//read external set predictions
 			externalSetPredictions = RandomForestWorkflow.readExternalSetPredictionOutput(filePath, predictor);
 			File dir;
 			dir = new File(filePath);
 			predictor.setNumTotalModels(dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".RData");}}).length);
-			
-			//read confusion matrix
-//			predictor.setRandomForestConfusionMatrix(RandomForestWorkflow.readConfusionMatrix(String workingDir));
 		}
 		else if(modelType.equals(Constants.SVM)){
 			//read in models and associate them with the predictor
@@ -801,6 +800,9 @@ public class QsarModelingTask extends WorkflowTask {
 			else if(randomForestModels != null){
 				for(RandomForestModel m: randomForestModels){
 					session.saveOrUpdate(m);
+				}
+				for(RandomForestTree t: randomForestTrees){
+					session.saveOrUpdate(t);
 				}
 			}
 			

@@ -8,6 +8,7 @@ import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestModel;
 import edu.unc.ceccr.persistence.RandomForestParameters;
+import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
@@ -97,8 +98,12 @@ public class RandomForestWorkflow{
 	public static String readConfusionMatrix(String workingDir){
 		return "";
 	}
-	
+
 	public static ArrayList<RandomForestModel> readRandomForestModels(){
+		return null;
+	}
+	
+	public static ArrayList<RandomForestTree> readRandomForestTrees(){
 		return null;
 	}
 	

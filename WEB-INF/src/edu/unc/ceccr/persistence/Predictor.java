@@ -69,7 +69,7 @@ public class Predictor implements java.io.Serializable {
 	private int numPredictions;
 	private String description;
 	private String paperReference;
-	private String randomForestConfusionMatrix;
+	private String confusionMatrix;
 	
 
 	//references a row in KnnParameters, SvmParameters, RandomForestParameters, 
@@ -323,15 +323,14 @@ public class Predictor implements java.io.Serializable {
 	{
 		this.predictorType=type;
 	}
-	
-	@Column(name="randomForestConfusionMatrix")
-	public String getRandomForestConfusionMatrix() {
-		return randomForestConfusionMatrix;
+
+	@Column(name="confusionMatrix")
+	public String getConfusionMatrix() {
+		return confusionMatrix;
 	}
-	public void setRandomForestConfusionMatrix(String randomForestConfusionMatrix) {
-		this.randomForestConfusionMatrix = randomForestConfusionMatrix;
+	public void setConfusionMatrix(String confusionMatrix) {
+		this.confusionMatrix = confusionMatrix;
 	}
-	
 
 	@Column(name="scalingtype")
 	public String getScalingType()
