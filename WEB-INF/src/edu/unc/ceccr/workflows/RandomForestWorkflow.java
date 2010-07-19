@@ -108,12 +108,12 @@ public class RandomForestWorkflow{
 		return randomForestModels;
 	}
 	
-	public static ArrayList<RandomForestTree> readRandomForestTrees(String workingDir, Predictor predictor, Long modelId){
+	public static ArrayList<RandomForestTree> readRandomForestTrees(String workingDir, Predictor predictor, Long groveId){
 		ArrayList<RandomForestTree> randomForestTrees = new ArrayList<RandomForestTree>();
 		
 		//for each tree
 		RandomForestTree t = new RandomForestTree();
-		t.setRandomForestModelId(modelId);
+		t.setRandomForestGroveId(groveId);
 		
 		return randomForestTrees;
 	}
