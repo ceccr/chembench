@@ -99,11 +99,21 @@ public class RandomForestWorkflow{
 		return "";
 	}
 
-	public static ArrayList<RandomForestModel> readRandomForestModels(){
+	public static ArrayList<RandomForestModel> readRandomForestModels(String workingDir, Predictor predictor){
+
+		//for each model
+		RandomForestModel m = new RandomForestModel();
+		m.setPredictor_id(predictor.getPredictorId());
+		
 		return null;
 	}
 	
-	public static ArrayList<RandomForestTree> readRandomForestTrees(){
+	public static ArrayList<RandomForestTree> readRandomForestTrees(String workingDir, Predictor predictor, Long modelId){
+		
+		//for each tree
+		RandomForestTree t = new RandomForestTree();
+		t.setRandomForestModelId(modelId);
+		
 		return null;
 	}
 	

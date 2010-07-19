@@ -152,6 +152,12 @@ public class QsarModelingTask extends WorkflowTask {
 				p *= 100; //it's a percent
 				percent = " (" + Math.round(p) + "%)";
 			}
+			else if(modelType.equals(Constants.RANDOMFOREST)){
+				File dir = new File(workingDir);
+				float p = (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".RData");}}).length);
+				p /= getNumTotalModels();
+				p *= 100;
+			}
 		}
 		
 		return step + percent;
@@ -635,6 +641,9 @@ public class QsarModelingTask extends WorkflowTask {
 		step = Constants.READING;
 		//done with modeling. Read output files. 
 
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		
 		//first, copy needed files back from LSF if needed
 		if(jobList.equals(Constants.LSF)){
 			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
@@ -737,14 +746,32 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			//read in models and associate them with the predictor
-			randomForestModels = RandomForestWorkflow.readRandomForestModels();
-			randomForestTrees = RandomForestWorkflow.readRandomForestTrees();
+			randomForestModels = RandomForestWorkflow.readRandomForestModels(filePath, predictor);
+			
+			//commit models to database so we get the model id back so we can use it in the trees
+			try{
+				tx = session.beginTransaction();
+				for(RandomForestModel m: randomForestModels){
+					session.saveOrUpdate(m);
+				}
+				tx.commit();
+			}
+			catch(Exception ex){
+				Utility.writeToDebug(ex);
+				tx.rollback();
+			}
+
+			//read in trees and associate them with each model
+			for(RandomForestModel m: randomForestModels){
+				randomForestTrees = RandomForestWorkflow.readRandomForestTrees(filePath, predictor, m.getId());
+			}
 			
 			//read external set predictions
 			externalSetPredictions = RandomForestWorkflow.readExternalSetPredictionOutput(filePath, predictor);
 			File dir;
 			dir = new File(filePath);
-			predictor.setNumTotalModels(dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".RData");}}).length);
+		
+			predictor.setNumTotalModels(getNumTotalModels());
 		}
 		else if(modelType.equals(Constants.SVM)){
 			//read in models and associate them with the predictor
@@ -774,8 +801,6 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		
 		//commit the predictor and models
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			session.saveOrUpdate(predictor);
@@ -797,10 +822,7 @@ public class QsarModelingTask extends WorkflowTask {
 					session.saveOrUpdate(m);
 				}
 			}
-			else if(randomForestModels != null){
-				for(RandomForestModel m: randomForestModels){
-					session.saveOrUpdate(m);
-				}
+			else if(randomForestTrees != null){
 				for(RandomForestTree t: randomForestTrees){
 					session.saveOrUpdate(t);
 				}
@@ -851,6 +873,9 @@ public class QsarModelingTask extends WorkflowTask {
 				numDescriptorSizes++;
 			}
 			numModels *= numDescriptorSizes;
+		}
+		else if(modelType.equals(Constants.RANDOMFOREST)){
+			numModels = Integer.parseInt(predictor.getNumSplits());
 		}
 		
 		return numModels;
