@@ -6,7 +6,7 @@ import java.nio.channels.FileChannel;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.RandomForestModel;
+import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -99,10 +99,10 @@ public class RandomForestWorkflow{
 		return "";
 	}
 
-	public static ArrayList<RandomForestModel> readRandomForestModels(String workingDir, Predictor predictor){
-		ArrayList<RandomForestModel> randomForestModels = new ArrayList<RandomForestModel>();
+	public static ArrayList<RandomForestGrove> readRandomForestModels(String workingDir, Predictor predictor){
+		ArrayList<RandomForestGrove> randomForestModels = new ArrayList<RandomForestGrove>();
 		//for each model
-		RandomForestModel m = new RandomForestModel();
+		RandomForestGrove m = new RandomForestGrove();
 		m.setPredictor_id(predictor.getPredictorId());
 		
 		return randomForestModels;

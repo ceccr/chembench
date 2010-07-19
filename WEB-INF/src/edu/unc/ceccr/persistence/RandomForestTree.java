@@ -10,19 +10,20 @@ import edu.unc.ceccr.utilities.Utility;
 public class RandomForestTree implements java.io.Serializable{
 	
 	/*
-		create table cbench_randomForestTree (
-		id INT(12) UNSIGNED auto_increment PRIMARY KEY,
-		randomForestModelId int(12) unsigned NOT NULL DEFAULT '0',
-		treeFileName VARCHAR(255),
-		r2 VARCHAR(255),
-		mse VARCHAR(255),
-		descriptorsUsed VARCHAR(2550),
-		FOREIGN KEY (randomForestModelId) REFERENCES cbench_randomForestModel(id) ON DELETE CASCADE ON UPDATE CASCADE
-		);
+drop table cbench_randomForestTree;
+create table cbench_randomForestTree (
+id INT(12) UNSIGNED auto_increment PRIMARY KEY,
+randomForestGroveId int(12) unsigned NOT NULL DEFAULT '0',
+treeFileName VARCHAR(255),
+r2 VARCHAR(255),
+mse VARCHAR(255),
+descriptorsUsed VARCHAR(2550),
+FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 	 */
 
 	private Long id;
-	private Long randomForestModelId;
+	private Long randomForestGroveId;
 	private String treeFileName;
 	private String r2; //r squared
 	private String mse;
@@ -38,14 +39,14 @@ public class RandomForestTree implements java.io.Serializable{
 		this.id = id;
 	}
 
-	@Column(name = "randomForestModelId")
-	public Long getRandomForestModelId() {
-		return randomForestModelId;
+	@Column(name = "randomForestGroveId")
+	public Long getRandomForestGroveId() {
+		return randomForestGroveId;
 	}
-	public void setRandomForestModelId(Long randomForestModelId) {
-		this.randomForestModelId = randomForestModelId;
+	public void setRandomForestGroveId(Long randomForestGroveId) {
+		this.randomForestGroveId = randomForestGroveId;
 	}
-
+	
 	@Column(name = "treeFileName")
 	public String getTreeFileName() {
 		return treeFileName;

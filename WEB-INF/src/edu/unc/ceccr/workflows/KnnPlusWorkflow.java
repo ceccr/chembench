@@ -465,6 +465,7 @@ public class KnnPlusWorkflow{
 	}
 
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
+		//should be the same output as it is for kNN... jobname_models.preds or something
 		return null;
 	}
 }

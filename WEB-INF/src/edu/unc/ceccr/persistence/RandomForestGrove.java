@@ -7,19 +7,20 @@ import edu.unc.ceccr.utilities.Utility;
 
 @Entity
 @Table(name = "cbench_RandomForestModel")
-public class RandomForestModel implements java.io.Serializable{
+public class RandomForestGrove implements java.io.Serializable{
 	
 	/*
-	create table cbench_randomForestModel (
-			id INT(12) UNSIGNED auto_increment PRIMARY KEY,
-			predictor_id int(10) unsigned NOT NULL DEFAULT '0',
-			isYRandomModel VARCHAR(255),
-			descriptorsUsed VARCHAR(2550),
-			r2 VARCHAR(255),
-			mse VARCHAR(255),
-			ccr VARCHAR(255),
-			FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE CASCADE ON UPDATE CASCADE
-			);
+drop table cbench_randomForestModel;
+create table cbench_randomForestGrove (
+id INT(12) UNSIGNED auto_increment PRIMARY KEY,
+predictor_id int(10) unsigned NOT NULL DEFAULT '0',
+isYRandomModel VARCHAR(255),
+descriptorsUsed VARCHAR(2550),
+r2 VARCHAR(255),
+mse VARCHAR(255),
+ccr VARCHAR(255),
+FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
 	 */
 
 	private Long id;

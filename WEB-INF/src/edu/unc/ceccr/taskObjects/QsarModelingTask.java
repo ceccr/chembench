@@ -34,7 +34,7 @@ import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.RandomForestModel;
+import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.SvmModel;
@@ -669,7 +669,7 @@ public class QsarModelingTask extends WorkflowTask {
 		ArrayList<KnnModel> knnModels = null;
 		ArrayList<KnnPlusModel> knnPlusModels = null;
 		ArrayList<SvmModel> svmModels = null;
-		ArrayList<RandomForestModel> randomForestModels = null;
+		ArrayList<RandomForestGrove> randomForestModels = null;
 		ArrayList<RandomForestTree> randomForestTrees = null;
 		
 		if(modelType.equals(Constants.KNN)){
@@ -754,7 +754,7 @@ public class QsarModelingTask extends WorkflowTask {
 			//commit models to database so we get the model id back so we can use it in the trees
 			try{
 				tx = session.beginTransaction();
-				for(RandomForestModel m: randomForestModels){
+				for(RandomForestGrove m: randomForestModels){
 					session.saveOrUpdate(m);
 				}
 				tx.commit();
@@ -765,7 +765,7 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 
 			//read in trees and associate them with each model
-			for(RandomForestModel m: randomForestModels){
+			for(RandomForestGrove m: randomForestModels){
 				randomForestTrees = RandomForestWorkflow.readRandomForestTrees(filePath, predictor, m.getId());
 			}
 			
