@@ -753,13 +753,11 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			//commit models to database so we get the model id back so we can use it in the trees
 			try{
-				if(randomForestModels != null){
-					tx = session.beginTransaction();
-					for(RandomForestModel m: randomForestModels){
-						session.saveOrUpdate(m);
-					}
-					tx.commit();
+				tx = session.beginTransaction();
+				for(RandomForestModel m: randomForestModels){
+					session.saveOrUpdate(m);
 				}
+				tx.commit();
 			}
 			catch(Exception ex){
 				Utility.writeToDebug(ex);
@@ -767,10 +765,8 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 
 			//read in trees and associate them with each model
-			if(randomForestModels != null){
-				for(RandomForestModel m: randomForestModels){
-					randomForestTrees = RandomForestWorkflow.readRandomForestTrees(filePath, predictor, m.getId());
-				}
+			for(RandomForestModel m: randomForestModels){
+				randomForestTrees = RandomForestWorkflow.readRandomForestTrees(filePath, predictor, m.getId());
 			}
 			
 			//read external set predictions

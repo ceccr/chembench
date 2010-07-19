@@ -100,21 +100,22 @@ public class RandomForestWorkflow{
 	}
 
 	public static ArrayList<RandomForestModel> readRandomForestModels(String workingDir, Predictor predictor){
-
+		ArrayList<RandomForestModel> randomForestModels = new ArrayList<RandomForestModel>();
 		//for each model
 		RandomForestModel m = new RandomForestModel();
 		m.setPredictor_id(predictor.getPredictorId());
 		
-		return null;
+		return randomForestModels;
 	}
 	
 	public static ArrayList<RandomForestTree> readRandomForestTrees(String workingDir, Predictor predictor, Long modelId){
+		ArrayList<RandomForestTree> randomForestTrees = new ArrayList<RandomForestTree>();
 		
 		//for each tree
 		RandomForestTree t = new RandomForestTree();
 		t.setRandomForestModelId(modelId);
 		
-		return null;
+		return randomForestTrees;
 	}
 	
 	public static ArrayList<ExternalValidation> readExternalSetPredictionOutput(String workingDir, Predictor predictor) throws Exception
