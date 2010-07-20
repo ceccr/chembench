@@ -475,7 +475,7 @@ public class KnnPlusWorkflow{
 		String preddir = workingDir;
 		
 		String xfile = sdfile + ".renorm.x";
-		String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+		String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
 		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
 		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
 		Utility.writeProgramLogfile(preddir, "knn+_prediction", p.getInputStream(), p.getErrorStream());
@@ -485,10 +485,10 @@ public class KnnPlusWorkflow{
 		
 	}
 
-public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
+public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String sdfile) throws Exception{
 		
         //read prediction output
-		String outputFile = "models.preds"; //the ".preds" is added automatically by knn+
+		String outputFile =  Constants.PRED_OUTPUT_FILE + "_vs_" + sdfile + ".renorm.preds"; //the ".preds" is added automatically by knn+
     	Utility.writeToDebug("Reading file: " + workingDir + outputFile);
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 		String inputString;
