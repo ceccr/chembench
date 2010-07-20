@@ -67,6 +67,10 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		    	errorMessages.add("The user name '"+newUserName+"' is already in use.");
 				result = ERROR;
 			}
+			else if(newUserName.contains(" ")){
+				errorMessages.add("Your username may not contain a space.");
+				result = ERROR;
+			}
 			
 			//check CAPTCHA
 			ReCaptcha captcha = ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY,Constants.RECAPTCHA_PRIVATEKEY, false);
