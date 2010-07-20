@@ -54,10 +54,10 @@ public class LsfProcessingThread extends Thread {
 								Utility.writeToDebug(ex);
 
 								//send an email to the site administrator
-								String message = "Heya, \n" + j.getUserName() + "'s job \"" +
+								String message = "Heya, <br />" + j.getUserName() + "'s job \"" +
 								j.getJobName() + "\" failed. You might wanna look into that. "
-								+ "\n\nHere's the exception it threw: \n" + ex.toString() + 
-								"\n\nGood luck!\n--Chembench";
+								+ "<br /><br />Here's the exception it threw: <br />" + ex.toString() + 
+								"<br /><br />Good luck!<br />--Chembench";
 								SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
 								
 								CentralDogma.getInstance().localJobs.removeJob(j.getId());							
@@ -122,10 +122,10 @@ public class LsfProcessingThread extends Thread {
 										Utility.writeToDebug(ex);
 										
 										//send an email to the site administrator
-										String message = "Heya, \n" + j.getUserName() + "'s job \"" +
+										String message = "Heya, <br />" + j.getUserName() + "'s job \"" +
 										j.getJobName() + "\" failed. You might wanna look into that. "
-										+ "\n\nHere's the exception it threw: \n" + ex.toString() + 
-										"\n\nGood luck!\n--Chembench";
+										+ "<br /><br />Here's the exception it threw: <br />" + ex.toString() + 
+										"<br /><br />Good luck!<br />--Chembench";
 										SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
 										
 									}
