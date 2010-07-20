@@ -438,7 +438,7 @@ public class ModelingFormActions extends ActionSupport{
 
 	private String numTrees = "50";
 	private String trainSetSize = "10";
-	private String descriptorsPerTree = "15";
+	private String descriptorsPerTree = "25";
 	private String sampleWithReplacement = "true";
 	private String classWeights = "";
 	
