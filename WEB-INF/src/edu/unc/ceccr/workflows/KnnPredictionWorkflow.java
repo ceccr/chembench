@@ -161,10 +161,8 @@ public class KnnPredictionWorkflow{
 			//Utility.writeToDebug("making predvalue object for compound " + i);
 			
 			//create prediction value object
-			HashMap compoundActivities = DatasetFileOperations.getActFileIdsAndValues(workingDir + "ext_0.a");
 			
 			PredictionValue p = new PredictionValue();
-			p.setObservedValue(Float.parseFloat((String) compoundActivities.get(compoundNames[i+2])));
 			p.setNumModelsUsed(numPredictingModels);
 			p.setNumTotalModels(predictionMatrix.size());
 			p.setPredictedValue(mean);
