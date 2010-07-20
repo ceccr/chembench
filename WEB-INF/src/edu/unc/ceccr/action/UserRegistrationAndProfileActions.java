@@ -178,6 +178,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 	  			Utility.writeToUsageLog("just registered!", newUserName);
 		  		Utility.writeToDebug("In case email failed, temp password for user: " + user.getUserName() + " is: " + password);
 		  	}
+			user = null; //if user != null, it will show a "You are logged in" message. That's bad.
 		return result;
 	}
 	
