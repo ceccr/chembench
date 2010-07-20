@@ -333,7 +333,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 			else if(selectedPredictor.getModelMethod().equals(Constants.KNNGA) || 
 					selectedPredictor.getModelMethod().equals(Constants.KNNSA)){
-				KnnPlusWorkflow.runKnnPlusPrediction();
+				KnnPlusWorkflow.runKnnPlusPrediction(predictionDir, sdfile, cutoff);
 			}
 			else if(selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){
 				RandomForestWorkflow.runRandomForestPrediction(predictionDir, jobName, sdfile, selectedPredictor);
