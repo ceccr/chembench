@@ -52,6 +52,14 @@ public class LsfProcessingThread extends Thread {
 								//Job failed or threw an exception
 								Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
 								Utility.writeToDebug(ex);
+
+								//send an email to the site administrator
+								String message = "Heya, \n" + j.getUserName() + "'s job \"" +
+								j.getJobName() + "\" failed. You might wanna look into that. "
+								+ "\n\nHere's the exception it threw: \n" + ex.toString() + 
+								"\n\nGood luck!\n--Chembench";
+								SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
+								
 								CentralDogma.getInstance().localJobs.removeJob(j.getId());							
 								CentralDogma.getInstance().localJobs.deleteJobFromDB(j.getId());
 							}
@@ -112,6 +120,14 @@ public class LsfProcessingThread extends Thread {
 										//Job failed or threw an exception
 										Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
 										Utility.writeToDebug(ex);
+										
+										//send an email to the site administrator
+										String message = "Heya, \n" + j.getUserName() + "'s job \"" +
+										j.getJobName() + "\" failed. You might wanna look into that. "
+										+ "\n\nHere's the exception it threw: \n" + ex.toString() + 
+										"\n\nGood luck!\n--Chembench";
+										SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
+										
 									}
 									finally{
 										//finished; remove job object

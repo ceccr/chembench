@@ -9,7 +9,7 @@
 
 <p>Chembench is a web-based tool for QSAR modeling and prediction. Chembench doesn't require any 
 programming or scripting knowledge to use.  It's an interface that lets you skip past the hassles of file 
-management and translating between sets of programs, so you can focus on the science of making and applying 
+management and translating between programs, so you can focus on the science of making and applying 
 predictive models.</p>
 
 <p>The first step in using Chembench is to create an account. Point a browser at http://chembench.mml.unc.edu and hit 
