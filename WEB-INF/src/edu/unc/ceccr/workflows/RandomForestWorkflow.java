@@ -243,4 +243,64 @@ public class RandomForestWorkflow{
 			Utility.writeToDebug("	See error log");
 		}
 	}
+	
+	public static void SetUpYRandomization(String userName, String jobName) throws Exception{
+		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+		
+		//create yRandom dirs
+		new File(workingdir + "yRandom/").mkdir();
+		new File(workingdir + "yRandom/Logs/").mkdir();
+
+		//make sure dirs are empty
+		FileAndDirOperations.deleteDirContents(workingdir + "yRandom/");
+		FileAndDirOperations.deleteDirContents(workingdir + "yRandom/Logs/");
+		
+		//copy *.default and RAND_sets* to yRandom
+		File file;
+		String fromDir = workingdir;
+		String toDir = workingdir + "yRandom/";
+		Utility.writeToDebug("Copying *.default and RAND_sets* from " + fromDir + " to " + toDir);
+			file = new File(fromDir);
+			String files[] = file.list();
+			if(files == null){
+				Utility.writeToDebug("Error reading directory: " + fromDir);
+			}
+			int x = 0;
+			while(files != null && x<files.length){
+				if(files[x].matches(".*default.*") || files[x].matches(".*RAND_sets.*") || files[x].matches(".*rand_sets.*")){
+					FileChannel ic = new FileInputStream(fromDir + files[x]).getChannel();
+					FileChannel oc = new FileOutputStream(toDir + files[x]).getChannel();
+					ic.transferTo(0, ic.size(), oc);
+					ic.close();
+					oc.close(); 
+				}
+				x++;
+			}
+	}
+	
+	public static void YRandomization(String userName, String jobName) throws Exception{
+		//Do y-randomization shuffling
+		
+		String yRandomDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/";
+		Utility.writeToDebug("YRandomization", userName, jobName);
+		File dir = new File(yRandomDir);
+		String files[] = dir.list();
+		if(files == null){
+			Utility.writeToDebug("Error reading directory: " + yRandomDir);
+		}
+		int x = 0;
+		Utility.writeToDebug("Running external program: " + "RandomizationSlowLIN each_act_file.a tempfile" + " in dir " + yRandomDir);
+		while(files != null && x<files.length){
+			if(files[x].matches(".*rand_sets.*a")){
+				//shuffle the values in each .a file (ACT file)
+				String execstr = "RandomizationSlowLIN " + files[x] + " tempfile";
+			    Process p = Runtime.getRuntime().exec(execstr, null, new File(yRandomDir));
+			    Utility.writeProgramLogfile(yRandomDir, "RandomizationSlowLIN", p.getInputStream(), p.getErrorStream());
+			    p.waitFor();
+			    FileAndDirOperations.copyFile(yRandomDir + "tempfile", yRandomDir + files[x]);
+			    
+			}
+			x++;
+		}
+	}
 }
