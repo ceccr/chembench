@@ -56,7 +56,7 @@
 		<action path="/submitLogin"
 			type="edu.unc.ceccr.action.LoginAction" input="/jsp/main/home.jsp"
 			name="loginForm" scope="request">
-			<forward name="success" path="/jobs" />
+			<forward name="success" path="/jsp/main/home.jsp" />
 			<forward name="failure" path="/jsp/administration/user/lostPasswordRetrieval.jsp"/>
 		</action>
 		

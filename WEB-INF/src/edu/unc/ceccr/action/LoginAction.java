@@ -106,12 +106,16 @@ public class LoginAction extends Action {
                 + ((pathInfo == null) ? "" : pathInfo)
                 + ((queryString == null) ? "" : ("?" + queryString));
 
-        String redirectUrl = "http://" + request.getServerName() + contextPath + destination;
+        String redirectUrl = "http://" + request.getServerName();
+        if(! redirectUrl.endsWith("/")){
+        	redirectUrl += "/";
+        }
+        redirectUrl += "jobs";
             
         // Add jsession id to end of redirection URL
        if (request.getSession(false) != null)
         {
-            redirectUrl = redirectUrl + ";jsessionid=" +  request.getSession(false).getId();
+            redirectUrl += ";jsessionid=" +  request.getSession(false).getId();
         }
 
         ((HttpServletResponse) response)
