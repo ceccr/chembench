@@ -292,7 +292,7 @@
 <!-- Enables SSL -->
 	<security-constraint>
 		<web-resource-collection>
-			<web-resource-name>The rest of Chembench</web-resource-name>
+			<web-resource-name>Chembench non-Login Sections</web-resource-name>
 			<url-pattern>/*</url-pattern>
 		</web-resource-collection>
 		<user-data-constraint>
@@ -304,7 +304,7 @@
     <security-constraint>
       <web-resource-collection>
         <web-resource-name>Chembench Login</web-resource-name>
-        <url-pattern>/submitLogin.do</url-pattern>
+        <url-pattern>/home.jsp</url-pattern>
       </web-resource-collection>
       <!-- Require use of port 8443 -->
       <user-data-constraint>
