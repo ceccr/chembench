@@ -63,7 +63,7 @@ Production Centers Network (MLPCN)</a> by integrating robust model builders, pro
 			
 			<!-- LOGIN INPUT FIELD STARTS HERE. -->
 			<logic:notPresent name="user">
-					<form id="form1" name="form1" method="post" action="/login/submitLogin.do">
+					<form id="form1" name="form1" method="post" action="submitLogin.do">
 					  <table width="250" border="0" >		          
 			           <tr>
 			           <td><label><input name="loginName" type="text" class="LoginBoxes1" size="12" value="username" onfocus="if(this.value=='username'){value=''}"/></label></td>
