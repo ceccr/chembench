@@ -304,8 +304,18 @@
     <security-constraint>
       <web-resource-collection>
         <web-resource-name>Chembench Login</web-resource-name>
-        <url-pattern>/login/*</url-pattern>
-		<http-method>POST</http-method>
+        <url-pattern>/submitLogin.do</url-pattern>
+      </web-resource-collection>
+      <!-- Require use of port 8443 -->
+      <user-data-constraint>
+        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+      </user-data-constraint>
+    </security-constraint>
+    
+    <security-constraint>
+      <web-resource-collection>
+        <web-resource-name>Chembench Home</web-resource-name>
+        <url-pattern>/home.do</url-pattern>
       </web-resource-collection>
       <!-- Require use of port 8443 -->
       <user-data-constraint>
