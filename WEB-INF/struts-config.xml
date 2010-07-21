@@ -53,7 +53,7 @@
 			<forward name="failure" path="/jsp/main/error.jsp" />
 		</action>
 		
-		<action path="/submitLogin"
+		<action path="/login/submitLogin"
 			type="edu.unc.ceccr.action.LoginAction" input="/jsp/main/home.jsp"
 			name="loginForm" scope="request">
 			<forward name="success" path="/jsp/main/home.jsp" />

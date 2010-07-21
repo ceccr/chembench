@@ -304,7 +304,7 @@
     <security-constraint>
       <web-resource-collection>
         <web-resource-name>Chembench Login</web-resource-name>
-        <url-pattern>/submitLogin.do</url-pattern>
+        <url-pattern>/login/*</url-pattern>
 		<http-method>POST</http-method>
       </web-resource-collection>
       <!-- Require use of port 8443 -->
