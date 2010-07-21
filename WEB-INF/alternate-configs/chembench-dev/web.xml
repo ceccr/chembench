@@ -302,6 +302,16 @@
       </user-data-constraint>
     </security-constraint>
 
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>The rest of Chembench</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
 <!-- end Enables SSL -->
 
 </web-app>
