@@ -95,12 +95,30 @@ public class LoginAction extends Action {
 		} else{
 			forward = mapping.findForward("failure");
 		}
+		
+		//The only reason we use HTTPS at all is to encode login information
+		//now that that's done, we want to redirect the user out of HTTPS-land
+
+        String pathInfo = request.getPathInfo();
+        String queryString = request.getQueryString();
+        String contextPath = request.getContextPath();
+        String destination = request.getServletPath()
+                + ((pathInfo == null) ? "" : pathInfo)
+                + ((queryString == null) ? "" : ("?" + queryString));
+
+        String redirectUrl = "http://" + request.getServerName() + contextPath + destination;
+            
+        // Add jsession id to end of redirection URL
+       if (request.getSession(false) != null)
+        {
+            redirectUrl = redirectUrl + ";jsessionid=" +  request.getSession(false).getId();
+        }
+
+        ((HttpServletResponse) response)
+                .sendRedirect(((HttpServletResponse) response)
+                        .encodeRedirectURL(redirectUrl));
+		//end redirect
+        
 		return forward;
 	}
-	
-	
-	
-	
-
-	
 }
