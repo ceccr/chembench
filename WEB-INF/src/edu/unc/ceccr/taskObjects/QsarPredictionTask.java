@@ -79,24 +79,22 @@ public class QsarPredictionTask extends WorkflowTask {
 				float modelsPredictedSoFar = 0;
 				for(int i = 0; i < selectedPredictorNames.size(); i++){
 					
-					if(filePath != null){
-						File predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + "_vs_" + predictionDataset.getSdfFile() + ".renorm.preds");
-						if(predOutFile.exists()){
-							//quickly count the number of lines in the output file for this predictor
-							InputStream is = new BufferedInputStream(new FileInputStream(predOutFile));
-						    byte[] c = new byte[1024];
-						    int count = 0;
-						    int readChars = 0;
-						    while ((readChars = is.read(c)) != -1) {
-						        for (int j = 0; j < readChars; ++j) {
-						            if (c[j] == '\n')
-						                ++count;
-						        }
-						    }
-						    modelsPredictedSoFar += count - 4; //there are 4 header lines in the cons_pred.preds file
-						}
-						
+					File predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + "_vs_" + predictionDataset.getSdfFile() + ".renorm.preds");
+					if(predOutFile.exists()){
+						//quickly count the number of lines in the output file for this predictor
+						InputStream is = new BufferedInputStream(new FileInputStream(predOutFile));
+					    byte[] c = new byte[1024];
+					    int count = 0;
+					    int readChars = 0;
+					    while ((readChars = is.read(c)) != -1) {
+					        for (int j = 0; j < readChars; ++j) {
+					            if (c[j] == '\n')
+					                ++count;
+					        }
+					    }
+					    modelsPredictedSoFar += count - 4; //there are 4 header lines in the cons_pred.preds file
 					}
+					
 				}
 				if(allPredsTotalModels == 0){
 					return Constants.PREDICTING; //missing database information, probably
