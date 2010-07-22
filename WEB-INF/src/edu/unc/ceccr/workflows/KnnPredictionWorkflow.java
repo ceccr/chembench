@@ -73,10 +73,11 @@ public class KnnPredictionWorkflow{
 		
 	}
 	
-	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
+	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String sdFile) throws Exception{
 		
         //read prediction output
-		String outputFile = Constants.PRED_OUTPUT_FILE + ".preds"; //the ".preds" is added automatically by knn+
+		//sample output filename: cons_pred_vs_anticonvulsants_91.sdf.renorm.preds
+		String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_" + sdFile  + "renorm.preds"; //the ".preds" is added automatically by knn+
     	Utility.writeToDebug("Reading file: " + workingDir + outputFile);
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 		String inputString;
