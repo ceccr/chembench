@@ -195,7 +195,6 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		modelType = predictor.getModelMethod();
 		
-		
 		//descriptors
 		descriptorGenerationType = predictor.getDescriptorGeneration();
 		scalingType = predictor.getScalingType();
