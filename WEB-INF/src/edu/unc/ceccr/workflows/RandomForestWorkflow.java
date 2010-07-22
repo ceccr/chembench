@@ -259,24 +259,34 @@ public class RandomForestWorkflow{
 		File file;
 		String fromDir = workingdir;
 		String toDir = workingdir + "yRandom/";
-		Utility.writeToDebug("Copying *.default and RAND_sets* from " + fromDir + " to " + toDir);
-			file = new File(fromDir);
-			String files[] = file.list();
-			if(files == null){
-				Utility.writeToDebug("Error reading directory: " + fromDir);
+		BufferedReader in = new BufferedReader(new FileReader(workingdir + "RF_RAND_sets.list"));
+		Utility.writeToDebug("Copying RF_RAND_sets.list from " + fromDir + " to " + toDir);
+		FileChannel ic = new FileInputStream(fromDir + "RF_RAND_sets.list").getChannel();
+		FileChannel oc = new FileOutputStream(toDir + "RF_RAND_sets.list").getChannel();
+		ic.transferTo(0, ic.size(), oc);
+		ic.close();
+		oc.close(); 
+		
+		Utility.writeToDebug("Copying files in RF_RAND_sets.list from " + fromDir + " to " + toDir);
+		String inputString;
+		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+		{
+			String[] data = inputString.split("\\s+");
+			String[] files = new String[4];
+			files[0] = data[0];
+			files[1] = data[1];
+			files[2] = data[3];
+			files[3] = data[4];
+			
+			for(int i = 0; i<files.length; i++)
+			{
+				ic = new FileInputStream(fromDir + files[i]).getChannel();
+				oc = new FileOutputStream(toDir + files[i]).getChannel();
+				ic.transferTo(0, ic.size(), oc);
+				ic.close();
+				oc.close();	
 			}
-			int x = 0;
-			while(files != null && x<files.length){
-//				if(files[x].matches(".*default.*") || files[x].matches(".*RAND_sets.*") || files[x].matches(".*rand_sets.*")){
-				if(files[x].matches(".*default.*") || files[x].matches(".*RF_RAND_sets.*") || files[x].matches(".*RF_rand_sets.*") || files[x].matches(".*rand_sets.*a")){
-					FileChannel ic = new FileInputStream(fromDir + files[x]).getChannel();
-					FileChannel oc = new FileOutputStream(toDir + files[x]).getChannel();
-					ic.transferTo(0, ic.size(), oc);
-					ic.close();
-					oc.close(); 
-				}
-				x++;
-			}
+		}
 	}
 	
 	public static void YRandomization(String userName, String jobName) throws Exception{
