@@ -255,7 +255,7 @@ public class RandomForestWorkflow{
 		FileAndDirOperations.deleteDirContents(workingdir + "yRandom/");
 		FileAndDirOperations.deleteDirContents(workingdir + "yRandom/Logs/");
 		
-		//copy *.default and RAND_sets* to yRandom
+		//copy file to yRandom
 		File file;
 		String fromDir = workingdir;
 		String toDir = workingdir + "yRandom/";
@@ -267,7 +267,8 @@ public class RandomForestWorkflow{
 			}
 			int x = 0;
 			while(files != null && x<files.length){
-				if(files[x].matches(".*default.*") || files[x].matches(".*RAND_sets.*") || files[x].matches(".*rand_sets.*")){
+//				if(files[x].matches(".*default.*") || files[x].matches(".*RAND_sets.*") || files[x].matches(".*rand_sets.*")){
+				if(files[x].matches(".*default.*") || files[x].matches(".*RF_RAND_sets.*") || files[x].matches(".*RF_rand_sets.*") || files[x].matches(".*rand_sets.*a")){
 					FileChannel ic = new FileInputStream(fromDir + files[x]).getChannel();
 					FileChannel oc = new FileOutputStream(toDir + files[x]).getChannel();
 					ic.transferTo(0, ic.size(), oc);
