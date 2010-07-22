@@ -77,81 +77,92 @@ public class SmilesPredictionWorkflow{
 		String preddir = workingDir;
 		
 		String xfile = sdfile + ".renorm.x";
-		String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+		
+		String execstr = "";
+		String outputFile = "";
+		if(predictor.getModelMethod().equals(Constants.KNN)){
+			execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+			outputFile = Constants.PRED_OUTPUT_FILE + ".preds"; //the .preds is added automatically by knn+
+	    }
+		else if(predictor.getModelMethod().equals(Constants.KNNGA) || 
+				predictor.getModelMethod().equals(Constants.KNNSA)){
+			execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+			outputFile =  Constants.PRED_OUTPUT_FILE + "_vs_" + sdfile + ".renorm.preds"; //the ".preds" is added automatically by knn+
+		}
+		
 		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
 		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
 		Utility.writeProgramLogfile(preddir, "PredActivCont3rwknnLIN", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
 		
-	        //read prediction output
-			String outputFile = Constants.PRED_OUTPUT_FILE + ".preds"; //the .preds is added automatically by knn+
-	    	Utility.writeToDebug("Reading file: " + workingDir + outputFile);
-			BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
-			String inputString;
-			
-			//Skip the first four lines (header data)
-			in.readLine();
-			in.readLine();
-			in.readLine();
-			in.readLine();
-			
-			//get output for each model
-			ArrayList<String> predValueArray = new ArrayList<String>();
-			while ((inputString = in.readLine()) != null && ! inputString.equals("")){
-				String[] predValues = inputString.split("\\s+");
-				if(predValues!= null && predValues.length > 2 && ! predValues[2].equals("NA")){
-					//Utility.writeToDebug(predValues[1] + " " + predValues[2]);
-					predValueArray.add(predValues[2]);
-				}
+        //read prediction output
+		Utility.writeToDebug("Reading file: " + workingDir + outputFile);
+		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
+		String inputString;
+		
+		//Skip the first four lines (header data)
+		in.readLine();
+		in.readLine();
+		in.readLine();
+		in.readLine();
+		
+		//get output for each model
+		ArrayList<String> predValueArray = new ArrayList<String>();
+		while ((inputString = in.readLine()) != null && ! inputString.equals("")){
+			String[] predValues = inputString.split("\\s+");
+			if(predValues!= null && predValues.length > 2 && ! predValues[2].equals("NA")){
+				//Utility.writeToDebug(predValues[1] + " " + predValues[2]);
+				predValueArray.add(predValues[2]);
 			}
+		}
 
-			Utility.writeToDebug("numModels: " + predValueArray.size());
-			
-			double sum = 0;
-			double mean = 0;
-			if(predValueArray.size() > 0){
-				for(String predValue : predValueArray){
-					sum += Float.parseFloat(predValue);
-				}
-				mean = sum / predValueArray.size();
+		Utility.writeToDebug("numModels: " + predValueArray.size());
+		
+		double sum = 0;
+		double mean = 0;
+		if(predValueArray.size() > 0){
+			for(String predValue : predValueArray){
+				sum += Float.parseFloat(predValue);
 			}
+			mean = sum / predValueArray.size();
+		}
 
-			double stddev = 0;
-			if(predValueArray.size() > 1){
-				for(String predValue : predValueArray){
-					double distFromMeanSquared = Math.pow((Double.parseDouble(predValue) - mean), 2);
-					stddev += distFromMeanSquared;
-				}
-				//divide sum then take sqrt to get stddev
-				stddev = Math.sqrt( stddev / predValueArray.size());
+		double stddev = 0;
+		if(predValueArray.size() > 1){
+			for(String predValue : predValueArray){
+				double distFromMeanSquared = Math.pow((Double.parseDouble(predValue) - mean), 2);
+				stddev += distFromMeanSquared;
 			}
-				
-			Utility.writeToDebug("prediction: " + mean);
-			Utility.writeToDebug("stddev: " + stddev);
-
-			//format numbers nicely and return them
-			String[] prediction = new String[3];
-			prediction[0] = "" + predValueArray.size();
-			if(predValueArray.size() > 0){
-				String predictedValue = DecimalFormat.getInstance().format(mean).replaceAll(",", "");
-				Utility.writeToDebug("String-formatted prediction: " + predictedValue);
-				predictedValue = (Utility.roundSignificantFigures(predictedValue, Constants.REPORTED_SIGNIFICANT_FIGURES));
-				prediction[1] = predictedValue;
-			}
-			else{
-				prediction[1] = "N/A";
-			}
-			if(predValueArray.size() > 1){
-				String stdDevStr = DecimalFormat.getInstance().format(stddev).replaceAll(",", "");
-				Utility.writeToDebug("String-formatted stddev: " + stdDevStr);
-				stdDevStr = (Utility.roundSignificantFigures(stdDevStr, Constants.REPORTED_SIGNIFICANT_FIGURES));
-				prediction[2] = stdDevStr;
-			}
-			else{
-				prediction[2] = "N/A";
-			}
+			//divide sum then take sqrt to get stddev
+			stddev = Math.sqrt( stddev / predValueArray.size());
+		}
 			
-		    return prediction;
+		Utility.writeToDebug("prediction: " + mean);
+		Utility.writeToDebug("stddev: " + stddev);
+
+		//format numbers nicely and return them
+		String[] prediction = new String[3];
+		prediction[0] = "" + predValueArray.size();
+		if(predValueArray.size() > 0){
+			String predictedValue = DecimalFormat.getInstance().format(mean).replaceAll(",", "");
+			Utility.writeToDebug("String-formatted prediction: " + predictedValue);
+			predictedValue = (Utility.roundSignificantFigures(predictedValue, Constants.REPORTED_SIGNIFICANT_FIGURES));
+			prediction[1] = predictedValue;
+		}
+		else{
+			prediction[1] = "N/A";
+		}
+		if(predValueArray.size() > 1){
+			String stdDevStr = DecimalFormat.getInstance().format(stddev).replaceAll(",", "");
+			Utility.writeToDebug("String-formatted stddev: " + stdDevStr);
+			stdDevStr = (Utility.roundSignificantFigures(stdDevStr, Constants.REPORTED_SIGNIFICANT_FIGURES));
+			prediction[2] = stdDevStr;
+		}
+		else{
+			prediction[2] = "N/A";
+		}
+		
+	    return prediction;
 	}
 	
 	public static void smilesToSDF(String smiles, String smilesDir) throws Exception{

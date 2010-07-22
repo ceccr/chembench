@@ -46,7 +46,12 @@ public class LoginAction extends Action {
 		    session.invalidate();
 		}
 		//getSession(true) means: Create a session if it doesn't exist yet
-	    session = request.getSession(true);
+	    session = request.getSession(true); 
+	    
+	    //right way to do this: On initial home page load, or on any attempted page load,
+	    //do request.getSession(true) to establish a session. Add auth information to it later.
+	    //...How to keep this secure? i.e., What's the difference when they're logged in?
+	    
 		session.setMaxInactiveInterval(Constants.SESSION_EXPIRATION_TIME);
 		
 		Utility utility=new Utility();

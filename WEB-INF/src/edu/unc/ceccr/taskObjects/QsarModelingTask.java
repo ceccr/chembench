@@ -150,6 +150,9 @@ public class QsarModelingTask extends WorkflowTask {
 				float p = KnnPlusWorkflow.getGaModelingProgress(workingDir);
 				p /= getNumTotalModels();
 				p *= 100; //it's a percent
+				if(p < 0){
+					p = 0;
+				}
 				percent = " (" + Math.round(p) + "%)";
 			}
 			else if(modelType.equals(Constants.RANDOMFOREST)){
