@@ -27,9 +27,6 @@ public class ExternalValidation implements java.io.Serializable {
 	
 	private String standDev;
 	
-	//private String structureFile;
-	private byte[] structureFile;
-
 	public ExternalValidation(){};
 	
 	public ExternalValidation(int externalValId, Predictor predictor, String compoundId, float predictedValue, float actualValue, int numModels,String standDev) {
@@ -110,19 +107,4 @@ public class ExternalValidation implements java.io.Serializable {
 		this.predictor = predictor;
 	}
 	
-	@Column(name = "structure_file")
-	/*public String getStructureFile() {
-		return structureFile;
-	}
-
-	public void setStructureFile(String structureFile) {
-		this.structureFile = structureFile;
-	}*/
-	public byte[] getStructureFile() {
-		return structureFile;
-	}
-
-	public void setStructureFile(byte[] structureFile) {
-		this.structureFile = structureFile;
-	}
 }
