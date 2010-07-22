@@ -359,8 +359,9 @@ public class QsarPredictionTask extends WorkflowTask {
 			//ArrayList<PredictionValue> predValues = parsePredOutput(predictionDir + Constants.PRED_OUTPUT_FILE, selectedPredictor.getPredictorId());
 			Utility.writeToDebug("ExecPredictorActionTask: Complete", userName, jobName);
 			
-			allPredValues.addAll(predValues);
-			
+			if(predValues != null){
+				allPredValues.addAll(predValues);
+			}
 			//  done with 5. (get output, put it into predictionValue objects and save them)
 			
 		}
