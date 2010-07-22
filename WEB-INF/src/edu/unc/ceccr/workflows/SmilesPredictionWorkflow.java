@@ -150,7 +150,7 @@ public class SmilesPredictionWorkflow{
 			prediction[1] = predictedValue;
 		}
 		else{
-			prediction[1] = "N/A";
+			prediction[1] = "N/A - Cutoff Too Low";
 		}
 		if(predValueArray.size() > 1){
 			String stdDevStr = DecimalFormat.getInstance().format(stddev).replaceAll(",", "");
