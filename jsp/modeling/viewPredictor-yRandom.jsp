@@ -17,9 +17,19 @@
 			above your cutoff values.
 	</p>
 	<p class="StandardTextDarkGray">
+	
+
+		<s:if test="selectedPredictor.modelMethod=='KNN-GA'">
+			<br/><font color="red"><s:property value="selectedPredictor.numyTestModels" /> </font>
+			models built on a randomized copy of your data were found that passed your cutoffs. <br />
+		</s:if>
+		<s:else>
 			<br/>For your data, <font color="red"><s:property value="selectedPredictor.numyTotalModels" /> </font> 
 			models for randomized datasets were built and <font color="red">
 			<s:property value="selectedPredictor.numyTestModels" /> </font>models were found that passed your cutoffs. <br />
+		</s:else>
+
+			
 	</p>
 
 	<s:if test="selectedPredictor.numyTestModels>0">
