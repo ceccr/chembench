@@ -86,8 +86,8 @@ public class SmilesPredictionWorkflow{
 	    }
 		else if(predictor.getModelMethod().equals(Constants.KNNGA) || 
 				predictor.getModelMethod().equals(Constants.KNNSA)){
-			execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-			outputFile =  Constants.PRED_OUTPUT_FILE + "_vs_" + sdfile + ".renorm.preds"; //the ".preds" is added automatically by knn+
+			execstr = "knn+ models.tbl -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+			outputFile =  Constants.PRED_OUTPUT_FILE + "_vs_smiles.sdf.renorm.preds"; //the ".preds" is added automatically by knn+
 		}
 		
 		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
