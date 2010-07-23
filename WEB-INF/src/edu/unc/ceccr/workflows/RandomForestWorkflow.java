@@ -42,7 +42,7 @@ public class RandomForestWorkflow{
 		out.close();
 		
 		
-		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "/";
+		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
 		String buildModelScript = scriptDir + Constants.RF_BUILD_MODEL_RSCRIPT;
 		
 		// build model script parameter
@@ -63,8 +63,8 @@ public class RandomForestWorkflow{
 					   + " --ntree " + ntree
 					   + " --mtry " + mtry
 					   + " --classwt " + classwt
-					   + " --nodesize" + nodesize
-					   + " --maxnodes" + maxnodes;
+					   + " --nodesize " + nodesize
+					   + " --maxnodes " + maxnodes;
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "randomForestBuildModel", p.getInputStream(), p.getErrorStream());
