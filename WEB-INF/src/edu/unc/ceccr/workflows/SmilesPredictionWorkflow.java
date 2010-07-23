@@ -76,11 +76,9 @@ public class SmilesPredictionWorkflow{
 		Utility.writeToDebug("Running prediction.");
 		String preddir = workingDir;
 		
-		String xfile = sdfile + ".renorm.x";
-		
 		String execstr = "";
 		if(predictor.getModelMethod().equals(Constants.KNN)){
-			execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+			execstr = "knn+ knn-output.list -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
 	    }
 		else if(predictor.getModelMethod().equals(Constants.KNNGA) || 
 				predictor.getModelMethod().equals(Constants.KNNSA)){
