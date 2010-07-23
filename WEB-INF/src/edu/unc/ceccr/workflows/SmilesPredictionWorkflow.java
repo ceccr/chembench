@@ -79,15 +79,12 @@ public class SmilesPredictionWorkflow{
 		String xfile = sdfile + ".renorm.x";
 		
 		String execstr = "";
-		String outputFile = "";
 		if(predictor.getModelMethod().equals(Constants.KNN)){
 			execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-			outputFile = Constants.PRED_OUTPUT_FILE + ".preds"; //the .preds is added automatically by knn+
 	    }
 		else if(predictor.getModelMethod().equals(Constants.KNNGA) || 
 				predictor.getModelMethod().equals(Constants.KNNSA)){
 			execstr = "knn+ models.tbl -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-			outputFile =  Constants.PRED_OUTPUT_FILE + "_vs_smiles.sdf.renorm.preds"; //the ".preds" is added automatically by knn+
 		}
 		
 		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
@@ -96,6 +93,7 @@ public class SmilesPredictionWorkflow{
 		p.waitFor();
 		
         //read prediction output
+		String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_smiles.sdf.renorm.preds";
 		Utility.writeToDebug("Reading file: " + workingDir + outputFile);
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 		String inputString;
