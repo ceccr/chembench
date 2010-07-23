@@ -71,6 +71,7 @@ public class QsarModelingTask extends WorkflowTask {
 	private String datasetPath;
 	private String actFileDataType;
 	private DataSet dataset;
+	private String categoryWeights;
 	
 	//descriptors
 	private String descriptorGenerationType;
@@ -176,7 +177,8 @@ public class QsarModelingTask extends WorkflowTask {
 		//get dataset
 		datasetID = predictor.getDatasetId();
 		Session s = HibernateUtil.getSession();
-		dataset = PopulateDataObjects.getDataSetById(datasetID, s);		
+		dataset = PopulateDataObjects.getDataSetById(datasetID, s);	
+		categoryWeights = predictor.getCategoryWeights();
 		datasetName = dataset.getFileName();
 		sdFileName = dataset.getSdfFile();
 		actFileName = dataset.getActFile();
@@ -256,6 +258,7 @@ public class QsarModelingTask extends WorkflowTask {
 		datasetName = dataset.getFileName();
 		datasetID = ModelingForm.getSelectedDatasetId();
 		
+		categoryWeights = ModelingForm.getCategoryWeights();
 		actFileDataType = ModelingForm.getActFileDataType();
 		descriptorGenerationType = ModelingForm.getDescriptorGenerationType();
 		
@@ -396,6 +399,7 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setSdFileName(dataset.getSdfFile());
 		predictor.setActFileName(dataset.getActFile());
 		predictor.setActivityType(actFileDataType);
+		predictor.setCategoryWeights(categoryWeights);
 		predictor.setModelMethod(modelType);
 		
 		//descriptors
@@ -799,6 +803,7 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		//save updated predictor to database
 		predictor.setScalingType(scalingType);
+		predictor.setCategoryWeights(categoryWeights);
 		predictor.setDescriptorGeneration(descriptorGenerationType);
 		predictor.setModelMethod(modelType);
 		predictor.setName(jobName);

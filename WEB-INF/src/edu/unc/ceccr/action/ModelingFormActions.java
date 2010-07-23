@@ -320,6 +320,13 @@ public class ModelingFormActions extends ActionSupport{
 	private Long selectedDatasetId;
 	private String selectedDatasetName;
 	
+	//begin dataset selection parameters
+	private String datasetName;
+	private String actFileDataType = Constants.CONTINUOUS; //set by the radio buttons
+	private String categoryWeights;
+	
+	//end dataset selection parameters
+	
 	//begin descriptor parameters
 	private String descriptorGenerationType = Constants.MOLCONNZ;
 	private String scalingType = Constants.RANGESCALING;
@@ -349,7 +356,6 @@ public class ModelingFormActions extends ActionSupport{
 		
 	//kNN Parameters
 	
-	private String actFileDataType = Constants.CONTINUOUS; //used in the 2 radio buttons
 	private String minNumDescriptors = "5";
 	private String maxNumDescriptors = "30";
 	private String stepSize = "5";
@@ -447,7 +453,6 @@ public class ModelingFormActions extends ActionSupport{
 	private String jobName;
 	private String textValue;
 	private String dataSetDescription;
-	private String datasetName;
 	private String message;
 	private String emailOnCompletion = "false";
 
@@ -479,6 +484,13 @@ public class ModelingFormActions extends ActionSupport{
 		this.datasetName = datasetName;
 	}
 	
+	public String getCategoryWeights() {
+		return categoryWeights;
+	}
+	public void setCategoryWeights(String categoryWeights) {
+		this.categoryWeights = categoryWeights;
+	}
+
 	public String getDataSetDescription() {
 		return dataSetDescription;
 	}

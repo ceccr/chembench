@@ -17,6 +17,7 @@ public class JobStats {
 	private String userName;
 	private String jobName; 
 	private String jobType;
+	private String modelingMethod;
 	private int numCompounds;
 	private int numModels;
 
@@ -59,6 +60,14 @@ public class JobStats {
 	}
 	public void setJobType(String jobType) {
 		this.jobType = jobType;
+	}
+
+	@Column(name="modelingMethod")
+	public String getModelingMethod() {
+		return modelingMethod;
+	}
+	public void setModelingMethod(String modelingMethod) {
+		this.modelingMethod = modelingMethod;
 	}
 
 	@Column(name="numCompounds")

@@ -90,6 +90,13 @@
 					</td>
 			    </tr>
 				<tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Weight Categories By:</b></div>
+					</td>
+					<td align="left" valign="top"><s:radio name="categoryWeights" value="categoryWeights" list="#{'INVERSESIZE':'Inverse of Size','NOWEIGHTING':'No Weighting','MANUAL':'Set Manually...'}" /></td>
+				</tr>
+				
+				<tr>
 				<td colspan="2">
 				<div class="StandardTextDarkGrayParagraph"><br /><input type="button" value="View Dataset" property="text" onclick="showDataset()"/> <i> Opens in a new window. Check your browser settings if the new window does not appear.</i></div>
 				<br />

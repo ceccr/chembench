@@ -42,6 +42,8 @@ public class Predictor implements java.io.Serializable {
 	private String sdFileName;
 	private String actFileName;
 	
+	private String categoryWeights;
+	
 	private Set<ExternalValidation> externalValidationResults = new HashSet<ExternalValidation>(0);
 	
 	private Date dateCreated;
@@ -152,6 +154,15 @@ public class Predictor implements java.io.Serializable {
 
 	public void setActFileName(String actFileName) {
 		this.actFileName = actFileName;
+	}
+
+	@Column(name = "categoryWeights")
+	public String getCategoryWeights() {
+		return categoryWeights;
+	}
+
+	public void setCategoryWeights(String categoryWeights) {
+		this.categoryWeights = categoryWeights;
 	}
 
 	@Column(name = "SDFileName")
