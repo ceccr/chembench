@@ -79,6 +79,8 @@ public class ViewPredictionAction extends ActionSupport {
 	}
 	
 	public String loadPredictionsSection() throws Exception {
+		Utility.writeToDebug("called loadPredictionsSection");
+		
 		String result = SUCCESS;
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
