@@ -37,13 +37,12 @@ public class PopulateDataObjects {
 	@SuppressWarnings("unchecked")
 	public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session) throws Exception{
 		ArrayList<PredictionValue> predictionValues = null; //will contain all predvalues for this compound
-		Prediction p = PopulateDataObjects.getPredictionById(predictionId, session);
 		Transaction tx = null;
 		try
 		{
 			tx = session.beginTransaction();
 			predictionValues = (ArrayList<PredictionValue>) session.createCriteria(PredictionValue.class)
-			.add(Expression.eq("predictionId", p))
+			.add(Expression.eq("predictionId", predictionId))
 			.list();
 		} catch (Exception ex) {
 			Utility.writeToDebug(ex);
