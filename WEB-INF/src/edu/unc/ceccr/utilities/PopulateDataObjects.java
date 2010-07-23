@@ -35,8 +35,7 @@ import edu.unc.ceccr.utilities.Utility;
 public class PopulateDataObjects {
 
 	@SuppressWarnings("unchecked")
-	public static List<PredictionValue> getPredictionValuesByPredictionIdAndCompoundId(Long predictionId, 
-			String compoundId, Session session) throws Exception{
+	public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session) throws Exception{
 		ArrayList<PredictionValue> predictionValues = null; //will contain all predvalues for this compound
 		Prediction p = PopulateDataObjects.getPredictionById(predictionId, session);
 		Transaction tx = null;
@@ -44,7 +43,6 @@ public class PopulateDataObjects {
 		{
 			tx = session.beginTransaction();
 			predictionValues = (ArrayList<PredictionValue>) session.createCriteria(PredictionValue.class)
-			.add(Expression.eq("compoundName", compoundId))
 			.add(Expression.eq("predictionJob", p))
 			.addOrder(Order.asc("predictorId")) 
 			.list();

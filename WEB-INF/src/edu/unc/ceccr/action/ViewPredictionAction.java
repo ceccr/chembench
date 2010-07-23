@@ -217,24 +217,29 @@ public class ViewPredictionAction extends ActionSupport {
 
 	private void populateCompoundPredictionValues(Session session) throws Exception{
 		
-		Utility.writeToDebug("Called populateCompoundPredictionValues");
 		//get compounds from SDF
 		String predictionDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/";
 		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
 
-		long timeGettingValues = 0;
-		long timeStandardizingValues = 0;
+		ArrayList<PredictionValue> predictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(Long.parseLong(predictionId), session);
+		
+		HashMap<String, ArrayList<PredictionValue>> predictionValueMap = new HashMap<String, ArrayList<PredictionValue>>();
+		for(PredictionValue pv: predictionValues){
+			ArrayList<PredictionValue> compoundPredValues = predictionValueMap.get(pv.getCompoundName());
+			if(compoundPredValues == null){
+				compoundPredValues = new ArrayList<PredictionValue>();
+			}
+			compoundPredValues.add(pv);
+		}
+		
 		for(int i = 0; i < compounds.size(); i++){
 			CompoundPredictions cp = new CompoundPredictions();
 			cp.compound = compounds.get(i);
-			//get prediction values
-			Date one = new Date();
-			cp.predictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionIdAndCompoundId(Long.parseLong(predictionId), cp.compound, session);
-			Date two = new Date();
-			timeGettingValues += two.getTime() - one.getTime();
+			
+			//get the prediction values for this compound
+			cp.predictionValues = predictionValueMap.get(cp.compound);
 			
 			//round them to a reasonable number of significant figures
-			Date three = new Date();
 			for(PredictionValue pv : cp.predictionValues){
 				int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
 				if(pv.getPredictedValue() != null){
@@ -246,13 +251,8 @@ public class ViewPredictionAction extends ActionSupport {
 					pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
 				}
 			}
-			Date four = new Date();
-			timeStandardizingValues += four.getTime() - three.getTime();
 			compoundPredictionValues.add(cp);
 		}
-
-		Utility.writeToDebug("Finished populateCompoundPredictionValues. Time spent getting values: " + 
-				timeGettingValues + " time standardizing: " + timeStandardizingValues);
 	}
 	
 	public String loadWarningsSection() throws Exception {
