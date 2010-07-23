@@ -49,7 +49,8 @@ public class RandomForestWorkflow{
 		String type = actFileDataType.equals(Constants.CATEGORY) ? "classification" : "regression";
 		String ntree = randomForestParameters.getNumTrees().trim();
 		String mtry = randomForestParameters.getDescriptorsPerTree().trim();
-		String classwt = categoryWeights;
+//		String classwt = categoryWeights;
+		String classwt = "NULL";
 		command = "Rscript --vanilla " + buildModelScript
 					   + " --scriptsDir " + scriptDir
 					   + " --workDir " + workingDir
