@@ -81,7 +81,6 @@ public class PredictionValue implements java.io.Serializable{
 	public Float getPredictedValue() {
 		return predictedValue;
 	}
-
 	public void setPredictedValue(Float predictedValue) {
 		this.predictedValue = predictedValue;
 	}
