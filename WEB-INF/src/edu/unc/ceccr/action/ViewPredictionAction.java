@@ -115,12 +115,16 @@ public class ViewPredictionAction extends ActionSupport {
 				Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
 			}
 			
-			//get predictors for this prediction
+			//get predictors for this prediction. Order them by predictor ID, increasing.
 			predictors = new ArrayList<Predictor>();
 			String[] predictorIds = prediction.getPredictorIds().split("\\s+");
 			for(int i = 0; i < predictorIds.length; i++){
 				predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
 			}
+			Collections.sort(predictors, new Comparator<Predictor>(){
+				public int compare(Predictor p1, Predictor p2) {
+		    		return p1.getPredictorId().compareTo(p2.getPredictorId());
+			    }});
 
 			//get dataset
 			dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
@@ -138,6 +142,7 @@ public class ViewPredictionAction extends ActionSupport {
 			}
 			
 			//sort the compoundPrediction array
+			Utility.writeToDebug("Sorting compound predictions");
 			if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
 				//sort by compoundId
 				Collections.sort(compoundPredictionValues, new Comparator<CompoundPredictions>() {
@@ -180,6 +185,7 @@ public class ViewPredictionAction extends ActionSupport {
 			if(sortDirection != null && sortDirection.equals("desc")){
 				Collections.reverse(compoundPredictionValues);
 			}
+			Utility.writeToDebug("Done sorting compound predictions");
 
 			//displays the page numbers at the top
 			pageNums = new ArrayList<String>(); 
@@ -210,6 +216,7 @@ public class ViewPredictionAction extends ActionSupport {
 
 	private void populateCompoundPredictionValues(Session session) throws Exception{
 		
+		Utility.writeToDebug("Called populateCompoundPredictionValues");
 		//get compounds from SDF
 		String predictionDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/";
 		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
@@ -234,6 +241,8 @@ public class ViewPredictionAction extends ActionSupport {
 			}
 			compoundPredictionValues.add(cp);
 		}
+
+		Utility.writeToDebug("Finished populateCompoundPredictionValues");
 	}
 	
 	public String loadWarningsSection() throws Exception {
