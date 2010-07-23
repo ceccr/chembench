@@ -221,10 +221,10 @@ public class ViewPredictionAction extends ActionSupport {
 		String predictionDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/";
 		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
 
-		ArrayList<PredictionValue> predictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(Long.parseLong(predictionId), session);
+		ArrayList<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(Long.parseLong(predictionId), session);
 		
 		HashMap<String, ArrayList<PredictionValue>> predictionValueMap = new HashMap<String, ArrayList<PredictionValue>>();
-		for(PredictionValue pv: predictionValues){
+		for(PredictionValue pv: predictorPredictionValues){
 			ArrayList<PredictionValue> compoundPredValues = predictionValueMap.get(pv.getCompoundName());
 			if(compoundPredValues == null){
 				compoundPredValues = new ArrayList<PredictionValue>();
@@ -240,18 +240,21 @@ public class ViewPredictionAction extends ActionSupport {
 			cp.predictionValues = predictionValueMap.get(cp.compound);
 			
 			//round them to a reasonable number of significant figures
-			for(PredictionValue pv : cp.predictionValues){
-				int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
-				if(pv.getPredictedValue() != null){
-					String predictedValue = DecimalFormat.getInstance().format(pv.getPredictedValue()).replaceAll(",", "");
-					pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
-				}
-				if(pv.getStandardDeviation() != null){
-					String stddev = DecimalFormat.getInstance().format(pv.getStandardDeviation()).replaceAll(",", "");
-					pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
+			if(cp.predictionValues != null){
+				for(PredictionValue pv : cp.predictionValues){
+					int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
+					if(pv.getPredictedValue() != null){
+						String predictedValue = DecimalFormat.getInstance().format(pv.getPredictedValue()).replaceAll(",", "");
+						pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
+					}
+					if(pv.getStandardDeviation() != null){
+						String stddev = DecimalFormat.getInstance().format(pv.getStandardDeviation()).replaceAll(",", "");
+						pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
+					}
 				}
 			}
 			compoundPredictionValues.add(cp);
+				
 		}
 	}
 	
