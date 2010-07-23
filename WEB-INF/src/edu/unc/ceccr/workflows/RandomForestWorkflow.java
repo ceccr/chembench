@@ -267,6 +267,15 @@ public class RandomForestWorkflow{
 		ic.close();
 		oc.close(); 
 		
+		String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
+		
+		Utility.writeToDebug("Copying " + newExternalXFile + " from " + fromDir + " to " + toDir);
+		ic = new FileInputStream(fromDir + newExternalXFile).getChannel();
+		oc = new FileOutputStream(toDir + newExternalXFile).getChannel();
+		ic.transferTo(0, ic.size(), oc);
+		ic.close();
+		oc.close();
+		
 		Utility.writeToDebug("Copying files in RF_RAND_sets.list from " + fromDir + " to " + toDir);
 		String inputString;
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
@@ -287,9 +296,11 @@ public class RandomForestWorkflow{
 				oc.close();	
 			}
 		}
+		
+		
 	}
 	
-	public static void YRandomization(String userName, String jobName) throws Exception{
+	public static void YRandomization(String userName, String jobName, String actFileDataType, RandomForestParameters randomForestParameters) throws Exception{
 		//Do y-randomization shuffling
 		
 		String yRandomDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/";
@@ -312,6 +323,35 @@ public class RandomForestWorkflow{
 			    
 			}
 			x++;
+		}
+		
+		String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
+		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "/";
+		String buildModelScript = scriptDir + Constants.RF_BUILD_MODEL_RSCRIPT;
+		
+		// build model script parameter
+		String type = actFileDataType.equals(Constants.CATEGORY) ? "classification" : "regression";
+		String ntree = randomForestParameters.getNumTrees().trim();
+		String mtry = randomForestParameters.getDescriptorsPerTree().trim();
+//		String classwt = categoryWeights;
+		String classwt = "NULL";
+		String command = "Rscript --vanilla " + buildModelScript
+					          + " --scriptsDir " + scriptDir
+					          + " --workDir " + yRandomDir
+					          + " --externalXFile " + newExternalXFile
+					          + " --dataSplitsListFile " + "RF_RAND_sets.list"
+					          + " --type " + type
+					          + " --ntree " + ntree
+					          + " --mtry " + mtry
+					          + " --classwt " + classwt;
+		Utility.writeToDebug("Running external program: " + command + " in dir " + yRandomDir);
+		Process p = Runtime.getRuntime().exec(command, null, new File(yRandomDir));
+		Utility.writeProgramLogfile(yRandomDir, "RandomForestBuildModelForYRandom", p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		Utility.writeToDebug("Exit value: " + p.exitValue());
+		if(p.exitValue() != 0)
+		{
+			Utility.writeToDebug("	See error log");
 		}
 	}
 }
