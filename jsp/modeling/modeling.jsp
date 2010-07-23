@@ -91,9 +91,9 @@
 			    </tr>
 				<tr>
 					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Weight Categories By:</b></div>
+					<div class="StandardTextDarkGrayParagraph"><b>&nbsp;&nbsp;&nbsp;&nbsp;Weight Categories By:</b></div>
 					</td>
-					<td align="left" valign="top"><s:radio name="categoryWeights" value="categoryWeights" list="#{'INVERSESIZE':'Inverse of Size','NOWEIGHTING':'No Weighting','MANUAL':'Set Manually...'}" /></td>
+					<td><div class="StandardTextDarkGrayParagraphNoIndent"><td align="left" valign="top"><s:radio name="categoryWeights" value="categoryWeights" list="#{'INVERSESIZE':'Inverse of Size','NOWEIGHTING':'No Weighting','MANUAL':'Set Manually...'}" /></div></td>
 				</tr>
 				
 				<tr>

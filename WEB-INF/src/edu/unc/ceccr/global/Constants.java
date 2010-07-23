@@ -68,6 +68,9 @@ public class Constants {
 	public static final String PREDICTION = "PREDICTION";
 	public static final String MODELINGWITHDESCRIPTORS = "MODELINGWITHDESCRIPTORS";
 	public static final String PREDICTIONWITHDESCRIPTORS = "PREDICTIONWITHDESCRIPTORS";
+
+	public static final String INVERSEOFSIZE = "INVERSEOFSIZE";
+	public static final String NOWEIGHTING = "NOWEIGHTING";
 	
 	public static final String MOLCONNZ = "MOLCONNZ";
 	public static final String DRAGONH = "DRAGONH";

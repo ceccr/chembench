@@ -323,7 +323,7 @@ public class ModelingFormActions extends ActionSupport{
 	//begin dataset selection parameters
 	private String datasetName;
 	private String actFileDataType = Constants.CONTINUOUS; //set by the radio buttons
-	private String categoryWeights;
+	private String categoryWeights = Constants.INVERSEOFSIZE;
 	
 	//end dataset selection parameters
 	
