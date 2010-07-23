@@ -9,6 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
@@ -67,8 +70,10 @@ public class QsarPredictionTask extends WorkflowTask {
 					Session s = HibernateUtil.getSession();
 					allPredsTotalModels = 0;
 					String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
-					for(int i = 0; i < selectedPredictorIdArray.length; i++){
-						Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
+					ArrayList<String> selectedPredictorIds = (ArrayList<String>) Arrays.asList(selectedPredictorIdArray);
+					Collections.sort(selectedPredictorIds);
+					for(int i = 0; i < selectedPredictorIds.size(); i++){
+						Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIds.get(i)), s);
 						allPredsTotalModels += selectedPredictor.getNumTestModels();
 						selectedPredictorNames.add(selectedPredictor.getName());
 					}
