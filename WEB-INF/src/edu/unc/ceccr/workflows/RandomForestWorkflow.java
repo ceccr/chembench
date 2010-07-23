@@ -51,6 +51,9 @@ public class RandomForestWorkflow{
 		String mtry = randomForestParameters.getDescriptorsPerTree().trim();
 //		String classwt = categoryWeights;
 		String classwt = "NULL";
+		String nodesize = randomForestParameters.getMaxTerminalNodeSize();
+		String maxnodes = randomForestParameters.getMaxNumTerminalNodes();
+		if(maxnodes.equals("0")) maxnodes = "NULL";
 		command = "Rscript --vanilla " + buildModelScript
 					   + " --scriptsDir " + scriptDir
 					   + " --workDir " + workingDir
@@ -59,7 +62,9 @@ public class RandomForestWorkflow{
 					   + " --type " + type
 					   + " --ntree " + ntree
 					   + " --mtry " + mtry
-					   + " --classwt " + classwt;
+					   + " --classwt " + classwt
+					   + " --nodesize" + nodesize
+					   + " --maxnodes" + maxnodes;
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "randomForestBuildModel", p.getInputStream(), p.getErrorStream());
