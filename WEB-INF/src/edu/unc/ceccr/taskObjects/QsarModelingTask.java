@@ -647,7 +647,7 @@ public class QsarModelingTask extends WorkflowTask {
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			RandomForestWorkflow.SetUpYRandomization(userName, jobName);
 			RandomForestWorkflow.YRandomization(userName, jobName);
-			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, path, jobName);
+			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path, jobName);
 		}
 	}
 	

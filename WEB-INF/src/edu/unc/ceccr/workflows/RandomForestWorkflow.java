@@ -20,7 +20,7 @@ import javax.print.attribute.standard.JobName;
 
 public class RandomForestWorkflow{
 
-	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String scalingType, String workingDir, String jobName) throws Exception{
+	public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType, String scalingType, String categoryWeights, String workingDir, String jobName) throws Exception{
 		String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
 		
 		String command = "";
@@ -49,7 +49,7 @@ public class RandomForestWorkflow{
 		String type = actFileDataType.equals(Constants.CATEGORY) ? "classification" : "regression";
 		String ntree = randomForestParameters.getNumTrees().trim();
 		String mtry = randomForestParameters.getDescriptorsPerTree().trim();
-		String classwt = randomForestParameters.getClassWeights().trim().equals("") ? "NULL" : randomForestParameters.getClassWeights().trim();
+		String classwt = categoryWeights;
 		command = "Rscript --vanilla " + buildModelScript
 					   + " --scriptsDir " + scriptDir
 					   + " --workDir " + workingDir
