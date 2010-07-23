@@ -17,7 +17,7 @@ public class RandomForestParameters{
 	
 	private String numTrees;
 	private String descriptorsPerTree;
-	private String maxTerminalNodeSize;
+	private String minTerminalNodeSize;
 	private String maxNumTerminalNodes;
 	
 	@Id
@@ -38,12 +38,12 @@ public class RandomForestParameters{
 		this.numTrees = numTrees;
 	}
 	
-	@Column(name = "maxTerminalNodeSize")
-	public String getMaxTerminalNodeSize() {
-		return maxTerminalNodeSize;
+	@Column(name = "minTerminalNodeSize")
+	public String getMinTerminalNodeSize() {
+		return minTerminalNodeSize;
 	}
-	public void setMaxTerminalNodeSize(String maxTerminalNodeSize) {
-		this.maxTerminalNodeSize = maxTerminalNodeSize;
+	public void setMinTerminalNodeSize(String minTerminalNodeSize) {
+		this.minTerminalNodeSize = minTerminalNodeSize;
 	}
 	
 	@Column(name = "descriptorsPerTree")

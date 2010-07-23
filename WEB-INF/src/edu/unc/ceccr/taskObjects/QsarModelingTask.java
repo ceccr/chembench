@@ -369,7 +369,7 @@ public class QsarModelingTask extends WorkflowTask {
 			randomForestParameters.setDescriptorsPerTree(ModelingForm.getDescriptorsPerTree());
 			randomForestParameters.setNumTrees(ModelingForm.getNumTrees());
 			randomForestParameters.setMaxNumTerminalNodes(ModelingForm.getMaxNumTerminalNodes());
-			randomForestParameters.setMaxTerminalNodeSize(ModelingForm.getMaxTerminalNodeSize());
+			randomForestParameters.setMinTerminalNodeSize(ModelingForm.getMinTerminalNodeSize());
 		}
 		
 		//end load modeling parameters from form

@@ -444,7 +444,7 @@ public class ModelingFormActions extends ActionSupport{
 	//Random Forest parameters
 
 	private String numTrees = "50";
-	private String maxTerminalNodeSize = "5";
+	private String minTerminalNodeSize = "0";
 	private String maxNumTerminalNodes = "0";
 	private String descriptorsPerTree = "25";
 	
@@ -1114,11 +1114,11 @@ public class ModelingFormActions extends ActionSupport{
 		this.numTrees = numTrees;
 	}
 
-	public String getMaxTerminalNodeSize() {
-		return maxTerminalNodeSize;
+	public String getMinTerminalNodeSize() {
+		return minTerminalNodeSize;
 	}
-	public void setMaxTerminalNodeSize(String maxTerminalNodeSize) {
-		this.maxTerminalNodeSize = maxTerminalNodeSize;
+	public void setMinTerminalNodeSize(String minTerminalNodeSize) {
+		this.minTerminalNodeSize = minTerminalNodeSize;
 	}
 
 	public String getMaxNumTerminalNodes() {
