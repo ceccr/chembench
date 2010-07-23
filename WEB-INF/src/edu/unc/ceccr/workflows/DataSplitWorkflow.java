@@ -150,7 +150,10 @@ public class DataSplitWorkflow{
 			String jobName, 
 			String numSplitsStr, 
 			String randomSplitMinTestSizeStr, 
-			String randomSplitMaxTestSizeStr) throws Exception {
+			String randomSplitMaxTestSizeStr,
+			String randomSplitSampleWithReplacement) throws Exception {
+		
+		//need to make the sample with replace option actually do something
 		
 		//splits the modeling set into several training and test sets randomly
 		Utility.writeToDebug("Splitting train/test data randomly", userName, jobName);

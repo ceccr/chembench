@@ -21,18 +21,19 @@
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Trees Per Split:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="numTrees" name="numTrees" size="5" theme="simple"/>
 				</td></tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Training Set Size:</b></div></td>
-				<td align="left" valign="top"><s:textfield id="trainSetSize" name="trainSetSize" size="5" theme="simple"/>
-				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Descriptors Per Tree:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="descriptorsPerTree" name="descriptorsPerTree" size="5" theme="simple"/>
 				</td></tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Sample With Replacement?</b></div></td>
-				<td align="left" valign="top"><s:radio name="sampleWithReplacement" list="#{'true':'Yes','false':'No'}" theme="simple" /></div>
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Maximum Terminal Node Size:</b></div></td>
+				<td align="left" valign="top"><s:textfield id="maxTerminalNodeSize" name="maxTerminalNodeSize" size="5" theme="simple"/>
 				</td></tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Class Weights:</b></div></td>
-				<td align="left" valign="top"><s:textfield id="classWeights" name="classWeights" size="5" theme="simple"/>
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Maximum Number of Terminal Nodes (0 = no limit):</b></div></td>
+				<td align="left" valign="top"><s:textfield id="maxNumTerminalNodes" name="maxNumTerminalNodes" size="5" theme="simple"/>
 				</td></tr>
+				
+				
+
+
 				
 				</table></td></tr>
 				</tbody>

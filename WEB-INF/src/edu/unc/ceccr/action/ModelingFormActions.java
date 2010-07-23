@@ -334,6 +334,7 @@ public class ModelingFormActions extends ActionSupport{
 		private String numSplitsInternalRandom = "20";
 		private String randomSplitMinTestSize = "20";
 		private String randomSplitMaxTestSize = "30";
+		private String randomSplitSampleWithReplacement = "FALSE";
 		
 		//if sphere exclusion
 		private String numSplitsInternalSphere = "20";
@@ -437,10 +438,9 @@ public class ModelingFormActions extends ActionSupport{
 	//Random Forest parameters
 
 	private String numTrees = "50";
-	private String trainSetSize = "10";
+	private String maxTerminalNodeSize = "5";
+	private String maxNumTerminalNodes = "0";
 	private String descriptorsPerTree = "25";
-	private String sampleWithReplacement = "true";
-	private String classWeights = "";
 	
 	//end Random Forest parameters
 
@@ -635,6 +635,14 @@ public class ModelingFormActions extends ActionSupport{
 	}
 	public void setRandomSplitMaxTestSize(String randomSplitMaxTestSize) {
 		this.randomSplitMaxTestSize = randomSplitMaxTestSize;
+	}
+
+	public String getRandomSplitSampleWithReplacement() {
+		return randomSplitSampleWithReplacement;
+	}
+	public void setRandomSplitSampleWithReplacement(
+			String randomSplitSampleWithReplacement) {
+		this.randomSplitSampleWithReplacement = randomSplitSampleWithReplacement;
 	}
 
 	public String getSelectionNextTrainPt() {
@@ -1087,7 +1095,6 @@ public class ModelingFormActions extends ActionSupport{
 	//end SVM
 	
 	//start RF
-	
 	public String getNumTrees() {
 		return numTrees;
 	}
@@ -1095,11 +1102,18 @@ public class ModelingFormActions extends ActionSupport{
 		this.numTrees = numTrees;
 	}
 
-	public String getTrainSetSize() {
-		return trainSetSize;
+	public String getMaxTerminalNodeSize() {
+		return maxTerminalNodeSize;
 	}
-	public void setTrainSetSize(String trainSetSize) {
-		this.trainSetSize = trainSetSize;
+	public void setMaxTerminalNodeSize(String maxTerminalNodeSize) {
+		this.maxTerminalNodeSize = maxTerminalNodeSize;
+	}
+
+	public String getMaxNumTerminalNodes() {
+		return maxNumTerminalNodes;
+	}
+	public void setMaxNumTerminalNodes(String maxNumTerminalNodes) {
+		this.maxNumTerminalNodes = maxNumTerminalNodes;
 	}
 
 	public String getDescriptorsPerTree() {
@@ -1108,21 +1122,6 @@ public class ModelingFormActions extends ActionSupport{
 	public void setDescriptorsPerTree(String descriptorsPerTree) {
 		this.descriptorsPerTree = descriptorsPerTree;
 	}
-
-	public String getSampleWithReplacement() {
-		return sampleWithReplacement;
-	}
-	public void setSampleWithReplacement(String sampleWithReplacement) {
-		this.sampleWithReplacement = sampleWithReplacement;
-	}
-
-	public String getClassWeights() {
-		return classWeights;
-	}
-	public void setClassWeights(String classWeights) {
-		this.classWeights = classWeights;
-	}
-
 	//end RF
 	
 	

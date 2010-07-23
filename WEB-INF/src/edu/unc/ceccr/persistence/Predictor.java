@@ -84,7 +84,8 @@ public class Predictor implements java.io.Serializable {
 		//if random split
 		private String randomSplitMinTestSize;
 		private String randomSplitMaxTestSize;		
-	
+		private String randomSplitSampleWithReplacement;
+		
 		//if sphere exclusion
 		private String splitIncludesMin;
 		private String splitIncludesMax;
@@ -429,6 +430,15 @@ public class Predictor implements java.io.Serializable {
 	}
 	public void setRandomSplitMaxTestSize(String randomSplitMaxTestSize) {
 		this.randomSplitMaxTestSize = randomSplitMaxTestSize;
+	}
+
+	@Column(name = "randomSplitSampleWithReplacement")
+	public String getRandomSplitSampleWithReplacement() {
+		return randomSplitSampleWithReplacement;
+	}
+	public void setRandomSplitSampleWithReplacement(
+			String randomSplitSampleWithReplacement) {
+		this.randomSplitSampleWithReplacement = randomSplitSampleWithReplacement;
 	}
 
 	@Column(name = "splitIncludesMin")

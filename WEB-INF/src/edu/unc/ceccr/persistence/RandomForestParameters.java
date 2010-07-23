@@ -16,10 +16,9 @@ public class RandomForestParameters{
 	private Long id;
 	
 	private String numTrees;
-	private String trainSetSize;
 	private String descriptorsPerTree;
-	private String sampleWithReplacement;
-	private String classWeights;
+	private String maxTerminalNodeSize;
+	private String maxNumTerminalNodes;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,12 +38,12 @@ public class RandomForestParameters{
 		this.numTrees = numTrees;
 	}
 	
-	@Column(name = "trainSetSize")
-	public String getTrainSetSize() {
-		return trainSetSize;
+	@Column(name = "maxTerminalNodeSize")
+	public String getMaxTerminalNodeSize() {
+		return maxTerminalNodeSize;
 	}
-	public void setTrainSetSize(String trainSetSize) {
-		this.trainSetSize = trainSetSize;
+	public void setMaxTerminalNodeSize(String maxTerminalNodeSize) {
+		this.maxTerminalNodeSize = maxTerminalNodeSize;
 	}
 	
 	@Column(name = "descriptorsPerTree")
@@ -55,19 +54,11 @@ public class RandomForestParameters{
 		this.descriptorsPerTree = descriptorsPerTree;
 	}
 	
-	@Column(name = "sampleWithReplacement")
-	public String getSampleWithReplacement() {
-		return sampleWithReplacement;
+	@Column(name = "maxNumTerminalNodes")
+	public String getMaxNumTerminalNodes() {
+		return maxNumTerminalNodes;
 	}
-	public void setSampleWithReplacement(String sampleWithReplacement) {
-		this.sampleWithReplacement = sampleWithReplacement;
-	}
-	
-	@Column(name = "classWeights")
-	public String getClassWeights() {
-		return classWeights;
-	}
-	public void setClassWeights(String classWeights) {
-		this.classWeights = classWeights;
+	public void setMaxNumTerminalNodes(String maxNumTerminalNodes) {
+		this.maxNumTerminalNodes = maxNumTerminalNodes;
 	}
 }

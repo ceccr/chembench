@@ -85,6 +85,7 @@ public class QsarModelingTask extends WorkflowTask {
 		//if random split
 		private String randomSplitMinTestSize;
 		private String randomSplitMaxTestSize;		
+		private String randomSplitSampleWithReplacement;		
 	
 		//if sphere exclusion
 		private String splitIncludesMin;
@@ -208,6 +209,7 @@ public class QsarModelingTask extends WorkflowTask {
 			//if random split
 			randomSplitMinTestSize = predictor.getRandomSplitMinTestSize();
 			randomSplitMaxTestSize = predictor.getRandomSplitMaxTestSize();
+			randomSplitSampleWithReplacement = predictor.getRandomSplitSampleWithReplacement();
 			
 			//if sphere exclusion
 			splitIncludesMin = predictor.getSplitIncludesMin();
@@ -266,6 +268,7 @@ public class QsarModelingTask extends WorkflowTask {
 			numSplits = ModelingForm.getNumSplitsInternalRandom();
 			randomSplitMinTestSize = ModelingForm.getRandomSplitMinTestSize();
 			randomSplitMaxTestSize = ModelingForm.getRandomSplitMaxTestSize();	
+			randomSplitSampleWithReplacement = ModelingForm.getRandomSplitSampleWithReplacement();
 		}
 		else if(trainTestSplitType.equalsIgnoreCase(Constants.SPHEREEXCLUSION)){
 			//sphere exclusion datasplit params
@@ -360,11 +363,10 @@ public class QsarModelingTask extends WorkflowTask {
 		else if(ModelingForm.getModelingType().equals(Constants.RANDOMFOREST)){
 			randomForestParameters = new RandomForestParameters();
 
-			randomForestParameters.setClassWeights(ModelingForm.getClassWeights());
 			randomForestParameters.setDescriptorsPerTree(ModelingForm.getDescriptorsPerTree());
 			randomForestParameters.setNumTrees(ModelingForm.getNumTrees());
-			randomForestParameters.setSampleWithReplacement(ModelingForm.getSampleWithReplacement());
-			randomForestParameters.setTrainSetSize(ModelingForm.getTrainSetSize());
+			randomForestParameters.setMaxNumTerminalNodes(ModelingForm.getMaxNumTerminalNodes());
+			randomForestParameters.setMaxTerminalNodeSize(ModelingForm.getMaxTerminalNodeSize());
 		}
 		
 		//end load modeling parameters from form
@@ -409,6 +411,7 @@ public class QsarModelingTask extends WorkflowTask {
 			//if random split
 			predictor.setRandomSplitMinTestSize(randomSplitMinTestSize);
 			predictor.setRandomSplitMaxTestSize(randomSplitMaxTestSize);
+			predictor.setRandomSplitSampleWithReplacement(randomSplitSampleWithReplacement);
 			
 			//if sphere exclusion
 			predictor.setSplitIncludesMin(splitIncludesMin);
@@ -545,7 +548,7 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		//make internal training / test sets for each model
 		if(trainTestSplitType.equals(Constants.RANDOM)){
-			DataSplitWorkflow.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize, randomSplitMaxTestSize);
+			DataSplitWorkflow.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize, randomSplitMaxTestSize, randomSplitSampleWithReplacement);
 		}
 		else{
 			DataSplitWorkflow.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax, sphereSplitMinTestSize, selectionNextTrainPt);
