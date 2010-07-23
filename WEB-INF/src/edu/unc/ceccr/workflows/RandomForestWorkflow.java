@@ -342,6 +342,7 @@ public class RandomForestWorkflow{
 		String classwt = "NULL";
 		String nodesize = randomForestParameters.getMaxTerminalNodeSize();
 		String maxnodes = randomForestParameters.getMaxNumTerminalNodes();
+		if(maxnodes.equals("0")) maxnodes = "NULL";
 		String command = "Rscript --vanilla " + buildModelScript
 					          + " --scriptsDir " + scriptDir
 					          + " --workDir " + yRandomDir
