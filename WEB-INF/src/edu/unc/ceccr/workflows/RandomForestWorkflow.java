@@ -256,7 +256,6 @@ public class RandomForestWorkflow{
 		FileAndDirOperations.deleteDirContents(workingdir + "yRandom/Logs/");
 		
 		//copy file to yRandom
-		File file;
 		String fromDir = workingdir;
 		String toDir = workingdir + "yRandom/";
 		BufferedReader in = new BufferedReader(new FileReader(workingdir + "RF_RAND_sets.list"));
