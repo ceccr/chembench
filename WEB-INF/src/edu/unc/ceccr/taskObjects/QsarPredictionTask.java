@@ -394,7 +394,6 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			prediction.setJobCompleted(Constants.YES);
 			prediction.setStatus("saved");
-			prediction.setPredictedValues(new ArrayList<PredictionValue>(allPredValues));
 
 			Session session = HibernateUtil.getSession();
 			Transaction tx = null;
