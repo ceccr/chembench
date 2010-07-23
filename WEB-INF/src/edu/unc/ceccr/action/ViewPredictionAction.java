@@ -23,6 +23,7 @@ import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Order;
 
 import edu.unc.ceccr.action.ViewDataset.Compound;
 import edu.unc.ceccr.global.Constants;
@@ -224,6 +225,16 @@ public class ViewPredictionAction extends ActionSupport {
 		Utility.writeToDebug("getting from db");
 		ArrayList<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(Long.parseLong(predictionId), session);
 		Utility.writeToDebug("done getting from db");
+
+
+		Utility.writeToDebug("Sorting");
+		Collections.sort(predictorPredictionValues, new Comparator<PredictionValue>(){
+				public int compare(PredictionValue p1, PredictionValue p2) {
+		    		return p1.getPredictorId().compareTo(p2.getPredictorId());
+			    }});
+		//.addOrder(Order.asc("predictorId")) 
+		Utility.writeToDebug("Done sorting");
+
 		
 		Utility.writeToDebug("building hashmap");
 		HashMap<String, ArrayList<PredictionValue>> predictionValueMap = new HashMap<String, ArrayList<PredictionValue>>();

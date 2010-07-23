@@ -44,7 +44,6 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			predictionValues = (ArrayList<PredictionValue>) session.createCriteria(PredictionValue.class)
 			.add(Expression.eq("predictionJob", p))
-			.addOrder(Order.asc("predictorId")) 
 			.list();
 		} catch (Exception ex) {
 			Utility.writeToDebug(ex);
