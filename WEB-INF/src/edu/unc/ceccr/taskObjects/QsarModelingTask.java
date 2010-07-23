@@ -645,9 +645,9 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnPlusWorkflow.predictExternalSet(userName, jobName, path, knnPlusParameters.getKnnApplicabilityDomain());
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
+			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path, jobName);
 			RandomForestWorkflow.SetUpYRandomization(userName, jobName);
 			RandomForestWorkflow.YRandomization(userName, jobName);
-			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path, jobName);
 		}
 	}
 	
