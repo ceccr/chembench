@@ -221,8 +221,11 @@ public class ViewPredictionAction extends ActionSupport {
 		String predictionDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/";
 		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
 
+		Utility.writeToDebug("getting from db");
 		ArrayList<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(Long.parseLong(predictionId), session);
+		Utility.writeToDebug("done getting from db");
 		
+		Utility.writeToDebug("building hashmap");
 		HashMap<String, ArrayList<PredictionValue>> predictionValueMap = new HashMap<String, ArrayList<PredictionValue>>();
 		for(PredictionValue pv: predictorPredictionValues){
 			ArrayList<PredictionValue> compoundPredValues = predictionValueMap.get(pv.getCompoundName());
@@ -232,6 +235,7 @@ public class ViewPredictionAction extends ActionSupport {
 			compoundPredValues.add(pv);
 			predictionValueMap.put(pv.getCompoundName(), compoundPredValues);
 		}
+		Utility.writeToDebug("done building hashmap");
 		
 		for(int i = 0; i < compounds.size(); i++){
 			CompoundPredictions cp = new CompoundPredictions();
