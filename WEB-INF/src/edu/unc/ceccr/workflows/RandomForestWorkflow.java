@@ -340,7 +340,7 @@ public class RandomForestWorkflow{
 		String mtry = randomForestParameters.getDescriptorsPerTree().trim();
 //		String classwt = categoryWeights;
 		String classwt = "NULL";
-		String nodesize = randomForestParameters.getMaxTerminalNodeSize();
+		String nodesize = randomForestParameters.getMinTerminalNodeSize();
 		String maxnodes = randomForestParameters.getMaxNumTerminalNodes();
 		if(maxnodes.equals("0")) maxnodes = "NULL";
 		String command = "Rscript --vanilla " + buildModelScript
