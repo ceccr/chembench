@@ -128,15 +128,6 @@ public class Prediction implements java.io.Serializable{
 		this.userName = userName;
 	}
 
-	@OneToMany(mappedBy = "predictionJob", cascade = CascadeType.ALL)
-	public List<PredictionValue> getPredictedValues() {
-		return predictedValues;
-	}
-
-	public void setPredictedValues(List<PredictionValue> predictedValues) {
-		this.predictedValues = predictedValues;
-	}
-
 	@Column(name = "created_datetime", updatable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	public Date getDateCreated() {
