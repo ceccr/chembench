@@ -166,7 +166,6 @@ try {
 			.createCriteria(Prediction.class).add(Expression.eq("predictionJobId",selectedPredictionId))
 					.uniqueResult();
 	
-	predictionJob.getPredictedValues().size(); //initialize the 'predictionJob'
 	tx.commit();
 	
 } catch (RuntimeException e) {
@@ -195,9 +194,6 @@ return predictionJob;
 					Prediction.class).add(Expression.eq("predictionJobId", selectedPredictionId))
 					.uniqueResult();
            
-			predictionValues = session.createFilter( predictionJob.getPredictedValues(), " order by this.compoundName ASC" )
-			                      .list();
-		
 			tx.commit();
 
 		} catch (RuntimeException e) {
