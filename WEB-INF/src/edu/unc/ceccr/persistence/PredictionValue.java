@@ -24,7 +24,7 @@ public class PredictionValue implements java.io.Serializable{
 	private int numModelsUsed;
 	private Float predictedValue;
 	private Float standardDeviation;
-	private Prediction predictionJob;
+	private Long predictionId;
 	private Long id;
 	private float observedValue;
 
@@ -95,22 +95,18 @@ public class PredictionValue implements java.io.Serializable{
 		this.standardDeviation = standardDeviation;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "prediction_id")
-	public Prediction getPredictionJob() {
-		return predictionJob;
+	@Column(name = "prediction_id")
+	public Long getPredictionId() {
+		return predictionId;
 	}
-
-	public void setPredictionJob(Prediction predictionJob) {
-		this.predictionJob = predictionJob;
+	public void setPredictionId(Long predictionId) {
+		this.predictionId = predictionId;
 	}
-
 
 	@Transient
 	public int getNumTotalModels() {
 		return numTotalModels;
 	}
-
 	public void setNumTotalModels(int numTotalModels) {
 		this.numTotalModels = numTotalModels;
 	}

@@ -381,8 +381,6 @@ public class QsarPredictionTask extends WorkflowTask {
 			//move files back from LSF
 		}
 		
-		
-		
 		KnnPredictionWorkflow.MoveToPredictionsDir(userName, jobName);
 		
 		try{
@@ -394,10 +392,6 @@ public class QsarPredictionTask extends WorkflowTask {
 				Utility.writeToDebug("Saving prediction to database.");
 			}
 			
-			for (PredictionValue predOutput : this.allPredValues){
-				predOutput.setPredictionJob(prediction);
-			}
-
 			prediction.setJobCompleted(Constants.YES);
 			prediction.setStatus("saved");
 			prediction.setPredictedValues(new ArrayList<PredictionValue>(allPredValues));
@@ -412,10 +406,23 @@ public class QsarPredictionTask extends WorkflowTask {
 				if (tx != null)
 					tx.rollback();
 				Utility.writeToDebug(e);
+			}
+			
+			try {
+				tx = session.beginTransaction();
+				for (PredictionValue predOutput : this.allPredValues){
+					predOutput.setPredictionId(prediction.getPredictionId());
+					session.saveOrUpdate(predOutput);
+				}		
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
 			} finally {
 				session.close();
 			}
-			
+
 			File dir=new File(Constants.CECCR_USER_BASE_PATH+this.userName+"/"+this.jobName+"/");
 			FileAndDirOperations.deleteDir(dir);
 			
