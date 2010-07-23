@@ -230,6 +230,7 @@ public class ViewPredictionAction extends ActionSupport {
 				compoundPredValues = new ArrayList<PredictionValue>();
 			}
 			compoundPredValues.add(pv);
+			predictionValueMap.put(pv.getCompoundName(), compoundPredValues);
 		}
 		
 		for(int i = 0; i < compounds.size(); i++){
