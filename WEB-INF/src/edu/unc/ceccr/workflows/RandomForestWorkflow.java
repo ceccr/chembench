@@ -105,22 +105,78 @@ public class RandomForestWorkflow{
 		return "";
 	}
 
-	public static ArrayList<RandomForestGrove> readRandomForestGroves(String workingDir, Predictor predictor){
+	public static ArrayList<RandomForestGrove> readRandomForestGroves(String workingDir, Predictor predictor, String isYRandomModel)  throws Exception{
 		ArrayList<RandomForestGrove> randomForestModels = new ArrayList<RandomForestGrove>();
-		//for each model
-		RandomForestGrove m = new RandomForestGrove();
-		m.setPredictor_id(predictor.getPredictorId());
 		
+		// read the models list
+		BufferedReader in = new BufferedReader(new FileReader(workingDir + Constants.RF_DESCRIPTORS_USED_FILE));
+		String inputString;
+		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+		{
+			//for each model
+			String[] data = inputString.split("\t"); // [0] is the grove name, [1] is the list of descriptors used in this grove
+			RandomForestGrove m = new RandomForestGrove();
+			m.setPredictor_id(predictor.getPredictorId());
+			m.setName(data[0]);
+			m.setDescriptorsUsed(data[1]);
+			m.setIsYRandomModel(isYRandomModel);
+			randomForestModels.add(m);
+		}
+		in.close();
 		return randomForestModels;
 	}
 	
-	public static ArrayList<RandomForestTree> readRandomForestTrees(String workingDir, Predictor predictor, Long groveId){
+	public static ArrayList<RandomForestTree> readRandomForestTrees(String workingDir, Predictor predictor, RandomForestGrove grove, String actFileDataType) throws Exception{
 		ArrayList<RandomForestTree> randomForestTrees = new ArrayList<RandomForestTree>();
 		
-		//for each tree
-		RandomForestTree t = new RandomForestTree();
-		t.setRandomForestGroveId(groveId);
-		
+		if(actFileDataType.equals(Constants.CONTINUOUS))
+		{
+			ArrayList<String> treeFileName = new ArrayList<String>();
+			ArrayList<String> treeR2 = new ArrayList<String>();
+			ArrayList<String> treeMse = new ArrayList<String>();
+			ArrayList<String> treeDescriptorsUsed = new ArrayList<String>();
+			
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + grove.getName() + "_trees.list"));
+			String inputString;
+			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+			{
+				treeFileName.add(inputString);
+			}
+			in.close();
+			
+			in = new BufferedReader(new FileReader(workingDir + grove.getName() + ".rsq"));
+			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+			{
+				treeR2.add(inputString);
+			}
+			in.close();
+			
+			in = new BufferedReader(new FileReader(workingDir + grove.getName() + ".mse"));
+			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+			{
+				treeMse.add(inputString);
+			}
+			in.close();
+			
+			in = new BufferedReader(new FileReader(workingDir + grove.getName() + "_desc_used_in_trees.txt"));
+			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+			{
+				treeDescriptorsUsed.add(inputString);
+			}
+			in.close();
+			
+			//for each tree
+			for(int i=0; i<treeFileName.size(); i++)
+			{
+				RandomForestTree t = new RandomForestTree();
+				t.setRandomForestGroveId(grove.getId());
+				t.setTreeFileName(treeFileName.get(i));
+				t.setR2(treeR2.get(i));
+				t.setMse(treeMse.get(i));
+				t.setDescriptorsUsed(treeDescriptorsUsed.get(i));
+				randomForestTrees.add(t);
+			}
+		}
 		return randomForestTrees;
 	}
 	

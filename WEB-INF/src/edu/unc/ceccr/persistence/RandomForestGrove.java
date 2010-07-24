@@ -14,6 +14,7 @@ drop table cbench_randomForestModel;
 create table cbench_randomForestGrove (
 id INT(12) UNSIGNED auto_increment PRIMARY KEY,
 predictor_id int(10) unsigned NOT NULL DEFAULT '0',
+name VARCHAR(255)
 isYRandomModel VARCHAR(255),
 descriptorsUsed VARCHAR(2550),
 r2 VARCHAR(255),
@@ -25,6 +26,7 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
 
 	private Long id;
 	private Long predictor_id;
+	private String name;
 	private String isYRandomModel;
 	private String descriptorsUsed;
 	private String r2;
@@ -49,6 +51,14 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
 		predictor_id = predictorId;
 	}
 
+	@Column(name = "name")
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	
 	@Column(name = "isYRandomModel")
 	public String getIsYRandomModel() {
 		return isYRandomModel;

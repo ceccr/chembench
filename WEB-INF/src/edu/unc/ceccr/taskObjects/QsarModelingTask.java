@@ -682,6 +682,8 @@ public class QsarModelingTask extends WorkflowTask {
 		ArrayList<SvmModel> svmModels = null;
 		ArrayList<RandomForestGrove> randomForestModels = null;
 		ArrayList<RandomForestTree> randomForestTrees = null;
+		ArrayList<RandomForestGrove> randomForestYRandomModels = null;
+		ArrayList<RandomForestTree> randomForestYRandomTrees = null;
 		
 		if(modelType.equals(Constants.KNN)){
 			ArrayList<KnnModel> yRandomModels = null;
@@ -760,7 +762,7 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			//read in models and associate them with the predictor
-			randomForestModels = RandomForestWorkflow.readRandomForestGroves(filePath, predictor);
+			randomForestModels = RandomForestWorkflow.readRandomForestGroves(filePath, predictor, Constants.NO);
 			
 			//commit models to database so we get the model id back so we can use it in the trees
 			try{
@@ -777,7 +779,29 @@ public class QsarModelingTask extends WorkflowTask {
 
 			//read in trees and associate them with each model
 			for(RandomForestGrove m: randomForestModels){
-				randomForestTrees = RandomForestWorkflow.readRandomForestTrees(filePath, predictor, m.getId());
+				randomForestTrees = RandomForestWorkflow.readRandomForestTrees(filePath, predictor, m, actFileDataType);
+			}
+			
+			//read in models for yRandom and associate them with the predictor
+			String yRandomDir = filePath + "yRandom/";
+			randomForestYRandomModels = RandomForestWorkflow.readRandomForestGroves(filePath, predictor, Constants.YES);
+			
+			//commit models to database so we get the model id back so we can use it in the trees
+			try{
+				tx = session.beginTransaction();
+				for(RandomForestGrove m: randomForestYRandomModels){
+					session.saveOrUpdate(m);
+				}
+				tx.commit();
+			}
+			catch(Exception ex){
+				Utility.writeToDebug(ex);
+				tx.rollback();
+			}
+
+			//read in trees and associate them with each model
+			for(RandomForestGrove m: randomForestYRandomModels){
+				randomForestYRandomTrees = RandomForestWorkflow.readRandomForestTrees(filePath, predictor, m, actFileDataType);
 			}
 			
 			//read external set predictions
