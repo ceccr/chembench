@@ -387,7 +387,7 @@ public class RandomForestWorkflow{
 		}
 		
 		String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
-		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "/";
+		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
 		String buildModelScript = scriptDir + Constants.RF_BUILD_MODEL_RSCRIPT;
 		
 		// build model script parameter
