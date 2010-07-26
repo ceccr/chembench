@@ -54,7 +54,7 @@
 			<th class="TableRowText01narrow">R<sup>2</sup></th>
 			<th class="TableRowText01narrow">MSE</sup></th>
 			<th class="TableRowText01narrow">CCR</sup></th>
-			<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors Chosen</th>
+			<th class="TableRowText01narrow_unsortable" colspan="3">Descriptors Chosen</th>
 			</tr>
 		</s:if>
 		
@@ -64,7 +64,7 @@
 				<td class="TableRowText02narrow"><s:property value="r2" /></td>
 				<td class="TableRowText02narrow"><s:property value="mse" /></td>
 				<td class="TableRowText02narrow"><s:property value="ccr" /></td>
-				<td class="TableRowText02narrow" colspan="2"><s:property value="descriptorsUsed" /></td>
+				<td class="TableRowText02narrow" colspan="3"><s:property value="descriptorsUsed" /></td>
 			</tr> 
 		</s:iterator>
 	
@@ -77,7 +77,7 @@
 		<s:if test="mostFrequentDescriptors!=''">
 			<br />
 			<p class="StandardTextDarkGray"><b><u>Descriptor Frequencies</u></b></p>
-			<p class="StandardTextDarkGray"><s:property value="mostFrequentDescriptors" /></p>
+			<!--<p class="StandardTextDarkGray"><s:property value="mostFrequentDescriptors" /></p>-->
 		</s:if>
 		
 <!-- End Groves Page -->

@@ -515,13 +515,9 @@ public class PopulateDataObjects {
 
 	public static Predictor getPredictorById(Long predictorId, Session session) throws ClassNotFoundException, SQLException {
 		Predictor predictor = null;
-		if(session.getTransaction().isActive()){
-		}
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			if(session.getTransaction().isActive()){
-			}
 			predictor = (Predictor) session.createCriteria(Predictor.class)
 					.add(Expression.eq("predictorId", predictorId))
 					.uniqueResult();
@@ -576,8 +572,6 @@ public class PopulateDataObjects {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			if(session.getTransaction().isActive()){
-			}
 			user = (User) session.createCriteria(User.class)
 					.add(Expression.eq("userName", userName)).uniqueResult();
 			tx.commit();
@@ -596,8 +590,6 @@ public class PopulateDataObjects {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			if(session.getTransaction().isActive()){
-			}
 			users = (List<User>) session.createCriteria(User.class).list();
 			tx.commit();
 		} catch (Exception e) {
@@ -615,8 +607,6 @@ public class PopulateDataObjects {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			if(session.getTransaction().isActive()){
-			}
 			jobStats = session.createCriteria(JobStats.class).list();
 			tx.commit();
 		} catch (Exception e) {
@@ -629,18 +619,14 @@ public class PopulateDataObjects {
 	}
 	
 	public static List<RandomForestGrove> getRandomForestGrovesByPredictorId(Long predictorId, Session session) throws Exception{
-		Predictor predictor = getPredictorById(predictorId, session);
+		//Predictor predictor = getPredictorById(predictorId, session);
 		
 		List<RandomForestGrove> groves = null;
-		if(session.getTransaction().isActive()){
-		}
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			if(session.getTransaction().isActive()){
-			}
 			groves = session.createCriteria(RandomForestGrove.class)
-					.add(Expression.eq("predictor", predictor)).list();
+					.add(Expression.eq("predictor_id", predictorId)).list();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
@@ -656,13 +642,9 @@ public class PopulateDataObjects {
 		Predictor predictor = getPredictorById(predictorId, session);
 		
 		List<KnnPlusModel> models = null;
-		if(session.getTransaction().isActive()){
-		}
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			if(session.getTransaction().isActive()){
-			}
 			models = session.createCriteria(KnnPlusModel.class)
 					.add(Expression.eq("predictor", predictor)).list();
 			tx.commit();
@@ -681,13 +663,9 @@ public class PopulateDataObjects {
 		Predictor predictor = getPredictorById(predictorId, session);
 		
 		List<KnnModel> models = null;
-		if(session.getTransaction().isActive()){
-		}
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			if(session.getTransaction().isActive()){
-			}
 			models = session.createCriteria(KnnModel.class)
 					.add(Expression.eq("predictor", predictor)).list();
 			tx.commit();

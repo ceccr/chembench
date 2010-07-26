@@ -249,13 +249,18 @@ public class ViewPredictorAction extends ActionSupport {
 				randomForestGroves = new ArrayList<RandomForestGrove>();
 				randomForestYRandomGroves = new ArrayList<RandomForestGrove>();
 				
-				for(RandomForestGrove rfg : rfGroves){
-					if(rfg.getIsYRandomModel().equals(Constants.YES)){
-						randomForestGroves.add(rfg);
+				if(rfGroves != null){
+					for(RandomForestGrove rfg : rfGroves){
+						if(rfg.getIsYRandomModel().equals(Constants.YES)){
+							randomForestGroves.add(rfg);
+						}
+						else{
+							randomForestYRandomGroves.add(rfg);
+						}
 					}
-					else{
-						randomForestYRandomGroves.add(rfg);
-					}
+				}
+				else{
+					Utility.writeToDebug("rfgroves null!");
 				}
 			}
 		}
