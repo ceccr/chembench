@@ -83,6 +83,9 @@
 					</td>
 			    </tr> 
 			    <tr>
+				<td colspan="2">&nbsp;</td>
+			    </tr>
+			    <tr>
 					<td colspan="2">
 					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataTypeRadio" id="categoryDataset" onclick="setToCategory()">Choose a Category Dataset:</input></b>
 					<br /><s:select name="selectedDatasetId" disabled="true" list="userCategoryDatasets" id="selectedCategoryDataset" listKey="fileId" listValue="fileName" />
@@ -91,7 +94,7 @@
 			    </tr>
 				<tr>
 					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>&nbsp;&nbsp;&nbsp;&nbsp;Weight Categories By:</b></div></td>
+					<div class="StandardTextDarkGrayParagraph"><b>Weight Categories By:</b></div></td>
 					<td align="left" valign="top">
 					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="categoryWeights" value="categoryWeights" list="#{'INVERSESIZE':'Inverse of Size','NOWEIGHTING':'No Weighting','MANUAL':'Set Manually...'}" /></div>
 					</td>

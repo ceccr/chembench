@@ -105,10 +105,16 @@
 			
 			<s:elseif test="selectedPredictor.modelMethod=='RANDOMFOREST'">
 				<s:url id="externalValidationLink" value="/viewRandomForestExternalValidationSection" includeParams="none">
-						<s:param name="id" value='selectedPredictor.predictorId' />
-					</s:url>
-			    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
-					</sx:div>
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
+				</sx:div>
+				
+				<s:url id="grovesLink" value="/viewRandomForestPredictorGrovesSection" includeParams="none">
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{grovesLink}" id="modelsDiv" label="Groves" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
+				</sx:div>
 			</s:elseif>
 			
 			<s:url id="yRandomLink" value="/viewPredictorYRandomSection" includeParams="none">

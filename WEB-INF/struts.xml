@@ -267,6 +267,10 @@
 	        	<result>jsp/modeling/viewPredictor-knnPlusExternalSetPredictions.jsp</result>
 	        </action>
 	        
+        	 <action name="viewRandomForestPredictorGrovesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadGrovesSection">
+	        	<result>jsp/modeling/viewPredictor-randomForestGroves.jsp</result>
+	        </action>
+	        
         	<!-- end random forest -->
         	
         <!-- End View Predictor Page -->

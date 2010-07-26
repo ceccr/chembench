@@ -10,7 +10,6 @@ import edu.unc.ceccr.utilities.Utility;
 public class RandomForestGrove implements java.io.Serializable{
 	
 	/*
-drop table cbench_randomForestModel;
 create table cbench_randomForestGrove (
 id INT(12) UNSIGNED auto_increment PRIMARY KEY,
 predictor_id int(10) unsigned NOT NULL DEFAULT '0',

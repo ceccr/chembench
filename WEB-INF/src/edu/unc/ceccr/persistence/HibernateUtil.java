@@ -41,6 +41,8 @@ public class HibernateUtil {
 		.addAnnotatedClass(KnnPlusModel.class)
 		.addAnnotatedClass(SvmParameters.class)
 		.addAnnotatedClass(RandomForestParameters.class)
+		.addAnnotatedClass(RandomForestTree.class)
+		.addAnnotatedClass(RandomForestGrove.class)
 		.configure().buildSessionFactory();
 	}
 
