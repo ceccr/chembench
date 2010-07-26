@@ -83,7 +83,7 @@ public class RandomForestWorkflow{
 		
 		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
 		String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
-		String modelsListFile = "descriptors_used_in_models.txt";
+		String modelsListFile = "models.list";
 		String command = "Rscript --vanilla " + predictScript
 							  + " --scriptsDir " + scriptDir
 							  + " --workDir " + workingDir
