@@ -123,13 +123,13 @@
 				<s:url id="grovesLink" value="/viewRandomForestPredictorGrovesSection" includeParams="none">
 					<s:param name="id" value='selectedPredictor.predictorId' />
 				</s:url>
-		    	<sx:div href="%{grovesLink}" id="modelsDiv" label="Forests" theme="ajax" loadingText="Loading forests..." executeScripts="true" showLoadingText="true">
+		    	<sx:div href="%{grovesLink}" id="grovesDiv" label="Forests" theme="ajax" loadingText="Loading forests..." executeScripts="true" showLoadingText="true">
 				</sx:div>
 				
 				<s:url id="grovesYRandomLink" value="/viewRandomForestPredictorYRandomGrovesSection" includeParams="none">
 					<s:param name="id" value='selectedPredictor.predictorId' />
 				</s:url>
-		    	<sx:div href="%{grovesYRandomLink}" id="modelsDiv" label="Y-Randomized Forests" theme="ajax" loadingText="Loading forests..." executeScripts="true" showLoadingText="true">
+		    	<sx:div href="%{grovesYRandomLink}" id="randomGrovesDiv" label="Y-Randomized Forests" theme="ajax" loadingText="Loading forests..." executeScripts="true" showLoadingText="true">
 				</sx:div>
 			</s:elseif>
 			
