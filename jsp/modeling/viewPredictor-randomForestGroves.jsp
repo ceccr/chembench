@@ -37,7 +37,7 @@
 		</s:if>
 		<s:iterator value="randomForestGroves" status="grovesStatus">
 			<tr>
-			<td class="TableRowText02narrow"><s:property value="grovesStatus.count" /></td>
+			<td class="TableRowText02narrow"><s:property value="#grovesStatus.count" /></td>
 			<td class="TableRowText02narrow"><s:property value="r2" /></td>
 			<td class="TableRowText02narrow"><s:property value="mse" /></td>
 			<td class="TableRowText02narrow"><s:property value="ccr" /></td>
@@ -60,7 +60,7 @@
 		
 		<s:iterator value="randomForestGroves" status="grovesStatus">
 			<tr>
-				<td class="TableRowText02narrow"><s:property value="grovesStatus.count" /></td>
+				<td class="TableRowText02narrow"><s:property value="#grovesStatus.count" /></td>
 				<td class="TableRowText02narrow"><s:property value="r2" /></td>
 				<td class="TableRowText02narrow"><s:property value="mse" /></td>
 				<td class="TableRowText02narrow"><s:property value="ccr" /></td>
