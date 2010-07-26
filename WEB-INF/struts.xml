@@ -271,6 +271,10 @@
 	        	<result>jsp/modeling/viewPredictor-randomForestGroves.jsp</result>
 	        </action>
 	        
+        	 <action name="viewRandomForestPredictorYRandomGrovesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadGrovesSection">
+	        	<result>jsp/modeling/viewPredictor-randomForestYRandomGroves.jsp</result>
+	        </action>
+	        
         	<!-- end random forest -->
         	
         <!-- End View Predictor Page -->

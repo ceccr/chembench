@@ -244,6 +244,7 @@ public class ViewPredictorAction extends ActionSupport {
 				if(selectedPredictor == null){
 					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
 				}
+				dataType = selectedPredictor.getActivityType();
 
 				List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
 				randomForestGroves = new ArrayList<RandomForestGrove>();
