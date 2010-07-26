@@ -6,7 +6,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
 
 @Entity
-@Table(name = "cbench_RandomForestGrove")
+@Table(name = "cbench_randomForestGrove")
 public class RandomForestGrove implements java.io.Serializable{
 	
 	/*
