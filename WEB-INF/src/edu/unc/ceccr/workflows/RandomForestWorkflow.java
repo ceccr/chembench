@@ -177,6 +177,35 @@ public class RandomForestWorkflow{
 				randomForestTrees.add(t);
 			}
 		}
+		else
+		{
+			ArrayList<String> treeFileName = new ArrayList<String>();
+			ArrayList<String> treeDescriptorsUsed = new ArrayList<String>();
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + grove.getName() + "_trees.list"));
+			String inputString;
+			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+			{
+				treeFileName.add(inputString);
+			}
+			in.close();
+			
+			in = new BufferedReader(new FileReader(workingDir + grove.getName() + "_desc_used_in_trees.txt"));
+			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+			{
+				treeDescriptorsUsed.add(inputString);
+			}
+			in.close();
+			
+			//for each tree
+			for(int i=0; i<treeFileName.size(); i++)
+			{
+				RandomForestTree t = new RandomForestTree();
+				t.setRandomForestGroveId(grove.getId());
+				t.setTreeFileName(treeFileName.get(i));
+				t.setDescriptorsUsed(treeDescriptorsUsed.get(i));
+				randomForestTrees.add(t);
+			}
+		}
 		return randomForestTrees;
 	}
 	
