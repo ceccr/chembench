@@ -234,6 +234,30 @@ public class ViewPredictorAction extends ActionSupport {
 				result = LOGIN;
 				return result;
 			}
+			else{
+				predictorId = ((String[]) context.getParameters().get("id"))[0];
+				if(predictorId == null){
+					Utility.writeToStrutsDebug("No predictor ID supplied.");
+				}
+				selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+				
+				if(selectedPredictor == null){
+					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
+				}
+
+				List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
+				randomForestGroves = new ArrayList<RandomForestGrove>();
+				randomForestYRandomGroves = new ArrayList<RandomForestGrove>();
+				
+				for(RandomForestGrove rfg : rfGroves){
+					if(rfg.getIsYRandomModel().equals(Constants.YES)){
+						randomForestGroves.add(rfg);
+					}
+					else{
+						randomForestYRandomGroves.add(rfg);
+					}
+				}
+			}
 		}
 		return result;
 	}
