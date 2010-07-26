@@ -31,6 +31,7 @@ import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
@@ -46,6 +47,8 @@ public class ViewPredictorAction extends ActionSupport {
 	private List<KnnModel> randomModels;
 	private List<KnnPlusModel> knnPlusModels;
 	private List<KnnPlusModel> knnPlusRandomModels;
+	private List<RandomForestGrove> randomForestGroves;
+	private List<RandomForestGrove> randomForestYRandomGroves;
 	private List<ExternalValidation> externalValValues;
 	private List<String> residuals;
 	private String dataType;
@@ -490,6 +493,22 @@ public class ViewPredictorAction extends ActionSupport {
 	public void setKnnPlusRandomModels(List<KnnPlusModel> knnPlusRandomModels) {
 		this.knnPlusRandomModels = knnPlusRandomModels;
 	}
+
+	public List<RandomForestGrove> getRandomForestGroves() {
+		return randomForestGroves;
+	}
+	public void setRandomForestGroves(List<RandomForestGrove> randomForestGroves) {
+		this.randomForestGroves = randomForestGroves;
+	}
+
+	public List<RandomForestGrove> getRandomForestYRandomGroves() {
+		return randomForestYRandomGroves;
+	}
+	public void setRandomForestYRandomGroves(
+			List<RandomForestGrove> randomForestYRandomGroves) {
+		this.randomForestYRandomGroves = randomForestYRandomGroves;
+	}
+
 
 	public String getDataType() {
 		return dataType;
