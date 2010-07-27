@@ -13,7 +13,7 @@
     <link href="theme/ss.css" rel="stylesheet" type="text/css" />
 	<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link href="theme/standard.css" rel="stylesheet"	type="text/css" />
+	<link href="theme/standard.css" rel="stylesheet" type="text/css" />
 	<link href="theme/links.css" rel="stylesheet" type="text/css" />
 	<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
 	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
@@ -92,13 +92,13 @@
 					</div>
 					</td>
 			    </tr>
-				<tr>
+				<!--<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Weight Categories By:</b></div></td>
 					<td align="left" valign="top">
 					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="categoryWeights" value="categoryWeights" list="#{'INVERSESIZE':'Inverse of Size','NOWEIGHTING':'No Weighting','MANUAL':'Set Manually...'}" /></div>
 					</td>
-				</tr>
+				</tr>-->
 				
 				<tr>
 				<td colspan="2">
@@ -230,18 +230,24 @@
 				
 				<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
 				<sx:tabbedpanel id="modelingTypeTabbedPanel" afterSelectTabNotifyTopics="/modelingTypeSelect" >
+					<!--
+					Since knn+ seems to be working well, I'm taking out the original kNN option for generating
+					predictors. Predictions can still be made using these older kNN models.
+					
 					<sx:div id="KNN" value="KNN" theme="ajax" label="kNN" href="/loadKnnSection" loadingText="Loading kNN parameters...">
 					</sx:div>
-
+					-->
+					
 					<sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
 					</sx:div>
 					
 					<sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
 					</sx:div>
 					
+					<!--
 					<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">
 					</sx:div>
-					
+					-->
 					<sx:div id="RANDOMFOREST" value="RANDOMFOREST" theme="ajax" label="Random Forest" href="/loadRFSection" loadingText="Loading randomForest parameters...">
 					</sx:div>
 
