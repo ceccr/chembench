@@ -444,7 +444,7 @@ public class ModelingFormActions extends ActionSupport{
 	//Random Forest parameters
 
 	private String numTrees = "50";
-	private String minTerminalNodeSize = "0";
+	private String minTerminalNodeSize = "1";
 	private String maxNumTerminalNodes = "0";
 	private String descriptorsPerTree = "25";
 	
