@@ -40,7 +40,6 @@
 			<td class="TableRowText02narrow"><s:property value="#treesStatus.count" /></td>
 			<td class="TableRowText02narrow"><s:property value="r2" /></td>
 			<td class="TableRowText02narrow"><s:property value="mse" /></td>
-			<td class="TableRowText02narrow"><s:property value="ccr" /></td>
 			<td class="TableRowText02narrow" colspan="2"><s:property value="descriptorsUsed" /></td>
 			</tr> 
 		</s:iterator>

@@ -68,7 +68,6 @@
 				<td class="TableRowText02narrow"><s:property value="#grovesStatus.count" /></td>
 				<td class="TableRowText02narrow"><s:property value="r2" /></td>
 				<td class="TableRowText02narrow"><s:property value="mse" /></td>
-				<td class="TableRowText02narrow"><s:property value="ccr" /></td>
 				<td class="TableRowText02narrow" colspan="3"><s:property value="descriptorsUsed" /></td>
 			</tr> 
 		</s:iterator>
