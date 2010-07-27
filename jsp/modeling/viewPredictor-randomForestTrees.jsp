@@ -9,15 +9,15 @@
 
 		<p class="StandardTextDarkGray">
 		<s:if test="randomForestTrees.size==0">
-			No random forests were generated.<br/>
+			No random forest trees were generated.<br/>
 		</s:if>
 		<s:elseif test="selectedPredictor.userName=='_all'">
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
 			To generate the random forest predictor, a random forest is generated for each 
-			train-test split, and they are combined together. This page shows the results of
-			random forest modeling for each train-test split.
+			train-test split, and the trees from each forest are combined together. This 
+			page shows the trees from each of the train-test splits.
 			<br />
 		</s:else>	
 		</p>

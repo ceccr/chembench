@@ -309,7 +309,7 @@ public class ViewPredictorAction extends ActionSupport {
 				randomForestYRandomTrees = new ArrayList<RandomForestTree>();
 				if(rfGroves != null){
 					for(RandomForestGrove rfg : rfGroves){
-						ArrayList<RandomForestTree> rfTrees = (ArrayList<RandomForestTree>) PopulateDataObjects.getRandomForestTreesByGroveId(Long.parseLong(predictorId), session);
+						ArrayList<RandomForestTree> rfTrees = (ArrayList<RandomForestTree>) PopulateDataObjects.getRandomForestTreesByGroveId(rfg.getId(), session);
 						
 						if(rfg.getIsYRandomModel().equals(Constants.YES)){
 							if(rfTrees != null){
