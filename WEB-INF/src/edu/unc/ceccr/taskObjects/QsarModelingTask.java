@@ -161,8 +161,10 @@ public class QsarModelingTask extends WorkflowTask {
 				File dir = new File(workingDir);
 				//get num of trees produced so far
 				float p = (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".tree");}}).length);
-				//divide by (number of models * trees per model)
-				p /= (getNumTotalModels() * Integer.parseInt(randomForestParameters.getNumTrees()));
+				dir = new File(workingDir + "yRandom/");
+				p += (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".tree");}}).length);
+				//divide by (number of models * trees per model * 2 because of yRandom)
+				p /= (getNumTotalModels() * Integer.parseInt(randomForestParameters.getNumTrees()) * 2);
 				p *= 100;
 				percent = " (" + Math.round(p) + "%)";
 			}
