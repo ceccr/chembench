@@ -87,32 +87,39 @@ public class SmilesPredictionWorkflow{
 		
 		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
 		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
-		Utility.writeProgramLogfile(preddir, "PredActivCont3rwknnLIN", p.getInputStream(), p.getErrorStream());
+		Utility.writeProgramLogfile(preddir, "runSmilesPrediction", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
-		
-        //read prediction output
-		String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_smiles.sdf.renorm.preds";
-		Utility.writeToDebug("Reading file: " + workingDir + outputFile);
-		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
-		String inputString;
-		
-		//Skip the first four lines (header data)
-		in.readLine();
-		in.readLine();
-		in.readLine();
-		in.readLine();
-		
-		//get output for each model
-		ArrayList<String> predValueArray = new ArrayList<String>();
-		while ((inputString = in.readLine()) != null && ! inputString.equals("")){
-			String[] predValues = inputString.split("\\s+");
-			if(predValues!= null && predValues.length > 2 && ! predValues[2].equals("NA")){
-				//Utility.writeToDebug(predValues[1] + " " + predValues[2]);
-				predValueArray.add(predValues[2]);
-			}
-		}
 
-		Utility.writeToDebug("numModels: " + predValueArray.size());
+		//read prediction output
+		ArrayList<String> predValueArray = new ArrayList<String>();
+		if(predictor.getModelMethod().equals(Constants.KNNGA) || 
+			predictor.getModelMethod().equals(Constants.KNNSA) ||
+			predictor.getModelMethod().equals(Constants.KNN)){
+			String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_smiles.sdf.renorm.preds";
+			Utility.writeToDebug("Reading file: " + workingDir + outputFile);
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
+			String inputString;
+			
+			//Skip the first four lines (header data)
+			in.readLine();
+			in.readLine();
+			in.readLine();
+			in.readLine();
+			
+			//get output for each model
+			while ((inputString = in.readLine()) != null && ! inputString.equals("")){
+				String[] predValues = inputString.split("\\s+");
+				if(predValues!= null && predValues.length > 2 && ! predValues[2].equals("NA")){
+					//Utility.writeToDebug(predValues[1] + " " + predValues[2]);
+					predValueArray.add(predValues[2]);
+				}
+			}
+	
+			Utility.writeToDebug("numModels: " + predValueArray.size());
+		}
+		else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+			
+		}
 		
 		double sum = 0;
 		double mean = 0;

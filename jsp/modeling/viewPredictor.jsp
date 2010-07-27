@@ -120,6 +120,7 @@
 		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
 				</sx:div>
 				
+				<!-- For now, we don't display groves. If someday we want to, uncomment this.
 				<s:url id="grovesLink" value="/viewRandomForestPredictorGrovesSection" includeParams="none">
 					<s:param name="id" value='selectedPredictor.predictorId' />
 				</s:url>
@@ -131,10 +132,23 @@
 				</s:url>
 		    	<sx:div href="%{grovesYRandomLink}" id="randomGrovesDiv" label="Y-Randomized Forests" theme="ajax" loadingText="Loading forests..." executeScripts="true" showLoadingText="true">
 				</sx:div>
+				-->
+			<s:url id="treesLink" value="/viewRandomForestPredictorTreesSection" includeParams="none">
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{treesLink}" id="treesDiv" label="Trees" theme="ajax" loadingText="Loading trees..." executeScripts="true" showLoadingText="true">
+				</sx:div>
+				
+				<s:url id="treesYRandomLink" value="/viewRandomForestPredictorYRandomTreesSection" includeParams="none">
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{treesYRandomLink}" id="randomTreesDiv" label="Y-Randomized Trees" theme="ajax" loadingText="Loading trees..." executeScripts="true" showLoadingText="true">
+				</sx:div>
 			</s:elseif>
 			
 		
-		<!--
+		<!-- Considered having a "warnings" page that will cover any problems with
+			predictions. Nixed the idea, though.
 			<s:url id="warningsLink" value="/viewPredictorWarningsSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>

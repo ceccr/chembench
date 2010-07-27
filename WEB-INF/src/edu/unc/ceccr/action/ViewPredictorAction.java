@@ -32,6 +32,7 @@ import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
+import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
@@ -49,6 +50,8 @@ public class ViewPredictorAction extends ActionSupport {
 	private List<KnnPlusModel> knnPlusRandomModels;
 	private List<RandomForestGrove> randomForestGroves;
 	private List<RandomForestGrove> randomForestYRandomGroves;
+	private List<RandomForestTree> randomForestTrees;
+	private List<RandomForestTree> randomForestYRandomTrees;
 	private List<ExternalValidation> externalValValues;
 	private List<String> residuals;
 	private String dataType;
@@ -215,7 +218,7 @@ public class ViewPredictorAction extends ActionSupport {
 		
 		return result;
 	}
-	
+
 	public String loadGrovesSection() throws Exception {
 		String result = SUCCESS;
 		//check that the user is logged in
@@ -253,16 +256,72 @@ public class ViewPredictorAction extends ActionSupport {
 				if(rfGroves != null){
 					for(RandomForestGrove rfg : rfGroves){
 						if(rfg.getIsYRandomModel().equals(Constants.YES)){
-							randomForestGroves.add(rfg);
+							randomForestYRandomGroves.add(rfg);
 						}
 						else{
-							randomForestYRandomGroves.add(rfg);
+							randomForestGroves.add(rfg);
 						}
 					}
 				}
 				else{
 					Utility.writeToDebug("rfgroves null!");
 				}
+			}
+		}
+		return result;
+	}
+	
+
+	public String loadTreesSection() throws Exception {
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			else{
+				predictorId = ((String[]) context.getParameters().get("id"))[0];
+				if(predictorId == null){
+					Utility.writeToStrutsDebug("No predictor ID supplied.");
+				}
+				selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+				
+				if(selectedPredictor == null){
+					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
+				}
+				dataType = selectedPredictor.getActivityType();
+
+				List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
+				
+
+				randomForestTrees = new ArrayList<RandomForestTree>();
+				randomForestYRandomTrees = new ArrayList<RandomForestTree>();
+				if(rfGroves != null){
+					for(RandomForestGrove rfg : rfGroves){
+						ArrayList<RandomForestTree> rfTrees = (ArrayList<RandomForestTree>) PopulateDataObjects.getRandomForestTreesByGroveId(Long.parseLong(predictorId), session);
+						
+						if(rfg.getIsYRandomModel().equals(Constants.YES)){
+							if(rfTrees != null){
+								randomForestYRandomTrees.addAll(rfTrees);
+							}
+						}
+						else{
+							randomForestTrees.addAll(rfTrees);
+						}
+					}
+				}
+				
 			}
 		}
 		return result;
@@ -537,6 +596,21 @@ public class ViewPredictorAction extends ActionSupport {
 	public void setRandomForestYRandomGroves(
 			List<RandomForestGrove> randomForestYRandomGroves) {
 		this.randomForestYRandomGroves = randomForestYRandomGroves;
+	}
+
+	public List<RandomForestTree> getRandomForestTrees() {
+		return randomForestTrees;
+	}
+	public void setRandomForestTrees(List<RandomForestTree> randomForestTrees) {
+		this.randomForestTrees = randomForestTrees;
+	}
+
+	public List<RandomForestTree> getRandomForestYRandomTrees() {
+		return randomForestYRandomTrees;
+	}
+	public void setRandomForestYRandomTrees(
+			List<RandomForestTree> randomForestYRandomTrees) {
+		this.randomForestYRandomTrees = randomForestYRandomTrees;
 	}
 
 

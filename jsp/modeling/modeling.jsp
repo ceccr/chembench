@@ -92,14 +92,23 @@
 					</div>
 					</td>
 			    </tr>
-				<!--<tr>
+				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Weight Categories By:</b></div></td>
 					<td align="left" valign="top">
 					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="categoryWeights" value="categoryWeights" list="#{'INVERSESIZE':'Inverse of Size','NOWEIGHTING':'No Weighting','MANUAL':'Set Manually...'}" /></div>
 					</td>
-				</tr>-->
-				
+				</tr>
+				<tr>
+					<td width="100%" colspan="2">
+					<div class="StandardTextDarkGrayParagraph" id="submitMessage">
+					<i>Weighting will improve modeling on imbalanced datasets. 
+					When optimizing the model, the accuracy on members of different categories will be 
+					weighted depending on the values you input.</i>
+					</div>
+					</td>
+			    </tr>
+
 				<tr>
 				<td colspan="2">
 				<div class="StandardTextDarkGrayParagraph"><br /><input type="button" value="View Dataset" property="text" onclick="showDataset()"/> <i> Opens in a new window. Check your browser settings if the new window does not appear.</i></div>
@@ -244,10 +253,9 @@
 					<sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
 					</sx:div>
 					
-					<!--
 					<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">
 					</sx:div>
-					-->
+					
 					<sx:div id="RANDOMFOREST" value="RANDOMFOREST" theme="ajax" label="Random Forest" href="/loadRFSection" loadingText="Loading randomForest parameters...">
 					</sx:div>
 

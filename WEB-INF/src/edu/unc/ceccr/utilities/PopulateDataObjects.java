@@ -28,6 +28,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.RandomForestParameters;
+import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.persistence.SoftwareLink;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
@@ -617,7 +618,7 @@ public class PopulateDataObjects {
 		
 		return jobStats;
 	}
-	
+
 	public static List<RandomForestGrove> getRandomForestGrovesByPredictorId(Long predictorId, Session session) throws Exception{
 		//Predictor predictor = getPredictorById(predictorId, session);
 		
@@ -635,6 +636,25 @@ public class PopulateDataObjects {
 		} 
 		
 		return groves;
+	}
+
+	public static List<RandomForestTree> getRandomForestTreesByGroveId(Long groveId, Session session) throws Exception{
+		//Predictor predictor = getPredictorById(predictorId, session);
+		
+		List<RandomForestTree> trees = null;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			trees = session.createCriteria(RandomForestTree.class)
+					.add(Expression.eq("randomForestGroveId", groveId)).list();
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+			if (tx != null)
+				tx.rollback();
+		} 
+		
+		return trees;
 	}
 	
 	public static List<KnnPlusModel> getKnnPlusModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
