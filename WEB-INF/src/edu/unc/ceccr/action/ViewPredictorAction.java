@@ -321,7 +321,12 @@ public class ViewPredictorAction extends ActionSupport {
 						}
 					}
 				}
-				
+				for(RandomForestTree rfTree: randomForestTrees){
+					String splitNumber = rfTree.getTreeFileName();
+					splitNumber = splitNumber.split("_")[3];
+					rfTree.setTreeFileName(splitNumber);
+					
+				}
 			}
 		}
 		return result;

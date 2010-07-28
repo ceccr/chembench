@@ -171,8 +171,8 @@ public class RandomForestWorkflow{
 				RandomForestTree t = new RandomForestTree();
 				t.setRandomForestGroveId(grove.getId());
 				t.setTreeFileName(treeFileName.get(i));
-				t.setR2(treeR2.get(i));
-				t.setMse(treeMse.get(i));
+				t.setR2(Utility.roundSignificantFigures(treeR2.get(i), 4));
+				t.setMse(Utility.roundSignificantFigures(treeMse.get(i), 4));
 				t.setDescriptorsUsed(treeDescriptorsUsed.get(i));
 				randomForestTrees.add(t);
 			}
@@ -255,7 +255,7 @@ public class RandomForestWorkflow{
 				sumDistFromMeanSquared += Math.pow(distFromMean, (double)2);
 			}
 			double stdDev = Math.sqrt(sumDistFromMeanSquared/(double)compoundPredictedValues.length);
-			externalValidationValue.setStandDev(Double.toString(stdDev));
+			externalValidationValue.setStandDev(Utility.roundSignificantFigures(Double.toString(stdDev), 4));
 		}
 		
 		return allExternalValues;
