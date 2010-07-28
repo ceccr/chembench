@@ -66,35 +66,38 @@ public class SmilesPredictionWorkflow{
 		String descriptorString = Utility.StringArrayListToString(descriptorNames);
 		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + ".renorm.x", workingDir + "train_0.x", predictor.getScalingType());
 
-		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
-		String actfile = sdfile + ".renorm.a";
-		BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
-		aout.write("1 0");
-		aout.close();
-		
-	    //Run prediction
-		Utility.writeToDebug("Running prediction.");
-		String preddir = workingDir;
-		
-		String execstr = "";
-		if(predictor.getModelMethod().equals(Constants.KNN)){
-			execstr = "knn+ knn-output.list -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-	    }
-		else if(predictor.getModelMethod().equals(Constants.KNNGA) || 
-				predictor.getModelMethod().equals(Constants.KNNSA)){
-			execstr = "knn+ models.tbl -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-		}
-		
-		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
-		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
-		Utility.writeProgramLogfile(preddir, "runSmilesPrediction", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
 
 		//read prediction output
 		ArrayList<String> predValueArray = new ArrayList<String>();
 		if(predictor.getModelMethod().equals(Constants.KNNGA) || 
 			predictor.getModelMethod().equals(Constants.KNNSA) ||
 			predictor.getModelMethod().equals(Constants.KNN)){
+			
+			//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
+			String actfile = sdfile + ".renorm.a";
+			
+			BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
+			aout.write("1 0");
+			aout.close();
+			
+		    //Run prediction
+			Utility.writeToDebug("Running prediction.");
+			String preddir = workingDir;
+			
+			String execstr = "";
+			if(predictor.getModelMethod().equals(Constants.KNN)){
+				execstr = "knn+ knn-output.list -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+		    }
+			else if(predictor.getModelMethod().equals(Constants.KNNGA) || 
+					predictor.getModelMethod().equals(Constants.KNNSA)){
+				execstr = "knn+ models.tbl -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+			}
+			
+			Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
+			Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
+			Utility.writeProgramLogfile(preddir, "runSmilesPrediction", p.getInputStream(), p.getErrorStream());
+			p.waitFor();
+			
 			String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_smiles.sdf.renorm.preds";
 			Utility.writeToDebug("Reading file: " + workingDir + outputFile);
 			BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
@@ -118,9 +121,48 @@ public class SmilesPredictionWorkflow{
 			Utility.writeToDebug("numModels: " + predValueArray.size());
 		}
 		else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+			//run prediction
+			String xFile = "smiles.sdf.renorm.x";
+			String newXFile = "RF_" + xFile;
+			RandomForestWorkflow.preProcessXFile(predictor.getScalingType(), xFile, newXFile, workingDir);
+			
+			String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
+			String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
+			String modelsListFile = "models.list";
+			String command = "Rscript --vanilla " + predictScript
+								  + " --scriptsDir " + scriptDir
+								  + " --workDir " + workingDir
+								  + " --modelsListFile " + modelsListFile
+								  + " --xFile " + newXFile;
+			
+			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
+			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+			Utility.writeProgramLogfile(workingDir, "randomForestPredict", p.getInputStream(), p.getErrorStream());
+			p.waitFor();
+			
+			
+			//get output 
+			String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
+			Utility.writeToDebug("Reading consensus prediction file: " + workingDir + outputFile);
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
+			String inputString;
+
+			in.readLine(); // first line is the header with the model name
+			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+			{
+				String[] data = inputString.split("\\s+"); //Note: [0] is the compound name and the following are the predicted values.
+				
+				ArrayList<String> predValues = new ArrayList<String>();
+				for(int i=1; i< data.length; i++)
+				{
+					predValues.add(data[i]);
+				}
+			}
+			in.close();
 			
 		}
 		
+		//calculate stddev
 		double sum = 0;
 		double mean = 0;
 		if(predValueArray.size() > 0){
@@ -153,7 +195,12 @@ public class SmilesPredictionWorkflow{
 			prediction[1] = predictedValue;
 		}
 		else{
-			prediction[1] = "N/A - Cutoff Too Low";
+			prediction[1] = "N/A";
+			if(predictor.getModelMethod().equals(Constants.KNNGA) || 
+				predictor.getModelMethod().equals(Constants.KNNSA) ||
+				predictor.getModelMethod().equals(Constants.KNN)){
+				prediction[1] += "- Cutoff Too Low";
+			}
 		}
 		if(predValueArray.size() > 1){
 			String stdDevStr = DecimalFormat.getInstance().format(stddev).replaceAll(",", "");
