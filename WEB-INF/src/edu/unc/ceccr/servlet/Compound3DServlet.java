@@ -29,32 +29,21 @@ public class Compound3DServlet extends HttpServlet {
 
 		//this servlet returns 3D rotatable images when a user clicks on the 2D molecule from a prediction or model.
 		
-		String project = request.getParameter("project");
 		String id = request.getParameter("compoundId");
 		String userName = request.getParameter("user");
-        String datasetID = request.getParameter("datasetID");
+        String datasetName = request.getParameter("datasetName");
 	
-		DataSet ds = null;
-		try{
-			Session session = HibernateUtil.getSession();
-			ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID), session);
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		userName = ds.getUserName();
 		if(userName.equalsIgnoreCase("_all")){
 			userName = "all-users";
 		}
-		Utility.writeToDebug("Running SketchServlet.", userName, project);
-		String workingDir = Constants.CECCR_USER_BASE_PATH + userName+ "/DATASETS/" + ds.getFileName() + "/Visualization/Structures/";
+		Utility.writeToDebug("Running SketchServlet.", userName, datasetName);
+		String workingDir = Constants.CECCR_USER_BASE_PATH + userName+ "/DATASETS/" + datasetName + "/Visualization/Structures/";
 		String sdf = id + ".sdf";
 		String mol3D = id + "_3D.mol";
 		
 		String sdfPath = workingDir + sdf;
 
-		String urlBaseDir = "/BASE/" + userName+ "/DATASETS/" + ds.getFileName() + "/Visualization/Structures/";
+		String urlBaseDir = "/BASE/" + userName+ "/DATASETS/" + datasetName + "/Visualization/Structures/";
 		
 		String title = "<html><title>" + id
 				+ " 3D view</title><head></head><body bgcolor='black' ><div align='center'><font color='white' size='3'> Compound ID = "
@@ -81,7 +70,7 @@ public class Compound3DServlet extends HttpServlet {
 				
 				File mol3DFile = new File(workingDir + mol3D);
 				if(! mol3DFile.exists()){
-					Generate3DMolWorkflow.Convert2Dto3D(userName, project, sdf, mol3D, workingDir);
+					Generate3DMolWorkflow.Convert2Dto3D(userName, datasetName, sdf, mol3D, workingDir);
 				}
 				else{
 					Utility.writeToDebug("3D structure already calculated. Returning it.");
