@@ -10,12 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Session;
-
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
 @SuppressWarnings("serial")
@@ -23,57 +18,37 @@ public class ImageServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
     	
-    	//this servlet returns 2D images for compounds, external validation charts, and activity charts
+    	//this servlet returns 2D images for compounds and dataset activity charts
     	//the code is really awful, my only excuse is 
     	//"it was like that when I got here and there's no time to fix it now"
     	
         //Note that some of these may be null, depending on the request type!
-        String project = request.getParameter("project");
+        String project = request.getParameter("project"); //predictor or prediction name
+        String datasetName = request.getParameter("datasetName");
         String compoundId = request.getParameter("compoundId");
         String userName = request.getParameter("user");
-        String projectType = request.getParameter("projectType");
-        String datasetID = request.getParameter("datasetID");
+        String projectType = request.getParameter("projectType"); //dataset, modeling, prediction
 		
-        DataSet ds = null;
-        if( !compoundId.startsWith("mychart") && !projectType.equals("dataset")){
-	        try{
-				Session session = HibernateUtil.getSession();
-				ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID), session);
-				session.close();
-	        }
-	        catch(Exception ex){
-	        	Utility.writeToDebug(ex);
-	        }
-        }
+        //You might be thinking of adding a call to the database to get the 
+        //dataset object here. Don't do it! It'll slow shit down and bleed sessions
+        //because this code is called once PER IMAGE on a page.
         
-        if(ds != null && ds.getUserName().equalsIgnoreCase("_all")){
-        	userName = "all-users";
-        }
 		if(userName.equalsIgnoreCase("_all")){
 			userName = "all-users";
 		}
         
         String imageFileName;
-        if(compoundId.startsWith("mychart"))
+        if(compoundId.startsWith("activityChart"))
         {
-        	if(compoundId.startsWith("mychartActivity")){
-        		//activity chart for dataset 
-        		imageFileName=userName+"/DATASETS/"+project+"/Visualization/activityChart.png";
-        	}
-        	else{
-        		//ext validation chart for modeling
-        		imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
-        	}
+    		//activity chart for dataset 
+    		imageFileName=userName+"/DATASETS/"+project+"/Visualization/activityChart.png";
       	}
-    	else if(projectType.equalsIgnoreCase("PCA")){
-        	imageFileName=userName+"/DATASETS/"+project+"/Visualization/"+compoundId+".jpg";
-        }
     	else if(projectType.equals("dataset")){
     		imageFileName=userName+"/DATASETS/"+project+"/Visualization/Sketches/"+compoundId+".jpg";
     	}
         else{
         	//modeling and prediction images
-    		imageFileName=userName+"/DATASETS/"+ds.getFileName()+"/Visualization/Sketches/"+compoundId+".jpg";
+    		imageFileName=userName+"/DATASETS/"+datasetName+"/Visualization/Sketches/"+compoundId+".jpg";
     	}
         
         File imageFile = new File(Constants.CECCR_USER_BASE_PATH + imageFileName);
