@@ -43,7 +43,7 @@ public class ViewPredictorAction extends ActionSupport {
 
 	private User user;
 	private Predictor selectedPredictor;
-	private String datasetName;
+	private DataSet dataset;
 	private String predictorId;
 	private List<KnnModel> models;
 	private List<KnnModel> randomModels;
@@ -88,8 +88,7 @@ public class ViewPredictorAction extends ActionSupport {
 			//get external validation compounds of predictor
 			externalValValues = PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
 			
-			DataSet ds = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session);
-			datasetName = ds.getFileName();
+			dataset = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session);
 			
 			//calculate residuals and fix significant figures on output data
 			residuals = new ArrayList<String>();
@@ -561,11 +560,11 @@ public class ViewPredictorAction extends ActionSupport {
 		this.selectedPredictor = selectedPredictor;
 	}
 	
-	public String getDatasetName() {
-		return datasetName;
+	public DataSet getDataset() {
+		return dataset;
 	}
-	public void setDatasetName(String datasetName) {
-		this.datasetName = datasetName;
+	public void setDataset(DataSet dataset) {
+		this.dataset = dataset;
 	}
 
 	public String getPredictorId() {

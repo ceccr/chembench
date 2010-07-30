@@ -30,6 +30,8 @@ public class ImageServlet extends HttpServlet {
         String userName = request.getParameter("user");
         String projectType = request.getParameter("projectType"); //dataset, modeling, prediction
 		
+      
+        
         //You might be thinking of adding a call to the database to get the 
         //dataset object here. Don't do it! It'll slow shit down and bleed sessions
         //because this code is called once PER IMAGE on a page.
@@ -37,15 +39,14 @@ public class ImageServlet extends HttpServlet {
 		if(userName.equalsIgnoreCase("_all")){
 			userName = "all-users";
 		}
-        
         String imageFileName;
-        if(compoundId.startsWith("activityChart"))
-        {
+        if(compoundId.startsWith("activityChart")){
     		//activity chart for dataset 
     		imageFileName=userName+"/DATASETS/"+project+"/Visualization/activityChart.png";
       	}
         else if(compoundId.startsWith("externalValidationChart")){
-        	
+    		//ext validation chart for modeling
+    		imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
         }
     	else if(projectType.equals("dataset")){
     		imageFileName=userName+"/DATASETS/"+project+"/Visualization/Sketches/"+compoundId+".jpg";
