@@ -71,7 +71,7 @@ public class StandardizeMoleculesWorkflow {
 				FileAndDirOperations.deleteFile(workingDir + oldFile);
 			}
 			String mergedFileName = "";
-			FileAndDirOperations.writeStringToFile(workingDir + standardizedFile, sdfOut);
+			FileAndDirOperations.writeStringToFile(standardizedFile, workingDir + sdfOut);
 		}
   	}
 }
