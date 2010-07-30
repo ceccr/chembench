@@ -38,7 +38,7 @@ public class SmilesPredictionWorkflow{
 		//create the descriptors for the chemical and read them in
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(sdfile);
+		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(sdfile);
 
 		if(predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)){
 			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(sdfile, sdfile + ".molconnz");

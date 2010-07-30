@@ -16,7 +16,7 @@ public class StandardizeMoleculesWorkflow {
 		//Standardizes the molecules in this sdfile. Necessary to do this before running DRAGON
 		//descriptor generation. Also important to do this to any molecules that could go into our database.
 		
-		if(DatasetFileOperations.getSDFCompoundList(workingDir + sdfIn).size() > 665){
+		if(DatasetFileOperations.getSDFCompoundNames(workingDir + sdfIn).size() > 665){
 			//we need to split the SDF first into smaller pieces, then re-merge it. 
 			//the JChem license will only process small datasets.
 			Utility.writeToDebug("Warning: SDF will not be standardized!");

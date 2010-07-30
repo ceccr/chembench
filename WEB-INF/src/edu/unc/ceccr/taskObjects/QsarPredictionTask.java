@@ -286,7 +286,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			FileAndDirOperations.copyDirContents(path, predictionDir, false);
 			ArrayList<String> descriptorNames = new ArrayList<String>();
 			ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-			ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(path + sdfile);
+			ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(path + sdfile);
 			
 			step = Constants.PROCDESCRIPTORS;
 			

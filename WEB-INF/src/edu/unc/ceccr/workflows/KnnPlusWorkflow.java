@@ -465,7 +465,7 @@ public class KnnPlusWorkflow{
 		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
 		String actfile = workingDir + sdfile + ".renorm.a";
 		BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
-		ArrayList<String> compoundNames = DatasetFileOperations.getSDFCompoundList(workingDir + sdfile);
+		ArrayList<String> compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
 		for(String compoundName : compoundNames){
 			aout.write(compoundName + " 0\n");
 		}

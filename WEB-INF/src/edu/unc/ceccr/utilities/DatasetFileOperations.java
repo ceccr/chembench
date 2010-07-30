@@ -130,7 +130,7 @@ public class DatasetFileOperations {
 		BufferedReader fin = new BufferedReader(new FileReader(actFile));
 		FileWriter fout = new FileWriter(xFile);
 		
-		int numActCompounds = getACTCompoundList(path + actFileName).size();
+		int numActCompounds = getACTCompoundNames(path + actFileName).size();
 		int numDescriptors = 2; //datasplit will refuse any inputs without at least 2 descriptors
 		fout.write("" + numActCompounds + " " + numDescriptors + "\n");
 		String descriptorsLine = "junk1 junk2\n";
@@ -184,7 +184,7 @@ public class DatasetFileOperations {
 			msg += saveSDFFile(sdfFile, path, sdfFileName);
 			sdfFile = new File(path + sdfFileName);
 			
-			sdf_compounds = getSDFCompoundList(sdfFile.getAbsolutePath());
+			sdf_compounds = getSDFCompoundNames(sdfFile.getAbsolutePath());
 			numCompounds = sdf_compounds.size();
 			rewriteSdf(path, sdfFileName);
 			
@@ -206,7 +206,7 @@ public class DatasetFileOperations {
 			actFile = new File(path + actFileName);
 			 
 			msg += rewriteACTFile(path + actFileName);
-			act_compounds = getACTCompoundList(actFile.getAbsolutePath());
+			act_compounds = getACTCompoundNames(actFile.getAbsolutePath());
 			numCompounds = act_compounds.size();
 			actFile = new File(path + actFileName);
 			msg += actIsValid(actFile, actFileType);
@@ -432,7 +432,7 @@ public class DatasetFileOperations {
 
     }
 	
-	public static ArrayList<String> getXCompoundList(String fileLocation) throws Exception{
+	public static ArrayList<String> getXCompoundNames(String fileLocation) throws Exception{
 		ArrayList<String> x_compounds = new ArrayList<String>();
 		File file = new File(fileLocation);
 		Utility.writeToDebug("Getting X file compounds from " + fileLocation);
@@ -454,8 +454,29 @@ public class DatasetFileOperations {
 		return x_compounds;
 	}
 	
-
-	public static ArrayList<String> getSDFCompoundList(String sdfPath) throws Exception{
+	public static ArrayList<String> getACTCompoundNames(String fileLocation)
+			throws FileNotFoundException, IOException {
+		ArrayList<String> act_compounds = new ArrayList<String>();
+		File file = new File(fileLocation);
+		
+		if (file.exists()) {
+			FileReader fin = new FileReader(file);
+			Scanner src = new Scanner(fin);
+			String line;
+			while (src.hasNext()) {
+				line = src.nextLine();
+				String[] array = line.split("\\s+");
+				if (array.length == 2) {
+					if (GenericValidator.isDouble(array[1])) {
+						act_compounds.add(array[0].trim());
+					}
+				}
+			}
+		}
+		return act_compounds;
+	}
+	
+	public static ArrayList<String> getSDFCompoundNames(String sdfPath) throws Exception{
 		
 		File infile = new File(sdfPath);
 		FileReader fin = new FileReader(infile);
@@ -487,28 +508,33 @@ public class DatasetFileOperations {
 		return chemicalNames;
 	}
 	
-	
-	public static ArrayList<String> getACTCompoundList(String fileLocation)
-			throws FileNotFoundException, IOException {
-		ArrayList<String> act_compounds = new ArrayList<String>();
-		File file = new File(fileLocation);
+	public static ArrayList<String> getCompoundsFromSdf(String sdfPath) throws Exception{
+		//opens an SDF, and returns each compound (the name, coordinates, comments, etc)
+		//as a string just as it appears in the file. Useful for splitting or combining
+		//of SDFs.
+		ArrayList<String> compounds = new ArrayList<String>();
 		
-		if (file.exists()) {
-			FileReader fin = new FileReader(file);
-			Scanner src = new Scanner(fin);
-			String line;
-			while (src.hasNext()) {
-				line = src.nextLine();
-				String[] array = line.split("\\s+");
-				if (array.length == 2) {
-					if (GenericValidator.isDouble(array[1])) {
-						act_compounds.add(array[0].trim());
-					}
-				}
+		File infile = new File(sdfPath);
+		FileReader fin = new FileReader(infile);
+		BufferedReader br = new BufferedReader(fin);
+		
+		String compound = new String();
+		String line;
+		//skip any whitespace lines before the first molecule
+		while((line = br.readLine()) != null && line.trim().isEmpty()){ }
+		//read molecules
+		while((line = br.readLine()) != null){
+			compound += line + "\n";
+			if(line.startsWith("$$$$")){
+				//done reading compound, add it to the list
+				compounds.add(compound);
+				compound = new String();
 			}
 		}
-		return act_compounds;
+		
+		return compounds;
 	}
+	
 
 	// returns the position of the duplicate
 	private static int findDuplicates(ArrayList<String> a){

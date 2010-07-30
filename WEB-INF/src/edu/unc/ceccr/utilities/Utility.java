@@ -322,7 +322,7 @@ public class Utility {
 		
 		String jobstats = "";
 		if(numJobs > 0){
-			jobstats = "Chembench has " + numUsers + " registered users. Since April 2010, " + numJobs + " jobs have been submitted, totaling " + computeHours + " hours of compute time.";
+			jobstats = "Chembench has " + numUsers + " registered users. Since Chembench was placed online in April 2010, " + numJobs + " jobs have been submitted, totaling " + computeHours + " hours of compute time.";
 		}
 		
 		return jobstats;

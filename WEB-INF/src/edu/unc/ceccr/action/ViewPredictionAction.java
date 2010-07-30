@@ -222,7 +222,7 @@ public class ViewPredictionAction extends ActionSupport {
 		
 		//get compounds from SDF
 		String predictionDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/";
-		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundList(predictionDir + dataset.getSdfFile());
+		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundNames(predictionDir + dataset.getSdfFile());
 
 		Utility.writeToDebug("getting from db");
 		ArrayList<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(Long.parseLong(predictionId), session);

@@ -94,10 +94,10 @@ public class CreateDatasetTask extends WorkflowTask{
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
 		try{
 			if(!sdfFileName.equals("")){
-				this.numCompounds = DatasetFileOperations.getSDFCompoundList(path+sdfFileName).size();
+				this.numCompounds = DatasetFileOperations.getSDFCompoundNames(path+sdfFileName).size();
 			}
 			else if(!xFileName.equals("")){
-				this.numCompounds = DatasetFileOperations.getXCompoundList(path+xFileName).size();
+				this.numCompounds = DatasetFileOperations.getXCompoundNames(path+xFileName).size();
 			}
 		}
 		catch(Exception ex){
@@ -143,10 +143,10 @@ public class CreateDatasetTask extends WorkflowTask{
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
 		try{
 			if(!sdfFileName.equals("")){
-				this.numCompounds = DatasetFileOperations.getSDFCompoundList(path+sdfFileName).size();
+				this.numCompounds = DatasetFileOperations.getSDFCompoundNames(path+sdfFileName).size();
 			}
 			else if(!xFileName.equals("")){
-				this.numCompounds = DatasetFileOperations.getXCompoundList(path+xFileName).size();
+				this.numCompounds = DatasetFileOperations.getXCompoundNames(path+xFileName).size();
 			}
 		}
 		catch(Exception ex){
@@ -217,7 +217,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		
 		if(!sdfFileName.equals("")){
 			//generate descriptors
-			this.numCompounds = DatasetFileOperations.getSDFCompoundList(path+sdfFileName).size();
+			this.numCompounds = DatasetFileOperations.getSDFCompoundNames(path+sdfFileName).size();
 			
 			String descriptorDir = "Descriptors/";
 			if(!new File(path + descriptorDir).exists()) {
@@ -408,7 +408,7 @@ public class CreateDatasetTask extends WorkflowTask{
 	
 				if(!actFileName.equals("")){
 					//generate ACT-file related visualizations
-					this.numCompounds = DatasetFileOperations.getACTCompoundList(path+actFileName).size();
+					this.numCompounds = DatasetFileOperations.getACTCompoundNames(path+actFileName).size();
 					String act_path  = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/" + actFileName;
 						
 					//PCA plot creation works
@@ -422,7 +422,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		}
 		
 		if(!xFileName.equals("")){
-			this.numCompounds = DatasetFileOperations.getXCompoundList(path+xFileName).size();
+			this.numCompounds = DatasetFileOperations.getXCompoundNames(path+xFileName).size();
 		}
 		
 	}

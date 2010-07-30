@@ -503,7 +503,7 @@ public class QsarModelingTask extends WorkflowTask {
 		//create the descriptors for the dataset and read them in
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>(); 
-		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundList(filePath + sdFileName);
+		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(filePath + sdFileName);
 		
 		Session session = HibernateUtil.getSession();
 		DataSet dataset = PopulateDataObjects.getDataSetById(datasetID,session);
@@ -548,7 +548,7 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		//apply the dataset's external split to the generated .X file
 		step = Constants.SPLITDATA;
-		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundList(filePath + "ext_0.x");
+		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
 		String externalCompoundIdString = Utility.StringArrayListToString(extCompoundArray);
 		DataSplitWorkflow.splitModelingExternalGivenList(filePath, actFileName, xFileName, externalCompoundIdString);
 		

@@ -193,7 +193,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataSetDescription);
 				try{
 					Utility.writeToDebug("getting ACT compound count from " + Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName);
-					int numCompounds = DatasetFileOperations.getACTCompoundList(
+					int numCompounds = DatasetFileOperations.getACTCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName).size();
 					int numModels = 0;
 
@@ -250,7 +250,7 @@ public class DatasetFormActions extends ActionSupport{
 							paperReference,
 							dataSetDescription);
 					
-					int numCompounds = DatasetFileOperations.getSDFCompoundList(
+					int numCompounds = DatasetFileOperations.getSDFCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
 					int numModels = 0;
 					Utility.writeToDebug("adding task");
@@ -312,7 +312,7 @@ public class DatasetFormActions extends ActionSupport{
 						paperReference,
 						dataSetDescription);
 
-					int numCompounds = DatasetFileOperations.getACTCompoundList(
+					int numCompounds = DatasetFileOperations.getACTCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModDescFileName).size();
 					int numModels = 0;
 					
@@ -370,7 +370,7 @@ public class DatasetFormActions extends ActionSupport{
 						paperReference,
 						dataSetDescription);
 				
-					int numCompounds = DatasetFileOperations.getXCompoundList(
+					int numCompounds = DatasetFileOperations.getXCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + xFilePredDescFileName).size();
 					int numModels = 0;
 				
