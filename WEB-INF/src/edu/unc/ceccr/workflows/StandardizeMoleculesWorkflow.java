@@ -40,7 +40,7 @@ public class StandardizeMoleculesWorkflow {
 			int fileIndex = 0;
 			for(int i = 0; i < compounds.size(); i++){
 				fileContents += compounds.get(i);
-				if(i == 600){
+				if(i % 600 == 0 || i == compounds.size() - 1){
 					String sdfFilePart = sdfIn + "_" + fileIndex + ".sdf";
 					FileAndDirOperations.writeStringToFile(fileContents, workingDir + sdfFilePart);
 					

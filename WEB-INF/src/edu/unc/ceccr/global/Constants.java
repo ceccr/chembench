@@ -104,6 +104,7 @@ public class Constants {
 	
 	//steps in modeling task
 	//also uses SETUP and SPLITDATA
+	public static final String STANDARDIZING = "Standardizing compounds";
 	public static final String DESCRIPTORS = "Generating descriptors";
 	public static final String CHECKDESCRIPTORS = "Checking descriptors";
 	public static final String PROCDESCRIPTORS = "Processing descriptors";
