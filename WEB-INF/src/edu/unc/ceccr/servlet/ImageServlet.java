@@ -49,7 +49,7 @@ public class ImageServlet extends HttpServlet {
     		imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
         }
     	else if(projectType.equals("dataset")){
-    		imageFileName=userName+"/DATASETS/"+project+"/Visualization/Sketches/"+compoundId+".jpg";
+    		imageFileName=userName+"/DATASETS/"+datasetName+"/Visualization/Sketches/"+compoundId+".jpg";
     	}
         else{
         	//modeling and prediction images
