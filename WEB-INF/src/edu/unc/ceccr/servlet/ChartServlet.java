@@ -211,7 +211,7 @@ protected void processRequest(HttpServletRequest request,
      writer.write(input.read());
  }
  
- writer.write("<IMG SRC='imageServlet?project="+project+"&projectType=modelbuilder&user="+user+"&compoundId=mychart&task=chart' "
+ writer.write("<IMG SRC='imageServlet?project="+project+"&projectType=modeling&user="+user+"&compoundId=externalValidationChart' "
          + "WIDTH=\"650\" HEIGHT=\"650\" BORDER=\"0\"  ISMAP=\"ISMAP\" USEMAP=\"#mychart\">");
  writer.write("</center></BODY>");
  writer.write("</HTML>");

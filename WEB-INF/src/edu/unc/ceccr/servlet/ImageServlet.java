@@ -18,7 +18,8 @@ public class ImageServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
     	
-    	//this servlet returns 2D images for compounds and dataset activity charts
+    	//this servlet returns 2D images for compounds, 
+    	//external validation charts, and dataset activity charts
     	//the code is really awful, my only excuse is 
     	//"it was like that when I got here and there's no time to fix it now"
     	
@@ -43,6 +44,9 @@ public class ImageServlet extends HttpServlet {
     		//activity chart for dataset 
     		imageFileName=userName+"/DATASETS/"+project+"/Visualization/activityChart.png";
       	}
+        else if(compoundId.startsWith("externalValidationChart")){
+        	
+        }
     	else if(projectType.equals("dataset")){
     		imageFileName=userName+"/DATASETS/"+project+"/Visualization/Sketches/"+compoundId+".jpg";
     	}
