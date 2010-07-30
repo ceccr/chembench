@@ -520,8 +520,6 @@ public class DatasetFileOperations {
 		
 		String compound = new String();
 		String line;
-		//skip any whitespace lines before the first molecule
-		while((line = br.readLine()) != null && line.trim().isEmpty()){ }
 		//read molecules
 		while((line = br.readLine()) != null){
 			compound += line + "\n";
