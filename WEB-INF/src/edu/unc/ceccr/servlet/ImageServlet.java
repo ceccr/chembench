@@ -68,7 +68,7 @@ public class ImageServlet extends HttpServlet {
     	else if(projectType.equalsIgnoreCase("PCA")){
         	imageFileName=userName+"/DATASETS/"+project+"/Visualization/"+compoundId+".jpg";
         }
-    	else if(projectType.equals("dataSet")){
+    	else if(projectType.equals("dataset")){
     		imageFileName=userName+"/DATASETS/"+project+"/Visualization/Sketches/"+compoundId+".jpg";
     	}
         else{
