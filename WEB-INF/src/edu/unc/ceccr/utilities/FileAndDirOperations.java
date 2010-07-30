@@ -1,10 +1,12 @@
 package edu.unc.ceccr.utilities;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,7 +41,7 @@ public class FileAndDirOperations {
 		
 		return count;
 	}
-	
+
 	public static String readFileIntoString(String filePath){
 		String fileContents = "";
 		try{
@@ -60,6 +62,17 @@ public class FileAndDirOperations {
 		}
 			
 		return fileContents;
+	}
+
+	public static void writeStringToFile(String text, String filePath){
+		try{
+			BufferedWriter out = new BufferedWriter(new FileWriter(filePath));
+			out.write(text);
+			out.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 	}
 	
 	public static void makeDirContentsExecutable(String fromDir){
