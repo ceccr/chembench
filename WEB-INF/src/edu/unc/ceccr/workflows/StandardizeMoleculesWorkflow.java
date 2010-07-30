@@ -36,6 +36,8 @@ public class StandardizeMoleculesWorkflow {
 			//reassemble the outputs.
 			
 			//split the SDF
+			Utility.writeToDebug("Splitting and standardizing " + sdfIn + " in dir " + workingDir);
+			
 			String fileContents = "";
 			int fileIndex = 0;
 			for(int i = 0; i < compounds.size(); i++){
@@ -47,7 +49,6 @@ public class StandardizeMoleculesWorkflow {
 					//apply standardization to that file
 					String standardizedFilePart = sdfFilePart + ".standardize";
 					String execstr1 = "standardize.sh " + sdfFilePart + " " + standardizedFilePart;
-					Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingDir);
 					Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingDir));
 					Utility.writeProgramLogfile(workingDir, "standardize" + fileIndex, p.getInputStream(), p.getErrorStream());
 					p.waitFor();
@@ -57,16 +58,16 @@ public class StandardizeMoleculesWorkflow {
 				}
 			}
 			
-			Utility.writeToDebug("merging standardized SDFs");
+			Utility.writeToDebug("Merging standardized SDFs");
 			//merge the output files back together
 			String standardizedFile = "";
 			for(int i = 0; i < fileIndex; i++){
-				String filePartName = sdfIn + "_" + fileIndex + ".sdf.standardize";
+				String filePartName = sdfIn + "_" + i + ".sdf.standardize";
 				standardizedFile += FileAndDirOperations.readFileIntoString(workingDir + filePartName);
 				
 				//clean up all the file parts, they're no longer needed
 				FileAndDirOperations.deleteFile(workingDir + filePartName);
-				String oldFile = sdfIn + "_" + fileIndex + ".sdf";
+				String oldFile = sdfIn + "_" + i + ".sdf";
 				FileAndDirOperations.deleteFile(workingDir + oldFile);
 			}
 			String mergedFileName = "";
