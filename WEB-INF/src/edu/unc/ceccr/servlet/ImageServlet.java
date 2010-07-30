@@ -35,7 +35,7 @@ public class ImageServlet extends HttpServlet {
         String datasetID = request.getParameter("datasetID");
 		
         DataSet ds = null;
-        if(! compoundId.startsWith("mychart")){
+        if( !compoundId.startsWith("mychart") && !projectType.equals("dataset")){
 	        try{
 				Session session = HibernateUtil.getSession();
 				ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID), session);
@@ -46,18 +46,18 @@ public class ImageServlet extends HttpServlet {
 	        }
         }
         
-        if(!projectType.equals("dataSet") && !projectType.equalsIgnoreCase("PCA") && ds != null && ds.getUserName().equalsIgnoreCase("_all")){
+        if(ds != null && ds.getUserName().equalsIgnoreCase("_all")){
         	userName = "all-users";
         }
+		if(userName.equalsIgnoreCase("_all")){
+			userName = "all-users";
+		}
         
         String imageFileName;
         if(compoundId.startsWith("mychart"))
         {
         	if(compoundId.startsWith("mychartActivity")){
         		//activity chart for dataset 
-        		if(userName.equalsIgnoreCase("_all")){
-        			userName = "all-users";
-        		}
         		imageFileName=userName+"/DATASETS/"+project+"/Visualization/activityChart.png";
         	}
         	else{
