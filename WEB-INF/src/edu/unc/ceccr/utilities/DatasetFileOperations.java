@@ -250,7 +250,7 @@ public class DatasetFileOperations {
 			// Check if compounds in act are the same as compounds in sdf
 			String mismatches = "";
 			for(int i = 0;i<act_compounds.size();i++){
-				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
+				if(i >= sdf_compounds.size() || !act_compounds.get(i).equals(sdf_compounds.get(i))){
 					mismatches += act_compounds.get(i) + " ";
 				}
 			}
@@ -262,7 +262,7 @@ public class DatasetFileOperations {
 			//check that compounds in the sdf are matched by compounds in the act, too
 			mismatches = "";
 			for(int i = 0;i<sdf_compounds.size();i++){
-				if(!sdf_compounds.get(i).equals(act_compounds.get(i))){
+				if(i >= act_compounds.size() || !sdf_compounds.get(i).equals(act_compounds.get(i))){
 					mismatches += sdf_compounds.get(i) + " ";
 				}
 			}
