@@ -244,12 +244,11 @@ public class DatasetFileOperations {
 			int numSDF = sdf_compounds.size();
 			
 			if(numACT!=numSDF){
-				msg += ErrorMessages.COMPOUND_IDS_DONT_MATCH + " The ACT file contains " + numACT + " compounds; the SDF contains "+numSDF+" compounds! <br />";
+				msg += "Error: The ACT file contains " + numACT + " compounds; the SDF contains "+numSDF+" compounds. <br />";
 			}
 			
 			// Check if compounds in act are the same as compounds in sdf
 			String mismatches = "";
-			int mismatchIndex = -1;
 			for(int i = 0;i<act_compounds.size();i++){
 				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
 					mismatches += act_compounds.get(i) + " ";
@@ -257,7 +256,19 @@ public class DatasetFileOperations {
 			}
 			
 			if(! mismatches.isEmpty()){
-				msg += ErrorMessages.COMPOUND_IDS_DONT_MATCH + mismatches + "<br />";
+				msg += ErrorMessages.COMPOUND_IDS_ACT_DONT_MATCH_SDF + mismatches + "<br />";
+			}
+			
+			//check that compounds in the sdf are matched by compounds in the act, too
+			String mismatches = "";
+			for(int i = 0;i<act_compounds.size();i++){
+				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
+					mismatches += act_compounds.get(i) + " ";
+				}
+			}
+			
+			if(! mismatches.isEmpty()){
+				msg += ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches + "<br />";
 			}
 		}
 		
