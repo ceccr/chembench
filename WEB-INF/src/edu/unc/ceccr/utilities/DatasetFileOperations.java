@@ -261,14 +261,14 @@ public class DatasetFileOperations {
 			
 			//check that compounds in the sdf are matched by compounds in the act, too
 			mismatches = "";
-			for(int i = 0;i<act_compounds.size();i++){
-				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
-					mismatches += act_compounds.get(i) + " ";
+			for(int i = 0;i<sdf_compounds.size();i++){
+				if(!sdf_compounds.get(i).equals(act_compounds.get(i))){
+					mismatches += sdf_compounds.get(i) + " ";
 				}
 			}
 			
 			if(! mismatches.isEmpty()){
-				msg += ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches + "<br />";
+				msg += ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches + "\n";
 			}
 		}
 		

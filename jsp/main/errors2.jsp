@@ -32,12 +32,12 @@
 		<td height="557" colspan="5" valign="top"
 			background="theme/img/backgrmodelbuilders.jpg" style="background-repeat: no-repeat;"><span id="maincontent">
 		
-		<table width="465" border="0" cellspacing="0" cellpadding="0">
+		<table width="557" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td>
 				<p class="StandardTextDarkGrayParagraph"><b><br>Error: </b></p>
 		<p align="justify" class="StandardTextDarkGrayParagraph">
-		<s:property value="errorString" /><br><br>
+		<s:property value='errorString' /><br><br>
 		To report a bug, or if you need help with Chembench, you can reach us at <a href="ceccr@email.unc.edu">ceccr@email.unc.edu</a>. <br />
 		Include this error text in your email, along with a description of the problem.<br />
 		Thanks, <br />
