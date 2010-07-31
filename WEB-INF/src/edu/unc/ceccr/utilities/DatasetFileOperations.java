@@ -181,7 +181,7 @@ public class DatasetFileOperations {
 		//run validations on each file after the copy
 		if(sdfFile != null){
 			Utility.writeToDebug("checking SDF");
-			msgs.add(saveSDFFile(sdfFile, path, sdfFileName));
+			saveSDFFile(sdfFile, path, sdfFileName);
 			sdfFile = new File(path + sdfFileName);
 			
 			sdf_compounds = getSDFCompoundNames(sdfFile.getAbsolutePath());
@@ -265,7 +265,7 @@ public class DatasetFileOperations {
 			}
 			
 			if(! mismatches.isEmpty()){
-				msgs.add(ErrorMessages.COMPOUND_IDS_ACT_DONT_MATCH_SDF + mismatches + "<br />");
+				msgs.add(ErrorMessages.COMPOUND_IDS_ACT_DONT_MATCH_SDF + mismatches);
 			}
 			
 			//check that compounds in the sdf are matched by compounds in the act, too
@@ -277,7 +277,7 @@ public class DatasetFileOperations {
 			}
 			
 			if(! mismatches.isEmpty()){
-				msgs.add(ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches + "\\<br /\\>");
+				msgs.add(ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches);
 			}
 		}
 		
