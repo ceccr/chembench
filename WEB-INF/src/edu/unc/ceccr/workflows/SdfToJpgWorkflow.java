@@ -51,10 +51,14 @@ public class SdfToJpgWorkflow {
 				temp = src.nextLine();
 				sb.append("\n" + temp);
 				if (temp.startsWith("$")) {
-						FileWriter fout = new FileWriter(structuresDir + title.trim() + ".sdf");
-						fout.write(sb.toString());
-						fout.close();
-						
+						try{
+							FileWriter fout = new FileWriter(structuresDir + title.trim() + ".sdf");
+							fout.write(sb.toString());
+							fout.close();
+						}
+						catch(Exception ex){
+							Utility.writeToDebug(ex);
+						}
 					break;
 				}
 			}
