@@ -117,7 +117,7 @@ public class DatasetFormActions extends ActionSupport{
 
 		Utility.writeToUsageLog("Uploaded dataset " + datasetName, userName);
 		
-		String msg = "";
+		ArrayList<String> msgs = new ArrayList<String>();
 		Utility.writeToDebug("type: " + datasetType);
 		if(datasetType.equalsIgnoreCase(Constants.MODELING)){
 			
@@ -347,7 +347,7 @@ public class DatasetFormActions extends ActionSupport{
 				}
 				
 				if(!msgs.isEmpty()){
-					errorString.addAll(msgs);
+					errorStrings.addAll(msgs);
 					result = ERROR;
 				}
 			}
