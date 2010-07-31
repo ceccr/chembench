@@ -151,7 +151,7 @@ public class DatasetFileOperations {
 		return msg;
 	}
 	
-	public static String uploadDataset(String userName, File sdfFile, String sdfFileName, File actFile, 
+	public static ArrayList<String> uploadDataset(String userName, File sdfFile, String sdfFileName, File actFile, 
 			String actFileName, File xFile, String xFileName, String datasetName, 
 			String actFileType, String datasetType) throws Exception{
 		//will take care of the upload SDF, X, and ACT file
@@ -161,7 +161,7 @@ public class DatasetFileOperations {
 		
 		Utility.writeToDebug("Copying dataset files to " + path);
 		
-		String msg=""; //holds any error messages from validations
+		ArrayList<String> msgs = new ArrayList<String>(); //holds any error messages from validations
 		String formula = "";
 		int numCompounds = 0;
 
@@ -181,7 +181,7 @@ public class DatasetFileOperations {
 		//run validations on each file after the copy
 		if(sdfFile != null){
 			Utility.writeToDebug("checking SDF");
-			msg += saveSDFFile(sdfFile, path, sdfFileName);
+			msgs.add(saveSDFFile(sdfFile, path, sdfFileName));
 			sdfFile = new File(path + sdfFileName);
 			
 			sdf_compounds = getSDFCompoundNames(sdfFile.getAbsolutePath());
@@ -191,38 +191,46 @@ public class DatasetFileOperations {
 			
 			if(!sdfIsValid(sdfFile))
 			{
-					msg+=ErrorMessages.INVALID_SDF;
+				msgs.add(ErrorMessages.INVALID_SDF);
 			}
 			//Check if SDF file contains duplicates 
 			String duplicates = findDuplicates(sdf_compounds);
 			if(! duplicates.isEmpty()){
-				msg += ErrorMessages.SDF_CONTAINS_DUPLICATES + duplicates + "\\<br /\\>";
+				msgs.add(ErrorMessages.SDF_CONTAINS_DUPLICATES + duplicates);
 			}
 			Utility.writeToDebug("done checking SDF");
 		}
 		
 		if(actFile != null){
 			Utility.writeToDebug("checking ACT");
-			msg += saveACTFile(actFile, path, actFileName);
+			String msg = saveACTFile(actFile, path, actFileName);
+			if(!msg.isEmpty())
+				msgs.add(msg);
 			actFile = new File(path + actFileName);
 			 
-			msg += rewriteACTFile(path + actFileName);
+			msg = rewriteACTFile(path + actFileName);
+			if(!msg.isEmpty())
+				msgs.add(msg);
 			act_compounds = getACTCompoundNames(actFile.getAbsolutePath());
 			numCompounds = act_compounds.size();
 			actFile = new File(path + actFileName);
-			msg += actIsValid(actFile, actFileType);
-			 
+			msg = actIsValid(actFile, actFileType);
+			if(!msg.isEmpty())
+				msgs.add(msg);
+			
 			//Check if ACT file contains duplicates 
 			String duplicates = findDuplicates(act_compounds);
 			if(! duplicates.isEmpty()){
-				msg += ErrorMessages.ACT_CONTAINS_DUPLICATES + duplicates + "\\<br /\\>";
+				msgs.add(ErrorMessages.ACT_CONTAINS_DUPLICATES + duplicates);
 			}
 			Utility.writeToDebug("done checking ACT");
 		}
 		
 		if(xFile != null){
 			Utility.writeToDebug("checking X");
-			msg += saveXFile(xFile, path, xFileName);
+			String msg = saveXFile(xFile, path, xFileName);
+			if(!msg.isEmpty())
+				msgs.add(msg);
 			xFile = new File(path + xFileName);
 			Utility.writeToDebug("done checking X");
 		}
@@ -245,7 +253,7 @@ public class DatasetFileOperations {
 			int numSDF = sdf_compounds.size();
 			
 			if(numACT!=numSDF){
-				msg += "Error: The ACT file contains " + numACT + " compounds; the SDF contains "+numSDF+" compounds. <br />";
+				msgs.add("Error: The ACT file contains " + numACT + " compounds; the SDF contains "+numSDF+" compounds.");
 			}
 			
 			// Check if compounds in act are the same as compounds in sdf
@@ -257,7 +265,7 @@ public class DatasetFileOperations {
 			}
 			
 			if(! mismatches.isEmpty()){
-				msg += ErrorMessages.COMPOUND_IDS_ACT_DONT_MATCH_SDF + mismatches + "<br />";
+				msgs.add(ErrorMessages.COMPOUND_IDS_ACT_DONT_MATCH_SDF + mismatches + "<br />");
 			}
 			
 			//check that compounds in the sdf are matched by compounds in the act, too
@@ -269,11 +277,11 @@ public class DatasetFileOperations {
 			}
 			
 			if(! mismatches.isEmpty()){
-				msg += ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches + "\\<br /\\>";
+				msgs.add(ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches + "\\<br /\\>");
 			}
 		}
 		
-		if (msg.equals("")){
+		if (msgs.isEmpty()){
 			Utility.writeToDebug("Dataset file validation successful!");
 			//success - passed all validations
 		}
@@ -288,7 +296,7 @@ public class DatasetFileOperations {
 				Utility.writeToDebug("Directory still exists");
 			}
 		}
-		return msg;
+		return msgs;
 	}
 	
 	public static String saveSDFFile(File sdfFile, String path, String sdfFileName) throws Exception{

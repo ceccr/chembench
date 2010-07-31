@@ -142,15 +142,15 @@ public class DatasetFormActions extends ActionSupport{
 			
 			//do file check
 			if(sdfFileModeling == null && actFileModeling == null){
-				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
+				errorStrings.add("File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.");
 				result = ERROR;
 			}
 			else if(sdfFileModeling == null){
-				errorString += "Missing SDF or file upload error.";
+				errorStrings.add("Missing SDF or file upload error.");
 				result = ERROR;
 			}
 			else if(actFileModeling == null){
-				errorString += "Missing Activity file or file upload error. If you do not have an Activity file for this dataset, use the Prediction Set option when uploading.";
+				errorStrings.add("Missing Activity file or file upload error. If you do not have an Activity file for this dataset, use the Prediction Set option when uploading.");
 				result = ERROR;
 			}
 			
@@ -160,17 +160,17 @@ public class DatasetFormActions extends ActionSupport{
 					actFileModelingFileName = actFileModelingFileName.substring(0, actFileModelingFileName.lastIndexOf(".")) + ".act";
 				}
 				try{
-					msg = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
+					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
 							actFileModeling, actFileModelingFileName, null, "", datasetName, 
 							dataTypeModeling, datasetType);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
 					result = ERROR;
-					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
+					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
-				if(!msg.equals("")){
-					errorString += msg;
+				if(!msgs.isEmpty){
+					errorStrings.addAll(msgs);
 					result = ERROR;
 				}
 			}
@@ -210,24 +210,24 @@ public class DatasetFormActions extends ActionSupport{
 			Utility.writeToDebug("got into function");
 			//do file check
 			if(sdfFilePrediction == null){
-				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
+				errorStrings.add("File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.");
 				result = ERROR;
 			}
 			
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
-					msg = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, 
+					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, 
 							"", null, "", datasetName, dataTypeModeling, datasetType);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
 					result = ERROR;
-					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
+					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
 			
 				if(!msg.equals("")){
-					errorString += msg;
+					errorString.addAll(msgs);
 					result = ERROR;
 				}
 			}
@@ -269,7 +269,7 @@ public class DatasetFormActions extends ActionSupport{
 		else if(datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)){
 			
 			if(xFileModDesc == null || actFileModDesc == null){
-				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
+				errorStrings.add("File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.");
 				result = ERROR;
 			}
 			
@@ -279,18 +279,18 @@ public class DatasetFormActions extends ActionSupport{
 					if(actFileModDescFileName.endsWith(".a")){
 						actFileModDescFileName = actFileModDescFileName.substring(0, actFileModDescFileName.lastIndexOf(".")) + ".act";
 					}
-					msg = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
+					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
 							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
 							dataTypeModeling, datasetType);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
 					result = ERROR;
-					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
+					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
 				
-				if(!msg.equals("")){
-					errorString += msg;
+				if(!msgs.isEmpty()){
+					errorString.addAll(msgs);
 					result = ERROR;
 				}
 			}
@@ -330,24 +330,24 @@ public class DatasetFormActions extends ActionSupport{
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTIONWITHDESCRIPTORS)){
 			if(xFilePredDesc == null){
-				errorString += "File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.";
+				errorStrings.add("File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.");
 				result = ERROR;
 			}
 			
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
-					msg = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
+					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
 							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
 					result = ERROR;
-					msg += "An exception occurred while uploading this dataset: " + ex.getMessage();
+					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
 				
-				if(!msg.equals("")){
-					errorString += msg;
+				if(!msgs.isEmpty()){
+					errorString.addAll(msgs);
 					result = ERROR;
 				}
 			}
@@ -390,7 +390,7 @@ public class DatasetFormActions extends ActionSupport{
 		return result;
 	}
 	
-	private String errorString = "";
+	private ArrayList<String> errorStrings = new ArrayList<String>();
 	private String datasetName = "";
 	private String datasetType = Constants.MODELING;
 	private String splitType = Constants.RANDOM;
@@ -406,12 +406,14 @@ public class DatasetFormActions extends ActionSupport{
 	private String descriptorTypeModDesc = "";
 	private String descriptorTypePredDesc = "";
 
-	public String getErrorString() {
-		return errorString;
+
+	public ArrayList<String> getErrorStrings() {
+		return errorStrings;
 	}
-	public void setErrorString(String errorString) {
-		this.errorString = errorString;
+	public void setErrorStrings(ArrayList<String> errorStrings) {
+		this.errorStrings = errorStrings;
 	}
+	
 	public String getDatasetName() {
 		return datasetName;
 	}

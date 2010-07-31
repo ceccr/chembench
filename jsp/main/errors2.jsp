@@ -36,8 +36,8 @@
           <tr>
             <td>
 				<p class="StandardTextDarkGrayParagraph"><b><br>Error: </b></p>
-		<p align="justify" class="StandardTextDarkGrayParagraph">
-		<s:property value='errorString' /><br><br>
+		<p class="StandardTextDarkGrayParagraph">
+		<s:iterator value="errorMessages"><s:property /><br /><br /></s:iterator><br><br>
 		To report a bug, or if you need help with Chembench, you can reach us at <a href="ceccr@email.unc.edu">ceccr@email.unc.edu</a>. <br />
 		Include this error text in your email, along with a description of the problem.<br />
 		Thanks, <br />
