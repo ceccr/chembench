@@ -260,7 +260,7 @@ public class DatasetFileOperations {
 			}
 			
 			//check that compounds in the sdf are matched by compounds in the act, too
-			String mismatches = "";
+			mismatches = "";
 			for(int i = 0;i<act_compounds.size();i++){
 				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
 					mismatches += act_compounds.get(i) + " ";
