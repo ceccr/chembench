@@ -187,6 +187,7 @@ public class DatasetFileOperations {
 			sdf_compounds = getSDFCompoundNames(sdfFile.getAbsolutePath());
 			numCompounds = sdf_compounds.size();
 			rewriteSdf(path, sdfFileName, sdf_compounds);
+			sdf_compounds = getSDFCompoundNames(sdfFile.getAbsolutePath());
 			
 			if(!sdfIsValid(sdfFile))
 			{
