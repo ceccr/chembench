@@ -193,9 +193,9 @@ public class DatasetFileOperations {
 					msg+=ErrorMessages.INVALID_SDF;
 			}
 			//Check if SDF file contains duplicates 
-			int sdf_duplicate_position = findDuplicates(sdf_compounds);
-			if(sdf_duplicate_position!=-1){
-				msg += ErrorMessages.SDF_CONTAINS_DUPLICATES + sdf_compounds.get(sdf_duplicate_position);
+			String duplicates = findDuplicates(sdf_compounds);
+			if(! duplicates.isEmpty()){
+				msg += ErrorMessages.SDF_CONTAINS_DUPLICATES + duplicates + "<br />";
 			}
 			Utility.writeToDebug("done checking SDF");
 		}
@@ -212,8 +212,10 @@ public class DatasetFileOperations {
 			msg += actIsValid(actFile, actFileType);
 			 
 			//Check if ACT file contains duplicates 
-			int act_duplicate_position = findDuplicates(act_compounds);
-			if(act_duplicate_position!=-1) msg+= ErrorMessages.ACT_CONTAINS_DUPLICATES + act_compounds.get(act_duplicate_position);
+			String duplicates = findDuplicates(act_compounds);
+			if(! duplicates.isEmpty()){
+				msg += ErrorMessages.ACT_CONTAINS_DUPLICATES + duplicates + "<br />";
+			}
 			Utility.writeToDebug("done checking ACT");
 		}
 		
@@ -223,7 +225,7 @@ public class DatasetFileOperations {
 			xFile = new File(path + xFileName);
 			Utility.writeToDebug("done checking X");
 		}
-
+				
 		//generate an empty activity file (needed for... heatmaps or something...?)
 		if(actFileType.equals(Constants.PREDICTION)){
 			Utility.writeToDebug("Generating empty ACT");
@@ -241,18 +243,22 @@ public class DatasetFileOperations {
 			int numACT = act_compounds.size();
 			int numSDF = sdf_compounds.size();
 			
-			if(numACT!=numSDF) return ErrorMessages.COMPOUND_IDS_DONT_MATCH + " The ACT file contains " + numACT + " compounds; the SDF contains "+numSDF+" compounds!";
+			if(numACT!=numSDF){
+				msg += ErrorMessages.COMPOUND_IDS_DONT_MATCH + " The ACT file contains " + numACT + " compounds; the SDF contains "+numSDF+" compounds! <br />";
+			}
 			
 			// Check if compounds in act are the same as compounds in sdf
+			String mismatches = "";
 			int mismatchIndex = -1;
 			for(int i = 0;i<act_compounds.size();i++){
 				if(!act_compounds.get(i).equals(sdf_compounds.get(i))){
-					mismatchIndex = i;
+					mismatches += act_compounds.get(i) + " ";
 				}
 			}
 			
-			if(mismatchIndex!=-1) return ErrorMessages.COMPOUND_IDS_DONT_MATCH + " Compound "+ act_compounds.get(mismatchIndex)+" from ACT file does not match compound "+ sdf_compounds.get(mismatchIndex)+" from SDF file!";
-			return "";
+			if(! mismatches.isEmpty()){
+				msg += ErrorMessages.COMPOUND_IDS_DONT_MATCH + mismatches + "<br />";
+			}
 		}
 		
 		if (msg.equals("")){
@@ -534,15 +540,20 @@ public class DatasetFileOperations {
 	}
 	
 
-	// returns the position of the duplicate
-	private static int findDuplicates(ArrayList<String> a){
+	// returns the compound names of the duplicates 
+	private static String findDuplicates(ArrayList<String> compoundList){
+		String duplicates = "";
 		
 		ArrayList<String> temp_list = new ArrayList<String>();
-		for(int i= 0;i < a.size();i++){
-			if(temp_list.contains(a.get(i))) return i; 
-			temp_list.add(a.get(i));			
+		for(int i= 0;i < compoundList.size();i++){
+			if(temp_list.contains(compoundList.get(i))) {
+				duplicates += compoundList.get(i) + " ";
+			}
+			else{
+				temp_list.add(compoundList.get(i));
+			}
 		}
-		return -1;
+		return duplicates;
 	}
 	
 	public static HashMap parseActFile(String fileName)
