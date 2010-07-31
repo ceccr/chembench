@@ -186,7 +186,7 @@ public class DatasetFileOperations {
 			
 			sdf_compounds = getSDFCompoundNames(sdfFile.getAbsolutePath());
 			numCompounds = sdf_compounds.size();
-			rewriteSdf(path, sdfFileName);
+			rewriteSdf(path, sdfFileName, sdf_compounds);
 			
 			if(!sdfIsValid(sdfFile))
 			{
@@ -195,7 +195,7 @@ public class DatasetFileOperations {
 			//Check if SDF file contains duplicates 
 			String duplicates = findDuplicates(sdf_compounds);
 			if(! duplicates.isEmpty()){
-				msg += ErrorMessages.SDF_CONTAINS_DUPLICATES + duplicates + "<br />";
+				msg += ErrorMessages.SDF_CONTAINS_DUPLICATES + duplicates + "\\<br /\\>";
 			}
 			Utility.writeToDebug("done checking SDF");
 		}
@@ -214,7 +214,7 @@ public class DatasetFileOperations {
 			//Check if ACT file contains duplicates 
 			String duplicates = findDuplicates(act_compounds);
 			if(! duplicates.isEmpty()){
-				msg += ErrorMessages.ACT_CONTAINS_DUPLICATES + duplicates + "<br />";
+				msg += ErrorMessages.ACT_CONTAINS_DUPLICATES + duplicates + "\\<br /\\>";
 			}
 			Utility.writeToDebug("done checking ACT");
 		}
@@ -268,7 +268,7 @@ public class DatasetFileOperations {
 			}
 			
 			if(! mismatches.isEmpty()){
-				msg += ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches + "\n";
+				msg += ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches + "\\<br /\\>";
 			}
 		}
 		
@@ -297,7 +297,7 @@ public class DatasetFileOperations {
 		return "";
 	}
 	
-	public static void rewriteSdf(String filePath, String fileName) throws Exception {
+	public static void rewriteSdf(String filePath, String fileName, ArrayList<String> sdfCompoundNames) throws Exception {
 		
 		//SDFs with lines longer than 1023 characters will not work properly with MolconnZ.
 		//This function gets rid of all such lines.
@@ -306,6 +306,9 @@ public class DatasetFileOperations {
 		
 		//This function will also remove the silly /r characters Windows likes
 		//to add to newlines.
+		
+		//It also corrects any compound names that may have spaces in them, by
+		//changing the spaces to underscores.
 
 		File infile = new File(filePath + fileName);
 		File outfile = new File(filePath + fileName + ".temp");
@@ -332,8 +335,18 @@ public class DatasetFileOperations {
 		String temp;
 		Scanner src = new Scanner(fin);
 		FileWriter fout = new FileWriter(outfile);
+		
+		int sdfCompoundNamesIndex = 0;
 		while (src.hasNextLine()) {
 			temp = src.nextLine();
+			
+			//replace any spaces in compound name with underscores
+			if(sdfCompoundNamesIndex < sdfCompoundNames.size() && 
+				temp.trim().equals(sdfCompoundNames.get(sdfCompoundNamesIndex))){
+				
+				temp = temp.trim().replaceAll("\\s+", "_");
+				sdfCompoundNamesIndex++;
+			}
 
 			//remove Windows-format \r "newline" characters
 			temp = temp.replace('\r', ' ');
@@ -366,8 +379,12 @@ public class DatasetFileOperations {
 	public static String rewriteACTFile(String filePath)
 	throws FileNotFoundException, IOException {
 		//removes the \r things (stupid Windows)
+		//removes the header, if any
+		//replaces spaces in compound names with underscores
+		
 		File file = new File(filePath);
 		if (file.exists()) {
+			
 			FileReader fin = new FileReader(file);
 
 			Scanner src = new Scanner(fin);
@@ -402,7 +419,22 @@ public class DatasetFileOperations {
 			
 			while (src.hasNext()) {
 				temp = src.nextLine();
-				sb.append(temp + "\n");
+				String[] tempTokens = temp.split("\\s+");
+				String compoundId = "";
+				String activity = "";
+				for(int i = 0; i < tempTokens.length; i++){
+					if(i == tempTokens.length - 1){
+						activity = tempTokens[i];
+					}
+					else{
+						compoundId += tempTokens[i];
+						if(i < tempTokens.length - 2){
+							compoundId += "_";
+						}
+					}
+				}
+				
+				sb.append(compoundId + " " + activity + "\n");
 			}
 			fin.close();
 
@@ -505,7 +537,7 @@ public class DatasetFileOperations {
 		while((line = br.readLine()) != null && line.trim().isEmpty()){ }
 		//read first molecule
 		if(line != null){
-			chemicalNames.add(line.trim().replace(" ", "_"));
+			chemicalNames.add(line.trim());
 		}
 		//read subsequent molecules
 		while((line = br.readLine()) != null){
@@ -514,7 +546,7 @@ public class DatasetFileOperations {
 				while((line = br.readLine()) != null && line.trim().isEmpty()){ }
 				//read next molecule
 				if(line != null && !line.trim().isEmpty()){
-					chemicalNames.add(line.trim().replace(" ", "_"));
+					chemicalNames.add(line.trim());
 				}
 			}
 		}
