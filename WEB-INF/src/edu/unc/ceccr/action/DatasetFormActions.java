@@ -169,7 +169,7 @@ public class DatasetFormActions extends ActionSupport{
 					result = ERROR;
 					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
-				if(!msgs.isEmpty){
+				if(!msgs.isEmpty()){
 					errorStrings.addAll(msgs);
 					result = ERROR;
 				}
@@ -226,8 +226,8 @@ public class DatasetFormActions extends ActionSupport{
 					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
 			
-				if(!msg.equals("")){
-					errorString.addAll(msgs);
+				if(!msgs.isEmpty()){
+					errorStrings.addAll(msgs);
 					result = ERROR;
 				}
 			}
@@ -262,7 +262,7 @@ public class DatasetFormActions extends ActionSupport{
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
 					result = ERROR;
-					msg += "An exception occurred while creating this dataset: " + ex.getMessage();
+					msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
 				}
 			}
 		}
@@ -290,7 +290,7 @@ public class DatasetFormActions extends ActionSupport{
 				}
 				
 				if(!msgs.isEmpty()){
-					errorString.addAll(msgs);
+					errorStrings.addAll(msgs);
 					result = ERROR;
 				}
 			}
@@ -324,7 +324,7 @@ public class DatasetFormActions extends ActionSupport{
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
 					result = ERROR;
-					msg += "An exception occurred while creating this dataset: " + ex.getMessage();
+					msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
 				}
 			}
 		}
@@ -382,7 +382,7 @@ public class DatasetFormActions extends ActionSupport{
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
 					result = ERROR;
-					msg += "An exception occurred while creating this dataset: " + ex.getMessage();
+					msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
 				}
 			}
 		}
