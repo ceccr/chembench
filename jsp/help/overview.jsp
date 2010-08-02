@@ -19,16 +19,16 @@ predictive models.</p>
 DATASET, and so on. Once logged in, you can also change your password from "edit profile" at the top right of the 
 screen.</p>
 
-<p>In Chembench, you can create <u>Datasets</u>, <u>Predictors</u>, and <u>Predictions</u>.</p>
+<p>In Chembench, you can create <b>Datasets</b>, <b>Predictors</b>, and <b>Predictions</b>.</p>
 
-<p>A <u>dataset</u> is created from files that you upload. Typically, you will use a set of compounds (an <a href="">SDF</a>), along with 
+<p>A <b>dataset</b> is created from files that you upload. Typically, you will use a set of compounds (an <a href="">SDF</a>), along with 
 experimental values for those compounds (an <a href="">ACT file</a>) to make a dataset. Datasets can be created using the DATASET 
 tab. There are also many benchmark datasets available on Chembench for you to experiment with.</p>
 
-<p>A <u>predictor</u> is a set of models that can be used to make a prediction. You need a modeling dataset (a dataset that 
+<p>A <b>predictor</b> is a set of models that can be used to make a prediction. You need a modeling dataset (a dataset that 
 contains activity values) to make a predictor. You create predictors from the MODELING tab.</p>
 
-<p>A <u>prediction</u> is made when a predictor is applied to a dataset. Predictions are made from the PREDICTION tab. You 
+<p>A <b>prediction</b> is made when a predictor is applied to a dataset. Predictions are made from the PREDICTION tab. You 
 can make several predictions at once on a dataset by selecting more than one predictor.</p>
 
 <p>Whenever you submit a dataset, predictor, or prediction to be created, you will be taken to the MY BENCH page. From 
