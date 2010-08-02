@@ -7,7 +7,7 @@ float: left;
 color: #555555;
 text-align:center;
 padding: 9px 11px;
-text-decoration: none;
+text-decoration: underline;
 border-right: 1px solid white;
 width:84px;
 }

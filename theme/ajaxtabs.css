@@ -16,7 +16,7 @@ margin: 0;
 }
 
 .shadetabs li a{
-text-decoration: none;
+text-decoration: underline;
 position: relative;
 z-index: 1;
 padding: 3px 7px;
@@ -46,7 +46,7 @@ border-bottom-color: white;
 }
 
 .shadetabs li a.selected:hover{ /*selected main tab style */
-text-decoration: none;
+text-decoration: underline;
 }
 
 
@@ -80,7 +80,7 @@ float: left;
 display: block;
 font: bold 11px Arial;
 color: white;
-text-decoration: none;
+text-decoration: underline;
 margin: 0 1px 0 0; /*Margin between each menu item*/
 padding: 5px 10px;
 background-color: black; /*Brown color theme*/ 
@@ -123,7 +123,7 @@ display: inline;
 float: left;
 color: black; /*text color*/
 padding: 3px 11px;
-text-decoration: none;
+text-decoration: underline;
 border-right: 1px solid darkred; /*darkred divider between menu items*/
 }
 
