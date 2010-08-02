@@ -29,8 +29,6 @@ public class ImageServlet extends HttpServlet {
         String compoundId = request.getParameter("compoundId");
         String userName = request.getParameter("user");
         String projectType = request.getParameter("projectType"); //dataset, modeling, prediction
-		
-      
         
         //You might be thinking of adding a call to the database to get the 
         //dataset object here. Don't do it! It'll slow shit down and bleed sessions

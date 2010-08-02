@@ -41,14 +41,19 @@
           <td><p class="StandardTextDarkGrayParagraph"><b><br />
             Chembench Dataset Creation</b></p>
               <p align="justify" class="StandardTextDarkGrayParagraph">
-              From this page, you may upload compounds to Chembench for use in modeling or prediction. <br />
-              Compounds that have activities associated with them may be used to build models or in predictions. 
-              Compounds without activities may only be used in predictions. <br /> Once a dataset has been created, you can
-              view the results on the "My Bench" page. Each modeling dataset you create will appear as an option on the 
-              "Modeling" page and on the "Prediction" page. Prediction datasets will only appear on the "Prediction" page. <br />
-              When you submit a dataset, images will be generated for each compound and a heatmap visualization will be created.
-              <br /><br />
-              For more information about dataset creation and defining external sets, try the <a href="/help-dataset">Dataset help page</a>.  
+              From this page, you may create a dataset by uploading compound structures with or without 
+              associated activities. The activity data is required for building models. <br />
+			  You can either create a Modeling dataset, which has both structures and activities,
+			   or a Prediction dataset, which only has structures. <br />
+			   Each modeling dataset you create will appear as an option on the 
+              "Modeling" tab and on the "Prediction" tab. Prediction datasets will only 
+              appear on the "Prediction" tab.<br />
+              <!-- Modeling sets may be used as prediction sets; thus, they automatically appear 
+              on the Prediction tab. -->
+			  When you submit a dataset, chemical structure images will be generated for each 
+			  compound. A pairwise compound similarity matrix will be created and displayed as a heatmap. <br />
+              For more information about dataset creation and defining external sets, try the 
+              <a href="/help-dataset">Dataset help section</a>.  
             </p></td>
         </tr>
       </table>
