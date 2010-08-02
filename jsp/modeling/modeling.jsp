@@ -239,13 +239,6 @@
 				
 				<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
 				<sx:tabbedpanel id="modelingTypeTabbedPanel" afterSelectTabNotifyTopics="/modelingTypeSelect" >
-					<!--
-					Since knn+ seems to be working well, I'm taking out the original kNN option for generating
-					predictors. Predictions can still be made using these older kNN models.
-					
-					<sx:div id="KNN" value="KNN" theme="ajax" label="kNN" href="/loadKnnSection" loadingText="Loading kNN parameters...">
-					</sx:div>
-					-->
 					
 					<sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
 					</sx:div>
