@@ -44,7 +44,7 @@ a:active {
 	font-size: 12px;
 	color: #99FF00;
 	font-weight: bold;
-	text-decoration: none;
+	text-decoration: underline;
 	outline: none;
 	
 }
@@ -57,7 +57,7 @@ a.sub:link {
 	font-size: 9px;
 	color: #5F7692;
 font-weight: bold;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 
@@ -68,7 +68,7 @@ a.sub:visited {
 	font-size: 9px;
 	color: #5F7692;
 font-weight: bold;
-	text-decoration: none;
+	text-decoration: underline
 }
 a.sub:hover {
 	font-family:Arial Narrow;
@@ -82,7 +82,7 @@ a.sub:active {
 	font-size: 9px;
 	color: #99FF00;
 font-weight: bold;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 
@@ -93,7 +93,7 @@ a.small:link {
 	font-size: 11px;
 	color: #666666;
 
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 
@@ -104,7 +104,7 @@ a.small:visited {
 	font-size: 11px;
 	color: blue;
 
-	text-decoration: none;
+	text-decoration: underline;
 }
 a.small:hover {
 	font-family:Arial Narrow;
@@ -116,5 +116,5 @@ a.small:active {
 	font-family: Arial Narrow;
 	font-size: 11px;
 	color: #99FF00;
-	text-decoration: none;
+	text-decoration: underline;
 }
