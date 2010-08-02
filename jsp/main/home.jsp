@@ -31,9 +31,9 @@
       ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS<br />
         <br />
         <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
-      <p align="justify" class="ccbHomeStandard">Chembench enables researchers to mine available chemical 
-      and biological data to rationally design or select new compounds or compound libraries with significantly 
-      enhanced hit rates in screening experiments.</p>
+      <p align="justify" class="ccbHomeStandard">Chembench is a free toolkit that enables researchers 
+      to mine available chemical and biological data. Chembench can help researchers rationally design or 
+      select new compounds or compound libraries with significantly enhanced hit rates in screening experiments.</p>
       <p class="ccbHomeStandard"><img src="/theme/ccbTheme/images/ccbHomeMolecule3d.jpg" height="97" /></p>
       <p align="justify" class="ccbHomeStandard">It provides cheminformatics research support to molecular 
       modelers, experimental chemists in the Chemical Synthesis Centers and quantitative biologists in the 
@@ -43,8 +43,7 @@
       design.</p>
         <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
       <p align="justify" class="ccbHomeStandard">The Carolina Cheminformatics Workbench (Chembench) is 
-      developed by the <a href="http://ceccr.unc.edu" target="_blank">Carolina Exploratory 
-      Center for Cheminformatics Research (CECCR)</a> with the support of the 
+      developed by the Carolina Exploratory Center for Cheminformatics Research (CECCR) with the support of the 
       <a href="http://www.nih.gov" target="_blank">National Institutes of Health</a> (grants  
       <a href="http://projectreporter.nih.gov/project_info_details.cfm?aid=7472715&icde=4746318">P20HG003898</a> and 
       <a href="http://projectreporter.nih.gov/project_info_description.cfm?aid=7818406&icde=4746305">R01GM066940</a>) 
