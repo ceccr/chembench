@@ -30,7 +30,7 @@
     <td width="407" height="665" align="left" valign="top"><p class="ccbHomeHeadings">
       ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS<br />
         <br />
-      
+        <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
       <p align="justify" class="ccbHomeStandard">Chembench enables researchers to mine available chemical 
       and biological data to rationally design or select new compounds or compound libraries with significantly 
       enhanced hit rates in screening experiments.</p>
