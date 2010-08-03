@@ -132,6 +132,32 @@ public class SvmWorkflow{
 		}
 		in.close();
 		
+		Utility.writeToDebug("Param:");
+		Utility.writeToDebug("svmTypeCategory: " + svmParameters.getSvmTypeCategory());
+		Utility.writeToDebug("svmTypeContinuous: " + svmParameters.getSvmTypeContinuous());
+		Utility.writeToDebug("svmKernel: " + svmParameters.getSvmKernel());
+		Utility.writeToDebug("svmDegreeFrom: " + svmParameters.getSvmDegreeFrom());
+		Utility.writeToDebug("svmDegreeTo: " + svmParameters.getSvmDegreeTo());
+		Utility.writeToDebug("svmDegreeStep: " + svmParameters.getSvmDegreeStep());
+		Utility.writeToDebug("svmGammaFrom: " + svmParameters.getSvmGammaFrom());
+		Utility.writeToDebug("svmGammaTo: " + svmParameters.getSvmGammaFrom());
+		Utility.writeToDebug("svmGammaStep: " + svmParameters.getSvmGammaTo());
+		Utility.writeToDebug("svmCostFrom: " + svmParameters.getSvmCostFrom());
+		Utility.writeToDebug("svmCostTo: " + svmParameters.getSvmCostTo());
+		Utility.writeToDebug("svmCostStep: " + svmParameters.getSvmCostStep());
+		Utility.writeToDebug("svmNuFrom: " + svmParameters.getSvmNuFrom());
+		Utility.writeToDebug("svmNuTo: " + svmParameters.getSvmNuTo());
+		Utility.writeToDebug("svmNuStep: " + svmParameters.getSvmNuStep());
+		Utility.writeToDebug("svmPEpsilonFrom: " + svmParameters.getSvmPEpsilonFrom());
+		Utility.writeToDebug("svmPEpsilonTo: " + svmParameters.getSvmPEpsilonTo());
+		Utility.writeToDebug("svmPEpsilonStep: " + svmParameters.getSvmPEpsilonStep());
+		Utility.writeToDebug("svmCrossValidation: " + svmParameters.getSvmCrossValidation());
+		Utility.writeToDebug("svmEEpsilon: " + svmParameters.getSvmEEpsilon());
+		Utility.writeToDebug("svmEEpsilon: " + svmParameters.getSvmEEpsilon());
+		Utility.writeToDebug("svmHeuristics: " + svmParameters.getSvmHeuristics());
+		Utility.writeToDebug("svmProbability: " + svmParameters.getSvmProbability());
+		Utility.writeToDebug("svmWeight: " + svmParameters.getSvmWeight());
+		
 	}
 	
 	public static ArrayList<SvmModel> readSvmModels(){
