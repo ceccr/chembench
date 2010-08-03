@@ -639,7 +639,7 @@ public class QsarModelingTask extends WorkflowTask {
 			
 		}
 		else if(modelType.equals(Constants.SVM)){
-			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path);
+			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path, actFileDataType);
 		}
 		else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
 			step = Constants.YRANDOMSETUP;
