@@ -16,12 +16,40 @@ import java.util.Scanner;
 
 public class SvmWorkflow{
 
-	public static void convertXtoSvm(String xFileName, String svmFileName, String workingDir){
+	public static void convertXtoSvm(String xFileName, String svmFileName, String workingDir) throws Exception{
 		//generates an SVM-compatible input descriptor file
 		
 	}
 	
-	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
+	public static void preProcessXFile(String scalingType, String xFile, String newXFile, String workingDir) throws Exception
+	{
+		String preProcessScript;
+		String preProcessMsg;
+		String command;
+		if(scalingType.equals(Constants.NOSCALING))
+		{
+			preProcessScript = "copy.sh ";
+			preProcessMsg = "Copy: ";
+		}
+		else
+		{
+			preProcessScript = "rm2LastLines.sh ";
+			preProcessMsg = "Copy and remove last 2 lines: ";
+		}
+		Utility.writeToDebug(preProcessMsg + xFile + " to " + newXFile);
+		command = preProcessScript + xFile + " " + newXFile;
+		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
+		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
+		Utility.writeProgramLogfile(workingDir, preProcessScript.replace(".sh", "_") + xFile, p.getInputStream(), p.getErrorStream());
+		p.waitFor();
+		Utility.writeToDebug("Exit value: " + p.exitValue());
+		if(p.exitValue() != 0)
+		{
+			Utility.writeToDebug("	See error log");
+		}
+	}
+	
+	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir, String scalingType) throws Exception{
 		//
 		
 		/*
@@ -53,6 +81,24 @@ public class SvmWorkflow{
 		-v n: n-fold cross validation mode
 		*/
 		
+		String newExternalXFile = "SVM_" + Constants.EXTERNAL_SET_X_FILE;
+		
+		Utility.writeToDebug("Running Random Forest Modeling...");
+		preProcessXFile(scalingType, Constants.EXTERNAL_SET_X_FILE, newExternalXFile, workingDir);
+		
+		BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + "RF_RAND_sets.list"));
+		BufferedReader in = new BufferedReader(new FileReader(workingDir + "RAND_sets.list"));
+		String inputString;
+		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+		{
+			String[] data = inputString.split("\\s+");
+			preProcessXFile(scalingType, data[0], "SVM_" + data[0], workingDir);
+			preProcessXFile(scalingType, data[3], "SVM_" + data[3], workingDir);
+			out.write(inputString.replace(data[0], "SVM_" + data[0]).replace(data[3], "SVM_" + data[3]) + System.getProperty("line.separator"));
+		}
+		in.close();
+		out.flush();
+		out.close();
 	}
 	
 	public static ArrayList<SvmModel> readSvmModels(){
