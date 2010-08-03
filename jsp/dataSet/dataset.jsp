@@ -42,14 +42,14 @@
             Chembench Dataset Creation</b></p>
               <p align="justify" class="StandardTextDarkGrayParagraph">
               From this page, you may create a dataset by uploading compound structures with or without 
-              associated activities. The activity data is required for building models. <br />
+              associated activities. The activity data is required for building models. <br /><br />
 			  You can either create a Modeling dataset, which has both structures and activities,
-			   or a Prediction dataset, which only has structures. <br />
+			   or a Prediction dataset, which only has structures. <br /><br />
 			   Each modeling dataset you create will appear as an option on the 
               "Modeling" tab and on the "Prediction" tab. Prediction datasets will only 
-              appear on the "Prediction" tab.<br />
-              <!-- Modeling sets may be used as prediction sets; thus, they automatically appear 
-              on the Prediction tab. -->
+              appear on the "Prediction" tab.<br /><br />
+              <!-- Modeling sets may be used as prediction sets; thus, they automatically 
+              appear on the Prediction tab. -->
 			  When you submit a dataset, chemical structure images will be generated for each 
 			  compound. A pairwise compound similarity matrix will be created and displayed as a heatmap. <br />
               For more information about dataset creation and defining external sets, try the 

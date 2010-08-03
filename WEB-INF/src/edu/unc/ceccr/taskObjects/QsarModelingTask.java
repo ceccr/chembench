@@ -112,65 +112,70 @@ public class QsarModelingTask extends WorkflowTask {
 	private String step = Constants.SETUP; //stores what step we're on 
 	
 	public String getProgress(){
-
-		String percent = "";
-		if(step.equals(Constants.MODELS)){
-			String workingDir = "";
-			if(jobList.equals(Constants.LSF)){
-				//running on LSF so check LSF dir
-				workingDir = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
-			}
-			else{
-				//running locally so check local dir
-				 workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/"; 
-			}
-			
-			if(modelType.equals(Constants.KNN)){
-				
-				float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
-			 	workingDir += "yRandom/";
-				p += FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
-				//divide by the number of models to be built
-	
-				int numModels = getNumTotalModels();
-				numModels *= 2; //include yRandom models also
-				p /= numModels;
-				p *= 100; //it's a percent
-				percent = " (" + Math.round(p) + "%)";
-			}
-			else if(modelType.equals(Constants.KNNSA)){
-				//number of models produced so far can be gotten by:
-				//cat knn+.log | grep q2= | wc 
-				//which is in a script "checkKnnSaProgress.sh" in mmlsoft/bin.
-				
-				float p = KnnPlusWorkflow.getSaModelingProgress(workingDir);
-				p /= getNumTotalModels();
-				p *= 100; //it's a percent
-				percent = " (" + Math.round(p) + "%)";
-			}
-			else if(modelType.equals(Constants.KNNGA)){
-				float p = KnnPlusWorkflow.getGaModelingProgress(workingDir);
-				p /= getNumTotalModels();
-				p *= 100; //it's a percent
-				if(p < 0){
-					p = 0;
+		try{
+			String percent = "";
+			if(step.equals(Constants.MODELS)){
+				String workingDir = "";
+				if(jobList.equals(Constants.LSF)){
+					//running on LSF so check LSF dir
+					workingDir = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
 				}
-				percent = " (" + Math.round(p) + "%)";
-			}
-			else if(modelType.equals(Constants.RANDOMFOREST)){
-				File dir = new File(workingDir);
-				//get num of trees produced so far
-				float p = (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".tree");}}).length);
-				dir = new File(workingDir + "yRandom/");
-				p += (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".tree");}}).length);
-				//divide by (number of models * trees per model * 2 because of yRandom)
-				p /= (getNumTotalModels() * Integer.parseInt(randomForestParameters.getNumTrees()) * 2);
-				p *= 100;
-				percent = " (" + Math.round(p) + "%)";
-			}
-		}
+				else{
+					//running locally so check local dir
+					 workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/"; 
+				}
+				
+				if(modelType.equals(Constants.KNN)){
+					
+					float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
+				 	workingDir += "yRandom/";
+					p += FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
+					//divide by the number of models to be built
 		
-		return step + percent;
+					int numModels = getNumTotalModels();
+					numModels *= 2; //include yRandom models also
+					p /= numModels;
+					p *= 100; //it's a percent
+					percent = " (" + Math.round(p) + "%)";
+				}
+				else if(modelType.equals(Constants.KNNSA)){
+					//number of models produced so far can be gotten by:
+					//cat knn+.log | grep q2= | wc 
+					//which is in a script "checkKnnSaProgress.sh" in mmlsoft/bin.
+					
+					float p = KnnPlusWorkflow.getSaModelingProgress(workingDir);
+					p /= getNumTotalModels();
+					p *= 100; //it's a percent
+					percent = " (" + Math.round(p) + "%)";
+				}
+				else if(modelType.equals(Constants.KNNGA)){
+					float p = KnnPlusWorkflow.getGaModelingProgress(workingDir);
+					p /= getNumTotalModels();
+					p *= 100; //it's a percent
+					if(p < 0){
+						p = 0;
+					}
+					percent = " (" + Math.round(p) + "%)";
+				}
+				else if(modelType.equals(Constants.RANDOMFOREST)){
+					File dir = new File(workingDir);
+					//get num of trees produced so far
+					float p = (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".tree");}}).length);
+					dir = new File(workingDir + "yRandom/");
+					p += (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".tree");}}).length);
+					//divide by (number of models * trees per model * 2 because of yRandom)
+					p /= (getNumTotalModels() * Integer.parseInt(randomForestParameters.getNumTrees()) * 2);
+					p *= 100;
+					percent = " (" + Math.round(p) + "%)";
+				}
+			}
+			return step + percent;
+		}
+		catch(Exception ex){
+			//checking progress is nonessential, it shouldn't be able to
+			//throw exceptions or anything. 
+			return step;
+		}
 	}
 	
 	public QsarModelingTask(Predictor predictor) throws Exception{
