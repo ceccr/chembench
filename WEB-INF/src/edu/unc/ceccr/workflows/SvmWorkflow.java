@@ -5,6 +5,7 @@ import java.nio.channels.FileChannel;
 
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -16,9 +17,45 @@ import java.util.Scanner;
 
 public class SvmWorkflow{
 
-	public static void convertXtoSvm(String xFileName, String svmFileName, String workingDir) throws Exception{
+	public static void convertXtoSvm(String xFileName, String aFileName, String workingDir) throws Exception{
 		//generates an SVM-compatible input descriptor file
 		
+		Utility.writeToDebug("Generating an SVM-compatible file: " + xFileName + " + " + aFileName + "=>" + xFileName.replace(".x", ".svm"));
+		ArrayList<String> activityValues = new ArrayList<String>();
+		
+		BufferedReader in = new BufferedReader(new FileReader(workingDir + aFileName));
+		String inputString;
+		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+		{
+			//for each model
+			String[] data = inputString.split("\t"); // [0] is the compound id, [1] is the activity value
+			activityValues.add(data[1]);
+		}
+		in.close();
+		
+		in = new BufferedReader(new FileReader(workingDir + xFileName));
+		BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + xFileName.replace(".x", ".svm")));
+		StringBuilder sb = new StringBuilder();
+		
+		in.readLine(); // header
+		in.readLine(); // header
+		
+		for(int i = 0; i<activityValues.size(); i++)
+		{
+			sb.append(activityValues.get(i));
+			inputString = in.readLine();
+			String[] data = inputString.split("\t"); // [0] and [1] are id
+			for(int j=2; j<data.length; j++)
+			{
+				sb.append(" " + (j-1) + ":" + data[j]);
+			}
+			sb.append(System.getProperty("line.separator"));
+			out.write(sb.toString());
+			sb.delete(0, sb.length());
+		}
+		in.close();
+		out.flush();
+		out.close();
 	}
 	
 	public static void preProcessXFile(String scalingType, String xFile, String newXFile, String workingDir) throws Exception
@@ -49,7 +86,7 @@ public class SvmWorkflow{
 		}
 	}
 	
-	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir, String scalingType) throws Exception{
+	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
 		//
 		
 		/*
@@ -81,24 +118,20 @@ public class SvmWorkflow{
 		-v n: n-fold cross validation mode
 		*/
 		
-		String newExternalXFile = "SVM_" + Constants.EXTERNAL_SET_X_FILE;
+		Utility.writeToDebug("Running SVM Modeling...");
+		convertXtoSvm(Constants.MODELING_SET_X_FILE, Constants.MODELING_SET_A_FILE, workingDir);
+		convertXtoSvm(Constants.EXTERNAL_SET_X_FILE, Constants.EXTERNAL_SET_A_FILE, workingDir);
 		
-		Utility.writeToDebug("Running Random Forest Modeling...");
-		preProcessXFile(scalingType, Constants.EXTERNAL_SET_X_FILE, newExternalXFile, workingDir);
-		
-		BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + "RF_RAND_sets.list"));
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + "RAND_sets.list"));
 		String inputString;
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
 			String[] data = inputString.split("\\s+");
-			preProcessXFile(scalingType, data[0], "SVM_" + data[0], workingDir);
-			preProcessXFile(scalingType, data[3], "SVM_" + data[3], workingDir);
-			out.write(inputString.replace(data[0], "SVM_" + data[0]).replace(data[3], "SVM_" + data[3]) + System.getProperty("line.separator"));
+			convertXtoSvm(data[0], data[1], workingDir);
+			convertXtoSvm(data[3], data[4], workingDir);
 		}
 		in.close();
-		out.flush();
-		out.close();
+		
 	}
 	
 	public static ArrayList<SvmModel> readSvmModels(){
