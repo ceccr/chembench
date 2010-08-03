@@ -28,7 +28,7 @@ public class SvmWorkflow{
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
 			//for each model
-			String[] data = inputString.split("\t"); // [0] is the compound id, [1] is the activity value
+			String[] data = inputString.split("\\s+"); // [0] is the compound id, [1] is the activity value
 			activityValues.add(data[1]);
 		}
 		in.close();
