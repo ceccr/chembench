@@ -20,7 +20,7 @@ public class SvmWorkflow{
 	public static void convertXtoSvm(String xFileName, String aFileName, String workingDir) throws Exception{
 		//generates an SVM-compatible input descriptor file
 		
-		Utility.writeToDebug("Generating an SVM-compatible file: " + xFileName + " + " + aFileName + "=>" + xFileName.replace(".x", ".svm"));
+		Utility.writeToDebug("Generating an SVM-compatible file: " + xFileName + " + " + aFileName + " => " + xFileName.replace(".x", ".svm"));
 		ArrayList<String> activityValues = new ArrayList<String>();
 		
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + aFileName));
@@ -44,7 +44,7 @@ public class SvmWorkflow{
 		{
 			sb.append(activityValues.get(i));
 			inputString = in.readLine();
-			String[] data = inputString.split("\t"); // [0] and [1] are id
+			String[] data = inputString.split("\\s+"); // [0] and [1] are id
 			for(int j=2; j<data.length; j++)
 			{
 				sb.append(" " + (j-1) + ":" + data[j]);
