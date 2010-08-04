@@ -19,6 +19,7 @@
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
 <link href="theme/miscellaneous.css" rel="stylesheet" type="text/css"/>
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
+<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
 
