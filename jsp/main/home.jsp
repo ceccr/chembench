@@ -41,14 +41,14 @@
       by integrating robust model builders, property and activity predictors, virtual library of available 
       chemicals with predicted biological and drug-like properties, and special tools for chemical library 
       design.</p>
-      <p>It provides cheminformatics research support to molecular modelers, medicinal chemists and 
+      <p align="justify" class="ccbHomeStandard">It provides cheminformatics research support to molecular modelers, medicinal chemists and 
       quantitative biologists by integrating robust model builders, property and activity predictors, 
       virtual libraries of available chemicals with predicted biological and drug-like properties, 
       and special tools for chemical library design. Chembench was initially developed to support 
       researchers in the 
       <a href="http://mli.nih.gov/mli/">Molecular Libraries Probe Production Centers Network (MLPCN)</a> 
       and the Chemical Synthesis Centers.</p>
-	  <p>Please cite this website using the following URL:
+	  <p class="ccbHomeStandard">Please cite this website using the following URL:
 	  <a href="http://chembench.mml.unc.edu">http://chembench.mml.unc.edu</a></p>
 		
       
