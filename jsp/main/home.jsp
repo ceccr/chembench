@@ -147,7 +147,7 @@
 	          <td><a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a></td>
 	          <td><a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a></td>
 	          </tr><tr>
-	          <td><a href="http://www.sunsetmolecular.com/"><img src="/theme/img/logos/sunset-molecular-logo.gif" /></a></td>
+	          <td><a href="http://www.sunsetmolecular.com/"><img src="/theme/img/logos/sunset-molecular-logo.png" /></a></td>
 	          <td></td>
 	          </tr></table>
 	          </td></tr>
