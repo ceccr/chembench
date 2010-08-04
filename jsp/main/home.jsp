@@ -137,7 +137,7 @@
          <br />
           <table width="300" border="1" cellpadding="5" cellspacing="0" bordercolor="#CCCCCC">
 	          <tr><td>
-	          <span class="ccbHomeHeadings">THANKS TO</span>
+	          We thank the following commercial vendors:
 	          <br />
 	          <br />
 	          <table><tr>
@@ -146,6 +146,9 @@
 	          </tr><tr>
 	          <td><a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a></td>
 	          <td><a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a></td>
+	          </tr><tr>
+	          <td><a href="http://www.sunsetmolecular.com/"><img src="/theme/img/logos/sunset-molecular-logo.gif" /></a></td>
+	          <td></td>
 	          </tr></table>
 	          </td></tr>
 	 	  </table>
