@@ -1,4 +1,6 @@
-<table width="924" border="0" align="center" cellpadding="0"
+
+	<tr>
+	<table width="924" border="0" align="center" cellpadding="0"
 	cellspacing="0">
           <tr>
           <td height="118" width="24%" colspan="5" align="center" valign="middle"

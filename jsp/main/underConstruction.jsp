@@ -25,6 +25,7 @@
 			<br />
 		<p class="StandardTextDarkGrayParagraph">
 		COMING SOON.<br />This page is currently under construction.</p>
+		<br /><img src="theme/img/lazy.gif">
 		</td></tr>
 		</table>
 	</td></tr>
