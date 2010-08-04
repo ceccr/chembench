@@ -48,7 +48,7 @@
       researchers in the 
       <a href="http://mli.nih.gov/mli/">Molecular Libraries Probe Production Centers Network (MLPCN)</a> 
       and the Chemical Synthesis Centers.</p>
-	  <p class="ccbHomeStandard">Please cite this website using the following URL:
+	  <p class="ccbHomeStandard">Citation: Please cite this website using the following URL:
 	  <a href="http://chembench.mml.unc.edu">http://chembench.mml.unc.edu</a></p>
 		
       
