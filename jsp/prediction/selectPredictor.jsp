@@ -50,7 +50,7 @@
 		<br /><br />
 		If you wish to share predictors you have developed with the 
 		Chembench community, please contact us at 
-		<a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>
+		<a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>.
 			
 		<br /><br />
 		</p></td>
