@@ -91,6 +91,7 @@
 					</div>
 					</td>
 			    </tr>
+			    <!-- Commented out until it's implemented...
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Weight Categories By:</b></div></td>
@@ -107,6 +108,7 @@
 					</div>
 					</td>
 			    </tr>
+			    -->
 
 				<tr>
 				<td colspan="2">

@@ -52,7 +52,7 @@
               appear on the Prediction tab. -->
 			  When you submit a dataset, chemical structure images will be generated for each 
 			  compound. A pairwise compound similarity matrix will be created and displayed as a heatmap. <br />
-              For more information about dataset creation and defining external sets, try the 
+              For more information about dataset creation and defining external sets, see the 
               <a href="/help-dataset">Dataset help section</a>.  
             </p></td>
         </tr>

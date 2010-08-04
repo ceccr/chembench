@@ -33,7 +33,7 @@
         <p class="StandardTextDarkGrayParagraph">
 		Every dataset, predictor, and prediction you have created on Chembench is available on 
 		this page. You can track progress of all the running jobs using the job queue.
-		<br />
+		<br /><br />
 		Publicly available datasets and predictors are also displayed. 
 		If you wish to share datasets or predictors you have developed with the 
 		Chembench community, please contact us at 
@@ -353,7 +353,11 @@
 					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td><s:property value="modelMethod" /></td>
 					<td><s:property value="descriptorGeneration" /></td>
-					<td><s:property value="datasetDisplay" /></td>
+					<td>
+						<a href="viewDataset?id=<s:property value="datasetId" />">
+						<s:property value="datasetDisplay" />
+						</a>
+					</td>
 					<td><s:if test="userName=='_all'">Public</s:if><s:else>Private</s:else></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
 					<td><s:if test="userName=='_all'"></s:if><s:else><a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="predictorId" />#predictors">delete</a></s:else></td>
