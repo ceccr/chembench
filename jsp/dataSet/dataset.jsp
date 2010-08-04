@@ -51,7 +51,8 @@
               <!-- Modeling sets may be used as prediction sets; thus, they automatically 
               appear on the Prediction tab. -->
 			  When you submit a dataset, chemical structure images will be generated for each 
-			  compound. A pairwise compound similarity matrix will be created and displayed as a heatmap. <br />
+			  compound. A pairwise compound similarity matrix will be created and displayed as a heatmap. 
+			  <br /><br />
               For more information about dataset creation and defining external sets, see the 
               <a href="/help-dataset">Dataset help section</a>.  
             </p></td>
