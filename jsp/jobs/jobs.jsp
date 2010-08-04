@@ -31,8 +31,13 @@
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
         <tr><td>
         <p class="StandardTextDarkGrayParagraph">
-		Every dataset, predictor, and prediction you have created on Chembench is available on this page. 
-		You can also track progress of all the running jobs using the job queue.
+		Every dataset, predictor, and prediction you have created on Chembench is available on 
+		this page. You can track progress of all the running jobs using the job queue.
+		<br />
+		Publicly available datasets and predictors are also displayed. 
+		If you wish to share datasets or predictors you have developed with the 
+		Chembench community, please contact us at 
+		<a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>
 		</p>
 		</td></tr>
 		</table>

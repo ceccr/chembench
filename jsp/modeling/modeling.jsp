@@ -46,9 +46,8 @@
             <td>
 				<p class="StandardTextDarkGrayParagraph"><b><br>Chembench Model
 		Development</b></p>
-		<p align="justify" class="StandardTextDarkGrayParagraph">kNN QSAR predictors can 
-		be developed for any dataset using this page. Some sample
-		datasets are available for your use.<br><br>
+		<p align="justify" class="StandardTextDarkGrayParagraph">Here you may develop QSAR 
+		predictors for any of your datasets. Public datasets are also available.<br /><br />
 		For more information about creating predictors and selecting the right parameters, use the <a href="/help-modeling">Modeling help page</a>.  
    		</p>
 		</td>

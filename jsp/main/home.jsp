@@ -31,7 +31,7 @@
       ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS<br />
         <br />
         <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
-      <p align="justify" class="ccbHomeStandard">Chembench is a free toolkit that enables researchers 
+      <p align="justify" class="ccbHomeStandard">Chembench is a free portal that enables researchers 
       to mine available chemical and biological data. Chembench can help researchers rationally design or 
       select new compounds or compound libraries with significantly enhanced hit rates in screening experiments.</p>
       <p class="ccbHomeStandard"><img src="/theme/ccbTheme/images/ccbHomeMolecule3d.jpg" height="97" /></p>
@@ -41,13 +41,29 @@
       by integrating robust model builders, property and activity predictors, virtual library of available 
       chemicals with predicted biological and drug-like properties, and special tools for chemical library 
       design.</p>
+      
+      <!--
+      It provides cheminformatics research support to molecular modelers, medicinal chemists and quantitative 
+      biologists by integrating robust model builders, property and activity predictors, virtual library of 
+      available chemicals with predicted biological and drug-like properties, and special tools for chemical 
+      library design.
+
+		Chembench was initially developed to support researchers in the Molecular Libraries Probe Production Centers 
+		Network (MLPCN) and the Chemical Synthesis Centers.
+		<br />
+		Please cite this website using the following URL:
+<a href="http://chembench.mml.unc.edu">http://chembench.mml.unc.edu</a>
+		
+      -->
+      
         <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
       <p align="justify" class="ccbHomeStandard">The Carolina Cheminformatics Workbench (Chembench) is 
       developed by the Carolina Exploratory Center for Cheminformatics Research (CECCR) with the support of the 
       <a href="http://www.nih.gov" target="_blank">National Institutes of Health</a> (grants  
       <a href="http://projectreporter.nih.gov/project_info_details.cfm?aid=7472715&icde=4746318">P20HG003898</a> and 
       <a href="http://projectreporter.nih.gov/project_info_description.cfm?aid=7818406&icde=4746305">R01GM066940</a>) 
-      and the Environmental Protection Agency (RD83382501 and RD832720).</p>
+      and the Environmental Protection Agency (RD83382501 and RD832720). This website has been developed using 
+      grants from the EPA and NIH. Therefore Chembench adheres to their required terms of use.</p>
       <!-- ChemBench Stats Notification Area starts here. -->
       <p align="justify" class="ccbHomeStandard">
 		Chembench has been visited <%=u.readCounter()%> times and currently there are <%=au.getActiveSessions()%> users logged in. <%=u.getJobStats()%> Thank you for your visit.

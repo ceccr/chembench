@@ -33,16 +33,24 @@
 			background="theme/img/backgrpredictors.jpg" STYLE="background-repeat: no-repeat;">
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<p class="StandardTextDarkGrayParagraph">
-		<b>Chembench Predictors</b>
+		<b>Chembench Predictor Selection</b>
 		</p>
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td><p align="justify" class="StandardTextDarkGrayParagraph">
-		From this page, predictors are available. You may use them to make predictions on compounds. 
-		To start with, predictors generated and validated by UNC's Molecular Modeling Laboratory are available. 
-		When you create new predictors using the MODELING page, they will appear here as well, under "Private Predictors". 
-		<br><br>For more information about making predictions, try the <a href="/help-prediction">Prediction help page</a>.  
-		<br><br>Click the checkboxes to the left of each predictor you want to use, and hit the "Select Predictors" button. Then you may predict the activity of a dataset, a SMILES string, or a molecule sketch.
+		Here you may use predictors to identify computational hits in external compound libraries. 
+		Predictors generated and validated by UNC's Molecular Modeling Laboratory are available
+		under <b>Drug Discovery Predictors</b>, <b>ADME Predictors</b>, and <b>Toxicity Predictors</b>. 
+		Predictors you create using the MODELING tab appear under <b>Private Predictors</b>.
+		<br><br>For more information about making predictions, see the <a href="/help-prediction">Prediction 
+		help page</a>.  
+		<br><br>Click the checkboxes to the left of each predictor you want to use, and hit the "Select 
+		Predictors" button. Then you may predict the activity of a dataset, a SMILES 
+		string, or a molecule sketch.
+		<br /><br />
+		If you wish to share predictors you have developed with the 
+		Chembench community, please contact us at 
+		<a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>
 			
 		<br /><br />
 		</p></td>
