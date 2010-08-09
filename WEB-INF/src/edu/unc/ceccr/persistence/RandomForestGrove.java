@@ -71,6 +71,9 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
 		return ccr;
 	}
 	public void setCcr(String ccr) {
+		if(ccr != null && ccr.length() > 255){
+			ccr = ccr.substring(0, 254);
+		}
 		this.ccr = ccr;
 	}
 	
@@ -79,6 +82,9 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
 		return r2;
 	}
 	public void setR2(String r2) {
+		if(r2 != null && r2.length() > 255){
+			r2 = r2.substring(0, 254);
+		}
 		this.r2 = r2;
 	}
 
@@ -87,6 +93,9 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
 		return mse;
 	}
 	public void setMse(String mse) {
+		if(mse != null && mse.length() > 255){
+			mse = mse.substring(0, 254);
+		}
 		this.mse = mse;
 	}
 
@@ -95,6 +104,9 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
 		return descriptorsUsed;
 	}
 	public void setDescriptorsUsed(String descriptorsUsed) {
+		if(descriptorsUsed != null && descriptorsUsed.length() > 2550){
+			descriptorsUsed = descriptorsUsed.substring(0, 2549);
+		}
 		this.descriptorsUsed = descriptorsUsed;
 	}
 	

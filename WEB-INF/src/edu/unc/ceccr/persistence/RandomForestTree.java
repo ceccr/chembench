@@ -10,7 +10,6 @@ import edu.unc.ceccr.utilities.Utility;
 public class RandomForestTree implements java.io.Serializable{
 	
 	/*
-drop table cbench_randomForestTree;
 create table cbench_randomForestTree (
 id INT(12) UNSIGNED auto_increment PRIMARY KEY,
 randomForestGroveId int(12) unsigned NOT NULL DEFAULT '0',
@@ -52,6 +51,9 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 		return treeFileName;
 	}
 	public void setTreeFileName(String treeFileName) {
+		if(treeFileName != null && treeFileName.length() > 255){
+			treeFileName = treeFileName.substring(0, 254);
+		}
 		this.treeFileName = treeFileName;
 	}
 
@@ -60,6 +62,9 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 		return r2;
 	}
 	public void setR2(String r2) {
+		if(r2 != null && r2.length() > 255){
+			r2 = r2.substring(0, 254);
+		}
 		this.r2 = r2;
 	}
 
@@ -68,6 +73,9 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 		return mse;
 	}
 	public void setMse(String mse) {
+		if(mse != null && mse.length() > 255){
+			mse = mse.substring(0, 254);
+		}
 		this.mse = mse;
 	}
 
@@ -76,6 +84,9 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 		return descriptorsUsed;
 	}
 	public void setDescriptorsUsed(String descriptorsUsed) {
+		if(descriptorsUsed != null && descriptorsUsed.length() > 2550){
+			descriptorsUsed = descriptorsUsed.substring(0, 2549);
+		}
 		this.descriptorsUsed = descriptorsUsed;
 	}
 	
