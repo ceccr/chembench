@@ -313,7 +313,7 @@ public class KnnPlusWorkflow{
 
 		try{
 			String execstr = "checkKnnSaProgress.sh";
-			Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
+			//Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
 			Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "checkKnnSaProgress", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
@@ -333,7 +333,7 @@ public class KnnPlusWorkflow{
 
 		try{
 			String execstr = "checkKnnGaProgress.sh";
-			Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
+			//Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
 			Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "checkKnnGaProgress", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
