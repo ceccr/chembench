@@ -334,10 +334,10 @@ public class CreateDatasetTask extends WorkflowTask{
 				Utility.writeToDebug("Making user-defined external split");
 
 				//get the list of compound IDs
-				Utility.writeToDebug("externalCompoundList before: " + externalCompoundList);
+				//Utility.writeToDebug("externalCompoundList before: " + externalCompoundList);
 				externalCompoundList = externalCompoundList.replaceAll(",", " ");
 				externalCompoundList = externalCompoundList.replaceAll("\\\n", " ");
-				Utility.writeToDebug("externalCompoundList after: " + externalCompoundList);
+				//Utility.writeToDebug("externalCompoundList after: " + externalCompoundList);
 				
 				if(datasetType.equals(Constants.MODELING)){
 

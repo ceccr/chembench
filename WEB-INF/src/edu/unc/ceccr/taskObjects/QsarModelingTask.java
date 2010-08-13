@@ -639,6 +639,7 @@ public class QsarModelingTask extends WorkflowTask {
 			
 		}
 		else if(modelType.equals(Constants.SVM)){
+			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path);
 		}
 		else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
@@ -652,8 +653,8 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnPlusWorkflow.predictExternalSet(userName, jobName, path, knnPlusParameters.getKnnApplicabilityDomain());
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
+			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path, jobName);
-			RandomForestWorkflow.SetUpYRandomization(userName, jobName);
 			RandomForestWorkflow.YRandomization(userName, jobName, actFileDataType, randomForestParameters);
 		}
 	}

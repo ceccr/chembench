@@ -240,7 +240,10 @@ public class KnnPlusWorkflow{
 		HashMap<String,String> observedValues = DatasetFileOperations.getActFileIdsAndValues(workingDir + "ext_0.a");
 		
 		//for each compound, calculate nummodels, avg, and stddev
-		int numCompounds = predictionMatrix.get(0).size();
+		int numCompounds = 0;
+		if(predictionMatrix.size() > 0){
+			numCompounds = predictionMatrix.get(0).size();
+		}
 		for(int i = 0; i < numCompounds; i++){
 
 			try{
