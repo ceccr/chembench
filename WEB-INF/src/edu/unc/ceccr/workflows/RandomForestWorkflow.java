@@ -431,7 +431,7 @@ public class RandomForestWorkflow{
 		
 		
 		String xFileContents = FileAndDirOperations.readFileIntoString(workingDir + newXFile);
-		xFileContents = xFileContents.replaceAll("[", "(");
+		xFileContents = xFileContents.replaceAll("\\[", "(");
 		xFileContents = xFileContents.replaceAll("]", ")");
 		FileAndDirOperations.writeStringToFile(xFileContents, workingDir + newXFile + "_");
 		FileAndDirOperations.deleteFile(workingDir + newXFile);
