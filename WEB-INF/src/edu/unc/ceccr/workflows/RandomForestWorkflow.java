@@ -400,6 +400,10 @@ public class RandomForestWorkflow{
 	//HELPER FUNCTIONS
 	public static void preProcessXFile(String scalingType, String xFile, String newXFile, String workingDir) throws Exception
 	{
+		//if scaling was applied, the last 2 lines of a .x file will contain the scaling ranges.
+		//Random Forest can't deal with these last 2 lines, so they must be removed.
+		//Also, descriptor names containing "[]" characters will break Random Forest, so these
+		//are changed to "()" instead.
 		String preProcessScript;
 		String preProcessMsg;
 		String command;
@@ -424,6 +428,14 @@ public class RandomForestWorkflow{
 		{
 			Utility.writeToDebug("	See error log");
 		}
+		
+		
+		String xFileContents = FileAndDirOperations.readFileIntoString(workingDir + newXFile);
+		xFileContents = xFileContents.replaceAll("[", "(");
+		xFileContents = xFileContents.replaceAll("]", ")");
+		FileAndDirOperations.writeStringToFile(xFileContents, workingDir + newXFile + "_");
+		FileAndDirOperations.deleteFile(workingDir + newXFile);
+		FileAndDirOperations.moveFile(workingDir + newXFile + "_", workingDir + newXFile);
 	}
 
 	//END HELPER FUNCTIONS
