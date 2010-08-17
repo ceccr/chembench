@@ -579,7 +579,6 @@ public class QsarModelingTask extends WorkflowTask {
 			else if(modelType.equals(Constants.RANDOMFOREST)){
 				RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
 				RandomForestWorkflow.SetUpYRandomization(userName, jobName);
-				RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/");
 			}
 			//copy needed files out to LSF
 			KnnModelingLsfWorkflow.makeLsfModelingDirectory(filePath, lsfPath);
@@ -663,7 +662,6 @@ public class QsarModelingTask extends WorkflowTask {
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
 			RandomForestWorkflow.SetUpYRandomization(userName, jobName);
-			RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/");
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path, jobName);
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path + "yRandom/", jobName);
 		}
