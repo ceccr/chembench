@@ -570,9 +570,17 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			//get y-randomization ready
 			step = Constants.YRANDOMSETUP;
-			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
-			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
-
+			
+			
+			if(modelType.equals(Constants.KNN) || modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)){
+				KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
+				KnnModelBuildingWorkflow.YRandomization(userName, jobName);
+			}
+			else if(modelType.equals(Constants.RANDOMFOREST)){
+				RandomForestWorkflow.SetUpYRandomization(userName, jobName);
+				RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
+				RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/");
+			}
 			//copy needed files out to LSF
 			KnnModelingLsfWorkflow.makeLsfModelingDirectory(filePath, lsfPath);
 		}
@@ -653,10 +661,11 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnPlusWorkflow.predictExternalSet(userName, jobName, path, knnPlusParameters.getKnnApplicabilityDomain());
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
-			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 			RandomForestWorkflow.SetUpYRandomization(userName, jobName);
+			RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
+			RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/");
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path, jobName);
-			RandomForestWorkflow.YRandomization(userName, jobName, actFileDataType, randomForestParameters);
+			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path + "yRandom/", jobName);
 		}
 	}
 	
