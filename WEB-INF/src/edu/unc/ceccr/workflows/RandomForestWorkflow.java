@@ -398,7 +398,7 @@ public class RandomForestWorkflow{
 	//END PREDICTION WORKFLOW FUNCTIONS
 	
 	//HELPER FUNCTIONS
-	private static void preProcessXFile(String scalingType, String xFile, String newXFile, String workingDir) throws Exception
+	public static void preProcessXFile(String scalingType, String xFile, String newXFile, String workingDir) throws Exception
 	{
 		String preProcessScript;
 		String preProcessMsg;
