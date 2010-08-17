@@ -577,8 +577,8 @@ public class QsarModelingTask extends WorkflowTask {
 				KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 			}
 			else if(modelType.equals(Constants.RANDOMFOREST)){
-				RandomForestWorkflow.SetUpYRandomization(userName, jobName);
 				RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
+				RandomForestWorkflow.SetUpYRandomization(userName, jobName);
 				RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/");
 			}
 			//copy needed files out to LSF
@@ -661,8 +661,8 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnPlusWorkflow.predictExternalSet(userName, jobName, path, knnPlusParameters.getKnnApplicabilityDomain());
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
-			RandomForestWorkflow.SetUpYRandomization(userName, jobName);
 			RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
+			RandomForestWorkflow.SetUpYRandomization(userName, jobName);
 			RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/");
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path, jobName);
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path + "yRandom/", jobName);
