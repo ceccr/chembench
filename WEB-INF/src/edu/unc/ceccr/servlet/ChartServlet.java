@@ -152,10 +152,10 @@ protected void processRequest(HttpServletRequest request,
      
    final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());//
      
-   JFreeChart chart =    ChartFactory.createXYLineChart("Observed VS Predicted",    
+   JFreeChart chart =    ChartFactory.createXYLineChart("External Validation Set",    
 		   "Observed", "Predicted", ds, PlotOrientation.VERTICAL, false,true,true);
    
-   chart.setBackgroundPaint(new Color(0xFF, 0xFF, 0xCC));
+   chart.setBackgroundPaint(new Color(0xDA, 0xEC, 0xF8));
    TextTitle tt = new TextTitle(   " http://chembench.mml.unc.edu",  new Font("Dialog", Font.PLAIN, 11));
    tt.setPosition(RectangleEdge.BOTTOM); 
    tt.setHorizontalAlignment(HorizontalAlignment.RIGHT);
@@ -164,7 +164,7 @@ protected void processRequest(HttpServletRequest request,
    
    final XYPlot plot = chart.getXYPlot();
    
-   LegendItemCollection items = new LegendItemCollection();
+  /* LegendItemCollection items = new LegendItemCollection();
    items.add(new LegendItem("observed vs predicted", null, null, null,  new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0), Color.RED));
   
    plot.setFixedLegendItems(items);
@@ -172,6 +172,7 @@ protected void processRequest(HttpServletRequest request,
    LegendTitle legend = new LegendTitle(plot);
    legend.setPosition(RectangleEdge.BOTTOM);
    chart.addSubtitle(legend);
+   */
    
    plot.setBackgroundPaint(Color.white);
    plot.setForegroundAlpha(0.5f);
