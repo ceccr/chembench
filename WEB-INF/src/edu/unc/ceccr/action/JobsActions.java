@@ -174,9 +174,7 @@ public class JobsActions extends ActionSupport {
 		//get error jobs
 		errorJobs = CentralDogma.getInstance().errorJobs.getReadOnlyCopy();
 		for(Job j : errorJobs){
-			/*if(j.workflowTask != null){
-				j.setMessage("");
-			}*/
+			
 		}
 		
 		session.close();
