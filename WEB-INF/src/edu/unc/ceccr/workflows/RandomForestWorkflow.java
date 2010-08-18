@@ -417,7 +417,7 @@ public class RandomForestWorkflow{
 			output += xFileLines[i] + "\n";
 		}
 		
-		FileAndDirOperations.writeStringToFile(xFileContents, workingDir + newXFile);
+		FileAndDirOperations.writeStringToFile(output, workingDir + newXFile);
 	}
 
 	//END HELPER FUNCTIONS
