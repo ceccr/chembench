@@ -65,11 +65,13 @@ public class RandomForestWorkflow{
 			
 			for(int i = 0; i<files.length; i++)
 			{
-				ic = new FileInputStream(fromDir + files[i]).getChannel();
-				oc = new FileOutputStream(toDir + files[i]).getChannel();
-				ic.transferTo(0, ic.size(), oc);
-				ic.close();
-				oc.close();	
+				if(new File(fromDir + files[i]).exists()){
+					ic = new FileInputStream(fromDir + files[i]).getChannel();
+					oc = new FileOutputStream(toDir + files[i]).getChannel();
+					ic.transferTo(0, ic.size(), oc);
+					ic.close();
+					oc.close();	
+				}
 			}
 		}
 		
