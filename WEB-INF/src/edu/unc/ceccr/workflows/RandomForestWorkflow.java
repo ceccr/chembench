@@ -410,7 +410,7 @@ public class RandomForestWorkflow{
 		String[] xFileLines = xFileContents.split("\n");
 		String output = "";
 		int stopAtLine = xFileLines.length;
-		if(scalingType.equals(Constants.NOSCALING)){
+		if(!scalingType.equals(Constants.NOSCALING)){
 			stopAtLine -= 2;
 		}
 		for(int i = 0; i < stopAtLine; i++){
