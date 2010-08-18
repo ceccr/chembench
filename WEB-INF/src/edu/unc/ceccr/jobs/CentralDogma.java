@@ -30,7 +30,9 @@ public class CentralDogma{
 	//Holds the LSF jobs list, the incoming jobs list, and the local processing jobs list.
 	//Initiates the threads that work on these data structures.
 	
-	private final int numLocalThreads = 6; //as many as you want; tune it based on server load.
+	private final int numLocalThreads = 4; //as many as you want; tune it based on server load. 
+	//Limiting factors on numLocalThreads: JVM memory size, number of file handles, number of database connections, 
+	//server processing power. Jobs will fail in weird ways if any of those isn't high enough.
 	private final int numLsfThreads = 1; //don't change this unless you've REALLY thought through all possible concurrency issues
 	private final int numIncomingThreads = 1; //don't change this; the thread does no processing so having > 1 makes no sense
 
