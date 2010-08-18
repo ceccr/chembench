@@ -173,10 +173,16 @@ public class JobsActions extends ActionSupport {
 		
 		//get error jobs
 		errorJobs = CentralDogma.getInstance().errorJobs.getReadOnlyCopy();
-		for(Job j : errorJobs){
-			
-		}
-		
+
+		//error jobs should be only appear to admins and to the user that
+		//created the job.
+		if(! Utility.isAdmin(user.getUserName())){
+			for(Job j : errorJobs){
+				if(! j.getUserName().equals(user.getUserName())){
+					errorJobs.remove(j);
+				}
+			}
+		}		
 		session.close();
 
 		Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to jobs page.");
