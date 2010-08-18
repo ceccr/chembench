@@ -407,6 +407,10 @@ public class RandomForestWorkflow{
 		//Also, descriptor names containing "#" character will break Random Forest, so these
 		//are changed to "=_" instead.
 				
+		if(! new File(workingDir + xFile).exists()){
+			return;
+		}
+		
 		String xFileContents = FileAndDirOperations.readFileIntoString(workingDir + xFile);
 		xFileContents = xFileContents.replaceAll("#", "=_");
 		String[] xFileLines = xFileContents.split("\n");
