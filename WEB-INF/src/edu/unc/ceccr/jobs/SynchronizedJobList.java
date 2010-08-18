@@ -144,8 +144,8 @@ public class SynchronizedJobList{
  * the job records are never read FROM the database, except when the server
  * starts (when CentralDogma is instantiated).
  * So, during normal server operation, you're never going to want to read from
- * the Jobs table. It's really only there for recovering jobs if the server
- * needs to be stopped / restarted, or if there's an outage.
+ * the Jobs table. The Jobs table is really only there for recovering jobs if the server
+ * needs to be stopped / restarted.
  * 
 	private void updateJobsFromDB(){
 
@@ -228,7 +228,7 @@ public class SynchronizedJobList{
 						//commit the job's "running" status to DB
 						saveJobChangesToListSync(j);
 						commitJobChanges(j);
-					
+						
 						return true;
 					}
 				}

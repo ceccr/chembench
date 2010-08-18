@@ -91,6 +91,9 @@ public class CentralDogma{
 					else if(j.getJobList().equals(Constants.LSF)){
 						lsfJobs.addJob(j);
 					}
+					else if(j.getJobList().equals(Constants.ERROR)){
+						errorJobs.addJob(j);
+					}
 				}
 			}
 			
@@ -173,6 +176,10 @@ public class CentralDogma{
 			Utility.writeToDebug("checking local queue");
 			j = localJobs.removeJob(jobId);
 		}
+		if(j == null){
+			Utility.writeToDebug("checking local queue");
+			j = errorJobs.removeJob(jobId);
+		}
 		
 		if(j != null){
 			Utility.writeToDebug("in main delete");
@@ -245,5 +252,20 @@ public class CentralDogma{
 		//and make a jobstats entry for it.
 		incomingJobs.deleteJobFromDB(jobId);
 	}
-	
+
+	public void moveJobToErrorList(Long jobId){
+		Job j = incomingJobs.removeJob(jobId);
+		if(j == null){
+			Utility.writeToDebug("checking lsf queue");
+			j = lsfJobs.removeJob(jobId);
+		}
+		if(j == null){
+			Utility.writeToDebug("checking local queue");
+			j = localJobs.removeJob(jobId);
+		}
+		if(j != null){
+			j.setJobList(Constants.ERROR);
+			errorJobs.addJob(j);
+		}
+	}
 }

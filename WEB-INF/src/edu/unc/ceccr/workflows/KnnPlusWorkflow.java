@@ -320,7 +320,7 @@ public class KnnPlusWorkflow{
 	
 			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnSaProgress").trim();
 			String[] tokens = file.split(" ");
-			Utility.writeToDebug("models so far: " + tokens[0]);
+			//Utility.writeToDebug("models so far: " + tokens[0]);
 			return Integer.parseInt(tokens[0]);
 		}
 		catch(Exception ex){
@@ -340,7 +340,7 @@ public class KnnPlusWorkflow{
 	
 			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnGaProgress").trim();
 			String[] tokens = file.split(" ");
-			Utility.writeToDebug("models so far: " + tokens[0]);
+			//Utility.writeToDebug("models so far: " + tokens[0]);
 			return Integer.parseInt(tokens[0]) - 1;
 		}
 		catch(Exception ex){
@@ -352,6 +352,11 @@ public class KnnPlusWorkflow{
 	public static ArrayList<KnnPlusModel> readModelsFile(String workingDir, Predictor predictor, String isYRandomModel){
 		ArrayList<KnnPlusModel> knnPlusModels = new ArrayList<KnnPlusModel>();
 		try{
+			if(! new File(workingDir + "models.tbl").exists()){
+				//in case of no models generated, usually happens in yRandom
+				Utility.writeToDebug("no models generated in " + workingDir);
+				return knnPlusModels;
+			}
 			String modelsFile = FileAndDirOperations.readFileIntoString(workingDir + "models.tbl");
 			String[] lines = modelsFile.split("\n");
 			for(int i = 5; i < lines.length; i++){
@@ -483,9 +488,6 @@ public class KnnPlusWorkflow{
 		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
 		Utility.writeProgramLogfile(preddir, "knn+_prediction", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
-		 
-		
-		
 	}
 
 public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String sdfile) throws Exception{

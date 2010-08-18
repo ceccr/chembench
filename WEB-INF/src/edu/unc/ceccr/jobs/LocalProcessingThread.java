@@ -50,6 +50,7 @@ public class LocalProcessingThread extends Thread {
 						catch(Exception ex){
 							//Job failed or threw an exception
 							Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
+							CentralDogma.getInstance().moveJobToErrorList(j.getId());
 							Utility.writeToDebug(ex);
 
 							//send an email to the site administrator
