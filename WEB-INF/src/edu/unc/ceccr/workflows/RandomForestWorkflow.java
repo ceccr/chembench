@@ -402,39 +402,22 @@ public class RandomForestWorkflow{
 	{
 		//if scaling was applied, the last 2 lines of a .x file will contain the scaling ranges.
 		//Random Forest can't deal with these last 2 lines, so they must be removed.
-		//Also, descriptor names containing "[]" characters will break Random Forest, so these
-		//are changed to "()" instead.
-		String preProcessScript;
-		String preProcessMsg;
-		String command;
-		if(scalingType.equals(Constants.NOSCALING))
-		{
-			preProcessScript = "copy.sh ";
-			preProcessMsg = "Copy: ";
-		}
-		else
-		{
-			preProcessScript = "rm2LastLines.sh ";
-			preProcessMsg = "Copy and remove last 2 lines: ";
-		}
-		Utility.writeToDebug(preProcessMsg + xFile + " to " + newXFile);
-		command = preProcessScript + xFile + " " + newXFile;
-		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		Utility.writeProgramLogfile(workingDir, preProcessScript.replace(".sh", "_") + xFile, p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-		Utility.writeToDebug("Exit value: " + p.exitValue());
-		if(p.exitValue() != 0)
-		{
-			Utility.writeToDebug("	See error log");
-		}
-		
-		
+		//Also, descriptor names containing "#" character will break Random Forest, so these
+		//are changed to "=_" instead.
+				
 		String xFileContents = FileAndDirOperations.readFileIntoString(workingDir + newXFile);
 		xFileContents = xFileContents.replaceAll("#", "=_");
-		FileAndDirOperations.writeStringToFile(xFileContents, workingDir + newXFile + "_");
-		FileAndDirOperations.copyFile(workingDir + newXFile + "_", workingDir + newXFile);
-		FileAndDirOperations.deleteFile(workingDir + newXFile + "_");
+		String[] xFileLines = xFileContents.split("\n");
+		String output = "";
+		int stopAtLine = xFileLines.length;
+		if(scalingType.equals(Constants.NOSCALING)){
+			stopAtLine -= 2;
+		}
+		for(int i = 0; i < stopAtLine; i++){
+			output += xFileLines[i];
+		}
+		
+		FileAndDirOperations.writeStringToFile(xFileContents, workingDir + newXFile);
 	}
 
 	//END HELPER FUNCTIONS
