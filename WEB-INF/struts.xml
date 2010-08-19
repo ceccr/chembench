@@ -192,27 +192,27 @@
         
         <!-- View Dataset Page -->
         <action name="viewDataset" class="edu.unc.ceccr.action.ViewDataset" method="loadPage">
-        	<result>jsp/dataSet/viewDataset.jsp</result>
+        	<result>jsp/datasetOutput/viewDataset.jsp</result>
         </action>
         
         <action name="viewDatasetCompoundsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadCompoundsSection">
-        	<result>jsp/dataSet/viewDataset-compounds.jsp</result>
+        	<result>jsp/datasetOutput/viewDataset-compounds.jsp</result>
         </action>
         
         <action name="viewDatasetExternalCompoundsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadExternalCompoundsSection">
-        	<result>jsp/dataSet/viewDataset-externalCompounds.jsp</result>
+        	<result>jsp/datasetOutput/viewDataset-externalCompounds.jsp</result>
         </action>
         
         <action name="viewDatasetActivityChartSection" class="edu.unc.ceccr.action.ViewDataset" method="loadActivityChartSection">
-        	<result>jsp/dataSet/viewDataset-activityChart.jsp</result>
+        	<result>jsp/datasetOutput/viewDataset-activityChart.jsp</result>
         </action>
         
         <action name="viewDatasetVisualizationSection" class="edu.unc.ceccr.action.ViewDataset" method="loadVisualizationSection">
-        	<result>jsp/dataSet/viewDataset-visualization.jsp</result>
+        	<result>jsp/datasetOutput/viewDataset-visualization.jsp</result>
         </action>
         
         <action name="viewDatasetDescriptorsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadDescriptorsSection">
-        	<result>jsp/dataSet/viewDataset-descriptors.jsp</result>
+        	<result>jsp/datasetOutput/viewDataset-descriptors.jsp</result>
         </action>
         
         <!-- End View Dataset Page -->
@@ -222,23 +222,23 @@
         	<!-- knn -->
         
 	        <action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
-	        	<result>jsp/modeling/viewPredictor.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor.jsp</result>
 	        </action>
 	        
 	        <action name="viewPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadYRandomSection">
-	        	<result>jsp/modeling/viewPredictor-yRandom.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-yRandom.jsp</result>
 	        </action>
 	        
 	        <action name="viewPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadModelsSection">
-	        	<result>jsp/modeling/viewPredictor-models.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-models.jsp</result>
 	        </action>
 	        
 	        <action name="viewPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modeling/viewPredictor-externalSetPredictions.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
 	        </action>
 	        
 	        <action name="viewPredictorWarningsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadWarningsSection">
-	        	<result>jsp/modeling/viewPredictor-warnings.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-warnings.jsp</result>
 	        </action>
         
         	<!-- end knn -->
@@ -247,15 +247,15 @@
         	<!-- knn+ -->
         	
 	        <action name="viewKnnPlusPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadModelsSection">
-	        	<result>jsp/modeling/viewPredictor-knnPlusModels.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-knnPlusModels.jsp</result>
 	        </action>
 	        
 	        <action name="viewKnnPlusPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modeling/viewPredictor-knnPlusExternalSetPredictions.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-knnPlusExternalSetPredictions.jsp</result>
 	        </action>
 	        
 	        <action name="viewKnnPlusPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadYRandomSection">
-	        	<result>jsp/modeling/viewPredictor-KnnPlusYRandom.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-KnnPlusYRandom.jsp</result>
 	        </action>
 	        
         	
@@ -264,23 +264,23 @@
         	<!-- random forest -->
         	
         	 <action name="viewRandomForestExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modeling/viewPredictor-knnPlusExternalSetPredictions.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-knnPlusExternalSetPredictions.jsp</result>
 	        </action>
 	        
         	 <action name="viewRandomForestPredictorGrovesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadGrovesSection">
-	        	<result>jsp/modeling/viewPredictor-randomForestGroves.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-randomForestGroves.jsp</result>
 	        </action>
 	        
         	 <action name="viewRandomForestPredictorYRandomGrovesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadGrovesSection">
-	        	<result>jsp/modeling/viewPredictor-randomForestYRandomGroves.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-randomForestYRandomGroves.jsp</result>
 	        </action>
 	        
         	 <action name="viewRandomForestPredictorTreesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadTreesSection">
-	        	<result>jsp/modeling/viewPredictor-randomForestTrees.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-randomForestTrees.jsp</result>
 	        </action>
 	        
         	 <action name="viewRandomForestPredictorYRandomTreesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadTreesSection">
-	        	<result>jsp/modeling/viewPredictor-randomForestYRandomTrees.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-randomForestYRandomTrees.jsp</result>
 	        </action>
 	        
         	<!-- end random forest -->
@@ -289,15 +289,15 @@
         
         <!-- View Prediction Page -->
         <action name="viewPrediction" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadPage">
-        	<result>jsp/prediction/viewPrediction.jsp</result>
+        	<result>jsp/predictionOutput/viewPrediction.jsp</result>
         </action>
         
         <action name="viewPredictionPredictionsSection" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadPredictionsSection">
-        	<result>jsp/prediction/viewPrediction-predictions.jsp</result>
+        	<result>jsp/predictionOutput/viewPrediction-predictions.jsp</result>
         </action>
         
         <action name="viewPredictionWarningsSection" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadWarningsSection">
-        	<result>jsp/prediction/viewPrediction-warnings.jsp</result>
+        	<result>jsp/predictionOutput/viewPrediction-warnings.jsp</result>
         </action>
         <!-- End View Prediction Page -->
         

@@ -211,19 +211,20 @@
 		
 		<!-- Error Jobs -->
 		<s:if test="! errorJobs.isEmpty()">
-		<tr><td colspan="2">
-			<div class="StandardTextDarkGrayParagraph">
-			<b>Jobs with errors: </b>
-			</div></td>
-		</tr>
-		<tr><td colspan="2">
-			<div class="StandardTextDarkGray">One or more of your jobs has encountered an error and
-			cannot be completed. The Chembench administrators have been contacted and will 
-			resolve the issue as soon as possible. We will let you know when the error is fixed
-			so that you may resubmit your job.</div>
-			</td></tr>
-			<tr><td>&nbsp;</td></tr>
-		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
+		<table>
+			<tr><td>
+				<div class="StandardTextDarkGrayParagraph">
+				<b>Jobs with errors: </b>
+				</div></td>
+			</tr>
+			<tr><td>
+				<div class="StandardTextDarkGray">One or more of your jobs has encountered an error and
+				cannot be completed. The Chembench administrators have been contacted and will 
+				resolve the issue as soon as possible. We will let you know when the error is fixed
+				so that you may resubmit your job.</div>
+				</td></tr>
+				<tr><td>&nbsp;</td></tr>
+		</table>
 		<table class="sortable">
 			<tr>
 				<th class="TableRowText01">Name</th>
@@ -233,7 +234,7 @@
 				<th class="TableRowText01">Number of Models</th>
 				<th class="TableRowText01">Time Created</th>
 				<th class="TableRowText01">Status</th>
-				<th class="TableRowText01_unsortable">Remove Job (admin only)</th>
+				<s:if test="adminUser"><th class="TableRowText01_unsortable">Remove Job (admin only)</th></s:if>
 			</tr>
 			<s:iterator value="errorJobs">
 				<tr>
@@ -244,9 +245,9 @@
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
-				<td class="TableRowText02">
-					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">remove</a></s:if>
-				</td>
+				<s:if test="adminUser"><td class="TableRowText02">
+					<a href="deleteJob?id=<s:property value="id" />#jobs">remove</a>
+				</td></s:if>
 				</tr> 
 			</s:iterator>
 			<tr><td colspan="2">&nbsp;</td></tr>

@@ -2,6 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@page language="java" import="java.util.*" %>
+<!-- results of SMILES prediction -->
 <html>
 <head></head>
 <body><font color="red"><b>Input: </b><br />
