@@ -46,6 +46,10 @@ public class LocalProcessingThread extends Thread {
 								SendEmails.sendJobCompletedEmail(j);
 							}
 							CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
+							
+							//finished; remove job object
+							CentralDogma.getInstance().localJobs.removeJob(j.getId());							
+							CentralDogma.getInstance().localJobs.deleteJobFromDB(j.getId());
 						}
 						catch(Exception ex){
 							//Job failed or threw an exception
@@ -60,10 +64,6 @@ public class LocalProcessingThread extends Thread {
 							"<br /><br />Good luck!<br />--Chembench";
 							SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
 						}
-						finally{
-							CentralDogma.getInstance().localJobs.removeJob(j.getId());							
-							CentralDogma.getInstance().localJobs.deleteJobFromDB(j.getId());
-						}						
 					}
 					else{
 						//some other thread already got this job. Don't worry about it.

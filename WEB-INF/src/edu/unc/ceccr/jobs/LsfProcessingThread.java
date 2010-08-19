@@ -60,9 +60,6 @@ public class LsfProcessingThread extends Thread {
 								+ "<br /><br />Here's the exception it threw: <br />" + ex.toString() + 
 								"<br /><br />Good luck!<br />--Chembench";
 								SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
-								
-								CentralDogma.getInstance().localJobs.removeJob(j.getId());							
-								CentralDogma.getInstance().localJobs.deleteJobFromDB(j.getId());
 							}
 							
 						}
@@ -115,7 +112,10 @@ public class LsfProcessingThread extends Thread {
 										}
 										
 										CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-
+										
+										//finished; remove job object
+										CentralDogma.getInstance().lsfJobs.removeJob(j.getId());						
+										CentralDogma.getInstance().lsfJobs.deleteJobFromDB(j.getId());
 									}
 									catch(Exception ex){
 										//Job failed or threw an exception
@@ -131,12 +131,6 @@ public class LsfProcessingThread extends Thread {
 										SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
 										
 									}
-									finally{
-										//finished; remove job object
-										CentralDogma.getInstance().lsfJobs.removeJob(j.getId());						
-										CentralDogma.getInstance().lsfJobs.deleteJobFromDB(j.getId());
-									}
-									
 								}
 							}
 						}
