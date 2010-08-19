@@ -216,6 +216,13 @@
 			<b>Jobs with errors: </b>
 			</div></td>
 		</tr>
+		<tr><td colspan="2">
+			<div class="StandardTextDarkGray">One or more of your jobs has encountered an error and
+			cannot be completed. The Chembench administrators have been contacted and will 
+			resolve the issue as soon as possible. We will let you know when the error is fixed
+			so that you may resubmit your job.</div>
+			</td></tr>
+			<tr><td>&nbsp;</td></tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
 		<table class="sortable">
 			<tr>
@@ -226,9 +233,9 @@
 				<th class="TableRowText01">Number of Models</th>
 				<th class="TableRowText01">Time Created</th>
 				<th class="TableRowText01">Status</th>
-				<th class="TableRowText01_unsortable">Cancel</th>
+				<th class="TableRowText01_unsortable">Remove Job (admin only)</th>
 			</tr>
-			<s:iterator value="lsfJobs">
+			<s:iterator value="errorJobs">
 				<tr>
 				<td class="TableRowText02"><s:property value="jobName" /></td>
 				<td class="TableRowText02"><s:property value="userName" /></td>
@@ -238,8 +245,7 @@
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02">
-					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
-					<s:elseif test="user.userName==userName"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
+					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">remove</a></s:if>
 				</td>
 				</tr> 
 			</s:iterator>
