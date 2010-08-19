@@ -52,6 +52,7 @@ public class LsfProcessingThread extends Thread {
 								//Job failed or threw an exception
 								Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
 								CentralDogma.getInstance().moveJobToErrorList(j.getId());
+								CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
 								Utility.writeToDebug(ex);
 
 								//send an email to the site administrator
@@ -121,6 +122,7 @@ public class LsfProcessingThread extends Thread {
 										//Job failed or threw an exception
 										Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
 										CentralDogma.getInstance().moveJobToErrorList(j.getId());
+										CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
 										Utility.writeToDebug(ex);
 										
 										//send an email to the site administrator
