@@ -211,20 +211,17 @@
 		
 		<!-- Error Jobs -->
 		<s:if test="! errorJobs.isEmpty()">
-		<table>
-			<tr><td>
-				<div class="StandardTextDarkGrayParagraph">
-				<b>Jobs with errors: </b>
-				</div></td>
-			</tr>
-			<tr><td>
-				<div class="StandardTextDarkGray">One or more of your jobs has encountered an error and
-				cannot be completed. The Chembench administrators have been contacted and will 
-				resolve the issue as soon as possible. We will let you know when the error is fixed
-				so that you may resubmit your job.</div>
-				</td></tr>
-				<tr><td>&nbsp;</td></tr>
-		</table>
+		<tr><td colspan="2">
+			<div class="StandardTextDarkGrayParagraph">
+			<b>Jobs with errors: </b>
+			</div>
+		</td></tr>
+		<tr><td colspan="2"> 
+			<div class="StandardTextDarkGray">One or more of your jobs has encountered an error and
+			cannot be completed. The Chembench administrators have been contacted and will 
+			resolve the issue as soon as possible. We will let you know when the error is fixed
+			so that you may resubmit your job.</div>
+		</td></tr>
 		<table class="sortable">
 			<tr>
 				<th class="TableRowText01">Name</th>
