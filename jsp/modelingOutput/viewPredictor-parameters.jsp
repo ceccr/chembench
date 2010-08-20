@@ -17,13 +17,12 @@
 	<b>Dataset Activity Type:</b> <s:property value="selectedPredictor.activityType" /><br />
 	<br />
 	<b>Descriptor Type:</b> <s:property value="selectedPredictor.descriptorGeneration" /><br />
-	<b>Standard Deviation Cutoff:</b> <s:property value="selectedPredictor.stdDevCutoff" /><br />
+	<b>Correlation Cutoff:</b> <s:property value="selectedPredictor.correlationCutoff" /><br />
 	<b>Descriptor Scaling Type:</b> <s:property value="selectedPredictor.scalingType" /><br />
 	<br />
 	
-	<b>Data Splitting Parameters</b><br />
-	<b>Data Split Type: <s:property value="selectedPredictor.trainTestSplitType" /></b>
-	<b>Number of Splits: <s:property value="selectedPredictor.numSplits" /></b>
+	<b>Data Split Type:</b> <s:property value="selectedPredictor.trainTestSplitType" /><br />
+	<b>Number of Splits:</b> <s:property value="selectedPredictor.numSplits" /><br />
 	</div>
 	<s:if test="selectedPredictor.trainTestSplitType=='RANDOM'">
 	<div class="StandardTextDarkGrayParagraph">
@@ -42,7 +41,9 @@
 	<br />
 	
 	<!-- end parameters common to all predictors -->
-	
+	<div class="StandardTextDarkGrayParagraph">
+	<b>Modeling Method:</b> <s:property value="selectedPredictor.modelMethod" /><br />
+	</div>
 	<!-- knn-sa specific parameters -->
 	<s:if test="selectedPredictor.modelMethod=='KNNSA'">
 	<div class="StandardTextDarkGrayParagraph">
