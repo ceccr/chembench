@@ -28,10 +28,13 @@ import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnModel;
+import edu.unc.ceccr.persistence.KnnParameters;
 import edu.unc.ceccr.persistence.KnnPlusModel;
+import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
+import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
@@ -59,6 +62,9 @@ public class ViewPredictorAction extends ActionSupport {
 	private String orderBy;
 	private String sortDirection;
 	private String mostFrequentDescriptors = "";
+	private RandomForestParameters randomForestParameters;
+	private KnnParameters knnParameters;
+	private KnnPlusParameters knnPlusParameters;
 	
 	public String loadExternalValidationSection() throws Exception {
 
@@ -116,6 +122,50 @@ public class ViewPredictorAction extends ActionSupport {
 		return result;
 	}
 	
+	
+	public String loadParametersSection() throws Exception {
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			
+			//get predictor object
+			predictorId = ((String[]) context.getParameters().get("id"))[0];
+			if(predictorId == null){
+				Utility.writeToStrutsDebug("No predictor ID supplied.");
+			}
+			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+			
+			if(selectedPredictor == null){
+				Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
+			}
+			
+			if(selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+				randomForestParameters = PopulateDataObjects.getRandomForestParametersById(selectedPredictor.getModelingParametersId(), session);
+			}
+			else if(selectedPredictor.getModelMethod().equals(Constants.KNNGA) || 
+					selectedPredictor.getModelMethod().equals(Constants.KNNSA)){
+				knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(selectedPredictor.getModelingParametersId(), session);
+			}
+			else if(selectedPredictor.getModelMethod().equals(Constants.KNN)){
+				knnParameters = PopulateDataObjects.getKnnParametersById(selectedPredictor.getModelingParametersId(), session);
+			}
+		}
+		return result;
+	}
 	
 	public String loadModelsSection() throws Exception {
 
@@ -671,6 +721,28 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setMostFrequentDescriptors(String mostFrequentDescriptors) {
 		this.mostFrequentDescriptors = mostFrequentDescriptors;
+	}
+
+	public RandomForestParameters getRandomForestParameters() {
+		return randomForestParameters;
+	}
+	public void setRandomForestParameters(
+			RandomForestParameters randomForestParameters) {
+		this.randomForestParameters = randomForestParameters;
+	}
+
+	public KnnParameters getKnnParameters() {
+		return knnParameters;
+	}
+	public void setKnnParameters(KnnParameters knnParameters) {
+		this.knnParameters = knnParameters;
+	}
+
+	public KnnPlusParameters getKnnPlusParameters() {
+		return knnPlusParameters;
+	}
+	public void setKnnPlusParameters(KnnPlusParameters knnPlusParameters) {
+		this.knnPlusParameters = knnPlusParameters;
 	}
 
 }

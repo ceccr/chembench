@@ -233,7 +233,6 @@
 				<th class="TableRowText01">Number of Compounds</th>
 				<th class="TableRowText01">Number of Models</th>
 				<th class="TableRowText01">Time Created</th>
-				<th class="TableRowText01">Status</th>
 				<s:if test="adminUser"><th class="TableRowText01_unsortable">Remove Job (admin only)</th></s:if>
 			</tr>
 			<s:iterator value="errorJobs">
@@ -244,7 +243,6 @@
 				<td class="TableRowText02"><s:property value="numCompounds" /></td>
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
-				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<s:if test="adminUser"><td class="TableRowText02">
 					<a href="deleteJob?id=<s:property value="id" />#jobs">remove</a>
 				</td></s:if>

@@ -219,10 +219,22 @@
         
         <!-- View Predictor Page -->
         
-        	<!-- knn -->
+        	<!-- common to all modeling methods -->
         
-	        <action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
+        	<action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
 	        	<result>jsp/modelingOutput/viewPredictor.jsp</result>
+	        </action>
+	        
+	        <action name="viewPredictorParametersSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadParametersSection">
+	        	<result>jsp/modelingOutput/viewPredictor-parameters.jsp</result>
+	        </action>
+	        
+	        <!-- end common to all modeling methods -->
+	        
+        	<!-- knn -->
+	        
+	        <action name="viewPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
+	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
 	        </action>
 	        
 	        <action name="viewPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadYRandomSection">
@@ -233,16 +245,11 @@
 	        	<result>jsp/modelingOutput/viewPredictor-models.jsp</result>
 	        </action>
 	        
-	        <action name="viewPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
-	        </action>
-	        
 	        <action name="viewPredictorWarningsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadWarningsSection">
 	        	<result>jsp/modelingOutput/viewPredictor-warnings.jsp</result>
 	        </action>
         
         	<!-- end knn -->
-        
         
         	<!-- knn+ -->
         	

@@ -17,6 +17,9 @@
 <name>dpoz</name>
 <email>pozefsky@cs.unc.edu</email>
 </admin>
+<name>admin</name>
+<email>ceccr@email.unc.edu</email>
+</admin>
 </administrators>
 
 <!-- Users with descriptor access may download descriptors. -->

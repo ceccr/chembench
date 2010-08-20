@@ -146,7 +146,12 @@
 				</sx:div>
 			</s:elseif>
 			
-		
+			<s:url id="parametersLink" value="/viewPredictorParametersSection" includeParams="none">
+				<s:param name="id" value='selectedPredictor.predictorId' />
+			</s:url>
+			<sx:div href="%{parametersLink}" label="Modeling Parameters" theme="ajax" loadingText="Loading parameters..." showLoadingText="true">
+			</sx:div>
+			
 		<!-- Considered having a "warnings" page that will cover any problems with
 			predictions. Nixed the idea, though.
 			<s:url id="warningsLink" value="/viewPredictorWarningsSection" includeParams="none">
