@@ -45,7 +45,7 @@
 	<b>Modeling Method:</b> <s:property value="selectedPredictor.modelMethod" /><br />
 	</div>
 	<!-- knn-sa specific parameters -->
-	<s:if test="selectedPredictor.modelMethod=='KNNSA'">
+	<s:if test="selectedPredictor.modelMethod=='KNN-SA'">
 	<div class="StandardTextDarkGrayParagraph">
 		<b>Descriptors Per Model:</b> From <s:property value="knnPlusParameters.knnMinNumDescriptors" /> to <s:property value="knnPlusParameters.knnMaxNumDescriptors" /> step <s:property value="knnPlusParameters.knnDescriptorStepSize" /><br />
 		<b>Min. Nearest Neighbors:</b> <s:property value="knnPlusParameters.knnMinNearestNeighbors" /><br />
@@ -66,7 +66,7 @@
 	<!-- end knn-sa specific parameters -->
 	
 	<!-- knn-ga specific parameters -->
-	<s:if test="selectedPredictor.modelMethod=='KNNGA'">
+	<s:if test="selectedPredictor.modelMethod=='KNN-GA'">
 	<div class="StandardTextDarkGrayParagraph">
 		<b>Descriptors Per Model:</b> From <s:property value="knnPlusParameters.knnMinNumDescriptors" /> to <s:property value="knnPlusParameters.knnMaxNumDescriptors" /><br />
 		<b>Min. Nearest Neighbors:</b> <s:property value="knnPlusParameters.knnMinNearestNeighbors" /><br />
