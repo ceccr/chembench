@@ -14,21 +14,24 @@
 	
 	<div class="StandardTextDarkGrayParagraph">
 	<b>Dataset:</b> <s:property value="selectedPredictor.datasetDisplay" /><br />
-	<b>Dataset Activity Type:</b> <s:property value="selectedPredictor.activityType" /><br /><br />
-	<b>Descriptor Type:</b><br />
+	<b>Dataset Activity Type:</b> <s:property value="selectedPredictor.activityType" /><br />
+	<br />
+	<b>Descriptor Type:</b> <s:property value="selectedPredictor.descriptorGeneration" /><br />
+	<b>Standard Deviation Cutoff:</b> <s:property value="selectedPredictor.stdDevCutoff" /><br />
+	<b>Descriptor Scaling Type:</b> <s:property value="selectedPredictor.scalingType" /><br />
 	<br />
 	
 	<b>Data Splitting Parameters</b><br />
 	<b>Data Split Type: <s:property value="selectedPredictor.trainTestSplitType" /></b>
 	<b>Number of Splits: <s:property value="selectedPredictor.numSplits" /></b>
 	</div>
-	<s:if test="selectedPredictor.trainTestSplitType==RANDOM">
+	<s:if test="selectedPredictor.trainTestSplitType=='RANDOM'">
 	<div class="StandardTextDarkGrayParagraph">
 		<b>Minimum Test Set Size:</b> <s:property value="selectedPredictor.randomSplitMinTestSize" />%<br />
 		<b>Maximum Test Set Size:</b> <s:property value="selectedPredictor.randomSplitMaxTestSize" />%<br />
 	</div>
 	</s:if>
-	<s:elseif test="selectedPredictor.trainTestSplitType==SPHEREEXCLUSION">
+	<s:elseif test="selectedPredictor.trainTestSplitType=='SPHEREEXCLUSION'">
 	<div class="StandardTextDarkGrayParagraph">
 		<b>Minimum Test Set Size:</b> <s:property value="selectedPredictor.sphereSplitMinTestSize" />%<br />
 		<b>Force Minimum Activity Compound into all Training Sets:</b> <s:property value="selectedPredictor.splitIncludesMin" /><br />
@@ -41,7 +44,7 @@
 	<!-- end parameters common to all predictors -->
 	
 	<!-- knn-sa specific parameters -->
-	<s:if test="selectedPredictor.modelMethod==KNNSA">
+	<s:if test="selectedPredictor.modelMethod=='KNNSA'">
 	<div class="StandardTextDarkGrayParagraph">
 		<b>Descriptors Per Model:</b> From <s:property value="knnPlusParameters.knnMinNumDescriptors" /> to <s:property value="knnPlusParameters.knnMaxNumDescriptors" /> step <s:property value="knnPlusParameters.knnDescriptorStepSize" /><br />
 		<b>Min. Nearest Neighbors:</b> <s:property value="knnPlusParameters.knnMinNearestNeighbors" /><br />
@@ -62,7 +65,7 @@
 	<!-- end knn-sa specific parameters -->
 	
 	<!-- knn-ga specific parameters -->
-	<s:if test="selectedPredictor.modelMethod==KNNGA">
+	<s:if test="selectedPredictor.modelMethod=='KNNGA'">
 	<div class="StandardTextDarkGrayParagraph">
 		<b>Descriptors Per Model:</b> From <s:property value="knnPlusParameters.knnMinNumDescriptors" /> to <s:property value="knnPlusParameters.knnMaxNumDescriptors" /><br />
 		<b>Min. Nearest Neighbors:</b> <s:property value="knnPlusParameters.knnMinNearestNeighbors" /><br />
@@ -81,7 +84,7 @@
 	<!-- end knn-ga specific parameters -->
 	
 	<!-- random forest specific parameters -->
-	<s:if test="selectedPredictor.modelMethod==RANDOMFOREST">
+	<s:if test="selectedPredictor.modelMethod=='RANDOMFOREST'">
 	<div class="StandardTextDarkGrayParagraph">
 		<b>Number of Trees Per Split:</b> <s:property value="randomForestParameters.numTrees" /><br />
 		<b>Descriptors Per Tree:</b> <s:property value="randomForestParameters.descriptorsPerTree" /><br />
