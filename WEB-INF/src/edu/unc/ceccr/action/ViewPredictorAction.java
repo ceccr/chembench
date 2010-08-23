@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +67,14 @@ public class ViewPredictorAction extends ActionSupport {
 	private KnnParameters knnParameters;
 	private KnnPlusParameters knnPlusParameters;
 	
+	//used in creation of confusion matrix (category modeling only)
+	public class ConfusionMatrixRow{
+		ArrayList<Integer> values;
+	}
+	ArrayList<ConfusionMatrixRow> confusionMatrix;
+	ArrayList<String> uniqueObservedValues;
+	
+	
 	public String loadExternalValidationSection() throws Exception {
 
 		String result = SUCCESS;
@@ -114,6 +123,48 @@ public class ViewPredictorAction extends ActionSupport {
 				if(! e.getStandDev().equalsIgnoreCase("No value")){
 					e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
 				}
+			}
+			
+			if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
+				//if category model, create confusion matrix.
+				//round off the predicted values to nearest integer.
+				
+				//find the unique observed values
+				ArrayList<String> observedValues = DatasetFileOperations.getActFileValues(dataset);
+				uniqueObservedValues = new ArrayList<String>();
+				for(String s : observedValues){
+					if(! uniqueObservedValues.contains(s)){
+						uniqueObservedValues.add(s);
+					}
+				}
+				
+				//set up a confusion matrix to store counts of each (observed, predicted) possibility
+				confusionMatrix = new ArrayList<ConfusionMatrixRow>();
+				
+				for(int i = 0; i < confusionMatrix.size(); i++){
+					ConfusionMatrixRow row = new ConfusionMatrixRow();
+					for(int j = 0; j < confusionMatrix.size(); j++){
+						row.values.add(0);
+					}
+					confusionMatrix.add(row);
+				}
+				
+				//populate the confusion matrix
+				for(ExternalValidation ev : externalValValues){
+					//for each observed-predicted pair, update
+					//the confusion matrix accordingly
+					int observedValue = Math.round(ev.getActualValue());
+					int predictedValue = Math.round(ev.getPredictedValue());
+					int observedValueIndex = uniqueObservedValues.indexOf("" + observedValue);
+					int predictedValueIndex = uniqueObservedValues.indexOf("" + predictedValue);
+					int previousCount = confusionMatrix.get(observedValueIndex).values.get(predictedValueIndex);
+					confusionMatrix.get(observedValueIndex).values.set(predictedValueIndex, previousCount+1);
+				}
+				
+			}
+			else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
+				//if continuous, calculate overall r^2 and... r0^2? or something? 
+				
 			}
 		}
 		
@@ -745,4 +796,17 @@ public class ViewPredictorAction extends ActionSupport {
 		this.knnPlusParameters = knnPlusParameters;
 	}
 
+	public ArrayList<ConfusionMatrixRow> getConfusionMatrix() {
+		return confusionMatrix;
+	}
+	public void setConfusionMatrix(ArrayList<ConfusionMatrixRow> confusionMatrix) {
+		this.confusionMatrix = confusionMatrix;
+	}
+
+	public ArrayList<String> getUniqueObservedValues() {
+		return uniqueObservedValues;
+	}
+	public void setUniqueObservedValues(ArrayList<String> uniqueObservedValues) {
+		this.uniqueObservedValues = uniqueObservedValues;
+	}
 }
