@@ -17,7 +17,25 @@
 		</sx:div>
 		</p>
 	</s:if>
-
+	<s:elseif test="dataType=='CATEGORY'">
+		<p class="StandardTextDarkGray"><b><u>Confusion Matrix</u></b>
+		<table>
+		<tr>
+		<td></td>
+		<s:iterator value="uniqueObservedValues">
+			<td><s:property /></td>
+		</s:iterator>
+		</tr>
+		<s:iterator value="confusionMatrix" status="confusionMatrixStatus">
+		<tr>
+			<td><s:property value="uniqueObservedValues[#confusionMatrixStatus.index]" /></td>
+			<s:iterator value="values">
+			<td><s:property /></td>
+			</s:iterator>
+		</tr>
+		</s:iterator>
+		</table>
+	</s:elseif>
 	<br />
 	<!-- End External Validation Chart -->
 	
