@@ -21,8 +21,14 @@
 	<s:elseif test="dataType=='CATEGORY'">
 		<p class="StandardTextDarkGray"><b><u>Confusion Matrix</u></b>
 		<table>
-		<s:iterator value="confusionMatrix">
 		<tr>
+		<td></td>
+		<s:iterator value="uniquePredictedValues">
+			<td><s:property/></td>
+		</s:iterator>
+		<s:iterator value="confusionMatrix" status="confusionMatrixStatus">
+		<tr>
+			<td><s:property value="uniqueObservedValues[#confusionMatrixStatus.index]" /></td>
 			<s:iterator value="values">
 			<td><s:property/></td>
 			</s:iterator>

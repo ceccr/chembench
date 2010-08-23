@@ -73,6 +73,7 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	ArrayList<ConfusionMatrixRow> confusionMatrix;
 	ArrayList<String> uniqueObservedValues;
+	ArrayList<String> uniquePredictedValues;
 	
 	
 	public String loadExternalValidationSection() throws Exception {
@@ -129,12 +130,19 @@ public class ViewPredictorAction extends ActionSupport {
 				//if category model, create confusion matrix.
 				//round off the predicted values to nearest integer.
 				
-				//find the unique observed values
-				ArrayList<String> observedValues = DatasetFileOperations.getActFileValues(dataset);
+				//find the unique observed and predicted values
 				uniqueObservedValues = new ArrayList<String>();
-				for(String s : observedValues){
-					if(! uniqueObservedValues.contains(s)){
-						uniqueObservedValues.add(s);
+				uniquePredictedValues = new ArrayList<String>();
+				for(ExternalValidation ev : externalValValues){
+					//for each observed-predicted pair, update
+					//the confusion matrix accordingly
+					int observedValue = Math.round(ev.getActualValue());
+					if(! uniqueObservedValues.contains("" + observedValue)){
+						uniqueObservedValues.add("" + observedValue);
+					}
+					int predictedValue = Math.round(ev.getPredictedValue());
+					if(! uniquePredictedValues.contains("" + predictedValue)){
+						uniquePredictedValues.add("" + predictedValue);
 					}
 				}
 				
@@ -144,7 +152,7 @@ public class ViewPredictorAction extends ActionSupport {
 				for(int i = 0; i < uniqueObservedValues.size(); i++){
 					ConfusionMatrixRow row = new ConfusionMatrixRow();
 					row.values = new ArrayList<Integer>();
-					for(int j = 0; j < uniqueObservedValues.size(); j++){
+					for(int j = 0; j < uniquePredictedValues.size(); j++){
 						row.values.add(0);
 					}
 					confusionMatrix.add(row);
@@ -809,5 +817,12 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setUniqueObservedValues(ArrayList<String> uniqueObservedValues) {
 		this.uniqueObservedValues = uniqueObservedValues;
+	}
+
+	public ArrayList<String> getUniquePredictedValues() {
+		return uniquePredictedValues;
+	}
+	public void setUniquePredictedValues(ArrayList<String> uniquePredictedValues) {
+		this.uniquePredictedValues = uniquePredictedValues;
 	}
 }
