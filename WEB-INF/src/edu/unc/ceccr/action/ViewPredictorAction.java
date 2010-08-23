@@ -70,6 +70,13 @@ public class ViewPredictorAction extends ActionSupport {
 	//used in creation of confusion matrix (category modeling only)
 	public class ConfusionMatrixRow{
 		ArrayList<Integer> values;
+
+		public ArrayList<Integer> getValues() {
+			return values;
+		}
+		public void setValues(ArrayList<Integer> values) {
+			this.values = values;
+		}
 	}
 	ArrayList<ConfusionMatrixRow> confusionMatrix;
 	ArrayList<String> uniqueObservedValues;
