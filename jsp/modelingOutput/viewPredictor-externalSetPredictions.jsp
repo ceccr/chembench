@@ -20,25 +20,22 @@
 	</s:if>
 	<s:elseif test="dataType=='CATEGORY'">
 		<p class="StandardTextDarkGray"><b><u>Confusion Matrix</u></b>
-		<table><td class="TableRowText01">Observed</td><td>
-			<table>
-			<tr><td class="TableRowText01">Predicted</td></tr>
-			<tr>
-			<td></td>
-			<s:iterator value="uniqueObservedValues">
-				<td class="TableRowText01"><s:property /></td>
+		<table>
+		<tr>
+		<td></td>
+		<s:iterator value="uniqueObservedValues">
+			<td class="TableRowText01">Predicted <s:property /></td>
+		</s:iterator>
+		</tr>
+		<s:iterator value="confusionMatrix" status="confusionMatrixStatus">
+		<tr>
+			<td class="TableRowText01">Observed <s:property value="uniqueObservedValues[#confusionMatrixStatus.index]" /></td>
+			<s:iterator value="values">
+			<td class="TableRowText02"><s:property /></td>
 			</s:iterator>
-			</tr>
-			<s:iterator value="confusionMatrix" status="confusionMatrixStatus">
-			<tr>
-				<td class="TableRowText01"><s:property value="uniqueObservedValues[#confusionMatrixStatus.index]" /></td>
-				<s:iterator value="values">
-				<td class="TableRowText02"><s:property /></td>
-				</s:iterator>
-			</tr>
-			</s:iterator>
-			</table>
-		</td></table>
+		</tr>
+		</s:iterator>
+		</table>
 	</s:elseif>
 	</s:if>
 	<br />

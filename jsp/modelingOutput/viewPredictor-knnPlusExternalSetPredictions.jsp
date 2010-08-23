@@ -34,7 +34,7 @@
 			</s:iterator>
 		</tr>
 		</s:iterator>
-		</table
+		</table>
 	</s:elseif>
 	<br />
 	<!-- End External Validation Chart -->
