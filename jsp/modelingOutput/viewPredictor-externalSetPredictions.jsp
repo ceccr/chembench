@@ -18,6 +18,17 @@
 		</sx:div>
 		</p>
 	</s:if>
+	<s:elseif test="dataType=='CATEGORY'">
+		<p class="StandardTextDarkGray"><b><u>Confusion Matrix</u></b>
+		<table>
+		<s:iterator value="confusionMatrix">
+		<tr>
+			<s:iterator value="values">
+			<td><s:property/></td>
+			</s:iterator>
+		</tr>
+		</s:iterator>
+	</s:elseif>
 	</s:if>
 	<br />
 	<!-- End External Validation Chart -->
