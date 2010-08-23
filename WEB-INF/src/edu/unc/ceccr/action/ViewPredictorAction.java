@@ -129,7 +129,7 @@ public class ViewPredictorAction extends ActionSupport {
 			if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 				//if category model, create confusion matrix.
 				//round off the predicted values to nearest integer.
-				
+				try{
 				//find the unique observed and predicted values
 				uniqueObservedValues = new ArrayList<String>();
 				uniquePredictedValues = new ArrayList<String>();
@@ -169,7 +169,9 @@ public class ViewPredictorAction extends ActionSupport {
 					int previousCount = confusionMatrix.get(observedValueIndex).values.get(predictedValueIndex);
 					confusionMatrix.get(observedValueIndex).values.set(predictedValueIndex, previousCount+1);
 				}
-				
+				}catch(Exception ex){
+					Utility.writeToDebug(ex);
+				}
 			}
 			else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
 				//if continuous, calculate overall r^2 and... r0^2? or something? 

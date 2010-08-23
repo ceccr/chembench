@@ -28,7 +28,7 @@
 		</s:iterator>
 		<s:iterator value="confusionMatrix" status="confusionMatrixStatus">
 		<tr>
-			
+			<td><s:property value="uniqueObservedValues[#confusionMatrixStatus.index]" /></td>
 			<s:iterator value="values">
 			<td><s:property/></td>
 			</s:iterator>
