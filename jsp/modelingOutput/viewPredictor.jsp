@@ -77,7 +77,7 @@
 				<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
 					<s:param name="id" value='selectedPredictor.predictorId' />
 				</s:url>
-		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
+		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" preload="false" showLoadingText="true">
 				</sx:div>
 				
 				<s:url id="modelsLink" value="/viewPredictorModelsSection" includeParams="none">
@@ -97,7 +97,7 @@
 				<s:url id="externalValidationLink" value="/viewKnnPlusPredictorExternalValidationSection" includeParams="none">
 					<s:param name="id" value='selectedPredictor.predictorId' />
 				</s:url>
-		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
+		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." preload="false" executeScripts="true" showLoadingText="true">
 				</sx:div>
 				
 				<s:url id="modelsLink" value="/viewKnnPlusPredictorModelsSection" includeParams="none">
@@ -117,7 +117,7 @@
 				<s:url id="externalValidationLink" value="/viewRandomForestExternalValidationSection" includeParams="none">
 					<s:param name="id" value='selectedPredictor.predictorId' />
 				</s:url>
-		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" showLoadingText="true">
+		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." preload="false" executeScripts="true" showLoadingText="true">
 				</sx:div>
 				
 				<!-- For now, we don't display groves. If someday we want to, uncomment this.
