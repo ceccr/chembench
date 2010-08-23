@@ -129,7 +129,7 @@ public class ViewPredictorAction extends ActionSupport {
 				//if category model, create confusion matrix.
 				//round off the predicted values to nearest integer.
 				try{
-				//find the unique observed and predicted values
+				//find the unique observed values
 				uniqueObservedValues = new ArrayList<String>();
 				for(ExternalValidation ev : externalValValues){
 					int observedValue = Math.round(ev.getActualValue());
@@ -137,8 +137,10 @@ public class ViewPredictorAction extends ActionSupport {
 					if(! uniqueObservedValues.contains("" + observedValue)){
 						uniqueObservedValues.add("" + observedValue);
 					}
+					//if a value is predicted but not observed, we still need
+					//a spot in the matrix for that, so make a spot for those too.
 					if(! uniqueObservedValues.contains("" + predictedValue)){
-						uniqueObservedValues.add("" + observedValue);
+						uniqueObservedValues.add("" + predictedValue);
 					}
 				}
 				
