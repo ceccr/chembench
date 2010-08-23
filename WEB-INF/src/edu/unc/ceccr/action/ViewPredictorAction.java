@@ -141,7 +141,7 @@ public class ViewPredictorAction extends ActionSupport {
 				//set up a confusion matrix to store counts of each (observed, predicted) possibility
 				confusionMatrix = new ArrayList<ConfusionMatrixRow>();
 				
-				for(int i = 0; i < confusionMatrix.size(); i++){
+				for(int i = 0; i < uniqueObservedValues.size(); i++){
 					ConfusionMatrixRow row = new ConfusionMatrixRow();
 					for(int j = 0; j < confusionMatrix.size(); j++){
 						row.values.add(0);
