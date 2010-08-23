@@ -144,7 +144,7 @@ public class ViewPredictorAction extends ActionSupport {
 				for(int i = 0; i < uniqueObservedValues.size(); i++){
 					ConfusionMatrixRow row = new ConfusionMatrixRow();
 					row.values = new ArrayList<Integer>();
-					for(int j = 0; j < confusionMatrix.size(); j++){
+					for(int j = 0; j < uniqueObservedValues.size(); j++){
 						row.values.add(0);
 					}
 					confusionMatrix.add(row);
