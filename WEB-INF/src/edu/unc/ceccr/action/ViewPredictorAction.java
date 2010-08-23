@@ -134,8 +134,6 @@ public class ViewPredictorAction extends ActionSupport {
 				uniqueObservedValues = new ArrayList<String>();
 				uniquePredictedValues = new ArrayList<String>();
 				for(ExternalValidation ev : externalValValues){
-					//for each observed-predicted pair, update
-					//the confusion matrix accordingly
 					int observedValue = Math.round(ev.getActualValue());
 					if(! uniqueObservedValues.contains("" + observedValue)){
 						uniqueObservedValues.add("" + observedValue);
@@ -145,6 +143,8 @@ public class ViewPredictorAction extends ActionSupport {
 						uniquePredictedValues.add("" + predictedValue);
 					}
 				}
+				Utility.writeToDebug("uniqueObservedValues: " + uniqueObservedValues.toString());
+				Utility.writeToDebug("uniquePredictedValues: " + uniquePredictedValues.toString());
 				
 				//set up a confusion matrix to store counts of each (observed, predicted) possibility
 				confusionMatrix = new ArrayList<ConfusionMatrixRow>();
@@ -166,6 +166,7 @@ public class ViewPredictorAction extends ActionSupport {
 					int predictedValue = Math.round(ev.getPredictedValue());
 					int observedValueIndex = uniqueObservedValues.indexOf("" + observedValue);
 					int predictedValueIndex = uniqueObservedValues.indexOf("" + predictedValue);
+					Utility.writeToDebug("incrementing matrix at observed " + observedValue + " and predicted " + predictedValue);
 					int previousCount = confusionMatrix.get(observedValueIndex).values.get(predictedValueIndex);
 					confusionMatrix.get(observedValueIndex).values.set(predictedValueIndex, previousCount+1);
 				}
