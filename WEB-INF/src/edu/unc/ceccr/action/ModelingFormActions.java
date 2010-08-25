@@ -103,7 +103,7 @@ public class ModelingFormActions extends ActionSupport{
 		}
 		
 		//load default tab selections
-		modelingType = Constants.KNNSA;
+		modelingType = Constants.RANDOMFOREST; 
 		
 		//go to the page
 		return result;

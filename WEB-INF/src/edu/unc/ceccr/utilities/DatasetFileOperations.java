@@ -1,6 +1,7 @@
 package edu.unc.ceccr.utilities;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,14 +9,14 @@ import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.Vector;
 
 import org.apache.commons.validator.GenericValidator;
@@ -743,6 +744,32 @@ public class DatasetFileOperations {
 		}
 		
 		return "";
+	}
+	
+	public static void randomizeActivityFile(String filePath, String outFilePath) throws Exception{
+		//get hashmap of compound activities from filePath
+		HashMap<String, String> actFileMap = getActFileIdsAndValues(filePath);
+		
+		//shuffle hashmap of compound activities
+		List<String> shuffledCompounds = new ArrayList<String>(actFileMap.keySet());
+		Collections.shuffle(shuffledCompounds);
+		HashMap<String, String> randomizedActFileMap = new HashMap();
+		Iterator<String> i = actFileMap.values().iterator();
+		int index = 0;
+		while (i.hasNext()) {
+			randomizedActFileMap.put(shuffledCompounds.get(index), i.next());
+			index++;
+		}  
+		
+		//write shuffled hashmap to outFilePath
+		BufferedWriter out = new BufferedWriter(new FileWriter(outFilePath));
+		Iterator it = randomizedActFileMap.entrySet().iterator();
+	    while (it.hasNext()) {
+	    	
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        out.write(pairs.getKey() + " " + pairs.getValue() + "\n");
+	    }
+		out.close();
 	}
 	
 }

@@ -7,6 +7,7 @@ import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.KnnParameters;
 import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
@@ -156,16 +157,19 @@ public class KnnModelBuildingWorkflow{
 			Utility.writeToDebug("Error reading directory: " + yRandomDir);
 		}
 		int x = 0;
-		Utility.writeToDebug("Running external program: " + "RandomizationSlowLIN each_act_file.a tempfile" + " in dir " + yRandomDir);
+		Utility.writeToDebug("Randomizing each activity file (*rand_sets*.a) in dir " + yRandomDir);
 		while(files != null && x<files.length){
 			if(files[x].matches(".*rand_sets.*a")){
 				//shuffle the values in each .a file (ACT file)
+				DatasetFileOperations.randomizeActivityFile(yRandomDir + files[x], yRandomDir + files[x]);
+				
+				/*
 				String execstr = "RandomizationSlowLIN " + files[x] + " tempfile";
 			    Process p = Runtime.getRuntime().exec(execstr, null, new File(yRandomDir));
 			    Utility.writeProgramLogfile(yRandomDir, "RandomizationSlowLIN", p.getInputStream(), p.getErrorStream());
 			    p.waitFor();
 			    FileAndDirOperations.copyFile(yRandomDir + "tempfile", yRandomDir + files[x]);
-			    
+			    */
 			}
 			x++;
 		}
