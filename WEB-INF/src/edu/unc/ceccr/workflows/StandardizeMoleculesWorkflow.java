@@ -21,9 +21,10 @@ public class StandardizeMoleculesWorkflow {
 		//Standardizes the molecules in this sdfile. Necessary to do this before running DRAGON
 		//descriptor generation. Also important to do this to any molecules that could go into our database.
 		
-		
+		Utility.writeToDebug("standardizeSdf: getting sdf compounds");		
 		ArrayList<String> compounds = DatasetFileOperations.getCompoundsFromSdf(workingDir + sdfIn);
-		
+		Utility.writeToDebug("standardizeSdf: done getting sdf compounds");
+
 		if(compounds.size() < 600){
 
 			String execstr1 = "standardize.sh " + sdfIn + " " + sdfOut;
