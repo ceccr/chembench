@@ -1,10 +1,13 @@
 package edu.unc.ceccr.workflows;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Scanner;
 
 import edu.unc.ceccr.global.Constants;
@@ -60,18 +63,20 @@ public class StandardizeMoleculesWorkflow {
 			
 			Utility.writeToDebug("Merging standardized SDFs");
 			//merge the output files back together
-			String standardizedFile = "";
+			
+			BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + sdfOut));
+		        
 			for(int i = 0; i < fileIndex; i++){
 				String filePartName = sdfIn + "_" + i + ".sdf.standardize";
-				standardizedFile += FileAndDirOperations.readFileIntoString(workingDir + filePartName);
+				String standardizedFilePart = FileAndDirOperations.readFileIntoString(workingDir + filePartName);
+				out.write(standardizedFilePart);
 				
-				//clean up all the file parts, they're no longer needed
+				//delete the standardized file-part from disk, it's no longer needed
 				FileAndDirOperations.deleteFile(workingDir + filePartName);
 				String oldFile = sdfIn + "_" + i + ".sdf";
 				FileAndDirOperations.deleteFile(workingDir + oldFile);
 			}
-			String mergedFileName = "";
-			FileAndDirOperations.writeStringToFile(standardizedFile, workingDir + sdfOut);
+			out.close();
 		}
   	}
 }
