@@ -22,7 +22,7 @@ public class StandardizeMoleculesWorkflow {
 		//descriptor generation. Also important to do this to any molecules that could go into our database.
 		
 		Utility.writeToDebug("standardizeSdf: getting sdf compounds");		
-		ArrayList<String> compounds = DatasetFileOperations.getCompoundsFromSdf(workingDir + sdfIn);
+		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfIn);
 		Utility.writeToDebug("standardizeSdf: done getting sdf compounds");
 
 		if(compounds.size() < 600){
