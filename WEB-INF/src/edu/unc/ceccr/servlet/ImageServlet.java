@@ -56,6 +56,14 @@ public class ImageServlet extends HttpServlet {
         
         File imageFile = new File(Constants.CECCR_USER_BASE_PATH + imageFileName);
 
+        if(! imageFile.exists()){
+        	Utility.writeToDebug("Error: cannot read image file " + Constants.CECCR_USER_BASE_PATH + imageFileName);
+        	 response.reset();
+             response.setContentLength(0);
+         	response.setContentType("image/jpeg");
+         	return;
+        }
+        
         BufferedInputStream input = null;
         BufferedOutputStream output = null;
 

@@ -56,8 +56,8 @@ public class DataSplitWorkflow{
 			String compoundIdString) throws Exception {
 
 		String[] compoundIDs = compoundIdString.trim().split("\\s+");
-		Utility.writeToDebug("called splitModelingExternalGivenList in dir: " + workingdir + " actfile: " + actFileName + " xfile: " + xFileName + " compoundIdString: " + compoundIdString);
-		
+		Utility.writeToDebug("called splitModelingExternalGivenList in dir: " + workingdir + " actfile: " + actFileName + " xfile: " + xFileName);
+		//Utility.writeToDebug(" compoundIdString: " + compoundIdString);
 		File inX = new File(workingdir + xFileName);
 		BufferedReader inXReader = new BufferedReader(new FileReader(inX));
 		File inAct = new File(workingdir + actFileName);
@@ -168,15 +168,16 @@ public class DataSplitWorkflow{
 		//We will want to combine each of the "RAND_sets_i.list" files to form RAND_sets.list.
 		String listFileContents = "";
 		
+		Utility.writeToDebug("Running train-test splitting in dir " + workingdir);
 		for(int i = 0; i < numSplits; i++){
 			double testSize = Math.random()*testSizeRange + randomSplitMinTestSize;
 			testSize = testSize / 100; //it's a percent
 			
 			String listFileName = "rand_sets_" + i + ".list";
 			String execstr1 = "datasplit train_0.x -N=1 -M=R -OUT=" + listFileName + " -F=" + testSize;
-			Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
+			//Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
 			Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
-			Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
+			Utility.writeProgramLogfile(workingdir, "datasplit_" + i, p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			
 			//Read in the listfile that was just created.

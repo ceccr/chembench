@@ -174,7 +174,6 @@ public class ViewPredictorAction extends ActionSupport {
 					int predictedValue = Math.round(ev.getPredictedValue());
 					int observedValueIndex = uniqueObservedValues.indexOf("" + observedValue);
 					int predictedValueIndex = uniqueObservedValues.indexOf("" + predictedValue);
-					Utility.writeToDebug("incrementing matrix at observed " + observedValue + " and predicted " + predictedValue);
 					int previousCount = confusionMatrix.get(observedValueIndex).values.get(predictedValueIndex);
 					confusionMatrix.get(observedValueIndex).values.set(predictedValueIndex, previousCount+1);
 				}
