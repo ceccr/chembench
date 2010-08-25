@@ -1,4 +1,9 @@
 <%@include file ="/jsp/help/helpheader.jsp" %>
+
+
+<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
+ <tr><td>
+<div class="ccbHomeStandard">
 	<p>
 	Chembench is a web-based tool for predicting the properties of chemical compounds. 
 	We can predict if a compound is toxic, or if it will make a good drug to treat seizures or malaria, 
@@ -35,6 +40,8 @@
 	the outlier compounds. And we'd like to have the heatmap redone in HTML5 / JQuery, with a few more 
 	features, so it'll be more usable and more maintainable. 
 	</p>
+
+</div></td></tr></table>
 
 	<%@include file ="/jsp/main/footer.jsp" %>
 </body>
