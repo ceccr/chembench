@@ -162,9 +162,9 @@
 		<s:url id="descriptorsLink" value="/viewDatasetDescriptorsSection" includeParams="none">
 			<s:param name="datasetId" value='datasetId' />
 		</s:url>
-		<sx:div href="%{descriptorsLink}" label="Descriptors" theme="ajax" loadingText="Loading descriptors..." showLoadingText="true" preload="false">
+		<sx:div href="%{descriptorsLink}" label="Descriptor Warnings" theme="ajax" loadingText="Loading warnings..." showLoadingText="true" preload="false">
 		</sx:div>
-		
+		 
    	</sx:tabbedpanel>
    	
 	<!-- end load tabs -->

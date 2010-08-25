@@ -89,14 +89,6 @@ public class RandomForestWorkflow{
 			if(files[x].matches(".*rand_sets.*a")){
 				//shuffle the values in each .a file (ACT file)
 				DatasetFileOperations.randomizeActivityFile(yRandomDir + files[x], yRandomDir + files[x]);
-				
-				/*
-				String execstr = "RandomizationSlowLIN " + files[x] + " tempfile";
-			    Process p = Runtime.getRuntime().exec(execstr, null, new File(yRandomDir));
-			    Utility.writeProgramLogfile(yRandomDir, "RandomizationSlowLIN", p.getInputStream(), p.getErrorStream());
-			    p.waitFor();
-			    FileAndDirOperations.copyFile(yRandomDir + "tempfile", yRandomDir + files[x]);
-			    */
 			}
 			x++;
 		}
