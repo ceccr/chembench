@@ -385,7 +385,7 @@
         <!-- End Help forwards -->
         
         <!-- For Demoing -->
-        <action name="heatmapDemo">
+        <action name="comp523">
         	<result>jsp/help/heatmapDemo.jsp</result>
         </action>
         
