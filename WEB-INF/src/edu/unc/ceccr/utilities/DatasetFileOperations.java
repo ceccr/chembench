@@ -535,7 +535,10 @@ public class DatasetFileOperations {
 		return act_compounds;
 	}
 	
+	
+	
 	public static ArrayList<String> getSDFCompoundNames(String sdfPath) throws Exception{
+		//returns JUST THE NAMES of the compounds in an SDF, no structure or anything. 
 		
 		File infile = new File(sdfPath);
 		FileReader fin = new FileReader(infile);
@@ -747,29 +750,23 @@ public class DatasetFileOperations {
 	}
 	
 	public static void randomizeActivityFile(String filePath, String outFilePath) throws Exception{
-		//get hashmap of compound activities from filePath
-		HashMap<String, String> actFileMap = getActFileIdsAndValues(filePath);
+		ArrayList<String> actFileCompounds = getACTCompoundNames(filePath);
+		HashMap<String, String> actFileIdsAndValues = getActFileIdsAndValues(filePath);
+		ArrayList<String> actFileValues = new ArrayList<String>(actFileIdsAndValues.values());
+		Collections.shuffle(actFileValues);
+
+		if(actFileValues.size() != actFileCompounds.size()){
+			throw new Exception("Error: act file value array is size " + actFileValues.size() + 
+					" and compound names array is size " + actFileCompounds.size());
+		}
 		
-		//shuffle hashmap of compound activities
-		List<String> shuffledCompounds = new ArrayList<String>(actFileMap.keySet());
-		Collections.shuffle(shuffledCompounds);
-		HashMap<String, String> randomizedActFileMap = new HashMap();
-		Iterator<String> i = actFileMap.values().iterator();
-		int index = 0;
-		while (i.hasNext()) {
-			randomizedActFileMap.put(shuffledCompounds.get(index), i.next());
-			index++;
-		}  
-		
-		//write shuffled hashmap to outFilePath
 		BufferedWriter out = new BufferedWriter(new FileWriter(outFilePath));
-		Iterator it = randomizedActFileMap.entrySet().iterator();
-	    while (it.hasNext()) {
-	    	
-	        Map.Entry pairs = (Map.Entry)it.next();
-	        out.write(pairs.getKey() + " " + pairs.getValue() + "\n");
-	    }
+		for(int i = 0; i < actFileCompounds.size(); i++){
+			out.write(actFileCompounds.get(i) + " " + actFileValues.get(i) + "\n");
+		}
+		
 		out.close();
+		
 	}
 	
 }

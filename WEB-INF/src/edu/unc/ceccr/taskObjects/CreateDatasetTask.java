@@ -397,7 +397,7 @@ public class CreateDatasetTask extends WorkflowTask{
 			
 			if(numCompounds < 500){
 				//totally not worth doing visualizations on huge datasets, the heatmap is 
-				//just nonsense at that point and it wastes a ton of time.
+				//just nonsense at that point and it wastes a ton of compute time.
 				step = Constants.VISUALIZATION;
 				Utility.writeToDebug("Generating Visualizations", userName, jobName);
 				
