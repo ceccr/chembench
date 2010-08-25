@@ -25,7 +25,7 @@ public class SynchronizedJobList{
 	//a third instance is used to store freshly-submitted jobs that have not yet been processed.
 	
 	private List<Job> jobList = Collections.synchronizedList(new ArrayList<Job>());
-	private String name; //LSF, LOCAL, or INCOMING
+	private String name; //LSF, LOCAL, INCOMING, or ERROR
 	
 	SynchronizedJobList(String name){
 		this.name = name;

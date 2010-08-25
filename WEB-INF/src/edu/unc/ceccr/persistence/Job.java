@@ -23,7 +23,7 @@ public class Job {
 	
 	private String status; //basic status. {queued, pending, started, finished, permissionRequired, deleted}
 	private String message; //a more detailed status message
-	private String jobList; //which jobList it's in. {NONE, INCOMING, LSF, LOCAL}
+	private String jobList; //which jobList it's in. {NONE, INCOMING, LSF, LOCAL, ERROR}
 	
 	private String jobType; //can be one of {MODELING, PREDICTION, DATASET};
 	private Long lookupId; //a primary key for the datasetJob, modelingJob, or predictionJob tables (as determined by jobType)

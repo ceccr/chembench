@@ -128,8 +128,7 @@ public class QsarModelingTask extends WorkflowTask {
 				if(modelType.equals(Constants.KNN)){
 					
 					float p = FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
-				 	workingDir += "yRandom/";
-					p += FileAndDirOperations.countFilesInDirMatchingPattern(workingDir, ".*mod");
+					p += FileAndDirOperations.countFilesInDirMatchingPattern(workingDir + "yRandom/", ".*mod");
 					//divide by the number of models to be built
 		
 					int numModels = getNumTotalModels();
@@ -142,15 +141,17 @@ public class QsarModelingTask extends WorkflowTask {
 					//number of models produced so far can be gotten by:
 					//cat knn+.log | grep q2= | wc 
 					//which is in a script "checkKnnSaProgress.sh" in mmlsoft/bin.
-					
+
 					float p = KnnPlusWorkflow.getSaModelingProgress(workingDir);
-					p /= getNumTotalModels();
+					p += KnnPlusWorkflow.getSaModelingProgress(workingDir + "yRandom/");
+					p /= (getNumTotalModels() * 2);
 					p *= 100; //it's a percent
 					percent = " (" + Math.round(p) + "%)";
 				}
 				else if(modelType.equals(Constants.KNNGA)){
 					float p = KnnPlusWorkflow.getGaModelingProgress(workingDir);
-					p /= getNumTotalModels();
+					p += KnnPlusWorkflow.getGaModelingProgress(workingDir + "yRandom/");
+					p /= (getNumTotalModels() * 2);
 					p *= 100; //it's a percent
 					if(p < 0){
 						p = 0;
