@@ -802,8 +802,7 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			//now do the same for the yRandom run
 			//read in models for yRandom and associate them with the predictor
-			String yRandomDir = filePath + "yRandom/";
-			randomForestYRandomGroves = RandomForestWorkflow.readRandomForestGroves(filePath, predictor, Constants.YES);
+			randomForestYRandomGroves = RandomForestWorkflow.readRandomForestGroves(filePath + "yRandom/", predictor, Constants.YES);
 			
 			//commit models to database so we get the model id back so we can use it in the trees
 			try{
@@ -820,7 +819,7 @@ public class QsarModelingTask extends WorkflowTask {
 
 			//read in yRandom trees and associate them with each model
 			for(RandomForestGrove grove: randomForestYRandomGroves){
-				randomForestTrees.addAll(RandomForestWorkflow.readRandomForestTrees(filePath, predictor, grove, actFileDataType));
+				randomForestTrees.addAll(RandomForestWorkflow.readRandomForestTrees(filePath + "yRandom/", predictor, grove, actFileDataType));
 			}
 			
 			//read external set predictions

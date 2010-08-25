@@ -457,6 +457,7 @@ public class ViewPredictorAction extends ActionSupport {
 				}
 			}
 		}
+		session.close();
 		return result;
 	}
 	
