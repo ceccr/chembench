@@ -384,6 +384,14 @@
         </action>
         <!-- End Help forwards -->
         
+        <!-- For Demoing -->
+        <action name="heatmapDemo">
+        	<result>jsp/help/heatmapDemo.jsp</result>
+        </action>
+        
+        
+        <!-- end For Demoing -->
+        
     </package>
 
     <!-- Add packages here -->
