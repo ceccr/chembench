@@ -33,7 +33,7 @@
 	Here's what we have right now:
 	<img src="/theme/img/help/heatMap.jpg">
 	<br />
-	<img src="/theme/img/help/heatMap.jpg">
+	<img src="/theme/img/help/externalSetGraph.jpg">
 	</p>
 	<p>
 	We'd love to make the model graph more interactive, so that you'd be able to see the structures for
