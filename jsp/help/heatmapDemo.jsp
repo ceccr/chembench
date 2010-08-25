@@ -31,9 +31,9 @@
 	</p>
 	<p>
 	Here's what we have right now:
-	<img src="/jsp/help/images/heatMap.jpg">
+	<img src="/jsp/help/img/heatMap.jpg">
 	<br />
-	<img src="/jsp/help/images/externalSetGraph.jpg">
+	<img src="/jsp/help/img/externalSetGraph.jpg">
 	</p>
 	<p>
 	We'd love to make the model graph more interactive, so that you'd be able to see the structures for
