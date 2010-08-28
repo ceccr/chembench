@@ -43,15 +43,10 @@ public class StandardizeMoleculesWorkflow {
 			//split the SDF
 			Utility.writeToDebug("Splitting and standardizing " + sdfIn + " in dir " + workingDir);
 			
-			String fileContents = "";
-			
-			File infile = new File(sdfIn);
+			File infile = new File(workingDir + sdfIn);
 			FileReader fin = new FileReader(infile);
 			BufferedReader br = new BufferedReader(fin);
 			
-			String compound = new String();
-			String line;
-
 			
 			//read molecules from original SDF
 			int compoundsInCurrentFile = 0;
@@ -61,6 +56,7 @@ public class StandardizeMoleculesWorkflow {
 			String sdfFilePart = sdfIn + "_" + currentFileNumber + ".sdf";
 			BufferedWriter partOut = new BufferedWriter(new FileWriter(workingDir + sdfFilePart));
 			
+			String line;
 			while((line = br.readLine()) != null){
 				
 				partOut.write(line + "\n");
