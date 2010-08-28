@@ -76,7 +76,7 @@ public class StandardizeMoleculesWorkflow {
 						//start a new file
 						currentFileNumber++;
 						sdfFilePart = sdfIn + "_" + currentFileNumber + ".sdf";
-						partOut = new BufferedWriter(new FileWriter(sdfFilePart));
+						partOut = new BufferedWriter(new FileWriter(workingDir + sdfFilePart));
 						
 					}
 				}
