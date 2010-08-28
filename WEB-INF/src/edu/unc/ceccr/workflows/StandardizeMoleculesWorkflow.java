@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
@@ -22,10 +23,10 @@ public class StandardizeMoleculesWorkflow {
 		//descriptor generation. Also important to do this to any molecules that could go into our database.
 		
 		Utility.writeToDebug("standardizeSdf: getting sdf compounds");		
-		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfIn);
+		ArrayList<String> compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfIn);
 		Utility.writeToDebug("standardizeSdf: done getting sdf compounds");
-
-		if(compounds.size() < 100){
+		
+		if(compoundNames.size() < 40){
 
 			String execstr1 = "standardize.sh " + sdfIn + " " + sdfOut;
 			Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingDir);
@@ -43,33 +44,65 @@ public class StandardizeMoleculesWorkflow {
 			Utility.writeToDebug("Splitting and standardizing " + sdfIn + " in dir " + workingDir);
 			
 			String fileContents = "";
-			int fileIndex = 0;
-			for(int i = 0; i < compounds.size(); i++){
-				fileContents += compounds.get(i);
-				if((i+1) % 600 == 0 || i == compounds.size() - 1){
-					String sdfFilePart = sdfIn + "_" + fileIndex + ".sdf";
-					FileAndDirOperations.writeStringToFile(fileContents, workingDir + sdfFilePart);
-					
-					//apply standardization to that file
-					String standardizedFilePart = sdfFilePart + ".standardize";
-					String execstr1 = "standardize.sh " + sdfFilePart + " " + standardizedFilePart;
-					Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingDir));
-					Utility.writeProgramLogfile(workingDir, "standardize" + fileIndex, p.getInputStream(), p.getErrorStream());
-					p.waitFor();
-					
-					fileIndex++;
-					fileContents = "";
+			
+			File infile = new File(sdfIn);
+			FileReader fin = new FileReader(infile);
+			BufferedReader br = new BufferedReader(fin);
+			
+			String compound = new String();
+			String line;
+
+			
+			//read molecules from original SDF
+			int compoundsInCurrentFile = 0;
+			int currentFileNumber = 0;
+			
+
+			String sdfFilePart = sdfIn + "_" + currentFileNumber + ".sdf";
+			BufferedWriter partOut = new BufferedWriter(new FileWriter(workingDir + sdfFilePart));
+			
+			while((line = br.readLine()) != null){
+				
+				partOut.write(line + "\n");
+				
+				if(line.startsWith("$$$$")){
+					//done reading a compound
+					compoundsInCurrentFile++;
+					if(compoundsInCurrentFile == 40){
+						//close current file part and apply standardization to it
+						partOut.close();
+						String standardizedFilePart = sdfFilePart + ".standardize";
+						String execstr1 = "standardize.sh " + sdfFilePart + " " + standardizedFilePart;
+						Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingDir));
+						Utility.writeProgramLogfile(workingDir, "standardize" + currentFileNumber, p.getInputStream(), p.getErrorStream());
+						p.waitFor();
+						
+						//start a new file
+						currentFileNumber++;
+						sdfFilePart = sdfIn + "_" + currentFileNumber + ".sdf";
+						partOut = new BufferedWriter(new FileWriter(sdfFilePart));
+						
+					}
 				}
 			}
+			
+			//close and standardize the final file part
+			partOut.close();
+			String standardizedFilePart = sdfFilePart + ".standardize";
+			String execstr1 = "standardize.sh " + sdfFilePart + " " + standardizedFilePart;
+			Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingDir));
+			Utility.writeProgramLogfile(workingDir, "standardize" + currentFileNumber, p.getInputStream(), p.getErrorStream());
+			p.waitFor();
+			
 			
 			Utility.writeToDebug("Merging standardized SDFs");
 			//merge the output files back together
 			
 			BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + sdfOut));
 		        
-			for(int i = 0; i < fileIndex; i++){
+			for(int i = 0; i <= currentFileNumber; i++){
 				String filePartName = sdfIn + "_" + i + ".sdf.standardize";
-				String standardizedFilePart = FileAndDirOperations.readFileIntoString(workingDir + filePartName);
+				standardizedFilePart = FileAndDirOperations.readFileIntoString(workingDir + filePartName);
 				out.write(standardizedFilePart);
 				
 				//delete the standardized file-part from disk, it's no longer needed

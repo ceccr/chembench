@@ -571,9 +571,10 @@ public class DatasetFileOperations {
 	}
 	
 	public static ArrayList<String> getCompoundsFromSdf(String sdfPath) throws Exception{
-		//opens an SDF, and returns each compound (the name, coordinates, comments, etc)
+		//opens an SDF, and returns each full compound (the name, coordinates, comments, etc)
 		//as a string just as it appears in the file. Useful for splitting or combining
 		//of SDFs.
+		//warning: don't open too large of files with this, as you will run out of memory.
 		ArrayList<String> compounds = new ArrayList<String>();
 		
 		File infile = new File(sdfPath);
