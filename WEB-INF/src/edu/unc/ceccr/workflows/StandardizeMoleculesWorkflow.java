@@ -25,7 +25,7 @@ public class StandardizeMoleculesWorkflow {
 		ArrayList<String> compounds = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfIn);
 		Utility.writeToDebug("standardizeSdf: done getting sdf compounds");
 
-		if(compounds.size() < 600){
+		if(compounds.size() < 100){
 
 			String execstr1 = "standardize.sh " + sdfIn + " " + sdfOut;
 			Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingDir);
