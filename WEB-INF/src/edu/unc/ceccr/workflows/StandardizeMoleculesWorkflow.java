@@ -74,6 +74,7 @@ public class StandardizeMoleculesWorkflow {
 						p.waitFor();
 						
 						//start a new file
+						compoundsInCurrentFile = 0;
 						currentFileNumber++;
 						sdfFilePart = sdfIn + "_" + currentFileNumber + ".sdf";
 						partOut = new BufferedWriter(new FileWriter(workingDir + sdfFilePart));
