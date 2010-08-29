@@ -18,7 +18,6 @@ public class CheckDescriptorsFileWorkflow{
 	public static String checkMolconnZDescriptors(String molconnZOutputFile) throws Exception{
 
 		 ArrayList<String> descriptorNames = new ArrayList<String>();
-		 ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		String errors = "";
 		 
 		File file = new File(molconnZOutputFile);
@@ -101,7 +100,6 @@ public class CheckDescriptorsFileWorkflow{
 
 	public static String checkDragonDescriptors(String dragonOutputFile) throws Exception{
 		ArrayList<String> descriptorNames = new ArrayList<String>();
-		 ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 		String errors = "";
 		
 		File file = new File(dragonOutputFile);
@@ -153,8 +151,6 @@ public class CheckDescriptorsFileWorkflow{
 			descriptorValues.remove(0); //contains molecule number, which isn't a descriptor
 			
 			di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
-
-			descriptorValueMatrix.add(di);
 			descriptorValues.clear();
 		}
 		return errors;
