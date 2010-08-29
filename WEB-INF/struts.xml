@@ -7,7 +7,7 @@
 	
     <constant name="struts.enable.DynamicMethodInvocation" value="false" />
     <constant name="struts.devMode" value="false" />
-    <constant name="struts.multipart.maxSize" value="1073741824" /><!-- no files over 1000 MB allowed; defaults to 2MB if unset -->
+    <constant name="struts.multipart.maxSize" value="8589934592" /><!-- no files over 8 GB allowed; defaults to 2MB if unset -->
 
     <package name="default" namespace="/" extends="struts-default">
                 

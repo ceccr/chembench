@@ -190,9 +190,9 @@ public class DatasetFileOperations {
 			rewriteSdf(path, sdfFileName, sdf_compounds);
 			sdf_compounds = getSDFCompoundNames(sdfFile.getAbsolutePath());
 			
-			if(!sdfIsValid(sdfFile))
+			if(sdfIsValid(sdfFile).equals(""))
 			{
-				msgs.add(ErrorMessages.INVALID_SDF);
+				msgs.add(sdfIsValid(sdfFile));
 			}
 			//Check if SDF file contains duplicates 
 			String duplicates = findDuplicates(sdf_compounds);
@@ -674,43 +674,14 @@ public class DatasetFileOperations {
 	}
 	
 	
-	public static boolean sdfIsValid(File sdfFile)
-		throws IOException {
+	public static String sdfIsValid(File sdfFile) throws Exception {
 		if(! sdfFile.exists()){
-			return false;
+			return ErrorMessages.INVALID_SDF;
 		}
-		/*
-		Scanner s = new Scanner(sdfFileStream);
-		int size, index = 1;
-		String line;
-		String[] lineArray;
-		//for each line...
-		while (s.hasNextLine()) {
-			Scanner ss = new Scanner(s.nextLine());
-			if (ss.hasNext()) {
-				line = ss.nextLine(); //pull the line into a string
-				lineArray = (line.trim()).split("\\s+"); //tokenize the string... why did he do it this way?
-				size = lineArray.length; //size = number of tokens in it
-		
-				if (index > 3) { //the first three lines of the sdf can be anything, so skip till we're on line 4
-					if (!lineArray[0].startsWith("M")) {
-						//"M END" signifies the end of the molecule
-						if (size != 7 && size != 16) { //Anything specifying a molecule will have 7 or 16 tokens in a line
-							ss.close();
-							return false;
-						}
-					} else { //this is just stupid... it only reads the first molecule?! 
-						//fuck it, I'm commenting this whole function out, this thing is worthless. Rewrite it later.
-						ss.close();
-						return true;
-					}
-				}
-				index++;
-			}
+		else if(getSDFCompoundNames(sdfFile.getAbsolutePath()).size() == 0){
+			return ErrorMessages.SDF_IS_EMPTY;
 		}
-		s.close();
-		*/
-		return true;
+		return "";
 	}
 
 
