@@ -266,9 +266,16 @@ public class QsarPredictionTask extends WorkflowTask {
 		//}
 		
 		//this is gonna need some major changes if we ever want it to work with LSF.
-		//basically the workflow will need to be written into a shell script the LSF can execute
+		//basically the workflow will need to be written into a shell script that LSF can execute
 		
 		//for each predictor do {
+		if(predictionDataset.getNumCompound() > 4000){
+			//We will run out of memory if we try to process this job
+			//in Java. 
+			Utility.writeToDebug("WARNING: Prediction set too large!");
+			
+		}
+		
 		for(int i = 0; i < selectedPredictors.size(); i++){
 			Predictor selectedPredictor = selectedPredictors.get(i);
 			
