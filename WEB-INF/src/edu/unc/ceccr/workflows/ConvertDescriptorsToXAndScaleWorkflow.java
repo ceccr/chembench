@@ -198,7 +198,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 						descriptorValues.clear();
 						outFilePart.write("\n");
 						moleculesInCurrentFile++;
-						if(moleculesInCurrentFile > compoundsPerChunk){
+						if(moleculesInCurrentFile == compoundsPerChunk){
 							outFilePart.close();
 							moleculesInCurrentFile = 0;
 							currentFile++;
@@ -240,7 +240,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			outFilePart.write(line + "\n");
 			
 			moleculesInCurrentFile++;
-			if(moleculesInCurrentFile > compoundsPerChunk){
+			if(moleculesInCurrentFile == compoundsPerChunk){
 				outFilePart.close();
 				moleculesInCurrentFile = 0;
 				currentFile++;
@@ -275,7 +275,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			outFilePart.write(line + "\n");
 			
 			moleculesInCurrentFile++;
-			if(moleculesInCurrentFile > compoundsPerChunk){
+			if(moleculesInCurrentFile == compoundsPerChunk){
 				outFilePart.close();
 				moleculesInCurrentFile = 0;
 				currentFile++;
@@ -306,7 +306,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			outFilePart.write(line + "\n");
 			
 			moleculesInCurrentFile++;
-			if(moleculesInCurrentFile > compoundsPerChunk){
+			if(moleculesInCurrentFile == compoundsPerChunk){
 				outFilePart.close();
 				moleculesInCurrentFile = 0;
 				currentFile++;

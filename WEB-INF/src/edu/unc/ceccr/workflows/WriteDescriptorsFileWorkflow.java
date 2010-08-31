@@ -621,9 +621,15 @@ public class WriteDescriptorsFileWorkflow{
 		xFileOut.write(descriptorMatrix.size() + " " + descriptorNameString.split(" ").length + "\n"); // numcompounds numdescriptors
 		xFileOut.write(descriptorNameString + "\n"); //descriptor names
 		
+		try{
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			//each line of the descriptors matrix
 			xFileOut.write((i+1) + " " + compoundNames.get(i) + " " + descriptorMatrix.get(i).getDescriptorValues() + "\n");
+		}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug("descriptorMatrix.size: " + descriptorMatrix.size() + " compoundNames.size: " + compoundNames.size());
+			Utility.writeToDebug(ex);
 		}
 		
 		if(predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)){

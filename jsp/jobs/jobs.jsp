@@ -222,6 +222,7 @@
 			resolve the issue as soon as possible. We will let you know when the error is fixed
 			so that you may resubmit your job.</div>
 		</td></tr>
+		<tr><td colspan="2"> 
 		<table class="sortable">
 			<tr>
 				<th class="TableRowText01">Name</th>
