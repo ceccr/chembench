@@ -178,7 +178,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		while (src.hasNext()) {
 			temp = src.next();
 			if(temp.matches("[\\p{Graph}]+")){ 
-				if(temp.equals("\\d+") && readingDescriptorNames){
+				if(temp.matches("[0-9&&[^a-zA-Z]]+") && readingDescriptorNames){
 					//The first occurrence of a number indicates we're no
 					//longer reading descriptor names.
 					readingDescriptorNames = false;
