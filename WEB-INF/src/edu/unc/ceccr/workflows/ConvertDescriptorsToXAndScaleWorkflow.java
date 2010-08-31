@@ -318,12 +318,12 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 	private static void mergeXFileParts(String workingDir, String outputXFile, String scalingType) throws Exception{
 		int filePartNumber = 0;
 		File xFilePart = new File(workingDir + outputXFile + "_" + filePartNumber);
-		BufferedReader br = new BufferedReader(new FileReader(xFilePart));
 		
 		BufferedWriter xFileOut = new BufferedWriter(new FileWriter(workingDir + outputXFile));
 		ArrayList<String> linesInFilePart = null;
 		while(xFilePart.exists()){
 			//read all lines into array
+			BufferedReader br = new BufferedReader(new FileReader(xFilePart));
 			linesInFilePart = new ArrayList<String>();
 			String line;
 			while((line = br.readLine()) != null){
@@ -348,7 +348,6 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			
 			filePartNumber++;
 			xFilePart = new File(workingDir + outputXFile + "_" + filePartNumber);
-			br = new BufferedReader(new FileReader(xFilePart));
 		}
 		
 		//print footer
