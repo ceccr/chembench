@@ -40,7 +40,7 @@ public class ReadDescriptorsFileWorkflow{
 			}
 			if(temp.matches("[\\p{Graph}]+")){ 
 
-				if(temp.matches("\\d+") && readingDescriptorNames){
+				if(temp.matches("[0-9]+") && readingDescriptorNames){
 					//The first occurrence of a number indicates we're no
 					//longer reading descriptor names.
 					//"1" will indicate the first molecule, no matter what the SDF
