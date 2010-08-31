@@ -27,6 +27,7 @@ import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.ConvertDescriptorsToXAndScaleWorkflow;
 import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
 import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
 import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
@@ -291,41 +292,13 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			//	3. copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.
 			FileAndDirOperations.copyDirContents(path, predictionDir, false);
-			ArrayList<String> descriptorNames = new ArrayList<String>();
-			ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-			ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(path + sdfile);
 			
 			step = Constants.PROCDESCRIPTORS;
 			
-			if(selectedPredictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)){
-				Utility.writeToDebug("ExecutePredictor: Processing MolconnZ Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(predictionDir + sdfile + ".molconnz", descriptorNames, descriptorValueMatrix);
-			}
-			else if(selectedPredictor.getDescriptorGeneration().equals(Constants.DRAGONH)){
-				Utility.writeToDebug("ExecutePredictor: Processing DragonH Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readDragonDescriptors(predictionDir + sdfile + ".dragonH", descriptorNames, descriptorValueMatrix);
-			}
-			else if(selectedPredictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)){
-				Utility.writeToDebug("ExecutePredictor: Processing DragonNoH Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readDragonDescriptors(predictionDir + sdfile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
-			}
-			else if(selectedPredictor.getDescriptorGeneration().equals(Constants.MOE2D)){
-				Utility.writeToDebug("ExecutePredictor: Processing Moe2D Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMoe2DDescriptors(predictionDir + sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
-			}
-			else if(selectedPredictor.getDescriptorGeneration().equals(Constants.MACCS)){
-				Utility.writeToDebug("ExecutePredictor: Processing MACCS Descriptors", userName, jobName);
-				ReadDescriptorsFileWorkflow.readMaccsDescriptors(predictionDir + sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
-			}
-			
-			String descriptorString = Utility.StringArrayListToString(descriptorNames);
-			WriteDescriptorsFileWorkflow.writePredictionXFile(
-					chemicalNames, 
-					descriptorValueMatrix, 
-					descriptorString, 
-					predictionDir + sdfile + ".renorm.x", 
-					predictionDir + "train_0.x", 
-					selectedPredictor.getScalingType());
+			ConvertDescriptorsToXAndScaleWorkflow.convertDescriptorsToXAndScale(predictionDir,
+					sdfile, "train_0.x", sdfile + ".renorm.x", 
+					selectedPredictor.getDescriptorGeneration(), selectedPredictor.getScalingType(), 
+					predictionDataset.getNumCompound());
 			
 			//  done with 3. (copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.)
 			
