@@ -55,12 +55,12 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		//run scaling and conversion process on each chunk, producing several X files
 		int filePartNumber = 0;
 		File descriptorsFilePart = new File(workingDir + descriptorsFile + "_" + filePartNumber);
+		ArrayList<String> allChemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
 		while(descriptorsFilePart.exists()){
 
 			ArrayList<String> descriptorNames = new ArrayList<String>();
 			ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 			
-			ArrayList<String> allChemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
 			ArrayList<String> chemicalNames = new ArrayList<String>();
 			
 			for(int i = filePartNumber * compoundsPerChunk; 
@@ -107,7 +107,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		}
 		
 		//reassemble X file parts into one big X file
-		mergeXFileParts(workingDir, outputXFile, scalingType);
+		mergeXFileParts(workingDir, outputXFile, scalingType, allChemicalNames.size());
 	}	
 	
 	public static void convertDescriptorsToXAndScale(String workingDir, 
@@ -315,12 +315,13 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		}
 	}
 	
-	private static void mergeXFileParts(String workingDir, String outputXFile, String scalingType) throws Exception{
+	private static void mergeXFileParts(String workingDir, String outputXFile, String scalingType, int numCompounds) throws Exception{
 		int filePartNumber = 0;
 		File xFilePart = new File(workingDir + outputXFile + "_" + filePartNumber);
 		
 		BufferedWriter xFileOut = new BufferedWriter(new FileWriter(workingDir + outputXFile));
 		ArrayList<String> linesInFilePart = null;
+		int compoundIndex = 1;
 		while(xFilePart.exists()){
 			//read all lines into array
 			BufferedReader br = new BufferedReader(new FileReader(xFilePart));
@@ -333,7 +334,10 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			
 			//if this is the first filepart, print header
 			if(filePartNumber == 0){
-				xFileOut.write(linesInFilePart.get(0));
+				//need correct number of compounds for entire dataset
+				String firstLine = linesInFilePart.get(0);
+				String[] firstLineSplit = firstLine.split("\\s+");
+				xFileOut.write(numCompounds + " " + firstLineSplit[1] + "\n");
 				xFileOut.write(linesInFilePart.get(1));
 			}
 			
@@ -343,7 +347,12 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 				numFooterLines = 0;
 			}
 			for(int i = 2; i < linesInFilePart.size() - numFooterLines; i++){
-				xFileOut.write(linesInFilePart.get(i));
+				//need to fix compound index on each line (has to go 1, 2, 3...)
+				String currentLine = linesInFilePart.get(i);
+				currentLine = currentLine.substring(currentLine.indexOf(" "));
+				currentLine = compoundIndex + currentLine;
+				xFileOut.write(currentLine);
+				compoundIndex++;
 			}	
 			
 			filePartNumber++;
