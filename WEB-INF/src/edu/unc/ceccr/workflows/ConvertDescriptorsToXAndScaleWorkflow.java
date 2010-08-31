@@ -178,11 +178,9 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		while (src.hasNext()) {
 			temp = src.next();
 			if(temp.matches("[\\p{Graph}]+")){ 
-				if(temp.equals("1") && readingDescriptorNames){
-					//The first occurrence of the number "1" indicates we're no
+				if(temp.equals("\\d+") && readingDescriptorNames){
+					//The first occurrence of a number indicates we're no
 					//longer reading descriptor names.
-					//"1" will indicate the first molecule, no matter what the SDF
-					//had as molecule numbers.
 					readingDescriptorNames = false;
 				}
 				
