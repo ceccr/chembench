@@ -71,7 +71,7 @@ public class QsarPredictionTask extends WorkflowTask {
 					Session s = HibernateUtil.getSession();
 					allPredsTotalModels = 0;
 					String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
-					ArrayList<String> selectedPredictorIds = (ArrayList<String>) Arrays.asList(selectedPredictorIdArray);
+					ArrayList<String> selectedPredictorIds = new ArrayList<String>(Arrays.asList(selectedPredictorIdArray));
 					Collections.sort(selectedPredictorIds);
 					for(int i = 0; i < selectedPredictorIds.size(); i++){
 						Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIds.get(i)), s);

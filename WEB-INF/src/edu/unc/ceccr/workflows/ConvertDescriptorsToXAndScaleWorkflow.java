@@ -97,7 +97,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 					chemicalNames, 
 					descriptorValueMatrix, 
 					descriptorString, 
-					workingDir + outputXFile, 
+					workingDir + outputXFile + "_" + filePartNumber, 
 					workingDir + predictorXFile, 
 					scalingType);
 			
@@ -107,6 +107,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		}
 		
 		//reassemble X file parts into one big X file
+		mergeXFileParts(workingDir, outputXFile, scalingType);
 	}	
 	
 	public static void convertDescriptorsToXAndScale(String workingDir, 
