@@ -328,8 +328,10 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			linesInFilePart = new ArrayList<String>();
 			String line;
 			while((line = br.readLine()) != null){
-				line += "\n";
-				linesInFilePart.add(line);
+				if(!line.trim().isEmpty()){
+					line += "\n";
+					linesInFilePart.add(line);
+				}
 			}
 			
 			//if this is the first filepart, print header
