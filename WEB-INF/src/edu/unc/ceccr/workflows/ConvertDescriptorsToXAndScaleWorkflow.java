@@ -336,14 +336,14 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			
 			//if this is the first filepart, print header
 			if(filePartNumber == 0){
-				//need correct number of compounds for entire dataset
+				//header needs the correct number of compounds for entire dataset
 				String firstLine = linesInFilePart.get(0);
 				String[] firstLineSplit = firstLine.split("\\s+");
 				xFileOut.write(numCompounds + " " + firstLineSplit[1] + "\n");
 				xFileOut.write(linesInFilePart.get(1));
 			}
 			
-			//print all but the header and footer
+			//for each filepart, print all but the header and footer
 			int numFooterLines = 2;
 			if(scalingType.equals(Constants.NOSCALING)){
 				numFooterLines = 0;
