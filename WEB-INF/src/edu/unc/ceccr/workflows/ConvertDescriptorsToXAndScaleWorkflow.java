@@ -366,6 +366,6 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			xFileOut.write(linesInFilePart.get(linesInFilePart.size() - 2));
 			xFileOut.write(linesInFilePart.get(linesInFilePart.size() - 1));
 		}
-		
+		xFileOut.close();
 	}
 }
