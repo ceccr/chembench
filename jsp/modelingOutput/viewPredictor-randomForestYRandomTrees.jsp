@@ -3,8 +3,6 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 	
-<script language="JavaScript" src="javascript/sortableTable.js"></script>
-
 <!-- Trees Page -->	
 	<br />
 		<p class="StandardTextDarkGray"><b><u>Random Forests</u></b></p>

@@ -190,7 +190,7 @@ public class DatasetFileOperations {
 			rewriteSdf(path, sdfFileName, sdf_compounds);
 			sdf_compounds = getSDFCompoundNames(sdfFile.getAbsolutePath());
 			
-			if(sdfIsValid(sdfFile).equals(""))
+			if(! sdfIsValid(sdfFile).equals(""))
 			{
 				msgs.add(sdfIsValid(sdfFile));
 			}

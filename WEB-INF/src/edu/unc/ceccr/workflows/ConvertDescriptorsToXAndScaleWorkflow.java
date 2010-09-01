@@ -282,6 +282,8 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 				outFilePart.write(header);
 			}
 		}
+		outFilePart.write("\n");
+		outFilePart.close();
 	}
 	
 	private static void splitMoe2dFile(String workingDir, String descriptorsFile) throws Exception{
@@ -313,6 +315,8 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 				outFilePart.write(header);
 			}
 		}
+		outFilePart.write("\n");
+		outFilePart.close();
 	}
 	
 	private static void mergeXFileParts(String workingDir, String outputXFile, String scalingType, int numCompounds) throws Exception{
