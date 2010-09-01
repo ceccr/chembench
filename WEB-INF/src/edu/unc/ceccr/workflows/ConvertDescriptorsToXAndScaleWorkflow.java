@@ -256,7 +256,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 	private static void splitMaccsFile(String workingDir, String descriptorsFile) throws Exception{
 		File file = new File(workingDir + descriptorsFile);
 		if(!file.exists() || file.length() == 0){
-			throw new Exception("Could not read MOE2D descriptors.\n");
+			throw new Exception("Could not read Maccs descriptors.\n");
 		}
 		FileReader fin = new FileReader(file);
 		BufferedReader br = new BufferedReader(fin);
@@ -282,7 +282,6 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 				outFilePart.write(header);
 			}
 		}
-		outFilePart.write("\n");
 		outFilePart.close();
 	}
 	
