@@ -249,7 +249,6 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		}
 
 		//close final file
-		outFilePart.write("\n");
 		outFilePart.close();		
 	}
 
