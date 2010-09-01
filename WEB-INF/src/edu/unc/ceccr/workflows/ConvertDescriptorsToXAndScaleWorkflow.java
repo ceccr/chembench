@@ -15,13 +15,13 @@ import java.util.Scanner;
 
 
 public class ConvertDescriptorsToXAndScaleWorkflow{
-	private static int compoundsPerChunk = 100;
+	private static int compoundsPerChunk = 1000;
 	/*
 	For large prediction sets (e.g. > 10000 compounds), the descriptors will not
 	be able to fit in Tomcat's memory, and this will cause errors.
 
-	So instead of reading in the descriptors to a Java object (ReadDescriptorsFileWorkflow and then
-	writing the Java object out as a .x (WriteDescriptorsFileWorkflow, we need to do a straight file 
+	So instead of reading in the descriptors to a Java object (ReadDescriptorsFileWorkflow) and then
+	writing the Java object out as a .x (WriteDescriptorsFileWorkflow), we need to do a straight file 
 	conversion in this case.
 	*/
 

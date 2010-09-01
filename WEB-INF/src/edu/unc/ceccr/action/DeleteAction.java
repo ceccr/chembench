@@ -34,6 +34,7 @@ import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Prediction;
+import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
@@ -43,11 +44,12 @@ import edu.unc.ceccr.utilities.Utility;
 
 
 public class DeleteAction extends ActionSupport{
+	
+	public ArrayList<String> errorStrings = new ArrayList<String>();
 
-	private String checkDatasetDependencies(DataSet ds)throws ClassNotFoundException, SQLException{
+	private void checkDatasetDependencies(DataSet ds)throws ClassNotFoundException, SQLException{
 		//make sure there are no predictors, predictions, or jobs that depend on this dataset
-		String dependsMsg = "";
-
+		
 		Session session = HibernateUtil.getSession();
 		String userName = ds.getUserName();
 		ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName, true, false, session);
@@ -56,14 +58,14 @@ public class DeleteAction extends ActionSupport{
 		//check each predictor
 		for(int i = 0; i < userPredictors.size();i++){
 			if(userPredictors.get(i).getDatasetId() == ds.getFileId()){
-				dependsMsg += "The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset.\n";
+				errorStrings.add("The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset. Please delete it first.\n");
 			}
 		}
 		
 		//check each prediction
 		for(int i = 0; i < userPredictions.size();i++){
 			if(userPredictions.get(i).getDatasetId() == ds.getFileId()){
-				dependsMsg += "The prediction '" + userPredictions.get(i).getJobName() + "' depends on this dataset.\n";
+				errorStrings.add("The prediction '" + userPredictions.get(i).getJobName() + "' depends on this dataset. Please delete it first.\n");
 			}
 		}
 		
@@ -72,18 +74,16 @@ public class DeleteAction extends ActionSupport{
 		session.close();
 		
 		//todo: Actually check the jobs! Needs some revision of how jobs work first.
-		
-		return dependsMsg;
+
 	}
 
-	private String checkPredictorDependencies(Predictor p)throws ClassNotFoundException, SQLException{
+	private void checkPredictorDependencies(Predictor p)throws ClassNotFoundException, SQLException{
 		//make sure there are no predictions or prediction jobs that depend on this predictor
 		
 		String userName = p.getUserName();
 		Session session = HibernateUtil.getSession();
 		ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false, session);
 		session.close();
-		String dependsMsg = "";
 		
 		//check each prediction
 		for(int i = 0; i < userPredictions.size();i++){
@@ -91,14 +91,13 @@ public class DeleteAction extends ActionSupport{
 			String[] predictorIds = prediction.getPredictorIds().split("\\s+");
 			for(int j = 0; j < predictorIds.length; j++){
 				if(Long.parseLong(predictorIds[j]) == p.getPredictorId()){
-					dependsMsg += "The prediction '" + userPredictions.get(i).getJobName() + "' depends on this predictor.\n";
+					errorStrings.add("The prediction '" + userPredictions.get(i).getJobName() + "' depends on this predictor. Please delete it first.\n");
 				}
 			}
 		}
 		
 		//todo: check running jobs (once jobs have been fixed up)
 		
-		return dependsMsg;
 	}
 	
 	private boolean checkPermissions(String objectUser){
@@ -137,7 +136,7 @@ public class DeleteAction extends ActionSupport{
 		Utility.writeToStrutsDebug("Deleting dataset with id: " + datasetId);
 
 		if(datasetId == null){
-			Utility.writeToStrutsDebug("No dataset ID supplied.");
+			errorStrings.add("No dataset ID supplied.");
 			return ERROR;
 		}
 
@@ -145,18 +144,18 @@ public class DeleteAction extends ActionSupport{
 		ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId),session);
 		
 		if(ds == null){
-			Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
+			errorStrings.add("Invalid dataset ID supplied.");
+			return ERROR;
 		}
 		
 		if(! checkPermissions(ds.getUserName())){
-			Utility.writeToStrutsDebug("User does not own this dataset - cannot delete.");
+			errorStrings.add("Error: You do not have the permissions needed to delete this dataset.");
 			return ERROR;
 		}
 		
 		//make sure nothing else depends on this dataset existing
-		String depends = checkDatasetDependencies(ds);
-		if(! depends.equals("")){
-			Utility.writeToStrutsDebug(depends);
+		checkDatasetDependencies(ds);
+		if(! errorStrings.isEmpty()){
 			return ERROR;
 		}
 
@@ -165,7 +164,6 @@ public class DeleteAction extends ActionSupport{
 		if((new File(dir)).exists()){
 			if(! FileAndDirOperations.deleteDir(new File(dir))){
 				Utility.writeToStrutsDebug("error deleting dir: " + dir);
-				return ERROR;
 			}
 		}
 		
@@ -207,18 +205,18 @@ public class DeleteAction extends ActionSupport{
 		p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
 		
 		if(p == null){
-			Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
+			errorStrings.add("Invalid predictor ID supplied.");
+			return ERROR;
 		}
 		
 		if(! checkPermissions(p.getUserName())){
-			Utility.writeToStrutsDebug("User does not own this predictor - cannot delete.");
+			errorStrings.add("You do not have the permissions needed to delete this predictor.");
 			return ERROR;
 		}
 		
 		//make sure nothing else depends on this predictor existing
-		String depends = checkPredictorDependencies(p);
-		if(! depends.equals("")){
-			Utility.writeToStrutsDebug(depends);
+		checkPredictorDependencies(p);
+		if(! errorStrings.isEmpty()){
 			return ERROR;
 		}
 
@@ -226,7 +224,6 @@ public class DeleteAction extends ActionSupport{
 		String dir = Constants.CECCR_USER_BASE_PATH+p.getUserName()+"/PREDICTORS/"+p.getName();
 		if(! FileAndDirOperations.deleteDir(new File(dir))){
 			Utility.writeToStrutsDebug("error deleting dir: " + dir);
-			return ERROR;
 		}
 		
 		//delete the database entry for the dataset
@@ -244,7 +241,6 @@ public class DeleteAction extends ActionSupport{
 			session.close();
 		}
 		
-		
 		return SUCCESS;
 	}
 
@@ -259,18 +255,19 @@ public class DeleteAction extends ActionSupport{
 		Utility.writeToStrutsDebug("Deleting prediction with id: " + predictionId);
 
 		if(predictionId == null){
-			Utility.writeToStrutsDebug("No prediction ID supplied.");
+			errorStrings.add("No prediction ID supplied.");
 			return ERROR;
 		}
 
 		Session session = HibernateUtil.getSession();
 		p = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
 		if(p == null){
-			Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
+			errorStrings.add("Invalid prediction ID.");
+			return ERROR;
 		}
 		
 		if(! checkPermissions(p.getUserName())){
-			Utility.writeToStrutsDebug("User does not own this prediction - cannot delete.");
+			errorStrings.add("You do not have the permissions needed to delete this prediction.");
 			return ERROR;
 		}
 		
@@ -278,10 +275,31 @@ public class DeleteAction extends ActionSupport{
 		String dir = Constants.CECCR_USER_BASE_PATH+p.getUserName()+"/PREDICTIONS/"+p.getJobName();
 		if(! FileAndDirOperations.deleteDir(new File(dir))){
 			Utility.writeToStrutsDebug("error deleting dir: " + dir);
-			return ERROR;
 		}
 		
-		//delete the database entry for the dataset
+		//delete the prediction values associated with the prediction
+		ArrayList<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(p.getPredictionId(), session);
+		
+		if(pvs != null){
+			for(PredictionValue pv : pvs){
+				Transaction tx = null;
+				try{
+					tx = session.beginTransaction();
+				    session.delete(pv);
+					tx.commit();
+				}
+				catch (RuntimeException e) {
+					if (tx != null)
+						tx.rollback();
+					Utility.writeToDebug(e);
+				}
+				finally{
+					session.close();
+				}
+			}
+		}
+		
+		//delete the database entry for the prediction
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
@@ -320,6 +338,13 @@ public class DeleteAction extends ActionSupport{
 		}
 		return SUCCESS;
 		
+	}
+
+	public ArrayList<String> getErrorStrings() {
+		return errorStrings;
+	}
+	public void setErrorStrings(ArrayList<String> errorStrings) {
+		this.errorStrings = errorStrings;
 	}
 	
 }
