@@ -216,7 +216,7 @@ public class SmilesPredictionWorkflow{
 	    return prediction;
 	}
 	
-	public static void smilesToSDF(String smiles, String smilesDir, boolean isRandomForest) throws Exception{
+	public static void smilesToSDF(String smiles, String smilesDir) throws Exception{
 		//takes in a SMILES string and produces an SDF file from it. 
 		//Returns the file path as a string.
 		
@@ -230,11 +230,6 @@ public class SmilesPredictionWorkflow{
 			FileWriter fstream = new FileWriter(smilesDir + "tmp.smiles");
 	        BufferedWriter out = new BufferedWriter(fstream);
 		    out.write(smiles + " 1");
-		    if(isRandomForest){
-		    	//random forest prediction can't do just one compound
-		    	//it only works on two or more. So make it two compounds.
-		    	out.write(smiles + " 1");
-		    }
 		    out.close();
 		
 		    String sdfFileName = "smiles.sdf";
