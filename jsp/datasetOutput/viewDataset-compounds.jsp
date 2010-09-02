@@ -20,6 +20,8 @@
 			<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentPageNumber=<s:property/>&orderBy=<s:property value='orderBy' />&sortDirection=<s:property value='sortDirection' />")><s:property/></a><s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"></u> </s:if> 
 			</s:iterator>
 			</p>
+		</td></tr>
+		<tr><td>
 			
 			<table>
 				<tr>

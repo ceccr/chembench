@@ -16,6 +16,8 @@
 			<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.predictionId' />&currentPageNumber=<s:property/>&orderBy=<s:property value='orderBy' />&sortDirection=<s:property value='sortDirection' />")><s:property/></a><s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"></u> </s:if> 
 			</s:iterator>
 			</p>
+		</td></tr>
+		<tr><td>
 			
 			<table>
 				<tr>
