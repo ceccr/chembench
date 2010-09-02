@@ -66,7 +66,6 @@ public class SmilesPredictionWorkflow{
 		String descriptorString = Utility.StringArrayListToString(descriptorNames);
 		WriteDescriptorsFileWorkflow.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + ".renorm.x", workingDir + "train_0.x", predictor.getScalingType());
 
-
 		//read prediction output
 		ArrayList<String> predValueArray = new ArrayList<String>();
 		if(predictor.getModelMethod().equals(Constants.KNNGA) || 
@@ -98,7 +97,9 @@ public class SmilesPredictionWorkflow{
 			Utility.writeProgramLogfile(preddir, "runSmilesPrediction", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			
-			String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_smiles.sdf.renorm.preds";
+
+	       
+	        String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_smiles.sdf.renorm.preds";
 			Utility.writeToDebug("Reading file: " + workingDir + outputFile);
 			BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 			String inputString;
@@ -215,7 +216,7 @@ public class SmilesPredictionWorkflow{
 	    return prediction;
 	}
 	
-	public static void smilesToSDF(String smiles, String smilesDir) throws Exception{
+	public static void smilesToSDF(String smiles, String smilesDir, boolean isRandomForest) throws Exception{
 		//takes in a SMILES string and produces an SDF file from it. 
 		//Returns the file path as a string.
 		
@@ -229,6 +230,11 @@ public class SmilesPredictionWorkflow{
 			FileWriter fstream = new FileWriter(smilesDir + "tmp.smiles");
 	        BufferedWriter out = new BufferedWriter(fstream);
 		    out.write(smiles + " 1");
+		    if(isRandomForest){
+		    	//random forest prediction can't do just one compound
+		    	//it only works on two or more. So make it two compounds.
+		    	out.write(smiles + " 1");
+		    }
 		    out.close();
 		
 		    String sdfFileName = "smiles.sdf";

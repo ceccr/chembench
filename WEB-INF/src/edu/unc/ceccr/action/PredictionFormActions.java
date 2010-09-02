@@ -115,7 +115,11 @@ public class PredictionFormActions extends ActionSupport{
 			FileAndDirOperations.deleteDirContents(smilesDir);
 			
 			//generate an SDF from this SMILES string
-			SmilesPredictionWorkflow.smilesToSDF(smiles, smilesDir);
+			boolean isRandomForest = false;
+			if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+				isRandomForest = true;
+			}
+			SmilesPredictionWorkflow.smilesToSDF(smiles, smilesDir, isRandomForest);
 			
 			//create descriptors for the SDF, normalize them, and make a prediction
 			String[] predValues = SmilesPredictionWorkflow.PredictSmilesSDF(smilesDir, user.getUserName(), predictor, Float.parseFloat(cutoff));
