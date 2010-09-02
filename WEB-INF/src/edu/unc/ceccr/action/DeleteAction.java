@@ -49,6 +49,7 @@ public class DeleteAction extends ActionSupport{
 
 	private void checkDatasetDependencies(DataSet ds)throws ClassNotFoundException, SQLException{
 		//make sure there are no predictors, predictions, or jobs that depend on this dataset
+		Utility.writeToDebug("checking dataset dependencies");
 		
 		Session session = HibernateUtil.getSession();
 		String userName = ds.getUserName();
@@ -57,6 +58,7 @@ public class DeleteAction extends ActionSupport{
 		
 		//check each predictor
 		for(int i = 0; i < userPredictors.size();i++){
+			Utility.writeToDebug("predictor id: " + userPredictors.get(i).getDatasetId() + " dataset id: " + ds.getFileId());
 			if(userPredictors.get(i).getDatasetId() == ds.getFileId()){
 				errorStrings.add("The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset. Please delete it first.\n");
 			}
@@ -64,7 +66,9 @@ public class DeleteAction extends ActionSupport{
 		
 		//check each prediction
 		for(int i = 0; i < userPredictions.size();i++){
+			Utility.writeToDebug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getFileId());
 			if(userPredictions.get(i).getDatasetId() == ds.getFileId()){
+				Utility.writeToDebug("");
 				errorStrings.add("The prediction '" + userPredictions.get(i).getJobName() + "' depends on this dataset. Please delete it first.\n");
 			}
 		}
@@ -73,7 +77,7 @@ public class DeleteAction extends ActionSupport{
 		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true, session);
 		session.close();
 		
-		//todo: Actually check the jobs! Needs some revision of how jobs work first.
+		//todo: Actually check the jobs! 
 
 	}
 
@@ -179,10 +183,8 @@ public class DeleteAction extends ActionSupport{
 			Utility.writeToDebug(e);
 			return ERROR;
 		}
-		finally{
-			session.close();
-		}
-		
+
+		session.close();
 		return SUCCESS;
 	}
 	
@@ -237,9 +239,7 @@ public class DeleteAction extends ActionSupport{
 				tx.rollback();
 			Utility.writeToDebug(e);
 		}
-		finally{
-			session.close();
-		}
+		session.close();
 		
 		return SUCCESS;
 	}
@@ -293,9 +293,6 @@ public class DeleteAction extends ActionSupport{
 						tx.rollback();
 					Utility.writeToDebug(e);
 				}
-				finally{
-					session.close();
-				}
 			}
 		}
 		
@@ -310,9 +307,8 @@ public class DeleteAction extends ActionSupport{
 				tx.rollback();
 			Utility.writeToDebug(e);
 		}
-		finally{
-			session.close();
-		}
+		
+		session.close();
 		
 		return SUCCESS;
 	}
@@ -326,8 +322,6 @@ public class DeleteAction extends ActionSupport{
 		
 		taskId = ((String[]) context.getParameters().get("id"))[0];
 		Utility.writeToStrutsDebug("Deleting job with id: " + taskId);
-
-		Session session = HibernateUtil.getSession();
 		
 		try{
 			CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
