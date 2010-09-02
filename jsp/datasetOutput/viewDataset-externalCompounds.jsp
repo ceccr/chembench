@@ -4,7 +4,7 @@
 <%@ page language="java" import="java.util.*" %>
 
 <!-- External Compounds -->	
-	<div id="myDiv1">
+	
 		<p class="StandardTextDarkGray"><u><b>Compounds Chosen for External Set</b></u></p>
 		
 	<table width="924" align="center">
@@ -39,5 +39,4 @@
 			</table>
 		</td></tr>
 	</table>
-	</div>
 	<!-- End External Compounds -->

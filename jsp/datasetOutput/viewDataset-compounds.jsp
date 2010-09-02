@@ -8,7 +8,6 @@
 </script>
 
 <!-- Compounds -->	
-	<div id="myDiv">
 	
 		<p class="StandardTextDarkGray"><u><b>All Compounds In Dataset</b></u></p>
 		
@@ -54,5 +53,4 @@
 			</table>
 		</td></tr>
 	</table>
-	</div>
 	<!-- End Compounds -->
