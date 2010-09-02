@@ -20,6 +20,8 @@
 	</s:if>
 	<s:elseif test="dataType=='CATEGORY'">
 		<p class="StandardTextDarkGray"><b><u>Confusion Matrix</u></b>
+		</p><p class="StandardTextDarkGray">Predicted category is based on the consensus 
+		prediction of the compound's activity rounded to the nearest whole number.</p>
 		<table>
 		<tr>
 		<td></td>

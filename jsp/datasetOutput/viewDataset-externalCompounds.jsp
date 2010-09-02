@@ -4,7 +4,7 @@
 <%@ page language="java" import="java.util.*" %>
 
 <!-- External Compounds -->	
-	<br />
+	<div id="myDiv1">
 		<p class="StandardTextDarkGray"><u><b>Compounds Chosen for External Set</b></u></p>
 		
 	<table width="924" align="center">
@@ -13,15 +13,15 @@
 			<table>
 				<tr>
 					<!-- header for left side table -->
-					<td class="TableRowText01">Compound ID<br />
+					<th class="TableRowText01">Compound ID<br />
 						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?datasetId=<s:property value='dataset.fileId' />&orderBy=compoundId&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
 						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?datasetId=<s:property value='dataset.fileId' />&orderBy=compoundId&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
-					</td>
-					<td class="TableRowText01">Structure</td>
-					<td class="TableRowText01">Activity<br />
+					</th>
+					<th class="TableRowText01_unsortable">Structure</th>
+					<th class="TableRowText01">Activity<br />
 						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?datasetId=<s:property value='dataset.fileId' />&orderBy=activityValue&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
 						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?datasetId=<s:property value='dataset.fileId' />&orderBy=activityValue&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
-					</td>
+					</th>
 				</tr>
 				<!-- body for left side table -->
 				<s:iterator value="externalCompounds" status="externalCompoundsStatus">
@@ -39,4 +39,5 @@
 			</table>
 		</td></tr>
 	</table>
+	</div>
 	<!-- End External Compounds -->

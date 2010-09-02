@@ -392,7 +392,6 @@
         	<result>jsp/help/heatmapDemo.jsp</result>
         </action>
         
-        
         <!-- end For Demoing -->
         
     </package>

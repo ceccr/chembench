@@ -149,7 +149,9 @@
 		</tr>
 		<tr>
 			<td colspan="2">
-			<div class="StandardTextDarkGrayParagraph"><i>A subset of the compounds in the dataset will be reserved for external validation of models. 
+			<div class="StandardTextDarkGrayParagraph"><i>A subset of the compounds in the dataset will be 
+			reserved for testing of the models you build. If you already have a test set defined, use the
+			"Choose Compounds" tab to pick those compounds as your external test set.
 			<br />These parameters only apply to modeling sets.</i><br /></div></td>
 		</tr>
 		<tr>
