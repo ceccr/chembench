@@ -59,7 +59,7 @@ public class DeleteAction extends ActionSupport{
 		//check each predictor
 		for(int i = 0; i < userPredictors.size();i++){
 			Utility.writeToDebug("predictor id: " + userPredictors.get(i).getDatasetId() + " dataset id: " + ds.getFileId());
-			if(userPredictors.get(i).getDatasetId().equals(ds.getFileId())){
+			if(userPredictors.get(i).getDatasetId() != null && userPredictors.get(i).getDatasetId().equals(ds.getFileId())){
 				errorStrings.add("The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset. Please delete it first.\n");
 			}
 		}
@@ -67,7 +67,7 @@ public class DeleteAction extends ActionSupport{
 		//check each prediction
 		for(int i = 0; i < userPredictions.size();i++){
 			Utility.writeToDebug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getFileId());
-			if(userPredictions.get(i).getDatasetId().equals(ds.getFileId())){
+			if(userPredictions.get(i).getDatasetId() != null && userPredictions.get(i).getDatasetId().equals(ds.getFileId())){
 				Utility.writeToDebug("");
 				errorStrings.add("The prediction '" + userPredictions.get(i).getJobName() + "' depends on this dataset. Please delete it first.\n");
 			}
