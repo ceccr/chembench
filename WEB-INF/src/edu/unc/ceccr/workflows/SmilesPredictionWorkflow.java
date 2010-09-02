@@ -141,22 +141,20 @@ public class SmilesPredictionWorkflow{
 			Utility.writeProgramLogfile(workingDir, "randomForestPredict", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			
-			
 			//get output 
 			String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
 			Utility.writeToDebug("Reading consensus prediction file: " + workingDir + outputFile);
 			BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 			String inputString;
 
-			in.readLine(); // first line is the header with the model name
+			in.readLine(); // first line is the header with the model names
 			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 			{
 				String[] data = inputString.split("\\s+"); //Note: [0] is the compound name and the following are the predicted values.
 				
-				ArrayList<String> predValues = new ArrayList<String>();
 				for(int i=1; i< data.length; i++)
 				{
-					predValues.add(data[i]);
+					predValueArray.add(data[i]);
 				}
 			}
 			in.close();
