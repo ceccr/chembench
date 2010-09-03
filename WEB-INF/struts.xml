@@ -125,6 +125,10 @@
         <action name="loadManualExternalSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadManualSplit">
         	<result>jsp/dataSet/dataset-manualsplit.jsp</result>
         </action>
+        
+        <action name="loadNFoldExternalSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadNFoldSplit">
+        	<result>jsp/dataSet/dataset-manualsplit.jsp</result>
+        </action>
         <!-- End Dataset Page -->
         
         <!-- Modeling Page -->

@@ -51,6 +51,9 @@ public class DatasetFormActions extends ActionSupport{
 	public String ajaxLoadManualSplit() throws Exception {
 		return SUCCESS;
 	}
+	public String ajaxLoadNFoldSplit() throws Exception {
+		return SUCCESS;
+	}
 
 	public String loadPage() throws Exception {
 
@@ -83,7 +86,6 @@ public class DatasetFormActions extends ActionSupport{
 		
 		userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
 
-		
 		session.close();
 		//log the results
 		if(result.equals(SUCCESS)){

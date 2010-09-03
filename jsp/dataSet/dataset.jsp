@@ -176,6 +176,9 @@
 				<sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading dataset types..." preload="false">
 				</sx:div>
 				
+				<sx:div id="NFOLD" href="/loadNFoldExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading dataset types..." preload="false">
+				</sx:div>
+				
 	    	</sx:tabbedpanel>
 	    	</td></tr></table>
 	    	</td>
