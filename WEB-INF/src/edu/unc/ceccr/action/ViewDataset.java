@@ -127,14 +127,23 @@ public class ViewDataset extends ActionSupport {
 			if(context.getParameters().get("orderBy") != null){
 				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
 			}
+			else{
+				orderBy = "compoundId";
+			}
 			if(context.getParameters().get("currentPageNumber") != null){
 				currentPageNumber = ((String[]) context.getParameters().get("currentPageNumber"))[0]; 	
+			}
+			else{
+				currentPageNumber = "1";
 			}
 			if(context.getParameters().get("datasetId") != null){
 				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
 			}
 			if(context.getParameters().get("sortDirection") != null){
 				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
+			}
+			else{
+				sortDirection = "asc";
 			}
 				
 			//get dataset
