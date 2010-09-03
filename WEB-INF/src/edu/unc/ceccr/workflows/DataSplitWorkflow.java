@@ -6,8 +6,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
@@ -154,16 +157,40 @@ public class DataSplitWorkflow{
 		outActExternalWriter.close();
 	}
 	
-	private class CompoundActivity{
-		String compoundName;
-		Double activity;
-	}
-	public static void SplitModelingExternalNFold(String workingDir, String actFile) throws Exception{
+	public static void SplitModelingExternalNFold(String workingDir, String actFile, int numFolds, String useActivityBinning) throws Exception{
+		class CompoundActivity{
+			String compoundName;
+			Double activity;
+		}
 		//read in the act file
 		ArrayList<CompoundActivity> compoundActivities = new ArrayList<CompoundActivity>();
 		File act = new File(workingDir + actFile);
 		BufferedReader br = new BufferedReader(new FileReader(act));
+		String line;
+		while((line = br.readLine()) != null){
+			String[] parts = line.split("\\s+");
+			CompoundActivity ca = new CompoundActivity();
+			ca.compoundName = parts[0];
+			ca.activity = Double.parseDouble(parts[1]);
+			compoundActivities.add(ca);
+		}
+		if(useActivityBinning.equals(Constants.YES)){
+			Collections.sort(compoundActivities, new Comparator<CompoundActivity>() {
+			    public int compare(CompoundActivity ca1, CompoundActivity ca2) {
+		    		return ca1.activity.compareTo(ca2.activity);
+			    }});
+		}
+		else{
+			Collections.shuffle(compoundActivities);
+		}
+		//go down the sorted list in chunks of size nFolds
 		
+		for(int i = 0; i < compoundActivities.size(); i += numFolds){
+			int j = i;
+			while(j < compoundActivities.size() && j < i + numFolds){
+				j++;
+			}			
+		}
 	}
 
 	public static void SplitTrainTestRandom(String userName,
