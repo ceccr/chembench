@@ -19,7 +19,6 @@
 		<tr><td colspan="2"><table>
 	  <tr>
 	  		<td>
-			<!-- ./datasplit activator_protein_43.sdf.x -M=R -4EXT -S=10 -N=1 -OUT=actbin -A=10 -->
 			<div class="StandardTextDarkGrayParagraph">
 			<b>Use activity binning:</b>
 			</div></td>

@@ -17,9 +17,9 @@
 		<tr><td colspan="2"><table>
 	  
 	  <tr><td colspan="2">
-	  <div class='StandardTextDarkGrayParagraph'><i>An <i>n</i>-fold split will generate <i>n</i> different external 
-	  test sets. When you use the dataset in modeling, <i>n</i> predictors will be created, one for each external test set. 
-	  Each external set will contain 1/<i>n</i> of the total dataset, and the external sets will not overlap.</i></div>
+	  <div class='StandardTextDarkGrayParagraph'><i>An <b>n</b>-fold split will generate <b>n</b> different external 
+	  test sets. When you use the dataset in modeling, <b>n</b> predictors will be created, one for each external test set. 
+	  Each external set will contain 1/<b>n</b> of the total dataset, and the external sets will not overlap.</i></div>
 	  </td></tr>
 	 	<tr>
 	  		<td>

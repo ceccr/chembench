@@ -5,8 +5,10 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -150,6 +152,18 @@ public class DataSplitWorkflow{
 		}
 		outActModelingWriter.close();
 		outActExternalWriter.close();
+	}
+	
+	private class CompoundActivity{
+		String compoundName;
+		Double activity;
+	}
+	public static void SplitModelingExternalNFold(String workingDir, String actFile) throws Exception{
+		//read in the act file
+		ArrayList<CompoundActivity> compoundActivities = new ArrayList<CompoundActivity>();
+		File act = new File(workingDir + actFile);
+		BufferedReader br = new BufferedReader(new FileReader(act));
+		
 	}
 
 	public static void SplitTrainTestRandom(String userName,
