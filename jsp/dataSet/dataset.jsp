@@ -170,13 +170,13 @@
 			<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
 			<sx:tabbedpanel id="splitTypeTabbedPanel" afterSelectTabNotifyTopics="/splitTypeSelect">
     	
-		    	<sx:div id="RANDOM" href="/loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading dataset types...">
+		    	<sx:div id="RANDOM" href="/loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading split type...">
 				</sx:div>
 	    	
-				<sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading dataset types..." preload="false">
+				<sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading split type..." preload="false">
 				</sx:div>
 				
-				<sx:div id="NFOLD" href="/loadNFoldExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading dataset types..." preload="false">
+				<sx:div id="NFOLD" href="/loadNFoldExternalSection" label="n-Fold" theme="ajax" loadingText="Loading split type..." preload="false">
 				</sx:div>
 				
 	    	</sx:tabbedpanel>

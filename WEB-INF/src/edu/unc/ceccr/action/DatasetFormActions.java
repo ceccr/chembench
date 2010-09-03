@@ -121,6 +121,13 @@ public class DatasetFormActions extends ActionSupport{
 		
 		ArrayList<String> msgs = new ArrayList<String>();
 		Utility.writeToDebug("type: " + datasetType);
+		
+		if(externalCompoundsCountOrPercent.equalsIgnoreCase("percent")){
+			double tmp = Double.parseDouble(numExternalCompounds);
+			tmp /= 100;
+			numExternalCompounds = "" + tmp;
+		}
+		
 		if(datasetType.equalsIgnoreCase(Constants.MODELING)){
 			
 			if(sdfFileModeling == null){
@@ -401,13 +408,15 @@ public class DatasetFormActions extends ActionSupport{
 	private String dataSetDescription = "";
 	private String externalCompoundList = "";
 	private String useActivityBinning = "true";
-	private String numExternalCompounds = "5";
+	private String numExternalCompounds = "20";
+	private String externalCompoundsCountOrPercent = "percent";
 	private String standardizeModeling = "true";
 	private String standardizePrediction = "true";
 	private String paperReference = "";
 	private String descriptorTypeModDesc = "";
 	private String descriptorTypePredDesc = "";
-
+	private String useActivityBinningNFold = "true";
+	private String numFolds = "5";
 
 	public ArrayList<String> getErrorStrings() {
 		return errorStrings;
@@ -738,6 +747,28 @@ public class DatasetFormActions extends ActionSupport{
 	}
 	public void setUserPredictorList(List<Predictor> userPredictorList) {
 		this.userPredictorList = userPredictorList;
+	}
+	
+	public String getExternalCompoundsCountOrPercent() {
+		return externalCompoundsCountOrPercent;
+	}
+	public void setExternalCompoundsCountOrPercent(
+			String externalCompoundsCountOrPercent) {
+		this.externalCompoundsCountOrPercent = externalCompoundsCountOrPercent;
+	}
+	
+	public String getUseActivityBinningNFold() {
+		return useActivityBinningNFold;
+	}
+	public void setUseActivityBinningNFold(String useActivityBinningNFold) {
+		this.useActivityBinningNFold = useActivityBinningNFold;
+	}
+	
+	public String getNumFolds() {
+		return numFolds;
+	}
+	public void setNumFolds(String numFolds) {
+		this.numFolds = numFolds;
 	}
 		
 }

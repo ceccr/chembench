@@ -33,7 +33,7 @@
 			<div class="StandardTextDarkGrayParagraph">
 			<b>Use activity binning:</b>
 			</div></td>
-		    <td><s:checkbox name="useActivityBinningNFold" id="useActivityBinning" theme="simple" /></td>
+		    <td><s:checkbox name="useActivityBinningNFold" id="useActivityBinningNFold" theme="simple" /></td>
 		</tr>	
 		</table>
 		</td></tr>
