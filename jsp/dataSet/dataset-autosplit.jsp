@@ -27,9 +27,9 @@
 		</tr>	
 		<tr>
 			<td>
-			<div class="StandardTextDarkGrayParagraph"><b>Number of Compounds in the External Set:</b></div>
+			<div class="StandardTextDarkGrayParagraph"><b>External Set Size:</b></div>
 			</td>
-			<td align="left" valign="top"><s:textfield name="numExternalCompounds" id="numExternalCompounds" size="5" theme="simple" /> <s:select name="externalCompoundsCountOrPercent" list="#{'Percent':'Percent','Compounds':'Compounds'}" /></td>
+			<td align="left" valign="top"><s:textfield name="numExternalCompounds" id="numExternalCompounds" size="5" theme="simple" /> <s:select name="externalCompoundsCountOrPercent" list="#{'Percent':'Percent','Compounds':'Compounds'}" theme="simple" /></td>
 		</tr>
 		</table>
 		</td></tr>

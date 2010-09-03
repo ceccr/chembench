@@ -32,7 +32,13 @@ public class DataSplitWorkflow{
 		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + actFileBase + ".a");
 		
 		//split dataset into [modeling set | external test set]
-		String execstr1 = "datasplit "+ xFile + " -4EXT" + " -N=1 -M=R -OUT=mdlext.list -S=" + numCompoundsExternalSet;
+		String execstr1;
+		if(Double.parseDouble(numCompoundsExternalSet) < 1){ 
+			execstr1 = "datasplit "+ xFile + " -4EXT" + " -N=1 -M=R -OUT=mdlext.list -F=" + numCompoundsExternalSet;
+		}
+		else{
+			execstr1 = "datasplit "+ xFile + " -4EXT" + " -N=1 -M=R -OUT=mdlext.list -S=" + numCompoundsExternalSet;
+		}
 		if(useActivityBinning.equalsIgnoreCase("true")){
 			execstr1 += " -A=" + numCompoundsExternalSet;
 		}
