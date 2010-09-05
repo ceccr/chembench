@@ -261,6 +261,7 @@
   edu.unc.ceccr.utilities.ActiveUser
   </listener-class>
   </listener>
+  
 <!-- begin added for struts2 -->
 
     <display-name>Struts Blank</display-name>
