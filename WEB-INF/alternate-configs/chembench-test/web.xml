@@ -282,4 +282,28 @@
 
 <!-- end added for struts2 -->
 
+<!-- Enables SSL -->
+	<!-- <security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Chembench non-Login Sections</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>NONE</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+    
+    <security-constraint>
+      <web-resource-collection>
+        <web-resource-name>Chembench Home</web-resource-name>
+        <url-pattern>/home.do</url-pattern>
+      </web-resource-collection>
+      Require use of port 8443 
+      <user-data-constraint>
+        <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+      </user-data-constraint>
+    </security-constraint>-->
+
+<!-- end Enables SSL -->
+
 </web-app>
