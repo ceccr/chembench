@@ -126,9 +126,6 @@
         	<result>jsp/dataSet/dataset-manualsplit.jsp</result>
         </action>
         
-        <action name="loadNFoldExternalSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadNFoldSplit">
-        	<result>jsp/dataSet/dataset-nFoldSplit.jsp</result>
-        </action>
         <!-- End Dataset Page -->
         
         <!-- Modeling Page -->
@@ -337,6 +334,24 @@
         <!-- End Servlet forwards -->
         
         <!-- Delete Actions -->
+        <action name="deleteDataset" class="edu.unc.ceccr.action.DeleteAction" method="deleteDataset">
+        	<result name="success" type="redirect">jobs</result>
+            <result name="error">jsp/main/errors2.jsp</result>
+        </action>
+        
+        <action name="deletePredictor" class="edu.unc.ceccr.action.DeleteAction" method="deletePredictor">
+        <result name="success" type="redirect">jobs</result>
+            <result name="error">jsp/main/errors2.jsp</result>
+        </action>
+        
+        <action name="deletePrediction" class="edu.unc.ceccr.action.DeleteAction" method="deletePrediction">
+        <result name="success" type="redirect">jobs</result>
+            <result name="error">jsp/main/errors2.jsp</result>
+        </action>
+        
+        <action name="deleteJob" class="edu.unc.ceccr.action.DeleteAction" method="deleteJob">
+        	<result type="redirect">jobs</result>
+        </action>
         <!-- End Delete Actions -->
         
         <!-- Help forwards -->
