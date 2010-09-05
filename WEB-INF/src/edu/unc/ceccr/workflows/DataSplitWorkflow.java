@@ -185,9 +185,15 @@ public class DataSplitWorkflow{
 		}
 		//go down the sorted list in chunks of size nFolds
 		
+		ArrayList<ArrayList<String>> externalFolds = new ArrayList<ArrayList<String>>();
+		for(int i = 0; i < numFolds; i++){
+			
+		}
+		
 		for(int i = 0; i < compoundActivities.size(); i += numFolds){
 			int j = i;
 			while(j < compoundActivities.size() && j < i + numFolds){
+				//
 				j++;
 			}			
 		}
