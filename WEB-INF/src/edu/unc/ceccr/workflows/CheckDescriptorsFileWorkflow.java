@@ -56,7 +56,6 @@ public class CheckDescriptorsFileWorkflow{
 				else{
 					if(descriptorValues.size() == descriptorNames.size()){
 						//done reading values for this molecule.
-						
 						String formula = descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS);
 						//formula should look something like C(12)H(22)O(11)
 						if(! formula.contains("(")){
@@ -70,6 +69,7 @@ public class CheckDescriptorsFileWorkflow{
 							}
 							errors += "\n";
 						}
+						descriptorValues.clear();
 					}
 					
 					//a couple more special cases for when MolconnZ decides to go crazy
