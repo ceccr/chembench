@@ -83,7 +83,6 @@ public class DataSplitWorkflow{
 		File outXExternal = new File(workingdir + Constants.EXTERNAL_SET_X_FILE);
 		FileWriter outXExternalWriter = new FileWriter(outXExternal);
 		
-		
 		//split the X file
 		//header line first
 		String line;
@@ -187,13 +186,15 @@ public class DataSplitWorkflow{
 		
 		ArrayList<ArrayList<String>> externalFolds = new ArrayList<ArrayList<String>>();
 		for(int i = 0; i < numFolds; i++){
-			
+			ArrayList<String> fold = new ArrayList<String>();
+			externalFolds.add(fold);
 		}
 		
 		for(int i = 0; i < compoundActivities.size(); i += numFolds){
 			int j = i;
 			while(j < compoundActivities.size() && j < i + numFolds){
 				//
+				externalFolds.get(j).add(compoundActivities.get(i));
 				j++;
 			}			
 		}
