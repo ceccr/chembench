@@ -90,16 +90,22 @@ public class LoginAction extends Action {
 				Utility.writeToUsageLog("Logged in", user.getUserName());
 				forward = mapping.findForward("success");	
 			}
+			else if(user.getUserName().equals("guest")){
+				Utility.writeToUsageLog("Logged in", user.getUserName());
+				forward = mapping.findForward("success");
+				session.setAttribute("user", user);
+				Cookie ckie=new Cookie("login","true");
+				response.addCookie(ckie);
+				
+				Utility.writeToUsageLog("Logged in", user.getUserName());
+				forward = mapping.findForward("success");		
+			}
 			else{
 				forward = mapping.findForward("failure");
 			}
 		} 
-		else if(! user.getUserName().equals("guest")){
-			forward = mapping.findForward("failure");
-		}
 		else{
-			Utility.writeToUsageLog("Logged in", user.getUserName());
-			forward = mapping.findForward("success");	
+			forward = mapping.findForward("failure");
 		}
 		
 		//The only reason we use HTTPS at all is to encode login information
