@@ -96,11 +96,11 @@
 						style="border-style:solid; border-color:blue;border-width:1px" /></label></td></tr>        
 			          </table>     
 			        </form>
-			        
+			        <!--
 			        <table width="250" border="0" ><tr><td>
 			        <span class="ccbHomeStandard">
 			        Or, <a href="/submitLogin.do?loginName=guest&loginPassword=guest">login as a guest</a></span>
-			        </td></tr></table>
+			        </td></tr></table>-->
 			        <!--
 			        <table width="250" border="0" ><tr><td>
 			        <span class="ccbHomeStandard">

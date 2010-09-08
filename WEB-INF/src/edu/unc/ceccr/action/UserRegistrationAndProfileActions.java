@@ -43,8 +43,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 			userIsAdmin = true;
 		}
 		if(user.getUserName().equals("guest")){
-			errorMessages = new ArrayList<String>();
-			errorMessages.add("Error: You may not change the guest profile settings.");
+			 errorStrings.add("Error: You may not change the guest profile settings.");
 			return ERROR;
 		}
 		return result;
@@ -540,6 +539,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 	/* Variables used for user registration and updates */
 	private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
 	private ArrayList<String> errorMessages = new ArrayList<String>();
+	private ArrayList<String> errorStrings = new ArrayList<String>();
 	private String outputMessage;
 	
 	private String newUserName;
@@ -594,6 +594,13 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		this.errorMessages = errorMessages;
 	}
 	
+	public ArrayList<String> getErrorStrings() {
+		return errorStrings;
+	}
+	public void setErrorStrings(ArrayList<String> errorStrings) {
+		this.errorStrings = errorStrings;
+	}
+
 	public String getOutputMessage() {
 		return outputMessage;
 	}
