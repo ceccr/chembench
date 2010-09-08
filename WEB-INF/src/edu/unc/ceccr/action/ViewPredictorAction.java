@@ -195,7 +195,7 @@ public class ViewPredictorAction extends ActionSupport {
 				}
 				Double ssTot = 0.0;
 				for(ExternalValidation ev : externalValValues){
-					ssTot += ev.getActualValue() - avg;
+					ssTot += (ev.getActualValue() - avg) * (ev.getActualValue() - avg);
 				}
 				if(ssTot != 0){
 					rSquared = Utility.roundSignificantFigures("" + (1 - (ssErr / ssTot)), 4);

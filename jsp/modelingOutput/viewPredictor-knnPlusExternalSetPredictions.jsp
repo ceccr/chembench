@@ -15,10 +15,12 @@
 		<br />
 		<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
 		</sx:div>
-		<s:if test="rSquared!=''">
-		R<sup>2</sup> for external set: <b><s:property value="rSquared" /></b>
-		</s:if>
 		</p>
+		<s:if test="rSquared!=''">
+		<p class="StandardTextDarkGray">
+		R<sup>2</sup> for external set: <b><s:property value="rSquared" /></b>
+		</p>
+		</s:if>
 	</s:if>
 	<s:elseif test="dataType=='CATEGORY'">
 		<p class="StandardTextDarkGray"><b><u>Confusion Matrix</u></b>
