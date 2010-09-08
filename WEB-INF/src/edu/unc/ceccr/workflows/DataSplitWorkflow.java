@@ -195,7 +195,7 @@ public class DataSplitWorkflow{
 			int j = i;
 			while(j < compoundActivities.size() && j < i + numFolds){
 				//
-				externalFolds.get(j).add(compoundActivities.get(i));
+				externalFolds.get(j).add(compoundActivities.get(i).compoundName);
 				j++;
 			}			
 		}
