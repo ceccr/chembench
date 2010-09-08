@@ -74,10 +74,9 @@ public class DeleteAction extends ActionSupport{
 		}
 		
 		//check each job
-		List<String> jobnames = PopulateDataObjects.populateTaskNames(userName, true, session);
-		session.close();
-		
-		//todo: Actually check the jobs! 
+		//Actually, we don't need to check the jobs.
+		//When a modeling or prediction job runs, it creates a Predictor or Prediction entry in the database
+		//and that's enough to catch the dependency.
 
 	}
 
@@ -100,7 +99,10 @@ public class DeleteAction extends ActionSupport{
 			}
 		}
 		
-		//todo: check running jobs (once jobs have been fixed up)
+		//check running jobs 
+		//Actually, we don't need to check the jobs.
+		//When a prediction job runs, it creates a Prediction entry in the database
+		//and that's enough to catch the dependency.
 		
 	}
 	

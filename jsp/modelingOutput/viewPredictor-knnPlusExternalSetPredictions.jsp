@@ -15,6 +15,9 @@
 		<br />
 		<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
 		</sx:div>
+		<s:if test="rSquared!=''">
+		R<sup>2</sup> for external set: <b><s:property value="rSquared" /></b>
+		</s:if>
 		</p>
 	</s:if>
 	<s:elseif test="dataType=='CATEGORY'">

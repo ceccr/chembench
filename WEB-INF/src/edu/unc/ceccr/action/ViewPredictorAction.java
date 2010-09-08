@@ -80,7 +80,7 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	ArrayList<ConfusionMatrixRow> confusionMatrix;
 	ArrayList<String> uniqueObservedValues;
-	
+	String rSquared = "";
 	
 	public String loadExternalValidationSection() throws Exception {
 
@@ -181,9 +181,25 @@ public class ViewPredictorAction extends ActionSupport {
 					Utility.writeToDebug(ex);
 				}
 			}
-			else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
+			else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS) && externalValValues.size() > 1){
 				//if continuous, calculate overall r^2 and... r0^2? or something? 
-				
+				//just r^2 for now, more later.
+				Double avg = 0.0;
+				for(ExternalValidation ev : externalValValues){
+					avg += ev.getActualValue();
+				}
+				avg /= externalValValues.size();
+				Double ssErr = 0.0;
+				for(String residual : residuals){
+					ssErr += Double.parseDouble(residual) * Double.parseDouble(residual);
+				}
+				Double ssTot = 0.0;
+				for(ExternalValidation ev : externalValValues){
+					ssTot += ev.getActualValue() - avg;
+				}
+				if(ssTot != 0){
+					rSquared = Utility.roundSignificantFigures("" + (1 - (ssErr / ssTot)), 4);
+				}
 			}
 		}
 		
@@ -828,6 +844,13 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setUniqueObservedValues(ArrayList<String> uniqueObservedValues) {
 		this.uniqueObservedValues = uniqueObservedValues;
+	}
+
+	public String getrSquared() {
+		return rSquared;
+	}
+	public void setrSquared(String rSquared) {
+		this.rSquared = rSquared;
 	}
 
 }
