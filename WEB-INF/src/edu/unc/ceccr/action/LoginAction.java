@@ -48,10 +48,6 @@ public class LoginAction extends Action {
 		//getSession(true) means: Create a session if it doesn't exist yet
 	    session = request.getSession(true); 
 	    
-	    //right way to do this: On initial home page load, or on any attempted page load,
-	    //do request.getSession(true) to establish a session. Add auth information to it later.
-	    //...How to keep this secure? i.e., What's the difference when they're logged in?
-	    
 		session.setMaxInactiveInterval(Constants.SESSION_EXPIRATION_TIME);
 		
 		Utility utility=new Utility();
@@ -97,8 +93,13 @@ public class LoginAction extends Action {
 			else{
 				forward = mapping.findForward("failure");
 			}
-		} else{
+		} 
+		else if(! user.getUserName().equals("guest")){
 			forward = mapping.findForward("failure");
+		}
+		else{
+			Utility.writeToUsageLog("Logged in", user.getUserName());
+			forward = mapping.findForward("success");	
 		}
 		
 		//The only reason we use HTTPS at all is to encode login information

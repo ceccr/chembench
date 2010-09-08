@@ -16,7 +16,7 @@ predictive models.</p>
 "register here" under the login box. When you submit the form, you'll be sent a password by email. If you prefer not to
 make an account, you can explore the website as a guest user; however, your work will not be saved.</p>
 
-<p>When you get that password, you can use it to log in. When you're logged in, you can get to the other tabs - MY BENCH, 
+<p>When you're logged in, you can get to the other tabs - MY BENCH, 
 DATASET, and so on. Once logged in, you can also change your password from "edit profile" at the top right of the 
 screen.</p>
 
