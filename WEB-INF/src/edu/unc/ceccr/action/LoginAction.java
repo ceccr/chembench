@@ -48,7 +48,7 @@ public class LoginAction extends Action {
 		//getSession(true) means: Create a session if it doesn't exist yet
 	    session = request.getSession(true); 
 	    
-	    Utility.writeToDebug("" + session.getAttribute("LoginName"));
+	    Utility.writeToDebug("" + session.getAttribute("loginName"));
 	    
 		session.setMaxInactiveInterval(Constants.SESSION_EXPIRATION_TIME);
 		
