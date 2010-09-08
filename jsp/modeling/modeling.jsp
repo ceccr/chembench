@@ -298,12 +298,14 @@
 					<td align="left" valign="top"><s:textfield name="jobName" id="jobName" size="19"/></td>
 				</tr>
 			     
+			    <s:if test="user.getUserName()!='guest'">
 			    <tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Send email when job finishes: </b></div>
 					</td>
 					<td align="left" valign="top"><s:checkbox name="emailOnCompletion" id="emailOnCompletion" /></td>
 				</tr>
+				</s:if>
 			     
 				<tr>
 					<td ></td>
