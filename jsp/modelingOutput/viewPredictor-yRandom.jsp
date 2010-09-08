@@ -8,13 +8,20 @@
 	<p class="StandardTextDarkGray"><b><u>y-Randomization Results</u></b></p>
 	
 	<p class="StandardTextDarkGray">
+		In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
+		data where the compound activities have been shuffled. Ideally, no models with a high q<sup>2</sup>
+		and R<sup>2</sup> will be produced. If the y-Randomized models are similar to the real models built on
+		your data (see Models tab), the predictor should be considered invalid and the dataset or parameters must
+		be revised. Y-randomized models are only created for validation purposes and are not used in predictions.
+		
+		<!--
 			<b>Y-randomization</b> is a statistical QSAR model validation technique where the performance of the model 
 			built with original data is compared to that of models built for multiple artificial datasets with
 			randomly shuffled activities. The models of the randomized data are built using the same parameters
 			used for the actual predictor. Ideally, there will be no models from the randomized data with high 
 			values of both q<sup>2</sup> (internal test set) and R<sup>2</sup> (external set). Your modeling parameters
 			need to be adjusted if many y-randomized models are being produced with q<sup>2</sup> and R<sup>2</sup> 
-			above your cutoff values.
+			above your cutoff values. -->
 	</p>
 	<p class="StandardTextDarkGray">
 	
