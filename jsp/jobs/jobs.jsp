@@ -100,7 +100,7 @@
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02">
 					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
-					<s:elseif test="user.userName==userName"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
+					<s:elseif test="user.userName==userName && userName!='guest'"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
 				</td>
 				</tr>
 			</s:iterator>
@@ -146,7 +146,7 @@
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02">
 					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
-					<s:elseif test="user.userName==userName"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif></td>
+					<s:elseif test="user.userName==userName && userName!='guest'"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif></td>
 				</td>
 				</tr> 
 			</s:iterator>
@@ -193,7 +193,7 @@
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02">
 					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
-					<s:elseif test="user.userName==userName"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
+					<s:elseif test="user.userName==userName && userName!='guest'"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
 				</td>
 				</tr> 
 			</s:iterator>
