@@ -96,11 +96,13 @@
 						style="border-style:solid; border-color:blue;border-width:1px" /></label></td></tr>        
 			          </table>     
 			        </form>
-			        <!--
+			        
 			        <table width="250" border="0" ><tr><td>
 			        <span class="ccbHomeStandard">
-			        Or, <a href="/submitLogin.do?loginName=guest&loginPassword=guest">login as a guest</a></span>
-			        </td></tr></table>-->
+			        Or, <a href="/submitLogin.do?loginName=guest&loginPassword=guest" 
+			        onclick="alert('The guest account has all the same capabilities as a full Chembench account. However, all guest data is periodically deleted, and other guests can see the datasets and predictors you create.')">
+			        login as a guest</a></span>
+			        </td></tr></table>
 			        <!--
 			        <table width="250" border="0" ><tr><td>
 			        <span class="ccbHomeStandard">
