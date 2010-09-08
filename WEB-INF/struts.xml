@@ -63,6 +63,7 @@
         
         <action name="editProfile" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadEditProfilePage">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
+			<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <action name="loadChangePasswordSection" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="loadChangePassword">

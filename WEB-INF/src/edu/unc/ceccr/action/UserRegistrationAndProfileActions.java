@@ -42,6 +42,11 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		if(Utility.isAdmin(user.getUserName())){
 			userIsAdmin = true;
 		}
+		if(user.getUserName().equals("guest")){
+			errorMessages = new ArrayList<String>();
+			errorMessages.add("Error: You may not change the guest profile settings.");
+			return ERROR;
+		}
 		return result;
 	}
 	

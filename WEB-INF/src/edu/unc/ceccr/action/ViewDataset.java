@@ -152,6 +152,9 @@ public class ViewDataset extends ActionSupport {
 			if(datasetId == null){
 				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
 			}
+			if(dataset == null){
+				Utility.writeToDebug("Error: Could not load dataset with id: " + datasetId);
+			}
 			
 			//define which compounds will appear on page
 			int pagenum = Integer.parseInt(currentPageNumber) - 1;

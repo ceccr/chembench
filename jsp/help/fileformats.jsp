@@ -6,22 +6,23 @@
 
 <p id="ACT"><b>.act files</b></p>
 
-<p>The .act files store activities (numerical results associated with each chemical; these are 
-what we're building a model on or trying to predict). They must have a corresponding .sdf file with 
-them to describe the chemical.  The system validates that there are the same compounds in 
-the .sdf file and its associated .act file. The first line of an activity file may contain a header (optional). </p>
+<p>The .act files store activities of each compound in some assay. They must have a corresponding .sdf file 
+containing the same compound names. The first line of an activity file may contain a header (optional). </p>
 
 <p>Here is an example of an activity file without any header information: </p>
 
+<pre>
 Bulbocapnine 5.36
 Chlorpromazine 4.1
 Clozapine 4.8
 fluphenazine 4.95
 NNC01-0004 5.85
 NNC01-0012 4.69
+</pre>
 
 <p>Here is an example of an activity file with header information: </p>
 
+<pre>
 Activities of selected compounds in binding assay
 Bulbocapnine	5.36
 Chlorpromazine	4.1
@@ -29,19 +30,18 @@ Clozapine	4.8
 fluphenazine	4.95
 NNC01-0004	5.85
 NNC01-0012	4.69
+</pre>
 
 <p>The chemical identifiers in an activity file may be anything: SMILES strings, chemical names, and index numbers are commonly used. The
 only constraint is that the chemical identifiers in your activity file <i>must match</i> the identifiers in your SDF (see below). In
 an activity file, each line describes one compound's activity. A space or tab separates the chemical identifier and the activity on each line. </p>
-
-
 
 <p id="SDF"><b>.SDF files</b></p>
 
 <p>
 (Also referred to as "SD files", since SDF stands for "structure data file".)
 SDFs are used to store sets of chemical structures and can be 2D or 3D. 
-They are typically the input files we use. Here's a sample: </p>
+Here's a sample: </p>
 
 <pre>
 4254097
@@ -87,9 +87,7 @@ $$$$
 <p>
 The first line is the chemical identifier of the first compound. The atom coordinates and bond information come after that. 
 There can be many optional fields. These come in an XML-like format (e.g. <MolWeight>128</MolWeight>) A 
-compound description ends with $$$$. By the official SDF standards, an SDF is not allowed to contain lines of over 200 
-characters. But in practice, many do. This can cause some programs to fail ungracefully, so Chembench 
-chops off SDF lines past 200 characters. 
+compound description ends with $$$$. 
 <a href="http://www.epa.gov/NCCT/dsstox/MoreonSDF.html">http://www.epa.gov/NCCT/dsstox/MoreonSDF.html</a>
  has more details on the SDF format.
 </p>

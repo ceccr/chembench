@@ -60,8 +60,6 @@
 			
 			return true;
 		}		
-		
-		
 	</script>
 </head>
 

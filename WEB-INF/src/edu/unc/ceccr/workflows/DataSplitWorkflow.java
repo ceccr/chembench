@@ -35,7 +35,7 @@ public class DataSplitWorkflow{
 		//copy the act file to a ".a" file because datasplit will expect it that way
 		String actFileBase = actFile.substring(0, actFile.lastIndexOf("."));
 		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + actFileBase + ".a");
-		
+
 		//split dataset into [modeling set | external test set]
 		String execstr1;
 		if(Double.parseDouble(numCompoundsExternalSet) < 1){ 
@@ -182,6 +182,7 @@ public class DataSplitWorkflow{
 		else{
 			Collections.shuffle(compoundActivities);
 		}
+		
 		//go down the sorted list in chunks of size nFolds
 		
 		ArrayList<ArrayList<String>> externalFolds = new ArrayList<ArrayList<String>>();
