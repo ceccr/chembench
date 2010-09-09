@@ -390,6 +390,11 @@
         <action name="help-fileformats">
         	<result>jsp/help/fileformats.jsp</result>
         </action>
+        
+        <action name="help-workflows">
+        	<result>jsp/help/workflows.jsp</result>
+        </action>
+        
         <!-- End Help forwards -->
         
         <!-- For Demoing -->

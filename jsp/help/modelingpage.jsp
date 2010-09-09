@@ -6,6 +6,8 @@
 
 <b>Modeling</b>
 
+<p><img src="/theme/img/modeling-workflow.png"></p>
+
 <p align="justify" class="ccbHomeStandard">
 <b>Select a Dataset box:</b>
 
@@ -86,8 +88,8 @@ below your cutoffs will be eliminated. This can result in modeling runs which pr
 
 <p align="justify" class="ccbHomeStandard">
 <b>The Modeling Job:</b>
-<p>
-Modeling goes through several steps. First, descriptors for the selected dataset are scaled. Second, 
+
+<p>Modeling goes through several steps. First, descriptors for the selected dataset are scaled. Second, 
 the training and test sets are created. Third, a y-randomized version of each train-test set  is created, where 
 the activity values are scrambled; this is set aside for later. Fourth, the kNN modeling procedure is performed 
 on the train-test sets, generating models. Fifth, the kNN procedure is run again, this time on the y-randomized 

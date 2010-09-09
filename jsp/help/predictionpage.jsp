@@ -6,6 +6,8 @@
 
 <b>Prediction</b>
 
+<p><img src="/theme/img/prediction-workflow.png"></p>
+
 <p align="justify" class="ccbHomeStandard">
 <b>Selecting Predictors:</b>
 

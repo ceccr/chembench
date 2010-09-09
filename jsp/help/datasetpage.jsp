@@ -6,6 +6,8 @@
 
 <b>Datasets</b>
 
+<p><img src="/theme/img/dataset-workflow.png"></p>
+
 <p align="justify" class="ccbHomeStandard">
 <b>Upload Dataset Files box:</b>
 
@@ -47,8 +49,9 @@ most of your external set, which could make modeling impossible.</p>
 <p>You can also use the Choose Compounds option to define which compounds are in the external set.  (Just type 
 in the names of the compounds you want to be external.)</p>
 
-<p>Once a dataset is created, you cannot change its external set. You will need to create another dataset to 
-do that.</p>
+<p>Once a dataset is created, you cannot change its external set. The dataset's external set is kept consistent
+so that results of different modeling procedures on the same dataset can be compared. You will need to create new 
+dataset if you need the data to have a different external set.</p>
 </p>
 
 <p align="justify" class="ccbHomeStandard">
@@ -60,14 +63,16 @@ references associated with the dataset you're uploading. Including a short descr
 either.</p>
 </p>
 
+
 <p align="justify" class="ccbHomeStandard">
 <b>The Dataset Job:</b>
 
 <p>When a Dataset job runs, it does four things. First, it checks the validity of the files you put in: it 
 makes sure that the file formats are correct, that there are no repeated compounds, and that the compounds 
-in each of the files match. Second, it generates sketches, which are JPG images for each structure. Third, 
-if the dataset is a modeling set, the external compounds are defined. Fourth, visualizations are generated 
-for the dataset. You can see the compound sketches and visualizations by clicking on the name of the dataset 
+in each of the files match. If you have chosen to standardize your compounds, standardization is performed.
+Second, if the dataset is a modeling set, the external compounds are defined. Third, descriptors are generated 
+for the dataset. Fourth, visualizations and JPG images for each structure are created. 
+You can see the compound sketches and visualizations by clicking on the name of the dataset 
 when the job has finished. When the dataset job finishes, if it is a modeling dataset, it will be selectable 
 from the Modeling and Prediction pages. (Prediction datasets can only be used from the Prediction page.)</p>
 </p>
