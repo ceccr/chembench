@@ -137,10 +137,9 @@
 	               <span class="ccbHomeStandard">Please <a href="loadRegistrationPage">register here</a><br/>
 	             <!-- or, <a href="anonPredict.do">make simple predictions</a> (no login required) --> 
 	               </span></p>
-	              <p>FAQ &amp; Help <br />
+	              <p>Help & Links<br />
 	               <span class="ccbHomeStandard">
 	               <a href="help-overview" target="_blank">Chembench Overview</a><br />
-	               <a href="help-faq" target="_blank">Frequently Asked Questions</a><br />
 	               <a href="softwareList" target="_blank">Links to More Cheminformatics Tools</a>
 	             </span></p>
 	         </tr>
