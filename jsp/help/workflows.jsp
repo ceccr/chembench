@@ -18,7 +18,7 @@ Each of the steps may be used independently. For example, a medicinal chemist or
 we have made available in the Prediction section to help determine activity of a specific compound.</p>
 
 <p class="ccbHomeStandard">
-<b>Dataset</b></p>
+<b>Dataset Creation</b></p>
 <p><img src="/theme/img/dataset-workflow.png"></p>
 <p>The dataset workflow handles preprocessing of the compounds, including structure standardization using the JChem
 standardizer. An external set is specified, and descriptors and visualizations are generated. When the dataset
