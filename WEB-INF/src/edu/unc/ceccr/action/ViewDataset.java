@@ -157,10 +157,18 @@ public class ViewDataset extends ActionSupport {
 			}
 			
 			//define which compounds will appear on page
-			int pagenum = Integer.parseInt(currentPageNumber) - 1;
-			int limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
-			int offset = pagenum * limit; //which compoundid to start on
-         	
+			int pagenum, limit, offset;
+			if(user.getViewDatasetCompoundsPerPage().equals(Constants.ALL)){
+				pagenum = 0;
+				limit = 99999999;
+				offset = pagenum * limit;
+			}
+			else{
+				pagenum = Integer.parseInt(currentPageNumber) - 1;
+				limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
+				offset = pagenum * limit; //which compoundid to start on
+			}
+			
 			//get compounds
 			datasetCompounds = new ArrayList<Compound>();
 			String datasetUser = dataset.getUserName();

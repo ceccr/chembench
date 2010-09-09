@@ -51,8 +51,9 @@
 	  <p class="ccbHomeStandard">Please cite this website using the following URL:
 	  <a href="http://chembench.mml.unc.edu">http://chembench.mml.unc.edu</a></p>
 		
-      
-        <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
+      <noscript><p>&nbsp;<font color="red">Warning: JavaScript is disabled on your computer. Some parts of Chembench may not work properly. Please enable JavaScript.</font></p></noscript>
+ 
+      <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
       <p align="justify" class="ccbHomeStandard">The Carolina Cheminformatics Workbench (Chembench) is 
       developed by the Carolina Exploratory Center for Cheminformatics Research (CECCR) with the support of the 
       <a href="http://www.nih.gov" target="_blank">National Institutes of Health</a> (grants  
@@ -65,9 +66,7 @@
 		Chembench has been visited <%=u.readCounter()%> times and currently there are <%=au.getActiveSessions()%> users logged in. <%=u.getJobStats()%> Thank you for your visit.
 	  </p>
 	  <!-- ChemBench Stats end. -->
-      <p class="ccbHomeHeadings">&nbsp;</p>
-      <p>&nbsp;<noscript><font color="red">Warning: JavaScript is disabled on your computer. Some parts of Chembench may not work properly. Please enable JavaScript.</font></noscript></p>
-    <p>&nbsp;</p></td>
+      </td>
     <td valign="top">
 
     <!-- This table contains the right column of the page -->
