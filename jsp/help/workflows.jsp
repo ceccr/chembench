@@ -7,7 +7,7 @@
 <p align="justify" class="ccbHomeStandard">
 <b>Overall Workflow</b>
 
-<p><img src="/theme/img/overall-workflow.jpg"></p>
+<p><img src="/theme/img/overall-workflow.png"></p>
 
 <p>This flowchart, as presented in <a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full">Best Practices 
 for QSAR Model Development, Validation, and Exploitation</a>, forms the basis of the Chembench workflow. Chembench implements 
