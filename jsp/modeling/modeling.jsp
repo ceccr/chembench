@@ -50,7 +50,10 @@
 		<p><img src="/theme/img/overall-workflow.png"></p>
 		<p align="justify" class="StandardTextDarkGrayParagraph">Here you may develop QSAR 
 		predictors for any of your datasets. Public datasets are also available.<br /><br />
-		For more information about creating predictors and selecting the right parameters, use the <a href="/help-modeling">Modeling help page</a>.  
+		For more information about creating predictors and selecting the right parameters, use the 
+		<a href="/help-modeling">Modeling help page</a>. You can find more information about 
+		our modeling workflow and relevant publications in our <a href="/help-workflows">Workflows 
+		help section</a>.
    		</p>
 		</td>
         </tr>
