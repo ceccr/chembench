@@ -139,6 +139,10 @@ public class KnnPlusWorkflow{
 		//so, our list file has to be lowercase.
 		FileAndDirOperations.copyFile(workingDir + "RAND_sets.list", workingDir + "rand_sets.list");
 		
+		if(new File(workingDir + "yRandom/RAND_sets.list").exists()){
+			FileAndDirOperations.copyFile(workingDir + "yRandom/RAND_sets.list", workingDir + "yRandom/rand_sets.list");
+		}
+		
 		FileOutputStream fout;
 		PrintStream out;
 		fout = new FileOutputStream(workingDir + "bsubKnnPlus.sh");

@@ -140,7 +140,7 @@
 	              <p>Help & Links<br />
 	               <span class="ccbHomeStandard">
 	               <a href="help-overview" target="_blank">Chembench Overview</a><br />
-	               <a href="help-workflows" target="_blank">Chembench Workflows</a><br />
+	               <a href="help-workflows" target="_blank">Chembench Workflows & Methodology</a><br />
 	               <a href="softwareList" target="_blank">Links to More Cheminformatics Tools</a>
 	             </span></p>
 	         </tr>

@@ -51,9 +51,7 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 		return treeFileName;
 	}
 	public void setTreeFileName(String treeFileName) {
-		if(treeFileName != null && treeFileName.length() > 255){
-			treeFileName = treeFileName.substring(0, 254);
-		}
+		treeFileName = Utility.truncateString(treeFileName, 250);
 		this.treeFileName = treeFileName;
 	}
 
@@ -62,9 +60,7 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 		return r2;
 	}
 	public void setR2(String r2) {
-		if(r2 != null && r2.length() > 255){
-			r2 = r2.substring(0, 254);
-		}
+		r2 = Utility.truncateString(r2, 250);
 		this.r2 = r2;
 	}
 
@@ -73,9 +69,7 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 		return mse;
 	}
 	public void setMse(String mse) {
-		if(mse != null && mse.length() > 255){
-			mse = mse.substring(0, 254);
-		}
+		mse = Utility.truncateString(mse, 250);
 		this.mse = mse;
 	}
 
@@ -84,9 +78,7 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 		return descriptorsUsed;
 	}
 	public void setDescriptorsUsed(String descriptorsUsed) {
-		if(descriptorsUsed != null && descriptorsUsed.length() > 2550){
-			descriptorsUsed = descriptorsUsed.substring(0, 2549);
-		}
+		descriptorsUsed = Utility.truncateString(descriptorsUsed, 2545);
 		this.descriptorsUsed = descriptorsUsed;
 	}
 	

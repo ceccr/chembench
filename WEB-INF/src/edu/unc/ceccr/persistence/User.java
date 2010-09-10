@@ -9,6 +9,8 @@ import javax.persistence.Column;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import edu.unc.ceccr.utilities.Utility;
+
 @Entity
 @Table(name = "cbench_user")
 @SuppressWarnings("serial")
@@ -57,6 +59,7 @@ public class User implements java.io.Serializable{
 	}
 
 	public void setUserName(String userName) {
+		userName = Utility.truncateString(userName, 55);
 		this.userName = userName;
 	}
 
@@ -75,6 +78,7 @@ public class User implements java.io.Serializable{
 	}
 	public void setEmail(String  email)
 	{
+		email = Utility.truncateString(email, 55);
 		this.email=email;
 	}
 	
@@ -106,6 +110,7 @@ public class User implements java.io.Serializable{
 	}
 	public void setFirstName(String firstName)
 	{
+		firstName = Utility.truncateString(firstName, 29);
 		this.firstName=firstName;
 	}
 	
@@ -116,6 +121,7 @@ public class User implements java.io.Serializable{
 	}
 	public void setLastName(String lastName)
 	{
+		email = Utility.truncateString(email, 55);
 		this.lastName=lastName;
 	}
 	
@@ -125,6 +131,7 @@ public class User implements java.io.Serializable{
 	}
 	public void setOrgName(String orgName)
 	{
+		orgName = Utility.truncateString(orgName, 55);
 		this.orgName=orgName;
 	}
 
@@ -145,6 +152,7 @@ public class User implements java.io.Serializable{
 	}
 	public void setOrgPosition(String orgPosition)
 	{
+		orgPosition = Utility.truncateString(orgPosition, 55);
 		this.orgPosition=orgPosition;
 	}
 	
@@ -157,6 +165,7 @@ public class User implements java.io.Serializable{
 	}
 	public void setAddress(String address)
 	{
+		address = Utility.truncateString(address, 55);
 		this.address=address;
 	}
 	@Column(name="city")
@@ -166,6 +175,7 @@ public class User implements java.io.Serializable{
 	}
 	public void setCity(String city)
 	{
+		city = Utility.truncateString(city, 55);
 		this.city=city;
 	}
 	
@@ -176,6 +186,7 @@ public class User implements java.io.Serializable{
 	}
 	public void setState(String state)
 	{
+		state = Utility.truncateString(state, 55);
 		this.state=state;
 	}
 	
@@ -186,6 +197,7 @@ public class User implements java.io.Serializable{
 	}
 	public void setCountry(String country)
 	{
+		country = Utility.truncateString(country, 55);
 		this.country=country;
 	}
 	
@@ -196,12 +208,14 @@ public class User implements java.io.Serializable{
 	}
 	public void setZipCode(String zipCode)
 	{
+		zipCode = Utility.truncateString(zipCode, 55);
 		this.zipCode=zipCode;
 	}
 	
 	@Column(name="phone")
 	public String getPhone()
 	{
+		phone = Utility.truncateString(phone, 55);
 		return this.phone;
 	}
 	public void setPhone(String phone)

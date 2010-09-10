@@ -188,30 +188,33 @@ public class RandomForestWorkflow{
 		{
 			ExternalValidation externalValidationValue = allExternalValues.get(i);
 			inputString = in.readLine();
-			String[] data = inputString.split("\\s+"); //Note: [0] is the compound name and the following are the predicted values.
+			if(inputString != null && ! inputString.trim().isEmpty()){
 			
-			Float[] compoundPredictedValues = new Float[data.length -1];
-			
-			externalValidationValue.setNumModels(compoundPredictedValues.length);
-			
-			float sum=0;
-			for(int j=0; j<compoundPredictedValues.length; j++)
-			{
-				compoundPredictedValues[j] = new Float(data[j+1]);
-				sum += compoundPredictedValues[j].floatValue();
+				String[] data = inputString.split("\\s+"); //Note: [0] is the compound name and the following are the predicted values.
+				
+				Float[] compoundPredictedValues = new Float[data.length -1];
+				
+				externalValidationValue.setNumModels(compoundPredictedValues.length);
+				
+				float sum=0;
+				for(int j=0; j<compoundPredictedValues.length; j++)
+				{
+					compoundPredictedValues[j] = new Float(data[j+1]);
+					sum += compoundPredictedValues[j].floatValue();
+				}
+				
+				float mean = sum / compoundPredictedValues.length;
+				externalValidationValue.setPredictedValue((new Float(mean)));
+				
+				double sumDistFromMeanSquared = 0.0;
+				for(int j=0; j<compoundPredictedValues.length; j++)
+				{
+					double distFromMean = compoundPredictedValues[j].doubleValue() - (double)mean;
+					sumDistFromMeanSquared += Math.pow(distFromMean, (double)2);
+				}
+				double stdDev = Math.sqrt(sumDistFromMeanSquared/(double)compoundPredictedValues.length);
+				externalValidationValue.setStandDev(Utility.roundSignificantFigures(Double.toString(stdDev), 4));
 			}
-			
-			float mean = sum / compoundPredictedValues.length;
-			externalValidationValue.setPredictedValue((new Float(mean)));
-			
-			double sumDistFromMeanSquared = 0.0;
-			for(int j=0; j<compoundPredictedValues.length; j++)
-			{
-				double distFromMean = compoundPredictedValues[j].doubleValue() - (double)mean;
-				sumDistFromMeanSquared += Math.pow(distFromMean, (double)2);
-			}
-			double stdDev = Math.sqrt(sumDistFromMeanSquared/(double)compoundPredictedValues.length);
-			externalValidationValue.setStandDev(Utility.roundSignificantFigures(Double.toString(stdDev), 4));
 		}
 		
 		return allExternalValues;
