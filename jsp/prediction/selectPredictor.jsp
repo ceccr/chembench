@@ -36,7 +36,6 @@
 		<p class="StandardTextDarkGrayParagraph">
 		<b>Chembench Predictor Selection</b>
 		</p>
-		<p><img src="/theme/img/prediction-workflow.png"></p>
 		<table width="465" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td><p align="justify" class="StandardTextDarkGrayParagraph">

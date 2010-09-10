@@ -41,7 +41,6 @@
         <tr>
           <td><p class="StandardTextDarkGrayParagraph"><b><br />
             Chembench Dataset Creation</b></p>
-            <p><img src="/theme/img/dataset-workflow.png"></p>
               <p align="justify" class="StandardTextDarkGrayParagraph">
               Here, you may create a dataset by uploading compound structures with or without 
               associated activities. The activity data is required for building models. <br /><br />
