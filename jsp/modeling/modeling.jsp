@@ -62,6 +62,7 @@
 <s:form action="createModelingJob" enctype="multipart/form-data" theme="simple">
 
 	<!-- Dataset Selection -->
+		<p><img src="/theme/img/modeling-workflow-0.png"></p>
 			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>		
 				<tr>
@@ -181,6 +182,7 @@
 			 <br />
 
 	
+		<p><img src="/theme/img/modeling-workflow-1.png"></p>
 		<!-- Internal Data Split Parameters -->
  			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>	
@@ -219,6 +221,7 @@
 			<br />
  	
 
+		<p><img src="/theme/img/modeling-workflow-2.png"></p>
 		<!-- Modeling Method (kNN, kNN+, SVM) --> 
 			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 				<tbody>	
