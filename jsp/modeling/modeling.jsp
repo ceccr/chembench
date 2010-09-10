@@ -47,6 +47,7 @@
             <td>
 				<p class="StandardTextDarkGrayParagraph"><b><br>Chembench Model
 		Development</b></p>
+		<p><img src="/theme/img/modeling-workflow.png"></p>
 		<p align="justify" class="StandardTextDarkGrayParagraph">Here you may develop QSAR 
 		predictors for any of your datasets. Public datasets are also available.<br /><br />
 		For more information about creating predictors and selecting the right parameters, use the <a href="/help-modeling">Modeling help page</a>.  
