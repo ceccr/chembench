@@ -47,13 +47,13 @@
             <td>
 				<p class="StandardTextDarkGrayParagraph"><b><br>Chembench Model
 		Development</b></p>
-		<p><img src="/theme/img/overall-workflow.png"></p>
+		<p><a href="/help-workflows"><img src="/theme/img/overall-workflow.png" border="0" height="350" onmouseover='enlargeImage(this);' onmouseout='shrinkImage(this)' /></a></p>
+		<p>The full modeling workflow, represented by the above diagram, is described in the following publication: 
+		<a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full">Tropsha, A. Best Practices for QSAR Model Development, Validation, and Exploitation Mol. Inf., 2010, 29, 476-488</a></p>
 		<p align="justify" class="StandardTextDarkGrayParagraph">Here you may develop QSAR 
 		predictors for any of your datasets. Public datasets are also available.<br /><br />
 		For more information about creating predictors and selecting the right parameters, use the 
-		<a href="/help-modeling">Modeling help page</a>. You can find more information about 
-		our modeling workflow and relevant publications in our <a href="/help-workflows">Workflows 
-		help section</a>.
+		<a href="/help-modeling">Modeling help page</a>. 
    		</p>
 		</td>
         </tr>
