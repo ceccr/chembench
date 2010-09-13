@@ -29,6 +29,11 @@
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
 	
+	var selectedDatasetId = 'none';
+	function onSelectDataset(id){
+		selectedDatasetId = id;
+		alert(selectedDatasetId);
+	}
 	</script>
 	
 </head>
@@ -139,9 +144,9 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Type:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGONH':'Dragon (with hydrogens)','DRAGONNOH':'Dragon (no hydrogens)','MACCS':'Maccs','MOE2D':'MOE2D'}" /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGONH':'Dragon (with hydrogens)','DRAGONNOH':'Dragon (no hydrogens)','MACCS':'Maccs','MOE2D':'MOE2D','UPLOADED':'Uploaded Descriptors'}" /></div>
 					</td>
-				</tr>	
+				</tr>
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Scale Descriptors Using:</b></div></td>
