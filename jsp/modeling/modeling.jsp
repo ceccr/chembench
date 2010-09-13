@@ -87,7 +87,7 @@
 					<td colspan="2">
 					<s:hidden id="actFileDataType" name="actFileDataType" />
 					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataTypeRadio" id="continuousDataset" onclick="setToContinuous()" checked>Choose a Continuous Dataset:</input></b>
-					<br /><s:select name="selectedDatasetId" list="userContinuousDatasets" id="selectedContinuousDataset" listKey="fileId" listValue="fileName" onselect='onSelectDataset(fileId)' />
+					<br /><s:select name="selectedDatasetId" list="userContinuousDatasets" id="selectedContinuousDataset" listKey="fileId" listValue="fileName" onselect="alert('sup' + value)" onchange='onSelectDataset(fileId)' />
 					</div>
 					</td>
 			    </tr> 
@@ -97,7 +97,7 @@
 			    <tr>
 					<td colspan="2">
 					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataTypeRadio" id="categoryDataset" onclick="setToCategory()">Choose a Category Dataset:</input></b>
-					<br /><s:select name="selectedDatasetId" disabled="true" list="userCategoryDatasets" id="selectedCategoryDataset" listKey="fileId" listValue="fileName" onselect='onSelectDataset(fileId)' />
+					<br /><s:select name="selectedDatasetId" disabled="true" list="userCategoryDatasets" id="selectedCategoryDataset" listKey="fileId" listValue="fileName" onselect="alert('hi')" onchange='onSelectDataset(fileId)' />
 					</div>
 					</td>
 			    </tr>
@@ -144,7 +144,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Type:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGONH':'Dragon (with hydrogens)','DRAGONNOH':'Dragon (no hydrogens)                ','MACCS':'Maccs','MOE2D':'MOE2D<br />','UPLOADED':'Uploaded Descriptors'}" /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGONH':'Dragon (with hydrogens)<br />','DRAGONNOH':'Dragon (no hydrogens)','MACCS':'Maccs','MOE2D':'MOE2D<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
 					</td>
 				</tr>
 				<tr>
