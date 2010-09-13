@@ -85,7 +85,7 @@
         </tr>
         </table>
 
-<s:form action="createModelingJob" enctype="multipart/form-data" theme="simple"'>
+<s:form action="createModelingJob" enctype="multipart/form-data" theme="simple">
 
 	<!-- Dataset Selection -->
 			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
