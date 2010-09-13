@@ -51,14 +51,14 @@
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
 				}
 			</s:iterator>
+			alert("dataset id " + datasetId);
+			alert("dataset id in struts2: " + "<s:property value='datasetId' default='crap' />");
+			alert("dataset id in struts2: " + "<s:property value='#datasetId' default='crap2' />");
+			alert("dataset id in struts2: " + "<s:property value='{#datasetId}' default='crap3' />");
+			alert("dataset id in struts2: " + "<s:property value='%{#datasetId}' default='crap4' />");
+			alert("dataset id in struts2: " + "<s:property value='%datasetId' default='crap5' />");
+			alert("dataset id in struts2: " + "<s:property value='%{"datasetId"}' default='crap5' />");
 		}
-		alert("dataset id " + datasetId);
-		alert("dataset id in struts2: " + "<s:property value='datasetId' default='crap' />");
-		alert("dataset id in struts2: " + "<s:property value='#datasetId' default='crap2' />");
-		alert("dataset id in struts2: " + "<s:property value='{#datasetId}' default='crap3' />");
-		alert("dataset id in struts2: " + "<s:property value='%{#datasetId}' default='crap4' />");
-		alert("dataset id in struts2: " + "<s:property value='%datasetId' default='crap5' />");
-		alert("dataset id in struts2: " + "<s:property value='%{"datasetId"}' default='crap5' />");
 		
 		alert("numCompounds: " + selectedDatasetNumCompounds);
 		alert("availableDescriptors: " + selectedDatasetAvailableDescriptors);
