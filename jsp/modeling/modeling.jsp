@@ -44,7 +44,7 @@
 			selectedDatasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
 				<s:if test="fileId==selectedDatasetId">
-					selectedDatasetNumCompounds = <s:property value='numCompound' />;
+					selectedDatasetNumCompounds = "<s:property value='numCompound' />";
 				</s:if>
 			</s:iterator>
 			alert(selectedDatasetNumCompounds);
