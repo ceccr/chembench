@@ -56,45 +56,45 @@
 		
 		//enable / disable based on the availableDescriptors
 		if(selectedDatasetAvailableDescriptors.indexOf("MOLCONNZ") > -1){
-			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = false;
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").visible = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = true;
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").visible = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONH") > -1){
-			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = false;
+			document.getElementById("descriptorGenerationType" + "DRAGONH").visible = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = true;
+			document.getElementById("descriptorGenerationType" + "DRAGONH").visible = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONNOH") > -1){
-			document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = false;
+			document.getElementById("descriptorGenerationType" + "DRAGONNOH").visible = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = true;
+			document.getElementById("descriptorGenerationType" + "DRAGONNOH").visible = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("MACCS") > -1){
-			document.getElementById("descriptorGenerationType" + "MACCS").disabled = false;
+			document.getElementById("descriptorGenerationType" + "MACCS").visible = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType" + "MACCS").disabled = true;
+			document.getElementById("descriptorGenerationType" + "MACCS").visible = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("MOE2D") > -1){
-			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = false;
+			document.getElementById("descriptorGenerationType" + "MOE2D").visible = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = true;
+			document.getElementById("descriptorGenerationType" + "MOE2D").visible = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1){
-			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = false;
+			document.getElementById("descriptorGenerationType" + "UPLOADED").visible = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = true;
+			document.getElementById("descriptorGenerationType" + "UPLOADED").visible = true;
 		}
 		
 		//calculate time estimate based on numCompounds and modeling parameters
