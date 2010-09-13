@@ -30,17 +30,11 @@
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
 	
 	var selectedDatasetId = 'none';
-	function onSelectDataset(id){
-		selectedDatasetId = id;
-		alert(selectedDatasetId);
-	}
-	
 	var selectedDatasetNumCompounds = 0;
 	var selectedDatasetAvailableDescriptors = "";
 	
 	function getSelectedDataset(){
-		alert(document.getElementById("categoryDataset").value);
-		if(document.getElementById("categoryDataset").value == "TRUE"){
+		if(document.getElementById("categoryDataset").value == "on"){
 			selectedDatasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
 				<s:if test="fileId==selectedDatasetId">
