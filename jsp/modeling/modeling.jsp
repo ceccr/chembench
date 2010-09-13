@@ -38,20 +38,21 @@
 			selectedDatasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
 				<s:if test="fileId==selectedDatasetId">
-					selectedDatasetNumCompounds = "<s:property value='numCompound' />";
+					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='selectedDatasetAvailableDescriptors' />";
 				</s:if>
 			</s:iterator>
-			alert(selectedDatasetNumCompounds);
+			alert("numCompounds: " + selectedDatasetNumCompounds);
 		}
 		else{
 			selectedDatasetId = document.getElementById("selectedContinuousDataset").value;
 			<s:iterator value="userContinuousDatasets">
 				<s:if test="fileId==selectedDatasetId">
-					selectedDatasetNumCompounds = "<s:property value='numCompound' />";
+					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='selectedDatasetAvailableDescriptors' />";
 				</s:if>
 			</s:iterator>
+			alert("numCompounds: " + selectedDatasetNumCompounds);
 		}
 		alert(selectedDatasetId);
 	}

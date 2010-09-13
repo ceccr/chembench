@@ -91,7 +91,6 @@ public class ModelingFormActions extends ActionSupport{
 				}
 			}
 		}
-		
 		session.close();
 
 		//log the results
