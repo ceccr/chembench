@@ -29,35 +29,31 @@
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
 	
-	var datasetId = -1;
 	var selectedDatasetNumCompounds = -1;
 	var selectedDatasetAvailableDescriptors = "";
 	
 	function getSelectedDataset(){
 		if(document.getElementById("categoryDataset").value == true){
-			datasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
-				<s:if test="fileId==datasetId">
+				<s:if test="fileId==selectedDatasetId">
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
 				</s:if>
 			</s:iterator>
 		}
 		else{
-			datasetId = document.getElementById("selectedContinuousDataset").value;
 			<s:iterator value="userContinuousDatasets">
-				<s:if test="fileId==datasetId">
+				<s:if test="fileId==selectedDatasetId">
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
 				</s:if>
 			</s:iterator>
 		}
-		alert("dataset id " + datasetId);
-		alert("dataset id in struts2: " + "<s:property value='datasetId' default='crap' />");
-		alert("dataset id in struts2: " + "<s:property value='#datasetId' default='crap2' />");
-		alert("dataset id in struts2: " + "<s:property value='{#datasetId}' default='crap3' />");
-		alert("dataset id in struts2: " + "<s:property value='%{#datasetId}' default='crap4' />");
-		alert("dataset id in struts2: " + "<s:property value='%datasetId' default='crap5' />");
+		alert("dataset id in struts2: " + "<s:property value='selectedDatasetId' default='crap' />");
+		alert("dataset id in struts2: " + "<s:property value='#selectedDatasetId' default='crap2' />");
+		alert("dataset id in struts2: " + "<s:property value='{#selectedDatasetId}' default='crap3' />");
+		alert("dataset id in struts2: " + "<s:property value='%{#selectedDatasetId}' default='crap4' />");
+		alert("dataset id in struts2: " + "<s:property value='%selectedDatasetId' default='crap5' />");
 		alert("numCompounds: " + selectedDatasetNumCompounds);
 		alert("availableDescriptors: " + selectedDatasetAvailableDescriptors);
 	}
