@@ -109,28 +109,26 @@
 
 	function calculateRuntimeEstimate(){
 		
-		var dataSplitMethod = document.getElementById("selectedContinuousDataset").value;
-		var modelMethod = document.getElementById("selectedContinuousDataset").value;
+		var dataSplitMethod = document.getElementById("trainTestSplitType").value;
+		var modelMethod = document.getElementById("modelingType").value;
 		
 		var numSplits;
-		if(dataSplitMethod==""){
-			numSplits = document.getElementById("selectedContinuousDataset").value;
+		if(dataSplitMethod=="RANDOM"){
+			numSplits = document.getElementById("numSplitsInternalRandom").value;
 		}
 		else{
 			//sphere exclusion
-			numSplits = document.getElementById("selectedContinuousDataset").value;
+			numSplits = document.getElementById("numSplitsInternalSphere").value;
 		}
 		
 		if(modelMethod=="RANDOMFOREST"){
-			var treesPerModel = document.getElementById("selectedContinuousDataset").value;
-			var treesPerModel = document.getElementById("selectedContinuousDataset").value;
+			var treesPerSplit = document.getElementById("numTrees").value;
 		}
 		else if(modelMethod=="KNN-GA"){
-			//depends on numRuns as well
 			
 		}
 		else if(modelMethod=="KNN-SA"){
-			//depends on convergence parameters (temperature etc).
+			//depends on numRuns and needs a factor for convergence parameters (temperature etc).
 			
 		}
 		
