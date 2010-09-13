@@ -55,42 +55,42 @@
 		}
 		
 		//enable / disable based on the availableDescriptors
-		if(str.IndexOf("MOLCONNZ") > -1){
+		if(selectedDatasetAvailableDescriptors.IndexOf("MOLCONNZ") > -1){
 			document.getElementById("descriptorGenerationType")[0].disabled = false;
 		}
 		else{
 			document.getElementById("descriptorGenerationType")[0].disabled = true;
 		}
 		
-		if(str.IndexOf("DRAGONH") > -1){
+		if(selectedDatasetAvailableDescriptors.IndexOf("DRAGONH") > -1){
 			document.getElementById("descriptorGenerationType")[1].disabled = false;
 		}
 		else{
 			document.getElementById("descriptorGenerationType")[1].disabled = true;
 		}
 		
-		if(str.IndexOf("DRAGONNOH") > -1){
+		if(selectedDatasetAvailableDescriptors.IndexOf("DRAGONNOH") > -1){
 			document.getElementById("descriptorGenerationType")[2].disabled = false;
 		}
 		else{
 			document.getElementById("descriptorGenerationType")[2].disabled = true;
 		}
 		
-		if(str.IndexOf("MACCS") > -1){
+		if(selectedDatasetAvailableDescriptors.IndexOf("MACCS") > -1){
 			document.getElementById("descriptorGenerationType")[3].disabled = false;
 		}
 		else{
 			document.getElementById("descriptorGenerationType")[3].disabled = true;
 		}
 		
-		if(str.IndexOf("MOE2D") > -1){
+		if(selectedDatasetAvailableDescriptors.IndexOf("MOE2D") > -1){
 			document.getElementById("descriptorGenerationType")[4].disabled = false;
 		}
 		else{
 			document.getElementById("descriptorGenerationType")[4].disabled = true;
 		}
 		
-		if(str.IndexOf("UPLOADED") > -1){
+		if(selectedDatasetAvailableDescriptors.IndexOf("UPLOADED") > -1){
 			document.getElementById("descriptorGenerationType")[5].disabled = false;
 		}
 		else{
