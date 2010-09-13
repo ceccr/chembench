@@ -34,7 +34,6 @@
 	var selectedDatasetAvailableDescriptors = "";
 	
 	function getSelectedDataset(){
-				alert("dataset id in struts2: " + <s:property value='datasetId' />);
 		if(document.getElementById("categoryDataset").value == true){
 			datasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
@@ -53,7 +52,8 @@
 				</s:if>
 			</s:iterator>
 		}
-		alert(datasetId);
+		alert("dataset id" + datasetId);
+		alert("dataset id in struts2: " + <s:property value='datasetId' default='crap' />);
 		alert("numCompounds: " + selectedDatasetNumCompounds);
 		alert("availableDescriptors: " + selectedDatasetAvailableDescriptors);
 	}
