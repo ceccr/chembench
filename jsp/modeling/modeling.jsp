@@ -56,45 +56,45 @@
 		
 		//enable / disable based on the availableDescriptors
 		if(selectedDatasetAvailableDescriptors.indexOf("MOLCONNZ") > -1){
-			document.getElementById("descriptorGenerationType")[0].disabled = false;
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType")[0].disabled = true;
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONH") > -1){
-			document.getElementById("descriptorGenerationType")[1].disabled = false;
+			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType")[1].disabled = true;
+			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONNOH") > -1){
-			document.getElementById("descriptorGenerationType")[2].disabled = false;
+			document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType")[2].disabled = true;
+			document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("MACCS") > -1){
-			document.getElementById("descriptorGenerationType")[3].disabled = false;
+			document.getElementById("descriptorGenerationType" + "MACCS").disabled = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType")[3].disabled = true;
+			document.getElementById("descriptorGenerationType" + "MACCS").disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("MOE2D") > -1){
-			document.getElementById("descriptorGenerationType")[4].disabled = false;
+			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType")[4].disabled = true;
+			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1){
-			document.getElementById("descriptorGenerationType")[5].disabled = false;
+			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = false;
 		}
 		else{
-			document.getElementById("descriptorGenerationType")[5].disabled = true;
+			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = true;
 		}
 		
 		//calculate time estimate based on numCompounds and modeling parameters
@@ -125,6 +125,7 @@
 			var treesPerSplit = document.getElementById("numTrees").value;
 		}
 		else if(modelMethod=="KNN-GA"){
+			var treesPerSplit = document.getElementById("numTrees").value;
 			
 		}
 		else if(modelMethod=="KNN-SA"){
