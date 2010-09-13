@@ -2,30 +2,50 @@
 <CustomConfigration>
 
 <workbench>c-chembench</workbench>
-<!--
-<workbench>c-toxbench</workbench>
--->
+
+<!-- Administrators may approve users and jobs, and see more user information. -->
 <administrators>
 <admin>
-<name>admin</name>
-<email>ceccr@email.unc.edu</email>
+<name>theo</name>
+<email>naroom@gmail.com</email>
 </admin>
 <admin>
-<name>yourUsernameHere</name>
-<email>YourEmail@goes.here</email>
+<name>grulke</name>
+<email>grulke@email.unc.edu</email>
+</admin>
+<admin>
+<name>dpoz</name>
+<email>pozefsky@cs.unc.edu</email>
 </admin>
 </administrators>
 
-<systemBasePath>/home/theo/ceccr/</systemBasePath>
-<tomcatPath>/home/theo/ceccr/tomcat6/</tomcatPath>
-<executablesPath>/home/theo/ceccr/</executablesPath>
+<!-- Users with descriptor access may download descriptors. -->
+<!-- This must be monitored carefully and changed manually to ensure only MML users may use descriptors. -->
+<descriptorUsers>
+	<descriptorUser>theo</descriptorUser>
+	<descriptorUser>dongqiuyepu</descriptorUser>
+	<descriptorUser>grulke</descriptorUser>
+	<descriptorUser>skazgan</descriptorUser>
+	<descriptorUser>tywu</descriptorUser>
+	<descriptorUser>afant</descriptorUser>
+	<descriptorUser>mluo</descriptorUser>
+	<descriptorUser>yuzh@email.unc.edu</descriptorUser>
+	<descriptorUser>yuzh</descriptorUser>
+	<descriptorUser>tangh</descriptorUser>
+	<descriptorUser>nbaker</descriptorUser>
+	<descriptorUser>maidoan@email.unc.edu</descriptorUser>
+</descriptorUsers>
+
+<systemBasePath>/usr/local/ceccr/</systemBasePath>
+<tomcatPath>/usr/local/ceccr/tomcat6/</tomcatPath>
+<executablesPath>/usr/local/ceccr/</executablesPath>
 
 <webService>
- 
+
 <!-- GLOBAL KEYS (will work anywhere)  -->
 <publicKey>6LfkEwcAAAAAAOkmayIoxxxjQyaLPK7kQlEtn8Wf</publicKey>
 <privateKey>6LfkEwcAAAAAAI4NaGk2dgSbSmioBvJCFRJbYtmt</privateKey>
- 
+
 </webService>
 
 <website>
@@ -33,11 +53,16 @@
 <email>ceccr@email.unc.edu</email>
 </website>
 
+<mail>
+<server>isis.unc.edu</server>
+<host>mail.smtp.host</host>
+</mail>
+
 <database>
 <databaseName>ceccr</databaseName>
 <userName>root</userName>
 <password>VeX</password>
-<url>jdbc:mysql://localhost/</url>
+<url>jdbc:mysql://localhost:3306/</url>
 <driver>com.mysql.jdbc.Driver</driver>
 </database>
 
