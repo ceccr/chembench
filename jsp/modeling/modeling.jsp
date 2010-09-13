@@ -29,34 +29,32 @@
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
 	
-	var selectedDatasetId = 'none';
-	var selectedDatasetNumCompounds = 0;
+	var datasetId = -1;
+	var selectedDatasetNumCompounds = -1;
 	var selectedDatasetAvailableDescriptors = "";
 	
 	function getSelectedDataset(){
-		if(document.getElementById("categoryDataset").value == "on"){
-			selectedDatasetId = document.getElementById("selectedCategoryDataset").value;
+		if(document.getElementById("categoryDataset").value == true){
+			datasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
 				<s:if test="fileId==selectedDatasetId">
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
 				</s:if>
 			</s:iterator>
-			alert("numCompounds: " + selectedDatasetNumCompounds);
-			alert("availableDescriptors " + selectedDatasetAvailableDescriptors);
 		}
 		else{
-			selectedDatasetId = document.getElementById("selectedContinuousDataset").value;
+			datasetId = document.getElementById("selectedContinuousDataset").value;
 			<s:iterator value="userContinuousDatasets">
 				<s:if test="fileId==selectedDatasetId">
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
 				</s:if>
 			</s:iterator>
-			alert("numCompounds: " + selectedDatasetNumCompounds);
-			alert("availableDescriptors " + selectedDatasetAvailableDescriptors);
 		}
-		alert(selectedDatasetId);
+		alert(datasetId);
+		alert("numCompounds: " + selectedDatasetNumCompounds);
+		alert("availableDescriptors: " + selectedDatasetAvailableDescriptors);
 	}
 	</script>
 	
