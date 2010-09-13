@@ -55,7 +55,47 @@
 		}
 		
 		//enable / disable based on the availableDescriptors
+		if(str.IndexOf("MOLCONNZ") > -1){
+			document.getElementById("descriptorGenerationType")[0].disabled = false;
+		}
+		else{
+			document.getElementById("descriptorGenerationType")[0].disabled = true;
+		}
 		
+		if(str.IndexOf("DRAGONH") > -1){
+			document.getElementById("descriptorGenerationType")[1].disabled = false;
+		}
+		else{
+			document.getElementById("descriptorGenerationType")[1].disabled = true;
+		}
+		
+		if(str.IndexOf("DRAGONNOH") > -1){
+			document.getElementById("descriptorGenerationType")[2].disabled = false;
+		}
+		else{
+			document.getElementById("descriptorGenerationType")[2].disabled = true;
+		}
+		
+		if(str.IndexOf("MACCS") > -1){
+			document.getElementById("descriptorGenerationType")[3].disabled = false;
+		}
+		else{
+			document.getElementById("descriptorGenerationType")[3].disabled = true;
+		}
+		
+		if(str.IndexOf("MOE2D") > -1){
+			document.getElementById("descriptorGenerationType")[4].disabled = false;
+		}
+		else{
+			document.getElementById("descriptorGenerationType")[4].disabled = true;
+		}
+		
+		if(str.IndexOf("UPLOADED") > -1){
+			document.getElementById("descriptorGenerationType")[5].disabled = false;
+		}
+		else{
+			document.getElementById("descriptorGenerationType")[5].disabled = true;
+		}
 		
 		//calculate time estimate based on numCompounds and modeling parameters
 		
@@ -69,9 +109,21 @@
 
 	function calculateRuntimeEstimate(){
 		
-		numModels = 4;
+		var dataSplitMethod = document.getElementById("selectedContinuousDataset").value;
+		var modelMethod = document.getElementById("selectedContinuousDataset").value;
+		
+		var numSplits;
+		if(dataSplitMethod==""){
+			numSplits = document.getElementById("selectedContinuousDataset").value;
+		}
+		else{
+			//sphere exclusion
+			numSplits = document.getElementById("selectedContinuousDataset").value;
+		}
+		
 		if(modelMethod=="RANDOMFOREST"){
-			
+			var treesPerModel = document.getElementById("selectedContinuousDataset").value;
+			var treesPerModel = document.getElementById("selectedContinuousDataset").value;
 		}
 		else if(modelMethod=="KNN-GA"){
 			//depends on numRuns as well
