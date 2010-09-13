@@ -290,7 +290,6 @@ public class ModelingFormActions extends ActionSupport{
 		this.userTaskNames = userTaskNames;
 	}
 	
-	
 	public List<Predictor> getUserPredictorList(){
 		return userPredictorList;
 	}

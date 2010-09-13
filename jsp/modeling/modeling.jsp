@@ -34,16 +34,32 @@
 		selectedDatasetId = id;
 		alert(selectedDatasetId);
 	}
+	
+	var selectedDatasetNumCompounds = 0;
+	var selectedDatasetAvailableDescriptors = "";
+	
 	function getSelectedDataset(){
-		//assumes continuous is the default
-		selectedDatasetId = document.getElementById("selectedContinuousDataset").value;
+		alert(getElementById("categoryDataset").value);
+		if(document.getElementById("categoryDataset").value == "TRUE"){
+			selectedDatasetId = document.getElementById("selectedCategoryDataset").value;
+			<s:iterator value="userCategoryDatasets">
+				<s:if test="fileId==selectedDatasetId">
+					selectedDatasetNumCompounds = <s:property value='numCompound' />;
+				</s:if>
+			</s:iterator>
+			alert(selectedDatasetNumCompounds);
+		}
+		else{
+			selectedDatasetId = document.getElementById("selectedContinuousDataset").value;
+			<s:iterator value="userContinuousDatasets"><s:property /></s:iterator>
+		}
 		alert(selectedDatasetId);
 	}
 	</script>
 	
 </head>
 
-<body bgcolor="#ffffff" onload="setTabToModeling();">
+<body bgcolor="#ffffff" onload="setTabToModeling(); getSelectedDataset();">
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 	
@@ -69,7 +85,7 @@
         </tr>
         </table>
 
-<s:form action="createModelingJob" enctype="multipart/form-data" theme="simple" onload='getSelectedDataset()'>
+<s:form action="createModelingJob" enctype="multipart/form-data" theme="simple"'>
 
 	<!-- Dataset Selection -->
 			<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
@@ -106,7 +122,7 @@
 					</div>
 					</td>
 			    </tr>
-			    <!-- Commented out until it's implemented...
+				<!-- Commented out until it's implemented...
 				<tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Weight Categories By:</b></div></td>
