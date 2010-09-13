@@ -34,7 +34,7 @@
 	var selectedDatasetAvailableDescriptors = "";
 	
 	function getSelectedDataset(){
-		if(document.getElementById("categoryDataset").value == true){
+		if(document.getElementById("categoryDataset").checked==true){
 			datasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
 			if(datasetId==<s:property value="fileId" />){
