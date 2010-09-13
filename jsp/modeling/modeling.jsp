@@ -39,7 +39,7 @@
 	var selectedDatasetAvailableDescriptors = "";
 	
 	function getSelectedDataset(){
-		alert(getElementById("categoryDataset").value);
+		alert(document.getElementById("categoryDataset").value);
 		if(document.getElementById("categoryDataset").value == "TRUE"){
 			selectedDatasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
