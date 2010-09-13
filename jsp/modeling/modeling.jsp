@@ -56,45 +56,45 @@
 		
 		//enable / disable based on the availableDescriptors
 		if(selectedDatasetAvailableDescriptors.indexOf("MOLCONNZ") > -1){
-			document.getElementByName("descriptorGenerationType")[0].disabled = false;
+			document.getElementById("descriptorGenerationType")[0].disabled = false;
 		}
 		else{
-			document.getElementByName("descriptorGenerationType")[0].disabled = true;
+			document.getElementById("descriptorGenerationType")[0].disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONH") > -1){
-			document.getElementByName("descriptorGenerationType")[1].disabled = false;
+			document.getElementById("descriptorGenerationType")[1].disabled = false;
 		}
 		else{
-			document.getElementByName("descriptorGenerationType")[1].disabled = true;
+			document.getElementById("descriptorGenerationType")[1].disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONNOH") > -1){
-			document.getElementByName("descriptorGenerationType")[2].disabled = false;
+			document.getElementById("descriptorGenerationType")[2].disabled = false;
 		}
 		else{
-			document.getElementByName("descriptorGenerationType")[2].disabled = true;
+			document.getElementById("descriptorGenerationType")[2].disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("MACCS") > -1){
-			document.getElementByName("descriptorGenerationType")[3].disabled = false;
+			document.getElementById("descriptorGenerationType")[3].disabled = false;
 		}
 		else{
-			document.getElementByName("descriptorGenerationType")[3].disabled = true;
+			document.getElementById("descriptorGenerationType")[3].disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("MOE2D") > -1){
-			document.getElementByName("descriptorGenerationType")[4].disabled = false;
+			document.getElementById("descriptorGenerationType")[4].disabled = false;
 		}
 		else{
-			document.getElementByName("descriptorGenerationType")[4].disabled = true;
+			document.getElementById("descriptorGenerationType")[4].disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1){
-			document.getElementByName("descriptorGenerationType")[5].disabled = false;
+			document.getElementById("descriptorGenerationType")[5].disabled = false;
 		}
 		else{
-			document.getElementByName("descriptorGenerationType")[5].disabled = true;
+			document.getElementById("descriptorGenerationType")[5].disabled = true;
 		}
 		
 		//calculate time estimate based on numCompounds and modeling parameters
@@ -245,7 +245,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Type:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGONH':'Dragon (with hydrogens)<br />','DRAGONNOH':'Dragon (no hydrogens)','MACCS':'Maccs','MOE2D':'MOE2D<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" id="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGONH':'Dragon (with hydrogens)<br />','DRAGONNOH':'Dragon (no hydrogens)','MACCS':'Maccs','MOE2D':'MOE2D<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
 					</td>
 				</tr>
 				<tr>
