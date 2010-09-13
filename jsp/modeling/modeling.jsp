@@ -34,6 +34,7 @@
 	var selectedDatasetAvailableDescriptors = "";
 	
 	function getSelectedDataset(){
+		//get the numCompounds and availableDescriptors for the currently selected dataset
 		if(document.getElementById("categoryDataset").checked==true){
 			datasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
@@ -53,9 +54,35 @@
 			</s:iterator>
 		}
 		
-		alert("numCompounds: " + selectedDatasetNumCompounds);
-		alert("availableDescriptors: " + selectedDatasetAvailableDescriptors);
+		//enable / disable based on the availableDescriptors
+		
+		
+		//calculate time estimate based on numCompounds and modeling parameters
+		
 	}
+
+	function calculateTotalNumModels(){
+
+
+		
+	}
+
+	function calculateRuntimeEstimate(){
+		
+		numModels = 4;
+		if(modelMethod=="RANDOMFOREST"){
+			
+		}
+		else if(modelMethod=="KNN-GA"){
+			//depends on numRuns as well
+			
+		}
+		else if(modelMethod=="KNN-SA"){
+			//depends on convergence parameters (temperature etc).
+			
+		}
+		
+	}	
 	</script>
 	
 </head>
