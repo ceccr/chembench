@@ -52,8 +52,8 @@
 				</s:if>
 			</s:iterator>
 		}
-		alert("dataset id" + datasetId);
-		alert("dataset id in struts2: " + <s:property value='datasetId' default='crap' />);
+		alert("dataset id " + datasetId);
+		alert("dataset id in struts2: " + "<s:property value='datasetId' default='crap' />");
 		alert("numCompounds: " + selectedDatasetNumCompounds);
 		alert("availableDescriptors: " + selectedDatasetAvailableDescriptors);
 	}
