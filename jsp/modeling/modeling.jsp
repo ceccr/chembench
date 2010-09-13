@@ -59,9 +59,6 @@
 		alert("dataset id in struts2: " + "<s:property value='%{#datasetId}' default='crap4' />");
 		alert("dataset id in struts2: " + "<s:property value='%datasetId' default='crap5' />");
 		alert("dataset id in struts2: " + "<s:property value='%{"datasetId"}' default='crap5' />");
-		alert("dataset id in struts2: " + "<s:property value='$datasetId' default='crap5' />");
-		alert("dataset id in struts2: " + "<s:property value='${datasetId}' default='crap5' />");
-		alert("dataset id in struts2: " + "<s:property value='${"datasetId"}' default='crap5' />");
 		
 		alert("numCompounds: " + selectedDatasetNumCompounds);
 		alert("availableDescriptors: " + selectedDatasetAvailableDescriptors);
