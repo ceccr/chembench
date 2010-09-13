@@ -45,13 +45,19 @@
 			<s:iterator value="userCategoryDatasets">
 				<s:if test="fileId==selectedDatasetId">
 					selectedDatasetNumCompounds = "<s:property value='numCompound' />";
+					selectedDatasetAvailableDescriptors = "<s:property value='selectedDatasetAvailableDescriptors' />";
 				</s:if>
 			</s:iterator>
 			alert(selectedDatasetNumCompounds);
 		}
 		else{
 			selectedDatasetId = document.getElementById("selectedContinuousDataset").value;
-			<s:iterator value="userContinuousDatasets"><s:property /></s:iterator>
+			<s:iterator value="userContinuousDatasets">
+				<s:if test="fileId==selectedDatasetId">
+					selectedDatasetNumCompounds = "<s:property value='numCompound' />";
+					selectedDatasetAvailableDescriptors = "<s:property value='selectedDatasetAvailableDescriptors' />";
+				</s:if>
+			</s:iterator>
 		}
 		alert(selectedDatasetId);
 	}
