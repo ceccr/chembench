@@ -37,7 +37,7 @@
 		if(document.getElementById("categoryDataset").value == true){
 			datasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
-				<s:if test="fileId==selectedDatasetId">
+				<s:if test="fileId==datasetId">
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
 				</s:if>
@@ -46,7 +46,7 @@
 		else{
 			datasetId = document.getElementById("selectedContinuousDataset").value;
 			<s:iterator value="userContinuousDatasets">
-				<s:if test="fileId==selectedDatasetId">
+				<s:if test="fileId==datasetId">
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
 				</s:if>
