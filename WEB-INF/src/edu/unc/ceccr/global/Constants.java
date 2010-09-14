@@ -77,6 +77,7 @@ public class Constants {
 	public static final String DRAGONNOH = "DRAGONNOH";
 	public static final String MOE2D = "MOE2D";
 	public static final String MACCS = "MACCS";
+	public static final String UPLOADED = "UPLOADED";
 
 	public static final String KNN = "KNN";
 	public static final String KNNSA = "KNN-SA";
