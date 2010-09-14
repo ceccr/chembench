@@ -141,10 +141,12 @@
 			var maxDesc = document.getElementById("knnMaxNumDescriptors").value;
 			var descSteps = document.getElementById("knnDescriptorStepSize").value;
 
-			for(var i = minDesc; i <= maxDesc; i+= descSteps){
-				numDifferentDescriptors++;
+			if(descSteps > 0){
+				for(var i = minDesc; i <= maxDesc; i+= descSteps){
+					numDifferentDescriptors++;
+				}
 			}
-			
+						
 			timeEstimateMins = numSplits *(numRuns*numBest*numDifferentDescriptors)*selectedDatasetNumCompounds*0.01;
 		}
 		
