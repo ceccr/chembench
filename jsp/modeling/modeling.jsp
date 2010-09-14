@@ -138,11 +138,11 @@
 
 			var numDifferentDescriptors = 1;
 
-			/*
 			var minDesc = document.getElementById("knnMinNumDescriptors").value;
 			var maxDesc = document.getElementById("knnMaxNumDescriptors").value;
 			var descSteps = document.getElementById("knnDescriptorStepSize").value;
 
+			/*
 			if(descSteps != 0){
 				numDifferentDescriptors = Math.floor((maxDesc - minDesc)/ descSteps) + 1;
 			}*/
