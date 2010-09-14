@@ -27,7 +27,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Number of Data Splits:</b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="numSplitsInternalSphere" id="numSplitsInternalSphere" size="5" theme="simple"/></td>
+					<td align="left" valign="top"><s:textfield name="numSplitsInternalSphere" id="numSplitsInternalSphere" size="5" theme="simple" onchange='calculateRuntimeEstimate()'/></td>
 				</tr>
 				<tr>
 					<td>

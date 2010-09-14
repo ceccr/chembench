@@ -169,7 +169,7 @@
 			}
 		}
 		
-		document.getElementById("timeEstimateDiv").innerHTML = "This modeling job will take about <b>" + timeEstimateString + "</b> to finish.";
+		document.getElementById("timeEstimateDiv").innerHTML = "<br />This modeling job will take about <b>" + timeEstimateString + "</b> to finish.";
 	}	
 	</script>
 	
@@ -342,6 +342,7 @@
 				   dojo.event.topic.subscribe('/internalDataSplitTypeSelect', function(tab, tabContainer) {
 				      //alert("Tab "+ tab.widgetId + " was selected");
 				      document.getElementById("trainTestSplitType").value = tab.widgetId;
+				      calculateRuntimeEstimate();
 				   });
 				</script>
 				<s:hidden id="trainTestSplitType" name="trainTestSplitType" />
@@ -380,6 +381,7 @@
 				   dojo.event.topic.subscribe('/modelingTypeSelect', function(tab, tabContainer) {
 				      //alert("Tab "+ tab.widgetId + " was selected");
 				      document.getElementById("modelingType").value = tab.widgetId;
+				      calculateRuntimeEstimate();
 				   });
 				</script>
 				<s:hidden id="modelingType" name="modelingType" />
@@ -391,10 +393,10 @@
 					<sx:div id="RANDOMFOREST" value="RANDOMFOREST" theme="ajax" label="Random Forest" href="/loadRFSection" loadingText="Loading randomForest parameters...">
 					</sx:div>
 					
-					<sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
+					<sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
 					</sx:div>
 					
-					<sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
+					<sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
 					</sx:div>
 					
 					<!--
@@ -429,6 +431,22 @@
 					</p>
 					</td>
 				</tr>
+				
+				<tr>
+				    <td colspan="2">
+				  	  <div class="StandardTextDarkGrayParagraph" id="timeEstimateDiv"></div>
+				    </td>
+			    </tr>
+			     
+			    <s:if test="user.getUserName()!='guest'">
+			    <tr>
+					<td>
+					<div class="StandardTextDarkGrayParagraph"><b>Send me an email when the job finishes: </b></div>
+					</td>
+					<td align="left" valign="top"><s:checkbox name="emailOnCompletion" id="emailOnCompletion" /></td>
+				</tr>
+				</s:if>
+			     
 				<tr>
 					<td width="100%" colspan="2">
 					<div class="StandardTextDarkGrayParagraph" id="submitMessage">
@@ -436,7 +454,6 @@
 					</div>
 					</td>
 			    </tr>
-			    
 			    <tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Predictor Name:</b></div>
@@ -444,21 +461,7 @@
 					<td align="left" valign="top"><s:textfield name="jobName" id="jobName" size="19"/></td>
 				</tr>
 			     
-			     <tr>
-			     <td colspan="2">
-			     <div class="StandardTextDarkGrayParagraph" id="timeEstimateDiv"></div>
-			     </td>
-			     </tr>
-			     
-			    <s:if test="user.getUserName()!='guest'">
-			    <tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Send email when job finishes: </b></div>
-					</td>
-					<td align="left" valign="top"><s:checkbox name="emailOnCompletion" id="emailOnCompletion" /></td>
-				</tr>
-				</s:if>
-			     
+			    
 				<tr>
 					<td ></td>
 					<td class="" valign="top"><input type="button" name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('jobName').value ,usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ submitForm(this); }"
