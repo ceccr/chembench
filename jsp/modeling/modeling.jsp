@@ -359,10 +359,10 @@
 				
 				<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
 				<sx:tabbedpanel id="internalDataSplitTabbedPanel" afterSelectTabNotifyTopics="/internalDataSplitTypeSelect">
-					<sx:div id="RANDOM" theme="ajax" label="Random Split" href="/loadRandomInternalSplitSection" loadingText="Loading kNN parameters...">
+					<sx:div id="RANDOM" theme="ajax" label="Random Split" href="/loadRandomInternalSplitSection" loadingText="Loading data splitting parameters...">
 					</sx:div>
 					
-					<sx:div id="SPHEREEXCLUSION" theme="ajax" label="Sphere Exclusion" href="/loadSphereInternalSplitSection" loadingText="Loading kNN parameters...">
+					<sx:div id="SPHEREEXCLUSION" theme="ajax" label="Sphere Exclusion" href="/loadSphereInternalSplitSection" loadingText="Loading data splitting parameters...">
 					</sx:div>
 			    </sx:tabbedpanel>
 				</td></tr></table>
