@@ -141,7 +141,7 @@
 			var maxDesc = document.getElementById("knnMaxNumDescriptors").value;
 			var descSteps = document.getElementById("knnDescriptorStepSize").value;
 
-			if(descSteps > 0 && maxDesc >= minDesc){
+			if(descSteps > 0){
 				for(var i = minDesc; i <= maxDesc; i+=descSteps){
 					numDifferentDescriptors++;
 				}
