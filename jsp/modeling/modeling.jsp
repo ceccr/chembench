@@ -130,14 +130,22 @@
 		else if(modelMethod=="KNN-GA"){
 			//var maxNumGenerations = document.getElementById("gaMaxNumGenerations").value;
 			timeEstimateMins = (selectedDatasetNumCompounds*numSplits*0.05);
-			
 		}
 		else if(modelMethod=="KNN-SA"){
 			//depends on numRuns and needs a factor for convergence parameters (temperature etc).
 			var numRuns = document.getElementById("saNumRuns").value;
 			var numBest = document.getElementById("saNumBestModels").value;
+
+			var numDifferentDescriptors = 0;
+			var minDesc = document.getElementById("knnMinNumDescriptors").value;
+			var maxDesc = document.getElementById("knnMaxNumDescriptors").value;
+			var descSteps = document.getElementById("knnDescriptorStepSize").value;
+
+			for(var i = minDesc; i <= maxDesc; i+= descSteps){
+				numDifferentDescriptors++;
+			}
 			
-			timeEstimateMins = numSplits *(numRuns*numBest)*selectedDatasetNumCompounds*0.01;
+			timeEstimateMins = numSplits *(numRuns*numBest*numDifferentDescriptors)*selectedDatasetNumCompounds*0.01;
 		}
 		
 		
