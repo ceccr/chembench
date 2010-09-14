@@ -137,8 +137,17 @@
 			var numRuns = document.getElementById("saNumRuns").value;
 			var numBest = document.getElementById("saNumBestModels").value;
 			
-			timeEstimateMins = numRuns * numBest * selectedDatasetNumCompounds * 0.01;
+			timeEstimateMins = numSplits *(numRuns*numBest)*selectedDatasetNumCompounds*0.01;
 		}
+		
+		
+		//When UPS ships you a package, they artificially add one day to their 'estimated
+		//arrival time'. When customers receive their package a day early? They say, wow,
+		//UPS sure is fast! 
+		//So we multiply job time estimates by an arbitrary amount, so that we can always
+		//perform better than expectations :)
+		var makeUsLookGood = 1.2;
+		timeEstimateMins = timeEstimateMins * makeUsLookGood; 
 		
 		timeEstimateMins = Math.ceil(timeEstimateMins);
 		if(timeEstimateMins <= 0){
@@ -152,10 +161,10 @@
 		}
 		
 		if(timeEstimateMins > 120){
-			timeEstimateHours = timeEstimateMins / 60 + 1;
+			timeEstimateHours = Math.ceil(timeEstimateMins / 60);
 			timeEstimateString = timeEstimateHours + " hours";
 			if(timeEstimateHours > 48){
-				timeEstimateDays = timeEstimateHours / 24 + 1;
+				timeEstimateDays =  Math.ceil(timeEstimateHours / 24);
 				timeEstimateString = timeEstimateDays + " days";
 			}
 		}
