@@ -138,12 +138,12 @@
 
 			var numDifferentDescriptors = 1;
 
-			var minDesc = parseInt(document.getElementById("knnMinNumDescriptors").value);
-			var maxDesc = parseInt(document.getElementById("knnMaxNumDescriptors").value);
-			var descSteps = parseInt(document.getElementById("knnDescriptorStepSize").value);
+			var minDesc = document.getElementsByName("knnMinNumDescriptors").value[1];
+			var maxDesc = document.getElementsByName("knnMaxNumDescriptors").value[1];
+			var descSteps = document.getElementById("knnDescriptorStepSize").value;
 
 			if(descSteps != 0){
-				numDifferentDescriptors = Math.floor((maxDesc - minDesc)/ descSteps) + 1;
+				numDifferentDescriptors = Math.floor((maxDesc - minDesc)/descSteps) + 1;
 			}
 						
 			timeEstimateMins = numSplits *(numRuns*numBest*numDifferentDescriptors)*selectedDatasetNumCompounds*0.01;
