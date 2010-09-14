@@ -138,8 +138,8 @@
 
 			var numDifferentDescriptors = 1;
 
-			var minDesc = document.getElementsByName("knnMinNumDescriptors").value[1];
-			var maxDesc = document.getElementsByName("knnMaxNumDescriptors").value[1];
+			var minDesc = document.getElementsByName("knnMinNumDescriptors")[1].value;
+			var maxDesc = document.getElementsByName("knnMaxNumDescriptors")[1].value;
 			var descSteps = document.getElementById("knnDescriptorStepSize").value;
 
 			if(descSteps != 0){
