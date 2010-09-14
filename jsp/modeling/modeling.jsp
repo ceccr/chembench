@@ -145,7 +145,8 @@
 			/*
 			if(descSteps != 0){
 				numDifferentDescriptors = Math.floor((maxDesc - minDesc)/ descSteps) + 1;
-			}*/
+			}
+			*/
 						
 			timeEstimateMins = numSplits *(numRuns*numBest*numDifferentDescriptors)*selectedDatasetNumCompounds*0.01;
 		}
