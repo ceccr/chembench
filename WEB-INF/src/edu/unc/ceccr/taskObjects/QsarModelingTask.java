@@ -409,7 +409,7 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setActivityType(actFileDataType);
 		predictor.setCategoryWeights(categoryWeights);
 		predictor.setModelMethod(modelType);
-		
+
 		//descriptors
 		predictor.setDescriptorGeneration(descriptorGenerationType);
 		predictor.setScalingType(scalingType);
@@ -430,7 +430,6 @@ public class QsarModelingTask extends WorkflowTask {
 			predictor.setSplitIncludesMax(splitIncludesMax);
 			predictor.setSphereSplitMinTestSize(sphereSplitMinTestSize);
 			predictor.setSelectionNextTrainPt(selectionNextTrainPt);
-			
 			
 		//save modeling params to database
 		Session session = HibernateUtil.getSession();
