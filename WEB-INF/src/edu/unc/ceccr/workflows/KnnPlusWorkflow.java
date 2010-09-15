@@ -160,7 +160,14 @@ public class KnnPlusWorkflow{
 		f.setExecutable(true);
 		
 		//exec shell script
-		String command = "bsub -q week -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
+		String command;
+		if(modelType.equalsIgnoreCase(Constants.KNNSA)){
+			command = "bsub -q month -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
+		}
+		else{
+			command = "bsub -q week -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
+		}
+		
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		Utility.writeProgramLogfile(workingDir, "bsubKnnPlus", p.getInputStream(), p.getErrorStream());

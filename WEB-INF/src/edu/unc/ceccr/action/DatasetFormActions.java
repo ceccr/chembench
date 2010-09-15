@@ -312,7 +312,7 @@ public class DatasetFormActions extends ActionSupport{
 						xFileModDescFileName, //xFileName
 						descriptorTypeModDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
 						dataTypeModDesc, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
-						"", //used in MODELING and PREDICTION
+						"", //only used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
 						numExternalCompounds, //if splitType is RANDOM
 						useActivityBinning, //if splitType is RANDOM
@@ -324,11 +324,9 @@ public class DatasetFormActions extends ActionSupport{
 					int numCompounds = DatasetFileOperations.getACTCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModDescFileName).size();
 					int numModels = 0;
-					
-
+				
 					CentralDogma centralDogma = CentralDogma.getInstance();
 					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
-					
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);

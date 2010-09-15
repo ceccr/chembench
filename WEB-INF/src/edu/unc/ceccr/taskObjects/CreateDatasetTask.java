@@ -396,7 +396,7 @@ public class CreateDatasetTask extends WorkflowTask{
 			Utility.writeToDebug("Generating JPGs", userName, jobName);
 			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
 			
-			if(numCompounds < 500){
+			if(numCompounds < 500 && !sdfFileName.equals("")){
 				//totally not worth doing visualizations on huge datasets, the heatmap is 
 				//just nonsense at that point and it wastes a ton of compute time.
 				step = Constants.VISUALIZATION;
