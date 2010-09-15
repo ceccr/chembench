@@ -455,7 +455,6 @@ public class CreateDatasetTask extends WorkflowTask{
 		} finally {
 			session.close();
 		}
-		
 	}
 
 	public void delete() throws Exception {
