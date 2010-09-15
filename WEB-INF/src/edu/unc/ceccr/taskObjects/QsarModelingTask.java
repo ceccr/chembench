@@ -513,7 +513,7 @@ public class QsarModelingTask extends WorkflowTask {
 		Session session = HibernateUtil.getSession();
 		DataSet dataset = PopulateDataObjects.getDataSetById(datasetID,session);
 		session.close();
-		
+
 		String xFileName = "";
 		
 		if(dataset.getDatasetType().equals(Constants.MODELING)){
