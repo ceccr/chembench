@@ -146,7 +146,7 @@
 				numDifferentDescriptors = Math.floor((maxDesc - minDesc)/descSteps) + 1;
 			}
 						
-			timeEstimateMins = numSplits *(numRuns*numBest*numDifferentDescriptors)*selectedDatasetNumCompounds*0.01;
+			timeEstimateMins = numSplits *(numRuns*numBest*numDifferentDescriptors)*selectedDatasetNumCompounds*0.018;
 		}
 		
 		var errorMargin = 1.2;

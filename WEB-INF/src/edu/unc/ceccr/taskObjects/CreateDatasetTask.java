@@ -304,6 +304,10 @@ public class CreateDatasetTask extends WorkflowTask{
 			
 		}
 		
+		//add uploaded descriptors to list (if any)
+		if(datasetType.equals(Constants.MODELINGWITHDESCRIPTORS) || datasetType.equals(Constants.PREDICTIONWITHDESCRIPTORS)){
+			availableDescriptors += Constants.UPLOADED + " ";
+		}
 		
 		if(datasetType.equals(Constants.MODELING) || datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
 			//split dataset to get external set and modeling set
