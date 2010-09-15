@@ -33,8 +33,8 @@ public class DataSplitWorkflow{
 		}
 		
 		//copy the act file to a ".a" file because datasplit will expect it that way
-		String actFileBase = actFile.substring(0, actFile.lastIndexOf("."));
-		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + actFileBase + ".a");
+		String xFileBase = xFile.substring(0, xFile.lastIndexOf("."));
+		FileAndDirOperations.copyFile(workingdir + actFile, workingdir + xFileBase + ".a");
 
 		//split dataset into [modeling set | external test set]
 		String execstr1;
