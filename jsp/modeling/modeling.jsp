@@ -348,7 +348,7 @@
 				      calculateRuntimeEstimate();
 				   });
 				</script>
-				<s:hidden id="trainTestSplitType" name="trainTestSplitType" />
+				<s:hidden id="trainTestSplitType" name="trainTestSplitType"  />
 				<!-- end script -->
 				
 				<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>

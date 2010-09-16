@@ -505,7 +505,7 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		GetJobFilesWorkflow.getDatasetFiles(userName, dataset, filePath);
 
-		//create the descriptors for the dataset and read them in
+		//read in the descriptors for the dataset
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>(); 
 		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(filePath + sdFileName);
