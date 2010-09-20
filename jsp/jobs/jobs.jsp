@@ -235,7 +235,19 @@
 			</tr>
 			<s:iterator value="errorJobs">
 				<tr>
-				<td class="TableRowText02"><s:property value="jobName" /></td>
+				
+				<td class="TableRowText02">
+				<s:if test="adminUser&&jobTypeString=='modeling'">
+					<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
+					<s:param name="id" value='predictorId' />
+					</s:url>
+					<s:a href="%{predictorLink}"><s:property value="jobName" /></s:a>
+				</s:if>
+				<s:else>
+					<s:property value="jobName" />
+				</s:else>
+				</td>
+				
 				<td class="TableRowText02"><s:property value="userName" /></td>
 				<td class="TableRowText02"><s:property value="jobType" /></td>
 				<td class="TableRowText02"><s:property value="numCompounds" /></td>
