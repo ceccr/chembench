@@ -364,44 +364,36 @@ public class RandomForestWorkflow{
 		String inputString;
 		
 		in.readLine(); // first line is the header with the model name
-		int lineNum = 2;
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
-			try{
-				String[] data = inputString.split("\\s+"); //Note: [0] is the compound name and the following are the predicted values.
-				
-				PredictionValue p = new  PredictionValue();
-				p.setPredictorId(predictorId);
-				p.setCompoundName(data[0]);
-				
-				Float[] compoundPredictedValues = new Float[data.length - 1];
-				p.setNumTotalModels(compoundPredictedValues.length);
-				p.setNumModelsUsed(compoundPredictedValues.length);
-				float sum=0;
-				for(int i=0; i<compoundPredictedValues.length; i++)
-				{
-					compoundPredictedValues[i] = new Float(data[i+1]);
-					sum += compoundPredictedValues[i].floatValue();
-				}
-				float mean = sum / compoundPredictedValues.length;
-				p.setPredictedValue((new Float(mean)));
-				
-				double sumDistFromMeanSquared = 0.0;
-				for(int i=0; i<compoundPredictedValues.length; i++)
-				{
-					double distFromMean = compoundPredictedValues[i].doubleValue() - (double)mean;
-					sumDistFromMeanSquared += Math.pow(distFromMean, (double)2);
-				}
-				double stdDev = Math.sqrt(sumDistFromMeanSquared/(double)compoundPredictedValues.length);
-				p.setStandardDeviation(new Float(stdDev));
-				
-				predictionValues.add(p);
-				lineNum++;
+			String[] data = inputString.split("\\s+"); //Note: [0] is the compound name and the following are the predicted values.
+			
+			PredictionValue p = new  PredictionValue();
+			p.setPredictorId(predictorId);
+			p.setCompoundName(data[0]);
+			
+			Float[] compoundPredictedValues = new Float[data.length -1];
+			p.setNumTotalModels(compoundPredictedValues.length);
+			p.setNumModelsUsed(compoundPredictedValues.length);
+			float sum=0;
+			for(int i=0; i<compoundPredictedValues.length; i++)
+			{
+				compoundPredictedValues[i] = new Float(data[i+1]);
+				sum += compoundPredictedValues[i].floatValue();
 			}
-			catch(Exception ex){
-				Utility.writeToDebug("Exception when reading from " + workingDir + outputFile + " at line " + lineNum + ":\n" + inputString);
-				Utility.writeToDebug(ex);
+			float mean = sum / compoundPredictedValues.length;
+			p.setPredictedValue((new Float(mean)));
+			
+			double sumDistFromMeanSquared = 0.0;
+			for(int i=0; i<compoundPredictedValues.length; i++)
+			{
+				double distFromMean = compoundPredictedValues[i].doubleValue() - (double)mean;
+				sumDistFromMeanSquared += Math.pow(distFromMean, (double)2);
 			}
+			double stdDev = Math.sqrt(sumDistFromMeanSquared/(double)compoundPredictedValues.length);
+			p.setStandardDeviation(new Float(stdDev));
+			
+			predictionValues.add(p);
 		}
 		in.close();
 		

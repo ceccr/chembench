@@ -123,13 +123,13 @@
 			
 			<sx:div id="PREDICTION" href="/loadPredictionSection" label="Prediction Set" theme="ajax" loadingText="Loading dataset types..." preload="false">
 			</sx:div>
-			
+			<!-- 
 			<sx:div id="MODELINGWITHDESCRIPTORS" href="/loadModelingWithDescriptorsSection" label="Modeling Set With Descriptors" theme="ajax" loadingText="Loading dataset types...">
 			</sx:div>
 			
 			<sx:div id="PREDICTIONWITHDESCRIPTORS" href="/loadPredictionWithDescriptorsSection" label="Prediction Set With Descriptors" theme="ajax" loadingText="Loading dataset types...">
 			</sx:div>
-			
+			 -->
     	</sx:tabbedpanel>
     	</td></tr></table>
     	</td></tr>
