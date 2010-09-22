@@ -135,9 +135,7 @@
 			//depends on numRuns and needs a factor for convergence parameters (temperature etc).
 			var numRuns = document.getElementById("saNumRuns").value;
 			var numBest = document.getElementById("saNumBestModels").value;
-
 			var numDifferentDescriptors = 1;
-
 			var minDesc = document.getElementsByName("knnMinNumDescriptors")[1].value;
 			var maxDesc = document.getElementsByName("knnMaxNumDescriptors")[1].value;
 			var descSteps = document.getElementById("knnDescriptorStepSize").value;
@@ -145,7 +143,7 @@
 			if(descSteps != 0){
 				numDifferentDescriptors = Math.floor((maxDesc - minDesc)/descSteps) + 1;
 			}
-						
+
 			timeEstimateMins = numSplits *(numRuns*numBest*numDifferentDescriptors)*selectedDatasetNumCompounds*0.018;
 		}
 		
