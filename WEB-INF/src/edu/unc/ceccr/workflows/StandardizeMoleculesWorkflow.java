@@ -103,9 +103,9 @@ public class StandardizeMoleculesWorkflow {
 				out.write(standardizedFilePart);
 				
 				//delete the standardized file-part from disk, it's no longer needed
-				//FileAndDirOperations.deleteFile(workingDir + filePartName);
+				FileAndDirOperations.deleteFile(workingDir + filePartName);
 				String oldFile = sdfIn + "_" + i + ".sdf";
-				//FileAndDirOperations.deleteFile(workingDir + oldFile);
+				FileAndDirOperations.deleteFile(workingDir + oldFile);
 			}
 			out.close();
 		}
