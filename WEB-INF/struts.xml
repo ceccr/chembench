@@ -395,6 +395,10 @@
         	<result>jsp/help/workflows.jsp</result>
         </action>
         
+        <action name="help-versions">
+        	<result>jsp/help/versions.jsp</result>
+        </action>
+        
         <!-- End Help forwards -->
         
         <!-- For Demoing -->
