@@ -6,7 +6,7 @@
 
 
 <p align="justify" class="ccbHomeStandard">
-<b>Version 1.0</b>
+<b>Version 1.0.0</b>
 
 <p>
 Current supported features:<br /> 
