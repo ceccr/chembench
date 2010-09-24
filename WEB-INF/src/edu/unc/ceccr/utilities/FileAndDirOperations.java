@@ -43,6 +43,7 @@ public class FileAndDirOperations {
 	}
 
 	public static String readFileIntoString(String filePath){
+		Utility.writeToDebug("reading file: " + filePath); 
 		String fileContents = "";
 		try{
 			File fromFile = new File(filePath);
@@ -60,7 +61,8 @@ public class FileAndDirOperations {
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-			
+
+		Utility.writeToDebug("finshed reading file: " + filePath + " (" + fileContents.length() / 1000000 + " megabytes)"); 
 		return fileContents;
 	}
 
