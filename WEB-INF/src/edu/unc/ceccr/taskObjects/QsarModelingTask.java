@@ -664,10 +664,15 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnPlusWorkflow.predictExternalSet(userName, jobName, path, knnPlusParameters.getKnnApplicabilityDomain());
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
+			Utility.writeToDebug("making X files", userName, jobName);
 			RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
+			Utility.writeToDebug("setting up y-randomization", userName, jobName);
 			RandomForestWorkflow.SetUpYRandomization(userName, jobName);
+			Utility.writeToDebug("building models", userName, jobName);
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path, jobName);
+			Utility.writeToDebug("building y-random models", userName, jobName);
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path + "yRandom/", jobName);
+			Utility.writeToDebug("modeling phase done", userName, jobName);
 		}
 	}
 	
