@@ -432,6 +432,7 @@ public class RandomForestWorkflow{
 		while((line = br.readLine()) != null){
 			if(lineCount < numCompounds){
 				out.write(line + "\n");
+				lineCount++;
 			}
 		}
 		out.close();
