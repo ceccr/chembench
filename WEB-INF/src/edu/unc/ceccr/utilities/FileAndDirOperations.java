@@ -43,8 +43,10 @@ public class FileAndDirOperations {
 	}
 
 	public static String readFileIntoString(String filePath){
+		
+
+		StringBuffer fileContents = new StringBuffer();
 		Utility.writeToDebug("reading file: " + filePath); 
-		String fileContents = "";
 		try{
 			File fromFile = new File(filePath);
 			BufferedReader br = new BufferedReader(new FileReader(fromFile));
@@ -52,7 +54,7 @@ public class FileAndDirOperations {
 	        int numRead=0;
 	        while((numRead=br.read(buf)) != -1){
 	            String readData = String.valueOf(buf, 0, numRead);
-	            fileContents += readData;
+	            fileContents.append(readData);
 	            buf = new char[1024];
 	        }
 	        br.close();
@@ -63,7 +65,7 @@ public class FileAndDirOperations {
 		}
 
 		Utility.writeToDebug("finshed reading file: " + filePath + " (" + fileContents.length() / 1000000 + " megabytes)"); 
-		return fileContents;
+		return fileContents.toString();
 	}
 
 	public static void writeStringToFile(String text, String filePath){
