@@ -409,23 +409,34 @@ public class RandomForestWorkflow{
 		//Also, descriptor names containing "#" character will break Random Forest, so these
 		//are changed to "=_" instead.
 				
+		
 		if(! new File(workingDir + xFile).exists()){
 			return;
 		}
 		
-		String xFileContents = FileAndDirOperations.readFileIntoString(workingDir + xFile);
-		xFileContents = xFileContents.replaceAll("#", "=_");
-		String[] xFileLines = xFileContents.split("\n");
-		String output = "";
-		int stopAtLine = xFileLines.length;
-		if(!scalingType.equals(Constants.NOSCALING)){
-			stopAtLine -= 2;
-		}
-		for(int i = 0; i < stopAtLine; i++){
-			output += xFileLines[i] + "\n";
-		}
+		BufferedReader br = new BufferedReader(new FileReader(workingDir + xFile));
+		BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + newXFile));
 		
-		FileAndDirOperations.writeStringToFile(output, workingDir + newXFile);
+		//header
+		String line = br.readLine();
+		String[] headerInfo = line.split("\\s+");
+		int numCompounds = Integer.parseInt(headerInfo[0]);
+		out.write(line + "\n");
+		
+		//descriptor names
+		line = br.readLine().replaceAll("#", "=_");
+		out.write(line + "\n");
+		
+		//descriptor values
+		int lineCount = 0;
+		while((line = br.readLine()) != null){
+			if(lineCount < numCompounds){
+				out.write(line + "\n");
+			}
+		}
+		out.close();
+		br.close();
+		
 	}
 
 	//END HELPER FUNCTIONS
