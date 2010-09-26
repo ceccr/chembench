@@ -13,6 +13,13 @@ public class Generate3DMolWorkflow {
 		Utility.writeToDebug("Running External Program: " + command, userName, jobName);
 		Process p = Runtime.getRuntime().exec(command);
 		Utility.writeProgramLogfile(workingDir, "molconvert_3D", p.getInputStream(), p.getErrorStream());
-		p.waitFor();		
+		p.waitFor();
+		if (p != null) {
+	        Utility.close(p.getOutputStream());
+	        Utility.close(p.getInputStream());
+	        Utility.close(p.getErrorStream());
+	        p.destroy();
+	    }
+				
 	}
 }

@@ -22,6 +22,9 @@ public class SdfToJpgWorkflow {
 		Process p = Runtime.getRuntime().exec(execstr1, null, new File(filePath));
 		Utility.writeProgramLogfile(filePath, "removeExplicitH", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
+		p.getInputStream().close();
+		p.getErrorStream().close();
+		p.destroy();
 		
 		fileName += ".removedH";
 		
@@ -94,9 +97,11 @@ public class SdfToJpgWorkflow {
 				
 				// run molconvert
 				Process process = Runtime.getRuntime().exec(command);
-				//Utility.writeProgramLogfile(sketchesDir, "molconvert" + x, process.getInputStream(), process.getErrorStream());
 				
 				process.waitFor();
+				process.getInputStream().close();
+				process.getErrorStream().close();
+				process.destroy();
 			
 			}
 			x++;

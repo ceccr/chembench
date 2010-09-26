@@ -112,7 +112,7 @@ public class LoginAction extends Action {
 		
 		//The only reason we use HTTPS at all is to encode login information
 		//now that that's done, we want to redirect the user out of HTTPS-land
-
+/*		
         String pathInfo = request.getPathInfo();
         String queryString = request.getQueryString();
         String contextPath = request.getContextPath();
@@ -134,7 +134,7 @@ public class LoginAction extends Action {
 
         ((HttpServletResponse) response)
                 .sendRedirect(((HttpServletResponse) response)
-                        .encodeRedirectURL(redirectUrl));
+                        .encodeRedirectURL(redirectUrl));*/
 		//end redirect
         
 		return forward;

@@ -234,6 +234,13 @@ public class DataSplitWorkflow{
 			Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
 			Utility.writeProgramLogfile(workingdir, "datasplit_" + i, p.getInputStream(), p.getErrorStream());
 			p.waitFor();
+			if (p != null) {
+		        Utility.close(p.getOutputStream());
+		        Utility.close(p.getInputStream());
+		        Utility.close(p.getErrorStream());
+		        p.destroy();
+		    }
+			
 			
 			//Read in the listfile that was just created.
 			String fileLocation = workingdir + listFileName;
@@ -302,6 +309,13 @@ public class DataSplitWorkflow{
 		Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
 		Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
+		if (p != null) {
+	        Utility.close(p.getOutputStream());
+	        Utility.close(p.getInputStream());
+	        Utility.close(p.getErrorStream());
+	        p.destroy();
+	    }
+		
 		
 		//datasplit will change all its filenames to lowercase. We need RAND_sets.list, not rand_sets.list!
 		FileAndDirOperations.copyFile(workingdir + "rand_sets.list", workingdir + "RAND_sets.list");

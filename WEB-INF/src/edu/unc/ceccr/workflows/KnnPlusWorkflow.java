@@ -328,6 +328,13 @@ public class KnnPlusWorkflow{
 			Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "checkKnnSaProgress", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
+			if (p != null) {
+		        Utility.close(p.getOutputStream());
+		        Utility.close(p.getInputStream());
+		        Utility.close(p.getErrorStream());
+		        p.destroy();
+		    }
+			
 	
 			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnSaProgress").trim();
 			String[] tokens = file.split(" ");
@@ -348,6 +355,13 @@ public class KnnPlusWorkflow{
 			Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
 			Utility.writeProgramLogfile(workingDir, "checkKnnGaProgress", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
+			if (p != null) {
+		        Utility.close(p.getOutputStream());
+		        Utility.close(p.getInputStream());
+		        Utility.close(p.getErrorStream());
+		        p.destroy();
+		    }
+			
 	
 			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnGaProgress").trim();
 			String[] tokens = file.split(" ");
