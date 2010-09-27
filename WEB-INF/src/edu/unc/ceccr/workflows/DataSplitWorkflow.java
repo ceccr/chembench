@@ -68,7 +68,12 @@ public class DataSplitWorkflow{
 
 		String[] compoundIDs = compoundIdString.trim().split("\\s+");
 		Utility.writeToDebug("called splitModelingExternalGivenList in dir: " + workingdir + " actfile: " + actFileName + " xfile: " + xFileName);
-		//Utility.writeToDebug(" compoundIdString: " + compoundIdString);
+		
+		Utility.writeToDebug("total num compounds in external set: " + compoundIDs.length);
+		for(int i = 0 ; i< compoundIDs.length; i++){
+			Utility.writeToDebug("id " + i + " : " + compoundIDs[i]);
+		}
+		Utility.writeToDebug(" compoundIdString: " + compoundIdString);
 		File inX = new File(workingdir + xFileName);
 		BufferedReader inXReader = new BufferedReader(new FileReader(inX));
 		File inAct = new File(workingdir + actFileName);
@@ -91,7 +96,7 @@ public class DataSplitWorkflow{
 		int numCompounds = Integer.parseInt(array[0]);
 		int numDescriptors = Integer.parseInt(array[1]);
 		int numExternalCompounds = compoundIDs.length;
-		if(compoundIDs.length == 1 && compoundIDs[0].equals("")){
+		if(compoundIDs.length == 1 && compoundIDs[0].equals("") || compoundIDs.length == 0){
 			numExternalCompounds = 0;
 		}
 		int numCompoundsModelingSet = numCompounds - numExternalCompounds;

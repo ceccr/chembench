@@ -437,7 +437,6 @@ public class RandomForestWorkflow{
 		}
 		out.close();
 		br.close();
-		
 	}
 
 	//END HELPER FUNCTIONS
