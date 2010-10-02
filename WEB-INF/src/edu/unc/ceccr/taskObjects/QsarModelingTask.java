@@ -554,12 +554,9 @@ public class QsarModelingTask extends WorkflowTask {
 		//apply the dataset's external split(s) to the generated .X file
 		step = Constants.SPLITDATA;
 		
-		
 		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
 		String externalCompoundIdString = Utility.StringArrayListToString(extCompoundArray);
 		DataSplitWorkflow.splitModelingExternalGivenList(filePath, actFileName, xFileName, externalCompoundIdString);
-		
-		
 		
 		//make internal training / test sets for each model
 		if(trainTestSplitType.equals(Constants.RANDOM)){
