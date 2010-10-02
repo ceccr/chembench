@@ -508,7 +508,7 @@ public class QsarModelingTask extends WorkflowTask {
 		//read in the descriptors for the dataset
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>(); 
-		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(filePath + sdFileName);
+		ArrayList<String> chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
 		
 		Session session = HibernateUtil.getSession();
 		DataSet dataset = PopulateDataObjects.getDataSetById(datasetID,session);

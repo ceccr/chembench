@@ -6,6 +6,29 @@
 
 
 <p align="justify" class="ccbHomeStandard">
+<b>Version 1.1.0 (Oct. 2, 2010)</b>
+
+<p>
+Updates:<br />
+<br />
+<u>Datasets</u><br />
+- Datasets may now be uploaded that include user-created descriptors. The descriptors must be in the 
+<a href="/help-fileformats#X">X file format</a> we specify. If there is demand, we may add support for other 
+formats later. <br />
+- Datasets that include descriptors may omit the SDF; hence it is possible to use Chembench for modeling
+while keeping compound structures private. <br />
+<br />
+<u>Modeling</u><br />
+- kNN modeling jobs submitted to LSF now use the 'idle' queue instead of the 'month' or 'week' queues. <br />
+This allows for larger-scale modeling jobs to be supported and avoids queue slot issues.<br />
+- Modeling can now be performed on uploaded descriptors. <br />
+- Fixed a bug that occurred when modeling datasets that have no external compounds defined.<br />
+<br />
+<u>Prediction</u><br />
+- When prediction results are downloaded, a CSV file that organizes the results for each compound is included.<br />
+<br />
+
+<p align="justify" class="ccbHomeStandard">
 <b>Version 1.0.0</b>
 
 <p>

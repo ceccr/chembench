@@ -162,10 +162,10 @@ public class KnnPlusWorkflow{
 		//exec shell script
 		String command;
 		if(modelType.equalsIgnoreCase(Constants.KNNSA)){
-			command = "bsub -q month -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
+			command = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
 		}
 		else{
-			command = "bsub -q week -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
+			command = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
 		}
 		
 		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);

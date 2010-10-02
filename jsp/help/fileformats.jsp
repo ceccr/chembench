@@ -92,13 +92,11 @@ compound description ends with $$$$.
  has more details on the SDF format.
 </p>
 
-<!-- 
-We don't need this for now.
 
-<p><b>.x files</b></p>
+<p id="X"><b>.x files</b></p>
 
 <p>.x is a file format used by the kNN executables. It is similar to the matrix format accepted by other 
-data mining programs such as LibSVM.</p>
+data mining programs. <a href="">Download a sample .x file</a>.</p>
 
 <p>
 The .x file contains a matrix of compounds and descriptor values, as below:
@@ -110,16 +108,18 @@ The line indicates that a 7 by 315 matrix follows: There are 7 compounds, each w
 
 <p>The second line contains the names of the descriptors.</p>
 
-<p>[LINE 3]: 1 4254097 0.5 0.609756 0.5625 ...</p>
+<pre>
+[LINE 3]: 1 4254097 0.5 0.609756 0.5625 ...
+[LINE 4]: 2 4239291 0 0 0.0208333 0.142857 ...
+[LINE 5]: 4 myCompoundName 0 0 0.0208333 0.142857 ...
+</pre>
 
-<p>From the third line on, each line represents one compound. The first value on each line is an index. 
+<p>From the third line on, each line represents one compound. The first value on each line is an index, starting at 1. 
 The second value is an ID for the compound. The remaining numbers are the values of the descriptors for 
 the compound.
-[LINE 4]: 2 4239291 0 0 0.0208333 0.142857 ...</p>
 
-
-<p>At the end of the file, there may be two additional lines. If a .x file has been normalized, the 
-original descriptor values need to be preserved; these lines tell what the range of each descriptor 
+<p>At the end of the file, there may be two additional lines. If a .x file has been normalized (e.g. by range scaling), 
+the original descriptor values need to be preserved; these lines tell what the range of each descriptor 
 was before normalization.
 
 <p>[SECOND TO LAST LINE]: 2 19 2 ...
@@ -131,8 +131,6 @@ next two values, 19 and 60, indicate the minimum and maximum values for the seco
 It continues this for all descriptors.
 </p>
 
-
- -->
 
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
