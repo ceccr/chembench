@@ -61,6 +61,12 @@ public class ImageServlet extends HttpServlet {
     		imageFileName=Constants.CECCR_BASE_PATH + "tomcat6/webapps/ROOT/theme/img/no_image.jpg";
     		imageFile = new File(imageFileName);
     		
+    		 if(! imageFile.exists()){
+    			Utility.writeToDebug("Could not find default image file.");
+	            response.setContentLength(0);
+	        	response.setContentType("image/jpeg");
+	        	return;
+    		 }
         }
         
         BufferedInputStream input = null;
