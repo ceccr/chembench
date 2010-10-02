@@ -96,31 +96,38 @@ compound description ends with $$$$.
 <p id="X"><b>.x files</b></p>
 
 <p>.x is a file format used by the kNN executables. It is similar to the matrix format accepted by other 
-data mining programs. <a href="">Download a sample .x file</a>.</p>
+data mining programs.</p>
+
+<p>You may want to <a href="/jsp/help/samples/descriptorsFileSample.x">download a sample .x file</a> and open it
+using a text editor.</p>
 
 <p>
-The .x file contains a matrix of compounds and descriptor values, as below:
-[LINE 1]: 7 315
-The line indicates that a 7 by 315 matrix follows: There are 7 compounds, each with 315 descriptor values.</p>
+The .x file contains a matrix of compounds and descriptor values. The format is described below.<br />
+<pre>[LINE 1]: 50 120</pre><br />
+This header line indicates that a 50 by 120 matrix follows: There are 50 compounds, each with 120 descriptor values.</p>
 
 <p>
-[LINE 2]: narecs nvx nedges nrings ncircuits...</p>
+<pre>[LINE 2]: descriptorOne anotherDescriptor aThirdDescriptor...</pre>
+</p>
 
 <p>The second line contains the names of the descriptors.</p>
 
+<p>
 <pre>
-[LINE 3]: 1 4254097 0.5 0.609756 0.5625 ...
-[LINE 4]: 2 4239291 0 0 0.0208333 0.142857 ...
-[LINE 5]: 4 myCompoundName 0 0 0.0208333 0.142857 ...
+[LINE 3]: 1 compoundName 0.5 0.609756 0.5625 ...
+[LINE 4]: 2 anotherCompoundName 0 0 0.0208333 0.142857 ...
+[LINE 5]: 3 aThirdCompoundName 0 0 0.0208333 0.142857 ...
 </pre>
+</p>
 
 <p>From the third line on, each line represents one compound. The first value on each line is an index, starting at 1. 
-The second value is an ID for the compound. The remaining numbers are the values of the descriptors for 
-the compound.
+The second value is an ID for the compound. The remaining numbers are the values of the descriptors for the compound.
+</p>
 
 <p>At the end of the file, there may be two additional lines. If a .x file has been normalized (e.g. by range scaling), 
 the original descriptor values need to be preserved; these lines tell what the range of each descriptor 
 was before normalization.
+</p>
 
 <p>[SECOND TO LAST LINE]: 2 19 2 ...
 [LAST LINE]: 4 60 68 ... </p>
