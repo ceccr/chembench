@@ -179,13 +179,15 @@ public class ModelingFormActions extends ActionSupport{
 			if(modelingType.equals(Constants.KNNGA)){
 				index = 1;
 			}
-			knnMinNumDescriptors = knnMinNumDescriptors.split("\\, ")[index];
-			knnMaxNumDescriptors = knnMaxNumDescriptors.split("\\, ")[index];
-			knnMinNearestNeighbors = knnMinNearestNeighbors.split("\\, ")[index];
-			knnMaxNearestNeighbors = knnMaxNearestNeighbors.split("\\, ")[index];
-			knnApplicabilityDomain = knnApplicabilityDomain.split("\\, ")[index];
-			knnMinTraining = knnMinTraining.split("\\, ")[index];
-			knnMinTest = knnMinTest.split("\\, ")[index];
+			if(knnMinNumDescriptors.split("\\, ").length > 1){
+				knnMinNumDescriptors = knnMinNumDescriptors.split("\\, ")[index];
+				knnMaxNumDescriptors = knnMaxNumDescriptors.split("\\, ")[index];
+				knnMinNearestNeighbors = knnMinNearestNeighbors.split("\\, ")[index];
+				knnMaxNearestNeighbors = knnMaxNearestNeighbors.split("\\, ")[index];
+				knnApplicabilityDomain = knnApplicabilityDomain.split("\\, ")[index];
+				knnMinTraining = knnMinTraining.split("\\, ")[index];
+				knnMinTest = knnMinTest.split("\\, ")[index];
+			}
 			
 			QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
 			Utility.writeToDebug("Setting up task", user.getUserName(), this.getJobName());
