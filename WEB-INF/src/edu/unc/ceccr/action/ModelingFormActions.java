@@ -109,6 +109,7 @@ public class ModelingFormActions extends ActionSupport{
 	}
 	
 	Session executeSession = null; //specialized session variable used only in this function
+	boolean closeSessionAtEnd = true;
 	public String execute() throws Exception {
 		//form has been submitted
 
@@ -127,7 +128,6 @@ public class ModelingFormActions extends ActionSupport{
 			return "";
 		}
 		
-		boolean closeSessionAtEnd = true;
 		if((user.getUserName().equalsIgnoreCase("grulke") || user.getUserName().equalsIgnoreCase("theo") || 
 				user.getUserName().equalsIgnoreCase("maidoan@email.unc.edu")) &&
 				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName().equals("all-datasets") ){
@@ -149,7 +149,9 @@ public class ModelingFormActions extends ActionSupport{
 					execute();
 				}
 			}
-			executeSession.close();
+			if(executeSession.isOpen()){
+				executeSession.close();
+			}
 			return SUCCESS;
 		}
 		else{
