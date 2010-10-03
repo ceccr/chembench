@@ -113,6 +113,24 @@ public class ModelingFormActions extends ActionSupport{
 
 		Session session = HibernateUtil.getSession();
 		
+		if((user.getUserName().equalsIgnoreCase("grulke") || user.getUserName().equalsIgnoreCase("theo") || 
+				user.getUserName().equalsIgnoreCase("maidoan@email.unc.edu")) &&
+				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getFileName().equals("all-datasets") ){
+			//activate GOD MODE. Launch modeling on every dataset the user owns except for this one.
+			ArrayList<DataSet> datasetList = new ArrayList<DataSet>();
+			datasetList.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, false, session));
+			datasetList.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, false, session));
+			
+			Long allDatasetsId = selectedDatasetId;
+			
+			for(int i = 0; i < datasetList.size(); i++){
+				if(! datasetList.get(i).getFileId().equals(allDatasetsId))
+					selectedDatasetId = datasetList.get(i).getFileId();
+					execute();
+			}
+			
+		}
+		
 		//debug output
 		String s = "";
 		s += "\n Job Name: " + jobName;

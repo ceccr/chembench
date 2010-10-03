@@ -6,6 +6,7 @@
 
 <p>Datasets uploaded to Chembench are expected to contain these types of files.</p>
 
+<br />
 <p id="ACT"><b>.act files</b></p>
 
 <p>The .act files store activities of each compound from some assay. An activity file is necessary for 
@@ -43,8 +44,7 @@ compound7 2
 only constraint is that the chemical identifiers in your activity file <i>must match</i> the identifiers in SDF and X files uploaded in
 the same dataset.</p>
 
-</p>
-
+<br />
 <p id="SDF"><b>.SDF files</b></p>
 
 <p>(Also referred to as "SD files", since SDF stands for "structure data file".)
@@ -79,7 +79,7 @@ An SDF contains the structures of a set of compounds; each compound ends with "$
  has more details on the SDF format.
 </p>
 
-
+<br />
 <p id="X"><b>.X files</b></p>
 
 <p>.x is a descriptor file format used by Chembench. It is similar to the matrix format accepted by other 
