@@ -230,10 +230,13 @@ public class DatasetFileOperations {
 		if(xFile != null){
 			Utility.writeToDebug("checking X");
 			String msg = saveXFile(xFile, path, xFileName);
+			msg += rewriteXFileAndValidate(xFile);
 			if(!msg.isEmpty())
 				msgs.add(msg);
 			xFile = new File(path + xFileName);
 			Utility.writeToDebug("done checking X");
+			
+			x_compounds = getXCompoundNames(path + xFileName);
 		}
 				
 		//generate an empty activity file (needed for... heatmaps or something...?)
@@ -281,6 +284,57 @@ public class DatasetFileOperations {
 				msgs.add(ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_ACT + mismatches);
 			}
 		}
+		
+		if(actFile != null && xFile != null){
+			String mismatches = "";
+			for(int i = 0;i<act_compounds.size();i++){
+				if(i >= x_compounds.size() || !act_compounds.get(i).equals(x_compounds.get(i))){
+					mismatches += act_compounds.get(i) + " ";
+				}
+			}
+			
+			if(! mismatches.isEmpty()){
+				msgs.add(ErrorMessages.COMPOUND_IDS_ACT_DONT_MATCH_X + mismatches);
+			}
+			
+			//check that compounds in the x file are matched by compounds in the act, too
+			mismatches = "";
+			for(int i = 0;i<x_compounds.size();i++){
+				if(i >= act_compounds.size() || !x_compounds.get(i).equals(act_compounds.get(i))){
+					mismatches += x_compounds.get(i) + " ";
+				}
+			}
+			
+			if(! mismatches.isEmpty()){
+				msgs.add(ErrorMessages.COMPOUND_IDS_X_DONT_MATCH_ACT + mismatches);
+			}
+		}
+		
+		if(sdfFile != null && xFile != null){
+			String mismatches = "";
+			for(int i = 0;i<x_compounds.size();i++){
+				if(i >= sdf_compounds.size() || !x_compounds.get(i).equals(sdf_compounds.get(i))){
+					mismatches += x_compounds.get(i) + " ";
+				}
+			}
+			
+			if(! mismatches.isEmpty()){
+				msgs.add(ErrorMessages.COMPOUND_IDS_X_DONT_MATCH_SDF + mismatches);
+			}
+			
+			//check that compounds in the sdf are matched by compounds in the x, too
+			mismatches = "";
+			for(int i = 0;i<sdf_compounds.size();i++){
+				if(i >= x_compounds.size() || !sdf_compounds.get(i).equals(x_compounds.get(i))){
+					mismatches += sdf_compounds.get(i) + " ";
+				}
+			}
+			
+			if(! mismatches.isEmpty()){
+				msgs.add(ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_X + mismatches);
+			}
+		}
+		
 		
 		if (msgs.isEmpty()){
 			Utility.writeToDebug("Dataset file validation successful!");
@@ -673,7 +727,7 @@ public class DatasetFileOperations {
 		}
 	}
 	
-	
+
 	public static String sdfIsValid(File sdfFile) throws Exception {
 		if(! sdfFile.exists()){
 			return ErrorMessages.INVALID_SDF;
@@ -681,6 +735,67 @@ public class DatasetFileOperations {
 		else if(getSDFCompoundNames(sdfFile.getAbsolutePath()).size() == 0){
 			return ErrorMessages.SDF_IS_EMPTY;
 		}
+		return "";
+	}
+
+
+	public static String rewriteXFileAndValidate(File xFile) throws Exception {
+		//checks the X file and removes any extra lines
+		
+		if(! xFile.exists()){
+			return ErrorMessages.INVALID_X;
+		}
+		else if(getXCompoundNames(xFile.getAbsolutePath()).size() == 0){
+			return ErrorMessages.X_IS_EMPTY;
+		}
+		
+		BufferedReader br = new BufferedReader(new FileReader(xFile));
+
+		BufferedWriter out = new BufferedWriter(new FileWriter(xFile.getAbsolutePath() + ".temp"));
+		
+		String line = br.readLine();
+		String[] header = line.trim().split("\\s+");
+
+		int numCompounds = 0;
+		int numDescriptors = 0;
+		try{
+			numCompounds = Integer.parseInt(header[0]);
+			numDescriptors = Integer.parseInt(header[1]);
+		}
+		catch(Exception ex){
+			return "Invalid X File header on line 1: \"" + line + "\". ";
+		}
+		
+		out.write(line);
+		
+		//descriptor names line
+		line = br.readLine();
+		String[] tokens = line.trim().split("\\s+");
+		if(tokens.length != numDescriptors){
+			return "Error in X file line " + 2 + ": line contains " + tokens + 
+			" elements but " + numDescriptors + " were expected. Line was: \"" + line + "\"";
+		}
+		
+		out.write(line);
+		
+		//read through the X file line by line; ensure the matrix is of the correct size throughout.
+		for(int i = 0; i < numCompounds; i++){
+			line = br.readLine();
+			tokens = line.trim().split("\\s+");
+			int expectedTokens = numDescriptors + 2;
+			if(tokens.length != expectedTokens){
+				return "Error in X file line " + (i + 3) + ": line contains " + tokens + 
+				" elements but " + expectedTokens + " were expected. Line was: \"" + line + "\"";
+			}
+			out.write(line);
+		}
+		br.close();
+		out.close();
+
+		FileAndDirOperations.deleteFile(xFile.getAbsolutePath());
+		FileAndDirOperations.copyFile(xFile.getAbsolutePath() + ".temp", xFile.getAbsolutePath());
+		FileAndDirOperations.deleteFile(xFile.getAbsolutePath() + ".temp");
+		
 		return "";
 	}
 

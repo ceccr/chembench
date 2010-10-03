@@ -84,7 +84,17 @@ public class QsarPredictionTask extends WorkflowTask {
 
 				float modelsPredictedSoFar = 0;
 				for(int i = 0; i < selectedPredictorNames.size(); i++){
-					File predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + "_vs_" + predictionDataset.getSdfFile().toLowerCase() + ".renorm.preds");
+					File predOutFile = null; 
+					
+					if(predictionDataset.getDatasetType().equals(Constants.PREDICTION) || 
+							predictionDataset.getDatasetType().equals(Constants.MODELING)){
+						predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + "_vs_" + predictionDataset.getSdfFile().toLowerCase() + ".renorm.preds");
+					}
+					else if(predictionDataset.getDatasetType().equals(Constants.PREDICTIONWITHDESCRIPTORS) || 
+							predictionDataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
+						predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + "_vs_" + predictionDataset.getXFile().toLowerCase() + ".renorm.preds");
+					}
+					
 					if(predOutFile.exists()){
 						//quickly count the number of lines in the output file for this predictor
 						InputStream is = new BufferedInputStream(new FileInputStream(predOutFile));
