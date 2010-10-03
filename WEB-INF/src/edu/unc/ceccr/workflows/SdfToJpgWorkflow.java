@@ -90,8 +90,8 @@ public class SdfToJpgWorkflow {
 		while(files != null && x<files.length){
 			String jpgFilename = files[x].replace("sdf", "jpg");
 			
-			//only make the JPG if it's not already there - saves a lot of time!
-			if(! new File(sketchesDir + jpgFilename).exists()){ 
+			//only make the JPG if it's not already there
+			if(! new File(sketchesDir + jpgFilename).exists() && new File(sketchesDir + files[x]).exists()){ 
 				
 				String command = "molconvert -2 jpeg:w300,Q95 "+ structuresDir + files[x]+ " -o "+ sketchesDir + jpgFilename;
 				
