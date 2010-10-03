@@ -113,6 +113,12 @@ public class ModelingFormActions extends ActionSupport{
 
 		Session session = HibernateUtil.getSession();
 		
+		if(selectedDatasetId == null || PopulateDataObjects.getDataSetById(selectedDatasetId, session) == null ||
+				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getFileName() == null ||
+				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getJobCompleted().equals(Constants.NO)){
+			return "";
+		}
+		
 		if((user.getUserName().equalsIgnoreCase("grulke") || user.getUserName().equalsIgnoreCase("theo") || 
 				user.getUserName().equalsIgnoreCase("maidoan@email.unc.edu")) &&
 				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getFileName().equals("all-datasets") ){
@@ -122,11 +128,13 @@ public class ModelingFormActions extends ActionSupport{
 			datasetList.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, false, session));
 			
 			Long allDatasetsId = selectedDatasetId;
+			String originalJobName = jobName;
 			
 			for(int i = 0; i < datasetList.size(); i++){
 				if(! datasetList.get(i).getFileId().equals(allDatasetsId))
 					actFileDataType = datasetList.get(i).getModelType();
 					selectedDatasetId = datasetList.get(i).getFileId();
+					jobName = originalJobName + datasetList.get(i).getFileName();
 					execute();
 			}
 			
