@@ -127,10 +127,12 @@ public class ModelingFormActions extends ActionSupport{
 			return "";
 		}
 		
+		boolean closeSessionAtEnd = true;
 		if((user.getUserName().equalsIgnoreCase("grulke") || user.getUserName().equalsIgnoreCase("theo") || 
 				user.getUserName().equalsIgnoreCase("maidoan@email.unc.edu")) &&
 				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName().equals("all-datasets") ){
 			//activate GOD MODE. Launch modeling on every dataset the user owns except for this one.
+			closeSessionAtEnd = false;
 			ArrayList<DataSet> datasetList = new ArrayList<DataSet>();
 			datasetList.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, false, executeSession));
 			datasetList.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, false, executeSession));
@@ -147,6 +149,10 @@ public class ModelingFormActions extends ActionSupport{
 					execute();
 				}
 			}
+			executeSession.close();
+			return SUCCESS;
+		}
+		else{
 			
 		}
 		
@@ -184,6 +190,10 @@ public class ModelingFormActions extends ActionSupport{
 			modelingTask.setUp();
 			Utility.writeToDebug("done Setting up task", user.getUserName(), this.getJobName());
 			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getNumCompound();
+			
+			if(closeSessionAtEnd){
+				executeSession.close();
+			}
 			
 			//count the number of models that will be generated
 			int numModels = 0;
@@ -226,6 +236,9 @@ public class ModelingFormActions extends ActionSupport{
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
+			if(closeSessionAtEnd){
+				executeSession.close();
+			}
 		}
 		return SUCCESS;
 	}
