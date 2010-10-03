@@ -108,29 +108,32 @@ public class ModelingFormActions extends ActionSupport{
 		return result;
 	}
 	
+	Session executeSession = null; //specialized session variable used only in this function
 	public String execute() throws Exception {
 		//form has been submitted
 
-		Session session = HibernateUtil.getSession();
+		if(executeSession == null){
+			executeSession = HibernateUtil.getSession();
+		}
 		
 		//get user
 		ActionContext context = ActionContext.getContext();
 		user = (User) context.getSession().get("user");
 		
 		Utility.writeToDebug("Submitting modeling job with dataset id: " + selectedDatasetId);
-		if(selectedDatasetId == null || PopulateDataObjects.getDataSetById(selectedDatasetId, session) == null ||
-				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getFileName() == null ||
-				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getJobCompleted().equals(Constants.NO)){
+		if(selectedDatasetId == null || PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession) == null ||
+				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName() == null ||
+				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getJobCompleted().equals(Constants.NO)){
 			return "";
 		}
 		
 		if((user.getUserName().equalsIgnoreCase("grulke") || user.getUserName().equalsIgnoreCase("theo") || 
 				user.getUserName().equalsIgnoreCase("maidoan@email.unc.edu")) &&
-				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getFileName().equals("all-datasets") ){
+				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName().equals("all-datasets") ){
 			//activate GOD MODE. Launch modeling on every dataset the user owns except for this one.
 			ArrayList<DataSet> datasetList = new ArrayList<DataSet>();
-			datasetList.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, false, session));
-			datasetList.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, false, session));
+			datasetList.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, false, executeSession));
+			datasetList.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, false, executeSession));
 			
 			Long allDatasetsId = selectedDatasetId;
 			String originalJobName = jobName;
@@ -140,7 +143,6 @@ public class ModelingFormActions extends ActionSupport{
 					actFileDataType = datasetList.get(i).getModelType();
 					selectedDatasetId = datasetList.get(i).getFileId();
 					jobName = originalJobName + datasetList.get(i).getFileName();
-					session.close();
 					execute();
 			}
 			
@@ -150,7 +152,7 @@ public class ModelingFormActions extends ActionSupport{
 		String s = "";
 		s += "\n Job Name: " + jobName;
 		s += "\n Dataset ID: " + selectedDatasetId;
-		s += "\n Dataset Name: " + PopulateDataObjects.getDataSetById(selectedDatasetId, session).getFileName();
+		s += "\n Dataset Name: " + PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName();
 		s += "\n Descriptor Type: " + descriptorGenerationType;
 		s += "\n (Sphere Exclusion) Split Includes Min: " + splitIncludesMin;
 		s += "\n (Random Internal Split) Max. Test Set Size: " + randomSplitMaxTestSize;
@@ -179,9 +181,7 @@ public class ModelingFormActions extends ActionSupport{
 			Utility.writeToDebug("Setting up task", user.getUserName(), this.getJobName());
 			modelingTask.setUp();
 			Utility.writeToDebug("done Setting up task", user.getUserName(), this.getJobName());
-			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId, session).getNumCompound();
-			
-			session.close();
+			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getNumCompound();
 			
 			//count the number of models that will be generated
 			int numModels = 0;
