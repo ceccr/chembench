@@ -140,11 +140,12 @@ public class ModelingFormActions extends ActionSupport{
 			
 			for(int i = 0; i < datasetList.size(); i++){
 				if(! datasetList.get(i).getFileId().equals(allDatasetsId) && 
-					! datasetList.get(i).getFileName().equals("all-datasets"))
+					! datasetList.get(i).getFileName().equals("all-datasets")){
 					actFileDataType = datasetList.get(i).getModelType();
 					selectedDatasetId = datasetList.get(i).getFileId();
 					jobName = originalJobName + datasetList.get(i).getFileName();
 					execute();
+				}
 			}
 			
 		}
