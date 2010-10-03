@@ -113,7 +113,11 @@ public class ModelingFormActions extends ActionSupport{
 
 		Session session = HibernateUtil.getSession();
 		
-		Utility.writeToDebug("id: " + selectedDatasetId);
+		//get user
+		ActionContext context = ActionContext.getContext();
+		user = (User) context.getSession().get("user");
+		
+		Utility.writeToDebug("Submitting modeling job with dataset id: " + selectedDatasetId);
 		if(selectedDatasetId == null || PopulateDataObjects.getDataSetById(selectedDatasetId, session) == null ||
 				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getFileName() == null ||
 				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getJobCompleted().equals(Constants.NO)){
@@ -154,9 +158,6 @@ public class ModelingFormActions extends ActionSupport{
 		
 		Utility.writeToDebug(s);
 		
-		//get user
-		ActionContext context = ActionContext.getContext();
-		user = (User) context.getSession().get("user");
 		
 		//set up job
 		try{
