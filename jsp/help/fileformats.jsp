@@ -89,8 +89,8 @@ data mining programs.</p>
 
 <p>
 The .x file contains a matrix of compounds and descriptor values. The format is described below.<br />
-<pre>[LINE 1]: 50 120</pre><br />
-This header line indicates that a 50 by 120 matrix follows: There are 50 compounds, each with 120 descriptor values.</p>
+<pre>[LINE 1]: 120 50</pre><br />
+This header line indicates that a 120 by 50 matrix follows: There are 120 compounds, each with 50 descriptor values.</p>
 
 <p>
 <pre>[LINE 2]: descriptor1 descriptor2 descriptor3...</pre>
