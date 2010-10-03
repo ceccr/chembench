@@ -113,6 +113,7 @@ public class ModelingFormActions extends ActionSupport{
 
 		Session session = HibernateUtil.getSession();
 		
+		Utility.writeToDebug("id: " + selectedDatasetId);
 		if(selectedDatasetId == null || PopulateDataObjects.getDataSetById(selectedDatasetId, session) == null ||
 				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getFileName() == null ||
 				PopulateDataObjects.getDataSetById(selectedDatasetId, session).getJobCompleted().equals(Constants.NO)){
@@ -135,6 +136,7 @@ public class ModelingFormActions extends ActionSupport{
 					actFileDataType = datasetList.get(i).getModelType();
 					selectedDatasetId = datasetList.get(i).getFileId();
 					jobName = originalJobName + datasetList.get(i).getFileName();
+					session.close();
 					execute();
 			}
 			
