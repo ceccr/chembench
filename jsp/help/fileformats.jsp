@@ -12,6 +12,9 @@
 building predictive models on Chembench. Each line of an activity file is a chemical identifier and an 
 activity value. Activity files may contain continuous or category data.</p>
 
+<p><a href="/jsp/help/samples/continuousActFileSample.act">Continuous activity file sample</a><br />
+<a href="/jsp/help/samples/categoryActFileSample.act">Category activity file sample</a>
+
 <p>Continuous activity data can be any decimal number. Typically continuous data comes from
 quantitative assays, e.g., of binding affinity.</p>
 <pre>
@@ -40,8 +43,6 @@ compound7 2
 only constraint is that the chemical identifiers in your activity file <i>must match</i> the identifiers in SDF and X files uploaded in
 the same dataset.</p>
 
-<p><a href="/jsp/help/samples/continuousActFileSample.act">Continuous activity file sample</a><br />
-<a href="/jsp/help/samples/categoryActFileSample.act">Category activity file sample</a>
 </p>
 
 <p id="SDF"><b>.SDF files</b></p>
