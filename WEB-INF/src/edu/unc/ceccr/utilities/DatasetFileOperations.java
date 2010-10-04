@@ -291,7 +291,7 @@ public class DatasetFileOperations {
 			int numX = x_compounds.size();
 			
 			if(numACT!=numX){
-				msgs.add("Error: The ACT file contains " + numX + " compounds; the X file contains "+numX+" compounds.");
+				msgs.add("Error: The ACT file contains " + numACT + " compounds; the X file contains "+numX+" compounds.");
 			}
 			
 			String mismatches = "";
