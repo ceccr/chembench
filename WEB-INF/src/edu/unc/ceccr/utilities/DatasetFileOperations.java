@@ -797,13 +797,18 @@ public class DatasetFileOperations {
 		//read through the X file line by line; ensure the matrix is of the correct size throughout.
 		for(int i = 0; i < numCompounds; i++){
 			line = br.readLine();
-			tokens = line.trim().split("\\s+");
-			int expectedTokens = numDescriptors + 2;
-			if(tokens.length != expectedTokens){
-				return "Error in X file line " + (i + 3) + ": line contains " + tokens + 
-				" elements but " + expectedTokens + " were expected. Line was: \"" + line + "\"";
+			if(line != null){
+				tokens = line.trim().split("\\s+");
+				int expectedTokens = numDescriptors + 2;
+				if(tokens.length != expectedTokens){
+					return "Error in X file line " + (i + 3) + ": line contains " + tokens + 
+					" elements but " + expectedTokens + " were expected. Line was: \"" + line + "\"";
+				}
+				out.write(line);
 			}
-			out.write(line);
+			else{
+				return "Error in X file: expected " + numCompounds + " compounds but only " + i + " were present.";
+			}
 		}
 		br.close();
 		out.close();
