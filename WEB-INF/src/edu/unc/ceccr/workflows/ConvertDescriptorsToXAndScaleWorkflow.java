@@ -1,7 +1,6 @@
 package edu.unc.ceccr.workflows;
 
 import java.io.*;
-
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
@@ -56,7 +55,14 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		//run scaling and conversion process on each chunk, producing several X files
 		int filePartNumber = 0;
 		File descriptorsFilePart = new File(workingDir + descriptorsFile + "_" + filePartNumber);
-		ArrayList<String> allChemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
+		
+		ArrayList<String> allChemicalNames = null;
+		if(descriptorGenerationType.equals(Constants.UPLOADED)){
+			allChemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
+		}
+		else{
+			allChemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
+		}
 		while(descriptorsFilePart.exists()){
 
 			ArrayList<String> descriptorNames = new ArrayList<String>();
@@ -127,8 +133,12 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-		ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
-
+		if(descriptorGenerationType.equals(Constants.UPLOADED)){
+			allChemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
+		}
+		else{
+			allChemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
+		}
 		String descriptorsFile = sdfile;
 		if(descriptorGenerationType.equals(Constants.MOLCONNZ)){
 			descriptorsFile += ".molconnz";
