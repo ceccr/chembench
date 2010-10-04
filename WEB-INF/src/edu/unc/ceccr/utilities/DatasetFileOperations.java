@@ -286,6 +286,14 @@ public class DatasetFileOperations {
 		}
 		
 		if(actFile != null && xFile != null){
+			//Check if X file matches ACT file 
+			int numACT = act_compounds.size();
+			int numX = x_compounds.size();
+			
+			if(numACT!=numX){
+				msgs.add("Error: The ACT file contains " + numX + " compounds; the X file contains "+numX+" compounds.");
+			}
+			
 			String mismatches = "";
 			for(int i = 0;i<act_compounds.size();i++){
 				if(i >= x_compounds.size() || !act_compounds.get(i).equals(x_compounds.get(i))){
@@ -311,8 +319,16 @@ public class DatasetFileOperations {
 		}
 		
 		if(sdfFile != null && xFile != null){
+			//Check if SDF matches X file 
+			int numX = x_compounds.size();
+			int numSDF = sdf_compounds.size();
+			
+			if(numX!=numSDF){
+				msgs.add("Error: The X file contains " + numX + " compounds; the SDF contains "+numSDF+" compounds.");
+			}
+			
 			String mismatches = "";
-			for(int i = 0;i<x_compounds.size();i++){
+			for(int i = 0; i < x_compounds.size(); i++){
 				if(i >= sdf_compounds.size() || !x_compounds.get(i).equals(sdf_compounds.get(i))){
 					mismatches += x_compounds.get(i) + " ";
 				}

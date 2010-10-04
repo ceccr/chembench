@@ -546,7 +546,6 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		//write out the descriptors into a .x file for modeling
 		if(descriptorGenerationType.equals(Constants.UPLOADED)){
-			//dataset has .x file already, we're done
 			xFileName = dataset.getXFile();
 		}
 		else{
