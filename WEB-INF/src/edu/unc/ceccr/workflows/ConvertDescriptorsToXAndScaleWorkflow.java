@@ -133,12 +133,12 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-		ArrayList<String> allChemicalNames = null;
+		ArrayList<String> chemicalNames = null;
 		if(descriptorGenerationType.equals(Constants.UPLOADED)){
-			allChemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
+			chemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
 		}
 		else{
-			allChemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
+			chemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
 		}
 		String descriptorsFile = sdfile;
 		if(descriptorGenerationType.equals(Constants.MOLCONNZ)){
