@@ -15,8 +15,8 @@
 you just have a bunch of compounds and no activity values for them, you can create a set that is only for use 
 with prediction.</p>
 
-<p>At present, Chembench can generate MolconnZ, Dragon, Moe2D, and MACCS descriptors. <!-- If you would like to use 
-different descriptors, you can supply them using one of the "With Descriptors" options. --></p>
+<p>At present, Chembench can generate MolconnZ, Dragon, Moe2D, and MACCS descriptors. If you would like to use 
+different descriptors, you can supply them using one of the "With Descriptors" options.</p>
 
 <p>In the special case where you only have descriptors, you'd also use one of the "With Descriptors" options. This 
 is used when companies want to create models of their compounds without the risk of putting their trade-secret 
