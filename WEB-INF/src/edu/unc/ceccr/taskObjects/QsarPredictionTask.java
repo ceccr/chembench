@@ -197,12 +197,23 @@ public class QsarPredictionTask extends WorkflowTask {
 			new File(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName).mkdir();
 			
 			if(predictionDataset.getUserName().equals(userName)){
-				FileAndDirOperations.copyFile(
-						Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
-						Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
-						);
+				
+				if(sdf != null && !sdf.isEmpty()){
+					FileAndDirOperations.copyFile(
+							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
+							Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
+							);
+					
+				}
+				if(predictionDataset.getXFile() != null && ! predictionDataset.getXFile().isEmpty()){
+					FileAndDirOperations.copyFile(
+							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+predictionDataset.getXFile(), 
+							Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+predictionDataset.getXFile()
+							);
+				}
 			}
 			else{
+				//public datasets always have SDFs
 				FileAndDirOperations.copyFile(
 						Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
 						Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
@@ -302,6 +313,12 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			//	3. copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.
 			FileAndDirOperations.copyDirContents(path, predictionDir, false);
+			
+
+			if(selectedPredictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
+				//the prediction descriptors file name is different if the user provided a .x file.
+				sdfile = predictionDataset.getXFile();
+			}
 			
 			step = Constants.PROCDESCRIPTORS;
 			

@@ -244,4 +244,43 @@ public class ReadDescriptorsFileWorkflow{
 			}
 		}
 	}
+	
+	public static void readXDescriptors(String xFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
+		Utility.writeToDebug("reading Uploaded Descriptors");
+		
+		File file = new File(xFile);
+		if(!file.exists() || file.length() == 0){
+			throw new Exception("Could not read Uploaded descriptors.\n");
+		}
+		FileReader fin = new FileReader(file);
+		BufferedReader br = new BufferedReader(fin);
+
+		String line = br.readLine(); // header. ignored.
+		line = br.readLine(); // contains descriptor names
+		
+		Scanner tok = new Scanner(line).useDelimiter(",");
+		while(tok.hasNext()){
+			descriptorNames.add(tok.next());
+		}
+		
+		while((line = br.readLine()) != null){
+			tok = new Scanner(line).useDelimiter("\\s+");
+			if(tok.hasNext()){
+				tok.next(); //first value is the index of the compound
+			}
+			if(tok.hasNext()){
+				tok.next(); //second value is the name of the compound
+			}
+			String descriptorString = new String("");
+			while(tok.hasNext()){
+				descriptorString += tok.next() + " ";
+			}
+			if(! descriptorString.equalsIgnoreCase("")){
+				Descriptors di = new Descriptors();
+				di.setDescriptorValues(descriptorString);
+				descriptorValueMatrix.add(di);
+			}
+		}
+		
+	}
 }

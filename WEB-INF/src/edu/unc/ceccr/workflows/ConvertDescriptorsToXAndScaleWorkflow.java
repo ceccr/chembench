@@ -24,7 +24,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 	writing the Java object out as a .x (WriteDescriptorsFileWorkflow), we need to do a straight file 
 	conversion in this case.
 	*/
-
+	
 	public static void convertDescriptorsToXAndScaleInChunks(String workingDir, 
 			String sdfile, String predictorXFile, String outputXFile, 
 			String descriptorGenerationType, String scalingType) throws Exception{
@@ -50,6 +50,9 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		else if(descriptorGenerationType.equals(Constants.MACCS)){
 			descriptorsFile += ".maccs";
 			splitMaccsFile(workingDir, descriptorsFile);
+		}
+		else if(descriptorGenerationType.equals(Constants.UPLOADED)){
+			splitXFile(workingDir, descriptorsFile);
 		}
 		
 		//run scaling and conversion process on each chunk, producing several X files
@@ -88,6 +91,10 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			}
 			else if(descriptorGenerationType.equals(Constants.MACCS)){
 				ReadDescriptorsFileWorkflow.readMaccsDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, 
+						descriptorNames, descriptorValueMatrix);
+			}
+			else if(descriptorGenerationType.equals(Constants.UPLOADED)){
+				ReadDescriptorsFileWorkflow.readXDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, 
 						descriptorNames, descriptorValueMatrix);
 			}
 			
@@ -144,6 +151,9 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		else if(descriptorGenerationType.equals(Constants.MACCS)){
 			descriptorsFile += ".maccs";
 			ReadDescriptorsFileWorkflow.readMaccsDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
+		}
+		else if(descriptorGenerationType.equals(Constants.UPLOADED)){
+			ReadDescriptorsFileWorkflow.readXDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
 		}
 		
 		String descriptorString = Utility.StringArrayListToString(descriptorNames);
@@ -315,6 +325,42 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		}
 		outFilePart.write("\n");
 		outFilePart.close();
+	}
+	
+	private static void splitXFile(String workingDir, String descriptorsFile) throws Exception{
+		File file = new File(workingDir + descriptorsFile);
+		if(!file.exists() || file.length() == 0){
+			throw new Exception("Could not read UPLOADED descriptors.\n");
+		}
+		FileReader fin = new FileReader(file);
+		BufferedReader br = new BufferedReader(fin);
+
+		int currentFile = 0;
+		int moleculesInCurrentFile = 0;
+		BufferedWriter outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+
+		//don't bother changing the numbers to reflect #compounds in file part, it doesn't matter
+		String header = br.readLine() + "\n";  
+		String descriptorNames = br.readLine() + "\n";
+		outFilePart.write(header);
+		outFilePart.write(descriptorNames);
+		
+		String line;
+		while((line = br.readLine()) != null){
+			outFilePart.write(line + "\n");
+			
+			moleculesInCurrentFile++;
+			if(moleculesInCurrentFile == compoundsPerChunk){
+				outFilePart.close();
+				moleculesInCurrentFile = 0;
+				currentFile++;
+				outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
+				outFilePart.write(header);
+			}
+		}
+		outFilePart.write("\n");
+		outFilePart.close();
+		
 	}
 	
 	private static void mergeXFileParts(String workingDir, String outputXFile, String scalingType, int numCompounds) throws Exception{
