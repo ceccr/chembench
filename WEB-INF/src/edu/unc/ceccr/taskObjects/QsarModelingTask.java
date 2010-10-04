@@ -539,16 +539,16 @@ public class QsarModelingTask extends WorkflowTask {
 				Utility.writeToDebug("Processing MACCS descriptors", userName, jobName);
 				ReadDescriptorsFileWorkflow.readMaccsDescriptors(filePath + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
 			}
+			else if (descriptorGenerationType.equals(Constants.UPLOADED)){
+				Utility.writeToDebug("Processing UPLOADED descriptors", userName, jobName);
+				ReadDescriptorsFileWorkflow.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
+			}
 			
 			//write out the descriptors into a .x file for modeling
 			xFileName = sdFileName + ".x";
 			String descriptorString = Utility.StringArrayListToString(descriptorNames);
 			
 			WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
-		}
-		else if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
-			//dataset has .x file already, we're done
-			xFileName = dataset.getXFile();
 		}
 		
 		//apply the dataset's external split(s) to the generated .X file

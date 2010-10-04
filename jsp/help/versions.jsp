@@ -25,7 +25,7 @@ This allows for larger-scale modeling jobs to be supported and avoids queue slot
 - Fixed a bug that occurred when modeling datasets that have no external compounds defined.<br />
 <br />
 <u>Prediction</u><br />
-- When prediction results are downloaded, a CSV file that organizes the results for each compound is included.<br />
+- Prediction may now be performed on uploaded descriptors.<br />
 <br />
 
 <p align="justify" class="ccbHomeStandard">

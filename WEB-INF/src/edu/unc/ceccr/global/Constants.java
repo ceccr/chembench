@@ -182,9 +182,7 @@ public class Constants {
 	public static final String EXTERNAL_SET_X_FILE = "ext_0.x";
 	public static final String MODELING_SET_A_FILE = "train_0.a";
 	public static final String MODELING_SET_X_FILE = "train_0.x";
-	
-	public static final int SELECT = 0, UPLOAD = 1;
-	
+		
 	//for testing
 	public static final Integer MAX_FILE_SIZE = new Integer("1024");
 	
