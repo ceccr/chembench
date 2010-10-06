@@ -84,7 +84,6 @@ public class ViewDataset extends ActionSupport {
 		public void setProgramErrorOutput(String programErrorOutput) {
 			this.programErrorOutput = programErrorOutput;
 		}
-		
 	}
 	
 	public class Compound{
@@ -178,7 +177,14 @@ public class ViewDataset extends ActionSupport {
 			
 			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
 			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
-			ArrayList<String> compoundIDs = DatasetFileOperations.getSDFCompoundNames(datasetDir + dataset.getSdfFile());
+			
+			ArrayList<String> compoundIDs = null;
+			if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){
+				compoundIDs = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
+			}
+			else{
+				compoundIDs = DatasetFileOperations.getSDFCompoundNames(datasetDir + dataset.getSdfFile());
+			}
 			
 			for(String cid: compoundIDs){
 				Compound c = new Compound();

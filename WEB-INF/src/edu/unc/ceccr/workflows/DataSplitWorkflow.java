@@ -51,7 +51,7 @@ public class DataSplitWorkflow{
 	    Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
 	    Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
 	    p.waitFor();
-	    
+
 	    //put the split files in the right spots
 		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.a", workingdir + Constants.MODELING_SET_A_FILE);
 		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.x", workingdir + Constants.MODELING_SET_X_FILE);
