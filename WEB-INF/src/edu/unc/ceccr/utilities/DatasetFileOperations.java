@@ -438,6 +438,8 @@ public class DatasetFileOperations {
 		fout.close();
 		infile.delete();
 		outfile.renameTo(infile);
+
+		dos2unix(infile.getAbsolutePath());
 	}
 	
 	public static String saveACTFile(File actFile, String path, String actFileName) throws IOException{
@@ -521,6 +523,8 @@ public class DatasetFileOperations {
 			FileWriter fout = new FileWriter(filePath);
 			fout.write(sb.toString());
 			fout.close();
+			
+			dos2unix(filePath);
 			return "";
 		}
 		else {
@@ -823,9 +827,25 @@ public class DatasetFileOperations {
 		FileAndDirOperations.copyFile(xFile.getAbsolutePath() + ".temp", xFile.getAbsolutePath());
 		FileAndDirOperations.deleteFile(xFile.getAbsolutePath() + ".temp");
 		
+		dos2unix(xFile.getAbsolutePath());
+		
 		return "";
 	}
 
+	public static void dos2unix(String filePath){
+		try{
+			String execstr1 = "dos2unix " + filePath;
+			Process p = Runtime.getRuntime().exec(execstr1, null, null);
+			Utility.writeProgramLogfile(filePath, "dos2unix", p.getInputStream(), p.getErrorStream());
+			p.waitFor();
+			p.getInputStream().close();
+			p.getErrorStream().close();
+			p.destroy();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+	}
 
 	public static String actIsValid(File actFile, String actFileType)
 			throws IOException {
