@@ -105,10 +105,10 @@
 
 	<!-- Page description -->	
 	<br />
-	<s:if test="dataset.datasetType=='PREDICTION'">
+	<s:if test="dataset.datasetType=='PREDICTION'||dataset.datasetType=='PREDICTIONWITHDESCRIPTORS'">
 	<p class="StandardTextDarkGray" width="550">The compounds in your dataset are below.  </p>
 	</s:if>
-	<s:elseif test="dataset.datasetType=='MODELING'">
+	<s:elseif test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
 	<p class="StandardTextDarkGray" width="550">The compounds in your dataset are below, with the activity values you supplied.
 	 The compounds of the external set are shown in the second tab.</p>
 	</s:elseif>
@@ -135,7 +135,7 @@
     	<sx:div href="%{datasetCompoundsLink}" id="allCompoundsDiv" executeScripts="true" label="All Compounds" theme="ajax" loadingText="Loading compounds..." showLoadingText="true">
 		</sx:div>
 		
-		<s:if test="dataset.datasetType=='MODELING'">
+		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
 			<s:url id="externalCompoundsLink" value="/viewDatasetExternalCompoundsSection" includeParams="none">
 				<s:param name="datasetId" value='datasetId' />
 			</s:url>
