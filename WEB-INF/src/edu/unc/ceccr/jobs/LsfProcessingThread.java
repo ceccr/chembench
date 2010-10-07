@@ -41,12 +41,31 @@ public class LsfProcessingThread extends Thread {
 							
 							try{
 								Utility.writeToDebug("LSFQueue: Starting job " + j.getJobName() + " from user " + j.getUserName());
-								j.setTimeStarted(new Date());
-								j.setStatus(Constants.PREPROC);
-								j.workflowTask.preProcess();
+									
+								boolean jobIsRunningAlready = false;
+								if(j.getLsfJobId() != null && !j.getLsfJobId().isEmpty()){
+									//check if the job is already running in LSF; try to resume it if so.
+									//This will happen if the system was rebooted while the job was running.
+									ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
+									for(LsfJobStatus jobStatus : lsfJobStatuses){
+										if(jobStatus.jobid.equals(j.getLsfJobId()) &&
+											(jobStatus.stat.equals("PEND") || jobStatus.stat.equals("RUN"))){
+											//job is already running, so don't do anything to it
+											jobIsRunningAlready = true;
+										}
+									}
+								}
+								if(! jobIsRunningAlready){
+									//job is not already running; needs to be started.
+									j.setTimeStarted(new Date());
+									j.setStatus(Constants.PREPROC);
+									j.workflowTask.preProcess();
+									j.setLsfJobId(j.workflowTask.executeLSF());
+								}
+
 								j.setStatus(Constants.RUNNING);
-								j.setLsfJobId(j.workflowTask.executeLSF());
 								CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
+								
 							}
 							catch(Exception ex){
 								//Job failed or threw an exception

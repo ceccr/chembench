@@ -135,6 +135,9 @@ public class QsarModelingTask extends WorkflowTask {
 					numModels *= 2; //include yRandom models also
 					p /= numModels;
 					p *= 100; //it's a percent
+					if(p > 100){
+						p = 100;
+					}
 					percent = " (" + Math.round(p) + "%)";
 				}
 				else if(modelType.equals(Constants.KNNSA)){
@@ -146,6 +149,9 @@ public class QsarModelingTask extends WorkflowTask {
 					p += KnnPlusWorkflow.getSaModelingProgress(workingDir + "yRandom/");
 					p /= (getNumTotalModels() * 2);
 					p *= 100; //it's a percent
+					if(p > 100){
+						p = 100;
+					}
 					percent = " (" + Math.round(p) + "%)";
 				}
 				else if(modelType.equals(Constants.KNNGA)){
@@ -155,6 +161,9 @@ public class QsarModelingTask extends WorkflowTask {
 					p *= 100; //it's a percent
 					if(p < 0){
 						p = 0;
+					}
+					if(p > 100){
+						p = 100;
 					}
 					percent = " (" + Math.round(p) + "%)";
 				}
@@ -167,6 +176,9 @@ public class QsarModelingTask extends WorkflowTask {
 					//divide by (number of models * trees per model * 2 because of yRandom)
 					p /= (getNumTotalModels() * Integer.parseInt(randomForestParameters.getNumTrees()) * 2);
 					p *= 100;
+					if(p > 100){
+						p = 100;
+					}
 					percent = " (" + Math.round(p) + "%)";
 				}
 			}
