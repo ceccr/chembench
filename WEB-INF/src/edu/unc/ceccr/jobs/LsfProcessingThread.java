@@ -52,6 +52,9 @@ public class LsfProcessingThread extends Thread {
 											(jobStatus.stat.equals("PEND") || jobStatus.stat.equals("RUN"))){
 											//job is already running, so don't do anything to it
 											jobIsRunningAlready = true;
+											if(j.getJobType().equals(Constants.MODELING)){
+												j.workflowTask.setStep(Constants.MODELS);
+											}
 										}
 									}
 								}

@@ -464,7 +464,11 @@ public class CreateDatasetTask extends WorkflowTask{
 	public void delete() throws Exception {
 		
 	}
-
+	
+    public void setStep(String step){
+    	this.step = step;
+    }
+    
 	public String getStatus(){
 		return step;
 	}

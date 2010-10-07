@@ -967,7 +967,9 @@ public class QsarModelingTask extends WorkflowTask {
 		return numModels;
 	}
 	
-	
+    public void setStep(String step){
+    	this.step = step;
+    }
 	
 	public String getJobName() {
 		return jobName;

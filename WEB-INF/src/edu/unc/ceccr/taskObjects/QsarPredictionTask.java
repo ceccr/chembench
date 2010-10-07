@@ -525,7 +525,9 @@ public class QsarPredictionTask extends WorkflowTask {
 		return allPredValue;
 	}
 
-    
+    public void setStep(String step){
+    	this.step = step;
+    }
 	
 	public String getJobName() {
 		return jobName;

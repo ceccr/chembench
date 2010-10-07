@@ -7,6 +7,7 @@ public abstract class WorkflowTask {
 	public String jobList = Constants.INCOMING;
 	public Long lookupId;
 	public String jobType;
+	public String step;
 	
 	public abstract void setUp() throws Exception; 
 	//creates any needed dirs
@@ -41,4 +42,9 @@ public abstract class WorkflowTask {
 	
 	public abstract String getProgress() throws Exception; 
 	//returns a detailed status message (% progress, etc)
+
+	public abstract void setStep(String step) throws Exception;
+	//allows changing of the "step" variable. Used during job recovery
+	//to allow jobs to resume at an arbitrary place in their execution.
+	
 }
