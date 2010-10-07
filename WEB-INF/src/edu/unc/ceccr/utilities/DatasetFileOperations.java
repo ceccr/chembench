@@ -782,7 +782,7 @@ public class DatasetFileOperations {
 			return "Invalid X File header on line 1: \"" + line + "\". ";
 		}
 		
-		out.write(line);
+		out.write("" + numCompounds + " " + numDescriptors + "\n");
 		
 		//descriptor names line
 		line = br.readLine();
@@ -791,8 +791,10 @@ public class DatasetFileOperations {
 			return "Error in X file line " + 2 + ": line contains " + tokens + 
 			" elements but " + numDescriptors + " were expected. Line was: \"" + line + "\"";
 		}
-		
-		out.write(line);
+		for(int i = 0; i < tokens.length; i++){
+			out.write(tokens[i] + " ");
+		}
+		out.write("\n");
 		
 		//read through the X file line by line; ensure the matrix is of the correct size throughout.
 		for(int i = 0; i < numCompounds; i++){
@@ -804,7 +806,11 @@ public class DatasetFileOperations {
 					return "Error in X file line " + (i + 3) + ": line contains " + tokens + 
 					" elements but " + expectedTokens + " were expected. Line was: \"" + line + "\"";
 				}
-				out.write(line);
+				for(int j = 0; j < tokens.length; j++){
+					out.write(tokens[j] + " ");
+				}
+				out.write("\n");
+				
 			}
 			else{
 				return "Error in X file: expected " + numCompounds + " compounds but only " + i + " were present.";

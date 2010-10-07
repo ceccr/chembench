@@ -46,5 +46,7 @@ public abstract class WorkflowTask {
 	public abstract void setStep(String step) throws Exception;
 	//allows changing of the "step" variable. Used during job recovery
 	//to allow jobs to resume at an arbitrary place in their execution.
+	//At present, changing the step only affects the message displayed on the
+	//Jobs Queue page.
 	
 }
