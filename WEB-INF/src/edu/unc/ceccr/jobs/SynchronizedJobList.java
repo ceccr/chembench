@@ -16,6 +16,7 @@ import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.taskObjects.WorkflowTask;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
 public class SynchronizedJobList{
@@ -239,20 +240,32 @@ public class SynchronizedJobList{
 	}
 	
 	private void commitJobChanges(Job j){
-		
-		Session s = null; 
 		Transaction tx = null;
+		Session session = null;
 		try {
-			s = HibernateUtil.getSession();
-			tx = s.beginTransaction();
-			s.saveOrUpdate(j);
+			session = HibernateUtil.getSession();
+			Long id = j.getId();
+			Job databaseJob = PopulateDataObjects.getTaskById(id, session);
+			
+			databaseJob.setEmailOnCompletion(j.getEmailOnCompletion());
+			databaseJob.setLsfJobId(j.getLsfJobId());
+			databaseJob.setMessage(j.getMessage());
+			databaseJob.setStatus(j.getStatus());
+			databaseJob.setTimeCreated(j.getTimeCreated());
+			databaseJob.setTimeFinished(j.getTimeFinished());
+			databaseJob.setTimeFinishedEstimate(j.getTimeFinishedEstimate());
+			databaseJob.setTimeStarted(j.getTimeStarted());
+			databaseJob.setTimeStartedByLsf(j.getTimeStartedByLsf());
+			
+			tx = session.beginTransaction();
+			session.saveOrUpdate(databaseJob);
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
 		} finally {
-			s.close();
+			session.close();
 		}
 		
 	}
