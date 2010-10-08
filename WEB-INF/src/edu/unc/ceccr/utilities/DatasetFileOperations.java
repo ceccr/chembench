@@ -835,7 +835,7 @@ public class DatasetFileOperations {
 	public static void dos2unix(String filePath){
 		try{
 			String execstr1 = "dos2unix " + filePath;
-			Process p = Runtime.getRuntime().exec(execstr1, null, null);
+			Process p = Runtime.getRuntime().exec(execstr1, null, new File(Constants.CECCR_BASE_PATH));
 			//Utility.writeProgramLogfile(filePath, "dos2unix", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			p.getInputStream().close();
