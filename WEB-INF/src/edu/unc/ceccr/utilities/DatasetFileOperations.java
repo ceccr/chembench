@@ -836,7 +836,7 @@ public class DatasetFileOperations {
 		try{
 			String execstr1 = "dos2unix " + filePath;
 			Process p = Runtime.getRuntime().exec(execstr1, null, null);
-			Utility.writeProgramLogfile(filePath, "dos2unix", p.getInputStream(), p.getErrorStream());
+			//Utility.writeProgramLogfile(filePath, "dos2unix", p.getInputStream(), p.getErrorStream());
 			p.waitFor();
 			p.getInputStream().close();
 			p.getErrorStream().close();
