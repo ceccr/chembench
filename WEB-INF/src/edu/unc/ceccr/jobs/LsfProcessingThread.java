@@ -84,7 +84,6 @@ public class LsfProcessingThread extends Thread {
 								"<br /><br />Good luck!<br />--Chembench";
 								SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
 							}
-							
 						}
 					}
 				}

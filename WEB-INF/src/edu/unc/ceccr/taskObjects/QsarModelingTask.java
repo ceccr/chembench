@@ -700,6 +700,9 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		//first, copy needed files back from LSF if needed
 		if(jobList.equals(Constants.LSF)){
+			
+			throw new Exception("VYFSGHSUIOGHSROUHFEUHIGHUST$IHO");
+			
 			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
 			KnnModelingLsfWorkflow.retrieveCompletedPredictor(filePath, lsfPath);
 			
