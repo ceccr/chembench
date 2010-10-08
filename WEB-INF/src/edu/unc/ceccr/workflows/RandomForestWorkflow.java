@@ -324,6 +324,12 @@ public class RandomForestWorkflow{
 		return randomForestTrees;
 	}
 	
+	public static void cleanUpExcessFiles(){
+		//remove the training .x files; they are no longer needed and take up lots of space
+		
+		//open RF_RAND_sets.list and remove the .x files listed in it
+		
+	}
 	
 	//END MODELING WORKFLOW FUNCTIONS
 	
