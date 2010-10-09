@@ -2,9 +2,8 @@
 <CustomConfigration>
 
 <workbench>c-chembench</workbench>
-<!--
-<workbench>c-toxbench</workbench>
--->
+
+<!-- Administrators may approve users and jobs, and see more user information. -->
 <administrators>
 <admin>
 <name>theo</name>
