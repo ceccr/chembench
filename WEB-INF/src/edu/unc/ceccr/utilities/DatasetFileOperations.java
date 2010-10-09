@@ -439,7 +439,6 @@ public class DatasetFileOperations {
 		infile.delete();
 		outfile.renameTo(infile);
 
-		dos2unix(infile.getAbsolutePath());
 	}
 	
 	public static String saveACTFile(File actFile, String path, String actFileName) throws IOException{
@@ -524,7 +523,6 @@ public class DatasetFileOperations {
 			fout.write(sb.toString());
 			fout.close();
 			
-			dos2unix(filePath);
 			return "";
 		}
 		else {
@@ -827,7 +825,6 @@ public class DatasetFileOperations {
 		FileAndDirOperations.copyFile(xFile.getAbsolutePath() + ".temp", xFile.getAbsolutePath());
 		FileAndDirOperations.deleteFile(xFile.getAbsolutePath() + ".temp");
 		
-		dos2unix(xFile.getAbsolutePath());
 		
 		return "";
 	}

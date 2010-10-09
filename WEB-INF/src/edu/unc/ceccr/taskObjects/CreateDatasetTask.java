@@ -204,6 +204,17 @@ public class CreateDatasetTask extends WorkflowTask{
 
 		Utility.writeToDebug("executing task");
 
+		//first run dos2unix on all input files, just to be sure
+		if(!sdfFileName.equals("")){
+			DatasetFileOperations.dos2unix(path + sdfFileName);
+		}
+		if(!xFileName.equals("")){
+			DatasetFileOperations.dos2unix(path + xFileName);
+		}
+		if(!actFileName.equals("")){
+			DatasetFileOperations.dos2unix(path + actFileName);
+		}
+		
 		if(!sdfFileName.equals("") && standardize.equals("true")){
 			//standardize the SDF	
 			step = Constants.STANDARDIZING;
