@@ -22,6 +22,10 @@ public class GenerateDescriptorWorkflow{
 		Process p = Runtime.getRuntime().exec(execstr);
 		Utility.writeProgramLogfile(workingDir + "/Descriptors/", "molconnz", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
+        Utility.close(p.getOutputStream());
+        Utility.close(p.getInputStream());
+        Utility.close(p.getErrorStream());
+        p.destroy();
 	
 	}
 
@@ -35,6 +39,10 @@ public class GenerateDescriptorWorkflow{
 	    Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
 	    Utility.writeProgramLogfile(workingDir, "dragonH", p.getInputStream(), p.getErrorStream());
 	    p.waitFor();
+        Utility.close(p.getOutputStream());
+        Utility.close(p.getInputStream());
+        Utility.close(p.getErrorStream());
+        p.destroy();
 	}	
 	
 	public static void GenerateHDepletedDragonDescriptors(String sdfile, String outfile) throws Exception{
@@ -47,6 +55,10 @@ public class GenerateDescriptorWorkflow{
 	    Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
 	    Utility.writeProgramLogfile(workingDir, "dragonNoH", p.getInputStream(), p.getErrorStream());
 	    p.waitFor();
+        Utility.close(p.getOutputStream());
+        Utility.close(p.getInputStream());
+        Utility.close(p.getErrorStream());
+        p.destroy();
 	}
 	
 	private static void writeHExplicitDragonScriptFiles(String sdFile, String workingDir, String outfile) throws IOException {
@@ -168,6 +180,10 @@ public class GenerateDescriptorWorkflow{
 		Process p = Runtime.getRuntime().exec(execstr);
 		Utility.writeProgramLogfile(workingDir + "/Descriptors/", "moe2d.sh", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
+        Utility.close(p.getOutputStream());
+        Utility.close(p.getInputStream());
+        Utility.close(p.getErrorStream());
+        p.destroy();
 	}
 
 	public static void GenerateMaccsDescriptors(String sdfile, String outfile) throws Exception{
@@ -179,6 +195,10 @@ public class GenerateDescriptorWorkflow{
 		Process p = Runtime.getRuntime().exec(execstr);
 		Utility.writeProgramLogfile(workingDir + "/Descriptors/", "maccs.sh", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
+        Utility.close(p.getOutputStream());
+        Utility.close(p.getInputStream());
+        Utility.close(p.getErrorStream());
+        p.destroy();
 	}
 	
 }
