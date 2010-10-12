@@ -72,12 +72,10 @@ public class StandardizeMoleculesWorkflow {
 						Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingDir));
 						Utility.writeProgramLogfile(workingDir, "standardize" + currentFileNumber, p.getInputStream(), p.getErrorStream());
 						p.waitFor();
-						if (p != null) {
-					        Utility.close(p.getOutputStream());
-					        Utility.close(p.getInputStream());
-					        Utility.close(p.getErrorStream());
-					        p.destroy();
-					    }
+				        Utility.close(p.getOutputStream());
+				        Utility.close(p.getInputStream());
+				        Utility.close(p.getErrorStream());
+				        p.destroy();
 						
 						
 						//start a new file

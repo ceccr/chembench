@@ -14,12 +14,10 @@ public class Generate3DMolWorkflow {
 		Process p = Runtime.getRuntime().exec(command);
 		Utility.writeProgramLogfile(workingDir, "molconvert_3D", p.getInputStream(), p.getErrorStream());
 		p.waitFor();
-		if (p != null) {
-	        Utility.close(p.getOutputStream());
-	        Utility.close(p.getInputStream());
-	        Utility.close(p.getErrorStream());
-	        p.destroy();
-	    }
+        Utility.close(p.getOutputStream());
+        Utility.close(p.getInputStream());
+        Utility.close(p.getErrorStream());
+        p.destroy();
 				
 	}
 }

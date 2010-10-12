@@ -201,12 +201,10 @@ public class LsfProcessingThread extends Thread {
 		
 		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
 		p.waitFor();
-		if (p != null) {
-	        Utility.close(p.getOutputStream());
-	        Utility.close(p.getInputStream());
-	        Utility.close(p.getErrorStream());
-	        p.destroy();
-	    }
+        Utility.close(p.getOutputStream());
+        Utility.close(p.getInputStream());
+        Utility.close(p.getErrorStream());
+        p.destroy();
 		
 		//read in results
 		ArrayList<LsfJobStatus> lsfStatusList = new ArrayList<LsfJobStatus>();
