@@ -36,12 +36,6 @@
 	    <s:file name="xFilePredDesc" id="xFilePredDesc" theme="simple" />
 	    </td>
 	  </tr>
-	  <!--<tr>
-	    <td><b class="StandardTextDarkGrayParagraph">Descriptor Type:</b></td>
-	    <td align="left">
-	    <s:textfield name="descriptorTypePredDesc" id="descriptorTypePredDesc" theme="simple" />
-	    </td>
-	  </tr>-->
   	  </table>
     </td></tr></tbody></table>
 </s:div>
