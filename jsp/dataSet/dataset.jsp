@@ -49,8 +49,6 @@
 			   Each modeling dataset you create will appear as an option under the 
               "Modeling" tab and under the "Prediction" tab. Prediction datasets will only 
               appear under the "Prediction" tab.<br /><br />
-              <!-- Modeling sets may be used as prediction sets; thus, they automatically 
-              appear on the Prediction tab. -->
 			  When you submit a dataset, chemical structure images will be generated for each 
 			  compound. A pairwise compound similarity matrix will be created and displayed as a heatmap. 
 			  <br /><br />
@@ -78,10 +76,10 @@
 		<tr>
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Select the type of dataset to create.<br />
-			<!-- For the "Modeling Set" and "Prediction Set", -->You do not need to provide descriptors; Chembench will
+			For the "Modeling Set" and "Prediction Set", you do not need to provide descriptors; Chembench will
 			generate descriptors as needed for visualization, modeling, and prediction. <br />
-			<!-- For the "Modeling Set With Descriptors" and "Prediction Set With Descriptors", you will need to <br />
-			upload an <a href="">X</a> file containing the descriptor values. -->
+			For the "Modeling Set With Descriptors" and "Prediction Set With Descriptors", you will need to <br />
+			upload an <a href="/help-fileformats#X">X</a> file containing the descriptor values.
 			<br />
 			</i></div></td>
 		</tr>
