@@ -14,6 +14,7 @@ import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
 public class SmilesPredictionWorkflow{
@@ -92,12 +93,7 @@ public class SmilesPredictionWorkflow{
 				execstr = "knn+ models.tbl -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + cutoff + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
 			}
 			
-			Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
-			Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
-			Utility.writeProgramLogfile(preddir, "runSmilesPrediction", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-			
-
+			RunExternalProgram.runCommandAndLogOutput(execstr, preddir, "runSmilesPrediction");
 	       
 	        String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_smiles.sdf.renorm.preds";
 			Utility.writeToDebug("Reading file: " + workingDir + outputFile);
@@ -136,10 +132,7 @@ public class SmilesPredictionWorkflow{
 								  + " --modelsListFile " + modelsListFile
 								  + " --xFile " + newXFile;
 			
-			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "randomForestPredict", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
+			RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestPredict");
 			
 			//get output 
 			String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
@@ -234,11 +227,9 @@ public class SmilesPredictionWorkflow{
 		   
 		//execute molconvert to change it to SDF
 	    	String execstr = "molconvert -2:O1 sdf " + smilesDir + "tmp.smiles -o " + smilesDir + sdfFileName;
-	    	Utility.writeToDebug("Running external program: " + execstr);
-	    	Process p = Runtime.getRuntime().exec(execstr);
-	    	Utility.writeProgramLogfile(smilesDir, "molconvert", p.getInputStream(), p.getErrorStream());
-	    	p.waitFor();
-	    
+	    	
+			RunExternalProgram.runCommandAndLogOutput(execstr, smilesDir, "molconvert");
+			
     	//standardize the SDF	
 			StandardizeMoleculesWorkflow.standardizeSdf(sdfFileName, sdfFileName + ".standardize", smilesDir);
 			File standardized = new File(smilesDir + sdfFileName + ".standardize");

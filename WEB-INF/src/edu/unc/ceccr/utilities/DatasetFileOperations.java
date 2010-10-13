@@ -394,16 +394,8 @@ public class DatasetFileOperations {
 		File outfile = new File(filePath + fileName + ".temp");
 		
 		//First, run the file through jchem to eliminate anything totally bizarre
-		try{
-			String execstr = "molconvert sdf " + filePath + fileName + " -o " + filePath + fileName + ".temp";
-			Process process = Runtime.getRuntime().exec(execstr);
-			Utility.writeProgramLogfile(filePath, "molconvert", process.getInputStream(), process.getErrorStream());
-			
-			process.waitFor();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
+		String execstr = "molconvert sdf " + filePath + fileName + " -o " + filePath + fileName + ".temp";
+		RunExternalProgram.runCommandAndLogOutput(execstr, filePath, "molconvert");
 		
 		if(outfile.exists()){
 			infile.delete();
@@ -830,18 +822,8 @@ public class DatasetFileOperations {
 	}
 
 	public static void dos2unix(String filePath){
-		try{
-			String execstr1 = "dos2unix " + filePath;
-			Process p = Runtime.getRuntime().exec(execstr1, null, new File(Constants.CECCR_BASE_PATH));
-			//Utility.writeProgramLogfile(filePath, "dos2unix", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-			p.getInputStream().close();
-			p.getErrorStream().close();
-			p.destroy();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
+		String execstr = "dos2unix " + filePath;
+		RunExternalProgram.runCommand(execstr, "");
 	}
 
 	public static String actIsValid(File actFile, String actFileType)

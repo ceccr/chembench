@@ -3,6 +3,7 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
@@ -18,14 +19,8 @@ public class GenerateDescriptorWorkflow{
 		
 		String execstr = "molconnz " + Constants.CECCR_BASE_PATH + datFile + " " + sdfile + " " + outfile;
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
-		Utility.writeToDebug("Running external program: " + execstr);
-		Process p = Runtime.getRuntime().exec(execstr);
-		Utility.writeProgramLogfile(workingDir + "/Descriptors/", "molconnz", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-        Utility.close(p.getOutputStream());
-        Utility.close(p.getInputStream());
-        Utility.close(p.getErrorStream());
-        p.destroy();
+		
+		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "molconnz");
 	
 	}
 
@@ -34,15 +29,7 @@ public class GenerateDescriptorWorkflow{
 		writeHExplicitDragonScriptFiles(sdfile, workingDir, outfile);
 		  
 		String execstr = "/usr/local/ceccr/dragon/dragonX -s " + workingDir + "dragon-scriptH.txt";
-			
-	    Utility.writeToDebug("Running external program: " + execstr);
-	    Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
-	    Utility.writeProgramLogfile(workingDir, "dragonH", p.getInputStream(), p.getErrorStream());
-	    p.waitFor();
-        Utility.close(p.getOutputStream());
-        Utility.close(p.getInputStream());
-        Utility.close(p.getErrorStream());
-        p.destroy();
+		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonH");
 	}	
 	
 	public static void GenerateHDepletedDragonDescriptors(String sdfile, String outfile) throws Exception{
@@ -50,15 +37,7 @@ public class GenerateDescriptorWorkflow{
 		writeHDepletedDragonScriptFiles(sdfile, workingDir, outfile);
 		  
 		String execstr = "/usr/local/ceccr/dragon/dragonX -s " + workingDir + "dragon-scriptNoH.txt";
-			
-	    Utility.writeToDebug("Running external program: " + execstr);
-	    Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
-	    Utility.writeProgramLogfile(workingDir, "dragonNoH", p.getInputStream(), p.getErrorStream());
-	    p.waitFor();
-        Utility.close(p.getOutputStream());
-        Utility.close(p.getInputStream());
-        Utility.close(p.getErrorStream());
-        p.destroy();
+		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonNoH");
 	}
 	
 	private static void writeHExplicitDragonScriptFiles(String sdFile, String workingDir, String outfile) throws IOException {
@@ -176,29 +155,16 @@ public class GenerateDescriptorWorkflow{
 		//command: "moe2D.sh infile.sdf outfile.moe2D"
 		String execstr = "moe2D.sh " + " " + sdfile + " " + outfile + " " + Constants.CECCR_BASE_PATH + "mmlsoft/SVL_DIR/batch_sd_2Ddesc.svl";
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
-		Utility.writeToDebug("Running external program: " + execstr);
-		Process p = Runtime.getRuntime().exec(execstr);
-		Utility.writeProgramLogfile(workingDir + "/Descriptors/", "moe2d.sh", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-        Utility.close(p.getOutputStream());
-        Utility.close(p.getInputStream());
-        Utility.close(p.getErrorStream());
-        p.destroy();
+
+		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "moe2d.sh");
 	}
 
 	public static void GenerateMaccsDescriptors(String sdfile, String outfile) throws Exception{
 		//command: "maccs.sh infile.sdf outfile.maccs"
 		String execstr = "maccs.sh " + sdfile + " " + outfile + " " + Constants.CECCR_BASE_PATH + "mmlsoft/SVL_DIR/batch_sd_MACCSFP.svl";
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
-		Utility.writeToDebug("Running external program: " + execstr);
-		//Process p= Runtime.getRuntime().exec("moebatch_shell_script.sh "+file_path +" "+viz_path+".maccs");
-		Process p = Runtime.getRuntime().exec(execstr);
-		Utility.writeProgramLogfile(workingDir + "/Descriptors/", "maccs.sh", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-        Utility.close(p.getOutputStream());
-        Utility.close(p.getInputStream());
-        Utility.close(p.getErrorStream());
-        p.destroy();
+
+		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "maccs.sh");
 	}
 	
 }

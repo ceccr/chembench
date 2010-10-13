@@ -60,30 +60,8 @@ public class SvmWorkflow{
 	
 	public static void preProcessXFile(String scalingType, String xFile, String newXFile, String workingDir) throws Exception
 	{
-		String preProcessScript;
-		String preProcessMsg;
-		String command;
-		if(scalingType.equals(Constants.NOSCALING))
-		{
-			preProcessScript = "copy.sh ";
-			preProcessMsg = "Copy: ";
-		}
-		else
-		{
-			preProcessScript = "rm2LastLines.sh ";
-			preProcessMsg = "Copy and remove last 2 lines: ";
-		}
-		Utility.writeToDebug(preProcessMsg + xFile + " to " + newXFile);
-		command = preProcessScript + xFile + " " + newXFile;
-		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		Utility.writeProgramLogfile(workingDir, preProcessScript.replace(".sh", "_") + xFile, p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-		Utility.writeToDebug("Exit value: " + p.exitValue());
-		if(p.exitValue() != 0)
-		{
-			Utility.writeToDebug("	See error log");
-		}
+		
+		
 	}
 	
 	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{

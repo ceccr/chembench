@@ -11,6 +11,7 @@ import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
@@ -150,15 +151,8 @@ public class RandomForestWorkflow{
 					   + " --classwt " + classwt
 					   + " --nodesize " + nodesize
 					   + " --maxnodes " + maxnodes;
-		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		Utility.writeProgramLogfile(workingDir, "randomForestBuildModel", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-		Utility.writeToDebug("Exit value: " + p.exitValue());
-		if(p.exitValue() != 0)
-		{
-			Utility.writeToDebug("	See error log");
-		}
+
+		RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestBuildModel");
 	}
 	
 
@@ -348,17 +342,8 @@ public class RandomForestWorkflow{
 							  + " --modelsListFile " + modelsListFile
 							  + " --xFile " + newXFile;
 		
-		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		Utility.writeProgramLogfile(workingDir, "randomForestPredict", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-		Utility.writeToDebug("Exit value: " + p.exitValue());
-		if(p.exitValue() != 0)
-		{
-			Utility.writeToDebug("	See error log");
-		}
+		RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestPredict");
 	}
-	
 	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
 		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); //holds objects to be returned

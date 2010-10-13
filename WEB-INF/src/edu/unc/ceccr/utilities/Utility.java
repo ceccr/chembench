@@ -194,38 +194,6 @@ public class Utility {
 		}
 	}
 	
-	public static void close(Closeable c) {
-		if (c != null) {
-		  try {
-		    c.close();
-		  } catch (IOException e) {
-			  // ignored
-	      }
-	    }
-	 }
-	
-	public static void writeProgramLogfile(String workingDir, String programName, InputStream stdout, InputStream errout){
-		//Take the inputStreams from an external program execution, write them to a logfile
-		    
-		try{
-		  File file=new File(workingDir + "/Logs/");
-		  if(!file.exists()){
-		  	file.mkdirs();
-		  }
-
-		  FileOutputStream logFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + programName + ".log"));
-		  FileOutputStream errFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + programName + ".err"));
-		  StreamGobbler outputGobbler = new StreamGobbler(stdout, "stdout", logFileOS);  
-		  StreamGobbler errorGobbler = new StreamGobbler(errout, "errout", errFileOS);   
-		  outputGobbler.start();
-		  errorGobbler.start();
-		  //logFileOS.close();
-		  //errFileOS.close();
-		}
-		catch(Exception ex){
-	      writeToDebug(ex);
-		}
-	}
 
 	public static boolean isAdmin(String userName){
 		boolean user_is_admin = false;

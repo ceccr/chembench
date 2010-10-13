@@ -9,6 +9,7 @@ import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 
@@ -96,19 +97,13 @@ public class KnnModelBuildingWorkflow{
 	
 	public static void buildKnnCategoryModel(String userName, String jobName, String optimizationValue, String workingDir) throws Exception{
 			String command = "AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue;
-			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "AllKnn_category_nl", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
+			RunExternalProgram.runCommandAndLogOutput(command, workingDir, "AllKnn_category_nl");
 			Utility.writeToDebug("Category kNN finished.", userName, jobName);
 	}
 	
 	public static void buildKnnContinuousModel(String userName, String jobName, String workingDir) throws Exception{
 			String command = "AllKnn2LIN_nl 1 RAND_sets.list knn-output";
-			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "AllKnn2LIN_nl", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
+			RunExternalProgram.runCommandAndLogOutput(command, workingDir, "AllKnn2LIN_nl");
 			Utility.writeToDebug("Continuous kNN finished.", userName, jobName);
 	}
 	
@@ -172,22 +167,13 @@ public class KnnModelBuildingWorkflow{
 		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
 		
 		String execstr1 = "PredActivCont3rwknnLIN knn-output.list " + Constants.EXTERNAL_SET_X_FILE + " pred_output 1.0";
-		  Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
-	      Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
-	      Utility.writeProgramLogfile(workingdir, "PredActivCont3rwknnLIN", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
-	    
+		RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "PredActivCont3rwknnLIN");  
+		
 	    String execstr2 = "ConsPredContrwknnLIN pred_output.comp.list pred_output.list cons_pred";
-		  Utility.writeToDebug("Running external program: " + execstr2 + " in dir " + workingdir);
-	      p = Runtime.getRuntime().exec(execstr2, null, new File(workingdir));
-	      Utility.writeProgramLogfile(workingdir, "ConsPredContrwknnLIN", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
-	    
+	    RunExternalProgram.runCommandAndLogOutput(execstr2, workingdir, "PredActivCont3rwknnLIN");  
+		
 	    String execstr3 = "parse_structgen_merge.pl cons_pred " + Constants.EXTERNAL_SET_A_FILE + " fake_argument external_prediction_table";
-		  Utility.writeToDebug("Running external program: " + execstr3 + " in dir " + workingdir);
-	      p = Runtime.getRuntime().exec(execstr3, null, new File(workingdir));
-	      Utility.writeProgramLogfile(workingdir, "parse_structgen_merge.pl", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
+	    RunExternalProgram.runCommandAndLogOutput(execstr3, workingdir, "PredActivCont3rwknnLIN");  
 	}
 	
 	public static void MoveToPredictorsDir(String userName, String jobName) throws Exception{
@@ -195,9 +181,6 @@ public class KnnModelBuildingWorkflow{
 		String moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + jobName + "/";
 		String execstr = "mv " + moveFrom + " " + moveTo;
-		  System.out.println("Running external program: " + execstr);
-	      Process p = Runtime.getRuntime().exec(execstr);
-	      //Utility.writeProgramLogfile(moveTo, "mv", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
+		RunExternalProgram.runCommand(execstr, "");  
 	}
 }

@@ -10,6 +10,7 @@ import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
@@ -167,13 +168,8 @@ public class KnnPlusWorkflow{
 		else{
 			command = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
 		}
-		
-		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		Utility.writeProgramLogfile(workingDir, "bsubKnnPlus", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-		Utility.writeToDebug("kNNPlus submitted.", userName, jobName);	
-
+		RunExternalProgram.runCommandAndLogOutput(command, workingDir, "bsubKnnPlus");
+			
 		String logFilePath = workingDir + "Logs/bsubKnnPlus.log";
 		return KnnModelingLsfWorkflow.getLsfJobId(logFilePath);
 		
@@ -186,12 +182,8 @@ public class KnnPlusWorkflow{
 		FileAndDirOperations.copyFile(workingDir + "RAND_sets.list", workingDir + "rand_sets.list");
 		
 		String command = getKnnPlusCommandFromParams(knnPlusParameters, actFileDataType, modelType);
-		
-		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		Utility.writeProgramLogfile(workingDir, "knnPlus", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-		//Utility.writeToDebug("Category kNN finished.", userName, jobName);
+
+		RunExternalProgram.runCommandAndLogOutput(command, workingDir, "knnPlus");
 	}
 	
 	public static void predictExternalSet(String userName, String jobName, String workingDir, String cutoffValue) throws Exception{
@@ -200,11 +192,8 @@ public class KnnPlusWorkflow{
 		String xfile = "ext_0.x";
 		//knn+ models -4PRED=ext_0.x -AD=0.5_avd -OUT=cons_pred;
 		String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
-		Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
-		Utility.writeProgramLogfile(workingDir, "knn+_prediction", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-		
+
+		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "knnPlusPrediction");
 	}
 
 	public static ArrayList<ExternalValidation> readExternalPredictionOutput(String workingDir, Predictor predictor) throws Exception{
@@ -324,16 +313,8 @@ public class KnnPlusWorkflow{
 
 		try{
 			String execstr = "checkKnnSaProgress.sh";
-			//Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
-			Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "checkKnnSaProgress", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-	        Utility.close(p.getOutputStream());
-	        Utility.close(p.getInputStream());
-	        Utility.close(p.getErrorStream());
-	        p.destroy();
+			RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "checkKnnSaProgress");
 			
-	
 			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnSaProgress").trim();
 			String[] tokens = file.split(" ");
 			//Utility.writeToDebug("models so far: " + tokens[0]);
@@ -350,16 +331,9 @@ public class KnnPlusWorkflow{
 		try{
 			String execstr = "checkKnnGaProgress.sh";
 			//Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
-			Process p = Runtime.getRuntime().exec(execstr, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "checkKnnGaProgress", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-	        Utility.close(p.getOutputStream());
-	        Utility.close(p.getInputStream());
-	        Utility.close(p.getErrorStream());
-	        p.destroy();
 
+			RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "checkKnnGaProgress");
 			
-	
 			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnGaProgress").trim();
 			String[] tokens = file.split(" ");
 			//Utility.writeToDebug("models so far: " + tokens[0]);
@@ -506,10 +480,7 @@ public class KnnPlusWorkflow{
 		
 		String xfile = sdfile + ".renorm.x";
 		String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
-		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
-		Utility.writeProgramLogfile(preddir, "knn+_prediction", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
+		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "knnPlusPrediction");
 	}
 
 public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String sdfile) throws Exception{

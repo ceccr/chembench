@@ -13,6 +13,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
 public class DataSplitWorkflow{
@@ -47,21 +48,13 @@ public class DataSplitWorkflow{
 		if(useActivityBinning.equalsIgnoreCase("true")){
 			execstr1 += " -A=" + numCompoundsExternalSet;
 		}
-		Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
-	    Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
-	    Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
-	    p.waitFor();
-        Utility.close(p.getOutputStream());
-        Utility.close(p.getInputStream());
-        Utility.close(p.getErrorStream());
-        p.destroy();
-
+		RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "datasplit_train_ext");
+		
 	    //put the split files in the right spots
 		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.a", workingdir + Constants.MODELING_SET_A_FILE);
 		FileAndDirOperations.copyFile(workingdir + "mdlext_mdl0.x", workingdir + Constants.MODELING_SET_X_FILE);
 		FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.a", workingdir + Constants.EXTERNAL_SET_A_FILE);
 		FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.x", workingdir + Constants.EXTERNAL_SET_X_FILE);
-		
 	}
 	
 	public static void splitModelingExternalGivenList(
@@ -239,15 +232,8 @@ public class DataSplitWorkflow{
 			
 			String listFileName = "rand_sets_" + i + ".list";
 			String execstr1 = "datasplit train_0.x -N=1 -M=R -OUT=" + listFileName + " -F=" + testSize;
-			//Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
-			Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
-			Utility.writeProgramLogfile(workingdir, "datasplit_" + i, p.getInputStream(), p.getErrorStream());
-			p.waitFor();
 			
-	        Utility.close(p.getOutputStream());
-	        Utility.close(p.getInputStream());
-	        Utility.close(p.getErrorStream());
-	        p.destroy();
+			RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "datasplit_train_test");
 			
 			//Read in the listfile that was just created.
 			String fileLocation = workingdir + listFileName;
@@ -312,17 +298,8 @@ public class DataSplitWorkflow{
 			nextTrainPt = "SH1"; //SUM-MAX, corners and edges first working inwards
 		
 		String execstr1 = "datasplit train_0.x -N=" + numSplits + " -M=S -OUT=RAND_sets.list -+=" + forcedCompounds + " -D=" + nextTrainPt + " -F=" + minTestSize;
-		Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
-		Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
-		Utility.writeProgramLogfile(workingdir, "datasplit", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
 
-        Utility.close(p.getOutputStream());
-        Utility.close(p.getInputStream());
-        Utility.close(p.getErrorStream());
-        p.destroy();
-
-		
+		RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "datasplit_train_test");
 		
 		//datasplit will change all its filenames to lowercase. We need RAND_sets.list, not rand_sets.list!
 		FileAndDirOperations.copyFile(workingdir + "rand_sets.list", workingdir + "RAND_sets.list");

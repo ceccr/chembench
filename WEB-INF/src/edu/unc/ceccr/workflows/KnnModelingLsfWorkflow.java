@@ -5,6 +5,7 @@ import java.nio.channels.FileChannel;
 
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
@@ -18,20 +19,10 @@ public class KnnModelingLsfWorkflow{
 		//open the directory in /largefs/ceccr/ where the job was run
 		
 		String execstr = "mv.sh " + lsfPath + "* " + filePath;
-		  Utility.writeToDebug("Running external program: " + execstr);
-	      Process p = Runtime.getRuntime().exec(execstr);
-	      //Utility.writeProgramLogfile(filePath, "mv", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
+		RunExternalProgram.runCommand(execstr, "");
 
 		execstr = "mv.sh " + lsfPath + "yRandom/* " + filePath + "yRandom/ ";
-		  Utility.writeToDebug("Running external program: " + execstr);
-	      p = Runtime.getRuntime().exec(execstr);
-	      //Utility.writeProgramLogfile(filePath, "mv2", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
-	      
-		//remove the empty /largefs/ceccr/userName/jobName/ subdirectory
-		//FileAndDirOperations.deleteDir(new File(lsfPath));
-		
+		RunExternalProgram.runCommand(execstr, "");
 	}
 	
 	public static void makeLsfModelingDirectory(String filePath, String lsfPath) throws Exception{
@@ -74,12 +65,8 @@ public class KnnModelingLsfWorkflow{
 			
 			//exec shell script
 			String command = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnn.sh";
-			Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-			Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-			Utility.writeToDebug("Category kNN submitted.", userName, jobName);
-
+			RunExternalProgram.runCommandAndLogOutput(command, workingDir, "bsubKnn");
+			
 			String logFilePath = workingDir + "Logs/bsubKnn.log";
 			return getLsfJobId(logFilePath);
 	}
@@ -105,10 +92,8 @@ public class KnnModelingLsfWorkflow{
 		
 		//exec shell script
 		String command = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnn.sh";
-		Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		Utility.writeProgramLogfile(workingDir, "bsubKnn", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
+		
+		RunExternalProgram.runCommandAndLogOutput(command, workingDir, "bsubKnn");
 		Utility.writeToDebug("Continuous kNN submitted.", userName, jobName);	
 
 		String logFilePath = workingDir + "Logs/bsubKnn.log";

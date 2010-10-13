@@ -14,6 +14,7 @@ import java.util.Scanner;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
 public class StandardizeMoleculesWorkflow {
@@ -29,11 +30,7 @@ public class StandardizeMoleculesWorkflow {
 		if(compoundNames.size() < 600){
 
 			String execstr1 = "standardize.sh " + sdfIn + " " + sdfOut;
-			Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingDir);
-			Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "standardize", p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-			
+			RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir, "standardize");
 		}
 		else{
 			//The JChem software won't let you do more than 666 molecules in this process at a time
@@ -69,14 +66,8 @@ public class StandardizeMoleculesWorkflow {
 						partOut.close();
 						String standardizedFilePart = sdfFilePart + ".standardize";
 						String execstr1 = "standardize.sh " + sdfFilePart + " " + standardizedFilePart;
-						Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingDir));
-						Utility.writeProgramLogfile(workingDir, "standardize" + currentFileNumber, p.getInputStream(), p.getErrorStream());
-						p.waitFor();
-				        Utility.close(p.getOutputStream());
-				        Utility.close(p.getInputStream());
-				        Utility.close(p.getErrorStream());
-				        p.destroy();
 						
+						RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir, "standardize_" + currentFileNumber);
 						
 						//start a new file
 						compoundsInCurrentFile = 0;
@@ -92,10 +83,7 @@ public class StandardizeMoleculesWorkflow {
 			partOut.close();
 			String standardizedFilePart = sdfFilePart + ".standardize";
 			String execstr1 = "standardize.sh " + sdfFilePart + " " + standardizedFilePart;
-			Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingDir));
-			Utility.writeProgramLogfile(workingDir, "standardize" + currentFileNumber, p.getInputStream(), p.getErrorStream());
-			p.waitFor();
-			
+			RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir, "standardize_" + currentFileNumber);
 			
 			Utility.writeToDebug("Merging standardized SDFs");
 			//merge the output files back together

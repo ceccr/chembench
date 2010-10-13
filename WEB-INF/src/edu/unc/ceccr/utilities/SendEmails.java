@@ -65,9 +65,7 @@ public class SendEmails {
 			fw.close();
 			
 			String execstr = "sendmail.sh " + workingDir + fileName;
-			Utility.writeToDebug("Running external program: " + execstr);
-		    Process p = Runtime.getRuntime().exec(execstr);
-		    p.waitFor();
+			RunExternalProgram.runCommand(execstr, workingDir);
 		
 		    Utility.writeToDebug("Email sent!");
 		}catch(Exception ex){

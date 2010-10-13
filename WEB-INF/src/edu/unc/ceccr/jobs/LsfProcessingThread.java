@@ -15,6 +15,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -197,14 +198,7 @@ public class LsfProcessingThread extends Thread {
 		
 		//run bjobs
 		String command = "bjobs.sh";
-		//Utility.writeToDebug("Running external program: " + command + " in dir " + workingDir);
-		
-		Process p = Runtime.getRuntime().exec(command, null, new File(workingDir));
-		p.waitFor();
-        Utility.close(p.getOutputStream());
-        Utility.close(p.getInputStream());
-        Utility.close(p.getErrorStream());
-        p.destroy();
+		RunExternalProgram.runCommand(command, workingDir);
 		
 		//read in results
 		ArrayList<LsfJobStatus> lsfStatusList = new ArrayList<LsfJobStatus>();

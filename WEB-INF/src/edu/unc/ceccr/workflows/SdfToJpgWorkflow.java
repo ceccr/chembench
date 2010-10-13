@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Scanner;
 
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
 public class SdfToJpgWorkflow {
@@ -18,13 +19,7 @@ public class SdfToJpgWorkflow {
 		
 		//remove explicit hydrogens from SDFs; they are noise as far as the JPG is concerned.
 		String execstr1 = "removeExplicitH.sh " + filePath + fileName + " " + filePath + fileName + ".removedH";
-		Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + filePath);
-		Process p = Runtime.getRuntime().exec(execstr1, null, new File(filePath));
-		Utility.writeProgramLogfile(filePath, "removeExplicitH", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-		p.getInputStream().close();
-		p.getErrorStream().close();
-		p.destroy();
+		RunExternalProgram.runCommandAndLogOutput(execstr1, filePath, "removeExplicitH");
 		
 		fileName += ".removedH";
 		
@@ -94,15 +89,7 @@ public class SdfToJpgWorkflow {
 			if(! new File(sketchesDir + jpgFilename).exists() && new File(structuresDir + files[x]).exists()){ 
 				
 				String command = "molconvert -2 jpeg:w300,Q95 "+ structuresDir + files[x]+ " -o "+ sketchesDir + jpgFilename;
-				
-				// run molconvert
-				Process process = Runtime.getRuntime().exec(command);
-				
-				process.waitFor();
-				process.getInputStream().close();
-				process.getErrorStream().close();
-				process.destroy();
-			
+				RunExternalProgram.runCommand(command, "");			
 			}
 			x++;
 		}

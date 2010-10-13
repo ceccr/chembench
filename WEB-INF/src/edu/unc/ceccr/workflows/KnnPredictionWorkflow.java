@@ -4,6 +4,7 @@ package edu.unc.ceccr.workflows;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 
@@ -23,16 +24,10 @@ public class KnnPredictionWorkflow{
 	public static void RunKnnPrediction(String userName, String jobName, String workingdir, String sdFile, float cutoffValue ) throws Exception{
 		
 		String execstr1 = "PredActivCont3rwknnLIN knn-output.list " + sdFile + ".renorm.x pred_output " + cutoffValue;
-		  Utility.writeToDebug("Running external program: " + execstr1 + " in dir " + workingdir);
-	      Process p = Runtime.getRuntime().exec(execstr1, null, new File(workingdir));
-	      Utility.writeProgramLogfile(workingdir, "PredActivCont3rwknnLIN", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
-	   
+		RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "PredActivCont3rwknnLIN");
+		
 	    String execstr2 = "ConsPredContrwknnLIN pred_output.comp.list pred_output.list cons_pred";
-		  Utility.writeToDebug("Running external program: " + execstr2 + " in dir " + workingdir);
-	      p = Runtime.getRuntime().exec(execstr2, null, new File(workingdir));
-	      Utility.writeProgramLogfile(workingdir, "ConsPredContrwknnLIN", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
+	    RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "ConsPredContrwknnLIN");
 	}
 	
 	public static void MoveToPredictionsDir(String userName, String jobName) throws Exception{
@@ -41,12 +36,7 @@ public class KnnPredictionWorkflow{
 		String moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/";
 		String execstr = "mv " + moveFrom + " " + moveTo;
-
-		  Utility.writeToDebug("Running external program: " + execstr);
-	      Process p = Runtime.getRuntime().exec(execstr);
-	      //Utility.writeProgramLogfile(moveTo, "mv", p.getInputStream(), p.getErrorStream());
-	      p.waitFor();
-
+		RunExternalProgram.runCommand(execstr, "");
 	}
 	
 	
@@ -66,11 +56,7 @@ public class KnnPredictionWorkflow{
 		
 		String xfile = sdfile + ".renorm.x";
 		String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-		Utility.writeToDebug("Running external program: " + execstr + " in dir: " + preddir);
-		Process p = Runtime.getRuntime().exec(execstr, null, new File(preddir));
-		Utility.writeProgramLogfile(preddir, "knn+_prediction", p.getInputStream(), p.getErrorStream());
-		p.waitFor();
-		
+		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "knnPlusPrediction");
 	}
 	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String sdFile) throws Exception{
