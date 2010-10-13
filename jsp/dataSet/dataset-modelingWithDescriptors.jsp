@@ -47,6 +47,12 @@
 	    <s:file name="xFileModDesc" id="xFileModDesc" theme="simple" />
 	    </td>
 	  </tr>
+	  <tr>
+	    <td><b class="StandardTextDarkGrayParagraph">Descriptor Type:</b></td>
+	    <td align="left">
+	    <s:textfield name="descriptorTypeModDesc" id="descriptorTypeModDesc" theme="simple" />
+	    </td>
+	  </tr>
   	  </table>
     </td></tr></tbody></table>
 </s:div>
