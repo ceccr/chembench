@@ -21,6 +21,7 @@ import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.SoftwareExpiration;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
+import edu.unc.ceccr.workflows.NumberFormat;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -193,7 +194,18 @@ public class Utility {
 		} catch (Exception e) {// Catch exception if any
 		}
 	}
+
+	public static String doubleToString(Double num){
+		java.text.NumberFormat f = java.text.NumberFormat.getInstance();
+		f.setGroupingUsed(false);
+		return f.format(num);
+	}
 	
+	public static String floatToString(Float num){
+		java.text.NumberFormat f = java.text.NumberFormat.getInstance();
+		f.setGroupingUsed(false);
+		return f.format(num);
+	}
 
 	public static boolean isAdmin(String userName){
 		boolean user_is_admin = false;

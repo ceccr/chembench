@@ -51,14 +51,14 @@ public class WriteDescriptorsFileWorkflow{
 					descriptorValueMaxima.set(j, descriptorValues.get(j));
 				}
 				Float totalSoFar = Float.parseFloat(descriptorValueAvgs.get(j));
-				descriptorValueAvgs.set(j, "" + (Float.parseFloat(descriptorValues.get(j)) + totalSoFar));
+				descriptorValueAvgs.set(j, Utility.floatToString(Float.parseFloat(descriptorValues.get(j)) + totalSoFar));
 			}
 			descriptorValues.clear(); //cleanup
 		}
 		
 		//divide to get averages
 		for(int j = 0; j < descriptorValueAvgs.size(); j++){
-			descriptorValueAvgs.set(j, "" + (Float.parseFloat(descriptorValueAvgs.get(j)) / descriptorMatrix.size()));
+			descriptorValueAvgs.set(j, Utility.floatToString(Float.parseFloat(descriptorValueAvgs.get(j)) / descriptorMatrix.size()));
 		}
 		
 		//now go through again to get stddev... what a pain
@@ -70,14 +70,14 @@ public class WriteDescriptorsFileWorkflow{
 			for(int j = 0; j < descriptorValues.size(); j++){
 				Float mean = Float.parseFloat(descriptorValueAvgs.get(j));
 				Float distFromMeanSquared = new Float(Math.pow((Double.parseDouble(descriptorValues.get(j)) - mean), 2));
-				descriptorValueStdDevs.set(j, "" + (Float.parseFloat(descriptorValueStdDevs.get(j)) + distFromMeanSquared));
+				descriptorValueStdDevs.set(j, Utility.floatToString(Float.parseFloat(descriptorValueStdDevs.get(j)) + distFromMeanSquared));
 			}
 			descriptorValues.clear(); //cleanup
 		}
 		//divide sum then take sqrt to get stddevs
 		for(int j = 0; j < descriptorValueStdDevs.size(); j++){
 			double squareDistTotal = Double.parseDouble(descriptorValueStdDevs.get(j));
-			descriptorValueStdDevs.set(j, "" +  Math.sqrt( squareDistTotal / descriptorMatrix.size()));
+			descriptorValueStdDevs.set(j, Utility.doubleToString(Math.sqrt( squareDistTotal / descriptorMatrix.size())));
 		}
 		
 	}
@@ -89,7 +89,7 @@ public class WriteDescriptorsFileWorkflow{
 		//We know the min and max. Scaled value = ((value - min) / (max-min)).
 		
 		Utility.writeToDebug("range-scaling descriptor matrix according to given max and min");
-		
+
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
 			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
@@ -98,7 +98,7 @@ public class WriteDescriptorsFileWorkflow{
 				float min = Float.parseFloat(descriptorValueMinima.get(j));
 				float max = Float.parseFloat(descriptorValueMaxima.get(j));
 				if(max - min != 0){
-					descriptorValues.set(j, Float.toString(( (value - min) / (max - min) )));
+					descriptorValues.set(j, Utility.floatToString((value - min) / (max - min)));
 				}
 				//if max - min == 0, the descriptor is zero-variance and will be removed later.
 			}
@@ -128,7 +128,7 @@ public class WriteDescriptorsFileWorkflow{
 				Float stdDevPlusAvg = Float.parseFloat(descriptorValueStdDevsPlusAvgs.get(j));
 				Float val = Float.parseFloat(descriptorValues.get(j));
 				if((stdDevPlusAvg - avg) != 0){
-					descriptorValues.set(j, "" + ( (val - avg) / (stdDevPlusAvg - avg) ));
+					descriptorValues.set(j, Utility.floatToString((val - avg) / (stdDevPlusAvg - avg)));
 				}
 			}
 			
@@ -253,7 +253,7 @@ public class WriteDescriptorsFileWorkflow{
 		ArrayList<String> descriptorMatrixTT = new ArrayList<String>();
 		
 		for(int i = 0; i < descriptorMatrixT.get(0).size(); i++){
-			String as = "" + descriptorMatrixT.get(0).get(i);
+			String as = Utility.doubleToString(descriptorMatrixT.get(0).get(i));
 			descriptorMatrixTT.add(as);
 		}
 		
@@ -517,7 +517,7 @@ public class WriteDescriptorsFileWorkflow{
 		for(int i = 0; i < descriptorValueStdDevs.size(); i++){
 			Float stddev = Float.parseFloat(descriptorValueStdDevs.get(i));
 			Float avg = Float.parseFloat(descriptorValueStdDevs.get(i));
-			descriptorValueStdDevPlusAvgs.add("" + (stddev + avg));
+			descriptorValueStdDevPlusAvgs.add(Utility.floatToString((stddev + avg)));
 		}
 		
 		//do scaling on descriptorMatrix
