@@ -21,7 +21,6 @@ import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.SoftwareExpiration;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
-import edu.unc.ceccr.workflows.NumberFormat;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
