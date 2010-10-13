@@ -127,12 +127,13 @@ public class RunExternalProgram {
 		    p.waitFor();
 		    
 		    //close any file handles we might have
-			logFileOS.close();
-		 	errFileOS.close();
 		 	RunExternalProgram.close(p.getOutputStream());
 	        RunExternalProgram.close(p.getInputStream());
 	        RunExternalProgram.close(p.getErrorStream());
 	        p.destroy();
+	        
+			logFileOS.close();
+		 	errFileOS.close();
 	        
 		}
 		catch(Exception ex){
