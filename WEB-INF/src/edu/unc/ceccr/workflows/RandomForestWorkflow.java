@@ -318,11 +318,32 @@ public class RandomForestWorkflow{
 		return randomForestTrees;
 	}
 	
-	public static void cleanUpExcessFiles(){
-		//remove the training .x files; they are no longer needed and take up lots of space
+	public static void cleanUpExcessFiles(String workingDir){
+		//remove the training and test set .x files; they are no longer needed and take up lots of space
 		
-		//open RF_RAND_sets.list and remove the .x files listed in it
-		
+		try{
+			//open RF_RAND_sets.list and remove the .x files listed in it
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + "RF_RAND_sets.list"));
+			
+			//sample line:
+			//RF_rand_sets_39_trn0.x rand_sets_39_trn0.a 37 RF_rand_sets_39_tst0.x rand_sets_39_tst0.a 13
+
+			String inputString;
+			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+			{
+				String[] files = inputString.split("\\s+");
+				
+				for(int i = 0; i < files.length; i++)
+				{
+					if(new File(workingDir + files[i]).exists()){
+						FileAndDirOperations.deleteFile(workingDir + files[i]);
+					}
+				}
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 	}
 	
 	//END MODELING WORKFLOW FUNCTIONS

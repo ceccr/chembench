@@ -925,6 +925,10 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		
 		//clean up dirs
+		if(modelType.equals(Constants.RANDOMFOREST)){
+			RandomForestWorkflow.cleanUpExcessFiles(Constants.CECCR_USER_BASE_PATH+userName+"/"+jobName +"/");
+		}
+		
 		KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName);
 		FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/"+jobName));
 	}
