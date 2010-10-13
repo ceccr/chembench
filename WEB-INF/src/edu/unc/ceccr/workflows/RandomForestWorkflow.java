@@ -340,13 +340,12 @@ public class RandomForestWorkflow{
 						FileAndDirOperations.deleteFile(workingDir + files[i]);
 					}
 					//remove rand_sets.*.x
-					files[i] = files[i].substring(3);
-					Utility.writeToDebug("removing file: " + workingDir + files[i]);
-					
-					if(files[i].endsWith("x") && new File(workingDir + files[i]).exists()){
-						FileAndDirOperations.deleteFile(workingDir + files[i]);
-					}
-					
+					if(files[i].length() > 3){
+						files[i] = files[i].substring(3);
+						if(files[i].endsWith("x") && new File(workingDir + files[i]).exists()){
+							FileAndDirOperations.deleteFile(workingDir + files[i]);
+						}
+					}					
 				}
 			}
 		}
