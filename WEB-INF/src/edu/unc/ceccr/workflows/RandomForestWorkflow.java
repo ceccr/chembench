@@ -335,9 +335,16 @@ public class RandomForestWorkflow{
 				
 				for(int i = 0; i < files.length; i++)
 				{
+					//remove RF_rand_sets.*.x
 					if(new File(workingDir + files[i]).exists()){
 						FileAndDirOperations.deleteFile(workingDir + files[i]);
 					}
+					//remove rand_sets.*.x
+					files[i] = files[i].substring(3);
+					if(new File(workingDir + files[i]).exists()){
+						FileAndDirOperations.deleteFile(workingDir + files[i]);
+					}
+					
 				}
 			}
 		}
