@@ -21,7 +21,9 @@ public class RunExternalProgram {
 		{"bjobs.sh", 
 		"datasplit_train_test",
 		"checkKnnSaProgress",
-		"checkKnnGaProgress"};
+		"checkKnnGaProgress",
+		"svm-train",
+		"svm-predict"};
 	
 	public static void close(Closeable c) {
 		if (c != null) {

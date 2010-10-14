@@ -95,7 +95,7 @@ public class SvmWorkflow{
 		-v n: n-fold cross validation mode
 		*/
 		
-		Utility.writeToDebug("Running SVM Modeling...");
+		Utility.writeToDebug("Running SVM Modeling in dir: " + workingDir);
 		convertXtoSvm(Constants.MODELING_SET_X_FILE, Constants.MODELING_SET_A_FILE, workingDir);
 		convertXtoSvm(Constants.EXTERNAL_SET_X_FILE, Constants.EXTERNAL_SET_A_FILE, workingDir);
 		
@@ -130,7 +130,6 @@ public class SvmWorkflow{
 							pEpsilon += Double.parseDouble(svmParameters.getSvmPEpsilonStep())){
 								
 								String command = "svm-train ";
-								
 								
 								//svm type
 								String svmType = "";
@@ -178,12 +177,21 @@ public class SvmWorkflow{
 								command += " " + inputFile + " ";
 								
 								//output file name
-								String modelFileName = data[0].replace(".x", "") + "_d" + degree + "_g" + gamma + "_c" + cost + "_n" + nu + "_p" + pEpsilon + ".model";
+								String modelFileName = inputFile.replace(".svm", "") + "_d" + degree + "_g" + gamma + "_c" + cost + "_n" + nu + "_p" + pEpsilon + ".mod";
 								command += modelFileName;
 								
-								RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm" + modelFileName);
+								RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-train" + modelFileName);
 								
-								//run prediction on test set (?)
+								//run prediction on test set
+								String testFileName = data[3].replace(".x", ".svm");
+								String predictionOutputFileName = modelFileName + ".pred";
+								
+								String command2 = "svm-predict " + testFileName + " " + modelFileName + " " + predictionOutputFileName;
+								
+								RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-predict" + modelFileName);
+								
+								//read MSE and correlation coeff. for prediction
+								
 								
 							}
 						}

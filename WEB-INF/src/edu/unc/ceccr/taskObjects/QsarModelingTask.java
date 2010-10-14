@@ -184,9 +184,9 @@ public class QsarModelingTask extends WorkflowTask {
 				else if(modelType.equals(Constants.SVM)){
 					File dir = new File(workingDir);
 					//get num of models produced so far
-					float p = (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".model");}}).length);
+					float p = (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}}).length);
 					dir = new File(workingDir + "yRandom/");
-					p += (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".model");}}).length);
+					p += (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}}).length);
 					//divide by (number of models * 2 because of yRandom)
 					p /= (getNumTotalModels() * 2);
 					p *= 100;
