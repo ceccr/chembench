@@ -129,10 +129,12 @@ public class SvmWorkflow{
 					nu += Integer.parseInt(svmParameters.getSvmNuStep())){
 					
 						for(int pEpsilon = Integer.parseInt(svmParameters.getSvmPEpsilonFrom());
-						pEpsilon <= Integer.parseInt(svmParameters.getSvmNuTo());
-						pEpsilon += Integer.parseInt(svmParameters.getSvmNuStep())){
-						
-						
+						pEpsilon <= Integer.parseInt(svmParameters.getSvmPEpsilonTo());
+						pEpsilon += Integer.parseInt(svmParameters.getSvmPEpsilonStep())){
+							
+							
+							
+							
 						}
 					}
 				}
