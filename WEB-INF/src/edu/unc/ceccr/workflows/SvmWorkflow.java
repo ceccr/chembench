@@ -109,6 +109,35 @@ public class SvmWorkflow{
 			convertXtoSvm(data[3], data[4], workingDir);
 		}
 		in.close();
+		
+		
+		
+		for(int cost = Integer.parseInt(svmParameters.getSvmCostFrom()); 
+			cost <= Integer.parseInt(svmParameters.getSvmCostTo()); 
+			cost += Integer.parseInt(svmParameters.getSvmCostStep())){
+			
+			for(int degree = Integer.parseInt(svmParameters.getSvmDegreeFrom());
+				degree <= Integer.parseInt(svmParameters.getSvmDegreeTo());
+				degree += Integer.parseInt(svmParameters.getSvmDegreeStep())){
+				
+				for(int gamma = Integer.parseInt(svmParameters.getSvmGammaFrom());
+				gamma <= Integer.parseInt(svmParameters.getSvmGammaTo());
+				gamma += Integer.parseInt(svmParameters.getSvmGammaStep())){
+				
+					for(int nu = Integer.parseInt(svmParameters.getSvmNuFrom());
+					nu <= Integer.parseInt(svmParameters.getSvmNuTo());
+					nu += Integer.parseInt(svmParameters.getSvmNuStep())){
+					
+						for(int pEpsilon = Integer.parseInt(svmParameters.getSvmPEpsilonFrom());
+						pEpsilon <= Integer.parseInt(svmParameters.getSvmNuTo());
+						pEpsilon += Integer.parseInt(svmParameters.getSvmNuStep())){
+						
+						
+						}
+					}
+				}
+			}
+		}
 	}
 	
 	public static ArrayList<SvmModel> readSvmModels(){
