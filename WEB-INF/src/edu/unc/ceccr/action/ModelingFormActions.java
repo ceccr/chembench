@@ -461,21 +461,21 @@ public class ModelingFormActions extends ActionSupport{
 	private String svmTypeContinuous = "0";
 	private String svmKernel = "2";
 	
-	private String svmDegreeFrom = "1";
+	private String svmDegreeFrom = "2";
 	private String svmDegreeTo = "8";
 	private String svmDegreeStep = "2";
 
-	private String svmGammaFrom = "-15";
+	private String svmGammaFrom = "-8";
 	private String svmGammaTo = "8";
 	private String svmGammaStep = "2";
 	
 	private String svmCostFrom = "-10";
 	private String svmCostTo = "15";
-	private String svmCostStep = "1";
+	private String svmCostStep = "5";
 
 	private String svmNuFrom = "0.1";
 	private String svmNuTo = "2.5";
-	private String svmNuStep = "0.5";
+	private String svmNuStep = "0.6";
 
 	private String svmPEpsilonFrom = "-5";
 	private String svmPEpsilonTo = "5";

@@ -172,12 +172,19 @@ public class SvmWorkflow{
 								if(Integer.parseInt(svmParameters.getSvmCrossValidation()) != 0){
 									command += "-v " + svmParameters.getSvmCrossValidation() + " ";
 								}
+
+								//input file name
+								String inputFile = data[0].replace(".x", ".svm");
+								command += " " + inputFile + " ";
 								
 								//output file name
 								String modelFileName = "_d" + degree + "_g" + gamma + "_c" + cost + "_n" + nu + "_p" + pEpsilon;
 								command += "model" + modelFileName;
 								
 								RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm" + modelFileName);
+								
+								//run prediction on test set (?)
+								
 							}
 						}
 					}
