@@ -9,6 +9,7 @@ import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
@@ -65,8 +66,6 @@ public class SvmWorkflow{
 	}
 	
 	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
-		//
-		
 		/*
 		Usage: svm-train [options] training_set_file [model_file]
 		options:
@@ -107,39 +106,87 @@ public class SvmWorkflow{
 			String[] data = inputString.split("\\s+");
 			convertXtoSvm(data[0], data[1], workingDir);
 			convertXtoSvm(data[3], data[4], workingDir);
-		}
-		in.close();
-		
-		
-		
-		for(int cost = Integer.parseInt(svmParameters.getSvmCostFrom()); 
-			cost <= Integer.parseInt(svmParameters.getSvmCostTo()); 
-			cost += Integer.parseInt(svmParameters.getSvmCostStep())){
 			
-			for(int degree = Integer.parseInt(svmParameters.getSvmDegreeFrom());
-				degree <= Integer.parseInt(svmParameters.getSvmDegreeTo());
-				degree += Integer.parseInt(svmParameters.getSvmDegreeStep())){
+			//generate SVM models for this train-test split
+			
+			for(double cost = Double.parseDouble(svmParameters.getSvmCostFrom()); 
+				cost <= Double.parseDouble(svmParameters.getSvmCostTo()); 
+				cost += Double.parseDouble(svmParameters.getSvmCostStep())){
 				
-				for(int gamma = Integer.parseInt(svmParameters.getSvmGammaFrom());
-				gamma <= Integer.parseInt(svmParameters.getSvmGammaTo());
-				gamma += Integer.parseInt(svmParameters.getSvmGammaStep())){
-				
-					for(int nu = Integer.parseInt(svmParameters.getSvmNuFrom());
-					nu <= Integer.parseInt(svmParameters.getSvmNuTo());
-					nu += Integer.parseInt(svmParameters.getSvmNuStep())){
+				for(double degree = Double.parseDouble(svmParameters.getSvmDegreeFrom());
+					degree <= Double.parseDouble(svmParameters.getSvmDegreeTo());
+					degree += Double.parseDouble(svmParameters.getSvmDegreeStep())){
 					
-						for(int pEpsilon = Integer.parseInt(svmParameters.getSvmPEpsilonFrom());
-						pEpsilon <= Integer.parseInt(svmParameters.getSvmPEpsilonTo());
-						pEpsilon += Integer.parseInt(svmParameters.getSvmPEpsilonStep())){
-							
-							
-							
-							
+					for(double gamma = Double.parseDouble(svmParameters.getSvmGammaFrom());
+					gamma <= Double.parseDouble(svmParameters.getSvmGammaTo());
+					gamma += Double.parseDouble(svmParameters.getSvmGammaStep())){
+					
+						for(double nu = Double.parseDouble(svmParameters.getSvmNuFrom());
+						nu <= Double.parseDouble(svmParameters.getSvmNuTo());
+						nu += Double.parseDouble(svmParameters.getSvmNuStep())){
+						
+							for(double pEpsilon = Double.parseDouble(svmParameters.getSvmPEpsilonFrom());
+							pEpsilon <= Double.parseDouble(svmParameters.getSvmPEpsilonTo());
+							pEpsilon += Double.parseDouble(svmParameters.getSvmPEpsilonStep())){
+								
+								String command = "svm-train ";
+								
+								
+								//svm type
+								String svmType = "";
+								if(actFileDataType.equals(Constants.CATEGORY)){
+									svmType = svmParameters.getSvmTypeCategory();
+								}
+								else{
+									svmType = svmParameters.getSvmTypeContinuous();
+									if(svmType.equals("0")){
+										svmType = "3";
+									}
+									else{
+										svmType = "4";
+									}
+								}
+								command += "-s " + svmType + " ";
+								
+								//kernel type
+								command += "-t " + svmParameters.getSvmKernel() + " ";
+									
+								//parameters from for loop
+								command += "-d " + degree + " ";
+								command += "-g " + gamma + " ";
+								command += "-c " + cost + " ";
+								command += "-n " + nu + " ";
+								command += "-p " + pEpsilon + " ";
+								
+								//tolerance
+								command += "-e " + svmParameters.getSvmEEpsilon() + " ";
+								
+								//shrinking and probability booleans
+								command += "-h " + svmParameters.getSvmHeuristics() + " ";
+								command += "-b " + svmParameters.getSvmProbability() + " ";
+								
+								//class weight parameter
+								command += "-wi " + svmParameters.getSvmWeight() + " ";
+								
+								//cross validation
+								if(Integer.parseInt(svmParameters.getSvmCrossValidation()) != 0){
+									command += "-v " + svmParameters.getSvmCrossValidation() + " ";
+								}
+								
+								//output file name
+								String modelFileName = "_d" + degree + "_g" + gamma + "_c" + cost + "_n" + nu + "_p" + pEpsilon;
+								command += "model" + modelFileName;
+								
+								RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm" + modelFileName);
+							}
 						}
 					}
 				}
 			}
+			
 		}
+		in.close();
+		
 	}
 	
 	public static ArrayList<SvmModel> readSvmModels(){
