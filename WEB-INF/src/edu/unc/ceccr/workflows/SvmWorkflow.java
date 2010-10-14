@@ -178,8 +178,8 @@ public class SvmWorkflow{
 								command += " " + inputFile + " ";
 								
 								//output file name
-								String modelFileName = "_d" + degree + "_g" + gamma + "_c" + cost + "_n" + nu + "_p" + pEpsilon + "_" + data[0] + ".model";
-								command += "model" + modelFileName;
+								String modelFileName = data[0].replace(".x", "") + "_d" + degree + "_g" + gamma + "_c" + cost + "_n" + nu + "_p" + pEpsilon + ".model";
+								command += modelFileName;
 								
 								RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm" + modelFileName);
 								

@@ -181,6 +181,21 @@ public class QsarModelingTask extends WorkflowTask {
 					}
 					percent = " (" + Math.round(p) + "%)";
 				}
+				else if(modelType.equals(Constants.SVM)){
+					File dir = new File(workingDir);
+					//get num of models produced so far
+					float p = (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".model");}}).length);
+					dir = new File(workingDir + "yRandom/");
+					p += (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".model");}}).length);
+					//divide by (number of models * 2 because of yRandom)
+					p /= (getNumTotalModels() * 2);
+					p *= 100;
+					if(p > 100){
+						p = 100;
+					}
+					percent = " (" + Math.round(p) + "%)";
+				}
+				
 			}
 			return step + percent;
 		}
@@ -968,7 +983,31 @@ public class QsarModelingTask extends WorkflowTask {
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			numModels = Integer.parseInt(predictor.getNumSplits());
 		}
-		
+		else if(modelType.equals(Constants.SVM)){
+			numModels = Integer.parseInt(predictor.getNumSplits());
+			Double numDifferentCosts = Math.ceil((Double.parseDouble(svmParameters.getSvmCostTo()) - 
+					Double.parseDouble(svmParameters.getSvmCostFrom())) / 
+					Double.parseDouble(svmParameters.getSvmCostStep()) + 0.0001);
+
+			Double numDifferentDegrees = Math.ceil((Double.parseDouble(svmParameters.getSvmDegreeTo()) - 
+					Double.parseDouble(svmParameters.getSvmDegreeFrom())) / 
+					Double.parseDouble(svmParameters.getSvmDegreeStep()) + 0.0001);
+
+			Double numDifferentGammas = Math.ceil((Double.parseDouble(svmParameters.getSvmGammaTo()) - 
+					Double.parseDouble(svmParameters.getSvmGammaFrom())) / 
+					Double.parseDouble(svmParameters.getSvmGammaStep()) + 0.0001);
+
+			Double numDifferentNus = Math.ceil((Double.parseDouble(svmParameters.getSvmNuTo()) - 
+					Double.parseDouble(svmParameters.getSvmNuFrom())) / 
+					Double.parseDouble(svmParameters.getSvmNuStep()) + 0.0001);
+
+			Double numDifferentPEpsilons = Math.ceil((Double.parseDouble(svmParameters.getSvmPEpsilonTo()) - 
+					Double.parseDouble(svmParameters.getSvmPEpsilonFrom())) / 
+					Double.parseDouble(svmParameters.getSvmPEpsilonStep()) + 0.0001);
+			
+			numModels *= numDifferentCosts * numDifferentDegrees * numDifferentGammas * numDifferentNus * numDifferentPEpsilons;
+			
+		}
 		return numModels;
 	}
 	
