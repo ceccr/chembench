@@ -47,10 +47,10 @@
 				<td align="left" valign="top"><s:textfield id="svmEEpsilon" name="svmEEpsilon" size="5" theme="simple"/>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Use Shrinking Heuristics:</b></div></td>
-				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmHeuristics" list="#{'true':'Yes','false':'No'}" theme="simple" /></div>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmHeuristics" list="#{'1':'Yes','0':'No'}" theme="simple" /></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Use Probability Estimates:</b></div></td>
-				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmProbability" list="#{'true':'Yes','false':'No'}" theme="simple" /></div>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmProbability" list="#{'1':'Yes','0':'No'}" theme="simple" /></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Parameter C of class i to weight*C, for C-SVC:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="svmWeight" name="svmWeight" size="5" theme="simple"/>
