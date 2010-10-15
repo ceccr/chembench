@@ -17,7 +17,7 @@ public class CheckDescriptorsFileWorkflow{
 
 	public static String checkMolconnZDescriptors(String molconnZOutputFile) throws Exception{
 		
-		Utility.writeToDebug("Checking MolconnZ descriptors");
+		Utility.writeToDebug("Checking MolconnZ descriptors: " + molconnZOutputFile);
 		
 		 ArrayList<String> descriptorNames = new ArrayList<String>();
 		String errors = "";
@@ -97,12 +97,12 @@ public class CheckDescriptorsFileWorkflow{
 		}
 		
 		fin.close();
-		Utility.writeToDebug("Done checking MolconnZ descriptors");
+		Utility.writeToDebug("Done checking MolconnZ descriptors: " + molconnZOutputFile);
 		return errors;
 	}
 
 	public static String checkDragonDescriptors(String dragonOutputFile) throws Exception{
-		Utility.writeToDebug("Checking Dragon descriptors");
+		Utility.writeToDebug("Checking Dragon descriptors: " + dragonOutputFile);
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		String errors = "";
 		
@@ -158,7 +158,7 @@ public class CheckDescriptorsFileWorkflow{
 			di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues)); */
 			descriptorValues.clear();
 		}
-		Utility.writeToDebug("Done checking Dragon descriptors");
+		Utility.writeToDebug("Done checking Dragon descriptors: " + dragonOutputFile);
 		return errors;
 	}
 	
