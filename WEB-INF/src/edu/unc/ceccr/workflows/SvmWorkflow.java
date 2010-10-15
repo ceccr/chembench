@@ -22,6 +22,8 @@ public class SvmWorkflow{
 		//generates an SVM-compatible input descriptor file
 		
 		Utility.writeToDebug("Generating an SVM-compatible file: " + xFileName + " + " + aFileName + " => " + xFileName.replace(".x", ".svm"));
+
+		//read in the activity file
 		ArrayList<String> activityValues = new ArrayList<String>();
 		
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + aFileName));
@@ -34,6 +36,7 @@ public class SvmWorkflow{
 		}
 		in.close();
 		
+		//read in x file and translate to svm file, adding activity values along the way 
 		in = new BufferedReader(new FileReader(workingDir + xFileName));
 		BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + xFileName.replace(".x", ".svm")));
 		StringBuilder sb = new StringBuilder();
@@ -104,8 +107,16 @@ public class SvmWorkflow{
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
 			String[] data = inputString.split("\\s+");
-			convertXtoSvm(data[0], data[1], workingDir);
-			convertXtoSvm(data[3], data[4], workingDir);
+			
+			if(actFileDataType.equals(Constants.CONTINUOUS)){
+				convertXtoSvm(data[0], data[1], workingDir);
+				convertXtoSvm(data[3], data[4], workingDir);
+			}
+			else{
+				//rand_sets_0_trn0.x rand_sets_0_trn0.a 4284 rand_sets_0_tst0.x rand_sets_0_tst0.a 1133
+				convertXtoSvm(data[0], data[1], workingDir);
+				convertXtoSvm(data[3], data[4], workingDir);
+			}
 			
 			//generate SVM models for this train-test split
 			
@@ -191,7 +202,8 @@ public class SvmWorkflow{
 								RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-predict" + modelFileName);
 								
 								//read MSE and correlation coeff. for prediction
-								
+								//String s = FileAndDirOperations.readFileIntoString(workingDir + "Logs/" + "svm-predict" + modelFileName + ".log");
+								//Utility.writeToDebug(s);
 								
 							}
 						}
@@ -208,8 +220,10 @@ public class SvmWorkflow{
 		return null;
 	}
 	
-	public static void runSvmPrediction() throws Exception{
-		
+	public static void runSvmPrediction(String workingDir, String predictionFileName) throws Exception{
+		//find all models files in working dir
+		//run svm-predict on the prediction file using each model
+		//average 
 	}
 	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
