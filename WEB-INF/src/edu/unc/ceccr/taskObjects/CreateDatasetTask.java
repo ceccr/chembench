@@ -312,7 +312,6 @@ public class CreateDatasetTask extends WorkflowTask{
 				errorSummary.write(errors);
 				errorSummary.close();
 			}
-			
 		}
 		
 		//add uploaded descriptors to list (if any)

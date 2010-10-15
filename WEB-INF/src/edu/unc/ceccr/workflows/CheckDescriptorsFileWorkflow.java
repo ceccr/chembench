@@ -16,7 +16,9 @@ public class CheckDescriptorsFileWorkflow{
 	//Return an HTML-formatted string with user-readable feedback
 
 	public static String checkMolconnZDescriptors(String molconnZOutputFile) throws Exception{
-
+		
+		Utility.writeToDebug("Checking MolconnZ descriptors");
+		
 		 ArrayList<String> descriptorNames = new ArrayList<String>();
 		String errors = "";
 		 
@@ -95,10 +97,12 @@ public class CheckDescriptorsFileWorkflow{
 		}
 		
 		fin.close();
+		Utility.writeToDebug("Done checking MolconnZ descriptors");
 		return errors;
 	}
 
 	public static String checkDragonDescriptors(String dragonOutputFile) throws Exception{
+		Utility.writeToDebug("Checking Dragon descriptors");
 		ArrayList<String> descriptorNames = new ArrayList<String>();
 		String errors = "";
 		
@@ -145,14 +149,16 @@ public class CheckDescriptorsFileWorkflow{
 				descriptorValues.add(dvalue);
 			}
 			
+			/* not important - we don't do any checks that require the whole descriptor matrix
 			Descriptors di = new Descriptors();
 			
 			descriptorValues.remove(1); //contains molecule name, which isn't a descriptor
 			descriptorValues.remove(0); //contains molecule number, which isn't a descriptor
 			
-			di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
+			di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues)); */
 			descriptorValues.clear();
 		}
+		Utility.writeToDebug("Done checking Dragon descriptors");
 		return errors;
 	}
 	
