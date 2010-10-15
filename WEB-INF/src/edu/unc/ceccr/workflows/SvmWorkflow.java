@@ -125,25 +125,25 @@ public class SvmWorkflow{
 			
 			//generate SVM models for this train-test split
 			
-			for(double cost = Double.parseDouble(svmParameters.getSvmCostFrom()); 
-				cost <= Double.parseDouble(svmParameters.getSvmCostTo()); 
-				cost += Double.parseDouble(svmParameters.getSvmCostStep())){
+			for(Float cost = Float.parseFloat(svmParameters.getSvmCostFrom()); 
+				cost <= Float.parseFloat(svmParameters.getSvmCostTo()); 
+				cost += Float.parseFloat(svmParameters.getSvmCostStep())){
 				
-				for(double degree = Double.parseDouble(svmParameters.getSvmDegreeFrom());
-					degree <= Double.parseDouble(svmParameters.getSvmDegreeTo());
-					degree += Double.parseDouble(svmParameters.getSvmDegreeStep())){
+				for(Float degree = Float.parseFloat(svmParameters.getSvmDegreeFrom());
+					degree <= Float.parseFloat(svmParameters.getSvmDegreeTo());
+					degree += Float.parseFloat(svmParameters.getSvmDegreeStep())){
 					
-					for(double gamma = Double.parseDouble(svmParameters.getSvmGammaFrom());
-					gamma <= Double.parseDouble(svmParameters.getSvmGammaTo());
-					gamma += Double.parseDouble(svmParameters.getSvmGammaStep())){
+					for(Float gamma = Float.parseFloat(svmParameters.getSvmGammaFrom());
+					gamma <= Float.parseFloat(svmParameters.getSvmGammaTo());
+					gamma += Float.parseFloat(svmParameters.getSvmGammaStep())){
 					
-						for(double nu = Double.parseDouble(svmParameters.getSvmNuFrom());
-						nu <= Double.parseDouble(svmParameters.getSvmNuTo());
-						nu += Double.parseDouble(svmParameters.getSvmNuStep())){
+						for(Float nu = Float.parseFloat(svmParameters.getSvmNuFrom());
+						nu <= Float.parseFloat(svmParameters.getSvmNuTo());
+						nu += Float.parseFloat(svmParameters.getSvmNuStep())){
 						
-							for(double pEpsilon = Double.parseDouble(svmParameters.getSvmPEpsilonFrom());
-							pEpsilon <= Double.parseDouble(svmParameters.getSvmPEpsilonTo());
-							pEpsilon += Double.parseDouble(svmParameters.getSvmPEpsilonStep())){
+							for(Float pEpsilon = Float.parseFloat(svmParameters.getSvmPEpsilonFrom());
+							pEpsilon <= Float.parseFloat(svmParameters.getSvmPEpsilonTo());
+							pEpsilon += Float.parseFloat(svmParameters.getSvmPEpsilonStep())){
 								
 								String command = "svm-train ";
 								

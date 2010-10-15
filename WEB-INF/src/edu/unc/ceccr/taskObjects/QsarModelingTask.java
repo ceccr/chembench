@@ -766,7 +766,6 @@ public class QsarModelingTask extends WorkflowTask {
 	        predictor.setNumyTestModels(yRandomModels.size());
 			predictor.setNumyTrainModels(yRandomDir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}	}).length - yRandomModels.size());
 	        
-			
 			if(knnModels.isEmpty()){
 				noModelsGenerated = true;
 				Utility.writeToDebug("Warning: No models were generated.");
