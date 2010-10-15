@@ -8,6 +8,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
@@ -23,27 +24,37 @@ public class SvmWorkflow{
 		
 		Utility.writeToDebug("Generating an SVM-compatible file: " + xFileName + " + " + aFileName + " => " + xFileName.replace(".x", ".svm"));
 
-		//read in the activity file
 		ArrayList<String> activityValues = new ArrayList<String>();
-		
-		BufferedReader in = new BufferedReader(new FileReader(workingDir + aFileName));
-		String inputString;
-		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
-		{
-			//for each model
-			String[] data = inputString.split("\\s+"); // [0] is the compound id, [1] is the activity value
-			activityValues.add(data[1]);
+		if(aFileName != null && ! aFileName.isEmpty()){
+			//read in the activity file
+			
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + aFileName));
+			String inputString;
+			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+			{
+				//for each model
+				String[] data = inputString.split("\\s+"); // [0] is the compound id, [1] is the activity value
+				activityValues.add(data[1]);
+			}
+			in.close();
 		}
-		in.close();
+		else{
+			//if no activity file is supplied, just use zeros for activities
+			int numCompounds = DatasetFileOperations.getXCompoundNames(workingDir + xFileName).size();
+			for(int i = 0; i < numCompounds; i++){
+				activityValues.add("0");
+			}
+		}	
 		
 		//read in x file and translate to svm file, adding activity values along the way 
-		in = new BufferedReader(new FileReader(workingDir + xFileName));
+		BufferedReader in = new BufferedReader(new FileReader(workingDir + xFileName));
 		BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + xFileName.replace(".x", ".svm")));
 		StringBuilder sb = new StringBuilder();
 		
 		in.readLine(); // header
 		in.readLine(); // header
 		
+		String inputString;
 		for(int i = 0; i<activityValues.size(); i++)
 		{
 			sb.append(activityValues.get(i));
@@ -60,12 +71,6 @@ public class SvmWorkflow{
 		in.close();
 		out.flush();
 		out.close();
-	}
-	
-	public static void preProcessXFile(String scalingType, String xFile, String newXFile, String workingDir) throws Exception
-	{
-		
-		
 	}
 	
 	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
@@ -199,7 +204,7 @@ public class SvmWorkflow{
 								
 								String command2 = "svm-predict " + testFileName + " " + modelFileName + " " + predictionOutputFileName;
 								
-								RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-predict" + modelFileName);
+								RunExternalProgram.runCommandAndLogOutput(command2, workingDir, "svm-predict" + modelFileName);
 								
 								//read MSE and correlation coeff. for prediction
 								//String s = FileAndDirOperations.readFileIntoString(workingDir + "Logs/" + "svm-predict" + modelFileName + ".log");
@@ -216,14 +221,33 @@ public class SvmWorkflow{
 		
 	}
 	
-	public static ArrayList<SvmModel> readSvmModels(){
+	public static ArrayList<SvmModel> readSvmModels(String workingDir){
+		File dir = new File(workingDir);
+		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}});
+		
 		return null;
 	}
 	
-	public static void runSvmPrediction(String workingDir, String predictionFileName) throws Exception{
+	public static void runSvmPrediction(String workingDir, String predictionXFileName) throws Exception{
 		//find all models files in working dir
 		//run svm-predict on the prediction file using each model
-		//average 
+		//average the results
+		
+		convertXtoSvm(predictionXFileName, "", workingDir);
+		
+		String predictionFileName = predictionXFileName.replace(".x", ".svm");
+		
+		File dir = new File(workingDir);
+		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}});
+		for(int i = 0; i < files.length; i++){
+			String command = "svm-predict " + predictionFileName + " " + files[i] + " " + files[i] + ".pred";
+			RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-predict-" + files[i]);
+			
+			//now, open that prediction file and get the results for each compound.
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + files[i] + ".pred"));
+			
+			
+		}
 	}
 	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{

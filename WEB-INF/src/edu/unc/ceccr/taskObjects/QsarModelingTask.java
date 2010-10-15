@@ -876,7 +876,8 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(modelType.equals(Constants.SVM)){
 			//read in models and associate them with the predictor
-			svmModels = SvmWorkflow.readSvmModels();
+			svmModels = SvmWorkflow.readSvmModels(filePath);
+			//svmModels = SvmWorkflow.readSvmModels(filePath + "yRandom/");
 
 			//read external set predictions
 			externalSetPredictions = null;
