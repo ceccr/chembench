@@ -682,6 +682,7 @@ public class QsarModelingTask extends WorkflowTask {
 		else if(modelType.equals(Constants.SVM)){
 			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path);
+			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path + "yRandom/");
 		}
 		else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
 			step = Constants.YRANDOMSETUP;
@@ -876,7 +877,7 @@ public class QsarModelingTask extends WorkflowTask {
 		else if(modelType.equals(Constants.SVM)){
 			//read in models and associate them with the predictor
 			svmModels = SvmWorkflow.readSvmModels(filePath);
-			//svmModels = SvmWorkflow.readSvmModels(filePath + "yRandom/");
+			svmModels = SvmWorkflow.readSvmModels(filePath + "yRandom/");
 
 			//read external set predictions
 			externalSetPredictions = null;
