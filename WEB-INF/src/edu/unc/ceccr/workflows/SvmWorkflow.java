@@ -282,7 +282,7 @@ public class SvmWorkflow{
 										}
 									}
 									if((numCorrect / (numCorrect + numIncorrect)) < cutoff){
-										Utility.writeToDebug("bad model: ccr = " + (numCorrect / (numCorrect + numIncorrect));
+										Utility.writeToDebug("bad model: ccr = " + (numCorrect / (numCorrect + numIncorrect)));
 										modelIsGood = false;
 									}
 								}
