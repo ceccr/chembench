@@ -23,7 +23,7 @@ public class SvmWorkflow{
 	public static void convertXtoSvm(String xFileName, String aFileName, String workingDir) throws Exception{
 		//generates an SVM-compatible input descriptor file
 		
-		Utility.writeToDebug("Generating an SVM-compatible file: " + xFileName + " + " + aFileName + " => " + xFileName.replace(".x", ".svm"));
+		//Utility.writeToDebug("Generating an SVM-compatible file: " + xFileName + " + " + aFileName + " => " + xFileName.replace(".x", ".svm"));
 
 		ArrayList<String> activityValues = new ArrayList<String>();
 		if(aFileName != null && ! aFileName.isEmpty()){
