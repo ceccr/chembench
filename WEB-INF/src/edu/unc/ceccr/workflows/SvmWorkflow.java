@@ -3,6 +3,7 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 import java.nio.channels.FileChannel;
 
+import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
@@ -74,6 +75,8 @@ public class SvmWorkflow{
 	}
 	
 	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
+		double cutoff = 0.4;
+		
 		/*
 		Usage: svm-train [options] training_set_file [model_file]
 		options:
@@ -206,6 +209,89 @@ public class SvmWorkflow{
 								
 								RunExternalProgram.runCommandAndLogOutput(command2, workingDir, "svm-predict" + modelFileName);
 								
+								//eliminate (delete) model if it doesn't pass its CCR or r^2 cutoff
+								
+								//get predicted and actual (test set) values from files
+								//read test .a file
+								String testActivityFileName = testFileName.replace(".svm", ".a");
+								
+								BufferedReader br = new BufferedReader(new FileReader(workingDir + testActivityFileName));
+								String line = "";
+								ArrayList<Double> testValues = new ArrayList<Double>();
+								while((line = br.readLine()) != null){
+									if(!line.isEmpty()){
+										String[] parts = line.split("\\s+");
+										testValues.add(Double.parseDouble(parts[1]));
+									}
+								}
+								br.close();
+								
+								//read predicted .a file
+								br = new BufferedReader(new FileReader(workingDir + predictionOutputFileName));
+								ArrayList<Double> predictedValues = new ArrayList<Double>();
+								while((line = br.readLine()) != null){
+									if(!line.isEmpty()){
+										predictedValues.add(Double.parseDouble(line));
+									}
+								}
+								br.close();
+								
+								if(testValues.size() != predictedValues.size()){
+									Utility.writeToDebug("Warning: test set act file has " + testValues.size() + 
+											" entries, but predicted file has " + 
+											predictedValues.size() + " entries for file: " + predictionOutputFileName);
+								}
+								
+								boolean modelIsGood = true;
+								
+								if(actFileDataType.equals(Constants.CONTINUOUS)){
+									//calculate r^2 for test set prediction
+									
+									Double avg = 0.0;
+									for(Double testValue : testValues){
+										avg += testValue;
+									}
+									avg /= testValues.size();
+									Double ssErr = 0.0;
+									for(int i = 0; i < testValues.size(); i++){
+										Double residual = testValues.get(i) - predictedValues.get(i);
+										ssErr += residual * residual;
+									}
+									Double ssTot = 0.0;
+									for(Double testValue : testValues){
+										ssTot += (testValue - avg) * (testValue - avg);
+									}
+									Double rSquared = 0.0;
+									if(ssTot != 0){
+										rSquared = Double.parseDouble(Utility.roundSignificantFigures("" + (1 - (ssErr / ssTot)), 4));
+									}
+									if(rSquared < cutoff){
+										modelIsGood = false;
+									}
+								}
+								else if(actFileDataType.equals(Constants.CATEGORY)){
+									//calculate CCR for test set prediction
+									int numCorrect = 0;
+									int numIncorrect = 0;
+									for(int i = 0; i < testValues.size(); i++){
+										if(Math.round(testValues.get(i)) == Math.round(predictedValues.get(i))){
+											numCorrect++;
+										}
+										else{
+											numIncorrect++;
+										}
+									}
+									if((numCorrect / (numCorrect + numIncorrect)) < cutoff){
+										Utility.writeToDebug("bad model: ccr = " + (numCorrect / (numCorrect + numIncorrect));
+										modelIsGood = false;
+									}
+								}
+								
+								if(! modelIsGood){
+									//delete it
+									FileAndDirOperations.deleteFile(modelFileName);
+								}
+								
 								//read MSE and correlation coeff. for prediction
 								//String s = FileAndDirOperations.readFileIntoString(workingDir + "Logs/" + "svm-predict" + modelFileName + ".log");
 								//Utility.writeToDebug(s);
@@ -228,7 +314,7 @@ public class SvmWorkflow{
 		return null;
 	}
 	
-	public static void runSvmPrediction(String workingDir, String predictionXFileName) throws Exception{
+	public static ArrayList<PredictionValue> runSvmPrediction(String workingDir, String predictionXFileName) throws Exception{
 		//find all models files in working dir
 		//run svm-predict on the prediction file using each model
 		//average the results
@@ -236,6 +322,15 @@ public class SvmWorkflow{
 		convertXtoSvm(predictionXFileName, "", workingDir);
 		
 		String predictionFileName = predictionXFileName.replace(".x", ".svm");
+		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
+		
+		ArrayList<String> compoundNames = DatasetFileOperations.getXCompoundNames(workingDir + predictionXFileName);
+		
+		for(int i = 0; i < compoundNames.size(); i++){
+			PredictionValue pv = new PredictionValue();
+			pv.setCompoundName(compoundNames.get(i));
+			predictionValues.add(pv);
+		}
 		
 		File dir = new File(workingDir);
 		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}});
@@ -245,9 +340,17 @@ public class SvmWorkflow{
 			
 			//now, open that prediction file and get the results for each compound.
 			BufferedReader in = new BufferedReader(new FileReader(workingDir + files[i] + ".pred"));
-			
+			String line;
+			int j = 0;
+			while((line = in.readLine()) != null){
+				if(! line.isEmpty()){
+					//predictionValues.get(j).setPredictedValue(line.trim()? need format);
+					j++;
+				}
+			}
 			
 		}
+		return predictionValues;
 	}
 	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
