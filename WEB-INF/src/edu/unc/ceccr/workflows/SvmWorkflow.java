@@ -136,21 +136,48 @@ public class SvmWorkflow{
 				cost <= Float.parseFloat(svmParameters.getSvmCostTo()); 
 				cost += Float.parseFloat(svmParameters.getSvmCostStep())){
 				
+				//remove annoying floating-point errors, if any
+				String costStr = "" + cost;
+				if(costStr.contains("0000")){
+					costStr = costStr.substring(0, costStr.indexOf("0000"));
+				}
+				
 				for(Float degree = Float.parseFloat(svmParameters.getSvmDegreeFrom());
 					degree <= Float.parseFloat(svmParameters.getSvmDegreeTo());
 					degree += Float.parseFloat(svmParameters.getSvmDegreeStep())){
+					
+					String degreeStr = "" + degree;
+					if(degreeStr.contains("0000")){
+						degreeStr = degreeStr.substring(0, degreeStr.indexOf("0000"));
+					}
 					
 					for(Float gamma = Float.parseFloat(svmParameters.getSvmGammaFrom());
 					gamma <= Float.parseFloat(svmParameters.getSvmGammaTo());
 					gamma += Float.parseFloat(svmParameters.getSvmGammaStep())){
 					
+						String gammaStr = "" + gamma;
+						if(gammaStr.contains("0000")){
+							gammaStr = gammaStr.substring(0, gammaStr.indexOf("0000"));
+						}
+						
 						for(Float nu = Float.parseFloat(svmParameters.getSvmNuFrom());
 						nu <= Float.parseFloat(svmParameters.getSvmNuTo());
 						nu += Float.parseFloat(svmParameters.getSvmNuStep())){
 						
+
+							String nuStr = "" + nu;
+							if(nuStr.contains("0000")){
+								nuStr = nuStr.substring(0, nuStr.indexOf("0000"));
+							}
+							
 							for(Float pEpsilon = Float.parseFloat(svmParameters.getSvmPEpsilonFrom());
 							pEpsilon <= Float.parseFloat(svmParameters.getSvmPEpsilonTo());
 							pEpsilon += Float.parseFloat(svmParameters.getSvmPEpsilonStep())){
+
+								String pEpsilonStr = "" + pEpsilon;
+								if(pEpsilonStr.contains("0000")){
+									pEpsilonStr = pEpsilonStr.substring(0, pEpsilonStr.indexOf("0000"));
+								}
 								
 								String command = "svm-train ";
 								
@@ -174,11 +201,11 @@ public class SvmWorkflow{
 								command += "-t " + svmParameters.getSvmKernel() + " ";
 									
 								//parameters from for loop
-								command += "-d " + degree + " ";
-								command += "-g " + gamma + " ";
-								command += "-c " + cost + " ";
-								command += "-n " + nu + " ";
-								command += "-p " + pEpsilon + " ";
+								command += "-d " + degreeStr + " ";
+								command += "-g " + gammaStr + " ";
+								command += "-c " + costStr + " ";
+								command += "-n " + nuStr + " ";
+								command += "-p " + pEpsilonStr + " ";
 								
 								//tolerance
 								command += "-e " + svmParameters.getSvmEEpsilon() + " ";
@@ -200,7 +227,7 @@ public class SvmWorkflow{
 								command += " " + inputFile + " ";
 								
 								//output file name
-								String modelFileName = inputFile.replace(".svm", "") + "_d" + degree + "_g" + gamma + "_c" + cost + "_n" + nu + "_p" + pEpsilon + ".mod";
+								String modelFileName = inputFile.replace(".svm", "") + "_d" + degreeStr + "_g" + gammaStr + "_c" + costStr + "_n" + nuStr + "_p" + pEpsilonStr + ".mod";
 								command += modelFileName;
 								
 								RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-train" + modelFileName);
