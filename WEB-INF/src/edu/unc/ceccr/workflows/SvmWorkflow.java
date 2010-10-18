@@ -414,7 +414,7 @@ public class SvmWorkflow{
 		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}});
 		for(int i = 0; i < files.length; i++){
 			//open the prediction file and get the results for each compound.
-			BufferedReader in = new BufferedReader(new FileReader(workingDir + files[i] + ".pred"));
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + files[i]));
 			String line;
 			int j = 0;
 			while((line = in.readLine()) != null){
