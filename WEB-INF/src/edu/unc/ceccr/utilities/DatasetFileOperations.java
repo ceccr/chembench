@@ -562,10 +562,12 @@ public class DatasetFileOperations {
 		if (file.exists()) {
 			FileReader fin = new FileReader(file);
 			Scanner src = new Scanner(fin);
-			String line;
-			src.nextLine(); //skip header
+			String line = src.nextLine(); 
+			String[] header = line.split("\\s+");
+			int numCompounds = Integer.parseInt(header[0]);
 			src.nextLine(); //skip descriptors
-			while (src.hasNext()) {
+			int i = 0;
+			while (src.hasNext() && i < numCompounds) {
 				line = src.nextLine();
 				String[] array = line.split("\\s+");
 				if (array.length != 0) { //this will skip any blank lines

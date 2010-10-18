@@ -30,14 +30,13 @@ public class SvmWorkflow{
 		//Utility.writeToDebug("Generating an SVM-compatible file: " + xFileName + " + " + aFileName + " => " + xFileName.replace(".x", ".svm"));
 
 		ArrayList<String> activityValues = new ArrayList<String>();
-		if(aFileName != null && ! aFileName.isEmpty()){
+		if(aFileName != null && !aFileName.isEmpty()){
 			//read in the activity file
 			
 			BufferedReader in = new BufferedReader(new FileReader(workingDir + aFileName));
 			String inputString;
 			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 			{
-				//for each model
 				String[] data = inputString.split("\\s+"); // [0] is the compound id, [1] is the activity value
 				activityValues.add(data[1]);
 			}
