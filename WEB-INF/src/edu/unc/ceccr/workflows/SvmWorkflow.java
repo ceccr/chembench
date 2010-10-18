@@ -111,8 +111,10 @@ public class SvmWorkflow{
 		*/
 		
 		Utility.writeToDebug("Running SVM Modeling in dir: " + workingDir);
-		convertXtoSvm(Constants.MODELING_SET_X_FILE, Constants.MODELING_SET_A_FILE, workingDir);
-		convertXtoSvm(Constants.EXTERNAL_SET_X_FILE, Constants.EXTERNAL_SET_A_FILE, workingDir);
+		if(! workingDir.endsWith("yRandom/")){
+			convertXtoSvm(Constants.MODELING_SET_X_FILE, Constants.MODELING_SET_A_FILE, workingDir);
+			convertXtoSvm(Constants.EXTERNAL_SET_X_FILE, Constants.EXTERNAL_SET_A_FILE, workingDir);
+		}
 		
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + "RAND_sets.list"));
 		String inputString;
@@ -333,6 +335,9 @@ public class SvmWorkflow{
 					}
 				}
 			}
+			
+			//delete all the models on the list of bad models
+			
 			
 		}
 		in.close();
