@@ -321,6 +321,7 @@ public class SvmWorkflow{
 								if(! modelIsGood){
 									//delete it
 									FileAndDirOperations.deleteFile(workingDir + modelFileName);
+									FileAndDirOperations.deleteFile(workingDir + predictionOutputFileName);
 								}
 								
 								//read MSE and correlation coeff. for prediction
