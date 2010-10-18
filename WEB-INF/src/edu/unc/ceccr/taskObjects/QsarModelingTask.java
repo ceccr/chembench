@@ -897,7 +897,6 @@ public class QsarModelingTask extends WorkflowTask {
 			//read external set predictions
 			externalSetPredictions = SvmWorkflow.readExternalPredictionOutput(filePath, predictor.getPredictorId());
 			
-			
 		}
 		
 		//save updated predictor to database

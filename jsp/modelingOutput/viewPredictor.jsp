@@ -133,7 +133,7 @@
 		    	<sx:div href="%{grovesYRandomLink}" id="randomGrovesDiv" label="Y-Randomized Forests" theme="ajax" loadingText="Loading forests..." executeScripts="true" showLoadingText="true">
 				</sx:div>
 				-->
-			<s:url id="treesLink" value="/viewRandomForestPredictorTreesSection" includeParams="none">
+				<s:url id="treesLink" value="/viewRandomForestPredictorTreesSection" includeParams="none">
 					<s:param name="id" value='selectedPredictor.predictorId' />
 				</s:url>
 		    	<sx:div href="%{treesLink}" id="treesDiv" label="Trees" theme="ajax" loadingText="Loading trees..." executeScripts="true" showLoadingText="true">
@@ -146,6 +146,23 @@
 				</sx:div>
 			</s:elseif>
 			
+			<s:elseif test="selectedPredictor.modelMethod=='SVM'">
+			
+				<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" preload="false" showLoadingText="true">
+				</sx:div>
+				
+				<s:url id="yRandomLink" value="/viewPredictorYRandomSection" includeParams="none">
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax" loadingText="Loading Y-Randomization Models..." executeScripts="true" showLoadingText="true">
+				</sx:div>
+				
+			</s:elseif>
+			
+			<!-- All modeling methods should display their parameters at the end. -->
 			<s:url id="parametersLink" value="/viewPredictorParametersSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
@@ -153,7 +170,7 @@
 			</sx:div>
 			
 		<!-- Considered having a "warnings" page that will cover any problems with
-			predictions. Nixed the idea, though.
+			predictors. Nixed the idea, though.
 			<s:url id="warningsLink" value="/viewPredictorWarningsSection" includeParams="none">
 				<s:param name="id" value='selectedPredictor.predictorId' />
 			</s:url>
