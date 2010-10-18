@@ -653,8 +653,6 @@ public class QsarModelingTask extends WorkflowTask {
 	public void executeLocal() throws Exception {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
-		step = Constants.MODELS;
-		
 		//Run modeling process
 		if(modelType.equals(Constants.KNN)){
 			step = Constants.YRANDOMSETUP;
@@ -683,6 +681,8 @@ public class QsarModelingTask extends WorkflowTask {
 			step = Constants.YRANDOMSETUP;
 			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
+			
+			step = Constants.MODELS;
 			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path);
 			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path + "yRandom/");
 
@@ -701,10 +701,13 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnPlusWorkflow.predictExternalSet(userName, jobName, path, knnPlusParameters.getKnnApplicabilityDomain());
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
+			step = Constants.YRANDOMSETUP;
 			Utility.writeToDebug("making X files", userName, jobName);
 			RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
 			Utility.writeToDebug("setting up y-randomization", userName, jobName);
 			RandomForestWorkflow.SetUpYRandomization(userName, jobName);
+			
+			step = Constants.MODELS;
 			Utility.writeToDebug("building models", userName, jobName);
 			RandomForestWorkflow.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights, path, jobName);
 			Utility.writeToDebug("building y-random models", userName, jobName);
