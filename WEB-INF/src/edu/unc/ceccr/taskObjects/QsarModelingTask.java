@@ -883,7 +883,20 @@ public class QsarModelingTask extends WorkflowTask {
 			svmModels = SvmWorkflow.readSvmModels(filePath);
 			svmModels = SvmWorkflow.readSvmModels(filePath + "yRandom/");
 
+			//get num models info for predictor
+			predictor.setNumTotalModels(getNumTotalModels());
+			File dir = new File(filePath);
+			int numTestModels = (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}}).length);
+			predictor.setNumTestModels(numTestModels);
+
+			predictor.setNumyTotalModels(getNumTotalModels());
+			File ydir = new File(filePath + "yRandom/");
+			int numYTestModels = (ydir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}}).length);
+			predictor.setNumyTestModels(numYTestModels);
+			
 			//read external set predictions
+			externalSetPredictions = SvmWorkflow.readExternalPredictionOutput(filePath, predictor.getPredictorId());
+			
 			
 		}
 		
