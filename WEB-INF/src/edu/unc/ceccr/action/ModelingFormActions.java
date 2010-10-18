@@ -229,6 +229,29 @@ public class ModelingFormActions extends ActionSupport{
 				//no changes; parameters affect generation time of 
 				//each model but not the total number of models to be generated
 			}
+			else if(modelingType.equals(Constants.SVM)){
+				Double numDifferentCosts = Math.ceil((Double.parseDouble(svmCostTo) - 
+						Double.parseDouble(svmCostFrom)) / 
+						Double.parseDouble(svmCostStep) + 0.0001);
+
+				Double numDifferentDegrees = Math.ceil((Double.parseDouble(svmDegreeTo) - 
+						Double.parseDouble(svmDegreeFrom)) / 
+						Double.parseDouble(svmDegreeStep) + 0.0001);
+
+				Double numDifferentGammas = Math.ceil((Double.parseDouble(svmGammaTo) - 
+						Double.parseDouble(svmGammaFrom)) / 
+						Double.parseDouble(svmGammaStep) + 0.0001);
+
+				Double numDifferentNus = Math.ceil((Double.parseDouble(svmNuTo) - 
+						Double.parseDouble(svmNuFrom)) / 
+						Double.parseDouble(svmNuStep) + 0.0001);
+
+				Double numDifferentPEpsilons = Math.ceil((Double.parseDouble(svmPEpsilonTo) - 
+						Double.parseDouble(svmPEpsilonFrom)) / 
+						Double.parseDouble(svmPEpsilonStep) + 0.0001);
+				
+				numModels *= numDifferentCosts * numDifferentDegrees * numDifferentGammas * numDifferentNus * numDifferentPEpsilons;
+			}
 			
 			//make job and add to incoming joblist
 			CentralDogma centralDogma = CentralDogma.getInstance();
