@@ -398,7 +398,9 @@ public class SvmWorkflow{
 		//Each predictionValue contains the sum of all predicted values. 
 		//We need the average, so divide each value by numModels.
 		for(PredictionValue pv : predictionValues){
-			pv.setPredictedValue( pv.getPredictedValue() / files.length);
+			if(files.length > 0){
+				pv.setPredictedValue( pv.getPredictedValue() / files.length);
+			}
 			pv.setNumModelsUsed(files.length);
 			pv.setNumTotalModels(files.length);
 			pv.setStandardDeviation(new Float(0.1)); //calculate this later once other stuff works
@@ -440,7 +442,9 @@ public class SvmWorkflow{
 		//set the predictor ID at the same time
 		Session session = HibernateUtil.getSession();
 		for(ExternalValidation pv : externalPredictions){
-			pv.setPredictedValue(pv.getPredictedValue() / files.length);
+			if(files.length > 0){
+				pv.setPredictedValue(pv.getPredictedValue() / files.length);
+			}
 			pv.setNumModels(files.length);
 			pv.setStandDev("0.1");
 			pv.setPredictor(PopulateDataObjects.getPredictorById(predictorId, session));
