@@ -410,6 +410,15 @@ public class SvmWorkflow{
 	
 	public static ArrayList<ExternalValidation> readExternalPredictionOutput(String workingDir, Long predictorId) throws Exception{
 		ArrayList<ExternalValidation> externalPredictions = new ArrayList<ExternalValidation>();
+
+		//set compound names
+		ArrayList<String> extCompoundNames = DatasetFileOperations.getACTCompoundNames(workingDir + "ext_0.a");
+		for(int i = 0; i < extCompoundNames.size(); i++){
+			ExternalValidation ev = new ExternalValidation();
+			ev.setCompoundId(extCompoundNames.get(i));
+			externalPredictions.add(ev);
+		}
+		
 		File dir = new File(workingDir);
 		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}});
 		for(int i = 0; i < files.length; i++){
@@ -426,11 +435,6 @@ public class SvmWorkflow{
 			}
 		}
 		
-		//set compound names
-		ArrayList<String> extCompoundNames = DatasetFileOperations.getACTCompoundNames(workingDir + "ext_0.a");
-		for(int i = 0; i < extCompoundNames.size(); i++){
-			externalPredictions.get(i).setCompoundId(extCompoundNames.get(i));
-		}
 		
 		//Each predictionValue contains the sum of all predicted values. 
 		//We need the average, so divide each value by numModels.
