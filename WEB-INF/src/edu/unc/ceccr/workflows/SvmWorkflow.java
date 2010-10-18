@@ -234,7 +234,7 @@ public class SvmWorkflow{
 								
 								//run prediction on test set
 								String testFileName = data[3].replace(".x", ".svm");
-								String predictionOutputFileName = modelFileName + ".pred";
+								String predictionOutputFileName = modelFileName + ".pred-test";
 								
 								String command2 = "svm-predict " + testFileName + " " + modelFileName + " " + predictionOutputFileName;
 								
