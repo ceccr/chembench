@@ -686,6 +686,7 @@ public class QsarModelingTask extends WorkflowTask {
 
 			step = Constants.PREDEXT;
 			SvmWorkflow.runSvmPrediction(path, "ext_0.x");
+			
 		}
 		else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
 			step = Constants.YRANDOMSETUP;
@@ -883,7 +884,7 @@ public class QsarModelingTask extends WorkflowTask {
 			svmModels = SvmWorkflow.readSvmModels(filePath + "yRandom/");
 
 			//read external set predictions
-			externalSetPredictions = null;
+			
 		}
 		
 		//save updated predictor to database

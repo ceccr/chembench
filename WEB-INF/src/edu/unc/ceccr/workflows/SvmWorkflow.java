@@ -4,6 +4,7 @@ import java.io.*;
 import java.nio.channels.FileChannel;
 
 import edu.unc.ceccr.persistence.ExternalValidation;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
@@ -11,12 +12,15 @@ import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
+
+import org.hibernate.Session;
 
 public class SvmWorkflow{
 
@@ -289,7 +293,7 @@ public class SvmWorkflow{
 								
 								if(! modelIsGood){
 									//delete it
-									FileAndDirOperations.deleteFile(modelFileName);
+									FileAndDirOperations.deleteFile(workingDir + modelFileName);
 								}
 								
 								//read MSE and correlation coeff. for prediction
@@ -314,7 +318,7 @@ public class SvmWorkflow{
 		return null;
 	}
 	
-	public static ArrayList<PredictionValue> runSvmPrediction(String workingDir, String predictionXFileName) throws Exception{
+	public static void runSvmPrediction(String workingDir, String predictionXFileName) throws Exception{
 		//find all models files in working dir
 		//run svm-predict on the prediction file using each model
 		//average the results
@@ -322,6 +326,18 @@ public class SvmWorkflow{
 		convertXtoSvm(predictionXFileName, "", workingDir);
 		
 		String predictionFileName = predictionXFileName.replace(".x", ".svm");
+		
+		File dir = new File(workingDir);
+		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}});
+		for(int i = 0; i < files.length; i++){
+			String command = "svm-predict " + predictionFileName + " " + files[i] + " " + files[i] + ".pred";
+			RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-predict-" + files[i]);
+			
+		}
+		
+	}
+	
+	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, String predictionXFileName, Long predictorId) throws Exception{
 		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
 		
 		ArrayList<String> compoundNames = DatasetFileOperations.getXCompoundNames(workingDir + predictionXFileName);
@@ -333,27 +349,68 @@ public class SvmWorkflow{
 		}
 		
 		File dir = new File(workingDir);
-		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}});
+		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}});
 		for(int i = 0; i < files.length; i++){
-			String command = "svm-predict " + predictionFileName + " " + files[i] + " " + files[i] + ".pred";
-			RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-predict-" + files[i]);
-			
-			//now, open that prediction file and get the results for each compound.
+			//open the prediction file and get the results for each compound.
 			BufferedReader in = new BufferedReader(new FileReader(workingDir + files[i] + ".pred"));
 			String line;
 			int j = 0;
 			while((line = in.readLine()) != null){
 				if(! line.isEmpty()){
-					//predictionValues.get(j).setPredictedValue(line.trim()? need format);
+					predictionValues.get(j).setPredictedValue(Float.parseFloat(line.trim()) + 
+							predictionValues.get(j).getPredictedValue());
 					j++;
 				}
 			}
-			
 		}
+		//Each predictionValue contains the sum of all predicted values. 
+		//We need the average, so divide each value by numModels.
+		for(PredictionValue pv : predictionValues){
+			pv.setPredictedValue( pv.getPredictedValue() / files.length);
+			pv.setNumModelsUsed(files.length);
+			pv.setNumTotalModels(files.length);
+			pv.setStandardDeviation(new Float(0.1)); //calculate this later once other stuff works
+		}
+		
 		return predictionValues;
 	}
 	
-	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception{
-		return null;
+	public static ArrayList<ExternalValidation> readExternalPredictionOutput(String workingDir, Long predictorId) throws Exception{
+		ArrayList<ExternalValidation> externalPredictions = new ArrayList<ExternalValidation>();
+		File dir = new File(workingDir);
+		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}});
+		for(int i = 0; i < files.length; i++){
+			//open the prediction file and get the results for each compound.
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + files[i] + ".pred"));
+			String line;
+			int j = 0;
+			while((line = in.readLine()) != null){
+				if(! line.isEmpty()){
+					externalPredictions.get(j).setPredictedValue(Float.parseFloat(line.trim()) + 
+							externalPredictions.get(j).getPredictedValue());
+					j++;
+				}
+			}
+		}
+		
+		//set compound names
+		ArrayList<String> extCompoundNames = DatasetFileOperations.getACTCompoundNames(workingDir + "ext_0.a");
+		for(int i = 0; i < extCompoundNames.size(); i++){
+			externalPredictions.get(i).setCompoundId(extCompoundNames.get(i));
+		}
+		
+		//Each predictionValue contains the sum of all predicted values. 
+		//We need the average, so divide each value by numModels.
+		//set the predictor ID at the same time
+		Session session = HibernateUtil.getSession();
+		for(ExternalValidation pv : externalPredictions){
+			pv.setPredictedValue(pv.getPredictedValue() / files.length);
+			pv.setNumModels(files.length);
+			pv.setStandDev("0.1");
+			pv.setPredictor(PopulateDataObjects.getPredictorById(predictorId, session));
+		}
+		session.close();
+		
+		return externalPredictions;
 	}
 }
