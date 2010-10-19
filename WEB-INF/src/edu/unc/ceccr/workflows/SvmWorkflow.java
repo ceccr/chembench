@@ -333,7 +333,7 @@ public class SvmWorkflow{
 										modelIsGood = false;
 									}
 								}
-								
+								log.flush();
 								if(! modelIsGood){
 									//delete it
 									if(new File(workingDir + modelFileName).exists()){
