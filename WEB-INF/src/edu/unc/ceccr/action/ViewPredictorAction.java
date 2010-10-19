@@ -37,6 +37,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.RandomForestTree;
+import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
@@ -66,6 +67,7 @@ public class ViewPredictorAction extends ActionSupport {
 	private RandomForestParameters randomForestParameters;
 	private KnnParameters knnParameters;
 	private KnnPlusParameters knnPlusParameters;
+	private SvmParameters svmParameters;
 	
 	//used in creation of confusion matrix (category modeling only)
 	public class ConfusionMatrixRow{
@@ -248,6 +250,9 @@ public class ViewPredictorAction extends ActionSupport {
 			}
 			else if(selectedPredictor.getModelMethod().equals(Constants.KNN)){
 				knnParameters = PopulateDataObjects.getKnnParametersById(selectedPredictor.getModelingParametersId(), session);
+			}
+			else if(selectedPredictor.getModelMethod().equals(Constants.SVM)){
+				svmParameters = PopulateDataObjects.getSvmParametersById(selectedPredictor.getModelingParametersId(), session);
 			}
 		}
 		return result;

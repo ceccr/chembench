@@ -722,11 +722,6 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(e);
 		} 
 
-		predictor.getDatasetId();
-		getDataSetById(predictor.getDatasetId(), session);
-		getDataSetById(predictor.getDatasetId(), session).getFileName();
-		predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
-		
 		if(predictor.getDatasetId() != null && getDataSetById(predictor.getDatasetId(), session) != null){
 			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
 		}
