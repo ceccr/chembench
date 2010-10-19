@@ -510,8 +510,8 @@ public class ModelingFormActions extends ActionSupport{
 	private String svmPEpsilonStep = "5";
 	
 	private String svmEEpsilon = "0.001";
-	private String svmHeuristics = "true";
-	private String svmProbability = "false";
+	private String svmHeuristics = "1";
+	private String svmProbability = "0";
 	private String svmWeight ="1";
 	private String svmCrossValidation = "0";
 	//end SVM Parameters

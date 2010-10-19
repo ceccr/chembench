@@ -245,8 +245,12 @@ public class SvmWorkflow{
 								String predictionOutputFileName = modelFileName + ".pred-test";
 								
 								String command2 = "svm-predict " + testFileName + " " + modelFileName + " " + predictionOutputFileName;
-								
-								RunExternalProgram.runCommandAndLogOutput(command2, workingDir, "svm-predict" + modelFileName);
+								if(new File(workingDir + modelFileName).exists()){
+									RunExternalProgram.runCommandAndLogOutput(command2, workingDir, "svm-predict" + modelFileName);
+								}
+								else{
+									continue;
+								}
 								
 								//eliminate (delete) model if it doesn't pass its CCR or r^2 cutoff
 								
@@ -332,8 +336,12 @@ public class SvmWorkflow{
 								
 								if(! modelIsGood){
 									//delete it
-									FileAndDirOperations.deleteFile(workingDir + modelFileName);
-									FileAndDirOperations.deleteFile(workingDir + predictionOutputFileName);
+									if(new File(workingDir + modelFileName).exists()){
+										FileAndDirOperations.deleteFile(workingDir + modelFileName);
+									}
+									if(new File(workingDir + predictionOutputFileName).exists()){
+										FileAndDirOperations.deleteFile(workingDir + predictionOutputFileName);
+									}
 								}
 								
 								//read MSE and correlation coeff. for prediction
