@@ -94,6 +94,32 @@
 	</div>
 	</s:if>
 	<!-- end random forest specific parameters -->
+	<!-- svm specific parameters -->
+	<s:if test="selectedPredictor.modelMethod=='SVM'">
+	<div class="StandardTextDarkGrayParagraph">
+		<s:if test="dataType=='CONTINUOUS'">
+		<b>SVM Type:</b> <s:property value="svmParameters.svmTypeContinuous" /><br />
+		</s:if>
+		<s:else>
+		<b>SVM Type:</b> <s:property value="svmParameters.svmTypeCategory" /><br />
+		</s:else>
+		<b>Kernel Type:</b> <s:property value="svmParameters.svmKernel" /><br />
+		<br />
+		<b>Degree: From</b> <s:property value="svmParameters.svmDegreeFrom" /> <b>to</b> <s:property value="svmParameters.svmDegreeTo" /> <b>step</b> <s:property value="svmParameters.svmDegreeStep" /><br />
+		<b>Gamma: From</b> <s:property value="svmParameters.svmGammaFrom" /> <b>to</b> <s:property value="svmParameters.svmGammaTo" /> <b>step</b> <s:property value="svmParameters.svmGammaStep" /><br />
+		<b>Cost: From</b> <s:property value="svmParameters.svmCostFrom" /> <b>to</b> <s:property value="svmParameters.svmCostTo" /> <b>step</b> <s:property value="svmParameters.svmCostStep" /><br />
+		<b>Nu: From</b> <s:property value="svmParameters.svmNuFrom" /> <b>to</b> <s:property value="svmParameters.svmNuTo" /> <b>step</b> <s:property value="svmParameters.svmNuStep" /><br />
+		<b>Epsilon: From</b> <s:property value="svmParameters.svmPEpsilonFrom" /> <b>to</b> <s:property value="svmParameters.svmPEpsilonTo" /> <b>step</b> <s:property value="svmParameters.svmPEpsilonStep" /><br />
+		<br />		
+		<b>Epsilon in loss function of epsilon-SVR:</b> <s:property value="svmParameters.svmPEpsilonFrom" /><br />
+		<b>Tolerance of termination criterion:</b> <s:property value="svmParameters.svmEEpsilon" /><br />
+		<b>Use Shrinking Heuristics:</b> <s:property value="svmParameters.svmHeuristics" /><br />
+		<b>Use Probability Estimates:</b> <s:property value="svmParameters.svmProbability" /><br />
+		<b>Parameter C of class i to weight*C, for C-SVC:</b> <s:property value="svmParameters.svmWeight" /><br />
+		<b>Number of cross-validations (e.g. 5 for 5-fold):</b> <s:property value="svmParameters.svmCrossValidation" /><br />
+	</div>
+	<!-- end svm specific parameters -->
+	</s:if>
 	
 	<!-- 
 	<br />

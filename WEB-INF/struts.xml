@@ -297,6 +297,18 @@
 	        
         	<!-- end random forest -->
         	
+        	<!-- svm -->
+        	<action name="viewSvmExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
+	        	<result>jsp/modelingOutput/viewPredictor-knnPlusExternalSetPredictions.jsp</result>
+	        </action>
+	        
+        	<action name="viewSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
+	        	<result>jsp/modelingOutput/viewPredictor-svmModels.jsp</result>
+	        </action>
+	        
+        	
+        	<!-- end svm -->
+        	
         <!-- End View Predictor Page -->
         
         <!-- View Prediction Page -->

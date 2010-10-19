@@ -837,6 +837,13 @@ public class ViewPredictorAction extends ActionSupport {
 		this.knnPlusParameters = knnPlusParameters;
 	}
 
+	public SvmParameters getSvmParameters() {
+		return svmParameters;
+	}
+	public void setSvmParameters(SvmParameters svmParameters) {
+		this.svmParameters = svmParameters;
+	}
+
 	public ArrayList<ConfusionMatrixRow> getConfusionMatrix() {
 		return confusionMatrix;
 	}
