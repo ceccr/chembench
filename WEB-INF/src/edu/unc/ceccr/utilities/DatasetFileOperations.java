@@ -567,10 +567,10 @@ public class DatasetFileOperations {
 			int numCompounds = Integer.parseInt(header[0]);
 			src.nextLine(); //skip descriptors
 			int i = 0;
-			while (src.hasNext() && i < numCompounds) {
+			while (src.hasNext()) {
 				line = src.nextLine();
 				String[] array = line.split("\\s+");
-				if (array.length != 0) { //this will skip any blank lines
+				if (array.length != 0 && i < numCompounds) { //this will skip any blank lines
 					//in an X file, first value is an index, second is compoundID
 					x_compounds.add(array[1].trim()); 
 					i++;
