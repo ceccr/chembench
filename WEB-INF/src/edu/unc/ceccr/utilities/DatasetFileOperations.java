@@ -573,9 +573,6 @@ public class DatasetFileOperations {
 				if (array.length != 0 && i < numCompounds) { //this will skip any blank lines
 					//in an X file, first value is an index, second is compoundID
 					x_compounds.add(array[1].trim());
-					if(fileLocation.contains("ext_0")){
-						Utility.writeToDebug("adding compound name " + i + " to array: '" + array[1].trim() + "'");
-					}
 					i++;
 				}
 			}

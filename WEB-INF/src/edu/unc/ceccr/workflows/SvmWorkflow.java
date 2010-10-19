@@ -416,11 +416,16 @@ public class SvmWorkflow{
 		ArrayList<ExternalValidation> externalPredictions = new ArrayList<ExternalValidation>();
 
 		//set compound names
-		ArrayList<String> extCompoundNames = DatasetFileOperations.getACTCompoundNames(workingDir + "ext_0.a");
-		for(int i = 0; i < extCompoundNames.size(); i++){
-			ExternalValidation ev = new ExternalValidation();
-			ev.setCompoundId(extCompoundNames.get(i));
-			externalPredictions.add(ev);
+		String line;
+		BufferedReader br = new BufferedReader(new FileReader(workingDir + "ext_0.a"));
+		while((line = br.readLine()) != null){
+			if(! line.isEmpty()){
+				String[] tokens = line.split("\\s+");
+				ExternalValidation ev = new ExternalValidation();
+				ev.setCompoundId(tokens[0]);
+				ev.setActualValue(Float.parseFloat(tokens[1]));
+				externalPredictions.add(ev);
+			}
 		}
 		
 		File dir = new File(workingDir);
@@ -428,7 +433,6 @@ public class SvmWorkflow{
 		for(int i = 0; i < files.length; i++){
 			//open the prediction file and get the results for each compound.
 			BufferedReader in = new BufferedReader(new FileReader(workingDir + files[i]));
-			String line;
 			int j = 0;
 			while((line = in.readLine()) != null){
 				if(! line.isEmpty()){
