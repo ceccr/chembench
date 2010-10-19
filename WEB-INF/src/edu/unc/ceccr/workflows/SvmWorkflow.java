@@ -45,6 +45,9 @@ public class SvmWorkflow{
 		else{
 			//if no activity file is supplied, just use zeros for activities
 			int numCompounds = DatasetFileOperations.getXCompoundNames(workingDir + xFileName).size();
+			if(xFileName.contains("ext_0")){
+				Utility.writeToDebug("found " + numCompounds + " compounds in ext_0.x");
+			}
 			for(int i = 0; i < numCompounds; i++){
 				activityValues.add("0");
 			}
