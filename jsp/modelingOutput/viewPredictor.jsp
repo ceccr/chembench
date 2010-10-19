@@ -148,7 +148,7 @@
 			
 			<s:elseif test="selectedPredictor.modelMethod=='SVM'">
 			
-				<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
+				<s:url id="externalValidationLink" value="/viewSvmExternalValidationSection" includeParams="none">
 					<s:param name="id" value='selectedPredictor.predictorId' />
 				</s:url>
 		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" preload="false" showLoadingText="true">
