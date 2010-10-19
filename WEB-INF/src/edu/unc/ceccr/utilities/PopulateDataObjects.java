@@ -715,8 +715,6 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			predictor = (Predictor) session.createCriteria(Predictor.class)	.add(Expression.eq("name", selectedPredictorName))
 					.add(Expression.eq("userName", user)).uniqueResult();
-			
-			predictor.getExternalValidationResults().size();
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
