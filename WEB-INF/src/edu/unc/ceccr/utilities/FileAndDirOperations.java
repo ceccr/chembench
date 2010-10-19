@@ -1,5 +1,6 @@
 package edu.unc.ceccr.utilities;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -39,6 +40,26 @@ public class FileAndDirOperations {
 			x++;
 		}
 		
+		return count;
+	}
+	
+	public static int getNumLinesInFile(String filePath){
+		int count = 0;
+		try{
+			InputStream is = new BufferedInputStream(new FileInputStream(filePath));
+			byte[] c = new byte[1024];
+			int readChars = 0;
+			while ((readChars = is.read(c)) != -1) {
+				for (int i = 0; i < readChars; ++i) {
+					if (c[i] == '\n')
+						++count;
+				}
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+			return 0;
+		}
 		return count;
 	}
 

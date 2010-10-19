@@ -134,6 +134,10 @@ public class SvmWorkflow{
 				convertXtoSvm(data[3], data[4], workingDir);
 			}
 			
+			//log file containing each model generated and its test set r^2 or CCR
+			//used for debugging and checking progress
+			BufferedWriter log = new BufferedWriter(new FileWriter(workingDir + "svm-modeling.log"));
+			
 			//generate SVM models for this train-test split
 			
 			for(Float cost = Float.parseFloat(svmParameters.getSvmCostFrom()); 
@@ -300,6 +304,8 @@ public class SvmWorkflow{
 									if(ssTot != 0){
 										rSquared = Double.parseDouble(Utility.roundSignificantFigures("" + (1 - (ssErr / ssTot)), 4));
 									}
+
+									log.write(modelFileName + " r2: " + rSquared);
 									if(rSquared < cutoff){
 										modelIsGood = false;
 									}
@@ -316,7 +322,9 @@ public class SvmWorkflow{
 											numIncorrect++;
 										}
 									}
-									if((numCorrect / (numCorrect + numIncorrect)) < cutoff){
+									Double ccr = new Double(numCorrect) / (new Double(numCorrect) + new Double(numIncorrect));
+									log.write(modelFileName + " ccr: " + ccr);
+									if(ccr < cutoff){
 										//Utility.writeToDebug("bad model: ccr = " + (numCorrect / (numCorrect + numIncorrect)));
 										modelIsGood = false;
 									}
@@ -337,10 +345,7 @@ public class SvmWorkflow{
 					}
 				}
 			}
-			
-			//delete all the models on the list of bad models
-			
-			
+			log.close();			
 		}
 		in.close();
 		
