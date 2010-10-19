@@ -154,7 +154,13 @@
 		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" preload="false" showLoadingText="true">
 				</sx:div>
 				
-				<s:url id="yRandomLink" value="/viewPredictorYRandomSection" includeParams="none">
+				<s:url id="externalValidationLink" value="/viewSvmModelsSection" includeParams="none">
+					<s:param name="id" value='selectedPredictor.predictorId' />
+				</s:url>
+		    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" preload="false" showLoadingText="true">
+				</sx:div>
+				
+				<s:url id="yRandomLink" value="/viewSvmYRandomSection" includeParams="none">
 					<s:param name="id" value='selectedPredictor.predictorId' />
 				</s:url>
 		    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax" loadingText="Loading Y-Randomization Models..." executeScripts="true" showLoadingText="true">

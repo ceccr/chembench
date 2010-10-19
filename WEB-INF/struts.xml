@@ -306,6 +306,9 @@
 	        	<result>jsp/modelingOutput/viewPredictor-svmModels.jsp</result>
 	        </action>
 	        
+	        <action name="viewSvmYRandomSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadYRandomSection">
+	        	<result>jsp/modelingOutput/viewPredictor-yRandom.jsp</result>
+	        </action>
         	
         	<!-- end svm -->
         	
