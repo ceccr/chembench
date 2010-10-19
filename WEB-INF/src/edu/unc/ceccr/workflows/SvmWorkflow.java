@@ -309,7 +309,7 @@ public class SvmWorkflow{
 										rSquared = Double.parseDouble(Utility.roundSignificantFigures("" + (1 - (ssErr / ssTot)), 4));
 									}
 
-									log.write(modelFileName + " r2: " + rSquared);
+									log.write(modelFileName + " r2: " + rSquared + "\n");
 									if(rSquared < cutoff){
 										modelIsGood = false;
 									}
@@ -327,7 +327,7 @@ public class SvmWorkflow{
 										}
 									}
 									Double ccr = new Double(numCorrect) / (new Double(numCorrect) + new Double(numIncorrect));
-									log.write(modelFileName + " ccr: " + ccr);
+									log.write(modelFileName + " ccr: " + ccr + "\n");
 									if(ccr < cutoff){
 										//Utility.writeToDebug("bad model: ccr = " + (numCorrect / (numCorrect + numIncorrect)));
 										modelIsGood = false;
