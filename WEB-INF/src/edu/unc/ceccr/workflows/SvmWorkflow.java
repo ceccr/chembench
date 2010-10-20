@@ -18,6 +18,7 @@ import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import org.hibernate.Session;
@@ -316,17 +317,38 @@ public class SvmWorkflow{
 								}
 								else if(actFileDataType.equals(Constants.CATEGORY)){
 									//calculate CCR for test set prediction
-									int numCorrect = 0;
-									int numIncorrect = 0;
+									
+									/*
+									1/2(TP/#pos + TN/#neg)
+									1/3(T1/#1 + T2/#2 + T3/#3)
+									*/
+									HashMap<Double, Integer> correctPredictionCounts = new HashMap<Double, Integer>();
+									HashMap<Double, Integer> observedValueCounts = new HashMap<Double, Integer>();
+									
 									for(int i = 0; i < testValues.size(); i++){
-										if(Math.round(testValues.get(i)) == Math.round(predictedValues.get(i))){
-											numCorrect++;
+										if(observedValueCounts.containsKey(testValues.get(i))){
+											observedValueCounts.put(testValues.get(i), observedValueCounts.get(testValues.get(i)) + 1);
 										}
 										else{
-											numIncorrect++;
+											observedValueCounts.put(testValues.get(i), 1);
+										}
+										
+										if(predictedValues.get(i).equals(testValues.get(i))){
+											if(correctPredictionCounts.containsKey(testValues.get(i))){
+												correctPredictionCounts.put(testValues.get(i), correctPredictionCounts.get(testValues.get(i)) + 1);
+											}
+											else{
+												correctPredictionCounts.put(testValues.get(i), 1);
+											}
 										}
 									}
-									Double ccr = new Double(numCorrect) / (new Double(numCorrect) + new Double(numIncorrect));
+									
+									Double ccr = 0.0;
+									for(Double d: correctPredictionCounts.keySet()){
+										ccr += correctPredictionCounts.get(d) / observedValueCounts.get(d);
+									}
+									ccr = ccr / correctPredictionCounts.keySet().size();
+									
 									log.write(modelFileName + " ccr: " + ccr + "\n");
 									if(ccr < cutoff){
 										//Utility.writeToDebug("bad model: ccr = " + (numCorrect / (numCorrect + numIncorrect)));
