@@ -58,6 +58,9 @@
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of cross-validations (e.g. 5 for 5-fold):</b></div></td>
 				<td align="left" valign="top"><s:textfield id="svmCrossValidation" name="svmCrossValidation" size="5" theme="simple"/>
 				</td></tr>
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b>CCR or r<sup>2</sup> cutoff for model acceptance:</b></div></td>
+				<td align="left" valign="top"><s:textfield id="svmCutoff" name="svmCutoff" size="5" theme="simple"/>
+				</td></tr>
 				
 				</table></td></tr>
 				</tbody>

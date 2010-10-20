@@ -118,7 +118,6 @@ public class SvmWorkflow{
 			convertXtoSvm(Constants.EXTERNAL_SET_X_FILE, Constants.EXTERNAL_SET_A_FILE, workingDir);
 		}
 
-		
 		//log file containing each model generated and its test set r^2 or CCR
 		//used for debugging and checking progress
 		BufferedWriter log = new BufferedWriter(new FileWriter(workingDir + "svm-modeling.log"));

@@ -44,6 +44,7 @@ public class SvmParameters {
 	private String svmTypeCategory;
 	private String svmTypeContinuous;
 	private String svmWeight;
+	private String svmCutoff;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -230,13 +231,21 @@ public class SvmParameters {
 	public void setSvmTypeContinuous(String svmTypeContinuous) {
 		this.svmTypeContinuous = svmTypeContinuous;
 	}
-	
+
 	@Column(name = "svmWeight")
 	public String getSvmWeight() {
 		return svmWeight;
 	}
 	public void setSvmWeight(String svmWeight) {
 		this.svmWeight = svmWeight;
+	}
+	
+	@Column(name = "svmCutoff")
+	public String getSvmCutoff() {
+		return svmCutoff;
+	}
+	public void setSvmCutoff(String svmCutoff) {
+		this.svmCutoff = svmCutoff;
 	}
 	
 }

@@ -514,6 +514,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String svmProbability = "0";
 	private String svmWeight ="1";
 	private String svmCrossValidation = "0";
+	private String svmCutoff ="0.5";
 	//end SVM Parameters
 	
 	//Random Forest parameters
@@ -1179,8 +1180,16 @@ public class ModelingFormActions extends ActionSupport{
 	public void setSvmCrossValidation(String svmCrossValidation) {
 		this.svmCrossValidation = svmCrossValidation;
 	}
+	
+	public String getSvmCutoff() {
+		return svmCutoff;
+	}
+	public void setSvmCutoff(String svmCutoff) {
+		this.svmCutoff = svmCutoff;
+	}
 	//end SVM
 	
+
 	//start RF
 	public String getNumTrees() {
 		return numTrees;

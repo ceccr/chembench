@@ -117,6 +117,7 @@
 		<b>Use Probability Estimates:</b> <s:property value="svmParameters.svmProbability" /><br />
 		<b>Parameter C of class i to weight*C, for C-SVC:</b> <s:property value="svmParameters.svmWeight" /><br />
 		<b>Number of cross-validations (e.g. 5 for 5-fold):</b> <s:property value="svmParameters.svmCrossValidation" /><br />
+		<b>Model Acceptance Cutoff:</b> <s:property value="svmParameters.svmCutoff" /><br />
 	</div>
 	<!-- end svm specific parameters -->
 	</s:if>
