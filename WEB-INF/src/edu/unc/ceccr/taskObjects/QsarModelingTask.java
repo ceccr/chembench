@@ -182,10 +182,14 @@ public class QsarModelingTask extends WorkflowTask {
 					percent = " (" + Math.round(p) + "%)";
 				}
 				else if(modelType.equals(Constants.SVM)){
-					File dir = new File(workingDir);
 					//get num of models produced so far
-					float p  = FileAndDirOperations.getNumLinesInFile(workingDir + "svm-modeling.log");
-					p += FileAndDirOperations.getNumLinesInFile(workingDir + "yRandom/svm-modeling.log");
+					float p = 0;
+					if(new File(workingDir + "svm-modeling.log").exists()){
+						p += FileAndDirOperations.getNumLinesInFile(workingDir + "svm-modeling.log");
+					}
+					if(new File(workingDir + "yRandom/svm-modeling.log").exists()){
+						p += FileAndDirOperations.getNumLinesInFile(workingDir + "yRandom/svm-modeling.log");
+					}
 					//divide by (number of models * 2 because of yRandom)
 					p /= (getNumTotalModels() * 2);
 					p *= 100;
