@@ -345,9 +345,9 @@ public class SvmWorkflow{
 									
 									Double ccr = 0.0;
 									for(Double d: correctPredictionCounts.keySet()){
-										ccr += correctPredictionCounts.get(d) / observedValueCounts.get(d);
+										ccr += new Double(correctPredictionCounts.get(d)) / new Double(observedValueCounts.get(d));
 									}
-									ccr = ccr / correctPredictionCounts.keySet().size();
+									ccr = ccr / new Double(correctPredictionCounts.keySet().size());
 									
 									log.write(modelFileName + " ccr: " + ccr + "\n");
 									if(ccr < cutoff){
@@ -477,7 +477,6 @@ public class SvmWorkflow{
 				}
 			}
 		}
-		
 		
 		//Each predictionValue contains the sum of all predicted values. 
 		//We need the average, so divide each value by numModels.
