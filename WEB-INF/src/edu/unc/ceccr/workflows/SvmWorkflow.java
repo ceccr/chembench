@@ -117,6 +117,11 @@ public class SvmWorkflow{
 			convertXtoSvm(Constants.MODELING_SET_X_FILE, Constants.MODELING_SET_A_FILE, workingDir);
 			convertXtoSvm(Constants.EXTERNAL_SET_X_FILE, Constants.EXTERNAL_SET_A_FILE, workingDir);
 		}
+
+		
+		//log file containing each model generated and its test set r^2 or CCR
+		//used for debugging and checking progress
+		BufferedWriter log = new BufferedWriter(new FileWriter(workingDir + "svm-modeling.log"));
 		
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + "RAND_sets.list"));
 		String inputString;
@@ -133,10 +138,6 @@ public class SvmWorkflow{
 				convertXtoSvm(data[0], data[1], workingDir);
 				convertXtoSvm(data[3], data[4], workingDir);
 			}
-			
-			//log file containing each model generated and its test set r^2 or CCR
-			//used for debugging and checking progress
-			BufferedWriter log = new BufferedWriter(new FileWriter(workingDir + "svm-modeling.log"));
 			
 			//generate SVM models for this train-test split
 			
@@ -353,8 +354,8 @@ public class SvmWorkflow{
 					}
 				}
 			}
-			log.close();			
 		}
+		log.close();			
 		in.close();
 		
 	}
