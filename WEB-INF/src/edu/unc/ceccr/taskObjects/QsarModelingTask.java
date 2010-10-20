@@ -373,6 +373,7 @@ public class QsarModelingTask extends WorkflowTask {
 			svmParameters.setSvmTypeCategory(ModelingForm.getSvmTypeCategory());
 			svmParameters.setSvmTypeContinuous(ModelingForm.getSvmTypeContinuous());
 			svmParameters.setSvmWeight(ModelingForm.getSvmWeight());
+			svmParameters.setSvmCutoff(ModelingForm.getSvmCutoff());
 		}
 		else if(ModelingForm.getModelingType().equals(Constants.KNNSA) || 
 				ModelingForm.getModelingType().equals(Constants.KNNGA)){
