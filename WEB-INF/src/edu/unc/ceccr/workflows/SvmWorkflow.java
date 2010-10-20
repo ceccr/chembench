@@ -81,7 +81,7 @@ public class SvmWorkflow{
 	}
 	
 	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
-		double cutoff = 0.4;
+		double cutoff = Double.parseDouble(svmParameters.getSvmCutoff());
 		
 		/*
 		Usage: svm-train [options] training_set_file [model_file]
