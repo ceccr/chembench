@@ -72,7 +72,7 @@ while($line = <FH>){
 		print `$cmd`;
 
 		#MOE2D
-		$cmd = "moe2D.sh $dir/$filename $dir/Descriptors/" .  $moefilename . " /usr/local/ceccr/mmlsoft/mmlsoft/SVL_DIR/batch_sd_2Ddesc.svl  > $dir/Descriptors/moe2D.out 2> $dir/Descriptors/moe2D.err";
+		$cmd = "moe2D.sh $dir/$filename $dir/Descriptors/" .  $moefilename . " /usr/local/ceccr/mmlsoft/SVL_DIR/batch_sd_2Ddesc.svl  > $dir/Descriptors/moe2D.out 2> $dir/Descriptors/moe2D.err";
                 print "$cmd\n";
                 print `$cmd`;
 

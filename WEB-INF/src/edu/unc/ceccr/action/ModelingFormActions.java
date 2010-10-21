@@ -128,9 +128,7 @@ public class ModelingFormActions extends ActionSupport{
 			return "";
 		}
 		
-		if((user.getUserName().equalsIgnoreCase("grulke") || user.getUserName().equalsIgnoreCase("theo") || 
-				user.getUserName().equalsIgnoreCase("maidoan@email.unc.edu") || user.getUserName().equalsIgnoreCase("mai")) &&
-				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName().equals("all-datasets") ){
+		if((PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName().equals("all-datasets") )){
 			//activate GOD MODE. Launch modeling on every dataset the user owns except for this one.
 			closeSessionAtEnd = false;
 			ArrayList<DataSet> datasetList = new ArrayList<DataSet>();
