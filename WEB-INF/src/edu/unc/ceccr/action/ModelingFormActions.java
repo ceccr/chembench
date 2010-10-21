@@ -514,7 +514,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String svmProbability = "0";
 	private String svmWeight ="1";
 	private String svmCrossValidation = "0";
-	private String svmCutoff ="0.5";
+	private String svmCutoff ="0.6";
 	//end SVM Parameters
 	
 	//Random Forest parameters

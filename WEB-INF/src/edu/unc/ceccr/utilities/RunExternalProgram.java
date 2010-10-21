@@ -23,7 +23,7 @@ public class RunExternalProgram {
 		"checkKnnSaProgress",
 		"checkKnnGaProgress",
 		"svm-train",
-		//"svm-predict",
+		"svm-predict",
 		"molconvert"};
 	
 	public static void close(Closeable c) {

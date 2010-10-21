@@ -347,7 +347,7 @@ public class SvmWorkflow{
 									for(Double d: correctPredictionCounts.keySet()){
 										ccr += new Double(correctPredictionCounts.get(d)) / new Double(observedValueCounts.get(d));
 									}
-									ccr = ccr / new Double(correctPredictionCounts.keySet().size());
+									ccr = ccr / new Double(observedValueCounts.keySet().size());
 									
 									log.write(modelFileName + " ccr: " + ccr + "\n");
 									if(ccr < cutoff){
