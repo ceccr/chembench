@@ -145,7 +145,7 @@ public class JobsActions extends ActionSupport {
 		localJobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
 		for(Job j : localJobs){
 			if(j.workflowTask != null){
-				j.setMessage(j.workflowTask.getProgress());
+				j.setMessage(j.workflowTask.getProgress(user.getUserName()));
 			}
 			else{
 				j.setMessage("Could not resume task.");
@@ -156,7 +156,7 @@ public class JobsActions extends ActionSupport {
 		lsfJobs = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
 		for(Job j : lsfJobs){
 			if(j.workflowTask != null){
-				j.setMessage(j.workflowTask.getProgress());
+				j.setMessage(j.workflowTask.getProgress(user.getUserName()));
 			}
 			else{
 				j.setMessage("Could not resume task.");

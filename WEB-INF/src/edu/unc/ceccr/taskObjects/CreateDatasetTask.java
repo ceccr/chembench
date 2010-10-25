@@ -48,7 +48,7 @@ public class CreateDatasetTask extends WorkflowTask{
 	
 	private String step = Constants.SETUP; //stores what step we're on 
 	
-	public String getProgress(){
+	public String getProgress(String userName){
 		String percent = "";
 		
 		if(step.equals(Constants.SKETCHES)){

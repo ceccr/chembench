@@ -40,8 +40,9 @@ public abstract class WorkflowTask {
 	public abstract String getStatus() throws Exception; 
 	//returns a basic (one-word) status
 	
-	public abstract String getProgress() throws Exception; 
+	public abstract String getProgress(String userName) throws Exception; 
 	//returns a detailed status message (% progress, etc)
+	//returns more info if userName is an admin or userName owns the task
 
 	public abstract void setStep(String step) throws Exception;
 	//allows changing of the "step" variable. Used during job recovery

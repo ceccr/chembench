@@ -56,7 +56,7 @@ public class QsarPredictionTask extends WorkflowTask {
 	//for internal use only
 	ArrayList<Predictor> selectedPredictors = null; 
 	
-	public String getProgress() {
+	public String getProgress(String userName) {
 		
 		try{
 			if(! step.equals(Constants.PREDICTING)){
