@@ -434,6 +434,9 @@ public class CreateDatasetTask extends WorkflowTask{
 		
 				}
 			}
+			else{
+				Utility.writeToDebug("Skipping generation of heatmap data", userName, jobName);
+			}
 
 		}
 		

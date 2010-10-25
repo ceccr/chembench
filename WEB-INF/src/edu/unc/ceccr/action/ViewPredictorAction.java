@@ -193,7 +193,9 @@ public class ViewPredictorAction extends ActionSupport {
 				avg /= externalValValues.size();
 				Double ssErr = 0.0;
 				for(String residual : residuals){
-					ssErr += Double.parseDouble(residual) * Double.parseDouble(residual);
+					if(! residual.isEmpty()){
+						ssErr += Double.parseDouble(residual) * Double.parseDouble(residual);
+					}
 				}
 				Double ssTot = 0.0;
 				for(ExternalValidation ev : externalValValues){

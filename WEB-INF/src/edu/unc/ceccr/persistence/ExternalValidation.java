@@ -14,17 +14,11 @@ import javax.persistence.Table;
 public class ExternalValidation implements java.io.Serializable {
 	
 	private int externalValId;
-	
 	private Predictor predictor;
-	
 	private String compoundId;
-	
 	private float predictedValue;
-	
 	private float actualValue;
-	
 	private int numModels;
-	
 	private String standDev;
 	
 	public ExternalValidation(){};
