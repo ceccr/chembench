@@ -81,6 +81,7 @@ public class ViewPredictorAction extends ActionSupport {
 		}
 	}
 	ArrayList<ConfusionMatrixRow> confusionMatrix;
+	Double ccr = 0.0;
 	ArrayList<String> uniqueObservedValues;
 	String rSquared = "";
 	
@@ -138,7 +139,8 @@ public class ViewPredictorAction extends ActionSupport {
 				//if category model, create confusion matrix.
 				//round off the predicted values to nearest integer.
 				try{
-				//find the unique observed values
+				
+				//scan through to find the unique observed values
 				uniqueObservedValues = new ArrayList<String>();
 				for(ExternalValidation ev : externalValValues){
 					int observedValue = Math.round(ev.getActualValue());
@@ -154,11 +156,10 @@ public class ViewPredictorAction extends ActionSupport {
 				}
 				
 				
-				Utility.writeToDebug("uniqueObservedValues: " + uniqueObservedValues.toString());
-				
 				//set up a confusion matrix to store counts of each (observed, predicted) possibility
 				confusionMatrix = new ArrayList<ConfusionMatrixRow>();
 				
+				//make a matrix of zeros
 				for(int i = 0; i < uniqueObservedValues.size(); i++){
 					ConfusionMatrixRow row = new ConfusionMatrixRow();
 					row.values = new ArrayList<Integer>();
@@ -168,7 +169,11 @@ public class ViewPredictorAction extends ActionSupport {
 					confusionMatrix.add(row);
 				}
 				
-				//populate the confusion matrix
+				double CCR = 0.0;	
+				HashMap<Integer, Integer> correctPredictionCounts = new HashMap<Integer, Integer>();
+				HashMap<Integer, Integer> observedValueCounts = new HashMap<Integer, Integer>();
+				
+				//populate the confusion matrix and count values needed to calculate CCR
 				for(ExternalValidation ev : externalValValues){
 					//for each observed-predicted pair, update
 					//the confusion matrix accordingly
@@ -178,7 +183,35 @@ public class ViewPredictorAction extends ActionSupport {
 					int predictedValueIndex = uniqueObservedValues.indexOf("" + predictedValue);
 					int previousCount = confusionMatrix.get(observedValueIndex).values.get(predictedValueIndex);
 					confusionMatrix.get(observedValueIndex).values.set(predictedValueIndex, previousCount+1);
+					
+					
+					if(observedValueCounts.containsKey(observedValue)){
+						observedValueCounts.put(observedValue, observedValueCounts.get(observedValue) + 1);
+					}
+					else{
+						observedValueCounts.put(observedValue, 1);
+					}
+					
+					if(predictedValue == observedValue){
+						if(correctPredictionCounts.containsKey(observedValue)){
+							correctPredictionCounts.put(observedValue, correctPredictionCounts.get(observedValue) + 1);
+						}
+						else{
+							correctPredictionCounts.put(observedValue, 1);
+						}
+					}
+					
 				}
+				
+				//calculate the CCR
+				//formula: 1/n(correct 1 / actual 1 + correct 2 / actual 2 ...correct n /predicted n)
+				ccr = 0.0;
+				for(Integer d: correctPredictionCounts.keySet()){
+					ccr += new Double(correctPredictionCounts.get(d)) / new Double(observedValueCounts.get(d));
+				}
+				ccr = ccr / new Double(observedValueCounts.keySet().size());
+				
+				
 				}catch(Exception ex){
 					Utility.writeToDebug(ex);
 				}
@@ -851,6 +884,13 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setConfusionMatrix(ArrayList<ConfusionMatrixRow> confusionMatrix) {
 		this.confusionMatrix = confusionMatrix;
+	}
+
+	public Double getCcr() {
+		return ccr;
+	}
+	public void setCcr(Double ccr) {
+		this.ccr = ccr;
 	}
 
 	public ArrayList<String> getUniqueObservedValues() {
