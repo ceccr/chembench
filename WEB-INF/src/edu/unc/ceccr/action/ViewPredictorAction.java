@@ -81,7 +81,7 @@ public class ViewPredictorAction extends ActionSupport {
 		}
 	}
 	ArrayList<ConfusionMatrixRow> confusionMatrix;
-	Double ccr = 0.0;
+	String ccr = "";
 	ArrayList<String> uniqueObservedValues;
 	String rSquared = "";
 	
@@ -205,12 +205,12 @@ public class ViewPredictorAction extends ActionSupport {
 				
 				//calculate the CCR
 				//formula: 1/n(correct 1 / actual 1 + correct 2 / actual 2 ...correct n /predicted n)
-				ccr = 0.0;
+				Double ccrDouble = 0.0;
 				for(Integer d: correctPredictionCounts.keySet()){
-					ccr += new Double(correctPredictionCounts.get(d)) / new Double(observedValueCounts.get(d));
+					ccrDouble += new Double(correctPredictionCounts.get(d)) / new Double(observedValueCounts.get(d));
 				}
-				ccr = ccr / new Double(observedValueCounts.keySet().size());
-				
+				ccrDouble = ccrDouble / new Double(observedValueCounts.keySet().size());
+				ccr = Utility.roundSignificantFigures(Utility.doubleToString(ccrDouble), 4);
 				
 				}catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -886,10 +886,10 @@ public class ViewPredictorAction extends ActionSupport {
 		this.confusionMatrix = confusionMatrix;
 	}
 
-	public Double getCcr() {
+	public String getCcr() {
 		return ccr;
 	}
-	public void setCcr(Double ccr) {
+	public void setCcr(String ccr) {
 		this.ccr = ccr;
 	}
 
