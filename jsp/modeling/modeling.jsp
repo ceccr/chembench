@@ -159,7 +159,7 @@
 					document.getElementById("svmPEpsilonFrom").value) / document.getElementById("svmPEpsilonStep").value + 0.001);
 			var numModelsPerSplit = numDifferentPEpsilons * numDifferentNus * numDifferentCosts * numDifferentGammas * numDifferentDegrees;
 
-			timeEstimateMins = selectedDatasetNumCompounds * numSplits * numModelsPerSplit * 0.0003;
+			timeEstimateMins = selectedDatasetNumCompounds * numSplits * numModelsPerSplit * 0.00022;
 		}
 		
 		var errorMargin = 1.2;
