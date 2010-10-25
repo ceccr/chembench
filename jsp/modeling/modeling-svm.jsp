@@ -29,19 +29,19 @@
 				<td><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmKernel" list="#{'0':'linear','1':'polynomial','2':'radial basis function','3':'sigmoid'}" theme="simple" /></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Degree in kernel function:</b></div></td>
-				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmDegreeFrom" name="svmDegreeFrom" size="5" theme="simple"/> To: <s:textfield id="svmDegreeTo" name="svmDegreeTo" size="5" theme="simple"/> Step: <s:textfield id="svmDegreeStep" name="svmDegreeStep" size="5" theme="simple"/></div>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmDegreeFrom" name="svmDegreeFrom" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> To: <s:textfield id="svmDegreeTo" name="svmDegreeTo" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> Step: <s:textfield id="svmDegreeStep" name="svmDegreeStep" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Gamma in kernel function:</b></div></td>
-				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmGammaFrom" name="svmGammaFrom" size="5" theme="simple"/> To: <s:textfield id="svmGammaTo" name="svmGammaTo" size="5" theme="simple"/> Step: <s:textfield id="svmGammaStep" name="svmGammaStep" size="5" theme="simple"/></div>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmGammaFrom" name="svmGammaFrom" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> To: <s:textfield id="svmGammaTo" name="svmGammaTo" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> Step: <s:textfield id="svmGammaStep" name="svmGammaStep" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Cost (C) of C-SVC, epsilon-SVR, and nu-SVR:</b></div></td>
-				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmCostFrom" name="svmCostFrom" size="5" theme="simple"/> To: <s:textfield id="svmCostTo" name="svmCostTo" size="5" theme="simple"/> Step: <s:textfield id="svmCostStep" name="svmCostStep" size="5" theme="simple"/></div>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmCostFrom" name="svmCostFrom" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> To: <s:textfield id="svmCostTo" name="svmCostTo" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> Step: <s:textfield id="svmCostStep" name="svmCostStep" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Nu of nu-SVC and nu-SVR:</b></div></td>
-				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmNuFrom" name="svmNuFrom" size="5" theme="simple"/> To: <s:textfield id="svmNuTo" name="svmNuTo" size="5" theme="simple"/> Step: <s:textfield id="svmNuStep" name="svmNuStep" size="5" theme="simple"/></div>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmNuFrom" name="svmNuFrom" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> To: <s:textfield id="svmNuTo" name="svmNuTo" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> Step: <s:textfield id="svmNuStep" name="svmNuStep" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Epsilon in loss function of epsilon-SVR:</b></div></td>
-				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmPEpsilonFrom" name="svmPEpsilonFrom" size="5" theme="simple"/> To: <s:textfield id="svmPEpsilonTo" name="svmPEpsilonTo" size="5" theme="simple"/> Step: <s:textfield id="svmPEpsilonStep" name="svmPEpsilonStep" size="5" theme="simple"/></div>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmPEpsilonFrom" name="svmPEpsilonFrom" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> To: <s:textfield id="svmPEpsilonTo" name="svmPEpsilonTo" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> Step: <s:textfield id="svmPEpsilonStep" name="svmPEpsilonStep" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Tolerance of termination criterion:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="svmEEpsilon" name="svmEEpsilon" size="5" theme="simple"/>

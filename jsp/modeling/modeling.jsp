@@ -158,6 +158,8 @@
 			var numDifferentPEpsilons = Math.ceil((document.getElementById("svmPEpsilonTo").value - 
 					document.getElementById("svmPEpsilonFrom").value) / document.getElementById("svmPEpsilonStep").value + 0.001);
 			var numModels = numDifferentPEpsilons * numDifferentNus * numDifferentCosts * numDifferentGammas * numDifferentDegrees;
+
+			alert(numModels);
 			
 			timeEstimateMins = numSplits * numModels * 0.0003;
 		}
