@@ -161,7 +161,7 @@
 
 			alert(numModels);
 			
-			timeEstimateMins = numSplits * numModels * 0.0003;
+			timeEstimateMins = selectedDatasetNumCompounds * numSplits * numModels * 0.0003;
 		}
 		
 		var errorMargin = 1.2;
