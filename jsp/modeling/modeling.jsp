@@ -148,15 +148,15 @@
 		}
 		else if(modelMethod=="SVM"){
 			var numDifferentDegrees = Math.ceil((document.getElementById("svmDegreeTo").value - 
-					document.getElementById("svmDegreeFrom").value) / document.getElementById("svmDegreeStep").value + 0.001);
+					document.getElementById("svmDegreeFrom").value) / document.getElementById("svmDegreeStep").value);
 			var numDifferentGammas = Math.ceil((document.getElementById("svmGammaTo").value - 
-					document.getElementById("svmGammaFrom").value) / document.getElementById("svmGammaStep").value + 0.001);
+					document.getElementById("svmGammaFrom").value) / document.getElementById("svmGammaStep").value);
 			var numDifferentCosts = Math.ceil((document.getElementById("svmCostTo").value - 
-					document.getElementById("svmCostFrom").value) / document.getElementById("svmCostStep").value + 0.001);
+					document.getElementById("svmCostFrom").value) / document.getElementById("svmCostStep").value);
 			var numDifferentNus = Math.ceil((document.getElementById("svmNuTo").value - 
-					document.getElementById("svmNuFrom").value) / document.getElementById("svmNuStep").value + 0.001);
+					document.getElementById("svmNuFrom").value) / document.getElementById("svmNuStep").value);
 			var numDifferentPEpsilons = Math.ceil((document.getElementById("svmPEpsilonTo").value - 
-					document.getElementById("svmPEpsilonFrom").value) / document.getElementById("svmPEpsilonStep").value + 0.001);
+					document.getElementById("svmPEpsilonFrom").value) / document.getElementById("svmPEpsilonStep").value);
 			var numModelsPerSplit = numDifferentPEpsilons * numDifferentNus * numDifferentCosts * numDifferentGammas * numDifferentDegrees;
 
 			timeEstimateMins = selectedDatasetNumCompounds * numSplits * numModelsPerSplit * 0.00022;
