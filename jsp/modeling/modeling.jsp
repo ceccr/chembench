@@ -209,7 +209,7 @@
 		For more information about creating predictors and selecting the right parameters, use the 
 		<a href="/help-modeling">Modeling help page</a>. </p>
 		<p class="StandardTextDarkGrayParagraph">The full modeling workflow, as described in our 
-		<a href="/help-workflows">"Workflow help page</a>, is detailed the publication: 
+		<a href="/help-workflows">Workflow help page</a>, is detailed the publication: 
 		<a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full">Tropsha, A. Best Practices for QSAR Model Development, 
 		Validation, and Exploitation Mol. Inf., 2010, 29, 476-488</a></p>
 		</td>
