@@ -36,6 +36,9 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class PopulateDataObjects {
 
+	//Every time we need to get an object or set of objects from the database
+	//we do it from here.
+	
 	@SuppressWarnings("unchecked")
 	public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session) throws Exception{
 		ArrayList<PredictionValue> predictionValues = null; //will contain all predvalues for this compound
@@ -524,8 +527,6 @@ public class PopulateDataObjects {
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 
