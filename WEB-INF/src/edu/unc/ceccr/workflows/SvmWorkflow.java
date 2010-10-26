@@ -416,6 +416,7 @@ public class SvmWorkflow{
 			PredictionValue pv = new PredictionValue();
 			pv.setCompoundName(compoundNames.get(i));
 			pv.setPredictedValue(new Float(0.0));
+			pv.setPredictorId(predictorId);
 			predictionValues.add(pv);
 		}
 		

@@ -530,7 +530,7 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(e);
 		} 
 
-		if(predictor.getDatasetId() != null && getDataSetById(predictor.getDatasetId(), session) != null){
+		if(predictor != null && predictor.getDatasetId() != null && getDataSetById(predictor.getDatasetId(), session) != null){
 			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
 		}
 		return predictor;
