@@ -361,9 +361,10 @@ public class SvmWorkflow{
 									if(new File(workingDir + modelFileName).exists()){
 										FileAndDirOperations.deleteFile(workingDir + modelFileName);
 									}
-									if(new File(workingDir + predictionOutputFileName).exists()){
-										FileAndDirOperations.deleteFile(workingDir + predictionOutputFileName);
-									}
+								}
+								//pred-test file is no longer needed 
+								if(new File(workingDir + predictionOutputFileName).exists()){
+									FileAndDirOperations.deleteFile(workingDir + predictionOutputFileName);
 								}
 								
 								//read MSE and correlation coeff. for prediction
