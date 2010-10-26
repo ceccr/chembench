@@ -40,6 +40,11 @@
 		</tr>
 		</s:iterator>
 		</table>
+		<s:if test="ccr!=''">
+		<p class="StandardTextDarkGray">
+		CCR for external set: <b><s:property value="ccr" /></b>
+		</p>
+		</s:if>
 	</s:elseif>
 	<br />
 	<!-- End External Validation Chart -->

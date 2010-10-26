@@ -45,7 +45,7 @@
 		</table>
 		<s:if test="ccr!=''">
 		<p class="StandardTextDarkGray">
-		R<sup>2</sup> for external set: <b><s:property value="rSquared" /></b>
+		CCR for external set: <b><s:property value="ccr" /></b>
 		</p>
 		</s:if>
 	</s:elseif>
