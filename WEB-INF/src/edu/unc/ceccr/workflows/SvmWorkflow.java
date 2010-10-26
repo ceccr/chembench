@@ -478,6 +478,8 @@ public class SvmWorkflow{
 					j++;
 				}
 			}
+			//This is the last time we'll need the external prediction output. Delete it.
+			FileAndDirOperations.deleteFile(workingDir + files[i]);
 		}
 		
 		//Each predictionValue contains the sum of all predicted values. 

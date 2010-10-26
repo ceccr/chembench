@@ -5,6 +5,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
@@ -64,7 +65,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 			else{
 				//get the % done of the overall prediction
-				
+
 				if(allPredsTotalModels < 0){
 					//we haven't read the needed predictor data yet
 					//get the number of models in all predictors, and their names
@@ -109,6 +110,13 @@ public class QsarPredictionTask extends WorkflowTask {
 					    }
 					    modelsPredictedSoFar += count - 4; //there are 4 header lines 
 					}
+					else{
+						//SVM will just have a bunch of files ending in ".pred". Count them to get progress.
+						File dir = new File(filePath + selectedPredictorNames.get(i) + "/");
+						modelsPredictedSoFar += (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {
+							return arg1.endsWith(".pred");}}).length);
+					}
+					
 					
 				}
 				if(allPredsTotalModels == 0){
