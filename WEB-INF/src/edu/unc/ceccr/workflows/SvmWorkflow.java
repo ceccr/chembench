@@ -415,6 +415,7 @@ public class SvmWorkflow{
 		for(int i = 0; i < compoundNames.size(); i++){
 			PredictionValue pv = new PredictionValue();
 			pv.setCompoundName(compoundNames.get(i));
+			pv.setPredictedValue(new Float(0.0));
 			predictionValues.add(pv);
 		}
 		
@@ -422,7 +423,6 @@ public class SvmWorkflow{
 		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".pred");}});
 		for(int i = 0; i < files.length; i++){
 			//open the prediction file and get the results for each compound.
-			Utility.writeToDebug("reading from file: " + workingDir + files[i]);
 			BufferedReader in = new BufferedReader(new FileReader(workingDir + files[i]));
 			String line;
 			int j = 0;
