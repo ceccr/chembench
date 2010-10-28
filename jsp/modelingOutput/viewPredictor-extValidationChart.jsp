@@ -38,6 +38,10 @@
 		</span>
 	</tr>
 	
+</table>
+</td>
+</tr>
+</table>
 
 <!-- BEGIN image and image map -->
 <p>
@@ -48,10 +52,6 @@
 </p>
 <!-- END image and image map -->
 
-</table>
-</td>
-</tr>
-</table>
 
 </body>
 </html>
