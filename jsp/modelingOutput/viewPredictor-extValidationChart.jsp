@@ -16,15 +16,12 @@
 	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
-	<script language="JavaScript" src="javascript/script.js"></script>
-	<script language="JavaScript" src="javascript/sortableTable-delay.js"></script>
+	<script language="JavaScript" src="/javascript/script.js"></script>
+	<script src="/javascript/jtip.js" type="text/javascript"></script>
+	<script src="/javascript/jquery-1.4.2-development.js" type="text/javascript"></script>
 	
-	<link type="text/css" rel="stylesheet" media="all" href="jtip.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="/theme/jtip.css" />
 	
-	<!-- load jQuery -->
-	<script src="jquery-1.4.2-development.js" type="text/javascript"></script>
-	<!-- load jTip -->
-	<script src="jtip.js" type="text/javascript"></script>
 </head>
 
 <body onload="setTabToMyBench();">

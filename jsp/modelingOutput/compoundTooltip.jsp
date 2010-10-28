@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<script src="http://cdn.jquerytools.org/1.2.5/full/jquery.tools.min.js" type="text/javascript"></script>
+<script src="/javascript/jquery-1.4.2-development.js" type="text/javascript"></script>
 <script language="javascript">
 
 </script>
