@@ -219,8 +219,7 @@
 		<tr><td colspan="2"> 
 			<div class="StandardTextDarkGray">One or more of your jobs has encountered an error and
 			cannot be completed. The Chembench administrators have been contacted and will 
-			resolve the issue as soon as possible. We will let you know when the error is fixed
-			so that you may resubmit your job.</div>
+			resolve the issue as soon as possible. We will let you know when the error is fixed.</div>
 		</td></tr>
 		<tr><td colspan="2"> 
 		<table class="sortable">

@@ -107,18 +107,18 @@ public class RunExternalProgram {
 			if(outputRunningMessage){
 				Utility.writeToDebug("Running external program " + cmd + " in dir: " + workingDir);
 			}
-			
-			p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
-		
+
 			//capture program output in log file
 			File file=new File(workingDir + "/Logs/");
 			if(!file.exists()){
 				file.mkdirs();
 			}
-			
+
 			InputStream stdout = p.getInputStream();
 			InputStream errout = p.getErrorStream();
 			
+			p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
+		
 			FileOutputStream logFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".log"));
 			FileOutputStream errFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".err"));
 			StreamGobbler outputGobbler = new StreamGobbler(stdout, "stdout", logFileOS);  

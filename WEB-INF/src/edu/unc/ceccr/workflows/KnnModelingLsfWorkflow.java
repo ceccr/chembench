@@ -101,7 +101,7 @@ public class KnnModelingLsfWorkflow{
 	}
 	
 	public static String getLsfJobId(String logFilePath) throws Exception{
-		Thread.sleep(800); //give the file time to close properly? I guess?
+		Thread.sleep(200); //give the file time to close properly? I guess?
 		BufferedReader in = new BufferedReader(new FileReader(logFilePath));
 		String line = in.readLine(); //junk
 		Scanner sc = new Scanner(line);
