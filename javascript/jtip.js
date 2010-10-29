@@ -38,15 +38,15 @@ function JT_show(url,linkId,title,posX,posY){
 	var w = self.innerWidth || (de&&de.clientWidth) || document.body.clientWidth;
 	var hasArea = w - getAbsoluteLeft(linkId);
 	var clickElementy = posY; //set y position/
-	var queryString = url.replace(/^[^\?]+\??/,'');/
-	var params = parseQuery( queryString );/
-	if(params['width'] === undefined){params['width'] = 250};/
-	if(params['link'] !== undefined){/
-	$('#' + linkId).bind('click',function(){window.location = params['link']});/
-	$('#' + linkId).css('cursor','pointer');/
+	var queryString = url.replace(/^[^\?]+\??/,'');
+	var params = parseQuery( queryString );
+	if(params['width'] === undefined){params['width'] = 250};
+	if(params['link'] !== undefined){
+	$('#' + linkId).bind('click',function(){window.location = params['link']});
+	$('#' + linkId).css('cursor','pointer');
 	}
 
-	if(hasArea>((params['width']*1)+75)){/
+	if(hasArea>((params['width']*1)+75)){
 		$("body").append("<div id='JT' style='width:"+params['width']*1+"px'><div id='JT_arrow_left'></div><div id='JT_close_left'>"+title+"</div><div id='JT_copy'><div class='JT_loader'><div></div></div>");//right side
 		var clickElementx = posX; //set x position
 	}else{
