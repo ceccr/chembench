@@ -17,8 +17,8 @@
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
 	<script language="JavaScript" src="/javascript/script.js"></script>
-	<script src="/javascript/jtip.js" type="text/javascript"></script>
 	<script src="/javascript/jquery-1.4.2-development.js" type="text/javascript"></script>
+	<script src="/javascript/jtip.js" type="text/javascript"></script>
 	
 	<link type="text/css" rel="stylesheet" media="all" href="/theme/jtip.css" />
 	
