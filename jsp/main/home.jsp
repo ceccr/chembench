@@ -35,12 +35,6 @@
       to mine available chemical and biological data. Chembench can help researchers rationally design or 
       select new compounds or compound libraries with significantly enhanced hit rates in screening experiments.</p>
       <p class="ccbHomeStandard"><img src="/theme/ccbTheme/images/ccbHomeMolecule3d.jpg" height="97" /></p>
-      <p align="justify" class="ccbHomeStandard">It provides cheminformatics research support to molecular 
-      modelers, experimental chemists in the Chemical Synthesis Centers and quantitative biologists in the 
-      Molecular Libraries Probe Production Centers Network (MLPCN)</a> 
-      by integrating robust model builders, property and activity predictors, virtual library of available 
-      chemicals with predicted biological and drug-like properties, and special tools for chemical library 
-      design.</p>
       <p align="justify" class="ccbHomeStandard">It provides cheminformatics research support to molecular modelers, medicinal chemists and 
       quantitative biologists by integrating robust model builders, property and activity predictors, 
       virtual libraries of available chemicals with predicted biological and drug-like properties, 

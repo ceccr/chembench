@@ -376,6 +376,21 @@ public class QsarPredictionTask extends WorkflowTask {
 				predValues = RandomForestWorkflow.readPredictionOutput(predictionDir, selectedPredictor.getPredictorId());
 			}
 			
+			//remove copied dataset and predictor; they are redundant
+			try{
+				String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/" + predictionDataset.getFileName() + "/").list();
+				String[] predictorDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/" + selectedPredictor.getName() + "/").list();
+				for(String fileName : datasetDirFiles){
+					FileAndDirOperations.deleteFile(predictionDir + fileName);
+				}
+				for(String fileName : predictorDirFiles){
+					FileAndDirOperations.deleteFile(predictionDir + fileName);
+				}
+			}
+			catch(Exception ex){
+				Utility.writeToDebug(ex);
+			}
+			
 			//ArrayList<PredictionValue> predValues = parsePredOutput(predictionDir + Constants.PRED_OUTPUT_FILE, selectedPredictor.getPredictorId());
 			Utility.writeToDebug("ExecPredictorActionTask: Complete", userName, jobName);
 			

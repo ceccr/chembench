@@ -3,9 +3,6 @@
 <struts-config>
 	<data-sources></data-sources>
 	<form-beans>
-		<form-bean name="viewOutputForm"
-			type="edu.unc.ceccr.formbean.ViewOutputFormBean">
-		</form-bean>
 		<form-bean name="loginForm"
 			type="edu.unc.ceccr.formbean.LoginFormBean">
 		</form-bean>
