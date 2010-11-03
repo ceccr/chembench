@@ -378,8 +378,8 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			//remove copied dataset and predictor; they are redundant
 			try{
-				String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/" + predictionDataset.getFileName() + "/").list();
-				String[] predictorDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/" + selectedPredictor.getName() + "/").list();
+				String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/").list();
+				String[] predictorDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + selectedPredictor.getName() + "/").list();
 				for(String fileName : datasetDirFiles){
 					FileAndDirOperations.deleteFile(predictionDir + fileName);
 				}
