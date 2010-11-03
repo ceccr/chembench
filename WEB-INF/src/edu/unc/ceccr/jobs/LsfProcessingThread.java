@@ -50,7 +50,7 @@ public class LsfProcessingThread extends Thread {
 									ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
 									for(LsfJobStatus jobStatus : lsfJobStatuses){
 										if(jobStatus.jobid.equals(j.getLsfJobId()) &&
-											(jobStatus.stat.equals("PEND") || jobStatus.stat.equals("RUN"))){
+											(jobStatus.stat.equals("PEND") || jobStatus.stat.equals("RUN") || jobStatus.stat.equals("SSUSP") )){
 											//job is already running, so don't do anything to it
 											jobIsRunningAlready = true;
 											if(j.getJobType().equals(Constants.MODELING)){
