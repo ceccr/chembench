@@ -114,10 +114,10 @@ public class RunExternalProgram {
 				file.mkdirs();
 			}
 
-			InputStream stdout = p.getInputStream();
-			InputStream errout = p.getErrorStream();
 			
 			p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
+			InputStream stdout = p.getInputStream();
+			InputStream errout = p.getErrorStream();
 		
 			FileOutputStream logFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".log"));
 			FileOutputStream errFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".err"));
