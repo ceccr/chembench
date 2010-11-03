@@ -98,23 +98,19 @@ public class QsarPredictionTask extends WorkflowTask {
 					
 					if(predOutFile.exists()){
 						//quickly count the number of lines in the output file for this predictor
-						InputStream is = new BufferedInputStream(new FileInputStream(predOutFile));
-					    byte[] c = new byte[1024];
-					    int count = 0;
-					    int readChars = 0;
-					    while ((readChars = is.read(c)) != -1) {
-					        for (int j = 0; j < readChars; ++j) {
-					            if (c[j] == '\n')
-					                ++count;
-					        }
-					    }
-					    modelsPredictedSoFar += count - 4; //there are 4 header lines 
+						//there are 4 header lines 
+						modelsPredictedSoFar += FileAndDirOperations.getNumLinesInFile(predOutFile.getAbsolutePath()) - 4; 
 					}
 					else{
 						//SVM will just have a bunch of files ending in ".pred". Count them to get progress.
-						File dir = new File(filePath + selectedPredictorNames.get(i) + "/");
-						modelsPredictedSoFar += (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {
-							return arg1.endsWith(".pred");}}).length);
+						try{
+							File dir = new File(filePath + selectedPredictorNames.get(i) + "/");
+							modelsPredictedSoFar += (dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {
+								return arg1.endsWith(".pred");}}).length);
+						}
+						catch(Exception ex){
+							//whatever...
+						}
 					}
 					
 					
@@ -381,10 +377,14 @@ public class QsarPredictionTask extends WorkflowTask {
 				String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/").list();
 				String[] predictorDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + selectedPredictor.getName() + "/").list();
 				for(String fileName : datasetDirFiles){
-					FileAndDirOperations.deleteFile(predictionDir + fileName);
+					if(new File(predictionDir + fileName).exists()){
+							FileAndDirOperations.deleteFile(predictionDir + fileName);
+					}
 				}
 				for(String fileName : predictorDirFiles){
-					FileAndDirOperations.deleteFile(predictionDir + fileName);
+					if(new File(predictionDir + fileName).exists()){
+							FileAndDirOperations.deleteFile(predictionDir + fileName);
+					}
 				}
 			}
 			catch(Exception ex){
@@ -406,7 +406,9 @@ public class QsarPredictionTask extends WorkflowTask {
 		try{
 			String[] baseDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/").list();
 			for(String fileName : baseDirFiles){
-				FileAndDirOperations.deleteFile(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/" + fileName);
+				if(new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/" + fileName).exists()){
+					FileAndDirOperations.deleteFile(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/" + fileName);
+				}
 			}
 		}
 		catch(Exception ex){
