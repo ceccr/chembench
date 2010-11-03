@@ -400,9 +400,18 @@ public class QsarPredictionTask extends WorkflowTask {
 			//  done with 5. (get output, put it into predictionValue objects and save them)
 			
 		}
-		//}
 		
-		
+		//remove prediction dataset descriptors from prediction output dir;
+		//they are not needed
+		try{
+			String[] baseDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/").list();
+			for(String fileName : baseDirFiles){
+				FileAndDirOperations.deleteFile(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/" + fileName);
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 	}
 	
 	public void postProcess() throws Exception {
