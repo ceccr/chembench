@@ -472,6 +472,15 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 	}
 	
+	public static void removeExcessFiles(String dir) {
+		try{
+			
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+	}
+	
 	public void delete() throws Exception {
 		
 	}

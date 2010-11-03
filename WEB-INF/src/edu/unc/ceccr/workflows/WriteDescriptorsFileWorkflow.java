@@ -50,7 +50,16 @@ public class WriteDescriptorsFileWorkflow{
 				if(Float.parseFloat(descriptorValues.get(j)) > Float.parseFloat(descriptorValueMaxima.get(j))){
 					descriptorValueMaxima.set(j, descriptorValues.get(j));
 				}
+				Utility.writeToDebug("");
+				try{
+					Float totalSoFar = Float.parseFloat(descriptorValueAvgs.get(j));
+				}
+				catch(Exception ex){
+					//the hell's going on here?
+					Utility.writeToDebug("value attempted: " + descriptorValueAvgs.get(j) + " i is: " + i + "matrixSize is: " + descriptorMatrix.size() + " j is: " + j + " num values is: " + descriptorValues.size());
+				}
 				Float totalSoFar = Float.parseFloat(descriptorValueAvgs.get(j));
+				
 				descriptorValueAvgs.set(j, Utility.floatToString(Float.parseFloat(descriptorValues.get(j)) + totalSoFar));
 			}
 			descriptorValues.clear(); //cleanup
