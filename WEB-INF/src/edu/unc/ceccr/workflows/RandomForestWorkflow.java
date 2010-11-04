@@ -361,6 +361,7 @@ public class RandomForestWorkflow{
 		String xFile = sdfile + ".renorm.x";
 		String newXFile = "RF_" + xFile;
 		preProcessXFile(predictor.getScalingType(), xFile, newXFile, workingDir);
+		FileAndDirOperations.deleteFile(workingDir + xFile);
 		
 		String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
 		String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
