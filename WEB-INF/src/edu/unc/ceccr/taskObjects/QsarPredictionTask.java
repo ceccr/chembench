@@ -375,12 +375,17 @@ public class QsarPredictionTask extends WorkflowTask {
 			//remove copied dataset and predictor; they are redundant
 			try{
 				String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/").list();
+				String[] datasetDescDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/Descriptors/").list();
 				String[] predictorDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + selectedPredictor.getName() + "/").list();
 				for(String fileName : datasetDirFiles){
 					if(new File(predictionDir + fileName).exists()){
 							FileAndDirOperations.deleteFile(predictionDir + fileName);
 					}
+				}for(String fileName : datasetDescDirFiles){
+					if(new File(predictionDir + fileName).exists()){
+						FileAndDirOperations.deleteFile(predictionDir + fileName);
 				}
+			}
 				for(String fileName : predictorDirFiles){
 					if(new File(predictionDir + fileName).exists()){
 							FileAndDirOperations.deleteFile(predictionDir + fileName);
@@ -404,10 +409,10 @@ public class QsarPredictionTask extends WorkflowTask {
 		//remove prediction dataset descriptors from prediction output dir;
 		//they are not needed
 		try{
-			String[] baseDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/").list();
+			String[] baseDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/").list();
 			for(String fileName : baseDirFiles){
-				if(new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/" + fileName).exists()){
-					FileAndDirOperations.deleteFile(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/" + fileName);
+				if(new File(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/" + fileName).exists()){
+					FileAndDirOperations.deleteFile(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/" + fileName);
 				}
 			}
 		}
@@ -470,15 +475,6 @@ public class QsarPredictionTask extends WorkflowTask {
 			catch(Exception ex){
 				Utility.writeToDebug(ex);
 			}
-	}
-	
-	public static void removeExcessFiles(String dir) {
-		try{
-			
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
 	}
 	
 	public void delete() throws Exception {
