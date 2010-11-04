@@ -235,6 +235,13 @@ public class ReadDescriptorsFileWorkflow{
 			}
 			String descriptorString = new String("");
 			while(tok.hasNext()){
+				String val = tok.next();
+				if(val.contains("NaN")){
+					//there's a divide-by-zero error for MOE2D sometimes
+					//only happens on a few descriptors, so it should be
+					//OK to just call it a 0 and move on.
+					val = "0";
+				}
 				descriptorString += tok.next() + " ";
 			}
 			if(! descriptorString.equalsIgnoreCase("")){
