@@ -242,7 +242,7 @@ public class ReadDescriptorsFileWorkflow{
 					//OK to just call it a 0 and move on.
 					val = "0";
 				}
-				descriptorString += tok.next() + " ";
+				descriptorString += val + " ";
 			}
 			if(! descriptorString.equalsIgnoreCase("")){
 				Descriptors di = new Descriptors();
