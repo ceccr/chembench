@@ -76,9 +76,11 @@ public class KnnPredictionWorkflow{
 		
 		ArrayList<String> compoundNames = null;
 		if(sdFile.toLowerCase().endsWith("sdf")){
+			Utility.writeToDebug("reading compound names from SDF: " + workingDir + sdFile);
 			compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdFile);
 		}
 		else{
+			Utility.writeToDebug("reading compound names from X file: " + workingDir + sdFile);
 			compoundNames = DatasetFileOperations.getXCompoundNames(workingDir + sdFile);
 		}
 		
