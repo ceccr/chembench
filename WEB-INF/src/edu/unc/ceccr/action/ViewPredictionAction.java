@@ -239,14 +239,16 @@ public class ViewPredictionAction extends ActionSupport {
 	private void populateCompoundPredictionValues(Session session) throws Exception{
 		
 		//get compounds from SDF
-		String predictionDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/";
+		String datasetDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
 		ArrayList<String> compounds = null;
 		
 		if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){
-			compounds = DatasetFileOperations.getXCompoundNames(predictionDir + dataset.getXFile());
+			compounds = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
+			Utility.writeToDebug("" + compounds.size() + " compounds found in X file.");
 		}
 		else{
-			compounds = DatasetFileOperations.getSDFCompoundNames(predictionDir + dataset.getSdfFile());
+			compounds = DatasetFileOperations.getSDFCompoundNames(datasetDir + dataset.getSdfFile());
+			Utility.writeToDebug("" + compounds.size() + " compounds found in SDF.");
 		}
 		
 		Utility.writeToDebug("getting from db");
