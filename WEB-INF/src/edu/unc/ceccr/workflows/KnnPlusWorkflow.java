@@ -585,7 +585,7 @@ public static ArrayList<PredictionValue> readPredictionOutput(String workingDir,
 			p.setNumTotalModels(predictionMatrix.size());
 			p.setPredictedValue(mean);
 			p.setStandardDeviation(stddev);
-			p.setCompoundName(compoundNames.get(i+2));
+			p.setCompoundName(compoundNames.get(i));
 			p.setPredictorId(predictorId);
 			
 			predictionValues.add(p);

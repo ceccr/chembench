@@ -60,8 +60,9 @@ public class KnnPredictionWorkflow{
 	}
 	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String sdFile) throws Exception{
+		//NOTE: THIS IS THE VERSION USED FOR KNN ONLY. For knn+, go to knnPlusWorkflow.java.
 		
-        //read prediction output
+        //read prediction output for a kNN job.
 		//sample output filename: cons_pred_vs_anticonvulsants_91.sdf.renorm.preds
 		String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_" + sdFile.toLowerCase()  + ".renorm.preds"; //the ".preds" is added automatically by knn+
     	Utility.writeToDebug("Reading file: " + workingDir + outputFile);
