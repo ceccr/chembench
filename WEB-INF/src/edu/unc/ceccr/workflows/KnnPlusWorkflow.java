@@ -493,9 +493,18 @@ public static ArrayList<PredictionValue> readPredictionOutput(String workingDir,
 		
 		//The first four lines are all header data
 		in.readLine(); //junk
-		inputString = in.readLine(); //compound names are here; we'll need them
-		String[] compoundNames = inputString.split("\\s+");
+		in.readLine(); //compound names are here, but we get those from the SDF or X instead (knn+ output is buggy on this line)
 		
+		
+		ArrayList<String> compoundNames = null;
+		if(sdfile.toLowerCase().endsWith("sdf")){
+			Utility.writeToDebug("reading compound names from SDF: " + workingDir + sdfile);
+			compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
+		}
+		else{
+			Utility.writeToDebug("reading compound names from X file: " + workingDir + sdfile);
+			compoundNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
+		}
 		in.readLine(); //junk
 		in.readLine(); //junk
 		
@@ -576,7 +585,7 @@ public static ArrayList<PredictionValue> readPredictionOutput(String workingDir,
 			p.setNumTotalModels(predictionMatrix.size());
 			p.setPredictedValue(mean);
 			p.setStandardDeviation(stddev);
-			p.setCompoundName(compoundNames[i+2]);
+			p.setCompoundName(compoundNames.get(i+2));
 			p.setPredictorId(predictorId);
 			
 			predictionValues.add(p);

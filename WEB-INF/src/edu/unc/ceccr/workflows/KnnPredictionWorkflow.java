@@ -15,7 +15,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class KnnPredictionWorkflow{
@@ -71,19 +70,8 @@ public class KnnPredictionWorkflow{
 		
 		//The first four lines are all header data
 		in.readLine(); //junk
-		in.readLine(); //compound names are here, but we get those from the SDF or X instead (knn+ output is buggy on this line)
-		
-		
-		ArrayList<String> compoundNames = null;
-		if(sdFile.toLowerCase().endsWith("sdf")){
-			Utility.writeToDebug("reading compound names from SDF: " + workingDir + sdFile);
-			compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdFile);
-		}
-		else{
-			Utility.writeToDebug("reading compound names from X file: " + workingDir + sdFile);
-			compoundNames = DatasetFileOperations.getXCompoundNames(workingDir + sdFile);
-		}
-		
+		inputString = in.readLine(); //compound names are here; we'll need them
+		String[] compoundNames = inputString.split("\\s+");
 		
 		in.readLine(); //junk
 		in.readLine(); //junk
@@ -166,7 +154,7 @@ public class KnnPredictionWorkflow{
 			p.setNumTotalModels(predictionMatrix.size());
 			p.setPredictedValue(mean);
 			p.setStandardDeviation(stddev);
-			p.setCompoundName(compoundNames.get(i));
+			p.setCompoundName(compoundNames[i+2]);
 			p.setPredictorId(predictorId);
 			
 			predictionValues.add(p);
