@@ -4,6 +4,7 @@ import java.io.*;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
@@ -112,6 +113,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 					workingDir + predictorXFile, 
 					scalingType);
 			
+			FileAndDirOperations.deleteFile(workingDir + descriptorsFile + "_" + filePartNumber);
 			
 			filePartNumber++;
 			descriptorsFilePart = new File(workingDir + descriptorsFile + "_" + filePartNumber);
@@ -413,7 +415,8 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 				xFileOut.write(currentLine);
 				compoundIndex++;
 			}	
-			
+			br.close();
+			FileAndDirOperations.deleteFile(workingDir + outputXFile + "_" + filePartNumber);
 			filePartNumber++;
 			xFilePart = new File(workingDir + outputXFile + "_" + filePartNumber);
 		}

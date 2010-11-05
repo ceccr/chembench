@@ -194,13 +194,13 @@ public class ReadDescriptorsFileWorkflow{
 			while(tok.hasNext()){
 				descriptor = Integer.parseInt(tok.next());
 				for(int i = last; i < descriptor; i++){
-					descriptorString += 0 + " ";
+					descriptorString += "0 ";
 				}
-				descriptorString += 1 + " ";
+				descriptorString += "1 ";
 				last = descriptor + 1;
 			}
 			for(int i = last; i < Constants.NUM_MACCS_KEYS; i++){
-				descriptorString += 0 + " ";
+				descriptorString += "0 ";
 			}
 			Descriptors di = new Descriptors();
 			di.setDescriptorValues(descriptorString);
