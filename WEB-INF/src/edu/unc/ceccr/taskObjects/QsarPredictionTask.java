@@ -182,7 +182,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			ArrayList<PredictionValue> pvalues = PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(prediction.getPredictionId(),
 					p.getPredictorId(), s);
-			if(pvalues != null && ! pvalues.isEmpty()){
+			if(pvalues == null || pvalues.isEmpty()){
 				selectedPredictors.add(p);
 			}		
 		}
