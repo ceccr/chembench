@@ -401,6 +401,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			try {
 				tx = s.beginTransaction();
 				for(PredictionValue pv : predValues){
+					pv.setPredictionId(prediction.getPredictionId());
 					s.saveOrUpdate(pv);
 				}
 				tx.commit();
