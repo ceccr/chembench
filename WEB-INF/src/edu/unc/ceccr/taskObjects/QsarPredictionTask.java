@@ -41,7 +41,6 @@ import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
 
 public class QsarPredictionTask extends WorkflowTask {
 
-	ArrayList<PredictionValue> allPredValues = new ArrayList<PredictionValue>();
 	private String filePath;
 	private String jobName;
 	private String sdf;
@@ -397,6 +396,24 @@ public class QsarPredictionTask extends WorkflowTask {
 				predValues = RandomForestWorkflow.readPredictionOutput(predictionDir, selectedPredictor.getPredictorId());
 			}
 			
+			Session s = HibernateUtil.getSession();
+			Transaction tx = null;
+			try {
+				tx = s.beginTransaction();
+				for(PredictionValue pv : predValues){
+					s.saveOrUpdate(pv);
+				}
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			} finally {
+				s.close();
+			}
+			
+			//  done with 5. (get output, put it into predictionValue objects and save them)
+			
 			//remove copied dataset and predictor; they are redundant
 			try{
 				String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/").list();
@@ -424,25 +441,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			//ArrayList<PredictionValue> predValues = parsePredOutput(predictionDir + Constants.PRED_OUTPUT_FILE, selectedPredictor.getPredictorId());
 			Utility.writeToDebug("ExecPredictorActionTask: Complete", userName, jobName);
 			
-			if(predValues != null){
-				allPredValues.addAll(predValues);
-			}
 			
-			//  done with 5. (get output, put it into predictionValue objects and save them)
-			Session s = HibernateUtil.getSession();
-			Transaction tx = null;
-			try {
-				tx = s.beginTransaction();
-				s.saveOrUpdate(predValues);
-				tx.commit();
-			} catch (RuntimeException e) {
-				if (tx != null)
-					tx.rollback();
-				Utility.writeToDebug(e);
-			} finally {
-				s.close();
-			}
-
 		}
 		
 		//remove prediction dataset descriptors from prediction output dir;
@@ -470,12 +469,6 @@ public class QsarPredictionTask extends WorkflowTask {
 		
 		try{
 
-			if(this.allPredValues == null){
-				Utility.writeToDebug("Warning: allPredValue is null.");
-			}
-			else{
-				Utility.writeToDebug("Saving prediction to database.");
-			}
 			
 			prediction.setJobCompleted(Constants.YES);
 			prediction.setStatus("saved");
