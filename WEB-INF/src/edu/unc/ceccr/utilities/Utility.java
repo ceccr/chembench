@@ -594,7 +594,7 @@ public class Utility {
         }
         return lengthFirstStr - lengthSecondStr;
     }
- 
+
 	public static String truncateString(String s, int numChars){
 		if(s != null && s.length() > numChars){
 			s = s.substring(0, numChars);

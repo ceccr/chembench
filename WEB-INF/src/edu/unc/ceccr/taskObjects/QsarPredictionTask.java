@@ -139,10 +139,22 @@ public class QsarPredictionTask extends WorkflowTask {
 		this.selectedPredictorIds = selectedPredictorIds;
 		this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/";
 		prediction = new Prediction();
+
+		Session s = HibernateUtil.getSession();
 		
+		selectedPredictors = new ArrayList<Predictor>();
+		String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
+
+		for(int i = 0; i < selectedPredictorIdArray.length; i++){
+			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
+			selectedPredictors.add(p);
+		}
+		s.close();
 	}
 	
-	public QsarPredictionTask(Prediction prediction){
+	public QsarPredictionTask(Prediction prediction) throws Exception{
+		//used when job is recovered on server restart
+		
 		this.prediction = prediction;
 		Long fileId = prediction.getDatasetId();
 		try{
@@ -158,6 +170,25 @@ public class QsarPredictionTask extends WorkflowTask {
 		this.cutoff = "" + prediction.getSimilarityCutoff();
 		this.selectedPredictorIds = prediction.getPredictorIds();
 		this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/";
+		
+		
+		Session s = HibernateUtil.getSession();
+		
+		selectedPredictors = new ArrayList<Predictor>();
+		String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
+
+		//load list of predictors. Remove any predictors that have already completed their predictions.
+		for(int i = 0; i < selectedPredictorIdArray.length; i++){
+			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
+			
+			ArrayList<PredictionValue> pvalues = PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(prediction.getPredictionId(),
+					p.getPredictorId(), s);
+			if(pvalues != null && ! pvalues.isEmpty()){
+				selectedPredictors.add(p);
+			}		
+		}
+		
+		s.close();
 		
 	}
 
@@ -233,11 +264,8 @@ public class QsarPredictionTask extends WorkflowTask {
 
 		Session s = HibernateUtil.getSession();
 		
-		selectedPredictors = new ArrayList<Predictor>();
-		String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
-
-		for(int i = 0; i < selectedPredictorIdArray.length; i++){
-			Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
+		for(int i = 0; i < selectedPredictors.size(); i++){
+			Predictor selectedPredictor = selectedPredictors.get(i);
 			
 			//We're keeping a count of how many times each predictor was used.
 	        //So, increment number of times used on each and save each predictor object.
@@ -253,8 +281,6 @@ public class QsarPredictionTask extends WorkflowTask {
 					tx.rollback();
 				Utility.writeToDebug(e);
 			}
-			
-			selectedPredictors.add(selectedPredictor);
 		}
 
 		
@@ -318,7 +344,6 @@ public class QsarPredictionTask extends WorkflowTask {
 			//	3. copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.
 			FileAndDirOperations.copyDirContents(path, predictionDir, false);
 			
-
 			if(selectedPredictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
 				//the prediction descriptors file name is different if the user provided a .x file.
 				sdfile = predictionDataset.getXFile();
@@ -402,8 +427,22 @@ public class QsarPredictionTask extends WorkflowTask {
 			if(predValues != null){
 				allPredValues.addAll(predValues);
 			}
-			//  done with 5. (get output, put it into predictionValue objects and save them)
 			
+			//  done with 5. (get output, put it into predictionValue objects and save them)
+			Session s = HibernateUtil.getSession();
+			Transaction tx = null;
+			try {
+				tx = s.beginTransaction();
+				s.saveOrUpdate(predValues);
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			} finally {
+				s.close();
+			}
+
 		}
 		
 		//remove prediction dataset descriptors from prediction output dir;
@@ -453,21 +492,6 @@ public class QsarPredictionTask extends WorkflowTask {
 				Utility.writeToDebug(e);
 			}
 			
-			try {
-				tx = session.beginTransaction();
-				for (PredictionValue predOutput : this.allPredValues){
-					predOutput.setPredictionId(prediction.getPredictionId());
-					session.saveOrUpdate(predOutput);
-				}		
-				tx.commit();
-			} catch (RuntimeException e) {
-				if (tx != null)
-					tx.rollback();
-				Utility.writeToDebug(e);
-			} finally {
-				session.close();
-			}
-
 			File dir=new File(Constants.CECCR_USER_BASE_PATH+this.userName+"/"+this.jobName+"/");
 			FileAndDirOperations.deleteDir(dir);
 			

@@ -39,6 +39,31 @@ public class PopulateDataObjects {
 	//Every time we need to get an object or set of objects from the database
 	//we do it from here.
 	
+
+	@SuppressWarnings("unchecked")
+	public static ArrayList<PredictionValue> getPredictionValuesByPredictionIdAndPredictorId(Long predictionId, Long predictorId, Session session) throws Exception{
+		ArrayList<PredictionValue> predictionValues = null; //will contain all predvalues for this compound
+		Transaction tx = null;
+		try
+		{
+			tx = session.beginTransaction();
+			predictionValues = (ArrayList<PredictionValue>) session.createCriteria(PredictionValue.class)
+			.add(Expression.eq("predictionId", predictionId))
+			.list();
+		} catch (Exception ex) {
+			Utility.writeToDebug(ex);
+			if (tx != null)
+				tx.rollback();
+		} 
+				
+		for(PredictionValue pv : predictionValues){
+			int numTotalModels = getPredictorById(pv.getPredictorId(), session).getNumTestModels();
+			pv.setNumTotalModels(numTotalModels);
+		}
+		return predictionValues;
+	}
+	
+	
 	@SuppressWarnings("unchecked")
 	public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session) throws Exception{
 		ArrayList<PredictionValue> predictionValues = null; //will contain all predvalues for this compound
