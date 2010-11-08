@@ -56,8 +56,10 @@ public class PopulateDataObjects {
 				tx.rollback();
 		} 
 				
+		if(predictionValue != null){
 			int numTotalModels = getPredictorById(predictionValue.getPredictorId(), session).getNumTestModels();
 			predictionValue.setNumTotalModels(numTotalModels);
+		}
 		return predictionValue;
 	}
 	
