@@ -180,11 +180,11 @@ public class QsarPredictionTask extends WorkflowTask {
 		for(int i = 0; i < selectedPredictorIdArray.length; i++){
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
 			
-			ArrayList<PredictionValue> pvalues = PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(prediction.getPredictionId(),
+			PredictionValue pvalue = PopulateDataObjects.getFirstPredictionValueByPredictionIdAndPredictorId(prediction.getPredictionId(),
 					p.getPredictorId(), s);
-			if(pvalues == null || pvalues.isEmpty()){
+			if(pvalue == null){
 				selectedPredictors.add(p);
-			}		
+			}
 		}
 		
 		s.close();
