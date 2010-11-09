@@ -362,14 +362,13 @@ public class DatasetFileOperations {
 				datasetCompounds.addAll(x_compounds);
 			}
 			Collections.sort(datasetCompounds);
-			ArrayList<String> externalCompounds = new ArrayList<String>();
 			String[] extCompoundsArray = externalCompoundList.replaceAll(",", " ").replaceAll("\\\n", " ").split("\\s+");
 			
 			String mismatches = "";
-			for(int i = 0; i < externalCompounds.size(); i++){
-				if(Collections.binarySearch(datasetCompounds, externalCompounds.get(i)) < 0){
+			for(int i = 0; i < extCompoundsArray.length; i++){
+				if(Collections.binarySearch(datasetCompounds, extCompoundsArray[i]) < 0){
 					//compound was not found in dataset. Output an error.
-					mismatches += " " + externalCompounds.get(i);
+					mismatches += " " + extCompoundsArray[i];
 				}
 			}
 			if(! mismatches.isEmpty()){
