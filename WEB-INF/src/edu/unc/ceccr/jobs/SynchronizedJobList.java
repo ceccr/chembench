@@ -182,7 +182,6 @@ public class SynchronizedJobList{
 			jobListCopy.addAll(jobList);
 			}
 			catch(Exception ex){
-				Utility.writeToDebug("over there");
 				Utility.writeToDebug(ex);
 			}
 			return jobListCopy;

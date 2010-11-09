@@ -171,7 +171,7 @@ public class DatasetFormActions extends ActionSupport{
 				try{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
 							actFileModeling, actFileModelingFileName, null, "", datasetName, 
-							dataTypeModeling, datasetType);
+							dataTypeModeling, datasetType, externalCompoundList);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -227,7 +227,7 @@ public class DatasetFormActions extends ActionSupport{
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, 
-							"", null, "", datasetName, dataTypeModeling, datasetType);
+							"", null, "", datasetName, dataTypeModeling, datasetType, externalCompoundList);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -290,7 +290,7 @@ public class DatasetFormActions extends ActionSupport{
 					}
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
 							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
-							dataTypeModeling, datasetType);
+							dataTypeModeling, datasetType, externalCompoundList);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -345,7 +345,7 @@ public class DatasetFormActions extends ActionSupport{
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
-							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType);
+							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType, externalCompoundList);
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);

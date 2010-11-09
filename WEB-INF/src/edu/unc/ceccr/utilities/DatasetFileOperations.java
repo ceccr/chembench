@@ -10,6 +10,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -154,7 +155,7 @@ public class DatasetFileOperations {
 	
 	public static ArrayList<String> uploadDataset(String userName, File sdfFile, String sdfFileName, File actFile, 
 			String actFileName, File xFile, String xFileName, String datasetName, 
-			String actFileType, String datasetType) throws Exception{
+			String actFileType, String datasetType, String externalCompoundList) throws Exception{
 		//will take care of the upload SDF, X, and ACT file
 		// in case of errors will delete the directory 
 			
@@ -348,6 +349,31 @@ public class DatasetFileOperations {
 			
 			if(! mismatches.isEmpty()){
 				msgs.add(ErrorMessages.COMPOUND_IDS_SDF_DONT_MATCH_X + mismatches);
+			}
+		}
+		
+		if(externalCompoundList != null && ! externalCompoundList.isEmpty()){
+			//check that the dataset actually contains all the compounds the user gave in the external compound list
+			ArrayList<String> datasetCompounds = new ArrayList<String>();
+			if(sdfFile != null){
+				datasetCompounds.addAll(sdf_compounds);
+			}
+			else{
+				datasetCompounds.addAll(x_compounds);
+			}
+			Collections.sort(datasetCompounds);
+			ArrayList<String> externalCompounds = new ArrayList<String>();
+			String[] extCompoundsArray = externalCompoundList.replaceAll(",", " ").replaceAll("\\\n", " ").split("\\s+");
+			
+			String mismatches = "";
+			for(int i = 0; i < externalCompounds.size(); i++){
+				if(Collections.binarySearch(datasetCompounds, externalCompounds.get(i)) < 0){
+					//compound was not found in dataset. Output an error.
+					mismatches += " " + externalCompounds.get(i);
+				}
+			}
+			if(! mismatches.isEmpty()){
+				msgs.add(ErrorMessages.EXTERNAL_COMPOUNDS_NOT_IN_DATASET + mismatches);
 			}
 		}
 		

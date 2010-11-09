@@ -67,10 +67,10 @@ public class DataSplitWorkflow{
 		Utility.writeToDebug("called splitModelingExternalGivenList in dir: " + workingdir + " actfile: " + actFileName + " xfile: " + xFileName);
 		
 		Utility.writeToDebug("total num compounds in external set: " + compoundIDs.length);
-		for(int i = 0 ; i< compoundIDs.length; i++){
+		/*for(int i = 0 ; i< compoundIDs.length; i++){
 			Utility.writeToDebug("id " + i + " : " + compoundIDs[i]);
-		}
-		Utility.writeToDebug(" compoundIdString: " + compoundIdString);
+		}*/
+		//Utility.writeToDebug(" compoundIdString: " + compoundIdString);
 		File inX = new File(workingdir + xFileName);
 		BufferedReader inXReader = new BufferedReader(new FileReader(inX));
 		File inAct = new File(workingdir + actFileName);

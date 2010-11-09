@@ -25,4 +25,5 @@ public class ErrorMessages {
 	public final static String SDF_CONTAINS_DUPLICATES=			"The SDF file you tried to upload contains duplicated compound ids:";
 	public final static String ACT_CONTAINS_DUPLICATES=			"The ACT file you tried to upload contains duplicated compound ids:";
 	public final static String X_CONTAINS_DUPLICATES=			"The X file you tried to upload contains duplicated compound ids:";	
+	public final static String EXTERNAL_COMPOUNDS_NOT_IN_DATASET= "The following external compounds you selected are missing from your dataset:";
 }
