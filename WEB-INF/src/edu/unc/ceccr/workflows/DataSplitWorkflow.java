@@ -26,6 +26,7 @@ public class DataSplitWorkflow{
 			String useActivityBinning) throws Exception {
 		//splits the input dataset into modeling and external validation set
 		
+		Utility.writeToDebug(numCompoundsExternalSet);
 		if((new Double(Double.parseDouble(numCompoundsExternalSet))).equals(new Double(0))){
 			//datasplit will do something weird if you specify 0 as the size. 
 			//Gotta do this manually.
