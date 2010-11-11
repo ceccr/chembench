@@ -50,7 +50,6 @@ public class WriteDescriptorsFileWorkflow{
 				if(Float.parseFloat(descriptorValues.get(j)) > Float.parseFloat(descriptorValueMaxima.get(j))){
 					descriptorValueMaxima.set(j, descriptorValues.get(j));
 				}
-				Utility.writeToDebug("");
 				Float totalSoFar = Float.parseFloat(descriptorValueAvgs.get(j));
 				
 				descriptorValueAvgs.set(j, Utility.floatToString(Float.parseFloat(descriptorValues.get(j)) + totalSoFar));

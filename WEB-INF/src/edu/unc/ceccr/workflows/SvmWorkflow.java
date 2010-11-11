@@ -81,6 +81,37 @@ public class SvmWorkflow{
 		out.close();
 	}
 	
+	public static void writeSvmModelingParamsFile(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
+		BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + "svm-params.txt")); 
+
+		out.write("cost-from: " + svmParameters.getSvmCostFrom() + "\n");
+		out.write("cost-to: " + svmParameters.getSvmCostTo() + "\n");
+		out.write("cost-step: " + svmParameters.getSvmCostStep() + "\n");
+		
+		out.write("gamma-from: " + svmParameters.getSvmGammaFrom() + "\n");
+		out.write("gamma-to: " + svmParameters.getSvmGammaTo() + "\n");
+		out.write("gamma-step: " + svmParameters.getSvmGammaStep() + "\n");
+
+		out.write("degree-from: " + svmParameters.getSvmDegreeFrom() + "\n");
+		out.write("degree-to: " + svmParameters.getSvmDegreeTo() + "\n");
+		out.write("degree-step: " + svmParameters.getSvmDegreeStep() + "\n");
+
+		out.write("nu-from: " + svmParameters.getSvmNuFrom() + "\n");
+		out.write("nu-to: " + svmParameters.getSvmNuTo() + "\n");
+		out.write("nu-step: " + svmParameters.getSvmNuStep() + "\n");
+		
+		out.write("loss-epsilon-from: " + svmParameters.getSvmPEpsilonFrom() + "\n");
+		out.write("loss-epsilon-to: " + svmParameters.getSvmPEpsilonTo() + "\n");
+		out.write("loss-epsilon-step: " + svmParameters.getSvmPEpsilonStep() + "\n");
+
+		out.write("model-acceptance-cutoff: " + svmParameters.getSvmCutoff() + "\n");
+		out.write("c-svc-weight: " + svmParameters.getSvmWeight() + "\n");
+		out.write("num-cross-validation-folds: " + svmParameters.getSvmCrossValidation() + "\n");
+		out.write("num-shrinking-heuristics: " + svmParameters.getSvmHeuristics() + "\n");
+		out.write("use-probability-heuristics: " + svmParameters.getSvmProbability() + "\n");
+		
+	}
+	
 	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
 		double cutoff = Double.parseDouble(svmParameters.getSvmCutoff());
 		
