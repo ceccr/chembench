@@ -84,6 +84,37 @@ public class SvmWorkflow{
 	public static void writeSvmModelingParamsFile(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
 		BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + "svm-params.txt")); 
 
+		
+
+		String svmType = "";
+		if(actFileDataType.equals(Constants.CATEGORY)){
+			svmType = svmParameters.getSvmTypeCategory();
+		}
+		else{
+			svmType = svmParameters.getSvmTypeContinuous();
+			if(svmType.equals("0")){
+				svmType = "3";
+			}
+			else{
+				svmType = "4";
+			}
+		}
+
+		out.write("list-file: " + "RAND_sets.list" + "\n");
+		out.write("modeling-dir: " + workingDir + "\n");
+		out.write("y-random-dir: " + workingDir + "yRandom/" + "\n");
+		
+		//basic parameters
+		out.write("svm-type: " + svmType + "\n");
+		
+		out.write("kernel-type: " + svmParameters.getSvmKernel() + "\n");
+		out.write("c-svc-weight: " + svmParameters.getSvmWeight() + "\n");
+		out.write("num-cross-validation-folds: " + svmParameters.getSvmCrossValidation() + "\n");
+		out.write("num-shrinking-heuristics: " + svmParameters.getSvmHeuristics() + "\n");
+		out.write("use-probability-heuristics: " + svmParameters.getSvmProbability() + "\n");
+		out.write("use-probability-heuristics: " + svmParameters.getSvmProbability() + "\n");
+		
+		//loop parameters
 		out.write("cost-from: " + svmParameters.getSvmCostFrom() + "\n");
 		out.write("cost-to: " + svmParameters.getSvmCostTo() + "\n");
 		out.write("cost-step: " + svmParameters.getSvmCostStep() + "\n");
@@ -104,11 +135,8 @@ public class SvmWorkflow{
 		out.write("loss-epsilon-to: " + svmParameters.getSvmPEpsilonTo() + "\n");
 		out.write("loss-epsilon-step: " + svmParameters.getSvmPEpsilonStep() + "\n");
 
+		//model acceptance parameters
 		out.write("model-acceptance-cutoff: " + svmParameters.getSvmCutoff() + "\n");
-		out.write("c-svc-weight: " + svmParameters.getSvmWeight() + "\n");
-		out.write("num-cross-validation-folds: " + svmParameters.getSvmCrossValidation() + "\n");
-		out.write("num-shrinking-heuristics: " + svmParameters.getSvmHeuristics() + "\n");
-		out.write("use-probability-heuristics: " + svmParameters.getSvmProbability() + "\n");
 		
 	}
 	
@@ -169,247 +197,11 @@ public class SvmWorkflow{
 				convertXtoSvm(data[0], data[1], workingDir);
 				convertXtoSvm(data[3], data[4], workingDir);
 			}
-			
-			//generate SVM models for this train-test split
-			
-			for(Float cost = Float.parseFloat(svmParameters.getSvmCostFrom()); 
-				cost <= Float.parseFloat(svmParameters.getSvmCostTo()); 
-				cost += Float.parseFloat(svmParameters.getSvmCostStep())){
-				
-				//remove annoying floating-point errors, if any
-				String costStr = "" + cost;
-				if(costStr.contains("0000")){
-					costStr = costStr.substring(0, costStr.indexOf("0000"));
-				}
-				
-				for(Float degree = Float.parseFloat(svmParameters.getSvmDegreeFrom());
-					degree <= Float.parseFloat(svmParameters.getSvmDegreeTo());
-					degree += Float.parseFloat(svmParameters.getSvmDegreeStep())){
-					
-					String degreeStr = "" + degree;
-					if(degreeStr.contains("0000")){
-						degreeStr = degreeStr.substring(0, degreeStr.indexOf("0000"));
-					}
-					
-					for(Float gamma = Float.parseFloat(svmParameters.getSvmGammaFrom());
-					gamma <= Float.parseFloat(svmParameters.getSvmGammaTo());
-					gamma += Float.parseFloat(svmParameters.getSvmGammaStep())){
-					
-						String gammaStr = "" + gamma;
-						if(gammaStr.contains("0000")){
-							gammaStr = gammaStr.substring(0, gammaStr.indexOf("0000"));
-						}
-						
-						for(Float nu = Float.parseFloat(svmParameters.getSvmNuFrom());
-						nu <= Float.parseFloat(svmParameters.getSvmNuTo());
-						nu += Float.parseFloat(svmParameters.getSvmNuStep())){
-						
-
-							String nuStr = "" + nu;
-							if(nuStr.contains("0000")){
-								nuStr = nuStr.substring(0, nuStr.indexOf("0000"));
-							}
-							
-							for(Float pEpsilon = Float.parseFloat(svmParameters.getSvmPEpsilonFrom());
-							pEpsilon <= Float.parseFloat(svmParameters.getSvmPEpsilonTo());
-							pEpsilon += Float.parseFloat(svmParameters.getSvmPEpsilonStep())){
-
-								String pEpsilonStr = "" + pEpsilon;
-								if(pEpsilonStr.contains("0000")){
-									pEpsilonStr = pEpsilonStr.substring(0, pEpsilonStr.indexOf("0000"));
-								}
-								
-								String command = "svm-train ";
-								
-								//svm type
-								String svmType = "";
-								if(actFileDataType.equals(Constants.CATEGORY)){
-									svmType = svmParameters.getSvmTypeCategory();
-								}
-								else{
-									svmType = svmParameters.getSvmTypeContinuous();
-									if(svmType.equals("0")){
-										svmType = "3";
-									}
-									else{
-										svmType = "4";
-									}
-								}
-								command += "-s " + svmType + " ";
-								
-								//kernel type
-								command += "-t " + svmParameters.getSvmKernel() + " ";
-									
-								//parameters from for loop
-								command += "-d " + degreeStr + " ";
-								command += "-g " + gammaStr + " ";
-								command += "-c " + costStr + " ";
-								command += "-n " + nuStr + " ";
-								command += "-p " + pEpsilonStr + " ";
-								
-								//tolerance
-								command += "-e " + svmParameters.getSvmEEpsilon() + " ";
-								
-								//shrinking and probability booleans
-								command += "-h " + svmParameters.getSvmHeuristics() + " ";
-								command += "-b " + svmParameters.getSvmProbability() + " ";
-								
-								//class weight parameter
-								command += "-wi " + svmParameters.getSvmWeight() + " ";
-								
-								//cross validation
-								if(Integer.parseInt(svmParameters.getSvmCrossValidation()) != 0){
-									command += "-v " + svmParameters.getSvmCrossValidation() + " ";
-								}
-
-								//input file name
-								String inputFile = data[0].replace(".x", ".svm");
-								command += " " + inputFile + " ";
-								
-								//output file name
-								String modelFileName = inputFile.replace(".svm", "") + "_d" + degreeStr + "_g" + gammaStr + "_c" + costStr + "_n" + nuStr + "_p" + pEpsilonStr + ".mod";
-								command += modelFileName;
-								
-								RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-train" + modelFileName);
-								
-								//run prediction on test set
-								String testFileName = data[3].replace(".x", ".svm");
-								String predictionOutputFileName = modelFileName + ".pred-test";
-								
-								String command2 = "svm-predict " + testFileName + " " + modelFileName + " " + predictionOutputFileName;
-								if(new File(workingDir + modelFileName).exists()){
-									RunExternalProgram.runCommandAndLogOutput(command2, workingDir, "svm-predict" + modelFileName);
-								}
-								else{
-									continue;
-								}
-								
-								//eliminate (delete) model if it doesn't pass its CCR or r^2 cutoff
-								
-								//get predicted and actual (test set) values from files
-								//read test .a file
-								String testActivityFileName = testFileName.replace(".svm", ".a");
-								
-								BufferedReader br = new BufferedReader(new FileReader(workingDir + testActivityFileName));
-								String line = "";
-								ArrayList<Double> testValues = new ArrayList<Double>();
-								while((line = br.readLine()) != null){
-									if(!line.isEmpty()){
-										String[] parts = line.split("\\s+");
-										testValues.add(Double.parseDouble(parts[1]));
-									}
-								}
-								br.close();
-								
-								//read predicted .a file
-								br = new BufferedReader(new FileReader(workingDir + predictionOutputFileName));
-								ArrayList<Double> predictedValues = new ArrayList<Double>();
-								while((line = br.readLine()) != null){
-									if(!line.isEmpty()){
-										predictedValues.add(Double.parseDouble(line));
-									}
-								}
-								br.close();
-								
-								if(testValues.size() != predictedValues.size()){
-									Utility.writeToDebug("Warning: test set act file has " + testValues.size() + 
-											" entries, but predicted file has " + 
-											predictedValues.size() + " entries for file: " + predictionOutputFileName);
-								}
-								
-								boolean modelIsGood = true;
-								
-								if(actFileDataType.equals(Constants.CONTINUOUS)){
-									//calculate r^2 for test set prediction
-									
-									Double avg = 0.0;
-									for(Double testValue : testValues){
-										avg += testValue;
-									}
-									avg /= testValues.size();
-									Double ssErr = 0.0;
-									for(int i = 0; i < testValues.size(); i++){
-										Double residual = testValues.get(i) - predictedValues.get(i);
-										ssErr += residual * residual;
-									}
-									Double ssTot = 0.0;
-									for(Double testValue : testValues){
-										ssTot += (testValue - avg) * (testValue - avg);
-									}
-									Double rSquared = 0.0;
-									if(ssTot != 0){
-										rSquared = Double.parseDouble(Utility.roundSignificantFigures("" + (1 - (ssErr / ssTot)), 4));
-									}
-
-									log.write(modelFileName + " r2: " + rSquared + "\n");
-									if(rSquared < cutoff){
-										modelIsGood = false;
-									}
-								}
-								else if(actFileDataType.equals(Constants.CATEGORY)){
-									//calculate CCR for test set prediction
-									
-									/*
-									1/2(TP/#pos + TN/#neg)
-									1/3(T1/#1 + T2/#2 + T3/#3)
-									*/
-									HashMap<Double, Integer> correctPredictionCounts = new HashMap<Double, Integer>();
-									HashMap<Double, Integer> observedValueCounts = new HashMap<Double, Integer>();
-									
-									for(int i = 0; i < testValues.size(); i++){
-										if(observedValueCounts.containsKey(testValues.get(i))){
-											observedValueCounts.put(testValues.get(i), observedValueCounts.get(testValues.get(i)) + 1);
-										}
-										else{
-											observedValueCounts.put(testValues.get(i), 1);
-										}
-										
-										if(predictedValues.get(i).equals(testValues.get(i))){
-											if(correctPredictionCounts.containsKey(testValues.get(i))){
-												correctPredictionCounts.put(testValues.get(i), correctPredictionCounts.get(testValues.get(i)) + 1);
-											}
-											else{
-												correctPredictionCounts.put(testValues.get(i), 1);
-											}
-										}
-									}
-									
-									Double ccr = 0.0;
-									for(Double d: correctPredictionCounts.keySet()){
-										ccr += new Double(correctPredictionCounts.get(d)) / new Double(observedValueCounts.get(d));
-									}
-									ccr = ccr / new Double(observedValueCounts.keySet().size());
-									
-									log.write(modelFileName + " ccr: " + ccr + "\n");
-									if(ccr < cutoff){
-										//Utility.writeToDebug("bad model: ccr = " + (numCorrect / (numCorrect + numIncorrect)));
-										modelIsGood = false;
-									}
-								}
-								log.flush();
-								if(! modelIsGood){
-									//delete it
-									if(new File(workingDir + modelFileName).exists()){
-										FileAndDirOperations.deleteFile(workingDir + modelFileName);
-									}
-								}
-								//pred-test file is no longer needed 
-								if(new File(workingDir + predictionOutputFileName).exists()){
-									FileAndDirOperations.deleteFile(workingDir + predictionOutputFileName);
-								}
-								
-								//read MSE and correlation coeff. for prediction
-								//String s = FileAndDirOperations.readFileIntoString(workingDir + "Logs/" + "svm-predict" + modelFileName + ".log");
-								//Utility.writeToDebug(s);
-								
-							}
-						}
-					}
-				}
-			}
 		}
 		log.close();			
 		in.close();
+		
+		//run modeling (exec python script)
 		
 	}
 	
