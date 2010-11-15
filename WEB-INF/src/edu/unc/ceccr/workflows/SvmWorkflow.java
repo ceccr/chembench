@@ -84,8 +84,6 @@ public class SvmWorkflow{
 	public static void writeSvmModelingParamsFile(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
 		BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + "svm-params.txt")); 
 
-		
-
 		String svmType = "";
 		if(actFileDataType.equals(Constants.CATEGORY)){
 			svmType = svmParameters.getSvmTypeCategory();
@@ -106,13 +104,13 @@ public class SvmWorkflow{
 		
 		//basic parameters
 		out.write("svm-type: " + svmType + "\n");
-		
 		out.write("kernel-type: " + svmParameters.getSvmKernel() + "\n");
-		out.write("c-svc-weight: " + svmParameters.getSvmWeight() + "\n");
-		out.write("num-cross-validation-folds: " + svmParameters.getSvmCrossValidation() + "\n");
+		
 		out.write("num-shrinking-heuristics: " + svmParameters.getSvmHeuristics() + "\n");
 		out.write("use-probability-heuristics: " + svmParameters.getSvmProbability() + "\n");
-		out.write("use-probability-heuristics: " + svmParameters.getSvmProbability() + "\n");
+		out.write("c-svc-weight: " + svmParameters.getSvmWeight() + "\n");
+		out.write("num-cross-validation-folds: " + svmParameters.getSvmCrossValidation() + "\n");
+		out.write("tolerance-for-termination: " + svmParameters.getSvmEEpsilon() + "\n");
 		
 		//loop parameters
 		out.write("cost-from: " + svmParameters.getSvmCostFrom() + "\n");
@@ -138,6 +136,7 @@ public class SvmWorkflow{
 		//model acceptance parameters
 		out.write("model-acceptance-cutoff: " + svmParameters.getSvmCutoff() + "\n");
 		
+		out.close();
 	}
 	
 	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
