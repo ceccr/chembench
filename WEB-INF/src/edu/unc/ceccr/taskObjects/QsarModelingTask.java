@@ -707,8 +707,8 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 			
 			step = Constants.MODELS;
+			SvmWorkflow.writeSvmModelingParamsFile(svmParameters, actFileDataType, path);
 			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path);
-			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path + "yRandom/");
 
 			step = Constants.PREDEXT;
 			SvmWorkflow.runSvmPrediction(path, "ext_0.x");
