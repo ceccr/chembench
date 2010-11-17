@@ -99,7 +99,7 @@ public class SvmWorkflow{
 		}
 
 		out.write("list-file: " + "RAND_sets.list" + "\n");
-		out.write("activity-type: " + actFileDataType);
+		out.write("activity-type: " + actFileDataType + "\n");
 		out.write("modeling-dir: " + workingDir + "\n");
 		out.write("y-random-dir: " + workingDir + "yRandom/" + "\n");
 		

@@ -22,7 +22,7 @@ def rSquared(actualValues, predictedValues):
 	rSquared = float(0)
 	if ssTot != 0:
 		rSquared = 1 - (ssErr / ssTot)
-	
+		
 	return rSquared
 
 #calculates CCR given two arrays of numbers
@@ -142,7 +142,7 @@ for dirindex in range(0, 1):
 		testSvm = re.sub("\.x", ".svm", testSvm)
 		
 		#read test set activities
-		actualValues = ()
+		actualValues = []
 		testActFile = open(testActivity, 'r')
 		while 1:
 			line = testActFile.readline()
@@ -169,7 +169,7 @@ for dirindex in range(0, 1):
 
 							#now predict the test set and get the results
 							predictionFileName = modelFileName + ".pred-test"
-							predictCommand = "svm-predict " + svmTest + " " + modelFileName + " " + predictionFileName
+							predictCommand = "svm-predict " + testSvm + " " + modelFileName + " " + predictionFileName
 							os.system(predictCommand)
 
 							#read predicted activities 
@@ -189,7 +189,7 @@ for dirindex in range(0, 1):
 								predictionResult = ccr(actualValues, predictedValues)
 							
 							outfile = open(workingDir + "svm-results.txt", 'a')
-							outfile.write( + predictionResult + "\n")
+							outfile.write(" -d " + str(degree) + " -g " + str(gamma) + " -c " + str(cost) + " -n " + str(nu) + " -p " + str(loss) + " " + predictionResult + "\n")
 							outfile.close()
 							
 							if predictionResult < float(cutoff):
