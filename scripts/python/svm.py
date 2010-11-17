@@ -122,7 +122,7 @@ file.close()
 #Predict test sets given by listFile.
 #Delete any files and outputs that don't pass the model acceptance criteria.
 
-for dirindex in range(0, 1):
+for dirindex in range(0, 2):
 	if dirindex == 0:
 		workingDir = modelingDir
 	else:
@@ -152,11 +152,11 @@ for dirindex in range(0, 1):
 			actualValues.append(float(match.group(2)))
 		testActFile.close()
 
-		for cost in numpy.arange(costFrom, costTo, costStep):
-			for degree in numpy.arange(degreeFrom, degreeTo, degreeStep):
-				for nu in numpy.arange(nuFrom, nuTo, nuStep):
-					for loss in numpy.arange(lossFrom, lossTo, lossStep):
-						for gamma in numpy.arange(gammaFrom, gammaTo, gammaStep):
+		for cost in numpy.arange(costFrom, costTo+0.0001, costStep):
+			for degree in numpy.arange(degreeFrom, degreeTo+0.0001, degreeStep):
+				for nu in numpy.arange(nuFrom, nuTo+0.0001, nuStep):
+					for loss in numpy.arange(lossFrom, lossTo+0.0001, lossStep):
+						for gamma in numpy.arange(gammaFrom, gammaTo+0.0001, gammaStep):
 							modelFileName = trainSvm.replace(".svm", "")+"_d"+str(degree)+"_g"+str(gamma)+"_c"+str(cost)+"_n"+str(nu)+"_p"+str(loss)+".mod"
 							command = "svm-train " + "-s " + svmType + " -t " + kernelType 
 							command += " -h " + shrinkingHeuristics + " -b " + probabilityHeuristics 
@@ -173,7 +173,7 @@ for dirindex in range(0, 1):
 							os.system(predictCommand)
 
 							#read predicted activities 
-							predictedValues = ()
+							predictedValues = []
 							predOutFile = open(predictionFileName, 'r')
 							while 1:
 								line = predOutFile.readline()
@@ -189,7 +189,7 @@ for dirindex in range(0, 1):
 								predictionResult = ccr(actualValues, predictedValues)
 							
 							outfile = open(workingDir + "svm-results.txt", 'a')
-							outfile.write(" -d " + str(degree) + " -g " + str(gamma) + " -c " + str(cost) + " -n " + str(nu) + " -p " + str(loss) + " " + predictionResult + "\n")
+							outfile.write(" -d " + str(degree) + " -g " + str(gamma) + " -c " + str(cost) + " -n " + str(nu) + " -p " + str(loss) + " " + str(predictionResult) + "\n")
 							outfile.close()
 							
 							if predictionResult < float(cutoff):

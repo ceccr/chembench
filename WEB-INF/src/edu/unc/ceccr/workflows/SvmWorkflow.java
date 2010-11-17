@@ -140,44 +140,11 @@ public class SvmWorkflow{
 		out.close();
 	}
 	
-	public static void buildSvmModels(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
-		double cutoff = Double.parseDouble(svmParameters.getSvmCutoff());
+	public static void svmPreProcess(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
 		
-		/*
-		Usage: svm-train [options] training_set_file [model_file]
-		options:
-		-s svm_type : set type of SVM (default 0)
-		        0 -- C-SVC
-		        1 -- nu-SVC
-		        2 -- one-class SVM
-		        3 -- epsilon-SVR
-		        4 -- nu-SVR
-		-t kernel_type : set type of kernel function (default 2)
-		        0 -- linear: u'*v
-		        1 -- polynomial: (gamma*u'*v + coef0)^degree
-		        2 -- radial basis function: exp(-gamma*|u-v|^2)
-		        3 -- sigmoid: tanh(gamma*u'*v + coef0)
-		        4 -- precomputed kernel (kernel values in training_set_file)
-		-d degree : set degree in kernel function (default 3)
-		-g gamma : set gamma in kernel function (default 1/num_features)
-		-r coef0 : set coef0 in kernel function (default 0)
-		-c cost : set the parameter C of C-SVC, epsilon-SVR, and nu-SVR (default 1)
-		-n nu : set the parameter nu of nu-SVC, one-class SVM, and nu-SVR (default 0.5)
-		-p epsilon : set the epsilon in loss function of epsilon-SVR (default 0.1)
-		-m cachesize : set cache memory size in MB (default 100)
-		-e epsilon : set tolerance of termination criterion (default 0.001)
-		-h shrinking : whether to use the shrinking heuristics, 0 or 1 (default 1)
-		-b probability_estimates : whether to train a SVC or SVR model for probability estimates, 0 or 1 (default 0)
-		-wi weight : set the parameter C of class i to weight*C, for C-SVC (default 1)
-		-v n: n-fold cross validation mode
-		*/
-		
-		Utility.writeToDebug("Running SVM Modeling in dir: " + workingDir);
-		if(! workingDir.endsWith("yRandom/")){
-			convertXtoSvm(Constants.MODELING_SET_X_FILE, Constants.MODELING_SET_A_FILE, workingDir);
-			convertXtoSvm(Constants.EXTERNAL_SET_X_FILE, Constants.EXTERNAL_SET_A_FILE, workingDir);
-		}
-
+		convertXtoSvm(Constants.MODELING_SET_X_FILE, Constants.MODELING_SET_A_FILE, workingDir);
+		convertXtoSvm(Constants.EXTERNAL_SET_X_FILE, Constants.EXTERNAL_SET_A_FILE, workingDir);
+	
 		//log file containing each model generated and its test set r^2 or CCR
 		//used for debugging and checking progress
 		BufferedWriter log = new BufferedWriter(new FileWriter(workingDir + "svm-modeling.log"));
@@ -200,9 +167,19 @@ public class SvmWorkflow{
 		}
 		log.close();			
 		in.close();
-		
+
+	}
+
+	public static void buildSvmModels(String workingDir){
 		//run modeling (exec python script)
-		
+		String cmd = "python svm.py";
+		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
+	}
+	
+	public static void buildSvmModelsLsf(String workingDir){
+		//run modeling (bsub the python script)
+		String cmd = "bsub -q idle python svm.py";
+		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
 	}
 	
 	public static ArrayList<SvmModel> readSvmModels(String workingDir){
@@ -226,9 +203,7 @@ public class SvmWorkflow{
 		for(int i = 0; i < files.length; i++){
 			String command = "svm-predict " + predictionFileName + " " + files[i] + " " + files[i] + ".pred";
 			RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-predict-" + files[i]);
-			
 		}
-		
 	}
 	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, String predictionXFileName, Long predictorId) throws Exception{

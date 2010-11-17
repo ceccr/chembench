@@ -629,7 +629,6 @@ public class QsarModelingTask extends WorkflowTask {
 			//get y-randomization ready
 			step = Constants.YRANDOMSETUP;
 			
-			
 			if(modelType.equals(Constants.KNN) || modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)){
 				KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 				KnnModelBuildingWorkflow.YRandomization(userName, jobName);
@@ -637,6 +636,11 @@ public class QsarModelingTask extends WorkflowTask {
 			else if(modelType.equals(Constants.RANDOMFOREST)){
 				RandomForestWorkflow.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
 				RandomForestWorkflow.SetUpYRandomization(userName, jobName);
+			}
+			else if(modelType.equals(Constants.SVM)){
+				SvmWorkflow.writeSvmModelingParamsFile(svmParameters, actFileDataType, filePath);
+				SvmWorkflow.svmPreProcess(svmParameters, actFileDataType, filePath);
+				SvmWorkflow.svmPreProcess(svmParameters, actFileDataType, filePath + "yRandom/");
 			}
 			//copy needed files out to LSF
 			KnnModelingLsfWorkflow.makeLsfModelingDirectory(filePath, lsfPath);
@@ -666,8 +670,8 @@ public class QsarModelingTask extends WorkflowTask {
 			step = Constants.MODELS;
 			lsfJobId = KnnPlusWorkflow.buildKnnPlusModelsLsf(knnPlusParameters, actFileDataType, modelType, userName, jobName, lsfPath);
 		}
-		else {//if(modelType.equals(Constants.SVM)){
-			throw new Exception("SVM behaviour is still undefined -- don't use it yet!");
+		else if(modelType.equals(Constants.SVM)){
+			SvmWorkflow.buildSvmModelsLsf(lsfPath);
 		}
 		
 		return lsfJobId;
@@ -706,9 +710,12 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 			
+			SvmWorkflow.svmPreProcess(svmParameters, actFileDataType, filePath);
+			SvmWorkflow.svmPreProcess(svmParameters, actFileDataType, filePath + "yRandom/");
+			SvmWorkflow.writeSvmModelingParamsFile(svmParameters, actFileDataType, filePath);
+			
 			step = Constants.MODELS;
-			SvmWorkflow.writeSvmModelingParamsFile(svmParameters, actFileDataType, path);
-			SvmWorkflow.buildSvmModels(svmParameters, actFileDataType, path);
+			SvmWorkflow.buildSvmModels(filePath);
 
 			step = Constants.PREDEXT;
 			SvmWorkflow.runSvmPrediction(path, "ext_0.x");
@@ -752,21 +759,22 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
 			KnnModelingLsfWorkflow.retrieveCompletedPredictor(filePath, lsfPath);
-			
+
+			step = Constants.PREDEXT;
 			if(modelType.equals(Constants.KNN)){
-				step = Constants.PREDEXT;
 				KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
 			}
 			else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
-				step = Constants.PREDEXT;
 				KnnPlusWorkflow.predictExternalSet(userName, jobName, filePath, knnPlusParameters.getKnnApplicabilityDomain());
+			}
+			else if(modelType.equals(Constants.SVM)){
+				SvmWorkflow.runSvmPrediction(filePath, "ext_0.x");
 			}
 		}
 		
 		//the next step is to read in the results from the modeling program,
 		//getting data about the models and external prediction values so we can
 		//save it to the database.
-
 		ArrayList<KnnModel> knnModels = null;
 		ArrayList<KnnPlusModel> knnPlusModels = null;
 		ArrayList<SvmModel> svmModels = null;
