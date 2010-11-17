@@ -671,7 +671,7 @@ public class QsarModelingTask extends WorkflowTask {
 			lsfJobId = KnnPlusWorkflow.buildKnnPlusModelsLsf(knnPlusParameters, actFileDataType, modelType, userName, jobName, lsfPath);
 		}
 		else if(modelType.equals(Constants.SVM)){
-			SvmWorkflow.buildSvmModelsLsf(lsfPath);
+			SvmWorkflow.buildSvmModelsLsf(lsfPath, userName, jobName);
 		}
 		
 		return lsfJobId;
