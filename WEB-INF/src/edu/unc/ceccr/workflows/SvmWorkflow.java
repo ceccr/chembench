@@ -145,6 +145,7 @@ public class SvmWorkflow{
 		if(! workingDir.endsWith("/yRandom/")){
 			convertXtoSvm(Constants.MODELING_SET_X_FILE, Constants.MODELING_SET_A_FILE, workingDir);
 			convertXtoSvm(Constants.EXTERNAL_SET_X_FILE, Constants.EXTERNAL_SET_A_FILE, workingDir);
+			FileAndDirOperations.copyFile(Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "svm.py", workingDir + "svm.py");
 		}
 		
 		//log file containing each model generated and its test set r^2 or CCR
@@ -170,7 +171,6 @@ public class SvmWorkflow{
 		log.close();			
 		in.close();
 
-		FileAndDirOperations.copyFile(Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "svm.py", workingDir + "svm.py")
 	}
 
 	public static void buildSvmModels(String workingDir){
