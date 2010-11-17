@@ -177,7 +177,7 @@ public class SvmWorkflow{
 		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
 	}
 	
-	public static String buildSvmModelsLsf(String workingDir, String userName, String jobName){
+	public static String buildSvmModelsLsf(String workingDir, String userName, String jobName) throws Exception{
 		//run modeling (bsub the python script)
 		 
 		String cmd = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt python svm.py";
