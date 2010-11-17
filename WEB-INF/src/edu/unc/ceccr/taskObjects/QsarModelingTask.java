@@ -205,10 +205,10 @@ public class QsarModelingTask extends WorkflowTask {
 					//get num of models produced so far
 					float p = 0;
 					if(new File(workingDir + "svm-modeling.log").exists()){
-						p += FileAndDirOperations.getNumLinesInFile(workingDir + "svm-modeling.log");
+						p += FileAndDirOperations.getNumLinesInFile(workingDir + "svm-results.txt");
 					}
 					if(new File(workingDir + "yRandom/svm-modeling.log").exists()){
-						p += FileAndDirOperations.getNumLinesInFile(workingDir + "yRandom/svm-modeling.log");
+						p += FileAndDirOperations.getNumLinesInFile(workingDir + "yRandom/svm-results.txt");
 					}
 					//divide by (number of models * 2 because of yRandom)
 					p /= (getNumTotalModels() * 2);
