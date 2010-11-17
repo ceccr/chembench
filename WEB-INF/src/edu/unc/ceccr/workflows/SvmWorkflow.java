@@ -177,11 +177,14 @@ public class SvmWorkflow{
 		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
 	}
 	
-	public static void buildSvmModelsLsf(String workingDir, String userName, String jobName){
+	public static String buildSvmModelsLsf(String workingDir, String userName, String jobName){
 		//run modeling (bsub the python script)
 		 
 		String cmd = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt python svm.py";
 		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
+
+		String logFilePath = workingDir + "Logs/svm.py.log";
+		return KnnModelingLsfWorkflow.getLsfJobId(logFilePath);
 	}
 	
 	public static ArrayList<SvmModel> readSvmModels(String workingDir){

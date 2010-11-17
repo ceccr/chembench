@@ -658,9 +658,9 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
 		String lsfJobId = "";
-		
+
+		step = Constants.MODELS;
 		if(modelType.equals(Constants.KNN)){
-			step = Constants.MODELS;
 			if(actFileDataType.equals(Constants.CONTINUOUS)){
 				lsfJobId = KnnModelingLsfWorkflow.buildKnnContinuousModel(userName, jobName, lsfPath);
 			}
@@ -669,11 +669,10 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 		}
 		else if(modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)){
-			step = Constants.MODELS;
 			lsfJobId = KnnPlusWorkflow.buildKnnPlusModelsLsf(knnPlusParameters, actFileDataType, modelType, userName, jobName, lsfPath);
 		}
 		else if(modelType.equals(Constants.SVM)){
-			SvmWorkflow.buildSvmModelsLsf(lsfPath, userName, jobName);
+			lsfJobId = SvmWorkflow.buildSvmModelsLsf(lsfPath, userName, jobName);
 		}
 		
 		return lsfJobId;
