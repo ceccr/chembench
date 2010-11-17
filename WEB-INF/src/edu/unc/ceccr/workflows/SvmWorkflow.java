@@ -170,6 +170,7 @@ public class SvmWorkflow{
 		log.close();			
 		in.close();
 
+		FileAndDirOperations.copyFile(Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "svm.py", workingDir + "svm.py")
 	}
 
 	public static void buildSvmModels(String workingDir){
