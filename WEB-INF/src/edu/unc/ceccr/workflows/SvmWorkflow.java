@@ -150,7 +150,6 @@ public class SvmWorkflow{
 		
 		//log file containing each model generated and its test set r^2 or CCR
 		//used for debugging and checking progress
-		BufferedWriter log = new BufferedWriter(new FileWriter(workingDir + "svm-modeling.log"));
 		
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + "RAND_sets.list"));
 		String inputString;
@@ -168,7 +167,6 @@ public class SvmWorkflow{
 				convertXtoSvm(data[3], data[4], workingDir);
 			}
 		}
-		log.close();			
 		in.close();
 
 	}

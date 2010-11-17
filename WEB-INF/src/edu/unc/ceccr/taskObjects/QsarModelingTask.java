@@ -638,6 +638,8 @@ public class QsarModelingTask extends WorkflowTask {
 				RandomForestWorkflow.SetUpYRandomization(userName, jobName);
 			}
 			else if(modelType.equals(Constants.SVM)){
+				KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
+				KnnModelBuildingWorkflow.YRandomization(userName, jobName);
 				SvmWorkflow.writeSvmModelingParamsFile(svmParameters, actFileDataType, filePath);
 				SvmWorkflow.svmPreProcess(svmParameters, actFileDataType, filePath);
 				SvmWorkflow.svmPreProcess(svmParameters, actFileDataType, filePath + "yRandom/");
