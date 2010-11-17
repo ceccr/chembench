@@ -99,6 +99,7 @@ public class SvmWorkflow{
 		}
 
 		out.write("list-file: " + "RAND_sets.list" + "\n");
+		out.write("activity-type: " + actFileDataType);
 		out.write("modeling-dir: " + workingDir + "\n");
 		out.write("y-random-dir: " + workingDir + "yRandom/" + "\n");
 		
@@ -106,7 +107,7 @@ public class SvmWorkflow{
 		out.write("svm-type: " + svmType + "\n");
 		out.write("kernel-type: " + svmParameters.getSvmKernel() + "\n");
 		
-		out.write("num-shrinking-heuristics: " + svmParameters.getSvmHeuristics() + "\n");
+		out.write("shrinking-heuristics: " + svmParameters.getSvmHeuristics() + "\n");
 		out.write("use-probability-heuristics: " + svmParameters.getSvmProbability() + "\n");
 		out.write("c-svc-weight: " + svmParameters.getSvmWeight() + "\n");
 		out.write("num-cross-validation-folds: " + svmParameters.getSvmCrossValidation() + "\n");

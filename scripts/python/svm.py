@@ -1,191 +1,198 @@
 import sys
-file = open('svm-params.txt', 'r')
+import re
+import numpy
+import os
 
+def rSquared(actualValues, predictedValues):
+	#calculates r^2 between two arrays of numbers
+	avg = float(0)
+	for av in actualValues:
+		avg += av
+	avg /= len(actualValues)
+
+	ssErr = float(0)
+	for i in range(len(actualValues)):
+		residual = actualValues[i] - predictedValues[i]
+		ssErr += residual * residual
+	
+	ssTot = float(0)
+	for av in actualValues:
+		ssTot += (av - avg) * (av - avg)
+	
+	rSquared = float(0)
+	if ssTot != 0:
+		rSquared = 1 - (ssErr / ssTot)
+	
+	return rSquared
+
+#calculates CCR given two arrays of numbers
+def ccr(actualValues, predictedValues):
+	#CCR (two-class) = 1/2(TP/#pos + TN/#neg)
+	#CCR (three-class) = 1/3(T1/#1 + T2/#2 + T3/#3)
+	actualValueCounts = {}
+	correctPredictionCounts = {}
+
+	if len(actualValues) != len(predictedValues):
+		print "Error: actualValues is of size", len(actualValues), "and predictedValues is of size", len(predictedValues)
+		
+	for i in range(len(actualValues)):
+		av = actualValues[i]
+		if av in actualValueCounts.keys():
+			actualValueCounts[av] = actualValueCounts[av] + 1
+		else:
+			actualValueCounts[av] = 1
+
+		if predictedValues[i] == av:
+			if av in correctPredictionCounts.keys():
+				correctPredictionCounts[av] = correctPredictionCounts[av] + 1
+			else:
+				correctPredictionCounts[av] = 1
+	
+	ccr = float(0)
+	for d in correctPredictionCounts.keys():
+		ccr += float(correctPredictionCounts[d]) / actualValueCounts[d]
+	ccr = ccr / len(actualValueCounts.keys())
+
+	return ccr
+
+file = open('svm-params.txt', 'r')
+#read params file into vars
 while 1:
 	line = file.readline()
 	if not line:
 		break
-	sys.stdout.write(line.replace("\n", ""))
-	loopVar = line
+	match = re.match("([^:]+):\s+(.+)", line)
+	if match.group(1) == "list-file":
+		listFileName = match.group(2)
+	if match.group(1) == "modeling-dir":
+		modelingDir = match.group(2)
+	if match.group(1) == "y-random-dir":
+		yRandomDir = match.group(2)
+	if match.group(1) == "svm-type":
+		svmType = match.group(2)
+	if match.group(1) == "kernel-type":
+		kernelType = match.group(2)
+	if match.group(1) == "shrinking-heuristics":
+		shrinkingHeuristics = match.group(2)
+	if match.group(1) == "use-probability-heuristics":
+		probabilityHeuristics = match.group(2)
+	if match.group(1) == "c-svc-weight":
+		cSvcWeight = match.group(2)
+	if match.group(1) == "num-cross-validation-folds":
+		numCrossFolds = match.group(2)
+	if match.group(1) == "tolerance-for-termination":
+		tolerance = match.group(2)
+	if match.group(1) == "cost-from":
+		costFrom = float(match.group(2))
+	if match.group(1) == "cost-to":
+		costTo = float(match.group(2))
+	if match.group(1) == "cost-step":
+		costStep = float(match.group(2))
+	if match.group(1) == "gamma-from":
+		gammaFrom = float(match.group(2))
+	if match.group(1) == "gamma-to":
+		gammaTo = float(match.group(2))
+	if match.group(1) == "gamma-step":
+		gammaStep = float(match.group(2))
+	if match.group(1) == "degree-from":
+		degreeFrom = float(match.group(2))
+	if match.group(1) == "degree-to":
+		degreeTo = float(match.group(2))
+	if match.group(1) == "degree-step":
+		degreeStep = float(match.group(2))
+	if match.group(1) == "nu-from":
+		nuFrom = float(match.group(2))
+	if match.group(1) == "nu-to":
+		nuTo = float(match.group(2))
+	if match.group(1) == "nu-step":
+		nuStep = float(match.group(2))
+	if match.group(1) == "loss-epsilon-from":
+		lossFrom = float(match.group(2))
+	if match.group(1) == "loss-epsilon-to":
+		lossTo = float(match.group(2))
+	if match.group(1) == "loss-epsilon-step":
+		lossStep = float(match.group(2))
+	if match.group(1) == "model-acceptance-cutoff":
+		cutoff = match.group(2)
+	if match.group(1) == "activity-type":
+		activityType = match.group(2)
+file.close()
 
 #Build models on each training file in listFile according to given parameters. 
 #Predict test sets given by listFile.
 #Delete any files and outputs that don't pass the model acceptance criteria.
 
+for dirindex in range(0, 1):
+	if dirindex == 0:
+		workingDir = modelingDir
+	else:
+		workingDir = yRandomDir
 
-
-
-"""
-Usage: svm-train [options] training_set_file [model_file]
-options:
--s svm_type : set type of SVM (default 0)
-	0 -- C-SVC
-	1 -- nu-SVC
-	2 -- one-class SVM
-	3 -- epsilon-SVR
-	4 -- nu-SVR
--t kernel_type : set type of kernel function (default 2)
-	0 -- linear: u'*v
-	1 -- polynomial: (gamma*u'*v + coef0)^degree
-	2 -- radial basis function: exp(-gamma*|u-v|^2)
-	3 -- sigmoid: tanh(gamma*u'*v + coef0)
-	4 -- precomputed kernel (kernel values in training_set_file)
--d degree : set degree in kernel function (default 3)
--g gamma : set gamma in kernel function (default 1/num_features)
--r coef0 : set coef0 in kernel function (default 0)
--c cost : set the parameter C of C-SVC, epsilon-SVR, and nu-SVR (default 1)
--n nu : set the parameter nu of nu-SVC, one-class SVM, and nu-SVR (default 0.5)
--p epsilon : set the epsilon in loss function of epsilon-SVR (default 0.1)
--m cachesize : set cache memory size in MB (default 100)
--e epsilon : set tolerance of termination criterion (default 0.001)
--h shrinking : whether to use the shrinking heuristics, 0 or 1 (default 1)
--b probability_estimates : whether to train a SVC or SVR model for probability estimates, 0 or 1 (default 0)
--wi weight : set the parameter C of class i to weight*C, for C-SVC (default 1)
--v n: n-fold cross validation mode
-"""
-
-
-
-"""
-java code to replace
-
-//input file name
-String inputFile = data[0].replace(".x", ".svm");
-command += " " + inputFile + " ";
-
-//output file name
-String modelFileName = inputFile.replace(".svm", "") + "_d" + degreeStr + "_g" + gammaStr + "_c" + costStr + "_n" + nuStr + "_p" + pEpsilonStr + ".mod";
-command += modelFileName;
-
-RunExternalProgram.runCommandAndLogOutput(command, workingDir, "svm-train" + modelFileName);
-
-//run prediction on test set
-String testFileName = data[3].replace(".x", ".svm");
-String predictionOutputFileName = modelFileName + ".pred-test";
-
-String command2 = "svm-predict " + testFileName + " " + modelFileName + " " + predictionOutputFileName;
-if(new File(workingDir + modelFileName).exists()){
-	RunExternalProgram.runCommandAndLogOutput(command2, workingDir, "svm-predict" + modelFileName);
-}
-else{
-	continue;
-}
-
-//eliminate (delete) model if it doesn't pass its CCR or r^2 cutoff
-
-//get predicted and actual (test set) values from files
-//read test .a file
-String testActivityFileName = testFileName.replace(".svm", ".a");
-
-BufferedReader br = new BufferedReader(new FileReader(workingDir + testActivityFileName));
-String line = "";
-ArrayList<Double> testValues = new ArrayList<Double>();
-while((line = br.readLine()) != null){
-	if(!line.isEmpty()){
-		String[] parts = line.split("\\s+");
-		testValues.add(Double.parseDouble(parts[1]));
-	}
-}
-br.close();
-
-//read predicted .a file
-br = new BufferedReader(new FileReader(workingDir + predictionOutputFileName));
-ArrayList<Double> predictedValues = new ArrayList<Double>();
-while((line = br.readLine()) != null){
-	if(!line.isEmpty()){
-		predictedValues.add(Double.parseDouble(line));
-	}
-}
-br.close();
-
-if(testValues.size() != predictedValues.size()){
-	Utility.writeToDebug("Warning: test set act file has " + testValues.size() + 
-			" entries, but predicted file has " + 
-			predictedValues.size() + " entries for file: " + predictionOutputFileName);
-}
-
-boolean modelIsGood = true;
-
-if(actFileDataType.equals(Constants.CONTINUOUS)){
-	//calculate r^2 for test set prediction
-	
-	Double avg = 0.0;
-	for(Double testValue : testValues){
-		avg += testValue;
-	}
-	avg /= testValues.size();
-	Double ssErr = 0.0;
-	for(int i = 0; i < testValues.size(); i++){
-		Double residual = testValues.get(i) - predictedValues.get(i);
-		ssErr += residual * residual;
-	}
-	Double ssTot = 0.0;
-	for(Double testValue : testValues){
-		ssTot += (testValue - avg) * (testValue - avg);
-	}
-	Double rSquared = 0.0;
-	if(ssTot != 0){
-		rSquared = Double.parseDouble(Utility.roundSignificantFigures("" + (1 - (ssErr / ssTot)), 4));
-	}
-
-	log.write(modelFileName + " r2: " + rSquared + "\n");
-	if(rSquared < cutoff){
-		modelIsGood = false;
-	}
-}
-else if(actFileDataType.equals(Constants.CATEGORY)){
-	//calculate CCR for test set prediction
-	
-	/*
-	1/2(TP/#pos + TN/#neg)
-	1/3(T1/#1 + T2/#2 + T3/#3)
-	*/
-	HashMap<Double, Integer> correctPredictionCounts = new HashMap<Double, Integer>();
-	HashMap<Double, Integer> observedValueCounts = new HashMap<Double, Integer>();
-	
-	for(int i = 0; i < testValues.size(); i++){
-		if(observedValueCounts.containsKey(testValues.get(i))){
-			observedValueCounts.put(testValues.get(i), observedValueCounts.get(testValues.get(i)) + 1);
-		}
-		else{
-			observedValueCounts.put(testValues.get(i), 1);
-		}
+	listFile = open(listFileName, 'r')
+	while 1:
+		line = listFile.readline()
+		if not line:
+			break
+		match = re.match("([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+", line)
+		trainSvm = workingDir + match.group(1)
+		trainActivity = workingDir + match.group(2)
+		testSvm = workingDir + match.group(4)
+		testActivity = workingDir + match.group(5)
+		trainSvm = re.sub("\.x", ".svm", trainSvm)
+		testSvm = re.sub("\.x", ".svm", testSvm)
 		
-		if(predictedValues.get(i).equals(testValues.get(i))){
-			if(correctPredictionCounts.containsKey(testValues.get(i))){
-				correctPredictionCounts.put(testValues.get(i), correctPredictionCounts.get(testValues.get(i)) + 1);
-			}
-			else{
-				correctPredictionCounts.put(testValues.get(i), 1);
-			}
-		}
-	}
-	
-	Double ccr = 0.0;
-	for(Double d: correctPredictionCounts.keySet()){
-		ccr += new Double(correctPredictionCounts.get(d)) / new Double(observedValueCounts.get(d));
-	}
-	ccr = ccr / new Double(observedValueCounts.keySet().size());
-	
-	log.write(modelFileName + " ccr: " + ccr + "\n");
-	if(ccr < cutoff){
-		//Utility.writeToDebug("bad model: ccr = " + (numCorrect / (numCorrect + numIncorrect)));
-		modelIsGood = false;
-	}
-}
-log.flush();
-if(! modelIsGood){
-	//delete it
-	if(new File(workingDir + modelFileName).exists()){
-		FileAndDirOperations.deleteFile(workingDir + modelFileName);
-	}
-}
-//pred-test file is no longer needed 
-if(new File(workingDir + predictionOutputFileName).exists()){
-	FileAndDirOperations.deleteFile(workingDir + predictionOutputFileName);
-}
+		#read test set activities
+		actualValues = ()
+		testActFile = open(testActivity, 'r')
+		while 1:
+			line = testActFile.readline()
+			if not line:
+				break
+			match = re.match("([^ ]+)\s+([^ ]+)", line)
+			actualValues.append(float(match.group(2)))
+		testActFile.close()
 
-//read MSE and correlation coeff. for prediction
-//String s = FileAndDirOperations.readFileIntoString(workingDir + "Logs/" + "svm-predict" + modelFileName + ".log");
-//Utility.writeToDebug(s);
-"""								
+		for cost in numpy.arange(costFrom, costTo, costStep):
+			for degree in numpy.arange(degreeFrom, degreeTo, degreeStep):
+				for nu in numpy.arange(nuFrom, nuTo, nuStep):
+					for loss in numpy.arange(lossFrom, lossTo, lossStep):
+						for gamma in numpy.arange(gammaFrom, gammaTo, gammaStep):
+							modelFileName = trainSvm.replace(".svm", "")+"_d"+str(degree)+"_g"+str(gamma)+"_c"+str(cost)+"_n"+str(nu)+"_p"+str(loss)+".mod"
+							command = "svm-train " + "-s " + svmType + " -t " + kernelType 
+							command += " -h " + shrinkingHeuristics + " -b " + probabilityHeuristics 
+							if numCrossFolds != str(0):
+								command += " -v " + numCrossFolds
+							command += " -wi " + cSvcWeight +  " -e " + tolerance
+							command += " -d " + str(degree) + " -g " + str(gamma) + " -c " + str(cost) + " -n " + str(nu) + " -p " + str(loss)
+							command += " " + trainSvm + " " + modelFileName
+							os.system(command)
+
+							#now predict the test set and get the results
+							predictionFileName = modelFileName + ".pred-test"
+							predictCommand = "svm-predict " + svmTest + " " + modelFileName + " " + predictionFileName
+							os.system(predictCommand)
+
+							#read predicted activities 
+							predictedValues = ()
+							predOutFile = open(predictionFileName, 'r')
+							while 1:
+								line = predOutFile.readline()
+								if not line:
+									break
+								predictedValues.append(float(line))
+							predOutFile.close()
+							
+							predictionResult = 0.0
+							if activityType == "CONTINUOUS":
+								predictionResult = rSquared(actualValues, predictedValues)
+							else:
+								predictionResult = ccr(actualValues, predictedValues)
+							
+							outfile = open(workingDir + "svm-results.txt", 'a')
+							outfile.write( + predictionResult + "\n")
+							outfile.close()
+							
+							if predictionResult < float(cutoff):
+								#delete the model file and prediction output file
+								os.remove(modelFileName)
+								os.remove(predictionFileName)
