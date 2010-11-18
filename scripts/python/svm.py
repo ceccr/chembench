@@ -18,6 +18,16 @@ def permute_sequence(seq):
  		if right: ret.append(right.pop(0))
  		
 	return ret
+
+def range_f(begin,end,step):
+	# like range, but works on non-integer too
+	seq = []
+	while 1:
+		if step > 0 and begin > end: break
+		if step < 0 and begin < end: break
+		seq.append(begin)
+		begin = begin + step
+	return seq
 	
 def rSquared(actualValues, predictedValues):
 	#calculates r^2 between two arrays of numbers
@@ -168,11 +178,11 @@ for dirindex in range(0, 2):
 			actualValues.append(float(match.group(2)))
 		testActFile.close()
 
-		for cost in permute_sequence(numpy.arange(costFrom, costTo+0.0001, costStep)):
-			for degree in permute_sequence(numpy.arange(degreeFrom, degreeTo+0.0001, degreeStep)):
-				for nu in permute_sequence(numpy.arange(nuFrom, nuTo+0.0001, nuStep)):
-					for loss in permute_sequence(numpy.arange(lossFrom, lossTo+0.0001, lossStep)):
-						for gamma in permute_sequence(numpy.arange(gammaFrom, gammaTo+0.0001, gammaStep)):
+		for cost in permute_sequence(range_f(costFrom, costTo+0.0001, costStep)):
+			for degree in permute_sequence(range_f(degreeFrom, degreeTo+0.0001, degreeStep)):
+				for nu in permute_sequence(range_f(nuFrom, nuTo+0.0001, nuStep)):
+					for loss in permute_sequence(range_f(lossFrom, lossTo+0.0001, lossStep)):
+						for gamma in permute_sequence(range_f(gammaFrom, gammaTo+0.0001, gammaStep)):
 							modelFileName = trainSvm.replace(".svm", "")+"_d"+str(degree)+"_g"+str(gamma)+"_c"+str(cost)+"_n"+str(nu)+"_p"+str(loss)+".mod"
 							command = "svm-train " + "-s " + svmType + " -t " + kernelType 
 							command += " -h " + shrinkingHeuristics + " -b " + probabilityHeuristics 
