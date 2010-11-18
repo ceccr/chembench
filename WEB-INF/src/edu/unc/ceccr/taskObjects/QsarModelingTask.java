@@ -606,8 +606,6 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		WriteDescriptorsFileWorkflow.writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, filePath + xFileName, scalingType, stdDevCutoff, correlationCutoff);
 	
-		
-		
 		//apply the dataset's external split(s) to the generated .X file
 		step = Constants.SPLITDATA;
 		
@@ -640,7 +638,7 @@ public class QsarModelingTask extends WorkflowTask {
 			else if(modelType.equals(Constants.SVM)){
 				KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
 				KnnModelBuildingWorkflow.YRandomization(userName, jobName);
-				SvmWorkflow.writeSvmModelingParamsFile(svmParameters, actFileDataType, filePath);
+				SvmWorkflow.writeSvmModelingParamsFile(svmParameters, actFileDataType, filePath+"svm-params.txt", lsfPath);
 				SvmWorkflow.svmPreProcess(svmParameters, actFileDataType, filePath);
 				SvmWorkflow.svmPreProcess(svmParameters, actFileDataType, filePath + "yRandom/");
 			}
@@ -713,7 +711,7 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			SvmWorkflow.svmPreProcess(svmParameters, actFileDataType, filePath);
 			SvmWorkflow.svmPreProcess(svmParameters, actFileDataType, filePath + "yRandom/");
-			SvmWorkflow.writeSvmModelingParamsFile(svmParameters, actFileDataType, filePath);
+			SvmWorkflow.writeSvmModelingParamsFile(svmParameters, actFileDataType, filePath+"svm-params.txt", filePath);
 			
 			step = Constants.MODELS;
 			SvmWorkflow.buildSvmModels(filePath);

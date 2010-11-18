@@ -81,8 +81,8 @@ public class SvmWorkflow{
 		out.close();
 	}
 	
-	public static void writeSvmModelingParamsFile(SvmParameters svmParameters, String actFileDataType, String workingDir) throws Exception{
-		BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + "svm-params.txt")); 
+	public static void writeSvmModelingParamsFile(SvmParameters svmParameters, String actFileDataType, String paramFilePath, String workingDir) throws Exception{
+		BufferedWriter out = new BufferedWriter(new FileWriter(paramFilePath)); 
 
 		String svmType = "";
 		if(actFileDataType.equals(Constants.CATEGORY)){
