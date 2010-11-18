@@ -204,7 +204,7 @@ public class QsarModelingTask extends WorkflowTask {
 				else if(modelType.equals(Constants.SVM)){
 					//get num of models produced so far
 					float p = 0;
-					if(new File(workingDir + "svm-modeling.log").exists()){
+					if(new File(workingDir + "svm-results.txt").exists()){
 						p += FileAndDirOperations.getNumLinesInFile(workingDir + "svm-results.txt");
 					}
 					if(new File(workingDir + "yRandom/svm-modeling.log").exists()){
