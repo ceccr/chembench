@@ -215,6 +215,10 @@ public class PredictionFormActions extends ActionSupport{
 		DataSet predictionDataset = PopulateDataObjects.getDataSetById(selectedDatasetId, session);
 		String sdf = predictionDataset.getSdfFile();
 		
+		if(jobName != null && jobName.contains(" ")){
+			jobName.replaceAll(" ", "_");
+		}
+		
 		Utility.writeToDebug(user.getUserName());
 		Utility.writeToDebug("predids: " + selectedPredictorIds);
 

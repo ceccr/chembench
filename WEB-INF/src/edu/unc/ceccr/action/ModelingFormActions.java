@@ -121,6 +121,10 @@ public class ModelingFormActions extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 		user = (User) context.getSession().get("user");
 		
+		if(jobName != null && jobName.contains(" ")){
+			jobName.replaceAll(" ", "_");
+		}
+		
 		Utility.writeToDebug("Submitting modeling job with dataset id: " + selectedDatasetId);
 		if(selectedDatasetId == null || PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession) == null ||
 				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName() == null ||
