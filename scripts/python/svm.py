@@ -4,20 +4,21 @@ import numpy
 import os
 
 def permute_sequence(seq):
-    n = len(seq)
-    if n <= 1: return seq
-
-    mid = int(n/2)
-    left = permute_sequence(seq[:mid])
-    right = permute_sequence(seq[mid+1:])
-
-    ret = [seq[mid]]
-    while left or right:
-        if left: ret.append(left.pop(0))
-        if right: ret.append(right.pop(0))
-
-    return ret
-
+	n = len(seq)
+	if n <= 1: 
+		return seq
+		
+	mid = int(n/2)
+	left = permute_sequence(seq[:mid])
+	right = permute_sequence(seq[mid+1:])
+	
+	ret = [seq[mid]]
+	while left or right:
+		if left: ret.append(left.pop(0))
+ 		if right: ret.append(right.pop(0))
+ 		
+	return ret
+	
 def rSquared(actualValues, predictedValues):
 	#calculates r^2 between two arrays of numbers
 	avg = float(0)
