@@ -63,13 +63,7 @@ function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPre
 	
      // Check for white space; replace with underscores if it's there.
 	 name = name.replace(/ /g,"_");
-	 /*
-	 reWhiteSpace = new RegExp(/^\s+$/);
-     if (reWhiteSpace.test(name)) {
-          alert("You cannot use spaces in your job name. You might want to replace them with underscores or dashes.");
-          return false;
-     }*/
-
+	 
      reWhiteSpace = new RegExp("/");
      if (reWhiteSpace.test(name)) {
           alert("You cannot use slashes in your job name. You might want to replace them with underscores or dashes.");
