@@ -114,13 +114,13 @@ public class RunExternalProgram {
 				file.mkdirs();
 			}
 
+			FileOutputStream logFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".log"));
+			FileOutputStream errFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".err"));
 			
 			p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
 			InputStream stdout = p.getInputStream();
 			InputStream errout = p.getErrorStream();
-		
-			FileOutputStream logFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".log"));
-			FileOutputStream errFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".err"));
+			
 			StreamGobbler outputGobbler = new StreamGobbler(stdout, "stdout", logFileOS);  
 			StreamGobbler errorGobbler = new StreamGobbler(errout, "errout", errFileOS);   
 			outputGobbler.start();
@@ -133,10 +133,10 @@ public class RunExternalProgram {
 		 	RunExternalProgram.close(p.getOutputStream());
 	        RunExternalProgram.close(p.getInputStream());
 	        RunExternalProgram.close(p.getErrorStream());
-	        p.destroy();
-	        
 			logFileOS.close();
 		 	errFileOS.close();
+	        p.destroy();
+	        
 	        
 		}
 		catch(Exception ex){
