@@ -63,7 +63,6 @@ function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPre
 	
      // Check for white space; replace with underscores if it's there.
 	 name = name.replace(/ /g,"_");
-	 
 	 /*
 	 reWhiteSpace = new RegExp(/^\s+$/);
      if (reWhiteSpace.test(name)) {

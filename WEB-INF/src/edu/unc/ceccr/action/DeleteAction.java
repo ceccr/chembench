@@ -68,7 +68,6 @@ public class DeleteAction extends ActionSupport{
 		for(int i = 0; i < userPredictions.size();i++){
 			Utility.writeToDebug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getFileId());
 			if(userPredictions.get(i).getDatasetId() != null && userPredictions.get(i).getDatasetId().equals(ds.getFileId())){
-				Utility.writeToDebug("");
 				errorStrings.add("The prediction '" + userPredictions.get(i).getJobName() + "' depends on this dataset. Please delete it first.\n");
 			}
 		}
