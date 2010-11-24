@@ -85,7 +85,7 @@ public class LsfProcessingThread extends Thread {
 								ex.printStackTrace(new PrintWriter(sw));
 								String exceptionAsString = sw.toString();
 								Utility.writeToDebug(exceptionAsString);
-								exceptionAsString.replaceAll("\\\\s+at\\\\s+", "<br />at ");
+								exceptionAsString.replaceAll("at edu", "<br />at edu");
 								Utility.writeToDebug(exceptionAsString);
 								
 								//send an email to the site administrator
