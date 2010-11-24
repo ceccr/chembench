@@ -64,7 +64,7 @@ public class LocalProcessingThread extends Thread {
 							StringWriter sw = new StringWriter();
 							ex.printStackTrace(new PrintWriter(sw));
 							String exceptionAsString = sw.toString();
-							exceptionAsString.replaceAll("\n", "<br />");
+							exceptionAsString.replaceAll(" at ", "<br />at ");
 							
 							//send an email to the site administrator
 							String message = "Heya, <br />" + j.getUserName() + "'s job \"" +
