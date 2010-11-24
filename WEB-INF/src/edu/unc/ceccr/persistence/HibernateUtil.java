@@ -40,6 +40,7 @@ public class HibernateUtil {
 		.addAnnotatedClass(KnnPlusParameters.class)
 		.addAnnotatedClass(KnnPlusModel.class)
 		.addAnnotatedClass(SvmParameters.class)
+		.addAnnotatedClass(SvmModel.class)
 		.addAnnotatedClass(RandomForestParameters.class)
 		.addAnnotatedClass(RandomForestTree.class)
 		.addAnnotatedClass(RandomForestGrove.class)
