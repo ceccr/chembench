@@ -1,5 +1,7 @@
 package edu.unc.ceccr.jobs;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -58,13 +60,19 @@ public class LocalProcessingThread extends Thread {
 							CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
 							Utility.writeToDebug(ex);
 
+							//prepare a nice HTML-formatted readable version of the exception
+							StringWriter sw = new StringWriter();
+							ex.printStackTrace(new PrintWriter(sw));
+							String exceptionAsString = sw.toString();
+							exceptionAsString.replaceAll("\n", "<br />");
+							
 							//send an email to the site administrator
 							String message = "Heya, <br />" + j.getUserName() + "'s job \"" +
 							j.getJobName() + "\" failed. You might wanna look into that. "
 							+ "<br /><br />Here's the exception it threw: <br />" + ex.toString() + 
 							"<br /><br />Good luck!<br />--Chembench";
 							message += "<br /><br />The full stack trace is below. Happy debugging!<br /><br />" +
-							ex.getStackTrace();
+							exceptionAsString;
 							SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
 						}
 					}
