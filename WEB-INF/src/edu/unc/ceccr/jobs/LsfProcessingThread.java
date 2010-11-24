@@ -83,6 +83,8 @@ public class LsfProcessingThread extends Thread {
 								j.getJobName() + "\" failed. You might wanna look into that. "
 								+ "<br /><br />Here's the exception it threw: <br />" + ex.toString() + 
 								"<br /><br />Good luck!<br />--Chembench";
+								message += "<br /><br />The full stack trace is below. Happy debugging!<br /><br />" +
+								ex.getStackTrace();
 								SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
 							}
 						}
