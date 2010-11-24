@@ -239,7 +239,15 @@ public class ViewPredictionAction extends ActionSupport {
 	private void populateCompoundPredictionValues(Session session) throws Exception{
 		
 		//get compounds from SDF
-		String datasetDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
+		
+		String datasetDir = "";
+		if(user.getUserName().equals(Constants.ALL_USERS_USERNAME)){
+			datasetDir = Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/" + dataset.getFileName() + "/";
+		}
+		else{
+			datasetDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
+		}
+		
 		ArrayList<String> compounds = null;
 		
 		if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){

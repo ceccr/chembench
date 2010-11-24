@@ -27,7 +27,6 @@ public class SvmWorkflow{
 
 	public static void convertXtoSvm(String xFileName, String aFileName, String workingDir) throws Exception{
 		//generates an SVM-compatible input descriptor file
-		
 		//Utility.writeToDebug("Generating an SVM-compatible file: " + xFileName + " + " + aFileName + " => " + xFileName.replace(".x", ".svm"));
 
 		ArrayList<String> activityValues = new ArrayList<String>();
@@ -187,11 +186,35 @@ public class SvmWorkflow{
 		return KnnModelingLsfWorkflow.getLsfJobId(logFilePath);
 	}
 	
-	public static ArrayList<SvmModel> readSvmModels(String workingDir){
+	public static ArrayList<SvmModel> readSvmModels(String workingDir) throws Exception{
 		File dir = new File(workingDir);
-		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}});
 		
-		return null;
+		ArrayList<SvmModel> svmModels = new ArrayList<SvmModel>();
+		/*
+		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}});
+		for(int i = 0; i < files.length; i++){
+			//read MSE from SVM file
+			
+		}*/
+		
+		BufferedReader br = new BufferedReader(new FileReader(workingDir + "svm-models.txt"));
+		String line;
+		while((line = br.readLine()) != null){
+			if(! line.trim().isEmpty()){
+				String[] tokens = line.split("\\s+");
+				SvmModel svmModel = new SvmModel();
+				svmModel.setCcrTest(tokens[0]);
+				svmModel.setrSquaredTest(tokens[0]);
+				svmModel.setMseTest(tokens[0]);
+				svmModel.setNu(tokens[0]);
+				svmModel.setCost(tokens[0]);
+				svmModel.setGamma(tokens[0]);
+				svmModel.setDegree(tokens[0]);
+				svmModel.setLoss(tokens[0]);
+			}
+		}
+		
+		return svmModels;
 	}
 	
 	public static void runSvmPrediction(String workingDir, String predictionXFileName) throws Exception{
