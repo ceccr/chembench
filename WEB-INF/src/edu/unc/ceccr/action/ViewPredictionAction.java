@@ -241,7 +241,7 @@ public class ViewPredictionAction extends ActionSupport {
 		//get compounds from SDF
 		
 		String datasetDir = "";
-		if(user.getUserName().equals(Constants.ALL_USERS_USERNAME)){
+		if(dataset.getUserName().equals(Constants.ALL_USERS_USERNAME)){
 			datasetDir = Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/" + dataset.getFileName() + "/";
 		}
 		else{
