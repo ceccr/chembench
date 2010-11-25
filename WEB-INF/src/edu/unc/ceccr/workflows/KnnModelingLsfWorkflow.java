@@ -52,9 +52,9 @@ public class KnnModelingLsfWorkflow{
 			out = new PrintStream(fout);
 
 			out.println("cd " + workingDir);
-			//out.println("AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
+			out.println("AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
 			out.println("cd yRandom");
-			//out.println("AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
+			out.println("AllKnn_category_nl 1 RAND_sets.list knn-output " + optimizationValue);
 			
 			out.close();
 			fout.close();
