@@ -917,9 +917,6 @@ public class QsarModelingTask extends WorkflowTask {
 			if(numExternalCompounds > 0){
 				externalSetPredictions = RandomForestWorkflow.readExternalSetPredictionOutput(filePath, predictor);
 			}
-			else{
-				Utility.writeToDebug("ext set size: " + externalSetPredictions);
-			}
 			File dir;
 			dir = new File(filePath);
 		
