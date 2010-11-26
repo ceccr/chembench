@@ -141,7 +141,7 @@ public class RandomForestWorkflow{
 		String maxnodes = randomForestParameters.getMaxNumTerminalNodes();
 		
 		String externalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
-		if(DatasetFileOperations.getXCompoundNames(workingDir + Constants.EXTERNAL_SET_X_FILE).size() == 0){
+		if(DatasetFileOperations.getXCompoundNames(workingDir + "RF_" + Constants.EXTERNAL_SET_X_FILE).size() == 0){
 			//Random Forest will not run without a non-empty x file. (facepalm)
 			//workaround: use the training set X file in this case. The external
 			//prediction results will be ignored.
