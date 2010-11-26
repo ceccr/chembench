@@ -105,6 +105,7 @@ public class QsarModelingTask extends WorkflowTask {
 	
 	//predictor object created during task
 	private Predictor predictor;
+	private int numExternalCompounds = 0;
 
 	//output
 	private boolean noModelsGenerated;
@@ -610,6 +611,7 @@ public class QsarModelingTask extends WorkflowTask {
 		step = Constants.SPLITDATA;
 		
 		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
+		numExternalCompounds = extCompoundArray.size();
 		String externalCompoundIdString = Utility.StringArrayListToString(extCompoundArray);
 		DataSplitWorkflow.splitModelingExternalGivenList(filePath, actFileName, xFileName, externalCompoundIdString);
 		
@@ -701,7 +703,9 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 			
 			step = Constants.PREDEXT;
-			KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
+			if(numExternalCompounds > 0){
+				KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
+			}
 			
 		}
 		else if(modelType.equals(Constants.SVM)){
@@ -717,7 +721,9 @@ public class QsarModelingTask extends WorkflowTask {
 			SvmWorkflow.buildSvmModels(filePath);
 
 			step = Constants.PREDEXT;
-			SvmWorkflow.runSvmPrediction(path, "ext_0.x");
+			if(numExternalCompounds > 0){
+				SvmWorkflow.runSvmPrediction(path, "ext_0.x");
+			}
 			
 		}
 		else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
@@ -728,7 +734,9 @@ public class QsarModelingTask extends WorkflowTask {
 			KnnPlusWorkflow.buildKnnPlusModels(knnPlusParameters, actFileDataType, modelType, path);
 			
 			step = Constants.PREDEXT;
-			KnnPlusWorkflow.predictExternalSet(userName, jobName, path, knnPlusParameters.getKnnApplicabilityDomain());
+			if(numExternalCompounds > 0){
+				KnnPlusWorkflow.predictExternalSet(userName, jobName, path, knnPlusParameters.getKnnApplicabilityDomain());
+			}
 		}
 		else if(modelType.equals(Constants.RANDOMFOREST)){
 			step = Constants.YRANDOMSETUP;
@@ -759,15 +767,17 @@ public class QsarModelingTask extends WorkflowTask {
 			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
 			KnnModelingLsfWorkflow.retrieveCompletedPredictor(filePath, lsfPath);
 
-			step = Constants.PREDEXT;
-			if(modelType.equals(Constants.KNN)){
-				KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
-			}
-			else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
-				KnnPlusWorkflow.predictExternalSet(userName, jobName, filePath, knnPlusParameters.getKnnApplicabilityDomain());
-			}
-			else if(modelType.equals(Constants.SVM)){
-				SvmWorkflow.runSvmPrediction(filePath, "ext_0.x");
+			if(numExternalCompounds > 0){
+				step = Constants.PREDEXT;
+				if(modelType.equals(Constants.KNN)){
+					KnnModelBuildingWorkflow.RunExternalSet(userName, jobName, sdFileName, actFileName);
+				}
+				else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
+					KnnPlusWorkflow.predictExternalSet(userName, jobName, filePath, knnPlusParameters.getKnnApplicabilityDomain());
+				}
+				else if(modelType.equals(Constants.SVM)){
+					SvmWorkflow.runSvmPrediction(filePath, "ext_0.x");
+				}
 			}
 		}
 		
@@ -831,7 +841,7 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 			
 			//read external validation set predictions
-			if (!noModelsGenerated) {
+			if (! noModelsGenerated && numExternalCompounds > 0){
 				externalSetPredictions = KnnOutputWorkflow.parseExternalValidationOutput(filePath + Constants.EXTERNAL_VALIDATION_OUTPUT_FILE);
 				KnnOutputWorkflow.addStdDeviation(externalSetPredictions, filePath + Constants.PRED_OUTPUT_FILE);
 
@@ -842,7 +852,9 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)){
 			//read external set predictions
-			externalSetPredictions = KnnPlusWorkflow.readExternalPredictionOutput(filePath, predictor);
+			if(numExternalCompounds > 0){
+				externalSetPredictions = KnnPlusWorkflow.readExternalPredictionOutput(filePath, predictor);
+			}
 			
 			//read in models and associate them with the predictor
 			knnPlusModels = KnnPlusWorkflow.readModelsFile(filePath, predictor, Constants.NO);
@@ -902,7 +914,9 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 			
 			//read external set predictions
-			externalSetPredictions = RandomForestWorkflow.readExternalSetPredictionOutput(filePath, predictor);
+			if(numExternalCompounds > 0){
+				externalSetPredictions = RandomForestWorkflow.readExternalSetPredictionOutput(filePath, predictor);
+			}
 			File dir;
 			dir = new File(filePath);
 		
@@ -931,8 +945,9 @@ public class QsarModelingTask extends WorkflowTask {
 			predictor.setNumyTestModels(numYTestModels);
 			
 			//read external set predictions
-			externalSetPredictions = SvmWorkflow.readExternalPredictionOutput(filePath, predictor.getPredictorId());
-			
+			if(numExternalCompounds > 0){
+				externalSetPredictions = SvmWorkflow.readExternalPredictionOutput(filePath, predictor.getPredictorId());
+			}
 		}
 		
 		//save updated predictor to database
