@@ -34,27 +34,19 @@ public class RandomForestWorkflow{
 		FileAndDirOperations.deleteDirContents(workingdir + "yRandom/");
 		FileAndDirOperations.deleteDirContents(workingdir + "yRandom/Logs/");
 		
-		//copy file to yRandom
+		//copy files to yRandom
 		String fromDir = workingdir;
 		String toDir = workingdir + "yRandom/";
-		BufferedReader in = new BufferedReader(new FileReader(workingdir + "RF_RAND_sets.list"));
-		Utility.writeToDebug("Copying RF_RAND_sets.list from " + fromDir + " to " + toDir);
-		FileChannel ic = new FileInputStream(fromDir + "RF_RAND_sets.list").getChannel();
-		FileChannel oc = new FileOutputStream(toDir + "RF_RAND_sets.list").getChannel();
-		ic.transferTo(0, ic.size(), oc);
-		ic.close();
-		oc.close(); 
 		
 		String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
+		String newModelingXFile = "RF_" + Constants.MODELING_SET_X_FILE;
 		
-		Utility.writeToDebug("Copying " + newExternalXFile + " from " + fromDir + " to " + toDir);
-		ic = new FileInputStream(fromDir + newExternalXFile).getChannel();
-		oc = new FileOutputStream(toDir + newExternalXFile).getChannel();
-		ic.transferTo(0, ic.size(), oc);
-		ic.close();
-		oc.close();
+		FileAndDirOperations.copyFile(fromDir + "RF_RAND_sets.list", toDir + "yRandom/" + "RF_RAND_sets.list");
+		FileAndDirOperations.copyFile(fromDir + newExternalXFile, toDir + "yRandom/" + newExternalXFile);
+		FileAndDirOperations.copyFile(fromDir + newModelingXFile, toDir + "yRandom/" + newModelingXFile);
 		
-		Utility.writeToDebug("Copying files in RF_RAND_sets.list from " + fromDir + " to " + toDir);
+		Utility.writeToDebug("Copying files in RF_RAND_sets.list from " + workingdir + " to " + workingdir + "yRandom/");
+		BufferedReader in = new BufferedReader(new FileReader(workingdir + "RF_RAND_sets.list"));
 		String inputString;
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
@@ -68,11 +60,7 @@ public class RandomForestWorkflow{
 			for(int i = 0; i<files.length; i++)
 			{
 				if(new File(fromDir + files[i]).exists()){
-					ic = new FileInputStream(fromDir + files[i]).getChannel();
-					oc = new FileOutputStream(toDir + files[i]).getChannel();
-					ic.transferTo(0, ic.size(), oc);
-					ic.close();
-					oc.close();	
+					FileAndDirOperations.copyFile(fromDir + files[i], toDir + files[i]);
 				}
 			}
 		}
