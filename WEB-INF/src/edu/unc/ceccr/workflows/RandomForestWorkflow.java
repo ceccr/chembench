@@ -118,6 +118,8 @@ public class RandomForestWorkflow{
 		//fix external set .x file too
 		String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
 		preProcessXFile(scalingType, Constants.EXTERNAL_SET_X_FILE, newExternalXFile, workingDir);
+		String newModelingXFile = "RF_" + Constants.MODELING_SET_X_FILE;
+		preProcessXFile(scalingType, Constants.MODELING_SET_X_FILE, newModelingXFile, workingDir);
 		
 	}
 	
@@ -133,17 +135,24 @@ public class RandomForestWorkflow{
 		String type = actFileDataType.equals(Constants.CATEGORY) ? "classification" : "regression";
 		String ntree = randomForestParameters.getNumTrees().trim();
 		String mtry = randomForestParameters.getDescriptorsPerTree().trim();
-//		String classwt = categoryWeights;
+		// String classwt = categoryWeights;
 		String classwt = "NULL";
 		String nodesize = randomForestParameters.getMinTerminalNodeSize();
 		String maxnodes = randomForestParameters.getMaxNumTerminalNodes();
 		
-		String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
+		String externalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
+		if(DatasetFileOperations.getXCompoundNames(workingDir + Constants.EXTERNAL_SET_X_FILE).size() == 0){
+			//Random Forest will not run without a non-empty x file. (facepalm)
+			//workaround: use the training set X file in this case. The external
+			//prediction results will be ignored.
+			externalXFile = "RF_" + Constants.MODELING_SET_X_FILE;
+		}
+		
 		if(maxnodes.equals("0")) maxnodes = "NULL";
 		command = "Rscript --vanilla " + buildModelScript
 					   + " --scriptsDir " + scriptDir
 					   + " --workDir " + workingDir
-					   + " --externalXFile " + newExternalXFile
+					   + " --externalXFile " + externalXFile
 					   + " --dataSplitsListFile " + "RF_RAND_sets.list"
 					   + " --type " + type
 					   + " --ntree " + ntree
