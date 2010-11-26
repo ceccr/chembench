@@ -41,9 +41,9 @@ public class RandomForestWorkflow{
 		String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
 		String newModelingXFile = "RF_" + Constants.MODELING_SET_X_FILE;
 		
-		FileAndDirOperations.copyFile(fromDir + "RF_RAND_sets.list", toDir + "yRandom/" + "RF_RAND_sets.list");
-		FileAndDirOperations.copyFile(fromDir + newExternalXFile, toDir + "yRandom/" + newExternalXFile);
-		FileAndDirOperations.copyFile(fromDir + newModelingXFile, toDir + "yRandom/" + newModelingXFile);
+		FileAndDirOperations.copyFile(fromDir + "RF_RAND_sets.list", toDir + "RF_RAND_sets.list");
+		FileAndDirOperations.copyFile(fromDir + newExternalXFile, toDir + newExternalXFile);
+		FileAndDirOperations.copyFile(fromDir + newModelingXFile, toDir + newModelingXFile);
 		
 		Utility.writeToDebug("Copying files in RF_RAND_sets.list from " + workingdir + " to " + workingdir + "yRandom/");
 		BufferedReader in = new BufferedReader(new FileReader(workingdir + "RF_RAND_sets.list"));
