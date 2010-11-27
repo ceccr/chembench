@@ -58,12 +58,7 @@
 		<p class="StandardTextDarkGray"><b><u>Predictions for External Validation Set</u></b></p>
 	
 	<s:if test="models.size==0">
-		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-			<br/><p class="StandardTextDarkGray">No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.</p><br/><br/>
-		</s:if>
-		<s:else>
-			<p class="StandardTextDarkGray">No models were generated that passed your cutoffs.</p><br/><br/>
-		</s:else>
+			<br/><p class="StandardTextDarkGray">No models that passed your cutoffs were generated.</p><br/><br/>
 	</s:if>
 	<s:elseif test="externalValValues.size!=0">
 		<br/><p class="StandardTextDarkGray">There were no compounds in your dataset's external validation set.</p><br /><br />
@@ -79,7 +74,6 @@
 		<th class="TableRowText01">Residual</th>
 		<th class="TableRowText01">Predicting Models / Total Models</th>
 		</tr>
-	</s:else>	
 		
 	<s:iterator value="externalValValues" status="extValStatus">
 		<tr>
@@ -104,7 +98,7 @@
 			<td class="TableRowText02"><s:property value="numModels" /> / <s:property value="selectedPredictor.numTestModels" /></td>
 		</tr>
 	</s:iterator>
-	
+	</s:else>
 	</table>
 	<br />
 	<!-- End External Validation Compound Predictions -->
