@@ -216,7 +216,7 @@ public class PredictionFormActions extends ActionSupport{
 		String sdf = predictionDataset.getSdfFile();
 		
 		if(jobName != null && jobName.contains(" ")){
-			jobName.replaceAll(" ", "_");
+			jobName = jobName.replaceAll(" ", "_");
 		}
 		
 		Utility.writeToDebug(user.getUserName());
