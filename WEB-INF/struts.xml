@@ -263,7 +263,7 @@
 	        </action>
 	        
 	        <action name="viewKnnPlusPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modelingOutput/viewPredictor-knnPlusExternalSetPredictions.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
 	        </action>
 	        
 	        <action name="viewKnnPlusPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadYRandomSection">
@@ -276,7 +276,7 @@
         	<!-- random forest -->
         	
         	 <action name="viewRandomForestExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modelingOutput/viewPredictor-knnPlusExternalSetPredictions.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
 	        </action>
 	        
         	 <action name="viewRandomForestPredictorGrovesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadGrovesSection">
@@ -299,7 +299,7 @@
         	
         	<!-- svm -->
         	<action name="viewSvmExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modelingOutput/viewPredictor-knnPlusExternalSetPredictions.jsp</result>
+	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
 	        </action>
 	        
         	<action name="viewSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">

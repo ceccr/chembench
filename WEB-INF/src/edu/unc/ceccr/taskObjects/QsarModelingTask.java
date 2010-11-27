@@ -506,7 +506,6 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		//set modeling params id in predictor
 		if(modelType.equals(Constants.KNN)){
-			
 			predictor.setModelingParametersId(knnParameters.getId());	
 		}
 		else if(modelType.equals(Constants.SVM)){

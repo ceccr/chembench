@@ -6,7 +6,7 @@
 	<br />
 	
 	<!-- External Validation Chart -->
-	<s:if test="models.size!=0">
+	<s:if test="models.size!=0&&externalValValues.size!=0">
 	<s:if test="dataType=='CONTINUOUS'">
 		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
 		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
@@ -50,6 +50,7 @@
 		</s:if>
 	</s:elseif>
 	</s:if>
+	
 	<br />
 	<!-- End External Validation Chart -->
 	
@@ -64,6 +65,9 @@
 			<p class="StandardTextDarkGray">No models were generated that passed your cutoffs.</p><br/><br/>
 		</s:else>
 	</s:if>
+	<s:elseif test="externalValValues.size!=0">
+		<br/><p class="StandardTextDarkGray">There were no compounds in your dataset's external validation set.</p><br /><br />
+	</s:elseif>
 	<s:else>
 	<table width="100%" align="center" class="sortable" id="externalSetPredictions">
 		<!--DWLayoutTable-->

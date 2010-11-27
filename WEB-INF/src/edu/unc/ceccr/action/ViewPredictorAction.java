@@ -114,6 +114,7 @@ public class ViewPredictorAction extends ActionSupport {
 			externalValValues = PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
 			
 			if(externalValValues == null || externalValValues.isEmpty()){
+				externalValValues = new ArrayList<ExternalValidation>();
 				return result;
 			}
 			

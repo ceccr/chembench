@@ -6,6 +6,7 @@
 	<br />
 	
 	<!-- External Validation Chart -->
+	<s:if test="models.size!=0&&externalValValues.size!=0">
 	<s:if test="dataType=='CONTINUOUS'">
 		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
 		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
@@ -86,7 +87,10 @@
 			<td class="TableRowText02"><s:property value="numModels" /> / <s:property value="selectedPredictor.numTestModels" /></td>
 		</tr>
 	</s:iterator>
-	
+	</s:if>
+	<s:else>
+		
+	</s:else>
 	</table>
 	<br />
 	<!-- End External Validation Compound Predictions -->
