@@ -60,7 +60,7 @@
 	<s:if test="models.size==0">
 			<br/><p class="StandardTextDarkGray">No models that passed your cutoffs were generated.</p><br/><br/>
 	</s:if>
-	<s:elseif test="externalValValues.size!=0">
+	<s:elseif test="externalValValues.size==0">
 		<br/><p class="StandardTextDarkGray">There were no compounds in your dataset's external validation set.</p><br /><br />
 	</s:elseif>
 	<s:else>
