@@ -26,26 +26,26 @@ function setDatasetName(obj){
 
 function validateLoad()
 {
- var sdfValue=document.getElementById("loadSdf").value;
- var actValue=document.getElementById("loadAct").value;
- if(sdfValue==""&&actValue=="")
- {
-    window.alert("Please upload ACT file and SDF file.");return false;
-    }else{
-        if(sdfValue==""){ window.alert("Please upload SDF file.");return false;}
+	var sdfValue=document.getElementById("loadSdf").value;
+	var actValue=document.getElementById("loadAct").value;
+	if(sdfValue==""&&actValue==""){
+	    window.alert("Please upload ACT file and SDF file.");
+	    return false;
+	}
+	else{
+        if(sdfValue==""){ 
+        	window.alert("Please upload SDF file.");
+        	return false;
+        }
         else{
-            if(actValue==""){window.alert("Please upload ACT file");return false;}
+            if(actValue==""){
+            	window.alert("Please upload ACT file");return false;
+            }
             else{
             	
             	var rejectName = false;
             	var errorstring;
             	var datasetName = document.getElementById("datasetName").value;
-            	for(i=0; i < datasetName.length; i++){
-            		if(datasetName[i] == ' '){
-            			rejectName = true;
-            			errorstring="The job name must not contain a space.";
-            		}
-            	}
             	if(datasetName.length == 0){
             		rejectName = true;
             		errorstring="Please enter a name for this job.";

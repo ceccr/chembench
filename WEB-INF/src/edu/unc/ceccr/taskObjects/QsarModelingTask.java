@@ -101,7 +101,7 @@ public class QsarModelingTask extends WorkflowTask {
 	private KnnPlusParameters knnPlusParameters;
 	
 	//predicted external set values
-	ArrayList<ExternalValidation> externalSetPredictions = null;	
+	ArrayList<ExternalValidation> externalSetPredictions = new ArrayList<ExternalValidation>();	
 	
 	//predictor object created during task
 	private Predictor predictor;
@@ -917,8 +917,6 @@ public class QsarModelingTask extends WorkflowTask {
 			if(numExternalCompounds > 0){
 				externalSetPredictions = RandomForestWorkflow.readExternalSetPredictionOutput(filePath, predictor);
 			}
-			File dir;
-			dir = new File(filePath);
 		
 			predictor.setNumTotalModels(getNumTotalModels());
 

@@ -113,6 +113,10 @@ public class ViewPredictorAction extends ActionSupport {
 			//get external validation compounds of predictor
 			externalValValues = PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
 			
+			if(externalValValues == null || externalValValues.isEmpty()){
+				return result;
+			}
+			
 			dataset = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session);
 			
 			//calculate residuals and fix significant figures on output data
@@ -183,7 +187,6 @@ public class ViewPredictorAction extends ActionSupport {
 					int predictedValueIndex = uniqueObservedValues.indexOf("" + predictedValue);
 					int previousCount = confusionMatrix.get(observedValueIndex).values.get(predictedValueIndex);
 					confusionMatrix.get(observedValueIndex).values.set(predictedValueIndex, previousCount+1);
-					
 					
 					if(observedValueCounts.containsKey(observedValue)){
 						observedValueCounts.put(observedValue, observedValueCounts.get(observedValue) + 1);
