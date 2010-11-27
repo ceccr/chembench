@@ -6,8 +6,7 @@
 	<br />
 	
 	<!-- External Validation Chart -->
-	<s:if test="externalValValues.size!=0">
-	<s:if test="models.size!=0||svmModels.size!=0||knnPlusModels.size!=0||randomForestGroves.size!=0||knnPlusModels.size!=0">
+	<s:if test="externalValValues.size!=0&&hasGoodModels=='YES'">
 	<s:if test="dataType=='CONTINUOUS'">
 		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
 		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
@@ -58,8 +57,8 @@
 	<!-- External Validation Compound Predictions -->
 		<p class="StandardTextDarkGray"><b><u>Predictions for External Validation Set</u></b></p>
 	
-	<s:if test="models.size==0&&svmModels.size==0&&knnPlusModels.size==0&&randomForestGroves.size==0&&knnPlusModels.size==0">
-			<br/><p class="StandardTextDarkGray">No models that passed your cutoffs were generated.</p><br/><br/>
+	<s:if test="hasGoodModels=='NO'">
+			<br/><p class="StandardTextDarkGray">No models were generated that passed your cutoffs.</p><br/><br/>
 	</s:if>
 	<s:elseif test="externalValValues.size==0">
 		<br/><p class="StandardTextDarkGray">There were no compounds in your dataset's external validation set.</p><br /><br />

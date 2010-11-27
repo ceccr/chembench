@@ -68,6 +68,7 @@ public class ViewPredictorAction extends ActionSupport {
 	private KnnParameters knnParameters;
 	private KnnPlusParameters knnPlusParameters;
 	private SvmParameters svmParameters;
+	private String hasGoodModels = Constants.YES;
 	
 	//used in creation of confusion matrix (category modeling only)
 	public class ConfusionMatrixRow{
@@ -124,6 +125,7 @@ public class ViewPredictorAction extends ActionSupport {
 			residuals = new ArrayList<String>();
 			Iterator<ExternalValidation> eit = externalValValues.iterator();
 			int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
+			int numExtValuesWithNoModels = 0;
 			while(eit.hasNext()){
 				ExternalValidation e = eit.next();
 				if(e.getNumModels() != 0){
@@ -131,6 +133,7 @@ public class ViewPredictorAction extends ActionSupport {
 					residuals.add(Utility.roundSignificantFigures(residual, sigfigs));
 				}
 				else{
+					numExtValuesWithNoModels++;
 					residuals.add("");
 				}
 				String predictedValue = DecimalFormat.getInstance().format(e.getPredictedValue()).replaceAll(",", "");
@@ -138,6 +141,12 @@ public class ViewPredictorAction extends ActionSupport {
 				if(! e.getStandDev().equalsIgnoreCase("No value")){
 					e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
 				}
+			}
+			if(numExtValuesWithNoModels == externalValValues.size()){
+				//all external predictions were empty, meaning there were no good models.
+				//can't calculate any summary data.
+				hasGoodModels = Constants.NO;
+				return result;
 			}
 			
 			if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
@@ -909,6 +918,13 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setrSquared(String rSquared) {
 		this.rSquared = rSquared;
+	}
+
+	public String getHasGoodModels() {
+		return hasGoodModels;
+	}
+	public void setHasGoodModels(String hasGoodModels) {
+		this.hasGoodModels = hasGoodModels;
 	}
 
 }
