@@ -80,16 +80,6 @@ function extendColumn(obj){
 
 function submitForm(btn, value){
 	//check that dataset name contains no spaces then submit form
-	var rejectName = false;
-	for(i=0; i < value.length; i++){
-		if(value[i] == ' '){
-			rejectName=true;
-		}
-	}
-	if(rejectName){
-		window.alert("The job name must not contain a space.");
-    	return; 	
-	}
 	
 	if(submitFilesForm(btn,document.getElementById('pleaseWaitText'))) showLoading("UPLOADING FILES. PLEASE WAIT...");
 }

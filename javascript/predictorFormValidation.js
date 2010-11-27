@@ -8,12 +8,6 @@ function validateForm(){
 	var rejectName = false;
 	var errorstring;
 	var jobname = document.getElementById("jobName").value;
-	for(i=0; i < jobname.length; i++){
-		if(jobname[i] == ' '){
-			rejectName = true;
-			errorstring="The job name must not contain a space.";
-		}
-	}
 	if(jobname.length == 0){
 		rejectName = true;
 		errorstring="Please enter a name for this job.";
