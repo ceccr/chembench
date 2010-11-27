@@ -50,7 +50,6 @@
 		</s:if>
 	</s:elseif>
 	</s:if>
-	</s:if>
 	<br />
 	<!-- End External Validation Chart -->
 	
