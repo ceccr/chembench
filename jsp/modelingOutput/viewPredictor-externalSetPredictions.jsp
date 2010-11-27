@@ -7,7 +7,7 @@
 	
 	<!-- External Validation Chart -->
 	<s:if test="externalValValues.size!=0">
-	<s:if test="models.size!=0&&svmModels.size!=0&&knnPlusModels.size!=0&&randomForestGroves.size!=0&&knnPlusModels.size!=0">
+	<s:if test="models.size!=0||svmModels.size!=0||knnPlusModels.size!=0||randomForestGroves.size!=0||knnPlusModels.size!=0">
 	<s:if test="dataType=='CONTINUOUS'">
 		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
 		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
