@@ -197,7 +197,7 @@ public class SvmWorkflow{
 			
 		}*/
 		
-		BufferedReader br = new BufferedReader(new FileReader(workingDir + "svm-models.txt"));
+		BufferedReader br = new BufferedReader(new FileReader(workingDir + "svm-results.txt"));
 		String line;
 		while((line = br.readLine()) != null){
 			if(! line.trim().isEmpty()){
