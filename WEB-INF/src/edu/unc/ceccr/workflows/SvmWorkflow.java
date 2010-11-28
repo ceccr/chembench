@@ -211,6 +211,7 @@ public class SvmWorkflow{
 				svmModel.setGamma(tokens[0]);
 				svmModel.setDegree(tokens[0]);
 				svmModel.setLoss(tokens[0]);
+				//svmModels.add(svmModel);
 			}
 		}
 		
