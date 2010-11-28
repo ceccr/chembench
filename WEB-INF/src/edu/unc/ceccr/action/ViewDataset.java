@@ -298,6 +298,10 @@ public class ViewDataset extends ActionSupport {
 			
 			HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE);
 			
+			if(actIdsAndValues.isEmpty()){
+				return result;
+			}
+			
 			ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
 			for(String compoundId : compoundIds){
 				Compound c = new Compound();

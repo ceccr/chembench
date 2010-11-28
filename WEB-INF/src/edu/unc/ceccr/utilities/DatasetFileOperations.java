@@ -43,22 +43,26 @@ We might move this to the Workflows package later, but it's OK here for now.
 
 public class DatasetFileOperations {
 	
-	public static HashMap<String, String> getActFileIdsAndValues(String filePath) throws Exception {
+	public static HashMap<String, String> getActFileIdsAndValues(String filePath) {
 		HashMap<String, String> idsAndValues = new HashMap<String, String>();
 		
-		File file = new File(filePath);
-		FileInputStream fis = new FileInputStream(file);
-		int length = fis.available();
-		byte[] bytes = new byte[length];
-		fis.read(bytes);
-		String byteStr = (new String(bytes)).trim();
-
-		String[] array = byteStr.split("\\s+");
-
-		for (int i = 0; i < array.length; i+=2) {
-			idsAndValues.put(array[i], array[i + 1]);
+		try{
+			File file = new File(filePath);
+			FileInputStream fis = new FileInputStream(file);
+			int length = fis.available();
+			byte[] bytes = new byte[length];
+			fis.read(bytes);
+			String byteStr = (new String(bytes)).trim();
+	
+			String[] array = byteStr.split("\\s+");
+	
+			for (int i = 0; i < array.length; i+=2) {
+				idsAndValues.put(array[i], array[i + 1]);
+			}
 		}
-		
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 		return idsAndValues;
 	}
 	

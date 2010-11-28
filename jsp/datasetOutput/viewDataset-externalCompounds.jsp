@@ -10,6 +10,7 @@
 	<table width="924" align="center">
 		<tr><td>
 			
+			<s:if test="externalCompounds.size()!=0">
 			<table>
 				<tr>
 					<!-- header for left side table -->
@@ -37,6 +38,10 @@
 				</tr>
 				</s:iterator>
 			</table>
+			</s:if>
+			<s:else>
+				<br/><p class="StandardTextDarkGray">There are no compounds in your dataset's external validation set.</p><br/><br/>
+			</s:else>
 		</td></tr>
 	</table>
 	<!-- End External Compounds -->
