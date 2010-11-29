@@ -501,10 +501,10 @@ public class ModelingFormActions extends ActionSupport{
 	private String svmCostTo = "10";
 	private String svmCostStep = "4";
 
-	//must be >= 0
+	//must be > 0 and <= 1
 	private String svmNuFrom = "0.1";
-	private String svmNuTo = "2.5";
-	private String svmNuStep = "0.8";
+	private String svmNuTo = "1";
+	private String svmNuStep = "0.3";
 
 	//must be >= 0
 	private String svmPEpsilonFrom = "0";
