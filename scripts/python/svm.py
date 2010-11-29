@@ -186,17 +186,17 @@ for dirindex in range(0, 2):
 		if svmType in ("0", "3", "4"):
 			costRange = permute_sequence(range_f(costFrom, costTo+0.0001, costStep))
 		else:
-			costRange = (1)
+			costRange = [1]
 		
 		if svmType in ("1", "4"):
 			nuRange = permute_sequence(range_f(nuFrom, nuTo+0.0001, nuStep))
 		else:
-			nuRange = (1)
+			nuRange = [1]
 		
 		if svmType == "3":
 			lossRange = permute_sequence(range_f(lossFrom, lossTo+0.0001, lossStep))
 		else:
-			lossRange = (1)
+			lossRange = [1]
 
 		for cost in costRange:
 			for degree in degreeRange:
