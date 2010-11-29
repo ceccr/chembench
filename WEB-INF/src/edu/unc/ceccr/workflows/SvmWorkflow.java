@@ -89,12 +89,6 @@ public class SvmWorkflow{
 		}
 		else{
 			svmType = svmParameters.getSvmTypeContinuous();
-			if(svmType.equals("0")){
-				svmType = "3";
-			}
-			else{
-				svmType = "4";
-			}
 		}
 
 		out.write("list-file: " + "RAND_sets.list" + "\n");

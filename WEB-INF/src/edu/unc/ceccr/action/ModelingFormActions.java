@@ -483,8 +483,8 @@ public class ModelingFormActions extends ActionSupport{
 	
 	//SVM Parameters
 	private String svmTypeCategory = "0";
-	private String svmTypeContinuous = "0";
-	private String svmKernel = "2";
+	private String svmTypeContinuous = "3";
+	private String svmKernel = "0";
 
 	//must be > 0
 	private String svmDegreeFrom = "2";

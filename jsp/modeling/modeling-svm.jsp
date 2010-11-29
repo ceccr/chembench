@@ -23,7 +23,7 @@
 				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmTypeCategory" disabled="true" id="svmTypeCategory" list="#{'0':'C-SVC','1':'nu-SVC'}" theme="simple" /></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>SVM Type (for Continuous data):</b></div></td>
-				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmTypeContinuous" id="svmTypeContinuous" list="#{'0':'epsilon-SVR','1':'nu-SVR'}" theme="simple" /></div>
+				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmTypeContinuous" id="svmTypeContinuous" list="#{'3':'epsilon-SVR','4':'nu-SVR'}" theme="simple" /></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Kernel Type:</b></div></td>
 				<td><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmKernel" list="#{'0':'linear','1':'polynomial','2':'radial basis function','3':'sigmoid'}" theme="simple" /></div>

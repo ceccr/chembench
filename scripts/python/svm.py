@@ -29,8 +29,8 @@ def range_f(begin,end,step):
 		begin = begin + step
 	return seq
 	
+#calculates r^2 given two arrays of numbers
 def rSquared(actualValues, predictedValues):
-	#calculates r^2 between two arrays of numbers
 	avg = float(0)
 	for av in actualValues:
 		avg += av
@@ -177,12 +177,32 @@ for dirindex in range(0, 2):
 			match = re.match("([^ ]+)\s+([^ ]+)", line)
 			actualValues.append(float(match.group(2)))
 		testActFile.close()
+		
 
-		for cost in permute_sequence(range_f(costFrom, costTo+0.0001, costStep)):
-			for degree in permute_sequence(range_f(degreeFrom, degreeTo+0.0001, degreeStep)):
-				for nu in permute_sequence(range_f(nuFrom, nuTo+0.0001, nuStep)):
-					for loss in permute_sequence(range_f(lossFrom, lossTo+0.0001, lossStep)):
-						for gamma in permute_sequence(range_f(gammaFrom, gammaTo+0.0001, gammaStep)):
+		
+		degreeRange = permute_sequence(range_f(degreeFrom, degreeTo+0.0001, degreeStep))
+		gammaRange = permute_sequence(range_f(gammaFrom, gammaTo+0.0001, gammaStep))
+		
+		if svmType in ("0", "3", "4"):
+			costRange = permute_sequence(range_f(costFrom, costTo+0.0001, costStep))
+		else:
+			costRange = (1)
+		
+		if svmType in ("1", "4"):
+			nuRange = permute_sequence(range_f(nuFrom, nuTo+0.0001, nuStep))
+		else:
+			nuRange = (1)
+		
+		if svmType == "3":
+			lossRange = permute_sequence(range_f(lossFrom, lossTo+0.0001, lossStep))
+		else:
+			lossRange = (1)
+
+		for cost in costRange:
+			for degree in degreeRange:
+				for nu in nuRange:
+					for loss in lossRange:
+						for gamma in gammaRange:
 							modelFileName = trainSvm.replace(".svm", "")+"_d"+str(degree)+"_g"+str(gamma)+"_c"+str(cost)+"_n"+str(nu)+"_p"+str(loss)+".mod"
 							command = "svm-train " + "-s " + svmType + " -t " + kernelType 
 							command += " -h " + shrinkingHeuristics + " -b " + probabilityHeuristics 
