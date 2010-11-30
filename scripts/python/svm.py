@@ -144,13 +144,6 @@ while 1:
 		activityType = match.group(2)
 file.close()
 
-
-#write header for output file
-outfile = open(workingDir + "svm-results.txt", 'w')
-outfile.write("rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n")
-outfile.close()
-
-
 #Build models on each training file in listFile according to given parameters. 
 #Predict test sets given by listFile.
 #Delete any files and outputs that don't pass the model acceptance criteria.
@@ -160,6 +153,11 @@ for dirindex in range(0, 2):
 		workingDir = modelingDir
 	else:
 		workingDir = yRandomDir
+
+	#write header for output file
+	outfile = open(workingDir + "svm-results.txt", 'w')
+	outfile.write("rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n")
+	outfile.close()
 
 	listFile = open(listFileName, 'r')
 	while 1:
