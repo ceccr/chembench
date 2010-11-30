@@ -184,28 +184,24 @@ public class SvmWorkflow{
 		File dir = new File(workingDir);
 		
 		ArrayList<SvmModel> svmModels = new ArrayList<SvmModel>();
-		/*
-		String[] files = dir.list(new FilenameFilter() {public boolean accept(File arg0, String arg1) {return arg1.endsWith(".mod");}});
-		for(int i = 0; i < files.length; i++){
-			//read MSE from SVM file
-			
-		}*/
 		
 		BufferedReader br = new BufferedReader(new FileReader(workingDir + "svm-results.txt"));
 		String line;
 		while((line = br.readLine()) != null){
 			if(! line.trim().isEmpty()){
-				String[] tokens = line.split("\\s+");
+				String[] tokens = line.split("\t");
+				//"rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n"
+				
 				SvmModel svmModel = new SvmModel();
-				svmModel.setCcrTest(tokens[0]);
 				svmModel.setrSquaredTest(tokens[0]);
-				svmModel.setMseTest(tokens[0]);
-				svmModel.setNu(tokens[0]);
-				svmModel.setCost(tokens[0]);
-				svmModel.setGamma(tokens[0]);
-				svmModel.setDegree(tokens[0]);
-				svmModel.setLoss(tokens[0]);
-				//svmModels.add(svmModel);
+				svmModel.setCcrTest(tokens[1]);
+				svmModel.setMseTest(tokens[2]);
+				svmModel.setDegree(tokens[3]);
+				svmModel.setGamma(tokens[4]);
+				svmModel.setCost(tokens[5]);
+				svmModel.setNu(tokens[6]);
+				svmModel.setLoss(tokens[7]);
+				svmModels.add(svmModel);
 			}
 		}
 		

@@ -208,7 +208,7 @@ public class QsarModelingTask extends WorkflowTask {
 					if(new File(workingDir + "svm-results.txt").exists()){
 						p += FileAndDirOperations.getNumLinesInFile(workingDir + "svm-results.txt");
 					}
-					if(new File(workingDir + "yRandom/svm-modeling.log").exists()){
+					if(new File(workingDir + "yRandom/svm-results.txt").exists()){
 						p += FileAndDirOperations.getNumLinesInFile(workingDir + "yRandom/svm-results.txt");
 					}
 					//divide by (number of models * 2 because of yRandom)
