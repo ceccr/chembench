@@ -144,6 +144,13 @@ while 1:
 		activityType = match.group(2)
 file.close()
 
+
+#write header for output file
+outfile = open(workingDir + "svm-results.txt", 'w')
+outfile.write("rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n")
+outfile.close()
+
+
 #Build models on each training file in listFile according to given parameters. 
 #Predict test sets given by listFile.
 #Delete any files and outputs that don't pass the model acceptance criteria.
@@ -197,11 +204,6 @@ for dirindex in range(0, 2):
 			lossRange = permute_sequence(range_f(lossFrom, lossTo+0.0001, lossStep))
 		else:
 			lossRange = ["NA"]
-
-		#write header for output file
-		outfile = open(workingDir + "svm-results.txt", 'w')
-		outfile.write("rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n")
-		outfile.close()
 		
 		for cost in costRange:
 			for degree in degreeRange:

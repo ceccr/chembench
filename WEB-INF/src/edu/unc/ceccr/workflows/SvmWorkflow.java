@@ -194,13 +194,17 @@ public class SvmWorkflow{
 				
 				float testAccuracy = 0;
 				boolean isGoodModel = false;
-				if(tokens[0] != null && ! tokens[0].trim().isEmpty()){
+				if(tokens[0] != null && ! tokens[0].trim().equals("NA")){
 					//check cutoff against rSquared
-					
+					if(Double.parseDouble(tokens[0]) >= Double.parseDouble(cutoff)){
+						isGoodModel = true;
+					}
 				}
-				else if(tokens[1] != null && ! tokens[0].trim().isEmpty()){
+				else if(tokens[1] != null && ! tokens[1].trim().equals("NA")){
 					//check cutoff against CCR
-					
+					if(Double.parseDouble(tokens[1]) >= Double.parseDouble(cutoff)){
+						isGoodModel = true;
+					}
 				}
 				
 				if(isGoodModel){
