@@ -187,6 +187,7 @@ public class SvmWorkflow{
 		
 		BufferedReader br = new BufferedReader(new FileReader(workingDir + "svm-results.txt"));
 		String line;
+		br.readLine(); //skip header
 		while((line = br.readLine()) != null){
 			if(! line.trim().isEmpty()){
 				String[] tokens = line.split("\t");
