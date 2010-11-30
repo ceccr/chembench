@@ -180,7 +180,7 @@ public class SvmWorkflow{
 		return KnnModelingLsfWorkflow.getLsfJobId(logFilePath);
 	}
 	
-	public static ArrayList<SvmModel> readSvmModels(String workingDir) throws Exception{
+	public static ArrayList<SvmModel> readSvmModels(String workingDir, String cutoff) throws Exception{
 		File dir = new File(workingDir);
 		
 		ArrayList<SvmModel> svmModels = new ArrayList<SvmModel>();
@@ -190,18 +190,31 @@ public class SvmWorkflow{
 		while((line = br.readLine()) != null){
 			if(! line.trim().isEmpty()){
 				String[] tokens = line.split("\t");
-				//"rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n"
+				//Header: "rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)"
 				
-				SvmModel svmModel = new SvmModel();
-				svmModel.setrSquaredTest(tokens[0]);
-				svmModel.setCcrTest(tokens[1]);
-				svmModel.setMseTest(tokens[2]);
-				svmModel.setDegree(tokens[3]);
-				svmModel.setGamma(tokens[4]);
-				svmModel.setCost(tokens[5]);
-				svmModel.setNu(tokens[6]);
-				svmModel.setLoss(tokens[7]);
-				svmModels.add(svmModel);
+				float testAccuracy = 0;
+				boolean isGoodModel = false;
+				if(tokens[0] != null && ! tokens[0].trim().isEmpty()){
+					//check cutoff against rSquared
+					
+				}
+				else if(tokens[1] != null && ! tokens[0].trim().isEmpty()){
+					//check cutoff against CCR
+					
+				}
+				
+				if(isGoodModel){
+					SvmModel svmModel = new SvmModel();
+					svmModel.setrSquaredTest(tokens[0]);
+					svmModel.setCcrTest(tokens[1]);
+					svmModel.setMseTest(tokens[2]);
+					svmModel.setDegree(tokens[3]);
+					svmModel.setGamma(tokens[4]);
+					svmModel.setCost(tokens[5]);
+					svmModel.setNu(tokens[6]);
+					svmModel.setLoss(tokens[7]);
+					svmModels.add(svmModel);
+				}
 			}
 		}
 		

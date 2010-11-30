@@ -242,10 +242,10 @@ for dirindex in range(0, 2):
 							outfile = open(workingDir + "svm-results.txt", 'a')
 							if activityType == "CONTINUOUS":
 								#header: "rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n"
-								outfile.write(str(predictionResult) + "\t" + "\t" + "\t" + str(degree) + "\t" + str(gamma) + "\t" + str(cost) + "\t" + str(nu) + "\t" + str(loss) + "\n")
+								outfile.write(str(predictionResult) + "\t" + "NA\t" + "NA\t" + str(degree) + "\t" + str(gamma) + "\t" + str(cost) + "\t" + str(nu) + "\t" + str(loss) + "\n")
 							else:
 								#header : "rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n"
-								outfile.write("\t" + str(predictionResult) + "\t" + "\t" + str(degree) + "\t" + str(gamma) + "\t" + str(cost) + "\t" + str(nu) + "\t" + str(loss) + "\n")
+								outfile.write("NA\t" + str(predictionResult) + "\t" + "NA\t" + str(degree) + "\t" + str(gamma) + "\t" + str(cost) + "\t" + str(nu) + "\t" + str(loss) + "\n")
 							outfile.close()
 							
 							if predictionResult < float(cutoff):
