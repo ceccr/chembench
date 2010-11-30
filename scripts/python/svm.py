@@ -198,6 +198,11 @@ for dirindex in range(0, 2):
 		else:
 			lossRange = [1]
 
+		#write header for output file
+		outfile = open(workingDir + "svm-results.txt", 'w')
+		outfile.write("rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n")
+		outfile.close()
+		
 		for cost in costRange:
 			for degree in degreeRange:
 				for nu in nuRange:
@@ -235,7 +240,12 @@ for dirindex in range(0, 2):
 								predictionResult = ccr(actualValues, predictedValues)
 							
 							outfile = open(workingDir + "svm-results.txt", 'a')
-							outfile.write(" -d " + str(degree) + " -g " + str(gamma) + " -c " + str(cost) + " -n " + str(nu) + " -p " + str(loss) + " " + str(predictionResult) + "\n")
+							if activityType == "CONTINUOUS":
+								#header: "rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n"
+								outfile.write(str(predictionResult) + "\t" + "\t" + "\t" + str(degree) + "\t" + str(gamma) + " -c " + str(cost) + " -n " + str(nu) + " -p " + str(loss) + "\n")
+							else:
+								#header : "rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n"
+								outfile.write("\t" + str(predictionResult) + "\t" + "\t" + str(degree) + "\t" + str(gamma) + " -c " + str(cost) + " -n " + str(nu) + " -p " + str(loss) + "\n")
 							outfile.close()
 							
 							if predictionResult < float(cutoff):
