@@ -209,6 +209,7 @@ public class SvmWorkflow{
 				}
 				
 				if(isGoodModel){
+					Utility.writeToDebug("found good model");
 					SvmModel svmModel = new SvmModel();
 					svmModel.setrSquaredTest(tokens[0]);
 					svmModel.setCcrTest(tokens[1]);
@@ -219,6 +220,9 @@ public class SvmWorkflow{
 					svmModel.setNu(tokens[6]);
 					svmModel.setLoss(tokens[7]);
 					svmModels.add(svmModel);
+				}
+				else{
+					Utility.writeToDebug("Bad model. rSq: " + tokens[0] + " ccr: " + tokens[1]);
 				}
 			}
 		}

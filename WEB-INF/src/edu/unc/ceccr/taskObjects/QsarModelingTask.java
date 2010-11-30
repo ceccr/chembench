@@ -986,6 +986,7 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 			else if(svmModels != null){
 				for(SvmModel m: svmModels){
+					m.setPredictorId(predictor.getPredictorId());
 					session.saveOrUpdate(m);
 				}
 			}

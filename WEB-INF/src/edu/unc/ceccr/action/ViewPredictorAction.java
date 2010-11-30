@@ -301,6 +301,42 @@ public class ViewPredictorAction extends ActionSupport {
 			}
 			else if(selectedPredictor.getModelMethod().equals(Constants.SVM)){
 				svmParameters = PopulateDataObjects.getSvmParametersById(selectedPredictor.getModelingParametersId(), session);
+				if(svmParameters.getSvmTypeCategory().equals("0")){
+					svmParameters.setSvmTypeCategory("C-SVC");
+				}
+				else{
+					svmParameters.setSvmTypeCategory("nu-SVC");
+				}
+				if(svmParameters.getSvmTypeCategory().equals("3")){
+					svmParameters.setSvmTypeCategory("epsilon-SVR");
+				}
+				else{
+					svmParameters.setSvmTypeCategory("nu-SVR");
+				}
+				if(svmParameters.getSvmKernel().equals("0")){
+					svmParameters.setSvmKernel("linear");
+				}
+				else if(svmParameters.getSvmKernel().equals("1")){
+					svmParameters.setSvmKernel("polynomial");
+				}
+				else if(svmParameters.getSvmKernel().equals("2")){
+					svmParameters.setSvmKernel("radial basis function");
+				}
+				else if(svmParameters.getSvmKernel().equals("3")){
+					svmParameters.setSvmKernel("sigmoid");
+				}
+				if(svmParameters.getSvmHeuristics().equals("0")){
+					svmParameters.setSvmHeuristics("NO");
+				}
+				else{
+					svmParameters.setSvmHeuristics("YES");
+				}
+				if(svmParameters.getSvmProbability().equals("0")){
+					svmParameters.setSvmProbability("NO");
+				}
+				else{
+					svmParameters.setSvmProbability("YES");
+				}
 			}
 		}
 		return result;
