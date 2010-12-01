@@ -49,5 +49,4 @@ public class StreamGobbler extends Thread
         ioe.printStackTrace();  
         }
     }
-    
 }

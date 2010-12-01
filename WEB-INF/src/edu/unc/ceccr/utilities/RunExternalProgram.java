@@ -12,7 +12,6 @@ import edu.unc.ceccr.global.Constants;
 //run a program and capture its output without bleeding file handles 
 //all over the place.
 
-
 public class RunExternalProgram {
 	
 	//these programs should not have anything appear in the log file
@@ -114,16 +113,23 @@ public class RunExternalProgram {
 				file.mkdirs();
 			}
 
+			String logsPath = workingDir + "/Logs/";
+			
+			cmd = "runCmdAndLog.sh + \"" + cmd + "\" " + logsPath + logFileName + ".log" + " " + logsPath + logFileName + ".err";
+			p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
+		    p.waitFor();
+		    
+			/*
 			FileOutputStream logFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".log"));
 			FileOutputStream errFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".err"));
 			
 			p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
 			InputStream stdout = p.getInputStream();
-			InputStream errout = p.getErrorStream();
 			
 			StreamGobbler outputGobbler = new StreamGobbler(stdout, "stdout", logFileOS);  
-			StreamGobbler errorGobbler = new StreamGobbler(errout, "errout", errFileOS);   
 			outputGobbler.start();
+			InputStream errout = p.getErrorStream();
+			StreamGobbler errorGobbler = new StreamGobbler(errout, "errout", errFileOS);   
 			errorGobbler.start();
 			
 			//wait for the program to finish running
@@ -137,7 +143,7 @@ public class RunExternalProgram {
 		 	errFileOS.close();
 	        p.destroy();
 	        
-	        
+	        */
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);

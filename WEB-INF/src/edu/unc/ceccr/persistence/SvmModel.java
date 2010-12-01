@@ -5,7 +5,7 @@ import javax.persistence.*;
 import edu.unc.ceccr.utilities.Utility;
 
 @Entity
-@Table(name = "cbench_SvmModel")
+@Table(name = "cbench_svmModel")
 public class SvmModel implements java.io.Serializable{
 	
 	private Long id;
