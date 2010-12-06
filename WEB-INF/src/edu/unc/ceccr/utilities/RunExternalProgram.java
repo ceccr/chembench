@@ -16,14 +16,14 @@ public class RunExternalProgram {
 	
 	//these programs should not have anything appear in the log file
 	//when they run. (For programs that execute many times in quick succession.)
-	private static String[] runQuietly = 
+	private static String[] runQuietly = {};/*
 		{"bjobs.sh", 
 		"datasplit_train_test",
 		"checkKnnSaProgress",
 		"checkKnnGaProgress",
 		"svm-train",
 		"svm-predict",
-		"molconvert"};
+		"molconvert"};*/
 	
 	public static void close(Closeable c) {
 		if (c != null) {
