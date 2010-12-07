@@ -1,8 +1,10 @@
 package edu.unc.ceccr.utilities;
 
+import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -113,6 +115,13 @@ public class RunExternalProgram {
 
 			cmd = cmd.replaceAll("\\s+", "\\\\ ");
 			cmd = "runCmdAndLog.sh " + cmd + " " + logsPath + logFileName + ".log" + " " + logsPath + logFileName + ".err";
+			
+			File scriptFile = new File("");
+			BufferedWriter out = new BufferedWriter(new FileWriter(scriptFile));
+			out.write(cmd + "\n");
+			out.close();
+			scriptFile.setExecutable(true);
+			FileAndDirOperations.makeDirContentsExecutable(workingDir);
 			
 			if(outputRunningMessage){
 				Utility.writeToDebug("Running external program " + cmd + " in dir: " + workingDir);
