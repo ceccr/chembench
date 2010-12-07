@@ -113,7 +113,7 @@ public class RunExternalProgram {
 			}
 			String logsPath = workingDir + "Logs/";
 
-			cmd = "runCmdAndLog.sh \"" + cmd + " \"" + logsPath + logFileName + ".log" + " " + logsPath + logFileName + ".err";
+			cmd = "runCmdAndLog.sh \"" + cmd + "\" " + logsPath + logFileName + ".log" + " " + logsPath + logFileName + ".err";
 			
 			File scriptFile = new File(workingDir + "temp-script.sh");
 			BufferedWriter out = new BufferedWriter(new FileWriter(scriptFile));
