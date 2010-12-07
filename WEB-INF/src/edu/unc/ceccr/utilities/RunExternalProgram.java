@@ -113,10 +113,9 @@ public class RunExternalProgram {
 			}
 			String logsPath = workingDir + "Logs/";
 
-			cmd = cmd.replaceAll("\\s+", "\\\\ ");
-			cmd = "runCmdAndLog.sh " + cmd + " " + logsPath + logFileName + ".log" + " " + logsPath + logFileName + ".err";
+			cmd = "runCmdAndLog.sh \"" + cmd + " \"" + logsPath + logFileName + ".log" + " " + logsPath + logFileName + ".err";
 			
-			File scriptFile = new File("");
+			File scriptFile = new File(workingDir + "temp-script.sh");
 			BufferedWriter out = new BufferedWriter(new FileWriter(scriptFile));
 			out.write(cmd + "\n");
 			out.close();
@@ -127,7 +126,7 @@ public class RunExternalProgram {
 				Utility.writeToDebug("Running external program " + cmd + " in dir: " + workingDir);
 			}
 
-			p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
+			p = Runtime.getRuntime().exec("temp-script.sh", null, new File(workingDir));
 		    p.waitFor();
 		    
 		    
