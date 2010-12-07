@@ -108,12 +108,12 @@ public class RunExternalProgram {
 			}
 
 			//capture program output in log file
-			File file=new File(workingDir + "/Logs/");
+			File file=new File(workingDir + "Logs/");
 			if(!file.exists()){
 				file.mkdirs();
 			}
 
-			String logsPath = workingDir + "/Logs/";
+			String logsPath = workingDir + "Logs/";
 			
 			cmd = "runCmdAndLog.sh + \"" + cmd + "\" " + logsPath + logFileName + ".log" + " " + logsPath + logFileName + ".err";
 			p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
