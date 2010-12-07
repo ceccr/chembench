@@ -37,6 +37,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.RandomForestTree;
+import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
@@ -54,6 +55,8 @@ public class ViewPredictorAction extends ActionSupport {
 	private List<KnnModel> randomModels;
 	private List<KnnPlusModel> knnPlusModels;
 	private List<KnnPlusModel> knnPlusRandomModels;
+	private List<SvmModel> svmModels;
+	private List<SvmModel> svmRandomModels;
 	private List<RandomForestGrove> randomForestGroves;
 	private List<RandomForestGrove> randomForestYRandomGroves;
 	private List<RandomForestTree> randomForestTrees;
@@ -381,6 +384,11 @@ public class ViewPredictorAction extends ActionSupport {
 
 			getModels(session);
 			
+			if(selectedPredictor.getModelMethod().equals(Constants.SVM)){
+				//no descriptor selection in SVM.
+				return result;
+			}
+			
 			//get descriptor freqs from models
 			HashMap<String, Integer> descriptorFreqMap  = new HashMap<String, Integer>();
 			if(models != null){
@@ -447,6 +455,38 @@ public class ViewPredictorAction extends ActionSupport {
 		return result;
 	}
 
+	
+	public String loadYRandomSection() throws Exception {
+
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			predictorId = ((String[]) context.getParameters().get("id"))[0];
+			if(predictorId == null){
+				Utility.writeToStrutsDebug("No predictor ID supplied.");
+			}
+			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+			
+			getModels(session);
+		}
+		
+		return result;
+	}
+	
 	public String loadGrovesSection() throws Exception {
 		String result = SUCCESS;
 		//check that the user is logged in
@@ -562,38 +602,6 @@ public class ViewPredictorAction extends ActionSupport {
 			}
 		}
 		session.close();
-		return result;
-	}
-	
-	
-	public String loadYRandomSection() throws Exception {
-
-		String result = SUCCESS;
-		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-
-		Session session = HibernateUtil.getSession();
-		
-		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
-		}
-		else{
-			user = (User) context.getSession().get("user");
-			
-			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
-				result = LOGIN;
-				return result;
-			}
-			predictorId = ((String[]) context.getParameters().get("id"))[0];
-			if(predictorId == null){
-				Utility.writeToStrutsDebug("No predictor ID supplied.");
-			}
-			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
-			
-			getModels(session);
-		}
-		
 		return result;
 	}
 
@@ -740,6 +748,26 @@ public class ViewPredictorAction extends ActionSupport {
 					}
 					else{
 						knnPlusRandomModels.add(m);
+					}
+				}
+			}
+		}
+		else if(selectedPredictor.getModelMethod().equals(Constants.SVM)){
+			svmModels = new ArrayList<SvmModel>();
+			svmRandomModels = new ArrayList<SvmModel>();
+			ArrayList<SvmModel> allModels = new ArrayList<SvmModel>();
+			List temp = PopulateDataObjects.getSvmModelsByPredictorId(Long.parseLong(predictorId), session);
+			if(temp != null){
+				allModels.addAll(temp);
+	
+				Iterator<SvmModel> it = allModels.iterator();
+				while(it.hasNext()){
+					SvmModel m = it.next();
+					if(m.getIsYRandomModel().equals(Constants.NO)){
+						svmModels.add(m);
+					}
+					else{
+						svmRandomModels.add(m);
 					}
 				}
 			}

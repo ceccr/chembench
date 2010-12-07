@@ -30,6 +30,7 @@ import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.persistence.SoftwareLink;
+import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
@@ -693,6 +694,25 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			models = session.createCriteria(KnnPlusModel.class)
 					.add(Expression.eq("predictor", predictor)).list();
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+			if (tx != null)
+				tx.rollback();
+		} 
+		
+		return models;
+	}
+	
+	public static List<SvmModel> getSvmModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
+		//Utility.writeToDebug("getting models for predictorId: " + predictorId);
+		
+		List<SvmModel> models = null;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			models = session.createCriteria(SvmModel.class)
+					.add(Expression.eq("predictorId", predictorId)).list();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
