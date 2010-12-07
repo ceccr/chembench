@@ -111,7 +111,7 @@ public class RunExternalProgram {
 			}
 			String logsPath = workingDir + "Logs/";
 
-			cmd = cmd.replaceAll("\\s+", "\\\\\\\\\\ ");
+			cmd = cmd.replaceAll("\\s+", "\\\\ ");
 			cmd = "runCmdAndLog.sh \"" + cmd + "\" " + logsPath + logFileName + ".log" + " " + logsPath + logFileName + ".err";
 			
 			if(outputRunningMessage){
