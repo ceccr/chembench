@@ -103,23 +103,23 @@ public class RunExternalProgram {
 					outputRunningMessage = false;
 				}
 			}
-			if(outputRunningMessage){
-				//Utility.writeToDebug("Running external program " + cmd + " in dir: " + workingDir);
-			}
 
 			//capture program output in log file
 			File file=new File(workingDir + "Logs/");
 			if(!file.exists()){
 				file.mkdirs();
 			}
-
 			String logsPath = workingDir + "Logs/";
+
+			cmd = "runCmdAndLog.sh \"" + cmd + "\" " + logsPath + logFileName + ".log" + " " + logsPath + logFileName + ".err";
 			
-			cmd = "runCmdAndLog.sh + \"" + cmd + "\" " + logsPath + logFileName + ".log" + " " + logsPath + logFileName + ".err";
+			if(outputRunningMessage){
+				Utility.writeToDebug("Running external program " + cmd + " in dir: " + workingDir);
+			}
+
 			p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
 		    p.waitFor();
 		    
-		    Utility.writeToDebug("Running external program " + cmd + " in dir: " + workingDir);
 		    
 			/*
 			FileOutputStream logFileOS = new FileOutputStream(new File(workingDir + "/Logs/" + logFileName + ".log"));
