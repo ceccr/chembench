@@ -219,10 +219,17 @@ public class SvmWorkflow{
 					svmModel.setCost(tokens[5]);
 					svmModel.setNu(tokens[6]);
 					svmModel.setLoss(tokens[7]);
+					if(workingDir.endsWith("/yRandom/")){
+						svmModel.setIsYRandomModel(Constants.YES);
+					}
+					else{
+						svmModel.setIsYRandomModel(Constants.NO);
+					}
+					
 					svmModels.add(svmModel);
 				}
 				else{
-					Utility.writeToDebug("Bad model. rSq: " + tokens[0] + " ccr: " + tokens[1]);
+					//Utility.writeToDebug("Bad model. rSq: " + tokens[0] + " ccr: " + tokens[1]);
 				}
 			}
 		}
