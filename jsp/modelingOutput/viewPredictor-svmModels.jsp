@@ -33,7 +33,7 @@
 			<th class="TableRowText01">r<sup>2</sup></th>
 			</tr>
 			</s:if>
-			<s:iterator value="models" status="modelsStatus">
+			<s:iterator value="svmModels" status="modelsStatus">
 				<tr>
 				<td class="TableRowText02"><s:property value="gamma" /></td>
 				<td class="TableRowText02"><s:property value="cost" /></td>
@@ -45,7 +45,7 @@
 			</s:iterator>
 			</s:if>
 			<s:elseif test="dataType=='CATEGORY'">
-			<s:if test="models.size!=0">
+			<s:if test="svmModels.size!=0">
 			<tr>
 				<th class="TableRowText01">gamma</th>
 				<th class="TableRowText01">cost</sup></th>
@@ -56,7 +56,7 @@
 			</tr>
 			</s:if>
 			
-			<s:iterator value="models" status="modelsStatus">
+			<s:iterator value="svmModels" status="modelsStatus">
 				<tr>
 				<td class="TableRowText02"><s:property value="gamma" /></td>
 				<td class="TableRowText02"><s:property value="cost" /></td>
