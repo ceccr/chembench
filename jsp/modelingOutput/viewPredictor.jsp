@@ -10,7 +10,7 @@
     <link href="theme/ss.css" rel="stylesheet" type="text/css" />
 	<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link href="theme/standard.css" rel="stylesheet"	type="text/css" />
+	<link href="theme/standard.css" rel="stylesheet" type="text/css" />
 	<link href="theme/links.css" rel="stylesheet" type="text/css" />
 	<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
 	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
