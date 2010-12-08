@@ -67,10 +67,19 @@
 		<!-- End description -->
 	
 		<br /><br />
+		
 		<!-- load tabs -->
 		<a name="tabs"></a> 
 		<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
-		<sx:tabbedpanel id="viewPredictionTabs" >
+		<script type="text/javascript">
+		   dojo.event.topic.subscribe('/modelingTabSelect', function(tab, tabContainer) {
+		      //alert("Tab "+ tab.widgetId + " was selected");
+		      sortables_init();
+		   });
+		</script>
+		<!-- end script -->
+		
+		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect">
 	
 			<s:if test="selectedPredictor.modelMethod=='KNN'">
 				

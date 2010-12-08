@@ -31,6 +31,7 @@ function sortables_init() {
 	for (ti=0;ti<tbls.length;ti++) {
 		thisTbl = tbls[ti];
 		if (((' '+thisTbl.className+' ').indexOf("sortable") != -1) && (thisTbl.id)) {
+			thisTbl.className = "sorted";
 			ts_makeSortable(thisTbl);
 		}
 	}
@@ -52,7 +53,6 @@ function ts_makeSortable(t) {
 		var cell = firstRow.cells[i];
 		var txt = cell.innerHTML;
 		if (cell.className != "unsortable" && cell.className.indexOf("unsortable") == -1) {
-			cell.className = cell.className + "unsortable";
 			cell.innerHTML = '<a href="#" onclick="ts_resortTable(this, '+i+');return false;">'+txt+'<span class="sortarrow">&nbsp;&nbsp;<img src="'+ image_path + image_none + '" alt="&darr;"/></span></a>';
 		}
 	}
