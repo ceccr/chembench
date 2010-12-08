@@ -180,7 +180,35 @@ public class CheckDescriptorsFileWorkflow{
 		File file = new File(moe2DOutputFile);
 		if(! file.exists() || file.length() == 0){
 			errors =  "Could not read descriptor file.\n";
+			return errors;
 		}
+		
+		FileReader fin = new FileReader(file);
+		BufferedReader br = new BufferedReader(fin);
+
+		ArrayList<String> descriptorValues; //values for each molecule
+		
+		String line = br.readLine();  //descriptor names
+		
+		while((line = br.readLine()) != null){
+			Scanner tok = new Scanner(line);
+			
+			if(tok.hasNext()){
+				tok.next(); //first value is compound name
+			}
+			
+			while(tok.hasNext()){
+				String t = tok.next();
+				try{
+					//check if it's a number
+					Float.parseFloat(t);
+				}
+				catch(Exception ex){
+					errors += "Error reading Moe2D descriptor value: " + t + "\n";
+				}
+			}
+		}
+		
 		return errors;
 	}
 }
