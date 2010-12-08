@@ -26,6 +26,7 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 	private String treeFileName;
 	private String r2; //r squared
 	private String mse;
+	private String ccr;
 	private String descriptorsUsed;
 	
 	@Id
@@ -71,6 +72,14 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 	public void setMse(String mse) {
 		mse = Utility.truncateString(mse, 250);
 		this.mse = mse;
+	}
+
+	@Column(name = "ccr")
+	public String getCcr() {
+		return ccr;
+	}
+	public void setCcr(String ccr) {
+		this.ccr = ccr;
 	}
 
 	@Column(name = "descriptorsUsed")
