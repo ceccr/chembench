@@ -305,7 +305,7 @@
 					<td><s:property value="numCompound" /></td>
 					<td><s:property value="modelType" /></td>
 					
-					<s:if test="userName=='_all'">
+					<s:if test="userName=='all-users'">
 					<td>Public</td>
 					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=all-users">download</a></td>
 					<td><!-- dataset is public, so no delete option --></td>
@@ -373,9 +373,9 @@
 						<s:property value="datasetDisplay" />
 						</a>
 					</td>
-					<td><s:if test="userName=='_all'">Public</s:if><s:else>Private</s:else></td>
+					<td><s:if test="userName=='all-users'">Public</s:if><s:else>Private</s:else></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
-					<td><s:if test="userName=='_all'"></s:if><s:else><a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="predictorId" />#predictors">delete</a></s:else></td>
+					<td><s:if test="userName=='all-users'"></s:if><s:else><a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="predictorId" />#predictors">delete</a></s:else></td>
 					</tr> 
 				</s:iterator>
 				<br />

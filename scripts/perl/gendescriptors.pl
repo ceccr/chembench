@@ -6,7 +6,6 @@
 while($line = <FH>){
     #read $username and $datasetname from line.                                                                                        
     print "$line\n";
-    $line =~ s/_all/all-users/;
     $line =~ s/\|//g;
     $line =~ m/(\S+)\s+(\S+)/;
     $username = $1;

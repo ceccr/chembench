@@ -33,52 +33,6 @@ public class CheckSessionAction extends Action
 			String path=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
 			Utility.setAdminConfiguration(path);
 		}
-		
-		//StringBuffer reqURL=request.getRequestURL();
-		
-		//if(reqURL.toString().contains(Constants.WHICHBENCH))
-
-		/*
-		//commented out... seems to be no use for different "benches" anyway
-		if(Constants.WORKBENCH.toLowerCase().contains(""))
-		{
-			Constants.WORKBENCH=Constants.CCHEMBENCH;
-		}else{
-			Constants.WORKBENCH=Constants.CTOXBENCH;
-		}
-		*/
-		HttpSession session=request.getSession(false);
-		//||(session.getAttribute("userName") != null && session.getAttribute("userName").equals("_all"))
-		if(session==null||session.getAttribute("user")==null)
-		{
-			if(session.getAttribute("user")!=null)
-			{session.removeAttribute("user");}
-
-			/*
-			//Make it so the user "guest" is logged in.
-			User user = new User();
-			
-			Session s = HibernateUtil.getSession();// query
-			Transaction tx = null;
-			try {
-				tx = s.beginTransaction();
-				user = (User) s.createCriteria(User.class).add(
-						Expression.eq("userName", "_all"))
-						.uniqueResult();
-				tx.commit();
-			} catch (RuntimeException e) {
-				if (tx != null)
-					tx.rollback();
-				Utility.writeToDebug(e);
-			} finally {s.close();}
-			
-			session.setAttribute("user", user);
-			
-			Utility.writeToDebug("No login provided. Logging in as guest.");
-			session.setAttribute("userName", "_all");
-			session = request.getSession(true);
-			session.setMaxInactiveInterval(1800);
-			*/
 			return forward=mapping.findForward("login");
 		}
 		

@@ -30,9 +30,6 @@ public class ProjectFilesServlet extends HttpServlet {
        String userName = ((User) session.getAttribute("user")).getUserName();
        
        String projectUserName=request.getParameter("user");
-       if(projectUserName.equals(Constants.ALL_USERS_USERNAME)){
-		  projectUserName = "all-users";
-	   }	
        String projectName = request.getParameter("project");
        
        String projectType = request.getParameter("projectType");

@@ -16,7 +16,7 @@
 				No models were generated that passed your cutoffs.<br/>
 			</s:else>
 		</s:if>
-		<s:elseif test="selectedPredictor.userName=='_all'">
+		<s:elseif test="selectedPredictor.userName=='all-users'">
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>

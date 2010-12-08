@@ -33,9 +33,6 @@ public class Compound3DServlet extends HttpServlet {
 		String userName = request.getParameter("user");
         String datasetName = request.getParameter("datasetName");
 	
-		if(userName.equalsIgnoreCase("_all")){
-			userName = "all-users";
-		}
 		Utility.writeToDebug("Running SketchServlet.", userName, datasetName);
 		String workingDir = Constants.CECCR_USER_BASE_PATH + userName+ "/DATASETS/" + datasetName + "/Visualization/Structures/";
 		String sdf = id + ".sdf";

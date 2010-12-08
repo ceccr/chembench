@@ -242,13 +242,7 @@ public class QsarModelingTask extends WorkflowTask {
 		sdFileName = dataset.getSdfFile();
 		actFileName = dataset.getActFile();
 		actFileDataType = dataset.getModelType();
-		
-		if(dataset.getUserName().equalsIgnoreCase("_all")){
-			datasetPath += "all-users";
-		}
-		else{
-			datasetPath += dataset.getUserName();
-		}
+		datasetPath += dataset.getUserName();
 		datasetPath += "/DATASETS/" + datasetName + "/";
 
 		userName = predictor.getUserName();
@@ -438,12 +432,7 @@ public class QsarModelingTask extends WorkflowTask {
 		
 		filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		datasetPath = Constants.CECCR_USER_BASE_PATH;
-		if(dataset.getUserName().equalsIgnoreCase("_all")){
-			datasetPath += "all-users";
-		}
-		else{
-			datasetPath += dataset.getUserName();
-		}
+		datasetPath += dataset.getUserName();
 		datasetPath += "/DATASETS/" + datasetName + "/";
 	}
 

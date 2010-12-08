@@ -34,9 +34,6 @@ public class ImageServlet extends HttpServlet {
         //dataset object here. Don't do it! It'll slow shit down and bleed sessions
         //because this code is called once PER IMAGE on a page.
         
-		if(userName.equalsIgnoreCase("_all")){
-			userName = "all-users";
-		}
         String imageFileName;
         if(compoundId.startsWith("activityChart")){
     		//activity chart for dataset 

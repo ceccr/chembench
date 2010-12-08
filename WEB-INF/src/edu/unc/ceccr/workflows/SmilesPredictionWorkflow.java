@@ -25,9 +25,7 @@ public class SmilesPredictionWorkflow{
 		
 		//copy the predictor to the workingDir.
 		String predictorUsername = predictor.getUserName();
-		if(predictorUsername.equalsIgnoreCase("_all")){
-			predictorUsername = "all-users";	
-		}
+		predictorUsername = "all-users";	
 		String fromDir = Constants.CECCR_USER_BASE_PATH + predictorUsername + "/PREDICTORS/" + predictor.getName() + "/";
 		
 		//get train_0.x file from the predictor dir.

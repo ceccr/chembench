@@ -17,7 +17,7 @@
 				No models that passed your CCR cutoff were generated.<br/>
 			</s:else>
 		</s:if>
-		<s:elseif test="selectedPredictor.userName=='_all'">
+		<s:elseif test="selectedPredictor.userName=='all-users'">
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>

@@ -65,9 +65,6 @@ public class ZipJobResultsWorkflow{
 	public static void ZipDatasets(String userName, String datasetUserName, String datasetName, String zipFile) throws Exception{
 		Utility.writeToDebug("Creating archive of dataset: " + datasetName + " into file: " + zipFile);
 	    // These are the files to include in the ZIP file
-		if(datasetUserName.equals(Constants.ALL_USERS_USERNAME)){
-			datasetUserName = "all-users";
-		}
 		String projectSubDir = datasetUserName + "/DATASETS/" + datasetName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
 			//someone's trying to download something they shouldn't be!
@@ -176,9 +173,6 @@ public class ZipJobResultsWorkflow{
 	public static void ZipKnnModelingResults(String userName, String predictorUserName, String jobName, String zipFile) throws Exception{
 		Utility.writeToDebug("Creating archive of predictor: " + jobName);
 	    // These are the files to include in the ZIP file
-		if(predictorUserName.equals(Constants.ALL_USERS_USERNAME)){
-			predictorUserName = "all-users";
-		}
 		String projectSubDir = predictorUserName + "/PREDICTORS/" + jobName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
 			//someone's trying to download something they shouldn't be!
@@ -262,9 +256,6 @@ public class ZipJobResultsWorkflow{
 		
 	public static void ZipKnnPredictionResults(String userName, String predictionUserName, String jobName, String zipFile) throws Exception{
 		Utility.writeToDebug("Creating archive of prediction: " + jobName);
-		if(predictionUserName.equals(Constants.ALL_USERS_USERNAME)){
-			predictionUserName = "all-users";
-		}
 		String projectSubDir = predictionUserName + "/PREDICTIONS/" + jobName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
 			//someone's trying to download something they shouldn't be!

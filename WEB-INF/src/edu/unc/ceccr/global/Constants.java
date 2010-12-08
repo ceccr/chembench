@@ -207,7 +207,7 @@ public class Constants {
 	public static String CECCR_DATABASE_NAME;
 	public static String CECCR_DATABASE_PASSWORD;
 	
-	public static final String ALL_USERS_USERNAME = "_all";
+	public static final String ALL_USERS_USERNAME = "all-users";
 	
 	public static String WORKBENCH;
 	public static final String CCHEMBENCH="cchembench";

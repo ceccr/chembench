@@ -11,7 +11,7 @@
 		<s:if test="randomForestYRandomGroves.size==0">
 			No random forests were generated.<br/>
 		</s:if>
-		<s:elseif test="selectedPredictor.userName=='_all'">
+		<s:elseif test="selectedPredictor.userName=='all-users'">
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>

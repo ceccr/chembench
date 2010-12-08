@@ -171,9 +171,6 @@ public class ViewDataset extends ActionSupport {
 			//get compounds
 			datasetCompounds = new ArrayList<Compound>();
 			String datasetUser = dataset.getUserName();
-			if(datasetUser.equals("_all")){
-				datasetUser = "all-users";
-			}
 			
 			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
 			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
@@ -289,9 +286,6 @@ public class ViewDataset extends ActionSupport {
 			//load external compounds from file
 			externalCompounds = new ArrayList<Compound>();
 			String datasetUser = dataset.getUserName();
-			if(datasetUser.equals("_all")){
-				datasetUser = "all-users";
-			}
 			
 			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
 			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
@@ -437,12 +431,7 @@ public class ViewDataset extends ActionSupport {
 		
 		descriptorGenerationResults = new ArrayList<DescriptorGenerationResult>();
 		String descriptorsDir = Constants.CECCR_USER_BASE_PATH;
-		if(dataset.getUserName().equals("_all")){
-			descriptorsDir += "all-users/";
-		}
-		else{
-			descriptorsDir += dataset.getUserName() + "/";
-		}
+		descriptorsDir += dataset.getUserName() + "/";
 		descriptorsDir += "DATASETS/" + dataset.getFileName() + "/Descriptors/Logs/";
 		
 		//read descriptor program outputs

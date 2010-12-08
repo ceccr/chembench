@@ -49,12 +49,7 @@ public class CreateActivityChartWorkflow {
 		String fullPath = Constants.CECCR_USER_BASE_PATH;
 		
 		String userDir;
-		if(selectedDataSet.getUserName().equalsIgnoreCase("_all")){
-		userDir = "all-users";
-		}
-		else{
-			userDir = selectedDataSet.getUserName();
-		}
+		userDir = selectedDataSet.getUserName();
 		fullPath += userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/" + selectedDataSet.getActFile();
 		
 		//Utility.writeToDebug("Generating Activity Histogram for Dataset: " + datasetID + " from ACT file: " + fullPath);

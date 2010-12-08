@@ -159,9 +159,6 @@ public class ViewPredictionAction extends ActionSupport {
 			//get prediction values
 			populateCompoundPredictionValues(session);
 			String datasetUser = dataset.getUserName();
-			if(datasetUser.equals("_all")){
-				datasetUser = "all-users";
-			}
 			
 			//sort the compoundPrediction array
 			Utility.writeToDebug("Sorting compound predictions");
@@ -241,12 +238,7 @@ public class ViewPredictionAction extends ActionSupport {
 		//get compounds from SDF
 		
 		String datasetDir = "";
-		if(dataset.getUserName().equals(Constants.ALL_USERS_USERNAME)){
-			datasetDir = Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/" + dataset.getFileName() + "/";
-		}
-		else{
-			datasetDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
-		}
+		datasetDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
 		
 		ArrayList<String> compounds = null;
 		
