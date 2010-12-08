@@ -33,6 +33,15 @@ public class CheckSessionAction extends Action
 			String path=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
 			Utility.setAdminConfiguration(path);
 		}
+		
+		HttpSession session=request.getSession(false);
+		//||(session.getAttribute("userName") != null && session.getAttribute("userName").equals("_all"))
+		if(session==null||session.getAttribute("user")==null)
+		{
+			if(session.getAttribute("user")!=null)
+			{session.removeAttribute("user");}
+
+			
 			return forward=mapping.findForward("login");
 		}
 		
