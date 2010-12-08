@@ -38,7 +38,7 @@
 				<td class="TableRowText02"><s:property value="gamma" /></td>
 				<td class="TableRowText02"><s:property value="cost" /></td>
 				<td class="TableRowText02"><s:property value="nu" /></td>
-				<td class="TableRowText02"><s:property value="loss" /></td>
+				<td class="TableRowText02"><s:property value="epsilon (loss)" /></td>
 				<td class="TableRowText02"><s:property value="degree" /></td>
 				<td class="TableRowText02"><s:property value="rSquaredTest" /></td>
 				</tr> 
@@ -61,7 +61,7 @@
 				<td class="TableRowText02"><s:property value="gamma" /></td>
 				<td class="TableRowText02"><s:property value="cost" /></td>
 				<td class="TableRowText02"><s:property value="nu" /></td>
-				<td class="TableRowText02"><s:property value="loss" /></td>
+				<td class="TableRowText02"><s:property value="epsilon (loss)" /></td>
 				<td class="TableRowText02"><s:property value="degree" /></td>
 				<td class="TableRowText02"><s:property value="ccrTest" /></td>
 				</tr>
