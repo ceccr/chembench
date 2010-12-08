@@ -20,7 +20,7 @@ var SORT_COLUMN_INDEX;
 var thead = false;
 
 function sortables_init_delay(){
-	setTimeout("sortables_init()",2000);
+	setTimeout("sortables_init()",1500);
 }
 
 function sortables_init() {
@@ -52,9 +52,9 @@ function ts_makeSortable(t) {
 		var cell = firstRow.cells[i];
 		var txt = cell.innerHTML;
 		if (cell.className != "unsortable" && cell.className.indexOf("unsortable") == -1) {
+			cell.className = cell.className + "unsortable";
 			cell.innerHTML = '<a href="#" onclick="ts_resortTable(this, '+i+');return false;">'+txt+'<span class="sortarrow">&nbsp;&nbsp;<img src="'+ image_path + image_none + '" alt="&darr;"/></span></a>';
 		}
-		cell.className = cell.className + "-unsortable";
 	}
 	if (alternate_row_colors) {
 		alternate(t);

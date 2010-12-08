@@ -3,8 +3,6 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
-	<script language="JavaScript" src="javascript/sortableTable-delay.js"></script>
-	
 <!-- y-Random Models -->	
 	<br />
 	<p class="StandardTextDarkGray"><b><u>y-Randomization Results</u></b></p>

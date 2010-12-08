@@ -4,4 +4,3 @@
 <%@ page language="java" import="java.util.*" %>
 	
 <!-- wait, what? There's nothing here! -->
-	<script language="JavaScript" src="javascript/sortableTable-delay.js"></script>
