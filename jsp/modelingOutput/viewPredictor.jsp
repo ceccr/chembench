@@ -74,7 +74,7 @@
 		<script type="text/javascript">
 		   dojo.event.topic.subscribe('/modelingTabSelect', function(tab, tabContainer) {
 		      //alert("Tab "+ tab.widgetId + " was selected");
-		      sortables_init();
+		      sortables_init_delay();
 		   });
 		</script>
 		<!-- end script -->
