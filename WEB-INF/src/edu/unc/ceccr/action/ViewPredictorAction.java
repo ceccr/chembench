@@ -759,7 +759,6 @@ public class ViewPredictorAction extends ActionSupport {
 			List temp = PopulateDataObjects.getSvmModelsByPredictorId(Long.parseLong(predictorId), session);
 			if(temp != null){
 				allModels.addAll(temp);
-	
 				Iterator<SvmModel> it = allModels.iterator();
 				while(it.hasNext()){
 					SvmModel m = it.next();
@@ -989,6 +988,20 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setHasGoodModels(String hasGoodModels) {
 		this.hasGoodModels = hasGoodModels;
+	}
+
+	public List<SvmModel> getSvmModels() {
+		return svmModels;
+	}
+	public void setSvmModels(List<SvmModel> svmModels) {
+		this.svmModels = svmModels;
+	}
+	
+	public List<SvmModel> getSvmRandomModels() {
+		return svmRandomModels;
+	}
+	public void setSvmRandomModels(List<SvmModel> svmRandomModels) {
+		this.svmRandomModels = svmRandomModels;
 	}
 
 }
