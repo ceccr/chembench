@@ -171,6 +171,9 @@ public class DatasetFormActions extends ActionSupport{
 				if(actFileModelingFileName.endsWith(".a")){
 					actFileModelingFileName = actFileModelingFileName.substring(0, actFileModelingFileName.lastIndexOf(".")) + ".act";
 				}
+				else if(! actFileModelingFileName.endsWith(".act")){
+					actFileModelingFileName += ".act";
+				}
 				try{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
 							actFileModeling, actFileModelingFileName, null, "", datasetName, 
@@ -291,6 +294,10 @@ public class DatasetFormActions extends ActionSupport{
 					if(actFileModDescFileName.endsWith(".a")){
 						actFileModDescFileName = actFileModDescFileName.substring(0, actFileModDescFileName.lastIndexOf(".")) + ".act";
 					}
+					else if(! actFileModDescFileName.endsWith(".act")){
+						actFileModDescFileName += ".act";
+					}
+					
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
 							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
 							dataTypeModeling, datasetType, externalCompoundList);
