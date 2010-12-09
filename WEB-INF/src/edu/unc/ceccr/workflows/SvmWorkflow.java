@@ -237,6 +237,33 @@ public class SvmWorkflow{
 		return svmModels;
 	}
 	
+	public static void cleanExcessFilesFromDir(String workingDir){
+		
+		try{
+			BufferedReader in = new BufferedReader(new FileReader(workingDir + "RAND_sets.list"));
+			String inputString;
+			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
+			{
+				String[] data = inputString.split("\\s+");
+	
+				FileAndDirOperations.deleteFile(workingDir + data[0]);
+				FileAndDirOperations.deleteFile(workingDir + data[1]);
+				FileAndDirOperations.deleteFile(workingDir + data[4]);
+				FileAndDirOperations.deleteFile(workingDir + data[5]);
+				
+				FileAndDirOperations.deleteFile(workingDir + data[0].replace(".x", ".svm"));
+				FileAndDirOperations.deleteFile(workingDir + data[1].replace(".x", ".svm"));
+				FileAndDirOperations.deleteFile(workingDir + data[4].replace(".x", ".svm"));
+				FileAndDirOperations.deleteFile(workingDir + data[5].replace(".x", ".svm"));
+				
+			}
+			in.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+	}
+	
 	public static void runSvmPrediction(String workingDir, String predictionXFileName) throws Exception{
 		//find all models files in working dir
 		//run svm-predict on the prediction file using each model
