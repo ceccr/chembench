@@ -123,7 +123,7 @@ public class ModelingFormActions extends ActionSupport{
 		
 		if(jobName != null){
 			jobName = jobName.replaceAll(" ", "_");
-			jobName = jobName.replaceAll("(", "_");
+			jobName = jobName.replaceAll("\(", "_");
 			jobName = jobName.replaceAll(")", "_");
 			jobName = jobName.replaceAll("[", "_");
 			jobName = jobName.replaceAll("]", "_");
