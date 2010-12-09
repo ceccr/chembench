@@ -67,7 +67,7 @@ public class FileAndDirOperations {
 		
 
 		StringBuffer fileContents = new StringBuffer();
-		//Utility.writeToDebug("reading file: " + filePath); 
+		Utility.writeToDebug("reading file: " + filePath); 
 		try{
 			File fromFile = new File(filePath);
 			BufferedReader br = new BufferedReader(new FileReader(fromFile));
@@ -84,8 +84,7 @@ public class FileAndDirOperations {
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-
-		//Utility.writeToDebug("finshed reading file: " + filePath + " (" + fileContents.length() / 1000000 + " megabytes)"); 
+		Utility.writeToDebug("finshed reading file: " + filePath + " (" + fileContents.length() / 1000000 + " megabytes)"); 
 		return fileContents.toString();
 	}
 
