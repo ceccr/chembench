@@ -108,8 +108,12 @@ public class DatasetFormActions extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 		user = (User) context.getSession().get("user");
 		String userName = user.getUserName();
-		if(datasetName != null && datasetName.contains(" ")){
+		if(datasetName != null){
 			datasetName = datasetName.replaceAll("\\s+", "_");
+			datasetName = datasetName.replaceAll("\\(", "_");
+			datasetName = datasetName.replaceAll("\\)", "_");
+			datasetName = datasetName.replaceAll("\\[", "_");
+			datasetName = datasetName.replaceAll("\\]", "_");
 		}
 		
 		try{

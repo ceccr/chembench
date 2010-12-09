@@ -215,8 +215,12 @@ public class PredictionFormActions extends ActionSupport{
 		DataSet predictionDataset = PopulateDataObjects.getDataSetById(selectedDatasetId, session);
 		String sdf = predictionDataset.getSdfFile();
 		
-		if(jobName != null && jobName.contains(" ")){
+		if(jobName != null){
 			jobName = jobName.replaceAll(" ", "_");
+			jobName = jobName.replaceAll("\\(", "_");
+			jobName = jobName.replaceAll("\\)", "_");
+			jobName = jobName.replaceAll("\\[", "_");
+			jobName = jobName.replaceAll("\\]", "_");
 		}
 		
 		Utility.writeToDebug(user.getUserName());
