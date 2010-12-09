@@ -168,6 +168,7 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
+				actFileModelingFileName = actFileModelingFileName.replaceAll(" ", "_");
 				if(actFileModelingFileName.endsWith(".a")){
 					actFileModelingFileName = actFileModelingFileName.substring(0, actFileModelingFileName.lastIndexOf(".")) + ".act";
 				}
@@ -291,6 +292,7 @@ public class DatasetFormActions extends ActionSupport{
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
+					actFileModDescFileName = actFileModDescFileName.replaceAll(" ", "_");
 					if(actFileModDescFileName.endsWith(".a")){
 						actFileModDescFileName = actFileModDescFileName.substring(0, actFileModDescFileName.lastIndexOf(".")) + ".act";
 					}
