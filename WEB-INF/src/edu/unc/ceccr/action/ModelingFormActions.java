@@ -124,9 +124,9 @@ public class ModelingFormActions extends ActionSupport{
 		if(jobName != null){
 			jobName = jobName.replaceAll(" ", "_");
 			jobName = jobName.replaceAll("\\(", "_");
-			jobName = jobName.replaceAll(")", "_");
+			jobName = jobName.replaceAll("\\)", "_");
 			jobName = jobName.replaceAll("\\[", "_");
-			jobName = jobName.replaceAll("]", "_");
+			jobName = jobName.replaceAll("\\]", "_");
 		}
 		
 		Utility.writeToDebug("Submitting modeling job with dataset id: " + selectedDatasetId);
