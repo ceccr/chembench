@@ -121,8 +121,12 @@ public class ModelingFormActions extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 		user = (User) context.getSession().get("user");
 		
-		if(jobName != null && jobName.contains(" ")){
+		if(jobName != null){
 			jobName = jobName.replaceAll(" ", "_");
+			jobName = jobName.replaceAll("(", "_");
+			jobName = jobName.replaceAll(")", "_");
+			jobName = jobName.replaceAll("[", "_");
+			jobName = jobName.replaceAll("]", "_");
 		}
 		
 		Utility.writeToDebug("Submitting modeling job with dataset id: " + selectedDatasetId);
