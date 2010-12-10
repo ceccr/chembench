@@ -313,9 +313,9 @@ public class KnnPlusWorkflow{
 
 		try{
 			String execstr = "checkKnnSaProgress.sh";
-			Utility.writeToDebug("Running progress check in dir: " + workingDir);
+			//Utility.writeToDebug("Running progress check in dir: " + workingDir);
 			RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "checkKnnSaProgress");
-			Utility.writeToDebug("Done running progress check in dir: " + workingDir);
+			//Utility.writeToDebug("Done running progress check in dir: " + workingDir);
 			
 			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnSaProgress").trim();
 			String[] tokens = file.split(" ");
