@@ -183,7 +183,6 @@ public class LsfProcessingThread extends Thread {
 		//check how many pending jobs there are
 		//if that number is less than the limit return true
 		//else return false
-		//to do : look up these limits
 		
 		if(CentralDogma.getInstance().lsfJobs.getReadOnlyCopy().size() > Constants.MAXLSFJOBS){
 			return false;
