@@ -8,7 +8,9 @@ public class Constants {
 	public static String ACCEPTANCE; //can be "automatic" or "manual".
 	public static int SESSION_EXPIRATION_TIME = 21600; //How long a login will last if idle, measured in seconds. 21600 seconds = 6 hours. 
 	
-	public static final int MAXLSFJOBS = 200; //After submitting around 250 jobs, LSF won't let you submit more, it just returns an error.
+	//After submitting around 250 jobs, LSF won't let you submit more, it just returns an error.
+	//Cap the number of jobs that can be added to the LSF queue at any given time.
+	public static final int MAXLSFJOBS = 40; 
 	
 	public static final int REPORTED_SIGNIFICANT_FIGURES = 4;
 	
