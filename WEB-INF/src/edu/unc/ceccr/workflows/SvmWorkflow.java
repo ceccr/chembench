@@ -209,7 +209,7 @@ public class SvmWorkflow{
 				}
 				
 				if(isGoodModel){
-					Utility.writeToDebug("found good model");
+					//Utility.writeToDebug("found good model");
 					SvmModel svmModel = new SvmModel();
 					svmModel.setrSquaredTest(tokens[0]);
 					svmModel.setCcrTest(tokens[1]);
@@ -248,13 +248,11 @@ public class SvmWorkflow{
 	
 				FileAndDirOperations.deleteFile(workingDir + data[0]);
 				FileAndDirOperations.deleteFile(workingDir + data[1]);
+				FileAndDirOperations.deleteFile(workingDir + data[3]);
 				FileAndDirOperations.deleteFile(workingDir + data[4]);
-				FileAndDirOperations.deleteFile(workingDir + data[5]);
 				
 				FileAndDirOperations.deleteFile(workingDir + data[0].replace(".x", ".svm"));
-				FileAndDirOperations.deleteFile(workingDir + data[1].replace(".x", ".svm"));
-				FileAndDirOperations.deleteFile(workingDir + data[4].replace(".x", ".svm"));
-				FileAndDirOperations.deleteFile(workingDir + data[5].replace(".x", ".svm"));
+				FileAndDirOperations.deleteFile(workingDir + data[3].replace(".x", ".svm"));
 				
 			}
 			in.close();
