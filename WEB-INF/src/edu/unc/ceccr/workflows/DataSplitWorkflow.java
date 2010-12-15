@@ -238,7 +238,7 @@ public class DataSplitWorkflow{
 			BufferedReader in = new BufferedReader(new FileReader(fileLocation));
 			String line = in.readLine(); //first line is a comment
 			line = in.readLine(); //second line has the list info
-			if(line != null){
+			if(line != null && !line.startsWith("#")){
 				listFileContents += line + "\n";
 			}
 		}

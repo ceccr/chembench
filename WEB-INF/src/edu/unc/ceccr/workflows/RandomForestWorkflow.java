@@ -50,17 +50,19 @@ public class RandomForestWorkflow{
 		String inputString;
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
-			String[] data = inputString.split("\\s+");
-			String[] files = new String[4];
-			files[0] = data[0];
-			files[1] = data[1];
-			files[2] = data[3];
-			files[3] = data[4];
-			
-			for(int i = 0; i<files.length; i++)
-			{
-				if(new File(fromDir + files[i]).exists()){
-					FileAndDirOperations.copyFile(fromDir + files[i], toDir + files[i]);
+			if(! inputString.startsWith("#")){
+				String[] data = inputString.split("\\s+");
+				String[] files = new String[4];
+				files[0] = data[0];
+				files[1] = data[1];
+				files[2] = data[3];
+				files[3] = data[4];
+				
+				for(int i = 0; i<files.length; i++)
+				{
+					if(new File(fromDir + files[i]).exists()){
+						FileAndDirOperations.copyFile(fromDir + files[i], toDir + files[i]);
+					}
 				}
 			}
 		}
@@ -92,7 +94,7 @@ public class RandomForestWorkflow{
 		String inputString;
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
-			if(! inputString.contains("#")){
+			if(! inputString.startsWith("#")){
 				String[] data = inputString.split("\\s+");
 				preProcessXFile(scalingType, data[0], "RF_" + data[0], workingDir);
 				preProcessXFile(scalingType, data[3], "RF_" + data[3], workingDir);
@@ -332,21 +334,22 @@ public class RandomForestWorkflow{
 			String inputString;
 			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 			{
-				String[] files = inputString.split("\\s+");
-				
-				for(int i = 0; i < files.length; i++)
-				{
-					//remove RF_rand_sets.*.x
-					if(files[i].endsWith("x") && new File(workingDir + files[i]).exists()){
-						FileAndDirOperations.deleteFile(workingDir + files[i]);
-					}
-					//remove rand_sets.*.x
-					if(files[i].length() > 3){
-						files[i] = files[i].substring(3);
+				if(! inputString.startsWith("#")){
+					String[] files = inputString.split("\\s+");
+					for(int i = 0; i < files.length; i++)
+					{
+						//remove RF_rand_sets.*.x
 						if(files[i].endsWith("x") && new File(workingDir + files[i]).exists()){
 							FileAndDirOperations.deleteFile(workingDir + files[i]);
 						}
-					}					
+						//remove rand_sets.*.x
+						if(files[i].length() > 3){
+							files[i] = files[i].substring(3);
+							if(files[i].endsWith("x") && new File(workingDir + files[i]).exists()){
+								FileAndDirOperations.deleteFile(workingDir + files[i]);
+							}
+						}					
+					}
 				}
 			}
 		}

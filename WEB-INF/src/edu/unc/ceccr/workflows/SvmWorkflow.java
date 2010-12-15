@@ -150,12 +150,7 @@ public class SvmWorkflow{
 		{
 			String[] data = inputString.split("\\s+");
 			
-			if(actFileDataType.equals(Constants.CONTINUOUS)){
-				convertXtoSvm(data[0], data[1], workingDir);
-				convertXtoSvm(data[3], data[4], workingDir);
-			}
-			else{
-				//rand_sets_0_trn0.x rand_sets_0_trn0.a 4284 rand_sets_0_tst0.x rand_sets_0_tst0.a 1133
+			if(!inputString.startsWith("#")){
 				convertXtoSvm(data[0], data[1], workingDir);
 				convertXtoSvm(data[3], data[4], workingDir);
 			}
@@ -244,16 +239,17 @@ public class SvmWorkflow{
 			String inputString;
 			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 			{
-				String[] data = inputString.split("\\s+");
-	
-				FileAndDirOperations.deleteFile(workingDir + data[0]);
-				FileAndDirOperations.deleteFile(workingDir + data[1]);
-				FileAndDirOperations.deleteFile(workingDir + data[3]);
-				FileAndDirOperations.deleteFile(workingDir + data[4]);
-				
-				FileAndDirOperations.deleteFile(workingDir + data[0].replace(".x", ".svm"));
-				FileAndDirOperations.deleteFile(workingDir + data[3].replace(".x", ".svm"));
-				
+				if(! inputString.startsWith("#")){
+					String[] data = inputString.split("\\s+");
+		
+					FileAndDirOperations.deleteFile(workingDir + data[0]);
+					FileAndDirOperations.deleteFile(workingDir + data[1]);
+					FileAndDirOperations.deleteFile(workingDir + data[3]);
+					FileAndDirOperations.deleteFile(workingDir + data[4]);
+					
+					FileAndDirOperations.deleteFile(workingDir + data[0].replace(".x", ".svm"));
+					FileAndDirOperations.deleteFile(workingDir + data[3].replace(".x", ".svm"));
+				}
 			}
 			in.close();
 		}
