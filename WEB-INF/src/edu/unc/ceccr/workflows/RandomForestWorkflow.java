@@ -224,7 +224,9 @@ public class RandomForestWorkflow{
 			RandomForestGrove m = new RandomForestGrove();
 			m.setPredictor_id(predictor.getPredictorId());
 			m.setName(data[0]);
-			m.setDescriptorsUsed(data[1]);
+			if(data.length > 1){ //sometimes R code doesn't print descriptors right. Not a big deal, just move along.
+				m.setDescriptorsUsed(data[1]);
+			}
 			m.setIsYRandomModel(isYRandomModel);
 			randomForestModels.add(m);
 		}
