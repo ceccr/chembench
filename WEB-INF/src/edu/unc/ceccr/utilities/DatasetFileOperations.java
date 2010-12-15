@@ -232,10 +232,10 @@ public class DatasetFileOperations {
 		if(xFile != null){
 			Utility.writeToDebug("checking X");
 			String msg = saveXFile(xFile, path, xFileName);
+			xFile = new File(path + xFileName);
 			msg += rewriteXFileAndValidate(xFile);
 			if(!msg.isEmpty())
 				msgs.add(msg);
-			xFile = new File(path + xFileName);
 			Utility.writeToDebug("done checking X");
 			
 			x_compounds = getXCompoundNames(path + xFileName);
@@ -856,8 +856,7 @@ public class DatasetFileOperations {
 
 		FileAndDirOperations.deleteFile(xFile.getAbsolutePath());
 		FileAndDirOperations.copyFile(xFile.getAbsolutePath() + ".temp", xFile.getAbsolutePath());
-		//FileAndDirOperations.deleteFile(xFile.getAbsolutePath() + ".temp");
-		
+		FileAndDirOperations.deleteFile(xFile.getAbsolutePath() + ".temp");
 		
 		return "";
 	}
