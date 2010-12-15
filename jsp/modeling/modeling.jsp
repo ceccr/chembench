@@ -161,10 +161,10 @@
 
 			var svmType;
 			if(document.getElementById("categoryDataset").checked==true){
-				svmType = document.getElementById("svmTypeCategory").value;
+				svmType = document.getElementByName("svmTypeCategory").value;
 			}
 			else{
-				svmType = document.getElementById("svmTypeContinuous").value;
+				svmType = document.getElementByName("svmTypeContinuous").value;
 			}
 			
 			if(svmType == '0'){
