@@ -59,7 +59,6 @@ function changeSvmType(){
 			svmType = document.getElementById("svmTypeContinuous4").value;
 		}
 	}
-	alert("svmType is: " + svmType);
 	
 	//enable them all
 	document.getElementById("svmPEpsilonFrom").disabled = false;
