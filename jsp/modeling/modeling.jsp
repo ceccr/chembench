@@ -95,6 +95,7 @@
 		}
 		else{
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = true;
+			document.getElementById("descriptorGenerationType" + "UPLOADED").checked = true;
 		}
 		
 		//recalculate time estimate for the newly selected dataset
