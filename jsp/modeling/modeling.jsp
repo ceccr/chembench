@@ -92,11 +92,11 @@
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1){
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = false;
-			document.getElementById("descriptorGenerationType" + "MOLCONNZ").checked = true;
+			document.getElementById("descriptorGenerationType" + "UPLOADED").checked = "checked";
 		}
 		else{
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = true;
-			document.getElementById("descriptorGenerationType" + "UPLOADED").checked = true;
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").checked = "checked";
 		}
 		
 		//recalculate time estimate for the newly selected dataset
