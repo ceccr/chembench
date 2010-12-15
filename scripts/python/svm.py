@@ -183,8 +183,6 @@ for dirindex in range(0, 2):
 			actualValues.append(float(match.group(2)))
 		testActFile.close()
 		
-
-		
 		degreeRange = permute_sequence(range_f(degreeFrom, degreeTo+0.0001, degreeStep))
 		gammaRange = permute_sequence(range_f(gammaFrom, gammaTo+0.0001, gammaStep))
 		

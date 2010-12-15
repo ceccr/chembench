@@ -147,6 +147,7 @@
 			timeEstimateMins = numSplits *(numRuns*numBest*numDifferentDescriptors)*selectedDatasetNumCompounds*0.018;
 		}
 		else if(modelMethod=="SVM"){
+
 			var numDifferentDegrees = Math.floor((document.getElementById("svmDegreeTo").value - 
 					document.getElementById("svmDegreeFrom").value) / document.getElementById("svmDegreeStep").value + 0.001);
 			var numDifferentGammas = Math.floor((document.getElementById("svmGammaTo").value - 
@@ -157,6 +158,30 @@
 					document.getElementById("svmNuFrom").value) / document.getElementById("svmNuStep").value + 0.001);
 			var numDifferentPEpsilons = Math.floor((document.getElementById("svmPEpsilonTo").value - 
 					document.getElementById("svmPEpsilonFrom").value) / document.getElementById("svmPEpsilonStep").value + 0.001);
+
+			var svmType;
+			if(document.getElementById("categoryDataset").checked==true){
+				svmType = document.getElementById("svmTypeCategory").value;
+			}
+			else{
+				svmType = document.getElementById("svmTypeContinuous").value;
+			}
+			
+			if(svmType == '0'){
+				numDifferentPEpsilons = 1;
+				numDifferentNus = 1;
+			}
+			else if(svmType == '1'){
+				numDifferentPEpsilons = 1;
+				numDifferentCosts = 1;
+			}
+			else if(svmType == '3'){
+				numDifferentNus = 1;
+			}
+			else if(svmType == '4'){
+				numDifferentPEpsilons = 1;
+			}
+
 			var numModelsPerSplit = numDifferentPEpsilons * numDifferentNus * numDifferentCosts * numDifferentGammas * numDifferentDegrees;
 
 			timeEstimateMins = selectedDatasetNumCompounds * numSplits * numModelsPerSplit * 0.00022;
@@ -396,7 +421,8 @@
 				   dojo.event.topic.subscribe('/modelingTypeSelect', function(tab, tabContainer) {
 				      //alert("Tab "+ tab.widgetId + " was selected");
 				      document.getElementById("modelingType").value = tab.widgetId;
-				      calculateRuntimeEstimate();
+						changeSvmType();
+						calculateRuntimeEstimate();
 				   });
 				</script>
 				<s:hidden id="modelingType" name="modelingType" />

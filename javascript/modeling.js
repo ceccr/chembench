@@ -21,6 +21,7 @@ function setToContinuous(){
 		}
 	}
 	document.getElementById("actFileDataType").value = "CONTINUOUS";
+	changeSvmType();
 }
 
 function setToCategory(){
@@ -36,11 +37,61 @@ function setToCategory(){
 		}
 	}
 	document.getElementById("actFileDataType").value = "CATEGORY";
+	changeSvmType();
 }
 
-function setCategoryOrContinuous(){
-	//check which type of dataset we've got, then set continuous / category options accordingly
-	alert("oh hai");
+function changeSvmType(){
+	//enable or disable parameter ranges for SVM modeling
+	var svmType;
+	if(document.getElementById("categoryDataset").checked==true){
+		svmType = document.getElementById("svmTypeCategory").value;
+	}
+	else{
+		svmType = document.getElementById("svmTypeContinuous").value;
+	}
+	
+	//enable them all
+	document.getElementById("svmPEpsilonFrom").disabled = false;
+	document.getElementById("svmPEpsilonTo").disabled = false;
+	document.getElementById("svmPEpsilonStep").disabled = false;
+
+	document.getElementById("svmNuFrom").disabled = false;
+	document.getElementById("svmNuTo").disabled = false;
+	document.getElementById("svmNuStep").disabled = false;
+	
+	document.getElementById("svmCostFrom").disabled = false;
+	document.getElementById("svmCostTo").disabled = false;
+	document.getElementById("svmCostStep").disabled = false;
+	
+	//disable the ones not relevant to this SVM type
+	if(svmType == '0'){
+		document.getElementById("svmPEpsilonFrom").disabled = true;
+		document.getElementById("svmPEpsilonTo").disabled = true;
+		document.getElementById("svmPEpsilonStep").disabled = true;
+
+		document.getElementById("svmNuFrom").disabled = true;
+		document.getElementById("svmNuTo").disabled = true;
+		document.getElementById("svmNuStep").disabled = true;
+	}
+	else if(svmType == '1'){
+		document.getElementById("svmPEpsilonFrom").disabled = true;
+		document.getElementById("svmPEpsilonTo").disabled = true;
+		document.getElementById("svmPEpsilonStep").disabled = true;
+
+		document.getElementById("svmCostFrom").disabled = true;
+		document.getElementById("svmCostTo").disabled = true;
+		document.getElementById("svmCostStep").disabled = true;
+	}
+	else if(svmType == '3'){
+		document.getElementById("svmNuFrom").disabled = true;
+		document.getElementById("svmNuTo").disabled = true;
+		document.getElementById("svmNuStep").disabled = true;
+	}
+	else if(svmType == '4'){
+		document.getElementById("svmPEpsilonFrom").disabled = true;
+		document.getElementById("svmPEpsilonTo").disabled = true;
+		document.getElementById("svmPEpsilonStep").disabled = true;
+	}
 }
 
 function getNewSeed(){

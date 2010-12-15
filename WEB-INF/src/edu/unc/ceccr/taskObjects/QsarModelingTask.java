@@ -1065,6 +1065,29 @@ public class QsarModelingTask extends WorkflowTask {
 					Double.parseDouble(svmParameters.getSvmPEpsilonFrom())) / 
 					Double.parseDouble(svmParameters.getSvmPEpsilonStep()) + 0.0001);
 			
+			String svmType = "";
+			if(actFileDataType.equals(Constants.CATEGORY)){
+				svmType = svmParameters.getSvmTypeCategory();
+			}
+			else{
+				svmType = svmParameters.getSvmTypeContinuous();
+			}
+			
+			if(svmType.equals('0')){
+				numDifferentPEpsilons = 1.0;
+				numDifferentNus = 1.0;
+			}
+			else if(svmType.equals('1')){
+				numDifferentPEpsilons = 1.0;
+				numDifferentCosts = 1.0;
+			}
+			else if(svmType.equals('3')){
+				numDifferentNus = 1.0;
+			}
+			else if(svmType.equals('4')){
+				numDifferentPEpsilons = 1.0;
+			}
+			
 			numModels *= numDifferentCosts * numDifferentDegrees * numDifferentGammas * numDifferentNus * numDifferentPEpsilons;
 			
 		}
