@@ -829,7 +829,19 @@ public class DatasetFileOperations {
 					return "Error in X file line " + (i + 3) + ": line contains " + tokens + 
 					" elements but " + expectedTokens + " were expected. Line was: \"" + line + "\"";
 				}
-				for(int j = 0; j < tokens.length; j++){
+				out.write(tokens[0] + " "); //line number
+				out.write(tokens[1] + " "); //compound id
+				for(int j = 2; j < tokens.length; j++){ //for each descriptor value
+					try{
+						if(tokens[j].contains("E") || tokens[j].contains("e")){
+							//convert from scientific notation to a regular decimal form
+							//done for compatibility with datasplit and other programs
+							tokens[j] = Utility.floatToString(Float.parseFloat(tokens[j]));
+						}		
+					}
+					catch(Exception ex){
+						Utility.writeToDebug(ex);
+					}
 					out.write(tokens[j] + " ");
 				}
 				out.write("\n");
