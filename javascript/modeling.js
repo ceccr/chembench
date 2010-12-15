@@ -44,19 +44,19 @@ function changeSvmType(){
 	//enable or disable parameter ranges for SVM modeling
 	var svmType;
 	if(document.getElementById("categoryDataset").checked==true){
-		if(document.getElementsByName("svmTypeCategory")[0].checked==true){
-			svmType = document.getElementsByName("svmTypeCategory")[0].value;
+		if(document.getElementById("svmTypeCategory0").checked==true){
+			svmType = document.getElementById("svmTypeCategory0").value;
 		}
 		else{
-			svmType = document.getElementsByName("svmTypeCategory")[1].value;
+			svmType = document.getElementById("svmTypeCategory1").value;
 		}
 	}
 	else{
-		if(document.getElementsByName("svmTypeContinuous")[0].checked==true){
-			svmType = document.getElementsByName("svmTypeContinuous")[0].value;
+		if(document.getElementById("svmTypeContinuous0").checked==true){
+			svmType = document.getElementById("svmTypeContinuous0").value;
 		}
 		else{
-			svmType = document.getElementsByName("svmTypeContinuous")[1].value;
+			svmType = document.getElementById("svmTypeContinuous1").value;
 		}
 	}
 	alert("svmType is: " + svmType);
