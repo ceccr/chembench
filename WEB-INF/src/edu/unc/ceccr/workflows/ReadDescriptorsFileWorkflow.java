@@ -266,7 +266,7 @@ public class ReadDescriptorsFileWorkflow{
 		String line = br.readLine(); // header. ignored.
 		line = br.readLine(); // contains descriptor names
 		
-		Scanner tok = new Scanner(line).useDelimiter(",");
+		Scanner tok = new Scanner(line).useDelimiter("\\s+");
 		while(tok.hasNext()){
 			descriptorNames.add(tok.next());
 		}
