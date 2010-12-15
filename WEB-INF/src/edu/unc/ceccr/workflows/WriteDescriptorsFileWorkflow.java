@@ -25,12 +25,12 @@ public class WriteDescriptorsFileWorkflow{
 		//used in scaling and when finding zero-variance descriptors.
 		
 		//Initialize the min and max values to equal the first compound's descriptors
-		descriptorValueMinima.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
-		descriptorValueMaxima.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
+		descriptorValueMinima.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split("\\s+")));
+		descriptorValueMaxima.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split("\\s+")));
 		
 		//initialize the avgs and stddevs to 0
-		descriptorValueAvgs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
-		descriptorValueStdDevs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split(" ")));
+		descriptorValueAvgs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split("\\s+")));
+		descriptorValueStdDevs.addAll(Arrays.asList(descriptorMatrix.get(0).getDescriptorValues().split("\\s+")));
 		
 		for(int j = 0; j < descriptorValueAvgs.size(); j++){
 			descriptorValueAvgs.set(j, "0");
@@ -41,7 +41,7 @@ public class WriteDescriptorsFileWorkflow{
 		//Get column totals for calculating the averages.
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
-			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
+			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split("\\s+")));
 			
 			for(int j = 0; j < descriptorValues.size(); j++){
 				if(Float.parseFloat(descriptorValues.get(j)) < Float.parseFloat(descriptorValueMinima.get(j))){
@@ -66,7 +66,7 @@ public class WriteDescriptorsFileWorkflow{
 		//wish there was a faster way
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
-			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
+			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split("\\s+")));
 			
 			for(int j = 0; j < descriptorValues.size(); j++){
 				Float mean = Float.parseFloat(descriptorValueAvgs.get(j));
@@ -93,7 +93,7 @@ public class WriteDescriptorsFileWorkflow{
 
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
-			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
+			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split("\\s+")));
 			for(int j = 0; j < descriptorValues.size(); j++){
 				float value = Float.parseFloat(descriptorValues.get(j));
 				float min = Float.parseFloat(descriptorValueMinima.get(j));
@@ -122,7 +122,7 @@ public class WriteDescriptorsFileWorkflow{
 		
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
-			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
+			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split("\\s+")));
 			
 			for(int j = 0; j < descriptorValues.size(); j++){
 				Float avg = Float.parseFloat(descriptorValueAvgs.get(j));
@@ -180,7 +180,7 @@ public class WriteDescriptorsFileWorkflow{
 		ArrayList< ArrayList<Double> > descriptorMatrixT = new ArrayList< ArrayList<Double> >();
 		
 		//populate the first values of each row in descriptorMatrix
-		String[] sa = descriptorMatrix.get(0).getDescriptorValues().split(" ");
+		String[] sa = descriptorMatrix.get(0).getDescriptorValues().split("\\s+");
 		for(int i = 0; i < sa.length; i++){
 			ArrayList<Double> doubleArray = new ArrayList<Double>();
 			doubleArray.add(Double.parseDouble(sa[i]));
@@ -189,7 +189,7 @@ public class WriteDescriptorsFileWorkflow{
 		
 		//now go through the rest of the descriptorMatrix and add in each value
 		for(int i = 1; i < descriptorMatrix.size(); i++){
-			sa = descriptorMatrix.get(i).getDescriptorValues().split(" ");
+			sa = descriptorMatrix.get(i).getDescriptorValues().split("\\s+");
 			for(int j = 0; j < sa.length; j++){
 				descriptorMatrixT.get(j).add(Double.parseDouble(sa[j]));
 			}
@@ -310,7 +310,7 @@ public class WriteDescriptorsFileWorkflow{
 
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
-			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
+			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split("\\s+")));
 			
 			for(int j = zeroVariance.size() - 1; j >= 0; j--){
 				if(zeroVariance.get(j) == 1){
@@ -346,9 +346,9 @@ public class WriteDescriptorsFileWorkflow{
 		
 		String descriptorNameString = descriptorNameStringBuffer.toString();
 		ArrayList<String> descriptorNames = new ArrayList<String>();
-		descriptorNames.addAll(Arrays.asList(descriptorNameString.split(" ")));
+		descriptorNames.addAll(Arrays.asList(descriptorNameString.split("\\s+")));
 		ArrayList<String> predictorDescriptorNames = new ArrayList<String>();
-		predictorDescriptorNames.addAll(Arrays.asList(predictorDescriptorNameString.split(" ")));
+		predictorDescriptorNames.addAll(Arrays.asList(predictorDescriptorNameString.split("\\s+")));
 
 		//first, create a mapping -- each descriptorName 
 		//will either point to the index of a predictorDescriptorName
@@ -385,7 +385,7 @@ public class WriteDescriptorsFileWorkflow{
 		//use the mapping to get rid of descriptors where mapping == -1.
 		for(int i = 0; i < descriptorMatrix.size(); i++){
 			ArrayList<String> descriptorValues = new ArrayList<String>();
-			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split(" ")));
+			descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split("\\s+")));
 			for(int j = mapping.size() - 1; j >= 0; j--){
 				if(mapping.get(j) == -1 && j < descriptorValues.size()){
 					//Utility.writeToDebug("removing descriptor " + j + " array size: " + descriptorValues.size());
@@ -534,7 +534,7 @@ public class WriteDescriptorsFileWorkflow{
 		
 		//remove descriptors that are useless to modeling (zero variance)
 		ArrayList<String> descriptorNames = new ArrayList<String>();
-		descriptorNames.addAll(Arrays.asList(descriptorNameString.split(" ")));
+		descriptorNames.addAll(Arrays.asList(descriptorNameString.split("\\s+")));
 		
 		removeZeroVarianceDescriptors(descriptorMatrix, 
 				descriptorValueMinima, descriptorValueMaxima, 
@@ -600,8 +600,8 @@ public class WriteDescriptorsFileWorkflow{
 		removeDescriptorsNotInPredictor(descriptorMatrix, descriptorNameStringBuffer, predictorDescriptorNameString);
 		descriptorNameString = descriptorNameStringBuffer.toString();
 	
-		if(predictorDescriptorNameString.split(" ").length != descriptorNameString.split(" ").length){
-			Utility.writeToDebug("WARNING: predictor had " + predictorDescriptorNameString.split(" ").length + " descriptors and output has " +  descriptorNameString.split(" ").length);
+		if(predictorDescriptorNameString.split("\\s+").length != descriptorNameString.split("\\s+").length){
+			Utility.writeToDebug("WARNING: predictor had " + predictorDescriptorNameString.split("\\s+").length + " descriptors and output has " +  descriptorNameString.split("\\s+").length);
 		}
 		
 		//do range scaling on descriptorMatrix
@@ -619,7 +619,7 @@ public class WriteDescriptorsFileWorkflow{
 		File file = new File(xFilePath);
 		FileWriter xFileOut = new FileWriter(file);
 		
-		xFileOut.write(descriptorMatrix.size() + " " + descriptorNameString.split(" ").length + "\n"); // numcompounds numdescriptors
+		xFileOut.write(descriptorMatrix.size() + " " + descriptorNameString.split("\\s+").length + "\n"); // numcompounds numdescriptors
 		xFileOut.write(descriptorNameString + "\n"); //descriptor names
 		
 		try{
