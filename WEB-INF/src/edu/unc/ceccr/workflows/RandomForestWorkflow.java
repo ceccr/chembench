@@ -310,7 +310,9 @@ public class RandomForestWorkflow{
 				RandomForestTree t = new RandomForestTree();
 				t.setRandomForestGroveId(grove.getId());
 				t.setTreeFileName(treeFileName.get(i));
-				t.setDescriptorsUsed(treeDescriptorsUsed.get(i));
+				if(i < treeDescriptorsUsed.size()){ //if no descriptors, not a big deal
+					t.setDescriptorsUsed(treeDescriptorsUsed.get(i));
+				}
 				randomForestTrees.add(t);
 			}
 		}
