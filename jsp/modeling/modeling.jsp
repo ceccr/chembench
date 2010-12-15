@@ -161,10 +161,20 @@
 
 			var svmType;
 			if(document.getElementById("categoryDataset").checked==true){
-				svmType = document.getElementsByName("svmTypeCategory")[0].value;
+				if(document.getElementsByName("svmTypeCategory")[0].checked==true){
+					svmType = document.getElementsByName("svmTypeCategory")[0].value;
+				}
+				else{
+					svmType = document.getElementsByName("svmTypeCategory")[1].value;
+				}
 			}
 			else{
-				svmType = document.getElementsByName("svmTypeContinuous")[0].value;
+				if(document.getElementsByName("svmTypeContinuous")[0].checked==true){
+					svmType = document.getElementsByName("svmTypeContinuous")[0].value;
+				}
+				else{
+					svmType = document.getElementsByName("svmTypeContinuous")[1].value;
+				}
 			}
 			
 			if(svmType == '0'){
