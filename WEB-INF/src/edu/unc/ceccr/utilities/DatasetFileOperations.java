@@ -856,7 +856,7 @@ public class DatasetFileOperations {
 
 		FileAndDirOperations.deleteFile(xFile.getAbsolutePath());
 		FileAndDirOperations.copyFile(xFile.getAbsolutePath() + ".temp", xFile.getAbsolutePath());
-		FileAndDirOperations.deleteFile(xFile.getAbsolutePath() + ".temp");
+		//FileAndDirOperations.deleteFile(xFile.getAbsolutePath() + ".temp");
 		
 		
 		return "";
