@@ -92,6 +92,7 @@
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1){
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = false;
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").checked = true;
 		}
 		else{
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = true;
