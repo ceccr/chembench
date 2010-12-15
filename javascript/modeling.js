@@ -52,11 +52,11 @@ function changeSvmType(){
 		}
 	}
 	else{
-		if(document.getElementById("svmTypeContinuous0").checked==true){
-			svmType = document.getElementById("svmTypeContinuous0").value;
+		if(document.getElementById("svmTypeContinuous3").checked==true){
+			svmType = document.getElementById("svmTypeContinuous3").value;
 		}
 		else{
-			svmType = document.getElementById("svmTypeContinuous1").value;
+			svmType = document.getElementById("svmTypeContinuous4").value;
 		}
 	}
 	alert("svmType is: " + svmType);
