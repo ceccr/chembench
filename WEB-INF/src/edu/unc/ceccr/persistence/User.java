@@ -45,6 +45,10 @@ public class User implements java.io.Serializable{
 	private String viewPredictionCompoundsPerPage;
 	private String showAdvancedKnnModeling;
 	
+	//user privileges 
+	private String isAdmin;
+	private String canDownloadDescriptors;
+	
 	public User(){};
     public User(String userName)
     {
@@ -264,6 +268,22 @@ public class User implements java.io.Serializable{
 	}
 	public void setShowAdvancedKnnModeling(String showAdvancedKnnModeling) {
 		this.showAdvancedKnnModeling = showAdvancedKnnModeling;
+	}
+
+	@Column(name="isAdmin")
+	public String getIsAdmin() {
+		return isAdmin;
+	}
+	public void setIsAdmin(String isAdmin) {
+		this.isAdmin = isAdmin;
+	}
+
+	@Column(name="canDownloadDescriptors")
+	public String getCanDownloadDescriptors() {
+		return canDownloadDescriptors;
+	}
+	public void setCanDownloadDescriptors(String canDownloadDescriptors) {
+		this.canDownloadDescriptors = canDownloadDescriptors;
 	}
 	
 }

@@ -116,7 +116,12 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 			user.setViewDatasetCompoundsPerPage(Constants.TWENTYFIVE);
 			user.setViewPredictionCompoundsPerPage(Constants.TWENTYFIVE);
 			user.setShowAdvancedKnnModeling(Constants.NO);
-
+			
+			//rights
+			user.setCanDownloadDescriptors(Constants.NO);
+			user.setIsAdmin(Constants.NO);
+			
+			//password 
 			String password = Utility.randomPassword();
 			user.setPassword(Utility.encrypt(password));
 			

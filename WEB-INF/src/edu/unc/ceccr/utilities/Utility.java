@@ -207,29 +207,39 @@ public class Utility {
 	}
 
 	public static boolean isAdmin(String userName){
-		boolean user_is_admin = false;
-		Iterator it=Constants.ADMIN_LIST.iterator();
-		while(it.hasNext())
-		{
-			if(userName.equals((String)it.next())){
-				user_is_admin = true;
+		try{
+			Session s = HibernateUtil.getSession();
+			User u = PopulateDataObjects.getUserByUserName(userName, s);
+			
+			if(u.getIsAdmin().equals(Constants.YES)){
+				return true;
+			}
+			else{
+				return false;
 			}
 		}
-		
-		return user_is_admin;
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+			return false;
+		}
 	}
 	
 	public static boolean canDownloadDescriptors(String userName){
-		boolean user_can_download = false;
-		Iterator it=Constants.DESCRIPTOR_DOWNLOAD_USERS_LIST.iterator();
-		while(it.hasNext())
-		{
-			if(userName.equals((String)it.next())){
-				user_can_download = true;
+		try{
+			Session s = HibernateUtil.getSession();
+			User u = PopulateDataObjects.getUserByUserName(userName, s);
+			
+			if(u.getCanDownloadDescriptors().equals(Constants.YES)){
+				return true;
+			}
+			else{
+				return false;
 			}
 		}
-		
-		return user_can_download;
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+			return false;
+		}
 	}
 
 	public String readCounter(){
