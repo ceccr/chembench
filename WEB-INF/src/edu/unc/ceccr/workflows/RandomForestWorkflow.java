@@ -50,7 +50,7 @@ public class RandomForestWorkflow{
 		String inputString;
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
-			if(! inputString.startsWith("#")){
+			if(! inputString.contains("#")){
 				String[] data = inputString.split("\\s+");
 				String[] files = new String[4];
 				files[0] = data[0];
@@ -94,7 +94,7 @@ public class RandomForestWorkflow{
 		String inputString;
 		while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 		{
-			if(! inputString.startsWith("#")){
+			if(! inputString.contains("#")){
 				String[] data = inputString.split("\\s+");
 				preProcessXFile(scalingType, data[0], "RF_" + data[0], workingDir);
 				preProcessXFile(scalingType, data[3], "RF_" + data[3], workingDir);
@@ -334,7 +334,7 @@ public class RandomForestWorkflow{
 			String inputString;
 			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 			{
-				if(! inputString.startsWith("#")){
+				if(! inputString.contains("#")){
 					String[] files = inputString.split("\\s+");
 					for(int i = 0; i < files.length; i++)
 					{

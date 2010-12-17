@@ -3,30 +3,6 @@
 
 <workbench>c-chembench</workbench>
 
-<!-- Administrators may approve users and jobs, and see more user information. -->
-<administrators>
-<admin>
-<name>theo</name>
-<email>naroom@gmail.com</email>
-</admin>
-<admin>
-<name>grulke</name>
-<email>grulke@email.unc.edu</email>
-</admin>
-<admin>
-<name>dpoz</name>
-<email>pozefsky@cs.unc.edu</email>
-</admin>
-</administrators>
-
-<!-- Users with descriptor access may download descriptors. -->
-<!-- This must be monitored carefully and changed manually to ensure only MML users may use descriptors. -->
-<descriptorUsers>
-	<descriptorUser>theo</descriptorUser>
-	<descriptorUser>CountChocula</descriptorUser>
-	<descriptorUser>zhangly</descriptorUser>
-</descriptorUsers>
-
 <systemBasePath>/usr/local/ceccr/</systemBasePath>
 <tomcatPath>/usr/local/ceccr/tomcat6/</tomcatPath>
 <executablesPath>/usr/local/ceccr/</executablesPath>

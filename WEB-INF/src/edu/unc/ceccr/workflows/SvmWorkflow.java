@@ -150,7 +150,7 @@ public class SvmWorkflow{
 		{
 			String[] data = inputString.split("\\s+");
 			
-			if(!inputString.startsWith("#")){
+			if(!inputString.contains("#")){
 				convertXtoSvm(data[0], data[1], workingDir);
 				convertXtoSvm(data[3], data[4], workingDir);
 			}
@@ -239,7 +239,7 @@ public class SvmWorkflow{
 			String inputString;
 			while ((inputString = in.readLine()) != null && ! inputString.equals(""))
 			{
-				if(! inputString.startsWith("#")){
+				if(! inputString.contains("#")){
 					String[] data = inputString.split("\\s+");
 		
 					FileAndDirOperations.deleteFile(workingDir + data[0]);
