@@ -164,7 +164,7 @@ for dirindex in range(0, 2):
 		line = listFile.readline()
 		if not line:
 			break
-		if containsAny(line, '#')
+		if "#" in line:
 			line = listFile.readline()
 			
 		match = re.match("([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+([^ ]+)\s+", line)
