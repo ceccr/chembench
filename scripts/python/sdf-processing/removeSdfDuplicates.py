@@ -26,10 +26,10 @@ usedCompoundNames = []
 
 isCompoundName = True
 while 1:
-    line = infile.readline().rstrip()
-    
+    line = infile.readline()
     if not line:
         break
+    line = line.rstrip()
     if line != "":
         if line in usedCompoundNames:
             print "duplicate name - skipping compound ", line, "\n"

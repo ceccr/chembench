@@ -120,9 +120,7 @@ public class CheckDescriptorsFileWorkflow{
 		//contains some numbers
 		line = br.readLine();
 		Scanner tok = new Scanner(line);
-		//int num_molecules = Integer.parseInt(tok.next()); 
 		tok.next(); //just says "2" all the time, no idea what that means, so skip that
-		//int num_descriptors = Integer.parseInt(tok.next());
 		
 		//the descriptor names are on this line
 		line = br.readLine();

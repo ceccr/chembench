@@ -915,10 +915,6 @@ public class QsarModelingTask extends WorkflowTask {
 			predictor.setNumTestModels(getNumTotalModels()); 
 		}
 		else if(modelType.equals(Constants.SVM)){
-			//clean junk
-			SvmWorkflow.cleanExcessFilesFromDir(filePath);
-			SvmWorkflow.cleanExcessFilesFromDir(filePath + "yRandom/");
-			
 			//read in models and associate them with the predictor
 			svmModels = new ArrayList<SvmModel>();
 			svmModels.addAll(SvmWorkflow.readSvmModels(filePath, svmParameters.getSvmCutoff()));
@@ -939,6 +935,10 @@ public class QsarModelingTask extends WorkflowTask {
 			if(numExternalCompounds > 0){
 				externalSetPredictions = SvmWorkflow.readExternalPredictionOutput(filePath, predictor.getPredictorId());
 			}
+			
+			//clean junk
+			SvmWorkflow.cleanExcessFilesFromDir(filePath);
+			SvmWorkflow.cleanExcessFilesFromDir(filePath + "yRandom/");
 		}
 		
 		//save updated predictor to database
