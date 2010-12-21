@@ -4,6 +4,7 @@ import java.io.*;
 
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
@@ -15,6 +16,11 @@ public class ReadDescriptorsFileWorkflow{
 	//Create a Descriptors object for each compound. 
 	//puts results into descriptorNames and descriptorValueMatrix.
 
+	public static void convertMzToX(String molconnZOutputFile, String workingDir) throws Exception{
+		String cmd = "python mzToX.py " + molconnZOutputFile + " " + molconnZOutputFile + ".x";
+		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "mzToX.py");
+	}
+	
 	public static void readMolconnZDescriptors(String molconnZOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
 
 		Utility.writeToDebug("reading MolconnZ Descriptors");

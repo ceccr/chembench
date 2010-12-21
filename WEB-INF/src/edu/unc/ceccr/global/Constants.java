@@ -165,6 +165,7 @@ public class Constants {
 	public static String EXECUTABLEFILE_PATH;
 	public static String MOLCONNZ_MODELING_DATFILE_PATH = "ParameterFiles/MZ405Modeling.dat";
 	public static String MOLCONNZ_PREDICTION_DATFILE_PATH = "ParameterFiles/MZ405Prediction.dat";
+	public static String MOLCONNZ_CSV_DATFILE_PATH = "ParameterFiles/MZ-CSV.dat";
 
 	public static final String SCRIPTS_PATH = "mmlsoft/bin/";
 	public static final String RF_BUILD_MODEL_RSCRIPT = "randomForestBuildModel.R";

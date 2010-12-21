@@ -15,7 +15,7 @@ public class GenerateDescriptorWorkflow{
 		//Given an SD file, run MolconnZ to get the chemical descriptors for each compound.
 		String datFile;
 		
-		datFile = Constants.MOLCONNZ_PREDICTION_DATFILE_PATH;
+		datFile = Constants.MOLCONNZ_CSV_DATFILE_PATH;
 		
 		String execstr = "molconnz " + Constants.CECCR_BASE_PATH + datFile + " " + sdfile + " " + outfile;
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
