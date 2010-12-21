@@ -4,6 +4,7 @@ import java.io.*;
 
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
@@ -17,7 +18,8 @@ public class ReadDescriptorsFileWorkflow{
 	//puts results into descriptorNames and descriptorValueMatrix.
 
 	public static void convertMzToX(String molconnZOutputFile, String workingDir) throws Exception{
-		String cmd = "python mzToX.py " + molconnZOutputFile + " " + molconnZOutputFile + ".x";
+		
+		String cmd = "python " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "mzToX.py " + molconnZOutputFile + " " + molconnZOutputFile + ".x";
 		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "mzToX.py");
 	}
 	
@@ -264,7 +266,7 @@ public class ReadDescriptorsFileWorkflow{
 		
 		File file = new File(xFile);
 		if(!file.exists() || file.length() == 0){
-			throw new Exception("Could not read Uploaded descriptors.\n");
+			throw new Exception("Could not read X file descriptors: " + xFile + "\n");
 		}
 		FileReader fin = new FileReader(file);
 		BufferedReader br = new BufferedReader(fin);

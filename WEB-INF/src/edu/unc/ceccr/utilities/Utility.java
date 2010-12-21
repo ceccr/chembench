@@ -267,13 +267,12 @@ public class Utility {
 	
 	public void writeCounter(int counter) {
 		try{
-			File counterFile = new File(Constants.CECCR_USER_BASE_PATH
-					+ "counter.txt");
+			File counterFile = new File(Constants.CECCR_USER_BASE_PATH + "counter.txt");
 			if (!counterFile.exists()) {
 				counterFile.createNewFile();
 			}
 			FileWriter fw = new FileWriter(counterFile);
-			fw.write(Integer.toString(counter));
+			fw.write(Integer.toString(counter) + "\n");
 			fw.close();
 		}
 		catch(Exception ex){
@@ -287,7 +286,7 @@ public class Utility {
 		int numUsers = 0;
 		int computeHours = 0;
 		int numJobs = 0;
-		
+		String computeYearsStr = "";
 		try {
 			Session s = HibernateUtil.getSession();
 			List<JobStats> jobStatList = PopulateDataObjects.getJobStats(s);
@@ -304,6 +303,10 @@ public class Utility {
 			}
 			int timeDiffInHours = Math.round(timeDiffs / 1000 / 60 / 60);
 			computeHours = timeDiffInHours;
+			float computeHoursf = computeHours;
+			float computeYears = computeHoursf / new Float(24.0*365.0);
+			computeYearsStr = Utility.floatToString(computeYears);
+			Utility.roundSignificantFigures(computeYearsStr, 4);
 			
 		} catch (Exception e) {
 			//don't sweat it - it's just a counter, not worth killing the page for if it fails
@@ -311,7 +314,7 @@ public class Utility {
 		
 		String jobstats = "";
 		if(numJobs > 0){
-			jobstats = "Chembench has " + numUsers + " registered users. Since Chembench was placed online in April 2010, " + numJobs + " jobs have been submitted, totaling " + computeHours + " hours of compute time.";
+			jobstats = "Chembench has " + numUsers + " registered users. Since Chembench was placed online in April 2010, " + numJobs + " jobs have been submitted, totaling " + computeYearsStr + " years of compute time.";
 		}
 		
 		return jobstats;
