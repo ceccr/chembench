@@ -21,6 +21,9 @@ public class ReadDescriptorsFileWorkflow{
 		
 		String cmd = "python " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "mzToX.py " + molconnZOutputFile + " " + molconnZOutputFile + ".x";
 		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "mzToX.py");
+	
+		//Any errors from MolconnZ processing will be in the log files. Read 'em.
+		
 	}
 	
 	public static void readMolconnZDescriptors(String molconnZOutputFile, ArrayList<String> descriptorNames, ArrayList<Descriptors> descriptorValueMatrix) throws Exception{
