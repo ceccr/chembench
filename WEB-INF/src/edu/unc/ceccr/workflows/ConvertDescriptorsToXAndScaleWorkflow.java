@@ -30,7 +30,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		//split each descriptor file into chunks
 		String descriptorsFile = sdfile;
 		if(descriptorGenerationType.equals(Constants.MOLCONNZ)){
-			descriptorsFile += ".mz";
+			descriptorsFile += ".molconnz";
 			splitMolconnZFile(workingDir, descriptorsFile);
 		}
 		else if(descriptorGenerationType.equals(Constants.DRAGONH)){
@@ -79,9 +79,9 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			}
 			
 			if(descriptorGenerationType.equals(Constants.MOLCONNZ)){
-				ReadDescriptorsFileWorkflow.convertMzToX(workingDir + descriptorsFile + "_" + filePartNumber, workingDir);
-				ReadDescriptorsFileWorkflow.readXDescriptors(workingDir + descriptorsFile + "_" + ".mz.x", descriptorNames, descriptorValueMatrix);
-			
+				//ReadDescriptorsFileWorkflow.convertMzToX(workingDir + descriptorsFile + "_" + filePartNumber, workingDir);
+				//ReadDescriptorsFileWorkflow.readXDescriptors(workingDir + descriptorsFile + "_" + ".mz.x", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(workingDir + descriptorsFile + "_", descriptorNames, descriptorValueMatrix);
 			}
 			else if(descriptorGenerationType.equals(Constants.DRAGONH)){
 				ReadDescriptorsFileWorkflow.readDragonDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, 
@@ -145,9 +145,11 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 		}
 		String descriptorsFile = sdfile;
 		if(descriptorGenerationType.equals(Constants.MOLCONNZ)){
-			descriptorsFile += ".mz";
-			ReadDescriptorsFileWorkflow.convertMzToX(workingDir + descriptorsFile, workingDir);
-			ReadDescriptorsFileWorkflow.readXDescriptors(workingDir + descriptorsFile + ".x", descriptorNames, descriptorValueMatrix);
+			//descriptorsFile += ".mz";
+			//ReadDescriptorsFileWorkflow.convertMzToX(workingDir + descriptorsFile, workingDir);
+			//ReadDescriptorsFileWorkflow.readXDescriptors(workingDir + descriptorsFile + ".x", descriptorNames, descriptorValueMatrix);
+			descriptorsFile += ".molconnz";
+			ReadDescriptorsFileWorkflow.readMolconnZDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
 		}
 		else if(descriptorGenerationType.equals(Constants.DRAGONH)){
 			descriptorsFile += ".dragonH";

@@ -154,7 +154,6 @@ public class CreateDatasetTask extends WorkflowTask{
 		}
 	}
 	
-
 	public void setUp() throws Exception {
 		//create DataSet object in DB to allow for recovery of this job if it fails.
 
@@ -242,7 +241,8 @@ public class CreateDatasetTask extends WorkflowTask{
 			
 			//the dataset included an SDF so we need to generate descriptors from it
 			Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".mz");
+			//GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".mz");
+			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".molconnz");
 
 			Utility.writeToDebug("Generating DragonH Descriptors", userName, jobName);
 			GenerateDescriptorWorkflow.GenerateHExplicitDragonDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".dragonH");
@@ -258,7 +258,7 @@ public class CreateDatasetTask extends WorkflowTask{
 
 			step = Constants.CHECKDESCRIPTORS;
 			//MolconnZ
-			String errors = CheckDescriptorsFileWorkflow.checkMolconnZDescriptors(path + descriptorDir + sdfFileName + ".mz");
+			String errors = CheckDescriptorsFileWorkflow.checkMolconnZDescriptors(path + descriptorDir + sdfFileName + ".molconnz");
 			if(errors.equals("")){
 				availableDescriptors += Constants.MOLCONNZ + " ";
 			}

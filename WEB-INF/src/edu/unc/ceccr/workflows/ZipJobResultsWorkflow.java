@@ -171,6 +171,21 @@ public class ZipJobResultsWorkflow{
 	}
 	
 	public static void ZipKnnModelingResults(String userName, String predictorUserName, String jobName, String zipFile) throws Exception{
+		/*
+		So, there are two contradicting goals this function has to achieve.
+		(1) It should provide the user with a usable predictor.
+		(2) It cannot have any descriptor information.
+		
+		This is ridiculous; in order to be able to make use of a predictor, a user
+		would need to know the min and max of each descriptor value for scaling purposes, 
+		but giving them that info violates (2).
+		Not only that -- they'd need a descriptor generation program. And all the 
+		format conversion tools in Chembench. And a copy of the modeling tool. 
+		
+		The only reason the 'download' option is even there is so that users in the lab
+		(i.e. those with descriptor privileges) can get their stuff out. 
+		 */
+		
 		Utility.writeToDebug("Creating archive of predictor: " + jobName);
 	    // These are the files to include in the ZIP file
 		String projectSubDir = predictorUserName + "/PREDICTORS/" + jobName + "/";
