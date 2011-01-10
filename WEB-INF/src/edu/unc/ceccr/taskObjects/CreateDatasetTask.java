@@ -36,6 +36,7 @@ public class CreateDatasetTask extends WorkflowTask{
 	private String standardize;
 	private String splitType;
 	private String numExternalCompounds;
+	private String numExternalFolds;
 	private String useActivityBinning;
 	private String externalCompoundList;
 	private String jobName = null;
@@ -88,6 +89,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		standardize = dataset.getStandardize();
 		splitType = dataset.getSplitType();
 		numExternalCompounds = dataset.getNumExternalCompounds();
+		numExternalFolds = dataset.getNumExternalFolds();
 		useActivityBinning = dataset.getUseActivityBinning();
 		externalCompoundList = dataset.getExternalCompoundList();
 		
@@ -115,6 +117,7 @@ public class CreateDatasetTask extends WorkflowTask{
 			String standardize,
 			String splitType,
 			String numExternalCompounds,
+			String numExternalFolds,
 			String useActivityBinning,
 			String externalCompoundList,
 			String datasetName,
@@ -132,6 +135,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		this.standardize = standardize;
 		this.splitType = splitType;
 		this.numExternalCompounds = numExternalCompounds;
+		this.numExternalFolds = numExternalFolds;
 		this.useActivityBinning = useActivityBinning;
 		this.externalCompoundList = externalCompoundList;
 		this.jobName = datasetName;
@@ -176,6 +180,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		dataset.setStandardize(standardize);
 		dataset.setSplitType(splitType);
 		dataset.setNumExternalCompounds(numExternalCompounds);
+		dataset.setNumExternalFolds(numExternalFolds);
 		dataset.setUseActivityBinning(useActivityBinning);
 		dataset.setExternalCompoundList(externalCompoundList);
 
@@ -369,6 +374,12 @@ public class CreateDatasetTask extends WorkflowTask{
 				else if(datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
 					//already got a .x file, so just split that
 					DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundList);
+				}
+			}
+			else if(splitType.equals(Constants.NFOLD)){
+				if(datasetType.equals(Constants.MODELING) || datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
+					//generate the lists of compounds for each split
+					DataSplitWorkflow.SplitModelingExternalNFold(path, actFileName, numExternalFolds, useActivityBinning);
 				}
 			}
 		}

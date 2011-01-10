@@ -156,7 +156,7 @@ public class DataSplitWorkflow{
 		outActExternalWriter.close();
 	}
 	
-	public static void SplitModelingExternalNFold(String workingDir, String actFile, int numFolds, String useActivityBinning) throws Exception{
+	public static void SplitModelingExternalNFold(String workingDir, String actFile, String numFolds, String useActivityBinning) throws Exception{
 		class CompoundActivity{
 			String compoundName;
 			Double activity;
@@ -184,20 +184,29 @@ public class DataSplitWorkflow{
 		}
 		
 		//go down the sorted list in chunks of size nFolds
-		
+		int folds = Integer.parseInt(numFolds);
 		ArrayList<ArrayList<String>> externalFolds = new ArrayList<ArrayList<String>>();
-		for(int i = 0; i < numFolds; i++){
+		for(int i = 0; i < folds; i++){
 			ArrayList<String> fold = new ArrayList<String>();
 			externalFolds.add(fold);
 		}
 		
-		for(int i = 0; i < compoundActivities.size(); i += numFolds){
+		for(int i = 0; i < compoundActivities.size(); i += folds){
 			int j = i;
-			while(j < compoundActivities.size() && j < i + numFolds){
+			while(j < compoundActivities.size() && j < i + folds){
 				//
 				externalFolds.get(j).add(compoundActivities.get(i).compoundName);
 				j++;
 			}			
+		}
+		
+		//write the compounds lists to .fold1, .fold2, etc
+		for (int i = 0; i < externalFolds.size(); i++){
+			BufferedWriter out = new BufferedWriter(new FileWriter(actFile + ".fold" + (i+1)));
+			for(int j = 0; j < externalFolds.get(i).size(); j++){
+				out.write(externalFolds.get(i).get(j) + "\n");
+			}
+			out.close();
 		}
 	}
 

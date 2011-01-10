@@ -98,6 +98,7 @@ public class Constants {
 	public static final String RANDOM = "RANDOM";
 	public static final String SPHEREEXCLUSION = "SPHEREEXCLUSION";
 	public static final String USERDEFINED = "USERDEFINED";
+	public static final String NFOLD = "NFOLD";
 	
 	//steps in dataset task
 	public static final String SETUP = "Waiting in queue";

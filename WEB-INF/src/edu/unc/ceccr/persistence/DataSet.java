@@ -36,6 +36,7 @@ public class DataSet implements java.io.Serializable{
 	private String numExternalCompounds; 
 	private String useActivityBinning; 
 	private String externalCompoundList;
+	private String numExternalFolds; 
 
 	public DataSet(){}
 	
@@ -245,6 +246,14 @@ public class DataSet implements java.io.Serializable{
 	}
 	public void setExternalCompoundList(String externalCompoundList) {
 		this.externalCompoundList = externalCompoundList;
+	}
+
+	@Column(name = "numExternalFolds")
+	public String getNumExternalFolds() {
+		return numExternalFolds;
+	}
+	public void setNumExternalFolds(String numExternalFolds) {
+		this.numExternalFolds = numExternalFolds;
 	}
 	
 }

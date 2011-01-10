@@ -134,6 +134,9 @@ public class DatasetFormActions extends ActionSupport{
 			tmp /= 100;
 			numExternalCompounds = "" + tmp;
 		}
+		if(splitType.equals(Constants.NFOLD)){
+			useActivityBinning = useActivityBinningNFold;
+		}
 		
 		if(datasetType.equalsIgnoreCase(Constants.MODELING)){
 			
@@ -206,6 +209,7 @@ public class DatasetFormActions extends ActionSupport{
 						standardizeModeling, //used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
 						numExternalCompounds, //if splitType is RANDOM
+						numExternalFolds, //if splitType is NFOLD
 						useActivityBinning, //if splitType is RANDOM
 						externalCompoundList, //if splitType is USERDEFINED
 						datasetName,
@@ -264,6 +268,7 @@ public class DatasetFormActions extends ActionSupport{
 							standardizePrediction, //used in MODELING and PREDICTION
 							splitType, //RANDOM or USERDEFINED
 							numExternalCompounds, //if splitType is RANDOM
+							numExternalFolds, //if splitType is NFOLD
 							useActivityBinning, //if splitType is RANDOM
 							externalCompoundList, //if splitType is USERDEFINED
 							datasetName,
@@ -331,6 +336,7 @@ public class DatasetFormActions extends ActionSupport{
 						"", //only used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
 						numExternalCompounds, //if splitType is RANDOM
+						numExternalFolds, //if splitType is NFOLD
 						useActivityBinning, //if splitType is RANDOM
 						externalCompoundList, //if splitType is USERDEFINED
 						datasetName,
@@ -387,6 +393,7 @@ public class DatasetFormActions extends ActionSupport{
 						"", //used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
 						numExternalCompounds, //if splitType is RANDOM
+						numExternalFolds, //if splitType is NFOLD
 						useActivityBinning, //if splitType is RANDOM
 						externalCompoundList, //if splitType is USERDEFINED
 						datasetName,
@@ -430,7 +437,7 @@ public class DatasetFormActions extends ActionSupport{
 	private String descriptorTypeModDesc = "";
 	private String descriptorTypePredDesc = "";
 	private String useActivityBinningNFold = "true";
-	private String numFolds = "5";
+	private String numExternalFolds = "5";
 
 	public ArrayList<String> getErrorStrings() {
 		return errorStrings;
@@ -778,11 +785,12 @@ public class DatasetFormActions extends ActionSupport{
 		this.useActivityBinningNFold = useActivityBinningNFold;
 	}
 	
-	public String getNumFolds() {
-		return numFolds;
+	public String getNumExternalFolds() {
+		return numExternalFolds;
 	}
-	public void setNumFolds(String numFolds) {
-		this.numFolds = numFolds;
+	public void setNumExternalFolds(String numExternalFolds) {
+		this.numExternalFolds = numExternalFolds;
 	}
+	
 		
 }

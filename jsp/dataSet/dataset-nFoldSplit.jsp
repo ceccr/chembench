@@ -26,7 +26,7 @@
 			<div class="StandardTextDarkGrayParagraph">
 			<b>Number of splits (<i>n</i>):</b>
 			</div></td>
-		    <td align="left" valign="top"><s:textfield name="numFolds" id="numFolds" theme="simple" /></td>
+		    <td align="left" valign="top"><s:textfield name="numExternalFolds" id="numExternalFolds" theme="simple" /></td>
 		</tr>	
 	  	<tr>
 	  		<td>
