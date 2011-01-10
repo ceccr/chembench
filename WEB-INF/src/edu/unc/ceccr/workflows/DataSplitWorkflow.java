@@ -170,7 +170,7 @@ public class DataSplitWorkflow{
 			ca.setActivityValue(parts[1]);
 			compounds.add(ca);
 		}
-		if(useActivityBinning.equals(Constants.YES)){
+		if(useActivityBinning.equalsIgnoreCase("true")){
 			Collections.sort(compounds, new Comparator<Compound>() {
 			    public int compare(Compound ca1, Compound ca2) {
 		    		return (new Double(Double.parseDouble(ca1.getActivityValue())).

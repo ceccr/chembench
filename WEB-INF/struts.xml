@@ -208,6 +208,11 @@
         	<result>jsp/datasetOutput/viewDataset-externalCompounds.jsp</result>
         </action>
         
+        <action name="viewDatasetNFoldSection" class="edu.unc.ceccr.action.ViewDataset" method="loadExternalCompoundsNFoldSection">
+        	<result>jsp/datasetOutput/viewDataset-nFold.jsp</result>
+        </action>
+        
+        
         <action name="viewDatasetActivityChartSection" class="edu.unc.ceccr.action.ViewDataset" method="loadActivityChartSection">
         	<result>jsp/datasetOutput/viewDataset-activityChart.jsp</result>
         </action>

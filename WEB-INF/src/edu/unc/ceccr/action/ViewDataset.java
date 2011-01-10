@@ -302,7 +302,7 @@ public class ViewDataset extends ActionSupport {
 	}
 	
 
-	public String loadExternalCompoundsSectionNFold() throws Exception {
+	public String loadExternalCompoundsNFoldSection() throws Exception {
 		String result = SUCCESS;
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
@@ -728,5 +728,12 @@ public class ViewDataset extends ActionSupport {
 	public void setDescriptorGenerationResults(
 			ArrayList<DescriptorGenerationResult> descriptorGenerationResults) {
 		this.descriptorGenerationResults = descriptorGenerationResults;
+	}
+
+	public ArrayList<ArrayList<Compound>> getExternalFolds() {
+		return externalFolds;
+	}
+	public void setExternalFolds(ArrayList<ArrayList<Compound>> externalFolds) {
+		this.externalFolds = externalFolds;
 	}
 }
