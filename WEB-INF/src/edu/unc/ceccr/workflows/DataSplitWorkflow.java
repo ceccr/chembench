@@ -191,13 +191,8 @@ public class DataSplitWorkflow{
 			externalFolds.add(fold);
 		}
 		
-		for(int i = 0; i < compoundActivities.size(); i += folds){
-			int j = i;
-			while(j < compoundActivities.size() && j < i + folds){
-				//
-				externalFolds.get(j).add(compoundActivities.get(i).compoundName);
-				j++;
-			}			
+		for(int i = 0; i < compoundActivities.size(); i++){
+			externalFolds.get(i % folds).add(compoundActivities.get(i).compoundName);
 		}
 		
 		//write the compounds lists to .fold1, .fold2, etc
