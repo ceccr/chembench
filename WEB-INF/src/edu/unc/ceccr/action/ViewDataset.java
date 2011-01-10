@@ -25,6 +25,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.Compound;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -46,6 +47,7 @@ public class ViewDataset extends ActionSupport {
 	private DataSet dataset; 
 	private ArrayList<Compound> datasetCompounds; 
 	private ArrayList<Compound> externalCompounds; 
+	private ArrayList<ArrayList<Compound>> externalFolds; 
 	private ArrayList<String> pageNums;
 	private String currentPageNumber;
 	private String orderBy;
@@ -86,25 +88,6 @@ public class ViewDataset extends ActionSupport {
 		}
 	}
 	
-	public class Compound{
-		//using a class instead of two arraylists for sortability.
-		private String compoundId;
-		private String activityValue;
-		
-		public String getCompoundId() {
-			return compoundId;
-		}
-		public void setCompoundId(String compoundId) {
-			this.compoundId = compoundId;
-		}
-		public String getActivityValue() {
-			return activityValue;
-		}
-		public void setActivityValue(String activityValue) {
-			this.activityValue = activityValue;
-		}
-	}
-
 	public String loadCompoundsSection() throws Exception {
 		String result = SUCCESS;
 		//check that the user is logged in
@@ -274,12 +257,28 @@ public class ViewDataset extends ActionSupport {
 				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
 			}
 			
-			//load external compounds from file
-			externalCompounds = new ArrayList<Compound>();
+			//load external compounds from files
+			externalFolds = new ArrayList<ArrayList<Compound>>();
+			for(int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i++){
+				ArrayList<Compound> compounds;
+				HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE);
+				
+				if(! actIdsAndValues.isEmpty()){
+					ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+					for(String compoundId : compoundIds){
+						Compound c = new Compound();
+						c.setCompoundId(compoundId);
+						c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
+						externalCompounds.add(c);
+				}
+				
+			}
 			String datasetUser = dataset.getUserName();
 			
 			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
 			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
+			
+			
 			
 			HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE);
 			

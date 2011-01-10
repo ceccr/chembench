@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.Compound;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -157,49 +158,46 @@ public class DataSplitWorkflow{
 	}
 	
 	public static void SplitModelingExternalNFold(String workingDir, String actFile, String numFolds, String useActivityBinning) throws Exception{
-		class CompoundActivity{
-			String compoundName;
-			Double activity;
-		}
 		//read in the act file
-		ArrayList<CompoundActivity> compoundActivities = new ArrayList<CompoundActivity>();
+		ArrayList<Compound> compounds = new ArrayList<Compound>();
 		File act = new File(workingDir + actFile);
 		BufferedReader br = new BufferedReader(new FileReader(act));
 		String line;
 		while((line = br.readLine()) != null){
 			String[] parts = line.split("\\s+");
-			CompoundActivity ca = new CompoundActivity();
-			ca.compoundName = parts[0];
-			ca.activity = Double.parseDouble(parts[1]);
-			compoundActivities.add(ca);
+			Compound ca = new Compound();
+			ca.setCompoundId(parts[0]);
+			ca.setActivityValue(parts[1]);
+			compounds.add(ca);
 		}
 		if(useActivityBinning.equals(Constants.YES)){
-			Collections.sort(compoundActivities, new Comparator<CompoundActivity>() {
-			    public int compare(CompoundActivity ca1, CompoundActivity ca2) {
-		    		return ca1.activity.compareTo(ca2.activity);
+			Collections.sort(compounds, new Comparator<Compound>() {
+			    public int compare(Compound ca1, Compound ca2) {
+		    		return (new Double(Double.parseDouble(ca1.getActivityValue())).
+		    				compareTo(new Double(Double.parseDouble(ca2.getActivityValue()))));
 			    }});
 		}
 		else{
-			Collections.shuffle(compoundActivities);
+			Collections.shuffle(compounds);
 		}
 		
 		//go down the sorted list in chunks of size nFolds
 		int folds = Integer.parseInt(numFolds);
-		ArrayList<ArrayList<String>> externalFolds = new ArrayList<ArrayList<String>>();
+		ArrayList<ArrayList<Compound>> externalFolds = new ArrayList<ArrayList<Compound>>();
 		for(int i = 0; i < folds; i++){
-			ArrayList<String> fold = new ArrayList<String>();
+			ArrayList<Compound> fold = new ArrayList<Compound>();
 			externalFolds.add(fold);
 		}
 		
-		for(int i = 0; i < compoundActivities.size(); i++){
-			externalFolds.get(i % folds).add(compoundActivities.get(i).compoundName);
+		for(int i = 0; i < compounds.size(); i++){
+			externalFolds.get(i % folds).add(compounds.get(i));
 		}
 		
 		//write the compounds lists to .fold1, .fold2, etc
 		for (int i = 0; i < externalFolds.size(); i++){
 			BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + actFile + ".fold" + (i+1)));
 			for(int j = 0; j < externalFolds.get(i).size(); j++){
-				out.write(externalFolds.get(i).get(j) + "\n");
+				out.write(externalFolds.get(i).get(j).getCompoundId() + " " + externalFolds.get(i).get(j).getActivityValue() + "\n");
 			}
 			out.close();
 		}
