@@ -197,7 +197,7 @@ public class DataSplitWorkflow{
 		
 		//write the compounds lists to .fold1, .fold2, etc
 		for (int i = 0; i < externalFolds.size(); i++){
-			BufferedWriter out = new BufferedWriter(new FileWriter(actFile + ".fold" + (i+1)));
+			BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + actFile + ".fold" + (i+1)));
 			for(int j = 0; j < externalFolds.get(i).size(); j++){
 				out.write(externalFolds.get(i).get(j) + "\n");
 			}
