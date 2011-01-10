@@ -172,10 +172,10 @@
 	    	
 				<sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading split type..." preload="false">
 				</sx:div>
-				<!-- 
+
 				<sx:div id="NFOLD" href="/loadNFoldExternalSection" label="n-Fold Split" theme="ajax" loadingText="Loading split type..." preload="false">
 				</sx:div>
-				 -->
+
 	    	</sx:tabbedpanel>
 	    	</td></tr></table>
 	    	</td>
