@@ -20,7 +20,6 @@ import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 
-import edu.unc.ceccr.action.ViewDataset.Compound;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;

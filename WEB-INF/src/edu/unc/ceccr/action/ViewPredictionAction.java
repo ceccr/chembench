@@ -25,7 +25,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 
-import edu.unc.ceccr.action.ViewDataset.Compound;
+import edu.unc.ceccr.persistence.Compound;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
