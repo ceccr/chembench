@@ -244,6 +244,80 @@ public class ViewDataset extends ActionSupport {
 		return result;
 	}
 	
+	public String loadExternalCompoundsSectionNFold() throws Exception {
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+
+			if(context.getParameters().get("datasetId") != null){
+				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
+			}
+			
+			//get dataset
+			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
+			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
+			if(datasetId == null){
+				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
+			}
+			
+			//load external compounds from file
+			externalCompounds = new ArrayList<Compound>();
+			String datasetUser = dataset.getUserName();
+			
+			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
+			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
+			
+			HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE);
+			
+			if(actIdsAndValues.isEmpty()){
+				return result;
+			}
+			
+			ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+			for(String compoundId : compoundIds){
+				Compound c = new Compound();
+				c.setCompoundId(compoundId);
+				c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
+				externalCompounds.add(c);
+			}
+			
+			//sort by activity by default, that seems good
+			if(orderBy != null && orderBy.equals("activityValue")){
+				Collections.sort(externalCompounds, new Comparator<Compound>() {
+				    public int compare(Compound o1, Compound o2) {
+				    	float f1 = Float.parseFloat(o1.getActivityValue());
+				    	float f2 = Float.parseFloat(o2.getActivityValue());
+				    	return (f2 < f1? 1:-1);
+				    }});
+			}
+			else{
+				Collections.sort(externalCompounds, new Comparator<Compound>() {
+					  public int compare(Compound o1, Compound o2) {
+				    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
+					    }});
+			}
+			if(sortDirection != null && sortDirection.equals("desc")){
+				Collections.reverse(externalCompounds);
+			}
+			
+		}
+		return result;
+	}
+	
 	public String loadExternalCompoundsSection() throws Exception {
 		String result = SUCCESS;
 		//check that the user is logged in
@@ -266,15 +340,6 @@ public class ViewDataset extends ActionSupport {
 			if(context.getParameters().get("datasetId") != null){
 				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
 			}
-			if(context.getParameters().get("orderBy") != null){
-				orderBy = ((String[]) context.getParameters().get("orderBy"))[0]; 	
-			}
-			if(context.getParameters().get("sortDirection") != null){
-				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
-			}
-			//Right now there's no pagination on external compounds. This is because
-			//typical datasets have <50 external compounds in them. If a real need arises to add
-			//pagination, it's easy enough to add.
 			
 			//get dataset
 			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
