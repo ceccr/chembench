@@ -5,7 +5,7 @@
 
 <!-- External Compounds -->	
 	
-		<p class="StandardTextDarkGray"><u><b>Compounds Chosen for External Set</b></u></p>
+		<p class="StandardTextDarkGray"><u><b>Compounds Chosen for Each External Fold</b></u></p>
 		
 	<table width="924" align="center">
 		<tr><td>
