@@ -150,7 +150,7 @@
 			</s:if>
 			<s:else>
 				YYYYYY
-				<s:url id="externalCompoundsNFoldLink" value="/loadExternalCompoundsNFoldSection" includeParams="none">
+				<s:url id="externalCompoundsNFoldLink" value="/viewDatasetNFoldSection" includeParams="none">
 					<s:param name="datasetId" value='datasetId' />
 				</s:url>
 				<sx:div href="%{externalCompoundsNFoldLink}" id="externalCompoundsNFoldDiv" label="External Folds" theme="ajax" loadingText="Loading external compounds..." showLoadingText="true">
