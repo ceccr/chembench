@@ -47,7 +47,7 @@ public class ViewDataset extends ActionSupport {
 	private DataSet dataset; 
 	private ArrayList<Compound> datasetCompounds; 
 	private ArrayList<Compound> externalCompounds; 
-	private ArrayList<ArrayList<Compound>> externalFolds; 
+	private ArrayList<ExternalFold> externalFolds; 
 	private ArrayList<String> pageNums;
 	private String currentPageNumber;
 	private String orderBy;
@@ -55,6 +55,23 @@ public class ViewDataset extends ActionSupport {
 	private String datasetId; 
 	private String webAddress = Constants.WEBADDRESS;
 	private ArrayList<DescriptorGenerationResult> descriptorGenerationResults;
+
+	class ExternalFold{
+		String foldNum;
+		ArrayList<Compound> compounds;
+		public String getFoldNum() {
+			return foldNum;
+		}
+		public void setFoldNum(String foldNum) {
+			this.foldNum = foldNum;
+		}
+		public ArrayList<Compound> getCompounds() {
+			return compounds;
+		}
+		public void setCompounds(ArrayList<Compound> compounds) {
+			this.compounds = compounds;
+		}
+	}
 	
 	public class DescriptorGenerationResult{
 		private String descriptorType;
@@ -336,7 +353,7 @@ public class ViewDataset extends ActionSupport {
 			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
 
 			//load external compounds from files
-			externalFolds = new ArrayList<ArrayList<Compound>>();
+			externalFolds = new ArrayList<ExternalFold>();
 			for(int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i++){
 				ArrayList<Compound> compounds = new ArrayList<Compound>();
 				HashMap<String, String> actIdsAndValues = 
@@ -351,7 +368,10 @@ public class ViewDataset extends ActionSupport {
 						compounds.add(c);
 					}
 				}
-				externalFolds.add(compounds);
+				ExternalFold ef = new ExternalFold();
+				ef.compounds = compounds;
+				ef.foldNum = "" + (i+1);
+				externalFolds.add(ef);
 			}
 		}
 		return result;
@@ -730,10 +750,11 @@ public class ViewDataset extends ActionSupport {
 		this.descriptorGenerationResults = descriptorGenerationResults;
 	}
 
-	public ArrayList<ArrayList<Compound>> getExternalFolds() {
+	public ArrayList<ExternalFold> getExternalFolds() {
 		return externalFolds;
 	}
-	public void setExternalFolds(ArrayList<ArrayList<Compound>> externalFolds) {
+	public void setExternalFolds(ArrayList<ExternalFold> externalFolds) {
 		this.externalFolds = externalFolds;
 	}
+
 }
