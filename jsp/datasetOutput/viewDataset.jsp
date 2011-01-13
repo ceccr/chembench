@@ -137,7 +137,9 @@
 		
 		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
 			
-			||||||<s:property value="dataset.splitType">||||||||
+			||||||
+			<s:property value="dataset.splitType" />
+			||||||||
 			<s:if test="dataset.splitType=='RANDOM'||dataset.splitType='USERDEFINED'">
 				<s:url id="externalCompoundsLink" value="/viewDatasetExternalCompoundsSection" includeParams="none">
 					<s:param name="datasetId" value='datasetId' />
