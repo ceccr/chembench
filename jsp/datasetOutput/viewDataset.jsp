@@ -150,14 +150,12 @@
 			</s:if>
 			<s:if test="dataset.splitType=='NFOLD'">
 				YYYYYY
-				<s:url id="externalCompoundsLink" value="/loadExternalCompoundsNFoldSection" includeParams="none">
+				<s:url id="externalCompoundsNFoldLink" value="/loadExternalCompoundsNFoldSection" includeParams="none">
 					<s:param name="datasetId" value='datasetId' />
 				</s:url>
-				<sx:div href="%{externalCompoundsLink}" id="externalCompoundsDiv" label="External Folds" theme="ajax" loadingText="Loading external compounds..." showLoadingText="true">
+				<sx:div href="%{externalCompoundsNFoldLink}" id="externalCompoundsNFoldDiv" label="External Folds" theme="ajax" loadingText="Loading external compounds..." showLoadingText="true">
 				</sx:div>
 			</s:if>
-			
-			
 			
 			<s:url id="activityChartLink" value="/viewDatasetActivityChartSection" includeParams="none">
 				<s:param name="datasetId" value='datasetId' />
