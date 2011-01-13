@@ -138,14 +138,14 @@
 		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
 			
 			
-			<s:if test="dataset.splitType='RANDOM'||dataset.splitType='USERDEFINED'">
+			<s:if test="dataset.splitType=='RANDOM'||dataset.splitType='USERDEFINED'">
 				<s:url id="externalCompoundsLink" value="/viewDatasetExternalCompoundsSection" includeParams="none">
 					<s:param name="datasetId" value='datasetId' />
 				</s:url>
 				<sx:div href="%{externalCompoundsLink}" id="externalCompoundsDiv" label="External Set" theme="ajax" loadingText="Loading external compounds..." showLoadingText="true">
 				</sx:div>
 			</s:if>
-			<s:elseif test="dataset.splitType='NFOLD'">
+			<s:elseif test="dataset.splitType=='NFOLD'">
 				<s:url id="externalCompoundsLink" value="/loadExternalCompoundsNFoldSection" includeParams="none">
 					<s:param name="datasetId" value='datasetId' />
 				</s:url>
