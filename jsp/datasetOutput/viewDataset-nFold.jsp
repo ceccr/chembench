@@ -14,7 +14,6 @@
 				<!-- body for left side table -->
 				<s:iterator value="externalFolds" status="externalFoldsStatus">
 					<table>
-					<tr>
 						<tr><td class="TableRowText01" colspan="3">External Fold <s:property value="foldNum" /></td></tr>
 						<s:iterator value="compounds" status="compoundsStatus">
 							<tr>
@@ -29,6 +28,7 @@
 						</s:iterator>
 					</tr>
 					</table>
+					<tr><td><br /></td></tr>
 				</s:iterator>
 			</table>
 			</s:if>
