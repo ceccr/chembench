@@ -137,11 +137,8 @@
 		
 		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
 			
-			||||||
 			<s:property value="dataset.splitType" />
-			||||||||
 			<s:if test="dataset.splitType=='RANDOM'||dataset.splitType=='USERDEFINED'">
-				ZZZZZZ
 				<s:url id="externalCompoundsLink" value="/viewDatasetExternalCompoundsSection" includeParams="none">
 					<s:param name="datasetId" value='datasetId' />
 				</s:url>
@@ -149,7 +146,6 @@
 				</sx:div>
 			</s:if>
 			<s:else>
-				YYYYYY
 				<s:url id="externalCompoundsNFoldLink" value="/viewDatasetNFoldSection" includeParams="none">
 					<s:param name="datasetId" value='datasetId' />
 				</s:url>
