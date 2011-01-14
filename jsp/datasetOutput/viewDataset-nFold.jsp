@@ -15,14 +15,17 @@
 				<s:iterator value="externalFolds" status="externalFoldsStatus">
 					<table>
 					<tr>
-						<td class="TableRowText02">External Fold <s:property value="foldNum" /></td>
-							<s:iterator value="compounds" status="compoundsStatus">
-							<td class="TableRowText02">
+						<tr><td class="TableRowText01" colspan="3">External Fold <s:property value="foldNum" /></td></tr>
+						<s:iterator value="compounds" status="compoundsStatus">
+							<tr>
+							<td class="TableRowText02"><s:property value="compoundId" /></td>
+							</tr><td class="TableRowText02">
 							<a href="#" onclick="window.open('compound3D?compoundId=<s:property value="compoundId" />&projectType=dataset&user=<s:property value="dataset.userName" />&datasetName=<s:property value="dataset.fileName" />', '','width=350, height=350'); return false;">
 							<img src="/imageServlet?user=<s:property value="dataset.userName" />&projectType=dataset&compoundId=<s:property value='compoundId' />&datasetName=<s:property value="dataset.fileName" />" border="0" height="150" onmouseover='enlargeImage(this);' onmouseout='shrinkImage(this)'/>
 							</a>					
 							</td>
 							<td class="TableRowText02"><s:property value="activityValue" /></td>
+							</tr>
 						</s:iterator>
 					</tr>
 					</table>

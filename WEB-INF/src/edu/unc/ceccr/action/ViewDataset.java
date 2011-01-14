@@ -357,7 +357,7 @@ public class ViewDataset extends ActionSupport {
 			for(int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i++){
 				ArrayList<Compound> compounds = new ArrayList<Compound>();
 				HashMap<String, String> actIdsAndValues = 
-					DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE + ".fold" + (i+1));
+					DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (i+1));
 				
 				if(! actIdsAndValues.isEmpty()){
 					ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
