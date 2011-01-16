@@ -199,13 +199,6 @@ public class ModelingFormActions extends ActionSupport{
 				int numCompounds = ds.getNumCompound();
 				for(int i = 0; i < numExternalFolds; i++){
 					
-					//use the right external set for each fold
-					String datasetDir = Constants.CECCR_USER_BASE_PATH + ds.getUserName() + "/DATASETS/" + ds.getFileName() + "/";
-					String foldPath = datasetDir + ds.getActFile() + ".fold" + (i+1);
-					String extPath = datasetDir + "ext_0.a";
-					FileAndDirOperations.copyFile(foldPath, extPath);
-					DatasetFileOperations.makeXFromACT(datasetDir, "ext_0.a");
-					
 					//count the number of models that will be generated
 					int numModels = getNumModels();
 

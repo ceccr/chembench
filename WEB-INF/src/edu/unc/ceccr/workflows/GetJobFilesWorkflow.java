@@ -3,9 +3,12 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.global.Constants;
@@ -33,6 +36,25 @@ public class GetJobFilesWorkflow{
 		String externalSplitXFile = "";
 		
 		if(dataset.getDatasetType().equals(Constants.MODELING) || dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
+			if(dataset.getSplitType().equals(Constants.NFOLD)){
+				//use the right external set for this fold
+				Pattern p = Pattern.compile("fold_(\\d+)_of_(\\d+)");
+				Matcher matcher = p.matcher(toDir);
+				int foldNum = 0;
+				if(matcher.find()){
+					foldNum = Integer.parseInt(matcher.group(1));
+				}
+				else{
+					throw new Exception("Could not find fold number in path: " + toDir);
+				}
+
+				String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
+				String foldPath = datasetDir + dataset.getActFile() + ".fold" + (foldNum);
+				String extPath = datasetDir + "ext_0.a";
+				FileAndDirOperations.copyFile(foldPath, extPath);
+				DatasetFileOperations.makeXFromACT(datasetDir, "ext_0.a");
+				
+			}
 			externalSplitXFile = Constants.EXTERNAL_SET_X_FILE;
 		}
 		
