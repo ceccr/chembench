@@ -25,6 +25,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.WorkflowTask;
+import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
@@ -203,6 +204,7 @@ public class ModelingFormActions extends ActionSupport{
 					String foldPath = datasetDir + ds.getActFile() + ".fold" + (i+1);
 					String extPath = datasetDir + "ext_0.a";
 					FileAndDirOperations.copyFile(foldPath, extPath);
+					DatasetFileOperations.makeXFromACT(datasetDir, "ext_0.a");
 					
 					//count the number of models that will be generated
 					int numModels = getNumModels();
