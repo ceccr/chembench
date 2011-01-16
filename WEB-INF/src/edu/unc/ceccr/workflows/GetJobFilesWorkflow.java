@@ -15,7 +15,7 @@ import edu.unc.ceccr.global.Constants;
 
 public class GetJobFilesWorkflow{
 	
-	public static void getDatasetFiles(String userName, DataSet dataset, String toDir) throws Exception{
+	public static void getDatasetFiles(String userName, DataSet dataset, String jobType, String toDir) throws Exception{
 		//gathers the dataset files needed for a modeling or prediction run
 		
 		String allUserDir = Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/" + dataset.getFileName() + "/";
@@ -36,7 +36,7 @@ public class GetJobFilesWorkflow{
 		String externalSplitXFile = "";
 		
 		if(dataset.getDatasetType().equals(Constants.MODELING) || dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
-			if(dataset.getSplitType().equals(Constants.NFOLD) && ! fromDir.contains("/PREDICTION/")){
+			if(dataset.getSplitType().equals(Constants.NFOLD) && jobType.equals(Constants.MODELING)){
 				//use the right external set for this fold
 				Pattern p = Pattern.compile("fold_(\\d+)_of_(\\d+)");
 				Matcher matcher = p.matcher(toDir);

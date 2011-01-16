@@ -543,7 +543,7 @@ public class QsarModelingTask extends WorkflowTask {
 		//copy the dataset files to the working directory
 		step = Constants.SETUP;
 		
-		GetJobFilesWorkflow.getDatasetFiles(userName, dataset, filePath);
+		GetJobFilesWorkflow.getDatasetFiles(userName, dataset, Constants.MODELING, filePath);
 
 		//read in the descriptors for the dataset
 		ArrayList<String> descriptorNames = new ArrayList<String>();

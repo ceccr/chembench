@@ -292,7 +292,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		String sdfile = predictionDataset.getSdfFile();
 		
-		GetJobFilesWorkflow.getDatasetFiles(userName, predictionDataset, path);
+		GetJobFilesWorkflow.getDatasetFiles(userName, predictionDataset, Constants.PREDICTION, path);
 		
 		if(jobList.equals(Constants.LSF)){
 			//move files out to LSF
