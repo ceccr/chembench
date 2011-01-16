@@ -84,32 +84,23 @@
 	<span class="StandardTextDarkGray"></span>
 
 	<br />
+	<div class="StandardTextDarkGrayParagraph">
+		<b>Descriptors Per Model:</b> From <s:property value="knnPlusParameters.knnMinNumDescriptors" /> to <s:property value="knnPlusParameters.knnMaxNumDescriptors" /> step <s:property value="knnPlusParameters.knnDescriptorStepSize" /><br />
+	
+	
+	
 	<table width="500" align="left">
-		<tr>
-			<td class="TableRowText01">Dataset Name: </td>
-			<td class="TableRowText02"><s:property value="dataset.fileName" /></td>
-		</tr><tr>
-			<td class="TableRowText01">Number of Compounds: </td>
-			<td class="TableRowText02"><s:property value="dataset.numCompound" /></td>
-		</tr><tr>
-			<td class="TableRowText01">Dataset Type: </td>
-			<td class="TableRowText02"><s:property value="dataset.datasetType" /></td>
-		</tr><tr>
-			<td class="TableRowText01">Date Created: </td>
-			<td class="TableRowText02"><s:property value="dataset.createdTime" /></td>
-		</tr><tr>
-			<td class="TableRowText01">Description: </td>
-			<td class="TableRowText02"><s:property value="dataset.description" /></td>
-		</tr><tr>
-			<td class="TableRowText01">Paper Reference: </td>
-			<td class="TableRowText02"><s:property value="dataset.paperReference" /></td>
-		</tr>
+		<tr><td>
+		<b>Dataset Name: </b><s:property value="dataset.fileName" /><br />
+		<b>Number of Compounds: </b><s:property value="dataset.numCompound" /><br />
+		<b>Dataset Type: </b><s:property value="dataset.datasetType" /><br />
+		<b>Date Created: </b><s:property value="dataset.createdTime" /><br />
+		<b>Description: </b><s:property value="dataset.description" /><br />
+		<b>Paper Reference: </b><s:property value="dataset.paperReference" /><br />
 		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
-		<tr>
-			<td class="TableRowText01">Number of External Compounds: </td>
-			<td class="TableRowText02"><s:property value="externalCompoundsCount" /></td>
-		</tr>
+		<b>Number of External Compounds: </b><s:property value="externalCompoundsCount" /><br />
 		</s:if>
+		</td></tr>
 	</table>
 	<!-- End Header Info -->
 
