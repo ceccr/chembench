@@ -36,7 +36,7 @@ public class GetJobFilesWorkflow{
 		String externalSplitXFile = "";
 		
 		if(dataset.getDatasetType().equals(Constants.MODELING) || dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
-			if(dataset.getSplitType().equals(Constants.NFOLD)){
+			if(dataset.getSplitType().equals(Constants.NFOLD) && ! fromDir.contains("/PREDICTION/")){
 				//use the right external set for this fold
 				Pattern p = Pattern.compile("fold_(\\d+)_of_(\\d+)");
 				Matcher matcher = p.matcher(toDir);
