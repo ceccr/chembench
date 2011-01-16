@@ -83,9 +83,8 @@
 	<span class="Errors"><b><!-- errors go here..? --></b></span> 
 	<span class="StandardTextDarkGray"></span>
 
-	<br />
-	<table width="500" align="left"><tr><td>
-		<div class="StandardTextDarkGray">
+	<table width="924" align="center"><tr><td>
+		<div class="StandardTextDarkGray"><br />
 			<b>Dataset Name: </b><s:property value="dataset.fileName" /><br />
 			<b>Number of Compounds: </b><s:property value="dataset.numCompound" /><br />
 			<b>Dataset Type: </b><s:property value="dataset.datasetType" /><br />
@@ -96,10 +95,8 @@
 			<b>Number of External Compounds: </b><s:property value="externalCompoundsCount" /><br />
 			</s:if>
 		</div>
-	</td></tr></table>
 	<!-- End Header Info -->
 
-	<table width="924" align="center"><tr><td>
 	<!-- Page description -->
 	<s:if test="dataset.datasetType=='PREDICTION'||dataset.datasetType=='PREDICTIONWITHDESCRIPTORS'">
 	<p class="StandardTextDarkGray" width="550">The compounds in your dataset are below.  </p>
