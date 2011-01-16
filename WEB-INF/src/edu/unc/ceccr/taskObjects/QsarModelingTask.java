@@ -610,7 +610,7 @@ public class QsarModelingTask extends WorkflowTask {
 		if(trainTestSplitType.equals(Constants.RANDOM)){
 			DataSplitWorkflow.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize, randomSplitMaxTestSize, randomSplitSampleWithReplacement);
 		}
-		else{
+		else if(trainTestSplitType.equals(Constants.SPHEREEXCLUSION)){
 			DataSplitWorkflow.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax, sphereSplitMinTestSize, selectionNextTrainPt);
 		}
 		

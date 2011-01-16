@@ -25,6 +25,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.WorkflowTask;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -136,8 +137,9 @@ public class ModelingFormActions extends ActionSupport{
 			return "";
 		}
 		
-		if((PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName().equals("all-datasets") )){
-			//activate GOD MODE. Launch modeling on every dataset the user owns except for this one.
+		DataSet ds = PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession);
+		if((ds.getFileName().equals("all-datasets") )){
+			//Launch modeling on every dataset the user owns (except for this one).
 			closeSessionAtEnd = false;
 			ArrayList<DataSet> datasetList = new ArrayList<DataSet>();
 			datasetList.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, false, executeSession));
@@ -160,11 +162,7 @@ public class ModelingFormActions extends ActionSupport{
 			}
 			return SUCCESS;
 		}
-		else{
-			
-		}
-		
-		//debug output
+		//print debug output
 		String s = "";
 		s += "\n Job Name: " + jobName;
 		s += "\n Dataset ID: " + selectedDatasetId;
@@ -176,10 +174,8 @@ public class ModelingFormActions extends ActionSupport{
 		
 		Utility.writeToDebug(s);
 		
-		
 		//set up job
 		try{
-
 			//unsplit any variables repeated between knn-GA and knn-SA
 			int index = 0;
 			if(modelingType.equals(Constants.KNNGA)){
@@ -195,77 +191,59 @@ public class ModelingFormActions extends ActionSupport{
 				knnMinTest = knnMinTest.split("\\, ")[index];
 			}
 			
-			QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
-			Utility.writeToDebug("Setting up task", user.getUserName(), this.getJobName());
-			modelingTask.setUp();
-			Utility.writeToDebug("done Setting up task", user.getUserName(), this.getJobName());
-			int numCompounds = PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getNumCompound();
-			
-			if(closeSessionAtEnd){
-				executeSession.close();
-			}
-			
-			//count the number of models that will be generated
-			int numModels = 0;
-			if(trainTestSplitType.equals(Constants.RANDOM)){
-				numModels = Integer.parseInt(numSplitsInternalRandom);
-			}
-			else if(trainTestSplitType.equals(Constants.SPHEREEXCLUSION)){
-				numModels = Integer.parseInt(numSplitsInternalSphere);
-			}
+			if(ds.getSplitType().equals(Constants.NFOLD)){
+				//start n jobs, 1 for each fold
+				int numExternalFolds = Integer.parseInt(ds.getNumExternalFolds());
+				String baseJobName = jobName;
+				int numCompounds = ds.getNumCompound();
+				for(int i = 0; i < numExternalFolds; i++){
+					
+					//use the right external set for each fold
+					String datasetDir = Constants.CECCR_USER_BASE_PATH + ds.getUserName() + "/DATASETS/" + ds.getFileName() + "/";
+					String foldPath = datasetDir + ds.getActFile() + ".fold" + (i+1);
+					String extPath = datasetDir + "ext_0.a";
+					FileAndDirOperations.copyFile(foldPath, extPath);
+					
+					//count the number of models that will be generated
+					int numModels = getNumModels();
 
-			if(modelingType.equals(Constants.KNN)){
-				numModels *= Integer.parseInt(numRuns);
-				int numDescriptorSizes = 0;
-				for(int i = Integer.parseInt(minNumDescriptors); i <= Integer.parseInt(maxNumDescriptors); i += Integer.parseInt(stepSize)){
-					numDescriptorSizes++;
+					//set up the job
+					jobName = baseJobName + "_fold_" +(i+1) + "_of_" + numExternalFolds;
+					QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
+					modelingTask.setUp();
+					
+					//add job to incoming joblist so it will start
+					CentralDogma centralDogma = CentralDogma.getInstance();
+					centralDogma.addJobToIncomingList(user.getUserName(), jobName, modelingTask, numCompounds, numModels, emailOnCompletion);
+					
+					Utility.writeToUsageLog("Added modeling job", user.getUserName());
+					Utility.writeToDebug("Modeling job added to queue", user.getUserName(), this.getJobName());
 				}
-				numModels *= numDescriptorSizes;
-			}
-			else if(modelingType.equals(Constants.KNNSA)){
-				numModels *= Integer.parseInt(saNumRuns);
-				numModels *= Integer.parseInt(saNumBestModels);
-				int numDescriptorSizes = 0;
-				for(int i = Integer.parseInt(knnMinNumDescriptors); i <= Integer.parseInt(knnMaxNumDescriptors); i += Integer.parseInt(knnDescriptorStepSize)){
-					numDescriptorSizes++;
+
+				if(closeSessionAtEnd){
+					executeSession.close();
 				}
-				numModels *= numDescriptorSizes;
 			}
-			else if(modelingType.equals(Constants.KNNGA)){
-				//no changes; parameters affect generation time of 
-				//each model but not the total number of models to be generated
-			}
-			else if(modelingType.equals(Constants.SVM)){
-				Double numDifferentCosts = Math.ceil((Double.parseDouble(svmCostTo) - 
-						Double.parseDouble(svmCostFrom)) / 
-						Double.parseDouble(svmCostStep) + 0.0001);
-
-				Double numDifferentDegrees = Math.ceil((Double.parseDouble(svmDegreeTo) - 
-						Double.parseDouble(svmDegreeFrom)) / 
-						Double.parseDouble(svmDegreeStep) + 0.0001);
-
-				Double numDifferentGammas = Math.ceil((Double.parseDouble(svmGammaTo) - 
-						Double.parseDouble(svmGammaFrom)) / 
-						Double.parseDouble(svmGammaStep) + 0.0001);
-
-				Double numDifferentNus = Math.ceil((Double.parseDouble(svmNuTo) - 
-						Double.parseDouble(svmNuFrom)) / 
-						Double.parseDouble(svmNuStep) + 0.0001);
-
-				Double numDifferentPEpsilons = Math.ceil((Double.parseDouble(svmPEpsilonTo) - 
-						Double.parseDouble(svmPEpsilonFrom)) / 
-						Double.parseDouble(svmPEpsilonStep) + 0.0001);
+			else{
+				QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
+				modelingTask.setUp();
+				int numCompounds = ds.getNumCompound();
 				
-				numModels *= numDifferentCosts * numDifferentDegrees * numDifferentGammas * numDifferentNus * numDifferentPEpsilons;
+				if(closeSessionAtEnd){
+					executeSession.close();
+				}
+				
+				//count the number of models that will be generated
+				int numModels = getNumModels();
+				
+				//make job and add to incoming joblist
+				CentralDogma centralDogma = CentralDogma.getInstance();
+				centralDogma.addJobToIncomingList(user.getUserName(), jobName, modelingTask, numCompounds, numModels, emailOnCompletion);
+				
+				Utility.writeToUsageLog("Added modeling job", user.getUserName());
+				Utility.writeToDebug("Task added to queue", user.getUserName(), this.getJobName());
+				
 			}
-			
-			//make job and add to incoming joblist
-			CentralDogma centralDogma = CentralDogma.getInstance();
-			centralDogma.addJobToIncomingList(user.getUserName(), jobName, modelingTask, numCompounds, numModels, emailOnCompletion);
-			
-			Utility.writeToUsageLog("Added modeling job", user.getUserName());
-			
-			Utility.writeToDebug("Task added to queue", user.getUserName(), this.getJobName());
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
@@ -275,7 +253,63 @@ public class ModelingFormActions extends ActionSupport{
 		}
 		return SUCCESS;
 	}
-
+	
+	private int getNumModels(){
+		int numModels = 0;
+		if(trainTestSplitType.equals(Constants.RANDOM)){
+			numModels = Integer.parseInt(numSplitsInternalRandom);
+		}
+		else if(trainTestSplitType.equals(Constants.SPHEREEXCLUSION)){
+			numModels = Integer.parseInt(numSplitsInternalSphere);
+		}
+	
+		if(modelingType.equals(Constants.KNN)){
+			numModels *= Integer.parseInt(numRuns);
+			int numDescriptorSizes = 0;
+			for(int i = Integer.parseInt(minNumDescriptors); i <= Integer.parseInt(maxNumDescriptors); i += Integer.parseInt(stepSize)){
+				numDescriptorSizes++;
+			}
+			numModels *= numDescriptorSizes;
+		}
+		else if(modelingType.equals(Constants.KNNSA)){
+			numModels *= Integer.parseInt(saNumRuns);
+			numModels *= Integer.parseInt(saNumBestModels);
+			int numDescriptorSizes = 0;
+			for(int i = Integer.parseInt(knnMinNumDescriptors); i <= Integer.parseInt(knnMaxNumDescriptors); i += Integer.parseInt(knnDescriptorStepSize)){
+				numDescriptorSizes++;
+			}
+			numModels *= numDescriptorSizes;
+		}
+		else if(modelingType.equals(Constants.KNNGA)){
+			//no changes; parameters affect generation time of 
+			//each model but not the total number of models to be generated
+		}
+		else if(modelingType.equals(Constants.SVM)){
+			Double numDifferentCosts = Math.ceil((Double.parseDouble(svmCostTo) - 
+					Double.parseDouble(svmCostFrom)) / 
+					Double.parseDouble(svmCostStep) + 0.0001);
+	
+			Double numDifferentDegrees = Math.ceil((Double.parseDouble(svmDegreeTo) - 
+					Double.parseDouble(svmDegreeFrom)) / 
+					Double.parseDouble(svmDegreeStep) + 0.0001);
+	
+			Double numDifferentGammas = Math.ceil((Double.parseDouble(svmGammaTo) - 
+					Double.parseDouble(svmGammaFrom)) / 
+					Double.parseDouble(svmGammaStep) + 0.0001);
+	
+			Double numDifferentNus = Math.ceil((Double.parseDouble(svmNuTo) - 
+					Double.parseDouble(svmNuFrom)) / 
+					Double.parseDouble(svmNuStep) + 0.0001);
+	
+			Double numDifferentPEpsilons = Math.ceil((Double.parseDouble(svmPEpsilonTo) - 
+					Double.parseDouble(svmPEpsilonFrom)) / 
+					Double.parseDouble(svmPEpsilonStep) + 0.0001);
+			
+			numModels *= numDifferentCosts * numDifferentDegrees * numDifferentGammas * numDifferentNus * numDifferentPEpsilons;
+		}
+		return numModels;
+	}
+	
 	public String ajaxLoadKnn() throws Exception {
 		ActionContext context = ActionContext.getContext();
 		if(context != null){
