@@ -99,10 +99,10 @@
 
 	<!-- Page description -->
 	<s:if test="dataset.datasetType=='PREDICTION'||dataset.datasetType=='PREDICTIONWITHDESCRIPTORS'">
-	<p class="StandardTextDarkGray" width="550">The compounds in your dataset are below.  </p>
+	<p class="StandardTextDarkGray">The compounds in your dataset are below.  </p>
 	</s:if>
 	<s:elseif test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
-	<p class="StandardTextDarkGray" width="550">The compounds in your dataset are below, with the activity values you supplied.
+	<p class="StandardTextDarkGray">The compounds in your dataset are below, with the activity values you supplied.
 	 The compounds of the external set are shown in the second tab.</p>
 	</s:elseif>
 	<!-- End page description -->
