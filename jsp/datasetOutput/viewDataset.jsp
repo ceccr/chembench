@@ -83,7 +83,7 @@
 	<span class="StandardTextDarkGray"></span>
 
 	<br />
-	<table width="924" align="left">
+	<table width="500" align="left">
 		<tr>
 			<td class="TableRowText01">Dataset Name: </td>
 			<td class="TableRowText02"><s:property value="dataset.fileName" /></td>
@@ -103,7 +103,7 @@
 			<td class="TableRowText01">Paper Reference: </td>
 			<td class="TableRowText02"><s:property value="dataset.paperReference" /></td>
 		</tr>
-		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType='MODELINGWITHDESCRIPTORS'"><tr>
+		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'"><tr>
 			<td class="TableRowText01">Number of External Compounds: </td>
 			<td class="TableRowText02"><s:property value="externalCompoundsCount" /></td>
 		</tr></s:if>
