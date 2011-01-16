@@ -103,14 +103,17 @@
 			<td class="TableRowText01">Paper Reference: </td>
 			<td class="TableRowText02"><s:property value="dataset.paperReference" /></td>
 		</tr>
-		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'"><tr>
+		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
+		<tr>
 			<td class="TableRowText01">Number of External Compounds: </td>
 			<td class="TableRowText02"><s:property value="externalCompoundsCount" /></td>
-		</tr></s:if>
+		</tr>
+		</s:if>
 	</table>
 	<!-- End Header Info -->
 
-	<!-- Page description -->	
+	<!-- Page description -->
+	<table width="924" align="center">	
 	<br />
 	<s:if test="dataset.datasetType=='PREDICTION'||dataset.datasetType=='PREDICTIONWITHDESCRIPTORS'">
 	<p class="StandardTextDarkGray" width="550">The compounds in your dataset are below.  </p>

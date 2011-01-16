@@ -667,7 +667,7 @@ public class ViewDataset extends ActionSupport {
 							HashMap<String, String> actIdsAndValues = 
 								DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (i+1));
 							int numExternalInThisFold = actIdsAndValues.size();
-							externalCompoundsCount += numExternalInThisFold + " (fold " + (i+1) + ")";
+							externalCompoundsCount += numExternalInThisFold + " in fold " + (i+1);
 							if(i < numFolds - 1){
 								externalCompoundsCount += "; ";
 							}
