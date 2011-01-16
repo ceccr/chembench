@@ -84,12 +84,8 @@
 	<span class="StandardTextDarkGray"></span>
 
 	<br />
-	<div class="StandardTextDarkGrayParagraph">
-		<b>Descriptors Per Model:</b> From <s:property value="knnPlusParameters.knnMinNumDescriptors" /> to <s:property value="knnPlusParameters.knnMaxNumDescriptors" /> step <s:property value="knnPlusParameters.knnDescriptorStepSize" /><br />
-	
-	
-	
 	<table width="500" align="left">
+	<div class="StandardTextDarkGrayParagraph">
 		<tr><td>
 		<b>Dataset Name: </b><s:property value="dataset.fileName" /><br />
 		<b>Number of Compounds: </b><s:property value="dataset.numCompound" /><br />
@@ -101,6 +97,7 @@
 		<b>Number of External Compounds: </b><s:property value="externalCompoundsCount" /><br />
 		</s:if>
 		</td></tr>
+	</div>
 	</table>
 	<!-- End Header Info -->
 
