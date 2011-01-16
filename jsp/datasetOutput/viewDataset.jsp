@@ -101,7 +101,6 @@
 
 	<table width="924" align="center"><tr><td>
 	<!-- Page description -->
-	<br />
 	<s:if test="dataset.datasetType=='PREDICTION'||dataset.datasetType=='PREDICTIONWITHDESCRIPTORS'">
 	<p class="StandardTextDarkGray" width="550">The compounds in your dataset are below.  </p>
 	</s:if>
