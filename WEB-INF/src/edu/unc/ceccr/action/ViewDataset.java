@@ -53,6 +53,7 @@ public class ViewDataset extends ActionSupport {
 	private String orderBy;
 	private String sortDirection;
 	private String datasetId; 
+	private String externalCompoundsCount;
 	private String webAddress = Constants.WEBADDRESS;
 	private ArrayList<DescriptorGenerationResult> descriptorGenerationResults;
 
@@ -655,7 +656,37 @@ public class ViewDataset extends ActionSupport {
 						Utility.writeToDebug(e);
 					}
 				}
-				
+				if(dataset.getDatasetType().equals(Constants.MODELING) || 
+						dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
+					if(dataset.getSplitType().equals(Constants.NFOLD)){
+						externalCompoundsCount = "";
+						String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/";
+						datasetDir += "DATASETS/" + dataset.getFileName() + "/";
+						int numFolds = Integer.parseInt(dataset.getNumExternalFolds());
+						for(int i = 0; i < numFolds; i++){
+							HashMap<String, String> actIdsAndValues = 
+								DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (i+1));
+							int numExternalInThisFold = actIdsAndValues.size();
+							externalCompoundsCount += numExternalInThisFold + " (fold " + (i+1) + ")";
+							if(i < numFolds - 1){
+								externalCompoundsCount += "; ";
+							}
+						}
+					}
+					else{
+						int numCompounds = dataset.getNumCompound();
+						float compoundsExternal = Float.parseFloat(dataset.getNumExternalCompounds());
+						if(compoundsExternal < 1){
+							//dataset.numExternalCompounds is a multiplier
+							numCompounds *= compoundsExternal;
+						}
+						else{
+							//dataset.numExternalCompounds is actually the number of compounds
+							numCompounds = Integer.parseInt(dataset.getNumExternalCompounds());
+						}
+						externalCompoundsCount = "" + numCompounds;
+					}
+				}
 			}
 		}
 
@@ -755,6 +786,13 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setExternalFolds(ArrayList<ExternalFold> externalFolds) {
 		this.externalFolds = externalFolds;
+	}
+
+	public String getExternalCompoundsCount() {
+		return externalCompoundsCount;
+	}
+	public void setExternalCompoundsCount(String externalCompoundsCount) {
+		this.externalCompoundsCount = externalCompoundsCount;
 	}
 
 }

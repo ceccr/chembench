@@ -83,23 +83,30 @@
 	<span class="StandardTextDarkGray"></span>
 
 	<br />
-	<table width="924" align="center">
+	<table width="924" align="left">
 		<tr>
-			<td class="TableRowText01">Dataset Name</td>
-			<td class="TableRowText01">Number of Compounds</td>
-			<td class="TableRowText01">Dataset Type</td>
-			<td class="TableRowText01">Date Created</td>
-			<td class="TableRowText01">Description</td>
-			<td class="TableRowText01">Paper Reference</td>
-		</tr>
-		<tr>
+			<td class="TableRowText01">Dataset Name: </td>
 			<td class="TableRowText02"><s:property value="dataset.fileName" /></td>
+		</tr><tr>
+			<td class="TableRowText01">Number of Compounds: </td>
 			<td class="TableRowText02"><s:property value="dataset.numCompound" /></td>
+		</tr><tr>
+			<td class="TableRowText01">Dataset Type: </td>
 			<td class="TableRowText02"><s:property value="dataset.datasetType" /></td>
+		</tr><tr>
+			<td class="TableRowText01">Date Created: </td>
 			<td class="TableRowText02"><s:property value="dataset.createdTime" /></td>
+		</tr><tr>
+			<td class="TableRowText01">Description: </td>
 			<td class="TableRowText02"><s:property value="dataset.description" /></td>
+		</tr><tr>
+			<td class="TableRowText01">Paper Reference: </td>
 			<td class="TableRowText02"><s:property value="dataset.paperReference" /></td>
 		</tr>
+		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType='MODELINGWITHDESCRIPTORS'"><tr>
+			<td class="TableRowText01">Number of External Compounds: </td>
+			<td class="TableRowText02"><s:property value="externalCompoundsCount" /></td>
+		</tr></s:if>
 	</table>
 	<!-- End Header Info -->
 
