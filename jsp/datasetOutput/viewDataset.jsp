@@ -74,6 +74,7 @@
 		</span>
 	</tr>
 	
+	
 	<!-- Header Info -->
 	<tr>
 	<span id="maincontent">
@@ -112,8 +113,8 @@
 	</table>
 	<!-- End Header Info -->
 
+	<table width="924" align="center"><tr><td>
 	<!-- Page description -->
-	<table width="924" align="center">	
 	<br />
 	<s:if test="dataset.datasetType=='PREDICTION'||dataset.datasetType=='PREDICTIONWITHDESCRIPTORS'">
 	<p class="StandardTextDarkGray" width="550">The compounds in your dataset are below.  </p>
@@ -123,6 +124,7 @@
 	 The compounds of the external set are shown in the second tab.</p>
 	</s:elseif>
 	<!-- End page description -->
+	</td></tr><tr><td>
 	
 	
 	<s:url id="datasetCompoundsLinkTwo" value="/viewDatasetCompoundsSection" includeParams="none">
