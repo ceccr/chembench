@@ -56,7 +56,7 @@ public class GetJobFilesWorkflow{
 				
 			}
 			else{
-				//for nfold, external split file is already produced. All other cases will copy the dataset's ext_0.x.
+				//for nfold, external split file is produced. All other cases will copy the dataset's ext_0.x.
 				externalSplitXFile = Constants.EXTERNAL_SET_X_FILE;
 			}
 		}
