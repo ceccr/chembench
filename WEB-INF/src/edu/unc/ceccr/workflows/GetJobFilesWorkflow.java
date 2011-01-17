@@ -50,12 +50,15 @@ public class GetJobFilesWorkflow{
 
 				String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
 				String foldPath = datasetDir + dataset.getActFile() + ".fold" + (foldNum);
-				String extPath = datasetDir + "ext_0.a";
+				String extPath = toDir + "ext_0.a";
 				FileAndDirOperations.copyFile(foldPath, extPath);
-				DatasetFileOperations.makeXFromACT(datasetDir, "ext_0.a");
+				DatasetFileOperations.makeXFromACT(toDir, "ext_0.a");
 				
 			}
-			externalSplitXFile = Constants.EXTERNAL_SET_X_FILE;
+			else{
+				//for nfold, external split file is already produced. All other cases will copy the dataset's ext_0.x.
+				externalSplitXFile = Constants.EXTERNAL_SET_X_FILE;
+			}
 		}
 		
 		Utility.writeToDebug("Fetching dataset files from " + userFilesDir, userName, "");

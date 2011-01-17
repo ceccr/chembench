@@ -4,6 +4,27 @@
   <tr><td>
 <div class="ccbHomeStandard">
 
+<p align="justify" class="ccbHomeStandard">
+<b>Version 1.2.0 (Jan. 16, 2011)</b>
+
+<p>
+Updates:<br />
+<br />
+<u>Datasets</u><br />
+- n-Fold external validation datasets may now be created. Using this option creates <i>n</i> different external sets for the
+dataset. When modeling is run on the dataset, <i>n</i> predictors will be produced at once, each with a different external set.<br />
+<br />
+<u>Modeling</u><br />
+- Major improvement on speed, space-efficiency, and predictivity of SVM models.<br />
+- SVM models now provide detailed output to aid users in finding the best parameter ranges.<br />
+- SVM modeling can now be run on LSF, allowing greater parallelism when needed.<br />
+<br />
+<u>Prediction</u><br />
+- Predictions have been made more space-efficient, and will automatically resume if the server is patched while the prediction is running.<br />
+<u>General</u><br />
+- Thanks to extensive testing by users and lab members, several edge-case bugs have been found and fixed.<br />
+- Interface has been tuned in several spots to improve intuitiveness; for example, job names containing spaces may now be submitted.<br />
+<br />
 
 <p align="justify" class="ccbHomeStandard">
 <b>Version 1.1.0 (Oct. 2, 2010)</b>
