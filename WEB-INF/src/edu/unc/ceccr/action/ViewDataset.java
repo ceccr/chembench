@@ -47,7 +47,7 @@ public class ViewDataset extends ActionSupport {
 	private DataSet dataset; 
 	private ArrayList<Compound> datasetCompounds; 
 	private ArrayList<Compound> externalCompounds; 
-	private ArrayList<ExternalFold> externalFolds; 
+	private ArrayList<Compound> externalFold; 
 	private ArrayList<String> pageNums;
 	private String currentPageNumber;
 	private ArrayList<String> foldNums;
@@ -59,22 +59,6 @@ public class ViewDataset extends ActionSupport {
 	private String webAddress = Constants.WEBADDRESS;
 	private ArrayList<DescriptorGenerationResult> descriptorGenerationResults;
 
-	class ExternalFold{
-		String foldNum;
-		ArrayList<Compound> compounds;
-		public String getFoldNum() {
-			return foldNum;
-		}
-		public void setFoldNum(String foldNum) {
-			this.foldNum = foldNum;
-		}
-		public ArrayList<Compound> getCompounds() {
-			return compounds;
-		}
-		public void setCompounds(ArrayList<Compound> compounds) {
-			this.compounds = compounds;
-		}
-	}
 	
 	public class DescriptorGenerationResult{
 		private String descriptorType;
@@ -369,7 +353,7 @@ public class ViewDataset extends ActionSupport {
 			}
 			
 			//load external compounds from files
-			externalFolds = new ArrayList<ExternalFold>();
+			externalFold = new ExternalFold();
 			for(int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i++){
 				if(i+1 == Integer.parseInt(currentFoldNumber)){
 					ArrayList<Compound> compounds = new ArrayList<Compound>();
@@ -390,6 +374,23 @@ public class ViewDataset extends ActionSupport {
 					ef.foldNum = "" + (i+1);
 					externalFolds.add(ef);
 				}
+			}
+			if(orderBy != null && orderBy.equals("activityValue")){
+				Collections.sort(externalCompounds, new Comparator<Compound>() {
+				    public int compare(Compound o1, Compound o2) {
+				    	float f1 = Float.parseFloat(o1.getActivityValue());
+				    	float f2 = Float.parseFloat(o2.getActivityValue());
+				    	return (f2 < f1? 1:-1);
+				    }});
+			}
+			else{
+				Collections.sort(externalCompounds, new Comparator<Compound>() {
+					  public int compare(Compound o1, Compound o2) {
+				    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
+					    }});
+			}
+			if(sortDirection != null && sortDirection.equals("desc")){
+				Collections.reverse(externalCompounds);
 			}
 		}
 		return result;
@@ -798,11 +799,11 @@ public class ViewDataset extends ActionSupport {
 		this.descriptorGenerationResults = descriptorGenerationResults;
 	}
 
-	public ArrayList<ExternalFold> getExternalFolds() {
-		return externalFolds;
+	public ArrayList<Compound> getExternalFold() {
+		return externalFold;
 	}
-	public void setExternalFolds(ArrayList<ExternalFold> externalFolds) {
-		this.externalFolds = externalFolds;
+	public void setExternalFold(ArrayList<Compound> externalFold) {
+		this.externalFold = externalFold;
 	}
 
 	public String getExternalCompoundsCount() {

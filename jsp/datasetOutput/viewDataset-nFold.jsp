@@ -19,17 +19,22 @@
 			</p>
 		</td></tr>
 		<tr><td>
-			<s:if test="externalFolds.size()!=0">
+			<s:if test="externalFold.size()!=0">
 				<!-- body for left side table -->
 				<p class="StandardTextDarkGray" width="550">External Fold <s:property value="currentFoldNumber" />:</p>
-				<s:iterator value="externalFolds" status="externalFoldsStatus">
 					<table class="sortable" id="nfoldCompounds">
 						<tr>
-							<th class="TableRowText01">Compound ID</th>
-							<th class="TableRowText01">Structure</th>
-							<th class="TableRowText01">Activity</th>
+							<th class="TableRowText01">Compound ID
+							<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=compoundId&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
+							<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=compoundId&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
+							</th>
+							<th class="TableRowText01_unsortable">Structure</th>
+							<th class="TableRowText01">Activity
+							<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=activityValue&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
+							<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=activityValue&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
+							</th>
 						</tr>
-						<s:iterator value="compounds" status="compoundsStatus">
+						<s:iterator value="externalFold" status="externalFoldStatus">
 							<tr>
 							<td class="TableRowText02"><s:property value="compoundId" /></td>
 							<td class="TableRowText02">
@@ -42,8 +47,7 @@
 						</s:iterator>
 					</tr>
 					</table>
-					<tr><td><br /></td></tr>
-				</s:iterator>
+				<tr><td><br /></td></tr>
 			</table>
 			</s:if>
 			<s:else>
