@@ -25,13 +25,13 @@
 					<table class="sortable" id="nfoldCompounds">
 						<tr>
 							<th class="TableRowText01">Compound ID
-							<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=compoundId&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
-							<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=compoundId&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
+							<a href="#tabs" onclick=loadNFoldCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=compoundId&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
+							<a href="#tabs" onclick=loadNFoldCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=compoundId&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
 							</th>
 							<th class="TableRowText01_unsortable">Structure</th>
 							<th class="TableRowText01">Activity
-							<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=activityValue&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
-							<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=activityValue&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
+							<a href="#tabs" onclick=loadNFoldCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=activityValue&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
+							<a href="#tabs" onclick=loadNFoldCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property value='currentFoldNumber' />&orderBy=activityValue&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
 							</th>
 						</tr>
 						<s:iterator value="externalFold" status="externalFoldStatus">
