@@ -110,12 +110,6 @@ public class ViewDataset extends ActionSupport {
 				result = LOGIN;
 				return result;
 			}
-			if(context.getParameters().get("orderBy") != null){
-				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
-			}
-			else{
-				orderBy = "compoundId";
-			}
 			if(context.getParameters().get("currentPageNumber") != null){
 				currentPageNumber = ((String[]) context.getParameters().get("currentPageNumber"))[0]; 	
 			}
@@ -124,6 +118,12 @@ public class ViewDataset extends ActionSupport {
 			}
 			if(context.getParameters().get("datasetId") != null){
 				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
+			}
+			if(context.getParameters().get("orderBy") != null){
+				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+			}
+			else{
+				orderBy = "compoundId";
 			}
 			if(context.getParameters().get("sortDirection") != null){
 				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
@@ -252,7 +252,18 @@ public class ViewDataset extends ActionSupport {
 			if(context.getParameters().get("datasetId") != null){
 				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
 			}
-			
+			if(context.getParameters().get("orderBy") != null){
+				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+			}
+			else{
+				orderBy = "compoundId";
+			}
+			if(context.getParameters().get("sortDirection") != null){
+				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
+			}
+			else{
+				sortDirection = "asc";
+			}
 			//get dataset
 			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
 			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
@@ -333,7 +344,18 @@ public class ViewDataset extends ActionSupport {
 			if(context.getParameters().get("datasetId") != null){
 				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
 			}
-			
+			if(context.getParameters().get("orderBy") != null){
+				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+			}
+			else{
+				orderBy = "compoundId";
+			}
+			if(context.getParameters().get("sortDirection") != null){
+				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
+			}
+			else{
+				sortDirection = "asc";
+			}
 			//get dataset
 			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
 			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
@@ -352,7 +374,7 @@ public class ViewDataset extends ActionSupport {
 				j++;
 			}
 			
-			//load external compounds from files
+			//load external fold from file
 			externalFold = new ArrayList<Compound>();
 			int foldNum = Integer.parseInt(currentFoldNumber);
 			HashMap<String, String> actIdsAndValues = 
