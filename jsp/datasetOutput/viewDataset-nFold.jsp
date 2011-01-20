@@ -19,8 +19,9 @@
 		<tr><td>
 			<s:if test="externalFolds.size()!=0">
 				<!-- body for left side table -->
+				<p class="StandardTextDarkGray" width="550">External Fold <s:property value="currentFoldNumber" />:</p>
 				<s:iterator value="externalFolds" status="externalFoldsStatus">
-					<table>
+					<table class="sortable" id="nfoldCompounds">
 						<tr>
 							<th class="TableRowText01">Compound ID</th>
 							<th class="TableRowText01">Structure</th>
