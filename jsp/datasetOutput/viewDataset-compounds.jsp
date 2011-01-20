@@ -14,8 +14,8 @@
 		<tr><td>
 			<p class="StandardTextDarkGray" width="550">Go To Page: 
 			<s:iterator value="pageNums" status="pageNumsStatus">
-			<s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"><u></s:if>
-			<a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentPageNumber=<s:property/>&orderBy=<s:property value='orderBy' />&sortDirection=<s:property value='sortDirection' />")><s:property/></a><s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"></u> </s:if> 
+			<s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"><s:property /></s:if>
+			<s:else><a href="#tabs" onclick=loadAllCompoundsTab("viewDatasetCompoundsSection?datasetId=<s:property value='dataset.fileId' />&currentPageNumber=<s:property/>&orderBy=<s:property value='orderBy' />&sortDirection=<s:property value='sortDirection' />")><s:property/></a></s:else> 
 			</s:iterator>
 			</p>
 		</td></tr>
