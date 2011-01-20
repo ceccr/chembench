@@ -19,6 +19,7 @@
 	<script language="javascript" src="javascript/script.js" />
 	<script src="javascript/AC_RunActiveContent.js"></script>
 	<script src="javascript/hookMouseWheel.js"></script>
+	<script language="JavaScript" src="javascript/sortableTable.js"></script>
 
 	<script language="javascript">
 	function loadAllCompoundsTab(newUrl){
