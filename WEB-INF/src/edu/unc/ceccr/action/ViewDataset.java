@@ -353,30 +353,23 @@ public class ViewDataset extends ActionSupport {
 			}
 			
 			//load external compounds from files
-			externalFold = new ExternalFold();
-			for(int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i++){
-				if(i+1 == Integer.parseInt(currentFoldNumber)){
-					ArrayList<Compound> compounds = new ArrayList<Compound>();
-					HashMap<String, String> actIdsAndValues = 
-						DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (i+1));
-					
-					if(! actIdsAndValues.isEmpty()){
-						ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
-						for(String compoundId : compoundIds){
-							Compound c = new Compound();
-							c.setCompoundId(compoundId);
-							c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
-							compounds.add(c);
-						}
-					}
-					ExternalFold ef = new ExternalFold();
-					ef.compounds = compounds;
-					ef.foldNum = "" + (i+1);
-					externalFolds.add(ef);
+			externalFold = new ArrayList<Compound>();
+			int foldNum = Integer.parseInt(currentFoldNumber);
+			HashMap<String, String> actIdsAndValues = 
+				DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (foldNum));
+			
+			if(! actIdsAndValues.isEmpty()){
+				ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+				for(String compoundId : compoundIds){
+					Compound c = new Compound();
+					c.setCompoundId(compoundId);
+					c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
+					externalFold.add(c);
 				}
 			}
+					
 			if(orderBy != null && orderBy.equals("activityValue")){
-				Collections.sort(externalCompounds, new Comparator<Compound>() {
+				Collections.sort(externalFold, new Comparator<Compound>() {
 				    public int compare(Compound o1, Compound o2) {
 				    	float f1 = Float.parseFloat(o1.getActivityValue());
 				    	float f2 = Float.parseFloat(o2.getActivityValue());
@@ -384,13 +377,13 @@ public class ViewDataset extends ActionSupport {
 				    }});
 			}
 			else{
-				Collections.sort(externalCompounds, new Comparator<Compound>() {
+				Collections.sort(externalFold, new Comparator<Compound>() {
 					  public int compare(Compound o1, Compound o2) {
 				    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
 					    }});
 			}
 			if(sortDirection != null && sortDirection.equals("desc")){
-				Collections.reverse(externalCompounds);
+				Collections.reverse(externalFold);
 			}
 		}
 		return result;
