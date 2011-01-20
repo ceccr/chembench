@@ -360,6 +360,14 @@ public class ViewDataset extends ActionSupport {
 			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
 			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
 
+			foldNums = new ArrayList<String>(); //displays the fold numbers at the top
+			int j = 1;
+			for(int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i += 1){
+				String fold = Integer.toString(j);
+				foldNums.add(fold);
+				j++;
+			}
+			
 			//load external compounds from files
 			externalFolds = new ArrayList<ExternalFold>();
 			for(int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i++){
