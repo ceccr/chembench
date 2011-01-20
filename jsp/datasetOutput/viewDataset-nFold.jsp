@@ -11,19 +11,21 @@
 		<tr><td>
 			<p class="StandardTextDarkGray" width="550">View Fold: 
 			<s:iterator value="foldNums" status="foldNumsStatus">
-			<s:if test="foldNums[#foldNumsStatus.index]==currentFoldNumber"><b></s:if>
-			<a href="#tabs" onclick=loadNFoldCompoundsTab("viewDatasetNFoldSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property/>&orderBy=<s:property value='orderBy' />&sortDirection=<s:property value='sortDirection' />")><s:property/></a><s:if test="foldNums[#foldNumsStatus.index]==currentFoldNumber"></b> </s:if> 
+			<s:if test="foldNums[#foldNumsStatus.index]==currentFoldNumber"><s:property/></s:if>
+			<s:else><a href="#tabs" onclick=loadNFoldCompoundsTab("viewDatasetNFoldSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property/>&orderBy=<s:property value='orderBy' />&sortDirection=<s:property value='sortDirection' />")><s:property/></a></s:else> 
 			</s:iterator>
 			</p>
 		</td></tr>
 		<tr><td>
-			
 			<s:if test="externalFolds.size()!=0">
 				<!-- body for left side table -->
 				<s:iterator value="externalFolds" status="externalFoldsStatus">
 					<table>
-						<tr><td class="TableRowText01" colspan="3">External Fold <s:property value="foldNum" /></td></tr>
-						<tr><td class="TableRowText01" colspan="3">External Fold <s:property value="foldNum" /></td></tr>
+						<tr>
+							<th class="TableRowText01">Compound ID</th>
+							<th class="TableRowText01">Structure</th>
+							<th class="TableRowText01">Activity</th>
+						</tr>
 						<s:iterator value="compounds" status="compoundsStatus">
 							<tr>
 							<td class="TableRowText02"><s:property value="compoundId" /></td>
