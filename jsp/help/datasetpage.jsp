@@ -44,10 +44,17 @@ and used activity binning for 3 external compounds. The 3 bins would be (1.2, 1.
 (2.4, 2.6, 2.8), and one compound would be chosen from each bin, so your external set might be the compounds 
 with activity values of 1.4, 2.2, and 2.4. Binning in this way ensures that the external set will span over 
 your activity values. Without activity binning, there is a chance that weird outlier compounds will form 
-most of your external set, which could make modeling impossible.</p>
+most of your external set, which could make it impossible to a model with high prediction accuracy on the 
+external set.</p>
 
 <p>You can also use the Choose Compounds option to define which compounds are in the external set.  (Just type 
 in the names of the compounds you want to be external.)</p>
+
+<p>The n-Fold Split option defines multiple external sets for a dataset. The default number of folds is 5. For
+a 5-fold split, 5 external sets will be defined. Each external set will contain 1/5 of the compounds in the dataset,
+and the external sets will not overlap. Then when the dataset is used in modeling, 5 predictors will be created, one
+with each external set. This is a very useful option for testing the accuracy of many different modeling options.
+</p>
 
 <p>Once a dataset is created, you cannot change its external set. The dataset's external set is kept consistent
 so that results of different modeling procedures on the same dataset can be compared. You will need to create new 
