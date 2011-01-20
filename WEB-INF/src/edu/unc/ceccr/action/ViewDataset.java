@@ -50,6 +50,8 @@ public class ViewDataset extends ActionSupport {
 	private ArrayList<ExternalFold> externalFolds; 
 	private ArrayList<String> pageNums;
 	private String currentPageNumber;
+	private ArrayList<String> foldNums;
+	private String currentFoldNumber;
 	private String orderBy;
 	private String sortDirection;
 	private String datasetId; 
@@ -263,7 +265,6 @@ public class ViewDataset extends ActionSupport {
 				result = LOGIN;
 				return result;
 			}
-
 			if(context.getParameters().get("datasetId") != null){
 				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
 			}
@@ -339,6 +340,12 @@ public class ViewDataset extends ActionSupport {
 				return result;
 			}
 
+			if(context.getParameters().get("currentFoldNumber") != null){
+				currentFoldNumber = ((String[]) context.getParameters().get("currentFoldNumber"))[0]; 	
+			}
+			else{
+				currentFoldNumber = "1";
+			}
 			if(context.getParameters().get("datasetId") != null){
 				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
 			}
@@ -356,23 +363,25 @@ public class ViewDataset extends ActionSupport {
 			//load external compounds from files
 			externalFolds = new ArrayList<ExternalFold>();
 			for(int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i++){
-				ArrayList<Compound> compounds = new ArrayList<Compound>();
-				HashMap<String, String> actIdsAndValues = 
-					DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (i+1));
-				
-				if(! actIdsAndValues.isEmpty()){
-					ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
-					for(String compoundId : compoundIds){
-						Compound c = new Compound();
-						c.setCompoundId(compoundId);
-						c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
-						compounds.add(c);
+				if(i+1 == Integer.parseInt(currentFoldNumber)){
+					ArrayList<Compound> compounds = new ArrayList<Compound>();
+					HashMap<String, String> actIdsAndValues = 
+						DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (i+1));
+					
+					if(! actIdsAndValues.isEmpty()){
+						ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+						for(String compoundId : compoundIds){
+							Compound c = new Compound();
+							c.setCompoundId(compoundId);
+							c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
+							compounds.add(c);
+						}
 					}
+					ExternalFold ef = new ExternalFold();
+					ef.compounds = compounds;
+					ef.foldNum = "" + (i+1);
+					externalFolds.add(ef);
 				}
-				ExternalFold ef = new ExternalFold();
-				ef.compounds = compounds;
-				ef.foldNum = "" + (i+1);
-				externalFolds.add(ef);
 			}
 		}
 		return result;
@@ -793,6 +802,20 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setExternalCompoundsCount(String externalCompoundsCount) {
 		this.externalCompoundsCount = externalCompoundsCount;
+	}
+
+	public ArrayList<String> getFoldNums() {
+		return foldNums;
+	}
+	public void setFoldNums(ArrayList<String> foldNums) {
+		this.foldNums = foldNums;
+	}
+
+	public String getCurrentFoldNumber() {
+		return currentFoldNumber;
+	}
+	public void setCurrentFoldNumber(String currentFoldNumber) {
+		this.currentFoldNumber = currentFoldNumber;
 	}
 
 }

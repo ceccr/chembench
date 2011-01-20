@@ -9,11 +9,9 @@
 
 <!-- Compounds -->	
 	
-		<p class="StandardTextDarkGray"><u><b>All Compounds In Dataset</b></u></p>
-		
+	<p class="StandardTextDarkGray"><u><b>All Compounds In Dataset</b></u></p>
 	<table width="924" align="center">
 		<tr><td>
-			
 			<p class="StandardTextDarkGray" width="550">Go To Page: 
 			<s:iterator value="pageNums" status="pageNumsStatus">
 			<s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"><u></s:if>

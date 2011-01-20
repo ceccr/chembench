@@ -9,6 +9,14 @@
 		
 	<table width="924" align="center">
 		<tr><td>
+			<p class="StandardTextDarkGray" width="550">View Fold: 
+			<s:iterator value="foldNums" status="foldNumsStatus">
+			<s:if test="foldNums[#foldNumsStatus.index]==currentFoldNumber"><u></s:if>
+			<a href="#tabs" onclick=loadNFoldCompoundsTab("viewDatasetNFoldSection?datasetId=<s:property value='dataset.fileId' />&currentFoldNumber=<s:property/>&orderBy=<s:property value='orderBy' />&sortDirection=<s:property value='sortDirection' />")><s:property/></a><s:if test="foldNums[#foldNumsStatus.index]==currentFoldNumber"></u> </s:if> 
+			</s:iterator>
+			</p>
+		</td></tr>
+		<tr><td>
 			
 			<s:if test="externalFolds.size()!=0">
 				<!-- body for left side table -->

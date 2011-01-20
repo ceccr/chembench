@@ -21,26 +21,48 @@
 	<script src="javascript/hookMouseWheel.js"></script>
 
 	<script language="javascript">
-		function loadAllCompoundsTab(newUrl){
-			//When the user changes which page they're on in the All Compounds tab
-			//or changes the sorted element, run this function to update the tab's content
-			
-			//prepare the AJAX object
-			var ajaxObject = GetXmlHttpObject();
-			ajaxObject.onreadystatechange=function(){
-				if(ajaxObject.readyState==4){
-					hideLoading();
-				  	document.getElementById("allCompoundsDiv").innerHTML=ajaxObject.responseText;
-				}
+	function loadAllCompoundsTab(newUrl){
+		//When the user changes which page they're on in the All Compounds tab
+		//or changes the sorted element, run this function to update the tab's content
+		
+		//prepare the AJAX object
+		var ajaxObject = GetXmlHttpObject();
+		ajaxObject.onreadystatechange=function(){
+			if(ajaxObject.readyState==4){
+				hideLoading();
+			  	document.getElementById("allCompoundsDiv").innerHTML=ajaxObject.responseText;
 			}
-			showLoading("LOADING. PLEASE WAIT.")
-			
-			//send request
-			ajaxObject.open("GET",newUrl,true);
-			ajaxObject.send(null);
-			
-			return true;
 		}
+		showLoading("LOADING. PLEASE WAIT.")
+		
+		//send request
+		ajaxObject.open("GET",newUrl,true);
+		ajaxObject.send(null);
+		
+		return true;
+	}
+
+
+	function loadNFoldCompoundsTab(newUrl){
+		//When the user changes which page they're on in the N-Fold External Compounds tab
+		//or changes the sorted element, run this function to update the tab's content
+		
+		//prepare the AJAX object
+		var ajaxObject = GetXmlHttpObject();
+		ajaxObject.onreadystatechange=function(){
+			if(ajaxObject.readyState==4){
+				hideLoading();
+			  	document.getElementById("externalCompoundsNFoldDiv").innerHTML=ajaxObject.responseText;
+			}
+		}
+		showLoading("LOADING. PLEASE WAIT.")
+		
+		//send request
+		ajaxObject.open("GET",newUrl,true);
+		ajaxObject.send(null);
+		
+		return true;
+	}
 
 		function loadExternalCompoundsTab(newUrl){
 			//When the user changes which page they're on in the External Compounds tab
