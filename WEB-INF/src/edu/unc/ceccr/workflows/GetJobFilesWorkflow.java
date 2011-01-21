@@ -53,7 +53,6 @@ public class GetJobFilesWorkflow{
 				String extPath = toDir + "ext_0.a";
 				FileAndDirOperations.copyFile(foldPath, extPath);
 				DatasetFileOperations.makeXFromACT(toDir, "ext_0.a");
-				
 			}
 			else{
 				//for nfold, external split file is produced from fold info. All other cases will copy the dataset's ext_0.x.
