@@ -65,7 +65,6 @@ public class ModelingFormActions extends ActionSupport{
 			if(predictorName.matches(".*_fold_(\\d+)_of_(\\d+)")){
 				int pos = predictorName.lastIndexOf("_fold");
 				foldedPredictorNames.add(predictorName.substring(0,pos));
-				Utility.writeToDebug(predictorName.substring(0,pos));
 			}
 		}
 		userPredictorNames.addAll(foldedPredictorNames);
