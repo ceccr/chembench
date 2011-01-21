@@ -58,12 +58,14 @@ public class ModelingFormActions extends ActionSupport{
 		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
 		
+		Utility.writeToDebug("begin names");
 		for(String predictorName: userPredictorNames){
-			if(predictorName.matches("fold_(\\d+)_of_(\\d+)")){
+			if(predictorName.matches(".*fold_(\\d+)_of_(\\d+).*")){
 				int pos = predictorName.lastIndexOf("fold");
 				Utility.writeToDebug(predictorName.substring(0,pos));
 			}
 		}
+		Utility.writeToDebug("end names");
 		
 		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
