@@ -58,14 +58,17 @@ public class ModelingFormActions extends ActionSupport{
 		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
 		
-		Utility.writeToDebug("begin names");
+		//also get the base names for nfold predictors. if a user has "mypredictor_fold_1_of_5", 
+		//we want "mypredictor" in the list of used names as well.
+		ArrayList<String> foldedPredictorNames = new ArrayList<String>();
 		for(String predictorName: userPredictorNames){
-			if(predictorName.matches(".*fold_(\\d+)_of_(\\d+).*")){
-				int pos = predictorName.lastIndexOf("fold");
+			if(predictorName.matches(".*_fold_(\\d+)_of_(\\d+)")){
+				int pos = predictorName.lastIndexOf("_fold");
+				foldedPredictorNames.add(predictorName.substring(0,pos));
 				Utility.writeToDebug(predictorName.substring(0,pos));
 			}
 		}
-		Utility.writeToDebug("end names");
+		userPredictorNames.addAll(foldedPredictorNames);
 		
 		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
