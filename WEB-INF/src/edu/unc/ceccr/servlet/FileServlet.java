@@ -44,11 +44,9 @@ public class FileServlet extends HttpServlet {
             return;
         }
 
-      
         String contentType = URLConnection.guessContentTypeFromName(fileName);
-
-      
-            if (contentType == null) {
+  
+        if (contentType == null) {
             contentType = "application/octet-stream";
         }
 

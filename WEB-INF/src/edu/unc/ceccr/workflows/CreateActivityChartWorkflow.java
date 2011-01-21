@@ -54,11 +54,9 @@ public class CreateActivityChartWorkflow {
 		
 		//Utility.writeToDebug("Generating Activity Histogram for Dataset: " + datasetID + " from ACT file: " + fullPath);
 		
-		HashMap dataMap  = DatasetFileOperations.parseActFile(fullPath);
-		
-		 IntervalXYDataset dataset =new HistogramDataset();
-		 
-		 dataset=createDataset(dataMap);
+		HashMap dataMap = DatasetFileOperations.parseActFile(fullPath);
+		IntervalXYDataset dataset =new HistogramDataset();
+		dataset=createDataset(dataMap);
 		 
 		 final JFreeChart chart = ChartFactory.createHistogram("Activity Histogram", "Range","Frequency", dataset, PlotOrientation.VERTICAL,false, false, false);
 		
@@ -86,11 +84,11 @@ public class CreateActivityChartWorkflow {
 		   domainAxis.setAutoRangeMinimumSize(0.1);
 		   domainAxis.setRange(getMinimum(getValues(dataMap)), getMaximum(getValues(dataMap)));
 		   plot.setDomainAxis(domainAxis);
-		 
-		String outputFileStr = Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/Visualization/activityChart.png";
-		 ChartUtilities.saveChartAsPNG(new File(outputFileStr), chart, 550, 550);
 		
-		
+		String visualizationDir = Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/Visualization/";
+		new File(visualizationDir).mkdirs();
+		String outputFileStr = visualizationDir + "activityChart.png";
+		ChartUtilities.saveChartAsPNG(new File(outputFileStr), chart, 550, 550);
 	}
 
 	public static HistogramDataset createDataset(HashMap map) {

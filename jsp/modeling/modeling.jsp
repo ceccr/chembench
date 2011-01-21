@@ -511,8 +511,6 @@
 					</td>
 					<td align="left" valign="top"><s:textfield name="jobName" id="jobName" size="19"/></td>
 				</tr>
-			     
-			    
 				<tr>
 					<td ></td>
 					<td class="" valign="top"><input type="button" name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('jobName').value ,usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ submitForm(this); }"
@@ -522,9 +520,7 @@
 			</table>
 			<br />
 </s:form>
-
 <br />
-
 <%@include file ="/jsp/main/footer.jsp" %>
 </body>
 </html>

@@ -425,7 +425,6 @@ public class ViewPredictionAction extends ActionSupport {
 		
 		return result;
 	}
-
 	
 	public String getPredictionId() {
 		return predictionId;

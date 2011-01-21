@@ -57,6 +57,14 @@ public class ModelingFormActions extends ActionSupport{
 		Session session = HibernateUtil.getSession();
 		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
+		
+		for(String predictorName: userPredictorNames){
+			if(predictorName.matches("fold_(\\d+)_of_(\\d+)")){
+				int pos = predictorName.lastIndexOf("fold");
+				Utility.writeToDebug(predictorName.substring(0,pos));
+			}
+		}
+		
 		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
 		
