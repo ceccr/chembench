@@ -6,85 +6,64 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.File;
 import java.io.PrintWriter;
-
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.ZipJobResultsWorkflow;
-
 @SuppressWarnings("serial")
 public class ProjectFilesServlet extends HttpServlet {
-
 	//provides zipfiles containing predictors and predictions
-	
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)   throws IOException
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)   throws IOException
     {
-    	String BASE=Constants.CECCR_USER_BASE_PATH;
-
-		HttpSession session=request.getSession(false);
-       String userName = ((User) session.getAttribute("user")).getUserName();
+		String BASE=Constants.CECCR_USER_BASE_PATH;
+    	HttpSession session=request.getSession(false);
+    	String userName = ((User) session.getAttribute("user")).getUserName();
+		String projectUserName=request.getParameter("user");
+		String projectName = request.getParameter("project");
        
-       String projectUserName=request.getParameter("user");
-       String projectName = request.getParameter("project");
-       
-       String projectType = request.getParameter("projectType");
+		String projectType = request.getParameter("projectType");
       
-       if(projectType.equalsIgnoreCase("modeling")){
-    	   projectType = "PREDICTORS";
-       }
-       else{
-    	   projectType = "PREDICTIONS";
-       }
-       String zipFile = BASE+projectUserName+"/" + projectType +"/"+projectName+".zip"; 
-       File filePath=new File(zipFile);
+		if(projectType.equalsIgnoreCase("modeling")){
+			projectType = "PREDICTORS";
+		}
+		else{
+			projectType = "PREDICTIONS";
+		}
+		String zipFile = BASE+projectUserName+"/" + projectType +"/"+projectName+".zip"; 
+		File filePath=new File(zipFile);
        
-       BufferedInputStream input=null;
+		BufferedInputStream input=null;
        
-       try {
-    	   if(projectType.equalsIgnoreCase("PREDICTORS")){
-    		   ZipJobResultsWorkflow.ZipKnnModelingResults(userName, projectUserName, projectName, zipFile);
-    	   }
-    	   else{
-    		   ZipJobResultsWorkflow.ZipKnnPredictionResults(userName, projectUserName, projectName, zipFile);
-    	   }
-	   } catch (Exception e) 
-	   {
-		   Utility.writeToDebug(e);
-	   }
-      if(filePath.exists())
-      {
-        try {
-        	
-        	FileInputStream fis=new FileInputStream(filePath);
-            
-        	input=new BufferedInputStream(fis);
-        	
-            response.setContentType("application/zip");
-            
-            int contentLength=input.available();
-            
-            response.setContentLength(contentLength);
-            
-            response.setHeader("Content-Disposition", "inline; filename="+projectName+".zip" );
-            
-            BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream());
-            
-            while (contentLength-- > 0) {
-                output.write(input.read());
-            }
-            
-            output.close();
-            fis.close();
-            } catch (IOException e) {    Utility.writeToDebug(e);     }
-            
-            try {
+		try {
+			if(projectType.equalsIgnoreCase("PREDICTORS")){
+				ZipJobResultsWorkflow.ZipKnnModelingResults(userName, projectUserName, projectName, zipFile);
+			}
+			else{
+				ZipJobResultsWorkflow.ZipKnnPredictionResults(userName, projectUserName, projectName, zipFile);
+			}	
+		} catch (Exception e){
+			Utility.writeToDebug(e);
+		}
+		if(filePath.exists()){
+			try {
+	        	FileInputStream fis=new FileInputStream(filePath);
+	        	input=new BufferedInputStream(fis);
+	        	response.setContentType("application/zip");
+	            int contentLength=input.available();
+	            response.setContentLength(contentLength);
+	            response.setHeader("Content-Disposition", "inline; filename="+projectName+".zip" );
+	            BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream());
+	            while (contentLength-- > 0) {
+	                output.write(input.read());
+	            }
+	            output.close();
+	            fis.close();
 				filePath.delete();
-				
+					
 			} catch (Exception e) {
 				Utility.writeToDebug(e);
 			}

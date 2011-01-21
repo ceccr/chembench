@@ -238,7 +238,7 @@ public class ViewPredictionAction extends ActionSupport {
 		//get compounds from SDF
 		
 		String datasetDir = "";
-		datasetDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
+		datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
 		
 		ArrayList<String> compounds = null;
 		

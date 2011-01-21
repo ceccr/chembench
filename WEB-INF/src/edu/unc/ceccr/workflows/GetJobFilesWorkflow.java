@@ -30,7 +30,6 @@ public class GetJobFilesWorkflow{
 			fromDir = allUserDir;
 		}
 		
-		
 		String sdFile = dataset.getSdfFile();
 		String actFile = dataset.getActFile();
 		String xFile = dataset.getXFile();

@@ -18,34 +18,34 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
 @SuppressWarnings("serial")
 public class FileServlet extends HttpServlet {
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws IOException
-    {
+	//used to download individual files.
+	
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String fileName = request.getParameter("name");
         String userName=request.getParameter("user");
         Long predId=Long.parseLong(request.getParameter("predId"));
         String predictor=request.getParameter("predictor");
 
-       if (fileName != null) {
-            // Strip "../" and "..\" (avoid directory sniffing by hackers!).
-            fileName = fileName.replaceAll("\\.+(\\\\|/)", "");
+        if (fileName != null) {
+            // Strip "/" and "\" (avoid directory sniffing by hackers!).
+            fileName = fileName.replaceAll("(\\\\|/)", "");
         } else {
-          
             response.sendRedirect("/jsp/main/error.jsp");
             return;
         }
 
         String contentType = URLConnection.guessContentTypeFromName(fileName);
-  
         if (contentType == null) {
             contentType = "application/octet-stream";
         }
@@ -55,16 +55,8 @@ public class FileServlet extends HttpServlet {
         BufferedOutputStream output = null;
 
         try {
-        	String content="";
-        	try {
-				content= buildMainContent(userName,predId,predictor);
-			} catch (ClassNotFoundException e) {
-				Utility.writeToDebug(e);
-			} catch (SQLException e) {
-				Utility.writeToDebug(e);
-			}
-        	
-        	StringBuffer stringBuffer = new StringBuffer(content);
+        	String content= "";
+			StringBuffer stringBuffer = new StringBuffer(content);
         	ByteArrayInputStream bais = new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8"));
         	
         	input = new BufferedInputStream(bais);
@@ -81,12 +73,11 @@ public class FileServlet extends HttpServlet {
             while (contentLength-- > 0) {
                 output.write(input.read());
             }
-
             output.flush();
-        } catch (IOException e) {
-          
-            Utility.writeToDebug(e);
-        } finally {
+        } 
+        catch (Exception e) {
+			Utility.writeToDebug(e);
+		} finally {
           
             if (input != null) {
                 try {
@@ -107,129 +98,42 @@ public class FileServlet extends HttpServlet {
         }
     }
     
- 
-    
-public String buildMainContent(String userName, Long predId,String predictor)throws ClassNotFoundException, SQLException
-{
-	String title="",body="";
-
-	Prediction predictionJob=null;
-	List<PredictionValue> predictionValues=null;
-	
-	predictionJob = getPrediction(predId);
-	predictionValues=getMainPredictionValues(predId);
-	
-   String newline=System.getProperty("line.separator");
-	
-	title=title+newline+newline+"Chembench Prediction Output "+newline
-	+"========================================="+newline
-	+"User Name                :  "+userName+newline
-	+"Prediction Name       :  "+predictionJob.getJobName()+newline
-	+"Predictor   Used        :  "+predictor+newline
-	+"Similarity  Cutoff        :  "+predictionJob.getSimilarityCutoff()+newline
-	+"Prediction Database :  "+predictionJob.getDatabase()+newline
-	+"Predicted Date          :  "+predictionJob.getDateCreated()+newline
-	+"Download Date          :  "+new Date()+newline
-	+"Web Site                     :  http:// ceccr.ibiblio.org"+newline
-	+"========================================="+newline+newline
-	+"Compound Name     "+"Standard Deviation     "+"Predicted Value     "+"Number of Models"+newline
-	+"______________________________________________________________"+newline;
-	Iterator it=predictionValues.iterator();
-	PredictionValue pv=null;
-	while(it.hasNext())
+	public void writePredictionValuesAsText(String userName, Long predictionId)throws Exception
 	{
-		pv=(PredictionValue)it.next();
-		body=body+pv.getCompoundName()+"                "+pv.getStandardDeviation()+"                 "+pv.getPredictedValue()+"                "+
-		pv.getNumModelsUsed()+newline;
+		Prediction predictionJob=null;
+		List<PredictionValue> predictionValues=null;
+		Session s = HibernateUtil.getSession();
+		predictionJob = PopulateDataObjects.getPredictionById(predictionId, s);
+		predictionValues = PopulateDataObjects.getPredictionValuesByPredictionId(predictionId, s);
+		s.close();
+		
+		String header = "\n\nChembench Prediction Output \n"
+		+"=========================================\n"
+		+"User Name: "+userName+"\n"
+		+"Prediction Name: "+predictionJob.getJobName()+"\n"
+		+"Predictors Used: " + "\n"
+		+"Similarity Cutoff: "+predictionJob.getSimilarityCutoff()+"\n"
+		+"Prediction Dataset: "+predictionJob.getDatabase()+"\n"
+		+"Predicted Date: "+predictionJob.getDateCreated()+"\n"
+		+"Download Date: "+new Date()+"\n"
+		+"Web Site: " + Constants.WEBADDRESS+"\n"
+		+"========================================="+"\n"+"\n";
+		
+		String predictorName = "";
+		String body = "Prediction results from " + predictorName + ":\n"
+		+"Compound Name\t"+"Standard Deviation\t"+"Predicted Value\t"+"Number of Models"+"\n";
+		String end ="\n\n";
+		
+		Iterator it=predictionValues.iterator();
+		PredictionValue pv=null;
+		while(it.hasNext()){
+			pv=(PredictionValue)it.next();
+			body=body+pv.getCompoundName()+"                "+pv.getStandardDeviation()+"                 "+pv.getPredictedValue()+"                "+
+			pv.getNumModelsUsed()+"\n";
+		}
+	}
+	
+	public void writePredictionValuesAsCSV(String userName, Long predId, String predictor){
 		
 	}
-	return (title+body);
-	
 }
-    
-    
-
-    
-protected static Prediction getPrediction(Long selectedPredictionId) 
-throws ClassNotFoundException, SQLException {
-
-Prediction predictionJob = null;
-		
-Session session = HibernateUtil.getSession();
-Transaction tx = null;
-try {
-	tx = session.beginTransaction();
-	
-	predictionJob = (Prediction) session
-			.createCriteria(Prediction.class).add(Expression.eq("predictionJobId",selectedPredictionId))
-					.uniqueResult();
-	
-	tx.commit();
-	
-} catch (RuntimeException e) {
-	if (tx != null)
-		tx.rollback();
-	Utility.writeToDebug(e);
-} finally {
-	session.close();
-}
-
-return predictionJob;
-}
-
-	@SuppressWarnings("unchecked")
-	private List<PredictionValue> getMainPredictionValues(Long selectedPredictionId)
-	throws ClassNotFoundException, SQLException {
-
-		List predictionValues = null;
-
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-
-			Prediction predictionJob = (Prediction) session.createCriteria(
-					Prediction.class).add(Expression.eq("predictionJobId", selectedPredictionId))
-					.uniqueResult();
-           
-			tx.commit();
-
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			session.close();
-		}
-
-		return predictionValues;
-	}	
-	
-	protected static Predictor getPredictor(Long predictorIdUsed)throws ClassNotFoundException, SQLException 
-	{
-
-Predictor predictor = null;
-Session session = HibernateUtil.getSession();
-Transaction tx = null;
-try {
-	tx = session.beginTransaction();
-	predictor = (Predictor) session.createCriteria(
-			Predictor.class).add(
-			Expression.eq("predictorId", predictorIdUsed))
-			.uniqueResult();
-
-	tx.commit();
-} catch (RuntimeException e) {
-	if (tx != null)
-		tx.rollback();
-	Utility.writeToDebug(e);
-} finally {
-	session.close();
-}
-
-return predictor;
-}
-
-	
-}
-
