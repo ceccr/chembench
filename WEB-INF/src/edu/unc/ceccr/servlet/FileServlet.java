@@ -131,7 +131,7 @@ public class FileServlet extends HttpServlet {
 		+"Prediction Name: "+prediction.getJobName()+"\n"
 		+"Predictors Used: " + predictorNames + "\n"
 		+"Similarity Cutoff: "+prediction.getSimilarityCutoff()+"\n"
-		+"Prediction Dataset: "+prediction.getDatabase()+"\n"
+		+"Prediction Dataset: "+prediction.getDatasetDisplay()+"\n"
 		+"Predicted Date: "+prediction.getDateCreated()+"\n"
 		+"Download Date: "+new Date()+"\n"
 		+"Web Site: " + Constants.WEBADDRESS+"\n"
@@ -143,14 +143,14 @@ public class FileServlet extends HttpServlet {
 			
 			String predictorName = p.getName();
 			out.write("Prediction results from " + predictorName + ":\n"
-			+"Compound Name\t"+"Standard Deviation\t"+"Predicted Value\t"+"Number of Models"+"\n");
+			+"Compound Name\t"+"Predicted Value\t"+"Standard Deviation\t"+"Models Used"+"\t"+"Models In Predictor"+"\n");
 			
 			Iterator<PredictionValue> it = predictionValues.iterator();
 			while(it.hasNext()){
 				PredictionValue pv = it.next();
 				if(pv.getPredictorId().equals(p.getPredictorId())){
-					out.write(pv.getCompoundName()+"\t"+pv.getStandardDeviation()+"\t");
-					out.write(pv.getPredictedValue()+"\t"+pv.getNumModelsUsed()+"\n");
+					out.write(pv.getCompoundName()+"\t"+pv.getPredictedValue()+"\t");
+					out.write(pv.getStandardDeviation()+"\t"+pv.getNumModelsUsed()+"\t"+pv.getNumTotalModels()+"\n");
 				}
 			}
 			out.write("\n\n");
@@ -159,7 +159,57 @@ public class FileServlet extends HttpServlet {
 		out.close();
 	}
 	
-	public void writePredictionValuesAsCSV(String userName, Long predId, String predictor){
+	public void writePredictionValuesAsCSV(Long predictionId, String predictor) throws Exception{
+		Session s = HibernateUtil.getSession();
+		Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
 		
+		String outfileName = Constants.CECCR_USER_BASE_PATH +  prediction.getUserName() + "/PREDICTIONS/" + "predictionValues.txt";
+		if(new File(outfileName).exists()){
+			FileAndDirOperations.deleteFile(outfileName);
+		}
+		BufferedWriter out = new BufferedWriter(new FileWriter(outfileName));
+		
+		ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+		String[] predictorIdArray = prediction.getPredictorIds().split("\\s+");
+		for(int i = 0; i < predictorIdArray.length; i++){
+			predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIdArray[i]), s));
+		}
+		
+		String predictorNames = "";
+		for(Predictor p: predictors){
+			predictorNames += p.getName() + ", ";
+		}
+		predictorNames = predictorNames.substring(0, predictorNames.lastIndexOf(","));
+		
+		out.write("\n\nChembench Prediction Output\n"
+		+"User Name,"+prediction.getUserName()+"\n"
+		+"Prediction Name,"+prediction.getJobName()+"\n"
+		+"Predictors Used," + predictorNames + "\n"
+		+"Similarity Cutoff,"+prediction.getSimilarityCutoff()+"\n"
+		+"Prediction Dataset,"+prediction.getDatasetDisplay()+"\n"
+		+"Predicted Date,"+prediction.getDateCreated()+"\n"
+		+"Download Date,"+new Date()+"\n"
+		+"Web Site," + Constants.WEBADDRESS+"\n");
+		
+		for(Predictor p: predictors){
+			List<PredictionValue> predictionValues = 
+				PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getPredictorId(), s);
+			
+			String predictorName = p.getName();
+			out.write("Predictor," + predictorName + ":\n"
+			+"Compound Name,"+"Predicted Value,"+"Standard Deviation,"+"Models Used,"+"Models In Predictor"+"\n");
+			
+			Iterator<PredictionValue> it = predictionValues.iterator();
+			while(it.hasNext()){
+				PredictionValue pv = it.next();
+				if(pv.getPredictorId().equals(p.getPredictorId())){
+					out.write(pv.getCompoundName()+","+pv.getPredictedValue()+",");
+					out.write(pv.getStandardDeviation()+","+pv.getNumModelsUsed()+","+pv.getNumTotalModels()+"\n");
+				}
+			}
+			out.write("\n\n");
+		}
+		s.close();
+		out.close();
 	}
 }
