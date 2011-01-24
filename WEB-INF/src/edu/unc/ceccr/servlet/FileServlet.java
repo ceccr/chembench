@@ -153,7 +153,7 @@ public class FileServlet extends HttpServlet {
 					out.write(pv.getStandardDeviation()+"\t"+pv.getNumModelsUsed()+"\t"+pv.getNumTotalModels()+"\n");
 				}
 			}
-			out.write("\n\n");
+			out.write("\n");
 		}
 		s.close();
 		out.close();
@@ -196,7 +196,7 @@ public class FileServlet extends HttpServlet {
 				PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getPredictorId(), s);
 			
 			String predictorName = p.getName();
-			out.write("Predictor," + predictorName + ":\n"
+			out.write("Predictor," + predictorName + "\n"
 			+"Compound Name,"+"Predicted Value,"+"Standard Deviation,"+"Models Used,"+"Models In Predictor"+"\n");
 			
 			Iterator<PredictionValue> it = predictionValues.iterator();
@@ -207,7 +207,7 @@ public class FileServlet extends HttpServlet {
 					out.write(pv.getStandardDeviation()+","+pv.getNumModelsUsed()+","+pv.getNumTotalModels()+"\n");
 				}
 			}
-			out.write("\n\n");
+			out.write("\n");
 		}
 		s.close();
 		out.close();
