@@ -66,10 +66,9 @@ public class PopulateDataObjects {
 	
 	@SuppressWarnings("unchecked")
 	public static List<PredictionValue> getPredictionValuesByPredictionIdAndPredictorId(Long predictionId, Long predictorId, Session session) throws Exception{
-		ArrayList<PredictionValue> predictionValues = null;
+		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
 		Transaction tx = null;
-		try
-		{
+		try{
 			tx = session.beginTransaction();
 			predictionValues = (ArrayList<PredictionValue>) session.createCriteria(PredictionValue.class)
 			.add(Expression.eq("predictionId", predictionId))
