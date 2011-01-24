@@ -35,6 +35,7 @@ import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.servlet.FileServlet;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -119,6 +120,11 @@ public class ViewPredictionAction extends ActionSupport {
 			else{
 				sortDirection = "asc";
 			}
+			
+
+			Utility.writeToDebug("write started");
+			FileServlet.writePredictionValuesAsText(Long.parseLong(predictionId));
+			Utility.writeToDebug("write completed");
 			
 			//get prediction
 			Utility.writeToStrutsDebug("prediction id: " + predictionId);
@@ -234,9 +240,7 @@ public class ViewPredictionAction extends ActionSupport {
 	}
 
 	private void populateCompoundPredictionValues(Session session) throws Exception{
-		
 		//get compounds from SDF
-		
 		String datasetDir = "";
 		datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
 		
@@ -255,16 +259,13 @@ public class ViewPredictionAction extends ActionSupport {
 		ArrayList<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(Long.parseLong(predictionId), session);
 		Utility.writeToDebug("done getting from db");
 
-
 		Utility.writeToDebug("Sorting");
 		Collections.sort(predictorPredictionValues, new Comparator<PredictionValue>(){
 				public int compare(PredictionValue p1, PredictionValue p2) {
 		    		return p1.getPredictorId().compareTo(p2.getPredictorId());
 			    }});
-		//.addOrder(Order.asc("predictorId")) 
 		Utility.writeToDebug("Done sorting");
 
-		
 		Utility.writeToDebug("building hashmap");
 		HashMap<String, ArrayList<PredictionValue>> predictionValueMap = new HashMap<String, ArrayList<PredictionValue>>();
 		for(PredictionValue pv: predictorPredictionValues){

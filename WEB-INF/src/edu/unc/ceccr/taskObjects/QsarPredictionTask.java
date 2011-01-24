@@ -186,9 +186,7 @@ public class QsarPredictionTask extends WorkflowTask {
 				selectedPredictors.add(p);
 			}
 		}
-		
 		s.close();
-		
 	}
 
 	public void setUp() throws Exception {

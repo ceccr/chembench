@@ -64,6 +64,29 @@ public class PopulateDataObjects {
 		return predictionValue;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public static List<PredictionValue> getPredictionValuesByPredictionIdAndPredictorId(Long predictionId, Long predictorId, Session session) throws Exception{
+		ArrayList<PredictionValue> predictionValues = null;
+		Transaction tx = null;
+		try
+		{
+			tx = session.beginTransaction();
+			predictionValues = (ArrayList<PredictionValue>) session.createCriteria(PredictionValue.class)
+			.add(Expression.eq("predictionId", predictionId))
+			.add(Expression.eq("predictorId", predictorId));
+		} catch (Exception ex) {
+			Utility.writeToDebug(ex);
+			if (tx != null)
+				tx.rollback();
+		} 
+
+		for(PredictionValue pv : predictionValues){
+			int numTotalModels = getPredictorById(pv.getPredictorId(), session).getNumTestModels();
+			pv.setNumTotalModels(numTotalModels);
+		}
+		return predictionValues;
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session) throws Exception{
