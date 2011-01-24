@@ -104,7 +104,6 @@ public class FileServlet extends HttpServlet {
     }
     
 	public static void writePredictionValuesAsText(Long predictionId) throws Exception {
-		List<PredictionValue> predictionValues=null;
 		Session s = HibernateUtil.getSession();
 		Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
 		
@@ -139,20 +138,22 @@ public class FileServlet extends HttpServlet {
 		+"========================================="+"\n"+"\n");
 		
 		for(Predictor p: predictors){
-			PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getPredictorId(), s);
+			List<PredictionValue> predictionValues = 
+				PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getPredictorId(), s);
 			
 			String predictorName = p.getName();
-			String body = "Prediction results from " + predictorName + ":\n"
-			+"Compound Name\t"+"Standard Deviation\t"+"Predicted Value\t"+"Number of Models"+"\n";
-			String end ="\n\n";
+			out.write("Prediction results from " + predictorName + ":\n"
+			+"Compound Name\t"+"Standard Deviation\t"+"Predicted Value\t"+"Number of Models"+"\n");
 			
 			Iterator<PredictionValue> it = predictionValues.iterator();
 			while(it.hasNext()){
 				PredictionValue pv = it.next();
 				if(pv.getPredictorId().equals(p.getPredictorId())){
-					body=body+pv.getCompoundName()+"\t"+pv.getStandardDeviation()+"\t"+pv.getPredictedValue()+"\t"+pv.getNumModelsUsed()+"\n";
+					out.write(pv.getCompoundName()+"\t"+pv.getStandardDeviation()+"\t");
+					out.write(pv.getPredictedValue()+"\t"+pv.getNumModelsUsed()+"\n");
 				}
 			}
+			out.write("\n\n");
 		}
 		s.close();
 		out.close();
