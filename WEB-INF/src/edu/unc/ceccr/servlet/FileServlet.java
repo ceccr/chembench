@@ -17,6 +17,7 @@ import java.io.ByteArrayInputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,37 +25,63 @@ import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.action.ViewPredictionAction.CompoundPredictions;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.WriteDownloadableFilesWorkflow;
 
 @SuppressWarnings("serial")
 public class FileServlet extends HttpServlet {
-	//used to download individual files.
+	//used to download individual files, e.g., a job result summary.
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String fileName = request.getParameter("name");
-        String userName=request.getParameter("user");
-        Long predId=Long.parseLong(request.getParameter("predId"));
-        String predictor=request.getParameter("predictor");
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws Exception {	
+		HttpSession session=request.getSession(false);
 
-        if (fileName != null) {
-            // Strip "/" and "\" (avoid directory sniffing by hackers!).
-            fileName = fileName.replaceAll("(\\\\|/)", "");
-        } else {
-            response.sendRedirect("/jsp/main/error.jsp");
-            return;
-        }
-
-        String contentType = URLConnection.guessContentTypeFromName(fileName);
-        if (contentType == null) {
-            contentType = "application/octet-stream";
-        }
-
+    	String jobType = request.getParameter("jobType"); //DATASET, MODELING, PREDICTION
+    	String id = request.getParameter("id"); //id of the dataset, predictor, or prediction
+    	String file = request.getParameter("file"); //Type of file requested, e.g. "predictionAsCsv". 
+    	String userName = ((User) session.getAttribute("user")).getUserName();
+		
+    	String fileName = Constants.CECCR_USER_BASE_PATH;
+    	Session s = HibernateUtil.getSession();
+    	if(jobType.equals(Constants.DATASET)){
+    		DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
+    		fileName += dataset.getUserName() + "/";
+    		fileName += dataset.getFileName() + "/";
+    		
+    		//add file names here...
+    	}
+    	else if(jobType.equals(Constants.MODELING)){
+    		Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
+    		fileName += predictor.getUserName() + "/";
+    		fileName += predictor.getName() + "/";
+    		
+    		//add file names here...
+    	}
+    	else if(jobType.equals(Constants.PREDICTION)){
+    		Prediction prediction = PopulateDataObjects.getPredictionById(Long.parseLong(id), s);
+    		fileName += prediction.getUserName() + "/";
+    		fileName += prediction.getJobName() + "/";
+    		
+    		if(file.equals("predictionsAsCSV")){
+    			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(id));
+    			fileName += "predictionValues.csv";
+    		}
+    		else if(file.equals("predictionsAsText")){
+    			WriteDownloadableFilesWorkflow.writePredictionValuesAsText(Long.parseLong(id));
+    			fileName += "predictionValues.txt";
+    		}
+    	}
+    	s.close();
+    	
+    	//Now we know what file to send the user. Send it!
+    	
         // Prepare streams
         BufferedInputStream input = null;
         BufferedOutputStream output = null;
@@ -69,6 +96,7 @@ public class FileServlet extends HttpServlet {
 
             // Init servlet response.
             response.setContentLength(contentLength);
+            String contentType = URLConnection.guessContentTypeFromName(fileName);
             response.setContentType(contentType);
             response.setHeader(
                 "Content-disposition", "attachment; filename=\"" + fileName + "\"");
@@ -103,113 +131,4 @@ public class FileServlet extends HttpServlet {
         }
     }
     
-	public static void writePredictionValuesAsText(Long predictionId) throws Exception {
-		Session s = HibernateUtil.getSession();
-		Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
-		
-		String outfileName = Constants.CECCR_USER_BASE_PATH +  prediction.getUserName() + "/PREDICTIONS/" + "predictionValues.txt";
-		if(new File(outfileName).exists()){
-			FileAndDirOperations.deleteFile(outfileName);
-		}
-		BufferedWriter out = new BufferedWriter(new FileWriter(outfileName));
-		
-		ArrayList<Predictor> predictors = new ArrayList<Predictor>();
-		String[] predictorIdArray = prediction.getPredictorIds().split("\\s+");
-		for(int i = 0; i < predictorIdArray.length; i++){
-			predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIdArray[i]), s));
-		}
-		
-		String predictorNames = "";
-		for(Predictor p: predictors){
-			predictorNames += p.getName() + ", ";
-		}
-		predictorNames = predictorNames.substring(0, predictorNames.lastIndexOf(","));
-		
-		out.write("\n\nChembench Prediction Output \n"
-		+"=========================================\n"
-		+"User Name: "+prediction.getUserName()+"\n"
-		+"Prediction Name: "+prediction.getJobName()+"\n"
-		+"Predictors Used: " + predictorNames + "\n"
-		+"Similarity Cutoff: "+prediction.getSimilarityCutoff()+"\n"
-		+"Prediction Dataset: "+prediction.getDatasetDisplay()+"\n"
-		+"Predicted Date: "+prediction.getDateCreated()+"\n"
-		+"Download Date: "+new Date()+"\n"
-		+"Web Site: " + Constants.WEBADDRESS+"\n"
-		+"========================================="+"\n"+"\n");
-		
-		for(Predictor p: predictors){
-			List<PredictionValue> predictionValues = 
-				PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getPredictorId(), s);
-			
-			String predictorName = p.getName();
-			out.write("Prediction results from " + predictorName + ":\n"
-			+"Compound Name\t"+"Predicted Value\t"+"Standard Deviation\t"+"Models Used"+"\t"+"Models In Predictor"+"\n");
-			
-			Iterator<PredictionValue> it = predictionValues.iterator();
-			while(it.hasNext()){
-				PredictionValue pv = it.next();
-				if(pv.getPredictorId().equals(p.getPredictorId())){
-					out.write(pv.getCompoundName()+"\t"+pv.getPredictedValue()+"\t");
-					out.write(pv.getStandardDeviation()+"\t"+pv.getNumModelsUsed()+"\t"+pv.getNumTotalModels()+"\n");
-				}
-			}
-			out.write("\n");
-		}
-		s.close();
-		out.close();
-	}
-	
-	public void writePredictionValuesAsCSV(Long predictionId) throws Exception{
-		Session s = HibernateUtil.getSession();
-		Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
-		
-		String outfileName = Constants.CECCR_USER_BASE_PATH +  prediction.getUserName() + "/PREDICTIONS/" + "predictionValues.txt";
-		if(new File(outfileName).exists()){
-			FileAndDirOperations.deleteFile(outfileName);
-		}
-		BufferedWriter out = new BufferedWriter(new FileWriter(outfileName));
-		
-		ArrayList<Predictor> predictors = new ArrayList<Predictor>();
-		String[] predictorIdArray = prediction.getPredictorIds().split("\\s+");
-		for(int i = 0; i < predictorIdArray.length; i++){
-			predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIdArray[i]), s));
-		}
-		
-		String predictorNames = "";
-		for(Predictor p: predictors){
-			predictorNames += p.getName() + ",";
-		}
-		predictorNames = predictorNames.substring(0, predictorNames.lastIndexOf(","));
-		
-		out.write("\n\nChembench Prediction Output\n"
-		+"User Name,"+prediction.getUserName()+"\n"
-		+"Prediction Name,"+prediction.getJobName()+"\n"
-		+"Predictors Used," + predictorNames + "\n"
-		+"Similarity Cutoff,"+prediction.getSimilarityCutoff()+"\n"
-		+"Prediction Dataset,"+prediction.getDatasetDisplay()+"\n"
-		+"Predicted Date,"+prediction.getDateCreated()+"\n"
-		+"Download Date,"+new Date()+"\n"
-		+"Web Site," + Constants.WEBADDRESS+"\n");
-		
-		for(Predictor p: predictors){
-			List<PredictionValue> predictionValues = 
-				PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getPredictorId(), s);
-			
-			String predictorName = p.getName();
-			out.write("Predictor," + predictorName + "\n"
-			+"Compound Name,"+"Predicted Value,"+"Standard Deviation,"+"Models Used,"+"Models In Predictor"+"\n");
-			
-			Iterator<PredictionValue> it = predictionValues.iterator();
-			while(it.hasNext()){
-				PredictionValue pv = it.next();
-				if(pv.getPredictorId().equals(p.getPredictorId())){
-					out.write(pv.getCompoundName()+","+pv.getPredictedValue()+",");
-					out.write(pv.getStandardDeviation()+","+pv.getNumModelsUsed()+","+pv.getNumTotalModels()+"\n");
-				}
-			}
-			out.write("\n");
-		}
-		s.close();
-		out.close();
-	}
 }

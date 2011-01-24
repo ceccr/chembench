@@ -40,6 +40,7 @@ import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.WriteDownloadableFilesWorkflow;
 
 public class ViewPredictionAction extends ActionSupport {
 	
@@ -87,7 +88,7 @@ public class ViewPredictionAction extends ActionSupport {
 		ActionContext context = ActionContext.getContext();
 
 		Session session = HibernateUtil.getSession();
-		
+
 		if(context == null){
 			Utility.writeToStrutsDebug("No ActionContext available");
 		}
@@ -123,8 +124,11 @@ public class ViewPredictionAction extends ActionSupport {
 			
 
 			Utility.writeToDebug("write started");
-			FileServlet.writePredictionValuesAsText(Long.parseLong(predictionId));
+			WriteDownloadableFilesWorkflow.writePredictionValuesAsText(Long.parseLong(predictionId));
 			Utility.writeToDebug("write completed");
+			Utility.writeToDebug("CSV write started");
+			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(predictionId));
+			Utility.writeToDebug("CSV write completed");
 			
 			//get prediction
 			Utility.writeToStrutsDebug("prediction id: " + predictionId);
@@ -234,7 +238,6 @@ public class ViewPredictionAction extends ActionSupport {
 				}
 				compoundNum++;
 			}
-
 		}
 		return result;
 	}
@@ -300,7 +303,6 @@ public class ViewPredictionAction extends ActionSupport {
 				}
 			}
 			compoundPredictionValues.add(cp);
-				
 		}
 	}
 	

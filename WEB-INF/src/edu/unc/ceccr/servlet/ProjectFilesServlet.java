@@ -24,7 +24,6 @@ public class ProjectFilesServlet extends HttpServlet {
     	String userName = ((User) session.getAttribute("user")).getUserName();
 		String projectUserName=request.getParameter("user");
 		String projectName = request.getParameter("project");
-       
 		String projectType = request.getParameter("projectType");
       
 		if(projectType.equalsIgnoreCase("modeling")){
