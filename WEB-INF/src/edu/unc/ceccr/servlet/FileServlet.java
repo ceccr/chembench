@@ -159,7 +159,7 @@ public class FileServlet extends HttpServlet {
 		out.close();
 	}
 	
-	public void writePredictionValuesAsCSV(Long predictionId, String predictor) throws Exception{
+	public void writePredictionValuesAsCSV(Long predictionId) throws Exception{
 		Session s = HibernateUtil.getSession();
 		Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
 		
@@ -177,7 +177,7 @@ public class FileServlet extends HttpServlet {
 		
 		String predictorNames = "";
 		for(Predictor p: predictors){
-			predictorNames += p.getName() + ", ";
+			predictorNames += p.getName() + ",";
 		}
 		predictorNames = predictorNames.substring(0, predictorNames.lastIndexOf(","));
 		
