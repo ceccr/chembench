@@ -108,7 +108,7 @@ public class FileServlet extends HttpServlet {
 		Session s = HibernateUtil.getSession();
 		Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
 		
-		String outfileName = Constants.CECCR_BASE_PATH +  prediction.getUserName() + "/PREDICTIONS/" + "predictionValues.txt";
+		String outfileName = Constants.CECCR_USER_BASE_PATH +  prediction.getUserName() + "/PREDICTIONS/" + "predictionValues.txt";
 		if(new File(outfileName).exists()){
 			FileAndDirOperations.deleteFile(outfileName);
 		}
