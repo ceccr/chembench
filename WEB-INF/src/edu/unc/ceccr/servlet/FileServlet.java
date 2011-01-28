@@ -40,95 +40,98 @@ import edu.unc.ceccr.workflows.WriteDownloadableFilesWorkflow;
 public class FileServlet extends HttpServlet {
 	//used to download individual files, e.g., a job result summary.
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws Exception {	
-		HttpSession session=request.getSession(false);
-
-    	String jobType = request.getParameter("jobType"); //DATASET, MODELING, PREDICTION
-    	String id = request.getParameter("id"); //id of the dataset, predictor, or prediction
-    	String file = request.getParameter("file"); //Type of file requested, e.g. "predictionAsCsv". 
-    	String userName = ((User) session.getAttribute("user")).getUserName();
-		
-    	String fileName = Constants.CECCR_USER_BASE_PATH;
-    	Session s = HibernateUtil.getSession();
-    	if(jobType.equals(Constants.DATASET)){
-    		DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
-    		fileName += dataset.getUserName() + "/";
-    		fileName += dataset.getFileName() + "/";
-    		
-    		//add file names here...
-    	}
-    	else if(jobType.equals(Constants.MODELING)){
-    		Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
-    		fileName += predictor.getUserName() + "/";
-    		fileName += predictor.getName() + "/";
-    		
-    		//add file names here...
-    	}
-    	else if(jobType.equals(Constants.PREDICTION)){
-    		Prediction prediction = PopulateDataObjects.getPredictionById(Long.parseLong(id), s);
-    		fileName += prediction.getUserName() + "/";
-    		fileName += prediction.getJobName() + "/";
-    		
-    		if(file.equals("predictionsAsCSV")){
-    			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(id));
-    			fileName += "predictionValues.csv";
-    		}
-    		else if(file.equals("predictionsAsText")){
-    			WriteDownloadableFilesWorkflow.writePredictionValuesAsText(Long.parseLong(id));
-    			fileName += "predictionValues.txt";
-    		}
-    	}
-    	s.close();
-    	
-    	//Now we know what file to send the user. Send it!
-    	
-        // Prepare streams
-        BufferedInputStream input = null;
-        BufferedOutputStream output = null;
-
-        try {
-        	String content= "";
-			StringBuffer stringBuffer = new StringBuffer(content);
-        	ByteArrayInputStream bais = new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8"));
-        	
-        	input = new BufferedInputStream(bais);
-            int contentLength = input.available();
-
-            // Init servlet response.
-            response.setContentLength(contentLength);
-            String contentType = URLConnection.guessContentTypeFromName(fileName);
-            response.setContentType(contentType);
-            response.setHeader(
-                "Content-disposition", "attachment; filename=\"" + fileName + "\"");
-            output = new BufferedOutputStream(response.getOutputStream());
-
-            // Write file contents to response.
-            while (contentLength-- > 0) {
-                output.write(input.read());
-            }
-            output.flush();
-        } 
-        catch (Exception e) {
-			Utility.writeToDebug(e);
-		} finally {
-          
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    Utility.writeToDebug(e);
-                  
-                }
-            }
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    Utility.writeToDebug(e);
-                   
-                }
-            }
-        }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) {	
+		try{
+			HttpSession session=request.getSession(false);
+	
+	    	String jobType = request.getParameter("jobType"); //DATASET, MODELING, PREDICTION
+	    	String id = request.getParameter("id"); //id of the dataset, predictor, or prediction
+	    	String file = request.getParameter("file"); //Type of file requested, e.g. "predictionAsCsv". 
+	    	String userName = ((User) session.getAttribute("user")).getUserName();
+			
+	    	String fileName = Constants.CECCR_USER_BASE_PATH;
+	    	Session s = HibernateUtil.getSession();
+	    	if(jobType.equals(Constants.DATASET)){
+	    		DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
+	    		fileName += dataset.getUserName() + "/";
+	    		fileName += dataset.getFileName() + "/";
+	    		
+	    		//add file names here...
+	    	}
+	    	else if(jobType.equals(Constants.MODELING)){
+	    		Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
+	    		fileName += predictor.getUserName() + "/";
+	    		fileName += predictor.getName() + "/";
+	    		
+	    		//add file names here...
+	    	}
+	    	else if(jobType.equals(Constants.PREDICTION)){
+	    		Prediction prediction = PopulateDataObjects.getPredictionById(Long.parseLong(id), s);
+	    		fileName += prediction.getUserName() + "/";
+	    		fileName += prediction.getJobName() + "/";
+	    		
+	    		if(file.equals("predictionsAsCSV")){
+	    			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(id));
+	    			fileName += "predictionValues.csv";
+	    		}
+	    		else if(file.equals("predictionsAsText")){
+	    			WriteDownloadableFilesWorkflow.writePredictionValuesAsText(Long.parseLong(id));
+	    			fileName += "predictionValues.txt";
+	    		}
+	    	}
+	    	s.close();
+	    	
+	    	//Now we know what file to send the user. Send it!
+	    	
+	        // Prepare streams
+	        BufferedInputStream input = null;
+	        BufferedOutputStream output = null;
+	
+	        try {
+	        	String content= "";
+				StringBuffer stringBuffer = new StringBuffer(content);
+	        	ByteArrayInputStream bais = new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8"));
+	        	
+	        	input = new BufferedInputStream(bais);
+	            int contentLength = input.available();
+	
+	            // Init servlet response.
+	            response.setContentLength(contentLength);
+	            String contentType = URLConnection.guessContentTypeFromName(fileName);
+	            response.setContentType(contentType);
+	            response.setHeader(
+	                "Content-disposition", "attachment; filename=\"" + fileName + "\"");
+	            output = new BufferedOutputStream(response.getOutputStream());
+	
+	            // Write file contents to response.
+	            while (contentLength-- > 0) {
+	                output.write(input.read());
+	            }
+	            output.flush();
+	        } 
+	        catch (Exception e) {
+				Utility.writeToDebug(e);
+			} finally {
+	          
+	            if (input != null) {
+	                try {
+	                    input.close();
+	                } catch (IOException e) {
+	                    Utility.writeToDebug(e);
+	                  
+	                }
+	            }
+	            if (output != null) {
+	                try {
+	                    output.close();
+	                } catch (IOException e) {
+	                    Utility.writeToDebug(e);
+	                   
+	                }
+	            }
+	        }
+	    }
+    catch(Exception ex){
+    	Utility.writeToDebug(ex);
     }
-    
 }
