@@ -59,7 +59,6 @@ public class ViewDataset extends ActionSupport {
 	private String webAddress = Constants.WEBADDRESS;
 	private ArrayList<DescriptorGenerationResult> descriptorGenerationResults;
 
-	
 	public class DescriptorGenerationResult{
 		private String descriptorType;
 		private String generationResult;

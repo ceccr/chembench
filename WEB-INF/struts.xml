@@ -339,6 +339,10 @@
             <result>imageServlet.do</result>
         </action>
         
+        <action name="fileServlet">
+            <result>fileServlet.do</result>
+        </action>
+        
         <action name="descriptorMatrixServlet">
             <result>descriptorMatrixServlet.do</result>
         </action>
