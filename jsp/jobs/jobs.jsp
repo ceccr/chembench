@@ -277,8 +277,9 @@
 		<tr>
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of dataset to visualize it.</i><br />
-			<s:if test="user.userName!='guest'&&user.showPublicDatasets=='SOME'"><i>More public datasets are available. You can choose to show these in the options on the edit profile page.</i><br />
-			</s:if>
+			<s:if test="user.userName!='guest'&&user.showPublicDatasets=='SOME'"><i>Additional public datasets are available. You can choose to show these from the <a href="editProfile">edit profile</a> page.</i><br /></s:if>
+			<s:if test="user.userName!='guest'&&user.showPublicDatasets=='ALL'"><i>You are currently viewing all available public datasets. You can choose to hide these from the <a href="editProfile">edit profile</a> page.</i><br /></s:if>
+			<s:if test="user.userName!='guest'&&user.showPublicDatasets=='NONE'"><i>Public datasets are currently hidden. You can choose to show these from the <a href="editProfile">edit profile</a> page.</i><br /></s:if>
 			
 			
 			<table class="sortable" id="datasets">
