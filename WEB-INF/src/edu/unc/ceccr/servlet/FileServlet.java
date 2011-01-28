@@ -131,7 +131,8 @@ public class FileServlet extends HttpServlet {
 	            }
 	        }
 	    }
-    catch(Exception ex){
-    	Utility.writeToDebug(ex);
-    }
+	    catch(Exception ex){
+	    	Utility.writeToDebug(ex);
+	    }
+	}
 }
