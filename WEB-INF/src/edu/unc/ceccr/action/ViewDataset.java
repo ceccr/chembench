@@ -56,6 +56,7 @@ public class ViewDataset extends ActionSupport {
 	private String sortDirection;
 	private String datasetId; 
 	private String externalCompoundsCount;
+	private String datasetCreatedTime;
 	private String webAddress = Constants.WEBADDRESS;
 	private ArrayList<DescriptorGenerationResult> descriptorGenerationResults;
 
@@ -725,6 +726,21 @@ public class ViewDataset extends ActionSupport {
 						externalCompoundsCount = "" + numCompounds;
 					}
 				}
+				
+				//make dataset type and date more readable
+				if(dataset.getDatasetType().equals(Constants.MODELING)){
+					dataset.setDatasetType("Modeling");
+				}
+				if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
+					dataset.setDatasetType("Modeling, With Uploaded Descriptors");
+				}
+				if(dataset.getDatasetType().equals(Constants.PREDICTION)){
+					dataset.setDatasetType("Prediction");
+				}
+				if(dataset.getDatasetType().equals(Constants.PREDICTIONWITHDESCRIPTORS)){
+					dataset.setDatasetType("Prediction, With Uploaded Descriptors");
+				}
+				datasetCreatedTime = dataset.getCreatedTime().toString();
 			}
 		}
 
@@ -845,6 +861,13 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setCurrentFoldNumber(String currentFoldNumber) {
 		this.currentFoldNumber = currentFoldNumber;
+	}
+
+	public String getDatasetCreatedTime() {
+		return datasetCreatedTime;
+	}
+	public void setDatasetCreatedTime(String datasetCreatedTime) {
+		this.datasetCreatedTime = datasetCreatedTime;
 	}
 
 }

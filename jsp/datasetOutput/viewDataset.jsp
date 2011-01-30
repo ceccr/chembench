@@ -110,7 +110,7 @@
 			<b>Dataset Name: </b><s:property value="dataset.fileName" /><br />
 			<b>Number of Compounds: </b><s:property value="dataset.numCompound" /><br />
 			<b>Dataset Type: </b><s:property value="dataset.datasetType" /><br />
-			<b>Date Created: </b><s:property value="dataset.createdTime" /><br />
+			<b>Date Created: </b><s:property value="datasetCreatedTime" /><br />
 			<b>Description: </b><s:property value="dataset.description" /><br />
 			<b>Paper Reference: </b><s:property value="dataset.paperReference" /><br />
 			<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
