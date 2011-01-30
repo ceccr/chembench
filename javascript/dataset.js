@@ -40,6 +40,7 @@ function submitForm(btn, value){
 	var splitType = document.getElementById("splitType").value;
 	if(splitType === "RANDOM"){
 		var numExternalCompounds = document.getElementById("numExternalCompounds").value;
+		alert("ext compounds parseint: " + parseInt(numExternalCompounds) + "\nexternal compounds: " + numExternalCompounds + "\n");
 		if(parseInt(numExternalCompounds) < 0 || (parseInt(numExternalCompounds)==0 && numExternalCompounds !== "0")){
 			msg += "Invalid amount of external compounds.\n";
 		}
