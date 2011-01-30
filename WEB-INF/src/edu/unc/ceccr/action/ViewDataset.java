@@ -692,6 +692,8 @@ public class ViewDataset extends ActionSupport {
 						dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
 					if(dataset.getSplitType().equals(Constants.NFOLD)){
 						externalCompoundsCount = "";
+						int smallestFoldSize = 0;
+						int largestFoldSize = 0;
 						String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/";
 						datasetDir += "DATASETS/" + dataset.getFileName() + "/";
 						int numFolds = Integer.parseInt(dataset.getNumExternalFolds());
@@ -699,12 +701,16 @@ public class ViewDataset extends ActionSupport {
 							HashMap<String, String> actIdsAndValues = 
 								DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (i+1));
 							int numExternalInThisFold = actIdsAndValues.size();
-							externalCompoundsCount += numExternalInThisFold + " in fold " + (i+1);
-							if(i < numFolds - 1){
-								externalCompoundsCount += "; ";
+							if(largestFoldSize == 0 || largestFoldSize < numExternalInThisFold){
+								largestFoldSize = numExternalInThisFold;
+							}
+							if(smallestFoldSize == 0 || smallestFoldSize > numExternalInThisFold){
+								smallestFoldSize = numExternalInThisFold;
 							}
 						}
+						externalCompoundsCount += smallestFoldSize + " to " + largestFoldSize + " per fold";
 					}
+					
 					else{
 						int numCompounds = dataset.getNumCompound();
 						float compoundsExternal = Float.parseFloat(dataset.getNumExternalCompounds());

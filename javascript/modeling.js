@@ -104,69 +104,27 @@ function changeSvmType(){
 	}
 }
 
-function getNewSeed(){
-	document.getElementById("externalRandomSeed").value = Math.floor(Math.random()*16000);
-}
-	
-function enableEdit(){
-	document.getElementById("Edit").disabled = false;
-}
-
 // End Enable-Disable functions //
 
-// Form validation functions //
 
-function validateForm(){
-	//check that all the relevant kNN parameters are entered as numbers
+function submitForm(button){
+	// Form validation //
+	var msg = "";
 	
-	//check that the job name is not the same as any of the user's existing
-	//job names, model names, predictor names, or dataset names
-	
-	//check that there are no spaces in the job name.
-	
-	var rejectName = false;
-	var errorstring;
-	var jobname = document.getElementById("jobName").value;
-	if(jobname.length == 0){
-		rejectName = true;
-		errorstring="Please enter a name for this job.";
-	}
-	if(rejectName){
-		window.alert(errorstring);
-		return false; 	
-	}
-	else{
-		return true;
-	}
-	/*for(n in ls)
-		if(value==ls[n]&&value!="") {
-                  window.alert("The model name of '"+value+"' is already in use.");
-                  document.getElementById("jobName").value="";
-   			btn.disabled=true;
-			return ; 	
-	}
-	btn.disabled=false;  
-	*/
-}
 
-function submitForm(button)
-{
-	if(validateForm()){
+	if(msg === ""){
 		button.disabled=true;
 		button.form.submit();
 		document.getElementById('submitMessage').innerHTML="<i>Your workflow is being submitted, please wait.</i>";
 		return true;
 	}
 	else{
+		alert(msg);
 		return false;
 	}
 }
 
-// End Form validation functions //
-
-
-function showDataset()
-{
+function showDataset(){
 	//Open dataset in new window
 	//make sure that they've picked an existing continuous or category dataset
 	if(document.getElementById("continuousDataset").checked){
