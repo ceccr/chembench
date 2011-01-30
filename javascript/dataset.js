@@ -5,7 +5,7 @@ function submitForm(btn, value){
 	var datasetType = document.getElementById("datasetType").value;
 	if(datasetType === "MODELING"){
 		var actFileName = document.getElementById("actFileModeling").value;
-		var sdfileName = document.getElementById("sdfFileModeling").value;	
+		var sdfFileName = document.getElementById("sdfFileModeling").value;	
 		if(actFileName === ""){
 			msg += "Please choose an activity file to upload.\n"
 		}
