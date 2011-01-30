@@ -741,6 +741,7 @@ public class ViewDataset extends ActionSupport {
 					dataset.setDatasetType("Prediction, With Uploaded Descriptors");
 				}
 				datasetCreatedTime = dataset.getCreatedTime().toString();
+				datasetCreatedTime = datasetCreatedTime.substring(0, datasetCreatedTime.lastIndexOf("."));
 			}
 		}
 
