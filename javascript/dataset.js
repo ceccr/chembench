@@ -14,7 +14,7 @@ function submitForm(btn, value){
 		}
 	}
 	else if(datasetType === "PREDICTION"){
-		var sdfileName = document.getElementById("sdfFilePrediction").value;
+		var sdfFileName = document.getElementById("sdfFilePrediction").value;
 		if(sdfFileName === ""){
 			msg += "Please choose an SDF file to upload.\n"
 		}
