@@ -40,8 +40,7 @@ function submitForm(btn, value){
 	var splitType = document.getElementById("splitType").value;
 	if(splitType === "RANDOM"){
 		var numExternalCompounds = document.getElementById("numExternalCompounds").value;
-		alert("ext compounds parseint: " + parseInt(numExternalCompounds) + "\nexternal compounds: " + numExternalCompounds + "\n");
-		if(parseInt(numExternalCompounds) < 0 || (parseInt(numExternalCompounds)==0 && numExternalCompounds !== "0")){
+		if(parseInt(numExternalCompounds) < 0 || parseInt(numExternalCompounds)==NaN){
 			msg += "Invalid amount of external compounds.\n";
 		}
 	}
@@ -52,7 +51,7 @@ function submitForm(btn, value){
 	}
 	else if(splitType === "NFOLD"){
 		var numExternalFolds = document.getElementById("numExternalFolds").value;
-		if(parseInt(numExternalFolds) < 0 || (parseInt(numExternalFolds)==0 && numExternalFolds !== "0")){
+		if(parseInt(numExternalFolds) < 0 || parseInt(numExternalFolds)==NaN){
 			msg += "Invalid number of external folds.\n";
 		}
 		if(parseInt(numExternalFolds) > 30){
