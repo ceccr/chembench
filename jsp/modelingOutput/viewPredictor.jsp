@@ -36,7 +36,6 @@
 	<tr>
 		<span id="maincontent">
 		<td height="557" colspan="5" valign="top">
-		<p class="StandardTextDarkGray">&nbsp;</p>
 		<span class="StandardTextDarkGray"></span>
 		
 		<table width="924" align="center"><tr><td>
@@ -58,7 +57,7 @@
 				</s:form>
 			</s:if>
 			<s:else>
-				<div class="StandardTextDarkGray"><br />
+				<div class="StandardTextDarkGray">
 				<b>Description: </b><s:property value="predictor.description" /><br />
 				<b>Paper Reference: </b><s:property value="predictor.paperReference" /><br />
 				<s:if test="selectedPredictor.userName!='all-users'||user.isAdmin=='YES'">
@@ -69,7 +68,7 @@
 			</s:else>
 		</td></tr></table>
 		
-		<s:if test="selectedPredictor.userName=='_all'">
+		<s:if test="selectedPredictor.userName=='all-users'">
 		<br />
 		<p class="StandardTextDarkGrayParagraph">
 		<b>Predictor Description:</b> <s:property value="selectedPredictor.description"/>
@@ -79,7 +78,7 @@
 		</s:if>
 		<!-- End description -->
 	
-		<br /><br />
+		<br />
 		
 		<!-- load tabs -->
 		<a name="tabs"></a> 

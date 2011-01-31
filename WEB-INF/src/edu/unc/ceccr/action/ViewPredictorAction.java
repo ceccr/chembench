@@ -643,8 +643,6 @@ public class ViewPredictorAction extends ActionSupport {
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
 
-		Session session = HibernateUtil.getSession();
-		
 		if(context != null){
 			//get predictorId id
 			predictorId = ((String[]) context.getParameters().get("predictorId"))[0];
@@ -655,7 +653,7 @@ public class ViewPredictorAction extends ActionSupport {
 			predictorReference = ((String[]) context.getParameters().get("predictorReference"))[0];
 			
 			Session s = HibernateUtil.getSession();
-			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), s);
 			selectedPredictor.setDescription(predictorDescription);
 			selectedPredictor.setPaperReference(predictorReference);
 			Transaction tx = null;
@@ -667,9 +665,7 @@ public class ViewPredictorAction extends ActionSupport {
 			catch (Exception ex) {
 				Utility.writeToDebug(ex); 
 			} 
-			finally {
-				s.close();
-			}
+			s.close();
 		}
 		return loadPage();
 	}
