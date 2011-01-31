@@ -644,8 +644,6 @@ public class ViewDataset extends ActionSupport {
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
 
-		Session session = HibernateUtil.getSession();
-		
 		if(context != null){
 			//get dataset id
 			datasetId = ((String[]) context.getParameters().get("datasetId"))[0];
@@ -656,7 +654,7 @@ public class ViewDataset extends ActionSupport {
 			datasetReference = ((String[]) context.getParameters().get("datasetReference"))[0];
 			
 			Session s = HibernateUtil.getSession();
-			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
+			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), s);
 			dataset.setDescription(datasetDescription);
 			dataset.setPaperReference(datasetReference);
 			Transaction tx = null;
