@@ -121,7 +121,7 @@
 			<b>Description: </b><s:textfield size="40" id="datasetDescription" value="dataset.description" /><br />
 			<b>Paper Reference: </b><s:textfield size="40" id="datasetReference" value="dataset.paperReference" /><br />
 			<div class="StandardTextDarkGray" id="saveChangesMessage"></div>
-			<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Submit" />
+			<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
 			</s:form>
 			</s:if>
 			<s:else>
