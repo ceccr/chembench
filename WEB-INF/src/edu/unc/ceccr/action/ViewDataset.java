@@ -637,6 +637,39 @@ public class ViewDataset extends ActionSupport {
 		return result;
 	}
 	
+	public String updateDataset() throws Exception {
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context != null){
+			//get dataset id
+			datasetId = ((String[]) context.getParameters().get("id"))[0];
+			String datasetDescription = ((String[]) context.getParameters().get("datasetDescription"))[0];
+			String datasetReference = ((String[]) context.getParameters().get("datasetReference"))[0];
+			
+			Session s = HibernateUtil.getSession();
+			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
+			dataset.setDescription(datasetDescription);
+			dataset.setPaperReference(datasetReference);
+			Transaction tx = null;
+			try {
+				tx = s.beginTransaction();
+				s.saveOrUpdate(dataset);
+				tx.commit();
+			}
+			catch (Exception ex) {
+				Utility.writeToDebug(ex); 
+			} 
+			finally {
+				s.close();
+			}
+		}
+		return loadPage();
+	}
+	
 	public String loadPage() throws Exception {
 		String result = SUCCESS;
 		//check that the user is logged in

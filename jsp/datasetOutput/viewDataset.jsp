@@ -82,6 +82,7 @@
 		
 		return true;
 	}		
+		
 	</script>
 </head>
 
@@ -111,11 +112,22 @@
 			<b>Number of Compounds: </b><s:property value="dataset.numCompound" /><br />
 			<b>Dataset Type: </b><s:property value="dataset.datasetType" /><br />
 			<b>Date Created: </b><s:property value="datasetCreatedTime" /><br />
-			<b>Description: </b><s:property value="dataset.description" /><br />
-			<b>Paper Reference: </b><s:property value="dataset.paperReference" /><br />
 			<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
 			<b>Number of External Compounds: </b><s:property value="externalCompoundsCount" /><br />
 			</s:if>
+			<br />
+			<s:if test="dataset.userName!='all-users'">
+			<s:form action="updateDataset" enctype="multipart/form-data" theme="simple">
+			<b>Description: </b><s:textfield size="40" id="datasetDescription" value="dataset.description" /><br />
+			<b>Paper Reference: </b><s:textfield size="40" id="datasetReference" value="dataset.paperReference" /><br />
+			<div class="StandardTextDarkGray" id="saveChangesMessage"></div>
+			<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Submit" />
+			</s:form>
+			</s:if>
+			<s:else>
+			<b>Description: </b><s:property value="dataset.description" /><br />
+			<b>Paper Reference: </b><s:property value="dataset.paperReference" /><br />
+			</s:else>
 		</div>
 	<!-- End Header Info -->
 

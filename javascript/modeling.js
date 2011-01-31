@@ -111,7 +111,8 @@ function submitForm(button){
 	// Form validation //
 	var msg = "";
 	
-
+	
+	
 	if(msg === ""){
 		button.disabled=true;
 		button.form.submit();
