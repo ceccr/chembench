@@ -60,10 +60,6 @@
 	<tr>
 	<span id="maincontent">
 	<td height="557" colspan="5" valign="top">
-	
-	<span class="Errors"><b><!-- errors go here..? --></b></span> 
-
-	<br />
 	<table width="924" align="center"><tr><td>
 			<div class="StandardTextDarkGray"><br />
 			<b>Prediction Name: </b><s:property value="prediction.jobName" /><br />
@@ -73,17 +69,16 @@
 			<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
 				<s:param name="id" value='predictorId' />
 			</s:url>
-			<s:a href="%{predictorLink}"><s:property value="name" /></s:a> 
+			<s:a href="%{predictorLink}"><s:property value="name" /></s:a>&nbsp;&nbsp;
 			</s:iterator>
 			<br />
 			<b>Date Created: </b><s:date name="prediction.dateCreated" format="yyyy-MM-dd HH:mm" /><br />
-			<b>Similarity Cutoff: </b><s:property value="prediction.similarityCutoff" /><br />
+			<b>Similarity Cutoff: </b><s:property value="prediction.similarityCutoff" />
 			</div>
 	</td></tr></table>
 	<!-- End Header Info -->
 	
 	<!-- Page description -->	
-	<br />
 	<p class="StandardTextDarkGray" width="550">The predicted values for the compounds in your dataset are below.</p>
 	<p class="StandardTextDarkGray" width="550">For each predictor, there are two columns. The first column contains the
 	prediction. If more than one of the predictor's models were used to make the prediction, the average value
