@@ -131,7 +131,7 @@
 				<b>Paper Reference: </b><s:property value="dataset.paperReference" /><br />
 				<s:if test="dataset.userName!='all-users'||user.isAdmin=='YES'">
 					<!-- display edit link -->
-					<a href="viewDataset?id=<s:property value="datasetId" />&editable=YES">Edit dataset information</a>
+					<a href="viewDataset?id=<s:property value="datasetId" />&editable=YES">Edit description and reference</a><br />
 				</s:if>
 				<br />
 				</div>
