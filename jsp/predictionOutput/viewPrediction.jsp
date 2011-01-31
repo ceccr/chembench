@@ -64,7 +64,7 @@
 			<div class="StandardTextDarkGray"><br />
 			<b>Prediction Name: </b><s:property value="prediction.jobName" /><br />
 			<b>Dataset Predicted: </b><a href="viewDataset?id=<s:property value="prediction.datasetId" />"><s:property value="prediction.datasetDisplay" /></a><br />
-			<b>Predictors Used: </b>
+			<b>Predictors Used: &nbsp;</b>
 			<s:iterator value="predictors" status="predictorsStatus1">
 			<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
 				<s:param name="id" value='predictorId' />
