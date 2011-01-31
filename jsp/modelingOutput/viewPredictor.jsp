@@ -54,16 +54,16 @@
 				<div class="StandardTextDarkGray"><b>Description: </b></div><s:textarea id="predictorDescription" name="predictorDescription" align="left" style="height: 50px; width: 50%" /></div><br />
 				<div class="StandardTextDarkGray"><b>Paper Reference: </b></div><s:textarea id="predictorReference" name="predictorReference" align="left" style="height: 50px; width: 50%" /></div><br />
 				<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
-				<s:hidden id="datasetId" name="datasetId" />
+				<s:hidden id="predictorId" name="predictorId" />
 				</s:form>
 			</s:if>
 			<s:else>
 				<div class="StandardTextDarkGray"><br />
 				<b>Description: </b><s:property value="predictor.description" /><br />
 				<b>Paper Reference: </b><s:property value="predictor.paperReference" /><br />
-				<s:if test="predictor.userName!='all-users'||user.isAdmin=='YES'">
+				<s:if test="selectedPredictor.userName!='all-users'||user.isAdmin=='YES'">
 					<!-- display edit link -->
-					<a href="viewDataset?id=<s:property value="datasetId" />&editable=YES">Edit description and reference</a><br />
+					<a href="viewPredictor?id=<s:property value="predictorId" />&editable=YES">Edit description and reference</a><br />
 				</s:if>
 				<br />
 				</div>
