@@ -111,23 +111,27 @@
 			<b>Dataset Name: </b><s:property value="dataset.fileName" /><br />
 			<b>Number of Compounds: </b><s:property value="dataset.numCompound" /><br />
 			<b>Dataset Type: </b><s:property value="dataset.datasetType" /><br />
-			<b>Date Created: </b><s:property value="datasetCreatedTime" /><br />
+			<b>Date Created: </b><s:date name="dataset.createdTime" format="yyyy-MM-dd HH:mm" /><br />
 			<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
 			<b>Number of External Compounds: </b><s:property value="externalCompoundsCount" /><br />
 			</s:if>
 			<br />
 		</div>
-			<s:if test="dataset.userName!='all-users'||user.isAdmin=='YES'">
-			<s:form action="updateDataset" enctype="multipart/form-data" theme="simple">
-			<div class="StandardTextDarkGray"><b>Description: </b><s:textfield size="40" id="datasetDescription" name="datasetDescription" /></div><br />
-			<div class="StandardTextDarkGray"><b>Paper Reference: </b><s:textfield size="40" id="datasetReference" name="datasetReference" /></div><br />
-			<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
-			<s:hidden id="datasetId" name="datasetId" />
-			</s:form>
+			<s:if test="editable=='YES'">
+				<s:form action="updateDataset" enctype="multipart/form-data" theme="simple">
+				<div class="StandardTextDarkGray"><b>Description: </b><s:textarea size="40" id="datasetDescription" name="datasetDescription" /></div><br />
+				<div class="StandardTextDarkGray"><b>Paper Reference: </b><s:textarea size="40" id="datasetReference" name="datasetReference" /></div><br />
+				<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
+				<s:hidden id="datasetId" name="datasetId" />
+				</s:form>
 			</s:if>
 			<s:else>
-			<b>Description: </b><s:property value="dataset.description" /><br />
-			<b>Paper Reference: </b><s:property value="dataset.paperReference" /><br />
+				<b>Description: </b><s:property value="dataset.description" /><br />
+				<b>Paper Reference: </b><s:property value="dataset.paperReference" /><br />
+				<s:if test="dataset.userName!='all-users'||user.isAdmin=='YES'">
+				<!-- display edit link -->
+				<a href="viewDataset?id=<s:property value="fileId" />&editable='YES'">edit</a>
+				</s:if>
 			</s:else>
 		</div>
 	<!-- End Header Info -->

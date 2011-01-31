@@ -53,10 +53,10 @@ public class ViewDataset extends ActionSupport {
 	private ArrayList<String> foldNums;
 	private String currentFoldNumber;
 	private String orderBy;
+	private String editable;
 	private String sortDirection;
 	private String datasetId; 
 	private String externalCompoundsCount;
-	private String datasetCreatedTime;
 	private String datasetReference = "";
 	private String datasetDescription = "";
 	private String webAddress = Constants.WEBADDRESS;
@@ -689,6 +689,13 @@ public class ViewDataset extends ActionSupport {
 			user = (User) context.getSession().get("user");
 			datasetId = ((String[]) context.getParameters().get("id"))[0];
 			
+			if(context.getParameters().get("editable") != null){
+				 editable = "YES";
+			}
+			else{
+				 editable = "NO";
+			}
+			
 			if(context.getParameters().get("orderBy") != null){
 				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
 			}
@@ -765,21 +772,19 @@ public class ViewDataset extends ActionSupport {
 					}
 				}
 				
-				//make dataset type and date more readable
+				//make dataset type more readable
 				if(dataset.getDatasetType().equals(Constants.MODELING)){
 					dataset.setDatasetType("Modeling");
 				}
 				if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
-					dataset.setDatasetType("Modeling, With Uploaded Descriptors");
+					dataset.setDatasetType("Modeling, with uploaded descriptors");
 				}
 				if(dataset.getDatasetType().equals(Constants.PREDICTION)){
 					dataset.setDatasetType("Prediction");
 				}
 				if(dataset.getDatasetType().equals(Constants.PREDICTIONWITHDESCRIPTORS)){
-					dataset.setDatasetType("Prediction, With Uploaded Descriptors");
+					dataset.setDatasetType("Prediction, with uploaded descriptors");
 				}
-				datasetCreatedTime = dataset.getCreatedTime().toString();
-				datasetCreatedTime = datasetCreatedTime.substring(0, datasetCreatedTime.lastIndexOf("."));
 				
 				//make textfield access for paper reference and datasetDescription
 				datasetReference = dataset.getPaperReference();
@@ -905,14 +910,7 @@ public class ViewDataset extends ActionSupport {
 	public void setCurrentFoldNumber(String currentFoldNumber) {
 		this.currentFoldNumber = currentFoldNumber;
 	}
-
-	public String getDatasetCreatedTime() {
-		return datasetCreatedTime;
-	}
-	public void setDatasetCreatedTime(String datasetCreatedTime) {
-		this.datasetCreatedTime = datasetCreatedTime;
-	}
-
+	
 	public String getDatasetReference() {
 		return datasetReference;
 	}
@@ -925,6 +923,13 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setDatasetDescription(String datasetDescription) {
 		this.datasetDescription = datasetDescription;
+	}
+
+	public String getEditable() {
+		return editable;
+	}
+	public void setEditable(String editable) {
+		this.editable = editable;
 	}
 
 }
