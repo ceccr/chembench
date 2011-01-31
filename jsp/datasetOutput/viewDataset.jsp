@@ -119,21 +119,22 @@
 		</div>
 			<s:if test="editable=='YES'">
 				<s:form action="updateDataset" enctype="multipart/form-data" theme="simple">
-				<div class="StandardTextDarkGray"><b>Description: </b><s:textarea size="40" id="datasetDescription" name="datasetDescription" /></div><br />
-				<div class="StandardTextDarkGray"><b>Paper Reference: </b><s:textarea size="40" id="datasetReference" name="datasetReference" /></div><br />
+				<div class="StandardTextDarkGray"><b>Description: </b></div><s:textarea size="40" id="datasetDescription" name="datasetDescription" /></div><br />
+				<div class="StandardTextDarkGray"><b>Paper Reference: </b></div><s:textarea size="40" id="datasetReference" name="datasetReference" /></div><br />
 				<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
 				<s:hidden id="datasetId" name="datasetId" />
 				</s:form>
 			</s:if>
 			<s:else>
+				<div class="StandardTextDarkGray"><br />
 				<b>Description: </b><s:property value="dataset.description" /><br />
 				<b>Paper Reference: </b><s:property value="dataset.paperReference" /><br />
 				<s:if test="dataset.userName!='all-users'||user.isAdmin=='YES'">
 				<!-- display edit link -->
-				<a href="viewDataset?id=<s:property value="fileId" />&editable='YES'">edit</a>
+				<a href="viewDataset?id=<s:property value="datasetId" />&editable='YES'">edit</a>
 				</s:if>
+				</div>
 			</s:else>
-		</div>
 	<!-- End Header Info -->
 
 	<!-- Page description -->
