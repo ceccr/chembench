@@ -45,10 +45,10 @@
 			<b>Date Created: </b><s:date name="selectedPredictor.createdDateTime" format="yyyy-MM-dd HH:mm" /><br />
 			<b>Modeling Method: </b><s:property value="selectedPredictor.modelMethod" /><br />
 			<b>Descriptor Generation Method: </b><s:property value="selectedPredictor.descriptorGeneration" /><br />
-			<br />			
 			</div>
 		
 			<s:if test="editable=='YES'">
+				<br />			
 				<s:form action="updatePredictor" enctype="multipart/form-data" theme="simple">
 				<div class="StandardTextDarkGray"><b>Description: </b></div><s:textarea id="predictorDescription" name="predictorDescription" align="left" style="height: 50px; width: 50%" /></div><br />
 				<div class="StandardTextDarkGray"><b>Paper Reference: </b></div><s:textarea id="predictorReference" name="predictorReference" align="left" style="height: 50px; width: 50%" /></div><br />
@@ -57,7 +57,8 @@
 				</s:form>
 			</s:if>
 			<s:else>
-				<div class="StandardTextDarkGray"><b>Description: </b><s:property value="selectedPredictor.description" /><br />
+				<div class="StandardTextDarkGray"><br />
+				<b>Description: </b><s:property value="selectedPredictor.description" /><br />
 				<b>Paper Reference: </b><s:property value="selectedPredictor.paperReference" /><br />
 				<s:if test="selectedPredictor.userName!='all-users'||user.isAdmin=='YES'">
 					<!-- display edit link -->
