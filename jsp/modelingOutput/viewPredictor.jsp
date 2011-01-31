@@ -65,11 +65,8 @@
 					<!-- display edit link -->
 					<a href="viewPredictor?id=<s:property value="predictorId" />&editable=YES">Edit description and reference</a><br />
 				</s:if>
-				<br />
 				</div>
 			</s:else>
-			
-			<br />
 		</td></tr></table>
 		
 		<s:if test="selectedPredictor.userName=='_all'">
