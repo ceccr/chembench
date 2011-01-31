@@ -706,7 +706,6 @@ public class ViewPredictorAction extends ActionSupport {
 				}
 			}
 			
-			
 			//the predictor has now been viewed. Update DB accordingly.
 			if(! selectedPredictor.getHasBeenViewed().equals(Constants.YES)){
 				selectedPredictor.setHasBeenViewed(Constants.YES);
@@ -721,6 +720,8 @@ public class ViewPredictorAction extends ActionSupport {
 					Utility.writeToDebug(e);
 				}
 			}
+			predictorDescription = selectedPredictor.getDescription();
+			predictorReference = selectedPredictor.getPaperReference();
 		}
 
 		session.close();
