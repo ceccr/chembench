@@ -57,9 +57,8 @@
 				</s:form>
 			</s:if>
 			<s:else>
-				<div class="StandardTextDarkGray">
-				<b>Description: </b><s:property value="predictor.description" /><br />
-				<b>Paper Reference: </b><s:property value="predictor.paperReference" /><br />
+				<div class="StandardTextDarkGray"><b>Description: </b><s:property value="selectedPredictor.description" /><br />
+				<b>Paper Reference: </b><s:property value="selectedPredictor.paperReference" /><br />
 				<s:if test="selectedPredictor.userName!='all-users'||user.isAdmin=='YES'">
 					<!-- display edit link -->
 					<a href="viewPredictor?id=<s:property value="predictorId" />&editable=YES">Edit description and reference</a><br />
