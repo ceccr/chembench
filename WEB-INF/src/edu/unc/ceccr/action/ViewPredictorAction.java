@@ -714,7 +714,8 @@ public class ViewPredictorAction extends ActionSupport {
 			else{
 				editable = "NO";
 			}
-			
+			predictorDescription = selectedPredictor.getDescription();
+			predictorReference = selectedPredictor.getPaperReference();
 			
 			//the predictor has now been viewed. Update DB accordingly.
 			if(! selectedPredictor.getHasBeenViewed().equals(Constants.YES)){
@@ -730,8 +731,6 @@ public class ViewPredictorAction extends ActionSupport {
 					Utility.writeToDebug(e);
 				}
 			}
-			predictorDescription = selectedPredictor.getDescription();
-			predictorReference = selectedPredictor.getPaperReference();
 		}
 
 		session.close();
