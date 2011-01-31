@@ -648,7 +648,7 @@ public class ViewDataset extends ActionSupport {
 		
 		if(context != null){
 			//get dataset id
-			datasetId = ((String[]) context.getParameters().get("datasetId"))[0];
+			datasetId = ((String[]) context.getParameters().get("id"))[0];
 			datasetDescription = ((String[]) context.getParameters().get("datasetDescription"))[0];
 			datasetReference = ((String[]) context.getParameters().get("datasetReference"))[0];
 			
