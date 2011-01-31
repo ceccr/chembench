@@ -72,6 +72,8 @@ public class ViewPredictorAction extends ActionSupport {
 	private KnnPlusParameters knnPlusParameters;
 	private SvmParameters svmParameters;
 	private String hasGoodModels = Constants.YES;
+	private String predictorDescription = "";
+	private String predictorReference = "";
 	
 	//used in creation of confusion matrix (category modeling only)
 	public class ConfusionMatrixRow{
@@ -635,6 +637,42 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	
 	
+	public String updatePredictor() throws Exception {
+		String result = SUCCESS;
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+
+		Session session = HibernateUtil.getSession();
+		
+		if(context != null){
+			//get predictorId id
+			predictorId = ((String[]) context.getParameters().get("predictorId"))[0];
+			String[] predictorIdAsStringArray = new String[1];
+			predictorIdAsStringArray[0] = predictorId;
+			context.getParameters().put("id", predictorIdAsStringArray);
+			predictorDescription = ((String[]) context.getParameters().get("predictorDescription"))[0];
+			predictorReference = ((String[]) context.getParameters().get("predictorReference"))[0];
+			
+			Session s = HibernateUtil.getSession();
+			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
+			selectedPredictor.setDescription(predictorDescription);
+			selectedPredictor.setPaperReference(predictorReference);
+			Transaction tx = null;
+			try {
+				tx = s.beginTransaction();
+				s.saveOrUpdate(selectedPredictor);
+				tx.commit();
+			}
+			catch (Exception ex) {
+				Utility.writeToDebug(ex); 
+			} 
+			finally {
+				s.close();
+			}
+		}
+		return loadPage();
+	}
+
 	public String loadPage() throws Exception {
 
 		String result = SUCCESS;
@@ -1002,6 +1040,20 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setSvmRandomModels(List<SvmModel> svmRandomModels) {
 		this.svmRandomModels = svmRandomModels;
+	}
+
+	public String getPredictorDescription() {
+		return predictorDescription;
+	}
+	public void setPredictorDescription(String predictorDescription) {
+		this.predictorDescription = predictorDescription;
+	}
+
+	public String getPredictorReference() {
+		return predictorReference;
+	}
+	public void setPredictorReference(String predictorReference) {
+		this.predictorReference = predictorReference;
 	}
 
 }

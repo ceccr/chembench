@@ -238,6 +238,10 @@
 	        	<result>jsp/modelingOutput/viewPredictor.jsp</result>
 	        </action>
 	        
+	        <action name="updatePredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="updatePredictor">
+	        	<result>jsp/modelingOutput/viewPredictor.jsp</result>
+	        </action>
+        
 	        <action name="viewPredictorParametersSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadParametersSection">
 	        	<result>jsp/modelingOutput/viewPredictor-parameters.jsp</result>
 	        </action>

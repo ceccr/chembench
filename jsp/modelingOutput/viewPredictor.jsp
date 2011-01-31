@@ -39,22 +39,38 @@
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<span class="StandardTextDarkGray"></span>
 		
-		<table width="924">
-		<tr>
-			<td class="TableRowText01">Job Name</td>
-			<td class="TableRowText01">Date Created</td>
-			<td class="TableRowText01">Dataset</td>
-			<td class="TableRowText01">Modeling Method</td>
-			<td class="TableRowText01">Descriptor Generation Method</td>
-		</tr>
-		<tr>
-			<td class="TableRowText02"><s:property value="selectedPredictor.name" /></td>
-			<td class="TableRowText02"><s:property value="selectedPredictor.dateCreated" /></td>
-			<td class="TableRowText02"><a href="viewDataset?id=<s:property value="selectedPredictor.datasetId" />"><s:property value="selectedPredictor.datasetDisplay" /></a></td>
-			<td class="TableRowText02"><s:property value="selectedPredictor.modelMethod" /></td>
-			<td class="TableRowText02"><s:property value="selectedPredictor.descriptorGeneration" /></td>
-		</tr>
-		</table>
+		<table width="924" align="center"><tr><td>
+			<div class="StandardTextDarkGray"><br />
+			<b>Predictor Name: </b><s:property value="selectedPredictor.name" /><br />
+			<b>Dataset: </b><a href="viewDataset?id=<s:property value="selectedPredictor.datasetId" />"><s:property value="selectedPredictor.datasetDisplay" /></a><br />
+			<b>Date Created: </b><s:date name="selectedPredictor.createdTime" format="yyyy-MM-dd HH:mm" /><br />
+			<b>Modeling Method: </b><s:property value="selectedPredictor.modelMethod" /><br />
+			<b>Descriptor Generation Method: </b><s:property value="selectedPredictor.descriptorGeneration" /><br />
+			<br />			
+			</div>
+		
+			<s:if test="editable=='YES'">
+				<s:form action="updateDataset" enctype="multipart/form-data" theme="simple">
+				<div class="StandardTextDarkGray"><b>Description: </b></div><s:textarea id="predictorDescription" name="predictorDescription" align="left" style="height: 50px; width: 50%" /></div><br />
+				<div class="StandardTextDarkGray"><b>Paper Reference: </b></div><s:textarea id="predictorReference" name="predictorReference" align="left" style="height: 50px; width: 50%" /></div><br />
+				<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
+				<s:hidden id="datasetId" name="datasetId" />
+				</s:form>
+			</s:if>
+			<s:else>
+				<div class="StandardTextDarkGray"><br />
+				<b>Description: </b><s:property value="predictor.description" /><br />
+				<b>Paper Reference: </b><s:property value="predictor.paperReference" /><br />
+				<s:if test="predictor.userName!='all-users'||user.isAdmin=='YES'">
+					<!-- display edit link -->
+					<a href="viewDataset?id=<s:property value="datasetId" />&editable=YES">Edit description and reference</a><br />
+				</s:if>
+				<br />
+				</div>
+			</s:else>
+			
+			<br />
+		</td></tr></table>
 		
 		<s:if test="selectedPredictor.userName=='_all'">
 		<br />
