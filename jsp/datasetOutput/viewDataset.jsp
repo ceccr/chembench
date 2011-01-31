@@ -122,7 +122,7 @@
 			<b>Paper Reference: </b><s:textfield size="40" id="datasetReference" name="datasetReference" /><br />
 			<div class="StandardTextDarkGray" id="saveChangesMessage"></div>
 			<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
-			<s:hidden id="id" name="datasetId" />
+			<s:hidden id="datasetId" name="datasetId" />
 			</s:form>
 			</s:if>
 			<s:else>
