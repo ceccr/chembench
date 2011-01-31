@@ -74,6 +74,7 @@ public class ViewPredictorAction extends ActionSupport {
 	private String hasGoodModels = Constants.YES;
 	private String predictorDescription = "";
 	private String predictorReference = "";
+	private String editable = "";
 	
 	//used in creation of confusion matrix (category modeling only)
 	public class ConfusionMatrixRow{
@@ -705,6 +706,15 @@ public class ViewPredictorAction extends ActionSupport {
 					Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
 				}
 			}
+			if(context.getParameters().get("editable") != null){
+				if(user.getIsAdmin().equals(Constants.YES)|| user.getUserName().equals(dataset.getUserName())){
+					editable = "YES";
+				}
+			}
+			else{
+				editable = "NO";
+			}
+			
 			
 			//the predictor has now been viewed. Update DB accordingly.
 			if(! selectedPredictor.getHasBeenViewed().equals(Constants.YES)){
@@ -1055,6 +1065,13 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setPredictorReference(String predictorReference) {
 		this.predictorReference = predictorReference;
+	}
+
+	public String getEditable() {
+		return editable;
+	}
+	public void setEditable(String editable) {
+		this.editable = editable;
 	}
 
 }
