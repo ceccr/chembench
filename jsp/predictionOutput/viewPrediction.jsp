@@ -64,34 +64,22 @@
 	<span class="Errors"><b><!-- errors go here..? --></b></span> 
 
 	<br />
-	<table width="924" align="center">
-		<tr>
-			<td class="TableRowText01">Prediction Name</td>
-			<td class="TableRowText01">Date Created</td>
-			<td class="TableRowText01">Predictors Used</td>
-			<td class="TableRowText01">Dataset Predicted</td>
-			<td class="TableRowText01">Similarity Cutoff</td>
-		</tr>
-		<tr>
-			<td class="TableRowText02"><s:property value="prediction.jobName" /></td>
-			<td class="TableRowText02"><s:property value="prediction.dateCreated" /></td>
-			<td class="TableRowText02">
+	<table width="924" align="center"><tr><td>
+			<div class="StandardTextDarkGray"><br />
+			<b>Prediction Name: </b><s:property value="prediction.jobName" /><br />
+			<b>Dataset Predicted: </b><a href="viewDataset?id=<s:property value="prediction.datasetId" />"><s:property value="prediction.datasetDisplay" /></a><br />
+			<b>Predictors Used: </b>
 			<s:iterator value="predictors" status="predictorsStatus1">
 			<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
 				<s:param name="id" value='predictorId' />
 			</s:url>
-			<s:a href="%{predictorLink}"><s:property value="name" /></s:a><br />
+			<s:a href="%{predictorLink}"><s:property value="name" /></s:a> 
 			</s:iterator>
-			
-			</td>
-			<td class="TableRowText02">
-			<a href="viewDataset?id=<s:property value="prediction.datasetId" />">
-			<s:property value="prediction.datasetDisplay" />
-			</a>
-			</td>
-			<td class="TableRowText02"><s:property value="prediction.similarityCutoff" /></td>
-		</tr>
-	</table>
+			<br />
+			<b>Date Created: </b><s:date name="prediction.dateCreated" format="yyyy-MM-dd HH:mm" /><br />
+			<b>Similarity Cutoff: </b><s:property value="prediction.similarityCutoff" /><br />
+			</div>
+	</td></tr></table>
 	<!-- End Header Info -->
 	
 	<!-- Page description -->	
