@@ -690,10 +690,12 @@ public class ViewDataset extends ActionSupport {
 			datasetId = ((String[]) context.getParameters().get("id"))[0];
 			
 			if(context.getParameters().get("editable") != null){
-				 editable = "YES";
+				if(user.getIsAdmin().equals(Constants.YES)|| user.getUserName().equals(dataset.getUserName())){
+					editable = "YES";
+				}
 			}
 			else{
-				 editable = "NO";
+				editable = "NO";
 			}
 			
 			if(context.getParameters().get("orderBy") != null){
