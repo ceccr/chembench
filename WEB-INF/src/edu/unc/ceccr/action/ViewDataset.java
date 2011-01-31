@@ -57,6 +57,8 @@ public class ViewDataset extends ActionSupport {
 	private String datasetId; 
 	private String externalCompoundsCount;
 	private String datasetCreatedTime;
+	private String datasetReference = "";
+	private String datasetDescription = "";
 	private String webAddress = Constants.WEBADDRESS;
 	private ArrayList<DescriptorGenerationResult> descriptorGenerationResults;
 
@@ -647,8 +649,8 @@ public class ViewDataset extends ActionSupport {
 		if(context != null){
 			//get dataset id
 			datasetId = ((String[]) context.getParameters().get("datasetId"))[0];
-			String datasetDescription = ((String[]) context.getParameters().get("datasetDescription"))[0];
-			String datasetReference = ((String[]) context.getParameters().get("datasetReference"))[0];
+			datasetDescription = ((String[]) context.getParameters().get("datasetDescription"))[0];
+			datasetReference = ((String[]) context.getParameters().get("datasetReference"))[0];
 			
 			Session s = HibernateUtil.getSession();
 			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
@@ -775,6 +777,10 @@ public class ViewDataset extends ActionSupport {
 				}
 				datasetCreatedTime = dataset.getCreatedTime().toString();
 				datasetCreatedTime = datasetCreatedTime.substring(0, datasetCreatedTime.lastIndexOf("."));
+				
+				//make textfield access for paper reference and datasetDescription
+				datasetReference = dataset.getPaperReference();
+				datasetDescription = dataset.getDescription();
 			}
 		}
 
@@ -902,6 +908,20 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setDatasetCreatedTime(String datasetCreatedTime) {
 		this.datasetCreatedTime = datasetCreatedTime;
+	}
+
+	public String getDatasetReference() {
+		return datasetReference;
+	}
+	public void setDatasetReference(String datasetReference) {
+		this.datasetReference = datasetReference;
+	}
+
+	public String getDatasetDescription() {
+		return datasetDescription;
+	}
+	public void setDatasetDescription(String datasetDescription) {
+		this.datasetDescription = datasetDescription;
 	}
 
 }

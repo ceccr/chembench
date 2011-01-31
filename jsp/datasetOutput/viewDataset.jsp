@@ -118,8 +118,8 @@
 			<br />
 			<s:if test="dataset.userName!='all-users'">
 			<s:form action="updateDataset" enctype="multipart/form-data" theme="simple">
-			<b>Description: </b><s:textfield size="40" id="datasetDescription" name=dataset.description /><br />
-			<b>Paper Reference: </b><s:textfield size="40" id="datasetReference" name=dataset.paperReference /><br />
+			<b>Description: </b><s:textfield size="40" id="datasetDescription" name="datasetDescription" /><br />
+			<b>Paper Reference: </b><s:textfield size="40" id="datasetReference" name="datasetReference" /><br />
 			<div class="StandardTextDarkGray" id="saveChangesMessage"></div>
 			<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
 			<s:hidden id="datasetId" name="datasetId" />
