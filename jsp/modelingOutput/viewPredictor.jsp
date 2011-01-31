@@ -43,7 +43,7 @@
 			<div class="StandardTextDarkGray"><br />
 			<b>Predictor Name: </b><s:property value="selectedPredictor.name" /><br />
 			<b>Dataset: </b><a href="viewDataset?id=<s:property value="selectedPredictor.datasetId" />"><s:property value="selectedPredictor.datasetDisplay" /></a><br />
-			<b>Date Created: </b><s:date name="selectedPredictor.createdTime" format="yyyy-MM-dd HH:mm" /><br />
+			<b>Date Created: </b><s:date name="selectedPredictor.createdDateTime" format="yyyy-MM-dd HH:mm" /><br />
 			<b>Modeling Method: </b><s:property value="selectedPredictor.modelMethod" /><br />
 			<b>Descriptor Generation Method: </b><s:property value="selectedPredictor.descriptorGeneration" /><br />
 			<br />			
