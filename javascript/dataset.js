@@ -60,7 +60,6 @@ function submitForm(btn, value){
 	}
 
 	if(msg === ""){
-		showLoading("UPLOADING FILES. PLEASE WAIT...");
 		return true;
 	}
 	else{
