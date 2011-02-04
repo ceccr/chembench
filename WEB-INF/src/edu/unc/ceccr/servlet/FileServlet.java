@@ -23,7 +23,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
-import edu.unc.ceccr.action.ViewPredictionAction.CompoundPredictions;
+import edu.unc.ceccr.persistence.CompoundPredictions;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
