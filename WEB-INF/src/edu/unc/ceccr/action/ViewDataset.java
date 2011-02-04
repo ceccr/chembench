@@ -59,6 +59,7 @@ public class ViewDataset extends ActionSupport {
 	private String externalCompoundsCount;
 	private String datasetReference = "";
 	private String datasetDescription = "";
+	private String datasetTypeDisplay = "";
 	private String webAddress = Constants.WEBADDRESS;
 	private ArrayList<DescriptorGenerationResult> descriptorGenerationResults;
 
@@ -774,16 +775,17 @@ public class ViewDataset extends ActionSupport {
 				
 				//make dataset type more readable
 				if(dataset.getDatasetType().equals(Constants.MODELING)){
-					dataset.setDatasetType("Modeling");
+					datasetTypeDisplay = "Modeling";
 				}
 				if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
-					dataset.setDatasetType("Modeling, with uploaded descriptors");
+					datasetTypeDisplay = "Modeling, with uploaded descriptors";
 				}
 				if(dataset.getDatasetType().equals(Constants.PREDICTION)){
-					dataset.setDatasetType("Prediction");
+					datasetTypeDisplay = "Prediction";
+					dataset.setDatasetType("");
 				}
 				if(dataset.getDatasetType().equals(Constants.PREDICTIONWITHDESCRIPTORS)){
-					dataset.setDatasetType("Prediction, with uploaded descriptors");
+					datasetTypeDisplay = "Prediction, with uploaded descriptors";
 				}
 				
 				//make textfield access for paper reference and datasetDescription
@@ -930,6 +932,13 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setEditable(String editable) {
 		this.editable = editable;
+	}
+
+	public String getDatasetTypeDisplay() {
+		return datasetTypeDisplay;
+	}
+	public void setDatasetTypeDisplay(String datasetTypeDisplay) {
+		this.datasetTypeDisplay = datasetTypeDisplay;
 	}
 
 }

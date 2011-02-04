@@ -42,7 +42,6 @@
 		return true;
 	}
 
-
 	function loadNFoldCompoundsTab(newUrl){
 		//When the user changes which page they're on in the N-Fold External Compounds tab
 		//or changes the sorted element, run this function to update the tab's content
@@ -110,7 +109,7 @@
 		<div class="StandardTextDarkGray"><br />
 			<b>Dataset Name: </b><s:property value="dataset.fileName" /><br />
 			<b>Number of Compounds: </b><s:property value="dataset.numCompound" /><br />
-			<b>Dataset Type: </b><s:property value="dataset.datasetType" /><br />
+			<b>Dataset Type: </b><s:property value="datasetTypeDisplay" /><br />
 			<b>Date Created: </b><s:date name="dataset.createdTime" format="yyyy-MM-dd HH:mm" /><br />
 			<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
 			<b>Number of External Compounds: </b><s:property value="externalCompoundsCount" /><br />
