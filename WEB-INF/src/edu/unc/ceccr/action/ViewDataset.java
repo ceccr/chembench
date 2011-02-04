@@ -787,7 +787,6 @@ public class ViewDataset extends ActionSupport {
 				if(dataset.getDatasetType().equals(Constants.PREDICTIONWITHDESCRIPTORS)){
 					datasetTypeDisplay = "Prediction, with uploaded descriptors";
 				}
-				
 				//make textfield access for paper reference and datasetDescription
 				datasetReference = dataset.getPaperReference();
 				datasetDescription = dataset.getDescription();

@@ -27,6 +27,7 @@ import org.hibernate.criterion.Order;
 
 import edu.unc.ceccr.persistence.Compound;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.CompoundPredictions;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -55,30 +56,6 @@ public class ViewPredictionAction extends ActionSupport {
 	private String sortDirection;
 	private ArrayList<String> pageNums;
 	
-	public class CompoundPredictions{
-		String compound;
-		ArrayList<PredictionValue> predictionValues;
-		int sortByIndex = 0; //only used when sorting by prediction value
-		
-		public String getCompound() {
-			return compound;
-		}
-		public void setCompound(String compound) {
-			this.compound = compound;
-		}
-		public ArrayList<PredictionValue> getPredictionValues() {
-			return predictionValues;
-		}
-		public void setPredictionValues(ArrayList<PredictionValue> predictionValues) {
-			this.predictionValues = predictionValues;
-		}
-		public int getSortByIndex() {
-			return sortByIndex;
-		}
-		public void setSortByIndex(int sortByIndex) {
-			this.sortByIndex = sortByIndex;
-		}
-	}
 	
 	public String loadPredictionsSection() throws Exception {
 		Utility.writeToDebug("called loadPredictionsSection");
@@ -122,7 +99,6 @@ public class ViewPredictionAction extends ActionSupport {
 				sortDirection = "asc";
 			}
 			
-
 			Utility.writeToDebug("write started");
 			WriteDownloadableFilesWorkflow.writePredictionValuesAsText(Long.parseLong(predictionId));
 			Utility.writeToDebug("write completed");
@@ -167,8 +143,7 @@ public class ViewPredictionAction extends ActionSupport {
 			}
 			
 			//get prediction values
-			populateCompoundPredictionValues(session);
-			String datasetUser = dataset.getUserName();
+			compoundPredictionValues = PopulateDataObjects.populateCompoundPredictionValues(prediction.getDatasetId(), Long.parseLong(predictionId), session);
 			
 			//sort the compoundPrediction array
 			Utility.writeToDebug("Sorting compound predictions");
@@ -242,70 +217,6 @@ public class ViewPredictionAction extends ActionSupport {
 		return result;
 	}
 
-	private void populateCompoundPredictionValues(Session session) throws Exception{
-		//get compounds from SDF
-		String datasetDir = "";
-		datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
-		
-		ArrayList<String> compounds = null;
-		
-		if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){
-			compounds = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
-			Utility.writeToDebug("" + compounds.size() + " compounds found in X file.");
-		}
-		else{
-			compounds = DatasetFileOperations.getSDFCompoundNames(datasetDir + dataset.getSdfFile());
-			Utility.writeToDebug("" + compounds.size() + " compounds found in SDF.");
-		}
-		
-		Utility.writeToDebug("getting from db");
-		ArrayList<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(Long.parseLong(predictionId), session);
-		Utility.writeToDebug("done getting from db");
-
-		Utility.writeToDebug("Sorting");
-		Collections.sort(predictorPredictionValues, new Comparator<PredictionValue>(){
-				public int compare(PredictionValue p1, PredictionValue p2) {
-		    		return p1.getPredictorId().compareTo(p2.getPredictorId());
-			    }});
-		Utility.writeToDebug("Done sorting");
-
-		Utility.writeToDebug("building hashmap");
-		HashMap<String, ArrayList<PredictionValue>> predictionValueMap = new HashMap<String, ArrayList<PredictionValue>>();
-		for(PredictionValue pv: predictorPredictionValues){
-			ArrayList<PredictionValue> compoundPredValues = predictionValueMap.get(pv.getCompoundName());
-			if(compoundPredValues == null){
-				compoundPredValues = new ArrayList<PredictionValue>();
-			}
-			compoundPredValues.add(pv);
-			predictionValueMap.put(pv.getCompoundName(), compoundPredValues);
-		}
-		Utility.writeToDebug("done building hashmap");
-		
-		for(int i = 0; i < compounds.size(); i++){
-			CompoundPredictions cp = new CompoundPredictions();
-			cp.compound = compounds.get(i);
-			
-			//get the prediction values for this compound
-			cp.predictionValues = predictionValueMap.get(cp.compound);
-			
-			//round them to a reasonable number of significant figures
-			if(cp.predictionValues != null){
-				for(PredictionValue pv : cp.predictionValues){
-					int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
-					if(pv.getPredictedValue() != null){
-						String predictedValue = DecimalFormat.getInstance().format(pv.getPredictedValue()).replaceAll(",", "");
-						pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
-					}
-					if(pv.getStandardDeviation() != null){
-						String stddev = DecimalFormat.getInstance().format(pv.getStandardDeviation()).replaceAll(",", "");
-						pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
-					}
-				}
-			}
-			compoundPredictionValues.add(cp);
-		}
-	}
-	
 	public String loadWarningsSection() throws Exception {
 		String result = SUCCESS;
 		//check that the user is logged in

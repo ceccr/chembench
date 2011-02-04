@@ -1,9 +1,11 @@
 package edu.unc.ceccr.utilities;
 
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,6 +15,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
+import edu.unc.ceccr.persistence.CompoundPredictions;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -109,6 +112,75 @@ public class PopulateDataObjects {
 			pv.setNumTotalModels(numTotalModels);
 		}
 		return predictionValues;
+	}
+	
+
+	public static ArrayList<CompoundPredictions> populateCompoundPredictionValues(Long datasetId, Long predictionId, Session session) throws Exception{
+		DataSet dataset = getDataSetById(datasetId, session);
+		//get compounds from SDF
+		String datasetDir = "";
+		datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
+		
+		ArrayList<String> compounds = null;
+		
+		if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){
+			compounds = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
+			Utility.writeToDebug("" + compounds.size() + " compounds found in X file.");
+		}
+		else{
+			compounds = DatasetFileOperations.getSDFCompoundNames(datasetDir + dataset.getSdfFile());
+			Utility.writeToDebug("" + compounds.size() + " compounds found in SDF.");
+		}
+		
+		Utility.writeToDebug("getting from db");
+		ArrayList<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(predictionId, session);
+		Utility.writeToDebug("done getting from db");
+
+		Utility.writeToDebug("Sorting");
+		Collections.sort(predictorPredictionValues, new Comparator<PredictionValue>(){
+				public int compare(PredictionValue p1, PredictionValue p2) {
+		    		return p1.getPredictorId().compareTo(p2.getPredictorId());
+			    }});
+		Utility.writeToDebug("Done sorting");
+
+		Utility.writeToDebug("building hashmap");
+		HashMap<String, ArrayList<PredictionValue>> predictionValueMap = new HashMap<String, ArrayList<PredictionValue>>();
+		for(PredictionValue pv: predictorPredictionValues){
+			ArrayList<PredictionValue> compoundPredValues = predictionValueMap.get(pv.getCompoundName());
+			if(compoundPredValues == null){
+				compoundPredValues = new ArrayList<PredictionValue>();
+			}
+			compoundPredValues.add(pv);
+			predictionValueMap.put(pv.getCompoundName(), compoundPredValues);
+		}
+		Utility.writeToDebug("done building hashmap");
+		
+		ArrayList<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
+		//get prediction values for each compound
+		for(int i = 0; i < compounds.size(); i++){
+			CompoundPredictions cp = new CompoundPredictions();
+			cp.setCompound(compounds.get(i));
+			
+			//get the prediction values for this compound
+			cp.setPredictionValues(predictionValueMap.get(cp.getCompound()));
+			
+			//round them to a reasonable number of significant figures
+			if(cp.getPredictionValues() != null){
+				for(PredictionValue pv : cp.getPredictionValues()){
+					int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
+					if(pv.getPredictedValue() != null){
+						String predictedValue = DecimalFormat.getInstance().format(pv.getPredictedValue()).replaceAll(",", "");
+						pv.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
+					}
+					if(pv.getStandardDeviation() != null){
+						String stddev = DecimalFormat.getInstance().format(pv.getStandardDeviation()).replaceAll(",", "");
+						pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
+					}
+				}
+			}
+			compoundPredictionValues.add(cp);
+		}
+		return compoundPredictionValues;
 	}
 
 	@SuppressWarnings("unchecked")
