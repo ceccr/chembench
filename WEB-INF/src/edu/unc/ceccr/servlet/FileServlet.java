@@ -74,10 +74,6 @@ public class FileServlet extends HttpServlet {
 	    			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(id));
 	    			fileName += "predictionValues.csv";
 	    		}
-	    		else if(file.equals("predictionsAsText")){
-	    			WriteDownloadableFilesWorkflow.writePredictionValuesAsText(Long.parseLong(id));
-	    			fileName += "predictionValues.txt";
-	    		}
 	    	}
 	    	s.close();
 	    	
