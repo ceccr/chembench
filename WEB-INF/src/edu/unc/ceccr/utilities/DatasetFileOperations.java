@@ -467,8 +467,8 @@ public class DatasetFileOperations {
 		}
 		fin.close();
 		fout.close();
-		Utility.writeToDebug("infile path: " + infile.getAbsolutePath());
 		//infile.delete();
+		infile.renameTo(new File(filePath + fileName + ".old"));
 		outfile.renameTo(infile);
 	}
 	

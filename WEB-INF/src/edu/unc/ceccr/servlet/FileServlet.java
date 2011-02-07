@@ -74,7 +74,7 @@ public class FileServlet extends HttpServlet {
 	    		dirName += prediction.getUserName() + "/";
 	    		dirName += prediction.getJobName() + "/";
 	    		
-	    		if(file.equalsIgnoreCase("predictionsAsCSV")){
+	    		if(file.equalsIgnoreCase("predictionAsCSV")){
 	    			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(id));
 	    			fileName = prediction.getJobName() + "-prediction-values.csv";
 	    		}
