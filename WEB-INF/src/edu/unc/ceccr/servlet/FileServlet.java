@@ -4,8 +4,10 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLConnection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.WriteDownloadableFilesWorkflow;
+import edu.unc.ceccr.workflows.ZipJobResultsWorkflow;
 
 @SuppressWarnings("serial")
 public class FileServlet extends HttpServlet {
@@ -49,30 +52,31 @@ public class FileServlet extends HttpServlet {
 	    	String file = request.getParameter("file"); //Type of file requested, e.g. "predictionAsCsv". 
 	    	String userName = ((User) session.getAttribute("user")).getUserName();
 			
-	    	String fileName = Constants.CECCR_USER_BASE_PATH;
+	    	String dirName = Constants.CECCR_USER_BASE_PATH;
+	    	String fileName = "";
 	    	Session s = HibernateUtil.getSession();
 	    	if(jobType.equalsIgnoreCase(Constants.DATASET)){
 	    		DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
-	    		fileName += dataset.getUserName() + "/";
-	    		fileName += dataset.getFileName() + "/";
+	    		dirName += dataset.getUserName() + "/";
+	    		dirName += dataset.getFileName() + "/";
 	    		
 	    		//add file names here...
 	    	}
 	    	else if(jobType.equalsIgnoreCase(Constants.MODELING)){
 	    		Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
-	    		fileName += predictor.getUserName() + "/";
-	    		fileName += predictor.getName() + "/";
+	    		dirName += predictor.getUserName() + "/";
+	    		dirName += predictor.getName() + "/";
 	    		
 	    		//add file names here...
 	    	}
 	    	else if(jobType.equalsIgnoreCase(Constants.PREDICTION)){
 	    		Prediction prediction = PopulateDataObjects.getPredictionById(Long.parseLong(id), s);
-	    		fileName += prediction.getUserName() + "/";
-	    		fileName += prediction.getJobName() + "/";
+	    		dirName += prediction.getUserName() + "/";
+	    		dirName += prediction.getJobName() + "/";
 	    		
 	    		if(file.equalsIgnoreCase("predictionsAsCSV")){
 	    			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(id));
-	    			fileName += "predictionValues.csv";
+	    			fileName = prediction.getJobName() + "-prediction-values.csv";
 	    		}
 	    	}
 	    	s.close();
@@ -80,51 +84,26 @@ public class FileServlet extends HttpServlet {
 	    	//Now we know what file to send the user. Send it!
 	    	
 	        // Prepare streams
-	        BufferedInputStream input = null;
-	        BufferedOutputStream output = null;
-	
-	        try {
-	        	String content= "";
-				StringBuffer stringBuffer = new StringBuffer(content);
-	        	ByteArrayInputStream bais = new ByteArrayInputStream(stringBuffer.toString().getBytes("UTF-8"));
-	        	
-	        	input = new BufferedInputStream(bais);
-	            int contentLength = input.available();
-	
-	            // Init servlet response.
+	    	File filePath=new File(dirName+fileName);
+	        
+			BufferedInputStream input=null;
+	        if(filePath.exists()){
+	        	FileInputStream fis=new FileInputStream(filePath);
+	        	input=new BufferedInputStream(fis);
+	        	response.setContentType("application/zip");
+	            int contentLength=input.available();
 	            response.setContentLength(contentLength);
-	            String contentType = URLConnection.guessContentTypeFromName(fileName);
-	            response.setContentType(contentType);
-	            response.setHeader(
-	                "Content-disposition", "attachment; filename=\"" + fileName + "\"");
-	            output = new BufferedOutputStream(response.getOutputStream());
-	
-	            // Write file contents to response.
+	            response.setHeader("Content-Disposition", "inline; filename="+fileName);
+	            BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream());
 	            while (contentLength-- > 0) {
 	                output.write(input.read());
 	            }
-	            output.flush();
-	        } 
-	        catch (Exception e) {
-				Utility.writeToDebug(e);
-			} finally {
-	          
-	            if (input != null) {
-	                try {
-	                    input.close();
-	                } catch (IOException e) {
-	                    Utility.writeToDebug(e);
-	                  
-	                }
-	            }
-	            if (output != null) {
-	                try {
-	                    output.close();
-	                } catch (IOException e) {
-	                    Utility.writeToDebug(e);
-	                   
-	                }
-	            }
+	            output.close();
+	            fis.close();
+				filePath.delete();
+	        }else{
+	        	PrintWriter writer=response.getWriter();
+	        	writer.write("An ERROR occured, can not download the project file.");
 	        }
 	    }
 	    catch(Exception ex){

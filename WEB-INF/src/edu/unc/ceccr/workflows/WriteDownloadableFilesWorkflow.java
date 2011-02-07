@@ -31,7 +31,8 @@ public class WriteDownloadableFilesWorkflow{
 		Session s = HibernateUtil.getSession();
 		Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
 		
-		String outfileName = Constants.CECCR_USER_BASE_PATH + prediction.getUserName() + "/PREDICTIONS/" + prediction.getJobName() + "/" + "predictionValues.csv";
+		String outfileName = Constants.CECCR_USER_BASE_PATH + prediction.getUserName() + "/PREDICTIONS/" + 
+			prediction.getJobName() + "/" + prediction.getJobName() + "-prediction-values.csv";
 		if(new File(outfileName).exists()){
 			FileAndDirOperations.deleteFile(outfileName);
 		}
