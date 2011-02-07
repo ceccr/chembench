@@ -448,11 +448,11 @@ public class DatasetFileOperations {
 					Utility.writeToDebug("Line: " + commentLine + "\nLength: " + (commentLine.split("\\s+").length));
 					if(commentLine.trim().isEmpty()){
 						//found a blank line instead
-						temp += "\n" + "(comment goes here)";
+						temp += "\n" + "(comment goes here)\n";
 					}
 					else if(commentLine.split("\\s+").length > 9){
-						//commentLine is probably the beginning of a chemical structure. Insert a comment line before it.
-						temp += "\n" + "(comment goes here)" + "\n" + commentLine;
+						//"commentLine" is actually the beginning of a chemical structure. Insert a comment line before it.
+						temp += "\n" + "(comment goes here)" + "\n\n" + commentLine;
 					}
 					else{
 						temp += "\n" + commentLine;
