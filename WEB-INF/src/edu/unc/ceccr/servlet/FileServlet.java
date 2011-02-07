@@ -102,8 +102,9 @@ public class FileServlet extends HttpServlet {
 	            fis.close();
 				filePath.delete();
 	        }else{
+	        	Utility.writeToDebug("Bad filepath: " + dirName+fileName);
 	        	PrintWriter writer=response.getWriter();
-	        	writer.write("An ERROR occured, can not download the project file.");
+	        	writer.write("An error occured, can not download the project file.");
 	        }
 	    }
 	    catch(Exception ex){
