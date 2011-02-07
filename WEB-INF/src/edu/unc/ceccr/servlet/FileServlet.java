@@ -57,21 +57,21 @@ public class FileServlet extends HttpServlet {
 	    	Session s = HibernateUtil.getSession();
 	    	if(jobType.equalsIgnoreCase(Constants.DATASET)){
 	    		DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
-	    		dirName += dataset.getUserName() + "/";
+	    		dirName += dataset.getUserName() + "/DATASETS/";
 	    		dirName += dataset.getFileName() + "/";
 	    		
 	    		//add file names here...
 	    	}
 	    	else if(jobType.equalsIgnoreCase(Constants.MODELING)){
 	    		Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
-	    		dirName += predictor.getUserName() + "/";
+	    		dirName += predictor.getUserName() + "/PREDICTORS/";
 	    		dirName += predictor.getName() + "/";
 	    		
 	    		//add file names here...
 	    	}
 	    	else if(jobType.equalsIgnoreCase(Constants.PREDICTION)){
 	    		Prediction prediction = PopulateDataObjects.getPredictionById(Long.parseLong(id), s);
-	    		dirName += prediction.getUserName() + "/";
+	    		dirName += prediction.getUserName() + "/PREDICTIONS/";
 	    		dirName += prediction.getJobName() + "/";
 	    		
 	    		if(file.equalsIgnoreCase("predictionAsCSV")){

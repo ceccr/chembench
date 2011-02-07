@@ -445,6 +445,7 @@ public class DatasetFileOperations {
 				//If it's missing, add it.
 				if(src.hasNextLine()){
 					String commentLine = src.nextLine();
+					Utility.writeToDebug("Line: " + commentLine + "\nLength: " + (commentLine.split("\\s+").length));
 					if(commentLine.trim().isEmpty()){
 						//found a blank line instead
 						temp += "\n" + "(comment goes here)";
