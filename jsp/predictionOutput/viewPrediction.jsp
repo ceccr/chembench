@@ -74,6 +74,8 @@
 			<br />
 			<b>Date Created: </b><s:date name="prediction.dateCreated" format="yyyy-MM-dd HH:mm" /><br />
 			<b>Similarity Cutoff: </b><s:property value="prediction.similarityCutoff" />
+			<br />
+			<a href="fileServlet?id=<s:property value="prediction.predictionId" />&user=<s:property value="userName" />&jobType=PREDICTION&file='predictionAsCSV'">Download Prediction Results (CSV)</a>
 			</div>
 	</td></tr></table>
 	<!-- End Header Info -->
@@ -89,8 +91,7 @@
 	used to calculate the value in the first column. It is often the case that not all of the models in a predictor
 	can be used to predict a compound, because the compounds lie outside the cutoff range of some of the models.</p>	
 	<!-- End page description -->
-	
-		
+			
 	<!-- load tabs -->
 	<a name="tabs"></a> 
 	<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->

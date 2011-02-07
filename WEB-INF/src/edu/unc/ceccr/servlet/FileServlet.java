@@ -43,34 +43,34 @@ public class FileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {	
 		try{
 			HttpSession session=request.getSession(false);
-	
-	    	String jobType = request.getParameter("jobType"); //DATASET, MODELING, PREDICTION
+			
+			String jobType = request.getParameter("jobType"); //DATASET, MODELING, PREDICTION
 	    	String id = request.getParameter("id"); //id of the dataset, predictor, or prediction
 	    	String file = request.getParameter("file"); //Type of file requested, e.g. "predictionAsCsv". 
 	    	String userName = ((User) session.getAttribute("user")).getUserName();
 			
 	    	String fileName = Constants.CECCR_USER_BASE_PATH;
 	    	Session s = HibernateUtil.getSession();
-	    	if(jobType.equals(Constants.DATASET)){
+	    	if(jobType.equalsIgnoreCase(Constants.DATASET)){
 	    		DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
 	    		fileName += dataset.getUserName() + "/";
 	    		fileName += dataset.getFileName() + "/";
 	    		
 	    		//add file names here...
 	    	}
-	    	else if(jobType.equals(Constants.MODELING)){
+	    	else if(jobType.equalsIgnoreCase(Constants.MODELING)){
 	    		Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
 	    		fileName += predictor.getUserName() + "/";
 	    		fileName += predictor.getName() + "/";
 	    		
 	    		//add file names here...
 	    	}
-	    	else if(jobType.equals(Constants.PREDICTION)){
+	    	else if(jobType.equalsIgnoreCase(Constants.PREDICTION)){
 	    		Prediction prediction = PopulateDataObjects.getPredictionById(Long.parseLong(id), s);
 	    		fileName += prediction.getUserName() + "/";
 	    		fileName += prediction.getJobName() + "/";
 	    		
-	    		if(file.equals("predictionsAsCSV")){
+	    		if(file.equalsIgnoreCase("predictionsAsCSV")){
 	    			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(id));
 	    			fileName += "predictionValues.csv";
 	    		}

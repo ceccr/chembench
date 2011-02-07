@@ -99,10 +99,6 @@ public class ViewPredictionAction extends ActionSupport {
 				sortDirection = "asc";
 			}
 			
-			Utility.writeToDebug("CSV write started");
-			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(predictionId));
-			Utility.writeToDebug("CSV write completed");
-			
 			//get prediction
 			Utility.writeToStrutsDebug("prediction id: " + predictionId);
 			prediction = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
