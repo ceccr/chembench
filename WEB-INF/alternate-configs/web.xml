@@ -87,11 +87,11 @@
  </servlet-mapping>
  
 <servlet>
-    <servlet-name>File Servlet</servlet-name>
+    <servlet-name>FileServlet</servlet-name>
     <servlet-class>edu.unc.ceccr.servlet.FileServlet</servlet-class>
 </servlet>
 <servlet-mapping>
-    <servlet-name>File Servlet</servlet-name>
+    <servlet-name>FileServlet</servlet-name>
     <url-pattern>/fileServlet.do</url-pattern>
 </servlet-mapping>
  
