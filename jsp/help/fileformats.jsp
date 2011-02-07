@@ -54,6 +54,8 @@ SDFs are used to store sets of chemical structures and can be 2D or 3D.</p>
 
 <pre>
 compound1
+comment line (can be anything)
+
 44 47  0  0  1  0  0  0  0  0999 V2000
   1.3550   -4.8300    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0
   1.0920   -3.9960    0.0000 O   0  0  0  0  0  0  0  0  0  0  0  0
