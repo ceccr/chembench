@@ -92,7 +92,7 @@
 </servlet>
 <servlet-mapping>
     <servlet-name>File Servlet</servlet-name>
-    <url-pattern>/file.do</url-pattern>
+    <url-pattern>/fileServlet.do</url-pattern>
 </servlet-mapping>
  
  
