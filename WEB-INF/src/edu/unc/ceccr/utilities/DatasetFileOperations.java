@@ -446,7 +446,12 @@ public class DatasetFileOperations {
 				if(src.hasNextLine()){
 					String commentLine = src.nextLine();
 					if(commentLine.trim().isEmpty()){
+						//found a blank line instead
 						temp += "\n" + "(comment goes here)";
+					}
+					else if(commentLine.split("\\s+").length > 9){
+						//commentLine is probably the beginning of a chemical structure. Insert a comment line before it.
+						temp += "\n" + "(comment goes here)" + "\n" + commentLine;
 					}
 					else{
 						temp += "\n" + commentLine;
