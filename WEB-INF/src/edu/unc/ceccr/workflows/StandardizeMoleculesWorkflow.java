@@ -28,7 +28,6 @@ public class StandardizeMoleculesWorkflow {
 		Utility.writeToDebug("standardizeSdf: done getting sdf compounds");
 		
 		if(compoundNames.size() < 600){
-
 			String execstr1 = "standardize.sh " + sdfIn + " " + sdfOut;
 			RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir, "standardize");
 		}

@@ -416,18 +416,10 @@ public class DatasetFileOperations {
 		//It also corrects any compound names that may have spaces in them, by
 		//changing the spaces to underscores.
 
+
 		File infile = new File(filePath + fileName);
 		File outfile = new File(filePath + fileName + ".temp");
-		
-		//First, run the file through jchem to eliminate anything totally bizarre
-		String execstr = "molconvert sdf " + filePath + fileName + " -o " + filePath + fileName + ".temp";
-		RunExternalProgram.runCommandAndLogOutput(execstr, filePath, "molconvert");
-		
-		if(outfile.exists()){
-			infile.delete();
-			outfile.renameTo(infile);
-		}
-		
+
 		//now, remove the long lines from the input file
 		FileReader fin = new FileReader(infile);
 		String temp;
@@ -456,7 +448,6 @@ public class DatasetFileOperations {
 		fout.close();
 		infile.delete();
 		outfile.renameTo(infile);
-
 	}
 	
 	public static String saveACTFile(File actFile, String path, String actFileName) throws IOException{
