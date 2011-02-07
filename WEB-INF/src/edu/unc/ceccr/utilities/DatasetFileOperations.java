@@ -416,7 +416,6 @@ public class DatasetFileOperations {
 		//It also corrects any compound names that may have spaces in them, by
 		//changing the spaces to underscores.
 
-
 		File infile = new File(filePath + fileName);
 		File outfile = new File(filePath + fileName + ".temp");
 
@@ -446,7 +445,7 @@ public class DatasetFileOperations {
 		}
 		fin.close();
 		fout.close();
-		infile.delete();
+		//infile.delete();
 		outfile.renameTo(infile);
 	}
 	
