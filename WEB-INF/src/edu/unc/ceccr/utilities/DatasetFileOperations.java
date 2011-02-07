@@ -415,6 +415,10 @@ public class DatasetFileOperations {
 		
 		//It also corrects any compound names that may have spaces in them, by
 		//changing the spaces to underscores.
+		
+		//In addition, there is a comment line under the compound ID. Sometimes 
+		//this can be blank -- which breaks the JChem tools. This function will
+		//add the comment line for each compound.
 
 		File infile = new File(filePath + fileName);
 		File outfile = new File(filePath + fileName + ".temp");
@@ -436,6 +440,18 @@ public class DatasetFileOperations {
 				
 				temp = temp.trim().replaceAll("\\s+", "_");
 				sdfCompoundNamesIndex++;
+
+				//also, check if there is a comment line after the compound ID.
+				//If it's missing, add it.
+				if(src.hasNextLine()){
+					String commentLine = src.nextLine();
+					if(commentLine.trim().isEmpty()){
+						temp += "\n" + "(comment goes here)";
+					}
+					else{
+						temp += "\n" + commentLine;
+					}
+				}
 			}
 
 			//remove Windows-format \r "newline" characters
