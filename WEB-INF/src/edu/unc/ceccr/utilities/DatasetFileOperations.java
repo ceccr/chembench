@@ -418,6 +418,7 @@ public class DatasetFileOperations {
 
 		File infile = new File(filePath + fileName);
 		File outfile = new File(filePath + fileName + ".temp");
+		Utility.writeToDebug("PATH: " + filePath);
 
 		//now, remove the long lines from the input file
 		FileReader fin = new FileReader(infile);
