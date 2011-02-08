@@ -147,10 +147,10 @@ public class CreateDatasetTask extends WorkflowTask{
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
 		try{
 			if(!sdfFileName.equals("")){
-				this.numCompounds = DatasetFileOperations.getSDFCompoundNames(path+sdfFileName).size();
+				this.numCompounds = DatasetFileOperations.getSDFCompoundNames(path+sdfFileName.replaceAll(" ", "_")).size();
 			}
 			else if(!xFileName.equals("")){
-				this.numCompounds = DatasetFileOperations.getXCompoundNames(path+xFileName).size();
+				this.numCompounds = DatasetFileOperations.getXCompoundNames(path+xFileName.replaceAll(" ", "_")).size();
 			}
 		}
 		catch(Exception ex){
