@@ -6,8 +6,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Session;
+
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
+import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -69,8 +74,14 @@ public class LocalProcessingThread extends Thread {
 							Utility.writeToDebug(exceptionAsString);
 							
 							//send an email to the site administrator
+							Session s = HibernateUtil.getSession();
+							User sadUser = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
+							s.close();
+							
 							String message = "Heya, <br />" + j.getUserName() + "'s job \"" +
-							j.getJobName() + "\" failed. You might wanna look into that. "
+							j.getJobName() + "\" failed. You might wanna look into that. Their email is " +
+							sadUser.getEmail() + " and their name is " + sadUser.getFirstName() + " " + 
+							sadUser.getLastName() + " in case you want to give them hope of a brighter tomorrow." 
 							+ "<br /><br />Here's the exception it threw: <br />" + ex.toString() + 
 							"<br /><br />Good luck!<br />--Chembench";
 							message += "<br /><br />The full stack trace is below. Happy debugging!<br /><br />" +

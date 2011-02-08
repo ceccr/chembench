@@ -127,9 +127,9 @@ public class CreateDatasetTask extends WorkflowTask{
 
 		this.userName = userName;
 		this.datasetType = datasetType; 
-		this.sdfFileName = sdfFileName; 
-		this.actFileName = actFileName; 
-		this.xFileName = xFileName;
+		this.sdfFileName = sdfFileName.replaceAll(" ", "_"); 
+		this.actFileName = actFileName.replaceAll(" ", "_"); 
+		this.xFileName = xFileName.replaceAll(" ", "_");
 		this.descriptorType = descriptorType;
 		this.actFileDataType = actFileDataType; 
 		this.standardize = standardize;

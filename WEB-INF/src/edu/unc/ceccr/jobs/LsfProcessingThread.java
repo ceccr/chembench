@@ -13,10 +13,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
+import org.hibernate.Session;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
+import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
@@ -89,8 +94,14 @@ public class LsfProcessingThread extends Thread {
 								Utility.writeToDebug(exceptionAsString);
 								
 								//send an email to the site administrator
+								Session s = HibernateUtil.getSession();
+								User sadUser = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
+								s.close();
+
 								String message = "Heya, <br />" + j.getUserName() + "'s job \"" +
-								j.getJobName() + "\" failed. You might wanna look into that. "
+								j.getJobName() + "\" failed. You might wanna look into that. Their email is " +
+								sadUser.getEmail() + " and their name is " + sadUser.getFirstName() + " " + 
+								sadUser.getLastName() + " in case you want to give them hope of a brighter tomorrow." 
 								+ "<br /><br />Here's the exception it threw: <br />" + ex.toString() + 
 								"<br /><br />Good luck!<br />--Chembench";
 								message += "<br /><br />The full stack trace is below. Happy debugging!<br /><br />" +
@@ -160,10 +171,26 @@ public class LsfProcessingThread extends Thread {
 										Utility.writeToDebug(ex);
 										
 										//send an email to the site administrator
+										Session s = HibernateUtil.getSession();
+										User sadUser = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
+										s.close();
+
+										//prepare a nice HTML-formatted readable version of the exception
+										StringWriter sw = new StringWriter();
+										ex.printStackTrace(new PrintWriter(sw));
+										String exceptionAsString = sw.toString();
+										Utility.writeToDebug(exceptionAsString);
+										exceptionAsString = exceptionAsString.replaceAll("at edu", "<br />at edu");
+										Utility.writeToDebug(exceptionAsString);
+										
 										String message = "Heya, <br />" + j.getUserName() + "'s job \"" +
-										j.getJobName() + "\" failed. You might wanna look into that. "
+										j.getJobName() + "\" failed. You might wanna look into that. Their email is " +
+										sadUser.getEmail() + " and their name is " + sadUser.getFirstName() + " " + 
+										sadUser.getLastName() + " in case you want to give them hope of a brighter tomorrow." 
 										+ "<br /><br />Here's the exception it threw: <br />" + ex.toString() + 
 										"<br /><br />Good luck!<br />--Chembench";
+										message += "<br /><br />The full stack trace is below. Happy debugging!<br /><br />" +
+										exceptionAsString;
 										SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
 										
 									}
