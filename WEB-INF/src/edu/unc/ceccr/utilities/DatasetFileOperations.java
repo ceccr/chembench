@@ -183,6 +183,7 @@ public class DatasetFileOperations {
 		//copy files from temp location into datasets dir
 		//run validations on each file after the copy
 		if(sdfFile != null){
+			sdfFileName = sdfFileName.replaceAll(" ", "_");
 			Utility.writeToDebug("checking SDF");
 			saveSDFFile(sdfFile, path, sdfFileName);
 			sdfFile = new File(path + sdfFileName);
@@ -204,7 +205,8 @@ public class DatasetFileOperations {
 			Utility.writeToDebug("done checking SDF");
 		}
 		
-		if(actFile != null){
+		if(actFile != null){			
+			actFileName = actFileName.replaceAll(" ", "_");
 			Utility.writeToDebug("checking ACT");
 			String msg = saveACTFile(actFile, path, actFileName);
 			if(!msg.isEmpty())
@@ -230,6 +232,7 @@ public class DatasetFileOperations {
 		}
 		
 		if(xFile != null){
+			xFileName = xFileName.xFileName(" ", "_");
 			Utility.writeToDebug("checking X");
 			String msg = saveXFile(xFile, path, xFileName);
 			xFile = new File(path + xFileName);
