@@ -232,7 +232,7 @@ public class DatasetFileOperations {
 		}
 		
 		if(xFile != null){
-			xFileName = xFileName.xFileName(" ", "_");
+			xFileName = xFileName.replaceAll(" ", "_");
 			Utility.writeToDebug("checking X");
 			String msg = saveXFile(xFile, path, xFileName);
 			xFile = new File(path + xFileName);
