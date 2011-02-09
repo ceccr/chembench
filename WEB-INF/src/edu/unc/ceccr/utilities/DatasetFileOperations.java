@@ -411,7 +411,6 @@ public class DatasetFileOperations {
 		//SDFs with lines longer than 1023 characters will not work properly with MolconnZ.
 		//This function gets rid of all such lines.
 		//Does not change the chemical information in the SD file; long lines in SDFs are always comments.
-		//MolconnZ is dumb. Creator has C Programmer's Disease.
 		
 		//This function will also remove the silly /r characters Windows likes
 		//to add to newlines.
@@ -433,6 +432,17 @@ public class DatasetFileOperations {
 		Scanner src = new Scanner(fin);
 		FileWriter fout = new FileWriter(outfile);
 		
+		/*
+		The JChem tools are VERY specific about what the beginning of each
+		compound in an SDF should look like, and will fail if there's any deviation.
+		
+		The first line must be a compound ID, and the fourth line must begin the compound
+		information. 
+		
+		Traditionally, the second line is a comment and the third is blank, but they 
+		can contain anything, so we'll just make them both blank. 
+		*/
+		
 		int sdfCompoundNamesIndex = 0;
 		while (src.hasNextLine()) {
 			temp = src.nextLine();
@@ -440,25 +450,26 @@ public class DatasetFileOperations {
 			//replace any spaces in compound name with underscores
 			if(sdfCompoundNamesIndex < sdfCompoundNames.size() && 
 				temp.trim().equals(sdfCompoundNames.get(sdfCompoundNamesIndex))){
+
+				//we will make temp contain the compound ID line, two blank lines, then the 
+				//start of the compound information. 
 				
 				temp = temp.trim().replaceAll("\\s+", "_");
+				temp += "\n\n\n";
 				sdfCompoundNamesIndex++;
-
-				//also, check if there is a comment line after the compound ID.
-				//If it's missing, add it.
-				if(src.hasNextLine()){
-					String commentLine = src.nextLine();
-					Utility.writeToDebug("Line: " + commentLine + "\nLength: " + (commentLine.split("\\s+").length));
-					if(commentLine.trim().isEmpty()){
-						//found a blank line instead
-						temp += "\n" + "(comment goes here)\n";
-					}
-					else if(commentLine.split("\\s+").length > 9){
-						//"commentLine" is actually the beginning of a chemical structure. Insert a comment line before it.
-						temp += "\n" + "(comment goes here)" + "\n\n" + commentLine;
-					}
-					else{
-						temp += "\n" + commentLine;
+				
+				while(src.hasNextLine()){
+					String line = src.nextLine();
+					String[] array = line.trim().split("\\s+");
+					if(array.length > 5 && 
+							Utility.stringContainsInt(array[0]) &&
+							Utility.stringContainsInt(array[1]) &&
+							Utility.stringContainsInt(array[2]) &&
+							Utility.stringContainsInt(array[3]) &&
+							Utility.stringContainsInt(array[4])){
+						//it's a pretty safe bet this is the start of the compound information
+						temp += line;
+						break;
 					}
 				}
 			}

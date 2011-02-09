@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -148,6 +149,11 @@ public class QsarPredictionTask extends WorkflowTask {
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
 			selectedPredictors.add(p);
 		}
+		Collections.sort(selectedPredictors, new Comparator<Predictor>(){
+			public int compare(Predictor p1, Predictor p2) {
+	    		return p1.getPredictorId().compareTo(p2.getPredictorId());
+		    }});
+
 		s.close();
 	}
 	
@@ -186,6 +192,11 @@ public class QsarPredictionTask extends WorkflowTask {
 				selectedPredictors.add(p);
 			}
 		}
+		Collections.sort(selectedPredictors, new Comparator<Predictor>(){
+			public int compare(Predictor p1, Predictor p2) {
+	    		return p1.getPredictorId().compareTo(p2.getPredictorId());
+		    }});
+
 		s.close();
 	}
 

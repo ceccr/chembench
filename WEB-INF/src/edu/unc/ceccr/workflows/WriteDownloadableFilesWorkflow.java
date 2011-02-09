@@ -46,9 +46,8 @@ public class WriteDownloadableFilesWorkflow{
 		
 		String predictorNames = "";
 		for(Predictor p: predictors){
-			predictorNames += p.getName() + ",";
+			predictorNames += p.getName() + " ";
 		}
-		predictorNames = predictorNames.substring(0, predictorNames.lastIndexOf(","));
 		
 		out.write("Chembench Prediction Output\n"
 		+"User Name,"+prediction.getUserName()+"\n"
@@ -56,7 +55,7 @@ public class WriteDownloadableFilesWorkflow{
 		+"Predictors Used," + predictorNames + "\n"
 		+"Similarity Cutoff,"+prediction.getSimilarityCutoff()+"\n"
 		+"Prediction Dataset,"+prediction.getDatasetDisplay()+"\n"
-		+"Predicted Date,"+prediction.getDateCreated()+"\n"
+		+"Predicted Date,"+Utility.formatDate(prediction.getDateCreated())+"\n"
 		+"Download Date,"+new Date()+"\n"
 		+"Web Site," + Constants.WEBADDRESS+"\n\n");
 		

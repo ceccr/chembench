@@ -614,4 +614,20 @@ public class Utility {
 		}
 		return s;
 	}
+	
+	public static boolean stringContainsInt(String s){
+		try{
+			Integer.parseInt(s);
+			return true;
+		}
+		catch(Exception ex){
+			return false;
+		}
+	}
+	
+	public static String formatDate(Date d){
+		//do this when you have internets dammit
+		
+		return "";
+	}
 }
