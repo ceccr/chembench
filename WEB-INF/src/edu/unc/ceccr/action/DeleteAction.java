@@ -224,16 +224,28 @@ public class DeleteAction extends ActionSupport{
 		}
 
 		//delete the files associated with this predictor
-		String dir = Constants.CECCR_USER_BASE_PATH+p.getUserName()+"/PREDICTORS/"+p.getName();
+		String dir = Constants.CECCR_USER_BASE_PATH+p.getUserName()+"/PREDICTORS/"+p.getName()+"/";
 		if(! FileAndDirOperations.deleteDir(new File(dir))){
 			Utility.writeToStrutsDebug("error deleting dir: " + dir);
 		}
 		
-		//delete the database entry for the dataset
+		//delete the database entry for the predictor
+		//delete any child predictors too. (Their files will already be gone since deleteDir recurses into subdirs.)
+		ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
+		if(p.getChildIds() != null && ! p.getChildIds().trim().equals("")){
+			String[] childIdArray = p.getChildIds().split("\\s+");
+			for(String childId: childIdArray){
+				Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
+				childPredictors.add(childPredictor);
+			}
+		}
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
 		    session.delete(p);
+		    for(Predictor childPredictor: childPredictors){
+		    	session.delete(childPredictor);
+		    }
 			tx.commit();
 		}catch (RuntimeException e) {
 			if (tx != null)
