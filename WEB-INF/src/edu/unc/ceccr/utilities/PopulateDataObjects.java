@@ -437,20 +437,21 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List populatePredictors(String userName, boolean isAllUserIncludes, boolean onlySaved, Session session) throws HibernateException, ClassNotFoundException, SQLException{
+	public static List populatePredictors(String userName, boolean includePublic, boolean onlyCompleted, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		
  		List<Predictor> predictors = new ArrayList();
  		List privatePredictors = null;
  		Transaction tx = null;
  		try {
  			tx = session.beginTransaction();
- 			if(onlySaved) privatePredictors = session.createCriteria(Predictor.class)
+ 			if(onlyCompleted) privatePredictors = session.createCriteria(Predictor.class)
  							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.ne("predictorType", Constants.HIDDEN))
  							.addOrder(Order.desc("name")).list();
  			else privatePredictors = session.createCriteria(Predictor.class)
 				.add(Expression.eq("userName", userName))
+				.add(Expression.ne("predictorType", Constants.HIDDEN))
 				.list();
  			tx.commit();
  		} catch (Exception e) {
@@ -461,13 +462,13 @@ public class PopulateDataObjects {
  		predictors.addAll(privatePredictors);
  		
  		//adme
- 		if(isAllUserIncludes){
+ 		if(includePublic){
 	 		List ADMEPredictors = null;
 	 		session = HibernateUtil.getSession();
 	 		tx = null;
 	 		try {
 	 			tx = session.beginTransaction();
-	 			if(onlySaved) ADMEPredictors = session.createCriteria(Predictor.class)
+	 			if(onlyCompleted) ADMEPredictors = session.createCriteria(Predictor.class)
 	 							.add(Expression.eq("predictorType", Constants.ADME))
 								.add(Expression.eq("jobCompleted", Constants.YES))
 	 							.addOrder(Order.desc("name")).list();
@@ -484,13 +485,13 @@ public class PopulateDataObjects {
  		}
  		
  		//tox
- 		if(isAllUserIncludes){
+ 		if(includePublic){
 	 		List ToxicityPredictors = null;
 	 		session = HibernateUtil.getSession();
 	 		tx = null;
 	 		try {
 	 			tx = session.beginTransaction();
-	 			if(onlySaved) ToxicityPredictors = session.createCriteria(Predictor.class)
+	 			if(onlyCompleted) ToxicityPredictors = session.createCriteria(Predictor.class)
 	 							.add(Expression.eq("predictorType", Constants.TOXICITY))
 								.add(Expression.eq("jobCompleted", Constants.YES))
 	 							.addOrder(Order.desc("name")).list();
@@ -507,13 +508,13 @@ public class PopulateDataObjects {
  		}
  		
  		//drugdiscovery
- 		if(isAllUserIncludes){
+ 		if(includePublic){
 	 		List DrugDiscoveryPredictors = null;
 	 		session = HibernateUtil.getSession();
 	 		tx = null;
 	 		try {
 	 			tx = session.beginTransaction();
-	 			if(onlySaved) DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
+	 			if(onlyCompleted) DrugDiscoveryPredictors = session.createCriteria(Predictor.class)
 	 							.add(Expression.eq("predictorType", Constants.DRUGDISCOVERY))
 								.add(Expression.eq("jobCompleted", Constants.YES))
 	 							.addOrder(Order.desc("name")).list();

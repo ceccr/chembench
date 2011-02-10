@@ -108,11 +108,11 @@ public class JobsActions extends ActionSupport {
 		//get predictors
 		if(user.getShowPublicPredictors().equals(Constants.ALL)){	
 			//get the user's predictors and all public ones
-			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, false, session);
+			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
 		}
 		else{
 			//just get the user's predictors
-			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), false, false, session);
+			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), false, true, session);
 		}
 		Collections.sort(userPredictors, new Comparator<Predictor>() {
 		    public int compare(Predictor p1, Predictor p2) {

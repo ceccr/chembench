@@ -233,7 +233,7 @@ public class ModelingFormActions extends ActionSupport{
 				p.setChildIds(childPredictorIds);
 				p.setChildType(Constants.NFOLD);
 				p.setName(baseJobName);
-				p.setJobCompleted(Constants.YES);
+				p.setJobCompleted(Constants.NO);
 				p.setHasBeenViewed(Constants.NO);
 				p.setDatasetId(selectedDatasetId);
 				p.setUserName(user.getUserName());
