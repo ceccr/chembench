@@ -33,11 +33,14 @@ import edu.unc.ceccr.utilities.Utility;
 @Table(name = "cbench_predictor")
 public class Predictor implements java.io.Serializable {
 
-	// Fields
 	private String userName;
 	private Long predictorId;
 	private Long datasetId;
 	private String name;
+
+	private Long parentId; //reference to a parent predictor
+	private String childIds; //refs to child predictors
+	private String childType; //NFOLD or COMBI (not implemented yet).
 	
 	private String sdFileName;
 	private String actFileName;
@@ -192,6 +195,30 @@ public class Predictor implements java.io.Serializable {
 		this.datasetId = datasetId;
 	}
 	
+	@Column(name = "parentId")
+	public Long getParentId() {
+		return parentId;
+	}
+	public void setParentId(Long parentId) {
+		this.parentId = parentId;
+	}
+
+	@Column(name = "childIds")
+	public String getChildIds() {
+		return childIds;
+	}
+	public void setChildIds(String childIds) {
+		this.childIds = childIds;
+	}
+
+	@Column(name = "childType")
+	public String getChildType() {
+		return childType;
+	}
+	public void setChildType(String childType) {
+		this.childType = childType;
+	}
+
 	@Transient
 	public String toString() {
 		return "Predictor: " + name + " Username: " + userName

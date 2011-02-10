@@ -200,7 +200,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		s.close();
 	}
 
-	public void setUp() throws Exception {
+	public Long setUp() throws Exception {
 		//create Prediction object in DB to allow for recovery of this job if it fails.
 		
 		if(prediction == null){
@@ -233,8 +233,6 @@ public class QsarPredictionTask extends WorkflowTask {
 		lookupId = prediction.getPredictionId();
 		jobType = Constants.PREDICTION;
 		
-		
-		
 		Utility.writeToDebug("Setting up prediction task", userName, jobName);
 		try{
 			new File(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName).mkdir();
@@ -266,6 +264,8 @@ public class QsarPredictionTask extends WorkflowTask {
 		catch(Exception e){
 			Utility.writeToDebug(e);
 		}
+		
+		return lookupId;
 	}
 
 	public void preProcess() throws Exception {

@@ -158,7 +158,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		}
 	}
 	
-	public void setUp() throws Exception {
+	public Long setUp() throws Exception {
 		//create DataSet object in DB to allow for recovery of this job if it fails.
 
 		dataset.setFileName(jobName);
@@ -201,6 +201,8 @@ public class CreateDatasetTask extends WorkflowTask{
 		
 		lookupId = dataset.getFileId();
 		jobType = Constants.DATASET;
+		
+		return lookupId;
 	}
 	
 	public void preProcess() throws Exception {

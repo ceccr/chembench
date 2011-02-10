@@ -9,9 +9,10 @@ public abstract class WorkflowTask {
 	public String jobType;
 	public String step;
 	
-	public abstract void setUp() throws Exception; 
+	public abstract Long setUp() throws Exception; 
 	//creates any needed dirs
 	//creates Job object and adds it to Incoming queue
+	//returns id of created object (datasetId, predictorId, or predictionId).
 
 	public abstract void preProcess() throws Exception; 
 	//Does any work that must be done locally to prepare for main calculation

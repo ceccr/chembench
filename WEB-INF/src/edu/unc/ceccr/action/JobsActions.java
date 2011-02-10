@@ -119,13 +119,6 @@ public class JobsActions extends ActionSupport {
 	    		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
 		    }});
 
-		for(int i = 0; i < userPredictors.size(); i++){
-			if(userPredictors.get(i).getJobCompleted() == null || userPredictors.get(i).getJobCompleted().equals(Constants.NO)){
-				userPredictors.remove(i);
-				i--;
-			}
-		}
-		
 		//get predictions
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
 		Collections.sort(userPredictions, new Comparator<Prediction>() {

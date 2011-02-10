@@ -447,6 +447,7 @@ public class PopulateDataObjects {
  			if(onlySaved) privatePredictors = session.createCriteria(Predictor.class)
  							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
+							.add(Expression.ne("predictorType", Constants.HIDDEN))
  							.addOrder(Order.desc("name")).list();
  			else privatePredictors = session.createCriteria(Predictor.class)
 				.add(Expression.eq("userName", userName))

@@ -59,8 +59,9 @@ public class Constants {
 
 	public static final String YES = "YES";
 	public static final String NO = "NO";
-	
+
 	public static final String PRIVATE = "Private";
+	public static final String HIDDEN = "Hidden";
 	public static final String ADME = "ADME";
 	public static final String TOXICITY = "Toxicity";
 	public static final String DRUGDISCOVERY = "DrugDiscovery";

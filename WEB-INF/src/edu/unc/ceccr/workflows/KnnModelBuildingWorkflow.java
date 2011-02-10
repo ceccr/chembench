@@ -176,10 +176,17 @@ public class KnnModelBuildingWorkflow{
 	    RunExternalProgram.runCommandAndLogOutput(execstr3, workingdir, "PredActivCont3rwknnLIN");  
 	}
 	
-	public static void MoveToPredictorsDir(String userName, String jobName) throws Exception{
+	public static void MoveToPredictorsDir(String userName, String jobName, String parentPredictorName) throws Exception{
 		//When the kNN job is finished, move all the files over to the PREDICTORS dir.
 		String moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + jobName + "/";
+		String moveTo = "";
+		if(parentPredictorName.equals("")){
+			moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + jobName + "/";
+		}
+		else{
+			moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + jobName + "/" + parentPredictorName + "/";
+		}
+		(new File(moveTo)).mkdirs();
 		String execstr = "mv " + moveFrom + " " + moveTo;
 		RunExternalProgram.runCommand(execstr, "");  
 	}

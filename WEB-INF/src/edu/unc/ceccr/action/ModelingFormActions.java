@@ -15,6 +15,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ActionContext; 
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
@@ -183,7 +184,6 @@ public class ModelingFormActions extends ActionSupport{
 		s += "\n Descriptor Type: " + descriptorGenerationType;
 		s += "\n (Sphere Exclusion) Split Includes Min: " + splitIncludesMin;
 		s += "\n (Random Internal Split) Max. Test Set Size: " + randomSplitMaxTestSize;
-		s += "\n knnCategoryOptimization: " + knnCategoryOptimization;
 		
 		Utility.writeToDebug(s);
 		
@@ -205,10 +205,11 @@ public class ModelingFormActions extends ActionSupport{
 			}
 			
 			if(ds.getSplitType().equals(Constants.NFOLD)){
-				//start n jobs, 1 for each fold
+				//start n jobs, 1 for each fold.
 				int numExternalFolds = Integer.parseInt(ds.getNumExternalFolds());
 				String baseJobName = jobName;
 				int numCompounds = ds.getNumCompound();
+				String childPredictorIds = "";
 				for(int i = 0; i < numExternalFolds; i++){
 					
 					//count the number of models that will be generated
@@ -217,7 +218,7 @@ public class ModelingFormActions extends ActionSupport{
 					//set up the job
 					jobName = baseJobName + "_fold_" +(i+1) + "_of_" + numExternalFolds;
 					QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
-					modelingTask.setUp();
+					childPredictorIds += modelingTask.setUp() + " ";
 					
 					//add job to incoming joblist so it will start
 					CentralDogma centralDogma = CentralDogma.getInstance();
@@ -226,7 +227,29 @@ public class ModelingFormActions extends ActionSupport{
 					Utility.writeToUsageLog("Added modeling job", user.getUserName());
 					Utility.writeToDebug("Modeling job added to queue", user.getUserName(), this.getJobName());
 				}
-
+				
+				//make a "parent" predictor to contain each of the "child" predictors
+				Predictor p = new Predictor();
+				p.setChildIds(childPredictorIds);
+				p.setChildType(Constants.NFOLD);
+				p.setName(baseJobName);
+				p.setJobCompleted(Constants.YES);
+				p.setHasBeenViewed(Constants.NO);
+				p.setDatasetId(selectedDatasetId);
+				p.setUserName(user.getUserName());
+				p.setModelMethod(modelingType);
+				p.setPredictorType(Constants.PRIVATE);
+				Transaction tx = null;
+				try {
+					tx = executeSession.beginTransaction();
+					executeSession.save(p);
+					tx.commit();
+				} catch (Exception ex) {
+					if (tx != null)
+						tx.rollback();
+					Utility.writeToDebug(ex);
+				}
+				
 				if(closeSessionAtEnd){
 					executeSession.close();
 				}

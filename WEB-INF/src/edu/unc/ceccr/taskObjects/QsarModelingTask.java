@@ -436,7 +436,7 @@ public class QsarModelingTask extends WorkflowTask {
 		datasetPath += "/DATASETS/" + datasetName + "/";
 	}
 
-	public void setUp() throws Exception {
+	public Long setUp() throws Exception {
 		
 		//create Predictor object in DB to allow for recovery of this job if it fails.
 		
@@ -536,6 +536,7 @@ public class QsarModelingTask extends WorkflowTask {
 				KnnModelBuildingWorkflow.writeKnnCategoryDefaultFile(filePath + Constants.KNN_CATEGORY_DEFAULT_FILENAME, knnParameters);
 			}
 		}
+		return lookupId;
 	}
 	
 	public void preProcess() throws Exception{
@@ -955,7 +956,13 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setSdFileName(sdFileName);
 		predictor.setActivityType(actFileDataType);
 		predictor.setStatus("saved");
-		predictor.setPredictorType("Private");
+
+		if(dataset.getSplitType().equals(Constants.NFOLD)){
+			predictor.setPredictorType(Constants.HIDDEN);
+		}
+		else{
+			predictor.setPredictorType(Constants.PRIVATE);
+		}
 		predictor.setDatasetId(datasetID);
 		predictor.setHasBeenViewed(Constants.NO);
 		predictor.setJobCompleted(Constants.YES);
@@ -998,8 +1005,6 @@ public class QsarModelingTask extends WorkflowTask {
 			if (tx != null)
 				tx.rollback();
 			Utility.writeToDebug(e);
-		} finally {
-			session.close();
 		}
 		
 		//clean up dirs
@@ -1007,8 +1012,44 @@ public class QsarModelingTask extends WorkflowTask {
 			RandomForestWorkflow.cleanUpExcessFiles(Constants.CECCR_USER_BASE_PATH+userName+"/"+jobName +"/");
 		}
 		
-		KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName);
-		FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+userName+"/"+jobName));
+		if(dataset.getSplitType().equals(Constants.NFOLD)){
+			//find parent predictor
+			String parentPredictorName = jobName.substring(0,jobName.lastIndexOf("_fold"));
+			Predictor parentPredictor = PopulateDataObjects.getPredictorByName(parentPredictorName, predictor.getUserName(), session);
+			if(parentPredictor != null && parentPredictor.getJobCompleted() != null){
+				//check if all its other children are completed. 
+				String[] childIdArray = parentPredictor.getChildIds().split("\\s+");
+				int finishedChildPredictors = 0;
+				for(String childId : childIdArray){
+					Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
+					if(childPredictor.getJobCompleted().equals(Constants.YES)){
+						finishedChildPredictors++;
+					}
+				}
+				int numFolds = Integer.parseInt(dataset.getNumExternalFolds());
+				if(finishedChildPredictors == numFolds){
+					//if all children are now done, set jobCompleted to YES in the parent predictor.
+					parentPredictor.setJobCompleted(Constants.YES);
+				}
+			}
+			
+			predictor.setParentId(parentPredictor.getPredictorId());
+			try{
+				tx = session.beginTransaction();
+				session.saveOrUpdate(parentPredictor);
+				session.saveOrUpdate(predictor);
+				tx.commit();
+			}
+			catch(Exception ex){
+				Utility.writeToDebug(ex);
+			}
+			
+			KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName, parentPredictorName);
+		}
+		else{
+			KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName, "");
+		}
+		session.close();
 	}
 
 	public void delete() throws Exception {

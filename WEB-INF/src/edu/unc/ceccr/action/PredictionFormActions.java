@@ -91,9 +91,7 @@ public class PredictionFormActions extends ActionSupport{
 		Utility.writeToDebug(user.getUserName());
 		Utility.writeToDebug("SMILES predids: " + predictorIds);
 
-		int numCompounds = 1;
 		String[] selectedPredictorIdArray = predictorIds.split("\\s+");
-		int numModels = 0;
 		
 		ArrayList<Predictor> predictors = new ArrayList<Predictor>();
 		for(int i = 0; i < selectedPredictorIdArray.length; i++){
