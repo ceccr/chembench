@@ -239,6 +239,7 @@ public class ModelingFormActions extends ActionSupport{
 				p.setUserName(user.getUserName());
 				p.setModelMethod(modelingType);
 				p.setPredictorType(Constants.PRIVATE);
+				p.setDescriptorGeneration(descriptorGenerationType);
 				Transaction tx = null;
 				try {
 					tx = executeSession.beginTransaction();
