@@ -47,7 +47,7 @@ public class SvmModelsPage extends ViewPredictorAction {
 	private List<SvmModel> svmModels;
 	private List<SvmModel> svmRandomModels;
 	
-	private void load() throws Exception{
+	private String load() throws Exception{
 		//get models associated with predictor
 		dataType = selectedPredictor.getActivityType();
 		svmModels = new ArrayList<SvmModel>();
@@ -67,5 +67,6 @@ public class SvmModelsPage extends ViewPredictorAction {
 				}
 			}
 		}
+		return SUCCESS;
 	}
 }
