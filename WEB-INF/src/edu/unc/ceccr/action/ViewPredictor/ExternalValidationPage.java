@@ -45,6 +45,7 @@ import edu.unc.ceccr.utilities.Utility;
 public class ExternalValidationPage extends ViewPredictorAction {
 	private List<ExternalValidation> externalValValues;
 	private String hasGoodModels = Constants.YES;
+	private List<String> residuals;
 	
 	//used in creation of confusion matrix (category modeling only)
 	public class ConfusionMatrixRow{
@@ -210,4 +211,57 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		
 		return result;
 	}
+
+	
+	//getters and setters
+
+	public List<ExternalValidation> getExternalValValues() {
+		return externalValValues;
+	}
+	public void setExternalValValues(List<ExternalValidation> externalValValues) {
+		this.externalValValues = externalValValues;
+	}
+
+	public String getHasGoodModels() {
+		return hasGoodModels;
+	}
+	public void setHasGoodModels(String hasGoodModels) {
+		this.hasGoodModels = hasGoodModels;
+	}
+
+	public List<String> getResiduals() {
+		return residuals;
+	}
+	public void setResiduals(List<String> residuals) {
+		this.residuals = residuals;
+	}
+
+	public ArrayList<ConfusionMatrixRow> getConfusionMatrix() {
+		return confusionMatrix;
+	}
+	public void setConfusionMatrix(ArrayList<ConfusionMatrixRow> confusionMatrix) {
+		this.confusionMatrix = confusionMatrix;
+	}
+
+	public String getCcr() {
+		return ccr;
+	}
+	public void setCcr(String ccr) {
+		this.ccr = ccr;
+	}
+
+	public ArrayList<String> getUniqueObservedValues() {
+		return uniqueObservedValues;
+	}
+	public void setUniqueObservedValues(ArrayList<String> uniqueObservedValues) {
+		this.uniqueObservedValues = uniqueObservedValues;
+	}
+
+	public String getrSquared() {
+		return rSquared;
+	}
+	public void setrSquared(String rSquared) {
+		this.rSquared = rSquared;
+	}
+	//end getters and setters
 }
