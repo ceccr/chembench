@@ -453,7 +453,6 @@ public class ViewPredictorAction extends ActionSupport {
 			}
 			
 		}
-		
 		return result;
 	}
 

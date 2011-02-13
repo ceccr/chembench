@@ -234,91 +234,76 @@
         
         	<!-- common to all modeling methods -->
         
-        	<action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadPage">
+        	<action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadPredictorPage">
 	        	<result>jsp/modelingOutput/viewPredictor.jsp</result>
 	        </action>
 	        
-	        <action name="updatePredictor" class="edu.unc.ceccr.action.ViewPredictorAction" method="updatePredictor">
+	        <action name="updatePredictor" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="updatePredictor">
 	        	<result>jsp/modelingOutput/viewPredictor.jsp</result>
 	        </action>
         
-	        <action name="viewPredictorParametersSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadParametersSection">
+	        <action name="viewPredictorParametersSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadParametersPage">
 	        	<result>jsp/modelingOutput/viewPredictor-parameters.jsp</result>
+	        </action>
+	        
+	        <action name="viewPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadExternalValidationPage">
+	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
 	        </action>
 	        
 	        <!-- end common to all modeling methods -->
 	        
         	<!-- knn -->
 	        
-	        <action name="viewPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
-	        </action>
-	        
-	        <action name="viewPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadYRandomSection">
-	        	<result>jsp/modelingOutput/viewPredictor-yRandom.jsp</result>
-	        </action>
-	        
-	        <action name="viewPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadModelsSection">
+	        <action name="viewPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadKnnModelsPage">
 	        	<result>jsp/modelingOutput/viewPredictor-models.jsp</result>
 	        </action>
 	        
-	        <action name="viewPredictorWarningsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadWarningsSection">
-	        	<result>jsp/modelingOutput/viewPredictor-warnings.jsp</result>
+	        <action name="viewPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadKnnYRandomModelsPage">
+	        	<result>jsp/modelingOutput/viewPredictor-yRandom.jsp</result>
 	        </action>
-        
+	        
         	<!-- end knn -->
         
         	<!-- knn+ -->
         	
-	        <action name="viewKnnPlusPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadModelsSection">
+	        <action name="viewKnnPlusPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadKnnPlusModelsPage">
 	        	<result>jsp/modelingOutput/viewPredictor-knnPlusModels.jsp</result>
 	        </action>
 	        
-	        <action name="viewKnnPlusPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
-	        </action>
-	        
-	        <action name="viewKnnPlusPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadYRandomSection">
+	        <action name="viewKnnPlusPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadKnnPlusYRandomModelsPage">
 	        	<result>jsp/modelingOutput/viewPredictor-KnnPlusYRandom.jsp</result>
 	        </action>
 	        
-        	
         	<!-- end knn+ -->
         	
         	<!-- random forest -->
         	
-        	 <action name="viewRandomForestExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
-	        </action>
-	        
-        	 <action name="viewRandomForestPredictorGrovesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadGrovesSection">
+        	<!-- View Groves: not implemented yet
+        	 <action name="viewRandomForestPredictorGrovesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadGrovesSection">
 	        	<result>jsp/modelingOutput/viewPredictor-randomForestGroves.jsp</result>
 	        </action>
 	        
-        	 <action name="viewRandomForestPredictorYRandomGrovesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadGrovesSection">
+        	 <action name="viewRandomForestPredictorYRandomGrovesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadGrovesSection">
 	        	<result>jsp/modelingOutput/viewPredictor-randomForestYRandomGroves.jsp</result>
-	        </action>
+	        </action> -->
 	        
-        	 <action name="viewRandomForestPredictorTreesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadTreesSection">
+        	 <action name="viewRandomForestPredictorTreesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadRandomForestTreesPage">
 	        	<result>jsp/modelingOutput/viewPredictor-randomForestTrees.jsp</result>
 	        </action>
 	        
-        	 <action name="viewRandomForestPredictorYRandomTreesSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadTreesSection">
+        	 <action name="viewRandomForestPredictorYRandomTreesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadRandomForestYRandomTreesPage">
 	        	<result>jsp/modelingOutput/viewPredictor-randomForestYRandomTrees.jsp</result>
 	        </action>
 	        
         	<!-- end random forest -->
         	
         	<!-- svm -->
-        	<action name="viewSvmExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadExternalValidationSection">
-	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
-	        </action>
-	        
-        	<action name="viewSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadModelsSection">
+        	
+        	<action name="viewSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadSvmModelsPage">
 	        	<result>jsp/modelingOutput/viewPredictor-svmModels.jsp</result>
 	        </action>
 	        
-	        <action name="viewSvmYRandomSection" class="edu.unc.ceccr.action.ViewPredictorAction" method="loadYRandomSection">
+	        <action name="viewSvmYRandomSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadSvmYRandomModelsPage">
 	        	<result>jsp/modelingOutput/viewPredictor-svmModelsYRandom.jsp</result>
 	        </action>
         	
