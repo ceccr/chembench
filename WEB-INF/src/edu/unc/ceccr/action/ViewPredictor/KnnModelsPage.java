@@ -49,6 +49,8 @@ public class KnnModelsPage extends ViewPredictorAction {
 	
 	public String load() throws Exception{
 		//get models associated with predictor
+		getBasicParameters();
+		
 		dataType = selectedPredictor.getActivityType();
 		
 		models = new ArrayList<KnnModel>();

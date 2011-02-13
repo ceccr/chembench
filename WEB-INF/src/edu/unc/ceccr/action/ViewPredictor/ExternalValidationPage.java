@@ -64,7 +64,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	String rSquared = "";
 	
 	public String load() throws Exception {
-
+		getBasicParameters();
 		String result = SUCCESS;
 		//check that the user is logged in
 		

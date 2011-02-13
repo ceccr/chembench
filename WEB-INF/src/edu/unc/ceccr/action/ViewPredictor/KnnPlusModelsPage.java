@@ -49,7 +49,8 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	private List<KnnPlusModel> knnPlusRandomModels;
 	
 	public String load() throws Exception {
-
+		getBasicParameters();
+		
 		String result = SUCCESS;
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();

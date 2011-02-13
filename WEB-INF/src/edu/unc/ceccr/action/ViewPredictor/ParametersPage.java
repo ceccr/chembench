@@ -49,6 +49,8 @@ public class ParametersPage extends ViewPredictorAction {
 	private RandomForestParameters randomForestParameters;
 	
 	public String load() throws Exception {
+		getBasicParameters();
+		
 		String result = SUCCESS;
 	
 		if(selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){

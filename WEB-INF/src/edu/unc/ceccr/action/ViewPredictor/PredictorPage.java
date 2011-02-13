@@ -49,12 +49,7 @@ public class PredictorPage extends ViewPredictorAction {
 	private String editable = "";
 	
 	public String load() throws Exception {
-		if(context == null){
-			Utility.writeToDebug("Context in PredictorPage is null");
-		}
-		else{
-			Utility.writeToDebug("Context in PredictorPage is not null");
-		}
+		getBasicParameters();
 		if(context.getParameters().get("editable") != null){
 			if(user.getIsAdmin().equals(Constants.YES)|| user.getUserName().equals(dataset.getUserName())){
 				editable = "YES";
@@ -87,8 +82,8 @@ public class PredictorPage extends ViewPredictorAction {
 
 	public String updatePredictor() throws Exception {
 		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-
+		getBasicParameters();
+		
 		if(context != null){
 			//get predictorId id
 			predictorId = ((String[]) context.getParameters().get("predictorId"))[0];
