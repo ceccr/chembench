@@ -51,6 +51,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	
 
 	public String loadGroves() throws Exception {
+		getBasicParameters();
 		String result = SUCCESS;
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
@@ -79,6 +80,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	
 
 	public String loadTrees() throws Exception {
+		getBasicParameters();
 		String result = SUCCESS;
 		
 		dataType = selectedPredictor.getActivityType();
