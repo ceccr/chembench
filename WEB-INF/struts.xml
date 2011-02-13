@@ -234,19 +234,19 @@
         
         	<!-- common to all modeling methods -->
         
-        	<action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadPredictorPage">
+        	<action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictor.PredictorPage" method="load">
 	        	<result>jsp/modelingOutput/viewPredictor.jsp</result>
 	        </action>
 	        
-	        <action name="updatePredictor" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="updatePredictor">
+	        <action name="updatePredictor" class="edu.unc.ceccr.action.ViewPredictor.PredictorPage" method="update">
 	        	<result>jsp/modelingOutput/viewPredictor.jsp</result>
 	        </action>
         
-	        <action name="viewPredictorParametersSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadParametersPage">
+	        <action name="viewPredictorParametersSection" class="edu.unc.ceccr.action.ViewPredictor.ParametersPage" method="load">
 	        	<result>jsp/modelingOutput/viewPredictor-parameters.jsp</result>
 	        </action>
 	        
-	        <action name="viewPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadExternalValidationPage">
+	        <action name="viewPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictor.ExternalValidationPage" method="load">
 	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
 	        </action>
 	        
@@ -254,11 +254,11 @@
 	        
         	<!-- knn -->
 	        
-	        <action name="viewPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadKnnModelsPage">
+	        <action name="viewPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnModelsPage" method="load">
 	        	<result>jsp/modelingOutput/viewPredictor-models.jsp</result>
 	        </action>
 	        
-	        <action name="viewPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadKnnYRandomModelsPage">
+	        <action name="viewPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictor.KnnModelsPage" method="load">
 	        	<result>jsp/modelingOutput/viewPredictor-yRandom.jsp</result>
 	        </action>
 	        
@@ -266,11 +266,11 @@
         
         	<!-- knn+ -->
         	
-	        <action name="viewKnnPlusPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadKnnPlusModelsPage">
+	        <action name="viewKnnPlusPredictorModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnPlusModelsPage" method="load">
 	        	<result>jsp/modelingOutput/viewPredictor-knnPlusModels.jsp</result>
 	        </action>
 	        
-	        <action name="viewKnnPlusPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadKnnPlusYRandomModelsPage">
+	        <action name="viewKnnPlusPredictorYRandomSection" class="edu.unc.ceccr.action.ViewPredictor.KnnPlusModelsPage" method="load">
 	        	<result>jsp/modelingOutput/viewPredictor-KnnPlusYRandom.jsp</result>
 	        </action>
 	        
@@ -279,19 +279,19 @@
         	<!-- random forest -->
         	
         	<!-- View Groves: not implemented yet
-        	 <action name="viewRandomForestPredictorGrovesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadGrovesSection">
+        	 <action name="viewRandomForestPredictorGrovesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadGroves">
 	        	<result>jsp/modelingOutput/viewPredictor-randomForestGroves.jsp</result>
 	        </action>
 	        
-        	 <action name="viewRandomForestPredictorYRandomGrovesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadGrovesSection">
+        	 <action name="viewRandomForestPredictorYRandomGrovesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadGroves">
 	        	<result>jsp/modelingOutput/viewPredictor-randomForestYRandomGroves.jsp</result>
 	        </action> -->
 	        
-        	 <action name="viewRandomForestPredictorTreesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadRandomForestTreesPage">
+        	 <action name="viewRandomForestPredictorTreesSection" class="edu.unc.ceccr.action.ViewPredictor.RandomForestModelsPage" method="loadTrees">
 	        	<result>jsp/modelingOutput/viewPredictor-randomForestTrees.jsp</result>
 	        </action>
 	        
-        	 <action name="viewRandomForestPredictorYRandomTreesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadRandomForestYRandomTreesPage">
+        	 <action name="viewRandomForestPredictorYRandomTreesSection" class="edu.unc.ceccr.action.ViewPredictor.RandomForestModelsPage" method="loadTrees">
 	        	<result>jsp/modelingOutput/viewPredictor-randomForestYRandomTrees.jsp</result>
 	        </action>
 	        
@@ -299,11 +299,11 @@
         	
         	<!-- svm -->
         	
-        	<action name="viewSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadSvmModelsPage">
+        	<action name="viewSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictor.SvmModelsPage" method="load">
 	        	<result>jsp/modelingOutput/viewPredictor-svmModels.jsp</result>
 	        </action>
 	        
-	        <action name="viewSvmYRandomSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadSvmYRandomModelsPage">
+	        <action name="viewSvmYRandomSection" class="edu.unc.ceccr.action.ViewPredictor.SvmModelsPage" method="load">
 	        	<result>jsp/modelingOutput/viewPredictor-svmModelsYRandom.jsp</result>
 	        </action>
         	

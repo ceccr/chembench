@@ -80,7 +80,7 @@ public class PredictorPage extends ViewPredictorAction {
 		return SUCCESS;
 	}
 
-	public String updatePredictor() throws Exception {
+	public String update() throws Exception {
 		//check that the user is logged in
 		getBasicParameters();
 		
