@@ -149,6 +149,14 @@ public class ViewPredictorAction extends ActionSupport {
 	public String loadPredictorPage() throws Exception{
 		getBasicParameters();
 		predictorPage = new PredictorPage();
+
+		if(context == null){
+			Utility.writeToDebug("Context in VPA is null");
+		}
+		else{
+			Utility.writeToDebug("Context in VPA is not null");
+		}
+		
 		String result = predictorPage.load();
 		session.close();
 		return result;

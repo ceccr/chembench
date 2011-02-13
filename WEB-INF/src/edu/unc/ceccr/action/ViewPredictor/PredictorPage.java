@@ -49,7 +49,12 @@ public class PredictorPage extends ViewPredictorAction {
 	private String editable = "";
 	
 	public String load() throws Exception {
-		
+		if(context == null){
+			Utility.writeToDebug("Context in PredictorPage is null");
+		}
+		else{
+			Utility.writeToDebug("Context in PredictorPage is not null");
+		}
 		if(context.getParameters().get("editable") != null){
 			if(user.getIsAdmin().equals(Constants.YES)|| user.getUserName().equals(dataset.getUserName())){
 				editable = "YES";
