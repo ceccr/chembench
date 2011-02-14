@@ -49,7 +49,6 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	private List<RandomForestTree> randomForestTrees;
 	private List<RandomForestTree> randomForestYRandomTrees;
 	
-
 	public String loadGroves() throws Exception {
 		getBasicParameters();
 		String result = SUCCESS;
