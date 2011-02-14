@@ -238,7 +238,7 @@
 				<td class="TableRowText02">
 				<s:if test="adminUser&&jobTypeString=='modeling'">
 					<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
-					<s:param name="id" value='predictorId' />
+					<s:param name="predictorId" value='predictorId' />
 					</s:url>
 					<s:a href="%{predictorLink}"><s:property value="jobName" /></s:a>
 				</s:if>
@@ -366,7 +366,7 @@
 					</s:else>
 					
 					<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
-						<s:param name="id" value='predictorId' />
+						<s:param name="predictorId" value='predictorId' />
 					</s:url>
 					<td><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
 					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>

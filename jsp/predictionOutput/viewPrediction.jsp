@@ -67,7 +67,7 @@
 			<b>Predictors Used: &nbsp;</b>
 			<s:iterator value="predictors" status="predictorsStatus1">
 			<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
-				<s:param name="id" value='predictorId' />
+				<s:param name="predictorId" value='predictorId' />
 			</s:url>
 			<s:a href="%{predictorLink}"><s:property value="name" /></s:a>&nbsp;&nbsp;
 			</s:iterator>
