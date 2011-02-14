@@ -15,7 +15,6 @@
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
-		
 			<s:if test="selectedPredictor.modelMethod=='KNN-SA'">
 				Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
 				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 

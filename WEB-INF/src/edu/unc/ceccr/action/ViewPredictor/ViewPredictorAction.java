@@ -60,6 +60,7 @@ public class ViewPredictorAction extends ActionSupport {
 	//End basic parameters
 	
 	//Params used by all the models pages
+	protected String isYRandomPage;
 	protected String orderBy;
 	protected String sortDirection;
 	protected String mostFrequentDescriptors = "";
@@ -99,7 +100,7 @@ public class ViewPredictorAction extends ActionSupport {
 			return LOGIN;
 		}
 		
-		predictorId = ((String[]) context.getParameters().get("id"))[0];
+		predictorId = ((String[]) context.getParameters().get("predictorId"))[0];
 		if(predictorId == null){
 			Utility.writeToStrutsDebug("No predictor ID supplied.");
 			return ERROR;
@@ -115,6 +116,30 @@ public class ViewPredictorAction extends ActionSupport {
 		
 		Long datasetId = selectedPredictor.getDatasetId();
 		dataset = PopulateDataObjects.getDataSetById(datasetId, session);
+		
+		return SUCCESS;
+	}
+	
+	public String getModelsPageParameters() throws Exception{
+		//gets parameters used by each modeling page
+		//assumes getBasicParameters has already been called
+
+		isYRandomPage = ((String[]) context.getParameters().get("isYRandomPage"))[0];
+		if(isYRandomPage == null){
+			return ERROR;
+		}
+		sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0];
+		if(sortDirection == null){
+			return ERROR;
+		}
+		orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+		if(orderBy == null){
+			return ERROR;
+		}
+		mostFrequentDescriptors = ((String[]) context.getParameters().get("mostFrequentDescriptors"))[0];
+		if(mostFrequentDescriptors == null){
+			return ERROR;
+		}
 		
 		return SUCCESS;
 	}
@@ -161,6 +186,27 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setMostFrequentDescriptors(String mostFrequentDescriptors) {
 		this.mostFrequentDescriptors = mostFrequentDescriptors;
+	}
+
+	public String getIsYRandomPage() {
+		return isYRandomPage;
+	}
+	public void setIsYRandomPage(String isYRandomPage) {
+		this.isYRandomPage = isYRandomPage;
+	}
+
+	public String getOrderBy() {
+		return orderBy;
+	}
+	public void setOrderBy(String orderBy) {
+		this.orderBy = orderBy;
+	}
+
+	public String getSortDirection() {
+		return sortDirection;
+	}
+	public void setSortDirection(String sortDirection) {
+		this.sortDirection = sortDirection;
 	}
 
 	//End getters and setters

@@ -50,6 +50,7 @@ public class KnnModelsPage extends ViewPredictorAction {
 	public String load() throws Exception{
 		//get models associated with predictor
 		getBasicParameters();
+		getModelsPageParameters();
 		
 		dataType = selectedPredictor.getActivityType();
 		

@@ -50,6 +50,7 @@ public class PredictorPage extends ViewPredictorAction {
 	
 	public String load() throws Exception {
 		getBasicParameters();
+		getModelsPageParameters();
 		if(context.getParameters().get("editable") != null){
 			if(user.getIsAdmin().equals(Constants.YES)|| user.getUserName().equals(dataset.getUserName())){
 				editable = "YES";
