@@ -42,7 +42,7 @@
 			<div class="StandardTextDarkGray"><br />
 			<b>Predictor Name: </b><s:property value="selectedPredictor.name" /><br />
 			<b>Dataset: </b><a href="viewDataset?id=<s:property value="selectedPredictor.datasetId" />"><s:property value="selectedPredictor.datasetDisplay" /></a><br />
-			<b>Date Created: </b><s:date name="selectedPredictor.createdDateTime" format="yyyy-MM-dd HH:mm" /><br />
+			<b>Date Created: </b><s:date name="selectedPredictor.dateCreated" format="yyyy-MM-dd HH:mm" /><br />
 			<b>Modeling Method: </b><s:property value="selectedPredictor.modelMethod" /><br />
 			<b>Descriptor Generation Method: </b><s:property value="selectedPredictor.descriptorGeneration" /><br />
 			</div>
@@ -62,7 +62,7 @@
 				<b>Paper Reference: </b><s:property value="selectedPredictor.paperReference" /><br />
 				<s:if test="selectedPredictor.userName!='all-users'||user.isAdmin=='YES'">
 					<!-- display edit link -->
-					<a href="viewPredictor?id=<s:property value="predictorId" />&editable=YES">Edit description and reference</a><br />
+					<a href="viewPredictor?predictorId=<s:property value="predictorId" />&editable=YES">Edit description and reference</a><br />
 				</s:if>
 				</div>
 			</s:else>
@@ -108,7 +108,7 @@
 		    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
 				</sx:div>
 			
-				<s:url id="yRandomLink" value="/viewPredictorKnnModelsYRandomSection" includeParams="none">
+				<s:url id="yRandomLink" value="/viewPredictorKnnModelsSection" includeParams="none">
 					<s:param name="predictorId" value='selectedPredictor.predictorId' />
 					<s:param name="isYRandomPage" value='YES' />
 				</s:url>
@@ -124,7 +124,7 @@
 		    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" showLoadingText="true">
 				</sx:div>
 			
-				<s:url id="yRandomLink" value="/viewPredictorKnnPlusModelsYRandomSection" includeParams="none">
+				<s:url id="yRandomLink" value="/viewPredictorKnnPlusModelsSection" includeParams="none">
 					<s:param name="predictorId" value='selectedPredictor.predictorId' />
 					<s:param name="isYRandomPage" value='YES' />
 				</s:url>
@@ -142,7 +142,7 @@
 		    	<sx:div href="%{grovesLink}" id="grovesDiv" label="Forests" theme="ajax" loadingText="Loading forests..." executeScripts="true" showLoadingText="true">
 				</sx:div>
 				
-				<s:url id="grovesYRandomLink" value="/viewPredictorRandomForestYRandomGrovesSection" includeParams="none">
+				<s:url id="grovesYRandomLink" value="/viewPredictorRandomForestGrovesSection" includeParams="none">
 					<s:param name="predictorId" value='selectedPredictor.predictorId' />
 					<s:param name="isYRandomPage" value='YES' />
 				</s:url>
@@ -156,7 +156,7 @@
 		    	<sx:div href="%{treesLink}" id="treesDiv" label="Trees" theme="ajax" loadingText="Loading trees..." executeScripts="true" showLoadingText="true">
 				</sx:div>
 				
-				<s:url id="treesYRandomLink" value="/viewPredictorRandomForestYRandomTreesSection" includeParams="none">
+				<s:url id="treesYRandomLink" value="/viewPredictorRandomForestTreesSection" includeParams="none">
 					<s:param name="predictorId" value='selectedPredictor.predictorId' />
 					<s:param name="isYRandomPage" value='YES' />
 				</s:url>
@@ -173,7 +173,7 @@
 		    	<sx:div href="%{modelsLink}" id="modelsLinkDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" preload="false" showLoadingText="true">
 				</sx:div>
 				
-				<s:url id="yRandomLink" value="/viewPredictorSvmYRandomSection" includeParams="none">
+				<s:url id="yRandomLink" value="/viewPredictorSvmModelsSection" includeParams="none">
 					<s:param name="predictorId" value='selectedPredictor.predictorId' />
 					<s:param name="isYRandomPage" value='YES' />
 				</s:url>

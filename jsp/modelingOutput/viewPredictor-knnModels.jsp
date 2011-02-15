@@ -29,7 +29,7 @@
 		</p>
 	
 		<table width="100%" align="center" class="sortable" id="models">
-		<s:if test="dataType=='CONTINUOUS'">
+		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 		<s:if test="models.size!=0">
 		<tr>
 		<th class="TableRowText01narrow">nnn</th>
@@ -59,7 +59,7 @@
 			</tr> 
 		</s:iterator>
 		</s:if>
-		<s:elseif test="dataType=='CATEGORY'">
+		<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 		<s:if test="models.size!=0">
 		<tr>
 			<th class="TableRowText01">nnn</th>

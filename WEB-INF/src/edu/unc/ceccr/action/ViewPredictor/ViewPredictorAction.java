@@ -53,7 +53,6 @@ public class ViewPredictorAction extends ActionSupport {
 	protected DataSet dataset;
 	protected String predictorId;
 
-	protected String dataType;
 	protected ActionContext context;
 	
 	protected Session session;
@@ -114,6 +113,8 @@ public class ViewPredictorAction extends ActionSupport {
 			return ERROR;
 		}
 		
+		dataType = selectedPredictor.getActivityType();
+		
 		Long datasetId = selectedPredictor.getDatasetId();
 		dataset = PopulateDataObjects.getDataSetById(datasetId, session);
 		
@@ -173,14 +174,7 @@ public class ViewPredictorAction extends ActionSupport {
 	public void setPredictorId(String predictorId) {
 		this.predictorId = predictorId;
 	}
-
-	public String getDataType() {
-		return dataType;
-	}
-	public void setDataType(String dataType) {
-		this.dataType = dataType;
-	}
-
+	
 	public String getMostFrequentDescriptors() {
 		return mostFrequentDescriptors;
 	}

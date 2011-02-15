@@ -121,7 +121,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	
 	private void getModels(Session session) throws Exception{
 		//get models associated with predictor
-		dataType = selectedPredictor.getActivityType();
 		
 		knnPlusModels = new ArrayList<KnnPlusModel>();
 		knnPlusRandomModels = new ArrayList<KnnPlusModel>();

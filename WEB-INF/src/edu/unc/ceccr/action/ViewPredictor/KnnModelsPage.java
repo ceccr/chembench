@@ -52,8 +52,6 @@ public class KnnModelsPage extends ViewPredictorAction {
 		getBasicParameters();
 		getModelsPageParameters();
 		
-		dataType = selectedPredictor.getActivityType();
-		
 		models = new ArrayList<KnnModel>();
 		randomModels = new ArrayList<KnnModel>();
 		ArrayList<KnnModel> allModels = new ArrayList<KnnModel>();

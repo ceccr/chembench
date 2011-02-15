@@ -53,11 +53,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		getBasicParameters();
 		getModelsPageParameters();
 		String result = SUCCESS;
-		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-
-		dataType = selectedPredictor.getActivityType();
-
+		
 		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
 		randomForestGroves = new ArrayList<RandomForestGrove>();
 		randomForestYRandomGroves = new ArrayList<RandomForestGrove>();
@@ -83,9 +79,6 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		getBasicParameters();
 		getModelsPageParameters();
 		String result = SUCCESS;
-		
-		dataType = selectedPredictor.getActivityType();
-
 		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
 		
 		randomForestTrees = new ArrayList<RandomForestTree>();

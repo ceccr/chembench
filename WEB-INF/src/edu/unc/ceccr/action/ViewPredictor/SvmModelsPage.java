@@ -51,7 +51,6 @@ public class SvmModelsPage extends ViewPredictorAction {
 		//get models associated with predictor
 		getBasicParameters();
 		getModelsPageParameters();
-		dataType = selectedPredictor.getActivityType();
 		svmModels = new ArrayList<SvmModel>();
 		svmRandomModels = new ArrayList<SvmModel>();
 		ArrayList<SvmModel> allModels = new ArrayList<SvmModel>();

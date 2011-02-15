@@ -7,7 +7,7 @@
 	
 	<!-- External Validation Chart -->
 	<s:if test="externalValValues.size!=0&&hasGoodModels=='YES'">
-	<s:if test="dataType=='CONTINUOUS'">
+	<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
 		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
 			<s:param name="user" value="user.userName" />
@@ -23,7 +23,7 @@
 		</p>
 		</s:if>
 	</s:if>
-	<s:elseif test="dataType=='CATEGORY'">
+	<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 		<p class="StandardTextDarkGray"><b><u>Confusion Matrix</u></b>
 		</p><p class="StandardTextDarkGray">Predicted category is based on the consensus 
 		prediction of the compound's activity rounded to the nearest whole number.</p>
