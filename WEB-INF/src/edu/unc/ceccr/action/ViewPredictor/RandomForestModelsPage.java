@@ -45,9 +45,7 @@ import edu.unc.ceccr.utilities.Utility;
 public class RandomForestModelsPage extends ViewPredictorAction {
 
 	private List<RandomForestGrove> randomForestGroves;
-	private List<RandomForestGrove> randomForestYRandomGroves;
 	private List<RandomForestTree> randomForestTrees;
-	private List<RandomForestTree> randomForestYRandomTrees;
 	
 	public String loadGroves() throws Exception {
 		getBasicParameters();
@@ -56,20 +54,16 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		
 		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
 		randomForestGroves = new ArrayList<RandomForestGrove>();
-		randomForestYRandomGroves = new ArrayList<RandomForestGrove>();
 		
 		if(rfGroves != null){
 			for(RandomForestGrove rfg : rfGroves){
-				if(rfg.getIsYRandomModel().equals(Constants.YES)){
-					randomForestYRandomGroves.add(rfg);
+				if(isYRandomPage.equals(Constants.YES) && rfg.getIsYRandomModel().equals(Constants.YES)){
+					randomForestGroves.add(rfg);
 				}
-				else{
+				else if(isYRandomPage.equals(Constants.NO) && rfg.getIsYRandomModel().equals(Constants.NO)){
 					randomForestGroves.add(rfg);
 				}
 			}
-		}
-		else{
-			Utility.writeToDebug("rfgroves null!");
 		}
 		return result;
 	}
@@ -82,17 +76,17 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
 		
 		randomForestTrees = new ArrayList<RandomForestTree>();
-		randomForestYRandomTrees = new ArrayList<RandomForestTree>();
 		if(rfGroves != null){
 			for(RandomForestGrove rfg : rfGroves){
-				ArrayList<RandomForestTree> rfTrees = (ArrayList<RandomForestTree>) PopulateDataObjects.getRandomForestTreesByGroveId(rfg.getId(), session);
-				
-				if(rfg.getIsYRandomModel().equals(Constants.YES)){
-					if(rfTrees != null){
-						randomForestYRandomTrees.addAll(rfTrees);
-					}
+				ArrayList<RandomForestTree> rfTrees = (ArrayList<RandomForestTree>) PopulateDataObjects.getRandomForestTreesByGroveId(rfg.getId(), session);				
+				if(isYRandomPage.equals(Constants.YES) && 
+						rfg.getIsYRandomModel().equals(Constants.YES) &&
+						rfTrees != null){
+					randomForestTrees.addAll(rfTrees);
 				}
-				else{
+				else if(isYRandomPage.equals(Constants.NO) && 
+						rfg.getIsYRandomModel().equals(Constants.NO) &&
+						rfTrees != null){
 					randomForestTrees.addAll(rfTrees);
 				}
 			}
@@ -102,15 +96,9 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			splitNumber = splitNumber.split("_")[3];
 			rfTree.setTreeFileName(splitNumber);
 		}
-		for(RandomForestTree rfTree: randomForestYRandomTrees){
-			String splitNumber = rfTree.getTreeFileName();
-			splitNumber = splitNumber.split("_")[3];
-			rfTree.setTreeFileName(splitNumber);
-		}
 		session.close();
 		return result;
 	}
-
 
 	public List<RandomForestGrove> getRandomForestGroves() {
 		return randomForestGroves;
@@ -119,27 +107,11 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		this.randomForestGroves = randomForestGroves;
 	}
 
-	public List<RandomForestGrove> getRandomForestYRandomGroves() {
-		return randomForestYRandomGroves;
-	}
-	public void setRandomForestYRandomGroves(
-			List<RandomForestGrove> randomForestYRandomGroves) {
-		this.randomForestYRandomGroves = randomForestYRandomGroves;
-	}
-
 	public List<RandomForestTree> getRandomForestTrees() {
 		return randomForestTrees;
 	}
 	public void setRandomForestTrees(List<RandomForestTree> randomForestTrees) {
 		this.randomForestTrees = randomForestTrees;
-	}
-
-	public List<RandomForestTree> getRandomForestYRandomTrees() {
-		return randomForestYRandomTrees;
-	}
-	public void setRandomForestYRandomTrees(
-			List<RandomForestTree> randomForestYRandomTrees) {
-		this.randomForestYRandomTrees = randomForestYRandomTrees;
 	}
 	
 }
