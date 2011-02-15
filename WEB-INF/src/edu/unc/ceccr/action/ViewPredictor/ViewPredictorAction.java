@@ -113,8 +113,6 @@ public class ViewPredictorAction extends ActionSupport {
 			return ERROR;
 		}
 		
-		dataType = selectedPredictor.getActivityType();
-		
 		Long datasetId = selectedPredictor.getDatasetId();
 		dataset = PopulateDataObjects.getDataSetById(datasetId, session);
 		
