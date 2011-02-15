@@ -122,22 +122,14 @@ public class ViewPredictorAction extends ActionSupport {
 	public String getModelsPageParameters() throws Exception{
 		//gets parameters used by each modeling page
 		//assumes getBasicParameters has already been called
-
+		
 		isYRandomPage = ((String[]) context.getParameters().get("isYRandomPage"))[0];
-		if(isYRandomPage == null){
-			return ERROR;
+
+		if(context.getParameters().get("sortDirection") != null){
+			sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0];
 		}
-		sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0];
-		if(sortDirection == null){
-			return ERROR;
-		}
-		orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
-		if(orderBy == null){
-			return ERROR;
-		}
-		mostFrequentDescriptors = ((String[]) context.getParameters().get("mostFrequentDescriptors"))[0];
-		if(mostFrequentDescriptors == null){
-			return ERROR;
+		if(context.getParameters().get("orderBy") != null){
+			orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
 		}
 		
 		return SUCCESS;

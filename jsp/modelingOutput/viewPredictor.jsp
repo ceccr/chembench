@@ -156,19 +156,13 @@
 		    	<sx:div href="%{treesLink}" id="treesDiv" label="Trees" theme="ajax" loadingText="Loading trees..." executeScripts="true" showLoadingText="true">
 				</sx:div>
 				
-				<s:url id="treesYRandomLink" value="/viewPredictorRandomForestTreesSection" includeParams="all">
+				<s:url id="treesYRandomLink" value="/viewPredictorRandomForestTreesSection" includeParams="get">
 					<s:param name="predictorId" value='selectedPredictor.predictorId' />
 					<s:param name="isYRandomPage" value="'YES'" />
 				</s:url>
 		    	<sx:div href="%{treesYRandomLink}" id="randomTreesDiv" label="Y-Randomized Trees" theme="ajax" loadingText="Loading trees..." executeScripts="true" showLoadingText="true">
 				</sx:div>
 				
-				<s:url id="getLink" value="/viewPredictorRandomForestTreesSection" includeParams="get">
-					<s:param name="predictorId" value='selectedPredictor.predictorId' />
-					<s:param name="isYRandomPage" value="'YES'" />
-				</s:url>
-		    	<sx:div href="%{getLink}" id="randomTreesDiv" label="Y-Randomized Trees (GET)" theme="ajax" loadingText="Loading trees..." executeScripts="true" showLoadingText="true">
-				</sx:div>
 			</s:elseif>
 			
 			<s:elseif test="selectedPredictor.modelMethod=='SVM'">
