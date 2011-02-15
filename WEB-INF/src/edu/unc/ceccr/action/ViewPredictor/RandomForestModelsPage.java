@@ -68,7 +68,6 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		return result;
 	}
 	
-
 	public String loadTrees() throws Exception {
 		getBasicParameters();
 		getModelsPageParameters();
