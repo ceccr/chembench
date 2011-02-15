@@ -110,4 +110,36 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		session.close();
 		return result;
 	}
+
+
+	public List<RandomForestGrove> getRandomForestGroves() {
+		return randomForestGroves;
+	}
+	public void setRandomForestGroves(List<RandomForestGrove> randomForestGroves) {
+		this.randomForestGroves = randomForestGroves;
+	}
+
+	public List<RandomForestGrove> getRandomForestYRandomGroves() {
+		return randomForestYRandomGroves;
+	}
+	public void setRandomForestYRandomGroves(
+			List<RandomForestGrove> randomForestYRandomGroves) {
+		this.randomForestYRandomGroves = randomForestYRandomGroves;
+	}
+
+	public List<RandomForestTree> getRandomForestTrees() {
+		return randomForestTrees;
+	}
+	public void setRandomForestTrees(List<RandomForestTree> randomForestTrees) {
+		this.randomForestTrees = randomForestTrees;
+	}
+
+	public List<RandomForestTree> getRandomForestYRandomTrees() {
+		return randomForestYRandomTrees;
+	}
+	public void setRandomForestYRandomTrees(
+			List<RandomForestTree> randomForestYRandomTrees) {
+		this.randomForestYRandomTrees = randomForestYRandomTrees;
+	}
+	
 }

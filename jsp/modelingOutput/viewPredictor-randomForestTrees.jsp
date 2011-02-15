@@ -17,7 +17,7 @@
 		<s:else>
 			To generate the random forest predictor, a random forest is generated for each 
 			train-test split, and the trees from each forest are combined together. This 
-			page shows the trees from each of the train-test splits. <s:property value="selectedPredictor.activityType"/> o <s:property value="selectedPredictor.name"/>
+			page shows the trees from each of the train-test splits. 
 			<br />
 		</s:else>	
 		</p>
