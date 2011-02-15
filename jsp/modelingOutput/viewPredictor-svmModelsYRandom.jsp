@@ -22,7 +22,7 @@
 		</s:elseif>
 		<s:else>
 			<table width="100%" align="center" class="sortable" id="models">
-			<s:if test="dataType=='CONTINUOUS'">
+			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 			<s:if test="svmRandomModels.size!=0">
 			<tr>
 			<th class="TableRowText01">gamma</th>
@@ -44,7 +44,7 @@
 				</tr> 
 			</s:iterator>
 			</s:if>
-			<s:elseif test="dataType=='CATEGORY'">
+			<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 			<s:if test="svmRandomModels.size!=0">
 			<tr>
 				<th class="TableRowText01">gamma</th>

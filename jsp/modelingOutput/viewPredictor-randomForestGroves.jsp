@@ -25,7 +25,7 @@
 	<!-- Table of Groves -->
 		
 		<table width="100%" align="center" class="sortable" id="randomForestGrovesTable">
-		<s:if test="dataType=='CONTINUOUS'">
+		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 		<s:if test="randomForestGroves.size!=0">
 		<tr>
 		<th class="TableRowText01narrow">Split Number</th>
@@ -47,7 +47,7 @@
 		</s:if>
 		
 		
-		<s:elseif test="dataType=='CATEGORY'">
+		<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 		<s:if test="randomForestGroves.size!=0">
 			<tr>
 			<th class="TableRowText01narrow">Split Number</th>

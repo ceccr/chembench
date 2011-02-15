@@ -31,7 +31,7 @@
 	<!-- Table of Models -->
 		
 		<table width="100%" align="center" class="sortable" id="knnPlusModels">
-		<s:if test="dataType=='CONTINUOUS'">
+		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 		<s:if test="knnPlusModels.size!=0">
 		<tr>
 		<th class="TableRowText01narrow">k</th>
@@ -59,7 +59,7 @@
 		</s:if>
 		
 		
-		<s:elseif test="dataType=='CATEGORY'">
+		<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 		<s:if test="knnPlusModels.size!=0">
 		<tr>
 			<th class="TableRowText01">k</th>

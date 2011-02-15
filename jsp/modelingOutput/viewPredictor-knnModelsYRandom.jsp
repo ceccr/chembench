@@ -41,7 +41,7 @@
 
 	<s:if test="selectedPredictor.numyTestModels>0">
 	<table width="100%" align="center" class="sortable" id="yRandomModels">
-	<s:if test="dataType=='CONTINUOUS'">
+	<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 	<tr>
 		<th class="TableRowText01narrow">nnn</th>
 		<th class="TableRowText01narrow">q<sup>2</sup></th>
@@ -70,7 +70,7 @@
 		</tr> 
 	</s:iterator>
 	</s:if>
-	<s:elseif test="dataType=='CATEGORY'">
+	<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 	<tr>
 		<th class="TableRowText01">nnn</th>
 		<th class="TableRowText01">Training Accuracy</th>

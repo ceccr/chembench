@@ -97,7 +97,7 @@
 	<!-- svm specific parameters -->
 	<s:if test="selectedPredictor.modelMethod=='SVM'">
 	<div class="StandardTextDarkGrayParagraph">
-		<s:if test="dataType=='CONTINUOUS'">
+		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 		<b>SVM Type:</b> <s:property value="svmParameters.svmTypeContinuous" /><br />
 		</s:if>
 		<s:else>
