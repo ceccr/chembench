@@ -99,8 +99,10 @@ public class ViewPredictorAction extends ActionSupport {
 			return LOGIN;
 		}
 		
-		predictorId = ((String[]) context.getParameters().get("predictorId"))[0];
-		if(predictorId == null){
+		if(context.getParameters().get("predictorId") != null){
+			predictorId = ((String[]) context.getParameters().get("predictorId"))[0];
+		}
+		else{
 			Utility.writeToStrutsDebug("No predictor ID supplied.");
 			return ERROR;
 		}
