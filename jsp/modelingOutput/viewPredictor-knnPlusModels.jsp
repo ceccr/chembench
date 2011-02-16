@@ -5,9 +5,8 @@
 	
 <!-- Models Page -->	
 	<br />
-		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
-
 		<s:if test="isYRandomPage=='YES'">
+			<p class="StandardTextDarkGray"><b><u>Y-Random Models</u></b></p>
 			<p class="StandardTextDarkGray">
 					In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
 					data where the compound activities have been shuffled. Ideally, no models with a high q<sup>2</sup>
@@ -16,6 +15,9 @@
 					be revised. Y-randomized models are only created for validation purposes and are not used in predictions.
 			</p>
 		</s:if>
+		<s:else>
+			<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
+		</s:else>
 		<p class="StandardTextDarkGray">
 		<s:if test="knnPlusModels.size==0">
 			No models that passed your training and test set cutoffs were generated.<br/>
@@ -24,13 +26,12 @@
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
-			<s:if test="isYRandomPage=='NO'">
+			<s:if test="selectedPredictor.modelMethod=='KNN-SA'">
 				Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
 				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 	
 			</s:if>
 			<s:else>
-				Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
-				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 		
+				<s:property value="selectedPredictor.numTestModels" /> models passed both training and test set criteria. 		
 			</s:else>
 			<br />
 		</s:else>	

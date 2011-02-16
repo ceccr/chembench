@@ -50,7 +50,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	public String load() throws Exception {
 		getBasicParameters();
 		getModelsPageParameters();
-		
+
 		String result = SUCCESS;
 
 		//get models
