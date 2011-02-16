@@ -24,8 +24,14 @@
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
+			<s:if test="isYRandomPage=='NO'">
 				Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
 				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 	
+			</s:if>
+			<s:else>
+				Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
+				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 		
+			</s:else>
 			<br />
 		</s:else>	
 		</p>

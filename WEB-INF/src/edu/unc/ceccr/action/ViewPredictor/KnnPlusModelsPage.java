@@ -46,16 +46,31 @@ import edu.unc.ceccr.utilities.Utility;
 public class KnnPlusModelsPage extends ViewPredictorAction {
 
 	private List<KnnPlusModel> knnPlusModels;
-	private List<KnnPlusModel> knnPlusRandomModels;
 	
 	public String load() throws Exception {
 		getBasicParameters();
 		getModelsPageParameters();
 		
 		String result = SUCCESS;
-		//check that the user is logged in
-			
-		getModels(session);
+
+		//get models
+		knnPlusModels = new ArrayList<KnnPlusModel>();
+		ArrayList<KnnPlusModel> allModels = new ArrayList<KnnPlusModel>();
+		List temp = PopulateDataObjects.getKnnPlusModelsByPredictorId(Long.parseLong(predictorId), session);
+		if(temp != null){
+			allModels.addAll(temp);
+
+			Iterator<KnnPlusModel> it = allModels.iterator();
+			while(it.hasNext()){
+				KnnPlusModel m = it.next();
+				if(m.getIsYRandomModel().equals(Constants.NO) && isYRandomPage.equals(Constants.NO)){
+					knnPlusModels.add(m);
+				}
+				else if(m.getIsYRandomModel().equals(Constants.YES) && isYRandomPage.equals(Constants.YES)){
+					knnPlusModels.add(m);
+				}
+			}
+		}
 			
 		//get descriptor freqs from models
 		HashMap<String, Integer> descriptorFreqMap  = new HashMap<String, Integer>();
@@ -113,23 +128,14 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	private void getModels(Session session) throws Exception{
 		//get models associated with predictor
 		
-		knnPlusModels = new ArrayList<KnnPlusModel>();
-		knnPlusRandomModels = new ArrayList<KnnPlusModel>();
-		ArrayList<KnnPlusModel> allModels = new ArrayList<KnnPlusModel>();
-		List temp = PopulateDataObjects.getKnnPlusModelsByPredictorId(Long.parseLong(predictorId), session);
-		if(temp != null){
-			allModels.addAll(temp);
-
-			Iterator<KnnPlusModel> it = allModels.iterator();
-			while(it.hasNext()){
-				KnnPlusModel m = it.next();
-				if(m.getIsYRandomModel().equals(Constants.NO)){
-					knnPlusModels.add(m);
-				}
-				else{
-					knnPlusRandomModels.add(m);
-				}
-			}
-		}
+		
 	}
+
+	public List<KnnPlusModel> getKnnPlusModels() {
+		return knnPlusModels;
+	}
+	public void setKnnPlusModels(List<KnnPlusModel> knnPlusModels) {
+		this.knnPlusModels = knnPlusModels;
+	}
+
 }
