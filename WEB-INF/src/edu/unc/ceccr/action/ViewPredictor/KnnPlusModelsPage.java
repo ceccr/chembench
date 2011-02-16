@@ -119,18 +119,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		return result;
 	}
 	
-	public String loadYRandom() throws Exception {
-		String result = SUCCESS;
-		getModels(session);
-		return result;
-	}
-	
-	private void getModels(Session session) throws Exception{
-		//get models associated with predictor
-		
-		
-	}
-
 	public List<KnnPlusModel> getKnnPlusModels() {
 		return knnPlusModels;
 	}
