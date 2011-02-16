@@ -45,14 +45,12 @@ import edu.unc.ceccr.utilities.Utility;
 public class SvmModelsPage extends ViewPredictorAction {
 
 	private List<SvmModel> svmModels;
-	private List<SvmModel> svmRandomModels;
 	
 	public String load() throws Exception{
 		//get models associated with predictor
 		getBasicParameters();
 		getModelsPageParameters();
 		svmModels = new ArrayList<SvmModel>();
-		svmRandomModels = new ArrayList<SvmModel>();
 		ArrayList<SvmModel> allModels = new ArrayList<SvmModel>();
 		List temp = PopulateDataObjects.getSvmModelsByPredictorId(Long.parseLong(predictorId), session);
 		if(temp != null){
@@ -60,14 +58,21 @@ public class SvmModelsPage extends ViewPredictorAction {
 			Iterator<SvmModel> it = allModels.iterator();
 			while(it.hasNext()){
 				SvmModel m = it.next();
-				if(m.getIsYRandomModel().equals(Constants.NO)){
+				if(m.getIsYRandomModel().equals(Constants.NO) && isYRandomPage.equals(Constants.NO)){
 					svmModels.add(m);
 				}
-				else{
-					svmRandomModels.add(m);
+				else if(m.getIsYRandomModel().equals(Constants.YES) && isYRandomPage.equals(Constants.YES)){
+					svmModels.add(m);
 				}
 			}
 		}
 		return SUCCESS;
+	}
+
+	public List<SvmModel> getSvmModels() {
+		return svmModels;
+	}
+	public void setSvmModels(List<SvmModel> svmModels) {
+		this.svmModels = svmModels;
 	}
 }

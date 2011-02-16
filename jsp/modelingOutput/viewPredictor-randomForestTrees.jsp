@@ -15,7 +15,7 @@
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
-			<s:if test="isYRandomPage=='YES'">
+			<s:if test="isYRandomPage=='NO'">
 				To generate the random forest predictor, a random forest is generated for each 
 				train-test split, and the trees from each forest are combined together. This 
 				page shows the trees from each of the train-test splits. 
@@ -54,7 +54,6 @@
 			</tr> 
 		</s:iterator>
 		</s:if>
-		
 		
 		<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 		<s:if test="randomForestTrees.size!=0">

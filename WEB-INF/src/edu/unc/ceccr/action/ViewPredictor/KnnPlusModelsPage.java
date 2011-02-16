@@ -54,15 +54,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		
 		String result = SUCCESS;
 		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-		
-
-		if(context.getParameters().get("orderBy") != null){
-			 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
-		}
-		if(context.getParameters().get("sortDirection") != null){
-			sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0];
-		}
 			
 		getModels(session);
 			

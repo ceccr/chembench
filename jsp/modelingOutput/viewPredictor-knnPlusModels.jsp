@@ -7,6 +7,15 @@
 	<br />
 		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
 
+		<s:if test="isYRandomPage=='YES'">
+			<p class="StandardTextDarkGray">
+					In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
+					data where the compound activities have been shuffled. Ideally, no models with a high q<sup>2</sup>
+					and R<sup>2</sup> will be produced. If the y-Randomized models are similar to the real models built on
+					your data (see Models tab), the predictor should be considered invalid and the dataset or parameters must
+					be revised. Y-randomized models are only created for validation purposes and are not used in predictions.
+			</p>
+		</s:if>
 		<p class="StandardTextDarkGray">
 		<s:if test="knnPlusModels.size==0">
 			No models that passed your training and test set cutoffs were generated.<br/>
@@ -15,19 +24,12 @@
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
-			<s:if test="selectedPredictor.modelMethod=='KNN-SA'">
 				Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
-				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 
-			</s:if>
-			<s:else>
-				<s:property value="selectedPredictor.numTestModels" /> models were generated that
-				passed both training and test set criteria. 
-			</s:else>
-			
+				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 	
 			<br />
 		</s:else>	
 		</p>
-	
+		
 	<!-- Table of Models -->
 		
 		<table width="100%" align="center" class="sortable" id="knnPlusModels">
@@ -58,7 +60,6 @@
 		</s:iterator>
 		</s:if>
 		
-		
 		<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 		<s:if test="knnPlusModels.size!=0">
 		<tr>
@@ -87,7 +88,6 @@
 		
 	<!-- End Table of Models -->
 	
-
 		<s:if test="mostFrequentDescriptors!=''">
 			<br />
 			<p class="StandardTextDarkGray"><b><u>Descriptor Frequencies</u></b></p>

@@ -62,11 +62,11 @@ public class KnnModelsPage extends ViewPredictorAction {
 			Iterator<KnnModel> it = allModels.iterator();
 			while(it.hasNext()){
 				KnnModel m = it.next();
-				if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)){
+				if(m.getFlowType().equalsIgnoreCase(Constants.MAINKNN) && isYRandomPage.equals(Constants.NO)){
 					models.add(m);
 				}
-				else{
-					randomModels.add(m);
+				else if(m.getFlowType().equalsIgnoreCase(Constants.RANDOMKNN) && isYRandomPage.equals(Constants.NO)){
+					models.add(m);
 				}
 			}
 		}
@@ -80,13 +80,6 @@ public class KnnModelsPage extends ViewPredictorAction {
 	}
 	public void setModels(List<KnnModel> models) {
 		this.models = models;
-	}
-
-	public List<KnnModel> getRandomModels() {
-		return randomModels;
-	}
-	public void setRandomModels(List<KnnModel> randomModels) {
-		this.randomModels = randomModels;
 	}
 	//end getters and setters
 }

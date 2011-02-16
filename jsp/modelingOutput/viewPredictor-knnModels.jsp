@@ -20,10 +20,19 @@
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
-			Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
-			<s:property value="selectedPredictor.numTrainModels" /> passed the training set criteria and 
-			<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 
-			For information on what each statistic means, check the <a href="/help-faq#05">FAQ</a> in the help pages.
+			<s:if test="isYRandomPage=='NO'">
+				Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
+				<s:property value="selectedPredictor.numTrainModels" /> passed the training set criteria and 
+				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 
+				For information on what each statistic means, check the <a href="/help-faq#05">FAQ</a> in the help pages.
+			</s:if>
+			<s:else>
+				In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
+				data where the compound activities have been shuffled. Ideally, no models with a high q<sup>2</sup>
+				and R<sup>2</sup> will be produced. If the y-Randomized models are similar to the real models built on
+				your data (see Models tab), the predictor should be considered invalid and the dataset or parameters must
+				be revised. Y-randomized models are only created for validation purposes and are not used in predictions.
+			</s:else>
 			<br />
 		</s:else>	
 		</p>
