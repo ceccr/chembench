@@ -177,7 +177,7 @@ public class KnnModelBuildingWorkflow{
 	}
 	
 	public static void MoveToPredictorsDir(String userName, String jobName, String parentPredictorName) throws Exception{
-		Utility.writeToDebug("called MoveToPredictorsDir. Username: " + userName + " jobName: " + jobName + " parentPredictorName: " + parentPredictorName)
+		Utility.writeToDebug("called MoveToPredictorsDir. Username: " + userName + " jobName: " + jobName + " parentPredictorName: " + parentPredictorName);
 		//When the job is finished, move all the files over to the PREDICTORS dir.
 		String moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
 		String moveTo = "";
