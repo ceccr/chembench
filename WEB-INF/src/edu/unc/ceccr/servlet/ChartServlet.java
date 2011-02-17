@@ -73,6 +73,8 @@ protected void processRequest(HttpServletRequest request,
 		 extValidation=PopulateDataObjects.getExternalValidationValues(predictor, session);
 	 }
 	 
+	 Utility.writeToDebug("extval size: " + extValidation.size());
+	 
 	 int index=0;
 	 float high,low;
 	 session.close();
