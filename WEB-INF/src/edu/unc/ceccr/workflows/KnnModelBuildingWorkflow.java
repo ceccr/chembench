@@ -180,14 +180,14 @@ public class KnnModelBuildingWorkflow{
 		Utility.writeToDebug("called MoveToPredictorsDir. Username: " + userName + " jobName: " + jobName + " parentPredictorName: " + parentPredictorName);
 		//When the job is finished, move all the files over to the PREDICTORS dir.
 		String moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
-		String moveTo = "";
+		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/";
+		(new File(moveTo)).mkdirs();
 		if(parentPredictorName.equals("")){
-			moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + jobName;
+			moveTo += jobName;
 		}
 		else{
-			moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + jobName + "/" + parentPredictorName;
+			moveTo += jobName + "/" + parentPredictorName;
 		}
-		(new File(moveTo)).mkdirs();
 		String execstr = "mv " + moveFrom + " " + moveTo;
 		Utility.writeToDebug(execstr);
 		RunExternalProgram.runCommand(execstr, "");  
