@@ -871,15 +871,46 @@ public class PopulateDataObjects {
 		return predictor;
 	}
 	
+	public static ArrayList<Predictor> getChildPredictors(Predictor predictor, Session session){
+		ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
+		
+		String[] childPredictorIds;
+		if(predictor.getChildIds() != null && !predictor.getChildIds().trim().equals("")){
+			//get external validation from each child predictor
+			childPredictorIds = predictor.getChildIds().split("\\s+");
+		}
+		else{
+			return childPredictors;
+		}
+		
+		Transaction tx = null;
+		try {
+			for(String childPredictorId: childPredictorIds){
+				tx = session.beginTransaction();
+				Predictor childPredictor = (Predictor) session.createCriteria(Predictor.class)
+					.add(Expression.eq("predictorId", childPredictorId)).uniqueResult();
+				tx.commit();
+				childPredictors.add(childPredictor);
+			}
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} 
+		return childPredictors;
+	}
+	
 	@SuppressWarnings("unchecked")
-	public static List getExternalValidationValues(Predictor pred, Session session)throws ClassNotFoundException, SQLException 
+	public static List getExternalValidationValues(Predictor predictor, Session session)throws ClassNotFoundException, SQLException 
 	{
-
+		
 		List<ExternalValidation> externalValValues = null;
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			externalValValues = session.createCriteria(ExternalValidation.class).add(Expression.eq("predictor", pred)).addOrder(Order.asc("predictedValue")).list();
+			externalValValues = session.createCriteria(ExternalValidation.class)
+				.add(Expression.eq("predictor", predictor))
+				.addOrder(Order.asc("predictedValue")).list();
 
 			tx.commit();
 		} catch (Exception e) {

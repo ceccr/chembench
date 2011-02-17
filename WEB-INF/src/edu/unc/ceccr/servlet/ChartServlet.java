@@ -53,13 +53,28 @@ protected void processRequest(HttpServletRequest request,
 	 String project=request.getParameter("project");
 	 String user=request.getParameter("user");
 	
-	
 	 Session session = HibernateUtil.getSession();
 	 Predictor predictor = PopulateDataObjects.getPredictorByName(project, user, session);
 	 
+	 List<ExternalValidation> extValidation;
+	 
+	 ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, session);
+	 if(childPredictors.size() != 0){
+		 //get external set for each
+		 extValidation = new ArrayList<ExternalValidation>();
+		 for(Predictor cp: childPredictors){
+			 List<ExternalValidation> childExtVals = PopulateDataObjects.getExternalValidationValues(cp, session);
+			 if(childExtVals != null){
+				 extValidation.addAll(childExtVals);
+			 }
+		 }
+	 }
+	 else{
+		 extValidation=PopulateDataObjects.getExternalValidationValues(predictor, session);
+	 }
+	 
 	 int index=0;
 	 float high,low;
-	 List<ExternalValidation> extValidation=PopulateDataObjects.getExternalValidationValues(predictor, session);
 	 session.close();
 	 ExternalValidation extv=null;
 	 
