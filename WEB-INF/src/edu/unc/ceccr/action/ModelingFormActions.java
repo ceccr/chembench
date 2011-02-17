@@ -240,6 +240,7 @@ public class ModelingFormActions extends ActionSupport{
 				p.setModelMethod(modelingType);
 				p.setPredictorType(Constants.PRIVATE);
 				p.setDescriptorGeneration(descriptorGenerationType);
+				p.setActivityType(actFileDataType);
 			
 				Transaction tx = null;
 				try {
