@@ -189,6 +189,7 @@ public class KnnModelBuildingWorkflow{
 		}
 		(new File(moveTo)).mkdirs();
 		String execstr = "mv " + moveFrom + " " + moveTo;
+		Utility.writeToDebug(execstr);
 		RunExternalProgram.runCommand(execstr, "");  
 	}
 }
