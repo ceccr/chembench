@@ -185,7 +185,7 @@ public class KnnModelBuildingWorkflow{
 			moveTo += jobName;
 		}
 		else{
-			moveTo += jobName + "/" + parentPredictorName;
+			moveTo += parentPredictorName + "/" + jobName;
 			(new File(moveTo)).mkdirs();
 		}
 		String execstr = "mv " + moveFrom + " " + moveTo;

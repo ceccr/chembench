@@ -86,5 +86,6 @@
 	<classpathentry kind="lib" path="WEB-INF/lib/struts2-core-2.1.6.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/struts2-dojo-plugin-2.1.6.jar"/>
 	<classpathentry kind="lib" path="WEB-INF/lib/xwork-2.1.2.jar"/>
+	<classpathentry kind="lib" path="WEB-INF/lib/commons-math-2.1.jar"/>
 	<classpathentry kind="output" path="WEB-INF/classes"/>
 </classpath>

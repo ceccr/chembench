@@ -850,7 +850,6 @@ public class PopulateDataObjects {
 		return models;
 	}
 	
-	
 	public static Predictor getPredictorByName(String selectedPredictorName, String user, Session session)	throws ClassNotFoundException, SQLException {
 		Predictor predictor = null;
 		Transaction tx = null;

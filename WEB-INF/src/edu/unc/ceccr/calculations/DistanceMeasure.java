@@ -1,4 +1,4 @@
-package edu.unc.ceccr.distance;
+package edu.unc.ceccr.calculations;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

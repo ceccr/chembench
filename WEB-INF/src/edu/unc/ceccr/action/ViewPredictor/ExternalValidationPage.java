@@ -23,6 +23,8 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.unc.ceccr.calculations.ConfusionMatrix;
+import edu.unc.ceccr.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
@@ -41,27 +43,18 @@ import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 public class ExternalValidationPage extends ViewPredictorAction {
-	private List<ExternalValidation> externalValValues;
+	private ArrayList<ExternalValidation> externalValValues;
 	private String hasGoodModels = Constants.YES;
-	private List<String> residuals;
+	private ArrayList<String> residuals;
 	
 	//used in creation of confusion matrix (category modeling only)
-	public class ConfusionMatrixRow{
-		ArrayList<Integer> values;
-
-		public ArrayList<Integer> getValues() {
-			return values;
-		}
-		public void setValues(ArrayList<Integer> values) {
-			this.values = values;
-		}
-	}
-	ArrayList<ConfusionMatrixRow> confusionMatrix;
-	String ccr = "";
-	ArrayList<String> uniqueObservedValues;
+	ConfusionMatrix confusionMatrix;
 	String rSquared = "";
+	String rSquaredAverageAndStddev = "";
+	String ccrAverageAndStddev = "";
 	
 	public String load() throws Exception {
 		getBasicParameters();
@@ -73,15 +66,41 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		if(childPredictors.size() != 0){
 			//get external set for each
 			externalValValues = new ArrayList<ExternalValidation>();
+			SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
 			for(Predictor cp: childPredictors){
-				List<ExternalValidation> childExtVals = PopulateDataObjects.getExternalValidationValues(cp, session);
+				ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp, session);
+				
+				//calculate r^2 / ccr for this child
 				if(childExtVals != null){
+					if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
+						Double childCcr = (RSquaredAndCCR.calculateConfusionMatrix(childExtVals)).getCcr();
+						childAccuracies.addValue(childCcr);
+					}
+					else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
+						Double childRSquared = (RSquaredAndCCR.calculateConfusionMatrix(childExtVals)).getCcr();
+						childAccuracies.addValue(childRSquared);
+					}
 					externalValValues.addAll(childExtVals);
 				}
 			}
+			Double mean = childAccuracies.getMean();
+			Double stddev = childAccuracies.getStandardDeviation();
+			
+			if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
+				rSquaredAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
+				rSquaredAverageAndStddev += " ± ";
+				rSquaredAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
+				Utility.writeToDebug("ccr avg and stddev: " + rSquaredAverageAndStddev);
+			}
+			else if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
+				ccrAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
+				ccrAverageAndStddev += " ± ";
+				ccrAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
+				Utility.writeToDebug("ccr avg and stddev: " + ccrAverageAndStddev);
+			}
 		}
 		else{
-			externalValValues=PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
+			externalValValues= (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
 		}
 		
 		if(externalValValues == null || externalValValues.isEmpty()){
@@ -123,108 +142,18 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 			//if category model, create confusion matrix.
 			//round off the predicted values to nearest integer.
-			try{
-			
-			//scan through to find the unique observed values
-			uniqueObservedValues = new ArrayList<String>();
-			for(ExternalValidation ev : externalValValues){
-				int observedValue = Math.round(ev.getActualValue());
-				int predictedValue = Math.round(ev.getPredictedValue());
-				if(! uniqueObservedValues.contains("" + observedValue)){
-					uniqueObservedValues.add("" + observedValue);
-				}
-				//if a value is predicted but not observed, we still need
-				//a spot in the matrix for that, so make a spot for those too.
-				if(! uniqueObservedValues.contains("" + predictedValue)){
-					uniqueObservedValues.add("" + predictedValue);
-				}
-			}
-			
-			
-			//set up a confusion matrix to store counts of each (observed, predicted) possibility
-			confusionMatrix = new ArrayList<ConfusionMatrixRow>();
-			
-			//make a matrix of zeros
-			for(int i = 0; i < uniqueObservedValues.size(); i++){
-				ConfusionMatrixRow row = new ConfusionMatrixRow();
-				row.values = new ArrayList<Integer>();
-				for(int j = 0; j < uniqueObservedValues.size(); j++){
-					row.values.add(0);
-				}
-				confusionMatrix.add(row);
-			}
-			
-			double CCR = 0.0;	
-			HashMap<Integer, Integer> correctPredictionCounts = new HashMap<Integer, Integer>();
-			HashMap<Integer, Integer> observedValueCounts = new HashMap<Integer, Integer>();
-			
-			//populate the confusion matrix and count values needed to calculate CCR
-			for(ExternalValidation ev : externalValValues){
-				//for each observed-predicted pair, update
-				//the confusion matrix accordingly
-				int observedValue = Math.round(ev.getActualValue());
-				int predictedValue = Math.round(ev.getPredictedValue());
-				int observedValueIndex = uniqueObservedValues.indexOf("" + observedValue);
-				int predictedValueIndex = uniqueObservedValues.indexOf("" + predictedValue);
-				int previousCount = confusionMatrix.get(observedValueIndex).values.get(predictedValueIndex);
-				confusionMatrix.get(observedValueIndex).values.set(predictedValueIndex, previousCount+1);
-				
-				if(observedValueCounts.containsKey(observedValue)){
-					observedValueCounts.put(observedValue, observedValueCounts.get(observedValue) + 1);
-				}
-				else{
-					observedValueCounts.put(observedValue, 1);
-				}
-				
-				if(predictedValue == observedValue){
-					if(correctPredictionCounts.containsKey(observedValue)){
-						correctPredictionCounts.put(observedValue, correctPredictionCounts.get(observedValue) + 1);
-					}
-					else{
-						correctPredictionCounts.put(observedValue, 1);
-					}
-				}
-				
-			}
-			
-			//calculate the CCR
-			//formula: 1/n(correct 1 / actual 1 + correct 2 / actual 2 ...correct n /predicted n)
-			Double ccrDouble = 0.0;
-			for(Integer d: correctPredictionCounts.keySet()){
-				ccrDouble += new Double(correctPredictionCounts.get(d)) / new Double(observedValueCounts.get(d));
-			}
-			ccrDouble = ccrDouble / new Double(observedValueCounts.keySet().size());
-			ccr = Utility.roundSignificantFigures(Utility.doubleToString(ccrDouble), 4);
-			
-			}catch(Exception ex){
-				Utility.writeToDebug(ex);
-			}
+			confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(externalValValues);
 		}
 		else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS) && externalValValues.size() > 1){
 			//if continuous, calculate overall r^2 and... r0^2? or something? 
 			//just r^2 for now, more later.
-			Double avg = 0.0;
-			for(ExternalValidation ev : externalValValues){
-				avg += ev.getActualValue();
-			}
-			avg /= externalValValues.size();
-			Double ssErr = 0.0;
-			for(String residual : residuals){
-				if(! residual.isEmpty()){
-					ssErr += Double.parseDouble(residual) * Double.parseDouble(residual);
-				}
-			}
-			Double ssTot = 0.0;
-			for(ExternalValidation ev : externalValValues){
-				ssTot += (ev.getActualValue() - avg) * (ev.getActualValue() - avg);
-			}
-			if(ssTot != 0){
-				rSquared = Utility.roundSignificantFigures("" + (1 - (ssErr / ssTot)), 4);
-			}
+			Double rSquaredDouble = RSquaredAndCCR.calculateRSquared(externalValValues, residuals);
+			rSquared = Utility.roundSignificantFigures("" + rSquaredDouble, Constants.REPORTED_SIGNIFICANT_FIGURES);
 		}
-		
 		return result;
 	}
+	
+	
 
 	
 	//getters and setters
@@ -232,7 +161,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	public List<ExternalValidation> getExternalValValues() {
 		return externalValValues;
 	}
-	public void setExternalValValues(List<ExternalValidation> externalValValues) {
+	public void setExternalValValues(ArrayList<ExternalValidation> externalValValues) {
 		this.externalValValues = externalValValues;
 	}
 
@@ -243,39 +172,33 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		this.hasGoodModels = hasGoodModels;
 	}
 
-	public List<String> getResiduals() {
+	public ArrayList<String> getResiduals() {
 		return residuals;
 	}
-	public void setResiduals(List<String> residuals) {
+	public void setResiduals(ArrayList<String> residuals) {
 		this.residuals = residuals;
 	}
-
-	public ArrayList<ConfusionMatrixRow> getConfusionMatrix() {
-		return confusionMatrix;
-	}
-	public void setConfusionMatrix(ArrayList<ConfusionMatrixRow> confusionMatrix) {
-		this.confusionMatrix = confusionMatrix;
-	}
-
-	public String getCcr() {
-		return ccr;
-	}
-	public void setCcr(String ccr) {
-		this.ccr = ccr;
-	}
-
-	public ArrayList<String> getUniqueObservedValues() {
-		return uniqueObservedValues;
-	}
-	public void setUniqueObservedValues(ArrayList<String> uniqueObservedValues) {
-		this.uniqueObservedValues = uniqueObservedValues;
-	}
-
+	
 	public String getrSquared() {
 		return rSquared;
 	}
 	public void setrSquared(String rSquared) {
 		this.rSquared = rSquared;
 	}
+
+	public String getrSquaredAverageAndStddev() {
+		return rSquaredAverageAndStddev;
+	}
+	public void setrSquaredAverageAndStddev(String rSquaredAverageAndStddev) {
+		this.rSquaredAverageAndStddev = rSquaredAverageAndStddev;
+	}
+
+	public ConfusionMatrix getConfusionMatrix() {
+		return confusionMatrix;
+	}
+	public void setConfusionMatrix(ConfusionMatrix confusionMatrix) {
+		this.confusionMatrix = confusionMatrix;
+	}
+	
 	//end getters and setters
 }
