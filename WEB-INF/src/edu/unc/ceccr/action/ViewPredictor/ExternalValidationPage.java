@@ -112,30 +112,21 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		dataset = PopulateDataObjects.getDataSetById(selectedPredictor.getDatasetId(), session);
 		
 		//calculate residuals and fix significant figures on output data
+		ArrayList<Double> residualsAsDouble = RSquaredAndCCR.calculateResiduals(externalValValues);
+
+		hasGoodModels = Constants.NO;
 		residuals = new ArrayList<String>();
-		Iterator<ExternalValidation> eit = externalValValues.iterator();
-		int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
-		int numExtValuesWithNoModels = 0;
-		while(eit.hasNext()){
-			ExternalValidation e = eit.next();
-			if(e.getNumModels() != 0){
-				String residual = DecimalFormat.getInstance().format(e.getActualValue() - e.getPredictedValue()).replaceAll(",", "");
-				residuals.add(Utility.roundSignificantFigures(residual, sigfigs));
-			}
-			else{
-				numExtValuesWithNoModels++;
+		for(Double residual: residualsAsDouble){
+			if(residual.isNaN()){
 				residuals.add("");
 			}
-			String predictedValue = DecimalFormat.getInstance().format(e.getPredictedValue()).replaceAll(",", "");
-			e.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));  
-			if(! e.getStandDev().equalsIgnoreCase("No value")){
-				e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
+			else{
+				//if at least one residual exists, there must have been a good model
+				hasGoodModels = Constants.YES;
+				residuals.add(Utility.roundSignificantFigures(""+residual, Constants.REPORTED_SIGNIFICANT_FIGURES));
 			}
 		}
-		if(numExtValuesWithNoModels == externalValValues.size()){
-			//all external predictions were empty, meaning there were no good models.
-			//can't calculate any summary data.
-			hasGoodModels = Constants.NO;
+		if(hasGoodModels.equals(Constants.NO)){
 			return result;
 		}
 		
@@ -147,14 +138,11 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS) && externalValValues.size() > 1){
 			//if continuous, calculate overall r^2 and... r0^2? or something? 
 			//just r^2 for now, more later.
-			Double rSquaredDouble = RSquaredAndCCR.calculateRSquared(externalValValues, residuals);
+			Double rSquaredDouble = RSquaredAndCCR.calculateRSquared(externalValValues, residualsAsDouble);
 			rSquared = Utility.roundSignificantFigures("" + rSquaredDouble, Constants.REPORTED_SIGNIFICANT_FIGURES);
 		}
 		return result;
 	}
-	
-	
-
 	
 	//getters and setters
 

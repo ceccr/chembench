@@ -7,15 +7,42 @@ import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class RSquaredAndCCR{
 	
-	public static ArrayList<Double> getResiduals(ArrayList<ExternalValidation> externalValidationList) {
+	public static ArrayList<Double> calculateResiduals(ArrayList<ExternalValidation> externalValidationList) {
 		ArrayList<Double> residuals = new ArrayList<Double>();
+		
+		Iterator<ExternalValidation> eit = externalValidationList.iterator();
+		int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
+		int numExtValuesWithNoModels = 0;
+		while(eit.hasNext()){
+			ExternalValidation e = eit.next();
+			if(e.getNumModels() != 0){
+				Double residual = new Double(e.getActualValue() - e.getPredictedValue());
+				residuals.add(residual);
+			}
+			else{
+				numExtValuesWithNoModels++;
+				residuals.add(Double.NaN);
+			}
+			String predictedValue = DecimalFormat.getInstance().format(e.getPredictedValue()).replaceAll(",", "");
+			e.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));  
+			if(! e.getStandDev().equalsIgnoreCase("No value")){
+				e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
+			}
+		}
+		if(numExtValuesWithNoModels == externalValidationList.size()){
+			//all external predictions were empty, meaning there were no good models.
+			return null;
+		}
 		
 		return residuals;
 	}
