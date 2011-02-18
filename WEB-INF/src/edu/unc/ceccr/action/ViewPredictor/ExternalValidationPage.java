@@ -187,6 +187,13 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	public void setConfusionMatrix(ConfusionMatrix confusionMatrix) {
 		this.confusionMatrix = confusionMatrix;
 	}
+
+	public String getCcrAverageAndStddev() {
+		return ccrAverageAndStddev;
+	}
+	public void setCcrAverageAndStddev(String ccrAverageAndStddev) {
+		this.ccrAverageAndStddev = ccrAverageAndStddev;
+	}
 	
 	//end getters and setters
 }

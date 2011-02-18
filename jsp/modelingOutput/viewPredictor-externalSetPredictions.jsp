@@ -20,7 +20,9 @@
 		</p>
 		<s:if test="dataset.splitType=='NFOLD'">
 			<p class="StandardTextDarkGray">
-			Overall R<sup>2</sup> for compounds in all external sets: <b><s:property value="rSquared" /></b><br />
+			Overall R<sup>2</sup> for compounds in all external sets: <b><s:property value="rSquared" /></b>
+			</p>
+			<p class="StandardTextDarkGray">
 			Average and standard deviation of R<sup>2</sup> among sets: <b><s:property value="rSquaredAverageAndStddev" /></b><br />
 			</p>
 		</s:if>
@@ -53,13 +55,15 @@
 		
 		<s:if test="dataset.splitType=='NFOLD'">
 			<p class="StandardTextDarkGray">
-			Overall CCR for compounds in all external sets: <b><s:property value="confusionMatrix.ccr" /></b><br />
+			Overall CCR for compounds in all external sets: <b><s:property value="confusionMatrix.ccrAsString" /></b>
+			</p>
+			<p class="StandardTextDarkGray">
 			Average and standard deviation of CCR among sets: <b><s:property value="ccrAverageAndStddev" /></b><br />
 			</p>
 		</s:if>
 		<s:else>
 			<p class="StandardTextDarkGray">
-			CCR for external set: <b><s:property value="confusionMatrix.ccr" /></b>
+			CCR for external set: <b><s:property value="confusionMatrix.ccrAsString" /></b>
 			</p>
 		</s:else>
 	</s:elseif>
