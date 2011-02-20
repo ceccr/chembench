@@ -125,9 +125,6 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			if(splitNumber.split("_").length > 2){
 				splitNumber = splitNumber.split("_")[3];
 			}
-			else{
-				splitNumber = "Error";
-			}
 			rfTree.setTreeFileName(splitNumber);
 		}
 		randomForestTreeSets.add(randomForestTrees);
