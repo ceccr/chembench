@@ -61,6 +61,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		else{
 			loadTreeSets();
 		}
+		session.close();
 		return result;
 	}
 	
@@ -75,6 +76,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		else{
 			loadGroveSets();
 		}	
+		session.close();
 		return result;
 	}
 	
@@ -123,7 +125,6 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			splitNumber = splitNumber.split("_")[3];
 			rfTree.setTreeFileName(splitNumber);
 		}
-		session.close();
 		randomForestTreeSets.add(randomForestTrees);
 		return result;
 	}
