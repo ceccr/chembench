@@ -35,7 +35,8 @@
 		
 	<!-- Table of Trees -->
 	<s:iterator value="randomForestTreeSets" status="randomForestTreeSetsStatus">
-		<s:if test="randomForestTreeSets.size() > 1">
+		Size: <s:property value="randomForestTreeSets.size()" />
+		<s:if test="randomForestTreeSets.size()>1">
 			<p class="StandardTextDarkGray"><u>Fold <s:property value="randomForestTreeSetsStatus.index + 1" /></u></p>
 		</s:if>
 		

@@ -70,10 +70,10 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		getModelsPageParameters();
 		
 		if(childPredictors.size() != 0){
-			loadTrees();
+			loadGroves();
 		}
 		else{
-			loadTreeSets();
+			loadGroveSets();
 		}	
 		return result;
 	}
