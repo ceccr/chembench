@@ -55,7 +55,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		getBasicParameters();
 		getModelsPageParameters();
 		
-		if(childPredictors.size() != 0){
+		if(childPredictors.size() == 0){
 			loadTrees();
 		}
 		else{
@@ -69,7 +69,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		getBasicParameters();
 		getModelsPageParameters();
 		
-		if(childPredictors.size() != 0){
+		if(childPredictors.size() == 0){
 			loadGroves();
 		}
 		else{
