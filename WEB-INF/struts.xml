@@ -254,7 +254,7 @@
 	        
         	<!-- knn -->
 	        
-	        <action name="viewPredictorKnnModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnModelsPage" method="load">
+	        <action name="viewPredictorKnnModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnModelsPage" method="loadPage">
 	        	<result>jsp/modelingOutput/viewPredictor-knnModels.jsp</result>
 	        </action>
 	        
@@ -262,7 +262,7 @@
         
         	<!-- knn+ -->
         	
-	        <action name="viewPredictorKnnPlusModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnPlusModelsPage" method="load">
+	        <action name="viewPredictorKnnPlusModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnPlusModelsPage" method="loadPage">
 	        	<result>jsp/modelingOutput/viewPredictor-knnPlusModels.jsp</result>
 	        </action>
 	        
@@ -271,12 +271,12 @@
         	<!-- random forest -->
         	
         	<!-- View Groves: not implemented yet
-        	 <action name="viewPredictorRandomForestGrovesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadGroves">
+        	 <action name="viewPredictorRandomForestGrovesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadGrovesPage">
 	        	<result>jsp/modelingOutput/viewPredictor-randomForestGroves.jsp</result>
 	        </action>
 	        -->
 	        
-        	 <action name="viewPredictorRandomForestTreesSection" class="edu.unc.ceccr.action.ViewPredictor.RandomForestModelsPage" method="loadTrees">
+        	 <action name="viewPredictorRandomForestTreesSection" class="edu.unc.ceccr.action.ViewPredictor.RandomForestModelsPage" method="loadTreesPage">
 	        	<result>jsp/modelingOutput/viewPredictor-randomForestTrees.jsp</result>
 	        </action>
 	        
@@ -284,7 +284,7 @@
         	
         	<!-- svm -->
         	
-        	<action name="viewPredictorSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictor.SvmModelsPage" method="load">
+        	<action name="viewPredictorSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictor.SvmModelsPage" method="loadPage">
 	        	<result>jsp/modelingOutput/viewPredictor-svmModels.jsp</result>
 	        </action>
         	
