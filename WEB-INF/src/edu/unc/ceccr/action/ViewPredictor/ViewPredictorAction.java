@@ -56,6 +56,7 @@ public class ViewPredictorAction extends ActionSupport {
 	protected ActionContext context;
 	
 	protected Session session;
+	ArrayList<Predictor> childPredictors;
 	//End basic parameters
 	
 	//Params used by all the models pages
@@ -117,6 +118,8 @@ public class ViewPredictorAction extends ActionSupport {
 		
 		Long datasetId = selectedPredictor.getDatasetId();
 		dataset = PopulateDataObjects.getDataSetById(datasetId, session);
+		
+		childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
 		
 		return SUCCESS;
 	}

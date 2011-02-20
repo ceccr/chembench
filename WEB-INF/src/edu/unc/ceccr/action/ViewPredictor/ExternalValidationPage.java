@@ -62,7 +62,6 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		//check that the user is logged in
 		
 		//get external validation compounds of predictor
-		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
 		if(childPredictors.size() != 0){
 			//get external set for each
 			externalValValues = new ArrayList<ExternalValidation>();

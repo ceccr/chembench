@@ -46,10 +46,39 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 
 	private List<RandomForestGrove> randomForestGroves;
 	private List<RandomForestTree> randomForestTrees;
-	
-	public String loadGroves() throws Exception {
+
+	private List<List<RandomForestTree>> randomForestTreeSets = new ArrayList<List<RandomForestTree>>(); //for nfold
+	private List<List<RandomForestGrove>> randomForestGroveSets =  new ArrayList<List<RandomForestGrove>>(); //for nfold
+
+	public String loadTreesPage() throws Exception{
+		String result = SUCCESS;
 		getBasicParameters();
 		getModelsPageParameters();
+		
+		if(childPredictors.size() != 0){
+			loadTrees();
+		}
+		else{
+			loadTreeSets();
+		}
+		return result;
+	}
+	
+	public String loadGrovesPage() throws Exception{
+		String result = SUCCESS;
+		getBasicParameters();
+		getModelsPageParameters();
+		
+		if(childPredictors.size() != 0){
+			loadTrees();
+		}
+		else{
+			loadTreeSets();
+		}	
+		return result;
+	}
+	
+	private String loadGroves() throws Exception {
 		String result = SUCCESS;
 		
 		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
@@ -65,12 +94,11 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 				}
 			}
 		}
+		randomForestGroveSets.add(randomForestGroves);
 		return result;
 	}
 	
-	public String loadTrees() throws Exception {
-		getBasicParameters();
-		getModelsPageParameters();
+	private String loadTrees() throws Exception {
 		String result = SUCCESS;
 		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
 		
@@ -96,21 +124,56 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			rfTree.setTreeFileName(splitNumber);
 		}
 		session.close();
+		randomForestTreeSets.add(randomForestTrees);
 		return result;
 	}
+	
+	private String loadTreeSets() throws Exception{
+		String result = SUCCESS;
+		String parentPredictorId = predictorId;
 
-	public List<RandomForestGrove> getRandomForestGroves() {
-		return randomForestGroves;
+		for(Predictor childPredictor : childPredictors){
+			predictorId = "" + childPredictor.getPredictorId();
+			result = loadTrees();
+			if(!result.equals(SUCCESS)){
+				return result;
+			}
+		}
+		predictorId = parentPredictorId;
+		return result;
 	}
-	public void setRandomForestGroves(List<RandomForestGrove> randomForestGroves) {
-		this.randomForestGroves = randomForestGroves;
+	
+	private String loadGroveSets() throws Exception{
+		String result = SUCCESS;
+		String parentPredictorId = predictorId;
+		
+		for(Predictor childPredictor : childPredictors){
+			predictorId = "" + childPredictor.getPredictorId();
+			result = loadGroves();
+			if(!result.equals(SUCCESS)){
+				return result;
+			}
+		}
+		predictorId = parentPredictorId;
+		return result;
+	}
+	
+	public List<List<RandomForestTree>> getRandomForestTreeSets() {
+		return randomForestTreeSets;
+	}
+	public void setRandomForestTreeSets(
+			List<List<RandomForestTree>> randomForestTreeSets) {
+		this.randomForestTreeSets = randomForestTreeSets;
 	}
 
-	public List<RandomForestTree> getRandomForestTrees() {
-		return randomForestTrees;
+	public List<List<RandomForestGrove>> getRandomForestGroveSets() {
+		return randomForestGroveSets;
 	}
-	public void setRandomForestTrees(List<RandomForestTree> randomForestTrees) {
-		this.randomForestTrees = randomForestTrees;
+	public void setRandomForestGroveSets(
+			List<List<RandomForestGrove>> randomForestGroveSets) {
+		this.randomForestGroveSets = randomForestGroveSets;
 	}
+	
+	
 	
 }
