@@ -457,20 +457,25 @@ public class QsarPredictionTask extends WorkflowTask {
 			String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/").list();
 			String[] datasetDescDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/Descriptors/").list();
 			String[] predictorDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + predictor.getName() + "/").list();
-			for(String fileName : datasetDirFiles){
-				if(new File(predictionDir + fileName).exists()){
+			try{
+				for(String fileName : datasetDirFiles){
+					if(new File(predictionDir + fileName).exists()){
 						FileAndDirOperations.deleteFile(predictionDir + fileName);
+					}
+				}
+				for(String fileName : datasetDescDirFiles){
+					if(new File(predictionDir + fileName).exists()){
+						FileAndDirOperations.deleteFile(predictionDir + fileName);
+					}
+				}
+				for(String fileName : predictorDirFiles){
+					if(new File(predictionDir + fileName).exists()){
+							FileAndDirOperations.deleteFile(predictionDir + fileName);
+					}
 				}
 			}
-			for(String fileName : datasetDescDirFiles){
-				if(new File(predictionDir + fileName).exists()){
-					FileAndDirOperations.deleteFile(predictionDir + fileName);
-				}
-			}
-			for(String fileName : predictorDirFiles){
-				if(new File(predictionDir + fileName).exists()){
-						FileAndDirOperations.deleteFile(predictionDir + fileName);
-				}
+			catch(Exception ex){
+				Utility.writeToDebug(ex);
 			}
 		}
 		return predValues;
