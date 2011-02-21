@@ -14,6 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
@@ -112,7 +113,6 @@ public class QsarPredictionTask extends WorkflowTask {
 							//whatever...
 						}
 					}
-					
 					
 				}
 				if(allPredsTotalModels == 0){
@@ -291,7 +291,6 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 		}
 
-		
 		//Now, make the prediction with each predictor. 
 		//First, copy dataset into jobDir. 
 		
@@ -312,47 +311,78 @@ public class QsarPredictionTask extends WorkflowTask {
 		return "";
 	}
 	
-	public void executeLocal() throws Exception {
+	private ArrayList<PredictionValue> makePredictions(Predictor predictor, String sdfile, String basePath, String datasetPath) throws Exception{
+		
+		ArrayList<PredictionValue> predValues = null;
+		String predictionDir = basePath + predictor.getName() + "/";
 
-		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		String sdfile = predictionDataset.getSdfFile();
+		Session s = HibernateUtil.getSession();
+		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, s);
+		s.close();
 		
-		//Workflow for this section will be:
-		//for each predictor do {
-		//	2. copy predictor into jobDir/predictorDir
-		//	3. copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.
-		//	4. make predictions in jobDir/predictorDir
-		//	5. get output, put it into predictionValue objects and save them
-		//}
-		
-		//this is gonna need some major changes if we ever want it to work with LSF.
-		//basically the workflow will need to be written into a shell script that LSF can execute
-		
-		//for each predictor do {
-		if(predictionDataset.getNumCompound() > 10000){
-			//We will run out of memory if we try to process this job
-			//in Java. 
-			Utility.writeToDebug("WARNING: Prediction set too large!");
+		if(childPredictors.size() > 0){
+			//recurse. Call this function for each childPredictor (if there are any).
+			ArrayList<ArrayList<PredictionValue>> childResults = new ArrayList<ArrayList<PredictionValue>>();
+			for(Predictor childPredictor : childPredictors){
+				childResults.add(makePredictions(childPredictor, sdfile, predictionDir, datasetPath));
+			}
 			
+			//average the results from the child predictions and return them
+			//assumes that all children return results of the same size
+			predValues = new ArrayList<PredictionValue>();
+			ArrayList<PredictionValue> firstChildResults = childResults.get(0);
+			for(PredictionValue pv : firstChildResults){
+				PredictionValue parentPredictionValue = new PredictionValue();
+				parentPredictionValue.setCompoundName(pv.getCompoundName());
+				parentPredictionValue.setNumModelsUsed(childResults.size());
+				parentPredictionValue.setNumTotalModels(childResults.size());
+				parentPredictionValue.setObservedValue(pv.getObservedValue());
+				predValues.add(parentPredictionValue);
+			}
+			//calculate average predicted value and stddev over each child
+			for(int i = 0; i < firstChildResults.size(); i++){
+				SummaryStatistics compoundPredictedValues = new SummaryStatistics();
+				for(ArrayList<PredictionValue> childResult: childResults){
+					compoundPredictedValues.addValue(childResult.get(i).getPredictedValue());
+				}
+				predValues.get(i).setPredictedValue(new Float(compoundPredictedValues.getMean()));
+				predValues.get(i).setStandardDeviation(new Float(compoundPredictedValues.getStandardDeviation()));
+			}
+			
+			//commit predValues to DB
+			s = HibernateUtil.getSession();
+			Transaction tx = null;
+			try {
+				tx = s.beginTransaction();
+				for(PredictionValue pv : predValues){
+					pv.setPredictionId(prediction.getPredictionId());
+					s.saveOrUpdate(pv);
+				}
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
+			} finally {
+				s.close();
+			}
+			return predValues;
 		}
-		
-		for(int i = 0; i < selectedPredictors.size(); i++){
-			Predictor selectedPredictor = selectedPredictors.get(i);
+		else{
+			//no child predictors, so just make a prediction
 			
-			//	2. copy predictor into jobDir/predictorDir
-			
-			String predictionDir = path + selectedPredictor.getName() + "/";
+			//2. copy predictor into jobDir/predictorDir
 			new File(predictionDir).mkdirs();
 			
 			step = Constants.COPYPREDICTOR;
-			GetJobFilesWorkflow.getPredictorFiles(userName, selectedPredictor, predictionDir);
-
+			GetJobFilesWorkflow.getPredictorFiles(userName, predictor, predictionDir);
+	
 			//  done with 2. (copy predictor into jobDir/predictorDir)
 			
 			//	3. copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.
-			FileAndDirOperations.copyDirContents(path, predictionDir, false);
+			FileAndDirOperations.copyDirContents(datasetPath, predictionDir, false);
 			
-			if(selectedPredictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
+			if(predictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
 				//the prediction descriptors file name is different if the user provided a .x file.
 				sdfile = predictionDataset.getXFile();
 			}
@@ -361,28 +391,28 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			ConvertDescriptorsToXAndScaleWorkflow.convertDescriptorsToXAndScale(predictionDir,
 					sdfile, "train_0.x", sdfile + ".renorm.x", 
-					selectedPredictor.getDescriptorGeneration(), selectedPredictor.getScalingType(), 
+					predictor.getDescriptorGeneration(), predictor.getScalingType(), 
 					predictionDataset.getNumCompound());
 			
 			//  done with 3. (copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.)
 			
 			//	4. make predictions in jobDir/predictorDir
-
+	
 			step = Constants.PREDICTING;
 			Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
 			
-			if(selectedPredictor.getModelMethod().equals(Constants.KNN)){
+			if(predictor.getModelMethod().equals(Constants.KNN)){
 				KnnPredictionWorkflow.RunKnnPlusPrediction(userName, jobName, predictionDir, sdfile, Float.parseFloat(cutoff) );
 			}
-			else if(selectedPredictor.getModelMethod().equals(Constants.SVM)){
+			else if(predictor.getModelMethod().equals(Constants.SVM)){
 				SvmWorkflow.runSvmPrediction(predictionDir, sdfile + ".renorm.x");
 			}
-			else if(selectedPredictor.getModelMethod().equals(Constants.KNNGA) || 
-					selectedPredictor.getModelMethod().equals(Constants.KNNSA)){
+			else if(predictor.getModelMethod().equals(Constants.KNNGA) || 
+					predictor.getModelMethod().equals(Constants.KNNSA)){
 				KnnPlusWorkflow.runKnnPlusPrediction(predictionDir, sdfile, cutoff);
 			}
-			else if(selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){
-				RandomForestWorkflow.runRandomForestPrediction(predictionDir, jobName, sdfile, selectedPredictor);
+			else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+				RandomForestWorkflow.runRandomForestPrediction(predictionDir, jobName, sdfile, predictor);
 			}
 			//  done with 4. (make predictions in jobDir/predictorDir)
 			
@@ -390,22 +420,21 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			step = Constants.READPRED;
 			
-			ArrayList<PredictionValue> predValues = null;
-			if(selectedPredictor.getModelMethod().equals(Constants.KNN)){
-				predValues = KnnPredictionWorkflow.readPredictionOutput(predictionDir, selectedPredictor.getPredictorId(), sdfile);
+			if(predictor.getModelMethod().equals(Constants.KNN)){
+				predValues = KnnPredictionWorkflow.readPredictionOutput(predictionDir, predictor.getPredictorId(), sdfile);
 			}
-			else if(selectedPredictor.getModelMethod().equals(Constants.SVM)){
-				predValues = SvmWorkflow.readPredictionOutput(predictionDir, sdfile + ".renorm.x", selectedPredictor.getPredictorId());
+			else if(predictor.getModelMethod().equals(Constants.SVM)){
+				predValues = SvmWorkflow.readPredictionOutput(predictionDir, sdfile + ".renorm.x", predictor.getPredictorId());
 			}
-			else if(selectedPredictor.getModelMethod().equals(Constants.KNNGA) ||
-					selectedPredictor.getModelMethod().equals(Constants.KNNSA)){
-				predValues = KnnPlusWorkflow.readPredictionOutput(predictionDir, selectedPredictor.getPredictorId(), sdfile);
+			else if(predictor.getModelMethod().equals(Constants.KNNGA) ||
+					predictor.getModelMethod().equals(Constants.KNNSA)){
+				predValues = KnnPlusWorkflow.readPredictionOutput(predictionDir, predictor.getPredictorId(), sdfile);
 			}
-			else if(selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){
-				predValues = RandomForestWorkflow.readPredictionOutput(predictionDir, selectedPredictor.getPredictorId());
+			else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+				predValues = RandomForestWorkflow.readPredictionOutput(predictionDir, predictor.getPredictorId());
 			}
 			
-			Session s = HibernateUtil.getSession();
+			s = HibernateUtil.getSession();
 			Transaction tx = null;
 			try {
 				tx = s.beginTransaction();
@@ -425,33 +454,53 @@ public class QsarPredictionTask extends WorkflowTask {
 			//  done with 5. (get output, put it into predictionValue objects and save them)
 			
 			//remove copied dataset and predictor; they are redundant
-			try{
-				String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/").list();
-				String[] datasetDescDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/Descriptors/").list();
-				String[] predictorDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + selectedPredictor.getName() + "/").list();
-				for(String fileName : datasetDirFiles){
-					if(new File(predictionDir + fileName).exists()){
-							FileAndDirOperations.deleteFile(predictionDir + fileName);
-					}
-				}for(String fileName : datasetDescDirFiles){
-					if(new File(predictionDir + fileName).exists()){
+			String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/").list();
+			String[] datasetDescDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/Descriptors/").list();
+			String[] predictorDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + predictor.getName() + "/").list();
+			for(String fileName : datasetDirFiles){
+				if(new File(predictionDir + fileName).exists()){
 						FileAndDirOperations.deleteFile(predictionDir + fileName);
 				}
 			}
-				for(String fileName : predictorDirFiles){
-					if(new File(predictionDir + fileName).exists()){
-							FileAndDirOperations.deleteFile(predictionDir + fileName);
-					}
+			for(String fileName : datasetDescDirFiles){
+				if(new File(predictionDir + fileName).exists()){
+					FileAndDirOperations.deleteFile(predictionDir + fileName);
 				}
 			}
-			catch(Exception ex){
-				Utility.writeToDebug(ex);
+			for(String fileName : predictorDirFiles){
+				if(new File(predictionDir + fileName).exists()){
+						FileAndDirOperations.deleteFile(predictionDir + fileName);
+				}
 			}
-			
-			//ArrayList<PredictionValue> predValues = parsePredOutput(predictionDir + Constants.PRED_OUTPUT_FILE, selectedPredictor.getPredictorId());
-			Utility.writeToDebug("ExecPredictorActionTask: Complete", userName, jobName);
-			
-			
+		}
+		return predValues;
+	}
+	
+	public void executeLocal() throws Exception {
+
+		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
+		String sdfile = predictionDataset.getSdfFile();
+		
+		//Workflow for this section will be:
+		//for each predictor do {
+		//	2. copy predictor into jobDir/predictorDir
+		//	3. copy dataset from jobDir to jobDir/predictorDir. Scale descriptors to fit predictor.
+		//	4. make predictions in jobDir/predictorDir
+		//	5. get output, put it into predictionValue objects and save them
+		//}
+		
+		//this is gonna need some major changes if we ever want it to work with LSF.
+		//basically the workflow will need to be written into a shell script that LSF can execute
+		
+		if(predictionDataset.getNumCompound() > 10000){
+			//We will probably run out of memory if we try to process this job in Java. 
+			Utility.writeToDebug("WARNING: Prediction set too large!");
+		}
+
+		//for each predictor do {
+		for(int i = 0; i < selectedPredictors.size(); i++){
+			Predictor predictor = selectedPredictors.get(i);
+			makePredictions(predictor, sdfile, path, path);
 		}
 		
 		//remove prediction dataset descriptors from prediction output dir;

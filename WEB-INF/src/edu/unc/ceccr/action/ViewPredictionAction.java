@@ -56,7 +56,6 @@ public class ViewPredictionAction extends ActionSupport {
 	private String sortDirection;
 	private ArrayList<String> pageNums;
 	
-	
 	public String loadPredictionsSection() throws Exception {
 		Utility.writeToDebug("called loadPredictionsSection");
 		
@@ -121,7 +120,6 @@ public class ViewPredictionAction extends ActionSupport {
 			//get dataset
 			dataset = PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session);
 			
-			//define which compounds will appear on page
 			//define which compounds will appear on page
 			int pagenum, limit, offset;
 			if(user.getViewDatasetCompoundsPerPage().equals(Constants.ALL)){

@@ -136,6 +136,7 @@ public class PopulateDataObjects {
 		ArrayList<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(predictionId, session);
 		Utility.writeToDebug("done getting from db");
 
+		//sort the by predictor ID
 		Utility.writeToDebug("Sorting");
 		Collections.sort(predictorPredictionValues, new Comparator<PredictionValue>(){
 				public int compare(PredictionValue p1, PredictionValue p2) {
