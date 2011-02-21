@@ -241,7 +241,7 @@ public class FileAndDirOperations {
 		    boolean success = f.delete();
 	
 		    if (!success){
-		      throw new IllegalArgumentException("Delete: deletion failed");
+		      throw new IllegalArgumentException("Delete: deletion failed for path: " + filePath);
 		    }
 		}
 		catch(Exception ex){
