@@ -107,8 +107,7 @@ public class GetJobFilesWorkflow{
 		}
 		
 
-		Utility.writeToDebug("Copying predictor from " + fromDir, userName, "");
-		
+		Utility.writeToDebug("Copying predictor from " + fromDir + " to " + toDir, userName, "");
 		
 		File knnOutputFile = new File(fromDir + "knn-output.list");
 		if(knnOutputFile.exists()){
