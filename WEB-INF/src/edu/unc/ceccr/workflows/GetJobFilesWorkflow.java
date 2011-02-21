@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.hibernate.Session;
+
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.global.Constants;
@@ -87,11 +91,21 @@ public class GetJobFilesWorkflow{
 		String fromDir;
 		
 		if(predictor.getUserName().equals(userName)){
-			fromDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + predictor.getName() + "/";
+			fromDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/";
 		}
 		else{
-			fromDir = Constants.CECCR_USER_BASE_PATH + "all-users/PREDICTORS/" + predictor.getName() + "/";
+			fromDir = Constants.CECCR_USER_BASE_PATH + "all-users/PREDICTORS/";
 		}
+		
+		if(predictor.getParentId()!= null){
+			Session s = HibernateUtil.getSession();
+			Predictor parentPredictor = PopulateDataObjects.getPredictorById(predictor.getParentId(), s);
+			fromDir += parentPredictor.getName() + "/" + predictor.getName() + "/";
+		}
+		else{
+			fromDir += predictor.getName() + "/";
+		}
+		
 
 		Utility.writeToDebug("Copying predictor from " + fromDir, userName, "");
 		

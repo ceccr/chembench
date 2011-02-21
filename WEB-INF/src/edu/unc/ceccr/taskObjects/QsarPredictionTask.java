@@ -196,7 +196,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			public int compare(Predictor p1, Predictor p2) {
 	    		return p1.getPredictorId().compareTo(p2.getPredictorId());
 		    }});
-
+		
 		s.close();
 	}
 
