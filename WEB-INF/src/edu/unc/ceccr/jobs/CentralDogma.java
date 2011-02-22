@@ -62,7 +62,8 @@ public class CentralDogma{
 			}
 			for(Job j : jobs){
 				WorkflowTask wt = null;
-				if(j.getLookupId() != null){
+				if(j.getLookupId() != null && !j.getJobList().equals("LIMBO")){
+					Utility.writeToDebug("restoring job: " + j.getJobName());
 					if(j.getJobType().equals(Constants.DATASET)){
 						Long datasetId = j.getLookupId();
 						DataSet dataset = PopulateDataObjects.getDataSetById(datasetId, s);

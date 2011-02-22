@@ -337,6 +337,7 @@ public class QsarPredictionTask extends WorkflowTask {
 				parentPredictionValue.setNumModelsUsed(childResults.size());
 				parentPredictionValue.setNumTotalModels(childResults.size());
 				parentPredictionValue.setObservedValue(pv.getObservedValue());
+				parentPredictionValue.setPredictorId(predictor.getPredictorId());
 				predValues.add(parentPredictionValue);
 			}
 			//calculate average predicted value and stddev over each child
