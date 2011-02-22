@@ -90,7 +90,6 @@ public class PopulateDataObjects {
 		return predictionValues;
 	}
 	
-	
 	@SuppressWarnings("unchecked")
 	public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session) throws Exception{
 		ArrayList<PredictionValue> predictionValues = null; //will contain all predvalues for this compound

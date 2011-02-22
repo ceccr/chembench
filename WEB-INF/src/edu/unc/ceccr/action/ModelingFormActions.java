@@ -532,7 +532,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String saNumRuns = "3";
 	private String saMutationProbabilityPerDescriptor = "0.2";
 	private String saNumBestModels = "2";
-	private String saTempDecreaseCoefficient = "0.6";
+	private String saTempDecreaseCoefficient = "0.75";
 	private String saLogInitialTemp = "5";
 	private String saFinalTemp = "5";
 	private String saTempConvergence = "5";
