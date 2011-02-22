@@ -92,30 +92,38 @@ public class PopulateDataObjects {
 	
 	@SuppressWarnings("unchecked")
 	public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session) throws Exception{
-		ArrayList<PredictionValue> predictionValues = null; //will contain all predvalues for this compound
-		Transaction tx = null;
-		try
-		{
-			tx = session.beginTransaction();
-			predictionValues = (ArrayList<PredictionValue>) session.createCriteria(PredictionValue.class)
-			.add(Expression.eq("predictionId", predictionId))
-			.list();
-		} catch (Exception ex) {
-			Utility.writeToDebug(ex);
-			if (tx != null)
-				tx.rollback();
-		} 
-				
+		ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
+		Prediction prediction = getPredictionById(predictionId, session);
+		String[] predictorIds = prediction.getPredictorIds().split("\\s+");
+		
+		for(String predictorId : predictorIds){
+			Transaction tx = null;
+			try
+			{
+				tx = session.beginTransaction();
+				ArrayList<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) session.createCriteria(PredictionValue.class)
+				.add(Expression.eq("predictionId", predictionId))
+				.add(Expression.eq("predictorId", Long.parseLong(predictorId)))
+				.list();
+				predictionValues.addAll(predictorPredictionValues);
+			} catch (Exception ex) {
+				Utility.writeToDebug(ex);
+				if (tx != null)
+					tx.rollback();
+			} 
+		}
+		
+		
 		for(PredictionValue pv : predictionValues){
-			int numTotalModels = getPredictorById(pv.getPredictorId(), session).getNumTestModels();
+			int numTotalModels = getPredictorById(pv.getPredictorId(), session).getNumTestModels();			
 			pv.setNumTotalModels(numTotalModels);
 		}
 		return predictionValues;
 	}
 	
-
 	public static ArrayList<CompoundPredictions> populateCompoundPredictionValues(Long datasetId, Long predictionId, Session session) throws Exception{
 		DataSet dataset = getDataSetById(datasetId, session);
+		
 		//get compounds from SDF
 		String datasetDir = "";
 		datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";

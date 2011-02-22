@@ -271,6 +271,11 @@ public class QsarModelingTask extends WorkflowTask {
 			splitIncludesMax = predictor.getSplitIncludesMax();
 			sphereSplitMinTestSize = predictor.getSphereSplitMinTestSize();
 			selectionNextTrainPt = predictor.getSelectionNextTrainPt();
+		
+		if((new File(filePath + "ext_0.x")).exists()){
+			ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
+			numExternalCompounds = extCompoundArray.size();
+		}
 			
 		//modeling params
 		if(predictor.getModelMethod().equals(Constants.KNN)){
