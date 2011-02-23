@@ -11,6 +11,7 @@ import edu.unc.ceccr.global.Constants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -88,6 +89,7 @@ public class RSquaredAndCCR{
 				uniqueObservedValues.add("" + predictedValue);
 			}
 		}
+		Collections.sort(uniqueObservedValues);
 		
 		//set up a confusion matrix to store counts of each (observed, predicted) possibility
 		ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();

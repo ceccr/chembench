@@ -5,6 +5,7 @@ import java.io.*;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.CompoundPredictions;
 import edu.unc.ceccr.persistence.Descriptors;
+import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
@@ -26,6 +27,23 @@ public class WriteDownloadableFilesWorkflow{
 	//In most cases, the files generated during the running of a job are
 	//of no use to humans. These functions generate downloadable results
 	//files that give job results in a more readable form.
+	
+	public static void writeExternalPredictionsAsCSV(Long predictorId) throws Exception{
+		Session s = HibernateUtil.getSession();
+		Predictor predictor = PopulateDataObjects.getPredictorById(predictorId, s);
+		ArrayList<ExternalValidation> externalValidationValues;
+		
+		String outfileName = Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" + 
+			predictor.getName() + "/" + predictor.getName() + "-external-set-predictions.csv";
+		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, s);
+		if(childPredictors.isEmpty()){
+			//
+			externalValidationValues = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(predictor, s);	
+		}
+		else{
+			
+		}
+	}
 	
 	public static void writePredictionValuesAsCSV(Long predictionId) throws Exception{
 		Session s = HibernateUtil.getSession();
