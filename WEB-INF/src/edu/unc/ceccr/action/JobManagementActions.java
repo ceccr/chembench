@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -29,6 +30,7 @@ import edu.unc.ceccr.taskObjects.WorkflowTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
 
@@ -45,6 +47,8 @@ public class JobManagementActions extends ActionSupport{
 			Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
 
 			Utility.writeToDebug("Fixing " + predictor.getUserName() + "'s predictor '" + predictor.getName() + "' with id " + id);
+			UndoMoveToPredictorsDir(predictor.getUserName(), predictor.getName(), "");
+			
 			if(predictor.getChildIds() != null && !predictor.getChildIds().trim().isEmpty()){
 				
 			}
@@ -55,5 +59,23 @@ public class JobManagementActions extends ActionSupport{
 			}
 		}
 		return SUCCESS;
+	}
+
+	public static void UndoMoveToPredictorsDir(String userName, String jobName, String parentPredictorName) throws Exception{
+		//do the opposite of:
+		//When the job is finished, move all the files over to the PREDICTORS dir.
+		String moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
+		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/";
+		if(parentPredictorName.equals("")){
+			(new File(moveTo)).mkdirs();
+			moveTo += jobName;
+		}
+		else{
+			moveTo += parentPredictorName + "/";
+			(new File(moveTo)).mkdirs();
+			moveTo += jobName;
+		}
+		String execstr = "mv " + moveTo + " " + moveFrom;
+		RunExternalProgram.runCommand(execstr, "");  
 	}
 }

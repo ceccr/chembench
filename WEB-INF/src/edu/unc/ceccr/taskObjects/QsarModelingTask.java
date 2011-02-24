@@ -279,8 +279,8 @@ public class QsarModelingTask extends WorkflowTask {
 			Utility.writeToDebug("Recovering: numExternalCompounds set to " + numExternalCompounds);
 		}
 		else{
-			Utility.writeToDebug("Recovering: could not find " + filePath + "ext_0.x . numExternalCompounds set to 1.");
-			numExternalCompounds = 1;
+			Utility.writeToDebug("Recovering: could not find " + filePath + "ext_0.x . numExternalCompounds set to 0.");
+			numExternalCompounds = 0;
 		}
 			
 		//modeling params
