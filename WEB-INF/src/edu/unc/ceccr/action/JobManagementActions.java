@@ -81,14 +81,14 @@ public class JobManagementActions extends ActionSupport{
 		//When the job is finished, move all the files over to the PREDICTORS dir.
 		String moveFrom;
 		if(parentPredictorName.isEmpty()){
-			moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
+			moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + jobName;
 		}
 		else{
-			moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + parentPredictorName + "/" + jobName;
+			moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + parentPredictorName + "/" + jobName;
 		}
 		
-		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + jobName;
-		String execstr = "mv " + moveTo + " " + moveFrom;
+		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
+		String execstr = "mv " + moveFrom + " " + moveTo;
 		RunExternalProgram.runCommand(execstr, "");  
 	}
 }
