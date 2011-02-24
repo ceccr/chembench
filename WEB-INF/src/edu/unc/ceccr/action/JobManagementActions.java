@@ -54,7 +54,7 @@ public class JobManagementActions extends ActionSupport{
 			}
 			else{
 				QsarModelingTask qst = new QsarModelingTask(predictor);
-				qst.jobList = "LOCAL";
+				qst.jobList = "LSF";
 				qst.postProcess();
 			}
 		}
