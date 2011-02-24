@@ -231,6 +231,7 @@ public class QsarModelingTask extends WorkflowTask {
 	}
 	
 	public QsarModelingTask(Predictor predictor) throws Exception{
+		Utility.writeToDebug("Recovering job from predictor: " + predictor.getName());
 		this.predictor = predictor;
 		
 		//get dataset
@@ -275,6 +276,9 @@ public class QsarModelingTask extends WorkflowTask {
 		if((new File(filePath + "ext_0.x")).exists()){
 			ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
 			numExternalCompounds = extCompoundArray.size();
+		}
+		else{
+			Utility.writeToDebug("Recovering: could not find " + filePath + "ext_0.x . numExternalCompounds set to 0.");
 		}
 			
 		//modeling params

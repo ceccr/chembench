@@ -190,9 +190,9 @@ public class ModelingFormActions extends ActionSupport{
 		//set up job
 		try{
 			//unsplit any variables repeated between knn-GA and knn-SA
-			int index = 0;
+			int index = 1;
 			if(modelingType.equals(Constants.KNNGA)){
-				index = 1;
+				index = 0;
 			}
 			if(knnMinNumDescriptors.split("\\, ").length > 1){
 				knnMinNumDescriptors = knnMinNumDescriptors.split("\\, ")[index];
