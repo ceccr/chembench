@@ -39,8 +39,12 @@ public class JobManagementActions extends ActionSupport{
 		String ids="1636";
 		String[] idArray = ids.split("\\s+");
 		Session s = HibernateUtil.getSession();
+		Utility.writeToDebug("Starting fixes..");
 		for(String id: idArray){
+			
 			Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
+
+			Utility.writeToDebug("Fixing " + predictor.getUserName() + "'s predictor '" + predictor.getName() + "' with id " + id);
 			if(predictor.getChildIds() != null && !predictor.getChildIds().trim().isEmpty()){
 				
 			}
