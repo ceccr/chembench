@@ -361,13 +361,13 @@
 				</tr>	 -->
 				<tr>
 					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Maximum Corellation:</b></div>
+					<div class="StandardTextDarkGrayParagraph"><b>Maximum Correlation:</b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="corellationCutoff" id="corellationCutoff" size="5" /></td>
 				</tr>
 				<tr>
 					<td colspan="2">
-					<div class="StandardTextDarkGrayParagraph"><i>For each pair of descriptors, if the corellation coefficient is above the maximum, one of the two will be removed.<br /><br /></i></div>
+					<div class="StandardTextDarkGrayParagraph"><i>For each pair of descriptors, if the correlation coefficient is above the maximum, one of the two will be removed.<br /><br /></i></div>
 					</td>
 				</tr>
 			    </tbody>

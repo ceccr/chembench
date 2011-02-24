@@ -47,12 +47,26 @@ public class JobManagementActions extends ActionSupport{
 			Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
 
 			Utility.writeToDebug("Fixing " + predictor.getUserName() + "'s predictor '" + predictor.getName() + "' with id " + id);
-			UndoMoveToPredictorsDir(predictor.getUserName(), predictor.getName(), "");
 			
 			if(predictor.getChildIds() != null && !predictor.getChildIds().trim().isEmpty()){
+				String[] childIds = predictor.getChildIds().split("\\s+");
 				
+				ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
+				
+				for(String childId: childIds){
+					Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
+					childPredictors.add(childPredictor);
+				}
+				for(Predictor childPredictor: childPredictors){
+					UndoMoveToPredictorsDir(predictor.getUserName(), childPredictor.getName(), predictor.getName());
+					
+					QsarModelingTask qst = new QsarModelingTask(childPredictor);
+					qst.jobList = "LSF";
+					qst.postProcess();
+				}
 			}
-			else{
+			else{			
+				UndoMoveToPredictorsDir(predictor.getUserName(), predictor.getName(), "");
 				QsarModelingTask qst = new QsarModelingTask(predictor);
 				qst.jobList = "LSF";
 				qst.postProcess();
