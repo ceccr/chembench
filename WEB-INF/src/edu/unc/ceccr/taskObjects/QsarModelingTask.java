@@ -1043,7 +1043,8 @@ public class QsarModelingTask extends WorkflowTask {
 				if(finishedChildPredictors == numFolds){
 					//if all children are now done, set jobCompleted to YES in the parent predictor.
 					parentPredictor.setJobCompleted(Constants.YES);
-					parentPredictor.setNumTotalModels(numTotalModelsTotal);
+					parentPredictor.setNumTotalModels(finishedChildPredictors);
+					parentPredictor.setModelingParametersId(predictor.getModelingParametersId());
 				}
 			}
 			
