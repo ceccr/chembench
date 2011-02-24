@@ -38,7 +38,7 @@ public class JobManagementActions extends ActionSupport{
 	
 	public String fixBrokenPredictors() throws Exception{
 		//String ids = "6725 6728 6729 6730 6760 6763 6792 6803 6806 6807 6809 6816 6820 6825 6833 6844 6849 6857 6879 7331 7332 7333 7334 7335 7336 7337 7338 7339 7340 7347 7348 7431 7437 7463 7469";
-		String ids="1636";
+		String ids="1635 1642";
 		String[] idArray = ids.split("\\s+");
 		Session s = HibernateUtil.getSession();
 		Utility.writeToDebug("Starting fixes..");
