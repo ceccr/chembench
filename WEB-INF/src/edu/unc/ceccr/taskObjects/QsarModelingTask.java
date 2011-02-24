@@ -276,6 +276,7 @@ public class QsarModelingTask extends WorkflowTask {
 		if((new File(filePath + "ext_0.x")).exists()){
 			ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
 			numExternalCompounds = extCompoundArray.size();
+			Utility.writeToDebug("Recovering: numExternalCompounds set to " + numExternalCompounds);
 		}
 		else{
 			Utility.writeToDebug("Recovering: could not find " + filePath + "ext_0.x . numExternalCompounds set to 0.");
