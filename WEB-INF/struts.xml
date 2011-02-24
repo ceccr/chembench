@@ -17,6 +17,12 @@
 		<result name="login">jsp/main/notLoggedIn.jsp</result>
 		</global-results>
 		
+		<!-- temp; delete this after use -->
+		
+       <action name="fixThisCrap" class="edu.unc.ceccr.action.JobManagementActions" method="fixBrokenPredictors">
+           <result>jsp/main/home.jsp</result>
+       </action>
+       
        <!-- Main pages -->
        <action name="index">
            <result>jsp/main/home.jsp</result>
