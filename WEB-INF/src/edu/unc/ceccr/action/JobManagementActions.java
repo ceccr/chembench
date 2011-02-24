@@ -48,7 +48,7 @@ public class JobManagementActions extends ActionSupport{
 
 			Utility.writeToDebug("Fixing " + predictor.getUserName() + "'s predictor '" + predictor.getName() + "' with id " + id);
 			
-			if(predictor.getChildIds() != null && !predictor.getChildIds().trim().isEmpty()){
+			if(predictor.getChildIds() != null && ! predictor.getChildIds().trim().isEmpty()){
 				String[] childIds = predictor.getChildIds().split("\\s+");
 				
 				ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
@@ -58,7 +58,8 @@ public class JobManagementActions extends ActionSupport{
 					childPredictors.add(childPredictor);
 				}
 				for(Predictor childPredictor: childPredictors){
-					UndoMoveToPredictorsDir(predictor.getUserName(), childPredictor.getName(), predictor.getName());
+					Utility.writeToDebug("Fixing " + childPredictor.getUserName() + "'s child predictor '" + childPredictor.getName() + "' with id " + id);
+					UndoMoveToPredictorsDir(predictor.getUserName(), predictor.getName() + "/" + childPredictor.getName(), predictor.getName());
 					
 					QsarModelingTask qst = new QsarModelingTask(childPredictor);
 					qst.jobList = "LSF";
