@@ -59,7 +59,7 @@ public class JobManagementActions extends ActionSupport{
 				}
 				for(Predictor childPredictor: childPredictors){
 					Utility.writeToDebug("Fixing " + childPredictor.getUserName() + "'s child predictor '" + childPredictor.getName() + "' with id " + id);
-					UndoMoveToPredictorsDir(predictor.getUserName(), predictor.getName() + "/" + childPredictor.getName(), predictor.getName());
+					UndoMoveToPredictorsDir(predictor.getUserName(), childPredictor.getName(), predictor.getName());
 					
 					QsarModelingTask qst = new QsarModelingTask(childPredictor);
 					qst.jobList = "LSF";
@@ -79,17 +79,15 @@ public class JobManagementActions extends ActionSupport{
 	public static void UndoMoveToPredictorsDir(String userName, String jobName, String parentPredictorName) throws Exception{
 		//do the opposite of:
 		//When the job is finished, move all the files over to the PREDICTORS dir.
-		String moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
-		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/";
-		if(parentPredictorName.equals("")){
-			(new File(moveTo)).mkdirs();
-			moveTo += jobName;
+		String moveFrom;
+		if(parentPredictorName.isEmpty()){
+			moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
 		}
 		else{
-			moveTo += parentPredictorName + "/";
-			(new File(moveTo)).mkdirs();
-			moveTo += jobName;
+			moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + parentPredictorName + "/" + jobName;
 		}
+		
+		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + jobName;
 		String execstr = "mv " + moveTo + " " + moveFrom;
 		RunExternalProgram.runCommand(execstr, "");  
 	}
