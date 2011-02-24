@@ -60,7 +60,6 @@ public class IncomingJobProcessingThread extends Thread {
 								qs.getModelType().equals(Constants.KNNSA) ||
 								qs.getModelType().equals(Constants.KNNGA) ||
 								qs.getModelType().equals(Constants.SVM)){
-							
 							if(LsfProcessingThread.lsfHasFreePendSlots()){
 								Utility.writeToDebug("Sending job " + j.getJobName() + " to LSF queue");
 								movedJob = true;

@@ -115,14 +115,16 @@ public class ExternalValidationPage extends ViewPredictorAction {
 
 		hasGoodModels = Constants.NO;
 		residuals = new ArrayList<String>();
-		for(Double residual: residualsAsDouble){
-			if(residual.isNaN()){
-				residuals.add("");
-			}
-			else{
-				//if at least one residual exists, there must have been a good model
-				hasGoodModels = Constants.YES;
-				residuals.add(Utility.roundSignificantFigures(""+residual, Constants.REPORTED_SIGNIFICANT_FIGURES));
+		if(residualsAsDouble != null){
+			for(Double residual: residualsAsDouble){
+				if(residual.isNaN()){
+					residuals.add("");
+				}
+				else{
+					//if at least one residual exists, there must have been a good model
+					hasGoodModels = Constants.YES;
+					residuals.add(Utility.roundSignificantFigures(""+residual, Constants.REPORTED_SIGNIFICANT_FIGURES));
+				}
 			}
 		}
 		if(hasGoodModels.equals(Constants.NO)){
