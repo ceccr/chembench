@@ -54,7 +54,7 @@ public class JobManagementActions extends ActionSupport{
 				ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
 				
 				for(String childId: childIds){
-					Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
+					Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId), s);
 					childPredictors.add(childPredictor);
 				}
 				for(Predictor childPredictor: childPredictors){

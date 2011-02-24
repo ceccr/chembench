@@ -242,14 +242,6 @@ public class ModelingFormActions extends ActionSupport{
 				p.setDescriptorGeneration(descriptorGenerationType);
 				p.setActivityType(actFileDataType);
 				
-				if(trainTestSplitType.equalsIgnoreCase(Constants.RANDOM)){
-					p.setNumSplits(numSplitsInternalRandom);
-				}
-				else if(trainTestSplitType.equalsIgnoreCase(Constants.SPHEREEXCLUSION)){
-					p.setNumSplits(numSplitsInternalSphere);
-				}
-				
-				
 				Transaction tx = null;
 				try {
 					tx = executeSession.beginTransaction();
