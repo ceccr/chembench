@@ -1078,6 +1078,9 @@ public class QsarModelingTask extends WorkflowTask {
 	//helper functions and get/sets defined below this point.
 	
 	private int getNumTotalModels(){
+		if(numSplits == null){
+			return 0;
+		}
 		int numModels = Integer.parseInt(numSplits);
 		if(modelType.equals(Constants.KNN)){
 			numModels *= Integer.parseInt(knnParameters.getNumRuns());
