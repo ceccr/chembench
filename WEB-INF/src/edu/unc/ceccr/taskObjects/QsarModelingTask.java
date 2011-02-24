@@ -1031,9 +1031,13 @@ public class QsarModelingTask extends WorkflowTask {
 				//check if all its other children are completed. 
 				String[] childIdArray = parentPredictor.getChildIds().split("\\s+");
 				int finishedChildPredictors = 0;
+				int numTotalModelsTotal = 0;
 				for(String childId : childIdArray){
 					Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
 					if(childPredictor.getJobCompleted().equals(Constants.YES)){
+						if(childPredictor.getNumTotalModels() != null){
+							numTotalModelsTotal += childPredictor.getNumTotalModels();
+						}
 						finishedChildPredictors++;
 					}
 				}
@@ -1041,6 +1045,7 @@ public class QsarModelingTask extends WorkflowTask {
 				if(finishedChildPredictors == numFolds){
 					//if all children are now done, set jobCompleted to YES in the parent predictor.
 					parentPredictor.setJobCompleted(Constants.YES);
+					parentPredictor.setNumTotalModels(numTotalModelsTotal);
 				}
 			}
 			
