@@ -62,15 +62,19 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	public String load() throws Exception {
 		getBasicParameters();
 		String result = SUCCESS;
-		//check that the user is logged in
 		
 		//get external validation compounds of predictor
 		if(childPredictors.size() != 0){
+
+			if(context.getParameters().get("currentFoldNumber") != null){
+				currentFoldNumber = ((String[]) context.getParameters().get("currentFoldNumber"))[0];
+			}
+			foldNums.add("All");
+			
 			//get external set for each
 			externalValValues = new ArrayList<ExternalValidation>();
 			SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
 			
-			foldNums.add("All");
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + i);
 				Predictor cp = childPredictors.get(i);
