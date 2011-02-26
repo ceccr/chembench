@@ -90,6 +90,7 @@
 		   });
 		</script>
 		<!-- end script -->
+		<s:property value="selectedTab" />
 		
 		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect" selectedTab="<s:property value='selectedTab'/>">
 	
