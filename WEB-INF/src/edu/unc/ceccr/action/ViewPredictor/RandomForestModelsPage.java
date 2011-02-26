@@ -55,6 +55,8 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		getBasicParameters();
 		getModelsPageParameters();
 		
+		selectedTab = "parametersDiv";
+		
 		if(childPredictors.size() == 0){
 			loadTrees();
 		}
@@ -134,7 +136,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	private String loadTreeSets() throws Exception{
 		String result = SUCCESS;
 		String parentPredictorId = predictorId;
-
+		
 		for(Predictor childPredictor : childPredictors){
 			predictorId = "" + childPredictor.getPredictorId();
 			result = loadTrees();
