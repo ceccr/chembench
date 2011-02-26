@@ -4,7 +4,7 @@
 <%@ page language="java" import="java.util.*" %>
 
 	<br />
-	<s:if test="">
+	<s:if test="dataset.splitType=='NFOLD'">
 		View: 
 		<s:iterator value="foldNums" status="foldNumsStatus">
 		<s:if test="foldNums[#foldNumsStatus.index]==currentFoldNumber"><s:property/></s:if>
