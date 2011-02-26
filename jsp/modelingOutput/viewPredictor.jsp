@@ -92,7 +92,7 @@
 		<!-- end script -->
 		<s:property value="selectedTab" />
 		
-		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect" selectedTab="<s:property value='selectedTab'/>">
+		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect" selectedTab="%{selectedTab}">
 	
 			<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
 				<s:param name="predictorId" value='selectedPredictor.predictorId' />
