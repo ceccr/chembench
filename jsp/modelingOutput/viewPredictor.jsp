@@ -19,6 +19,30 @@
 	<script language="JavaScript" src="javascript/script.js"></script>
 	<script language="JavaScript" src="javascript/sortableTable-delay.js"></script>
 	
+	<script language="JavaScript">
+
+		function replaceTabContents(divId, newUrl){
+			//updates the contents of a div with data loaded from the given url
+			//for example, when a user changes which external fold they are looking at inside of a tab
+			
+			//prepare the AJAX object
+			var ajaxObject = GetXmlHttpObject();
+			ajaxObject.onreadystatechange=function(){
+				if(ajaxObject.readyState==4){
+					hideLoading();
+				  	document.getElementById(divId).innerHTML=ajaxObject.responseText;
+				}
+			}
+			showLoading("LOADING. PLEASE WAIT.")
+			
+			//send request
+			ajaxObject.open("GET",newUrl,true);
+			ajaxObject.send(null);
+			
+			return true;
+		}
+	</script>
+	
 </head>
 
 <body onload="setTabToMyBench();">
@@ -92,8 +116,7 @@
 		<!-- end script -->
 		<s:property value="selectedTab" />
 		
-		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect" selectedTab="%{selectedTab}">
-	
+		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect">
 			<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
 				<s:param name="predictorId" value='selectedPredictor.predictorId' />
 			</s:url>

@@ -56,6 +56,8 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	String rSquaredAverageAndStddev = "";
 	String ccrAverageAndStddev = "";
 	
+	ArrayList<String> foldNums = new ArrayList<String>();
+	
 	public String load() throws Exception {
 		getBasicParameters();
 		String result = SUCCESS;
@@ -66,7 +68,11 @@ public class ExternalValidationPage extends ViewPredictorAction {
 			//get external set for each
 			externalValValues = new ArrayList<ExternalValidation>();
 			SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
-			for(Predictor cp: childPredictors){
+			
+			foldNums.add("All");
+			for(int i = 0; i < childPredictors.size(); i++){
+				foldNums.add("" + i);
+				Predictor cp = childPredictors.get(i);
 				ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp, session);
 				
 				//calculate r^2 / ccr for this child
@@ -194,6 +200,13 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	}
 	public void setCcrAverageAndStddev(String ccrAverageAndStddev) {
 		this.ccrAverageAndStddev = ccrAverageAndStddev;
+	}
+
+	public ArrayList<String> getFoldNums() {
+		return foldNums;
+	}
+	public void setFoldNums(ArrayList<String> foldNums) {
+		this.foldNums = foldNums;
 	}
 	
 	//end getters and setters

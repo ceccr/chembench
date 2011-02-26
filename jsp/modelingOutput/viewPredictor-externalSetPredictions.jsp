@@ -4,7 +4,13 @@
 <%@ page language="java" import="java.util.*" %>
 
 	<br />
-	
+	<s:if test="">
+		View: 
+		<s:iterator value="foldNums" status="foldNumsStatus">
+		<s:if test="foldNums[#foldNumsStatus.index]==currentFoldNumber"><s:property/></s:if>
+		<s:else><a href="#tabs" onclick=replaceTabContents("externalValidationDiv","viewPredictorExternalValidationSection?predictorId=selectedPredictor.predictorId&foldIndex=%{foldNumsStatus.index}")><s:property /></a></s:else>
+		</s:iterator>
+	</s:if>
 	<!-- External Validation Chart -->
 	<s:if test="externalValValues.size!=0&&hasGoodModels=='YES'">
 	
