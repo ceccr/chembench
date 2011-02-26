@@ -55,8 +55,6 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		getBasicParameters();
 		getModelsPageParameters();
 		
-		selectedTab = "parametersDiv";
-		
 		if(childPredictors.size() == 0){
 			loadTrees();
 		}
