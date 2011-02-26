@@ -204,8 +204,7 @@ public class KnnPlusWorkflow{
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 		String inputString;
 		
-		//The first four lines are all header data
-		in.readLine(); //junk
+		in.readLine(); //header data (junk)
 		inputString = in.readLine(); //compound names are here; we'll need them
 		String[] compoundNames = inputString.split("\\s+");
 		

@@ -91,7 +91,7 @@
 		</script>
 		<!-- end script -->
 		
-		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect">
+		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect" selectedTab="parametersLinkDiv">
 	
 			<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
 				<s:param name="predictorId" value='selectedPredictor.predictorId' />
@@ -187,7 +187,7 @@
 			<s:url id="parametersLink" value="/viewPredictorParametersSection" includeParams="none">
 				<s:param name="predictorId" value='selectedPredictor.predictorId' />
 			</s:url>
-			<sx:div href="%{parametersLink}" label="Modeling Parameters" theme="ajax" loadingText="Loading parameters..." showLoadingText="true">
+			<sx:div href="%{parametersLink}" id="parametersLinkDiv" label="Modeling Parameters" theme="ajax" loadingText="Loading parameters..." showLoadingText="true">
 			</sx:div>
 			
 	   	</sx:tabbedpanel>

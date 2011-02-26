@@ -37,7 +37,12 @@ import edu.unc.ceccr.utilities.Utility;
 public class JobManagementActions extends ActionSupport{
 	
 	public String fixBrokenPredictors() throws Exception{
-		String ids = "6725 6728 6729 6730 6760 6763 6792 6803 6806 6807 6809 6816 6820 6825 6833 6844 6849 6857 6879 7348 7469";
+		/*
+		 Sometimes a job will fail in external set prediction but is otherwise fine. This function will predict
+		 external sets and read in the output for any number of predictor IDs. 
+		 */
+		
+		String ids = "";
 		//String ids="1635 1642";
 		String[] idArray = ids.split("\\s+");
 		Session s = HibernateUtil.getSession();
