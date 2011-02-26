@@ -57,6 +57,7 @@ public class ViewPredictorAction extends ActionSupport {
 	
 	protected Session session;
 	ArrayList<Predictor> childPredictors;
+	protected String selectedTab = "parametersDiv";
 	//End basic parameters
 	
 	//Params used by all the models pages
@@ -196,6 +197,13 @@ public class ViewPredictorAction extends ActionSupport {
 	}
 	public void setSortDirection(String sortDirection) {
 		this.sortDirection = sortDirection;
+	}
+
+	public String getSelectedTab() {
+		return selectedTab;
+	}
+	public void setSelectedTab(String selectedTab) {
+		this.selectedTab = selectedTab;
 	}
 
 	//End getters and setters

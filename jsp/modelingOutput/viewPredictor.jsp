@@ -91,7 +91,7 @@
 		</script>
 		<!-- end script -->
 		
-		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect" selectedTab="parametersLinkDiv">
+		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect" selectedTab="<s:property value='selectedTab'/>">
 	
 			<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
 				<s:param name="predictorId" value='selectedPredictor.predictorId' />
@@ -171,7 +171,7 @@
 					<s:param name="predictorId" value='selectedPredictor.predictorId' />
 					<s:param name="isYRandomPage" value="'NO'" />
 				</s:url>
-		    	<sx:div href="%{modelsLink}" id="modelsLinkDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" preload="false" showLoadingText="true">
+		    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" preload="false" showLoadingText="true">
 				</sx:div>
 				
 				<s:url id="yRandomLink" value="/viewPredictorSvmModelsSection" includeParams="none">
@@ -187,7 +187,7 @@
 			<s:url id="parametersLink" value="/viewPredictorParametersSection" includeParams="none">
 				<s:param name="predictorId" value='selectedPredictor.predictorId' />
 			</s:url>
-			<sx:div href="%{parametersLink}" id="parametersLinkDiv" label="Modeling Parameters" theme="ajax" loadingText="Loading parameters..." showLoadingText="true">
+			<sx:div href="%{parametersLink}" id="parametersDiv" label="Modeling Parameters" theme="ajax" loadingText="Loading parameters..." showLoadingText="true">
 			</sx:div>
 			
 	   	</sx:tabbedpanel>
