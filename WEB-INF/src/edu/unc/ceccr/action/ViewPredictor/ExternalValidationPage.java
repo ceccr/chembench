@@ -57,6 +57,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	String ccrAverageAndStddev = "";
 	
 	ArrayList<String> foldNums = new ArrayList<String>();
+	String currentFoldNumber = "0";
 	
 	public String load() throws Exception {
 		getBasicParameters();
