@@ -57,7 +57,7 @@ public class ViewPredictorAction extends ActionSupport {
 	
 	protected Session session;
 	ArrayList<Predictor> childPredictors;
-	protected String selectedTab = "parametersDiv";
+	protected String selectedTab = "externalValidationDiv";
 	//End basic parameters
 	
 	//Params used by all the models pages
