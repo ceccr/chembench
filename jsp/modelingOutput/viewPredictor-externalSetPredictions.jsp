@@ -8,7 +8,7 @@
 		<p class="StandardTextDarkGray">View Fold: 
 		<s:iterator value="foldNums" status="foldNumsStatus">
 		<s:if test="foldNumsStatus.index==currentFoldNumber"><s:property/></s:if>
-		<s:else><a href="#tabs" onclick=replaceTabContents("externalValidationDiv","viewPredictorExternalValidationSection?predictorId=<s:property value="selectedPredictor.predictorId" />&foldIndex=%{foldNumsStatus.index}&a=%{#foldNumsStatus.index}&b=%{selectedPredictor.predictorId}")><s:property /></a></s:else>
+		<s:else><a href="#tabs" onclick=replaceTabContents("externalValidationDiv","viewPredictorExternalValidationSection?predictorId=<s:property value="selectedPredictor.predictorId" />&foldIndex=<s:property value="foldNumsStatus.index"/>")><s:property /></a></s:else>
 		</s:iterator>
 		</p>
 	</s:if>
