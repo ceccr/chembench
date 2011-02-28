@@ -26,7 +26,7 @@
 		<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
 		</sx:div>
 		</p>
-		<s:if test="dataset.splitType=='NFOLD'">
+		<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber=='0'">
 			<p class="StandardTextDarkGray">
 			Overall R<sup>2</sup> for compounds in all external sets: <b><s:property value="rSquared" /></b>
 			</p>
@@ -61,7 +61,7 @@
 		</s:iterator>
 		</table>
 		
-		<s:if test="dataset.splitType=='NFOLD'">
+		<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber=='0'">
 			<p class="StandardTextDarkGray">
 			Overall CCR for compounds in all external sets: <b><s:property value="confusionMatrix.ccrAsString" /></b>
 			</p>

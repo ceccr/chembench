@@ -90,7 +90,9 @@ public class ExternalValidationPage extends ViewPredictorAction {
 						Double childRSquared = (RSquaredAndCCR.calculateConfusionMatrix(childExtVals)).getCcr();
 						childAccuracies.addValue(childRSquared);
 					}
-					externalValValues.addAll(childExtVals);
+					if(currentFoldNumber.equals("0") || currentFoldNumber.equals("" + (i + 1))){
+						externalValValues.addAll(childExtVals);
+					}
 				}
 			}
 			Double mean = childAccuracies.getMean();
