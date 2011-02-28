@@ -205,7 +205,13 @@ public class ChartServlet extends HttpServlet {
 		cxyg.addURLSeries( customizedURLs( ds, map,project,user));
 
 		renderer.setSeriesLinesVisible(0, false);
-		renderer.setSeriesPaint(0, Color.RED);
+
+		if(highlightedPointsList.size() > 0){
+			renderer.setSeriesPaint(0,Color.DARK_GRAY);
+		}
+		else{
+			renderer.setSeriesPaint(0,Color.RED);
+		}
 		renderer.setSeriesItemLabelsVisible(0,true);
 		renderer.setSeriesShape(0, new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0));
 		renderer.setSeriesToolTipGenerator(0,ctg);    
