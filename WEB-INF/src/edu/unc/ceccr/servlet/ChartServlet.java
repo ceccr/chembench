@@ -256,12 +256,11 @@ public class ChartServlet extends HttpServlet {
 		renderer.setSeriesItemLabelsVisible(0,true);
 		renderer.setSeriesShape(0, new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0));
 		renderer.setSeriesToolTipGenerator(0,ctg);    
-/*
- * not sure what this is yet
+
 		renderer.setSeriesLinesVisible(1, true);
 		renderer.setSeriesShapesVisible(1, false);
 		renderer.setSeriesPaint(1,Color.LIGHT_GRAY);
-*/
+
 		renderer.setURLGenerator(cxyg);
 		renderer.setSeriesToolTipGenerator(0, ctg);
 
@@ -269,11 +268,11 @@ public class ChartServlet extends HttpServlet {
 		renderer.setSeriesItemLabelsVisible(1,true);
 		renderer.setSeriesShape(1, new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0));
 		renderer.setSeriesToolTipGenerator(1,ctg);    
-/*
-		renderer.setSeriesLinesVisible(1, true);
-		renderer.setSeriesShapesVisible(1, false);
-		renderer.setSeriesPaint(1,Color.LIGHT_GRAY);
-*/
+
+		renderer.setSeriesLinesVisible(2, true);
+		renderer.setSeriesShapesVisible(2, false);
+		renderer.setSeriesPaint(2,Color.LIGHT_GRAY);
+
 		renderer.setURLGenerator(cxyg);
 		renderer.setSeriesToolTipGenerator(0, ctg);
 
