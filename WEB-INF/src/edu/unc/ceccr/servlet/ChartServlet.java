@@ -251,8 +251,8 @@ public class ChartServlet extends HttpServlet {
 		renderer.setSeriesToolTipGenerator(0,ctg);    
 		renderer.setSeriesLinesVisible(0, false);
 		if(highlightedExtValidation.size() > 0){
-			renderer.setSeriesPaint(0,Color.DARK_GRAY);
-			renderer.setSeriesShape(0, new Ellipse2D.Double(-1.0, -1.0, 2.0, 2.0));
+			renderer.setSeriesPaint(0,Color.RED);
+			renderer.setSeriesShape(0, new Ellipse2D.Double(-1.5, -1.5, 3.0, 3.0));
 		}
 		else{
 			renderer.setSeriesPaint(0,Color.RED);
