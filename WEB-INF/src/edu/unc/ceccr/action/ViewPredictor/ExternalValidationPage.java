@@ -215,6 +215,13 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	public void setFoldNums(ArrayList<String> foldNums) {
 		this.foldNums = foldNums;
 	}
+
+	public String getCurrentFoldNumber() {
+		return currentFoldNumber;
+	}
+	public void setCurrentFoldNumber(String currentFoldNumber) {
+		this.currentFoldNumber = currentFoldNumber;
+	}
 	
 	//end getters and setters
 }
