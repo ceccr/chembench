@@ -8,7 +8,7 @@
 		<p class="StandardTextDarkGray">View Fold: 
 		<s:iterator value="foldNums" status="foldNumsStatus">
 		<s:if test="foldNumsStatus.index==currentFoldNumber"><s:property/></s:if>
-		<s:else><a href="#tabs" onclick=replaceTabContents("externalValidationDiv","viewPredictorExternalValidationSection?predictorId=<s:property value="selectedPredictor.predictorId" />&foldIndex=<s:property value="#foldNumsStatus.index"/>&foldIndex=<s:property value="%{foldNumsStatus.index}"/>&foldIndex=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+		<s:else><a href="#tabs" onclick=replaceTabContents("externalValidationDiv","viewPredictorExternalValidationSection?predictorId=<s:property value="selectedPredictor.predictorId" />&foldIndex=<s:property value="%{foldNumsStatus.index}"/>")><s:property /></a></s:else>
 		</s:iterator>
 		</p>
 	</s:if>
@@ -17,9 +17,10 @@
 	
 	<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
-		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
+		<s:url id="externalChartLink" value="/externalValidationChart.do />" includeParams="none">
 			<s:param name="user" value="user.userName" />
 			<s:param name="project" value="selectedPredictor.name" />
+			<s:param name="foldNumber" value="currentFoldNumber" />
 		</s:url>
 		<br />
 		<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
