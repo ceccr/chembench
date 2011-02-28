@@ -107,7 +107,8 @@ public class ChartServlet extends HttpServlet {
 		}
 
 		XYSeries series0 = new XYSeries(0,false);
-		XYSeries series1 = new XYSeries("");
+		XYSeries series1 = new XYSeries(0,false);
+		XYSeries series2 = new XYSeries("");
 		final XYLineAndShapeRenderer renderer = new XYLineAndShapeRenderer();
 		final Stroke stroke = new BasicStroke(0.7f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10f, new float[] {3.5f}, 0.0f);
 		XYSeriesCollection ds = new XYSeriesCollection();
@@ -149,7 +150,7 @@ public class ChartServlet extends HttpServlet {
 		while(it.hasNext())
 		{
 			extv=(ExternalValidation)it.next();
-			series0.add(extv.getActualValue() ,extv.getPredictedValue());
+			series1.add(extv.getActualValue() ,extv.getPredictedValue());
 			map.put(index, extv.getCompoundId());
 			if(extv.getNumModels()>3)
 			{
@@ -171,32 +172,54 @@ public class ChartServlet extends HttpServlet {
 			index++;
 		}
 		
-		double min=setMin(MinRange(extValidation,0),MinRange(extValidation,1));
-		double max=setMax(MaxRange(extValidation,0),MaxRange(extValidation,1));
+		double min = Math.min(MinRange(extValidation,0),MinRange(extValidation,1));
+		double max = Math.max(MaxRange(extValidation,0),MaxRange(extValidation,1));
 
-		series1.add(min,min);
-		series1.add(max, max);
+		series2.add(min,min);
+		series2.add(max,max);
 		ds.addSeries(series0);
 		ds.addSeries(series1);
+		ds.addSeries(series2);
 
+		//Standard deviation lines
 		int i=0;
 		Iterator it2=pointsList.iterator();
 		while(it2.hasNext())
 		{
 			ds.addSeries((XYSeries)it2.next());
-			renderer.setSeriesLinesVisible(i+2, true);
-			renderer.setSeriesShapesVisible(i+2, true);
+			renderer.setSeriesLinesVisible(i+3, true);
+			renderer.setSeriesShapesVisible(i+3, true);
 			if(highlightedPointsList.size() > 0){
-				renderer.setSeriesPaint(i+2,Color.DARK_GRAY);
+				renderer.setSeriesPaint(i+3,Color.DARK_GRAY);
 			}
 			else{
-				renderer.setSeriesPaint(i+2,Color.RED);
+				renderer.setSeriesPaint(i+3,Color.RED);
 			}
-			renderer.setSeriesStroke(i+2, stroke);
-			renderer.setSeriesItemLabelsVisible(i+2,false);
-			renderer.setSeriesShape(i+2, new Rectangle2D.Double(-3.0, -3.0, 8.0, 0.10 ));
+			renderer.setSeriesStroke(i+3, stroke);
+			renderer.setSeriesItemLabelsVisible(i+3,false);
+			renderer.setSeriesShape(i+3, new Rectangle2D.Double(-3.0, -3.0, 8.0, 0.10 ));
 			i++;
 		}
+
+		i=0;
+		it2=highlightedPointsList.iterator();
+		while(it2.hasNext())
+		{
+			ds.addSeries((XYSeries)it2.next());
+			renderer.setSeriesLinesVisible(i+3, true);
+			renderer.setSeriesShapesVisible(i+3, true);
+			if(highlightedPointsList.size() > 0){
+				renderer.setSeriesPaint(i+3,Color.RED);
+			}
+			else{
+				renderer.setSeriesPaint(i+3,Color.DARK_GRAY);
+			}
+			renderer.setSeriesStroke(i+3, stroke);
+			renderer.setSeriesItemLabelsVisible(i+3,false);
+			renderer.setSeriesShape(i+3, new Rectangle2D.Double(-3.0, -3.0, 8.0, 0.10 ));
+			i++;
+		}
+		//end add standard deviation lines
 
 		CustomXYToolTipGenerator ctg=new CustomXYToolTipGenerator();
 		ctg.addToolTipSeries(tooltipList);
@@ -323,17 +346,6 @@ public class ChartServlet extends HttpServlet {
 		return list;
 	}
 
-	@SuppressWarnings("unchecked")
-
-
-	protected double setMax(double max1,double max2)
-	{
-		if(max1>max2){return max1;}else{return max2;}
-	}
-	protected double setMin(double min1,double min2)
-	{
-		if(min1>min2){return min2;}else{return min1;}
-	}
 	protected double MinRange(List<ExternalValidation> extValidation, int option)
 	{
 		double min=100.00;
