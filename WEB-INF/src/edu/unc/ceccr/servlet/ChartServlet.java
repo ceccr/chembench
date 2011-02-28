@@ -206,6 +206,8 @@ public class ChartServlet extends HttpServlet {
 			renderer.setSeriesLinesVisible(i, true);
 			renderer.setSeriesShapesVisible(i, true);
 			if(highlightedExtValidation.size() > 0){
+				renderer.setSeriesLinesVisible(i, false);
+				renderer.setSeriesShapesVisible(i, false);
 				renderer.setSeriesPaint(i,Color.DARK_GRAY);
 			}
 			else{
