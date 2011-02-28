@@ -5,11 +5,12 @@
 
 	<br />
 	<s:if test="dataset.splitType=='NFOLD'">
-		View: 
+		<p class="StandardTextDarkGray">View Fold: 
 		<s:iterator value="foldNums" status="foldNumsStatus">
-		<s:if test="foldNums[#foldNumsStatus.index]==currentFoldNumber"><s:property/></s:if>
-		<s:else><a href="#tabs" onclick=replaceTabContents("externalValidationDiv","viewPredictorExternalValidationSection?predictorId=selectedPredictor.predictorId&foldIndex=%{foldNumsStatus.index}")><s:property /></a></s:else>
+		<s:if test="foldNumsStatus.index==currentFoldNumber"><s:property/></s:if>
+		<s:else><a href="#tabs" onclick=replaceTabContents("externalValidationDiv","viewPredictorExternalValidationSection?predictorId=<s:property value="selectedPredictor.predictorId" />&foldIndex=%{foldNumsStatus.index}")><s:property /></a></s:else>
 		</s:iterator>
+		</p>
 	</s:if>
 	<!-- External Validation Chart -->
 	<s:if test="externalValValues.size!=0&&hasGoodModels=='YES'">
