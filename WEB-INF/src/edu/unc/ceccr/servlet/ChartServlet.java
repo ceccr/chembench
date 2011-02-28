@@ -194,8 +194,8 @@ public class ChartServlet extends HttpServlet {
 		
 		XYSeriesCollection ds = new XYSeriesCollection();
 		ds.addSeries(pointSeries);
-		ds.addSeries(minAndMax);
 		ds.addSeries(highlightedPointSeries);
+		ds.addSeries(minAndMax);
 		
 		//Standard deviation lines
 		int i=3;
@@ -243,25 +243,19 @@ public class ChartServlet extends HttpServlet {
 		CustomXYURLGenerator cxyg=new CustomXYURLGenerator();
 		cxyg.addURLSeries(customizedURLs(ds,map,project,user));
 
-		renderer.setSeriesLinesVisible(0, false);
-
-		if(highlightedExtValidation.size() > 0){
-			renderer.setSeriesPaint(0,Color.DARK_GRAY);
-			renderer.setSeriesPaint(1,Color.RED);
-		}
-		else{
-			renderer.setSeriesPaint(0,Color.RED);
-		}
 	
 		//for the base point set
 		renderer.setSeriesItemLabelsVisible(0,true);
 		renderer.setSeriesShape(0, new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0));
 		renderer.setSeriesToolTipGenerator(0,ctg);    
-
-		renderer.setSeriesLinesVisible(0, true);
-		renderer.setSeriesShapesVisible(0, false);
-		renderer.setSeriesPaint(0,Color.LIGHT_GRAY);
-
+		renderer.setSeriesLinesVisible(0, false);
+		if(highlightedExtValidation.size() > 0){
+			renderer.setSeriesPaint(0,Color.DARK_GRAY);
+		}
+		else{
+			renderer.setSeriesPaint(0,Color.RED);
+		}
+		renderer.setSeriesShapesVisible(0, true);
 		renderer.setURLGenerator(cxyg);
 		renderer.setSeriesToolTipGenerator(0, ctg);
 
@@ -269,15 +263,13 @@ public class ChartServlet extends HttpServlet {
 		renderer.setSeriesItemLabelsVisible(1,true);
 		renderer.setSeriesShape(1, new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0));
 		renderer.setSeriesToolTipGenerator(1,ctg);    
-
-		renderer.setSeriesLinesVisible(1, true);
-		renderer.setSeriesShapesVisible(1, false);
-		renderer.setSeriesPaint(1,Color.LIGHT_GRAY);
-
+		renderer.setSeriesPaint(1,Color.RED);
+		renderer.setSeriesLinesVisible(1, false);
+		renderer.setSeriesShapesVisible(1, true);
 		renderer.setURLGenerator(cxyg);
 		renderer.setSeriesToolTipGenerator(0, ctg);
 
-		final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());//
+		final ChartRenderingInfo info = new ChartRenderingInfo(new StandardEntityCollection());
 
 		JFreeChart chart = ChartFactory.createXYLineChart("External Validation Set",    
 				"Observed", "Predicted", ds, PlotOrientation.VERTICAL, false,true,true);
@@ -307,20 +299,20 @@ public class ChartServlet extends HttpServlet {
 		Xaxis.setAutoRangeMinimumSize(0.01);
 		Xaxis.setRange(min,max);
 
-		Utility.writeToDebug("Writing external validation chart to file: " + Constants.CECCR_USER_BASE_PATH+user+"/PREDICTORS/"+project+"/mychart.jpeg");
 		String basePath=Constants.CECCR_USER_BASE_PATH+user+"/PREDICTORS/"+project+"/";
 		if(!currentFoldNumber.equals("0")){
 			int numChildren = predictor.getChildIds().split("\\s+").length;
 			String childPredName = project + "_fold_" + currentFoldNumber + "_of_" + numChildren;
 			basePath += childPredName + "/";
 		}
+		Utility.writeToDebug("Writing external validation chart to file: " + basePath + "mychart.jpeg");
 		FileOutputStream  fos_jpg = new FileOutputStream(basePath+"mychart.jpeg"); 
 		ChartUtilities.writeChartAsJPEG(fos_jpg, 1.0f, chart, 650, 650, info); 
 		fos_jpg.close();
 		
 		FileOutputStream fos_cri = new FileOutputStream(basePath+"mychart.map"); 
 		PrintWriter pw=new PrintWriter(fos_cri);
-		ChartUtilities.writeImageMap(pw, "mychart", info, true); 
+		//ChartUtilities.writeImageMap(pw, "mychart", info, true); 
 		fos_cri.close();
 		pw.flush();
 
