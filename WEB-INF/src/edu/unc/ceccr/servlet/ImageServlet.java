@@ -10,7 +10,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.Session;
+
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
 @SuppressWarnings("serial")
@@ -29,6 +34,7 @@ public class ImageServlet extends HttpServlet {
         String compoundId = request.getParameter("compoundId");
         String userName = request.getParameter("user");
         String projectType = request.getParameter("projectType"); //dataset, modeling, prediction
+        String currentFoldNumber = request.getParameter("currentFoldNumber"); //ext chart only
         
         //You might be thinking of adding a call to the database to get the 
         //dataset object here. Don't do it! It'll slow shit down and bleed sessions
@@ -41,6 +47,19 @@ public class ImageServlet extends HttpServlet {
       	}
         else if(compoundId.startsWith("externalValidationChart")){
     		//ext validation chart for modeling
+        	if(! currentFoldNumber.equals("0")){
+        		try{
+	        		Session s = HibernateUtil.getSession();
+	        		Predictor predictor = PopulateDataObjects.getPredictorByName(project, userName, s);
+	        		int numChildren = predictor.getChildIds().split("\\s+").length;
+	    			String childPredName = project + "_fold_" + currentFoldNumber + "_of_" + numChildren;
+	    			
+	        		project += "/" + childPredName;
+        		}
+        		catch(Exception ex){
+        			Utility.writeToDebug(ex);
+        		}
+        	}
     		imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
         }
     	else if(projectType.equals("dataset")){
