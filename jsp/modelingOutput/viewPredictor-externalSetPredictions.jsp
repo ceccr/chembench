@@ -18,7 +18,7 @@
 	<s:if test="externalValValues.size!=0&&hasGoodModels=='YES'">
 		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 			<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
-			<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
+			<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none" escapeAmp="false">
 				<s:param name="user" value="user.userName" />
 				<s:param name="project" value="selectedPredictor.name" />
 				<s:param name="currentFoldNumber" value="currentFoldNumber" />
@@ -37,7 +37,7 @@
 			</s:if>
 			<s:else>
 				<p class="StandardTextDarkGray">
-				R<sup>2</sup> for external set: <b><s:property value="rSquared" /></b>
+				R<sup>2</sup> for external <s:if test="externalValValues.size!=0&&currentFoldNumber!=0">fold <s:property value="currentFoldNumber" /></s:if><s:else>set</s:else>: <b><s:property value="rSquared" /></b>
 				</p>
 			</s:else>
 		</s:if>

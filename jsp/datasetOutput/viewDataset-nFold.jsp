@@ -6,9 +6,7 @@
 <!-- External Compounds -->	
 	
 	<script language="JavaScript" src="javascript/sortableTable.js"></script>
-
-		<p class="StandardTextDarkGray"><u><b>Compounds Chosen for Each External Fold</b></u></p>
-		
+	<p class="StandardTextDarkGray"><u><b>Compounds Chosen for Each External Fold</b></u></p>
 	<table width="924" align="center">
 		<tr><td>
 			<p class="StandardTextDarkGray" width="550">View Fold: 
