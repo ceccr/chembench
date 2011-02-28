@@ -19,7 +19,7 @@
 	
 	<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
-		<s:url id="externalChartLink" value="/externalValidationChart.do />" includeParams="none">
+		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
 			<s:param name="user" value="user.userName" />
 			<s:param name="project" value="selectedPredictor.name" />
 			<s:param name="currentFoldNumber" value="currentFoldNumber" />
