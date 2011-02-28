@@ -187,17 +187,17 @@ public class ChartServlet extends HttpServlet {
 		while(it2.hasNext())
 		{
 			ds.addSeries((XYSeries)it2.next());
-			renderer.setSeriesLinesVisible(i+3, true);
-			renderer.setSeriesShapesVisible(i+3, true);
+			renderer.setSeriesLinesVisible(i+2, true);
+			renderer.setSeriesShapesVisible(i+2, true);
 			if(highlightedPointsList.size() > 0){
-				renderer.setSeriesPaint(i+3,Color.DARK_GRAY);
+				renderer.setSeriesPaint(i+2,Color.DARK_GRAY);
 			}
 			else{
-				renderer.setSeriesPaint(i+3,Color.RED);
+				renderer.setSeriesPaint(i+2,Color.RED);
 			}
-			renderer.setSeriesStroke(i+3, stroke);
-			renderer.setSeriesItemLabelsVisible(i+3,false);
-			renderer.setSeriesShape(i+3, new Rectangle2D.Double(-3.0, -3.0, 8.0, 0.10 ));
+			renderer.setSeriesStroke(i+2, stroke);
+			renderer.setSeriesItemLabelsVisible(i+2,false);
+			renderer.setSeriesShape(i+2, new Rectangle2D.Double(-3.0, -3.0, 8.0, 0.10 ));
 			i++;
 		}
 
@@ -206,17 +206,17 @@ public class ChartServlet extends HttpServlet {
 		while(it2.hasNext())
 		{
 			ds.addSeries((XYSeries)it2.next());
-			renderer.setSeriesLinesVisible(i+3, true);
-			renderer.setSeriesShapesVisible(i+3, true);
+			renderer.setSeriesLinesVisible(i+2, true);
+			renderer.setSeriesShapesVisible(i+2, true);
 			if(highlightedPointsList.size() > 0){
-				renderer.setSeriesPaint(i+3,Color.RED);
+				renderer.setSeriesPaint(i+2,Color.RED);
 			}
 			else{
-				renderer.setSeriesPaint(i+3,Color.DARK_GRAY);
+				renderer.setSeriesPaint(i+2,Color.DARK_GRAY);
 			}
-			renderer.setSeriesStroke(i+3, stroke);
-			renderer.setSeriesItemLabelsVisible(i+3,false);
-			renderer.setSeriesShape(i+3, new Rectangle2D.Double(-3.0, -3.0, 8.0, 0.10 ));
+			renderer.setSeriesStroke(i+2, stroke);
+			renderer.setSeriesItemLabelsVisible(i+2,false);
+			renderer.setSeriesShape(i+2, new Rectangle2D.Double(-3.0, -3.0, 8.0, 0.10 ));
 			i++;
 		}
 		//end add standard deviation lines
