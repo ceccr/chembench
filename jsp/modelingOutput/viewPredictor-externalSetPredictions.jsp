@@ -13,7 +13,7 @@
 		</p>
 		<p class="StandardTextDarkGray">currentFoldNumber: <s:property value="currentFoldNumber" />
 		</p>
-		<s:if test="foldNumsStatus.index==parseInt(currentFoldNumber)"><s:property/></s:if>
+		<s:if test="%{#foldNumsStatus.index}==currentFoldNumber"><b><s:property/></b></s:if>
 		<s:else><a href="#tabs" onclick=replaceTabContents("externalValidationDiv","viewPredictorExternalValidationSection?predictorId=<s:property value="selectedPredictor.predictorId" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
 		</s:iterator>
 		</p>
