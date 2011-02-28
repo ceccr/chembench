@@ -50,6 +50,8 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	private List<List<RandomForestTree>> randomForestTreeSets = new ArrayList<List<RandomForestTree>>(); //for nfold
 	private List<List<RandomForestGrove>> randomForestGroveSets =  new ArrayList<List<RandomForestGrove>>(); //for nfold
 
+	String currentFoldNumber = "0";
+	
 	public String loadTreesPage() throws Exception{
 		String result = SUCCESS;
 		getBasicParameters();
@@ -176,7 +178,12 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			List<List<RandomForestGrove>> randomForestGroveSets) {
 		this.randomForestGroveSets = randomForestGroveSets;
 	}
-	
-	
+
+	public Integer getCurrentFoldNumber() {
+		return Integer.parseInt(currentFoldNumber);
+	}
+	public void setCurrentFoldNumber(String currentFoldNumber) {
+		this.currentFoldNumber = currentFoldNumber;
+	}
 	
 }
