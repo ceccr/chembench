@@ -198,41 +198,41 @@ public class ChartServlet extends HttpServlet {
 		ds.addSeries(minAndMax);
 		
 		//Standard deviation lines
-		int i=0;
+		int i=3;
 		Iterator it2=stdDevList.iterator();
 		while(it2.hasNext())
 		{
 			ds.addSeries((XYSeries)it2.next());
-			renderer.setSeriesLinesVisible(i+2, true);
-			renderer.setSeriesShapesVisible(i+2, true);
+			renderer.setSeriesLinesVisible(i, true);
+			renderer.setSeriesShapesVisible(i, true);
 			if(highlightedExtValidation.size() > 0){
-				renderer.setSeriesPaint(i+2,Color.DARK_GRAY);
+				renderer.setSeriesPaint(i,Color.DARK_GRAY);
 			}
 			else{
-				renderer.setSeriesPaint(i+2,Color.RED);
+				renderer.setSeriesPaint(i,Color.RED);
 			}
-			renderer.setSeriesStroke(i+2, stroke);
-			renderer.setSeriesItemLabelsVisible(i+2,false);
-			renderer.setSeriesShape(i+2, new Rectangle2D.Double(-4.0, -4.0, 8.0, 0.10 ));
+			renderer.setSeriesStroke(i, stroke);
+			renderer.setSeriesItemLabelsVisible(i,false);
+			renderer.setSeriesShape(i, new Rectangle2D.Double(-4.0, -4.0, 8.0, 0.10 ));
 			i++;
 		}
 
-		i=0;
+		i= 3 + stdDevList.size();
 		it2=highlightedStdDevList.iterator();
 		while(it2.hasNext())
 		{
 			ds.addSeries((XYSeries)it2.next());
-			renderer.setSeriesLinesVisible(i+2, true);
-			renderer.setSeriesShapesVisible(i+2, true);
+			renderer.setSeriesLinesVisible(i, true);
+			renderer.setSeriesShapesVisible(i, true);
 			if(highlightedExtValidation.size() > 0){
-				renderer.setSeriesPaint(i+2,Color.RED);
+				renderer.setSeriesPaint(i,Color.RED);
 			}
 			else{
-				renderer.setSeriesPaint(i+2,Color.DARK_GRAY);
+				renderer.setSeriesPaint(i,Color.DARK_GRAY);
 			}
-			renderer.setSeriesStroke(i+2, stroke);
-			renderer.setSeriesItemLabelsVisible(i+2,false);
-			renderer.setSeriesShape(i+2, new Rectangle2D.Double(-3.0, -3.0, 8.0, 0.10 ));
+			renderer.setSeriesStroke(i, stroke);
+			renderer.setSeriesItemLabelsVisible(i,false);
+			renderer.setSeriesShape(i, new Rectangle2D.Double(-4.0, -4.0, 8.0, 0.10 ));
 			i++;
 		}
 		//end add standard deviation lines
@@ -247,18 +247,33 @@ public class ChartServlet extends HttpServlet {
 
 		if(highlightedExtValidation.size() > 0){
 			renderer.setSeriesPaint(0,Color.DARK_GRAY);
+			renderer.setSeriesPaint(1,Color.RED);
 		}
 		else{
 			renderer.setSeriesPaint(0,Color.RED);
 		}
+		//for the base point set
 		renderer.setSeriesItemLabelsVisible(0,true);
 		renderer.setSeriesShape(0, new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0));
 		renderer.setSeriesToolTipGenerator(0,ctg);    
-
+/*
+ * not sure what this is yet
 		renderer.setSeriesLinesVisible(1, true);
 		renderer.setSeriesShapesVisible(1, false);
 		renderer.setSeriesPaint(1,Color.LIGHT_GRAY);
+*/
+		renderer.setURLGenerator(cxyg);
+		renderer.setSeriesToolTipGenerator(0, ctg);
 
+		//for the highlighted set
+		renderer.setSeriesItemLabelsVisible(1,true);
+		renderer.setSeriesShape(1, new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0));
+		renderer.setSeriesToolTipGenerator(1,ctg);    
+/*
+		renderer.setSeriesLinesVisible(1, true);
+		renderer.setSeriesShapesVisible(1, false);
+		renderer.setSeriesPaint(1,Color.LIGHT_GRAY);
+*/
 		renderer.setURLGenerator(cxyg);
 		renderer.setSeriesToolTipGenerator(0, ctg);
 
