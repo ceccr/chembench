@@ -16,67 +16,66 @@
 
 	<!-- External Validation Chart -->
 	<s:if test="externalValValues.size!=0&&hasGoodModels=='YES'">
-	
-	<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-		<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
-		<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
-			<s:param name="user" value="user.userName" />
-			<s:param name="project" value="selectedPredictor.name" />
-			<s:param name="currentFoldNumber" value="currentFoldNumber" />
-		</s:url>
-		<br />
-		<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
-		</sx:div>
-		</p>
-		<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber==0">
-			<p class="StandardTextDarkGray">
-			Overall R<sup>2</sup> for compounds in all external sets: <b><s:property value="rSquared" /></b>
+		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
+			<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
+			<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none">
+				<s:param name="user" value="user.userName" />
+				<s:param name="project" value="selectedPredictor.name" />
+				<s:param name="currentFoldNumber" value="currentFoldNumber" />
+			</s:url>
+			<br />
+			<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
+			</sx:div>
 			</p>
-			<p class="StandardTextDarkGray">
-			Average and standard deviation of R<sup>2</sup> among sets: <b><s:property value="rSquaredAverageAndStddev" /></b><br />
-			</p>
+			<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber==0">
+				<p class="StandardTextDarkGray">
+				Overall R<sup>2</sup> for compounds in all external sets: <b><s:property value="rSquared" /></b>
+				</p>
+				<p class="StandardTextDarkGray">
+				Average and standard deviation of R<sup>2</sup> among sets: <b><s:property value="rSquaredAverageAndStddev" /></b><br />
+				</p>
+			</s:if>
+			<s:else>
+				<p class="StandardTextDarkGray">
+				R<sup>2</sup> for external set: <b><s:property value="rSquared" /></b>
+				</p>
+			</s:else>
 		</s:if>
-		<s:else>
-			<p class="StandardTextDarkGray">
-			R<sup>2</sup> for external set: <b><s:property value="rSquared" /></b>
-			</p>
-		</s:else>
-	</s:if>
-	<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
-		<p class="StandardTextDarkGray"><b><u>Confusion Matrix</u></b>
-		</p><p class="StandardTextDarkGray">Predicted category is based on the consensus 
-		prediction of the compound's activity rounded to the nearest whole number.</p>
-		<table>
-		<tr>
-		<td></td>
-		<s:iterator value="confusionMatrix.uniqueObservedValues">
-			<td class="TableRowText01">Predicted <s:property /></td>
-		</s:iterator>
-		</tr>
-		<s:iterator value="confusionMatrix.matrixValues" status="confusionMatrixStatus">
-		<tr>
-			<td class="TableRowText01">Observed <s:property value="confusionMatrix.uniqueObservedValues[#confusionMatrixStatus.index]" /></td>
-			<s:iterator value="confusionMatrix.matrixValues[#confusionMatrixStatus.index]">
-			<td class="TableRowText02"><s:property /></td>
+		<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
+			<p class="StandardTextDarkGray"><b><u>Confusion Matrix</u></b>
+			</p><p class="StandardTextDarkGray">Predicted category is based on the consensus 
+			prediction of the compound's activity rounded to the nearest whole number.</p>
+			<table>
+			<tr>
+			<td></td>
+			<s:iterator value="confusionMatrix.uniqueObservedValues">
+				<td class="TableRowText01">Predicted <s:property /></td>
 			</s:iterator>
-		</tr>
-		</s:iterator>
-		</table>
-		
-		<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber=='0'">
-			<p class="StandardTextDarkGray">
-			Overall CCR for compounds in all external sets: <b><s:property value="confusionMatrix.ccrAsString" /></b>
-			</p>
-			<p class="StandardTextDarkGray">
-			Average and standard deviation of CCR among sets: <b><s:property value="ccrAverageAndStddev" /></b><br />
-			</p>
-		</s:if>
-		<s:else>
-			<p class="StandardTextDarkGray">
-			CCR for external set: <b><s:property value="confusionMatrix.ccrAsString" /></b>
-			</p>
-		</s:else>
-	</s:elseif>
+			</tr>
+			<s:iterator value="confusionMatrix.matrixValues" status="confusionMatrixStatus">
+			<tr>
+				<td class="TableRowText01">Observed <s:property value="confusionMatrix.uniqueObservedValues[#confusionMatrixStatus.index]" /></td>
+				<s:iterator value="confusionMatrix.matrixValues[#confusionMatrixStatus.index]">
+				<td class="TableRowText02"><s:property /></td>
+				</s:iterator>
+			</tr>
+			</s:iterator>
+			</table>
+			
+			<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber=='0'">
+				<p class="StandardTextDarkGray">
+				Overall CCR for compounds in all external sets: <b><s:property value="confusionMatrix.ccrAsString" /></b>
+				</p>
+				<p class="StandardTextDarkGray">
+				Average and standard deviation of CCR among sets: <b><s:property value="ccrAverageAndStddev" /></b><br />
+				</p>
+			</s:if>
+			<s:else>
+				<p class="StandardTextDarkGray">
+				CCR for external set: <b><s:property value="confusionMatrix.ccrAsString" /></b>
+				</p>
+			</s:else>
+		</s:elseif>
 	</s:if>
 	<br />
 	<!-- End External Validation Chart -->

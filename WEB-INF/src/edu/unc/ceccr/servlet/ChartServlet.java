@@ -70,9 +70,11 @@ public class ChartServlet extends HttpServlet {
 			for(int i = 0; i < childPredictors.size(); i++){
 				Predictor cp = childPredictors.get(i);
 				List<ExternalValidation> childExtVals = PopulateDataObjects.getExternalValidationValues(cp, session);
-				extValidation.addAll(childExtVals);
 				if(currentFoldNumber.equals("" + (i+1))){
 					highlightedExtValidation.addAll(childExtVals);
+				}
+				else{
+					extValidation.addAll(childExtVals);
 				}
 			}
 		}
