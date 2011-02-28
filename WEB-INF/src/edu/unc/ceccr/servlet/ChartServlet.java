@@ -194,8 +194,8 @@ public class ChartServlet extends HttpServlet {
 		
 		XYSeriesCollection ds = new XYSeriesCollection();
 		ds.addSeries(pointSeries);
-		ds.addSeries(highlightedPointSeries);
 		ds.addSeries(minAndMax);
+		ds.addSeries(highlightedPointSeries);
 		
 		//Standard deviation lines
 		int i=3;
@@ -241,7 +241,7 @@ public class ChartServlet extends HttpServlet {
 		ctg.addToolTipSeries(tooltipList);
 
 		CustomXYURLGenerator cxyg=new CustomXYURLGenerator();
-		cxyg.addURLSeries( customizedURLs( ds, map,project,user));
+		cxyg.addURLSeries(customizedURLs(ds,map,project,user));
 
 		renderer.setSeriesLinesVisible(0, false);
 
@@ -252,14 +252,15 @@ public class ChartServlet extends HttpServlet {
 		else{
 			renderer.setSeriesPaint(0,Color.RED);
 		}
+	
 		//for the base point set
 		renderer.setSeriesItemLabelsVisible(0,true);
 		renderer.setSeriesShape(0, new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0));
 		renderer.setSeriesToolTipGenerator(0,ctg);    
 
-		renderer.setSeriesLinesVisible(1, true);
-		renderer.setSeriesShapesVisible(1, false);
-		renderer.setSeriesPaint(1,Color.LIGHT_GRAY);
+		renderer.setSeriesLinesVisible(0, true);
+		renderer.setSeriesShapesVisible(0, false);
+		renderer.setSeriesPaint(0,Color.LIGHT_GRAY);
 
 		renderer.setURLGenerator(cxyg);
 		renderer.setSeriesToolTipGenerator(0, ctg);
@@ -269,9 +270,9 @@ public class ChartServlet extends HttpServlet {
 		renderer.setSeriesShape(1, new Ellipse2D.Double(-3.0, -3.0, 6.0, 6.0));
 		renderer.setSeriesToolTipGenerator(1,ctg);    
 
-		renderer.setSeriesLinesVisible(2, true);
-		renderer.setSeriesShapesVisible(2, false);
-		renderer.setSeriesPaint(2,Color.LIGHT_GRAY);
+		renderer.setSeriesLinesVisible(1, true);
+		renderer.setSeriesShapesVisible(1, false);
+		renderer.setSeriesPaint(1,Color.LIGHT_GRAY);
 
 		renderer.setURLGenerator(cxyg);
 		renderer.setSeriesToolTipGenerator(0, ctg);
