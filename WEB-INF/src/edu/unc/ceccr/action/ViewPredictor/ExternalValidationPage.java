@@ -76,7 +76,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 			SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
 			
 			for(int i = 0; i < childPredictors.size(); i++){
-				foldNums.add("" + i);
+				foldNums.add("" + (i+1));
 				Predictor cp = childPredictors.get(i);
 				ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp, session);
 				
@@ -90,7 +90,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 						Double childRSquared = (RSquaredAndCCR.calculateConfusionMatrix(childExtVals)).getCcr();
 						childAccuracies.addValue(childRSquared);
 					}
-					if(currentFoldNumber.equals("0") || currentFoldNumber.equals("" + (i + 1))){
+					if(currentFoldNumber.equals("0") || currentFoldNumber.equals("" + (i+1))){
 						externalValValues.addAll(childExtVals);
 					}
 				}
