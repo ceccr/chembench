@@ -24,7 +24,7 @@
 		function replaceTabContents(divId, newUrl){
 			//updates the contents of a div with data loaded from the given url
 			//for example, when a user changes which external fold they are looking at inside of a tab
-			
+			alert(newUrl);
 			//prepare the AJAX object
 			var ajaxObject = GetXmlHttpObject();
 			ajaxObject.onreadystatechange=function(){
