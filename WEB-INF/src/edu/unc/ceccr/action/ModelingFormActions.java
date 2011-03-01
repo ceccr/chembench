@@ -298,18 +298,18 @@ public class ModelingFormActions extends ActionSupport{
 	
 		if(modelingType.equals(Constants.KNN)){
 			numModels *= Integer.parseInt(numRuns);
-			int numDescriptorSizes = 0;
-			for(int i = Integer.parseInt(minNumDescriptors); i <= Integer.parseInt(maxNumDescriptors); i += Integer.parseInt(stepSize)){
-				numDescriptorSizes++;
+			int numDescriptorSizes = 1;
+			if(Integer.parseInt(stepSize) != 0){
+				numDescriptorSizes = (Integer.parseInt(maxNumDescriptors) - Integer.parseInt(minNumDescriptors)) / Integer.parseInt(stepSize);
 			}
 			numModels *= numDescriptorSizes;
 		}
 		else if(modelingType.equals(Constants.KNNSA)){
 			numModels *= Integer.parseInt(saNumRuns);
 			numModels *= Integer.parseInt(saNumBestModels);
-			int numDescriptorSizes = 0;
-			for(int i = Integer.parseInt(knnMinNumDescriptors); i <= Integer.parseInt(knnMaxNumDescriptors); i += Integer.parseInt(knnDescriptorStepSize)){
-				numDescriptorSizes++;
+			int numDescriptorSizes = 1;
+			if(Integer.parseInt(knnDescriptorStepSize) != 0){
+				numDescriptorSizes = (Integer.parseInt(knnMaxNumDescriptors) - Integer.parseInt(knnMinNumDescriptors)) / Integer.parseInt(knnDescriptorStepSize);
 			}
 			numModels *= numDescriptorSizes;
 		}

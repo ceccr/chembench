@@ -44,7 +44,7 @@
 <p>
 <map id="example_map" name="example_map">
 <area id="cp2" class="jTip" shape="rect" coords="390,250,420,280" href="/compoundTooltip?compoundId=2&observedValue=1.0&predictedValue=0.989&width=400" alt="Compound 2" /> 
-<area id="cp1" class="jTip" shape="rect" coords="260,250,270,280" href="/compoundTooltip?compoundId=1&observedValue=7.0&predictedValue=0.666&width=400" alt="Compound 1" /> 
+<area id="cp1" class="jTip" shape="rect" coords="260,450,270,480" href="/compoundTooltip?compoundId=1&observedValue=7.0&predictedValue=0.666&width=400" alt="Compound 1" /> 
 </map>
 <img id="mapImage" usemap="#example_map" src="/theme/img/tooltip/activityChart.jpg" border="0" />
 </p>
