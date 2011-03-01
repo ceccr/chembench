@@ -57,7 +57,6 @@ public class TooltipActions extends ActionSupport{
 	public String compoundPredictedValue = "3";
 	public String compoundObservedValue = "2";
 	
-	
 	public String getCompoundId() {
 		return compoundId;
 	}

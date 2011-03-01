@@ -3,7 +3,6 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
-	
 	<br />
 	<s:if test="dataset.splitType=='NFOLD'">
 		<p class="StandardTextDarkGray">View Fold: 
