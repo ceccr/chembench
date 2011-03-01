@@ -1085,20 +1085,24 @@ public class QsarModelingTask extends WorkflowTask {
 		int numModels = Integer.parseInt(numSplits);
 		if(modelType.equals(Constants.KNN)){
 			numModels *= Integer.parseInt(knnParameters.getNumRuns());
-			int numDescriptorSizes = 0;
-			for(int i = Integer.parseInt(knnParameters.getMinNumDescriptors()); i <= Integer.parseInt(knnParameters.getMaxNumDescriptors()); i += Integer.parseInt(knnParameters.getStepSize())){
-				numDescriptorSizes++;
+			
+			int numDescriptorSizes = 1;
+			if(Integer.parseInt(knnParameters.getStepSize()) != 0){
+				numDescriptorSizes += (Integer.parseInt(knnParameters.getMaxNumDescriptors()) - 
+						Integer.parseInt(knnParameters.getMinNumDescriptors())) /
+						Integer.parseInt(knnParameters.getStepSize());
 			}
 			numModels *= numDescriptorSizes;
 		}
 		else if(modelType.equals(Constants.KNNSA)){
 			numModels *= Integer.parseInt(knnPlusParameters.getSaNumRuns());
 			numModels *= Integer.parseInt(knnPlusParameters.getSaNumBestModels());
-			int numDescriptorSizes = 0;
-			for(int i = Integer.parseInt(knnPlusParameters.getKnnMinNumDescriptors()); 
-			i <= Integer.parseInt(knnPlusParameters.getKnnMaxNumDescriptors()); 
-			i += Integer.parseInt(knnPlusParameters.getKnnDescriptorStepSize())){
-				numDescriptorSizes++;
+			
+			int numDescriptorSizes = 1;
+			if(Integer.parseInt(knnPlusParameters.getKnnDescriptorStepSize()) != 0){
+				numDescriptorSizes += (Integer.parseInt(knnPlusParameters.getKnnMaxNumDescriptors()) - 
+						Integer.parseInt(knnPlusParameters.getKnnMinNumDescriptors())) /
+						Integer.parseInt(knnPlusParameters.getKnnDescriptorStepSize());
 			}
 			numModels *= numDescriptorSizes;
 		}

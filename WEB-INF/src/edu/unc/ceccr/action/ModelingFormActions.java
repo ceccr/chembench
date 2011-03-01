@@ -300,7 +300,7 @@ public class ModelingFormActions extends ActionSupport{
 			numModels *= Integer.parseInt(numRuns);
 			int numDescriptorSizes = 1;
 			if(Integer.parseInt(stepSize) != 0){
-				numDescriptorSizes = (Integer.parseInt(maxNumDescriptors) - Integer.parseInt(minNumDescriptors)) / Integer.parseInt(stepSize);
+				numDescriptorSizes += (Integer.parseInt(maxNumDescriptors) - Integer.parseInt(minNumDescriptors)) / Integer.parseInt(stepSize);
 			}
 			numModels *= numDescriptorSizes;
 		}
@@ -309,7 +309,7 @@ public class ModelingFormActions extends ActionSupport{
 			numModels *= Integer.parseInt(saNumBestModels);
 			int numDescriptorSizes = 1;
 			if(Integer.parseInt(knnDescriptorStepSize) != 0){
-				numDescriptorSizes = (Integer.parseInt(knnMaxNumDescriptors) - Integer.parseInt(knnMinNumDescriptors)) / Integer.parseInt(knnDescriptorStepSize);
+				numDescriptorSizes += (Integer.parseInt(knnMaxNumDescriptors) - Integer.parseInt(knnMinNumDescriptors)) / Integer.parseInt(knnDescriptorStepSize);
 			}
 			numModels *= numDescriptorSizes;
 		}

@@ -143,7 +143,7 @@
 			var descSteps = document.getElementById("knnDescriptorStepSize").value;
 
 			if(descSteps != 0){
-				numDifferentDescriptors = Math.floor((maxDesc - minDesc)/descSteps) + 1;
+				numDifferentDescriptors += Math.floor((maxDesc - minDesc)/descSteps);
 			}
 
 			timeEstimateMins = numSplits *(numRuns*numBest*numDifferentDescriptors)*selectedDatasetNumCompounds*0.018;
