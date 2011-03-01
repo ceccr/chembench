@@ -21,6 +21,9 @@
 		<action name="tooltipDemo">
             <result>jsp/modelingOutput/viewPredictor-extValidationChart.jsp</result>
        </action>
+		<action name="compoundTooltip" class="edu.unc.ceccr.action.TooltipActions" method="loadExternalValidationChartTooltip">
+            <result>jsp/modelingOutput/viewPredictor-extValidationChart.jsp</result>
+       </action>
        
 		
        <!-- Main pages -->
