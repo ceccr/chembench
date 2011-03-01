@@ -22,10 +22,9 @@
             <result>jsp/modelingOutput/viewPredictor-extValidationChart.jsp</result>
        </action>
 		<action name="compoundTooltip" class="edu.unc.ceccr.action.TooltipActions" method="loadExternalValidationChartTooltip">
-            <result>jsp/modelingOutput/viewPredictor-extValidationChart.jsp</result>
+            <result>jsp/modelingOutput/compoundTooltip.jsp</result>
        </action>
        
-		
        <!-- Main pages -->
        <action name="index">
            <result>jsp/main/home.jsp</result>
