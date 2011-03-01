@@ -17,6 +17,12 @@
 		<result name="login">jsp/main/notLoggedIn.jsp</result>
 		</global-results>
 		
+		<!-- temp -->
+		<action name="tooltipDemo">
+            <result>jsp/modelingOutput/viewPredictor-extValidationChart.jsp</result>
+       </action>
+       
+		
        <!-- Main pages -->
        <action name="index">
            <result>jsp/main/home.jsp</result>
