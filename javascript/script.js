@@ -60,16 +60,14 @@ function validateDatasetDelete(name, usedPredictorNames, usedPredictionNames, us
 
 
 function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames){
-	
-     // Check for white space; replace with underscores if it's there.
+	 // Check for white space; replace with underscores if it's there.
 	 name = name.replace(/ /g,"_");
-	 
-     reWhiteSpace = new RegExp("/");
-     if (reWhiteSpace.test(name)) {
-          alert("You cannot use slashes in your job name. You might want to replace them with underscores or dashes.");
-          return false;
+
+	 linuxChars = new RegExp("(\\\\|\"|'|,|`|\\?|\\*|~|!|@|#|%|\\$|\\^|\\+|;|\\[|\\])");
+     if (linuxChars.test(name)) {
+          alert("You cannot use special characters (quotes, asterisks, punctuation, slashes, etc.) in your job name. You might want to replace them with underscores or dashes.");
      }
-	
+	 
      if(name.length > 250){
  		alert("The name you have entered is too long. Please choose another.");
  		return false;
