@@ -25,8 +25,6 @@ public class ImageServlet extends HttpServlet {
     	
     	//this servlet returns 2D images for compounds, 
     	//external validation charts, and dataset activity charts
-    	//the code is really awful, my only excuse is 
-    	//"it was like that when I got here and there's no time to fix it now"
     	
         //Note that some of these may be null, depending on the request type!
         String project = request.getParameter("project"); //predictor or prediction name
