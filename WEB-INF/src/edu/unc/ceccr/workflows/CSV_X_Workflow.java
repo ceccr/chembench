@@ -14,11 +14,12 @@ public class CSV_X_Workflow {
 		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "convert_maccs_to_X2");
 	}
 
-	public static void performHeatMapAndTreeCreation(String viz_path, String method){
+	public static void performHeatMapAndTreeCreation(String workingDir, String sdfName, String method){
 		//assumes that a .x file generated from MACCS descriptors exists in the directory already
 		//method = "tanimoto" or "mahalanobis"
 		try{
-			String tanimoto = "run_heatmap_tree.sh "+ viz_path+".x " +viz_path+"_tan.mat "+ viz_path+"_tan.xml " +"e"; 
+			String viz_path = workingDir + sdfName;
+			String tanimoto = "run_heatmap_tree.sh "+ viz_path +".x " +viz_path+"_tan.mat "+ viz_path+"_tan.xml " +"e"; 
 			String mahalanobis = "run_heatmap_tree.sh "+ viz_path+".x " +viz_path+"_mah.mat "+ viz_path+"_mah.xml " +"m";
 			Process p;
 			if(method.equals("tanimoto")){
