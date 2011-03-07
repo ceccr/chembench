@@ -429,11 +429,10 @@ public class CreateDatasetTask extends WorkflowTask{
 				step = Constants.VISUALIZATION;
 				Utility.writeToDebug("Generating Visualizations", userName, jobName);
 				
-				String viz_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/" + sdfFileName.substring(0,sdfFileName.lastIndexOf("."));
-				FileAndDirOperations.copyFile(path + descriptorDir + sdfFileName + ".maccs", viz_path + ".maccs");
-				CSV_X_Workflow.performXCreation(sdfFileName + ".maccs", sdfFileName + ".x", Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/");
-				CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "mahalanobis");
-				CSV_X_Workflow.performHeatMapAndTreeCreation(viz_path, "tanimoto");
+				String vis_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/" + sdfFileName;
+				CSV_X_Workflow.performXCreation(path + descriptorDir + sdfFileName + ".maccs", sdfFileName + ".x", Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/");
+				CSV_X_Workflow.performHeatMapAndTreeCreation(vis_path, "mahalanobis");
+				CSV_X_Workflow.performHeatMapAndTreeCreation(vis_path, "tanimoto");
 	
 				if(!actFileName.equals("")){
 					//generate ACT-file related visualizations

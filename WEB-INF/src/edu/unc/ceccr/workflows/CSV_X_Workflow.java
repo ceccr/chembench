@@ -10,8 +10,6 @@ import edu.unc.ceccr.utilities.Utility;
 public class CSV_X_Workflow {
 	
 	public static void performXCreation(String maccsFileName, String outputXFileName, String workingDir){
-		outputXFileName = outputXFileName.substring(0, outputXFileName.lastIndexOf(".sdf"));
-		
 		String cmd = "convert_maccs_to_X2.pl " + workingDir + maccsFileName + " " + workingDir + outputXFileName;
 		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "convert_maccs_to_X2");
 	}
