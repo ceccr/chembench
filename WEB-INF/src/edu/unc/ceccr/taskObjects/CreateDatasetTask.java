@@ -430,7 +430,7 @@ public class CreateDatasetTask extends WorkflowTask{
 				Utility.writeToDebug("Generating Visualizations", userName, jobName);
 				
 				String vis_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/";
-				CSV_X_Workflow.performXCreation(sdfFileName + ".maccs", sdfFileName + ".x", vis_path);
+				CSV_X_Workflow.performXCreation(path + descriptorDir + sdfFileName + ".maccs", sdfFileName + ".x", vis_path);
 				CSV_X_Workflow.performHeatMapAndTreeCreation(vis_path, sdfFileName, "mahalanobis");
 				CSV_X_Workflow.performHeatMapAndTreeCreation(vis_path, sdfFileName, "tanimoto");
 	
