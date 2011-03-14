@@ -255,6 +255,7 @@ public class ViewPredictorAction extends ActionSupport {
 				if(ssTot != 0){
 					rSquared = Utility.roundSignificantFigures("" + (1 - (ssErr / ssTot)), 4);
 				}
+				
 			}
 		}
 		

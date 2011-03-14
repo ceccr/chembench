@@ -43,6 +43,8 @@ import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.CreateExtValidationChartWorkflow;
+
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 public class ExternalValidationPage extends ViewPredictorAction {
@@ -87,14 +89,17 @@ public class ExternalValidationPage extends ViewPredictorAction {
 						childAccuracies.addValue(childCcr);
 					}
 					else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
-						Double childRSquared = (RSquaredAndCCR.calculateConfusionMatrix(childExtVals)).getCcr();
+						ArrayList<Double> childResiduals = RSquaredAndCCR.calculateResiduals(childExtVals);
+						Double childRSquared = RSquaredAndCCR.calculateRSquared(childExtVals, childResiduals);
 						childAccuracies.addValue(childRSquared);
+						CreateExtValidationChartWorkflow.createChart(dataset, ""+(i+1));
 					}
-					if(currentFoldNumber.equals("0") || currentFoldNumber.equals("" + (i+1))){
+					if(currentFoldNumber.equals("0") || currentFoldNumber.equals(""+(i+1))){
 						externalValValues.addAll(childExtVals);
 					}
 				}
 			}
+
 			Double mean = childAccuracies.getMean();
 			Double stddev = childAccuracies.getStandardDeviation();
 			
@@ -103,6 +108,9 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				rSquaredAverageAndStddev += " ± ";
 				rSquaredAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
 				Utility.writeToDebug("ccr avg and stddev: " + rSquaredAverageAndStddev);
+
+				//make main ext validation chart
+				CreateExtValidationChartWorkflow.createChart(dataset, "0");
 			}
 			else if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 				ccrAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);

@@ -103,7 +103,7 @@ public class CreateDatasetTask extends WorkflowTask{
 			}
 		}
 		catch(Exception ex){
-			Utility.writeToDebug(ex);
+			Utility.writeToDebug(ex, userName, jobName);
 		}
 	}
 	
@@ -154,7 +154,7 @@ public class CreateDatasetTask extends WorkflowTask{
 			}
 		}
 		catch(Exception ex){
-			Utility.writeToDebug(ex);
+			Utility.writeToDebug(ex, userName, jobName);
 		}
 	}
 	
@@ -194,7 +194,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			Utility.writeToDebug(e, userName, jobName);
 		} finally {
 			session.close();
 		}
@@ -208,7 +208,7 @@ public class CreateDatasetTask extends WorkflowTask{
 	public void preProcess() throws Exception {
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
 
-		Utility.writeToDebug("executing task");
+		Utility.writeToDebug("executing task", userName, jobName);
 
 		//first run dos2unix on all input files, just to be sure
 		if(!sdfFileName.equals("")){
@@ -224,7 +224,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		if(!sdfFileName.equals("") && standardize.equals("true")){
 			//standardize the SDF	
 			step = Constants.STANDARDIZING;
-			Utility.writeToDebug("Standardizing SDF: " + sdfFileName);
+			Utility.writeToDebug("Standardizing SDF: " + sdfFileName, userName, jobName);
 			StandardizeMoleculesWorkflow.standardizeSdf(sdfFileName, sdfFileName + ".standardize", path);
 			File standardized = new File(path + sdfFileName + ".standardize");
 			if(standardized.exists()){
@@ -334,7 +334,7 @@ public class CreateDatasetTask extends WorkflowTask{
 			Utility.writeToDebug("Creating " + splitType + " External Validation Set", userName, jobName);
 			
 			if(splitType.equals(Constants.RANDOM)){
-				Utility.writeToDebug("Making random external split");
+				Utility.writeToDebug("Making random external split", userName, jobName);
 				if(datasetType.equals(Constants.MODELING)){
 					//we will need to make a .x file from the .act file
 					DatasetFileOperations.makeXFromACT(path, actFileName);
@@ -353,13 +353,11 @@ public class CreateDatasetTask extends WorkflowTask{
 				
 			}
 			else if(splitType.equals(Constants.USERDEFINED)){
-				Utility.writeToDebug("Making user-defined external split");
+				Utility.writeToDebug("Making user-defined external split", userName, jobName);
 
 				//get the list of compound IDs
-				//Utility.writeToDebug("externalCompoundList before: " + externalCompoundList);
 				externalCompoundList = externalCompoundList.replaceAll(",", " ");
 				externalCompoundList = externalCompoundList.replaceAll("\\\n", " ");
-				//Utility.writeToDebug("externalCompoundList after: " + externalCompoundList);
 				
 				if(datasetType.equals(Constants.MODELING)){
 
@@ -480,7 +478,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			Utility.writeToDebug(e, userName, jobName);
 		} finally {
 			session.close();
 		}

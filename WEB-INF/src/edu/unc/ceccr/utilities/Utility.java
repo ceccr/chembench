@@ -89,16 +89,16 @@ public class Utility {
 			out.write(debug_counter.toString() + " " + userName + " " + jobName
 					+ " " + s + " [" + getDate() + "]" + "\n");
 			out.close();
-		} catch (Exception e) {
-			//ohnoes!
-		}
-
-		try {
+			
+			//write to individual job log
+			String debugDir = Constants.CECCR_BASE_PATH + "/workflow-users/DEBUG/";
+			if(!new File(debugDir).exists()){
+				new File(debugDir).mkdirs();
+			}
 			// Append to file
-			FileWriter fstream = new FileWriter(
-					Constants.CECCR_BASE_PATH + "/workflow-users/debug/" + userName
-							+ "-" + jobName + ".log", true);
-			BufferedWriter out = new BufferedWriter(fstream);
+			fstream = new FileWriter(
+					debugDir + userName + "-" + jobName + ".log", true);
+			out = new BufferedWriter(fstream);
 			out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
 			out.close();
 		} catch (Exception e) {
@@ -159,6 +159,34 @@ public class Utility {
 		debug="true" 
 		Your life will get so much easier. javac -g will do this too.
 		*/
+	}
+	
+	public static void writeToDebug(Exception ex, String userName, String jobName) {
+		try {
+			FileWriter fstream = new FileWriter(
+					Constants.CECCR_BASE_PATH+"/workflow-users/javadebug.log", true);
+			String s;
+			final Writer result = new StringWriter();
+			final PrintWriter printWriter = new PrintWriter(result);
+			ex.printStackTrace(printWriter);
+			s = result.toString();
+			BufferedWriter out = new BufferedWriter(fstream);
+			out.write(s +  " [" + getDate() + "]");
+			out.close();
+			
+			//write to individual job log
+			String debugDir = Constants.CECCR_BASE_PATH + "/workflow-users/DEBUG/";
+			if(!new File(debugDir).exists()){
+				new File(debugDir).mkdirs();
+			}
+			// Append to file
+			fstream = new FileWriter(
+					debugDir + userName + "-" + jobName + ".log", true);
+			out = new BufferedWriter(fstream);
+			out.write(s +  " [" + getDate() + "]");
+			out.close();
+		} catch (Exception e) {// Catch exception if any
+		}
 	}
 	
 	public static void writeToStrutsDebug(String s){

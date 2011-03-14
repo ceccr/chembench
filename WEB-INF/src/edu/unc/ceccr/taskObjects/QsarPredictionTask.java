@@ -124,7 +124,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 			
 		}catch(Exception ex){
-			Utility.writeToDebug(ex);
+			Utility.writeToDebug(ex, userName, jobName);
 			return "";
 		}
 	}
@@ -167,7 +167,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			this.predictionDataset = PopulateDataObjects.getDataSetById(fileId, session);
 		}
 		catch(Exception ex){
-			Utility.writeToDebug(ex);
+			Utility.writeToDebug(ex, userName, jobName);
 		}
 		this.jobName = prediction.getJobName();
 		this.userName = prediction.getUserName();
@@ -225,7 +225,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			Utility.writeToDebug(e, userName, jobName);
 		} finally {
 			session.close();
 		}
@@ -262,7 +262,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			}			
 		}
 		catch(Exception e){
-			Utility.writeToDebug(e);
+			Utility.writeToDebug(e, userName, jobName);
 		}
 		
 		return lookupId;
@@ -287,7 +287,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			} catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e);
+				Utility.writeToDebug(e, userName, jobName);
 			}
 		}
 
@@ -363,7 +363,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			} catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e);
+				Utility.writeToDebug(e, userName, jobName);
 			} finally {
 				s.close();
 			}
@@ -447,7 +447,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			} catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e);
+				Utility.writeToDebug(e, userName, jobName);
 			} finally {
 				s.close();
 			}
@@ -476,7 +476,7 @@ public class QsarPredictionTask extends WorkflowTask {
 				}
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				Utility.writeToDebug(ex, userName, jobName);
 			}
 		}
 		return predValues;
@@ -500,7 +500,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		
 		if(predictionDataset.getNumCompound() > 10000){
 			//We will probably run out of memory if we try to process this job in Java. 
-			Utility.writeToDebug("WARNING: Prediction set too large!");
+			Utility.writeToDebug("WARNING: Prediction set too large!", userName, jobName);
 		}
 
 		//for each predictor do {
@@ -520,7 +520,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 		}
 		catch(Exception ex){
-			Utility.writeToDebug(ex);
+			Utility.writeToDebug(ex, userName, jobName);
 		}
 	}
 	
@@ -547,7 +547,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			} catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e);
+				Utility.writeToDebug(e, userName, jobName);
 			}
 			
 			File dir=new File(Constants.CECCR_USER_BASE_PATH+this.userName+"/"+this.jobName+"/");
@@ -555,7 +555,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				Utility.writeToDebug(ex, userName, jobName);
 			}
 	}
 	

@@ -231,7 +231,7 @@ public class QsarModelingTask extends WorkflowTask {
 	}
 	
 	public QsarModelingTask(Predictor predictor) throws Exception{
-		Utility.writeToDebug("Recovering job from predictor: " + predictor.getName());
+		Utility.writeToDebug("Recovering job from predictor: " + predictor.getName(), userName, jobName);
 		this.predictor = predictor;
 		
 		//get dataset
@@ -276,10 +276,10 @@ public class QsarModelingTask extends WorkflowTask {
 		if((new File(filePath + "ext_0.x")).exists()){
 			ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
 			numExternalCompounds = extCompoundArray.size();
-			Utility.writeToDebug("Recovering: numExternalCompounds set to " + numExternalCompounds);
+			Utility.writeToDebug("Recovering: numExternalCompounds set to " + numExternalCompounds, userName, jobName);
 		}
 		else{
-			Utility.writeToDebug("Recovering: could not find " + filePath + "ext_0.x . numExternalCompounds set to 0.");
+			Utility.writeToDebug("Recovering: could not find " + filePath + "ext_0.x . numExternalCompounds set to 0.", userName, jobName);
 			numExternalCompounds = 0;
 		}
 			
@@ -304,7 +304,7 @@ public class QsarModelingTask extends WorkflowTask {
 	public QsarModelingTask(String userName, ModelingFormActions ModelingForm) throws Exception {
 		
 		//This function just loads all the ModelingForm parameters into local variables
-		Utility.writeToDebug("[[Modeling Type: " + ModelingForm.getModelingType());
+		Utility.writeToDebug("[[Modeling Type: " + ModelingForm.getModelingType(), userName, jobName);
 		modelType = ModelingForm.getModelingType();
 		scalingType = ModelingForm.getScalingType();
 		
@@ -501,7 +501,7 @@ public class QsarModelingTask extends WorkflowTask {
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			Utility.writeToDebug(e, userName, jobName);
 		}
 		
 		//set modeling params id in predictor
@@ -527,7 +527,7 @@ public class QsarModelingTask extends WorkflowTask {
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			Utility.writeToDebug(e, userName, jobName);
 		} finally {
 			session.close();
 		}
@@ -822,7 +822,7 @@ public class QsarModelingTask extends WorkflowTask {
 	        
 			if(knnModels.isEmpty()){
 				noModelsGenerated = true;
-				Utility.writeToDebug("Warning: No models were generated.");
+				Utility.writeToDebug("Warning: No models were generated.", userName, jobName);
 			}
 			
 			//Add the yRandom models into the knnModels list
@@ -884,7 +884,7 @@ public class QsarModelingTask extends WorkflowTask {
 				tx.commit();
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				Utility.writeToDebug(ex, userName, jobName);
 				tx.rollback();
 			}
 
@@ -907,7 +907,7 @@ public class QsarModelingTask extends WorkflowTask {
 				tx.commit();
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				Utility.writeToDebug(ex, userName, jobName);
 				tx.rollback();
 			}
 
@@ -1015,7 +1015,7 @@ public class QsarModelingTask extends WorkflowTask {
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			Utility.writeToDebug(e, userName, jobName);
 		}
 		
 		//clean up dirs
@@ -1056,7 +1056,7 @@ public class QsarModelingTask extends WorkflowTask {
 				tx.commit();
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				Utility.writeToDebug(ex, userName, jobName);
 			}
 			
 			KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName, parentPredictorName);

@@ -50,7 +50,7 @@ MACCS keys are generated and compared to produce the heatmap. The similarity is 
 similarity or Mahalanobis distance; you can select either using the buttons on the Heatmap.
 </p>
 <p class="StandardTextDarkGray">
-When the application finishes loading, select "HEATMAP". You can zoom in and out of the heatmap
+You can zoom in and out of the heatmap
 using the mouse wheel. Click and drag the top of a column to shift it left or right. You may also drag rows up and down.
 To reset the rows and columns to their original configuration, use the "Reset" button. 
 </p>
