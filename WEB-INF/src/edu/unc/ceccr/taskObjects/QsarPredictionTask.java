@@ -171,7 +171,9 @@ public class QsarPredictionTask extends WorkflowTask {
 		}
 		this.jobName = prediction.getJobName();
 		this.userName = prediction.getUserName();
-		this.sdf = predictionDataset.getSdfFile();
+		if(predictionDataset.getSdfFile() != null){
+			this.sdf = predictionDataset.getSdfFile();
+		}
 		this.cutoff = "" + prediction.getSimilarityCutoff();
 		this.selectedPredictorIds = prediction.getPredictorIds();
 		this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/";
