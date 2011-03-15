@@ -24,7 +24,7 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
 	 */
 
 	private Long id;
-	private Long predictor_id;
+	private Long predictorId;
 	private String name;
 	private String isYRandomModel;
 	private String descriptorsUsed;
@@ -43,11 +43,11 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
 	}
 
 	@Column(name = "predictor_id")
-	public Long getPredictor_id() {
-		return predictor_id;
+	public Long getPredictorId() {
+		return predictorId;
 	}
-	public void setPredictor_id(Long predictorId) {
-		predictor_id = predictorId;
+	public void setPredictorId(Long predictorId) {
+		predictorId = predictorId;
 	}
 
 	@Column(name = "name")
