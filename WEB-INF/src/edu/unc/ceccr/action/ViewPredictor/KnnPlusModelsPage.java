@@ -47,10 +47,9 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 
 	private List<KnnPlusModel> knnPlusModels;
 	
-	public String load() throws Exception {
+	public String loadPage() throws Exception {
 		getBasicParameters();
 		getModelsPageParameters();
-
 		String result = SUCCESS;
 
 		//get models
@@ -59,7 +58,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		List temp = PopulateDataObjects.getKnnPlusModelsByPredictorId(Long.parseLong(predictorId), session);
 		if(temp != null){
 			allModels.addAll(temp);
-
+			
 			Iterator<KnnPlusModel> it = allModels.iterator();
 			while(it.hasNext()){
 				KnnPlusModel m = it.next();
@@ -73,7 +72,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		}
 			
 		//get descriptor freqs from models
-		HashMap<String, Integer> descriptorFreqMap  = new HashMap<String, Integer>();
+		HashMap<String, Integer> descriptorFreqMap = new HashMap<String, Integer>();
 		if(knnPlusModels != null){
 			for(KnnPlusModel m : knnPlusModels){
 				if(m.getDimsNames() != null && ! m.getDimsNames().equals("")){
