@@ -978,10 +978,6 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setHasBeenViewed(Constants.NO);
 		predictor.setJobCompleted(Constants.YES);
 		
-		if(externalSetPredictions != null){
-			predictor.setExternalValidationResults(new HashSet<ExternalValidation>(externalSetPredictions));
-		}
-		
 		//commit the predictor and models
 		try {
 			tx = session.beginTransaction();

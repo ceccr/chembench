@@ -139,16 +139,6 @@ public class Predictor implements java.io.Serializable {
 		this.name = name;
 	}
 
-	@OneToMany(mappedBy = "predictor", cascade = CascadeType.ALL)
-	public Set<ExternalValidation> getExternalValidationResults() {
-		return externalValidationResults;
-	}
-	public void setExternalValidationResults(
-			Set<ExternalValidation> externalValidationResults) {
-		this.externalValidationResults = externalValidationResults;
-	}
-
-
 	@Column(name = "ACTFileName")
 	public String getActFileName() {
 		return actFileName;
