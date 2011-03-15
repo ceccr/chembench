@@ -909,7 +909,7 @@ public class PopulateDataObjects {
 	public static List getExternalValidationValues(Long predictorId, Session session)throws ClassNotFoundException, SQLException 
 	{
 		
-		List<ExternalValidation> externalValValues = null;
+		List<ExternalValidation> externalValValues = new ArrayList<ExternalValidation>();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
