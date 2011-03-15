@@ -63,37 +63,43 @@ public class CentralDogma{
 			for(Job j : jobs){
 				WorkflowTask wt = null;
 				if(j.getLookupId() != null && !j.getJobList().equals("LIMBO")){
-					Utility.writeToDebug("restoring job: " + j.getJobName());
-					if(j.getJobType().equals(Constants.DATASET)){
-						Long datasetId = j.getLookupId();
-						DataSet dataset = PopulateDataObjects.getDataSetById(datasetId, s);
-						wt = new CreateDatasetTask(dataset);
+					try{
+						Utility.writeToDebug("restoring job: " + j.getJobName());
+						if(j.getJobType().equals(Constants.DATASET)){
+							Long datasetId = j.getLookupId();
+							DataSet dataset = PopulateDataObjects.getDataSetById(datasetId, s);
+							wt = new CreateDatasetTask(dataset);
+						}
+						else if(j.getJobType().equals(Constants.MODELING)){
+							Long modelingId = j.getLookupId();
+							Predictor predictor = PopulateDataObjects.getPredictorById(modelingId, s);
+							wt = new QsarModelingTask(predictor);
+						} 
+						else if(j.getJobType().equals(Constants.PREDICTION)){
+							Long predictionId = j.getLookupId();
+							Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
+							wt = new QsarPredictionTask(prediction);
+						} 
+						wt.jobList = j.getJobList();
+						j.workflowTask = wt;
+						j.setStatus(Constants.QUEUED);
+						
+						if(j.getJobList().equals(Constants.INCOMING)){
+							incomingJobs.addJob(j);
+						}
+						else if(j.getJobList().equals(Constants.LOCAL)){
+							localJobs.addJob(j);
+						}
+						else if(j.getJobList().equals(Constants.LSF)){
+							lsfJobs.addJob(j);
+						}
+						else if(j.getJobList().equals(Constants.ERROR)){
+							errorJobs.addJob(j);
+						}
 					}
-					else if(j.getJobType().equals(Constants.MODELING)){
-						Long modelingId = j.getLookupId();
-						Predictor predictor = PopulateDataObjects.getPredictorById(modelingId, s);
-						wt = new QsarModelingTask(predictor);
-					} 
-					else if(j.getJobType().equals(Constants.PREDICTION)){
-						Long predictionId = j.getLookupId();
-						Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
-						wt = new QsarPredictionTask(prediction);
-					} 
-					wt.jobList = j.getJobList();
-					j.workflowTask = wt;
-					j.setStatus(Constants.QUEUED);
-					
-					if(j.getJobList().equals(Constants.INCOMING)){
-						incomingJobs.addJob(j);
-					}
-					else if(j.getJobList().equals(Constants.LOCAL)){
-						localJobs.addJob(j);
-					}
-					else if(j.getJobList().equals(Constants.LSF)){
-						lsfJobs.addJob(j);
-					}
-					else if(j.getJobList().equals(Constants.ERROR)){
-						errorJobs.addJob(j);
+					catch(Exception ex){
+						Utility.writeToDebug(ex);
+						Utility.writeToDebug("Error restoring job with id: " + j.getLookupId());
 					}
 				}
 			}
