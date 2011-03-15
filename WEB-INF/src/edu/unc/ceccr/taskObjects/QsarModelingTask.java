@@ -991,7 +991,7 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 			else if(knnPlusModels != null){
 				for(KnnPlusModel m: knnPlusModels){
-					m.setPredictor(predictor);
+					m.setPredictorId(predictor.getId());
 					session.saveOrUpdate(m);
 				}
 			}

@@ -10,7 +10,7 @@ import edu.unc.ceccr.utilities.Utility;
 public class KnnPlusModel implements java.io.Serializable{
 
 	private Long id;
-	private Predictor predictor;
+	private Long predictorId;
 	private String isYRandomModel;
 	
 	//Outputs for both category and continuous models	
@@ -128,16 +128,16 @@ public class KnnPlusModel implements java.io.Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	@ManyToOne
-	@JoinColumn(name = "predictor_id")
-	public Predictor getPredictor() {
-		return predictor;
-	}
-	public void setPredictor(Predictor predictor) {
-		this.predictor = predictor;
-	}
 
+
+	@Column(name = "predictor_id")
+	public Long getPredictorId() {
+		return predictorId;
+	}
+	public void setPredictorId(Long predictorId) {
+		this.predictorId = predictorId;
+	}
+	
 	@Column(name = "isYRandomModel")
 	public String getIsYRandomModel() {
 		return isYRandomModel;
