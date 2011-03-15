@@ -788,14 +788,12 @@ public class PopulateDataObjects {
 	}
 	
 	public static List<KnnPlusModel> getKnnPlusModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
-		Predictor predictor = getPredictorById(predictorId, session);
-		
 		List<KnnPlusModel> models = null;
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			models = session.createCriteria(KnnPlusModel.class)
-					.add(Expression.eq("predictor", predictor)).list();
+					.add(Expression.eq("predictorId", predictorId)).list();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
