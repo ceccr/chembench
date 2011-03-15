@@ -173,7 +173,7 @@ public class WriteDescriptorsFileWorkflow{
 			ArrayList<String> descriptorValueAvgs, 
 			ArrayList<String> descriptorValueStdDevs,
 			ArrayList<String> descriptorNames, /* optional argument -- can be null */
-			Float corellationCutoff){
+			Float correlationCutoff){
 
 		//first thing: we need to transpose the descriptor matrix.
 		//By default, it's organized by compound - we need it organized by descriptor.
@@ -208,7 +208,7 @@ public class WriteDescriptorsFileWorkflow{
 			for(int i = 0; i < descriptorMatrixT.size(); i++){
 				for(int j = i + 1; j < descriptorMatrixT.size(); j++){
 					double correlation = findCorrelation(descriptorMatrixT.get(i), descriptorMatrixT.get(j));
-					if(correlation > corellationCutoff){
+					if(correlation > correlationCutoff){
 						counts[j]++;
 						counts[i]++;
 					}
@@ -475,7 +475,7 @@ public class WriteDescriptorsFileWorkflow{
 			String xFilePath,
 			String scalingType,
 			String stdDevCutoff, 
-			String corellationCutoff) throws Exception{
+			String correlationCutoff) throws Exception{
 		//Perform scaling on descriptorMatrix 
 		//remove zero-variance descriptors from descriptorMatrix
 		//Write a new file at xFilePath containing descriptorMatrix and other data needed for .x file
@@ -547,11 +547,11 @@ public class WriteDescriptorsFileWorkflow{
 					descriptorValueAvgs, descriptorValueStdDevPlusAvgs,
 					descriptorNames, Float.parseFloat(stdDevCutoff));
 		}
-		if(Float.parseFloat(corellationCutoff) < 1){
+		if(Float.parseFloat(correlationCutoff) < 1){
 			removeHighlyCorellatedDescriptors(descriptorMatrix, 
 					descriptorValueMinima, descriptorValueMaxima, 
 					descriptorValueAvgs, descriptorValueStdDevPlusAvgs,
-					descriptorNames, Float.parseFloat(corellationCutoff));
+					descriptorNames, Float.parseFloat(correlationCutoff));
 		}
 		
 		//write output

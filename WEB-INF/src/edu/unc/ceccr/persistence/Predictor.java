@@ -250,7 +250,7 @@ public class Predictor implements java.io.Serializable {
 	public void setStdDevCutoff(String stdDevCutoff) {
 		this.stdDevCutoff = stdDevCutoff;
 	}
-
+	
 	@Column(name = "correlationCutoff")
 	public String getCorrelationCutoff() {
 		return correlationCutoff;

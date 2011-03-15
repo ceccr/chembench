@@ -241,6 +241,8 @@ public class ModelingFormActions extends ActionSupport{
 				p.setPredictorType(Constants.PRIVATE);
 				p.setDescriptorGeneration(descriptorGenerationType);
 				p.setActivityType(actFileDataType);
+				p.setScalingType(scalingType);
+				p.setCorrelationCutoff(correlationCutoff);
 				
 				Transaction tx = null;
 				try {
@@ -474,7 +476,7 @@ public class ModelingFormActions extends ActionSupport{
 	private String descriptorGenerationType = Constants.MOLCONNZ;
 	private String scalingType = Constants.RANGESCALING;
 	private String stdDevCutoff = "0.0";
-	private String corellationCutoff = "1.0";
+	private String correlationCutoff = "1.0";
 	//end descriptor parameters
 		
 	// being train-test split parameters
@@ -609,11 +611,11 @@ public class ModelingFormActions extends ActionSupport{
 		this.stdDevCutoff = stdDevCutoff;
 	}
 	
-	public String getCorellationCutoff() {
-		return corellationCutoff;
+	public String getCorrelationCutoff() {
+		return correlationCutoff;
 	}
-	public void setCorellationCutoff(String corellationCutoff) {
-		this.corellationCutoff = corellationCutoff;
+	public void setCorrelationCutoff(String correlationCutoff) {
+		this.correlationCutoff = correlationCutoff;
 	}
 	
 	public String getModelingType() {

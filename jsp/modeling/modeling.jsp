@@ -363,7 +363,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Maximum Correlation:</b></div>
 					</td>
-					<td align="left" valign="top"><s:textfield name="corellationCutoff" id="corellationCutoff" size="5" /></td>
+					<td align="left" valign="top"><s:textfield name="correlationCutoff" id="correlationCutoff" size="5" /></td>
 				</tr>
 				<tr>
 					<td colspan="2">

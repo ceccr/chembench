@@ -309,7 +309,7 @@ public class QsarModelingTask extends WorkflowTask {
 		scalingType = ModelingForm.getScalingType();
 		
 		stdDevCutoff = ModelingForm.getStdDevCutoff();
-		correlationCutoff = ModelingForm.getCorellationCutoff();
+		correlationCutoff = ModelingForm.getCorrelationCutoff();
 		
 		Session session = HibernateUtil.getSession();
 		dataset = PopulateDataObjects.getDataSetById(ModelingForm.getSelectedDatasetId(),session);
