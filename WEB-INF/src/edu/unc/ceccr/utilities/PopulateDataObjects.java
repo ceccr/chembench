@@ -675,7 +675,7 @@ public class PopulateDataObjects {
 		try {
 			tx = session.beginTransaction();
 			prediction = (Prediction) session.createCriteria(Prediction.class)
-					.add(Expression.eq("predictionId", predictionId))
+					.add(Expression.eq("id", predictionId))
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
