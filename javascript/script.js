@@ -65,7 +65,8 @@ function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPre
 
 	 linuxChars = new RegExp("(\\\\|\"|'|,|`|\\?|\\*|~|!|@|#|%|\\$|\\^|\\+|;|\\[|\\])");
      if (linuxChars.test(name)) {
-          alert("You cannot use special characters (quotes, asterisks, punctuation, slashes, etc.) in your job name. You might want to replace them with underscores or dashes.");
+		alert("You cannot use special characters (quotes, asterisks, punctuation, slashes, etc.) in your job name. You might want to replace them with underscores or dashes.");
+		return false;
      }
 	 
      if(name.length > 250){
