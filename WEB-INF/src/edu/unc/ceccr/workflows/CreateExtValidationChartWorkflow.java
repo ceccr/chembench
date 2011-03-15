@@ -109,14 +109,17 @@ public class CreateExtValidationChartWorkflow {
 		else{
 			extValidation=PopulateDataObjects.getExternalValidationValues(predictor.getId(), session);
 		}
-	
+		if(extValidation.size() == 0){
+			return;
+		}
+			
 		Utility.writeToDebug("extval size: " + extValidation.size());
-	
+		
 		int index=0;
 		float high,low;
 		session.close();
 		ExternalValidation extv=null;
-	
+		
 		for(int i = 0; i < extValidation.size(); i++){
 			if(extValidation.get(i).getNumModels() == 0){
 				//no models predicted this point; remove it 
