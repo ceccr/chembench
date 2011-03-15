@@ -893,7 +893,7 @@ public class PopulateDataObjects {
 			for(String childPredictorId: childPredictorIds){
 				tx = session.beginTransaction();
 				Predictor childPredictor = (Predictor) session.createCriteria(Predictor.class)
-					.add(Expression.eq("predictorId", Long.parseLong(childPredictorId))).uniqueResult();
+					.add(Expression.eq("id", Long.parseLong(childPredictorId))).uniqueResult();
 				tx.commit();
 				childPredictors.add(childPredictor);
 			}
