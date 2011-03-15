@@ -120,7 +120,7 @@ public class Predictor implements java.io.Serializable {
 		this.actFileName = actFileName;
 		this.userName = userName;
 	}
-	predictorId
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
