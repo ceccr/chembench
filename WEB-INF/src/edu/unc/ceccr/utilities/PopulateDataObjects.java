@@ -759,7 +759,7 @@ public class PopulateDataObjects {
 		try {
 			tx = session.beginTransaction();
 			groves = session.createCriteria(RandomForestGrove.class)
-					.add(Expression.eq("predictor_id", predictorId)).list();
+					.add(Expression.eq("predictorId", predictorId)).list();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
@@ -914,7 +914,7 @@ public class PopulateDataObjects {
 		try {
 			tx = session.beginTransaction();
 			externalValValues = session.createCriteria(ExternalValidation.class)
-				.add(Expression.eq("predictor_id", predictorId))
+				.add(Expression.eq("predictorId", predictorId))
 				.addOrder(Order.asc("predictedValue")).list();
 
 			tx.commit();

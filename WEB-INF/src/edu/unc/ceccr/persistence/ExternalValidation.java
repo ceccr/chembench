@@ -86,7 +86,6 @@ public class ExternalValidation implements java.io.Serializable {
 	public float getPredictedValue() {
 		return predictedValue;
 	}
-
 	public void setPredictedValue(float predictedValue) {
 		this.predictedValue = predictedValue;
 	}
