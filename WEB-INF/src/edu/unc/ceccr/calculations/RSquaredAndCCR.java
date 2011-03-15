@@ -42,7 +42,7 @@ public class RSquaredAndCCR{
 		}
 		if(numExtValuesWithNoModels == externalValidationList.size()){
 			//all external predictions were empty, meaning there were no good models.
-			return null;
+			return residuals;
 		}
 		
 		return residuals;

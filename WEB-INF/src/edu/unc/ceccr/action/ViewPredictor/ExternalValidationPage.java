@@ -136,7 +136,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 
 		hasGoodModels = Constants.NO;
 		residuals = new ArrayList<String>();
-		if(residualsAsDouble != null){
+		if(residualsAsDouble.size() > 0){
 			for(Double residual: residualsAsDouble){
 				if(residual.isNaN()){
 					residuals.add("");
@@ -148,7 +148,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				}
 			}
 		}
-		if(hasGoodModels.equals(Constants.NO)){
+		else{
 			return result;
 		}
 		
