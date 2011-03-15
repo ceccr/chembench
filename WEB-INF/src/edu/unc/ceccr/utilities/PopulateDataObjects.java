@@ -759,7 +759,7 @@ public class PopulateDataObjects {
 		try {
 			tx = session.beginTransaction();
 			groves = session.createCriteria(RandomForestGrove.class)
-					.add(Expression.eq("predictorId", predictorId)).list();
+					.add(Expression.eq("predictor_id", predictorId)).list();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
