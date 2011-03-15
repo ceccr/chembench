@@ -195,6 +195,7 @@ public class DeleteAction extends ActionSupport{
 		
 		String predictorId;
 		Predictor p = null;
+		ArrayList<ExternalValidation> extVals = new ArrayList<ExternalValidation>();
 		
 		predictorId = ((String[]) context.getParameters().get("id"))[0];
 		Utility.writeToStrutsDebug("Deleting predictor with id: " + predictorId);
@@ -237,14 +238,19 @@ public class DeleteAction extends ActionSupport{
 			for(String childId: childIdArray){
 				Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
 				childPredictors.add(childPredictor);
+				extVals.addAll(PopulateDataObjects.getExternalValidationValues(childPredictor.getId(), session));
 			}
 		}
+		extVals.addAll(PopulateDataObjects.getExternalValidationValues(p.getId(), session));
 		Transaction tx = null;
 		try{
 			tx = session.beginTransaction();
 		    session.delete(p);
 		    for(Predictor childPredictor: childPredictors){
 		    	session.delete(childPredictor);
+		    }
+		    for(ExternalValidation ev: extVals){
+		    	session.delete(ev);
 		    }
 			tx.commit();
 		}catch (RuntimeException e) {
