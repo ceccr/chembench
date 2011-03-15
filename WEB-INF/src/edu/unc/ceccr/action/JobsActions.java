@@ -95,7 +95,7 @@ public class JobsActions extends ActionSupport {
 		}
 		Collections.sort(userDatasets, new Comparator<DataSet>() {
 		    public int compare(DataSet d1, DataSet d2) {
-	    		return d1.getFileName().toLowerCase().compareTo(d2.getFileName().toLowerCase());
+	    		return d1.getName().toLowerCase().compareTo(d2.getName().toLowerCase());
 		    }});
 
 		for(int i = 0; i < userDatasets.size(); i++){
@@ -123,7 +123,7 @@ public class JobsActions extends ActionSupport {
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
 		Collections.sort(userPredictions, new Comparator<Prediction>() {
 		    public int compare(Prediction p1, Prediction p2) {
-	    		return p1.getJobName().toLowerCase().compareTo(p2.getJobName().toLowerCase());
+	    		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
 		    }});
 		
 		for(int i = 0; i < userPredictions.size(); i++){

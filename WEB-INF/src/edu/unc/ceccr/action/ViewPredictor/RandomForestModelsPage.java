@@ -138,7 +138,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		String parentPredictorId = predictorId;
 		
 		for(Predictor childPredictor : childPredictors){
-			predictorId = "" + childPredictor.getPredictorId();
+			predictorId = "" + childPredictor.getId();
 			result = loadTrees();
 			if(!result.equals(SUCCESS)){
 				return result;
@@ -153,7 +153,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		String parentPredictorId = predictorId;
 		
 		for(Predictor childPredictor : childPredictors){
-			predictorId = "" + childPredictor.getPredictorId();
+			predictorId = "" + childPredictor.getId();
 			result = loadGroves();
 			if(!result.equals(SUCCESS)){
 				return result;

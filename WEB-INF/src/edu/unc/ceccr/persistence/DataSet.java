@@ -12,8 +12,8 @@ import java.util.Date;
 @Table(name="cbench_dataset")
 public class DataSet implements java.io.Serializable{
 	
-	private Long fileId;
-	private String fileName;
+	private Long id;
+	private String name;
 	private String userName;
 	private String actFile;
 	private String sdfFile;
@@ -42,24 +42,24 @@ public class DataSet implements java.io.Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "fileID")
-	public Long getFileId()
+	@Column(name = "id")
+	public Long getId()
 	{
-		return this.fileId;
+		return this.id;
 	}
-	public void setFileId(Long fileId)
+	public void setId(Long id)
 	{
-		this.fileId=fileId;
+		this.id=id;
 	}
 	
-	@Column(name="fileName")
-	public String getFileName()
+	@Column(name="name")
+	public String getName()
 	{
-		return this.fileName;
+		return this.name;
 	}
-	public void setFileName(String fileName)
+	public void setName(String name)
 	{
-		this.fileName=fileName;
+		this.name=name;
 	}
 	
 	@Column(name="username")

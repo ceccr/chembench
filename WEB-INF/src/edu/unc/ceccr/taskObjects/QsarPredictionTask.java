@@ -151,7 +151,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		}
 		Collections.sort(selectedPredictors, new Comparator<Predictor>(){
 			public int compare(Predictor p1, Predictor p2) {
-	    		return p1.getPredictorId().compareTo(p2.getPredictorId());
+	    		return p1.getId().compareTo(p2.getId());
 		    }});
 
 		s.close();
@@ -161,15 +161,15 @@ public class QsarPredictionTask extends WorkflowTask {
 		//used when job is recovered on server restart
 		
 		this.prediction = prediction;
-		Long fileId = prediction.getDatasetId();
+		Long datasetId = prediction.getDatasetId();
 		try{
 			Session session = HibernateUtil.getSession();
-			this.predictionDataset = PopulateDataObjects.getDataSetById(fileId, session);
+			this.predictionDataset = PopulateDataObjects.getDataSetById(datasetId, session);
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex, userName, jobName);
 		}
-		this.jobName = prediction.getJobName();
+		this.jobName = prediction.getName();
 		this.userName = prediction.getUserName();
 		if(predictionDataset.getSdfFile() != null){
 			this.sdf = predictionDataset.getSdfFile();
@@ -188,15 +188,15 @@ public class QsarPredictionTask extends WorkflowTask {
 		for(int i = 0; i < selectedPredictorIdArray.length; i++){
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
 			
-			PredictionValue pvalue = PopulateDataObjects.getFirstPredictionValueByPredictionIdAndPredictorId(prediction.getPredictionId(),
-					p.getPredictorId(), s);
+			PredictionValue pvalue = PopulateDataObjects.getFirstPredictionValueByPredictionIdAndPredictorId(prediction.getId(),
+					p.getId(), s);
 			if(pvalue == null){
 				selectedPredictors.add(p);
 			}
 		}
 		Collections.sort(selectedPredictors, new Comparator<Predictor>(){
 			public int compare(Predictor p1, Predictor p2) {
-	    		return p1.getPredictorId().compareTo(p2.getPredictorId());
+	    		return p1.getId().compareTo(p2.getId());
 		    }});
 		
 		s.close();
@@ -213,8 +213,8 @@ public class QsarPredictionTask extends WorkflowTask {
 		prediction.setUserName(this.userName);
 		prediction.setSimilarityCutoff(new Float(this.cutoff));
 		prediction.setPredictorIds(this.selectedPredictorIds);
-		prediction.setJobName(this.jobName);
-		prediction.setDatasetId(predictionDataset.getFileId());
+		prediction.setName(this.jobName);
+		prediction.setDatasetId(predictionDataset.getId());
 		prediction.setHasBeenViewed(Constants.NO);
 		prediction.setJobCompleted(Constants.NO);
 
@@ -232,7 +232,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			session.close();
 		}
 		
-		lookupId = prediction.getPredictionId();
+		lookupId = prediction.getId();
 		jobType = Constants.PREDICTION;
 		
 		Utility.writeToDebug("Setting up prediction task", userName, jobName);
@@ -243,14 +243,14 @@ public class QsarPredictionTask extends WorkflowTask {
 				
 				if(sdf != null && !sdf.isEmpty()){
 					FileAndDirOperations.copyFile(
-							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
+							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getName()+"/"+sdf, 
 							Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
 							);
 					
 				}
 				if(predictionDataset.getXFile() != null && ! predictionDataset.getXFile().isEmpty()){
 					FileAndDirOperations.copyFile(
-							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getFileName()+"/"+predictionDataset.getXFile(), 
+							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getName()+"/"+predictionDataset.getXFile(), 
 							Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+predictionDataset.getXFile()
 							);
 				}
@@ -258,7 +258,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			else{
 				//public datasets always have SDFs
 				FileAndDirOperations.copyFile(
-						Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getFileName()+"/"+sdf, 
+						Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getName()+"/"+sdf, 
 						Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
 						);
 			}			
@@ -339,7 +339,7 @@ public class QsarPredictionTask extends WorkflowTask {
 				parentPredictionValue.setNumModelsUsed(childResults.size());
 				parentPredictionValue.setNumTotalModels(childResults.size());
 				parentPredictionValue.setObservedValue(pv.getObservedValue());
-				parentPredictionValue.setPredictorId(predictor.getPredictorId());
+				parentPredictionValue.setPredictorId(predictor.getId());
 				predValues.add(parentPredictionValue);
 			}
 			//calculate average predicted value and stddev over each child
@@ -358,7 +358,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			try {
 				tx = s.beginTransaction();
 				for(PredictionValue pv : predValues){
-					pv.setPredictionId(prediction.getPredictionId());
+					pv.setPredictionId(prediction.getId());
 					s.saveOrUpdate(pv);
 				}
 				tx.commit();
@@ -424,17 +424,17 @@ public class QsarPredictionTask extends WorkflowTask {
 			step = Constants.READPRED;
 			
 			if(predictor.getModelMethod().equals(Constants.KNN)){
-				predValues = KnnPredictionWorkflow.readPredictionOutput(predictionDir, predictor.getPredictorId(), sdfile);
+				predValues = KnnPredictionWorkflow.readPredictionOutput(predictionDir, predictor.getId(), sdfile);
 			}
 			else if(predictor.getModelMethod().equals(Constants.SVM)){
-				predValues = SvmWorkflow.readPredictionOutput(predictionDir, sdfile + ".renorm.x", predictor.getPredictorId());
+				predValues = SvmWorkflow.readPredictionOutput(predictionDir, sdfile + ".renorm.x", predictor.getId());
 			}
 			else if(predictor.getModelMethod().equals(Constants.KNNGA) ||
 					predictor.getModelMethod().equals(Constants.KNNSA)){
-				predValues = KnnPlusWorkflow.readPredictionOutput(predictionDir, predictor.getPredictorId(), sdfile);
+				predValues = KnnPlusWorkflow.readPredictionOutput(predictionDir, predictor.getId(), sdfile);
 			}
 			else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
-				predValues = RandomForestWorkflow.readPredictionOutput(predictionDir, predictor.getPredictorId());
+				predValues = RandomForestWorkflow.readPredictionOutput(predictionDir, predictor.getId());
 			}
 			
 			s = HibernateUtil.getSession();
@@ -442,7 +442,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			try {
 				tx = s.beginTransaction();
 				for(PredictionValue pv : predValues){
-					pv.setPredictionId(prediction.getPredictionId());
+					pv.setPredictionId(prediction.getId());
 					s.saveOrUpdate(pv);
 				}
 				tx.commit();
@@ -457,8 +457,8 @@ public class QsarPredictionTask extends WorkflowTask {
 			//  done with 5. (get output, put it into predictionValue objects and save them)
 			
 			//remove copied dataset and predictor; they are redundant
-			String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/").list();
-			String[] datasetDescDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getFileName() + "/Descriptors/").list();
+			String[] datasetDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getName() + "/").list();
+			String[] datasetDescDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getName() + "/Descriptors/").list();
 			String[] predictorDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + predictor.getName() + "/").list();
 			try{
 				for(String fileName : datasetDirFiles){

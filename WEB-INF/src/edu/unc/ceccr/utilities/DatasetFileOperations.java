@@ -71,7 +71,7 @@ public class DatasetFileOperations {
 
 		//find activity file
 		String datasetUserName = dataset.getUserName();
-		String dir = Constants.CECCR_USER_BASE_PATH + datasetUserName + "/DATASETS/"+ dataset.getFileName() + "/";
+		String dir = Constants.CECCR_USER_BASE_PATH + datasetUserName + "/DATASETS/"+ dataset.getName() + "/";
 		String fileName = dir + dataset.getActFile(); 
 		
 		File file = new File(fileName);

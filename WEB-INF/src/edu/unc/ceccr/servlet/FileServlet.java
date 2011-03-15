@@ -58,7 +58,7 @@ public class FileServlet extends HttpServlet {
 	    	if(jobType.equalsIgnoreCase(Constants.DATASET)){
 	    		DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
 	    		dirName += dataset.getUserName() + "/DATASETS/";
-	    		dirName += dataset.getFileName() + "/";
+	    		dirName += dataset.getName() + "/";
 	    		
 	    		//add file names here...
 	    	}
@@ -72,11 +72,11 @@ public class FileServlet extends HttpServlet {
 	    	else if(jobType.equalsIgnoreCase(Constants.PREDICTION)){
 	    		Prediction prediction = PopulateDataObjects.getPredictionById(Long.parseLong(id), s);
 	    		dirName += prediction.getUserName() + "/PREDICTIONS/";
-	    		dirName += prediction.getJobName() + "/";
+	    		dirName += prediction.getName() + "/";
 	    		
 	    		if(file.equalsIgnoreCase("predictionAsCSV")){
 	    			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(id));
-	    			fileName = prediction.getJobName() + "-prediction-values.csv";
+	    			fileName = prediction.getName() + "-prediction-values.csv";
 	    		}
 	    	}
 	    	s.close();

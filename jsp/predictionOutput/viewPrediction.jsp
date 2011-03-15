@@ -62,12 +62,12 @@
 	<td height="557" colspan="5" valign="top">
 	<table width="924" align="center"><tr><td>
 			<div class="StandardTextDarkGray"><br />
-			<b>Prediction Name: </b><s:property value="prediction.jobName" /><br />
+			<b>Prediction Name: </b><s:property value="prediction.name" /><br />
 			<b>Dataset Predicted: </b><a href="viewDataset?id=<s:property value="prediction.datasetId" />"><s:property value="prediction.datasetDisplay" /></a><br />
 			<b>Predictors Used: &nbsp;</b>
 			<s:iterator value="predictors" status="predictorsStatus1">
 			<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
-				<s:param name="predictorId" value='predictorId' />
+				<s:param name="predictorId" value='id' />
 			</s:url>
 			<s:a href="%{predictorLink}"><s:property value="name" /></s:a>&nbsp;&nbsp;
 			</s:iterator>

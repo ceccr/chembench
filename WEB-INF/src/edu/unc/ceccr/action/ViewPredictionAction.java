@@ -101,7 +101,7 @@ public class ViewPredictionAction extends ActionSupport {
 			//get prediction
 			Utility.writeToStrutsDebug("prediction id: " + predictionId);
 			prediction = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
-			prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getFileName());
+			prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getName());
 			if(predictionId == null){
 				Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
 			}
@@ -114,7 +114,7 @@ public class ViewPredictionAction extends ActionSupport {
 			}
 			Collections.sort(predictors, new Comparator<Predictor>(){
 				public int compare(Predictor p1, Predictor p2) {
-		    		return p1.getPredictorId().compareTo(p2.getPredictorId());
+		    		return p1.getId().compareTo(p2.getId());
 			    }});
 
 			//get dataset
@@ -286,7 +286,7 @@ public class ViewPredictionAction extends ActionSupport {
 
 				Utility.writeToStrutsDebug("prediction id: " + predictionId);
 				prediction = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
-				prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getFileName());
+				prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getName());
 				if(predictionId == null){
 					Utility.writeToStrutsDebug("Invalid prediction ID supplied.");
 				}

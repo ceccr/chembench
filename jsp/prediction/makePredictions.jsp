@@ -107,7 +107,7 @@
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Select a Dataset:</b></div>
 					</td>
-					<td align="left" valign="top"><s:select name="selectedDatasetId" list="userDatasets" id="selectedDataset" listKey="fileId" listValue="fileName" />
+					<td align="left" valign="top"><s:select name="selectedDatasetId" list="userDatasets" id="selectedDataset" listKey="id" listValue="name" />
 					<input type="button" value="View Dataset" property="text" onclick="window.open('viewDataset?id='+document.getElementById('selectedDataset').value)"/>
 					<div class="StandardTextDarkGrayParagraph"><i>(Use the "DATASET" page to create datasets.)</i></div>
 					</td>

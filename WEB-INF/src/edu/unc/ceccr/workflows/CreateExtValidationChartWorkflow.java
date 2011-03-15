@@ -83,7 +83,7 @@ public class CreateExtValidationChartWorkflow {
 		from each point. 
 		*/
 		
-		String project=dataset.getFileName();
+		String project=dataset.getName();
 		String user=dataset.getUserName();
 		
 		Session session = HibernateUtil.getSession();

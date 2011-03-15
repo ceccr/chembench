@@ -301,8 +301,8 @@
 					</s:else>
 					
 					<td align="center">
-						<a href="viewDataset?id=<s:property value="fileId" />">
-						<s:property value="fileName" />
+						<a href="viewDataset?id=<s:property value="id" />">
+						<s:property value="name" />
 						</a>
 					</td>
 					<td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
@@ -311,13 +311,13 @@
 					
 					<s:if test="userName=='all-users'">
 					<td>Public</td>
-					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=all-users">download</a></td>
+					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="name" />&user=all-users">download</a></td>
 					<td><!-- dataset is public, so no delete option --></td>
 					</s:if>
 					<s:else>
 					<td>Private</td>
-					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="fileName" />&user=<s:property value="user.userName" />">download</a></td>
-					<td><a onclick="return confirmDelete('dataset')" href="deleteDataset?id=<s:property value="fileId" />#datasets">delete</a></td>
+					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="name" />&user=<s:property value="user.userName" />">download</a></td>
+					<td><a onclick="return confirmDelete('dataset')" href="deleteDataset?id=<s:property value="id" />#datasets">delete</a></td>
 					</s:else>
 					
 					</tr> 
@@ -366,7 +366,7 @@
 					</s:else>
 					
 					<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
-						<s:param name="predictorId" value='predictorId' />
+						<s:param name="predictorId" value='id' />
 					</s:url>
 					<td><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
 					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
@@ -379,7 +379,7 @@
 					</td>
 					<td><s:if test="userName=='all-users'">Public</s:if><s:else>Private</s:else></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
-					<td><s:if test="userName=='all-users'"></s:if><s:else><a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="predictorId" />#predictors">delete</a></s:else></td>
+					<td><s:if test="userName=='all-users'"></s:if><s:else><a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="id" />#predictors">delete</a></s:else></td>
 					</tr> 
 				</s:iterator>
 				<br />
@@ -426,11 +426,11 @@
 					<s:url id="predictionLink" value="/viewPrediction" includeParams="none">
 						<s:param name="id" value='predictionId' />
 					</s:url>
-					<td><s:a href="%{predictionLink}"><s:property value="jobName" /></s:a></td>
+					<td><s:a href="%{predictionLink}"><s:property value="name" /></s:a></td>
 					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td><s:property value="datasetDisplay" /></td>
 					<td><s:property value="predictorNames" /></td>
-					<td><a href="projectFilesServlet?project=<s:property value='jobName' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
+					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
 					<td><a onclick="return confirmDelete('prediction')" href="deletePrediction?id=<s:property value="predictionId" />#predictions">delete</a></td>
 					</tr> 
 				</s:iterator>

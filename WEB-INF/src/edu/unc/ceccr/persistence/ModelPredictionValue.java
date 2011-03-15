@@ -17,7 +17,7 @@ public class ModelPredictionValue implements java.io.Serializable{
 		compoundId VARCHAR(255),
 		predictedValue VARCHAR(255),
 		appDomainCutoff VARCHAR(255),
-		FOREIGN KEY (datasetId) REFERENCES cbench_dataset(fileId) ON DELETE CASCADE ON UPDATE CASCADE
+		FOREIGN KEY (datasetId) REFERENCES cbench_dataset(id) ON DELETE CASCADE ON UPDATE CASCADE
 		);
 	*/
 

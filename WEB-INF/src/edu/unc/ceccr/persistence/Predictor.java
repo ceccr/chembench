@@ -34,7 +34,7 @@ import edu.unc.ceccr.utilities.Utility;
 public class Predictor implements java.io.Serializable {
 
 	private String userName;
-	private Long predictorId;
+	private Long id;
 	private Long datasetId;
 	private String name;
 
@@ -105,34 +105,36 @@ public class Predictor implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Predictor(Long predictorId, String name, String userName) {
-		this.predictorId = predictorId;
+	public Predictor(Long id, String name, String userName) {
+		this.id = id;
 		this.name = name;
 		this.userName = userName;
 	}
 
 	/** full constructor */
-	public Predictor(Long predictorId, String name,
+	public Predictor(Long id, String name,
 			String sdFileName, String actFileName, String userName) {
-		this.predictorId = predictorId;
+		this.id = id;
 		this.name = name;
 		this.sdFileName = sdFileName;
 		this.actFileName = actFileName;
 		this.userName = userName;
 	}
-
+	predictorId
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "predictor_id")
-	// Property accessors
-	public Long getPredictorId() {
-		return this.predictorId;
+	@Column(name = "id")
+	public Long getId() {
+		return this.id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 
+	@Column(name = "name")
 	public String getName() {
 		return this.name;
 	}
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -146,9 +148,6 @@ public class Predictor implements java.io.Serializable {
 		this.externalValidationResults = externalValidationResults;
 	}
 
-	public void setPredictorId(Long predictorId) {
-		this.predictorId = predictorId;
-	}
 
 	@Column(name = "ACTFileName")
 	public String getActFileName() {
@@ -222,7 +221,7 @@ public class Predictor implements java.io.Serializable {
 	@Transient
 	public String toString() {
 		return "Predictor: " + name + " Username: " + userName
-				+ " PredictorId: " + predictorId + " SDFile: " + sdFileName
+				+ " id: " + id + " SDFile: " + sdFileName
 				+ " ACTFile: " + actFileName;
 	}
 

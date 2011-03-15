@@ -126,7 +126,7 @@ public class PopulateDataObjects {
 		
 		//get compounds from SDF
 		String datasetDir = "";
-		datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
+		datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getName() + "/";
 		
 		ArrayList<String> compounds = null;
 		
@@ -204,20 +204,20 @@ public class PopulateDataObjects {
 				dataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
-							.addOrder(Order.asc("fileName")).list();
+							.addOrder(Order.asc("name")).list();
 				
 				usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
-							.addOrder(Order.asc("fileName")).list();
+							.addOrder(Order.asc("name")).list();
 			}
 			else {
 				dataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
-							.addOrder(Order.asc("fileName")).list();
+							.addOrder(Order.asc("name")).list();
 			}
 			tx.commit();
 			if(usersDataSet != null){
@@ -246,19 +246,19 @@ public class PopulateDataObjects {
 				dataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.eq("modelType",modelType))
-							.addOrder(Order.desc("fileName")).list();
+							.addOrder(Order.desc("name")).list();
 				usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.eq("modelType",modelType))
-							.addOrder(Order.desc("fileName")).list();
+							.addOrder(Order.desc("name")).list();
 			}
 			else {
 				dataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.eq("modelType",modelType))
-							.addOrder(Order.desc("fileName")).list();
+							.addOrder(Order.desc("name")).list();
 			}
 			tx.commit();
 			if(usersDataSet != null){
@@ -287,15 +287,15 @@ public class PopulateDataObjects {
 			if(isAllUserIncludes){
 				allUserDataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
-							.addOrder(Order.desc("fileName")).list();
+							.addOrder(Order.desc("name")).list();
 				
 				usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
-							.addOrder(Order.desc("fileName")).list();
+							.addOrder(Order.desc("name")).list();
 				
 			}
 			else usersDataSet = session.createCriteria(DataSet.class).add(Expression.eq("userName", userName))
-							.addOrder(Order.desc("fileName")).list();
+							.addOrder(Order.desc("name")).list();
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
@@ -311,7 +311,7 @@ public class PopulateDataObjects {
 		        while(i.hasNext())
 		        {
 		        	DataSet di = (DataSet) i.next();
-		        	datasetNames.add(di.getFileName()/* + " (public)"*/);	        
+		        	datasetNames.add(di.getName()/* + " (public)"*/);	        
 		        }
 			}
 	       
@@ -319,7 +319,7 @@ public class PopulateDataObjects {
 		    	Iterator j = usersDataSet.iterator();
 		    	while(j.hasNext()){
 		    		DataSet dj = (DataSet) j.next();
-		    		datasetNames.add(dj.getFileName()/* + " (private)"*/);	
+		    		datasetNames.add(dj.getName()/* + " (private)"*/);	
 		    	}
 	        }
 		}
@@ -402,14 +402,14 @@ public class PopulateDataObjects {
 			if(isAllUserIncludes){
 				allUserPredictions = session.createCriteria(Prediction.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
-							.addOrder(Order.desc("jobName")).list();
+							.addOrder(Order.desc("name")).list();
 				userPredictions = session.createCriteria(Prediction.class)
 							.add(Expression.eq("userName", userName))
-							.addOrder(Order.desc("jobName")).list();
+							.addOrder(Order.desc("name")).list();
 			}
 			else userPredictions = session.createCriteria(Prediction.class)
 							.add(Expression.eq("userName", userName))
-							.addOrder(Order.desc("jobName")).list();
+							.addOrder(Order.desc("name")).list();
 			tx.commit();
 		} catch (Exception e) {
 			if (tx != null)
@@ -424,7 +424,7 @@ public class PopulateDataObjects {
 		        while(i.hasNext())
 		        {
 		        	Prediction pi = (Prediction) i.next();
-		        	predictionNames.add(pi.getJobName());	        
+		        	predictionNames.add(pi.getName());	        
 		        }
 			}
 	       
@@ -432,7 +432,7 @@ public class PopulateDataObjects {
 		    	Iterator j = allUserPredictions.iterator();
 		    	while(j.hasNext()){
 		    		Prediction pj = (Prediction) j.next();
-		    		predictionNames.add(pj.getJobName());	
+		    		predictionNames.add(pj.getName());	
 		    	}
 	        }
 		}
@@ -540,7 +540,7 @@ public class PopulateDataObjects {
 
  		for(int i = 0; i < predictors.size(); i++){
  			if(predictors.get(i).getDatasetId() != null && getDataSetById(predictors.get(i).getDatasetId(), session) != null){
- 				predictors.get(i).setDatasetDisplay(PopulateDataObjects.getDataSetById(predictors.get(i).getDatasetId(), session).getFileName());
+ 				predictors.get(i).setDatasetDisplay(PopulateDataObjects.getDataSetById(predictors.get(i).getDatasetId(), session).getName());
  			}
  		}
  		
@@ -563,7 +563,7 @@ public class PopulateDataObjects {
 				predictions = session.createCriteria(Prediction.class)
 					.add(Expression.eq("jobCompleted", Constants.YES))
 					.add(Expression.or(Expression.eq("userName", userName),Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
-					.addOrder(Order.desc("jobName")).list();
+					.addOrder(Order.desc("name")).list();
 				tx.commit();
 			} catch (Exception e) {
 				Utility.writeToDebug(e);
@@ -580,7 +580,7 @@ public class PopulateDataObjects {
 				}
 				p.setPredictorNames(predictorNames);
 	 			if(p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null){
-	 				p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getFileName());
+	 				p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getName());
 	 			}
 			}
 
@@ -598,7 +598,7 @@ public class PopulateDataObjects {
 		try {
 			tx = session.beginTransaction();
 			dataset = (DataSet) session.createCriteria(DataSet.class)
-					.add(Expression.eq("fileName", datasetName))
+					.add(Expression.eq("name", datasetName))
 					.add(Expression.eq("userName", userName))
 					.uniqueResult();
 
@@ -618,7 +618,7 @@ public class PopulateDataObjects {
 		try {
 			tx = session.beginTransaction();
 			dataset = (DataSet) session.createCriteria(DataSet.class)
-					.add(Expression.eq("fileName", datasetName))
+					.add(Expression.eq("name", datasetName))
 					.add(Expression.eq("userName", userName))
 					.uniqueResult();
 			tx.commit();
@@ -630,13 +630,13 @@ public class PopulateDataObjects {
 		return dataset;
 	}
 	
-	public static DataSet getDataSetById(Long fileId, Session session) throws ClassNotFoundException, SQLException {
+	public static DataSet getDataSetById(Long id, Session session) throws ClassNotFoundException, SQLException {
 		DataSet dataset = null;
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			dataset = (DataSet) session.createCriteria(DataSet.class)
-					.add(Expression.eq("fileId", fileId))
+					.add(Expression.eq("id", id))
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
@@ -654,7 +654,7 @@ public class PopulateDataObjects {
 		try {
 			tx = session.beginTransaction();
 			predictor = (Predictor) session.createCriteria(Predictor.class)
-					.add(Expression.eq("predictorId", predictorId))
+					.add(Expression.eq("id", predictorId))
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
@@ -662,7 +662,7 @@ public class PopulateDataObjects {
 		} 
 
 		if(predictor != null && predictor.getDatasetId() != null && getDataSetById(predictor.getDatasetId(), session) != null){
-			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
+			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getName());
 		}
 		return predictor;
 	}
@@ -693,7 +693,7 @@ public class PopulateDataObjects {
 		prediction.setDatabase(prediction.getDatabase());
 
 		if(prediction.getDatasetId() != null && getDataSetById(prediction.getDatasetId(), session) != null){
-			prediction.setDatasetDisplay(getDataSetById(prediction.getDatasetId(), session).getFileName());
+			prediction.setDatasetDisplay(getDataSetById(prediction.getDatasetId(), session).getName());
 		}
 		
 		return prediction;
@@ -771,7 +771,6 @@ public class PopulateDataObjects {
 	}
 
 	public static List<RandomForestTree> getRandomForestTreesByGroveId(Long groveId, Session session) throws Exception{
-		//Predictor predictor = getPredictorById(predictorId, session);
 		
 		List<RandomForestTree> trees = null;
 		Transaction tx = null;
@@ -790,7 +789,6 @@ public class PopulateDataObjects {
 	}
 	
 	public static List<KnnPlusModel> getKnnPlusModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
-		//Utility.writeToDebug("getting models for predictorId: " + predictorId);
 		Predictor predictor = getPredictorById(predictorId, session);
 		
 		List<KnnPlusModel> models = null;
@@ -873,7 +871,7 @@ public class PopulateDataObjects {
 		} 
 
 		if(predictor.getDatasetId() != null && getDataSetById(predictor.getDatasetId(), session) != null){
-			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getFileName());
+			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getName());
 		}
 		return predictor;
 	}

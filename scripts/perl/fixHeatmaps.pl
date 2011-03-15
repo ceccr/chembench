@@ -1,5 +1,5 @@
 #depends on an "infile.txt" which is generated from MySQL using the command:
-#select username, fileName from cbench_dataset;
+#select username, name from cbench_dataset;
 #Descriptor generation is then run on each dataset.
 
 open(FH, "infile.txt") or die "can't open infile";

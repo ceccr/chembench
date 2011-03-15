@@ -50,7 +50,7 @@ public class CreateActivityChartWorkflow {
 		
 		String userDir;
 		userDir = selectedDataSet.getUserName();
-		fullPath += userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/" + selectedDataSet.getActFile();
+		fullPath += userDir + "/DATASETS/" + selectedDataSet.getName() + "/" + selectedDataSet.getActFile();
 		
 		//Utility.writeToDebug("Generating Activity Histogram for Dataset: " + datasetID + " from ACT file: " + fullPath);
 		
@@ -85,7 +85,7 @@ public class CreateActivityChartWorkflow {
 		   domainAxis.setRange(getMinimum(getValues(dataMap)), getMaximum(getValues(dataMap)));
 		   plot.setDomainAxis(domainAxis);
 		
-		String visualizationDir = Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataSet.getFileName() + "/Visualization/";
+		String visualizationDir = Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataSet.getName() + "/Visualization/";
 		new File(visualizationDir).mkdirs();
 		String outputFileStr = visualizationDir + "activityChart.png";
 		ChartUtilities.saveChartAsPNG(new File(outputFileStr), chart, 550, 550);

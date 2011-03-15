@@ -38,7 +38,7 @@
 		if(document.getElementById("categoryDataset").checked==true){
 			datasetId = document.getElementById("selectedCategoryDataset").value;
 			<s:iterator value="userCategoryDatasets">
-			if(datasetId==<s:property value="fileId" />){
+			if(datasetId==<s:property value="id" />){
 				selectedDatasetNumCompounds = <s:property value='numCompound' />;
 				selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
 			}
@@ -47,7 +47,7 @@
 		else{
 			datasetId = document.getElementById("selectedContinuousDataset").value;
 			<s:iterator value="userContinuousDatasets">
-				if(datasetId==<s:property value="fileId" />){
+				if(datasetId==<s:property value="id" />){
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
 				}
@@ -276,7 +276,7 @@
 					<td colspan="2">
 					<s:hidden id="actFileDataType" name="actFileDataType" />
 					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataTypeRadio" id="continuousDataset" onclick="setToContinuous(); getSelectedDataset()" checked>Choose a Continuous Dataset:</input></b>
-					<br /><s:select name="selectedDatasetId" list="userContinuousDatasets" id="selectedContinuousDataset" listKey="fileId" listValue="fileName" onchange='getSelectedDataset();' />
+					<br /><s:select name="selectedDatasetId" list="userContinuousDatasets" id="selectedContinuousDataset" listKey="id" listValue="name" onchange='getSelectedDataset();' />
 					</div>
 					</td>
 			    </tr> 
@@ -286,7 +286,7 @@
 			    <tr>
 					<td colspan="2">
 					<div class="StandardTextDarkGrayParagraph"><b><input type="radio" name="actFileDataTypeRadio" id="categoryDataset" onclick="setToCategory(); getSelectedDataset()">Choose a Category Dataset:</input></b>
-					<br /><s:select name="selectedDatasetId" disabled="true" list="userCategoryDatasets" id="selectedCategoryDataset" listKey="fileId" listValue="fileName" onchange='getSelectedDataset();' />
+					<br /><s:select name="selectedDatasetId" disabled="true" list="userCategoryDatasets" id="selectedCategoryDataset" listKey="id" listValue="name" onchange='getSelectedDataset();' />
 					</div>
 					</td>
 			    </tr>

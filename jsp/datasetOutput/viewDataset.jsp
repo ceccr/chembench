@@ -107,7 +107,7 @@
 
 	<table width="924" align="center"><tr><td>
 		<div class="StandardTextDarkGray"><br />
-			<b>Dataset Name: </b><s:property value="dataset.fileName" /><br />
+			<b>Dataset Name: </b><s:property value="dataset.name" /><br />
 			<b>Number of Compounds: </b><s:property value="dataset.numCompound" /><br />
 			<b>Dataset Type: </b><s:property value="datasetTypeDisplay" /><br />
 			<b>Date Created: </b><s:date name="dataset.createdTime" format="yyyy-MM-dd HH:mm" /><br />

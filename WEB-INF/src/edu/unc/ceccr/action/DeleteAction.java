@@ -58,17 +58,17 @@ public class DeleteAction extends ActionSupport{
 		
 		//check each predictor
 		for(int i = 0; i < userPredictors.size();i++){
-			Utility.writeToDebug("predictor id: " + userPredictors.get(i).getDatasetId() + " dataset id: " + ds.getFileId());
-			if(userPredictors.get(i).getDatasetId() != null && userPredictors.get(i).getDatasetId().equals(ds.getFileId())){
+			Utility.writeToDebug("predictor id: " + userPredictors.get(i).getDatasetId() + " dataset id: " + ds.getId());
+			if(userPredictors.get(i).getDatasetId() != null && userPredictors.get(i).getDatasetId().equals(ds.getId())){
 				errorStrings.add("The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset. Please delete it first.\n");
 			}
 		}
 		
 		//check each prediction
 		for(int i = 0; i < userPredictions.size();i++){
-			Utility.writeToDebug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getFileId());
-			if(userPredictions.get(i).getDatasetId() != null && userPredictions.get(i).getDatasetId().equals(ds.getFileId())){
-				errorStrings.add("The prediction '" + userPredictions.get(i).getJobName() + "' depends on this dataset. Please delete it first.\n");
+			Utility.writeToDebug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getId());
+			if(userPredictions.get(i).getDatasetId() != null && userPredictions.get(i).getDatasetId().equals(ds.getId())){
+				errorStrings.add("The prediction '" + userPredictions.get(i).getName() + "' depends on this dataset. Please delete it first.\n");
 			}
 		}
 		
@@ -92,8 +92,8 @@ public class DeleteAction extends ActionSupport{
 			Prediction prediction = userPredictions.get(i);
 			String[] predictorIds = prediction.getPredictorIds().split("\\s+");
 			for(int j = 0; j < predictorIds.length; j++){
-				if(Long.parseLong(predictorIds[j]) == p.getPredictorId()){
-					errorStrings.add("The prediction '" + userPredictions.get(i).getJobName() + "' depends on this predictor. Please delete it first.\n");
+				if(Long.parseLong(predictorIds[j]) == p.getId()){
+					errorStrings.add("The prediction '" + userPredictions.get(i).getName() + "' depends on this predictor. Please delete it first.\n");
 				}
 			}
 		}
@@ -165,7 +165,7 @@ public class DeleteAction extends ActionSupport{
 		}
 
 		//delete the files associated with this dataset
-		String dir = Constants.CECCR_USER_BASE_PATH+ds.getUserName()+"/DATASETS/"+ds.getFileName();
+		String dir = Constants.CECCR_USER_BASE_PATH+ds.getUserName()+"/DATASETS/"+ds.getName();
 		if((new File(dir)).exists()){
 			if(! FileAndDirOperations.deleteDir(new File(dir))){
 				Utility.writeToStrutsDebug("error deleting dir: " + dir);
@@ -285,13 +285,13 @@ public class DeleteAction extends ActionSupport{
 		}
 		
 		//delete the files associated with this prediction
-		String dir = Constants.CECCR_USER_BASE_PATH+p.getUserName()+"/PREDICTIONS/"+p.getJobName();
+		String dir = Constants.CECCR_USER_BASE_PATH+p.getUserName()+"/PREDICTIONS/"+p.getName();
 		if(! FileAndDirOperations.deleteDir(new File(dir))){
 			Utility.writeToStrutsDebug("error deleting dir: " + dir);
 		}
 		
 		//delete the prediction values associated with the prediction
-		ArrayList<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(p.getPredictionId(), session);
+		ArrayList<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(p.getId(), session);
 		
 		if(pvs != null){
 			for(PredictionValue pv : pvs){

@@ -146,13 +146,13 @@ public class ModelingFormActions extends ActionSupport{
 		
 		Utility.writeToDebug("Submitting modeling job with dataset id: " + selectedDatasetId);
 		if(selectedDatasetId == null || PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession) == null ||
-				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName() == null ||
+				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getName() == null ||
 				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getJobCompleted().equals(Constants.NO)){
 			return "";
 		}
 		
 		DataSet ds = PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession);
-		if((ds.getFileName().equals("all-datasets") )){
+		if((ds.getName().equals("all-datasets") )){
 			//Launch modeling on every dataset the user owns (except for this one).
 			closeSessionAtEnd = false;
 			ArrayList<DataSet> datasetList = new ArrayList<DataSet>();
@@ -163,11 +163,11 @@ public class ModelingFormActions extends ActionSupport{
 			String originalJobName = jobName;
 			
 			for(int i = 0; i < datasetList.size(); i++){
-				if(! datasetList.get(i).getFileId().equals(allDatasetsId) && 
-					! datasetList.get(i).getFileName().equals("all-datasets")){
+				if(! datasetList.get(i).getId().equals(allDatasetsId) && 
+					! datasetList.get(i).getName().equals("all-datasets")){
 					actFileDataType = datasetList.get(i).getModelType();
-					selectedDatasetId = datasetList.get(i).getFileId();
-					jobName = originalJobName + datasetList.get(i).getFileName();
+					selectedDatasetId = datasetList.get(i).getId();
+					jobName = originalJobName + datasetList.get(i).getName();
 					execute();
 				}
 			}
@@ -180,7 +180,7 @@ public class ModelingFormActions extends ActionSupport{
 		String s = "";
 		s += "\n Job Name: " + jobName;
 		s += "\n Dataset ID: " + selectedDatasetId;
-		s += "\n Dataset Name: " + PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getFileName();
+		s += "\n Dataset Name: " + PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getName();
 		s += "\n Descriptor Type: " + descriptorGenerationType;
 		s += "\n (Sphere Exclusion) Split Includes Min: " + splitIncludesMin;
 		s += "\n (Random Internal Split) Max. Test Set Size: " + randomSplitMaxTestSize;

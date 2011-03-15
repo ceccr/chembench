@@ -23,8 +23,8 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 @Table(name = "cbench_prediction")
 public class Prediction implements java.io.Serializable{
 	
-	private Long predictionId;
-	private String jobName;
+	private Long id;
+	private String name;
 	private String predictorIds;
 	private Long datasetId;
 	private String database;
@@ -73,31 +73,28 @@ public class Prediction implements java.io.Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "prediction_id")
-	public Long getPredictionId() {
-		return predictionId;
+	@Column(name = "id")
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setPredictionId(Long predictionId) {
-		this.predictionId = predictionId;
+	@Column(name = "name")
+	public String getName() {
+		return name;
 	}
-	
+	public void setName(String name) {
+		this.name = name;
+	}
+
 	@Column(name = "prediction_database") //the name of the *SDF* being predicted
 	public String getDatabase() {
 		return database;
 	}
-
 	public void setDatabase(String database) {
 		this.database = database;
-	}
-
-	@Column(name = "prediction_name")
-	public String getJobName() {
-		return jobName;
-	}
-
-	public void setJobName(String jobName) {
-		this.jobName = jobName;
 	}
 
 
@@ -105,7 +102,6 @@ public class Prediction implements java.io.Serializable{
 	public String getPredictorIds() {
 		return predictorIds;
 	}
-
 	public void setPredictorIds(String predictorIds) {
 		this.predictorIds = predictorIds;
 	}
@@ -114,7 +110,6 @@ public class Prediction implements java.io.Serializable{
 	public float getSimilarityCutoff() {
 		return similarityCutoff;
 	}
-
 	public void setSimilarityCutoff(float similarityCutoff) {
 		this.similarityCutoff = similarityCutoff;
 	}

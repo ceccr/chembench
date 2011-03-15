@@ -239,7 +239,7 @@ public class QsarModelingTask extends WorkflowTask {
 		Session s = HibernateUtil.getSession();
 		dataset = PopulateDataObjects.getDataSetById(datasetID, s);	
 		categoryWeights = predictor.getCategoryWeights();
-		datasetName = dataset.getFileName();
+		datasetName = dataset.getName();
 		sdFileName = dataset.getSdfFile();
 		actFileName = dataset.getActFile();
 		actFileDataType = dataset.getModelType();
@@ -319,7 +319,7 @@ public class QsarModelingTask extends WorkflowTask {
 		jobName = ModelingForm.getJobName();
 		actFileName = dataset.getActFile();
 		sdFileName = dataset.getSdfFile();
-		datasetName = dataset.getFileName();
+		datasetName = dataset.getName();
 		datasetID = ModelingForm.getSelectedDatasetId();
 		
 		categoryWeights = ModelingForm.getCategoryWeights();
@@ -532,7 +532,7 @@ public class QsarModelingTask extends WorkflowTask {
 			session.close();
 		}
 
-		lookupId = predictor.getPredictorId();
+		lookupId = predictor.getId();
 		jobType = Constants.MODELING;
 		
 		//make sure job dir exists and is empty
@@ -948,7 +948,7 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			//read external set predictions
 			if(numExternalCompounds > 0){
-				externalSetPredictions = SvmWorkflow.readExternalPredictionOutput(filePath, predictor.getPredictorId());
+				externalSetPredictions = SvmWorkflow.readExternalPredictionOutput(filePath, predictor.getId());
 			}
 			
 			//clean junk
@@ -1001,7 +1001,7 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 			else if(svmModels != null){
 				for(SvmModel m: svmModels){
-					m.setPredictorId(predictor.getPredictorId());
+					m.setPredictorId(predictor.getId());
 					session.saveOrUpdate(m);
 				}
 			}
@@ -1048,7 +1048,7 @@ public class QsarModelingTask extends WorkflowTask {
 				}
 			}
 			
-			predictor.setParentId(parentPredictor.getPredictorId());
+			predictor.setParentId(parentPredictor.getId());
 			try{
 				tx = session.beginTransaction();
 				session.saveOrUpdate(parentPredictor);

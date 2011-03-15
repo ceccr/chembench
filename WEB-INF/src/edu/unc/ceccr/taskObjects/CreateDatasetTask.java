@@ -76,7 +76,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		this.dataset = dataset;
 
 		userName = dataset.getUserName();
-		jobName = dataset.getFileName();
+		jobName = dataset.getName();
 		datasetType = dataset.getDatasetType();
 		sdfFileName = dataset.getSdfFile();
 		actFileName = dataset.getActFile();
@@ -161,7 +161,7 @@ public class CreateDatasetTask extends WorkflowTask{
 	public Long setUp() throws Exception {
 		//create DataSet object in DB to allow for recovery of this job if it fails.
 
-		dataset.setFileName(jobName);
+		dataset.setName(jobName);
 		dataset.setUserName(userName);
 		dataset.setDatasetType(datasetType);
 		dataset.setActFile(actFileName);
@@ -199,7 +199,7 @@ public class CreateDatasetTask extends WorkflowTask{
 			session.close();
 		}
 		
-		lookupId = dataset.getFileId();
+		lookupId = dataset.getId();
 		jobType = Constants.DATASET;
 		
 		return lookupId;

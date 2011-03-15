@@ -9,7 +9,7 @@
 		<tr><td>
 		<p class="StandardTextDarkGray"><b><u>Activity Histogram</u></b></p>
 		<p class="StandardTextDarkGray">The range of activity values is divided into 10 bins.<br /><br />
-		<img src="/imageServlet?projectType=dataset&user=<s:property value='dataset.userName' />&project=<s:property value='dataset.fileName' />&compoundId=activityChart" border="0"/>
+		<img src="/imageServlet?projectType=dataset&user=<s:property value='dataset.userName' />&project=<s:property value='dataset.name' />&compoundId=activityChart" border="0"/>
 		<br />
 		</p>
 		</td></tr>

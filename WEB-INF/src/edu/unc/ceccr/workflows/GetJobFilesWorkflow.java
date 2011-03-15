@@ -22,8 +22,8 @@ public class GetJobFilesWorkflow{
 	public static void getDatasetFiles(String userName, DataSet dataset, String jobType, String toDir) throws Exception{
 		//gathers the dataset files needed for a modeling or prediction run
 		
-		String allUserDir = Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/" + dataset.getFileName() + "/";
-		String userFilesDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + dataset.getFileName() + "/";
+		String allUserDir = Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/" + dataset.getName() + "/";
+		String userFilesDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + dataset.getName() + "/";
 		
 		String fromDir = "";
 		if(dataset.getUserName().equals(userName)){
@@ -55,7 +55,7 @@ public class GetJobFilesWorkflow{
 					throw new Exception("Could not find fold number in path: " + toDir);
 				}
 
-				String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getFileName() + "/";
+				String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getName() + "/";
 				String foldPath = datasetDir + dataset.getActFile() + ".fold" + (foldNum);
 				String extPath = toDir + "ext_0.a";
 				FileAndDirOperations.copyFile(foldPath, extPath);

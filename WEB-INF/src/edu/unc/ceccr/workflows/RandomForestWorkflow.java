@@ -224,7 +224,7 @@ public class RandomForestWorkflow{
 			//for each model
 			String[] data = inputString.split("\t"); // [0] is the grove name, [1] is the list of descriptors used in this grove
 			RandomForestGrove m = new RandomForestGrove();
-			m.setPredictor_id(predictor.getPredictorId());
+			m.setPredictor_id(predictor.getId());
 			m.setName(data[0]);
 			if(data.length > 1){ //sometimes R code doesn't print descriptors right. Not a big deal, just move along.
 				m.setDescriptorsUsed(data[1]);

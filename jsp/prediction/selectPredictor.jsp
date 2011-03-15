@@ -84,7 +84,7 @@
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='DrugDiscovery'">
 						<tr>
-						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" /></td>
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
@@ -115,7 +115,7 @@
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='ADME'">
 						<tr>
-						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" /></td>
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
@@ -146,7 +146,7 @@
 				<s:iterator value="userPredictors">
 					<s:if test="predictorType=='Toxicity'">
 						<tr>
-						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+						<td class="TableRowText02narrow"><s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" /></td>
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
@@ -177,7 +177,7 @@
 			<s:iterator value="userPredictors">
 				<s:if test="predictorType=='Private'">
 					<tr>
-					<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{predictorId}" /></td>
+					<td class="TableRowText02"><s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" /></td>
 					<td class="TableRowText02"><s:property value="name" /></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethod" /></td>

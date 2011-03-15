@@ -163,7 +163,7 @@ public class ViewDataset extends ActionSupport {
 			String datasetUser = dataset.getUserName();
 			
 			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
-			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
+			datasetDir += "DATASETS/" + dataset.getName() + "/";
 			
 			ArrayList<String> compoundIDs = null;
 			if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){
@@ -279,7 +279,7 @@ public class ViewDataset extends ActionSupport {
 			String datasetUser = dataset.getUserName();
 			
 			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
-			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
+			datasetDir += "DATASETS/" + dataset.getName() + "/";
 			
 			HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE);
 			
@@ -367,7 +367,7 @@ public class ViewDataset extends ActionSupport {
 			}
 			String datasetUser = dataset.getUserName();
 			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
-			datasetDir += "DATASETS/" + dataset.getFileName() + "/";
+			datasetDir += "DATASETS/" + dataset.getName() + "/";
 
 			foldNums = new ArrayList<String>(); //displays the fold numbers at the top
 			int j = 1;
@@ -520,7 +520,7 @@ public class ViewDataset extends ActionSupport {
 		descriptorGenerationResults = new ArrayList<DescriptorGenerationResult>();
 		String descriptorsDir = Constants.CECCR_USER_BASE_PATH;
 		descriptorsDir += dataset.getUserName() + "/";
-		descriptorsDir += "DATASETS/" + dataset.getFileName() + "/Descriptors/Logs/";
+		descriptorsDir += "DATASETS/" + dataset.getName() + "/Descriptors/Logs/";
 		
 		//read descriptor program outputs
 		DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
@@ -742,7 +742,7 @@ public class ViewDataset extends ActionSupport {
 						int smallestFoldSize = 0;
 						int largestFoldSize = 0;
 						String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/";
-						datasetDir += "DATASETS/" + dataset.getFileName() + "/";
+						datasetDir += "DATASETS/" + dataset.getName() + "/";
 						int numFolds = Integer.parseInt(dataset.getNumExternalFolds());
 						for(int i = 0; i < numFolds; i++){
 							HashMap<String, String> actIdsAndValues = 

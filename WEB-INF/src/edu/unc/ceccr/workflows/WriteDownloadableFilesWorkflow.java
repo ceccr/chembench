@@ -50,7 +50,7 @@ public class WriteDownloadableFilesWorkflow{
 		Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
 		
 		String outfileName = Constants.CECCR_USER_BASE_PATH + prediction.getUserName() + "/PREDICTIONS/" + 
-			prediction.getJobName() + "/" + prediction.getJobName() + "-prediction-values.csv";
+			prediction.getName() + "/" + prediction.getName() + "-prediction-values.csv";
 		if(new File(outfileName).exists()){
 			FileAndDirOperations.deleteFile(outfileName);
 		}
@@ -69,7 +69,7 @@ public class WriteDownloadableFilesWorkflow{
 		
 		out.write("Chembench Prediction Output\n"
 		+"User Name,"+prediction.getUserName()+"\n"
-		+"Prediction Name,"+prediction.getJobName()+"\n"
+		+"Prediction Name,"+prediction.getName()+"\n"
 		+"Predictors Used," + predictorNames + "\n"
 		+"Similarity Cutoff,"+prediction.getSimilarityCutoff()+"\n"
 		+"Prediction Dataset,"+prediction.getDatasetDisplay()+"\n"
@@ -102,7 +102,7 @@ public class WriteDownloadableFilesWorkflow{
 		
 		for(Predictor p: predictors){
 			List<PredictionValue> predictionValues = 
-				PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getPredictorId(), s);
+				PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getId(), s);
 			
 			String predictorName = p.getName();
 			out.write("Predictor," + predictorName + "\n"
@@ -111,7 +111,7 @@ public class WriteDownloadableFilesWorkflow{
 			Iterator<PredictionValue> it = predictionValues.iterator();
 			while(it.hasNext()){
 				PredictionValue pv = it.next();
-				if(pv.getPredictorId().equals(p.getPredictorId())){
+				if(pv.getPredictorId().equals(p.getId())){
 					out.write(pv.getCompoundName()+","+pv.getPredictedValue()+",");
 					out.write(pv.getStandardDeviation()+","+pv.getNumModelsUsed()+","+pv.getNumTotalModels()+"\n");
 				}
