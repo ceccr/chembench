@@ -920,6 +920,9 @@ public class QsarModelingTask extends WorkflowTask {
 			if(numExternalCompounds > 0){
 				externalSetPredictions = RandomForestWorkflow.readExternalSetPredictionOutput(filePath, predictor);
 			}
+			else{
+				Utility.writeToDebug("No external compounds; skipping external set prediction!");
+			}
 		
 			predictor.setNumTotalModels(getNumTotalModels());
 
@@ -978,7 +981,7 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setHasBeenViewed(Constants.NO);
 		predictor.setJobCompleted(Constants.YES);
 		
-		//commit the predictor and models
+		//commit the predictor, models, and external set predictions
 		try {
 			tx = session.beginTransaction();
 			session.saveOrUpdate(predictor);
@@ -1005,6 +1008,9 @@ public class QsarModelingTask extends WorkflowTask {
 				for(RandomForestTree t: randomForestTrees){
 					session.saveOrUpdate(t);
 				}
+			}
+			for(ExternalValidation ev: externalSetPredictions){
+				session.saveOrUpdate(ev);
 			}
 			
 			tx.commit();
