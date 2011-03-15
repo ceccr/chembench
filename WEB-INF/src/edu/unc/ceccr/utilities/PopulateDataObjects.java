@@ -752,14 +752,13 @@ public class PopulateDataObjects {
 	}
 
 	public static List<RandomForestGrove> getRandomForestGrovesByPredictorId(Long predictorId, Session session) throws Exception{
-		//Predictor predictor = getPredictorById(predictorId, session);
 		
 		List<RandomForestGrove> groves = null;
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			groves = session.createCriteria(RandomForestGrove.class)
-					.add(Expression.eq("predictor_id", predictorId)).list();
+					.add(Expression.eq("predictorId", predictorId)).list();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);

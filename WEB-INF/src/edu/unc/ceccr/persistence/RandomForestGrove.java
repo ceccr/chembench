@@ -47,7 +47,7 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
 		return predictorId;
 	}
 	public void setPredictorId(Long predictorId) {
-		predictorId = predictorId;
+		this.predictorId = predictorId;
 	}
 
 	@Column(name = "name")
