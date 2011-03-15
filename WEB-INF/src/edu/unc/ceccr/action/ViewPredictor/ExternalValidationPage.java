@@ -92,7 +92,9 @@ public class ExternalValidationPage extends ViewPredictorAction {
 						ArrayList<Double> childResiduals = RSquaredAndCCR.calculateResiduals(childExtVals);
 						Double childRSquared = RSquaredAndCCR.calculateRSquared(childExtVals, childResiduals);
 						childAccuracies.addValue(childRSquared);
-						CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
+						if(currentFoldNumber.equals("0")){
+							CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
+						}
 					}
 					if(currentFoldNumber.equals("0") || currentFoldNumber.equals(""+(i+1))){
 						externalValValues.addAll(childExtVals);
@@ -110,7 +112,9 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				Utility.writeToDebug("ccr avg and stddev: " + rSquaredAverageAndStddev);
 
 				//make main ext validation chart
-				CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
+				if(currentFoldNumber.equals("0")){
+					CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
+				}
 			}
 			else if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 				ccrAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
