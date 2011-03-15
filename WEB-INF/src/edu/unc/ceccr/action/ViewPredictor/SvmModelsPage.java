@@ -46,7 +46,7 @@ public class SvmModelsPage extends ViewPredictorAction {
 
 	private List<SvmModel> svmModels;
 	
-	public String load() throws Exception{
+	public String loadPage() throws Exception{
 		//get models associated with predictor
 		getBasicParameters();
 		getModelsPageParameters();
