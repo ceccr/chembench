@@ -243,6 +243,12 @@ public class ModelingFormActions extends ActionSupport{
 				p.setActivityType(actFileDataType);
 				p.setScalingType(scalingType);
 				p.setCorrelationCutoff(correlationCutoff);
+				p.setTrainTestSplitType(trainTestSplitType);
+				p.setRandomSplitMaxTestSize(randomSplitMaxTestSize);
+				p.setRandomSplitMinTestSize(randomSplitMinTestSize);
+				p.setSplitIncludesMax(splitIncludesMax);
+				p.setSplitIncludesMin(splitIncludesMin);
+				p.setSphereSplitMinTestSize(sphereSplitMinTestSize);
 				
 				Transaction tx = null;
 				try {

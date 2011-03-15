@@ -37,8 +37,7 @@ public class WriteDownloadableFilesWorkflow{
 			predictor.getName() + "/" + predictor.getName() + "-external-set-predictions.csv";
 		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, s);
 		if(childPredictors.isEmpty()){
-			//
-			externalValidationValues = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(predictor, s);	
+			externalValidationValues = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(predictor.getId(), s);	
 		}
 		else{
 			

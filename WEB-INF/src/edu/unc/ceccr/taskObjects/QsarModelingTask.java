@@ -849,7 +849,7 @@ public class QsarModelingTask extends WorkflowTask {
 				KnnOutputWorkflow.addStdDeviation(externalSetPredictions, filePath + Constants.PRED_OUTPUT_FILE);
 
 				for (ExternalValidation ev : externalSetPredictions){
-					ev.setPredictor(predictor);
+					ev.setPredictorId(predictor.getId());
 				}
 			}
 		}
@@ -989,7 +989,7 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			if(knnModels != null){
 				for(KnnModel m: knnModels){
-					m.setPredictor(predictor);
+					m.setPredictorId(predictor.getId());
 					session.saveOrUpdate(m);
 				}
 			}

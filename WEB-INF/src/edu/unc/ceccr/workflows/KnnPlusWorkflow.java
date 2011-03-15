@@ -294,7 +294,7 @@ public class KnnPlusWorkflow{
 			ev.setPredictedValue(mean);
 			ev.setStandDev("" + stddev);
 			ev.setCompoundId(compoundNames[i+2]);
-			ev.setPredictor(predictor);
+			ev.setPredictorId(predictor.getId());
 			ev.setActualValue(Float.parseFloat(observedValues.get(compoundNames[i+2])));
 			
 			predictionValues.add(ev);

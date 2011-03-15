@@ -80,7 +80,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + (i+1));
 				Predictor cp = childPredictors.get(i);
-				ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp, session);
+				ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), session);
 				
 				//calculate r^2 / ccr for this child
 				if(childExtVals != null){
@@ -120,7 +120,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 			}
 		}
 		else{
-			externalValValues= (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
+			externalValValues= (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(selectedPredictor.getId(), session);
 		}
 		
 		if(externalValValues == null || externalValValues.isEmpty()){

@@ -117,7 +117,7 @@ public class ViewPredictorAction extends ActionSupport {
 			selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
 			
 			//get external validation compounds of predictor
-			externalValValues = PopulateDataObjects.getExternalValidationValues(selectedPredictor, session);
+			externalValValues = PopulateDataObjects.getExternalValidationValues(selectedPredictor.getId(), session);
 			
 			if(externalValValues == null || externalValValues.isEmpty()){
 				externalValValues = new ArrayList<ExternalValidation>();

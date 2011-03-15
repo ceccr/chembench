@@ -906,7 +906,7 @@ public class PopulateDataObjects {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List getExternalValidationValues(Predictor predictor, Session session)throws ClassNotFoundException, SQLException 
+	public static List getExternalValidationValues(Long predictorId, Session session)throws ClassNotFoundException, SQLException 
 	{
 		
 		List<ExternalValidation> externalValValues = null;
@@ -914,7 +914,7 @@ public class PopulateDataObjects {
 		try {
 			tx = session.beginTransaction();
 			externalValValues = session.createCriteria(ExternalValidation.class)
-				.add(Expression.eq("predictor", predictor))
+				.add(Expression.eq("predictor_id", predictorId))
 				.addOrder(Order.asc("predictedValue")).list();
 
 			tx.commit();

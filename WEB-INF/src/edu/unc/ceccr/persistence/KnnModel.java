@@ -14,7 +14,7 @@ public class KnnModel implements java.io.Serializable {
 
 	// Fields
 	private Long id;
-	private Predictor predictor;
+	private Long predictorId;
 	private Integer nnn; //number of nearest neighbors
 	private Integer n; //number of compounds used in... internal test set I think?
 	private Float QSquared;
@@ -58,14 +58,14 @@ public class KnnModel implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public KnnModel(Long id, Predictor predictor, Integer nnn, Float QSquared,
+	public KnnModel(Long id, Long predictorId, Integer nnn, Float QSquared,
 			Float RSquared, Integer n, Float b01, Float b02, Float b11,
 			Float b12, Float r, Float slSquared, Float f1, Float s2Squared,
 			Float f2, Float k1, Float k2, Float r01Squared, Float r02Squared,
 			Float s01Squared, Float s02Squared, Float f01, Float f02,
 			Float r451Squared, Float r452Squared, Float st45, String file, String flowType) {
 		this.id = id;
-		this.predictor = predictor;
+		this.predictorId = predictorId;
 		this.nnn = nnn;
 		this.QSquared = QSquared;
 		this.RSquared = RSquared;
@@ -115,22 +115,18 @@ public class KnnModel implements java.io.Serializable {
 	/* (non-Javadoc)
 	 * @see edu.unc.ceccr.session.IModel#getPredictor()
 	 */
-	@ManyToOne
-	@JoinColumn(name = "predictor_id")
-	public Predictor getPredictor() {
-		return this.predictor;
+	@Column(name = "predictor_id")
+	public Long getPredictorId() {
+		return predictorId;
 	}
-
-	/* (non-Javadoc)
-	 * @see edu.unc.ceccr.session.IModel#setPredictor(edu.unc.ceccr.session.Predictor)
-	 */
-	public void setPredictor(Predictor predictor) {
-		this.predictor = predictor;
+	public void setPredictorId(Long predictorId) {
+		this.predictorId = predictorId;
 	}
 
 	/* (non-Javadoc)
 	 * @see edu.unc.ceccr.session.IModel#getNnn()
 	 */
+	@Column(name = "nnn")
 	public Integer getNnn() {
 		return this.nnn;
 	}
@@ -506,7 +502,7 @@ public class KnnModel implements java.io.Serializable {
 	public void setDescriptorsUsed(String descriptorsUsed) {
 		if(descriptorsUsed != null && descriptorsUsed.length() > 4000){
 			//truncate to 4000 and log an error
-			Utility.writeToDebug("Warning: Descriptors truncated for model " + id + " in predictor " + predictor);
+			Utility.writeToDebug("Warning: Descriptors truncated for model " + id + " in predictor with id: " + predictorId);
 			descriptorsUsed = descriptorsUsed.substring(0, 3999);
 		}
 		this.descriptorsUsed = descriptorsUsed;

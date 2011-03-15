@@ -97,7 +97,7 @@ public class CreateExtValidationChartWorkflow {
 			extValidation = new ArrayList<ExternalValidation>();
 			for(int i = 0; i < childPredictors.size(); i++){
 				Predictor cp = childPredictors.get(i);
-				List<ExternalValidation> childExtVals = PopulateDataObjects.getExternalValidationValues(cp, session);
+				List<ExternalValidation> childExtVals = PopulateDataObjects.getExternalValidationValues(cp.getId(), session);
 				if(currentFoldNumber.equals("" + (i+1))){
 					highlightedExtValidation.addAll(childExtVals);
 				}
@@ -107,7 +107,7 @@ public class CreateExtValidationChartWorkflow {
 			}
 		}
 		else{
-			extValidation=PopulateDataObjects.getExternalValidationValues(predictor, session);
+			extValidation=PopulateDataObjects.getExternalValidationValues(predictor.getId(), session);
 		}
 	
 		Utility.writeToDebug("extval size: " + extValidation.size());

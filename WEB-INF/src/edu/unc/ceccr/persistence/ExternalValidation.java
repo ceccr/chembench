@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class ExternalValidation implements java.io.Serializable {
 	
 	private int externalValId;
-	private Predictor predictor;
+	private Long predictorId;
 	private String compoundId;
 	private float predictedValue;
 	private float actualValue;
@@ -23,10 +23,10 @@ public class ExternalValidation implements java.io.Serializable {
 	
 	public ExternalValidation(){};
 	
-	public ExternalValidation(int externalValId, Predictor predictor, String compoundId, float predictedValue, float actualValue, int numModels,String standDev) {
+	public ExternalValidation(int externalValId, Long predictorId, String compoundId, float predictedValue, float actualValue, int numModels,String standDev) {
 		super();
 		this.externalValId = externalValId;
-		this.predictor = predictor;
+		this.predictorId = predictorId;
 		this.compoundId = compoundId;
 		this.predictedValue = predictedValue;
 		this.actualValue = actualValue;
@@ -91,14 +91,12 @@ public class ExternalValidation implements java.io.Serializable {
 		this.predictedValue = predictedValue;
 	}
 
-	@ManyToOne
-	@JoinColumn(name = "predictor_id")
-	public Predictor getPredictor() {
-		return predictor;
+	@Column(name = "predictor_id")
+	public Long getPredictorId() {
+		return predictorId;
+	}
+	public void setPredictorId(Long predictorId) {
+		this.predictorId = predictorId;
 	}
 
-	public void setPredictor(Predictor predictor) {
-		this.predictor = predictor;
-	}
-	
 }

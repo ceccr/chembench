@@ -168,7 +168,7 @@ public class RandomForestWorkflow{
 		{
 			String data[] = inputString.split("\\s+"); //Note: [0] is the compound name and [1] is the activity value.
 			ExternalValidation externalValidationValue = new ExternalValidation();
-			externalValidationValue.setPredictor(predictor);
+			externalValidationValue.setPredictorId(predictor.getId());
 			externalValidationValue.setCompoundId(data[0]);
 			externalValidationValue.setActualValue(new Float(data[1]).floatValue());
 			allExternalValues.add(externalValidationValue);
