@@ -548,7 +548,17 @@ public class DatasetFileOperations {
 			
 			if(! firstLineContainsHeader){
 				Utility.writeToDebug("Activity file has no header. First line: " + temp);
-				sb.append(temp + "\n");
+
+				String[] tempTokens = temp.trim().split("\\s+");
+				String compoundId = tempTokens[0];
+				
+				//remove quotes around compound name
+				if((compoundId.startsWith("\"") && compoundId.endsWith("\"")) ||
+						(compoundId.startsWith("\"") && compoundId.endsWith("\""))){
+					compoundId = compoundId.substring(1, compoundId.length() - 1);
+				}
+				
+				sb.append(compoundId + " " + tempTokens[1] + "\n");
 			}
 			
 			while (src.hasNext()) {
