@@ -450,11 +450,18 @@ public class DatasetFileOperations {
 			//replace any spaces in compound name with underscores
 			if(sdfCompoundNamesIndex < sdfCompoundNames.size() && 
 				temp.trim().equals(sdfCompoundNames.get(sdfCompoundNamesIndex))){
-
+				temp = temp.trim();
+				
+				//remove quotes around the compound name
+				if((temp.startsWith("\"") && temp.endsWith("\"")) ||
+						(temp.startsWith("\"") && temp.endsWith("\""))){
+					temp = temp.substring(1, temp.length() - 1);
+				}
+				
 				//we will make temp contain the compound ID line, two blank lines, then the 
 				//start of the compound information. 
 				
-				temp = temp.trim().replaceAll("\\s+", "_");
+				temp = temp.replaceAll("\\s+", "_");
 				temp += "\n\n\n";
 				sdfCompoundNamesIndex++;
 				
@@ -560,7 +567,11 @@ public class DatasetFileOperations {
 						}
 					}
 				}
-				
+				//remove quotes around compound names
+				if((compoundId.startsWith("\"") && compoundId.endsWith("\"")) ||
+						(compoundId.startsWith("\"") && compoundId.endsWith("\""))){
+					compoundId = compoundId.substring(1, compoundId.length() - 1);
+				}
 				sb.append(compoundId + " " + activity + "\n");
 			}
 			fin.close();
@@ -858,7 +869,14 @@ public class DatasetFileOperations {
 					" elements but " + expectedTokens + " were expected. Line was: \"" + line + "\"";
 				}
 				out.write(tokens[0] + " "); //line number
-				out.write(tokens[1] + " "); //compound id
+				
+				//remove quotes around the compound id
+				if((tokens[1].startsWith("\"") && tokens[1].endsWith("\"")) ||
+						(tokens[1].startsWith("\"") && tokens[1].endsWith("\""))){
+					tokens[1] = tokens[1].substring(1, tokens[1].length() - 1);
+				}
+				
+				out.write(tokens[1] + " "); //write compound id
 				for(int j = 2; j < tokens.length; j++){ //for each descriptor value
 					try{
 						if(tokens[j].contains("E") || tokens[j].contains("e")){

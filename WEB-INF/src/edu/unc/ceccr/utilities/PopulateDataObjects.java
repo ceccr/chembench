@@ -727,8 +727,9 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			if (tx != null)
+			if (tx != null){
 				tx.rollback();
+			}
 		} 
 		
 		return users;

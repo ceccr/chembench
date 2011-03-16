@@ -45,6 +45,9 @@ import edu.unc.ceccr.utilities.Utility;
 public class SvmModelsPage extends ViewPredictorAction {
 
 	private List<SvmModel> svmModels;
+	private List<List<SvmModel>> svmModelSets;
+
+	String currentFoldNumber = "0";
 	
 	public String loadPage() throws Exception{
 		//get models associated with predictor
@@ -52,6 +55,14 @@ public class SvmModelsPage extends ViewPredictorAction {
 		getModelsPageParameters();
 		svmModels = new ArrayList<SvmModel>();
 		ArrayList<SvmModel> allModels = new ArrayList<SvmModel>();
+		
+		if(childPredictors.size() == 0){
+			loadModels();
+		}
+		else{
+			loadModelSets();
+		}	
+
 		List temp = PopulateDataObjects.getSvmModelsByPredictorId(Long.parseLong(predictorId), session);
 		if(temp != null){
 			allModels.addAll(temp);
@@ -68,6 +79,16 @@ public class SvmModelsPage extends ViewPredictorAction {
 		}
 		return SUCCESS;
 	}
+	
+	private String loadModels(){
+		String result = SUCCESS;
+		
+		return result;
+	}
+	private String loadModelSets(){
+		
+		return loadModels();
+	}
 
 	public List<SvmModel> getSvmModels() {
 		return svmModels;
@@ -75,4 +96,19 @@ public class SvmModelsPage extends ViewPredictorAction {
 	public void setSvmModels(List<SvmModel> svmModels) {
 		this.svmModels = svmModels;
 	}
+	
+	public List<List<SvmModel>> getSvmModelSets() {
+		return svmModelSets;
+	}
+	public void setSvmModelSets(List<List<SvmModel>> svmModelSets) {
+		this.svmModelSets = svmModelSets;
+	}
+	
+	public Integer getCurrentFoldNumber() {
+		return Integer.parseInt(currentFoldNumber);
+	}
+	public void setCurrentFoldNumber(String currentFoldNumber) {
+		this.currentFoldNumber = currentFoldNumber;
+	}
+	
 }

@@ -46,12 +46,22 @@ import edu.unc.ceccr.utilities.Utility;
 public class KnnPlusModelsPage extends ViewPredictorAction {
 
 	private List<KnnPlusModel> knnPlusModels;
+	private List<List<KnnPlusModel>> knnPlusModelSets;
+
+	String currentFoldNumber = "0";
 	
 	public String loadPage() throws Exception {
 		getBasicParameters();
 		getModelsPageParameters();
 		String result = SUCCESS;
 
+		if(childPredictors.size() == 0){
+			loadModels();
+		}
+		else{
+			loadModelSets();
+		}	
+		
 		//get models
 		knnPlusModels = new ArrayList<KnnPlusModel>();
 		ArrayList<KnnPlusModel> allModels = new ArrayList<KnnPlusModel>();
@@ -118,11 +128,35 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		return result;
 	}
 	
+	private String loadModels(){
+		String result = SUCCESS;
+		
+		return result;
+	}
+	private String loadModelSets(){
+		
+		return loadModels();
+	}
+	
 	public List<KnnPlusModel> getKnnPlusModels() {
 		return knnPlusModels;
 	}
 	public void setKnnPlusModels(List<KnnPlusModel> knnPlusModels) {
 		this.knnPlusModels = knnPlusModels;
+	}
+
+	public List<List<KnnPlusModel>> getKnnPlusModelSets() {
+		return knnPlusModelSets;
+	}
+	public void setKnnPlusModelSets(List<List<KnnPlusModel>> knnPlusModelSets) {
+		this.knnPlusModelSets = knnPlusModelSets;
+	}
+
+	public String getCurrentFoldNumber() {
+		return currentFoldNumber;
+	}
+	public void setCurrentFoldNumber(String currentFoldNumber) {
+		this.currentFoldNumber = currentFoldNumber;
 	}
 
 }
