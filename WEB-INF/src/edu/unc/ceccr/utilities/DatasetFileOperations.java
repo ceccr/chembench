@@ -389,13 +389,13 @@ public class DatasetFileOperations {
 			Utility.writeToDebug("Validations failed - deleting");
 			//failed validation - completely delete directory of this dataset
 			
-			//FileAndDirOperations.deleteDirContents(path);
+			/*FileAndDirOperations.deleteDirContents(path);
 			if(! FileAndDirOperations.deleteDir(new File(path))){
 				Utility.writeToDebug("Directory delete failed");
 			}
 			if((new File(path)).exists()){
 				Utility.writeToDebug("Directory still exists");
-			}
+			}*/
 		}
 		return msgs;
 	}
