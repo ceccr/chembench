@@ -13,7 +13,7 @@
 			<p class="StandardTextDarkGray" width="550">Go To Page: 
 			<s:iterator value="pageNums" status="pageNumsStatus">
 			<s:if test="pageNums[#pageNumsStatus.index]==currentPageNumber"><s:property /></s:if>
-			<s:else><a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.predictionId' />&currentPageNumber=<s:property/>&orderBy=<s:property value='orderBy' />&sortDirection=<s:property value='sortDirection' />")><s:property/></a></s:else> 
+			<s:else><a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property/>&orderBy=<s:property value='orderBy' />&sortDirection=<s:property value='sortDirection' />")><s:property/></a></s:else> 
 			</s:iterator>
 			</p>
 		</td></tr>
@@ -23,14 +23,14 @@
 		<tr>
 		<!-- header for left side table -->
 		<td class="TableRowText01">Compound ID<br />
-		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.predictionId' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=compoundId&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
-		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.predictionId' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=compoundId&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
+		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=compoundId&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
+		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=compoundId&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
 		</td>
 		<td class="TableRowText01">Structure</td>
 		<s:iterator value="predictors" status="predictorsStatus">
 		<td class="TableRowText01">(<s:property value="name" />) Prediction<br />
-		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.predictionId' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value="name" />&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
-		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.predictionId' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value="name" />&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
+		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value="name" />&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
+		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value="name" />&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
 		</td>
 		<td class="TableRowText01">(<s:property value="name" />) Number of Predicting Models / Total Models</td>
 		</s:iterator>
