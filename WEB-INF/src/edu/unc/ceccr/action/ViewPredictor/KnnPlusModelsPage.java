@@ -62,25 +62,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 			loadModelSets();
 		}	
 		
-		//get models
-		knnPlusModels = new ArrayList<KnnPlusModel>();
-		ArrayList<KnnPlusModel> allModels = new ArrayList<KnnPlusModel>();
-		List temp = PopulateDataObjects.getKnnPlusModelsByPredictorId(Long.parseLong(predictorId), session);
-		if(temp != null){
-			allModels.addAll(temp);
-			
-			Iterator<KnnPlusModel> it = allModels.iterator();
-			while(it.hasNext()){
-				KnnPlusModel m = it.next();
-				if(m.getIsYRandomModel().equals(Constants.NO) && isYRandomPage.equals(Constants.NO)){
-					knnPlusModels.add(m);
-				}
-				else if(m.getIsYRandomModel().equals(Constants.YES) && isYRandomPage.equals(Constants.YES)){
-					knnPlusModels.add(m);
-				}
-			}
-		}
-			
 		//get descriptor freqs from models
 		HashMap<String, Integer> descriptorFreqMap = new HashMap<String, Integer>();
 		if(knnPlusModels != null){
@@ -128,14 +109,45 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		return result;
 	}
 	
-	private String loadModels(){
+
+	private String loadModels() {
 		String result = SUCCESS;
-		
+
+		try{
+			knnPlusModels = new ArrayList<KnnPlusModel>();
+			List<KnnPlusModel> temp = PopulateDataObjects.getKnnPlusModelsByPredictorId(Long.parseLong(predictorId), session);
+			
+			if(temp != null){
+				Iterator<KnnPlusModel> it = temp.iterator();
+				while(it.hasNext()){
+					KnnPlusModel m = it.next();
+					if(m.getIsYRandomModel().equals(Constants.NO) && isYRandomPage.equals(Constants.NO)){
+						knnPlusModels.add(m);
+					}
+					else if(m.getIsYRandomModel().equals(Constants.YES) && isYRandomPage.equals(Constants.YES)){
+						knnPlusModels.add(m);
+					}
+				}
+				knnPlusModelSets.add(knnPlusModels);
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+			return ERROR;
+		}
 		return result;
 	}
-	private String loadModelSets(){
-		
-		return loadModels();
+	
+	private String loadModelSets() {
+		String result = SUCCESS;
+		for(Predictor childPredictor : childPredictors){
+			predictorId = "" + childPredictor.getId();
+			result = loadModels();
+			if(!result.equals(SUCCESS)){
+				return result;
+			}
+		}
+		return result;
 	}
 	
 	public List<KnnPlusModel> getKnnPlusModels() {

@@ -53,8 +53,6 @@ public class SvmModelsPage extends ViewPredictorAction {
 		//get models associated with predictor
 		getBasicParameters();
 		getModelsPageParameters();
-		svmModels = new ArrayList<SvmModel>();
-		ArrayList<SvmModel> allModels = new ArrayList<SvmModel>();
 		
 		if(childPredictors.size() == 0){
 			loadModels();
@@ -63,31 +61,47 @@ public class SvmModelsPage extends ViewPredictorAction {
 			loadModelSets();
 		}	
 
-		List temp = PopulateDataObjects.getSvmModelsByPredictorId(Long.parseLong(predictorId), session);
-		if(temp != null){
-			allModels.addAll(temp);
-			Iterator<SvmModel> it = allModels.iterator();
-			while(it.hasNext()){
-				SvmModel m = it.next();
-				if(m.getIsYRandomModel().equals(Constants.NO) && isYRandomPage.equals(Constants.NO)){
-					svmModels.add(m);
-				}
-				else if(m.getIsYRandomModel().equals(Constants.YES) && isYRandomPage.equals(Constants.YES)){
-					svmModels.add(m);
-				}
-			}
-		}
 		return SUCCESS;
 	}
 	
-	private String loadModels(){
+	private String loadModels() {
 		String result = SUCCESS;
-		
+
+		try{
+			svmModels = new ArrayList<SvmModel>();
+			List<SvmModel> temp = PopulateDataObjects.getSvmModelsByPredictorId(Long.parseLong(predictorId), session);
+			
+			if(temp != null){
+				Iterator<SvmModel> it = temp.iterator();
+				while(it.hasNext()){
+					SvmModel m = it.next();
+					if(m.getIsYRandomModel().equals(Constants.NO) && isYRandomPage.equals(Constants.NO)){
+						svmModels.add(m);
+					}
+					else if(m.getIsYRandomModel().equals(Constants.YES) && isYRandomPage.equals(Constants.YES)){
+						svmModels.add(m);
+					}
+				}
+				svmModelSets.add(svmModels);
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+			return ERROR;
+		}
 		return result;
 	}
-	private String loadModelSets(){
-		
-		return loadModels();
+	
+	private String loadModelSets() {
+		String result = SUCCESS;
+		for(Predictor childPredictor : childPredictors){
+			predictorId = "" + childPredictor.getId();
+			result = loadModels();
+			if(!result.equals(SUCCESS)){
+				return result;
+			}
+		}
+		return result;
 	}
 
 	public List<SvmModel> getSvmModels() {
