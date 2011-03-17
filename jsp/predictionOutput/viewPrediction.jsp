@@ -75,7 +75,7 @@
 			<b>Date Created: </b><s:date name="prediction.dateCreated" format="yyyy-MM-dd HH:mm" /><br />
 			<b>Similarity Cutoff: </b><s:property value="prediction.similarityCutoff" />
 			<br /><br />
-			<a href="fileServlet?id=<s:property value="prediction.predictionId" />&user=<s:property value="userName" />&jobType=PREDICTION&file=predictionAsCSV">Download This Prediction Result (CSV)</a>
+			<a href="fileServlet?id=<s:property value="prediction.id" />&user=<s:property value="userName" />&jobType=PREDICTION&file=predictionAsCSV">Download This Prediction Result (CSV)</a>
 			</div>
 	</td></tr></table>
 	<!-- End Header Info -->
