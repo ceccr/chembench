@@ -424,7 +424,7 @@
 					</s:else>
 					
 					<s:url id="predictionLink" value="/viewPrediction" includeParams="none">
-						<s:param name="id" value='predictionId' />
+						<s:param name="id" value='id' />
 					</s:url>
 					<td><s:a href="%{predictionLink}"><s:property value="name" /></s:a></td>
 					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>

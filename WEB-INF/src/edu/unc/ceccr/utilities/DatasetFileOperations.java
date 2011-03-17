@@ -552,6 +552,7 @@ public class DatasetFileOperations {
 
 				String[] tempTokens = temp.trim().split("\\s+");
 				String compoundId = tempTokens[0];
+				String activity = tempTokens[1];
 				
 				//remove quotes around compound name
 				if((compoundId.startsWith("\"") && compoundId.endsWith("\"")) ||
@@ -559,7 +560,7 @@ public class DatasetFileOperations {
 					compoundId = compoundId.substring(1, compoundId.length() - 1);
 				}
 				
-				sb.append(compoundId + " " + tempTokens[1] + "\n");
+				sb.append(compoundId + " " + activity + "\n");
 			}
 			
 			while (src.hasNext()) {
