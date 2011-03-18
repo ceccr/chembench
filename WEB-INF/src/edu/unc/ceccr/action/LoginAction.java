@@ -1,5 +1,7 @@
 package edu.unc.ceccr.action;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Cookie;
@@ -65,6 +67,44 @@ public class LoginAction extends Action {
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		
+		ArrayList<User> users = PopulateDataObjects.getAllUsers(s);
+		for(User u: users){
+			String str = 
+				u.getUserName() + " " +
+				u.getPassword() + " " +
+				u.getEmail() + " " +
+				u.getWorkbench() + " " +
+				u.getStatus() + " " +
+				
+				//professional information
+				u.getFirstName() + " " +
+				u.getLastName() + " " +
+				u.getOrgType() + " " +
+				u.getOrgName() + " " +
+				u.getOrgPosition() + " " +
+				
+				//mostly just for stalking
+				u.getZipCode() + " " +
+				u.getState() + " " +
+				u.getPhone() + " " +
+				u.getCountry() + " " +
+				u.getAddress() + " " +
+				u.getCity() + " " +
+				
+				//user options (may eventually become a new table of its own)
+				u.getShowPublicDatasets() + " " +
+				u.getShowPublicPredictors() + " " +
+				u.getViewDatasetCompoundsPerPage() + " " +
+				u.getViewPredictionCompoundsPerPage() + " " +
+				u.getShowAdvancedKnnModeling() + " " +
+				
+				//user privileges 
+				u.getIsAdmin() + " " +
+				u.getCanDownloadDescriptors();
+				Utility.writeToDebug(str);
+		}
+		
 		Utility.writeToDebug("Session started.");
 		Transaction tx = null;
 		try {

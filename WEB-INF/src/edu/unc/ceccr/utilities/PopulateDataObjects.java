@@ -717,6 +717,21 @@ public class PopulateDataObjects {
 		return user;
 	}
 
+	public static ArrayList<User> getAllUsers(Session session){
+		ArrayList<User> users = new ArrayList<User>();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			users = (ArrayList<User>) session.createCriteria(User.class).list();
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+			if (tx != null)
+				tx.rollback();
+		} 
+		return users;
+	}
+	
 	public static List<User> getUsers(Session session){
 		List<User> users = null;
 		
