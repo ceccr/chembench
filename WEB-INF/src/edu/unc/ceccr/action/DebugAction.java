@@ -196,16 +196,6 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		*/
-		//PredictionValue
-		try{
-			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(PredictionValue.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_predictionValue.csv");
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
 		
 		//SvmParameters
 		try{
@@ -268,6 +258,17 @@ public class DebugAction extends ActionSupport{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(SvmModel.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_svmModel.csv");
+			session.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		
+		//PredictionValue
+		try{
+			Session session = HibernateUtil.getSession();
+			ArrayList list = PopulateDataObjects.populateClass(PredictionValue.class, session);
+			printObjectsAsCsv(list, basePath + "cbench_predictionValue.csv");
 			session.close();
 		}
 		catch(Exception ex){
