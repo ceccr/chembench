@@ -42,7 +42,7 @@ public class PopulateDataObjects {
 
 	//Every time we need to get an object or set of objects from the database
 	//we do it from here.
-	
+
 	public static ArrayList populateClass(Class c, Session session){
 		//gets all of any one object from the database, returns it as a list
 		ArrayList list = null;
@@ -57,6 +57,25 @@ public class PopulateDataObjects {
  			Utility.writeToDebug(e);
  		} 
  		return list;
+	}
+
+	public static ArrayList populateClassInChunks(Class c, int chunkSize, int chunkIndex, Session session){
+		//gets all of any one object from the database, returns it as a list
+		ArrayList list = null;
+		Transaction tx = null;
+		try {
+ 			tx = session.beginTransaction();
+ 			list = (ArrayList) session.createCriteria(c).setMaxResults(chunkSize).setFirstResult(chunkSize*chunkIndex).list();
+ 			tx.commit();
+  		} catch (Exception e) {
+ 			if (tx != null)
+ 				tx.rollback();
+ 			Utility.writeToDebug(e);
+ 		} 
+  		if(list == null || list.isEmpty()){
+			list = null;
+		}
+  		return list;
 	}
 
 	@SuppressWarnings("unchecked")

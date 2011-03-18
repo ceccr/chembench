@@ -42,8 +42,8 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class DebugAction extends ActionSupport{
 	
-	public static void printObjectsAsCsv(ArrayList<Object> objects, String path) throws Exception{
-		BufferedWriter out = new BufferedWriter(new FileWriter(path));
+	public static void printObjectsAsCsv(ArrayList<Object> objects, String path, boolean append) throws Exception{
+		BufferedWriter out = new BufferedWriter(new FileWriter(path, append));
 		
 		boolean headerDone = false;
 		for(Object o: objects){
@@ -65,7 +65,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(Job.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_job.csv");
+			printObjectsAsCsv(list, basePath + "cbench_job.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -76,7 +76,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(User.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_user.csv");
+			printObjectsAsCsv(list, basePath + "cbench_user.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -87,7 +87,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(JobStats.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_jobStats.csv");
+			printObjectsAsCsv(list, basePath + "cbench_jobStats.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -98,7 +98,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(SoftwareLink.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_softwareLink.csv");
+			printObjectsAsCsv(list, basePath + "cbench_softwareLink.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -109,7 +109,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(AdminSettings.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_adminSettings.csv");
+			printObjectsAsCsv(list, basePath + "cbench_adminSettings.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -120,7 +120,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(ExternalValidation.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_externalValidation.csv");
+			printObjectsAsCsv(list, basePath + "cbench_externalValidation.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -132,7 +132,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(DataSet.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_dataset.csv");
+			printObjectsAsCsv(list, basePath + "cbench_dataset.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -144,7 +144,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(KnnModel.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_knnModel.csv");
+			printObjectsAsCsv(list, basePath + "cbench_knnModel.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -155,7 +155,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(KnnPlusModel.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_knnPlusModel.csv");
+			printObjectsAsCsv(list, basePath + "cbench_knnPlusModel.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -166,7 +166,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(KnnParameters.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_knnParameters.csv");
+			printObjectsAsCsv(list, basePath + "cbench_knnParameters.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -177,7 +177,7 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(KnnPlusParameters.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_knnPlusParameters.csv");
+			printObjectsAsCsv(list, basePath + "cbench_knnPlusParameters.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -189,19 +189,19 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(Prediction.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_prediction.csv");
+			printObjectsAsCsv(list, basePath + "cbench_prediction.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
 		*/
-		
+/*		
 		//SvmParameters
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(SvmParameters.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_svmParameters.csv");
+			printObjectsAsCsv(list, basePath + "cbench_svmParameters.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -212,52 +212,58 @@ public class DebugAction extends ActionSupport{
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(RandomForestParameters.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_randomForestParameters.csv");
+			printObjectsAsCsv(list, basePath + "cbench_randomForestParameters.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		
+
 		//Predictor
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(Predictor.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_predictor.csv");
+			printObjectsAsCsv(list, basePath + "cbench_predictor.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		
-
-		//RandomForestGrove
-		try{
-			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(RandomForestGrove.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_randomForestGrove.csv");
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
-		//RandomForestTree
-		try{
-			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(RandomForestTree.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_randomForestTree.csv");
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
+*/
+		boolean append = true;
 		//SvmModel
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(SvmModel.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_svmModel.csv");
+			printObjectsAsCsv(list, basePath + "cbench_svmModel.csv", append);
+			session.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		/*
+		//RandomForestGrove
+		try{
+			Session session = HibernateUtil.getSession();
+			ArrayList list = PopulateDataObjects.populateClass(RandomForestGrove.class, session);
+			printObjectsAsCsv(list, basePath + "cbench_randomForestGrove.csv", append);
+			session.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+*/
+		int chunkSize = 50000;
+		//RandomForestTree
+		try{
+			Session session = HibernateUtil.getSession();
+			ArrayList list = new ArrayList();
+			int chunkIndex = 0;
+			while((list = PopulateDataObjects.populateClassInChunks(RandomForestTree.class, chunkSize, chunkIndex, session))!= null){
+				printObjectsAsCsv(list, basePath + "cbench_randomForestTree.csv", append);
+				chunkIndex++;
+				session.close();	
+			}
 			session.close();
 		}
 		catch(Exception ex){
@@ -267,9 +273,13 @@ public class DebugAction extends ActionSupport{
 		//PredictionValue
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(PredictionValue.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_predictionValue.csv");
-			session.close();
+			ArrayList list = new ArrayList();
+			int chunkIndex = 0;
+			while((list = PopulateDataObjects.populateClassInChunks(PredictionValue.class, chunkSize, chunkIndex, session))!= null){
+				printObjectsAsCsv(list, basePath + "cbench_predictionValue.csv", append);
+				chunkIndex++;
+				session.close();	
+			}
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
