@@ -60,7 +60,7 @@ public class DebugAction extends ActionSupport{
 		//prints every database table it can get out to individual files
 
 		String basePath = Constants.CECCR_BASE_PATH + "theo/";
-		
+		/*
 		//Job
 		try{
 			Session session = HibernateUtil.getSession();
@@ -126,7 +126,8 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		
+		*/
+		/*
 		//DataSet
 		try{
 			Session session = HibernateUtil.getSession();
@@ -137,7 +138,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		
+		*/
 		//KnnModel
 		try{
 			Session session = HibernateUtil.getSession();
