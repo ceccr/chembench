@@ -24,7 +24,7 @@
 		<action name="compoundTooltip" class="edu.unc.ceccr.action.TooltipActions" method="loadExternalValidationChartTooltip">
             <result>jsp/modelingOutput/compoundTooltip.jsp</result>
        </action>
-		<action name="dbdoom" class="edu.unc.ceccr.action.DebugAction" method="printObjectsAsCsv">
+		<action name="dbdoom" class="edu.unc.ceccr.action.DebugAction" method="printDatabaseTables">
             <result>jsp/main/home.jsp</result>
        </action>
        
