@@ -139,6 +139,7 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		*/
+		/*
 		//KnnModel
 		try{
 			Session session = HibernateUtil.getSession();
@@ -182,7 +183,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		
+		*/
 		/*
 		//Prediction
 		try{
