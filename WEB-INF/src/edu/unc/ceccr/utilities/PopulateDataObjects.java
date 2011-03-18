@@ -43,6 +43,21 @@ public class PopulateDataObjects {
 	//Every time we need to get an object or set of objects from the database
 	//we do it from here.
 	
+	public static ArrayList populateClass(Class c, Session session){
+		//gets all of any one object from the database, returns it as a list
+		ArrayList list = null;
+		Transaction tx = null;
+		try {
+ 			tx = session.beginTransaction();
+ 			list = (ArrayList) session.createCriteria(c).list();
+ 			tx.commit();
+ 		} catch (Exception e) {
+ 			if (tx != null)
+ 				tx.rollback();
+ 			Utility.writeToDebug(e);
+ 		} 
+ 		return list;
+	}
 
 	@SuppressWarnings("unchecked")
 	public static PredictionValue getFirstPredictionValueByPredictionIdAndPredictorId(Long predictionId, Long predictorId, Session session) throws Exception{
@@ -1016,22 +1031,6 @@ public class PopulateDataObjects {
 		}
 		
 		return tasks;
-	}
-	
-	public static ArrayList<Job> populateJobs(Session session) throws Exception{
-		Transaction tx = null;
-		ArrayList<Job> jobs = null;
-		try {
-			tx = session.beginTransaction();
-			jobs = (ArrayList<Job>) session.createCriteria(Job.class).list();
-			tx.commit();
-		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} 
-		
-		return jobs;
 	}
 	
 	public static Job getTaskById(Long id, Session session) throws HibernateException, ClassNotFoundException, SQLException{

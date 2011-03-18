@@ -56,7 +56,7 @@ public class CentralDogma{
 			//Fill job lists from the database
 			Session s = HibernateUtil.getSession();
 			
-			ArrayList<Job> jobs = PopulateDataObjects.populateJobs(s);
+			ArrayList<Job> jobs = PopulateDataObjects.populateClass(Job.class, s);
 			if(jobs == null){
 				jobs = new ArrayList<Job>();
 			}
