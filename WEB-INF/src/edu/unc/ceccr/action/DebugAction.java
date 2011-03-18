@@ -230,7 +230,7 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 */
-		boolean append = true;
+		/*
 		//SvmModel
 		try{
 			Session session = HibernateUtil.getSession();
@@ -241,6 +241,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+*/
 		/*
 		//RandomForestGrove
 		try{
@@ -253,7 +254,8 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 */
-		int chunkSize = 50000;
+		boolean append = true;
+		int chunkSize = 10000;
 		//RandomForestTree
 		try{
 			Session session = HibernateUtil.getSession();

@@ -65,7 +65,7 @@ public class PopulateDataObjects {
 		Transaction tx = null;
 		try {
  			tx = session.beginTransaction();
- 			list = (ArrayList) session.createCriteria(c).setMaxResults(chunkSize).setFirstResult(chunkSize*chunkIndex).list();
+ 			list = (ArrayList) session.createCriteria(c).setFirstResult(chunkSize*chunkIndex).setMaxResults(chunkSize).list();
  			tx.commit();
   		} catch (Exception e) {
  			if (tx != null)
