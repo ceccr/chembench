@@ -148,7 +148,6 @@ public class DebugAction extends ActionSupport{
 		}
 		FileAndDirOperations.writeStringToFile(text, Constants.CECCR_BASE_PATH);
 		*/
-		 */
 		
 		return SUCCESS;
 	}
