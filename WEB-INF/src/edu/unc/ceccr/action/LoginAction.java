@@ -18,6 +18,7 @@ import org.hibernate.criterion.Expression;
 import edu.unc.ceccr.formbean.LoginFormBean;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
@@ -66,46 +67,6 @@ public class LoginAction extends Action {
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
-		}
-
-		Utility.writeToDebug("userName, password, email, bench, status, firstname, lastname, orgtype, orgname, " +
-				"orgposition, zipcode, state, country, address, city, showPublicDatasets, showPublicPredictors, " +
-				"viewDatasetCompoundsPerPage, viewPredictionCompoundsPerPage, showAdvancedKnnModeling, isAdmin, canDownloadDescriptors");
-		ArrayList<User> users = PopulateDataObjects.getAllUsers(s);
-		for(User u: users){
-			String str = 
-				u.getUserName() + ", " +
-				u.getPassword() + ", " +
-				u.getEmail() + ", " +
-				u.getWorkbench() + ", " +
-				u.getStatus() + ", " +
-				
-				//professional information
-				u.getFirstName() + ", " +
-				u.getLastName() + ", " +
-				u.getOrgType() + ", " +
-				u.getOrgName() + ", " +
-				u.getOrgPosition() + ", " +
-				
-				//mostly just for stalking
-				u.getZipCode() + ", " +
-				u.getState() + ", " +
-				u.getPhone() + ", " +
-				u.getCountry() + ", " +
-				u.getAddress() + ", " +
-				u.getCity() + ", " +
-				
-				//user options (may eventually become a new table of its own)
-				u.getShowPublicDatasets() + ", " +
-				u.getShowPublicPredictors() + ", " +
-				u.getViewDatasetCompoundsPerPage() + ", " +
-				u.getViewPredictionCompoundsPerPage() + ", " +
-				u.getShowAdvancedKnnModeling() + ", " +
-				
-				//user privileges 
-				u.getIsAdmin() + ", " +
-				u.getCanDownloadDescriptors();
-				Utility.writeToDebug(str);
 		}
 		
 		Utility.writeToDebug("Session started.");
