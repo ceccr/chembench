@@ -32,6 +32,10 @@
        <action name="index">
            <result>jsp/main/home.jsp</result>
        </action>
+       
+       <action name="loginTemp">
+           <result>jsp/main/home-real.jsp</result>
+       </action>
         
        <action name="error">
             <result>jsp/main/errors2.jsp</result>
