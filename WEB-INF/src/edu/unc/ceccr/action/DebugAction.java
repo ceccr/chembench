@@ -58,7 +58,8 @@ public class DebugAction extends ActionSupport{
 	
 	public static String printDatabaseTables(){
 		//prints every database table it can get out to individual files
-
+		Utility.writeToDebug("OWLSOWLSOWLS");
+		
 		boolean append = false;
 		String basePath = Constants.CECCR_BASE_PATH + "theo/";
 		/*
