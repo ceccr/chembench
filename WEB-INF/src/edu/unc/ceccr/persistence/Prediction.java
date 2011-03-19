@@ -73,7 +73,7 @@ public class Prediction implements java.io.Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "predictionId")
+	@Column(name = "id")
 	public Long getId() {
 		return id;
 	}
