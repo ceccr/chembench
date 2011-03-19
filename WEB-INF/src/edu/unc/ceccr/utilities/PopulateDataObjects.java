@@ -63,6 +63,8 @@ public class PopulateDataObjects {
 		//gets all of any one object from the database, returns it as a list
 		ArrayList list = null;
 		Transaction tx = null;
+		Utility.writeToDebug("PopulateClassInChunks called with chunkSize " + chunkSize + " and chunkIndex " + chunkIndex);
+		Utility.writeToDebug("maxResults " + chunkSize + " firstResult: " + chunkSize*chunkIndex);
 		try {
  			tx = session.beginTransaction();
  			list = (ArrayList) session.createCriteria(c).setFirstResult(chunkSize*chunkIndex).setMaxResults(chunkSize).list();
