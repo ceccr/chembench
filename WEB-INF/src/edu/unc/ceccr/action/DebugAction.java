@@ -127,7 +127,7 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		*/
-		/*
+
 		//DataSet
 		try{
 			Session session = HibernateUtil.getSession();
@@ -138,7 +138,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		*/
+
 		/*
 		//KnnModel
 		try{
@@ -184,7 +184,7 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		*/
-		/*
+
 		//Prediction
 		try{
 			Session session = HibernateUtil.getSession();
@@ -195,7 +195,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		*/
+
 /*		
 		//SvmParameters
 		try{
@@ -229,8 +229,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-*/
-		/*
+
 		//SvmModel
 		try{
 			Session session = HibernateUtil.getSession();
@@ -241,8 +240,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-*/
-		/*
+		
 		//RandomForestGrove
 		try{
 			Session session = HibernateUtil.getSession();
@@ -253,7 +251,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-*/
+
 		boolean append = true;
 		int chunkSize = 10000;
 		//RandomForestTree
@@ -280,11 +278,12 @@ public class DebugAction extends ActionSupport{
 				printObjectsAsCsv(list, basePath + "cbench_predictionValue.csv", append);
 				chunkIndex++;
 			}
-			session.close();	
+			session.close();
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		*/
 		
 		/*
 		Utility.writeToDebug("userName, password, email, bench, status, firstname, lastname, orgtype, orgname, " +

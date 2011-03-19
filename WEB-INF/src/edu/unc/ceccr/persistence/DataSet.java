@@ -42,7 +42,7 @@ public class DataSet implements java.io.Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id")
+	@Column(name = "fileId")
 	public Long getId()
 	{
 		return this.id;
