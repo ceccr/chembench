@@ -59,6 +59,7 @@ public class DebugAction extends ActionSupport{
 	public static String printDatabaseTables(){
 		//prints every database table it can get out to individual files
 
+		boolean append = false;
 		String basePath = Constants.CECCR_BASE_PATH + "theo/";
 		/*
 		//Job
@@ -252,7 +253,6 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
-		boolean append = true;
 		int chunkSize = 10000;
 		//RandomForestTree
 		try{
