@@ -264,7 +264,6 @@ public class DebugAction extends ActionSupport{
 			while((list = PopulateDataObjects.populateClassInChunks(RandomForestTree.class, chunkSize, chunkIndex, session))!= null){
 				printObjectsAsCsv(list, basePath + "cbench_randomForestTree.csv", append);
 				chunkIndex++;
-				session.close();	
 			}
 			session.close();
 		}
@@ -280,8 +279,8 @@ public class DebugAction extends ActionSupport{
 			while((list = PopulateDataObjects.populateClassInChunks(PredictionValue.class, chunkSize, chunkIndex, session))!= null){
 				printObjectsAsCsv(list, basePath + "cbench_predictionValue.csv", append);
 				chunkIndex++;
-				session.close();	
 			}
+			session.close();	
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
