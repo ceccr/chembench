@@ -70,8 +70,6 @@ public class PopulateDataObjects {
  			list = (ArrayList) session.createCriteria(c).setFirstResult(chunkSize*chunkIndex + 2400000 + 2800000 + 2000000 + 2000000).setMaxResults(chunkSize).list();
  			tx.commit();
   		} catch (Exception e) {
- 			if (tx != null)
- 				tx.rollback();
  			Utility.writeToDebug(e);
  		} 
   		if(list == null || list.isEmpty()){
