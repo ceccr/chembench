@@ -239,8 +239,6 @@ public class DebugAction extends ActionSupport{
 		append = true;
 
 		/*
-		 * first 2400000 done 
-		 */
 		//RandomForestTree
 		try{
 			Session session = HibernateUtil.getSession();
@@ -258,6 +256,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		*/
 
 		//PredictionValue
 		try{
