@@ -67,7 +67,7 @@ public class PopulateDataObjects {
 		Utility.writeToDebug("maxResults " + chunkSize + " firstResult: " + chunkSize*chunkIndex);
 		try {
  			tx = session.beginTransaction();
- 			list = (ArrayList) session.createCriteria(c).setFirstResult(chunkSize*chunkIndex).setMaxResults(chunkSize).list();
+ 			list = (ArrayList) session.createCriteria(c).setFirstResult(chunkSize*chunkIndex + 2400000).setMaxResults(chunkSize).list();
  			tx.commit();
   		} catch (Exception e) {
  			if (tx != null)

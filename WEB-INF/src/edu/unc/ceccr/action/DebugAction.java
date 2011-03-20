@@ -219,11 +219,6 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
-		*/
-
-		boolean append = false;
-		String basePath = Constants.CECCR_BASE_PATH + "theo/";
-
 		//RandomForestGrove
 		try{
 			Session session = HibernateUtil.getSession();
@@ -235,9 +230,17 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
-		int chunkSize = 100000;
+		*/
+
+		boolean append = false;
+		String basePath = Constants.CECCR_BASE_PATH + "theo/";
+
+		int chunkSize = 1000;
 		append = true;
 
+		/*
+		 * first 2400000 done
+		 */
 		//RandomForestTree
 		try{
 			Session session = HibernateUtil.getSession();
@@ -253,6 +256,10 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
+		/*
+		 * first 4100000 done
+		 */
+		/*
 		//PredictionValue
 		try{
 			Session session = HibernateUtil.getSession();
@@ -267,6 +274,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		*/
 
 		/*
 		//DataSet
