@@ -186,22 +186,6 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		
-		*/
-
-		boolean append = false;
-		String basePath = Constants.CECCR_BASE_PATH + "theo/";
-
-		//User
-		try{
-			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(User.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_user.csv", append);
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-
 		//SoftwareLink
 		try{
 			Session session = HibernateUtil.getSession();
@@ -224,6 +208,22 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		
+		//User
+		try{
+			Session session = HibernateUtil.getSession();
+			ArrayList list = PopulateDataObjects.populateClass(User.class, session);
+			printObjectsAsCsv(list, basePath + "cbench_user.csv", append);
+			session.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+
+		*/
+
+		boolean append = false;
+		String basePath = Constants.CECCR_BASE_PATH + "theo/";
+
 		//RandomForestGrove
 		try{
 			Session session = HibernateUtil.getSession();
