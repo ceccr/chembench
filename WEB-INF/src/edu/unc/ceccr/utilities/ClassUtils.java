@@ -44,11 +44,11 @@ public class ClassUtils {
 	    for ( int i = 0; i < f.length; i++ ) {
 	      try {
 	    	  if(f[i].getClass().equals(new String().getClass()) ||
-	    			  f[i].getClass().getName().equals(new Date().getClass().getName()) ){
+	    			  f[i].getType().equals(new Date().getClass()) ){
 	    		  list.add("'" + f[i].get(o) + "'");
 	    	  }
 	    	  else{
-	    		  Utility.writeToDebug(f[i].getClass().getName());
+	    		  Utility.writeToDebug(f[i].getType().getName());
 	            list.add(f[i].get(o));
 	    	  }
 	      }
