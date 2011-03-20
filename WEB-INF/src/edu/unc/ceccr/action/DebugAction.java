@@ -62,7 +62,8 @@ public class DebugAction extends ActionSupport{
 		
 		boolean append = false;
 		String basePath = Constants.CECCR_BASE_PATH + "theo/";
-		/*
+
+
 		//Job
 		try{
 			Session session = HibernateUtil.getSession();
@@ -128,31 +129,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		*/
 
-		//Prediction
-		try{
-			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(Prediction.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_prediction.csv", append);
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-
-		//DataSet
-		try{
-			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(DataSet.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_dataset.csv", append);
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-
-		/*
 		//KnnModel
 		try{
 			Session session = HibernateUtil.getSession();
@@ -196,9 +173,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		*/
 
-/*		
 		//SvmParameters
 		try{
 			Session session = HibernateUtil.getSession();
@@ -254,7 +229,8 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
-		int chunkSize = 10000;
+		int chunkSize = 100000;
+		append = true;
 		//RandomForestTree
 		try{
 			Session session = HibernateUtil.getSession();
@@ -284,7 +260,37 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		*/
+
+		
+		/*
+
+		Neither of these can be recovered. Sadness.
+		//Prediction
+		try{
+			Session session = HibernateUtil.getSession();
+			ArrayList list = PopulateDataObjects.populateClass(Prediction.class, session);
+			printObjectsAsCsv(list, basePath + "cbench_prediction.csv", append);
+			session.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+
+		//DataSet
+		try{
+			Session session = HibernateUtil.getSession();
+			ArrayList list = PopulateDataObjects.populateClass(DataSet.class, session);
+			printObjectsAsCsv(list, basePath + "cbench_dataset.csv", append);
+			session.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+
+
+		 */
+		
+		
 		
 		/*
 		Utility.writeToDebug("userName, password, email, bench, status, firstname, lastname, orgtype, orgname, " +
@@ -331,4 +337,24 @@ public class DebugAction extends ActionSupport{
 		
 		return SUCCESS;
 	}
+	
+	public static String restoreData(){
+		//read CSVs and repopulate data into DB
+		
+		return SUCCESS;
+	}
+	
+	public static void restoreTable(Class c, String fileName){
+		
+	}
+	
+	public static String restoreDatasets(){
+	
+		return SUCCESS;
+	}
+	public static String restorePredictions(){
+		
+		return SUCCESS;
+	}
+
 }

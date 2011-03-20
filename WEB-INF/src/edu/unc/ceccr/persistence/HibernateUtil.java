@@ -56,9 +56,9 @@ public class HibernateUtil {
 		DATABASENAME=Constants.CECCR_DATABASE_NAME;
 
 		try{
-			count++;
 			//IMPORTANT: If you get a "too many connections" error
 			//use this debug output to help trace where the wasteful connections are getting made!
+			//count++;
 			//Utility.writeToDebug("Making connection number: " + count);
 			Class.forName(Constants.DATABASE_DRIVER);
 			java.sql.Connection con = DriverManager.getConnection(URL + DATABASENAME, USERNAME, PASSWORD);

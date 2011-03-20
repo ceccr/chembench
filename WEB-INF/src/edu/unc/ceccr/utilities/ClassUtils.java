@@ -4,6 +4,7 @@ import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ClassUtils {
@@ -42,7 +43,8 @@ public class ClassUtils {
 	    AccessibleObject.setAccessible( f, true );
 	    for ( int i = 0; i < f.length; i++ ) {
 	      try {
-	    	  if(f[i].getClass().equals(new String().getClass())){
+	    	  if(f[i].getClass().equals(new String().getClass()) ||
+	    			  f[i].getClass().equals(new Date().getClass()) ){
 	    		  list.add("'" + f[i].get(o) + "'");
 	    	  }
 	    	  else{
@@ -55,8 +57,6 @@ public class ClassUtils {
 	    	  varValuesToString( o, clazz.getSuperclass(), list );
 	      }
 	  }
-  
-  
   
   public static String toString( Object o ) {
     ArrayList list = new ArrayList();
@@ -77,4 +77,34 @@ public class ClassUtils {
          toString( o, clazz.getSuperclass(), list );
       }
   }
+  /*
+  public static Object getObjectFromCsvLine(String csvLine, Class clazz) throws Exception{
+	  Field f[] = clazz.getDeclaredFields();
+	  AccessibleObject.setAccessible( f, true );
+	  String[] fieldValues = csvLine.split(",");
+
+	  for(int i = 0; i < f.length; i++){
+		  Field field = f[i];
+		  if(field.getClass().equals(String.class)){
+			  
+		  }
+		  else if(field.getClass().equals(Date.class)){
+			  
+		  }
+		  else if(field.getClass().equals(int.class)){
+			  
+		  }
+		  else if(field.getClass().equals(float.class)){
+			  
+		  }
+	  }
+	  Object arglist[] = new Object[fieldValues.length];
+	  
+	  arglist[0] = new Integer(37);
+      arglist[1] = new Integer(47);
+      Object retobj = ct.newInstance(arglist);
+	  
+      return retobjo;
+  }
+  */
 }
