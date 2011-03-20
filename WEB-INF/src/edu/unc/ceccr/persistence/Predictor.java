@@ -47,8 +47,6 @@ public class Predictor implements java.io.Serializable {
 	
 	private String categoryWeights;
 	
-	private Set<ExternalValidation> externalValidationResults = new HashSet<ExternalValidation>(0);
-	
 	private Date dateCreated;
 	private Date dateUpdated;
 	
