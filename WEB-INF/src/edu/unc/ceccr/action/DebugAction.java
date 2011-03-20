@@ -44,6 +44,7 @@ public class DebugAction extends ActionSupport{
 	
 	public static void printObjectsAsCsv(ArrayList<Object> objects, String path, boolean append) throws Exception{
 		BufferedWriter out = new BufferedWriter(new FileWriter(path, append));
+		String tableName = path.substring(path.lastIndexOf("/"), path.lastIndexOf(".csv"));
 		
 		boolean headerDone = false;
 		for(Object o: objects){
@@ -51,7 +52,10 @@ public class DebugAction extends ActionSupport{
 				out.write(ClassUtils.varNamesToString(o) + "\n");
 				headerDone = true;
 			}
-			out.write(ClassUtils.varValuesToString(o) + "\n");
+			String values = ClassUtils.varValuesToString(o);
+			values.replace("[", "INSERT INTO " + tableName + " VALUES(");
+			values.replace("]", ");\n");
+			out.write(values);
 		}
 		out.close();
 	}
@@ -62,8 +66,7 @@ public class DebugAction extends ActionSupport{
 		
 		boolean append = false;
 		String basePath = Constants.CECCR_BASE_PATH + "theo/";
-		/*
-
+		
 		//Job
 		try{
 			Session session = HibernateUtil.getSession();
@@ -217,7 +220,6 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		*/
 		
 		//RandomForestGrove
 		try{
@@ -230,7 +232,9 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
-		/*
+		int chunkSize = 100000;
+		append = true;
+
 		//RandomForestTree
 		try{
 			Session session = HibernateUtil.getSession();
@@ -245,7 +249,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		
+
 		//PredictionValue
 		try{
 			Session session = HibernateUtil.getSession();
@@ -260,12 +264,8 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		*/
 
-		int chunkSize = 100;
-		append = true;
-
-
+		/*
 		//DataSet
 		try{
 			Session session = HibernateUtil.getSession();
@@ -298,7 +298,7 @@ public class DebugAction extends ActionSupport{
 		
 
 
-
+		 */
 		
 		
 		
