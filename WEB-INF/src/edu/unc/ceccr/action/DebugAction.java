@@ -230,8 +230,7 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
-		int chunkSize = 100000;
-		append = true;
+		/*
 		//RandomForestTree
 		try{
 			Session session = HibernateUtil.getSession();
@@ -261,27 +260,36 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		*/
 
+		int chunkSize = 100;
+		append = true;
 		
-		/*
-
-		Neither of these can be recovered. Sadness.
 		//Prediction
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(Prediction.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_prediction.csv", append);
+			ArrayList list = new ArrayList();
+			int chunkIndex = 0;
+			while((list = PopulateDataObjects.populateClassInChunks(Prediction.class, chunkSize, chunkIndex, session))!= null){
+				printObjectsAsCsv(list, basePath + "cbench_prediction.csv", append);
+				chunkIndex++;
+			}
 			session.close();
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		
 
 		//DataSet
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(DataSet.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_dataset.csv", append);
+			ArrayList list = new ArrayList();
+			int chunkIndex = 0;
+			while((list = PopulateDataObjects.populateClassInChunks(DataSet.class, chunkSize, chunkIndex, session))!= null){
+				printObjectsAsCsv(list, basePath + "cbench_dataset.csv", append);
+				chunkIndex++;
+			}
 			session.close();
 		}
 		catch(Exception ex){
@@ -289,7 +297,8 @@ public class DebugAction extends ActionSupport{
 		}
 
 
-		 */
+
+
 		
 		
 		
