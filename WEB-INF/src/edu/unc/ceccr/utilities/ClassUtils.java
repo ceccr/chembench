@@ -48,7 +48,6 @@ public class ClassUtils {
 	    		  list.add("'" + f[i].get(o) + "'");
 	    	  }
 	    	  else{
-	    		  Utility.writeToDebug(f[i].getType().getName());
 	            list.add(f[i].get(o));
 	    	  }
 	      }
