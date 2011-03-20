@@ -53,8 +53,8 @@ public class DebugAction extends ActionSupport{
 				headerDone = true;
 			}
 			String values = ClassUtils.varValuesToString(o);
-			values.replace("[", "INSERT INTO " + tableName + " VALUES(");
-			values.replace("]", ");\n");
+			values.replace("\\[", "INSERT INTO " + tableName + " VALUES(");
+			values.replace("\\]", ");\n");
 			out.write(values);
 		}
 		out.close();
