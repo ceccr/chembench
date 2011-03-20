@@ -44,7 +44,7 @@ public class DebugAction extends ActionSupport{
 	
 	public static void printObjectsAsCsv(ArrayList<Object> objects, String path, boolean append) throws Exception{
 		BufferedWriter out = new BufferedWriter(new FileWriter(path, append));
-		String tableName = path.substring(path.lastIndexOf("/"), path.lastIndexOf(".csv"));
+		String tableName = path.substring(path.lastIndexOf("/")+1, path.lastIndexOf(".csv"));
 		
 		boolean headerDone = false;
 		for(Object o: objects){
