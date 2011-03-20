@@ -64,9 +64,7 @@ public class DebugAction extends ActionSupport{
 		//prints every database table it can get out to individual files
 		Utility.writeToDebug("OWLSOWLSOWLS");
 		
-		boolean append = false;
-		String basePath = Constants.CECCR_BASE_PATH + "theo/";
-		
+		/*
 		//Job
 		try{
 			Session session = HibernateUtil.getSession();
@@ -78,33 +76,11 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		
-		//User
-		try{
-			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(User.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_user.csv", append);
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
 		//JobStats
 		try{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(JobStats.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_jobStats.csv", append);
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
-		//SoftwareLink
-		try{
-			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(SoftwareLink.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_softwareLink.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -199,22 +175,49 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
-		//Predictor
+		//SvmModel
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(Predictor.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_predictor.csv", append);
+			ArrayList list = PopulateDataObjects.populateClass(SvmModel.class, session);
+			printObjectsAsCsv(list, basePath + "cbench_svmModel.csv", append);
+			session.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		
+		*/
+
+		boolean append = false;
+		String basePath = Constants.CECCR_BASE_PATH + "theo/";
+
+		//User
+		try{
+			Session session = HibernateUtil.getSession();
+			ArrayList list = PopulateDataObjects.populateClass(User.class, session);
+			printObjectsAsCsv(list, basePath + "cbench_user.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
 
-		//SvmModel
+		//SoftwareLink
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(SvmModel.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_svmModel.csv", append);
+			ArrayList list = PopulateDataObjects.populateClass(SoftwareLink.class, session);
+			printObjectsAsCsv(list, basePath + "cbench_softwareLink.csv", append);
+			session.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+
+		//Predictor
+		try{
+			Session session = HibernateUtil.getSession();
+			ArrayList list = PopulateDataObjects.populateClass(Predictor.class, session);
+			printObjectsAsCsv(list, basePath + "cbench_predictor.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
