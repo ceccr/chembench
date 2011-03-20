@@ -49,7 +49,7 @@ public class DebugAction extends ActionSupport{
 		boolean headerDone = false;
 		for(Object o: objects){
 			if(!headerDone){
-				out.write(ClassUtils.varNamesToString(o) + "\n");
+				//out.write(ClassUtils.varNamesToString(o) + "\n");
 				headerDone = true;
 			}
 			String values = ClassUtils.varValuesToString(o);
