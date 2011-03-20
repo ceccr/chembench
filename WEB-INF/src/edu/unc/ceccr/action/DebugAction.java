@@ -248,9 +248,11 @@ public class DebugAction extends ActionSupport{
 			int chunkIndex = 0;
 			while((list = PopulateDataObjects.populateClassInChunks(RandomForestTree.class, chunkSize, chunkIndex, session))!= null){
 				printObjectsAsCsv(list, basePath + "cbench_randomForestTree.csv", append);
+				list.clear();
+				session.close();
+				session = HibernateUtil.getSession();
 				chunkIndex++;
 			}
-			list.clear();
 			session.close();
 		}
 		catch(Exception ex){
