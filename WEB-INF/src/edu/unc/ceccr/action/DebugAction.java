@@ -235,7 +235,7 @@ public class DebugAction extends ActionSupport{
 		boolean append = false;
 		String basePath = Constants.CECCR_BASE_PATH + "theo/";
 
-		int chunkSize = 100000;
+		int chunkSize = 1000000;
 		append = true;
 
 		/*
