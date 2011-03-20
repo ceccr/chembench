@@ -18,7 +18,7 @@ public class User implements java.io.Serializable{
 
 	//system-relevant stuff
 	private String userName;
-	private byte[] password;
+	private String password;
 	private String email;
 	private String workbench;
 	private String status;
@@ -69,10 +69,10 @@ public class User implements java.io.Serializable{
 
 	@Column(name="password")
 	public byte[] getPassword() {
-		return password;
+		return password.getBytes();
 	}
 	public void setPassword(byte[] password) {
-		this.password = password;
+		this.password = password.toString();
 	}
 
 	@Column(name="email")
