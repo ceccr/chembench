@@ -52,8 +52,6 @@ public class PopulateDataObjects {
  			list = (ArrayList) session.createCriteria(c).list();
  			tx.commit();
  		} catch (Exception e) {
- 			if (tx != null)
- 				tx.rollback();
  			Utility.writeToDebug(e);
  		} 
  		return list;
