@@ -250,6 +250,7 @@ public class DebugAction extends ActionSupport{
 				printObjectsAsCsv(list, basePath + "cbench_randomForestTree.csv", append);
 				chunkIndex++;
 			}
+			list.clear();
 			session.close();
 		}
 		catch(Exception ex){
@@ -269,6 +270,7 @@ public class DebugAction extends ActionSupport{
 				printObjectsAsCsv(list, basePath + "cbench_predictionValue.csv", append);
 				chunkIndex++;
 			}
+			list.clear();
 			session.close();
 		}
 		catch(Exception ex){
