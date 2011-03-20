@@ -62,7 +62,7 @@ public class DebugAction extends ActionSupport{
 		
 		boolean append = false;
 		String basePath = Constants.CECCR_BASE_PATH + "theo/";
-
+		/*
 
 		//Job
 		try{
@@ -217,6 +217,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		*/
 		
 		//RandomForestGrove
 		try{
