@@ -239,7 +239,7 @@ public class DebugAction extends ActionSupport{
 		append = true;
 
 		/*
-		 * first 2400000 done
+		 * first 2400000 done 
 		 */
 		//RandomForestTree
 		try{
@@ -257,7 +257,7 @@ public class DebugAction extends ActionSupport{
 		}
 
 		/*
-		 * first 4100000 done
+		 * 
 		 */
 		/*
 		//PredictionValue

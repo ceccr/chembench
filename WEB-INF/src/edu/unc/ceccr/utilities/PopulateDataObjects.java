@@ -64,10 +64,10 @@ public class PopulateDataObjects {
 		ArrayList list = null;
 		Transaction tx = null;
 		Utility.writeToDebug("PopulateClassInChunks called with chunkSize " + chunkSize + " and chunkIndex " + chunkIndex);
-		Utility.writeToDebug("maxResults " + chunkSize + " firstResult: " + chunkSize*chunkIndex);
+		Utility.writeToDebug("maxResults " + chunkSize + " firstResult: " + chunkSize*chunkIndex +2400000 + 2800000);
 		try {
  			tx = session.beginTransaction();
- 			list = (ArrayList) session.createCriteria(c).setFirstResult(chunkSize*chunkIndex + 2400000).setMaxResults(chunkSize).list();
+ 			list = (ArrayList) session.createCriteria(c).setFirstResult(chunkSize*chunkIndex + 2400000 + 2800000).setMaxResults(chunkSize).list();
  			tx.commit();
   		} catch (Exception e) {
  			if (tx != null)
