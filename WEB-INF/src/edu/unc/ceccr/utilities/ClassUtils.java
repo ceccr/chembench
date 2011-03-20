@@ -43,7 +43,7 @@ public class ClassUtils {
 	    AccessibleObject.setAccessible( f, true );
 	    for ( int i = 0; i < f.length; i++ ) {
 	      try {
-	    	  if(f[i].getClass().equals(new String().getClass()) ||
+	    	  if(f[i].getType().equals(new String().getClass()) ||
 	    			  f[i].getType().equals(new Date().getClass()) ){
 	    		  list.add("'" + f[i].get(o) + "'");
 	    	  }
