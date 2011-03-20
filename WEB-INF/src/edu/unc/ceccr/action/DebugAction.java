@@ -264,22 +264,7 @@ public class DebugAction extends ActionSupport{
 
 		int chunkSize = 100;
 		append = true;
-		
-		//Prediction
-		try{
-			Session session = HibernateUtil.getSession();
-			ArrayList list = new ArrayList();
-			int chunkIndex = 0;
-			while((list = PopulateDataObjects.populateClassInChunks(Prediction.class, chunkSize, chunkIndex, session))!= null){
-				printObjectsAsCsv(list, basePath + "cbench_prediction.csv", append);
-				chunkIndex++;
-			}
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
+
 
 		//DataSet
 		try{
@@ -296,6 +281,21 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
+		//Prediction
+		try{
+			Session session = HibernateUtil.getSession();
+			ArrayList list = new ArrayList();
+			int chunkIndex = 0;
+			while((list = PopulateDataObjects.populateClassInChunks(Prediction.class, chunkSize, chunkIndex, session))!= null){
+				printObjectsAsCsv(list, basePath + "cbench_prediction.csv", append);
+				chunkIndex++;
+			}
+			session.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		
 
 
 
