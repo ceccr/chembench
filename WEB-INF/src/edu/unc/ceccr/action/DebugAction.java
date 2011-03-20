@@ -259,10 +259,6 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
-		/*
-		 * 
-		 */
-		/*
 		//PredictionValue
 		try{
 			Session session = HibernateUtil.getSession();
@@ -270,15 +266,16 @@ public class DebugAction extends ActionSupport{
 			int chunkIndex = 0;
 			while((list = PopulateDataObjects.populateClassInChunks(PredictionValue.class, chunkSize, chunkIndex, session))!= null){
 				printObjectsAsCsv(list, basePath + "cbench_predictionValue.csv", append);
+				list.clear();
+				session.close();
+				session = HibernateUtil.getSession();
 				chunkIndex++;
 			}
-			list.clear();
 			session.close();
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		*/
 
 		/*
 		//DataSet
