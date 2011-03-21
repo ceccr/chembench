@@ -1,6 +1,9 @@
 package edu.unc.ceccr.action.RegisterActions;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Properties;
 import java.sql.SQLException;
 
@@ -67,6 +70,31 @@ public class RetrievePasswordAction extends Action {
 				}
 				else{ 
 					String newpassword = updateDB(user);
+					
+					
+
+					s = HibernateUtil.getSession();
+					tx = null;
+					List<User> userList = null;
+					try {
+						tx = s.beginTransaction();
+						userList=s.createCriteria(User.class).add(Expression.eq("status","agree")).list();
+						tx.commit();
+					} catch (RuntimeException e) {
+						if (tx != null)
+							tx.rollback();
+						Utility.writeToDebug(e);				
+						forward = mapping.findForward("failure");
+					} finally {	s.close(); }
+					Iterator it=userList.iterator();
+					while(it.hasNext())
+					{
+						updateDB((User)it.next());
+					}
+					
+					
+					
+					
 					//For debugging, you may want to write the newly generated password
 					//to the page. (Never do this in a production build, of course...)
 				    
