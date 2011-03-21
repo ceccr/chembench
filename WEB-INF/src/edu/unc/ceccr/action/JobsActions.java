@@ -93,18 +93,19 @@ public class JobsActions extends ActionSupport {
 				}
 			}
 		}
-		Collections.sort(userDatasets, new Comparator<DataSet>() {
-		    public int compare(DataSet d1, DataSet d2) {
-	    		return d1.getName().toLowerCase().compareTo(d2.getName().toLowerCase());
-		    }});
-
-		for(int i = 0; i < userDatasets.size(); i++){
-			if(userDatasets.get(i).getJobCompleted() == null || userDatasets.get(i).getJobCompleted().equals(Constants.NO)){
-				userDatasets.remove(i);
-				i--;
+		if(userDatasets != null){
+			Collections.sort(userDatasets, new Comparator<DataSet>() {
+			    public int compare(DataSet d1, DataSet d2) {
+		    		return d1.getName().toLowerCase().compareTo(d2.getName().toLowerCase());
+			    }});
+	
+			for(int i = 0; i < userDatasets.size(); i++){
+				if(userDatasets.get(i).getJobCompleted() == null || userDatasets.get(i).getJobCompleted().equals(Constants.NO)){
+					userDatasets.remove(i);
+					i--;
+				}
 			}
-		}
-		
+		}		
 		//get predictors
 		if(user.getShowPublicPredictors().equals(Constants.ALL)){	
 			//get the user's predictors and all public ones
@@ -114,22 +115,26 @@ public class JobsActions extends ActionSupport {
 			//just get the user's predictors
 			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), false, true, session);
 		}
-		Collections.sort(userPredictors, new Comparator<Predictor>() {
-		    public int compare(Predictor p1, Predictor p2) {
-	    		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
-		    }});
-
+		if(userPredictors != null){
+			Collections.sort(userPredictors, new Comparator<Predictor>() {
+			    public int compare(Predictor p1, Predictor p2) {
+		    		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
+			    }});
+		}
+		
 		//get predictions
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
-		Collections.sort(userPredictions, new Comparator<Prediction>() {
-		    public int compare(Prediction p1, Prediction p2) {
-	    		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
-		    }});
-		
-		for(int i = 0; i < userPredictions.size(); i++){
-			if(userPredictions.get(i).getJobCompleted() == null || userPredictions.get(i).getJobCompleted().equals(Constants.NO)){
-				userPredictions.remove(i);
-				i--;
+		if(userPredictions != null){
+			Collections.sort(userPredictions, new Comparator<Prediction>() {
+			    public int compare(Prediction p1, Prediction p2) {
+		    		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
+			    }});
+			
+			for(int i = 0; i < userPredictions.size(); i++){
+				if(userPredictions.get(i).getJobCompleted() == null || userPredictions.get(i).getJobCompleted().equals(Constants.NO)){
+					userPredictions.remove(i);
+					i--;
+				}
 			}
 		}
 		
