@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.persistence.Column;
 
 @Entity
-@Table(name = "cbench_admin_settings")
+@Table(name = "cbench_adminSettings")
 @SuppressWarnings("serial")
 public class AdminSettings implements java.io.Serializable{
 	
