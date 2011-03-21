@@ -78,7 +78,8 @@
 			<!-- LOGIN INPUT FIELD STARTS HERE. -->
 			<logic:notPresent name="user">
 					<form id="form1" name="form1" method="post" action="submitLogin.do">
-					  <table width="250" border="0" >		          
+					  <table width="250" border="0" >		
+					  <tr>NOTE: All passwords have been reset recently. Check your email for your new password.</tr>          
 			           <tr>
 			           <td><label><input name="loginName" type="text" class="LoginBoxes1" size="12" value="username" onfocus="if(this.value=='username'){value=''}"/></label></td>
 				       <td><label><input name="loginPassword" type="password" class="LoginBoxes1" size="12" value="password" onfocus="if(this.value=='password'){value=''}"/></label></td>
