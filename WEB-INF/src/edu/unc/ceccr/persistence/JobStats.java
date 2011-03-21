@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity()
-@Table(name = "cbench_jobstats")
+@Table(name = "cbench_jobStats")
 public class JobStats {
 
 	public Long id;

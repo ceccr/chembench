@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "cbench_ext_pred")
+@Table(name = "cbench_externalValidation")
 public class ExternalValidation implements java.io.Serializable {
 	
 	private int externalValId;

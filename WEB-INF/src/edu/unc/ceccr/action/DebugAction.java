@@ -232,12 +232,6 @@ public class DebugAction extends ActionSupport{
 
 		*/
 
-		boolean append = false;
-		String basePath = Constants.CECCR_BASE_PATH + "theo/";
-
-		int chunkSize = 1000000;
-		append = true;
-
 		/*
 		//RandomForestTree
 		try{
@@ -258,6 +252,7 @@ public class DebugAction extends ActionSupport{
 		}
 		*/
 
+		/*
 		//PredictionValue
 		try{
 			Session session = HibernateUtil.getSession();
@@ -275,8 +270,14 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		 */
 
-		/*
+		boolean append = false;
+		String basePath = Constants.CECCR_BASE_PATH + "theo/";
+
+		int chunkSize = 1;
+		append = true;
+
 		//DataSet
 		try{
 			Session session = HibernateUtil.getSession();
@@ -284,6 +285,9 @@ public class DebugAction extends ActionSupport{
 			int chunkIndex = 0;
 			while((list = PopulateDataObjects.populateClassInChunks(DataSet.class, chunkSize, chunkIndex, session))!= null){
 				printObjectsAsCsv(list, basePath + "cbench_dataset.csv", append);
+				list.clear();
+				session.close();
+				session = HibernateUtil.getSession();
 				chunkIndex++;
 			}
 			session.close();
@@ -307,9 +311,6 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		
-
-
-		 */
 		
 		
 		

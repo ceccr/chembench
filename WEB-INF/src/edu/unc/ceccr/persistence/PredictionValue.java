@@ -14,7 +14,7 @@ import edu.unc.ceccr.utilities.Utility;
 @SuppressWarnings("serial")
 @Entity
 //@IdClass(PredictionValuePK.class)
-@Table(name = "cbench_prediction_val")
+@Table(name = "cbench_predictionValue")
 public class PredictionValue implements java.io.Serializable{
 
 	@SuppressWarnings("unused")

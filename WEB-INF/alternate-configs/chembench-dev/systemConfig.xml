@@ -21,7 +21,7 @@
 </website>
 
 <database>
-<databaseName>ceccr</databaseName>
+<databaseName>cbench</databaseName>
 <userName>root</userName>
 <password>VeX</password>
 <url>jdbc:mysql://localhost/</url>
