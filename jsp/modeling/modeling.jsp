@@ -55,15 +55,25 @@
 		}
 		
 		//enable / disable based on the availableDescriptors
-		if(selectedDatasetAvailableDescriptors.indexOf("MOLCONNZ") > -1){
-			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = false;
+		if(selectedDatasetAvailableDescriptors.indexOf("MOE2D") > -1){
+			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = false;
+			document.getElementById("descriptorGenerationType" + "MOE2D").checked = "checked";
 		}
 		else{
-			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = true;
+			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = true;
+		}
+		
+		if(selectedDatasetAvailableDescriptors.indexOf("MACCS") > -1){
+			document.getElementById("descriptorGenerationType" + "MACCS").disabled = false;
+			document.getElementById("descriptorGenerationType" + "MACCS").checked = "checked";
+		}
+		else{
+			document.getElementById("descriptorGenerationType" + "MACCS").disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONH") > -1){
 			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = false;
+			document.getElementById("descriptorGenerationType" + "DRAGONH").checked = "checked";
 		}
 		else{
 			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = true;
@@ -71,24 +81,20 @@
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONNOH") > -1){
 			document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = false;
+			document.getElementById("descriptorGenerationType" + "DRAGONNOH").checked = "checked";
 		}
 		else{
 			document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = true;
 		}
 		
-		if(selectedDatasetAvailableDescriptors.indexOf("MACCS") > -1){
-			document.getElementById("descriptorGenerationType" + "MACCS").disabled = false;
+		if(selectedDatasetAvailableDescriptors.indexOf("MOLCONNZ") > -1){
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = false;
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").checked = "checked";
 		}
 		else{
-			document.getElementById("descriptorGenerationType" + "MACCS").disabled = true;
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = true;
 		}
 		
-		if(selectedDatasetAvailableDescriptors.indexOf("MOE2D") > -1){
-			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = false;
-		}
-		else{
-			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = true;
-		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1){
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = false;
@@ -96,7 +102,6 @@
 		}
 		else{
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = true;
-			document.getElementById("descriptorGenerationType" + "MOLCONNZ").checked = "checked";
 		}
 		
 		//recalculate time estimate for the newly selected dataset
