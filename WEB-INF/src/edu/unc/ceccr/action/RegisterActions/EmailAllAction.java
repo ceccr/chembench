@@ -60,8 +60,10 @@ public class EmailAllAction extends Action {
 				while(it.hasNext())
 				{
 					User userInfo = (User)it.next();
-					String HtmlBody=formBean.getContent();
-					SendEmails.sendEmail(userInfo.getEmail(), formBean.getCc(), formBean.getBcc(), formBean.getSubject(), HtmlBody);
+					if(userInfo.getUserName().equals("theo")){
+						String HtmlBody=formBean.getContent();
+						SendEmails.sendEmail(userInfo.getEmail(), formBean.getCc(), formBean.getBcc(), formBean.getSubject(), HtmlBody);
+					}
 				}
 				PrintWriter pw=response.getWriter();
 				pw.write("<script> window.alert('The emails have been sent to all users!');window.close();</script>");
