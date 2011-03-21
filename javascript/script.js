@@ -63,7 +63,7 @@ function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPre
 	 // Check for white space; replace with underscores if it's there.
 	 name = name.replace(/ /g,"_");
 
-	 linuxChars = new RegExp("(\\\\|\"|'|,|`|\\?|\\*|~|!|@|#|%|\\$|\\^|\\+|;|\\[|\\])");
+	 linuxChars = new RegExp("(\\\\|\"|'|,|`|:|\\?|\\*|~|!|@|#|%|\\$|\\^|\\+|;|\\[|\\])");
      if (linuxChars.test(name)) {
 		alert("You cannot use special characters (quotes, asterisks, punctuation, slashes, etc.) in your job name. You might want to replace them with underscores or dashes.");
 		return false;
