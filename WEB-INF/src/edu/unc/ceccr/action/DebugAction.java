@@ -42,8 +42,10 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class DebugAction extends ActionSupport{
 	
-	public static String fixExternalAccuracies(){
+	public static String addExternalAccuracies(){
 		
+		
+		return SUCCESS;
 	}
 	
 	

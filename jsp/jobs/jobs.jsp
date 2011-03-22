@@ -285,10 +285,10 @@
 			<table class="sortable" id="datasets">
 				<tr>
 					<th class="TableRowText01">Name</th>
-					<th class="TableRowText01">Date Created</th>
 					<th class="TableRowText01">Number of Compounds</th>
 					<th class="TableRowText01">Type</th>
 					<th class="TableRowText01">Public/Private</th>
+					<th class="TableRowText01">Date Created</th>
 					<th class="TableRowText01_unsortable">Download</th>
 					<th class="TableRowText01_unsortable">Delete</th>
 				</tr>
@@ -305,10 +305,9 @@
 						<s:property value="name" />
 						</a>
 					</td>
-					<td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
 					<td><s:property value="numCompound" /></td>
 					<td><s:property value="modelType" /></td>
-					
+					<td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
 					<s:if test="userName=='all-users'">
 					<td>Public</td>
 					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="name" />&user=all-users">download</a></td>
@@ -411,9 +410,9 @@
 			<table class="sortable" id="predictions">
 				<tr>
 					<th class="TableRowText01">Name</th>
-					<th class="TableRowText01">Date Created</th>
 					<th class="TableRowText01">Dataset</th>
 					<th class="TableRowText01">Predictor</th>
+					<th class="TableRowText01">Date Created</th>
 					<th class="TableRowText01_unsortable">Download</th>
 					<th class="TableRowText01_unsortable">Delete</th>
 				</tr>
@@ -429,9 +428,9 @@
 						<s:param name="id" value='id' />
 					</s:url>
 					<td><s:a href="%{predictionLink}"><s:property value="name" /></s:a></td>
-					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td><s:property value="datasetDisplay" /></td>
 					<td><s:property value="predictorNames" /></td>
+					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
 					<td><a onclick="return confirmDelete('prediction')" href="deletePrediction?id=<s:property value="predictionId" />#predictions">delete</a></td>
 					</tr> 

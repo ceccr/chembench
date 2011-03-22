@@ -27,6 +27,9 @@
 		<action name="dbdoom" class="edu.unc.ceccr.action.DebugAction" method="printDatabaseTables">
             <result>jsp/main/home.jsp</result>
        </action>
+		<action name="addExternalAccuracies" class="edu.unc.ceccr.action.DebugAction" method="addExternalAccuracies">
+            <result>jsp/main/home.jsp</result>
+       </action>
        
        <!-- Main pages -->
        <action name="index">
