@@ -61,7 +61,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			loadTrees();
 		}
 		else{
-			loadTreeSets();
+			//loadTreeSets();
 		}
 		session.close();
 		return result;
