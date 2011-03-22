@@ -375,7 +375,7 @@
 						<s:property value="datasetDisplay" />
 						</a>
 					</td>
-					<td><s:property name="externalPredictionAccuracy" /></td>
+					<td><s:property value="externalPredictionAccuracy" /></td>
 					<td><s:property value="modelMethod" /></td>
 					<td><s:property value="descriptorGeneration" /></td>
 					<td><s:if test="userName=='all-users'">Public</s:if><s:else>Private</s:else></td>
