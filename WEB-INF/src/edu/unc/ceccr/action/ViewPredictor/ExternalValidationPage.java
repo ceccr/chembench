@@ -63,8 +63,14 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	
 	private void savePredictor(Predictor p, Session s){
 		Transaction tx = null;
-		try{
-			saveOrUpdate
+		try {
+			tx = s.beginTransaction();
+			s.saveOrUpdate(p);
+			tx.commit();
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e); 
 		}
 	}
 	
@@ -94,10 +100,6 @@ public class ExternalValidationPage extends ViewPredictorAction {
 					if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 						Double childCcr = (RSquaredAndCCR.calculateConfusionMatrix(childExtVals)).getCcr();
 						childAccuracies.addValue(childCcr);
-						
-						
-						savePredictor(cp, session);
-						
 					}
 					else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
 						ArrayList<Double> childResiduals = RSquaredAndCCR.calculateResiduals(childExtVals);
@@ -120,8 +122,10 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				rSquaredAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
 				rSquaredAverageAndStddev += " ± ";
 				rSquaredAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
-				Utility.writeToDebug("ccr avg and stddev: " + rSquaredAverageAndStddev);
-
+				Utility.writeToDebug("rsquared avg and stddev: " + rSquaredAverageAndStddev);
+				selectedPredictor.setExternalPredictionAccuracy(rSquaredAverageAndStddev);
+				
+				
 				//make main ext validation chart
 				if(currentFoldNumber.equals("0")){
 					CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
@@ -132,6 +136,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				ccrAverageAndStddev += " ± ";
 				ccrAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
 				Utility.writeToDebug("ccr avg and stddev: " + ccrAverageAndStddev);
+				selectedPredictor.setExternalPredictionAccuracy(ccrAverageAndStddev);
 			}
 		}
 		else{
@@ -171,13 +176,16 @@ public class ExternalValidationPage extends ViewPredictorAction {
 			//if category model, create confusion matrix.
 			//round off the predicted values to nearest integer.
 			confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(externalValValues);
+			selectedPredictor.setExternalPredictionAccuracy(confusionMatrix.getCcrAsString());
 		}
 		else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS) && externalValValues.size() > 1){
 			//if continuous, calculate overall r^2 and... r0^2? or something? 
 			//just r^2 for now, more later.
 			Double rSquaredDouble = RSquaredAndCCR.calculateRSquared(externalValValues, residualsAsDouble);
 			rSquared = Utility.roundSignificantFigures("" + rSquaredDouble, Constants.REPORTED_SIGNIFICANT_FIGURES);
+			selectedPredictor.setExternalPredictionAccuracy(rSquared);
 		}
+		savePredictor(selectedPredictor, session);
 		return result;
 	}
 	
