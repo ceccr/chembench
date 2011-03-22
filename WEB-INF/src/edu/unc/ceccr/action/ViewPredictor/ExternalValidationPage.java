@@ -176,14 +176,18 @@ public class ExternalValidationPage extends ViewPredictorAction {
 			//if category model, create confusion matrix.
 			//round off the predicted values to nearest integer.
 			confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(externalValValues);
-			selectedPredictor.setExternalPredictionAccuracy(confusionMatrix.getCcrAsString());
+			if(childPredictors.size() == 0){
+				selectedPredictor.setExternalPredictionAccuracy(confusionMatrix.getCcrAsString());
+			}
 		}
 		else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS) && externalValValues.size() > 1){
 			//if continuous, calculate overall r^2 and... r0^2? or something? 
 			//just r^2 for now, more later.
 			Double rSquaredDouble = RSquaredAndCCR.calculateRSquared(externalValValues, residualsAsDouble);
 			rSquared = Utility.roundSignificantFigures("" + rSquaredDouble, Constants.REPORTED_SIGNIFICANT_FIGURES);
-			selectedPredictor.setExternalPredictionAccuracy(rSquared);
+			if(childPredictors.size() == 0){
+				selectedPredictor.setExternalPredictionAccuracy(rSquared);
+			}
 		}
 		savePredictor(selectedPredictor, session);
 		return result;

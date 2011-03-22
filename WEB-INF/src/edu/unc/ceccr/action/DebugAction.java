@@ -42,6 +42,11 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class DebugAction extends ActionSupport{
 	
+	public static String fixExternalAccuracies(){
+		
+	}
+	
+	
 	public static void printObjectsAsCsv(ArrayList<Object> objects, String path, boolean append) throws Exception{
 		BufferedWriter out = new BufferedWriter(new FileWriter(path, append));
 		String tableName = path.substring(path.lastIndexOf("/")+1, path.lastIndexOf(".csv"));
