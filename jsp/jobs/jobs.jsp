@@ -374,7 +374,12 @@
 						<s:property value="datasetDisplay" />
 						</a>
 					</td>
+					<s:if test="childType=='NFOLD'">
+					<td><s:property value="externalPredictionAccuracyAvg" /></td>
+					</s:if>
+					<s:else>
 					<td><s:property value="externalPredictionAccuracy" /></td>
+					</s:else>
 					<td><s:property value="modelMethod" /></td>
 					<td><s:property value="descriptorGeneration" /></td>
 					<td><s:if test="userName=='all-users'">Public</s:if><s:else>Private</s:else></td>
