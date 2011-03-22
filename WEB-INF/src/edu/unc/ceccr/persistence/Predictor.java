@@ -67,7 +67,8 @@ public class Predictor implements java.io.Serializable {
 	private String predictorType;
 	private String scalingType;
 	private String hasBeenViewed;
-	private String externalPredictionAccuracy; //Initially NO; YES on completion.
+	private String externalPredictionAccuracy; 
+	private String externalPredictionAccuracyAvg; //used on parent predictors, e.g. NFOLD
 	private String jobCompleted; //Initially NO; YES on completion.
 	
 	private int numPredictions;
@@ -414,6 +415,15 @@ public class Predictor implements java.io.Serializable {
 	}
 	public void setExternalPredictionAccuracy(String externalPredictionAccuracy) {
 		this.externalPredictionAccuracy = externalPredictionAccuracy;
+	}
+
+	@Column(name = "externalPredictionAccuracyAvg")
+	public String getExternalPredictionAccuracyAvg() {
+		return externalPredictionAccuracyAvg;
+	}
+	public void setExternalPredictionAccuracyAvg(
+			String externalPredictionAccuracyAvg) {
+		this.externalPredictionAccuracyAvg = externalPredictionAccuracyAvg;
 	}
 
 	@Column(name = "jobCompleted")

@@ -349,7 +349,7 @@
 				<tr>
 					<th class="TableRowText01">Name</th>
 					<th class="TableRowText01">Dataset</th>
-					<th class="TableRowText01">External Set CCR / R^2</th>
+					<th class="TableRowText01">External Set R<sup>2</sup> or CCR</th>
 					<th class="TableRowText01">Modeling Method</th>
 					<th class="TableRowText01">Descriptor Type</th>
 					<th class="TableRowText01">Public/Private</th>

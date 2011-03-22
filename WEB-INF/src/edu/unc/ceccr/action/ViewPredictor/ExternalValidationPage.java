@@ -123,7 +123,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				rSquaredAverageAndStddev += " ± ";
 				rSquaredAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
 				Utility.writeToDebug("rsquared avg and stddev: " + rSquaredAverageAndStddev);
-				selectedPredictor.setExternalPredictionAccuracy(rSquaredAverageAndStddev);
+				selectedPredictor.setExternalPredictionAccuracyAvg(rSquaredAverageAndStddev);
 				
 				
 				//make main ext validation chart
@@ -136,7 +136,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				ccrAverageAndStddev += " ± ";
 				ccrAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
 				Utility.writeToDebug("ccr avg and stddev: " + ccrAverageAndStddev);
-				selectedPredictor.setExternalPredictionAccuracy(ccrAverageAndStddev);
+				selectedPredictor.setExternalPredictionAccuracyAvg(ccrAverageAndStddev);
 			}
 		}
 		else{
@@ -176,18 +176,14 @@ public class ExternalValidationPage extends ViewPredictorAction {
 			//if category model, create confusion matrix.
 			//round off the predicted values to nearest integer.
 			confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(externalValValues);
-			if(childPredictors.size() == 0){
-				selectedPredictor.setExternalPredictionAccuracy(confusionMatrix.getCcrAsString());
-			}
+			selectedPredictor.setExternalPredictionAccuracy(confusionMatrix.getCcrAsString());
 		}
 		else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS) && externalValValues.size() > 1){
 			//if continuous, calculate overall r^2 and... r0^2? or something? 
 			//just r^2 for now, more later.
 			Double rSquaredDouble = RSquaredAndCCR.calculateRSquared(externalValValues, residualsAsDouble);
 			rSquared = Utility.roundSignificantFigures("" + rSquaredDouble, Constants.REPORTED_SIGNIFICANT_FIGURES);
-			if(childPredictors.size() == 0){
-				selectedPredictor.setExternalPredictionAccuracy(rSquared);
-			}
+			selectedPredictor.setExternalPredictionAccuracy(rSquared);
 		}
 		savePredictor(selectedPredictor, session);
 		return result;
