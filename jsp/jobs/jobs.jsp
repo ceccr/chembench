@@ -376,10 +376,10 @@
 						</a>
 					</td>
 					<td><s:property name="externalPredictionAccuracy" /></td>
-					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td><s:property value="modelMethod" /></td>
 					<td><s:property value="descriptorGeneration" /></td>
 					<td><s:if test="userName=='all-users'">Public</s:if><s:else>Private</s:else></td>
+					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
 					<td><s:if test="userName=='all-users'"></s:if><s:else><a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="id" />#predictors">delete</a></s:else></td>
 					</tr> 
