@@ -349,11 +349,12 @@
 			<table class="sortable" id="predictors">
 				<tr>
 					<th class="TableRowText01">Name</th>
-					<th class="TableRowText01">Date Created</th>
+					<th class="TableRowText01">Dataset</th>
+					<th class="TableRowText01">External Set CCR / R^2</th>
 					<th class="TableRowText01">Modeling Method</th>
 					<th class="TableRowText01">Descriptor Type</th>
-					<th class="TableRowText01">Dataset</th>
 					<th class="TableRowText01">Public/Private</th>
+					<th class="TableRowText01">Date Created</th>
 					<th class="TableRowText01_unsortable">Download</th>
 					<th class="TableRowText01_unsortable">Delete</th>
 				</tr>
@@ -369,14 +370,15 @@
 						<s:param name="predictorId" value='id' />
 					</s:url>
 					<td><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
-					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-					<td><s:property value="modelMethod" /></td>
-					<td><s:property value="descriptorGeneration" /></td>
 					<td>
 						<a href="viewDataset?id=<s:property value="datasetId" />">
 						<s:property value="datasetDisplay" />
 						</a>
 					</td>
+					<td><s:property name="externalPredictionAccuracy" /></td>
+					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+					<td><s:property value="modelMethod" /></td>
+					<td><s:property value="descriptorGeneration" /></td>
 					<td><s:if test="userName=='all-users'">Public</s:if><s:else>Private</s:else></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
 					<td><s:if test="userName=='all-users'"></s:if><s:else><a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="id" />#predictors">delete</a></s:else></td>

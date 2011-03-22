@@ -61,6 +61,13 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	ArrayList<String> foldNums = new ArrayList<String>();
 	String currentFoldNumber = "0";
 	
+	private void savePredictor(Predictor p, Session s){
+		Transaction tx = null;
+		try{
+			saveOrUpdate
+		}
+	}
+	
 	public String load() throws Exception {
 		getBasicParameters();
 		String result = SUCCESS;
@@ -87,6 +94,10 @@ public class ExternalValidationPage extends ViewPredictorAction {
 					if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 						Double childCcr = (RSquaredAndCCR.calculateConfusionMatrix(childExtVals)).getCcr();
 						childAccuracies.addValue(childCcr);
+						
+						
+						savePredictor(cp, session);
+						
 					}
 					else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
 						ArrayList<Double> childResiduals = RSquaredAndCCR.calculateResiduals(childExtVals);

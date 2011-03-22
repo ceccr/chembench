@@ -67,6 +67,7 @@ public class Predictor implements java.io.Serializable {
 	private String predictorType;
 	private String scalingType;
 	private String hasBeenViewed;
+	private String externalPredictionAccuracy; //Initially NO; YES on completion.
 	private String jobCompleted; //Initially NO; YES on completion.
 	
 	private int numPredictions;
@@ -398,13 +399,21 @@ public class Predictor implements java.io.Serializable {
 	{
 		this.paperReference=paperReference;
 	}
-	
+
 	@Column(name = "hasBeenViewed")
 	public String getHasBeenViewed() {
 		return hasBeenViewed;
 	}
 	public void setHasBeenViewed(String hasBeenViewed) {
 		this.hasBeenViewed = hasBeenViewed;
+	}
+
+	@Column(name = "externalPredictionAccuracy")
+	public String getExternalPredictionAccuracy() {
+		return externalPredictionAccuracy;
+	}
+	public void setExternalPredictionAccuracy(String externalPredictionAccuracy) {
+		this.externalPredictionAccuracy = externalPredictionAccuracy;
 	}
 
 	@Column(name = "jobCompleted")
