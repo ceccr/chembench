@@ -71,20 +71,20 @@
 			document.getElementById("descriptorGenerationType" + "MACCS").disabled = true;
 		}
 		
-		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONH") > -1){
-			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = false;
-			document.getElementById("descriptorGenerationType" + "DRAGONH").checked = "checked";
-		}
-		else{
-			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = true;
-		}
-		
 		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONNOH") > -1){
 			document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = false;
 			document.getElementById("descriptorGenerationType" + "DRAGONNOH").checked = "checked";
 		}
 		else{
 			document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = true;
+		}
+		
+		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONH") > -1){
+			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = false;
+			document.getElementById("descriptorGenerationType" + "DRAGONH").checked = "checked";
+		}
+		else{
+			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("MOLCONNZ") > -1){
