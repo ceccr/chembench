@@ -168,6 +168,7 @@ public class ModelingFormActions extends ActionSupport{
 					actFileDataType = datasetList.get(i).getModelType();
 					selectedDatasetId = datasetList.get(i).getId();
 					jobName = originalJobName + datasetList.get(i).getName();
+					Utility.writeToDebug("launching modeling on dataset " + datasetList.get(i).getName());
 					execute();
 				}
 			}
