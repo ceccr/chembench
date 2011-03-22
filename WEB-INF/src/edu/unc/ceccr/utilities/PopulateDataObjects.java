@@ -484,11 +484,22 @@ public class PopulateDataObjects {
  		Transaction tx = null;
  		try {
  			tx = session.beginTransaction();
- 			if(onlyCompleted) privatePredictors = session.createCriteria(Predictor.class)
- 							.add(Expression.eq("userName", userName))
-							.add(Expression.eq("jobCompleted", Constants.YES))
-							.add(Expression.ne("predictorType", Constants.HIDDEN))
- 							.addOrder(Order.desc("name")).list();
+ 			if(onlyCompleted){
+ 				if(userName.equals("ALLOFTHEM")){ //silly kludge, remove when done
+	 				privatePredictors = session.createCriteria(Predictor.class)
+						.add(Expression.eq("jobCompleted", Constants.YES))
+						.add(Expression.ne("predictorType", Constants.HIDDEN))
+						.addOrder(Order.desc("name")).list();
+ 				}
+ 				else{
+	 				privatePredictors = session.createCriteria(Predictor.class)
+						.add(Expression.eq("userName", userName))
+						.add(Expression.eq("jobCompleted", Constants.YES))
+						.add(Expression.ne("predictorType", Constants.HIDDEN))
+						.addOrder(Order.desc("name")).list();
+ 				}
+ 			}
+
  			else privatePredictors = session.createCriteria(Predictor.class)
 				.add(Expression.eq("userName", userName))
 				.add(Expression.ne("predictorType", Constants.HIDDEN))
