@@ -28,15 +28,15 @@
 			</p>
 			<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber==0">
 				<p class="StandardTextDarkGray">
-				Overall R<sup>2</sup> for compounds in all external sets: <b><s:property value="rSquared" /></b>
+				Overall R<sup>2</sup> for compounds in all external sets: <b><s:property value="selectedPredictor.externalPredictionAccuracy" /></b>
 				</p>
 				<p class="StandardTextDarkGray">
-				Average and standard deviation of R<sup>2</sup> among sets: <b><s:property value="rSquaredAverageAndStddev" /></b><br />
+				Average and standard deviation of R<sup>2</sup> among sets: <b><s:property value="selectedPredictor.externalPredictionAccuracyAvg" /></b><br />
 				</p>
 			</s:if>
 			<s:else>
 				<p class="StandardTextDarkGray">
-				R<sup>2</sup> for external <s:if test="externalValValues.size!=0&&currentFoldNumber!=0">fold <s:property value="currentFoldNumber" /></s:if><s:else>set</s:else>: <b><s:property value="rSquared" /></b>
+				R<sup>2</sup> for external <s:if test="externalValValues.size!=0&&currentFoldNumber!=0">fold <s:property value="selectedPredictor.externalPredictionAccuracy" /></s:if><s:else>set</s:else>: <b><s:property value="rSquared" /></b>
 				</p>
 			</s:else>
 		</s:if>
@@ -63,10 +63,10 @@
 			
 			<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber=='0'">
 				<p class="StandardTextDarkGray">
-				Overall CCR for compounds in all external sets: <b><s:property value="confusionMatrix.ccrAsString" /></b>
+				Overall CCR for compounds in all external sets: <b><s:property value="selectedPredictor.externalPredictionAccuracy" /></b>
 				</p>
 				<p class="StandardTextDarkGray">
-				Average and standard deviation of CCR among sets: <b><s:property value="ccrAverageAndStddev" /></b><br />
+				Average and standard deviation of CCR among sets: <b><s:property value="selectedPredictor.externalPredictionAccuracyAvg" /></b><br />
 				</p>
 			</s:if>
 			<s:else>
