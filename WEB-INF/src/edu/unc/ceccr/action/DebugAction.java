@@ -94,6 +94,7 @@ public class DebugAction extends ActionSupport{
 								childAccuracies.addValue(childRSquared);
 								CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
 							}
+							externalValValues.addAll(childExtVals);
 						}
 					}
 
@@ -124,6 +125,7 @@ public class DebugAction extends ActionSupport{
 				if(externalValValues == null || externalValValues.isEmpty()){
 					Utility.writeToDebug("ext validation set empty!");
 					externalValValues = new ArrayList<ExternalValidation>();
+					continue;
 				}
 				
 				
@@ -140,6 +142,9 @@ public class DebugAction extends ActionSupport{
 							residuals.add(Utility.roundSignificantFigures(""+residual, Constants.REPORTED_SIGNIFICANT_FIGURES));
 						}
 					}
+				}
+				else{
+					continue;
 				}
 				
 				if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
