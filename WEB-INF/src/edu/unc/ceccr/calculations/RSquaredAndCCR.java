@@ -185,7 +185,7 @@ public class RSquaredAndCCR{
 							ArrayList<Double> childResiduals = RSquaredAndCCR.calculateResiduals(childExtVals);
 							Double childRSquared = RSquaredAndCCR.calculateRSquared(childExtVals, childResiduals);
 							childAccuracies.addValue(childRSquared);
-							CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
+							//CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
 						}
 						externalValValues.addAll(childExtVals);
 					}
@@ -201,7 +201,7 @@ public class RSquaredAndCCR{
 					Utility.writeToDebug("rsquared avg and stddev: " + rSquaredAverageAndStddev);
 					selectedPredictor.setExternalPredictionAccuracyAvg(rSquaredAverageAndStddev);
 					//make main ext validation chart
-					CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
+					//CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
 				}
 				else if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 					ccrAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
