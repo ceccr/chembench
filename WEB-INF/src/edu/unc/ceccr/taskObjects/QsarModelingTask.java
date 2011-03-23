@@ -24,6 +24,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.unc.ceccr.action.ModelingFormActions;
+import edu.unc.ceccr.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Descriptors;
@@ -958,6 +959,8 @@ public class QsarModelingTask extends WorkflowTask {
 			SvmWorkflow.cleanExcessFilesFromDir(filePath);
 			SvmWorkflow.cleanExcessFilesFromDir(filePath + "yRandom/");
 		}
+		//calculate outputs based on ext set predictions
+		predictor = RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor, session);
 		
 		//save updated predictor to database
 		predictor.setScalingType(scalingType);
@@ -1025,6 +1028,7 @@ public class QsarModelingTask extends WorkflowTask {
 			RandomForestWorkflow.cleanUpExcessFiles(Constants.CECCR_USER_BASE_PATH+userName+"/"+jobName +"/");
 		}
 		
+
 		if(dataset.getSplitType().equals(Constants.NFOLD)){
 			//find parent predictor
 			String parentPredictorName = jobName.substring(0,jobName.lastIndexOf("_fold"));
@@ -1051,6 +1055,11 @@ public class QsarModelingTask extends WorkflowTask {
 			}
 			
 			predictor.setParentId(parentPredictor.getId());
+			
+			//calc r^2 etc for parent as well
+			parentPredictor = RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor, session);
+			
+			//save
 			try{
 				tx = session.beginTransaction();
 				session.saveOrUpdate(parentPredictor);

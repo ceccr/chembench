@@ -5,7 +5,9 @@ import java.io.*;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.CreateExtValidationChartWorkflow;
 import edu.unc.ceccr.global.Constants;
 
 import java.text.DecimalFormat;
@@ -15,6 +17,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
+
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.hibernate.Session;
 
 public class RSquaredAndCCR{
 	
@@ -150,4 +155,108 @@ public class RSquaredAndCCR{
 		return cm;
 	}
 	
+	public static Predictor addRSquaredAndCCRToPredictor(Predictor selectedPredictor, Session session){
+		try{
+			ConfusionMatrix confusionMatrix;
+			String rSquared = "";
+			String rSquaredAverageAndStddev = "";
+			String ccrAverageAndStddev = "";
+			ArrayList<ExternalValidation> externalValValues = null;
+			ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
+			
+			//get external validation compounds of predictor
+			if(childPredictors.size() != 0){
+
+				//get external set for each
+				externalValValues = new ArrayList<ExternalValidation>();
+				SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
+				
+				for(int i = 0; i < childPredictors.size(); i++){
+					Predictor cp = childPredictors.get(i);
+					ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), session);
+					
+					//calculate r^2 / ccr for this child
+					if(childExtVals != null){
+						if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
+							Double childCcr = (RSquaredAndCCR.calculateConfusionMatrix(childExtVals)).getCcr();
+							childAccuracies.addValue(childCcr);
+						}
+						else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
+							ArrayList<Double> childResiduals = RSquaredAndCCR.calculateResiduals(childExtVals);
+							Double childRSquared = RSquaredAndCCR.calculateRSquared(childExtVals, childResiduals);
+							childAccuracies.addValue(childRSquared);
+							CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
+						}
+						externalValValues.addAll(childExtVals);
+					}
+				}
+
+				Double mean = childAccuracies.getMean();
+				Double stddev = childAccuracies.getStandardDeviation();
+				
+				if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
+					rSquaredAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
+					rSquaredAverageAndStddev += " ± ";
+					rSquaredAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
+					Utility.writeToDebug("rsquared avg and stddev: " + rSquaredAverageAndStddev);
+					selectedPredictor.setExternalPredictionAccuracyAvg(rSquaredAverageAndStddev);
+					//make main ext validation chart
+					CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
+				}
+				else if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
+					ccrAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
+					ccrAverageAndStddev += " ± ";
+					ccrAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
+					Utility.writeToDebug("ccr avg and stddev: " + ccrAverageAndStddev);
+					selectedPredictor.setExternalPredictionAccuracyAvg(ccrAverageAndStddev);
+				}
+			}
+			else{
+				externalValValues= (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(selectedPredictor.getId(), session);
+			}
+			
+			if(externalValValues == null || externalValValues.isEmpty()){
+				Utility.writeToDebug("ext validation set empty!");
+				externalValValues = new ArrayList<ExternalValidation>();
+				return selectedPredictor;
+			}
+			
+			
+			//calculate residuals and fix significant figures on output data
+			ArrayList<Double> residualsAsDouble = RSquaredAndCCR.calculateResiduals(externalValValues);
+			ArrayList<String> residuals = new ArrayList<String>();
+			if(residualsAsDouble.size() > 0){
+				for(Double residual: residualsAsDouble){
+					if(residual.isNaN()){
+						residuals.add("");
+					}
+					else{
+						//if at least one residual exists, there must have been a good model
+						residuals.add(Utility.roundSignificantFigures(""+residual, Constants.REPORTED_SIGNIFICANT_FIGURES));
+					}
+				}
+			}
+			else{
+				return selectedPredictor;
+			}
+			
+			if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
+				//if category model, create confusion matrix.
+				//round off the predicted values to nearest integer.
+				confusionMatrix = RSquaredAndCCR.calculateConfusionMatrix(externalValValues);
+				selectedPredictor.setExternalPredictionAccuracy(confusionMatrix.getCcrAsString());
+			}
+			else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS) && externalValValues.size() > 1){
+				//if continuous, calculate overall r^2 and... r0^2? or something? 
+				//just r^2 for now, more later.
+				Double rSquaredDouble = RSquaredAndCCR.calculateRSquared(externalValValues, residualsAsDouble);
+				rSquared = Utility.roundSignificantFigures("" + rSquaredDouble, Constants.REPORTED_SIGNIFICANT_FIGURES);
+				selectedPredictor.setExternalPredictionAccuracy(rSquared);
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		return selectedPredictor;
+	}
 }

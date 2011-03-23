@@ -62,13 +62,13 @@ public class DebugAction extends ActionSupport{
 	public static String addExternalAccuracies(){
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList<ExternalValidation> externalValValues = null;
-			ConfusionMatrix confusionMatrix;
-			String rSquared = "";
-			String rSquaredAverageAndStddev = "";
-			String ccrAverageAndStddev = "";
 			List<Predictor> predictors = PopulateDataObjects.populatePredictors("ALLOFTHEM", false, true, session);
 			for(Predictor selectedPredictor : predictors){
+				ConfusionMatrix confusionMatrix;
+				String rSquared = "";
+				String rSquaredAverageAndStddev = "";
+				String ccrAverageAndStddev = "";
+				ArrayList<ExternalValidation> externalValValues = null;
 				ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
 				
 				//get external validation compounds of predictor
