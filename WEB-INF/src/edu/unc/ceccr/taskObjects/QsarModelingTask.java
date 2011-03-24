@@ -959,8 +959,6 @@ public class QsarModelingTask extends WorkflowTask {
 			SvmWorkflow.cleanExcessFilesFromDir(filePath);
 			SvmWorkflow.cleanExcessFilesFromDir(filePath + "yRandom/");
 		}
-		//calculate outputs based on ext set predictions
-		predictor = RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor, session);
 		
 		//save updated predictor to database
 		predictor.setScalingType(scalingType);
@@ -1027,7 +1025,17 @@ public class QsarModelingTask extends WorkflowTask {
 		if(modelType.equals(Constants.RANDOMFOREST)){
 			RandomForestWorkflow.cleanUpExcessFiles(Constants.CECCR_USER_BASE_PATH+userName+"/"+jobName +"/");
 		}
-		
+
+		//calculate outputs based on ext set predictions and save
+		predictor = RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor, session);
+		try{
+			tx = session.beginTransaction();
+			session.saveOrUpdate(predictor);
+			tx.commit();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex, userName, jobName);
+		}
 
 		if(dataset.getSplitType().equals(Constants.NFOLD)){
 			//find parent predictor

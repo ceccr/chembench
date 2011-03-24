@@ -221,7 +221,6 @@ public class RSquaredAndCCR{
 				return selectedPredictor;
 			}
 			
-			
 			//calculate residuals and fix significant figures on output data
 			ArrayList<Double> residualsAsDouble = RSquaredAndCCR.calculateResiduals(externalValValues);
 			ArrayList<String> residuals = new ArrayList<String>();
