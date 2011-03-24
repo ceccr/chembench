@@ -88,8 +88,6 @@ public class PopulateDataObjects {
 			.add(Expression.eq("predictorId", predictorId)).setMaxResults(1).uniqueResult();
 		} catch (Exception ex) {
 			Utility.writeToDebug(ex);
-			if (tx != null)
-				tx.rollback();
 		} 
 				
 		if(predictionValue != null){
@@ -111,8 +109,6 @@ public class PopulateDataObjects {
 			.list();
 		} catch (Exception ex) {
 			Utility.writeToDebug(ex);
-			if (tx != null)
-				tx.rollback();
 		} 
 
 		for(PredictionValue pv : predictionValues){
@@ -140,8 +136,6 @@ public class PopulateDataObjects {
 				predictionValues.addAll(predictorPredictionValues);
 			} catch (Exception ex) {
 				Utility.writeToDebug(ex);
-				if (tx != null)
-					tx.rollback();
 			} 
 		}
 		
@@ -257,8 +251,6 @@ public class PopulateDataObjects {
 			}
 		} catch (Exception ex) {
 			Utility.writeToDebug(ex);
-			if (tx != null)
-				tx.rollback();
 		} 
 			
 		return dataSets;
@@ -298,8 +290,6 @@ public class PopulateDataObjects {
 			}
 		} catch (Exception ex) {
 			Utility.writeToDebug(ex);
-			if (tx != null)
-				tx.rollback();
 		}
 		Collections.reverse(dataSets);
 		return dataSets;
@@ -330,8 +320,6 @@ public class PopulateDataObjects {
 							.addOrder(Order.desc("name")).list();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		}
 
@@ -387,8 +375,6 @@ public class PopulateDataObjects {
 							.addOrder(Order.desc("name")).list();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 
@@ -444,8 +430,6 @@ public class PopulateDataObjects {
 							.addOrder(Order.desc("name")).list();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		}
 
@@ -506,8 +490,6 @@ public class PopulateDataObjects {
 				.list();
  			tx.commit();
  		} catch (Exception e) {
- 			if (tx != null)
- 				tx.rollback();
  			Utility.writeToDebug(e);
  		} 
  		predictors.addAll(privatePredictors);
@@ -528,8 +510,6 @@ public class PopulateDataObjects {
 					.list();
 	 			tx.commit();
 	 		} catch (Exception e) {
-	 			if (tx != null)
-	 				tx.rollback();
 	 			Utility.writeToDebug(e);
 	 		} 
 	 		predictors.addAll(ADMEPredictors);
@@ -551,8 +531,6 @@ public class PopulateDataObjects {
 					.list();
 	 			tx.commit();
 	 		} catch (Exception e) {
-	 			if (tx != null)
-	 				tx.rollback();
 	 			Utility.writeToDebug(e);
 	 		} 
 	 		predictors.addAll(ToxicityPredictors);
@@ -574,8 +552,6 @@ public class PopulateDataObjects {
 					.list();
 	 			tx.commit();
 	 		} catch (Exception e) {
-	 			if (tx != null)
-	 				tx.rollback();
 	 			Utility.writeToDebug(e);
 	 		} 
 	 		predictors.addAll(DrugDiscoveryPredictors);
@@ -609,9 +585,6 @@ public class PopulateDataObjects {
 					.addOrder(Order.desc("name")).list();
 				tx.commit();
 			} catch (Exception e) {
-				Utility.writeToDebug(e);
-				if (tx != null)
-					tx.rollback();
 				Utility.writeToDebug(e);
 			} 
 
@@ -647,8 +620,6 @@ public class PopulateDataObjects {
 
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 
@@ -666,8 +637,6 @@ public class PopulateDataObjects {
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		}
 		return dataset;
@@ -683,8 +652,6 @@ public class PopulateDataObjects {
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 		
@@ -722,8 +689,6 @@ public class PopulateDataObjects {
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 
@@ -753,8 +718,6 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			if (tx != null)
-				tx.rollback();
 		} 
 		
 		return user;
@@ -769,8 +732,6 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			if (tx != null)
-				tx.rollback();
 		} 
 		return users;
 	}
@@ -785,8 +746,6 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			if (tx != null){
-				tx.rollback();
 			}
 		} 
 		
@@ -803,8 +762,6 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			if (tx != null)
-				tx.rollback();
 		} 
 		
 		return jobStats;
@@ -821,8 +778,6 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			if (tx != null)
-				tx.rollback();
 		} 
 		
 		return groves;
@@ -839,8 +794,6 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			if (tx != null)
-				tx.rollback();
 		} 
 		
 		return trees;
@@ -856,8 +809,6 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			if (tx != null)
-				tx.rollback();
 		} 
 		
 		return models;
@@ -875,8 +826,6 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			if (tx != null)
-				tx.rollback();
 		} 
 		
 		return models;
@@ -896,8 +845,6 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			if (tx != null)
-				tx.rollback();
 		} 
 		
 		//if the model type is continuous,
@@ -921,8 +868,6 @@ public class PopulateDataObjects {
 					.add(Expression.eq("userName", user)).uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 
@@ -954,8 +899,6 @@ public class PopulateDataObjects {
 				childPredictors.add(childPredictor);
 			}
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 		return childPredictors;
@@ -975,8 +918,6 @@ public class PopulateDataObjects {
 
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 
@@ -999,9 +940,6 @@ public class PopulateDataObjects {
 						.list();
 				tx.commit();
 			} catch (Exception e) {
-				Utility.writeToDebug(e);
-				if (tx != null)
-					tx.rollback();
 				Utility.writeToDebug(e);
 			}
 			
@@ -1049,9 +987,6 @@ public class PopulateDataObjects {
 				tx.commit();
 			} catch (Exception e) {
 				Utility.writeToDebug(e);
-				if (tx != null)
-					tx.rollback();
-				Utility.writeToDebug(e);
 			} 
 			
 		} catch (Exception e) {
@@ -1071,8 +1006,6 @@ public class PopulateDataObjects {
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 		return task;
@@ -1091,9 +1024,6 @@ public class PopulateDataObjects {
 				softwareLinks = session.createCriteria(SoftwareLink.class).list();
 				tx.commit();
 			} catch (Exception e) {
-				Utility.writeToDebug(e);
-				if (tx != null)
-					tx.rollback();
 				Utility.writeToDebug(e);
 			} 
 			
@@ -1118,8 +1048,6 @@ public class PopulateDataObjects {
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 		return sl;
@@ -1136,8 +1064,6 @@ public class PopulateDataObjects {
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 		return params;
@@ -1153,8 +1079,6 @@ public class PopulateDataObjects {
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 		return params;
@@ -1170,8 +1094,6 @@ public class PopulateDataObjects {
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 		return params;
@@ -1187,8 +1109,6 @@ public class PopulateDataObjects {
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
-			if (tx != null)
-				tx.rollback();
 			Utility.writeToDebug(e);
 		} 
 		return params;
