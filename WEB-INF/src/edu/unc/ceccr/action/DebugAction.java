@@ -64,6 +64,7 @@ public class DebugAction extends ActionSupport{
 			List<Predictor> predictors = PopulateDataObjects.populatePredictors("ALLOFTHEM", false, true, session);
 		
 			for(Predictor selectedPredictor : predictors){
+				Utility.writeToStrutsDebug("Adding ext set prediction summary to predictor " + selectedPredictor.getId());
 				try{
 				ConfusionMatrix confusionMatrix;
 				String rSquared = "";
