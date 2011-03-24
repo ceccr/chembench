@@ -31,8 +31,13 @@ public class KnnModelingLsfWorkflow{
 		dir.mkdirs();
 		FileAndDirOperations.deleteDirContents(lsfPath);
 		
+		if(new File(lsfPath + "yRandom/").exists()){
+			FileAndDirOperations.deleteDirContents(lsfPath + "yRandom/");
+		}
+		
 		//copy all files from current modeling dir out there
 		FileAndDirOperations.copyDirContents(filePath, lsfPath, true);
+		
 		
 		//copy kNN executables to the temp directory and to the yRandom subdirectory
 		//also, make them executable
