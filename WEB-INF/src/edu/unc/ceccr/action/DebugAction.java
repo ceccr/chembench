@@ -167,8 +167,8 @@ public class DebugAction extends ActionSupport{
 			catch(Exception ex){
 				Utility.writeToDebug(ex);
 			}
-			session.close();
 		}
+		session.close();
 		return SUCCESS;
 	}
 	
