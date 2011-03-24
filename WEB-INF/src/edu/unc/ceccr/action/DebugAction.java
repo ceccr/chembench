@@ -60,10 +60,10 @@ public class DebugAction extends ActionSupport{
 	}
 	
 	public static String addExternalAccuracies(){
-		try{
 			Session session = HibernateUtil.getSession();
 			List<Predictor> predictors = PopulateDataObjects.populatePredictors("ALLOFTHEM", false, true, session);
 			for(Predictor selectedPredictor : predictors){
+				try{
 				ConfusionMatrix confusionMatrix;
 				String rSquared = "";
 				String rSquaredAverageAndStddev = "";
@@ -161,11 +161,12 @@ public class DebugAction extends ActionSupport{
 					selectedPredictor.setExternalPredictionAccuracy(rSquared);
 				}
 				savePredictor(selectedPredictor, session);
+				
+			}
+			catch(Exception ex){
+				Utility.writeToDebug(ex);
 			}
 			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
 		}
 		return SUCCESS;
 	}
