@@ -59,9 +59,10 @@ public class DebugAction extends ActionSupport{
 		}
 	}
 	
-	public static String addExternalAccuracies(){
+	public static String addExternalAccuracies() throws Exception{ 
 			Session session = HibernateUtil.getSession();
 			List<Predictor> predictors = PopulateDataObjects.populatePredictors("ALLOFTHEM", false, true, session);
+		
 			for(Predictor selectedPredictor : predictors){
 				try{
 				ConfusionMatrix confusionMatrix;
