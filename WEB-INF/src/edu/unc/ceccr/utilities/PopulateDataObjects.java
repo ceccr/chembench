@@ -744,10 +744,10 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			users = (List<User>) session.createCriteria(User.class).list();
 			tx.commit();
-		} catch (Exception e) {
-			Utility.writeToDebug(e);
-			}
 		} 
+		catch (Exception e) {
+			Utility.writeToDebug(e);
+		}
 		
 		return users;
 	}
