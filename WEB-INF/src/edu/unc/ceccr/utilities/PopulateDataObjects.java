@@ -871,8 +871,13 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(e);
 		} 
 
-		if(predictor.getDatasetId() != null && !predictor.getDatasetId().equals("") && getDataSetById(predictor.getDatasetId(), session) != null){
-			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getName());
+		try{
+			if(predictor.getDatasetId() != null && !predictor.getDatasetId().equals("") && getDataSetById(predictor.getDatasetId(), session) != null){
+				predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getName());
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
 		}
 		return predictor;
 	}
