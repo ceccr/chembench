@@ -871,7 +871,7 @@ public class PopulateDataObjects {
 			Utility.writeToDebug(e);
 		} 
 
-		if(predictor.getDatasetId() != null && getDataSetById(predictor.getDatasetId(), session) != null){
+		if(predictor.getDatasetId() != null && !predictor.getDatasetId().equals("") && getDataSetById(predictor.getDatasetId(), session) != null){
 			predictor.setDatasetDisplay(PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getName());
 		}
 		return predictor;
