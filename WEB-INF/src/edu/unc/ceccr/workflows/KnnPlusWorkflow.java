@@ -484,7 +484,7 @@ public class KnnPlusWorkflow{
 		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "knnPlusPrediction");
 	}
 
-public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String sdfile) throws Exception{
+public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String predictionXFile) throws Exception{
 		
         //read prediction output
 		String outputFile =  Constants.PRED_OUTPUT_FILE + "_vs_" + sdfile.toLowerCase() + ".renorm.preds"; //the ".preds" is added automatically by knn+
@@ -496,16 +496,9 @@ public static ArrayList<PredictionValue> readPredictionOutput(String workingDir,
 		in.readLine(); //junk
 		in.readLine(); //compound names are here, but we get those from the SDF or X instead (knn+ output is buggy on this line)
 		
+		Utility.writeToDebug("reading compound names from X file: " + workingDir + predictionXFile);
+		ArrayList<String> compoundNames = DatasetFileOperations.getXCompoundNames(workingDir + predictionXFile);
 		
-		ArrayList<String> compoundNames = null;
-		if(sdfile.toLowerCase().endsWith("sdf")){
-			Utility.writeToDebug("reading compound names from SDF: " + workingDir + sdfile);
-			compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
-		}
-		else{
-			Utility.writeToDebug("reading compound names from X file: " + workingDir + sdfile);
-			compoundNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
-		}
 		in.readLine(); //junk
 		in.readLine(); //junk
 		

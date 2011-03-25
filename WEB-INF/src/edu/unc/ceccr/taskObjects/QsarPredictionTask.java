@@ -431,7 +431,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 			else if(predictor.getModelMethod().equals(Constants.KNNGA) ||
 					predictor.getModelMethod().equals(Constants.KNNSA)){
-				predValues = KnnPlusWorkflow.readPredictionOutput(predictionDir, predictor.getId(), sdfile);
+				predValues = KnnPlusWorkflow.readPredictionOutput(predictionDir, predictor.getId(), sdfile + ".renorm.x");
 			}
 			else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
 				predValues = RandomForestWorkflow.readPredictionOutput(predictionDir, predictor.getId());
