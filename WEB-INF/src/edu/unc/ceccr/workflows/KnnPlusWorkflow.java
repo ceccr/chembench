@@ -487,7 +487,8 @@ public class KnnPlusWorkflow{
 public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String predictionXFile) throws Exception{
 		
         //read prediction output
-		String outputFile =  Constants.PRED_OUTPUT_FILE + "_vs_" + sdfile.toLowerCase() + ".renorm.preds"; //the ".preds" is added automatically by knn+
+		String predsFile = predictionXFile.substring(0, predictionXFile.lastIndexOf(".x")) + "preds"; //the ".preds" is added automatically by knn+
+		String outputFile =  Constants.PRED_OUTPUT_FILE + "_vs_" + predsFile.toLowerCase(); //knn+ makes everything lower case for fun
     	Utility.writeToDebug("Reading file: " + workingDir + outputFile);
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 		String inputString;
