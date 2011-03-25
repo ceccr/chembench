@@ -1034,6 +1034,7 @@ public class QsarModelingTask extends WorkflowTask {
 			tx.commit();
 		}
 		catch(Exception ex){
+			tx.rollback();
 			Utility.writeToDebug(ex, userName, jobName);
 		}
 

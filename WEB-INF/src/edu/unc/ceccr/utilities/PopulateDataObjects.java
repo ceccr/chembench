@@ -866,8 +866,10 @@ public class PopulateDataObjects {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			predictor = (Predictor) session.createCriteria(Predictor.class).add(Expression.eq("name", selectedPredictorName))
-					.add(Expression.eq("userName", user)).uniqueResult();
+			predictor = (Predictor) session.createCriteria(Predictor.class)
+					.add(Expression.eq("name", selectedPredictorName))
+					.add(Expression.eq("userName", user))
+					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
