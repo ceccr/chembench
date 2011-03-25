@@ -647,7 +647,7 @@ public class DatasetFileOperations {
 			while (src.hasNextLine()) {
 				line = src.nextLine();
 				String[] array = line.trim().split("\\s+");
-				if (array.length != 0 && i < numCompounds) { //this will skip any blank lines
+				if (array.length > 1 && i < numCompounds) { //this will skip any blank lines
 					//in an X file, first value is an index, second is compoundID
 					x_compounds.add(array[1].trim());
 					i++;
