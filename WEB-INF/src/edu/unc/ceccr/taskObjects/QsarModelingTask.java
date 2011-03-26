@@ -1027,7 +1027,7 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 
 		//calculate outputs based on ext set predictions and save
-		//RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor, session);
+		RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor, session);
 		try{
 			tx = session.beginTransaction();
 			session.saveOrUpdate(predictor);
@@ -1067,7 +1067,7 @@ public class QsarModelingTask extends WorkflowTask {
 			predictor.setParentId(parentPredictor.getId());
 			
 			//calc r^2 etc for parent as well
-			//RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor, session);
+			RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor, session);
 			
 			//save
 			try{
