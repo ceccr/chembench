@@ -1066,7 +1066,7 @@ public class QsarModelingTask extends WorkflowTask {
 			predictor.setParentId(parentPredictor.getId());
 			
 			//calc r^2 etc for parent as well
-			RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor, session);
+			//RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor, session);
 			
 			//save
 			try{
