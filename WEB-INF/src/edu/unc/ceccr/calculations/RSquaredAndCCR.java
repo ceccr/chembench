@@ -155,7 +155,7 @@ public class RSquaredAndCCR{
 		return cm;
 	}
 	
-	public static Predictor addRSquaredAndCCRToPredictor(Predictor selectedPredictor, Session session){
+	public static void addRSquaredAndCCRToPredictor(Predictor selectedPredictor, Session session){
 		try{
 			ConfusionMatrix confusionMatrix;
 			String rSquared = "";
@@ -218,7 +218,7 @@ public class RSquaredAndCCR{
 			if(externalValValues == null || externalValValues.isEmpty()){
 				Utility.writeToDebug("ext validation set empty!");
 				externalValValues = new ArrayList<ExternalValidation>();
-				return selectedPredictor;
+				return;
 			}
 			
 			//calculate residuals and fix significant figures on output data
@@ -236,7 +236,7 @@ public class RSquaredAndCCR{
 				}
 			}
 			else{
-				return selectedPredictor;
+				return;
 			}
 			
 			if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
@@ -256,6 +256,6 @@ public class RSquaredAndCCR{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		return selectedPredictor;
+		return;
 	}
 }

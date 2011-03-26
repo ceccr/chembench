@@ -1027,15 +1027,15 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 
 		//calculate outputs based on ext set predictions and save
-		predictor = RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor, session);
+		RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor, session);
 		try{
 			tx = session.beginTransaction();
 			session.saveOrUpdate(predictor);
 			tx.commit();
 		}
 		catch(Exception ex){
-			tx.rollback();
 			Utility.writeToDebug(ex, userName, jobName);
+			tx.rollback();
 		}
 
 		if(dataset.getSplitType().equals(Constants.NFOLD)){
@@ -1066,7 +1066,7 @@ public class QsarModelingTask extends WorkflowTask {
 			predictor.setParentId(parentPredictor.getId());
 			
 			//calc r^2 etc for parent as well
-			parentPredictor = RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor, session);
+			RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor, session);
 			
 			//save
 			try{
