@@ -912,13 +912,13 @@ public class PopulateDataObjects {
 			}
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
+			tx.rollback();
 		} 
 		return childPredictors;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static List getExternalValidationValues(Long predictorId, Session session)throws ClassNotFoundException, SQLException 
-	{
+	public static List getExternalValidationValues(Long predictorId, Session session){
 		
 		List<ExternalValidation> externalValValues = new ArrayList<ExternalValidation>();
 		Transaction tx = null;
@@ -931,6 +931,7 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
+			tx.rollback();
 		} 
 
 		return externalValValues;

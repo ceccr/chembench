@@ -139,7 +139,7 @@ public class LsfProcessingThread extends Thread {
 
 								j.setStatus(Constants.RUNNING);
 								CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-								
+								break;
 							}
 							catch(Exception ex){
 								//Job failed or threw an exception
@@ -170,8 +170,8 @@ public class LsfProcessingThread extends Thread {
 								message += "<br /><br />The full stack trace is below. Happy debugging!<br /><br />" +
 								exceptionAsString;
 								SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
+								break;
 							}
-							break;
 						}
 					}
 				}
