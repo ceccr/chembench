@@ -312,14 +312,16 @@ public class KnnPlusWorkflow{
 		int count = 0;
 		try{
 			//cat models_knn+.log | grep q2= | wc > knnSaProgress
-			BufferedReader br = new BufferedReader(new FileReader(workingDir + "models_knn+.log"));
-			String line = "";
-			while((line = br.readLine()) != null){
-				if(line.contains("q2=")){
-					count++;
+			if(new File(workingDir + "models_knn+.log").exists()){
+				BufferedReader br = new BufferedReader(new FileReader(workingDir + "models_knn+.log"));
+				String line = "";
+				while((line = br.readLine()) != null){
+					if(line.contains("q2=")){
+						count++;
+					}
 				}
+				br.close();
 			}
-			br.close();
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
@@ -346,15 +348,17 @@ public class KnnPlusWorkflow{
 		int count = 0;
 		Date start1 = new Date();
 		try{
-			//cat models_knn+.log | grep Current\ split | wc > knnGaProgress
-			BufferedReader br = new BufferedReader(new FileReader(workingDir + "models_knn+.log"));
-			String line = "";
-			while((line = br.readLine()) != null){
-				if(line.contains("Current split")){
-					count++;
+			if(new File(workingDir + "models_knn+.log").exists()){
+				//cat models_knn+.log | grep Current\ split | wc > knnGaProgress
+				BufferedReader br = new BufferedReader(new FileReader(workingDir + "models_knn+.log"));
+				String line = "";
+				while((line = br.readLine()) != null){
+					if(line.contains("Current split")){
+						count++;
+					}
 				}
+				br.close();
 			}
-			br.close();
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
