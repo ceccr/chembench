@@ -912,7 +912,8 @@ public class PopulateDataObjects {
 			}
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			tx.rollback();
+			if (tx != null)
+				tx.rollback();
 		} 
 		return childPredictors;
 	}
@@ -931,7 +932,8 @@ public class PopulateDataObjects {
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
-			tx.rollback();
+			if (tx != null)
+				tx.rollback();
 		} 
 
 		return externalValValues;

@@ -1013,7 +1013,6 @@ public class QsarModelingTask extends WorkflowTask {
 			for(ExternalValidation ev: externalSetPredictions){
 				session.saveOrUpdate(ev);
 			}
-			
 			tx.commit();
 		} catch (RuntimeException e) {
 			Utility.writeToDebug(e, userName, jobName);
@@ -1027,7 +1026,7 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 
 		//calculate outputs based on ext set predictions and save
-		RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor, session);
+		//RSquaredAndCCR.addRSquaredAndCCRToPredictor(predictor, session);
 		try{
 			tx = session.beginTransaction();
 			session.saveOrUpdate(predictor);
@@ -1035,7 +1034,8 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex, userName, jobName);
-			tx.rollback();
+			if (tx != null)
+				tx.rollback();
 		}
 
 		if(dataset.getSplitType().equals(Constants.NFOLD)){
