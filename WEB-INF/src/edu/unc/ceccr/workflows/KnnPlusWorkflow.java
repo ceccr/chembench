@@ -134,6 +134,25 @@ public class KnnPlusWorkflow{
 		//starts modeling process
 		//returns the LSF Job ID
 
+		//remove any existing output files from workingDir/ and workingDir/yRandom/
+		try{
+			if((new File(workingDir + "models_knn+.log")).exists()){
+				FileAndDirOperations.deleteFile(workingDir + "models_knn+.log");
+			}
+			if((new File(workingDir + "models.tbl")).exists()){
+				FileAndDirOperations.deleteFile(workingDir + "models.tbl");
+			}
+			if((new File(workingDir + "yRandom/" + "models_knn+.log")).exists()){
+				FileAndDirOperations.deleteFile(workingDir + "yRandom/");
+			}
+			if((new File(workingDir + "yRandom/" + "models.tbl")).exists()){
+				FileAndDirOperations.deleteFile(workingDir + "yRandom/" + "models.tbl");
+			}
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+			
 		String knnPlusCommand = getKnnPlusCommandFromParams(knnPlusParameters, actFileDataType, modelType);
 
 		//knn+ will automatically convert all input filenames to lowercase.

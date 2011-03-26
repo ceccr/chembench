@@ -49,20 +49,6 @@ public class KnnModelingLsfWorkflow{
 	}
 
 	public static String buildKnnCategoryModel(String userName, String jobName, String optimizationValue, String workingDir) throws Exception{
-			//remove any existing output files from workingDir/ and workingDir/yRandom/
-			if((new File(workingDir + "models_knn+.log")).exists()){
-				FileAndDirOperations.deleteFile(workingDir + "models_knn+.log");
-			}
-			if((new File(workingDir + "models.tbl")).exists()){
-				FileAndDirOperations.deleteFile(workingDir + "models.tbl");
-			}
-			if((new File(workingDir + "yRandom/" + "models_knn+.log")).exists()){
-				FileAndDirOperations.deleteFile(workingDir + "yRandom/");
-			}
-			if((new File(workingDir + "yRandom/" + "models.tbl")).exists()){
-				FileAndDirOperations.deleteFile(workingDir + "yRandom/" + "models.tbl");
-			}
-		
 			//write shell script containing LSF submission (both yRandom and regular kNN run in one exec)
 			
 			FileOutputStream fout;
