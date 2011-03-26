@@ -762,8 +762,6 @@ public class QsarModelingTask extends WorkflowTask {
 		step = Constants.READING;
 		//done with modeling. Read output files. 
 
-		Session session = HibernateUtil.getSession();
-		Transaction tx = null;
 		
 		//first, copy needed files back from LSF if needed
 		if(jobList.equals(Constants.LSF)){
@@ -788,6 +786,9 @@ public class QsarModelingTask extends WorkflowTask {
 		//the next step is to read in the results from the modeling program,
 		//getting data about the models and external prediction values so we can
 		//save it to the database.
+		Session session = HibernateUtil.getSession();
+		Transaction tx = null;
+		
 		ArrayList<KnnModel> knnModels = null;
 		ArrayList<KnnPlusModel> knnPlusModels = null;
 		ArrayList<SvmModel> svmModels = null;
