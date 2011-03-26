@@ -39,9 +39,73 @@ public class LsfProcessingThread extends Thread {
 		while(true){
 			try {
 				sleep(1500);
-				
-				//did any jobs just get added to this structure? If so, preprocess them and bsub them.
 				ArrayList<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
+				
+				//do not call checkLsfStatus more than once in this function
+				ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH); 
+				
+				//For every finished job, do postprocessing.
+				for(LsfJobStatus jobStatus : lsfJobStatuses){
+					if(jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")){
+						//check if this is a running job
+						for(Job j : readOnlyJobArray){
+							if(j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)){
+								Utility.writeToDebug("trying postprocessing on job: " + j.getJobName() + " from user: " + j.getUserName());
+								if(CentralDogma.getInstance().lsfJobs.startPostJob(j.getId())){
+									try{
+										Utility.writeToDebug("Postprocessing job: " + j.getJobName() + " from user: " + j.getUserName());
+										j.workflowTask.postProcess();
+										j.setTimeFinished(new Date());
+										
+										if(j.getEmailOnCompletion().equalsIgnoreCase("true")){
+											SendEmails.sendJobCompletedEmail(j);
+										}
+										
+										CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
+										
+										//finished; remove job object
+										CentralDogma.getInstance().lsfJobs.removeJob(j.getId());						
+										CentralDogma.getInstance().lsfJobs.deleteJobFromDB(j.getId());
+									}
+									catch(Exception ex){
+										//Job failed or threw an exception
+										Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
+										CentralDogma.getInstance().moveJobToErrorList(j.getId());
+										CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
+										Utility.writeToDebug(ex);
+										
+										//send an email to the site administrator
+										Session s = HibernateUtil.getSession();
+										User sadUser = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
+										s.close();
+
+										//prepare a nice HTML-formatted readable version of the exception
+										StringWriter sw = new StringWriter();
+										ex.printStackTrace(new PrintWriter(sw));
+										String exceptionAsString = sw.toString();
+										Utility.writeToDebug(exceptionAsString);
+										exceptionAsString = exceptionAsString.replaceAll("at edu", "<br />at edu");
+										Utility.writeToDebug(exceptionAsString);
+										
+										String message = "Heya, <br />" + j.getUserName() + "'s job \"" +
+										j.getJobName() + "\" failed. You might wanna look into that. Their email is " +
+										sadUser.getEmail() + " and their name is " + sadUser.getFirstName() + " " + 
+										sadUser.getLastName() + " in case you want to give them hope of a brighter tomorrow." 
+										+ "<br /><br />Here's the exception it threw: <br />" + ex.toString() + 
+										"<br /><br />Good luck!<br />--Chembench";
+										message += "<br /><br />The full stack trace is below. Happy debugging!<br /><br />" +
+										exceptionAsString;
+										SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
+									}
+								}
+							}
+						}
+					}
+				}
+				
+				//did a job just get added to this structure? If so, preprocess it and bsub it.
+				//This only preproc's one job at a time, because finishing off completed jobs is a higher priority
+				//than starting new ones.
 				for(Job j : readOnlyJobArray){
 					if(j.getStatus().equals(Constants.QUEUED)){
 						//try to grab the job and preproc it
@@ -54,7 +118,6 @@ public class LsfProcessingThread extends Thread {
 								if(j.getLsfJobId() != null && !j.getLsfJobId().isEmpty()){
 									//check if the job is already running in LSF; try to resume it if so.
 									//This will happen if the system was rebooted while the job was running.
-									ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
 									for(LsfJobStatus jobStatus : lsfJobStatuses){
 										if(jobStatus.jobid.equals(j.getLsfJobId()) &&
 											(jobStatus.stat.equals("PEND") || jobStatus.stat.equals("RUN") || jobStatus.stat.equals("SSUSP") )){
@@ -108,11 +171,10 @@ public class LsfProcessingThread extends Thread {
 								exceptionAsString;
 								SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
 							}
+							break;
 						}
 					}
 				}
-				
-				ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
 				
 				try{
 					//determine if any pending jobs in LSF have started; update the Job objects if so.
@@ -139,66 +201,7 @@ public class LsfProcessingThread extends Thread {
 					Utility.writeToDebug(ex);
 				}
 
-				//If there's a finished job that needs postprocessing, do so.
-				for(LsfJobStatus jobStatus : lsfJobStatuses){
-					if(jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")){
-						//check if this is a running job
-						for(Job j : readOnlyJobArray){
-							if(j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)){
-								Utility.writeToDebug("trying postprocessing on job: " + j.getJobName() + " from user: " + j.getUserName());
-								if(CentralDogma.getInstance().lsfJobs.startPostJob(j.getId())){
-									
-									try{
-										Utility.writeToDebug("Postprocessing job: " + j.getJobName() + " from user: " + j.getUserName());
-										j.workflowTask.postProcess();
-										j.setTimeFinished(new Date());
-										
-										if(j.getEmailOnCompletion().equalsIgnoreCase("true")){
-											SendEmails.sendJobCompletedEmail(j);
-										}
-										
-										CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-										
-										//finished; remove job object
-										CentralDogma.getInstance().lsfJobs.removeJob(j.getId());						
-										CentralDogma.getInstance().lsfJobs.deleteJobFromDB(j.getId());
-									}
-									catch(Exception ex){
-										//Job failed or threw an exception
-										Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
-										CentralDogma.getInstance().moveJobToErrorList(j.getId());
-										CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
-										Utility.writeToDebug(ex);
-										
-										//send an email to the site administrator
-										Session s = HibernateUtil.getSession();
-										User sadUser = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
-										s.close();
-
-										//prepare a nice HTML-formatted readable version of the exception
-										StringWriter sw = new StringWriter();
-										ex.printStackTrace(new PrintWriter(sw));
-										String exceptionAsString = sw.toString();
-										Utility.writeToDebug(exceptionAsString);
-										exceptionAsString = exceptionAsString.replaceAll("at edu", "<br />at edu");
-										Utility.writeToDebug(exceptionAsString);
-										
-										String message = "Heya, <br />" + j.getUserName() + "'s job \"" +
-										j.getJobName() + "\" failed. You might wanna look into that. Their email is " +
-										sadUser.getEmail() + " and their name is " + sadUser.getFirstName() + " " + 
-										sadUser.getLastName() + " in case you want to give them hope of a brighter tomorrow." 
-										+ "<br /><br />Here's the exception it threw: <br />" + ex.toString() + 
-										"<br /><br />Good luck!<br />--Chembench";
-										message += "<br /><br />The full stack trace is below. Happy debugging!<br /><br />" +
-										exceptionAsString;
-										SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
-										
-									}
-								}
-							}
-						}
-					}
-				}
+				
 				
 			} catch (Exception ex) {
 				Utility.writeToDebug(ex);

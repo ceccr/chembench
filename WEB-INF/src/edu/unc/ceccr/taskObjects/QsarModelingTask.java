@@ -1016,9 +1016,9 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			tx.commit();
 		} catch (RuntimeException e) {
+			Utility.writeToDebug(e, userName, jobName);
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e, userName, jobName);
 		}
 		
 		//clean up dirs
