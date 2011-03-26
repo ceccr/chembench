@@ -123,6 +123,7 @@ public class LsfProcessingThread extends Thread {
 											(jobStatus.stat.equals("PEND") || jobStatus.stat.equals("RUN") || jobStatus.stat.equals("SSUSP") )){
 											//job is already running, so don't do anything to it
 											jobIsRunningAlready = true;
+											Utility.writeToDebug("LSFQueue: " + j.getJobName() + " was already running happily!");
 											if(j.getJobType().equals(Constants.MODELING)){
 												j.workflowTask.setStep(Constants.MODELS);
 											}
@@ -131,6 +132,7 @@ public class LsfProcessingThread extends Thread {
 								}
 								if(! jobIsRunningAlready){
 									//job is not already running; needs to be started.
+									Utility.writeToDebug("LSFQueue: " + j.getJobName() + " was not running already; it is being preprocessed.");
 									j.setTimeStarted(new Date());
 									j.setStatus(Constants.PREPROC);
 									j.workflowTask.preProcess();
