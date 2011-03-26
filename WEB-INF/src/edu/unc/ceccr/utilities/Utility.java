@@ -653,6 +653,14 @@ public class Utility {
 		}
 	}
 	
+	public static String getDuration(Date start, Date end){
+		long time = end.getTime() - start.getTime(); //haha, a "long time"
+		float seconds = new Float(time) / 1000;
+		int minutes = Math.round(seconds) / 60;
+		int hours = minutes / 60;
+		return "" + hours + "h " + minutes + "m " + seconds + "s";
+	}
+	
 	public static String formatDate(Date d){
 		//do this when you have internets dammit
 		

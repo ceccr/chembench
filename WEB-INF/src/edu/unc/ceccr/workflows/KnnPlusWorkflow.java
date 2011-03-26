@@ -309,7 +309,22 @@ public class KnnPlusWorkflow{
 	
 	
 	public static int getSaModelingProgress(String workingDir){
-
+		int count = 0;
+		try{
+			//cat models_knn+.log | grep q2= | wc > knnSaProgress
+			BufferedReader br = new BufferedReader(new FileReader(workingDir + "models_knn+.log"));
+			String line = "";
+			while((line = br.readLine()) != null){
+				if(line.contains("q2=")){
+					count++;
+				}
+			}
+			br.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		
 		try{
 			String execstr = "checkKnnSaProgress.sh";
 			//Utility.writeToDebug("Running progress check in dir: " + workingDir);
@@ -328,7 +343,25 @@ public class KnnPlusWorkflow{
 	}
 
 	public static int getGaModelingProgress(String workingDir){
+		int count = 0;
+		Date start1 = new Date();
+		try{
+			//cat models_knn+.log | grep Current\ split | wc > knnGaProgress
+			BufferedReader br = new BufferedReader(new FileReader(workingDir + "models_knn+.log"));
+			String line = "";
+			while((line = br.readLine()) != null){
+				if(line.contains("Current split")){
+					count++;
+				}
+			}
+			br.close();
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+		Date end1 = new Date();
 
+		Date start2 = new Date();
 		try{
 			String execstr = "checkKnnGaProgress.sh";
 			//Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
@@ -343,6 +376,10 @@ public class KnnPlusWorkflow{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
+		Date end2 = new Date();
+
+		Utility.writeToDebug("new way: " + Utility.getDuration(start1, end1));
+		Utility.writeToDebug("old way: " + Utility.getDuration(start2, end2));
 		return -1;
 	}
 	
