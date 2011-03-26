@@ -322,31 +322,20 @@ public class KnnPlusWorkflow{
 				}
 				br.close();
 			}
+			else{
+				return -1;
+			}
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
+			return -1;
 		}
 		
-		try{
-			String execstr = "checkKnnSaProgress.sh";
-			//Utility.writeToDebug("Running progress check in dir: " + workingDir);
-			RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "checkKnnSaProgress");
-			//Utility.writeToDebug("Done running progress check in dir: " + workingDir);
-			
-			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnSaProgress").trim();
-			String[] tokens = file.split(" ");
-			//Utility.writeToDebug("models so far: " + tokens[0]);
-			//return Integer.parseInt(tokens[0]);
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		return -1;
+		return count;
 	}
 
 	public static int getGaModelingProgress(String workingDir){
 		int count = 0;
-		Date start1 = new Date();
 		try{
 			if(new File(workingDir + "models_knn+.log").exists()){
 				//cat models_knn+.log | grep Current\ split | wc > knnGaProgress
@@ -359,31 +348,15 @@ public class KnnPlusWorkflow{
 				}
 				br.close();
 			}
+			else{
+				return -1;
+			}
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
+			return -1;
 		}
-		Date end1 = new Date();
 
-		Date start2 = new Date();
-		try{
-			String execstr = "checkKnnGaProgress.sh";
-			//Utility.writeToDebug("Running external program: " + execstr + " in dir: " + workingDir);
-
-			RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "checkKnnGaProgress");
-			
-			String file = FileAndDirOperations.readFileIntoString(workingDir + "knnGaProgress").trim();
-			String[] tokens = file.split(" ");
-			//Utility.writeToDebug("models so far: " + tokens[0]);
-			//return Integer.parseInt(tokens[0]) - 1;
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		Date end2 = new Date();
-
-		Utility.writeToDebug("new way: " + Utility.getDuration(start1, end1));
-		Utility.writeToDebug("old way: " + Utility.getDuration(start2, end2));
 		return count;
 	}
 	
