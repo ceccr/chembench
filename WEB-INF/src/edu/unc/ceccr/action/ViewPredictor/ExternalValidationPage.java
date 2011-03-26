@@ -94,7 +94,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 						Double childRSquared = RSquaredAndCCR.calculateRSquared(childExtVals, childResiduals);
 						childAccuracies.addValue(childRSquared);
 						if(currentFoldNumber.equals("0")){
-							CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
+							//CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
 						}
 					}
 					if(currentFoldNumber.equals("0") || currentFoldNumber.equals(""+(i+1))){
@@ -114,7 +114,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				
 				//make main ext validation chart
 				if(currentFoldNumber.equals("0")){
-					CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
+					//CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
 				}
 			}
 			else if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
