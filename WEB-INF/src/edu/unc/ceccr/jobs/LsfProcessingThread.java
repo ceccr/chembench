@@ -50,7 +50,7 @@ public class LsfProcessingThread extends Thread {
 						//check if this is a running job
 						for(Job j : readOnlyJobArray){
 							if(j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)){
-								Utility.writeToDebug("trying postprocessing on job: " + j.getJobName() + " from user: " + j.getUserName());
+								Utility.writeToDebug("LSFQueue: trying postprocessing on job: " + j.getJobName() + " from user: " + j.getUserName());
 								if(CentralDogma.getInstance().lsfJobs.startPostJob(j.getId())){
 									try{
 										Utility.writeToDebug("Postprocessing job: " + j.getJobName() + " from user: " + j.getUserName());
