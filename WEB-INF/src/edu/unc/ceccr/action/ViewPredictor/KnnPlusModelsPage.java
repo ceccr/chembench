@@ -45,7 +45,7 @@ import edu.unc.ceccr.utilities.Utility;
 public class KnnPlusModelsPage extends ViewPredictorAction {
 
 	private List<KnnPlusModel> knnPlusModels;
-	private List<List<KnnPlusModel>> knnPlusModelSets;
+	private List<List<KnnPlusModel>> knnPlusModelSets = new ArrayList<List<KnnPlusModel>>();
 
 	String currentFoldNumber = "0";
 	

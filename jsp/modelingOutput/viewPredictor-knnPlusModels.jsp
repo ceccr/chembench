@@ -19,7 +19,7 @@
 			<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
 		</s:else>
 		<p class="StandardTextDarkGray">
-		<s:if test="knnPlusModelSets.size()==0">
+		<s:if test="knnPlusModelSets.size==0">
 			No models that passed your training and test set cutoffs were generated.<br/>
 		</s:if>
 		<s:elseif test="selectedPredictor.userName=='all-users'">
@@ -40,7 +40,7 @@
 	<!-- Table of Models -->
 		<p class="StandardTextDarkGray">
 		<s:iterator value="knnPlusModelSets" status="knnPlusModelSetsStatus">
-		<s:if test="knnPlusModelSets.size()>1">
+		<s:if test="knnPlusModelSets.size>1">
 			<p class="StandardTextDarkGray"><u>Fold <s:property value="#knnPlusModelSetsStatus.index+1" /></u></p>
 		</s:if>
 		

@@ -10,7 +10,7 @@
 		
 		<p class="StandardTextDarkGray">
 		
-		<s:if test="svmModelSets.size()==0">
+		<s:if test="svmModelSets.size==0">
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 				No models that passed your r<sup>2</sup> cutoff were generated.<br/>
 			</s:if>

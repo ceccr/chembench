@@ -45,7 +45,7 @@ import edu.unc.ceccr.utilities.Utility;
 public class SvmModelsPage extends ViewPredictorAction {
 
 	private List<SvmModel> svmModels;
-	private List<List<SvmModel>> svmModelSets;
+	private List<List<SvmModel>> svmModelSets = new ArrayList<List<SvmModel>>();
 
 	String currentFoldNumber = "0";
 	
