@@ -44,7 +44,7 @@
 			
 				<table width="100%" align="center" class="sortable" id="knnPlusModels">
 				<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-				<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus].size()!=0">
+				<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus.index].size!=0">
 				<tr>
 				<th class="TableRowText01narrow">k</th>
 				<th class="TableRowText01narrow">q<sup>2</sup> (Training)</th>
@@ -56,7 +56,7 @@
 				<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors</th>
 				</tr>
 				</s:if>
-				<s:iterator value="knnPlusModelSets[#knnPlusModelSetsStatus]" status="modelsStatus">
+				<s:iterator value="knnPlusModelSets[#knnPlusModelSetsStatus.index]" status="modelsStatus">
 					<tr>
 					<td class="TableRowText02narrow"><s:property value="kOrR" /></td>
 					<td class="TableRowText02narrow"><s:property value="Q2Training" /></td>
@@ -71,7 +71,7 @@
 				</s:if>
 				
 				<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
-				<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus].size()!=0">
+				<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus.index].size()!=0">
 				<tr>
 					<th class="TableRowText01">k</th>
 					<th class="TableRowText01">Training Accuracy</th>
@@ -82,7 +82,7 @@
 				</tr>
 				</s:if>
 				
-				<s:iterator value="knnPlusModelSets[#knnPlusModelSetsStatus]" status="modelsStatus">
+				<s:iterator value="knnPlusModelSets[#knnPlusModelSetsStatus.index]" status="modelsStatus">
 					<tr>
 						<td class="TableRowText02"><s:property value="kOrR" /></td>
 						<td class="TableRowText02"><s:property value="AccuracyTraining" /></td>
