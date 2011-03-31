@@ -802,7 +802,7 @@ public class PopulateDataObjects {
 	}
 	
 	public static List<KnnPlusModel> getKnnPlusModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
-		List<KnnPlusModel> models = null;
+		List<KnnPlusModel> models = new ArrayList<KnnPlusModel>();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -819,7 +819,7 @@ public class PopulateDataObjects {
 	public static List<SvmModel> getSvmModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
 		//Utility.writeToDebug("getting models for predictorId: " + predictorId);
 		
-		List<SvmModel> models = null;
+		List<SvmModel> models = new ArrayList<SvmModel>();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
