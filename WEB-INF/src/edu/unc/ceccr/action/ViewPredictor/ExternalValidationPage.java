@@ -82,8 +82,13 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				foldNums.add("" + (i+1));
 				Predictor cp = childPredictors.get(i);
 				ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), session);
+				
+				int numTotalModels = cp.getNumTotalModels();
+				if(cp.getModelMethod().equals(Constants.KNNGA)){
+					numTotalModels = PopulateDataObjects.getKnnPlusModelsByPredictorId(cp.getId(), session).size();
+				}
 				for(ExternalValidation ev: childExtVals){
-					ev.setNumTotalModels(cp.getNumTotalModels());
+					ev.setNumTotalModels(numTotalModels);
 				}
 				
 				
