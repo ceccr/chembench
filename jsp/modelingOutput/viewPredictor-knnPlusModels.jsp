@@ -34,77 +34,76 @@
 				<s:property value="selectedPredictor.numTestModels" /> models passed both training and test set criteria. 		
 			</s:else>
 			<br />
-		</s:else>	
-		</p>
 		
-	<!-- Table of Models -->
-		<p class="StandardTextDarkGray">
-		<s:iterator value="knnPlusModelSets" status="knnPlusModelSetsStatus">
-		<s:if test="knnPlusModelSets.size>1">
-			<p class="StandardTextDarkGray"><u>Fold <s:property value="#knnPlusModelSetsStatus.index+1" /></u></p>
-		</s:if>
-		
-			<table width="100%" align="center" class="sortable" id="knnPlusModels">
-			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-			<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus].size!=0">
-			<tr>
-			<th class="TableRowText01narrow">k</th>
-			<th class="TableRowText01narrow">q<sup>2</sup> (Training)</th>
-			<th class="TableRowText01narrow">r<sup>2</sup> (Test)</th>
-			<th class="TableRowText01narrow">R<sub>0</sub><sup>2</sup></th>
-			<th class="TableRowText01narrow">R<sub>01</sub><sup>2</sup></th>
-			<th class="TableRowText01narrow">k1</th>
-			<th class="TableRowText01narrow">k2</th>
-			<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors</th>
-			</tr>
-			</s:if>
-			<s:iterator value="knnPlusModelSets[#knnPlusModelSetsStatus]" status="modelsStatus">
-				<tr>
-				<td class="TableRowText02narrow"><s:property value="kOrR" /></td>
-				<td class="TableRowText02narrow"><s:property value="Q2Training" /></td>
-				<td class="TableRowText02narrow"><s:property value="R2Test" /></td>
-				<td class="TableRowText02narrow"><s:property value="R02Test" /></td>
-				<td class="TableRowText02narrow"><s:property value="R012Test" /></td>
-				<td class="TableRowText02narrow"><s:property value="k1Test" /></td>
-				<td class="TableRowText02narrow"><s:property value="k2Test" /></td>
-				<td class="TableRowText02narrow" colspan="2"><s:property value="dimsNames" /></td>
-				</tr> 
-			</s:iterator>
+			<!-- Table of Models -->
+			<p class="StandardTextDarkGray">
+			<s:iterator value="knnPlusModelSets" status="knnPlusModelSetsStatus">
+			<s:if test="knnPlusModelSets.size>1">
+				<p class="StandardTextDarkGray"><u>Fold <s:property value="#knnPlusModelSetsStatus.index+1" /> (<s:property value="knnPlusModelSets[#knnPlusModelSetsStatus].size" /> models)</u></p>
 			</s:if>
 			
-			<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
-			<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus].size!=0">
-			<tr>
-				<th class="TableRowText01">k</th>
-				<th class="TableRowText01">Training Accuracy</th>
-				<th class="TableRowText01">Normalized Training Accuracy</th>
-				<th class="TableRowText01">Test Accuracy</th>
-				<th class="TableRowText01">Normalized Test Accuracy</th>
+				<table width="100%" align="center" class="sortable" id="knnPlusModels">
+				<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
+				<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus].size!=0">
+				<tr>
+				<th class="TableRowText01narrow">k</th>
+				<th class="TableRowText01narrow">q<sup>2</sup> (Training)</th>
+				<th class="TableRowText01narrow">r<sup>2</sup> (Test)</th>
+				<th class="TableRowText01narrow">R<sub>0</sub><sup>2</sup></th>
+				<th class="TableRowText01narrow">R<sub>01</sub><sup>2</sup></th>
+				<th class="TableRowText01narrow">k1</th>
+				<th class="TableRowText01narrow">k2</th>
 				<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors</th>
-			</tr>
-			</s:if>
-			
-			<s:iterator value="knnPlusModelSets[#knnPlusModelSetsStatus]" status="modelsStatus">
-				<tr>
-					<td class="TableRowText02"><s:property value="kOrR" /></td>
-					<td class="TableRowText02"><s:property value="AccuracyTraining" /></td>
-					<td class="TableRowText02"><s:property value="CCRNormalizedAccuracyTraining" /></td>
-					<td class="TableRowText02"><s:property value="AccuracyTest" /></td>
-					<td class="TableRowText02"><s:property value="CCRNormalizedAccuracyTest" /></td>
-					<td class="TableRowText02" colspan="2"><s:property value="dimsNames" /></td>
 				</tr>
+				</s:if>
+				<s:iterator value="knnPlusModelSets[#knnPlusModelSetsStatus]" status="modelsStatus">
+					<tr>
+					<td class="TableRowText02narrow"><s:property value="kOrR" /></td>
+					<td class="TableRowText02narrow"><s:property value="Q2Training" /></td>
+					<td class="TableRowText02narrow"><s:property value="R2Test" /></td>
+					<td class="TableRowText02narrow"><s:property value="R02Test" /></td>
+					<td class="TableRowText02narrow"><s:property value="R012Test" /></td>
+					<td class="TableRowText02narrow"><s:property value="k1Test" /></td>
+					<td class="TableRowText02narrow"><s:property value="k2Test" /></td>
+					<td class="TableRowText02narrow" colspan="2"><s:property value="dimsNames" /></td>
+					</tr> 
+				</s:iterator>
+				</s:if>
+				
+				<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
+				<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus].size!=0">
+				<tr>
+					<th class="TableRowText01">k</th>
+					<th class="TableRowText01">Training Accuracy</th>
+					<th class="TableRowText01">Normalized Training Accuracy</th>
+					<th class="TableRowText01">Test Accuracy</th>
+					<th class="TableRowText01">Normalized Test Accuracy</th>
+					<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors</th>
+				</tr>
+				</s:if>
+				
+				<s:iterator value="knnPlusModelSets[#knnPlusModelSetsStatus]" status="modelsStatus">
+					<tr>
+						<td class="TableRowText02"><s:property value="kOrR" /></td>
+						<td class="TableRowText02"><s:property value="AccuracyTraining" /></td>
+						<td class="TableRowText02"><s:property value="CCRNormalizedAccuracyTraining" /></td>
+						<td class="TableRowText02"><s:property value="AccuracyTest" /></td>
+						<td class="TableRowText02"><s:property value="CCRNormalizedAccuracyTest" /></td>
+						<td class="TableRowText02" colspan="2"><s:property value="dimsNames" /></td>
+					</tr>
+				</s:iterator>
+			
+				</s:elseif>
+				</table>
 			</s:iterator>
+			
+		<!-- End Table of Models -->
 		
-			</s:elseif>
-			</table>
-		</s:iterator>
-		
-	<!-- End Table of Models -->
-	
-		<s:if test="mostFrequentDescriptors!=''">
-			<br />
-			<p class="StandardTextDarkGray"><b><u>Descriptor Frequencies</u></b></p>
-			<p class="StandardTextDarkGray"><s:property value="mostFrequentDescriptors" /></p>
-		</s:if>
+			<s:if test="mostFrequentDescriptors!=''">
+				<br />
+				<p class="StandardTextDarkGray"><b><u>Descriptor Frequencies</u></b></p>
+				<p class="StandardTextDarkGray"><s:property value="mostFrequentDescriptors" /></p>
+			</s:if>
+		</s:else>
 		
 <!-- End Models Page -->
