@@ -39,7 +39,7 @@
 			<p class="StandardTextDarkGray">
 			<s:iterator value="knnPlusModelSets" status="knnPlusModelSetsStatus">
 			<s:if test="knnPlusModelSets.size>1">
-				<p class="StandardTextDarkGray"><u>Fold <s:property value="#knnPlusModelSetsStatus.index+1" /> (<s:property value="knnPlusModelSets[#knnPlusModelSetsStatus].size()" /> models)</u></p>
+				<p class="StandardTextDarkGray"><u>Fold <s:property value="#knnPlusModelSetsStatus.index+1" /></u></p>
 			</s:if>
 			
 				<table width="100%" align="center" class="sortable" id="knnPlusModels">
