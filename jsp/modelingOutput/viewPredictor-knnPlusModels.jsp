@@ -39,12 +39,12 @@
 			<p class="StandardTextDarkGray">
 			<s:iterator value="knnPlusModelSets" status="knnPlusModelSetsStatus">
 			<s:if test="knnPlusModelSets.size>1">
-				<p class="StandardTextDarkGray"><u>Fold <s:property value="#knnPlusModelSetsStatus.index+1" /> (<s:property value="knnPlusModelSets[#knnPlusModelSetsStatus].size" /> models)</u></p>
+				<p class="StandardTextDarkGray"><u>Fold <s:property value="#knnPlusModelSetsStatus.index+1" /> (<s:property value="knnPlusModelSets[#knnPlusModelSetsStatus].size()" /> models)</u></p>
 			</s:if>
 			
 				<table width="100%" align="center" class="sortable" id="knnPlusModels">
 				<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-				<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus].size!=0">
+				<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus].size()!=0">
 				<tr>
 				<th class="TableRowText01narrow">k</th>
 				<th class="TableRowText01narrow">q<sup>2</sup> (Training)</th>
@@ -71,7 +71,7 @@
 				</s:if>
 				
 				<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
-				<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus].size!=0">
+				<s:if test="knnPlusModelSets[#knnPlusModelSetsStatus].size()!=0">
 				<tr>
 					<th class="TableRowText01">k</th>
 					<th class="TableRowText01">Training Accuracy</th>
