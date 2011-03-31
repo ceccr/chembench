@@ -30,10 +30,10 @@
 				<s:if test="isYRandomPage=='YES'">
 					<s:if test="selectedPredictor.modelMethod=='KNN-SA'">
 						Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
-						<s:property value="selectedPredictor.numYTestModels" /> passed both training and test set criteria. 	
+						<s:property value="selectedPredictor.numyTestModels" /> passed both training and test set criteria. 	
 					</s:if>
 					<s:else>
-						<s:property value="selectedPredictor.numYTestModels" /> models passed both training and test set criteria. 		
+						<s:property value="selectedPredictor.numyTestModels" /> models passed both training and test set criteria. 		
 					</s:else>
 				</s:if>
 				<s:else>
