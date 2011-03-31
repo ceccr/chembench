@@ -59,7 +59,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		}
 		else{
 			loadModelSets();
-		}	
+		}
 		
 		//get descriptor freqs from models
 		HashMap<String, Integer> descriptorFreqMap = new HashMap<String, Integer>();
@@ -127,7 +127,11 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 						knnPlusModels.add(m);
 					}
 				}
-				knnPlusModelSets.add(knnPlusModels);
+				if(knnPlusModels.size() > 0){ 
+					//potential bug: what if Fold 3 is size 0? 
+					//it will mistakenly print Fold 1, 2, 3, and 4 as nonempty and have fold 5 empty.
+					knnPlusModelSets.add(knnPlusModels);
+				}
 			}
 		}
 		catch(Exception ex){

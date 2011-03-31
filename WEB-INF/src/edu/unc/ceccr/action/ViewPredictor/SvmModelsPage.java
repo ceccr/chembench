@@ -82,7 +82,11 @@ public class SvmModelsPage extends ViewPredictorAction {
 						svmModels.add(m);
 					}
 				}
-				svmModelSets.add(svmModels);
+				if(svmModels.size() > 0){ 
+					//potential bug: what if Fold 3 is size 0? 
+					//it will mistakenly print Fold 1, 2, 3, and 4 and have fold 5 empty.
+					svmModelSets.add(svmModels);
+				}
 			}
 		}
 		catch(Exception ex){
