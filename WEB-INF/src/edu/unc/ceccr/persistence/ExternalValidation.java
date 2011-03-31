@@ -22,6 +22,9 @@ public class ExternalValidation implements java.io.Serializable {
 	private int numModels;
 	private String standDev;
 	
+
+	int numTotalModels = 0;
+	
 	public ExternalValidation(){};
 	
 	public ExternalValidation(int externalValId, Long predictorId, String compoundId, float predictedValue, float actualValue, int numModels,String standDev) {
@@ -100,7 +103,6 @@ public class ExternalValidation implements java.io.Serializable {
 	}
 
 	@Transient
-	int numTotalModels = 0;
 	public Integer getNumTotalModels() {
 		return numTotalModels;
 	}
