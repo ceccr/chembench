@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "cbench_externalValidation")
@@ -96,6 +97,15 @@ public class ExternalValidation implements java.io.Serializable {
 	}
 	public void setPredictorId(Long predictorId) {
 		this.predictorId = predictorId;
+	}
+
+	@Transient
+	int numTotalModels = 0;
+	public Integer getNumTotalModels() {
+		return numTotalModels;
+	}
+	public void setNumTotalModels(int i) {
+		this.numTotalModels = i;
 	}
 
 }

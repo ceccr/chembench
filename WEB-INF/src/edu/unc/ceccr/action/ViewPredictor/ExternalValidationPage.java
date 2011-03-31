@@ -82,6 +82,10 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				foldNums.add("" + (i+1));
 				Predictor cp = childPredictors.get(i);
 				ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), session);
+				for(ExternalValidation ev: childExtVals){
+					ev.setNumTotalModels(cp.getNumTotalModels());
+				}
+				
 				
 				//calculate r^2 / ccr for this child
 				if(childExtVals != null){

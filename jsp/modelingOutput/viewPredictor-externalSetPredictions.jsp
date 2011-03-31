@@ -120,7 +120,12 @@
 			<td class="TableRowText02">
 				<s:property value="residuals[#extValStatus.index]" />
 			</td>
-			<td class="TableRowText02"><s:property value="numModels" /> / <s:property value="selectedPredictor.numTestModels" /></td>
+			<s:if test="selectedPredictor.childType=='NFOLD'">
+				<td class="TableRowText02"><s:property value="numModels" /> / <s:property value="numTotalModels" /></td>
+			</s:if>
+			<s:else>
+				<td class="TableRowText02"><s:property value="numModels" /> / <s:property value="selectedPredictor.numTestModels" /></td>
+			</s:else>
 		</tr>
 	</s:iterator>
 	</s:else>

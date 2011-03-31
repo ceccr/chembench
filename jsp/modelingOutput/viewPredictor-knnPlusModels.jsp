@@ -26,13 +26,15 @@
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
-			<s:if test="selectedPredictor.modelMethod=='KNN-SA'">
-				Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
-				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 	
+			<s:if test="selectedPredictor.childType!='NFOLD'">
+				<s:if test="selectedPredictor.modelMethod=='KNN-SA'">
+					Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
+					<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 	
+				</s:if>
+				<s:else>
+					<s:property value="selectedPredictor.numTestModels" /> models passed both training and test set criteria. 		
+				</s:else>
 			</s:if>
-			<s:else>
-				<s:property value="selectedPredictor.numTestModels" /> models passed both training and test set criteria. 		
-			</s:else>
 			<br />
 		
 			<!-- Table of Models -->
