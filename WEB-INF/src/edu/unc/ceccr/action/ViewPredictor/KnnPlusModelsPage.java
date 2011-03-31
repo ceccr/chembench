@@ -160,12 +160,14 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		this.knnPlusModels = knnPlusModels;
 	}
 
+
 	public List<List<KnnPlusModel>> getKnnPlusModelSets() {
 		return knnPlusModelSets;
 	}
 	public void setKnnPlusModelSets(List<List<KnnPlusModel>> knnPlusModelSets) {
 		this.knnPlusModelSets = knnPlusModelSets;
 	}
+
 
 	public String getCurrentFoldNumber() {
 		return currentFoldNumber;

@@ -25,7 +25,7 @@
 		
 			<s:iterator value="svmModelSets" status="svmModelSetsStatus">
 				<s:if test="svmModelSets.size()>1">
-					<p class="StandardTextDarkGray"><u>Fold <s:property value="#svmModelSetsStatus.index+1" /></u></p>
+					<p class="StandardTextDarkGray"><u>Fold <s:property value="#svmModelSetsStatus.index+1" /> (<s:property value="svmModelSets[#svmModelSetsStatus].size()" /> models)</u></p>
 				</s:if>
 				<table width="100%" align="center" class="sortable" id="models">
 				<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
