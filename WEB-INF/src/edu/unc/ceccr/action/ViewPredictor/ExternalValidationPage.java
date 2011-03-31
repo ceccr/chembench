@@ -138,7 +138,14 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		}
 		
 		if(externalValValues == null || externalValValues.isEmpty()){
-			Utility.writeToDebug("ext validation set empty!");
+			String modelMethod = selectedPredictor.getModelMethod();
+			if((modelMethod.equals(Constants.KNNGA) || modelMethod.equals(Constants.KNNSA)) && 
+					PopulateDataObjects.getKnnPlusModelsByPredictorId(selectedPredictor.getId(), session).size() == 0){
+				hasGoodModels = Constants.NO;
+			}
+			else if(modelMethod.equals(Constants.SVM) && PopulateDataObjects.getSvmModelsByPredictorId(selectedPredictor.getId(), session).size() == 0){
+				hasGoodModels = Constants.NO;
+			}
 			externalValValues = new ArrayList<ExternalValidation>();
 			return result;
 		}
