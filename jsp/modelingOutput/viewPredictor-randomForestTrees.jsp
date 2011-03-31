@@ -8,7 +8,7 @@
 		<p class="StandardTextDarkGray"><b><u>Random Forests</u></b></p>
 
 		<p class="StandardTextDarkGray">
-		<s:if test="randomForestTrees.size==0">
+		<s:if test="randomForestTreeSets.size()==0">
 			No random forest trees were generated.<br/>
 		</s:if>
 		<s:elseif test="selectedPredictor.userName=='all-users'">
