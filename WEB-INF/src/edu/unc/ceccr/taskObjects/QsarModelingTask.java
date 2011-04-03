@@ -144,7 +144,7 @@ public class QsarModelingTask extends WorkflowTask {
 				}
 				else if(modelType.equals(Constants.KNNSA)){
 					//number of models produced so far can be gotten by:
-					//cat knn+.log | grep q2= | wc 
+					//cat knn+_models.log | grep q2= | wc 
 					//which is in a script "checkKnnSaProgress.sh" in mmlsoft/bin.
 
 					//It takes some time to do this check, and most users don't need
@@ -1035,8 +1035,7 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		catch(Exception ex){
 			Utility.writeToDebug(ex, userName, jobName);
-			if (tx != null)
-				tx.rollback();
+			tx.rollback();
 		}
 
 		if(dataset.getSplitType().equals(Constants.NFOLD)){
