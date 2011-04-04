@@ -307,6 +307,9 @@ public class DatasetFormActions extends ActionSupport{
 					else if(! actFileModDescFileName.endsWith(".act")){
 						actFileModDescFileName += ".act";
 					}
+					if(! xFileModDescFileName.endsWith(".x")){
+						xFileModDescFileName = xFileModDescFileName.substring(0, actFileModDescFileName.lastIndexOf(".")) + ".x";
+					}
 					
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
 							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
@@ -365,6 +368,10 @@ public class DatasetFormActions extends ActionSupport{
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
+					if(! xFilePredDescFileName.endsWith(".x")){
+						xFilePredDescFileName = xFilePredDescFileName.substring(0, xFilePredDescFileName.lastIndexOf(".")) + ".x";
+					}
+					
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
 							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType, externalCompoundList);
 				}

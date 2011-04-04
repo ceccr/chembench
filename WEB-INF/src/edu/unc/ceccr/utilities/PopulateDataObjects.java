@@ -800,7 +800,7 @@ public class PopulateDataObjects {
 		
 		return trees;
 	}
-	
+
 	public static List<KnnPlusModel> getKnnPlusModelsByPredictorId(Long predictorId, Session session)  throws ClassNotFoundException, SQLException {
 		List<KnnPlusModel> models = new ArrayList<KnnPlusModel>();
 		Transaction tx = null;
