@@ -32,7 +32,7 @@ public class ReadDescriptorsFileWorkflow{
 		
 		File file = new File(molconnZOutputFile);
 		if(!file.exists() || file.length() == 0){
-			throw new Exception("Could not read MolconnZ descriptors.\n");
+			throw new Exception("Could not read MolconnZ descriptors from file: " + molconnZOutputFile + "\n");
 		}
 		FileReader fin = new FileReader(file);
 

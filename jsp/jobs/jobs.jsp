@@ -287,8 +287,8 @@
 					<th class="TableRowText01">Name</th>
 					<th class="TableRowText01">Number of Compounds</th>
 					<th class="TableRowText01">Type</th>
-					<th class="TableRowText01">Public/Private</th>
 					<th class="TableRowText01">Date Created</th>
+					<th class="TableRowText01">Public/Private</th>
 					<th class="TableRowText01_unsortable">Download</th>
 					<th class="TableRowText01_unsortable">Delete</th>
 				</tr>
@@ -307,6 +307,7 @@
 					</td>
 					<td><s:property value="numCompound" /></td>
 					<td><s:property value="modelType" /></td>
+					<td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
 					<s:if test="userName=='all-users'">
 					<td>Public</td>
 					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="name" />&user=all-users">download</a></td>
@@ -314,7 +315,6 @@
 					</s:if>
 					<s:else>
 					<td>Private</td>
-					<td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
 					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="name" />&user=<s:property value="user.userName" />">download</a></td>
 					<td><a onclick="return confirmDelete('dataset')" href="deleteDataset?id=<s:property value="id" />#datasets">delete</a></td>
 					</s:else>
