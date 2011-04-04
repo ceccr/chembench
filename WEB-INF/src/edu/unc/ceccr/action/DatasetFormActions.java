@@ -308,7 +308,7 @@ public class DatasetFormActions extends ActionSupport{
 						actFileModDescFileName += ".act";
 					}
 					if(! xFileModDescFileName.endsWith(".x")){
-						xFileModDescFileName = xFileModDescFileName.substring(0, actFileModDescFileName.lastIndexOf(".")) + ".x";
+						xFileModDescFileName += ".x";
 					}
 					
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
@@ -369,7 +369,7 @@ public class DatasetFormActions extends ActionSupport{
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					if(! xFilePredDescFileName.endsWith(".x")){
-						xFilePredDescFileName = xFilePredDescFileName.substring(0, xFilePredDescFileName.lastIndexOf(".")) + ".x";
+						xFilePredDescFileName += ".x";
 					}
 					
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
