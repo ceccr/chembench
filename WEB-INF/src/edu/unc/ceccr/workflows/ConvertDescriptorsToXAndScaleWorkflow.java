@@ -81,7 +81,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 			if(descriptorGenerationType.equals(Constants.MOLCONNZ)){
 				//ReadDescriptorsFileWorkflow.convertMzToX(workingDir + descriptorsFile + "_" + filePartNumber, workingDir);
 				//ReadDescriptorsFileWorkflow.readXDescriptors(workingDir + descriptorsFile + "_" + ".mz.x", descriptorNames, descriptorValueMatrix);
-				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(workingDir + descriptorsFile + "_", descriptorNames, descriptorValueMatrix);
+				ReadDescriptorsFileWorkflow.readMolconnZDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
 			}
 			else if(descriptorGenerationType.equals(Constants.DRAGONH)){
 				ReadDescriptorsFileWorkflow.readDragonDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, 
