@@ -76,7 +76,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 			
 			//get external set for each
 			externalValValues = new ArrayList<ExternalValidation>();
-			SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
+			//SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
 			
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + (i+1));
@@ -132,11 +132,11 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				ccrAverageAndStddev += " ± ";
 				ccrAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
 				Utility.writeToDebug("ccr avg and stddev: " + ccrAverageAndStddev);
-			}
+			}*/
 		}
-		else{*/
+		else{
 			externalValValues= (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(selectedPredictor.getId(), session);
-		//}
+		}
 		
 		if(externalValValues == null || externalValValues.isEmpty()){
 			String modelMethod = selectedPredictor.getModelMethod();
