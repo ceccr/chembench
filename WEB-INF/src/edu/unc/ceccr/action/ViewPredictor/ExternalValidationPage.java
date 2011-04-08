@@ -112,7 +112,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 					}
 				}*/
 			}
-
+			/*
 			Double mean = childAccuracies.getMean();
 			Double stddev = childAccuracies.getStandardDeviation();
 			
@@ -134,9 +134,9 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				Utility.writeToDebug("ccr avg and stddev: " + ccrAverageAndStddev);
 			}
 		}
-		else{
+		else{*/
 			externalValValues= (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(selectedPredictor.getId(), session);
-		}
+		//}
 		
 		if(externalValValues == null || externalValValues.isEmpty()){
 			String modelMethod = selectedPredictor.getModelMethod();
