@@ -53,9 +53,13 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	String currentFoldNumber = "0";
 	
 	public String loadTreesPage() throws Exception{
+		
 		String result = SUCCESS;
 		getBasicParameters();
 		getModelsPageParameters();
+		
+
+		Utility.writeToDebug("loading trees page for predictor id" + predictorId);
 		
 		if(childPredictors.size() == 0){
 			loadTrees();
@@ -64,6 +68,10 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			loadTreeSets();
 		}
 		session.close();
+		
+
+		Utility.writeToDebug("Done loading trees page for predictor id" + predictorId);
+		
 		return result;
 	}
 	
