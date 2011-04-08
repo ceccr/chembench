@@ -102,7 +102,6 @@
 		<!-- End description -->
 	
 		<br />
-		
 		<!-- load tabs -->
 		<a name="tabs"></a> 
 		<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
@@ -119,7 +118,7 @@
 			<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
 				<s:param name="predictorId" value='selectedPredictor.id' />
 			</s:url>
-	    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" preload="true" showLoadingText="true">
+	    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" preload="false" showLoadingText="true">
 			</sx:div>
 				
 			<s:if test="selectedPredictor.modelMethod=='KNN'">
