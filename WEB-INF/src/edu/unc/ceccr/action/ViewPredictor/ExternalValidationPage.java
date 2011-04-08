@@ -91,6 +91,9 @@ public class ExternalValidationPage extends ViewPredictorAction {
 					ev.setNumTotalModels(numTotalModels);
 				}
 				
+				if(currentFoldNumber.equals("0") || currentFoldNumber.equals(""+(i+1))){
+					externalValValues.addAll(childExtVals);
+				}
 				
 				//calculate r^2 / ccr for this child
 				/*
@@ -107,9 +110,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 							CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
 						}
 					}
-					if(currentFoldNumber.equals("0") || currentFoldNumber.equals(""+(i+1))){
-						externalValValues.addAll(childExtVals);
-					}
+					
 				}*/
 			}
 			/*
