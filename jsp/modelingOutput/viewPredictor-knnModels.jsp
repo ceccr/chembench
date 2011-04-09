@@ -6,6 +6,7 @@
 <!-- Models -->	
 	<br />
 		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
+	<s:property value="dataset.splitType"/>
 	<s:if test="dataset.splitType=='NFOLD'">
 		<p class="StandardTextDarkGray">View Fold: 
 		<s:iterator value="foldNums" status="foldNumsStatus">
