@@ -46,10 +46,16 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 
 	private List<KnnPlusModel> knnPlusModels;
 	private List<List<KnnPlusModel>> knnPlusModelSets = new ArrayList<List<KnnPlusModel>>();
-
+	
+	ArrayList<String> foldNums = new ArrayList<String>();
 	String currentFoldNumber = "0";
 	
 	public String loadPage() throws Exception {
+		
+		for(int i = 0; i < childPredictors.size(); i++){
+			foldNums.add("" + i+1);
+		}
+		
 		getBasicParameters();
 		getModelsPageParameters();
 		String result = SUCCESS;
@@ -174,6 +180,13 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	}
 	public void setCurrentFoldNumber(String currentFoldNumber) {
 		this.currentFoldNumber = currentFoldNumber;
+	}
+
+	public ArrayList<String> getFoldNums() {
+		return foldNums;
+	}
+	public void setFoldNums(ArrayList<String> foldNums) {
+		this.foldNums = foldNums;
 	}
 
 }
