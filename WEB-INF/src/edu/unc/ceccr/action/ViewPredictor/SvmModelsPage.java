@@ -57,7 +57,12 @@ public class SvmModelsPage extends ViewPredictorAction {
 			loadModels();
 		}
 		else{
-			loadModelSets();
+			for(int i = 0; i < childPredictors.size(); i++){
+				foldNums.add("" + (i+1));
+				if(currentFoldNumber.equals("" + (i+1))){
+					loadCurrentFoldModels();
+				}
+			}
 		}	
 
 		return SUCCESS;
@@ -93,6 +98,10 @@ public class SvmModelsPage extends ViewPredictorAction {
 			return ERROR;
 		}
 		return result;
+	}
+
+	private String loadCurrentFoldModels(){
+		return "";
 	}
 	
 	private String loadModelSets() {
