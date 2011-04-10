@@ -51,18 +51,23 @@ public class ViewPredictorAction extends ActionSupport {
 	protected Predictor selectedPredictor;
 	protected DataSet dataset;
 	protected String predictorId;
-
+	
 	protected ActionContext context;
 	
 	protected Session session;
 	ArrayList<Predictor> childPredictors;
 	//End basic parameters
+
+	//used by ext validation and models pages. 
+	ArrayList<String> foldNums = new ArrayList<String>(); //usually contains 1 to n; ext validation also has "All". 
+	protected String currentFoldNumber = "0";
 	
 	//Params used by all the models pages
 	protected String isYRandomPage;
 	protected String orderBy;
 	protected String sortDirection;
 	protected String mostFrequentDescriptors = "";
+	
 	
 	public class descriptorFrequency{
 		private String descriptor;
@@ -119,6 +124,9 @@ public class ViewPredictorAction extends ActionSupport {
 		dataset = PopulateDataObjects.getDataSetById(datasetId, session);
 		
 		childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
+		if(context.getParameters().get("currentFoldNumber") != null){
+			currentFoldNumber = ((String[]) context.getParameters().get("currentFoldNumber"))[0];
+		}
 		
 		return SUCCESS;
 	}
@@ -197,5 +205,11 @@ public class ViewPredictorAction extends ActionSupport {
 		this.sortDirection = sortDirection;
 	}
 
+	public Integer getCurrentFoldNumber() {
+		return Integer.parseInt(currentFoldNumber);
+	}
+	public void setCurrentFoldNumber(String currentFoldNumber) {
+		this.currentFoldNumber = currentFoldNumber;
+	}
 	//End getters and setters
 }

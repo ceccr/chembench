@@ -50,15 +50,12 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	private List<List<RandomForestTree>> randomForestTreeSets = new ArrayList<List<RandomForestTree>>(); //for nfold
 	private List<List<RandomForestGrove>> randomForestGroveSets =  new ArrayList<List<RandomForestGrove>>(); //for nfold
 
-	String currentFoldNumber = "0";
-	
 	public String loadTreesPage() throws Exception{
 		
 		String result = SUCCESS;
 		getBasicParameters();
 		getModelsPageParameters();
 		
-
 		Utility.writeToDebug("loading trees page for predictor id" + predictorId);
 		
 		if(childPredictors.size() == 0){
@@ -187,11 +184,4 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		this.randomForestGroveSets = randomForestGroveSets;
 	}
 
-	public Integer getCurrentFoldNumber() {
-		return Integer.parseInt(currentFoldNumber);
-	}
-	public void setCurrentFoldNumber(String currentFoldNumber) {
-		this.currentFoldNumber = currentFoldNumber;
-	}
-	
 }

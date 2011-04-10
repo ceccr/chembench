@@ -5,7 +5,14 @@
 	
 <!-- Models -->	
 	<br />
-	
+		<s:if test="dataset.splitType=='NFOLD'">
+			<p class="StandardTextDarkGray">View Fold: 
+			<s:iterator value="foldNums" status="foldNumsStatus">
+			<s:if test="#foldNumsStatus.index==currentFoldNumber"><b><s:property/></b></s:if>
+			<s:else><a href="#tabs" onclick=replaceTabContents("modelsDiv","viewPredictorKnnModelsSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+			</s:iterator>/
+			</p>
+		</s:if>
 		<p class="StandardTextDarkGray">
 		<s:if test="models.size==0">
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">

@@ -48,7 +48,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	private List<List<KnnPlusModel>> knnPlusModelSets = new ArrayList<List<KnnPlusModel>>();
 	
 	ArrayList<String> foldNums = new ArrayList<String>();
-	String currentFoldNumber = "0";
 	
 	public String loadPage() throws Exception {
 		
@@ -61,12 +60,13 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 			loadModels();
 		}
 		else{
-
-			for(int i = 0; i < childPredictors.size(); i++){
-				foldNums.add("" + i+1);
-			}
 			
-			loadModelSets();
+			for(int i = 0; i < childPredictors.size(); i++){
+				foldNums.add("" + (i+1));
+				if(currentFoldNumber.equals("" + (i+1))){
+					loadCurrentFoldModels();
+				}
+			}
 		}
 		
 		//get descriptor freqs from models
@@ -149,6 +149,10 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		return result;
 	}
 	
+	private String loadCurrentFoldModels(){
+		
+	}
+	
 	private String loadModelSets() {
 		String result = SUCCESS;
 		for(Predictor childPredictor : childPredictors){
@@ -168,20 +172,11 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		this.knnPlusModels = knnPlusModels;
 	}
 
-
 	public List<List<KnnPlusModel>> getKnnPlusModelSets() {
 		return knnPlusModelSets;
 	}
 	public void setKnnPlusModelSets(List<List<KnnPlusModel>> knnPlusModelSets) {
 		this.knnPlusModelSets = knnPlusModelSets;
-	}
-
-
-	public String getCurrentFoldNumber() {
-		return currentFoldNumber;
-	}
-	public void setCurrentFoldNumber(String currentFoldNumber) {
-		this.currentFoldNumber = currentFoldNumber;
 	}
 
 	public ArrayList<String> getFoldNums() {

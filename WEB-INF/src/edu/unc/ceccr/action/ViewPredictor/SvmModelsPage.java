@@ -47,7 +47,6 @@ public class SvmModelsPage extends ViewPredictorAction {
 	private List<SvmModel> svmModels;
 	private List<List<SvmModel>> svmModelSets = new ArrayList<List<SvmModel>>();
 
-	String currentFoldNumber = "0";
 	
 	public String loadPage() throws Exception{
 		//get models associated with predictor
@@ -121,12 +120,4 @@ public class SvmModelsPage extends ViewPredictorAction {
 	public void setSvmModelSets(List<List<SvmModel>> svmModelSets) {
 		this.svmModelSets = svmModelSets;
 	}
-	
-	public Integer getCurrentFoldNumber() {
-		return Integer.parseInt(currentFoldNumber);
-	}
-	public void setCurrentFoldNumber(String currentFoldNumber) {
-		this.currentFoldNumber = currentFoldNumber;
-	}
-	
 }

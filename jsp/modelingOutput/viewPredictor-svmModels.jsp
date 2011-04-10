@@ -7,7 +7,14 @@
 
 	<br />
 		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
-		
+		<s:if test="dataset.splitType=='NFOLD'">
+			<p class="StandardTextDarkGray">View Fold: 
+			<s:iterator value="foldNums" status="foldNumsStatus">
+			<s:if test="#foldNumsStatus.index==currentFoldNumber"><b><s:property/></b></s:if>
+			<s:else><a href="#tabs" onclick=replaceTabContents("modelsDiv","viewPredictorSvmModelsSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index+1}"/>")><s:property /></a></s:else>
+			</s:iterator>/
+			</p>
+		</s:if>
 		<p class="StandardTextDarkGray">
 		
 		<s:if test="svmModelSets.size==0">

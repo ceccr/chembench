@@ -59,8 +59,6 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	String ccrAverageAndStddev = "";
 	
 	ArrayList<String> foldNums = new ArrayList<String>();
-	String currentFoldNumber = "0";
-	
 	
 	public String load() throws Exception {
 		getBasicParameters();
@@ -69,11 +67,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		//get external validation compounds of predictor
 		if(childPredictors.size() != 0){
 
-			if(context.getParameters().get("currentFoldNumber") != null){
-				currentFoldNumber = ((String[]) context.getParameters().get("currentFoldNumber"))[0];
-			}
 			foldNums.add("All");
-			
 			//get external set for each
 			externalValValues = new ArrayList<ExternalValidation>();
 			//SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
@@ -247,12 +241,5 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		this.foldNums = foldNums;
 	}
 
-	public Integer getCurrentFoldNumber() {
-		return Integer.parseInt(currentFoldNumber);
-	}
-	public void setCurrentFoldNumber(String currentFoldNumber) {
-		this.currentFoldNumber = currentFoldNumber;
-	}
-	
 	//end getters and setters
 }
