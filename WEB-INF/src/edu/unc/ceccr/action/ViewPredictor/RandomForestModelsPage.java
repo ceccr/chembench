@@ -173,6 +173,20 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		predictorId = parentPredictorId;
 		return result;
 	}
+
+	public List<RandomForestGrove> getRandomForestGroves() {
+		return randomForestGroves;
+	}
+	public void setRandomForestGroves(List<RandomForestGrove> randomForestGroves) {
+		this.randomForestGroves = randomForestGroves;
+	}
+
+	public List<RandomForestTree> getRandomForestTrees() {
+		return randomForestTrees;
+	}
+	public void setRandomForestTrees(List<RandomForestTree> randomForestTrees) {
+		this.randomForestTrees = randomForestTrees;
+	}
 	
 
 }
