@@ -150,7 +150,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	}
 	
 	private String loadCurrentFoldModels(){
-		
+		return "";
 	}
 	
 	private String loadModelSets() {
