@@ -62,7 +62,12 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			loadTrees();
 		}
 		else{
-			loadTreeSets();
+			for(int i = 0; i < childPredictors.size(); i++){
+				foldNums.add("" + (i+1));
+				if(currentFoldNumber.equals("" + (i+1))){
+					loadCurrentFoldTrees();
+				}
+			}
 		}
 		session.close();
 		
@@ -136,6 +141,10 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		}
 		randomForestTreeSets.add(randomForestTrees);
 		return result;
+	}
+
+	private String loadCurrentFoldTrees(){
+		return "";
 	}
 	
 	private String loadTreeSets() throws Exception{
