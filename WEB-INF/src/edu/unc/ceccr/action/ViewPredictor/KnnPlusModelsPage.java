@@ -52,9 +52,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	
 	public String loadPage() throws Exception {
 		
-		for(int i = 0; i < childPredictors.size(); i++){
-			foldNums.add("" + i+1);
-		}
 		
 		getBasicParameters();
 		getModelsPageParameters();
@@ -64,6 +61,11 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 			loadModels();
 		}
 		else{
+
+			for(int i = 0; i < childPredictors.size(); i++){
+				foldNums.add("" + i+1);
+			}
+			
 			loadModelSets();
 		}
 		
