@@ -47,9 +47,6 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	private List<RandomForestGrove> randomForestGroves;
 	private List<RandomForestTree> randomForestTrees;
 
-	private List<List<RandomForestTree>> randomForestTreeSets = new ArrayList<List<RandomForestTree>>(); //for nfold
-	private List<List<RandomForestGrove>> randomForestGroveSets =  new ArrayList<List<RandomForestGrove>>(); //for nfold
-
 	public String loadTreesPage() throws Exception{
 		
 		String result = SUCCESS;
@@ -65,7 +62,10 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + (i+1));
 				if(currentFoldNumber.equals("" + (i+1))){
-					loadCurrentFoldTrees();
+					String parentId = predictorId;
+					predictorId = "" + childPredictors.get(i).getId();
+					loadTrees();
+					predictorId = parentId; 
 				}
 			}
 		}
@@ -108,7 +108,6 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 				}
 			}
 		}
-		randomForestGroveSets.add(randomForestGroves);
 		return result;
 	}
 	
@@ -139,12 +138,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			}
 			rfTree.setTreeFileName(splitNumber);
 		}
-		randomForestTreeSets.add(randomForestTrees);
 		return result;
-	}
-
-	private String loadCurrentFoldTrees(){
-		return "";
 	}
 	
 	private String loadTreeSets() throws Exception{
@@ -177,20 +171,5 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		return result;
 	}
 	
-	public List<List<RandomForestTree>> getRandomForestTreeSets() {
-		return randomForestTreeSets;
-	}
-	public void setRandomForestTreeSets(
-			List<List<RandomForestTree>> randomForestTreeSets) {
-		this.randomForestTreeSets = randomForestTreeSets;
-	}
-
-	public List<List<RandomForestGrove>> getRandomForestGroveSets() {
-		return randomForestGroveSets;
-	}
-	public void setRandomForestGroveSets(
-			List<List<RandomForestGrove>> randomForestGroveSets) {
-		this.randomForestGroveSets = randomForestGroveSets;
-	}
 
 }

@@ -45,7 +45,6 @@ import edu.unc.ceccr.utilities.Utility;
 public class KnnPlusModelsPage extends ViewPredictorAction {
 
 	private List<KnnPlusModel> knnPlusModels;
-	private List<List<KnnPlusModel>> knnPlusModelSets = new ArrayList<List<KnnPlusModel>>();
 	
 	ArrayList<String> foldNums = new ArrayList<String>();
 	
@@ -63,7 +62,10 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + (i+1));
 				if(currentFoldNumber.equals("" + (i+1))){
-					loadCurrentFoldModels();
+					String parentId = predictorId;
+					predictorId = "" + childPredictors.get(i).getId();
+					loadModels();
+					predictorId = parentId; 
 				}
 			}
 		}
@@ -125,7 +127,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 
 	private String loadModels() {
 		String result = SUCCESS;
-
 		try{
 			knnPlusModels = new ArrayList<KnnPlusModel>();
 			List<KnnPlusModel> temp = PopulateDataObjects.getKnnPlusModelsByPredictorId(Long.parseLong(predictorId), session);
@@ -141,11 +142,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 						knnPlusModels.add(m);
 					}
 				}
-				if(knnPlusModels.size() > 0){ 
-					//potential bug: what if Fold 3 is size 0? 
-					//it will mistakenly print Fold 1, 2, 3, and 4 as nonempty and have fold 5 empty.
-					knnPlusModelSets.add(knnPlusModels);
-				}
 			}
 		}
 		catch(Exception ex){
@@ -153,10 +149,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 			return ERROR;
 		}
 		return result;
-	}
-	
-	private String loadCurrentFoldModels(){
-		return "";
 	}
 	
 	private String loadModelSets() {
@@ -176,13 +168,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	}
 	public void setKnnPlusModels(List<KnnPlusModel> knnPlusModels) {
 		this.knnPlusModels = knnPlusModels;
-	}
-
-	public List<List<KnnPlusModel>> getKnnPlusModelSets() {
-		return knnPlusModelSets;
-	}
-	public void setKnnPlusModelSets(List<List<KnnPlusModel>> knnPlusModelSets) {
-		this.knnPlusModelSets = knnPlusModelSets;
 	}
 
 	public ArrayList<String> getFoldNums() {

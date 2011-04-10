@@ -45,8 +45,6 @@ import edu.unc.ceccr.utilities.Utility;
 public class SvmModelsPage extends ViewPredictorAction {
 
 	private List<SvmModel> svmModels;
-	private List<List<SvmModel>> svmModelSets = new ArrayList<List<SvmModel>>();
-
 	
 	public String loadPage() throws Exception{
 		//get models associated with predictor
@@ -60,11 +58,13 @@ public class SvmModelsPage extends ViewPredictorAction {
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + (i+1));
 				if(currentFoldNumber.equals("" + (i+1))){
-					loadCurrentFoldModels();
+					String parentId = predictorId;
+					predictorId = "" + childPredictors.get(i).getId();
+					loadModels();
+					predictorId = parentId; 
 				}
 			}
 		}	
-
 		return SUCCESS;
 	}
 	
@@ -86,11 +86,6 @@ public class SvmModelsPage extends ViewPredictorAction {
 						svmModels.add(m);
 					}
 				}
-				if(svmModels.size() > 0){ 
-					//potential bug: what if Fold 3 is size 0? 
-					//it will mistakenly print Fold 1, 2, 3, and 4 and have fold 5 empty.
-					svmModelSets.add(svmModels);
-				}
 			}
 		}
 		catch(Exception ex){
@@ -98,10 +93,6 @@ public class SvmModelsPage extends ViewPredictorAction {
 			return ERROR;
 		}
 		return result;
-	}
-
-	private String loadCurrentFoldModels(){
-		return "";
 	}
 	
 	private String loadModelSets() {
@@ -123,10 +114,4 @@ public class SvmModelsPage extends ViewPredictorAction {
 		this.svmModels = svmModels;
 	}
 	
-	public List<List<SvmModel>> getSvmModelSets() {
-		return svmModelSets;
-	}
-	public void setSvmModelSets(List<List<SvmModel>> svmModelSets) {
-		this.svmModelSets = svmModelSets;
-	}
 }
