@@ -58,7 +58,7 @@ public class SvmModelsPage extends ViewPredictorAction {
 			currentFoldNumber = "" + (Integer.parseInt(currentFoldNumber) + 1);
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + (i+1));
-				if(currentFoldNumber.equals("" + (i))){
+				if(currentFoldNumber.equals("" + (i+1))){
 					String parentId = predictorId;
 					predictorId = "" + childPredictors.get(i).getId();
 					loadModels();
