@@ -48,7 +48,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	
 	public String loadPage() throws Exception {
 		
-		Utility.writeToDebug("begin loading knn+ models page");
 		getBasicParameters();
 		getModelsPageParameters();
 		String result = SUCCESS;
@@ -88,8 +87,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 			}
 		}
 		
-		Utility.writeToDebug("getting descriptor frequencies");
-		
 		ArrayList<descriptorFrequency> descriptorFrequencies = new ArrayList<descriptorFrequency>();
 		ArrayList<String> mapKeys = new ArrayList(descriptorFreqMap.keySet());
 		for(String k: mapKeys){
@@ -98,8 +95,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 			df.setNumOccs(descriptorFreqMap.get(k));
 			descriptorFrequencies.add(df);
 		}
-
-		Utility.writeToDebug("getting top 5 descriptors");
 		
 		Collections.sort(descriptorFrequencies, new Comparator<descriptorFrequency>() {
 		    public int compare(descriptorFrequency df1, descriptorFrequency df2) {
@@ -118,8 +113,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 			mostFrequentDescriptors += ".";
 		}
 		
-
-		Utility.writeToDebug("end loading knn+ models page");
 		return result;
 	}
 	

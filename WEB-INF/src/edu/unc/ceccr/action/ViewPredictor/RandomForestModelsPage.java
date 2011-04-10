@@ -48,12 +48,11 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	private List<RandomForestTree> randomForestTrees;
 
 	public String loadTreesPage() throws Exception{
-		
 		String result = SUCCESS;
 		getBasicParameters();
 		getModelsPageParameters();
 		
-		Utility.writeToDebug("loading trees page for predictor id" + predictorId);
+		Utility.writeToDebug("rf foldnum: " + currentFoldNumber);
 		
 		if(childPredictors.size() == 0){
 			loadTrees();
