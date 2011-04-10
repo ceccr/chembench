@@ -61,7 +61,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		else{
 			currentFoldNumber = "" + (Integer.parseInt(currentFoldNumber) + 1);
 			for(int i = 0; i < childPredictors.size(); i++){
-				foldNums.add("" + (i));
+				foldNums.add("" + (i+1));
 				if(currentFoldNumber.equals("" + (i))){
 					String parentId = predictorId;
 					predictorId = "" + childPredictors.get(i).getId();
