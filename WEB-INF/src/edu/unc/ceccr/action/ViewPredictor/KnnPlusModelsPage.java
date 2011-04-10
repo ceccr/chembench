@@ -57,6 +57,9 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 			loadModels();
 		}
 		else{
+			if(currentFoldNumber.equals("0")){
+				currentFoldNumber = "1";
+			}
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + (i+1));
 				if(currentFoldNumber.equals("" + i)){
