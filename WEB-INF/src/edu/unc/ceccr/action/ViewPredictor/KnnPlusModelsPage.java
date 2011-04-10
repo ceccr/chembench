@@ -46,8 +46,6 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 
 	private List<KnnPlusModel> knnPlusModels;
 	
-	ArrayList<String> foldNums = new ArrayList<String>();
-	
 	public String loadPage() throws Exception {
 		
 		Utility.writeToDebug("begin loading knn+ models page");
@@ -169,6 +167,5 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 	public void setKnnPlusModels(List<KnnPlusModel> knnPlusModels) {
 		this.knnPlusModels = knnPlusModels;
 	}
-
 
 }
