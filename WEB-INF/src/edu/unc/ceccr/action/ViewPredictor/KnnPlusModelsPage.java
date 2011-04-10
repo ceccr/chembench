@@ -61,7 +61,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		else{
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + (i+1));
-				if(currentFoldNumber.equals("" + (i+1))){
+				if(currentFoldNumber.equals("" + i)){
 					String parentId = predictorId;
 					predictorId = "" + childPredictors.get(i).getId();
 					loadModels();
@@ -170,11 +170,5 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		this.knnPlusModels = knnPlusModels;
 	}
 
-	public ArrayList<String> getFoldNums() {
-		return foldNums;
-	}
-	public void setFoldNums(ArrayList<String> foldNums) {
-		this.foldNums = foldNums;
-	}
 
 }

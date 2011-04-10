@@ -234,12 +234,5 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		this.ccrAverageAndStddev = ccrAverageAndStddev;
 	}
 
-	public ArrayList<String> getFoldNums() {
-		return foldNums;
-	}
-	public void setFoldNums(ArrayList<String> foldNums) {
-		this.foldNums = foldNums;
-	}
-
 	//end getters and setters
 }

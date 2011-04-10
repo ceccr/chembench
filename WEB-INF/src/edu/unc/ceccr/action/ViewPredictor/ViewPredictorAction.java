@@ -68,7 +68,6 @@ public class ViewPredictorAction extends ActionSupport {
 	protected String sortDirection;
 	protected String mostFrequentDescriptors = "";
 	
-	
 	public class descriptorFrequency{
 		private String descriptor;
 		private int numOccs;
@@ -211,5 +210,13 @@ public class ViewPredictorAction extends ActionSupport {
 	public void setCurrentFoldNumber(String currentFoldNumber) {
 		this.currentFoldNumber = currentFoldNumber;
 	}
+	
+	public ArrayList<String> getFoldNums() {
+		return foldNums;
+	}
+	public void setFoldNums(ArrayList<String> foldNums) {
+		this.foldNums = foldNums;
+	}
 	//End getters and setters
+
 }
