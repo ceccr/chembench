@@ -113,6 +113,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	
 	private String loadTrees() throws Exception {
 		String result = SUCCESS;
+		Utility.writeToDebug("getting trees for " + predictorId);
 		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
 		
 		randomForestTrees = new ArrayList<RandomForestTree>();
