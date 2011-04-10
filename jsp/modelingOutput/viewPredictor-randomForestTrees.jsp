@@ -16,7 +16,7 @@
 		</s:if>
 		
 		<p class="StandardTextDarkGray">
-		<s:if test="randomForestTreeSets.size()==0">
+		<s:if test="randomForestTrees.size()==0">
 			No random forest trees were generated.<br/>
 		</s:if>
 		<s:elseif test="selectedPredictor.userName=='all-users'">
@@ -42,50 +42,42 @@
 		</p>
 		
 	<!-- Table of Trees -->
-	<s:iterator value="randomForestTreeSets" status="randomForestTreeSetsStatus">
-		<s:if test="randomForestTreeSets.size()>1">
-			<p class="StandardTextDarkGray"><u>Fold <s:property value="#randomForestTreeSetsStatus.index+1" /></u></p>
+		<table width="100%" align="center" class="sortable" id="randomForestTreesTable">
+		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
+		<tr>
+		<th class="TableRowText01narrow">Split Number</th>
+		<th class="TableRowText01narrow">R<sup>2</sup></th>
+		<th class="TableRowText01narrow">MSE</sup></th>
+		<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors Chosen</th>
+		</tr>
+		
+		<s:iterator value="randomForestTrees" status="treesStatus">
+			<tr>
+			<td class="TableRowText02narrow"><s:property value="treeFileName" /></td>
+			<td class="TableRowText02narrow"><s:property value="r2" /></td>
+			<td class="TableRowText02narrow"><s:property value="mse" /></td>
+			<td class="TableRowText02narrow" colspan="2"><s:property value="descriptorsUsed" /></td>
+			</tr> 
+		</s:iterator>
 		</s:if>
 		
-			<table width="100%" align="center" class="sortable" id="randomForestTreesTable">
-			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
+		<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 			<tr>
 			<th class="TableRowText01narrow">Split Number</th>
-			<th class="TableRowText01narrow">R<sup>2</sup></th>
-			<th class="TableRowText01narrow">MSE</sup></th>
-			<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors Chosen</th>
+			<th class="TableRowText01narrow_unsortable" colspan="3">Descriptors Chosen</th>
 			</tr>
-			
-			<s:iterator value="randomForestTreeSets[#randomForestTreeSetsStatus.index]" status="treesStatus">
-				<tr>
+	
+		<s:iterator value="randomForestTrees" status="treesStatus">
+			<tr>
 				<td class="TableRowText02narrow"><s:property value="treeFileName" /></td>
-				<td class="TableRowText02narrow"><s:property value="r2" /></td>
-				<td class="TableRowText02narrow"><s:property value="mse" /></td>
-				<td class="TableRowText02narrow" colspan="2"><s:property value="descriptorsUsed" /></td>
-				</tr> 
-			</s:iterator>
-			</s:if>
-			
-			<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
-				<tr>
-				<th class="TableRowText01narrow">Split Number</th>
-				<th class="TableRowText01narrow_unsortable" colspan="3">Descriptors Chosen</th>
-				</tr>
-
-			<s:iterator value="randomForestTreeSets[#randomForestTreeSetsStatus.index]" status="treesStatus">
-				<tr>
-					<td class="TableRowText02narrow"><s:property value="treeFileName" /></td>
-					<td class="TableRowText02narrow" colspan="3"><s:property value="descriptorsUsed" /></td>
-				</tr> 
-			</s:iterator>
-		
-			</s:elseif>
-			</table>
-
-	</s:iterator>		
+				<td class="TableRowText02narrow" colspan="3"><s:property value="descriptorsUsed" /></td>
+			</tr> 
+		</s:iterator>
+	
+		</s:elseif>
+		</table>
 	<!-- End Table of Trees -->
 	
-
 		<s:if test="mostFrequentDescriptors!=''">
 			<br />
 			<p class="StandardTextDarkGray"><b><u>Descriptor Frequencies</u></b></p>
