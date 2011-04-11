@@ -16,7 +16,7 @@
 	<!-- External Validation Chart -->
 	<s:if test="externalValValues.size!=0&&hasGoodModels=='YES'">
 		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-			<p class="StandardTextDarkGray"><b>External Validation Chart</b>
+			<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
 			<s:url id="externalChartLink" value="/externalValidationChart.do" includeParams="none" escapeAmp="false">
 				<s:param name="user" value="user.userName" />
 				<s:param name="project" value="selectedPredictor.name" />
@@ -41,7 +41,7 @@
 			</s:else>
 		</s:if>
 		<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
-			<p class="StandardTextDarkGray"><b>Confusion Matrix</b>
+			<p class="StandardTextDarkGray"><b><u>Confusion Matrix</u></b>
 			</p><p class="StandardTextDarkGray">Predicted category is based on the consensus 
 			prediction of the compound's activity rounded to the nearest whole number.</p>
 			<table>
@@ -80,7 +80,7 @@
 	<!-- End External Validation Chart -->
 	
 	<!-- External Validation Compound Predictions -->
-		<p class="StandardTextDarkGray"><b>Predictions for External Validation Set</b></p>
+		<p class="StandardTextDarkGray"><b><u>Predictions for External Validation Set</u></b></p>
 	
 	<s:if test="hasGoodModels=='NO'">
 			<br/><p class="StandardTextDarkGray">No models were generated that passed your cutoffs.</p><br/><br/>

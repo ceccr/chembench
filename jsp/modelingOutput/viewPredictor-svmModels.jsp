@@ -7,7 +7,7 @@
 
 	<br />
 		<s:if test="isYRandomPage=='NO'">
-			<p class="StandardTextDarkGray"><b>Models</b></p>
+			<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
 			
 			<s:if test="dataset.splitType=='NFOLD'">
 				<p class="StandardTextDarkGray">View Fold: 
@@ -17,9 +17,10 @@
 				</s:iterator>
 				</p>
 			</s:if>
+			<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 		</s:if>
 		<s:else>
-			<p class="StandardTextDarkGray"><b>Y-Randomized Models</b></p>
+			<p class="StandardTextDarkGray"><b><u>Y-Randomized Models</u></b></p>
 			
 			<p class="StandardTextDarkGray">
 					In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
@@ -37,6 +38,7 @@
 				</s:iterator>
 				</p>
 			</s:if>
+			<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 		</s:else>		
 		
 		<p class="StandardTextDarkGray">

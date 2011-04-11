@@ -6,7 +6,15 @@
 <!-- Models Page -->	
 	<br />
 		<s:if test="isYRandomPage=='YES'">
-			<p class="StandardTextDarkGray"><b>Y-Random Models</b></p>
+			<p class="StandardTextDarkGray"><b><u>Y-Randomized Models</u></b></p>
+			
+			<p class="StandardTextDarkGray">
+					In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
+					data where the compound activities have been shuffled. Ideally, no models with a high q<sup>2</sup>
+					and R<sup>2</sup> will be produced. If the y-Randomized models are similar to the real models built on
+					your data (see Models tab), the predictor should be considered invalid and the dataset or parameters must
+					be revised. Y-randomized models are only created for validation purposes and are not used in predictions.
+			</p>
 			
 			<s:if test="dataset.splitType=='NFOLD'">
 				<p class="StandardTextDarkGray">View Fold: 
@@ -16,17 +24,11 @@
 				</s:iterator>
 				</p>
 			</s:if>
+			<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 		
-			<p class="StandardTextDarkGray">
-					In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
-					data where the compound activities have been shuffled. Ideally, no models with a high q<sup>2</sup>
-					and R<sup>2</sup> will be produced. If the y-Randomized models are similar to the real models built on
-					your data (see Models tab), the predictor should be considered invalid and the dataset or parameters must
-					be revised. Y-randomized models are only created for validation purposes and are not used in predictions.
-			</p>
 		</s:if>
 		<s:else>
-			<p class="StandardTextDarkGray"><b>Models</b></p>
+			<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
 			
 			<s:if test="dataset.splitType=='NFOLD'">
 				<p class="StandardTextDarkGray">View Fold: 
@@ -36,6 +38,7 @@
 				</s:iterator>
 				</p>
 			</s:if>
+			<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 		</s:else>
 		<p class="StandardTextDarkGray">
 		<s:if test="knnPlusModels.size==0">

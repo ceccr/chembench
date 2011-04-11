@@ -24,12 +24,24 @@
 					</s:iterator>
 					</p>
 				</s:if>
+				<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 			
 				To generate the random forest predictor, a random forest is generated for each 
 				train-test split, and the trees from each forest are combined together. This 
 				page shows the trees from each of the train-test splits. 
 			</s:if>
 			<s:else>
+				<p class="StandardTextDarkGray">
+				In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
+				data where the compound activities have been shuffled. Ideally, no trees with a high 
+				R<sup>2</sup> will be produced. If the y-Randomized trees are similar to the real trees built on
+				your data (see Trees tab), the predictor should be considered invalid and the dataset or parameters must
+				be revised. Y-randomized trees are only created for validation purposes and are not used in predictions.
+				</p>
+				<p class="StandardTextDarkGray">
+				This page shows the trees from y-randomized modeling for each train-test split.
+				</p>
+				
 				<s:if test="dataset.splitType=='NFOLD'">
 					<p class="StandardTextDarkGray">View Fold: 
 					<s:iterator value="foldNums" status="foldNumsStatus">
@@ -38,14 +50,8 @@
 					</s:iterator>
 					</p>
 				</s:if>
+				<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 				
-				In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
-				data where the compound activities have been shuffled. Ideally, no trees with a high 
-				R<sup>2</sup> will be produced. If the y-Randomized trees are similar to the real trees built on
-				your data (see Trees tab), the predictor should be considered invalid and the dataset or parameters must
-				be revised. Y-randomized trees are only created for validation purposes and are not used in predictions.
-				
-				This page shows the trees from y-randomized modeling for each train-test split.
 			</s:else>	
 			<br />
 		</s:else>	
