@@ -16,6 +16,12 @@
 		</s:elseif>
 		<s:else>
 			<s:if test="isYRandomPage=='NO'">
+				<p class="StandardTextDarkGray">
+				To generate the random forest predictor, a random forest is generated for each 
+				train-test split, and the trees from each forest are combined together. This 
+				page shows the trees from each of the train-test splits. 
+				</p?
+				
 				<s:if test="dataset.splitType=='NFOLD'">
 					<p class="StandardTextDarkGray">View Fold: 
 					<s:iterator value="foldNums" status="foldNumsStatus">
@@ -25,10 +31,6 @@
 					</p>
 				</s:if>
 				<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
-			
-				To generate the random forest predictor, a random forest is generated for each 
-				train-test split, and the trees from each forest are combined together. This 
-				page shows the trees from each of the train-test splits. 
 			</s:if>
 			<s:else>
 				<p class="StandardTextDarkGray">
@@ -51,9 +53,7 @@
 					</p>
 				</s:if>
 				<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
-				
 			</s:else>	
-			<br />
 		</s:else>	
 		</p>
 		

@@ -42,7 +42,6 @@
 		</s:else>		
 		
 		<p class="StandardTextDarkGray">
-		
 		<s:if test="svmModels.size==0">
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 				No models that passed your r<sup>2</sup> cutoff were generated.<br/>
@@ -55,7 +54,6 @@
 			<br/>Model information is not available for public predictors.<br/>
 		</s:elseif>
 		<s:else>
-		
 			<table width="100%" align="center" class="sortable" id="models">
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 			<s:if test="svmModels.size!=0">
