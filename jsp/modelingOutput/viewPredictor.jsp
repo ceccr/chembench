@@ -30,6 +30,7 @@
 				if(ajaxObject.readyState==4){
 					hideLoading();
 				  	document.getElementById(divId).innerHTML=ajaxObject.responseText;
+					sortables_init_delay();
 				}
 			}
 			showLoading("LOADING. PLEASE WAIT.")
@@ -37,8 +38,6 @@
 			//send request
 			ajaxObject.open("GET",newUrl,true);
 			ajaxObject.send(null);
-			
-			sortables_init_delay();
 			return true;
 		}
 	</script>

@@ -5,7 +5,7 @@
 	
 <!-- Trees Page -->	
 	<br />
-		<p class="StandardTextDarkGray"><b><u>Random Forests</u></b></p>
+		<p class="StandardTextDarkGray"><b><u>Random Forest Trees</u></b></p>
 		
 		<p class="StandardTextDarkGray">
 		<s:if test="randomForestTrees.size()==0">
@@ -29,8 +29,8 @@
 					<s:else><a href="#tabs" onclick=replaceTabContents("treesDiv","viewPredictorRandomForestTreesSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
 					</s:iterator>
 					</p>
+					<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 				</s:if>
-				<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 			</s:if>
 			<s:else>
 				<p class="StandardTextDarkGray">
@@ -51,8 +51,8 @@
 					<s:else><a href="#tabs" onclick=replaceTabContents("randomTreesDiv","viewPredictorRandomForestTreesSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
 					</s:iterator>
 					</p>
+					<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 				</s:if>
-				<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 			</s:else>	
 		</s:else>	
 		</p>
