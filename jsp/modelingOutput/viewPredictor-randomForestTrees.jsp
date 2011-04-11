@@ -20,7 +20,7 @@
 				To generate the random forest predictor, a random forest is generated for each 
 				train-test split, and the trees from each forest are combined together. This 
 				page shows the trees from each of the train-test splits. 
-				</p?
+				</p>
 				
 				<s:if test="dataset.splitType=='NFOLD'">
 					<p class="StandardTextDarkGray">View Fold: 

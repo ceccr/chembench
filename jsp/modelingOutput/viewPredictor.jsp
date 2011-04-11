@@ -38,6 +38,7 @@
 			ajaxObject.open("GET",newUrl,true);
 			ajaxObject.send(null);
 			
+			sortables_init_delay();
 			return true;
 		}
 	</script>
