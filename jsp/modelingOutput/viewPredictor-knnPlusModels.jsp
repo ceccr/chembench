@@ -6,7 +6,7 @@
 <!-- Models Page -->	
 	<br />
 		<s:if test="isYRandomPage=='YES'">
-			<p class="StandardTextDarkGray"><b><u>Y-Random Models</u></b></p>
+			<p class="StandardTextDarkGray"><b>Y-Random Models</b></p>
 			
 			<s:if test="dataset.splitType=='NFOLD'">
 				<p class="StandardTextDarkGray">View Fold: 
@@ -26,7 +26,7 @@
 			</p>
 		</s:if>
 		<s:else>
-			<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
+			<p class="StandardTextDarkGray"><b>Models</b></p>
 			
 			<s:if test="dataset.splitType=='NFOLD'">
 				<p class="StandardTextDarkGray">View Fold: 

@@ -7,7 +7,7 @@
 
 	<br />
 		<s:if test="isYRandomPage=='NO'">
-			<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
+			<p class="StandardTextDarkGray"><b>Models</b></p>
 			
 			<s:if test="dataset.splitType=='NFOLD'">
 				<p class="StandardTextDarkGray">View Fold: 
@@ -19,6 +19,8 @@
 			</s:if>
 		</s:if>
 		<s:else>
+			<p class="StandardTextDarkGray"><b>Y-Randomized Models</b></p>
+			
 			<p class="StandardTextDarkGray">
 					In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
 					data where the compound activities have been shuffled. Ideally, no models with a high
