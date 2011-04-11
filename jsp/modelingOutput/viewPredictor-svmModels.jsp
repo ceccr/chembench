@@ -6,15 +6,37 @@
 <!-- SVM Models -->	
 
 	<br />
-		<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
-		<s:if test="dataset.splitType=='NFOLD'">
-			<p class="StandardTextDarkGray">View Fold: 
-			<s:iterator value="foldNums" status="foldNumsStatus">
-			<s:if test="#foldNumsStatus.index+1==currentFoldNumber"><b><s:property/></b></s:if>
-			<s:else><a href="#tabs" onclick=replaceTabContents("modelsDiv","viewPredictorSvmModelsSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
-			</s:iterator>
-			</p>
+		<s:if test="isYRandomPage=='NO'">
+			<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
+			
+			<s:if test="dataset.splitType=='NFOLD'">
+				<p class="StandardTextDarkGray">View Fold: 
+				<s:iterator value="foldNums" status="foldNumsStatus">
+				<s:if test="#foldNumsStatus.index+1==currentFoldNumber"><b><s:property/></b></s:if>
+				<s:else><a href="#tabs" onclick=replaceTabContents("modelsDiv","viewPredictorSvmModelsSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+				</s:iterator>
+				</p>
+			</s:if>
 		</s:if>
+		<s:else>
+			<p class="StandardTextDarkGray">
+					In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
+					data where the compound activities have been shuffled. Ideally, no models with a high
+					and R<sup>2</sup> will be produced. If the y-Randomized models are similar to the real models built on
+					your data (see Models tab), the predictor should be considered invalid and the dataset or parameters must
+					be revised. Y-randomized models are only created for validation purposes and are not used in predictions.
+			</p>
+			
+			<s:if test="dataset.splitType=='NFOLD'">
+				<p class="StandardTextDarkGray">View Fold: 
+				<s:iterator value="foldNums" status="foldNumsStatus">
+				<s:if test="#foldNumsStatus.index+1==currentFoldNumber"><b><s:property/></b></s:if>
+				<s:else><a href="#tabs" onclick=replaceTabContents("yRandomDiv","viewPredictorSvmModelsSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+				</s:iterator>
+				</p>
+			</s:if>
+		</s:else>		
+		
 		<p class="StandardTextDarkGray">
 		
 		<s:if test="svmModels.size==0">

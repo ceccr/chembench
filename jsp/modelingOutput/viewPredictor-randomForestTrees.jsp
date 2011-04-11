@@ -6,14 +6,6 @@
 <!-- Trees Page -->	
 	<br />
 		<p class="StandardTextDarkGray"><b><u>Random Forests</u></b></p>
-		<s:if test="dataset.splitType=='NFOLD'">
-			<p class="StandardTextDarkGray">View Fold: 
-			<s:iterator value="foldNums" status="foldNumsStatus">
-			<s:if test="#foldNumsStatus.index+1==currentFoldNumber"><b><s:property/></b></s:if>
-			<s:else><a href="#tabs" onclick=replaceTabContents("treesDiv","viewPredictorRandomForestTreesSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
-			</s:iterator>
-			</p>
-		</s:if>
 		
 		<p class="StandardTextDarkGray">
 		<s:if test="randomForestTrees.size()==0">
@@ -24,11 +16,29 @@
 		</s:elseif>
 		<s:else>
 			<s:if test="isYRandomPage=='NO'">
+				<s:if test="dataset.splitType=='NFOLD'">
+					<p class="StandardTextDarkGray">View Fold: 
+					<s:iterator value="foldNums" status="foldNumsStatus">
+					<s:if test="#foldNumsStatus.index+1==currentFoldNumber"><b><s:property/></b></s:if>
+					<s:else><a href="#tabs" onclick=replaceTabContents("treesDiv","viewPredictorRandomForestTreesSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+					</s:iterator>
+					</p>
+				</s:if>
+			
 				To generate the random forest predictor, a random forest is generated for each 
 				train-test split, and the trees from each forest are combined together. This 
 				page shows the trees from each of the train-test splits. 
 			</s:if>
 			<s:else>
+				<s:if test="dataset.splitType=='NFOLD'">
+					<p class="StandardTextDarkGray">View Fold: 
+					<s:iterator value="foldNums" status="foldNumsStatus">
+					<s:if test="#foldNumsStatus.index+1==currentFoldNumber"><b><s:property/></b></s:if>
+					<s:else><a href="#tabs" onclick=replaceTabContents("randomTreesDiv","viewPredictorRandomForestTreesSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+					</s:iterator>
+					</p>
+				</s:if>
+				
 				In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
 				data where the compound activities have been shuffled. Ideally, no trees with a high 
 				R<sup>2</sup> will be produced. If the y-Randomized trees are similar to the real trees built on
