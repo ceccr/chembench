@@ -126,7 +126,7 @@ public class CentralDogma{
 	}
 	
 	public static synchronized CentralDogma getInstance(){ 
-		 if (instance==null) { 
+		 if (instance == null) { 
 			 instance = new CentralDogma(); 
 		 }
 		 return instance; 
