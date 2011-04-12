@@ -173,6 +173,7 @@ public class SvmWorkflow{
 		String cmd = "";
 		if(CentralDogma.getInstance().patronsQueueHasRoom()){
 			cmd += "bsub -q patrons ";
+			CentralDogma.getInstance().incrementPatronsJobs();
 		}
 		else{
 			cmd += "bsub -q idle ";

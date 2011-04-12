@@ -23,6 +23,7 @@ import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.taskObjects.WorkflowTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
 public class CentralDogma{
@@ -169,7 +170,7 @@ public class CentralDogma{
 		
 	}
 	
-	public void cancelJob(Long jobId){
+	public void cancelJob(Long jobId) throws Exception{
 		//Find job's information, then remove the job from any lists it's in.
 
 		Utility.writeToDebug("Deleting job with id: " + jobId);
@@ -178,6 +179,22 @@ public class CentralDogma{
 		if(j == null){
 			Utility.writeToDebug("checking lsf queue");
 			j = lsfJobs.removeJob(jobId);
+			
+			if(j != null){
+				ArrayList<LsfJobStatus> lsfJobStatuses = LsfProcessingThread.checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
+				for(LsfJobStatus jobStatus : lsfJobStatuses){
+					if(j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)){
+						//kill the job
+						String cmd = "bkill " + jobStatus.jobid;
+						RunExternalProgram.runCommand(cmd, Constants.CECCR_USER_BASE_PATH);
+						
+						//if it was a patrons job, free up the slot
+						if(jobStatus.queue.equals("patrons")){
+							CentralDogma.getInstance().decrementPatronsJobs();
+						}
+					}
+				}
+			}
 		}
 		if(j == null){
 			Utility.writeToDebug("checking local queue");

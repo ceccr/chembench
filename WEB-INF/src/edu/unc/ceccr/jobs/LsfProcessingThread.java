@@ -60,6 +60,9 @@ public class LsfProcessingThread extends Thread {
 										if(j.getEmailOnCompletion().equalsIgnoreCase("true")){
 											SendEmails.sendJobCompletedEmail(j);
 										}
+										if(jobStatus.queue.equals("patrons")){
+											CentralDogma.getInstance().decrementPatronsJobs();
+										}
 										
 										CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
 										
@@ -231,8 +234,8 @@ public class LsfProcessingThread extends Thread {
 		return finishedJobNames;
 	}
 	
-	//exec bjobs and get results
 	public static ArrayList<LsfJobStatus> checkLsfStatus(String workingDir) throws Exception{
+		//execs "bjobs -aw" and gets the status of each job
 		//remove outfile if already exists
 		
 		if((new File(workingDir + "bjobs-out.txt")).exists()){

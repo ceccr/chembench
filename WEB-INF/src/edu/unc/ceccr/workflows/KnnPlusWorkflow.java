@@ -13,6 +13,8 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -180,12 +182,20 @@ public class KnnPlusWorkflow{
 		f.setExecutable(true);
 		
 		//exec shell script
-		String command;
-		if(modelType.equalsIgnoreCase(Constants.KNNSA)){
-			command = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
+		String command = "";
+
+		if(CentralDogma.getInstance().patronsQueueHasRoom()){
+			command += "bsub -q patrons ";
+			CentralDogma.getInstance().incrementPatronsJobs();
 		}
 		else{
-			command = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
+			command += "bsub -q idle ";
+		}
+		if(modelType.equalsIgnoreCase(Constants.KNNSA)){
+			command += "-J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
+		}
+		else{
+			command += "-J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
 		}
 		RunExternalProgram.runCommandAndLogOutput(command, workingDir, "bsubKnnPlus");
 			

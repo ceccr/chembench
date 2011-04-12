@@ -8,6 +8,8 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
@@ -69,7 +71,16 @@ public class KnnModelingLsfWorkflow{
 			f.setExecutable(true);
 			
 			//exec shell script
-			String command = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnn.sh";
+
+			String command = "";
+			if(CentralDogma.getInstance().patronsQueueHasRoom()){
+				command += "bsub -q patrons ";
+				CentralDogma.getInstance().incrementPatronsJobs();
+			}
+			else{
+				command += "bsub -q idle ";
+			}
+			command += "-J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnn.sh";
 			RunExternalProgram.runCommandAndLogOutput(command, workingDir, "bsubKnn");
 			
 			String logFilePath = workingDir + "Logs/bsubKnn.log";
@@ -96,7 +107,15 @@ public class KnnModelingLsfWorkflow{
 		f.setExecutable(true);
 		
 		//exec shell script
-		String command = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnn.sh";
+		String command = "";
+		if(CentralDogma.getInstance().patronsQueueHasRoom()){
+			command += "bsub -q patrons ";
+			CentralDogma.getInstance().incrementPatronsJobs();
+		}
+		else{
+			command += "bsub -q idle ";
+		}
+		command += "-J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnn.sh";
 		
 		RunExternalProgram.runCommandAndLogOutput(command, workingDir, "bsubKnn");
 		Utility.writeToDebug("Continuous kNN submitted.", userName, jobName);	
