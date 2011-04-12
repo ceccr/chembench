@@ -58,8 +58,6 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	String rSquaredAverageAndStddev = "";
 	String ccrAverageAndStddev = "";
 	
-	ArrayList<String> foldNums = new ArrayList<String>();
-	
 	public String load() throws Exception {
 		getBasicParameters();
 		String result = SUCCESS;
