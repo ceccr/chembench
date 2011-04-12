@@ -16,6 +16,8 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -167,8 +169,16 @@ public class SvmWorkflow{
 	
 	public static String buildSvmModelsLsf(String workingDir, String userName, String jobName) throws Exception{
 		//run modeling (bsub the python script)
-		 
-		String cmd = "bsub -q idle -J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt python svm.py";
+		
+		String cmd = "";
+		if(CentralDogma.getInstance().patronsQueueHasRoom()){
+			cmd += "bsub -q patrons ";
+		}
+		else{
+			cmd += "bsub -q idle ";
+		}
+		
+		cmd += "-J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt python svm.py";
 		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
 
 		String logFilePath = workingDir + "Logs/svm.py.log";

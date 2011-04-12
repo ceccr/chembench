@@ -35,7 +35,7 @@ public class CentralDogma{
 	//server processing power. Jobs will fail in weird ways if any of those isn't high enough.
 	private final int numLsfThreads = 1; //don't change this unless you've REALLY thought through all possible concurrency issues
 	private final int numIncomingThreads = 1; //don't change this; the thread does no processing so having > 1 makes no sense
-
+	
 	public SynchronizedJobList incomingJobs;
 	public SynchronizedJobList localJobs;
 	public SynchronizedJobList lsfJobs;
@@ -130,7 +130,7 @@ public class CentralDogma{
 		 }
 		 return instance; 
 	} 
-
+	
 	public void addJobToIncomingList(String userName, String jobName, WorkflowTask wt, int numCompounds, int numModels, String emailOnCompletion) throws Exception{
 		//first, run setUp on the workflowTask
 		//this will make sure the workflowTask gets into the DB. Then we can create a job to contain it.
@@ -273,6 +273,33 @@ public class CentralDogma{
 		if(j != null){
 			j.setJobList(Constants.ERROR);
 			errorJobs.addJob(j);
+		}
+	}
+	
+	
+
+	private final int numPatronsQueueSlots = 26;
+	private int numPatronsJobs = 0;
+	private Object patronsQueueLock = new Object();
+	
+	public boolean patronsQueueHasRoom(){
+		synchronized(patronsQueueLock){
+			if(numPatronsJobs < numPatronsQueueSlots){
+				return true;
+			}
+			else{
+				return false;
+			}
+		}
+	}
+	public void incrementPatronsJobs(){
+		synchronized(patronsQueueLock){
+			numPatronsJobs++;
+		}
+	}
+	public void decrementPatronsJobs(){
+		synchronized(patronsQueueLock){
+			numPatronsJobs--;
 		}
 	}
 }
