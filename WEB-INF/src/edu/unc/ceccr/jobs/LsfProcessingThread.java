@@ -130,9 +130,13 @@ public class LsfProcessingThread extends Thread {
 											if(j.getJobType().equals(Constants.MODELING)){
 												j.workflowTask.setStep(Constants.MODELS);
 											}
+											if(jobStatus.queue.equals("patrons")){
+												CentralDogma.getInstance().incrementPatronsJobs();
+											}
 										}
 									}
 								}
+								
 								if(! jobIsRunningAlready){
 									//job is not already running; needs to be started.
 									Utility.writeToDebug("LSFQueue: " + j.getJobName() + " was not running already; it is being preprocessed.");
