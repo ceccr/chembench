@@ -301,6 +301,7 @@ public class CentralDogma{
 	
 	public boolean patronsQueueHasRoom(){
 		synchronized(patronsQueueLock){
+			Utility.writeToDebug("current patrons jobs is: " + numPatronsJobs);
 			if(numPatronsJobs < numPatronsQueueSlots){
 				return true;
 			}
@@ -312,11 +313,13 @@ public class CentralDogma{
 	public void incrementPatronsJobs(){
 		synchronized(patronsQueueLock){
 			numPatronsJobs++;
+			Utility.writeToDebug("current patrons jobs raised to: " + numPatronsJobs);
 		}
 	}
 	public void decrementPatronsJobs(){
 		synchronized(patronsQueueLock){
 			numPatronsJobs--;
+			Utility.writeToDebug("current patrons jobs dropped to: " + numPatronsJobs);
 		}
 	}
 }
