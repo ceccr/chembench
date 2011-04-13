@@ -293,8 +293,6 @@ public class CentralDogma{
 		}
 	}
 	
-	
-
 	private final int numPatronsQueueSlots = 26;
 	private int numPatronsJobs = 0;
 	private Object patronsQueueLock = new Object();

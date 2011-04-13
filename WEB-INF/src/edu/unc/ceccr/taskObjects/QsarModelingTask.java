@@ -145,49 +145,29 @@ public class QsarModelingTask extends WorkflowTask {
 				else if(modelType.equals(Constants.KNNSA)){
 					//number of models produced so far can be gotten by:
 					//cat knn+_models.log | grep q2= | wc 
-					//which is in a script "checkKnnSaProgress.sh" in mmlsoft/bin.
-
-					//It takes some time to do this check, and most users don't need
-					//to know progress of others' jobs, so we skip this step
-					//if it's not useful.
-					if(user.equals(this.userName) || Utility.isAdmin(user)){
-						float p = KnnPlusWorkflow.getSaModelingProgress(workingDir);
-						p += KnnPlusWorkflow.getSaModelingProgress(workingDir + "yRandom/");
-						p /= (getNumTotalModels() * 2);
-						p *= 100; //it's a percent
-						if(p > 100){
-							p = 100;
-						}
-						percent = " (" + Math.round(p) + "%)";
+					
+					float p = KnnPlusWorkflow.getSaModelingProgress(workingDir);
+					p += KnnPlusWorkflow.getSaModelingProgress(workingDir + "yRandom/");
+					p /= (getNumTotalModels() * 2);
+					p *= 100; //it's a percent
+					if(p > 100){
+						p = 100;
 					}
-					else{
-						percent = "";
-					}
+					percent = " (" + Math.round(p) + "%)";
 				}
 				else if(modelType.equals(Constants.KNNGA)){
-
-					if(user.equals(this.userName) || Utility.isAdmin(user)){
-						//It takes some time to do this check, and most users don't need
-						//to know progress of others' jobs, so we skip this step
-						//if it's not useful.
-						
-						percent = "";
-						float p = KnnPlusWorkflow.getGaModelingProgress(workingDir);
-						p += KnnPlusWorkflow.getGaModelingProgress(workingDir + "yRandom/");
-						p /= (getNumTotalModels() * 2);
-						p *= 100; //it's a percent
-						if(p < 0){
-							p = 0;
-						}
-						if(p > 100){
-							p = 100;
-						}
-						percent = " (" + Math.round(p) + "%)";
-
+					percent = "";
+					float p = KnnPlusWorkflow.getGaModelingProgress(workingDir);
+					p += KnnPlusWorkflow.getGaModelingProgress(workingDir + "yRandom/");
+					p /= (getNumTotalModels() * 2);
+					p *= 100; //it's a percent
+					if(p < 0){
+						p = 0;
 					}
-					else{
-						percent = "";
+					if(p > 100){
+						p = 100;
 					}
+					percent = " (" + Math.round(p) + "%)";
 				}
 				else if(modelType.equals(Constants.RANDOMFOREST)){
 					File dir = new File(workingDir);
