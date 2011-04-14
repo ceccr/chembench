@@ -189,6 +189,12 @@ for dirindex in range(0, 2):
 		degreeRange = permute_sequence(range_f(degreeFrom, degreeTo+0.0001, degreeStep))
 		gammaRange = permute_sequence(range_f(gammaFrom, gammaTo+0.0001, gammaStep))
 		
+		if kernelType == "0":
+			gammaRange = ["NA"]
+			
+		if kernelType in ("0", "2", "3"):
+			degreeRange = ["NA"] 
+		
 		if svmType in ("0", "3", "4"):
 			costRange = permute_sequence(range_f(costFrom, costTo+0.0001, costStep))
 		else:

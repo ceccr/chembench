@@ -5,6 +5,7 @@ import java.nio.channels.FileChannel;
 
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.LsfOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
@@ -73,9 +74,8 @@ public class KnnModelingLsfWorkflow{
 			//exec shell script
 
 			String command = "";
-			if(CentralDogma.getInstance().patronsQueueHasRoom()){
+			if(LsfOperations.patronsQueueHasRoom()){
 				command += "bsub -q patrons ";
-				CentralDogma.getInstance().incrementPatronsJobs();
 			}
 			else{
 				command += "bsub -q idle ";
@@ -108,9 +108,8 @@ public class KnnModelingLsfWorkflow{
 		
 		//exec shell script
 		String command = "";
-		if(CentralDogma.getInstance().patronsQueueHasRoom()){
+		if(LsfOperations.patronsQueueHasRoom()){
 			command += "bsub -q patrons ";
-			CentralDogma.getInstance().incrementPatronsJobs();
 		}
 		else{
 			command += "bsub -q idle ";

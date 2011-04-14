@@ -187,11 +187,6 @@ public class CentralDogma{
 						//kill the job
 						String cmd = "bkill " + jobStatus.jobid;
 						RunExternalProgram.runCommand(cmd, Constants.CECCR_USER_BASE_PATH);
-						
-						//if it was a patrons job, free up the slot
-						if(jobStatus.queue.equals("patrons")){
-							CentralDogma.getInstance().decrementPatronsJobs();
-						}
 					}
 				}
 			}
@@ -293,31 +288,4 @@ public class CentralDogma{
 		}
 	}
 	
-	private final int numPatronsQueueSlots = 26;
-	private int numPatronsJobs = 0;
-	private Object patronsQueueLock = new Object();
-	
-	public boolean patronsQueueHasRoom(){
-		synchronized(patronsQueueLock){
-			Utility.writeToDebug("current patrons jobs is: " + numPatronsJobs);
-			if(numPatronsJobs < numPatronsQueueSlots){
-				return true;
-			}
-			else{
-				return false;
-			}
-		}
-	}
-	public void incrementPatronsJobs(){
-		synchronized(patronsQueueLock){
-			numPatronsJobs++;
-			Utility.writeToDebug("current patrons jobs raised to: " + numPatronsJobs);
-		}
-	}
-	public void decrementPatronsJobs(){
-		synchronized(patronsQueueLock){
-			numPatronsJobs--;
-			Utility.writeToDebug("current patrons jobs dropped to: " + numPatronsJobs);
-		}
-	}
 }

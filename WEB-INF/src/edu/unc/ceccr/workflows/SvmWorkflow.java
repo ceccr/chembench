@@ -12,6 +12,7 @@ import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.LsfOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
@@ -171,9 +172,8 @@ public class SvmWorkflow{
 		//run modeling (bsub the python script)
 		
 		String cmd = "";
-		if(CentralDogma.getInstance().patronsQueueHasRoom()){
+		if(LsfOperations.patronsQueueHasRoom()){
 			cmd += "bsub -q patrons ";
-			CentralDogma.getInstance().incrementPatronsJobs();
 		}
 		else{
 			cmd += "bsub -q idle ";

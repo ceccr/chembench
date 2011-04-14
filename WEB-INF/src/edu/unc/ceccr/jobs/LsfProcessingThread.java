@@ -60,10 +60,6 @@ public class LsfProcessingThread extends Thread {
 										if(j.getEmailOnCompletion().equalsIgnoreCase("true")){
 											SendEmails.sendJobCompletedEmail(j);
 										}
-										if(jobStatus.queue.equals("patrons")){
-											CentralDogma.getInstance().decrementPatronsJobs();
-										}
-										
 										CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
 										
 										//finished; remove job object
@@ -130,9 +126,6 @@ public class LsfProcessingThread extends Thread {
 											if(j.getJobType().equals(Constants.MODELING)){
 												j.workflowTask.setStep(Constants.MODELS);
 											}
-											if(jobStatus.queue.equals("patrons")){
-												CentralDogma.getInstance().incrementPatronsJobs();
-											}
 										}
 									}
 								}
@@ -196,7 +189,7 @@ public class LsfProcessingThread extends Thread {
 										jobStatus.stat.equals("RUN"))){
 							//the job *just* started on LSF. Find the job with this lsfJobId and set its date.
 							for(Job j: readOnlyJobArray){
-								if(j.getLsfJobId().equals(jobStatus.jobid)){
+								if(j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)){
 									j.setTimeStartedByLsf(new Date());
 									CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
 								}

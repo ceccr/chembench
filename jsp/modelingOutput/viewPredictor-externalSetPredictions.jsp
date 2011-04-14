@@ -36,7 +36,7 @@
 			</s:if>
 			<s:else>
 				<p class="StandardTextDarkGray">
-				R<sup>2</sup> for external <s:if test="externalValValues.size!=0&&currentFoldNumber!=0">fold <s:property value="selectedPredictor.externalPredictionAccuracy" /></s:if><s:else>set</s:else>: <b><s:property value="rSquared" /></b>
+				R<sup>2</sup> for external <s:if test="externalValValues.size!=0&&currentFoldNumber!=0">fold <s:property value="currentFoldNumber" /></s:if><s:else>set</s:else>: <b><s:property value="rSquared" /></b>
 				</p>
 			</s:else>
 		</s:if>
