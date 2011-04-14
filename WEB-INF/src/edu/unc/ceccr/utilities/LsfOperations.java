@@ -11,6 +11,7 @@ public class LsfOperations{
 		try{
 			RunExternalProgram.runCommand("numPatronsJobs.sh", Constants.CECCR_USER_BASE_PATH);
 			String numJobsStr = FileAndDirOperations.readFileIntoString(Constants.CECCR_USER_BASE_PATH + "numPatronsJobs.txt");
+			numJobsStr.replace("\n", "");
 			if(Integer.parseInt(numJobsStr) >= 1){
 				return true;
 			}
