@@ -2,11 +2,6 @@
 var categoryParamIDs = new Array('selectedCategoryDataset', 'knnCat13', 'knnCat14', 'knnCategoryOptimization1', 'knnCategoryOptimization2', 'knnCategoryOptimization3', 'knnCategoryOptimization4', 'svmTypeCategory0', 'svmTypeCategory1');
 var continuousParamIDs = new Array('selectedContinuousDataset', 'knnCon13', 'knnCon14', 'knnCon15', 'knnCon16', 'knnCon17', 'knnCon18', 'svmTypeContinuous3', 'svmTypeContinuous4');
 
-function calculateNumModels(){
-	alert("hi");
-	alert(document.getElementById("numSplitsInternalRandom").value);
-}
-
 function setToContinuous(){
 	var i;
 	for(i = 0; i < categoryParamIDs.length; i++){
