@@ -5,7 +5,6 @@ var continuousParamIDs = new Array('selectedContinuousDataset', 'knnCon13', 'knn
 function calculateNumModels(){
 	alert("hi");
 	alert(document.getElementById("numSplitsInternalRandom").value);
-	
 }
 
 function setToContinuous(){
@@ -60,6 +59,20 @@ function changeSvmType(){
 		}
 	}
 	
+	var kernelType;
+	if(document.getElementById("svmKernel0").checked==true){
+		kernelType = '0';
+	}
+	else if(document.getElementById("svmKernel1").checked==true){
+		kernelType = '1';
+	}
+	else if(document.getElementById("svmKernel2").checked==true){
+		kernelType = '2';
+	}
+	else if(document.getElementById("svmKernel3").checked==true){
+		kernelType = '3';
+	}
+	
 	//enable them all
 	document.getElementById("svmPEpsilonFrom").disabled = false;
 	document.getElementById("svmPEpsilonTo").disabled = false;
@@ -101,6 +114,31 @@ function changeSvmType(){
 		document.getElementById("svmPEpsilonFrom").disabled = true;
 		document.getElementById("svmPEpsilonTo").disabled = true;
 		document.getElementById("svmPEpsilonStep").disabled = true;
+	}
+	
+	//disable the ones not relevant to this kernel type
+
+	if(kernelType == '0'){
+		document.getElementById("svmDegreeFrom").disabled = true;
+		document.getElementById("svmDegreeTo").disabled = true;
+		document.getElementById("svmDegreeStep").disabled = true;
+		
+		document.getElementById("svmGammaFrom").disabled = true;
+		document.getElementById("svmGammaTo").disabled = true;
+		document.getElementById("svmGammaStep").disabled = true;
+	}
+	else if(kernelType == '1'){
+		//polynomial kernel uses both
+	}
+	else if(kernelType == '2'){
+		document.getElementById("svmDegreeFrom").disabled = true;
+		document.getElementById("svmDegreeTo").disabled = true;
+		document.getElementById("svmDegreeStep").disabled = true;
+	}
+	else if(kernelType == '3'){
+		document.getElementById("svmDegreeFrom").disabled = true;
+		document.getElementById("svmDegreeTo").disabled = true;
+		document.getElementById("svmDegreeStep").disabled = true;
 	}
 }
 
