@@ -13,10 +13,11 @@ public class Constants {
 	public static final int MAXLSFJOBS = 200; 
 	
 	//We have 36 slots in the Emerald "patrons" queue, which is better than
-	//all the other queues (month, week, and idle). So until 36 jobs are running
-	//in "patrons", all jobs are submitted there.
+	//all the other queues (month, week, and idle). 
 	//Note that other lab members in the group "ceccr_grp" can also submit patrons
-	//jobs; use bjobs -u ceccr_grp to see if they have done so.
+	//jobs; use bjobs -u ceccr_grp to see if they have done so. 
+	//8 slots are left open for other lab members. (Just to be nice.)
+	//So until 28 jobs (submitted by anyone) are running in "patrons", all jobs are submitted there.
 	public static final int PATRONSQUEUESLOTS = 28; 
 	
 	public static final int REPORTED_SIGNIFICANT_FIGURES = 4;

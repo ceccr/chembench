@@ -36,6 +36,29 @@ function setToCategory(){
 
 function changeSvmType(){
 	//enable or disable parameter ranges for SVM modeling
+	
+	//first, enable them all
+	document.getElementById("svmPEpsilonFrom").disabled = false;
+	document.getElementById("svmPEpsilonTo").disabled = false;
+	document.getElementById("svmPEpsilonStep").disabled = false;
+
+	document.getElementById("svmNuFrom").disabled = false;
+	document.getElementById("svmNuTo").disabled = false;
+	document.getElementById("svmNuStep").disabled = false;
+
+	document.getElementById("svmCostFrom").disabled = false;
+	document.getElementById("svmCostTo").disabled = false;
+	document.getElementById("svmCostStep").disabled = false;
+
+	document.getElementById("svmDegreeFrom").disabled = false;
+	document.getElementById("svmDegreeTo").disabled = false;
+	document.getElementById("svmDegreeStep").disabled = false;
+
+	document.getElementById("svmGammaFrom").disabled = false;
+	document.getElementById("svmGammaTo").disabled = false;
+	document.getElementById("svmGammaStep").disabled = false;
+	
+	//disable the ones not relevant to this SVM type
 	var svmType;
 	if(document.getElementById("categoryDataset").checked==true){
 		if(document.getElementById("svmTypeCategory0").checked==true){
@@ -54,34 +77,6 @@ function changeSvmType(){
 		}
 	}
 	
-	var kernelType;
-	if(document.getElementById("svmKernel0").checked==true){
-		kernelType = '0';
-	}
-	else if(document.getElementById("svmKernel1").checked==true){
-		kernelType = '1';
-	}
-	else if(document.getElementById("svmKernel2").checked==true){
-		kernelType = '2';
-	}
-	else if(document.getElementById("svmKernel3").checked==true){
-		kernelType = '3';
-	}
-	
-	//enable them all
-	document.getElementById("svmPEpsilonFrom").disabled = false;
-	document.getElementById("svmPEpsilonTo").disabled = false;
-	document.getElementById("svmPEpsilonStep").disabled = false;
-
-	document.getElementById("svmNuFrom").disabled = false;
-	document.getElementById("svmNuTo").disabled = false;
-	document.getElementById("svmNuStep").disabled = false;
-	
-	document.getElementById("svmCostFrom").disabled = false;
-	document.getElementById("svmCostTo").disabled = false;
-	document.getElementById("svmCostStep").disabled = false;
-	
-	//disable the ones not relevant to this SVM type
 	if(svmType == '0'){
 		document.getElementById("svmPEpsilonFrom").disabled = true;
 		document.getElementById("svmPEpsilonTo").disabled = true;
@@ -112,7 +107,20 @@ function changeSvmType(){
 	}
 	
 	//disable the ones not relevant to this kernel type
-
+	var kernelType;
+	if(document.getElementById("svmKernel0").checked==true){
+		kernelType = '0';
+	}
+	else if(document.getElementById("svmKernel1").checked==true){
+		kernelType = '1';
+	}
+	else if(document.getElementById("svmKernel2").checked==true){
+		kernelType = '2';
+	}
+	else if(document.getElementById("svmKernel3").checked==true){
+		kernelType = '3';
+	}
+	
 	if(kernelType == '0'){
 		document.getElementById("svmDegreeFrom").disabled = true;
 		document.getElementById("svmDegreeTo").disabled = true;
