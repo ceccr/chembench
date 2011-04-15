@@ -346,7 +346,7 @@ public class ModelingFormActions extends ActionSupport{
 			Double numDifferentPEpsilons = Math.ceil((Double.parseDouble(svmPEpsilonTo) - 
 					Double.parseDouble(svmPEpsilonFrom)) / 
 					Double.parseDouble(svmPEpsilonStep) + 0.0001);
-			
+
 			String svmType = "";
 			if(actFileDataType.equals(Constants.CATEGORY)){
 				svmType = svmTypeCategory;
@@ -355,18 +355,18 @@ public class ModelingFormActions extends ActionSupport{
 				svmType = svmTypeContinuous;
 			}
 			
-			if(svmType.equals('0')){
+			if(svmType.equals("0")){
 				numDifferentPEpsilons = 1.0;
 				numDifferentNus = 1.0;
 			}
-			else if(svmType.equals('1')){
+			else if(svmType.equals("1")){
 				numDifferentPEpsilons = 1.0;
 				numDifferentCosts = 1.0;
 			}
-			else if(svmType.equals('3')){
+			else if(svmType.equals("3")){
 				numDifferentNus = 1.0;
 			}
-			else if(svmType.equals('4')){
+			else if(svmType.equals("4")){
 				numDifferentPEpsilons = 1.0;
 			}
 			
@@ -378,10 +378,10 @@ public class ModelingFormActions extends ActionSupport{
 				//no change
 			}
 			else if(svmKernel.equals("2")){
-				numDifferentGammas = 1.0;
+				numDifferentDegrees = 1.0;
 			}
 			else if(svmKernel.equals("3")){
-				numDifferentGammas = 1.0;
+				numDifferentDegrees = 1.0;
 			}
 			
 			numModels *= numDifferentCosts * numDifferentDegrees * numDifferentGammas * numDifferentNus * numDifferentPEpsilons;
