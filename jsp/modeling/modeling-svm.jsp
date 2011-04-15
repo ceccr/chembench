@@ -26,7 +26,7 @@
 				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmTypeContinuous" id="svmTypeContinuous" list="#{'3':'epsilon-SVR','4':'nu-SVR'}" onchange='changeSvmType(); calculateRuntimeEstimate()' theme="simple" /></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Kernel Type:</b></div></td>
-				<td><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmKernel" list="#{'0':'linear','1':'polynomial','2':'radial basis function','3':'sigmoid'}" theme="simple" /></div>
+				<td><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmKernel" list="#{'0':'linear','1':'polynomial','2':'radial basis function','3':'sigmoid'}" onchange='changeSvmType(); calculateRuntimeEstimate()' theme="simple" /></div>
 				</td></tr>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Degree in kernel function:</b></div></td>
 				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"> From: <s:textfield id="svmDegreeFrom" name="svmDegreeFrom" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> To: <s:textfield id="svmDegreeTo" name="svmDegreeTo" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/> Step: <s:textfield id="svmDegreeStep" name="svmDegreeStep" size="5" onchange='calculateRuntimeEstimate()' theme="simple"/></div>
