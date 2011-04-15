@@ -603,9 +603,9 @@ public class ModelingFormActions extends ActionSupport{
 	private String svmKernel = "0";
 
 	//must be > 0
-	private String svmDegreeFrom = "2";
-	private String svmDegreeTo = "8";
-	private String svmDegreeStep = "3";
+	private String svmDegreeFrom = "1";
+	private String svmDegreeTo = "4";
+	private String svmDegreeStep = "1";
 
 	//must be >= 0
 	private String svmGammaFrom = "0";
