@@ -618,9 +618,9 @@ public class ModelingFormActions extends ActionSupport{
 	private String svmCostStep = "4";
 
 	//must be > 0 and <= 1
-	private String svmNuFrom = "0.1";
-	private String svmNuTo = "1";
-	private String svmNuStep = "0.3";
+	private String svmNuFrom = "0.2";
+	private String svmNuTo = "0.8";
+	private String svmNuStep = "0.2";
 
 	//must be >= 0
 	private String svmPEpsilonFrom = "0";
