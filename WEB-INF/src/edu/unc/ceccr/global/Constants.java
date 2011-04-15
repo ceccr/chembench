@@ -17,7 +17,7 @@ public class Constants {
 	//in "patrons", all jobs are submitted there.
 	//Note that other lab members in the group "ceccr_grp" can also submit patrons
 	//jobs; use bjobs -u ceccr_grp to see if they have done so.
-	public static final int PATRONSQUEUESLOTS = 36; 
+	public static final int PATRONSQUEUESLOTS = 28; 
 	
 	public static final int REPORTED_SIGNIFICANT_FIGURES = 4;
 	
