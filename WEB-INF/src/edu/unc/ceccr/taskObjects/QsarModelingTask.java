@@ -357,8 +357,8 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(ModelingForm.getModelingType().equals(Constants.SVM)){
 			svmParameters = new SvmParameters();
-			svmParameters.setSvmDegreeFrom(ModelingForm.getSvmCostFrom());
-			svmParameters.setSvmDegreeTo(ModelingForm.getSvmCostTo());
+			svmParameters.setSvmDegreeFrom(ModelingForm.getSvmDegreeFrom());
+			svmParameters.setSvmDegreeTo(ModelingForm.getSvmDegreeTo());
 			svmParameters.setSvmDegreeStep(ModelingForm.getSvmDegreeStep());
 			svmParameters.setSvmGammaFrom(ModelingForm.getSvmGammaFrom());
 			svmParameters.setSvmGammaTo(ModelingForm.getSvmGammaTo());
