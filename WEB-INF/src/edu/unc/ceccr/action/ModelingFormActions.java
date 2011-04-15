@@ -347,21 +347,27 @@ public class ModelingFormActions extends ActionSupport{
 					Double.parseDouble(svmPEpsilonFrom)) / 
 					Double.parseDouble(svmPEpsilonStep) + 0.0001);
 			
+			String svmType = "";
 			if(actFileDataType.equals(Constants.CATEGORY)){
-				if(svmTypeCategory.equals("")){
-					
-				}
-				else if(svmTypeCategory.equals("")){
-					
-				}
+				svmType = svmTypeCategory;
 			}
-			else if(actFileDataType.equals(Constants.CONTINUOUS)){
-				if(svmTypeContinuous.equals("")){
-					
-				}
-				else if(svmTypeContinuous.equals("")){
-					
-				}
+			else{
+				svmType = svmTypeContinuous;
+			}
+			
+			if(svmType.equals('0')){
+				numDifferentPEpsilons = 1.0;
+				numDifferentNus = 1.0;
+			}
+			else if(svmType.equals('1')){
+				numDifferentPEpsilons = 1.0;
+				numDifferentCosts = 1.0;
+			}
+			else if(svmType.equals('3')){
+				numDifferentNus = 1.0;
+			}
+			else if(svmType.equals('4')){
+				numDifferentPEpsilons = 1.0;
 			}
 			
 			if(svmKernel.equals("0")){

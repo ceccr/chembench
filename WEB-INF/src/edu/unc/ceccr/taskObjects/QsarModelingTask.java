@@ -1154,6 +1154,20 @@ public class QsarModelingTask extends WorkflowTask {
 				numDifferentPEpsilons = 1.0;
 			}
 			
+			if(svmParameters.getSvmKernel().equals("0")){
+				numDifferentGammas = 1.0;
+				numDifferentDegrees = 1.0;
+			}
+			else if(svmParameters.getSvmKernel().equals("1")){
+				//no change
+			}
+			else if(svmParameters.getSvmKernel().equals("2")){
+				numDifferentGammas = 1.0;
+			}
+			else if(svmParameters.getSvmKernel().equals("3")){
+				numDifferentGammas = 1.0;
+			}
+			
 			numModels *= numDifferentCosts * numDifferentDegrees * numDifferentGammas * numDifferentNus * numDifferentPEpsilons;
 			
 		}
