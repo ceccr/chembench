@@ -199,12 +199,27 @@
 				numDifferentPEpsilons = 1;
 			}
 
+			var kernelType;
+			if(document.getElementById("svmKernel0").checked==true){
+				numDifferentGammas = 1;
+				numDifferentDegrees = 1;
+			}
+			else if(document.getElementById("svmKernel1").checked==true){
+				//both gamma and degree are used
+			}
+			else if(document.getElementById("svmKernel2").checked==true){
+				numDifferentDegrees = 1;
+			}
+			else if(document.getElementById("svmKernel3").checked==true){
+				numDifferentDegrees = 1;
+			}
+			
 			var numModelsPerSplit = numDifferentPEpsilons * numDifferentNus * numDifferentCosts * numDifferentGammas * numDifferentDegrees;
 
 			timeEstimateMins = selectedDatasetNumCompounds * numSplits * numModelsPerSplit * 0.00022;
 		}
 		
-		var errorMargin = 1.2;
+		var errorMargin = 1.8;
 		timeEstimateMins = timeEstimateMins * errorMargin; 
 		
 		timeEstimateMins = Math.ceil(timeEstimateMins);
