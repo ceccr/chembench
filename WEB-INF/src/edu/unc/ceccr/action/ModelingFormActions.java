@@ -609,8 +609,8 @@ public class ModelingFormActions extends ActionSupport{
 
 	//must be >= 0
 	private String svmGammaFrom = "0";
-	private String svmGammaTo = "8";
-	private String svmGammaStep = "4";
+	private String svmGammaTo = "4";
+	private String svmGammaStep = "1";
 
 	//must be > 0
 	private String svmCostFrom = "2";
