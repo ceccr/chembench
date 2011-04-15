@@ -58,7 +58,7 @@ public class IncomingJobProcessingThread extends Thread {
 						QsarModelingTask qs = (QsarModelingTask) j.workflowTask;
 						if(qs.getModelType().equals(Constants.KNN) || 
 								qs.getModelType().equals(Constants.KNNSA) ||
-								qs.getModelType().equals(Constants.KNNGA) ||qs.getModelType().equals(Constants.SVM)
+								qs.getModelType().equals(Constants.KNNGA) //||qs.getModelType().equals(Constants.SVM)
 								){
 							if(LsfProcessingThread.lsfHasFreePendSlots()){
 								Utility.writeToDebug("Sending job " + j.getJobName() + " to LSF queue");
