@@ -12,6 +12,13 @@ public class Constants {
 	//Cap the number of jobs that can be added to the LSF queue at any given time.
 	public static final int MAXLSFJOBS = 200; 
 	
+	//We have 36 slots in the Emerald "patrons" queue, which is better than
+	//all the other queues (month, week, and idle). So until 36 jobs are running
+	//in "patrons", all jobs are submitted there.
+	//Note that other lab members in the group "ceccr_grp" can also submit patrons
+	//jobs; use bjobs -u ceccr_grp to see if they have done so.
+	public static final int PATRONSQUEUESLOTS = 36; 
+	
 	public static final int REPORTED_SIGNIFICANT_FIGURES = 4;
 	
 	//Enums for Data Types

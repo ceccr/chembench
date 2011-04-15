@@ -12,7 +12,7 @@ public class LsfOperations{
 			RunExternalProgram.runCommand("numPatronsJobs.sh", Constants.CECCR_USER_BASE_PATH);
 			String numJobsStr = FileAndDirOperations.readFileIntoString(Constants.CECCR_USER_BASE_PATH + "numPatronsJobs.txt");
 			numJobsStr = numJobsStr.split("\\\n")[0];
-			if(Integer.parseInt(numJobsStr) >= 1){
+			if(Integer.parseInt(numJobsStr) <= Constants.PATRONSQUEUESLOTS){
 				return true;
 			}
 		}
