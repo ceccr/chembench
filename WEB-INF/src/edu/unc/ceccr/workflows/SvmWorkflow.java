@@ -84,6 +84,23 @@ public class SvmWorkflow{
 	}
 	
 	public static void writeSvmModelingParamsFile(SvmParameters svmParameters, String actFileDataType, String paramFilePath, String workingDir) throws Exception{
+		//fix any "step" parameters; they must be >0 or python will blow up
+		if(Double.parseDouble(svmParameters.getSvmCostStep()) <= 0){
+			svmParameters.setSvmCostStep("1");
+		}
+		if(Double.parseDouble(svmParameters.getSvmDegreeStep()) <= 0){
+			svmParameters.setSvmDegreeStep("1");
+		}
+		if(Double.parseDouble(svmParameters.getSvmGammaStep()) <= 0){
+			svmParameters.setSvmGammaStep("1");
+		}
+		if(Double.parseDouble(svmParameters.getSvmPEpsilonStep()) <= 0){
+			svmParameters.setSvmPEpsilonStep("1");
+		}
+		if(Double.parseDouble(svmParameters.getSvmNuStep()) <= 0){
+			svmParameters.setSvmNuStep("1");
+		}
+		
 		BufferedWriter out = new BufferedWriter(new FileWriter(paramFilePath)); 
 
 		String svmType = "";
