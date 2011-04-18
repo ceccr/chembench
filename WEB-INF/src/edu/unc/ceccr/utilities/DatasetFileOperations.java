@@ -862,7 +862,7 @@ public class DatasetFileOperations {
 		line = br.readLine();
 		String[] tokens = line.trim().split("\\s+");
 		if(tokens.length != numDescriptors){
-			return "Error in X file line " + 2 + ": line contains " + tokens + 
+			return "Error in X file line " + 2 + ": line contains " + tokens.length + 
 			" elements but " + numDescriptors + " were expected. Line was: \"" + line + "\"";
 		}
 		for(int i = 0; i < tokens.length; i++){
@@ -877,7 +877,7 @@ public class DatasetFileOperations {
 				tokens = line.trim().split("\\s+");
 				int expectedTokens = numDescriptors + 2;
 				if(tokens.length != expectedTokens){
-					return "Error in X file line " + (i + 3) + ": line contains " + tokens + 
+					return "Error in X file line " + (i + 3) + ": line contains " + tokens.length + 
 					" elements but " + expectedTokens + " were expected. Line was: \"" + line + "\"";
 				}
 				out.write(tokens[0] + " "); //line number
