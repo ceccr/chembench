@@ -12,7 +12,7 @@ public class SdfToJpgWorkflow {
 	
 	public static void makeSketchFiles(String filePath, String fileName, String structuresDir, String sketchesDir) throws Exception
 	{
-		//filePath = directory the SDF is in, e.g. /public/projects/ceccr/workflow-users/theo/DATASETS/
+		//filePath = directory the SDF is in, e.g. workflow-users/theo/DATASETS/
 		//fileName = name of sdfile, like anticonv_91.sdf
 		//structuresDir = subdirectory for structures, e.g. Visualization/Structures/
 		//sketchesDir = subdirectory for sketches, e.g. Visualization/Sketches/

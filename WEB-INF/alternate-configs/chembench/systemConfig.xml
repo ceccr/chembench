@@ -4,6 +4,7 @@
 <workbench>c-chembench</workbench>
 
 <systemBasePath>/usr/local/ceccr/</systemBasePath>
+<userFilesPath>/nas02/depts/chembench/prod/workflow-users/</userFilesPath>
 <tomcatPath>/usr/local/ceccr/tomcat6/</tomcatPath>
 <executablesPath>/usr/local/ceccr/</executablesPath>
 

@@ -61,6 +61,8 @@ public class ParseConfigurationXML{
             if(! Constants.CECCR_BASE_PATH.endsWith("/")){
             	Constants.CECCR_BASE_PATH += "/";
             }
+
+            Constants.CECCR_USER_BASE_PATH=getSingNodeValue(doc,"userFilesPath");
             
             Constants.TOMCAT_PATH=getSingNodeValue(doc,"tomcatPath");
             if(! Constants.TOMCAT_PATH.endsWith("/")){
@@ -73,7 +75,6 @@ public class ParseConfigurationXML{
             }
             
             Constants.BUILD_DATE_FILE_PATH = Constants.TOMCAT_PATH + "webapps/ROOT/WEB-INF/buildDate.txt";
-    		Constants.CECCR_USER_BASE_PATH = Constants.CECCR_BASE_PATH +"workflow-users/";
     		Constants.XML_FILE_PATH = Constants.CECCR_BASE_PATH +"xml-files/";
             Constants.isCustomized=true;
             

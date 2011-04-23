@@ -83,7 +83,7 @@ public class Utility {
 		try {
 			// Append to current-job file. For ease of use, really.
 			FileWriter fstream = new FileWriter(
-					Constants.CECCR_BASE_PATH + "/workflow-users/javadebug.log", true);
+					Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
 			BufferedWriter out = new BufferedWriter(fstream);
 
 			out.write(debug_counter.toString() + " " + userName + " " + jobName
@@ -91,7 +91,7 @@ public class Utility {
 			out.close();
 			
 			//write to individual job log
-			String debugDir = Constants.CECCR_BASE_PATH + "/workflow-users/DEBUG/";
+			String debugDir = Constants.CECCR_USER_BASE_PATH + "DEBUG/";
 			if(!new File(debugDir).exists()){
 				new File(debugDir).mkdirs();
 			}
@@ -112,7 +112,7 @@ public class Utility {
 		try {
 			// Append to current-job file. For ease of use, really.
 			FileWriter fstream = new FileWriter(
-					Constants.CECCR_BASE_PATH + "/workflow-users/javadebug.log", true);
+					Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
 			BufferedWriter out = new BufferedWriter(fstream);
 
 			out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
@@ -126,7 +126,7 @@ public class Utility {
 		//Usage output write function. Used throughout Java code.
 		try {
 			FileWriter fstream = new FileWriter(
-					Constants.CECCR_BASE_PATH + "/workflow-users/usage.log", true);
+					Constants.CECCR_USER_BASE_PATH + "usage.log", true);
 			BufferedWriter out = new BufferedWriter(fstream);
 
 			out.write(username + ": " + s + " [" + getDate() + "]" + "\n");
@@ -141,7 +141,7 @@ public class Utility {
 		try {
 			// Create file
 			FileWriter fstream = new FileWriter(
-					Constants.CECCR_BASE_PATH+"/workflow-users/javadebug.log", true);
+					Constants.CECCR_USER_BASE_PATH+"javadebug.log", true);
 			String s;
 			final Writer result = new StringWriter();
 			final PrintWriter printWriter = new PrintWriter(result);
@@ -164,7 +164,7 @@ public class Utility {
 	public static void writeToDebug(Exception ex, String userName, String jobName) {
 		try {
 			FileWriter fstream = new FileWriter(
-					Constants.CECCR_BASE_PATH+"/workflow-users/javadebug.log", true);
+					Constants.CECCR_USER_BASE_PATH+"javadebug.log", true);
 			String s;
 			final Writer result = new StringWriter();
 			final PrintWriter printWriter = new PrintWriter(result);
@@ -175,7 +175,7 @@ public class Utility {
 			out.close();
 			
 			//write to individual job log
-			String debugDir = Constants.CECCR_BASE_PATH + "/workflow-users/DEBUG/";
+			String debugDir = Constants.CECCR_USER_BASE_PATH + "DEBUG/";
 			if(!new File(debugDir).exists()){
 				new File(debugDir).mkdirs();
 			}
@@ -194,7 +194,7 @@ public class Utility {
 		try {
 			// Append to current-job file. For ease of use, really.
 			FileWriter fstream = new FileWriter(
-					Constants.CECCR_BASE_PATH + "/workflow-users/strutsdebug.log", true);
+					Constants.CECCR_USER_BASE_PATH + "strutsdebug.log", true);
 			BufferedWriter out = new BufferedWriter(fstream);
 
 			out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
@@ -208,7 +208,7 @@ public class Utility {
 		try {
 			// Create file
 			FileWriter fstream = new FileWriter(
-					Constants.CECCR_BASE_PATH+"/workflow-users/strutsdebug.log", true);
+					Constants.CECCR_USER_BASE_PATH+"strutsdebug.log", true);
 			String s;
 			final Writer result = new StringWriter();
 			final PrintWriter printWriter = new PrintWriter(result);
