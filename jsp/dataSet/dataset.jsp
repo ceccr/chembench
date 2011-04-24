@@ -90,24 +90,7 @@
 		   dojo.event.topic.subscribe('/datasetTypeSelect', function(tab, tabContainer) {
 		      //alert("Tab "+ tab.widgetId + " was selected");
 		      document.getElementById("datasetType").value = tab.widgetId;
-		      
-		      var externalParameterIds = new Array("useActivityBinning", "numExternalCompounds", "externalCompoundList", "numExternalFolds");
-		      if(tab.widgetId == "MODELING" || tab.widgetId == "MODELINGWITHDESCRIPTORS"){
-		      	//if it's a modeling dataset, enable the external split parameters 
-		      	for (var i=0; i < externalParameterIds.length; i++){
-					if(document.getElementById(externalParameterIds[i]) != null){
-						document.getElementById(externalParameterIds[i]).disabled = false;
-					}
-				}
-		      }
-		      else{
-		      	//if not, disable them
-		      	for (var i=0; i < externalParameterIds.length; i++){
-					if(document.getElementById(externalParameterIds[i]) != null){
-						document.getElementById(externalParameterIds[i]).disabled = true;
-					}
-				}
-		      }
+		      changeDatasetType();
 		   });
 		</script>
 		<s:hidden id="datasetType" name="datasetType" />
@@ -159,26 +142,7 @@
 			   dojo.event.topic.subscribe('/splitTypeSelect', function(tab, tabContainer) {
 			      //alert("Tab "+ tab.widgetId + " was selected");
 			      document.getElementById("splitType").value = tab.widgetId;
-
-			      var datasetType = document.getElementById("datasetType").value;
-			      
-			      var externalParameterIds = new Array("useActivityBinning", "numExternalCompounds", "externalCompoundList", "numExternalFolds");
-			      if(datasetType == "MODELING" || datasetType == "MODELINGWITHDESCRIPTORS"){
-			      	//if it's a modeling dataset, enable the external split parameters 
-			      	for (var i=0; i < externalParameterIds.length; i++){
-						if(document.getElementById(externalParameterIds[i]) != null){
-							document.getElementById(externalParameterIds[i]).disabled = false;
-						}
-					}
-			      }
-			      else{
-			      	//if not, disable them
-			      	for (var i=0; i < externalParameterIds.length; i++){
-						if(document.getElementById(externalParameterIds[i]) != null){
-							document.getElementById(externalParameterIds[i]).disabled = true;
-						}
-					}
-			      }
+			      changeDatasetType();
 			   });
 			</script>
 			<s:hidden id="splitType" name="splitType" />

@@ -1,3 +1,29 @@
+function changeDatasetType(){
+	//disable / enable external split parameters based on 
+	//the currently selected dataset type.
+	//Triggers whenever dataset type or ext split type is changed.
+
+    var datasetType = document.getElementById("datasetType").value;
+    
+    var externalParameterIds = new Array("useActivityBinning", "numExternalCompounds", "externalCompoundList", "numExternalFolds", "useActivityBinningNFold", "externalCompoundsCountOrPercent");
+    if(datasetType == "MODELING" || datasetType == "MODELINGWITHDESCRIPTORS"){
+    	//if it's a modeling dataset, enable the external split parameters 
+    	for (var i=0; i < externalParameterIds.length; i++){
+			if(document.getElementById(externalParameterIds[i]) != null){
+				document.getElementById(externalParameterIds[i]).disabled = false;
+			}
+		}
+    }
+    else{
+    	//if not, disable them
+    	for (var i=0; i < externalParameterIds.length; i++){
+			if(document.getElementById(externalParameterIds[i]) != null){
+				document.getElementById(externalParameterIds[i]).disabled = true;
+			}
+		}
+    }
+}
+
 function submitForm(btn, value){
 	//validate form; on error, alert and return false 
 	var msg = "";
