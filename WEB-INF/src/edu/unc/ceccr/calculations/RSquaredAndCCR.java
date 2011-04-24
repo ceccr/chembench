@@ -61,9 +61,11 @@ public class RSquaredAndCCR{
 		}
 		avg /= externalValidationList.size();
 		Double ssErr = 0.0;
+		boolean hasNoModels = true;
 		for(Double residual : residuals){
 			if(! residual.isNaN()){
 				ssErr += residual * residual;
+				hasNoModels = false;
 			}
 		}
 		Double ssTot = 0.0;
@@ -74,7 +76,7 @@ public class RSquaredAndCCR{
 		if(ssTot != 0){
 			rSquared = (1.0 - (ssErr / ssTot));
 		}
-		if(residuals.size() == 0){
+		if(hasNoModels){
 			rSquared = 0.0;
 		}
 		return rSquared;
