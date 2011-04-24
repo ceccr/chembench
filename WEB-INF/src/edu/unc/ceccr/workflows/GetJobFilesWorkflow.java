@@ -77,7 +77,7 @@ public class GetJobFilesWorkflow{
 		if(!xFile.equals("")){
 			FileAndDirOperations.copyFile(fromDir + xFile, toDir + xFile);
 		}
-		if(!externalSplitXFile.equals("")){
+		if(!externalSplitXFile.equals("") && new File(fromDir + externalSplitXFile).exists()){
 			FileAndDirOperations.copyFile(fromDir + externalSplitXFile, toDir + externalSplitXFile);
 		}
 		String descriptorDir = "Descriptors/";
