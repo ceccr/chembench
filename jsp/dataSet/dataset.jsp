@@ -154,10 +154,10 @@
 		    	<sx:div id="RANDOM" href="/loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading split type...">
 				</sx:div>
 	    	
-				<sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading split type..." preload="false">
+				<sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading split type..." preload="true">
 				</sx:div>
 
-				<sx:div id="NFOLD" href="/loadNFoldExternalSection" label="n-Fold Split" theme="ajax" loadingText="Loading split type..." preload="false">
+				<sx:div id="NFOLD" href="/loadNFoldExternalSection" label="n-Fold Split" theme="ajax" loadingText="Loading split type..." preload="true">
 				</sx:div>
 
 	    	</sx:tabbedpanel>
