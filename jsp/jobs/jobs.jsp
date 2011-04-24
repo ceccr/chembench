@@ -437,7 +437,7 @@
 					<td><s:property value="predictorNames" /></td>
 					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
-					<td><a onclick="return confirmDelete('prediction')" href="deletePrediction?id=<s:property value="predictionId" />#predictions">delete</a></td>
+					<td><a onclick="return confirmDelete('prediction')" href="deletePrediction?id=<s:property value="id" />#predictions">delete</a></td>
 					</tr> 
 				</s:iterator>
 				<br />
