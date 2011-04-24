@@ -49,7 +49,7 @@
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Genetic Algorithm Parameters (Advanced):</u></b></div></td>
 			<td><br /><br /></td></tr>	
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Fitness Difference To Proceed (in log<sub>10</sub> units):</b></div></td>
-			<td align="left" valign="top"><s:textfield disabled="true" id="gaMinFitnessDifference" name="gaMinFitnessDifference" size="5" theme="simple"/></td></tr>
+			<td align="left" valign="top"><s:textfield id="gaMinFitnessDifference" name="gaMinFitnessDifference" size="5" theme="simple"/></td></tr>
 			<!-- end Genetic Algorithm Parameters (advanced) -->
 			
 			<!-- Model Acceptance Parameters -->
