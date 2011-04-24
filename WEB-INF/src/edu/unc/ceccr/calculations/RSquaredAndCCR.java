@@ -72,9 +72,11 @@ public class RSquaredAndCCR{
 		}
 		Double rSquared = 0.0;
 		if(ssTot != 0){
-			rSquared = (1 - (ssErr / ssTot));
+			rSquared = (1.0 - (ssErr / ssTot));
 		}
-		
+		if(residuals.size() == 0){
+			rSquared = 0.0;
+		}
 		return rSquared;
 	}
 
