@@ -63,6 +63,7 @@ public class ExternalValidation implements java.io.Serializable {
 	}
 
 	public void setCompoundId(String compoundId) {
+		compoundId = compoundId.substring(0,255);
 		this.compoundId = compoundId;
 	}
 
