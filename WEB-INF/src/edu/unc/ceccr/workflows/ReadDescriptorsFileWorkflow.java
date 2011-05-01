@@ -18,7 +18,7 @@ public class ReadDescriptorsFileWorkflow{
 	//puts results into descriptorNames and descriptorValueMatrix.
 
 	public static String[] readDescriptorNamesFromX(String xFile, String workingDir) throws Exception{
-		BufferedReader br = new BufferedReader(new FileReader(xFile + workingDir));
+		BufferedReader br = new BufferedReader(new FileReader(workingDir + xFile));
 		br.readLine(); //numCompounds, numDescriptors;
 		String[] descs = br.readLine().split("\\s+");
 		br.close();
