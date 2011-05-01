@@ -30,6 +30,7 @@ import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
 
 
 public class ModelingFormActions extends ActionSupport{
@@ -177,6 +178,7 @@ public class ModelingFormActions extends ActionSupport{
 			}
 			return SUCCESS;
 		}
+		
 		//print debug output
 		String s = "";
 		s += "\n Job Name: " + jobName;
@@ -203,6 +205,29 @@ public class ModelingFormActions extends ActionSupport{
 				knnApplicabilityDomain = knnApplicabilityDomain.split("\\, ")[index];
 				knnMinTraining = knnMinTraining.split("\\, ")[index];
 				knnMinTest = knnMinTest.split("\\, ")[index];
+			}
+			
+
+			if(descriptorGenerationType.equals(Constants.UPLOADED) && 
+					(modelingType.equals(Constants.KNNGA) || modelingType.equals(Constants.KNNSA))){
+				//Sometimes users upload a tiny number of descriptors (say, 5)
+				//and then try to model with them using dumb descriptor ranges (say, 25 to 30 descriptors per model).
+				//knn+ will run infinitely in this case. So catch that.
+				
+				//This isn't so much of a problem with non-uploaded descriptors (MolconnZ, etc) because there 
+				//are hundreds of those. And if the user enters in that kind of range, they probably know they 
+				//did something dumb.
+				
+				//get num descriptors
+				String datasetDir = Constants.CECCR_USER_BASE_PATH + ds.getUserName() + "/" + ds.getName() + "/";
+				int numDescriptors = ReadDescriptorsFileWorkflow.readDescriptorNamesFromX(ds.getXFile(), datasetDir).length;
+				int numMaxDesc = Integer.parseInt(knnMaxNumDescriptors);
+				if(numDescriptors < numMaxDesc){
+					errorStrings.add("Your uploaded dataset contains only " + numDescriptors + " descriptors, but you requested " +
+							"that each model contain up to " + numMaxDesc + " descriptors. Please return to the Modeling page and " +
+							"fix your parameters.");
+					return ERROR;
+				}
 			}
 			
 			if(ds.getSplitType().equals(Constants.NFOLD)){
@@ -648,6 +673,9 @@ public class ModelingFormActions extends ActionSupport{
 	private String message;
 	private String emailOnCompletion = "false";
 
+	//errors (for error page)
+	ArrayList<String> errorStrings = new ArrayList<String>();
+	
 	public String getStdDevCutoff() {
 		return stdDevCutoff;
 	}
@@ -1373,5 +1401,12 @@ public class ModelingFormActions extends ActionSupport{
 	}
 	public void setEmailOnCompletion(String emailOnCompletion) {
 		this.emailOnCompletion = emailOnCompletion;
+	}
+
+	public ArrayList<String> getErrorStrings() {
+		return errorStrings;
+	}
+	public void setErrorStrings(ArrayList<String> errorStrings) {
+		this.errorStrings = errorStrings;
 	}
 }

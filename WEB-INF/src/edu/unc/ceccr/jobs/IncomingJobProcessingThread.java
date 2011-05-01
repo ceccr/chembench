@@ -58,7 +58,7 @@ public class IncomingJobProcessingThread extends Thread {
 						QsarModelingTask qs = (QsarModelingTask) j.workflowTask;
 						if(qs.getModelType().equals(Constants.KNN) || 
 								qs.getModelType().equals(Constants.KNNSA) ||
-								qs.getModelType().equals(Constants.KNNGA) ||qs.getModelType().equals(Constants.SVM)
+								qs.getModelType().equals(Constants.KNNGA) || qs.getModelType().equals(Constants.SVM)
 								){
 							if(LsfProcessingThread.lsfHasFreePendSlots()){
 								Utility.writeToDebug("Sending job " + j.getJobName() + " to LSF queue");
@@ -70,7 +70,7 @@ public class IncomingJobProcessingThread extends Thread {
 							}
 						}
 						else{
-							//it's an SVM or RF job.
+							//it's an RF job.
 							//send it to local
 							Utility.writeToDebug("Sending job " + j.getJobName() + " to local queue");
 							movedJob = true;
@@ -84,7 +84,6 @@ public class IncomingJobProcessingThread extends Thread {
 					if(movedJob){
 						//update job DB entry to reflect queue change
 						Session s = HibernateUtil.getSession();
-	
 						Transaction tx = null;
 						try {
 							tx = s.beginTransaction();

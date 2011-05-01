@@ -17,6 +17,14 @@ public class ReadDescriptorsFileWorkflow{
 	//Create a Descriptors object for each compound. 
 	//puts results into descriptorNames and descriptorValueMatrix.
 
+	public static String[] readDescriptorNamesFromX(String xFile, String workingDir) throws Exception{
+		BufferedReader br = new BufferedReader(new FileReader(xFile + workingDir));
+		br.readLine(); //numCompounds, numDescriptors;
+		String[] descs = br.readLine().split("\\s+");
+		br.close();
+		return descs;
+	}
+	
 	public static void convertMzToX(String molconnZOutputFile, String workingDir) throws Exception{
 		
 		String cmd = "python " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "mzToX.py " + molconnZOutputFile + " " + molconnZOutputFile + ".x";
