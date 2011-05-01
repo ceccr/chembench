@@ -156,7 +156,7 @@
         </action>
         
         <action name="createModelingJob" class="edu.unc.ceccr.action.ModelingFormActions" method="execute">
-        	<!-- <result name="success" type="redirect">jobs</result> -->
+        	<result name="success" type="redirect">jobs</result>
 			<result name="error" type="redirect">/error</result>
         </action>
         

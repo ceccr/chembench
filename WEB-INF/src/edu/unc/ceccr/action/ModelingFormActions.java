@@ -219,7 +219,7 @@ public class ModelingFormActions extends ActionSupport{
 				//did something dumb.
 				
 				//get num descriptors
-				String datasetDir = Constants.CECCR_USER_BASE_PATH + ds.getUserName() + "/" + ds.getName() + "/";
+				String datasetDir = Constants.CECCR_USER_BASE_PATH + ds.getUserName() + "/DATASETS/" + ds.getName() + "/";
 				int numDescriptors = ReadDescriptorsFileWorkflow.readDescriptorNamesFromX(ds.getXFile(), datasetDir).length;
 				int numMaxDesc = Integer.parseInt(knnMaxNumDescriptors);
 				if(numDescriptors < numMaxDesc){
