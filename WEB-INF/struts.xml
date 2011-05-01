@@ -157,7 +157,6 @@
         
         <action name="createModelingJob" class="edu.unc.ceccr.action.ModelingFormActions" method="execute">
         	<result name="success" type="redirect">jobs</result>
-			<result name="ERROR">jsp/main/errors2.jsp</result>
 			<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
