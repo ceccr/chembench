@@ -149,7 +149,7 @@ public class ModelingFormActions extends ActionSupport{
 		if(selectedDatasetId == null || PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession) == null ||
 				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getName() == null ||
 				PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getJobCompleted().equals(Constants.NO)){
-			return "";
+			return ERROR;
 		}
 		
 		DataSet ds = PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession);
@@ -226,8 +226,15 @@ public class ModelingFormActions extends ActionSupport{
 					errorStrings.add("Your uploaded dataset contains only " + numDescriptors + " descriptors, but you requested " +
 							"that each model contain up to " + numMaxDesc + " descriptors. Please return to the Modeling page and " +
 							"fix your parameters.");
+					Utility.writeToDebug("This returned an error");
 					return ERROR;
 				}
+				else{
+					Utility.writeToDebug("Good so far 1");
+				}
+			}
+			else{
+				Utility.writeToDebug("Good so far 2");
 			}
 			
 			if(ds.getSplitType().equals(Constants.NFOLD)){
