@@ -226,15 +226,8 @@ public class ModelingFormActions extends ActionSupport{
 					errorStrings.add("Your uploaded dataset contains only " + numDescriptors + " descriptors, but you requested " +
 							"that each model contain up to " + numMaxDesc + " descriptors. Please return to the Modeling page and " +
 							"fix your parameters.");
-					Utility.writeToDebug("This returned an error");
 					return ERROR;
 				}
-				else{
-					Utility.writeToDebug("Good so far 1");
-				}
-			}
-			else{
-				Utility.writeToDebug("Good so far 2");
 			}
 			
 			if(ds.getSplitType().equals(Constants.NFOLD)){

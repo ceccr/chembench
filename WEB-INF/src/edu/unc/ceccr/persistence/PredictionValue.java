@@ -64,7 +64,9 @@ public class PredictionValue implements java.io.Serializable{
 	}
 
 	public void setCompoundName(String compoundName) {
-		compoundName = compoundName.substring(0,255);
+		if(compoundName.length() >= 256){
+			compoundName = compoundName.substring(0,255);
+		}
 		this.compoundName = compoundName;
 	}
 
