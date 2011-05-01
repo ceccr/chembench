@@ -158,13 +158,15 @@ public class PredictionFormActions extends ActionSupport{
 		Session session = HibernateUtil.getSession();
 
 		//get list of predictor IDs from the checked checkboxes
-		selectedPredictorIds = predictorCheckBoxes.replaceAll(",", " ");
-		String[] predictorIds = selectedPredictorIds.split("\\s+");
-		if(predictorIds.length == 0){
+		if(predictorCheckBoxes == null ||  predictorCheckBoxes.trim().isEmpty()){
 			Utility.writeToStrutsDebug("no predictor chosen!");
 			errorStrings.add("Please select at least one predictor.");
 			result = ERROR;
+			return result;
 		}
+		selectedPredictorIds = predictorCheckBoxes.replaceAll(",", " ");
+		String[] predictorIds = selectedPredictorIds.split("\\s+");
+		
 		for(int i = 0; i < predictorIds.length; i++){
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session);
 			
