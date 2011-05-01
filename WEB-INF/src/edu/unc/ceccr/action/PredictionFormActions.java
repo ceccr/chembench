@@ -162,11 +162,23 @@ public class PredictionFormActions extends ActionSupport{
 		String[] predictorIds = selectedPredictorIds.split("\\s+");
 		if(predictorIds.length == 0){
 			Utility.writeToStrutsDebug("no predictor chosen!");
+			errorStrings.add("Please select at least one predictor.");
 			result = ERROR;
 		}
 		for(int i = 0; i < predictorIds.length; i++){
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session);
+			
+			if(p.getNumTotalModels() == 0){
+				//this predictor shouldn't be used for prediction. Error out.
+				errorStrings.add("The predictor '" + p.getName() + "' cannot be used for prediction because it contains no usable models.");
+				result = ERROR;
+			}
+			
 			selectedPredictors.add(p);
+		}
+		
+		if(result.equals(ERROR)){
+			return result;
 		}
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
@@ -264,6 +276,8 @@ public class PredictionFormActions extends ActionSupport{
 	private List<SmilesPrediction> smilesPredictions;
 	private String smilesString;
 	private String smilesCutoff;
+	
+	ArrayList<String> errorStrings = new ArrayList<String>();
 	
 	public User getUser(){
 		return user;
@@ -423,6 +437,11 @@ public class PredictionFormActions extends ActionSupport{
 			this.predictorName = predictorName;
 		}
 	}
-	
-	
+
+	public ArrayList<String> getErrorStrings() {
+		return errorStrings;
+	}
+	public void setErrorStrings(ArrayList<String> errorStrings) {
+		this.errorStrings = errorStrings;
+	}
 }
