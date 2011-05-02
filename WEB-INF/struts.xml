@@ -201,7 +201,7 @@
 	    </action>
         
 	    <action name="makeDatasetPrediction" class="edu.unc.ceccr.action.PredictionFormActions" method="makeDatasetPrediction">
-	        <result type="redirect">jobs</result>
+	        <result name="success" type="redirect">jobs</result>
             <result name="error">jsp/main/errors2.jsp</result>
 	    </action>
 	    
