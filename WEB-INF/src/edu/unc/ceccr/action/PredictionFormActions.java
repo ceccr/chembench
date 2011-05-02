@@ -187,7 +187,6 @@ public class PredictionFormActions extends ActionSupport{
 			}
 			else{
 				if(p.getNumTestModels() == 0){
-			
 					//this predictor shouldn't be used for prediction. Error out.
 					errorStrings.add("The predictor '" + p.getName() + "' cannot be used for prediction because it contains no usable models.");
 					Utility.writeToDebug("The predictor '" + p.getName() + "' cannot be used for prediction because it contains no usable models.");

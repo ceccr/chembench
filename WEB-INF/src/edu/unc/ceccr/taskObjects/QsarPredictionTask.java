@@ -345,8 +345,19 @@ public class QsarPredictionTask extends WorkflowTask {
 			//calculate average predicted value and stddev over each child
 			for(int i = 0; i < firstChildResults.size(); i++){
 				SummaryStatistics compoundPredictedValues = new SummaryStatistics();
+				int j = 0;
 				for(ArrayList<PredictionValue> childResult: childResults){
+					if(childResult.size() == i){
+						throw new Exception("hit childResult size limit: " + i + " in result set " + j);
+					}
+					if(childResult.get(i) == null){
+						throw new Exception("child result null at i: " + i + " in result set " + j);
+					}
+					if(childResult.get(i).getPredictedValue() == null){
+						throw new Exception("child result predicted value null at i: " + i + " in result set " + j);
+					}
 					compoundPredictedValues.addValue(childResult.get(i).getPredictedValue());
+					j++;
 				}
 				predValues.get(i).setPredictedValue(new Float(compoundPredictedValues.getMean()));
 				predValues.get(i).setStandardDeviation(new Float(compoundPredictedValues.getStandardDeviation()));
