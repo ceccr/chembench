@@ -30,6 +30,7 @@ import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
 import edu.unc.ceccr.workflows.SmilesPredictionWorkflow;
 
 
@@ -96,15 +97,18 @@ public class PredictionFormActions extends ActionSupport{
 		ArrayList<Predictor> predictors = new ArrayList<Predictor>();
 		for(int i = 0; i < selectedPredictorIdArray.length; i++){
 			Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), session);
-			predictors.add(predictor);
+			if(! predictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
+				//uploaded descriptors won't work, since we can't generate them
+				predictors.add(predictor);
+			}
 		}
 		//we don't need the session again
 		session.close();
 		
 		smilesPredictions = new ArrayList<SmilesPrediction>(); //stores results
 		for(int i = 0; i < predictors.size(); i++){
-			Predictor predictor = predictors.get(i);
-			
+			Predictor predictor = predictors.get(i);			
+
 			//make smiles dir
 			String smilesDir = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/SMILES/" + predictor.getName() + "/";
 			new File(smilesDir).mkdirs();
@@ -265,8 +269,66 @@ public class PredictionFormActions extends ActionSupport{
 		int numCompounds = predictionDataset.getNumCompound();
 		String[] ids = selectedPredictorIds.split("\\s+");
 		int numModels = 0;
+		
+		ArrayList<Predictor> selectedPredictors = new ArrayList<Predictor>();
+		
 		for(int i = 0; i < ids.length; i++){
-			numModels += PopulateDataObjects.getPredictorById(Long.parseLong(ids[i]), session).getNumTestModels();
+			Predictor sp = PopulateDataObjects.getPredictorById(Long.parseLong(ids[i]), session);
+			selectedPredictors.add(sp);
+			numModels += sp.getNumTestModels();
+		}
+		
+		//check descriptors of each of the selected predictors. Make sure that the
+		//prediction dataset contains all of those descriptors, otherwise error out.
+		for(Predictor sp: selectedPredictors){
+			String[] predictionDatasetDescriptors = predictionDataset.getAvailableDescriptors().split("\\s+");
+			
+			boolean descriptorsMatch = false;
+			
+			if(sp.getDescriptorGeneration().equals(Constants.UPLOADED)){
+				//get the uploaded descriptors for the dataset
+				String predictionXFile = predictionDataset.getXFile();
+				String predictionDatasetDir = Constants.CECCR_USER_BASE_PATH + predictionDataset.getUserName() + 
+					"/DATASETS/" + predictionDataset.getName() + "/";
+				String[] predictionDescs = ReadDescriptorsFileWorkflow.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
+
+				//get the uploaded descriptors for the predictor
+				DataSet predictorDataset = PopulateDataObjects.getDataSetById(sp.getDatasetId(), session);
+				String predictorDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + 
+				"/DATASETS/" + predictorDataset.getName() + "/";
+				String[] predictorDescs = ReadDescriptorsFileWorkflow.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
+				
+				if(!descriptorsMatch){
+					return ERROR;
+				}
+			}
+			else{
+				for(int i = 0; i < predictionDatasetDescriptors.length; i++){
+					if(sp.getDescriptorGeneration().equals(Constants.MOLCONNZ) && predictionDatasetDescriptors[i].equals(Constants.MOLCONNZ)){
+						descriptorsMatch = true;
+					}
+					else if(sp.getDescriptorGeneration().equals(Constants.DRAGONH) && predictionDatasetDescriptors[i].equals(Constants.DRAGONH)){
+						descriptorsMatch = true;
+					}
+					else if(sp.getDescriptorGeneration().equals(Constants.DRAGONNOH) && predictionDatasetDescriptors[i].equals(Constants.DRAGONNOH)){
+						descriptorsMatch = true;
+					}
+					else if(sp.getDescriptorGeneration().equals(Constants.MOE2D) && predictionDatasetDescriptors[i].equals(Constants.MOE2D)){
+						descriptorsMatch = true;
+					}
+					else if(sp.getDescriptorGeneration().equals(Constants.MACCS) && predictionDatasetDescriptors[i].equals(Constants.MACCS)){
+						descriptorsMatch = true;
+					}
+				}
+
+				if(!descriptorsMatch){
+					errorStrings.add("The predictor '" + sp.getName() + "' is based on " + sp.getDescriptorGeneration() + 
+							" descriptors, but the dataset '" + predictionDataset.getName() + "' does not have these descriptors. " +
+							"You will not be able to make this prediction.");
+					return ERROR;
+				}
+			}
+			
 		}
 		
 		CentralDogma centralDogma = CentralDogma.getInstance();

@@ -327,7 +327,15 @@ public class QsarPredictionTask extends WorkflowTask {
 			//recurse. Call this function for each childPredictor (if there are any).
 			ArrayList<ArrayList<PredictionValue>> childResults = new ArrayList<ArrayList<PredictionValue>>();
 			for(Predictor childPredictor : childPredictors){
-				childResults.add(makePredictions(childPredictor, sdfile, predictionDir, datasetPath));
+				ArrayList<PredictionValue> results = makePredictions(childPredictor, sdfile, predictionDir, datasetPath);
+				if(results != null){
+					childResults.add(results);
+				}
+			}
+			if(childResults.size() == 0){
+				//this should never happen; there's a check to prevent people from
+				//selecting predictors that have no usable models in their child predictors
+				throw new Exception("No child in the nfold predictor generated any results!");
 			}
 			
 			//average the results from the child predictions and return them

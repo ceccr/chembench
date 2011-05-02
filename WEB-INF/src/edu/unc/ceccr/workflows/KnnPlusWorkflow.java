@@ -571,9 +571,13 @@ public static ArrayList<PredictionValue> readPredictionOutput(String workingDir,
 		//Utility.writeToDebug("calculating nummodels, avg, and stddev for each compound");
 		
 		//for each compound, calculate nummodels, avg, and stddev
+		if(predictionMatrix.size() == 0){
+			//there were no models in the predictor!
+			return null;
+		}
+		
 		int numCompounds = predictionMatrix.get(0).size();
 		for(int i = 0; i < numCompounds; i++){
-
 			try{
 			//calculate stddev and avg for each compound
 			Float sum = new Float(0);
