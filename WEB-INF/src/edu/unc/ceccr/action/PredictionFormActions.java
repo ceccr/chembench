@@ -170,16 +170,33 @@ public class PredictionFormActions extends ActionSupport{
 		for(int i = 0; i < predictorIds.length; i++){
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session);
 			
-			if(p.getNumTotalModels() == 0){
-				//this predictor shouldn't be used for prediction. Error out.
-				errorStrings.add("The predictor '" + p.getName() + "' cannot be used for prediction because it contains no usable models.");
-				Utility.writeToDebug("The predictor '" + p.getName() + "' cannot be used for prediction because it contains no usable models.");
-				result = ERROR;
+			if(p.getChildType() != null && p.getChildType().equals(Constants.NFOLD)){
+				//check if *any* child predictor has models
+				String[] childIds = p.getChildIds().split("\\s+");
+				boolean childHasModels = false;
+				for(String pChildId : childIds){
+					Predictor pChild = PopulateDataObjects.getPredictorById(Long.parseLong(pChildId), session);
+					if(pChild.getNumTestModels() > 0){
+						childHasModels = true;
+					}
+				}
+				if(! childHasModels){
+					errorStrings.add("The predictor '" + p.getName() + "' cannot be used for prediction because it contains no usable models.");
+					result = ERROR;
+				}
 			}
 			else{
-				Utility.writeToDebug("predictor " + p.getName() + " is fine, it has " + p.getNumTotalModels());
-			}
+				if(p.getNumTestModels() == 0){
 			
+					//this predictor shouldn't be used for prediction. Error out.
+					errorStrings.add("The predictor '" + p.getName() + "' cannot be used for prediction because it contains no usable models.");
+					Utility.writeToDebug("The predictor '" + p.getName() + "' cannot be used for prediction because it contains no usable models.");
+					result = ERROR;
+				}
+				else{
+					Utility.writeToDebug("predictor " + p.getName() + " is fine, it has " + p.getNumTotalModels());
+				}
+			}
 			selectedPredictors.add(p);
 		}
 		
