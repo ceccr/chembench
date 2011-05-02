@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.hibernate.Session;
@@ -330,8 +331,10 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 			
 			//average the results from the child predictions and return them
-			//assumes that all children return results of the same size
+			//assumes that all children return results of the same size, i.e., 
+			//they all have the same number of compounds that they attempt to predict.
 			predValues = new ArrayList<PredictionValue>();
+			
 			ArrayList<PredictionValue> firstChildResults = childResults.get(0);
 			for(PredictionValue pv : firstChildResults){
 				PredictionValue parentPredictionValue = new PredictionValue();
@@ -345,22 +348,15 @@ public class QsarPredictionTask extends WorkflowTask {
 			//calculate average predicted value and stddev over each child
 			for(int i = 0; i < firstChildResults.size(); i++){
 				SummaryStatistics compoundPredictedValues = new SummaryStatistics();
-				int j = 0;
 				for(ArrayList<PredictionValue> childResult: childResults){
-					if(childResult.size() == i){
-						throw new Exception("hit childResult size limit: " + i + " in result set " + j);
+					if(childResult.get(i).getPredictedValue() != null){
+						compoundPredictedValues.addValue(childResult.get(i).getPredictedValue());
 					}
-					if(childResult.get(i) == null){
-						throw new Exception("child result null at i: " + i + " in result set " + j);
-					}
-					if(childResult.get(i).getPredictedValue() == null){
-						throw new Exception("child result predicted value null at i: " + i + " in result set " + j);
-					}
-					compoundPredictedValues.addValue(childResult.get(i).getPredictedValue());
-					j++;
 				}
-				predValues.get(i).setPredictedValue(new Float(compoundPredictedValues.getMean()));
-				predValues.get(i).setStandardDeviation(new Float(compoundPredictedValues.getStandardDeviation()));
+				if(! Double.isNaN(compoundPredictedValues.getMean())){
+					predValues.get(i).setPredictedValue(new Float(compoundPredictedValues.getMean()));
+					predValues.get(i).setStandardDeviation(new Float(compoundPredictedValues.getStandardDeviation()));
+				}
 			}
 			
 			//commit predValues to DB
