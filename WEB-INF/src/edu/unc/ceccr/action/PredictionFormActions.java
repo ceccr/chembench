@@ -297,6 +297,23 @@ public class PredictionFormActions extends ActionSupport{
 				String predictorDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + 
 				"/DATASETS/" + predictorDataset.getName() + "/";
 				String[] predictorDescs = ReadDescriptorsFileWorkflow.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
+
+				descriptorsMatch = true;
+				//for each predictor desc, make sure there's a matching prediction desc. 
+				for(int i = 0; i < predictorDescs.length; i++){
+					boolean matchingDescriptor = false;
+					for(int j = 0; j < predictionDescs.length; j++){
+						if(predictorDescs[i].equals(predictionDescs[j])){
+							matchingDescriptor = true;
+							j = predictionDescs.length;
+						}
+					}
+					if(! matchingDescriptor){
+						descriptorsMatch = false;
+						errorStrings.add("The predictor '" + sp.getName() + "' contains the descriptor '" + predictorDescs[i] + "', but this " +
+								"descriptor was not found in the prediction dataset.");
+					}
+				}
 				
 				if(!descriptorsMatch){
 					return ERROR;
