@@ -298,8 +298,8 @@ public class PredictionFormActions extends ActionSupport{
 					"/DATASETS/" + predictorDataset.getName() + "/";
 				String[] predictorDescs = ReadDescriptorsFileWorkflow.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
 
-				Utility.writeToDebug("Prediction descs: " + predictionDescs);
-				Utility.writeToDebug("Predictor descs: " + predictorDescs);
+				Utility.writeToDebug("Prediction descs: " + Arrays.asList(predictionDescs).toString());
+				Utility.writeToDebug("Predictor descs: " + Arrays.asList(predictorDescs).toString());
 				
 				descriptorsMatch = true;
 				//for each predictor desc, make sure there's a matching prediction desc. 
