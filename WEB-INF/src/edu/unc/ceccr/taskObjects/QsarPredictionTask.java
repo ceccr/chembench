@@ -84,6 +84,7 @@ public class QsarPredictionTask extends WorkflowTask {
 							for(String childId: childIds){
 								Predictor cp = PopulateDataObjects.getPredictorById(Long.parseLong(childId), s);
 								allPredsTotalModels += cp.getNumTestModels();
+								selectedPredictorNames.add(sp.getName() + "/" + cp.getName());
 							}
 						}
 						else{
@@ -98,6 +99,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
 				float modelsPredictedSoFar = 0;
 				for(int i = 0; i < selectedPredictorNames.size(); i++){
+					
 					File predOutFile = null; 
 					
 					if(predictionDataset.getDatasetType().equals(Constants.PREDICTION) || 
