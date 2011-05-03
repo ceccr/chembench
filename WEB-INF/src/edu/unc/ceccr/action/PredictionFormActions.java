@@ -275,6 +275,13 @@ public class PredictionFormActions extends ActionSupport{
 		for(int i = 0; i < ids.length; i++){
 			Predictor sp = PopulateDataObjects.getPredictorById(Long.parseLong(ids[i]), session);
 			selectedPredictors.add(sp);
+			if(sp.getChildType() != null && sp.getChildType().equals(Constants.NFOLD)){
+				String[] childIds = sp.getChildIds().split("\\s+");
+				for(String childId: childIds){
+					Predictor cp = PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
+					numModels += cp.getNumTestModels();
+				}
+			}
 			numModels += sp.getNumTestModels();
 		}
 		
