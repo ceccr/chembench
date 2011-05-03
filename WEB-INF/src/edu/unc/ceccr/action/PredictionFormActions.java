@@ -296,7 +296,7 @@ public class PredictionFormActions extends ActionSupport{
 				DataSet predictorDataset = PopulateDataObjects.getDataSetById(sp.getDatasetId(), session);
 				String predictorDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + 
 					"/DATASETS/" + predictorDataset.getName() + "/";
-				String[] predictorDescs = ReadDescriptorsFileWorkflow.readDescriptorNamesFromX(predictorDataset, predictorDatasetDir);
+				String[] predictorDescs = ReadDescriptorsFileWorkflow.readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
 
 				descriptorsMatch = true;
 				//for each predictor desc, make sure there's a matching prediction desc. 
