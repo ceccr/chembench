@@ -77,9 +77,20 @@ public class QsarPredictionTask extends WorkflowTask {
 					ArrayList<String> selectedPredictorIds = new ArrayList<String>(Arrays.asList(selectedPredictorIdArray));
 					Collections.sort(selectedPredictorIds);
 					for(int i = 0; i < selectedPredictorIds.size(); i++){
-						Predictor selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIds.get(i)), s);
-						allPredsTotalModels += selectedPredictor.getNumTestModels();
-						selectedPredictorNames.add(selectedPredictor.getName());
+						Predictor sp = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIds.get(i)), s);
+						
+						if(sp.getChildType() != null && sp.getChildType().equals(Constants.NFOLD)){
+							String[] childIds = sp.getChildIds().split("\\s+");
+							for(String childId: childIds){
+								Predictor cp = PopulateDataObjects.getPredictorById(Long.parseLong(childId), s);
+								allPredsTotalModels += cp.getNumTestModels();
+							}
+						}
+						else{
+							allPredsTotalModels += sp.getNumTestModels();
+						}
+						
+						selectedPredictorNames.add(sp.getName());
 					}
 					
 					s.close();
