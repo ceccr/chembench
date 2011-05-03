@@ -282,7 +282,9 @@ public class PredictionFormActions extends ActionSupport{
 					numModels += cp.getNumTestModels();
 				}
 			}
-			numModels += sp.getNumTestModels();
+			else{
+				numModels += sp.getNumTestModels();
+			}
 		}
 		
 		//check descriptors of each of the selected predictors. Make sure that the
