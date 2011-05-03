@@ -26,7 +26,7 @@ function submitForm3(button)
 	if(validateForm()){
 		button.disabled=true;
 		button.form.submit();
-		document.getElementById("textarea").innerHTML="<i>Your workflow is being submitted, please wait.</i>";
+		//document.getElementById("textarea").innerHTML="<i>Your workflow is being submitted, please wait.</i>";
 		return true;
 	}
 	else{
