@@ -198,7 +198,6 @@
 <script language="JavaScript1.1">
 <!--
 function exportMol() {
-	
 	if(document.MSketch != null) {
 		var s = document.MSketch.getMol('smiles:');
 		s = unix2local(s); // Convert "\n" to local line separator

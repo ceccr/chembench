@@ -348,6 +348,9 @@ public class KnnPlusWorkflow{
 					if(line.contains("q2=")){
 						count++;
 					}
+					else if(line.contains("CCR=")){
+						count++;
+					}
 				}
 				br.close();
 			}
