@@ -99,7 +99,7 @@ public class WriteDownloadableFilesWorkflow{
 
 		ArrayList<CompoundPredictions> compoundPredictionValues = PopulateDataObjects.populateCompoundPredictionValues(prediction.getDatasetId(), predictionId, s);
 		for(CompoundPredictions cp: compoundPredictionValues){
-			out.write(cp.getCompound() + ",");
+			out.write(cp.getCompound().replaceAll(",", "_") + ",");
 			String predictionValues = "";
 			for(PredictionValue pv : cp.getPredictionValues()){
 				predictionValues += pv.getPredictedValue() + "," + pv.getStandardDeviation() + "," + pv.getNumModelsUsed() + "," + pv.getNumTotalModels() + ",";
