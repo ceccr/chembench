@@ -379,6 +379,9 @@
 						<s:if test='externalPredictionAccuracyAvg!="0.0 ± 0.0"'>
 						<s:property value="externalPredictionAccuracyAvg" />
 						</s:if>
+						<s:else>
+						NA
+						</s:else>
 						</td>
 					</s:if>
 					<s:else>
@@ -386,6 +389,9 @@
 						<s:if test='externalPredictionAccuracy!="0.0"'>
 						<s:property value="externalPredictionAccuracy" />
 						</s:if>
+						<s:else>
+						NA
+						</s:else>
 						</td>
 					</s:else>
 					<td><s:property value="modelMethod" /></td>

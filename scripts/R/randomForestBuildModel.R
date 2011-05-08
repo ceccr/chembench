@@ -117,15 +117,13 @@ readXfileScript = paste(scriptsDir, "readXfile.R", sep="")
 source(readXfileScript)
 
 # data split
-dataSplitsList = read.table(paste(workDir, dataSplitsListFile, sep=""))
+dataSplitsList = read.table(paste(workDir, dataSplitsListFile, sep="", quote=""))
 
 # external set
 cat("reading the external X file\n")
 externalDesc=readXfile(paste(workDir, externalXFile, sep=""),TRUE)
+externalPred = matrix(nrow = nrow(externalDesc), ncol = nrow(dataSplitsList), dimnames = list(rownames(externalDesc), sub("[.]x$", "", dataSplitsList[,1])))
 
-if(nrow(externalDesc) != 0){
-  externalPred = matrix(nrow = nrow(externalDesc), ncol = nrow(dataSplitsList), dimnames = list(rownames(externalDesc), sub("[.]x$", "", dataSplitsList[,1])))
-}
 models = vector(mode = "character", length = nrow(dataSplitsList))
 
 descriptorsUsedFile = paste(workDir, "descriptors_used_in_models.txt", sep="")
@@ -138,14 +136,15 @@ for(model in 1:nrow(dataSplitsList))
   x=readXfile(dataSplitXFile, TRUE)
 
   dataSplitActFile = paste(workDir, dataSplitsList[model,2], sep="")
-  dataSplitAct<-read.table(dataSplitActFile, row.names = 1, col.names = c("","activity"))
+  cat("data split act file: ", dataSplitActFile, "\n") 
+  dataSplitAct<-read.table(dataSplitActFile, row.names = 1, col.names = c("","activity"), quote="")
 
   # data split external set
   dataSplitExtXfile = paste(workDir, dataSplitsList[model,4], sep="")
   xtest=readXfile(dataSplitExtXfile, TRUE)
 
   dataSplitExtActFile = paste(workDir, dataSplitsList[model,5], sep="")
-  dataSplitExtAct<-read.table(dataSplitExtActFile ,row.names = 1, col.names = c("","activity"))
+  dataSplitExtAct<-read.table(dataSplitExtActFile ,row.names = 1, col.names = c("","activity"), quote="")
 
   y = dataSplitAct$activity
   names(y) = rownames(dataSplitAct)

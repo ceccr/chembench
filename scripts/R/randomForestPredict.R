@@ -49,7 +49,7 @@ cat("reading the x file to predict\n")
 data=readXfile(paste(workDir, xFile, sep=""), TRUE)
 
 cat("reading the models list file\n")
-modelsList = read.table(paste(workDir, modelsListFile, sep=""))
+modelsList = read.table(paste(workDir, modelsListFile, sep=""), quote="")
 
 models = as.vector(modelsList[,1])
 
