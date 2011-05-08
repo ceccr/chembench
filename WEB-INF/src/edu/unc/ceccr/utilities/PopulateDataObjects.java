@@ -140,17 +140,28 @@ public class PopulateDataObjects {
 				.add(Expression.eq("predictionId", predictionId))
 				.add(Expression.eq("predictorId", Long.parseLong(predictorId)))
 				.list();
+				
+				for(PredictionValue pv : predictorPredictionValues){
+					Predictor p = getPredictorById(Long.parseLong(predictorId), session);
+					int numTotalModels = 0;
+					if(p.getChildType() != null && p.getChildType().equals(Constants.NFOLD)){
+						numTotalModels = p.getNumTotalModels();
+					}
+					else{
+						numTotalModels = p.getNumTestModels();
+					}
+					pv.setNumTotalModels(numTotalModels);
+				}
+				
 				predictionValues.addAll(predictorPredictionValues);
+				
 			} catch (Exception ex) {
 				Utility.writeToDebug(ex);
 			} 
 		}
 		
 		
-		for(PredictionValue pv : predictionValues){
-			int numTotalModels = getPredictorById(pv.getPredictorId(), session).getNumTestModels();			
-			pv.setNumTotalModels(numTotalModels);
-		}
+		
 		return predictionValues;
 	}
 	
