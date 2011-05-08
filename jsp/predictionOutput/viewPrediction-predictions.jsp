@@ -32,7 +32,7 @@
 		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value="name" />&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
 		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value="name" />&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
 		</td>
-		<td class="TableRowText01">(<s:property value="name" />) <s:if test="childType=='NFOLD'">Number of Predicting Models / Total Models</s:if><s:else>Number of Predicting Folds / Total Folds</s:else></td>
+		<td class="TableRowText01">(<s:property value="name" />) <s:if test="childType=='NFOLD'">Number of Predicting Folds / Total Folds</s:if><s:else>Number of Predicting Models / Total Models</s:else></td>
 		</s:iterator>
 		</tr>
 		<!-- body for table -->
