@@ -129,7 +129,7 @@ public class ViewPredictionAction extends ActionSupport {
 			}
 			else{
 				pagenum = Integer.parseInt(currentPageNumber) - 1;
-				limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
+				limit = Integer.parseInt(user.getViewPredictionCompoundsPerPage()); //compounds per page to display
 				offset = pagenum * limit; //which compoundid to start on
 			}
 			
