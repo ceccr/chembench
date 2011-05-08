@@ -160,8 +160,6 @@ public class PopulateDataObjects {
 			} 
 		}
 		
-		
-		
 		return predictionValues;
 	}
 	
