@@ -45,7 +45,7 @@
 				</td>
 				<s:iterator value="predictionValues" status="predictionValuesStatus">
 				<td class="TableRowText02"><s:property value="predictedValue" /><s:if test="standardDeviation!=null"> &#177; </s:if><s:property value="standardDeviation" /></td>
-				<td class="TableRowText02"><s:property  value="numModelsUsed" /> / <s:property  value="predictors[#predictorsStatus.index].numTotalModels" /></td>
+				<td class="TableRowText02"><s:property  value="numModelsUsed" /> / totmod1 <s:property value="" /> totmod2 <s:property value="numTotalModels" /> totmod3 </td>
 				</s:iterator>
 			</tr>
 		</s:iterator>
