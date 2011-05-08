@@ -376,7 +376,7 @@
 					</td>
 					<s:if test="childType=='NFOLD'">
 						<td>
-						<s:if test='externalPredictionAccuracyAvg!="0.0"'>
+						<s:if test='externalPredictionAccuracyAvg!="0.0 ± 0.0"'>
 						<s:property value="externalPredictionAccuracyAvg" />
 						</s:if>
 						</td>
