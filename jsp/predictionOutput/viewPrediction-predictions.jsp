@@ -32,7 +32,7 @@
 		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value="name" />&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
 		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value="name" />&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
 		</td>
-		<td class="TableRowText01">(<s:property value="name" />) Number of Predicting Models / Total Models</td>
+		<td class="TableRowText01">(<s:property value="name" />) <s:if test="childType=='NFOLD'">Number of Predicting Models / Total Models</s:if><s:else>Number of Predicting Folds / Total Folds</s:else></td>
 		</s:iterator>
 		</tr>
 		<!-- body for left side table -->
@@ -44,8 +44,8 @@
 					<img src="/imageServlet?user=<s:property value="dataset.userName" />&projectType=predictor&compoundId=<s:property value='compound' />&project=<s:property value="prediction.name" />&datasetName=<s:property value="dataset.name" />" border="0" height="150" onmouseover='enlargeImage(this);' onmouseout='shrinkImage(this)'/></a>
 				</td>
 				<s:iterator value="predictionValues" status="predictionValuesStatus">
-				<td class="TableRowText02"><s:property value="predictedValue" /><s:if test="standardDeviation!=null"> &#177; </s:if><s:property value="standardDeviation" /><!-- prediction value +/- stddev --></td>
-				<td class="TableRowText02"><s:property  value="numModelsUsed" /><!-- number of models in prediction --> / <s:property  value="numTotalModels" /></td>
+				<td class="TableRowText02"><s:property value="predictedValue" /><s:if test="standardDeviation!=null"> &#177; </s:if><s:property value="standardDeviation" /></td>
+				<td class="TableRowText02"><s:property  value="numModelsUsed" /> / <s:property  value="numTotalModels" /></td>
 				</s:iterator>
 			</tr>
 		</s:iterator>

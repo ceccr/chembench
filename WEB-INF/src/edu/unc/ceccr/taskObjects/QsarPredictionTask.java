@@ -352,8 +352,6 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 			
 			//average the results from the child predictions and return them
-			//assumes that all children return results of the same size, i.e., 
-			//they all have the same number of compounds that they attempt to predict.
 			predValues = new ArrayList<PredictionValue>();
 			
 			ArrayList<PredictionValue> firstChildResults = childResults.get(0);

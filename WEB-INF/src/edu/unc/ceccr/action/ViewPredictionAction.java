@@ -122,7 +122,7 @@ public class ViewPredictionAction extends ActionSupport {
 			
 			//define which compounds will appear on page
 			int pagenum, limit, offset;
-			if(user.getViewDatasetCompoundsPerPage().equals(Constants.ALL)){
+			if(user.getViewPredictionCompoundsPerPage().equals(Constants.ALL)){
 				pagenum = 0;
 				limit = 99999999;
 				offset = pagenum * limit;

@@ -78,11 +78,21 @@ public class WriteDownloadableFilesWorkflow{
 		
 		String predictionHeader = "";
 		for(Predictor p: predictors){
-			predictionHeader += 
-				p.getName() + " Predicted Value," + 
-				p.getName() + " Standard Deviation," + 
-				p.getName() + " Predicting Models," + 
-				p.getName() + " Total Models,";
+			ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(p, s);
+			if(childPredictors.isEmpty()){
+				predictionHeader += 
+					p.getName() + " Predicted Value," + 
+					p.getName() + " Standard Deviation," + 
+					p.getName() + " Predicting Models," + 
+					p.getName() + " Total Models,";
+			}
+			else{
+				predictionHeader += 
+					p.getName() + " Predicted Value," + 
+					p.getName() + " Standard Deviation," + 
+					p.getName() + " Predicting Folds," + 
+					p.getName() + " Total Folds,";
+			}
 		}
 		predictionHeader = predictionHeader.substring(0, predictionHeader.lastIndexOf(","));
 		out.write("Compound ID," + predictionHeader + "\n");
@@ -111,7 +121,7 @@ public class WriteDownloadableFilesWorkflow{
 			while(it.hasNext()){
 				PredictionValue pv = it.next();
 				if(pv.getPredictorId().equals(p.getId())){
-					out.write(pv.getCompoundName()+","+pv.getPredictedValue()+",");
+					out.write(pv.getCompoundName().replaceAll(",", "_")+","+pv.getPredictedValue()+",");
 					out.write(pv.getStandardDeviation()+","+pv.getNumModelsUsed()+","+pv.getNumTotalModels()+"\n");
 				}
 			}

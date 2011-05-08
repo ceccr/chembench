@@ -40,7 +40,7 @@ public class Predictor implements java.io.Serializable {
 
 	private Long parentId; //reference to a parent predictor
 	private String childIds; //refs to child predictors
-	private String childType; //NFOLD or COMBI (not implemented yet).
+	private String childType; //NFOLD (or COMBI, which is not implemented yet).
 	
 	private String sdFileName;
 	private String actFileName;
