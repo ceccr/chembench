@@ -21,7 +21,7 @@
 	
 	<table width="924" align="center">
 		<tr>
-		<!-- header for left side table -->
+		<!-- header for table -->
 		<td class="TableRowText01">Compound ID<br />
 		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=compoundId&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
 		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?predictionId=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=compoundId&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
@@ -35,7 +35,7 @@
 		<td class="TableRowText01">(<s:property value="name" />) <s:if test="childType=='NFOLD'">Number of Predicting Models / Total Models</s:if><s:else>Number of Predicting Folds / Total Folds</s:else></td>
 		</s:iterator>
 		</tr>
-		<!-- body for left side table -->
+		<!-- body for table -->
 		<s:iterator value="compoundPredictionValues" status="compoundPredictionValuesStatus">
 			<tr>
 				<td class="TableRowText02"><s:property value="compound" /></td>

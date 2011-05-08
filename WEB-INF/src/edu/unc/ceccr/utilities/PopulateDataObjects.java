@@ -112,7 +112,14 @@ public class PopulateDataObjects {
 		} 
 
 		for(PredictionValue pv : predictionValues){
-			int numTotalModels = getPredictorById(pv.getPredictorId(), session).getNumTestModels();
+			Predictor p = getPredictorById(pv.getPredictorId(), session);
+			int numTotalModels = 0;
+			if(p.getChildType() != null && p.getChildType().equals(Constants.NFOLD)){
+				numTotalModels = p.getNumTotalModels();
+			}
+			else{
+				numTotalModels = p.getNumTestModels();
+			}
 			pv.setNumTotalModels(numTotalModels);
 		}
 		return predictionValues;

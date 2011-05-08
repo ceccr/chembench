@@ -106,6 +106,8 @@ public class PredictionValue implements java.io.Serializable{
 
 	@Transient
 	public int getNumTotalModels() {
+		//this will need to be set first, it's not in the database
+		//if you're getting a 0 back, set it first!
 		return numTotalModels;
 	}
 	public void setNumTotalModels(int numTotalModels) {

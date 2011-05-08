@@ -121,8 +121,8 @@ public class WriteDownloadableFilesWorkflow{
 			while(it.hasNext()){
 				PredictionValue pv = it.next();
 				if(pv.getPredictorId().equals(p.getId())){
-					out.write(pv.getCompoundName().replaceAll("\\,", "_")+","+pv.getPredictedValue()+",");
-					out.write(pv.getStandardDeviation()+","+pv.getNumModelsUsed()+","+pv.getNumTotalModels()+"\n");
+					out.write(pv.getCompoundName().replaceAll(",", "_")+","+pv.getPredictedValue()+",");
+					out.write(pv.getStandardDeviation()+","+pv.getNumModelsUsed()+","+p.getNumTotalModels()+"\n");
 				}
 			}
 			out.write("\n");
