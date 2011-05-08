@@ -375,10 +375,18 @@
 						</a>
 					</td>
 					<s:if test="childType=='NFOLD'">
-					<td><s:property value="externalPredictionAccuracyAvg" /></td>
+						<td>
+						<s:if test='externalPredictionAccuracyAvg!="0.0"'>
+						<s:property value="externalPredictionAccuracyAvg" />
+						</s:if>
+						</td>
 					</s:if>
 					<s:else>
-					<td><s:property value="externalPredictionAccuracy" /></td>
+						<td>
+						<s:if test='externalPredictionAccuracy!="0.0"'>
+						<s:property value="externalPredictionAccuracy" />
+						</s:if>
+						</td>
 					</s:else>
 					<td><s:property value="modelMethod" /></td>
 					<td><s:property value="descriptorGeneration" /></td>
