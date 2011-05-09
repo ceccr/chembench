@@ -352,6 +352,7 @@ public class DeleteAction extends ActionSupport{
 			if (j != null && j.getJobType().equals(Constants.MODELING)){
 				if(j.getLookupId() != null){
 					Session s = HibernateUtil.getSession();
+					Utility.writeToDebug("getting predictor with id: " + j.getLookupId());
 					Predictor p = PopulateDataObjects.getPredictorById(j.getLookupId(), s);
 					if(p.getParentId() != null){
 						Predictor parentPredictor = PopulateDataObjects.getPredictorById(p.getParentId(), s);
