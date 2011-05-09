@@ -626,6 +626,21 @@ public class PopulateDataObjects {
 	}
 	
 
+	public static Job getJobById(Long jobId, Session session) throws ClassNotFoundException, SQLException {
+		Job job = null;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			job = (Job) session.createCriteria(Job.class)
+					.add(Expression.eq("id", jobId))
+					.uniqueResult();
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+		} 
+		return job;
+	}
+	
 	public static Job getJobByNameAndUsername(String name, String userName, Session session){
 		Job job = null;
 		Transaction tx = null;

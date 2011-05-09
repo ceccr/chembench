@@ -348,10 +348,10 @@ public class DeleteAction extends ActionSupport{
 		Utility.writeToStrutsDebug("Deleting job with id: " + taskId);
 		
 		try{
-			Job j = CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
+			Session s = HibernateUtil.getSession();
+			Job j = PopulateDataObjects.getJobById(Long.parseLong(taskId), s);
 			if (j != null && j.getJobType().equals(Constants.MODELING)){
 				if(j.getLookupId() != null){
-					Session s = HibernateUtil.getSession();
 					Utility.writeToDebug("getting predictor with id: " + j.getLookupId());
 					Predictor p = PopulateDataObjects.getPredictorById(j.getLookupId(), s);
 					if(p.getParentId() != null){
@@ -372,12 +372,8 @@ public class DeleteAction extends ActionSupport{
 							Job sibJob = PopulateDataObjects.getJobByNameAndUsername(sp.getName(), sp.getUserName(), s);
 							CentralDogma.getInstance().cancelJob(sibJob.getId());
 						}
-						
-						//delete child and siblings
-						for(Predictor sp : siblingPredictors){
-							deletePredictor(sp, s);
-						}
-						deletePredictor(p, s);
+						//cancel this job
+						CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
 						
 						//delete the parent predictor
 						deletePredictor(parentPredictor, s);
