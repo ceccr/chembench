@@ -1,4 +1,8 @@
- 
+/* Contains several functions that are used by the Dataset, Modeling, Prediction, and Jobs pages
+ * Put functions here only if they apply to multiple pages.
+ * Functions that are used by, e.g., only the modeling page would go in modeling.js, not here.
+ */
+
 function setTabToHome(){
 	document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-grey.jpg' border='0' />";
 } 
@@ -32,32 +36,6 @@ function confirmDelete(objectType){
 	else
 		return false;
 }
-
-function validateDatasetDelete(name, usedPredictorNames, usedPredictionNames, usedTaskNames){
-	
-	for (var i=0; i < usedPredictorNames.length; i++){
-		if(name == usedPredictorNames[i]){
-			alert("Cannot delete dataset! Predictor " + usedPredictorNames[i] + " is using it!");
-			return false;
-		}
-	}
-	
-	for (var i=0; i < usedPredictionNames.length; i++){
-		if(name == usedPredictionNames[i]){
-			alert("Cannot delete dataset! Prediction " + usedPredictionNames[i] + " is using it");
-			return false;
-		}
-	}
-	
-	for (var i=0; i < usedTaskNames.length; i++){
-		if(name == usedTaskNames[i]){
-			alert("Cannot delete dataset! The job " + usedTaskNames[i] + " is running and using it.");
-			return false;
-		}
-	}
-	return true;
-}
-
 
 function validateObjectNames(name, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames){
 	 // Check for white space; replace with underscores if it's there.
@@ -154,9 +132,9 @@ function deleteCriteria(table)
 	for(i=row.length-1;i>=0;i--) {
 		
 		var input = row[i].cells[0].childNodes[0];
-		if(input.checked)
+		if(input.checked){
 			table.deleteRow(i);
-			
+		}
 	}
 }
 

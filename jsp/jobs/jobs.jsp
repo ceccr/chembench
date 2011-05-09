@@ -99,8 +99,8 @@
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02">
-					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
-					<s:elseif test="user.userName==userName && userName!='guest'"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
+					<s:if test="adminUser"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
+					<s:elseif test="user.userName==userName && userName!='guest'"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
 				</td>
 				</tr>
 			</s:iterator>
@@ -145,8 +145,8 @@
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02">
-					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
-					<s:elseif test="user.userName==userName && userName!='guest'"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif></td>
+					<s:if test="adminUser"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
+					<s:elseif test="user.userName==userName && userName!='guest'"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif></td>
 				</td>
 				</tr> 
 			</s:iterator>
@@ -192,8 +192,8 @@
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02">
-					<s:if test="adminUser"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
-					<s:elseif test="user.userName==userName && userName!='guest'"><a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
+					<s:if test="adminUser"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
+					<s:elseif test="user.userName==userName && userName!='guest'"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
 				</td>
 				</tr> 
 			</s:iterator>
@@ -253,7 +253,7 @@
 				<td class="TableRowText02"><s:if test="jobTypeString!='dataset'"><s:property value="numModels" /></s:if><s:else>N/A</s:else></td>
 				<td class="TableRowText02"><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
 				<s:if test="adminUser"><td class="TableRowText02">
-					<a href="deleteJob?id=<s:property value="id" />#jobs">remove</a>
+					<a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">remove</a>
 				</td></s:if>
 				</tr> 
 			</s:iterator>
