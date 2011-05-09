@@ -354,29 +354,38 @@ public class DeleteAction extends ActionSupport{
 				if(j.getLookupId() != null){
 					Utility.writeToDebug("getting predictor with id: " + j.getLookupId());
 					Predictor p = PopulateDataObjects.getPredictorById(j.getLookupId(), s);
-					if(p.getParentId() != null){
-						Predictor parentPredictor = PopulateDataObjects.getPredictorById(p.getParentId(), s);
-						String[] childPredictorIds = parentPredictor.getChildIds().split("\\s+");
+					
+					String parentPredictorName = "";
+					if(p.getName().matches(".*_fold_(\\d+)_of_(\\d+)")){
+						int pos = p.getName().lastIndexOf("_fold");
+						parentPredictorName = p.getName().substring(0,pos);
+					}
+					if(! parentPredictorName.isEmpty()){
 						
-						//get siblings
-						ArrayList<Predictor> siblingPredictors = new ArrayList<Predictor>();
-						for(String childPredictorId: childPredictorIds){
-							if(! childPredictorId.equals("" + p.getId())){
-								Predictor sibling = PopulateDataObjects.getPredictorById(Long.parseLong(childPredictorId), s);
-								siblingPredictors.add(sibling);
+						Predictor parentPredictor = PopulateDataObjects.getPredictorByName(parentPredictorName,p.getUserName(),s);
+						if(parentPredictor != null){
+							String[] childPredictorIds = parentPredictor.getChildIds().split("\\s+");
+							
+							//get siblings
+							ArrayList<Predictor> siblingPredictors = new ArrayList<Predictor>();
+							for(String childPredictorId: childPredictorIds){
+								if(! childPredictorId.equals("" + p.getId())){
+									Predictor sibling = PopulateDataObjects.getPredictorById(Long.parseLong(childPredictorId), s);
+									siblingPredictors.add(sibling);
+								}
 							}
+							
+							//find sibling jobs and cancel those
+							for(Predictor sp : siblingPredictors){
+								Job sibJob = PopulateDataObjects.getJobByNameAndUsername(sp.getName(), sp.getUserName(), s);
+								CentralDogma.getInstance().cancelJob(sibJob.getId());
+							}
+							//cancel this job
+							CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
+							
+							//delete the parent predictor
+							deletePredictor(parentPredictor, s);
 						}
-						
-						//find sibling jobs and cancel those
-						for(Predictor sp : siblingPredictors){
-							Job sibJob = PopulateDataObjects.getJobByNameAndUsername(sp.getName(), sp.getUserName(), s);
-							CentralDogma.getInstance().cancelJob(sibJob.getId());
-						}
-						//cancel this job
-						CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
-						
-						//delete the parent predictor
-						deletePredictor(parentPredictor, s);
 					}
 					s.close();
 				}
