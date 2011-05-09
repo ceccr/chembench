@@ -233,6 +233,7 @@ public class PopulateDataObjects {
 		return compoundPredictionValues;
 	}
 
+	
 	@SuppressWarnings("unchecked")
 	public static List populateDatasetsForPrediction(String userName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		List <DataSet> dataSets = null;
@@ -622,6 +623,24 @@ public class PopulateDataObjects {
 		
 		Collections.reverse(predictions);
 		return predictions;
+	}
+	
+
+	public static Job getJobByNameAndUsername(String name, String userName, Session session){
+		Job job = null;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			job = (Job) session.createCriteria(Job.class)
+					.add(Expression.eq("jobName", name))
+					.add(Expression.eq("userName", userName))
+					.uniqueResult();
+
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+		} 
+		return job;
 	}
 	
 	public static String getSdfFileForDataset(String datasetName, String userName, Session session) throws ClassNotFoundException, SQLException {

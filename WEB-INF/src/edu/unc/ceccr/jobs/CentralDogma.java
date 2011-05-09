@@ -170,7 +170,7 @@ public class CentralDogma{
 		
 	}
 	
-	public void cancelJob(Long jobId) throws Exception{
+	public Job cancelJob(Long jobId) throws Exception{
 		//Find job's information, then remove the job from any lists it's in.
 
 		Utility.writeToDebug("Deleting job with id: " + jobId);
@@ -265,11 +265,13 @@ public class CentralDogma{
 			finally{
 				s.close();
 			}
+			return j;
 		}
 		
 		//doesn't matter which list it was in, this will delete the job's DB entry
 		//and make a jobstats entry for it.
 		incomingJobs.deleteJobFromDB(jobId);
+		return null;
 	}
 
 	public void moveJobToErrorList(Long jobId){

@@ -32,6 +32,7 @@ import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
@@ -195,7 +196,6 @@ public class DeleteAction extends ActionSupport{
 		
 		String predictorId;
 		Predictor p = null;
-		ArrayList<ExternalValidation> extVals = new ArrayList<ExternalValidation>();
 		
 		predictorId = ((String[]) context.getParameters().get("id"))[0];
 		Utility.writeToStrutsDebug("Deleting predictor with id: " + predictorId);
@@ -224,6 +224,13 @@ public class DeleteAction extends ActionSupport{
 			return ERROR;
 		}
 
+		deletePredictor(p, session);
+		session.close();
+		
+		return SUCCESS;
+	}
+	public void deletePredictor(Predictor p, Session session){
+		ArrayList<ExternalValidation> extVals = new ArrayList<ExternalValidation>();
 		//delete the files associated with this predictor
 		String dir = Constants.CECCR_USER_BASE_PATH+p.getUserName()+"/PREDICTORS/"+p.getName()+"/";
 		if(! FileAndDirOperations.deleteDir(new File(dir))){
@@ -258,9 +265,7 @@ public class DeleteAction extends ActionSupport{
 				tx.rollback();
 			Utility.writeToDebug(e);
 		}
-		session.close();
 		
-		return SUCCESS;
 	}
 
 	public String deletePrediction() throws Exception{
@@ -343,7 +348,42 @@ public class DeleteAction extends ActionSupport{
 		Utility.writeToStrutsDebug("Deleting job with id: " + taskId);
 		
 		try{
-			CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
+			Job j = CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
+			if (j != null && j.getJobType().equals(Constants.MODELING)){
+				if(j.getLookupId() != null){
+					Session s = HibernateUtil.getSession();
+					Predictor p = PopulateDataObjects.getPredictorById(j.getLookupId(), s);
+					if(p.getParentId() != null){
+						Predictor parentPredictor = PopulateDataObjects.getPredictorById(p.getParentId(), s);
+						String[] childPredictorIds = parentPredictor.getChildIds().split("\\s+");
+						
+						//get siblings
+						ArrayList<Predictor> siblingPredictors = new ArrayList<Predictor>();
+						for(String childPredictorId: childPredictorIds){
+							if(! childPredictorId.equals("" + p.getId())){
+								Predictor sibling = PopulateDataObjects.getPredictorById(Long.parseLong(childPredictorId), s);
+								siblingPredictors.add(sibling);
+							}
+						}
+						
+						//find sibling jobs and cancel those
+						for(Predictor sp : siblingPredictors){
+							Job sibJob = PopulateDataObjects.getJobByNameAndUsername(sp.getName(), sp.getUserName(), s);
+							CentralDogma.getInstance().cancelJob(sibJob.getId());
+						}
+						
+						//delete child and siblings
+						for(Predictor sp : siblingPredictors){
+							deletePredictor(sp, s);
+						}
+						deletePredictor(p, s);
+						
+						//delete the parent predictor
+						deletePredictor(parentPredictor, s);
+					}
+					s.close();
+				}
+			}
 		}
 		catch(Exception ex){
 			//if it failed, no big deal - just write out the exception.
