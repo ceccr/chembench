@@ -229,7 +229,7 @@ public class DeleteAction extends ActionSupport{
 		
 		return SUCCESS;
 	}
-	public void deletePredictor(Predictor p, Session session){
+	public void deletePredictor(Predictor p, Session session) throws Exception{
 		ArrayList<ExternalValidation> extVals = new ArrayList<ExternalValidation>();
 		//delete the files associated with this predictor
 		String dir = Constants.CECCR_USER_BASE_PATH+p.getUserName()+"/PREDICTORS/"+p.getName()+"/";
