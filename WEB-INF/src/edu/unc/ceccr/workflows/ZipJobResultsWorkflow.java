@@ -116,7 +116,8 @@ public class ZipJobResultsWorkflow{
 		while(projectDirFilenames != null && x<projectDirFilenames.length){
 			if(projectDirFilenames[x].endsWith(".act") 
 					|| projectDirFilenames[x].endsWith(".sdf") 
-					|| projectDirFilenames[x].endsWith(".x")){
+					|| projectDirFilenames[x].endsWith(".x")
+					|| projectDirFilenames[x].replaceAll("[0-9]", "").endsWith("fold")){
 				datasetFiles.add(projectDirFilenames[x]);
 			}
 			x++;
