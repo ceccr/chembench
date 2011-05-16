@@ -185,6 +185,8 @@ public class DatasetFormActions extends ActionSupport{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
 							actFileModeling, actFileModelingFileName, null, "", datasetName, 
 							dataTypeModeling, datasetType, externalCompoundList);
+					sdfFileModelingFileName = sdfFileModelingFileName.replaceAll(" ", "_");
+					actFileModelingFileName = actFileModelingFileName.replaceAll(" ", "_");
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -242,6 +244,7 @@ public class DatasetFormActions extends ActionSupport{
 				try{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, 
 							"", null, "", datasetName, dataTypeModeling, datasetType, externalCompoundList);
+					sdfFilePredictionFileName = sdfFilePredictionFileName.replaceAll(" ", "_");
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -314,6 +317,9 @@ public class DatasetFormActions extends ActionSupport{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
 							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
 							dataTypeModeling, datasetType, externalCompoundList);
+					sdfFileModDescFileName = sdfFileModDescFileName.replaceAll(" ", "_");
+					actFileModDescFileName = actFileModDescFileName.replaceAll(" ", "_");
+					xFileModDescFileName = xFileModDescFileName.replaceAll(" ", "_");
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -374,6 +380,8 @@ public class DatasetFormActions extends ActionSupport{
 					
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
 							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType, externalCompoundList);
+					sdfFilePredDescFileName = sdfFilePredDescFileName.replaceAll(" ", "_");
+					xFilePredDescFileName = xFilePredDescFileName.replaceAll(" ", "_");
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
