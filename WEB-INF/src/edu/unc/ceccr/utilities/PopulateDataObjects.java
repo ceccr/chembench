@@ -58,7 +58,7 @@ public class PopulateDataObjects {
 	}
 
 	public static ArrayList populateClassInChunks(Class c, int chunkSize, int chunkIndex, Session session){
-		//gets all of any one object from the database, returns it as a list
+		//gets a bunch of any one object from the database, returns it as a list
 		ArrayList list = null;
 		Transaction tx = null;
 		Utility.writeToDebug("PopulateClassInChunks called with chunkSize " + chunkSize + " and chunkIndex " + chunkIndex);
@@ -738,6 +738,36 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			prediction = (Prediction) session.createCriteria(Prediction.class)
 					.add(Expression.eq("id", predictionId))
+					.uniqueResult();
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+		} 
+
+		String predictorNames = "";
+		String[] predictorIds = prediction.getPredictorIds().split("\\s+");
+		for(int i = 0; i < predictorIds.length; i++){
+			predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
+		}
+		prediction.setPredictorNames(predictorNames);
+		prediction.setDatabase(prediction.getDatabase());
+
+		if(prediction.getDatasetId() != null && getDataSetById(prediction.getDatasetId(), session) != null){
+			prediction.setDatasetDisplay(getDataSetById(prediction.getDatasetId(), session).getName());
+		}
+		
+		return prediction;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static Prediction getPredictionByName(String jobName, String userName, Session session) throws Exception{
+		Prediction prediction = null;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			prediction = (Prediction) session.createCriteria(Prediction.class)
+					.add(Expression.eq("userName", userName))
+					.add(Expression.eq("name", jobName))
 					.uniqueResult();
 			tx.commit();
 		} catch (Exception e) {
