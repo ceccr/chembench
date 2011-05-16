@@ -222,12 +222,10 @@ public class ZipJobResultsWorkflow{
 
 		ArrayList<String> modelingFiles = new ArrayList<String>(); //list of files that will be in the downloaded zip
 
-		
 		Session session = HibernateUtil.getSession();
 		Predictor predictor = PopulateDataObjects.getPredictorByName(jobName, predictorUserName, session);
 		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, session);
 		session.close();
-		
 		
 		//add in the .act, .sdf, and .a files
 		if(childPredictors != null){
