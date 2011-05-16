@@ -4,6 +4,7 @@ package edu.unc.ceccr.workflows;
 import java.io.*;
 
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -307,7 +308,6 @@ public class ZipJobResultsWorkflow{
 		else{
 			//getting the confusion matrix as text could be nice.
 			//maybe later.
-			
 		}
 		
 		//get external predictions
@@ -383,6 +383,13 @@ public class ZipJobResultsWorkflow{
 			return;
 		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
+
+		Session session = HibernateUtil.getSession();
+		Prediction prediction = PopulateDataObjects.getPredictionByName(jobName, predictionUserName, session);
+		session.close();
+		if(! new File(prediction.getName() + "-prediction-values.csv").exists()){
+			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(prediction.getId());
+		}
 		
 		if(Utility.canDownloadDescriptors(userName)){
 			//this is a special user - just give them the whole damn directory
@@ -405,6 +412,7 @@ public class ZipJobResultsWorkflow{
 		*/
 		
 		ArrayList<String> predictionFiles = new ArrayList<String>();
+		predictionFiles.add(prediction.getName() + "-prediction-values.csv");
 		
 		//add in the prediction dataset files
 		File projectDirFile = new File(projectDir);
