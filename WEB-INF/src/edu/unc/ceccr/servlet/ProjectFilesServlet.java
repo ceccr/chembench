@@ -39,10 +39,10 @@ public class ProjectFilesServlet extends HttpServlet {
        
 		try {
 			if(projectType.equalsIgnoreCase("PREDICTORS")){
-				ZipJobResultsWorkflow.ZipKnnModelingResults(userName, projectUserName, projectName, zipFile);
+				ZipJobResultsWorkflow.ZipModelingResults(userName, projectUserName, projectName, zipFile);
 			}
 			else{
-				ZipJobResultsWorkflow.ZipKnnPredictionResults(userName, projectUserName, projectName, zipFile);
+				ZipJobResultsWorkflow.ZipPredictionResults(userName, projectUserName, projectName, zipFile);
 			}	
 		} catch (Exception e){
 			Utility.writeToDebug(e);

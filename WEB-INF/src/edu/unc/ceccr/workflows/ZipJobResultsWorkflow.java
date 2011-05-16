@@ -3,12 +3,20 @@ package edu.unc.ceccr.workflows;
 
 import java.io.*;
 
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.global.Constants;
 
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.*;
+
+import org.hibernate.Session;
 
 public class ZipJobResultsWorkflow{
 
@@ -171,7 +179,7 @@ public class ZipJobResultsWorkflow{
 		out.close();
 	}
 	
-	public static void ZipKnnModelingResults(String userName, String predictorUserName, String jobName, String zipFile) throws Exception{
+	public static void ZipModelingResults(String userName, String predictorUserName, String jobName, String zipFile) throws Exception{
 		/*
 		So, there are two contradicting goals this function has to achieve.
 		(1) It should provide the user with a usable predictor.
@@ -184,7 +192,12 @@ public class ZipJobResultsWorkflow{
 		format conversion tools in Chembench. And a copy of the modeling tool. 
 		
 		The only reason the 'download' option is even there is so that users in the lab
-		(i.e. those with descriptor privileges) can get their stuff out. 
+		(i.e. those with descriptor download privileges) can get their stuff out. 
+		
+		So all we give to non-descriptor users is:
+		- the external set charts 
+ 		- a summary of the models
+ 		- Detailed (model-by-model) external set prediction data, if applicable.
 		 */
 		
 		Utility.writeToDebug("Creating archive of predictor: " + jobName);
@@ -206,23 +219,83 @@ public class ZipJobResultsWorkflow{
 		
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 		byte[] buf = new byte[1024];
+
+		ArrayList<String> modelingFiles = new ArrayList<String>(); //list of files that will be in the downloaded zip
+
 		
-		/*
-			Modeling Output zipfile should contain:
-			knn-output.tbl
-			external_prediction_table
-			mychart.jpeg
-			*.act 
-			*.sdf
-			*.a
-			Logs/*
-		*/
+		Session session = HibernateUtil.getSession();
+		Predictor predictor = PopulateDataObjects.getPredictorByName(jobName, predictorUserName, session);
+		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, session);
+		session.close();
 		
-		ArrayList<String> modelingFiles = new ArrayList<String>();
-		//add in the modeling summary files
-		modelingFiles.add("knn-output.tbl");
-		modelingFiles.add("mychart.jpeg");
-		modelingFiles.add("external_prediction_table");
+		if(predictor.getActivityType().equals(Constants.CONTINUOUS)){
+			//build ext validation chart(s)
+			if(! new File(projectDir+"mychart.jpeg").exists()){
+				CreateExtValidationChartWorkflow.createChart(predictor, "0");
+				modelingFiles.add("mychart.jpeg");
+			}
+			if(childPredictors != null){
+				for(Predictor cp: childPredictors){
+					if(! new File(projectDir+"mychart.jpeg").exists()){
+						Pattern p = Pattern.compile("fold_(\\d+)_of_(\\d+)");
+						Matcher matcher = p.matcher(cp.getName());
+						if(matcher.find()){
+							int foldNum = Integer.parseInt(matcher.group(1));
+							if(! new File(projectDir + cp.getName() + "/mychart.jpeg").exists()){
+								CreateExtValidationChartWorkflow.createChart(predictor, "" + foldNum);
+							}
+						}
+					}
+					modelingFiles.add(cp.getName() + "/mychart.jpeg");
+				}
+			}
+		}
+		else{
+			//getting the confusion matrix as text could be nice.
+			//maybe later.
+			
+		}
+		
+		if(! new File(projectDir + predictor.getName() + "-external-set-predictions.csv").exists()){
+			WriteDownloadableFilesWorkflow.writeExternalPredictionsAsCSV(predictor.getId());
+		}
+		modelingFiles.add(predictor.getName() + "-external-set-predictions.csv");
+		
+		//add files specific to the modeling method (per-model outputs, parameters files)
+		if(predictor.getModelMethod().equals(Constants.SVM)){
+			modelingFiles.add("svm-params.txt");
+			modelingFiles.add("svm-results.txt");
+			modelingFiles.add("yRandom/svm-params.txt");
+			modelingFiles.add("yRandom/svm-results.txt");
+			if(childPredictors != null){
+				for(Predictor cp: childPredictors){
+					modelingFiles.add(cp.getName() + "/svm-params.txt");
+					modelingFiles.add(cp.getName() + "/svm-results.txt");
+					modelingFiles.add(cp.getName() + "/yRandom/svm-params.txt");
+					modelingFiles.add(cp.getName() + "/yRandom/svm-results.txt");
+				}
+			}
+		}
+		else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+			modelingFiles.add("RF_ext_0.pred");
+			if(childPredictors != null){
+				for(Predictor cp: childPredictors){
+					modelingFiles.add(cp.getName() + "/RF_ext_0.pred");
+				}
+			}
+		}
+		else if(predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants.KNNSA)){
+			modelingFiles.add("cons_pred_vs_ext_0.preds");
+			if(childPredictors != null){
+				for(Predictor cp: childPredictors){
+					modelingFiles.add(cp.getName() + "/cons_pred_vs_ext_0.preds");
+				}
+			}
+		}
+		else{
+			//old-style KNN. No real need to support this.
+		}
+		
 		
 		//add in the .act, .sdf, and .a files
 		File projectDirFile = new File(projectDir);
@@ -262,6 +335,9 @@ public class ZipJobResultsWorkflow{
 		            out.closeEntry();
 		            in.close();
 				}
+				else{
+					//don't worry about missing files
+				}
 			}
 			catch(Exception ex){
 				Utility.writeToDebug(ex);
@@ -270,7 +346,7 @@ public class ZipJobResultsWorkflow{
 		out.close();
 	}
 		
-	public static void ZipKnnPredictionResults(String userName, String predictionUserName, String jobName, String zipFile) throws Exception{
+	public static void ZipPredictionResults(String userName, String predictionUserName, String jobName, String zipFile) throws Exception{
 		Utility.writeToDebug("Creating archive of prediction: " + jobName);
 		String projectSubDir = predictionUserName + "/PREDICTIONS/" + jobName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
