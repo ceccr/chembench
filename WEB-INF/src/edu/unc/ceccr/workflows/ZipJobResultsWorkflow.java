@@ -228,6 +228,63 @@ public class ZipJobResultsWorkflow{
 		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, session);
 		session.close();
 		
+		
+		//add in the .act, .sdf, and .a files
+		if(childPredictors != null){
+			for(Predictor cp: childPredictors){
+				File projectDirFile = new File(projectDir + cp.getName() + "/");
+				String[] projectDirFilenames = projectDirFile.list();
+				
+				int x = 0;
+				while(projectDirFilenames != null && x<projectDirFilenames.length){
+					if(projectDirFilenames[x].endsWith(".act") 
+							|| projectDirFilenames[x].endsWith(".sdf") 
+							|| projectDirFilenames[x].endsWith(".a")){
+						modelingFiles.add(cp.getName() + "/" + projectDirFilenames[x]);
+					}
+					x++;
+				}
+			}
+		}
+		else{
+			File projectDirFile = new File(projectDir);
+			String[] projectDirFilenames = projectDirFile.list();
+			
+			int x = 0;
+			while(projectDirFilenames != null && x<projectDirFilenames.length){
+				if(projectDirFilenames[x].endsWith(".act") 
+						|| projectDirFilenames[x].endsWith(".sdf") 
+						|| projectDirFilenames[x].endsWith(".a")){
+					modelingFiles.add(projectDirFilenames[x]);
+				}
+				x++;
+			}
+		}
+		
+		//add the Logs files in
+		if(childPredictors != null){
+			for(Predictor cp: childPredictors){
+				File ProjectDirLogsFile = new File(projectDir + cp.getName() + "/Logs/");
+				String[] projectDirLogsFilenames = ProjectDirLogsFile.list();
+				int x = 0;
+				while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
+					modelingFiles.add(cp.getName() + "/Logs/" + projectDirLogsFilenames[x]);
+					x++;
+				}
+			}
+		}
+		else{
+			File ProjectDirLogsFile = new File(projectDir + "Logs/");
+			String[] projectDirLogsFilenames = ProjectDirLogsFile.list();
+			int x = 0;
+			while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
+				modelingFiles.add("Logs/" + projectDirLogsFilenames[x]);
+				x++;
+			}
+		}
+		
+		
+		//get external prediction summary information
 		if(predictor.getActivityType().equals(Constants.CONTINUOUS)){
 			//build ext validation chart(s)
 			if(! new File(projectDir+"mychart.jpeg").exists()){
@@ -256,6 +313,7 @@ public class ZipJobResultsWorkflow{
 			
 		}
 		
+		//get external predictions
 		if(! new File(projectDir + predictor.getName() + "-external-set-predictions.csv").exists()){
 			WriteDownloadableFilesWorkflow.writeExternalPredictionsAsCSV(predictor.getId());
 		}
@@ -294,32 +352,6 @@ public class ZipJobResultsWorkflow{
 		}
 		else{
 			//old-style KNN. No real need to support this.
-		}
-		
-		
-		//add in the .act, .sdf, and .a files
-		File projectDirFile = new File(projectDir);
-		String[] projectDirFilenames = projectDirFile.list();
-		if(projectDirFilenames == null){
-			Utility.writeToDebug("Error reading directory: " + projectDir);
-		}
-		int x = 0;
-		while(projectDirFilenames != null && x<projectDirFilenames.length){
-			if(projectDirFilenames[x].endsWith(".act") 
-					|| projectDirFilenames[x].endsWith(".sdf") 
-					|| projectDirFilenames[x].endsWith(".a")){
-				modelingFiles.add(projectDirFilenames[x]);
-			}
-			x++;
-		}
-		
-		//add the Logs files in
-		File ProjectDirLogsFile = new File(projectDir + "Logs/");
-		String[] projectDirLogsFilenames = ProjectDirLogsFile.list();
-		x = 0;
-		while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
-			modelingFiles.add("Logs/" + projectDirLogsFilenames[x]);
-			x++;
 		}
 		
 		//modelingFiles now contains names of all the files we need. Package it up!
