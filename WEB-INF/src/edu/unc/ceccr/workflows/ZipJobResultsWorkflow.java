@@ -228,7 +228,7 @@ public class ZipJobResultsWorkflow{
 		session.close();
 		
 		//add in the .act, .sdf, and .a files
-		if(childPredictors != null){
+		if(childPredictors != null && !childPredictors.isEmpty()){
 			for(Predictor cp: childPredictors){
 				File projectDirFile = new File(projectDir + cp.getName() + "/");
 				String[] projectDirFilenames = projectDirFile.list();
@@ -260,7 +260,7 @@ public class ZipJobResultsWorkflow{
 		}
 		
 		//add the Logs files in
-		if(childPredictors != null){
+		if(childPredictors != null && !childPredictors.isEmpty()){
 			for(Predictor cp: childPredictors){
 				File ProjectDirLogsFile = new File(projectDir + cp.getName() + "/Logs/");
 				String[] projectDirLogsFilenames = ProjectDirLogsFile.list();
@@ -288,7 +288,7 @@ public class ZipJobResultsWorkflow{
 				CreateExtValidationChartWorkflow.createChart(predictor, "0");
 			}
 			modelingFiles.add("mychart.jpeg");
-			if(childPredictors != null){
+			if(childPredictors != null && !childPredictors.isEmpty()){
 				for(Predictor cp: childPredictors){
 					if(! new File(projectDir+cp.getName()+"/mychart.jpeg").exists()){
 						Pattern p = Pattern.compile("fold_(\\d+)_of_(\\d+)");
@@ -322,7 +322,7 @@ public class ZipJobResultsWorkflow{
 			modelingFiles.add("svm-results.txt");
 			modelingFiles.add("yRandom/svm-params.txt");
 			modelingFiles.add("yRandom/svm-results.txt");
-			if(childPredictors != null){
+			if(childPredictors != null && !childPredictors.isEmpty()){
 				for(Predictor cp: childPredictors){
 					modelingFiles.add(cp.getName() + "/svm-params.txt");
 					modelingFiles.add(cp.getName() + "/svm-results.txt");
@@ -333,7 +333,7 @@ public class ZipJobResultsWorkflow{
 		}
 		else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
 			modelingFiles.add("RF_ext_0.pred");
-			if(childPredictors != null){
+			if(childPredictors != null && !childPredictors.isEmpty()){
 				for(Predictor cp: childPredictors){
 					modelingFiles.add(cp.getName() + "/RF_ext_0.pred");
 				}
@@ -341,7 +341,7 @@ public class ZipJobResultsWorkflow{
 		}
 		else if(predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants.KNNSA)){
 			modelingFiles.add("cons_pred_vs_ext_0.preds");
-			if(childPredictors != null){
+			if(childPredictors != null && !childPredictors.isEmpty()){
 				for(Predictor cp: childPredictors){
 					modelingFiles.add(cp.getName() + "/cons_pred_vs_ext_0.preds");
 				}
