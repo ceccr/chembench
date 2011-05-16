@@ -40,7 +40,9 @@ public class WriteDownloadableFilesWorkflow{
 			externalValidationValues = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(predictor.getId(), s);	
 		}
 		else{
-			
+			for(Predictor cp: childPredictors){
+				
+			}
 		}
 	}
 	
