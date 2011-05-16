@@ -281,7 +281,6 @@ public class ZipJobResultsWorkflow{
 			}
 		}
 		
-		
 		//get external prediction summary information
 		if(predictor.getActivityType().equals(Constants.CONTINUOUS)){
 			//build ext validation chart(s)
