@@ -289,11 +289,11 @@ public class ZipJobResultsWorkflow{
 			//build ext validation chart(s)
 			if(! new File(projectDir+"mychart.jpeg").exists()){
 				CreateExtValidationChartWorkflow.createChart(predictor, "0");
-				modelingFiles.add("mychart.jpeg");
 			}
+			modelingFiles.add("mychart.jpeg");
 			if(childPredictors != null){
 				for(Predictor cp: childPredictors){
-					if(! new File(projectDir+"mychart.jpeg").exists()){
+					if(! new File(projectDir+cp.getName()+"/mychart.jpeg").exists()){
 						Pattern p = Pattern.compile("fold_(\\d+)_of_(\\d+)");
 						Matcher matcher = p.matcher(cp.getName());
 						if(matcher.find()){
