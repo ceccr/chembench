@@ -241,6 +241,9 @@ public class ZipJobResultsWorkflow{
 							|| projectDirFilenames[x].endsWith(".a")){
 						modelingFiles.add(cp.getName() + "/" + projectDirFilenames[x]);
 					}
+					else if(projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
+						modelingFiles.add(projectDirFilenames[x]);
+					}
 					x++;
 				}
 			}
@@ -254,6 +257,9 @@ public class ZipJobResultsWorkflow{
 				if(projectDirFilenames[x].endsWith(".act") 
 						|| projectDirFilenames[x].endsWith(".sdf") 
 						|| projectDirFilenames[x].endsWith(".a")){
+					modelingFiles.add(projectDirFilenames[x]);
+				}
+				else if(projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
 					modelingFiles.add(projectDirFilenames[x]);
 				}
 				x++;
