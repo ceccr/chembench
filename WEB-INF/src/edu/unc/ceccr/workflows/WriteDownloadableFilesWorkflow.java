@@ -31,19 +31,50 @@ public class WriteDownloadableFilesWorkflow{
 	public static void writeExternalPredictionsAsCSV(Long predictorId) throws Exception{
 		Session s = HibernateUtil.getSession();
 		Predictor predictor = PopulateDataObjects.getPredictorById(predictorId, s);
-		ArrayList<ExternalValidation> externalValidationValues;
+		ArrayList<ExternalValidation> externalValidationValues = new ArrayList<ExternalValidation>();
 		
 		String outfileName = Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" + 
 			predictor.getName() + "/" + predictor.getName() + "-external-set-predictions.csv";
+		BufferedWriter out = new BufferedWriter(new FileWriter(outfileName));
+		
 		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, s);
 		if(childPredictors.isEmpty()){
 			externalValidationValues = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(predictor.getId(), s);	
 		}
 		else{
 			for(Predictor cp: childPredictors){
-				
+				externalValidationValues.addAll((ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), s));	
 			}
 		}
+		
+		out.write("Chembench Predictor External Validation\n"
+				+"User Name,"+predictor.getUserName()+"\n"
+				+"Predictor Name,"+predictor.getName()+"\n"
+				+"Dataset,"+predictor.getDatasetDisplay()+"\n"
+				+"Modeling Method,"+predictor.getModelMethod()+"\n"
+				+"Descriptor Type,"+predictor.getDescriptorGeneration()+"\n"
+				+"Created Date,"+Utility.formatDate(predictor.getDateCreated())+"\n"
+				+"Download Date,"+new Date()+"\n"
+				+"Web Site," + Constants.WEBADDRESS+"\n\n");
+		out.write("Compound ID," + 
+				"Observed Value," + 
+				"Predicted Value," + 
+				"Standard Deviation," +
+				"Number of Predicting Models," +
+				"Total Number of Models\n");
+		
+		for(ExternalValidation ev: externalValidationValues){
+			String observedValueStr = Utility.roundSignificantFigures(""+ev.getActualValue(), Constants.REPORTED_SIGNIFICANT_FIGURES);
+			String predictedValueStr = Utility.roundSignificantFigures(""+ev.getPredictedValue(), Constants.REPORTED_SIGNIFICANT_FIGURES);
+			out.write(ev.getCompoundId() + ","+
+					observedValueStr + "," + 
+					predictedValueStr + "," + 
+					ev.getStandDev() + "," +
+					ev.getNumModels() + "," +
+					ev.getNumTotalModels() + "\n");
+		}
+		
+		out.close();
 	}
 	
 	public static void writePredictionValuesAsCSV(Long predictionId) throws Exception{
