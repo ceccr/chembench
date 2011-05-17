@@ -89,6 +89,9 @@
 				</s:if>
 				</div>
 			</s:else>
+			<br />
+			<a href="fileServlet?id=<s:property value="predictor.id" />&user=<s:property value="userName" />&jobType=MODELING&file=externalPredictionsAsCSV">Download This Prediction Result (CSV)</a>
+			
 		</td></tr></table>
 		
 		<s:if test="selectedPredictor.userName=='all-users'">
