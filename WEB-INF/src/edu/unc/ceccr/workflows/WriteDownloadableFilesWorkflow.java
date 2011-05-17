@@ -84,7 +84,7 @@ public class WriteDownloadableFilesWorkflow{
 					predictedValueStr + "," + 
 					ev.getStandDev() + "," +
 					ev.getNumModels() + "," +
-					predictor.getNumTestModels() + "\n");
+					ev.getNumTotalModels() + "\n");
 		}
 		
 		out.close();
