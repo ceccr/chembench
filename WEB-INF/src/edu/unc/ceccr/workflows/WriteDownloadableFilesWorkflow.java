@@ -120,8 +120,10 @@ public class WriteDownloadableFilesWorkflow{
 		+"Prediction Dataset,"+prediction.getDatasetDisplay()+"\n"
 		+"Predicted Date,"+Utility.formatDate(prediction.getDateCreated())+"\n"
 		+"Download Date,"+new Date()+"\n"
-		+"Web Site," + Constants.WEBADDRESS+"\n\n");
+		+"Web Site," + Constants.WEBADDRESS+"\n");
 		
+		/*
+		//Option 1: Show everything in a big horizontal table
 		String predictionHeader = "";
 		for(Predictor p: predictors){
 			ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(p, s);
@@ -153,14 +155,15 @@ public class WriteDownloadableFilesWorkflow{
 			predictionValues = predictionValues.substring(0, predictionValues.lastIndexOf(","));
 			out.write(predictionValues + "\n");
 		}
+		*/
 		
-		
+		//Option 2: Show predictor-by-predictor output, stacked vertically
 		for(Predictor p: predictors){
 			List<PredictionValue> predictionValues = 
 				PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getId(), s);
 			
 			String predictorName = p.getName();
-			out.write("Predictor," + predictorName + "\n"
+			out.write("\nPredictor," + predictorName + "\n"
 			+"Compound Name,"+"Predicted Value,"+"Standard Deviation,"+"Models Used,"+"Models In Predictor"+"\n");
 			
 			Iterator<PredictionValue> it = predictionValues.iterator();
@@ -168,7 +171,7 @@ public class WriteDownloadableFilesWorkflow{
 				PredictionValue pv = it.next();
 				if(pv.getPredictorId().equals(p.getId())){
 					out.write(pv.getCompoundName().replaceAll(",", "_") + ","+pv.getPredictedValue()+",");
-					out.write(pv.getStandardDeviation()+","+pv.getNumModelsUsed()+","+p.getNumTotalModels()+"\n");
+					out.write(pv.getStandardDeviation()+","+pv.getNumModelsUsed()+","+pv.getNumTotalModels()+"\n");
 				}
 			}
 			out.write("\n");
