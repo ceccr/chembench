@@ -210,6 +210,15 @@ public class ZipJobResultsWorkflow{
 		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
 		
+
+		Session session = HibernateUtil.getSession();
+		Predictor predictor = PopulateDataObjects.getPredictorByName(jobName, predictorUserName, session);
+		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, session);
+		session.close();
+		
+		//get external predictions
+		WriteDownloadableFilesWorkflow.writeExternalPredictionsAsCSV(predictor.getId());
+		
 		if(Utility.canDownloadDescriptors(userName)){
 			//this is a special user - just give them the whole damn directory
 			String workingDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/PREDICTORS/";
@@ -223,10 +232,7 @@ public class ZipJobResultsWorkflow{
 
 		ArrayList<String> modelingFiles = new ArrayList<String>(); //list of files that will be in the downloaded zip
 
-		Session session = HibernateUtil.getSession();
-		Predictor predictor = PopulateDataObjects.getPredictorByName(jobName, predictorUserName, session);
-		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, session);
-		session.close();
+		modelingFiles.add(predictor.getName() + "-external-set-predictions.csv");
 		
 		//add in the .act, .sdf, and .a files
 		if(childPredictors != null && !childPredictors.isEmpty()){
@@ -316,11 +322,6 @@ public class ZipJobResultsWorkflow{
 			//maybe later.
 		}
 		
-		//get external predictions
-		if(! new File(projectDir + predictor.getName() + "-external-set-predictions.csv").exists()){
-			WriteDownloadableFilesWorkflow.writeExternalPredictionsAsCSV(predictor.getId());
-		}
-		modelingFiles.add(predictor.getName() + "-external-set-predictions.csv");
 		
 		//add files specific to the modeling method (per-model outputs, parameters files)
 		if(predictor.getModelMethod().equals(Constants.SVM)){
