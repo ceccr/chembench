@@ -23,6 +23,7 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction.descriptorFrequency;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
@@ -70,6 +71,52 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			}
 		}
 		session.close();
+		
+
+		//get descriptor freqs from trees
+		HashMap<String, Integer> descriptorFreqMap = new HashMap<String, Integer>();
+		if(randomForestTrees != null){
+			for(RandomForestTree t : randomForestTrees){
+				if(t.getDescriptorsUsed() != null && ! t.getDescriptorsUsed().equals("")){
+					String[] descriptorArray = t.getDescriptorsUsed().split("\\s+");
+					for(int i = 0; i < descriptorArray.length; i++){
+						if(descriptorFreqMap.get(descriptorArray[i]) == null){
+							descriptorFreqMap.put(descriptorArray[i], 1);
+						}
+						else{
+							//increment
+							descriptorFreqMap.put(descriptorArray[i], descriptorFreqMap.get(descriptorArray[i]) + 1);
+						}
+					}
+				}
+			}
+		}
+		ArrayList<descriptorFrequency> descriptorFrequencies = new ArrayList<descriptorFrequency>();
+		ArrayList<String> mapKeys = new ArrayList(descriptorFreqMap.keySet());
+		for(String k: mapKeys){
+			descriptorFrequency df = new descriptorFrequency();
+			df.setDescriptor(k);
+			df.setNumOccs(descriptorFreqMap.get(k));
+			descriptorFrequencies.add(df);
+		}
+		
+		Collections.sort(descriptorFrequencies, new Comparator<descriptorFrequency>() {
+		    public int compare(descriptorFrequency df1, descriptorFrequency df2) {
+		    	return (df1.getNumOccs() > df2.getNumOccs()? -1 : 1);
+		    }});
+		if(descriptorFrequencies.size() >= 5){
+			//if there weren't at least 5 descriptors, don't even bother - no summary needed
+			mostFrequentDescriptors = "The 5 most frequent descriptors used in your trees were: ";
+			for(int i = 0; i < 5; i++){
+				mostFrequentDescriptors += descriptorFrequencies.get(i).getDescriptor() + " (" + 
+					descriptorFrequencies.get(i).getNumOccs() + " trees)";
+				if(i < 4){
+					mostFrequentDescriptors += ", ";
+				}
+			}
+			mostFrequentDescriptors += ".";
+		}
+		
 		
 
 		Utility.writeToDebug("Done loading trees page for predictor id" + predictorId);

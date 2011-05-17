@@ -29,7 +29,7 @@
 					<s:else><a href="#tabs" onclick=replaceTabContents("treesDiv","viewPredictorRandomForestTreesSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
 					</s:iterator>
 					</p>
-					<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
+					<p class="StandardTextDarkGray">Trees for fold <s:property value="currentFoldNumber"/>:</p>
 				</s:if>
 			</s:if>
 			<s:else>
