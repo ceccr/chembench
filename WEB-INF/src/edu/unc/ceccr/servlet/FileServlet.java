@@ -69,7 +69,7 @@ public class FileServlet extends HttpServlet {
 	    		
 	    		//add file names here...
 	    		if(file.equalsIgnoreCase("externalPredictionsAsCSV")){
-	    			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(id));
+	    			WriteDownloadableFilesWorkflow.writeExternalPredictionsAsCSV(Long.parseLong(id));
 	    			fileName = predictor.getName() + "-external-set-predictions.csv";
 	    		}
 	    	}
