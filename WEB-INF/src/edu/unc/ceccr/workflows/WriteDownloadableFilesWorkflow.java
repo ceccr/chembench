@@ -174,7 +174,6 @@ public class WriteDownloadableFilesWorkflow{
 					out.write(pv.getStandardDeviation()+","+pv.getNumModelsUsed()+","+pv.getNumTotalModels()+"\n");
 				}
 			}
-			out.write("\n");
 		}
 		s.close();
 		out.close();
