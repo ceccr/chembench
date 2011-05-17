@@ -40,18 +40,31 @@ public class WriteDownloadableFilesWorkflow{
 		ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, s);
 		if(childPredictors.isEmpty()){
 			externalValidationValues = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(predictor.getId(), s);	
+			for(ExternalValidation ev: externalValidationValues){
+				ev.setNumTotalModels(predictor.getNumTestModels());
+			}
 		}
 		else{
 			for(Predictor cp: childPredictors){
-				externalValidationValues.addAll((ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), s));	
+				ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), s);
+				for(ExternalValidation ev: childExtVals){
+					ev.setNumTotalModels(cp.getNumTestModels());
+				}
+				externalValidationValues.addAll(childExtVals);	
 			}
 		}
 		
 		out.write("Chembench Predictor External Validation\n"
 				+"User Name,"+predictor.getUserName()+"\n"
 				+"Predictor Name,"+predictor.getName()+"\n"
-				+"Dataset,"+predictor.getDatasetDisplay()+"\n"
-				+"Modeling Method,"+predictor.getModelMethod()+"\n"
+				+"Dataset,"+predictor.getDatasetDisplay()+"\n");
+				if(predictor.getChildType() != null && predictor.getChildType().equals(Constants.NFOLD)){
+					out.write("External Set Accuracy,"+predictor.getExternalPredictionAccuracyAvg()+"\n");
+				}
+				else{
+					out.write("External Set Accuracy,"+predictor.getExternalPredictionAccuracy()+"\n");
+				}
+				out.write("Modeling Method,"+predictor.getModelMethod()+"\n"
 				+"Descriptor Type,"+predictor.getDescriptorGeneration()+"\n"
 				+"Created Date,"+Utility.formatDate(predictor.getDateCreated())+"\n"
 				+"Download Date,"+new Date()+"\n"
