@@ -49,8 +49,8 @@ public class WriteDownloadableFilesWorkflow{
 				ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), s);
 				for(ExternalValidation ev: childExtVals){
 					ev.setNumTotalModels(cp.getNumTestModels());
+					externalValidationValues.add(ev);	
 				}
-				externalValidationValues.addAll(childExtVals);	
 			}
 		}
 		
