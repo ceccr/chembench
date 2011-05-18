@@ -90,6 +90,7 @@
 				<th class="TableRowText01_unsortable">Cancel</th>
 			</tr>
 			<s:iterator value="incomingJobs">
+				<s:if test="user.isAdmin=='YES' || userName==user.userName">
 				<tr>
 				<td class="TableRowText02"><s:property value="jobName" /></td>
 				<td class="TableRowText02"><s:property value="userName" /></td>
@@ -103,6 +104,7 @@
 					<s:elseif test="user.userName==userName && userName!='guest'"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
 				</td>
 				</tr>
+				</s:if>
 			</s:iterator>
 		</table>
 		<table><tr><td colspan="2">&nbsp;</td></tr></table>
@@ -124,6 +126,11 @@
 		</tr>
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
 		<s:if test="! localJobs.isEmpty()">
+		
+		username: <s:property value="user.userName"/><br />
+		adminUser: <s:property value="adminUser" /><br />
+		isAdmin: <s:property value="user.isAdmin" /> <br />
+
 		<table class="sortable" id="localJobs">
 			<tr>
 				<th class="TableRowText01">Name</th>
@@ -136,6 +143,7 @@
 				<th class="TableRowText01_unsortable">Cancel</th>
 			</tr>
 			<s:iterator value="localJobs">
+				<s:if test="adminUser || userName==user.userName">
 				<tr>
 				<td class="TableRowText02"><s:property value="jobName" /></td>
 				<td class="TableRowText02"><s:property value="userName" /></td>
@@ -149,6 +157,7 @@
 					<s:elseif test="user.userName==userName && userName!='guest'"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif></td>
 				</td>
 				</tr> 
+				</s:if>
 			</s:iterator>
 		</table>
 		<table><tr><td colspan="2">&nbsp;</td></tr></table>
@@ -183,6 +192,7 @@
 				<th class="TableRowText01_unsortable">Cancel</th>
 			</tr>
 			<s:iterator value="lsfJobs">
+				<s:if test="user.isAdmin=='YES' || userName==user.userName">
 				<tr>
 				<td class="TableRowText02"><s:property value="jobName" /></td>
 				<td class="TableRowText02"><s:property value="userName" /></td>
@@ -196,6 +206,7 @@
 					<s:elseif test="user.userName==userName && userName!='guest'"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
 				</td>
 				</tr> 
+				</s:if>
 			</s:iterator>
 		</table>
 		<table><tr><td colspan="2">&nbsp;</td></tr></table>
