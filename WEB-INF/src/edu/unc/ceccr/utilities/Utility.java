@@ -17,6 +17,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.AdminSettings;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.SoftwareExpiration;
 import edu.unc.ceccr.persistence.User;
@@ -290,7 +291,7 @@ public class Utility {
 			Utility.writeToDebug(ex);
 			//not worth killing the page for, do nothing
 		}
-		return Integer.toString(counter);
+		return "Chembench has been visited " + Integer.toString(counter) + "times.";
 	}
 	
 	public void writeCounter(int counter) {
@@ -308,6 +309,24 @@ public class Utility {
 		}
 	}
 
+	public String getRunningJobs() {
+		int numJobs = 0;
+		try{
+			Session session = HibernateUtil.getSession();
+			numJobs = PopulateDataObjects.populateClass(Job.class, session).size();
+			session.close();
+		}
+		catch(Exception ex){
+			//don't go to an error page, just skip display of num jobs.
+		}
+		if(numJobs > 0){
+			return "There are currently " + numJobs + " running.";
+		}
+		else{
+			return "";
+		}
+	}
+	
 	public String getJobStats() {
 		//get info from database
 

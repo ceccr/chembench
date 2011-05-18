@@ -6,10 +6,9 @@ import javax.servlet.http.HttpSessionEvent;
 public class ActiveUser implements HttpSessionListener{
 	private static int activeSessions=0;
 	
-	public static int getActiveSessions()
+	public static String getActiveSessions()
 	{
-		return activeSessions;
-	
+		return "Currently there are " + activeSessions + " users logged in.";
 	}
 	public void sessionCreated(HttpSessionEvent se)
 	{

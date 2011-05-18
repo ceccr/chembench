@@ -57,7 +57,7 @@
       grants from the EPA and NIH. Therefore Chembench adheres to their required terms of use.</p>
       <!-- ChemBench Stats Notification Area starts here. -->
       <p align="justify" class="ccbHomeStandard">
-		Chembench has been visited <%=u.readCounter()%> times and currently there are <%=au.getActiveSessions()%> users logged in. <%=u.getJobStats()%> Thank you for your visit.
+		<%=u.readCounter()%> <%=au.getActiveSessions()%> <%=u.getRunningJobs()%> <%=u.getJobStats()%> Thank you for your visit.
 	  </p>
 	  <!-- ChemBench Stats end. -->
       </td>
