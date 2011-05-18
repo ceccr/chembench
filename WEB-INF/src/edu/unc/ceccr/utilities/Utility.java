@@ -320,10 +320,10 @@ public class Utility {
 			//don't go to an error page, just skip display of num jobs.
 		}
 		if(numJobs == 1){
-			return "There is currently " + numJobs + " job running.";
+			return "There is " + numJobs + " job running.";
 		}
 		else if(numJobs > 1){
-			return "There are currently " + numJobs + " jobs running.";
+			return "There are " + numJobs + " jobs running.";
 		}
 		else{
 			return "";
@@ -364,7 +364,7 @@ public class Utility {
 		
 		String jobstats = "";
 		if(numJobs > 0){
-			jobstats = "Chembench has " + numUsers + " registered users. Since Chembench was placed online in April 2010, " + numJobs + " jobs have been submitted, totaling " + computeYearsStr + " years of compute time.";
+			jobstats = "Since April 2010, "  + numJobs + " jobs have been submitted, totaling " + computeYearsStr + " years of compute time. Chembench has " + numUsers + " registered users.";
 		}
 		
 		return jobstats;
