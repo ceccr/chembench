@@ -8,7 +8,14 @@ public class ActiveUser implements HttpSessionListener{
 	
 	public static String getActiveSessions()
 	{
-		return "Currently there are " + activeSessions + " users logged in.";
+		String s = "";
+		if(activeSessions == 1){
+			s = "Currently there is 1 user logged in.";
+		}
+		else{
+			s = "Currently there are " + activeSessions + " users logged in.";
+		}
+		return s;
 	}
 	public void sessionCreated(HttpSessionEvent se)
 	{

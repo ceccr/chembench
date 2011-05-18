@@ -291,7 +291,7 @@ public class Utility {
 			Utility.writeToDebug(ex);
 			//not worth killing the page for, do nothing
 		}
-		return "Chembench has been visited " + Integer.toString(counter) + "times.";
+		return "Chembench has been visited " + Integer.toString(counter) + " times.";
 	}
 	
 	public void writeCounter(int counter) {
