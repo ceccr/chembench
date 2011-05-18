@@ -319,8 +319,11 @@ public class Utility {
 		catch(Exception ex){
 			//don't go to an error page, just skip display of num jobs.
 		}
-		if(numJobs > 0){
-			return "There are currently " + numJobs + " running.";
+		if(numJobs == 1){
+			return "There is currently " + numJobs + " job running.";
+		}
+		else if(numJobs > 1){
+			return "There are currently " + numJobs + " jobs running.";
 		}
 		else{
 			return "";
