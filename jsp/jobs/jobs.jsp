@@ -90,7 +90,7 @@
 				<th class="TableRowText01_unsortable">Cancel</th>
 			</tr>
 			<s:iterator value="incomingJobs">
-				<s:if test="user.isAdmin=='YES' || userName==user.userName">
+				<s:if test="adminUser || userName==user.userName">
 				<tr>
 				<td class="TableRowText02"><s:property value="jobName" /></td>
 				<td class="TableRowText02"><s:property value="userName" /></td>
@@ -127,10 +127,6 @@
 		<tr><td colspan="2"><div class="StandardTextDarkGrayParagraph">
 		<s:if test="! localJobs.isEmpty()">
 		
-		username: <s:property value="user.userName"/><br />
-		adminUser: <s:property value="adminUser" /><br />
-		isAdmin: <s:property value="user.isAdmin" /> <br />
-
 		<table class="sortable" id="localJobs">
 			<tr>
 				<th class="TableRowText01">Name</th>
@@ -192,7 +188,7 @@
 				<th class="TableRowText01_unsortable">Cancel</th>
 			</tr>
 			<s:iterator value="lsfJobs">
-				<s:if test="user.isAdmin=='YES' || userName==user.userName">
+				<s:if test="adminUser || userName==user.userName">
 				<tr>
 				<td class="TableRowText02"><s:property value="jobName" /></td>
 				<td class="TableRowText02"><s:property value="userName" /></td>
@@ -244,6 +240,7 @@
 				<s:if test="adminUser"><th class="TableRowText01_unsortable">Remove Job (admin only)</th></s:if>
 			</tr>
 			<s:iterator value="errorJobs">
+				<s:if test="adminUser || userName==user.userName">
 				<tr>
 				
 				<td class="TableRowText02">
@@ -267,6 +264,7 @@
 					<a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">remove</a>
 				</td></s:if>
 				</tr> 
+				</s:if>
 			</s:iterator>
 			<tr><td colspan="2">&nbsp;</td></tr>
 		</table>
