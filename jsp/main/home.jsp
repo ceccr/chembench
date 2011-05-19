@@ -139,6 +139,7 @@
 	              		<%=u.readCounter()%><br /> 
 	              		<%=u.getUserStats()%><br /> 
 	              		<%=u.getJobStats()%><br /> 
+	              		<%=u.getCPUStats()%><br /> 
 						<%=au.getActiveSessions()%><br /> 
 						<%=u.getRunningJobs()%> 
 	             </span></p>

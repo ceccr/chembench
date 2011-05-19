@@ -344,15 +344,13 @@ public class Utility {
 	public String getJobStats() {
 		//get info from database
 
-		int numUsers = 0;
+
 		int computeHours = 0;
-		int numJobs = 0;
 		String computeYearsStr = "";
 		try {
 			Session s = HibernateUtil.getSession();
 			List<JobStats> jobStatList = PopulateDataObjects.getJobStats(s);
 			s.close();
-			numJobs = jobStatList.size();
 			
 			long timeDiffs = 0;
 			for(JobStats js: jobStatList){
@@ -371,7 +369,28 @@ public class Utility {
 			//don't sweat it - it's just a counter, not worth killing the page for if it fails
 		}
 		
-		return "Jobs submitted: "  + numJobs + ", totaling " + computeYearsStr + " years of compute time.";
+		return "Compute time used: "  + computeYearsStr + " years";
+
+	}
+
+	public String getJobStats() {
+		//get info from database
+
+		int numUsers = 0;
+		int computeHours = 0;
+		int numJobs = 0;
+		String computeYearsStr = "";
+		try {
+			Session s = HibernateUtil.getSession();
+			List<JobStats> jobStatList = PopulateDataObjects.getJobStats(s);
+			s.close();
+			numJobs = jobStatList.size();
+			
+		} catch (Exception e) {
+			//don't sweat it - it's just a counter, not worth killing the page for if it fails
+		}
+		
+		return "Jobs submitted: "  + numJobs;
 
 	}
 
