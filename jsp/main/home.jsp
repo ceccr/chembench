@@ -137,6 +137,7 @@
 	              <p>Statistics<br />
 	               <span class="ccbHomeStandard">
 	              		<%=u.readCounter()%><br /> 
+	              		<%=u.getUserStats()%><br /> 
 	              		<%=u.getJobStats()%><br /> 
 						<%=au.getActiveSessions()%><br /> 
 						<%=u.getRunningJobs()%> 

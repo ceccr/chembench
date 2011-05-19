@@ -291,7 +291,7 @@ public class Utility {
 			Utility.writeToDebug(ex);
 			//not worth killing the page for, do nothing
 		}
-		return "Chembench has been visited " + Integer.toString(counter) + " times.";
+		return "Visitors: " + Integer.toString(counter);
 	}
 	
 	public void writeCounter(int counter) {
@@ -319,15 +319,37 @@ public class Utility {
 		catch(Exception ex){
 			//don't go to an error page, just skip display of num jobs.
 		}
-		if(numJobs == 1){
-			return "There is " + numJobs + " job running.";
-		}
-		else if(numJobs > 1){
-			return "There are " + numJobs + " jobs running.";
+		if(numJobs >= 1){
+			return "Running Jobs: " + numJobs;
 		}
 		else{
 			return "";
 		}
+	}
+	public String getUserStats() {
+		//get info from database
+
+		int numUsers = 0;
+		int computeHours = 0;
+		int numJobs = 0;
+		String computeYearsStr = "";
+		try {
+			Session s = HibernateUtil.getSession();
+			List<User> users = PopulateDataObjects.getUsers(s);
+			s.close();
+			
+			numUsers = users.size();
+			
+		} catch (Exception e) {
+			//don't sweat it - it's just a counter, not worth killing the page for if it fails
+		}
+		
+		String jobstats = "";
+		if(numJobs > 0){
+			jobstats = "Users: " + numUsers;
+		}
+		
+		return jobstats;
 	}
 	
 	public String getJobStats() {
@@ -340,10 +362,8 @@ public class Utility {
 		try {
 			Session s = HibernateUtil.getSession();
 			List<JobStats> jobStatList = PopulateDataObjects.getJobStats(s);
-			List<User> users = PopulateDataObjects.getUsers(s);
-			
+			s.close();
 			numJobs = jobStatList.size();
-			numUsers = users.size();
 			
 			long timeDiffs = 0;
 			for(JobStats js: jobStatList){
@@ -364,7 +384,7 @@ public class Utility {
 		
 		String jobstats = "";
 		if(numJobs > 0){
-			jobstats = "Since April 2010, "  + numJobs + " jobs have been submitted, totaling " + computeYearsStr + " years of compute time. Chembench has " + numUsers + " registered users.";
+			jobstats = "Jobs submitted: "  + numJobs + ", totaling " + computeYearsStr + " years of compute time.";
 		}
 		
 		return jobstats;
