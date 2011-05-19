@@ -319,20 +319,14 @@ public class Utility {
 		catch(Exception ex){
 			//don't go to an error page, just skip display of num jobs.
 		}
-		if(numJobs >= 1){
 			return "Running Jobs: " + numJobs;
-		}
-		else{
-			return "";
-		}
+
 	}
+	
 	public String getUserStats() {
 		//get info from database
 
 		int numUsers = 0;
-		int computeHours = 0;
-		int numJobs = 0;
-		String computeYearsStr = "";
 		try {
 			Session s = HibernateUtil.getSession();
 			List<User> users = PopulateDataObjects.getUsers(s);
@@ -343,13 +337,8 @@ public class Utility {
 		} catch (Exception e) {
 			//don't sweat it - it's just a counter, not worth killing the page for if it fails
 		}
-		
-		String jobstats = "";
-		if(numJobs > 0){
-			jobstats = "Users: " + numUsers;
-		}
-		
-		return jobstats;
+
+		return "Users: " + numUsers;
 	}
 	
 	public String getJobStats() {
@@ -382,12 +371,8 @@ public class Utility {
 			//don't sweat it - it's just a counter, not worth killing the page for if it fails
 		}
 		
-		String jobstats = "";
-		if(numJobs > 0){
-			jobstats = "Jobs submitted: "  + numJobs + ", totaling " + computeYearsStr + " years of compute time.";
-		}
-		
-		return jobstats;
+		return "Jobs submitted: "  + numJobs + ", totaling " + computeYearsStr + " years of compute time.";
+
 	}
 
 	public static Long checkExpiration(int year, int month, int day) {
