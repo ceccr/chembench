@@ -341,7 +341,7 @@ public class Utility {
 		return "Users: " + numUsers;
 	}
 	
-	public String getJobStats() {
+	public String getCPUStats() {
 		//get info from database
 
 
