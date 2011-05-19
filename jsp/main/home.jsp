@@ -55,11 +55,6 @@
       <a href="http://projectreporter.nih.gov/project_info_description.cfm?aid=7818406&icde=4746305">R01GM066940</a>) 
       and the Environmental Protection Agency (RD83382501 and RD832720). This website has been developed using 
       grants from the EPA and NIH. Therefore Chembench adheres to their required terms of use.</p>
-      <!-- ChemBench Stats Notification Area starts here. -->
-      <p align="justify" class="ccbHomeStandard">
-		<%=u.getJobStats()%> <%=u.readCounter()%> <%=au.getActiveSessions()%> <%=u.getRunningJobs()%> Thank you for your visit.
-	  </p>
-	  <!-- ChemBench Stats end. -->
       </td>
     <td valign="top">
 
@@ -138,6 +133,15 @@
 	               <a href="help-workflows" target="_blank">Chembench Workflows & Methodology</a><br />
 	               <a href="softwareList" target="_blank">Links to More Cheminformatics Tools</a>
 	             </span></p>
+      <!-- ChemBench Stats Notification Area starts here. -->
+	              <p>Statistics<br />
+	               <span class="ccbHomeStandard">
+	              		<%=u.readCounter()%><br /> 
+	              		<%=u.getJobStats()%><br /> 
+						<%=au.getActiveSessions()%><br /> 
+						<%=u.getRunningJobs()%> 
+	             </span></p>
+	  <!-- ChemBench Stats end. -->
 	         </tr>
 	         <!-- end login box -->
 	         </table>
