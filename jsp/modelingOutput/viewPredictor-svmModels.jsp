@@ -15,19 +15,19 @@
 		<br />svmTypeCategory: <s:property value="svmParameters.svmTypeCategory" />
 	</s:else>
 	<br />
-	<s:if test="svmParameters.svmKernel=='1'">
+	<s:if test='svmParameters.svmKernel=="1"'>
 			k1
 	</s:if>
-	<s:if test="svmParameters.svmKernel=='2'">
+	<s:if test='svmParameters.svmKernel=="2"'>
 			k2
 	</s:if>
-	<s:if test="svmParameters.svmKernel=='3'">
+	<s:if test='svmParameters.svmKernel=="3"'>
 			k3
 	</s:if>
-	<s:if test="svmParameters.svmKernel=='4'">
+	<s:if test='svmParameters.svmKernel=="4"'>
 			k4
 	</s:if>
-	<s:if test="svmParameters.svmKernel=='0'">
+	<s:if test='svmParameters.svmKernel=="0"'>
 			k0
 	</s:if>
 
