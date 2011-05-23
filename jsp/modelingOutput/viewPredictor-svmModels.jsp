@@ -4,15 +4,36 @@
 <%@ page language="java" import="java.util.*" %>
 	
 <!-- SVM Models -->
+
+<!-- debug -->
 <b>	
-	<s:property value="svmParameters.svmKernel" />
+	svmKernel: <s:property value="svmParameters.svmKernel" />
 	<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-		<br /><s:property value="svmParameters.svmTypeContinuous" />
+		<br />svmTypeContinuous: <s:property value="svmParameters.svmTypeContinuous" />
 	</s:if>
 	<s:else>
-		<br /><s:property value="svmParameters.svmTypeCategory" />
+		<br />svmTypeCategory: <s:property value="svmParameters.svmTypeCategory" />
 	</s:else>
-</b>	
+	<br />
+	<s:if test="svmParameters.svmKernel=='1'">
+			k1
+	</s:if>
+	<s:if test="svmParameters.svmKernel=='2'">
+			k2
+	</s:if>
+	<s:if test="svmParameters.svmKernel=='3'">
+			k3
+	</s:if>
+	<s:if test="svmParameters.svmKernel=='4'">
+			k4
+	</s:if>
+	<s:if test="svmParameters.svmKernel=='0'">
+			k0
+	</s:if>
+
+</b>
+<!-- end debug -->
+	
 	<br />
 		<s:if test="isYRandomPage=='NO'">
 			<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
