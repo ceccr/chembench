@@ -16,8 +16,8 @@
 				<s:else><a href="#tabs" onclick=replaceTabContents("modelsDiv","viewPredictorSvmModelsSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
 				</s:iterator>
 				</p>
+				<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 			</s:if>
-			<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
 		</s:if>
 		<s:else>
 			<p class="StandardTextDarkGray"><b><u>Y-Randomized Models</u></b></p>
