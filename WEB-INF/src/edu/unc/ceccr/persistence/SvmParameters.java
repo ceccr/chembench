@@ -219,6 +219,7 @@ public class SvmParameters {
 	
 	@Column(name = "svmTypeCategory")
 	public String getSvmTypeCategory() {
+		// '0':'C-SVC','1':'nu-SVC'
 		return svmTypeCategory;
 	}
 	public void setSvmTypeCategory(String svmTypeCategory) {
@@ -227,6 +228,7 @@ public class SvmParameters {
 	
 	@Column(name = "svmTypeContinuous")
 	public String getSvmTypeContinuous() {
+		// '3':'epsilon-SVR','4':'nu-SVR'
 		return svmTypeContinuous;
 	}
 	public void setSvmTypeContinuous(String svmTypeContinuous) {

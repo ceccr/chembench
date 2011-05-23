@@ -61,10 +61,16 @@
 			<s:if test="svmParameters.svmKernel=='1'">
 				<th class="TableRowText01">degree</th>
 			</s:if>
-			<th class="TableRowText01">gamma</th>
+			<s:if test="svmParameters.svmKernel!='0'">
+				<th class="TableRowText01">gamma</th>
+			</s:if>
 			<th class="TableRowText01">cost</sup></th>
-			<th class="TableRowText01">nu</th>
-			<th class="TableRowText01">epsilon (loss)</th>
+			<s:if test="svmParameters.svmTypeContinuous=='4'">
+				<th class="TableRowText01">nu</th>
+			</s:if>
+			<s:if test="svmParameters.svmTypeContinuous=='3'">
+				<th class="TableRowText01">epsilon (loss)</th>
+			</s:if>
 			<th class="TableRowText01">r<sup>2</sup></th>
 			</tr>
 			</s:if>
@@ -73,10 +79,16 @@
 				<s:if test="svmParameters.svmKernel=='1'">
 					<td class="TableRowText02"><s:property value="degree" /></td>
 				</s:if>				
-				<td class="TableRowText02"><s:property value="gamma" /></td>
+				<s:if test="svmParameters.svmKernel!='0'">
+					<td class="TableRowText02"><s:property value="gamma" /></td>
+				</s:if>				
 				<td class="TableRowText02"><s:property value="cost" /></td>
-				<td class="TableRowText02"><s:property value="nu" /></td>
-				<td class="TableRowText02"><s:property value="loss" /></td>
+				<s:if test="svmParameters.svmTypeContinuous=='4'">
+					<td class="TableRowText02"><s:property value="nu" /></td>
+				</s:if>
+				<s:if test="svmParameters.svmTypeContinuous=='3'">
+					<td class="TableRowText02"><s:property value="loss" /></td>
+				</s:if>				
 				<td class="TableRowText02"><s:property value="rSquaredTest" /></td>
 				</tr> 
 			</s:iterator>
@@ -84,22 +96,36 @@
 			<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 			<s:if test="svmModels.size!=0">
 			<tr>
-				<th class="TableRowText01">degree</th>
-				<th class="TableRowText01">gamma</th>
-				<th class="TableRowText01">cost</sup></th>
-				<th class="TableRowText01">nu</th>
-				<th class="TableRowText01">epsilon (loss)</th>
+				<s:if test="svmParameters.svmKernel=='1'">
+					<th class="TableRowText01">degree</th>
+				</s:if>
+				<s:if test="svmParameters.svmKernel!='0'">
+					<th class="TableRowText01">gamma</th>
+				</s:if>
+				<s:if test="svmParameters.svmTypeCategory=='0'">
+					<th class="TableRowText01">cost</sup></th>
+				</s:if>
+				<s:if test="svmParameters.svmTypeCategory=='1'">
+					<th class="TableRowText01">nu</th>
+				</s:if>
 				<th class="TableRowText01">CCR</th>
 			</tr>
 			</s:if>
 			
 			<s:iterator value="svmModels" status="modelsStatus">
 				<tr>
-				<td class="TableRowText02"><s:property value="degree" /></td>
-				<td class="TableRowText02"><s:property value="gamma" /></td>
-				<td class="TableRowText02"><s:property value="cost" /></td>
-				<td class="TableRowText02"><s:property value="nu" /></td>
-				<td class="TableRowText02"><s:property value="loss" /></td>
+				<s:if test="svmParameters.svmKernel=='1'">
+					<td class="TableRowText02"><s:property value="degree" /></td>
+				</s:if>
+				<s:if test="svmParameters.svmKernel!='0'">
+					<td class="TableRowText02"><s:property value="gamma" /></td>
+				</s:if>
+				<s:if test="svmParameters.svmTypeCategory=='0'">
+					<td class="TableRowText02"><s:property value="cost" /></td>
+				</s:if>
+				<s:if test="svmParameters.svmTypeCategory=='1'">
+					<td class="TableRowText02"><s:property value="nu" /></td>
+				</s:if>
 				<td class="TableRowText02"><s:property value="ccrTest" /></td>
 				</tr>
 			</s:iterator>
