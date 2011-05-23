@@ -45,11 +45,15 @@ import edu.unc.ceccr.utilities.Utility;
 public class SvmModelsPage extends ViewPredictorAction {
 
 	private List<SvmModel> svmModels;
+	private SvmParameters svmParameters;
 	
 	public String loadPage() throws Exception{
 		//get models associated with predictor
 		getBasicParameters();
 		getModelsPageParameters();
+		
+		// not all columns are relevant for all SVM types.  allows us to select only those needed
+		svmParameters = PopulateDataObjects.getSvmParametersById(selectedPredictor.getModelingParametersId(), session);
 		
 		if(childPredictors.size() == 0){
 			loadModels();
@@ -114,5 +118,11 @@ public class SvmModelsPage extends ViewPredictorAction {
 	public void setSvmModels(List<SvmModel> svmModels) {
 		this.svmModels = svmModels;
 	}
-	
+
+	public SvmParameters getSvmParameters() {
+		return svmParameters;
+	}
+	public void setSvmParameters(SvmParameters svmParameters) {
+		this.svmParameters = svmParameters;
+	}
 }

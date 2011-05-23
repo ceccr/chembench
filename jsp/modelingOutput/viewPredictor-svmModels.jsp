@@ -58,7 +58,9 @@
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 			<s:if test="svmModels.size!=0">
 			<tr>
-			<th class="TableRowText01">degree</th>
+			<s:if test="svmParameters.svmKernel=='1'">
+				<th class="TableRowText01">degree</th>
+			</s:if>
 			<th class="TableRowText01">gamma</th>
 			<th class="TableRowText01">cost</sup></th>
 			<th class="TableRowText01">nu</th>
@@ -68,7 +70,9 @@
 			</s:if>
 			<s:iterator value="svmModels" status="modelsStatus">
 				<tr>
-				<td class="TableRowText02"><s:property value="degree" /></td>
+				<s:if test="svmParameters.svmKernel=='1'">
+					<td class="TableRowText02"><s:property value="degree" /></td>
+				</s:if>				
 				<td class="TableRowText02"><s:property value="gamma" /></td>
 				<td class="TableRowText02"><s:property value="cost" /></td>
 				<td class="TableRowText02"><s:property value="nu" /></td>

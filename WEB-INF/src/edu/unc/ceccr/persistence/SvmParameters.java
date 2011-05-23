@@ -202,6 +202,7 @@ public class SvmParameters {
 	
 	@Column(name = "svmKernel")
 	public String getSvmKernel() {
+		// '0':'linear','1':'polynomial','2':'radial basis function','3':'sigmoid'
 		return svmKernel;
 	}
 	public void setSvmKernel(String svmKernel) {
