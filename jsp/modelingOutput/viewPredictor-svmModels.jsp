@@ -3,8 +3,16 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 	
-<!-- SVM Models -->	
-
+<!-- SVM Models -->
+<b>	
+	<s:property value="svmParameters.svmKernel" />
+	<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
+		<br /><s:property value="svmParameters.svmTypeContinuous" />
+	</s:if>
+	<s:else>
+		<br /><s:property value="svmParameters.svmTypeCategory" />
+	</s:else>
+</b>	
 	<br />
 		<s:if test="isYRandomPage=='NO'">
 			<p class="StandardTextDarkGray"><b><u>Models</u></b></p>
