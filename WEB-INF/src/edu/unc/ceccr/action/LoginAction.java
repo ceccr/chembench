@@ -47,7 +47,6 @@ public class LoginAction extends ActionSupport{
 			try{
 				//STATIC PATH OH NOES
 				String path = "/usr/local/ceccr/tomcat6/webapps/ROOT/WEB-INF/systemConfig.xml";
-
 				Utility.setAdminConfiguration(path);
 			}
 			catch(Exception ex){
