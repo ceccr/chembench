@@ -37,16 +37,17 @@ import edu.unc.ceccr.utilities.Utility;
 public class LoginAction extends ActionSupport{
 	public String execute() throws Exception {
 		String result = SUCCESS; 
-		if(!Constants.doneReadingConfigFile)
+		if(Constants.doneReadingConfigFile)
 		{
-			
-			
+			Utility.writeToDebug("already read config file (?)");
+		}
+		else{
 			try{
 				HttpServletRequest hrequest = ServletActionContext.getRequest();
 				ActionContext context = ActionContext.getContext();
 				
 				String path = RequestUtils.getServletPath(hrequest);
-				Utility.writeToDebug(path);
+				Utility.writeToDebug("path: " + path);
 				//=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
 				Utility.setAdminConfiguration(path);
 			}
