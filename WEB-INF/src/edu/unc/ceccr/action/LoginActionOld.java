@@ -25,17 +25,12 @@ import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 
 
-public class LoginAction extends Action {
+public class LoginActionOld extends Action {
 
 	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)	throws Exception
 	{
 		
-		if(!Constants.isCustomized)
-		{
-			String path=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
-			Utility.setAdminConfiguration(path);
-		}
 		
 		ActionForward forward = new ActionForward(); 
 	
@@ -114,33 +109,6 @@ public class LoginAction extends Action {
 			forward = mapping.findForward("failure");
 		}
 		
-		//The only reason we use HTTPS at all is to encode login information
-		//now that that's done, we want to redirect the user out of HTTPS-land
-/*		
-        String pathInfo = request.getPathInfo();
-        String queryString = request.getQueryString();
-        String contextPath = request.getContextPath();
-        String destination = request.getServletPath()
-                + ((pathInfo == null) ? "" : pathInfo)
-                + ((queryString == null) ? "" : ("?" + queryString));
-
-        String redirectUrl = "http://" + request.getServerName();
-        if(! redirectUrl.endsWith("/")){
-        	redirectUrl += "/";
-        }
-        redirectUrl += "jobs";
-            
-        // Add jsession id to end of redirection URL
-       if (request.getSession(false) != null)
-        {
-            redirectUrl += ";jsessionid=" +  request.getSession(false).getId();
-        }
-
-        ((HttpServletResponse) response)
-                .sendRedirect(((HttpServletResponse) response)
-                        .encodeRedirectURL(redirectUrl));*/
-		//end redirect
-        
 		return forward;
 	}
 }

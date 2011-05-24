@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Constants {
 
-	public static boolean isCustomized=false;
+	public static boolean doneReadingConfigFile=false;
 	public static String ACCEPTANCE; //can be "automatic" or "manual".
 	public static int SESSION_EXPIRATION_TIME = 21600; //How long a login will last if idle, measured in seconds. 21600 seconds = 6 hours. 
 	

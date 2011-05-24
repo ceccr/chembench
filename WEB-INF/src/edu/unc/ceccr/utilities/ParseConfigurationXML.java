@@ -76,7 +76,7 @@ public class ParseConfigurationXML{
             
             Constants.BUILD_DATE_FILE_PATH = Constants.TOMCAT_PATH + "webapps/ROOT/WEB-INF/buildDate.txt";
     		Constants.XML_FILE_PATH = Constants.CECCR_BASE_PATH +"xml-files/";
-            Constants.isCustomized=true;
+            Constants.doneReadingConfigFile=true;
             
         }catch (SAXParseException err)
         {

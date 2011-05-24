@@ -28,7 +28,7 @@ public class CheckSessionAction extends Action
 		
 		ActionForward forward = new ActionForward();
 		
-		if(!Constants.isCustomized)
+		if(!Constants.doneReadingConfigFile)
 		{
 			String path=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
 			Utility.setAdminConfiguration(path);
