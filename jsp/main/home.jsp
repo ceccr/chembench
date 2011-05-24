@@ -1,17 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ taglib uri="/tags/struts-bean" prefix="bean"%>
-<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
-<%@ taglib uri="/tags/struts-html" prefix="html"%>
-<%@ taglib uri="/tags/struts-nested" prefix="nested"%>
-<%@ page import="edu.unc.ceccr.global.Constants" %>
-<%@ page import="edu.unc.ceccr.utilities.ActiveUser" %>
-<% ActiveUser au= new ActiveUser();%>
-<%@ page import="edu.unc.ceccr.utilities.Utility" %>
-<%@ page import="edu.unc.ceccr.persistence.User"%>
-<% Utility u=new Utility();%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
+<%@page language="java" import="java.util.*" %>
 
-<html:html>
+<html>
 <head>
 <title>CHEMBENCH | Home </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -71,7 +63,7 @@
 			
 			
 			<!-- LOGIN INPUT FIELD STARTS HERE. -->
-			<logic:notPresent name="user">
+			<s:if test="user==null">
 					<form id="form1" name="form1" method="post" action="login">
 					  <table width="250" border="0" >		
 					  <tr><div class="StandardTextDarkGray"><br />NOTE: All passwords have been reset recently. Check your email for your new password.</div></tr>        
@@ -97,29 +89,25 @@
 			        <span class="ccbHomeStandard">
 			        Forget your password? <a href="/getPassword.do">click here</a></span>
 			        </td></tr></table> -->
-			</logic:notPresent>
-		
-			<logic:present name="user">
-				<logic:notEqual name="user" property="userName" value="">    
+			</s:if>
+			<s:if test="user!=null">
+				<s:if test="user.userName!=''">	    
 					<table border="0"><tr><td>	
 					<span><span	class="ccbHomeStandard">Welcome, 
 					  </span></span><span><span	class="ccbHomeStandard">
-					  <bean:write name="user" property="userName" />
+					  <s:property value="user.userName" />
 					  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
 					    </span> </span>        
 					</td></tr> 
 					</table>
-				</logic:notEqual>
-	
-				<logic:equal name="user" property="userName" value="">    
 				<table width="250" border="0" align="right" cellpadding="5" cellspacing="2">
 						  <tr><td valign="middle">	
 						<p align="right"><span><span class="StandardTextDarkGray4">
 						ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
 						    &nbsp &nbsp &nbsp</span> </span></td></tr> 
 				</table>
-				</logic:equal>
-			</logic:present>
+				</s:if>
+			</s:if>
 			<!-- LOGIN INPUT FIELD ENDS HERE-->
 			
 			<!-- Other menus inside login box -->
@@ -134,15 +122,17 @@
 	               <a href="softwareList" target="_blank">Links to More Cheminformatics Tools</a>
 	             </span></p>
       <!-- ChemBench Stats Notification Area starts here. -->
-	              <p>Statistics<br />
-	               <span class="ccbHomeStandard">
-	              		<%=u.readCounter()%><br /> 
-	              		<%=u.getUserStats()%><br /> 
-	              		<%=u.getJobStats()%><br /> 
-	              		<%=u.getCPUStats()%><br /> 
-						<%=au.getActiveSessions()%><br /> 
-						<%=u.getRunningJobs()%> 
-	             </span></p>
+	              <s:if test="showStatistics!=null || showStatistics=='NO'">
+		              <p>Statistics<br />
+		              <span class="ccbHomeStandard">
+		              		<s:property value="visitors" /><br />
+		              		<s:property value="userStats" /><br />
+		              		<s:property value="jobStats" /><br />
+		              		<s:property value="cpuStats" /><br />
+		              		<s:property value="activeUsers" /><br />
+		              		<s:property value="runningJobs" />
+		             </span></p>
+	             </s:if>
 	  <!-- ChemBench Stats end. -->
 	         </tr>
 	         <!-- end login box -->
@@ -180,4 +170,4 @@
 	<tr>
 	<%@include file ="/jsp/main/footer.jsp" %>
 </body>
-</html:html>
+</html>
