@@ -20,16 +20,12 @@
 	<global-exceptions></global-exceptions>
 	<!-- ========== Global Forwards =============================== -->
 	<global-forwards>
-		<forward name="welcome" path="/checkSession.do" />
-	    <forward name="login" path="/jsp/main/home.jsp" /> 
 		<forward name="failure" path="/jsp/main/error.jsp" />
 	</global-forwards>
 	
 	<!-- ============== Action Mapping Definitions =========================== -->
 	<action-mappings>
 	
-		<action path="/login" forward="/checkSession.do" />
-		               
 		<action path="/librarydesign" type="edu.unc.ceccr.action.LibraryAction">
 		<forward name="login" path="/jsp/main/home.jsp"/>
 		</action>
@@ -43,24 +39,11 @@
 		
 		<action path="/externalValidationChart" forward="/chart?doGet" />
 		
-		<action path="/viewModels"
-			type="edu.unc.ceccr.action.ViewPreviouslyGeneratedModels"
-			input="/jsp/modeling/modeling.jsp" name="qsarForm" scope="request">
-			<forward name="success" path="/jsp/modeling/viewPreviouslyGeneratedModels.jsp" />
-			<forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		
 		<action path="/submitLogin"
 			type="edu.unc.ceccr.action.LoginAction" input="/jsp/main/home.jsp"
 			name="loginForm" scope="request">
 			<forward name="success" path="/jsp/main/home.jsp" />
 			<forward name="failure" path="/jsp/administration/user/lostPasswordRetrieval.jsp"/>
-		</action>
-		
-		<action path="/anonPredict"
-			name="predForm" scope="request" type="edu.unc.ceccr.action.AnonymousPredictForward" input="/jsp/main/home.jsp">
-			<forward name="success" path="/jsp/anonymous/predict.jsp" />
-			<forward name="failure" path="/jsp/main/home.jsp"/>
 		</action>
 		
 		<action path="/deleteUser" type="edu.unc.ceccr.action.RegisterActions.DeleteUserAction" scope="request">
@@ -76,12 +59,6 @@
 		</action>
 		
 		<action path="/help" forward="/jsp/main/helpPage.jsp" />
-		 
-		 <action path="/forUser"
-			type="edu.unc.ceccr.action.CheckSessionAction">
-			<forward name="login" path="/jsp/main/home.jsp" />
-			<forward name="loggedin" path="/jsp/administration/settings/userAccountSettings.jsp" />
-		</action>		
 		 
 		<action path="/gotoregister" forward="/jsp/administration/user/registrationForm.jsp" />
 		<action path="/notReady" forward="/jsp/main/underConstruction.jsp"/>
@@ -153,11 +130,6 @@
 		<forward name="success" path="/jsp/administration/settings/changePasswordSuccess.jsp"/>
 		<forward name="NoUser"  path="/jsp/administration/settings/changePasswordMatchError.jsp"/>
 		<forward name="failure" path="/jsp/administration/settings/changePasswordMatchError.jsp"/>
-		</action>
-		
-		<action path="/checkSession" type="edu.unc.ceccr.action.CheckSessionAction" scope="request">
-		<forward name="loggedin" path="/jsp/administration/user/sessionExpirationNotify.jsp"/>
-		<forward name="login" path="/jsp/main/home.jsp" />
 		</action>
 		
 		<action path="/logout" type="edu.unc.ceccr.action.LogoutAction" scope="request">

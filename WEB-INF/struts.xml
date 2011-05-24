@@ -33,9 +33,10 @@
        
        <!-- Main pages -->
        <action name="login" class="edu.unc.ceccr.action.LoginAction" method="execute">
-           <result>jsp/main/home.jsp</result>
+           <result name="success">jsp/main/home.jsp</result>
+		   <result name="error">jsp/main/errors2.jsp</result>
+		   <result name="login">jsp/main/home</result>
        </action>
-       
        
        <action name="index">
            <result>jsp/main/home.jsp</result>
