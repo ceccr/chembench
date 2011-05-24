@@ -45,13 +45,9 @@ public class LoginAction extends ActionSupport{
 		}
 		else{
 			try{
-				HttpServletRequest hrequest = ServletActionContext.getRequest();
-				ActionContext context = ActionContext.getContext();
-				
-				String path = RequestUtils.getServletPath(hrequest);
+				//STATIC PATH OH NOES
+				String path = "/usr/local/ceccr/tomcat6/webapps/ROOT/WEB-INF/systemConfig.xml";
 
-				debugText = "path: " + path;
-				//=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
 				Utility.setAdminConfiguration(path);
 			}
 			catch(Exception ex){

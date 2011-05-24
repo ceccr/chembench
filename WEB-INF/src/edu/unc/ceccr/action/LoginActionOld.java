@@ -31,6 +31,11 @@ public class LoginActionOld extends Action {
 			HttpServletRequest request, HttpServletResponse response)	throws Exception
 	{
 		
+		if(!Constants.doneReadingConfigFile)
+		{
+			String path=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
+			Utility.setAdminConfiguration(path);
+		}
 		
 		ActionForward forward = new ActionForward(); 
 	
