@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ActionContext; 
 
 import org.apache.struts.upload.FormFile;
+import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.apache.struts2.RequestUtils;
 import org.apache.struts2.ServletActionContext;
@@ -34,7 +36,14 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
-public class LoginAction extends ActionSupport{
+public class LoginAction extends ActionSupport implements ServletResponseAware {
+
+	protected HttpServletResponse servletResponse;
+	@Override
+	public void setServletResponse(HttpServletResponse servletResponse) {
+		this.servletResponse = servletResponse;
+	}
+	
 	public String execute() throws Exception {
 		String result = SUCCESS; 
 
@@ -55,6 +64,40 @@ public class LoginAction extends ActionSupport{
 		}
 		FileAndDirOperations.writeStringToFile(debugText, "/usr/local/ceccr/deploy/debug-log.txt");
 		
+		//start up the queues, if they're not running yet
+		CentralDogma.getInstance();
+		
+
+		//check username and password
+		ActionContext context = ActionContext.getContext();
+		String username = ((String[]) context.getParameters().get("username"))[0];
+		String password = ((String[]) context.getParameters().get("password"))[0];
+		
+		Session s = HibernateUtil.getSession();
+		User user = PopulateDataObjects.getUserByUserName(username, s);
+		s.close();
+		
+		byte[] realPassword=user.getPassword();
+		
+		if (Utility.compareEncryption(Utility.encrypt(password),realPassword)){
+			context.getSession().put("user", user);
+			Cookie ckie=new Cookie("login","true");
+			//response.addCookie(ckie);
+			
+			Utility.writeToUsageLog("Logged in", user.getUserName());
+		}
+		else if(user.getUserName().equals("guest")){
+			Utility.writeToUsageLog("Logged in", user.getUserName());
+			context.getSession().put("user", user);
+			Cookie ckie=new Cookie("login","true");
+			//response.addCookie(ckie);
+			
+			Utility.writeToUsageLog("Logged in", user.getUserName());
+		}
+		
+		Utility.writeToDebug("Starting session for user: " + username);
+		
 		return result;
 	}
+
 }
