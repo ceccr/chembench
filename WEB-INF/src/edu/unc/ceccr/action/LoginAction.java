@@ -37,9 +37,11 @@ import edu.unc.ceccr.utilities.Utility;
 public class LoginAction extends ActionSupport{
 	public String execute() throws Exception {
 		String result = SUCCESS; 
+
+		String debugText = "";
 		if(Constants.doneReadingConfigFile)
 		{
-			Utility.writeToDebug("already read config file (?)");
+			debugText ="already read config file (?)";
 		}
 		else{
 			try{
@@ -47,15 +49,16 @@ public class LoginAction extends ActionSupport{
 				ActionContext context = ActionContext.getContext();
 				
 				String path = RequestUtils.getServletPath(hrequest);
-				Utility.writeToDebug("path: " + path);
+
+				debugText = "path: " + path;
 				//=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
 				Utility.setAdminConfiguration(path);
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				debugText += ex.getMessage();
 			}
 		}
-		
+		FileAndDirOperations.writeStringToFile(debugText, "/usr/local/ceccr/deploy/debug-log.txt");
 		
 		return result;
 	}
