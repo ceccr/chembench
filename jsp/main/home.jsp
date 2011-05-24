@@ -72,7 +72,7 @@
 			
 			<!-- LOGIN INPUT FIELD STARTS HERE. -->
 			<logic:notPresent name="user">
-					<form id="form1" name="form1" method="post" action="submitLogin.do">
+					<form id="form1" name="form1" method="post" action="login">
 					  <table width="250" border="0" >		
 					  <tr><div class="StandardTextDarkGray"><br />NOTE: All passwords have been reset recently. Check your email for your new password.</div></tr>        
 			           <tr>
@@ -88,7 +88,7 @@
 			        
 			        <table width="250" border="0" ><tr><td>
 			        <span class="ccbHomeStandard">
-			        Or, <a href="/submitLogin.do?loginName=guest&loginPassword=guest" 
+			        Or, <a href="/login?loginName=guest&loginPassword=guest" 
 			        onclick="alert('The guest account has all the same capabilities as a full Chembench account. However, all guest data is periodically deleted, and other guests can see the datasets, models, and predictions you create.')">
 			        login as a guest</a></span>
 			        </td></tr></table>

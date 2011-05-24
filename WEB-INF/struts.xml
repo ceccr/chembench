@@ -32,6 +32,11 @@
        </action>
        
        <!-- Main pages -->
+       <action name="login" class="edu.unc.ceccr.action.LoginAction" method="execute">
+           <result>jsp/main/home.jsp</result>
+       </action>
+       
+       
        <action name="index">
            <result>jsp/main/home.jsp</result>
        </action>
