@@ -4,35 +4,6 @@
 <%@ page language="java" import="java.util.*" %>
 	
 <!-- SVM Models -->
-
-<!-- debug -->
-<b>	
-	svmKernel: <s:property value="svmParameters.svmKernel" />
-	<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-		<br />svmTypeContinuous: <s:property value="svmParameters.svmTypeContinuous" />
-	</s:if>
-	<s:else>
-		<br />svmTypeCategory: <s:property value="svmParameters.svmTypeCategory" />
-	</s:else>
-	<br />
-	<s:if test='svmParameters.svmKernel=="1"'>
-			k1
-	</s:if>
-	<s:if test='svmParameters.svmKernel=="2"'>
-			k2
-	</s:if>
-	<s:if test='svmParameters.svmKernel=="3"'>
-			k3
-	</s:if>
-	<s:if test='svmParameters.svmKernel=="4"'>
-			k4
-	</s:if>
-	<s:if test='svmParameters.svmKernel=="0"'>
-			k0
-	</s:if>
-
-</b>
-<!-- end debug -->
 	
 	<br />
 		<s:if test="isYRandomPage=='NO'">
@@ -87,17 +58,17 @@
 			<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 			<s:if test="svmModels.size!=0">
 			<tr>
-			<s:if test="svmParameters.svmKernel=='1'">
+			<s:if test='svmParameters.svmKernel=="1"'>
 				<th class="TableRowText01">degree</th>
 			</s:if>
-			<s:if test="svmParameters.svmKernel!='0'">
+			<s:if test='svmParameters.svmKernel!="0"'>
 				<th class="TableRowText01">gamma</th>
 			</s:if>
 			<th class="TableRowText01">cost</sup></th>
-			<s:if test="svmParameters.svmTypeContinuous=='4'">
+			<s:if test='svmParameters.svmTypeContinuous=="4"'>
 				<th class="TableRowText01">nu</th>
 			</s:if>
-			<s:if test="svmParameters.svmTypeContinuous=='3'">
+			<s:if test='svmParameters.svmTypeContinuous=="3"'>
 				<th class="TableRowText01">epsilon (loss)</th>
 			</s:if>
 			<th class="TableRowText01">r<sup>2</sup></th>
@@ -105,17 +76,17 @@
 			</s:if>
 			<s:iterator value="svmModels" status="modelsStatus">
 				<tr>
-				<s:if test="svmParameters.svmKernel=='1'">
+				<s:if test='svmParameters.svmKernel=="1"'>
 					<td class="TableRowText02"><s:property value="degree" /></td>
 				</s:if>				
-				<s:if test="svmParameters.svmKernel!='0'">
+				<s:if test='svmParameters.svmKernel!="0"'>
 					<td class="TableRowText02"><s:property value="gamma" /></td>
 				</s:if>				
 				<td class="TableRowText02"><s:property value="cost" /></td>
-				<s:if test="svmParameters.svmTypeContinuous=='4'">
+				<s:if test='svmParameters.svmTypeContinuous=="4"'>
 					<td class="TableRowText02"><s:property value="nu" /></td>
 				</s:if>
-				<s:if test="svmParameters.svmTypeContinuous=='3'">
+				<s:if test='svmParameters.svmTypeContinuous=="3"'>
 					<td class="TableRowText02"><s:property value="loss" /></td>
 				</s:if>				
 				<td class="TableRowText02"><s:property value="rSquaredTest" /></td>
@@ -125,16 +96,16 @@
 			<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
 			<s:if test="svmModels.size!=0">
 			<tr>
-				<s:if test="svmParameters.svmKernel=='1'">
+				<s:if test='svmParameters.svmKernel=="1"'>
 					<th class="TableRowText01">degree</th>
 				</s:if>
-				<s:if test="svmParameters.svmKernel!='0'">
+				<s:if test='svmParameters.svmKernel!="0"'>
 					<th class="TableRowText01">gamma</th>
 				</s:if>
-				<s:if test="svmParameters.svmTypeCategory=='0'">
+				<s:if test='svmParameters.svmTypeCategory=="0"'>
 					<th class="TableRowText01">cost</sup></th>
 				</s:if>
-				<s:if test="svmParameters.svmTypeCategory=='1'">
+				<s:if test='svmParameters.svmTypeCategory=="1"'>
 					<th class="TableRowText01">nu</th>
 				</s:if>
 				<th class="TableRowText01">CCR</th>
@@ -143,16 +114,16 @@
 			
 			<s:iterator value="svmModels" status="modelsStatus">
 				<tr>
-				<s:if test="svmParameters.svmKernel=='1'">
+				<s:if test='svmParameters.svmKernel=="1"'>
 					<td class="TableRowText02"><s:property value="degree" /></td>
 				</s:if>
-				<s:if test="svmParameters.svmKernel!='0'">
+				<s:if test='svmParameters.svmKernel!="0"'>
 					<td class="TableRowText02"><s:property value="gamma" /></td>
 				</s:if>
-				<s:if test="svmParameters.svmTypeCategory=='0'">
+				<s:if test='svmParameters.svmTypeCategory=="0"'>
 					<td class="TableRowText02"><s:property value="cost" /></td>
 				</s:if>
-				<s:if test="svmParameters.svmTypeCategory=='1'">
+				<s:if test='svmParameters.svmTypeCategory=="1"'>
 					<td class="TableRowText02"><s:property value="nu" /></td>
 				</s:if>
 				<td class="TableRowText02"><s:property value="ccrTest" /></td>
