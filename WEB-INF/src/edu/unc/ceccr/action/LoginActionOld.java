@@ -27,7 +27,7 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 
 public class LoginActionOld extends Action {
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form,
+/*	public ActionForward execute(ActionMapping mapping, ActionForm form,
 			HttpServletRequest request, HttpServletResponse response)	throws Exception
 	{
 		
@@ -66,4 +66,5 @@ public class LoginActionOld extends Action {
 		
 		return forward;
 	}
+	*/
 }
