@@ -68,11 +68,8 @@
 					  <table width="250" border="0" >		
 					  <tr><div class="StandardTextDarkGray"><br />NOTE: All passwords have been reset recently. Check your email for your new password.</div></tr>        
 			           <tr>
-					   <td><s:textfield name="username" id="username" size="12"/></td>
-					   <td><s:password name="password" id="password" size="12"/></td>
-<!--  			       <td><label><input name="loginName" type="text" class="LoginBoxes1" size="12" value="username" onfocus="if(this.value=='username'){value=''}"/></label></td>
-				       <td><label><input name="loginPassword" type="password" class="LoginBoxes1" size="12" value="password" onfocus="if(this.value=='password'){value=''}"/></label></td>
--->
+					   <td><s:textfield name="username" id="username" size="12" onfocus="if(this.value=='username'){value=''}" /></td>
+					   <td><s:password name="password" id="password" size="12" onfocus="if(this.value=='password'){value=''}" /></td>
   			           </tr>
 				       <tr>
 						<td><label> 
@@ -87,20 +84,32 @@
 			        onclick="alert('The guest account has all the same capabilities as a full Chembench account. However, all guest data is periodically deleted, and other guests can see the datasets, models, and predictions you create.')">
 			        login as a guest</a></span>
 			        </td></tr></table>
-			        <!--
-			        <table width="250" border="0" ><tr><td>
-			        <span class="ccbHomeStandard">
-			        Forget your password? <a href="/getPassword.do">click here</a></span>
-			        </td></tr></table> -->
+			        
 			</s:if>
+			
+	        <s:if test="loginFailed!='YES'">
+	  			<table width="250" border="0" ><tr><td>
+	        	<span class="ccbHomeStandard" >
+	        	<font color="red">Username or password incorrect. </font></span>
+	        	</td></tr></table> 
+	        </s:if>
+	        
+			<s:if test="user==null">
+		        <table width="250" border="0" ><tr><td>
+		        <span class="ccbHomeStandard">
+		        Forget your password? <a href="/forgotPassword">click here</a></span>
+		        </td></tr></table> 
+			</s:if>
+	        
 			<s:if test="user!=null">
 				<s:if test="user.userName!=''">	    
-					<table border="0"><tr><td>	
-					<span><span	class="ccbHomeStandard">Welcome, 
-					  </span></span><span><span	class="ccbHomeStandard">
-					  <s:property value="user.userName" />
-					  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
-					    </span> </span>        
+					<table border="0">
+					<tr><td>	
+						<span class="ccbHomeStandard">
+							Welcome, 
+						   	<s:property value="user.userName" />
+						  	<button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
+						</span>         
 					</td></tr> 
 					</table>
 				</s:if>

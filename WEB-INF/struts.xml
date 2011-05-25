@@ -34,10 +34,8 @@
        <!-- Main pages -->
        
        
-       <action name="login" class="edu.unc.ceccr.action.LoginAction" method="execute">
-	       <result name="success" type="redirect">home</result>
-		   <result name="error">jsp/main/errors2.jsp</result>
-		   <result name="login">jsp/main/home.jsp</result>
+       <action name="login" class="edu.unc.ceccr.action.HomeAction" method="execute">
+	       <result name="success">jsp/main/home.jsp</result>
        </action>
        
        <action name="home" class="edu.unc.ceccr.action.HomeAction" method="loadPage">
@@ -48,10 +46,6 @@
            <result>jsp/main/home.jsp</result>
        </action>
        
-       <action name="loginTemp">
-           <result>jsp/main/home-real.jsp</result>
-       </action>
-        
        <action name="error">
             <result>jsp/main/errors2.jsp</result>
        </action>
