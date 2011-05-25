@@ -14,6 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -25,6 +26,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ActionContext; 
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
@@ -33,29 +35,39 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
+import org.apache.struts2.interceptor.ServletResponseAware;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 
-public class HomeAction extends ActionSupport {
+public class HomeAction extends ActionSupport implements ServletResponseAware {
+	
 	//loads home page
-
+	
+	protected HttpServletResponse servletResponse;
+	@Override
+	public void setServletResponse(HttpServletResponse servletResponse) {
+		this.servletResponse = servletResponse;
+	}
+	
 	String visitors;
 	String userStats;
 	String jobStats;
 	String cpuStats;
 	String activeUsers;
 	String runningJobs;
-	
+	String loginFailed = Constants.NO;
 	User user;
 	
-	String username = "username";
-	String password = "password";
+	String username;
+	String password;
 	
-	String showStatistics = "YES"; 
+	String showStatistics = Constants.YES; 
 	
 	public String loadPage(){
+		username = "username";
+		password =  "password";
 		try {
 			//check if user is logged in
 			ActionContext context = ActionContext.getContext();
@@ -115,6 +127,64 @@ public class HomeAction extends ActionSupport {
 		}
 		return SUCCESS;
 	}
+	
+	public String execute() throws Exception {
+		String result = SUCCESS; 
+
+		String debugText = "";
+		if(Constants.doneReadingConfigFile)
+		{
+			debugText ="already read config file (?)";
+		}
+		else{
+			try{
+				//STATIC PATH OH NOES
+				String path = "/usr/local/ceccr/tomcat6/webapps/ROOT/WEB-INF/systemConfig.xml";
+				Utility.setAdminConfiguration(path);
+			}
+			catch(Exception ex){
+				debugText += ex.getMessage();
+			}
+		}
+		FileAndDirOperations.writeStringToFile(debugText, "/usr/local/ceccr/deploy/debug-log.txt");
+		
+		//start up the queues, if they're not running yet
+		CentralDogma.getInstance();
+		
+
+		//check username and password
+		ActionContext context = ActionContext.getContext();
+		
+		Session s = HibernateUtil.getSession();
+		User user = PopulateDataObjects.getUserByUserName(username, s);
+		s.close();
+		
+		if(user!= null){
+			String realPasswordHash =user.getPassword();
+			
+			if (Utility.encrypt(password).equals(realPasswordHash)){
+				context.getSession().put("user", user);
+				Cookie ckie=new Cookie("login","true");
+				servletResponse.addCookie(ckie);
+				
+				Utility.writeToUsageLog("Logged in", user.getUserName());
+			}
+			else if(user.getUserName().equals("guest")){
+				Utility.writeToUsageLog("Logged in", user.getUserName());
+				context.getSession().put("user", user);
+				Cookie ckie=new Cookie("login","true");
+				servletResponse.addCookie(ckie);
+				
+				Utility.writeToUsageLog("Logged in", user.getUserName());
+			}
+			else{
+				loginFailed = Constants.YES;
+			}
+		}
+		
+		return result;
+	}
+	
 
 	public String getVisitors() {
 		return visitors;
