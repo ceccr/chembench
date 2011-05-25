@@ -21,22 +21,22 @@
 .ccbHomeStandard a:link {
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 	font-size: 14px;
-	color: #404040;
-	font-weight: normal;
+	color: #5F7692;
+	font-weight: bold;
 	text-decoration: underline;
 }
 .ccbHomeStandard a:hover {
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 	font-size: 14px;
-	color: #000000;
-	font-weight: normal;
+	color: #5F76CC;
+	font-weight: bold;
 	text-decoration: underline;
 }
 
 .ccbHomeStandard a:visited {
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 	font-size: 14px;
-	color: #404040;
-	font-weight: normal;
+	color: #5F7692;
+	font-weight: bold;
 	text-decoration: underline;
 }

@@ -69,8 +69,8 @@
 					  <tr><div class="StandardTextDarkGray"><br />NOTE: All passwords have been reset recently. Check your email for your new password.</div></tr>        
 			           <tr>
 					   <td><s:textfield name="username" id="username" size="12"/></td>
-					   <td><s:textfield name="password" id="password" size="12"/></td>
-<!--  			           <td><label><input name="loginName" type="text" class="LoginBoxes1" size="12" value="username" onfocus="if(this.value=='username'){value=''}"/></label></td>
+					   <td><s:password name="password" id="password" size="12"/></td>
+<!--  			       <td><label><input name="loginName" type="text" class="LoginBoxes1" size="12" value="username" onfocus="if(this.value=='username'){value=''}"/></label></td>
 				       <td><label><input name="loginPassword" type="password" class="LoginBoxes1" size="12" value="password" onfocus="if(this.value=='password'){value=''}"/></label></td>
 -->
   			           </tr>

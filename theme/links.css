@@ -8,7 +8,6 @@ a:link {
 	
 }
 
-
 .ActiveTab {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
@@ -32,7 +31,7 @@ a:visited {
 a:hover {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	color: #000000;
+	color: #5F76CC;
 	font-weight: bold;
 	text-decoration: underline;
 	outline: none;
@@ -42,7 +41,7 @@ a:active {
 
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 12px;
-	color: #99FF00;
+	color: #5F76CC;
 	font-weight: bold;
 	text-decoration: underline;
 	outline: none;
@@ -80,7 +79,7 @@ a.sub:active {
 
 	font-family: Arial Narrow;
 	font-size: 9px;
-	color: #99FF00;
+	color: #5F76CC;
 font-weight: bold;
 	text-decoration: underline;
 }
@@ -115,6 +114,6 @@ a.small:active {
 
 	font-family: Arial Narrow;
 	font-size: 11px;
-	color: #99FF00;
+	color: #5F76CC;
 	text-decoration: underline;
 }
