@@ -12,7 +12,7 @@
         <default-action-ref name="index" />
         
          <action name="index">
-            <result>jsp/main/home.jsp</result>
+            <result type="forward">home</result>
         </action>
         
         <action name="modeling-s2">
