@@ -103,13 +103,15 @@
 					    </span> </span>        
 					</td></tr> 
 					</table>
-				<table width="250" border="0" align="right" cellpadding="5" cellspacing="2">
-						  <tr><td valign="middle">	
-						<p align="right"><span><span class="StandardTextDarkGray4">
-						ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
-						    &nbsp &nbsp &nbsp</span> </span></td></tr> 
-				</table>
 				</s:if>
+				<s:else>
+					<table width="250" border="0" align="right" cellpadding="5" cellspacing="2">
+							  <tr><td valign="middle">	
+							<p align="right"><span><span class="StandardTextDarkGray4">
+							ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
+							    &nbsp &nbsp &nbsp</span> </span></td></tr> 
+					</table>
+				</s:else>
 			</s:if>
 			<!-- LOGIN INPUT FIELD ENDS HERE-->
 			

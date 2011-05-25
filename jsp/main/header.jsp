@@ -28,6 +28,8 @@
 			  </tr> 
 			</table>
 
+		</s:if>
+		<s:else>
 			<table width="400" border="0" align="right" cellpadding="5" cellspacing="2">
 			  <tr><td align="right" valign="middle">	
 			<p align="right"><span><span class="StandardTextDarkGray4">
@@ -35,8 +37,7 @@
 			    &nbsp &nbsp &nbsp</span> </span></td>
 			  </tr> 
 			</table></p>
-
-		</s:if>
+		</s:else>
 	</s:if>
    </div>
    </td>
