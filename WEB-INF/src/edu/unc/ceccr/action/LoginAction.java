@@ -75,29 +75,32 @@ public class LoginAction extends ActionSupport implements ServletResponseAware {
 		//check username and password
 		ActionContext context = ActionContext.getContext();
 		
+		
 		Session s = HibernateUtil.getSession();
 		User user = PopulateDataObjects.getUserByUserName(username, s);
 		s.close();
 		
-		byte[] realPassword=user.getPassword();
-		
-		if (Utility.compareEncryption(Utility.encrypt(password),realPassword)){
-			context.getSession().put("user", user);
-			Cookie ckie=new Cookie("login","true");
-			//response.addCookie(ckie);
+		if(user!= null){
+			byte[] realPassword=user.getPassword();
+			Utility.writeToDebug("entered password: " + password + " password byte array: " + Utility.encrypt(password));
+			Utility.writeToDebug("real password: " + realPassword);
 			
-			Utility.writeToUsageLog("Logged in", user.getUserName());
+			if (Utility.compareEncryption(Utility.encrypt(password),realPassword)){
+				context.getSession().put("user", user);
+				Cookie ckie=new Cookie("login","true");
+				//response.addCookie(ckie);
+				
+				Utility.writeToUsageLog("Logged in", user.getUserName());
+			}
+			else if(user.getUserName().equals("guest")){
+				Utility.writeToUsageLog("Logged in", user.getUserName());
+				context.getSession().put("user", user);
+				Cookie ckie=new Cookie("login","true");
+				//response.addCookie(ckie);
+				
+				Utility.writeToUsageLog("Logged in", user.getUserName());
+			}
 		}
-		else if(user.getUserName().equals("guest")){
-			Utility.writeToUsageLog("Logged in", user.getUserName());
-			context.getSession().put("user", user);
-			Cookie ckie=new Cookie("login","true");
-			//response.addCookie(ckie);
-			
-			Utility.writeToUsageLog("Logged in", user.getUserName());
-		}
-		
-		Utility.writeToDebug("Starting session for user: " + username);
 		
 		return result;
 	}

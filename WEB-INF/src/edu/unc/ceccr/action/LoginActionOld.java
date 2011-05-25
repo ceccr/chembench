@@ -31,17 +31,6 @@ public class LoginActionOld extends Action {
 			HttpServletRequest request, HttpServletResponse response)	throws Exception
 	{
 		
-		if(!Constants.doneReadingConfigFile)
-		{
-			String path=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
-			Utility.setAdminConfiguration(path);
-		}
-		
-		ActionForward forward = new ActionForward(); 
-	
-		//start up the queues, if they're not running yet
-		CentralDogma.getInstance();
-		
 		//getSession(false) means: Don't create a session if it doesn't exist yet
 		HttpSession session = request.getSession(false);
 		if (session != null)
@@ -53,41 +42,6 @@ public class LoginActionOld extends Action {
 	    
 	    Utility.writeToDebug("" + session.getAttribute("loginName"));
 	    
-		session.setMaxInactiveInterval(Constants.SESSION_EXPIRATION_TIME);
-		
-		Utility utility=new Utility();
-		LoginFormBean loginBean = (LoginFormBean) form;
-
-		User user = new User();
-
-		Utility.writeToDebug("Starting session");
-		Session s = null;
-		try{
-			s = HibernateUtil.getSession();// query
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
-		Utility.writeToDebug("Session started.");
-		Transaction tx = null;
-		try {
-			tx = s.beginTransaction();
-			user = (User) s.createCriteria(User.class).add(
-					Expression.eq("userName", loginBean.getLoginName()))
-					.uniqueResult();
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {s.close();}
-		
-
-		if (user != null){
-			byte[] password=user.getPassword();
-			String loginPassword = loginBean.getLoginPassword().trim();
-			
 			if (utility.compareEncryption(utility.encrypt(loginPassword),password)){
 				session.setAttribute("user", user);
 				Cookie ckie=new Cookie("login","true");
@@ -109,10 +63,6 @@ public class LoginActionOld extends Action {
 			else{
 				forward = mapping.findForward("failure");
 			}
-		} 
-		else{
-			forward = mapping.findForward("failure");
-		}
 		
 		return forward;
 	}
