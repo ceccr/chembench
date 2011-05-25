@@ -50,6 +50,9 @@ public class HomeAction extends ActionSupport {
 	
 	User user;
 	
+	String username = "username";
+	String password = "password";
+	
 	String showStatistics = "YES"; 
 	
 	public String loadPage(){
