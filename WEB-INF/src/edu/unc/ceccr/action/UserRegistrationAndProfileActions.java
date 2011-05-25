@@ -210,10 +210,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 			userIsAdmin = true;
 		}
 		
-		byte[] password=user.getPassword();
+		String realPasswordHash=user.getPassword();
 		
-		if (! Utility.compareEncryption(Utility.encrypt(oldPassword),password))
-		{
+		if ((Utility.encrypt(oldPassword).equals(realPasswordHash))){
 			errorMessages.add("You entered your old password incorrectly. Your password was not changed. Please try again.");
 		}
 		

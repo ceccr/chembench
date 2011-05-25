@@ -36,29 +36,19 @@ public class Utility {
 	public Utility() {
 	};
 
-	public static byte[] encrypt(String str) throws NoSuchAlgorithmException {
+	public static String encrypt(String str) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("SHA-1");
 		md.update(str.getBytes());
 		byte[] encryptedStr = md.digest();
 		//convert each byte to a readable ascii character for easy database access. 
 		//Values need to be inside the range [40..126].
 		for(int i = 0; i < encryptedStr.length; i++){
-			writeToDebug("before: " + (Math.abs(new Integer(encryptedStr[i]))) + " after: " + (Math.abs(new Integer(encryptedStr[i]) % 87) + 40) + " afterchar: " + (char)(Math.abs(new Integer(encryptedStr[i]) % 87) + 40)  );
+			//writeToDebug("before: " + (Math.abs(new Integer(encryptedStr[i]))) + " after: " + (Math.abs(new Integer(encryptedStr[i]) % 87) + 40) + " afterchar: " + (char)(Math.abs(new Integer(encryptedStr[i]) % 87) + 40)  );
 			encryptedStr[i] = (byte) (Math.abs(new Integer(encryptedStr[i]) % 87) + 40);
 		}
-		writeToDebug("Encoding password: " + str  + " to " + new String(encryptedStr));
-		return encryptedStr;
+		return new String(encryptedStr);
 	}
-
-	public static boolean compareEncryption(byte[] byte1, byte[] byte2) {
-		if (new BigInteger(1, byte1).toString(16).equalsIgnoreCase(
-				new BigInteger(1, byte2).toString(16))) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
+	
 	public static String randomPassword() throws Exception {
 		String source = Constants.SOURCE;
 		String password = "";

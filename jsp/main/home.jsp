@@ -64,7 +64,7 @@
 			
 			<!-- LOGIN INPUT FIELD STARTS HERE. -->
 			<s:if test="user==null">
-					<form id="form1" name="form1" method="post" action="login">
+					<s:form action="login" enctype="multipart/form-data" method="post" theme="simple">
 					  <table width="250" border="0" >		
 					  <tr><div class="StandardTextDarkGray"><br />NOTE: All passwords have been reset recently. Check your email for your new password.</div></tr>        
 			           <tr>
@@ -73,13 +73,13 @@
 <!--  			           <td><label><input name="loginName" type="text" class="LoginBoxes1" size="12" value="username" onfocus="if(this.value=='username'){value=''}"/></label></td>
 				       <td><label><input name="loginPassword" type="password" class="LoginBoxes1" size="12" value="password" onfocus="if(this.value=='password'){value=''}"/></label></td>
 -->
-  			        </tr>
+  			           </tr>
 				       <tr>
 						<td><label> 
 						  <input name="Submit" type="submit" class="StandardTextDarkGray4" value="login"
 						style="border-style:solid; border-color:blue;border-width:1px" /></label></td></tr>        
 			          </table>     
-			        </form>
+			        </s:form>
 			        
 			        <table width="250" border="0" ><tr><td>
 			        <span class="ccbHomeStandard">

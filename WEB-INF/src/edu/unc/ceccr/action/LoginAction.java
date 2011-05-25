@@ -81,13 +81,13 @@ public class LoginAction extends ActionSupport implements ServletResponseAware {
 		s.close();
 		
 		if(user!= null){
-			byte[] realPassword=user.getPassword();
+			String realPasswordHash =user.getPassword();
 			Utility.writeToDebug("username: " + username);
 			Utility.writeToDebug("user.userName: " + user.getUserName());
-			Utility.writeToDebug("entered password: " + password + " password byte array: " + Utility.encrypt(password));
-			Utility.writeToDebug("real password: " + realPassword);
+			Utility.writeToDebug("entered password: " + password + " password hash: " + Utility.encrypt(password));
+			Utility.writeToDebug("real password hash: " + realPasswordHash);
 			
-			if (Utility.compareEncryption(Utility.encrypt(password),realPassword)){
+			if (Utility.encrypt(password).equals(realPasswordHash)){
 				context.getSession().put("user", user);
 				Cookie ckie=new Cookie("login","true");
 				//response.addCookie(ckie);
