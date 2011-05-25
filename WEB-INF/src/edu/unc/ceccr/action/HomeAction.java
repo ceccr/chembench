@@ -66,12 +66,37 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 	String showStatistics = Constants.YES; 
 	
 	public String loadPage(){
-		username = "username";
-		password =  "password";
 		try {
+			
+			//stuff that needs to happen on server startup
+			String debugText = "";
+			if(Constants.doneReadingConfigFile)
+			{
+				debugText ="already read config file (?)";
+			}
+			else{
+				try{
+					//STATIC PATH OH NOES
+					String path = "/usr/local/ceccr/tomcat6/webapps/ROOT/WEB-INF/systemConfig.xml";
+					Utility.setAdminConfiguration(path);
+				}
+				catch(Exception ex){
+					debugText += ex.getMessage();
+				}
+			}
+			FileAndDirOperations.writeStringToFile(debugText, "/usr/local/ceccr/deploy/debug-log.txt");
+			
+			//start up the queues, if they're not running yet
+			CentralDogma.getInstance();
+			
+			
 			//check if user is logged in
 			ActionContext context = ActionContext.getContext();
 			user = (User) context.getSession().get("user");
+			if(user == null){
+				username = "username";
+				password =  "password";
+			}
 			
 			//populate each string for the statistics section
 			Session s = HibernateUtil.getSession();
@@ -90,7 +115,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 			}
 			visitors = "Visitors: " + Integer.toString(counter);
 			
-			// number of registereed users
+			// number of registered users
 			userStats = "Users: " + users.size();
 	
 			// finished jobs
@@ -129,28 +154,8 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 	}
 	
 	public String execute() throws Exception {
+		//do login
 		String result = SUCCESS; 
-
-		String debugText = "";
-		if(Constants.doneReadingConfigFile)
-		{
-			debugText ="already read config file (?)";
-		}
-		else{
-			try{
-				//STATIC PATH OH NOES
-				String path = "/usr/local/ceccr/tomcat6/webapps/ROOT/WEB-INF/systemConfig.xml";
-				Utility.setAdminConfiguration(path);
-			}
-			catch(Exception ex){
-				debugText += ex.getMessage();
-			}
-		}
-		FileAndDirOperations.writeStringToFile(debugText, "/usr/local/ceccr/deploy/debug-log.txt");
-		
-		//start up the queues, if they're not running yet
-		CentralDogma.getInstance();
-		
 
 		//check username and password
 		ActionContext context = ActionContext.getContext();
@@ -160,7 +165,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 		s.close();
 		
 		if(user!= null){
-			String realPasswordHash =user.getPassword();
+			String realPasswordHash = user.getPassword();
 			
 			if (Utility.encrypt(password).equals(realPasswordHash)){
 				context.getSession().put("user", user);
@@ -181,7 +186,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 				loginFailed = Constants.YES;
 			}
 		}
-		
+		loadPage();
 		return result;
 	}
 	
@@ -264,6 +269,14 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getLoginFailed() {
+		return loginFailed;
+	}
+
+	public void setLoginFailed(String loginFailed) {
+		this.loginFailed = loginFailed;
 	}
 	
 }

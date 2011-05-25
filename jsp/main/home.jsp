@@ -87,7 +87,7 @@
 			        
 			</s:if>
 			
-	        <s:if test="loginFailed!='YES'">
+	        <s:if test="loginFailed=='YES'">
 	  			<table width="250" border="0" ><tr><td>
 	        	<span class="ccbHomeStandard" >
 	        	<font color="red">Username or password incorrect. </font></span>
