@@ -38,7 +38,7 @@
 		<div class="TextDarkGray">You are currently logged in as:<b> <bean:write name="user" property="userName" /></b> </div></td></tr>
 <tr><td>
 
-		<div class="TextDarkGray">To continue working, please <a href="home.do"><font size="3" color="#ff3300">click here</font></a></div></td></tr>
+		<div class="TextDarkGray">To continue working, please <a href="home"><font size="3" color="#ff3300">click here</font></a></div></td></tr>
 	<tr><td>
 	<div class="TextDarkGray">To login as another user, please <a href="logout.do"><font size="3" color="#ff3300"><b>click here</b></font></a> to close this session. </div>
             </td></tr></table></div>

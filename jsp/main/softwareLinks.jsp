@@ -174,7 +174,7 @@ function validateSoftwareLinkForm(){
 				<!-- User isn't logged in; make them do that first. -->
 				<tr>
 					<td align="left" colspan="2">
-					<div class="StandardTextDarkGrayParagraph" align="left"><i>To add a new link, you must <a href="home.do">log in</a> 
+					<div class="StandardTextDarkGrayParagraph" align="left"><i>To add a new link, you must <a href="home">log in</a> 
 					first. If you don't have an account yet, you can register one. Registration is fast and free, 
 					and will give you access to all the Chembench tools.</i></div><br />
 					</td>

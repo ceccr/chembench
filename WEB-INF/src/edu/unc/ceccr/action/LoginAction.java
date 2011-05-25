@@ -81,10 +81,6 @@ public class LoginAction extends ActionSupport implements ServletResponseAware {
 		
 		if(user!= null){
 			String realPasswordHash =user.getPassword();
-			Utility.writeToDebug("username: " + username);
-			Utility.writeToDebug("user.userName: " + user.getUserName());
-			Utility.writeToDebug("entered password: " + password + " password hash: " + Utility.encrypt(password));
-			Utility.writeToDebug("real password hash: " + realPasswordHash);
 			
 			if (Utility.encrypt(password).equals(realPasswordHash)){
 				context.getSession().put("user", user);

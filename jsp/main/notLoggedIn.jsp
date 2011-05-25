@@ -30,9 +30,9 @@
         <p class="StandardTextDarkGrayParagraph">
 		You are seeing this page because you are currently not logged in, or your session has expired.
 		<br /><br />
-		If you need an account, you can make one from the <a href="home.do">Home</a> page. Creating an account is quick and free.
+		If you need an account, you can make one from the <a href="home">Home</a> page. Creating an account is quick and free.
 		<br /><br />
-		If you already have an account, you can log in from the <a href="home.do">Home</a> page as well.
+		If you already have an account, you can log in from the <a href="home">Home</a> page as well.
 		<br /><br />
 		Thanks for using Chembench! If you encounter any problems, please contact us at ceccr@email.unc.edu.
 		</p>

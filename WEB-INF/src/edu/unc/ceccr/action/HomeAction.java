@@ -48,10 +48,16 @@ public class HomeAction extends ActionSupport {
 	String activeUsers;
 	String runningJobs;
 	
+	User user;
+	
 	String showStatistics = "YES"; 
 	
 	public String loadPage(){
 		try {
+			//check if user is logged in
+			ActionContext context = ActionContext.getContext();
+			user = (User) context.getSession().get("user");
+			
 			//populate each string for the statistics section
 			Session s = HibernateUtil.getSession();
 			int numJobs = PopulateDataObjects.populateClass(Job.class, s).size();
@@ -162,6 +168,13 @@ public class HomeAction extends ActionSupport {
 	public void setShowStatistics(String showStatistics) {
 		this.showStatistics = showStatistics;
 	}
+
+	public User getUser() {
+		return user;
+	}
 	
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 }

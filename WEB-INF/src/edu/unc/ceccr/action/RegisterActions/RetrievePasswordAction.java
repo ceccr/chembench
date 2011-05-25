@@ -76,7 +76,7 @@ public class RetrievePasswordAction extends Action {
 				    
 					MSG = "<font size=2 face=arial>Your password has been reset. <br />" +
 					"An email containing the password has been sent to </font><font size=2 face=arial color=red>" + user.getEmail()
-					+"</font><font size=2 face=arial>.<br />When the email arrives, you'll want to <a href='/home.do'>return to Home page</a> and log in. <br />"
+					+"</font><font size=2 face=arial>.<br />When the email arrives, you'll want to <a href='/home'>return to Home page</a> and log in. <br />"
 					+"You may change your password from the 'edit profile' page when you are logged in.</font>";
 					
 					session.setAttribute("MSG",MSG);
