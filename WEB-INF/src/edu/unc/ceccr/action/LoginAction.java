@@ -100,6 +100,9 @@ public class LoginAction extends ActionSupport implements ServletResponseAware {
 				
 				Utility.writeToUsageLog("Logged in", user.getUserName());
 			}
+			else{
+				result=LOGIN;
+			}
 		}
 		
 		return result;
