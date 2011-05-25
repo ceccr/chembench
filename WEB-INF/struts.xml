@@ -11,7 +11,7 @@
 
     <package name="default" namespace="/" extends="struts-default">
                 
-        <default-action-ref name="index" />
+        <default-action-ref name="home" />
 		
 		<global-results>
 		<result name="login">jsp/main/notLoggedIn.jsp</result>
@@ -39,10 +39,6 @@
        </action>
        
        <action name="home" class="edu.unc.ceccr.action.HomeAction" method="loadPage">
-           <result>jsp/main/home.jsp</result>
-       </action>
-       
-       <action name="index" class="edu.unc.ceccr.action.HomeAction" method="loadPage">
            <result>jsp/main/home.jsp</result>
        </action>
        
