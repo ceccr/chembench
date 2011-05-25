@@ -74,8 +74,6 @@ public class LoginAction extends ActionSupport implements ServletResponseAware {
 
 		//check username and password
 		ActionContext context = ActionContext.getContext();
-		String username = ((String[]) context.getParameters().get("username"))[0];
-		String password = ((String[]) context.getParameters().get("password"))[0];
 		
 		Session s = HibernateUtil.getSession();
 		User user = PopulateDataObjects.getUserByUserName(username, s);
