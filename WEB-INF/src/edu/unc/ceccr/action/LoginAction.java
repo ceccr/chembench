@@ -82,6 +82,8 @@ public class LoginAction extends ActionSupport implements ServletResponseAware {
 		
 		if(user!= null){
 			byte[] realPassword=user.getPassword();
+			Utility.writeToDebug("username: " + username);
+			Utility.writeToDebug("user.userName: " + user.getUserName());
 			Utility.writeToDebug("entered password: " + password + " password byte array: " + Utility.encrypt(password));
 			Utility.writeToDebug("real password: " + realPassword);
 			
