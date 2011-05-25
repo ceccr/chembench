@@ -75,7 +75,6 @@ public class LoginAction extends ActionSupport implements ServletResponseAware {
 		//check username and password
 		ActionContext context = ActionContext.getContext();
 		
-		
 		Session s = HibernateUtil.getSession();
 		User user = PopulateDataObjects.getUserByUserName(username, s);
 		s.close();
@@ -90,7 +89,7 @@ public class LoginAction extends ActionSupport implements ServletResponseAware {
 			if (Utility.encrypt(password).equals(realPasswordHash)){
 				context.getSession().put("user", user);
 				Cookie ckie=new Cookie("login","true");
-				//response.addCookie(ckie);
+				servletResponse.addCookie(ckie);
 				
 				Utility.writeToUsageLog("Logged in", user.getUserName());
 			}
@@ -98,7 +97,7 @@ public class LoginAction extends ActionSupport implements ServletResponseAware {
 				Utility.writeToUsageLog("Logged in", user.getUserName());
 				context.getSession().put("user", user);
 				Cookie ckie=new Cookie("login","true");
-				//response.addCookie(ckie);
+				servletResponse.addCookie(ckie);
 				
 				Utility.writeToUsageLog("Logged in", user.getUserName());
 			}
