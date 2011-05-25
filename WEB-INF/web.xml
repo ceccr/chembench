@@ -284,7 +284,7 @@
     </filter-mapping>
 
     <welcome-file-list>
-        <welcome-file>/jsp/main/home.jsp</welcome-file>
+        <welcome-file>/home</welcome-file>
     </welcome-file-list>
 
 <!-- end added for struts2 -->
