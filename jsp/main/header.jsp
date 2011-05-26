@@ -19,12 +19,20 @@
 		<s:if test="user.userName!=''">
 
 			<table width="400" border="0" align="right" cellpadding="5" cellspacing="2">
-			  <tr><td align="right" valign="middle">	
-			<p align="right"><span><span class="StandardTextDarkGray4">Logged in as  
-			  </span></span><span><span	class="StandardTextDarkGray4">
-		  <b><s:property value="user.userName" /></b>.
-		  &nbsp &nbsp &nbsp &nbsp</span> </span>        
-			<p align="right"><a href="#" onclick="logout()">log out</a> | <a href="editProfile">edit profile</a> | <a href="help-overview" target="_top">help pages</a>&nbsp &nbsp &nbsp</p></td>
+			  <tr>
+			  <td align="right" valign="middle">	
+					<p align="right">
+						<span class="StandardTextDarkGray4">Logged in as  
+		  				<b><s:property value="user.userName" /></b>.
+		  				</span>
+		  			</p>         
+					<p align="right">
+						<a href="#" onclick="logout()">log out</a> | <a href="editProfile">edit profile</a> | <a href="help-overview" target="_top">help pages</a>
+						<s:if test="user.isAdmin=='YES'">
+						| <a href="admin.do">admin</a> 
+						</s:if>
+					</p>
+			  </td>
 			  </tr> 
 			</table>
 
