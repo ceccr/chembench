@@ -379,6 +379,24 @@
         </action>
         <!-- End Delete Actions -->
         
+        <!-- Admin Actions -->
+        <action name="admin" class="edu.unc.ceccr.action.AdminAction" method="loadPage">
+        	<result>jsp/administration/settings/admin.jsp</result>
+        </action>
+        
+        <action name="loadGeneralAdminSection" class="edu.unc.ceccr.action.AdminAction" method="loadGeneralAdminSection">
+        	<result>jsp/administration/settings/admin-generalAdminSection.jsp</result>
+        </action>
+        
+        <action name="loadUsersAdminSection" class="edu.unc.ceccr.action.AdminAction" method="loadUsersAdminSection">
+        	<result>jsp/administration/settings/admin-usersAdminSection.jsp</result>
+        </action>
+        
+        <action name="loadJobsAdminSection" class="edu.unc.ceccr.action.AdminAction" method="loadJobsAdminSection">
+        	<result>jsp/administration/settings/admin-jobsAdminSection.jsp</result>
+        </action>
+        <!-- End Admin Actions -->
+        
         <!-- Help forwards -->
         <action name="help-overview">
         	<result>jsp/help/overview.jsp</result>
