@@ -66,14 +66,13 @@
 			<s:if test="user==null">
 					<s:form action="login" enctype="multipart/form-data" method="post" theme="simple">
 					  <table width="250" border="0" >		
-					  <tr><div class="StandardTextDarkGray"><br />NOTE: All passwords have been reset recently. Check your email for your new password.</div></tr>        
 			           <tr>
 					   <td><s:textfield name="username" id="username" size="12" onfocus="if(this.value=='username'){value=''}" /></td>
 					   <td><s:password name="password" id="password" size="12" onfocus="if(this.value=='password'){value=''}" /></td>
   			           </tr>
 				       <tr>
 						<td><label> 
-						  <input name="Submit" type="submit" class="StandardTextDarkGray4" value="login"
+						  <input name="Submit" type="submit" class="StandardTextDarkGray" value="login"
 						style="border-style:solid; border-color:blue;border-width:1px" /></label></td></tr>        
 			          </table>     
 			        </s:form>
@@ -95,6 +94,7 @@
 	        </s:if>
 	        
 			<s:if test="user==null">
+				<br />
 		        <table width="250" border="0" ><tr><td>
 		        <span class="ccbHomeStandard">
 		        Forget your password? <a href="/forgotPassword">click here</a></span>
