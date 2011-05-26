@@ -384,12 +384,8 @@
         	<result>jsp/administration/settings/admin.jsp</result>
         </action>
         
-        <action name="loadGeneralAdminSection" class="edu.unc.ceccr.action.AdminAction" method="loadGeneralAdminSection">
-        	<result>jsp/administration/settings/admin-generalAdminSection.jsp</result>
-        </action>
-        
-        <action name="loadUsersAdminSection" class="edu.unc.ceccr.action.AdminAction" method="loadUsersAdminSection">
-        	<result>jsp/administration/settings/admin-usersAdminSection.jsp</result>
+        <action name="deleteUser" class="edu.unc.ceccr.action.DeleteAction" method="deleteUser">
+        	<result type="redirect">admin</result>
         </action>
         <!-- End Admin Actions -->
         

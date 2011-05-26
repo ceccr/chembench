@@ -24,7 +24,7 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class DeleteUserAction extends Action {
 
-	public ActionForward execute(ActionMapping mapping, ActionForm form,	HttpServletRequest request, HttpServletResponse response)
+	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response)
 	throws Exception 
 	{
 		ActionForward forward = new ActionForward(); 

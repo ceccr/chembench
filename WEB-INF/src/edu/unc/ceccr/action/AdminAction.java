@@ -58,36 +58,24 @@ public class AdminAction extends ActionSupport{
 				return result;
 			}
 		}
+
+		//log the results
+		Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to admin page.");
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 
+		// open database connection
 		Session session = HibernateUtil.getSession();
-		
-		session.close();
-		//log the results
-		if(result.equals(SUCCESS)){
-			Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to admin page.");
-		}
-		else{
-			Utility.writeToStrutsDebug("Cannot load page.");
-		}
-		
-		//go to the page
-		return result;
-	}
 	
-	public String loadGeneralAdminSection() throws Exception {
 		// Latest Build Date
 		buildDate = Constants.BUILD_DATE;
-		return SUCCESS;
-	}
 	
-	public String loadUsersAdminSection() throws Exception {
 		// list of users
-		Session session = HibernateUtil.getSession();
 		users = PopulateDataObjects.getAllUsers(session);	
 		session.close();
-		return SUCCESS;
+
+		//go to the page
+		return result;
 	}
 	
 	public User getUser() {

@@ -31,20 +31,42 @@
 	<!--  page content -->
 	<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
    		<tr><td>
-   		
-   		<!--  tabs -->
-   		<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
-    	<sx:tabbedpanel id="adminTabbedPanel">
-    	
-	    	<sx:div id="GENERAL" href="/loadGeneralAdminSection" label="General" theme="ajax">
-			</sx:div>
-			
-			<sx:div id="USERS" href="/loadUsersAdminSection" label="Users" theme="ajax">
-			</sx:div>
-
-    	</sx:tabbedpanel>
-    	</td></tr></table>
-    	</td></tr>
+ <div class="StandardTextDarkGrayParagraph">
+	Build Date: <s:property value="buildDate" /><br />
+	<br />
+	Documentation: <br />
+	<a href="/documentation/C-Chembench Developer Guide.docx">Chembench Developer's Guide</a><br />
+	<a href="/documentation/Database Design.docx">Database Design</a><br />
+	<a href="/documentation/ceccr design notes.txt">Notes</a><br />
+	<a href="/documentation/Install Guide.txt">Install Guide</a><br />
+</div> 
+<table>
+	<tr>
+		<th class="TableRowText01">User Name</th>
+		<th class="TableRowText01">First Name</th>
+		<th class="TableRowText01">Last Name</th>
+		<th class="TableRowText01">Organization</th>
+		<th class="TableRowText01">Country</th>
+		<th class="TableRowText01">email</th>
+		<th class="TableRowText01">Can Download Descriptors</th>
+		<th class="TableRowText01">Administrator</th>
+		<th class="TableRowText01">Delete</th>
+	</tr>
+	<s:iterator value="users">
+		<tr>
+		<td class="TableRowText02"><s:property value="userName" /></td>
+		<td class="TableRowText02"><s:property value="firstName" /></td>
+		<td class="TableRowText02"><s:property value="lastName" /></td>
+		<td class="TableRowText02"><s:property value="orgName" /></td>
+		<td class="TableRowText02"><s:property value="country" /></td>
+		<td class="TableRowText02"><a href="mailto:<s:property value="email" />"><s:property value="email" /></a></td>
+		<td class="TableRowText02"><s:property value="canDownloadDescriptors" /></td>
+		<td class="TableRowText02"><s:property value="isAdmin" /></td>
+		<td class="TableRowText02"><a href="">delete</a></td>
+		</tr>
+	</s:iterator>
+</table> 		
+     	</td></tr>
     </table>
 	<%@include file ="/jsp/main/footer.jsp" %>
 	</body>
