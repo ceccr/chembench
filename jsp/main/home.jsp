@@ -73,7 +73,7 @@
 				       <tr>
 						<td><label> 
 						  <input name="Submit" type="submit" class="StandardTextDarkGray" value="login"
-						style="border-style:solid; border-color:blue;border-width:1px" /></label></td></tr>        
+						style="border-style:solid; border-color:blue;border-width:1px;text-align:center;font-size:14px;" /></label></td></tr>        
 			          </table>     
 			        </s:form>
 			        
@@ -117,7 +117,7 @@
 					<table width="250" border="0" align="right" cellpadding="5" cellspacing="2">
 							  <tr><td valign="middle">	
 							<p align="right"><span><span class="StandardTextDarkGray4">
-							ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
+							ERROR: Username empty. Logout or restart your browser.  <button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px;text-align:center;font-size:14px;">logout</button>
 							    &nbsp &nbsp &nbsp</span> </span></td></tr> 
 					</table>
 				</s:else>

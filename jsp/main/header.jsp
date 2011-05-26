@@ -29,7 +29,7 @@
 					<p align="right">
 						<a href="#" onclick="logout()">log out</a> | <a href="editProfile">edit profile</a> | <a href="help-overview" target="_top">help pages</a>
 						<s:if test="user.isAdmin=='YES'">
-						| <a href="admin.do">admin</a> 
+						| <a href="admin">admin</a> 
 						</s:if>
 					</p>
 			  </td>
