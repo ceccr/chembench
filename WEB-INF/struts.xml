@@ -391,10 +391,6 @@
         <action name="loadUsersAdminSection" class="edu.unc.ceccr.action.AdminAction" method="loadUsersAdminSection">
         	<result>jsp/administration/settings/admin-usersAdminSection.jsp</result>
         </action>
-        
-        <action name="loadJobsAdminSection" class="edu.unc.ceccr.action.AdminAction" method="loadJobsAdminSection">
-        	<result>jsp/administration/settings/admin-jobsAdminSection.jsp</result>
-        </action>
         <!-- End Admin Actions -->
         
         <!-- Help forwards -->

@@ -42,9 +42,6 @@
 			<sx:div id="USERS" href="/loadUsersAdminSection" label="Users" theme="ajax">
 			</sx:div>
 
-			<sx:div id="JOBS" href="/loadJobsAdminSection" label="Jobs" theme="ajax" >
-			</sx:div>
-			
     	</sx:tabbedpanel>
     	</td></tr></table>
     	</td></tr>

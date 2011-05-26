@@ -21,6 +21,7 @@ import org.hibernate.Session;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.jobs.CentralDogma;
+import edu.unc.ceccr.persistence.AdminSettings;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
@@ -82,16 +83,10 @@ public class AdminAction extends ActionSupport{
 	}
 	
 	public String loadUsersAdminSection() throws Exception {
-		Session session = HibernateUtil.getSession();
 		// list of users
+		Session session = HibernateUtil.getSession();
 		users = PopulateDataObjects.getAllUsers(session);	
 		session.close();
-		return SUCCESS;
-	}
-	
-	public String loadJobsAdminSection() throws Exception {
-		// limits for automatic running
-		// list of jobs to be approved
 		return SUCCESS;
 	}
 	
@@ -118,6 +113,5 @@ public class AdminAction extends ActionSupport{
 	public void setUsers(ArrayList<User> users) {
 		this.users = users;
 	}
-	
 
 }

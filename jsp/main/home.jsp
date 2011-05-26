@@ -72,7 +72,7 @@
   			           </tr>
 				       <tr>
 						<td><label> 
-						  <input name="Submit" type="submit" class="StandardTextDarkGray" value="login"
+						  <input name="Submit" type="submit" class="StandardTextDarkGray4" value="login"
 						style="border-style:solid; border-color:blue;border-width:1px;text-align:center;font-size:14px;" /></label></td></tr>        
 			          </table>     
 			        </s:form>
