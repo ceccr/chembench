@@ -3,4 +3,6 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
-Hi!
+<s:iterator name="users">
+	<s:property value="userName" /><br />
+</s:iterator>

@@ -35,6 +35,8 @@ import edu.unc.ceccr.utilities.Utility;
 public class AdminAction extends ActionSupport{
 
 	User user;
+	String buildDate;
+	ArrayList<User> users;
 	
 	public String loadPage() throws Exception {
 
@@ -72,8 +74,50 @@ public class AdminAction extends ActionSupport{
 		//go to the page
 		return result;
 	}
-	public String loadGeneralAdminSection() throws Exception {return SUCCESS;}
-	public String loadUsersAdminSection() throws Exception {return SUCCESS;}
-	public String loadJobsAdminSection() throws Exception {return SUCCESS;}
+	
+	public String loadGeneralAdminSection() throws Exception {
+		// Latest Build Date
+		buildDate = Constants.BUILD_DATE;
+		return SUCCESS;
+	}
+	
+	public String loadUsersAdminSection() throws Exception {
+		Session session = HibernateUtil.getSession();
+		// list of users
+		users = PopulateDataObjects.getAllUsers(session);	
+		session.close();
+		return SUCCESS;
+	}
+	
+	public String loadJobsAdminSection() throws Exception {
+		// limits for automatic running
+		// list of jobs to be approved
+		return SUCCESS;
+	}
+	
+	public User getUser() {
+		return user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public String getBuildDate() {
+		return buildDate;
+	}
+
+	public void setBuildDate(String buildDate) {
+		this.buildDate = buildDate;
+	}
+
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(ArrayList<User> users) {
+		this.users = users;
+	}
+	
 
 }
