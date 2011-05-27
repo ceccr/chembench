@@ -12,7 +12,6 @@ import edu.unc.ceccr.global.Constants;
 public class ParseConfigurationXML{
 
     public static void initializeConstants( String filePath){
-    	String debugStr = "in parseConfigXML. Path = " + filePath + "\n";
     	try {
 			
 	        DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
@@ -92,11 +91,10 @@ public class ParseConfigurationXML{
 	
 	    }
 	    catch (Throwable t) {
-	    	debugStr+=("Exception in ParseConfigurationXML.java:" + t.getMessage());
+	    	String debugStr = ("Exception in ParseConfigurationXML.java:" + t.getMessage());
+	    	FileAndDirOperations.writeStringToFile(debugStr, "/usr/local/ceccr/workflow-users/javadebug.txt");
 	    }
-		FileAndDirOperations.writeStringToFile(debugStr, "debug-adminConfig.txt");
 	}
-    
     
     public static String getSingNodeValue(Document doc,String item)
     {

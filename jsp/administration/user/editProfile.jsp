@@ -44,11 +44,6 @@
               <p align="justify" class="StandardTextDarkGrayParagraph">
               From this page, you may change your password, edit your user information, or select options to customize Chembench. <br />
               <br /><br />
-			   <!-- ADMIN SETTINGS LINK -->
-			   <s:if test="userIsAdmin">
-			   You are currently logged in with administrative rights. You may <a href="/admin.do">go to the Administrator Settings page.</a>
-			   </s:if>
-			   <!-- END ADMIN SETTINGS LINK -->
             </p></td>
         </tr>
         <tr><td>
