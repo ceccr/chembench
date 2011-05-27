@@ -31,10 +31,14 @@
 	<tr>
 		<td height="557" colspan="5" valign="top" background="theme/img/backgrindex.jpg">
 		<br />
-		<s:property value="successMessage" />
+		<table width="400"><tr><td>
+		Your password has been reset. <br />
+		An email containing the password has been sent to <font color="red"><s:property value="email" /></font>.<br />
+		When the email arrives, you'll want to return to <a href="/home">Home page</a> and log in.<br />
+		You may change your password from the 'edit profile' page when you are logged in.<br /><br />
+		</td></tr></table>
 		</td>
 	</tr>
-
 	<%@include file ="/jsp/main/footer.jsp" %>
 </table>
 </body>

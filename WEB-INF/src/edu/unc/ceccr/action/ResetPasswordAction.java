@@ -26,7 +26,6 @@ import edu.unc.ceccr.utilities.Utility;
 public class ResetPasswordAction extends ActionSupport {
 	String userName;
 	String email;
-	String successMessage;
 	String errorMessage;
 	
 	public String execute() throws Exception {
@@ -66,12 +65,6 @@ public class ResetPasswordAction extends ActionSupport {
 		
 		SendEmails.sendEmail(email, "", "", "Chembench Password Reset", message);
 
-		// web page
-		successMessage = "Your password has been reset. " +
-		"An email containing the password has been sent to " + user.getEmail()
-		+". When the email arrives, you'll want to return to Home page and log in. "
-		+"You may change your password from the 'edit profile' page when you are logged in.";
-		
 		return SUCCESS;
 	}
 
@@ -89,14 +82,6 @@ public class ResetPasswordAction extends ActionSupport {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public String getSuccessMessage() {
-		return successMessage;
-	}
-
-	public void setSuccessMessage(String successMessage) {
-		this.successMessage = successMessage;
 	}
 
 	public String getErrorMessage() {
