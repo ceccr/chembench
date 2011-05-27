@@ -15,8 +15,6 @@
    <td>
    <div class='StandardTextDarkGrayParagraph'>
 
-	Username 1: <s:property value="%{user.userName}" /><br />
-
    <s:if test="user!=null">
 		<s:if test="user.userName!=''">
 
