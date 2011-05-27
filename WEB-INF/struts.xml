@@ -113,6 +113,10 @@
             <result name="error">jsp/administration/user/editProfile.jsp</result>
         </action>
 
+		<action name="forgotPassword">
+        	<result>jsp/administration/user/resetPassword.jsp</result>
+        </action>
+        
         <action name="resetPassword" class="edu.unc.ceccr.action.ResetPasswordAction" method="execute">
             <result name="success">jsp/administration/user/resetPasswordSent.jsp</result>
             <result name="error">jsp/administration/user/resetPassword.jsp</result>

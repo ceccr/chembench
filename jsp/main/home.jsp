@@ -97,7 +97,7 @@
 				<br />
 		        <table width="250" border="0" ><tr><td>
 		        <span class="ccbHomeStandard">
-		        Forget your password? <a href="/resetPassword">click here</a></span>
+		        Forget your password? <a href="/forgotPassword">click here</a></span>
 		        </td></tr></table> 
 			</s:if>
 	        
