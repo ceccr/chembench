@@ -18,7 +18,7 @@
 	Username 1: <s:property value="#session['user']" /><br />
 	Username 2: <s:property value="#session['user.userName']" /><br />
 	Username 3: <s:property value="#session['user'].userName" /><br />
-	Username 3: <s:property value="#session['user'].userName" /><br />
+	Username 4: <s:property value="#session['user'].userName" /><br />
 
    <s:if test="user!=null">
 		<s:if test="user.userName!=''">
