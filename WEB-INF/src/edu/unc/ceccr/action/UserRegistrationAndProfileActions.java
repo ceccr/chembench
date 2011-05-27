@@ -49,7 +49,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		return result;
 	}
 	
-	public String RegisterUser() throws Exception{
+	public String registerUser() throws Exception{
 		ActionContext context = ActionContext.getContext();
 		String result = SUCCESS;
 		//form validation
@@ -67,7 +67,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 			
 			//Check whether the username already exists 
 			//(queries database)
-			if(!newUserName.equals("") && UserExists(newUserName)){
+			if(!newUserName.equals("") && userExists(newUserName)){
 		    	errorMessages.add("The user name '"+newUserName+"' is already in use.");
 				result = ERROR;
 			}
@@ -196,7 +196,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		return result;
 	}
 	
-	public String ChangePassword() throws Exception{
+	public String changePassword() throws Exception{
 		String result = SUCCESS;
 		
 		//check that the user is logged in
@@ -241,6 +241,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		} finally {s.close();}
 		
 		errorMessages.add("Password change successful!");
+
 		
 		return result;
 	}
@@ -270,7 +271,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		return result;
 	}
 	
-	public String UpdateUserInformation() throws Exception{
+	public String updateUserInformation() throws Exception{
 		String result = SUCCESS;
 		
 		//check that the user is logged in
@@ -337,7 +338,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		return result;
 	}
 	
-	public String UpdateUserOptions() throws Exception{
+	public String updateUserOptions() throws Exception{
 		String result = SUCCESS;
 		
 		//check that the user is logged in
@@ -464,7 +465,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		}
 	}
 	
-	private boolean UserExists(String userName)throws Exception
+	private boolean userExists(String userName)throws Exception
 	{
 		Session s = HibernateUtil.getSession();// query
 		Transaction tx = null;
@@ -488,29 +489,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		{
 			return false;
 		}else{return true;}
-	}
-	
-	private boolean IsValid(String name)
-	{
-		if(name.length() == 0){
-			return false;
-		}
-		//check that no illegal characters are in the string
-		String validatorStr=Constants.VALIDATOR_STRING;
-		char[]validator=validatorStr.toCharArray();
-		char[] nameArray=name.toCharArray();
-		for(int i=0;i<nameArray.length;i++)
-		{
-			for(int j=0;j<validator.length;j++)
-			{
-				if(nameArray[i]==validator[j])
-				{
-					return false;
-				}
-			}
-		}
-		
-		return true;
 	}
 	
 	public void validateUserInfo(){

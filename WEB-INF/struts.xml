@@ -50,7 +50,7 @@
             <result>jsp/administration/user/registrationForm.jsp</result>
         </action>
         
-        <action name="registerUser" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="RegisterUser">
+        <action name="registerUser" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="registerUser">
             <result name="success">jsp/administration/user/registrationApprovalMessage.jsp</result>
         </action>
         
@@ -76,7 +76,7 @@
             <result>jsp/administration/user/registrationForm.jsp</result>
         </action>
         
-        <action name="registerUser" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="RegisterUser">
+        <action name="registerUser" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="registerUser">
             <result name="success">jsp/administration/user/registrationApprovalMessage.jsp</result>
 			<result name="error">jsp/administration/user/registrationForm.jsp</result>
         </action>
@@ -90,7 +90,7 @@
             <result name="success">jsp/administration/user/editProfile-changePassword.jsp</result>
         </action>
         
-        <action name="changePassword" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="ChangePassword">
+        <action name="changePassword" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="changePassword">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
             <result name="error">jsp/administration/user/editProfile.jsp</result>
         </action>
@@ -99,7 +99,7 @@
             <result name="success">jsp/administration/user/editProfile-updateInfo.jsp</result>
         </action>
         
-        <action name="updateUserInfo" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="UpdateUserInformation">
+        <action name="updateUserInfo" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="updateUserInformation">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
             <result name="error">jsp/administration/user/editProfile.jsp</result>
         </action>
@@ -108,9 +108,14 @@
             <result name="success">jsp/administration/user/editProfile-options.jsp</result>
         </action>
         
-        <action name="updateUserOptions" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="UpdateUserOptions">
+        <action name="updateUserOptions" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions" method="updateUserOptions">
             <result name="success">jsp/administration/user/editProfile.jsp</result>
             <result name="error">jsp/administration/user/editProfile.jsp</result>
+        </action>
+
+        <action name="resetPassword" class="edu.unc.ceccr.action.ResetPasswordAction" method="execute">
+            <result name="success">jsp/administration/user/resetPasswordSent.jsp</result>
+            <result name="error">jsp/administration/user/resetPassword.jsp</result>
         </action>
         
         <!-- Dataset Page -->
