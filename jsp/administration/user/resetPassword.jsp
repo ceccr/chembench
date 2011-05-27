@@ -41,10 +41,10 @@
 						<form action="resetPassword" ><br/>
 							<b>Reset Your Password</b><br/><br/>
 	          				Your username: <br/>
-	          				<s:textfield name="userName" size="20" />
+	          				<s:textfield name="userName" size="20" theme="simple" />
 			 				<br/><br/>
 	           				Your email address: <br/>
-	         				<s:textfield name="email" size="35" />
+	         				<s:textfield name="email" size="35" theme="simple" />
 			    			<br /><br />
 			    			<input type="submit" value="Submit" >
 			    			<br /><br />
