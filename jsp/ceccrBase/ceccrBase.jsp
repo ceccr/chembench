@@ -1,9 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ taglib uri="/tags/struts-bean" prefix="bean" %>
-<%@ taglib uri="/tags/struts-logic" prefix="logic" %>
-<%@ taglib uri="/tags/struts-html" prefix="html" %>
-<%@ taglib uri="/tags/struts-nested" prefix="nested" %>
 <%@ page import="edu.unc.ceccr.global.Constants" %>
 <jsp:useBean id="user" class="edu.unc.ceccr.persistence.User" scope="session"/>
 <html:html>
@@ -20,7 +16,7 @@
 </head>
 <body onload="setTabToCeccrBase(); selection()">
 <table width="749" border="0" align="center" cellpadding="0" cellspacing="0">
-      <%@include file="/jsp/main/header.jsp" %>
+<%@include file="/jsp/main/header.jsp" %>
 <%@include file="/jsp/main/centralNavigationBar.jsp" %></td>
 		</span>
 	</tr>
@@ -47,6 +43,6 @@
       </span></tr>
 	<tr><td height="80" colspan="10"></td></tr>
 
-<%@include file ="footer.jsp" %>
+<%@include file ="/jsp/main/footer.jsp" %>
 </body>
 </html:html>
