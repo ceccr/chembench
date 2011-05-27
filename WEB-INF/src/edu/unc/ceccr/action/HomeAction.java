@@ -78,7 +78,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 				try{
 					//STATIC PATH OH NOES
 					String path = "/usr/local/ceccr/tomcat6/webapps/ROOT/WEB-INF/systemConfig.xml";
-					Utility.setAdminConfiguration(path);
+					Utility.readBuildDateAndSystemConfig(path);
 				}
 				catch(Exception ex){
 					debugText += ex.getMessage();

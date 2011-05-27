@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Constants {
 
 	public static boolean doneReadingConfigFile=false;
-	public static String ACCEPTANCE; //can be "automatic" or "manual".
 	public static int SESSION_EXPIRATION_TIME = 21600; //How long a login will last if idle, measured in seconds. 21600 seconds = 6 hours. 
 	
 	//After submitting around 250 jobs, LSF won't let you submit more, it just returns an error.

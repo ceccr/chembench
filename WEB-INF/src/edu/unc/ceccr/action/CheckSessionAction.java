@@ -31,7 +31,7 @@ public class CheckSessionAction extends Action
 		if(!Constants.doneReadingConfigFile)
 		{
 			String path=getServlet().getServletContext().getRealPath("WEB-INF/systemConfig.xml");
-			Utility.setAdminConfiguration(path);
+			Utility.readBuildDateAndSystemConfig(path);
 		}
 		
 		HttpSession session=request.getSession(false);

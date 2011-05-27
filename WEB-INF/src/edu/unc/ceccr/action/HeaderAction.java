@@ -32,49 +32,15 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
-public class AdminAction extends ActionSupport{
-
+public class HeaderAction extends ActionSupport{
+	
 	User user;
-	String buildDate;
-	ArrayList<User> users;
 	
 	public String loadPage() throws Exception {
-
-		String result = SUCCESS;
-		
-		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
+		user = (User) context.getSession().get("user");
 		
-		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
-		}
-		else{
-			user = (User) context.getSession().get("user");
-			
-			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
-				result = LOGIN;
-				return result;
-			}
-		}
-
-		//log the results
-		Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to admin page.");
-		
-		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
-
-		// open database connection
-		Session session = HibernateUtil.getSession();
-	
-		// Latest Build Date
-		buildDate = Constants.BUILD_DATE;
-	
-		// list of users
-		users = PopulateDataObjects.getAllUsers(session);	
-		session.close();
-
-		//go to the page
-		return result;
+		return SUCCESS;
 	}
 	
 	public User getUser() {
@@ -84,21 +50,5 @@ public class AdminAction extends ActionSupport{
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	public String getBuildDate() {
-		return buildDate;
-	}
-
-	public void setBuildDate(String buildDate) {
-		this.buildDate = buildDate;
-	}
-
-	public ArrayList<User> getUsers() {
-		return users;
-	}
-
-	public void setUsers(ArrayList<User> users) {
-		this.users = users;
-	}
-
+	
 }

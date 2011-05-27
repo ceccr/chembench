@@ -31,7 +31,6 @@ public class HibernateUtil {
 		.addAnnotatedClass(PredictionValue.class)
 		.addAnnotatedClass(ExternalValidation.class)
 		.addAnnotatedClass(DataSet.class)
-		.addAnnotatedClass(AdminSettings.class)
 		.addAnnotatedClass(SoftwareExpiration.class)
 		.addAnnotatedClass(SoftwareLink.class)
 		.addAnnotatedClass(Descriptors.class)

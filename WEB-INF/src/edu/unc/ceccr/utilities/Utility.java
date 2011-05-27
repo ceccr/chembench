@@ -14,7 +14,6 @@ import java.util.Random;
 import java.io.*;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.AdminSettings;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
@@ -272,7 +271,7 @@ public class Utility {
 		return (end.getTime() - today.getTime()) / (1000 * 60 * 60 * 24);
 	}
 
-	public static void setAdminConfiguration(String path) throws IOException {
+	public static void readBuildDateAndSystemConfig(String path) throws IOException {
 		ParseConfigurationXML.initializeConstants(path);
 		
 		try{
@@ -281,49 +280,6 @@ public class Utility {
 		}catch(Exception ex){
 			writeToDebug(ex);
 		}
-		
-		//get max models, max compounds, and user acceptance mode from database
-		//if data doesn't exist in DB yet, set to some arbitrary defaults
-		//these numbers will be overwritten if there's anything in the DB.
-		Constants.ACCEPTANCE = "automatic";
-		Constants.MAXCOMPOUNDS = 100;
-		Constants.MAXMODELS = 10000;
-		
-		List<AdminSettings> ls = new LinkedList<AdminSettings>();
-		try{
-			Session s = HibernateUtil.getSession();
-			Transaction tx = s.beginTransaction();
-			ls.addAll(s.createCriteria(AdminSettings.class).add(Expression.eq("type", "userAcceptanceMode")).list());
-			ls.addAll(s.createCriteria(AdminSettings.class).add(Expression.eq("type", "maxCompounds")).list());
-			ls.addAll(s.createCriteria(AdminSettings.class).add(Expression.eq("type", "maxModels")).list());
-			tx.commit();
-		}catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		Iterator<AdminSettings> iter = ls.iterator();
-		AdminSettings as = null;
-		if(iter.hasNext()){
-			as = iter.next();
-		}
-		while(as != null){
-			if(as.getType().equalsIgnoreCase("userAcceptanceMode")){
-				Constants.ACCEPTANCE = as.getValue();
-			}
-			else if(as.getType().equalsIgnoreCase("maxCompounds")){
-				Constants.MAXCOMPOUNDS = Integer.parseInt(as.getValue());
-			}
-			else if(as.getType().equalsIgnoreCase("maxModels")){
-				Constants.MAXMODELS = Integer.parseInt(as.getValue());
-			}
-			
-			if(iter.hasNext()){
-				as = iter.next();			
-			}
-			else{
-				as = null;
-			}
-		}
-		
 	}
 
 	public static int getSignificantFigures(String number, boolean removeTrailingZeros){
