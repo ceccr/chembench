@@ -31,7 +31,7 @@
 	<tr>
 		<td height="557" colspan="5" valign="top" background="theme/img/backgrindex.jpg">
 		<br />
-		<table width="400"><tr><td>
+		<table width="500"><tr><td>
 		Your password has been reset. <br />
 		An email containing the password has been sent to <font color="red"><s:property value="email" /></font>.<br />
 		When the email arrives, you'll want to return to <a href="/home">Home page</a> and log in.<br />

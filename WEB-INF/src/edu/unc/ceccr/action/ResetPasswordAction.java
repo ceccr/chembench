@@ -40,7 +40,7 @@ public class ResetPasswordAction extends ActionSupport {
 
 		//email matches
 		String randomPassword = Utility.randomPassword();
-		user.setPassword(randomPassword);
+		user.setPassword(Utility.encrypt(randomPassword));
 
 		// Commit changes
 		Transaction tx = null;
