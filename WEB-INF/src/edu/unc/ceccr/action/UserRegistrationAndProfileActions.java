@@ -212,7 +212,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 		
 		String realPasswordHash=user.getPassword();
 		Utility.writeToDebug("stored password hash from database: " + realPasswordHash + " entered password: " + oldPassword + " hash of entered password: " + Utility.encrypt(oldPassword));
-		if ((Utility.encrypt(oldPassword).equals(realPasswordHash))){
+		if (! (Utility.encrypt(oldPassword).equals(realPasswordHash))){
 			errorMessages.add("You entered your old password incorrectly. Your password was not changed. Please try again.");
 		}
 		
