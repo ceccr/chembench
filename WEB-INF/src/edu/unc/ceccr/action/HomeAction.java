@@ -72,7 +72,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 			String debugText = "";
 			if(Constants.doneReadingConfigFile)
 			{
-				debugText ="already read config file (?)";
+				debugText = "already read config file (?)";
 			}
 			else{
 				try{
