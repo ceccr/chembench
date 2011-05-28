@@ -397,7 +397,7 @@
         <!-- Admin Actions -->
         <action name="admin" class="edu.unc.ceccr.action.AdminAction" method="loadPage">
         	<result name="success">jsp/administration/settings/admin.jsp</result>>
-        	<result name="error">jsp/administration/settings/home.jsp</result>
+        	<result name="error">jsp/main/home.jsp</result>
         </action>
         
         <!-- End Admin Actions -->
