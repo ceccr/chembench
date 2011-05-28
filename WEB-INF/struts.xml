@@ -399,7 +399,6 @@
         	<result name="success">jsp/administration/settings/admin.jsp</result>
         	<result name="error">jsp/main/home.jsp</result>
         </action>
-        
         <!-- End Admin Actions -->
         
         <!-- Help forwards -->

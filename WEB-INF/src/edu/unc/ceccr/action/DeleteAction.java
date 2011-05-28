@@ -408,7 +408,7 @@ public class DeleteAction extends ActionSupport{
 			return ERROR;
 		}
 		
-		String userToDelete = ((String[]) context.getParameters().get("userName"))[0];
+		String userToDelete = ((String[]) context.getParameters().get("userToDelete"))[0];
 		
 		Utility.writeToDebug("Deleting user: " + userToDelete);
 		List predictionJobs = getUserDatabase(userToDelete, Prediction.class);
