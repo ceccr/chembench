@@ -398,7 +398,7 @@ public class DeleteAction extends ActionSupport{
 		
 	}
 	
-	public String deleteUser(String userName) throws ClassNotFoundException,SQLException
+	public String deleteUser() throws ClassNotFoundException,SQLException
 	{
 		//check that the person deleting the user is an admin, just to be safe
 		ActionContext context = ActionContext.getContext();
