@@ -265,7 +265,6 @@ public class DeleteAction extends ActionSupport{
 				tx.rollback();
 			Utility.writeToDebug(e);
 		}
-		
 	}
 
 	public String deletePrediction() throws Exception{
@@ -398,6 +397,88 @@ public class DeleteAction extends ActionSupport{
 		return SUCCESS;
 		
 	}
+	
+	protected void deleteUser(String userName)throws ClassNotFoundException,SQLException
+	{
+		Utility.writeToDebug("Deleting user: " + userName);
+		List predictionJobs = getUserDatabase(userName, Prediction.class);
+		List predictors = getUserDatabase(userName,Predictor.class);
+		List datasets = getUserDatabase(userName,DataSet.class);
+		List tasks = getUserDatabase(userName,Job.class);;
+		
+		deleteDatabaseData(predictionJobs);
+		deleteDatabaseData(predictors);
+		deleteDatabaseData(datasets);
+		deleteDatabaseData(tasks);
+		
+	    try {
+	    	deleteUserInfo(userName);
+	    	deleteDirectory(userName);
+	    }
+	    catch(Exception ex){
+	    	Utility.writeToDebug(ex);
+	    }
+	   
+	}
+	
+	protected void deleteDatabaseData(List list)throws ClassNotFoundException,SQLException
+	{
+		if(list.size()!=0)
+		{
+			Session session = HibernateUtil.getSession();	
+			Iterator it=list.iterator();	
+			while(it.hasNext())
+			{
+				Transaction tx = null;
+				try {
+					tx = session.beginTransaction();
+					session.delete(it.next());
+					tx.commit();
+				} 
+				catch (RuntimeException e) {
+						if (tx != null)
+							tx.rollback();
+						Utility.writeToDebug(e);
+				} 
+			}
+			session.close();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	protected List getUserDatabase(String userName, Class className)throws ClassNotFoundException,SQLException
+	{
+		List datasets=null;
+		Session s = HibernateUtil.getSession();// query
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			datasets= s.createCriteria(className).add(Expression.eq("userName", userName)).list();
+			
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {
+			s.close();
+		}
+		
+		return datasets;
+	}
+
+	protected void deleteDirectory(String userName)
+	{
+		File dir=new File(Constants.CECCR_USER_BASE_PATH+userName);
+		FileAndDirOperations.deleteDir(dir);
+	}
+	
+	protected void deleteUserInfo(String userName)throws ClassNotFoundException,SQLException
+	{
+		List user= getUserDatabase(userName,User.class);
+		deleteDatabaseData(user);
+	}
+	
 
 	public ArrayList<String> getErrorStrings() {
 		return errorStrings;

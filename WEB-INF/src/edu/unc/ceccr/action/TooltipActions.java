@@ -51,7 +51,6 @@ public class TooltipActions extends ActionSupport{
 		return SUCCESS;
 	}
 	
-	
 	//member variables, with getters and setters
 	public String compoundId = "Ur Butt";
 	public String compoundPredictedValue = "3";

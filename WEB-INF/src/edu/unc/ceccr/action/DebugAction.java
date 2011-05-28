@@ -40,12 +40,16 @@ import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.ClassUtils;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.CreateExtValidationChartWorkflow;
 
 
 public class DebugAction extends ActionSupport{
 
+	// Various methods useful in debugging and fixing user data when something goes wrong.
+	// Any of these methods can be deleted without impacting the system. I found them pretty handy though.
+	
 	private static void savePredictor(Predictor p, Session s){
 		Transaction tx = null;
 		try {
@@ -192,11 +196,76 @@ public class DebugAction extends ActionSupport{
 		out.close();
 	}
 	
-	public static String printDatabaseTables(){
+
+	public String fixBrokenPredictors() throws Exception{
+		/*
+		 Sometimes a job will fail in external set prediction but is otherwise fine. This function will predict
+		 external sets and read in the output for any number of predictor IDs. 
+		 */
+		
+		String ids = "";
+		//Example: String ids="1635 1642";
+		String[] idArray = ids.split("\\s+");
+		Session s = HibernateUtil.getSession();
+		Utility.writeToDebug("Starting fixes..");
+		for(String id: idArray){
+			
+			Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
+
+			Utility.writeToDebug("Fixing " + predictor.getUserName() + "'s predictor '" + predictor.getName() + "' with id " + id);
+			
+			if(predictor.getChildIds() != null && ! predictor.getChildIds().trim().isEmpty()){
+				String[] childIds = predictor.getChildIds().split("\\s+");
+				
+				ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
+				
+				for(String childId: childIds){
+					Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId), s);
+					childPredictors.add(childPredictor);
+				}
+				for(Predictor childPredictor: childPredictors){
+					Utility.writeToDebug("Fixing " + childPredictor.getUserName() + "'s child predictor '" + childPredictor.getName() + "' with id " + id);
+					UndoMoveToPredictorsDir(predictor.getUserName(), childPredictor.getName(), predictor.getName());
+					
+					QsarModelingTask qst = new QsarModelingTask(childPredictor);
+					qst.jobList = "LSF";
+					qst.postProcess();
+				}
+			}
+			else{			
+				UndoMoveToPredictorsDir(predictor.getUserName(), predictor.getName(), "");
+				QsarModelingTask qst = new QsarModelingTask(predictor);
+				qst.jobList = "LSF";
+				qst.postProcess();
+			}
+		}
+		return SUCCESS;
+	}
+
+	public static void UndoMoveToPredictorsDir(String userName, String jobName, String parentPredictorName) throws Exception{
+		//do the opposite of:
+		//When the job is finished, move all the files over to the PREDICTORS dir.
+		String moveFrom;
+		if(parentPredictorName.isEmpty()){
+			moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + jobName;
+		}
+		else{
+			moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/" + parentPredictorName + "/" + jobName;
+		}
+		
+		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
+		String execstr = "mv " + moveFrom + " " + moveTo;
+		RunExternalProgram.runCommand(execstr, "");  
+	}
+	
+	
+	public static String printDatabaseTables() throws Exception{
 		//prints every database table it can get out to individual files
 		Utility.writeToDebug("OWLSOWLSOWLS");
-		
-		/*
+
+		boolean append = false;
+		String basePath = Constants.CECCR_BASE_PATH + "theo/";
+
 		//Job
 		try{
 			Session session = HibernateUtil.getSession();
@@ -213,17 +282,6 @@ public class DebugAction extends ActionSupport{
 			Session session = HibernateUtil.getSession();
 			ArrayList list = PopulateDataObjects.populateClass(JobStats.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_jobStats.csv", append);
-			session.close();
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-		
-		//AdminSettings
-		try{
-			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(AdminSettings.class, session);
-			printObjectsAsCsv(list, basePath + "cbench_adminSettings.csv", append);
 			session.close();
 		}
 		catch(Exception ex){
@@ -362,9 +420,8 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 
-		*/
+		int chunkSize = 100;
 
-		/*
 		//RandomForestTree
 		try{
 			Session session = HibernateUtil.getSession();
@@ -382,9 +439,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		*/
-
-		/*
+		
 		//PredictionValue
 		try{
 			Session session = HibernateUtil.getSession();
@@ -402,12 +457,7 @@ public class DebugAction extends ActionSupport{
 		catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		 */
-
-		boolean append = false;
-		String basePath = Constants.CECCR_BASE_PATH + "theo/";
-
-		int chunkSize = 1;
+		
 		append = true;
 
 		//DataSet
@@ -443,14 +493,10 @@ public class DebugAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		
-		
-		
-		
-		/*
 		Utility.writeToDebug("userName, password, email, bench, status, firstname, lastname, orgtype, orgname, " +
 				"orgposition, zipcode, state, country, address, city, showPublicDatasets, showPublicPredictors, " +
 				"viewDatasetCompoundsPerPage, viewPredictionCompoundsPerPage, showAdvancedKnnModeling, isAdmin, canDownloadDescriptors");
-		ArrayList<User> users = PopulateDataObjects.getAllUsers(s);
+		ArrayList<User> users = PopulateDataObjects.getAllUsers(HibernateUtil.getSession());
 		for(User u: users){
 			String str = 
 				u.getUserName() + ", " +
@@ -486,8 +532,7 @@ public class DebugAction extends ActionSupport{
 				u.getCanDownloadDescriptors();
 				Utility.writeToDebug(str);
 		}
-		FileAndDirOperations.writeStringToFile(text, Constants.CECCR_BASE_PATH);
-		*/
+		FileAndDirOperations.writeStringToFile("", Constants.CECCR_BASE_PATH);
 		
 		return SUCCESS;
 	}
