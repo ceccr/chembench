@@ -62,7 +62,7 @@
 		<td class="TableRowText02"><a href="mailto:<s:property value="email" />"><s:property value="email" /></a></td>
 		<td class="TableRowText02"><s:property value="canDownloadDescriptors" /></td>
 		<td class="TableRowText02"><s:property value="isAdmin" /></td>
-		<td class="TableRowText02"><a href="">delete</a></td>
+		<td class="TableRowText02"><a href="/deleteUser&userName='<s:property value="userName"'">delete</a></td>
 		</tr>
 	</s:iterator>
 </table> 		
