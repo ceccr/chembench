@@ -3,15 +3,6 @@
 <struts-config>
 	<data-sources></data-sources>
 	<form-beans>
-		<form-bean name="loginForm"
-			type="edu.unc.ceccr.formbean.LoginFormBean">
-		</form-bean>
-		<form-bean name="UserInfoForm"
-		     type="edu.unc.ceccr.formbean.UserInfoFormBean">
-		 </form-bean>    
-		 <form-bean name="SoftwareExpirationForm"
-		      type="edu.unc.ceccr.formbean.SoftwareExpirationForm">
-		 </form-bean>  
 		 <form-bean name="EmailToAllBean"
 		      type="edu.unc.ceccr.formbean.EmailToAllBean">
 		 </form-bean> 
