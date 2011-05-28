@@ -68,13 +68,14 @@
 					<s:form action="login" enctype="multipart/form-data" method="post" theme="simple">
 					  <table width="250" border="0" >	
 			           <tr>
-				           <td class="ccbHomeStandard">Username: </td>
-				           <td><s:textfield name="username" id="username" size="8" onfocus="if(this.value=='username'){value=''}" theme="simple" /></td>
-				           <td></td>
+				           <td width="90" class="ccbHomeStandard">Username: </td>
+				           <td width="110"><s:textfield name="username" id="username" size="8" onfocus="if(this.value=='username'){value=''}" theme="simple" /></td>
+				           <td width="50"></td>
 			           </tr>
-						   <tr><td class="ccbHomeStandard">Password: </td>
-						   <td><s:password name="password" id="password" size="8" onfocus="if(this.value=='password'){value=''}" theme="simple" /></td>
-					       <td><label><input name="Submit" type="submit" class="StandardTextDarkGray4" value="login" style="border-style:solid; border-color:blue;border-width:1px;text-align:center;font-size:14px;" /></label>
+					   <tr>
+					   	   <td  width="90" class="ccbHomeStandard">Password: </td>
+						   <td width="110"><s:password name="password" id="password" size="8" onfocus="if(this.value=='password'){value=''}" theme="simple" /></td>
+					       <td width="50"><label><input name="Submit" type="submit" class="StandardTextDarkGray4" value="login" style="border-style:solid; border-color:blue;border-width:1px;text-align:center;font-size:14px;" /></label>
 					   </tr>
 				       <tr>
 				       <td></td>
