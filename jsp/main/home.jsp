@@ -64,7 +64,7 @@
 			
 			<!-- LOGIN INPUT FIELD STARTS HERE. -->
 			<s:if test="user==null">
-					<br />
+					<br /><br />
 					<s:form action="login" enctype="multipart/form-data" method="post" theme="simple">
 					  <table width="250" border="0" >	
 			           <tr>
