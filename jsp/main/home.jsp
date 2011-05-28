@@ -72,7 +72,7 @@
 				           <td></td>
 			           </tr>
 						   <tr><td class="ccbHomeStandard">Password: </td>
-						   <td><s:password name="password" id="password" size="8" value="password" onfocus="if(this.value=='password'){value=''}" theme="simple" /></td>
+						   <td><s:password name="password" id="password" size="8" onfocus="if(this.value=='password'){value=''}" theme="simple" /></td>
 					       <td><label><input name="Submit" type="submit" class="StandardTextDarkGray4" value="login" style="border-style:solid; border-color:blue;border-width:1px;text-align:center;font-size:14px;" /></label>
 					   </tr>
 				       <tr>

@@ -93,11 +93,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 			//check if user is logged in
 			ActionContext context = ActionContext.getContext();
 			user = (User) context.getSession().get("user");
-			if(user == null){
-				username = "username";
-				password =  "password";
-			}
-			
+
 			//populate each string for the statistics section
 			Session s = HibernateUtil.getSession();
 			int numJobs = PopulateDataObjects.populateClass(Job.class, s).size();
