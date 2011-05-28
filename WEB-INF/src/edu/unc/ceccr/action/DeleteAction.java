@@ -398,13 +398,24 @@ public class DeleteAction extends ActionSupport{
 		
 	}
 	
-	protected void deleteUser(String userName)throws ClassNotFoundException,SQLException
+	public String deleteUser(String userName) throws ClassNotFoundException,SQLException
 	{
-		Utility.writeToDebug("Deleting user: " + userName);
-		List predictionJobs = getUserDatabase(userName, Prediction.class);
-		List predictors = getUserDatabase(userName,Predictor.class);
-		List datasets = getUserDatabase(userName,DataSet.class);
-		List tasks = getUserDatabase(userName,Job.class);;
+		//check that the person deleting the user is an admin, just to be safe
+		ActionContext context = ActionContext.getContext();
+		User u = (User) context.getSession().get("user");
+
+		if(u == null || ! u.getIsAdmin().equals(Constants.YES)){
+			//this isn't an admin! Kick 'em out.
+			return ERROR;
+		}
+		
+		String userToDelete = ((String[]) context.getParameters().get("userName"))[0];
+		
+		Utility.writeToDebug("Deleting user: " + userToDelete);
+		List predictionJobs = getUserDatabase(userToDelete, Prediction.class);
+		List predictors = getUserDatabase(userToDelete,Predictor.class);
+		List datasets = getUserDatabase(userToDelete,DataSet.class);
+		List tasks = getUserDatabase(userToDelete,Job.class);;
 		
 		deleteDatabaseData(predictionJobs);
 		deleteDatabaseData(predictors);
@@ -412,13 +423,14 @@ public class DeleteAction extends ActionSupport{
 		deleteDatabaseData(tasks);
 		
 	    try {
-	    	deleteUserInfo(userName);
-	    	deleteDirectory(userName);
+	    	deleteUserInfo(userToDelete);
+	    	deleteDirectory(userToDelete);
 	    }
 	    catch(Exception ex){
 	    	Utility.writeToDebug(ex);
 	    }
-	   
+	    
+	    return SUCCESS;
 	}
 	
 	protected void deleteDatabaseData(List list)throws ClassNotFoundException,SQLException

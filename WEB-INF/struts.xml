@@ -32,7 +32,6 @@
        </action>
        
        <!-- Main pages -->
-       
        <action name="login" class="edu.unc.ceccr.action.HomeAction" method="execute">
 	       <result name="success">jsp/main/home.jsp</result>
        </action>
@@ -388,6 +387,10 @@
         
         <action name="deleteJob" class="edu.unc.ceccr.action.DeleteAction" method="deleteJob">
         	<result type="redirect">jobs</result>
+        </action>
+        
+        <action name="deleteUser" class="edu.unc.ceccr.action.DeleteAction" method="deleteUser">
+        	<result type="redirect">admin</result>
         </action>
         <!-- End Delete Actions -->
         
