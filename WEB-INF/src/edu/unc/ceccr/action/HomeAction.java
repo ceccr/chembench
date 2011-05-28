@@ -31,6 +31,7 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.utilities.ActiveUser;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
@@ -89,7 +90,6 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 			//start up the queues, if they're not running yet
 			CentralDogma.getInstance();
 			
-			
 			//check if user is logged in
 			ActionContext context = ActionContext.getContext();
 			user = (User) context.getSession().get("user");
@@ -137,7 +137,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 			cpuStats = "Compute time used: "  + computeYearsStr + " years";
 			
 			// current users
-			activeUsers = "Current Users: ";
+			activeUsers = "Current Users: " + ActiveUser.getActiveSessions();
 	
 			// current number of jobs
 			runningJobs = "Running Jobs: " + numJobs;

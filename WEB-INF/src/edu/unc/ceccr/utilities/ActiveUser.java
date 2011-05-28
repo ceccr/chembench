@@ -8,7 +8,7 @@ public class ActiveUser implements HttpSessionListener{
 	
 	public static String getActiveSessions()
 	{
-		return "Current Users: " + activeSessions;
+		return "" + activeSessions;
 	}
 	
 	public void sessionCreated(HttpSessionEvent se)

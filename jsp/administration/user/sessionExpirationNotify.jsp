@@ -25,21 +25,25 @@
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <br />
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
-		<span id="maincontent">
-		<td height="500" colspan="5" background="theme/img/backgrlibrary.jpg"><div style="margin-left:100px; height:300px">
-            <table style="border-style:dotted dashed;border-color:#ffff33;border-width:2px; width:550px; height:100px">
-	<tr><td>
-			<div class="TextDarkGray">You are currently logged in as: <b><s:property value="#session['user'].userName" /></b> </div>
-	</td></tr>
 	
-	<tr><td>
-		<div class="TextDarkGray">To continue working, please <a href="home"><font size="3" color="#ff3300">click here</font></a></div>
-	</td></tr>
-	<tr><td>
-		<div class="TextDarkGray">To login as another user, please <a href="logout"><font size="3" color="#ff3300"><b>click here</b></font></a> to log out. </div>
-    </td></tr>
-    </table></div>
+	<tr><span id="maincontent">
+	<td height="500" colspan="5" background="theme/img/backgrlibrary.jpg"><div style="margin-left:100px; height:300px">
+    
+	    <table style="border-style:dotted dashed;border-color:#ffff33;border-width:2px; width:550px; height:100px">
+		<tr><td>
+				<div class="TextDarkGray">You are currently logged in as: <b><s:property value="#session['user'].userName" /></b> </div>
+		</td></tr>
+		
+		<tr><td>
+			<div class="TextDarkGray">To continue working, please <a href="home"><font size="3" color="#ff3300">click here</font></a></div>
+		</td></tr>
+		
+		<tr><td>
+			<div class="TextDarkGray">To login as another user, please <a href="logout"><font size="3" color="#ff3300"><b>click here</b></font></a> to log out. </div>
+	    </td></tr>
+	    
+	    </table></div>
+	    
 	</td>
 	</span>
 	</tr>
