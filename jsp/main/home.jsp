@@ -111,7 +111,7 @@
 					<table border="0">
 					<tr><td>	
 						<span class="ccbHomeStandard">
-							Welcome, 
+							Welcome, &nbsp;
 						   	<s:property value="user.userName" />
 						  	<button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
 						</span>         
