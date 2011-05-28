@@ -14,26 +14,21 @@
    <td><p><a href="home"><img src="/theme/ccbTheme/images/ccbLogo.jpg" border="0" /></a></p></td>
    <td>
    <div class='StandardTextDarkGrayParagraph'>
-
-	Username 1: <s:property value="#session['user']" /><br />
-	Username 2: <s:property value="#session['user.userName']" /><br />
-	Username 3: <s:property value="#session['user'].userName" /><br />
-	Username 4: <s:property value="#session['user'].userName" /><br />
-
-   <s:if test="user!=null">
-		<s:if test="user.userName!=''">
+   
+   <s:if test="#session['user']!=null">
+		<s:if test="#session['user'].userName!=''">
 
 			<table width="400" border="0" align="right" cellpadding="5" cellspacing="2">
 			  <tr>
 			  <td align="right" valign="middle">	
 					<p align="right">
 						<span class="StandardTextDarkGray4">Logged in as  
-		  				<b><s:property value="user.userName" /></b>.
+		  				<b><s:property value="#session['user'].userName" /></b>.
 		  				</span>
 		  			</p>         
 					<p align="right">
 						<a href="#" onclick="logout()">log out</a> | <a href="editProfile">edit profile</a> | <a href="help-overview" target="_top">help pages</a>
-						<s:if test="user.isAdmin=='YES'">
+						<s:if test="#session['user'].isAdmin=='YES'">
 						| <a href="admin">admin</a> 
 						</s:if>
 					</p>
