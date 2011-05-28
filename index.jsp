@@ -2,7 +2,7 @@
 pageEncoding="UTF-8"%>
 
 <%  
-response.sendRedirect("home");
+response.sendRedirect("/home");
 %> 
 
 <!--

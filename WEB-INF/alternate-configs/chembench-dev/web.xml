@@ -35,11 +35,6 @@
       <url-pattern>/apps/*</url-pattern>
      </servlet-mapping>
      
-  <servlet-mapping>
-    <servlet-name>action</servlet-name>
-    <url-pattern>*.do</url-pattern>
-  </servlet-mapping>
-  
 <servlet>
     <servlet-name>FileServlet</servlet-name>
     <servlet-class>edu.unc.ceccr.servlet.FileServlet</servlet-class>
@@ -95,10 +90,10 @@
   <url-pattern>/projectFilesServlet.do</url-pattern>
   </servlet-mapping>
  
- <servlet>
-     <servlet-name>Chart</servlet-name>
-     <servlet-class>edu.unc.ceccr.servlet.ChartServlet</servlet-class>
-        </servlet>
+<servlet>
+	<servlet-name>Chart</servlet-name>
+	<servlet-class>edu.unc.ceccr.servlet.ChartServlet</servlet-class>
+</servlet>
 <servlet-mapping>
       <servlet-name>Chart</servlet-name>
       <url-pattern>/chart/*</url-pattern>

@@ -24,8 +24,6 @@
     </init-param>
     <load-on-startup>2</load-on-startup>
   </servlet>
-
-
 <servlet>
      <servlet-name>ApplicationServlet</servlet-name>
      <servlet-class>edu.unc.ceccr.servlet.ApplicationServlet</servlet-class>
@@ -35,11 +33,6 @@
       <url-pattern>/apps/*</url-pattern>
      </servlet-mapping>
      
-  <servlet-mapping>
-    <servlet-name>action</servlet-name>
-    <url-pattern>*.do</url-pattern>
-  </servlet-mapping>
-  
 <servlet>
      <servlet-name>Structure</servlet-name>
      <servlet-class>edu.unc.ceccr.servlet.Structure</servlet-class>
