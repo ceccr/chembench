@@ -56,6 +56,10 @@ public class AdminAction extends ActionSupport{
 				result = LOGIN;
 				return result;
 			}
+			else if(! user.getIsAdmin().equals(Constants.YES)){
+				result = ERROR;
+				return result;
+			}
 		}
 
 		//log the results

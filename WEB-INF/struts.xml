@@ -396,12 +396,10 @@
         
         <!-- Admin Actions -->
         <action name="admin" class="edu.unc.ceccr.action.AdminAction" method="loadPage">
-        	<result>jsp/administration/settings/admin.jsp</result>
+        	<result name="success">jsp/administration/settings/admin.jsp</result>>
+        	<result name="error">jsp/administration/settings/admin.jsp</result>
         </action>
         
-        <action name="deleteUser" class="edu.unc.ceccr.action.DeleteAction" method="deleteUser">
-        	<result type="redirect">admin</result>
-        </action>
         <!-- End Admin Actions -->
         
         <!-- Help forwards -->
