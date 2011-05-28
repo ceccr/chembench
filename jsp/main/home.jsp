@@ -68,7 +68,7 @@
 					  <table width="250" border="0" >		
 			           <tr>
 					   <td><s:textfield name="username" id="username" size="12" onfocus="if(this.value=='username'){value=''}" /></td>
-					   <td><s:password name="password" id="password" size="12" onfocus="if(this.value=='password'){value=''}" /></td>
+					   <td><s:password name="password" id="password" size="12" value="password" onfocus="if(this.value=='password'){value=''}" /></td>
   			           </tr>
 				       <tr>
 						<td><label> 

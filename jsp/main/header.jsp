@@ -20,18 +20,18 @@
 
 			<table width="400" border="0" align="right" cellpadding="5" cellspacing="2">
 			  <tr>
-			  <td align="right" valign="middle">	
-					<p align="right">
-						<span class="StandardTextDarkGray4">Logged in as  
+			  <td align="right" valign="middle">
+					<div align="right">	
+						<span class="StandardTextDarkGray4" align="right">Logged in as  
 		  				<b><s:property value="#session['user'].userName" /></b>.
 		  				</span>
-		  			</p>         
-					<p align="right">
+					</div>
+					<div align="right">
 						<a href="#" onclick="logout()">log out</a> | <a href="editProfile">edit profile</a> | <a href="help-overview" target="_top">help pages</a>
 						<s:if test="#session['user'].isAdmin=='YES'">
 						| <a href="admin">admin</a> 
 						</s:if>
-					</p>
+					</div>
 			  </td>
 			  </tr> 
 			</table>
