@@ -26,11 +26,6 @@
 	<!-- ============== Action Mapping Definitions =========================== -->
 	<action-mappings>
 	
-		<action path="/manageFile" type="edu.unc.ceccr.action.DatasetForwardAction" scope="session">
-		 <forward name="success" path="/jsp/dataSet/manageFile.jsp" />
-		 <forward name="failure" path="/jsp/main/error.jsp" />
-		</action>
-		
 		<action path="/externalValidationChart" forward="/chart?doGet" />
 		
 		<action path="/deleteUser" type="edu.unc.ceccr.action.RegisterActions.DeleteUserAction" scope="request">
@@ -44,59 +39,7 @@
 	    <forward name="success" path="/jsp/administration/settings/pendingNewUserApprovals.jsp"/>
 	    <forward name="failure" path="/jsp/main/error.jsp" />
 		</action>
-		
-		<action path="/help" forward="/jsp/main/helpPage.jsp" />
-		 
-		<action path="/gotoregister" forward="/jsp/administration/user/registrationForm.jsp" />
-		<action path="/notReady" forward="/jsp/main/underConstruction.jsp"/>
-		
-		<action path="/updateSoftwareDate" type="edu.unc.ceccr.action.RegisterActions.UpdateSoftwareAction"
-		input ="/jsp/administration/settings/systemSettings.jsp"  name="SoftwareExpirationForm" scope="request">
-		<forward name="success" path="/admin.do"/>
-		<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		<action path="/getSoftwareDates" type="edu.unc.ceccr.action.RegisterActions.UpdateSoftwareAction" scope="request">
-		<forward name="success" path="/admin.do"/>
-		<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		
-		<action path="/register" type="edu.unc.ceccr.action.RegisterActions.RegisterAction"
-		input="/jsp/register.jsp" name="UserInfoForm" scope="session">
-		<forward name="success" path="/jsp/administration/user/registrationApprovalMessage.jsp"/>
-		<forward name="back" path="/jsp/administration/user/registrationForm.jsp"/>
-		<forward name="failure" path="/jsp/administration/user/registrationError.jsp"/>
-		</action>
-		
-		<action path="/agree" type="edu.unc.ceccr.action.RegisterActions.AgreeAction" scope="request">
-		<forward name="success" path="/checkNewUser.do"/>
-		<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		
-		<action path="/deny" type="edu.unc.ceccr.action.RegisterActions.DenyAction" scope="request">
-		<forward name="success" path="/checkNewUser.do"/>
-		<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		
-		<action path="/permission" type="edu.unc.ceccr.action.RegisterActions.QueuedJobPermissionAction" scope="request">
-		<forward name="success" path="/admin.do" />
-		<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		
-		<action path="/admin" type="edu.unc.ceccr.action.RegisterActions.Administration" scope="request">
-		<forward name="admin" path="/jsp/administration/settings/systemSettings.jsp"/>
-		<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		
-		<action path="/updateAdminSettings" type="edu.unc.ceccr.action.RegisterActions.UpdateAdminSettingsAction" scope="request">
-		<forward name="admin" path="/jsp/administration/settings/systemSettings.jsp"/>
-		<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		
-		<action path="/viewUsers" type="edu.unc.ceccr.action.RegisterActions.ViewUsersAction" scope="request">
-		<forward name="success" path="/jsp/administration/user/userInformation.jsp" />
-		<forward name="failure" path="/jsp/main/error.jsp"/>
-		</action>
-		
+			
 		<action path="/toEmail" forward="/jsp/administration/user/emailToAll.jsp"></action>
 		<action path="/getPassword" forward="/jsp/administration/user/lostPasswordRetrieval.jsp"></action>
 		<action path="/alterPassword" forward="/jsp/administration/settings/userAccountSettings.jsp"></action>
@@ -106,27 +49,6 @@
 		<forward name="failure" path="/jsp/main/error.jsp"/>
 		</action>
 		
-		<action path="/retrievePassword" type="edu.unc.ceccr.action.RegisterActions.RetrievePasswordAction" 
-		input="/jsp/administration/user/lostPasswordRetrieval.jsp" scope="request">
-		<forward name="success" path="/jsp/administration/user/forgetPasswordSent.jsp"/>
-		<forward name="failure" path="/jsp/administration/settings/changePasswordMatchError.jsp"/>
-		</action>
-		
-		<action path="/changePassword" type="edu.unc.ceccr.action.RegisterActions.ChangePasswordAction"  
-		 input="/jsp/administration/settings/userAccountSettings.jsp" scope="request">
-		<forward name="success" path="/jsp/administration/settings/changePasswordSuccess.jsp"/>
-		<forward name="NoUser"  path="/jsp/administration/settings/changePasswordMatchError.jsp"/>
-		<forward name="failure" path="/jsp/administration/settings/changePasswordMatchError.jsp"/>
-		</action>
-		
-		<action path="/taskListChange"
-			type="edu.unc.ceccr.action.TaskListChangeAction" scope="request">
-			<forward name="success" path="/jsp/jobs/taskList.jsp" />
-		</action>
-		<action path="/viewTaskList"
-			type="edu.unc.ceccr.action.ViewTaskListAction" scope="request">
-			<forward name="success" path="/jsp/jobs/myJobs.jsp" />
-		</action>
 	</action-mappings>
 	
 	<controller
