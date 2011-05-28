@@ -66,15 +66,17 @@
 			<s:if test="user==null">
 					<s:form action="login" enctype="multipart/form-data" method="post" theme="simple">
 					  <table width="250" border="0" >		
-			           <tr><td class="ccbHomeStandard">Username: <s:textfield name="username" id="username" size="8" onfocus="if(this.value=='username'){value=''}" theme="simple" /></td></tr>
-					   <tr><td class="ccbHomeStandard">Password: <s:password name="password" id="password" size="8" value="password" onfocus="if(this.value=='password'){value=''}" theme="simple" /></td></tr>
+			           <tr>
+				           <td class="ccbHomeStandard">Username: </td>
+				           <td><s:textfield name="username" id="username" size="8" onfocus="if(this.value=='username'){value=''}" theme="simple" /></td>
+				           <td></td>
+			           </tr>
+						   <tr><td class="ccbHomeStandard">Password: </td>
+						   <td><s:password name="password" id="password" size="8" value="password" onfocus="if(this.value=='password'){value=''}" theme="simple" /></td>
+					       <td><label><input name="Submit" type="submit" class="StandardTextDarkGray4" value="login" style="border-style:solid; border-color:blue;border-width:1px;text-align:center;font-size:14px;" /></label>
+					   </tr>
 				       <tr>
 				       <td></td>
-						<td align="right">
-						<label><input name="Submit" type="submit" class="StandardTextDarkGray4" value="login"
-						style="border-style:solid; border-color:blue;border-width:1px;text-align:center;font-size:14px;" /></label>
-						</td>
-						</tr>        
 			          </table>     
 			        </s:form>
 			        
