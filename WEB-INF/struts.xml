@@ -33,12 +33,11 @@
        
        <!-- Main pages -->
        
-       
-       <action name="loadHeader" class="edu.unc.ceccr.action.HeaderAction" method="loadPage">
-	       <result>jsp/main/header.jsp</result>
+       <action name="login" class="edu.unc.ceccr.action.HomeAction" method="execute">
+	       <result name="success">jsp/main/home.jsp</result>
        </action>
        
-       <action name="login" class="edu.unc.ceccr.action.HomeAction" method="execute">
+       <action name="logout" class="edu.unc.ceccr.action.HomeAction" method="logout">
 	       <result name="success">jsp/main/home.jsp</result>
        </action>
        

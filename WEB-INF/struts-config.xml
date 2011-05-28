@@ -119,10 +119,6 @@
 		<forward name="failure" path="/jsp/administration/settings/changePasswordMatchError.jsp"/>
 		</action>
 		
-		<action path="/logout" type="edu.unc.ceccr.action.LogoutAction" scope="request">
-			<forward name="success" path="/jsp/main/home.jsp" />
-		</action>
-	
 		<action path="/taskListChange"
 			type="edu.unc.ceccr.action.TaskListChangeAction" scope="request">
 			<forward name="success" path="/jsp/jobs/taskList.jsp" />

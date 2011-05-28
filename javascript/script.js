@@ -291,7 +291,7 @@ function resetErrorMessages() {
 }
 
 function logout() {
-	self.location = "logout.do";
+	self.location = "logout";
 }
    
 function showLoading(text){

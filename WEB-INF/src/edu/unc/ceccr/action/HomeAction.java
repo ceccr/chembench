@@ -150,7 +150,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 	}
 	
 	public String execute() throws Exception {
-		//do login
+		//log the user in
 		String result = SUCCESS; 
 
 		//check username and password
@@ -184,6 +184,17 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 		}
 		loadPage();
 		return result;
+	}
+	
+	public String logout() throws Exception{
+		ActionContext context = ActionContext.getContext();
+		context.getSession().clear();
+		
+		Cookie ckie=new Cookie("login","false");
+		servletResponse.addCookie(ckie);
+		
+		loadPage();
+		return SUCCESS;
 	}
 	
 
