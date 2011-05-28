@@ -1,7 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 
-HI
+<%  
+response.sendRedirect("/home");
+%> 
+
 <!--
 
 Redirect default requests to Home global forward.
