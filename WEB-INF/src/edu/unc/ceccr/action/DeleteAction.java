@@ -395,7 +395,6 @@ public class DeleteAction extends ActionSupport{
 			Utility.writeToDebug(ex);
 		}
 		return SUCCESS;
-		
 	}
 	
 	public String deleteUser() {

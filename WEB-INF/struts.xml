@@ -390,7 +390,8 @@
         </action>
         
         <action name="deleteUser" class="edu.unc.ceccr.action.DeleteAction" method="deleteUser">
-        	<result type="redirect">admin</result>
+        	<result name="success" type="redirect">admin</result>
+        	<result name="error" type="redirect">home</result>
         </action>
         <!-- End Delete Actions -->
         
