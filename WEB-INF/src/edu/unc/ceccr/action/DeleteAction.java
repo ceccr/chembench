@@ -418,10 +418,10 @@ public class DeleteAction extends ActionSupport{
 		Utility.writeToDebug("Deleting user: " + userToDelete);
 		
 		Session s = HibernateUtil.getSession();
-		List<Prediction> predictions = PopulateDataObjects.getUserData(userToDelete, Prediction.class, s);
-		List<Predictor> predictors = PopulateDataObjects.getUserData(userToDelete,Predictor.class, s);
-		List<DataSet> datasets = PopulateDataObjects.getUserData(userToDelete,DataSet.class, s);
-		List<Job> jobs = PopulateDataObjects.getUserData(userToDelete,Job.class, s);
+		ArrayList<Prediction> predictions = (ArrayList<Prediction>) PopulateDataObjects.getUserData(userToDelete, Prediction.class, s);
+		ArrayList<Predictor> predictors = (ArrayList<Predictor>) PopulateDataObjects.getUserData(userToDelete,Predictor.class, s);
+		ArrayList<DataSet> datasets = (ArrayList<DataSet>) PopulateDataObjects.getUserData(userToDelete,DataSet.class, s);
+		ArrayList<Job> jobs = (ArrayList<Job>) PopulateDataObjects.getUserData(userToDelete,Job.class, s);
 		s.close();
 
 		for(Prediction p : predictions){
