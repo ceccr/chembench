@@ -80,6 +80,7 @@ public class PopulateDataObjects {
 	{
 		//gets any data for which there is an associated username.
 		//e.g.: datasets, predictors, predictions, jobs, users
+		Utility.writeToDebug("looking for " + c.getName() + " of user " + userName);
 		ArrayList list=null;
 		Transaction tx = null;
 		try {
