@@ -410,28 +410,61 @@ public class DeleteAction extends ActionSupport{
 		
 		String userToDelete = ((String[]) context.getParameters().get("userToDelete"))[0];
 		
-		Utility.writeToDebug("Deleting user: " + userToDelete);
-		List predictionJobs = getUserData(userToDelete, Prediction.class);
-		List predictors = getUserData(userToDelete,Predictor.class);
-		List datasets = getUserData(userToDelete,DataSet.class);
-		List tasks = getUserData(userToDelete,Job.class);;
-
-		deleteDatabaseData(predictionJobs);
-		deleteDatabaseData(predictors);
-		deleteDatabaseData(datasets);
-		deleteDatabaseData(tasks);
+		if(userToDelete.isEmpty()){
+	    	return ERROR;
+	    }
 		
-	    try {
+		Utility.writeToDebug("Deleting user: " + userToDelete);
+		List<Prediction> predictions = getUserData(userToDelete, Prediction.class);
+		List<Predictor> predictors = getUserData(userToDelete,Predictor.class);
+		List<DataSet> datasets = getUserData(userToDelete,DataSet.class);
+		List<Job> jobs = getUserData(userToDelete,Job.class);;
 
-			List userAsList = getUserData(userToDelete,User.class);
-			deleteDatabaseData(userAsList);
+		for(Prediction p : predictions){
+			String[] idAsArray = new String[1];
+			idAsArray[0] = "" + p.getId();
+			context.getParameters().put("id", idAsArray);
+			deletePrediction();
+		}
+
+		for(Predictor p : predictors){
+			String[] idAsArray = new String[1];
+			idAsArray[0] = "" + p.getId();
+			context.getParameters().put("id", idAsArray);
+			deletePredictor();
+		}
+
+		for(DataSet d : datasets){
+			String[] idAsArray = new String[1];
+			idAsArray[0] = "" + d.getId();
+			context.getParameters().put("id", idAsArray);
+			deleteDataset();
+		}
+
+		for(Job j : jobs){
+			String[] idAsArray = new String[1];
+			idAsArray[0] = "" + j.getId();
+			context.getParameters().put("id", idAsArray);
+			deleteJob();
+		}
+
+	    try {
+	    	Session session = HibernateUtil.getSession();	
+	    	User deleteMe = PopulateDataObjects.getUserByUserName(userToDelete, session);
+			Transaction tx = null;
+			tx = session.beginTransaction();
+			session.delete(deleteMe);
+			tx.commit();
 	    	
-			File dir= new File(Constants.CECCR_USER_BASE_PATH + userToDelete); //recurses
-			FileAndDirOperations.deleteDir(dir);
 	    }
 	    catch(Exception ex){
 	    	Utility.writeToDebug(ex);
 	    }
+	    
+	    //last, delete all the files that user has
+	    
+		File dir= new File(Constants.CECCR_USER_BASE_PATH + userToDelete); //recurses
+		FileAndDirOperations.deleteDir(dir);
 	    
 	    return SUCCESS;
 	}
