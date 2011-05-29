@@ -124,7 +124,7 @@ public class DeleteAction extends ActionSupport{
 		}
 		
 		//make sure the user can actually delete this object
-		if(user.getUserName().equalsIgnoreCase(objectUser)){
+		if(user.getUserName().equalsIgnoreCase(objectUser) || user.getIsAdmin().equals(Constants.YES)){
 			return true;
 		}
 		
@@ -415,7 +415,6 @@ public class DeleteAction extends ActionSupport{
 			//just being a little safer, since there's a recursive delete in this function
 	    	return ERROR;
 	    }
-		
 		
 		Session s = HibernateUtil.getSession();
 		ArrayList<Prediction> predictions = (ArrayList<Prediction>) PopulateDataObjects.getUserData(userToDelete, Prediction.class, s);
