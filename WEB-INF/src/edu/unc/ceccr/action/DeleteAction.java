@@ -424,28 +424,28 @@ public class DeleteAction extends ActionSupport{
 		ArrayList<Job> jobs = (ArrayList<Job>) PopulateDataObjects.getUserData(userToDelete,Job.class, s);
 		s.close();
 
-		for(Prediction p : predictions){
+		for(Prediction p: predictions){
 			String[] idAsArray = new String[1];
 			idAsArray[0] = "" + p.getId();
 			context.getParameters().put("id", idAsArray);
 			deletePrediction();
 		}
 
-		for(Predictor p : predictors){
+		for(Predictor p: predictors){
 			String[] idAsArray = new String[1];
 			idAsArray[0] = "" + p.getId();
 			context.getParameters().put("id", idAsArray);
 			deletePredictor();
 		}
 
-		for(DataSet d : datasets){
+		for(DataSet d: datasets){
 			String[] idAsArray = new String[1];
 			idAsArray[0] = "" + d.getId();
 			context.getParameters().put("id", idAsArray);
 			deleteDataset();
 		}
 
-		for(Job j : jobs){
+		for(Job j: jobs){
 			String[] idAsArray = new String[1];
 			idAsArray[0] = "" + j.getId();
 			context.getParameters().put("id", idAsArray);
