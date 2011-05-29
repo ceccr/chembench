@@ -402,20 +402,21 @@ public class DeleteAction extends ActionSupport{
 		//check that the person deleting the user is an admin, just to be safe
 		ActionContext context = ActionContext.getContext();
 		User u = (User) context.getSession().get("user");
+		
+		String userToDelete = ((String[]) context.getParameters().get("userToDelete"))[0];
+		Utility.writeToDebug("Deleting user: " + userToDelete);
 
 		if(u == null || ! u.getIsAdmin().equals(Constants.YES)){
 			//this isn't an admin! Kick 'em out.
 			return ERROR;
 		}
 		
-		String userToDelete = ((String[]) context.getParameters().get("userToDelete"))[0];
 		
 		if(userToDelete.isEmpty() || userToDelete.contains("..") || userToDelete.contains("~") || userToDelete.contains("/")){
 			//just being a little safer, since there's a recursive delete in this function
 	    	return ERROR;
 	    }
 		
-		Utility.writeToDebug("Deleting user: " + userToDelete);
 		
 		Session s = HibernateUtil.getSession();
 		ArrayList<Prediction> predictions = (ArrayList<Prediction>) PopulateDataObjects.getUserData(userToDelete, Prediction.class, s);
