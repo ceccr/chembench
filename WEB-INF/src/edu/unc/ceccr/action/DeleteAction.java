@@ -411,22 +411,20 @@ public class DeleteAction extends ActionSupport{
 		String userToDelete = ((String[]) context.getParameters().get("userToDelete"))[0];
 		
 		Utility.writeToDebug("Deleting user: " + userToDelete);
-		List predictionJobs = getUserDatabase(userToDelete, Prediction.class);
-		List predictors = getUserDatabase(userToDelete,Predictor.class);
-		List datasets = getUserDatabase(userToDelete,DataSet.class);
-		List tasks = getUserDatabase(userToDelete,Job.class);;
+		List predictionJobs = getUserData(userToDelete, Prediction.class);
+		List predictors = getUserData(userToDelete,Predictor.class);
+		List datasets = getUserData(userToDelete,DataSet.class);
+		List tasks = getUserData(userToDelete,Job.class);;
 
-		Utility.writeToDebug("deleting " + predictors.size() + " predictors");
 		deleteDatabaseData(predictionJobs);
-		Utility.writeToDebug("deleting " + predictionJobs.size() + " predictions");
 		deleteDatabaseData(predictors);
-		Utility.writeToDebug("deleting " + datasets.size() + " datasets");
 		deleteDatabaseData(datasets);
-		Utility.writeToDebug("deleting " + tasks.size() + " jobs");
 		deleteDatabaseData(tasks);
 		
 	    try {
-	    	deleteUserInfo(userToDelete);
+
+			List userAsList = getUserData(userToDelete,User.class);
+			deleteDatabaseData(userAsList);
 	    	
 			File dir= new File(Constants.CECCR_USER_BASE_PATH + userToDelete); //recurses
 			FileAndDirOperations.deleteDir(dir);
@@ -463,15 +461,14 @@ public class DeleteAction extends ActionSupport{
 	}
 
 	@SuppressWarnings("unchecked")
-	protected List getUserDatabase(String userName, Class className)throws ClassNotFoundException,SQLException
+	protected List getUserData(String userName, Class className) throws ClassNotFoundException,SQLException
 	{
 		List list=null;
-		Session s = HibernateUtil.getSession();// query
+		Session s = HibernateUtil.getSession();
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			list= s.createCriteria(className).add(Expression.eq("userName", userName)).list();
-			
+			list = s.createCriteria(className).add(Expression.eq("userName", userName)).list();
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -483,13 +480,6 @@ public class DeleteAction extends ActionSupport{
 		
 		return list;
 	}
-
-	protected void deleteUserInfo(String userName)throws ClassNotFoundException,SQLException
-	{
-		List user = getUserDatabase(userName,User.class);
-		deleteDatabaseData(user);
-	}
-	
 
 	public ArrayList<String> getErrorStrings() {
 		return errorStrings;
