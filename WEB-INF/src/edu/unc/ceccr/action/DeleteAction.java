@@ -398,79 +398,83 @@ public class DeleteAction extends ActionSupport{
 		
 	}
 	
-	public String deleteUser() throws Exception {
-		//check that the person deleting the user is an admin, just to be safe
-		ActionContext context = ActionContext.getContext();
-		User u = (User) context.getSession().get("user");
-		
-		String userToDelete = ((String[]) context.getParameters().get("userToDelete"))[0];
-		Utility.writeToDebug("Deleting user: " + userToDelete);
-
-		if(u == null || ! u.getIsAdmin().equals(Constants.YES)){
-			//this isn't an admin! Kick 'em out.
-			return ERROR;
+	public String deleteUser() {
+		try{
+			//check that the person deleting the user is an admin, just to be safe
+			ActionContext context = ActionContext.getContext();
+			User u = (User) context.getSession().get("user");
+			
+			String userToDelete = ((String[]) context.getParameters().get("userToDelete"))[0];
+			Utility.writeToDebug("Deleting user: " + userToDelete);
+	
+			if(u == null || ! u.getIsAdmin().equals(Constants.YES)){
+				//this isn't an admin! Kick 'em out.
+				return ERROR;
+			}
+			
+			
+			if(userToDelete.isEmpty() || userToDelete.contains("..") || userToDelete.contains("~") || userToDelete.contains("/")){
+				//just being a little safer, since there's a recursive delete in this function
+		    	return ERROR;
+		    }
+			
+			
+			Session s = HibernateUtil.getSession();
+			ArrayList<Prediction> predictions = (ArrayList<Prediction>) PopulateDataObjects.getUserData(userToDelete, Prediction.class, s);
+			ArrayList<Predictor> predictors = (ArrayList<Predictor>) PopulateDataObjects.getUserData(userToDelete,Predictor.class, s);
+			ArrayList<DataSet> datasets = (ArrayList<DataSet>) PopulateDataObjects.getUserData(userToDelete,DataSet.class, s);
+			ArrayList<Job> jobs = (ArrayList<Job>) PopulateDataObjects.getUserData(userToDelete,Job.class, s);
+			s.close();
+	
+			for(Prediction p: predictions){
+				String[] idAsArray = new String[1];
+				idAsArray[0] = "" + p.getId();
+				context.getParameters().put("id", idAsArray);
+				deletePrediction();
+			}
+	
+			for(Predictor p: predictors){
+				String[] idAsArray = new String[1];
+				idAsArray[0] = "" + p.getId();
+				context.getParameters().put("id", idAsArray);
+				deletePredictor();
+			}
+	
+			for(DataSet d: datasets){
+				String[] idAsArray = new String[1];
+				idAsArray[0] = "" + d.getId();
+				context.getParameters().put("id", idAsArray);
+				deleteDataset();
+			}
+	
+			for(Job j: jobs){
+				String[] idAsArray = new String[1];
+				idAsArray[0] = "" + j.getId();
+				context.getParameters().put("id", idAsArray);
+				deleteJob();
+			}
+	
+		    try {
+		    	Session session = HibernateUtil.getSession();	
+		    	User deleteMe = PopulateDataObjects.getUserByUserName(userToDelete, session);
+				Transaction tx = null;
+				tx = session.beginTransaction();
+				session.delete(deleteMe);
+				tx.commit();
+		    	
+		    }
+		    catch(Exception ex){
+		    	Utility.writeToDebug(ex);
+		    }
+		    
+		    //last, delete all the files that user has
+		    
+			File dir= new File(Constants.CECCR_USER_BASE_PATH + userToDelete); //recurses
+			FileAndDirOperations.deleteDir(dir);
 		}
-		
-		
-		if(userToDelete.isEmpty() || userToDelete.contains("..") || userToDelete.contains("~") || userToDelete.contains("/")){
-			//just being a little safer, since there's a recursive delete in this function
-	    	return ERROR;
-	    }
-		
-		
-		Session s = HibernateUtil.getSession();
-		ArrayList<Prediction> predictions = (ArrayList<Prediction>) PopulateDataObjects.getUserData(userToDelete, Prediction.class, s);
-		ArrayList<Predictor> predictors = (ArrayList<Predictor>) PopulateDataObjects.getUserData(userToDelete,Predictor.class, s);
-		ArrayList<DataSet> datasets = (ArrayList<DataSet>) PopulateDataObjects.getUserData(userToDelete,DataSet.class, s);
-		ArrayList<Job> jobs = (ArrayList<Job>) PopulateDataObjects.getUserData(userToDelete,Job.class, s);
-		s.close();
-
-		for(Prediction p: predictions){
-			String[] idAsArray = new String[1];
-			idAsArray[0] = "" + p.getId();
-			context.getParameters().put("id", idAsArray);
-			deletePrediction();
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
 		}
-
-		for(Predictor p: predictors){
-			String[] idAsArray = new String[1];
-			idAsArray[0] = "" + p.getId();
-			context.getParameters().put("id", idAsArray);
-			deletePredictor();
-		}
-
-		for(DataSet d: datasets){
-			String[] idAsArray = new String[1];
-			idAsArray[0] = "" + d.getId();
-			context.getParameters().put("id", idAsArray);
-			deleteDataset();
-		}
-
-		for(Job j: jobs){
-			String[] idAsArray = new String[1];
-			idAsArray[0] = "" + j.getId();
-			context.getParameters().put("id", idAsArray);
-			deleteJob();
-		}
-
-	    try {
-	    	Session session = HibernateUtil.getSession();	
-	    	User deleteMe = PopulateDataObjects.getUserByUserName(userToDelete, session);
-			Transaction tx = null;
-			tx = session.beginTransaction();
-			session.delete(deleteMe);
-			tx.commit();
-	    	
-	    }
-	    catch(Exception ex){
-	    	Utility.writeToDebug(ex);
-	    }
-	    
-	    //last, delete all the files that user has
-	    
-		File dir= new File(Constants.CECCR_USER_BASE_PATH + userToDelete); //recurses
-		FileAndDirOperations.deleteDir(dir);
-	    
 	    return SUCCESS;
 	}
 	
