@@ -415,15 +415,21 @@ public class DeleteAction extends ActionSupport{
 		List predictors = getUserDatabase(userToDelete,Predictor.class);
 		List datasets = getUserDatabase(userToDelete,DataSet.class);
 		List tasks = getUserDatabase(userToDelete,Job.class);;
-		
+
+		Utility.writeToDebug("deleting " + predictors.size() + " predictors");
 		deleteDatabaseData(predictionJobs);
+		Utility.writeToDebug("deleting " + predictionJobs.size() + " predictions");
 		deleteDatabaseData(predictors);
+		Utility.writeToDebug("deleting " + datasets.size() + " datasets");
 		deleteDatabaseData(datasets);
+		Utility.writeToDebug("deleting " + tasks.size() + " jobs");
 		deleteDatabaseData(tasks);
 		
 	    try {
 	    	deleteUserInfo(userToDelete);
-	    	deleteDirectory(userToDelete);
+	    	
+			File dir= new File(Constants.CECCR_USER_BASE_PATH + userToDelete); //recurses
+			FileAndDirOperations.deleteDir(dir);
 	    }
 	    catch(Exception ex){
 	    	Utility.writeToDebug(ex);
@@ -459,12 +465,12 @@ public class DeleteAction extends ActionSupport{
 	@SuppressWarnings("unchecked")
 	protected List getUserDatabase(String userName, Class className)throws ClassNotFoundException,SQLException
 	{
-		List datasets=null;
+		List list=null;
 		Session s = HibernateUtil.getSession();// query
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			datasets= s.createCriteria(className).add(Expression.eq("userName", userName)).list();
+			list= s.createCriteria(className).add(Expression.eq("userName", userName)).list();
 			
 			tx.commit();
 		} catch (RuntimeException e) {
@@ -475,18 +481,12 @@ public class DeleteAction extends ActionSupport{
 			s.close();
 		}
 		
-		return datasets;
+		return list;
 	}
 
-	protected void deleteDirectory(String userName)
-	{
-		File dir=new File(Constants.CECCR_USER_BASE_PATH+userName);
-		FileAndDirOperations.deleteDir(dir);
-	}
-	
 	protected void deleteUserInfo(String userName)throws ClassNotFoundException,SQLException
 	{
-		List user= getUserDatabase(userName,User.class);
+		List user = getUserDatabase(userName,User.class);
 		deleteDatabaseData(user);
 	}
 	
