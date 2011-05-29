@@ -416,10 +416,13 @@ public class DeleteAction extends ActionSupport{
 	    }
 		
 		Utility.writeToDebug("Deleting user: " + userToDelete);
-		List<Prediction> predictions = getUserData(userToDelete, Prediction.class);
-		List<Predictor> predictors = getUserData(userToDelete,Predictor.class);
-		List<DataSet> datasets = getUserData(userToDelete,DataSet.class);
-		List<Job> jobs = getUserData(userToDelete,Job.class);;
+		
+		Session s = HibernateUtil.getSession();
+		List<Prediction> predictions = PopulateDataObjects.getUserData(userToDelete, Prediction.class, s);
+		List<Predictor> predictors = PopulateDataObjects.getUserData(userToDelete,Predictor.class, s);
+		List<DataSet> datasets = PopulateDataObjects.getUserData(userToDelete,DataSet.class, s);
+		List<Job> jobs = PopulateDataObjects.getUserData(userToDelete,Job.class, s);
+		s.close();
 
 		for(Prediction p : predictions){
 			String[] idAsArray = new String[1];
@@ -493,27 +496,8 @@ public class DeleteAction extends ActionSupport{
 			session.close();
 		}
 	}
+	
 
-	@SuppressWarnings("unchecked")
-	protected List getUserData(String userName, Class className) throws ClassNotFoundException,SQLException
-	{
-		List list=null;
-		Session s = HibernateUtil.getSession();
-		Transaction tx = null;
-		try {
-			tx = s.beginTransaction();
-			list = s.createCriteria(className).add(Expression.eq("userName", userName)).list();
-			tx.commit();
-		} catch (RuntimeException e) {
-			if (tx != null)
-				tx.rollback();
-			Utility.writeToDebug(e);
-		} finally {
-			s.close();
-		}
-		
-		return list;
-	}
 
 	public ArrayList<String> getErrorStrings() {
 		return errorStrings;

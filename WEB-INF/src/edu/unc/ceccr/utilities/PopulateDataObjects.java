@@ -75,7 +75,24 @@ public class PopulateDataObjects {
 		}
   		return list;
 	}
-
+	
+	public static ArrayList getUserData(String userName, Class c, Session s) throws ClassNotFoundException,SQLException
+	{
+		//gets any data for which there is an associated username.
+		//e.g.: datasets, predictors, predictions, jobs, users
+		ArrayList list=null;
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			list = (ArrayList) s.createCriteria(c).add(Expression.eq("userName", userName)).list();
+			tx.commit();
+		} catch (RuntimeException e) {
+			Utility.writeToDebug(e);
+		} 
+		Utility.writeToDebug("found " + list.size() + " " + c.getName() + " objects for user name " + userName);
+		return list;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public static PredictionValue getFirstPredictionValueByPredictionIdAndPredictorId(Long predictionId, Long predictorId, Session session) throws Exception{
 		PredictionValue predictionValue = null;
