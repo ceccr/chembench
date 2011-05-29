@@ -60,8 +60,8 @@
 		<td class="TableRowText02"><s:property value="orgName" /></td>
 		<td class="TableRowText02"><s:property value="country" /></td>
 		<td class="TableRowText02"><a href="mailto:<s:property value="email" />"><s:property value="email" /></a></td>
-		<td class="TableRowText02"><s:property value="canDownloadDescriptors" /></td>
-		<td class="TableRowText02"><s:property value="isAdmin" /></td>
+		<td class="TableRowText02"><input type="checkbox" <s:if test="canDownloadDescriptors=='YES'">checked</s:if> /></td>
+		<td class="TableRowText02"><input type="checkbox" <s:if test="isAdmin=='YES'">checked</s:if> /></td>
 		<td class="TableRowText02"><a onclick="return confirmDelete('user')" href="/deleteUser?userToDelete=<s:property value="userName" />">delete</a></td>
 		</tr>
 	</s:iterator>
