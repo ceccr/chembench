@@ -398,6 +398,10 @@ public class DeleteAction extends ActionSupport{
 	}
 	
 	public String deleteUser() {
+		Utility.writeToDebug("hiiiiiiiii!");
+		Utility.writeToDebug("(>o.o)>");
+		Utility.writeToDebug("<(o.o<)");
+		Utility.writeToDebug("<(O.O)>");
 		try{
 			//check that the person deleting the user is an admin, just to be safe
 			ActionContext context = ActionContext.getContext();
