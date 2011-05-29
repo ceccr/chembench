@@ -410,7 +410,8 @@ public class DeleteAction extends ActionSupport{
 		
 		String userToDelete = ((String[]) context.getParameters().get("userToDelete"))[0];
 		
-		if(userToDelete.isEmpty()){
+		if(userToDelete.isEmpty() || userToDelete.contains("..") || userToDelete.contains("~") || userToDelete.contains("/")){
+			//just being a little safer, since there's a recursive delete in this function
 	    	return ERROR;
 	    }
 		
