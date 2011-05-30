@@ -71,14 +71,8 @@
 </table> 		
 <br /><br />
 <div class="StandardTextDarkGrayParagraph">
-	Build Date: <s:property value="buildDate" /><br />
+	<a href="">Send email to all users</a> (opens in a new window)
 	<br />
-	Documentation: <br />
-	<a href="/documentation/C-Chembench Developer Guide.docx">Chembench Developer's Guide</a><br />
-	<a href="/documentation/Database Design.docx">Database Design</a><br />
-	<a href="/documentation/ceccr design notes.txt">Notes</a><br />
-	<a href="/documentation/Install Guide.txt">Install Guide</a><br />
-	<br /><br />
 </div> 
 
     	</td></tr>
