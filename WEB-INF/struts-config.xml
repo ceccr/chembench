@@ -19,8 +19,6 @@
 	
 		<action path="/externalValidationChart" forward="/chart?doGet" />
 		
-		<action path="/toEmail" forward="/jsp/administration/user/emailToAll.jsp"></action>
-		
 	</action-mappings>
 	
 	<controller
