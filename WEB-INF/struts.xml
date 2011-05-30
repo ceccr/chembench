@@ -344,27 +344,27 @@
         <!-- Servlet forwards -->
         <!-- these will forward to a path defined in web.xml -->
         <action name="imageServlet">
-            <result>imageServlet</result>
+            <result>imageServlet.do</result>
         </action>
         
         <action name="fileServlet">
-            <result>fileServlet</result>
+            <result>fileServlet.do</result>
         </action>
         
         <action name="descriptorMatrixServlet">
-            <result>descriptorMatrixServlet</result>
+            <result>descriptorMatrixServlet.do</result>
         </action>
        
         <action name="compound3D">
-            <result>compound3D</result>
+            <result>compound3D.do</result>
         </action>
         
         <action name="datasetFilesServlet">
-            <result>datasetFilesServlet</result>
+            <result>datasetFilesServlet.do</result>
         </action>
         
         <action name="projectFilesServlet">
-            <result>projectFilesServlet</result>
+            <result>projectFilesServlet.do</result>
         </action>
         
         <!-- End Servlet forwards -->
