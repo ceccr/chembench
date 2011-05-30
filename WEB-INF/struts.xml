@@ -402,14 +402,15 @@
         </action>
         
         <action name="changeUserAdminStatus" class="edu.unc.ceccr.action.AdminAction" method="changeUserAdminStatus">
-        	<result name="success" type="forward">admin</result>
+        	<result name="success" type="redirect">admin</result>
         	<result name="error">jsp/main/home.jsp</result>
         </action>
         
         <action name="changeUserDescriptorDownloadStatus" class="edu.unc.ceccr.action.AdminAction" method="changeUserDescriptorDownloadStatus">
-        	<result name="success" type="forward">admin</result>
+        	<result name="success" type="redirect">admin</result>
         	<result name="error">jsp/main/home.jsp</result>
         </action>
+        
         <!-- End Admin Actions -->
         
         <!-- Help forwards -->
