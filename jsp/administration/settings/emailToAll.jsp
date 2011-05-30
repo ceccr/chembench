@@ -32,8 +32,8 @@ else{return true;}
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 
 	<tr><td>
-	<form action="emailAllUsers">
-	<b>Emails need to have HTML markup in them or they will look silly.</b><br />
+	<form action="/emailAllUsers">
+	<b>Emails need to have HTML markup in them or they will look silly.</b><br /><br />
 	<table width="480" height="480" border="0">
 		<tr><td width="35" height="18">To: </td><td>(all users)</td><tr>
 		<tr><td width="35" height="18">From:</td><td>ceccr@email.unc.edu</td><tr>
