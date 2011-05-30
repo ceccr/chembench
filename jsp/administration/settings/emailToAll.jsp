@@ -30,29 +30,20 @@ else{return true;}
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
 <br />
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
-		<td height="91" colspan="3" valign="top"><img name="cchembenchlogo"
-			src="theme/img/cchembenchlogo.jpg" width="450" border="0"
-			id="cchembenchlogo" alt="C-chembench logo" /></a></td>
 
-		
-	</tr>
-     <tr><td><html:form action="emailAll.do">
-     <table width="430" height="439" border="0">
-
-<tr><td height="18" class="TableRowText02">To : </td><td>(all users)</td><tr>
-<tr><td height="18" class="TableRowText02">From :</td><td>ceccr@email.unc.edu</td><tr>
-
-<tr><td height="18" class="TableRowText02">Subject :</td><td><html:text name="subject" property="subject" value="" size="43"/></td><tr>
-
-<tr ><td height="160" colspan="2" >&nbsp;<html:textarea name="content" styleId="content" property="content" value="" rows="10" cols="45"></html:textarea></td><tr>
-
-<tr><td height="18"></td><td><html:reset>Rewrite</html:reset>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<html:submit onclick="return checkContent()">Send</html:submit></td><tr>
-
-<tr><td height="18"></td><td></td><tr>
-
-
-     </table></html:form>
+<tr><td>
+<form action="sendEmailToAllUsers">
+<div class="StandardTextDArkGray">
+<table width="430" height="439" border="0">
+	<tr><td height="18" class="TableRowText02">To : </td><td>(all users)</td><tr>
+	<tr><td height="18" class="TableRowText02">From :</td><td>ceccr@email.unc.edu</td><tr>
+	<tr><td height="18" class="TableRowText02">Subject :</td><td><s:textfield name="emailSubject" property="subject" value="" size="43" /></td><tr>
+	<tr ><td height="160" colspan="2" >&nbsp;<s:textarea name="emailMessage" value="" rows="10" cols="45" /></td><tr>
+	<tr><td height="18"></td><td><input type="submit" onclick="return checkContent()" value="Send" /></td><tr>
+	<tr><td height="18"></td><td></td><tr>
+</table>
+</div>
+</form>
       
 
 
