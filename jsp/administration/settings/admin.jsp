@@ -43,6 +43,12 @@
 	<br /><br />
 </div> 
 
+<div class="StandardTextDarkGrayParagraph">
+	<a href="">Send email to all users</a> (opens in a new window)
+	<br />
+</div> 
+<br /><br />
+
 <table>
 	<tr>
 		<th class="TableRowText01">User Name</th>
@@ -69,11 +75,6 @@
 		</tr>
 	</s:iterator>
 </table> 		
-<br /><br />
-<div class="StandardTextDarkGrayParagraph">
-	<a href="">Send email to all users</a> (opens in a new window)
-	<br />
-</div> 
 
     	</td></tr>
    </table>
