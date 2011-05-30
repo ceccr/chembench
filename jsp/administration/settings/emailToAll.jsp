@@ -34,10 +34,12 @@ else{return true;}
 	<tr><td>
 	<form action="sendEmailToAllUsers">
 	<table width="480" height="480" border="0">
+		<tr><td width="35" height="18">To: </td><td><div class="StandardTextDarkGray">Note: </td><tr>
 		<tr><td width="35" height="18">To: </td><td>(all users)</td><tr>
 		<tr><td width="35" height="18">From:</td><td>ceccr@email.unc.edu</td><tr>
 		<tr><td width="35" height="18">Subject:</td><td><s:textfield name="emailSubject" value="" size="43" theme="simple" /></td><tr>
-		<tr ><td height="160" colspan="2">&nbsp;<s:textarea name="emailMessage" value="" rows="10" cols="45" theme="simple" /></td><tr>
+		<tr><td height="160" colspan="2">&nbsp;<s:textarea name="emailMessage" value="" rows="10" cols="45" theme="simple" /></td><tr>
+		<tr><td width="60" height="18">Send to:</td><td> All users | Just Me (for testing)</td><tr>		
 		<tr><td width="35" height="18"></td><td><input type="submit" onclick="return checkContent()" value="Send" /></td><tr>
 	</table>
 	<br />
