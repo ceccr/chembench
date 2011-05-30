@@ -1,6 +1,7 @@
 package edu.unc.ceccr.action;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,6 +17,7 @@ import com.opensymphony.xwork2.ActionContext;
 
 import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
@@ -78,6 +80,80 @@ public class AdminAction extends ActionSupport{
 		session.close();
 
 		//go to the page
+		return result;
+	}
+	
+	public String changeUserAdminStatus() throws Exception{
+		//get the current user and the username of the user to be altered
+		String result = SUCCESS;
+		ActionContext context = ActionContext.getContext();
+
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			else if(! user.getIsAdmin().equals(Constants.YES)){
+				result = ERROR;
+				return result;
+			}
+		}
+		String userToChange = ((String[]) context.getParameters().get("userToChange"))[0];
+
+		Session s = HibernateUtil.getSession();
+		User toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
+		s.close();
+		
+		if(toChange.getCanDownloadDescriptors().equals(Constants.YES)){
+			toChange.setCanDownloadDescriptors(Constants.NO);
+		}
+		else{
+			toChange.setCanDownloadDescriptors(Constants.YES);
+		}
+		
+		return result;
+	}
+	
+	public String changeUserDescriptorDownloadStatus() throws Exception{
+		//get the current user and the username of the user to be altered
+		String result = SUCCESS;
+		ActionContext context = ActionContext.getContext();
+
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			else if(! user.getIsAdmin().equals(Constants.YES)){
+				result = ERROR;
+				return result;
+			}
+		}
+		String userToChange = ((String[]) context.getParameters().get("userToChange"))[0];
+
+		Session s = HibernateUtil.getSession();
+		User toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
+		s.close();
+		
+		if(toChange.getCanDownloadDescriptors().equals(Constants.YES)){
+			toChange.setCanDownloadDescriptors(Constants.NO);
+		}
+		else{
+			toChange.setCanDownloadDescriptors(Constants.YES);
+		}
+		
 		return result;
 	}
 	

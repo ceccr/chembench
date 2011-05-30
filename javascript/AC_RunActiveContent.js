@@ -1,3 +1,4 @@
+//needed for Flash dataset visualization
 //v1.7
 // Flash Player Version Detection
 // Detect Client Browser type

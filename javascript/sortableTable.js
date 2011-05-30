@@ -1,3 +1,5 @@
+//makes sortable tables on web pages
+
 /*
 Table sorting script  by Joost de Valk, check it out at http://www.joostdevalk.nl/code/sortable-table/.
 Based on a script from http://www.kryogenix.org/code/browser/sorttable/.

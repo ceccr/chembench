@@ -1,3 +1,5 @@
+//Used by the external validation chart display (JFreeChart)
+
 //\/////
 //\  overLIB 4.21 - You may not remove or change this notice.
 //\  Copyright Erik Bosrup 1998-2004. All rights reserved.

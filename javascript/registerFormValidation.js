@@ -1,3 +1,4 @@
+//used in user registration form
 
 function submitForm1(button, textarea)
 {

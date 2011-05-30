@@ -1,3 +1,5 @@
+//makes sortable tables on web pages
+
 /*
 Copy of sortableTable - only difference is, it uses a delay 
 before adding the sorts to the table elements on the page.

@@ -1,3 +1,5 @@
+//used in modeling? or in prediction? Probably some junk in here still
+
 function validateForm(){
 	
 	//check that the job name is not the same as any of the user's existing

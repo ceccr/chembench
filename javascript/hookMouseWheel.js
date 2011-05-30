@@ -1,3 +1,5 @@
+//needed for Flash dataset visualizer
+
 function isOverSwf(mEvent)
 {
 	var elem;
