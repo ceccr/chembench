@@ -108,7 +108,13 @@ public class AdminAction extends ActionSupport{
 		String userToChange = ((String[]) context.getParameters().get("userToChange"))[0];
 
 		Session s = HibernateUtil.getSession();
-		User toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
+		User toChange = null;
+		if(userToChange.equals(user.getUserName())){
+			toChange = user;
+		}
+		else{
+			toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
+		}
 		
 		if(toChange.getIsAdmin().equals(Constants.YES)){
 			toChange.setIsAdmin(Constants.NO);
@@ -120,7 +126,7 @@ public class AdminAction extends ActionSupport{
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			s.saveOrUpdate(user);
+			s.saveOrUpdate(toChange);
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
@@ -153,10 +159,17 @@ public class AdminAction extends ActionSupport{
 				return result;
 			}
 		}
+
 		String userToChange = ((String[]) context.getParameters().get("userToChange"))[0];
 
 		Session s = HibernateUtil.getSession();
-		User toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
+		User toChange = null;
+		if(userToChange.equals(user.getUserName())){
+			toChange = user;
+		}
+		else{
+			toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
+		}
 		
 		if(toChange.getCanDownloadDescriptors().equals(Constants.YES)){
 			toChange.setCanDownloadDescriptors(Constants.NO);
@@ -168,7 +181,7 @@ public class AdminAction extends ActionSupport{
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
-			s.saveOrUpdate(user);
+			s.saveOrUpdate(toChange);
 			tx.commit();
 		} catch (RuntimeException e) {
 			if (tx != null)
