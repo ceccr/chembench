@@ -42,6 +42,7 @@
 	<a href="/documentation/Install Guide.txt">Install Guide</a><br />
 	<br /><br />
 </div> 
+
 <table>
 	<tr>
 		<th class="TableRowText01">User Name</th>
@@ -68,8 +69,20 @@
 		</tr>
 	</s:iterator>
 </table> 		
-     	</td></tr>
-    </table>
+<br /><br />
+<div class="StandardTextDarkGrayParagraph">
+	Build Date: <s:property value="buildDate" /><br />
+	<br />
+	Documentation: <br />
+	<a href="/documentation/C-Chembench Developer Guide.docx">Chembench Developer's Guide</a><br />
+	<a href="/documentation/Database Design.docx">Database Design</a><br />
+	<a href="/documentation/ceccr design notes.txt">Notes</a><br />
+	<a href="/documentation/Install Guide.txt">Install Guide</a><br />
+	<br /><br />
+</div> 
+
+    	</td></tr>
+   </table>
 	<%@include file ="/jsp/main/footer.jsp" %>
 	</body>
 	</html>
