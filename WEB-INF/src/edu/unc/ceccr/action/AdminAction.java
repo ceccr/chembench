@@ -95,6 +95,7 @@ public class AdminAction extends ActionSupport{
 	
 	public String emailAllUsers() throws Exception {
 		//check that the user is logged in
+		Utility.writeToDebug("emailing user(s)");
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
@@ -108,6 +109,7 @@ public class AdminAction extends ActionSupport{
 				return LOGIN;
 			}
 			else if(! user.getIsAdmin().equals(Constants.YES)){
+				Utility.writeToDebug("user " + user.getUserName() + " isn't an admin");
 				return ERROR;
 			}
 		}
