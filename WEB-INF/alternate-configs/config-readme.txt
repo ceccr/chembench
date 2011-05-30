@@ -3,7 +3,6 @@ gets installed onto.
 The actual config files read by the website when it's running are at:
 /build.xml
 /WEB-INF/systemConfig.xml
-/WEB-INF/web.xml
 /WEB-INF/src/hibernate.cfg.xml
 /WEB-INF/src/log4j.properties
 
