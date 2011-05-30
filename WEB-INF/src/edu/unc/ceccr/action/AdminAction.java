@@ -48,6 +48,7 @@ public class AdminAction extends ActionSupport{
 	//for sending email to all users
 	String emailMessage;
 	String emailSubject;
+	String sendTo;
 	
 	public String loadPage() throws Exception {
 
@@ -93,16 +94,39 @@ public class AdminAction extends ActionSupport{
 	}
 	
 	public String emailAllUsers() throws Exception {
-			Session s = HibernateUtil.getSession();
-			List<User> userList= PopulateDataObjects.getAllUsers(s);
-			s.close();
+		//check that the user is logged in
+		ActionContext context = ActionContext.getContext();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
 			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				return LOGIN;
+			}
+			else if(! user.getIsAdmin().equals(Constants.YES)){
+				return ERROR;
+			}
+		}
+		
+		Session s = HibernateUtil.getSession();
+		List<User> userList= PopulateDataObjects.getAllUsers(s);
+		s.close();
+			
+		if(sendTo.equals("ALLUSERS") && ! emailMessage.trim().isEmpty() && ! emailSubject.trim().isEmpty()){
 			Iterator it=userList.iterator();
 			while(it.hasNext()){
 				User userInfo = (User)it.next();
 				SendEmails.sendEmail(userInfo.getEmail(), "", "", emailSubject, emailMessage);
 			}
-			return SUCCESS;
+		}
+		else if(sendTo.equals("JUSTME") && ! emailMessage.trim().isEmpty() && ! emailSubject.trim().isEmpty()){
+			SendEmails.sendEmail(user.getEmail(), "", "", emailSubject, emailMessage);
+		}
+		return SUCCESS;
 	}
 	
 	public String changeUserAdminStatus() throws Exception{
@@ -251,6 +275,14 @@ public class AdminAction extends ActionSupport{
 
 	public void setEmailSubject(String emailSubject) {
 		this.emailSubject = emailSubject;
+	}
+
+	public String getSendTo() {
+		return sendTo;
+	}
+	
+	public void setSendTo(String sendTo) {
+		this.sendTo = sendTo;
 	}
 
 }

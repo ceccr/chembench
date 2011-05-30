@@ -46,6 +46,7 @@
 <div class="StandardTextDarkGrayParagraph">
 	<a href="#" onclick="window.open('/emailAll','emailAll','width=500,height=800')">Send email to all users</a> (opens in a new window)
 	<br />
+	<s:radio name="sendTo" id="sendTo" value="sendTo" list="#{'JUSTME':'Just Me (for testing)','ALLUSERS':'All users<br />'}" />
 </div> 
 <br /><br />
 
