@@ -405,7 +405,7 @@
         	<result>jsp/administration/settings/emailToAll.jsp</result>
         </action>
         
-        <action name="sendEmailToAllUsers" class="edu.unc.ceccr.action.AdminAction" method="sendEmailToAllUsers">
+        <action name="emailAllUsers" class="edu.unc.ceccr.action.AdminAction" method="emailAllUsers">
         	<result name="success" type="redirect">admin</result>
         	<result name="error">jsp/main/home.jsp</result>
         </action>
