@@ -15,7 +15,6 @@ import javax.mail.internet.MimeMessage;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
-import edu.unc.ceccr.formbean.EmailToAllBean;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
