@@ -401,6 +401,15 @@
         	<result name="error">jsp/main/home.jsp</result>
         </action>
         
+        <action name="emailToAll">
+        	<result>jsp/administration/settings/emailToAll.jsp</result>
+        </action>
+        
+        <action name="sendEmailToAllUsers" class="edu.unc.ceccr.action.AdminAction" method="sendEmailToAllUsers">
+        	<result name="success" type="redirect">admin</result>
+        	<result name="error">jsp/main/home.jsp</result>
+        </action>
+        
         <action name="changeUserAdminStatus" class="edu.unc.ceccr.action.AdminAction" method="changeUserAdminStatus">
         	<result name="success" type="redirect">admin</result>
         	<result name="error">jsp/main/home.jsp</result>
@@ -456,12 +465,6 @@
         
         <!-- End Help forwards -->
         
-        <!-- For Demoing -->
-        <action name="comp523">
-        	<result>jsp/help/heatmapDemo.jsp</result>
-        </action>
-        
-        <!-- end For Demoing -->
         
     </package>
 

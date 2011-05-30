@@ -44,7 +44,7 @@
 </div> 
 
 <div class="StandardTextDarkGrayParagraph">
-	<a href="">Send email to all users</a> (opens in a new window)
+	<a href="#" onclick="window.open('/emailAll','emailAll','width=500,height=800')">Send email to all users</a> (opens in a new window)
 	<br />
 </div> 
 <br /><br />

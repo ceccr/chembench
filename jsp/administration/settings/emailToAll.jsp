@@ -1,12 +1,12 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ taglib uri="/tags/struts-bean" prefix="bean"%>
-<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
-<%@ taglib uri="/tags/struts-html" prefix="html"%>
-<%@ taglib uri="/tags/struts-nested" prefix="nested"%>
-<jsp:useBean class="edu.unc.ceccr.persistence.User" id="user"
-	scope="session"></jsp:useBean>
-<html:html>
+
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
+<%@ page language="java" import="java.util.*" %>
+
+<html>
 <head>
 <title>Email to All Users</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -40,12 +40,8 @@ else{return true;}
      <tr><td><html:form action="emailAll.do">
      <table width="430" height="439" border="0">
 
-<tr><td height="18" class="TableRowText02">To :</td><td><input type="text" value=" To All Users" size="43"/></td><tr>
-<tr><td height="18" class="TableRowText02">From :</td><td><input type="text" value=" register@ceccr.ibiblio.org" size="43"/></td><tr>
-
-<tr><td height="18" class="TableRowText02">CC :</td><td><html:text name="cc" property="cc" value="" size="43"/></td><tr>
-
-<tr><td height="18" class="TableRowText02">BCC :</td><td><html:text name="bcc" property="bcc" value="" size="43"/></td><tr>
+<tr><td height="18" class="TableRowText02">To : </td><td>(all users)</td><tr>
+<tr><td height="18" class="TableRowText02">From :</td><td>ceccr@email.unc.edu</td><tr>
 
 <tr><td height="18" class="TableRowText02">Subject :</td><td><html:text name="subject" property="subject" value="" size="43"/></td><tr>
 
@@ -68,4 +64,4 @@ else{return true;}
 		
 		</table>
 </body>
-</html:html>
+</html>
