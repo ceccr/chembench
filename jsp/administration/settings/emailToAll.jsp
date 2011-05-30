@@ -35,11 +35,10 @@ else{return true;}
 	<form action="emailAllUsers">
 	<b>Emails need to have HTML markup in them or they will look silly.</b><br /><br />
 	<table width="480" height="480" border="0">
-		<tr><td width="35" height="18">To: </td><td>(all users)</td><tr>
 		<tr><td width="35" height="18">From:</td><td>ceccr@email.unc.edu</td><tr>
+		<tr><td width="60" height="18">Send to:</td><td><s:radio name="sendTo" id="sendTo" value="sendTo" list="#{'JUSTME':'Just Me (for testing)','ALLUSERS':'All users<br />'}" theme="simple" /></td><tr>		
 		<tr><td width="35" height="18">Subject:</td><td><s:textfield name="emailSubject" value="" size="43" theme="simple" /></td><tr>
 		<tr><td height="160" colspan="2">&nbsp;<s:textarea name="emailMessage" value="" rows="10" cols="45" theme="simple" /></td><tr>
-		<tr><td width="60" height="18">Send to:</td><td><s:radio name="sendTo" id="sendTo" value="sendTo" list="#{'JUSTME':'Just Me (for testing)','ALLUSERS':'All users<br />'}" theme="simple" /></td><tr>		
 		<tr><td width="35" height="18"></td><td><input type="submit" onclick="return checkContent()" value="Send" /></td><tr>
 	</table>
 	<br />
