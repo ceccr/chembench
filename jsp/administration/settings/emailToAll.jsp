@@ -33,16 +33,14 @@ else{return true;}
 
 <tr><td>
 <form action="sendEmailToAllUsers">
-<div class="StandardTextDArkGray">
 <table width="430" height="439" border="0">
-	<tr><td width="20" height="18" class="TableRowText02">To : </td><td>(all users)</td><tr>
-	<tr><td width="20" height="18" class="TableRowText02">From :</td><td>ceccr@email.unc.edu</td><tr>
-	<tr><td width="20" height="18" class="TableRowText02">Subject :</td><td><s:textfield name="emailSubject" value="" size="43" /></td><tr>
-	<tr ><td width="20" height="160" colspan="2" align="top" >&nbsp;<s:textarea name="emailMessage" value="" rows="10" cols="45" /></td><tr>
+	<tr><td width="20" height="18">To : </td><td>(all users)</td><tr>
+	<tr><td width="20" height="18">From :</td><td>ceccr@email.unc.edu</td><tr>
+	<tr><td width="20" height="18">Subject :</td><td><s:textfield name="emailSubject" value="" size="43" /></td><tr>
+	<tr ><td height="160" colspan="2">&nbsp;<s:textarea name="emailMessage" value="" rows="10" cols="45" /></td><tr>
 	<tr><td width="20" height="18"></td><td><input type="submit" onclick="return checkContent()" value="Send" /></td><tr>
 	<tr><td width="20" height="18"></td><td></td><tr>
 </table>
-</div>
 </form>
       
 
