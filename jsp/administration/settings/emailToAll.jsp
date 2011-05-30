@@ -33,8 +33,8 @@ else{return true;}
 
 	<tr><td>
 	<form action="emailAllUsers">
+	<b>Emails need to have HTML markup in them or they will look silly.</b><br />
 	<table width="480" height="480" border="0">
-		<tr><td width="35" height="18"></td><td><b>Note: Emails need to have HTML markup in them or they will look silly.</b><br /></td><tr>
 		<tr><td width="35" height="18">To: </td><td>(all users)</td><tr>
 		<tr><td width="35" height="18">From:</td><td>ceccr@email.unc.edu</td><tr>
 		<tr><td width="35" height="18">Subject:</td><td><s:textfield name="emailSubject" value="" size="43" theme="simple" /></td><tr>
