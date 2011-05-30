@@ -12,10 +12,6 @@
 <link href="theme/miscellaneous.css" rel="stylesheet" type="text/css"/>
 <link href="theme/ss.css" rel="stylesheet" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="theme/yahoo_ui/menu.css" rel="stylesheet" type="text/css"></link>
-<link href="theme/yahoo_ui/text.css" rel="stylesheet" type="text/css"></link>
-<link href="theme/yahoo_ui/container/container.css" rel="stylesheet"	type="text/css"></link>
-<link href="theme/standard.css" rel="stylesheet"	type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
 <link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
