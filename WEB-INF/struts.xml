@@ -341,6 +341,34 @@
         </action>
         <!-- End View Prediction Page -->
         
+        <!-- Servlet forwards -->
+        <!-- these will forward to a path defined in web.xml -->
+        <action name="imageServlet">
+            <result>imageServlet</result>
+        </action>
+        
+        <action name="fileServlet">
+            <result>fileServlet</result>
+        </action>
+        
+        <action name="descriptorMatrixServlet">
+            <result>descriptorMatrixServlet</result>
+        </action>
+       
+        <action name="compound3D">
+            <result>compound3D</result>
+        </action>
+        
+        <action name="datasetFilesServlet">
+            <result>datasetFilesServlet</result>
+        </action>
+        
+        <action name="projectFilesServlet">
+            <result>projectFilesServlet</result>
+        </action>
+        
+        <!-- End Servlet forwards -->
+        
         <!-- Delete Actions -->
         <action name="deleteDataset" class="edu.unc.ceccr.action.DeleteAction" method="deleteDataset">
         	<result name="success" type="redirect">jobs</result>
