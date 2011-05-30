@@ -19,6 +19,7 @@ import org.apache.struts.upload.FormFile;
 import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
@@ -108,14 +109,25 @@ public class AdminAction extends ActionSupport{
 
 		Session s = HibernateUtil.getSession();
 		User toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
-		s.close();
 		
-		if(toChange.getCanDownloadDescriptors().equals(Constants.YES)){
-			toChange.setCanDownloadDescriptors(Constants.NO);
+		if(toChange.getIsAdmin().equals(Constants.YES)){
+			toChange.setIsAdmin(Constants.NO);
 		}
 		else{
-			toChange.setCanDownloadDescriptors(Constants.YES);
+			toChange.setIsAdmin(Constants.YES);
 		}
+		
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.saveOrUpdate(user);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {s.close();}
+		
 		
 		return result;
 	}
@@ -153,6 +165,17 @@ public class AdminAction extends ActionSupport{
 		else{
 			toChange.setCanDownloadDescriptors(Constants.YES);
 		}
+
+		Transaction tx = null;
+		try {
+			tx = s.beginTransaction();
+			s.saveOrUpdate(user);
+			tx.commit();
+		} catch (RuntimeException e) {
+			if (tx != null)
+				tx.rollback();
+			Utility.writeToDebug(e);
+		} finally {s.close();}
 		
 		return result;
 	}
