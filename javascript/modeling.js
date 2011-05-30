@@ -152,7 +152,7 @@ function submitForm(button){
 	// Form validation //
 	var msg = "";
 	
-	
+	//checks go here (if any)
 	
 	if(msg === ""){
 		button.disabled=true;

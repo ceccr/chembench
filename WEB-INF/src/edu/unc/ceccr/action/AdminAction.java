@@ -93,6 +93,11 @@ public class AdminAction extends ActionSupport{
 		return result;
 	}
 	
+	public String loadEmailAllUsersPage() throws Exception {
+		sendTo = "JUSTME";
+		return SUCCESS;
+	}
+	
 	public String emailAllUsers() throws Exception {
 		//check that the user is logged in
 		Utility.writeToDebug("emailing user(s)");
