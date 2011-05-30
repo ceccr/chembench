@@ -40,6 +40,7 @@
 	<a href="/documentation/Database Design.docx">Database Design</a><br />
 	<a href="/documentation/ceccr design notes.txt">Notes</a><br />
 	<a href="/documentation/Install Guide.txt">Install Guide</a><br />
+	<br /><br />
 </div> 
 <table>
 	<tr>
@@ -62,7 +63,7 @@
 		<td class="TableRowText02"><s:property value="country" /></td>
 		<td class="TableRowText02"><a href="mailto:<s:property value="email" />"><s:property value="email" /></a></td>
 		<td class="TableRowText02"><input type="checkbox" onclick="loadUrl('/changeUserDescriptorDownloadStatus?userToChange=<s:property value="userName" />')" <s:if test="canDownloadDescriptors=='YES'">checked</s:if> /></td>
-		<td class="TableRowText02"><input type="checkbox" onclick="loadUrl('/changeUserAdminStatus?userToChange=<s:property value="userName" />')" <s:if test="isAdmin=='YES'">checked</s:if> /></td>
+		<td class="TableRowText02"><input type="checkbox" onclick="loadUrl('/changeUserAdminStatus?userToChange=<s:property value="userName" />')" <s:if test="isAdmin=='YES'">checked</s:if>  <s:if test="username==user.userName">disabled="true"</s:if> /></td>
 		<td class="TableRowText02"><a onclick="return confirmDelete('user')" href="/deleteUser?userToDelete=<s:property value="userName" />">delete</a></td>
 		</tr>
 	</s:iterator>
