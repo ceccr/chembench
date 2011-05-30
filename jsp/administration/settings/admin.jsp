@@ -19,6 +19,7 @@
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
 
 <script src="javascript/script.js"></script>
+<script src="javascript/admin.js"></script>
 
 </head>
 <body onload="setTabToHome();">
