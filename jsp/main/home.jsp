@@ -131,7 +131,6 @@
 			<!-- Other menus inside login box -->
 	             <br />New Users<br />
 	               <span class="ccbHomeStandard">Please <a href="loadRegistrationPage">register here</a><br/>
-	             <!-- or, <a href="anonPredict.do">make simple predictions</a> (no login required) --> 
 	               </span></p>
 	              <p>Help & Links<br />
 	               <span class="ccbHomeStandard">

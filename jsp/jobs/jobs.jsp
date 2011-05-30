@@ -319,12 +319,12 @@
 					<td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
 					<s:if test="userName=='all-users'">
 					<td>Public</td>
-					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="name" />&user=all-users">download</a></td>
+					<td><a href="datasetFilesServlet?datasetName=<s:property value="name" />&user=all-users">download</a></td>
 					<td><!-- dataset is public, so no delete option --></td>
 					</s:if>
 					<s:else>
 					<td>Private</td>
-					<td><a href="datasetFilesServlet.do?datasetName=<s:property value="name" />&user=<s:property value="user.userName" />">download</a></td>
+					<td><a href="datasetFilesServlet?datasetName=<s:property value="name" />&user=<s:property value="user.userName" />">download</a></td>
 					<td><a onclick="return confirmDelete('dataset')" href="deleteDataset?id=<s:property value="id" />#datasets">delete</a></td>
 					</s:else>
 					
