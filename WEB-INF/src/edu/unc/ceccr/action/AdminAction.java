@@ -157,7 +157,6 @@ public class AdminAction extends ActionSupport{
 
 		Session s = HibernateUtil.getSession();
 		User toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
-		s.close();
 		
 		if(toChange.getCanDownloadDescriptors().equals(Constants.YES)){
 			toChange.setCanDownloadDescriptors(Constants.NO);
