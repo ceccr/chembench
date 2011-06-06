@@ -643,14 +643,6 @@ public class WriteDescriptorsFileWorkflow{
 		}
 		xFileOut.close();
 	}
-	
-	public static void writeSVMModelingFile(ArrayList<Descriptors> descriptorMatrix){
-		//need activity values too
-		
-	}
-	public static void writeSVMPredictionFile(ArrayList<Descriptors> descriptorMatrix){
-		//need compound names..?
-		
-	}
+
 
 }

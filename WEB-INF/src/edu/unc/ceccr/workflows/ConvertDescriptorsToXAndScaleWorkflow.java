@@ -114,7 +114,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 					workingDir + predictorXFile, 
 					scalingType);
 			
-			FileAndDirOperations.deleteFile(workingDir + descriptorsFile + "_" + filePartNumber);
+			//FileAndDirOperations.deleteFile(workingDir + descriptorsFile + "_" + filePartNumber);
 			
 			filePartNumber++;
 			descriptorsFilePart = new File(workingDir + descriptorsFile + "_" + filePartNumber);
@@ -420,7 +420,7 @@ public class ConvertDescriptorsToXAndScaleWorkflow{
 				compoundIndex++;
 			}	
 			br.close();
-			FileAndDirOperations.deleteFile(workingDir + outputXFile + "_" + filePartNumber);
+			//FileAndDirOperations.deleteFile(workingDir + outputXFile + "_" + filePartNumber);
 			filePartNumber++;
 			xFilePart = new File(workingDir + outputXFile + "_" + filePartNumber);
 		}
