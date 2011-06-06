@@ -56,6 +56,18 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 <url-pattern>/imageServlet.do</url-pattern>
 </servlet-mapping>
 
+
+<servlet>
+<servlet-name>ExternalValidationChart</servlet-name>
+<servlet-class>edu.unc.ceccr.servlet.ExternalValidationChartServlet</servlet-class>
+</servlet>
+
+<servlet-mapping>
+<servlet-name>ExternalValidationChart</servlet-name>
+<url-pattern>/externalValidationChart.do</url-pattern>
+</servlet-mapping>
+
+
 <servlet>
 <servlet-name>DescriptorMatrixServlet</servlet-name>
 <servlet-class>edu.unc.ceccr.servlet.DescriptorMatrixServlet</servlet-class>
@@ -74,16 +86,6 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 <servlet-mapping>
 <servlet-name>ProjectFilesServlet</servlet-name>
 <url-pattern>/projectFilesServlet.do</url-pattern>
-</servlet-mapping>
-
-<servlet>
-<servlet-name>Chart</servlet-name>
-<servlet-class>edu.unc.ceccr.servlet.ChartServlet</servlet-class>
-</servlet>
-
-<servlet-mapping>
-<servlet-name>Chart</servlet-name>
-<url-pattern>/chart/*</url-pattern>
 </servlet-mapping>
 
 <servlet>
