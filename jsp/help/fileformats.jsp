@@ -42,7 +42,7 @@ compound7 2
 
 <p>The chemical identifiers in an activity file may be anything: SMILES strings, chemical names, and index numbers are commonly used. The
 only constraint is that the chemical identifiers in your activity file <i>must match</i> the identifiers in SDF and X files uploaded in
-the same dataset.</p>
+the same dataset and be in the same order.</p>
 
 <br />
 <p id="SDF"><b>.SDF files</b></p>
