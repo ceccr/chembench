@@ -44,7 +44,7 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
 @SuppressWarnings("serial")
-public class ChartServlet extends HttpServlet {
+public class ExternalValidationChartServlet extends HttpServlet {
 	//makes and displays external validation charts for nfold or regular predictors
 
 	protected void processRequest(HttpServletRequest request, 
