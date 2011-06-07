@@ -31,13 +31,7 @@
 			<img src="externalValidationChart?user=<s:property value='user.userName' />&project=<s:property value='selectedPredictor.name' />&currentFoldNumber=<s:property value='currentFoldNumber' />" />
 			<br />
 			<b>2: </b><br />
-			<img src="%{externalChartLink}" />
-			<br />
-			<b>3: </b><br />
-			<img src="/imageServlet?projectType=modeling&user=test&project=rf5f&compoundId=10&datasetName=ARB-5fold" border="0" height="150" onmouseover='enlargeImage(this);' onmouseout='shrinkImage(this)'/>
-			<br />
-			<b>4: </b><br />
-			<img src="/imageServlet2?projectType=modeling&user=test&project=rf5f&compoundId=10&datasetName=ARB-5fold" border="0" height="150" onmouseover='enlargeImage(this);' onmouseout='shrinkImage(this)'/>
+			<img src="imageServlet?project=<s:property value='selectedPredictor.name' />&projectType=modeling&user=<s:property value='user.userName' />&compoundId=externalValidationChart&currentFoldNumber=<s:property value='currentFoldNumber' /> WIDTH="650" HEIGHT="650" BORDER="0"  ISMAP="ISMAP" USEMAP="#mychart" />
 			<br />
 			</p>
 			<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber==0">
