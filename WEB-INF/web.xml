@@ -56,6 +56,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 <url-pattern>/imageServlet.do</url-pattern>
 </servlet-mapping>
 
+
 <servlet>
 <servlet-name>ImageServlet2</servlet-name>
 <servlet-class>edu.unc.ceccr.servlet.ImageServlet2</servlet-class>
