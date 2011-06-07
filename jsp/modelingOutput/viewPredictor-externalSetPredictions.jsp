@@ -17,22 +17,8 @@
 	<s:if test="externalValValues.size!=0&&hasGoodModels=='YES'">
 		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 			<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
-			<s:url id="externalChartLink" value="/externalValidationChart" includeParams="none" escapeAmp="false">
-				<s:param name="user" value="user.userName" />
-				<s:param name="project" value="selectedPredictor.name" />
-				<s:param name="currentFoldNumber" value="currentFoldNumber" />
-			</s:url>
 			<br />
-			
-			<sx:div id="extValidationChart" href="%{externalChartLink}" theme="ajax">
-			</sx:div>
-			<br />
-			<b>1: </b><br />
-			<img src="externalValidationChart?user=<s:property value='user.userName' />&project=<s:property value='selectedPredictor.name' />&currentFoldNumber=<s:property value='currentFoldNumber' />" />
-			<br />
-			<b>2: </b><br />
 			<img src="imageServlet?project=<s:property value='selectedPredictor.name' />&projectType=modeling&user=<s:property value='user.userName' />&compoundId=externalValidationChart&currentFoldNumber=<s:property value='currentFoldNumber' />" WIDTH="650" HEIGHT="650" BORDER="0"  ISMAP="ISMAP" USEMAP="#mychart" />
-			<br />
 			</p>
 			<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber==0">
 				<p class="StandardTextDarkGray">
