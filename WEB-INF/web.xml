@@ -139,7 +139,7 @@ PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
 <param-value>nl.captcha.obscurity.imp.DefaultCaptchaIml</param-value>
 </init-param>
 
-<!-- the text producer. defaults to a random character thing. But there is a first name generator aswell-->
+<!-- the text producer. defaults to a random character thing. But there is a first name generator as well-->
 <init-param>
 <param-name>cap.text.producer</param-name>
 <param-value>Default</param-value>
