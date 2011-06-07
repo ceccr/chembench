@@ -17,6 +17,7 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.CreateExtValidationChartWorkflow;
 
 @SuppressWarnings("serial")
 public class ImageServlet extends HttpServlet {
@@ -44,21 +45,28 @@ public class ImageServlet extends HttpServlet {
     		imageFileName=userName+"/DATASETS/"+project+"/Visualization/activityChart.png";
       	}
         else if(compoundId.startsWith("externalValidationChart")){
-    		//ext validation chart for modeling
-        	if(! currentFoldNumber.equals("0")){
-        		try{
-	        		Session s = HibernateUtil.getSession();
-	        		Predictor predictor = PopulateDataObjects.getPredictorByName(project, userName, s);
+    		//displays ext validation chart for modeling
+
+    		try{
+	    		Session s = HibernateUtil.getSession();
+	    		Predictor predictor = PopulateDataObjects.getPredictorByName(project, userName, s);
+	    		
+	        	if(! currentFoldNumber.equals("0")){
 	        		int numChildren = predictor.getChildIds().split("\\s+").length;
 	    			String childPredName = project + "_fold_" + currentFoldNumber + "_of_" + numChildren;
-	    			
 	        		project += "/" + childPredName;
         		}
-        		catch(Exception ex){
-        			Utility.writeToDebug(ex);
-        		}
-        	}
-    		imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
+	        	imageFileName=userName+"/PREDICTORS/"+project+"/mychart.jpeg";
+	        	
+	    		if(! new File(Constants.CECCR_USER_BASE_PATH + imageFileName).exists()){
+	    			//if there's no ext validation chart, make one
+	    			CreateExtValidationChartWorkflow.createChart(predictor, currentFoldNumber);
+	    		}
+	    		
+	        }
+    		catch(Exception ex){
+    			Utility.writeToDebug(ex);
+    		}
         }
     	else if(projectType.equals("dataset")){
     		imageFileName=userName+"/DATASETS/"+datasetName+"/Visualization/Sketches/"+compoundId+".jpg";
