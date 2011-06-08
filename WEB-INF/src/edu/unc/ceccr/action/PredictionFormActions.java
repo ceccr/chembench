@@ -31,7 +31,7 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
-import edu.unc.ceccr.workflows.modelingAndPrediction.SmilesPredictionWorkflow;
+import edu.unc.ceccr.workflows.modelingPrediction.SmilesPredictionWorkflow;
 
 
 public class PredictionFormActions extends ActionSupport{

@@ -35,10 +35,10 @@ import edu.unc.ceccr.workflows.descriptors.ConvertDescriptorsToXAndScale;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
-import edu.unc.ceccr.workflows.modelingAndPrediction.KnnPlus;
-import edu.unc.ceccr.workflows.modelingAndPrediction.KnnPrediction;
-import edu.unc.ceccr.workflows.modelingAndPrediction.RandomForest;
-import edu.unc.ceccr.workflows.modelingAndPrediction.Svm;
+import edu.unc.ceccr.workflows.modelingPrediction.KnnPlus;
+import edu.unc.ceccr.workflows.modelingPrediction.KnnPrediction;
+import edu.unc.ceccr.workflows.modelingPrediction.RandomForest;
+import edu.unc.ceccr.workflows.modelingPrediction.Svm;
 import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
 

@@ -20,7 +20,7 @@ import edu.unc.ceccr.workflows.datasets.StandardizeMoleculesWorkflow;
 import edu.unc.ceccr.workflows.descriptors.CheckDescriptors;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
-import edu.unc.ceccr.workflows.modelingAndPrediction.DataSplitWorkflow;
+import edu.unc.ceccr.workflows.modelingPrediction.DataSplitWorkflow;
 import edu.unc.ceccr.workflows.visualization.HeatmapAndPCA;
 import edu.unc.ceccr.workflows.visualization.SdfToJpg;
 

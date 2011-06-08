@@ -46,12 +46,12 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
-import edu.unc.ceccr.workflows.modelingAndPrediction.DataSplitWorkflow;
-import edu.unc.ceccr.workflows.modelingAndPrediction.KnnModelBuildingWorkflow;
-import edu.unc.ceccr.workflows.modelingAndPrediction.KnnModelingLsfWorkflow;
-import edu.unc.ceccr.workflows.modelingAndPrediction.KnnPlus;
-import edu.unc.ceccr.workflows.modelingAndPrediction.RandomForest;
-import edu.unc.ceccr.workflows.modelingAndPrediction.Svm;
+import edu.unc.ceccr.workflows.modelingPrediction.DataSplitWorkflow;
+import edu.unc.ceccr.workflows.modelingPrediction.KnnModelBuildingWorkflow;
+import edu.unc.ceccr.workflows.modelingPrediction.KnnModelingLsfWorkflow;
+import edu.unc.ceccr.workflows.modelingPrediction.KnnPlus;
+import edu.unc.ceccr.workflows.modelingPrediction.RandomForest;
+import edu.unc.ceccr.workflows.modelingPrediction.Svm;
 import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
 
