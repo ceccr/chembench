@@ -17,7 +17,7 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
-public class StandardizeMoleculesWorkflow {
+public class StandardizeMolecules {
 	
 	public static void standardizeSdf(String sdfIn, String sdfOut, String workingDir) throws Exception{
 		//Standardizes the molecules in this sdfile. Necessary to do this before running DRAGON

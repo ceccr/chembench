@@ -9,8 +9,8 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
-import edu.unc.ceccr.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.global.Constants;
 
 import java.util.ArrayList;

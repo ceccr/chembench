@@ -23,8 +23,6 @@ import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import edu.unc.ceccr.calculations.ConfusionMatrix;
-import edu.unc.ceccr.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
@@ -43,6 +41,8 @@ import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.calculations.ConfusionMatrix;
+import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;

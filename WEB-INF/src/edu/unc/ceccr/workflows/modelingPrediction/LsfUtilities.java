@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-public class KnnModelingLsfWorkflow{
+public class LsfUtilities{
 	
 	public static void retrieveCompletedPredictor(String filePath, String lsfPath) throws Exception{
 		//open the directory in /largefs/ceccr/ where the job was run

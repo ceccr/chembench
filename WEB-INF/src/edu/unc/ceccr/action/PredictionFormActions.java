@@ -31,7 +31,7 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
-import edu.unc.ceccr.workflows.modelingPrediction.SmilesPredictionWorkflow;
+import edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction;
 
 
 public class PredictionFormActions extends ActionSupport{
@@ -117,10 +117,10 @@ public class PredictionFormActions extends ActionSupport{
 			FileAndDirOperations.deleteDirContents(smilesDir);
 			
 			//generate an SDF from this SMILES string
-			SmilesPredictionWorkflow.smilesToSDF(smiles, smilesDir);
+			RunSmilesPrediction.smilesToSDF(smiles, smilesDir);
 			
 			//create descriptors for the SDF, normalize them, and make a prediction
-			String[] predValues = SmilesPredictionWorkflow.PredictSmilesSDF(smilesDir, user.getUserName(), predictor, Float.parseFloat(cutoff));
+			String[] predValues = RunSmilesPrediction.PredictSmilesSDF(smilesDir, user.getUserName(), predictor, Float.parseFloat(cutoff));
 
 			//read predValues and build the prediction output object
 			SmilesPrediction sp = new SmilesPrediction();

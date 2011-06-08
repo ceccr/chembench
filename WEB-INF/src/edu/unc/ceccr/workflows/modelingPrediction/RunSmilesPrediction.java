@@ -16,13 +16,13 @@ import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.datasets.StandardizeMoleculesWorkflow;
+import edu.unc.ceccr.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
 
-public class SmilesPredictionWorkflow{
+public class RunSmilesPrediction{
 	public static String[] PredictSmilesSDF(String workingDir, String username, Predictor predictor, Float cutoff) throws Exception{
 
 		String sdfile = workingDir + "smiles.sdf";
@@ -236,7 +236,7 @@ public class SmilesPredictionWorkflow{
 			RunExternalProgram.runCommandAndLogOutput(execstr, smilesDir, "molconvert");
 			
     	//standardize the SDF	
-			StandardizeMoleculesWorkflow.standardizeSdf(sdfFileName, sdfFileName + ".standardize", smilesDir);
+			StandardizeMolecules.standardizeSdf(sdfFileName, sdfFileName + ".standardize", smilesDir);
 			File standardized = new File(smilesDir + sdfFileName + ".standardize");
 			if(standardized.exists()){
 				//replace old SDF with new standardized SDF

@@ -17,7 +17,7 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
-public class DataSplitWorkflow{
+public class DataSplit{
 	
 	public static void SplitModelingExternal(
 			String workingdir,

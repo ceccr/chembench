@@ -200,7 +200,7 @@ public class Svm{
 		RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
 
 		String logFilePath = workingDir + "Logs/svm.py.log";
-		return KnnModelingLsfWorkflow.getLsfJobId(logFilePath);
+		return LsfUtilities.getLsfJobId(logFilePath);
 	}
 	
 	public static ArrayList<SvmModel> readSvmModels(String workingDir, String cutoff) throws Exception{

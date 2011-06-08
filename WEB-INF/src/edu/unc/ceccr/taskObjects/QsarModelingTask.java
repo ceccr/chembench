@@ -24,7 +24,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.unc.ceccr.action.ModelingFormActions;
-import edu.unc.ceccr.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.Descriptors;
@@ -44,11 +43,12 @@ import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
-import edu.unc.ceccr.workflows.modelingPrediction.DataSplitWorkflow;
-import edu.unc.ceccr.workflows.modelingPrediction.KnnModelBuildingWorkflow;
-import edu.unc.ceccr.workflows.modelingPrediction.KnnModelingLsfWorkflow;
+import edu.unc.ceccr.workflows.modelingPrediction.DataSplit;
+import edu.unc.ceccr.workflows.modelingPrediction.ModelingUtilities;
+import edu.unc.ceccr.workflows.modelingPrediction.LsfUtilities;
 import edu.unc.ceccr.workflows.modelingPrediction.KnnPlus;
 import edu.unc.ceccr.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.workflows.modelingPrediction.Svm;
@@ -570,14 +570,14 @@ public class QsarModelingTask extends WorkflowTask {
 		ArrayList<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
 		numExternalCompounds = extCompoundArray.size();
 		String externalCompoundIdString = Utility.StringArrayListToString(extCompoundArray);
-		DataSplitWorkflow.splitModelingExternalGivenList(filePath, actFileName, xFileName, externalCompoundIdString);
+		DataSplit.splitModelingExternalGivenList(filePath, actFileName, xFileName, externalCompoundIdString);
 		
 		//make internal training / test sets for each model
 		if(trainTestSplitType.equals(Constants.RANDOM)){
-			DataSplitWorkflow.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize, randomSplitMaxTestSize, randomSplitSampleWithReplacement);
+			DataSplit.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize, randomSplitMaxTestSize, randomSplitSampleWithReplacement);
 		}
 		else if(trainTestSplitType.equals(Constants.SPHEREEXCLUSION)){
-			DataSplitWorkflow.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax, sphereSplitMinTestSize, selectionNextTrainPt);
+			DataSplit.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax, sphereSplitMinTestSize, selectionNextTrainPt);
 		}
 		
 		if(jobList.equals(Constants.LSF)){
@@ -587,22 +587,22 @@ public class QsarModelingTask extends WorkflowTask {
 			step = Constants.YRANDOMSETUP;
 			
 			if(modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)){
-				KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
-				KnnModelBuildingWorkflow.YRandomization(userName, jobName);
+				ModelingUtilities.SetUpYRandomization(userName, jobName);
+				ModelingUtilities.YRandomization(userName, jobName);
 			}
 			else if(modelType.equals(Constants.RANDOMFOREST)){
 				RandomForest.makeRandomForestXFiles(scalingType, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
 				RandomForest.SetUpYRandomization(userName, jobName);
 			}
 			else if(modelType.equals(Constants.SVM)){
-				KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
-				KnnModelBuildingWorkflow.YRandomization(userName, jobName);
+				ModelingUtilities.SetUpYRandomization(userName, jobName);
+				ModelingUtilities.YRandomization(userName, jobName);
 				Svm.writeSvmModelingParamsFile(svmParameters, actFileDataType, filePath+"svm-params.txt", lsfPath);
 				Svm.svmPreProcess(svmParameters, actFileDataType, filePath);
 				Svm.svmPreProcess(svmParameters, actFileDataType, filePath + "yRandom/");
 			}
 			//copy needed files out to LSF
-			KnnModelingLsfWorkflow.makeLsfModelingDirectory(filePath, lsfPath);
+			LsfUtilities.makeLsfModelingDirectory(filePath, lsfPath);
 		}
 	}
 
@@ -634,8 +634,8 @@ public class QsarModelingTask extends WorkflowTask {
 		//Run modeling process
 		if(modelType.equals(Constants.SVM)){
 			step = Constants.YRANDOMSETUP;
-			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
-			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
+			ModelingUtilities.SetUpYRandomization(userName, jobName);
+			ModelingUtilities.YRandomization(userName, jobName);
 			
 			Svm.svmPreProcess(svmParameters, actFileDataType, filePath);
 			Svm.svmPreProcess(svmParameters, actFileDataType, filePath + "yRandom/");
@@ -652,8 +652,8 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if(modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)){
 			step = Constants.YRANDOMSETUP;
-			KnnModelBuildingWorkflow.SetUpYRandomization(userName, jobName);
-			KnnModelBuildingWorkflow.YRandomization(userName, jobName);
+			ModelingUtilities.SetUpYRandomization(userName, jobName);
+			ModelingUtilities.YRandomization(userName, jobName);
 		
 			KnnPlus.buildKnnPlusModels(knnPlusParameters, actFileDataType, modelType, path);
 			
@@ -687,7 +687,7 @@ public class QsarModelingTask extends WorkflowTask {
 		if(jobList.equals(Constants.LSF)){
 			
 			String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
-			KnnModelingLsfWorkflow.retrieveCompletedPredictor(filePath, lsfPath);
+			LsfUtilities.retrieveCompletedPredictor(filePath, lsfPath);
 
 			if(numExternalCompounds > 0){
 				step = Constants.PREDEXT;
@@ -938,10 +938,10 @@ public class QsarModelingTask extends WorkflowTask {
 				Utility.writeToDebug(ex, userName, jobName);
 			}
 			
-			KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName, parentPredictorName);
+			ModelingUtilities.MoveToPredictorsDir(userName, jobName, parentPredictorName);
 		}
 		else{
-			KnnModelBuildingWorkflow.MoveToPredictorsDir(userName, jobName, "");
+			ModelingUtilities.MoveToPredictorsDir(userName, jobName, "");
 		}
 		session.close();
 	}

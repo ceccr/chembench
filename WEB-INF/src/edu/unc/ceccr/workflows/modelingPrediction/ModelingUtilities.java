@@ -20,7 +20,7 @@ import java.util.Scanner;
 
 import org.apache.commons.validator.GenericValidator;
 
-public class KnnModelBuildingWorkflow{
+public class ModelingUtilities{
 	
 	public static void SetUpYRandomization(String userName, String jobName) throws Exception{
 		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";

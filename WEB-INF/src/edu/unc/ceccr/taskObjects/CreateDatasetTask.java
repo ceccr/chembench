@@ -16,11 +16,11 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.datasets.StandardizeMoleculesWorkflow;
+import edu.unc.ceccr.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.workflows.descriptors.CheckDescriptors;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
-import edu.unc.ceccr.workflows.modelingPrediction.DataSplitWorkflow;
+import edu.unc.ceccr.workflows.modelingPrediction.DataSplit;
 import edu.unc.ceccr.workflows.visualization.HeatmapAndPCA;
 import edu.unc.ceccr.workflows.visualization.SdfToJpg;
 
@@ -225,7 +225,7 @@ public class CreateDatasetTask extends WorkflowTask{
 			//standardize the SDF	
 			step = Constants.STANDARDIZING;
 			Utility.writeToDebug("Standardizing SDF: " + sdfFileName, userName, jobName);
-			StandardizeMoleculesWorkflow.standardizeSdf(sdfFileName, sdfFileName + ".standardize", path);
+			StandardizeMolecules.standardizeSdf(sdfFileName, sdfFileName + ".standardize", path);
 			File standardized = new File(path + sdfFileName + ".standardize");
 			if(standardized.exists()){
 				//replace old SDF with new standardized SDF
@@ -341,14 +341,14 @@ public class CreateDatasetTask extends WorkflowTask{
 					String tempXFileName = actFileName.substring(0, actFileName.lastIndexOf('.')) + ".x";
 					
 					//now run datasplit on the resulting .x file to get a list of compounds
-					DataSplitWorkflow.SplitModelingExternal(path, actFileName, tempXFileName, numExternalCompounds, useActivityBinning);
+					DataSplit.SplitModelingExternal(path, actFileName, tempXFileName, numExternalCompounds, useActivityBinning);
 					
 					//delete the temporary .x file
 					FileAndDirOperations.deleteFile(path + tempXFileName);
 				}
 				else if(datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
 					//already got a .x file, so just split that
-					DataSplitWorkflow.SplitModelingExternal(path, actFileName, xFileName, numExternalCompounds, useActivityBinning);
+					DataSplit.SplitModelingExternal(path, actFileName, xFileName, numExternalCompounds, useActivityBinning);
 				}
 				
 			}
@@ -366,20 +366,20 @@ public class CreateDatasetTask extends WorkflowTask{
 					String tempXFileName = actFileName.substring(0, actFileName.lastIndexOf('.')) + ".x";
 					
 					//now split the resulting .x file 
-					DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, tempXFileName, externalCompoundList);	
+					DataSplit.splitModelingExternalGivenList(path, actFileName, tempXFileName, externalCompoundList);	
 					
 					//delete the temporary .x file
 					FileAndDirOperations.deleteFile(path + tempXFileName);
 				}
 				else if(datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
 					//already got a .x file, so just split that
-					DataSplitWorkflow.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundList);
+					DataSplit.splitModelingExternalGivenList(path, actFileName, xFileName, externalCompoundList);
 				}
 			}
 			else if(splitType.equals(Constants.NFOLD)){
 				if(datasetType.equals(Constants.MODELING) || datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)){
 					//generate the lists of compounds for each split
-					DataSplitWorkflow.SplitModelingExternalNFold(path, actFileName, numExternalFolds, useActivityBinning);
+					DataSplit.SplitModelingExternalNFold(path, actFileName, numExternalFolds, useActivityBinning);
 				}
 			}
 		}

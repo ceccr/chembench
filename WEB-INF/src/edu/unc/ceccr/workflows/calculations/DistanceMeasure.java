@@ -1,4 +1,4 @@
-package edu.unc.ceccr.calculations;
+package edu.unc.ceccr.workflows.calculations;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;

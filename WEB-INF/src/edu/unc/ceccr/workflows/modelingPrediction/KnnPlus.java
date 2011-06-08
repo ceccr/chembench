@@ -200,7 +200,7 @@ public class KnnPlus{
 		RunExternalProgram.runCommandAndLogOutput(command, workingDir, "bsubKnnPlus");
 			
 		String logFilePath = workingDir + "Logs/bsubKnnPlus.log";
-		return KnnModelingLsfWorkflow.getLsfJobId(logFilePath);
+		return LsfUtilities.getLsfJobId(logFilePath);
 		
 	}
 	
