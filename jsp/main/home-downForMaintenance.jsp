@@ -1,17 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<%@ taglib uri="/tags/struts-bean" prefix="bean"%>
-<%@ taglib uri="/tags/struts-logic" prefix="logic"%>
-<%@ taglib uri="/tags/struts-html" prefix="html"%>
-<%@ taglib uri="/tags/struts-nested" prefix="nested"%>
-<%@ page import="edu.unc.ceccr.global.Constants" %>
-<%@ page import="edu.unc.ceccr.utilities.ActiveUser" %>
-<% ActiveUser au= new ActiveUser();%>
-<%@ page import="edu.unc.ceccr.utilities.Utility" %>
-<%@ page import="edu.unc.ceccr.persistence.User"%>
-<% Utility u=new Utility();%>
-
-<html:html>
+<html>
 <head>
 <title>CHEMBENCH | Home </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -38,4 +25,4 @@
 	<tr>
 	<%@include file ="/jsp/main/footer.jsp" %>
 </body>
-</html:html>
+</html>
