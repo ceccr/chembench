@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.ZipJobResultsWorkflow;
+import edu.unc.ceccr.workflows.download.WriteZip;
 @SuppressWarnings("serial")
 public class ProjectFilesServlet extends HttpServlet {
 	//provides zipfiles containing predictors and predictions
@@ -39,10 +39,10 @@ public class ProjectFilesServlet extends HttpServlet {
        
 		try {
 			if(projectType.equalsIgnoreCase("PREDICTORS")){
-				ZipJobResultsWorkflow.ZipModelingResults(userName, projectUserName, projectName, zipFile);
+				WriteZip.ZipModelingResults(userName, projectUserName, projectName, zipFile);
 			}
 			else{
-				ZipJobResultsWorkflow.ZipPredictionResults(userName, projectUserName, projectName, zipFile);
+				WriteZip.ZipPredictionResults(userName, projectUserName, projectName, zipFile);
 			}	
 		} catch (Exception e){
 			Utility.writeToDebug(e);

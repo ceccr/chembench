@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.descriptors;
 
 import java.io.*;
 
@@ -9,7 +9,7 @@ import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class GenerateDescriptorWorkflow{
+public class GenerateDescriptors{
 	
 	public static void GenerateMolconnZDescriptors(String sdfile, String outfile) throws Exception{
 		//Given an SD file, run MolconnZ to get the chemical descriptors for each compound.

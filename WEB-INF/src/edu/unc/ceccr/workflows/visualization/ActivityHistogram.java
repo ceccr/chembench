@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.visualization;
 
 import java.io.File;
 import java.util.HashMap;
@@ -31,7 +31,7 @@ import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 
 
-public class CreateActivityChartWorkflow {
+public class ActivityHistogram {
 	
 	public final static double MAXIMUM=-1000.0;
 	public final static double MINIMUM=1000.0;

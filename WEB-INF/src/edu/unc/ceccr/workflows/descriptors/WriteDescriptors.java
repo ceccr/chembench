@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.descriptors;
 
 import java.io.*;
 
@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
-public class WriteDescriptorsFileWorkflow{
+public class WriteDescriptors{
 	//using a set of Descriptors objects, create output files for kNN or SVM
 	//containing the descriptors for a dataset.
 	//Performs operations on data matrices as well (e.g. range-scaling).

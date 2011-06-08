@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.ZipJobResultsWorkflow;
+import edu.unc.ceccr.workflows.download.WriteZip;
 
 @SuppressWarnings("serial")
 public class DatasetFilesServlet extends HttpServlet {
@@ -29,7 +29,7 @@ public class DatasetFilesServlet extends HttpServlet {
 		HttpSession session=request.getSession(false);
 		String userName = ((User) session.getAttribute("user")).getUserName();
 		try {
-			ZipJobResultsWorkflow.ZipDatasets(userName, datasetUserName, datasetName, zipFile); 
+			WriteZip.ZipDatasets(userName, datasetUserName, datasetName, zipFile); 
 			if(filePath.exists()){
 	        	FileInputStream fis=new FileInputStream(filePath);
 	            input=new BufferedInputStream(fis);

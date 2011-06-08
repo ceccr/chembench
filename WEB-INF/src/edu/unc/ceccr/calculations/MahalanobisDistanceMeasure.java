@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Vector;
 
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.XMLTreeBuilderWorkflow;
+import edu.unc.ceccr.workflows.visualization.XMLTreeBuilder;
 
 
 public class MahalanobisDistanceMeasure extends DistanceMeasure{
@@ -167,7 +167,7 @@ public void performMatrixCreation() throws IOException{
     }
     
     public void performXMLCreation() throws IOException{
-    	XMLTreeBuilderWorkflow xml_builder = new XMLTreeBuilderWorkflow();
+    	XMLTreeBuilder xml_builder = new XMLTreeBuilder();
      	xml_builder.setFilePath(file_path+"_mah");
      	xml_builder.formatData(new Vector<String>(Arrays.asList(names)), distance_matrix);
      	xml_builder.writeXMLFile();

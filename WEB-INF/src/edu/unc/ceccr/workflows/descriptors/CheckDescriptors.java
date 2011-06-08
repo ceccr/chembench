@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.descriptors;
 
 import java.io.*;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class CheckDescriptorsFileWorkflow{
+public class CheckDescriptors{
 	//Read in the output of a descriptor generation program (molconnZ, dragon, etc.)
 	//Look for any errors that would make the output unusable in modeling
 	//Return an HTML-formatted string with user-readable feedback

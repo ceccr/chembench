@@ -42,7 +42,7 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.CreateExtValidationChartWorkflow;
+import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
 
 
 public class DebugAction extends ActionSupport{
@@ -98,7 +98,7 @@ public class DebugAction extends ActionSupport{
 								ArrayList<Double> childResiduals = RSquaredAndCCR.calculateResiduals(childExtVals);
 								Double childRSquared = RSquaredAndCCR.calculateRSquared(childExtVals, childResiduals);
 								childAccuracies.addValue(childRSquared);
-								CreateExtValidationChartWorkflow.createChart(selectedPredictor, ""+(i+1));
+								ExternalValidationChart.createChart(selectedPredictor, ""+(i+1));
 							}
 							externalValValues.addAll(childExtVals);
 						}
@@ -114,7 +114,7 @@ public class DebugAction extends ActionSupport{
 						Utility.writeToDebug("rsquared avg and stddev: " + rSquaredAverageAndStddev);
 						selectedPredictor.setExternalPredictionAccuracyAvg(rSquaredAverageAndStddev);
 						//make main ext validation chart
-						CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
+						ExternalValidationChart.createChart(selectedPredictor, "0");
 					}
 					else if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 						ccrAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);

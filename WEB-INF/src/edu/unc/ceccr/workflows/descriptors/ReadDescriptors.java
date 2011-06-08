@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.descriptors;
 
 import java.io.*;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class ReadDescriptorsFileWorkflow{
+public class ReadDescriptors{
 	//Read in the output of a descriptor generation program (molconnZ, dragon, etc.)
 	//Create a Descriptors object for each compound. 
 	//puts results into descriptorNames and descriptorValueMatrix.

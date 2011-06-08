@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.visualization;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -8,7 +8,7 @@ import java.util.Vector;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.Utility;
 
-public class XMLTreeBuilderWorkflow {
+public class XMLTreeBuilder {
 	 private Vector<Vector<String>> data;
 	    private String xml;
 	    private String file_path;
@@ -16,10 +16,10 @@ public class XMLTreeBuilderWorkflow {
 	    private Vector<String> names = new Vector<String>();
 	    private Double[][] data_map;
 	    
-	    public XMLTreeBuilderWorkflow(){
+	    public XMLTreeBuilder(){
 	    }
 	    
-	    public XMLTreeBuilderWorkflow(String  dataFile){
+	    public XMLTreeBuilder(String  dataFile){
 	    	this.file_path = dataFile;
 	    }
 

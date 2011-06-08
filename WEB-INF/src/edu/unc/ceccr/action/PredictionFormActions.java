@@ -30,8 +30,8 @@ import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
-import edu.unc.ceccr.workflows.SmilesPredictionWorkflow;
+import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
+import edu.unc.ceccr.workflows.modelingAndPrediction.SmilesPredictionWorkflow;
 
 
 public class PredictionFormActions extends ActionSupport{
@@ -299,13 +299,13 @@ public class PredictionFormActions extends ActionSupport{
 				String predictionXFile = predictionDataset.getXFile();
 				String predictionDatasetDir = Constants.CECCR_USER_BASE_PATH + predictionDataset.getUserName() + 
 					"/DATASETS/" + predictionDataset.getName() + "/";
-				String[] predictionDescs = ReadDescriptorsFileWorkflow.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
+				String[] predictionDescs = ReadDescriptors.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
 
 				//get the uploaded descriptors for the predictor
 				DataSet predictorDataset = PopulateDataObjects.getDataSetById(sp.getDatasetId(), session);
 				String predictorDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + 
 					"/DATASETS/" + predictorDataset.getName() + "/";
-				String[] predictorDescs = ReadDescriptorsFileWorkflow.readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
+				String[] predictorDescs = ReadDescriptors.readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
 
 				descriptorsMatch = true;
 				//for each predictor desc, make sure there's a matching prediction desc. 

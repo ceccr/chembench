@@ -41,7 +41,7 @@ import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.WriteDownloadableFilesWorkflow;
+import edu.unc.ceccr.workflows.download.WriteCsv;
 
 public class ViewPredictionAction extends ActionSupport {
 	

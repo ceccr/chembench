@@ -11,7 +11,7 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.Generate3DMolWorkflow;
+import edu.unc.ceccr.workflows.visualization.Molecule3D;
 import edu.unc.ceccr.global.Constants;
 
 import javax.servlet.http.HttpServlet;
@@ -67,7 +67,7 @@ public class Compound3DServlet extends HttpServlet {
 				
 				File mol3DFile = new File(workingDir + mol3D);
 				if(! mol3DFile.exists()){
-					Generate3DMolWorkflow.Convert2Dto3D(userName, datasetName, sdf, mol3D, workingDir);
+					Molecule3D.Convert2Dto3D(userName, datasetName, sdf, mol3D, workingDir);
 				}
 				else{
 					Utility.writeToDebug("3D structure already calculated. Returning it.");

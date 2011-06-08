@@ -17,7 +17,7 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.CreateExtValidationChartWorkflow;
+import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
 
 @SuppressWarnings("serial")
 public class ImageServlet extends HttpServlet {
@@ -60,7 +60,7 @@ public class ImageServlet extends HttpServlet {
 	        	
 	    		if(! new File(Constants.CECCR_USER_BASE_PATH + imageFileName).exists()){
 	    			//if there's no ext validation chart, make one
-	    			CreateExtValidationChartWorkflow.createChart(predictor, currentFoldNumber);
+	    			ExternalValidationChart.createChart(predictor, currentFoldNumber);
 	    		}
 	    		
 	        }

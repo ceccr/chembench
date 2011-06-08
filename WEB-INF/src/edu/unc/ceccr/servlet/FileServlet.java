@@ -36,8 +36,8 @@ import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.WriteDownloadableFilesWorkflow;
-import edu.unc.ceccr.workflows.ZipJobResultsWorkflow;
+import edu.unc.ceccr.workflows.download.WriteCsv;
+import edu.unc.ceccr.workflows.download.WriteZip;
 
 @SuppressWarnings("serial")
 public class FileServlet extends HttpServlet {
@@ -69,7 +69,7 @@ public class FileServlet extends HttpServlet {
 	    		
 	    		//add file names here...
 	    		if(file.equalsIgnoreCase("externalPredictionsAsCSV")){
-	    			WriteDownloadableFilesWorkflow.writeExternalPredictionsAsCSV(Long.parseLong(id));
+	    			WriteCsv.writeExternalPredictionsAsCSV(Long.parseLong(id));
 	    			fileName = predictor.getName() + "-external-set-predictions.csv";
 	    		}
 	    	}
@@ -79,7 +79,7 @@ public class FileServlet extends HttpServlet {
 	    		dirName += prediction.getName() + "/";
 	    		
 	    		if(file.equalsIgnoreCase("predictionAsCSV")){
-	    			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(Long.parseLong(id));
+	    			WriteCsv.writePredictionValuesAsCSV(Long.parseLong(id));
 	    			fileName = prediction.getName() + "-prediction-values.csv";
 	    		}
 	    	}

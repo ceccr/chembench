@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.utilities;
 
 import java.io.*;
 import java.nio.channels.FileChannel;
@@ -17,7 +17,7 @@ import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.global.Constants;
 
-public class GetJobFilesWorkflow{
+public class CopyJobFiles{
 	
 	public static void getDatasetFiles(String userName, DataSet dataset, String jobType, String toDir) throws Exception{
 		//gathers the dataset files needed for a modeling or prediction run

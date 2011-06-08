@@ -7,7 +7,7 @@ import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.CreateExtValidationChartWorkflow;
+import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
 import edu.unc.ceccr.global.Constants;
 
 import java.text.DecimalFormat;

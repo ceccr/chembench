@@ -1,9 +1,9 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.visualization;
 
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
-public class Generate3DMolWorkflow {
+public class Molecule3D {
 
 	public static void Convert2Dto3D(String userName, String jobName, String fileName, String outFileName, String workingDir)throws Exception
 	{

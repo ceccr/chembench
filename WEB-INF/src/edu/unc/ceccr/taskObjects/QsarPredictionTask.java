@@ -31,16 +31,16 @@ import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.ConvertDescriptorsToXAndScaleWorkflow;
-import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
-import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
-import edu.unc.ceccr.workflows.GetJobFilesWorkflow;
-import edu.unc.ceccr.workflows.KnnPlusWorkflow;
-import edu.unc.ceccr.workflows.KnnPredictionWorkflow;
-import edu.unc.ceccr.workflows.RandomForestWorkflow;
-import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
-import edu.unc.ceccr.workflows.SvmWorkflow;
-import edu.unc.ceccr.workflows.WriteDescriptorsFileWorkflow;
+import edu.unc.ceccr.workflows.descriptors.ConvertDescriptorsToXAndScale;
+import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
+import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
+import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
+import edu.unc.ceccr.workflows.modelingAndPrediction.KnnPlus;
+import edu.unc.ceccr.workflows.modelingAndPrediction.KnnPrediction;
+import edu.unc.ceccr.workflows.modelingAndPrediction.RandomForest;
+import edu.unc.ceccr.workflows.modelingAndPrediction.Svm;
+import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
+import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
 
 public class QsarPredictionTask extends WorkflowTask {
 
@@ -311,12 +311,12 @@ public class QsarPredictionTask extends WorkflowTask {
 		//First, copy dataset into jobDir. 
 		
 		step = Constants.SETUP;
-		CreateDirectoriesWorkflow.createDirs(userName, jobName);
+		CreateJobDirectories.createDirs(userName, jobName);
 		
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		String sdfile = predictionDataset.getSdfFile();
 		
-		GetJobFilesWorkflow.getDatasetFiles(userName, predictionDataset, Constants.PREDICTION, path);
+		CopyJobFiles.getDatasetFiles(userName, predictionDataset, Constants.PREDICTION, path);
 		
 		if(jobList.equals(Constants.LSF)){
 			//move files out to LSF
@@ -404,7 +404,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			new File(predictionDir).mkdirs();
 			
 			step = Constants.COPYPREDICTOR;
-			GetJobFilesWorkflow.getPredictorFiles(userName, predictor, predictionDir);
+			CopyJobFiles.getPredictorFiles(userName, predictor, predictionDir);
 	
 			//  done with 2. (copy predictor into jobDir/predictorDir)
 			
@@ -418,7 +418,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			step = Constants.PROCDESCRIPTORS;
 			
-			ConvertDescriptorsToXAndScaleWorkflow.convertDescriptorsToXAndScale(predictionDir,
+			ConvertDescriptorsToXAndScale.convertDescriptorsToXAndScale(predictionDir,
 					sdfile, "train_0.x", sdfile + ".renorm.x", 
 					predictor.getDescriptorGeneration(), predictor.getScalingType(), 
 					predictionDataset.getNumCompound());
@@ -431,17 +431,17 @@ public class QsarPredictionTask extends WorkflowTask {
 			Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
 			
 			if(predictor.getModelMethod().equals(Constants.KNN)){
-				KnnPredictionWorkflow.RunKnnPlusPrediction(userName, jobName, predictionDir, sdfile, Float.parseFloat(cutoff) );
+				KnnPrediction.RunKnnPlusPrediction(userName, jobName, predictionDir, sdfile, Float.parseFloat(cutoff) );
 			}
 			else if(predictor.getModelMethod().equals(Constants.SVM)){
-				SvmWorkflow.runSvmPrediction(predictionDir, sdfile + ".renorm.x");
+				Svm.runSvmPrediction(predictionDir, sdfile + ".renorm.x");
 			}
 			else if(predictor.getModelMethod().equals(Constants.KNNGA) || 
 					predictor.getModelMethod().equals(Constants.KNNSA)){
-				KnnPlusWorkflow.runKnnPlusPrediction(predictionDir, sdfile, cutoff);
+				KnnPlus.runKnnPlusPrediction(predictionDir, sdfile, cutoff);
 			}
 			else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
-				RandomForestWorkflow.runRandomForestPrediction(predictionDir, jobName, sdfile, predictor);
+				RandomForest.runRandomForestPrediction(predictionDir, jobName, sdfile, predictor);
 			}
 			//  done with 4. (make predictions in jobDir/predictorDir)
 			
@@ -450,17 +450,17 @@ public class QsarPredictionTask extends WorkflowTask {
 			step = Constants.READPRED;
 			
 			if(predictor.getModelMethod().equals(Constants.KNN)){
-				predValues = KnnPredictionWorkflow.readPredictionOutput(predictionDir, predictor.getId(), sdfile);
+				predValues = KnnPrediction.readPredictionOutput(predictionDir, predictor.getId(), sdfile);
 			}
 			else if(predictor.getModelMethod().equals(Constants.SVM)){
-				predValues = SvmWorkflow.readPredictionOutput(predictionDir, sdfile + ".renorm.x", predictor.getId());
+				predValues = Svm.readPredictionOutput(predictionDir, sdfile + ".renorm.x", predictor.getId());
 			}
 			else if(predictor.getModelMethod().equals(Constants.KNNGA) ||
 					predictor.getModelMethod().equals(Constants.KNNSA)){
-				predValues = KnnPlusWorkflow.readPredictionOutput(predictionDir, predictor.getId(), sdfile + ".renorm.x");
+				predValues = KnnPlus.readPredictionOutput(predictionDir, predictor.getId(), sdfile + ".renorm.x");
 			}
 			else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
-				predValues = RandomForestWorkflow.readPredictionOutput(predictionDir, predictor.getId());
+				predValues = RandomForest.readPredictionOutput(predictionDir, predictor.getId());
 			}
 			
 			s = HibernateUtil.getSession();
@@ -558,7 +558,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			//move files back from LSF
 		}
 		
-		KnnPredictionWorkflow.MoveToPredictionsDir(userName, jobName);
+		KnnPrediction.MoveToPredictionsDir(userName, jobName);
 		
 		try{
 

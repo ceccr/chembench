@@ -1,5 +1,5 @@
 
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.download;
 
 import java.io.*;
 
@@ -9,6 +9,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
 import edu.unc.ceccr.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.global.Constants;
 
@@ -19,7 +20,7 @@ import java.util.zip.*;
 
 import org.hibernate.Session;
 
-public class ZipJobResultsWorkflow{
+public class WriteZip{
 
 	public static void ZipEntireDirectory(String workingDir, String projectDir, String zipFile) throws Exception{
 		//will be used for MML members - they can access all files on every project type
@@ -217,7 +218,7 @@ public class ZipJobResultsWorkflow{
 		session.close();
 		
 		//get external predictions
-		WriteDownloadableFilesWorkflow.writeExternalPredictionsAsCSV(predictor.getId());
+		WriteCsv.writeExternalPredictionsAsCSV(predictor.getId());
 		
 		if(Utility.canDownloadDescriptors(userName)){
 			//this is a special user - just give them the whole damn directory
@@ -298,7 +299,7 @@ public class ZipJobResultsWorkflow{
 		if(predictor.getActivityType().equals(Constants.CONTINUOUS)){
 			//build ext validation chart(s)
 			if(! new File(projectDir+"mychart.jpeg").exists()){
-				CreateExtValidationChartWorkflow.createChart(predictor, "0");
+				ExternalValidationChart.createChart(predictor, "0");
 			}
 			modelingFiles.add("mychart.jpeg");
 			if(childPredictors != null && !childPredictors.isEmpty()){
@@ -309,7 +310,7 @@ public class ZipJobResultsWorkflow{
 						if(matcher.find()){
 							int foldNum = Integer.parseInt(matcher.group(1));
 							if(! new File(projectDir + cp.getName() + "/mychart.jpeg").exists()){
-								CreateExtValidationChartWorkflow.createChart(predictor, "" + foldNum);
+								ExternalValidationChart.createChart(predictor, "" + foldNum);
 							}
 						}
 					}
@@ -395,7 +396,7 @@ public class ZipJobResultsWorkflow{
 		Prediction prediction = PopulateDataObjects.getPredictionByName(jobName, predictionUserName, session);
 		session.close();
 		if(! new File(prediction.getName() + "-prediction-values.csv").exists()){
-			WriteDownloadableFilesWorkflow.writePredictionValuesAsCSV(prediction.getId());
+			WriteCsv.writePredictionValuesAsCSV(prediction.getId());
 		}
 		
 		if(Utility.canDownloadDescriptors(userName)){

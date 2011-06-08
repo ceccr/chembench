@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.visualization;
 
 import java.io.File;
 import java.io.IOException;
@@ -7,7 +7,7 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
-public class CSV_X_Workflow {
+public class HeatmapAndPCA {
 	
 	public static void performXCreation(String maccsFilePath, String outputXFileName, String workingDir){
 		String cmd = "convert_maccs_to_X2.pl " + maccsFilePath + " " + workingDir + outputXFileName;

@@ -34,7 +34,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.workflows.CreateDirectoriesWorkflow;
+import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 
 /*
 Functions relating to the processing of incoming dataset files go in here.

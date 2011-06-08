@@ -16,13 +16,13 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.CSV_X_Workflow;
-import edu.unc.ceccr.workflows.CheckDescriptorsFileWorkflow;
-import edu.unc.ceccr.workflows.DataSplitWorkflow;
-import edu.unc.ceccr.workflows.GenerateDescriptorWorkflow;
-import edu.unc.ceccr.workflows.ReadDescriptorsFileWorkflow;
-import edu.unc.ceccr.workflows.SdfToJpgWorkflow;
-import edu.unc.ceccr.workflows.StandardizeMoleculesWorkflow;
+import edu.unc.ceccr.workflows.datasets.StandardizeMoleculesWorkflow;
+import edu.unc.ceccr.workflows.descriptors.CheckDescriptors;
+import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
+import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
+import edu.unc.ceccr.workflows.modelingAndPrediction.DataSplitWorkflow;
+import edu.unc.ceccr.workflows.visualization.HeatmapAndPCA;
+import edu.unc.ceccr.workflows.visualization.SdfToJpg;
 
 public class CreateDatasetTask extends WorkflowTask{
 
@@ -249,23 +249,23 @@ public class CreateDatasetTask extends WorkflowTask{
 			//the dataset included an SDF so we need to generate descriptors from it
 			Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
 			//GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".mz");
-			GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".molconnz");
+			GenerateDescriptors.GenerateMolconnZDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".molconnz");
 
 			Utility.writeToDebug("Generating DragonH Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateHExplicitDragonDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".dragonH");
+			GenerateDescriptors.GenerateHExplicitDragonDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".dragonH");
 			
 			Utility.writeToDebug("Generating DragonNoH Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateHDepletedDragonDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".dragonNoH");
+			GenerateDescriptors.GenerateHDepletedDragonDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".dragonNoH");
 			
 			Utility.writeToDebug("Generating MOE2D Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateMoe2DDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".moe2D");
+			GenerateDescriptors.GenerateMoe2DDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".moe2D");
 			
 			Utility.writeToDebug("Generating MACCS Descriptors", userName, jobName);
-			GenerateDescriptorWorkflow.GenerateMaccsDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".maccs");
+			GenerateDescriptors.GenerateMaccsDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".maccs");
 
 			step = Constants.CHECKDESCRIPTORS;
 			//MolconnZ
-			String errors = CheckDescriptorsFileWorkflow.checkMolconnZDescriptors(path + descriptorDir + sdfFileName + ".molconnz");
+			String errors = CheckDescriptors.checkMolconnZDescriptors(path + descriptorDir + sdfFileName + ".molconnz");
 			if(errors.equals("")){
 				availableDescriptors += Constants.MOLCONNZ + " ";
 			}
@@ -276,7 +276,7 @@ public class CreateDatasetTask extends WorkflowTask{
 				errorSummary.close();
 			}
 			//DragonH
-			errors = CheckDescriptorsFileWorkflow.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonH");
+			errors = CheckDescriptors.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonH");
 			if(errors.equals("")){
 				availableDescriptors += Constants.DRAGONH + " ";
 			}
@@ -287,7 +287,7 @@ public class CreateDatasetTask extends WorkflowTask{
 				errorSummary.close();
 			}
 			//DragonNoH
-			errors = CheckDescriptorsFileWorkflow.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonNoH");
+			errors = CheckDescriptors.checkDragonDescriptors(path + descriptorDir + sdfFileName + ".dragonNoH");
 			if(errors.equals("")){
 				availableDescriptors += Constants.DRAGONNOH + " ";
 			}
@@ -298,7 +298,7 @@ public class CreateDatasetTask extends WorkflowTask{
 				errorSummary.close();
 			}
 			//MOE2D
-			errors = CheckDescriptorsFileWorkflow.checkMoe2DDescriptors(path + descriptorDir + sdfFileName + ".moe2D");
+			errors = CheckDescriptors.checkMoe2DDescriptors(path + descriptorDir + sdfFileName + ".moe2D");
 			if(errors.equals("")){
 				availableDescriptors += Constants.MOE2D + " ";
 			}
@@ -309,7 +309,7 @@ public class CreateDatasetTask extends WorkflowTask{
 				errorSummary.close();
 			}
 			//MACCS
-			errors = CheckDescriptorsFileWorkflow.checkMaccsDescriptors(path + descriptorDir + sdfFileName + ".maccs");
+			errors = CheckDescriptors.checkMaccsDescriptors(path + descriptorDir + sdfFileName + ".maccs");
 			if(errors.equals("")){
 				availableDescriptors += Constants.MACCS + " ";
 			}
@@ -419,7 +419,7 @@ public class CreateDatasetTask extends WorkflowTask{
 			
 			step = Constants.SKETCHES;
 			Utility.writeToDebug("Generating JPGs", userName, jobName);
-			SdfToJpgWorkflow.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
+			SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
 			
 			if(numCompounds < 500 && !sdfFileName.equals("") && new File(path + descriptorDir + sdfFileName + ".maccs").exists()){
 				//totally not worth doing visualizations on huge datasets, the heatmap is 
@@ -428,9 +428,9 @@ public class CreateDatasetTask extends WorkflowTask{
 				Utility.writeToDebug("Generating Visualizations", userName, jobName);
 				
 				String vis_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/";
-				CSV_X_Workflow.performXCreation(path + descriptorDir + sdfFileName + ".maccs", sdfFileName + ".x", vis_path);
-				CSV_X_Workflow.performHeatMapAndTreeCreation(vis_path, sdfFileName, "mahalanobis");
-				CSV_X_Workflow.performHeatMapAndTreeCreation(vis_path, sdfFileName, "tanimoto");
+				HeatmapAndPCA.performXCreation(path + descriptorDir + sdfFileName + ".maccs", sdfFileName + ".x", vis_path);
+				HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path, sdfFileName, "mahalanobis");
+				HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path, sdfFileName, "tanimoto");
 	
 				if(!actFileName.equals("")){
 					//generate ACT-file related visualizations

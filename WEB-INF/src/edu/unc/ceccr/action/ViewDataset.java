@@ -39,7 +39,7 @@ import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.CreateActivityChartWorkflow;
+import edu.unc.ceccr.workflows.visualization.ActivityHistogram;
 
 public class ViewDataset extends ActionSupport {
 	
@@ -480,7 +480,7 @@ public class ViewDataset extends ActionSupport {
 			}
 			
 			//create activity chart
-			CreateActivityChartWorkflow.createChart(datasetId);
+			ActivityHistogram.createChart(datasetId);
 			
 		}
 			

@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.download;
 
 import java.io.*;
 
@@ -23,7 +23,7 @@ import java.util.Scanner;
 
 import org.hibernate.Session;
 
-public class WriteDownloadableFilesWorkflow{
+public class WriteCsv{
 	//In most cases, the files generated during the running of a job are
 	//of no use to humans. These functions generate downloadable results
 	//files that give job results in a more readable form.

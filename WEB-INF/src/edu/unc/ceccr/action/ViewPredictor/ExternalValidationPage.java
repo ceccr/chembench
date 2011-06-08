@@ -43,7 +43,7 @@ import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.CreateExtValidationChartWorkflow;
+import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 

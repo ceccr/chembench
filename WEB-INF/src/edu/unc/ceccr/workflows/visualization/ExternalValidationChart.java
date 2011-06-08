@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.visualization;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -59,7 +59,7 @@ import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 
 
-public class CreateExtValidationChartWorkflow {
+public class ExternalValidationChart {
 	@SuppressWarnings("serial")
 	
 	//makes external validation charts (mychart.jpg) for nfold or regular predictors

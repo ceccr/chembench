@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows;
+package edu.unc.ceccr.workflows.visualization;
 
 import java.io.File;
 import java.io.FileReader;
@@ -8,7 +8,7 @@ import java.util.Scanner;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
-public class SdfToJpgWorkflow {
+public class SdfToJpg {
 	
 	public static void makeSketchFiles(String filePath, String fileName, String structuresDir, String sketchesDir) throws Exception
 	{
