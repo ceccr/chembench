@@ -26,7 +26,7 @@
 	  <tr>
 	    <td><b class='StandardTextDarkGrayParagraph'>ACT data type:</b></td>
 	    <td align="left">
-		<s:radio name="dataTypeModDesc" value="dataTypeModDesc" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" />
+		<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="dataTypeModDesc" value="dataTypeModDesc" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" /></div>
 		</td>
 	  </tr>
 	  <tr>
@@ -47,11 +47,19 @@
 	    <s:file name="xFileModDesc" id="xFileModDesc" theme="simple" />
 	    </td>
 	  </tr>
+	  
 	  <tr>
 		<td>
-		<div class="StandardTextDarkGrayParagraph"><b>Descriptors are scaled by:</b></div></td>
-		<td align="left" valign="top">
-		<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingTypeModDesc" value="scalingTypeModDesc" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" theme="simple" /></div>
+		<div class="StandardTextDarkGrayParagraph">
+		<b>Standardize structures: </b>
+		</div></td>
+		<td><s:checkbox name="standardizeModeling" id="standardizeModeling" theme="simple" /></td>
+	  </tr>
+	  
+	  <tr>
+		<td><div class="StandardTextDarkGrayParagraph"><b>Descriptors are already scaled:</b></div>
+		</td>
+		<td><s:checkbox name="scalingTypeModDesc" id="scalingTypeModDesc" theme="simple" />
 		</td>
 	  </tr>
   	  </table>

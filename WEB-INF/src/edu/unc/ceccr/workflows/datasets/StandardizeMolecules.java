@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Scanner;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;

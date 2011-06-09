@@ -38,9 +38,9 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.servlet.FileServlet;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
-import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.workflows.download.WriteCsv;
 
 public class ViewPredictionAction extends ActionSupport {

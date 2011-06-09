@@ -27,10 +27,10 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
-import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 public class DatasetFormActions extends ActionSupport{
 	public String ajaxLoadModeling() throws Exception {
@@ -185,7 +185,7 @@ public class DatasetFormActions extends ActionSupport{
 				try{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
 							actFileModeling, actFileModelingFileName, null, "", datasetName, 
-							dataTypeModeling, datasetType, externalCompoundList, "");
+							dataTypeModeling, datasetType, externalCompoundList);
 					sdfFileModelingFileName = sdfFileModelingFileName.replaceAll(" ", "_");
 					actFileModelingFileName = actFileModelingFileName.replaceAll(" ", "_");
 				}
@@ -245,7 +245,7 @@ public class DatasetFormActions extends ActionSupport{
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, 
-							"", null, "", datasetName, dataTypeModeling, datasetType, externalCompoundList, "");
+							"", null, "", datasetName, dataTypeModeling, datasetType, externalCompoundList);
 					sdfFilePredictionFileName = sdfFilePredictionFileName.replaceAll(" ", "_");
 				}
 				catch(Exception ex){
@@ -319,7 +319,7 @@ public class DatasetFormActions extends ActionSupport{
 					
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
 							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
-							dataTypeModeling, datasetType, externalCompoundList, scalingTypeModDesc);
+							dataTypeModeling, datasetType, externalCompoundList);
 					sdfFileModDescFileName = sdfFileModDescFileName.replaceAll(" ", "_");
 					actFileModDescFileName = actFileModDescFileName.replaceAll(" ", "_");
 					xFileModDescFileName = xFileModDescFileName.replaceAll(" ", "_");
@@ -383,7 +383,7 @@ public class DatasetFormActions extends ActionSupport{
 					}
 					
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
-							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType, externalCompoundList, scalingTypePredDesc);
+							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType, externalCompoundList);
 					sdfFilePredDescFileName = sdfFilePredDescFileName.replaceAll(" ", "_");
 					xFilePredDescFileName = xFilePredDescFileName.replaceAll(" ", "_");
 				}
@@ -410,7 +410,7 @@ public class DatasetFormActions extends ActionSupport{
 						Constants.PREDICTION, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 						"", //used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
-						scalingTypePredDesc, //RANGESCALING, AUTOSCALING, or NOSCALING
+						"", //scalingType
 						numExternalCompounds, //if splitType is RANDOM
 						numExternalFolds, //if splitType is NFOLD
 						useActivityBinning, //if splitType is RANDOM
@@ -455,8 +455,7 @@ public class DatasetFormActions extends ActionSupport{
 	private String paperReference = "";
 	private String descriptorTypeModDesc = "";
 	private String descriptorTypePredDesc = "";
-	private String scalingTypeModDesc = Constants.NOSCALING;
-	private String scalingTypePredDesc = Constants.NOSCALING;
+	private String scalingTypeModDesc = "false";
 	private String useActivityBinningNFold = "true";
 	private String numExternalFolds = "5";
 
@@ -821,10 +820,4 @@ public class DatasetFormActions extends ActionSupport{
 		this.scalingTypeModDesc = scalingTypeModDesc;
 	}
 	
-	public String getScalingTypePredDesc() {
-		return scalingTypePredDesc;
-	}
-	public void setScalingTypePredDesc(String scalingTypePredDesc) {
-		this.scalingTypePredDesc = scalingTypePredDesc;
-	}
 }

@@ -2,10 +2,10 @@ package edu.unc.ceccr.workflows.modelingPrediction;
 
 
 import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.global.Constants;
 
 import java.io.BufferedReader;

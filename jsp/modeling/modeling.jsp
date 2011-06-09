@@ -38,7 +38,7 @@
 		//turns scaling options on or off
 		//If a user has uploaded scaled descriptors we don't want to scale them any further
 		if(document.getElementById("descriptorGenerationType" + "UPLOADED").checked == "checked" &&
-				(selectedDatasetScalingType == "RANGESCALING" || selectedDatasetScalingType == "AUTOSCALING")){
+				selectedDatasetScalingType == "true"){
 			document.getElementById("scalingType" + "RANGESCALING").disabled = true;
 			document.getElementById("scalingType" + "AUTOSCALING").disabled = true;
 			document.getElementById("scalingType" + "NOSCALING").disabled = true;
@@ -374,10 +374,11 @@
 					</td>
 				</tr>
 				<tr>
-					<td>
+					<td valign="top">
 					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Type:</b></div></td>
 					<td align="left" valign="top">
 					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" onclick="setDescriptorScaling()" id="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ','DRAGONH':'Dragon (with hydrogens)<br />','DRAGONNOH':'Dragon (no hydrogens)','MACCS':'Maccs','MOE2D':'MOE2D<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
+					<br />
 					</td>
 				</tr>
 				<tr>

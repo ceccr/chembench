@@ -12,10 +12,10 @@ import java.util.Comparator;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Compound;
 import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.utilities.DatasetFileOperations;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 public class DataSplit{
 	

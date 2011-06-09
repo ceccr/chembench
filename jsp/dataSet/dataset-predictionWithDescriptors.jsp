@@ -37,10 +37,8 @@
 	    </td>
 	  </tr>
 	  <tr>
-		<td>
-		<div class="StandardTextDarkGrayParagraph"><b>Descriptors are scaled by:</b></div></td>
-		<td align="left" valign="top">
-		<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingTypePredDesc" value="scalingTypePredDesc" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" theme="simple" /></div>
+		<td colspan="2">
+		<div class="StandardTextDarkGrayParagraph"><i>Your uploaded descriptors must have the same scaling as those of your modeling dataset.</i></div>
 		</td>
 	  </tr>
   	  </table>
