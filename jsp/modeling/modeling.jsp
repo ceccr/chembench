@@ -35,6 +35,13 @@
 	var selectedDatasetScalingType = "";
 	
 	function setDescriptorScaling(){
+		alert('scaling type of selected dataset: ' + selectedDatasetScalingType);
+		if (document.getElementById("descriptorGenerationType" + "UPLOADED").checked == "checked") {
+			alert('is uploaded checked? YES');
+		}
+		else{
+			alert('is uploaded checked? NO');
+		}
 		//turns scaling options on or off
 		//If a user has uploaded scaled descriptors we don't want to scale them any further
 		if(document.getElementById("descriptorGenerationType" + "UPLOADED").checked == "checked" &&
