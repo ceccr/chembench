@@ -33,6 +33,7 @@ public class DataSet implements java.io.Serializable{
 
 	private String standardize; 
 	private String splitType; 
+	private String scalingType; 
 	private String numExternalCompounds; 
 	private String useActivityBinning; 
 	private String externalCompoundList;
@@ -222,6 +223,14 @@ public class DataSet implements java.io.Serializable{
 	}
 	public void setSplitType(String splitType) {
 		this.splitType = splitType;
+	}
+
+	@Column(name = "scalingType")
+	public String getScalingType() {
+		return scalingType;
+	}
+	public void setScalingType(String scalingType) {
+		this.scalingType = scalingType;
 	}
 
 	@Column(name = "numExternalCompounds")

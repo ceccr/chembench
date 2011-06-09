@@ -99,6 +99,7 @@ public class DatasetFormActions extends ActionSupport{
 		//go to the page
 		return result;
 	}
+	
 	public String execute() throws Exception {
 		
 		String emailOnCompletion = "false"; //for now
@@ -184,7 +185,7 @@ public class DatasetFormActions extends ActionSupport{
 				try{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
 							actFileModeling, actFileModelingFileName, null, "", datasetName, 
-							dataTypeModeling, datasetType, externalCompoundList);
+							dataTypeModeling, datasetType, externalCompoundList, "");
 					sdfFileModelingFileName = sdfFileModelingFileName.replaceAll(" ", "_");
 					actFileModelingFileName = actFileModelingFileName.replaceAll(" ", "_");
 				}
@@ -243,7 +244,7 @@ public class DatasetFormActions extends ActionSupport{
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, 
-							"", null, "", datasetName, dataTypeModeling, datasetType, externalCompoundList);
+							"", null, "", datasetName, dataTypeModeling, datasetType, externalCompoundList, "");
 					sdfFilePredictionFileName = sdfFilePredictionFileName.replaceAll(" ", "_");
 				}
 				catch(Exception ex){
@@ -316,7 +317,7 @@ public class DatasetFormActions extends ActionSupport{
 					
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
 							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
-							dataTypeModeling, datasetType, externalCompoundList);
+							dataTypeModeling, datasetType, externalCompoundList, scalingTypeModDesc);
 					sdfFileModDescFileName = sdfFileModDescFileName.replaceAll(" ", "_");
 					actFileModDescFileName = actFileModDescFileName.replaceAll(" ", "_");
 					xFileModDescFileName = xFileModDescFileName.replaceAll(" ", "_");
@@ -379,7 +380,7 @@ public class DatasetFormActions extends ActionSupport{
 					}
 					
 					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
-							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType, externalCompoundList);
+							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType, externalCompoundList, scalingTypePredDesc);
 					sdfFilePredDescFileName = sdfFilePredDescFileName.replaceAll(" ", "_");
 					xFilePredDescFileName = xFilePredDescFileName.replaceAll(" ", "_");
 				}
@@ -450,6 +451,8 @@ public class DatasetFormActions extends ActionSupport{
 	private String paperReference = "";
 	private String descriptorTypeModDesc = "";
 	private String descriptorTypePredDesc = "";
+	private String scalingTypeModDesc = Constants.NOSCALING;
+	private String scalingTypePredDesc = Constants.NOSCALING;
 	private String useActivityBinningNFold = "true";
 	private String numExternalFolds = "5";
 
@@ -806,5 +809,18 @@ public class DatasetFormActions extends ActionSupport{
 		this.numExternalFolds = numExternalFolds;
 	}
 	
-		
+
+	public String getScalingTypeModDesc() {
+		return scalingTypeModDesc;
+	}
+	public void setScalingTypeModDesc(String scalingTypeModDesc) {
+		this.scalingTypeModDesc = scalingTypeModDesc;
+	}
+	
+	public String getScalingTypePredDesc() {
+		return scalingTypePredDesc;
+	}
+	public void setScalingTypePredDesc(String scalingTypePredDesc) {
+		this.scalingTypePredDesc = scalingTypePredDesc;
+	}
 }

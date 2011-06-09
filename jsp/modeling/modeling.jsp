@@ -32,6 +32,25 @@
 	var datasetId = -1;
 	var selectedDatasetNumCompounds = -1;
 	var selectedDatasetAvailableDescriptors = "";
+	var selectedDatasetScalingType = "";
+	
+	function setDescriptorScaling(){
+		//turns scaling options on or off
+		//If a user has uploaded scaled descriptors we don't want to scale them any further
+		if(document.getElementById("descriptorGenerationType" + "UPLOADED").checked == "checked" &&
+				(selectedDatasetScalingType == "RANGESCALING" || selectedDatasetScalingType == "AUTOSCALING")){
+			document.getElementById("scalingType" + "RANGESCALING").disabled = true;
+			document.getElementById("scalingType" + "AUTOSCALING").disabled = true;
+			document.getElementById("scalingType" + "NOSCALING").disabled = true;
+			document.getElementById("scalingType" + "NOSCALING").checked = "checked";
+		}
+		else{
+			document.getElementById("scalingType" + "RANGESCALING").disabled = false;
+			document.getElementById("scalingType" + "AUTOSCALING").disabled = false;
+			document.getElementById("scalingType" + "NOSCALING").disabled = false;
+			document.getElementById("scalingType" + "RANGESCALING").checked = "checked";
+		}
+	}
 	
 	function getSelectedDataset(){
 		//get the numCompounds and availableDescriptors for the currently selected dataset
@@ -41,6 +60,7 @@
 			if(datasetId==<s:property value="id" />){
 				selectedDatasetNumCompounds = <s:property value='numCompound' />;
 				selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
+				selectedDatasetScalingType = "<s:property value='scalingType' />";
 			}
 			</s:iterator>
 		}
@@ -50,6 +70,7 @@
 				if(datasetId==<s:property value="id" />){
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
+					selectedDatasetScalingType = "<s:property value='scalingType' />";
 				}
 			</s:iterator>
 		}
@@ -95,10 +116,11 @@
 			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = true;
 		}
 		
-		
 		if(selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1){
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = false;
 			document.getElementById("descriptorGenerationType" + "UPLOADED").checked = "checked";
+			
+			
 		}
 		else{
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = true;
@@ -360,7 +382,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Scale Descriptors Using:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingType" value="scalingType" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingType" id="scalingType" value="scalingType" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
 					</td>
 				</tr>
 				<tr>

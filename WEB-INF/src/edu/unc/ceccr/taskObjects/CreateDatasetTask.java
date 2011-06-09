@@ -35,6 +35,7 @@ public class CreateDatasetTask extends WorkflowTask{
 	private String actFileDataType; 
 	private String standardize;
 	private String splitType;
+	private String scalingType;
 	private String numExternalCompounds;
 	private String numExternalFolds;
 	private String useActivityBinning;
@@ -88,6 +89,7 @@ public class CreateDatasetTask extends WorkflowTask{
 
 		standardize = dataset.getStandardize();
 		splitType = dataset.getSplitType();
+		scalingType = dataset.getScalingType();
 		numExternalCompounds = dataset.getNumExternalCompounds();
 		numExternalFolds = dataset.getNumExternalFolds();
 		useActivityBinning = dataset.getUseActivityBinning();
@@ -116,6 +118,7 @@ public class CreateDatasetTask extends WorkflowTask{
 			String actFileDataType, 
 			String standardize,
 			String splitType,
+			String scalingType,
 			String numExternalCompounds,
 			String numExternalFolds,
 			String useActivityBinning,
@@ -134,6 +137,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		this.actFileDataType = actFileDataType; 
 		this.standardize = standardize;
 		this.splitType = splitType;
+		this.scalingType = scalingType;
 		this.numExternalCompounds = numExternalCompounds;
 		this.numExternalFolds = numExternalFolds;
 		this.useActivityBinning = useActivityBinning;
@@ -179,6 +183,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		
 		dataset.setStandardize(standardize);
 		dataset.setSplitType(splitType);
+		dataset.setScalingType(scalingType);
 		dataset.setNumExternalCompounds(numExternalCompounds);
 		dataset.setNumExternalFolds(numExternalFolds);
 		dataset.setUseActivityBinning(useActivityBinning);

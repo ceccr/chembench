@@ -36,6 +36,13 @@
 	    <s:file name="xFilePredDesc" id="xFilePredDesc" theme="simple" />
 	    </td>
 	  </tr>
+	  <tr>
+		<td>
+		<div class="StandardTextDarkGrayParagraph"><b>Descriptors are scaled by:</b></div></td>
+		<td align="left" valign="top">
+		<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingTypePredDesc" value="scalingTypePredDesc" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
+		</td>
+	  </tr>
   	  </table>
     </td></tr></tbody></table>
 </s:div>

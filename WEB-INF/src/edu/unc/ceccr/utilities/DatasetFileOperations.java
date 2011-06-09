@@ -156,7 +156,7 @@ public class DatasetFileOperations {
 	
 	public static ArrayList<String> uploadDataset(String userName, File sdfFile, String sdfFileName, File actFile, 
 			String actFileName, File xFile, String xFileName, String datasetName, 
-			String actFileType, String datasetType, String externalCompoundList) throws Exception{
+			String actFileType, String datasetType, String externalCompoundList, String scalingType) throws Exception{
 		//will take care of the upload SDF, X, and ACT file
 		// in case of errors will delete the directory 
 			
@@ -236,7 +236,7 @@ public class DatasetFileOperations {
 			Utility.writeToDebug("checking X");
 			String msg = saveXFile(xFile, path, xFileName);
 			xFile = new File(path + xFileName);
-			msg += rewriteXFileAndValidate(xFile);
+			msg += rewriteXFileAndValidate(xFile, scalingType);
 			if(!msg.isEmpty())
 				msgs.add(msg);
 			Utility.writeToDebug("done checking X");
@@ -829,7 +829,7 @@ public class DatasetFileOperations {
 	}
 
 
-	public static String rewriteXFileAndValidate(File xFile) throws Exception {
+	public static String rewriteXFileAndValidate(File xFile, String scalingType) throws Exception {
 		//checks the X file and removes any extra lines
 		
 		if(! xFile.exists()){
@@ -909,6 +909,30 @@ public class DatasetFileOperations {
 				return "Error in X file: expected " + numCompounds + " compounds but only " + i + " were present.";
 			}
 		}
+		
+		//check for last 2 lines depending on scalingType
+		if(scalingType.equals(Constants.RANGESCALING) || scalingType.equals(Constants.AUTOSCALING)){
+			try{
+				String footerLine1 = br.readLine();
+				String footerLine2 = br.readLine();
+
+				String[] footerTokens1 = footerLine1.split("\\s+");
+				String[] footerTokens2 = footerLine2.split("\\s+");
+				
+				if(footerTokens1.length != numDescriptors || footerTokens2.length != numDescriptors){
+					if(scalingType.equals(Constants.RANGESCALING)){
+						return "The bottom two rows of your .x file should contain the minimum and maximum for each descriptor value.";
+					}
+					else if(scalingType.equals(Constants.AUTOSCALING)){
+						return "The bottom two rows of your .x file should contain the average and standard deviation of each descriptor value.";
+					}
+				}
+			}
+			catch(Exception ex){
+				return "X file is missing scaling data. See the Help section on the X file format for more details.";
+			}
+		}
+		
 		br.close();
 		out.close();
 
