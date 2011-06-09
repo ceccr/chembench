@@ -35,7 +35,6 @@
 	var selectedDatasetScalingType = "";
 	
 	function setDescriptorScaling(){
-		alert('scaling type of selected dataset: ' + selectedDatasetScalingType);
 		if (document.getElementById("descriptorGenerationType" + "UPLOADED").checked == "checked") {
 			alert('is uploaded checked? YES');
 		}
@@ -44,7 +43,7 @@
 		}
 		//turns scaling options on or off
 		//If a user has uploaded scaled descriptors we don't want to scale them any further
-		if(document.getElementById("descriptorGenerationType" + "UPLOADED").checked == "checked" &&
+		if(document.getElementById("descriptorGenerationType" + "UPLOADED").checked &&
 				selectedDatasetScalingType == "true"){
 			document.getElementById("scalingType" + "RANGESCALING").disabled = true;
 			document.getElementById("scalingType" + "AUTOSCALING").disabled = true;
@@ -126,8 +125,6 @@
 		if(selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1){
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = false;
 			document.getElementById("descriptorGenerationType" + "UPLOADED").checked = "checked";
-			
-			
 		}
 		else{
 			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = true;
