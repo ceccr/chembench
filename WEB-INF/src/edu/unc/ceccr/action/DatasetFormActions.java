@@ -344,7 +344,7 @@ public class DatasetFormActions extends ActionSupport{
 						xFileModDescFileName, //xFileName
 						descriptorTypeModDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
 						dataTypeModDesc, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
-						"", //only used in MODELING and PREDICTION
+						standardizeModDesc,
 						splitType, //RANDOM or USERDEFINED
 						scalingTypeModDesc, //RANGESCALING, AUTOSCALING, or NOSCALING
 						numExternalCompounds, //if splitType is RANDOM
@@ -408,7 +408,7 @@ public class DatasetFormActions extends ActionSupport{
 						xFilePredDescFileName, //xFileName
 						descriptorTypePredDesc, //descriptor type, if datasetType is MODELINGWITHDESCRIPTORS or PREDICTIONWITHDESCRIPTORS
 						Constants.PREDICTION, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
-						"", //used in MODELING and PREDICTION
+						standardizePredDesc,
 						splitType, //RANDOM or USERDEFINED
 						"", //scalingType
 						numExternalCompounds, //if splitType is RANDOM
@@ -451,6 +451,8 @@ public class DatasetFormActions extends ActionSupport{
 	private String numExternalCompounds = "20";
 	private String externalCompoundsCountOrPercent = "percent";
 	private String standardizeModeling = "true";
+	private String standardizeModDesc = "true";
+	private String standardizePredDesc = "true";
 	private String standardizePrediction = "true";
 	private String paperReference = "";
 	private String descriptorTypeModDesc = "";
@@ -525,6 +527,18 @@ public class DatasetFormActions extends ActionSupport{
 	}
 	public void setStandardizeModeling(String standardizeModeling) {
 		this.standardizeModeling = standardizeModeling;
+	}
+	public String getStandardizeModDesc() {
+		return standardizeModDesc;
+	}
+	public void setStandardizeModDesc(String standardizeModDesc) {
+		this.standardizeModDesc = standardizeModDesc;
+	}
+	public String getStandardizePredDesc() {
+		return standardizePredDesc;
+	}
+	public void setStandardizePredDesc(String standardizePredDesc) {
+		this.standardizePredDesc = standardizePredDesc;
 	}
 	public String getStandardizePrediction() {
 		return standardizePrediction;

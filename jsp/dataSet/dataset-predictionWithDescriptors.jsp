@@ -31,6 +31,13 @@
 	    </td>
 	  </tr>
 	  <tr>
+		<td>
+		<div class="StandardTextDarkGrayParagraph">
+		<b>Standardize structures: </b>
+		</div></td>
+		<td><s:checkbox name="standardizeModDesc" id="standardizeModDesc" theme="simple" /></td>
+	  </tr>
+	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">X File:</b></td>
 	    <td align="left">
 	    <s:file name="xFilePredDesc" id="xFilePredDesc" theme="simple" />
