@@ -210,6 +210,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataTypeModeling, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 						standardizeModeling, //used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
+						"", //scaling type
 						numExternalCompounds, //if splitType is RANDOM
 						numExternalFolds, //if splitType is NFOLD
 						useActivityBinning, //if splitType is RANDOM
@@ -270,6 +271,7 @@ public class DatasetFormActions extends ActionSupport{
 							Constants.PREDICTION, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 							standardizePrediction, //used in MODELING and PREDICTION
 							splitType, //RANDOM or USERDEFINED
+							"", //scaling type
 							numExternalCompounds, //if splitType is RANDOM
 							numExternalFolds, //if splitType is NFOLD
 							useActivityBinning, //if splitType is RANDOM
@@ -344,6 +346,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataTypeModDesc, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 						"", //only used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
+						scalingTypeModDesc, //RANGESCALING, AUTOSCALING, or NOSCALING
 						numExternalCompounds, //if splitType is RANDOM
 						numExternalFolds, //if splitType is NFOLD
 						useActivityBinning, //if splitType is RANDOM
@@ -407,6 +410,7 @@ public class DatasetFormActions extends ActionSupport{
 						Constants.PREDICTION, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 						"", //used in MODELING and PREDICTION
 						splitType, //RANDOM or USERDEFINED
+						scalingTypePredDesc, //RANGESCALING, AUTOSCALING, or NOSCALING
 						numExternalCompounds, //if splitType is RANDOM
 						numExternalFolds, //if splitType is NFOLD
 						useActivityBinning, //if splitType is RANDOM
