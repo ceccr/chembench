@@ -7,6 +7,10 @@
 <b>Datasets</b>
 
 <p><img src="/theme/img/dataset-workflow.png"></p>
+<p> The above diagram describes the dataset creation process. 
+You begin by uploading a set of compounds, including any activities you want to model. 
+The data you upload will be prepared for use with Chembench's modeling and prediction processes.
+You will need to enter the options in the boxes on the Dataset page as described below. </p>
 
 <p align="justify" class="ccbHomeStandard">
 <b>Upload Dataset Files box:</b>
@@ -16,13 +20,17 @@ you just have a bunch of compounds and no activity values for them, you can crea
 with prediction.</p>
 
 <p>At present, Chembench can generate MolconnZ, Dragon, Moe2D, and MACCS descriptors. If you would like to use 
-different descriptors, you can supply them using one of the "With Descriptors" options.</p>
+your own descriptors, you can supply them using one of the "With Descriptors" options.</p>
 
-<p>In the special case where you only have descriptors, you'd also use one of the "With Descriptors" options. This 
-is used when companies want to create models of their compounds without the risk of putting their trade-secret 
-structures on a public website.</p>
+<p>The "With Descriptors" options are useful when companies want to create models of their compounds 
+without putting their structures on a public website. The "With Descriptors" options are also useful 
+to researchers exploring new methods for descriptor generation. You may scale your descriptors 
+before uploading or allow Chembench to scale them for you. See the descriptor generation parameters 
+section of the <a href="help-modeling">Modeling help page</a> for more details. 
+When you upload descriptors for prediction, Chembench assumes that they have been scaled in the 
+same way as your modeling descriptors.</p>
 
-<p>The  "Standardize Structures" option is one you will usually want to use. Many chemical structures contain odd 
+<p>The "Standardize Structures" option is one you will usually want to use. Many chemical structures contain odd 
 notations, valences, or resonance structures that are incompatible with descriptor-generation tools.  The 
 "Standardize" runs JChem's standardizing software on your dataset, automatically fixing these problems.</p>
 </p>

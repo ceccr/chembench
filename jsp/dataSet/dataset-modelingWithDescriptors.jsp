@@ -30,16 +30,16 @@
 	    </td>
 	  </tr>
 	  <tr>
-	    <td><b class="StandardTextDarkGrayParagraph">SDF File (optional):</b></td>
-	    <td align="left">
-	    <s:file name="sdfFileModDesc" id="sdfFileModDesc" theme="simple" />
-	    </td>
-	  </tr>
-	  <tr>
 	    <td><b class='StandardTextDarkGrayParagraph'>ACT data type:</b></td>
 	    <td align="left">
 		<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="dataTypeModDesc" value="dataTypeModDesc" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" /></div>
 		</td>
+	  </tr>
+	  <tr>
+	    <td><b class="StandardTextDarkGrayParagraph">SDF File (optional):</b></td>
+	    <td align="left">
+	    <s:file name="sdfFileModDesc" id="sdfFileModDesc" theme="simple" />
+	    </td>
 	  </tr>
 	  <tr>
 		<td>
