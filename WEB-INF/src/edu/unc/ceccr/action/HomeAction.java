@@ -182,6 +182,9 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 				loginFailed = Constants.YES;
 			}
 		}
+		else{
+			loginFailed = Constants.YES;
+		}
 		loadPage();
 		return result;
 	}
