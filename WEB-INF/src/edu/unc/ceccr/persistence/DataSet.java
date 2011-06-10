@@ -225,7 +225,7 @@ public class DataSet implements java.io.Serializable{
 		this.splitType = splitType;
 	}
 
-	@Column(name = "scalingType")
+	@Column(name = "hasBeenScaled")
 	public String getScalingType() {
 		return scalingType;
 	}
