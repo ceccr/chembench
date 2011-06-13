@@ -20,22 +20,16 @@
 	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
-	<script language="javascript" src="javascript/script.js"></script>
-	<script language="javascript" src="javascript/modeling.js"></script>
-	
 	<script language="javascript">
 	var usedDatasetNames = new Array(<s:iterator value="userDatasetNames">"<s:property />",</s:iterator>"");
 	var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />",</s:iterator>"");
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
 	
-	var datasetId = -1;
-	var selectedDatasetNumCompounds = -1;
-	var selectedDatasetAvailableDescriptors = "";
-	var selectedDatasetHasBeenScaled = "";
-	
-	
 	</script>
+	<script language="javascript" src="javascript/script.js"></script>
+	<script language="javascript" src="javascript/modeling.js"></script>
+	
 	
 </head>
 
