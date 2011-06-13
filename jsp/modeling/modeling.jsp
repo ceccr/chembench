@@ -383,7 +383,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Scale Descriptors Using:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="hasBeenScaled" id="hasBeenScaled" value="hasBeenScaled" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingType" id="scalingType" value="scalingType" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
 					</td>
 				</tr>
 				<tr>
