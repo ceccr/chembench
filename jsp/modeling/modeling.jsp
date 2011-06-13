@@ -40,8 +40,8 @@
 			if(datasetId==<s:property value="id" />){
 				selectedDatasetNumCompounds = <s:property value='numCompound' />;
 				selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
-				alert('setting selectedDatasetHasBeenScaled to ' + "<s:property value='hasBeenScaled' />");
 				selectedDatasetHasBeenScaled = "<s:property value='hasBeenScaled' />";
+				alert('set selectedDatasetHasBeenScaled to ' + selectedDatasetHasBeenScaled);
 			}
 			</s:iterator>
 		}
@@ -51,8 +51,8 @@
 				if(datasetId==<s:property value="id" />){
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
-					alert('setting selectedDatasetHasBeenScaled to ' + "<s:property value='hasBeenScaled' />");
 					selectedDatasethasBeenScaled = "<s:property value='hasBeenScaled' />";
+					alert('set selectedDatasetHasBeenScaled to ' + selectedDatasetHasBeenScaled);
 				}
 			</s:iterator>
 		}
@@ -116,6 +116,8 @@
 	function setDescriptorScaling(){
 		//turns scaling options on or off
 		//If a user has uploaded scaled descriptors we don't want to scale them any further
+		
+		alert('selectedDatasetHasBeenScaled :' + selectedDatasetHasBeenScaled + " Uploaded? " + document.getElementById("descriptorGenerationType" + "UPLOADED").checked);
 		if(document.getElementById("descriptorGenerationType" + "UPLOADED").checked &&
 				selectedDatasetHasBeenScaled == "true"){
 			alert('setDescriptorScaling true');
