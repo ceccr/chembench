@@ -272,6 +272,7 @@ public class QsarModelingTask extends WorkflowTask {
 		Utility.writeToDebug("[[Modeling Type: " + ModelingForm.getModelingType(), userName, jobName);
 		modelType = ModelingForm.getModelingType();
 		scalingType = ModelingForm.getScalingType();
+		Utility.writeToDebug("scalingType in QsarModelingTask: " + scalingType);
 		
 		stdDevCutoff = ModelingForm.getStdDevCutoff();
 		correlationCutoff = ModelingForm.getCorrelationCutoff();

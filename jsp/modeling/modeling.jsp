@@ -119,13 +119,11 @@
 				selectedDatasetHasBeenScaled == "true"){
 			document.getElementById("scalingType" + "RANGESCALING").disabled = true;
 			document.getElementById("scalingType" + "AUTOSCALING").disabled = true;
-			document.getElementById("scalingType" + "NOSCALING").disabled = true;
 			document.getElementById("scalingType" + "NOSCALING").checked = "checked";
 		}
 		else{
 			document.getElementById("scalingType" + "RANGESCALING").disabled = false;
 			document.getElementById("scalingType" + "AUTOSCALING").disabled = false;
-			document.getElementById("scalingType" + "NOSCALING").disabled = false;
 			document.getElementById("scalingType" + "RANGESCALING").checked = "checked";
 		}
 	}
