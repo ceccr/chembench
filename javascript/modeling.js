@@ -192,12 +192,14 @@ function setDescriptorScaling(){
 	//If a user has uploaded scaled descriptors we don't want to scale them any further
 	if(document.getElementById("descriptorGenerationType" + "UPLOADED").checked &&
 			selectedDatasetHasBeenScaled == "true"){
+		alert('setDescriptorScaling true');
 		document.getElementById("scalingType" + "RANGESCALING").disabled = true;
 		document.getElementById("scalingType" + "AUTOSCALING").disabled = true;
 		document.getElementById("scalingType" + "NOSCALING").disabled = true;
 		document.getElementById("scalingType" + "NOSCALING").checked = "checked";
 	}
 	else{
+		alert('setDescriptorScaling false');
 		document.getElementById("scalingType" + "RANGESCALING").disabled = false;
 		document.getElementById("scalingType" + "AUTOSCALING").disabled = false;
 		document.getElementById("scalingType" + "NOSCALING").disabled = false;
