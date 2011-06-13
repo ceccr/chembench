@@ -46,6 +46,7 @@
 				if(datasetId==<s:property value="id" />){
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
+					alert('setting selectedDatasetHasBeenScaled to ' + "<s:property value='hasBeenScaled' />");
 					selectedDatasethasBeenScaled = "<s:property value='hasBeenScaled' />";
 				}
 			</s:iterator>
