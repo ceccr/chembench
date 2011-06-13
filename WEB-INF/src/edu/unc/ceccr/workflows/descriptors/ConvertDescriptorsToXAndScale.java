@@ -104,7 +104,6 @@ public class ConvertDescriptorsToXAndScale{
 						descriptorNames, descriptorValueMatrix);
 			}
 			
-
 			String descriptorString = Utility.StringArrayListToString(descriptorNames);
 			WriteDescriptors.writePredictionXFile(
 					chemicalNames, 
@@ -371,11 +370,11 @@ public class ConvertDescriptorsToXAndScale{
 				currentFile++;
 				outFilePart = new BufferedWriter(new FileWriter(workingDir + descriptorsFile + "_" + currentFile));
 				outFilePart.write(header);
+				outFilePart.write(descriptorNames);
 			}
 		}
 		outFilePart.write("\n");
 		outFilePart.close();
-		
 	}
 	
 	private static void mergeXFileParts(String workingDir, String outputXFile, String scalingType, int numCompounds) throws Exception{
