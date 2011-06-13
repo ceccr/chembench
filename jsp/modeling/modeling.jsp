@@ -39,16 +39,16 @@
 		//If a user has uploaded scaled descriptors we don't want to scale them any further
 		if(document.getElementById("descriptorGenerationType" + "UPLOADED").checked &&
 				selectedDatasetHasBeenScaled == "true"){
-			document.getElementById("hasBeenScaled" + "RANGESCALING").disabled = true;
-			document.getElementById("hasBeenScaled" + "AUTOSCALING").disabled = true;
-			document.getElementById("hasBeenScaled" + "NOSCALING").disabled = true;
-			document.getElementById("hasBeenScaled" + "NOSCALING").checked = "checked";
+			document.getElementById("scalingType" + "RANGESCALING").disabled = true;
+			document.getElementById("scalingType" + "AUTOSCALING").disabled = true;
+			document.getElementById("scalingType" + "NOSCALING").disabled = true;
+			document.getElementById("scalingType" + "NOSCALING").checked = "checked";
 		}
 		else{
-			document.getElementById("hasBeenScaled" + "RANGESCALING").disabled = false;
-			document.getElementById("hasBeenScaled" + "AUTOSCALING").disabled = false;
-			document.getElementById("hasBeenScaled" + "NOSCALING").disabled = false;
-			document.getElementById("hasBeenScaled" + "RANGESCALING").checked = "checked";
+			document.getElementById("scalingType" + "RANGESCALING").disabled = false;
+			document.getElementById("scalingType" + "AUTOSCALING").disabled = false;
+			document.getElementById("scalingType" + "NOSCALING").disabled = false;
+			document.getElementById("scalingType" + "RANGESCALING").checked = "checked";
 		}
 	}
 	
