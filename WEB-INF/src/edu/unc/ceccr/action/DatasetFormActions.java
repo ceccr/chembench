@@ -346,7 +346,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataTypeModDesc, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 						standardizeModDesc,
 						splitType, //RANDOM or USERDEFINED
-						scalingTypeModDesc, //RANGESCALING, AUTOSCALING, or NOSCALING
+						hasBeenScaled, //true or false
 						numExternalCompounds, //if splitType is RANDOM
 						numExternalFolds, //if splitType is NFOLD
 						useActivityBinning, //if splitType is RANDOM
@@ -410,7 +410,7 @@ public class DatasetFormActions extends ActionSupport{
 						Constants.PREDICTION, //act file type, Continuous or Category, if datasetType is MODELING or MODELINGWITHDESCRIPTORS. Prediction otherwise.
 						standardizePredDesc,
 						splitType, //RANDOM or USERDEFINED
-						"", //scalingType
+						"", //hasBeenScaled
 						numExternalCompounds, //if splitType is RANDOM
 						numExternalFolds, //if splitType is NFOLD
 						useActivityBinning, //if splitType is RANDOM
@@ -457,7 +457,7 @@ public class DatasetFormActions extends ActionSupport{
 	private String paperReference = "";
 	private String descriptorTypeModDesc = "";
 	private String descriptorTypePredDesc = "";
-	private String scalingTypeModDesc = "false";
+	private String hasBeenScaled = "false";
 	private String useActivityBinningNFold = "true";
 	private String numExternalFolds = "5";
 
@@ -826,12 +826,10 @@ public class DatasetFormActions extends ActionSupport{
 		this.numExternalFolds = numExternalFolds;
 	}
 	
-
-	public String getScalingTypeModDesc() {
-		return scalingTypeModDesc;
+	public String getHasBeenScaled() {
+		return hasBeenScaled;
 	}
-	public void setScalingTypeModDesc(String scalingTypeModDesc) {
-		this.scalingTypeModDesc = scalingTypeModDesc;
+	public void setHasBeenScaled(String hasBeenScaled) {
+		this.hasBeenScaled = hasBeenScaled;
 	}
-	
 }

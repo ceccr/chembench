@@ -57,7 +57,7 @@
 	  <tr>
 		<td><div class="StandardTextDarkGrayParagraph"><b>Descriptors are already scaled:</b></div>
 		</td>
-		<td><s:checkbox name="scalingTypeModDesc" id="scalingTypeModDesc" theme="simple" />
+		<td><s:checkbox name="hasBeenScaled" id="hasBeenScaled" theme="simple" />
 		</td>
 	  </tr>
   	  </table>

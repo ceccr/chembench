@@ -32,23 +32,23 @@
 	var datasetId = -1;
 	var selectedDatasetNumCompounds = -1;
 	var selectedDatasetAvailableDescriptors = "";
-	var selectedDatasetScalingType = "";
+	var selectedDatasetHasBeenScaled = "";
 	
 	function setDescriptorScaling(){
 		//turns scaling options on or off
 		//If a user has uploaded scaled descriptors we don't want to scale them any further
 		if(document.getElementById("descriptorGenerationType" + "UPLOADED").checked &&
-				selectedDatasetScalingType == "true"){
-			document.getElementById("scalingType" + "RANGESCALING").disabled = true;
-			document.getElementById("scalingType" + "AUTOSCALING").disabled = true;
-			document.getElementById("scalingType" + "NOSCALING").disabled = true;
-			document.getElementById("scalingType" + "NOSCALING").checked = "checked";
+				selectedDatasetHasBeenScaled == "true"){
+			document.getElementById("hasBeenScaled" + "RANGESCALING").disabled = true;
+			document.getElementById("hasBeenScaled" + "AUTOSCALING").disabled = true;
+			document.getElementById("hasBeenScaled" + "NOSCALING").disabled = true;
+			document.getElementById("hasBeenScaled" + "NOSCALING").checked = "checked";
 		}
 		else{
-			document.getElementById("scalingType" + "RANGESCALING").disabled = false;
-			document.getElementById("scalingType" + "AUTOSCALING").disabled = false;
-			document.getElementById("scalingType" + "NOSCALING").disabled = false;
-			document.getElementById("scalingType" + "RANGESCALING").checked = "checked";
+			document.getElementById("hasBeenScaled" + "RANGESCALING").disabled = false;
+			document.getElementById("hasBeenScaled" + "AUTOSCALING").disabled = false;
+			document.getElementById("hasBeenScaled" + "NOSCALING").disabled = false;
+			document.getElementById("hasBeenScaled" + "RANGESCALING").checked = "checked";
 		}
 	}
 	
@@ -60,7 +60,7 @@
 			if(datasetId==<s:property value="id" />){
 				selectedDatasetNumCompounds = <s:property value='numCompound' />;
 				selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
-				selectedDatasetScalingType = "<s:property value='scalingType' />";
+				selectedDatasetHasBeenScaled = "<s:property value='hasBeenScaled' />";
 			}
 			</s:iterator>
 		}
@@ -70,7 +70,7 @@
 				if(datasetId==<s:property value="id" />){
 					selectedDatasetNumCompounds = <s:property value='numCompound' />;
 					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
-					selectedDatasetScalingType = "<s:property value='scalingType' />";
+					selectedDatasethasBeenScaled = "<s:property value='hasBeenScaled' />";
 				}
 			</s:iterator>
 		}
@@ -383,7 +383,7 @@
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Scale Descriptors Using:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingType" id="scalingType" value="scalingType" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="hasBeenScaled" id="hasBeenScaled" value="hasBeenScaled" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
 					</td>
 				</tr>
 				<tr>
