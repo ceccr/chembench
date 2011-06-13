@@ -26,6 +26,86 @@
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
 	
+
+	function getSelectedDataset(){
+		//get the numCompounds and availableDescriptors for the currently selected dataset
+		if(document.getElementById("categoryDataset").checked==true){
+			datasetId = document.getElementById("selectedCategoryDataset").value;
+			<s:iterator value="userCategoryDatasets">
+			if(datasetId==<s:property value="id" />){
+				selectedDatasetNumCompounds = <s:property value='numCompound' />;
+				selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
+				selectedDatasetHasBeenScaled = "<s:property value='hasBeenScaled' />";
+			}
+			</s:iterator>
+		}
+		else{
+			datasetId = document.getElementById("selectedContinuousDataset").value;
+			<s:iterator value="userContinuousDatasets">
+				if(datasetId==<s:property value="id" />){
+					selectedDatasetNumCompounds = <s:property value='numCompound' />;
+					selectedDatasetAvailableDescriptors = "<s:property value='availableDescriptors' />";
+					selectedDatasethasBeenScaled = "<s:property value='hasBeenScaled' />";
+				}
+			</s:iterator>
+		}
+		
+		//enable / disable based on the availableDescriptors
+		if(selectedDatasetAvailableDescriptors.indexOf("MOE2D") > -1){
+			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = false;
+			document.getElementById("descriptorGenerationType" + "MOE2D").checked = "checked";
+		}
+		else{
+			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = true;
+		}
+		
+		if(selectedDatasetAvailableDescriptors.indexOf("MACCS") > -1){
+			document.getElementById("descriptorGenerationType" + "MACCS").disabled = false;
+			document.getElementById("descriptorGenerationType" + "MACCS").checked = "checked";
+		}
+		else{
+			document.getElementById("descriptorGenerationType" + "MACCS").disabled = true;
+		}
+		
+		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONNOH") > -1){
+			document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = false;
+			document.getElementById("descriptorGenerationType" + "DRAGONNOH").checked = "checked";
+		}
+		else{
+			document.getElementById("descriptorGenerationType" + "DRAGONNOH").disabled = true;
+		}
+		
+		if(selectedDatasetAvailableDescriptors.indexOf("DRAGONH") > -1){
+			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = false;
+			document.getElementById("descriptorGenerationType" + "DRAGONH").checked = "checked";
+		}
+		else{
+			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = true;
+		}
+		
+		if(selectedDatasetAvailableDescriptors.indexOf("MOLCONNZ") > -1){
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = false;
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").checked = "checked";
+		}
+		else{
+			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = true;
+		}
+		
+		if(selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1){
+			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = false;
+			document.getElementById("descriptorGenerationType" + "UPLOADED").checked = "checked";
+		}
+		else{
+			document.getElementById("descriptorGenerationType" + "UPLOADED").disabled = true;
+		}
+		
+		setDescriptorScaling();
+		
+		//recalculate time estimate for the newly selected dataset
+		calculateRuntimeEstimate();
+	}
+	
+	
 	</script>
 	<script language="javascript" src="javascript/script.js"></script>
 	<script language="javascript" src="javascript/modeling.js"></script>
