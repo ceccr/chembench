@@ -356,11 +356,11 @@ public class DeleteAction extends ActionSupport{
 					
 					String parentPredictorName = "";
 					if(p.getName().matches(".*_fold_(\\d+)_of_(\\d+)")){
+						//this is a child predictor in an nfold run
 						int pos = p.getName().lastIndexOf("_fold");
 						parentPredictorName = p.getName().substring(0,pos);
 					}
 					if(! parentPredictorName.isEmpty()){
-						
 						Predictor parentPredictor = PopulateDataObjects.getPredictorByName(parentPredictorName,p.getUserName(),s);
 						if(parentPredictor != null){
 							String[] childPredictorIds = parentPredictor.getChildIds().split("\\s+");
@@ -386,9 +386,15 @@ public class DeleteAction extends ActionSupport{
 							deletePredictor(parentPredictor, s);
 						}
 					}
-					s.close();
+					else{
+						CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
+					}
 				}
 			}
+			else{
+				CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
+			}
+			s.close();
 		}
 		catch(Exception ex){
 			//if it failed, no big deal - just write out the exception.

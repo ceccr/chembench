@@ -144,6 +144,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 
 		}
 		catch(Exception ex){
+			Utility.writeToDebug(ex);
 			showStatistics = "NO";
 		}
 		return SUCCESS;
@@ -191,6 +192,11 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 	
 	public String logout() throws Exception{
 		ActionContext context = ActionContext.getContext();
+		user = (User) context.getSession().get("user");
+		if(user != null){
+			Utility.writeToUsageLog("Logged out.", user.getUserName());
+		}
+		
 		context.getSession().clear();
 		
 		Cookie ckie=new Cookie("login","false");
