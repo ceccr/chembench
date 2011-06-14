@@ -22,44 +22,6 @@ public class KnnPrediction{
 	//Execute external programs to generate a prediction for a given molecule set.
 	// Used for legacy models that were created using Sasha's kNN code.
 	
-	public static void RunKnnPrediction(String userName, String jobName, String workingdir, String sdFile, float cutoffValue ) throws Exception{
-		
-		String execstr1 = "PredActivCont3rwknnLIN knn-output.list " + sdFile + ".renorm.x pred_output " + cutoffValue;
-		RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "PredActivCont3rwknnLIN");
-		
-	    String execstr2 = "ConsPredContrwknnLIN pred_output.comp.list pred_output.list cons_pred";
-	    RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "ConsPredContrwknnLIN");
-	}
-	
-	public static void MoveToPredictionsDir(String userName, String jobName) throws Exception{
-		//When the prediction job is finished, move all the files over to the predictions dir.
-		Utility.writeToDebug("Moving to PREDICTIONS dir.", userName, jobName);
-		String moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/";
-		String execstr = "mv " + moveFrom + " " + moveTo;
-		RunExternalProgram.runCommand(execstr, "");
-	}
-	
-	
-	public static void RunKnnPlusPrediction(String userName, String jobName, String workingDir, String sdfile, float cutoffValue) throws Exception{
-
-		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
-		String actfile = workingDir + sdfile + ".renorm.a";
-		BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
-		ArrayList<String> compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
-		for(String compoundName : compoundNames){
-			aout.write(compoundName + " 0\n");
-		}
-		aout.close();
-		
-	    //Run prediction
-		String preddir = workingDir;
-		
-		String xfile = sdfile + ".renorm.x";
-		String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "knnPlusPrediction");
-	}
-	
 	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String sdFile) throws Exception{
 		//NOTE: THIS IS THE VERSION USED FOR KNN ONLY. For knn+, go to knnPlusWorkflow.java.
 		
@@ -168,6 +130,25 @@ public class KnnPrediction{
 
 	    return predictionValues;
 	}
-	
-	
+
+
+	public static void runKnnPlusPredictionForKnnPredictors(String userName, String jobName, String workingDir, String sdfile, float cutoffValue) throws Exception{
+		// Used for legacy models that were created using Sasha's kNN code.
+		
+		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
+		String actfile = workingDir + sdfile + ".renorm.a";
+		BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
+		ArrayList<String> compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
+		for(String compoundName : compoundNames){
+			aout.write(compoundName + " 0\n");
+		}
+		aout.close();
+		
+	    //Run prediction
+		String preddir = workingDir;
+		
+		String xfile = sdfile + ".renorm.x";
+		String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "knnPlusPrediction");
+	}
 }

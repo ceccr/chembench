@@ -37,6 +37,7 @@ import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.KnnPlus;
 import edu.unc.ceccr.workflows.modelingPrediction.KnnPrediction;
+import edu.unc.ceccr.workflows.modelingPrediction.PredictionUtilities;
 import edu.unc.ceccr.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.workflows.modelingPrediction.Svm;
 import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
@@ -431,7 +432,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
 			
 			if(predictor.getModelMethod().equals(Constants.KNN)){
-				KnnPrediction.RunKnnPlusPrediction(userName, jobName, predictionDir, sdfile, Float.parseFloat(cutoff) );
+				KnnPrediction.runKnnPlusPredictionForKnnPredictors(userName, jobName, predictionDir, sdfile, Float.parseFloat(cutoff) );
 			}
 			else if(predictor.getModelMethod().equals(Constants.SVM)){
 				Svm.runSvmPrediction(predictionDir, sdfile + ".renorm.x");
@@ -558,7 +559,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			//move files back from LSF
 		}
 		
-		KnnPrediction.MoveToPredictionsDir(userName, jobName);
+		PredictionUtilities.MoveToPredictionsDir(userName, jobName);
 		
 		try{
 

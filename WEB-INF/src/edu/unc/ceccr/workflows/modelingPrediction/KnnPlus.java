@@ -510,7 +510,6 @@ public class KnnPlus{
 		return knnPlusModels;
 	}
 	
-	
 	public static void runKnnPlusPrediction(String workingDir, String sdfile, String cutoffValue) throws Exception{
 		
 		//write a dummy .a file because knn+ needs it or it fails bizarrely... X_X
@@ -530,7 +529,7 @@ public class KnnPlus{
 		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "knnPlusPrediction");
 	}
 
-public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String predictionXFile) throws Exception{
+	public static ArrayList<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String predictionXFile) throws Exception{
 		
         //read prediction output
 		String predsFile = predictionXFile.substring(0, predictionXFile.lastIndexOf(".x")) + ".preds"; //the ".preds" is added automatically by knn+
@@ -642,5 +641,5 @@ public static ArrayList<PredictionValue> readPredictionOutput(String workingDir,
 
 	    return predictionValues;
 	}
-	
+
 }
