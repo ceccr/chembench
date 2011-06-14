@@ -105,7 +105,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 			int counter = 0;
 			File counterFile = new File(Constants.CECCR_USER_BASE_PATH + "counter.txt");
 			if (counterFile.exists()) {
-				String counterStr = FileAndDirOperations.readFileIntoString(counterFile.getAbsolutePath());
+				String counterStr = FileAndDirOperations.readFileIntoString(counterFile.getAbsolutePath()).trim();
 				counter = Integer.parseInt(counterStr);
 				FileAndDirOperations.writeStringToFile("" + (counter+1), counterFile.getAbsolutePath());
 			}
