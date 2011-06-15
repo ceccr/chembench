@@ -47,7 +47,7 @@ public class KnnModelsPage extends ViewPredictorAction {
 	private List<KnnModel> models;
 	private List<KnnModel> randomModels;
 	
-	public String load() throws Exception{
+	public String loadPage() throws Exception{
 		//get models associated with predictor
 		getBasicParameters();
 		getModelsPageParameters();
