@@ -168,7 +168,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 		if(user != null){
 			String realPasswordHash = user.getPassword();
 			
-			if (Utility.encrypt(password).equals(realPasswordHash)){
+			if (password != null && Utility.encrypt(password).equals(realPasswordHash)){
 				context.getSession().put("user", user);
 				Cookie ckie=new Cookie("login","true");
 				servletResponse.addCookie(ckie);
