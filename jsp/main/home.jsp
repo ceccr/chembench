@@ -84,7 +84,7 @@
 			        
 			        <table width="250" border="0" ><tr><td>
 			        <span class="ccbHomeStandard">
-			        Or, <a href="/login?loginName=guest&loginPassword=guest" 
+			        Or, <a href="/login?username=guest" 
 			        onclick="alert('The guest account has all the same capabilities as a full Chembench account. However, all guest data is periodically deleted, and other guests can see the datasets, models, and predictions you create.')">
 			        login as a guest</a></span>
 			        </td></tr></table>

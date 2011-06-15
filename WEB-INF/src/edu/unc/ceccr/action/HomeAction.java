@@ -157,11 +157,15 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 		//check username and password
 		ActionContext context = ActionContext.getContext();
 		
+		if(context.getParameters().get("username") != null){
+			username = ((String[]) context.getParameters().get("username"))[0];
+		}
+		
 		Session s = HibernateUtil.getSession();
 		User user = PopulateDataObjects.getUserByUserName(username, s);
 		s.close();
 		
-		if(user!= null){
+		if(user != null){
 			String realPasswordHash = user.getPassword();
 			
 			if (Utility.encrypt(password).equals(realPasswordHash)){
