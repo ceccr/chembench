@@ -50,7 +50,7 @@
 </div> 
 <br /><br />
 
-<table class="sortable">
+<table class="sortable" id="userTable">
 	<tr>
 		<th class="TableRowText01">User Name</th>
 		<th class="TableRowText01">First Name</th>
