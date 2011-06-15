@@ -831,6 +831,11 @@ public class PopulateDataObjects {
 			tx = session.beginTransaction();
 			users = (ArrayList<User>) session.createCriteria(User.class).list();
 			tx.commit();
+
+			Collections.sort(users, new Comparator<User>() {
+			    public int compare(User u1, User u2) {
+		    		return u1.getUserName().toLowerCase().compareTo(u2.getUserName().toLowerCase());
+			    }});
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
 		} 

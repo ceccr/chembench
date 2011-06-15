@@ -20,6 +20,7 @@
 
 <script src="javascript/script.js"></script>
 <script src="javascript/admin.js"></script>
+<script language="JavaScript" src="javascript/sortableTable.js"></script>
 
 </head>
 <body onload="setTabToHome();">
@@ -49,7 +50,7 @@
 </div> 
 <br /><br />
 
-<table>
+<table class="sortable">
 	<tr>
 		<th class="TableRowText01">User Name</th>
 		<th class="TableRowText01">First Name</th>
@@ -59,7 +60,7 @@
 		<th class="TableRowText01">email</th>
 		<th class="TableRowText01">Can Download Descriptors</th>
 		<th class="TableRowText01">Administrator</th>
-		<th class="TableRowText01">Delete</th>
+		<th class="TableRowText01_unsortable">Delete</th>
 	</tr>
 	<s:iterator value="users">
 		<tr>
