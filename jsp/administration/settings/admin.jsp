@@ -58,8 +58,8 @@
 		<th class="TableRowText01">Organization</th>
 		<th class="TableRowText01">Country</th>
 		<th class="TableRowText01">email</th>
-		<th class="TableRowText01">Can Download Descriptors</th>
-		<th class="TableRowText01">Administrator</th>
+		<th class="TableRowText01_unsortable">Can Download Descriptors</th>
+		<th class="TableRowText01_unsortable">Administrator</th>
 		<th class="TableRowText01_unsortable">Delete</th>
 	</tr>
 	<s:iterator value="users">
