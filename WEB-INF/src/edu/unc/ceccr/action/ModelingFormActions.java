@@ -542,7 +542,7 @@ public class ModelingFormActions extends ActionSupport{
 	//end dataset selection parameters
 	
 	//begin descriptor parameters
-	private String descriptorGenerationType = Constants.MOLCONNZ;
+	private String descriptorGenerationType = Constants.CDK;
 	private String scalingType = Constants.RANGESCALING;
 	private String stdDevCutoff = "0.0";
 	private String correlationCutoff = "1.0";

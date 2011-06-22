@@ -378,7 +378,7 @@
 					<td valign="top">
 					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Type:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" onclick="setDescriptorScaling()" id="descriptorGenerationType" value="descriptorGenerationType" list="#{'MOLCONNZ':'MolconnZ [375 descriptors]<br />','DRAGONH':'Dragon (with hydrogens) [2489 descriptors]<br />','DRAGONNOH':'Dragon (no hydrogens) [900 descriptors]<br />','MACCS':'Maccs [166 descriptors]<br />','MOE2D':'MOE2D [184 descriptors]<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" onclick="setDescriptorScaling()" id="descriptorGenerationType" value="descriptorGenerationType" list="#{'CDK':'CDK [219 descriptors]<br />', 'MOLCONNZ':'MolconnZ [375 descriptors]<br />','DRAGONH':'Dragon (with hydrogens) [2489 descriptors]<br />','DRAGONNOH':'Dragon (no hydrogens) [900 descriptors]<br />','MACCS':'Maccs [166 descriptors]<br />','MOE2D':'MOE2D [184 descriptors]<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
 					<br />
 					</td>
 				</tr>

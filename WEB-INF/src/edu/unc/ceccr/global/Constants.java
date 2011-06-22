@@ -87,6 +87,7 @@ public class Constants {
 	public static final String DRAGONNOH = "DRAGONNOH";
 	public static final String MOE2D = "MOE2D";
 	public static final String MACCS = "MACCS";
+	public static final String CDK = "CDK";
 	public static final String UPLOADED = "UPLOADED";
 
 	public static final String KNN = "KNN";
@@ -175,6 +176,7 @@ public class Constants {
 	public static String MOLCONNZ_MODELING_DATFILE_PATH = "ParameterFiles/MZ405Modeling.dat";
 	public static String MOLCONNZ_PREDICTION_DATFILE_PATH = "ParameterFiles/MZ405Prediction.dat";
 	public static String MOLCONNZ_CSV_DATFILE_PATH = "ParameterFiles/MZ-CSV.dat";
+	public static String CDK_XMLFILE_PATH = "cd/chembench-cdk.xml";
 
 	public static final String SCRIPTS_PATH = "mmlsoft/bin/";
 	public static final String RF_BUILD_MODEL_RSCRIPT = "randomForestBuildModel.R";
