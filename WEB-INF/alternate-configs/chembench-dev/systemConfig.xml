@@ -6,7 +6,7 @@
 <systemBasePath>/usr/local/ceccr/</systemBasePath>
 <userFilesPath>/nas02/depts/chembench/dev/workflow-users/</userFilesPath>
 <tomcatPath>/usr/local/ceccr/tomcat6/</tomcatPath>
-<executablesPath>/usr/local/ceccr/</executablesPath>
+<executablesPath>/usr/local/ceccr/mmlsoft/bin/</executablesPath>
 
 <webService>
 

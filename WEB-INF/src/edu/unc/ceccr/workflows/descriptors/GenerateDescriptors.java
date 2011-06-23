@@ -28,7 +28,7 @@ public class GenerateDescriptors{
 		//Given an SD file, run CDK to get the chemical descriptors for each compound.
 		String xmlFile = Constants.CDK_XMLFILE_PATH;
 		
-		String execstr = "java -jar CDKGui-1.30.jar -b -o " + outfile + " -s " + xmlFile + " " + sdfile;
+		String execstr = "java -jar " + Constants.EXECUTABLEFILE_PATH + "CDKGui-1.30.jar -b -o " + outfile + " -s " + xmlFile + " " + sdfile;
 			 
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
 		
