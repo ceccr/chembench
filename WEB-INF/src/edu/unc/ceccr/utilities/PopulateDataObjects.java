@@ -624,19 +624,21 @@ public class PopulateDataObjects {
 				Utility.writeToDebug(e);
 			} 
 
-			for (Prediction p : predictions) {
-				String predictorNames = "";
-				String[] predictorIds = p.getPredictorIds().split("\\s+");
-				for(int i = 0; i < predictorIds.length; i++){
-					predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
+			if(predictions != null){
+				for (Prediction p : predictions) {
+					String predictorNames = "";
+					String[] predictorIds = p.getPredictorIds().split("\\s+");
+					for(int i = 0; i < predictorIds.length; i++){
+						predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
+					}
+					p.setPredictorNames(predictorNames);
+		 			if(p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null){
+		 				p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getName());
+		 			}
 				}
-				p.setPredictorNames(predictorNames);
-	 			if(p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null){
-	 				p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getName());
-	 			}
 			}
-
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			Utility.writeToDebug(e);
 		}
 		

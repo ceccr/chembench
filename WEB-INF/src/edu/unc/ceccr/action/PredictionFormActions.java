@@ -345,6 +345,9 @@ public class PredictionFormActions extends ActionSupport{
 					else if(sp.getDescriptorGeneration().equals(Constants.MACCS) && predictionDatasetDescriptors[i].equals(Constants.MACCS)){
 						descriptorsMatch = true;
 					}
+					else if(sp.getDescriptorGeneration().equals(Constants.CDK) && predictionDatasetDescriptors[i].equals(Constants.CDK)){
+						descriptorsMatch = true;
+					}
 				}
 
 				if(!descriptorsMatch){
