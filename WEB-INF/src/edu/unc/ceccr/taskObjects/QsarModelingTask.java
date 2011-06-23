@@ -533,6 +533,12 @@ public class QsarModelingTask extends WorkflowTask {
 			//ReadDescriptorsFileWorkflow.convertMzToX(filePath + sdFileName + ".mz", filePath);
 			//ReadDescriptorsFileWorkflow.readXDescriptors(filePath + sdFileName + ".mz.x", descriptorNames, descriptorValueMatrix);
 		}
+		else if (descriptorGenerationType.equals(Constants.CDK)){
+			Utility.writeToDebug("Processing CDK descriptors", userName, jobName);
+			
+			ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk", filePath);
+			ReadDescriptors.readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNames, descriptorValueMatrix);
+		}
 		else if (descriptorGenerationType.equals(Constants.DRAGONH)){
 			Utility.writeToDebug("Processing DragonH descriptors", userName, jobName);
 			ReadDescriptors.readDragonDescriptors(filePath + sdFileName + ".dragonH", descriptorNames, descriptorValueMatrix);

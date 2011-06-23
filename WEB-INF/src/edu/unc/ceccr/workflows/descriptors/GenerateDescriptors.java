@@ -22,7 +22,6 @@ public class GenerateDescriptors{
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
 		
 		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "molconnz");
-	
 	}
 	
 	public static void GenerateCDKDescriptors(String sdfile, String outfile) throws Exception{
@@ -34,7 +33,6 @@ public class GenerateDescriptors{
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
 		
 		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "cdk");
-	
 	}
 
 	public static void GenerateHExplicitDragonDescriptors(String sdfile, String outfile) throws Exception{

@@ -255,6 +255,9 @@ public class CreateDatasetTask extends WorkflowTask{
 			Utility.writeToDebug("Generating MolconnZ Descriptors", userName, jobName);
 			//GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".mz");
 			GenerateDescriptors.GenerateMolconnZDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".molconnz");
+			
+			Utility.writeToDebug("Generating CDK Descriptors", userName, jobName);
+			GenerateDescriptors.GenerateCDKDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".cdk");
 
 			Utility.writeToDebug("Generating DragonH Descriptors", userName, jobName);
 			GenerateDescriptors.GenerateHExplicitDragonDescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".dragonH");
@@ -276,6 +279,17 @@ public class CreateDatasetTask extends WorkflowTask{
 			}
 			else{
 				File errorSummaryFile = new File(path + descriptorDir + "Logs/molconnz.out");
+				BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
+				errorSummary.write(errors);
+				errorSummary.close();
+			}
+			//CDK
+			errors = CheckDescriptors.checkCDKDescriptors(path + descriptorDir + sdfFileName + ".cdk");
+			if(errors.equals("")){
+				availableDescriptors += Constants.CDK + " ";
+			}
+			else{
+				File errorSummaryFile = new File(path + descriptorDir + "Logs/cdk.out");
 				BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
 				errorSummary.write(errors);
 				errorSummary.close();

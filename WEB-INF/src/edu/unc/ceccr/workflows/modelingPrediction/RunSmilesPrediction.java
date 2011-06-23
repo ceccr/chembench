@@ -46,9 +46,17 @@ public class RunSmilesPrediction{
 
 		if(predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)){
 			GenerateDescriptors.GenerateMolconnZDescriptors(sdfile, sdfile + ".molconnz");
+			ReadDescriptors.readMolconnZDescriptors(sdfile + ".molconnz", descriptorNames, descriptorValueMatrix);
+			
 			//GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(sdfile, sdfile + ".mz");
-			//ReadDescriptorsFileWorkflow.convertMzToX(sdfile + ".mz", workingDir);
-			//ReadDescriptorsFileWorkflow.readXDescriptors(sdfile + ".mz.x", descriptorNames, descriptorValueMatrix);
+			//ReadDescriptors.convertMzToX(sdfile + ".mz", workingDir);
+			//ReadDescriptors.readXDescriptors(sdfile + ".mz.x", descriptorNames, descriptorValueMatrix);
+		}
+		else if(predictor.getDescriptorGeneration().equals(Constants.CDK)){
+			GenerateDescriptors.GenerateCDKDescriptors(sdfile, sdfile + ".cdk");
+
+			ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk", filePath);
+			ReadDescriptors.readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNames, descriptorValueMatrix);
 		}
 		else if(predictor.getDescriptorGeneration().equals(Constants.DRAGONH)){
 			GenerateDescriptors.GenerateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");

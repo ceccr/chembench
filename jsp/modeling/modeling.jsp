@@ -56,6 +56,7 @@
 		}
 		
 		//enable / disable based on the availableDescriptors
+		//these are ordered based on defaults (e.g. if uploaded is available, it will be the default checked)
 		if(selectedDatasetAvailableDescriptors.indexOf("MOE2D") > -1){
 			document.getElementById("descriptorGenerationType" + "MOE2D").disabled = false;
 			document.getElementById("descriptorGenerationType" + "MOE2D").checked = "checked";
@@ -87,13 +88,21 @@
 		else{
 			document.getElementById("descriptorGenerationType" + "DRAGONH").disabled = true;
 		}
-		
+
 		if(selectedDatasetAvailableDescriptors.indexOf("MOLCONNZ") > -1){
 			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = false;
 			document.getElementById("descriptorGenerationType" + "MOLCONNZ").checked = "checked";
 		}
 		else{
 			document.getElementById("descriptorGenerationType" + "MOLCONNZ").disabled = true;
+		}
+
+		if(selectedDatasetAvailableDescriptors.indexOf("CDK") > -1){
+			document.getElementById("descriptorGenerationType" + "CDK").disabled = false;
+			document.getElementById("descriptorGenerationType" + "CDK").checked = "checked";
+		}
+		else{
+			document.getElementById("descriptorGenerationType" + "CDK").disabled = true;
 		}
 		
 		if(selectedDatasetAvailableDescriptors.indexOf("UPLOADED") > -1){
@@ -378,7 +387,7 @@
 					<td valign="top">
 					<div class="StandardTextDarkGrayParagraph"><b>Descriptor Type:</b></div></td>
 					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" onclick="setDescriptorScaling()" id="descriptorGenerationType" value="descriptorGenerationType" list="#{'CDK':'CDK [219 descriptors]<br />', 'MOLCONNZ':'MolconnZ [375 descriptors]<br />','DRAGONH':'Dragon (with hydrogens) [2489 descriptors]<br />','DRAGONNOH':'Dragon (no hydrogens) [900 descriptors]<br />','MACCS':'Maccs [166 descriptors]<br />','MOE2D':'MOE2D [184 descriptors]<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
+					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" onclick="setDescriptorScaling()" id="descriptorGenerationType" value="descriptorGenerationType" list="#{'CDK':'CDK [202 descriptors]<br />', 'MOLCONNZ':'MolconnZ [375 descriptors]<br />','DRAGONH':'Dragon (with hydrogens) [2489 descriptors]<br />','DRAGONNOH':'Dragon (no hydrogens) [900 descriptors]<br />','MACCS':'Maccs [166 descriptors]<br />','MOE2D':'MOE2D [184 descriptors]<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
 					<br />
 					</td>
 				</tr>

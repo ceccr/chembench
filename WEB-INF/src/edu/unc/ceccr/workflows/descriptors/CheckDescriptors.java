@@ -159,6 +159,28 @@ public class CheckDescriptors{
 		Utility.writeToDebug("Done checking Dragon descriptors: " + dragonOutputFile);
 		return errors;
 	}
+
+	public static String checkCDKDescriptors(String cdkOutputFile) throws Exception{
+		//check if CDK file exists, then look for NA's.
+		String errors = "";
+		
+		File file = new File(cdkOutputFile);
+		if(! file.exists() || file.length() == 0){
+			errors = "Could not read descriptor file.\n";
+		}
+		else{
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			String line = "";
+			while((line = br.readLine()) != null ){
+				if(line.contains("NA")){
+					String compoundName = line.split("\\s+")[0];
+					errors += ("Error: compound named '" + compoundName + "' has some invalid descriptors. \n");
+				}
+			}
+		}
+		return errors;
+	}
+	
 	
 	public static String checkMaccsDescriptors(String maccsOutputFile) throws Exception{
 		//right now this doesn't check anything. The MACCS keys never seem to cause issues.

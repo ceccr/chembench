@@ -539,6 +539,26 @@ public class ViewDataset extends ActionSupport {
 		}
 		descriptorGenerationResults.add(molconnZResult);
 
+		
+		DescriptorGenerationResult cdkResult = new DescriptorGenerationResult();
+		cdkResult.setDescriptorType("CDK");
+		if((new File(descriptorsDir + "cdk.out")).exists()){
+			cdkResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "cdk.out"));
+		}
+		if((new File(descriptorsDir + "cdk.err")).exists()){
+			cdkResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "cdk.err"));
+		}
+		if(dataset.getAvailableDescriptors().contains(Constants.CDK)){
+			cdkResult.setGenerationResult("Successful");
+		}
+		else{
+			cdkResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+		}
+		descriptorGenerationResults.add(cdkResult);
+
+		
+		
+		
 		DescriptorGenerationResult dragonHResult = new DescriptorGenerationResult();
 		dragonHResult.setDescriptorType("Dragon (with hydrogens)");
 		if((new File(descriptorsDir + "dragonH.out")).exists()){
