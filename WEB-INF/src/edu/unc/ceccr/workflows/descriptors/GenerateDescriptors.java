@@ -26,7 +26,7 @@ public class GenerateDescriptors{
 	
 	public static void GenerateCDKDescriptors(String sdfile, String outfile) throws Exception{
 		//Given an SD file, run CDK to get the chemical descriptors for each compound.
-		String xmlFile = Constants.CDK_XMLFILE_PATH;
+		String xmlFile = Constants.CECCR_BASE_PATH + Constants.CDK_XMLFILE_PATH;
 		
 		String execstr = "java -jar " + Constants.EXECUTABLEFILE_PATH + "CDKGui-1.30.jar -b -o " + outfile + " -s " + xmlFile + " " + sdfile;
 			 
