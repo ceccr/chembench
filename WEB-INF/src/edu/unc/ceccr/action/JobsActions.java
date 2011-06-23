@@ -140,37 +140,67 @@ public class JobsActions extends ActionSupport {
 		
 		//get local jobs
 		localJobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
-		for(Job j : localJobs){
-			if(j.workflowTask != null){
-				j.setMessage(j.workflowTask.getProgress(user.getUserName()));
+		
+		for(int i = 0; i < localJobs.size(); i++){
+			//hide job if job is from a different user and logged in user is not admin
+			if(! localJobs.get(i).getUserName().equals(user.getUserName()) && 
+					! user.getIsAdmin().equals(Constants.YES) ){
+				localJobs.remove(i);
+				i--;
+				continue;
 			}
-			else{
-				j.setMessage("Could not resume task.");
+			
+			if(localJobs.get(i).workflowTask != null){
+				localJobs.get(i).setMessage(localJobs.get(i).workflowTask.getProgress(user.getUserName()));
 			}
 		}
 		
 		//get lsf jobs
 		lsfJobs = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
-		for(Job j : lsfJobs){
-			if(j.workflowTask != null){
-				j.setMessage(j.workflowTask.getProgress(user.getUserName()));
+		
+		for(int i = 0; i < lsfJobs.size(); i++){
+			//hide job if job is from a different user and logged in user is not admin
+			if(! lsfJobs.get(i).getUserName().equals(user.getUserName()) && 
+					! user.getIsAdmin().equals(Constants.YES) ){
+				lsfJobs.remove(i);
+				i--;
+				continue;
 			}
-			else{
-				j.setMessage("Could not resume task.");
+			
+			if(lsfJobs.get(i).workflowTask != null){
+				lsfJobs.get(i).setMessage(lsfJobs.get(i).workflowTask.getProgress(user.getUserName()));
 			}
 		}
-
+		
 		//get incoming jobs
 		incomingJobs = CentralDogma.getInstance().incomingJobs.getReadOnlyCopy();
-		for(Job j : incomingJobs){
-			if(j.workflowTask != null){
-				j.setMessage("Waiting in queue");
+		
+		for(int i = 0; i < incomingJobs.size(); i++){
+			//hide job if job is from a different user and logged in user is not admin
+			if(! incomingJobs.get(i).getUserName().equals(user.getUserName()) && 
+					! user.getIsAdmin().equals(Constants.YES) ){
+				incomingJobs.remove(i);
+				i--;
+				continue;
+			}
+
+			if(incomingJobs.get(i).workflowTask != null){
+				incomingJobs.get(i).setMessage("Waiting in queue");
 			}
 		}
 		
 		//get error jobs
 		errorJobs = CentralDogma.getInstance().errorJobs.getReadOnlyCopy();
 
+		for(int i = 0; i < errorJobs.size(); i++){
+			//hide job if job is from a different user and logged in user is not admin
+			if(! errorJobs.get(i).getUserName().equals(user.getUserName()) && 
+					! user.getIsAdmin().equals(Constants.YES) ){
+				errorJobs.remove(i);
+				i--;
+			}
+		}
+		
 		session.close();
 
 		Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to jobs page.");

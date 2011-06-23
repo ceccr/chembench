@@ -24,6 +24,18 @@ public class GenerateDescriptors{
 		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "molconnz");
 	
 	}
+	
+	public static void GenerateCDKDescriptors(String sdfile, String outfile) throws Exception{
+		//Given an SD file, run CDK to get the chemical descriptors for each compound.
+		String xmlFile = Constants.CDK_XMLFILE_PATH;
+		
+		String execstr = "java -jar CDKGui-1.3.0.jar -b -o " + outfile + " -s " + xmlFile + " " + sdfile;
+			 
+		String workingDir = sdfile.replaceAll("/[^/]+$", "");
+		
+		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "cdk");
+	
+	}
 
 	public static void GenerateHExplicitDragonDescriptors(String sdfile, String outfile) throws Exception{
 		String workingDir = outfile.replaceAll("/[^/]+$", "") + "/";

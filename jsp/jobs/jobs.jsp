@@ -435,37 +435,39 @@
 		<tr>
 			<td colspan="2">
 			<div class="StandardTextDarkGrayParagraph"><i>Click on the name of a prediction to see the results.</i><br />
-			<table class="sortable" id="predictions">
-				<tr>
-					<th class="TableRowText01">Name</th>
-					<th class="TableRowText01">Dataset</th>
-					<th class="TableRowText01">Predictor</th>
-					<th class="TableRowText01">Date Created</th>
-					<th class="TableRowText01_unsortable">Download</th>
-					<th class="TableRowText01_unsortable">Delete</th>
-				</tr>
-				<s:iterator value="userPredictions">
-					<s:if test="hasBeenViewed=='YES'">
-					<tr class="TableRowText02">
-					</s:if>
-					<s:else>
-					<tr class="TableRowText03">
-					</s:else>
-					
-					<s:url id="predictionLink" value="/viewPrediction" includeParams="none">
-						<s:param name="id" value='id' />
-					</s:url>
-					<td><s:a href="%{predictionLink}"><s:property value="name" /></s:a></td>
-					<td><s:property value="datasetDisplay" /></td>
-					<td><s:property value="predictorNames" /></td>
-					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
-					<td><a onclick="return confirmDelete('prediction')" href="deletePrediction?id=<s:property value="id" />#predictions">delete</a></td>
-					</tr> 
-				</s:iterator>
-				<br />
-				<br />
-			</table>
+			<s:if test="! userPredictions.isEmpty()">
+				<table class="sortable" id="predictions">
+					<tr>
+						<th class="TableRowText01">Name</th>
+						<th class="TableRowText01">Dataset</th>
+						<th class="TableRowText01">Predictor</th>
+						<th class="TableRowText01">Date Created</th>
+						<th class="TableRowText01_unsortable">Download</th>
+						<th class="TableRowText01_unsortable">Delete</th>
+					</tr>
+					<s:iterator value="userPredictions">
+						<s:if test="hasBeenViewed=='YES'">
+						<tr class="TableRowText02">
+						</s:if>
+						<s:else>
+						<tr class="TableRowText03">
+						</s:else>
+						
+						<s:url id="predictionLink" value="/viewPrediction" includeParams="none">
+							<s:param name="id" value='id' />
+						</s:url>
+						<td><s:a href="%{predictionLink}"><s:property value="name" /></s:a></td>
+						<td><s:property value="datasetDisplay" /></td>
+						<td><s:property value="predictorNames" /></td>
+						<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+						<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
+						<td><a onclick="return confirmDelete('prediction')" href="deletePrediction?id=<s:property value="id" />#predictions">delete</a></td>
+						</tr> 
+					</s:iterator>
+					<br />
+					<br />
+				</table>
+			</s:if>
 			</div>
 			</td>
 		 </tr>	
