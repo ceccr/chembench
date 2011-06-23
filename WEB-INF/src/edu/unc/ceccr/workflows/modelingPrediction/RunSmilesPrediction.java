@@ -55,8 +55,8 @@ public class RunSmilesPrediction{
 		else if(predictor.getDescriptorGeneration().equals(Constants.CDK)){
 			GenerateDescriptors.GenerateCDKDescriptors(sdfile, sdfile + ".cdk");
 
-			ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk", filePath);
-			ReadDescriptors.readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNames, descriptorValueMatrix);
+			ReadDescriptors.convertCDKToX(sdfile + ".cdk", workingDir);
+			ReadDescriptors.readXDescriptors(sdfile + ".cdk.x", descriptorNames, descriptorValueMatrix);
 		}
 		else if(predictor.getDescriptorGeneration().equals(Constants.DRAGONH)){
 			GenerateDescriptors.GenerateHExplicitDragonDescriptors(sdfile, sdfile + ".dragonH");
