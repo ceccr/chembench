@@ -333,6 +333,9 @@ public class PredictionFormActions extends ActionSupport{
 					if(sp.getDescriptorGeneration().equals(Constants.MOLCONNZ) && predictionDatasetDescriptors[i].equals(Constants.MOLCONNZ)){
 						descriptorsMatch = true;
 					}
+					else if(sp.getDescriptorGeneration().equals(Constants.CDK) && predictionDatasetDescriptors[i].equals(Constants.CDK)){
+						descriptorsMatch = true;
+					}
 					else if(sp.getDescriptorGeneration().equals(Constants.DRAGONH) && predictionDatasetDescriptors[i].equals(Constants.DRAGONH)){
 						descriptorsMatch = true;
 					}
@@ -343,9 +346,6 @@ public class PredictionFormActions extends ActionSupport{
 						descriptorsMatch = true;
 					}
 					else if(sp.getDescriptorGeneration().equals(Constants.MACCS) && predictionDatasetDescriptors[i].equals(Constants.MACCS)){
-						descriptorsMatch = true;
-					}
-					else if(sp.getDescriptorGeneration().equals(Constants.CDK) && predictionDatasetDescriptors[i].equals(Constants.CDK)){
 						descriptorsMatch = true;
 					}
 				}

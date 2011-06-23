@@ -33,6 +33,11 @@ public class ConvertDescriptorsToXAndScale{
 			descriptorsFile += ".molconnz";
 			splitMolconnZFile(workingDir, descriptorsFile);
 		}
+		else if(descriptorGenerationType.equals(Constants.CDK)){
+			descriptorsFile += ".cdk";
+			ReadDescriptors.convertCDKToX(workingDir + descriptorsFile, workingDir);
+			splitXFile(workingDir, descriptorsFile + ".x");
+		}
 		else if(descriptorGenerationType.equals(Constants.DRAGONH)){
 			descriptorsFile += ".dragonH";
 			splitDragonFile(workingDir, descriptorsFile);
@@ -82,6 +87,11 @@ public class ConvertDescriptorsToXAndScale{
 				//ReadDescriptorsFileWorkflow.convertMzToX(workingDir + descriptorsFile + "_" + filePartNumber, workingDir);
 				//ReadDescriptorsFileWorkflow.readXDescriptors(workingDir + descriptorsFile + "_" + ".mz.x", descriptorNames, descriptorValueMatrix);
 				ReadDescriptors.readMolconnZDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
+			}
+			else if(descriptorGenerationType.equals(Constants.CDK)){
+				descriptorsFile += ".cdk";
+				ReadDescriptors.convertCDKToX(workingDir + descriptorsFile, workingDir);
+				ReadDescriptors.readXDescriptors(workingDir + descriptorsFile + ".x", descriptorNames, descriptorValueMatrix);
 			}
 			else if(descriptorGenerationType.equals(Constants.DRAGONH)){
 				ReadDescriptors.readDragonDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, 
@@ -149,6 +159,11 @@ public class ConvertDescriptorsToXAndScale{
 			//ReadDescriptorsFileWorkflow.readXDescriptors(workingDir + descriptorsFile + ".x", descriptorNames, descriptorValueMatrix);
 			descriptorsFile += ".molconnz";
 			ReadDescriptors.readMolconnZDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
+		}
+		else if(descriptorGenerationType.equals(Constants.CDK)){
+			descriptorsFile += ".cdk";
+			ReadDescriptors.convertCDKToX(workingDir + descriptorsFile, workingDir);
+			ReadDescriptors.readXDescriptors(workingDir + descriptorsFile + ".x", descriptorNames, descriptorValueMatrix);
 		}
 		else if(descriptorGenerationType.equals(Constants.DRAGONH)){
 			descriptorsFile += ".dragonH";
