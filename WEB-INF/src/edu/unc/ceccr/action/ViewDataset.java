@@ -708,7 +708,8 @@ public class ViewDataset extends ActionSupport {
 			user = (User) context.getSession().get("user");
 			datasetId = ((String[]) context.getParameters().get("id"))[0];
 			
-			if(context.getParameters().get("editable") != null){
+			if(context.getParameters().get("editable") != null && datasetId != null){
+				dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
 				if(user.getIsAdmin().equals(Constants.YES)|| user.getUserName().equals(dataset.getUserName())){
 					editable = "YES";
 				}

@@ -85,7 +85,7 @@
 				<b>Paper Reference: </b><s:property value="selectedPredictor.paperReference" /><br />
 				<s:if test="selectedPredictor.userName!='all-users'||user.isAdmin=='YES'">
 					<!-- display edit link -->
-					<a href="viewPredictor?predictorId=<s:property value="id" />&editable=YES">Edit description and reference</a><br />
+					<a href="viewPredictor?predictorId=<s:property value="selectedPredictor.id" />&editable=YES">Edit description and reference</a><br />
 				</s:if>
 				</div>
 			</s:else>
