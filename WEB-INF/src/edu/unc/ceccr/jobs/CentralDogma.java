@@ -44,6 +44,7 @@ public class CentralDogma{
 	
 	private IncomingJobProcessingThread inThread;
 	
+	
 	private static CentralDogma instance = new CentralDogma(); 
 	
 	private CentralDogma(){
