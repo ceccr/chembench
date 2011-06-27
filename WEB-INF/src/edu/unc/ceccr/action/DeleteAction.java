@@ -377,7 +377,13 @@ public class DeleteAction extends ActionSupport{
 							//find sibling jobs and cancel those
 							for(Predictor sp : siblingPredictors){
 								Job sibJob = PopulateDataObjects.getJobByNameAndUsername(sp.getName(), sp.getUserName(), s);
-								CentralDogma.getInstance().cancelJob(sibJob.getId());
+								try{
+									CentralDogma.getInstance().cancelJob(sibJob.getId());
+								}
+								catch(Exception ex){
+									//if some siblings are missing, don't crash, just keep deleting things
+									Utility.writeToDebug(ex);
+								}
 							}
 							//cancel this job
 							CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
