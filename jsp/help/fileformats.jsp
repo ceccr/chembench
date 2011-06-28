@@ -85,7 +85,7 @@ An SDF contains the structures of a set of compounds; each compound ends with "$
 <p id="X"><b>.X files</b></p>
 
 <p>.x is a descriptor file format used by Chembench. It is similar to the matrix format accepted by other 
-data mining programs.</p>
+data mining programs. All descriptor values must be numeric.</p>
 
 <p><a href="/jsp/help/samples/descriptorsFileSample.x">X File Sample</a> (open with a text editor)</p>
 

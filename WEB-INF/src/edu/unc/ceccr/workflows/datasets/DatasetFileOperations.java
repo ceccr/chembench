@@ -901,6 +901,7 @@ public class DatasetFileOperations {
 								tokens[j] = Utility.floatToString(Float.parseFloat(tokens[j]));
 							}
 							else{
+		
 								//check that descriptor value is numeric (not a string or something else crazy)
 								Float.parseFloat(tokens[j]);
 							}
