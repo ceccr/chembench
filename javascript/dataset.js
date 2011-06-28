@@ -77,7 +77,7 @@ function submitForm(btn, value){
 	}
 	else if(splitType === "NFOLD"){
 		var numExternalFolds = document.getElementById("numExternalFolds").value;
-		if(parseInt(numExternalFolds) < 0 || isNaN(parseInt(numExternalFolds))){
+		if(parseInt(numExternalFolds) < 2 || isNaN(parseInt(numExternalFolds))){
 			msg += "Invalid number of external folds.\n";
 		}
 		if(parseInt(numExternalFolds) > 30){

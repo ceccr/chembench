@@ -12,7 +12,7 @@
 		</s:iterator>
 		</p>
 	</s:if>
-
+	
 	<!-- External Validation Chart -->
 	<s:if test="externalValValues.size!=0&&hasGoodModels=='YES'">
 		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
@@ -69,6 +69,9 @@
 				</p>
 			</s:else>
 		</s:elseif>
+		<p class="StandardTextDarkGray">
+			Note: If there are fewer than 5 compounds in your external set, the external validation will not be a reliable measure of predictor performance.
+		</p>
 	</s:if>
 	<br />
 	<!-- End External Validation Chart -->
