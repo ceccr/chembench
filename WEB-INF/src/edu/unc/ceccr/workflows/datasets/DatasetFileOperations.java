@@ -894,16 +894,22 @@ public class DatasetFileOperations {
 				
 				out.write(tokens[1] + " "); //write compound id
 				for(int j = 2; j < tokens.length; j++){ //for each descriptor value
-					try{
-						if(tokens[j].contains("E") || tokens[j].contains("e")){
+						try{
 							//convert from scientific notation to a regular decimal form
 							//done for compatibility with datasplit and other programs
-							tokens[j] = Utility.floatToString(Float.parseFloat(tokens[j]));
-						}		
-					}
-					catch(Exception ex){
-						Utility.writeToDebug(ex);
-					}
+							if(tokens[j].contains("E") || tokens[j].contains("e")){
+								tokens[j] = Utility.floatToString(Float.parseFloat(tokens[j]));
+							}
+							else{
+								//check that descriptor value is numeric (not a string or something else crazy)
+								Float.parseFloat(tokens[j]);
+							}
+						}
+						catch(Exception ex){
+							Utility.writeToDebug(ex);
+							return "Error on X file at compound " + (i+1) + " at descriptor " + (j-1) +  " " +
+								tokens[j] + " is not a number.";
+						}
 					out.write(tokens[j] + " ");
 				}
 				out.write("\n");
