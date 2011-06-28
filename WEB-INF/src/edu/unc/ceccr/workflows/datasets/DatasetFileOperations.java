@@ -908,8 +908,8 @@ public class DatasetFileOperations {
 						}
 						catch(Exception ex){
 							Utility.writeToDebug(ex);
-							return "Error on X file at compound " + (i+1) + " at descriptor " + (j-1) +  " " +
-								tokens[j] + " is not a number.";
+							return "Error in X file at compound " + (i+1) + " at descriptor " + (j-1) +  ": '" +
+								tokens[j] + "' is not a number.";
 						}
 					out.write(tokens[j] + " ");
 				}
