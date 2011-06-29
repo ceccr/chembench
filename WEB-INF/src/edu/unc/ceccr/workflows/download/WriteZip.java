@@ -127,7 +127,6 @@ public class WriteZip{
 			if(projectDirFilenames[x].endsWith(".act") 
 					|| projectDirFilenames[x].endsWith(".sdf") 
 					|| projectDirFilenames[x].endsWith(".x")
-					|| projectDirFilenames[x].endsWith(".cdk")
 					|| projectDirFilenames[x].replaceAll("[0-9]", "").endsWith("fold")){
 				datasetFiles.add(projectDirFilenames[x]);
 			}
@@ -140,6 +139,17 @@ public class WriteZip{
 		x = 0;
 		while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
 			datasetFiles.add("Logs/" + projectDirLogsFilenames[x]);
+			x++;
+		}
+		
+		//add the Descriptor files in (just CDK)
+		File ProjectDirDescriptorsFile = new File(projectDir + "Descriptors/");
+		String[] projectDirDescriptorsFilenames = ProjectDirDescriptorsFile.list();
+		x = 0;
+		while(projectDirDescriptorsFilenames != null && x<projectDirDescriptorsFilenames.length){
+			if(projectDirFilenames[x].endsWith(".cdk") || projectDirFilenames[x].endsWith(".x")){
+				datasetFiles.add("Descriptors/" + projectDirDescriptorsFilenames[x]);
+			}
 			x++;
 		}
 		
