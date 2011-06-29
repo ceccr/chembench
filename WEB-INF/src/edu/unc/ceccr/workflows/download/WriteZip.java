@@ -147,7 +147,7 @@ public class WriteZip{
 		String[] projectDirDescriptorsFilenames = ProjectDirDescriptorsFile.list();
 		x = 0;
 		while(projectDirDescriptorsFilenames != null && x<projectDirDescriptorsFilenames.length){
-			if(projectDirFilenames[x].endsWith(".cdk") || projectDirFilenames[x].endsWith(".x")){
+			if(projectDirDescriptorsFilenames[x].endsWith(".cdk") || projectDirDescriptorsFilenames[x].endsWith(".x")){
 				datasetFiles.add("Descriptors/" + projectDirDescriptorsFilenames[x]);
 			}
 			x++;
