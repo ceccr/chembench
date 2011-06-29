@@ -116,7 +116,7 @@ public class WriteZip{
 		datasetFiles.add(Constants.MODELING_SET_A_FILE);
 		datasetFiles.add(Constants.EXTERNAL_SET_A_FILE);
 		
-		//add in the .act, .sdf, and .x files
+		//add in the .act, .sdf, .cdk, and .x files
 		File projectDirFile = new File(projectDir);
 		String[] projectDirFilenames = projectDirFile.list();
 		if(projectDirFilenames == null){
@@ -127,6 +127,7 @@ public class WriteZip{
 			if(projectDirFilenames[x].endsWith(".act") 
 					|| projectDirFilenames[x].endsWith(".sdf") 
 					|| projectDirFilenames[x].endsWith(".x")
+					|| projectDirFilenames[x].endsWith(".cdk")
 					|| projectDirFilenames[x].replaceAll("[0-9]", "").endsWith("fold")){
 				datasetFiles.add(projectDirFilenames[x]);
 			}

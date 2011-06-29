@@ -33,6 +33,10 @@ public class GenerateDescriptors{
 		String workingDir = sdfile.replaceAll("/[^/]+$", "");
 		
 		RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "cdk");
+		
+		//Temporary thing; makes life easier for some users for bioactivity use case
+		outfile = outfile.substring(outfile.lastIndexOf("/")+1); 
+		ReadDescriptors.convertCDKToX(outfile, workingDir + "/Descriptors/");
 	}
 
 	public static void GenerateHExplicitDragonDescriptors(String sdfile, String outfile) throws Exception{
