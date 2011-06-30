@@ -16,7 +16,6 @@ import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.SoftwareExpiration;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;

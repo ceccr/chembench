@@ -9,7 +9,6 @@ import org.hibernate.Transaction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
-import edu.unc.ceccr.persistence.SoftwareExpiration;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.Utility;
 
