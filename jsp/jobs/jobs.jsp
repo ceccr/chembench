@@ -341,13 +341,14 @@
 	<br />
 
 	<!-- Finished Modeling Jobs -->
+	<a name="predictors"></a>
+	<br />
 	
 	<table width="94%" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>			
 		<tr>
 			<td height="24" align="left" colspan="2">
 			<p class="StandardTextDarkGrayParagraph2">
-			<a name="predictors"></a>
 			<br />
 			<b>Predictors</b>
 			</p></td>
