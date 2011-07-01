@@ -91,6 +91,7 @@
 			</s:else>
 			<br />
 			<a href="fileServlet?id=<s:property value="selectedPredictor.id" />&user=<s:property value="userName" />&jobType=MODELING&file=externalPredictionsAsCSV">Download External Validation Results (CSV)</a>
+			<br />
 			<a href="jobs#predictors">Back to Predictors</a>
 			
 		</td></tr></table>
