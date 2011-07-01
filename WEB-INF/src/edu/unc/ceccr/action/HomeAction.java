@@ -77,7 +77,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 			}
 			else{
 				try{
-					//STATIC PATH OH NOES
+					//STATIC PATH we didn't know how to make it dynamic in Struts 2
 					String path = "/usr/local/ceccr/tomcat6/webapps/ROOT/WEB-INF/systemConfig.xml";
 					Utility.readBuildDateAndSystemConfig(path);
 				}
@@ -116,7 +116,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 	
 			// finished jobs
 			int numFinishedJobs = jobStatList.size();
-			jobStats = "Jobs completed: "  + numJobs;
+			jobStats = "Jobs completed: "  + numFinishedJobs;
 	
 			// CPU statistics
 			int computeHours = 0;
