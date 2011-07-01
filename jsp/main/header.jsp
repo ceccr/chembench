@@ -27,9 +27,13 @@
 		  				</span>
 					</div>
 					<div align="right">
-						<a href="/logout">log out</a> | <a href="editProfile">edit profile</a> | <a href="help-overview" target="_top">help pages</a>
+						<a href="/logout">log out</a> 
+						<s:if test="#session['user'].userName !='guest'">
+							| <a href="editProfile">edit profile</a> 
+						</s:if>
+						| <a href="help-overview" target="_top">help pages</a>
 						<s:if test="#session['user'].isAdmin=='YES'">
-						| <a href="admin">admin</a> 
+							| <a href="admin">admin</a> 
 						</s:if>
 					</div>
 			  </td>
