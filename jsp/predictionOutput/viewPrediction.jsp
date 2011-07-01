@@ -77,7 +77,7 @@
 			<br /><br />
 			<a href="fileServlet?id=<s:property value="prediction.id" />&user=<s:property value="userName" />&jobType=PREDICTION&file=predictionAsCSV">Download This Prediction Result (CSV)</a>
 			<br />
-			<a href="jobs#predictions">Back to Predictors</a>
+			<a href="jobs#predictions">Back to Predictions</a>
 			</div>
 	</td></tr></table>
 	<!-- End Header Info -->
