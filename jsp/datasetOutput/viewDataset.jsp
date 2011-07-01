@@ -135,7 +135,7 @@
 				<br />
 				</div>
 			</s:else>
-			<br /><br />
+			<br />
 			<a href="jobs#datasets">Back to Predictors</a>
 	<!-- End Header Info -->
 
