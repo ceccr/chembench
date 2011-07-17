@@ -1,8 +1,8 @@
 # Purpose: converts CDK descriptors to knn-format .X files
 # Usage: python cdkToX.py infile.cdk outfile.x
 # Author: Theo Walker
-# Date: Dec. 20, 2010
-# Version 1.0
+# Date: Jun. 20, 2011
+# Version 1.1
 
 import sys
 import re
