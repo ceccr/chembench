@@ -97,7 +97,7 @@ public class DataSplit{
 		int numExternalCompounds = 0; //compoundIDs.length;
 		ArrayList<String> xCompoundNames = DatasetFileOperations.getXCompoundNames(workingdir + xFileName);
 		for(int i = 0; i < compoundIDs.length; i++){
-			for(int j = 0; j < xCompoundNames.size(); i++){
+			for(int j = 0; j < xCompoundNames.size(); j++){
 				if(xCompoundNames.get(j).equals(compoundIDs[i])){
 					numExternalCompounds++;
 				}
