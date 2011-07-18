@@ -289,6 +289,7 @@ public class CreateDatasetTask extends WorkflowTask{
 				availableDescriptors += Constants.CDK + " ";
 			}
 			else{
+				availableDescriptors += Constants.CDK + " "; //CDK is available even when there are errors
 				File errorSummaryFile = new File(path + descriptorDir + "Logs/cdk.out");
 				BufferedWriter errorSummary = new BufferedWriter(new FileWriter(errorSummaryFile));
 				errorSummary.write(errors);
