@@ -117,11 +117,13 @@ public class DataSplit{
 					if(array[1].equals(compoundIDs[i]) && ! array[1].trim().equals("")){
 						outXExternalWriter.write(line + "\n");
 						lineIsExternal = true;
+						Utility.writeToDebug("Compound [" + array[1] + "] -> EXTERNAL");
 					}
 				}
 				if(!lineIsExternal){
 					//compound belongs in modeling set
 					outXModelingWriter.write(line + "\n");
+					Utility.writeToDebug("Compound [" + array[1] + "] -> MODELING");
 				}
 			}
 			else{
