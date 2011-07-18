@@ -538,6 +538,10 @@ public class QsarModelingTask extends WorkflowTask {
 			
 			ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk", filePath);
 			ReadDescriptors.readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNames, descriptorValueMatrix);
+			
+			//for CDK descriptors, compounds with errors are skipped.
+			//Make sure that any skipped compounds are removed from the list of external compounds
+			DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(descriptorValueMatrix, filePath, "ext_0.x");
 		}
 		else if (descriptorGenerationType.equals(Constants.DRAGONH)){
 			Utility.writeToDebug("Processing DragonH descriptors", userName, jobName);

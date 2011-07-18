@@ -33,6 +33,7 @@ import org.hibernate.Transaction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.BigFile;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -992,4 +993,34 @@ public class DatasetFileOperations {
 		
 	}
 	
+	public static void removeSkippedCompoundsFromExternalSetList(ArrayList<Descriptors> descriptorValueMatrix, 
+			String workingDir, String extSetXFile) throws Exception{
+		//if some of the external compounds had bad descriptors, they need to be removed from the
+		//set of external compounds specified in ex_0.x.
+		//Since ext_0.x just stores the compound IDs of the external set compounds, we can write
+		//an act file containing the updated external set
+		
+		BufferedReader xFileIn = new BufferedReader(new FileReader(workingDir + extSetXFile));
+
+		String actFileName = extSetXFile.substring(0,extSetXFile.lastIndexOf(".")) + ".a";
+		BufferedWriter actFileOut = new BufferedWriter(new FileWriter(workingDir + actFileName));
+		int numCompounds = Integer.parseInt((xFileIn.readLine().split("\\s+"))[0]);
+		xFileIn.readLine(); //descriptors; skip
+		
+		String line = "";
+		for(int lineNum = 0; lineNum < numCompounds; lineNum++){
+			line = xFileIn.readLine();
+			String[] tokens = line.split("\\s+");
+			String xCompoundName = tokens[1];
+			for(int i = 0; i < descriptorValueMatrix.size(); i++){
+				if(xCompoundName.equals(descriptorValueMatrix.get(i).getCompoundId())){
+					actFileOut.write(xCompoundName + " 0.0");
+				}
+			}
+		}		
+		
+		xFileIn.close();
+		actFileOut.close();
+		makeXFromACT(workingDir, actFileName);
+	}
 }

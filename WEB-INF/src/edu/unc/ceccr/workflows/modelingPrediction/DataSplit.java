@@ -89,20 +89,9 @@ public class DataSplit{
 		String[] array = line.split("\\s+");
 		int numCompounds = Integer.parseInt(array[0]);
 		int numDescriptors = Integer.parseInt(array[1]);
+		int numExternalCompounds = compoundIDs.length;
 		
 		Utility.writeToDebug("num compounds in external set list: " + compoundIDs.length);
-		
-		//if some of the external compounds had bad descriptors, they will be missing from the X file
-		//count the number of compounds in the X file that are also in the external set list
-		int numExternalCompounds = 0; //compoundIDs.length;
-		ArrayList<String> xCompoundNames = DatasetFileOperations.getXCompoundNames(workingdir + xFileName);
-		for(int i = 0; i < compoundIDs.length; i++){
-			for(int j = 0; j < xCompoundNames.size(); j++){
-				if(xCompoundNames.get(j).equals(compoundIDs[i])){
-					numExternalCompounds++;
-				}
-			}
-		}
 		
 		if(compoundIDs.length == 1 && compoundIDs[0].equals("") || compoundIDs.length == 0){
 			numExternalCompounds = 0;
