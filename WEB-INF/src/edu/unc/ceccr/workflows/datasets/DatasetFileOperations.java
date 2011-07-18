@@ -1014,8 +1014,10 @@ public class DatasetFileOperations {
 			line = xFileIn.readLine();
 			String[] tokens = line.split("\\s+");
 			String xCompoundName = tokens[1];
+			Utility.writeToDebug("trying to find compound named [" + xCompoundName + "]");
 			for(int i = 0; i < descriptorValueMatrix.size(); i++){
 				if(xCompoundName.equals(descriptorValueMatrix.get(i).getCompoundId())){
+					Utility.writeToDebug("found!");
 					actFileOut.write(xCompoundName + " 0.0\n");
 				}
 			}
