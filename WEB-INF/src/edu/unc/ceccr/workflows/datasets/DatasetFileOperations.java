@@ -996,7 +996,7 @@ public class DatasetFileOperations {
 	public static void removeSkippedCompoundsFromExternalSetList(ArrayList<Descriptors> descriptorValueMatrix, 
 			String workingDir, String extSetXFile) throws Exception{
 		//if some of the external compounds had bad descriptors, they need to be removed from the
-		//set of external compounds specified in ex_0.x.
+		//set of external compounds specified in ext_0.x.
 		//Since ext_0.x just stores the compound IDs of the external set compounds, we can write
 		//an act file containing the updated external set
 		
@@ -1006,6 +1006,8 @@ public class DatasetFileOperations {
 		BufferedWriter actFileOut = new BufferedWriter(new FileWriter(workingDir + actFileName));
 		int numCompounds = Integer.parseInt((xFileIn.readLine().split("\\s+"))[0]);
 		xFileIn.readLine(); //descriptors; skip
+
+		Utility.writeToDebug("descmatrix size: " + descriptorValueMatrix.size() + " numext: " + numCompounds);
 		
 		String line = "";
 		for(int lineNum = 0; lineNum < numCompounds; lineNum++){
@@ -1014,7 +1016,7 @@ public class DatasetFileOperations {
 			String xCompoundName = tokens[1];
 			for(int i = 0; i < descriptorValueMatrix.size(); i++){
 				if(xCompoundName.equals(descriptorValueMatrix.get(i).getCompoundId())){
-					actFileOut.write(xCompoundName + " 0.0");
+					actFileOut.write(xCompoundName + " 0.0\n");
 				}
 			}
 		}		
