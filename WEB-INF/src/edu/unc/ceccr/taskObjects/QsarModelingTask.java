@@ -523,7 +523,6 @@ public class QsarModelingTask extends WorkflowTask {
 
 		String xFileName = "";
 		
-		
 		//read in descriptors from the dataset
 		step = Constants.PROCDESCRIPTORS;
 		if (descriptorGenerationType.equals(Constants.MOLCONNZ)){
@@ -542,6 +541,7 @@ public class QsarModelingTask extends WorkflowTask {
 			//for CDK descriptors, compounds with errors are skipped.
 			//Make sure that any skipped compounds are removed from the list of external compounds
 			DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
+			DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
 		}
 		else if (descriptorGenerationType.equals(Constants.DRAGONH)){
 			Utility.writeToDebug("Processing DragonH descriptors", userName, jobName);

@@ -1014,10 +1014,8 @@ public class DatasetFileOperations {
 			line = xFileIn.readLine();
 			String[] tokens = line.split("\\s+");
 			String xCompoundName = tokens[1];
-			Utility.writeToDebug("trying to find compound named [" + xCompoundName + "]");
 			for(int i = 0; i < allCompounds.size(); i++){
 				if(xCompoundName.equals(allCompounds.get(i))){
-					Utility.writeToDebug("found!");
 					actFileOut.write(xCompoundName + " 0.0\n");
 				}
 			}
@@ -1026,5 +1024,34 @@ public class DatasetFileOperations {
 		xFileIn.close();
 		actFileOut.close();
 		makeXFromACT(workingDir, actFileName);
+	}
+	
+	public static void removeSkippedCompoundsFromActFile(String fullXFile, 
+			String workingDir, String actFile) throws Exception{
+		//if some of the external compounds had bad descriptors, they need to be removed from the
+		//set of activities (ACT file).
+		
+		BufferedReader actFileIn = new BufferedReader(new FileReader(workingDir + actFile));
+
+		String actFileOutName = actFile + ".temp";
+		BufferedWriter actFileOut = new BufferedWriter(new FileWriter(workingDir + actFileOutName));
+		
+		ArrayList<String> allCompounds = getXCompoundNames(workingDir + fullXFile);
+		
+		String line = "";
+		while((line = actFileIn.readLine()) != null){
+			String[] tokens = line.split("\\s+");
+			String actCompoundName = tokens[0];
+			for(int i = 0; i < allCompounds.size(); i++){
+				if(actCompoundName.equals(allCompounds.get(i))){
+					actFileOut.write(actCompoundName + " " + tokens[1] + "\n");
+				}
+			}
+		}		
+		
+		actFileIn.close();
+		actFileOut.close();
+		FileAndDirOperations.copyFile(workingDir + actFileOutName, workingDir + actFile);
+		FileAndDirOperations.deleteFile(workingDir + actFileOutName);
 	}
 }
