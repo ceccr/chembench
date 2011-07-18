@@ -542,6 +542,7 @@ public class QsarModelingTask extends WorkflowTask {
 			//Make sure that any skipped compounds are removed from the list of external compounds
 			DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
 			DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
+			chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
 		}
 		else if (descriptorGenerationType.equals(Constants.DRAGONH)){
 			Utility.writeToDebug("Processing DragonH descriptors", userName, jobName);
