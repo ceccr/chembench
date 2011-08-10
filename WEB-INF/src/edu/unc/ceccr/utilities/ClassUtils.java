@@ -59,6 +59,7 @@ public class ClassUtils {
 	      }
 	  }
   
+  
   public static String toString( Object o ) {
     ArrayList list = new ArrayList();
     ClassUtils.toString( o, o.getClass(), list );
