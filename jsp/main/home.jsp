@@ -19,7 +19,9 @@
 <br />
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="407" height="665" align="left" valign="top"><p class="ccbHomeHeadings">
+    <td width="407" height="665" align="left" valign="top">
+    <p style="color:red;font-size: 14px;border:1px solid #000;">Due to scheduled server maintenance our service will be unavailable from <strong>Friday Aug 19th 9:00 am</strong> to <strong>Sunday Aug 20th 11:59pm</strong></p>
+     <p class="ccbHomeHeadings">
       ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS<br />
         <br />
         <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
