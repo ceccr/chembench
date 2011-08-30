@@ -228,6 +228,7 @@ public class PredictionFormActions extends ActionSupport{
 			//get all datasets and filter out all the public ones that aren't "show by default"
 			userDatasets = PopulateDataObjects.populateDatasetsForPrediction(user.getUserName(), true, session);
 			
+			if(userDatasets!=null)
 			for(int i = 0; i < userDatasets.size(); i++){
 				String s = userDatasets.get(i).getShowByDefault();
 				if(s != null && s.equals(Constants.NO)){
