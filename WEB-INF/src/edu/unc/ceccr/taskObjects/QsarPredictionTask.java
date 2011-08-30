@@ -256,14 +256,14 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			if(predictionDataset.getUserName().equals(userName)){
 				
-				if(sdf != null && !sdf.isEmpty()){
+				if(sdf != null && !sdf.trim().isEmpty()){
 					FileAndDirOperations.copyFile(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getName()+"/"+sdf, 
 							Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
 							);
 					
 				}
-				if(predictionDataset.getXFile() != null && !predictionDataset.getXFile().isEmpty()){
+				if(predictionDataset.getXFile() != null && !predictionDataset.getXFile().trim().isEmpty()){
 					FileAndDirOperations.copyFile(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getName()+"/"+predictionDataset.getXFile(), 
 							Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+predictionDataset.getXFile()
@@ -272,7 +272,8 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 			else{
 				//public datasets always have SDFs ...msypa(8/30/2011)->not always true
-				if(sdf != null && !sdf.isEmpty()){
+				if(sdf!=null && !sdf.trim().isEmpty()){
+					Utility.writeToDebug("Copying file: "+ (Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getName()+"/"+sdf)+" to the "+(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf), userName, jobName);
 					FileAndDirOperations.copyFile(
 							Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getName()+"/"+sdf, 
 							Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
