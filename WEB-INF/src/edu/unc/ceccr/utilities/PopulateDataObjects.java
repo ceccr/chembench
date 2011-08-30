@@ -266,12 +266,14 @@ public class PopulateDataObjects {
 				dataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
+							.add(Expression.isNotEmpty("xFile"))
 							.addOrder(Order.asc("name")).list();
 				
 				usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
+							.add(Expression.isNotEmpty("xFile"))
 							.addOrder(Order.asc("name")).list();
 			}
 			else {
@@ -279,6 +281,7 @@ public class PopulateDataObjects {
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
+							.add(Expression.isNotEmpty("xFile"))
 							.addOrder(Order.asc("name")).list();
 			}
 			tx.commit();
