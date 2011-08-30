@@ -191,8 +191,8 @@ public class PopulateDataObjects {
 		
 		ArrayList<String> compounds = null;
 		
-		if(dataset.getxFile() != null && ! dataset.getxFile().isEmpty()){
-			compounds = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getxFile());
+		if(dataset.getXdataFile() != null && ! dataset.getXdataFile().isEmpty()){
+			compounds = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXdataFile());
 			Utility.writeToDebug("" + compounds.size() + " compounds found in X file.");
 		}
 		else{
@@ -282,6 +282,7 @@ public class PopulateDataObjects {
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
+
 							.addOrder(Order.asc("name")).list();
 			}
 			tx.commit();
