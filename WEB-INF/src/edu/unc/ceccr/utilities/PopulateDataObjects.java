@@ -192,8 +192,8 @@ public class PopulateDataObjects {
 		
 		ArrayList<String> compounds = null;
 		
-		if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){
-			compounds = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
+		if(dataset.getxFile() != null && ! dataset.getxFile().isEmpty()){
+			compounds = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getxFile());
 			Utility.writeToDebug("" + compounds.size() + " compounds found in X file.");
 		}
 		else{

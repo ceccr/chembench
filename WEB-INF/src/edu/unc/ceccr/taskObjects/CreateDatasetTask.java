@@ -81,7 +81,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		datasetType = dataset.getDatasetType();
 		sdfFileName = dataset.getSdfFile();
 		actFileName = dataset.getActFile();
-		xFileName = dataset.getXFile();
+		xFileName = dataset.getxFile();
 		descriptorType = dataset.getUploadedDescriptorType();
 		actFileDataType = dataset.getModelType();
 		paperReference = dataset.getPaperReference();
@@ -170,7 +170,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		dataset.setDatasetType(datasetType);
 		dataset.setActFile(actFileName);
 		dataset.setSdfFile(sdfFileName);
-		dataset.setXFile(xFileName);
+		dataset.setxFile(xFileName);
 		dataset.setModelType(actFileDataType);
 		dataset.setNumCompound(numCompounds);
 		dataset.setCreatedTime(new Date());

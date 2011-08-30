@@ -94,13 +94,14 @@ public class DataSet implements java.io.Serializable{
 	}
 
 	@Column(name="xFile")
-	public String getXFile() {
+	public String getxFile() {
 		return xFile;
 	}
-	public void setXFile(String file) {
-		xFile = file;
-	}
 
+	public void setxFile(String xFile) {
+		this.xFile = xFile;
+	}
+	
 	@Column(name="datasetType")
 	public String getDatasetType() {
 		return datasetType;
