@@ -297,10 +297,16 @@ public class PredictionFormActions extends ActionSupport{
 			if(sp.getDescriptorGeneration().equals(Constants.UPLOADED)){
 				//get the uploaded descriptors for the dataset
 				String predictionXFile = predictionDataset.getXFile();
+				
 				String predictionDatasetDir = Constants.CECCR_USER_BASE_PATH + predictionDataset.getUserName() + 
 					"/DATASETS/" + predictionDataset.getName() + "/";
+				if(predictionXFile==null && predictionXFile.isEmpty()){
+					errorStrings.add("The predictor X file was not found at specified location. Predictor name: '" + sp.getName() + "'");
+					return ERROR;
+				}
+				Utility.writeToDebug("Staring to read predictors from file: "+predictionDatasetDir+predictionXFile);
 				String[] predictionDescs = ReadDescriptors.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
-
+				
 				//get the uploaded descriptors for the predictor
 				DataSet predictorDataset = PopulateDataObjects.getDataSetById(sp.getDatasetId(), session);
 				String predictorDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + 
