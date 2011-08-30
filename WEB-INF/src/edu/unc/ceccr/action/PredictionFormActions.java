@@ -203,7 +203,7 @@ public class PredictionFormActions extends ActionSupport{
 				}
 			}
 			selectedPredictors.add(p);
-			if(p.getSdFileName().trim().isEmpty()) isSingleCompoundPredictionAllowed = false;
+			if(p.getSdFileName()==null || p.getSdFileName().trim().isEmpty()) isSingleCompoundPredictionAllowed = false;
 		}
 		
 		if(result.equals(ERROR)){
