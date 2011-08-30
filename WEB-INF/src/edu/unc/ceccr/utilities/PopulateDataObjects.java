@@ -14,7 +14,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
-import org.hibernate.criterion.Restrictions;
 
 import edu.unc.ceccr.persistence.CompoundPredictions;
 import edu.unc.ceccr.global.Constants;
@@ -265,33 +264,30 @@ public class PopulateDataObjects {
 			if(isAllUserIncludes){
 				//get both modeling AND prediction datasets, since modeling datasets are possible to predict as well.
 				dataSets = session.createCriteria(DataSet.class)
-							.add(Restrictions.and(Restrictions.isNotNull("xFile"),Restrictions.ne("xFile","")))
+							.add(Expression.ne("xFile",""))
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
 							.addOrder(Order.asc("name")).list();
 				
 				usersDataSet = session.createCriteria(DataSet.class)
-							.add(Restrictions.and(Restrictions.isNotNull("xFile"),Restrictions.ne("xFile","")))	
+							.add(Expression.ne("xFile",""))
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
-							
 							.addOrder(Order.asc("name")).list();
 			}
 			else {
 				dataSets = session.createCriteria(DataSet.class)
-							.add(Restrictions.and(Restrictions.isNotNull("xFile"),Restrictions.ne("xFile","")))
+							.add(Expression.ne("xFile",""))
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
-							
 							.addOrder(Order.asc("name")).list();
 			}
 			tx.commit();
 			if(usersDataSet != null){
 				dataSets.addAll(usersDataSet);
 			}
-			Utility.writeToDebug("datasets length: "+dataSets.size());
 		} catch (Exception ex) {
 			Utility.writeToDebug(ex);
 		} 
