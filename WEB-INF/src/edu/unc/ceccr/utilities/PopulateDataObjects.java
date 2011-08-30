@@ -257,6 +257,7 @@ public class PopulateDataObjects {
 	public static List populateDatasetsForPrediction(String userName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		List <DataSet> dataSets = null;
 		List <DataSet> usersDataSet = null;
+		List<DataSet> filteredDatasets = null;
 		Transaction tx = null;
 		try
 		{
@@ -264,13 +265,11 @@ public class PopulateDataObjects {
 			if(isAllUserIncludes){
 				//get both modeling AND prediction datasets, since modeling datasets are possible to predict as well.
 				dataSets = session.createCriteria(DataSet.class)
-							.add(Expression.ne("xFile",""))
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
 							.addOrder(Order.asc("name")).list();
 				
 				usersDataSet = session.createCriteria(DataSet.class)
-							.add(Expression.ne("xFile",""))
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
@@ -278,7 +277,6 @@ public class PopulateDataObjects {
 			}
 			else {
 				dataSets = session.createCriteria(DataSet.class)
-							.add(Expression.ne("xFile",""))
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
@@ -289,11 +287,20 @@ public class PopulateDataObjects {
 			if(usersDataSet != null){
 				dataSets.addAll(usersDataSet);
 			}
+			
+			filteredDatasets = new ArrayList<DataSet>();
+			
+			for(Iterator<DataSet> i=dataSets.iterator();i.hasNext();){
+				DataSet ds = i.next();
+				if(ds.getXdataFile()!=null && !ds.getXdataFile().trim().isEmpty())
+					filteredDatasets.add(ds);
+			}
+			
 		} catch (Exception ex) {
 			Utility.writeToDebug(ex);
 		} 
 			
-		return dataSets;
+		return filteredDatasets;
 	}
 	
 	public static List populateDataset(String userName,String modelType, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
