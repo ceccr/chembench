@@ -135,7 +135,7 @@
 		</table>
 	</s:form>
 
-
+	<s:if isSingleCompoundPredictionAllowed="%{true}">
 	<br />
 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>
@@ -227,6 +227,7 @@ document.MSketch.style.zIndex="-1";
 		
 	</tbody>
 	</table>
+	</s:if>
 
 	</td>
 	</tr>
