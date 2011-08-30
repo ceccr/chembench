@@ -280,7 +280,6 @@ public class PopulateDataObjects {
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
-
 							.addOrder(Order.asc("name")).list();
 			}
 			tx.commit();
