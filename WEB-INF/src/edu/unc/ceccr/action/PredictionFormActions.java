@@ -170,7 +170,9 @@ public class PredictionFormActions extends ActionSupport{
 		}
 		selectedPredictorIds = predictorCheckBoxes.replaceAll(",", " ");
 		String[] predictorIds = selectedPredictorIds.split("\\s+");
-		
+
+		isSingleCompoundPredictionAllowed = true;
+
 		for(int i = 0; i < predictorIds.length; i++){
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session);
 			
@@ -201,6 +203,7 @@ public class PredictionFormActions extends ActionSupport{
 				}
 			}
 			selectedPredictors.add(p);
+			if(p.getSdFileName().trim().isEmpty()) isSingleCompoundPredictionAllowed = false;
 		}
 		
 		if(result.equals(ERROR)){
@@ -300,39 +303,37 @@ public class PredictionFormActions extends ActionSupport{
 				
 				String predictionDatasetDir = Constants.CECCR_USER_BASE_PATH + predictionDataset.getUserName() + 
 					"/DATASETS/" + predictionDataset.getName() + "/";
-				if(predictionXFile==null || predictionXFile.isEmpty()){
-					errorStrings.add("The predictor X file was not found at specified location. Predictor name: '" + sp.getName() + "'");
+				if(predictionXFile!=null && !predictionXFile.trim().isEmpty()){
+									
 					Utility.writeToDebug("Staring to read predictors from file: "+predictionDatasetDir+predictionXFile);
-					return ERROR;				
-				}
-				Utility.writeToDebug("Staring to read predictors from file: "+predictionDatasetDir+predictionXFile);
-				String[] predictionDescs = ReadDescriptors.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
+					String[] predictionDescs = ReadDescriptors.readDescriptorNamesFromX(predictionXFile, predictionDatasetDir);
 				
-				//get the uploaded descriptors for the predictor
-				DataSet predictorDataset = PopulateDataObjects.getDataSetById(sp.getDatasetId(), session);
-				String predictorDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + 
-					"/DATASETS/" + predictorDataset.getName() + "/";
-				String[] predictorDescs = ReadDescriptors.readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
-
-				descriptorsMatch = true;
-				//for each predictor desc, make sure there's a matching prediction desc. 
-				for(int i = 0; i < predictorDescs.length; i++){
-					boolean matchingDescriptor = false;
-					for(int j = 0; j < predictionDescs.length; j++){
-						if(predictorDescs[i].equals(predictionDescs[j])){
-							matchingDescriptor = true;
-							j = predictionDescs.length;
+					//get the uploaded descriptors for the predictor
+					DataSet predictorDataset = PopulateDataObjects.getDataSetById(sp.getDatasetId(), session);
+					String predictorDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + 
+						"/DATASETS/" + predictorDataset.getName() + "/";
+					String[] predictorDescs = ReadDescriptors.readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
+	
+					descriptorsMatch = true;
+					//for each predictor desc, make sure there's a matching prediction desc. 
+					for(int i = 0; i < predictorDescs.length; i++){
+						boolean matchingDescriptor = false;
+						for(int j = 0; j < predictionDescs.length; j++){
+							if(predictorDescs[i].equals(predictionDescs[j])){
+								matchingDescriptor = true;
+								j = predictionDescs.length;
+							}
+						}
+						if(! matchingDescriptor){
+							descriptorsMatch = false;
+							errorStrings.add("The predictor '" + sp.getName() + "' contains the descriptor '" + predictorDescs[i] + "', but this " +
+									"descriptor was not found in the prediction dataset.");
 						}
 					}
-					if(! matchingDescriptor){
-						descriptorsMatch = false;
-						errorStrings.add("The predictor '" + sp.getName() + "' contains the descriptor '" + predictorDescs[i] + "', but this " +
-								"descriptor was not found in the prediction dataset.");
-					}
-				}
 				
-				if(!descriptorsMatch){
-					return ERROR;
+					if(!descriptorsMatch){
+						return ERROR;
+					}
 				}
 			}
 			else{
@@ -391,6 +392,8 @@ public class PredictionFormActions extends ActionSupport{
 	private List<String> userTaskNames;
 	private List<DataSet> userDatasets;
 	private String predictorCheckBoxes;
+	//a flag that indicate if we should display SMILES prediction or not 
+	private boolean isSingleCompoundPredictionAllowed;
 	private List<Predictor> selectedPredictors = new ArrayList<Predictor>();
 	
 	private List<SmilesPrediction> smilesPredictions;
@@ -564,4 +567,15 @@ public class PredictionFormActions extends ActionSupport{
 	public void setErrorStrings(ArrayList<String> errorStrings) {
 		this.errorStrings = errorStrings;
 	}
+
+	public boolean isSingleCompoundPredictionAllowed() {
+		return isSingleCompoundPredictionAllowed;
+	}
+
+	public void setSingleCompoundPredictionAllowed(
+			boolean isSingleCompoundPredictionAllowed) {
+		this.isSingleCompoundPredictionAllowed = isSingleCompoundPredictionAllowed;
+	}
+	
+	
 }
