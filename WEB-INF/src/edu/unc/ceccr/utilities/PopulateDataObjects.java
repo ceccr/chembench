@@ -14,6 +14,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 
 import edu.unc.ceccr.persistence.CompoundPredictions;
 import edu.unc.ceccr.global.Constants;
@@ -266,14 +267,14 @@ public class PopulateDataObjects {
 				dataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
-							.add(Expression.isNotEmpty("xFile"))
+							.add(Restrictions.and(Restrictions.ne("xFile",""), Restrictions.isNotNull("xFile")))
 							.addOrder(Order.asc("name")).list();
 				
 				usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
-							.add(Expression.isNotEmpty("xFile"))
+							.add(Restrictions.and(Restrictions.ne("xFile",""), Restrictions.isNotNull("xFile")))
 							.addOrder(Order.asc("name")).list();
 			}
 			else {
@@ -281,7 +282,7 @@ public class PopulateDataObjects {
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
-							.add(Expression.isNotEmpty("xFile"))
+							.add(Restrictions.and(Restrictions.ne("xFile",""), Restrictions.isNotNull("xFile")))
 							.addOrder(Order.asc("name")).list();
 			}
 			tx.commit();
