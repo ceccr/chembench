@@ -265,13 +265,13 @@ public class PopulateDataObjects {
 			if(isAllUserIncludes){
 				//get both modeling AND prediction datasets, since modeling datasets are possible to predict as well.
 				dataSets = session.createCriteria(DataSet.class)
-							.add(Restrictions.and(Restrictions.ne("xFile", ""), Restrictions.isNotNull("xFile")))
+							.add(Restrictions.and(Restrictions.isNotNull("xFile"),Restrictions.ne("xFile","")))
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
 							.addOrder(Order.asc("name")).list();
 				
 				usersDataSet = session.createCriteria(DataSet.class)
-							.add(Restrictions.and(Restrictions.ne("xFile", ""), Restrictions.isNotNull("xFile")))	
+							.add(Restrictions.and(Restrictions.isNotNull("xFile"),Restrictions.ne("xFile","")))	
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
@@ -280,7 +280,7 @@ public class PopulateDataObjects {
 			}
 			else {
 				dataSets = session.createCriteria(DataSet.class)
-							.add(Restrictions.and(Restrictions.ne("xFile", ""), Restrictions.isNotNull("xFile")))
+							.add(Restrictions.and(Restrictions.isNotNull("xFile"),Restrictions.ne("xFile","")))
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("jobCompleted", Constants.YES))
 							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
