@@ -107,8 +107,14 @@
 					<td height="26">
 					<div align="right" class="StandardTextDarkGray"><b>Select a Dataset:</b></div>
 					</td>
-					<td align="left" valign="top"><s:select name="selectedDatasetId" list="userDatasets" id="selectedDataset" listKey="id" listValue="name" />
-					<input type="button" value="View Dataset" property="text" onclick="window.open('viewDataset?id='+document.getElementById('selectedDataset').value)"/>
+					<td align="left" valign="top">
+					<s:if test="{%userDatasets.size()>0}">
+						<s:select name="selectedDatasetId" list="userDatasets" id="selectedDataset" listKey="id" listValue="name" />
+						<input type="button" value="View Dataset" property="text" onclick="window.open('viewDataset?id='+document.getElementById('selectedDataset').value)"/>
+					</s:if>
+					<s:else>
+						<div class="StandardTextDarkGrayParagraph"><i>There is no datasets with descriptors. Use the "DATASET" page to create datasets.</i></div>					
+					</s:else>
 					<div class="StandardTextDarkGrayParagraph"><i>(Use the "DATASET" page to create datasets.)</i></div>
 					</td>
 				</tr>		
@@ -135,7 +141,7 @@
 		</table>
 	</s:form>
 
-	<s:if isSingleCompoundPredictionAllowed="%{true}">
+	<s:if test="%{isSingleCompoundPredictionAllowed}">
 	<br />
 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>
