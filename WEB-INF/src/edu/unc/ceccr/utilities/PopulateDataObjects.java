@@ -294,6 +294,7 @@ public class PopulateDataObjects {
 		return dataSets;
 	}
 	
+
 	public static List populateDataset(String userName,String modelType, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		//returns a list of datasets.
 		//Used to populate the dropdowns on the Modeling and Dataset pages.
@@ -648,6 +649,65 @@ public class PopulateDataObjects {
 		return predictions;
 	}
 	
+	
+	@SuppressWarnings("unchecked")
+	public static List<String> populateDatasetUploadedDescriptorTypes(String userName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
+
+		//returns a list of strings. Used in form validation, to make sure a user doesn't reuse an existing name.
+		
+		List <DataSet> allUserDataSets = null;
+		List <DataSet> usersDataSet = null;
+		Transaction tx = null;
+		try
+		{
+			tx = session.beginTransaction();
+			if(isAllUserIncludes){
+				allUserDataSets = session.createCriteria(DataSet.class)
+							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
+							.add(Expression.eq("availableDescriptors", Constants.UPLOADED))
+							.addOrder(Order.desc("name")).list();
+				
+				usersDataSet = session.createCriteria(DataSet.class)
+							.add(Expression.eq("userName", userName))
+							.add(Expression.eq("availableDescriptors", Constants.UPLOADED))
+							.addOrder(Order.desc("name")).list();
+				
+			}
+			else usersDataSet = session.createCriteria(DataSet.class)
+							.add(Expression.eq("userName", userName))
+							.add(Expression.eq("availableDescriptors", Constants.UPLOADED))
+							.addOrder(Order.desc("name")).list();
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+		}
+
+		
+		List <String> datasetdescriptorsNames = new ArrayList<String>();
+		try{
+			if(allUserDataSets != null){
+				Iterator i = allUserDataSets.iterator();
+		        while(i.hasNext())
+		        {
+		        	DataSet di = (DataSet) i.next();
+		        	datasetdescriptorsNames.add(di.getUploadedDescriptorType()/* + " (public)"*/);	        
+		        }
+			}
+	       
+	        if(usersDataSet != null){
+		    	Iterator j = usersDataSet.iterator();
+		    	while(j.hasNext()){
+		    		DataSet dj = (DataSet) j.next();
+		    		datasetdescriptorsNames.add(dj.getUploadedDescriptorType()/* + " (private)"*/);	
+		    	}
+	        }
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
+
+		return datasetdescriptorsNames;
+	}
 
 	public static Job getJobById(Long jobId, Session session) throws ClassNotFoundException, SQLException {
 		Job job = null;

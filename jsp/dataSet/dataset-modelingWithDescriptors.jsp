@@ -55,6 +55,16 @@
 	    </td>
 	  </tr>
 	  <tr>
+	    <td><b class="StandardTextDarkGrayParagraph">Please select or enter descriptor type:</b><br />
+	    <table>
+	    <tr><td><input type="radio" name="predictorName" id="newDescriptorName" onclick="" checked="checked">Enter a new type:</input></td><td>
+	    	 <s:textfield name="descriptorNewName" label=""></s:textfield></td></tr>
+	    	<tr><td><input type="radio" name="predictorName" id="usedDescriptorName" onclick="">Select type:</input></td><td><s:select name="descriptorUsedName" list="userUploadedDescriptorTypes" headerKey="0" headerValue="Previously used descriptors" label="" /></td></tr>
+	    </table>
+	    </td>
+ 
+	  </tr>	  
+	  <tr>
 		<td><div class="StandardTextDarkGrayParagraph"><b>Descriptors are already scaled:</b></div>
 		</td>
 		<td><s:checkbox name="hasBeenScaled" id="hasBeenScaled" theme="simple" />

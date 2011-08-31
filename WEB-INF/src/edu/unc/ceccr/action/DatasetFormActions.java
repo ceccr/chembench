@@ -83,6 +83,7 @@ public class DatasetFormActions extends ActionSupport{
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
 		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
+		userUploadedDescriptorTypes = PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
 		
 		userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
 
@@ -759,7 +760,9 @@ public class DatasetFormActions extends ActionSupport{
 	private List<String> userPredictorNames;
 	private List<String> userPredictionNames;
 	private List<String> userTaskNames;
+	private List<String> userUploadedDescriptorTypes;
 	private List<Predictor> userPredictorList;
+	
 
 	public User getUser(){
 		return user;
@@ -832,4 +835,13 @@ public class DatasetFormActions extends ActionSupport{
 	public void setHasBeenScaled(String hasBeenScaled) {
 		this.hasBeenScaled = hasBeenScaled;
 	}
+	public List<String> getUserUploadedDescriptorTypes() {
+		return userUploadedDescriptorTypes;
+	}
+	public void setUserUploadedDescriptorTypes(
+			List<String> userUploadedDescriptorTypes) {
+		this.userUploadedDescriptorTypes = userUploadedDescriptorTypes;
+	}
+	
+	
 }
