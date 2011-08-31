@@ -762,6 +762,9 @@ public class DatasetFormActions extends ActionSupport{
 	private List<String> userTaskNames;
 	private List<String> userUploadedDescriptorTypes;
 	private List<Predictor> userPredictorList;
+	private String descriptorUsedName;
+	private String descriptorNewName;
+
 	
 
 	public User getUser(){
@@ -842,6 +845,20 @@ public class DatasetFormActions extends ActionSupport{
 			List<String> userUploadedDescriptorTypes) {
 		this.userUploadedDescriptorTypes = userUploadedDescriptorTypes;
 	}
+	public String getDescriptorUsedName() {
+		return descriptorUsedName;
+	}
+	public void setDescriptorUsedName(String descriptorUsedName) {
+		this.descriptorUsedName = descriptorUsedName;
+	}
+	public String getDescriptorNewName() {
+		return descriptorNewName;
+	}
+	public void setDescriptorNewName(String descriptorNewName) {
+		this.descriptorNewName = descriptorNewName;
+	}
+	
+	
 	
 	
 }
