@@ -55,22 +55,22 @@
 	    </td>
 	  </tr>
 	  <tr>
-	    <td><b class="StandardTextDarkGrayParagraph">Please select or enter descriptor type:</b><br />
-	    <table>
-	    <tr>
-	    	<td><input type="radio" name="predictorName" id="newDescriptorName" onclick="getSelectedDescriptor()" checked="checked" />Enter a new type:</td>
-	    	<td><s:textfield name="descriptorNewName" label=""></s:textfield></td>
-	    </tr>
-	    <s:if test="userUploadedDescriptorTypes.size()>0">
-	    <tr>
-	    	<td><input type="radio" name="predictorName" id="usedDescriptorName" onclick="getSelectedDescriptor()" />Select type:</td>
-	    	<td><s:select name="descriptorUsedName" list="userUploadedDescriptorTypes" headerKey="-1" headerValue="Previously used descriptors" label="" /></td>
-	    </tr>
-	    </s:if>
-	    </table>
+	    <td><b class="StandardTextDarkGrayParagraph">Please select or enter descriptor type:</b></td>
+	    <td>
+		    <table>
+		    <tr>
+		    	<td><input type="radio" name="predictorName" id="newDescriptorName" onclick="getSelectedDescriptor()" checked="checked" />New type</td>
+		    	<td><s:textfield name="descriptorNewName" label="Enter a new type"></s:textfield></td>
+		    </tr>
+		    <s:if test="%{#userUploadedDescriptorTypes.size()>0}">
+		    <tr>
+		    	<td><input type="radio" name="predictorName" id="usedDescriptorName" onclick="getSelectedDescriptor()" />Used type</td>
+		    	<td><s:select name="descriptorUsedName" list="userUploadedDescriptorTypes" headerKey="-1" headerValue="Previously used descriptors" label="Select type" /></td>
+		    </tr>
+		    </s:if>
+		    </table>
 	    </td>
- 
-	  </tr>	  
+ 	  </tr>	  
 	  <tr>
 		<td><div class="StandardTextDarkGrayParagraph"><b>Descriptors are already scaled:</b></div>
 		</td>

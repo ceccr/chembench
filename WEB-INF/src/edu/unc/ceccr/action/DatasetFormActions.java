@@ -841,10 +841,6 @@ public class DatasetFormActions extends ActionSupport{
 	public List<String> getUserUploadedDescriptorTypes() {
 		return userUploadedDescriptorTypes;
 	}
-	public void setUserUploadedDescriptorTypes(
-			List<String> userUploadedDescriptorTypes) {
-		this.userUploadedDescriptorTypes = userUploadedDescriptorTypes;
-	}
 	public String getDescriptorUsedName() {
 		return descriptorUsedName;
 	}
