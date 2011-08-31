@@ -324,6 +324,7 @@ public class DatasetFormActions extends ActionSupport{
 					sdfFileModDescFileName = sdfFileModDescFileName.replaceAll(" ", "_");
 					actFileModDescFileName = actFileModDescFileName.replaceAll(" ", "_");
 					xFileModDescFileName = xFileModDescFileName.replaceAll(" ", "_");
+					descriptorTypeModDesc = descriptorNewName.trim().isEmpty()?selectedDescriptorUsedName:descriptorNewName; 
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -762,8 +763,8 @@ public class DatasetFormActions extends ActionSupport{
 	private List<String> userTaskNames;
 	private List<String> userUploadedDescriptorTypes;
 	private List<Predictor> userPredictorList;
-	private String selectedDescriptorUsedName;
-	private String descriptorNewName;
+	private String selectedDescriptorUsedName="";
+	private String descriptorNewName="";
 
 	
 
