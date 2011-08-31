@@ -62,10 +62,10 @@
 		    	<td><input type="radio" name="predictorName" id="newDescriptorName" onclick="getSelectedDescriptor()" checked="checked" />New type</td>
 		    	<td><s:textfield name="descriptorNewName" label="Enter a new type"></s:textfield></td>
 		    </tr>
-		    <s:if test="%{#userUploadedDescriptorTypes.size()>0}">
+		    <s:if test="%{userUploadedDescriptorTypes.size()>0}">
 		    <tr>
 		    	<td><input type="radio" name="predictorName" id="usedDescriptorName" onclick="getSelectedDescriptor()" />Used type</td>
-		    	<td><s:select name="descriptorUsedName" list="userUploadedDescriptorTypes" headerKey="-1" headerValue="Previously used descriptors" label="Select type" /></td>
+		    	<td><s:select name="selectedDescriptorUsedName" list="userUploadedDescriptorTypes" label="Select type"/></td>
 		    </tr>
 		    </s:if>
 		    </table>
