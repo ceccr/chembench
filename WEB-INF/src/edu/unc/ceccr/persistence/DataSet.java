@@ -17,7 +17,7 @@ public class DataSet implements java.io.Serializable{
 	private String userName;
 	private String actFile;
 	private String sdfFile;
-	private String xdataFile;
+	private String xFile;
 	private String modelType; //continuous or category
 	private String datasetType; //prediction, modeling, predictionwithdescriptors, modelingwithdescriptors
 	private String uploadedDescriptorType; //used for predictionwithdescriptors and modelingwithdescriptors
@@ -94,12 +94,12 @@ public class DataSet implements java.io.Serializable{
 	}
 
 	@Column(name="xFile")
-	public String getXdataFile() {
-		return xdataFile;
+	public String getXFile() {
+		return xFile;
 	}
 
-	public void setXdataFile(String xdataFile) {
-		this.xdataFile = xdataFile;
+	public void setXFile(String xFile) {
+		this.xFile = xFile;
 	}
 	
 	

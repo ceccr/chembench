@@ -300,7 +300,7 @@ public class PredictionFormActions extends ActionSupport{
 			
 			if(sp.getDescriptorGeneration().equals(Constants.UPLOADED)){
 				//get the uploaded descriptors for the dataset
-				String predictionXFile = predictionDataset.getXdataFile();
+				String predictionXFile = predictionDataset.getXFile();
 				
 				String predictionDatasetDir = Constants.CECCR_USER_BASE_PATH + predictionDataset.getUserName() + 
 					"/DATASETS/" + predictionDataset.getName() + "/";
@@ -313,7 +313,7 @@ public class PredictionFormActions extends ActionSupport{
 					DataSet predictorDataset = PopulateDataObjects.getDataSetById(sp.getDatasetId(), session);
 					String predictorDatasetDir = Constants.CECCR_USER_BASE_PATH + predictorDataset.getUserName() + 
 						"/DATASETS/" + predictorDataset.getName() + "/";
-					String[] predictorDescs = ReadDescriptors.readDescriptorNamesFromX(predictorDataset.getXdataFile(), predictorDatasetDir);
+					String[] predictorDescs = ReadDescriptors.readDescriptorNamesFromX(predictorDataset.getXFile(), predictorDatasetDir);
 	
 					descriptorsMatch = true;
 					//for each predictor desc, make sure there's a matching prediction desc. 

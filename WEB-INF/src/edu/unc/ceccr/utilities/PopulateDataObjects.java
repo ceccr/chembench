@@ -191,8 +191,8 @@ public class PopulateDataObjects {
 		
 		ArrayList<String> compounds = null;
 		
-		if(dataset.getXdataFile() != null && ! dataset.getXdataFile().isEmpty()){
-			compounds = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXdataFile());
+		if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){
+			compounds = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
 			Utility.writeToDebug("" + compounds.size() + " compounds found in X file.");
 		}
 		else{
@@ -257,7 +257,6 @@ public class PopulateDataObjects {
 	public static List populateDatasetsForPrediction(String userName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		List <DataSet> dataSets = null;
 		List <DataSet> usersDataSet = null;
-		List<DataSet> filteredDatasets = null;
 		Transaction tx = null;
 		try
 		{
@@ -287,19 +286,12 @@ public class PopulateDataObjects {
 				dataSets.addAll(usersDataSet);
 			}
 			
-			filteredDatasets = new ArrayList<DataSet>();
-			
-			for(Iterator<DataSet> i=dataSets.iterator();i.hasNext();){
-				DataSet ds = i.next();
-				if(ds.getXdataFile()!=null && !ds.getXdataFile().trim().isEmpty())
-					filteredDatasets.add(ds);
-			}
-			
+						
 		} catch (Exception ex) {
 			Utility.writeToDebug(ex);
 		} 
 			
-		return filteredDatasets;
+		return dataSets;
 	}
 	
 	public static List populateDataset(String userName,String modelType, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{

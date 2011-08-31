@@ -166,8 +166,8 @@ public class ViewDataset extends ActionSupport {
 			datasetDir += "DATASETS/" + dataset.getName() + "/";
 			
 			ArrayList<String> compoundIDs = null;
-			if(dataset.getXdataFile() != null && ! dataset.getXdataFile().isEmpty()){
-				compoundIDs = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXdataFile());
+			if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){
+				compoundIDs = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
 			}
 			else{
 				compoundIDs = DatasetFileOperations.getSDFCompoundNames(datasetDir + dataset.getSdfFile());

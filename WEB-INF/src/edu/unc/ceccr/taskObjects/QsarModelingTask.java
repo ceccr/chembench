@@ -562,12 +562,12 @@ public class QsarModelingTask extends WorkflowTask {
 		}
 		else if (descriptorGenerationType.equals(Constants.UPLOADED)){
 			Utility.writeToDebug("Processing UPLOADED descriptors", userName, jobName);
-			ReadDescriptors.readXDescriptors(filePath + dataset.getXdataFile(), descriptorNames, descriptorValueMatrix);
+			ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
 		}
 		
 		//write out the descriptors into a .x file for modeling
 		if(descriptorGenerationType.equals(Constants.UPLOADED)){
-			xFileName = dataset.getXdataFile();
+			xFileName = dataset.getXFile();
 		}
 		else{
 			xFileName = sdFileName + ".x";

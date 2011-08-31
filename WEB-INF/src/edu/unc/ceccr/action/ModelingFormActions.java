@@ -220,7 +220,7 @@ public class ModelingFormActions extends ActionSupport{
 				
 				//get num descriptors
 				String datasetDir = Constants.CECCR_USER_BASE_PATH + ds.getUserName() + "/DATASETS/" + ds.getName() + "/";
-				int numDescriptors = ReadDescriptors.readDescriptorNamesFromX(ds.getXdataFile(), datasetDir).length;
+				int numDescriptors = ReadDescriptors.readDescriptorNamesFromX(ds.getXFile(), datasetDir).length;
 				int numMaxDesc = Integer.parseInt(knnMaxNumDescriptors);
 				if(numDescriptors < numMaxDesc){
 					errorStrings.add("Your uploaded dataset contains only " + numDescriptors + " descriptors, but you requested " +

@@ -109,7 +109,7 @@ public class QsarPredictionTask extends WorkflowTask {
 					}
 					else if(predictionDataset.getDatasetType().equals(Constants.PREDICTIONWITHDESCRIPTORS) || 
 							predictionDataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
-						predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + "_vs_" + predictionDataset.getXdataFile().toLowerCase() + ".renorm.preds");
+						predOutFile = new File(filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + "_vs_" + predictionDataset.getXFile().toLowerCase() + ".renorm.preds");
 					}
 					
 					if(predOutFile.exists()){
@@ -263,10 +263,10 @@ public class QsarPredictionTask extends WorkflowTask {
 							);
 					
 				}
-				if(predictionDataset.getXdataFile() != null && !predictionDataset.getXdataFile().trim().isEmpty()){
+				if(predictionDataset.getXFile() != null && !predictionDataset.getXFile().trim().isEmpty()){
 					FileAndDirOperations.copyFile(
-							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getName()+"/"+predictionDataset.getXdataFile(), 
-							Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+predictionDataset.getXdataFile()
+							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+predictionDataset.getName()+"/"+predictionDataset.getXFile(), 
+							Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+predictionDataset.getXFile()
 							);
 				}
 			}
@@ -417,7 +417,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			if(predictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
 				//the prediction descriptors file name is different if the user provided a .x file.
-				sdfile = predictionDataset.getXdataFile();
+				sdfile = predictionDataset.getXFile();
 			}
 			
 			step = Constants.PROCDESCRIPTORS;

@@ -36,7 +36,7 @@ public class CopyJobFiles{
 		
 		String sdFile = dataset.getSdfFile();
 		String actFile = dataset.getActFile();
-		String xFile = dataset.getXdataFile();
+		String xFile = dataset.getXFile();
 		String externalSplitXFile = "";
 
 		//make sure toDir exists
