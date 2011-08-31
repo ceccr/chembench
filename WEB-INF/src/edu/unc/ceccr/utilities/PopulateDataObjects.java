@@ -690,7 +690,7 @@ public class PopulateDataObjects {
 		        while(i.hasNext())
 		        {
 		        	DataSet di = (DataSet) i.next();
-		        	datasetdescriptorsNames.add(di.getUploadedDescriptorType()/* + " (public)"*/);	        
+		        	if(!di.getUploadedDescriptorType().isEmpty()) datasetdescriptorsNames.add(di.getUploadedDescriptorType()/* + " (public)"*/);	        
 		        }
 			}
 	       
@@ -698,7 +698,7 @@ public class PopulateDataObjects {
 		    	Iterator j = usersDataSet.iterator();
 		    	while(j.hasNext()){
 		    		DataSet dj = (DataSet) j.next();
-		    		datasetdescriptorsNames.add(dj.getUploadedDescriptorType()/* + " (private)"*/);	
+		    		if(!dj.getUploadedDescriptorType().isEmpty()) datasetdescriptorsNames.add(dj.getUploadedDescriptorType()/* + " (private)"*/);	
 		    	}
 	        }
 		}
