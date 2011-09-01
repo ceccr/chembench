@@ -26,18 +26,19 @@
 	var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />",</s:iterator>"");
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
-	
+
 	function getSelectedDescriptor(){
 		if(document.getElementById("newDescriptorName").checked){
 			document.getElementById("descriptorNewName").disabled = false;
+			document.getElementById("descriptorUsedName").disabled = true;
 			document.getElementById("newDescriptorName").checked = "checked";
 		}
 		else if(document.getElementById("usedDescriptorName").checked){
 			document.getElementById("descriptorUsedName").disabled = false;
+			document.getElementById("descriptorNewName").disabled = true;
 			document.getElementById("usedDescriptorName").checked = "checked";
 		}
 	}
-	
 </script>
 </head>
 <body onload="setTabToDataset();">

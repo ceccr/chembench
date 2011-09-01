@@ -3,8 +3,6 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
-
-<script language="javascript" src="javascript/datasetscripts.js"></script>
 <s:div>
 	<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>	
@@ -59,13 +57,13 @@
 	    <td>
 		    <table>
 		    <tr>
-		    	<td><input type="radio" name="predictorName" id="newDescriptorName" onclick="getSelectedDescriptor()" checked="checked" />New type</td>
-		    	<td><s:textfield name="descriptorNewName" label="Enter a new type"></s:textfield></td>
+		    	<td><input type="radio" name="predictorName" id="newDescriptorName" onclick="getSelectedDescriptor();" checked="checked" />New type</td>
+		    	<td><s:textfield name="descriptorNewName" id="descriptorNewName" label="Enter a new type"></s:textfield></td>
 		    </tr>
 		    <s:if test="%{userUploadedDescriptorTypes.size()>0}">
 		    <tr>
-		    	<td><input type="radio" name="predictorName" id="usedDescriptorName" onclick="getSelectedDescriptor()" />Used type</td>
-		    	<td><s:select name="selectedDescriptorUsedName" list="userUploadedDescriptorTypes" label="Select type" /></td>
+		    	<td><input type="radio" name="predictorName" id="usedDescriptorName" onclick="getSelectedDescriptor();" />Used type</td>
+		    	<td><s:select name="selectedDescriptorUsedName" id="descriptorUsedName" list="userUploadedDescriptorTypes" label="Select type" /></td>
 		    </tr>
 		    </s:if>
 		    </table>
