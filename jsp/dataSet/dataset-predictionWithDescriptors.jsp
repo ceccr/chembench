@@ -44,6 +44,23 @@
 	    </td>
 	  </tr>
 	  <tr>
+	    <td><b class="StandardTextDarkGrayParagraph">Please select or enter descriptor type:</b></td>
+	    <td>
+		    <table>
+		    <tr>
+		    	<td><input class="StandardTextDarkGrayParagraph" type="radio" name="predictorName" id="newDescriptorName" onclick="getSelectedDescriptor();" checked="checked" />New type</td>
+		    	<td><s:textfield name="descriptorNewName" id="descriptorNewName" label="Enter a new type" theme="simple"></s:textfield></td>
+		    </tr>
+		    <s:if test="%{userUploadedDescriptorTypes.size()>0}">
+		    <tr>
+		    	<td><input class="StandardTextDarkGrayParagraph" type="radio" name="predictorName" id="usedDescriptorName" onclick="getSelectedDescriptor();" />Used type</td>
+		    	<td><s:select name="selectedDescriptorUsedName" id="descriptorUsedName" list="userUploadedDescriptorTypes" label="Select type" disabled="true" theme="simple"/></td>
+		    </tr>
+		    </s:if>
+		    </table>
+	    </td>
+ 	  </tr>	  
+	  <tr>
 		<td colspan="2">
 		<div class="StandardTextDarkGrayParagraph"><i>Your uploaded descriptors must have the same scaling as those of your modeling dataset.</i></div>
 		</td>
