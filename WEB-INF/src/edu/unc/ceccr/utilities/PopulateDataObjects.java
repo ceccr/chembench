@@ -664,18 +664,15 @@ public class PopulateDataObjects {
 			if(isAllUserIncludes){
 				allUserDataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
-							.add(Expression.eq("availableDescriptors", Constants.UPLOADED))
 							.addOrder(Order.desc("name")).list();
 				
 				usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
-							.add(Expression.eq("availableDescriptors", Constants.UPLOADED))
 							.addOrder(Order.desc("name")).list();
 				
 			}
 			else usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
-							.add(Expression.eq("availableDescriptors", Constants.UPLOADED))
 							.addOrder(Order.desc("name")).list();
 			tx.commit();
 		} catch (Exception e) {
@@ -690,7 +687,7 @@ public class PopulateDataObjects {
 		        while(i.hasNext())
 		        {
 		        	DataSet di = (DataSet) i.next();
-		        	if(!di.getUploadedDescriptorType().isEmpty()) datasetdescriptorsNames.add(di.getUploadedDescriptorType()/* + " (public)"*/);	        
+		        	if(di.getAvailableDescriptors().contains(Constants.UPLOADED) && !di.getUploadedDescriptorType().isEmpty()) datasetdescriptorsNames.add(di.getUploadedDescriptorType()/* + " (public)"*/);	        
 		        }
 			}
 	       
@@ -698,7 +695,7 @@ public class PopulateDataObjects {
 		    	Iterator j = usersDataSet.iterator();
 		    	while(j.hasNext()){
 		    		DataSet dj = (DataSet) j.next();
-		    		if(!dj.getUploadedDescriptorType().isEmpty()) datasetdescriptorsNames.add(dj.getUploadedDescriptorType()/* + " (private)"*/);	
+		    		if(dj.getAvailableDescriptors().contains(Constants.UPLOADED) &&  !dj.getUploadedDescriptorType().isEmpty()) datasetdescriptorsNames.add(dj.getUploadedDescriptorType()/* + " (private)"*/);	
 		    	}
 	        }
 		}
