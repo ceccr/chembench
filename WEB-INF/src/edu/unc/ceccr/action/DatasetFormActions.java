@@ -843,6 +843,10 @@ public class DatasetFormActions extends ActionSupport{
 		Utility.writeToDebug("--------LIST:"+userUploadedDescriptorTypes);
 		return userUploadedDescriptorTypes;
 	}
+	public void setUserUploadedDescriptorTypes(
+			List<String> userUploadedDescriptorTypes) {
+		this.userUploadedDescriptorTypes = userUploadedDescriptorTypes;
+	}
 	public String getDescriptorNewName() {
 		return descriptorNewName;
 	}
