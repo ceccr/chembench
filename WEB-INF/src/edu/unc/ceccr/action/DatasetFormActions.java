@@ -40,12 +40,16 @@ public class DatasetFormActions extends ActionSupport{
 		return SUCCESS;
 	}
 	public String ajaxLoadModelingWithDescriptors() throws Exception {
+		ActionContext context = ActionContext.getContext();
 		Session session = HibernateUtil.getSession();
+		user = (User) context.getSession().get("user");
 		userUploadedDescriptorTypes = PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
 		return SUCCESS;
 	}
 	public String ajaxLoadPredictionWithDescriptors() throws Exception {
+		ActionContext context = ActionContext.getContext();
 		Session session = HibernateUtil.getSession();
+		user = (User) context.getSession().get("user");
 		userUploadedDescriptorTypes = PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
 		return SUCCESS;
 	}
