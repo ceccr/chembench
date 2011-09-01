@@ -552,7 +552,8 @@
 					<td align="left" valign="top"><s:checkbox name="emailOnCompletion" id="emailOnCompletion" /></td>
 				</tr>
 				</s:if>
-			     
+				
+			
 				<tr>
 					<td width="100%" colspan="2">
 					<div class="StandardTextDarkGrayParagraph" id="submitMessage">
@@ -560,6 +561,7 @@
 					</div>
 					</td>
 			    </tr>
+			    
 			    <tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><b>Predictor Name:</b></div>
