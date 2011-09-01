@@ -683,7 +683,7 @@ public class PopulateDataObjects {
 		ArrayList<String> datasetdescriptorsNames = new ArrayList<String>();
 		try{
 			if(allUserDataSets != null){
-				Iterator i = allUserDataSets.iterator();
+				Iterator<DataSet> i = allUserDataSets.iterator();
 		        while(i.hasNext())
 		        {
 		        	DataSet di = (DataSet) i.next();
@@ -692,7 +692,7 @@ public class PopulateDataObjects {
 			}
 	       
 	        if(usersDataSet != null){
-		    	Iterator j = usersDataSet.iterator();
+		    	Iterator<DataSet> j = usersDataSet.iterator();
 		    	while(j.hasNext()){
 		    		DataSet dj = (DataSet) j.next();
 		    		if(dj.getAvailableDescriptors().contains(Constants.UPLOADED) &&  !dj.getUploadedDescriptorType().isEmpty()) datasetdescriptorsNames.add(dj.getUploadedDescriptorType()/* + " (private)"*/);	
