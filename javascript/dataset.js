@@ -57,6 +57,16 @@ function submitForm(btn, value){
 		if(document.getElementById("newDescriptorName").checked && document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")===""){
 			msg += "Please choose enter a descriptors type. Or choose from the previously used list.\n"
 		}
+		if(document.getElementById("newDescriptorName").checked && document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")!==""){
+			var selectobject=document.getElementById("descriptorUsedName");
+			for (var i=0; i<selectobject.length; i++){
+				if(selectobject.options[i].value.replace(/^\s*/, "").replace(/\s*$/, "")===document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")){
+					msg += "The descriptor type name you've enterd is already used. Please select it from your Used type names list.\n";
+					break;
+				}  
+			}
+
+		}
 	}
 	else if(datasetType === "PREDICTIONWITHDESCRIPTORS"){
 		var xFileName = document.getElementById("xFilePredDesc").value;		
