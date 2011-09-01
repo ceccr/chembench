@@ -40,9 +40,13 @@ public class DatasetFormActions extends ActionSupport{
 		return SUCCESS;
 	}
 	public String ajaxLoadModelingWithDescriptors() throws Exception {
+		Session session = HibernateUtil.getSession();
+		userUploadedDescriptorTypes = PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
 		return SUCCESS;
 	}
 	public String ajaxLoadPredictionWithDescriptors() throws Exception {
+		Session session = HibernateUtil.getSession();
+		userUploadedDescriptorTypes = PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
 		return SUCCESS;
 	}
 	public String ajaxLoadAutoSplit() throws Exception {
@@ -83,7 +87,6 @@ public class DatasetFormActions extends ActionSupport{
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
 		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
-		userUploadedDescriptorTypes = PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
 		userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
 
 		session.close();
@@ -96,7 +99,7 @@ public class DatasetFormActions extends ActionSupport{
 		}
 		
 		dataTypeModeling = Constants.CONTINUOUS;
-		Utility.writeToDebug("....userUploadedDescriptorTypes.size="+ userUploadedDescriptorTypes.size()+"...POPULATE:"+userUploadedDescriptorTypes);
+		
 		//go to the page
 		return result;
 	}
