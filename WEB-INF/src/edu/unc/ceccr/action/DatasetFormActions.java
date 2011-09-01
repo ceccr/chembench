@@ -96,7 +96,7 @@ public class DatasetFormActions extends ActionSupport{
 		}
 		
 		dataTypeModeling = Constants.CONTINUOUS;
-		Utility.writeToDebug("....userUploadedDescriptorTypes.size="+ userUploadedDescriptorTypes.size());
+		Utility.writeToDebug("....userUploadedDescriptorTypes.size="+ userUploadedDescriptorTypes.size()+"...POPULATE:"+userUploadedDescriptorTypes);
 		//go to the page
 		return result;
 	}
