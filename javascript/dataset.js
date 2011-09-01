@@ -54,6 +54,9 @@ function submitForm(btn, value){
 		if(xFileName === ""){
 			msg += "Please choose a descriptors file to upload.\n"
 		}
+		if(document.getElementById("newDescriptorName").checked && document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")===""){
+			msg += "Please choose enter a descriptors type. Or choose from the previously used list.\n"
+		}
 	}
 	else if(datasetType === "PREDICTIONWITHDESCRIPTORS"){
 		var xFileName = document.getElementById("xFilePredDesc").value;		
