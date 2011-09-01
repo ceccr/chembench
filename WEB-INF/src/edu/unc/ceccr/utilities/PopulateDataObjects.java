@@ -651,7 +651,7 @@ public class PopulateDataObjects {
 	
 	
 	@SuppressWarnings("unchecked")
-	public static ArrayList<String> populateDatasetUploadedDescriptorTypes(String userName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
+	public static List<String> populateDatasetUploadedDescriptorTypes(String userName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 
 		//returns a list of strings. Used in form validation, to make sure a user doesn't reuse an existing name.
 		

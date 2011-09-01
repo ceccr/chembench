@@ -840,6 +840,7 @@ public class DatasetFormActions extends ActionSupport{
 		this.hasBeenScaled = hasBeenScaled;
 	}
 	public List<String> getUserUploadedDescriptorTypes() {
+		Utility.writeToDebug("--------LIST:"+userUploadedDescriptorTypes);
 		return userUploadedDescriptorTypes;
 	}
 	public String getDescriptorNewName() {
