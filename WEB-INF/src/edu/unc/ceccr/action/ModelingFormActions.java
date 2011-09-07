@@ -275,6 +275,9 @@ public class ModelingFormActions extends ActionSupport{
 				p.setSplitIncludesMax(splitIncludesMax);
 				p.setSplitIncludesMin(splitIncludesMin);
 				p.setSphereSplitMinTestSize(sphereSplitMinTestSize);
+				if(descriptorGenerationType.equals(Constants.UPLOADED))
+					p.setUploadedDescriptorType(ds.getUploadedDescriptorType());
+				else p.setUploadedDescriptorType("");
 				
 				Transaction tx = null;
 				try {

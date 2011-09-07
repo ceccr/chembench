@@ -96,6 +96,9 @@ public class Predictor implements java.io.Serializable {
 		private String splitIncludesMax;
 		private String sphereSplitMinTestSize;
 		private String selectionNextTrainPt;
+		
+	//uploaded descriptors type
+	private String uploadedDescriptorType;
 	
 	// Constructors
 
@@ -516,8 +519,17 @@ public class Predictor implements java.io.Serializable {
 	public void setSelectionNextTrainPt(String selectionNextTrainPt) {
 		this.selectionNextTrainPt = selectionNextTrainPt;
 	}
-//END datasplit parameters
+	
+	@Column(name = "uploadedDescriptorType")
+	public String getUploadedDescriptorType() {
+		return uploadedDescriptorType;
+	}
 
+	public void setUploadedDescriptorType(String uploadedDescriptorType) {
+		this.uploadedDescriptorType = uploadedDescriptorType;
+	}
+
+//END datasplit parameters
 	private String datasetDisplay = "";
 	@Transient
 	//this needs to be manually set before it can be returned
@@ -528,6 +540,7 @@ public class Predictor implements java.io.Serializable {
 	public void setDatasetDisplay(String datasetDisplay) {
 		this.datasetDisplay = datasetDisplay;
 	}
+	
 
 	
 }

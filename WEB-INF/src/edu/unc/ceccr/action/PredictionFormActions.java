@@ -204,6 +204,7 @@ public class PredictionFormActions extends ActionSupport{
 			}
 			selectedPredictors.add(p);
 			if(p.getSdFileName()==null || p.getSdFileName().trim().isEmpty()) isSingleCompoundPredictionAllowed = false;
+			if(p.getDescriptorGeneration().equals(Constants.UPLOADED)) isUploadedDescriptors = true;
 		}
 		
 		if(result.equals(ERROR)){
@@ -212,6 +213,13 @@ public class PredictionFormActions extends ActionSupport{
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
+		if(isUploadedDescriptors){
+			userDatasetNames.clear();
+			for(Predictor p:selectedPredictors){
+				if(p.getDescriptorGeneration().equals(Constants.UPLOADED))
+				userDatasetNames.addAll(PopulateDataObjects.populateDatasetNamesForUploadedPredicors(user.getUserName(), p.getUploadedDescriptorType(), true, session));
+			}
+		}
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
 		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
@@ -395,6 +403,7 @@ public class PredictionFormActions extends ActionSupport{
 	private String predictorCheckBoxes;
 	//a flag that indicate if we should display SMILES prediction or not 
 	private boolean isSingleCompoundPredictionAllowed;
+	private boolean isUploadedDescriptors;
 	private List<Predictor> selectedPredictors = new ArrayList<Predictor>();
 	
 	private List<SmilesPrediction> smilesPredictions;
