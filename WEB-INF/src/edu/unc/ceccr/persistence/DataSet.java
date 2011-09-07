@@ -20,7 +20,7 @@ public class DataSet implements java.io.Serializable{
 	private String xFile;
 	private String modelType; //continuous or category
 	private String datasetType; //prediction, modeling, predictionwithdescriptors, modelingwithdescriptors
-	private String uploadedDescriptorType; //used for predictionwithdescriptors and modelingwithdescriptors
+	private String uploadedDescriptorType; //used for modelingwithdescriptors
 	private int numCompound;
 	private Date createdTime;
 	private String description;
