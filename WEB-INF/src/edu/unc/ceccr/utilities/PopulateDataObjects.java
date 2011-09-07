@@ -719,19 +719,13 @@ public class PopulateDataObjects {
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
 							.addOrder(Order.desc("name")).list();
-				
-				usersDataSet = session.createCriteria(DataSet.class)
-							.add(Expression.eq("userName", userName))
-							.addOrder(Order.desc("name")).list();
-				
 			}
-			else{
+			
 			tx = session.beginTransaction();
 			usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
 							.addOrder(Order.desc("name")).list();
-			}
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
