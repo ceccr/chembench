@@ -58,7 +58,6 @@ function submitForm(btn, value){
 			msg += "Please enter a descriptors type name. Or choose from the previously used list.\n"
 		}
 		if(document.getElementById("newDescriptorName").checked && document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")!=="" && document.getElementById("descriptorUsedName")!=null){
-			alert(1);
 			var selectobject=document.getElementById("descriptorUsedName");
 			for (var i=0; i<selectobject.length; i++){
 				if(selectobject.options[i].value.replace(/^\s*/, "").replace(/\s*$/, "")===document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")){
