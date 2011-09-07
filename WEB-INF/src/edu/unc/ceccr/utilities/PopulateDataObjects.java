@@ -695,7 +695,7 @@ public class PopulateDataObjects {
 		    	Iterator<DataSet> j = usersDataSet.iterator();
 		    	while(j.hasNext()){
 		    		DataSet dj = (DataSet) j.next();
-		    		if(dj.getAvailableDescriptors().contains(Constants.UPLOADED) &&  !dj.getUploadedDescriptorType().isEmpty() && !datasetdescriptorsNames.contains(dj.getUploadedDescriptorType())) datasetdescriptorsNames.add(dj.getUploadedDescriptorType()/* + " (private)"*/);	
+		    		if(dj!=null && dj.getAvailableDescriptors()!=null && dj.getAvailableDescriptors().contains(Constants.UPLOADED) && dj.getUploadedDescriptorType()!=null && !dj.getUploadedDescriptorType().isEmpty() && !datasetdescriptorsNames.contains(dj.getUploadedDescriptorType())) datasetdescriptorsNames.add(dj.getUploadedDescriptorType()/* + " (private)"*/);	
 		    	}
 	        }
 		}
