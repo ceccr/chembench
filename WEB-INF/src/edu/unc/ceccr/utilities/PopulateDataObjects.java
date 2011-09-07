@@ -710,20 +710,34 @@ public class PopulateDataObjects {
 		//returns a list of strings. Used in form validation, to make sure a user doesn't reuse an existing name.
 		
 		List <DataSet> usersDataSet = null;
+		List <DataSet> allUserDataSets = null;
 		Transaction tx = null;
 		try
 		{
+			if(isAllUserIncludes){
+				allUserDataSets = session.createCriteria(DataSet.class)
+							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
+							.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
+							.addOrder(Order.desc("name")).list();
+				
+				usersDataSet = session.createCriteria(DataSet.class)
+							.add(Expression.eq("userName", userName))
+							.addOrder(Order.desc("name")).list();
+				
+			}
+			else{
 			tx = session.beginTransaction();
 			usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
 							.addOrder(Order.desc("name")).list();
+			}
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
 		}
 
-		
+		if(allUserDataSets!=null) usersDataSet.addAll(allUserDataSets);
 		return usersDataSet;
 	}
 
