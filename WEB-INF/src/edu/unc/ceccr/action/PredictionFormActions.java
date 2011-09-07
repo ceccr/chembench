@@ -203,8 +203,10 @@ public class PredictionFormActions extends ActionSupport{
 				}
 			}
 			selectedPredictors.add(p);
-			if(p.getSdFileName()==null || p.getSdFileName().trim().isEmpty()) isSingleCompoundPredictionAllowed = false;
-			if(p.getDescriptorGeneration().equals(Constants.UPLOADED)) isUploadedDescriptors = true;
+			if(p.getDescriptorGeneration().equals(Constants.UPLOADED)){
+				isUploadedDescriptors = true;
+				isSingleCompoundPredictionAllowed = false;
+			}
 		}
 		
 		if(result.equals(ERROR)){
