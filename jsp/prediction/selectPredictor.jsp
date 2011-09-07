@@ -89,8 +89,8 @@
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
-						<td class="TableRowText02narrow"><s:property value="uploadedDescriptorType" /></td>
 						<td class="TableRowText02narrow"><s:property value="descriptorGeneration" /></td>
+						<td class="TableRowText02narrow"><s:property value="uploadedDescriptorType" /></td>
 						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
@@ -122,8 +122,8 @@
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
-						<td class="TableRowText02narrow"><s:property value="uploadedDescriptorType" /></td>
 						<td class="TableRowText02narrow"><s:property value="descriptorGeneration" /></td>
+						<td class="TableRowText02narrow"><s:property value="uploadedDescriptorType" /></td>
 						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
@@ -155,8 +155,8 @@
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
-						<td class="TableRowText02narrow"><s:property value="uploadedDescriptorType" /></td>
 						<td class="TableRowText02narrow"><s:property value="descriptorGeneration" /></td>
+						<td class="TableRowText02narrow"><s:property value="uploadedDescriptorType" /></td>
 						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
@@ -188,8 +188,8 @@
 					<td class="TableRowText02"><s:property value="name" /></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethod" /></td>
-					<td class="TableRowText02narrow"><s:property value="uploadedDescriptorType" /></td>
 					<td class="TableRowText02"><s:property value="descriptorGeneration" /></td>
+					<td class="TableRowText02narrow"><s:property value="uploadedDescriptorType" /></td>
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
 					</tr> 
 				</s:if>
