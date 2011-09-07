@@ -714,6 +714,7 @@ public class PopulateDataObjects {
 		Transaction tx = null;
 		try
 		{
+			tx = session.beginTransaction();
 			if(isAllUserIncludes){
 				allUserDataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
@@ -721,7 +722,7 @@ public class PopulateDataObjects {
 							.addOrder(Order.desc("name")).list();
 			}
 			
-			tx = session.beginTransaction();
+			
 			usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
