@@ -539,6 +539,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		for(int i = 0; i < selectedPredictors.size(); i++){
 			Predictor predictor = selectedPredictors.get(i);
 			makePredictions(predictor, sdfile, path, path);
+			Utility.writeToDebug("PATH:::"+path+" SDF:::"+sdfile+" PREDICTORNAME:::"+predictor.getName());
 		}
 		
 		//remove prediction dataset descriptors from prediction output dir;
