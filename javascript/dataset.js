@@ -55,17 +55,16 @@ function submitForm(btn, value){
 			msg += "Please choose a descriptors file to upload.\n"
 		}
 		if(document.getElementById("newDescriptorName").checked && document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")===""){
-			msg += "Please choose enter a descriptors type. Or choose from the previously used list.\n"
+			msg += "Please enter a descriptors type name. Or choose from the previously used list.\n"
 		}
-		if(document.getElementById("newDescriptorName").checked && document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")!==""){
-			if(document.getElementById("descriptorUsedName")!=null){
-				var selectobject=document.getElementById("descriptorUsedName");
-				for (var i=0; i<selectobject.length; i++){
-					if(selectobject.options[i].value.replace(/^\s*/, "").replace(/\s*$/, "")===document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")){
-						msg += "The descriptor type name you've enterd is already used. Please select it from your Used type names list.\n";
-						break;
-					}  
-				}
+		if(document.getElementById("newDescriptorName").checked && document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")!=="" && document.getElementById("descriptorUsedName")!=null){
+			alert(1);
+			var selectobject=document.getElementById("descriptorUsedName");
+			for (var i=0; i<selectobject.length; i++){
+				if(selectobject.options[i].value.replace(/^\s*/, "").replace(/\s*$/, "")===document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")){
+					msg += "The descriptor type name you've enterd is already used. Please select it from your Used type names list.\n";
+					break;
+				}  
 			}
 		}
 	}
