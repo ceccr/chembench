@@ -215,13 +215,6 @@ public class PredictionFormActions extends ActionSupport{
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
-		if(isUploadedDescriptors){
-			userDatasetNames.clear();
-			for(Predictor p:selectedPredictors){
-				if(p.getDescriptorGeneration().equals(Constants.UPLOADED))
-				userDatasetNames.addAll(PopulateDataObjects.populateDatasetNamesForUploadedPredicors(user.getUserName(), p.getUploadedDescriptorType(), true, session));
-			}
-		}
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
 		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
 		userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
@@ -245,6 +238,13 @@ public class PredictionFormActions extends ActionSupport{
 					userDatasets.remove(i);
 					i--;
 				}
+			}
+		}
+		if(isUploadedDescriptors){
+			userDatasets.clear();
+			for(Predictor p:selectedPredictors){
+				if(p.getDescriptorGeneration().equals(Constants.UPLOADED))
+					userDatasets.addAll(PopulateDataObjects.populateDatasetNamesForUploadedPredicors(user.getUserName(), p.getUploadedDescriptorType(), true, session));
 			}
 		}
 		

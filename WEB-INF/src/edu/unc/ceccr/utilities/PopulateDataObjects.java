@@ -706,7 +706,7 @@ public class PopulateDataObjects {
 		return datasetdescriptorsNames;
 	}
 	
-	public static List<String> populateDatasetNamesForUploadedPredicors(String userName, String descriptorTypeName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
+	public static List<DataSet> populateDatasetNamesForUploadedPredicors(String userName, String descriptorTypeName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		//returns a list of strings. Used in form validation, to make sure a user doesn't reuse an existing name.
 		
 		List <DataSet> usersDataSet = null;
@@ -715,8 +715,8 @@ public class PopulateDataObjects {
 		{
 			tx = session.beginTransaction();
 			usersDataSet = session.createCriteria(DataSet.class)
-							.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
 							.add(Expression.eq("userName", userName))
+							.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
 							.addOrder(Order.desc("name")).list();
 			tx.commit();
 		} catch (Exception e) {
@@ -724,21 +724,7 @@ public class PopulateDataObjects {
 		}
 
 		
-		ArrayList<String> datasetdescriptorsNames = new ArrayList<String>();
-		try{
-		    if(usersDataSet != null){
-		    	Iterator<DataSet> j = usersDataSet.iterator();
-		    	while(j.hasNext()){
-		    		DataSet dj = (DataSet) j.next();
-		    		if(dj!=null && dj.getAvailableDescriptors()!=null && dj.getAvailableDescriptors().contains(Constants.UPLOADED)) datasetdescriptorsNames.add(dj.getUploadedDescriptorType()/* + " (private)"*/);	
-		    	}
-	        }
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-
-		return datasetdescriptorsNames;
+		return usersDataSet;
 	}
 
 	public static Job getJobById(Long jobId, Session session) throws ClassNotFoundException, SQLException {
