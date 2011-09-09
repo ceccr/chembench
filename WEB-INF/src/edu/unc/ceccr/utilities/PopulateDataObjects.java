@@ -717,7 +717,7 @@ public class PopulateDataObjects {
 		{
 			tx = session.beginTransaction();
 			if(isAllUserIncludes){
-				if(!descriptorTypeName.trim().isEmpty()){
+				if(descriptorTypeName==null || !descriptorTypeName.trim().isEmpty()){
 					allUserDataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
@@ -730,7 +730,7 @@ public class PopulateDataObjects {
 				}
 			}
 			
-			if(!descriptorTypeName.trim().isEmpty()){
+			if(descriptorTypeName==null || !descriptorTypeName.trim().isEmpty()){
 				usersDataSet = session.createCriteria(DataSet.class)
 								.add(Expression.eq("userName", userName))
 								.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
@@ -746,7 +746,6 @@ public class PopulateDataObjects {
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
 		}
-		Utility.writeToDebug("POLPULATE:::"+allUserDataSets+"::"+usersDataSet);
 		if(allUserDataSets!=null) usersDataSet.addAll(allUserDataSets);
 		return usersDataSet;
 	}
