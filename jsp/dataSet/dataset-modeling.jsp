@@ -50,4 +50,8 @@
 	  </tr>
   	  </table>
     </td></tr></tbody></table>
+    <script language="javascript">
+    	document.getElementById("dataTypeModelingCONTINUOUS").checked = false;
+		document.getElementById("dataTypeModelingCATEGORY").checked = false;
+	</script>
 </s:div>

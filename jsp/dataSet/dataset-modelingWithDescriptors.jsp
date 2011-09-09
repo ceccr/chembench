@@ -77,4 +77,8 @@
 	  </tr>
   	  </table>
     </td></tr></tbody></table>
+    <script language="javascript">
+	    document.getElementById("dataTypeModDescCONTINUOUS").checked = false;
+		document.getElementById("dataTypeModDescCATEGORY").checked = false;
+    </script>
 </s:div>
