@@ -3,6 +3,20 @@
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@ page language="java" import="java.util.*" %>
 
+<script language="javascript">
+ function getSelectedDescriptor(){
+		if(document.getElementById("newDescriptorName").checked){
+			document.getElementById("descriptorNewName").disabled = false;
+			document.getElementById("descriptorUsedName").disabled = true;
+			document.getElementById("newDescriptorName").checked = "checked";
+		}
+		else if(document.getElementById("usedDescriptorName").checked){
+			document.getElementById("descriptorUsedName").disabled = false;
+			document.getElementById("descriptorNewName").disabled = true;
+			document.getElementById("usedDescriptorName").checked = "checked";
+		}
+	}
+</script>
 <s:div>
 	<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>	
