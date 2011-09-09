@@ -38,6 +38,9 @@ function submitForm(btn, value){
 		if(sdfFileName === ""){
 			msg += "Please choose an SDF file to upload.\n"
 		}
+		if(document.getElementById("dataTypeModelingCONTINUOUS").checked == false && document.getElementById("dataTypeModelingCATEGORY").checked == false){
+			msg += "Please choose ACT data type (CATEGORY OR CONTNUOUS).\n"
+		}
 	}
 	else if(datasetType === "PREDICTION"){
 		var sdfFileName = document.getElementById("sdfFilePrediction").value;

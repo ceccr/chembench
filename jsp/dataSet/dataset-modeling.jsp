@@ -4,6 +4,10 @@
 <%@ page language="java" import="java.util.*" %>
 
 <script language="javascript" src="javascript/datasetscripts.js"></script>
+<script language="javascript">
+document.getElementById("dataTypeModelingCONTINUOUS").checked = false;
+document.getElementById("dataTypeModelingCATEGORY").checked = false;
+</script>
 <s:div>
 	<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>	
@@ -32,7 +36,7 @@
 	  <tr>
 	    <td><b class='StandardTextDarkGrayParagraph'>ACT data type:</b></td>
 	    <td align="left">
-	    <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="dataTypeModeling" value="dataTypeModeling" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" /></div>
+	    <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="dataTypeModeling" value="dataTypeModeling" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" required="true" /></div>
 	    </td>
 	  </tr>	
 	  <tr>
