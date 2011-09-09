@@ -278,6 +278,7 @@ public class ModelingFormActions extends ActionSupport{
 				if(ds.getUploadedDescriptorType()!=null)
 					p.setUploadedDescriptorType(ds.getUploadedDescriptorType());
 				else p.setUploadedDescriptorType("");
+				Utility.writeToDebug("TYPE::"+ds.getUploadedDescriptorType()+":::"+p.getUploadedDescriptorType());
 				
 				Transaction tx = null;
 				try {
