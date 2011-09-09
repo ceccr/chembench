@@ -141,7 +141,7 @@
 		</table>
 	</s:form>
 
-	<s:if test="{%isSingleCompoundPredictionAllowed}">
+	<s:if test="{%singleCompoundPredictionAllowed}">
 	<br />
 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>

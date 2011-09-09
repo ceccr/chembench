@@ -205,9 +205,8 @@ public class PredictionFormActions extends ActionSupport{
 			selectedPredictors.add(p);
 			Utility.writeToDebug(".....SELECTED PREDICTORS:::"+p.getName()+" | "+p.getDescriptorGeneration());
 			if(p.getDescriptorGeneration().equals(Constants.UPLOADED)){
-				Utility.writeToDebug(".....SELECTED PREDICTORS IF:::"+p.getDescriptorGeneration().equals(Constants.UPLOADED));
 				isUploadedDescriptors = true;
-				isSingleCompoundPredictionAllowed = false;
+				singleCompoundPredictionAllowed = false;
 			}
 		}
 		
@@ -406,7 +405,7 @@ public class PredictionFormActions extends ActionSupport{
 	private List<DataSet> userDatasets;
 	private String predictorCheckBoxes;
 	//a flag that indicate if we should display SMILES prediction or not 
-	private boolean isSingleCompoundPredictionAllowed=true;
+	private boolean singleCompoundPredictionAllowed=true;
 	private boolean isUploadedDescriptors=false;
 	private List<Predictor> selectedPredictors = new ArrayList<Predictor>();
 	
@@ -582,13 +581,13 @@ public class PredictionFormActions extends ActionSupport{
 		this.errorStrings = errorStrings;
 	}
 
-	public boolean isSingleCompoundPredictionAllowed() {
-		return isSingleCompoundPredictionAllowed;
+	public boolean getSingleCompoundPredictionAllowed() {
+		return singleCompoundPredictionAllowed;
 	}
-
+	
 	public void setSingleCompoundPredictionAllowed(
 			boolean isSingleCompoundPredictionAllowed) {
-		this.isSingleCompoundPredictionAllowed = isSingleCompoundPredictionAllowed;
+		this.singleCompoundPredictionAllowed = isSingleCompoundPredictionAllowed;
 	}
 	
 	
