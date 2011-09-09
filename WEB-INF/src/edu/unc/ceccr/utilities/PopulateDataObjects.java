@@ -716,26 +716,30 @@ public class PopulateDataObjects {
 		{
 			tx = session.beginTransaction();
 			if(isAllUserIncludes){
-				if(!descriptorTypeName.isEmpty())
+				if(!descriptorTypeName.trim().isEmpty()){
 					allUserDataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
 							.addOrder(Order.desc("name")).list();
-				else 
+				}
+				else{ 
 					allUserDataSets = session.createCriteria(DataSet.class)
 						.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 						.addOrder(Order.desc("name")).list();
+				}
 			}
 			
-			if(!descriptorTypeName.isEmpty())
+			if(!descriptorTypeName.trim().isEmpty()){
 				usersDataSet = session.createCriteria(DataSet.class)
 								.add(Expression.eq("userName", userName))
 								.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
 								.addOrder(Order.desc("name")).list();
-			else 
-				allUserDataSets = session.createCriteria(DataSet.class)
+			}
+			else{ 
+				usersDataSet = session.createCriteria(DataSet.class)
 					.add(Expression.eq("userName", userName))
 					.addOrder(Order.desc("name")).list();
+			}
 			
 			tx.commit();
 		} catch (Exception e) {
