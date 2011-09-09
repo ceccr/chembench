@@ -69,6 +69,10 @@ function submitForm(btn, value){
 				}  
 			}
 		}
+		if(document.getElementById("dataTypeModDescCATEGORY").checked == false && document.getElementById("dataTypeModDescCONTINUOUS").checked == false){
+			msg += "Please choose ACT data type (CATEGORY OR CONTNUOUS).\n"
+		}
+		
 	}
 	else if(datasetType === "PREDICTIONWITHDESCRIPTORS"){
 		var xFileName = document.getElementById("xFilePredDesc").value;		
