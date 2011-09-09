@@ -22,6 +22,12 @@
 <script src="javascript/dataset.js"></script>
 
 <script language="javascript">
+
+	document.getElementById("dataTypeModDescCONTINUOUS").checked = false;
+	document.getElementById("dataTypeModDescCATEGORY").checked = false;
+	document.getElementById("dataTypeModelingCONTINUOUS").checked = false;
+	document.getElementById("dataTypeModelingCATEGORY").checked = false;
+
 	var usedDatasetNames = new Array(<s:iterator value="userDatasetNames">"<s:property />",</s:iterator>"");
 	var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />",</s:iterator>"");
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");

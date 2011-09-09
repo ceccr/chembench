@@ -22,11 +22,6 @@
 	
 	<script language="javascript">
 	
-	document.getElementById("dataTypeModDescCONTINUOUS").checked = false;
-	document.getElementById("dataTypeModDescCATEGORY").checked = false;
-	document.getElementById("dataTypeModelingCONTINUOUS").checked = false;
-	document.getElementById("dataTypeModelingCATEGORY").checked = false;
-	
 	function loadAllCompoundsTab(newUrl){
 		//When the user changes which page they're on in the All Compounds tab
 		//or changes the sorted element, run this function to update the tab's content
