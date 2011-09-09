@@ -171,7 +171,8 @@ public class PredictionFormActions extends ActionSupport{
 		selectedPredictorIds = predictorCheckBoxes.replaceAll(",", " ");
 		String[] predictorIds = selectedPredictorIds.split("\\s+");
 
-	
+		isUploadedDescriptors =false;
+		singleCompoundPredictionAllowed = true;
 		
 		for(int i = 0; i < predictorIds.length; i++){
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session);
@@ -203,7 +204,6 @@ public class PredictionFormActions extends ActionSupport{
 				}
 			}
 			selectedPredictors.add(p);
-			Utility.writeToDebug(".....SELECTED PREDICTORS:::"+p.getName()+" | "+p.getDescriptorGeneration());
 			if(p.getDescriptorGeneration().equals(Constants.UPLOADED)){
 				isUploadedDescriptors = true;
 				singleCompoundPredictionAllowed = false;
@@ -405,8 +405,8 @@ public class PredictionFormActions extends ActionSupport{
 	private List<DataSet> userDatasets;
 	private String predictorCheckBoxes;
 	//a flag that indicate if we should display SMILES prediction or not 
-	private boolean singleCompoundPredictionAllowed=true;
-	private boolean isUploadedDescriptors=false;
+	private boolean singleCompoundPredictionAllowed;
+	private boolean isUploadedDescriptors;
 	private List<Predictor> selectedPredictors = new ArrayList<Predictor>();
 	
 	private List<SmilesPrediction> smilesPredictions;
