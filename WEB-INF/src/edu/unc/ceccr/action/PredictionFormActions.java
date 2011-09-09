@@ -206,6 +206,7 @@ public class PredictionFormActions extends ActionSupport{
 			}
 			selectedPredictors.add(p);
 			Utility.writeToDebug(".....SELECTED PREDICTORS:::"+p.getName()+" | "+p.getDescriptorGeneration());
+			Utility.writeToDebug(".....SELECTED PREDICTORS IF:::"+p.getDescriptorGeneration().equals(Constants.UPLOADED));
 			if(p.getDescriptorGeneration().equals(Constants.UPLOADED)){
 				//isUploadedDescriptors = true;
 				isSingleCompoundPredictionAllowed = false;
