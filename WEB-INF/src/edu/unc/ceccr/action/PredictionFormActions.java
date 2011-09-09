@@ -172,7 +172,9 @@ public class PredictionFormActions extends ActionSupport{
 		String[] predictorIds = selectedPredictorIds.split("\\s+");
 
 		isSingleCompoundPredictionAllowed = true;
-
+		
+		Utility.writeToDebug(".....SELECTED PREDICTORS:::"+selectedPredictorIds);
+		
 		for(int i = 0; i < predictorIds.length; i++){
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session);
 			
@@ -204,7 +206,7 @@ public class PredictionFormActions extends ActionSupport{
 			}
 			selectedPredictors.add(p);
 			if(p.getDescriptorGeneration().equals(Constants.UPLOADED)){
-				isUploadedDescriptors = true;
+				//isUploadedDescriptors = true;
 				isSingleCompoundPredictionAllowed = false;
 			}
 		}
