@@ -32,7 +32,7 @@
 	  <tr>
 	    <td><b class='StandardTextDarkGrayParagraph'>ACT data type:</b></td>
 	    <td align="left">
-	    <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="dataTypeModeling" value="dataTypeModeling" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" required="true" value="NA"/></div>
+	    <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="dataTypeModeling" value="dataTypeModeling" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" required="true"/></div>
 	    </td>
 	  </tr>	
 	  <tr>

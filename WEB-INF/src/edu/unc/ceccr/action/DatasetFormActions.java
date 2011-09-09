@@ -448,8 +448,8 @@ public class DatasetFormActions extends ActionSupport{
 	private String datasetName = "";
 	private String datasetType = Constants.MODELING;
 	private String splitType = Constants.RANDOM;
-	private String dataTypeModeling = Constants.CONTINUOUS;
-	private String dataTypeModDesc = Constants.CONTINUOUS;
+	private String dataTypeModeling = Constants.NONE;
+	private String dataTypeModDesc = Constants.NONE;
 	private String dataSetDescription = "";
 	private String externalCompoundList = "";
 	private String useActivityBinning = "true";
