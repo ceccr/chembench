@@ -32,7 +32,7 @@
 	  <tr>
 	    <td><b class='StandardTextDarkGrayParagraph'>ACT data type:</b></td>
 	    <td align="left">
-	    <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="dataTypeModeling" value="dataTypeModeling" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" required="true" /></div>
+	    <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="dataTypeModeling" value="dataTypeModeling" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" required="true" value="NA"/></div>
 	    </td>
 	  </tr>	
 	  <tr>
@@ -50,8 +50,4 @@
 	  </tr>
   	  </table>
     </td></tr></tbody></table>
-    <script language="javascript">
-    	document.getElementById("dataTypeModelingCONTINUOUS").checked = false;
-		document.getElementById("dataTypeModelingCATEGORY").checked = false;
-	</script>
 </s:div>

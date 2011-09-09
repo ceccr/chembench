@@ -30,7 +30,7 @@
 	  <tr>
 	    <td><b class='StandardTextDarkGrayParagraph'>ACT data type:</b></td>
 	    <td align="left">
-		<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="dataTypeModDesc" value="dataTypeModDesc" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" /></div>
+		<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="dataTypeModDesc" value="dataTypeModDesc" list="#{'CONTINUOUS':'Continuous','CATEGORY':'Category'}" theme="simple" required="true" value="NA" /></div>
 		</td>
 	  </tr>
 	  <tr>
@@ -77,8 +77,4 @@
 	  </tr>
   	  </table>
     </td></tr></tbody></table>
-    <script language="javascript">
-	    document.getElementById("dataTypeModDescCONTINUOUS").checked = false;
-		document.getElementById("dataTypeModDescCATEGORY").checked = false;
-    </script>
 </s:div>
