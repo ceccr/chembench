@@ -247,8 +247,14 @@ public class PredictionFormActions extends ActionSupport{
 			userDatasets.clear();
 			for(Iterator<Predictor> i=selectedPredictors.iterator();i.hasNext();){
 				Predictor p = i.next();
-				if(p.getDescriptorGeneration().equals(Constants.UPLOADED))
-					userDatasets.addAll(PopulateDataObjects.populateDatasetNamesForUploadedPredicors(user.getUserName(), p.getUploadedDescriptorType(), true, session));
+				if(p.getDescriptorGeneration().equals(Constants.UPLOADED)){
+					List<DataSet> dss = PopulateDataObjects.populateDatasetNamesForUploadedPredicors(user.getUserName(), p.getUploadedDescriptorType(), true, session);
+					for(Iterator<DataSet> j=dss.iterator();j.hasNext();)
+					{
+						DataSet ds  = j.next();
+						if(!userDatasets.contains(ds)) userDatasets.add(ds); 
+					}
+				}
 			}
 		}
 		
