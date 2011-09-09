@@ -78,6 +78,7 @@ public class QsarModelingTask extends WorkflowTask {
 	private String scalingType;
 	private String stdDevCutoff;
 	private String correlationCutoff;
+	private String uploadedDescriptorType;
 	
 	//datasplit
 	private String numSplits;
@@ -222,6 +223,7 @@ public class QsarModelingTask extends WorkflowTask {
 		scalingType = predictor.getScalingType();
 		stdDevCutoff = predictor.getStdDevCutoff();
 		correlationCutoff = predictor.getCorrelationCutoff();
+		uploadedDescriptorType = predictor.getUploadedDescriptorType();
 
 		//datasplit
 		numSplits = predictor.getNumSplits();
@@ -291,6 +293,7 @@ public class QsarModelingTask extends WorkflowTask {
 		categoryWeights = ModelingForm.getCategoryWeights();
 		actFileDataType = ModelingForm.getActFileDataType();
 		descriptorGenerationType = ModelingForm.getDescriptorGenerationType();
+		uploadedDescriptorType = dataset.getUploadedDescriptorType();
 		
 		//start datasplit parameters
 		selectionNextTrainPt = ModelingForm.getSelectionNextTrainPt();
@@ -433,6 +436,7 @@ public class QsarModelingTask extends WorkflowTask {
 		predictor.setScalingType(scalingType);
 		predictor.setStdDevCutoff(stdDevCutoff);
 		predictor.setCorrelationCutoff(correlationCutoff);
+		predictor.setUploadedDescriptorType(uploadedDescriptorType);
 		
 		//datasplit
 		predictor.setNumSplits(numSplits);
