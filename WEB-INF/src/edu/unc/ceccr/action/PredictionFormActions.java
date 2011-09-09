@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -241,9 +242,11 @@ public class PredictionFormActions extends ActionSupport{
 				}
 			}
 		}
+		
 		if(isUploadedDescriptors){
 			userDatasets.clear();
-			for(Predictor p:selectedPredictors){
+			for(Iterator<Predictor> i=selectedPredictors.iterator();i.hasNext();){
+				Predictor p = i.next();
 				if(p.getDescriptorGeneration().equals(Constants.UPLOADED))
 					userDatasets.addAll(PopulateDataObjects.populateDatasetNamesForUploadedPredicors(user.getUserName(), p.getUploadedDescriptorType(), true, session));
 			}

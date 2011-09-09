@@ -108,7 +108,7 @@
 					<div align="right" class="StandardTextDarkGray"><b>Select a Dataset:</b></div>
 					</td>
 					<td align="left" valign="top">
-					<s:if test="{%userDatasets.size()>0}">
+					<s:if test="%{userDatasets.size()>0}">
 						<s:select name="selectedDatasetId" list="userDatasets" id="selectedDataset" listKey="id" listValue="name" />
 						<input type="button" value="View Dataset" property="text" onclick="window.open('viewDataset?id='+document.getElementById('selectedDataset').value)"/>
 					</s:if>
