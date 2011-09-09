@@ -706,6 +706,7 @@ public class PopulateDataObjects {
 		return datasetdescriptorsNames;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static List<DataSet> populateDatasetNamesForUploadedPredicors(String userName, String descriptorTypeName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
 		//returns a list of strings. Used in form validation, to make sure a user doesn't reuse an existing name.
 		
@@ -745,7 +746,7 @@ public class PopulateDataObjects {
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
 		}
-
+		Utility.writeToDebug("POLPULATE:::"+allUserDataSets+"::"+usersDataSet);
 		if(allUserDataSets!=null) usersDataSet.addAll(allUserDataSets);
 		return usersDataSet;
 	}
