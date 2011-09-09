@@ -396,7 +396,7 @@ public class DatasetFormActions extends ActionSupport{
 							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType, externalCompoundList);
 					sdfFilePredDescFileName = sdfFilePredDescFileName.replaceAll(" ", "_");
 					xFilePredDescFileName = xFilePredDescFileName.replaceAll(" ", "_");
-					descriptorTypeModDesc = descriptorNewNameD.trim().isEmpty()?selectedDescriptorUsedNameD:descriptorNewNameD;
+					descriptorTypePredDesc = descriptorNewNameD.trim().isEmpty()?selectedDescriptorUsedNameD:descriptorNewNameD;
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
