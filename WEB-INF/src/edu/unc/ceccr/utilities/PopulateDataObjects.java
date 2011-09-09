@@ -717,29 +717,30 @@ public class PopulateDataObjects {
 		{
 			tx = session.beginTransaction();
 			if(isAllUserIncludes){
-				if(descriptorTypeName==null || !descriptorTypeName.trim().isEmpty()){
+				if(descriptorTypeName==null || descriptorTypeName.trim().isEmpty()){
+					allUserDataSets = session.createCriteria(DataSet.class)
+							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
+							.addOrder(Order.desc("name")).list();
+					
+				}
+				else{ 
 					allUserDataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
 							.addOrder(Order.desc("name")).list();
 				}
-				else{ 
-					allUserDataSets = session.createCriteria(DataSet.class)
-						.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
-						.addOrder(Order.desc("name")).list();
-				}
 			}
 			
-			if(descriptorTypeName==null || !descriptorTypeName.trim().isEmpty()){
+			if(descriptorTypeName==null || descriptorTypeName.trim().isEmpty()){
 				usersDataSet = session.createCriteria(DataSet.class)
-								.add(Expression.eq("userName", userName))
-								.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
-								.addOrder(Order.desc("name")).list();
+						.add(Expression.eq("userName", userName))
+						.addOrder(Order.desc("name")).list();
 			}
 			else{ 
 				usersDataSet = session.createCriteria(DataSet.class)
-					.add(Expression.eq("userName", userName))
-					.addOrder(Order.desc("name")).list();
+						.add(Expression.eq("userName", userName))
+						.add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
+						.addOrder(Order.desc("name")).list();
 			}
 			
 			tx.commit();
