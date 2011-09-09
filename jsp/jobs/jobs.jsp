@@ -366,7 +366,6 @@
 					<th class="TableRowText01">External Set R<sup>2</sup> or CCR</th>
 					<th class="TableRowText01">Modeling Method</th>
 					<th class="TableRowText01">Descriptor Type</th>
-					<th class="TableRowText01">Descriptor Type Name</th>
 					<th class="TableRowText01">Public/Private</th>
 					<th class="TableRowText01">Date Created</th>
 					<th class="TableRowText01_unsortable">Download</th>
@@ -410,8 +409,7 @@
 						</td>
 					</s:else>
 					<td><s:property value="modelMethod" /></td>
-					<td><s:property value="descriptorGeneration" /></td>
-					<td><s:property value="uploadedDescriptorType" /></td>
+					<td><s:property value="descriptorGeneration" />&nbsp;<s:property value="uploadedDescriptorType" /></td>
 					<td><s:if test="userName=='all-users'">Public</s:if><s:else>Private</s:else></td>
 					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
