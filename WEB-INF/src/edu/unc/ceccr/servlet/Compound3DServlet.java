@@ -46,7 +46,7 @@ public class Compound3DServlet extends HttpServlet {
 				+ " 3D view</title><head></head><body bgcolor='black' ><div align='center'><font color='white' size='3'> Compound ID = "
 				+ id + "</div></font>";
 
-		String front = "<script LANGUAGE='JavaScript1.1' SRC='/jchem/marvin/marvin.js'></script><script LANGUAGE='JavaScript1.1'>"
+		String front = "<script type='text/javascript' src='/jchem/marvin/examples/sh_main.js'></script><script type='text/javascript' src='/jchem/marvin/examples/sh_javascript.js'></script><script type='text/javascript' src='/jchem/marvin/examples/sh_html.js'></script><script LANGUAGE='JavaScript1.1' SRC='/jchem/marvin/marvin.js'></script><script LANGUAGE='JavaScript1.1'>"
 				+ "mview_begin('/jchem/marvin/', 350, 350);";
 
 		String parameter = "mview_param('mol'," + "'" + urlBaseDir + mol3D + "'" + ");";
