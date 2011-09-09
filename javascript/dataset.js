@@ -79,13 +79,13 @@ function submitForm(btn, value){
 		if(xFileName === ""){
 			msg += "Please choose a descriptors file to upload.\n"
 		}
-		if(document.getElementById("newDescriptorName").checked && document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")===""){
+		if(document.getElementById("newDescriptorNameD").checked && document.getElementById("descriptorNewNameD").value.replace(/^\s*/, "").replace(/\s*$/, "")===""){
 			msg += "Please choose enter a descriptors type. Or choose from the previously used list.\n"
 		}
-		if(document.getElementById("newDescriptorName").checked && document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")!==""){
-			var selectobject=document.getElementById("descriptorUsedName");
+		if(document.getElementById("newDescriptorNameD").checked && document.getElementById("descriptorNewNameD").value.replace(/^\s*/, "").replace(/\s*$/, "")!==""){
+			var selectobject=document.getElementById("descriptorUsedNameD");
 			for (var i=0; i<selectobject.length; i++){
-				if(selectobject.options[i].value.replace(/^\s*/, "").replace(/\s*$/, "")===document.getElementById("descriptorNewName").value.replace(/^\s*/, "").replace(/\s*$/, "")){
+				if(selectobject.options[i].value.replace(/^\s*/, "").replace(/\s*$/, "")===document.getElementById("descriptorNewNameD").value.replace(/^\s*/, "").replace(/\s*$/, "")){
 					msg += "The descriptor type name you've enterd is already used. Please select it from your Used type names list.\n";
 					break;
 				}  

@@ -331,7 +331,8 @@ public class DatasetFormActions extends ActionSupport{
 					sdfFileModDescFileName = sdfFileModDescFileName.replaceAll(" ", "_");
 					actFileModDescFileName = actFileModDescFileName.replaceAll(" ", "_");
 					xFileModDescFileName = xFileModDescFileName.replaceAll(" ", "_");
-					descriptorTypeModDesc = descriptorNewName.trim().isEmpty()?selectedDescriptorUsedName:descriptorNewName; 
+					descriptorTypeModDesc = descriptorNewName.trim().isEmpty()?selectedDescriptorUsedName:descriptorNewName;
+					
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -395,6 +396,7 @@ public class DatasetFormActions extends ActionSupport{
 							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType, externalCompoundList);
 					sdfFilePredDescFileName = sdfFilePredDescFileName.replaceAll(" ", "_");
 					xFilePredDescFileName = xFilePredDescFileName.replaceAll(" ", "_");
+					descriptorTypeModDesc = descriptorNewNameD.trim().isEmpty()?selectedDescriptorUsedNameD:descriptorNewNameD;
 				}
 				catch(Exception ex){
 					Utility.writeToDebug(ex);
@@ -769,9 +771,12 @@ public class DatasetFormActions extends ActionSupport{
 	private List<String> userPredictionNames;
 	private List<String> userTaskNames;
 	private List<String> userUploadedDescriptorTypes;
+	private List<String> userUploadedDescriptorTypesD;
 	private List<Predictor> userPredictorList;
 	private String selectedDescriptorUsedName="";
 	private String descriptorNewName="";
+	private String selectedDescriptorUsedNameD="";
+	private String descriptorNewNameD="";
 
 	
 
@@ -847,14 +852,21 @@ public class DatasetFormActions extends ActionSupport{
 		this.hasBeenScaled = hasBeenScaled;
 	}
 	public List<String> getUserUploadedDescriptorTypes() {
-		Utility.writeToDebug("--------LIST:"+userUploadedDescriptorTypes);
-		return userUploadedDescriptorTypes;
+				return userUploadedDescriptorTypes;
 	}
 	public void setUserUploadedDescriptorTypes(
 			List<String> userUploadedDescriptorTypes) {
-		Utility.writeToDebug("--------LIST SET:"+userUploadedDescriptorTypes);
 		this.userUploadedDescriptorTypes = userUploadedDescriptorTypes;
 	}
+	
+	public List<String> getUserUploadedDescriptorTypesD() {
+		return userUploadedDescriptorTypesD;
+	}
+	public void setUserUploadedDescriptorTypesD(
+		List<String> userUploadedDescriptorTypes) {
+		this.userUploadedDescriptorTypesD = userUploadedDescriptorTypes;
+	}
+	
 	public String getDescriptorNewName() {
 		return descriptorNewName;
 	}
@@ -866,6 +878,19 @@ public class DatasetFormActions extends ActionSupport{
 	}
 	public void setSelectedDescriptorUsedName(String selectedDescriptorUsedName) {
 		this.selectedDescriptorUsedName = selectedDescriptorUsedName;
+	}
+	
+	public String getDescriptorNewNameD() {
+		return descriptorNewNameD;
+	}
+	public void setDescriptorNewNameD(String descriptorNewName) {
+		this.descriptorNewNameD = descriptorNewName;
+	}
+	public String getSelectedDescriptorUsedNameD() {
+		return selectedDescriptorUsedNameD;
+	}
+	public void setSelectedDescriptorUsedNameD(String selectedDescriptorUsedName) {
+		this.selectedDescriptorUsedNameD = selectedDescriptorUsedName;
 	}
 	
 	

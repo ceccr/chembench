@@ -28,6 +28,31 @@
 	var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
 	var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
 
+	 function getSelectedDescriptor(){
+			if(document.getElementById("newDescriptorName").checked){
+				document.getElementById("descriptorNewName").disabled = false;
+				document.getElementById("descriptorUsedName").disabled = true;
+				document.getElementById("newDescriptorName").checked = "checked";
+			}
+			else if(document.getElementById("usedDescriptorName").checked){
+				document.getElementById("descriptorUsedName").disabled = false;
+				document.getElementById("descriptorNewName").disabled = true;
+				document.getElementById("usedDescriptorName").checked = "checked";
+			}
+		}
+	 
+	 function getSelectedDescriptorD(){
+			if(document.getElementById("newDescriptorNameD").checked){
+				document.getElementById("descriptorNewNameD").disabled = false;
+				document.getElementById("descriptorUsedNameD").disabled = true;
+				document.getElementById("newDescriptorNameD").checked = "checked";
+			}
+			else if(document.getElementById("usedDescriptorNameD").checked){
+				document.getElementById("descriptorUsedNameD").disabled = false;
+				document.getElementById("descriptorNewNameD").disabled = true;
+				document.getElementById("usedDescriptorNameD").checked = "checked";
+			}
+		}
 </script>
 </head>
 <body onload="setTabToDataset();">

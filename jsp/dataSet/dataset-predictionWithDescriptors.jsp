@@ -6,20 +6,6 @@
 
 <script language="javascript" src="javascript/datasetscripts.js"></script>
 
-<script language="javascript">
- function getSelectedDescriptor(){
-		if(document.getElementById("newDescriptorName").checked){
-			document.getElementById("descriptorNewName").disabled = false;
-			document.getElementById("descriptorUsedName").disabled = true;
-			document.getElementById("newDescriptorName").checked = "checked";
-		}
-		else if(document.getElementById("usedDescriptorName").checked){
-			document.getElementById("descriptorUsedName").disabled = false;
-			document.getElementById("descriptorNewName").disabled = true;
-			document.getElementById("usedDescriptorName").checked = "checked";
-		}
-	}
-</script>
 <s:div>
 	<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
 		<tbody>	
@@ -63,13 +49,13 @@
 	    <td>
 		    <table>
 		    <tr>
-		    	<td><input class="StandardTextDarkGrayParagraph" type="radio" name="predictorName" id="newDescriptorName" onclick="getSelectedDescriptor();" checked="checked" />New type</td>
-		    	<td><s:textfield name="descriptorNewName" id="descriptorNewName" label="Enter a new type" theme="simple"></s:textfield></td>
+		    	<td><input class="StandardTextDarkGrayParagraph" type="radio" name="predictorNameD" id="newDescriptorNameD" onclick="getSelectedDescriptorD();" checked="checked" />New type</td>
+		    	<td><s:textfield name="descriptorNewNameD" id="descriptorNewNameD" label="Enter a new type" theme="simple"></s:textfield></td>
 		    </tr>
 		    <s:if test="%{userUploadedDescriptorTypes.size()>0}">
 		    <tr>
-		    	<td><input class="StandardTextDarkGrayParagraph" type="radio" name="predictorName" id="usedDescriptorName" onclick="getSelectedDescriptor();" />Used type</td>
-		    	<td><s:select name="selectedDescriptorUsedName" id="descriptorUsedName" list="userUploadedDescriptorTypes" label="Select type" disabled="true" theme="simple"/></td>
+		    	<td><input class="StandardTextDarkGrayParagraph" type="radio" name="predictorNameD" id="usedDescriptorNameD" onclick="getSelectedDescriptorD();" />Used type</td>
+		    	<td><s:select name="selectedDescriptorUsedNameD" id="descriptorUsedNameD" list="userUploadedDescriptorTypes" label="Select type" disabled="true" theme="simple"/></td>
 		    </tr>
 		    </s:if>
 		    </table>
