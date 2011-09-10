@@ -217,7 +217,9 @@ function exportMol() {
 msketch_name = "MSketch";
 msketch_mayscript = true;
 msketch_begin("/jchem/marvin/", 440, 300);
-msketch_end();
+//msketch_end();
+var appletcode = msketch_end_tostring()
+document.alert(appletcode)
 document.MSketch.style.zIndex="-1";
 //-->
 
