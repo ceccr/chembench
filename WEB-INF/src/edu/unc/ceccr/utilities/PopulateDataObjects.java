@@ -661,7 +661,7 @@ public class PopulateDataObjects {
 		try
 		{
 			tx = session.beginTransaction();
-			/*if(isAllUserIncludes){
+			if(isAllUserIncludes){
 				allUserDataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
 							.addOrder(Order.desc("name")).list();
@@ -671,7 +671,7 @@ public class PopulateDataObjects {
 							.addOrder(Order.desc("name")).list();
 				
 			}
-			else*/ usersDataSet = session.createCriteria(DataSet.class)
+			else usersDataSet = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", userName))
 							.addOrder(Order.desc("name")).list();
 			tx.commit();
@@ -682,20 +682,20 @@ public class PopulateDataObjects {
 		
 		ArrayList<String> datasetdescriptorsNames = new ArrayList<String>();
 		try{
-		/*	if(allUserDataSets != null){
+			if(allUserDataSets != null){
 				Iterator<DataSet> i = allUserDataSets.iterator();
 		        while(i.hasNext())
 		        {
 		        	DataSet di = (DataSet) i.next();
-		        	if(di.getAvailableDescriptors().contains(Constants.UPLOADED) && !di.getUploadedDescriptorType().isEmpty() && !datasetdescriptorsNames.contains(di.getUploadedDescriptorType())) datasetdescriptorsNames.add(di.getUploadedDescriptorType());	        
+		        	if(di!=null && di.getAvailableDescriptors()!=null && di.getAvailableDescriptors().contains(Constants.UPLOADED) && di.getUploadedDescriptorType()!=null && !di.getUploadedDescriptorType().isEmpty() && !datasetdescriptorsNames.contains(di.getUploadedDescriptorType())) datasetdescriptorsNames.add(di.getUploadedDescriptorType());	        
 		        }
 			}
-	      */ 
+	       
 	        if(usersDataSet != null){
 		    	Iterator<DataSet> j = usersDataSet.iterator();
 		    	while(j.hasNext()){
 		    		DataSet dj = (DataSet) j.next();
-		    		if(dj!=null && dj.getAvailableDescriptors()!=null && dj.getAvailableDescriptors().contains(Constants.UPLOADED) && dj.getUploadedDescriptorType()!=null && !dj.getUploadedDescriptorType().isEmpty() && !datasetdescriptorsNames.contains(dj.getUploadedDescriptorType())) datasetdescriptorsNames.add(dj.getUploadedDescriptorType()/* + " (private)"*/);	
+		    		if(dj!=null && dj.getAvailableDescriptors()!=null && dj.getAvailableDescriptors().contains(Constants.UPLOADED) && dj.getUploadedDescriptorType()!=null && !dj.getUploadedDescriptorType().isEmpty() && !datasetdescriptorsNames.contains(dj.getUploadedDescriptorType())) datasetdescriptorsNames.add(dj.getUploadedDescriptorType());	
 		    	}
 	        }
 		}
