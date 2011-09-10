@@ -40,7 +40,7 @@ public class Compound3DServlet extends HttpServlet {
 		
 		String sdfPath = workingDir + sdf;
 
-		String urlBaseDir = "/BASE/" + userName+ "/DATASETS/" + datasetName + "/Visualization/Structures/";
+		String urlBaseDir = Constants.CECCR_USER_BASE_PATH + userName+ "/DATASETS/" + datasetName + "/Visualization/Structures/";
 		
 		String title = "<html><title>" + id
 				+ " 3D view</title><head></head><body bgcolor='black' ><div align='center'><font color='white' size='3'> Compound ID = "
