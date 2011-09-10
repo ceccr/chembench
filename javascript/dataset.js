@@ -82,7 +82,7 @@ function submitForm(btn, value){
 		if(document.getElementById("newDescriptorNameD").checked && document.getElementById("descriptorNewNameD").value.replace(/^\s*/, "").replace(/\s*$/, "")===""){
 			msg += "Please choose enter a descriptors type. Or choose from the previously used list.\n"
 		}
-		if(document.getElementById("newDescriptorNameD").checked && document.getElementById("descriptorNewNameD").value.replace(/^\s*/, "").replace(/\s*$/, "")!==""){
+		if(document.getElementById("newDescriptorNameD").checked && document.getElementById("descriptorNewNameD").value.replace(/^\s*/, "").replace(/\s*$/, "")!=="" && document.getElementById("descriptorUsedNameD")!=null){
 			var selectobject=document.getElementById("descriptorUsedNameD");
 			for (var i=0; i<selectobject.length; i++){
 				if(selectobject.options[i].value.replace(/^\s*/, "").replace(/\s*$/, "")===document.getElementById("descriptorNewNameD").value.replace(/^\s*/, "").replace(/\s*$/, "")){
