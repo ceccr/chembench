@@ -51,7 +51,7 @@ public class Compound3DServlet extends HttpServlet {
 
 		String parameter = "mview_param('mol'," + "'" + urlBaseDir + mol3D + "'" + ");";
 
-		String end = "</script></body></html>";
+		String end = "mview_end();</script></body></html>";
 
 		response.setContentType("text/html");
 
