@@ -708,8 +708,7 @@ public class PopulateDataObjects {
 	
 	@SuppressWarnings("unchecked")
 	public static List<DataSet> populateDatasetNamesForUploadedPredicors(String userName, String descriptorTypeName, boolean isAllUserIncludes, Session session) throws HibernateException, ClassNotFoundException, SQLException{
-		//returns a list of strings. Used in form validation, to make sure a user doesn't reuse an existing name.
-		
+				
 		List <DataSet> usersDataSet = null;
 		List <DataSet> allUserDataSets = null;
 		Transaction tx = null;
@@ -720,6 +719,7 @@ public class PopulateDataObjects {
 				if(descriptorTypeName==null || descriptorTypeName.trim().isEmpty()){
 					allUserDataSets = session.createCriteria(DataSet.class)
 							.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
+							.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
 							.addOrder(Order.desc("name")).list();
 					
 				}
@@ -734,6 +734,7 @@ public class PopulateDataObjects {
 			if(descriptorTypeName==null || descriptorTypeName.trim().isEmpty()){
 				usersDataSet = session.createCriteria(DataSet.class)
 						.add(Expression.eq("userName", userName))
+						.add(Expression.or(Expression.eq("modelType",Constants.PREDICTION), Expression.or(Expression.eq("modelType",Constants.CONTINUOUS), Expression.eq("modelType",Constants.CATEGORY))))
 						.addOrder(Order.desc("name")).list();
 			}
 			else{ 

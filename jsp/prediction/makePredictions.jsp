@@ -200,7 +200,7 @@
 			<tbody>
 			<tr>
 			<td>
-<script language="JavaScript1.1" src="javascript/marvin.js"></script>
+<script language="JavaScript1.1" src="jchem/marvin/marvin.js"></script>
 <script language="JavaScript1.1">
 <!--
 function exportMol() {
