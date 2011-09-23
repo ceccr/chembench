@@ -87,9 +87,10 @@ public class SdfToJpg {
 			
 			//only make the JPG if it's not already there
 			if(! new File(sketchesDir + jpgFilename).exists() && new File(structuresDir + files[x]).exists()){ 
-				
+				Utility.writeToDebug("Start image creation for molecule:"+jpgFilename);
 				String command = "molconvert -2 jpeg:w300,Q95 "+ structuresDir + files[x]+ " -o "+ sketchesDir + jpgFilename;
-				RunExternalProgram.runCommand(command, "");			
+				RunExternalProgram.runCommand(command, "");
+				Utility.writeToDebug("End image creation for molecule:"+jpgFilename);
 			}
 			x++;
 		}

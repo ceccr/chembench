@@ -96,15 +96,39 @@
 			    </tr> 
 				<tr>
 				<td>
-				<table><tr><td>
-					<div class="StandardTextDarkGray"><b>Chosen Predictors:</b></div>
-				</td>
-				<td height="26">
-				<div class="StandardTextDarkGray"><b><s:iterator value="selectedPredictors"><s:property value="name"/> &nbsp;</s:iterator></b></div>
-				</td>
+						<table><tr><td colspan="2">
+						<div class="StandardTextDarkGray"><b>Chosen Predictors:</b></div>
+						<div class="StandardTextDarkGray">
+						<table width="100%" class="sortable" id="private">
+						<tr>
+							<th class="TableRowText01narrow">Name</td>
+							<th class="TableRowText01narrow">Date Created</th>
+							<th class="TableRowText01narrow">Modeling Method</th>
+							<th class="TableRowText01narrow">Descriptor Type</th>
+						</tr>			
+						<s:iterator value="selectedPredictors">
+							<tr>
+								<td class="TableRowText02"><s:property value="name" /></td>
+								<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+								<td class="TableRowText02"><s:property value="modelMethod" /></td>
+								<s:if test="descriptorGeneration=='UPLOADED'">
+									<td class="TableRowText02">*<s:property value="uploadedDescriptorType" /></td>
+								</s:if>
+								<s:else>
+									<td class="TableRowText02"><s:property value="descriptorGeneration" /></td>
+								</s:else>
+							</tr> 
+					</s:iterator>
+					</table>
+				<p class="StandardTextDarkGray"><a href="prediction"/>Back to Predictors selection page</a></p>
+				
+				
+				</div>
+				</td><td>
+					</td>
 				</tr> 
 				<tr>
-					<td height="26">
+					<td height="26" align="left">
 					<div align="right" class="StandardTextDarkGray"><b>Select a Dataset:</b></div>
 					</td>
 					<td align="left" valign="top">
@@ -119,20 +143,20 @@
 					</td>
 				</tr>		
 				<tr>
-					<td height="26">
+					<td height="26" align="left">
 					<div align="right" class="StandardTextDarkGray"><b>Similarity Cut
 					Off:</b></div>
 					</td>
 					<td align="left" valign="top"><s:textfield name="cutOff" id="cutOff" size="4" /><span id="messageDiv2"></span></td>
 				</tr>
 				<tr>
-					<td height="26">
+					<td height="26" align="left">
 					<div align="right" class="StandardTextDarkGray"><b>Prediction Name:</b></div>
 					</td>
 					<td width="400" align="left" valign="top"><s:textfield name="jobName" id="jobName" size="19"/><span id="messageDiv1"></span></td>
 				</tr>
 				<tr>
-					<td><s:hidden name="selectedPredictorIds" /></td>
+					<td align="left"><s:hidden name="selectedPredictorIds" /></td>
 					<td align="left" valign="top"><input type="button" name="userAction" id="userAction" onclick="if(validateObjectNames(document.getElementById('jobName').value, usedDatasetNames, usedPredictorNames, usedPredictionNames, usedTaskNames)){ submitForm3(this); }" 
 					value="Submit Prediction Job" /> <span id="textarea"></span></td>
 				</tr>

@@ -2,36 +2,26 @@ package edu.unc.ceccr.action;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 //struts2
 import com.opensymphony.xwork2.ActionSupport; 
 import com.opensymphony.xwork2.ActionContext; 
 
-import org.apache.struts.upload.FormFile;
-import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
-import edu.unc.ceccr.taskObjects.QsarModelingTask;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
+@SuppressWarnings("serial")
 public class DatasetFormActions extends ActionSupport{
 	public String ajaxLoadModeling() throws Exception {
 		return SUCCESS;
@@ -225,7 +215,8 @@ public class DatasetFormActions extends ActionSupport{
 						externalCompoundList, //if splitType is USERDEFINED
 						datasetName,
 						paperReference,
-						dataSetDescription);
+						dataSetDescription,
+						generateImagesM);
 				try{
 					Utility.writeToDebug("getting ACT compound count from " + Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName);
 					int numCompounds = DatasetFileOperations.getACTCompoundNames(
@@ -286,7 +277,8 @@ public class DatasetFormActions extends ActionSupport{
 							externalCompoundList, //if splitType is USERDEFINED
 							datasetName,
 							paperReference,
-							dataSetDescription);
+							dataSetDescription,
+							generateImagesP);
 					
 					int numCompounds = DatasetFileOperations.getSDFCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
@@ -363,7 +355,8 @@ public class DatasetFormActions extends ActionSupport{
 						externalCompoundList, //if splitType is USERDEFINED
 						datasetName,
 						paperReference,
-						dataSetDescription);
+						dataSetDescription,
+						generateImagesMWD);
 
 					int numCompounds = DatasetFileOperations.getACTCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModDescFileName).size();
@@ -428,7 +421,8 @@ public class DatasetFormActions extends ActionSupport{
 						externalCompoundList, //if splitType is USERDEFINED
 						datasetName,
 						paperReference,
-						dataSetDescription);
+						dataSetDescription,
+						generateImagesPWD);
 				
 					int numCompounds = DatasetFileOperations.getXCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + xFilePredDescFileName).size();
@@ -471,6 +465,10 @@ public class DatasetFormActions extends ActionSupport{
 	private String hasBeenScaled = "false";
 	private String useActivityBinningNFold = "true";
 	private String numExternalFolds = "5";
+	private String generateImagesM = "true";
+	private String generateImagesP = "true";
+	private String generateImagesPWD = "false";
+	private String generateImagesMWD = "false";
 
 	public ArrayList<String> getErrorStrings() {
 		return errorStrings;
@@ -578,6 +576,33 @@ public class DatasetFormActions extends ActionSupport{
 		this.descriptorTypePredDesc = descriptorTypePredDesc;
 	}
 	
+	
+
+	public String getGenerateImagesM() {
+		return generateImagesM;
+	}
+	public void setGenerateImagesM(String generateImagesM) {
+		this.generateImagesM = generateImagesM;
+	}
+	public String getGenerateImagesP() {
+		return generateImagesP;
+	}
+	public void setGenerateImagesP(String generateImagesP) {
+		this.generateImagesP = generateImagesP;
+	}
+	public String getGenerateImagesPWD() {
+		return generateImagesPWD;
+	}
+	public void setGenerateImagesPWD(String generateImagesPWD) {
+		this.generateImagesPWD = generateImagesPWD;
+	}
+	public String getGenerateImagesMWD() {
+		return generateImagesMWD;
+	}
+	public void setGenerateImagesMWD(String generateImagesMWD) {
+		this.generateImagesMWD = generateImagesMWD;
+	}
+
 	//file upload stuff
 	//modeling
 	private File sdfFileModeling = null;
@@ -892,9 +917,6 @@ public class DatasetFormActions extends ActionSupport{
 	public void setSelectedDescriptorUsedNameD(String selectedDescriptorUsedName) {
 		this.selectedDescriptorUsedNameD = selectedDescriptorUsedName;
 	}
-	
-	
-	
 	
 	
 }

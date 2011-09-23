@@ -18,6 +18,7 @@
 	
 	<script language="JavaScript" src="javascript/script.js"></script>
 	<script language="JavaScript" src="javascript/sortableTable-delay.js"></script>
+	<script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>
 	
 	<script language="JavaScript">
 
@@ -223,6 +224,23 @@
 	<!-- End Header Info -->
 	
 	<tr>
+	<div id="image_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute;z-index:100;"><img src="" width="300" height="300"/></div>
 <%@include file ="/jsp/main/footer.jsp" %>
 </table>
+<script language="javascript">
+$(document).ready(function() {
+    //adding a bigger compound image on mouse enter
+
+	$('.compound_img_a').live("mouseover",function(e){
+		$("img","#image_hint").attr("src", $("img", this).attr("src"));
+    	var position = $("img", this).offset();
+    	$("#image_hint").show();
+    	$("#image_hint").css({"left":position.left+155,"top":position.top-75});
+		});
+
+	$('.compound_img_a').live("mouseout",function(){
+    	$("#image_hint").hide();
+	});
+});
+</script>
 </body>

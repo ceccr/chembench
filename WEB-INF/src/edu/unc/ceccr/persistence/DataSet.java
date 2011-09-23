@@ -38,6 +38,7 @@ public class DataSet implements java.io.Serializable{
 	private String useActivityBinning; 
 	private String externalCompoundList;
 	private String numExternalFolds; 
+	private int hasVisualization; 
 
 	public DataSet(){}
 	
@@ -266,5 +267,16 @@ public class DataSet implements java.io.Serializable{
 	public void setNumExternalFolds(String numExternalFolds) {
 		this.numExternalFolds = numExternalFolds;
 	}
+
+	@Column(name = "hasVisualization")
+	public int getHasVisualization() {
+		return hasVisualization;
+	}
+
+	public void setHasVisualization(int hasVisualization) {
+		this.hasVisualization = hasVisualization;
+	}
+	
+	
 	
 }

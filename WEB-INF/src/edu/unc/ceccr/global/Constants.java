@@ -233,5 +233,9 @@ public class Constants {
 	public static final String SOURCE="qwertyuio123NBV456pasdfghOPASDFGHjklm7890QWERTYUInbvcxzJKLMCXZ";
 	public static final String VALIDATOR_STRING="1234567890~!@#$%^&*()=+[]{}|:;'<>?";
 	
+	//a time in miliseconds the guest data is available, after that time will pass we'll delete guest data
+	//3 hours for now
+	public static final long GUEST_DATA_EXPIRATION_TIME = 10800000;
+	
 
 }

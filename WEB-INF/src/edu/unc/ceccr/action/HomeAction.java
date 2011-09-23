@@ -1,25 +1,13 @@
 package edu.unc.ceccr.action;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
 
 //struts2
 import com.opensymphony.xwork2.ActionSupport; 
@@ -27,9 +15,13 @@ import com.opensymphony.xwork2.ActionContext;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
+import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
+import edu.unc.ceccr.persistence.Prediction;
+import edu.unc.ceccr.persistence.PredictionValue;
+import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.ActiveUser;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -37,11 +29,11 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
 import org.apache.struts2.interceptor.ServletResponseAware;
-import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Order;
 
+
+@SuppressWarnings("serial")
 public class HomeAction extends ActionSupport implements ServletResponseAware {
 	
 	//loads home page
@@ -180,6 +172,14 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 				context.getSession().put("user", user);
 				Cookie ckie=new Cookie("login","true");
 				servletResponse.addCookie(ckie);
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+						clearOldGuestData();
+						
+					}
+				}).start();
 				
 				Utility.writeToUsageLog("Logged in", user.getUserName());
 			}
@@ -208,6 +208,109 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 		
 		loadPage();
 		return SUCCESS;
+	}
+	
+	public void clearOldGuestData(){
+		try{
+			Date current_date = new Date();
+			Session session = HibernateUtil.getSession();
+			String guestPath = Constants.CECCR_USER_BASE_PATH+"workflow-users/guest/";
+			//getting all jobs for guest user
+			List<JobStats> jobStatList = PopulateDataObjects.getJobStatsByUserName(session, "guest");
+			List<JobStats> datasetJobs = new ArrayList<JobStats>();
+			List<JobStats> modelingJobs = new ArrayList<JobStats>();
+			List<JobStats> predictionJobs = new ArrayList<JobStats>();
+			//populating a list of all the jobs for user guest that are older than 3 hours
+			for(JobStats js: jobStatList){
+				if(js.getTimeFinished() != null && js.getTimeStarted() != null){
+					if(js.getTimeFinished().getTime() < current_date.getTime()-Constants.GUEST_DATA_EXPIRATION_TIME){
+						if(js.getJobType().equals("DATASET")) datasetJobs.add(js);
+						if(js.getJobType().equals("MODELING")) modelingJobs.add(js);
+						if(js.getJobType().equals("PREDICTION")) predictionJobs.add(js);
+					}
+					
+				}
+			}
+			
+			//get all predictions based on the previous data
+			for(JobStats js: predictionJobs){
+				Utility.writeToDebug("+++++++++++++++DELETE_PREDICTIONS++++++++++++++");
+				if(new File(guestPath+"PREDICTIONS/"+js.getJobName()).exists()) Utility.writeToDebug("DELETE:::"+guestPath+"PREDICTIONS/"+js.getJobName());//FileAndDirOperations.deleteDir(new File(guestPath+"PREDICTIONS/"+js.getJobName()));
+				Prediction p = PopulateDataObjects.getPredictionByName(js.getJobName(),"guest",session);
+				if(p!=null){
+					ArrayList<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(p.getId(), session);
+					Utility.writeToDebug("DELETE_DB:::"+p.getName()+"......"+pvs.size());
+					if(pvs != null){
+						for(PredictionValue pv : pvs){
+							Transaction tx = null;
+							try{
+								tx = session.beginTransaction();
+							    session.delete(pv);
+								tx.commit();
+							}
+							catch (RuntimeException e) {
+								if (tx != null)
+									tx.rollback();
+								Utility.writeToDebug(e);
+							}
+						}
+					}
+					
+					//delete the database entry for the prediction
+					Transaction tx = null;
+					try{
+						tx = session.beginTransaction();
+					    session.delete(p);
+						tx.commit();
+					}catch (RuntimeException e) {
+						if (tx != null)
+							tx.rollback();
+						Utility.writeToDebug(e);
+					}
+					session.close();
+				}
+					
+			}
+			
+			//get all predictors based on the previous data
+			for(JobStats js: modelingJobs){
+				Utility.writeToDebug("+++++++++++++++DELETE_PREDICTORS++++++++++++++");
+				if(new File(guestPath+"PREDICTORS/"+js.getJobName()).exists()) Utility.writeToDebug("DELETE:::"+guestPath+"PREDICTORS/"+js.getJobName());//FileAndDirOperations.deleteDir(new File(guestPath+"PREDICTIONS/"+js.getJobName()));
+				Predictor p = PopulateDataObjects.getPredictorByName(js.getJobName(),"guest",session);
+				if(p!=null){
+					Utility.writeToDebug("DELETE_DB:::"+p.getName());
+					new DeleteAction().deletePredictor(p, session);
+				}
+	
+			}
+			
+			//get all datasets based on the previous data
+			for(JobStats js: datasetJobs){
+				Utility.writeToDebug("+++++++++++++++DELETE_DATASETS++++++++++++++");
+				if(new File(guestPath+"DATASETS/"+js.getJobName()).exists()) Utility.writeToDebug("DELETE:::"+guestPath+"DATASETS/"+js.getJobName());//FileAndDirOperations.deleteDir(new File(guestPath+"PREDICTIONS/"+js.getJobName()));
+				DataSet ds = PopulateDataObjects.getDataSetByName(js.getJobName(),"guest",session);
+				if(ds!=null){
+					Utility.writeToDebug("DELETE_DB:::"+ds.getName());
+					Transaction tx = null;
+					try{
+						tx = session.beginTransaction();
+					    session.delete(ds);
+						tx.commit();
+					}catch (RuntimeException e) {
+						if (tx != null)
+							tx.rollback();
+						Utility.writeToDebug(e);
+					}
+	
+					session.close();
+				}
+			}
+		
+			
+		}
+		catch(Exception ex){
+			Utility.writeToDebug(ex);
+		}
 	}
 	
 

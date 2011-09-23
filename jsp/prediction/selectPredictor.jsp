@@ -70,7 +70,7 @@
 			<b>Drug Discovery Predictors</b>
 			</p>
 			<p align="justify" class="StandardTextDarkGrayParagraph">
-			These are public predictors useful for virtual screening.
+			These are public predictors useful for virtual screening. * - predictor based on the uploaded dataset
 			</p>
 				<table width="100%" class="sortable" id="drugdisc">
 				<tr>
@@ -88,7 +88,12 @@
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
-						<td class="TableRowText02narrow"><s:property value="descriptorGeneration" />&nbsp;<s:property value="uploadedDescriptorType" /></td>
+						<s:if test="descriptorGeneration=='UPLOADED'">
+						<td class="TableRowText02">*<s:property value="uploadedDescriptorType" /></td>
+					</s:if>
+					<s:else>
+						<td class="TableRowText02"><s:property value="descriptorGeneration" /></td>
+					</s:else>
 						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
@@ -101,7 +106,7 @@
 			<b>ADME Predictors</b>
 			</p>
 			<p align="justify" class="StandardTextDarkGrayParagraph">
-			These are public predictors useful for prediction of absorption, distribution, metabolism, and excretion properties.
+			These are public predictors useful for prediction of absorption, distribution, metabolism, and excretion properties. * - predictor based on the uploaded dataset
 			</p>
 				<table width="100%" class="sortable" id="adme">
 				<tr>
@@ -119,7 +124,12 @@
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
-						<td class="TableRowText02narrow"><s:property value="descriptorGeneration" />&nbsp;<s:property value="uploadedDescriptorType" /></td>
+						<s:if test="descriptorGeneration=='UPLOADED'">
+						<td class="TableRowText02">*<s:property value="uploadedDescriptorType" /></td>
+					</s:if>
+					<s:else>
+						<td class="TableRowText02"><s:property value="descriptorGeneration" /></td>
+					</s:else>
 						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
@@ -132,7 +142,7 @@
 			<b>Toxicity Predictors</b>
 			</p>
 			<p align="justify" class="StandardTextDarkGrayParagraph">
-			These are public predictors useful for toxicity prediction.
+			These are public predictors useful for toxicity prediction. * - predictor based on the uploaded dataset
 			</p>
 				<table width="100%" class="sortable" id="toxicity">
 				<tr>
@@ -150,7 +160,12 @@
 						<td class="TableRowText02narrow"><s:property value="name" /></td>
 						<td class="TableRowText02narrow"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 						<td class="TableRowText02narrow"><s:property value="modelMethod" /></td>
-						<td class="TableRowText02narrow"><s:property value="descriptorGeneration" />&nbsp;<s:property value="uploadedDescriptorType" /></td>
+						<s:if test="descriptorGeneration=='UPLOADED'">
+						<td class="TableRowText02">*<s:property value="uploadedDescriptorType" /></td>
+					</s:if>
+					<s:else>
+						<td class="TableRowText02"><s:property value="descriptorGeneration" /></td>
+					</s:else>
 						<td class="TableRowText02narrow" colspan="2"><s:property value="description" /></td>
 						</tr> 
 					</s:if>
@@ -163,7 +178,7 @@
 			<b>Private Predictors</b>
 			</p>
 			<p align="justify" class="StandardTextDarkGrayParagraph">
-			These are private predictors you have created. Other users cannot access them.
+			These are private predictors you have created. Other users cannot access them. * - predictor based on the uploaded dataset
 			</p>
 			<table width="100%" class="sortable" id="private">
 				<tr>
@@ -181,7 +196,12 @@
 					<td class="TableRowText02"><s:property value="name" /></td>
 					<td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td class="TableRowText02"><s:property value="modelMethod" /></td>
-					<td class="TableRowText02"><s:property value="descriptorGeneration" />&nbsp;<s:property value="uploadedDescriptorType" /></td>
+					<s:if test="descriptorGeneration=='UPLOADED'">
+						<td class="TableRowText02">*<s:property value="uploadedDescriptorType" /></td>
+					</s:if>
+					<s:else>
+						<td class="TableRowText02"><s:property value="descriptorGeneration" /></td>
+					</s:else>
 					<td class="TableRowText02"><s:property value="datasetDisplay" /></td>
 					</tr> 
 				</s:if>

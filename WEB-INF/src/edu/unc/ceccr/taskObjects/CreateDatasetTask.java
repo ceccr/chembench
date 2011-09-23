@@ -45,6 +45,7 @@ public class CreateDatasetTask extends WorkflowTask{
 	private String dataSetDescription;
 	private String actFileHeader;
 	private String availableDescriptors = "";
+	private String generateImages;
 	private int numCompounds;
 	private DataSet dataset; //contains pretty much all the member variables. This is dumb but hopefully temporary.
 	
@@ -95,6 +96,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		useActivityBinning = dataset.getUseActivityBinning();
 		externalCompoundList = dataset.getExternalCompoundList();
 		
+		
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
 		try{
 			if(!sdfFileName.equals("")){
@@ -125,7 +127,8 @@ public class CreateDatasetTask extends WorkflowTask{
 			String externalCompoundList,
 			String datasetName,
 			String paperReference,
-			String dataSetDescription){
+			String dataSetDescription,
+			String generateImages){
 		//for modeling sets without included descriptors
 
 		this.userName = userName;
@@ -145,6 +148,8 @@ public class CreateDatasetTask extends WorkflowTask{
 		this.jobName = datasetName;
 		this.paperReference = paperReference;
 		this.dataSetDescription = dataSetDescription;
+		this.generateImages = generateImages;
+		
 
 		this.dataset = new DataSet();
 
@@ -188,6 +193,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		dataset.setNumExternalFolds(numExternalFolds);
 		dataset.setUseActivityBinning(useActivityBinning);
 		dataset.setExternalCompoundList(externalCompoundList);
+		dataset.setHasVisualization((generateImages.equals("true"))?1:0);
 
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
@@ -417,31 +423,38 @@ public class CreateDatasetTask extends WorkflowTask{
 	
 	public void executeLocal() throws Exception {
 
+		
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
-
-		if(!sdfFileName.equals("")){
+		Utility.writeToDebug("PPPPPPPP"+generateImages+generateImages.equals("true"));
+		if(!sdfFileName.equals("") && generateImages.equals("true")) {
 			//generate compound sketches and visualization files
 
 			String descriptorDir = "Descriptors/";
 			String vizFilePath = "Visualization/"; 
-			String structDir = "Visualization/Structures/";
-			String sketchDir = "Visualization/Sketches/";
-
+			
 			if(!new File(path + vizFilePath).exists()) {
 				new File(path + vizFilePath).mkdirs();
 			}
-			if(!new File(path + structDir).exists()) {
-				new File(path + structDir).mkdirs();
-			}
-			if(!new File(path + sketchDir).exists()) {
-				new File(path + sketchDir).mkdirs();
-			}
 			
-			step = Constants.SKETCHES;
-			Utility.writeToDebug("Generating JPGs", userName, jobName);
-			SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
+				String structDir = "Visualization/Structures/";
+				String sketchDir = "Visualization/Sketches/";
+	
+				
+				if(!new File(path + structDir).exists()) {
+					new File(path + structDir).mkdirs();
+				}
+				if(!new File(path + sketchDir).exists()) {
+					new File(path + sketchDir).mkdirs();
+				}
 			
-			if(numCompounds < 500 && !sdfFileName.equals("") && new File(path + descriptorDir + sdfFileName + ".maccs").exists()){
+				step = Constants.SKETCHES;
+				Utility.writeToDebug("Generating JPGs", userName, jobName);
+				SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
+			
+			if(	numCompounds < 500 && 
+				!sdfFileName.equals("") && 
+				new File(path + descriptorDir + sdfFileName + ".maccs").exists()
+				){
 				//totally not worth doing visualizations on huge datasets, the heatmap is 
 				//just nonsense at that point and it wastes a ton of compute time.
 				step = Constants.VISUALIZATION;

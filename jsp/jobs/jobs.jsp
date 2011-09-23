@@ -281,7 +281,8 @@
 			<td height="24" align="left" colspan="2">
 			<p class="StandardTextDarkGrayParagraph2">
 			<br /><b>Datasets</b>
-			</p></td>
+			</p>
+			<p class="StandardTextDarkGrayParagraph">* - uploaded dataset</p></td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -296,6 +297,7 @@
 					<th class="TableRowText01">Name</th>
 					<th class="TableRowText01">Number of Compounds</th>
 					<th class="TableRowText01">Type</th>
+					<th class="TableRowText01">Visualized</th>
 					<th class="TableRowText01">Descriptor Type name</th>
 					<th class="TableRowText01">Date Created</th>
 					<th class="TableRowText01">Public/Private</th>
@@ -317,7 +319,14 @@
 					</td>
 					<td><s:property value="numCompound" /></td>
 					<td><s:property value="modelType" /></td>
-					<td><s:property value="uploadedDescriptorType" /></td>
+						<s:if test="hasVisualization==1"><td>YES</td></s:if>
+						<s:else><td>NO</td></s:else>
+					<s:if test="uploadedDescriptorType!=''">
+						<td>*<s:property value="uploadedDescriptorType" /></td>
+					</s:if>
+					<s:else>
+						<td><s:property value="availableDescriptors" /></td>
+					</s:else>
 					<td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
 					<s:if test="userName=='all-users'">
 					<td>Public</td>
@@ -352,8 +361,10 @@
 			<td height="24" align="left" colspan="2">
 			<p class="StandardTextDarkGrayParagraph2">
 			<br />
-			<b>Predictors</b>
-			</p></td>
+			<b>Predictors</b><br />
+			</p>
+			<p class="StandardTextDarkGrayParagraph">* - predictor based on the uploaded dataset</p>
+			</td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -409,7 +420,12 @@
 						</td>
 					</s:else>
 					<td><s:property value="modelMethod" /></td>
-					<td><s:property value="descriptorGeneration" />&nbsp;<s:property value="uploadedDescriptorType" /></td>
+					<s:if test="descriptorGeneration=='UPLOADED'">
+					<td>*<s:property value="uploadedDescriptorType" /></td>
+					</s:if>
+					<s:else>
+					<td><s:property value="descriptorGeneration" /></td>
+					</s:else>
 					<td><s:if test="userName=='all-users'">Public</s:if><s:else>Private</s:else></td>
 					<td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
 					<td><a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>

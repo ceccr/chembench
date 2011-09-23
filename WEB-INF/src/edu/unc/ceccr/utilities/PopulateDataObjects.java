@@ -979,6 +979,24 @@ public class PopulateDataObjects {
 		
 		return jobStats;
 	}
+	
+	public static List<JobStats> getJobStatsByUserName(Session session, String username){
+		List<JobStats> jobStats = null;
+		
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			jobStats = session.createCriteria(JobStats.class)
+					.add(Expression.eq("userName", username))
+					.list();
+			tx.commit();
+		} catch (Exception e) {
+			Utility.writeToDebug(e);
+		} 
+		
+		return jobStats;
+	}
+
 
 	public static List<RandomForestGrove> getRandomForestGrovesByPredictorId(Long predictorId, Session session) throws Exception{
 		

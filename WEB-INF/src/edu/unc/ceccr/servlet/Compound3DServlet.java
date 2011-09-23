@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
@@ -35,21 +36,30 @@ public class Compound3DServlet extends HttpServlet {
 	
 		Utility.writeToDebug("Running SketchServlet.", userName, datasetName);
 		String workingDir = Constants.CECCR_USER_BASE_PATH + userName+ "/DATASETS/" + datasetName + "/Visualization/Structures/";
+		
 		String sdf = id + ".sdf";
 		String mol3D = id + "_3D.mol";
 		
 		String sdfPath = workingDir + sdf;
-
+		
 		String urlBaseDir = "/BASE/" + userName+ "/DATASETS/" + datasetName + "/Visualization/Structures/";
 		
+		//Check if file exist if no then we assuming that servlet was called from Prediction tab for the predictor which was based on public dataset
+		if(!new File(sdfPath).exists()){
+			workingDir = Constants.CECCR_USER_BASE_PATH + "all-users/DATASETS/" + datasetName + "/Visualization/Structures/";
+			urlBaseDir = "/BASE/" + "all-users/DATASETS/" + datasetName + "/Visualization/Structures/";
+			sdfPath = workingDir + sdf;
+		}
+
 		String title = "<html><title>" + id
 				+ " 3D view</title><head></head><body bgcolor='black' ><div align='center'><font color='white' size='3'> Compound ID = "
 				+ id + "</div></font>";
 
 		String front = "<script LANGUAGE='JavaScript1.1' SRC='jchem/marvin/marvin.js'></script><script LANGUAGE='JavaScript1.1'>"
 				+ "mview_begin('/jchem/marvin/', 350, 350);";
-
-		String parameter = "mview_param('mol'," + "'" + urlBaseDir + mol3D + "'" + ");";
+		
+		String mol3D_URL_friendly =  id.replaceAll("%","%25") + "_3D.mol";
+		String parameter = "mview_param('mol'," + "'" + urlBaseDir + mol3D_URL_friendly + "'" + ");";
 
 		String end = "mview_end();</script></body></html>";
 

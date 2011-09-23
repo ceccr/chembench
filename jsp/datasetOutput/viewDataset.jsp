@@ -19,6 +19,7 @@
 	<script language="javascript" src="javascript/script.js" />
 	<script src="javascript/AC_RunActiveContent.js"></script>
 	<script src="javascript/hookMouseWheel.js"></script>
+	<script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>
 	
 	<script language="javascript">
 	
@@ -142,12 +143,17 @@
 
 	<!-- Page description -->
 	<s:if test="dataset.datasetType=='PREDICTION'||dataset.datasetType=='PREDICTIONWITHDESCRIPTORS'">
-	<p class="StandardTextDarkGray">The compounds in your dataset are below.  </p>
+		<p class="StandardTextDarkGray">The compounds in your dataset are below.  </p>
 	</s:if>
 	<s:elseif test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
 	<p class="StandardTextDarkGray">The compounds in your dataset are below, with the activity values you supplied.
 	 The compounds of the external set are shown in the second tab.</p>
 	</s:elseif>
+	<s:if test="dataset.hasVisualization==0">
+	<p class="StandardTextDarkGray"><b>
+		No VISUALIZATION has been made as there was no SDF file provided for this particular DATASET. 
+	</b></p>
+	</s:if>
 	<!-- End page description -->
 	</td></tr><tr><td>
 	
@@ -197,11 +203,14 @@
 			</sx:div>
 		</s:if>
 		
-		<s:url id="heatmapLink" value="/viewDatasetVisualizationSection" includeParams="none">
-			<s:param name="datasetId" value='datasetId' />
-		</s:url>
-		<sx:div href="%{heatmapLink}" label="Heatmap" theme="ajax" loadingText="Loading heatmap..." showLoadingText="true" preload="false">
-		</sx:div>
+		<s:if test="dataset.hasVisualization==1">
+			<s:url id="heatmapLink" value="/viewDatasetVisualizationSection" includeParams="none">
+				<s:param name="datasetId" value='datasetId' />
+			</s:url>
+		
+			<sx:div href="%{heatmapLink}" label="Heatmap" theme="ajax" loadingText="Loading heatmap..." showLoadingText="true" preload="false">
+			</sx:div>
+		</s:if>
 		
 		<s:url id="descriptorsLink" value="/viewDatasetDescriptorsSection" includeParams="none">
 			<s:param name="datasetId" value='datasetId' />
@@ -213,7 +222,24 @@
    	
 	<!-- end load tabs -->
 	
-	
+	<div id="image_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute"><img src="" width="300" height="300"/></div>
 <%@include file ="/jsp/main/footer.jsp" %>
 </table>
+<script language="javascript">
+$(document).ready(function() {
+    //adding a bigger compound image on mouse enter
+
+	$('.compound_img_a').live("mouseover",function(e){
+		$("img","#image_hint").attr("src", $("img", this).attr("src"));
+    	var position = $("img", this).offset();
+    	$("#image_hint").show();
+    	$("#image_hint").css({"left":position.left+155,"top":position.top-75});
+		});
+
+	$('.compound_img_a').live("mouseout",function(){
+    	$("#image_hint").hide();
+	});
+});
+
+</script>
 </body>
