@@ -35,6 +35,13 @@
 		</div></td>
 		<td><s:checkbox name="standardizePrediction" id="standardizePrediction" theme="simple" /></td>
 	  </tr>
+	  <tr>
+		<td>
+		<div class="StandardTextDarkGrayParagraph">
+		<b>Generate visualization: </b>
+		</div></td>
+		<td><s:checkbox name="generateImagesP" id="generateImagesP" theme="simple" /></td>
+	  </tr>
   	  </table>
     </td></tr></tbody></table>
 </s:div>

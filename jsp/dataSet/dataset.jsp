@@ -20,6 +20,7 @@
 
 <script src="javascript/script.js"></script>
 <script src="javascript/dataset.js"></script>
+<script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>
 
 <script language="javascript">
 
@@ -248,5 +249,25 @@
   </tr>
 </table>
 <%@include file ="/jsp/main/footer.jsp" %>
+<script language="javascript">
+$(document).ready(function() {
+	$("#sdfFilePredDesc").live('change',function(e){
+        f_name=jQuery.trim($(this).val());
+        if(f_name!=""){
+                $("#generateImages_trp").show();
+        }
+      });
+    $("#sdfFileModDesc").live('change',function(e){
+              f_name=jQuery.trim($(this).val());
+              if(f_name!=""){
+                      $("#generateImages_trm").show();
+              }
+            });
+    
+   
+	 
+     });
+
+</script>
 </body>
 </html>

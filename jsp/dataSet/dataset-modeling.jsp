@@ -48,6 +48,12 @@
 		</div></td>
 		<td><s:checkbox name="standardizeModeling" id="standardizeModeling" theme="simple" /></td>
 	  </tr>
-  	  </table>
-    </td></tr></tbody></table>
+	   <tr>
+		<td>
+		<div class="StandardTextDarkGrayParagraph">
+		<b>Generate visualization: </b>
+		</div></td>
+		<td><s:checkbox name="generateImagesM" id="generateImagesM" theme="simple" /></td>
+	  </tr>
+	  </tbody></table>
 </s:div>

@@ -46,6 +46,13 @@
 		</div></td>
 		<td><s:checkbox name="standardizeModDesc" id="standardizeModDesc" theme="simple" /></td>
 	  </tr>
+	  <tr id="generateImages_trm" style="display:none">
+		<td>
+		<div class="StandardTextDarkGrayParagraph">
+		<b>Generate visualization: </b>
+		</div></td>
+		<td><s:checkbox name="generateImagesMWD" id="generateImagesMWD" theme="simple" /></td>
+	  </tr>
 	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">X File:</b></td>
 	    <td align="left">
