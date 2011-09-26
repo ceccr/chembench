@@ -282,7 +282,7 @@
 			<p class="StandardTextDarkGrayParagraph2">
 			<br /><b>Datasets</b>
 			</p>
-			<p class="StandardTextDarkGrayParagraph">* - uploaded dataset</p></td>
+			<p class="StandardTextDarkGrayParagraph">* Descriptors for the dataset were created outside of Chembench and uploaded by the user.</p></td>
 		</tr>
 		<tr>
 			<td colspan="2">
@@ -297,7 +297,7 @@
 					<th class="TableRowText01">Name</th>
 					<th class="TableRowText01">Number of Compounds</th>
 					<th class="TableRowText01">Type</th>
-					<th class="TableRowText01">Visualized</th>
+					<th class="TableRowText01">Structure Images Available</th>
 					<th class="TableRowText01">Descriptor Type name</th>
 					<th class="TableRowText01">Date Created</th>
 					<th class="TableRowText01">Public/Private</th>
@@ -363,7 +363,7 @@
 			<br />
 			<b>Predictors</b><br />
 			</p>
-			<p class="StandardTextDarkGrayParagraph">* - predictor based on the uploaded dataset</p>
+			<p class="StandardTextDarkGrayParagraph">* Predictor was built on a dataset with descriptors that were created outside of Chembench and uploaded by the user.</p>
 			</td>
 		</tr>
 		<tr>

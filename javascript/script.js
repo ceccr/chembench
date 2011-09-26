@@ -295,24 +295,9 @@ function logout() {
 }
    
 function showLoading(text){
-	//var shaded_ = "<div id='shade' style='background:url(/theme/img/SHADE_BG.png );z-index:30; position:absolute; top:250px; width:100%;height:300%;'><div align='center' style='background:url(/theme/ccbTheme/images/ccbLogoWorking.png ); width:750px; height:200px; margin: 0 auto;'> <div style='position:absolute; top:100px; right:270px; width:350px;'><div align='left'><strong class='StandardTextDarkGrayParagraph'>"+text+"</strong></div></div></div> ";
-	if(text.length > 100){
-		text=text.substring(0,97)+"...";
-	}
 	var shaded_ ="" +
 			"<div id='shade' style='background:url(/theme/img/SHADE_BG.png );z-index:5000; position:absolute; top:0px;  width:100%;height:300%;'>" +
-			"<div style='width:750px; height:200px;  margin: 0 auto;position: fixed;top:30%;left:20%;z-index: 100; '> " +
-				"<table cellpadding='0' cellspacing='0'; border='0' background='/theme/ccbTheme/images/ccbLogoWorking.png' style='height:200px;width:750px'>" +
-					"<tr>" +
-						"<td style='width:350px'></td>" +
-						"<td style='width:50px'>" +
-							"<div align='center'><img src='/theme/img/shade-loader.gif' /></div></td>" +
-						"<td style='height:100px; width:250px'><strong class='StandardTextDarkGrayParagraphBlue'>"+text+"</strong></td>" +
-						"<td style='width:50px'></td>" +
-					"</tr>" +
-				"</table>" +
-			"</div>" +
-			"</div>";
+			"<div class='ccbPopupDiv'>"+text+"</div>";
 	document.getElementById('bodyDIV').innerHTML = shaded_;
 }
 

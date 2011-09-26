@@ -40,3 +40,29 @@
 	font-weight: bold;
 	text-decoration: underline;
 }
+
+.ccbPopupDiv{
+	width:300px;
+	position: absolute;
+	top:200px;
+	left:50%;
+	margin-left:-150px;
+	border:#990000 solid 1px;
+	background-color:#FFFFFF; 
+	margin: 0 auto;
+	padding:10px;
+	font-family:"myriad pro","bitstream vera sans","trebuchet ms","helvetica neue",helvetica,arial,sans-serif;
+    font-size: 22px;
+    color: #990000;
+    text-align:center;
+	text-shadow:#FFFFFF 1px 1px 1px;
+	z-index: 100;
+    font-weight: normal;
+	-moz-box-shadow:0px 0px 10px #000000;
+	-webkit-box-shadow:0px 0px 10px #000000;
+	box-shadow:0px 0px 10px #000000;
+	background-image: -moz-linear-gradient(top, #ffffff, #e0dcdd);
+	background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#e0dcdd));
+	background-image: -o-linear-gradient(top, #ffffff, #e0dcdd);
+	background-color:#FFFFFF;
+}

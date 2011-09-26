@@ -40,7 +40,7 @@
 		<div class="StandardTextDarkGrayParagraph">
 		<b>Generate visualization: </b>
 		</div></td>
-		<td><s:checkbox name="generateImagesP" id="generateImagesP" theme="simple" /></td>
+		<td><s:checkbox name="generateImagesP" id="generateImagesP" theme="simple" /><span class="StandardTextDarkGrayParagraph"><i>(Unchecking this box will accelerate dataset generation but will eliminate structure images)</i></span></td>
 	  </tr>
   	  </table>
     </td></tr></tbody></table>
