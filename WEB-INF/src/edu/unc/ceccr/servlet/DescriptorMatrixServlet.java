@@ -26,39 +26,42 @@ public class DescriptorMatrixServlet extends HttpServlet{
 
 	        BufferedInputStream input = null;
 	        BufferedOutputStream output = null;
-
-	        try {
-	            input = new BufferedInputStream(new FileInputStream(matFile));
-	            int contentLength = input.available();
-
-	          response.reset();
-	            response.setContentLength(contentLength);
-	            	            
-	            output = new BufferedOutputStream(response.getOutputStream());
-
-	            // Write file contents to response.
-	            while (contentLength-- > 0) {
-	                output.write(input.read());
-	            }
-
-	            output.flush();
-	        } catch (IOException e) {
-	            Utility.writeToDebug(e);
-	        } finally {
-	            if (input != null) {
-	                try {
-	                    input.close();
-	                } catch (IOException e) {
-	                    Utility.writeToDebug(e);
-	                }
-	            }
-	            if (output != null) {
-	                try {
-	                    output.close();
-	                } catch (IOException e) {
-	                    Utility.writeToDebug(e);
-	                }
-	            }
+	        if(matFile.exists()){
+	        	assert matFile.exists();
+	        	Utility.writeToDebug("MAT FILE EXISTS?"+matFile.exists());
+		        try {
+		            input = new BufferedInputStream(new FileInputStream(matFile));
+		            int contentLength = input.available();
+	
+		          response.reset();
+		            response.setContentLength(contentLength);
+		            	            
+		            output = new BufferedOutputStream(response.getOutputStream());
+	
+		            // Write file contents to response.
+		            while (contentLength-- > 0) {
+		                output.write(input.read());
+		            }
+	
+		            output.flush();
+		        } catch (IOException e) {
+		            Utility.writeToDebug(e);
+		        } finally {
+		            if (input != null) {
+		                try {
+		                    input.close();
+		                } catch (IOException e) {
+		                    Utility.writeToDebug(e);
+		                }
+		            }
+		            if (output != null) {
+		                try {
+		                    output.close();
+		                } catch (IOException e) {
+		                    Utility.writeToDebug(e);
+		                }
+		            }
+		        }
 	        }
 	}
 }
