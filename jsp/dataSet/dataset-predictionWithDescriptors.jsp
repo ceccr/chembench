@@ -41,9 +41,9 @@
 	  <tr id="generateImages_trp" style="display:none">
 		<td>
 		<div class="StandardTextDarkGrayParagraph">
-		<b>Generate visualization: </b>
+		<b>Generate M-heatmap: </b>
 		</div></td>
-		<td><s:checkbox name="generateImagesPWD" id="generateImagesPWD" theme="simple" /><span class="StandardTextDarkGrayParagraph"><i>(Unchecking this box will accelerate dataset generation but will eliminate structure images)</i></span></td>
+		<td><s:checkbox name="generateImagesPWD" id="generateImagesPWD" theme="simple" /><span class="StandardTextDarkGrayParagraph"><i>(Unchecking this box will accelerate dataset generation but will eliminate heatmap based on Mahalanobis distance measure)</i></span></td>
 	  </tr>
 	  <tr>
 	    <td><b class="StandardTextDarkGrayParagraph">X File:</b></td>
