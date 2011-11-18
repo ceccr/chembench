@@ -4,23 +4,23 @@
  */
 
 function setTabToHome(){
-	document.getElementById("homeButton").innerHTML = "<img src='/theme/navbar/button-home-grey.jpg' border='0' />";
+	document.getElementById("homeButton").className = document.getElementById("homeButton").className.replace( /(?:^|\s)nav_button_inactive(?!\S)/ , ' nav_button_active' );
 } 
 function setTabToMyBench(){
-	document.getElementById("myBenchButton").innerHTML = "<img src='/theme/navbar/button-mybench-grey.jpg' border='0' />";
+	document.getElementById("myBenchButton").className = document.getElementById("myBenchButton").className.replace( /(?:^|\s)nav_button_inactive(?!\S)/ , ' nav_button_active' );
 } 
 function setTabToDataset(){
-	document.getElementById("datasetButton").innerHTML = "<img src='/theme/navbar/button-dataset-grey.jpg' border='0' />";
+	document.getElementById("datasetButton").className = document.getElementById("datasetButton").className.replace( /(?:^|\s)nav_button_inactive(?!\S)/ , ' nav_button_active' );
 } 
 function setTabToModeling(){
-	document.getElementById("modelingButton").innerHTML = "<img src='/theme/navbar/button-modeling-grey.jpg' border='0' />";
+	document.getElementById("modelingButton").className = document.getElementById("modelingButton").className.replace( /(?:^|\s)nav_button_inactive(?!\S)/ , ' nav_button_active' );
 } 
 function setTabToPrediction(){
-	document.getElementById("predictionButton").innerHTML = "<img src='/theme/navbar/button-prediction-grey.jpg' border='0' />";
+	document.getElementById("predictionButton").className = document.getElementById("predictionButton").className.replace( /(?:^|\s)nav_button_inactive(?!\S)/ , ' nav_button_active' );
 } 
 function setTabToCeccrBase(){
-	document.getElementById("ceccrBaseButton").innerHTML = "<img src='/theme/navbar/button-ceccrbase-grey.jpg' border='0' />";
-} 
+	document.getElementById("ceccrBaseButton").className = document.getElementById("ceccrBaseButton").className.replace( /(?:^|\s)nav_button_inactive(?!\S)/ , ' nav_button_active' );
+	} 
 
 function enlargeImage(me){
 	me.height *= 2;
@@ -293,18 +293,19 @@ function resetErrorMessages() {
 function logout() {
 	self.location = "logout";
 }
-   
+
 function showLoading(text){
-	var shaded_ ="" +
-			"<div id='shade' style='background:url(/theme/img/SHADE_BG.png );z-index:5000; position:absolute; top:0px;  width:100%;height:300%;'>" +
-			"<div class='ccbPopupDiv'>"+text+"</div>";
+	var shaded_ ="<div id='shade' style='position:absolute;top:0px;background-color:#FFF;filter:alpha(opacity=80); -moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;z-index:900; width:100%;height:300%'>" +
+			"</div><div id='alert_message' class='ccbPopupDiv'>"+text+"</div>";
 	document.getElementById('bodyDIV').innerHTML = shaded_;
 }
 
 function hideLoading(){
  var d = document.getElementById('bodyDIV');
   var olddiv = document.getElementById("shade");
+  var olddiv2 = document.getElementById("alert_message");
   d.removeChild(olddiv);
+  d.removeChild(olddiv2);
 }
 
 
