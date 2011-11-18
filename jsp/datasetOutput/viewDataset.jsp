@@ -13,6 +13,7 @@
 	<link href="theme/standard.css" rel="stylesheet" type="text/css" />
 	<link href="theme/links.css" rel="stylesheet" type="text/css" />
 	<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
+	<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
@@ -88,6 +89,7 @@
 </head>
 
 <body onload="setTabToMyBench();">
+<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
 	<tr>
 		<td>
@@ -123,7 +125,7 @@
 				<div class="StandardTextDarkGray"><b>Description: </b></div><s:textarea id="datasetDescription" name="datasetDescription" align="left" style="height: 50px; width: 50%" /></div><br />
 				<div class="StandardTextDarkGray"><b>Paper Reference: </b></div><s:textarea id="datasetReference" name="datasetReference" align="left" style="height: 50px; width: 50%" /></div><br />
 				<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
-				<s:hidden id="datasetId" name="datasetId" />
+				<s:hidden id="objectId" name="objectId" />
 				</s:form>
 			</s:if>
 			<s:else>
@@ -132,7 +134,7 @@
 				<b>Paper Reference: </b><s:property value="dataset.paperReference" /><br />
 				<s:if test="dataset.userName!='all-users'||user.isAdmin=='YES'">
 					<!-- display edit link -->
-					<a href="viewDataset?id=<s:property value="datasetId" />&editable=YES">Edit description and reference</a><br />
+					<a href="viewDataset?id=<s:property value="objectId" />&editable=YES">Edit description and reference</a><br />
 				</s:if>
 				<br />
 				</div>
@@ -149,7 +151,7 @@
 	<p class="StandardTextDarkGray">The compounds in your dataset are below, with the activity values you supplied.
 	 The compounds of the external set are shown in the second tab.</p>
 	</s:elseif>
-	<s:if test="dataset.hasVisualization==0">
+	<s:if test="dataset.sdfFile.isEmpty()">
 	<p class="StandardTextDarkGray"><b>
 		No VISUALIZATION has been made as there was no SDF file provided for this particular DATASET. 
 	</b></p>
@@ -161,18 +163,17 @@
 	<s:url id="datasetCompoundsLinkTwo" value="/viewDatasetCompoundsSection" includeParams="none">
 		<s:param name="currentPageNumber" value='3' />
 		<s:param name="orderBy" value='orderBy' />
-		<s:param name="datasetId" value='datasetId' />
+		<s:param name="id" value='objectId' />
 	</s:url>
 
 	<s:url id="datasetCompoundsLink" value="/viewDatasetCompoundsSection" includeParams="none">
 		<s:param name="currentPageNumber" value='currentPageNumber' />
 		<s:param name="orderBy" value='orderBy' />
-		<s:param name="datasetId" value='datasetId' />
+		<s:param name="id" value='objectId' />
 	</s:url>
 		
 	<!-- load tabs -->
 	<a name="tabs"></a> 
-	<div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
 	<sx:tabbedpanel id="viewDatasetTabs" >
 	
     	<sx:div href="%{datasetCompoundsLink}" id="allCompoundsDiv" executeScripts="true" label="All Compounds" theme="ajax" loadingText="Loading compounds..." showLoadingText="true">
@@ -182,30 +183,30 @@
 			
 			<s:if test="dataset.splitType=='RANDOM'||dataset.splitType=='USERDEFINED'">
 				<s:url id="externalCompoundsLink" value="/viewDatasetExternalCompoundsSection" includeParams="none">
-					<s:param name="datasetId" value='datasetId' />
+					<s:param name="id" value='objectId' />
 				</s:url>
 				<sx:div href="%{externalCompoundsLink}" id="externalCompoundsDiv" label="External Set" theme="ajax" loadingText="Loading external compounds..." showLoadingText="true">
 				</sx:div>
 			</s:if>
 			<s:else>
 				<s:url id="externalCompoundsNFoldLink" value="/viewDatasetNFoldSection" includeParams="none">
-					<s:param name="datasetId" value='datasetId' />
+					<s:param name="id" value='objectId' />
 				</s:url>
 				<sx:div href="%{externalCompoundsNFoldLink}" id="externalCompoundsNFoldDiv" label="External Folds" theme="ajax" loadingText="Loading external compounds..." showLoadingText="true">
 				</sx:div>
 			</s:else>
 			
 			<s:url id="activityChartLink" value="/viewDatasetActivityChartSection" includeParams="none">
-				<s:param name="datasetId" value='datasetId' />
+				<s:param name="id" value='objectId' />
 			</s:url>
 			
 			<sx:div href="%{activityChartLink}" id="activityChartDiv" label="Activity Histogram" theme="ajax" loadingText="Loading activity chart..." showLoadingText="true">
 			</sx:div>
 		</s:if>
 		
-		<s:if test="dataset.hasVisualization==1">
+		<s:if test="!dataset.sdfFile.isEmpty() && dataset.numCompound<500">
 			<s:url id="heatmapLink" value="/viewDatasetVisualizationSection" includeParams="none">
-				<s:param name="datasetId" value='datasetId' />
+				<s:param name="id" value='objectId' />
 			</s:url>
 		
 			<sx:div href="%{heatmapLink}" label="Heatmap" theme="ajax" loadingText="Loading heatmap..." showLoadingText="true" preload="false">
@@ -213,7 +214,7 @@
 		</s:if>
 		
 		<s:url id="descriptorsLink" value="/viewDatasetDescriptorsSection" includeParams="none">
-			<s:param name="datasetId" value='datasetId' />
+			<s:param name="id" value='objectId' />
 		</s:url>
 		<sx:div href="%{descriptorsLink}" label="Descriptor Warnings" theme="ajax" loadingText="Loading warnings..." showLoadingText="true" preload="false">
 		</sx:div>
@@ -239,6 +240,7 @@ $(document).ready(function() {
 	$('.compound_img_a').live("mouseout",function(){
     	$("#image_hint").hide();
 	});
+	
 });
 
 </script>
