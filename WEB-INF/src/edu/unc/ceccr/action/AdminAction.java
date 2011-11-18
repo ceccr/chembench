@@ -1,43 +1,24 @@
 package edu.unc.ceccr.action;
 
-import java.io.File;
-import java.io.PrintWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 //struts2
 import com.opensymphony.xwork2.ActionSupport; 
 import com.opensymphony.xwork2.ActionContext; 
 
-import org.apache.struts.upload.FormFile;
-import org.apache.struts2.interceptor.SessionAware;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.ErrorMessages;
-import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.taskObjects.CreateDatasetTask;
-import edu.unc.ceccr.taskObjects.QsarModelingTask;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 public class AdminAction extends ActionSupport{
 
@@ -98,6 +79,37 @@ public class AdminAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
+	public String emailSelectedUsers() throws Exception {
+		//check that the user is logged in
+		Utility.writeToDebug("emailing SELECTED user(s)");
+		ActionContext context = ActionContext.getContext();
+		
+		if(context == null){
+			Utility.writeToStrutsDebug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				Utility.writeToStrutsDebug("No user is logged in.");
+				return LOGIN;
+			}
+			else if(! user.getIsAdmin().equals(Constants.YES)){
+				Utility.writeToDebug("user " + user.getUserName() + " isn't an admin");
+				return ERROR;
+			}
+		}
+		if(!sendTo.trim().isEmpty() && !emailMessage.trim().isEmpty() && !emailSubject.trim().isEmpty()){
+			List<String> emails = Arrays.asList(sendTo.split(";"));
+			Iterator<String> it=emails.iterator();
+			while(it.hasNext()){
+				String email = it.next();
+				if(!email.trim().isEmpty()) SendEmails.sendEmail(email, "", "", emailSubject, emailMessage);
+			}
+		}
+		return SUCCESS;
+	}
+	
 	public String emailAllUsers() throws Exception {
 		//check that the user is logged in
 		Utility.writeToDebug("emailing user(s)");
@@ -124,9 +136,9 @@ public class AdminAction extends ActionSupport{
 		s.close();
 			
 		if(sendTo.equals("ALLUSERS") && ! emailMessage.trim().isEmpty() && ! emailSubject.trim().isEmpty()){
-			Iterator it=userList.iterator();
+			Iterator<User> it=userList.iterator();
 			while(it.hasNext()){
-				User userInfo = (User)it.next();
+				User userInfo = it.next();
 				SendEmails.sendEmail(userInfo.getEmail(), "", "", emailSubject, emailMessage);
 			}
 		}
