@@ -535,4 +535,21 @@ public class Utility {
 		
 		return "";
 	}
+
+	public static void writeToLSFLog(String message) {
+		try {
+			// Create file
+			FileWriter fstream = new FileWriter(
+					Constants.CECCR_USER_BASE_PATH+"LSF.log", true);
+			String s;
+			final Writer result = new StringWriter();
+			s = result.toString();
+			BufferedWriter out = new BufferedWriter(fstream);
+			out.write(s +  " [" + getDate() + "]");
+			// Close the output stream
+			out.close();
+		} catch (Exception e) {// Catch exception if any
+		}
+		
+	}
 }
