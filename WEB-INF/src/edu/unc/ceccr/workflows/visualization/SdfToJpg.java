@@ -3,8 +3,10 @@ package edu.unc.ceccr.workflows.visualization;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -16,6 +18,9 @@ public class SdfToJpg {
 		//fileName = name of sdfile, like anticonv_91.sdf
 		//structuresDir = subdirectory for structures, e.g. Visualization/Structures/
 		//sketchesDir = subdirectory for sketches, e.g. Visualization/Sketches/
+		
+		String command = "/usr/local/ceccr/jchem/bin/molconvert -Y -2 jpeg:w300,Q95 "+filePath + fileName+" -o "+filePath + sketchesDir+"i.jpg -m";
+		RunExternalProgram.runCommand(command, "");
 		
 		//remove explicit hydrogens from SDFs; they are noise as far as the JPG is concerned.
 		String execstr1 = "removeExplicitH.sh " + filePath + fileName + " " + filePath + fileName + ".removedH";
@@ -39,6 +44,7 @@ public class SdfToJpg {
 		file= new File(filePath + fileName);
 		FileReader fin = new FileReader(file);
 		Scanner src = new Scanner(fin);
+		ArrayList<String> compoundNames = new ArrayList<String>(); 
 		
 		while (src.hasNext()) {
 			StringBuilder sb = new StringBuilder();
@@ -51,6 +57,7 @@ public class SdfToJpg {
 				if (temp.startsWith("$")) {
 						try{
 							FileWriter fout = new FileWriter(structuresDir + title.trim() + ".sdf");
+							compoundNames.add(title.trim());
 							fout.write(sb.toString());
 							fout.close();
 						}
@@ -63,9 +70,8 @@ public class SdfToJpg {
 		}
 		fin.close();
 	
-		Utility.writeToDebug("Done creating structures. ");
-		Utility.writeToDebug("Creating sketches into dir: " + sketchesDir);
-
+		Utility.writeToDebug("Done creating structures. COMPOUND NAMES COUNT:"+ compoundNames.size());
+		
 		//Done generating Structures files.
 		//look in Structures directory.
 		//for each .sdf file in Structures/, create a .jpg file in Sketches/.
@@ -81,18 +87,26 @@ public class SdfToJpg {
 		if(files == null){
 			Utility.writeToDebug("Error reading Structures directory: " + structuresDir);
 		}
-		int x = 0;
-		while(files != null && x<files.length){
-			String jpgFilename = files[x].replace("sdf", "jpg");
+		
+		//waiting for molconvert to finish execution
+		while(new File(sketchesDir).list().length<compoundNames.size()){}
+			
+		
+		Utility.writeToDebug("DIR size::"+new File(sketchesDir).list().length);
+		String from;
+		for(int i=0;i<compoundNames.size();i++){
+			String jpgFilename = files[i].replace("sdf", "jpg");
 			
 			//only make the JPG if it's not already there
-			if(! new File(sketchesDir + jpgFilename).exists() && new File(structuresDir + files[x]).exists()){ 
-				Utility.writeToDebug("Start image creation for molecule:"+jpgFilename);
-				String command = "molconvert -2 jpeg:w300,Q95 "+ structuresDir + files[x]+ " -o "+ sketchesDir + jpgFilename;
-				RunExternalProgram.runCommand(command, "");
-				Utility.writeToDebug("End image creation for molecule:"+jpgFilename);
+			if(!new File(sketchesDir + jpgFilename).exists() && new File(structuresDir + files[i]).exists()){
+					//command = "mv "+from+" "+to;
+					//RunExternalProgram.runCommand(command, "");
+					from = sketchesDir+"i"+(i+1)+".jpg";
+					new File(from).renameTo(new File(sketchesDir+compoundNames.get(i)+".jpg"));
+					new File(from).delete();
+				
 			}
-			x++;
+			
 		}
 		Utility.writeToDebug("Done creating sketches. ");
 		
