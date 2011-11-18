@@ -402,6 +402,7 @@ public class DatasetFileOperations {
 				Utility.writeToDebug("Directory still exists");
 			}*/
 		}
+		Utility.writeToDebug("SDF (TOTLA) length::"+sdfFile.length());
 		return msgs;
 	}
 	
@@ -467,7 +468,23 @@ public class DatasetFileOperations {
 				//we will make temp contain the compound ID line, two blank lines, then the 
 				//start of the compound information. 
 				
-				temp = temp.replaceAll("\\s+", "_");
+				temp = temp.replaceAll("\\s+", "_").
+						replaceAll("\\#", "_H_").
+						replaceAll("\\~", "_T_").
+						replaceAll("\\!", "_EM_").
+						replaceAll("\\%", "_P_").
+						replaceAll("\\@", "_A_").
+						replaceAll("\\&", "_AND_").
+						replaceAll("\\*", "_S_").
+						replace("\\", "_BS_").
+						replace("\\/", "_FS_").
+						replace("(", "_OB_").
+						replace(")", "_CB_").
+						replace("[", "_SOB_").
+						replace("]", "_SCB_").
+						replace("+", "_PL_").
+						replaceAll("=", "_E_");
+				
 				temp += "\n\n\n";
 				sdfCompoundNamesIndex++;
 				
@@ -490,6 +507,7 @@ public class DatasetFileOperations {
 			//remove Windows-format \r "newline" characters
 			temp = temp.replace('\r', ' ');
 			if(temp.length() < 1000){
+
 				fout.write(temp + "\n");
 			}
 		}
@@ -716,6 +734,7 @@ public class DatasetFileOperations {
 		//Do not sort this output. It is used to generate the identifiers in .X files.
 		//Sorting this would screw with the indexing; these should be left alone.
 		//Collections.sort(chemicalNames);
+		Utility.writeToDebug("SDF (getSDFCompoundNames) length::"+infile.length());
 		return chemicalNames;
 	}
 	
@@ -830,6 +849,7 @@ public class DatasetFileOperations {
 		else if(getSDFCompoundNames(sdfFile.getAbsolutePath()).size() == 0){
 			return ErrorMessages.SDF_IS_EMPTY;
 		}
+		Utility.writeToDebug("SDF (sdfIsValid) length::"+sdfFile.length());
 		return "";
 	}
 
