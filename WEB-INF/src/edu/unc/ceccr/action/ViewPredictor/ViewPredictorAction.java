@@ -1,60 +1,28 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 //struts2
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
 
-import org.apache.struts.upload.FormFile;
-import org.apache.struts2.interceptor.SessionAware;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
+import edu.unc.ceccr.action.ViewAction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.KnnModel;
-import edu.unc.ceccr.persistence.KnnParameters;
-import edu.unc.ceccr.persistence.KnnPlusModel;
-import edu.unc.ceccr.persistence.KnnPlusParameters;
-import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.RandomForestGrove;
-import edu.unc.ceccr.persistence.RandomForestParameters;
-import edu.unc.ceccr.persistence.RandomForestTree;
-import edu.unc.ceccr.persistence.SvmModel;
-import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
-public class ViewPredictorAction extends ActionSupport {
+
+public class ViewPredictorAction extends ViewAction {
 
 	//Basic parameters. Inherited by all subclasses.
-	protected User user;
+	
 	protected Predictor selectedPredictor;
 	protected DataSet dataset;
-	protected String predictorId;
 	
-	protected ActionContext context;
-	
-	protected Session session;
 	ArrayList<Predictor> childPredictors;
 	//End basic parameters
 
@@ -67,6 +35,7 @@ public class ViewPredictorAction extends ActionSupport {
 	protected String orderBy;
 	protected String sortDirection;
 	protected String mostFrequentDescriptors = "";
+	
 	
 	public class descriptorFrequency{
 		private String descriptor;
@@ -89,33 +58,14 @@ public class ViewPredictorAction extends ActionSupport {
 	
 	public String getBasicParameters() throws Exception {
 		//this function gets params that all subclasses will need.
+		String basic = checkBasicParams();
+		if(!basic.equals(SUCCESS)) return basic; 
 		session = HibernateUtil.getSession();
-		
-		context = ActionContext.getContext();
-		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
-			return ERROR;
-		}
-
-		user = (User) context.getSession().get("user");
-		if(user == null){
-			Utility.writeToStrutsDebug("No user is logged in.");
-			return LOGIN;
-		}
-		
-		if(context.getParameters().get("predictorId") != null){
-			predictorId = ((String[]) context.getParameters().get("predictorId"))[0];
-		}
-		else{
-			Utility.writeToStrutsDebug("No predictor ID supplied.");
-			return ERROR;
-		}
-		
-		Utility.writeToStrutsDebug("predictor id: " + predictorId);
-		
-		selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
-		if(selectedPredictor == null){
-			Utility.writeToStrutsDebug("Invalid predictor ID supplied.");
+		selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(objectId), session);
+		if(selectedPredictor == null  || (!selectedPredictor.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(selectedPredictor.getUserName()))){
+			Utility.writeToStrutsDebug("Invalid predictor ID supplied. ");
+			errorStrings.add("Invalid predictor ID supplied.");
+			session.close();
 			return ERROR;
 		}
 		
@@ -126,7 +76,7 @@ public class ViewPredictorAction extends ActionSupport {
 		if(context.getParameters().get("currentFoldNumber") != null){
 			currentFoldNumber = ((String[]) context.getParameters().get("currentFoldNumber"))[0];
 		}
-		
+		session.close();
 		return SUCCESS;
 	}
 	
@@ -169,13 +119,6 @@ public class ViewPredictorAction extends ActionSupport {
 		this.dataset = dataset;
 	}
 
-	public String getPredictorId() {
-		return predictorId;
-	}
-	public void setPredictorId(String predictorId) {
-		this.predictorId = predictorId;
-	}
-	
 	public String getMostFrequentDescriptors() {
 		return mostFrequentDescriptors;
 	}
@@ -217,6 +160,7 @@ public class ViewPredictorAction extends ActionSupport {
 	public void setFoldNums(ArrayList<String> foldNums) {
 		this.foldNums = foldNums;
 	}
+	
 	//End getters and setters
 
 }
