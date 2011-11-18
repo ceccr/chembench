@@ -1,45 +1,20 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
-import java.text.DecimalFormat;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-//struts2
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
 
-import org.apache.struts.upload.FormFile;
-import org.apache.struts2.interceptor.SessionAware;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction.descriptorFrequency;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.KnnModel;
-import edu.unc.ceccr.persistence.KnnParameters;
-import edu.unc.ceccr.persistence.KnnPlusModel;
-import edu.unc.ceccr.persistence.KnnPlusParameters;
-import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
-import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.RandomForestTree;
-import edu.unc.ceccr.persistence.SvmModel;
-import edu.unc.ceccr.persistence.SvmParameters;
-import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -48,9 +23,11 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 	private List<RandomForestGrove> randomForestGroves;
 	private List<RandomForestTree> randomForestTrees;
 
-	public String loadTreesPage() throws Exception{
-		String result = SUCCESS;
-		getBasicParameters();
+	public String load() throws Exception{
+		
+		String result = getBasicParameters();
+		if(!result.equals(SUCCESS)) return result;
+		
 		getModelsPageParameters();
 		
 		Utility.writeToDebug("rf foldnum: " + currentFoldNumber);
@@ -63,14 +40,13 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + (i+1));
 				if(currentFoldNumber.equals("" + (i+1))){
-					String parentId = predictorId;
-					predictorId = "" + childPredictors.get(i).getId();
+					String parentId = objectId;
+					objectId = "" + childPredictors.get(i).getId();
 					loadTrees();
-					predictorId = parentId; 
+					objectId = parentId; 
 				}
 			}
 		}
-		session.close();
 		
 
 		//get descriptor freqs from trees
@@ -119,7 +95,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		
 		
 
-		Utility.writeToDebug("Done loading trees page for predictor id" + predictorId);
+		Utility.writeToDebug("Done loading trees page for predictor id" + objectId);
 		
 		return result;
 	}
@@ -135,14 +111,14 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 		else{
 			loadGroveSets();
 		}	
-		session.close();
+		
 		return result;
 	}
 	
 	private String loadGroves() throws Exception {
 		String result = SUCCESS;
-		
-		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
+		session = HibernateUtil.getSession();
+		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(objectId), session);
 		randomForestGroves = new ArrayList<RandomForestGrove>();
 		
 		if(rfGroves != null){
@@ -155,13 +131,15 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 				}
 			}
 		}
+		session.close();
 		return result;
 	}
 	
 	private String loadTrees() throws Exception {
 		String result = SUCCESS;
-		Utility.writeToDebug("getting trees for " + predictorId);
-		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(predictorId), session);
+		Utility.writeToDebug("getting trees for " + objectId);
+		session = HibernateUtil.getSession();
+		List<RandomForestGrove> rfGroves = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(objectId), session);
 		
 		randomForestTrees = new ArrayList<RandomForestTree>();
 		if(rfGroves != null){
@@ -186,36 +164,37 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 			}
 			rfTree.setTreeFileName(splitNumber);
 		}
+		session.close();
 		return result;
 	}
 	
 	private String loadTreeSets() throws Exception{
 		String result = SUCCESS;
-		String parentPredictorId = predictorId;
+		String parentPredictorId = objectId;
 		
 		for(Predictor childPredictor : childPredictors){
-			predictorId = "" + childPredictor.getId();
+			objectId = "" + childPredictor.getId();
 			result = loadTrees();
 			if(!result.equals(SUCCESS)){
 				return result;
 			}
 		}
-		predictorId = parentPredictorId;
+		objectId = parentPredictorId;
 		return result;
 	}
 	
 	private String loadGroveSets() throws Exception{
 		String result = SUCCESS;
-		String parentPredictorId = predictorId;
+		String parentPredictorId = objectId;
 		
 		for(Predictor childPredictor : childPredictors){
-			predictorId = "" + childPredictor.getId();
+			objectId = "" + childPredictor.getId();
 			result = loadGroves();
 			if(!result.equals(SUCCESS)){
 				return result;
 			}
 		}
-		predictorId = parentPredictorId;
+		objectId = parentPredictorId;
 		return result;
 	}
 
