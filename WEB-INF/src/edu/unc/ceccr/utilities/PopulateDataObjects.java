@@ -1072,7 +1072,7 @@ public class PopulateDataObjects {
 		try {
 			tx = session.beginTransaction();
 			models = session.createCriteria(KnnModel.class)
-					.add(Expression.eq("predictor", predictor)).list();
+					.add(Expression.eq("predictorId", predictorId)).list();
 			tx.commit();
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
