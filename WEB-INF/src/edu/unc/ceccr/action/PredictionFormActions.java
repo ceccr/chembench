@@ -2,31 +2,29 @@ package edu.unc.ceccr.action;
 
 import java.io.File;
 import java.util.ArrayList;
+
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 //struts2
 import com.opensymphony.xwork2.ActionSupport; 
 import com.opensymphony.xwork2.ActionContext; 
-import org.apache.struts2.interceptor.SessionAware;
+
+import org.apache.commons.collections.ListUtils;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.jgroups.SetStateEvent;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -174,6 +172,7 @@ public class PredictionFormActions extends ActionSupport{
 
 		isUploadedDescriptors =false;
 		singleCompoundPredictionAllowed = true;
+		HashSet<String> predictorsModelDescriptors = new HashSet<String>();
 		
 		for(int i = 0; i < predictorIds.length; i++){
 			Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session);
@@ -204,6 +203,8 @@ public class PredictionFormActions extends ActionSupport{
 					Utility.writeToDebug("predictor " + p.getName() + " is fine, it has " + p.getNumTotalModels());
 				}
 			}
+			//adding modeling_methods for each of the selected predictors
+			if(!p.getModelMethod().trim().isEmpty()) predictorsModelDescriptors.addAll(Arrays.asList(p.getDescriptorGeneration().trim().split(" ")));
 			selectedPredictors.add(p);
 			if(p.getDescriptorGeneration().equals(Constants.UPLOADED)){
 				isUploadedDescriptors = true;
@@ -243,6 +244,18 @@ public class PredictionFormActions extends ActionSupport{
 			}
 		}
 		
+		//filtering userDatasets leaving only datasets that has same modeling method as predictor
+		List<DataSet> new_ds = new ArrayList<DataSet>();
+		for(DataSet ds:userDatasets){ 
+				//looking for arrays intersection if found then the Dataset is added to the list
+				if(!ds.getAvailableDescriptors().trim().isEmpty() &&
+						!new_ds.contains(ds) &&
+						ListUtils.intersection(new ArrayList<String>(predictorsModelDescriptors), Arrays.asList(ds.getAvailableDescriptors().trim().split(" "))).size()==predictorsModelDescriptors.size())
+					new_ds.add(ds);
+			}
+		userDatasets.clear();
+		userDatasets.addAll(new_ds);
+		
 		if(isUploadedDescriptors){
 			userDatasets.clear();
 			for(Iterator<Predictor> i=selectedPredictors.iterator();i.hasNext();){
@@ -257,6 +270,7 @@ public class PredictionFormActions extends ActionSupport{
 				}
 			}
 		}
+		
 		
 		//give back the session at the end
 		session.close();
