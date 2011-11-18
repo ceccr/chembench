@@ -231,36 +231,49 @@
         <!-- End Jobs Page -->
         
         <!-- View Dataset Page -->
-        <action name="viewDataset" class="edu.unc.ceccr.action.ViewDataset" method="loadPage">
-        	<result>jsp/datasetOutput/viewDataset.jsp</result>
+        <action name="viewDataset" class="edu.unc.ceccr.action.ViewDataset" method="load">
+        	<result name="success">jsp/datasetOutput/viewDataset.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <action name="viewDatasetCompoundsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadCompoundsSection">
-        	<result>jsp/datasetOutput/viewDataset-compounds.jsp</result>
+        	<result name="success">jsp/datasetOutput/viewDataset-compounds.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <action name="viewDatasetExternalCompoundsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadExternalCompoundsSection">
-        	<result>jsp/datasetOutput/viewDataset-externalCompounds.jsp</result>
+        	<result name="success">jsp/datasetOutput/viewDataset-externalCompounds.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <action name="viewDatasetNFoldSection" class="edu.unc.ceccr.action.ViewDataset" method="loadExternalCompoundsNFoldSection">
-        	<result>jsp/datasetOutput/viewDataset-nFold.jsp</result>
+        	<result name="success">jsp/datasetOutput/viewDataset-nFold.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <action name="viewDatasetActivityChartSection" class="edu.unc.ceccr.action.ViewDataset" method="loadActivityChartSection">
-        	<result>jsp/datasetOutput/viewDataset-activityChart.jsp</result>
+        	<result name="success">jsp/datasetOutput/viewDataset-activityChart.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <action name="viewDatasetVisualizationSection" class="edu.unc.ceccr.action.ViewDataset" method="loadVisualizationSection">
-        	<result>jsp/datasetOutput/viewDataset-visualization.jsp</result>
+        	<result name="success">jsp/datasetOutput/viewDataset-visualization.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <action name="viewDatasetDescriptorsSection" class="edu.unc.ceccr.action.ViewDataset" method="loadDescriptorsSection">
-        	<result>jsp/datasetOutput/viewDataset-descriptors.jsp</result>
+        	<result name="success">jsp/datasetOutput/viewDataset-descriptors.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <action name="updateDataset" class="edu.unc.ceccr.action.ViewDataset" method="updateDataset">
-        	<result>jsp/datasetOutput/viewDataset.jsp</result>
+        	<result name="success">jsp/datasetOutput/viewDataset.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
+        </action>
+        
+        <action name="generateMahalanobis" class="edu.unc.ceccr.action.ViewDataset" method="generateMahalanobis">
+        	<result name="success">jsp/datasetOutput/viewDataset.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <!-- End View Dataset Page -->
@@ -270,35 +283,41 @@
         	<!-- common to all modeling methods -->
         
         	<action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictor.PredictorPage" method="load">
-	        	<result>jsp/modelingOutput/viewPredictor.jsp</result>
+	        	<result name="success">jsp/modelingOutput/viewPredictor.jsp</result>
+	        	<result name="error">jsp/main/errors2.jsp</result>
 	        </action>
 	        
 	        <action name="updatePredictor" class="edu.unc.ceccr.action.ViewPredictor.PredictorPage" method="update">
-	        	<result>jsp/modelingOutput/viewPredictor.jsp</result>
+	        	<result name="success">jsp/modelingOutput/viewPredictor.jsp</result>
+	        	<result name="error">jsp/main/errors2.jsp</result>
 	        </action>
         
 	        <action name="viewPredictorExternalValidationSection" class="edu.unc.ceccr.action.ViewPredictor.ExternalValidationPage" method="load">
-	        	<result>jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
+	        	<result name="success">jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
+	        	<result name="error">jsp/main/errors2.jsp</result>
 	        </action>
 	        
 	        <action name="viewPredictorParametersSection" class="edu.unc.ceccr.action.ViewPredictor.ParametersPage" method="load">
-	        	<result>jsp/modelingOutput/viewPredictor-parameters.jsp</result>
+	        	<result name="success">jsp/modelingOutput/viewPredictor-parameters.jsp</result>
+	        	<result name="error">jsp/main/errors2.jsp</result>
 	        </action>
 	        
 	        <!-- end common to all modeling methods -->
 	        
         	<!-- knn -->
 	        
-	        <action name="viewPredictorKnnModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnModelsPage" method="loadPage">
-	        	<result>jsp/modelingOutput/viewPredictor-knnModels.jsp</result>
+	        <action name="viewPredictorKnnModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnModelsPage" method="load">
+	        	<result name="success">jsp/modelingOutput/viewPredictor-knnModels.jsp</result>
+	        	<result name="error">jsp/main/errors2.jsp</result>
 	        </action>
 	        
         	<!-- end knn -->
         
         	<!-- knn+ -->
         	
-	        <action name="viewPredictorKnnPlusModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnPlusModelsPage" method="loadPage">
-	        	<result>jsp/modelingOutput/viewPredictor-knnPlusModels.jsp</result>
+	        <action name="viewPredictorKnnPlusModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnPlusModelsPage" method="load">
+	        	<result name="success">jsp/modelingOutput/viewPredictor-knnPlusModels.jsp</result>
+	        	<result name="error">jsp/main/errors2.jsp</result>
 	        </action>
 	        
         	<!-- end knn+ -->
@@ -311,16 +330,18 @@
 	        </action>
 	        -->
 	        
-        	 <action name="viewPredictorRandomForestTreesSection" class="edu.unc.ceccr.action.ViewPredictor.RandomForestModelsPage" method="loadTreesPage">
-	        	<result>jsp/modelingOutput/viewPredictor-randomForestTrees.jsp</result>
+        	 <action name="viewPredictorRandomForestTreesSection" class="edu.unc.ceccr.action.ViewPredictor.RandomForestModelsPage" method="load">
+	        	<result name="success">jsp/modelingOutput/viewPredictor-randomForestTrees.jsp</result>
+	        	<result name="error">jsp/main/errors2.jsp</result>
 	        </action>
 	        
         	<!-- end random forest -->
         	
         	<!-- svm -->
         	
-        	<action name="viewPredictorSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictor.SvmModelsPage" method="loadPage">
-	        	<result>jsp/modelingOutput/viewPredictor-svmModels.jsp</result>
+        	<action name="viewPredictorSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictor.SvmModelsPage" method="load">
+	        	<result name="success">jsp/modelingOutput/viewPredictor-svmModels.jsp</result>
+	        	<result name="error">jsp/main/errors2.jsp</result>
 	        </action>
         	
         	<!-- end svm -->
@@ -328,16 +349,19 @@
         <!-- End View Predictor Page -->
         
         <!-- View Prediction Page -->
-        <action name="viewPrediction" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadPage">
-        	<result>jsp/predictionOutput/viewPrediction.jsp</result>
+        <action name="viewPrediction" class="edu.unc.ceccr.action.ViewPredictionAction" method="load">
+        	<result name="success">jsp/predictionOutput/viewPrediction.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <action name="viewPredictionPredictionsSection" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadPredictionsSection">
-        	<result>jsp/predictionOutput/viewPrediction-predictions.jsp</result>
+        	<result name="success">jsp/predictionOutput/viewPrediction-predictions.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
         <action name="viewPredictionWarningsSection" class="edu.unc.ceccr.action.ViewPredictionAction" method="loadWarningsSection">
-        	<result>jsp/predictionOutput/viewPrediction-warnings.jsp</result>
+        	<result name="success">jsp/predictionOutput/viewPrediction-warnings.jsp</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         <!-- End View Prediction Page -->
         
@@ -409,7 +433,13 @@
         	<result>jsp/administration/settings/emailToAll.jsp</result>
         </action>
         
+         
         <action name="emailAllUsers" class="edu.unc.ceccr.action.AdminAction" method="emailAllUsers">
+        	<result name="success" type="redirect">admin</result>
+        	<result name="error">jsp/main/home.jsp</result>
+        </action>
+        
+         <action name="emailSelectedUsers" class="edu.unc.ceccr.action.AdminAction" method="emailSelectedUsers">
         	<result name="success" type="redirect">admin</result>
         	<result name="error">jsp/main/home.jsp</result>
         </action>
