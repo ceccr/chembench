@@ -1,13 +1,13 @@
 package edu.unc.ceccr.persistence;
 
+
 import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Column;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+
 
 import edu.unc.ceccr.utilities.Utility;
 
@@ -48,6 +48,9 @@ public class User implements java.io.Serializable{
 	//user privileges 
 	private String isAdmin;
 	private String canDownloadDescriptors;
+	
+	//users last login time
+	private Date lastLogintime;
 	
 	public User(){};
     public User(String userName)
@@ -285,5 +288,14 @@ public class User implements java.io.Serializable{
 	public void setCanDownloadDescriptors(String canDownloadDescriptors) {
 		this.canDownloadDescriptors = canDownloadDescriptors;
 	}
+	
+	@Column(name="lastLoginTime")
+	public Date getLastLogintime() {
+		return lastLogintime;
+	}
+	public void setLastLogintime(Date lastLogintime) {
+		this.lastLogintime = lastLogintime;
+	}
+	
 	
 }
