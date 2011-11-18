@@ -45,7 +45,7 @@ public class CreateDatasetTask extends WorkflowTask{
 	private String dataSetDescription;
 	private String actFileHeader;
 	private String availableDescriptors = "";
-	private String generateImages;
+	private String generateMahalanobis;
 	private int numCompounds;
 	private DataSet dataset; //contains pretty much all the member variables. This is dumb but hopefully temporary.
 	
@@ -56,7 +56,9 @@ public class CreateDatasetTask extends WorkflowTask{
 		
 		if(step.equals(Constants.SKETCHES)){
 			//count the number of *.jpg files in the working directory
-			
+		
+		//Since we're generating images using milconvert script we don't need to display that progress as it's really quick
+		/*	
 			String workingDir = "";
 			if(jobList.equals(Constants.LSF)){
 				
@@ -68,7 +70,8 @@ public class CreateDatasetTask extends WorkflowTask{
 			//divide by the number of compounds in the dataset
 			p /= numCompounds;
 			p *= 100; //it's a percent
-			percent = " (" + Math.round(p) + "%)"; 
+			percent = " (" + Math.round(p) + "%)";
+			*/ 
 		}
 		
 		return step + percent;
@@ -148,7 +151,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		this.jobName = datasetName;
 		this.paperReference = paperReference;
 		this.dataSetDescription = dataSetDescription;
-		this.generateImages = generateImages;
+		this.generateMahalanobis = generateImages;
 		
 
 		this.dataset = new DataSet();
@@ -193,7 +196,7 @@ public class CreateDatasetTask extends WorkflowTask{
 		dataset.setNumExternalFolds(numExternalFolds);
 		dataset.setUseActivityBinning(useActivityBinning);
 		dataset.setExternalCompoundList(externalCompoundList);
-		dataset.setHasVisualization((generateImages.equals("true"))?1:0);
+		dataset.setHasVisualization((generateMahalanobis.equals("true"))?1:0);
 
 		Session session = HibernateUtil.getSession();
 		Transaction tx = null;
@@ -425,8 +428,7 @@ public class CreateDatasetTask extends WorkflowTask{
 
 		
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/";
-		Utility.writeToDebug("PPPPPPPP"+generateImages+generateImages.equals("true"));
-		if(!sdfFileName.equals("") && generateImages.equals("true")) {
+		if(!sdfFileName.equals("")) {
 			//generate compound sketches and visualization files
 
 			String descriptorDir = "Descriptors/";
@@ -450,6 +452,8 @@ public class CreateDatasetTask extends WorkflowTask{
 				step = Constants.SKETCHES;
 				Utility.writeToDebug("Generating JPGs", userName, jobName);
 				SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
+				Utility.writeToDebug("Generating JPGs END", userName, jobName);
+				step = Constants.SKETCHES+" finished!";
 			
 			if(	numCompounds < 500 && 
 				!sdfFileName.equals("") && 
@@ -462,7 +466,7 @@ public class CreateDatasetTask extends WorkflowTask{
 				
 				String vis_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/";
 				HeatmapAndPCA.performXCreation(path + descriptorDir + sdfFileName + ".maccs", sdfFileName + ".x", vis_path);
-				HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path, sdfFileName, "mahalanobis");
+				if(generateMahalanobis.equals("true")) HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path, sdfFileName, "mahalanobis");
 				HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path, sdfFileName, "tanimoto");
 	
 				if(!actFileName.equals("")){
@@ -476,6 +480,7 @@ public class CreateDatasetTask extends WorkflowTask{
 					//CSV_X_Workflow.performPCAcreation(viz_path, act_path);
 		
 				}
+				Utility.writeToDebug("Generating Visualizations END", userName, jobName);
 			}
 			else{
 				Utility.writeToDebug("Skipping generation of heatmap data", userName, jobName);
