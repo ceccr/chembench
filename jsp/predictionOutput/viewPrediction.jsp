@@ -68,7 +68,7 @@
 			<b>Predictors Used: &nbsp;</b>
 			<s:iterator value="predictors" status="predictorsStatus1">
 			<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
-				<s:param name="predictorId" value='id' />
+				<s:param name="id" value='id' />
 			</s:url>
 			<s:a href="%{predictorLink}"><s:property value="name" /></s:a>&nbsp;&nbsp;
 			</s:iterator>
@@ -103,7 +103,7 @@
 		<s:url id="predictionsLink" value="/viewPredictionPredictionsSection" includeParams="none">
 			<s:param name="currentPageNumber" value='currentPageNumber' />
 			<s:param name="orderBy" value='orderBy' />
-			<s:param name="predictionId" value='predictionId' />
+			<s:param name="id" value='objectId' />
 		</s:url>
 		
     	<sx:div href="%{predictionsLink}" id="predictionValuesDiv" label="Prediction Values" theme="ajax" loadingText="Loading predictions..." showLoadingText="true" preload="false">

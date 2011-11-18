@@ -500,16 +500,16 @@
 					
 					<sx:div id="RANDOMFOREST" value="RANDOMFOREST" theme="ajax" label="Random Forest" href="/loadRFSection" loadingText="Loading randomForest parameters...">
 					</sx:div>
-					
-					<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">
-					</sx:div>
-					
-					<sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
-					</sx:div>
-					
-					<sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
-					</sx:div>
-					
+					<s:if test="!#session['user'].userName.contains('guest')">
+						<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">
+						</sx:div>
+						
+						<sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
+						</sx:div>
+						
+						<sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
+						</sx:div>
+					</s:if>
 					<!--
 					Since knn+ seems to be working well, I'm taking out the original kNN option for generating
 					predictors. Predictions can still be made using these older kNN models.
@@ -544,7 +544,7 @@
 				    </td>
 			    </tr>
 			     
-			    <s:if test="user.getUserName()!='guest'">
+			    <s:if test="user.getUserName().contains('guest_')">
 			    <tr>
 					<td>
 					<div class="StandardTextDarkGrayParagraph"><br /><b>Send me an email when the job finishes: </b><br /></div>

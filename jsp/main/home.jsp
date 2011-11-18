@@ -19,11 +19,11 @@
 <br />
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-    <td width="407" height="665" align="left" valign="top">
+    <td width="578" height="665" align="left" valign="top">
      <p class="ccbHomeHeadings">
       ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS<br />
         <br />
-        <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
+        <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="578" height="6" /></p>
       <p align="justify" class="ccbHomeStandard">Chembench is a free portal that enables researchers 
       to mine available chemical and biological data. Chembench can help researchers rationally design or 
       select new compounds or compound libraries with significantly enhanced hit rates in screening experiments.</p>
@@ -40,7 +40,7 @@
 		
       <noscript><p>&nbsp;<font color="red">Warning: JavaScript is disabled on your computer. Some parts of Chembench may not work properly. Please enable JavaScript.</font></p></noscript>
  
-      <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
+      <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="578" height="6" /></p>
       <p align="justify" class="ccbHomeStandard">The Carolina Cheminformatics Workbench (Chembench) is 
       developed by the Carolina Exploratory Center for Cheminformatics Research (CECCR) with the support of the 
       <a href="http://www.nih.gov" target="_blank">National Institutes of Health</a> (grants  
@@ -85,8 +85,15 @@
 			        
 			        <table width="250" border="0" ><tr><td>
 			        <span class="ccbHomeStandard">
-			        Or, <a href="/login?username=guest" 
-			        onclick="alert('The guest account has all the same capabilities as a full Chembench account. However, all guest data is periodically deleted, and other guests can see the datasets, models, and predictions you create.')">
+			        <% String ipAddress  = request.getHeader("X-FORWARDED-FOR");  
+        if(ipAddress == null)  
+        {  
+          ipAddress = request.getRemoteAddr();  
+        }  
+        String ip = ipAddress.replaceAll("\\.", "");
+   %>
+			        Or, <a href="/login?username=guest&ip=<%=ip %>"
+			        onclick="alert('The guest account allows a user to explore the function of Chembench with publicly available datasets, predictions based on a molecule, and modeling using random forest. All guest data is deleted when you leave the site or are inactive for 90 minutes. For additional function, please register.')">
 			        login as a guest</a></span>
 			        </td></tr></table>
 			        
@@ -112,7 +119,12 @@
 					<table border="0">
 					<tr><td>	
 						<span class="ccbHomeStandard">
-							Welcome, <s:property value="user.userName" /> &nbsp;
+							<s:if test="user.userName.contains('guest')">
+								Welcome, guest &nbsp;
+							</s:if>
+							<s:else>
+								Welcome, <s:property value="user.userName" /> &nbsp;
+							</s:else>
 						  	<button onclick="logout()" type="button" class="StandardTextDarkGray4" style="border-style:solid; border-color:gray;border-width:1px">logout</button>
 						</span>         
 					</td></tr> 
@@ -183,9 +195,8 @@
    		 </td>
   	  </tr>
 </table>
-
+</td>
 	</tr>
-	<tr>
 	<%@include file ="/jsp/main/footer.jsp" %>
 </body>
 </html>

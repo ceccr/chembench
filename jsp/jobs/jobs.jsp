@@ -101,7 +101,7 @@
 				<td class="TableRowText02"><b><s:property value="message" /><b></td>
 				<td class="TableRowText02">
 					<s:if test="adminUser"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:if>
-					<s:elseif test="user.userName==userName && userName!='guest'"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
+					<s:elseif test="user.userName==userName && userName.conatains('guest')"><a onclick="return confirmDelete('job')" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a></s:elseif>
 				</td>
 				</tr>
 				</s:if>
@@ -319,7 +319,7 @@
 					</td>
 					<td><s:property value="numCompound" /></td>
 					<td><s:property value="modelType" /></td>
-						<s:if test="hasVisualization==1"><td>YES</td></s:if>
+						<s:if test="!sdfFile.isEmpty()"><td>YES</td></s:if>
 						<s:else><td>NO</td></s:else>
 					<s:if test="uploadedDescriptorType!=''">
 						<td>*<s:property value="uploadedDescriptorType" /></td>
@@ -391,7 +391,7 @@
 					</s:else>
 					
 					<s:url id="predictorLink" value="/viewPredictor" includeParams="none">
-						<s:param name="predictorId" value='id' />
+						<s:param name="id" value='id' />
 					</s:url>
 					<td><s:a href="%{predictorLink}"><s:property value="name" /></s:a></td>
 					<td>

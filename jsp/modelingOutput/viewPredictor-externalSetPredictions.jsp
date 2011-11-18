@@ -8,7 +8,7 @@
 		<p class="StandardTextDarkGray">View Fold: 
 		<s:iterator value="foldNums" status="foldNumsStatus">
 		<s:if test="#foldNumsStatus.index==currentFoldNumber"><b><s:property/></b></s:if>
-		<s:else><a href="#tabs" onclick=replaceTabContents("externalValidationDiv","viewPredictorExternalValidationSection?predictorId=<s:property value="selectedPredictor.id" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+		<s:else><a href="#tabs" onclick=replaceTabContents("externalValidationDiv","viewPredictorExternalValidationSection?id=<s:property value="selectedPredictor.id" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
 		</s:iterator>
 		</p>
 	</s:if>
@@ -90,7 +90,9 @@
 		<!--DWLayoutTable-->
 		<tr>
 		<th class="TableRowText01">Compound ID</th>
-		<th class="TableRowText01_unsortable">Structure</th>
+		<s:if test="!dataset.sdfFile.isEmpty()">
+			<th class="TableRowText01_unsortable">Structure</th>
+		</s:if>
 		<th class="TableRowText01">Observed Value</th>
 		<th class="TableRowText01">Predicted Value</th>
 		<th class="TableRowText01">Residual</th>
@@ -100,11 +102,12 @@
 	<s:iterator value="externalValValues" status="extValStatus">
 		<tr>
 			<td class="TableRowText02"><s:property value="compoundId" /></td>
-			<td class="TableRowText02">
-			<a  class="compound_img_a" href="#" onclick="window.open('compound3D?project=<s:property value='selectedPredictor.name' />&projectType=modeling&compoundId=<s:property value='compoundId' />&user=<s:property value='user.userName' />&datasetName=<s:property value='dataset.name' />', '<% new java.util.Date().getTime(); %>','width=350, height=350'); return false;">
-			<img src="/imageServlet?projectType=modeling&user=<s:property value='dataset.userName' />&project=<s:property value='selectedPredictor.name' />&compoundId=<s:property value='compoundId' />&datasetName=<s:property value='dataset.name' />" border="0" height="150"/>
-			</a>
-			</td>
+			<s:if test="!dataset.sdfFile.isEmpty()"><td class="TableRowText02">
+				<a  class="compound_img_a" href="#" onclick="window.open('compound3D?project=<s:property value='selectedPredictor.name' />&projectType=modeling&compoundId=<s:property value='compoundId' />&user=<s:property value='user.userName' />&datasetName=<s:property value='dataset.name' />', '<% new java.util.Date().getTime(); %>','width=350, height=350'); return false;">
+				<img src="/imageServlet?projectType=modeling&user=<s:property value='dataset.userName' />&project=<s:property value='selectedPredictor.name' />&compoundId=<s:property value='compoundId' />&datasetName=<s:property value='dataset.name' />" border="0" height="150"/>
+				</a>
+				</td>
+			</s:if>
 			<td class="TableRowText02"><s:property value="actualValue" /></td>
 			<td class="TableRowText02">
 			<s:if test="numModels>=2">

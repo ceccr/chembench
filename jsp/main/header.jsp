@@ -23,12 +23,18 @@
 			  <td align="right" valign="middle">
 					<div align="right">	
 						<span class="StandardTextDarkGray4" align="right">Logged in as  
+		  				<s:if test="#session['user'].userName.contains('guest')">
+		  					<b>guest</b>.
+		  				</s:if> 
+		  				<s:else>
 		  				<b><s:property value="#session['user'].userName" /></b>.
+		  				</s:else>
+		  				
 		  				</span>
 					</div>
 					<div align="right">
 						<a href="/logout">log out</a> 
-						<s:if test="#session['user'].userName !='guest'">
+						<s:if test="!#session['user'].userName.contains('guest')">
 							| <a href="editProfile">edit profile</a> 
 						</s:if>
 						| <a href="help-overview" target="_top">help pages</a>

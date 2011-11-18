@@ -26,7 +26,7 @@
 					<p class="StandardTextDarkGray">View Fold: 
 					<s:iterator value="foldNums" status="foldNumsStatus">
 					<s:if test="#foldNumsStatus.index+1==currentFoldNumber"><b><s:property/></b></s:if>
-					<s:else><a href="#tabs" onclick=replaceTabContents("treesDiv","viewPredictorRandomForestTreesSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+					<s:else><a href="#tabs" onclick=replaceTabContents("treesDiv","viewPredictorRandomForestTreesSection?id=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
 					</s:iterator>
 					</p>
 					<p class="StandardTextDarkGray">Trees for fold <s:property value="currentFoldNumber"/>:</p>
@@ -48,7 +48,7 @@
 					<p class="StandardTextDarkGray">View Fold: 
 					<s:iterator value="foldNums" status="foldNumsStatus">
 					<s:if test="#foldNumsStatus.index+1==currentFoldNumber"><b><s:property/></b></s:if>
-					<s:else><a href="#tabs" onclick=replaceTabContents("randomTreesDiv","viewPredictorRandomForestTreesSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+					<s:else><a href="#tabs" onclick=replaceTabContents("randomTreesDiv","viewPredictorRandomForestTreesSection?id=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
 					</s:iterator>
 					</p>
 					<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
@@ -60,12 +60,14 @@
 	<!-- Table of Trees -->
 		<table width="100%" align="center" class="sortable" id="randomForestTreesTable">
 		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-		<tr>
-		<th class="TableRowText01narrow">Split Number</th>
-		<th class="TableRowText01narrow">R<sup>2</sup></th>
-		<th class="TableRowText01narrow">MSE</sup></th>
-		<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors Chosen</th>
-		</tr>
+			<s:if test="randomForestTrees.size!=0">
+				<tr>
+					<th class="TableRowText01narrow">Split Number</th>
+					<th class="TableRowText01narrow">R<sup>2</sup></th>
+					<th class="TableRowText01narrow">MSE</sup></th>
+					<th class="TableRowText01narrow_unsortable" colspan="2">Descriptors Chosen</th>
+				</tr>
+			</s:if>
 		
 		<s:iterator value="randomForestTrees" status="treesStatus">
 			<tr>
@@ -78,10 +80,12 @@
 		</s:if>
 		
 		<s:elseif test="selectedPredictor.activityType=='CATEGORY'">
-			<tr>
-			<th class="TableRowText01narrow">Split Number</th>
-			<th class="TableRowText01narrow_unsortable" colspan="3">Descriptors Chosen</th>
-			</tr>
+			<s:if test="randomForestTrees.size!=0">
+				<tr>
+				<th class="TableRowText01narrow">Split Number</th>
+				<th class="TableRowText01narrow_unsortable" colspan="3">Descriptors Chosen</th>
+				</tr>
+			</s:if>
 	
 		<s:iterator value="randomForestTrees" status="treesStatus">
 			<tr>

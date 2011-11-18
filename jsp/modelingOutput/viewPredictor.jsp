@@ -77,7 +77,7 @@
 				<div class="StandardTextDarkGray"><b>Description: </b></div><s:textarea id="predictorDescription" name="predictorDescription" align="left" style="height: 50px; width: 50%" /></div><br />
 				<div class="StandardTextDarkGray"><b>Paper Reference: </b></div><s:textarea id="predictorReference" name="predictorReference" align="left" style="height: 50px; width: 50%" /></div><br />
 				<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
-				<s:hidden id="predictorId" name="predictorId" />
+				<s:hidden id="objectId" name="objectId" />
 				</s:form>
 			</s:if>
 			<s:else>
@@ -86,7 +86,7 @@
 				<b>Paper Reference: </b><s:property value="selectedPredictor.paperReference" /><br />
 				<s:if test="selectedPredictor.userName!='all-users'||user.isAdmin=='YES'">
 					<!-- display edit link -->
-					<a href="viewPredictor?predictorId=<s:property value="selectedPredictor.id" />&editable=YES">Edit description and reference</a><br />
+					<a href="viewPredictor?id=<s:property value="selectedPredictor.id" />&editable=YES">Edit description and reference</a><br />
 				</s:if>
 				</div>
 			</s:else>
@@ -122,7 +122,7 @@
 		
 		<sx:tabbedpanel id="viewPredictionTabs" afterSelectTabNotifyTopics="/modelingTabSelect">
 			<s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
-				<s:param name="predictorId" value='selectedPredictor.id' />
+				<s:param name="id" value='selectedPredictor.id' />
 			</s:url>
 	    	<sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax" loadingText="Loading external validation..." executeScripts="true" preload="false" showLoadingText="true">
 			</sx:div>
@@ -130,14 +130,14 @@
 			<s:if test="selectedPredictor.modelMethod=='KNN'">
 				
 				<s:url id="modelsLink" value="/viewPredictorKnnModelsSection" includeParams="none">
-					<s:param name="predictorId" value='selectedPredictor.id' />
+					<s:param name="id" value='selectedPredictor.id' />
 					<s:param name="isYRandomPage" value="'NO'" />
 				</s:url>
 		    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" preload="false" showLoadingText="true">
 				</sx:div>
 			
 				<s:url id="yRandomLink" value="/viewPredictorKnnModelsSection" includeParams="none">
-					<s:param name="predictorId" value='selectedPredictor.id' />
+					<s:param name="id" value='selectedPredictor.id' />
 					<s:param name="isYRandomPage" value="'YES'" />
 				</s:url>
 		    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax" loadingText="Loading Y-Randomization Models..." executeScripts="true" preload="false" showLoadingText="true">
@@ -146,14 +146,14 @@
 			<s:elseif test="selectedPredictor.modelMethod=='KNN-GA' || selectedPredictor.modelMethod=='KNN-SA'">
 			
 				<s:url id="modelsLink" value="/viewPredictorKnnPlusModelsSection" includeParams="none">
-					<s:param name="predictorId" value='selectedPredictor.id' />
+					<s:param name="id" value='selectedPredictor.id' />
 					<s:param name="isYRandomPage" value="'NO'" />
 				</s:url>
 		    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" preload="false" showLoadingText="true">
 				</sx:div>
 			
 				<s:url id="yRandomLink" value="/viewPredictorKnnPlusModelsSection" includeParams="none">
-					<s:param name="predictorId" value='selectedPredictor.id' />
+					<s:param name="id" value='selectedPredictor.id' />
 					<s:param name="isYRandomPage" value="'YES'" />
 				</s:url>
 		    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax" loadingText="Loading Y-Randomization Models..." executeScripts="true" preload="false" showLoadingText="true">
@@ -178,14 +178,14 @@
 				</sx:div>
 				-->
 				<s:url id="treesLink" value="/viewPredictorRandomForestTreesSection" includeParams="none">
-					<s:param name="predictorId" value='selectedPredictor.id' />
+					<s:param name="id" value='selectedPredictor.id' />
 					<s:param name="isYRandomPage" value="'NO'" />
 				</s:url>
 		    	<sx:div href="%{treesLink}" id="treesDiv" label="Trees" theme="ajax" loadingText="Loading trees..." executeScripts="true" preload="false" showLoadingText="true">
 				</sx:div>
 				
 				<s:url id="treesYRandomLink" value="/viewPredictorRandomForestTreesSection" includeParams="none">
-					<s:param name="predictorId" value='selectedPredictor.id' />
+					<s:param name="id" value='selectedPredictor.id' />
 					<s:param name="isYRandomPage" value="'YES'" />
 				</s:url>
 		    	<sx:div href="%{treesYRandomLink}" id="randomTreesDiv" label="Y-Randomized Trees" theme="ajax" loadingText="Loading trees..." executeScripts="true" preload="false" showLoadingText="true">
@@ -196,14 +196,14 @@
 			<s:elseif test="selectedPredictor.modelMethod=='SVM'">
 			
 				<s:url id="modelsLink" value="/viewPredictorSvmModelsSection" includeParams="none">
-					<s:param name="predictorId" value='selectedPredictor.id' />
+					<s:param name="id" value='selectedPredictor.id' />
 					<s:param name="isYRandomPage" value="'NO'" />
 				</s:url>
 		    	<sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..." executeScripts="true" preload="false" showLoadingText="true">
 				</sx:div>
 				
 				<s:url id="yRandomLink" value="/viewPredictorSvmModelsSection" includeParams="none">
-					<s:param name="predictorId" value='selectedPredictor.id' />
+					<s:param name="id" value='selectedPredictor.id' />
 					<s:param name="isYRandomPage" value="'YES'" />
 				</s:url>
 		    	<sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax" loadingText="Loading Y-Randomization Models..." executeScripts="true" preload="false" showLoadingText="true">
@@ -213,7 +213,7 @@
 			
 			<!-- All modeling methods should display their parameters at the end. -->
 			<s:url id="parametersLink" value="/viewPredictorParametersSection" includeParams="none">
-				<s:param name="predictorId" value='selectedPredictor.id' />
+				<s:param name="id" value='selectedPredictor.id' />
 			</s:url>
 			<sx:div href="%{parametersLink}" id="parametersDiv" label="Modeling Parameters" theme="ajax" loadingText="Loading parameters..." preload="false" showLoadingText="true">
 			</sx:div>
