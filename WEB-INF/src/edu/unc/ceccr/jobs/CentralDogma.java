@@ -239,24 +239,29 @@ public class CentralDogma{
 				if(j.getJobType().equals(Constants.DATASET)){
 					//delete corresponding DataSet in DB
 					DataSet ds = PopulateDataObjects.getDataSetById(j.getLookupId(), s);
-					tx = s.beginTransaction();
-					s.delete(ds);
-					tx.commit();
+					if(ds!=null){
+						tx = s.beginTransaction();
+						s.delete(ds);
+						tx.commit();
+					}
 				}
 				else if(j.getJobType().equals(Constants.MODELING)){
 					//delete corresponding Predictor in DB
 					Predictor p = PopulateDataObjects.getPredictorById(j.getLookupId(), s);
-					tx = s.beginTransaction();
-					s.delete(p);
-					tx.commit();
-					
+					if(p!=null){
+						tx = s.beginTransaction();
+						s.delete(p);
+						tx.commit();
+					}
 				}
 				else if(j.getJobType().equals(Constants.PREDICTION)){
 					//delete corresponding Prediction in DB
 					Prediction p = PopulateDataObjects.getPredictionById(j.getLookupId(), s);
-					tx = s.beginTransaction();
-					s.delete(p);
-					tx.commit();
+					if(p!=null){
+						tx = s.beginTransaction();
+						s.delete(p);
+						tx.commit();
+					}
 				}
 			}
 			catch(Exception ex){
