@@ -4,9 +4,9 @@
 
 readXfile<-function(path,isNormalized=TRUE)
 {
-descriptor_profile=as.matrix(read.table(path,skip=2, quote=""))
-descriptor_info=as.matrix(read.table(path,nrows=1, quote=""))
-descriptor_names=as.matrix(read.table(path,nrows=1,skip=1, quote=""))
+descriptor_profile=as.matrix(read.table(path,skip=2, quote="",comment.char=""))
+descriptor_info=as.matrix(read.table(path,nrows=1, quote="",comment.char=""))
+descriptor_names=as.matrix(read.table(path,nrows=1,skip=1, quote="",comment.char=""))
 dim(descriptor_profile)
 dim(descriptor_info)
 
