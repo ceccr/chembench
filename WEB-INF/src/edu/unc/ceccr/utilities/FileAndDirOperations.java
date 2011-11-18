@@ -12,9 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.channels.FileChannel;
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 /*
 There is a lot of code strewn around the system for doing things like
@@ -308,5 +307,19 @@ public class FileAndDirOperations {
         // The directory is now empty so delete it
         return dir.delete();
     }
+
+	public static List<String> getGuestDirNames(File dir) {
+		ArrayList<String> result = null; 
+		if (dir.isDirectory()) {
+			result = new ArrayList<String>();
+			String[] children = dir.list();
+			for (int i=0; i<children.length; i++) {
+				if(children[i].startsWith("guest") && children[i].length()>5)
+					result.add(children[i]);			
+			}
+		 }
+		
+		return result;
+	}
 	
 }
