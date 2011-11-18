@@ -8,10 +8,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 
 //struts2
-import com.opensymphony.xwork2.ActionSupport; 
 import com.opensymphony.xwork2.ActionContext; 
 
-import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
@@ -24,10 +22,11 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.workflows.visualization.ActivityHistogram;
+import edu.unc.ceccr.workflows.visualization.HeatmapAndPCA;
 
-public class ViewDataset extends ActionSupport {
+@SuppressWarnings("serial")
+public class ViewDataset extends ViewAction {
 	
-	private User user;
 	private DataSet dataset; 
 	private ArrayList<Compound> datasetCompounds; 
 	private ArrayList<Compound> externalCompounds; 
@@ -39,13 +38,13 @@ public class ViewDataset extends ActionSupport {
 	private String orderBy;
 	private String editable;
 	private String sortDirection;
-	private String datasetId; 
 	private String externalCompoundsCount;
 	private String datasetReference = "";
 	private String datasetDescription = "";
 	private String datasetTypeDisplay = "";
 	private String webAddress = Constants.WEBADDRESS;
 	private ArrayList<DescriptorGenerationResult> descriptorGenerationResults;
+	
 
 	public class DescriptorGenerationResult{
 		private String descriptorType;
@@ -80,428 +79,354 @@ public class ViewDataset extends ActionSupport {
 	}
 	
 	public String loadCompoundsSection() throws Exception {
-		String result = SUCCESS;
 		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-		Session session = HibernateUtil.getSession();
+		String result = checkBasicParams();
 		
-		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+		if(!result.equals(SUCCESS)) return result;
+		
+		if(context.getParameters().get("currentPageNumber") != null){
+			currentPageNumber = ((String[]) context.getParameters().get("currentPageNumber"))[0]; 	
 		}
 		else{
-			user = (User) context.getSession().get("user");
-			
-			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
-				result = LOGIN;
-				return result;
-			}
-			if(context.getParameters().get("currentPageNumber") != null){
-				currentPageNumber = ((String[]) context.getParameters().get("currentPageNumber"))[0]; 	
-			}
-			else{
-				currentPageNumber = "1";
-			}
-			if(context.getParameters().get("datasetId") != null){
-				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
-			}
-			if(context.getParameters().get("orderBy") != null){
-				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
-			}
-			else{
-				orderBy = "compoundId";
-			}
-			if(context.getParameters().get("sortDirection") != null){
-				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
-			}
-			else{
-				sortDirection = "asc";
-			}
-				
-			//get dataset
-			Utility.writeToStrutsDebug("dataset id: " + datasetId);
-			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
-			if(datasetId == null){
-				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
-			}
-			if(dataset == null){
-				Utility.writeToDebug("Error: Could not load dataset with id: " + datasetId);
-			}
-			
-			//define which compounds will appear on page
-			int pagenum, limit, offset;
-			if(user.getViewDatasetCompoundsPerPage().equals(Constants.ALL)){
-				pagenum = 0;
-				limit = 99999999;
-				offset = pagenum * limit;
-			}
-			else{
-				pagenum = Integer.parseInt(currentPageNumber) - 1;
-				limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
-				offset = pagenum * limit; //which compoundid to start on
-			}
-			
-			//get compounds
-			datasetCompounds = new ArrayList<Compound>();
-			String datasetUser = dataset.getUserName();
-			
-			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
-			datasetDir += "DATASETS/" + dataset.getName() + "/";
-			
-			ArrayList<String> compoundIDs = null;
-			if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){
-				compoundIDs = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
-			}
-			else{
-				compoundIDs = DatasetFileOperations.getSDFCompoundNames(datasetDir + dataset.getSdfFile());
-			}
-			
-			for(String cid: compoundIDs){
-				Compound c = new Compound();
-				c.setCompoundId(cid);
-				datasetCompounds.add(c);
-			}
-			
-			//get activity values (if applicable)
-			if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
-				HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile());
-				
-				for(Compound c: datasetCompounds){
-					c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
-				}
-			}
-
-			//sort the compound array
-			if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
-				//sort by compoundId
-				
-				Collections.sort(datasetCompounds, new Comparator<Compound>() {
-				    public int compare(Compound o1, Compound o2) {
-			    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
-				    }});
-			}
-			else if(orderBy.equals("activityValue")){
-				Collections.sort(datasetCompounds, new Comparator<Compound>() {
-				    public int compare(Compound o1, Compound o2) {
-				    	float f1 = Float.parseFloat(o1.getActivityValue());
-				    	float f2 = Float.parseFloat(o2.getActivityValue());
-				    	return (f2 < f1? 1:-1);
-				    }});
-			}
-			if(sortDirection != null && sortDirection.equals("desc")){
-				Collections.reverse(datasetCompounds);
-			}
-			
-			//pick out the ones to be displayed on the page based on offset and limit
-			int compoundNum = 0;
-			for(int i = 0; i < datasetCompounds.size(); i++){
-				if(compoundNum < offset || compoundNum >= (offset + limit)){
-					//don't display this compound
-					datasetCompounds.remove(i);
-					i--;
-				}				
-				else{
-					//leave it in the array
-				}
-				compoundNum++;
-			}
-
-			pageNums = new ArrayList<String>(); //displays the page numbers at the top
-			int j = 1;
-			for(int i = 0; i < compoundIDs.size(); i += limit){
-				String page = Integer.toString(j);
-				pageNums.add(page);
-				j++;
-			}
-			
+			currentPageNumber = "1";
 		}
+		if(context.getParameters().get("orderBy") != null){
+			 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+		}
+		else{
+			orderBy = "compoundId";
+		}
+		if(context.getParameters().get("sortDirection") != null){
+			sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
+		}
+		else{
+			sortDirection = "asc";
+		}
+				
+		//get dataset
+		Utility.writeToStrutsDebug("dataset id: " + objectId);
+		session = HibernateUtil.getSession();
+		dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+		if(dataset==null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(dataset.getUserName()))){
+			Utility.writeToStrutsDebug("No dataset was found in the DB with provided ID.");
+			errorStrings.add("Invalid datset ID supplied.");
+			result = ERROR;
+			session.close();
+			return result;
+		}
+		
+		
+		//define which compounds will appear on page
+		int pagenum, limit, offset;
+		if(user.getViewDatasetCompoundsPerPage().equals(Constants.ALL)){
+			pagenum = 0;
+			limit = 99999999;
+			offset = pagenum * limit;
+		}
+		else{
+			pagenum = Integer.parseInt(currentPageNumber) - 1;
+			limit = Integer.parseInt(user.getViewDatasetCompoundsPerPage()); //compounds per page to display
+			offset = pagenum * limit; //which compoundid to start on
+		}
+			
+		//get compounds
+		datasetCompounds = new ArrayList<Compound>();
+		String datasetUser = dataset.getUserName();
+		
+		String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
+		datasetDir += "DATASETS/" + dataset.getName() + "/";
+		
+		ArrayList<String> compoundIDs = null;
+		if(dataset.getXFile() != null && ! dataset.getXFile().isEmpty()){
+			compoundIDs = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
+		}
+		else{
+			compoundIDs = DatasetFileOperations.getSDFCompoundNames(datasetDir + dataset.getSdfFile());
+		}
+			
+		for(String cid: compoundIDs){
+			Compound c = new Compound();
+			c.setCompoundId(cid);
+			datasetCompounds.add(c);
+		}
+			
+		//get activity values (if applicable)
+		if(! dataset.getDatasetType().equals(Constants.PREDICTION)){
+			HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile());
+			
+			for(Compound c: datasetCompounds){
+				c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
+			}
+		}
+			//sort the compound array
+		if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
+			//sort by compoundId
+			
+			Collections.sort(datasetCompounds, new Comparator<Compound>() {
+			    public int compare(Compound o1, Compound o2) {
+		    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
+			    }});
+		}
+		else if(orderBy.equals("activityValue")){
+			Collections.sort(datasetCompounds, new Comparator<Compound>() {
+			    public int compare(Compound o1, Compound o2) {
+			    	float f1 = Float.parseFloat(o1.getActivityValue());
+			    	float f2 = Float.parseFloat(o2.getActivityValue());
+			    	return (f2 < f1? 1:-1);
+			    }});
+		}
+		if(sortDirection != null && sortDirection.equals("desc")){
+			Collections.reverse(datasetCompounds);
+		}
+			
+		//pick out the ones to be displayed on the page based on offset and limit
+		int compoundNum = 0;
+		for(int i = 0; i < datasetCompounds.size(); i++){
+			if(compoundNum < offset || compoundNum >= (offset + limit)){
+				//don't display this compound
+				datasetCompounds.remove(i);
+				i--;
+			}				
+			else{
+				//leave it in the array
+			}
+			compoundNum++;
+		}
+		pageNums = new ArrayList<String>(); //displays the page numbers at the top
+		int j = 1;
+		for(int i = 0; i < compoundIDs.size(); i += limit){
+			String page = Integer.toString(j);
+			pageNums.add(page);
+			j++;
+		}
+		session.close();
 		return result;
 	}
 	
 	public String loadExternalCompoundsSection() throws Exception {
-		String result = SUCCESS;
-		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-
-		Session session = HibernateUtil.getSession();
+		String result = checkBasicParams();
 		
-		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+		if(!result.equals(SUCCESS)) return result;
+		
+		if(context.getParameters().get("orderBy") != null){
+			 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
 		}
 		else{
-			user = (User) context.getSession().get("user");
+			orderBy = "compoundId";
+		}
+		if(context.getParameters().get("sortDirection") != null){
+			sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
+		}
+		else{
+			sortDirection = "asc";
+		}
+		//get dataset
+		Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + objectId);
+		session = HibernateUtil.getSession();
+		dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+		if(dataset==null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(dataset.getUserName()))){
+			Utility.writeToStrutsDebug("No dataset was found in the DB with provided ID.");
+			errorStrings.add("Invalid datset ID supplied.");
+			result = ERROR;
+			session.close();
+			return result;
+		}
+		session.close();
 			
-			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
-				result = LOGIN;
-				return result;
-			}
-			if(context.getParameters().get("datasetId") != null){
-				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
-			}
-			if(context.getParameters().get("orderBy") != null){
-				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
-			}
-			else{
-				orderBy = "compoundId";
-			}
-			if(context.getParameters().get("sortDirection") != null){
-				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
-			}
-			else{
-				sortDirection = "asc";
-			}
-			//get dataset
-			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
-			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
-			if(datasetId == null){
-				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
-			}
+		//load external compounds from file
+		externalCompounds = new ArrayList<Compound>();
+		String datasetUser = dataset.getUserName();
+		
+		String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
+		datasetDir += "DATASETS/" + dataset.getName() + "/";
+		
+		HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE);
+		
+		if(actIdsAndValues.isEmpty()){
+			return result;
+		}
+		
+		ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+		for(String compoundId : compoundIds){
+			Compound c = new Compound();
+			c.setCompoundId(compoundId);
+			c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
+			externalCompounds.add(c);
+		}
 			
-			//load external compounds from file
-			externalCompounds = new ArrayList<Compound>();
-			String datasetUser = dataset.getUserName();
-			
-			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
-			datasetDir += "DATASETS/" + dataset.getName() + "/";
-			
-			HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE);
-			
-			if(actIdsAndValues.isEmpty()){
-				return result;
-			}
-			
-			ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
-			for(String compoundId : compoundIds){
-				Compound c = new Compound();
-				c.setCompoundId(compoundId);
-				c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
-				externalCompounds.add(c);
-			}
-			
-			//sort by activity by default, that seems good
-			if(orderBy != null && orderBy.equals("activityValue")){
-				Collections.sort(externalCompounds, new Comparator<Compound>() {
-				    public int compare(Compound o1, Compound o2) {
-				    	float f1 = Float.parseFloat(o1.getActivityValue());
-				    	float f2 = Float.parseFloat(o2.getActivityValue());
-				    	return (f2 < f1? 1:-1);
+		//sort by activity by default, that seems good
+		if(orderBy != null && orderBy.equals("activityValue")){
+			Collections.sort(externalCompounds, new Comparator<Compound>() {
+			    public int compare(Compound o1, Compound o2) {
+			    	float f1 = Float.parseFloat(o1.getActivityValue());
+			    	float f2 = Float.parseFloat(o2.getActivityValue());
+			    	return (f2 < f1? 1:-1);
+			    }});
+		}
+		else{
+			Collections.sort(externalCompounds, new Comparator<Compound>() {
+				  public int compare(Compound o1, Compound o2) {
+			    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
 				    }});
-			}
-			else{
-				Collections.sort(externalCompounds, new Comparator<Compound>() {
-					  public int compare(Compound o1, Compound o2) {
-				    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
-					    }});
-			}
-			if(sortDirection != null && sortDirection.equals("desc")){
-				Collections.reverse(externalCompounds);
-			}
-
+		}
+		if(sortDirection != null && sortDirection.equals("desc")){
+			Collections.reverse(externalCompounds);
 		}
 		return result;
 	}
 	
 
 	public String loadExternalCompoundsNFoldSection() throws Exception {
-		String result = SUCCESS;
-		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-
-		Session session = HibernateUtil.getSession();
 		
-		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+		//check that the user is logged in
+		String result = checkBasicParams();
+		
+		if(!result.equals(SUCCESS)) return result;
+		
+		if(context.getParameters().get("currentFoldNumber") != null){
+			currentFoldNumber = ((String[]) context.getParameters().get("currentFoldNumber"))[0]; 	
 		}
 		else{
-			user = (User) context.getSession().get("user");
-			
-			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
-				result = LOGIN;
-				return result;
-			}
-
-			if(context.getParameters().get("currentFoldNumber") != null){
-				currentFoldNumber = ((String[]) context.getParameters().get("currentFoldNumber"))[0]; 	
-			}
-			else{
-				currentFoldNumber = "1";
-			}
-			if(context.getParameters().get("datasetId") != null){
-				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
-			}
-			if(context.getParameters().get("orderBy") != null){
-				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
-			}
-			else{
-				orderBy = "compoundId";
-			}
-			if(context.getParameters().get("sortDirection") != null){
-				sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
-			}
-			else{
-				sortDirection = "asc";
-			}
-			//get dataset
-			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
-			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
-			if(datasetId == null){
-				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
-			}
-			String datasetUser = dataset.getUserName();
-			String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
-			datasetDir += "DATASETS/" + dataset.getName() + "/";
-
-			foldNums = new ArrayList<String>(); //displays the fold numbers at the top
-			int j = 1;
-			for(int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i += 1){
-				String fold = Integer.toString(j);
-				foldNums.add(fold);
-				j++;
-			}
-			
-			//load external fold from file
-			externalFold = new ArrayList<Compound>();
-			int foldNum = Integer.parseInt(currentFoldNumber);
-			HashMap<String, String> actIdsAndValues = 
-				DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (foldNum));
-			
-			if(! actIdsAndValues.isEmpty()){
-				ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
-				for(String compoundId : compoundIds){
-					Compound c = new Compound();
-					c.setCompoundId(compoundId);
-					c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
-					externalFold.add(c);
-				}
-			}
-					
-			if(orderBy != null && orderBy.equals("activityValue")){
-				Collections.sort(externalFold, new Comparator<Compound>() {
-				    public int compare(Compound o1, Compound o2) {
-				    	float f1 = Float.parseFloat(o1.getActivityValue());
-				    	float f2 = Float.parseFloat(o2.getActivityValue());
-				    	return (f2 < f1? 1:-1);
-				    }});
-			}
-			else{
-				Collections.sort(externalFold, new Comparator<Compound>() {
-					  public int compare(Compound o1, Compound o2) {
-				    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
-					    }});
-			}
-			if(sortDirection != null && sortDirection.equals("desc")){
-				Collections.reverse(externalFold);
-			}
-			
+			currentFoldNumber = "1";
 		}
+		if(context.getParameters().get("orderBy") != null){
+			 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+		}
+		else{
+			orderBy = "compoundId";
+		}
+		if(context.getParameters().get("sortDirection") != null){
+			sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0]; 	
+		}
+		else{
+			sortDirection = "asc";
+		}
+		//get dataset
+		Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + objectId);
+		session = HibernateUtil.getSession();
+		dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+		if(dataset==null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(dataset.getUserName()))){
+			Utility.writeToStrutsDebug("No dataset was found in the DB with provided ID.");
+			errorStrings.add("Invalid datset ID supplied.");
+			result = ERROR;
+			session.close();
+			return result;
+		}
+		session.close();
+		if(objectId == null){
+			Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
+		}
+		String datasetUser = dataset.getUserName();
+		String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
+		datasetDir += "DATASETS/" + dataset.getName() + "/";
+
+		foldNums = new ArrayList<String>(); //displays the fold numbers at the top
+		int j = 1;
+		for(int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i += 1){
+			String fold = Integer.toString(j);
+			foldNums.add(fold);
+			j++;
+		}
+			
+		//load external fold from file
+		externalFold = new ArrayList<Compound>();
+		int foldNum = Integer.parseInt(currentFoldNumber);
+		HashMap<String, String> actIdsAndValues = 
+			DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (foldNum));
+		
+		if(! actIdsAndValues.isEmpty()){
+			ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+			for(String compoundId : compoundIds){
+				Compound c = new Compound();
+				c.setCompoundId(compoundId);
+				c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
+				externalFold.add(c);
+			}
+		}
+				
+		if(orderBy != null && orderBy.equals("activityValue")){
+			Collections.sort(externalFold, new Comparator<Compound>() {
+			    public int compare(Compound o1, Compound o2) {
+			    	float f1 = Float.parseFloat(o1.getActivityValue());
+			    	float f2 = Float.parseFloat(o2.getActivityValue());
+			    	return (f2 < f1? 1:-1);
+			    }});
+		}
+		else{
+			Collections.sort(externalFold, new Comparator<Compound>() {
+				  public int compare(Compound o1, Compound o2) {
+			    		return Utility.naturalSortCompare(o1.getCompoundId(), o2.getCompoundId());
+				    }});
+		}
+		if(sortDirection != null && sortDirection.equals("desc")){
+			Collections.reverse(externalFold);
+		}
+		
 		return result;
 	}
 	
 
 	public String loadVisualizationSection() throws Exception {
-		String result = SUCCESS;
-		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-
-		Session session = HibernateUtil.getSession();
 		
-		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+		String result = checkBasicParams();
+		
+		if(!result.equals(SUCCESS)) return result;
+		
+		//get dataset
+		session = HibernateUtil.getSession();
+		dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+		if(dataset==null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(dataset.getUserName()))){
+			Utility.writeToStrutsDebug("No dataset was found in the DB with provided ID.");
+			errorStrings.add("Invalid datset ID supplied.");
+			result = ERROR;
+			session.close();
+			return result;
 		}
-		else{
-			user = (User) context.getSession().get("user");
-			
-			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
-				result = LOGIN;
-				return result;
-			}
-			
-			if(context.getParameters().get("datasetId") != null){
-				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
-			}
-			//get dataset
-			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
-			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
-			if(datasetId == null){
-				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
-			}
-			
-		}
-			
+		session.close();	
 		return result;
 	}
 	
 
 	public String loadActivityChartSection() throws Exception {
-		String result = SUCCESS;
-		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-
-		Session session = HibernateUtil.getSession();
+		String result = checkBasicParams();
 		
-		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+		if(!result.equals(SUCCESS)) return result;
+		
+		//get dataset
+		Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + objectId);
+		session = HibernateUtil.getSession();
+		dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+		if(dataset==null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(dataset.getUserName()))){
+			Utility.writeToStrutsDebug("No dataset was found in the DB with provided ID.");
+			errorStrings.add("Invalid datset ID supplied.");
+			result = ERROR;
+			session.close();
+			return result;
 		}
-		else{
-			user = (User) context.getSession().get("user");
-			
-			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
-				result = LOGIN;
-				return result;
-			}
-			
-			if(context.getParameters().get("datasetId") != null){
-				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
-			}
-			//get dataset
-			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
-			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
-			if(datasetId == null){
-				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
-			}
-			
-			//create activity chart
-			ActivityHistogram.createChart(datasetId);
-			
-		}
+		session.close();
+		//create activity chart
+		ActivityHistogram.createChart(objectId);
 			
 		return result;
 	}
 
 	public String loadDescriptorsSection() throws Exception {
-		String result = SUCCESS;
-		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-
-		Session session = HibernateUtil.getSession();
+		String result = checkBasicParams();
 		
-		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
-		}
-		else{
-			user = (User) context.getSession().get("user");
-			
-			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
-				result = LOGIN;
-				return result;
-			}
-			
-			if(context.getParameters().get("datasetId") != null){
-				datasetId = ((String[]) context.getParameters().get("datasetId"))[0]; 	
-			}
-			//get dataset
-			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + datasetId);
-			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
-			if(datasetId == null){
-				Utility.writeToStrutsDebug("Invalid dataset ID supplied.");
-			}
-		}
+		if(!result.equals(SUCCESS)) return result;
 		
+		//get dataset
+		Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + objectId);
+		session = HibernateUtil.getSession();
+		dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+		if(dataset==null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(dataset.getUserName()))){
+			Utility.writeToStrutsDebug("No dataset was found in the DB with provided ID.");
+			errorStrings.add("Invalid datset ID supplied.");
+			result = ERROR;
+			session.close();
+			return result;
+		}
+		session.close();
 		descriptorGenerationResults = new ArrayList<DescriptorGenerationResult>();
 		String descriptorsDir = Constants.CECCR_USER_BASE_PATH;
 		descriptorsDir += dataset.getUserName() + "/";
@@ -646,164 +571,187 @@ public class ViewDataset extends ActionSupport {
 	}
 	
 	public String updateDataset() throws Exception {
-		String result = SUCCESS;
-		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-
-		if(context != null){
+		
+		context = ActionContext.getContext();
+		if(context!=null && context.getParameters().get("objectId")!=null){
 			//get dataset id
-			datasetId = ((String[]) context.getParameters().get("datasetId"))[0];
+			objectId = ((String[]) context.getParameters().get("objectId"))[0];
 			String[] datasetIdAsStringArray = new String[1];
-			datasetIdAsStringArray[0] = datasetId;
+			datasetIdAsStringArray[0] = objectId;
 			context.getParameters().put("id", datasetIdAsStringArray);
 			datasetDescription = ((String[]) context.getParameters().get("datasetDescription"))[0];
 			datasetReference = ((String[]) context.getParameters().get("datasetReference"))[0];
 			
-			Session s = HibernateUtil.getSession();
-			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), s);
+			session = HibernateUtil.getSession();
+			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+				
 			dataset.setDescription(datasetDescription);
 			dataset.setPaperReference(datasetReference);
 			Transaction tx = null;
 			try {
-				tx = s.beginTransaction();
-				s.saveOrUpdate(dataset);
-				tx.commit();
-			}
-			catch (Exception ex) {
-				Utility.writeToDebug(ex); 
-			} 
-			finally {
-				s.close();
-			}
+					tx = session.beginTransaction();
+					session.saveOrUpdate(dataset);
+					tx.commit();
+				}
+				catch (Exception ex) {
+					Utility.writeToDebug(ex); 
+				} 
+				finally {
+					session.close();
+				}
 		}
-		return loadPage();
+		return load();
 	}
 	
-	public String loadPage() throws Exception {
-		String result = SUCCESS;
-		//check that the user is logged in
-		ActionContext context = ActionContext.getContext();
-
-		Session session = HibernateUtil.getSession();
+	public String generateMahalanobis() throws Exception{
+		context = ActionContext.getContext();
 		
-		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+		if(context!=null && context.getParameters().get("objectId")!=null){
+			user = (User) context.getSession().get("user");
+			//get dataset id
+			objectId = ((String[]) context.getParameters().get("objectId"))[0];
+			String[] datasetIdAsStringArray = new String[1];
+			datasetIdAsStringArray[0] = objectId;
+			context.getParameters().put("id", datasetIdAsStringArray);
+			
+			session = HibernateUtil.getSession();
+			dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+			String vis_path = Constants.CECCR_USER_BASE_PATH + user.getUserName() + "/DATASETS/" + dataset.getName() + "/Visualization/";
+			Utility.writeToDebug("MAHALANOBIS STARTED: "+vis_path);
+			HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path, dataset.getSdfFile(), "mahalanobis");
+			Utility.writeToDebug("MAHALANOBIS DONE: "+dataset.getSdfFile());
+			dataset.setHasVisualization(1);
+			Transaction tx = null;
+			try {
+					tx = session.beginTransaction();
+					session.saveOrUpdate(dataset);
+					tx.commit();
+				}
+				catch (Exception ex) {
+					Utility.writeToDebug(ex); 
+				} 
+				finally {
+					session.close();
+				}
+		}
+		return load();
+	}
+	
+	public String load() throws Exception {
+		//check that the user is logged in
+		String result = checkBasicParams();
+		if(!result.equals(SUCCESS)) return result;
+		session = HibernateUtil.getSession();	
+		dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
+		
+		
+		if(dataset==null || (!dataset.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(dataset.getUserName()))){
+			Utility.writeToStrutsDebug("No dataset was found in the DB with provided ID.");
+			super.errorStrings.add("Invalid datset ID supplied.");
+			result = ERROR;
+			session.close();
+			return result;
+		}
+		
+		
+						
+		if(context.getParameters().get("editable") != null && objectId != null){
+			if(user.getIsAdmin().equals(Constants.YES) || user.getUserName().equals(dataset.getUserName())){
+				editable = "YES";
+			}
 		}
 		else{
-			user = (User) context.getSession().get("user");
-			datasetId = ((String[]) context.getParameters().get("id"))[0];
+			editable = "NO";
+		}
 			
-			if(context.getParameters().get("editable") != null && datasetId != null){
-				dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
-				if(user.getIsAdmin().equals(Constants.YES)|| user.getUserName().equals(dataset.getUserName())){
-					editable = "YES";
-				}
-			}
-			else{
-				editable = "NO";
-			}
+		if(context.getParameters().get("orderBy") != null){
+			 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
+		}
+		String pagenumstr = null;
+		if(context.getParameters().get("pagenum") != null){
+			pagenumstr = ((String[]) context.getParameters().get("pagenum"))[0]; //how many to skip (pagination)
+		}
 			
-			if(context.getParameters().get("orderBy") != null){
-				 orderBy = ((String[]) context.getParameters().get("orderBy"))[0];
-			}
-			String pagenumstr = null;
-			if(context.getParameters().get("pagenum") != null){
-				pagenumstr = ((String[]) context.getParameters().get("pagenum"))[0]; //how many to skip (pagination)
-			}
+		currentPageNumber = "1";
+		if(pagenumstr != null){
+			currentPageNumber = pagenumstr;
+		}
 			
-			currentPageNumber = "1";
-			if(pagenumstr != null){
-				currentPageNumber = pagenumstr;
-			}
-
-			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
-				result = LOGIN;
-				return result;
-			}
-			if(datasetId == null){
-				Utility.writeToStrutsDebug("No dataset ID supplied.");
-			}
-			else{
-				dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
-				
-				//the dataset has now been viewed. Update DB accordingly.
-				if(! dataset.getHasBeenViewed().equals(Constants.YES)){
-					dataset.setHasBeenViewed(Constants.YES);
-					Transaction tx = null;
-					try {
-						tx = session.beginTransaction();
-						session.saveOrUpdate(dataset);
-						tx.commit();
-					} catch (RuntimeException e) {
-						if (tx != null)
-							tx.rollback();
-						Utility.writeToDebug(e);
-					}
-				}
-				if(dataset.getDatasetType().equals(Constants.MODELING) || 
-						dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
-					if(dataset.getSplitType().equals(Constants.NFOLD)){
-						externalCompoundsCount = "";
-						int smallestFoldSize = 0;
-						int largestFoldSize = 0;
-						String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/";
-						datasetDir += "DATASETS/" + dataset.getName() + "/";
-						int numFolds = Integer.parseInt(dataset.getNumExternalFolds());
-						for(int i = 0; i < numFolds; i++){
-							HashMap<String, String> actIdsAndValues = 
-								DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (i+1));
-							int numExternalInThisFold = actIdsAndValues.size();
-							if(largestFoldSize == 0 || largestFoldSize < numExternalInThisFold){
-								largestFoldSize = numExternalInThisFold;
-							}
-							if(smallestFoldSize == 0 || smallestFoldSize > numExternalInThisFold){
-								smallestFoldSize = numExternalInThisFold;
-							}
-						}
-						externalCompoundsCount += smallestFoldSize + " to " + largestFoldSize + " per fold";
-					}
-					
-					else{
-						int numCompounds = dataset.getNumCompound();
-						float compoundsExternal = Float.parseFloat(dataset.getNumExternalCompounds());
-						if(compoundsExternal < 1){
-							//dataset.numExternalCompounds is a multiplier
-							numCompounds *= compoundsExternal;
-						}
-						else{
-							//dataset.numExternalCompounds is actually the number of compounds
-							numCompounds = Integer.parseInt(dataset.getNumExternalCompounds());
-						}
-						externalCompoundsCount = "" + numCompounds;
-					}
-				}
-				
-				//make dataset type more readable
-				if(dataset.getDatasetType().equals(Constants.MODELING)){
-					datasetTypeDisplay = "Modeling";
-				}
-				if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
-					datasetTypeDisplay = "Modeling, with uploaded descriptors";
-				}
-				if(dataset.getDatasetType().equals(Constants.PREDICTION)){
-					datasetTypeDisplay = "Prediction";
-					dataset.setDatasetType("");
-				}
-				if(dataset.getDatasetType().equals(Constants.PREDICTIONWITHDESCRIPTORS)){
-					datasetTypeDisplay = "Prediction, with uploaded descriptors";
-				}
-				//make textfield access for paper reference and datasetDescription
-				datasetReference = dataset.getPaperReference();
-				datasetDescription = dataset.getDescription();
-				
-				
-				String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/";
-				datasetDir += "DATASETS/" + dataset.getName() + "/";
-				
+		//the dataset has now been viewed. Update DB accordingly.
+		if(! dataset.getHasBeenViewed().equals(Constants.YES)){
+			dataset.setHasBeenViewed(Constants.YES);
+			Transaction tx = null;
+			try {
+				tx = session.beginTransaction();
+				session.saveOrUpdate(dataset);
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				Utility.writeToDebug(e);
 			}
 		}
-
+		if(dataset.getDatasetType().equals(Constants.MODELING) || 
+				dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
+			if(dataset.getSplitType().equals(Constants.NFOLD)){
+				externalCompoundsCount = "";
+				int smallestFoldSize = 0;
+				int largestFoldSize = 0;
+				String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/";
+				datasetDir += "DATASETS/" + dataset.getName() + "/";
+				int numFolds = Integer.parseInt(dataset.getNumExternalFolds());
+				for(int i = 0; i < numFolds; i++){
+					HashMap<String, String> actIdsAndValues = 
+						DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (i+1));
+					int numExternalInThisFold = actIdsAndValues.size();
+					if(largestFoldSize == 0 || largestFoldSize < numExternalInThisFold){
+						largestFoldSize = numExternalInThisFold;
+					}
+					if(smallestFoldSize == 0 || smallestFoldSize > numExternalInThisFold){
+						smallestFoldSize = numExternalInThisFold;
+					}
+				}
+				externalCompoundsCount += smallestFoldSize + " to " + largestFoldSize + " per fold";
+			}
+			
+			else{
+				int numCompounds = dataset.getNumCompound();
+				float compoundsExternal = Float.parseFloat(dataset.getNumExternalCompounds());
+				if(compoundsExternal < 1){
+					//dataset.numExternalCompounds is a multiplier
+					numCompounds *= compoundsExternal;
+				}
+				else{
+					//dataset.numExternalCompounds is actually the number of compounds
+					numCompounds = Integer.parseInt(dataset.getNumExternalCompounds());
+				}
+				externalCompoundsCount = "" + numCompounds;
+			}
+		}
+			
+		//make dataset type more readable
+		if(dataset.getDatasetType().equals(Constants.MODELING)){
+			datasetTypeDisplay = "Modeling";
+		}
+		if(dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)){
+			datasetTypeDisplay = "Modeling, with uploaded descriptors";
+		}
+		if(dataset.getDatasetType().equals(Constants.PREDICTION)){
+			datasetTypeDisplay = "Prediction";
+			dataset.setDatasetType("");
+		}
+		if(dataset.getDatasetType().equals(Constants.PREDICTIONWITHDESCRIPTORS)){
+			datasetTypeDisplay = "Prediction, with uploaded descriptors";
+		}
+		//make textfield access for paper reference and datasetDescription
+		datasetReference = dataset.getPaperReference();
+		datasetDescription = dataset.getDescription();
+		
+		
+		String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/";
+		datasetDir += "DATASETS/" + dataset.getName() + "/";
+		
+		
 		session.close();
 		
 		//log the results
@@ -864,13 +812,6 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setSortDirection(String sortDirection) {
 		this.sortDirection = sortDirection;
-	}
-
-	public String getDatasetId() {
-		return datasetId;
-	}
-	public void setDatasetId(String datasetId) {
-		this.datasetId = datasetId;
 	}
 
 	public ArrayList<Compound> getExternalCompounds() {
@@ -949,6 +890,13 @@ public class ViewDataset extends ActionSupport {
 	}
 	public void setDatasetTypeDisplay(String datasetTypeDisplay) {
 		this.datasetTypeDisplay = datasetTypeDisplay;
+	}
+	
+	public ArrayList<String> getErrorStrings() {
+		return errorStrings;
+	}
+	public void setErrorStrings(ArrayList<String> errorStrings) {
+		this.errorStrings = errorStrings;
 	}
 	
 
