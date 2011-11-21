@@ -10,14 +10,10 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.Vector;
 
 import org.apache.commons.validator.GenericValidator;
@@ -26,20 +22,14 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-import org.apache.struts.upload.FormFile;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.Descriptors;
-import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.BigFile;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 
 /*
 Functions relating to the processing of incoming dataset files go in here.
