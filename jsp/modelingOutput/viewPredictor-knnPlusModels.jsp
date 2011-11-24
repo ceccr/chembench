@@ -20,7 +20,7 @@
 				<p class="StandardTextDarkGray">View Fold: 
 				<s:iterator value="foldNums" status="foldNumsStatus">
 				<s:if test="#foldNumsStatus.index+1==currentFoldNumber"><b><s:property/></b></s:if>
-				<s:else><a href="#tabs" onclick=replaceTabContents("yRandomDiv","viewPredictorKnnPlusModelsSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+				<s:else><a href="#tabs" onclick=replaceTabContents("yRandomDiv","viewPredictorKnnPlusModelsSection?id=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
 				</s:iterator>
 				</p>
 			</s:if>
@@ -34,7 +34,7 @@
 				<p class="StandardTextDarkGray">View Fold: 
 				<s:iterator value="foldNums" status="foldNumsStatus">
 				<s:if test="#foldNumsStatus.index+1==currentFoldNumber"><b><s:property/></b></s:if>
-				<s:else><a href="#tabs" onclick=replaceTabContents("modelsDiv","viewPredictorKnnPlusModelsSection?predictorId=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
+				<s:else><a href="#tabs" onclick=replaceTabContents("modelsDiv","viewPredictorKnnPlusModelsSection?id=<s:property value="selectedPredictor.id" />&isYRandomPage=<s:property value="isYRandomPage" />&currentFoldNumber=<s:property value="%{#foldNumsStatus.index}"/>")><s:property /></a></s:else>
 				</s:iterator>
 				</p>
 				<p class="StandardTextDarkGray">Models for fold <s:property value="currentFoldNumber"/>:</p>
