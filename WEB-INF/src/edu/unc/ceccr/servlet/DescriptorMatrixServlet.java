@@ -26,8 +26,7 @@ public class DescriptorMatrixServlet extends HttpServlet{
 
 	        BufferedInputStream input = null;
 	        BufferedOutputStream output = null;
-	        if(matFile.exists()){
-	        	assert matFile.exists();
+	        if(matFile.exists() && matFile.isFile()){
 	        	Utility.writeToDebug("MAT FILE EXISTS?"+matFile.exists());
 		        try {
 		            input = new BufferedInputStream(new FileInputStream(matFile));
