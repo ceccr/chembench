@@ -458,15 +458,15 @@ public class DatasetFileOperations {
 				//start of the compound information. 
 				
 				temp = temp.replaceAll("\\s+", "_").
-						replaceAll("\\#", "_H_").
-						replaceAll("\\~", "_T_").
-						replaceAll("\\!", "_EM_").
-						replaceAll("\\%", "_P_").
-						replaceAll("\\@", "_A_").
-						replaceAll("\\&", "_AND_").
+						replaceAll("#", "_H_").
+						replaceAll("~", "_T_").
+						replaceAll("!", "_EM_").
+						replaceAll("%", "_P_").
+						replaceAll("@", "_A_").
+						replaceAll("&", "_AND_").
 						replaceAll("\\*", "_S_").
 						replace("\\", "_BS_").
-						replace("\\/", "_FS_").
+						replace("/", "_FS_").
 						replace("(", "_OB_").
 						replace(")", "_CB_").
 						replace("[", "_SOB_").
