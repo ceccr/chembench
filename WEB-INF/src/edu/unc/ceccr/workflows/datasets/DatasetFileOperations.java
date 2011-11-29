@@ -465,14 +465,14 @@ public class DatasetFileOperations {
 						replaceAll("@", "_A_").
 						replaceAll("&", "_AND_").
 						replaceAll("\\*", "_S_").
-						replace("\\", "_BS_").
-						replace("/", "_FS_").
-						replace("(", "_OB_").
-						replace(")", "_CB_").
-						replace("[", "_SOB_").
-						replace("]", "_SCB_").
-						replace("+", "_PL_").
-						replaceAll("=", "_E_");
+						replaceAll("\\\\", "_BS_").
+						replaceAll("/", "_FS_").
+						replaceAll("\\(", "_OB_").
+						replaceAll("\\)", "_CB_").
+						replaceAll("\\[", "_SOB_").
+						replaceAll("\\]", "_SCB_").
+						replaceAll("\\+", "_PL_").
+						replaceAll("\\=", "_E_");
 				
 				temp += "\n\n\n";
 				sdfCompoundNamesIndex++;
