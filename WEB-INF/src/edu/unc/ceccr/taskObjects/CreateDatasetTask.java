@@ -466,7 +466,7 @@ public class CreateDatasetTask extends WorkflowTask{
 				
 				String vis_path = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + jobName + "/Visualization/";
 				HeatmapAndPCA.performXCreation(path + descriptorDir + sdfFileName + ".maccs", sdfFileName + ".x", vis_path);
-				if(generateMahalanobis.equals("true")) HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path, sdfFileName, "mahalanobis");
+				if(generateMahalanobis!=null && generateMahalanobis.equals("true")) HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path, sdfFileName, "mahalanobis");
 				HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path, sdfFileName, "tanimoto");
 	
 				if(!actFileName.equals("")){
