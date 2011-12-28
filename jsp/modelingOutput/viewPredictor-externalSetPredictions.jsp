@@ -16,7 +16,7 @@
 	<!-- External Validation Chart -->
 	<s:if test="externalValValues.size!=0&&hasGoodModels=='YES'">
 		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-			<p class="StandardTextDarkGray"><b><u>External Validation Chart</u></b>
+			<p class="StandardTextDarkGray"><b>External Validation Chart</b>
 			<br />
 			<img src="imageServlet?project=<s:property value='selectedPredictor.name' />&projectType=modeling&user=<s:property value='user.userName' />&compoundId=externalValidationChart&currentFoldNumber=<s:property value='currentFoldNumber' />" WIDTH="650" HEIGHT="650" BORDER="0"  ISMAP="ISMAP" USEMAP="#mychart" />
 			</p>

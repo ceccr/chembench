@@ -25,7 +25,6 @@ public class ActiveUser implements HttpSessionListener{
 			activeSessions--;
 			if(se.getSession()!=null && se.getSession().getAttribute("userType")!=null){
 				User user = (User)se.getSession().getAttribute("user");
-				Utility.writeToDebug("Session destruction begins for user "+user.getUserName());
 				String type = (String)se.getSession().getAttribute("userType");
 				if(user!=null && user.getUserName()!=null && user.getUserName().contains("guest") && type!=null && type.equals("guest")){
 					new HomeAction().deleteGuest(user);

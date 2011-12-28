@@ -115,18 +115,10 @@ public class DatasetFormActions extends ActionSupport{
 			datasetName = datasetName.replaceAll("\\]", "_");
 		}
 		
-		try{
-			Utility.writeToDebug("Starting dataset task");
-			Utility.writeToDebug("datasetName: " + datasetName);
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-		}
-
+		Utility.writeToDebug("Starting dataset task");
 		Utility.writeToUsageLog("Uploaded dataset " + datasetName, userName);
 		
-		ArrayList<String> msgs = new ArrayList<String>();
-		Utility.writeToDebug("type: " + datasetType);
+		List<String> msgs = new ArrayList<String>();
 		
 		if(externalCompoundsCountOrPercent.equalsIgnoreCase("percent")){
 			double tmp = Double.parseDouble(numExternalCompounds);
@@ -145,13 +137,13 @@ public class DatasetFormActions extends ActionSupport{
 			else{
 				Utility.writeToDebug("sdf file is good");
 			}
-			if(sdfFileModelingContentType == ""){
+			if(sdfFileModelingContentType.isEmpty()){
 				Utility.writeToDebug("sdf file is empty");
 			}
 			else{
 				Utility.writeToDebug("sdf file is " + sdfFileModelingContentType);
 			}
-			if(sdfFileModelingFileName == ""){
+			if(sdfFileModelingFileName.isEmpty()){
 				Utility.writeToDebug("sdf file is empty");
 			}
 			else{
@@ -174,10 +166,10 @@ public class DatasetFormActions extends ActionSupport{
 			
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
-				if(actFileModelingFileName.endsWith(".a")){
-					actFileModelingFileName = actFileModelingFileName.substring(0, actFileModelingFileName.lastIndexOf(".")) + ".act";
+				if(actFileModelingFileName.endsWith("\\.a")){
+					actFileModelingFileName = actFileModelingFileName.substring(0, actFileModelingFileName.length()-2) + ".act";
 				}
-				else if(! actFileModelingFileName.endsWith(".act")){
+				else if(!actFileModelingFileName.endsWith("\\.act")){
 					actFileModelingFileName += ".act";
 				}
 				try{
@@ -307,13 +299,13 @@ public class DatasetFormActions extends ActionSupport{
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					actFileModDescFileName = actFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-					if(actFileModDescFileName.endsWith(".a")){
-						actFileModDescFileName = actFileModDescFileName.substring(0, actFileModDescFileName.lastIndexOf(".")) + ".act";
+					if(actFileModDescFileName.endsWith("\\.a")){
+						actFileModDescFileName = actFileModDescFileName.substring(0, actFileModDescFileName.length()-2) + ".act";
 					}
-					else if(! actFileModDescFileName.endsWith(".act")){
+					else if(! actFileModDescFileName.endsWith("\\.act")){
 						actFileModDescFileName += ".act";
 					}
-					if(! xFileModDescFileName.endsWith(".x")){
+					if(! xFileModDescFileName.endsWith("\\.x")){
 						xFileModDescFileName += ".x";
 					}
 					
@@ -381,7 +373,7 @@ public class DatasetFormActions extends ActionSupport{
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
-					if(! xFilePredDescFileName.endsWith(".x")){
+					if(! xFilePredDescFileName.endsWith("\\.x")){
 						xFilePredDescFileName += ".x";
 					}
 					

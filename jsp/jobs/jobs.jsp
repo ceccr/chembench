@@ -39,6 +39,8 @@
 		If you wish to share datasets or predictors you have developed with the 
 		Chembench community, please contact us at 
 		<a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>.
+		<br />
+		All data is sorted by the creation date in descending order (newest on top).
 		</p>
 		</td></tr>
 		</table>

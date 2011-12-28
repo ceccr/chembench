@@ -1,23 +1,14 @@
 package edu.unc.ceccr.action;
 
-import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 //struts2
 import com.opensymphony.xwork2.ActionSupport; 
 import com.opensymphony.xwork2.ActionContext; 
 
-import org.apache.struts.upload.FormFile;
-import org.apache.struts2.interceptor.SessionAware;
 import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
@@ -28,7 +19,6 @@ import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
@@ -94,11 +84,16 @@ public class JobsActions extends ActionSupport {
 			}
 		}
 		if(userDatasets != null){
-			Collections.sort(userDatasets, new Comparator<DataSet>() {
-			    public int compare(DataSet d1, DataSet d2) {
-		    		return d1.getName().toLowerCase().compareTo(d2.getName().toLowerCase());
-			    }});
+			//Collections.sort(userDatasets, new Comparator<DataSet>() {
+			//    public int compare(DataSet d1, DataSet d2) {
+		    //		return d1.getName().toLowerCase().compareTo(d2.getName().toLowerCase());
+			//    }});
 	
+			Collections.sort(userDatasets, new Comparator<DataSet>() {
+				    public int compare(DataSet d1, DataSet d2) {
+			    		return d2.getCreatedTime().compareTo(d1.getCreatedTime());
+				    }});
+		
 			for(int i = 0; i < userDatasets.size(); i++){
 				if(userDatasets.get(i).getJobCompleted() == null || userDatasets.get(i).getJobCompleted().equals(Constants.NO)){
 					userDatasets.remove(i);
@@ -116,18 +111,27 @@ public class JobsActions extends ActionSupport {
 			userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), false, true, session);
 		}
 		if(userPredictors != null){
+			//Collections.sort(userPredictors, new Comparator<Predictor>() {
+			//    public int compare(Predictor p1, Predictor p2) {
+		    //		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
+			//    }});
 			Collections.sort(userPredictors, new Comparator<Predictor>() {
-			    public int compare(Predictor p1, Predictor p2) {
-		    		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
-			    }});
+				    public int compare(Predictor p1, Predictor p2) {
+			    		return p2.getDateCreated().compareTo(p1.getDateCreated());
+				    }});
 		}
 		
 		//get predictions
 		userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
 		if(userPredictions != null){
+			//Collections.sort(userPredictions, new Comparator<Prediction>() {
+		//	    public int compare(Prediction p1, Prediction p2) {
+		 //   		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
+		//	    }});
+			
 			Collections.sort(userPredictions, new Comparator<Prediction>() {
 			    public int compare(Prediction p1, Prediction p2) {
-		    		return p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
+		    		return p2.getDateCreated().compareTo(p1.getDateCreated());
 			    }});
 			
 			for(int i = 0; i < userPredictions.size(); i++){
