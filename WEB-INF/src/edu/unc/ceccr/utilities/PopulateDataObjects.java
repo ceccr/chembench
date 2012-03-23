@@ -1133,11 +1133,13 @@ public class PopulateDataObjects {
 		Transaction tx = null;
 		try {
 			for(String childPredictorId: childPredictorIds){
-				tx = session.beginTransaction();
-				Predictor childPredictor = (Predictor) session.createCriteria(Predictor.class)
-					.add(Expression.eq("id", Long.parseLong(childPredictorId))).uniqueResult();
-				tx.commit();
-				childPredictors.add(childPredictor);
+				if(childPredictorId!=null){
+					tx = session.beginTransaction();
+					Predictor childPredictor = (Predictor) session.createCriteria(Predictor.class)
+							.add(Expression.eq("id", Long.parseLong(childPredictorId))).uniqueResult();
+					tx.commit();
+					childPredictors.add(childPredictor);
+				}
 			}
 		} catch (Exception e) {
 			Utility.writeToDebug(e);
