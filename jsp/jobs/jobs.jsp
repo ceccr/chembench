@@ -376,6 +376,7 @@
 				<tr>
 					<th class="TableRowText01">Name</th>
 					<th class="TableRowText01">Dataset</th>
+					<s:if test="adminUser"><th class="TableRowText01">Nfold</th><th class="TableRowText01">Act type</th></s:if>
 					<th class="TableRowText01">External Set R<sup>2</sup> or CCR</th>
 					<th class="TableRowText01">Modeling Method</th>
 					<th class="TableRowText01">Descriptor Type</th>
@@ -401,6 +402,18 @@
 						<s:property value="datasetDisplay" />
 						</a>
 					</td>
+					<s:if test="adminUser">
+					<td>
+						<s:if test="childType=='NFOLD'">YES</s:if>
+						<s:else>NO</s:else>
+					</td>
+					<td>
+						<s:property value="activityType" />
+					</td>
+					</s:if>
+					
+					
+					
 					<s:if test="childType=='NFOLD'">
 						<td>
 						<s:if test='externalPredictionAccuracyAvg!="0.0 ± 0.0"'>
