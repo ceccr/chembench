@@ -33,6 +33,7 @@ public class Constants {
 	
 	//file paths
 	public static final String LSFJOBPATH = "/largefs/ceccr/workflow-users/";
+	public static final String USERWORKFLOWSPATH = "/nas02/depts/chembench/prod/workflow-users/";
 	
 	//Type strings
 	//The point of having these is to define capitalizations 
