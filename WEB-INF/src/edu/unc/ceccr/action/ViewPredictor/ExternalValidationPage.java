@@ -28,6 +28,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	String rSquared = "";
 	String rSquaredAverageAndStddev = "";
 	String ccrAverageAndStddev = "";
+	String mae = "";
 	
 	public String load() throws Exception {
 		String result = getBasicParameters();
@@ -124,6 +125,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 
 		hasGoodModels = Constants.NO;
 		residuals = new ArrayList<String>();
+		Double maeDouble = 0d;
 		if(residualsAsDouble.size() > 0){
 			for(Double residual: residualsAsDouble){
 				if(residual.isNaN()){
@@ -133,8 +135,10 @@ public class ExternalValidationPage extends ViewPredictorAction {
 					//if at least one residual exists, there must have been a good model
 					hasGoodModels = Constants.YES;
 					residuals.add(Utility.roundSignificantFigures(""+residual, Constants.REPORTED_SIGNIFICANT_FIGURES));
+					maeDouble+=Math.abs(residual);
 				}
 			}
+			mae = Utility.roundSignificantFigures(""+maeDouble/residualsAsDouble.size(), Constants.REPORTED_SIGNIFICANT_FIGURES);
 		}
 		else{
 			return result;
@@ -178,6 +182,14 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		this.residuals = residuals;
 	}
 	
+	public String getMae() {
+		return mae;
+	}
+
+	public void setMae(String mae) {
+		this.mae = mae;
+	}
+
 	public String getrSquared() {
 		return rSquared;
 	}

@@ -118,13 +118,51 @@ public class PredictionFormActions extends ActionSupport{
 			//generate an SDF from this SMILES string
 			RunSmilesPrediction.smilesToSDF(smiles, smilesDir);
 			
+			String[] predValues = new String[3];
+			
+			int totalModels = predictor.getNumTestModels();
+			//for n-folded predictors
+			if(predictor.getChildType()!=null && predictor.getChildType().equals(Constants.NFOLD)){
+				String[] ids = predictor.getChildIds().split("\\s+");
+				Utility.writeToDebug("Predictor is n-folded.");
+				List<String[]> tempPred = new ArrayList<String[]>();
+				for(int j = 0;j<ids.length;j++){
+					Utility.writeToDebug("Predictor is n-folded."+ids[j]);
+					session = HibernateUtil.getSession();
+					Predictor tempP = PopulateDataObjects.getPredictorById(Long.parseLong(ids[j]), session);
+					session.close();
+					tempPred.add(RunSmilesPrediction.PredictSmilesSDF(smilesDir, user.getUserName(), tempP, Float.parseFloat(cutoff)));
+					totalModels+=tempP.getNumTestModels();
+					Utility.writeToDebug("Calculating predictions for "+tempP.getName());
+				}
+				
+				int predictingModels = 0;
+				double predictedValue =0d;
+				double standartDeviation = 0d;
+				
+				//getting average values
+				for(String[] s:tempPred){
+					predictingModels+=Integer.parseInt(s[0]); 
+					predictedValue+=Double.parseDouble(s[1]);
+					standartDeviation+=Double.parseDouble(s[2]);
+					//debug part
+					Utility.writeToDebug("Predicting models: "+s[0]);
+					Utility.writeToDebug("Predicted value: "+s[1]);
+					Utility.writeToDebug("Standart deviation: "+s[2]);
+				}
+				predValues[0] = String.valueOf(predictingModels);
+				predValues[1] = Utility.roundSignificantFigures(String.valueOf(predictedValue/ids.length), Constants.REPORTED_SIGNIFICANT_FIGURES);
+				predValues[2] = Utility.roundSignificantFigures(String.valueOf(standartDeviation/ids.length),Constants.REPORTED_SIGNIFICANT_FIGURES);
+			}
 			//create descriptors for the SDF, normalize them, and make a prediction
-			String[] predValues = RunSmilesPrediction.PredictSmilesSDF(smilesDir, user.getUserName(), predictor, Float.parseFloat(cutoff));
+			else
+				predValues = RunSmilesPrediction.PredictSmilesSDF(smilesDir, user.getUserName(), predictor, Float.parseFloat(cutoff));
+			
 
 			//read predValues and build the prediction output object
 			SmilesPrediction sp = new SmilesPrediction();
 			sp.setPredictorName(predictor.getName());
-			sp.setTotalModels(predictor.getNumTestModels());
+			sp.setTotalModels(totalModels);
 			
 			sp.setPredictingModels(Integer.parseInt(predValues[0]));
 			sp.setPredictedValue(predValues[1]);

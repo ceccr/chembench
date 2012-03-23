@@ -27,10 +27,19 @@
 				<p class="StandardTextDarkGray">
 				Average and standard deviation of R<sup>2</sup> among sets: <b><s:property value="selectedPredictor.externalPredictionAccuracyAvg" /></b><br />
 				</p>
+				<p class="StandardTextDarkGray">
+				MAE for compounds in all external sets: <b><s:property value="mae"/></b>
+				</p>
+				<p class="StandardTextDarkGray">
+				Mean and standard deviation of MAE among sets: <b><s:property value="maeSets"/> ± <s:property value="stdDev"/></b>
+				</p>
 			</s:if>
 			<s:else>
 				<p class="StandardTextDarkGray">
 				R<sup>2</sup> for external <s:if test="externalValValues.size!=0&&currentFoldNumber!=0">fold <s:property value="currentFoldNumber" /></s:if><s:else>set</s:else>: <b><s:property value="rSquared" /></b>
+				</p>
+				<p class="StandardTextDarkGray">
+				MAE for external <s:if test="externalValValues.size!=0&&currentFoldNumber!=0">fold <s:property value="currentFoldNumber" /></s:if><s:else>set</s:else>: <b><s:property value="mae" /></b>
 				</p>
 			</s:else>
 		</s:if>
