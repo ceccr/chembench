@@ -19,7 +19,7 @@ public class SdfToJpg {
 		//structuresDir = subdirectory for structures, e.g. Visualization/Structures/
 		//sketchesDir = subdirectory for sketches, e.g. Visualization/Sketches/
 		
-		String command = "/usr/local/ceccr/jchem/bin/molconvert -Y -2 jpeg:w300,Q95 "+filePath + fileName+" -o "+filePath + sketchesDir+"i.jpg -m";
+		String command = "/usr/local/ceccr/jchem/bin/molconvert -Y -g -2 jpeg:w300,Q95 "+filePath + fileName+" -o "+filePath + sketchesDir+"i.jpg -m";
 		RunExternalProgram.runCommand(command, "");
 		
 		//remove explicit hydrogens from SDFs; they are noise as far as the JPG is concerned.
@@ -94,7 +94,7 @@ public class SdfToJpg {
 		
 		Utility.writeToDebug("DIR size::"+new File(sketchesDir).list().length);
 		String from;
-		for(int i=0;i<compoundNames.size();i++){
+		for(int i=0;i<files.length;i++){
 			String jpgFilename = files[i].replace("sdf", "jpg");
 			
 			//only make the JPG if it's not already there
