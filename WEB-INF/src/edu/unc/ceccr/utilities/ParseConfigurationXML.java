@@ -92,7 +92,7 @@ public class ParseConfigurationXML{
 	    }
 	    catch (Throwable t) {
 	    	String debugStr = ("Exception in ParseConfigurationXML.java:" + t.getMessage());
-	    	FileAndDirOperations.writeStringToFile(debugStr, "/usr/local/ceccr/workflow-users/javadebug.txt");
+	    	FileAndDirOperations.writeStringToFile(debugStr, Constants.USERWORKFLOWSPATH+"javadebug.txt");
 	    }
 	}
     
