@@ -200,7 +200,7 @@ public class RSquaredAndCCR{
 				
 				if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
 					rSquaredAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
-					rSquaredAverageAndStddev += " ± ";
+					rSquaredAverageAndStddev += " \u00B1 ";
 					rSquaredAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
 					Utility.writeToDebug("rsquared avg and stddev: " + rSquaredAverageAndStddev);
 					selectedPredictor.setExternalPredictionAccuracyAvg(rSquaredAverageAndStddev);
@@ -209,7 +209,7 @@ public class RSquaredAndCCR{
 				}
 				else if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 					ccrAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
-					ccrAverageAndStddev += " ± ";
+					ccrAverageAndStddev += " \u00B1 ";
 					ccrAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
 					Utility.writeToDebug("ccr avg and stddev: " + ccrAverageAndStddev);
 					selectedPredictor.setExternalPredictionAccuracyAvg(ccrAverageAndStddev);
