@@ -16,6 +16,7 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.calculations.ConfusionMatrix;
 import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 
 public class ExternalValidationPage extends ViewPredictorAction {
@@ -29,21 +30,23 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	String rSquaredAverageAndStddev = "";
 	String ccrAverageAndStddev = "";
 	String mae = "";
+	String maeSets = "";
+	String stdDev = "";
 	
 	public String load() throws Exception {
 		String result = getBasicParameters();
 		if(!result.equals(SUCCESS)) return result;
 
 		session = HibernateUtil.getSession();
-		
 		//get external validation compounds of predictor
-		if(childPredictors.size() != 0){
+		if(childPredictors.size() > 0){
 
 			foldNums.add("All");
 			//get external set for each
 			externalValValues = new ArrayList<ExternalValidation>();
 			//SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
 			
+			SummaryStatistics maeStat = new SummaryStatistics();
 			for(int i = 0; i < childPredictors.size(); i++){
 				foldNums.add("" + (i+1));
 				Predictor cp = childPredictors.get(i);
@@ -60,6 +63,19 @@ public class ExternalValidationPage extends ViewPredictorAction {
 				if(currentFoldNumber.equals("0") || currentFoldNumber.equals(""+(i+1))){
 					externalValValues.addAll(childExtVals);
 				}
+				//calculate mean absolute error for this child
+				ArrayList<Double> residualsForChild = RSquaredAndCCR.calculateResiduals(childExtVals);
+				Double childSum = 0d;
+				if(residualsForChild.size() > 0){
+					for(Double residual: residualsForChild){
+						if(!residual.isNaN()){
+							//if at least one residual exists, there must have been a good model
+							childSum+=Math.abs(residual);
+						}
+					}
+					maeStat.addValue(childSum/residualsForChild.size());
+				}
+				
 				
 				//calculate r^2 / ccr for this child
 				/*
@@ -79,6 +95,10 @@ public class ExternalValidationPage extends ViewPredictorAction {
 					
 				}*/
 			}
+			
+			maeSets = Utility.roundSignificantFigures(""+maeStat.getMean(), Constants.REPORTED_SIGNIFICANT_FIGURES);
+			stdDev = Utility.roundSignificantFigures(""+maeStat.getStandardDeviation(), Constants.REPORTED_SIGNIFICANT_FIGURES);
+
 			/*
 			Double mean = childAccuracies.getMean();
 			Double stddev = childAccuracies.getStandardDeviation();
@@ -126,6 +146,8 @@ public class ExternalValidationPage extends ViewPredictorAction {
 		hasGoodModels = Constants.NO;
 		residuals = new ArrayList<String>();
 		Double maeDouble = 0d;
+		SummaryStatistics maeStat = new SummaryStatistics();
+		
 		if(residualsAsDouble.size() > 0){
 			for(Double residual: residualsAsDouble){
 				if(residual.isNaN()){
@@ -217,6 +239,24 @@ public class ExternalValidationPage extends ViewPredictorAction {
 	public void setCcrAverageAndStddev(String ccrAverageAndStddev) {
 		this.ccrAverageAndStddev = ccrAverageAndStddev;
 	}
+
+	public String getMaeSets() {
+		return maeSets;
+	}
+
+	public void setMaeSets(String maeSets) {
+		this.maeSets = maeSets;
+	}
+
+	public String getStdDev() {
+		return stdDev;
+	}
+
+	public void setStdDev(String stdDev) {
+		this.stdDev = stdDev;
+	}
+	
+	
 
 	//end getters and setters
 }
