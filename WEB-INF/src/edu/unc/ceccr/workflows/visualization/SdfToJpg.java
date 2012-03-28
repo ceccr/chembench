@@ -1,6 +1,7 @@
 package edu.unc.ceccr.workflows.visualization;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ public class SdfToJpg {
 		//sketchesDir = subdirectory for sketches, e.g. Visualization/Sketches/
 		
 		String command = "/usr/local/ceccr/jchem/bin/molconvert -Y -g -2 jpeg:w300,Q95 "+filePath + fileName+" -o "+filePath + sketchesDir+"i.jpg -m";
-		RunExternalProgram.runCommand(command, "");
+		RunExternalProgram.runCommandAndLogOutput(command, filePath,"molconvertLog");
 		
 		//remove explicit hydrogens from SDFs; they are noise as far as the JPG is concerned.
 		String execstr1 = "removeExplicitH.sh " + filePath + fileName + " " + filePath + fileName + ".removedH";
@@ -88,8 +89,25 @@ public class SdfToJpg {
 			Utility.writeToDebug("Error reading Structures directory: " + structuresDir);
 		}
 		
+		File molconvertErr = new File(filePath+"Logs/"+"molconvertLog.err");
 		//waiting for molconvert to finish execution
-		while(new File(sketchesDir).list().length<compoundNames.size()){}
+		while(new File(sketchesDir).list().length<compoundNames.size()){
+			//wait for a sec
+			Thread.sleep(1000);
+			//check if error log file is empty 
+			//if not then stop loop execution
+			if(molconvertErr.exists()){
+				FileInputStream fis = new FileInputStream(molconvertErr);
+				int b = fis.read();  
+				if (b != -1)  
+				{  
+				  Utility.writeToDebug("----Error occured while creating compound sketches!");
+				  FileAndDirOperations.deleteDirContents(sketchesDir);
+				  break;
+				}  
+				else continue;
+			}
+		}
 			
 		
 		Utility.writeToDebug("DIR size::"+new File(sketchesDir).list().length);
