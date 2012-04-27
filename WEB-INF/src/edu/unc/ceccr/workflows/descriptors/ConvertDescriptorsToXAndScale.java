@@ -2,13 +2,10 @@ package edu.unc.ceccr.workflows.descriptors;
 
 import java.io.*;
 import edu.unc.ceccr.persistence.Descriptors;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.global.Constants;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 
@@ -64,6 +61,7 @@ public class ConvertDescriptorsToXAndScale{
 		File descriptorsFilePart = new File(workingDir + descriptorsFile + "_" + filePartNumber);
 		
 		ArrayList<String> allChemicalNames = null;
+		//Utility.writeToDebug("-------X num comp="+DatasetFileOperations.getXCompoundNames(workingDir + descriptorsFile).size()+" SDF comp numb="+DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile).size());
 		if(descriptorGenerationType.equals(Constants.UPLOADED)){
 			allChemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
 		}
@@ -73,6 +71,7 @@ public class ConvertDescriptorsToXAndScale{
 		else{
 			allChemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
 		}
+		
 		while(descriptorsFilePart.exists()){
 
 			ArrayList<String> descriptorNames = new ArrayList<String>();
@@ -93,9 +92,9 @@ public class ConvertDescriptorsToXAndScale{
 				ReadDescriptors.readMolconnZDescriptors(workingDir + descriptorsFile, descriptorNames, descriptorValueMatrix);
 			}
 			else if(descriptorGenerationType.equals(Constants.CDK)){
-				descriptorsFile += ".cdk";
-				ReadDescriptors.convertCDKToX(workingDir + descriptorsFile, workingDir);
-				ReadDescriptors.readXDescriptors(workingDir + descriptorsFile + ".x", descriptorNames, descriptorValueMatrix);
+				//descriptorsFile += ".cdk";
+				//ReadDescriptors.convertCDKToX(workingDir + descriptorsFile+".x_" + filePartNumber, workingDir);
+				ReadDescriptors.readXDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, descriptorNames, descriptorValueMatrix);
 			}
 			else if(descriptorGenerationType.equals(Constants.DRAGONH)){
 				ReadDescriptors.readDragonDescriptors(workingDir + descriptorsFile + "_" + filePartNumber, 
@@ -126,14 +125,13 @@ public class ConvertDescriptorsToXAndScale{
 					workingDir + outputXFile + "_" + filePartNumber, 
 					workingDir + predictorXFile, 
 					scalingType);
-			
 			//FileAndDirOperations.deleteFile(workingDir + descriptorsFile + "_" + filePartNumber);
 			
 			filePartNumber++;
 			descriptorsFilePart = new File(workingDir + descriptorsFile + "_" + filePartNumber);
 		}
-		
 		//reassemble X file parts into one big X file
+		//Utility.writeToDebug("-------------mergeXFileParts:: "+workingDir+","+ outputXFile+","+scalingType+","+allChemicalNames.size());
 		mergeXFileParts(workingDir, outputXFile, scalingType, allChemicalNames.size());
 	}	
 	
@@ -142,6 +140,8 @@ public class ConvertDescriptorsToXAndScale{
 			String descriptorGenerationType, String scalingType, int numCompounds) throws Exception{
 		
 		if(numCompounds > compoundsPerChunk){
+			//Utility.writeToDebug("ConvertDescriptorsToXAndScale:convertDescriptorsToXAndScaleInChunks("+workingDir+","+sdfile+","+ 
+			//		predictorXFile+","+ outputXFile+","+descriptorGenerationType+","+scalingType);
 			convertDescriptorsToXAndScaleInChunks(workingDir, sdfile, 
 					predictorXFile, outputXFile, descriptorGenerationType, scalingType);
 			return;
@@ -152,6 +152,9 @@ public class ConvertDescriptorsToXAndScale{
 		ArrayList<String> chemicalNames = null;
 		if(descriptorGenerationType.equals(Constants.UPLOADED)){
 			chemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
+		}
+		else if(descriptorGenerationType.equals(Constants.CDK)){
+			chemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + predictorXFile);
 		}
 		else{
 			chemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
@@ -442,9 +445,10 @@ public class ConvertDescriptorsToXAndScale{
 			filePartNumber++;
 			xFilePart = new File(workingDir + outputXFile + "_" + filePartNumber);
 		}
-		
+		Utility.writeToDebug("----------Lines in file part:"+linesInFilePart.size()+" nuber of componds = "+numCompounds);
 		//print footer
-		if(! scalingType.equals(Constants.NOSCALING)){
+		if(!scalingType.equals(Constants.NOSCALING) && linesInFilePart!=null){
+			xFileOut.write("\n");
 			xFileOut.write(linesInFilePart.get(linesInFilePart.size() - 2));
 			xFileOut.write(linesInFilePart.get(linesInFilePart.size() - 1));
 		}
