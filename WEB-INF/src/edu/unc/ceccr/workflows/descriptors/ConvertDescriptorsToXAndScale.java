@@ -36,7 +36,8 @@ public class ConvertDescriptorsToXAndScale{
 		else if(descriptorGenerationType.equals(Constants.CDK)){
 			descriptorsFile += ".cdk";
 			ReadDescriptors.convertCDKToX(workingDir + descriptorsFile, workingDir);
-			splitXFile(workingDir, descriptorsFile + ".x");
+			descriptorsFile += ".x";			
+			splitXFile(workingDir, descriptorsFile);
 		}
 		else if(descriptorGenerationType.equals(Constants.DRAGONH)){
 			descriptorsFile += ".dragonH";
