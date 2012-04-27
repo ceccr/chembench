@@ -152,9 +152,6 @@ public class ConvertDescriptorsToXAndScale{
 		if(descriptorGenerationType.equals(Constants.UPLOADED)){
 			chemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
 		}
-		else if(descriptorGenerationType.equals(Constants.CDK)){
-			chemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + predictorXFile);
-		}
 		else{
 			chemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
 		}
