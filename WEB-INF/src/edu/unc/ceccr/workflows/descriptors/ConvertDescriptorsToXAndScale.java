@@ -66,6 +66,9 @@ public class ConvertDescriptorsToXAndScale{
 		if(descriptorGenerationType.equals(Constants.UPLOADED)){
 			allChemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
 		}
+		else if(descriptorGenerationType.equals(Constants.CDK)){
+			allChemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + descriptorsFile);
+		}
 		else{
 			allChemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
 		}
@@ -148,6 +151,9 @@ public class ConvertDescriptorsToXAndScale{
 		ArrayList<String> chemicalNames = null;
 		if(descriptorGenerationType.equals(Constants.UPLOADED)){
 			chemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
+		}
+		else if(descriptorGenerationType.equals(Constants.CDK)){
+			chemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + predictorXFile);
 		}
 		else{
 			chemicalNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
