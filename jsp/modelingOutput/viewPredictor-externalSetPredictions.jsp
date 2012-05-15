@@ -18,7 +18,7 @@
 		<s:if test="selectedPredictor.activityType=='CONTINUOUS'">
 			<p class="StandardTextDarkGray"><b>External Validation Chart</b>
 			<br />
-			<img src="imageServlet?project=<s:property value='selectedPredictor.name' />&projectType=modeling&user=<s:property value='user.userName' />&compoundId=externalValidationChart&currentFoldNumber=<s:property value='currentFoldNumber' />" WIDTH="650" HEIGHT="650" BORDER="0"  ISMAP="ISMAP" USEMAP="#mychart" />
+			<img src="imageServlet?project=<s:property value='selectedPredictor.name' />&projectType=modeling&user=<s:property value='selectedPredictor.userName' />&compoundId=externalValidationChart&currentFoldNumber=<s:property value='currentFoldNumber' />" WIDTH="650" HEIGHT="650" BORDER="0"  ISMAP="ISMAP" USEMAP="#mychart" />
 			</p>
 			<s:if test="dataset.splitType=='NFOLD'&&currentFoldNumber==0">
 				<p class="StandardTextDarkGray">
