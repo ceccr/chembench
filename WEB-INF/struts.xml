@@ -456,6 +456,11 @@
         
         <!-- End Admin Actions -->
         
+        <action name="makePredictorPublicAction" class="edu.unc.ceccr.action.AdminAction" method="makePredictorPublic">
+        	<result name="success" type="redirect">admin</result>
+        	<result name="error">jsp/main/errors2.jsp</result>
+        </action>
+        
         <!-- Help forwards -->
         <action name="help-overview">
         	<result>jsp/help/overview.jsp</result>

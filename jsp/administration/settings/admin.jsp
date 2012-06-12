@@ -54,6 +54,18 @@ else{return true;}
 </div> 
 
 <div class="StandardTextDarkGrayParagraph">
+Make Predictor public:<br />
+<form action="makePredictorPublicAction">
+<table width="680" border="0">
+	<tr><td>Predictor name:</td><td><s:textfield name="predictorName" value="" size="43" theme="simple" /></td></tr>
+	<tr><td>User name:</td><td><s:textfield name="userName" value="" size="43" theme="simple" /></td></tr>
+	<tr><td>Predictor type:</td><td><s:textfield name="predictorType" value="Toxicity" size="43" theme="simple" /></td></tr>
+	<tr><td></td><td><input type="submit" value="Change" /></td></tr>
+	</table>
+</form>
+</div>
+
+<div class="StandardTextDarkGrayParagraph">
 	<a href="#" onclick="window.open('/emailToAll','emailToAll','width=1000,height=700')">Send email to all users</a> (opens in a new window)
 	<br />
 	<a href="#" id="sendToAll">Send email to selected users</a>
