@@ -461,6 +461,24 @@
         	<result name="error">jsp/main/errors2.jsp</result>
         </action>
         
+        <!-- DELETE PUBLIC DATASET,PREDICTOR and PREDICTION Actions -->
+        <action name="deletePublicDataseAction" class="edu.unc.ceccr.action.AdminAction" method="deletePublicDataset">
+        	<result  name="success" type="redirect">home</result>
+			<result name="error">jsp/main/errors2.jsp</result>
+        </action>
+        
+        <action name="deletePublicPredictorAction" class="edu.unc.ceccr.action.AdminAction" method="deletePublicPredictor">
+        	<result  name="success" type="redirect">home</result>
+			<result name="error">jsp/main/errors2.jsp</result>
+        </action>
+        
+        <action name="deletePublicPredictionAction" class="edu.unc.ceccr.action.AdminAction" method="deletePublicPrediction">
+        	<result  name="success" type="redirect">home</result>
+			<result name="error">jsp/main/errors2.jsp</result>
+        </action>
+        
+        <!--  -->
+        
         <!-- Help forwards -->
         <action name="help-overview">
         	<result>jsp/help/overview.jsp</result>

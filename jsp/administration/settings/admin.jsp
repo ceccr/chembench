@@ -53,7 +53,7 @@ else{return true;}
 	<br /><br />
 </div> 
 
-<div class="StandardTextDarkGrayParagraph">
+<div class="StandardTextDarkGrayParagraph" style="border:#000 solid 1px;">
 Make Predictor public:<br />
 <form action="makePredictorPublicAction">
 <table width="680" border="0">
@@ -61,6 +61,39 @@ Make Predictor public:<br />
 	<tr><td>User name:</td><td><s:textfield name="userName" value="" size="43" theme="simple" /></td></tr>
 	<tr><td>Predictor type:</td><td><s:textfield name="predictorType" value="Toxicity" size="43" theme="simple" /></td></tr>
 	<tr><td></td><td><input type="submit" value="Change" /></td></tr>
+	</table>
+</form>
+</div>
+
+<div class="StandardTextDarkGrayParagraph" style="border:#000 solid 1px;">
+Delete Public Dataset:<br />
+<form action="deletePublicDataseAction">
+<table width="680" border="0">
+	<tr><td>Dataset ID:</td><td><s:textfield name="datasetName" value="" size="43" theme="simple" /></td></tr>
+	<tr><td>User name:</td><td><s:textfield name="userName" value="" size="43" theme="simple" /></td></tr>
+	<tr><td></td><td><input type="submit" value="Delete" /></td></tr>
+	</table>
+</form>
+</div>
+
+<div class="StandardTextDarkGrayParagraph" style="border:#000 solid 1px;">
+Delete Public Predictor:<br />
+<form action="deletePublicPredictorAction">
+<table width="680" border="0">
+	<tr><td>Predictor ID:</td><td><s:textfield name="predictorName" value="" size="43" theme="simple" /></td></tr>
+	<tr><td>User name:</td><td><s:textfield name="userName" value="" size="43" theme="simple" /></td></tr>
+	<tr><td></td><td><input type="submit" value="Delete" /></td></tr>
+	</table>
+</form>
+</div>
+
+<div class="StandardTextDarkGrayParagraph" style="border:#000 solid 1px;">
+Delete Public Prediction:<br />
+<form action="deletePublicPredictionAction">
+<table width="680" border="0">
+	<tr><td>Prediction ID:</td><td><s:textfield name="predictionName" value="" size="43" theme="simple" /></td></tr>
+	<tr><td>User name:</td><td><s:textfield name="userName" value="" size="43" theme="simple" /></td></tr>
+	<tr><td></td><td><input type="submit" value="Delete" /></td></tr>
 	</table>
 </form>
 </div>
