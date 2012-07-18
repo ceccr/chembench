@@ -520,6 +520,10 @@
         	<result>jsp/help/versions.jsp</result>
         </action>
         
+        <action name="PPI">
+           <result>jsp/main/PPI.jsp</result>
+        </action>
+       
         <!-- End Help forwards -->
         
         

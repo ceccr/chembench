@@ -20,6 +20,9 @@ function setTabToPrediction(){
 } 
 function setTabToCeccrBase(){
 	document.getElementById("ceccrBaseButton").className = document.getElementById("ceccrBaseButton").className.replace( /(?:^|\s)nav_button_inactive(?!\S)/ , ' nav_button_active' );
+	}
+function setTabToPPI(){
+	document.getElementById("ceccrPPIButton").className = document.getElementById("ceccrPPIButton").className.replace( /(?:^|\s)nav_button_inactive(?!\S)/ , ' nav_button_active' );
 	} 
 
 function enlargeImage(me){

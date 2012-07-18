@@ -16,6 +16,7 @@
   <td valign="top"><a href="modeling" style="text-decoration: none;"><div id="modelingButton" class="nav_button nav_button_inactive">MODELING</div></a></td>
   <td valign="top"><a href="prediction" style="text-decoration: none;"><div id="predictionButton" class="nav_button nav_button_inactive">PREDICTION</div></a></td>
   <td valign="top"><a href="ceccrBase" style="text-decoration: none;"><div id="ceccrBaseButton" class="nav_button nav_button_inactive">Ceccr base</div></a></td>
+  <td valign="top"><a href="PPI" style="text-decoration: none;"><div id="ceccrPPIButton" class="nav_button nav_button_inactive">PPI</div></a></td>
   </tr>
 </table>
 
