@@ -73,7 +73,7 @@ public class RunSmilesPrediction
             GenerateDescriptors.GenerateCDKDescriptors(sdfile, sdfile + ".cdk");
 
             ReadDescriptors.convertCDKToX(sdfile + ".cdk", workingDir);
-            logger.debug(sdffile);            
+            logger.debug(sdfile);            
             ReadDescriptors.readXDescriptors(sdfile + ".cdk.x"
                                            , descriptorNames
                                            , descriptorValueMatrix);
