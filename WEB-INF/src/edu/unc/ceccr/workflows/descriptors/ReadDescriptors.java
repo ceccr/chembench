@@ -60,7 +60,7 @@ public class ReadDescriptors{
                      + cdkOutputFile 
                      + " " 
                      + cdkOutputFile 
-                     + ".x";\
+                     + ".x";
         RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "cdkToX.py");
     
         //Any errors from MolconnZ processing will be in the log files. Read 'em.
