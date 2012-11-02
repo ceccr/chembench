@@ -6,10 +6,14 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
+import org.apache.log4j.Logger;
 
 import edu.unc.ceccr.global.Constants;
 
 public class ParseConfigurationXML{
+
+    private static Logger logger 
+                     = Logger.getLogger(ParseConfigurationXML.class.getName()); 
 
     public static void initializeConstants( String filePath){
     	try {
