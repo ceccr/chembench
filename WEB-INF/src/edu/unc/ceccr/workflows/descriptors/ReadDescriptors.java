@@ -14,7 +14,9 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-public class ReadDescriptors{
+public class
+ReadDescriptors
+{
     //Read in the output of a descriptor generation program
     //(molconnZ, dragon, etc.)
     //Create a Descriptors object for each compound. 
