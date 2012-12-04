@@ -1,6 +1,7 @@
 package edu.unc.ceccr.utilities;
 
 import java.io.File;
+import java.io.IOException;
 import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -15,9 +16,14 @@ ParseConfigurationXML
 {
     private static Logger logger 
                      = Logger.getLogger(ParseConfigurationXML.class.getName()); 
+    
     public static void 
     initializeConstants( String filePath)
-    {
+    {   try{
+        logger.info("Where is the systemConfig.xml to be searched at ?\n" +new File(".").getCanonicalPath());
+        }catch(IOException ioExcp){
+            logger.error(ioExcp);
+        }
         try{
             DocumentBuilderFactory docBuilderFactory 
                                       = DocumentBuilderFactory.newInstance();
@@ -101,7 +107,102 @@ ParseConfigurationXML
                                 = getNestedNodeValue(
                                                getParentNode(doc,"webService")
                                                ,"privateKey"
-                                                    );            
+                                                    );          
+            Constants.MOLCONNZ_MODELING_DATFILE_PATH 
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"molconnz")
+							            		,"modelingDatFilePath"
+						           		 			); 
+            Constants.MOLCONNZ_PREDICTION_DATFILE_PATH
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"molconnz")
+							            		,"predictionDatFilePath"
+						           		 			); 
+            Constants.MOLCONNZ_CSV_DATFILE_PATH
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"molconnz")
+							            		,"csvDatFilePath"
+						           		 			); 
+            Constants.CDK_XMLFILE_PATH
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"cdk")
+							            		,"xmlFilePath"
+						           		 			); 
+            Constants.RF_BUILD_MODEL_RSCRIPT
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"randomForest")
+							            		,"buildModelRScript"
+						           		 			); 
+            Constants.RF_PREDICT_RSCRIPT
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"randomForest")
+							            		,"predictRScript"
+						           		 			); 
+            Constants.RF_DESCRIPTORS_USED_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"randomForest")
+							            		,"descriptorsUsedFile"
+						           		 			); 
+            Constants.kNN_OUTPUT_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"knn")
+							            		,"outputFile"
+						           		 			); 
+            Constants.EXTERNAL_VALIDATION_OUTPUT_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"other")
+							            		,"externalValidationOutputFile"
+						           		 			); 
+            Constants.PRED_OUTPUT_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"other")
+							            		,"predOutputFile"
+						           		 			); 
+            Constants.KNN_DEFAULT_FILENAME
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"knn")
+							            		,"defaultFileName"
+						           		 			); 
+            Constants.KNN_CATEGORY_DEFAULT_FILENAME
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"knn")
+							            		,"defaultCategoryFileName"
+						           		 			); 
+            Constants.SE_DEFAULT_FILENAME
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"other")
+							            		,"seDefaultFileName"
+						           		 			); 
+            Constants.DESCRIPTORERRORFILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"other")
+							            		,"descriptorErrorFile"
+						           		 			); 
+            Constants.KNNPLUSMODELSFILENAME
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"knn")
+							            		,"modelsFileName"
+						           		 			); 
+            Constants.EXTERNAL_SET_A_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"setFiles")
+							            		,"externalA"
+						           		 			); 
+            Constants.EXTERNAL_SET_X_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"setFiles")
+							            		,"externalX"
+						           		 			); 
+            Constants.MODELING_A_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"setFiles")
+							            		,"modelingA"
+						           		 			); 
+			Constants.MODELING_SET_X_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"setFiles")
+							            		,"modelingX"
+						           		 			); 
             Constants.CECCR_BASE_PATH
                                 = getSingNodeValue(doc,"systemBasePath");
             if(! Constants.CECCR_BASE_PATH.endsWith("/")){
@@ -110,6 +211,8 @@ ParseConfigurationXML
     
             Constants.CECCR_USER_BASE_PATH
                                 = getSingNodeValue(doc,"userFilesPath");
+            Constants.SCRIPTS_PATH
+            					= getSingNodeValue(doc,"scriptsPath");
             
             Constants.TOMCAT_PATH
                                 = getSingNodeValue(doc,"tomcatPath");
