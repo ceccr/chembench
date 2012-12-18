@@ -159,7 +159,6 @@
 	<!-- End page description -->
 	</td></tr><tr><td>
 	
-	
 	<s:url id="datasetCompoundsLinkTwo" value="/viewDatasetCompoundsSection" includeParams="none">
 		<s:param name="currentPageNumber" value='3' />
 		<s:param name="orderBy" value='orderBy' />

@@ -15,7 +15,7 @@
 
 <div class="tooltip"> 
  
-	<img src="/theme/img/tooltip/c1.jpg" alt="Flying screens" height="120" width="120"
+	<img src="theme/img/tooltip/c1.jpg" alt="Flying screens" height="120" width="120"
 		style="float:left;margin:0 15px 20px 0" /> <s:property value="compoundId" />
  
 	<table style="margin:0"> 

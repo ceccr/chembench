@@ -7,9 +7,9 @@
 <head>
 <title>CHEMBENCH | Home </title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
+<link rel="icon"  href="ccb/theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
-<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
+<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="javascript/script.js"> </script>
  
 </head>
@@ -21,13 +21,13 @@
   <tr>
     <td width="578" height="665" align="left" valign="top">
      <p class="ccbHomeHeadings">
-      ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS<br />
+       ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS<br />
         <br />
-        <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="578" height="6" /></p>
+        <img src="theme/ccbTheme/images/ccbHorizontalRule.jpg" width="578" height="6" /></p>
       <p align="justify" class="ccbHomeStandard">Chembench is a free portal that enables researchers 
       to mine available chemical and biological data. Chembench can help researchers rationally design or 
       select new compounds or compound libraries with significantly enhanced hit rates in screening experiments.</p>
-      <p class="ccbHomeStandard"><img src="/theme/ccbTheme/images/ccbHomeMolecule3d.jpg" height="97" /></p>
+      <p class="ccbHomeStandard"><img src="theme/ccbTheme/images/ccbHomeMolecule3d.jpg" height="97" /></p>
       <p align="justify" class="ccbHomeStandard">It provides cheminformatics research support to molecular modelers, medicinal chemists and 
       quantitative biologists by integrating robust model builders, property and activity predictors, 
       virtual libraries of available chemicals with predicted biological and drug-like properties, 
@@ -36,11 +36,11 @@
       <a href="http://mli.nih.gov/mli/">Molecular Libraries Probe Production Centers Network (MLPCN)</a> 
       and the Chemical Synthesis Centers.</p>
 	  <p class="ccbHomeStandard">Please cite this website using the following URL:
-	  <a href="http://chembench.mml.unc.edu">http://chembench.mml.unc.edu</a></p>
+	  <a href="http://chembench.its.unc.edu">http://chembench.its.unc.edu</a></p>
 		
       <noscript><p>&nbsp;<font color="red">Warning: JavaScript is disabled on your computer. Some parts of Chembench may not work properly. Please enable JavaScript.</font></p></noscript>
  
-      <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="578" height="6" /></p>
+      <img src="theme/ccbTheme/images/ccbHorizontalRule.jpg" width="578" height="6" /></p>
       <p align="justify" class="ccbHomeStandard">The Carolina Cheminformatics Workbench (Chembench) is 
       developed by the Carolina Exploratory Center for Cheminformatics Research (CECCR) with the support of the 
       <a href="http://www.nih.gov" target="_blank">National Institutes of Health</a> (grants  
@@ -66,33 +66,40 @@
 			<!-- LOGIN INPUT FIELD STARTS HERE. -->
 			<s:if test="user==null">
 					<br />
-					<s:form action="login" enctype="multipart/form-data" method="post" theme="simple">
-					  <table width="250" border="0" >	
-			           <tr>
-				           <td width="90" class="ccbHomeStandard">Username: </td>
-				           <td width="110"><s:textfield name="username" id="username" size="8" onfocus="if(this.value=='username'){value=''}" theme="simple" /></td>
-				           <td width="50"></td>
-			           </tr>
-					   <tr>
-					   	   <td  width="90" class="ccbHomeStandard">Password: </td>
-						   <td width="110"><s:password name="password" id="password" size="8" onfocus="if(this.value=='password'){value=''}" theme="simple" /></td>
-					       <td width="50"><label><input name="Submit" type="submit" class="StandardTextDarkGray4" value="login" style="border-style:solid; border-color:blue;border-width:1px;text-align:center;font-size:14px;" /></label>
-					   </tr>
-				       <tr>
-				       <td></td>
-			          </table>     
-			        </s:form>
+			<s:form action="login" enctype="multipart/form-data" method="post" theme="simple">
+		            <table width="250" border="0" >	
+			        <tr>
+				    <td width="90" class="ccbHomeStandard">Username: </td>
+				    <td width="110"><s:textfield name="username" id="username" size="8" onfocus="if(this.value=='username'){value=''}" theme="simple" /></td>
+				    <td width="50"></td>
+			        </tr>
+				<tr>
+				    <td  width="90" class="ccbHomeStandard">Password: </td>
+				    <td width="110"><s:password name="password" id="password" size="8" onfocus="if(this.value=='password'){value=''}" theme="simple" /></td>
+				    <td width="50">
+                                        <label>
+                                            <input name="Submit" type="submit" class="StandardTextDarkGray4" value="login" style="border-style:solid; border-color:blue;border-width:1px;text-align:center
+                                                   ;font-size:14px;" 
+                                            />
+                                        </label>
+                                    </td>
+                                </tr>
+				<tr>
+				   <td></td>
+                                </tr>
+			    </table>     
+			</s:form>
 			        
-			        <table width="250" border="0" ><tr><td>
-			        <span class="ccbHomeStandard">
-			        <% String ipAddress  = request.getHeader("X-FORWARDED-FOR");  
+			<table width="250" border="0" ><tr><td>
+			<span class="ccbHomeStandard">
+			<% String ipAddress  = request.getHeader("X-FORWARDED-FOR");  
         if(ipAddress == null)  
         {  
           ipAddress = request.getRemoteAddr();  
         }  
         String ip = ipAddress.replaceAll("\\.", "");
    %>
-			        Or, <a href="/login?username=guest&ip=<%=ip %>"
+			        Or, <a href="login?username=guest&ip=<%=ip %>"
 			        onclick="alert('The guest account allows a user to explore the function of Chembench with publicly available datasets, predictions based on a molecule, and modeling using random forest. All guest data is deleted when you leave the site or are inactive for 90 minutes. For additional function, please register.')">
 			        login as a guest</a></span>
 			        </td></tr></table>
@@ -110,7 +117,7 @@
 				<br />
 		        <table width="250" border="0" ><tr><td>
 		        <span class="ccbHomeStandard">
-		        Forget your password? <a href="/forgotPassword">click here</a></span>
+		        Forget your password? <a href="forgotPassword">click here</a></span>
 		        </td></tr></table> 
 			</s:if>
 	        
@@ -181,13 +188,13 @@
 	          <br />
 	          <br />
 	          <table><tr>
-	          <td><a href="http://www.chemcomp.com/"><img src="/theme/img/logos/CCG.jpg" /></a></td>
-	          <td><a href="http://www.talete.mi.it/"><img src="/theme/img/logos/Talete.jpg" /></a></td>
+	          <td><a href="http://www.chemcomp.com/"><img src="theme/img/logos/CCG.jpg" /></a></td>
+	          <td><a href="http://www.talete.mi.it/"><img src="theme/img/logos/Talete.jpg" /></a></td>
 	          </tr><tr>
-	          <td><a href="http://www.chemaxon.com/"><img src="/theme/img/logos/ChemAxon.jpg" /></a></td>
-	          <td><a href="http://www.edusoft-lc.com"><img src="/theme/img/logos/edusoft.jpg" /></a></td>
+	          <td><a href="http://www.chemaxon.com/"><img src="theme/img/logos/ChemAxon.jpg" /></a></td>
+	          <td><a href="http://www.edusoft-lc.com"><img src="theme/img/logos/edusoft.jpg" /></a></td>
 	          </tr><tr>
-	          <td><a href="http://www.sunsetmolecular.com/"><img src="/theme/img/logos/sunsetMolecularLogo.png" /></a></td>
+	          <td><a href="http://www.sunsetmolecular.com/"><img src="theme/img/logos/sunsetMolecularLogo.png" /></a></td>
 	          <td></td>
 	          </tr></table>
 	          </td></tr>

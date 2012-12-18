@@ -6,7 +6,7 @@
 
 <b>Modeling</b>
 
-<p><img src="/theme/img/modeling-workflow.png"></p>
+<p><img src="theme/img/modeling-workflow.png"></p>
 
 <p align="justify" class="ccbHomeStandard">
 <b>Select a Dataset box:</b>

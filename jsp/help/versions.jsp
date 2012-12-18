@@ -34,7 +34,7 @@ Updates:<br />
 <br />
 <u>Datasets</u><br />
 - Datasets may now be uploaded that include user-created descriptors. The descriptors must be in the 
-<a href="/help-fileformats#X">X file format</a> we specify. If there is demand, we may add support for other 
+<a href="help-fileformats#X">X file format</a> we specify. If there is demand, we may add support for other 
 formats later. <br />
 - Datasets that include descriptors may omit the SDF; hence it is possible to use Chembench for modeling
 while keeping compound structures private. <br />

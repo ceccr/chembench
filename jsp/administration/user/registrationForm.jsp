@@ -13,7 +13,7 @@
 <link href="theme/ss.css" rel="stylesheet" type="text/css"></link>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
-<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
+<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
@@ -131,11 +131,13 @@ var RecaptchaOptions = {
 };
 </script>
 <script type="text/javascript"
-   src="http://api.recaptcha.net/challenge?k=<s:property value="recaptchaPublicKey" />">
+  <%-- src="http://api.recaptcha.net/challenge?k=<s:property value="recaptchaPublicKey" />"> --%>
+   src="https://www.google.com/recaptcha/api/challenge?k=<s:property value="recaptchaPublicKey" />">
 </script>
 
 <noscript>
-   <iframe src="http://api.recaptcha.net/noscript?k=<s:property value="recaptchaPublicKey" />"
+   <%-- <iframe src="http://api.recaptcha.net/noscript?k=<s:property value="recaptchaPublicKey" />" --%>
+   <iframe src="https://www.google.com/recaptcha/api/noscript?k=<s:property value="recaptchaPublicKey" />"
        height="40" width="200" frameborder="0"></iframe><br>
    <textarea name="recaptcha_challenge_field" rows="1" cols="35">
    </textarea>

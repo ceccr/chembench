@@ -17,7 +17,7 @@
 	<link href="theme/standard.css" rel="stylesheet"	type="text/css" />
 	<link href="theme/links.css" rel="stylesheet" type="text/css" />
 	<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
-	<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
+	<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
@@ -33,7 +33,7 @@
 
 	function predictSmiles(){
 		var smiles = document.getElementById("smiles").value;
-		var cutoff = document.getElementById("cutOffSmiles").value;
+                var cutoff = document.getElementById("cutOffSmiles").value;
 		if(cutoff == "" || smiles == ""){
 			alert("Please enter a SMILES string and cutoff value.");
 			return false;
@@ -240,7 +240,7 @@ function exportMol() {
 
 msketch_name = "MSketch";
 msketch_mayscript = true;
-msketch_begin("/jchem/marvin/", 440, 300);
+msketch_begin("jchem/marvin/", 440, 300);
 msketch_end();
 document.MSketch.style.zIndex="-1";
 //-->

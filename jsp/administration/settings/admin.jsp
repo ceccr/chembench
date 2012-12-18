@@ -13,7 +13,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
-<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
+<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
@@ -46,10 +46,10 @@ else{return true;}
 	Build Date: <s:property value="buildDate" /><br />
 	<br />
 	Documentation: <br />
-	<a href="/documentation/C-Chembench Developer Guide.docx">Chembench Developer's Guide</a><br />
-	<a href="/documentation/Database Design.docx">Database Design</a><br />
-	<a href="/documentation/ceccr design notes.txt">Notes</a><br />
-	<a href="/documentation/Install Guide.txt">Install Guide</a><br />
+	<a href="documentation/C-Chembench Developer Guide.docx">Chembench Developer's Guide</a><br />
+	<a href="documentation/Database Design.docx">Database Design</a><br />
+	<a href="documentation/ceccr design notes.txt">Notes</a><br />
+	<a href="documentation/Install Guide.txt">Install Guide</a><br />
 	<br /><br />
 </div> 
 
@@ -150,7 +150,7 @@ Delete Public Prediction:<br />
 		<td class="TableRowText02"><input type="checkbox" onclick="loadUrl('/changeUserDescriptorDownloadStatus?userToChange=<s:property value="userName" />')" <s:if test="canDownloadDescriptors=='YES'">checked</s:if> /></td>
 		<td class="TableRowText02"><input type="checkbox" onclick="loadUrl('/changeUserAdminStatus?userToChange=<s:property value="userName" />')" <s:if test="isAdmin=='YES'">checked</s:if>  <s:if test="userName==user.userName">disabled="true"</s:if> /></td>
 		<td class="TableRowText02"><input type="checkbox" <s:if test="userName.contains('guest')||userName.contains('all-users')">disabled="true"</s:if> name="emailSelected" value="<s:property value="email" />"/></td>
-		<td class="TableRowText02"><a onclick="return confirmDelete('user')" href="/deleteUser?userToDelete=<s:property value="userName" />">delete</a></td>
+		<td class="TableRowText02"><a onclick="return confirmDelete('user')" href="deleteUser?userToDelete=<s:property value="userName" />">delete</a></td>
 		</tr>
 	</s:iterator>
 </table> 		

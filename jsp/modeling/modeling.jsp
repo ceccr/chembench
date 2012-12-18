@@ -16,7 +16,7 @@
 	<link href="theme/standard.css" rel="stylesheet" type="text/css" />
 	<link href="theme/links.css" rel="stylesheet" type="text/css" />
 	<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
-	<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />	
+	<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />	
 	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
 	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 	
@@ -298,9 +298,9 @@
 		<p align="justify" class="StandardTextDarkGrayParagraph">Here you may develop QSAR 
 		predictors for any of your datasets. Public datasets are also available.<br /><br />
 		For more information about creating predictors and selecting the right parameters, use the 
-		<a href="/help-modeling">Modeling help page</a>. </p>
+		<a href="help-modeling">Modeling help page</a>. </p>
 		<p class="StandardTextDarkGrayParagraph">The full modeling workflow, as described in our 
-		<a href="/help-workflows">Workflow help page</a>, is detailed the publication: 
+		<a href="help-workflows">Workflow help page</a>, is detailed the publication: 
 		<a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full">Tropsha, A. Best Practices for QSAR Model Development, 
 		Validation, and Exploitation Mol. Inf., 2010, 29, 476-488</a></p>
 		</td>
@@ -457,10 +457,10 @@
 				
 				<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
 				<sx:tabbedpanel id="internalDataSplitTabbedPanel" afterSelectTabNotifyTopics="/internalDataSplitTypeSelect">
-					<sx:div id="RANDOM" theme="ajax" label="Random Split" href="/loadRandomInternalSplitSection" loadingText="Loading data splitting parameters...">
+					<sx:div id="RANDOM" theme="ajax" label="Random Split" href="loadRandomInternalSplitSection" loadingText="Loading data splitting parameters...">
 					</sx:div>
 					
-					<sx:div id="SPHEREEXCLUSION" theme="ajax" label="Sphere Exclusion" href="/loadSphereInternalSplitSection" loadingText="Loading data splitting parameters...">
+					<sx:div id="SPHEREEXCLUSION" theme="ajax" label="Sphere Exclusion" href="loadSphereInternalSplitSection" loadingText="Loading data splitting parameters...">
 					</sx:div>
 			    </sx:tabbedpanel>
 				</td></tr></table>
@@ -498,23 +498,23 @@
 				<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
 				<sx:tabbedpanel id="modelingTypeTabbedPanel" afterSelectTabNotifyTopics="/modelingTypeSelect" >
 					
-					<sx:div id="RANDOMFOREST" value="RANDOMFOREST" theme="ajax" label="Random Forest" href="/loadRFSection" loadingText="Loading randomForest parameters...">
+					<sx:div id="RANDOMFOREST" value="RANDOMFOREST" theme="ajax" label="Random Forest" href="loadRFSection" loadingText="Loading randomForest parameters...">
 					</sx:div>
 					<s:if test="!#session['user'].userName.contains('guest')">
-						<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">
+						<sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="loadSvmSection" loadingText="Loading SVM parameters...">
 						</sx:div>
 						
-						<sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
+						<sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
 						</sx:div>
 						
-						<sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
+						<sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
 						</sx:div>
 					</s:if>
 					<!--
 					Since knn+ seems to be working well, I'm taking out the original kNN option for generating
 					predictors. Predictions can still be made using these older kNN models.
 					
-					<sx:div id="KNN" value="KNN" theme="ajax" label="kNN" href="/loadKnnSection" loadingText="Loading kNN parameters...">
+					<sx:div id="KNN" value="KNN" theme="ajax" label="kNN" href="loadKnnSection" loadingText="Loading kNN parameters...">
 					</sx:div>
 					-->
 					
