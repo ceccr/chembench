@@ -3,9 +3,9 @@
 
 <workbench>c-chembench</workbench>
 
-<systemBasePath>/usr/local/ceccr/</systemBasePath>
+<systemBasePath>/CHEMBENCH/prod</systemBasePath>
 <userFilesPath>/nas02/depts/chembench/prod/workflow-users/</userFilesPath>
-<tomcatPath>/usr/local/ceccr/tomcat6/</tomcatPath>
+<tomcatPath>/CHEMBENHCH/prod/tomcat6/</tomcatPath>
 <executablesPath>/usr/local/ceccr/mmlsoft/bin/</executablesPath>
 
 <webService>
@@ -17,7 +17,7 @@
 </webService>
 
 <website>
-<address>http://chembench.mml.unc.edu</address>
+<address>http://chembench.its.unc.edu</address>
 <email>ceccr@email.unc.edu</email>
 </website>
 
@@ -28,8 +28,8 @@
 
 <database>
 <databaseName>cbench</databaseName>
-<userName>root</userName>
-<password>VeX</password>
+<userName>cbprod</userName>
+<password>PR0D2VeX!</password>
 <url>jdbc:mysql://localhost:3306/</url>
 <driver>com.mysql.jdbc.Driver</driver>
 </database>
