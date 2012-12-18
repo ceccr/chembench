@@ -11,7 +11,7 @@
        "-//Apache Software Foundation//DTD Struts Configuration 1.0//EN"
        "http://jakarta.apache.org/struts/dtds/struts-config_1_0.dtd">
 
-     $Id$
+     $Id: struts-config_1_0.dtd 3914 2006-07-08 20:30:59Z xuh $
 -->
 
 
