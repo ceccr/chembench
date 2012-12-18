@@ -166,14 +166,14 @@ public class Constants {
 	public static String BUILD_DATE_FILE_PATH;
 	public static String BUILD_DATE;
 	public static String CECCR_USER_BASE_PATH;
-	public static String XML_FILE_PATH;
+	public static String XML_FILE_PATH; 
 	public static String SDFILE_FILEPATH ;
 	public static String DATAFILE_FILEPATH ;
 	
 	public static String CATEGORY_DATAFILE_FILEPATH;
 	public static String CONTINUOUS_DATAFILE_FILEPATH;
 	
-	public static String EXECUTABLEFILE_PATH;
+	public static String EXECUTABLEFILE_PATH; //TODO: Remove in-File Concatenations
 	public static String MOLCONNZ_MODELING_DATFILE_PATH = "ParameterFiles/MZ405Modeling.dat";
 	public static String MOLCONNZ_PREDICTION_DATFILE_PATH = "ParameterFiles/MZ405Prediction.dat";
 	public static String MOLCONNZ_CSV_DATFILE_PATH = "ParameterFiles/MZ-CSV.dat";

@@ -7,19 +7,19 @@ import edu.unc.ceccr.global.Constants;
 
 public class LsfOperations{
 
-	public static boolean patronsQueueHasRoom(){
-		try{
-			RunExternalProgram.runCommand("numPatronsJobs.sh", Constants.CECCR_USER_BASE_PATH);
-			String numJobsStr = FileAndDirOperations.readFileIntoString(Constants.CECCR_USER_BASE_PATH + "numPatronsJobs.txt");
-			numJobsStr = numJobsStr.split("\\\n")[0];
-			if(Integer.parseInt(numJobsStr) < Constants.PATRONSQUEUESLOTS){
-				return true;
-			}
-		}
-		catch(Exception ex){
-			Utility.writeToDebug(ex);
-			return false;
-		}
-		return false;
-	}
+    public static boolean patronsQueueHasRoom(){
+        try{
+            RunExternalProgram.runCommand("numPatronsJobs.sh", Constants.CECCR_USER_BASE_PATH);
+            String numJobsStr = FileAndDirOperations.readFileIntoString(Constants.CECCR_USER_BASE_PATH + "numPatronsJobs.txt");
+            numJobsStr = numJobsStr.split("\\\n")[0];
+            if(Integer.parseInt(numJobsStr) < Constants.PATRONSQUEUESLOTS){
+                return true;
+            }
+        }
+        catch(Exception ex){
+            Utility.writeToDebug(ex);
+            return false;
+        }
+        return false;
+    }
 }

@@ -29,35 +29,35 @@ public class ClassUtils {
     AccessibleObject.setAccessible( f, true );
     for ( int i = 0; i < f.length; i++ ) {
       try {
-    	list.add(f[i].getName());
+        list.add(f[i].getName());
       }
       catch ( Exception e ) { e.printStackTrace(); }
       }
       if ( clazz.getSuperclass().getSuperclass() != null ) {
-    	  varNamesToString( o, clazz.getSuperclass(), list );
+          varNamesToString( o, clazz.getSuperclass(), list );
       }
   }
   
   private static void varValuesToString( Object o, Class clazz, List list ) {
-	    Field f[] = clazz.getDeclaredFields();
-	    AccessibleObject.setAccessible( f, true );
-	    for ( int i = 0; i < f.length; i++ ) {
-	      try {
-	    	  if(f[i].getType().equals(new String().getClass()) ||
-	    			  f[i].getType().equals(new Date().getClass()) ||
-	    			  f[i].getType().equals(byte.class)){
-	    		  list.add("'" + f[i].get(o) + "'");
-	    	  }
-	    	  else{
-	            list.add(f[i].get(o));
-	    	  }
-	      }
-	      catch ( IllegalAccessException e ) { e.printStackTrace(); }
-	      }
-	      if ( clazz.getSuperclass().getSuperclass() != null ) {
-	    	  varValuesToString( o, clazz.getSuperclass(), list );
-	      }
-	  }
+        Field f[] = clazz.getDeclaredFields();
+        AccessibleObject.setAccessible( f, true );
+        for ( int i = 0; i < f.length; i++ ) {
+          try {
+              if(f[i].getType().equals(new String().getClass()) ||
+                      f[i].getType().equals(new Date().getClass()) ||
+                      f[i].getType().equals(byte.class)){
+                  list.add("'" + f[i].get(o) + "'");
+              }
+              else{
+                list.add(f[i].get(o));
+              }
+          }
+          catch ( IllegalAccessException e ) { e.printStackTrace(); }
+          }
+          if ( clazz.getSuperclass().getSuperclass() != null ) {
+              varValuesToString( o, clazz.getSuperclass(), list );
+          }
+      }
   
   
   public static String toString( Object o ) {
@@ -81,31 +81,31 @@ public class ClassUtils {
   }
   /*
   public static Object getObjectFromCsvLine(String csvLine, Class clazz) throws Exception{
-	  Field f[] = clazz.getDeclaredFields();
-	  AccessibleObject.setAccessible( f, true );
-	  String[] fieldValues = csvLine.split(",");
+      Field f[] = clazz.getDeclaredFields();
+      AccessibleObject.setAccessible( f, true );
+      String[] fieldValues = csvLine.split(",");
 
-	  for(int i = 0; i < f.length; i++){
-		  Field field = f[i];
-		  if(field.getClass().equals(String.class)){
-			  
-		  }
-		  else if(field.getClass().equals(Date.class)){
-			  
-		  }
-		  else if(field.getClass().equals(int.class)){
-			  
-		  }
-		  else if(field.getClass().equals(float.class)){
-			  
-		  }
-	  }
-	  Object arglist[] = new Object[fieldValues.length];
-	  
-	  arglist[0] = new Integer(37);
+      for(int i = 0; i < f.length; i++){
+          Field field = f[i];
+          if(field.getClass().equals(String.class)){
+              
+          }
+          else if(field.getClass().equals(Date.class)){
+              
+          }
+          else if(field.getClass().equals(int.class)){
+              
+          }
+          else if(field.getClass().equals(float.class)){
+              
+          }
+      }
+      Object arglist[] = new Object[fieldValues.length];
+      
+      arglist[0] = new Integer(37);
       arglist[1] = new Integer(47);
       Object retobj = ct.newInstance(arglist);
-	  
+      
       return retobjo;
   }
   */

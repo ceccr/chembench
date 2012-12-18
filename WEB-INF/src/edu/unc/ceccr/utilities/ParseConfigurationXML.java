@@ -1,6 +1,7 @@
 package edu.unc.ceccr.utilities;
 
 import java.io.File;
+import java.io.IOException;
 import org.w3c.dom.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -15,9 +16,14 @@ ParseConfigurationXML
 {
     private static Logger logger 
                      = Logger.getLogger(ParseConfigurationXML.class.getName()); 
+    
     public static void 
     initializeConstants( String filePath)
-    {
+    {   try{
+        logger.info("Where is the systemConfig.xml to be searched at ?\n" +new File(".").getCanonicalPath());
+        }catch(IOException ioExcp){
+            logger.error(ioExcp);
+        }
         try{
             DocumentBuilderFactory docBuilderFactory 
                                       = DocumentBuilderFactory.newInstance();
