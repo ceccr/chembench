@@ -1,0 +1,61 @@
+<?xml version="1.0" ?>
+<project default="main">
+  <target name="main" depends="copyFiles" />
+
+  <property name="home.directory" value="CHEMBENCH/prod/deploy"/>
+  <property name="tomcat.directory" value="usr/share/tomcat6"/>
+
+  <target name="war" depends="compile">
+    <copy toDir="ROOT/WEB-INF/classes">
+      <fileset dir="ROOT/WEB-INF/src">
+        <include name="*.properties" />
+        <include name="*.xml" />
+        </fileset>
+      </copy>
+    <war destfile="ROOT.war" basedir="ROOT" webxml="ROOT/WEB-INF/web.xml" defaultexcludes="yes" includes="WEB-INF/**/*, **/*.x, **/*.sdf, **/*.act, theme/**/*, documentation/*, **/*.jsp, **/*.js,\
+*.txt">
+      </war>
+    </target>
+
+  <target name="copyFiles" depends="war">
+    <copy file="ROOT.war" toDir="${tomcat.directory}/webapps" />
+    </target>
+
+  <target name="compile" depends="writeDate">
+    <!-- mkdir dir="./src"--> <!-- T A-->
+    <javac srcdir="src" destdir="./classes" source="1.6" fork="yes" executable="/usr/bin/javac" debug="true">
+      <classpath>
+
+        <fileset dir="./lib">
+          <include name="**/*.jar" />
+          </fileset>
+
+        </classpath>
+      <compilerarg value="-Xlint"/>
+      </javac>
+      
+      <copy toDir="./classes">
+			<fileset dir="./">
+				<include name="struts.xml" /> <!-- needed for struts2 to work -->
+			</fileset>
+		</copy>
+    </target>
+
+  <target name="writeDate">
+    <tstamp>
+         <format property="start.timestamp" pattern="dd-MMM-yy HH:mm:ss" />
+         </tstamp>
+
+    <echo file="./buildDate.txt" message="#${start.timestamp}${line.separator}" />
+    </target>
+
+
+  <target name="xslt">
+    <xslt style="${ROOT}/xsl/jsfxml.xsl" destdir="${ROOT}/jsp" extension=".jsp" includes="${ROOT}/html/*">
+      </xslt>
+    </target>
+
+</project>
+
+
+    
