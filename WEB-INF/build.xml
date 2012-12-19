@@ -21,7 +21,7 @@
     <copy file="ROOT.war" toDir="${tomcat.directory}/webapps" />
     </target>
 
-  <target name="compile" depends="writeDate">
+  <target name="compile" depends="writeDate,logFolder">
     <!-- mkdir dir="./src"--> <!-- T A-->
     <javac srcdir="src" destdir="./classes" source="1.6" fork="yes" executable="/usr/bin/javac" debug="true">
       <classpath>
@@ -49,6 +49,9 @@
     <echo file="./buildDate.txt" message="#${start.timestamp}${line.separator}" />
     </target>
 
+  <target name="logFolder">
+    <mkdir dir="logs"/>
+  </target> 
 
   <target name="xslt">
     <xslt style="${ROOT}/xsl/jsfxml.xsl" destdir="${ROOT}/jsp" extension=".jsp" includes="${ROOT}/html/*">
