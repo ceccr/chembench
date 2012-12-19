@@ -10,3 +10,6 @@ WEB-INF/classes/*/*
 
 #Ignore the log folder#
 WEB-INF/logs/
+
+#Ignore the buildDate.txt#
+WEB-INF/buildDate.txt
