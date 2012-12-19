@@ -4,3 +4,6 @@
 *.jar
 *.war
 *.ear
+
+#Ignore all subdirectories under classes#
+WEB-INF/classes/*/*
