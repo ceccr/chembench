@@ -89,14 +89,14 @@ UserRegistrationAndProfileActions extends ActionSupport
             errorMessages.add("Your username may not contain a space.");
             result = ERROR;
         }
-        logger.debug("Check captcha now....");
-        logger.debug("Public Key : " + Constants.RECAPTCHA_PUBLICKEY);    
-        logger.debug("Private Key : " + Constants.RECAPTCHA_PRIVATEKEY);
+        //logger.debug("Check captcha now....");
+        //logger.debug("Public Key : " + Constants.RECAPTCHA_PUBLICKEY);    
+        //logger.debug("Private Key : " + Constants.RECAPTCHA_PRIVATEKEY);
         //check CAPTCHA
         ReCaptcha captcha = ReCaptchaFactory.newReCaptcha(
                                    Constants.RECAPTCHA_PUBLICKEY
                                   ,Constants.RECAPTCHA_PRIVATEKEY, false);
-        logger.debug(captacha.toString());
+        //logger.debug(captcha.toString());
         ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1"
                                 ,((String[])context.getParameters()
 	                                .get("recaptcha_challenge_field"))[0]
