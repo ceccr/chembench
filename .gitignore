@@ -7,3 +7,6 @@
 
 #Ignore all subdirectories under classes#
 WEB-INF/classes/*/*
+
+#Ignore the log folder#
+WEB-INF/logs/
