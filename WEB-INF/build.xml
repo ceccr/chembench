@@ -4,6 +4,7 @@
 
   <property name="home.directory" value="CHEMBENCH/prod/deploy"/>
   <property name="tomcat.directory" value="usr/share/tomcat6"/>
+  <property name="build.dir" value="classes/edu"/>
 
   <target name="war" depends="compile">
     <copy toDir="ROOT/WEB-INF/classes">
@@ -13,8 +14,8 @@
         </fileset>
       </copy>
     <war destfile="ROOT.war" basedir="ROOT" webxml="ROOT/WEB-INF/web.xml" 
-         defaultexcludes="yes" includes="WEB-INF/**/*, **/*.x, **/*.sdf, **/*.act\
-                                        , theme/**/*, documentation/*, **/*.jsp\
+         defaultexcludes="yes" includes="WEB-INF/**/*, **/*.x, **/*.sdf, **/*.act 
+                                        , theme/**/*, documentation/*, **/*.jsp 
                                         , **/*.js,*.txt">
     </war>
   </target>
@@ -58,6 +59,13 @@
           extension=".jsp" includes="${ROOT}/html/*">
     </xslt>
   </target>
+  
+  <target name="clean">
+    <delete dir="${build.dir}" />
+    <delete file="./buildDate.txt"/>
+  </target>
+
+  <target name="clean-build" depends="clean,compile" />
 
 </project>
 
