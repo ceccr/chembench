@@ -397,7 +397,7 @@ table.MsoTableGrid
 
 <body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
 
-<a href="jchem/marvin/examples/applets/example-sketch1.1.html">JchemSketch</a>
+<a href="/PROD/jchem/marvin/examples/applets/example-sketch1.1.html">JchemSketch</a>
 <p></p>	 
 <div class=WordSection1>
 

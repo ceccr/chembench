@@ -224,7 +224,7 @@
 			<tbody>
 			<tr>
 			<td>
-<script language="JavaScript1.1" src="jchem/marvin/marvin.js"></script>
+<script language="JavaScript1.1" src="/PROD/jchem/marvin/marvin.js"></script>
 <script language="JavaScript1.1">
 <!--
 function exportMol() {
@@ -240,7 +240,7 @@ function exportMol() {
 
 msketch_name = "MSketch";
 msketch_mayscript = true;
-msketch_begin("jchem/marvin/", 440, 300);
+msketch_begin("/PROD/jchem/marvin/", 440, 300);
 msketch_end();
 document.MSketch.style.zIndex="-1";
 //-->
