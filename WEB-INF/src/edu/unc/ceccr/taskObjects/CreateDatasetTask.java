@@ -3,7 +3,6 @@ package edu.unc.ceccr.taskObjects;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Date;
 
 import org.hibernate.Session;
@@ -11,7 +10,6 @@ import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.Utility;
@@ -19,7 +17,6 @@ import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.workflows.descriptors.CheckDescriptors;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
-import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.DataSplit;
 import edu.unc.ceccr.workflows.visualization.HeatmapAndPCA;
 import edu.unc.ceccr.workflows.visualization.SdfToJpg;
@@ -561,9 +558,11 @@ public class CreateDatasetTask extends WorkflowTask
                     // generate ACT-file related visualizations
                     this.numCompounds = DatasetFileOperations
                             .getACTCompoundNames(path + actFileName).size();
+                    /*
                     String act_path = Constants.CECCR_USER_BASE_PATH
                             + userName + "/DATASETS/" + jobName + "/"
                             + actFileName;
+                    */
 
                     // PCA plot creation works
                     // however, there is no way to visualize the result right
