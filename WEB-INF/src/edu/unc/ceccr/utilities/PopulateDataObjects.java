@@ -73,9 +73,9 @@ public class PopulateDataObjects
         // list
         ArrayList list = null;
         Transaction tx = null;
-        logger.error("PopulateClassInChunks called with chunkSize "
+        logger.info("PopulateClassInChunks called with chunkSize "
                              + chunkSize + " and chunkIndex " + chunkIndex);
-        logger.error("maxResults " + chunkSize + " firstResult: "
+        logger.info("maxResults " + chunkSize + " firstResult: "
                              + (chunkSize * chunkIndex));
         try {
             tx = session.beginTransaction();
@@ -99,7 +99,7 @@ public class PopulateDataObjects
     {
         // gets any data for which there is an associated username.
         // e.g.: datasets, predictors, predictions, jobs, users
-        logger.error("looking for " + c.getName() + " of user "
+        logger.info("looking for " + c.getName() + " of user "
                 + userName);
         ArrayList list = null;
         Transaction tx = null;
@@ -112,7 +112,7 @@ public class PopulateDataObjects
         catch (RuntimeException e) {
             logger.error(e);
         }
-        logger.error("found " + list.size() + " " + c.getName()
+        logger.info("found " + list.size() + " " + c.getName()
                 + " objects for user name " + userName);
         return list;
     }
@@ -248,24 +248,24 @@ public class PopulateDataObjects
         if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
             compounds = DatasetFileOperations.getXCompoundNames(datasetDir
                     + dataset.getXFile());
-            logger.error("" + compounds.size()
+            logger.info("" + compounds.size()
                     + " compounds found in X file.");
         }
         else {
             compounds = DatasetFileOperations.getSDFCompoundNames(datasetDir
                     + dataset.getSdfFile());
-            logger.error("" + compounds.size()
+            logger.info("" + compounds.size()
                     + " compounds found in SDF.");
         }
 
-        logger.error("getting from db");
+        logger.info("getting from db");
         ArrayList<PredictionValue> predictorPredictionValues 
             = (ArrayList<PredictionValue>) PopulateDataObjects
                      .getPredictionValuesByPredictionId(predictionId, session);
-        logger.error("done getting from db");
+        logger.info("done getting from db");
 
         // sort the by predictor ID
-        logger.error("Sorting");
+        logger.info("Sorting");
         Collections.sort(predictorPredictionValues,
                 new Comparator<PredictionValue>()
                 {
@@ -277,9 +277,9 @@ public class PopulateDataObjects
                                 p2.getPredictorId());
                     }
                 });
-        logger.error("Done sorting");
+        logger.info("Done sorting");
 
-        logger.error("building hashmap");
+        logger.info("building hashmap");
         HashMap<String, ArrayList<PredictionValue>> predictionValueMap 
                            = new HashMap<String, ArrayList<PredictionValue>>();
         for (PredictionValue pv : predictorPredictionValues) {
@@ -291,7 +291,7 @@ public class PopulateDataObjects
             compoundPredValues.add(pv);
             predictionValueMap.put(pv.getCompoundName(), compoundPredValues);
         }
-        logger.error("done building hashmap");
+        logger.info("done building hashmap");
 
         ArrayList<CompoundPredictions> compoundPredictionValues 
                                         = new ArrayList<CompoundPredictions>();
