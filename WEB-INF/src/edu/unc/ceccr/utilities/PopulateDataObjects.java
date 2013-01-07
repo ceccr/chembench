@@ -39,9 +39,12 @@ import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
+import org.apache.log4j.Logger;
+
 public class PopulateDataObjects
 {
-
+    private static Logger logger = 
+                        Logger.getLogger(PopulateDataObjects.class.getName());
     // Every time we need to get an object or set of objects from the database
     // we do it from here.
 
@@ -57,7 +60,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return list;
     }
@@ -70,9 +73,9 @@ public class PopulateDataObjects
         // list
         ArrayList list = null;
         Transaction tx = null;
-        Utility.writeToDebug("PopulateClassInChunks called with chunkSize "
+        logger.error("PopulateClassInChunks called with chunkSize "
                              + chunkSize + " and chunkIndex " + chunkIndex);
-        Utility.writeToDebug("maxResults " + chunkSize + " firstResult: "
+        logger.error("maxResults " + chunkSize + " firstResult: "
                              + (chunkSize * chunkIndex));
         try {
             tx = session.beginTransaction();
@@ -82,7 +85,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         if (list == null || list.isEmpty()) {
             list = null;
@@ -96,7 +99,7 @@ public class PopulateDataObjects
     {
         // gets any data for which there is an associated username.
         // e.g.: datasets, predictors, predictions, jobs, users
-        Utility.writeToDebug("looking for " + c.getName() + " of user "
+        logger.error("looking for " + c.getName() + " of user "
                 + userName);
         ArrayList list = null;
         Transaction tx = null;
@@ -107,9 +110,9 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (RuntimeException e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
-        Utility.writeToDebug("found " + list.size() + " " + c.getName()
+        logger.error("found " + list.size() + " " + c.getName()
                 + " objects for user name " + userName);
         return list;
     }
@@ -132,7 +135,7 @@ public class PopulateDataObjects
                     .setMaxResults(1).uniqueResult();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         if (predictionValue != null) {
@@ -162,7 +165,7 @@ public class PopulateDataObjects
                     .add(Expression.eq("predictorId", predictorId)).list();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         for (PredictionValue pv : predictionValues) {
@@ -220,7 +223,7 @@ public class PopulateDataObjects
 
             }
             catch (Exception ex) {
-                Utility.writeToDebug(ex);
+                logger.error(ex);
             }
         }
 
@@ -245,24 +248,24 @@ public class PopulateDataObjects
         if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
             compounds = DatasetFileOperations.getXCompoundNames(datasetDir
                     + dataset.getXFile());
-            Utility.writeToDebug("" + compounds.size()
+            logger.error("" + compounds.size()
                     + " compounds found in X file.");
         }
         else {
             compounds = DatasetFileOperations.getSDFCompoundNames(datasetDir
                     + dataset.getSdfFile());
-            Utility.writeToDebug("" + compounds.size()
+            logger.error("" + compounds.size()
                     + " compounds found in SDF.");
         }
 
-        Utility.writeToDebug("getting from db");
+        logger.error("getting from db");
         ArrayList<PredictionValue> predictorPredictionValues 
             = (ArrayList<PredictionValue>) PopulateDataObjects
                      .getPredictionValuesByPredictionId(predictionId, session);
-        Utility.writeToDebug("done getting from db");
+        logger.error("done getting from db");
 
         // sort the by predictor ID
-        Utility.writeToDebug("Sorting");
+        logger.error("Sorting");
         Collections.sort(predictorPredictionValues,
                 new Comparator<PredictionValue>()
                 {
@@ -274,9 +277,9 @@ public class PopulateDataObjects
                                 p2.getPredictorId());
                     }
                 });
-        Utility.writeToDebug("Done sorting");
+        logger.error("Done sorting");
 
-        Utility.writeToDebug("building hashmap");
+        logger.error("building hashmap");
         HashMap<String, ArrayList<PredictionValue>> predictionValueMap 
                            = new HashMap<String, ArrayList<PredictionValue>>();
         for (PredictionValue pv : predictorPredictionValues) {
@@ -288,7 +291,7 @@ public class PopulateDataObjects
             compoundPredValues.add(pv);
             predictionValueMap.put(pv.getCompoundName(), compoundPredValues);
         }
-        Utility.writeToDebug("done building hashmap");
+        logger.error("done building hashmap");
 
         ArrayList<CompoundPredictions> compoundPredictionValues 
                                         = new ArrayList<CompoundPredictions>();
@@ -383,7 +386,7 @@ public class PopulateDataObjects
 
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         return dataSets;
@@ -429,7 +432,7 @@ public class PopulateDataObjects
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
         Collections.reverse(dataSets);
         return dataSets;
@@ -470,7 +473,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         List<String> datasetNames = new ArrayList<String>();
@@ -492,7 +495,7 @@ public class PopulateDataObjects
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         Collections.reverse(datasetNames);
@@ -532,7 +535,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         List<String> predictorNames = new ArrayList<String>();
@@ -554,7 +557,7 @@ public class PopulateDataObjects
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         Collections.reverse(predictorNames);
@@ -594,7 +597,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         List<String> predictionNames = new ArrayList<String>();
@@ -616,7 +619,7 @@ public class PopulateDataObjects
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         Collections.reverse(predictionNames);
@@ -666,7 +669,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         predictors.addAll(privatePredictors);
 
@@ -692,7 +695,7 @@ public class PopulateDataObjects
                 tx.commit();
             }
             catch (Exception e) {
-                Utility.writeToDebug(e);
+                logger.error(e);
             }
             predictors.addAll(ADMEPredictors);
         }
@@ -719,7 +722,7 @@ public class PopulateDataObjects
                 tx.commit();
             }
             catch (Exception e) {
-                Utility.writeToDebug(e);
+                logger.error(e);
             }
             predictors.addAll(ToxicityPredictors);
         }
@@ -746,7 +749,7 @@ public class PopulateDataObjects
                 tx.commit();
             }
             catch (Exception e) {
-                Utility.writeToDebug(e);
+                logger.error(e);
             }
             predictors.addAll(DrugDiscoveryPredictors);
         }
@@ -788,7 +791,7 @@ public class PopulateDataObjects
                 tx.commit();
             }
             catch (Exception e) {
-                Utility.writeToDebug(e);
+                logger.error(e);
             }
 
             if (predictions != null) {
@@ -810,7 +813,7 @@ public class PopulateDataObjects
             }
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         Collections.reverse(predictions);
@@ -853,7 +856,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         ArrayList<String> datasetdescriptorsNames = new ArrayList<String>();
@@ -893,7 +896,7 @@ public class PopulateDataObjects
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         return datasetdescriptorsNames;
@@ -965,7 +968,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         if (allUserDataSets != null)
             usersDataSet.addAll(allUserDataSets);
@@ -985,7 +988,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return job;
     }
@@ -1004,7 +1007,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return job;
     }
@@ -1024,7 +1027,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return dataset.getSdfFile();
@@ -1044,7 +1047,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return dataset;
     }
@@ -1062,7 +1065,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return dataset;
@@ -1081,7 +1084,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         if (predictor != null && predictor.getDatasetId() != null) {
@@ -1109,7 +1112,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         String predictorNames = "";
@@ -1147,7 +1150,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         String predictorNames = "";
@@ -1182,7 +1185,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return user;
@@ -1209,7 +1212,7 @@ public class PopulateDataObjects
             });
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return users;
     }
@@ -1226,7 +1229,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return users;
@@ -1244,7 +1247,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return jobStats;
@@ -1263,7 +1266,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return jobStats;
@@ -1283,7 +1286,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return groves;
@@ -1304,7 +1307,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return trees;
@@ -1323,7 +1326,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return models;
@@ -1333,7 +1336,7 @@ public class PopulateDataObjects
     getSvmModelsByPredictorId(Long predictorId, Session session)
                                throws ClassNotFoundException, SQLException
     {
-        // Utility.writeToDebug("getting models for predictorId: " +
+        // logger.error("getting models for predictorId: " +
         // predictorId);
 
         List<SvmModel> models = new ArrayList<SvmModel>();
@@ -1345,7 +1348,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return models;
@@ -1355,7 +1358,7 @@ public class PopulateDataObjects
     getModelsByPredictorId(Long predictorId, Session session)
                                 throws ClassNotFoundException, SQLException
     {
-        // Utility.writeToDebug("getting models for predictorId: " +
+        // logger.error("getting models for predictorId: " +
         // predictorId);
         Predictor predictor = getPredictorById(predictorId, session);
 
@@ -1368,7 +1371,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         // if the model type is continuous,
@@ -1402,7 +1405,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         try {
@@ -1417,7 +1420,7 @@ public class PopulateDataObjects
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
         return predictor;
     }
@@ -1453,7 +1456,7 @@ public class PopulateDataObjects
             }
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return childPredictors;
     }
@@ -1476,7 +1479,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return externalValValues;
@@ -1498,12 +1501,12 @@ public class PopulateDataObjects
                 tx.commit();
             }
             catch (Exception e) {
-                Utility.writeToDebug(e);
+                logger.error(e);
             }
 
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         try {
             if (tasks != null) {
@@ -1518,7 +1521,7 @@ public class PopulateDataObjects
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         return taskNames;
@@ -1545,12 +1548,12 @@ public class PopulateDataObjects
                 tx.commit();
             }
             catch (Exception e) {
-                Utility.writeToDebug(e);
+                logger.error(e);
             }
 
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return tasks;
@@ -1570,7 +1573,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return task;
     }
@@ -1590,12 +1593,12 @@ public class PopulateDataObjects
                 tx.commit();
             }
             catch (Exception e) {
-                Utility.writeToDebug(e);
+                logger.error(e);
             }
 
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         Collections.sort(softwareLinks, new Comparator<SoftwareLink>()
@@ -1623,7 +1626,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return sl;
     }
@@ -1641,7 +1644,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return params;
     }
@@ -1659,7 +1662,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return params;
     }
@@ -1677,7 +1680,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return params;
     }
@@ -1695,7 +1698,7 @@ public class PopulateDataObjects
             tx.commit();
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         return params;
     }
