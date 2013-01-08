@@ -542,7 +542,7 @@ public class PopulateDataObjects
             if (userPredictors != null) {
                 Iterator<Predictor> i = userPredictors.iterator();
                 while (i.hasNext()) {
-                    Predictor pi = (Predictor) i.next();
+                    Predictor pi = i.next();
                     predictorNames.add(pi.getName());
                 }
             }
@@ -550,7 +550,7 @@ public class PopulateDataObjects
             if (allUserPredictors != null) {
                 Iterator<Predictor> j = allUserPredictors.iterator();
                 while (j.hasNext()) {
-                    Predictor pj = (Predictor) j.next();
+                    Predictor pj = j.next();
                     predictorNames.add(pj.getName());
                 }
             }
@@ -604,7 +604,7 @@ public class PopulateDataObjects
             if (userPredictions != null) {
                 Iterator<Prediction>  i = userPredictions.iterator();
                 while (i.hasNext()) {
-                    Prediction pi = (Prediction) i.next();
+                    Prediction pi = i.next();
                     predictionNames.add(pi.getName());
                 }
             }
@@ -612,7 +612,7 @@ public class PopulateDataObjects
             if (allUserPredictions != null) {
                 Iterator<Prediction>  j = allUserPredictions.iterator();
                 while (j.hasNext()) {
-                    Prediction pj = (Prediction) j.next();
+                    Prediction pj = j.next();
                     predictionNames.add(pj.getName());
                 }
             }
