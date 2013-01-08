@@ -304,10 +304,10 @@ public class QsarModelingTask extends WorkflowTask
 
         // This function just loads all the ModelingForm parameters into local
         // variables
-        logger.info("[[Modeling Type: "
+        logger.info("Modeling Type: "
                 + ModelingForm.getModelingType()
                 + " submitted by user, " + userName 
-                + " for job, "+ jobName + ".");
+                + " for job, "+ ModelingForm.getJobName() + ".");
         modelType = ModelingForm.getModelingType();
         scalingType = ModelingForm.getScalingType();
         logger.info("scalingType in QsarModelingTask: "
@@ -636,7 +636,7 @@ public class QsarModelingTask extends WorkflowTask
         }
         else if (descriptorGenerationType.equals(Constants.CDK)) {
             logger.debug("Processing CDK descriptors for job, "+ jobName
-                    + "submitted by user, " +userName);
+                    + " submitted by user, " +userName);
 
             ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk",
                     filePath);
