@@ -258,7 +258,7 @@ public class JobsActions extends ActionSupport
 
         session.close();
 
-        logger.info("Forwarding user " + user.getUserName()
+        logger.debug("Forwarding user " + user.getUserName()
                 + " to jobs page.");
 
         return result;
