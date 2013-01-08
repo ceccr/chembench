@@ -259,7 +259,7 @@ public class JobsActions extends ActionSupport
         session.close();
 
         logger.debug("Forwarding user " + user.getUserName()
-                + " to jobs page.");
+                 + " to jobs page.");
 
         return result;
     }
