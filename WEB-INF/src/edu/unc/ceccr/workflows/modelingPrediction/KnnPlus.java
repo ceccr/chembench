@@ -31,7 +31,7 @@ public class KnnPlus{
 		String command = "knn+ rand_sets.list";
 
 		//'-OUT=...' - output file
-		command += " -OUT=" + Constants.KNNPLUSMODELSFILENAME;
+		command += " -OUT=" + Constants.KNNPLUS_MODELS_FILENAME;
 		
 		if(actFileDataType.equals(Constants.CONTINUOUS)){
 			//'-M=...' - model type: 'CNT' continuous <def.>,'CTG' - category,'CLS' - classes

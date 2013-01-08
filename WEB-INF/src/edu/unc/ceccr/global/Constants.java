@@ -32,8 +32,8 @@ public class Constants {
 	public static final int MOLCONNZ_COMPOUND_NAME_POS = 10;
 	
 	//file paths
-	public static final String LSFJOBPATH = "/largefs/ceccr/workflow-users/";
-	public static final String USERWORKFLOWSPATH = "/nas02/depts/chembench/prod/workflow-users/";
+	public static String LSFJOBPATH; // = "/largefs/ceccr/workflow-users/";
+	public static String USERWORKFLOWSPATH; // = "/nas02/depts/chembench/prod/workflow-users/";
 	
 	//Type strings
 	//The point of having these is to define capitalizations 
@@ -184,15 +184,15 @@ public class Constants {
 	public static String RF_BUILD_MODEL_RSCRIPT;// = "randomForestBuildModel.R";
     public static String RF_PREDICT_RSCRIPT; // = "randomForestPredict.R";
     public static String RF_DESCRIPTORS_USED_FILE; // = "descriptors_used_in_models.txt";
-    
-	public static String kNN_OUTPUT_FILE; // = "knn-output.tbl";
+
+	public static String KNN_OUTPUT_FILE; // = "knn-output.tbl"; 
 	public static String EXTERNAL_VALIDATION_OUTPUT_FILE; // = "external_prediction_table";
 	public static String PRED_OUTPUT_FILE; // = "cons_pred";
 	public static String KNN_DEFAULT_FILENAME; // = "knn.default";
 	public static String KNN_CATEGORY_DEFAULT_FILENAME; // = "knn_category.default";
 	public static String SE_DEFAULT_FILENAME; // = "param9.txt";
-	public static String DESCRIPTORERRORFILE; // = "descriptorErrors.txt";
-	public static String KNNPLUSMODELSFILENAME; // = "models";
+	public static String DESCRIPTOR_ERROR_FILE; // = "descriptorErrors.txt";
+	public static String KNNPLUS_MODELS_FILENAME; // = "models";
 	
 	public static String EXTERNAL_SET_A_FILE; // = "ext_0.a";
 	public static String EXTERNAL_SET_X_FILE; // = "ext_0.x";

@@ -198,8 +198,7 @@ public class RunSmilesPrediction
                                        , newXFile
                                        , workingDir);
             
-            String scriptDir = Constants.CECCR_BASE_PATH 
-                             + Constants.SCRIPTS_PATH;
+            String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
             String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
             String modelsListFile = "models.list";
             String command = "Rscript --vanilla " + predictScript

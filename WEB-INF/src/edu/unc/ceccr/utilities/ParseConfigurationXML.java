@@ -63,6 +63,8 @@ ParseConfigurationXML
             }
             
             Constants.WORKBENCH = getSingNodeValue(doc,"workbench");
+            Constants.LSFJOBPATH = getNestedNodeValue(doc, "lsfPath");
+            Constants.USERWORKFLOWSPATH = getNestedNodeValue(doc, "userWorkflow");
             Constants.CECCR_DATABASE_NAME 
                                 = getNestedNodeValue(
                                                getParentNode(doc,"database")
@@ -143,7 +145,7 @@ ParseConfigurationXML
 							            		getParentNode(doc,"randomForest")
 							            		,"descriptorsUsedFile"
 						           		 			); 
-            Constants.kNN_OUTPUT_FILE
+            Constants.KNN_OUTPUT_FILE
 						        = getNestedNodeValue(
 							            		getParentNode(doc,"knn")
 							            		,"outputFile"
@@ -173,12 +175,12 @@ ParseConfigurationXML
 							            		getParentNode(doc,"other")
 							            		,"seDefaultFileName"
 						           		 			); 
-            Constants.DESCRIPTORERRORFILE
+            Constants.DESCRIPTOR_ERROR_FILE
 						        = getNestedNodeValue(
 							            		getParentNode(doc,"other")
 							            		,"descriptorErrorFile"
 						           		 			); 
-            Constants.KNNPLUSMODELSFILENAME
+            Constants.KNNPLUS_MODELS_FILENAME
 						        = getNestedNodeValue(
 							            		getParentNode(doc,"knn")
 							            		,"modelsFileName"
@@ -225,13 +227,13 @@ ParseConfigurationXML
             if(! Constants.EXECUTABLEFILE_PATH.endsWith("/")){
                 Constants.EXECUTABLEFILE_PATH += "/";
             }
-            //FIXME : This path is not correct in current config. Fix it.
-            //FIXME : Externalize the full path. Why retain even partial value
-            //        hard coded. Full thing can be kept in the 
-            //        systemConfig.xml
+
             Constants.BUILD_DATE_FILE_PATH 
                                  = Constants.TOMCAT_PATH 
-                                 + "webapps/ROOT/WEB-INF/buildDate.txt";
+	                                 + getNestedNodeValue(
+							            	getParentNode(doc,"other")
+							            		,"buildDateFile");
+        //FIXME:Does not exist! Uknown purpose
             Constants.XML_FILE_PATH 
                                  = Constants.CECCR_BASE_PATH +"xml-files/";
             Constants.doneReadingConfigFile = true;            
