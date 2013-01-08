@@ -117,7 +117,6 @@ public class PopulateDataObjects
         return list;
     }
 
-    @SuppressWarnings("unchecked")
     public static PredictionValue 
     getFirstPredictionValueByPredictionIdAndPredictorId(Long predictionId
                                                       , Long predictorId
@@ -330,7 +329,7 @@ public class PopulateDataObjects
     }
 
     @SuppressWarnings("unchecked")
-    public static List
+    public static List<DataSet>
     populateDatasetsForPrediction(String userName
                                 , boolean isAllUserIncludes
                                 , Session session)
@@ -392,7 +391,7 @@ public class PopulateDataObjects
         return dataSets;
     }
 
-    public static List
+    public static List<DataSet>
     populateDataset(String userName, String modelType
                   , boolean isAllUserIncludes, Session session)
                            throws HibernateException, ClassNotFoundException
@@ -627,14 +626,14 @@ public class PopulateDataObjects
     }
 
     @SuppressWarnings("unchecked")
-    public static List
+    public static List<Predictor>
     populatePredictors( String userName, boolean includePublic
                       , boolean onlyCompleted, Session session)
                      throws HibernateException, ClassNotFoundException
                           , SQLException
     {
 
-        List<Predictor> predictors = new ArrayList();
+        List<Predictor> predictors = new ArrayList<Predictor>();
         List privatePredictors = null;
         Transaction tx = null;
         try {
