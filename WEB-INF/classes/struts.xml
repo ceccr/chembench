@@ -41,12 +41,8 @@
         </action>
 
         <action name="home" class="edu.unc.ceccr.action.HomeAction" method="loadPage">
-            <exception-mapping exception="java.lang.SecurityException"
-                result="error" />
-            <exception-mapping exception="java.lang.RuntimeException"
-                result="error" />
             <result name="success">jsp/main/home.jsp</result>
-            <result name="error">jsp/main/exception.jsp</result>
+            <result name="error">jsp/main/errors2.jsp</result>
         </action>
 
         <action name="error">
