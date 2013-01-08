@@ -19,8 +19,9 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
+
+import org.apache.log4j.Logger;
 
 public class ModelingFormActions extends ActionSupport
 {
@@ -29,6 +30,9 @@ public class ModelingFormActions extends ActionSupport
      * 
      */
     private static final long serialVersionUID = 1L;
+    
+    private static Logger logger 
+                       = Logger.getLogger(ModelingFormActions.class.getName());
 
     public String loadPage() throws Exception
     {
@@ -38,13 +42,13 @@ public class ModelingFormActions extends ActionSupport
         ActionContext context = ActionContext.getContext();
 
         if (context == null) {
-            Utility.writeToStrutsDebug("No ActionContext available");
+            logger.debug("No ActionContext available");
         }
         else {
             user = (User) context.getSession().get("user");
 
             if (user == null) {
-                Utility.writeToStrutsDebug("No user is logged in.");
+                logger.debug("No user is logged in.");
                 result = LOGIN;
                 return result;
             }
@@ -120,11 +124,11 @@ public class ModelingFormActions extends ActionSupport
 
         // log the results
         if (result.equals(SUCCESS)) {
-            Utility.writeToStrutsDebug("Forwarding user "
+            logger.debug("Forwarding user "
                     + user.getUserName() + " to modeling page.");
         }
         else {
-            Utility.writeToStrutsDebug("Cannot load page.");
+            logger.warn("Cannot load page.");
         }
 
         // load default tab selections
@@ -158,7 +162,7 @@ public class ModelingFormActions extends ActionSupport
             jobName = jobName.replaceAll("\\]", "_");
         }
 
-        Utility.writeToDebug("Submitting modeling job with dataset id: "
+        logger.info("Submitting modeling job with dataset id: "
                 + selectedDatasetId);
         if (selectedDatasetId == null
                 || PopulateDataObjects.getDataSetById(selectedDatasetId,
@@ -195,7 +199,7 @@ public class ModelingFormActions extends ActionSupport
                     actFileDataType = datasetList.get(i).getModelType();
                     selectedDatasetId = datasetList.get(i).getId();
                     jobName = originalJobName + datasetList.get(i).getName();
-                    Utility.writeToDebug("launching modeling on dataset "
+                    logger.info("launching modeling on dataset "
                             + datasetList.get(i).getName());
                     execute();
                 }
@@ -218,7 +222,7 @@ public class ModelingFormActions extends ActionSupport
         s += "\n (Random Internal Split) Max. Test Set Size: "
                 + randomSplitMaxTestSize;
 
-        Utility.writeToDebug(s);
+        logger.info(s);
 
         // set up job
         try {
@@ -302,10 +306,9 @@ public class ModelingFormActions extends ActionSupport
                             jobName, modelingTask, numCompounds, numModels,
                             emailOnCompletion);
 
-                    Utility.writeToUsageLog("Added modeling job",
-                            user.getUserName());
-                    Utility.writeToDebug("Modeling job added to queue",
-                            user.getUserName(), this.getJobName());
+                    logger.info("Added modeling job by " + user.getUserName());
+                    logger.info("Modeling job added to queue " +
+                            user.getUserName() + " " + this.getJobName());
                 }
 
                 // make a "parent" predictor to contain each of the "child"
@@ -337,7 +340,7 @@ public class ModelingFormActions extends ActionSupport
                 else{
                     p.setUploadedDescriptorType("");
                 }
-                Utility.writeToDebug("TYPE::"
+                logger.debug("TYPE::"
                         + ds.getUploadedDescriptorType() + ":::"
                         + p.getUploadedDescriptorType());
 
@@ -350,7 +353,7 @@ public class ModelingFormActions extends ActionSupport
                 catch (Exception ex) {
                     if (tx != null)
                         tx.rollback();
-                    Utility.writeToDebug(ex);
+                    logger.error(ex);
                 }
 
                 if (closeSessionAtEnd) {
@@ -375,16 +378,15 @@ public class ModelingFormActions extends ActionSupport
                 centralDogma.addJobToIncomingList(user.getUserName(),
                         jobName, modelingTask, numCompounds, numModels,
                         emailOnCompletion);
-
-                Utility.writeToUsageLog("Added modeling job",
-                        user.getUserName());
-                Utility.writeToDebug("Task added to queue",
-                        user.getUserName(), this.getJobName());
+                
+                logger.info("Added modeling job by " + user.getUserName());
+                logger.info("Task added to queue " +
+                        user.getUserName() + " " + this.getJobName());
 
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             if (closeSessionAtEnd) {
                 executeSession.close();
             }
