@@ -74,23 +74,36 @@ HomeAction extends ActionSupport implements ServletResponseAware
     loadPage()
     {
         try {
-            
             //stuff that needs to happen on server startup
             String debugText = "";
-            if(Constants.doneReadingConfigFile)
-            {
+            if (Constants.doneReadingConfigFile) {
                 debugText = "already read config file (?)";
             }
-            else{
-                try{
-                    //STATIC PATH we didn't know how to make it dynamic in Struts 2
-
-                    //storing the file outside the tomcat context, to not have to
-                    //store it in git, else this file becomes visible to whole world with
-                    // our public Cgit browser.
-                    String path = "/CHEMBENCH/common/config/systemConfig.xml";
-                    
-                    Utility.readBuildDateAndSystemConfig(path);
+            else {
+                try {
+                	// read $CHEMBENCH_HOME, then append config directory / filename;
+                	// throw a wrapped ServletException if env-var can't be read 
+                	String ENV_CHEMBENCH_HOME;
+                	/*
+                	try {
+	                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
+                	} catch (SecurityException e) {
+                		// permission denied
+                	} finally {
+                		if (ENV_CHEMBENCH_HOME == null || 
+                				ENV_CHEMBENCH_HOME.equals("")) {
+                			// env-var doesn't exist or is blank 
+                		}
+                	}
+                	*/
+                	File baseDir = new File(ENV_CHEMBENCH_HOME);
+                	File configFile = new File(baseDir, "config/systemConfig.xml");
+                	
+                	// FIXME
+                	logger.debug(System.getenv("CHEMBENCH_HOME"));
+                	logger.debug(configFile.getPath());
+                	
+                    Utility.readBuildDateAndSystemConfig(configFile.getPath());
                 }
                 catch(Exception ex){
                     debugText += ex.getMessage();
