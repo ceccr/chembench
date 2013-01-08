@@ -44,6 +44,7 @@ public class
 HomeAction extends ActionSupport implements ServletResponseAware
 {
     private static Logger logger = Logger.getLogger(HomeAction.class.getName());
+    private ArrayList<String> errorMessages = new ArrayList<String>();
     
     //loads home page
     
@@ -70,7 +71,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
     String showStatistics = Constants.YES; 
     
     public String 
-    loadPage() throws SecurityException, RuntimeException
+    loadPage()
     {
         try {
             //stuff that needs to happen on server startup
@@ -83,17 +84,20 @@ HomeAction extends ActionSupport implements ServletResponseAware
                 	// read $CHEMBENCH_HOME, then append config directory / filename;
                 	// throw an exception if env-var can't be read or is empty 
                 	String ENV_CHEMBENCH_HOME = null; 
-                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME"); // throws SecurityException
-                	if (ENV_CHEMBENCH_HOME == null) {	// if the env-var doesn't exist...
-                		throw new RuntimeException();
+                	try {
+	                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
+                	}
+                	catch (SecurityException e) {
+                		errorMessages.add("Couldn't read $CHEMBENCH_HOME environment variable: permission denied");
+                		return ERROR;
+                	}
+                	if (ENV_CHEMBENCH_HOME == null) {
+                		errorMessages.add("The environment variable $CHEMBENCH_HOME doesn't exist or has not been set");
+                		return ERROR;
                 	}
                 	
                 	File baseDir = new File(ENV_CHEMBENCH_HOME);
                 	File configFile = new File(baseDir, "config/systemConfig.xml");
-                	
-                	// FIXME Check logged values
-                	logger.debug(System.getenv("CHEMBENCH_HOME"));
-                	logger.debug(configFile.getPath());
                 	
                     Utility.readBuildDateAndSystemConfig(configFile.getPath());
                 }
