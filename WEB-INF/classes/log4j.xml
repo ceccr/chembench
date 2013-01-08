@@ -4,7 +4,7 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
     <appender name="Ceccr-Log" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="/usr/share/tomcat6/logs/ceccr.log" />
+        <param name="File"   value="/CHEMBENCH/prod/tomcat6/webapps/logs/ceccr.log" />
         <param name="Append" value="false" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%-5p %d %c :%L - %m%n"/>
@@ -12,7 +12,7 @@
     </appender>
 
     <appender name="Hibernate-Log" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="/usr/share/tomcat6/logs/hibernate.log" />
+        <param name="File"   value="/CHEMBENCH/prod/tomcat6/webapps/logs/hibernate.log" />
         <param name="Append" value="false" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1} :%L - %m%n"/>
@@ -20,7 +20,7 @@
     </appender>
 
     <appender name="Utility-Log" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="/usr/share/tomcat6/logs/ceccr.utility.log" />
+        <param name="File"   value="/CHEMBENCH/prod/tomcat6/webapps/logs/ceccr.utility.log" />
         <param name="Append" value="false" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1} :%L - %m%n"/>
