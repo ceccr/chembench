@@ -55,7 +55,18 @@
         <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>   
-    
+
+    <logger name="edu.unc.ceccr.action.ModelingFormActions" additivity="false">
+        <level value="all"/>
+        <appender-ref ref="Jobs-Log"/>
+    </logger>   
+
+    <logger name="edu.unc.ceccr.jobs.CentralDogma" additivity="false">
+        <level value="all"/>
+        <appender-ref ref="Jobs-Log"/>
+    </logger>   
+
+
     <!-- default logging -->
     <root>
         <priority value="error"/>
