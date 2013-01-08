@@ -540,7 +540,7 @@ public class PopulateDataObjects
         List<String> predictorNames = new ArrayList<String>();
         try {
             if (userPredictors != null) {
-                Iterator i = userPredictors.iterator();
+                Iterator<Predictor> i = userPredictors.iterator();
                 while (i.hasNext()) {
                     Predictor pi = (Predictor) i.next();
                     predictorNames.add(pi.getName());
@@ -548,7 +548,7 @@ public class PopulateDataObjects
             }
 
             if (allUserPredictors != null) {
-                Iterator j = allUserPredictors.iterator();
+                Iterator<Predictor> j = allUserPredictors.iterator();
                 while (j.hasNext()) {
                     Predictor pj = (Predictor) j.next();
                     predictorNames.add(pj.getName());
@@ -602,7 +602,7 @@ public class PopulateDataObjects
         List<String> predictionNames = new ArrayList<String>();
         try {
             if (userPredictions != null) {
-                Iterator i = userPredictions.iterator();
+                Iterator<Prediction>  i = userPredictions.iterator();
                 while (i.hasNext()) {
                     Prediction pi = (Prediction) i.next();
                     predictionNames.add(pi.getName());
@@ -610,7 +610,7 @@ public class PopulateDataObjects
             }
 
             if (allUserPredictions != null) {
-                Iterator j = allUserPredictions.iterator();
+                Iterator<Prediction>  j = allUserPredictions.iterator();
                 while (j.hasNext()) {
                     Prediction pj = (Prediction) j.next();
                     predictionNames.add(pj.getName());
@@ -634,7 +634,7 @@ public class PopulateDataObjects
     {
 
         List<Predictor> predictors = new ArrayList<Predictor>();
-        List privatePredictors = null;
+        List<Predictor> privatePredictors = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -674,7 +674,7 @@ public class PopulateDataObjects
 
         // adme
         if (includePublic) {
-            List ADMEPredictors = null;
+            List<Predictor> ADMEPredictors = null;
             session = HibernateUtil.getSession();
             tx = null;
             try {
@@ -701,7 +701,7 @@ public class PopulateDataObjects
 
         // tox
         if (includePublic) {
-            List ToxicityPredictors = null;
+            List<Predictor> ToxicityPredictors = null;
             session = HibernateUtil.getSession();
             tx = null;
             try {
@@ -728,7 +728,7 @@ public class PopulateDataObjects
 
         // drugdiscovery
         if (includePublic) {
-            List DrugDiscoveryPredictors = null;
+            List<Predictor> DrugDiscoveryPredictors = null;
             session = HibernateUtil.getSession();
             tx = null;
             try {
@@ -863,7 +863,7 @@ public class PopulateDataObjects
             if (allUserDataSets != null) {
                 Iterator<DataSet> i = allUserDataSets.iterator();
                 while (i.hasNext()) {
-                    DataSet di = (DataSet) i.next();
+                    DataSet di = i.next();
                     if (di != null
                             && di.getAvailableDescriptors() != null
                             && di.getAvailableDescriptors().contains(
@@ -880,7 +880,7 @@ public class PopulateDataObjects
             if (usersDataSet != null) {
                 Iterator<DataSet> j = usersDataSet.iterator();
                 while (j.hasNext()) {
-                    DataSet dj = (DataSet) j.next();
+                    DataSet dj = j.next();
                     if (dj != null
                             && dj.getAvailableDescriptors() != null
                             && dj.getAvailableDescriptors().contains(
