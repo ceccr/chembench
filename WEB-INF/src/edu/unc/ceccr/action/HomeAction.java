@@ -41,9 +41,8 @@ import org.apache.log4j.Logger;
 @SuppressWarnings("serial")
 
 public class 
-HomeAction extends ActionSupport implements ServletResponseAware 
+HomeAction extends ActionSupport implements ServletResponseAware
 {
-    
     private static Logger logger = Logger.getLogger(HomeAction.class.getName());
     
     //loads home page
@@ -71,7 +70,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
     String showStatistics = Constants.YES; 
     
     public String 
-    loadPage()
+    loadPage() throws SecurityException, RuntimeException
     {
         try {
             //stuff that needs to happen on server startup
@@ -82,21 +81,13 @@ HomeAction extends ActionSupport implements ServletResponseAware
             else {
                 try {
                 	// read $CHEMBENCH_HOME, then append config directory / filename;
-                	// throw a wrapped ServletException if env-var can't be read 
+                	// throw an exception if env-var can't be read or is empty 
                 	String ENV_CHEMBENCH_HOME = null; 
-                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
-                	/*
-                	try {
-	                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
-                	} catch (SecurityException e) {
-                		// permission denied
-                	} finally {
-                		if (ENV_CHEMBENCH_HOME == null || 
-                				ENV_CHEMBENCH_HOME.equals("")) {
-                			// env-var doesn't exist or is blank 
-                		}
+                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME"); // throws SecurityException
+                	if (ENV_CHEMBENCH_HOME == null) {	// if the env-var doesn't exist...
+                		throw new RuntimeException();
                 	}
-                	*/
+                	
                 	File baseDir = new File(ENV_CHEMBENCH_HOME);
                 	File configFile = new File(baseDir, "config/systemConfig.xml");
                 	
@@ -106,7 +97,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                 	
                     Utility.readBuildDateAndSystemConfig(configFile.getPath());
                 }
-                catch(Exception ex){
+                catch (Exception ex) {
                     debugText += ex.getMessage();
                 }
             }
