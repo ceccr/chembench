@@ -44,7 +44,7 @@ public class
 HomeAction extends ActionSupport implements ServletResponseAware
 {
     private static Logger logger = Logger.getLogger(HomeAction.class.getName());
-    private ArrayList<String> errorMessages = new ArrayList<String>();
+    private ArrayList<String> errorStrings = new ArrayList<String>();
     
     //loads home page
     
@@ -88,11 +88,11 @@ HomeAction extends ActionSupport implements ServletResponseAware
 	                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
                 	}
                 	catch (SecurityException e) {
-                		errorMessages.add("Couldn't read $CHEMBENCH_HOME environment variable: permission denied");
+                		errorStrings.add("Couldn't read $CHEMBENCH_HOME environment variable: permission denied");
                 		return ERROR;
                 	}
                 	if (ENV_CHEMBENCH_HOME == null) {
-                		errorMessages.add("The environment variable $CHEMBENCH_HOME doesn't exist or has not been set");
+                		errorStrings.add("The environment variable $CHEMBENCH_HOME doesn't exist or has not been set");
                 		return ERROR;
                 	}
                 	
@@ -170,14 +170,22 @@ HomeAction extends ActionSupport implements ServletResponseAware
         return SUCCESS;
     }
     
-    public String execute() throws Exception {
+    public ArrayList<String> geterrorStrings() {
+		return errorStrings;
+	}
+
+	public void seterrorStrings(ArrayList<String> errorStrings) {
+		this.errorStrings = errorStrings;
+	}
+
+	public String execute() throws Exception {
         //log the user in
         String result = SUCCESS; 
 
         //check username and password
         ActionContext context = ActionContext.getContext();
         
-        if(context.getParameters().get("username") != null){
+        if (context.getParameters().get("username") != null){
             username = ((String[]) context.getParameters().get("username"))[0];
         }
         User user;
