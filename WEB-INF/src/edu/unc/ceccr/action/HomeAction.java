@@ -83,7 +83,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                 try {
                 	// read $CHEMBENCH_HOME, then append config directory / filename;
                 	// throw a wrapped ServletException if env-var can't be read 
-                	String ENV_CHEMBENCH_HOME;
+                	String ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
                 	/*
                 	try {
 	                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
