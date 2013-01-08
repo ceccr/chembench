@@ -2,10 +2,6 @@ package edu.unc.ceccr.action.ViewPredictor;
 
 import java.util.ArrayList;
 
-
-//struts2
-
-
 import edu.unc.ceccr.action.ViewAction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -14,6 +10,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+//struts2
 
 
 public class ViewPredictorAction extends ViewAction {

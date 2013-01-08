@@ -90,6 +90,7 @@ public class DatasetFileOperations {
 		act.createNewFile();
 		FileOutputStream to = new FileOutputStream(act);
 		if(!act.canWrite()){
+			to.close();
 			return;
 		}
 		
@@ -112,7 +113,9 @@ public class DatasetFileOperations {
 					}
 				}
 			}
+			src.close();
 		}
+		to.close();
 	}
 	
 	public static String makeXFromACT(String path, String actFileName) throws Exception{

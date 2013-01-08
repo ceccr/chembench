@@ -1,30 +1,27 @@
 package edu.unc.ceccr.utilities;
 
-import java.security.*;
-import java.sql.SQLException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.math.*;
 import java.util.Random;
-import java.io.*;
+
+import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Job;
-import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.taskObjects.QsarModelingTask;
-
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
 
 //The Utility class is for cross-cutting concerns (logging, authentication / user stuff).
 

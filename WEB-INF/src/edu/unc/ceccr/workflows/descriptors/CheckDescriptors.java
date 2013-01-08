@@ -1,14 +1,13 @@
 package edu.unc.ceccr.workflows.descriptors;
 
-import java.io.*;
-
-import edu.unc.ceccr.persistence.Descriptors;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.global.Constants;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
+
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.Utility;
 
 public class CheckDescriptors{
     //Read in the output of a descriptor generation program (molconnZ, dragon, etc.)
@@ -124,11 +123,13 @@ public class CheckDescriptors{
         
         //the descriptor names are on this line
         line = br.readLine();
+        tok.close();
         tok = new Scanner(line);
         while(tok.hasNext()){
             String dname = tok.next();
             descriptorNames.add(dname);
         }
+        tok.close();
 
         descriptorNames.remove(1); //contains molecule name, which isn't a descriptor
         descriptorNames.remove(0); //contains molecule number, which isn't a descriptor
@@ -227,8 +228,9 @@ public class CheckDescriptors{
                     errors += "Error reading Moe2D descriptor value: " + t + "\n";
                 }
             }
+            tok.close();
         }
-        
+        br.close();
         return errors;
     }
 }

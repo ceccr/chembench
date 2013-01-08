@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
 
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.visualization.XMLTreeBuilder;
 
 

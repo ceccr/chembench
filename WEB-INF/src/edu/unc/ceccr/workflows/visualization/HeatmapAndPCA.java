@@ -1,9 +1,5 @@
 package edu.unc.ceccr.workflows.visualization;
 
-import java.io.File;
-import java.io.IOException;
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 

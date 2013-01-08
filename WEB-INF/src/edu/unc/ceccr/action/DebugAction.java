@@ -2,38 +2,36 @@ package edu.unc.ceccr.action;
 
 
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileWriter;
-import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-//struts2
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.struts.action.Action;
-import org.apache.struts.action.ActionForm;
-import org.apache.struts.action.ActionForward;
-import org.apache.struts.action.ActionMapping;
-import org.apache.struts.upload.FormFile;
-import org.apache.struts2.interceptor.SessionAware;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
+
+import com.opensymphony.xwork2.ActionSupport;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.*;
+import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.ExternalValidation;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Job;
+import edu.unc.ceccr.persistence.JobStats;
+import edu.unc.ceccr.persistence.KnnModel;
+import edu.unc.ceccr.persistence.KnnParameters;
+import edu.unc.ceccr.persistence.KnnPlusModel;
+import edu.unc.ceccr.persistence.KnnPlusParameters;
+import edu.unc.ceccr.persistence.Prediction;
+import edu.unc.ceccr.persistence.PredictionValue;
+import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.RandomForestGrove;
+import edu.unc.ceccr.persistence.RandomForestParameters;
+import edu.unc.ceccr.persistence.RandomForestTree;
+import edu.unc.ceccr.persistence.SoftwareLink;
+import edu.unc.ceccr.persistence.SvmModel;
+import edu.unc.ceccr.persistence.SvmParameters;
+import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.ClassUtils;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -43,6 +41,7 @@ import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.calculations.ConfusionMatrix;
 import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
+//struts2
 
 
 public class DebugAction extends ActionSupport{
@@ -50,6 +49,7 @@ public class DebugAction extends ActionSupport{
 	// Various methods useful in debugging and fixing user data when something goes wrong.
 	// Any of these methods can be deleted without impacting the system. I found them pretty handy though.
 	
+	private static final long serialVersionUID = 1L;
 	private static void savePredictor(Predictor p, Session s){
 		Transaction tx = null;
 		try {
@@ -269,7 +269,7 @@ public class DebugAction extends ActionSupport{
 		//Job
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(Job.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(Job.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_job.csv", append);
 			session.close();
 		}
@@ -280,7 +280,7 @@ public class DebugAction extends ActionSupport{
 		//JobStats
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(JobStats.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(JobStats.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_jobStats.csv", append);
 			session.close();
 		}
@@ -291,7 +291,7 @@ public class DebugAction extends ActionSupport{
 		//ExternalValidation
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(ExternalValidation.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(ExternalValidation.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_externalValidation.csv", append);
 			session.close();
 		}
@@ -302,7 +302,7 @@ public class DebugAction extends ActionSupport{
 		//KnnModel
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(KnnModel.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(KnnModel.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_knnModel.csv", append);
 			session.close();
 		}
@@ -313,7 +313,7 @@ public class DebugAction extends ActionSupport{
 		//KnnPlusModel
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(KnnPlusModel.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(KnnPlusModel.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_knnPlusModel.csv", append);
 			session.close();
 		}
@@ -324,7 +324,7 @@ public class DebugAction extends ActionSupport{
 		//KnnParameters
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(KnnParameters.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(KnnParameters.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_knnParameters.csv", append);
 			session.close();
 		}
@@ -335,7 +335,7 @@ public class DebugAction extends ActionSupport{
 		//KnnPlusParameters
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(KnnPlusParameters.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(KnnPlusParameters.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_knnPlusParameters.csv", append);
 			session.close();
 		}
@@ -346,7 +346,7 @@ public class DebugAction extends ActionSupport{
 		//SvmParameters
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(SvmParameters.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(SvmParameters.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_svmParameters.csv", append);
 			session.close();
 		}
@@ -357,7 +357,7 @@ public class DebugAction extends ActionSupport{
 		//RandomForestParameters
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(RandomForestParameters.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(RandomForestParameters.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_randomForestParameters.csv", append);
 			session.close();
 		}
@@ -368,7 +368,7 @@ public class DebugAction extends ActionSupport{
 		//SvmModel
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(SvmModel.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(SvmModel.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_svmModel.csv", append);
 			session.close();
 		}
@@ -379,7 +379,7 @@ public class DebugAction extends ActionSupport{
 		//SoftwareLink
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(SoftwareLink.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(SoftwareLink.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_softwareLink.csv", append);
 			session.close();
 		}
@@ -390,7 +390,7 @@ public class DebugAction extends ActionSupport{
 		//Predictor
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(Predictor.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(Predictor.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_predictor.csv", append);
 			session.close();
 		}
@@ -401,7 +401,7 @@ public class DebugAction extends ActionSupport{
 		//User
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(User.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(User.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_user.csv", append);
 			session.close();
 		}
@@ -412,7 +412,7 @@ public class DebugAction extends ActionSupport{
 		//RandomForestGrove
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = PopulateDataObjects.populateClass(RandomForestGrove.class, session);
+			ArrayList<Object> list = PopulateDataObjects.populateClass(RandomForestGrove.class, session);
 			printObjectsAsCsv(list, basePath + "cbench_randomForestGrove.csv", append);
 			session.close();
 		}
@@ -425,7 +425,7 @@ public class DebugAction extends ActionSupport{
 		//RandomForestTree
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = new ArrayList();
+			ArrayList<Object> list = new ArrayList<Object>();
 			int chunkIndex = 0;
 			while((list = PopulateDataObjects.populateClassInChunks(RandomForestTree.class, chunkSize, chunkIndex, session))!= null){
 				printObjectsAsCsv(list, basePath + "cbench_randomForestTree.csv", append);
@@ -443,7 +443,7 @@ public class DebugAction extends ActionSupport{
 		//PredictionValue
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = new ArrayList();
+			ArrayList<Object> list = new ArrayList<Object>();
 			int chunkIndex = 0;
 			while((list = PopulateDataObjects.populateClassInChunks(PredictionValue.class, chunkSize, chunkIndex, session))!= null){
 				printObjectsAsCsv(list, basePath + "cbench_predictionValue.csv", append);
@@ -463,7 +463,7 @@ public class DebugAction extends ActionSupport{
 		//DataSet
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = new ArrayList();
+			ArrayList<Object> list = new ArrayList<Object>();
 			int chunkIndex = 0;
 			while((list = PopulateDataObjects.populateClassInChunks(DataSet.class, chunkSize, chunkIndex, session))!= null){
 				printObjectsAsCsv(list, basePath + "cbench_dataset.csv", append);
@@ -481,7 +481,7 @@ public class DebugAction extends ActionSupport{
 		//Prediction
 		try{
 			Session session = HibernateUtil.getSession();
-			ArrayList list = new ArrayList();
+			ArrayList<Object> list = new ArrayList<Object>();
 			int chunkIndex = 0;
 			while((list = PopulateDataObjects.populateClassInChunks(Prediction.class, chunkSize, chunkIndex, session))!= null){
 				printObjectsAsCsv(list, basePath + "cbench_prediction.csv", append);
@@ -533,7 +533,6 @@ public class DebugAction extends ActionSupport{
 				Utility.writeToDebug(str);
 		}
 		FileAndDirOperations.writeStringToFile("", Constants.CECCR_BASE_PATH);
-		
 		return SUCCESS;
 	}
 	
@@ -543,7 +542,7 @@ public class DebugAction extends ActionSupport{
 		return SUCCESS;
 	}
 	
-	public static void restoreTable(Class c, String fileName){
+	public static void restoreTable(Class<?> c, String fileName){
 		
 	}
 	

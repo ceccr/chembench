@@ -1,14 +1,17 @@
 package edu.unc.ceccr.workflows.descriptors;
 
-import java.io.*;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.Descriptors;
-import edu.unc.ceccr.utilities.Utility;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
+
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.Descriptors;
+import edu.unc.ceccr.utilities.Utility;
 
 public class WriteDescriptors{
     //using a set of Descriptors objects, create output files for kNN or SVM
@@ -432,6 +435,7 @@ public class WriteDescriptors{
         int xFileNumDescriptors = Integer.parseInt(src.next());
 
         line = br.readLine();
+        src.close();
         src = new Scanner(line);
         while(src.hasNext()){
             predictorDescriptorNameString.append(src.next() + " ");
@@ -444,11 +448,13 @@ public class WriteDescriptors{
         if(predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)){
             //get min and max values
             line = br.readLine();
+            src.close();
             src = new Scanner(line);
             while(src.hasNext()){
                 predictorDescriptorValueMinima.add(src.next());
             }
             line = br.readLine();
+            src.close();
             src = new Scanner(line);
             while(src.hasNext()){
                 predictorDescriptorValueMaxima.add(src.next());
@@ -457,16 +463,20 @@ public class WriteDescriptors{
         else if(predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)){
             //get avg and stdDev values
             line = br.readLine();
+            src.close();
             src = new Scanner(line);
             while(src.hasNext()){
                 predictorDescriptorValueAvgs.add(src.next());
             }
             line = br.readLine();
+            src.close();
             src = new Scanner(line);
             while(src.hasNext()){
                 predictorDescriptorValueStdDevs.add(src.next());
             }
         }
+        src.close();
+        br.close();
     }
     
     public static void writeModelingXFile(ArrayList<String> compoundNames, 

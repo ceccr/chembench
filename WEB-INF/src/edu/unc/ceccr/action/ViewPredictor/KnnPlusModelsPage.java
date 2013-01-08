@@ -8,8 +8,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnPlusModel;
@@ -65,7 +63,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
 		}
 		
 		ArrayList<descriptorFrequency> descriptorFrequencies = new ArrayList<descriptorFrequency>();
-		ArrayList<String> mapKeys = new ArrayList(descriptorFreqMap.keySet());
+		ArrayList<String> mapKeys = new ArrayList<String>(descriptorFreqMap.keySet());
 		for(String k: mapKeys){
 			descriptorFrequency df = new descriptorFrequency();
 			df.setDescriptor(k);

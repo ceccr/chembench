@@ -1,8 +1,13 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-import java.io.*;
-import java.nio.channels.FileChannel;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
 
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
@@ -13,12 +18,6 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.global.Constants;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
-
-import javax.print.attribute.standard.JobName;
 
 public class RandomForest{
 

@@ -1,14 +1,17 @@
 package edu.unc.ceccr.persistence;
 
-import javax.persistence.*;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.utilities.Utility;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "cbench_knnPlusModel")
 public class KnnPlusModel implements java.io.Serializable{
-
+	
+	private static final long serialVersionUID = 1L;
 	private Long id;
 	private Long predictorId;
 	private String isYRandomModel;

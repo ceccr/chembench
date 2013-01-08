@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.Vector;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 

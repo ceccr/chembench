@@ -23,15 +23,15 @@ public class WhenServerStarts {
     }
     
     private void loadConfigFile(){
-        
+    	// TODO method stub
     }
     
     private void testDatabaseConnection(){
-        
+    	// TODO method stub
     }
 
     private void loadJobListsAndStartThreads(){
-        
+    	// TODO method stub
     }
     
 }

@@ -1,19 +1,14 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-import java.io.*;
-import java.nio.channels.FileChannel;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.util.Scanner;
 
-import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.LsfOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.jobs.CentralDogma;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Scanner;
 
 public class LsfUtilities{
 	

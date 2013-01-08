@@ -9,26 +9,27 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
-import edu.unc.ceccr.persistence.CompoundPredictions;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.CompoundPredictions;
+import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
+import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.KnnParameters;
 import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
-import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.RandomForestTree;
@@ -36,10 +37,7 @@ import edu.unc.ceccr.persistence.SoftwareLink;
 import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-
-import org.apache.log4j.Logger;
 
 public class PopulateDataObjects
 {
@@ -1461,7 +1459,7 @@ public class PopulateDataObjects
     }
 
     @SuppressWarnings("unchecked")
-    public static List 
+    public static List<ExternalValidation> 
     getExternalValidationValues(Long predictorId, Session session)
     {
 
@@ -1509,9 +1507,9 @@ public class PopulateDataObjects
         }
         try {
             if (tasks != null) {
-                Iterator i = tasks.iterator();
+                Iterator<Job> i = tasks.iterator();
                 while (i.hasNext()) {
-                    Job ti = (Job) i.next();
+                    Job ti = i.next();
                     if (!justRunning)
                         taskNames.add(ti.getJobName());
                     else if (!ti.getStatus().equals(Constants.QUEUED))

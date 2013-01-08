@@ -2,22 +2,16 @@ package edu.unc.ceccr.action;
 
 import java.io.File;
 import java.util.ArrayList;
-
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
-
-//struts2
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
-
 import org.apache.commons.collections.ListUtils;
 import org.hibernate.Session;
-import org.jgroups.SetStateEvent;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
@@ -31,6 +25,7 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction;
+//struts2
 
 
 public class PredictionFormActions extends ActionSupport

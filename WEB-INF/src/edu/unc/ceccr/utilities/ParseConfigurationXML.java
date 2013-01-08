@@ -2,12 +2,17 @@ package edu.unc.ceccr.utilities;
 
 import java.io.File;
 import java.io.IOException;
-import org.w3c.dom.*;
-import javax.xml.parsers.DocumentBuilderFactory;
+
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.apache.log4j.Logger;
 
 import edu.unc.ceccr.global.Constants;
 

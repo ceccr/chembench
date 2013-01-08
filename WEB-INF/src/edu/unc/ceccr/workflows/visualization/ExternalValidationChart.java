@@ -1,10 +1,14 @@
 package edu.unc.ceccr.workflows.visualization;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Stroke;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -14,35 +18,6 @@ import java.util.List;
 
 import org.apache.commons.validator.GenericValidator;
 import org.hibernate.Session;
-import org.jfree.data.statistics.HistogramDataset;
-import org.jfree.data.xy.IntervalXYDataset;
-import org.jfree.data.xy.XYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.ExternalValidation;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
 import org.jfree.chart.ChartUtilities;
@@ -55,8 +30,18 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.chart.title.TextTitle;
 import org.jfree.chart.urls.CustomXYURLGenerator;
+import org.jfree.data.xy.XYDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
+
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.ExternalValidation;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.Utility;
 
 
 public class ExternalValidationChart {
@@ -150,7 +135,7 @@ public class ExternalValidationChart {
 		List<XYSeries> stdDevList = new ArrayList<XYSeries>();
 		List<XYSeries> highlightedStdDevList = new ArrayList<XYSeries>();
 		
-		Iterator it = extValidation.iterator();
+		Iterator<ExternalValidation> it = extValidation.iterator();
 		while(it.hasNext())
 		{
 			extv=(ExternalValidation)it.next();
@@ -220,7 +205,7 @@ public class ExternalValidationChart {
 		
 		//Standard deviation lines
 		int i=3;
-		Iterator it2=stdDevList.iterator();
+		Iterator<XYSeries> it2=stdDevList.iterator();
 		while(it2.hasNext())
 		{
 			ds.addSeries((XYSeries)it2.next());
@@ -372,9 +357,9 @@ public class ExternalValidationChart {
 	}
 	*/
 	
-	protected static ArrayList customizedURLs( XYDataset ds, HashMap map,String predictorName, String user) 
+	protected static ArrayList<String> customizedURLs( XYDataset ds, HashMap<Integer, String> map, String predictorName, String user) 
 	{
-		ArrayList<String> list=new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<String>();
 		String url;
 	
 		for(int i=0;i<map.size();i++)
@@ -396,7 +381,7 @@ public class ExternalValidationChart {
 		double min=100.00;
 		double extvalue;
 		ExternalValidation extv=null;
-		Iterator it= extValidation.iterator();
+		Iterator<ExternalValidation> it= extValidation.iterator();
 	
 		while(it.hasNext()) {
 			extv=( ExternalValidation)it.next();
@@ -422,7 +407,7 @@ public class ExternalValidationChart {
 		double max=-100.00;
 		double extvalue;
 		ExternalValidation extv=null;
-		Iterator it= extValidation.iterator();
+		Iterator<ExternalValidation> it= extValidation.iterator();
 	
 		while(it.hasNext())
 		{
