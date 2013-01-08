@@ -11,23 +11,23 @@
 
     <package name="default" namespace="/" extends="struts-default">
                 
-        <default-action-ref name="home" />
+       <default-action-ref name="home" />
 		
-		<global-results>
+       <global-results>
 		<result name="login">jsp/main/notLoggedIn.jsp</result>
-		</global-results>
+       </global-results>
 		
 		<!-- temp -->
-		<action name="tooltipDemo">
+       <action name="tooltipDemo">
             <result>jsp/modelingOutput/viewPredictor-extValidationChart.jsp</result>
        </action>
-		<action name="compoundTooltip" class="edu.unc.ceccr.action.TooltipActions" method="loadExternalValidationChartTooltip">
+       <action name="compoundTooltip" class="edu.unc.ceccr.action.TooltipActions" method="loadExternalValidationChartTooltip">
             <result>jsp/modelingOutput/compoundTooltip.jsp</result>
        </action>
-		<action name="dbdoom" class="edu.unc.ceccr.action.DebugAction" method="printDatabaseTables">
+       <action name="dbdoom" class="edu.unc.ceccr.action.DebugAction" method="printDatabaseTables">
             <result>jsp/main/home.jsp</result>
        </action>
-		<action name="addExternalAccuracies" class="edu.unc.ceccr.action.DebugAction" method="addExternalAccuracies">
+       <action name="addExternalAccuracies" class="edu.unc.ceccr.action.DebugAction" method="addExternalAccuracies">
             <result>jsp/main/home.jsp</result>
        </action>
        

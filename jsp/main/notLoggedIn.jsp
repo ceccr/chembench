@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
-<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
+<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="javascript/script.js"> </script>
 
 </head>
@@ -71,7 +71,7 @@
 				        }  
 				        String ip = ipAddress.replaceAll("\\.", "");
 				   	%>
-			        Or, <a href="/login?username=guest&ip=<%=ip %>"
+			        Or, <a href="login?username=guest&ip=<%=ip %>"
 			        onclick="alert('The guest account allows a user to explore the function of Chembench with publicly available datasets, predictions based on a molecule, and modeling using random forest. All guest data is deleted when you leave the site or are inactive for 90 minutes. For additional function, please register.')">
 			        login as a guest</a></span>
 			        </td></tr></table>
@@ -82,7 +82,7 @@
 				<br />
 		        <table width="250" border="0" ><tr><td>
 		        <span class="ccbHomeStandard">
-		        Forget your password? <a href="/forgotPassword">click here</a></span>
+		        Forget your password? <a href="forgotPassword">click here</a></span>
 		        </td></tr></table> 
 			</s:if>
 	        

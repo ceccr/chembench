@@ -2,13 +2,15 @@ package edu.unc.ceccr.persistence;
 
 import javax.persistence.*;
 
-import edu.unc.ceccr.utilities.Utility;
-
 @Entity
 @Table(name = "cbench_svmModel")
 public class SvmModel implements java.io.Serializable{
 	
-	private Long id;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private Long id;
 	private Long predictorId;
 	private String isYRandomModel;
 	

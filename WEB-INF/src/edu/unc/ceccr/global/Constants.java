@@ -166,7 +166,7 @@ public class Constants {
 	public static String BUILD_DATE_FILE_PATH;
 	public static String BUILD_DATE;
 	public static String CECCR_USER_BASE_PATH;
-	public static String XML_FILE_PATH;
+	public static String XML_FILE_PATH; 
 	public static String SDFILE_FILEPATH ;
 	public static String DATAFILE_FILEPATH ;
 	

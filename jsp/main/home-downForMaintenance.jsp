@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
-<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
+<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="javascript/script.js"> </script>
  
 </head>
@@ -17,7 +17,7 @@
     <td width="407" height="665" align="left" valign="top"><p class="ccbHomeHeadings">
       Chembench is currently down for maintenance. Service will return on March 20th at 10 PM EST. Thank you for your patience.<br />
         <br />
-        <img src="/theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
+        <img src="theme/ccbTheme/images/ccbHorizontalRule.jpg" width="407" height="6" /></p>
       
 </table>
 

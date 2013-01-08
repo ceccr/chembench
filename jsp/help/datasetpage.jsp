@@ -6,7 +6,7 @@
 
 <b>Datasets</b>
 
-<p><img src="/theme/img/dataset-workflow.png"></p>
+<p><img src="theme/img/dataset-workflow.png"></p>
 <p> The above diagram describes the dataset creation process. 
 You begin by uploading a set of compounds, including any activities you want to model. 
 The data you upload will be prepared for use with Chembench's modeling and prediction processes.

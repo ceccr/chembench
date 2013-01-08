@@ -12,7 +12,7 @@ Version 1.5.7
 addEvent(window, "load", sortables_init);
 
 /* You can change these values */
-var image_path = "/theme/img/";
+var image_path = "theme/img/";
 var image_up = "sortArrowUp.png";
 var image_down = "sortArrowDown.png";
 var image_none = "sortArrowUpDown.png";

@@ -356,14 +356,16 @@ ReadDescriptors
                    , ArrayList<Descriptors> descriptorValueMatrix
                     ) throws Exception
     {
-        Utility.writeToDebug("reading Uploaded Descriptors");
-        
+        //Utility.writeToDebug("reading Uploaded Descriptors");
+        logger.debug("Trying to read uploaded descriptors");
         File file = new File(xFile);
         if(!file.exists() || file.length() == 0){
+            logger.error(xFile +": xFile not found");
             throw new Exception("Could not read X file descriptors: " 
                                + xFile 
                                + "\n"
                                );
+            
         }
         FileReader fin = new FileReader(file);
         BufferedReader br = new BufferedReader(fin);

@@ -22,8 +22,8 @@ screen.</p>
 
 <p>In Chembench, you can create <b>Datasets</b>, <b>Predictors</b>, and <b>Predictions</b>.</p>
 
-<p>A <b>dataset</b> is created from files that you upload. Typically, you will use a set of compounds (an <a href="/help-fileformats#SDF">SDF</a>), along with 
-experimental values for those compounds (an <a href="/help-fileformats#ACT">ACT file</a>) to make a dataset. Datasets can be created using the DATASET 
+<p>A <b>dataset</b> is created from files that you upload. Typically, you will use a set of compounds (an <a href="help-fileformats#SDF">SDF</a>), along with 
+experimental values for those compounds (an <a href="help-fileformats#ACT">ACT file</a>) to make a dataset. Datasets can be created using the DATASET 
 tab. There are also many benchmark datasets available on Chembench for you to experiment with.</p>
 
 <p>A <b>predictor</b> is a set of models that can be used to make a prediction. You need a modeling dataset (a dataset that 

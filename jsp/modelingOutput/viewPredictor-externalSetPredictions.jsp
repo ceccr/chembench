@@ -113,7 +113,7 @@
 			<td class="TableRowText02"><s:property value="compoundId" /></td>
 			<s:if test="!dataset.sdfFile.isEmpty()"><td class="TableRowText02">
 				<a  class="compound_img_a" href="#" onclick="window.open('compound3D?project=<s:property value='selectedPredictor.name' />&projectType=modeling&compoundId=<s:property value='compoundId' />&user=<s:property value='user.userName' />&datasetName=<s:property value='dataset.name' />', '<% new java.util.Date().getTime(); %>','width=350, height=350'); return false;">
-				<img src="/imageServlet?projectType=modeling&user=<s:property value='dataset.userName' />&project=<s:property value='selectedPredictor.name' />&compoundId=<s:property value='compoundId' />&datasetName=<s:property value='dataset.name' />" border="0" height="150"/>
+				<img src="imageServlet?projectType=modeling&user=<s:property value='dataset.userName' />&project=<s:property value='selectedPredictor.name' />&compoundId=<s:property value='compoundId' />&datasetName=<s:property value='dataset.name' />" border="0" height="150"/>
 				</a>
 				</td>
 			</s:if>

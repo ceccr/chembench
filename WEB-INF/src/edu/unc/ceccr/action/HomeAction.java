@@ -84,7 +84,11 @@ HomeAction extends ActionSupport implements ServletResponseAware
             else{
                 try{
                     //STATIC PATH we didn't know how to make it dynamic in Struts 2
-                    String path = "/CHEMBENCH/prod/tomcat6/webapps/PROD/WEB-INF/systemConfig.xml";
+
+                    //storing the file outside the tomcat context, to not have to
+                    //store it in git, else this file becomes visible to whole world with
+                    // our public Cgit browser.
+                    String path = "/CHEMBENCH/common/config/systemConfig.xml";
                     
                     Utility.readBuildDateAndSystemConfig(path);
                 }

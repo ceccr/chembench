@@ -11,7 +11,7 @@
  
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
-   <td><p><a href="home"><img src="/theme/ccbTheme/images/ccbLogo.jpg" border="0" /></a></p></td>
+   <td><p><a href="home"><img src="theme/ccbTheme/images/ccbLogo.jpg" border="0" /></a></p></td>
    <td>
    <div class='StandardTextDarkGrayParagraph'>
    
@@ -33,7 +33,7 @@
 		  				</span>
 					</div>
 					<div align="right">
-						<a href="/logout">log out</a> 
+						<a href="logout">log out</a> 
 						<s:if test="!#session['user'].userName.contains('guest')">
 							| <a href="editProfile">edit profile</a> 
 						</s:if>

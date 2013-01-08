@@ -38,7 +38,7 @@
 		
 		<s:property value="outputMessage" />
 		<br /><br />
-		While you wait, you might like to read the <a href="/help-overview">overview of Chembench</a>.
+		While you wait, you might like to read the <a href="help-overview">overview of Chembench</a>.
 		<br /><br />
 		Enjoy,<br/>
 		The Chembench Team.

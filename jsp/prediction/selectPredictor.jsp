@@ -13,7 +13,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
-<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
+<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
@@ -43,7 +43,7 @@
 		Predictors generated and validated by UNC's Molecular Modeling Laboratory are available
 		under <b>Drug Discovery Predictors</b>, <b>ADME Predictors</b>, and <b>Toxicity Predictors</b>. 
 		Predictors you create using the MODELING tab appear under <b>Private Predictors</b>.
-		<br><br>For more information about making predictions, see the <a href="/help-prediction">Prediction 
+		<br><br>For more information about making predictions, see the <a href="help-prediction">Prediction 
 		help page</a>.  
 		<br><br>Click the checkboxes to the left of each predictor you want to use, and hit the "Select 
 		Predictors" button. Then you may predict the activity of a dataset, a SMILES 

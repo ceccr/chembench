@@ -15,13 +15,13 @@
 				<tr>
 					<!-- header for left side table -->
 					<th class="TableRowText01">Compound ID<br />
-						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?id=<s:property value='dataset.id' />&orderBy=compoundId&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
-						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?id=<s:property value='dataset.id' />&orderBy=compoundId&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
+						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?id=<s:property value='dataset.id' />&orderBy=compoundId&sortDirection=asc")><img src="theme/img/sortArrowUp.png" /></a>
+						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?id=<s:property value='dataset.id' />&orderBy=compoundId&sortDirection=desc")><img src="theme/img/sortArrowDown.png" /></a>
 					</th>
 					<s:if test="!dataset.sdfFile.isEmpty()"><th class="TableRowText01_unsortable">Structure</th></s:if>
 					<th class="TableRowText01">Activity<br />
-						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?id=<s:property value='dataset.id' />&orderBy=activityValue&sortDirection=asc")><img src="/theme/img/sortArrowUp.png" /></a>
-						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?id=<s:property value='dataset.id' />&orderBy=activityValue&sortDirection=desc")><img src="/theme/img/sortArrowDown.png" /></a>
+						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?id=<s:property value='dataset.id' />&orderBy=activityValue&sortDirection=asc")><img src="theme/img/sortArrowUp.png" /></a>
+						<a href="#tabs" onclick=loadExternalCompoundsTab("viewDatasetExternalCompoundsSection?id=<s:property value='dataset.id' />&orderBy=activityValue&sortDirection=desc")><img src="theme/img/sortArrowDown.png" /></a>
 					</th>
 				</tr>
 				<!-- body for left side table -->
@@ -32,7 +32,7 @@
 						<td class="TableRowText02">
 						<a class="compound_img_a" href="#" onclick="window.open('compound3D?compoundId=<s:property value="url_friendly_id" />&projectType=dataset&user=<s:property value="dataset.userName" />&datasetName=<s:property value="dataset.name" />', '','width=350, height=350'); return false;">
 		
-						<img src="/imageServlet?user=<s:property value="dataset.userName" />&projectType=dataset&compoundId=<s:property value='url_friendly_id' />&datasetName=<s:property value="dataset.name" />" border="0" height="150"/>
+						<img src="imageServlet?user=<s:property value="dataset.userName" />&projectType=dataset&compoundId=<s:property value='url_friendly_id' />&datasetName=<s:property value="dataset.name" />" border="0" height="150"/>
 						</a>					
 						</td>
 					</s:if>

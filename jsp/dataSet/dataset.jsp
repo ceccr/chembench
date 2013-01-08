@@ -13,7 +13,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/standard.css" rel="stylesheet" type="text/css" />
 <link href="theme/links.css" rel="stylesheet" type="text/css" />
-<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
+<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
@@ -80,7 +80,7 @@
 			  compound. A pairwise compound similarity matrix will be created and displayed as a heatmap. 
 			  <br /><br />
               For more information about dataset creation and defining external sets, see the 
-              <a href="/help-dataset">Dataset help section</a>.  
+              <a href="help-dataset">Dataset help section</a>.  
             </p></td>
         </tr>
       </table>
@@ -106,7 +106,7 @@
 			For the "Modeling Set" and "Prediction Set", you do not need to provide descriptors; Chembench will
 			generate descriptors as needed for visualization, modeling, and prediction. <br />
 			For the "Modeling Set With Descriptors" and "Prediction Set With Descriptors", you will need to <br />
-			upload an <a href="/help-fileformats#X">X</a> file containing the descriptor values.
+			upload an <a href="help-fileformats#X">X</a> file containing the descriptor values.
 			<br />
 			</i></div></td>
 		</tr>
@@ -126,16 +126,16 @@
 		<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
     	<sx:tabbedpanel id="datasetTypeTabbedPanel" afterSelectTabNotifyTopics="/datasetTypeSelect">
     	
-	    	<sx:div id="MODELING" href="/loadModelingSection" label="Modeling Set" theme="ajax" loadingText="Loading dataset types...">
+	    	<sx:div id="MODELING" href="loadModelingSection" label="Modeling Set" theme="ajax" loadingText="Loading dataset types...">
 			</sx:div>
 			
-			<sx:div id="PREDICTION" href="/loadPredictionSection" label="Prediction Set" theme="ajax" loadingText="Loading dataset types..." preload="false">
+			<sx:div id="PREDICTION" href="loadPredictionSection" label="Prediction Set" theme="ajax" loadingText="Loading dataset types..." preload="false">
 			</sx:div>
 
-			<sx:div id="MODELINGWITHDESCRIPTORS" href="/loadModelingWithDescriptorsSection" label="Modeling Set With Descriptors" theme="ajax" loadingText="Loading dataset types...">
+			<sx:div id="MODELINGWITHDESCRIPTORS" href="loadModelingWithDescriptorsSection" label="Modeling Set With Descriptors" theme="ajax" loadingText="Loading dataset types...">
 			</sx:div>
 			
-			<sx:div id="PREDICTIONWITHDESCRIPTORS" href="/loadPredictionWithDescriptorsSection" label="Prediction Set With Descriptors" theme="ajax" loadingText="Loading dataset types...">
+			<sx:div id="PREDICTIONWITHDESCRIPTORS" href="loadPredictionWithDescriptorsSection" label="Prediction Set With Descriptors" theme="ajax" loadingText="Loading dataset types...">
 			</sx:div>
 
     	</sx:tabbedpanel>
@@ -178,13 +178,13 @@
 			<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
 			<sx:tabbedpanel id="splitTypeTabbedPanel" afterSelectTabNotifyTopics="/splitTypeSelect">
     	
-		    	<sx:div id="RANDOM" href="/loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading split type...">
+		    	<sx:div id="RANDOM" href="loadAutoExternalSection" label="Random Split" theme="ajax" loadingText="Loading split type...">
 				</sx:div>
 	    	
-				<sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading split type..." preload="true">
+				<sx:div id="USERDEFINED" href="loadManualExternalSection" label="Choose Compounds" theme="ajax" loadingText="Loading split type..." preload="true">
 				</sx:div>
 
-				<sx:div id="NFOLD" href="/loadNFoldExternalSection" label="n-Fold Split" theme="ajax" loadingText="Loading split type..." preload="true">
+				<sx:div id="NFOLD" href="loadNFoldExternalSection" label="n-Fold Split" theme="ajax" loadingText="Loading split type..." preload="true">
 				</sx:div>
 
 	    	</sx:tabbedpanel>
