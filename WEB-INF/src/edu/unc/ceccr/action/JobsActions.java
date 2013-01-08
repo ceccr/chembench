@@ -21,6 +21,8 @@ import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
+import org.apache.log4j.Logger;
+
 public class JobsActions extends ActionSupport
 {
 
@@ -28,6 +30,9 @@ public class JobsActions extends ActionSupport
      * 
      */
     private static final long serialVersionUID = 42L;
+    
+    private static Logger logger 
+                              = Logger.getLogger(JobsActions.class.getName());
 
     public String loadPage() throws Exception
     {
@@ -38,13 +43,13 @@ public class JobsActions extends ActionSupport
         ActionContext context = ActionContext.getContext();
 
         if (context == null) {
-            Utility.writeToStrutsDebug("No ActionContext available");
+            logger.warn("No ActionContext available");
         }
         else {
             user = (User) context.getSession().get("user");
 
             if (user == null) {
-                Utility.writeToStrutsDebug("No user is logged in.");
+                logger.warn("No user is logged in.");
                 result = LOGIN;
                 return result;
             }
@@ -253,7 +258,7 @@ public class JobsActions extends ActionSupport
 
         session.close();
 
-        Utility.writeToStrutsDebug("Forwarding user " + user.getUserName()
+        logger.info("Forwarding user " + user.getUserName()
                 + " to jobs page.");
 
         return result;
