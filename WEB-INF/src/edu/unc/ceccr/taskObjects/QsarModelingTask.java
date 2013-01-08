@@ -39,9 +39,13 @@ import edu.unc.ceccr.workflows.modelingPrediction.Svm;
 import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
 
+import org.apache.log4j.Logger;
+// logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
+
 public class QsarModelingTask extends WorkflowTask
 {
-
+    private static Logger logger 
+                    = Logger.getLogger(QsarModelingTask.class.getName());
     // job details
     private String                 sdFileName;
     private String                 actFileName;
@@ -210,8 +214,8 @@ public class QsarModelingTask extends WorkflowTask
 
     public QsarModelingTask(Predictor predictor) throws Exception
     {
-        Utility.writeToDebug("Recovering job from predictor: "
-                + predictor.getName(), userName, jobName);
+        logger.info("Recovering job, " + jobName+" from predictor: "
+                + predictor.getName()+ " submitted by user, " +userName +".");
         this.predictor = predictor;
 
         // get dataset
@@ -260,13 +264,15 @@ public class QsarModelingTask extends WorkflowTask
             ArrayList<String> extCompoundArray = DatasetFileOperations
                     .getXCompoundNames(filePath + "ext_0.x");
             numExternalCompounds = extCompoundArray.size();
-            Utility.writeToDebug("Recovering: numExternalCompounds set to "
-                    + numExternalCompounds, userName, jobName);
+            logger.info("Recovering: numExternalCompounds set to "
+                    + numExternalCompounds + " by user, " + userName 
+                    + " in job, " + jobName + ".");
         }
         else {
-            Utility.writeToDebug("Recovering: could not find " + filePath
-                    + "ext_0.x . numExternalCompounds set to 0.", userName,
-                    jobName);
+            logger.info("Recovering: could not find " + filePath
+                    + "ext_0.x . numExternalCompounds set to 0."
+                    + " For job, " + jobName+" submitted by user, "
+                    + userName +".");
             numExternalCompounds = 0;
         }
 
@@ -299,11 +305,13 @@ public class QsarModelingTask extends WorkflowTask
 
         // This function just loads all the ModelingForm parameters into local
         // variables
-        Utility.writeToDebug("[[Modeling Type: "
-                + ModelingForm.getModelingType(), userName, jobName);
+        logger.info("[[Modeling Type: "
+                + ModelingForm.getModelingType()
+                + " submitted by user, " + userName 
+                + " for job, "+ jobName + ".");
         modelType = ModelingForm.getModelingType();
         scalingType = ModelingForm.getScalingType();
-        Utility.writeToDebug("scalingType in QsarModelingTask: "
+        logger.info("scalingType in QsarModelingTask: "
                 + scalingType);
 
         stdDevCutoff = ModelingForm.getStdDevCutoff();
@@ -544,7 +552,9 @@ public class QsarModelingTask extends WorkflowTask
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e, userName, jobName);
+            logger.error("Runtime Exception encountered for job, "+
+                         jobName + " submitted by user, " + userName +".\n" +
+                         e.toString());
         }
 
         // set modeling params id in predictor
@@ -568,7 +578,9 @@ public class QsarModelingTask extends WorkflowTask
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e, userName, jobName);
+            logger.error("Runtime Exception encountered for job, "+
+                    jobName + " submitted by user, " + userName +".\n" +
+                    e.toString());
         }
         finally {
             session.close();
@@ -611,9 +623,10 @@ public class QsarModelingTask extends WorkflowTask
         // read in descriptors from the dataset
         step = Constants.PROCDESCRIPTORS;
         if (descriptorGenerationType.equals(Constants.MOLCONNZ)) {
-            Utility.writeToDebug(
-                    "Converting MolconnZ output to .x format and reading",
-                    userName, jobName);
+            logger.debug(
+                    "Converting MolconnZ output to .x format and reading " 
+                   +"for job, " + jobName + " submitted by user, " +
+                            userName + ".");
             ReadDescriptors.readMolconnZDescriptors(filePath + sdFileName
                     + ".molconnz", descriptorNames, descriptorValueMatrix);
 
@@ -623,8 +636,8 @@ public class QsarModelingTask extends WorkflowTask
             // sdFileName + ".mz.x", descriptorNames, descriptorValueMatrix);
         }
         else if (descriptorGenerationType.equals(Constants.CDK)) {
-            Utility.writeToDebug("Processing CDK descriptors", userName,
-                    jobName);
+            logger.debug("Processing CDK descriptors for job, "+ jobName
+                    + "submitted by user, " +userName);
 
             ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk",
                     filePath);
@@ -643,32 +656,32 @@ public class QsarModelingTask extends WorkflowTask
                     .getACTCompoundNames(filePath + actFileName);
         }
         else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
-            Utility.writeToDebug("Processing DragonH descriptors", userName,
-                    jobName);
+            logger.debug("Processing DragonH descriptors for job, "+ jobName
+                    + "submitted by user, " +userName);
             ReadDescriptors.readDragonDescriptors(filePath + sdFileName
                     + ".dragonH", descriptorNames, descriptorValueMatrix);
         }
         else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
-            Utility.writeToDebug("Processing DragonNoH descriptors",
-                    userName, jobName);
+            logger.debug("Processing DragonNoH descriptors for job, "+ jobName
+                    + "submitted by user, " +userName);
             ReadDescriptors.readDragonDescriptors(filePath + sdFileName
                     + ".dragonNoH", descriptorNames, descriptorValueMatrix);
         }
         else if (descriptorGenerationType.equals(Constants.MOE2D)) {
-            Utility.writeToDebug("Processing MOE2D descriptors", userName,
-                    jobName);
+            logger.debug("Processing MOE2D descriptors for job, "+ jobName
+                    + "submitted by user, " +userName);
             ReadDescriptors.readMoe2DDescriptors(filePath + sdFileName
                     + ".moe2D", descriptorNames, descriptorValueMatrix);
         }
         else if (descriptorGenerationType.equals(Constants.MACCS)) {
-            Utility.writeToDebug("Processing MACCS descriptors", userName,
-                    jobName);
+            logger.debug("Processing MACCS descriptors for job, "+ jobName
+                    + "submitted by user, " +userName);
             ReadDescriptors.readMaccsDescriptors(filePath + sdFileName
                     + ".maccs", descriptorNames, descriptorValueMatrix);
         }
         else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
-            Utility.writeToDebug("Processing UPLOADED descriptors", userName,
-                    jobName);
+            logger.debug("Processing UPLOADED descriptors for job, "+ jobName
+                    + "submitted by user, " +userName);
             ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(),
                     descriptorNames, descriptorValueMatrix);
         }
@@ -814,25 +827,28 @@ public class QsarModelingTask extends WorkflowTask
         }
         else if (modelType.equals(Constants.RANDOMFOREST)) {
             step = Constants.YRANDOMSETUP;
-            Utility.writeToDebug("making X files", userName, jobName);
+            logger.debug("making X files for job, "+jobName+ " submitted by "
+                    + "user, "+ userName + ".");
             RandomForest.makeRandomForestXFiles(scalingType,
                     Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName
                             + "/");
-            Utility.writeToDebug("setting up y-randomization", userName,
-                    jobName);
+            logger.debug("setting up y-randomization, "+jobName+ " submitted by "
+                    + "user, "+ userName + ".");
             RandomForest.SetUpYRandomization(userName, jobName);
 
             step = Constants.MODELS;
-            Utility.writeToDebug("building models", userName, jobName);
+            logger.debug("building models, "+jobName+ " submitted by "
+                    + "user, "+ userName + ".");
             RandomForest.buildRandomForestModels(randomForestParameters,
                     actFileDataType, scalingType, categoryWeights, path,
                     jobName);
-            Utility.writeToDebug("building y-random models", userName,
-                    jobName);
+            logger.debug("building y-random models, "+jobName+ " submitted by "
+                    + "user, "+ userName + ".");
             RandomForest.buildRandomForestModels(randomForestParameters,
                     actFileDataType, scalingType, categoryWeights, path
                             + "yRandom/", jobName);
-            Utility.writeToDebug("modeling phase done", userName, jobName);
+            logger.debug("modeling phase done, "+jobName+ " submitted by "
+                    + "user, "+ userName + ".");
         }
     }
 
@@ -914,7 +930,8 @@ public class QsarModelingTask extends WorkflowTask
                 tx.commit();
             }
             catch (Exception ex) {
-                Utility.writeToDebug(ex, userName, jobName);
+                logger.error("Error while executing job, "+jobName+" submitted by " 
+                		    + userName + ".\n" + ex.toString());
                 tx.rollback();
             }
 
@@ -941,7 +958,8 @@ public class QsarModelingTask extends WorkflowTask
                 tx.commit();
             }
             catch (Exception ex) {
-                Utility.writeToDebug(ex, userName, jobName);
+                logger.error("Error while executing job, "+jobName+" submitted by " 
+                        + userName + ".\n" + ex.toString());
                 tx.rollback();
             }
 
@@ -958,7 +976,7 @@ public class QsarModelingTask extends WorkflowTask
                         .readExternalSetPredictionOutput(filePath, predictor);
             }
             else {
-                Utility.writeToDebug("No external compounds; " +
+                logger.debug("No external compounds; " +
                 		"skipping external set prediction!");
             }
 
@@ -1068,7 +1086,9 @@ public class QsarModelingTask extends WorkflowTask
             tx.commit();
         }
         catch (RuntimeException e) {
-            Utility.writeToDebug(e, userName, jobName);
+            logger.error("Runtime Exception encountered for job, "+
+                    jobName + " submitted by user, " + userName +".\n" +
+                    e.toString());
             if (tx != null)
                 tx.rollback();
         }
@@ -1087,7 +1107,8 @@ public class QsarModelingTask extends WorkflowTask
             tx.commit();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex, userName, jobName);
+            logger.error("Error while executing job, "+jobName+" submitted by " 
+                    + userName + ".\n" + ex.toString());
             tx.rollback();
         }
 
@@ -1143,7 +1164,9 @@ public class QsarModelingTask extends WorkflowTask
                 tx.commit();
             }
             catch (Exception ex) {
-                Utility.writeToDebug(ex, userName, jobName);
+                logger.error("Error while executing job, "+jobName
+                        +" submitted by " + userName + ".\n" 
+                        + ex.toString());
             }
 
             ModelingUtilities.MoveToPredictorsDir(userName, jobName,
