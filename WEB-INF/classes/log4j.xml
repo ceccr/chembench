@@ -50,7 +50,11 @@
         <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>
-   
+
+    <logger name="edu.unc.ceccr.taskObjects.QsarModelingTask" additivity="false">
+        <level value="all"/>
+        <appender-ref ref="Jobs-Log"/>
+    </logger>   
     
     <!-- default logging -->
     <root>
