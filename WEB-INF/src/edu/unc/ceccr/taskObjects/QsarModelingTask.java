@@ -16,7 +16,6 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnParameters;
 import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
-import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.RandomForestTree;
@@ -884,7 +883,6 @@ public class QsarModelingTask extends WorkflowTask
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
 
-        ArrayList<KnnModel> knnModels = null;
         ArrayList<KnnPlusModel> knnPlusModels = null;
         ArrayList<SvmModel> svmModels = null;
         ArrayList<RandomForestGrove> randomForestGroves = null;
@@ -1057,13 +1055,7 @@ public class QsarModelingTask extends WorkflowTask
             tx = session.beginTransaction();
             session.saveOrUpdate(predictor);
 
-            if (knnModels != null) {
-                for (KnnModel m : knnModels) {
-                    m.setPredictorId(predictor.getId());
-                    session.saveOrUpdate(m);
-                }
-            }
-            else if (knnPlusModels != null) {
+            if (knnPlusModels != null) {
                 for (KnnPlusModel m : knnPlusModels) {
                     m.setPredictorId(predictor.getId());
                     session.saveOrUpdate(m);
