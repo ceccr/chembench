@@ -83,7 +83,8 @@ HomeAction extends ActionSupport implements ServletResponseAware
                 try {
                 	// read $CHEMBENCH_HOME, then append config directory / filename;
                 	// throw a wrapped ServletException if env-var can't be read 
-                	String ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
+                	String ENV_CHEMBENCH_HOME = null; 
+                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
                 	/*
                 	try {
 	                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
@@ -99,7 +100,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                 	File baseDir = new File(ENV_CHEMBENCH_HOME);
                 	File configFile = new File(baseDir, "config/systemConfig.xml");
                 	
-                	// FIXME
+                	// FIXME Check logged values
                 	logger.debug(System.getenv("CHEMBENCH_HOME"));
                 	logger.debug(configFile.getPath());
                 	
