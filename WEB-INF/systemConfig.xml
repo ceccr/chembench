@@ -1,4 +1,6 @@
 <?xml version="1.0"?>
+<!-- This file should be overwritten by build.sh. See alternate-configs/config-readme.txt for more info -->
+
 <CustomConfigration>
 
 <workbench>c-chembench</workbench>
