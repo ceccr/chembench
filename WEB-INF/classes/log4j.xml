@@ -47,7 +47,7 @@
     </logger>
 
     <logger name="edu.unc.ceccr.action.JobsActions" additivity="false">
-        <level value="all"/>
+        <level value="warn"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>
 
