@@ -653,6 +653,8 @@ public class QsarModelingTask extends WorkflowTask
                     sdFileName + ".cdk.x", filePath, actFileName);
             chemicalNames = DatasetFileOperations
                     .getACTCompoundNames(filePath + actFileName);
+            logger.debug("Chemical Names: " + chemicalNames);
+            
         }
         else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
             logger.debug("Processing DragonH descriptors for job, "+ jobName
