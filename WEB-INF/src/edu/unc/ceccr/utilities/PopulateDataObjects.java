@@ -769,7 +769,7 @@ public class PopulateDataObjects
     }
 
     @SuppressWarnings("unchecked")
-    public static List 
+    public static List <Prediction>
     populatePredictions(String userName
                       , boolean onlySaved, Session session)
     {
