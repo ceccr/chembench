@@ -1,23 +1,24 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-import java.io.*;
-import java.nio.channels.FileChannel;
 
-import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.LsfOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.jobs.CentralDogma;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.Scanner;
+
+
+import org.apache.log4j.Logger;
 
 public class LsfUtilities
 {
-
+    private static Logger logger 
+              = Logger.getLogger(LsfUtilities.class.getName());
+    
     public static void
     retrieveCompletedPredictor(String filePath, String lsfPath) 
                                                              throws Exception
@@ -39,6 +40,7 @@ public class LsfUtilities
         File dir = new File(lsfPath);
         dir.mkdirs();
         FileAndDirOperations.deleteDirContents(lsfPath);
+        logger.trace("Created fresh directories @ " + lsfPath);
 
         if (new File(lsfPath + "yRandom/").exists()) {
             FileAndDirOperations.deleteDirContents(lsfPath + "yRandom/");
@@ -46,16 +48,16 @@ public class LsfUtilities
 
         // copy all files from current modeling dir out there
         FileAndDirOperations.copyDirContents(filePath, lsfPath, true);
-
+        logger.trace("Copied all files from "+filePath+" to " + lsfPath);
         // copy kNN executables to the temp directory and to the yRandom
-        // subdirectory
-        // also, make them executable
+        // subdirectory also, make them executable
         FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH
                 + "mmlsoft/bin/", lsfPath, false);
         FileAndDirOperations.makeDirContentsExecutable(lsfPath);
         FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH
                 + "mmlsoft/bin/", lsfPath + "yRandom/", false);
         FileAndDirOperations.makeDirContentsExecutable(lsfPath + "yRandom/");
+        logger.trace("Copied mmlsoft/bin to lsfPath");
 
     }
 
@@ -73,6 +75,8 @@ public class LsfUtilities
             jobId = sc.next();
         }
         Utility.writeToDebug(jobId.substring(1, jobId.length() - 1));
+        in.close();
+        sc.close();
         return jobId.substring(1, jobId.length() - 1);
     }
 
