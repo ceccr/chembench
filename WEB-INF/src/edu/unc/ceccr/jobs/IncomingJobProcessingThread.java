@@ -9,11 +9,13 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
-import edu.unc.ceccr.utilities.Utility;
+
+import org.apache.log4j.Logger;
 
 public class IncomingJobProcessingThread extends Thread
 {
-
+    private static Logger logger 
+               = Logger.getLogger(IncomingJobProcessingThread.class.getName());
     // this takes jobs off the incomingJobs joblist and sends them to lsfJobs
     // and localJobs.
     // You should only ever have one of these threads running - don't start a
@@ -42,7 +44,7 @@ public class IncomingJobProcessingThread extends Thread
                     if (j.getJobType().equals(Constants.DATASET)) {
                         // send it to local
                         movedJob = true;
-                        Utility.writeToDebug("Sending job " + j.getJobName()
+                        logger.info("Sending job " + j.getJobName()
                                 + " to local queue");
                         j.setJobList(Constants.LOCAL);
                         j.workflowTask.jobList = Constants.LOCAL;
@@ -52,7 +54,7 @@ public class IncomingJobProcessingThread extends Thread
                     }
                     else if (j.getJobType().equals(Constants.PREDICTION)) {
                         // send it to local
-                        Utility.writeToDebug("Sending job " + j.getJobName()
+                        logger.info("Sending job " + j.getJobName()
                                 + " to local queue");
                         movedJob = true;
                         j.setJobList(Constants.LOCAL);
@@ -70,7 +72,7 @@ public class IncomingJobProcessingThread extends Thread
                                 || qs.getModelType().equals(Constants.KNNGA)
                                 || qs.getModelType().equals(Constants.SVM)) {
                             if (LsfProcessingThread.lsfHasFreePendSlots()) {
-                                Utility.writeToDebug("Sending job "
+                                logger.info("Sending job "
                                         + j.getJobName() + " to LSF queue");
                                 movedJob = true;
                                 j.setJobList(Constants.LSF);
@@ -83,7 +85,7 @@ public class IncomingJobProcessingThread extends Thread
                         else {
                             // it's an RF job.
                             // send it to local
-                            Utility.writeToDebug("Sending job "
+                            logger.info("Sending job "
                                     + j.getJobName() + " to local queue");
                             movedJob = true;
                             j.setJobList(Constants.LOCAL);
@@ -106,7 +108,7 @@ public class IncomingJobProcessingThread extends Thread
                         catch (RuntimeException e) {
                             if (tx != null)
                                 tx.rollback();
-                            Utility.writeToDebug(e);
+                            logger.error(e);
                         }
                         finally {
                             s.close();
@@ -115,7 +117,7 @@ public class IncomingJobProcessingThread extends Thread
                 }
             }
             catch (Exception ex) {
-                Utility.writeToDebug(ex);
+                logger.error(ex);
             }
         }
     }
