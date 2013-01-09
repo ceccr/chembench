@@ -20,7 +20,9 @@ import edu.unc.ceccr.taskObjects.WorkflowTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
+
+import org.apache.log4j.Logger;
+//logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
 public class CentralDogma
 {
@@ -29,6 +31,8 @@ public class CentralDogma
     // processing jobs list. Initiates the threads that work on these 
     // data structures.
 
+    private static Logger logger 
+                           = Logger.getLogger(CentralDogma.class.getName());
     private final int                   numLocalThreads    = 9;                 
     
     // as many as you want; tune it based on server load.
@@ -40,9 +44,7 @@ public class CentralDogma
     private final int                   numLsfThreads      = 1;                 
     // don't change this unless you've REALLY thought through all possible
     // concurrency issues
-    private final int                   numIncomingThreads = 1;                 
-    // don't change this; the thread does no processing so having > 1 makes
-    // no sense
+
     public SynchronizedJobList          incomingJobs;
     public SynchronizedJobList          localJobs;
     public SynchronizedJobList          lsfJobs;
@@ -64,6 +66,7 @@ public class CentralDogma
             // Fill job lists from the database
             Session s = HibernateUtil.getSession();
 
+            @SuppressWarnings("unchecked")
             ArrayList<Job> jobs = PopulateDataObjects.populateClass(
                     Job.class, s);
             if (jobs == null) {
@@ -74,7 +77,7 @@ public class CentralDogma
                 if (j.getLookupId() != null
                         && !j.getJobList().equals("LIMBO")) {
                     try {
-                        Utility.writeToDebug("restoring job: "
+                        logger.info("Restoring job: "
                                 + j.getJobName());
                         if (j.getJobType().equals(Constants.DATASET)) {
                             Long datasetId = j.getLookupId();
@@ -112,9 +115,8 @@ public class CentralDogma
                         }
                     }
                     catch (Exception ex) {
-                        Utility.writeToDebug(ex);
-                        Utility.writeToDebug("Error restoring job with id: "
-                                + j.getLookupId());
+                        logger.error("Error restoring job with id: "
+                                + j.getLookupId() +"\n" + ex );
                     }
                 }
             }
@@ -135,7 +137,7 @@ public class CentralDogma
 
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
     }
 
@@ -147,8 +149,7 @@ public class CentralDogma
         return instance;
     }
 
-    public void
-            addJobToIncomingList(String userName,
+    public void addJobToIncomingList(String userName,
                                  String jobName,
                                  WorkflowTask wt,
                                  int numCompounds,
@@ -184,7 +185,7 @@ public class CentralDogma
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         finally {
             s.close();
@@ -199,11 +200,11 @@ public class CentralDogma
     {
         // Find job's information, then remove the job from any lists it's in.
 
-        Utility.writeToDebug("Deleting job with id: " + jobId);
+        logger.info("Deleting job with id: " + jobId);
 
         Job j = incomingJobs.removeJob(jobId);
         if (j == null) {
-            Utility.writeToDebug("checking lsf queue");
+            logger.trace("checking lsf queue");
             j = lsfJobs.removeJob(jobId);
 
             if (j != null) {
@@ -221,16 +222,16 @@ public class CentralDogma
             }
         }
         if (j == null) {
-            Utility.writeToDebug("checking local queue");
+            logger.trace("checking local queue");
             j = localJobs.removeJob(jobId);
         }
         if (j == null) {
-            Utility.writeToDebug("checking local queue");
+            logger.trace("checking local queue");
             j = errorJobs.removeJob(jobId);
         }
 
         if (j != null) {
-            Utility.writeToDebug("in main delete");
+            logger.trace("in main delete");
             // delete files associated with the job.
             // Generally this will cause any executables involved in the job
             // to just crash, so we don't worry about them. Crude but
@@ -307,7 +308,7 @@ public class CentralDogma
                 }
             }
             catch (Exception ex) {
-                Utility.writeToDebug(ex);
+                logger.error(ex);
             }
             finally {
                 s.close();
@@ -323,11 +324,11 @@ public class CentralDogma
     {
         Job j = incomingJobs.removeJob(jobId);
         if (j == null) {
-            Utility.writeToDebug("checking lsf queue");
+            logger.trace("checking lsf queue");
             j = lsfJobs.removeJob(jobId);
         }
         if (j == null) {
-            Utility.writeToDebug("checking local queue");
+            logger.trace("checking local queue");
             j = localJobs.removeJob(jobId);
         }
         if (j != null) {
