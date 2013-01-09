@@ -1,6 +1,6 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-import java.io.*;
+
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.SvmModel;
@@ -8,20 +8,29 @@ import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.LsfOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.global.Constants;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
 
 public class Svm
 {
-
+    private static Logger logger 
+                = Logger.getLogger(Svm.class.getName());
     public static void convertXtoSvm(String xFileName,
                                      String aFileName,
                                      String workingDir) throws Exception
     {
         // generates an SVM-compatible input descriptor file
-        // Utility.writeToDebug("Generating an SVM-compatible file: " +
+        // logger.debug("Generating an SVM-compatible file: " +
         // xFileName + " + " + aFileName + " => " + xFileName.replace(".x",
         // ".svm"));
 
@@ -34,10 +43,8 @@ public class Svm
             String inputString;
             while ((inputString = in.readLine()) != null
                     && !inputString.equals("")) {
-                String[] data = inputString.split("\\s+"); // [0] is the
-                                                           // compound id, [1]
-                                                           // is the activity
-                                                           // value
+                // [0] is the compound id, [1] is the activity value
+                String[] data = inputString.split("\\s+"); 
                 activityValues.add(data[1]);
             }
             in.close();
@@ -47,7 +54,7 @@ public class Svm
             int numCompounds = DatasetFileOperations.getXCompoundNames(
                     workingDir + xFileName).size();
             if (xFileName.contains("ext_0")) {
-                Utility.writeToDebug("found " + numCompounds
+                logger.trace("found " + numCompounds
                         + " compounds in ext_0.x");
             }
             for (int i = 0; i < numCompounds; i++) {
@@ -233,8 +240,6 @@ public class Svm
     public static ArrayList<SvmModel>
             readSvmModels(String workingDir, String cutoff) throws Exception
     {
-        File dir = new File(workingDir);
-
         ArrayList<SvmModel> svmModels = new ArrayList<SvmModel>();
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir
@@ -247,7 +252,6 @@ public class Svm
                 // Header: "rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" +
                 // "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)"
 
-                float testAccuracy = 0;
                 boolean isGoodModel = false;
                 if (tokens[0] != null && !tokens[0].trim().equals("NA")) {
                     // check cutoff against rSquared
@@ -265,7 +269,6 @@ public class Svm
                 }
 
                 if (isGoodModel) {
-                    // Utility.writeToDebug("found good model");
                     SvmModel svmModel = new SvmModel();
                     svmModel.setrSquaredTest(tokens[0]);
                     svmModel.setCcrTest(tokens[1]);
@@ -285,11 +288,12 @@ public class Svm
                     svmModels.add(svmModel);
                 }
                 else {
-                    // Utility.writeToDebug("Bad model. rSq: " + tokens[0] +
+                    // logger.debug("Bad model. rSq: " + tokens[0] +
                     // " ccr: " + tokens[1]);
                 }
             }
         }
+        br.close();
 
         return svmModels;
     }
@@ -320,7 +324,7 @@ public class Svm
             in.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
     }
 
@@ -394,6 +398,7 @@ public class Svm
                     j++;
                 }
             }
+            in.close();
         }
         // Each predictionValue contains the sum of all predicted values.
         // We need the average, so divide each value by numModels.
@@ -430,7 +435,7 @@ public class Svm
                 externalPredictions.add(ev);
             }
         }
-
+        br.close();
         File dir = new File(workingDir);
         String[] files = dir.list(new FilenameFilter()
         {
@@ -456,6 +461,7 @@ public class Svm
             // This is the last time we'll need the external prediction
             // output. Delete it.
             FileAndDirOperations.deleteFile(workingDir + files[i]);
+            in.close();
         }
 
         // Each predictionValue contains the sum of all predicted values.
