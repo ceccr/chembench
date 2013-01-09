@@ -15,6 +15,8 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 /*
  * There is a lot of code strewn around the system for doing things like
  * copying files, copying directories, deleting directories, and so on. We
@@ -23,7 +25,8 @@ import java.util.List;
 
 public class FileAndDirOperations
 {
-
+    private static Logger logger 
+                      = Logger.getLogger(FileAndDirOperations.class.getName());
     public static int countFilesInDirMatchingPattern(String dir,
                                                      String pattern)
     {
@@ -32,7 +35,7 @@ public class FileAndDirOperations
         File d = new File(dir);
         String files[] = d.list();
         if (files == null) {
-            Utility.writeToDebug("Error reading directory: " + dir);
+            logger.error("Error reading directory: " + dir);
         }
         int x = 0;
         while (files != null && x < files.length) {
@@ -62,7 +65,7 @@ public class FileAndDirOperations
             is.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             return 0;
         }
         return count;
@@ -71,7 +74,7 @@ public class FileAndDirOperations
     public static String readFileIntoString(String filePath)
     {
         StringBuffer fileContents = new StringBuffer();
-        // Utility.writeToDebug("reading file: " + filePath);
+        logger.trace("reading file: " + filePath);
         try {
             File fromFile = new File(filePath);
             BufferedReader br = new BufferedReader(new FileReader(fromFile));
@@ -86,10 +89,10 @@ public class FileAndDirOperations
 
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
-        // Utility.writeToDebug("finshed reading file: " + filePath + " (" +
-        // fileContents.length() / 1000000 + " megabytes)");
+        logger.trace("finshed reading file: " + filePath + " (" +
+                        fileContents.length() / 1000000 + " megabytes)");
         return fileContents.toString();
     }
 
@@ -101,7 +104,7 @@ public class FileAndDirOperations
             out.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
     }
 
@@ -111,7 +114,7 @@ public class FileAndDirOperations
             File dir = new File(fromDir);
             String files[] = dir.list();
             if (files == null) {
-                Utility.writeToDebug("Error reading directory: " + fromDir);
+                logger.error("Error reading directory: " + fromDir);
             }
             int x = 0;
             while (files != null && x < files.length) {
@@ -123,7 +126,7 @@ public class FileAndDirOperations
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
     }
 
@@ -141,17 +144,21 @@ public class FileAndDirOperations
             File dir = new File(fromDir);
             String files[] = dir.list();
             if (files == null) {
-                Utility.writeToDebug("Error reading directory: " + fromDir);
+                logger.error("Error reading directory: " + fromDir);
             }
             int x = 0;
             while (files != null && x < files.length) {
                 File xfile = new File(fromDir + files[x]);
                 if (!xfile.isDirectory()) {
-                    FileChannel ic = new FileInputStream(fromDir + files[x])
-                                                                 .getChannel();
-                    FileChannel oc = new FileOutputStream(toDir + files[x])
-                                                                 .getChannel();
+                    FileInputStream fin = new FileInputStream(fromDir 
+                                                            + files[x]);
+                    FileOutputStream fout = new FileOutputStream(toDir 
+                                                            + files[x]);
+                    FileChannel ic =  fin.getChannel();
+                    FileChannel oc =  fout.getChannel();
                     ic.transferTo(0, ic.size(), oc);
+                    fin.close();
+                    fout.close();
                     ic.close();
                     oc.close();
                 }
@@ -169,7 +176,7 @@ public class FileAndDirOperations
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
     }
 
@@ -269,7 +276,7 @@ public class FileAndDirOperations
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
     }
 
@@ -287,11 +294,11 @@ public class FileAndDirOperations
         try {
             String files[] = dir.list();
             if (files != null) {
-                Utility.writeToDebug("Deleting " + files.length
+                logger.trace("Deleting " + files.length
                         + " files from dir: " + dirToErase);
             }
             else {
-                Utility.writeToDebug("Could not open dir: " + dirToErase);
+                logger.warn("Could not open dir: " + dirToErase);
             }
             int x = 0;
             while (files != null && x < files.length) {
@@ -302,7 +309,7 @@ public class FileAndDirOperations
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
     }
 
