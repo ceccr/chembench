@@ -8,7 +8,6 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-
 import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
