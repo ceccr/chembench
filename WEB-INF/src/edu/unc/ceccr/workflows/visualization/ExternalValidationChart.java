@@ -143,7 +143,7 @@ public class ExternalValidationChart
 
         Iterator<ExternalValidation> it = extValidation.iterator();
         while (it.hasNext()) {
-            extv = (ExternalValidation) it.next();
+            extv =  it.next();
             pointSeries.add(extv.getActualValue(), extv.getPredictedValue());
             map.put(index, extv.getCompoundId());
             if (extv.getNumModels() > 3) {
@@ -174,7 +174,7 @@ public class ExternalValidationChart
 
         it = highlightedExtValidation.iterator();
         while (it.hasNext()) {
-            extv = (ExternalValidation) it.next();
+            extv = it.next();
             highlightedPointSeries.add(extv.getActualValue(), extv
                     .getPredictedValue());
             map.put(index, extv.getCompoundId());
@@ -223,7 +223,7 @@ public class ExternalValidationChart
         int i = 3;
         Iterator<XYSeries> it2 = stdDevList.iterator();
         while (it2.hasNext()) {
-            ds.addSeries((XYSeries) it2.next());
+            ds.addSeries(it2.next());
             renderer.setSeriesLinesVisible(i, true);
             renderer.setSeriesShapesVisible(i, true);
             if (highlightedExtValidation.size() > 0) {
@@ -244,7 +244,7 @@ public class ExternalValidationChart
         i = 3 + stdDevList.size();
         it2 = highlightedStdDevList.iterator();
         while (it2.hasNext()) {
-            ds.addSeries((XYSeries) it2.next());
+            ds.addSeries(it2.next());
             renderer.setSeriesLinesVisible(i, true);
             renderer.setSeriesShapesVisible(i, true);
             if (highlightedExtValidation.size() > 0) {
@@ -412,7 +412,7 @@ public class ExternalValidationChart
         Iterator<ExternalValidation> it = extValidation.iterator();
 
         while (it.hasNext()) {
-            extv = (ExternalValidation) it.next();
+            extv = it.next();
 
             if (option == 0) {
                 extvalue = extv.getPredictedValue();
@@ -438,7 +438,7 @@ public class ExternalValidationChart
         Iterator<ExternalValidation> it = extValidation.iterator();
 
         while (it.hasNext()) {
-            extv = (ExternalValidation) it.next();
+            extv = it.next();
 
             if (option == 0) {
                 extvalue = extv.getPredictedValue();
