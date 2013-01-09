@@ -61,7 +61,7 @@
         <appender-ref ref="Jobs-Log"/>
     </logger>   
 
-    <logger name="edu.unc.ceccr.jobs.CentralDogma" additivity="false">
+    <logger name="edu.unc.ceccr.jobs" additivity="false">
         <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>   
