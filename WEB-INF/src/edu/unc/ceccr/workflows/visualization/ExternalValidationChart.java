@@ -45,11 +45,7 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class ExternalValidationChart
 {
-    @SuppressWarnings("serial")
-    // makes external validation charts (mychart.jpg) for nfold or regular
-    // predictors
-    // writes an image map to a separate file (mychart.map) for tooltips
-    
+        
     /*
      * protected void processRequest(HttpServletRequest request,
      * HttpServletResponse response) throws ServletException,
@@ -356,7 +352,8 @@ public class ExternalValidationChart
 
         final InputStream input = new BufferedInputStream(
                 new FileInputStream(basePath + "mychart.map"));
-        int contentLength = input.available();
+        //int contentLength = input.available();
+        input.close();
 
         /*
          * PrintWriter writer=response.getWriter(); while (contentLength-- >
