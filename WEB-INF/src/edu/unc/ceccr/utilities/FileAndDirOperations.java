@@ -59,6 +59,7 @@ public class FileAndDirOperations
                         ++count;
                 }
             }
+            is.close();
         }
         catch (Exception ex) {
             Utility.writeToDebug(ex);
@@ -116,7 +117,7 @@ public class FileAndDirOperations
             while (files != null && x < files.length) {
                 File xfile = new File(fromDir + files[x]);
                 if (!xfile.isDirectory()) {
-                    boolean success = xfile.setExecutable(true);
+                    xfile.setExecutable(true);
                 }
                 x++;
             }
@@ -147,9 +148,9 @@ public class FileAndDirOperations
                 File xfile = new File(fromDir + files[x]);
                 if (!xfile.isDirectory()) {
                     FileChannel ic = new FileInputStream(fromDir + files[x])
-                            .getChannel();
+                                                                 .getChannel();
                     FileChannel oc = new FileOutputStream(toDir + files[x])
-                            .getChannel();
+                                                                 .getChannel();
                     ic.transferTo(0, ic.size(), oc);
                     ic.close();
                     oc.close();
