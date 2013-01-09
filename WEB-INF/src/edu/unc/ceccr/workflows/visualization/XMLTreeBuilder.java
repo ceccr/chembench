@@ -41,9 +41,9 @@ public class XMLTreeBuilder
     {
         Double[][] result = new Double[data.size() - 1][data.size() - 1];
         for (int i = 0; i < data.size() - 1; i++) {
-            names.add(((Vector<String>) data.get(0)).get(i + 1));
+            names.add(( data.get(0)).get(i + 1));
             for (int j = 0; j < data.size() - 1; j++) {
-                result[i][j] = new Double(((Vector<String>) data.get(i + 1))
+                result[i][j] = new Double((data.get(i + 1))
                         .get(j + 1));
             }
         }
@@ -109,7 +109,6 @@ public class XMLTreeBuilder
     private String buildXML()
     {
         createBaseXML();
-        int id_iterator = data_map.length;
         String newname = "";
         String name1 = "";
         String name2 = "";
@@ -177,8 +176,6 @@ public class XMLTreeBuilder
                     + "\"></edge>\n";
             xml += "<edge source=\"" + newname + "\" target=\"" + name2
                     + "\"></edge>\n";
-
-            id_iterator++;
         }
 
         xml += "<edge source=\"****\" target=\"" + names.get(0)
