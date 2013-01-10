@@ -1,7 +1,6 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-import java.io.*;
-import java.nio.channels.FileChannel;
+
 
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.KnnPlusModel;
@@ -11,19 +10,25 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.LsfOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.jobs.CentralDogma;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Scanner;
+
+import org.apache.log4j.Logger;
 
 public class KnnPlus
 {
-
+    private static Logger logger 
+                            = Logger.getLogger(KnnPlus.class.getName());
     private static String
             getKnnPlusCommandFromParams(KnnPlusParameters knnPlusParameters,
                                         String actFileDataType,
@@ -202,7 +207,7 @@ public class KnnPlus
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         String knnPlusCommand = getKnnPlusCommandFromParams(
@@ -289,6 +294,9 @@ public class KnnPlus
 
         String xfile = "ext_0.x";
         // knn+ models -4PRED=ext_0.x -AD=0.5_avd -OUT=cons_pred;
+        
+        // Note the we can use just knn+ instead of ./knn+ here since on the
+        // local server knn+ is added to the path.
         String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD="
                 + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
 
@@ -305,7 +313,7 @@ public class KnnPlus
         String outputFile = "cons_pred_vs_ext_0.preds"; // the ".preds" is
                                                         // added automatically
                                                         // by knn+
-        Utility.writeToDebug("Reading file: " + workingDir + outputFile);
+        logger.trace("Reading file: " + workingDir + outputFile);
         BufferedReader in = new BufferedReader(new FileReader(workingDir
                 + outputFile));
         String inputString;
@@ -350,8 +358,8 @@ public class KnnPlus
             predictionMatrix.add(modelValues);
         }
 
-        // Utility.writeToDebug("calculating nummodels, avg," +
-        //                       "and stddev for each compound");
+        logger.trace("calculating nummodels, avg," +
+                              "and stddev for each compound");
 
         // get the actual (observed) values for each compound
         HashMap<String, String> observedValues = DatasetFileOperations
@@ -369,7 +377,7 @@ public class KnnPlus
                 Float sum = new Float(0);
                 Float mean = new Float(0);
                 int numPredictingModels = predictionMatrix.size();
-                // Utility.writeToDebug("doing sum for compound " + i);
+                logger.trace("doing sum for compound " + i);
 
                 for (int j = 0; j < predictionMatrix.size(); j++) {
                     String predValue = predictionMatrix.get(j).get(i);
@@ -387,7 +395,7 @@ public class KnnPlus
                     mean = null;
                 }
 
-                // Utility.writeToDebug("doing stddev for compound " + i);
+                logger.trace("doing stddev for compound " + i);
 
                 Float stddev = new Float(0);
                 if (numPredictingModels > 0) {
@@ -407,8 +415,8 @@ public class KnnPlus
                     stddev = null;
                 }
 
-                // Utility.writeToDebug("making predvalue object for compound "
-                // + i);
+                logger.trace("making predvalue object for compound "
+                 + i);
 
                 // create prediction value object
                 ExternalValidation ev = new ExternalValidation();
@@ -424,7 +432,7 @@ public class KnnPlus
 
             }
             catch (Exception ex) {
-                Utility.writeToDebug(ex);
+                logger.error(ex);
             }
         }
         in.close();
@@ -455,7 +463,7 @@ public class KnnPlus
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             return -1;
         }
 
@@ -484,7 +492,7 @@ public class KnnPlus
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             return -1;
         }
 
@@ -500,7 +508,7 @@ public class KnnPlus
         try {
             if (!new File(workingDir + "models.tbl").exists()) {
                 // in case of no models generated, usually happens in yRandom
-                Utility.writeToDebug("no models generated in " + workingDir);
+                logger.info("no models generated in " + workingDir);
                 return knnPlusModels;
             }
             String modelsFile = FileAndDirOperations
@@ -610,7 +618,7 @@ public class KnnPlus
 
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
         return knnPlusModels;
     }
@@ -652,7 +660,7 @@ public class KnnPlus
         String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_"
                 + predsFile.toLowerCase(); // knn+ makes everything lower case
                                            // for fun
-        Utility.writeToDebug("Reading file: " + workingDir + outputFile);
+        logger.trace("Reading file: " + workingDir + outputFile);
         BufferedReader in = new BufferedReader(new FileReader(workingDir
                 + outputFile));
         String inputString;
@@ -662,7 +670,7 @@ public class KnnPlus
         in.readLine(); // compound names are here, but we get those from the
                        // SDF or X instead (knn+ output is buggy on this line)
 
-        Utility.writeToDebug("reading compound names from X file: "
+        logger.trace("reading compound names from X file: "
                 + workingDir + predictionXFile);
         ArrayList<String> compoundNames = DatasetFileOperations
                 .getXCompoundNames(workingDir + predictionXFile);
@@ -702,8 +710,8 @@ public class KnnPlus
             predictionMatrix.add(modelValues);
         }
 
-        // Utility.writeToDebug("calculating nummodels, avg, "
-        //                      +"and stddev for each compound");
+        logger.trace("calculating nummodels, avg, "
+                              +"and stddev for each compound");
 
         // for each compound, calculate nummodels, avg, and stddev
         if (predictionMatrix.size() == 0) {
@@ -719,7 +727,7 @@ public class KnnPlus
                 Float sum = new Float(0);
                 Float mean = new Float(0);
                 int numPredictingModels = predictionMatrix.size();
-                // Utility.writeToDebug("doing sum for compound " + i);
+                logger.trace("doing sum for compound " + i);
 
                 for (int j = 0; j < predictionMatrix.size(); j++) {
                     String predValue = predictionMatrix.get(j).get(i);
@@ -737,7 +745,7 @@ public class KnnPlus
                     mean = null;
                 }
 
-                // Utility.writeToDebug("doing stddev for compound " + i);
+                logger.trace("doing stddev for compound " + i);
 
                 Float stddev = new Float(0);
                 if (numPredictingModels > 0) {
@@ -757,8 +765,8 @@ public class KnnPlus
                     stddev = null;
                 }
 
-                // Utility.writeToDebug("making predvalue object for compound "
-                // + i);
+                logger.trace("making predvalue object for compound "
+                            + i);
 
                 // create prediction value object
                 PredictionValue p = new PredictionValue();
@@ -773,7 +781,7 @@ public class KnnPlus
 
             }
             catch (Exception ex) {
-                Utility.writeToDebug(ex);
+                logger.error(ex);
             }
             
         }
