@@ -32,7 +32,7 @@ public class Constants {
 	public static final int MOLCONNZ_COMPOUND_NAME_POS = 10;
 	
 	//file paths
-	public static final String LSFJOBPATH = "/largefs/ceccr/workflow-users/";
+        public static final String LSFJOBPATH = "/nas02/depts/chembench/largefs/ceccr/workflow-users/";
 	public static final String USERWORKFLOWSPATH = "/nas02/depts/chembench/prod/workflow-users/";
 	
 	//Type strings
