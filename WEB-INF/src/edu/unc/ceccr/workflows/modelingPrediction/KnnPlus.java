@@ -34,7 +34,7 @@ public class KnnPlus
         // arguments formatted to work with knn+.
         // The comments in this function are excerpts from the knn+ help file.
 
-        String command = "knn+ rand_sets.list";
+        String command = "./knn+ rand_sets.list";
 
         // '-OUT=...' - output file
         command += " -OUT=" + Constants.KNNPLUSMODELSFILENAME;
