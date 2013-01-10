@@ -427,7 +427,7 @@ public class KnnPlus
                 Utility.writeToDebug(ex);
             }
         }
-
+        in.close();
         return predictionValues;
     }
 
@@ -632,9 +632,6 @@ public class KnnPlus
         }
         aout.close();
 
-        // Run prediction
-        String preddir = workingDir;
-
         String xfile = sdfile + ".renorm.x";
         String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD="
                 + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
@@ -711,6 +708,7 @@ public class KnnPlus
         // for each compound, calculate nummodels, avg, and stddev
         if (predictionMatrix.size() == 0) {
             // there were no models in the predictor!
+            in.close();
             return null;
         }
 
@@ -777,8 +775,9 @@ public class KnnPlus
             catch (Exception ex) {
                 Utility.writeToDebug(ex);
             }
+            
         }
-
+        in.close();
         return predictionValues;
     }
 
