@@ -873,8 +873,7 @@ public class QsarModelingTask extends WorkflowTask
 
         // the next step is to read in the results from the modeling program,
         // getting data about the models and external prediction values so we
-        // can
-        // save it to the database.
+        // can save it to the database.
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
 

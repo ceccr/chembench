@@ -25,6 +25,7 @@ public class Svm
 {
     private static Logger logger 
                 = Logger.getLogger(Svm.class.getName());
+    
     public static void convertXtoSvm(String xFileName,
                                      String aFileName,
                                      String workingDir) throws Exception
@@ -90,8 +91,8 @@ public class Svm
         out.close();
     }
 
-    public static void
-            writeSvmModelingParamsFile(SvmParameters svmParameters,
+    public static void writeSvmModelingParamsFile(
+                                       SvmParameters svmParameters,
                                        String actFileDataType,
                                        String paramFilePath,
                                        String workingDir) throws Exception
