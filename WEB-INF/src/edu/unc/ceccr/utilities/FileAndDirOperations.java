@@ -174,6 +174,7 @@ public class FileAndDirOperations
                 }
                 x++;
             }
+            logger.trace("Copied " + x+ " file from "+fromDir +" to "+ toDir);
         }
         catch (Exception ex) {
             logger.error(ex);
