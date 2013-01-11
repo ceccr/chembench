@@ -17,6 +17,11 @@ import edu.unc.ceccr.utilities.Utility;
 public class KnnPlusModelsPage extends ViewPredictorAction
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
     private List<KnnPlusModel> knnPlusModels;
 
     public String load() throws Exception
@@ -142,6 +147,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction
         return result;
     }
 
+    @SuppressWarnings("unused")
     private String loadModelSets()
     {
         String result = SUCCESS;
