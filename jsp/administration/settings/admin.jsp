@@ -135,12 +135,8 @@ Delete Public Prediction:<br />
 	</tr>
 	<s:iterator value="users">
 		<tr>
-		<s:if test="userName.contains('guest')&&userName.length()>15">
-			<td class="TableRowText02"><s:property value="userName.substring(0,15)" /></td>
-		</s:if>
-		<s:else>
-			<td class="TableRowText02"><s:property value="userName" /></td>
-		</s:else>
+		<s:if test="!email.contains('ceccr@email.unc.edu')">
+        <td class="TableRowText02"><s:property value="userName" /></td>
 		<td class="TableRowText02"><s:property value="firstName" /></td>
 		<td class="TableRowText02"><s:property value="lastName" /></td>
 		<td class="TableRowText02"><s:property value="orgName" /></td>
@@ -151,7 +147,8 @@ Delete Public Prediction:<br />
 		<td class="TableRowText02"><input type="checkbox" onclick="loadUrl('/changeUserAdminStatus?userToChange=<s:property value="userName" />')" <s:if test="isAdmin=='YES'">checked</s:if>  <s:if test="userName==user.userName">disabled="true"</s:if> /></td>
 		<td class="TableRowText02"><input type="checkbox" <s:if test="userName.contains('guest')||userName.contains('all-users')">disabled="true"</s:if> name="emailSelected" value="<s:property value="email" />"/></td>
 		<td class="TableRowText02"><a onclick="return confirmDelete('user')" href="deleteUser?userToDelete=<s:property value="userName" />">delete</a></td>
-		</tr>
+        </s:if>
+        </tr>
 	</s:iterator>
 </table> 		
 
