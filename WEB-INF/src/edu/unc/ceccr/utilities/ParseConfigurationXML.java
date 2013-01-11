@@ -63,8 +63,9 @@ ParseConfigurationXML
             }
             
             Constants.WORKBENCH = getSingNodeValue(doc,"workbench");
-            Constants.LSFJOBPATH = getNestedNodeValue(doc, "lsfPath");
-            Constants.USERWORKFLOWSPATH = getNestedNodeValue(doc, "userWorkflow");
+            Constants.LSFJOBPATH = getSingNodeValue(doc, "lsfPath");
+            Constants.USERWORKFLOWSPATH = getSingNodeValue(doc, "userWorkflow");
+            Constants.INSTALLS_PATH = getSingNodeValue(doc,"installsPath");
             Constants.CECCR_DATABASE_NAME 
                                 = getNestedNodeValue(
                                                getParentNode(doc,"database")
@@ -195,7 +196,7 @@ ParseConfigurationXML
 							            		getParentNode(doc,"setFiles")
 							            		,"externalX"
 						           		 			); 
-            Constants.MODELING_A_FILE
+            Constants.MODELING_SET_A_FILE
 						        = getNestedNodeValue(
 							            		getParentNode(doc,"setFiles")
 							            		,"modelingA"
@@ -204,6 +205,11 @@ ParseConfigurationXML
 						        = getNestedNodeValue(
 							            		getParentNode(doc,"setFiles")
 							            		,"modelingX"
+						           		 			); 
+			Constants.IMAGE_FILEPATH
+								= getNestedNodeValue(
+							            		getParentNode(doc,"other")
+							            		,"imgPath"
 						           		 			); 
             Constants.CECCR_BASE_PATH
                                 = getSingNodeValue(doc,"systemBasePath");
@@ -215,6 +221,8 @@ ParseConfigurationXML
                                 = getSingNodeValue(doc,"userFilesPath");
             Constants.SCRIPTS_PATH
             					= getSingNodeValue(doc,"scriptsPath");
+            Constants.SYSTEMCONFIG_XML_PATH
+								= getSingNodeValue(doc,"sysConfigPath");
             
             Constants.TOMCAT_PATH
                                 = getSingNodeValue(doc,"tomcatPath");

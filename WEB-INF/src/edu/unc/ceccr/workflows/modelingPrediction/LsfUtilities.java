@@ -43,9 +43,9 @@ public class LsfUtilities{
 		
 		//copy kNN executables to the temp directory and to the yRandom subdirectory
 		//also, make them executable
-		FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH + "mmlsoft/bin/", lsfPath, false);
+		FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH, lsfPath, false);
 		FileAndDirOperations.makeDirContentsExecutable(lsfPath);
-		FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH + "mmlsoft/bin/", lsfPath + "yRandom/", false);
+		FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH, lsfPath + "yRandom/", false);
 		FileAndDirOperations.makeDirContentsExecutable(lsfPath + "yRandom/");
 		
 	}

@@ -88,7 +88,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                     //storing the file outside the tomcat context, to not have to
                     //store it in git, else this file becomes visible to whole world with
                     // our public Cgit browser.
-                    String path = "/CHEMBENCH/common/config/systemConfig.xml";
+                    String path = Constants.SYSTEMCONFIG_XML_PATH;
                     
                     Utility.readBuildDateAndSystemConfig(path);
                 }
