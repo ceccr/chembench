@@ -18,6 +18,11 @@ import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
 
 public class ExternalValidationPage extends ViewPredictorAction
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
     private ArrayList<ExternalValidation> externalValValues;
     private String                        hasGoodModels    = Constants.YES;
     private ArrayList<String>             residuals;
@@ -172,8 +177,6 @@ public class ExternalValidationPage extends ViewPredictorAction
         hasGoodModels = Constants.NO;
         residuals = new ArrayList<String>();
         Double maeDouble = 0d;
-        SummaryStatistics maeStat = new SummaryStatistics();
-
         if (residualsAsDouble.size() > 0) {
             for (Double residual : residualsAsDouble) {
                 if (residual.isNaN()) {
