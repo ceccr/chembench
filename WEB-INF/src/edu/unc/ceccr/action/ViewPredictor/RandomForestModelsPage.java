@@ -17,6 +17,11 @@ import edu.unc.ceccr.utilities.Utility;
 public class RandomForestModelsPage extends ViewPredictorAction
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
     private List<RandomForestGrove> randomForestGroves;
     private List<RandomForestTree>  randomForestTrees;
 
@@ -196,6 +201,7 @@ public class RandomForestModelsPage extends ViewPredictorAction
         return result;
     }
 
+    @SuppressWarnings("unused")
     private String loadTreeSets() throws Exception
     {
         String result = SUCCESS;
