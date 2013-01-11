@@ -18,6 +18,11 @@ public class ViewPredictorAction extends ViewAction
 
     // Basic parameters. Inherited by all subclasses.
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
     protected Predictor  selectedPredictor;
     protected DataSet    dataset;
 
