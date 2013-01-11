@@ -3,11 +3,8 @@ package edu.unc.ceccr.utilities;
 import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-
 import edu.unc.ceccr.global.Constants;
 
 import org.apache.log4j.Logger;
@@ -20,7 +17,8 @@ public class RunExternalProgram
 {
     
     //these programs should not have anything appear in the log file
-    //when they run. (For programs that execute many times in quick succession.)
+    //when they run. (For programs that execute many times in quick 
+    //succession.)
 
     private static Logger logger 
         = Logger.getLogger(RunExternalProgram.class.getName());
@@ -68,13 +66,13 @@ public class RunExternalProgram
             
             if(workingDir.isEmpty()){
                 if(outputRunningMessage){
-                    Utility.writeToDebug("Running external program " + cmd);
+                    logger.info("Running external program " + cmd);
                 }
                 p = Runtime.getRuntime().exec(cmd);
             }
             else{
                 if(outputRunningMessage){
-                    Utility.writeToDebug("Running external program " + cmd 
+                    logger.info("Running external program " + cmd 
                                                   + " in dir: " + workingDir);
                 }
                 p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
@@ -97,7 +95,7 @@ public class RunExternalProgram
             
         }
         catch(Exception ex){
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
     }
     
@@ -133,14 +131,15 @@ public class RunExternalProgram
                   + " 2> " + logsPath + logFileName + ".err";
             
             File scriptFile = new File(workingDir + "temp-script.sh");
-            BufferedWriter out = new BufferedWriter(new FileWriter(scriptFile));
+            BufferedWriter out 
+                            = new BufferedWriter(new FileWriter(scriptFile));
             out.write(cmd + "\n");
             out.close();
             scriptFile.setExecutable(true);
             FileAndDirOperations.makeDirContentsExecutable(workingDir);
             
             if(outputRunningMessage){
-                Utility.writeToDebug("Running external program " 
+                logger.info("Running external program " 
                                      + cmd + " in dir: " + workingDir);
             }
             logger.debug("Trying to execute the command\n");
@@ -148,7 +147,7 @@ public class RunExternalProgram
             //DD 10/29/2012 - Putting in a hack to change the path to full
             //                qualified. Not sure why this does not work
             //                otherwise. Need to ask Diane.
-            p = Runtime.getRuntime().exec(workingDir+"/temp-script.sh"
+            p = Runtime.getRuntime().exec(workingDir+"temp-script.sh"
                                          , null
                                          , new File(workingDir));
             
@@ -157,7 +156,6 @@ public class RunExternalProgram
                 
         }
         catch(Exception ex){
-            Utility.writeToDebug(ex);
             logger.error(ex.toString());
         }
     }

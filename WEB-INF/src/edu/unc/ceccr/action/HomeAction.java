@@ -555,6 +555,5 @@ HomeAction extends ActionSupport implements ServletResponseAware
 
     public void setLoginFailed(String loginFailed) {
         this.loginFailed = loginFailed;
-    }
-    
+    }   
 }

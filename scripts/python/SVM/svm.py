@@ -2,6 +2,30 @@ import sys
 import re
 import numpy
 import os
+import pwd
+
+''' A way to check if the executable is found in the path. 
+    Useful because svm-predict and svm-train are added to 
+    the local system PATH but not on the LSF cluster (kure)
+    PATH.
+'''
+def which(program):
+    def is_exe(fpath):
+        return os.path.isfile(fpath) and os.access(fpath, os.X_OK)
+
+    fpath, fname = os.path.split(program)
+    if fpath:
+        if is_exe(program):
+            return program
+    else:
+        for path in os.environ["PATH"].split(os.pathsep):
+            path = path.strip('"')
+            exe_file = os.path.join(path, program)
+            if is_exe(exe_file):
+                return exe_file
+
+    return None
+
 
 def permute_sequence(seq):
 	n = len(seq)
@@ -153,7 +177,6 @@ for dirindex in range(0, 2):
 		workingDir = modelingDir
 	else:
 		workingDir = yRandomDir
-
 	#write header for output file
 	outfile = open(workingDir + "svm-results.txt", 'w')
 	outfile.write("rSquared\t" + "ccr\t" + "MSE\t" + "degree\t" + "gamma\t" + "cost\t" + "nu\t" + "loss (epsilon)" + "\n")
@@ -216,18 +239,28 @@ for dirindex in range(0, 2):
 					for loss in lossRange:
 						for gamma in gammaRange:
 							modelFileName = trainSvm.replace(".svm", "")+"_d"+str(degree)+"_g"+str(gamma)+"_c"+str(cost)+"_n"+str(nu)+"_p"+str(loss)+".mod"
-							command = "svm-train " + "-s " + svmType + " -t " + kernelType 
+							if which("svm-train"):
+                                                            command = "svm-train "
+							else: 
+                                                            command = "./svm-train "
+                                                        command += "-s " + svmType + " -t " + kernelType 
 							command += " -h " + shrinkingHeuristics + " -b " + probabilityHeuristics 
 							if numCrossFolds != str(0):
 								command += " -v " + numCrossFolds
 							command += " -wi " + cSvcWeight +  " -e " + tolerance
 							command += " -d " + str(degree) + " -g " + str(gamma) + " -c " + str(cost) + " -n " + str(nu) + " -p " + str(loss)
 							command += " " + trainSvm + " " + modelFileName
+
 							os.system(command)
 
 							#now predict the test set and get the results
 							predictionFileName = modelFileName + ".pred-test"
-							predictCommand = "svm-predict " + testSvm + " " + modelFileName + " " + predictionFileName
+	                                                if which("svm-predict"):
+                                                            predictCommand = "svm-predict "
+							else: 
+                                                            predictCommand = "./svm-predict "
+							predictCommand += testSvm + " " + modelFileName + " " + predictionFileName
+
 							os.system(predictCommand)
 
 							#read predicted activities 

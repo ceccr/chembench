@@ -51,8 +51,7 @@ public class QsarModelingTask extends WorkflowTask
     private String                 userName;
     private String                 jobName;
     private String                 modelType;
-    // (svm, knn, etc)
-    // dataset
+    // (svm, knn, etc) dataset
     private String                 datasetName;
     private Long                   datasetID;
     private String                 filePath;
@@ -96,9 +95,6 @@ public class QsarModelingTask extends WorkflowTask
     // predictor object created during task
     private Predictor              predictor;
     private int                    numExternalCompounds   = 0;
-
-    // output
-    private boolean                noModelsGenerated;
 
     private String                 step                   = Constants.SETUP;
 
@@ -205,7 +201,7 @@ public class QsarModelingTask extends WorkflowTask
             return step + percent;
         }
         catch (Exception ex) {
-            // checking progress is nonessential, it shouldn't be able to
+            // checking progress is non essential, it shouldn't be able to
             // throw exceptions or anything.
             return step;
         }
@@ -304,10 +300,10 @@ public class QsarModelingTask extends WorkflowTask
 
         // This function just loads all the ModelingForm parameters into local
         // variables
-        logger.info("[[Modeling Type: "
+        logger.info("Modeling Type: "
                 + ModelingForm.getModelingType()
                 + " submitted by user, " + userName 
-                + " for job, "+ jobName + ".");
+                + " for job, "+ ModelingForm.getJobName() + ".");
         modelType = ModelingForm.getModelingType();
         scalingType = ModelingForm.getScalingType();
         logger.info("scalingType in QsarModelingTask: "
@@ -636,7 +632,7 @@ public class QsarModelingTask extends WorkflowTask
         }
         else if (descriptorGenerationType.equals(Constants.CDK)) {
             logger.debug("Processing CDK descriptors for job, "+ jobName
-                    + "submitted by user, " +userName);
+                    + " submitted by user, " +userName);
 
             ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk",
                     filePath);
@@ -782,7 +778,7 @@ public class QsarModelingTask extends WorkflowTask
         return lsfJobId;
     }
 
-    @SuppressWarnings("unchecked")
+    
     public void executeLocal() throws Exception
     {
         String path = Constants.CECCR_USER_BASE_PATH + userName + "/"
