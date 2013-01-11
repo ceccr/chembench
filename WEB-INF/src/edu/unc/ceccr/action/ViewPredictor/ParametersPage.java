@@ -10,6 +10,11 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 
 public class ParametersPage extends ViewPredictorAction
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
     private KnnParameters          knnParameters;
     private KnnPlusParameters      knnPlusParameters;
     private SvmParameters          svmParameters;
