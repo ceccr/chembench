@@ -12,9 +12,12 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 public class KnnModelsPage extends ViewPredictorAction
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
     private List<KnnModel> models;
-    private List<KnnModel> randomModels;
-
     public String load() throws Exception
     {
         // get models associated with predictor
@@ -24,10 +27,9 @@ public class KnnModelsPage extends ViewPredictorAction
         getModelsPageParameters();
 
         models = new ArrayList<KnnModel>();
-        randomModels = new ArrayList<KnnModel>();
         ArrayList<KnnModel> allModels = new ArrayList<KnnModel>();
         session = HibernateUtil.getSession();
-        List temp = PopulateDataObjects.getModelsByPredictorId(Long
+        List<KnnModel> temp = PopulateDataObjects.getModelsByPredictorId(Long
                 .parseLong(objectId), session);
         session.close();
         if (temp != null) {
