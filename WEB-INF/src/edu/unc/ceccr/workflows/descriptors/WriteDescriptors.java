@@ -205,8 +205,8 @@ public class WriteDescriptors
             mean_x += delta_x / i;
             mean_y += delta_y / i;
         }
-        double pop_sd_x = (double) Math.sqrt(sum_sq_x / d1.size());
-        double pop_sd_y = (double) Math.sqrt(sum_sq_y / d1.size());
+        double pop_sd_x = Math.sqrt(sum_sq_x / d1.size());
+        double pop_sd_y = Math.sqrt(sum_sq_y / d1.size());
         double cov_x_y = sum_coproduct / d1.size();
         result = cov_x_y / (pop_sd_x * pop_sd_y);
         return result;
@@ -517,8 +517,6 @@ public class WriteDescriptors
         String line = br.readLine();
         Scanner src = new Scanner(line);
         int xFileNumCompounds = Integer.parseInt(src.next());
-        int xFileNumDescriptors = Integer.parseInt(src.next());
-
         line = br.readLine();
         src.close();
         src = new Scanner(line);
