@@ -9,7 +9,7 @@ public class Compound implements java.io.Serializable{
 	
 	private String compoundId;
 	private String activityValue;
-	private String url_friendly_id;
+	//private String url_friendly_id;
 	
 	public String getCompoundId() {
 		return compoundId;
@@ -27,9 +27,11 @@ public class Compound implements java.io.Serializable{
 	public String getUrl_friendly_id() {
 		return compoundId.replaceAll("%", "%25");
 	}
+	/*
 	public void setUrl_friendly_id(String url_friendly_id) {
 		this.url_friendly_id = url_friendly_id;
 	}
+	*/
 	
 	
 
