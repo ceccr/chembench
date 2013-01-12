@@ -31,6 +31,11 @@ import edu.unc.ceccr.utilities.Utility;
 public class DeleteAction extends ActionSupport
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
     public ArrayList<String> errorStrings = new ArrayList<String>();
 
     private void
@@ -511,18 +516,49 @@ public class DeleteAction extends ActionSupport
         }
 
         Session s = HibernateUtil.getSession();
-        ArrayList<Prediction> predictions 
-                 = (ArrayList<Prediction>) PopulateDataObjects
-                .getUserData(userToDelete, Prediction.class, s);
-        ArrayList<Predictor> predictors 
-                 = (ArrayList<Predictor>) PopulateDataObjects
-                .getUserData(userToDelete, Predictor.class, s);
-        ArrayList<DataSet> datasets 
-                 = (ArrayList<DataSet>) PopulateDataObjects
-                .getUserData(userToDelete, DataSet.class, s);
-        ArrayList<Job> jobs 
-                 = (ArrayList<Job>) PopulateDataObjects
-                .getUserData(userToDelete, Job.class, s);
+        
+        ArrayList<Prediction> predictions = new ArrayList<Prediction>();
+        Iterator<?> predictionItr = PopulateDataObjects
+                                       .getUserData(userToDelete
+                                                  , Prediction.class, s)
+                                       .iterator();
+        while(predictionItr.hasNext()){
+            predictions.add((Prediction)predictionItr.next());
+            
+        }
+        
+        ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+        
+        Iterator<?> predictorIter = PopulateDataObjects
+                                         .getUserData(userToDelete
+                                                    , Predictor.class, s)
+                                         .iterator();
+        while(predictorIter.hasNext()){
+            predictors.add((Predictor)predictorIter.next());
+            
+        }
+        
+        ArrayList<DataSet> datasets  = new ArrayList<DataSet>();
+        
+        Iterator<?> dataSetIter = PopulateDataObjects
+                                         .getUserData(userToDelete
+                                                    , DataSet.class, s)
+                                         .iterator();
+        while(dataSetIter.hasNext()){
+            datasets.add((DataSet)dataSetIter.next());
+            
+        }
+
+        ArrayList<Job> jobs = new ArrayList<Job>();
+        
+        Iterator<?> jobsIter = PopulateDataObjects
+                                         .getUserData(userToDelete
+                                                    , Job.class, s)
+                                         .iterator();        
+        while(jobsIter.hasNext()){
+            jobs.add((Job)jobsIter.next());
+            
+        }
         s.close();
 
         for (Prediction p : predictions) {
@@ -576,12 +612,12 @@ public class DeleteAction extends ActionSupport
     }
 
     protected void
-            deleteDatabaseData(List list) throws ClassNotFoundException,
+            deleteDatabaseData(List<?> list) throws ClassNotFoundException,
                                          SQLException
     {
         if (list.size() != 0) {
             Session session = HibernateUtil.getSession();
-            Iterator it = list.iterator();
+            Iterator<?> it = list.iterator();
             while (it.hasNext()) {
                 Transaction tx = null;
                 try {
