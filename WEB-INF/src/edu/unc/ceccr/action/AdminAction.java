@@ -38,7 +38,11 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class AdminAction extends ActionSupport{
 
-	User user;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    User user;
 	String buildDate;
 	ArrayList<User> users;
 	
