@@ -47,7 +47,7 @@ public class PopulateDataObjects
     // we do it from here.
 
     public static ArrayList 
-    populateClass(Class c, Session session)
+    populateClass(Class<?> c, Session session)
     {
         // gets all of any one object from the database, returns it as a list
         ArrayList list = null;
@@ -64,7 +64,7 @@ public class PopulateDataObjects
     }
 
     public static ArrayList 
-    populateClassInChunks(Class c, int chunkSize, int chunkIndex
+    populateClassInChunks(Class<?> c, int chunkSize, int chunkIndex
                                                 , Session session)
     {
         // gets a bunch of any one object from the database, returns it as a
@@ -153,9 +153,8 @@ public class PopulateDataObjects
     {
         ArrayList<PredictionValue> predictionValues 
                                       = new ArrayList<PredictionValue>();
-        Transaction tx = null;
         try {
-            tx = session.beginTransaction();
+            session.beginTransaction();
             predictionValues = (ArrayList<PredictionValue>) session
                     .createCriteria(PredictionValue.class)
                     .add(Expression.eq("predictionId", predictionId))
@@ -192,9 +191,8 @@ public class PopulateDataObjects
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
 
         for (String predictorId : predictorIds) {
-            Transaction tx = null;
             try {
-                tx = session.beginTransaction();
+                session.beginTransaction();
                 ArrayList<PredictionValue> predictorPredictionValues 
                     = (ArrayList<PredictionValue>) session
                         .createCriteria(PredictionValue.class)
@@ -410,6 +408,7 @@ public class PopulateDataObjects
                                 Constants.ALL_USERS_USERNAME))
                         .add(Expression.eq("modelType", modelType))
                         .addOrder(Order.desc("name")).list();
+                
                 usersDataSet = session.createCriteria(DataSet.class)
                         .add(Expression.eq("userName", userName))
                         .add(Expression.eq("jobCompleted", Constants.YES))
@@ -521,6 +520,7 @@ public class PopulateDataObjects
                         .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME))
                         .addOrder(Order.desc("name")).list();
+                
                 userPredictors = session.createCriteria(Predictor.class)
                         .add(Expression.eq("userName", userName))
                         .addOrder(Order.desc("name")).list();
@@ -583,6 +583,7 @@ public class PopulateDataObjects
                         .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME))
                         .addOrder(Order.desc("name")).list();
+                
                 userPredictions = session.createCriteria(Prediction.class)
                         .add(Expression.eq("userName", userName))
                         .addOrder(Order.desc("name")).list();
@@ -623,7 +624,7 @@ public class PopulateDataObjects
         return predictionNames;
     }
 
-    @SuppressWarnings("unchecked")
+
     public static List<Predictor>
     populatePredictors( String userName, boolean includePublic
                       , boolean onlyCompleted, Session session)
@@ -766,25 +767,31 @@ public class PopulateDataObjects
         return predictors;
     }
 
-    @SuppressWarnings("unchecked")
+
     public static List <Prediction>
     populatePredictions(String userName
                       , boolean onlySaved, Session session)
     {
 
-        List<Prediction> predictions = null;
+        List<Prediction> predictions = new ArrayList<Prediction>();
         try {
 
             Transaction tx = null;
             try {
                 tx = session.beginTransaction();
-                predictions = session
+                Iterator<?> tempIter = 
+                        session
                         .createCriteria(Prediction.class)
                         .add(Expression.eq("jobCompleted", Constants.YES))
                         .add(Expression.or(Expression
                                 .eq("userName", userName), Expression.eq(
                                 "userName", Constants.ALL_USERS_USERNAME)))
-                        .addOrder(Order.desc("name")).list();
+                        .addOrder(Order.desc("name")).list().iterator();
+                
+                while(tempIter.hasNext()){
+                    predictions.add((Prediction)tempIter.next());
+                }
+                
                 tx.commit();
             }
             catch (Exception e) {
@@ -817,7 +824,7 @@ public class PopulateDataObjects
         return predictions;
     }
 
-    @SuppressWarnings("unchecked")
+
     public static List<String>
     populateDatasetUploadedDescriptorTypes(String userName
                                          , boolean isAllUserIncludes
@@ -829,17 +836,21 @@ public class PopulateDataObjects
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
 
-        List<DataSet> allUserDataSets = null;
+        ArrayList<DataSet> allUserDataSets = new ArrayList<DataSet>();
         List<DataSet> usersDataSet = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
-                allUserDataSets = session
+                
+                Iterator<?> tempIterator = 
+                        session
                         .createCriteria(DataSet.class)
                         .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME))
-                        .addOrder(Order.desc("name")).list();
+                        .addOrder(Order.desc("name")).list().iterator();
+                
+                allUserDataSets.add((DataSet)tempIterator.next());
 
                 usersDataSet = session.createCriteria(DataSet.class)
                         .add(Expression.eq("userName", userName))
@@ -899,7 +910,6 @@ public class PopulateDataObjects
         return datasetdescriptorsNames;
     }
 
-    @SuppressWarnings("unchecked")
     public static List<DataSet>
     populateDatasetNamesForUploadedPredicors(String userName
                                            , String descriptorTypeName
@@ -1094,7 +1104,7 @@ public class PopulateDataObjects
         return predictor;
     }
 
-    @SuppressWarnings("unchecked")
+
     public static Prediction
     getPredictionById(Long predictionId, Session session)
                                   throws Exception
@@ -1131,7 +1141,6 @@ public class PopulateDataObjects
         return prediction;
     }
 
-    @SuppressWarnings("unchecked")
     public static Prediction 
     getPredictionByName(String jobName, String userName, Session session) 
                                       throws Exception
@@ -1195,8 +1204,15 @@ public class PopulateDataObjects
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            users = (ArrayList<User>) session.createCriteria(User.class)
-                    .list();
+            Iterator<?> tempIterator = 
+                    session.createCriteria(User.class).list().iterator();
+            while(tempIterator.hasNext()){
+                
+                users.add
+                ((User)tempIterator.next());
+            }
+            //users = (ArrayList<User>) session.createCriteria(User.class)
+            //        .list();
             tx.commit();
 
             Collections.sort(users, new Comparator<User>()
@@ -1217,12 +1233,19 @@ public class PopulateDataObjects
     public static List<User> 
     getUsers(Session session)
     {
-        List<User> users = null;
+        ArrayList<User> users = new ArrayList<User>() ;
 
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            users = (List<User>) session.createCriteria(User.class).list();
+            Iterator<?> tempIterator 
+                        = session.createCriteria(User.class).list().iterator();
+            while(tempIterator.hasNext()){
+                
+                users.add
+                         ((User)tempIterator.next());
+            }
+           // users = (List<User>) session.createCriteria(User.class).list();
             tx.commit();
         }
         catch (Exception e) {
@@ -1482,7 +1505,7 @@ public class PopulateDataObjects
         return externalValValues;
     }
 
-    @SuppressWarnings("unchecked")
+
     public static List<String> 
     populateTaskNames(String userName, boolean justRunning, Session session)
     {
@@ -1524,24 +1547,38 @@ public class PopulateDataObjects
         return taskNames;
     }
 
-    @SuppressWarnings("unchecked")
-    public static List 
+
+    public static List <Job>
     populateTasks(String userName, boolean justRunning, Session session)
     {
 
-        List<Job> tasks = null;
+        ArrayList<Job> tasks = new ArrayList<Job>();
         try {
             Transaction tx = null;
             try {
                 tx = session.beginTransaction();
-                if (justRunning)
-                    tasks = session.createCriteria(Job.class)
+                if (justRunning){
+                    Iterator<?> tempIterator = 
+                            session.createCriteria(Job.class)
                             .add(Expression.eq("userName", userName))
                             .add(Expression.eq("state", Constants.QUEUED))
-                            .list();
-                else
-                    tasks = session.createCriteria(Job.class)
-                            .add(Expression.eq("userName", userName)).list();
+                            .list().iterator();
+                    
+                    while(tempIterator.hasNext()){
+                        tasks.add((Job)tempIterator.next());
+                    }
+                 }
+                else{
+                    Iterator<?> tempIterator = 
+                            session.createCriteria(Job.class)
+                            .add(Expression.eq("userName", userName))
+                            .list().iterator();
+                  
+                    while(tempIterator.hasNext()){
+                        tasks.add((Job)tempIterator.next());
+                    }
+                }
+
                 tx.commit();
             }
             catch (Exception e) {
