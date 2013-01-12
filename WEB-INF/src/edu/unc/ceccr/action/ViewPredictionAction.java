@@ -20,7 +20,11 @@ import edu.unc.ceccr.utilities.Utility;
 public class ViewPredictionAction extends ViewAction {
 	
 	
-	private Prediction prediction;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private Prediction prediction;
 	private List<Predictor> predictors; //put these in order by predictorId
 	private DataSet dataset; //dataset used in prediction
 	ArrayList<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();

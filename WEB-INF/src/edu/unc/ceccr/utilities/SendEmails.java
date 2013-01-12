@@ -80,7 +80,7 @@ public class SendEmails {
     }
     
     public static void sendEmailToAdmins(String subject, String message){
-        Iterator it=Constants.ADMINEMAIL_LIST.iterator();
+        Iterator<?> it=Constants.ADMINEMAIL_LIST.iterator();
         while(it.hasNext())
         {
             String adminAddress = (String)it.next();
