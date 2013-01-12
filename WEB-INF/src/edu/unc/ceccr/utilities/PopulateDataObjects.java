@@ -46,6 +46,7 @@ public class PopulateDataObjects
     // Every time we need to get an object or set of objects from the database
     // we do it from here.
 
+    @SuppressWarnings("rawtypes")
     public static ArrayList 
     populateClass(Class<?> c, Session session)
     {
@@ -63,6 +64,7 @@ public class PopulateDataObjects
         return list;
     }
 
+    @SuppressWarnings("rawtypes")
     public static ArrayList 
     populateClassInChunks(Class<?> c, int chunkSize, int chunkIndex
                                                 , Session session)
@@ -91,6 +93,7 @@ public class PopulateDataObjects
         return list;
     }
 
+    @SuppressWarnings("rawtypes")
     public static ArrayList 
     getUserData(String userName, Class<?> c, Session s)
                               throws ClassNotFoundException, SQLException
