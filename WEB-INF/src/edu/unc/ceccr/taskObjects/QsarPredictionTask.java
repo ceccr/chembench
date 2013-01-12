@@ -309,8 +309,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		CreateJobDirectories.createDirs(userName, jobName);
 		
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		String sdfile = predictionDataset.getSdfFile();
-		
+			
 		CopyJobFiles.getDatasetFiles(userName, predictionDataset, Constants.PREDICTION, path);
 		
 		if(jobList.equals(Constants.LSF)){
@@ -639,7 +638,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
 	}
 	
-    @SuppressWarnings("unchecked")
+
 	public static ArrayList<PredictionValue> parsePredOutput(String fileLocation, Long predictorId) throws IOException {
 		Utility.writeToDebug("Reading prediction output from " + fileLocation);
 		ArrayList<PredictionValue> allPredValue = new ArrayList<PredictionValue>();
@@ -660,12 +659,11 @@ public class QsarPredictionTask extends WorkflowTask {
 				extValOutput.setPredictorId(predictorId);
 				allPredValue.add(extValOutput);
 			} while ((inputString = in.readLine()) != null);
+			in.close();
 		} catch(Exception ex){
 			Utility.writeToDebug(ex);
 		}
-		if(allPredValue == null){
-			Utility.writeToDebug("Warning: parsePredOutput returned null.");
-		}
+		
 		return allPredValue;
 	}
 
