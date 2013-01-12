@@ -14,7 +14,6 @@ import javax.persistence.Transient;
 @Table(name = "cbench_predictionValue")
 public class PredictionValue implements java.io.Serializable{
 
-	@SuppressWarnings("unused")
 	private Long predictorId;
 	private String compoundName;
 	private int numModelsUsed;

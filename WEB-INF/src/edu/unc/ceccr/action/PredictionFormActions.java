@@ -30,6 +30,11 @@ import edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction;
 
 public class PredictionFormActions extends ActionSupport
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public String 
     loadSelectPredictorPage() throws Exception
     {
