@@ -37,6 +37,7 @@ public class LsfJobStatus{
 			while(s.hasNext()){
 				submit_time += s.next();
 			}
+			s.close();
 		}
 	}
 	
