@@ -18,7 +18,7 @@ public class HibernateUtil {
 	private static String URL;
 	private static String USERNAME;
 	private static String DATABASENAME;
-	private static int count = 0;
+
 	
 	static {
 		sessionFactory = new AnnotationConfiguration()
