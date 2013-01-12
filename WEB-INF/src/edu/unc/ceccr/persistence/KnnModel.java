@@ -17,7 +17,11 @@ import edu.unc.ceccr.utilities.Utility;
 @Table(name = "cbench_model")
 public class KnnModel implements java.io.Serializable {
 
-	// Fields
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    // Fields
 	private Long id;
 	private Long predictorId;
 	private Integer nnn; //number of nearest neighbors
