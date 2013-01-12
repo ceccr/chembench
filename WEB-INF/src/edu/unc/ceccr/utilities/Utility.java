@@ -273,6 +273,7 @@ public class Utility {
         try{
             BufferedReader dis = new BufferedReader(new FileReader(new File(Constants.BUILD_DATE_FILE_PATH))); 
             Constants.BUILD_DATE = dis.readLine().replace("#", ""); 
+            dis.close();
         }catch(Exception ex){
             writeToDebug(ex);
         }
@@ -404,7 +405,7 @@ public class Utility {
             }
             else{
                 outputStr = "0.";
-                for(int i = 0; i < ((int) Math.abs(order) - 1); i++){
+                for(int i = 0; i < (Math.abs(order) - 1); i++){
                     outputStr += "0";
                 }
                 while(! roundedSignificantStr.equals("")){
