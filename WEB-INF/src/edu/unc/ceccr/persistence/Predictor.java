@@ -19,7 +19,12 @@ import javax.persistence.Transient;
 @Table(name = "cbench_predictor")
 public class Predictor implements java.io.Serializable {
 
-	private String userName;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
+    private String userName;
 	private Long id;
 	private Long datasetId;
 	private String name;
