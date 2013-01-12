@@ -69,6 +69,7 @@ public class SdfToJpg {
 				}
 			}
 		}
+		src.close();
 		fin.close();
 	
 		Utility.writeToDebug("Done creating structures. COMPOUND NAMES COUNT:"+ compoundNames.size());
@@ -103,6 +104,7 @@ public class SdfToJpg {
 				{  
 				  Utility.writeToDebug("----Error occured while creating compound sketches!");
 				  FileAndDirOperations.deleteDirContents(sketchesDir);
+		          fis.close();
 				  break;
 				}  
 				else continue;
