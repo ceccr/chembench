@@ -123,7 +123,7 @@ public class KnnPrediction{
 				Utility.writeToDebug(ex);
 			}
 		}
-
+		in.close();
 	    return predictionValues;
 	}
 
@@ -141,7 +141,7 @@ public class KnnPrediction{
 		aout.close();
 		
 	    //Run prediction
-		String preddir = workingDir;
+		//String preddir = workingDir;
 		
 		String xfile = sdfile + ".renorm.x";
 		String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;

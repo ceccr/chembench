@@ -64,7 +64,10 @@ public class Compound3DServlet extends HttpServlet {
 		
 		try {
 			File sdfile = new File(sdfPath);
-			String warning = "ERROR, the SD file is not in correct format.\rThe structure can not be displayed.";
+			
+			/*String warning = "ERROR, the SD file is not in correct format.\rThe " +
+					"structure can not be displayed.";
+			*/
 			if (sdfile.exists()) {
 				InputStream twoDis = new FileInputStream(sdfile);
 				

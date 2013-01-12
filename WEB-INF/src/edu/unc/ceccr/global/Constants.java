@@ -22,7 +22,6 @@ public class Constants {
 	public static final int REPORTED_SIGNIFICANT_FIGURES = 4;
 	
 	//Enums for Data Types
-	@SuppressWarnings("unchecked")
 	
 	//Descriptor constants
 	public static final int NUM_MACCS_KEYS = 400;

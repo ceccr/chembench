@@ -155,6 +155,8 @@ public class DataSplit{
 				outActModelingWriter.write(line + "\n");
 			}
 		}
+		inXReader.close();
+		inActReader.close();
 		outActModelingWriter.close();
 		outActExternalWriter.close();
 	}
@@ -203,6 +205,7 @@ public class DataSplit{
 			}
 			out.close();
 		}
+		br.close();
 	}
 
 	public static void SplitTrainTestRandom(String userName,
@@ -245,6 +248,7 @@ public class DataSplit{
 			if(line != null && !line.contains("#")){
 				listFileContents += line + "\n";
 			}
+		    in.close();
 		}
 		
 		//Now print out a list file that kNN will like.
@@ -252,6 +256,7 @@ public class DataSplit{
         BufferedWriter out = new BufferedWriter(fstream);
 	    out.write(listFileContents);
 	    out.close();
+
 		
 	}
 
