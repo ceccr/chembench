@@ -1,8 +1,8 @@
 package edu.unc.ceccr.persistence;
 
-import java.util.ArrayList;
+
 import java.util.Date;
-import java.util.List;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +18,11 @@ import javax.persistence.Transient;
 @Table(name = "cbench_prediction")
 public class Prediction implements java.io.Serializable{
 	
-	private Long id;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private Long id;
 	private String name;
 	private String predictorIds;
 	private Long datasetId;
@@ -29,7 +33,6 @@ public class Prediction implements java.io.Serializable{
 	private String hasBeenViewed;
 	private String jobCompleted; //Initially NO; YES on completion.
 
-	private List<PredictionValue> predictedValues = new ArrayList<PredictionValue>(0);
 	
 	private String status;
 	@Column(name="status")
