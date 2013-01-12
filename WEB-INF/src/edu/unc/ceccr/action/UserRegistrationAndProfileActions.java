@@ -24,6 +24,11 @@ import edu.unc.ceccr.utilities.Utility;
 public class 
 UserRegistrationAndProfileActions extends ActionSupport
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     private static Logger logger 
          = Logger.getLogger(UserRegistrationAndProfileActions.class.getName());
     /* USER FUNCTIONS */
