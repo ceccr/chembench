@@ -12,7 +12,12 @@ import edu.unc.ceccr.utilities.Utility;
 
 public class CeccrBaseAction extends ActionSupport {
 
-	public String loadPage() throws Exception {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    public String loadPage() throws Exception {
 		
 		String result = SUCCESS;
 		
