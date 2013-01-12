@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Iterator;
 
-@SuppressWarnings("unchecked")
 public class BigFile implements Iterable
 {
     private BufferedReader _reader;
