@@ -179,6 +179,7 @@ public class ReadDescriptors
                 .StringArrayListToString(descriptorValues));
         descriptorValueMatrix.add(di);
 
+        src.close();
         fin.close();
     }
 
@@ -251,6 +252,7 @@ public class ReadDescriptors
             descriptorValueMatrix.add(di);
             descriptorValues.clear();
         }
+        br.close();
     }
 
     public static void
@@ -278,7 +280,8 @@ public class ReadDescriptors
             tok.next(); // skip compound identifier
             String tmp = tok.next();
             tok.close();
-            tok = new Scanner(tmp).useDelimiter(" ");
+            tok = new Scanner(tmp);
+            tok.useDelimiter(" ");
             int last = 0;
             int descriptor = 0;
             while (tok.hasNext()) {
@@ -319,14 +322,16 @@ public class ReadDescriptors
         BufferedReader br = new BufferedReader(fin);
         /* contains descriptor names */
         String line = br.readLine();
-        Scanner tok = new Scanner(line).useDelimiter(",");
+        Scanner tok = new Scanner(line);
+        tok.useDelimiter(",");
         /* first descriptor says "name"; we don't need that. */
         tok.next();
         while (tok.hasNext()) {
             descriptorNames.add(tok.next());
         }
         while ((line = br.readLine()) != null) {
-            tok = new Scanner(line).useDelimiter(",");
+            tok = new Scanner(line);
+            tok.useDelimiter(",");
             if (tok.hasNext()) {
                 /* first descriptor value is the name of the compound */
                 tok.next();
@@ -350,7 +355,9 @@ public class ReadDescriptors
                 di.setDescriptorValues(descriptorString);
                 descriptorValueMatrix.add(di);
             }
+            tok.close();
         }
+        br.close();
     }
 
     public static void
@@ -372,13 +379,16 @@ public class ReadDescriptors
             BufferedReader br = new BufferedReader(fin);
             String line = br.readLine(); // header. ignored.
             line = br.readLine(); // contains descriptor names
-            Scanner tok = new Scanner(line).useDelimiter("\\s+");
+            Scanner tok = new Scanner(line);
+            tok.useDelimiter("\\s+");
             while (tok.hasNext()) {
                 descriptorNames.add(tok.next());
             }
+            tok.close();
 
             while ((line = br.readLine()) != null) {
-                tok = new Scanner(line).useDelimiter("\\s+");
+                tok = new Scanner(line);
+                tok.useDelimiter("\\s+");
                 if (tok.hasNext()) {
                     tok.next(); // first value is the index of the compound
                 }

@@ -260,6 +260,7 @@ public class ConvertDescriptorsToXAndScale{
             }
         }
         
+        src.close();
         //close final file
         outFilePart.write("\n");
         outFilePart.close();
@@ -300,7 +301,8 @@ public class ConvertDescriptorsToXAndScale{
         }
 
         //close final file
-        outFilePart.close();        
+        br.close();
+        outFilePart.close();
     }
 
     private static void splitMaccsFile(String workingDir, String descriptorsFile) throws Exception{
@@ -332,6 +334,7 @@ public class ConvertDescriptorsToXAndScale{
                 outFilePart.write(header);
             }
         }
+        br.close();
         outFilePart.close();
     }
     
@@ -364,6 +367,7 @@ public class ConvertDescriptorsToXAndScale{
                 outFilePart.write(header);
             }
         }
+        br.close();
         outFilePart.write("\n");
         outFilePart.close();
     }
@@ -400,6 +404,7 @@ public class ConvertDescriptorsToXAndScale{
                 outFilePart.write(descriptorNames);
             }
         }
+        br.close();
         outFilePart.write("\n");
         outFilePart.close();
     }

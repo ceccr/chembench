@@ -37,11 +37,13 @@ public class ModelingUtilities{
 			int x = 0;
 			while(files != null && x<files.length){
 				if(files[x].matches(".*default.*") || files[x].matches(".*RAND_sets.*") || files[x].matches(".*rand_sets.*")){
-					FileChannel ic = new FileInputStream(fromDir + files[x]).getChannel();
-					FileChannel oc = new FileOutputStream(toDir + files[x]).getChannel();
+				    FileInputStream fis = new FileInputStream(fromDir + files[x]);
+				    FileOutputStream fos = new FileOutputStream(toDir + files[x]);
+					FileChannel ic = fis.getChannel();
+					FileChannel oc = fos.getChannel();
 					ic.transferTo(0, ic.size(), oc);
-					ic.close();
-					oc.close(); 
+					fis.close();
+					fos.close(); 
 				}
 				x++;
 			}
