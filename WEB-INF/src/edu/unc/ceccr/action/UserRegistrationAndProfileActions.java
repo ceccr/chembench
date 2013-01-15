@@ -163,7 +163,7 @@ UserRegistrationAndProfileActions extends ActionSupport
         } catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e);
+            logger.error(e);
         } 
         finally {
             s.close();
