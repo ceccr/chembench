@@ -26,7 +26,7 @@
 	</target>
 
 	<target name="compile" depends="writeDate,logFolder">
-		<javac srcdir="src" destdir="./classes" source="1.6" fork="yes"
+		<javac srcdir="src" destdir="./classes" fork="yes"
 			executable="/usr/bin/javac" debug="true">
 			<classpath>
 				<fileset dir="./lib">
