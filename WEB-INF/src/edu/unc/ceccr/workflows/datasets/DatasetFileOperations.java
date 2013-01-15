@@ -752,7 +752,6 @@ public class DatasetFileOperations
         return "";
     }
 
-    @SuppressWarnings("unchecked")
     public static Vector<Vector<String>>
             readFileToVector(String delimiter, String path) throws Exception
     {
