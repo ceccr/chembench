@@ -339,8 +339,15 @@ public class PredictionFormActions extends ActionSupport
                     predictorsModelDescriptors);
             List<String> dscrptrLst2 = Arrays.asList(ds
                     .getAvailableDescriptors().trim().split(" "));
-            List<String> dscrptrIntsct = ListUtils.intersection(dscrptrLst1,
-                    dscrptrLst2);
+
+            // Find intersection, get iterator, then explicitly cast each
+            // element of intersection to a string (type safety issues)
+            List<String> dscrptrIntsct = new ArrayList<String>();
+            Iterator<?> tempIterator = ListUtils.intersection(dscrptrLst1,
+                    dscrptrLst2).iterator();
+            while (tempIterator.hasNext()) {
+                dscrptrIntsct.add((String) tempIterator.next());
+            }
 
             if (!ds.getAvailableDescriptors().trim().isEmpty()
                     && !new_ds.contains(ds)
