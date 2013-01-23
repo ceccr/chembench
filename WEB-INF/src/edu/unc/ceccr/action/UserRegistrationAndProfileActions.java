@@ -539,12 +539,12 @@ public class UserRegistrationAndProfileActions extends ActionSupport
         this.recaptchaPublicKey = recaptchaPublicKey;
     }
 
-    public ArrayList<String> getErrorMessages()
+    public ArrayList<String> getActionErrors()
     {
         return errorMessages;
     }
 
-    public void setErrorMessages(ArrayList<String> errorMessages)
+    public void setActionErrors(ArrayList<String> errorMessages)
     {
         this.errorMessages = errorMessages;
     }
