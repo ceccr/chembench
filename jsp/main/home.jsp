@@ -22,6 +22,7 @@
     <td width="578" height="665" align="left" valign="top">
      <p class="ccbHomeHeadings">
        ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS<br />
+       PATHCONSOLIDATION TEST <br />
         <br />
         <img src="theme/ccbTheme/images/ccbHorizontalRule.jpg" width="578" height="6" /></p>
       <p align="justify" class="ccbHomeStandard">Chembench is a free portal that enables researchers 
