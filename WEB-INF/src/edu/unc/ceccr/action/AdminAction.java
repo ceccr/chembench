@@ -16,6 +16,8 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.ExternalValidation;
@@ -42,6 +44,8 @@ public class AdminAction extends ActionSupport{
 	User user;
 	String buildDate;
 	ArrayList<User> users;
+	private static Logger logger = Logger.getLogger(
+				AdminAction.class.getName());
 	
 	//for sending email to all users
 	String emailMessage;
