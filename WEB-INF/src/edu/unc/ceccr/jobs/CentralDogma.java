@@ -22,26 +22,27 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 
 import org.apache.log4j.Logger;
-//logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
+
+// logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
 public class CentralDogma
 {
     // singleton.
     // Holds the LSF jobs list, the incoming jobs list, and the local
-    // processing jobs list. Initiates the threads that work on these 
+    // processing jobs list. Initiates the threads that work on these
     // data structures.
 
-    private static Logger logger 
-                           = Logger.getLogger(CentralDogma.class.getName());
-    private final int                   numLocalThreads    = 9;                 
-    
+    private static Logger               logger          = Logger.getLogger(CentralDogma.class
+                                                                .getName());
+    private final int                   numLocalThreads = 9;
+
     // as many as you want; tune it based on server load.
-    
+
     // Limiting factors on numLocalThreads: JVM memory size, number of file
     // handles, number of database connections,
     // server processing power. Jobs will fail in weird ways if any of those
     // isn't high enough.
-    private final int                   numLsfThreads      = 1;                 
+    private final int                   numLsfThreads   = 1;
     // don't change this unless you've REALLY thought through all possible
     // concurrency issues
 
@@ -52,7 +53,7 @@ public class CentralDogma
 
     private IncomingJobProcessingThread inThread;
 
-    private static CentralDogma         instance          = new CentralDogma();
+    private static CentralDogma         instance        = new CentralDogma();
 
     private CentralDogma()
     {
@@ -77,8 +78,7 @@ public class CentralDogma
                 if (j.getLookupId() != null
                         && !j.getJobList().equals("LIMBO")) {
                     try {
-                        logger.info("Restoring job: "
-                                + j.getJobName());
+                        logger.info("Restoring job: " + j.getJobName());
                         if (j.getJobType().equals(Constants.DATASET)) {
                             Long datasetId = j.getLookupId();
                             DataSet dataset = PopulateDataObjects
@@ -116,7 +116,7 @@ public class CentralDogma
                     }
                     catch (Exception ex) {
                         logger.error("Error restoring job with id: "
-                                + j.getLookupId() +"\n" + ex );
+                                + j.getLookupId() + "\n" + ex);
                     }
                 }
             }
@@ -149,7 +149,8 @@ public class CentralDogma
         return instance;
     }
 
-    public void addJobToIncomingList(String userName,
+    public void
+            addJobToIncomingList(String userName,
                                  String jobName,
                                  WorkflowTask wt,
                                  int numCompounds,
@@ -278,8 +279,8 @@ public class CentralDogma
 
                 if (j.getJobType().equals(Constants.DATASET)) {
                     // delete corresponding DataSet in DB
-                    DataSet ds = PopulateDataObjects.getDataSetById(
-                            j.getLookupId(), s);
+                    DataSet ds = PopulateDataObjects.getDataSetById(j
+                            .getLookupId(), s);
                     if (ds != null) {
                         tx = s.beginTransaction();
                         s.delete(ds);
@@ -288,8 +289,8 @@ public class CentralDogma
                 }
                 else if (j.getJobType().equals(Constants.MODELING)) {
                     // delete corresponding Predictor in DB
-                    Predictor p = PopulateDataObjects.getPredictorById(
-                            j.getLookupId(), s);
+                    Predictor p = PopulateDataObjects.getPredictorById(j
+                            .getLookupId(), s);
                     if (p != null) {
                         tx = s.beginTransaction();
                         s.delete(p);
@@ -298,8 +299,8 @@ public class CentralDogma
                 }
                 else if (j.getJobType().equals(Constants.PREDICTION)) {
                     // delete corresponding Prediction in DB
-                    Prediction p = PopulateDataObjects.getPredictionById(
-                            j.getLookupId(), s);
+                    Prediction p = PopulateDataObjects.getPredictionById(j
+                            .getLookupId(), s);
                     if (p != null) {
                         tx = s.beginTransaction();
                         s.delete(p);
@@ -336,5 +337,4 @@ public class CentralDogma
             errorJobs.addJob(j);
         }
     }
-
 }
