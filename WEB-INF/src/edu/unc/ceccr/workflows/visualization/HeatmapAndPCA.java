@@ -38,7 +38,7 @@ public class HeatmapAndPCA {
 	public static void performPCAcreation(String viz_path, String act_path){
 		try{
 			if(act_path!=null && !act_path.isEmpty()){
-				String cmd = "run_PCA_ScatterPlot.sh /usr/local/ceccr/installs/MCR/v78 "+ viz_path+".x "+ act_path;
+				String cmd = "run_PCA_ScatterPlot.sh " + Constants.INSTALLS_PATH + "MCR/v78 "+ viz_path+".x "+ act_path;
 				RunExternalProgram.runCommandAndLogOutput(cmd, "", "run_PCA_ScatterPlot.sh");
 			}
 		}catch(Exception ex){
