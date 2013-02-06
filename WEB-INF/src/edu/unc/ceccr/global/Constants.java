@@ -31,8 +31,8 @@ public class Constants {
 	public static final int MOLCONNZ_COMPOUND_NAME_POS = 10;
 	
 	//file paths
-        public static final String LSFJOBPATH = "/nas02/depts/chembench/largefs/ceccr/workflow-users/";
-	public static final String USERWORKFLOWSPATH = "/nas02/depts/chembench/prod/workflow-users/";
+	public static String LSFJOBPATH; // = "/largefs/ceccr/workflow-users/";
+	public static String USERWORKFLOWSPATH; // = "/nas02/depts/chembench/prod/workflow-users/";
 	
 	//Type strings
 	//The point of having these is to define capitalizations 
@@ -160,42 +160,46 @@ public class Constants {
 	public static final int STD_DEVIATION = 3;
 	
 	//Paths
-	public static String CECCR_BASE_PATH ;
-	public static String TOMCAT_PATH ;
+	public static String CECCR_BASE_PATH;
+	public static String TOMCAT_PATH;
 	public static String BUILD_DATE_FILE_PATH;
 	public static String BUILD_DATE;
 	public static String CECCR_USER_BASE_PATH;
 	public static String XML_FILE_PATH; 
-	public static String SDFILE_FILEPATH ;
-	public static String DATAFILE_FILEPATH ;
+	public static String SDFILE_FILEPATH;
+	public static String DATAFILE_FILEPATH;
+	public static String IMAGE_FILEPATH;
+	public static String SYSTEMCONFIG_XML_PATH;
 	
 	public static String CATEGORY_DATAFILE_FILEPATH;
 	public static String CONTINUOUS_DATAFILE_FILEPATH;
 	
-	public static String EXECUTABLEFILE_PATH; //TODO: Remove in-File Concatenations
-	public static String MOLCONNZ_MODELING_DATFILE_PATH = "ParameterFiles/MZ405Modeling.dat";
-	public static String MOLCONNZ_PREDICTION_DATFILE_PATH = "ParameterFiles/MZ405Prediction.dat";
-	public static String MOLCONNZ_CSV_DATFILE_PATH = "ParameterFiles/MZ-CSV.dat";
-	public static String CDK_XMLFILE_PATH = "ParameterFiles/chembench-cdk.xml";
+	//TODO: Remove concatenation within files
+	public static String EXECUTABLEFILE_PATH; //Last Path Originally Parsed
+	public static String INSTALLS_PATH;
+	public static String MOLCONNZ_MODELING_DATFILE_PATH; // = "ParameterFiles/MZ405Modeling.dat";
+	public static String MOLCONNZ_PREDICTION_DATFILE_PATH; // = "ParameterFiles/MZ405Prediction.dat";
+	public static String MOLCONNZ_CSV_DATFILE_PATH; // = "ParameterFiles/MZ-CSV.dat";
+	public static String CDK_XMLFILE_PATH; // = "ParameterFiles/chembench-cdk.xml";
 
-	public static final String SCRIPTS_PATH = "mmlsoft/bin/";
-	public static final String RF_BUILD_MODEL_RSCRIPT = "randomForestBuildModel.R";
-    public static final String RF_PREDICT_RSCRIPT = "randomForestPredict.R";
-    public static final String RF_DESCRIPTORS_USED_FILE = "descriptors_used_in_models.txt";
-    
-	public static final String kNN_OUTPUT_FILE = "knn-output.tbl";
-	public static final String EXTERNAL_VALIDATION_OUTPUT_FILE = "external_prediction_table";
-	public static final String PRED_OUTPUT_FILE = "cons_pred";
-	public static final String KNN_DEFAULT_FILENAME = "knn.default";
-	public static final String KNN_CATEGORY_DEFAULT_FILENAME = "knn_category.default";
-	public static final String SE_DEFAULT_FILENAME = "param9.txt";
-	public static final String DESCRIPTORERRORFILE = "descriptorErrors.txt";
-	public static final String KNNPLUSMODELSFILENAME = "models";
+	public static String SCRIPTS_PATH; // = "mmlsoft/bin/";
+	public static String RF_BUILD_MODEL_RSCRIPT;// = "randomForestBuildModel.R";
+    public static String RF_PREDICT_RSCRIPT; // = "randomForestPredict.R";
+    public static String RF_DESCRIPTORS_USED_FILE; // = "descriptors_used_in_models.txt";
+
+	public static String KNN_OUTPUT_FILE; // = "knn-output.tbl"; 
+	public static String EXTERNAL_VALIDATION_OUTPUT_FILE; // = "external_prediction_table";
+	public static String PRED_OUTPUT_FILE; // = "cons_pred";
+	public static String KNN_DEFAULT_FILENAME; // = "knn.default";
+	public static String KNN_CATEGORY_DEFAULT_FILENAME; // = "knn_category.default";
+	public static String SE_DEFAULT_FILENAME; // = "param9.txt";
+	public static String DESCRIPTOR_ERROR_FILE; // = "descriptorErrors.txt";
+	public static String KNNPLUS_MODELS_FILENAME; // = "models";
 	
-	public static final String EXTERNAL_SET_A_FILE = "ext_0.a";
-	public static final String EXTERNAL_SET_X_FILE = "ext_0.x";
-	public static final String MODELING_SET_A_FILE = "train_0.a";
-	public static final String MODELING_SET_X_FILE = "train_0.x";
+	public static String EXTERNAL_SET_A_FILE; // = "ext_0.a";
+	public static String EXTERNAL_SET_X_FILE; // = "ext_0.x";
+	public static String MODELING_SET_A_FILE; // = "train_0.a";
+	public static String MODELING_SET_X_FILE; // = "train_0.x";
 		
 	//for testing
 	public static final Integer MAX_FILE_SIZE = new Integer("1024");

@@ -80,8 +80,7 @@ public class ImageServlet extends HttpServlet {
 
         if(! imageFile.exists()){
 
-    		imageFileName=Constants.CECCR_BASE_PATH + "tomcat6/webapps/ROOT/theme/img/no_image.jpg";
-    		imageFile = new File(imageFileName);
+        	imageFileName=Constants.CECCR_BASE_PATH + Constants.IMAGE_FILEPATH + "no_image.jpg";    		imageFile = new File(imageFileName);
     		
     		 if(! imageFile.exists()){
     			Utility.writeToDebug("Could not find default image file.");
