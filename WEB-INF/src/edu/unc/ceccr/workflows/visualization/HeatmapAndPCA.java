@@ -2,6 +2,8 @@ package edu.unc.ceccr.workflows.visualization;
 
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.global.Constants;
+
 
 public class HeatmapAndPCA {
 	
