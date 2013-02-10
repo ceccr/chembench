@@ -19,8 +19,4 @@
         PREDICTION
     </li></a>
 
-    a href="ppi" class="navHref"><li id="ppiButton" class="nav_button nav_button_inactive">
-         PPI
-    </li></a>
-
 </ul>
