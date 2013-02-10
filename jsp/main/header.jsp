@@ -11,7 +11,7 @@
     <s:if test="#session['user']!=null">
         <s:if test="#session['user'].userName!=''">
             <div align="right">
-                <span style="color:#F00">[DEV-A]</span><span class="StandardTextDarkGray4">Logged in as
+                <span style="color:#F00"></span><span class="StandardTextDarkGray4">Logged in as
 		  		<s:if test="#session['user'].userName.contains('guest')">
                       <b>guest</b>.
                   </s:if>
