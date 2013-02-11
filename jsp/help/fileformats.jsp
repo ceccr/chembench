@@ -1,7 +1,6 @@
 <%@include file ="/jsp/help/helpheader.jsp" %>
 
-<table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr><td>
+<div class = "outer">
 <div class="ccbHomeStandard">
 
 <p>Datasets uploaded to Chembench are expected to contain these types of files.</p>
@@ -115,7 +114,7 @@ The remaining numbers are the values of the descriptors for the compound.
 
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
-</div></td></tr></table>
-
-<%@include file ="/jsp/main/footer.jsp" %>
+</div>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+    </div>
 </body>
