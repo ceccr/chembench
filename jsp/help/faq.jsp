@@ -1,7 +1,6 @@
 <%@include file ="/jsp/help/helpheader.jsp" %>
 
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
- <tr><td>
+<div class = "outer">
 <div class="ccbHomeStandard">
 
 <p align="justify" class="ccbHomeStandard">
@@ -175,7 +174,7 @@
 		</p> 
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
-</div></td></tr></table>
-
-	<%@include file ="/jsp/main/footer.jsp" %>
+</div>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+    </div>
 </body>
