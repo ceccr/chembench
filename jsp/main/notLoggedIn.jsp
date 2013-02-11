@@ -47,8 +47,7 @@
                     </p>
                 </div>
             </div>
-            <table width="924" border="0" align="center" cellpadding="10" cellspacing="0" style="margin-left:12px">
-                <tr><td width="284" valign="top" class="ccbLoginBoxHeading">Please login
+                <div class="ccbLoginBoxHeading">Please login
 
                     <!-- LOGIN INPUT FIELD STARTS HERE. -->
                     <s:if test="user==null">
@@ -80,25 +79,15 @@
                                 Or, <a href="/login?username=guest&ip=<%=ip %>"
                                        onclick="alert('The guest account allows a user to explore the function of Chembench with publicly available datasets, predictions based on a molecule, and modeling using random forest. All guest data is deleted when you leave the site or are inactive for 90 minutes. For additional function, please register.')">
                                 login as a guest</a></p>
-                        </td></tr></table>
-
-                    </s:if>
-
-                    <s:if test="user==null">
-                        <br />
-                        <table width="250" border="0" ><tr><td>
-		        <span class="ccbHomeStandard">
+                        </td></tr>
+                        <tr><td>
+                             <span class="ccbHomeStandard">
 		        Forget your password? <a href="/forgotPassword">click here</a></span>
                         </td></tr></table>
+
                     </s:if>
 
-
-
                     <!-- LOGIN INPUT FIELD ENDS HERE-->
-                </td>
-                </tr>
-                <!-- end login box -->
-            </table>
 
             <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
         </div>
