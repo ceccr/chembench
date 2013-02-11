@@ -10,33 +10,30 @@
 <html>
 <head>
     <title>CHEMBENCH | Error</title>
-    
-    <link href="theme/ss.css" rel="stylesheet" type="text/css" />
-	<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
+
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link href="theme/standard.css" rel="stylesheet"	type="text/css" />
-	<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
-	<link href="theme/links.css" rel="stylesheet" type="text/css" />
-	<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
-	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
-	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
+    <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
+    <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
+    <link href="theme/standard.css" rel="stylesheet" type="text/css">
+    <link href="theme/links.css" rel="stylesheet" type="text/css">
+    <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
+    <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
+    <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 	
 	<script language="javascript" src="javascript/script.js"></script>
 </head>
 
 <body bgcolor="#ffffff">
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
-	
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
-		<td height="557" colspan="5" valign="top"
-			background="theme/img/backgrmodelbuilders.jpg" style="background-repeat: no-repeat;"><span id="maincontent">
-		
-		<table width="557" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td>
-				<p class="StandardTextDarkGrayParagraph"><b><br>Error: </b></p>
+<<div class="outer">
+
+    <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
+    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
+
+
+    <p class="StandardTextDarkGrayParagraph"><b><br>Error: </b></p>
 		<p class="StandardTextDarkGrayParagraph">
 		<s:iterator value="errorStrings"><s:property /><br /><br /></s:iterator><br><br>
 		To report a bug, or if you need help with Chembench, you can reach us at <a href="ceccr@email.unc.edu">ceccr@email.unc.edu</a>. <br />
@@ -44,14 +41,12 @@
 		Thanks, <br />
 		The Chembench Team
 		</p>
-		</td>
-          </tr>
-        </table>
         
 
 <br />
 
-<%@include file ="/jsp/main/footer.jsp" %>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+    </div>
 </body>
 </html>        
  
