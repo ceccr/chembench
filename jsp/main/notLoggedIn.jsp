@@ -24,8 +24,6 @@
 
 </head>
 <body onload="setTabToHome();">
-<div class="container">
-
     <div class="outer">
 
         <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
