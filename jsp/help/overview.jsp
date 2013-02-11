@@ -46,7 +46,7 @@ with any questions.</p>
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
 </div>
-    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div><%@include file ="/jsp/main/footer.jsp" %>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 </div>
 </body>
 </html>
