@@ -33,7 +33,7 @@
 
         <div><br /></div>
 
-        <div class="StandardTextDarkGrayParagraph border">
+        <div class="StandardTextDarkGrayParagraph">
             <div class="benchBackground includes">
                 <div class="homeLeft">
                     <br /> <br />
