@@ -29,14 +29,13 @@
         <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
         <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 
-        <div><br /></div>
 
-        <div class="StandardTextDarkGrayParagraph">
             <div class="benchBackground includes">
                 <div class="homeLeft">
                     <br /> <br />
                     <p class="StandardTextDarkGrayParagraph2" style="margin-left:20px;"><b>Not Logged In</b></p>
                     <br />
+                    <div class="StandardTextDarkGrayParagraph">
                     <p>
                         You are seeing this page because you are currently not logged in, or your session has expired.
                         <br /><br />
