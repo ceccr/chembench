@@ -47,7 +47,7 @@
                     </p>
                 </div>
             </div>
-                <div class="ccbLoginBoxHeading">Please login
+                <div class="ccbLoginBoxHeading StandardTextDarkGrayParagraph">Please login
 
                     <!-- LOGIN INPUT FIELD STARTS HERE. -->
                     <s:if test="user==null">
@@ -88,7 +88,7 @@
                     </s:if>
 
                     <!-- LOGIN INPUT FIELD ENDS HERE-->
-
+            </div>
             <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
         </div>
 </body>
