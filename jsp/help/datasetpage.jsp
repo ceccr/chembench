@@ -1,7 +1,6 @@
 <%@include file ="/jsp/help/helpheader.jsp" %>
 
-<table width="900" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr><td>
+<div class = "outer">
 <div class="ccbHomeStandard">
 
 <b>Datasets</b>
@@ -95,9 +94,9 @@ from the Modeling and Prediction pages. (Prediction datasets can only be used fr
 
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
-</div></td></tr></table>
+</div>
 
-<%@include file ="/jsp/main/footer.jsp" %>
-
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+</div>
 </body>
 </html>
