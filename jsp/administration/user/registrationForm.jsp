@@ -42,9 +42,11 @@
                     <br />
                     <div class="StandardTextDarkGrayParagraph">
                         <p>
+                            <br /><br />
                             Welcome to Carolina Cheminformatics Workbench (Chembench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
                             Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using Chembench.
                             An asterisk (*) indicates required fields.<br/>
+                            <br /><br />
                         </p>
                     </div>
                 </div>
