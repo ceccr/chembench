@@ -21,5 +21,5 @@ WEB-INF/logs/
 WEB-INF/buildDate.txt
 
 #Ignore the lib folder#
-#WEB-INF/lib/
+WEB-INF/lib/
 
