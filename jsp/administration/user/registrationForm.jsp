@@ -36,13 +36,19 @@
     <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
     <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 		<span id="maincontent">
-		<div class="border StandardTextDarkGrayParagraph2 benchAlign bottomMargin">
-		<p align="justify" class="StandardTextDarkGrayParagraph"><br />
-		Welcome to Carolina Cheminformatics Workbench (Chembench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
-		Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using Chembench. 
-		An asterisk (*) indicates required fields.<br/>
-        </p>
-       
+
+            <div class="benchBackground includes">
+                <div class="homeLeft">
+                    <br />
+                    <div class="StandardTextDarkGrayParagraph">
+                        <p>
+                            Welcome to Carolina Cheminformatics Workbench (Chembench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
+                            Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using Chembench.
+                            An asterisk (*) indicates required fields.<br/>
+                        </p>
+                    </div>
+                </div>
+        <div class="border StandardTextDarkGrayParagraph2 benchAlign bottomMargin">
         <s:form action="registerUser" enctype="multipart/form-data" theme="simple">
 	
         <table border="0" align="center" width="680">
