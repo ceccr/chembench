@@ -46,7 +46,7 @@
 
     <div><br /></div>
     <!--  page content -->
-
+    <div class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
     <div class="StandardTextDarkGrayParagraph">
         Build Date: <s:property value="buildDate" /><br />
         <br />
@@ -158,6 +158,7 @@
 
         </s:iterator>
     </table>
+        </div>
     <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 </div>
 <script language="javascript">
