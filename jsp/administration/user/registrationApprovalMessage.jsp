@@ -20,15 +20,12 @@
 </head>
 
 <body>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
-<br />
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
+<div class="outer">
+
+    <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
+    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
+    <div class="homeLeft topMarginBench">
 		<span id="maincontent">
-		<td height="557" colspan="5" valign="top" background="theme/img/backgrlibrary.jpg">
-		
-		<table width="465" border="0" cellspacing="0" cellpadding="0"><tr><td width="465">
 		
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<p class="StandardTextDarkGray">
@@ -44,15 +41,11 @@
 		The Chembench Team.
 		<br/>
 		<br/></p>
-			
-        </td></tr></table>     
-				
-				
 		<p class="StandardTextBlack">&nbsp;</p>
-		</td>
 		</span>
-	</tr>
-	<tr>
-	<%@include file ="/jsp/main/footer.jsp" %>
+    </div>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+
+    </div>
 </body>
 </html>
