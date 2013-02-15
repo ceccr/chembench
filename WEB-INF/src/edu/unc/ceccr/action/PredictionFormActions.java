@@ -189,7 +189,7 @@ public class PredictionFormActions extends ActionSupport
         }
 
         logger.info("made SMILES prediction on string " + smiles
-                + " with predictors " + predictorIds, user.getUserName());
+                + " with predictors " + predictorIds +" for "+ user.getUserName());
         return result;
     }
 
@@ -571,8 +571,8 @@ public class PredictionFormActions extends ActionSupport
 
         logger.info("making prediction run on dataset "
                 + predictionDataset.getName() + " with predictors "
-                + selectedPredictorIds, user.getUserName());
-
+                + selectedPredictorIds + " for " + user.getUserName());
+ 
         // give back the session at the end
         session.close();
         return SUCCESS;
