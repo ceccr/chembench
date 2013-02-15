@@ -114,16 +114,17 @@ public class PredictionFormActions extends ActionSupport
                     + user.getUserName() + "/SMILES/" + predictor.getName()
                     + "/";
             new File(smilesDir).mkdirs();
-
+            logger.debug("Created the directory " + smilesDir);
             // make sure there's nothing in the dir already.
             FileAndDirOperations.deleteDirContents(smilesDir);
 
             // generate an SDF from this SMILES string
             RunSmilesPrediction.smilesToSDF(smiles, smilesDir);
-
+            logger.debug("Generated the SDF file from provided smiles.");
             String[] predValues = new String[3];
 
             int totalModels = predictor.getNumTestModels();
+            
             // for n-folded predictors
             if (predictor.getChildType() != null
                     && predictor.getChildType().equals(Constants.NFOLD)) {
