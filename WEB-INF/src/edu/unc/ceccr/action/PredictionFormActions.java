@@ -191,6 +191,7 @@ public class PredictionFormActions extends ActionSupport
 
         logger.info("made SMILES prediction on string " + smiles
                 + " with predictors " + predictorIds +" for "+ user.getUserName());
+        
         return result;
     }
 
