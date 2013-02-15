@@ -24,11 +24,7 @@ ParseConfigurationXML
     
     public static void 
     initializeConstants( String filePath)
-    {   try{
-        logger.info("Where is the systemConfig.xml to be searched at ?\n" +new File(".").getCanonicalPath());
-        }catch(IOException ioExcp){
-            logger.error(ioExcp);
-        }
+    {   
         try{
             DocumentBuilderFactory docBuilderFactory 
                                       = DocumentBuilderFactory.newInstance();
@@ -252,18 +248,18 @@ ParseConfigurationXML
             Constants.doneReadingConfigFile = true;            
         }    
         catch (SAXParseException err){
-        //FIXME : Switch over to log4j
-            Utility.writeToDebug("** Parsing error" 
+ 
+            logger.error("** Parsing error" 
                                 + ", line " 
                                 + err.getLineNumber () 
                                 + ", uri " 
                                 + err.getSystemId ()
                                 );
-            Utility.writeToDebug(" " + err.getMessage ());
+            logger.error(" " + err.getMessage ());
         }
         catch (SAXException e){
             Exception x = e.getException ();
-            Utility.writeToDebug(x);
+            logger.error(x);
             ((x == null) ? e : x).printStackTrace ();
         }
         catch (Throwable t){
