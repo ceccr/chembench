@@ -26,6 +26,8 @@ import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction;
 
+
+import org.apache.log4j.Logger;
 // struts2
 
 public class PredictionFormActions extends ActionSupport
@@ -34,19 +36,21 @@ public class PredictionFormActions extends ActionSupport
      * 
      */
     private static final long serialVersionUID = 1L;
-
+    private static Logger logger 
+                = Logger.getLogger(PredictionFormActions.class.getName());
+    
     public String loadSelectPredictorPage() throws Exception
     {
         String result = SUCCESS;
         /* check that the user is logged in */
         ActionContext context = ActionContext.getContext();
         if (context == null) {
-            Utility.writeToStrutsDebug("No ActionContext available");
+            logger.debug("No ActionContext available");
         }
         else {
             user = (User) context.getSession().get("user");
             if (user == null) {
-                Utility.writeToStrutsDebug("No user is logged in.");
+                logger.debug("No user is logged in.");
                 result = LOGIN;
                 return result;
             }
@@ -80,10 +84,10 @@ public class PredictionFormActions extends ActionSupport
         smilesCutoff = cutoff;
         String predictorIds = ((String[]) context.getParameters().get(
                 "predictorIds"))[0];
-        Utility.writeToDebug(" 1: " + smiles + " 2: " + cutoff + " 3: "
+        logger.debug(" 1: " + smiles + " 2: " + cutoff + " 3: "
                 + predictorIds);
-        Utility.writeToDebug(user.getUserName());
-        Utility.writeToDebug("SMILES predids: " + predictorIds);
+        logger.debug(user.getUserName());
+        logger.debug("SMILES predids: " + predictorIds);
         String[] selectedPredictorIdArray = predictorIds.split("\\s+");
         ArrayList<Predictor> predictors = new ArrayList<Predictor>();
         for (int i = 0; i < selectedPredictorIdArray.length; i++) {
@@ -124,10 +128,10 @@ public class PredictionFormActions extends ActionSupport
             if (predictor.getChildType() != null
                     && predictor.getChildType().equals(Constants.NFOLD)) {
                 String[] ids = predictor.getChildIds().split("\\s+");
-                Utility.writeToDebug("Predictor is n-folded.");
+                logger.debug("Predictor is n-folded.");
                 List<String[]> tempPred = new ArrayList<String[]>();
                 for (int j = 0; j < ids.length; j++) {
-                    Utility.writeToDebug("Predictor is n-folded." + ids[j]);
+                    logger.debug("Predictor is n-folded." + ids[j]);
                     session = HibernateUtil.getSession();
                     Predictor tempP = PopulateDataObjects.getPredictorById(
                             Long.parseLong(ids[j]), session);
@@ -136,7 +140,7 @@ public class PredictionFormActions extends ActionSupport
                             smilesDir, user.getUserName(), tempP, Float
                                     .parseFloat(cutoff)));
                     totalModels += tempP.getNumTestModels();
-                    Utility.writeToDebug("Calculating predictions for "
+                    logger.debug("Calculating predictions for "
                             + tempP.getName());
                 }
 
@@ -150,9 +154,9 @@ public class PredictionFormActions extends ActionSupport
                     predictedValue += Double.parseDouble(s[1]);
                     standartDeviation += Double.parseDouble(s[2]);
                     // debug part
-                    Utility.writeToDebug("Predicting models: " + s[0]);
-                    Utility.writeToDebug("Predicted value: " + s[1]);
-                    Utility.writeToDebug("Standart deviation: " + s[2]);
+                    logger.debug("Predicting models: " + s[0]);
+                    logger.debug("Predicted value: " + s[1]);
+                    logger.debug("Standart deviation: " + s[2]);
                 }
                 predValues[0] = String.valueOf(predictingModels);
                 predValues[1] = Utility.roundSignificantFigures(String
@@ -184,7 +188,7 @@ public class PredictionFormActions extends ActionSupport
             smilesPredictions.add(sp);
         }
 
-        Utility.writeToUsageLog("made SMILES prediction on string " + smiles
+        logger.info("made SMILES prediction on string " + smiles
                 + " with predictors " + predictorIds, user.getUserName());
         return result;
     }
@@ -197,13 +201,13 @@ public class PredictionFormActions extends ActionSupport
         ActionContext context = ActionContext.getContext();
 
         if (context == null) {
-            Utility.writeToStrutsDebug("No ActionContext available");
+            logger.debug("No ActionContext available");
         }
         else {
             user = (User) context.getSession().get("user");
 
             if (user == null) {
-                Utility.writeToStrutsDebug("No user is logged in.");
+                logger.debug("No user is logged in.");
                 result = LOGIN;
                 return result;
             }
@@ -215,7 +219,7 @@ public class PredictionFormActions extends ActionSupport
         // get list of predictor IDs from the checked checkboxes
         if (predictorCheckBoxes == null
                 || predictorCheckBoxes.trim().isEmpty()) {
-            Utility.writeToStrutsDebug("no predictor chosen!");
+            logger.debug("no predictor chosen!");
             errorStrings.add("Please select at least one predictor.");
             result = ERROR;
             return result;
@@ -259,13 +263,13 @@ public class PredictionFormActions extends ActionSupport
                     errorStrings.add("The predictor '" + p.getName()
                             + "' cannot be used for prediction because"
                             + " it contains no usable models.");
-                    Utility.writeToDebug("The predictor '" + p.getName()
+                    logger.warn("The predictor '" + p.getName()
                             + "' cannot be used for prediction because"
                             + " it contains no usable models.");
                     result = ERROR;
                 }
                 else {
-                    Utility.writeToDebug("predictor " + p.getName()
+                    logger.debug("predictor " + p.getName()
                             + " is fine, it has " + p.getNumTotalModels());
                 }
             }
@@ -408,8 +412,8 @@ public class PredictionFormActions extends ActionSupport
             jobName = jobName.replaceAll("\\]", "_");
         }
 
-        Utility.writeToDebug(user.getUserName());
-        Utility.writeToDebug("predids: " + selectedPredictorIds);
+        logger.debug(user.getUserName());
+        logger.debug("predids: " + selectedPredictorIds);
 
         QsarPredictionTask predTask = new QsarPredictionTask(user
                 .getUserName(), jobName, sdf, cutOff, selectedPredictorIds,
@@ -461,7 +465,7 @@ public class PredictionFormActions extends ActionSupport
                 if (predictionXFile != null
                         && !predictionXFile.trim().isEmpty()) {
 
-                    Utility.writeToDebug("Staring to read predictors from file: "
+                    logger.debug("Staring to read predictors from file: "
                             + predictionDatasetDir + predictionXFile);
                     String[] predictionDescs = ReadDescriptors
                             .readDescriptorNamesFromX(predictionXFile,
@@ -565,7 +569,7 @@ public class PredictionFormActions extends ActionSupport
         centralDogma.addJobToIncomingList(user.getUserName(), jobName,
                 predTask, numCompounds, numModels, emailOnCompletion);
 
-        Utility.writeToUsageLog("making prediction run on dataset "
+        logger.info("making prediction run on dataset "
                 + predictionDataset.getName() + " with predictors "
                 + selectedPredictorIds, user.getUserName());
 
