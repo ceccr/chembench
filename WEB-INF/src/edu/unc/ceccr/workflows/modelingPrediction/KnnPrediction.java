@@ -1,21 +1,17 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.global.Constants;
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class KnnPrediction{
 	
@@ -127,7 +123,7 @@ public class KnnPrediction{
 				Utility.writeToDebug(ex);
 			}
 		}
-
+		in.close();
 	    return predictionValues;
 	}
 
@@ -145,7 +141,7 @@ public class KnnPrediction{
 		aout.close();
 		
 	    //Run prediction
-		String preddir = workingDir;
+		//String preddir = workingDir;
 		
 		String xfile = sdfile + ".renorm.x";
 		String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;

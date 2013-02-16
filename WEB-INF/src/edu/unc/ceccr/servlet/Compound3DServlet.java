@@ -6,21 +6,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
-import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.workflows.visualization.Molecule3D;
-import edu.unc.ceccr.global.Constants;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Session;
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.workflows.visualization.Molecule3D;
 
 @SuppressWarnings("serial")
 public class Compound3DServlet extends HttpServlet {
@@ -71,15 +64,18 @@ public class Compound3DServlet extends HttpServlet {
 		
 		try {
 			File sdfile = new File(sdfPath);
-			String warning = "ERROR, the SD file is not in correct format.\rThe structure can not be displayed.";
+			
+			/*String warning = "ERROR, the SD file is not in correct format.\rThe " +
+					"structure can not be displayed.";
+			*/
 			if (sdfile.exists()) {
 				InputStream twoDis = new FileInputStream(sdfile);
 				
 				File mol3DFile = new File(workingDir + mol3D);
-				if(! mol3DFile.exists()){
+				if (!mol3DFile.exists()) {
 					Molecule3D.Convert2Dto3D(userName, datasetName, sdf, mol3D, workingDir);
 				}
-				else{
+				else {
 					Utility.writeToDebug("3D structure already calculated. Returning it.");
 				}
 
@@ -87,8 +83,8 @@ public class Compound3DServlet extends HttpServlet {
 				out.println(front);
 				out.println(parameter);
 				out.println(end);
-					
 				
+				twoDis.close();
 			} else {
 				out.println(" ERROR : Can not find SD file: " + id);
 			}

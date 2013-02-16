@@ -3,10 +3,11 @@
 
 <workbench>c-chembench</workbench>
 
-<systemBasePath>/CHEMBENCH/prod</systemBasePath>
+<systemBasePath>/CHEMBENCH/common/</systemBasePath>
 <userFilesPath>/nas02/depts/chembench/prod/workflow-users/</userFilesPath>
-<tomcatPath>/CHEMBENHCH/prod/tomcat6/</tomcatPath>
-<executablesPath>/usr/local/ceccr/mmlsoft/bin/</executablesPath>
+<tomcatPath>/usr/local/ceccr/tomcat6/</tomcatPath>
+<executablesPath>/CHEMBENCH/common/mmlsoft/bin/</executablesPath>
+<scriptsPath>mmlsoft/bin/</scriptsPath>
 
 <webService>
 
@@ -27,11 +28,48 @@
 </mail>
 
 <database>
-<databaseName>cbench</databaseName>
+<databaseName>cbprod</databaseName>
 <userName>cbprod</userName>
 <password>PR0D2VeX!</password>
 <url>jdbc:mysql://localhost:3306/</url>
 <driver>com.mysql.jdbc.Driver</driver>
 </database>
+
+<molconnz>
+<modelingDatFilePath>ParameterFiles/MZ405Modeling.dat</modelingDatFilePath>
+<predictionDatFilePath>ParameterFiles/MZ405Prediction.dat</predictionDatFilePath>
+<csvDatFilePath>ParameterFiles/MZ-CSV.dat</csvDatFilePath>
+</molconnz>
+
+<cdk>
+<xmlFilePath>ParameterFiles/chembench-cdk.xml</xmlFilePath>
+</cdk>
+
+<randomForest>
+<buildModelRScript>randomForestBuildModel.R</buildModelRScript>
+<predictRScript>randomForestPredict.R</predictRScript>
+<descriptorsUsedFile>descriptors_used_in_models.txt</descriptorsUsedFile>
+</randomForest>
+
+<knn>
+<outputFile>knn-output.tbl</outputFile>
+<defaultFileName>knn.default</defaultFileName>
+<defaultCategoryFileName>knn_category.default</defaultCategoryFileName>
+<modelsFileName>models</modelsFileName>
+</knn>
+
+<setFiles>
+<externalA>ext_0.a</externalA>
+<externalX>ext_0.x</externalX>
+<modelingA>train_0.a</modelingA>
+<modelingX>train_0.x</modelingX>
+</setFiles>
+
+<other>
+<externalValidationOutputFile>external_prediction_table</externalValidationOutputFile>
+<predOutputFile>cons_pred</predOutputFile>
+<seDefaultFileName>param9.txt</seDefaultFileName>
+<descriptorErrorFile>descriptorErrors.txt</descriptorErrorFile>
+</other>
 
 </CustomConfigration>

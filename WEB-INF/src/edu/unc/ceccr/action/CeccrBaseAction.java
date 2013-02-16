@@ -4,16 +4,20 @@ package edu.unc.ceccr.action;
 
 
 //struts2
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
-
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.Utility;
 
 public class CeccrBaseAction extends ActionSupport {
 
-	public String loadPage() throws Exception {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    public String loadPage() throws Exception {
 		
 		String result = SUCCESS;
 		

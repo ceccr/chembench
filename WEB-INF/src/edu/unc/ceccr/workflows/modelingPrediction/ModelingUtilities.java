@@ -1,24 +1,15 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
-import edu.unc.ceccr.persistence.ExternalValidation;
-import edu.unc.ceccr.persistence.KnnParameters;
-import edu.unc.ceccr.persistence.KnnModel;
-import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.global.Constants;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Scanner;
-
-import org.apache.commons.validator.GenericValidator;
 
 public class ModelingUtilities{
 	
@@ -46,11 +37,13 @@ public class ModelingUtilities{
 			int x = 0;
 			while(files != null && x<files.length){
 				if(files[x].matches(".*default.*") || files[x].matches(".*RAND_sets.*") || files[x].matches(".*rand_sets.*")){
-					FileChannel ic = new FileInputStream(fromDir + files[x]).getChannel();
-					FileChannel oc = new FileOutputStream(toDir + files[x]).getChannel();
+				    FileInputStream fis = new FileInputStream(fromDir + files[x]);
+				    FileOutputStream fos = new FileOutputStream(toDir + files[x]);
+					FileChannel ic = fis.getChannel();
+					FileChannel oc = fos.getChannel();
 					ic.transferTo(0, ic.size(), oc);
-					ic.close();
-					oc.close(); 
+					fis.close();
+					fos.close(); 
 				}
 				x++;
 			}

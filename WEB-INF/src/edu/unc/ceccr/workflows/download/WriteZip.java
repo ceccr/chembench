@@ -1,24 +1,25 @@
 
 package edu.unc.ceccr.workflows.download;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import org.hibernate.Session;
+
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
-import edu.unc.ceccr.global.Constants;
-
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.zip.*;
-
-import org.hibernate.Session;
 
 public class WriteZip{
 

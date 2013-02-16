@@ -4,7 +4,7 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
     <appender name="Ceccr-Log" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="/CHEMBENCH/prod/tomcat6/webapps/logs/ceccr.log" />
+        <param name="File"   value="/CHEMBENCH/prod/tomcat6/webapps/logs/ceccr-debug.log" />
         <param name="Append" value="false" />
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%-5p %d %c :%L - %m%n"/>
@@ -49,16 +49,6 @@
         <appender-ref ref="Ceccr-Log"/>
     </logger>
     
-    <logger name="edu.unc.ceccr.utilities" additivity="false">
-        <level value="all"/>
-        <appender-ref ref="Utility-Log"/>
-    </logger>
-
-    <logger name="edu.unc.ceccr.workflows" additivity="false">
-        <level value="all"/>
-        <appender-ref ref="Workflow-Log"/>
-    </logger>
-
     <logger name="edu.unc.ceccr.action.JobsActions" additivity="false">
         <level value="warn"/>
         <appender-ref ref="Jobs-Log"/>

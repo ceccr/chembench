@@ -1,13 +1,12 @@
 package edu.unc.ceccr.workflows.descriptors;
 
-import java.io.*;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.PrintStream;
 
-import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.global.Constants;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class GenerateDescriptors{
     

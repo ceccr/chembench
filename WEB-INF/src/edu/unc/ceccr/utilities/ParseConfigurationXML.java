@@ -1,13 +1,17 @@
 package edu.unc.ceccr.utilities;
 
 import java.io.File;
-import java.io.IOException;
-import org.w3c.dom.*;
-import javax.xml.parsers.DocumentBuilderFactory;
+
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.apache.log4j.Logger;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.apache.log4j.Logger;
 
 import edu.unc.ceccr.global.Constants;
 
@@ -19,11 +23,7 @@ ParseConfigurationXML
     
     public static void 
     initializeConstants( String filePath)
-    {   try{
-        logger.info("Where is the systemConfig.xml to be searched at ?\n" +new File(".").getCanonicalPath());
-        }catch(IOException ioExcp){
-            logger.error(ioExcp);
-        }
+    {   
         try{
             DocumentBuilderFactory docBuilderFactory 
                                       = DocumentBuilderFactory.newInstance();
@@ -63,6 +63,9 @@ ParseConfigurationXML
             }
             
             Constants.WORKBENCH = getSingNodeValue(doc,"workbench");
+            Constants.LSFJOBPATH = getSingNodeValue(doc, "lsfPath");
+            Constants.USERWORKFLOWSPATH = getSingNodeValue(doc, "userWorkflow");
+            Constants.INSTALLS_PATH = getSingNodeValue(doc,"installsPath");
             Constants.CECCR_DATABASE_NAME 
                                 = getNestedNodeValue(
                                                getParentNode(doc,"database")
@@ -107,7 +110,107 @@ ParseConfigurationXML
                                 = getNestedNodeValue(
                                                getParentNode(doc,"webService")
                                                ,"privateKey"
-                                                    );            
+                                                    );          
+            Constants.MOLCONNZ_MODELING_DATFILE_PATH 
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"molconnz")
+							            		,"modelingDatFilePath"
+						           		 			); 
+            Constants.MOLCONNZ_PREDICTION_DATFILE_PATH
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"molconnz")
+							            		,"predictionDatFilePath"
+						           		 			); 
+            Constants.MOLCONNZ_CSV_DATFILE_PATH
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"molconnz")
+							            		,"csvDatFilePath"
+						           		 			); 
+            Constants.CDK_XMLFILE_PATH
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"cdk")
+							            		,"xmlFilePath"
+						           		 			); 
+            Constants.RF_BUILD_MODEL_RSCRIPT
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"randomForest")
+							            		,"buildModelRScript"
+						           		 			); 
+            Constants.RF_PREDICT_RSCRIPT
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"randomForest")
+							            		,"predictRScript"
+						           		 			); 
+            Constants.RF_DESCRIPTORS_USED_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"randomForest")
+							            		,"descriptorsUsedFile"
+						           		 			); 
+            Constants.KNN_OUTPUT_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"knn")
+							            		,"outputFile"
+						           		 			); 
+            Constants.EXTERNAL_VALIDATION_OUTPUT_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"other")
+							            		,"externalValidationOutputFile"
+						           		 			); 
+            Constants.PRED_OUTPUT_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"other")
+							            		,"predOutputFile"
+						           		 			); 
+            Constants.KNN_DEFAULT_FILENAME
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"knn")
+							            		,"defaultFileName"
+						           		 			); 
+            Constants.KNN_CATEGORY_DEFAULT_FILENAME
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"knn")
+							            		,"defaultCategoryFileName"
+						           		 			); 
+            Constants.SE_DEFAULT_FILENAME
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"other")
+							            		,"seDefaultFileName"
+						           		 			); 
+            Constants.DESCRIPTOR_ERROR_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"other")
+							            		,"descriptorErrorFile"
+						           		 			); 
+            Constants.KNNPLUS_MODELS_FILENAME
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"knn")
+							            		,"modelsFileName"
+						           		 			); 
+            Constants.EXTERNAL_SET_A_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"setFiles")
+							            		,"externalA"
+						           		 			); 
+            Constants.EXTERNAL_SET_X_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"setFiles")
+							            		,"externalX"
+						           		 			); 
+            Constants.MODELING_SET_A_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"setFiles")
+							            		,"modelingA"
+						           		 			); 
+			Constants.MODELING_SET_X_FILE
+						        = getNestedNodeValue(
+							            		getParentNode(doc,"setFiles")
+							            		,"modelingX"
+						           		 			); 
+			Constants.IMAGE_FILEPATH
+								= getNestedNodeValue(
+							            		getParentNode(doc,"other")
+							            		,"imgPath"
+						           		 			); 
             Constants.CECCR_BASE_PATH
                                 = getSingNodeValue(doc,"systemBasePath");
             if(! Constants.CECCR_BASE_PATH.endsWith("/")){
@@ -116,6 +219,10 @@ ParseConfigurationXML
     
             Constants.CECCR_USER_BASE_PATH
                                 = getSingNodeValue(doc,"userFilesPath");
+            Constants.SCRIPTS_PATH
+            					= getSingNodeValue(doc,"scriptsPath");
+            Constants.SYSTEMCONFIG_XML_PATH
+								= getSingNodeValue(doc,"sysConfigPath");
             
             Constants.TOMCAT_PATH
                                 = getSingNodeValue(doc,"tomcatPath");
@@ -128,30 +235,30 @@ ParseConfigurationXML
             if(! Constants.EXECUTABLEFILE_PATH.endsWith("/")){
                 Constants.EXECUTABLEFILE_PATH += "/";
             }
-            //FIXME : This path is not correct in current config. Fix it.
-            //FIXME : Externalize the full path. Why retain even partial value
-            //        hard coded. Full thing can be kept in the 
-            //        systemConfig.xml
+
             Constants.BUILD_DATE_FILE_PATH 
                                  = Constants.TOMCAT_PATH 
-                                 + "webapps/ROOT/WEB-INF/buildDate.txt";
+	                                 + getNestedNodeValue(
+							            	getParentNode(doc,"other")
+							            		,"buildDateFile");
+        //FIXME:Does not exist! Uknown purpose
             Constants.XML_FILE_PATH 
                                  = Constants.CECCR_BASE_PATH +"xml-files/";
             Constants.doneReadingConfigFile = true;            
         }    
         catch (SAXParseException err){
-        //FIXME : Switch over to log4j
-            Utility.writeToDebug("** Parsing error" 
+ 
+            logger.error("** Parsing error" 
                                 + ", line " 
                                 + err.getLineNumber () 
                                 + ", uri " 
                                 + err.getSystemId ()
                                 );
-            Utility.writeToDebug(" " + err.getMessage ());
+            logger.error(" " + err.getMessage ());
         }
         catch (SAXException e){
             Exception x = e.getException ();
-            Utility.writeToDebug(x);
+            logger.error(x);
             ((x == null) ? e : x).printStackTrace ();
         }
         catch (Throwable t){

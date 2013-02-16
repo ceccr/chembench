@@ -2,7 +2,6 @@ package edu.unc.ceccr.utilities;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,18 +12,18 @@ public class ClassUtils {
 
   //converts any object to a string containing the name and value of each variable.
   public static String varNamesToString( Object o ) {
-    ArrayList list = new ArrayList();
+    ArrayList<String> list = new ArrayList<String>();
     ClassUtils.varNamesToString( o, o.getClass(), list );
     return o.getClass().getName().concat( list.toString() );
   }
 
   public static String varValuesToString( Object o ) {
-    ArrayList list = new ArrayList();
+    ArrayList<Object> list = new ArrayList<Object>();
     ClassUtils.varValuesToString( o, o.getClass(), list );
     return list.toString();
   }
   
-  private static void varNamesToString( Object o, Class clazz, List list ) {
+  private static void varNamesToString( Object o, Class<?> clazz, List<String> list ) {
     Field f[] = clazz.getDeclaredFields();
     AccessibleObject.setAccessible( f, true );
     for ( int i = 0; i < f.length; i++ ) {
@@ -38,7 +37,7 @@ public class ClassUtils {
       }
   }
   
-  private static void varValuesToString( Object o, Class clazz, List list ) {
+  private static void varValuesToString( Object o, Class<?> clazz, List<Object> list ) {
         Field f[] = clazz.getDeclaredFields();
         AccessibleObject.setAccessible( f, true );
         for ( int i = 0; i < f.length; i++ ) {
@@ -61,12 +60,12 @@ public class ClassUtils {
   
   
   public static String toString( Object o ) {
-    ArrayList list = new ArrayList();
+    ArrayList<String> list = new ArrayList<String>();
     ClassUtils.toString( o, o.getClass(), list );
     return o.getClass().getName().concat( list.toString() );
   }
 
-  private static void toString( Object o, Class clazz, List list ) {
+  private static void toString( Object o, Class<?> clazz, List<String> list ) {
     Field f[] = clazz.getDeclaredFields();
     AccessibleObject.setAccessible( f, true );
     for ( int i = 0; i < f.length; i++ ) {

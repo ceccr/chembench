@@ -10,6 +10,8 @@ import java.util.Scanner;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.global.Constants;
+
 
 public class SdfToJpg {
 	
@@ -20,7 +22,7 @@ public class SdfToJpg {
 		//structuresDir = subdirectory for structures, e.g. Visualization/Structures/
 		//sketchesDir = subdirectory for sketches, e.g. Visualization/Sketches/
 		
-		String command = "/usr/local/ceccr/jchem/bin/molconvert -Y -g -2 jpeg:w300,Q95 "+filePath + fileName+" -o "+filePath + sketchesDir+"i.jpg -m";
+		String command = Constants.CECCR_BASE_PATH + "jchem/bin/molconvert -Y -g -2 jpeg:w300,Q95 "+filePath + fileName+" -o "+filePath + sketchesDir+"i.jpg -m";
 		RunExternalProgram.runCommandAndLogOutput(command, filePath,"molconvertLog");
 		
 		//remove explicit hydrogens from SDFs; they are noise as far as the JPG is concerned.
@@ -69,6 +71,7 @@ public class SdfToJpg {
 				}
 			}
 		}
+		src.close();
 		fin.close();
 	
 		Utility.writeToDebug("Done creating structures. COMPOUND NAMES COUNT:"+ compoundNames.size());
@@ -103,6 +106,7 @@ public class SdfToJpg {
 				{  
 				  Utility.writeToDebug("----Error occured while creating compound sketches!");
 				  FileAndDirOperations.deleteDirContents(sketchesDir);
+		          fis.close();
 				  break;
 				}  
 				else continue;

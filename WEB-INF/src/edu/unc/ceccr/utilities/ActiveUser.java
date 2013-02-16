@@ -1,7 +1,7 @@
 package edu.unc.ceccr.utilities;
 
-import javax.servlet.http.HttpSessionListener;
 import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 import edu.unc.ceccr.action.HomeAction;
 import edu.unc.ceccr.persistence.User;

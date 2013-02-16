@@ -3,18 +3,19 @@ package edu.unc.ceccr.action;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-//struts2
-import com.mysql.jdbc.Util;
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
+import org.apache.log4j.Logger;
+import org.apache.struts2.interceptor.ServletResponseAware;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
@@ -31,12 +32,7 @@ import edu.unc.ceccr.utilities.ActiveUser;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-
-import org.apache.struts2.interceptor.ServletResponseAware;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import org.apache.log4j.Logger;
+//struts2
 
 @SuppressWarnings("serial")
 
@@ -350,10 +346,48 @@ HomeAction extends ActionSupport implements ServletResponseAware
                 Utility.writeToDebug("Delete GUEST");
                 Session s = HibernateUtil.getSession();
                 
-                ArrayList<Prediction> predictions = (ArrayList<Prediction>) PopulateDataObjects.getUserData(userToDelete, Prediction.class, s);
-                ArrayList<Predictor> predictors = (ArrayList<Predictor>) PopulateDataObjects.getUserData(userToDelete,Predictor.class, s);
-                ArrayList<DataSet> datasets = (ArrayList<DataSet>) PopulateDataObjects.getUserData(userToDelete,DataSet.class, s);
-                ArrayList<Job> jobs = (ArrayList<Job>) PopulateDataObjects.getUserData(userToDelete,Job.class, s);
+                ArrayList<Prediction> predictions = new ArrayList<Prediction>();
+                Iterator<?> predictionIter = PopulateDataObjects.getUserData(
+                                                             userToDelete
+                                                           , Prediction.class, s)
+                                                           .iterator();
+                while(predictionIter.hasNext()){
+                    predictions.add((Prediction)predictionIter.next());
+                    
+                }
+                
+                ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+                
+                Iterator<?> predictorsIter  = PopulateDataObjects.getUserData(
+                                                              userToDelete
+                                                             ,Predictor.class, s)
+                                                             .iterator();
+                while(predictorsIter.hasNext()){
+                    predictors.add((Predictor)predictorsIter.next());
+                    
+                }
+                
+                ArrayList<DataSet> datasets = new ArrayList<DataSet>();
+                
+                Iterator<?> datSetIter  = PopulateDataObjects.getUserData(
+                                                              userToDelete
+                                                             ,DataSet.class, s)
+                                                             .iterator();
+                while(datSetIter.hasNext()){
+                    datasets.add((DataSet)datSetIter.next());
+                    
+                }   
+                
+                ArrayList<Job> jobs = new ArrayList<Job>();
+                
+                Iterator<?> jobIter  = PopulateDataObjects.getUserData(
+                                                              userToDelete
+                                                             ,Job.class, s)
+                                                             .iterator();
+                while(jobIter.hasNext()){
+                    jobs.add((Job)jobIter.next());
+                    
+                }   
                 
                 s.close();
 

@@ -1,7 +1,5 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-
-
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
@@ -12,6 +10,7 @@ import edu.unc.ceccr.utilities.LsfOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.Utility;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -22,13 +21,13 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+import java.util.Scanner;
 import org.apache.log4j.Logger;
 
 public class KnnPlus
 {
-    private static Logger logger 
-                            = Logger.getLogger(KnnPlus.class.getName());
+    private static Logger logger = Logger.getLogger(KnnPlus.class.getName());
+
     private static String
             getKnnPlusCommandFromParams(KnnPlusParameters knnPlusParameters,
                                         String actFileDataType,
@@ -42,7 +41,7 @@ public class KnnPlus
         String command = "./knn+ rand_sets.list";
 
         // '-OUT=...' - output file
-        command += " -OUT=" + Constants.KNNPLUSMODELSFILENAME;
+        command += " -OUT=" + Constants.KNNPLUS_MODELS_FILENAME;
 
         if (actFileDataType.equals(Constants.CONTINUOUS)) {
             // '-M=...' - model type: 'CNT' continuous <def.>,'CTG' -
@@ -294,7 +293,6 @@ public class KnnPlus
 
         String xfile = "ext_0.x";
         // knn+ models -4PRED=ext_0.x -AD=0.5_avd -OUT=cons_pred;
-        
         // Note the we can use just knn+ instead of ./knn+ here since on the
         // local server knn+ is added to the path.
         String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD="
@@ -325,13 +323,15 @@ public class KnnPlus
 
         in.readLine(); // junk
         in.readLine(); // junk
-        
-        // read output file into this
-        ArrayList<ArrayList<String>> predictionMatrix 
-                                    = new ArrayList<ArrayList<String>>(); 
-        //to be returned
-        ArrayList<ExternalValidation> predictionValues 
-                                    = new ArrayList<ExternalValidation>(); 
+
+        ArrayList<ArrayList<String>> predictionMatrix = new ArrayList<ArrayList<String>>(); // read
+                                                                                            // output
+                                                                                            // file
+                                                                                            // into
+                                                                                            // this
+        ArrayList<ExternalValidation> predictionValues = new ArrayList<ExternalValidation>(); // to
+                                                                                              // be
+                                                                                              // returned
 
         // each line of output represents a model
         // (which is really the transpose of the matrix we're looking for...
@@ -358,9 +358,8 @@ public class KnnPlus
             predictionMatrix.add(modelValues);
         }
 
-        logger.trace("calculating nummodels, avg," +
-                              "and stddev for each compound");
-
+        logger.trace("calculating nummodels, avg,"
+                + "and stddev for each compound");
         // get the actual (observed) values for each compound
         HashMap<String, String> observedValues = DatasetFileOperations
                 .getActFileIdsAndValues(workingDir + "ext_0.a");
@@ -378,7 +377,6 @@ public class KnnPlus
                 Float mean = new Float(0);
                 int numPredictingModels = predictionMatrix.size();
                 logger.trace("doing sum for compound " + i);
-
                 for (int j = 0; j < predictionMatrix.size(); j++) {
                     String predValue = predictionMatrix.get(j).get(i);
                     if (predValue.equalsIgnoreCase("NA")) {
@@ -403,7 +401,7 @@ public class KnnPlus
                         String predValue = predictionMatrix.get(j).get(i);
                         if (!predValue.equalsIgnoreCase("NA")) {
                             float distFromMeanSquared = (float) Math
-                                   .pow((Double.parseDouble(predValue) - mean),
+                                    .pow((Double.parseDouble(predValue) - mean),
                                             2);
                             stddev += distFromMeanSquared;
                         }
@@ -415,9 +413,7 @@ public class KnnPlus
                     stddev = null;
                 }
 
-                logger.trace("making predvalue object for compound "
-                 + i);
-
+                logger.trace("making predvalue object for compound " + i);
                 // create prediction value object
                 ExternalValidation ev = new ExternalValidation();
                 ev.setNumModels(numPredictingModels);
@@ -435,7 +431,7 @@ public class KnnPlus
                 logger.error(ex);
             }
         }
-        in.close();
+
         return predictionValues;
     }
 
@@ -670,20 +666,24 @@ public class KnnPlus
         in.readLine(); // compound names are here, but we get those from the
                        // SDF or X instead (knn+ output is buggy on this line)
 
-        logger.trace("reading compound names from X file: "
-                + workingDir + predictionXFile);
+        logger.trace("reading compound names from X file: " + workingDir
+                + predictionXFile);
         ArrayList<String> compoundNames = DatasetFileOperations
                 .getXCompoundNames(workingDir + predictionXFile);
 
         in.readLine(); // junk
         in.readLine(); // junk
 
-        //read the output into this
-        ArrayList<ArrayList<String>> predictionMatrix 
-                                          = new ArrayList<ArrayList<String>>(); 
-        //Holds objects to be returned
-        ArrayList<PredictionValue> predictionValues 
-                                          = new ArrayList<PredictionValue>(); 
+        ArrayList<ArrayList<String>> predictionMatrix = new ArrayList<ArrayList<String>>(); // read
+                                                                                            // output
+                                                                                            // file
+                                                                                            // into
+                                                                                            // this
+        ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); // holds
+                                                                                        // objects
+                                                                                        // to
+                                                                                        // be
+                                                                                        // returned
 
         // each line of output represents a model
         // (which is really the transpose of the matrix we're looking for...
@@ -711,8 +711,7 @@ public class KnnPlus
         }
 
         logger.trace("calculating nummodels, avg, "
-                              +"and stddev for each compound");
-
+                + "and stddev for each compound");
         // for each compound, calculate nummodels, avg, and stddev
         if (predictionMatrix.size() == 0) {
             // there were no models in the predictor!
@@ -753,7 +752,7 @@ public class KnnPlus
                         String predValue = predictionMatrix.get(j).get(i);
                         if (!predValue.equalsIgnoreCase("NA")) {
                             float distFromMeanSquared = (float) Math
-                                   .pow((Double.parseDouble(predValue) - mean),
+                                    .pow((Double.parseDouble(predValue) - mean),
                                             2);
                             stddev += distFromMeanSquared;
                         }
@@ -765,9 +764,7 @@ public class KnnPlus
                     stddev = null;
                 }
 
-                logger.trace("making predvalue object for compound "
-                            + i);
-
+                logger.trace("making predvalue object for compound " + i);
                 // create prediction value object
                 PredictionValue p = new PredictionValue();
                 p.setNumModelsUsed(numPredictingModels);
@@ -783,8 +780,8 @@ public class KnnPlus
             catch (Exception ex) {
                 logger.error(ex);
             }
-            
         }
+
         in.close();
         return predictionValues;
     }

@@ -2,17 +2,9 @@ package edu.unc.ceccr.utilities;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.sql.SQLException;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.Properties;
 
-import javax.mail.Message;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
@@ -88,7 +80,7 @@ public class SendEmails {
     }
     
     public static void sendEmailToAdmins(String subject, String message){
-        Iterator it=Constants.ADMINEMAIL_LIST.iterator();
+        Iterator<?> it=Constants.ADMINEMAIL_LIST.iterator();
         while(it.hasNext())
         {
             String adminAddress = (String)it.next();

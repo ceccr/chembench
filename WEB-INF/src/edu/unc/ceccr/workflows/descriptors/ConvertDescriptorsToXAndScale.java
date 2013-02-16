@@ -1,12 +1,17 @@
 package edu.unc.ceccr.workflows.descriptors;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.global.Constants;
-import java.util.ArrayList;
-import java.util.Scanner;
 
 
 public class ConvertDescriptorsToXAndScale{
@@ -255,6 +260,7 @@ public class ConvertDescriptorsToXAndScale{
             }
         }
         
+        src.close();
         //close final file
         outFilePart.write("\n");
         outFilePart.close();
@@ -295,7 +301,8 @@ public class ConvertDescriptorsToXAndScale{
         }
 
         //close final file
-        outFilePart.close();        
+        br.close();
+        outFilePart.close();
     }
 
     private static void splitMaccsFile(String workingDir, String descriptorsFile) throws Exception{
@@ -327,6 +334,7 @@ public class ConvertDescriptorsToXAndScale{
                 outFilePart.write(header);
             }
         }
+        br.close();
         outFilePart.close();
     }
     
@@ -359,6 +367,7 @@ public class ConvertDescriptorsToXAndScale{
                 outFilePart.write(header);
             }
         }
+        br.close();
         outFilePart.write("\n");
         outFilePart.close();
     }
@@ -395,6 +404,7 @@ public class ConvertDescriptorsToXAndScale{
                 outFilePart.write(descriptorNames);
             }
         }
+        br.close();
         outFilePart.write("\n");
         outFilePart.close();
     }

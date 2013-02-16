@@ -1,9 +1,11 @@
 package edu.unc.ceccr.persistence;
 
-import javax.persistence.*;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.utilities.Utility;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "cbench_modelPredictionValue")
@@ -20,6 +22,8 @@ public class ModelPredictionValue implements java.io.Serializable{
 		FOREIGN KEY (datasetId) REFERENCES cbench_dataset(id) ON DELETE CASCADE ON UPDATE CASCADE
 		);
 	*/
+
+	private static final long serialVersionUID = 1L;
 
 	private Long id;
 	

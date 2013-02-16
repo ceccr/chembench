@@ -1,25 +1,19 @@
 package edu.unc.ceccr.workflows.calculations;
 
-import java.io.*;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
 
-import edu.unc.ceccr.persistence.Descriptors;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.hibernate.Session;
+
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
-import edu.unc.ceccr.global.Constants;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Scanner;
-
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.hibernate.Session;
 
 public class RSquaredAndCCR{
 	

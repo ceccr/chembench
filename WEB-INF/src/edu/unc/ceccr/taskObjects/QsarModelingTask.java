@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -18,8 +19,8 @@ import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
-import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.persistence.RandomForestParameters;
+import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -30,15 +31,13 @@ import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.DataSplit;
-import edu.unc.ceccr.workflows.modelingPrediction.ModelingUtilities;
-import edu.unc.ceccr.workflows.modelingPrediction.LsfUtilities;
 import edu.unc.ceccr.workflows.modelingPrediction.KnnPlus;
+import edu.unc.ceccr.workflows.modelingPrediction.LsfUtilities;
+import edu.unc.ceccr.workflows.modelingPrediction.ModelingUtilities;
 import edu.unc.ceccr.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.workflows.modelingPrediction.Svm;
-import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
-
-import org.apache.log4j.Logger;
+import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
 public class QsarModelingTask extends WorkflowTask
@@ -874,8 +873,7 @@ public class QsarModelingTask extends WorkflowTask
 
         // the next step is to read in the results from the modeling program,
         // getting data about the models and external prediction values so we
-        // can
-        // save it to the database.
+        // can save it to the database.
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
 

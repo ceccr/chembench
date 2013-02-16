@@ -7,14 +7,13 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-
-//struts2
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
-
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import org.apache.log4j.Logger;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -35,13 +34,19 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.SendEmails;
-import edu.unc.ceccr.utilities.Utility;
+//struts2
 
 public class AdminAction extends ActionSupport{
 
-	User user;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    User user;
 	String buildDate;
 	ArrayList<User> users;
+	private static Logger logger = Logger.getLogger(
+				AdminAction.class.getName());
 	
 	//for sending email to all users
 	String emailMessage;
@@ -57,13 +62,13 @@ public class AdminAction extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}
@@ -74,7 +79,7 @@ public class AdminAction extends ActionSupport{
 		}
 
 		//log the results
-		Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to admin page.");
+		logger.debug("Forwarding user " + user.getUserName() + " to admin page.");
 		
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 
@@ -99,21 +104,21 @@ public class AdminAction extends ActionSupport{
 	
 	public String emailSelectedUsers() throws Exception {
 		//check that the user is logged in
-		Utility.writeToDebug("emailing SELECTED user(s)");
+		logger.debug("emailing SELECTED user(s)");
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				return LOGIN;
 			}
 			else if(! user.getIsAdmin().equals(Constants.YES)){
-				Utility.writeToDebug("user " + user.getUserName() + " isn't an admin");
+				logger.error("user " + user.getUserName() + " isn't an admin");
 				return ERROR;
 			}
 		}
@@ -130,21 +135,21 @@ public class AdminAction extends ActionSupport{
 	
 	public String emailAllUsers() throws Exception {
 		//check that the user is logged in
-		Utility.writeToDebug("emailing user(s)");
+		logger.debug("emailing user(s)");
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				return LOGIN;
 			}
 			else if(! user.getIsAdmin().equals(Constants.YES)){
-				Utility.writeToDebug("user " + user.getUserName() + " isn't an admin");
+				logger.error("user " + user.getUserName() + " isn't an admin");
 				return ERROR;
 			}
 		}
@@ -172,17 +177,18 @@ public class AdminAction extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}
 			else if(! user.getIsAdmin().equals(Constants.YES)){
+				logger.error("user " + user.getUserName() + " isn't an admin");
 				result = ERROR;
 				return result;
 			}
@@ -213,7 +219,7 @@ public class AdminAction extends ActionSupport{
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			logger.error(e);
 		} finally {s.close();}
 		
 		
@@ -226,17 +232,18 @@ public class AdminAction extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}
 			else if(! user.getIsAdmin().equals(Constants.YES)){
+				logger.error("user " + user.getUserName() + " isn't an admin");
 				result = ERROR;
 				return result;
 			}
@@ -268,7 +275,7 @@ public class AdminAction extends ActionSupport{
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			logger.error(e);
 		} finally {s.close();}
 		
 		return result;
@@ -283,17 +290,18 @@ public class AdminAction extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}
 			else if(! user.getIsAdmin().equals(Constants.YES)){
+				logger.error("user " + user.getUserName() + " isn't an admin");
 				result = ERROR;
 				return result;
 			}
@@ -339,17 +347,18 @@ public class AdminAction extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}
 			else if(! user.getIsAdmin().equals(Constants.YES)){
+				logger.error("user " + user.getUserName() + " isn't an admin");
 				result = ERROR;
 				return result;
 			}
@@ -378,7 +387,7 @@ public class AdminAction extends ActionSupport{
 			String dir = Constants.CECCR_USER_BASE_PATH+Constants.ALL_USERS_USERNAME+"/PREDICTIONS/"+prediction.getName();
 			if(! FileAndDirOperations.deleteDir(new File(dir))){
 				errorStrings.add("Error deleting dir");
-				Utility.writeToStrutsDebug("error deleting dir: " + dir);
+				logger.error("error deleting dir: " + dir);
 			}
 			
 			//delete the prediction values associated with the prediction
@@ -395,7 +404,7 @@ public class AdminAction extends ActionSupport{
 					catch (RuntimeException e) {
 						if (tx != null)
 							tx.rollback();
-						Utility.writeToDebug(e);
+						logger.error(e);
 					}
 				}
 			}
@@ -409,7 +418,7 @@ public class AdminAction extends ActionSupport{
 			}catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e);
+				logger.error(e);
 			}
 			
 			session.close();
@@ -432,17 +441,18 @@ public class AdminAction extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}
 			else if(! user.getIsAdmin().equals(Constants.YES)){
+				logger.error("user " + user.getUserName() + " isn't an admin");
 				result = ERROR;
 				return result;
 			}
@@ -479,7 +489,7 @@ public class AdminAction extends ActionSupport{
 			
 			if((new File(dir)).exists()){
 				if(! FileAndDirOperations.deleteDir(new File(dir))){
-					Utility.writeToStrutsDebug("error deleting dir: " + dir);
+					logger.error("error deleting dir: " + dir);
 					errorStrings.add("Cannot delete directory!");
 				}
 			}
@@ -493,7 +503,7 @@ public class AdminAction extends ActionSupport{
 			}catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e);
+				logger.error(e);
 				return ERROR;
 			}
 			session.close();
@@ -508,7 +518,7 @@ public class AdminAction extends ActionSupport{
 	
 	
 	private ArrayList<String> checkPublicPredictorDependencies(DataSet ds) throws HibernateException, ClassNotFoundException, SQLException{
-		Utility.writeToDebug("checking dataset dependencies");
+		logger.debug("checking dataset dependencies");
 	
 		ArrayList<String> dependencies = new ArrayList<String>();
 		Session session = HibernateUtil.getSession();
@@ -517,7 +527,7 @@ public class AdminAction extends ActionSupport{
 	
 		//check each predictor
 		for(int i = 0; i < userPredictors.size();i++){
-			Utility.writeToDebug("predictor id: " + userPredictors.get(i).getDatasetId() + " dataset id: " + ds.getId());
+			logger.debug("predictor id: " + userPredictors.get(i).getDatasetId() + " dataset id: " + ds.getId());
 			if(userPredictors.get(i).getDatasetId() != null && userPredictors.get(i).getDatasetId().equals(ds.getId())){
 				dependencies.add("The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset. Please delete it first.\n");
 			}
@@ -525,7 +535,7 @@ public class AdminAction extends ActionSupport{
 	
 		//check each prediction
 		for(int i = 0; i < userPredictions.size();i++){
-			Utility.writeToDebug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getId());
+			logger.debug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getId());
 			if(userPredictions.get(i).getDatasetId() != null && userPredictions.get(i).getDatasetId().equals(ds.getId())){
 				dependencies.add("The prediction '" + userPredictions.get(i).getName() + "' depends on this dataset. Please delete it first.\n");
 			}
@@ -542,17 +552,18 @@ public class AdminAction extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}
 			else if(! user.getIsAdmin().equals(Constants.YES)){
+				logger.error("user " + user.getUserName() + " isn't an admin");
 				result = ERROR;
 				return result;
 			}
@@ -568,7 +579,7 @@ public class AdminAction extends ActionSupport{
 				return ERROR;
 			}
 			
-			Utility.writeToDebug("++++++++++++++++++Predictor name:"+predictorName+" User name="+userName);
+			logger.debug("++++++++++++++++++Predictor name:"+predictorName+" User name="+userName);
 					
 			Session session = HibernateUtil.getSession();
 			Predictor predictor = PopulateDataObjects.getPredictorByName(predictorName, userName, session);
@@ -587,7 +598,7 @@ public class AdminAction extends ActionSupport{
 			//check if predictor is based on the public dataset
 			boolean isDatasetPublic = false;
 			if(dataset.getUserName().trim().equals(Constants.ALL_USERS_USERNAME)){
-				Utility.writeToDebug("**************DATASET IS ALREADY PUBLIC!");
+				logger.debug("**************DATASET IS ALREADY PUBLIC!");
 				isDatasetPublic = true;
 			}
 			
@@ -607,12 +618,12 @@ public class AdminAction extends ActionSupport{
 			String userPredictorDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/"+predictor.getName();
 			
 			//copy files to all users folder
-			Utility.writeToDebug("Start copying files from '"+userDatasetDir+"' to '"+allUserDatasetDir+"'");
+			logger.debug("Start copying files from '"+userDatasetDir+"' to '"+allUserDatasetDir+"'");
 			if(!isDatasetPublic){
 				String cmd = "cp -r " + userDatasetDir+" "+allUserDatasetDir;
 				RunExternalProgram.runCommand(cmd, "");
 			}
-			Utility.writeToDebug("Start copying files from '"+userPredictorDir+"' to '"+allUserPredictorDir+"'");
+			logger.debug("Start copying files from '"+userPredictorDir+"' to '"+allUserPredictorDir+"'");
 			String cmd = "cp -r " + userPredictorDir+" "+allUserPredictorDir;
 			RunExternalProgram.runCommand(cmd, "");
 			
@@ -620,7 +631,7 @@ public class AdminAction extends ActionSupport{
 			
 			if(!isDatasetPublic){
 				//duplicating dataset record
-				Utility.writeToDebug("------DB: Duplicating dataset record for dataset: "+dataset.getName());
+				logger.debug("------DB: Duplicating dataset record for dataset: "+dataset.getName());
 				session = HibernateUtil.getSession();
 				session.evict(dataset);
 				dataset.setId(null);
@@ -634,7 +645,7 @@ public class AdminAction extends ActionSupport{
 			Long predictorId = predictor.getId();
 			Long newPredictorId = null;
 			//duplicating predictor record
-			Utility.writeToDebug("------DB: Duplicating predictor record for predictor: "+predictor.getName());
+			logger.debug("------DB: Duplicating predictor record for predictor: "+predictor.getName());
 			session = HibernateUtil.getSession();
 			session.evict(predictor);
 			predictor.setId(null);
@@ -647,7 +658,7 @@ public class AdminAction extends ActionSupport{
 			session.close();
 			
 			//taking care of external validation table 
-			Utility.writeToDebug("------//taking care of external validation table");
+			logger.debug("------//taking care of external validation table");
 			session = HibernateUtil.getSession();
 			List<ExternalValidation> extValidation = PopulateDataObjects.getExternalValidationValues(predictorId, session);
 			session.close();
@@ -662,7 +673,7 @@ public class AdminAction extends ActionSupport{
 			
 			/*
 			//taking care of knnModel table
-			Utility.writeToDebug("------//taking care of knnModel table");
+			logger.debug("------//taking care of knnModel table");
 			session = HibernateUtil.getSession();
 			List<KnnModel> knnModels = PopulateDataObjects.getModelsByPredictorId(predictorId, session);
 			session.close();
@@ -677,7 +688,7 @@ public class AdminAction extends ActionSupport{
 			*/
 			
 			//taking care of knnPlusModel table 
-			Utility.writeToDebug("------//taking care of knnPlusModel table");
+			logger.debug("------//taking care of knnPlusModel table");
 			session = HibernateUtil.getSession();
 			List<KnnPlusModel> knnPlusModels = PopulateDataObjects.getKnnPlusModelsByPredictorId(predictorId, session);
 			session.close();
@@ -691,7 +702,7 @@ public class AdminAction extends ActionSupport{
 			}
 			
 			//taking care of SVM table 
-			Utility.writeToDebug("------//taking care of SVM table");
+			logger.debug("------//taking care of SVM table");
 			session = HibernateUtil.getSession();
 			List<SvmModel> svmModels = PopulateDataObjects.getSvmModelsByPredictorId(predictorId, session);
 			session.close();
@@ -705,7 +716,7 @@ public class AdminAction extends ActionSupport{
 			}
 			
 			//taking care of RandomForest table 
-			Utility.writeToDebug("------//taking care of RandomForest table");
+			logger.debug("------//taking care of RandomForest table");
 			session = HibernateUtil.getSession();
 			List<RandomForestGrove> randomForests = PopulateDataObjects.getRandomForestGrovesByPredictorId(predictorId, session);
 			session.close();
@@ -728,12 +739,12 @@ public class AdminAction extends ActionSupport{
 			}
 			
 			//taking care of modeling parameters
-			Utility.writeToDebug("------//taking care of modeling parameters");
+			logger.debug("------//taking care of modeling parameters");
 			session = HibernateUtil.getSession();
 			Predictor oldPredictor = PopulateDataObjects.getPredictorById(predictorId, session);
 			
 			if(oldPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){
-				Utility.writeToDebug("------//RANDOMFOREST");
+				logger.debug("------//RANDOMFOREST");
 				RandomForestParameters randomForestParameters = PopulateDataObjects.getRandomForestParametersById(oldPredictor.getModelingParametersId(), session);
 				session.evict(randomForestParameters);
 				randomForestParameters.setId(null);
@@ -743,7 +754,7 @@ public class AdminAction extends ActionSupport{
 			}
 			else if(oldPredictor.getModelMethod().equals(Constants.KNNGA) || 
 					oldPredictor.getModelMethod().equals(Constants.KNNSA)){
-				Utility.writeToDebug("------//KNN+");
+				logger.debug("------//KNN+");
 				KnnPlusParameters knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(oldPredictor.getModelingParametersId(), session);
 				session.evict(knnPlusParameters);
 				knnPlusParameters.setId(null);
@@ -752,7 +763,7 @@ public class AdminAction extends ActionSupport{
 				predictor.setModelingParametersId(knnPlusParameters.getId());
 			}
 			/*else if(oldPredictor.getModelMethod().equals(Constants.KNN)){
-				Utility.writeToDebug("------//KNN");
+				logger.debug("------//KNN");
 				KnnParameters params = PopulateDataObjects.getKnnParametersById(oldPredictor.getModelingParametersId(),session);
 				session.evict(params);
 				params.setId(null);
@@ -761,7 +772,7 @@ public class AdminAction extends ActionSupport{
 				predictor.setModelingParametersId(params.getId());
 			}*/
 			else if(oldPredictor.getModelMethod().equals(Constants.SVM)){
-				Utility.writeToDebug("------//SVM");
+				logger.debug("------//SVM");
 				SvmParameters svmParameters = PopulateDataObjects.getSvmParametersById(oldPredictor.getModelingParametersId(), session);
 				session.evict(svmParameters);
 				svmParameters.setId(null);
@@ -770,17 +781,17 @@ public class AdminAction extends ActionSupport{
 				predictor.setModelingParametersId(svmParameters.getId());
 			}
 			
-			Utility.writeToDebug("--------Old predictor ID="+predictorId+" -> new one = "+newPredictorId);
+			logger.debug("--------Old predictor ID="+predictorId+" -> new one = "+newPredictorId);
 			
 			//duplicating child predictors
 			String[] predictorChildren = null;
 			String newChildIds =null;
 			if(predictor.getChildIds()!=null){
-				Utility.writeToDebug("--------Child predictor IDs="+predictor.getChildIds());
+				logger.debug("--------Child predictor IDs="+predictor.getChildIds());
 				newChildIds = new String();
 				predictorChildren = predictor.getChildIds().split("\\s+");
 				for(String id:predictorChildren){
-					Utility.writeToDebug("--------Child predictor ID="+id+" longId="+Long.parseLong(id));
+					logger.debug("--------Child predictor ID="+id+" longId="+Long.parseLong(id));
 					session = HibernateUtil.getSession();
 					Predictor child = PopulateDataObjects.getPredictorById(Long.parseLong(id), session);
 					if(child!=null){
@@ -846,7 +857,7 @@ public class AdminAction extends ActionSupport{
 							
 							session.close();	
 							//taking care of RandomForest table 
-							Utility.writeToDebug("------//taking care of RandomForest table");
+							logger.debug("------//taking care of RandomForest table");
 							session = HibernateUtil.getSession();
 							randomForests = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(id), session);
 							session.close();
@@ -876,7 +887,7 @@ public class AdminAction extends ActionSupport{
 							} catch (RuntimeException e) {
 								if (tx != null)
 									tx.rollback();
-								Utility.writeToDebug(e);
+								logger.error(e);
 							} finally {session.close();}
 					}
 				}
@@ -885,7 +896,7 @@ public class AdminAction extends ActionSupport{
 			
 			//updating newly created predictor with new child ids
 			predictor.setChildIds(newChildIds);
-			Utility.writeToDebug("--------New child predictor IDs="+newChildIds);
+			logger.debug("--------New child predictor IDs="+newChildIds);
 			session = HibernateUtil.getSession();
 			Transaction tx = null;
 			try {
@@ -895,13 +906,13 @@ public class AdminAction extends ActionSupport{
 			} catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e);
+				logger.error(e);
 			} finally {session.close();}
 			
 		}
 		catch(Exception ex){
 			result = ERROR;
-			Utility.writeToDebug(ex);
+			logger.error(ex);
 		}
 		
 		return result;

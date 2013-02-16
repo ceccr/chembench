@@ -1,8 +1,12 @@
 package edu.unc.ceccr.persistence;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
 
 @Entity
@@ -23,7 +27,11 @@ FOREIGN KEY (predictor_id) REFERENCES cbench_predictor(predictor_id) ON DELETE C
 );
 	 */
 
-	private Long id;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private Long id;
 	private Long predictorId;
 	private String name;
 	private String isYRandomModel;

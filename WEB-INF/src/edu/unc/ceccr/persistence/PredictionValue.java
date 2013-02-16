@@ -5,11 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import edu.unc.ceccr.utilities.Utility;
 
 @SuppressWarnings("serial")
 @Entity
@@ -17,7 +14,6 @@ import edu.unc.ceccr.utilities.Utility;
 @Table(name = "cbench_predictionValue")
 public class PredictionValue implements java.io.Serializable{
 
-	@SuppressWarnings("unused")
 	private Long predictorId;
 	private String compoundName;
 	private int numModelsUsed;
