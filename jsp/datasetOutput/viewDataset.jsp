@@ -103,7 +103,7 @@
 
 	<span class="Errors"><b><!-- errors go here..? --></b></span> 
 	<span class="StandardTextDarkGray"></span>
-
+    <span id = "maincontent">
 	<table width="924" align="center"><tr><td>
 		<div class="StandardTextDarkGray"><br />
 			<b>Dataset Name: </b><s:property value="dataset.name" /><br />
@@ -216,7 +216,7 @@
    	</sx:tabbedpanel>
    	
 	<!-- end load tabs -->
-	
+	</span>
 	<div id="image_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute"><img src="" width="300" height="300"/></div>
 <%@include file ="/jsp/main/footer.jsp" %>
 </table>

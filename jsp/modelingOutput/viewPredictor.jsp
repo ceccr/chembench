@@ -57,7 +57,7 @@
     <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
     <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 
-
+        <span id = "maincontent">
 		<table width="924" align="center"><tr><td>
 			<div class="StandardTextDarkGray"><br />
 			<b>Predictor Name: </b><s:property value="selectedPredictor.name" /><br />
@@ -216,7 +216,7 @@
 			
 	   	</sx:tabbedpanel>
 		<!-- end load tabs -->
-
+    </span>
 	<!-- End Header Info -->
 	
 	<tr>
