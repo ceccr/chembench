@@ -6,16 +6,19 @@
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
     <title>CHEMBENCH | View Dataset</title>
-      
-    <link href="theme/ss.css" rel="stylesheet" type="text/css" />
-	<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link href="theme/standard.css" rel="stylesheet" type="text/css" />
-	<link href="theme/links.css" rel="stylesheet" type="text/css" />
-	<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
-	<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
-	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
-	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
+
+    meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
+    <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
+    <link href="theme/standard.css" rel="stylesheet" type="text/css">
+    <link href="theme/links.css" rel="stylesheet" type="text/css">
+    <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
+    <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
+    <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 	
 	<script language="javascript" src="javascript/script.js" />
 	<script src="javascript/AC_RunActiveContent.js"></script>
@@ -90,22 +93,11 @@
 
 <body onload="setTabToMyBench();">
 <div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
-		<td>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<%@include file="/jsp/main/header.jsp" %>
-	<%@include file="/jsp/main/centralNavigationBar.jsp" %>
-	</td>
-		</span>
-	</tr>
-	
-	
-	<!-- Header Info -->
-	<tr>
-	<span id="maincontent">
-	<td height="557" colspan="5" valign="top">
-	
+<div class="outer">
+
+    <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
+    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
+
 	<span class="Errors"><b><!-- errors go here..? --></b></span> 
 	<span class="StandardTextDarkGray"></span>
 
@@ -241,6 +233,8 @@ $(document).ready(function() {
 	});
 	
 });
+<div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 
+        </div>
 </script>
 </body>
