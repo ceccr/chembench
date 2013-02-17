@@ -458,6 +458,7 @@
     </p>
     <div class="StandardTextDarkGrayParagraph">
         <i>Click on the name of a prediction to see the results.</i><br />
+    </div>
         <s:if test="! userPredictions.isEmpty()">
             <table class="sortable" id="predictions">
                 <tr>
@@ -496,7 +497,6 @@
                 <br />
             </table>
         </s:if>
-    </div>
 </div>
 <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 </div>
