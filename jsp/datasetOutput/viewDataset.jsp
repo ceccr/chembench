@@ -1,3 +1,6 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
@@ -7,7 +10,7 @@
 	<sx:head debug="false" cache="false" compressed="true" />
     <title>CHEMBENCH | View Dataset</title>
 
-    meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
     <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
     <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
@@ -93,10 +96,10 @@
 
 <body onload="setTabToMyBench();">
 <div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
-<div class="outer">
+    <div class="outer">
 
-    <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
-    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
+        <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
+        <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 
 	<span class="Errors"><b><!-- errors go here..? --></b></span> 
 	<span class="StandardTextDarkGray"></span>
