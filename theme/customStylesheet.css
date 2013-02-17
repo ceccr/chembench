@@ -24,6 +24,9 @@
 	padding-right:25px;
 }
 
+.notLoggedInFooterTop{
+    padding-top:220px;
+}
 
 .navHref {
 	text-decoration: none;

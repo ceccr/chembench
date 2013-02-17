@@ -91,8 +91,7 @@
                     <!-- LOGIN INPUT FIELD ENDS HERE-->
                 </div>
             </div>
-        <br /><br /><br />
-            <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+            <div class="includes notLoggedInFooterTop"><%@include file ="/jsp/main/footer.jsp" %></div>
     </div>
 </body>
 </html>
