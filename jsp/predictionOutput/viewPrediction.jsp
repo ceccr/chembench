@@ -56,6 +56,7 @@
     <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
     <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 
+    <span id="maincontent">
 	<table width="924" align="center"><tr><td>
 			<div class="StandardTextDarkGray"><br />
 			<b>Prediction Name: </b><s:property value="prediction.name" /><br />
@@ -114,7 +115,7 @@
 		
    	</sx:tabbedpanel>
 	<!-- end load tabs -->
-	
+	</span>
 	<div id="image_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute"><img src="" width="300" height="300"/></div>
     <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 
