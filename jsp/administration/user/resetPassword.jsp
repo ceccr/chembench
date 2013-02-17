@@ -34,10 +34,6 @@
     <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 
 <!-- Main page -->
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
-		<span id="maincontent">
-		<td height="557" colspan="2" valign="top" background="theme/img/backgrindex.jpg">
 			<table>
 				<tr>
 					<td class="ChangePSText">
@@ -56,9 +52,6 @@
      				</td>
      			</tr>
      		</table>
-		</td>
-		</span>
-	</tr>
     <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 
 </div>
