@@ -45,8 +45,9 @@
                         <br /><br />
                         Thanks for using Chembench! If you encounter any problems, please contact us at ceccr@email.unc.edu.
                     </p>
+                    </div>
                 </div>
-            </div>
+
                 <div class="ccbLoginBoxHeading StandardTextDarkGrayParagraph">
 
                     <!-- LOGIN INPUT FIELD STARTS HERE. -->
@@ -88,9 +89,9 @@
                     </s:if>
 
                     <!-- LOGIN INPUT FIELD ENDS HERE-->
-            </div>
                 </div>
+            </div>
             <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
-        </div>
+    </div>
 </body>
 </html>
