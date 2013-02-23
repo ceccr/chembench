@@ -3,6 +3,7 @@ package edu.unc.ceccr.action;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -19,6 +20,8 @@ import edu.unc.ceccr.utilities.Utility;
 public class SoftwareLinksAction extends ActionSupport {
 
 	private static final long serialVersionUID = 1L;
+	
+    private static Logger logger = Logger.getLogger(SoftwareLinksAction.class.getName());
 
 	private ArrayList<SoftwareLink> softwareLinks = new ArrayList<SoftwareLink>();
 	
@@ -43,7 +46,7 @@ public class SoftwareLinksAction extends ActionSupport {
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("FreeSoftwareAction: No ActionContext available");
+			logger.debug("FreeSoftwareAction: No ActionContext available");
 		}
 		else{
 			Session s = HibernateUtil.getSession();
@@ -74,7 +77,7 @@ public class SoftwareLinksAction extends ActionSupport {
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("FreeSoftwareAction: No ActionContext available");
+			logger.debug("FreeSoftwareAction: No ActionContext available");
 		}
 		else{
 			//verify the user is logged in
@@ -114,7 +117,7 @@ public class SoftwareLinksAction extends ActionSupport {
 				} catch (RuntimeException e) {
 					if (tx != null)
 						tx.rollback();
-					Utility.writeToDebug(e);
+					logger.error(e);
 				} finally {
 					s.close();
 				}
@@ -132,7 +135,7 @@ public class SoftwareLinksAction extends ActionSupport {
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("FreeSoftwareAction: No ActionContext available");
+			logger.debug("FreeSoftwareAction: No ActionContext available");
 		}
 		else{
 			//verify that the user is logged in
@@ -158,7 +161,7 @@ public class SoftwareLinksAction extends ActionSupport {
 				}catch (RuntimeException e) {
 					if (tx != null)
 						tx.rollback();
-					Utility.writeToDebug(e);
+					logger.error(e);
 					return ERROR;
 				}
 				finally{

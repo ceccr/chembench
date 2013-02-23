@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -16,12 +17,15 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 //struts2
 
+
 @SuppressWarnings("serial")
 public class DatasetFormActions extends ActionSupport{
+    
+    private static Logger logger = Logger.getLogger(DatasetFormActions.class.getName());
+    
 	public String ajaxLoadModeling() throws Exception {
 		return SUCCESS;
 	}
@@ -60,13 +64,13 @@ public class DatasetFormActions extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}
@@ -85,10 +89,10 @@ public class DatasetFormActions extends ActionSupport{
 		session.close();
 		//log the results
 		if(result.equals(SUCCESS)){
-			Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to dataset page.");
+			logger.debug("Forwarding user " + user.getUserName() + " to dataset page.");
 		}
 		else{
-			Utility.writeToStrutsDebug("Cannot load page.");
+			logger.warn("Cannot load page.");
 		}
 		
 		dataTypeModeling = Constants.CONTINUOUS;
@@ -114,8 +118,8 @@ public class DatasetFormActions extends ActionSupport{
 			datasetName = datasetName.replaceAll("\\]", "_");
 		}
 		
-		Utility.writeToDebug("Starting dataset task");
-		Utility.writeToUsageLog("Uploaded dataset " + datasetName, userName);
+		logger.debug("Starting dataset task");
+		logger.debug("Uploaded dataset " + datasetName + " User: "+userName);
 		
 		List<String> msgs = new ArrayList<String>();
 		
@@ -131,22 +135,22 @@ public class DatasetFormActions extends ActionSupport{
 		if(datasetType.equalsIgnoreCase(Constants.MODELING)){
 			
 			if(sdfFileModeling == null){
-				Utility.writeToDebug("sdf file is null");
+				logger.debug("sdf file is null");
 			}
 			else{
-				Utility.writeToDebug("sdf file is good");
+				logger.debug("sdf file is good");
 			}
 			if(sdfFileModelingContentType.isEmpty()){
-				Utility.writeToDebug("sdf file is empty");
+				logger.debug("sdf file is empty");
 			}
 			else{
-				Utility.writeToDebug("sdf file is " + sdfFileModelingContentType);
+				logger.debug("sdf file is " + sdfFileModelingContentType);
 			}
 			if(sdfFileModelingFileName.isEmpty()){
-				Utility.writeToDebug("sdf file is empty");
+				logger.debug("sdf file is empty");
 			}
 			else{
-				Utility.writeToDebug("sdf file is " + sdfFileModelingFileName);
+				logger.debug("sdf file is " + sdfFileModelingFileName);
 			}
 			
 			//do file check
@@ -179,7 +183,7 @@ public class DatasetFormActions extends ActionSupport{
 					actFileModelingFileName = actFileModelingFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
 				}
 				catch(Exception ex){
-					Utility.writeToDebug(ex);
+					logger.error(ex);
 					result = ERROR;
 					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
@@ -209,7 +213,7 @@ public class DatasetFormActions extends ActionSupport{
 						dataSetDescription,
 						generateImagesM);
 				try{
-					Utility.writeToDebug("getting ACT compound count from " + Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName);
+					logger.debug("getting ACT compound count from " + Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName);
 					int numCompounds = DatasetFileOperations.getACTCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName).size();
 					int numModels = 0;
@@ -219,12 +223,12 @@ public class DatasetFormActions extends ActionSupport{
 					
 				}
 				catch(Exception ex){
-					Utility.writeToDebug(ex);
+					logger.error(ex);
 				}
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.PREDICTION)){
-			Utility.writeToDebug("got into function");
+			logger.debug("got into function");
 			//do file check
 			if(sdfFilePrediction == null){
 				errorStrings.add("File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.");
@@ -239,7 +243,7 @@ public class DatasetFormActions extends ActionSupport{
 					sdfFilePredictionFileName = sdfFilePredictionFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
 				}
 				catch(Exception ex){
-					Utility.writeToDebug(ex);
+					logger.error(ex);
 					result = ERROR;
 					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
@@ -251,7 +255,6 @@ public class DatasetFormActions extends ActionSupport{
 			}
 			if(result.equalsIgnoreCase(INPUT)){
 				try{
-					Utility.writeToDebug("creating task");
 					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
 							datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
 							sdfFilePredictionFileName, //sdfFileName
@@ -274,14 +277,14 @@ public class DatasetFormActions extends ActionSupport{
 					int numCompounds = DatasetFileOperations.getSDFCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
 					int numModels = 0;
-					Utility.writeToDebug("adding task");
+					logger.debug("adding task");
 					
 					CentralDogma centralDogma = CentralDogma.getInstance();
 					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
 					
 				}
 				catch(Exception ex){
-					Utility.writeToDebug(ex);
+					logger.error(ex);
 					result = ERROR;
 					msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
 				}
@@ -318,7 +321,7 @@ public class DatasetFormActions extends ActionSupport{
 					
 				}
 				catch(Exception ex){
-					Utility.writeToDebug(ex);
+					logger.error(ex);
 					result = ERROR;
 					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
@@ -357,7 +360,7 @@ public class DatasetFormActions extends ActionSupport{
 					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
 				}
 				catch(Exception ex){
-					Utility.writeToDebug(ex);
+					logger.error(ex);
 					result = ERROR;
 					msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
 				}
@@ -383,7 +386,7 @@ public class DatasetFormActions extends ActionSupport{
 					descriptorTypePredDesc = descriptorNewNameD.trim().isEmpty()?selectedDescriptorUsedNameD:descriptorNewNameD;
 				}
 				catch(Exception ex){
-					Utility.writeToDebug(ex);
+					logger.error(ex);
 					result = ERROR;
 					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
@@ -425,7 +428,7 @@ public class DatasetFormActions extends ActionSupport{
 					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
 				catch(Exception ex){
-					Utility.writeToDebug(ex);
+					logger.error(ex);
 					result = ERROR;
 					msgs.add("An exception occurred while creating this dataset: " + ex.getMessage());
 				}

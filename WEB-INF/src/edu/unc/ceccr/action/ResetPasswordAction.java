@@ -1,6 +1,7 @@
 package edu.unc.ceccr.action;
 
 //struts2
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -14,7 +15,9 @@ import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
 
 public class ResetPasswordAction extends ActionSupport {
+    
 	private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(ResetPasswordAction.class.getName());
 	String userName;
 	String email;
 	String errorMessage;
@@ -43,7 +46,7 @@ public class ResetPasswordAction extends ActionSupport {
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			logger.error(e);
 		} finally {s.close();}
 		
 		// message to user
