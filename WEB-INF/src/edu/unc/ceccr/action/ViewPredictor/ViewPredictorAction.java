@@ -2,6 +2,8 @@ package edu.unc.ceccr.action.ViewPredictor;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.action.ViewAction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -9,12 +11,13 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 
 // struts2
 
 public class ViewPredictorAction extends ViewAction
 {
+    private static Logger logger 
+                  = Logger.getLogger(ViewPredictorAction.class.getName());
 
     // Basic parameters. Inherited by all subclasses.
 
@@ -82,7 +85,7 @@ public class ViewPredictorAction extends ViewAction
                 || (!selectedPredictor.getUserName().equals(
                         Constants.ALL_USERS_USERNAME) && !user.getUserName()
                         .equals(selectedPredictor.getUserName()))) {
-            Utility.writeToStrutsDebug("Invalid predictor ID supplied. ");
+            logger.debug("Invalid predictor ID supplied. ");
             errorStrings.add("Invalid predictor ID supplied.");
             session.close();
             return ERROR;

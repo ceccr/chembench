@@ -6,13 +6,14 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 
 public class RandomForestModelsPage extends ViewPredictorAction
 {
@@ -21,6 +22,7 @@ public class RandomForestModelsPage extends ViewPredictorAction
      * 
      */
     private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(RandomForestModelsPage.class.getName());
     
     private List<RandomForestGrove> randomForestGroves;
     private List<RandomForestTree>  randomForestTrees;
@@ -34,7 +36,7 @@ public class RandomForestModelsPage extends ViewPredictorAction
 
         getModelsPageParameters();
 
-        Utility.writeToDebug("rf foldnum: " + currentFoldNumber);
+        logger.debug("rf foldnum: " + currentFoldNumber);
 
         if (childPredictors.size() == 0) {
             loadTrees();
@@ -115,7 +117,7 @@ public class RandomForestModelsPage extends ViewPredictorAction
             mostFrequentDescriptors += ".";
         }
 
-        Utility.writeToDebug("Done loading trees page for predictor id"
+        logger.debug("Done loading trees page for predictor id"
                 + objectId);
 
         return result;
@@ -165,7 +167,7 @@ public class RandomForestModelsPage extends ViewPredictorAction
     private String loadTrees() throws Exception
     {
         String result = SUCCESS;
-        Utility.writeToDebug("getting trees for " + objectId);
+        logger.debug("getting trees for " + objectId);
         session = HibernateUtil.getSession();
         List<RandomForestGrove> rfGroves = PopulateDataObjects
                 .getRandomForestGrovesByPredictorId(Long.parseLong(objectId),

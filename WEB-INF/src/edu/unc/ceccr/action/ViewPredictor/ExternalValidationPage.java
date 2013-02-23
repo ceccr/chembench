@@ -89,26 +89,6 @@ public class ExternalValidationPage extends ViewPredictorAction
                     }
                     maeStat.addValue(childSum / residualsForChild.size());
                 }
-
-                // calculate r^2 / ccr for this child
-                /*
-                 * if(childExtVals != null){
-                 * if(selectedPredictor.getActivityType
-                 * ().equals(Constants.CATEGORY)){ Double childCcr =
-                 * (RSquaredAndCCR
-                 * .calculateConfusionMatrix(childExtVals)).getCcr();
-                 * childAccuracies.addValue(childCcr); } else
-                 * if(selectedPredictor
-                 * .getActivityType().equals(Constants.CONTINUOUS)){
-                 * ArrayList<Double> childResiduals =
-                 * RSquaredAndCCR.calculateResiduals(childExtVals); Double
-                 * childRSquared =
-                 * RSquaredAndCCR.calculateRSquared(childExtVals,
-                 * childResiduals); childAccuracies.addValue(childRSquared);
-                 * if(currentFoldNumber.equals("0")){
-                 * CreateExtValidationChartWorkflow
-                 * .createChart(selectedPredictor, ""+(i+1)); } } }
-                 */
             }
 
             maeSets = Utility.roundSignificantFigures("" + maeStat.getMean(),
@@ -116,33 +96,6 @@ public class ExternalValidationPage extends ViewPredictorAction
             stdDev = Utility.roundSignificantFigures(""
                     + maeStat.getStandardDeviation(),
                     Constants.REPORTED_SIGNIFICANT_FIGURES);
-
-            /*
-             * Double mean = childAccuracies.getMean(); Double stddev =
-             * childAccuracies.getStandardDeviation();
-             * if(selectedPredictor.getActivityType
-             * ().equals(Constants.CONTINUOUS)){ rSquaredAverageAndStddev =
-             * Utility.roundSignificantFigures(""+mean,
-             * Constants.REPORTED_SIGNIFICANT_FIGURES);
-             * rSquaredAverageAndStddev += " \u00B1 ";
-             * rSquaredAverageAndStddev +=
-             * Utility.roundSignificantFigures(""+stddev,
-             * Constants.REPORTED_SIGNIFICANT_FIGURES);
-             * Utility.writeToDebug("rsquared avg and stddev: " +
-             * rSquaredAverageAndStddev); //make main ext validation chart
-             * if(currentFoldNumber.equals("0")){
-             * //CreateExtValidationChartWorkflow
-             * .createChart(selectedPredictor, "0"); } } else
-             * if(selectedPredictor
-             * .getActivityType().equals(Constants.CATEGORY)){
-             * ccrAverageAndStddev = Utility.roundSignificantFigures(""+mean,
-             * Constants.REPORTED_SIGNIFICANT_FIGURES); ccrAverageAndStddev +=
-             * " \u00B1 "; ccrAverageAndStddev +=
-             * Utility.roundSignificantFigures(""+stddev,
-             * Constants.REPORTED_SIGNIFICANT_FIGURES);
-             * Utility.writeToDebug("ccr avg and stddev: " +
-             * ccrAverageAndStddev); }
-             */
         }
         else {
             externalValValues = (ArrayList<ExternalValidation>) 

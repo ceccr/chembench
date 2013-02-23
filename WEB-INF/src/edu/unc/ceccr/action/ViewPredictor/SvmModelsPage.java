@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 
 public class SvmModelsPage extends ViewPredictorAction
 {
@@ -19,6 +20,7 @@ public class SvmModelsPage extends ViewPredictorAction
      * 
      */
     private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(SvmModelsPage.class.getName());
     
     private List<SvmModel> svmModels;
     private SvmParameters  svmParameters;
@@ -84,7 +86,7 @@ public class SvmModelsPage extends ViewPredictorAction
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             errorStrings.add(ex.getMessage());
             return ERROR;
         }

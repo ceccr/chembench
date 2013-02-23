@@ -1,6 +1,7 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
 // struts2
+import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
 import com.opensymphony.xwork2.ActionContext;
@@ -8,12 +9,16 @@ import com.opensymphony.xwork2.ActionContext;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 
-@SuppressWarnings("serial")
 public class PredictorPage extends ViewPredictorAction
 {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(PredictorPage.class.getName());
+    
     private String predictorDescription = "";
     private String predictorReference   = "";
     private String editable             = "";
@@ -50,7 +55,7 @@ public class PredictorPage extends ViewPredictorAction
             catch (RuntimeException e) {
                 if (tx != null)
                     tx.rollback();
-                Utility.writeToDebug(e);
+                logger.error(e);
             }
             finally {
                 session.close();
@@ -91,7 +96,7 @@ public class PredictorPage extends ViewPredictorAction
                 tx.commit();
             }
             catch (Exception ex) {
-                Utility.writeToDebug(ex);
+                logger.error(ex);
             }
             finally {
                 session.close();
