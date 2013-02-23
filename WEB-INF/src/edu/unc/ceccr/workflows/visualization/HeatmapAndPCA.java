@@ -1,11 +1,14 @@
 package edu.unc.ceccr.workflows.visualization;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 
 
 public class HeatmapAndPCA {
+    
+    private static Logger logger = Logger.getLogger(HeatmapAndPCA.class.getName());
 	
 	public static void performXCreation(String maccsFilePath, String outputXFileName, String workingDir){
 		String cmd = "convert_maccs_to_X2.pl " + maccsFilePath + " " + workingDir + outputXFileName;
@@ -29,7 +32,7 @@ public class HeatmapAndPCA {
 			else return;
 			
 		}catch(Exception ex){
-			Utility.writeToDebug(ex);
+			logger.error(ex);
 		}
 	}
 	
@@ -40,7 +43,7 @@ public class HeatmapAndPCA {
 				RunExternalProgram.runCommandAndLogOutput(cmd, "", "run_PCA_ScatterPlot.sh");
 			}
 		}catch(Exception ex){
-			Utility.writeToDebug(ex);
+			logger.error(ex);
 		}
 	}
 }
