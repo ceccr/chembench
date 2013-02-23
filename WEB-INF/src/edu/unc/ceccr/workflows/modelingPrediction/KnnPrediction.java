@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
+import org.apache.log4j.Logger;
+
 public class KnnPrediction{
-	
+    
+    private static Logger logger = Logger.getLogger(KnnPrediction.class.getName());
 	//Execute external programs to generate a prediction for a given molecule set.
 	// Used for legacy models that were created using Sasha's kNN code.
 	
@@ -24,7 +26,7 @@ public class KnnPrediction{
         //read prediction output for a kNN job.
 		//sample output filename: cons_pred_vs_anticonvulsants_91.sdf.renorm.preds
 		String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_" + sdFile.toLowerCase()  + ".renorm.preds"; //the ".preds" is added automatically by knn+
-    	Utility.writeToDebug("Reading file: " + workingDir + outputFile);
+    	logger.debug("Reading file: " + workingDir + outputFile);
 		BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
 		String inputString;
 		
@@ -57,9 +59,7 @@ public class KnnPrediction{
 			}
 			predictionMatrix.add(modelValues);
 		}
-		
-		//Utility.writeToDebug("calculating nummodels, avg, and stddev for each compound");
-		
+
 		//for each compound, calculate nummodels, avg, and stddev
 		int numCompounds = predictionMatrix.get(0).size();
 		for(int i = 0; i < numCompounds; i++){
@@ -69,7 +69,6 @@ public class KnnPrediction{
 			Float sum = new Float(0);
 			Float mean = new Float(0);
 			int numPredictingModels = predictionMatrix.size();
-			//Utility.writeToDebug("doing sum for compound " + i);
 			
 			for(int j = 0; j < predictionMatrix.size(); j++){
 				String predValue = predictionMatrix.get(j).get(i);
@@ -87,8 +86,6 @@ public class KnnPrediction{
 				mean = null;
 			}
 
-			//Utility.writeToDebug("doing stddev for compound " + i);
-
 			Float stddev = new Float(0);
 			if(numPredictingModels > 0){
 				for(int j = 0; j < predictionMatrix.size(); j++){
@@ -104,9 +101,7 @@ public class KnnPrediction{
 			else{
 				stddev = null;
 			}
-			
-			//Utility.writeToDebug("making predvalue object for compound " + i);
-			
+						
 			//create prediction value object
 			
 			PredictionValue p = new PredictionValue();
@@ -120,7 +115,7 @@ public class KnnPrediction{
 			predictionValues.add(p);
 	
 			}catch(Exception ex){
-				Utility.writeToDebug(ex);
+				logger.error(ex);
 			}
 		}
 		in.close();
