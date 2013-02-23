@@ -19,9 +19,11 @@ import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
+import org.apache.log4j.Logger;
+
 public class RandomForest
 {
-
+    private static Logger logger = Logger.getLogger(RandomForest.class.getName());
     // MODELING WORKFLOW FUNCTIONS
     public static void
             SetUpYRandomization(String userName, String jobName) throws Exception
@@ -51,7 +53,7 @@ public class RandomForest
         FileAndDirOperations.copyFile(fromDir + newModelingXFile, toDir
                 + newModelingXFile);
 
-        Utility.writeToDebug("Copying files in RF_RAND_sets.list from "
+        logger.debug("Copying files in RF_RAND_sets.list from "
                 + workingdir + " to " + workingdir + "yRandom/");
         BufferedReader in = new BufferedReader(new FileReader(workingdir
                 + "RF_RAND_sets.list"));
@@ -78,14 +80,14 @@ public class RandomForest
 
         String yRandomDir = Constants.CECCR_USER_BASE_PATH + userName + "/"
                 + jobName + "/yRandom/";
-        Utility.writeToDebug("YRandomization", userName, jobName);
+        logger.debug("User: "+userName +" Job: "+jobName+" YRandomization");
         File dir = new File(yRandomDir);
         String files[] = dir.list();
         if (files == null) {
-            Utility.writeToDebug("Error reading directory: " + yRandomDir);
+            logger.warn("Error reading directory: " + yRandomDir);
         }
         int x = 0;
-        Utility.writeToDebug("Randomizing each activity file (*rand_sets*.a) in dir "
+        logger.debug("Randomizing each activity file (*rand_sets*.a) in dir "
                 + yRandomDir);
         while (files != null && x < files.length) {
             if (files[x].matches(".*rand_sets.*a")) {
@@ -145,7 +147,7 @@ public class RandomForest
     {
 
         String command = "";
-        Utility.writeToDebug("Running Random Forest Modeling...");
+        logger.debug("Running Random Forest Modeling...");
 
         String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
         String buildModelScript = scriptDir
@@ -430,7 +432,7 @@ public class RandomForest
             in.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
     }
 
@@ -472,7 +474,7 @@ public class RandomForest
 
         // Get the predicted values of the forest
         String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
-        Utility.writeToDebug("Reading consensus prediction file: "
+        logger.debug("Reading consensus prediction file: "
                 + workingDir + outputFile);
         BufferedReader in = new BufferedReader(new FileReader(workingDir
                 + outputFile));
