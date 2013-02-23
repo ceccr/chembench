@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.utilities.Utility;
@@ -15,6 +17,8 @@ import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 
 public class ConvertDescriptorsToXAndScale{
+    
+    private static Logger logger = Logger.getLogger(ConvertDescriptorsToXAndScale.class.getName());
     private static int compoundsPerChunk = 1000;
     /*
     For large prediction sets (e.g. > 10000 compounds), the descriptors will not
@@ -66,7 +70,6 @@ public class ConvertDescriptorsToXAndScale{
         File descriptorsFilePart = new File(workingDir + descriptorsFile + "_" + filePartNumber);
         
         ArrayList<String> allChemicalNames = null;
-        //Utility.writeToDebug("-------X num comp="+DatasetFileOperations.getXCompoundNames(workingDir + descriptorsFile).size()+" SDF comp numb="+DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile).size());
         if(descriptorGenerationType.equals(Constants.UPLOADED)){
             allChemicalNames = DatasetFileOperations.getXCompoundNames(workingDir + sdfile);
         }
@@ -136,7 +139,6 @@ public class ConvertDescriptorsToXAndScale{
             descriptorsFilePart = new File(workingDir + descriptorsFile + "_" + filePartNumber);
         }
         //reassemble X file parts into one big X file
-        //Utility.writeToDebug("-------------mergeXFileParts:: "+workingDir+","+ outputXFile+","+scalingType+","+allChemicalNames.size());
         mergeXFileParts(workingDir, outputXFile, scalingType, allChemicalNames.size());
     }    
     
@@ -145,8 +147,6 @@ public class ConvertDescriptorsToXAndScale{
             String descriptorGenerationType, String scalingType, int numCompounds) throws Exception{
         
         if(numCompounds > compoundsPerChunk){
-            //Utility.writeToDebug("ConvertDescriptorsToXAndScale:convertDescriptorsToXAndScaleInChunks("+workingDir+","+sdfile+","+ 
-            //        predictorXFile+","+ outputXFile+","+descriptorGenerationType+","+scalingType);
             convertDescriptorsToXAndScaleInChunks(workingDir, sdfile, 
                     predictorXFile, outputXFile, descriptorGenerationType, scalingType);
             return;
@@ -455,7 +455,7 @@ public class ConvertDescriptorsToXAndScale{
             filePartNumber++;
             xFilePart = new File(workingDir + outputXFile + "_" + filePartNumber);
         }
-        Utility.writeToDebug("----------Lines in file part:"+linesInFilePart.size()+" nuber of componds = "+numCompounds);
+        logger.debug("----------Lines in file part:"+linesInFilePart.size()+" nuber of componds = "+numCompounds);
         //print footer
         if(!scalingType.equals(Constants.NOSCALING) && linesInFilePart!=null){
             xFileOut.write("\n");

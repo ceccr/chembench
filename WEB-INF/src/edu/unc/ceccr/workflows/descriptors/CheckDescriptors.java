@@ -6,11 +6,13 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.utilities.Utility;
 
 public class CheckDescriptors
 {
+    private static Logger logger = Logger.getLogger(CheckDescriptors.class.getName());
     // Read in the output of a descriptor generation program (molconnZ,
     // dragon, etc.)
     // Look for any errors that would make the output unusable in modeling
@@ -20,7 +22,7 @@ public class CheckDescriptors
             checkMolconnZDescriptors(String molconnZOutputFile) throws Exception
     {
 
-        Utility.writeToDebug("Checking MolconnZ descriptors: "
+        logger.debug("Checking MolconnZ descriptors: "
                 + molconnZOutputFile);
 
         ArrayList<String> descriptorNames = new ArrayList<String>();
@@ -118,7 +120,7 @@ public class CheckDescriptors
         }
         src.close();
         fin.close();
-        Utility.writeToDebug("Done checking MolconnZ descriptors: "
+        logger.debug("Done checking MolconnZ descriptors: "
                 + molconnZOutputFile);
         return errors;
     }
@@ -126,7 +128,7 @@ public class CheckDescriptors
     public static String
             checkDragonDescriptors(String dragonOutputFile) throws Exception
     {
-        Utility.writeToDebug("Checking Dragon descriptors: "
+        logger.debug("Checking Dragon descriptors: "
                 + dragonOutputFile);
         ArrayList<String> descriptorNames = new ArrayList<String>();
         String errors = "";
@@ -193,7 +195,7 @@ public class CheckDescriptors
              */
             descriptorValues.clear();
         }
-        Utility.writeToDebug("Done checking Dragon descriptors: "
+        logger.debug("Done checking Dragon descriptors: "
                 + dragonOutputFile);
         br.close();
         return errors;

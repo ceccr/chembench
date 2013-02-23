@@ -67,7 +67,7 @@ public class ReadDescriptors
                                     ArrayList<Descriptors> descriptorValueMatrix) throws Exception
     {
 
-        Utility.writeToDebug("reading MolconnZ Descriptors");
+        logger.debug("reading MolconnZ Descriptors");
 
         File file = new File(molconnZOutputFile);
         if (!file.exists() || file.length() == 0) {
@@ -189,7 +189,7 @@ public class ReadDescriptors
                                   ArrayList<Descriptors> descriptorValueMatrix) throws Exception
     {
 
-        Utility.writeToDebug("reading Dragon Descriptors");
+        logger.debug("reading Dragon Descriptors");
 
         File file = new File(dragonOutputFile);
         if (!file.exists() || file.length() == 0) {
@@ -262,7 +262,7 @@ public class ReadDescriptors
     {
         // generate with "maccs.sh infile.sdf outfile.maccs"
 
-        Utility.writeToDebug("reading Maccs Descriptors");
+        logger.debug("reading Maccs Descriptors");
 
         File file = new File(maccsOutputFile);
         if (!file.exists() || file.length() == 0) {
@@ -312,7 +312,7 @@ public class ReadDescriptors
                                  ArrayList<String> descriptorNames,
                                  ArrayList<Descriptors> descriptorValueMatrix) throws Exception
     {
-        Utility.writeToDebug("reading Moe2D Descriptors");
+        logger.debug("reading Moe2D Descriptors");
 
         File file = new File(moe2DOutputFile);
         if (!file.exists() || file.length() == 0) {
@@ -365,7 +365,6 @@ public class ReadDescriptors
                              ArrayList<String> descriptorNames,
                              ArrayList<Descriptors> descriptorValueMatrix) throws Exception
     {
-        // Utility.writeToDebug("reading Uploaded Descriptors");
         logger.debug("Trying to read uploaded descriptors");
         File file = new File(xFile);
         if (!file.exists() || file.length() == 0) {
