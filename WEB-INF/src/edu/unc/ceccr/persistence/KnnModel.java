@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import edu.unc.ceccr.utilities.Utility;
+import org.apache.log4j.Logger;
 
 // default package
 // Generated Jun 20, 2006 1:22:16 PM by Hibernate Tools 3.1.0.beta5
@@ -50,6 +50,8 @@ public class KnnModel implements java.io.Serializable {
 	private Float st45;
 	
 	private String descriptorsUsed;
+
+    private static Logger logger = Logger.getLogger(KnnModel.class.getName());
 
 	//added values for knn-category
 	private Float trainingAcc;
@@ -511,7 +513,7 @@ public class KnnModel implements java.io.Serializable {
 	public void setDescriptorsUsed(String descriptorsUsed) {
 		if(descriptorsUsed != null && descriptorsUsed.length() > 4000){
 			//truncate to 4000 and log an error
-			Utility.writeToDebug("Warning: Descriptors truncated for model " + id + " in predictor with id: " + predictorId);
+			logger.warn("Warning: Descriptors truncated for model " + id + " in predictor with id: " + predictorId);
 			descriptorsUsed = descriptorsUsed.substring(0, 3999);
 		}
 		this.descriptorsUsed = descriptorsUsed;

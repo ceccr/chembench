@@ -12,7 +12,11 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.User;
 
+import org.apache.log4j.Logger;
+
 public class SendEmails {
+
+    private static Logger logger = Logger.getLogger(SendEmails.class.getName());
 
     public static boolean isValidEmail(String email) {
         return (email.indexOf("@") > 0) && (email.indexOf(".") > 2);
@@ -31,7 +35,7 @@ public class SendEmails {
 
     public static void sendEmail(String address, String cc, String bcc, String subject, String message){
         try{
-            Utility.writeToDebug("Sending an email...");
+            logger.debug("Sending an email...");
             
             //gonna exec sendmail, gonna pack it up nice
 
@@ -58,9 +62,9 @@ public class SendEmails {
             String execstr = "sendmail.sh " + workingDir + fileName;
             RunExternalProgram.runCommand(execstr, workingDir);
         
-            Utility.writeToDebug("Email sent!");
+            logger.debug("Email sent!");
         }catch(Exception ex){
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }    
         /*
         //The old way

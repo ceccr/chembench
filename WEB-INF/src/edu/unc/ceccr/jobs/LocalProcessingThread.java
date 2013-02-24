@@ -15,10 +15,12 @@ import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.SendEmails;
-import edu.unc.ceccr.utilities.Utility;
 
+import org.apache.log4j.Logger;
 
 public class LocalProcessingThread extends Thread {
+
+    private static Logger logger = Logger.getLogger(LocalProcessingThread.class.getName());
 
 	//this thread will work on the localJobs joblist.
 	//There can be any number of these threads.
@@ -27,13 +29,13 @@ public class LocalProcessingThread extends Thread {
 		while(true){
 			try {
 				sleep(1500);
-				//Utility.writeToDebug("LocalProcessingThread awake!");
+				//logger.debug("LocalProcessingThread awake!");
 				//pull out a job and start it running
 				ArrayList<Job> jobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
 				for(Job j: jobs){
 					//try to get this job. Note that another thread may be trying to get it too.
 					if(j != null && CentralDogma.getInstance().localJobs.startJob(j.getId())){
-						Utility.writeToDebug("Local queue: Started job " + j.getJobName());
+                        logger.debug("Local queue: Started job " + j.getJobName());
 						j.setTimeStarted(new Date());
 						j.setStatus(Constants.PREPROC);
 						CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
@@ -68,29 +70,29 @@ public class LocalProcessingThread extends Thread {
 						}
 						catch(Exception ex){
 							//Job failed or threw an exception
-							Utility.writeToDebug("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
+                            logger.error("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
 							if(j.getUserName().contains("guest")){
 								Session session =HibernateUtil.getSession();		
 								//removing all quest data if guest time on site was out 
-								Utility.writeToDebug("JOB FAILED REMOVING GUEST: " + j.getUserName() + " " + PopulateDataObjects.getUserByUserName(j.getUserName(), session));
+								logger.error("JOB FAILED REMOVING GUEST: " + j.getUserName() + " " + PopulateDataObjects.getUserByUserName(j.getUserName(), session));
 								if(!j.getUserName().isEmpty() && PopulateDataObjects.getUserByUserName(j.getUserName(), session)==null){
 									FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+j.getUserName()));
-									Utility.writeToDebug("JOB FAILED REMOVING FOR SURE GUEST: " + j.getUserName());
+									logger.error("JOB FAILED REMOVING FOR SURE GUEST: " + j.getUserName());
 								}
 								session.close();
 							}
 							else{
 								CentralDogma.getInstance().moveJobToErrorList(j.getId());
 								CentralDogma.getInstance().localJobs.saveJobChangesToList(j);
-								Utility.writeToDebug(ex);
+								logger.error(ex);
 	
 								//prepare a nice HTML-formatted readable version of the exception
 								StringWriter sw = new StringWriter();
 								ex.printStackTrace(new PrintWriter(sw));
 								String exceptionAsString = sw.toString();
-								Utility.writeToDebug(exceptionAsString);
+								logger.error(exceptionAsString);
 								exceptionAsString = exceptionAsString.replaceAll("at edu", "<br />at edu");
-								Utility.writeToDebug(exceptionAsString);
+								logger.error(exceptionAsString);
 								
 								//send an email to the site administrator
 								Session s = HibernateUtil.getSession();
@@ -106,7 +108,7 @@ public class LocalProcessingThread extends Thread {
 								message += "<br /><br />The full stack trace is below. Happy debugging!<br /><br />" +
 								exceptionAsString;
 								SendEmails.sendEmail("ceccr@email.unc.edu", "", "", "Job failed: " + j.getJobName(), message);
-								Utility.writeToLSFLog(message);
+								logger.error(message);
 							}
 						}
 					}
@@ -117,7 +119,7 @@ public class LocalProcessingThread extends Thread {
 				
 			}
 			catch (Exception ex) {
-				Utility.writeToDebug(ex);
+				logger.error(ex);
 			}
 		}
     }

@@ -15,11 +15,14 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
+
+import org.apache.log4j.Logger;
 
 public class CopyJobFiles
 {
+
+    private static Logger logger = Logger.getLogger(CopyJobFiles.class.getName());
 
     public static void getDatasetFiles(String userName,
                                        DataSet dataset,
@@ -83,8 +86,7 @@ public class CopyJobFiles
             }
         }
 
-        Utility.writeToDebug("Fetching dataset files from " + userFilesDir,
-                userName, "");
+        logger.debug("User: " + userName + " " + "Fetching dataset files from " + userFilesDir);
         if (!sdFile.equals("")) {
             FileAndDirOperations.copyFile(fromDir + sdFile, toDir + sdFile);
         }
@@ -133,8 +135,8 @@ public class CopyJobFiles
             fromDir += predictor.getName() + "/";
         }
 
-        Utility.writeToDebug("Copying predictor from " + fromDir + " to "
-                + toDir, userName, "");
+        logger.debug("User: " + userName + " " + "Copying predictor from " + fromDir + " to "
+                + toDir);
 
         File knnOutputFile = new File(fromDir + "knn-output.list");
         if (knnOutputFile.exists()) {

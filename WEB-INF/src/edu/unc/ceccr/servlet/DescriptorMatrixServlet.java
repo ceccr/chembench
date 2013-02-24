@@ -10,10 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.utilities.Utility;
+
+import org.apache.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class DescriptorMatrixServlet extends HttpServlet{
+
+    private static Logger logger = Logger.getLogger(DescriptorMatrixServlet.class.getName());
+
 	//serves up files for use with the dataset visualization Flash app
 	
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -27,7 +31,7 @@ public class DescriptorMatrixServlet extends HttpServlet{
 	        BufferedInputStream input = null;
 	        BufferedOutputStream output = null;
 	        if(matFile.exists() && matFile.isFile()){
-	        	Utility.writeToDebug("MAT FILE EXISTS?"+matFile.exists());
+	        	logger.debug("MAT FILE EXISTS? " + matFile.exists());
 		        try {
 		            input = new BufferedInputStream(new FileInputStream(matFile));
 		            int contentLength = input.available();
@@ -44,20 +48,20 @@ public class DescriptorMatrixServlet extends HttpServlet{
 	
 		            output.flush();
 		        } catch (IOException e) {
-		            Utility.writeToDebug(e);
+		            logger.error(e);
 		        } finally {
 		            if (input != null) {
 		                try {
 		                    input.close();
 		                } catch (IOException e) {
-		                    Utility.writeToDebug(e);
+		                    logger.error(e);
 		                }
 		            }
 		            if (output != null) {
 		                try {
 		                    output.close();
 		                } catch (IOException e) {
-		                    Utility.writeToDebug(e);
+		                    logger.error(e);
 		                }
 		            }
 		        }

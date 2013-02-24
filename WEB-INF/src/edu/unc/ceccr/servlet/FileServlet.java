@@ -20,12 +20,15 @@ import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.download.WriteCsv;
+
+import org.apache.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class FileServlet extends HttpServlet {
 	//used to download individual files, e.g., a job result summary.
+
+    private static Logger logger = Logger.getLogger(FileServlet.class.getName());
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {	
 		try{
@@ -90,13 +93,13 @@ public class FileServlet extends HttpServlet {
 	            fis.close();
 				filePath.delete();
 	        }else{
-	        	Utility.writeToDebug("Bad filepath: " + dirName+fileName);
+	        	logger.warn("Bad filepath: " + dirName + fileName);
 	        	PrintWriter writer=response.getWriter();
 	        	writer.write("An error occured, can not download the project file.");
 	        }
 	    }
 	    catch(Exception ex){
-	    	Utility.writeToDebug(ex);
+	    	logger.error(ex);
 	    }
 	}
 }

@@ -9,10 +9,13 @@ import java.util.ArrayList;
 
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
+
+import org.apache.log4j.Logger;
 
 public class StandardizeMolecules
 {
+
+    private static Logger logger = Logger.getLogger(StandardizeMolecules.class.getName());
 
     public static void standardizeSdf(String sdfIn,
                                       String sdfOut,
@@ -23,10 +26,10 @@ public class StandardizeMolecules
         // descriptor generation. Also important to do this to any molecules
         // that could go into our database.
 
-        Utility.writeToDebug("standardizeSdf: getting sdf compounds");
+        logger.debug("standardizeSdf: getting sdf compounds");
         ArrayList<String> compoundNames = DatasetFileOperations
                 .getSDFCompoundNames(workingDir + sdfIn);
-        Utility.writeToDebug("standardizeSdf: done getting sdf compounds");
+        logger.debug("standardizeSdf: done getting sdf compounds");
 
         if (compoundNames.size() < 600) {
             String execstr1 = "standardize.sh " + sdfIn + " " + sdfOut;
@@ -41,7 +44,7 @@ public class StandardizeMolecules
             // reassemble the outputs.
 
             // split the SDF
-            Utility.writeToDebug("Splitting and standardizing " + sdfIn
+            logger.debug("Splitting and standardizing " + sdfIn
                     + " in dir " + workingDir);
 
             File infile = new File(workingDir + sdfIn);
@@ -95,7 +98,7 @@ public class StandardizeMolecules
             RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir,
                     "standardize_" + currentFileNumber);
 
-            Utility.writeToDebug("Merging standardized SDFs");
+            logger.debug("Merging standardized SDFs");
             // merge the output files back together
 
             BufferedWriter out = new BufferedWriter(new FileWriter(workingDir
