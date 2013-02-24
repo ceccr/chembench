@@ -245,7 +245,7 @@ public class CreateDatasetTask extends WorkflowTask
         if (!sdfFileName.equals("") && standardize.equals("true")) {
             // standardize the SDF
             step = Constants.STANDARDIZING;
-            logger.error("User: " +userName +"Job: "+ jobName+" Standardizing SDF: "+sdfFileName);
+            logger.debug("User: " +userName +"Job: "+ jobName+" Standardizing SDF: "+sdfFileName);
             StandardizeMolecules.standardizeSdf(sdfFileName, sdfFileName
                     + ".standardize", path);
             File standardized = new File(path + sdfFileName + ".standardize");
