@@ -38,7 +38,7 @@ public class LsfUtilities
         File dir = new File(lsfPath);
         dir.mkdirs();
         FileAndDirOperations.deleteDirContents(lsfPath);
-        logger.trace("Created fresh directories @ " + lsfPath);
+        logger.debug("Created fresh directories @ " + lsfPath);
 
         if (new File(lsfPath + "yRandom/").exists()) {
             FileAndDirOperations.deleteDirContents(lsfPath + "yRandom/");
@@ -46,7 +46,7 @@ public class LsfUtilities
 
         // copy all files from current modeling dir out there
         FileAndDirOperations.copyDirContents(filePath, lsfPath, true);
-        logger.trace("Copied all files from "+filePath+" to " + lsfPath);
+        logger.debug("Copied all files from "+filePath+" to " + lsfPath);
         // copy kNN executables to the temp directory and to the yRandom
         // subdirectory also, make them executable
         FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH
@@ -55,7 +55,7 @@ public class LsfUtilities
         FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH
                 + "mmlsoft/bin/", lsfPath + "yRandom/", false);
         FileAndDirOperations.makeDirContentsExecutable(lsfPath + "yRandom/");
-        logger.trace("Copied mmlsoft/bin to lsfPath");
+        logger.debug("Copied mmlsoft/bin to lsfPath");
 
     }
 

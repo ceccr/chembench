@@ -195,7 +195,7 @@ public class DatasetFileOperations
         String path = Constants.CECCR_USER_BASE_PATH + userName
                 + "/DATASETS/" + datasetName + "/";
 
-        logger.trace("Copying dataset files to " + path);
+        logger.debug("Copying dataset files to " + path);
 
         ArrayList<String> msgs = new ArrayList<String>(); // holds any error
                                                           // messages from
@@ -220,7 +220,7 @@ public class DatasetFileOperations
         if (sdfFile != null) {
             sdfFileName = sdfFileName.replaceAll(" ", "_").replaceAll("\\(",
                     "_").replaceAll("\\)", "_");
-            logger.trace("checking SDF");
+            logger.debug("checking SDF");
             saveSDFFile(sdfFile, path, sdfFileName);
             sdfFile = new File(path + sdfFileName);
 
@@ -236,13 +236,13 @@ public class DatasetFileOperations
             if (!duplicates.isEmpty()) {
                 msgs.add(ErrorMessages.SDF_CONTAINS_DUPLICATES + duplicates);
             }
-            logger.trace("done checking SDF");
+            logger.debug("done checking SDF");
         }
 
         if (actFile != null) {
             actFileName = actFileName.replaceAll(" ", "_").replaceAll("\\(",
                     "_").replaceAll("\\)", "_");
-            logger.trace("checking ACT");
+            logger.debug("checking ACT");
             String msg = saveACTFile(actFile, path, actFileName);
             if (!msg.isEmpty())
                 msgs.add(msg);
@@ -264,13 +264,13 @@ public class DatasetFileOperations
             if (!duplicates.isEmpty()) {
                 msgs.add(ErrorMessages.ACT_CONTAINS_DUPLICATES + duplicates);
             }
-            logger.trace("done checking ACT");
+            logger.debug("done checking ACT");
         }
 
         if (xFile != null) {
             xFileName = xFileName.replaceAll(" ", "_").replaceAll("\\(", "_")
                     .replaceAll("\\)", "_");
-            logger.trace("checking X");
+            logger.debug("checking X");
             String msg = saveXFile(xFile, path, xFileName);
             xFile = new File(path + xFileName);
             x_compounds = getXCompoundNames(path + xFileName);
@@ -278,24 +278,24 @@ public class DatasetFileOperations
             msg += rewriteXFileAndValidate(xFile);
             if (!msg.isEmpty())
                 msgs.add(msg);
-            logger.trace("done checking X");
+            logger.debug("done checking X");
 
         }
 
         // generate an empty activity file (needed for... heatmaps or
         // something...?)
         if (actFileType.equals(Constants.PREDICTION)) {
-            logger.trace("Generating empty ACT");
+            logger.debug("Generating empty ACT");
             generateEmptyActFile(path, sdfFileName.substring(0, sdfFileName
                     .lastIndexOf(".")), path + sdfFileName);
         }
         if (actFileType.equals(Constants.PREDICTIONWITHDESCRIPTORS)) {
-            logger.trace("Generating empty ACT");
+            logger.debug("Generating empty ACT");
             generateEmptyActFile(path, xFileName.substring(0, xFileName
                     .lastIndexOf(".")), path + xFileName);
         }
 
-        logger.trace("doing compound list validations");
+        logger.debug("doing compound list validations");
         // more validation: check that the information in the files lines up
         // properly (act, sdf, x should all have the same compounds)
         if (actFile != null && sdfFile != null) {
@@ -454,19 +454,19 @@ public class DatasetFileOperations
         }
 
         if (msgs.isEmpty()) {
-            logger.trace("Dataset file validation successful!");
+            logger.debug("Dataset file validation successful!");
             // success - passed all validations
         }
         else {
-            logger.trace("Validations failed - deleting");
+            logger.debug("Validations failed - deleting");
             // failed validation - completely delete directory of this dataset
 
             /*
              * FileAndDirOperations.deleteDirContents(path); if(!
              * FileAndDirOperations.deleteDir(new File(path))){
-             * logger.trace("Directory delete failed"); } if((new
+             * logger.debug("Directory delete failed"); } if((new
              * File(path)).exists()){
-             * logger.trace("Directory still exists"); }
+             * logger.debug("Directory still exists"); }
              */
         }
 
@@ -512,7 +512,7 @@ public class DatasetFileOperations
 
         File infile = new File(filePath + fileName);
         File outfile = new File(filePath + fileName + ".temp");
-        logger.trace("PATH: " + filePath);
+        logger.debug("PATH: " + filePath);
 
         // now, remove the long lines from the input file
         FileReader fin = new FileReader(infile);
@@ -644,7 +644,7 @@ public class DatasetFileOperations
                     }
                     catch (Exception ex) {
                         // second thing isn't a number -- line was a header!
-                        logger.trace(
+                        logger.debug(
                                   "Activity file contains a header: "
                                 + temp
                                 + " {"
@@ -656,13 +656,13 @@ public class DatasetFileOperations
                 }
                 else {
                     // contains more than 2 things -- it was a header!
-                    logger.trace("Activity file header: " + temp);
+                    logger.debug("Activity file header: " + temp);
                     firstLineContainsHeader = true;
                 }
             }
 
             if (!firstLineContainsHeader) {
-                logger.trace(
+                logger.debug(
                         "Activity file has no header. First line: "
                         + temp);
 
@@ -782,7 +782,7 @@ public class DatasetFileOperations
     {
         ArrayList<String> x_compounds = new ArrayList<String>();
         File file = new File(fileLocation);
-        logger.trace("Getting X file compounds from " + fileLocation);
+        logger.debug("Getting X file compounds from " + fileLocation);
         if (file.exists()) {
             FileReader fin = new FileReader(file);
             Scanner src = new Scanner(fin);
@@ -1047,7 +1047,7 @@ public class DatasetFileOperations
             String err = "Error in X file line " + 2 + ": line contains "
                     + tokens.length + " elements but " + numDescriptors
                     + " were expected. Line was: \"" + line + "\"";
-            logger.trace(err);
+            logger.debug(err);
             br.close();
             out.close();
             return err;

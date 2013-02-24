@@ -55,7 +55,7 @@ public class Svm
             int numCompounds = DatasetFileOperations.getXCompoundNames(
                     workingDir + xFileName).size();
             if (xFileName.contains("ext_0")) {
-                logger.trace("found " + numCompounds
+                logger.debug("found " + numCompounds
                         + " compounds in ext_0.x");
             }
             for (int i = 0; i < numCompounds; i++) {

@@ -54,7 +54,7 @@ public class LsfProcessingThread extends Thread
                             if (j.getLsfJobId() != null
                                     && j.getLsfJobId()
                                             .equals(jobStatus.jobid)) {
-                                logger.trace(
+                                logger.debug(
                                     "LSFQueue: trying postprocessing on job: "
                                    + j.getJobName()
                                    + " from user: "
@@ -63,7 +63,7 @@ public class LsfProcessingThread extends Thread
                                 if (CentralDogma.getInstance().lsfJobs
                                         .startPostJob(j.getId())) {
                                     try {
-                                        logger.trace(
+                                        logger.debug(
                                                 "Postprocessing job: "
                                                 + j.getJobName()
                                                 + " from user: "

@@ -205,7 +205,7 @@ public class CentralDogma
 
         Job j = incomingJobs.removeJob(jobId);
         if (j == null) {
-            logger.trace("checking lsf queue");
+            logger.debug("checking lsf queue");
             j = lsfJobs.removeJob(jobId);
 
             if (j != null) {
@@ -223,16 +223,16 @@ public class CentralDogma
             }
         }
         if (j == null) {
-            logger.trace("checking local queue");
+            logger.debug("checking local queue");
             j = localJobs.removeJob(jobId);
         }
         if (j == null) {
-            logger.trace("checking local queue");
+            logger.debug("checking local queue");
             j = errorJobs.removeJob(jobId);
         }
 
         if (j != null) {
-            logger.trace("in main delete");
+            logger.debug("in main delete");
             // delete files associated with the job.
             // Generally this will cause any executables involved in the job
             // to just crash, so we don't worry about them. Crude but
@@ -325,11 +325,11 @@ public class CentralDogma
     {
         Job j = incomingJobs.removeJob(jobId);
         if (j == null) {
-            logger.trace("checking lsf queue");
+            logger.debug("checking lsf queue");
             j = lsfJobs.removeJob(jobId);
         }
         if (j == null) {
-            logger.trace("checking local queue");
+            logger.debug("checking local queue");
             j = localJobs.removeJob(jobId);
         }
         if (j != null) {

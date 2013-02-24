@@ -308,7 +308,7 @@ public class KnnPlus
         String outputFile = "cons_pred_vs_ext_0.preds"; // the ".preds" is
                                                         // added automatically
                                                         // by knn+
-        logger.trace("Reading file: " + workingDir + outputFile);
+        logger.debug("Reading file: " + workingDir + outputFile);
         BufferedReader in = new BufferedReader(new FileReader(workingDir
                 + outputFile));
         String inputString;
@@ -355,7 +355,7 @@ public class KnnPlus
             predictionMatrix.add(modelValues);
         }
 
-        logger.trace("calculating nummodels, avg,"
+        logger.debug("calculating nummodels, avg,"
                 + "and stddev for each compound");
         // get the actual (observed) values for each compound
         HashMap<String, String> observedValues = DatasetFileOperations
@@ -373,7 +373,7 @@ public class KnnPlus
                 Float sum = new Float(0);
                 Float mean = new Float(0);
                 int numPredictingModels = predictionMatrix.size();
-                logger.trace("doing sum for compound " + i);
+                logger.debug("doing sum for compound " + i);
                 for (int j = 0; j < predictionMatrix.size(); j++) {
                     String predValue = predictionMatrix.get(j).get(i);
                     if (predValue.equalsIgnoreCase("NA")) {
@@ -390,7 +390,7 @@ public class KnnPlus
                     mean = null;
                 }
 
-                logger.trace("doing stddev for compound " + i);
+                logger.debug("doing stddev for compound " + i);
 
                 Float stddev = new Float(0);
                 if (numPredictingModels > 0) {
@@ -410,7 +410,7 @@ public class KnnPlus
                     stddev = null;
                 }
 
-                logger.trace("making predvalue object for compound " + i);
+                logger.debug("making predvalue object for compound " + i);
                 // create prediction value object
                 ExternalValidation ev = new ExternalValidation();
                 ev.setNumModels(numPredictingModels);
@@ -653,7 +653,7 @@ public class KnnPlus
         String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_"
                 + predsFile.toLowerCase(); // knn+ makes everything lower case
                                            // for fun
-        logger.trace("Reading file: " + workingDir + outputFile);
+        logger.debug("Reading file: " + workingDir + outputFile);
         BufferedReader in = new BufferedReader(new FileReader(workingDir
                 + outputFile));
         String inputString;
@@ -663,7 +663,7 @@ public class KnnPlus
         in.readLine(); // compound names are here, but we get those from the
                        // SDF or X instead (knn+ output is buggy on this line)
 
-        logger.trace("reading compound names from X file: " + workingDir
+        logger.debug("reading compound names from X file: " + workingDir
                 + predictionXFile);
         ArrayList<String> compoundNames = DatasetFileOperations
                 .getXCompoundNames(workingDir + predictionXFile);
@@ -707,7 +707,7 @@ public class KnnPlus
             predictionMatrix.add(modelValues);
         }
 
-        logger.trace("calculating nummodels, avg, "
+        logger.debug("calculating nummodels, avg, "
                 + "and stddev for each compound");
         // for each compound, calculate nummodels, avg, and stddev
         if (predictionMatrix.size() == 0) {
@@ -723,7 +723,7 @@ public class KnnPlus
                 Float sum = new Float(0);
                 Float mean = new Float(0);
                 int numPredictingModels = predictionMatrix.size();
-                logger.trace("doing sum for compound " + i);
+                logger.debug("doing sum for compound " + i);
 
                 for (int j = 0; j < predictionMatrix.size(); j++) {
                     String predValue = predictionMatrix.get(j).get(i);
@@ -741,7 +741,7 @@ public class KnnPlus
                     mean = null;
                 }
 
-                logger.trace("doing stddev for compound " + i);
+                logger.debug("doing stddev for compound " + i);
 
                 Float stddev = new Float(0);
                 if (numPredictingModels > 0) {
@@ -761,7 +761,7 @@ public class KnnPlus
                     stddev = null;
                 }
 
-                logger.trace("making predvalue object for compound " + i);
+                logger.debug("making predvalue object for compound " + i);
                 // create prediction value object
                 PredictionValue p = new PredictionValue();
                 p.setNumModelsUsed(numPredictingModels);

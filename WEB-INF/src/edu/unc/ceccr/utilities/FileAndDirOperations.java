@@ -74,7 +74,7 @@ public class FileAndDirOperations
     public static String readFileIntoString(String filePath)
     {
         StringBuffer fileContents = new StringBuffer();
-        logger.trace("reading file: " + filePath);
+        logger.debug("reading file: " + filePath);
         try {
             File fromFile = new File(filePath);
             BufferedReader br = new BufferedReader(new FileReader(fromFile));
@@ -91,7 +91,7 @@ public class FileAndDirOperations
         catch (Exception ex) {
             logger.error(ex);
         }
-        logger.trace("finshed reading file: " + filePath + " (" +
+        logger.debug("finshed reading file: " + filePath + " (" +
                         fileContents.length() / 1000000 + " megabytes)");
         return fileContents.toString();
     }
@@ -174,7 +174,7 @@ public class FileAndDirOperations
                 }
                 x++;
             }
-            logger.trace("Copied " + x+ " file from "+fromDir +" to "+ toDir);
+            logger.debug("Copied " + x+ " file from "+fromDir +" to "+ toDir);
         }
         catch (Exception ex) {
             logger.error(ex);
@@ -295,7 +295,7 @@ public class FileAndDirOperations
         try {
             String files[] = dir.list();
             if (files != null) {
-                logger.trace("Deleting " + files.length
+                logger.debug("Deleting " + files.length
                         + " files from dir: " + dirToErase);
             }
             else {
