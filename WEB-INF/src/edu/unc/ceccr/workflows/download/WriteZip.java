@@ -24,11 +24,13 @@ import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
 import org.apache.log4j.Logger;
 
 public class WriteZip{
-
+    
+    private static Logger logger = Logger.getLogger(WriteZip.class.getName());
+    
 	public static void ZipEntireDirectory(String workingDir, String projectDir, String zipFile) throws Exception{
 		//will be used for MML members - they can access all files on every project type
 
-        private static Logger logger = Logger.getLogger(WriteZip.class.getName());
+        
 
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 		byte[] buf = new byte[1024];
