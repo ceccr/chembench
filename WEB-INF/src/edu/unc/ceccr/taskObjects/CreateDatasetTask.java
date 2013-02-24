@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.util.Date;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -12,7 +13,6 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.workflows.descriptors.CheckDescriptors;
@@ -23,7 +23,7 @@ import edu.unc.ceccr.workflows.visualization.SdfToJpg;
 
 public class CreateDatasetTask extends WorkflowTask
 {
-
+    private static Logger logger = Logger.getLogger(CreateDatasetTask.class.getName());
     private String  userName             = null;
     private String  datasetType;
     private String  sdfFileName;
@@ -116,7 +116,7 @@ public class CreateDatasetTask extends WorkflowTask
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex, userName, jobName);
+            logger.error("User: " +userName +"Job: "+ jobName+" "+ ex);
         }
     }
 
@@ -167,7 +167,7 @@ public class CreateDatasetTask extends WorkflowTask
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex, userName, jobName);
+            logger.error("User: " +userName +"Job: "+ jobName+" "+ ex);
         }
     }
 
@@ -213,7 +213,7 @@ public class CreateDatasetTask extends WorkflowTask
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e, userName, jobName);
+            logger.error("User: " +userName +"Job: "+ jobName+" "+ e);
         }
         finally {
             session.close();
@@ -229,8 +229,7 @@ public class CreateDatasetTask extends WorkflowTask
     {
         String path = Constants.CECCR_USER_BASE_PATH + userName
                 + "/DATASETS/" + jobName + "/";
-
-        Utility.writeToDebug("executing task", userName, jobName);
+        logger.debug("User: " +userName +"Job: "+ jobName+" executing task.");
 
         // first run dos2unix on all input files, just to be sure
         if (!sdfFileName.equals("")) {
@@ -246,8 +245,7 @@ public class CreateDatasetTask extends WorkflowTask
         if (!sdfFileName.equals("") && standardize.equals("true")) {
             // standardize the SDF
             step = Constants.STANDARDIZING;
-            Utility.writeToDebug("Standardizing SDF: " + sdfFileName,
-                    userName, jobName);
+            logger.error("User: " +userName +"Job: "+ jobName+" Standardizing SDF: "+sdfFileName);
             StandardizeMolecules.standardizeSdf(sdfFileName, sdfFileName
                     + ".standardize", path);
             File standardized = new File(path + sdfFileName + ".standardize");
@@ -271,42 +269,36 @@ public class CreateDatasetTask extends WorkflowTask
             }
 
             step = Constants.DESCRIPTORS;
-            Utility.writeToDebug("Generating Descriptors", userName, jobName);
+            logger.debug("User: " +userName +"Job: "+ jobName+" Generating Descriptors");
 
             // the dataset included an SDF so we need to generate descriptors
             // from it
-            Utility.writeToDebug("Generating MolconnZ Descriptors", userName,
-                    jobName);
+            logger.debug("User: " +userName +"Job: "+ jobName+" Generating MolconnZ Descriptors");
             // GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path +
             // sdfFileName, path + descriptorDir + sdfFileName + ".mz");
             GenerateDescriptors.GenerateMolconnZDescriptors(path
                     + sdfFileName, path + descriptorDir + sdfFileName
                     + ".molconnz");
 
-            Utility.writeToDebug("Generating CDK Descriptors", userName,
-                    jobName);
+            logger.debug("User: " +userName +"Job: "+ jobName+" Generating CDK Descriptors");
             GenerateDescriptors.GenerateCDKDescriptors(path + sdfFileName,
                     path + descriptorDir + sdfFileName + ".cdk");
 
-            Utility.writeToDebug("Generating DragonH Descriptors", userName,
-                    jobName);
+            logger.debug("User: " +userName +"Job: "+ jobName+" Generating DragonH Descriptors");
             GenerateDescriptors.GenerateHExplicitDragonDescriptors(path
                     + sdfFileName, path + descriptorDir + sdfFileName
                     + ".dragonH");
 
-            Utility.writeToDebug("Generating DragonNoH Descriptors",
-                    userName, jobName);
+            logger.debug("User: " +userName +"Job: "+ jobName+" Generating DragonNoH Descriptors");
             GenerateDescriptors.GenerateHDepletedDragonDescriptors(path
                     + sdfFileName, path + descriptorDir + sdfFileName
                     + ".dragonNoH");
 
-            Utility.writeToDebug("Generating MOE2D Descriptors", userName,
-                    jobName);
+            logger.debug("User: " +userName +"Job: "+ jobName+" Generating Moe2D Descriptors");
             GenerateDescriptors.GenerateMoe2DDescriptors(path + sdfFileName,
                     path + descriptorDir + sdfFileName + ".moe2D");
 
-            Utility.writeToDebug("Generating MACCS Descriptors", userName,
-                    jobName);
+            logger.debug("User: " +userName +"Job: "+ jobName+" Generating MACCS Descriptors");
             GenerateDescriptors.GenerateMaccsDescriptors(path + sdfFileName,
                     path + descriptorDir + sdfFileName + ".maccs");
 
@@ -412,13 +404,15 @@ public class CreateDatasetTask extends WorkflowTask
             // split dataset to get external set and modeling set
 
             step = Constants.SPLITDATA;
-
-            Utility.writeToDebug("Creating " + splitType
-                    + " External Validation Set", userName, jobName);
+            
+            logger.debug("User: " +userName +"Job: "+ jobName
+                                   +" Creating " + splitType
+                                   +" External Validation Set");
 
             if (splitType.equals(Constants.RANDOM)) {
-                Utility.writeToDebug("Making random external split",
-                        userName, jobName);
+
+                logger.debug("User: " +userName +"Job: "+ jobName
+                                      + " Making random external split");
                 if (datasetType.equals(Constants.MODELING)) {
                     // we will need to make a .x file from the .act file
                     DatasetFileOperations.makeXFromACT(path, actFileName);
@@ -445,9 +439,8 @@ public class CreateDatasetTask extends WorkflowTask
 
             }
             else if (splitType.equals(Constants.USERDEFINED)) {
-                Utility.writeToDebug("Making user-defined external split",
-                        userName, jobName);
-
+                logger.debug("User: " +userName +"Job: "+ jobName
+                        + " Making user-defined external split");
                 // get the list of compound IDs
                 externalCompoundList = externalCompoundList.replaceAll(",",
                         " ");
@@ -525,9 +518,13 @@ public class CreateDatasetTask extends WorkflowTask
             }
 
             step = Constants.SKETCHES;
-            Utility.writeToDebug("Generating JPGs", userName, jobName);
+            
+            logger.debug("User: " +userName +"Job: "+ jobName+ " Generating JPGs");
+            
             SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
-            Utility.writeToDebug("Generating JPGs END", userName, jobName);
+            
+            logger.debug("User: " +userName +"Job: "+ jobName+ " Generating JPGs END");
+            
             step = Constants.SKETCHES + " finished!";
 
             if (numCompounds < 500
@@ -539,9 +536,7 @@ public class CreateDatasetTask extends WorkflowTask
                 // just nonsense at that point and it wastes a ton of compute
                 // time.
                 step = Constants.VISUALIZATION;
-                Utility.writeToDebug("Generating Visualizations", userName,
-                        jobName);
-
+                logger.debug("User: " +userName +"Job: "+ jobName+ " Generating Visualizations");
                 String vis_path = Constants.CECCR_USER_BASE_PATH + userName
                         + "/DATASETS/" + jobName + "/Visualization/";
                 HeatmapAndPCA.performXCreation(path + descriptorDir
@@ -572,12 +567,13 @@ public class CreateDatasetTask extends WorkflowTask
                     // CSV_X_Workflow.performPCAcreation(viz_path, act_path);
 
                 }
-                Utility.writeToDebug("Generating Visualizations END",
-                        userName, jobName);
+               
+                logger.debug("User: " + userName +"Job: "+ jobName
+                                      + " Generating Visualizations END");
             }
             else {
-                Utility.writeToDebug("Skipping generation of heatmap data",
-                        userName, jobName);
+                logger.debug("User: " + userName +"Job: "+ jobName
+                                      + " Skipping generation of heatmap data");
             }
 
         }
@@ -591,7 +587,9 @@ public class CreateDatasetTask extends WorkflowTask
 
     public void postProcess() throws Exception
     {
-        Utility.writeToDebug("Saving dataset to database", userName, jobName);
+
+        logger.debug("User: " + userName +"Job: "+ jobName
+                + " Saving dataset to database");
 
         if (jobList.equals(Constants.LSF)) {
             // copy needed back from LSF
@@ -613,7 +611,7 @@ public class CreateDatasetTask extends WorkflowTask
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e, userName, jobName);
+            logger.error("User: " +userName +"Job: "+ jobName+ e);
         }
         finally {
             session.close();
