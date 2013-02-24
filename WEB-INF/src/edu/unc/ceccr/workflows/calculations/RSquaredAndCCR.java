@@ -15,8 +15,12 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 
+import org.apache.log4j.Logger;
+
 public class RSquaredAndCCR{
-	
+
+    private static Logger logger = Logger.getLogger(RSquaredAndCCR.class.getName());
+
 	public static ArrayList<Double> calculateResiduals(ArrayList<ExternalValidation> externalValidationList) {
 		ArrayList<Double> residuals = new ArrayList<Double>();
 		
@@ -196,7 +200,7 @@ public class RSquaredAndCCR{
 					rSquaredAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
 					rSquaredAverageAndStddev += " \u00B1 ";
 					rSquaredAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
-					Utility.writeToDebug("rsquared avg and stddev: " + rSquaredAverageAndStddev);
+					logger.debug("rsquared avg and stddev: " + rSquaredAverageAndStddev);
 					selectedPredictor.setExternalPredictionAccuracyAvg(rSquaredAverageAndStddev);
 					//make main ext validation chart
 					//CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
@@ -205,7 +209,7 @@ public class RSquaredAndCCR{
 					ccrAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
 					ccrAverageAndStddev += " \u00B1 ";
 					ccrAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
-					Utility.writeToDebug("ccr avg and stddev: " + ccrAverageAndStddev);
+					logger.debug("ccr avg and stddev: " + ccrAverageAndStddev);
 					selectedPredictor.setExternalPredictionAccuracyAvg(ccrAverageAndStddev);
 				}
 			}
@@ -214,7 +218,7 @@ public class RSquaredAndCCR{
 			}
 			
 			if(externalValValues == null || externalValValues.isEmpty()){
-				Utility.writeToDebug("ext validation set empty!");
+				logger.debug("ext validation set empty!");
 				externalValValues = new ArrayList<ExternalValidation>();
 				return;
 			}
@@ -252,7 +256,7 @@ public class RSquaredAndCCR{
 			}
 		}
 		catch(Exception ex){
-			Utility.writeToDebug(ex);
+			logger.error(ex);
 		}
 		return;
 	}

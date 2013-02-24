@@ -160,7 +160,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
 
         }
         catch(Exception ex){
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             showStatistics = "NO";
         }
         return SUCCESS;
@@ -242,7 +242,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                 if (tx != null)
                     tx.rollback();
                     loginFailed = Constants.YES;
-                Utility.writeToDebug(e);
+                logger.error(e);
             } finally {
                 s.close();
             }
@@ -262,7 +262,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
             Cookie ckie = new Cookie("login","true");
             servletResponse.addCookie(ckie);
                 
-            Utility.writeToUsageLog("Logged in guest::", user.getUserName());
+            logger.debug("Logged in guest:: "+ user.getUserName());
             
         }
         else{
@@ -295,13 +295,13 @@ HomeAction extends ActionSupport implements ServletResponseAware
                     } catch (RuntimeException e) {
                         if (tx != null)
                             tx.rollback();
-                        Utility.writeToDebug(e);
+                        logger.error(e);
                     } finally {
                         s.close();
                     }
                     
                     
-                    Utility.writeToUsageLog("Logged in", user.getUserName());
+                    logger.debug("Logged in " + user.getUserName());
                 }
                 else{
                     loginFailed = Constants.YES;
@@ -321,9 +321,9 @@ HomeAction extends ActionSupport implements ServletResponseAware
         user = (User) context.getSession().get("user");
         
         if(user != null){
-            Utility.writeToUsageLog("Logged out.", user.getUserName());
+            logger.debug("Logged out " + user.getUserName());
         }
-        Utility.writeToDebug("************Logout action "+user.getUserName());
+        logger.debug("************Logout action "+user.getUserName());
         
         if(user.getUserName().contains("guest") && context.getSession().get("userType")!=null && ((String)context.getSession().get("userType")).equals("guest")){
             deleteGuest(user);
@@ -343,7 +343,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
             
             String userToDelete=user.getUserName();
             if(!userToDelete.trim().isEmpty()){
-                Utility.writeToDebug("Delete GUEST");
+                logger.debug("Delete GUEST");
                 Session s = HibernateUtil.getSession();
                 
                 ArrayList<Prediction> predictions = new ArrayList<Prediction>();
@@ -406,7 +406,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                             catch (RuntimeException e) {
                                 if (tx != null)
                                     tx.rollback();
-                                Utility.writeToDebug(e);
+                                logger.error(e);
                             }
                             finally{
                                 session.close();
@@ -420,7 +420,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                         session.delete(p);
                         tx.commit();
                     }catch (RuntimeException e) {
-                        Utility.writeToDebug(e);
+                        logger.error(e);
                     }
                     finally{
                         session.close();
@@ -457,7 +457,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                         }
                         tx.commit();
                     }catch (RuntimeException e) {
-                        Utility.writeToDebug(e);
+                        logger.error(e);
                     }
                     finally{
                         session.close();
@@ -490,18 +490,18 @@ HomeAction extends ActionSupport implements ServletResponseAware
                     
                 }
                 catch(Exception ex){
-                    Utility.writeToDebug(ex);
+                    logger.error(ex);
                 }
                 
                 //last, delete all the files that user has
-                Utility.writeToDebug("Delete GUEST:::ALL DATA FROM DB SHOULD BE DELETED");
+                logger.debug("Delete GUEST:::ALL DATA FROM DB SHOULD BE DELETED");
                 File dir= new File(Constants.CECCR_USER_BASE_PATH + userToDelete); 
                 boolean flag = FileAndDirOperations.deleteDir(dir);//recurses
-                Utility.writeToDebug("Delete GUEST:::ALL DATA FROM FILES SHOULD BE DELETED:"+flag);
+                logger.debug("Delete GUEST:::ALL DATA FROM FILES SHOULD BE DELETED:"+flag);
             }
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
             return false;
         }
         return true;
@@ -514,7 +514,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
             long guestTime =  new Long(dir.substring(dir.lastIndexOf('_')+1)).longValue();
             if(!dir.trim().isEmpty() && currentTime-guestTime>Constants.GUEST_DATA_EXPIRATION_TIME){
                 FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+dir));
-                Utility.writeToDebug("DELETING OLD GUEST DATA:"+dir);
+                logger.debug("DELETING OLD GUEST DATA:"+dir);
             }
         }
     }

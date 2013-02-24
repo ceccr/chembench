@@ -49,8 +49,6 @@ public class ActivityHistogram {
 		userDir = selectedDataSet.getUserName();
 		fullPath += userDir + "/DATASETS/" + selectedDataSet.getName() + "/" + selectedDataSet.getActFile();
 		
-		//Utility.writeToDebug("Generating Activity Histogram for Dataset: " + datasetID + " from ACT file: " + fullPath);
-		
 		HashMap<String, String> dataMap = DatasetFileOperations.parseActFile(fullPath);
 		IntervalXYDataset dataset =new HistogramDataset();
 		dataset=createDataset(dataMap);

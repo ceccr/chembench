@@ -9,7 +9,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.utilities.Utility;
+import org.apache.log4j.Logger;
 
 public class HibernateUtil {
 	
@@ -19,7 +19,8 @@ public class HibernateUtil {
 	private static String USERNAME;
 	private static String DATABASENAME;
 
-	
+    private static Logger logger = Logger.getLogger(HibernateUtil.class.getName());
+
 	static {
 		sessionFactory = new AnnotationConfiguration()
 		.addAnnotatedClass(Job.class)
@@ -57,14 +58,14 @@ public class HibernateUtil {
 			//IMPORTANT: If you get a "too many connections" error
 			//use this debug output to help trace where the wasteful connections are getting made!
 			//count++;
-			//Utility.writeToDebug("Making connection number: " + count);
+			//logger.debug("Making connection number: " + count);
 			Class.forName(Constants.DATABASE_DRIVER);
 			java.sql.Connection con = DriverManager.getConnection(URL + DATABASENAME, USERNAME, PASSWORD);
 			Session s = sessionFactory.openSession(con);
 			return s;
 		}
 		catch(Exception ex){
-			Utility.writeToDebug(ex);
+			logger.error(ex);
 		}
 		
 		return null;

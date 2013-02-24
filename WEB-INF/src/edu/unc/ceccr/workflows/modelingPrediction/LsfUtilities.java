@@ -3,14 +3,12 @@ package edu.unc.ceccr.workflows.modelingPrediction;
 
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.Scanner;
-
 
 import org.apache.log4j.Logger;
 
@@ -74,7 +72,7 @@ public class LsfUtilities
         if (sc.hasNext()) {
             jobId = sc.next();
         }
-        Utility.writeToDebug(jobId.substring(1, jobId.length() - 1));
+        logger.debug(jobId.substring(1, jobId.length() - 1));
         in.close();
         sc.close();
         return jobId.substring(1, jobId.length() - 1);

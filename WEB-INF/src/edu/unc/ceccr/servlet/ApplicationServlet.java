@@ -11,10 +11,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.utilities.Utility;
+
+import org.apache.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class ApplicationServlet extends HttpServlet {
+
+    private static Logger logger = Logger.getLogger(ApplicationServlet.class.getName());
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws IOException
@@ -51,7 +54,7 @@ public class ApplicationServlet extends HttpServlet {
 
             output.flush();
         } catch (IOException e) {
-        	Utility.writeToDebug(e);
+        	logger.error(e);
         } finally { 
         	input.close(); }
         }

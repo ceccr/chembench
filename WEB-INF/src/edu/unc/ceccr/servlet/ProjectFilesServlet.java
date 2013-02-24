@@ -14,10 +14,15 @@ import javax.servlet.http.HttpSession;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.download.WriteZip;
+
+import org.apache.log4j.Logger;
+
 @SuppressWarnings("serial")
 public class ProjectFilesServlet extends HttpServlet {
+
+    private static Logger logger = Logger.getLogger(ProjectFilesServlet.class.getName());
+
 	//provides zipfiles containing predictors and predictions
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)   throws IOException
     {
@@ -47,7 +52,7 @@ public class ProjectFilesServlet extends HttpServlet {
 				WriteZip.ZipPredictionResults(userName, projectUserName, projectName, zipFile);
 			}	
 		} catch (Exception e){
-			Utility.writeToDebug(e);
+			logger.error(e);
 		}
 		if(filePath.exists()){
 			try {
@@ -66,7 +71,7 @@ public class ProjectFilesServlet extends HttpServlet {
 				filePath.delete();
 					
 			} catch (Exception e) {
-				Utility.writeToDebug(e);
+				logger.error(e);
 			}
            
         }else{

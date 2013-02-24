@@ -13,11 +13,13 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Compound;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
 
+import org.apache.log4j.Logger;
 
 public class DataSplit{
-	
+    
+
+    private static Logger logger = Logger.getLogger(DataSplit.class.getName());
 	public static void SplitModelingExternal(
 			String workingdir,
 			String actFile, 
@@ -26,7 +28,7 @@ public class DataSplit{
 			String useActivityBinning) throws Exception {
 		//splits the input dataset into modeling and external validation set
 		
-		Utility.writeToDebug(numCompoundsExternalSet);
+		logger.debug(numCompoundsExternalSet);
 		if((new Double(Double.parseDouble(numCompoundsExternalSet))).equals(new Double(0))){
 			//datasplit will do something weird if you specify 0 as the size. 
 			//Gotta do this manually.
@@ -65,7 +67,7 @@ public class DataSplit{
 			String compoundIdString) throws Exception {
 
 		String[] compoundIDs = compoundIdString.trim().split("\\s+");
-		Utility.writeToDebug("called splitModelingExternalGivenList in dir: " + workingdir + " actfile: " + actFileName + " xfile: " + xFileName);
+		logger.debug("called splitModelingExternalGivenList in dir: " + workingdir + " actfile: " + actFileName + " xfile: " + xFileName);
 		
 		File inX = new File(workingdir + xFileName);
 		BufferedReader inXReader = new BufferedReader(new FileReader(inX));
@@ -90,7 +92,7 @@ public class DataSplit{
 		int numDescriptors = Integer.parseInt(array[1]);
 		int numExternalCompounds = compoundIDs.length;
 		
-		Utility.writeToDebug("num compounds in external set list: " + compoundIDs.length);
+		logger.debug("num compounds in external set list: " + compoundIDs.length);
 		
 		if(compoundIDs.length == 1 && compoundIDs[0].equals("") || compoundIDs.length == 0){
 			numExternalCompounds = 0;
@@ -116,13 +118,11 @@ public class DataSplit{
 					if(array[1].equals(compoundIDs[i]) && ! array[1].trim().equals("")){
 						outXExternalWriter.write(line + "\n");
 						lineIsExternal = true;
-						//Utility.writeToDebug("Compound [" + array[1] + "] -> EXTERNAL");
 					}
 				}
 				if(!lineIsExternal){
 					//compound belongs in modeling set
 					outXModelingWriter.write(line + "\n");
-					//Utility.writeToDebug("Compound [" + array[1] + "] -> MODELING");
 				}
 			}
 			else{
@@ -139,10 +139,9 @@ public class DataSplit{
 		//done splitting the X file
 
 		//split the ACT file
-		Utility.writeToDebug("reading ACT file from: " + workingdir + actFileName);
+		logger.debug("reading ACT file from: " + workingdir + actFileName);
 		while((line = inActReader.readLine()) != null){
 			array = line.split("\\s+");
-			//Utility.writeToDebug(line);
 			boolean lineIsExternal = false;
 			for(int i = 0; i < numExternalCompounds; i++){
 				if(array[0].equals(compoundIDs[i])){
@@ -218,7 +217,8 @@ public class DataSplit{
 		//need to make the sample with replace option actually do something
 		
 		//splits the modeling set into several training and test sets randomly
-		Utility.writeToDebug("Splitting train/test data randomly", userName, jobName);
+		logger.debug("User "+userName + " Job: "+ jobName +
+		             " Splitting train/test data randomly.");
 		
 		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		
@@ -230,7 +230,7 @@ public class DataSplit{
 		//We will want to combine each of the "RAND_sets_i.list" files to form RAND_sets.list.
 		String listFileContents = "";
 		
-		Utility.writeToDebug("Running train-test splitting in dir " + workingdir);
+		logger.debug("Running train-test splitting in dir " + workingdir);
 		for(int i = 0; i < numSplits; i++){
 			double testSize = Math.random()*testSizeRange + randomSplitMinTestSize;
 			testSize = testSize / 100; //it's a percent
@@ -268,7 +268,8 @@ public class DataSplit{
 			String sphereSplitMinTestSizeStr, 
 			String selectionNextTrainPt) throws Exception{
 		//splits the modeling set into several training and test sets using sphere exclusion
-		Utility.writeToDebug("Splitting train/test data by sphere exclusion", userName, jobName);
+		logger.debug("User: " + userName + " Job: " + jobName 
+		                     +" Splitting train/test data by sphere exclusion");
 		
 		String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 		

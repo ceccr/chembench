@@ -9,12 +9,16 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.utilities.Utility;
 
+
 public class WriteDescriptors
 {
+    private static Logger logger = Logger.getLogger(WriteDescriptors.class.getName());
     // using a set of Descriptors objects, create output files for kNN or SVM
     // containing the descriptors for a dataset.
     // Performs operations on data matrices as well (e.g. range-scaling).
@@ -119,8 +123,8 @@ public class WriteDescriptors
         // We know the min and max. Scaled value = ((value - min) /
         // (max-min)).
 
-        Utility.writeToDebug("range-scaling descriptor matrix according " +
-        		"                             to given max and min");
+        logger.debug("range-scaling descriptor matrix according " +
+        		     "to given max and min");
 
         for (int i = 0; i < descriptorMatrix.size(); i++) {
             ArrayList<String> descriptorValues = new ArrayList<String>();
@@ -356,7 +360,7 @@ public class WriteDescriptors
 
         // removes descriptors where the min and max are equal
         // used only during modeling
-        Utility.writeToDebug("removing zero-variance descriptors " +
+        logger.debug("removing zero-variance descriptors " +
         		"from descriptor matrix");
 
         ArrayList<Integer> zeroVariance = new ArrayList<Integer>();
@@ -409,7 +413,7 @@ public class WriteDescriptors
 
         // removes any descriptors that weren't in the predictor
         // used only during prediction
-        Utility.writeToDebug("removing descriptors that weren't in the " +
+        logger.debug("removing descriptors that weren't in the " +
         		"predictor from the prediction descriptor matrix");
 
         String descriptorNameString = descriptorNameStringBuffer.toString();
@@ -436,21 +440,21 @@ public class WriteDescriptors
             while ((si < descriptorNames.size())
                     && !descriptorNames.get(si).equalsIgnoreCase(
                             predictorDescriptorNames.get(i))) {
-                // Utility.writeToDebug("No match; skipping "
-                // + "predictor descriptor: "
-                // + i + " - " + predictorDescriptorNames.get(i) +
-                // " || Input descriptor: " + si + " - " +
-                // descriptorNames.get(si));
+                logger.debug("No match; skipping "
+                            + "predictor descriptor: "
+                            + i + " - " + predictorDescriptorNames.get(i) 
+                            + " || Input descriptor: " + si + " - " 
+                            + descriptorNames.get(si));
                 mapping.set(si, -1);
                 si++;
             }
 
             // find a match
             if (si < descriptorNames.size()) {
-                // Utility.writeToDebug("Match found! Predictor descriptor: "
-                // + i + " - " + predictorDescriptorNames.get(i) +
-                // " || Input descriptor: " + si + " - " +
-                // descriptorNames.get(si));
+                   logger.debug("Match found! Predictor descriptor: "
+                               + i + " - " + predictorDescriptorNames.get(i) 
+                               + " || Input descriptor: " + si + " - " 
+                               + descriptorNames.get(si));
                 mapping.set(si, i);
                 si++;
             }
@@ -460,7 +464,7 @@ public class WriteDescriptors
             mapping.set(si, -1);
             si++;
         }
-        Utility.writeToDebug("done creating mapping.");
+        logger.debug("done creating mapping.");
 
         // use the mapping to get rid of descriptors where mapping == -1.
         for (int i = 0; i < descriptorMatrix.size(); i++) {
@@ -469,8 +473,6 @@ public class WriteDescriptors
                     .getDescriptorValues().split("\\s+")));
             for (int j = mapping.size() - 1; j >= 0; j--) {
                 if (mapping.get(j) == -1 && j < descriptorValues.size()) {
-                    // Utility.writeToDebug("removing descriptor " + j +
-                    // " array size: " + descriptorValues.size());
                     descriptorValues.remove(j);
                 }
             }
@@ -483,8 +485,6 @@ public class WriteDescriptors
         if (descriptorNames != null) {
             for (int j = mapping.size() - 1; j >= 0; j--) {
                 if (mapping.get(j) == -1) {
-                    // Utility.writeToDebug("removing descriptor index " + j +
-                    // " array size: " + descriptorNames.size());
                     descriptorNames.remove(j);
                 }
             }
@@ -508,8 +508,8 @@ public class WriteDescriptors
         // get the descriptor names and min / max values of each descriptor
         // So, read in the name, min, and max of each descriptor from the
         // modeling .x file
-        Utility.writeToDebug("reading predictor .x file");
-        Utility.writeToDebug("predictorXFile " + predictorXFile);
+        logger.debug("reading predictor .x file");
+        logger.debug("predictorXFile " + predictorXFile);
         File file = new File(predictorXFile);
         FileReader xFile = new FileReader(file);
         BufferedReader br = new BufferedReader(xFile);
@@ -742,7 +742,7 @@ public class WriteDescriptors
 
         if (predictorDescriptorNameString.split("\\s+").length 
                                != descriptorNameString.split("\\s+").length) {
-            Utility.writeToDebug("WARNING: predictor had "
+            logger.warn("WARNING: predictor had "
                     + predictorDescriptorNameString.split("\\s+").length
                     + " descriptors and output has "
                     + descriptorNameString.split("\\s+").length);
@@ -780,10 +780,10 @@ public class WriteDescriptors
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug("descriptorMatrix.size: "
+            logger.error("descriptorMatrix.size: "
                     + descriptorMatrix.size() + " compoundNames.size: "
                     + compoundNames.size());
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         if (predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)) {

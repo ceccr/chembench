@@ -2,10 +2,14 @@ package edu.unc.ceccr.utilities;
 
 import edu.unc.ceccr.global.Constants;
 
+import org.apache.log4j.Logger;
+
 //Holds functions needed for managing LSF jobs.
 //Moving files back and forth to largefs, checking status of LSF-submitted jobs, etc.
 
 public class LsfOperations{
+
+    private static Logger logger = Logger.getLogger(LsfOperations.class.getName());
 
     public static boolean patronsQueueHasRoom(){
         try{
@@ -17,7 +21,7 @@ public class LsfOperations{
             }
         }
         catch(Exception ex){
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             return false;
         }
         return false;

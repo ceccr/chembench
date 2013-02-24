@@ -4,12 +4,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
 
 public class GenerateDescriptors{
     
+    private static Logger logger = Logger.getLogger(GenerateDescriptors.class.getName());
     public static void GenerateMolconnZDescriptors(String sdfile, String outfile) throws Exception{
         //Given an SD file, run MolconnZ to get the chemical descriptors for each compound.
         String datFile;
@@ -61,7 +63,7 @@ public class GenerateDescriptors{
     private static void writeHExplicitDragonScriptFiles(String sdFile, String workingDir, String outfile) throws IOException {
         //also used for descriptor generation for prediction sets.
         
-        Utility.writeToDebug("Writing Dragon scripts for " + sdFile + " into " + workingDir);
+        logger.debug("Writing Dragon scripts for " + sdFile + " into " + workingDir);
         
         FileOutputStream fout;
         PrintStream out;
@@ -99,7 +101,7 @@ public class GenerateDescriptors{
             fout.close();
             
         } catch (IOException e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }    
         try {
             fout = new FileOutputStream(workingDir + "molfile");
@@ -110,13 +112,13 @@ public class GenerateDescriptors{
             fout.close();
             
         } catch (IOException e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }    
     }
 
     private static void writeHDepletedDragonScriptFiles(String sdFile, String workingDir, String outfile) throws IOException {
 
-        Utility.writeToDebug("Writing Dragon scripts for " + sdFile + " into " + workingDir);
+        logger.debug("Writing Dragon scripts for " + sdFile + " into " + workingDir);
         
         FileOutputStream fout;
         PrintStream out;
@@ -154,7 +156,7 @@ public class GenerateDescriptors{
             fout.close();
             
         } catch (IOException e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }    
         try {
             fout = new FileOutputStream(workingDir + "molfile");
@@ -165,7 +167,7 @@ public class GenerateDescriptors{
             fout.close();
             
         } catch (IOException e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }    
     }
     

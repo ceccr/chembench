@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
 import edu.unc.ceccr.global.Constants;
@@ -24,6 +25,8 @@ public class ViewPredictionAction extends ViewAction {
      * 
      */
     private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(ViewPredictionAction.class.getName());
+    
     private Prediction prediction;
 	private List<Predictor> predictors; //put these in order by predictorId
 	private DataSet dataset; //dataset used in prediction
@@ -34,7 +37,6 @@ public class ViewPredictionAction extends ViewAction {
 	private ArrayList<String> pageNums;
 	
 	public String loadPredictionsSection() throws Exception {
-		Utility.writeToDebug("called loadPredictionsSection");
 		
 		String result = checkBasicParams();
 		if(!result.equals(SUCCESS)) return result;
@@ -62,11 +64,11 @@ public class ViewPredictionAction extends ViewAction {
 		}
 		
 		//get prediction
-		Utility.writeToStrutsDebug("prediction id: " + objectId);
+		logger.debug("prediction id: " + objectId);
 		session = HibernateUtil.getSession();
 		prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
 		if(prediction==null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(prediction.getUserName()))){
-			Utility.writeToStrutsDebug("No prediction was found in the DB with provided ID.");
+			logger.debug("No prediction was found in the DB with provided ID.");
 			super.errorStrings.add("Invalid prediction ID supplied.");
 			result = ERROR;
 			session.close();
@@ -105,7 +107,7 @@ public class ViewPredictionAction extends ViewAction {
 		compoundPredictionValues = PopulateDataObjects.populateCompoundPredictionValues(prediction.getDatasetId(), Long.parseLong(objectId), session);
 			
 		//sort the compoundPrediction array
-		Utility.writeToDebug("Sorting compound predictions");
+		logger.debug("Sorting compound predictions");
 		if(orderBy == null || orderBy.equals("") || orderBy.equals("compoundId")){
 			//sort by compoundId
 			Collections.sort(compoundPredictionValues, new Comparator<CompoundPredictions>() {
@@ -148,7 +150,7 @@ public class ViewPredictionAction extends ViewAction {
 		if(sortDirection != null && sortDirection.equals("desc")){
 			Collections.reverse(compoundPredictionValues);
 		}
-		Utility.writeToDebug("Done sorting compound predictions");
+		logger.debug("Done sorting compound predictions");
 
 		//displays the page numbers at the top
 		pageNums = new ArrayList<String>(); 
@@ -182,13 +184,13 @@ public class ViewPredictionAction extends ViewAction {
 		session = HibernateUtil.getSession();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}
@@ -197,10 +199,10 @@ public class ViewPredictionAction extends ViewAction {
 				objectId = ((String[]) context.getParameters().get("predictionId"))[0]; 	
 			}
 			//get prediction
-			Utility.writeToStrutsDebug("[ext_compounds] dataset id: " + objectId);
+			logger.debug("[ext_compounds] dataset id: " + objectId);
 			prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
 			if(prediction==null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(prediction.getUserName()))){
-				Utility.writeToStrutsDebug("No prediction was found in the DB with provided ID.");
+				logger.debug("No prediction was found in the DB with provided ID.");
 				super.errorStrings.add("Invalid prediction ID supplied.");
 				result = ERROR;
 				session.close();
@@ -228,12 +230,12 @@ public class ViewPredictionAction extends ViewAction {
 			currentPageNumber = pagenumstr;
 		}
 
-		Utility.writeToStrutsDebug("prediction id: " + objectId);
+		logger.debug("prediction id: " + objectId);
 		session = HibernateUtil.getSession();
 		prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
 		
 		if(prediction==null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName().equals(prediction.getUserName()))){
-			Utility.writeToStrutsDebug("No prediction was found in the DB with provided ID.");
+			logger.debug("No prediction was found in the DB with provided ID.");
 			super.errorStrings.add("Invalid prediction ID supplied.");
 			result = ERROR;
 			session.close();
@@ -264,7 +266,7 @@ public class ViewPredictionAction extends ViewAction {
 			} catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e);
+				logger.error(e);
 			}
 		}
 		
@@ -272,10 +274,10 @@ public class ViewPredictionAction extends ViewAction {
 		
 		//log the results
 		if(result.equals(SUCCESS)){
-			Utility.writeToStrutsDebug("Forwarding user " + user.getUserName() + " to viewPrediction page.");
+			logger.debug("Forwarding user " + user.getUserName() + " to viewPrediction page.");
 		}
 		else{
-			Utility.writeToStrutsDebug("Cannot load page.");
+			logger.warn("Cannot load page.");
 		}
 		
 		return result;

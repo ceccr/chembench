@@ -5,11 +5,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
 
-import edu.unc.ceccr.utilities.Utility;
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 public class XMLTreeBuilder
 {
+    private static Logger logger = Logger.getLogger(XMLTreeBuilder.class.getName());
     private Vector<Vector<String>> data;
     private String                 xml;
     private String                 file_path;
@@ -78,7 +80,7 @@ public class XMLTreeBuilder
             }
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         return key;

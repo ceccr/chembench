@@ -197,8 +197,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport
         SendEmails.sendEmail(user.getEmail(), "", "",
                 "Chembench User Registration", HtmlBody);
 
-        Utility.writeToUsageLog("just registered!", newUserName);
-        Utility.writeToDebug("In case email failed, temp password for user: "
+        logger.debug("just registered! " + newUserName);
+        logger.debug("In case email failed, temp password for user: "
                 + user.getUserName() + " is: " + password);
         // if user != null, it will show a "You are logged in" message.
         user = null;
@@ -238,7 +238,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport
         }
 
         // Change user object to have new password
-        Utility.writeToDebug("Changing user password");
+        logger.debug("Changing user password");
         user.setPassword(Utility.encrypt(newPassword));
 
         // Commit changes
@@ -254,7 +254,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         finally {
             s.close();
@@ -308,7 +308,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport
         }
 
         // Change user object according to edited fields
-        Utility.writeToDebug("Updating user information");
+        logger.debug("Updating user information");
         user.setEmail(email);
         user.setFirstName(firstName);
         user.setLastName(lastName);
@@ -335,7 +335,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         finally {
             s.close();
@@ -377,7 +377,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport
         }
 
         // Change user object according to edited fields
-        Utility.writeToDebug("Changing user options");
+
         user.setShowPublicDatasets(showPublicDatasets);
         user.setShowPublicPredictors(showPublicPredictors);
         user.setViewDatasetCompoundsPerPage(viewDatasetCompoundsPerPage);
@@ -395,7 +395,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         finally {
             s.close();
@@ -411,7 +411,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport
     private User getLoggedInUser(ActionContext context)
     {
         if (context == null) {
-            Utility.writeToStrutsDebug("No ActionContext available");
+            logger.debug("No ActionContext available");
             return null;
         }
         else {
@@ -437,7 +437,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
         finally {
             s.close();

@@ -7,14 +7,17 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.global.Constants;
 
 
 public class SdfToJpg {
 	
+    private static Logger logger = Logger.getLogger(SdfToJpg.class.getName());
+    
 	public static void makeSketchFiles(String filePath, String fileName, String structuresDir, String sketchesDir) throws Exception
 	{
 		//filePath = directory the SDF is in, e.g. workflow-users/theo/DATASETS/
@@ -35,7 +38,7 @@ public class SdfToJpg {
 		//Put that in the Structures dir.
 		structuresDir = filePath + structuresDir;
 		sketchesDir = filePath + sketchesDir;
-		Utility.writeToDebug("Creating structures into dir: " + structuresDir);
+		logger.debug("Creating structures into dir: " + structuresDir);
 
 		//make sure Structures dir exists. 
 		File stDir = new File(structuresDir);
@@ -65,7 +68,7 @@ public class SdfToJpg {
 							fout.close();
 						}
 						catch(Exception ex){
-							Utility.writeToDebug(ex);
+							logger.error(ex);
 						}
 					break;
 				}
@@ -74,7 +77,7 @@ public class SdfToJpg {
 		src.close();
 		fin.close();
 	
-		Utility.writeToDebug("Done creating structures. COMPOUND NAMES COUNT:"+ compoundNames.size());
+		logger.debug("Done creating structures. COMPOUND NAMES COUNT:"+ compoundNames.size());
 		
 		//Done generating Structures files.
 		//look in Structures directory.
@@ -89,7 +92,7 @@ public class SdfToJpg {
 		File dir = new File(structuresDir);
 		String files[] = dir.list();
 		if(files == null){
-			Utility.writeToDebug("Error reading Structures directory: " + structuresDir);
+			logger.warn("Error reading Structures directory: " + structuresDir);
 		}
 		
 		File molconvertErr = new File(filePath+"Logs/"+"molconvertLog.err");
@@ -104,7 +107,7 @@ public class SdfToJpg {
 				int b = fis.read();  
 				if (b != -1)  
 				{  
-				  Utility.writeToDebug("----Error occured while creating compound sketches!");
+				  logger.warn("----Error occured while creating compound sketches!");
 				  FileAndDirOperations.deleteDirContents(sketchesDir);
 		          fis.close();
 				  break;
@@ -114,7 +117,7 @@ public class SdfToJpg {
 		}
 			
 		
-		Utility.writeToDebug("DIR size::"+new File(sketchesDir).list().length);
+		logger.debug("DIR size::"+new File(sketchesDir).list().length);
 		String from;
 		for(int i=0;i<files.length;i++){
 			String jpgFilename = files[i].replace("sdf", "jpg");
@@ -130,7 +133,7 @@ public class SdfToJpg {
 			}
 			
 		}
-		Utility.writeToDebug("Done creating sketches. ");
+		logger.debug("Done creating sketches. ");
 		
 	}
 }

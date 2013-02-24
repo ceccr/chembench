@@ -7,12 +7,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 
 public class KnnPlusModelsPage extends ViewPredictorAction
 {
@@ -21,7 +22,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction
      * 
      */
     private static final long serialVersionUID = 1L;
-    
+    private static Logger logger = Logger.getLogger(KnnPlusModelsPage.class.getName());
     private List<KnnPlusModel> knnPlusModels;
 
     public String load() throws Exception
@@ -140,7 +141,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction
             }
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             errorStrings.add(ex.getMessage());
             return ERROR;
         }

@@ -10,8 +10,6 @@ import edu.unc.ceccr.utilities.LsfOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.utilities.Utility;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,7 +19,6 @@ import java.io.FileWriter;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 import org.apache.log4j.Logger;
 
 public class KnnPlus

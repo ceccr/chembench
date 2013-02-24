@@ -2,18 +2,19 @@ package edu.unc.ceccr.action;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.utilities.Utility;
 
 public abstract class ViewAction extends ActionSupport {
 	
 	private static final long serialVersionUID = 1L;
 	
+    private static Logger logger = Logger.getLogger(ViewAction.class.getName());
 	protected ArrayList<String> errorStrings = new ArrayList<String>();
 	protected Session session;
 	protected ActionContext context;
@@ -26,13 +27,13 @@ public abstract class ViewAction extends ActionSupport {
 			
 			context = ActionContext.getContext();
 			if(context == null){
-				Utility.writeToStrutsDebug("No ActionContext available");
+				logger.debug("No ActionContext available");
 				return ERROR;
 			}
 
 			
 			if(context.getSession().get("user")==null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				return LOGIN;
 			}
 			else user = (User) context.getSession().get("user");
@@ -42,17 +43,17 @@ public abstract class ViewAction extends ActionSupport {
 				objectId = ((String[]) context.getParameters().get("id"))[0];
 			}
 			else{
-				Utility.writeToStrutsDebug("No ID supplied.");
+				logger.debug("No ID supplied.");
 				errorStrings.add("No ID supplied.");
 				return ERROR;
 			}
 			if(objectId.trim().isEmpty() || !objectId.matches("^\\d*$")){
-				Utility.writeToStrutsDebug("No ID supplied.");
+				logger.debug("No ID supplied.");
 				errorStrings.add("No ID supplied.");
 				return ERROR;
 			}
 		} catch (Exception e) {
-			Utility.writeToDebug(e);
+			logger.error(e);
 			errorStrings.add(e.getMessage());
 			return ERROR;
 		}

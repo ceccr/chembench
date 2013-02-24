@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.validator.GenericValidator;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartRenderingInfo;
@@ -41,16 +42,11 @@ import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 
 public class ExternalValidationChart
 {
-        
-    /*
-     * protected void processRequest(HttpServletRequest request,
-     * HttpServletResponse response) throws ServletException,
-     * IOException,ClassNotFoundException, SQLException {
-     */            
+    private static Logger logger = Logger.getLogger(ExternalValidationChart.class.getName());
+         
     public static void
     createChart(Predictor predictor, String currentFoldNumber) throws Exception
     {
@@ -103,7 +99,7 @@ public class ExternalValidationChart
             return;
         }
 
-        Utility.writeToDebug("extval size: " + extValidation.size());
+        logger.debug("extval size: " + extValidation.size());
 
         int index = 0;
         float high, low;
@@ -336,7 +332,7 @@ public class ExternalValidationChart
                     + "_of_" + numChildren;
             basePath += childPredName + "/";
         }
-        Utility.writeToDebug("Writing external validation chart to file: "
+        logger.debug("Writing external validation chart to file: "
                 + basePath + "mychart.jpeg");
         FileOutputStream fos_jpg = new FileOutputStream(basePath
                 + "mychart.jpeg");
@@ -346,35 +342,14 @@ public class ExternalValidationChart
         FileOutputStream fos_cri = new FileOutputStream(basePath
                 + "mychart.map");
         PrintWriter pw = new PrintWriter(fos_cri);
-        // ChartUtilities.writeImageMap(pw, "mychart", info, true);
         fos_cri.close();
         pw.flush();
 
         final InputStream input = new BufferedInputStream(
                 new FileInputStream(basePath + "mychart.map"));
-        //int contentLength = input.available();
         input.close();
 
-        /*
-         * PrintWriter writer=response.getWriter(); while (contentLength-- >
-         * 0) { writer.write(input.read()); }
-         * writer.write("<IMG SRC='imageServlet?project="
-         * +project+"&projectType=modeling&user="+user+
-         * "&compoundId=externalValidationChart&currentFoldNumber="
-         * +currentFoldNumber+"' " +
-         * "WIDTH=\"650\" HEIGHT=\"650\" BORDER=\"0\"  
-         * ISMAP=\"ISMAP\" USEMAP=\"#mychart\">"
-         * ); writer.close();
-         */
     }
-
-    /*
-     * protected void doGet(HttpServletRequest request, HttpServletResponse
-     * response) throws ServletException, IOException{ try{
-     * processRequest(request, response); } catch(SQLException e){
-     * Utility.writeToDebug(e); } catch(ClassNotFoundException e){
-     * Utility.writeToDebug(e); } }
-     */
 
     protected static ArrayList<String>
             customizedURLs(XYDataset ds,
@@ -395,7 +370,7 @@ public class ExternalValidationChart
                 Thread.sleep(10);
             }
             catch (InterruptedException e) {
-                Utility.writeToDebug(e);
+                logger.error(e);
             }
             list.add(url);
         }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -24,7 +25,6 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 
 // struts2
 
@@ -35,7 +35,7 @@ public class DeleteAction extends ActionSupport
      * 
      */
     private static final long serialVersionUID = 1L;
-    
+    private static Logger logger = Logger.getLogger(DeleteAction.class.getName());
     public ArrayList<String> errorStrings = new ArrayList<String>();
 
     private void
@@ -44,7 +44,7 @@ public class DeleteAction extends ActionSupport
     {
         // make sure there are no predictors, predictions, or jobs that depend
         // on this dataset
-        Utility.writeToDebug("checking dataset dependencies");
+        logger.debug("checking dataset dependencies");
 
         Session session = HibernateUtil.getSession();
         String userName = ds.getUserName();
@@ -62,7 +62,7 @@ public class DeleteAction extends ActionSupport
 
         // check each predictor
         for (int i = 0; i < userPredictors.size(); i++) {
-            Utility.writeToDebug("predictor id: "
+            logger.debug("predictor id: "
                     + userPredictors.get(i).getDatasetId() + " dataset id: "
                     + ds.getId());
             if (userPredictors.get(i).getDatasetId() != null
@@ -78,7 +78,7 @@ public class DeleteAction extends ActionSupport
 
         // check each prediction
         for (int i = 0; i < userPredictions.size(); i++) {
-            Utility.writeToDebug("Prediction id: "
+            logger.debug("Prediction id: "
                     + userPredictions.get(i).getDatasetId() + " dataset id: "
                     + ds.getId());
             if (userPredictions.get(i).getDatasetId() != null
@@ -147,12 +147,12 @@ public class DeleteAction extends ActionSupport
         // check that there is a user logged in
         User user = null;
         if (context == null) {
-            Utility.writeToStrutsDebug("No ActionContext available");
+            logger.debug("No ActionContext available");
             return false;
         }
         user = (User) context.getSession().get("user");
         if (user == null) {
-            Utility.writeToStrutsDebug("No user logged in.");
+            logger.debug("No user logged in.");
             return false;
         }
 
@@ -174,7 +174,7 @@ public class DeleteAction extends ActionSupport
         DataSet ds = null;
 
         datasetId = ((String[]) context.getParameters().get("id"))[0];
-        Utility.writeToStrutsDebug("Deleting dataset with id: " + datasetId);
+        logger.debug("Deleting dataset with id: " + datasetId);
 
         if (datasetId == null) {
             errorStrings.add("No dataset ID supplied.");
@@ -208,7 +208,7 @@ public class DeleteAction extends ActionSupport
                 + "/DATASETS/" + ds.getName();
         if ((new File(dir)).exists()) {
             if (!FileAndDirOperations.deleteDir(new File(dir))) {
-                Utility.writeToStrutsDebug("error deleting dir: " + dir);
+                logger.warn("error deleting dir: " + dir);
             }
         }
 
@@ -222,7 +222,7 @@ public class DeleteAction extends ActionSupport
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e);
+            logger.error(e);
             return ERROR;
         }
 
@@ -239,11 +239,11 @@ public class DeleteAction extends ActionSupport
         Predictor p = null;
 
         predictorId = ((String[]) context.getParameters().get("id"))[0];
-        Utility.writeToStrutsDebug("Deleting predictor with id: "
+        logger.debug("Deleting predictor with id: "
                 + predictorId);
 
         if (predictorId == null) {
-            Utility.writeToStrutsDebug("No predictor ID supplied.");
+            logger.debug("No predictor ID supplied.");
             return ERROR;
         }
 
@@ -284,7 +284,7 @@ public class DeleteAction extends ActionSupport
         String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName()
                 + "/PREDICTORS/" + p.getName() + "/";
         if (!FileAndDirOperations.deleteDir(new File(dir))) {
-            Utility.writeToStrutsDebug("error deleting dir: " + dir);
+            logger.warn("error deleting dir: " + dir);
         }
 
         // delete the database entry for the predictor
@@ -319,7 +319,7 @@ public class DeleteAction extends ActionSupport
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
     }
 
@@ -332,7 +332,7 @@ public class DeleteAction extends ActionSupport
         Prediction p = null;
 
         predictionId = ((String[]) context.getParameters().get("id"))[0];
-        Utility.writeToStrutsDebug("Deleting prediction with id: "
+        logger.debug("Deleting prediction with id: "
                 + predictionId);
 
         if (predictionId == null) {
@@ -359,7 +359,7 @@ public class DeleteAction extends ActionSupport
         String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName()
                 + "/PREDICTIONS/" + p.getName();
         if (!FileAndDirOperations.deleteDir(new File(dir))) {
-            Utility.writeToStrutsDebug("error deleting dir: " + dir);
+            logger.warn("error deleting dir: " + dir);
         }
 
         // delete the prediction values associated with the prediction
@@ -378,7 +378,7 @@ public class DeleteAction extends ActionSupport
                 catch (RuntimeException e) {
                     if (tx != null)
                         tx.rollback();
-                    Utility.writeToDebug(e);
+                    logger.error(e);
                 }
             }
         }
@@ -393,7 +393,7 @@ public class DeleteAction extends ActionSupport
         catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
 
         session.close();
@@ -410,14 +410,14 @@ public class DeleteAction extends ActionSupport
         String taskId;
 
         taskId = ((String[]) context.getParameters().get("id"))[0];
-        Utility.writeToStrutsDebug("Deleting job with id: " + taskId);
+        logger.debug("Deleting job with id: " + taskId);
 
         try {
             Session s = HibernateUtil.getSession();
             Job j = PopulateDataObjects.getJobById(Long.parseLong(taskId), s);
             if (j != null && j.getJobType().equals(Constants.MODELING)) {
                 if (j.getLookupId() != null) {
-                    Utility.writeToDebug("getting predictor with id: "
+                    logger.debug("getting predictor with id: "
                             + j.getLookupId());
                     Predictor p = PopulateDataObjects.getPredictorById(j
                             .getLookupId(), s);
@@ -461,7 +461,7 @@ public class DeleteAction extends ActionSupport
                                 catch (Exception ex) {
                                     // if some siblings are missing, don't
                                     // crash, just keep deleting things
-                                    Utility.writeToDebug(ex);
+                                    logger.error(ex);
                                 }
                             }
                             // cancel this job
@@ -485,7 +485,7 @@ public class DeleteAction extends ActionSupport
         }
         catch (Exception ex) {
             // if it failed, no big deal - just write out the exception.
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
         return SUCCESS;
     }
@@ -499,7 +499,7 @@ public class DeleteAction extends ActionSupport
 
         String userToDelete = ((String[]) context.getParameters().get(
                 "userToDelete"))[0];
-        Utility.writeToDebug("Deleting user: " + userToDelete);
+        logger.debug("Deleting user: " + userToDelete);
 
         if (u == null || !u.getIsAdmin().equals(Constants.YES)) {
             // this isn't an admin! Kick 'em out.
@@ -600,7 +600,7 @@ public class DeleteAction extends ActionSupport
 
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // last, delete all the files that user has
@@ -628,7 +628,7 @@ public class DeleteAction extends ActionSupport
                 catch (RuntimeException e) {
                     if (tx != null)
                         tx.rollback();
-                    Utility.writeToDebug(e);
+                    logger.error(e);
                 }
             }
             session.close();

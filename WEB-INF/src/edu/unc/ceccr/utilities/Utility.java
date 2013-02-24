@@ -23,9 +23,14 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.User;
 
+import org.apache.log4j.Logger;
+
 //The Utility class is for cross-cutting concerns (logging, authentication / user stuff).
 
 public class Utility {
+
+    private static Logger logger = Logger.getLogger(Utility.class.getName());
+
     private static Integer debug_counter = 0;
 
     public Utility() {
@@ -233,7 +238,7 @@ public class Utility {
             }
         }
         catch(Exception ex){
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             return false;
         }
     }
@@ -251,7 +256,7 @@ public class Utility {
             }
         }
         catch(Exception ex){
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             return false;
         }
     }
@@ -336,7 +341,7 @@ public class Utility {
         boolean debug = false;
         
         if(debug)
-            Utility.writeToDebug("Rounding " + number + " to " + numFigs + " significant figures.");
+            logger.debug("Rounding " + number + " to " + numFigs + " significant figures.");
         
         if(number.length() < numFigs){
             return number;

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -53,6 +54,8 @@ public class DebugAction extends ActionSupport
 
     private static final long serialVersionUID = 1L;
 
+    private static Logger logger = Logger.getLogger(DebugAction.class.getName());
+    
     private static void savePredictor(Predictor p, Session s)
     {
         Transaction tx = null;
@@ -64,7 +67,7 @@ public class DebugAction extends ActionSupport
         catch (Exception e) {
             if (tx != null)
                 tx.rollback();
-            Utility.writeToDebug(e);
+            logger.error(e);
         }
     }
 
@@ -75,7 +78,7 @@ public class DebugAction extends ActionSupport
                 "ALLOFTHEM", false, true, session);
 
         for (Predictor selectedPredictor : predictors) {
-            Utility.writeToStrutsDebug("Adding ext set prediction " 
+            logger.debug("Adding ext set prediction " 
             		                 + "summary to predictor "
                                      + selectedPredictor.getId());
             try {
@@ -148,7 +151,7 @@ public class DebugAction extends ActionSupport
                                 .roundSignificantFigures(
                                         "" + stddev,
                                        Constants.REPORTED_SIGNIFICANT_FIGURES);
-                        Utility.writeToDebug("rsquared avg and stddev: "
+                        logger.debug("rsquared avg and stddev: "
                                 + rSquaredAverageAndStddev);
                         selectedPredictor.setExternalPredictionAccuracyAvg(
                                                      rSquaredAverageAndStddev);
@@ -167,7 +170,7 @@ public class DebugAction extends ActionSupport
                                 .roundSignificantFigures(
                                         "" + stddev,
                                        Constants.REPORTED_SIGNIFICANT_FIGURES);
-                        Utility.writeToDebug("ccr avg and stddev: "
+                        logger.debug("ccr avg and stddev: "
                                 + ccrAverageAndStddev);
                         selectedPredictor.setExternalPredictionAccuracyAvg(
                                                           ccrAverageAndStddev);
@@ -181,7 +184,7 @@ public class DebugAction extends ActionSupport
                 }
 
                 if (externalValValues == null || externalValValues.isEmpty()) {
-                    Utility.writeToDebug("ext validation set empty!");
+                    logger.debug("ext validation set empty!");
                     externalValValues = new ArrayList<ExternalValidation>();
                     continue;
                 }
@@ -236,7 +239,7 @@ public class DebugAction extends ActionSupport
 
             }
             catch (Exception ex) {
-                Utility.writeToDebug(ex);
+                logger.error(ex);
             }
         }
         session.close();
@@ -278,13 +281,12 @@ public class DebugAction extends ActionSupport
         // Example: String ids="1635 1642";
         String[] idArray = ids.split("\\s+");
         Session s = HibernateUtil.getSession();
-        Utility.writeToDebug("Starting fixes..");
         for (String id : idArray) {
 
             Predictor predictor = PopulateDataObjects.getPredictorById(Long
                     .parseLong(id), s);
 
-            Utility.writeToDebug("Fixing " + predictor.getUserName()
+            logger.debug("Fixing " + predictor.getUserName()
                     + "'s predictor '" + predictor.getName() + "' with id "
                     + id);
 
@@ -301,7 +303,7 @@ public class DebugAction extends ActionSupport
                     childPredictors.add(childPredictor);
                 }
                 for (Predictor childPredictor : childPredictors) {
-                    Utility.writeToDebug("Fixing "
+                    logger.debug("Fixing "
                             + childPredictor.getUserName()
                             + "'s child predictor '"
                             + childPredictor.getName() + "' with id " + id);
@@ -352,8 +354,6 @@ public class DebugAction extends ActionSupport
     @SuppressWarnings("unchecked")
     public static String printDatabaseTables() throws Exception
     {
-        // prints every database table it can get out to individual files
-        Utility.writeToDebug("OWLSOWLSOWLS");
 
         boolean append = false;
         String basePath = Constants.CECCR_BASE_PATH + "theo/";
@@ -367,7 +367,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // JobStats
@@ -379,7 +379,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // ExternalValidation
@@ -392,7 +392,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // KnnModel
@@ -404,7 +404,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // KnnPlusModel
@@ -417,7 +417,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // KnnParameters
@@ -430,7 +430,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // KnnPlusParameters
@@ -443,7 +443,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // SvmParameters
@@ -456,7 +456,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // RandomForestParameters
@@ -469,7 +469,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // SvmModel
@@ -481,7 +481,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // SoftwareLink
@@ -494,7 +494,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // Predictor
@@ -506,7 +506,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // User
@@ -518,7 +518,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // RandomForestGrove
@@ -531,7 +531,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         int chunkSize = 100;
@@ -554,7 +554,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // PredictionValue
@@ -575,7 +575,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         append = true;
@@ -598,7 +598,7 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
         // Prediction
@@ -616,16 +616,9 @@ public class DebugAction extends ActionSupport
             session.close();
         }
         catch (Exception ex) {
-            Utility.writeToDebug(ex);
+            logger.error(ex);
         }
 
-        Utility.writeToDebug("userName, password, email, bench, status, " +
-        		"firstname, lastname, orgtype, orgname, "
-                + "orgposition, zipcode, state, country, address," +
-                " city, showPublicDatasets, showPublicPredictors, "
-                + "viewDatasetCompoundsPerPage, " +
-                "viewPredictionCompoundsPerPage, showAdvancedKnnModeling, " +
-                "isAdmin, canDownloadDescriptors");
         ArrayList<User> users = PopulateDataObjects.getAllUsers(HibernateUtil
                 .getSession());
         for (User u : users) {
@@ -671,7 +664,7 @@ public class DebugAction extends ActionSupport
 
                     // user privileges
                     u.getIsAdmin() + ", " + u.getCanDownloadDescriptors();
-            Utility.writeToDebug(str);
+            logger.error(str);
         }
         FileAndDirOperations.writeStringToFile("", Constants.CECCR_BASE_PATH);
         return SUCCESS;
