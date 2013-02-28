@@ -23,7 +23,7 @@
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
 <script language="JavaScript" src="javascript/script.js"> </script>
-    <script language="JavaScript" src="javascript/sortableTable.js"></script>
+<script language="JavaScript" src="javascript/sortableTable.js"></script>
  
 </head>
 <body onload="setTabToHome();">
