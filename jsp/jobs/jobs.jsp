@@ -28,7 +28,7 @@
     <script src="javascript/dataset.js"></script>
     <script language="javascript"
             src="javascript/jquery-1.6.4.min.js"></script>
-
+    <script language="JavaScript" src="javascript/sortableTable.js"></script>
 </head>
 <body onload="setTabToMyBench();">
 
