@@ -64,7 +64,7 @@
                 <table width="680" border="0">
                     <tr><td>Start Date:</td><td><s:textfield name="startDate" value="" size="43" theme="simple" /></td></tr>
                     <tr><td>End Date:</td><td><s:textfield name="endDate" value="" size="43" theme="simple" /></td></tr>
-                    <tr><td>Predictor type:</td><td><s:textarea name="predictorType" value="Toxicity" size="43" theme="simple" rows="10"/></td></tr>
+                    <tr><td>Predictor type:</td><td><textarea name="predictorType" value="Toxicity" size="43" theme="simple" rows="10"/></td></tr>
                     <tr><td></td><td><input type="submit" value="Add" /></td></tr>
                 </table>
             </form>
