@@ -58,6 +58,20 @@
         <br /><br />
     </div>
 
+        <div class="StandardTextDarkGrayParagraph" style="border:#000 solid 1px;">
+            Add new global message:<br />
+            <form action="globalNotifAdd">
+                <table width="680" border="0">
+                    <tr><td>Start Date:</td><td><s:textfield name="startDate" value="" size="43" theme="simple" /></td></tr>
+                    <tr><td>End Date:</td><td><s:textfield name="endDate" value="" size="43" theme="simple" /></td></tr>
+                    <tr><td>Predictor type:</td><td><s:textfield name="predictorType" value="Toxicity" size="43" theme="simple" rows="10"/></td></tr>
+                    <tr><td></td><td><input type="submit" value="Add" /></td></tr>
+                </table>
+            </form>
+        </div>
+
+        <br /><br />
+
     <div class="StandardTextDarkGrayParagraph" style="border:#000 solid 1px;">
         Make Predictor public:<br />
         <form action="makePredictorPublicAction">
