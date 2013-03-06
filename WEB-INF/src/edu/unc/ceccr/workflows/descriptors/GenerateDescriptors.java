@@ -56,7 +56,7 @@ public class GenerateDescriptors{
           
         String execstr = 
 	    // "/usr/local/ceccr/dragon/dragonX -s "
-           "dragonX -s" + workingDir + "dragon-scriptNoH.txt";
+           "dragonX -s " + workingDir + "dragon-scriptNoH.txt";
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonNoH");
     }
     
