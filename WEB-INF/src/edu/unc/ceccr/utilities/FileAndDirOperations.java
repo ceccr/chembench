@@ -277,7 +277,10 @@ public class FileAndDirOperations
             }
         }
         catch (Exception ex) {
-            logger.error(ex);
+            /*FIXME: commenting out the logging. This exception gets thrown several times
+                     till, we look into why, better prevent logs from be flooded.
+             */
+            //logger.error(ex);
         }
     }
 
