@@ -144,10 +144,8 @@ public class RunExternalProgram
             }
             logger.debug("Trying to execute the command\n");
             logger.debug("The working directory is : "+workingDir);
-            //DD 10/29/2012 - Putting in a hack to change the path to full
-            //                qualified. Not sure why this does not work
-            //                otherwise. Need to ask Diane.
-            p = Runtime.getRuntime().exec(workingDir+"/temp-script.sh"
+
+            p = Runtime.getRuntime().exec(workingDir+"temp-script.sh"
                                          , null
                                          , new File(workingDir));
             
