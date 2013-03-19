@@ -16,11 +16,14 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
+
+import org.apache.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class ImageServlet extends HttpServlet {
+
+    private static Logger logger = Logger.getLogger(ImageServlet.class.getName());
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
     	
@@ -65,7 +68,7 @@ public class ImageServlet extends HttpServlet {
 	    		
 	        }
     		catch(Exception ex){
-    			Utility.writeToDebug(ex);
+    			logger.error(ex);
     		}
         }
     	else if(projectType.equals("dataset")){
@@ -80,11 +83,10 @@ public class ImageServlet extends HttpServlet {
 
         if(! imageFile.exists()){
 
-    		imageFileName=Constants.CECCR_BASE_PATH + "tomcat6/webapps/ROOT/theme/img/no_image.jpg";
-    		imageFile = new File(imageFileName);
+        	imageFileName=Constants.CECCR_BASE_PATH + Constants.IMAGE_FILEPATH + "no_image.jpg";    		imageFile = new File(imageFileName);
     		
     		 if(! imageFile.exists()){
-    			Utility.writeToDebug("Could not find default image file.");
+    			logger.warn("Could not find default image file.");
 	            response.setContentLength(0);
 	        	response.setContentType("image/jpeg");
 	        	return;
@@ -111,20 +113,20 @@ public class ImageServlet extends HttpServlet {
 
             output.flush();
         } catch (IOException e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
         } finally {
             if (input != null) {
                 try {
                     input.close();
                 } catch (IOException e) {
-                    Utility.writeToDebug(e);
+                    logger.error(e);
                 }
             }
             if (output != null) {
                 try {
                     output.close();
                 } catch (IOException e) {
-                    Utility.writeToDebug(e);
+                    logger.error(e);
                 }
             }
         }

@@ -16,9 +16,9 @@
 		<tr><td colspan="2"><table>
 	  <tr>
 		<td colspan="2">
-		<div class="StandardTextDarkGrayParagraph"><i>A dataset will be created from the <a href="/help-fileformats#X">X</a> and <a href="/help-fileformats#ACT">ACT</a> files you supply.<br/>
+		<div class="StandardTextDarkGrayParagraph"><i>A dataset will be created from the <a href="help-fileformats#X">X</a> and <a href="help-fileformats#ACT">ACT</a> files you supply.<br/>
 		This allows you to generate descriptors outside of Chembench, and upload them for use for modeling and prediction. <br />
-		If you choose to supply an <a href="/help-fileformats#SDF">SDF</a> file, images of your structures and descriptors will be created.</i><br /></div>
+		If you choose to supply an <a href="help-fileformats#SDF">SDF</a> file, images of your structures and descriptors will be created.</i><br /></div>
 	    </td>
 	  </tr>	
 	  <tr>

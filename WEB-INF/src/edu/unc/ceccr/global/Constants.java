@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public class Constants {
 
-	public static boolean doneReadingConfigFile=false;
-	public static int SESSION_EXPIRATION_TIME = 21600; //How long a login will last if idle, measured in seconds. 21600 seconds = 6 hours. 
+	public static boolean doneReadingConfigFile=false; 
+	public static int SESSION_EXPIRATION_TIME = 21600;
+	    //How long a login will last if idle, measured in seconds. 21600 seconds = 6 hours.
 	
 	//After submitting around 250 jobs, LSF won't let you submit more, it just returns an error.
 	//Cap the number of jobs that can be added to the LSF queue at any given time.
@@ -22,7 +23,6 @@ public class Constants {
 	public static final int REPORTED_SIGNIFICANT_FIGURES = 4;
 	
 	//Enums for Data Types
-	@SuppressWarnings("unchecked")
 	
 	//Descriptor constants
 	public static final int NUM_MACCS_KEYS = 400;
@@ -32,8 +32,8 @@ public class Constants {
 	public static final int MOLCONNZ_COMPOUND_NAME_POS = 10;
 	
 	//file paths
-	public static final String LSFJOBPATH = "/largefs/ceccr/workflow-users/";
-	public static final String USERWORKFLOWSPATH = "/nas02/depts/chembench/prod/workflow-users/";
+	public static String LSFJOBPATH;
+	public static String USERWORKFLOWSPATH;
 	
 	//Type strings
 	//The point of having these is to define capitalizations 
@@ -154,49 +154,53 @@ public class Constants {
 
 	//External Validation Constants
 	public static final int COMPOUND_ID = 0;
-	public static final int STRUCTURE_FILE = 0; //This and following constants decreased by 1. Wonder what this will do... 
+	    //Following constants decreased by 1. Wonder what this will do... 
+	public static final int STRUCTURE_FILE = 0; 
 	public static final int ACTUAL = 1;
 	public static final int PREDICTED = 2;
 	public static final int NUM_MODELS = 3;
 	public static final int STD_DEVIATION = 3;
 	
 	//Paths
-	public static String CECCR_BASE_PATH ;
-	public static String TOMCAT_PATH ;
+	public static String CECCR_BASE_PATH;
+	public static String TOMCAT_PATH;
 	public static String BUILD_DATE_FILE_PATH;
 	public static String BUILD_DATE;
 	public static String CECCR_USER_BASE_PATH;
-	public static String XML_FILE_PATH;
-	public static String SDFILE_FILEPATH ;
-	public static String DATAFILE_FILEPATH ;
+	public static String XML_FILE_PATH; 
+	public static String SDFILE_FILEPATH;
+	public static String DATAFILE_FILEPATH;
+	public static String IMAGE_FILEPATH;
+	public static String SYSTEMCONFIG_XML_PATH;
 	
 	public static String CATEGORY_DATAFILE_FILEPATH;
 	public static String CONTINUOUS_DATAFILE_FILEPATH;
 	
 	public static String EXECUTABLEFILE_PATH;
-	public static String MOLCONNZ_MODELING_DATFILE_PATH = "ParameterFiles/MZ405Modeling.dat";
-	public static String MOLCONNZ_PREDICTION_DATFILE_PATH = "ParameterFiles/MZ405Prediction.dat";
-	public static String MOLCONNZ_CSV_DATFILE_PATH = "ParameterFiles/MZ-CSV.dat";
-	public static String CDK_XMLFILE_PATH = "ParameterFiles/chembench-cdk.xml";
+	public static String INSTALLS_PATH;
+	public static String MOLCONNZ_MODELING_DATFILE_PATH;
+	public static String MOLCONNZ_PREDICTION_DATFILE_PATH;
+	public static String MOLCONNZ_CSV_DATFILE_PATH;
+	public static String CDK_XMLFILE_PATH;
 
-	public static final String SCRIPTS_PATH = "mmlsoft/bin/";
-	public static final String RF_BUILD_MODEL_RSCRIPT = "randomForestBuildModel.R";
-    public static final String RF_PREDICT_RSCRIPT = "randomForestPredict.R";
-    public static final String RF_DESCRIPTORS_USED_FILE = "descriptors_used_in_models.txt";
-    
-	public static final String kNN_OUTPUT_FILE = "knn-output.tbl";
-	public static final String EXTERNAL_VALIDATION_OUTPUT_FILE = "external_prediction_table";
-	public static final String PRED_OUTPUT_FILE = "cons_pred";
-	public static final String KNN_DEFAULT_FILENAME = "knn.default";
-	public static final String KNN_CATEGORY_DEFAULT_FILENAME = "knn_category.default";
-	public static final String SE_DEFAULT_FILENAME = "param9.txt";
-	public static final String DESCRIPTORERRORFILE = "descriptorErrors.txt";
-	public static final String KNNPLUSMODELSFILENAME = "models";
+	public static String SCRIPTS_PATH;
+	public static String RF_BUILD_MODEL_RSCRIPT;
+    public static String RF_PREDICT_RSCRIPT;
+    public static String RF_DESCRIPTORS_USED_FILE;
+
+	public static String KNN_OUTPUT_FILE;
+	public static String EXTERNAL_VALIDATION_OUTPUT_FILE;
+	public static String PRED_OUTPUT_FILE;
+	public static String KNN_DEFAULT_FILENAME;
+	public static String KNN_CATEGORY_DEFAULT_FILENAME;
+	public static String SE_DEFAULT_FILENAME;
+	public static String DESCRIPTOR_ERROR_FILE;
+	public static String KNNPLUS_MODELS_FILENAME;
 	
-	public static final String EXTERNAL_SET_A_FILE = "ext_0.a";
-	public static final String EXTERNAL_SET_X_FILE = "ext_0.x";
-	public static final String MODELING_SET_A_FILE = "train_0.a";
-	public static final String MODELING_SET_X_FILE = "train_0.x";
+	public static String EXTERNAL_SET_A_FILE;
+	public static String EXTERNAL_SET_X_FILE;
+	public static String MODELING_SET_A_FILE;
+	public static String MODELING_SET_X_FILE;
 		
 	//for testing
 	public static final Integer MAX_FILE_SIZE = new Integer("1024");

@@ -9,7 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
-<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
+<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" src="javascript/script.js"> </script>
  <style>
 <!--
@@ -351,12 +351,54 @@ div.WordSection1
 <body onload="setTabToPPI();">
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
-</head>
-
-<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
   <tr>
    <td>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:"Table Normal";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+table.MsoTableGrid
+	{mso-style-name:"Table Grid";
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-unhide:no;
+	border:solid windowtext 1.0pt;
+	mso-border-alt:solid windowtext .5pt;
+	mso-padding-alt:0in 5.4pt 0in 5.4pt;
+	mso-border-insideh:.5pt solid windowtext;
+	mso-border-insidev:.5pt solid windowtext;
+	mso-para-margin:0in;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Times New Roman","serif";}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="3074"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=EN-US link=blue vlink=purple style='tab-interval:.5in'>
+
+<a href="/jchem/marvin/examples/applets/example-sketch1.1.html">JchemSketch</a>
+<p></p>	 
 <div class=WordSection1>
 
 <p class=MsoNormal><b style='mso-bidi-font-weight:normal'><span
@@ -428,8 +470,33 @@ cheminformatics.</b></span></p>
 style='font-size:11.0pt;font-family:"Arial","sans-serif"'><o:p>&nbsp;</o:p></span></p>
 
 <p class=MsoNormal style='text-indent:49.5pt'><b style='mso-bidi-font-weight:
-normal'><span style='mso-no-proof:yes'><img border=0 width=664 height=332
-src="/theme/img/PPI/image001.png" alt="project_layout" /></span></b></p>
+normal'><span style='mso-no-proof:yes'><!--[if gte vml 1]><v:shapetype id="_x0000_t75"
+ coordsize="21600,21600" o:spt="75" o:preferrelative="t" path="m@4@5l@4@11@9@11@9@5xe"
+ filled="f" stroked="f">
+ <v:stroke joinstyle="miter"/>
+ <v:formulas>
+  <v:f eqn="if lineDrawn pixelLineWidth 0"/>
+  <v:f eqn="sum @0 1 0"/>
+  <v:f eqn="sum 0 0 @1"/>
+  <v:f eqn="prod @2 1 2"/>
+  <v:f eqn="prod @3 21600 pixelWidth"/>
+  <v:f eqn="prod @3 21600 pixelHeight"/>
+  <v:f eqn="sum @0 0 1"/>
+  <v:f eqn="prod @6 1 2"/>
+  <v:f eqn="prod @7 21600 pixelWidth"/>
+  <v:f eqn="sum @8 21600 0"/>
+  <v:f eqn="prod @7 21600 pixelHeight"/>
+  <v:f eqn="sum @10 21600 0"/>
+ </v:formulas>
+ <v:path o:extrusionok="f" gradientshapeok="t" o:connecttype="rect"/>
+ <o:lock v:ext="edit" aspectratio="t"/>
+</v:shapetype><v:shape id="Picture_x0020_29" o:spid="_x0000_i1025" type="#_x0000_t75"
+ alt="project_layout" style='width:498pt;height:249pt;visibility:visible;
+ mso-wrap-style:square'>
+ <v:imagedata src="theme/img/PPI/image001.png" o:title="project_layout"/>
+</v:shape><![endif]--><![if !vml]><img border=0 width=664 height=332
+src="theme/img/PPI/image001.png" alt="project_layout" v:shapes="Picture_x0020_29"><![endif]></span></b><span
+style='font-size:11.0pt;font-family:"Arial","sans-serif"'><o:p></o:p></span></p>
 
 <p class=MsoCaption style='margin-top:3.0pt;text-indent:49.5pt'><a
 name="_Ref297208956"></a><span class=GramE><span style='mso-bookmark:_Ref297208956'><span
@@ -437,7 +504,7 @@ style='font-size:12.0pt;color:black;mso-themecolor:text1'>Figure </span></span><
 style='mso-bookmark:_Ref297208956'></span><span style='mso-element:field-begin'></span><span
 style='mso-bookmark:_Ref297208956'><span class=GramE><span style='font-size:
 12.0pt;color:black;mso-themecolor:text1'><span
-style='mso-spacerun:yes'> </span>SEQ Figure \* ARABIC </span><span
+style='mso-spacerun:yes'></span>SEQ Figure \* ARABIC </span><span
 style='mso-element:field-separator'></span></span></span><![endif]--><span
 style='mso-bookmark:_Ref297208956'></span><span style='mso-bookmark:_Ref297208956'><span
 class=GramE><span style='font-size:12.0pt;color:black;mso-themecolor:text1;

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
 
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.visualization.XMLTreeBuilder;
 
 
@@ -28,7 +27,7 @@ public class MahalanobisDistanceMeasure extends DistanceMeasure{
                 res += vector[i];
             return res/vector.length;
         }
-        
+        /*
         private Double[] centerVector(double[] vector){
             Double mean = mean(vector);
             Double[] result = new Double[vector.length];
@@ -36,6 +35,7 @@ public class MahalanobisDistanceMeasure extends DistanceMeasure{
                 result[i] = vector[i]-mean;
             return result;
         }
+        */
         
         private double[][] multiplyMatrix(double[][] m1, double[][] m2){
                       int m1rows = m1.length;

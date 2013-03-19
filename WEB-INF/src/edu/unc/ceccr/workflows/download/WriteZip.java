@@ -1,29 +1,36 @@
 
 package edu.unc.ceccr.workflows.download;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import org.hibernate.Session;
+
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
-import edu.unc.ceccr.global.Constants;
 
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.zip.*;
-
-import org.hibernate.Session;
+import org.apache.log4j.Logger;
 
 public class WriteZip{
-
+    
+    private static Logger logger = Logger.getLogger(WriteZip.class.getName());
+    
 	public static void ZipEntireDirectory(String workingDir, String projectDir, String zipFile) throws Exception{
 		//will be used for MML members - they can access all files on every project type
+
+        
 
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
 		byte[] buf = new byte[1024];
@@ -51,7 +58,7 @@ public class WriteZip{
 				x++;
 			}
 		}
-		Utility.writeToDebug("Compressing " + workingDir + projectDir + " : " + fileNames.size() + " files into " + zipFile);
+		logger.debug("Compressing " + workingDir + projectDir + " : " + fileNames.size() + " files into " + zipFile);
 		
 		
 		for(String fileName : fileNames){
@@ -66,19 +73,19 @@ public class WriteZip{
 	            in.close();
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				logger.error(ex);
 			}
 		}
 		out.close();
 	}
 	
 	public static void ZipDatasets(String userName, String datasetUserName, String datasetName, String zipFile) throws Exception{
-		Utility.writeToDebug("Creating archive of dataset: " + datasetName + " into file: " + zipFile);
+		logger.debug("Creating archive of dataset: " + datasetName + " into file: " + zipFile);
 	    // These are the files to include in the ZIP file
 		String projectSubDir = datasetUserName + "/DATASETS/" + datasetName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
 			//someone's trying to download something they shouldn't be!
-			Utility.writeToDebug("Access attempt on directory: " + projectSubDir);
+			logger.warn("Access attempt on directory: " + projectSubDir);
 			return;
 		}
 		String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
@@ -120,7 +127,7 @@ public class WriteZip{
 		File projectDirFile = new File(projectDir);
 		String[] projectDirFilenames = projectDirFile.list();
 		if(projectDirFilenames == null){
-			Utility.writeToDebug("Error reading directory: " + projectDir);
+			logger.error("Error reading directory: " + projectDir);
 		}
 		int x = 0;
 		while(projectDirFilenames != null && x<projectDirFilenames.length){
@@ -186,7 +193,7 @@ public class WriteZip{
 				}
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+                logger.error(ex);
 			}
 		}
 		out.close();
@@ -213,7 +220,7 @@ public class WriteZip{
  		- Detailed (model-by-model) external set prediction data, if applicable.
 		 */
 		
-		Utility.writeToDebug("Creating archive of predictor: " + jobName);
+		logger.debug("Creating archive of predictor: " + jobName);
 	    // These are the files to include in the ZIP file
 		String projectSubDir = predictorUserName + "/PREDICTORS/" + jobName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
@@ -388,14 +395,14 @@ public class WriteZip{
 				}
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				logger.error(ex);
 			}
 		}
 		out.close();
 	}
 		
 	public static void ZipPredictionResults(String userName, String predictionUserName, String jobName, String zipFile) throws Exception{
-		Utility.writeToDebug("Creating archive of prediction: " + jobName);
+		logger.debug("Creating archive of prediction: " + jobName);
 		String projectSubDir = predictionUserName + "/PREDICTIONS/" + jobName + "/";
 		if(projectSubDir.contains("..") || projectSubDir.contains("~")){
 			//someone's trying to download something they shouldn't be!
@@ -437,7 +444,7 @@ public class WriteZip{
 		File projectDirFile = new File(projectDir);
 		String[] projectDirFilenames = projectDirFile.list();
 		if(projectDirFilenames == null){
-			Utility.writeToDebug("Error reading directory: " + projectDir);
+			logger.error("Error reading directory: " + projectDir);
 		}
 		int x = 0;
 		while(projectDirFilenames != null && x<projectDirFilenames.length){
@@ -496,7 +503,7 @@ public class WriteZip{
 	            in.close();
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+                logger.error(ex);
 			}
 		}
 		out.close();

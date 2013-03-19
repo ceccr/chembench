@@ -1,15 +1,23 @@
 package edu.unc.ceccr.persistence;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
 
 @Entity
 @Table(name = "cbench_randomForestTree")
 public class RandomForestTree implements java.io.Serializable{
 	
-	/*
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    /*
 create table cbench_randomForestTree (
 id INT(12) UNSIGNED auto_increment PRIMARY KEY,
 randomForestGroveId int(12) unsigned NOT NULL DEFAULT '0',

@@ -1,25 +1,14 @@
 package edu.unc.ceccr.workflows.visualization;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import org.apache.commons.validator.GenericValidator;
 import org.hibernate.Session;
-import org.jfree.data.statistics.HistogramDataset;
-import org.jfree.data.xy.IntervalXYDataset;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-
-import java.awt.Color;
-import java.awt.Font;
-import java.text.DecimalFormat;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
@@ -27,8 +16,16 @@ import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.data.statistics.HistogramDataset;
+import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
+
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 
 public class ActivityHistogram {
@@ -52,9 +49,7 @@ public class ActivityHistogram {
 		userDir = selectedDataSet.getUserName();
 		fullPath += userDir + "/DATASETS/" + selectedDataSet.getName() + "/" + selectedDataSet.getActFile();
 		
-		//Utility.writeToDebug("Generating Activity Histogram for Dataset: " + datasetID + " from ACT file: " + fullPath);
-		
-		HashMap dataMap = DatasetFileOperations.parseActFile(fullPath);
+		HashMap<String, String> dataMap = DatasetFileOperations.parseActFile(fullPath);
 		IntervalXYDataset dataset =new HistogramDataset();
 		dataset=createDataset(dataMap);
 		 
@@ -91,7 +86,7 @@ public class ActivityHistogram {
 		ChartUtilities.saveChartAsPNG(new File(outputFileStr), chart, 550, 550);
 	}
 
-	public static HistogramDataset createDataset(HashMap map) {
+	public static HistogramDataset createDataset(HashMap<String, String> map) {
 		   double[] values;  
 		   double min,max;
 		   
@@ -105,7 +100,7 @@ public class ActivityHistogram {
 		   return dataset;
 	 }
 
-	public static double[] getValues(HashMap map)  {
+	public static double[] getValues(HashMap<String, String> map)  {
 		   
 		   int i=0;
 		   
@@ -113,7 +108,7 @@ public class ActivityHistogram {
 		   
 		   double[] temp=new double[map.size()];
 		   
-		   Iterator it=map.keySet().iterator();
+		   Iterator<String> it=map.keySet().iterator();
 		   
 		   while(it.hasNext()) {
 			   key=it.next();

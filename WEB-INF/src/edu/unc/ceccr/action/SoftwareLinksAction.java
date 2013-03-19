@@ -1,43 +1,27 @@
 package edu.unc.ceccr.action;
 
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-//struts2
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
-
-import org.apache.struts.upload.FormFile;
-import org.apache.struts2.interceptor.SessionAware;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.DataSet;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
 import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Job;
-import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.SoftwareLink;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+//struts2
 
 public class SoftwareLinksAction extends ActionSupport {
+
+	private static final long serialVersionUID = 1L;
+	
+    private static Logger logger = Logger.getLogger(SoftwareLinksAction.class.getName());
 
 	private ArrayList<SoftwareLink> softwareLinks = new ArrayList<SoftwareLink>();
 	
@@ -62,7 +46,7 @@ public class SoftwareLinksAction extends ActionSupport {
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("FreeSoftwareAction: No ActionContext available");
+			logger.debug("FreeSoftwareAction: No ActionContext available");
 		}
 		else{
 			Session s = HibernateUtil.getSession();
@@ -93,7 +77,7 @@ public class SoftwareLinksAction extends ActionSupport {
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("FreeSoftwareAction: No ActionContext available");
+			logger.debug("FreeSoftwareAction: No ActionContext available");
 		}
 		else{
 			//verify the user is logged in
@@ -133,7 +117,7 @@ public class SoftwareLinksAction extends ActionSupport {
 				} catch (RuntimeException e) {
 					if (tx != null)
 						tx.rollback();
-					Utility.writeToDebug(e);
+					logger.error(e);
 				} finally {
 					s.close();
 				}
@@ -151,7 +135,7 @@ public class SoftwareLinksAction extends ActionSupport {
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("FreeSoftwareAction: No ActionContext available");
+			logger.debug("FreeSoftwareAction: No ActionContext available");
 		}
 		else{
 			//verify that the user is logged in
@@ -177,7 +161,7 @@ public class SoftwareLinksAction extends ActionSupport {
 				}catch (RuntimeException e) {
 					if (tx != null)
 						tx.rollback();
-					Utility.writeToDebug(e);
+					logger.error(e);
 					return ERROR;
 				}
 				finally{

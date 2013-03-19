@@ -1,20 +1,11 @@
 package edu.unc.ceccr.action;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 //struts2
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
-
-import net.tanesha.recaptcha.ReCaptcha;
-import net.tanesha.recaptcha.ReCaptchaFactory;
-import net.tanesha.recaptcha.ReCaptchaResponse;
-
-import org.apache.tools.ant.taskdefs.SendEmail;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
+
+import com.opensymphony.xwork2.ActionSupport;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -24,6 +15,9 @@ import edu.unc.ceccr.utilities.SendEmails;
 import edu.unc.ceccr.utilities.Utility;
 
 public class ResetPasswordAction extends ActionSupport {
+    
+	private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(ResetPasswordAction.class.getName());
 	String userName;
 	String email;
 	String errorMessage;
@@ -52,7 +46,7 @@ public class ResetPasswordAction extends ActionSupport {
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			logger.error(e);
 		} finally {s.close();}
 		
 		// message to user

@@ -1,10 +1,16 @@
 package edu.unc.ceccr.workflows.download;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.CompoundPredictions;
-import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
@@ -13,15 +19,6 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
-
-import org.hibernate.Session;
 
 public class WriteCsv{
 	//In most cases, the files generated during the running of a job are

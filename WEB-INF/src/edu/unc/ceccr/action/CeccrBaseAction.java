@@ -4,16 +4,23 @@ package edu.unc.ceccr.action;
 
 
 //struts2
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
+import org.apache.log4j.Logger;
 
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.utilities.Utility;
 
 public class CeccrBaseAction extends ActionSupport {
 
-	public String loadPage() throws Exception {
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    private static Logger logger = Logger.getLogger(CeccrBaseAction.class.getName());
+    
+    public String loadPage() throws Exception {
 		
 		String result = SUCCESS;
 		
@@ -21,13 +28,13 @@ public class CeccrBaseAction extends ActionSupport {
 		ActionContext context = ActionContext.getContext();
 		
 		if(context == null){
-			Utility.writeToStrutsDebug("No ActionContext available");
+			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 			
 			if(user == null){
-				Utility.writeToStrutsDebug("No user is logged in.");
+				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}

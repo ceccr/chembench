@@ -9,7 +9,7 @@ import java.io.PrintWriter;
 
 public class StreamGobbler extends Thread
 {
-	//Used to capture program output for logging. See Utility.writeProgramLogFile().
+    //Used to capture program output for logging. See Utility.writeProgramLogFile().
     InputStream is;
     String type;
     OutputStream os;

@@ -2,19 +2,9 @@ package edu.unc.ceccr.servlet;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.URLConnection;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Date;
-import java.io.ByteArrayInputStream;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -22,26 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
 
-import edu.unc.ceccr.persistence.CompoundPredictions;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.download.WriteCsv;
-import edu.unc.ceccr.workflows.download.WriteZip;
+
+import org.apache.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class FileServlet extends HttpServlet {
 	//used to download individual files, e.g., a job result summary.
+
+    private static Logger logger = Logger.getLogger(FileServlet.class.getName());
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) {	
 		try{
@@ -106,13 +93,13 @@ public class FileServlet extends HttpServlet {
 	            fis.close();
 				filePath.delete();
 	        }else{
-	        	Utility.writeToDebug("Bad filepath: " + dirName+fileName);
+	        	logger.warn("Bad filepath: " + dirName + fileName);
 	        	PrintWriter writer=response.getWriter();
 	        	writer.write("An error occured, can not download the project file.");
 	        }
 	    }
 	    catch(Exception ex){
-	    	Utility.writeToDebug(ex);
+	    	logger.error(ex);
 	    }
 	}
 }

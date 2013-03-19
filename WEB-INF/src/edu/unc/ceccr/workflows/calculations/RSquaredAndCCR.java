@@ -1,28 +1,26 @@
 package edu.unc.ceccr.workflows.calculations;
 
-import java.io.*;
-
-import edu.unc.ceccr.persistence.Descriptors;
-import edu.unc.ceccr.persistence.ExternalValidation;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
-import edu.unc.ceccr.global.Constants;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Scanner;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.hibernate.Session;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.ExternalValidation;
+import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.Utility;
+
+import org.apache.log4j.Logger;
+
 public class RSquaredAndCCR{
-	
+
+    private static Logger logger = Logger.getLogger(RSquaredAndCCR.class.getName());
+
 	public static ArrayList<Double> calculateResiduals(ArrayList<ExternalValidation> externalValidationList) {
 		ArrayList<Double> residuals = new ArrayList<Double>();
 		
@@ -202,7 +200,7 @@ public class RSquaredAndCCR{
 					rSquaredAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
 					rSquaredAverageAndStddev += " \u00B1 ";
 					rSquaredAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
-					Utility.writeToDebug("rsquared avg and stddev: " + rSquaredAverageAndStddev);
+					logger.debug("rsquared avg and stddev: " + rSquaredAverageAndStddev);
 					selectedPredictor.setExternalPredictionAccuracyAvg(rSquaredAverageAndStddev);
 					//make main ext validation chart
 					//CreateExtValidationChartWorkflow.createChart(selectedPredictor, "0");
@@ -211,7 +209,7 @@ public class RSquaredAndCCR{
 					ccrAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
 					ccrAverageAndStddev += " \u00B1 ";
 					ccrAverageAndStddev += Utility.roundSignificantFigures(""+stddev, Constants.REPORTED_SIGNIFICANT_FIGURES);
-					Utility.writeToDebug("ccr avg and stddev: " + ccrAverageAndStddev);
+					logger.debug("ccr avg and stddev: " + ccrAverageAndStddev);
 					selectedPredictor.setExternalPredictionAccuracyAvg(ccrAverageAndStddev);
 				}
 			}
@@ -220,7 +218,7 @@ public class RSquaredAndCCR{
 			}
 			
 			if(externalValValues == null || externalValValues.isEmpty()){
-				Utility.writeToDebug("ext validation set empty!");
+				logger.debug("ext validation set empty!");
 				externalValValues = new ArrayList<ExternalValidation>();
 				return;
 			}
@@ -258,7 +256,7 @@ public class RSquaredAndCCR{
 			}
 		}
 		catch(Exception ex){
-			Utility.writeToDebug(ex);
+			logger.error(ex);
 		}
 		return;
 	}

@@ -1,7 +1,6 @@
 <%@include file ="/jsp/help/helpheader.jsp" %>
 
-<table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr><td>
+<div class = "outer">
 <div class="ccbHomeStandard">
 
 <p>Datasets uploaded to Chembench are expected to contain these types of files.</p>
@@ -13,8 +12,8 @@
 building predictive models on Chembench. Each line of an activity file is a chemical identifier and an 
 activity value. Activity files may contain continuous or category data.</p>
 
-<p><a href="/jsp/help/samples/continuousActFileSample.act">Continuous activity file sample</a><br />
-<a href="/jsp/help/samples/categoryActFileSample.act">Category activity file sample</a>
+<p><a href="jsp/help/samples/continuousActFileSample.act">Continuous activity file sample</a><br />
+<a href="jsp/help/samples/categoryActFileSample.act">Category activity file sample</a>
 
 <p>Continuous activity data can be any decimal number. Typically continuous data comes from
 quantitative assays, e.g., of binding affinity.</p>
@@ -50,7 +49,7 @@ the same dataset and be in the same order.</p>
 <p>(Also referred to as "SD files", since SDF stands for "structure data file".)
 SDFs are used to store sets of chemical structures and can be 2D or 3D.</p>
 
-<a href="/jsp/help/samples/sdfFileSample.sdf">SDF file sample</a>
+<a href="jsp/help/samples/sdfFileSample.sdf">SDF file sample</a>
 
 <pre>
 compound1
@@ -87,7 +86,7 @@ An SDF contains the structures of a set of compounds; each compound ends with "$
 <p>.x is a descriptor file format used by Chembench. It is similar to the matrix format accepted by other 
 data mining programs. All descriptor values must be numeric.</p>
 
-<p><a href="/jsp/help/samples/descriptorsFileSample.x">X File Sample</a> (open with a text editor)</p>
+<p><a href="jsp/help/samples/descriptorsFileSample.x">X File Sample</a> (open with a text editor)</p>
 
 <p>
 The .x file contains a matrix of compounds and descriptor values. The format is described below.<br />
@@ -115,7 +114,7 @@ The remaining numbers are the values of the descriptors for the compound.
 
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
-</div></td></tr></table>
-
-<%@include file ="/jsp/main/footer.jsp" %>
+</div>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+    </div>
 </body>

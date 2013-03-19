@@ -3,18 +3,19 @@ package edu.unc.ceccr.action;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-//struts2
-import com.mysql.jdbc.Util;
-import com.opensymphony.xwork2.ActionSupport; 
-import com.opensymphony.xwork2.ActionContext; 
+import org.apache.log4j.Logger;
+import org.apache.struts2.interceptor.ServletResponseAware;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
@@ -31,20 +32,15 @@ import edu.unc.ceccr.utilities.ActiveUser;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
-
-import org.apache.struts2.interceptor.ServletResponseAware;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import org.apache.log4j.Logger;
+//struts2
 
 @SuppressWarnings("serial")
 
 public class 
-HomeAction extends ActionSupport implements ServletResponseAware 
+HomeAction extends ActionSupport implements ServletResponseAware
 {
-    
     private static Logger logger = Logger.getLogger(HomeAction.class.getName());
+    private ArrayList<String> errorStrings = new ArrayList<String>();
     
     //loads home page
     
@@ -74,21 +70,34 @@ HomeAction extends ActionSupport implements ServletResponseAware
     loadPage()
     {
         try {
-            
             //stuff that needs to happen on server startup
             String debugText = "";
-            if(Constants.doneReadingConfigFile)
-            {
+            if (Constants.doneReadingConfigFile) {
                 debugText = "already read config file (?)";
             }
-            else{
-                try{
-                    //STATIC PATH we didn't know how to make it dynamic in Struts 2
-                    String path = "/CHEMBENCH/prod/tomcat6/webapps/PROD/WEB-INF/systemConfig.xml";
-                    
-                    Utility.readBuildDateAndSystemConfig(path);
+            else {
+                try {
+                	// read $CHEMBENCH_HOME, then append config directory / filename;
+                	// throw an exception if env-var can't be read or is empty 
+                	String ENV_CHEMBENCH_HOME = null; 
+                	try {
+	                	ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
+                	}
+                	catch (SecurityException e) {
+                		errorStrings.add("Couldn't read $CHEMBENCH_HOME environment variable: permission denied");
+                		return ERROR;
+                	}
+                	if (ENV_CHEMBENCH_HOME == null) {
+                		errorStrings.add("The environment variable $CHEMBENCH_HOME doesn't exist or has not been set");
+                		return ERROR;
+                	}
+                	
+                	File baseDir = new File(ENV_CHEMBENCH_HOME);
+                	File configFile = new File(baseDir, "config/systemConfig.xml");
+                	
+                    Utility.readBuildDateAndSystemConfig(configFile.getPath());
                 }
-                catch(Exception ex){
+                catch (Exception ex) {
                     debugText += ex.getMessage();
                 }
             }
@@ -151,20 +160,28 @@ HomeAction extends ActionSupport implements ServletResponseAware
 
         }
         catch(Exception ex){
-            Utility.writeToDebug(ex);
+            logger.error(ex);
             showStatistics = "NO";
         }
         return SUCCESS;
     }
     
-    public String execute() throws Exception {
+    public ArrayList<String> geterrorStrings() {
+		return errorStrings;
+	}
+
+	public void seterrorStrings(ArrayList<String> errorStrings) {
+		this.errorStrings = errorStrings;
+	}
+
+	public String execute() throws Exception {
         //log the user in
         String result = SUCCESS; 
 
         //check username and password
         ActionContext context = ActionContext.getContext();
         
-        if(context.getParameters().get("username") != null){
+        if (context.getParameters().get("username") != null){
             username = ((String[]) context.getParameters().get("username"))[0];
         }
         User user;
@@ -225,7 +242,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                 if (tx != null)
                     tx.rollback();
                     loginFailed = Constants.YES;
-                Utility.writeToDebug(e);
+                logger.error(e);
             } finally {
                 s.close();
             }
@@ -245,7 +262,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
             Cookie ckie = new Cookie("login","true");
             servletResponse.addCookie(ckie);
                 
-            Utility.writeToUsageLog("Logged in guest::", user.getUserName());
+            logger.debug("Logged in guest:: "+ user.getUserName());
             
         }
         else{
@@ -278,13 +295,13 @@ HomeAction extends ActionSupport implements ServletResponseAware
                     } catch (RuntimeException e) {
                         if (tx != null)
                             tx.rollback();
-                        Utility.writeToDebug(e);
+                        logger.error(e);
                     } finally {
                         s.close();
                     }
                     
                     
-                    Utility.writeToUsageLog("Logged in", user.getUserName());
+                    logger.debug("Logged in " + user.getUserName());
                 }
                 else{
                     loginFailed = Constants.YES;
@@ -304,9 +321,9 @@ HomeAction extends ActionSupport implements ServletResponseAware
         user = (User) context.getSession().get("user");
         
         if(user != null){
-            Utility.writeToUsageLog("Logged out.", user.getUserName());
+            logger.debug("Logged out " + user.getUserName());
         }
-        Utility.writeToDebug("************Logout action "+user.getUserName());
+        logger.debug("************Logout action "+user.getUserName());
         
         if(user.getUserName().contains("guest") && context.getSession().get("userType")!=null && ((String)context.getSession().get("userType")).equals("guest")){
             deleteGuest(user);
@@ -326,13 +343,51 @@ HomeAction extends ActionSupport implements ServletResponseAware
             
             String userToDelete=user.getUserName();
             if(!userToDelete.trim().isEmpty()){
-                Utility.writeToDebug("Delete GUEST");
+                logger.debug("Delete GUEST");
                 Session s = HibernateUtil.getSession();
                 
-                ArrayList<Prediction> predictions = (ArrayList<Prediction>) PopulateDataObjects.getUserData(userToDelete, Prediction.class, s);
-                ArrayList<Predictor> predictors = (ArrayList<Predictor>) PopulateDataObjects.getUserData(userToDelete,Predictor.class, s);
-                ArrayList<DataSet> datasets = (ArrayList<DataSet>) PopulateDataObjects.getUserData(userToDelete,DataSet.class, s);
-                ArrayList<Job> jobs = (ArrayList<Job>) PopulateDataObjects.getUserData(userToDelete,Job.class, s);
+                ArrayList<Prediction> predictions = new ArrayList<Prediction>();
+                Iterator<?> predictionIter = PopulateDataObjects.getUserData(
+                                                             userToDelete
+                                                           , Prediction.class, s)
+                                                           .iterator();
+                while(predictionIter.hasNext()){
+                    predictions.add((Prediction)predictionIter.next());
+                    
+                }
+                
+                ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+                
+                Iterator<?> predictorsIter  = PopulateDataObjects.getUserData(
+                                                              userToDelete
+                                                             ,Predictor.class, s)
+                                                             .iterator();
+                while(predictorsIter.hasNext()){
+                    predictors.add((Predictor)predictorsIter.next());
+                    
+                }
+                
+                ArrayList<DataSet> datasets = new ArrayList<DataSet>();
+                
+                Iterator<?> datSetIter  = PopulateDataObjects.getUserData(
+                                                              userToDelete
+                                                             ,DataSet.class, s)
+                                                             .iterator();
+                while(datSetIter.hasNext()){
+                    datasets.add((DataSet)datSetIter.next());
+                    
+                }   
+                
+                ArrayList<Job> jobs = new ArrayList<Job>();
+                
+                Iterator<?> jobIter  = PopulateDataObjects.getUserData(
+                                                              userToDelete
+                                                             ,Job.class, s)
+                                                             .iterator();
+                while(jobIter.hasNext()){
+                    jobs.add((Job)jobIter.next());
+                    
+                }   
                 
                 s.close();
 
@@ -351,7 +406,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                             catch (RuntimeException e) {
                                 if (tx != null)
                                     tx.rollback();
-                                Utility.writeToDebug(e);
+                                logger.error(e);
                             }
                             finally{
                                 session.close();
@@ -365,7 +420,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                         session.delete(p);
                         tx.commit();
                     }catch (RuntimeException e) {
-                        Utility.writeToDebug(e);
+                        logger.error(e);
                     }
                     finally{
                         session.close();
@@ -402,7 +457,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
                         }
                         tx.commit();
                     }catch (RuntimeException e) {
-                        Utility.writeToDebug(e);
+                        logger.error(e);
                     }
                     finally{
                         session.close();
@@ -435,18 +490,18 @@ HomeAction extends ActionSupport implements ServletResponseAware
                     
                 }
                 catch(Exception ex){
-                    Utility.writeToDebug(ex);
+                    logger.error(ex);
                 }
                 
                 //last, delete all the files that user has
-                Utility.writeToDebug("Delete GUEST:::ALL DATA FROM DB SHOULD BE DELETED");
+                logger.debug("Delete GUEST:::ALL DATA FROM DB SHOULD BE DELETED");
                 File dir= new File(Constants.CECCR_USER_BASE_PATH + userToDelete); 
                 boolean flag = FileAndDirOperations.deleteDir(dir);//recurses
-                Utility.writeToDebug("Delete GUEST:::ALL DATA FROM FILES SHOULD BE DELETED:"+flag);
+                logger.debug("Delete GUEST:::ALL DATA FROM FILES SHOULD BE DELETED:"+flag);
             }
         }
         catch (Exception e) {
-            Utility.writeToDebug(e);
+            logger.error(e);
             return false;
         }
         return true;
@@ -459,7 +514,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
             long guestTime =  new Long(dir.substring(dir.lastIndexOf('_')+1)).longValue();
             if(!dir.trim().isEmpty() && currentTime-guestTime>Constants.GUEST_DATA_EXPIRATION_TIME){
                 FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+dir));
-                Utility.writeToDebug("DELETING OLD GUEST DATA:"+dir);
+                logger.debug("DELETING OLD GUEST DATA:"+dir);
             }
         }
     }

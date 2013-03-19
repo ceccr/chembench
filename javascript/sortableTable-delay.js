@@ -9,7 +9,7 @@ loading - without the delay, it's possible for the init() function to miss some 
 addEvent(window, "load", sortables_init_delay);
 
 /* You can change these values */
-var image_path = "/theme/img/";
+var image_path = "theme/img/";
 var image_up = "sortArrowUp.png";
 var image_down = "sortArrowDown.png";
 var image_none = "sortArrowUpDown.png";

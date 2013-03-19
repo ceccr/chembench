@@ -1,32 +1,32 @@
 <?xml version="1.0"?>
 <CustomConfigration>
 
-<workbench>c-chembench</workbench>
+	<workbench>c-chembench</workbench>
 
-<systemBasePath>/usr/local/ceccr/</systemBasePath>
-<userFilesPath>/nas02/depts/chembench/dev/workflow-users/</userFilesPath>
-<tomcatPath>/usr/local/ceccr/tomcat6/</tomcatPath>
-<executablesPath>/usr/local/ceccr/mmlsoft/bin/</executablesPath>
+	<systemBasePath>/usr/local/ceccr/</systemBasePath>
+	<userFilesPath>/nas02/depts/chembench/dev/workflow-users/</userFilesPath>
+	<tomcatPath>/usr/local/ceccr/tomcat6/</tomcatPath>
+	<executablesPath>/usr/local/ceccr/mmlsoft/bin/</executablesPath>
 
-<webService>
+	<webService>
 
-<!-- GLOBAL KEYS (will work anywhere) -->
-<publicKey>6LfkEwcAAAAAAOkmayIoxxxjQyaLPK7kQlEtn8Wf</publicKey>
-<privateKey>6LfkEwcAAAAAAI4NaGk2dgSbSmioBvJCFRJbYtmt</privateKey>
+		<!-- GLOBAL KEYS (will work anywhere) -->
+		<publicKey>6LfkEwcAAAAAAOkmayIoxxxjQyaLPK7kQlEtn8Wf</publicKey>
+		<privateKey>6LfkEwcAAAAAAI4NaGk2dgSbSmioBvJCFRJbYtmt</privateKey>
 
-</webService>
+	</webService>
 
-<website>
-<address>http://chembench-dev.mml.unc.edu</address>
-<email>ceccr@email.unc.edu</email>
-</website>
+	<website>
+		<address>http://chembench-dev.mml.unc.edu</address>
+		<email>ceccr@email.unc.edu</email>
+	</website>
 
-<database>
-<databaseName>cbench</databaseName>
-<userName>root</userName>
-<password>VeX</password>
-<url>jdbc:mysql://localhost/</url>
-<driver>com.mysql.jdbc.Driver</driver>
-</database>
+	<database>
+		<databaseName>cbench</databaseName>
+		<userName>root</userName>
+		<password>VeX</password>
+		<url>jdbc:mysql://localhost/</url>
+		<driver>com.mysql.jdbc.Driver</driver>
+	</database>
 
 </CustomConfigration>

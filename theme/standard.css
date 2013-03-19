@@ -1,3 +1,10 @@
+table {
+  border-spacing: 2px;
+  overflow:auto;
+  overflow-x:auto;
+  overflow-y:auto;
+  display:block;
+}
 
 .ccbHomeStandard {
 	font-family: Geneva, Arial, Helvetica, sans-serif;
@@ -13,10 +20,19 @@
 	text-indent: 20px;
 	background-color: #9DAffF;
 	outline: none;
+}
 	
-	
-	}
+/** Not currently needed	
+	.StandardTextDarkGray2modified {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #ffffff;
+	background-color: #9DAffF;
+	outline: none;
+}
+**/
 
+	
 .StandardTextDarkGray3 {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 15px;
@@ -63,6 +79,8 @@
 body {
 	margin: 0px;
 }
+
+.tablelist {margin: 0; padding: 0; border-collapse: collapse; border: 0;}
 
 .LoginBoxBackgr {
 	font-family: Arial, Helvetica, sans-serif;
@@ -274,11 +292,16 @@ body {
 	width: 80px;
 }
 
+/* Background color for TableRowText03 used to be #EDF2F5.
+*  Changed to match TableRowText02 for consistency in tables.
+*/
+
+
 .TableRowText03 {
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 	font-size: 10px;
 	color: #444444;
-	background-color: #EDF2F5;
+	background-color: #DCDFE3;
 	text-align: center;
 	vertical-align: middle;
 	height: 30px;
@@ -328,6 +351,47 @@ body {
 	height: 15px;
 }
 
+.border { 
+border-width: .2em; 
+border-style: solid; 
+border-color: #CCCCCC; 
+padding:20px;
+} 
+
+.benchBackground {
+	background-image: url(/theme/img/backgrindex.jpg);
+	background-repeat: no-repeat;
+	height:210px;
+}
+
+.datasetBackground {
+	background-image: url(/theme/img/backgrmodelbuilders.jpg);
+	background-repeat: no-repeat;
+	height:370px;
+}
+
+.modelingBackground {
+	background-image: url(/theme/img/backgrmodelbuilders.jpg);
+	background-repeat: no-repeat;
+	height:230px;
+}
+
+.predictionBackground {
+	background-image: url(/theme/img/backgrmodelbuilders.jpg);
+	background-repeat: no-repeat;
+	height:350px;
+}
+
+.comingsoonBackground {
+	background-image: url(/theme/img/backgrindex.jpg);
+	background-repeat: no-repeat;
+}
+
+.passwordresetBackground {
+	background-image: url(/theme/img/backgrindex.jpg);
+	background-repeat: no-repeat;
+}
+
 #columnsmain { 
 	width: 750px; 
 	}
@@ -344,3 +408,8 @@ body {
 	padding: 10px 10px 10px 10px;
 	}
 
+#subheader {
+	padding:0;
+	margin:0;
+	vertical-align:bottom;
+	}

@@ -12,7 +12,11 @@ import javax.persistence.Transient;
 @Table(name = "cbench_externalValidation")
 public class ExternalValidation implements java.io.Serializable {
 	
-	private int externalValId;
+	/**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    private int externalValId;
 	private Long predictorId;
 	private String compoundId;
 	private float predictedValue;

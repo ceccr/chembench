@@ -1,12 +1,11 @@
 <%@include file ="/jsp/help/helpheader.jsp" %>
 
-<table width="900" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr><td>
+<div class = "outer">
 <div class="ccbHomeStandard">
 
 <b>Datasets</b>
 
-<p><img src="/theme/img/dataset-workflow.png"></p>
+<p><img src="theme/img/dataset-workflow.png"></p>
 <p> The above diagram describes the dataset creation process. 
 You begin by uploading a set of compounds, including any activities you want to model. 
 The data you upload will be prepared for use with Chembench's modeling and prediction processes.
@@ -95,9 +94,9 @@ from the Modeling and Prediction pages. (Prediction datasets can only be used fr
 
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
-</div></td></tr></table>
+</div>
 
-<%@include file ="/jsp/main/footer.jsp" %>
-
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+</div>
 </body>
 </html>

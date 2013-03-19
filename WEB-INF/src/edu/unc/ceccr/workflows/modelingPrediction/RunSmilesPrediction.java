@@ -7,7 +7,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
@@ -37,8 +36,7 @@ public class RunSmilesPrediction
     {
 
         String sdfile = workingDir + "smiles.sdf";
-        logger.debug("sdfFile : "+sdfile);
-        Utility.writeToDebug("Running PredictSmilesSDF in dir " + workingDir);
+        logger.debug("Running PredictSmilesSDF in dir " + workingDir);
         
         /* copy the predictor to the workingDir. */
         String predictorUsername = predictor.getUserName();
@@ -50,10 +48,10 @@ public class RunSmilesPrediction
                        + "/";
         
         /* get train_0.x file from the predictor dir. */
-        Utility.writeToDebug("Copying predictor files from " + fromDir);
+        logger.debug("Copying predictor files from " + fromDir);
         CopyJobFiles.getPredictorFiles(username, predictor, workingDir);
         
-        Utility.writeToDebug("Copying complete. Generating descriptors. ");
+        logger.debug("Copying complete. Generating descriptors. ");
         
         /*create the descriptors for the chemical and read them in*/
         ArrayList<String> descriptorNames = new ArrayList<String>();
@@ -73,7 +71,6 @@ public class RunSmilesPrediction
             GenerateDescriptors.GenerateCDKDescriptors(sdfile, sdfile + ".cdk");
 
             ReadDescriptors.convertCDKToX(sdfile + ".cdk", workingDir);
-            logger.debug(sdfile);            
             ReadDescriptors.readXDescriptors(sdfile + ".cdk.x"
                                            , descriptorNames
                                            , descriptorValueMatrix);
@@ -107,7 +104,7 @@ public class RunSmilesPrediction
                                                , descriptorValueMatrix);
         }
 
-        Utility.writeToDebug("Normalizing descriptors to fit predictor.");
+        logger.debug("Normalizing descriptors to fit predictor.");
 
         String descriptorString 
                             = Utility.StringArrayListToString(descriptorNames);
@@ -134,7 +131,7 @@ public class RunSmilesPrediction
             aout.close();
             
             //Run prediction
-            Utility.writeToDebug("Running prediction.");
+            logger.debug("Running prediction.");
             String preddir = workingDir;
             
             String execstr = "";
@@ -163,7 +160,7 @@ public class RunSmilesPrediction
            
             String outputFile = Constants.PRED_OUTPUT_FILE 
                                + "_vs_smiles.sdf.renorm.preds";
-            Utility.writeToDebug("Reading file: " + workingDir + outputFile);
+            logger.debug("Reading file: " + workingDir + outputFile);
             BufferedReader in = new BufferedReader(
                                      new FileReader(workingDir + outputFile));
             String inputString;
@@ -183,12 +180,12 @@ public class RunSmilesPrediction
                 if(predValues!= null && predValues.length > 2 && 
                   ! predValues[2].equals("NA")
                   ){
-                    //Utility.writeToDebug(predValues[1] + " " + predValues[2]);
+                    //logger.debug(predValues[1] + " " + predValues[2]);
                     predValueArray.add(predValues[2]);
                 }
             }
-    
-            Utility.writeToDebug("numModels: " + predValueArray.size());
+            in.close();
+            logger.debug("numModels: " + predValueArray.size());
         }
         else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
             //run prediction
@@ -199,8 +196,7 @@ public class RunSmilesPrediction
                                        , newXFile
                                        , workingDir);
             
-            String scriptDir = Constants.CECCR_BASE_PATH 
-                             + Constants.SCRIPTS_PATH;
+            String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
             String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
             String modelsListFile = "models.list";
             String command = "Rscript --vanilla " + predictScript
@@ -215,7 +211,7 @@ public class RunSmilesPrediction
             
             //get output 
             String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
-            Utility.writeToDebug("Reading consensus prediction file: " 
+            logger.debug("Reading consensus prediction file: " 
                                 + workingDir 
                                 + outputFile);
             BufferedReader in = new BufferedReader(
@@ -259,8 +255,8 @@ public class RunSmilesPrediction
             stddev = Math.sqrt( stddev / predValueArray.size());
         }
             
-        Utility.writeToDebug("prediction: " + mean);
-        Utility.writeToDebug("stddev: " + stddev);
+        logger.debug("prediction: " + mean);
+        logger.debug("stddev: " + stddev);
 
         /* format numbers nicely and return them */
         String[] prediction = new String[3];
@@ -268,7 +264,7 @@ public class RunSmilesPrediction
         if(predValueArray.size() > 0){
             String predictedValue = DecimalFormat.getInstance()
                                               .format(mean).replaceAll(",", "");
-            Utility.writeToDebug("String-formatted prediction: " 
+            logger.debug("String-formatted prediction: " 
                                 + predictedValue);
             predictedValue = (Utility.roundSignificantFigures
                                    (predictedValue
@@ -287,7 +283,7 @@ public class RunSmilesPrediction
         if(predValueArray.size() > 1){
             String stdDevStr = DecimalFormat.getInstance().format(stddev)
                                                             .replaceAll(",", "");
-            Utility.writeToDebug("String-formatted stddev: " + stdDevStr);
+            logger.debug("String-formatted stddev: " + stdDevStr);
             stdDevStr = (Utility.roundSignificantFigures 
                                       (stdDevStr
                                      , Constants.REPORTED_SIGNIFICANT_FIGURES));
@@ -308,7 +304,7 @@ public class RunSmilesPrediction
           Returns the file path as a string.
         */
         
-        Utility.writeToDebug("Running smilesToSDF with SMILES: " + smiles);
+        logger.debug("Running smilesToSDF with SMILES: " + smiles);
         
         /* set up the directory, just in case it's not there yet. */
         File dir = new File(smilesDir);
@@ -351,6 +347,6 @@ public class RunSmilesPrediction
                                        );
         }
             
-        Utility.writeToDebug("Finished smilesToSDF");
+        logger.debug("Finished smilesToSDF");
     }    
 }

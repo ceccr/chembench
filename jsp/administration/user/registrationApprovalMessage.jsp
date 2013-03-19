@@ -10,49 +10,47 @@
 <head>
 <title>CHEMBENCH | New User Registration</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="theme/standard.css" rel="stylesheet"	type="text/css" />
-<link href="theme/links.css" rel="stylesheet" type="text/css" />
-<link href="theme/miscellaneous.css" rel="stylesheet" type="text/css"/>
-<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
-<link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
-<link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
-<script src="javascript/script.js"></script>
+
+    <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
+    <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
+    <link href="theme/standard.css" rel="stylesheet" type="text/css">
+    <link href="theme/links.css" rel="stylesheet" type="text/css">
+    <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
+    <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
+    <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
+    <script src="javascript/script.js"></script>
 </head>
 
 <body>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
-<br />
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
+<div class="outer">
+
+    <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
+    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
+    <div class="homeLeft topMarginBench">
 		<span id="maincontent">
-		<td height="557" colspan="5" valign="top" background="theme/img/backgrlibrary.jpg">
-		
-		<table width="465" border="0" cellspacing="0" cellpadding="0"><tr><td width="465">
 		
 		<p class="StandardTextDarkGray">&nbsp;</p>
 		<p class="StandardTextDarkGray">
 		</p>
 		<p class="TextDarkGray" sytle="background:white;"><br /><s:property value="firstName" />,<br/><br/>
-		Thank you for your interest in Chembench. 
+		Thank you for your interest in Chembench.
 		
 		<s:property value="outputMessage" />
 		<br /><br />
-		While you wait, you might like to read the <a href="/help-overview">overview of Chembench</a>.
+		While you wait, you might like to read the <a href="help-overview">overview of Chembench</a>.
 		<br /><br />
 		Enjoy,<br/>
 		The Chembench Team.
 		<br/>
 		<br/></p>
-			
-        </td></tr></table>     
-				
-				
 		<p class="StandardTextBlack">&nbsp;</p>
-		</td>
 		</span>
-	</tr>
-	<tr>
-	<%@include file ="/jsp/main/footer.jsp" %>
+    </div>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+
+    </div>
 </body>
 </html>

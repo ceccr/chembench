@@ -1,50 +1,43 @@
 package edu.unc.ceccr.taskObjects;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.workflows.descriptors.ConvertDescriptorsToXAndScale;
-import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
-import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
-import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.KnnPlus;
 import edu.unc.ceccr.workflows.modelingPrediction.KnnPrediction;
 import edu.unc.ceccr.workflows.modelingPrediction.PredictionUtilities;
 import edu.unc.ceccr.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.workflows.modelingPrediction.Svm;
-import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
+import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 
 public class QsarPredictionTask extends WorkflowTask {
 
+    private static Logger logger = Logger.getLogger(QsarPredictionTask.class.getName());
+    
 	private String filePath;
 	private String jobName;
 	private String sdf;
@@ -139,7 +132,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 			
 		}catch(Exception ex){
-			Utility.writeToDebug(ex, userName, jobName);
+		    logger.error("User: " +userName +"Job: "+ jobName+" "+ ex);
 			return "";
 		}
 	}
@@ -182,7 +175,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			this.predictionDataset = PopulateDataObjects.getDataSetById(datasetId, session);
 		}
 		catch(Exception ex){
-			Utility.writeToDebug(ex, userName, jobName);
+		    logger.error("User: " +userName +"Job: "+ jobName+" "+ ex);
 		}
 		this.jobName = prediction.getName();
 		this.userName = prediction.getUserName();
@@ -242,15 +235,15 @@ public class QsarPredictionTask extends WorkflowTask {
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e, userName, jobName);
+			logger.error("User: " +userName +"Job: "+ jobName+" "+ e);
 		} finally {
 			session.close();
 		}
 		
 		lookupId = prediction.getId();
 		jobType = Constants.PREDICTION;
-		
-		Utility.writeToDebug("Setting up prediction task", userName, jobName);
+
+		logger.debug("User: " +userName +"Job: "+ jobName+" Setting up prediction task");
 		try{
 			new File(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName).mkdir();
 			
@@ -273,7 +266,12 @@ public class QsarPredictionTask extends WorkflowTask {
 			else{
 				//public datasets always have SDFs ...msypa(8/30/2011)->not always true
 				if(sdf!=null && !sdf.trim().isEmpty()){
-					Utility.writeToDebug("Copying file: "+ (Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getName()+"/"+sdf)+" to the "+(Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf), userName, jobName);
+					logger.debug("User: "+ userName +" Job: " +jobName+" Copying file: "
+				                 + (Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"
+				                 + predictionDataset.getName()+"/"+sdf)+" to the "
+					             + (Constants.CECCR_USER_BASE_PATH 
+					             + userName + "/"
+				                 + jobName + "/"+sdf));
 					FileAndDirOperations.copyFile(
 							Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/"+predictionDataset.getName()+"/"+sdf, 
 							Constants.CECCR_USER_BASE_PATH + userName + "/"+ jobName + "/"+sdf
@@ -282,7 +280,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			}			
 		}
 		catch(Exception e){
-			Utility.writeToDebug(e, userName, jobName);
+		    logger.error("User: " +userName +"Job: "+ jobName+" "+ e);
 		}
 		
 		return lookupId;
@@ -307,7 +305,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			} catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e, userName, jobName);
+				logger.error("User: " +userName +"Job: "+ jobName+" "+ e);
 			}
 		}
 
@@ -318,8 +316,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		CreateJobDirectories.createDirs(userName, jobName);
 		
 		String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
-		String sdfile = predictionDataset.getSdfFile();
-		
+			
 		CopyJobFiles.getDatasetFiles(userName, predictionDataset, Constants.PREDICTION, path);
 		
 		if(jobList.equals(Constants.LSF)){
@@ -395,7 +392,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			} catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e, userName, jobName);
+				logger.error("User: " +userName +"Job: "+ jobName+" "+ e);
 			} finally {
 				s.close();
 			}
@@ -432,7 +429,8 @@ public class QsarPredictionTask extends WorkflowTask {
 			//	4. make predictions in jobDir/predictorDir
 	
 			step = Constants.PREDICTING;
-			Utility.writeToDebug("ExecutePredictor: Making predictions", userName, jobName);
+			logger.debug("User: " +userName +"Job: "+ jobName
+			            +" ExecutePredictor: Making predictions");
 			
 			if(predictor.getModelMethod().equals(Constants.KNN)){
 				KnnPrediction.runKnnPlusPredictionForKnnPredictors(userName, jobName, predictionDir, sdfile, Float.parseFloat(cutoff) );
@@ -479,7 +477,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			} catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e, userName, jobName);
+				logger.error("User: " +userName +"Job: "+ jobName+" "+ e);
 			} finally {
 				s.close();
 			}
@@ -508,7 +506,7 @@ public class QsarPredictionTask extends WorkflowTask {
 				}
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex, userName, jobName);
+			    logger.error("User: " +userName +"Job: "+ jobName+" "+ ex);
 			}
 		}
 		return predValues;
@@ -532,7 +530,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		
 		if(predictionDataset.getNumCompound() > 10000){
 			//We will probably run out of memory if we try to process this job in Java. 
-			Utility.writeToDebug("WARNING: Prediction set too large!", userName, jobName);
+			logger.warn("User: " +userName +"Job: "+ jobName+" Prediction set too large!");
 		}
 
 		//for each predictor do {
@@ -552,7 +550,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			}
 		}
 		catch(Exception ex){
-			Utility.writeToDebug(ex, userName, jobName);
+		    logger.error("User: " +userName +"Job: "+ jobName+" "+ ex);
 		}
 	}
 	
@@ -579,7 +577,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			} catch (RuntimeException e) {
 				if (tx != null)
 					tx.rollback();
-				Utility.writeToDebug(e, userName, jobName);
+				logger.error("User: " +userName +"Job: "+ jobName+" "+ e);
 			}
 			
 			File dir=new File(Constants.CECCR_USER_BASE_PATH+this.userName+"/"+this.jobName+"/");
@@ -587,7 +585,7 @@ public class QsarPredictionTask extends WorkflowTask {
 			
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex, userName, jobName);
+			    logger.error("User: " +userName +"Job: "+ jobName+" "+ ex);
 			}
 	}
 	
@@ -616,7 +614,7 @@ public class QsarPredictionTask extends WorkflowTask {
 		} catch (RuntimeException e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			logger.error(e);
 		} finally {
 			session.close();
 		}
@@ -648,9 +646,9 @@ public class QsarPredictionTask extends WorkflowTask {
 
 	}
 	
-    @SuppressWarnings("unchecked")
+
 	public static ArrayList<PredictionValue> parsePredOutput(String fileLocation, Long predictorId) throws IOException {
-		Utility.writeToDebug("Reading prediction output from " + fileLocation);
+		logger.debug("Reading prediction output from " + fileLocation);
 		ArrayList<PredictionValue> allPredValue = new ArrayList<PredictionValue>();
 		try{
 			BufferedReader in = new BufferedReader(new FileReader(fileLocation));
@@ -669,12 +667,11 @@ public class QsarPredictionTask extends WorkflowTask {
 				extValOutput.setPredictorId(predictorId);
 				allPredValue.add(extValOutput);
 			} while ((inputString = in.readLine()) != null);
+			in.close();
 		} catch(Exception ex){
-			Utility.writeToDebug(ex);
+		    logger.error(ex);;
 		}
-		if(allPredValue == null){
-			Utility.writeToDebug("Warning: parsePredOutput returned null.");
-		}
+		
 		return allPredValue;
 	}
 

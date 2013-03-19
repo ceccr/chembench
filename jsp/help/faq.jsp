@@ -1,7 +1,6 @@
 <%@include file ="/jsp/help/helpheader.jsp" %>
 
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
- <tr><td>
+<div class = "outer">
 <div class="ccbHomeStandard">
 
 <p align="justify" class="ccbHomeStandard">
@@ -42,19 +41,19 @@
 <table width="400" border="0" cellspacing="0" cellpadding="0">
  <tr>
   <td width="225"> <br /><p align="justify" class="ccbHomeStandard">Standard Accuracy</p></td>
-  <td width="175"><img src="/theme/img/faq01.gif" width="175" height="45" /></td>
+  <td width="175"><img src="theme/img/faq01.gif" width="175" height="45" /></td>
  </tr>
  <tr>
   <td><p align="justify" class="ccbHomeStandard">Correct Classification Rate</p></td>
-  <td><img src="/theme/img/faq02.gif" width="175" height="45" /></td>
+  <td><img src="theme/img/faq02.gif" width="175" height="45" /></td>
  </tr>
  <tr>
   <td><p align="justify" class="ccbHomeStandard">Name 1</p></td>
-  <td><img src="/theme/img/faq03.gif" width="175" height="45" /></td>
+  <td><img src="theme/img/faq03.gif" width="175" height="45" /></td>
  </tr>
  <tr>
   <td><p align="justify" class="ccbHomeStandard">Name 2</p></td>
-  <td><img src="/theme/img/faq04.gif" width="175" height="45" /></td>
+  <td><img src="theme/img/faq04.gif" width="175" height="45" /></td>
  </tr>
 </table>
  <br />
@@ -70,25 +69,25 @@
    <strong> </strong>For QSAR continuous, the values are: <br />
   <em>nnn</em>: the number of nearest neighbors used in this model.<br />
   <em>q<sup>2</sup></em>: The leave-one-out (LOO) cross-validated correlation coefficient R<sup>2</sup> (q<sup>2</sup>) for the training set: </p>
- <p><img src="/theme/img/faq05.gif" width="160" height="84" class="ccbHomeStandard" /><br />
+ <p><img src="theme/img/faq05.gif" width="160" height="84" class="ccbHomeStandard" /><br />
    <br />
-    <p align="justify" class="ccbHomeStandard">where y<sub>i</sub><sup>pred</sup>, y<sub>i</sub><sup>obs</sup> and <img src="/theme/img/faq0y.gif" /> are predicted, observed and average activities of the i-th compound of the training set.<br />
+    <p align="justify" class="ccbHomeStandard">where y<sub>i</sub><sup>pred</sup>, y<sub>i</sub><sup>obs</sup> and <img src="theme/img/faq0y.gif" /> are predicted, observed and average activities of the i-th compound of the training set.<br />
    <em>n</em>: number of test set compounds predicted by themodel.<br />
    <em>r</em>: the measure of the correlation between the observed and predicted activity values. <br />
    The value is computed using Pearson correlation coefficient. Specifically,</p>
- <p align="justify" class="ccbHomeStandard"><img src="/theme/img/faq06.gif" width="203" height="53" /></p>
- <p align="justify" class="ccbHomeStandard">where y<sub>i</sub>and <img src="/theme/img/faq0y2.gif" /><sub>i</sub>are observed and predicted activities respectively.We display both r and r<sup>2</sup> as a convenience to the user. </p>
+ <p align="justify" class="ccbHomeStandard"><img src="theme/img/faq06.gif" width="203" height="53" /></p>
+ <p align="justify" class="ccbHomeStandard">where y<sub>i</sub>and <img src="theme/img/faq0y2.gif" /><sub>i</sub>are observed and predicted activities respectively.We display both r and r<sup>2</sup> as a convenience to the user. </p>
    <p align="justify" class="ccbHomeStandard"><em>r</em><sup>2</sup></em>: correlation between the observed and predicted activity values using the Pearson correlation coefficient.
    <br />
    <em>R<sub>01</sub><sup>2</sup></em>: the coefficients of determination for regressions through the origin between predicted and observed activities. Specifically,</br>
- <p align="justify" class="ccbHomeStandard"><img src="/theme/img/faq07.gif" width="160" height="49" /></p>
+ <p align="justify" class="ccbHomeStandard"><img src="theme/img/faq07.gif" width="160" height="49" /></p>
  <p align="justify" class="ccbHomeStandard"><em>R<sub>02</sub><sup>2</sup></em>: the coefficients of determination for regressions through the origin between observed and predicted activities.Specifically,</p>
- <p align="justify" class="ccbHomeStandard"><img src="/theme/img/faq08.gif" width="160" height="46" /></p>
+ <p align="justify" class="ccbHomeStandard"><img src="theme/img/faq08.gif" width="160" height="46" /></p>
  <p align="justify" class="ccbHomeStandard"><em>k<sub>1</sub></em>: The slope of the 0-origin line fitted for predicted vs. observed activities. Specifically,</p>
- <p align="justify" class="ccbHomeStandard"><img src="/theme/img/faq09.gif" width="91" height="45" /></p>
+ <p align="justify" class="ccbHomeStandard"><img src="theme/img/faq09.gif" width="91" height="45" /></p>
  <p align="justify" class="ccbHomeStandard"><em>k<sub>2</sub> </em>: The slope of the 0-origin line fitted for observed vs. predicted activities. Specifically, <br />
  </p>
- <p class="ccbHomeStandard"><img src="/theme/img/faq10.gif" width="91" height="44" /></p><br />
+ <p class="ccbHomeStandard"><img src="theme/img/faq10.gif" width="91" height="44" /></p><br />
  <p align="justify" class="ccbHomeStandard">For QSAR category, the following additional values</p>
  <a name="06" id="06"></a><br />
   <p align="justify" class="ccbHomeStandard"><strong>6. How is the Activity Histogram generated?</strong><br />
@@ -175,7 +174,7 @@
 		</p> 
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
-</div></td></tr></table>
-
-	<%@include file ="/jsp/main/footer.jsp" %>
+</div>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+    </div>
 </body>

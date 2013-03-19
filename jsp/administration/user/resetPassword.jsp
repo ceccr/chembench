@@ -9,32 +9,31 @@
 <html>
 <head>
 <title>CHEMBENCH | Reset Password </title>
-<link href="theme/miscellaneous.css" rel="stylesheet" type="text/css"/>
-<link href="theme/ss.css" rel="stylesheet" type="text/css"></link>
+
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="theme/yahoo_ui/menu.css" rel="stylesheet" type="text/css"></link>
-<link href="theme/yahoo_ui/text.css" rel="stylesheet" type="text/css"></link>
-<link href="theme/yahoo_ui/container/container.css" rel="stylesheet"	type="text/css"></link>
-<link href="theme/standard.css" rel="stylesheet"	type="text/css" />
-<link href="theme/links.css" rel="stylesheet" type="text/css" />
-<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
-<link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
-<link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
+
+<link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
+<link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
+<link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
+<link href="theme/standard.css" rel="stylesheet" type="text/css">
+<link href="theme/links.css" rel="stylesheet" type="text/css">
+<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
+<link rel="icon" href="/theme/img/mml.ico" type="image/ico">
+<link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
+<link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
 <script src="javascript/script.js"></script>
 
 </head>
 <body>
 <!-- Navigation bar -->
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
-<br/>
+<div class="outer">
+
+    <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
+    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 
 <!-- Main page -->
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
-		<span id="maincontent">
-		<td height="557" colspan="2" valign="top" background="theme/img/backgrindex.jpg">
 			<table>
 				<tr>
 					<td class="ChangePSText">
@@ -53,10 +52,8 @@
      				</td>
      			</tr>
      		</table>
-		</td>
-		</span>
-	</tr>
-	<%@include file ="/jsp/main/footer.jsp" %>
-</table>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+
+</div>
 </body>
 </html>

@@ -1,7 +1,6 @@
 <%@include file ="/jsp/help/helpheader.jsp" %>
 
-<table width="600" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr><td>
+<div class = "outer">
 <div class="ccbHomeStandard">
 
 <p align="justify" class="ccbHomeStandard">
@@ -22,8 +21,8 @@ screen.</p>
 
 <p>In Chembench, you can create <b>Datasets</b>, <b>Predictors</b>, and <b>Predictions</b>.</p>
 
-<p>A <b>dataset</b> is created from files that you upload. Typically, you will use a set of compounds (an <a href="/help-fileformats#SDF">SDF</a>), along with 
-experimental values for those compounds (an <a href="/help-fileformats#ACT">ACT file</a>) to make a dataset. Datasets can be created using the DATASET 
+<p>A <b>dataset</b> is created from files that you upload. Typically, you will use a set of compounds (an <a href="help-fileformats#SDF">SDF</a>), along with 
+experimental values for those compounds (an <a href="help-fileformats#ACT">ACT file</a>) to make a dataset. Datasets can be created using the DATASET 
 tab. There are also many benchmark datasets available on Chembench for you to experiment with.</p>
 
 <p>A <b>predictor</b> is a set of models that can be used to make a prediction. You need a modeling dataset (a dataset that 
@@ -46,9 +45,8 @@ with any questions.</p>
 
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
-</div></td></tr></table>
-
-<%@include file ="/jsp/main/footer.jsp" %>
-
+</div>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+</div>
 </body>
 </html>

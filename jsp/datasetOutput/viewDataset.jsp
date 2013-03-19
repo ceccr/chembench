@@ -1,3 +1,6 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
@@ -6,16 +9,19 @@
 <head>
 	<sx:head debug="false" cache="false" compressed="true" />
     <title>CHEMBENCH | View Dataset</title>
-      
-    <link href="theme/ss.css" rel="stylesheet" type="text/css" />
-	<link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<link href="theme/standard.css" rel="stylesheet" type="text/css" />
-	<link href="theme/links.css" rel="stylesheet" type="text/css" />
-	<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
-	<link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
-	<link rel="icon"  href="theme/img/mml.ico" type="image/ico" />
-	<link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
+
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
+    <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
+    <link href="theme/standard.css" rel="stylesheet" type="text/css">
+    <link href="theme/links.css" rel="stylesheet" type="text/css">
+    <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
+    <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
+    <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 	
 	<script language="javascript" src="javascript/script.js" />
 	<script src="javascript/AC_RunActiveContent.js"></script>
@@ -90,25 +96,14 @@
 
 <body onload="setTabToMyBench();">
 <div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
-		<td>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<%@include file="/jsp/main/header.jsp" %>
-	<%@include file="/jsp/main/centralNavigationBar.jsp" %>
-	</td>
-		</span>
-	</tr>
-	
-	
-	<!-- Header Info -->
-	<tr>
-	<span id="maincontent">
-	<td height="557" colspan="5" valign="top">
-	
+    <div class="outer">
+
+        <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
+        <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
+
 	<span class="Errors"><b><!-- errors go here..? --></b></span> 
 	<span class="StandardTextDarkGray"></span>
-
+    <span id = "maincontent">
 	<table width="924" align="center"><tr><td>
 		<div class="StandardTextDarkGray"><br />
 			<b>Dataset Name: </b><s:property value="dataset.name" /><br />
@@ -158,7 +153,6 @@
 	</s:if>
 	<!-- End page description -->
 	</td></tr><tr><td>
-	
 	
 	<s:url id="datasetCompoundsLinkTwo" value="/viewDatasetCompoundsSection" includeParams="none">
 		<s:param name="currentPageNumber" value='3' />
@@ -222,7 +216,7 @@
    	</sx:tabbedpanel>
    	
 	<!-- end load tabs -->
-	
+	</span>
 	<div id="image_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute"><img src="" width="300" height="300"/></div>
 <%@include file ="/jsp/main/footer.jsp" %>
 </table>
@@ -242,6 +236,8 @@ $(document).ready(function() {
 	});
 	
 });
+<div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 
+        </div>
 </script>
 </body>

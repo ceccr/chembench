@@ -7,19 +7,19 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
-import org.hibernate.criterion.Order;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
-import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.taskObjects.WorkflowTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
+
+import org.apache.log4j.Logger;
 
 public class SynchronizedJobList{
+
+    private static Logger logger = Logger.getLogger(SynchronizedJobList.class.getName());
+
 	//stores a concurrent-access arraylist of jobs
 	//In Chembench, one instance of this class holds all locally-running jobs
 	//a second instance holds all the LSF-related jobs.
@@ -63,7 +63,7 @@ public class SynchronizedJobList{
 	public void printJobListStates(){
 		synchronized(jobList){
 			for(Job j: jobList){
-				Utility.writeToDebug(j.getJobName() + " : " + j.getJobList() + " : " + j.getStatus() );
+				logger.debug(j.getJobName() + " : " + j.getJobList() + " : " + j.getStatus() );
 			}
 		}
 	}
@@ -74,7 +74,7 @@ public class SynchronizedJobList{
 			for(int i = 0; i < jobList.size(); i++){
 				if(jobList.get(i).getId().equals(jobId)){
 					Job j = jobList.get(i);
-					Utility.writeToDebug("removed job: " + j.getJobName());
+					logger.debug("removed job: " + j.getJobName());
 					jobList.remove(i);
 					return j;
 				}
@@ -99,7 +99,7 @@ public class SynchronizedJobList{
 		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			logger.error(e);
 		}
 
 		JobStats js = new JobStats();
@@ -115,7 +115,7 @@ public class SynchronizedJobList{
 			js.setUserName(job.getUserName());
 		}
 		catch(Exception ex){
-			Utility.writeToDebug(ex);
+			logger.error(ex);
 		}
 
 		try {
@@ -126,7 +126,7 @@ public class SynchronizedJobList{
 		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			logger.error(e);
 		} finally {
 			s.close();
 		}
@@ -159,7 +159,7 @@ public class SynchronizedJobList{
 			.addOrder(Order.asc("id"))
 			.list();
 		} catch (Exception e) {
-			Utility.writeToDebug(e);
+			logger.error(e);
 		} finally {
 			s.close();
 		}
@@ -182,7 +182,7 @@ public class SynchronizedJobList{
 			jobListCopy.addAll(jobList);
 			}
 			catch(Exception ex){
-				Utility.writeToDebug(ex);
+				logger.error(ex);
 			}
 			return jobListCopy;
 		}
@@ -262,7 +262,7 @@ public class SynchronizedJobList{
 		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
-			Utility.writeToDebug(e);
+			logger.error(e);
 		} finally {
 			session.close();
 		}

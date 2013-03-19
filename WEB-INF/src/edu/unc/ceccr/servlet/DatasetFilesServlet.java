@@ -2,9 +2,9 @@ package edu.unc.ceccr.servlet;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.File;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServlet;
@@ -14,11 +14,15 @@ import javax.servlet.http.HttpSession;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.download.WriteZip;
+
+import org.apache.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class DatasetFilesServlet extends HttpServlet {
+
+    private static Logger logger = Logger.getLogger(DatasetFilesServlet.class.getName());
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response)   throws IOException{
     	String BASE=Constants.CECCR_USER_BASE_PATH;
 		String datasetUserName=request.getParameter("user");
@@ -51,7 +55,7 @@ public class DatasetFilesServlet extends HttpServlet {
 	        }
 		}
 		catch (Exception e){
-			Utility.writeToDebug(e);
+			logger.error(e);
 		}
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

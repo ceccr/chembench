@@ -9,14 +9,18 @@
 <html>
 <head>
 <title>CHEMBENCH | Registration </title>
-<link href="theme/miscellaneous.css" rel="stylesheet" type="text/css"/>
-<link href="theme/ss.css" rel="stylesheet" type="text/css"></link>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="theme/links.css" rel="stylesheet" type="text/css" />
-<link href="/theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
-<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css" />
-<link rel="icon"  href="theme/img/mml.ico" type="image/ico"></link>
-<link rel="SHORTCUT ICON" href="theme/img/mml.ico" ></link>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
+    <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
+    <link href="theme/standard.css" rel="stylesheet" type="text/css">
+    <link href="theme/links.css" rel="stylesheet" type="text/css">
+    <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
+    <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
+    <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
 <script src="javascript/script.js"></script>
 <script src="javascript/yahoo/yahoo.js"></script>
@@ -27,28 +31,26 @@
 
 </head>
 <body>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/header.jsp" %></td></tr></table>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0"><tr><td><%@include file="/jsp/main/centralNavigationBar.jsp" %></td></tr></table>
-<br />
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-	<tr>
+<div class="outer">
+
+    <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
+    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 		<span id="maincontent">
-		<td height="557" colspan="5" valign="top"
-			background="theme/img/backgrindex.jpg">
 
-		<br/>
-
-<table width="465" border="0" cellspacing="0" cellpadding="0">
-          <tr>
-            <td>
-		<p align="justify" class="StandardTextDarkGrayParagraph"><br />
-		Welcome to Carolina Cheminformatics Workbench (Chembench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
-		Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using Chembench. 
-		An asterisk (*) indicates required fields.<br/>
-        </td>
-          </tr>
-        </table>        
-       
+            <div class="benchBackground includes">
+                <div class="homeLeft">
+                    <br />
+                    <div class="StandardTextDarkGrayParagraph">
+                        <p>
+                            <br /><br />
+                            Welcome to Carolina Cheminformatics Workbench (Chembench)- an integrated toolkit developed by the Carolina Exploratory Center for Cheminformatics
+                            Research (CECCR) with the support of the National Institutes of Health. <br/><br/>Please enter your information here in order to start using Chembench.
+                            An asterisk (*) indicates required fields.<br/>
+                            <br /><br />
+                        </p>
+                    </div>
+                </div>
+        <div class="border StandardTextDarkGrayParagraph2 benchAlign bottomMargin">
         <s:form action="registerUser" enctype="multipart/form-data" theme="simple">
 	
         <table border="0" align="center" width="680">
@@ -131,11 +133,13 @@ var RecaptchaOptions = {
 };
 </script>
 <script type="text/javascript"
-   src="http://api.recaptcha.net/challenge?k=<s:property value="recaptchaPublicKey" />">
+  <%-- src="http://api.recaptcha.net/challenge?k=<s:property value="recaptchaPublicKey" />"> --%>
+   src="https://www.google.com/recaptcha/api/challenge?k=<s:property value="recaptchaPublicKey" />">
 </script>
 
 <noscript>
-   <iframe src="http://api.recaptcha.net/noscript?k=<s:property value="recaptchaPublicKey" />"
+   <%-- <iframe src="http://api.recaptcha.net/noscript?k=<s:property value="recaptchaPublicKey" />" --%>
+   <iframe src="https://www.google.com/recaptcha/api/noscript?k=<s:property value="recaptchaPublicKey" />"
        height="40" width="200" frameborder="0"></iframe><br>
    <textarea name="recaptcha_challenge_field" rows="1" cols="35">
    </textarea>
@@ -165,8 +169,9 @@ var RecaptchaOptions = {
 		</table></p></s:form>
 		</td>
 		</span>
-	</tr>
-	<tr>
-	<%@include file ="/jsp/main/footer.jsp" %>
+    </div>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+
+</div>
 </body>
 </html>

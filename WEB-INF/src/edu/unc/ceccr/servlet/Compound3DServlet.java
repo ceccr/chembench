@@ -6,24 +6,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 
-import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.workflows.visualization.Molecule3D;
-import edu.unc.ceccr.global.Constants;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.Session;
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.workflows.visualization.Molecule3D;
+
+import org.apache.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class Compound3DServlet extends HttpServlet {
+
+    private static Logger logger = Logger.getLogger(Compound3DServlet.class.getName());
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
@@ -34,7 +30,7 @@ public class Compound3DServlet extends HttpServlet {
 		String userName = request.getParameter("user");
         String datasetName = request.getParameter("datasetName");
 	
-		Utility.writeToDebug("Running SketchServlet.", userName, datasetName);
+		logger.debug("User: " + userName + " Dataset: " + datasetName + " Running SketchServlet.");
 		String workingDir = Constants.CECCR_USER_BASE_PATH + userName+ "/DATASETS/" + datasetName + "/Visualization/Structures/";
 		
 		String sdf = id + ".sdf";
@@ -67,33 +63,36 @@ public class Compound3DServlet extends HttpServlet {
 
 		PrintWriter out = response.getWriter();
 
-		Utility.writeToDebug("Getting 3D structure for file : " + workingDir + sdf);
+		logger.debug("Getting 3D structure for file : " + workingDir + sdf);
 		
 		try {
 			File sdfile = new File(sdfPath);
-			String warning = "ERROR, the SD file is not in correct format.\rThe structure can not be displayed.";
+			
+			/*String warning = "ERROR, the SD file is not in correct format.\rThe " +
+					"structure can not be displayed.";
+			*/
 			if (sdfile.exists()) {
 				InputStream twoDis = new FileInputStream(sdfile);
 				
 				File mol3DFile = new File(workingDir + mol3D);
-				if(! mol3DFile.exists()){
+				if (!mol3DFile.exists()) {
 					Molecule3D.Convert2Dto3D(userName, datasetName, sdf, mol3D, workingDir);
 				}
-				else{
-					Utility.writeToDebug("3D structure already calculated. Returning it.");
+				else {
+					logger.debug("3D structure already calculated. Returning it.");
 				}
 
 				out.println(title);
 				out.println(front);
 				out.println(parameter);
 				out.println(end);
-					
 				
+				twoDis.close();
 			} else {
 				out.println(" ERROR : Can not find SD file: " + id);
 			}
 		} catch (Exception e) {
-			Utility.writeToDebug(e);
+			logger.error(e);
 		} finally {
 			out.close();
 		}
@@ -103,9 +102,9 @@ public class Compound3DServlet extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		//Far as I can tell, this is never actually called anywhere.
-		Utility.writeToDebug("doing a post, yo.");
+		logger.debug("doing a post, yo.");
 		doGet(request, response);
-		Utility.writeToDebug("done wit da post, yo.");
+		logger.debug("done wit da post, yo.");
 	}
 
 }

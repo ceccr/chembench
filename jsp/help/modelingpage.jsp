@@ -1,12 +1,11 @@
 <%@include file ="/jsp/help/helpheader.jsp" %>
 
-<table width="900" border="0" align="center" cellpadding="0" cellspacing="0">
-  <tr><td>
+<div class="outer">
 <div class="ccbHomeStandard">
 
 <b>Modeling</b>
 
-<p><img src="/theme/img/modeling-workflow.png"></p>
+<p><img src="theme/img/modeling-workflow.png"></p>
 
 <p align="justify" class="ccbHomeStandard">
 <b>Select a Dataset box:</b>
@@ -100,9 +99,9 @@ Predictors section of the My Bench page.</p>
 
 <%@include file ="/jsp/help/helpcontents.jsp" %>
 
-</div></td></tr></table>
-
-<%@include file ="/jsp/main/footer.jsp" %>
+</div>
+    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+    </div>
 
 </body>
 </html>
