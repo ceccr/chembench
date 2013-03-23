@@ -1,7 +1,6 @@
 table {
   border-spacing: 2px;
-  overflow:auto;
-  overflow-x:auto;
+  overflow-x:visible;
   overflow-y:auto;
   display:block;
 }
