@@ -379,7 +379,7 @@
     <table class="sortable" id="predictors">
         <tr>
             <th class="TableRowText01">Name</th>
-            <th class="TableRowText01">Dataset</th>
+            <th class="TableRowText01" style="width: 30px;">Dataset</th>
             <s:if test="adminUser">
                 <th class="TableRowText01">Nfold</th>
                 <th class="TableRowText01">Act type</th>
