@@ -5,6 +5,10 @@ table {
   display:block;
 }
 
+td {
+    word-wrap: break-word;
+}
+
 .ccbHomeStandard {
 	font-family: Geneva, Arial, Helvetica, sans-serif;
 	font-size: 14px;
