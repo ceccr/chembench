@@ -379,7 +379,7 @@
     <table class="sortable" id="predictors">
         <tr>
             <th class="TableRowText01">Name</th>
-            <th class="TableRowText01" style="width: 30px;">Dataset</th>
+            <th class="TableRowText01">Dataset</th>
             <s:if test="adminUser">
                 <th class="TableRowText01">Nfold</th>
                 <th class="TableRowText01">Act type</th>
@@ -408,7 +408,7 @@
             <td><s:a href="%{predictorLink}">
                 <s:property value="name" />
             </s:a></td>
-            <td><a href="viewDataset?id=<s:property value="datasetId" />">
+            <td style="width: 30px;"><a href="viewDataset?id=<s:property value="datasetId" />">
                 <s:property value="datasetDisplay" />
             </a></td>
             <s:if test="adminUser">
