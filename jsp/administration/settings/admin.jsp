@@ -57,7 +57,7 @@
         </div>
 
         <div class="StandardTextDarkGrayParagraph" style="border:#000 solid 1px;">
-            Add new dglobal message:<br />
+            Add new global message:<br />
             <form action="globalNotifAdd">
                 <table width="680" border="0">
                     <tr><td>Start Date:</td><td><s:textfield name="startDate" value="" size="43" theme="simple" /></td></tr>
