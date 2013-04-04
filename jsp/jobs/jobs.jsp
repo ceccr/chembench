@@ -381,10 +381,8 @@
         <tr>
             <th class="TableRowText01 predictorNameWidth">Name</th>
             <th class="TableRowText01 predictorDatasetWidth">Dataset</th>
-            <s:if test="adminUser">
-                <th class="TableRowText01 predictorNfoldWidth">Nfold</th>
-                <th class="TableRowText01 predictorActtypeWidth">Act type</th>
-            </s:if>
+            <th class="TableRowText01 predictorNfoldWidth">Nfold</th>
+            <th class="TableRowText01 predictorActtypeWidth">Act type</th>
             <th class="TableRowText01 predictorExternalWidth">External Set R<sup>2</sup> or CCR
             </th>
             <th class="TableRowText01 predictorModelingWidth">Modeling Method</th>
