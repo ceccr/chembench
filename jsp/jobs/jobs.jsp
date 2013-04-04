@@ -376,22 +376,21 @@
         <i>Click on the name of a predictor to analyze the modeling
             results.</i><br />
     </div>
-    <table class="sortable" id="predictors">
+    <table class="sortable predictorTableWidth" id="predictors">
+        <tbody style = "width: 100%;">
         <tr>
-            <th class="TableRowText01">Name</th>
-            <th class="TableRowText01" style="width: 30px;">Dataset</th>
+            <th class="TableRowText01 predictorNameWidth">Name</th>
+            <th class="TableRowText01 predictorDatasetWidth">Dataset</th>
             <s:if test="adminUser">
-                <th class="TableRowText01">Nfold</th>
-                <th class="TableRowText01">Act type</th>
+                <th class="TableRowText01 predictorNfoldWidth">Nfold</th>
+                <th class="TableRowText01 predictorActtypeWidth">Act type</th>
             </s:if>
-            <th class="TableRowText01">External Set R<sup>2</sup> or CCR
+            <th class="TableRowText01 predictorExternalWidth">External Set R<sup>2</sup> or CCR
             </th>
-            <th class="TableRowText01">Modeling Method</th>
-            <th class="TableRowText01">Descriptor Type</th>
-            <th class="TableRowText01">Public/Private</th>
-            <th class="TableRowText01">Date Created</th>
-            <th class="TableRowText01_unsortable">Download</th>
-            <th class="TableRowText01_unsortable">Delete</th>
+            <th class="TableRowText01 predictorModelingWidth">Modeling Method</th>
+            <th class="TableRowText01 predictorDescriptorWidth">Descriptor Type</th>
+            <th class="TableRowText01 predictorPublicWidth">Public/Private</th>
+            <th class="TableRowText01 predictorDateWidth">Date Created</th>
         </tr>
         <s:iterator value="userPredictors">
             <s:if test="hasBeenViewed=='YES'">
@@ -407,8 +406,12 @@
             </s:url>
             <td><s:a href="%{predictorLink}">
                 <s:property value="name" />
-            </s:a></td>
-            <td style="width: 30px;"><a href="viewDataset?id=<s:property value="datasetId" />">
+            </s:a><br /><a
+                    href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a><s:if test="userName=='all-users'"></s:if> <s:else>
+                <a onclick="return confirmDelete('predictor')"
+                   href="deletePredictor?id=<s:property value="id" />#predictors">delete</a>
+            </s:else></td>
+            <td><a href="viewDataset?id=<s:property value="datasetId" />">
                 <s:property value="datasetDisplay" />
             </a></td>
             <s:if test="adminUser">
@@ -439,16 +442,11 @@
             </s:else>
             <td><s:if test="userName=='all-users'">Public</s:if> <s:else>Private</s:else></td>
             <td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-            <td><a
-                    href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a></td>
-            <td><s:if test="userName=='all-users'"></s:if> <s:else>
-                <a onclick="return confirmDelete('predictor')"
-                   href="deletePredictor?id=<s:property value="id" />#predictors">delete</a>
-            </s:else></td>
             </tr>
         </s:iterator>
         <br />
         <br />
+        </tbody>
     </table>
 </div>
 <!-- Finished Prediction Jobs -->
@@ -459,44 +457,44 @@
     <div class="StandardTextDarkGrayParagraph">
         <i>Click on the name of a prediction to see the results.</i><br />
     </div>
-        <s:if test="! userPredictions.isEmpty()">
-            <table class="sortable" id="predictions">
-                <tr>
-                    <th class="TableRowText01">Name</th>
-                    <th class="TableRowText01">Dataset</th>
-                    <th class="TableRowText01">Predictor</th>
-                    <th class="TableRowText01">Date Created</th>
-                    <th class="TableRowText01_unsortable">Download</th>
-                    <th class="TableRowText01_unsortable">Delete</th>
-                </tr>
-                <s:iterator value="userPredictions">
-                    <s:if test="hasBeenViewed=='YES'">
-                        <tr class="TableRowText02">
-                    </s:if>
-                    <s:else>
-                        <tr class="TableRowText03">
-                    </s:else>
+    <s:if test="! userPredictions.isEmpty()">
+        <table class="sortable" id="predictions">
+            <tr>
+                <th class="TableRowText01">Name</th>
+                <th class="TableRowText01">Dataset</th>
+                <th class="TableRowText01">Predictor</th>
+                <th class="TableRowText01">Date Created</th>
+                <th class="TableRowText01_unsortable">Download</th>
+                <th class="TableRowText01_unsortable">Delete</th>
+            </tr>
+            <s:iterator value="userPredictions">
+                <s:if test="hasBeenViewed=='YES'">
+                    <tr class="TableRowText02">
+                </s:if>
+                <s:else>
+                    <tr class="TableRowText03">
+                </s:else>
 
-                    <s:url id="predictionLink" value="/viewPrediction"
-                           includeParams="none">
-                        <s:param name="id" value='id' />
-                    </s:url>
-                    <td><s:a href="%{predictionLink}">
-                        <s:property value="name" />
-                    </s:a></td>
-                    <td><s:property value="datasetDisplay" /></td>
-                    <td><s:property value="predictorNames" /></td>
-                    <td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-                    <td><a
-                            href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
-                    <td><a onclick="return confirmDelete('prediction')"
-                           href="deletePrediction?id=<s:property value="id" />#predictions">delete</a></td>
-                    </tr>
-                </s:iterator>
-                <br />
-                <br />
-            </table>
-        </s:if>
+                <s:url id="predictionLink" value="/viewPrediction"
+                       includeParams="none">
+                    <s:param name="id" value='id' />
+                </s:url>
+                <td><s:a href="%{predictionLink}">
+                    <s:property value="name" />
+                </s:a></td>
+                <td><s:property value="datasetDisplay" /></td>
+                <td><s:property value="predictorNames" /></td>
+                <td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+                <td><a
+                        href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
+                <td><a onclick="return confirmDelete('prediction')"
+                       href="deletePrediction?id=<s:property value="id" />#predictions">delete</a></td>
+                </tr>
+            </s:iterator>
+            <br />
+            <br />
+        </table>
+    </s:if>
 </div>
 <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 </div>
