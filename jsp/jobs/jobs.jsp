@@ -412,11 +412,9 @@
             <td><a href="viewDataset?id=<s:property value="datasetId" />">
                 <s:property value="datasetDisplay" />
             </a></td>
-            <s:if test="adminUser">
-                <td><s:if test="childType=='NFOLD'">YES</s:if> <s:else>NO</s:else>
-                </td>
-                <td><s:property value="activityType" /></td>
-            </s:if>
+            <td><s:if test="childType=='NFOLD'">YES</s:if> <s:else>NO</s:else>
+            </td>
+            <td><s:property value="activityType" /></td>
             <s:if test="childType=='NFOLD'">
                 <td><s:if test='externalPredictionAccuracyAvg!="0.0 ± 0.0"'>
                     <s:property value="externalPredictionAccuracyAvg" />
