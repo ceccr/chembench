@@ -31,6 +31,7 @@
             <result>jsp/main/home.jsp</result>
         </action>
 
+
         <!-- Main pages -->
         <action name="login" class="edu.unc.ceccr.action.HomeAction" method="execute">
             <result name="success">jsp/main/home.jsp</result>
@@ -227,6 +228,9 @@
         <!-- Jobs Page -->
         <action name="jobs" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
             <result>jsp/jobs/jobs.jsp</result>
+        </action>
+        <action name="jobs2" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
+            <result>jsp/jobs/jobs2.jsp</result>
         </action>
 
         <!-- End Jobs Page -->
@@ -427,6 +431,21 @@
         <!-- Admin Actions -->
         <action name="admin" class="edu.unc.ceccr.action.AdminAction" method="loadPage">
             <result name="success">jsp/administration/settings/admin.jsp</result>
+            <result name="error">jsp/main/home.jsp</result>
+        </action>
+
+        <action name="adminPredictors" class="edu.unc.ceccr.action.AdminAction" method="loadPage">
+            <result name="success">jsp/administration/settings/predictors.jsp</result>
+            <result name="error">jsp/main/home.jsp</result>
+        </action>
+
+        <action name="adminJobs" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
+            <result>jsp/administration/settings/jobs.jsp</result>
+            <result name="error">jsp/main/home.jsp</result>
+        </action>
+
+        <action name="adminUsers" class="edu.unc.ceccr.action.AdminAction" method="loadPage">
+            <result name="success">jsp/administration/settings/users.jsp</result>
             <result name="error">jsp/main/home.jsp</result>
         </action>
 
