@@ -81,11 +81,8 @@
         <table class="sortable" id="userTable">
             <tr>
                 <th class="TableRowText01">User Name</th>
-                <th class="TableRowText01">First Name</th>
-                <th class="TableRowText01">Last Name</th>
                 <th class="TableRowText01">Organization</th>
                 <th class="TableRowText01">Country</th>
-                <th class="TableRowText01">Email</th>
                 <th class="TableRowText01">Last Login</th>
                 <th class="TableRowText01_unsortable">Can Download Descriptors</th>
                 <th class="TableRowText01_unsortable">Administrator</th>
@@ -96,12 +93,9 @@
 
                 <s:if test="!email.contains('ceccr@email.unc.edu')">
                     <tr>
-                        <td class="TableRowText02"><s:property value="userName" /></td>
-                        <td class="TableRowText02"><s:property value="firstName" /></td>
-                        <td class="TableRowText02"><s:property value="lastName" /></td>
+                        <td class="TableRowText02"><a href="mailto:<s:property value="email" />"><s:property value="userName" /></a><br /><s:property value="firstName" />&nbsp;<s:property value="lastName" /></td>
                         <td class="TableRowText02"><s:property value="orgName" /></td>
                         <td class="TableRowText02"><s:property value="country" /></td>
-                        <td class="TableRowText02"><a href="mailto:<s:property value="email" />"><s:property value="email" /></a></td>
                         <td class="TableRowText02"><s:date name="lastLogintime" format="yyyy-MM-dd HH:mm" /></td>
                         <td class="TableRowText02"><input type="checkbox" onclick="loadUrl('/changeUserDescriptorDownloadStatus?userToChange=<s:property value="userName" />')" <s:if test="canDownloadDescriptors=='YES'">checked</s:if> /></td>
                         <td class="TableRowText02"><input type="checkbox" onclick="loadUrl('/changeUserAdminStatus?userToChange=<s:property value="userName" />')" <s:if test="isAdmin=='YES'">checked</s:if>  <s:if test="userName==user.userName">disabled="true"</s:if> /></td>
