@@ -32,7 +32,7 @@
     <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 
     <div class="homeLeft topMarginBench">
-        <h2 class="ccbHomeHeadings">ADI | ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS</h2>
+        <h2 class="ccbHomeHeadings">ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS</h2>
         <hr {color="" background-color="" #fff="" border="" 1px="" #ff0000="" border-style="" none="" dotted="" }="">
         <div class="ccbHomeStandard">
             <p>Chembench is a free portal that enables researchers to mine available chemical and biological data. Chembench can help researchers
