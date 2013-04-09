@@ -1,8 +1,28 @@
+#horizontalmenu .adminlink a{
+    float:left;
+    padding:8px;
+    display:block;
+    margin-right:9px;
+    text-decoration:none;
+    -webkit-border-radius:7px;
+    -moz-border-radius:7px;
+    font-family:Tahoma, Geneva, sans-serif;
+    font-size:15px;
+    color:#666;
+    font-weight:bold;
+    text-shadow:1px 1px 1px #fff;
+}
+
+#horizontalmenu{
+    margin:10px;
+    padding-bottom:30px;
+}
+
+
 table {
-  border-spacing: 2px;
-  overflow-x:visible;
-  overflow-y:visible;
-  display:block;
+    border-spacing: 2px;
+    overflow-x:visible;
+    overflow-y:visible;
 }
 
 td {
@@ -13,22 +33,24 @@ th {
     word-wrap: break-word;
 }
 
+
+
 .ccbHomeStandard {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	color: #4F4F4F;
-	font-weight: normal;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #4F4F4F;
+    font-weight: normal;
 }
 
 .StandardTextDarkGray2 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 15px;
-	color: #ffffff;
-	text-indent: 20px;
-	background-color: #9DAffF;
-	outline: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #ffffff;
+    text-indent: 20px;
+    background-color: #9DAffF;
+    outline: none;
 }
-	
+
 /** Not currently needed	
 	.StandardTextDarkGray2modified {
 	font-family: Arial, Helvetica, sans-serif;
@@ -39,137 +61,137 @@ th {
 }
 **/
 
-	
+
 .StandardTextDarkGray3 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 15px;
-	color:  #42426F;
-	text-indent: 20px;
-	background-color: #ffffff;
-	outline: none;
-	
-	}
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color:  #42426F;
+    text-indent: 20px;
+    background-color: #ffffff;
+    outline: none;
+
+}
 
 .StandardTextDarkGray4{
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 11px;
-	color: gray;
-	text-indent: 1px;
-	outline: none;
-	
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: gray;
+    text-indent: 1px;
+    outline: none;
+
 }
 
 .StandardTextYellow{
-	font-family:GoudyOlSt BT;
-	font-size: 11px;
-	color: #FF4500;
-	text-indent: 0px;
-                border-width:1px;
+    font-family:GoudyOlSt BT;
+    font-size: 11px;
+    color: #FF4500;
+    text-indent: 0px;
+    border-width:1px;
 }
 
 
 .StandardTextDarkGray {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	color: #4D5F75;
-	text-indent: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #4D5F75;
+    text-indent: 10px;
 }
 
 
 
 .StandardTextDarkGrayNoIndent {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	color: #4D5F75;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #4D5F75;
 }
 
 body {
-	margin: 0px;
+    margin: 0px;
 }
 
 .tablelist {margin: 0; padding: 0; border-collapse: collapse; border: 0;}
 
 .LoginBoxBackgr {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	color: #333333;
-	background-image: url(img/ccbHeaderLoginBG.jpg);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #333333;
+    background-image: url(img/ccbHeaderLoginBG.jpg);
 
-	font-weight: bold;
+    font-weight: bold;
 }
 .BlankBar {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 9px;
-	color: #99FF00;
-	background-image: url(img/blankbar.jpg);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9px;
+    color: #99FF00;
+    background-image: url(img/blankbar.jpg);
 }
 .StandardTextBlack {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #303C49;
-	margin-left: 20px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #303C49;
+    margin-left: 20px;
 }
 .StandardTextBlackBold {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	color: #303C49;
-	text-indent: 20px;
-	font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #303C49;
+    text-indent: 20px;
+    font-weight: bold;
 }
 .StandardTextLiteGray {
 
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #4D5F75;
-	text-indent: 20px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #4D5F75;
+    text-indent: 20px;
 }
 .StandardTextDarkGrayParagraph {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 12px;
-	color: #4D5F75;
-	margin-left: 20px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #4D5F75;
+    margin-left: 20px;
 }
 
 .StandardTextDarkGrayParagraphNoIndent {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	color: #4D5F75;
-	margin-left: 0px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #4D5F75;
+    margin-left: 0px;
 }
 
 .StandardTextDarkGrayParagraph2 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 15px;
-	color: #4D5F75;
-	margin-left: 20px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: #4D5F75;
+    margin-left: 20px;
 }
 
 .StandardTextDarkGrayHelpText {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #4D5F75;
-	margin-left: 20px;
-	margin-right: 20px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #4D5F75;
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 .StandardTextDarkGrayParagraphBlue {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	color: #3D95D0;
-	margin-left: 20px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #3D95D0;
+    margin-left: 20px;
 }
 .LoginBoxes {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #303C49;
-	margin-left: 7px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #303C49;
+    margin-left: 7px;
 }
 
 .LoginBoxes1 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #303C49;
-	margin-left: 0px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #303C49;
+    margin-left: 0px;
 }
 
 
@@ -177,126 +199,126 @@ body {
 .LoginSubmit {
 
 
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 9px;
-	color: #303C49;
-	margin-left: 10px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9px;
+    color: #303C49;
+    margin-left: 10px;
 }
 
 .LoginSubmit1{
 
 
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 9px;
-	color: #303C49;
-	margin-left: 0px;  
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 9px;
+    color: #303C49;
+    margin-left: 0px;
 }
 
 .TableRowText01 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #FFFFFF;
-	background-color: #9DACBF;
-	text-align: center;
-	vertical-align: middle;
-	height: 30px;
-	width: 120px;
-	font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #FFFFFF;
+    background-color: #9DACBF;
+    text-align: center;
+    vertical-align: middle;
+    height: 30px;
+    width: 120px;
+    font-weight: bold;
 }
 
 .TableRowText01 a:link {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #FFFFFF;
-	font-weight: bold;
-	text-decoration: underline;
-	outline: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-decoration: underline;
+    outline: none;
 }
 
 .TableRowText01 a:visited {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #FFFFFF;
-	font-weight: bold;
-	text-decoration: underline;
-	outline: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-decoration: underline;
+    outline: none;
 }
 
 .TableRowText01_unsortable {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #FFFFFF;
-	background-color: #9DACBF;
-	text-align: center;
-	vertical-align: middle;
-	height: 30px;
-	width: 120px;
-	font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #FFFFFF;
+    background-color: #9DACBF;
+    text-align: center;
+    vertical-align: middle;
+    height: 30px;
+    width: 120px;
+    font-weight: bold;
 }
 
 .TableRowText01narrow {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #FFFFFF;
-	background-color: #9DACBF;
-	text-align: center;
-	vertical-align: middle;
-	height: 30px;
-	width: 80px;
-	font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #FFFFFF;
+    background-color: #9DACBF;
+    text-align: center;
+    vertical-align: middle;
+    height: 30px;
+    width: 80px;
+    font-weight: bold;
 }
 
 .TableRowText01narrow a:link {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #FFFFFF;
-	font-weight: bold;
-	text-decoration: underline;
-	outline: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-decoration: underline;
+    outline: none;
 }
 
 .TableRowText01narrow a:visited {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #FFFFFF;
-	font-weight: bold;
-	text-decoration: underline;
-	outline: none;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #FFFFFF;
+    font-weight: bold;
+    text-decoration: underline;
+    outline: none;
 }
 
 
 .TableRowText01narrow_unsortable {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #FFFFFF;
-	background-color: #9DACBF;
-	text-align: center;
-	vertical-align: middle;
-	height: 30px;
-	width: 80px;
-	font-weight: bold;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #FFFFFF;
+    background-color: #9DACBF;
+    text-align: center;
+    vertical-align: middle;
+    height: 30px;
+    width: 80px;
+    font-weight: bold;
 }
 
 .TableRowText02 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #444444;
-	background-color: #DCDFE3;
-	text-align: center;
-	vertical-align: middle;
-	height: 30px;
-	width: 120px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #444444;
+    background-color: #DCDFE3;
+    text-align: center;
+    vertical-align: middle;
+    height: 30px;
+    width: 120px;
 }
 
 .TableRowText02narrow {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #444444;
-	background-color: #DCDFE3;
-	text-align: center;
-	vertical-align: middle;
-	height: 30px;
-	width: 80px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #444444;
+    background-color: #DCDFE3;
+    text-align: center;
+    vertical-align: middle;
+    height: 30px;
+    width: 80px;
 }
 
 /* Background color for TableRowText03 used to be #EDF2F5.
@@ -305,118 +327,159 @@ body {
 
 
 .TableRowText03 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #444444;
-	background-color: #DCDFE3;
-	text-align: center;
-	vertical-align: middle;
-	height: 30px;
-	width: 120px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #444444;
+    background-color: #DCDFE3;
+    text-align: center;
+    vertical-align: middle;
+    height: 30px;
+    width: 120px;
 }
 
 .TableRowText029 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #666666;
-	background-color: #E6E9EC;
-	text-align: left;
-	vertical-align: middle;
-	height: 15px;
-	width: 100px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #666666;
+    background-color: #E6E9EC;
+    text-align: left;
+    vertical-align: middle;
+    height: 15px;
+    width: 100px;
 }
 
 .TableRowText022 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 11px;
-	color: #666666;
-	background-color: #E6E9EC;
-	text-align: left;
-	vertical-align: middle;
-	height: 12px;
-	
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    color: #666666;
+    background-color: #E6E9EC;
+    text-align: left;
+    vertical-align: middle;
+    height: 12px;
+
 }
 .Table5ColRowText01 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #FFFFFF;
-	background-color: #9DACBF;
-	text-align: center;
-	font-weight: bold;
-	vertical-align: middle;
-	height: 17px;
-	width: 142px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #FFFFFF;
+    background-color: #9DACBF;
+    text-align: center;
+    font-weight: bold;
+    vertical-align: middle;
+    height: 17px;
+    width: 142px;
 }
 .Table5ColRowText02 {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	font-size: 10px;
-	color: #666666;
-	background-color: #E6E9EC;
-	text-align: center;
-	width: 142px;
-	vertical-align: middle;
-	height: 15px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-size: 10px;
+    color: #666666;
+    background-color: #E6E9EC;
+    text-align: center;
+    width: 142px;
+    vertical-align: middle;
+    height: 15px;
 }
 
-.border { 
-border-width: .2em; 
-border-style: solid; 
-border-color: #CCCCCC; 
-padding:20px;
-} 
+.border {
+    border-width: .2em;
+    border-style: solid;
+    border-color: #CCCCCC;
+    padding:20px;
+}
 
 .benchBackground {
-	background-image: url(/theme/img/backgrindex.jpg);
-	background-repeat: no-repeat;
-	height:210px;
+    background-image: url(/theme/img/backgrindex.jpg);
+    background-repeat: no-repeat;
+    height:210px;
 }
 
 .datasetBackground {
-	background-image: url(/theme/img/backgrmodelbuilders.jpg);
-	background-repeat: no-repeat;
-	height:370px;
+    background-image: url(/theme/img/backgrmodelbuilders.jpg);
+    background-repeat: no-repeat;
+    height:370px;
 }
 
 .modelingBackground {
-	background-image: url(/theme/img/backgrmodelbuilders.jpg);
-	background-repeat: no-repeat;
-	height:230px;
+    background-image: url(/theme/img/backgrmodelbuilders.jpg);
+    background-repeat: no-repeat;
+    height:230px;
 }
 
 .predictionBackground {
-	background-image: url(/theme/img/backgrmodelbuilders.jpg);
-	background-repeat: no-repeat;
-	height:350px;
+    background-image: url(/theme/img/backgrmodelbuilders.jpg);
+    background-repeat: no-repeat;
+    height:350px;
 }
 
 .comingsoonBackground {
-	background-image: url(/theme/img/backgrindex.jpg);
-	background-repeat: no-repeat;
+    background-image: url(/theme/img/backgrindex.jpg);
+    background-repeat: no-repeat;
 }
 
 .passwordresetBackground {
-	background-image: url(/theme/img/backgrindex.jpg);
-	background-repeat: no-repeat;
+    background-image: url(/theme/img/backgrindex.jpg);
+    background-repeat: no-repeat;
 }
 
-#columnsmain { 
-	width: 750px; 
-	}
+#columnsmain {
+    width: 750px;
+}
 
-#leftcolumn { 
-	width: 430px; 
-	float: left;
-	padding: 10px 10px 10px 10px;
-	}
+#leftcolumn {
+    width: 430px;
+    float: left;
+    padding: 10px 10px 10px 10px;
+}
 
-#rightcolumn { 
-	width: 280px; 
-	float: right;
-	padding: 10px 10px 10px 10px;
-	}
+#rightcolumn {
+    width: 280px;
+    float: right;
+    padding: 10px 10px 10px 10px;
+}
 
 #subheader {
-	padding:0;
-	margin:0;
-	vertical-align:bottom;
-	}
+    padding:0;
+    margin:0;
+    vertical-align:bottom;
+}
+
+
+.predictorTableWidth {
+    table-layout: fixed;
+}
+
+.predictorNameWidth {
+    width:200px;
+}
+
+.predictorDatasetWidth {
+    width:150px;
+}
+
+.predictorNfoldWidth {
+    width:20px;
+}
+
+.predictorActtypeWidth {
+    width:50px;
+}
+
+.predictorExternalWidth {
+    width:50px;
+}
+
+.predictorModelingWidth {
+    width:65px;
+}
+
+.predictorDescriptorWidth {
+    width:60px;
+}
+
+.predictorPublicWidth {
+    width:35px;
+}
+
+.predictorDateWidth {
+    width:95px;
+}
