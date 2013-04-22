@@ -716,19 +716,19 @@ public class ModelingFormActions extends ActionSupport
     // end kNN Parameters
 
     // begin knn+ parameters
-    private String knnMinNumDescriptors              = "15";
-    private String knnMaxNumDescriptors              = "30";
-    private String knnDescriptorStepSize             = "5";
+    private String knnMinNumDescriptors              = "5";
+    private String knnMaxNumDescriptors              = "45";
+    private String knnDescriptorStepSize             = "4";
     private String knnMinNearestNeighbors            = "1";
-    private String knnMaxNearestNeighbors            = "6";
+    private String knnMaxNearestNeighbors            = "5";
 
     private String saNumRuns                         = "3";
     private String saMutationProbabilityPerDescriptor = "0.2";
     private String saNumBestModels                   = "2";
-    private String saTempDecreaseCoefficient         = "0.75";
-    private String saLogInitialTemp                  = "5";
-    private String saFinalTemp                       = "5";
-    private String saTempConvergence                 = "5";
+    private String saTempDecreaseCoefficient         = "0.6";
+    private String saLogInitialTemp                  = "2";
+    private String saFinalTemp                       = "-5";
+    private String saTempConvergence                 = "-2";
     private String gaPopulationSize                  = "250";
     private String gaMaxNumGenerations               = "500";
     private String gaNumStableGenerations            = "10";
@@ -737,7 +737,7 @@ public class ModelingFormActions extends ActionSupport
 
     private String knnApplicabilityDomain            = "0.5";
     private String knnMinTraining                    = "0.6";
-    private String knnMinTest                        = "0.6";
+    private String knnMinTest                        = "0.7";
     private String knnSaErrorBasedFit                = "false";
     private String knnGaErrorBasedFit                = "false";
 
