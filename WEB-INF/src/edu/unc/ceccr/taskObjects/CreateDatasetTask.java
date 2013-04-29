@@ -273,12 +273,12 @@ public class CreateDatasetTask extends WorkflowTask
 
             // the dataset included an SDF so we need to generate descriptors
             // from it
-            logger.debug("User: " +userName +"Job: "+ jobName+" Generating MolconnZ Descriptors");
+	    // logger.debug("User: " +userName +"Job: "+ jobName+" Generating MolconnZ Descriptors");
             // GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path +
             // sdfFileName, path + descriptorDir + sdfFileName + ".mz");
-            GenerateDescriptors.GenerateMolconnZDescriptors(path
-                    + sdfFileName, path + descriptorDir + sdfFileName
-                    + ".molconnz");
+	    // GenerateDescriptors.GenerateMolconnZDescriptors(path
+            //        + sdfFileName, path + descriptorDir + sdfFileName
+            //        + ".molconnz");
 
             logger.debug("User: " +userName +"Job: "+ jobName+" Generating CDK Descriptors");
             GenerateDescriptors.GenerateCDKDescriptors(path + sdfFileName,
@@ -304,7 +304,7 @@ public class CreateDatasetTask extends WorkflowTask
 
             step = Constants.CHECKDESCRIPTORS;
             // MolconnZ
-            String errors = CheckDescriptors.checkMolconnZDescriptors(path
+            /*String errors = CheckDescriptors.checkMolconnZDescriptors(path
                     + descriptorDir + sdfFileName + ".molconnz");
             if (errors.equals("")) {
                 availableDescriptors += Constants.MOLCONNZ + " ";
@@ -316,9 +316,9 @@ public class CreateDatasetTask extends WorkflowTask
                         new FileWriter(errorSummaryFile));
                 errorSummary.write(errors);
                 errorSummary.close();
-            }
+		}*/
             // CDK
-            errors = CheckDescriptors.checkCDKDescriptors(path
+            String errors = CheckDescriptors.checkCDKDescriptors(path
                     + descriptorDir + sdfFileName + ".cdk");
             if (errors.equals("")) {
                 availableDescriptors += Constants.CDK + " ";

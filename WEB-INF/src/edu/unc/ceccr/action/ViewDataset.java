@@ -434,6 +434,7 @@ public class ViewDataset extends ViewAction {
 		descriptorsDir += "DATASETS/" + dataset.getName() + "/Descriptors/Logs/";
 		
 		//read descriptor program outputs
+		/*
 		DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
 		molconnZResult.setDescriptorType("MolconnZ");
 		if((new File(descriptorsDir + "molconnz.out")).exists()){
@@ -449,7 +450,7 @@ public class ViewDataset extends ViewAction {
 			molconnZResult.setGenerationResult("Descriptor generation failed. See program output for details.");
 		}
 		descriptorGenerationResults.add(molconnZResult);
-
+		*/
 		
 		DescriptorGenerationResult cdkResult = new DescriptorGenerationResult();
 		cdkResult.setDescriptorType("CDK");
