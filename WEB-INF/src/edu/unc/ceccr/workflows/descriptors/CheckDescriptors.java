@@ -17,7 +17,8 @@ public class CheckDescriptors
     // dragon, etc.)
     // Look for any errors that would make the output unusable in modeling
     // Return an HTML-formatted string with user-readable feedback
-
+    
+    /*
     public static String
             checkMolconnZDescriptors(String molconnZOutputFile) throws Exception
     {
@@ -124,6 +125,7 @@ public class CheckDescriptors
                 + molconnZOutputFile);
         return errors;
     }
+    */
 
     public static String
             checkDragonDescriptors(String dragonOutputFile) throws Exception
