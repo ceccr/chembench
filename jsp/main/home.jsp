@@ -36,7 +36,7 @@
         <hr {color="" background-color="" #fff="" border="" 1px="" #ff0000="" border-style="" none="" dotted="" }="">
         <div class="ccbHomeStandard">
             <p>Chembench is a free portal that enables researchers to mine available chemical and biological data. Chembench can help researchers
-                rationally design or select new compounds or compound libraries withsignificantly enhanced hit rates in screening experiments.</p>
+                rationally design or select new compounds or compound libraries with significantly enhanced hit rates in screening experiments.</p>
             <img style="width: 100%; height: 101px;" alt="molecular_image" src="/theme/ccbTheme/images/ccbHomeMolecule3d.jpg">
             <br>
             <br>
