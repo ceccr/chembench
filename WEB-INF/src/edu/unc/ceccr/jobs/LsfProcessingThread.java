@@ -23,14 +23,14 @@ import org.apache.log4j.Logger;
 
 public class LsfProcessingThread extends Thread
 {
-    private static Logger logger 
-                     = Logger.getLogger(LsfProcessingThread.class.getName());
+    private static Logger   logger         = Logger.getLogger(LsfProcessingThread.class
+                                                   .getName());
     // this works on the LSFJobs joblist.
     // You should only ever have one of these threads running - don't start a
     // second one!
 
-    // used to determine when a job goes from PEND  to RUN.
-    HashMap<String, String> oldLsfStatuses = new HashMap<String, String>(); 
+    // used to determine when a job goes from PEND to RUN.
+    HashMap<String, String> oldLsfStatuses = new HashMap<String, String>();
 
     public void run()
     {
@@ -38,12 +38,11 @@ public class LsfProcessingThread extends Thread
         while (true) {
             try {
                 sleep(1500);
-                ArrayList<Job> readOnlyJobArray 
-                       = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
+                ArrayList<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs
+                        .getReadOnlyCopy();
 
                 // do not call checkLsfStatus more than once in this function
-                ArrayList<LsfJobStatus> lsfJobStatuses 
-                       = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
+                ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
 
                 // For every finished job, do postprocessing.
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {
@@ -54,17 +53,14 @@ public class LsfProcessingThread extends Thread
                             if (j.getLsfJobId() != null
                                     && j.getLsfJobId()
                                             .equals(jobStatus.jobid)) {
-                                logger.debug(
-                                    "LSFQueue: trying postprocessing on job: "
-                                   + j.getJobName()
-                                   + " from user: "
-                                   + j.getUserName()
-                                            );
+                                logger.debug("LSFQueue: trying postprocessing on job: "
+                                        + j.getJobName()
+                                        + " from user: "
+                                        + j.getUserName());
                                 if (CentralDogma.getInstance().lsfJobs
                                         .startPostJob(j.getId())) {
                                     try {
-                                        logger.debug(
-                                                "Postprocessing job: "
+                                        logger.debug("Postprocessing job: "
                                                 + j.getJobName()
                                                 + " from user: "
                                                 + j.getUserName());
@@ -99,18 +95,19 @@ public class LsfProcessingThread extends Thread
 
                                         // send an email to the site
                                         // administrator
-                                        Session s = HibernateUtil.getSession();
+                                        Session s = HibernateUtil
+                                                .getSession();
                                         User sadUser = PopulateDataObjects
-                                                        .getUserByUserName(
-                                                           j.getUserName(), s);
+                                                .getUserByUserName(j
+                                                        .getUserName(), s);
                                         s.close();
 
                                         // prepare a nice HTML-formatted
                                         // readable version of the exception
                                         StringWriter sw = new StringWriter();
                                         ex.printStackTrace(new PrintWriter(sw));
-                                        String exceptionAsString 
-                                                        = sw.toString();
+                                        String exceptionAsString = sw
+                                                .toString();
                                         logger.error(exceptionAsString);
                                         exceptionAsString = exceptionAsString
                                                 .replaceAll("at edu",
@@ -121,28 +118,28 @@ public class LsfProcessingThread extends Thread
                                                 + j.getUserName()
                                                 + "'s job \""
                                                 + j.getJobName()
-                                                + "\" failed. You might want" +
-                                                " to look into that. Their " +
-                                                "email is "
+                                                + "\" failed. You might want"
+                                                + " to look into that. Their "
+                                                + "email is "
                                                 + sadUser.getEmail()
                                                 + " and their name is "
                                                 + sadUser.getFirstName()
                                                 + " "
                                                 + sadUser.getLastName()
-                                                + " in case you want to " +
-                                                "give them hope of a " +
-                                                "brighter tomorrow."
-                                                + "<br /><br />Here's the " +
-                                                "exception it threw: <br />"
+                                                + " in case you want to "
+                                                + "give them hope of a "
+                                                + "brighter tomorrow."
+                                                + "<br /><br />Here's the "
+                                                + "exception it threw: <br />"
                                                 + ex.toString()
-                                                + "<br /><br />Good " +
-                                                "luck!<br />--Chembench";
-                                        
-                                        message += "<br /><br />The full " +
-                                        		"stack trace is below. " +
-                                        		"Happy debugging!<br /><br />"
+                                                + "<br /><br />Good "
+                                                + "luck!<br />--Chembench";
+
+                                        message += "<br /><br />The full "
+                                                + "stack trace is below. "
+                                                + "Happy debugging!<br /><br />"
                                                 + exceptionAsString;
-                                        
+
                                         SendEmails.sendEmail(
                                                 "ceccr@email.unc.edu", "",
                                                 "", "Job failed: "
@@ -168,8 +165,7 @@ public class LsfProcessingThread extends Thread
 
                             try {
                                 logger.info("LSFQueue: Starting job "
-                                        + j.getJobName()
-                                        + " from user "
+                                        + j.getJobName() + " from user "
                                         + j.getUserName());
 
                                 boolean jobIsRunningAlready = false;
@@ -180,10 +176,13 @@ public class LsfProcessingThread extends Thread
                                     // This will happen if the system was
                                     // rebooted while the job was running.
                                     for (LsfJobStatus jobStatus : lsfJobStatuses) {
-                                        if (jobStatus.jobid.equals(j.getLsfJobId())
-                                            && (jobStatus.stat.equals("PEND")
-                                            || jobStatus.stat.equals("RUN") 
-                                            || jobStatus.stat.equals("SSUSP"))) {
+                                        if (jobStatus.jobid.equals(j
+                                                .getLsfJobId())
+                                                && (jobStatus.stat
+                                                        .equals("PEND")
+                                                        || jobStatus.stat
+                                                                .equals("RUN") || jobStatus.stat
+                                                            .equals("SSUSP"))) {
                                             // job is already running, so
                                             // don't do anything to it
                                             jobIsRunningAlready = true;
@@ -202,10 +201,9 @@ public class LsfProcessingThread extends Thread
                                 if (!jobIsRunningAlready) {
                                     // job is not already running; needs to be
                                     // started.
-                                    logger.info("LSFQueue: "
-                                            + j.getJobName()
-                                            + " was not running already; it " +
-                                            "is being preprocessed.");
+                                    logger.info("LSFQueue: " + j.getJobName()
+                                            + " was not running already; it "
+                                            + "is being preprocessed.");
                                     j.setTimeStarted(new Date());
                                     j.setStatus(Constants.PREPROC);
                                     j.workflowTask.preProcess();
@@ -219,9 +217,8 @@ public class LsfProcessingThread extends Thread
                             }
                             catch (Exception ex) {
                                 // Job failed or threw an exception
-                                logger.warn("JOB FAILED: "
-                                        + j.getUserName() + " "
-                                        + j.getJobName());
+                                logger.warn("JOB FAILED: " + j.getUserName()
+                                        + " " + j.getJobName());
                                 CentralDogma.getInstance()
                                         .moveJobToErrorList(j.getId());
                                 CentralDogma.getInstance().lsfJobs
@@ -243,38 +240,36 @@ public class LsfProcessingThread extends Thread
                                 User sadUser = PopulateDataObjects
                                         .getUserByUserName(j.getUserName(), s);
                                 s.close();
-                                
+
                                 String message = "Heya, <br />"
-                                        + j.getUserName()
-                                        + "'s job \""
+                                        + j.getUserName() + "'s job \""
                                         + j.getJobName()
-                                        + "\" failed. You might want" +
-                                        " to look into that. Their " +
-                                        "email is "
-                                        + sadUser.getEmail()
+                                        + "\" failed. You might want"
+                                        + " to look into that. Their "
+                                        + "email is " + sadUser.getEmail()
                                         + " and their name is "
-                                        + sadUser.getFirstName()
-                                        + " "
+                                        + sadUser.getFirstName() + " "
                                         + sadUser.getLastName()
-                                        + " in case you want to " +
-                                        "give them hope of a " +
-                                        "brighter tomorrow."
-                                        + "<br /><br />Here's the " +
-                                        "exception it threw: <br />"
-                                        + ex.toString()
-                                        + "<br /><br />Good " +
-                                        "luck!<br />--Chembench";
-                                
-                                message += "<br /><br />The full " +
-                                        "stack trace is below. " +
-                                        "Happy debugging!<br /><br />"
+                                        + " in case you want to "
+                                        + "give them hope of a "
+                                        + "brighter tomorrow."
+                                        + "<br /><br />Here's the "
+                                        + "exception it threw: <br />"
+                                        + ex.toString() + "<br /><br />Good "
+                                        + "luck!<br />--Chembench";
+
+                                message += "<br /><br />The full "
+                                        + "stack trace is below. "
+                                        + "Happy debugging!<br /><br />"
                                         + exceptionAsString;
 
-				for (String adminEmailAddress : Constants.ADMINEMAIL_LIST) {
-					SendEmails.sendEmail(adminEmailAddress,
-						"", "", "Job failed: "
-							+ j.getJobName(), message);
-				}
+                                for (String adminEmailAddress : Constants.ADMINEMAIL_LIST) {
+                                    SendEmails
+                                            .sendEmail(adminEmailAddress, "",
+                                                    "", "Job failed: "
+                                                            + j.getJobName(),
+                                                    message);
+                                }
                                 break;
                             }
                         }
@@ -288,12 +283,14 @@ public class LsfProcessingThread extends Thread
                     // previous check
                     for (LsfJobStatus jobStatus : lsfJobStatuses) {
                         if ((oldLsfStatuses.containsKey(jobStatus.jobid)
-                          && oldLsfStatuses.get(jobStatus.jobid).equals("PEND")
-                          && jobStatus.stat.equals("RUN"))
-                          || (!oldLsfStatuses.containsKey(jobStatus.jobid) 
-                          && jobStatus.stat.equals("RUN"))) {
-                          // the job *just* started on LSF. Find the job
-                          // with this lsfJobId and set its date.
+                                && oldLsfStatuses.get(jobStatus.jobid)
+                                        .equals("PEND") && jobStatus.stat
+                                    .equals("RUN"))
+                                || (!oldLsfStatuses
+                                        .containsKey(jobStatus.jobid) && jobStatus.stat
+                                        .equals("RUN"))) {
+                            // the job *just* started on LSF. Find the job
+                            // with this lsfJobId and set its date.
                             for (Job j : readOnlyJobArray) {
                                 if (j.getLsfJobId() != null
                                         && j.getLsfJobId().equals(
@@ -308,8 +305,7 @@ public class LsfProcessingThread extends Thread
                     }
                 }
                 catch (Exception ex) {
-                    logger.error("Error checking job completion.\n"+
-                                ex);
+                    logger.error("Error checking job completion.\n" + ex);
                 }
 
             }
@@ -325,8 +321,7 @@ public class LsfProcessingThread extends Thread
         // if that number is less than the limit return true
         // else return false
 
-        if (CentralDogma.getInstance().lsfJobs.getReadOnlyCopy().size() 
-                                                > Constants.MAXLSFJOBS) {
+        if (CentralDogma.getInstance().lsfJobs.getReadOnlyCopy().size() > Constants.MAXLSFJOBS) {
             return false;
         }
         else {
