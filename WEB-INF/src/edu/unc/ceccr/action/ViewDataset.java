@@ -173,7 +173,15 @@ public class ViewDataset extends ViewAction {
 			    public int compare(Compound o1, Compound o2) {
 			    	float f1 = Float.parseFloat(o1.getActivityValue());
 			    	float f2 = Float.parseFloat(o2.getActivityValue());
-			    	return (f2 < f1? 1:-1);
+			    	if (f1 < f2) {
+			    	    return -1;
+			    	}
+			    	else if (f2 < f1) {
+			    	    return 1;
+			    	}
+			    	else {
+			    	    return 0;
+			    	}
 			    }});
 		}
 		if(sortDirection != null && sortDirection.equals("desc")){
@@ -261,7 +269,15 @@ public class ViewDataset extends ViewAction {
 			    public int compare(Compound o1, Compound o2) {
 			    	float f1 = Float.parseFloat(o1.getActivityValue());
 			    	float f2 = Float.parseFloat(o2.getActivityValue());
-			    	return (f2 < f1? 1:-1);
+			    	if (f1 < f2) {
+			    	    return -1;
+			    	}
+			    	else if (f2 < f1) {
+			    	    return 1;
+			    	}
+			    	else {
+			    	    return 0;
+			    	}
 			    }});
 		}
 		else{
@@ -350,7 +366,15 @@ public class ViewDataset extends ViewAction {
 			    public int compare(Compound o1, Compound o2) {
 			    	float f1 = Float.parseFloat(o1.getActivityValue());
 			    	float f2 = Float.parseFloat(o2.getActivityValue());
-			    	return (f2 < f1? 1:-1);
+			    	if (f1 < f2) {
+			    	    return -1;
+			    	}
+			    	else if (f2 < f1) {
+			    	    return 1;
+			    	}
+			    	else {
+			    	    return 0;
+			    	}
 			    }});
 		}
 		else{
