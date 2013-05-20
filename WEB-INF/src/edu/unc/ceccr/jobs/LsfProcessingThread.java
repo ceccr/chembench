@@ -270,9 +270,11 @@ public class LsfProcessingThread extends Thread
                                         "Happy debugging!<br /><br />"
                                         + exceptionAsString;
 
-                                SendEmails.sendEmail("ceccr@email.unc.edu",
-                                        "", "", "Job failed: "
-                                                + j.getJobName(), message);
+				for (String adminEmailAddress : Constants.ADMINEMAIL_LIST) {
+					SendEmails.sendEmail(adminEmailAddress,
+						"", "", "Job failed: "
+							+ j.getJobName(), message);
+				}
                                 break;
                             }
                         }

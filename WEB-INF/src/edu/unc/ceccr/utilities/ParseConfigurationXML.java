@@ -33,18 +33,21 @@ ParseConfigurationXML
             doc.getDocumentElement ().normalize ();
     
             NodeList listOfAdmins = doc.getElementsByTagName("admin");
+            logger.info("Admin(s) found: " + listOfAdmins.getLength());
             for(int s=0; s<listOfAdmins.getLength() ; s++){
                 Node adminNode = listOfAdmins.item(s);
                 if(adminNode.getNodeType() == Node.ELEMENT_NODE){
                     String userName 
-                               = getNestedNodeValue((Element)adminNode,"name");
+                               = getNestedNodeValue((Element) adminNode,"name");
                     if(userName.length()>0){
                         Constants.ADMIN_LIST.add(userName);
+                        logger.info("Added admin: " + userName);
                     }
                     String email 
-                              = getNestedNodeValue((Element)adminNode,"email");
+                              = getNestedNodeValue((Element) adminNode,"email");
                     if(email.length()>0&&SendEmails.isValidEmail(email)){
                         Constants.ADMINEMAIL_LIST.add(email);
+                        logger.info("Added admin email: " + email);
                     }
                 }
             }
@@ -112,105 +115,105 @@ ParseConfigurationXML
                                                ,"privateKey"
                                                     );          
             Constants.MOLCONNZ_MODELING_DATFILE_PATH 
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"molconnz")
-							            		,"modelingDatFilePath"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"molconnz")
+                                                                                ,"modelingDatFilePath"
+                                                                                                ); 
             Constants.MOLCONNZ_PREDICTION_DATFILE_PATH
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"molconnz")
-							            		,"predictionDatFilePath"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"molconnz")
+                                                                                ,"predictionDatFilePath"
+                                                                                                ); 
             Constants.MOLCONNZ_CSV_DATFILE_PATH
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"molconnz")
-							            		,"csvDatFilePath"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"molconnz")
+                                                                                ,"csvDatFilePath"
+                                                                                                ); 
             Constants.CDK_XMLFILE_PATH
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"cdk")
-							            		,"xmlFilePath"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"cdk")
+                                                                                ,"xmlFilePath"
+                                                                                                ); 
             Constants.RF_BUILD_MODEL_RSCRIPT
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"randomForest")
-							            		,"buildModelRScript"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"randomForest")
+                                                                                ,"buildModelRScript"
+                                                                                                ); 
             Constants.RF_PREDICT_RSCRIPT
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"randomForest")
-							            		,"predictRScript"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"randomForest")
+                                                                                ,"predictRScript"
+                                                                                                ); 
             Constants.RF_DESCRIPTORS_USED_FILE
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"randomForest")
-							            		,"descriptorsUsedFile"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"randomForest")
+                                                                                ,"descriptorsUsedFile"
+                                                                                                ); 
             Constants.KNN_OUTPUT_FILE
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"knn")
-							            		,"outputFile"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"knn")
+                                                                                ,"outputFile"
+                                                                                                ); 
             Constants.EXTERNAL_VALIDATION_OUTPUT_FILE
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"other")
-							            		,"externalValidationOutputFile"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"other")
+                                                                                ,"externalValidationOutputFile"
+                                                                                                ); 
             Constants.PRED_OUTPUT_FILE
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"other")
-							            		,"predOutputFile"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"other")
+                                                                                ,"predOutputFile"
+                                                                                                ); 
             Constants.KNN_DEFAULT_FILENAME
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"knn")
-							            		,"defaultFileName"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"knn")
+                                                                                ,"defaultFileName"
+                                                                                                ); 
             Constants.KNN_CATEGORY_DEFAULT_FILENAME
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"knn")
-							            		,"defaultCategoryFileName"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"knn")
+                                                                                ,"defaultCategoryFileName"
+                                                                                                ); 
             Constants.SE_DEFAULT_FILENAME
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"other")
-							            		,"seDefaultFileName"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"other")
+                                                                                ,"seDefaultFileName"
+                                                                                                ); 
             Constants.DESCRIPTOR_ERROR_FILE
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"other")
-							            		,"descriptorErrorFile"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"other")
+                                                                                ,"descriptorErrorFile"
+                                                                                                ); 
             Constants.KNNPLUS_MODELS_FILENAME
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"knn")
-							            		,"modelsFileName"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"knn")
+                                                                                ,"modelsFileName"
+                                                                                                ); 
             Constants.EXTERNAL_SET_A_FILE
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"setFiles")
-							            		,"externalA"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"setFiles")
+                                                                                ,"externalA"
+                                                                                                ); 
             Constants.EXTERNAL_SET_X_FILE
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"setFiles")
-							            		,"externalX"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"setFiles")
+                                                                                ,"externalX"
+                                                                                                ); 
             Constants.MODELING_SET_A_FILE
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"setFiles")
-							            		,"modelingA"
-						           		 			); 
-			Constants.MODELING_SET_X_FILE
-						        = getNestedNodeValue(
-							            		getParentNode(doc,"setFiles")
-							            		,"modelingX"
-						           		 			); 
-			Constants.IMAGE_FILEPATH
-								= getNestedNodeValue(
-							            		getParentNode(doc,"other")
-							            		,"imgPath"
-						           		 			); 
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"setFiles")
+                                                                                ,"modelingA"
+                                                                                                ); 
+                        Constants.MODELING_SET_X_FILE
+                                                        = getNestedNodeValue(
+                                                                                getParentNode(doc,"setFiles")
+                                                                                ,"modelingX"
+                                                                                                ); 
+                        Constants.IMAGE_FILEPATH
+                                                                = getNestedNodeValue(
+                                                                                getParentNode(doc,"other")
+                                                                                ,"imgPath"
+                                                                                                ); 
             Constants.CECCR_BASE_PATH
                                 = getSingNodeValue(doc,"systemBasePath");
             if(! Constants.CECCR_BASE_PATH.endsWith("/")){
@@ -220,9 +223,9 @@ ParseConfigurationXML
             Constants.CECCR_USER_BASE_PATH
                                 = getSingNodeValue(doc,"userFilesPath");
             Constants.SCRIPTS_PATH
-            					= getSingNodeValue(doc,"scriptsPath");
+                                                = getSingNodeValue(doc,"scriptsPath");
             Constants.SYSTEMCONFIG_XML_PATH
-								= getSingNodeValue(doc,"sysConfigPath");
+                                                                = getSingNodeValue(doc,"sysConfigPath");
             
             Constants.TOMCAT_PATH
                                 = getSingNodeValue(doc,"tomcatPath");
@@ -238,9 +241,9 @@ ParseConfigurationXML
 
             Constants.BUILD_DATE_FILE_PATH 
                                  = Constants.TOMCAT_PATH 
-	                                 + getNestedNodeValue(
-							            	getParentNode(doc,"other")
-							            		,"buildDateFile");
+                                         + getNestedNodeValue(
+                                                                        getParentNode(doc,"other")
+                                                                                ,"buildDateFile");
         //FIXME:Does not exist! Uknown purpose
             Constants.XML_FILE_PATH 
                                  = Constants.CECCR_BASE_PATH +"xml-files/";
