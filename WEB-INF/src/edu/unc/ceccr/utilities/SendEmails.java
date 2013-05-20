@@ -19,7 +19,9 @@ public class SendEmails {
     private static Logger logger = Logger.getLogger(SendEmails.class.getName());
 
     public static boolean isValidEmail(String email) {
-        return (email.indexOf("@") > 0) && (email.indexOf(".") > 2);
+        // FIXME don't roll your own email address validator
+        // TODO switch to Apache commons
+        return (email.length() > 0 && email.indexOf("@") > 0) && (email.indexOf(".") > 2);
     }
     
     public static void sendJobCompletedEmail(Job j) throws Exception{
