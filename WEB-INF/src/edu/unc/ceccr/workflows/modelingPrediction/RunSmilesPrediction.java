@@ -319,7 +319,7 @@ public class RunSmilesPrediction
         String sdfFileName = "smiles.sdf";
            
         /* execute molconvert to change it to SDF */
-        String execstr = "molconvert -2:O1 sdf " 
+        String execstr = "molconvert sdf " 
                         + smilesDir 
                         + "tmp.smiles -o " 
                         + smilesDir 
