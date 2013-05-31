@@ -37,7 +37,12 @@
 <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 <div class="StandardTextDarkGrayParagraph benchBackground benchAlign">
     <div class="homeLeft">
-        <br /> <br />
+        <div id="horizontalmenu">
+            <div class="adminlink"><a href="#jobs">Jobs</a></div>
+            <div class="adminlink"><a href="#datasets">Datasets</a></div>
+            <div class="adminlink"><a href="#predictors">Predictors</a></div>
+            <div class="adminlink"><a href="#predictions">Predictions</a></div>
+        </div>
         <p style="margin-left:20px">
             <b>My Bench</b> <br /> <br /> Every dataset, predictor, and
             prediction you have created on Chembench is available on this page.
