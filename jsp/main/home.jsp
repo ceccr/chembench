@@ -46,8 +46,6 @@
                     Production Centers Network (MLPCN)</a> and the Chemical Synthesis
                 Centers.</p>
             <p>Please cite this website using the following URL: <a href="http://chembench.mml.unc.edu">http://chembench.mml.unc.edu</a></p>
-            <noscript><p>&nbsp;<font color="red">Warning: JavaScript is disabled on your computer. Some parts of Chembench may
-                not work properly. Please enable JavaScript.</font></p></noscript>
             <hr {color="" background-color="" #fff="" border="" 1px="" #ff0000="" border-style="" none="" dotted="" }="">
             <p>The Carolina Cheminformatics Workbench (Chembench) is developed by the Carolina Exploratory Center for Cheminformatics Research (CECCR) with the support of the
                 <a href="http://www.nih.gov" target="_blank">National Institutes of Health</a> (grants

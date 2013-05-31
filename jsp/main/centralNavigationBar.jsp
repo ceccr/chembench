@@ -20,3 +20,14 @@
     </li></a>
 
 </ul>
+
+<noscript>
+    <p style="text-align:center;margin:0;">
+    <span style="color:red;">
+        Warning: JavaScript is disabled on your computer. 
+        Some parts of Chembench may not work properly. 
+        Please enable JavaScript.
+    </span>
+    </p>
+</noscript>
+
