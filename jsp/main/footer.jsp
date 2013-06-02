@@ -6,7 +6,7 @@
     <li class="ccbHomeStandard footerMiddle"><br />
         <center>Carolina Exploratory Center for Cheminformatics
             Research</center>
-        <center>All Rights Reserved (2010)</center>
+        <center>All Rights Reserved (2013)</center>
         <center>CHEMBENCH Project supported by NIH (grants
             P20HG003898 and R01GM066940) and EPA (grants RD83382501 and RD832720)</center>
     </li>
