@@ -1,7 +1,7 @@
 <ul class="navList">
     <li class="StandardTextBlack footerSide"><br> <a
             href="http://mml.unc.edu/"><img
-            src="http://chembench.mml.unc.edu/theme/img/mml-logo.png" border="0"></a>
+            src="theme/img/mml-logo.png" border="0"></a>
     </li>
     <li class="ccbHomeStandard footerMiddle"><br />
         <center>Carolina Exploratory Center for Cheminformatics
@@ -12,6 +12,6 @@
     </li>
     <li class="StandardTextBlack footerSide"><br> <a
             href="http://its.unc.edu/" target="_blank"><img
-            src="http://chembench.mml.unc.edu/theme/img/its-logo.png" border="0"></a>
+            src="theme/img/its-logo.png" border="0"></a>
     </li>
 </ul>

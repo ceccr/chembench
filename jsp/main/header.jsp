@@ -4,7 +4,7 @@
 <%@page language="java" import="java.util.*" %>
 
 <div class="homeLeft">
-    <img src="http://chembench.mml.unc.edu/theme/ccbTheme/images/ccbLogo.jpg" alt="Chembench logo" id="header-image" name="header-image">
+    <img src="theme/ccbTheme/images/ccbLogo.jpg" alt="Chembench logo" id="header-image" name="header-image">
 </div>
 
 <div class="StandardTextDarkGrayParagraph loginRight">
