@@ -71,11 +71,7 @@ HomeAction extends ActionSupport implements ServletResponseAware
     {
         try {
             //stuff that needs to happen on server startup
-            String debugText = "";
-            if (Constants.doneReadingConfigFile) {
-                debugText = "already read config file (?)";
-            }
-            else {
+            if (!Constants.doneReadingConfigFile) {
                 try {
                 	// read $CHEMBENCH_HOME, then append config directory / filename;
                 	// throw an exception if env-var can't be read or is empty 
@@ -98,10 +94,9 @@ HomeAction extends ActionSupport implements ServletResponseAware
                     Utility.readBuildDateAndSystemConfig(configFile.getPath());
                 }
                 catch (Exception ex) {
-                    debugText += ex.getMessage();
+                    logger.error(ex);
                 }
             }
-            FileAndDirOperations.writeStringToFile(debugText, "/CHEMBENCH/prod/tomcat6/webapps/logs/debug-log.txt");
             
             //start up the queues, if they're not running yet
             CentralDogma.getInstance();
