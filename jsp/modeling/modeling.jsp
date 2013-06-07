@@ -361,7 +361,7 @@ function calculateRuntimeEstimate(){
         </p>
 
         <div class="StandardTextDarkGrayParagraph"><b>Descriptor Type:</b></div>
-        <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" onclick="setDescriptorScaling()" id="descriptorGenerationType" value="descriptorGenerationType" list="#{'CDK':'CDK [202 descriptors]<br />', 'MOLCONNZ':'MolconnZ [375 descriptors]<br />','DRAGONH':'Dragon (with hydrogens) [2489 descriptors]<br />','DRAGONNOH':'Dragon (no hydrogens) [900 descriptors]<br />','MACCS':'Maccs [166 descriptors]<br />','MOE2D':'MOE2D [184 descriptors]<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
+        <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" onclick="setDescriptorScaling()" id="descriptorGenerationType" value="descriptorGenerationType" list="#{'CDK':'CDK [202 descriptors]<br />', 'MOLCONNZ':'MolconnZ [375 descriptors]<br />','DRAGONH':'Dragon (with hydrogens) [2489 descriptors]<br />','DRAGONNOH':'Dragon (no hydrogens) [900 descriptors]<br />','MACCS':'MACCS [166 descriptors]<br />','MOE2D':'MOE2D [184 descriptors]<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
         <br />
 
 
