@@ -21,12 +21,12 @@
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Trees Per Split:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="numTrees" name="numTrees" size="5" theme="simple"/>
 				</td></tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Descriptors Sampled per Node:</b></div></td>
+				<%--<tr><td><div class="StandardTextDarkGrayParagraph"><b>Descriptors Sampled per Node:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="descriptorsPerTree" name="descriptorsPerTree" size="5" theme="simple"/>
-				</td></tr>
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Terminal Node Size:</b></div></td>
+				</td></tr>--%>
+				<%--<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Terminal Node Size:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="minTerminalNodeSize" name="minTerminalNodeSize" size="5" theme="simple"/>
-				</td></tr>
+				</td></tr>--%>
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Maximum Number of Terminal Nodes (0 = no limit):</b></div></td>
 				<td align="left" valign="top"><s:textfield id="maxNumTerminalNodes" name="maxNumTerminalNodes" size="5" theme="simple"/>
 				</td></tr>
