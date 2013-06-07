@@ -157,10 +157,27 @@ public class RandomForest
         String type = actFileDataType.equals(Constants.CATEGORY) ? "classification"
                 : "regression";
         String ntree = randomForestParameters.getNumTrees().trim();
-        String mtry = randomForestParameters.getDescriptorsPerTree().trim();
+
+        /*
+         * FIXME mtry & nodesize currently disabled because defaults should be
+         * used in most cases instead. Eventually, add these to an "advanced
+         * options" section in the RF modeling form and then conditionally set
+         * them to form values, if those values are not null.
+         *
+         * XXX that change needs to be made in randomForestBuildModel.R as well!
+         *
+        //String nodesize = randomForestParameters.getMinTerminalNodeSize();
+        String mtry = randomForestParameters.getDescriptorsPerTree();
+        if (mtry != null) {
+            mtry = mtry.trim();
+        }
+        */
+        //String nodesize = randomForestParameters.getMinTerminalNodeSize();
+
         // String classwt = categoryWeights;
         String classwt = "NULL";
-        String nodesize = randomForestParameters.getMinTerminalNodeSize();
+
+        //String nodesize = randomForestParameters.getMinTerminalNodeSize();
         String maxnodes = randomForestParameters.getMaxNumTerminalNodes();
 
         String externalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
@@ -174,15 +191,25 @@ public class RandomForest
             externalXFile = "RF_" + Constants.MODELING_SET_X_FILE;
         }
 
-        if (maxnodes.equals("0"))
+        if (maxnodes.equals("0")) {
             maxnodes = "NULL";
+        }
         command = "Rscript --vanilla " + buildModelScript + " --scriptsDir "
                 + scriptDir + " --workDir " + workingDir
                 + " --externalXFile " + externalXFile
                 + " --dataSplitsListFile " + "RF_RAND_sets.list" + " --type "
-                + type + " --ntree " + ntree + " --mtry " + mtry
-                + " --classwt " + classwt + " --nodesize " + nodesize
+                + type + " --ntree " + ntree
+                + " --classwt " + classwt
                 + " --maxnodes " + maxnodes;
+        /*
+         * FIXME disabled until default-if-not-provided is implemented
+        if (mtry != null) {
+            command += " --mtry" + mtry;
+        }
+        if (nodesize != null) {
+            command += " --nodesize " + nodesize;
+        }
+        */
 
         RunExternalProgram.runCommandAndLogOutput(command, workingDir,
                 "randomForestBuildModel");
