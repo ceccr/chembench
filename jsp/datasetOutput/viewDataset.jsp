@@ -218,7 +218,6 @@
 	<!-- end load tabs -->
 	</span>
 	<div id="image_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute"><img src="" width="300" height="300"/></div>
-<%@include file ="/jsp/main/footer.jsp" %>
 </table>
 <script language="javascript">
 $(document).ready(function() {
@@ -236,6 +235,7 @@ $(document).ready(function() {
 	});
 	
 });
+</script>
 <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 
         </div>
