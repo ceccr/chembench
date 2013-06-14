@@ -43,7 +43,7 @@
 .footerSide {
 	margin: 0pt; 
 	height: 118px; 
-	background-image: url(http://chembench.mml.unc.edu/theme/img/infocell.jpg); 
+	background-image: url(img/infocell.jpg); 
 	float: left; 
 	width: 24%;
 }
@@ -51,7 +51,7 @@
 .footerMiddle {
 	margin: 0pt; 
 	height: 118px; 
-	background-image: url(http://chembench.mml.unc.edu/theme/img/infocell.jpg); 
+	background-image: url(img/infocell.jpg); 
 	float: left; 
 	width: 49.5%;
 }
