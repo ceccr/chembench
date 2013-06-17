@@ -27,99 +27,111 @@ public class RandomForestModelsPage extends ViewPredictorAction
     private List<RandomForestGrove> randomForestGroves;
     private List<RandomForestTree>  randomForestTrees;
 
-    public String load() throws Exception
+    public String load()
     {
+        String result = null;
+        try {
+            result = getBasicParameters();
+            if (!result.equals(SUCCESS)) {
+                return result;
+            }
+            getModelsPageParameters();
 
-        String result = getBasicParameters();
-        if (!result.equals(SUCCESS))
-            return result;
+            logger.debug("rf foldnum: " + currentFoldNumber);
 
-        getModelsPageParameters();
-
-        logger.debug("rf foldnum: " + currentFoldNumber);
-
-        if (childPredictors.size() == 0) {
-            loadTrees();
-        }
-        else {
-            currentFoldNumber = ""
-                    + (Integer.parseInt(currentFoldNumber) + 1);
-            for (int i = 0; i < childPredictors.size(); i++) {
-                foldNums.add("" + (i + 1));
-                if (currentFoldNumber.equals("" + (i + 1))) {
-                    String parentId = objectId;
-                    objectId = "" + childPredictors.get(i).getId();
-                    loadTrees();
-                    objectId = parentId;
+            if (childPredictors.size() == 0) {
+                loadTrees();
+            }
+            else {
+                currentFoldNumber = ""
+                        + (Integer.parseInt(currentFoldNumber) + 1);
+                for (int i = 0; i < childPredictors.size(); i++) {
+                    foldNums.add("" + (i + 1));
+                    if (currentFoldNumber.equals("" + (i + 1))) {
+                        String parentId = objectId;
+                        objectId = "" + childPredictors.get(i).getId();
+                        loadTrees();
+                        objectId = parentId;
+                    }
                 }
             }
-        }
 
-        // get descriptor freqs from trees
-        HashMap<String, Integer> descriptorFreqMap 
-                                              = new HashMap<String, Integer>();
-        if (randomForestTrees != null) {
-            for (RandomForestTree t : randomForestTrees) {
-                if (t.getDescriptorsUsed() != null
-                        && !t.getDescriptorsUsed().equals("")) {
-                    String[] descriptorArray = t.getDescriptorsUsed().split(
-                            "\\s+");
-                    for (int i = 0; i < descriptorArray.length; i++) {
-                        if (descriptorFreqMap.get(descriptorArray[i]) == null){
-                            descriptorFreqMap.put(descriptorArray[i], 1);
-                        }
-                        else {
-                            // increment
-                            descriptorFreqMap
-                                    .put(descriptorArray[i],
-                                            descriptorFreqMap
-                                                 .get(descriptorArray[i]) + 1);
+            // get descriptor freqs from trees
+            HashMap<String, Integer> descriptorFreqMap 
+                                                  = new HashMap<String, Integer>();
+            if (randomForestTrees != null) {
+                for (RandomForestTree t : randomForestTrees) {
+                    if (t.getDescriptorsUsed() != null
+                            && !t.getDescriptorsUsed().equals("")) {
+                        String[] descriptorArray = t.getDescriptorsUsed().split(
+                                "\\s+");
+                        for (int i = 0; i < descriptorArray.length; i++) {
+                            if (descriptorFreqMap.get(descriptorArray[i]) == null){
+                                descriptorFreqMap.put(descriptorArray[i], 1);
+                            }
+                            else {
+                                // increment
+                                descriptorFreqMap
+                                        .put(descriptorArray[i],
+                                                descriptorFreqMap
+                                                     .get(descriptorArray[i]) + 1);
+                            }
                         }
                     }
                 }
             }
-        }
-        ArrayList<descriptorFrequency> descriptorFrequencies
-                                        = new ArrayList<descriptorFrequency>();
-        ArrayList<String> mapKeys = new ArrayList<String>(descriptorFreqMap
-                .keySet());
-        for (String k : mapKeys) {
-            descriptorFrequency df = new descriptorFrequency();
-            df.setDescriptor(k);
-            df.setNumOccs(descriptorFreqMap.get(k));
-            descriptorFrequencies.add(df);
-        }
+            ArrayList<descriptorFrequency> descriptorFrequencies
+                                            = new ArrayList<descriptorFrequency>();
+            ArrayList<String> mapKeys = new ArrayList<String>(descriptorFreqMap
+                    .keySet());
+            for (String k : mapKeys) {
+                descriptorFrequency df = new descriptorFrequency();
+                df.setDescriptor(k);
+                df.setNumOccs(descriptorFreqMap.get(k));
+                descriptorFrequencies.add(df);
+            }
 
-        Collections.sort(descriptorFrequencies,
-                new Comparator<descriptorFrequency>()
-                {
-                    public int compare(descriptorFrequency df1,
-                                       descriptorFrequency df2)
+            Collections.sort(descriptorFrequencies,
+                    new Comparator<descriptorFrequency>()
                     {
-                        return (df1.getNumOccs() > df2.getNumOccs() ? -1 : 1);
+                        public int compare(descriptorFrequency df1,
+                                           descriptorFrequency df2)
+                        {
+                            if (df1.getNumOccs() > df2.getNumOccs()) {
+                                return -1;
+                            }
+                            else if (df2.getNumOccs() < df2.getNumOccs()) {
+                                return 1;
+                            }
+                            else {
+                                return 0;
+                            }
+                        }
+                    });
+            if (descriptorFrequencies.size() >= 5) {
+                // if there weren't at least 5 descriptors, don't even bother - no
+                // summary needed
+                mostFrequentDescriptors = "The 5 most frequent descriptors " +
+                                                       "used in your trees were: ";
+                for (int i = 0; i < 5; i++) {
+                    mostFrequentDescriptors += descriptorFrequencies.get(i)
+                            .getDescriptor()
+                            + " ("
+                            + descriptorFrequencies.get(i).getNumOccs()
+                            + " trees)";
+                    if (i < 4) {
+                        mostFrequentDescriptors += ", ";
                     }
-                });
-        if (descriptorFrequencies.size() >= 5) {
-            // if there weren't at least 5 descriptors, don't even bother - no
-            // summary needed
-            mostFrequentDescriptors = "The 5 most frequent descriptors " +
-            		                               "used in your trees were: ";
-            for (int i = 0; i < 5; i++) {
-                mostFrequentDescriptors += descriptorFrequencies.get(i)
-                        .getDescriptor()
-                        + " ("
-                        + descriptorFrequencies.get(i).getNumOccs()
-                        + " trees)";
-                if (i < 4) {
-                    mostFrequentDescriptors += ", ";
                 }
+                mostFrequentDescriptors += ".";
             }
-            mostFrequentDescriptors += ".";
+
+            logger.debug("Done loading trees page for predictor id"
+                    + objectId);
         }
-
-        logger.debug("Done loading trees page for predictor id"
-                + objectId);
-
+        catch (Exception e) {
+            logger.error(e);
+        }
         return result;
     }
 
