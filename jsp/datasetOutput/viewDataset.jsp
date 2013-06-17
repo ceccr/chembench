@@ -22,10 +22,13 @@
     <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
     <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css"></link>
+
 	<script language="javascript" src="javascript/script.js" />
 	<script src="javascript/AC_RunActiveContent.js"></script>
 	<script src="javascript/hookMouseWheel.js"></script>
-	<script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>
 	
 	<script language="javascript">
 	
@@ -91,6 +94,35 @@
 	}		
 		
 	</script>
+    <!-- FIXME jQuery test stuff -->
+    <script type="text/javascript">
+        function getURLParameter(name) {
+            return decodeURI((RegExp(name + '=' + '(.+?)(&|$)').exec(
+                location.search)||[,null])[1]);
+        }
+
+        $(function() {
+            // set links with id
+            //var baseUrl = "https://chembench.mml.unc.edu/";
+            var baseUrl = "/";
+            var id = getURLParameter("id");
+
+            $("#AllCompounds").attr("href", 
+                baseUrl + "viewDatasetCompoundsSection" + "?id=" + id);
+            $("#ExternalSet").attr("href", 
+                baseUrl + "viewDatasetExternalCompoundsSection" + "?id=" + id);
+            $("#ActivityHistogram").attr("href", 
+                baseUrl + "viewDatasetActivityChartSection" + "?id=" + id);
+            $("#Heatmap").attr("href", 
+                baseUrl + "viewDatasetVisualizationSection" + "?id=" + id);
+            $("#DescriptorWarnings").attr("href", 
+                baseUrl + "viewDatasetDescriptorsSection" + "?id=" + id);
+
+            // activate tabs widget
+            $("#tabs").tabs();
+        });
+    </script>
+
 </head>
 
 <body onload="setTabToMyBench();">
@@ -166,6 +198,45 @@
 	</s:url>
 		
 	<!-- load tabs -->
+	
+    <div id="tabs">
+        <ul>
+            <li><a id="AllCompounds">All Compounds</a></li>
+            <li><a id="ExternalSet">External Set</a></li>
+            <li><a id="ActivityHistogram">Activity Histogram</a></li>
+            <li><a id="Heatmap">Heatmap</a></li>
+            <li><a id="DescriptorWarnings">Descriptor Warnings</a></li>
+        </ul>
+    </div>
+
+	<!-- end load tabs -->
+	</span>
+	<div id="image_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute"><img src="" width="300" height="300"/></div>
+</table>
+<script language="javascript">
+$(document).ready(function() {
+    //adding a bigger compound image on mouse enter
+
+	$('.compound_img_a').on("mouseover",function(e){
+		$("img","#image_hint").attr("src", $("img", this).attr("src"));
+    	var position = $("img", this).offset();
+    	$("#image_hint").show();
+    	$("#image_hint").css({"left":position.left+155,"top":position.top-75});
+		});
+
+	$('.compound_img_a').on("mouseout",function(){
+    	$("#image_hint").hide();
+	});
+	
+});
+</script>
+<div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+
+        </div>
+</script>
+</body>
+
+    <!--
 	<a name="tabs"></a> 
 	<sx:tabbedpanel id="viewDatasetTabs" >
 	
@@ -214,29 +285,4 @@
 		 
    	</sx:tabbedpanel>
    	
-	<!-- end load tabs -->
-	</span>
-	<div id="image_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute"><img src="" width="300" height="300"/></div>
-</table>
-<script language="javascript">
-$(document).ready(function() {
-    //adding a bigger compound image on mouse enter
-
-	$('.compound_img_a').live("mouseover",function(e){
-		$("img","#image_hint").attr("src", $("img", this).attr("src"));
-    	var position = $("img", this).offset();
-    	$("#image_hint").show();
-    	$("#image_hint").css({"left":position.left+155,"top":position.top-75});
-		});
-
-	$('.compound_img_a').live("mouseout",function(){
-    	$("#image_hint").hide();
-	});
-	
-});
-</script>
-<div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
-
-        </div>
-</script>
-</body>
+    -->
