@@ -25,9 +25,15 @@
           type="text/css">
     <script src="javascript/script.js"></script>
     <script src="javascript/dataset.js"></script>
-    <script language="javascript"
-            src="javascript/jquery-1.6.4.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css"></link>
     <script language="JavaScript" src="javascript/sortableTable.js"></script>
+    <script>
+        $(function() {
+            $("#tabs").tabs();
+        });
+    </script>
 </head>
 <body onload="setTabToMyBench();">
 
@@ -36,12 +42,7 @@
 <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 <div class="StandardTextDarkGrayParagraph benchBackground benchAlign">
     <div class="homeLeft">
-        <div id="horizontalmenu">
-            <div class="adminlink"><a href="#jobs">Jobs</a></div>
-            <div class="adminlink"><a href="#datasets">Datasets</a></div>
-            <div class="adminlink"><a href="#predictors">Predictors</a></div>
-            <div class="adminlink"><a href="#predictions">Predictions</a></div>
-        </div>
+        <br />
         <p style="margin-left:20px">
             <b>My Bench</b> <br /> <br /> Every dataset, predictor, and
             prediction you have created on Chembench is available on this page.
@@ -55,9 +56,17 @@
         </p>
     </div>
 </div>
+
+<div id="tabs">
+    <ul>
+        <li><a href="#jobQueue">Job Queue</a></li>
+        <li><a href="#datasets">Datasets</a></li>
+        <li><a href="#predictors">Predictors</a></li>
+        <li><a href="#predictions">Predictions</a></li>
+    </ul>
+
 <!-- Queued, Local, and LSF Jobs -->
-<a name="jobs"></a>
-<div class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
+<div id="jobQueue" class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
 <p class="StandardTextDarkGrayParagraph2">
     <b>Job Queue</b>
 </p>
@@ -210,9 +219,9 @@
 <s:else>
     (The LSF queue is empty.)
 </s:else>
-<br /> <br />
 <!-- Error Jobs -->
 <s:if test="! errorJobs.isEmpty()">
+    <br /> <br />
     <b>Jobs with errors: </b>
     <br />
     <div class="StandardTextDarkGray">One or more of your jobs
@@ -272,15 +281,14 @@
 </s:if>
 </div>
 <!-- Finished Dataset Jobs -->
-<a name="datasets"></a>
-<div class="border StandardTextDarkGrayParagraph benchAlign bottomMarginDataset">
+<div id="datasets" class="border StandardTextDarkGrayParagraph benchAlign bottomMarginDataset">
     <p class="StandardTextDarkGrayParagraph2">
         <b>Datasets</b>
     </p>
     <p class="StandardTextDarkGrayParagraph">
-        * Descriptors for the dataset were created outside of Chembench and
-        uploaded by the user. <br /> <i>Click on the name of dataset
-        to visualize it.</i><br />
+        * Descriptors for the dataset were created outside of Chembench and uploaded by the user.
+        <br /><br />
+        <i>Click on the name of dataset to visualize it.</i><br />
         <s:if
                 test="user.userName!='guest'&&user.showPublicDatasets=='SOME'">
             <i>Additional public datasets are available. You can choose to
@@ -295,14 +303,12 @@
             </i>
             <br />
         </s:if>
-        <s:if
-                test="user.userName!='guest'&&user.showPublicDatasets=='NONE'">
+        <s:if test="user.userName!='guest'&&user.showPublicDatasets=='NONE'">
             <i>Public datasets are currently hidden. You can choose to
                 show these from the <a href="editProfile">edit profile</a> page.
             </i>
             <br />
         </s:if>
-
     </p>
     <table class="sortable" id="datasets">
         <tr>
@@ -358,20 +364,15 @@
                 <td><a onclick="return confirmDelete('dataset')"
                        href="deleteDataset?id=<s:property value="id" />#datasets">delete</a></td>
             </s:else>
-
             </tr>
         </s:iterator>
-        <br />
-        <br />
     </table>
 </div>
 
 <!-- Finished Modeling Jobs -->
-<a name="predictors"></a> <br />
-
-<div class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
+<div id="predictors" class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
     <p class="StandardTextDarkGrayParagraph2">
-        <br /> <b>Predictors</b><br />
+        <b>Predictors</b><br />
     </p>
     <p class="StandardTextDarkGrayParagraph">* Predictor was built
         on a dataset with descriptors that were created outside of
@@ -444,18 +445,16 @@
             <td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
             </tr>
         </s:iterator>
-        <br />
-        <br />
         </tbody>
     </table>
 </div>
 <!-- Finished Prediction Jobs -->
-<div class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
+<div id="predictions" class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
     <p class="StandardTextDarkGrayParagraph2">
-        <br /> <b>Predictions</b>
+        <b>Predictions</b>
     </p>
     <div class="StandardTextDarkGrayParagraph">
-        <i>Click on the name of a prediction to see the results.</i><br />
+        <i>Click on the name of a prediction to see the results.</i>
     </div>
     <s:if test="! userPredictions.isEmpty()">
         <table class="sortable" id="predictions">
@@ -491,10 +490,9 @@
                        href="deletePrediction?id=<s:property value="id" />#predictions">delete</a></td>
                 </tr>
             </s:iterator>
-            <br />
-            <br />
         </table>
     </s:if>
+</div>
 </div>
 <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 </div>
