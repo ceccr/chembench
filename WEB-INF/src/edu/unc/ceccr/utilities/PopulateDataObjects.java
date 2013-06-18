@@ -431,8 +431,7 @@ public class PopulateDataObjects
             }
             else {
                 Iterator<?> tempIter1 = session.createCriteria(DataSet.class)
-                        .add(Expression.eq("userName",
-                                Constants.ALL_USERS_USERNAME)).add(
+                        .add(Expression.eq("userName", userName)).add(
                                 Expression.eq("modelType", modelType))
                         .addOrder(Order.desc("name")).list().iterator();
 
