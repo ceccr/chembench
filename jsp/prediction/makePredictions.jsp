@@ -22,8 +22,10 @@
     <link rel="icon" href="/theme/img/mml.ico" type="image/ico" />
     <link rel="SHORTCUT ICON" href="/theme/img/mml.ico" />
     <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
 
-
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script language="javascript" src="javascript/script.js"></script>
     <script language="javascript" src="javascript/modeling.js"></script>
     <script src="javascript/predictorFormValidation.js"></script>
@@ -71,9 +73,12 @@
 
 <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
 <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
-
-<div><br /></div>
-<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
+<div class="border benchAlign bottomMargin">
+<p class="StandardTextDarkGrayParagraph2 boxHeadingText">
+    <b>Prediction Set Selection</b>
+</p>
+<!--<div><br /></div>-->
+<!--<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
     <tr>
         <td height="557" colspan="5" valign="top"
             background="theme/img/backgrmodelbuilders.jpg" style="background-repeat: no-repeat;"><span id="maincontent">
@@ -82,24 +87,50 @@
                 <tr>
                     <td>
                         <!-- <p class="StandardTextDarkGrayParagraph"><b><br>Chembench Predictions</b></p> -->
-                        <p align="justify" class="StandardTextDarkGrayParagraph">
+<!--                        <p align="justify" class="StandardTextDarkGrayParagraph">
                             <!-- description of predictions process goes here -->
-                            <br><br>
+<!--                            <br><br>
                         </p>
                     </td>
                 </tr>
-            </table>
+            </table>-->
 
+            <!-- script sets hidden field so we know which tab was selected -->
+			<s:if test="%{singleCompoundPredictionAllowed}">
+             <script>
+               $(function() {
+                   $( "#tabs" ).tabs();
+               });
+             </script>
+			</s:if>
+			<s:else>
+			 <script>
+               $(function() {
+                   $( "#tabs" ).tabs();
+				   $( "#tabs" ).tabs( { disabled: [1] } );
+               });
+             </script>
+			</s:else>
+            <!-- end script -->
+
+<table width="100%" align="center" cellpadding="0" cellspacing="4"
+                   colspan="2">
+                <tr>
+                    <td>
+	<div id="tabs">
+	    <ul>
+		    <li><a href="#datasetTab">Dataset</a></li>
+			<li><a href="#compTab">Compound</a></li>
+		</ul>
+	<div id="datasetTab">	
 	<s:form action="makeDatasetPrediction" enctype="multipart/form-data" theme="simple">
 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
         <tbody>
-        <tr>
+<!--        <tr>
             <td align="left" colspan="2">
                 <div class="StandardTextDarkGrayParagraph2" align="left"><b>Dataset Prediction</b></div><br />
             </td>
-            <td>
-            </td>
-        </tr>
+        </tr>-->
         <tr>
             <td>
                 <table><tr><td colspan="2">
@@ -126,16 +157,16 @@
                                 </tr>
                             </s:iterator>
                         </table>
-                        <p class="StandardTextDarkGray"><a href="prediction"/>Back to Predictors selection page</a></p>
+                        <p class="StandardTextDarkGray"><a href="prediction">Back to Predictors selection page</a></p>
 
 
                     </div>
-                </td><td>
+                
                 </td>
                 </tr>
                     <tr>
-                        <td height="26" align="left">
-                            <div align="right" class="StandardTextDarkGray"><b>Select a Dataset:</b></div>
+                        <td height="26" width="150" align="left">
+                            <div align="left" class="StandardTextDarkGray"><b>Select a Dataset:</b></div>
                         </td>
                         <td align="left" valign="top">
                             <s:if test="%{userDatasets.size()>0}">
@@ -146,18 +177,18 @@
                                 <div class="StandardTextDarkGrayParagraph"><i>There is no datasets with descriptors. Use the "DATASET" page to create datasets.</i></div>
                             </s:else>
                             <div class="StandardTextDarkGrayParagraph"><i>(Use the "DATASET" page to create datasets.)</i></div>
-                        </td>
+                        </td> 
                     </tr>
                     <tr>
-                        <td height="26" align="left">
-                            <div align="right" class="StandardTextDarkGray"><b>Similarity Cut
+                        <td height="26" width="150" align="left">
+                            <div align="left" class="StandardTextDarkGray"><b>Similarity Cut
                                 Off:</b></div>
                         </td>
                         <td align="left" valign="top"><s:textfield name="cutOff" id="cutOff" size="4" /><span id="messageDiv2"></span></td>
                     </tr>
                     <tr>
-                        <td height="26" align="left">
-                            <div align="right" class="StandardTextDarkGray"><b>Prediction Name:</b></div>
+                        <td height="26" width="150" align="left">
+                            <div align="left" class="StandardTextDarkGray"><b>Prediction Name:</b></div>
                         </td>
                         <td width="400" align="left" valign="top"><s:textfield name="jobName" id="jobName" size="19"/><span id="messageDiv1"></span></td>
                     </tr>
@@ -170,65 +201,42 @@
         </tbody>
     </table>
 	</s:form>
+</div>
 
+<div id="compTab">
 	<s:if test="%{singleCompoundPredictionAllowed}">
 	<br />
-	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
+	<table width="450" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
         <tbody>
-        <tr>
+			<tr>
+            <td valign="top">
+				<table width="450" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" >
+                    <tbody>
+					<tr>
+                        <td width="100%" height="24" align="left" colspan="2">
+                            <p class="StandardTextDarkGrayParagraph2">
+                                <b>Sketch your compound OR Enter a SMILES string</b>
+                            </p>
+                        </td>
+                    </tr>
+					</tbody>
+				</table>
+			</td>
+			</tr>
+			<tr>
             <td valign="top">
                 <table width="450" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" >
                     <tbody>
-
-                    <tr>
+					<tr>
                         <td width="100%" height="24" align="left" colspan="2">
                             <p class="StandardTextDarkGrayParagraph2">
-                                <b>Enter a SMILES string</b>
+                                <b>Sketch</b>
                             </p>
                         </td>
                     </tr>
+					
                     <tr>
-                        <td align="left" colspan="2">
-                            <p  class="StandardTextDarkGrayParagraph">
-                                Enter a molecule in SMILES format, e.g. <b>C1=CC=C(C=C1)CC(C(=O)O)N</b> (phenylalanine).
-                                Or, use the applet on the right to draw a molecule, then click "Get SMILES".
-                            </p>
-                    </tr>
-                    <tr>
-                        <td width="70" height="24" align="right">
-                            <div align="right" class="StandardTextDarkGray"><b>SMILES:</b></div>
-                        </td>
-                        <td width="150" align="left" valign="top"><input type="text" name="smiles" id="smiles" size="30" value=""/>
-                            <span id="messageDiv2"></span></td>
-                    </tr>
-                    <tr>
-                        <td width="70" height="26" align="left">
-                            <div align="right" class="StandardTextDarkGray"><b>Similarity Cut
-                                Off:</b></div>
-                        </td>
-                        <td align="left" valign="top"><input type="text" id="cutOffSmiles" size="4" value="0.5" /><span id="messageDiv3"></span></td>
-                    </tr>
-                    <tr>
-                        <td width="70" height="24" align="right">
-                            <div align="left" class="StandardTextDarkGray">&nbsp;</div>
-                        </td>
-                        <td align="left" valign="top"><input type="button" onclick="predictSmiles()" value="Predict" /> <span id="textarea"></span></td>
-                    </tr>
-                    <tr>
-                        <td width="70" height="26" align="left" colspan="3">
-                            <div class="StandardTextDarkGrayParagraph" id="smilesResults"><i>Your SMILES prediction results will appear here. Prediction will take 3-5 minutes on average per predictor.</i></div>
-                        </td>
-                        <td align="left" valign="top"><span id="messageDiv2"></span></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </td>
-            <td style="width: 10">
-            </td>
-            <td>
-                <table frame="border" align="center" cellpadding="0" cellspacing="4">
-                    <tbody>
-                    <tr>
+					    <td style="width: 20px"></td>
                         <td>
                             <script language="JavaScript1.1" src="jchem/marvin/marvin.js"></script>
                             <script language="JavaScript1.1">
@@ -261,13 +269,64 @@
             </td>
         </tr>
 
+        <tr>
+            <td valign="top">
+                <table width="450" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" >
+                    <tbody>
+
+                    <tr>
+                        <td width="100%" height="24" align="left" colspan="2">
+                            <p class="StandardTextDarkGrayParagraph2">
+                                <b>Enter</b>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="left" colspan="2">
+                            <p  class="StandardTextDarkGrayParagraph">
+                                Enter a molecule in SMILES format, e.g. <b>C1=CC=C(C=C1)CC(C(=O)O)N</b> (phenylalanine).
+                                Or, use the applet on the right to draw a molecule, then click "Get SMILES".
+                            </p>
+                    </tr>
+                    <tr>
+                        <td width="70" height="24" align="right">
+                            <div align="right" class="StandardTextDarkGray"><b>SMILES:</b></div>
+                        </td>
+                        <td width="150" align="left" valign="top"><input type="text" name="smiles" id="smiles" size="30" value=""/>
+                            <span id="messageDiv2"></span></td>
+                    </tr>
+                    <tr>
+                        <td width="70" height="26" align="left">
+                            <div align="right" class="StandardTextDarkGray"><b>Similarity Cut
+                                Off:</b></div>
+                        </td>
+                        <td align="left" valign="top"><input type="text" id="cutOffSmiles" size="4" value="0.5" /><span id="messageDiv3"></span></td>
+                    </tr>
+                    <tr>
+                        <td width="70" height="24" align="right">
+                            <div align="left" class="StandardTextDarkGray">&nbsp;</div>
+                        </td>
+                        <td align="left" valign="top"><input type="button" onclick="predictSmiles()" value="Predict" /> <span id="textarea"></span></td>
+                    </tr>
+                    <tr>
+                        <td height="26" align="left" colspan="3">
+                            <div class="StandardTextDarkGrayParagraph" id="smilesResults"><i>Your SMILES prediction results will appear here. Prediction will take 3-5 minutes on average per predictor.</i></div>
+                        </td>
+                        <td align="left" valign="top"><span id="messageDiv2"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+			</tr>
         </tbody>
     </table>
 	</s:if>
-
+</div>
+</div>
         </td>
     </tr>
 </table>
+</div>
 <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 </div>
 </body>

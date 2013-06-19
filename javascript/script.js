@@ -2,7 +2,24 @@
  * Put functions here only if they apply to multiple pages.
  * Functions that are used by, e.g., only the modeling page would go in modeling.js, not here.
  */
-
+function openShutManager(oSourceObj,oTargetObj,shutAble,oOpenTip,oShutTip){
+    var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
+    var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+    var openTip = oOpenTip || "";
+    var shutTip = oShutTip || "";
+    if(targetObj.style.display!="none"){
+	if(shutAble) return;
+	targetObj.style.display="none";
+	if(openTip  &&  shutTip){
+	    sourceObj.innerHTML = shutTip; 
+	}
+    } else {
+	targetObj.style.display="block";
+	if(openTip  &&  shutTip){
+	    sourceObj.innerHTML = openTip; 
+	}
+    }
+}
 function setTabToHome(){
 	document.getElementById("homeButton").className = document.getElementById("homeButton").className.replace( /(?:^|\s)nav_button_inactive(?!\S)/ , ' nav_button_active' );
 } 

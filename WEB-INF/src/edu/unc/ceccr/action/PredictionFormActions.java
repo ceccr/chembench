@@ -230,6 +230,7 @@ public class PredictionFormActions extends ActionSupport
         String[] predictorIds = selectedPredictorIds.split("\\s+");
 
         isUploadedDescriptors = false;
+        isMixDescriptors = false;
         singleCompoundPredictionAllowed = true;
         HashSet<String> predictorsModelDescriptors = new HashSet<String>();
 
@@ -284,7 +285,23 @@ public class PredictionFormActions extends ActionSupport
                 isUploadedDescriptors = true;
                 singleCompoundPredictionAllowed = false;
             }
-        }
+            if (p.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
+	        singleCompoundPredictionAllowed = false;
+            }
+
+	    if (p.getDescriptorGeneration().equals(Constants.MOLCONNZ)||
+		p.getDescriptorGeneration().equals(Constants.DRAGONH)||
+                p.getDescriptorGeneration().equals(Constants.DRAGONNOH)||
+                p.getDescriptorGeneration().equals(Constants.MOE2D)||
+                p.getDescriptorGeneration().equals(Constants.MACCS)||
+                p.getDescriptorGeneration().equals(Constants.CDK))
+		isMixDescriptors = true;
+	}
+
+        if(isMixDescriptors && isUploadedDescriptors)
+            isMixDescriptors = true;
+        else
+            isMixDescriptors = false;
 
         if (result.equals(ERROR)) {
             return result;
@@ -341,6 +358,7 @@ public class PredictionFormActions extends ActionSupport
              * looking for arrays intersection if found then the Dataset is
              * added to the list
              */
+            boolean datasetRemovable = false;
             List<String> dscrptrLst1 = new ArrayList<String>(
                     predictorsModelDescriptors);
             List<String> dscrptrLst2 = Arrays.asList(ds
@@ -358,33 +376,65 @@ public class PredictionFormActions extends ActionSupport
             if (!ds.getAvailableDescriptors().trim().isEmpty()
                     && !new_ds.contains(ds)
                     && (dscrptrIntsct.size() == predictorsModelDescriptors
-                            .size()))
-                new_ds.add(ds);
+			.size())){
+		for (int j = 0; j < selectedPredictors.size(); j++){
+		    String selectedPredictorsDescriptorType = selectedPredictors.get(j).getDescriptorGeneration();
+		    if(!dscrptrLst2.contains(selectedPredictorsDescriptorType))
+			    datasetRemovable = true;
+		}
+                if(!datasetRemovable)
+                    new_ds.add(ds);
+	    }
         }
         userDatasets.clear();
         userDatasets.addAll(new_ds);
 
         if (isUploadedDescriptors) {
             userDatasets.clear();
+            boolean hasMultiUploadedDescriptors = false;
+            String DescriptorTypeTest = null;
+            int times = 0;
             // for(Iterator<Predictor>
             // i=selectedPredictors.iterator();i.hasNext();){
             for (Predictor prdctr : selectedPredictors) {
                 // Predictor p = i.next();
-                if (prdctr.getDescriptorGeneration().equals(
-                        Constants.UPLOADED)) {
+                if(times == 0){
+                    DescriptorTypeTest = prdctr.getUploadedDescriptorType();
+                    times = 1;
+                }
+                
+                if (DescriptorTypeTest != null && prdctr.getUploadedDescriptorType() != null){
+                    if(!prdctr.getUploadedDescriptorType().equals(DescriptorTypeTest)){
+		        hasMultiUploadedDescriptors = true;
+		    }
+		}
+                else if(DescriptorTypeTest == null && prdctr.getUploadedDescriptorType() == null){
+                    hasMultiUploadedDescriptors = false;
+		}
+                else{
+                    hasMultiUploadedDescriptors = true;
+                    break;
+		}
+                    
+	    }
+	    // if (prdctr.getDescriptorGeneration().equals(
+	    // Constants.UPLOADED)) {
+            if(!hasMultiUploadedDescriptors){
                     List<DataSet> dss = PopulateDataObjects
                             .populateDatasetNamesForUploadedPredicors(user
-                                    .getUserName(), prdctr
-                                    .getUploadedDescriptorType(), true,
+                                    .getUserName(), DescriptorTypeTest, true,
                                     session);
                     for (Iterator<DataSet> j = dss.iterator(); j.hasNext();) {
                         DataSet ds = j.next();
-                        if (!userDatasets.contains(ds))
-                            userDatasets.add(ds);
+                        if (!userDatasets.contains(ds)){
+                                userDatasets.add(ds);
+			}
                     }
-                }
             }
-        }
+	}
+
+        if (isMixDescriptors)
+            userDatasets.clear();
         // give back the session at the end
         session.close();
         return result;
@@ -597,6 +647,7 @@ public class PredictionFormActions extends ActionSupport
     /* a flag that indicate if we should display SMILES prediction or not */
     private boolean                singleCompoundPredictionAllowed;
     private boolean                isUploadedDescriptors;
+    private boolean                isMixDescriptors;     
     private List<Predictor>        selectedPredictors = new ArrayList<Predictor>();
 
     private List<SmilesPrediction> smilesPredictions;

@@ -211,7 +211,7 @@
         </action>
 
         <action name="selectPredictor" class="edu.unc.ceccr.action.PredictionFormActions" method="loadMakePredictionsPage">
-            <result name="success">jsp/prediction/makePredictions.jsp</result>
+            <result name="success">jsp/prediction/selectPresictor.jsp</result>
             <result name="error">jsp/main/errors2.jsp</result>
         </action>
 
