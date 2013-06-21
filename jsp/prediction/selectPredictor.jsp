@@ -95,18 +95,92 @@
     </div>
 </div> -->
 <div>
-<table style="margin-left:-150px; border:0px solid black; width:1000px">
+<table style="border:0px solid black">
 <tbody>
 <tr valign="top">
 <td valign="top" style="border:0px solid black; vertical-align:top">
+<div valign="top" style="margin:0px; vertical-align:top">
+<!--<p class="StandardTextDarkGrayParagraph2 boxHeadingText">
+    <br/>
+    <b>Prediction Set Selection</b>
+</p>-->
+<!--<div><br /></div>-->
+<!--<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
+    <tr>
+        <td height="557" colspan="5" valign="top"
+            background="theme/img/backgrmodelbuilders.jpg" style="background-repeat: no-repeat;"><span id="maincontent">
+			
+			<table width="465" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td>
+                        <!-- <p class="StandardTextDarkGrayParagraph"><b><br>Chembench Predictions</b></p> -->
+<!--                        <p align="justify" class="StandardTextDarkGrayParagraph">
+                            <!-- description of predictions process goes here -->
+<!--                            <br><br>
+                        </p>
+                    </td>
+                </tr>
+            </table>-->
+
+            <!-- script sets hidden field so we know which tab was selected -->
+			<s:if test="%{singleCompoundPredictionAllowed}">
+             <script>
+               $(function() {
+                   $( "#tabs" ).tabs();
+               });
+             </script>
+			</s:if>
+			<s:else>
+			 <script>
+               $(function() {
+                   $( "#tabs" ).tabs();
+				   $( "#tabs" ).tabs( { disabled: [1,2] } );
+               });
+             </script>
+			</s:else>
+            <!-- end script -->
+
+<table width="100%" align="center" cellpadding="0" cellspacing="4"
+                   colspan="2">
+                <tr>
+                    <td>
+	<div id="tabs">
+	    <ul>
+		    <li><a href="#selectTab">Select Predictors</a></li>
+		    <li><a href="#datasetTab">Dataset</a></li>
+			<li><a href="#compTab">Compound</a></li>
+		</ul>
+		
+	<div id="selectTab">
+	<script>
+	function openShutManager(oSourceObj,oTargetObj,shutAble,oOpenTip,oShutTip){
+    var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
+    var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+    var openTip = oOpenTip || "";
+    var shutTip = oShutTip || "";
+    if(targetObj.style.display!="none"){
+	if(shutAble) return;
+	targetObj.style.display="none";
+	if(openTip  &&  shutTip){
+	    sourceObj.innerHTML = shutTip; 
+	}
+    } else {
+	targetObj.style.display="block";
+	if(openTip  &&  shutTip){
+	    sourceObj.innerHTML = openTip; 
+	}
+    }
+}
+</script>
 <s:form theme="simple" action="selectPredictor"
         enctype="multipart/form-data" method="post" >
-    <s:if test="user.showPublicPredictors!='NONE'">
-        <div valign="top" style="width:550px; margin:0px; vertical-align:top"
-            <p class="StandardTextDarkGrayParagraph2 boxHeadingText">
+		<br/>
+<s:if test="user.showPublicPredictors!='NONE'">
+        <div valign="top" style="width:550px; margin:0px; vertical-align:top">
+            <!--<p class="StandardTextDarkGrayParagraph2 boxHeadingText">
 			    <br/>
                 <b>Chembench Predictor Selection</b>
-            </p>
+            </p>-->
             <p style="cursor:pointer; font-weight:bold" class="StandardTextDarkGrayParagraph" onclick="openShutManager(this, 'drugdisc', false, '- Drug Discovery Predictors', '+ Drug Discovery Predictors')">
                 <b>+ Drug Discovery Predictors</b>
             </p>
@@ -115,7 +189,7 @@
                 based on the uploaded dataset</p> -->
             <table width="100%" class="sortable" id="drugdisc" style="display:none">
                 <tr>
-                    <th class="TableRowText01narrow_unsortable" style="width:30px">Select</th>
+                    <th class="TableRowText01narrow_unsortable">Select</th>
                     <th class="TableRowText01narrow">Name</th>
                     <th class="TableRowText01narrow">Date Created</th>
                     <th class="TableRowText01narrow">Modeling Method</th>
@@ -125,7 +199,7 @@
                 <s:iterator value="userPredictors">
                     <s:if test="predictorType=='DrugDiscovery'">
                         <tr>
-                            <td class="TableRowText02narrow" style="width:30px"><s:checkbox
+                            <td class="TableRowText02narrow"><s:checkbox
                                     name="predictorCheckBoxes" fieldValue="%{id}" /></td>
                             <td class="TableRowText02narrow"><s:property value="name" /></td>
                             <td class="TableRowText02narrow"><s:date
@@ -159,7 +233,7 @@
                 based on the uploaded dataset</p> -->
             <table width="100%" class="sortable" id="adme" style="display:none">
                 <tr>
-                    <th class="TableRowText01narrow_unsortable" style="width:30px">Select</th>
+                    <th class="TableRowText01narrow_unsortable">Select</th>
                     <th class="TableRowText01narrow">Name</th>
                     <th class="TableRowText01narrow">Date Created</th>
                     <th class="TableRowText01narrow">Modeling Method</th>
@@ -169,7 +243,7 @@
                 <s:iterator value="userPredictors">
                     <s:if test="predictorType=='ADME'">
                         <tr>
-                            <td class="TableRowText02narrow" style="width:30px"><s:checkbox
+                            <td class="TableRowText02narrow"><s:checkbox
                                     name="predictorCheckBoxes" fieldValue="%{id}" /></td>
                             <td class="TableRowText02narrow"><s:property value="name" /></td>
                             <td class="TableRowText02narrow"><s:date
@@ -203,7 +277,7 @@
                 predictor based on the uploaded dataset</p>-->
             <table width="100%" class="sortable" id="toxicity" style="display:none">
                 <tr>
-                    <th class="TableRowText01narrow_unsortable" style="width:30px">Select</th>
+                    <th class="TableRowText01narrow_unsortable">Select</th>
                     <th class="TableRowText01narrow">Name</th>
                     <th class="TableRowText01narrow">Date Created</th>
                     <th class="TableRowText01narrow">Modeling Method</th>
@@ -213,7 +287,7 @@
                 <s:iterator value="userPredictors">
                     <s:if test="predictorType=='Toxicity'">
                         <tr>
-                            <td class="TableRowText02narrow" style="width:30px"><s:checkbox
+                            <td class="TableRowText02narrow"><s:checkbox
                                     name="predictorCheckBoxes" fieldValue="%{id}" /></td>
                             <td class="TableRowText02narrow"><s:property value="name" /></td>
                             <td class="TableRowText02narrow"><s:date
@@ -246,7 +320,7 @@
             them. * - predictor based on the uploaded dataset</p>-->
         <table width="100%" class="sortable" id="private" style="display:none">
             <tr>
-                <th class="TableRowText01narrow_unsortable" style="width:30px">Select</th>
+                <th class="TableRowText01narrow_unsortable">Select</th>
                 <th class="TableRowText01narrow">Name</th>
                 <th class="TableRowText01narrow">Date Created</th>
                 <th class="TableRowText01narrow">Modeling Method</th>
@@ -256,7 +330,7 @@
             <s:iterator value="userPredictors">
                 <s:if test="predictorType=='Private'">
                     <tr>
-                        <td class="TableRowText02narrow" style="width:30px"><s:checkbox
+                        <td class="TableRowText02narrow"><s:checkbox
                                 name="predictorCheckBoxes" fieldValue="%{id}" /></td>
                         <td class="TableRowText02narrow"><s:property value="name" /></td>
                         <td class="TableRowText02narrow"><s:date name="dateCreated"
@@ -295,64 +369,11 @@
             </tr>
         </table>
     </div>
-</s:form>
-</td>
-
-<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
-
-<td valign="top" style="border:0px solid black; vertical-align:top">
-<div valign="top" style="width:600px; margin:0px; vertical-align:top">
-<p class="StandardTextDarkGrayParagraph2 boxHeadingText">
-    <br/>
-    <b>Prediction Set Selection</b>
-</p>
-<!--<div><br /></div>-->
-<!--<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-        <td height="557" colspan="5" valign="top"
-            background="theme/img/backgrmodelbuilders.jpg" style="background-repeat: no-repeat;"><span id="maincontent">
-			
-			<table width="465" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <td>
-                        <!-- <p class="StandardTextDarkGrayParagraph"><b><br>Chembench Predictions</b></p> -->
-<!--                        <p align="justify" class="StandardTextDarkGrayParagraph">
-                            <!-- description of predictions process goes here -->
-<!--                            <br><br>
-                        </p>
-                    </td>
-                </tr>
-            </table>-->
-
-            <!-- script sets hidden field so we know which tab was selected -->
-			<s:if test="%{singleCompoundPredictionAllowed}">
-             <script>
-               $(function() {
-                   $( "#tabs" ).tabs();
-               });
-             </script>
-			</s:if>
-			<s:else>
-			 <script>
-               $(function() {
-                   $( "#tabs" ).tabs();
-				   $( "#tabs" ).tabs( { disabled: [1] } );
-               });
-             </script>
-			</s:else>
-            <!-- end script -->
-
-<table width="100%" align="center" cellpadding="0" cellspacing="4"
-                   colspan="2">
-                <tr>
-                    <td>
-	<div id="tabs">
-	    <ul>
-		    <li><a href="#datasetTab">Dataset</a></li>
-			<li><a href="#compTab">Compound</a></li>
-		</ul>
-	<div id="datasetTab">	
-	<s:form action="makeDatasetPrediction" enctype="multipart/form-data" theme="simple">
+	</s:form>
+</div>	
+		
+	<div id="datasetTab" class="StandardTextDarkGrayParagraph">
+	<!--<s:form action="makeDatasetPrediction" enctype="multipart/form-data" theme="simple">
 	<table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
         <tbody>
 <!--        <tr>
@@ -360,7 +381,7 @@
                 <div class="StandardTextDarkGrayParagraph2" align="left"><b>Dataset Prediction</b></div><br />
             </td>
         </tr>-->
-        <tr>
+    <!--    <tr>
             <td>
                 <table><tr><td colspan="2">
                     <div class="StandardTextDarkGray"><b>Chosen Predictors:</b></div>
@@ -386,10 +407,10 @@
                                 </tr>
                             </s:iterator>
                         </table>
-                        <p class="StandardTextDarkGray"><a href="prediction">Back to Predictors selection page</a></p>
+                        <!--<p class="StandardTextDarkGray"><a href="prediction">Back to Predictors selection page</a></p>-->
 
 
-                    </div>
+         <!--           </div>
                 
                 </td>
                 </tr>
@@ -429,11 +450,11 @@
                 </table></td></tr>
         </tbody>
     </table>
-	</s:form>
+	</s:form>-->
 </div>
 
 <div id="compTab">
-	<s:if test="%{singleCompoundPredictionAllowed}">
+<!--	<s:if test="%{singleCompoundPredictionAllowed}">
 	<br />
 	<table width="450" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" colspan="2">
         <tbody>
@@ -488,7 +509,7 @@
                                 document.MSketch.style.zIndex="-1";
                                 //-->
 
-                            </script><br /><input type="button" value="Get SMILES" property="text" onclick="exportMol()"/>
+    <!--                        </script><br /><input type="button" value="Get SMILES" property="text" onclick="exportMol()"/>
                             <input type="button" value="Clear" property="text" onclick="if(document.MSketch!=null) document.MSketch.setMol('');"/>
 
                         </td>
@@ -549,7 +570,7 @@
 			</tr>
         </tbody>
     </table>
-	</s:if>
+	</s:if>-->
 </div>
 </div>
         </td>

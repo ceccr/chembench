@@ -207,12 +207,14 @@
         <!-- Make Predictions Pages -->
         <action name="prediction" class="edu.unc.ceccr.action.PredictionFormActions" method="loadSelectPredictorPage">
             <result name="success">jsp/prediction/selectPredictor.jsp</result>
-            <result name="error">jsp/main/errors2.jsp</result>
+            <result name="error">jsp/prediction/selectPredictor.jsp</result>
+            <!--<result name="error">jsp/main/errors2.jsp</result> -->
         </action>
 
         <action name="selectPredictor" class="edu.unc.ceccr.action.PredictionFormActions" method="loadMakePredictionsPage">
-            <result name="success">jsp/prediction/selectPresictor.jsp</result>
-            <result name="error">jsp/main/errors2.jsp</result>
+            <result name="success">jsp/prediction/makePredictions.jsp</result>
+            <result name="error">jsp/prediction/selectPredictor.jsp</result>
+            <!--<result name="error">jsp/main/errors2.jsp</result> -->
         </action>
 
         <action name="makeDatasetPrediction" class="edu.unc.ceccr.action.PredictionFormActions" method="makeDatasetPrediction">

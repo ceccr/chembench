@@ -197,6 +197,7 @@ public class PredictionFormActions extends ActionSupport
 
     public String loadMakePredictionsPage() throws Exception
     {
+        this.loadSelectPredictorPage();
 
         String result = SUCCESS;
         // check that the user is logged in
