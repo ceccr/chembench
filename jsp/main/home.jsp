@@ -21,7 +21,15 @@
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script language="JavaScript" src="javascript/script.js"> </script>
+
+<!-- focus the username input box -->
+<script>
+$(document).ready(function() {
+    $('input[name="username"]').focus();
+});
+</script>
  
 </head>
 <body onload="setTabToHome();">
