@@ -32,7 +32,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script language="javascript" src="javascript/modeling.js"></script>
     <script src="javascript/predictorFormValidation.js"></script>
-	<script language="javascript">
+	<!--<script language="javascript">
         var usedDatasetNames = new Array(<s:iterator value="userDatasetNames">"<s:property />",</s:iterator>"");
         var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />",</s:iterator>"");
         var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
@@ -66,7 +66,7 @@
                 return true;
             }
         }
-    </script>
+    </script>-->
 </head>
 <body onload="setTabToPrediction();">
 <div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
@@ -494,7 +494,7 @@
                         <td>
                             <script language="JavaScript1.1" src="jchem/marvin/marvin.js"></script>
                             <script language="JavaScript1.1">
-                                <!--
+                                
                                 function exportMol() {
                                     if(document.MSketch != null) {
                                         var s = document.MSketch.getMol('smiles:');
@@ -511,11 +511,10 @@
                                 msketch_begin("/jchem/marvin/", 440, 300);
                                 msketch_end();
                                 document.MSketch.style.zIndex="-1";
-                                //-->
-
-    <!--                        </script><br /><input type="button" value="Get SMILES" property="text" onclick="exportMol()"/>
+                                
+								
+                            </script><br /><input type="button" value="Get SMILES" property="text" onclick="exportMol()"/>
                             <input type="button" value="Clear" property="text" onclick="if(document.MSketch!=null) document.MSketch.setMol('');"/>
-
                         </td>
                     </tr>
                     </tbody>
@@ -524,6 +523,41 @@
 			
             <td valign="top" style="vertical-align:top">
                 <table width="450" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4">
+				    <script>
+					var usedDatasetNames = new Array(<s:iterator value="userDatasetNames">"<s:property />",</s:iterator>"");
+					var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />",</s:iterator>"");
+					var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
+					var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
+
+					function predictSmiles(){
+						var smiles = document.getElementById("smiles").value;
+						var cutoff = document.getElementById("cutOffSmiles").value;
+						if(cutoff == "" || smiles == ""){
+							alert("Please enter a SMILES string and cutoff value.");
+							return false;
+						}
+						else{
+
+							//prepare the AJAX object
+							var ajaxObject = GetXmlHttpObject();
+							ajaxObject.onreadystatechange=function(){
+								if(ajaxObject.readyState==4){
+									hideLoading();
+									document.getElementById("smilesResults").innerHTML=ajaxObject.responseText;
+								}
+						}
+
+						showLoading("PREDICTING. PLEASE WAIT.")
+
+						//send request
+						var url="makeSmilesPrediction?smiles=" + smiles + "&cutoff=" + cutoff + "&predictorIds=" + '<s:property value="selectedPredictorIds" />';
+						ajaxObject.open("GET",url,true);
+						ajaxObject.send(null);
+
+						return true;
+						}
+					}
+					</script>
                     <tbody>
 
                     <tr>
