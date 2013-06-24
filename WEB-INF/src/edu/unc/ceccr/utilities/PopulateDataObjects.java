@@ -1050,7 +1050,7 @@ public class PopulateDataObjects
                 if (descriptorTypeName == null
                         || descriptorTypeName.trim().isEmpty()) {
 
-                    Iterator<?> i1 = session.createCriteria(DataSet.class)
+		    /* Iterator<?> i1 = session.createCriteria(DataSet.class)
                             .add(Expression.eq("userName",
                                     Constants.ALL_USERS_USERNAME))
                             .add(Expression.or(Expression.eq("modelType",
@@ -1059,7 +1059,15 @@ public class PopulateDataObjects
                                             Constants.CONTINUOUS), Expression
                                             .eq("modelType",
                                                     Constants.CATEGORY))))
-                            .addOrder(Order.desc("name")).list().iterator();
+						    .addOrder(Order.desc("name")).list().iterator();*/
+                    Iterator<?> i1 = session.createCriteria(DataSet.class)
+			    .add(Expression.eq("userName", 
+					       Constants.ALL_USERS_USERNAME))
+                            .add(Expression.and(
+                                    Expression.eq("uploadedDescriptorType",""), 
+                                    Expression.eq("availableDescriptors", Constants.UPLOADED)))
+                            .addOrder(
+                                    Order.desc("name")).list().iterator();
                     while (i1.hasNext()) {
                         allUserDataSets.add((DataSet) i1.next());
                     }
@@ -1079,14 +1087,21 @@ public class PopulateDataObjects
 
             if (descriptorTypeName == null
                     || descriptorTypeName.trim().isEmpty()) {
-                Iterator<?> i3 = session.createCriteria(DataSet.class).add(
+                /*Iterator<?> i3 = session.createCriteria(DataSet.class).add(
                         Expression.eq("userName", userName)).add(
                         Expression.or(Expression.eq("modelType",
                                 Constants.PREDICTION), Expression.or(
                                 Expression.eq("modelType",
                                         Constants.CONTINUOUS), Expression.eq(
                                         "modelType", Constants.CATEGORY))))
-                        .addOrder(Order.desc("name")).list().iterator();
+					.addOrder(Order.desc("name")).list().iterator();*/
+                                Iterator<?> i3 = session
+				    .createCriteria(DataSet.class)
+				    .add(Expression.eq("userName", userName))
+				    .add(Expression.and(
+						       Expression.eq("uploadedDescriptorType",""),
+                                                       Expression.eq("availableDescriptors", Constants.UPLOADED)))
+				    .addOrder(Order.desc("name")).list().iterator();
                 while (i3.hasNext()) {
                     usersDataSet.add((DataSet) i3.next());
                 }
