@@ -97,109 +97,81 @@
     </div>
 </div> -->
 <div>
-<table style="border:0px solid black">
-<tbody>
-<tr valign="top">
-<td valign="top" style="border:0px solid black; vertical-align:top">
-<div valign="top" style="margin:0px; vertical-align:top">
-<!--<p class="StandardTextDarkGrayParagraph2 boxHeadingText">
-    <br/>
-    <b>Prediction Set Selection</b>
-</p>-->
-<!--<div><br /></div>-->
-<!--<table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-    <tr>
-        <td height="557" colspan="5" valign="top"
-            background="theme/img/backgrmodelbuilders.jpg" style="background-repeat: no-repeat;"><span id="maincontent">
-			
-			<table width="465" border="0" cellspacing="0" cellpadding="0">
-                <tr>
-                    <td>
-                        <!-- <p class="StandardTextDarkGrayParagraph"><b><br>Chembench Predictions</b></p> -->
-<!--                        <p align="justify" class="StandardTextDarkGrayParagraph">
-                            <!-- description of predictions process goes here -->
-<!--                            <br><br>
-                        </p>
-                    </td>
-                </tr>
-            </table>-->
+	<table style="border:0px solid black">
+		<tbody>
+			<tr valign="top">
+				<td valign="top" style="border:0px solid black; vertical-align:top">
+					<div valign="top" style="margin:0px; vertical-align:top">
+						<!-- script sets hidden field so we know which tab was selected -->
+						<s:if test="%{singleCompoundPredictionAllowed}">
+							<script>
+								$(function() {
+								$( "#tabs" ).tabs();
+								$( "#tabs" ).tabs({ active: 1 });
+								});
+							</script>
+						</s:if>
+						<s:else>
+							<script>
+								$(function() {
+								$( "#tabs" ).tabs();
+								$( "#tabs" ).tabs({ active: 1 });
+								$( "#tabs" ).tabs( { disabled: [2] } );
+								});
+							</script>
+						</s:else>
+						<!-- end script -->
 
-            <!-- script sets hidden field so we know which tab was selected -->
-			<s:if test="%{singleCompoundPredictionAllowed}">
-             <script>
-               $(function() {
-                   $( "#tabs" ).tabs();
-				   $( "#tabs" ).tabs({ active: 1 });
-               });
-             </script>
-			</s:if>
-			<s:else>
-			 <script>
-               $(function() {
-                   $( "#tabs" ).tabs();
-				   $( "#tabs" ).tabs({ active: 1 });
-				   $( "#tabs" ).tabs( { disabled: [2] } );
-               });
-             </script>
-			</s:else>
-            <!-- end script -->
+						<table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
+							<tr>
+								<td>
+									<div id="tabs">
+										<ul>
+											<li><a href="#selectTab">Select Predictors</a></li>
+											<li><a href="#datasetTab">Dataset</a></li>
+											<li><a href="#compTab">Compound</a></li>
+										</ul>
 
-<table width="100%" align="center" cellpadding="0" cellspacing="4"
-                   colspan="2">
-                <tr>
-                    <td>
-	<div id="tabs">
-	    <ul>
-		    <li><a href="#selectTab">Select Predictors</a></li>
-		    <li><a href="#datasetTab">Dataset</a></li>
-			<li><a href="#compTab">Compound</a></li>
-		</ul>
-
-		<div id="selectTab">
-<script>
-	function openShutManager(oSourceObj,oTargetObj,shutAble,oOpenTip,oShutTip){
-    var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
-    var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
-    var openTip = oOpenTip || "";
-    var shutTip = oShutTip || "";
-    if(targetObj.style.display!="none"){
-	if(shutAble) return;
-	targetObj.style.display="none";
-	if(openTip  &&  shutTip){
-	    sourceObj.innerHTML = shutTip; 
-	}
-    } else {
-	targetObj.style.display="block";
-	if(openTip  &&  shutTip){
-	    sourceObj.innerHTML = openTip; 
-	}
-    }
-}
-</script>
-<s:form theme="simple" action="selectPredictor"
-        enctype="multipart/form-data" method="post" >
-		<br/>
-<s:if test="user.showPublicPredictors!='NONE'">
-        <div valign="top" style="width:550px; margin:0px; vertical-align:top">
-            <!--<p class="StandardTextDarkGrayParagraph2 boxHeadingText">
-			    <br/>
-                <b>Chembench Predictor Selection</b>
-            </p>-->
-            <p style="cursor:pointer; font-weight:bold" class="StandardTextDarkGrayParagraph" onclick="openShutManager(this, 'drugdisc', false, '- Drug Discovery Predictors', '+ Drug Discovery Predictors')">
-                <b>+ Drug Discovery Predictors</b>
-            </p>
-<!--            <p align="justify" class="StandardTextDarkGrayParagraph">These
-                are public predictors useful for virtual screening. * - predictor
-                based on the uploaded dataset</p> -->
-            <table width="100%" class="sortable" id="drugdisc" style="display:none">
-                <tr>
-                    <th class="TableRowText01narrow_unsortable">Select</th>
-                    <th class="TableRowText01narrow">Name</th>
-                    <th class="TableRowText01narrow">Date Created</th>
-                    <th class="TableRowText01narrow">Modeling Method</th>
-                    <th class="TableRowText01narrow">Descriptor Type</th>
-<!--                    <th class="TableRowText01narrow_unsortable" colspan="2">Description</th>-->
-                </tr>
+									<div id="selectTab">
+										<script>
+										function openShutManager(oSourceObj,oTargetObj,shutAble,oOpenTip,oShutTip){
+ 										    var sourceObj = typeof oSourceObj == "string" ? document.getElementById(oSourceObj) : oSourceObj;
+  										    var targetObj = typeof oTargetObj == "string" ? document.getElementById(oTargetObj) : oTargetObj;
+  										    var openTip = oOpenTip || "";
+  										    var shutTip = oShutTip || "";
+  										    if(targetObj.style.display!="none"){
+												if(shutAble) return;
+												targetObj.style.display="none";
+												if(openTip  &&  shutTip){
+													sourceObj.innerHTML = shutTip; 
+												}
+											} else {
+												targetObj.style.display="block";
+												if(openTip  &&  shutTip){
+													sourceObj.innerHTML = openTip; 
+												}
+											}
+											}
+										</script>
+										<s:form theme="simple" action="selectPredictor" enctype="multipart/form-data" method="post" >
+											<br/>
+											<s:if test="user.showPublicPredictors!='NONE'">
+												<div valign="top" style="width:550px; margin:0px; vertical-align:top">
+													<p style="cursor:pointer; font-weight:bold" class="StandardTextDarkGrayParagraph" onclick="openShutManager(this, 'drugdisc', false, '- Drug Discovery Predictors', '+ Drug Discovery Predictors')">
+														<b>+ Drug Discovery Predictors</b>
+													</p>
+													<!--            <p align="justify" class="StandardTextDarkGrayParagraph">These
+													are public predictors useful for virtual screening. * - predictor
+													based on the uploaded dataset</p> -->
+				                                    <table width="100%" class="sortable" id="drugdisc" style="display:none">
+           				                                <tr>
+															<th class="TableRowText01narrow_unsortable">Select</th>
+															<th class="TableRowText01narrow">Name</th>
+															<th class="TableRowText01narrow">Date Created</th>
+															<th class="TableRowText01narrow">Modeling Method</th>
+															<th class="TableRowText01narrow">Descriptor Type</th>
+															<!--                    <th class="TableRowText01narrow_unsortable" colspan="2">Description</th>-->
+               											</tr>
                 <s:iterator value="userPredictors">
                     <s:if test="predictorType=='DrugDiscovery'">
                         <tr>
@@ -392,10 +364,10 @@
                     <div class="StandardTextDarkGray">
                         <table width="100%" class="sortable" id="private">
                             <tr>
-                                <th class="TableRowText01narrow">Name</td>
-                                <th class="TableRowText01narrow">Date Created</th>
-                                <th class="TableRowText01narrow">Modeling Method</th>
-                                <th class="TableRowText01narrow">Descriptor Type</th>
+                                <th class="TableRowText01">Name</td>
+                                <th class="TableRowText01">Date Created</th>
+                                <th class="TableRowText01">Modeling Method</th>
+                                <th class="TableRowText01">Descriptor Type</th>
                             </tr>
                             <s:iterator value="selectedPredictors">
                                 <tr>
@@ -467,11 +439,46 @@
                 <p class="StandardTextDarkGrayParagraph2">
                     <b>Sketch your compound OR Enter a SMILES string</b>
                 </p>
+			</td>			
+			</tr>
+			
+			<tr>
+            <td colspan="2">
+                <table><tr><td colspan="2">
+                    <div class="StandardTextDarkGray"><b>Chosen Predictors:</b></div>
+                    <div class="StandardTextDarkGray">
+                        <table width="100%" class="sortable" id="private">
+                            <tr>
+                                <th class="TableRowText01">Name</td>
+                                <th class="TableRowText01">Date Created</th>
+                                <th class="TableRowText01">Modeling Method</th>
+                                <th class="TableRowText01">Descriptor Type</th>
+                            </tr>
+                            <s:iterator value="selectedPredictors">
+                                <tr>
+                                    <td class="TableRowText02"><s:property value="name" /></td>
+                                    <td class="TableRowText02"><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+                                    <td class="TableRowText02"><s:property value="modelMethod" /></td>
+                                    <s:if test="descriptorGeneration=='UPLOADED'">
+                                        <td class="TableRowText02">*<s:property value="uploadedDescriptorType" /></td>
+                                    </s:if>
+                                    <s:else>
+                                        <td class="TableRowText02"><s:property value="descriptorGeneration" /></td>
+                                    </s:else>
+                                </tr>
+                            </s:iterator>
+                        </table>
+                        <!--<p class="StandardTextDarkGray"><a href="prediction">Back to Predictors selection page</a></p>-->
 
+                </div>               
+                </td>
+                </tr>
+                </table>
 			</td>
 			</tr>
+			
 			<tr>
-            <td valign="top">
+            <td valign="top" style="vertical-align:top">
                 <table width="450" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4">
                     <tbody>
 					<tr>
@@ -515,8 +522,8 @@
                 </table>
             </td>
 			
-            <td valign="top">
-                <table width="450" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4" >
+            <td valign="top" style="vertical-align:top">
+                <table width="450" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4">
                     <tbody>
 
                     <tr>
