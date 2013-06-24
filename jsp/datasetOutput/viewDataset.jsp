@@ -196,9 +196,17 @@
 		<s:param name="orderBy" value='orderBy' />
 		<s:param name="id" value='objectId' />
 	</s:url>
-		
-	<!-- load tabs -->
 	
+	<s:if test="dataset.datasetType!='MODELING'&&dataset.datasetType!='MODELINGWITHDESCRIPTORS'">
+		<script>
+			$(function() {
+				$( "#tabs" ).tabs();
+				$( "#tabs" ).tabs( { disabled: [2] } );
+			});
+		</script>
+	</s:if>
+	
+	<!-- load tabs -->
     <div id="tabs">
         <ul>
             <li><a id="AllCompounds">All Compounds</a></li>
@@ -206,7 +214,7 @@
             <li><a id="ActivityHistogram">Activity Histogram</a></li>
             <li><a id="Heatmap">Heatmap</a></li>
             <li><a id="DescriptorWarnings">Descriptor Warnings</a></li>
-        </ul>
+        </ul>	
     </div>
 
 	<!-- end load tabs -->
