@@ -683,6 +683,12 @@ public class WriteDescriptors
                     + descriptorMatrix.get(i).getDescriptorValues() + "\n");
         }
 
+        /*
+         * FIXME randomForestPredict.R thinks that these are compounds with
+         * descriptor values, but editing readXfile.R causes
+         * randomForestBuildModel.R to crash; for now, despite portability /
+         * reversibility concerns, min/max/stddev/avg values have been removed
+         *
         if (scalingType.equalsIgnoreCase(Constants.RANGESCALING)) {
             xFileOut.write(Utility
                     .StringArrayListToString(descriptorValueMinima)
@@ -699,6 +705,7 @@ public class WriteDescriptors
                     .StringArrayListToString(descriptorValueStdDevPlusAvgs)
                     + "\n");
         }
+        */
 
         xFileOut.close();
     }
@@ -786,6 +793,12 @@ public class WriteDescriptors
             logger.error(ex);
         }
 
+        /*
+         * FIXME randomForestPredict.R thinks that these are compounds with
+         * descriptor values, but editing readXfile.R causes
+         * randomForestBuildModel.R to crash; for now, despite portability /
+         * reversibility concerns, min/max/stddev/avg values have been removed
+         *
         if (predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)) {
             xFileOut.write(Utility
                     .StringArrayListToString(predictorDescriptorValueMinima)
@@ -802,6 +815,7 @@ public class WriteDescriptors
              .StringArrayListToString(predictorDescriptorValueStdDevsPlusAvgs)
                     + "\n");
         }
+        */
         xFileOut.close();
     }
 
