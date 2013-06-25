@@ -32,6 +32,21 @@ public class WriteDescriptors
                                 ArrayList<String> descriptorValueAvgs,
                                 ArrayList<String> descriptorValueStdDevs)
     {
+    	String logString = "findMinMaxAvgStdDev: descriptorMatrix ";
+    	if (descriptorMatrix == null) {
+    		logString += "is null";
+    		logger.warn(logString);
+    	}
+    	else if (descriptorMatrix.size() == 0) {
+    		logString += "has no elements";
+    		logger.warn(logString);
+    	}
+    	else {
+    		logString += String.format("has %d elements", 
+    								   descriptorMatrix.size());
+    		logger.info(logString);
+    	}
+
         // calculates the descriptorValueMinima and descriptorValueMaxima
         // arrays based on descriptorMatrix
         // used in scaling and when finding zero-variance descriptors.
