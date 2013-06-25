@@ -35,19 +35,27 @@ public class FileServlet extends HttpServlet {
 			HttpSession session=request.getSession(false);
 			
 			String jobType = request.getParameter("jobType"); //DATASET, MODELING, PREDICTION
-	    	String id = request.getParameter("id"); //id of the dataset, predictor, or prediction
-	    	String file = request.getParameter("file"); //Type of file requested, e.g. "predictionAsCsv". 
+			String id = request.getParameter("id"); //id of the dataset, predictor, or prediction
+			String datasetName = request.getParameter("datasetName");	    	
+                String file = request.getParameter("file"); //Type of file requested, e.g. "predictionAsCsv". 
 	    	String userName = ((User) session.getAttribute("user")).getUserName();
-			
+		String compoundId = request.getParameter("compoundId");
+	
 	    	String dirName = Constants.CECCR_USER_BASE_PATH;
 	    	String fileName = "";
 	    	Session s = HibernateUtil.getSession();
 	    	if(jobType.equalsIgnoreCase(Constants.DATASET)){
-	    		DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
-	    		dirName += dataset.getUserName() + "/DATASETS/";
-	    		dirName += dataset.getName() + "/";
-	    		
+		        //DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
+	    	        dirName += userName + "/DATASETS/";
+		        dirName += datasetName + "/";
+				
 	    		//add file names here...
+			if(file.equalsIgnoreCase("mol")){
+			    //String compoundID = request.getParameter("compoundId");
+			    dirName += "Visualization/Structures" + "/";
+			    fileName = compoundId + "_3D.mol";
+			}
+		    
 	    	}
 	    	else if(jobType.equalsIgnoreCase(Constants.MODELING)){
 	    		Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(id), s);
