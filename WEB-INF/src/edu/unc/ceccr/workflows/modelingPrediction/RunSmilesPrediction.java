@@ -7,9 +7,13 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.log4j.Logger;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
+import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
@@ -20,8 +24,6 @@ import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
-
-import org.apache.log4j.Logger;
 
 public class RunSmilesPrediction
 {
@@ -208,6 +210,47 @@ public class RunSmilesPrediction
                 }
             }
             in.close();
+        }
+        else if (predictor.getModelMethod().equals(Constants.SVM)) {
+            // TODO "smiles.sdf" + ".renorm.x" filepath is a magic string --
+            // codify or parameterize this somewhere
+            File xFile = new File(workingDir, "smiles.sdf.renorm.x");
+            logger.info(String.format(
+                    "running SMILES prediction: FILE=%s, METHOD=%s", xFile
+                            .getAbsolutePath(), Constants.SVM));
+            if (!xFile.exists()) {
+                logger.warn(String.format(
+                        "X file doesn't exist: LOCATION=%s", xFile
+                                .getAbsolutePath()));
+            }
+            else {
+                Svm.runSvmPrediction(workingDir, xFile.getName());
+                List<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
+                logger.info(String.format(
+                        "reading predicted values: FILE=%s, METHOD=%s", xFile
+                                .getAbsolutePath(), Constants.SVM));
+                predictionValues = Svm.readPredictionOutput(workingDir, xFile
+                        .getName(), predictor.getId());
+                if (predictionValues == null) {
+                    logger.warn("list of predicted values was null");
+                }
+                else if (predictionValues.size() == 0) {
+                    logger.warn("list of predicted values was zero-length");
+                }
+                else {
+                    StringBuilder sb = new StringBuilder();
+                    // FIXME for debug use
+                    for (PredictionValue pv : predictionValues) {
+                        sb.append(pv.getPredictedValue());
+                        sb.append("|");
+                    }
+                    String strPredValues = sb.toString();
+                    logger.info(String.format(
+                            "prediction successful: RAW-OUTPUT=%s",
+                            strPredValues));
+                    // TODO locate output file (smiles.sdf.renorm.svm??)
+                }
+            }
         }
         else {
             // unsupported modeling type
