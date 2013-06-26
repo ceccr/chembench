@@ -231,7 +231,13 @@ public class RunSmilesPrediction
                 }
             }
             in.close();
-            
+        }
+        else {
+            // unsupported modeling type
+            logger.warn(String.format("RunSmilesPrediction: " +
+                        "PREDICTOR=%s METHOD=%s", 
+                        predictor.getName(), predictor.getModelMethod()) +
+                    " not recognized. No prediction was made.");
         }
         
         /* calculate stddev */
