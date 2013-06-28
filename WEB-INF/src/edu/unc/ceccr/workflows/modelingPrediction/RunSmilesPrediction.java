@@ -5,6 +5,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -229,26 +231,51 @@ public class RunSmilesPrediction
                 logger.info(String.format(
                         "reading predicted values: FILE=%s, METHOD=%s", xFile
                                 .getAbsolutePath(), Constants.SVM));
-                predictionValues = Svm.readPredictionOutput(workingDir, xFile
-                        .getName(), predictor.getId());
-                if (predictionValues == null) {
-                    logger.warn("list of predicted values was null");
-                }
-                else if (predictionValues.size() == 0) {
-                    logger.warn("list of predicted values was zero-length");
-                }
-                else {
-                    StringBuilder sb = new StringBuilder();
-                    // FIXME for debug use
-                    for (PredictionValue pv : predictionValues) {
-                        sb.append(pv.getPredictedValue());
-                        sb.append("|");
+                // since we have common mean/stddev calculation code in
+                // RunSmilesPrediction, we'll parse the files ourselves
+                // TODO prediction output file extension ".pred" should be a
+                // const
+                File dir = new File(workingDir);
+                String[] predictionFiles = dir.list(new FilenameFilter()
+                {
+                    public boolean accept(File arg0, String arg1)
+                    {
+                        return arg1.endsWith(".pred");
                     }
-                    String strPredValues = sb.toString();
-                    logger.info(String.format(
-                            "prediction successful: RAW-OUTPUT=%s",
-                            strPredValues));
-                    // TODO locate output file (smiles.sdf.renorm.svm??)
+                });
+                for (String filename : predictionFiles) {
+                    try {
+                        BufferedReader br = new BufferedReader(
+                                new FileReader(filename));
+                        // because this is a SMILES prediction,
+                        // there should only be one line of prediction output
+                        String predLine = br.readLine();
+                        if (predLine == null || predLine.isEmpty()) {
+                            logger.warn(String
+                                    .format("prediction line was null or empty, FILE=%s",
+                                            filename));
+                        }
+                        else {
+                            predLine.trim();
+                            logger.info(String.format(
+                                    "adding prediction: VALUE=%s, FILE=%s",
+                                    predLine, filename));
+                            predValueArray.add(predLine);
+
+                            // assert that there's nothing more in the file
+                            String secondLine = br.readLine();
+                            if (secondLine != null && !secondLine.isEmpty()) {
+                                logger.warn(String
+                                        .format("unexpected prediction: VALUE=%s, FILE=%s",
+                                                secondLine.trim(), filename));
+                            }
+                        }
+                    }
+                    catch (IOException e) {
+                        logger.warn(String.format(
+                                "couldn't read prediction file: FILE=%s",
+                                filename), e);
+                    }
                 }
             }
         }
