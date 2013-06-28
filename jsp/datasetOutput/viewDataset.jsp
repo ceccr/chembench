@@ -200,7 +200,6 @@
 	<s:if test="dataset.datasetType!='MODELING'&&dataset.datasetType!='MODELINGWITHDESCRIPTORS'">
 		<script>
 			$(function() {
-				$( "#tabs" ).tabs();
 				$( "#tabs" ).tabs( { disabled: [2] } );
 			});
 		</script>
