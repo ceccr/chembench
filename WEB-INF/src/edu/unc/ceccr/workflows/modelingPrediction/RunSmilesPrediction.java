@@ -244,22 +244,24 @@ public class RunSmilesPrediction
                     }
                 });
                 for (String filename : predictionFiles) {
+                    String filepath = new File(workingDir, filename)
+                            .getAbsolutePath();
                     try {
                         BufferedReader br = new BufferedReader(
-                                new FileReader(filename));
+                                new FileReader(filepath));
                         // because this is a SMILES prediction,
                         // there should only be one line of prediction output
                         String predLine = br.readLine();
                         if (predLine == null || predLine.isEmpty()) {
                             logger.warn(String
                                     .format("prediction line was null or empty, FILE=%s",
-                                            filename));
+                                            filepath));
                         }
                         else {
                             predLine.trim();
                             logger.info(String.format(
                                     "adding prediction: VALUE=%s, FILE=%s",
-                                    predLine, filename));
+                                    predLine, filepath));
                             predValueArray.add(predLine);
 
                             // assert that there's nothing more in the file
@@ -267,7 +269,7 @@ public class RunSmilesPrediction
                             if (secondLine != null && !secondLine.isEmpty()) {
                                 logger.warn(String
                                         .format("unexpected prediction: VALUE=%s, FILE=%s",
-                                                secondLine.trim(), filename));
+                                                secondLine.trim(), filepath));
                             }
                         }
                         br.close();
@@ -275,7 +277,7 @@ public class RunSmilesPrediction
                     catch (IOException e) {
                         logger.warn(String.format(
                                 "couldn't read prediction file: FILE=%s",
-                                filename), e);
+                                filepath), e);
                     }
                 }
             }
