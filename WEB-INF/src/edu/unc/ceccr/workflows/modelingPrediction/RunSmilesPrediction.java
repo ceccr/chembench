@@ -270,6 +270,7 @@ public class RunSmilesPrediction
                                                 secondLine.trim(), filename));
                             }
                         }
+                        br.close();
                     }
                     catch (IOException e) {
                         logger.warn(String.format(
