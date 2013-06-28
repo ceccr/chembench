@@ -41,7 +41,7 @@
 		ajaxObject.onreadystatechange=function(){
 			if(ajaxObject.readyState==4){
 				hideLoading();
-			  	document.getElementById("allCompoundsDiv").innerHTML=ajaxObject.responseText;
+                $('div[aria-labelledby="AllCompounds"]').html(ajaxObject.responseText);
 			}
 		}
 		showLoading("LOADING. PLEASE WAIT.")
@@ -82,7 +82,7 @@
 		var ajaxObject = GetXmlHttpObject();
 		ajaxObject.onreadystatechange=function(){
 			if(ajaxObject.readyState==4){
-			  	document.getElementById("externalCompoundsDiv").innerHTML=ajaxObject.responseText;
+			  	$('div[aria-labelledby="ExternalSet"]').html(ajaxObject.responseText);
 			}
 		}
 		
@@ -103,20 +103,18 @@
 
         $(function() {
             // set links with id
-            //var baseUrl = "https://chembench.mml.unc.edu/";
-            var baseUrl = "/";
             var id = getURLParameter("id");
 
             $("#AllCompounds").attr("href", 
-                baseUrl + "viewDatasetCompoundsSection" + "?id=" + id);
+                "/viewDatasetCompoundsSection" + "?id=" + id);
             $("#ExternalSet").attr("href", 
-                baseUrl + "viewDatasetExternalCompoundsSection" + "?id=" + id);
+                "/viewDatasetExternalCompoundsSection" + "?id=" + id);
             $("#ActivityHistogram").attr("href", 
-                baseUrl + "viewDatasetActivityChartSection" + "?id=" + id);
+                "/viewDatasetActivityChartSection" + "?id=" + id);
             $("#Heatmap").attr("href", 
-                baseUrl + "viewDatasetVisualizationSection" + "?id=" + id);
+                "/viewDatasetVisualizationSection" + "?id=" + id);
             $("#DescriptorWarnings").attr("href", 
-                baseUrl + "viewDatasetDescriptorsSection" + "?id=" + id);
+                "/viewDatasetDescriptorsSection" + "?id=" + id);
 
             // activate tabs widget
             $("#tabs").tabs();
