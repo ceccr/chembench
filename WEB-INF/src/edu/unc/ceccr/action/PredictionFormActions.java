@@ -157,7 +157,7 @@ public class PredictionFormActions extends ActionSupport
                     // debug part
                     logger.debug("Predicting models: " + s[0]);
                     logger.debug("Predicted value: " + s[1]);
-                    logger.debug("Standart deviation: " + s[2]);
+                    logger.debug("Standard deviation: " + s[2]);
                 }
                 predValues[0] = String.valueOf(predictingModels);
                 predValues[1] = Utility.roundSignificantFigures(String
