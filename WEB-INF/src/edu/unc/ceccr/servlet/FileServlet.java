@@ -39,14 +39,15 @@ public class FileServlet extends HttpServlet {
 			String datasetName = request.getParameter("datasetName");	    	
                 String file = request.getParameter("file"); //Type of file requested, e.g. "predictionAsCsv". 
 	    	String userName = ((User) session.getAttribute("user")).getUserName();
-		String compoundId = request.getParameter("compoundId");
+		String user_mol = request.getParameter("userName");
+                String compoundId = request.getParameter("compoundId");
 	
 	    	String dirName = Constants.CECCR_USER_BASE_PATH;
 	    	String fileName = "";
 	    	Session s = HibernateUtil.getSession();
 	    	if(jobType.equalsIgnoreCase(Constants.DATASET)){
 		        //DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
-	    	        dirName += userName + "/DATASETS/";
+	    	        dirName += user_mol + "/DATASETS/";
 		        dirName += datasetName + "/";
 				
 	    		//add file names here...
