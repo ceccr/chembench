@@ -10,6 +10,8 @@
 *.jar
 *.war
 *.ear
+# ... but include library JARs
+!WEB-INF/lib/*
 
 #Ignore all subdirectories under classes#
 WEB-INF/classes/*/*
