@@ -759,8 +759,8 @@ public class PopulateDataObjects
                 if (onlyCompleted) {
                     Iterator<?> tempIter = session
                             .createCriteria(Predictor.class)
-                            .add(Expression.eq("predictorType",
-                                    Constants.ADME))
+			.add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
+			    .add(Expression.eq("predictorType",Constants.ADME))
                             .add(Expression.eq("jobCompleted", Constants.YES))
                             .addOrder(Order.desc("name")).list().iterator();
 

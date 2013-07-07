@@ -10,6 +10,8 @@
 *.jar
 *.war
 *.ear
+# ... but include library JARs
+!WEB-INF/lib/*
 
 #Ignore all subdirectories under classes#
 WEB-INF/classes/*/*
@@ -19,9 +21,6 @@ WEB-INF/logs/
 
 #Ignore the buildDate.txt#
 WEB-INF/buildDate.txt
-
-#Ignore the lib folder#
-WEB-INF/lib/
 
 #Ignore the log4j.xml file#
 WEB-INF/classes/log4j.xml

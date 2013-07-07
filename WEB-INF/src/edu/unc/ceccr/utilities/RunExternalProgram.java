@@ -33,7 +33,7 @@ public class RunExternalProgram
                 c.close();
             }
             catch (IOException e) {
-                // ignored
+                logger.warn("Couldn't close file handle", e);
             }
         }
     }
@@ -58,14 +58,16 @@ public class RunExternalProgram
 
             if (workingDir.isEmpty()) {
                 if (outputRunningMessage) {
-                    logger.info("Running external program " + cmd);
+                    logger.info(String.format(
+                            "Running external program: CMD=%s", cmd));
                 }
                 p = Runtime.getRuntime().exec(cmd);
             }
             else {
                 if (outputRunningMessage) {
-                    logger.info("Running external program " + cmd
-                            + " in dir: " + workingDir);
+                    logger.info(String.format(
+                            "Running external program: CMD=%s, WORKINGDIR=%s",
+                            cmd, workingDir));
                 }
                 p = Runtime.getRuntime()
                         .exec(cmd, null, new File(workingDir));
@@ -132,21 +134,18 @@ public class RunExternalProgram
             FileAndDirOperations.makeDirContentsExecutable(workingDir);
 
             if (outputRunningMessage) {
-                logger.info("Running external program " + cmd + " in dir: "
-                        + workingDir);
+                logger.info(String.format(
+                        "Running external program: CMD=%s, WORKINGDIR=%s",
+                        cmd, workingDir));
             }
-            logger.debug("Trying to execute the command\n");
-            logger.debug("The working directory is : " + workingDir);
 
             p = Runtime.getRuntime().exec(workingDir + "temp-script.sh",
                     null, new File(workingDir));
-
-            logger.debug("Finished executing\n");
             p.waitFor();
 
         }
-        catch (Exception ex) {
-            logger.error(ex.toString());
+        catch (Exception e) {
+            logger.error("Error executing external program", e);
         }
     }
 

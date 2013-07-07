@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.List;
 import java.util.ArrayList;
 
 import edu.unc.ceccr.global.Constants;
@@ -571,29 +572,23 @@ public class RandomForest
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir
                 + xFile));
+        List<String> lines = new ArrayList<String>();
+
+        // replace "#" with "=_"
+        String line;
+        while ((line = br.readLine()) != null) {
+            lines.add(line.replaceAll("#", "=_"));
+        }
+        br.close();
+
+        // write out all but the last two lines
         BufferedWriter out = new BufferedWriter(new FileWriter(workingDir
                 + newXFile));
-
-        // header
-        String line = br.readLine();
-        String[] headerInfo = line.split("\\s+");
-        int numCompounds = Integer.parseInt(headerInfo[0]);
-        out.write(line + "\n");
-
-        // descriptor names
-        line = br.readLine().replaceAll("#", "=_");
-        out.write(line + "\n");
-
-        // descriptor values
-        int lineCount = 0;
-        while ((line = br.readLine()) != null) {
-            if (lineCount < numCompounds) {
-                out.write(line + "\n");
-                lineCount++;
-            }
+        for (int i = 0; i < lines.size() - 2; i++) {
+            out.write(lines.get(i));
+            out.newLine();
         }
         out.close();
-        br.close();
     }
 
     // END HELPER FUNCTIONS

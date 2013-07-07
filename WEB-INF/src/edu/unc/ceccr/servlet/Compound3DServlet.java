@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLStreamHandler;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -37,13 +40,18 @@ public class Compound3DServlet extends HttpServlet {
 		String mol3D = id + "_3D.mol";
 		
 		String sdfPath = workingDir + sdf;
-		
-		String urlBaseDir = "/BASE/" + userName+ "/DATASETS/" + datasetName + "/Visualization/Structures/";
-		
+		///////////////////
+		//String urlBaseDir = "/BASE/"  + userName +  "/DATASETS/" + datasetName + "/Visualization/Structures/";
+                String urlBaseDir = "https://chembench-dev.mml.unc.edu/fileServlet?"+"jobType=DATASET"+"&"+"file=mol"+"&"+"datasetName="+datasetName+"&"
+		    +"userName="+userName;		
+
 		//Check if file exist if no then we assuming that servlet was called from Prediction tab for the predictor which was based on public dataset
 		if(!new File(sdfPath).exists()){
 			workingDir = Constants.CECCR_USER_BASE_PATH + "all-users/DATASETS/" + datasetName + "/Visualization/Structures/";
-			urlBaseDir = "/BASE/" + "all-users/DATASETS/" + datasetName + "/Visualization/Structures/";
+			//////////////////			
+                        //urlBaseDir = "/BASE/"  + "all-users/DATASETS/" + datasetName + "/Visualization/Structures/";
+			urlBaseDir = "https://chembench-dev.mml.unc.edu/fileServlet?"+"jobType=DATASET"+"&"+"file=mol"+"&"+"datasetName="+datasetName+"&"
+			    +"userName=all-users";
 			sdfPath = workingDir + sdf;
 		}
 
@@ -55,7 +63,8 @@ public class Compound3DServlet extends HttpServlet {
 				+ "mview_begin('/jchem/marvin/', 350, 350);";
 		
 		String mol3D_URL_friendly =  id.replaceAll("%","%25") + "_3D.mol";
-		String parameter = "mview_param('mol'," + "'" + urlBaseDir + mol3D_URL_friendly + "'" + ");";
+		//String parameter  = "mview_param('mol'," + "'" + urlBaseDir + mol3D_URL_friendly + "'" + ");";
+                String parameter  = "mview_param('mol'," + "'" + urlBaseDir + "&" + "compoundId=" + id.replaceAll("%", "%25") + "'" + ");";
 
 		String end = "mview_end();</script></body></html>";
 
@@ -84,7 +93,7 @@ public class Compound3DServlet extends HttpServlet {
 
 				out.println(title);
 				out.println(front);
-				out.println(parameter);
+     				out.println(parameter);
 				out.println(end);
 				
 				twoDis.close();
