@@ -101,6 +101,9 @@ public class PredictionFormActions extends ActionSupport
                  */
                 predictors.add(predictor);
             }
+            else if (predictor.getModelMethod().startsWith(Constants.KNN)) {
+            	logger.warn("SMILES prediction attempted on KNN predictor");
+            }
         }
         /* we don't need the session again */
         session.close();
