@@ -67,7 +67,7 @@
           showLoading("PREDICTING. PLEASE WAIT.");
 
           //send request
-          var url="makeSmilesPrediction?smiles=" + smiles + "&cutoff=" + cutoff + "&predictorIds=" + '<s:property value="selectedPredictorIds" />';
+          var url="makeSmilesPrediction?smiles=" + encodeURIComponent(smiles) + "&cutoff=" + cutoff + "&predictorIds=" + '<s:property value="selectedPredictorIds" />';
           ajaxObject.open("GET",url,true);
           ajaxObject.send(null);
 
