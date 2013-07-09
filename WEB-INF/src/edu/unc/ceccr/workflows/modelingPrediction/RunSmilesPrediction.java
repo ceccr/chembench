@@ -227,7 +227,6 @@ public class RunSmilesPrediction
             }
             else {
                 Svm.runSvmPrediction(workingDir, xFile.getName());
-                List<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
                 logger.info(String.format(
                         "reading predicted values: FILE=%s, METHOD=%s", xFile
                                 .getAbsolutePath(), Constants.SVM));
