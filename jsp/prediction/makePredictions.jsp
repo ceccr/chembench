@@ -58,7 +58,7 @@
 				document.getElementById("smilesResults").innerHTML=ajaxObject.responseText;
 				}
 			  else{
-			    document.getElementById("smilesResults").innerHTML = previousSmilesResults + ajaxObject.responseText;
+			    document.getElementById("smilesResults").innerHTML = ajaxObject.responseText + previousSmilesResults;
 			  }
 			  runSmilesPrediction = "true";
             }
@@ -665,7 +665,7 @@
                                     </tr>
                                     <tr>
                                       <td height="26" align="left" colspan="3">
-									  	<div class="StandardTextDarkGrayParagraph" id="smilesResults" style="height:180px; overflow:auto;">
+									  	<div class="StandardTextDarkGrayParagraph" id="smilesResults" style="height:165px; overflow:auto;">
 											<i>
 												Your SMILES prediction results will appear here. Prediction will take 3-5 minutes on average per predictor.
 											</i>
