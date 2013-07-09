@@ -42,7 +42,7 @@ public class Compound3DServlet extends HttpServlet {
 		String sdfPath = workingDir + sdf;
 		///////////////////
 		//String urlBaseDir = "/BASE/"  + userName +  "/DATASETS/" + datasetName + "/Visualization/Structures/";
-                String urlBaseDir = "https://chembench-dev.mml.unc.edu/fileServlet?"+"jobType=DATASET"+"&"+"file=mol"+"&"+"datasetName="+datasetName+"&"
+                String urlBaseDir = Constants.WEBADDRESS + "/fileServlet?"+"jobType=DATASET"+"&"+"file=mol"+"&"+"datasetName="+datasetName+"&"
 		    +"userName="+userName;		
 
 		//Check if file exist if no then we assuming that servlet was called from Prediction tab for the predictor which was based on public dataset
@@ -50,7 +50,7 @@ public class Compound3DServlet extends HttpServlet {
 			workingDir = Constants.CECCR_USER_BASE_PATH + "all-users/DATASETS/" + datasetName + "/Visualization/Structures/";
 			//////////////////			
                         //urlBaseDir = "/BASE/"  + "all-users/DATASETS/" + datasetName + "/Visualization/Structures/";
-			urlBaseDir = "https://chembench-dev.mml.unc.edu/fileServlet?"+"jobType=DATASET"+"&"+"file=mol"+"&"+"datasetName="+datasetName+"&"
+			urlBaseDir = Constants.WEBADDRESS + "/fileServlet?"+"jobType=DATASET"+"&"+"file=mol"+"&"+"datasetName="+datasetName+"&"
 			    +"userName=all-users";
 			sdfPath = workingDir + sdf;
 		}
