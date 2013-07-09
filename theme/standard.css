@@ -23,6 +23,7 @@ table {
     border-spacing: 2px;
     overflow-x:visible;
     overflow-y:visible;
+    clear:both;
 }
 
 td {
