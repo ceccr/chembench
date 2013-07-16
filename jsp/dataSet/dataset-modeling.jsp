@@ -42,11 +42,13 @@
 	    </td>
 	  </tr>		
 	  <tr>
-		<td>
-		<div class="StandardTextDarkGrayParagraph">
-		<b>Standardize structures: </b>
+		<td><div class="StandardTextDarkGrayParagraph">
+            <b>Standardize structures:</b><br />
 		</div></td>
-		<td><s:checkbox name="standardizeModeling" id="standardizeModeling" theme="simple" /></td>
+        <td>
+            <s:checkbox name="standardizeModeling" id="standardizeModeling" theme="simple" />
+                <span class="StandardTextDarkGrayParagraph"><em>Note: If you choose not to standardize, ensure that your structure file contains explicit hydrogens, or Dragon descriptor generation will fail.</em></span>
+        </td>
 	  </tr>
 	   <tr>
 		<td>

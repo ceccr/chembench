@@ -44,7 +44,10 @@
 		<div class="StandardTextDarkGrayParagraph">
 		<b>Standardize structures: </b>
 		</div></td>
-		<td><s:checkbox name="standardizeModDesc" id="standardizeModDesc" theme="simple" /></td>
+        <td>
+            <s:checkbox name="standardizeModDesc" id="standardizeModDesc" theme="simple" />
+            <span class="StandardTextDarkGrayParagraph"><em>Note: If you choose not to standardize, ensure that your structure file contains explicit hydrogens, or Dragon descriptor generation will fail.</em></span>
+        </td>
 	  </tr>
 	  <tr id="generateImages_trm" style="display:none">
 		<td>
