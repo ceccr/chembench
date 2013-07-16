@@ -558,6 +558,11 @@ public class RandomForest
                                        String newXFile,
                                        String workingDir) throws Exception
     {
+        String logString = String.format(
+                "Preprocessing X file: SCALING=%s, OLD=%s, NEW=%s, DIR=%s",
+                scalingType, xFile, newXFile, workingDir);
+        logger.debug(logString);
+
         // if scaling was applied, the last 2 lines of a .x file will contain
         // the scaling ranges.
         // Random Forest can't deal with these last 2 lines, so they must be
@@ -581,12 +586,14 @@ public class RandomForest
         }
         br.close();
 
-        // write out all but the last two lines
         BufferedWriter out = new BufferedWriter(new FileWriter(workingDir
                 + newXFile));
-        for (int i = 0; i < lines.size() - 2; i++) {
-            out.write(lines.get(i));
-            out.newLine();
+        for (int i = 0; i < lines.size(); i++) {
+            // write out all but the last two lines UNLESS no scaling occurred
+            if (i < lines.size() - 2 || scalingType.equals("NOSCALING")) {
+                out.write(lines.get(i));
+                out.newLine();
+            }
         }
         out.close();
     }
