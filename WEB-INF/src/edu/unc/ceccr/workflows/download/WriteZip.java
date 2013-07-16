@@ -263,7 +263,9 @@ public class WriteZip{
 				while(projectDirFilenames != null && x<projectDirFilenames.length){
 					if(projectDirFilenames[x].endsWith(".act") 
 							|| projectDirFilenames[x].endsWith(".sdf") 
-							|| projectDirFilenames[x].endsWith(".a")){
+							|| projectDirFilenames[x].endsWith(".a")
+					                || projectDirFilenames[x].endsWith(".cdk")
+					                || projectDirFilenames[x].endsWith(".cdk.x")){
 						modelingFiles.add(cp.getName() + "/" + projectDirFilenames[x]);
 					}
 					else if(projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
@@ -281,7 +283,9 @@ public class WriteZip{
 			while(projectDirFilenames != null && x<projectDirFilenames.length){
 				if(projectDirFilenames[x].endsWith(".act") 
 						|| projectDirFilenames[x].endsWith(".sdf") 
-						|| projectDirFilenames[x].endsWith(".a")){
+						|| projectDirFilenames[x].endsWith(".a")
+				                || projectDirFilenames[x].endsWith(".cdk")
+				                || projectDirFilenames[x].endsWith(".cdk.x")){
 					modelingFiles.add(projectDirFilenames[x]);
 				}
 				else if(projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
@@ -450,7 +454,9 @@ public class WriteZip{
 		while(projectDirFilenames != null && x<projectDirFilenames.length){
 			if(projectDirFilenames[x].endsWith(".act") 
 					|| projectDirFilenames[x].endsWith(".sdf") 
-					|| projectDirFilenames[x].endsWith(".a")){
+					|| projectDirFilenames[x].endsWith(".a")
+			                || projectDirFilenames[x].endsWith(".cdk")
+			                || projectDirFilenames[x].endsWith(".cdk.x")){
 				predictionFiles.add(projectDirFilenames[x]);
 			}
 			x++;
