@@ -720,12 +720,12 @@ public class ModelingFormActions extends ActionSupport
     private String knnMaxNumDescriptors              = "45";
     private String knnDescriptorStepSize             = "4";
     private String knnMinNearestNeighbors            = "1";
-    private String knnMaxNearestNeighbors            = "5";
+    private String knnMaxNearestNeighbors            = "9";
 
-    private String saNumRuns                         = "3";
+    private String saNumRuns                         = "2";
     private String saMutationProbabilityPerDescriptor = "0.2";
-    private String saNumBestModels                   = "2";
-    private String saTempDecreaseCoefficient         = "0.6";
+    private String saNumBestModels                   = "3";
+    private String saTempDecreaseCoefficient         = "0.7";
     private String saLogInitialTemp                  = "2";
     private String saFinalTemp                       = "-5";
     private String saTempConvergence                 = "-2";
@@ -737,7 +737,7 @@ public class ModelingFormActions extends ActionSupport
 
     private String knnApplicabilityDomain            = "0.5";
     private String knnMinTraining                    = "0.6";
-    private String knnMinTest                        = "0.7";
+    private String knnMinTest                        = "0.65";
     private String knnSaErrorBasedFit                = "false";
     private String knnGaErrorBasedFit                = "false";
 
