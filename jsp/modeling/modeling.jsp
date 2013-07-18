@@ -382,7 +382,7 @@ function calculateRuntimeEstimate(){
 
         <div class="StandardTextDarkGrayParagraph"><b>Maximum Correlation:</b></div>
         <s:textfield name="correlationCutoff" id="correlationCutoff" size="5" />
-        <div class="StandardTextDarkGrayParagraph"><i>For each pair of descriptors, if the correlation coefficient is above the maximum, one of the two will be removed.<br /><br /></i></div>
+        <div class="StandardTextDarkGrayParagraph"><i>For each pair of descriptors, if the correlation coefficient is above the maximum, one of the two will be removed.<br />In addition, descriptors with zero variance across compounds will always be removed.<br /></i></div>
 
     </div>
     <br />
