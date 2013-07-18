@@ -39,23 +39,6 @@
 
 <!-- headers -->
 <div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
-<div class="outer">
-    <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
-    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
-
-    <div><br /></div>
-    <!--  page content -->
-    <div class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
-
-
-        <div id="horizontalmenu">
-            <div class="adminlink"><a href="admin">Messages</a></div>
-            <div class="adminlink"><a href="adminPredictors">Predictors</a></div>
-            <div class="adminlink"><a href="adminUsers">Users</a></div>
-            <div class="adminlink"><a href="adminJobs">Jobs</a></div>
-        </div>
-
-
         <div class="StandardTextDarkGrayParagraph">
             <a href="#" onclick="window.open('/emailToAll','emailToAll','width=1000,height=700')">Send email to all users</a> (opens in a new window)
             <br />
@@ -75,7 +58,6 @@
                 </form>
             </div>
         </div>
-        <br /><br />
 
         <table class="sortable" id="userTable">
             <tr>
@@ -105,9 +87,6 @@
 
             </s:iterator>
         </table>
-    </div>
-    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
-</div>
 <script language="javascript">
     $(document).ready(function() {
 

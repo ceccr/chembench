@@ -307,22 +307,27 @@ public class AdminAction extends ActionSupport{
 			}
 		}
 		try{
-			String predictorID = ((String[]) context.getParameters().get("predictorName"))[0];
-			String userName = ((String[]) context.getParameters().get("userName"))[0];
-			
-			if(predictorID.isEmpty() || userName.isEmpty()){
-				errorStrings.add("Predictor ID and user name shouldn't be empty!");
+			String predictorName = ((String[]) context.getParameters().get("predictorName"))[0];
+			//String userName = ((String[]) context.getParameters().get("userName"))[0];
+			/*if(predictorName.isEmpty() || userName.isEmpty()){
+				errorStrings.add("Predictor Name and user name shouldn't be empty!");
+				return ERROR;
+			}*/
+			String userName = Constants.ALL_USERS_USERNAME;
+			if(predictorName.isEmpty()){
+				errorStrings.add("Predictor Name shouldn't be empty!");
 				return ERROR;
 			}
 			
-			if(!userName.trim().equals(Constants.ALL_USERS_USERNAME)){
+			/*if(!userName.trim().equals(Constants.ALL_USERS_USERNAME)){
 				errorStrings.add("You can only delete public predictors here!");
 				return ERROR;
-			}
+			}*/
+			
 			Session session = HibernateUtil.getSession();
-			Predictor predictor = PopulateDataObjects.getPredictorById(Long.parseLong(predictorID), session);
+			Predictor predictor = PopulateDataObjects.getPredictorByName(predictorName, userName, session);
 			if(predictor==null){
-				errorStrings.add("No predictor with ID "+predictorID+" was found in the database!");
+				errorStrings.add("No public predictor with Name "+predictorName+" was found in the database!");
 				return ERROR;
 			}
 			
@@ -458,22 +463,30 @@ public class AdminAction extends ActionSupport{
 			}
 		}
 		try{
-			String datasetID = ((String[]) context.getParameters().get("datasetName"))[0];
-			String userName = ((String[]) context.getParameters().get("userName"))[0];
+			String datasetName = ((String[]) context.getParameters().get("datasetName"))[0];
+			String userName = Constants.ALL_USERS_USERNAME;
+			//String userName = ((String[]) context.getParameters().get("userName"))[0];
 			
-			if(datasetID.isEmpty() || userName.isEmpty()){
-				errorStrings.add("Dataset ID and user name shouldn't be empty!");
+			/*if(datasetName.isEmpty() || userName.isEmpty()){
+				errorStrings.add("Dataset Name and user name shouldn't be empty!");
+				return ERROR;
+			}*/
+			
+			if(datasetName.isEmpty()){
+				errorStrings.add("Dataset Name shouldn't be empty!");
 				return ERROR;
 			}
 			
-			if(!userName.trim().equals(Constants.ALL_USERS_USERNAME)){
+			
+			/*if(!userName.trim().equals(Constants.ALL_USERS_USERNAME)){
 				errorStrings.add("You can only delete public datasets here!");
 				return ERROR;
-			}
+			}*/
+			
 			Session session = HibernateUtil.getSession();
-			DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(datasetID), session);
+			DataSet dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
 			if(dataset==null){
-				errorStrings.add("No dataset with ID "+datasetID+" was found in the database!");
+				errorStrings.add("No public dataset with Name "+datasetName+" was found in the database!");
 				return ERROR;
 			}	
 			
@@ -575,7 +588,7 @@ public class AdminAction extends ActionSupport{
 			String predictorType = ((String[]) context.getParameters().get("predictorType"))[0];
 			
 			if(predictorName.isEmpty() || userName.isEmpty() || predictorType.isEmpty()){
-				
+				errorStrings.add("Predictor name, user name and predictor type shouldn't be empty!");
 				return ERROR;
 			}
 			
@@ -589,10 +602,16 @@ public class AdminAction extends ActionSupport{
 			if(predictor.getUserName().equals(Constants.ALL_USERS_USERNAME)) return SUCCESS;
 			
 			//prevent duplication of names 
-			if(PopulateDataObjects.getPredictorByName(predictorName, Constants.ALL_USERS_USERNAME, session)!=null) return SUCCESS;
+			//if(PopulateDataObjects.getPredictorByName(predictorName, Constants.ALL_USERS_USERNAME, session)!=null) return SUCCESS;
+			if(PopulateDataObjects.getPredictorByName(predictorName, Constants.ALL_USERS_USERNAME, session)!=null){
+				errorStrings.add("There has already been a public predictor with"+predictorName);
+				return ERROR;
+			}
 			
 			DataSet dataset = PopulateDataObjects.getDataSetById(predictor.getDatasetId(),session);
-			if(dataset==null) return ERROR;
+			if(dataset==null){
+				return ERROR;
+			}
 			session.close();
 			
 			//check if predictor is based on the public dataset
@@ -902,6 +921,97 @@ public class AdminAction extends ActionSupport{
 			try {
 				tx = session.beginTransaction();
 				session.saveOrUpdate(predictor);
+				tx.commit();
+			} catch (RuntimeException e) {
+				if (tx != null)
+					tx.rollback();
+				logger.error(e);
+			} finally {session.close();}
+			
+		}
+		catch(Exception ex){
+			result = ERROR;
+			logger.error(ex);
+		}
+		
+		return result;
+	}
+	
+	public String makeDatasetPublic(){
+		String result = SUCCESS;
+		ActionContext context = ActionContext.getContext();
+
+		if(context == null){
+			logger.debug("No ActionContext available");
+		}
+		else{
+			user = (User) context.getSession().get("user");
+			
+			if(user == null){
+				logger.debug("No user is logged in.");
+				result = LOGIN;
+				return result;
+			}
+			else if(! user.getIsAdmin().equals(Constants.YES)){
+				logger.error("user " + user.getUserName() + " isn't an admin");
+				result = ERROR;
+				return result;
+			}
+		}
+
+		try{
+			String datasetName = ((String[]) context.getParameters().get("datasetName"))[0];
+			String userName = ((String[]) context.getParameters().get("userName"))[0];
+			
+			if(datasetName.isEmpty() || userName.isEmpty()){			
+				return ERROR;
+			}
+			
+			logger.debug("++++++++++++++++++Dataset name:"+datasetName+" User name="+userName);
+					
+			Session session = HibernateUtil.getSession();
+			DataSet dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
+			if(dataset==null){
+			    errorStrings.add("User "+userName+" does not have a dataset with Name "+datasetName);
+				return ERROR;
+			}
+			
+			// idiot proof if someone will try to make public dataset public again.  
+			if(dataset.getUserName().equals(Constants.ALL_USERS_USERNAME)) return SUCCESS;
+			
+			//prevent duplication of names 
+			//if(PopulateDataObjects.getDataSetByName(datasetName, Constants.ALL_USERS_USERNAME, session)!=null) return SUCCESS;
+			if(PopulateDataObjects.getDataSetByName(datasetName, Constants.ALL_USERS_USERNAME, session)!=null){
+				errorStrings.add("There has already been a public Dataset with the same name"+datasetName);
+				return ERROR;
+			}
+		
+			String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/"+dataset.getName();			
+			String userDatasetDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+dataset.getName();
+			
+			//copy files to all users folder
+			logger.debug("Start copying files from '"+userDatasetDir+"' to '"+allUserDatasetDir+"'");
+			
+			String cmd = "cp -r " + userDatasetDir+" "+allUserDatasetDir;
+			RunExternalProgram.runCommand(cmd, "");
+			
+			//starting database records cloning process
+			
+			//duplicating dataset record
+			logger.debug("------DB: Duplicating dataset record for dataset: "+dataset.getName());
+			session = HibernateUtil.getSession();
+			session.evict(dataset);
+			dataset.setId(null);
+			dataset.setUserName(Constants.ALL_USERS_USERNAME);
+			session.save(dataset);
+			session.flush();
+			session.close();
+				
+			session = HibernateUtil.getSession();
+			Transaction tx = null;
+			try {
+				tx = session.beginTransaction();
+				session.saveOrUpdate(dataset);
 				tx.commit();
 			} catch (RuntimeException e) {
 				if (tx != null)

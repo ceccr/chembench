@@ -483,14 +483,24 @@
             <result name="error">jsp/main/errors2.jsp</result>
         </action>
 
+        <action name="makeDatasetPublicAction" class="edu.unc.ceccr.action.AdminAction" method="makeDatasetPublic">
+            <result name="success" type="redirect">admin</result>
+            <result name="error">jsp/main/errors2.jsp</result>
+        </action>
+
+        <action name="renamePublicPredictorAction" class="edu.unc.ceccr.action.AdminAction" method="renamePublicPredictor">
+	    <result name="success" type="redirect">admin</result>
+            <result name="error">jsp/main/errors.jsp</result>
+        </action>
+
         <!-- DELETE PUBLIC DATASET,PREDICTOR and PREDICTION Actions -->
-        <action name="deletePublicDataseAction" class="edu.unc.ceccr.action.AdminAction" method="deletePublicDataset">
-            <result  name="success" type="redirect">home</result>
+        <action name="deletePublicDatasetAction" class="edu.unc.ceccr.action.AdminAction" method="deletePublicDataset">
+            <result  name="success" type="redirect">admin</result>
             <result name="error">jsp/main/errors2.jsp</result>
         </action>
 
         <action name="deletePublicPredictorAction" class="edu.unc.ceccr.action.AdminAction" method="deletePublicPredictor">
-            <result  name="success" type="redirect">home</result>
+            <result  name="success" type="redirect">admin</result>
             <result name="error">jsp/main/errors2.jsp</result>
         </action>
 

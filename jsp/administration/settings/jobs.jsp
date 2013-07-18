@@ -39,21 +39,8 @@
 
 <!-- headers -->
 <div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. -->
-<div class="outer">
-<div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
-<div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
-
-<div><br /></div>
 <!--  page content -->
 <!-- Queued, Local, and LSF Jobs -->
-<a name="adminJobs"></a>
-<div class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
-<div id="horizontalmenu">
-    <div class="adminlink"><a href="admin">Messages</a></div>
-    <div class="adminlink"><a href="adminPredictors">Predictors</a></div>
-    <div class="adminlink"><a href="adminUsers">Users</a></div>
-    <div class="adminlink"><a href="adminJobs">Jobs</a></div>
-</div>
 <p class="StandardTextDarkGrayParagraph2">
     <b>Job Queue</b>
 </p>
@@ -266,10 +253,6 @@
         </s:iterator>
     </table>
 </s:if>
-</div>
-
-<div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
-</div>
 
 </body>
 </html>

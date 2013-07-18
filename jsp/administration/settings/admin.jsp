@@ -20,11 +20,13 @@
     <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
     <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
     <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
 
     <script src="javascript/script.js"></script>
     <script src="javascript/admin.js"></script>
     <script language="JavaScript" src="javascript/sortableTable.js"></script>
-    <script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
     <script type="text/javascript">
         function checkContent()
@@ -42,33 +44,46 @@
 <div class="outer">
     <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
     <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
-
-    <div><br /></div>
+	
     <!--  page content -->
     <div class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
+        <script>
+            $(function() {
+                $( "#tabs" ).tabs();
+            });
+        </script>
+		
+		<div id="tabs">
+            <ul>
+                <li>
+                    <a href="#message">Messages</a>
+				</li>
+				<li>
+				    <a href="adminPredictors">Dataset&Predictor</a>
+				</li>
+				<li>
+				    <a href="adminUsers">Users</a>
+				</li>
+				<li>
+				    <a href="adminJobs">Jobs</a>
+				</li>
+			</ul>
 
-
-        <div id="horizontalmenu">
-            <div class="adminlink"><a href="admin">Messages</a></div>
-            <div class="adminlink"><a href="adminPredictors">Predictors</a></div>
-            <div class="adminlink"><a href="adminUsers">Users</a></div>
-            <div class="adminlink"><a href="adminJobs">Jobs</a></div>
-        </div>
-
-        <div class="StandardTextDarkGrayParagraph" style="border:#000 solid 1px;">
-            Add new global message:<br />
-            <form action="globalNotifAdd">
+            <div id="message" class="StandardTextDarkGrayParagraph">
+			    <b class="StandardTextDarkGrayParagraph2">
+				Add new global message:
+				</b>
+                <form action="globalNotifAdd">
                 <table width="680" border="0">
                     <tr><td>Start Date:</td><td><s:textfield name="startDate" value="" size="43" theme="simple" /></td></tr>
                     <tr><td>End Date:</td><td><s:textfield name="endDate" value="" size="43" theme="simple" /></td></tr>
                     <tr><td>Message:</td><td><s:textfield name="message" value="" size="43" theme="simple" /></td></tr>
                     <tr><td></td><td><input type="submit" value="Add" /></td></tr>
                 </table>
-            </form>
-        </div>
-
-
-    </div>
+                </form>
+			</div>
+        </div>		
+	</div>
     <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 </div>
 
