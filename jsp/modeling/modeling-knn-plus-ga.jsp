@@ -33,6 +33,7 @@
 			<!-- end overall parameters -->
 			
 			<!-- Genetic Algorithm Parameters (basic) -->
+            <s:if test="user.showAdvancedKnnModeling=='YES'">
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Genetic Algorithm Parameters:</u></b></div></td>
 			<td><br /><br /></td></tr>	
 			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Population Size:</b></div></td>
@@ -46,10 +47,17 @@
 			<!-- end Genetic Algorithm Parameters (basic) -->
 			
 			<!-- Genetic Algorithm Parameters (advanced) -->
-			<tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Genetic Algorithm Parameters (Advanced):</u></b></div></td>
-			<td><br /><br /></td></tr>	
-			<tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Fitness Difference To Proceed (in log<sub>10</sub> units):</b></div></td>
-			<td align="left" valign="top"><s:textfield id="gaMinFitnessDifference" name="gaMinFitnessDifference" size="5" theme="simple"/></td></tr>
+                <tr><td><div class="StandardTextDarkGrayParagraph"><b><u><br />Genetic Algorithm Parameters (Advanced):</u></b></div></td>
+                <td><br /><br /></td></tr>	
+                <tr><td><div class="StandardTextDarkGrayParagraph"><b>Minimum Fitness Difference To Proceed (in log<sub>10</sub> units):</b></div></td>
+                <td align="left" valign="top"><s:textfield id="gaMinFitnessDifference" name="gaMinFitnessDifference" size="5" theme="simple"/></td></tr>
+            </s:if>
+            <s:else>
+                <tr><td class="notice" colspan="2">
+                    (Some advanced kNN settings have been hidden. To enable these, please change your settings by 
+                    <a href="/editProfile">editing your profile</a>.)
+                </td></tr>
+            </s:else>
 			<!-- end Genetic Algorithm Parameters (advanced) -->
 			
 			<!-- Model Acceptance Parameters -->
