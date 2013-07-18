@@ -319,8 +319,6 @@
             <th class="TableRowText01">Descriptor Type name</th>
             <th class="TableRowText01">Date Created</th>
             <th class="TableRowText01">Public/Private</th>
-            <th class="TableRowText01_unsortable">Download</th>
-            <th class="TableRowText01_unsortable">Delete</th>
         </tr>
         <s:iterator value="userDatasets">
             <s:if test="hasBeenViewed=='YES'">
@@ -333,7 +331,13 @@
             <td align="center"><a
                     href="viewDataset?id=<s:property value="id" />"> <s:property
                     value="name" />
-            </a></td>
+            </a><br/><a
+                    href="datasetFilesServlet?datasetName=<s:property value='name' />&user=<s:property value='userName'/>"><img alt="download" width="18" height="18" src="theme/img/download.png"/></a>
+					<s:if test="userName=='all-users'"></s:if> 
+				<s:else>
+                <a onclick="return confirmDelete('predictor')"
+                   href="deleteDataset?id=<s:property value="id" />#datasets"><img alt="delete" width="15" height="15" src="theme/img/delete.png"/></a>
+                </s:else></td>
             <td><s:property value="numCompound" /></td>
             <td><s:property value="modelType" /></td>
             <s:if test="!sdfFile.isEmpty()">
@@ -351,18 +355,9 @@
             <td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
             <s:if test="userName=='all-users'">
                 <td>Public</td>
-                <td><a
-                        href="datasetFilesServlet?datasetName=<s:property value="name" />&user=all-users">download</a></td>
-                <td>
-                    <!-- dataset is public, so no delete option -->
-                </td>
             </s:if>
             <s:else>
                 <td>Private</td>
-                <td><a
-                        href="datasetFilesServlet?datasetName=<s:property value="name" />&user=<s:property value="user.userName" />">download</a></td>
-                <td><a onclick="return confirmDelete('dataset')"
-                       href="deleteDataset?id=<s:property value="id" />#datasets">delete</a></td>
             </s:else>
             </tr>
         </s:iterator>
@@ -409,11 +404,15 @@
             </s:url>
             <td><s:a href="%{predictorLink}">
                 <s:property value="name" />
-            </s:a><br /><a
-                    href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling">download</a><s:if test="userName=='all-users'"></s:if> <s:else>
-                <a onclick="return confirmDelete('predictor')"
-                   href="deletePredictor?id=<s:property value="id" />#predictors">delete</a>
-            </s:else></td>
+				</s:a>
+			    <br/>
+				<!--<a href="selectPredictor" name="predictorCheckBoxes" value="%{id}">Predict</a>-->
+				<a href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value="userName" />&projectType=modeling"><img alt="download" width="18" height="18" src="theme/img/download.png"/></a>
+				<s:if test="userName=='all-users'"></s:if> 
+				<s:else>
+                <a onclick="return confirmDelete('predictor')" href="deletePredictor?id=<s:property value="id" />#predictors"><img alt="delete" width="15" height="15" src="theme/img/delete.png"/></a>
+				</s:else>
+			</td>
             <td><a href="viewDataset?id=<s:property value="datasetId" />">
                 <s:property value="datasetDisplay" />
             </a></td>
@@ -463,8 +462,6 @@
                 <th class="TableRowText01">Dataset</th>
                 <th class="TableRowText01">Predictor</th>
                 <th class="TableRowText01">Date Created</th>
-                <th class="TableRowText01_unsortable">Download</th>
-                <th class="TableRowText01_unsortable">Delete</th>
             </tr>
             <s:iterator value="userPredictions">
                 <s:if test="hasBeenViewed=='YES'">
@@ -480,14 +477,14 @@
                 </s:url>
                 <td><s:a href="%{predictionLink}">
                     <s:property value="name" />
-                </s:a></td>
+                </s:a><br/><a
+                    href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value='userName' />&projectType=prediction"><img alt="download" width="18" height="18" src="theme/img/download.png"/></a><s:if test="userName=='all-users'"></s:if> <s:else>
+                <a onclick="return confirmDelete('predictor')"
+                   href="deletePrediction?id=<s:property value="id" />#predictions"><img alt="delete" width="15" height="15" src="theme/img/delete.png"/></a>
+                </s:else></td>
                 <td><s:property value="datasetDisplay" /></td>
                 <td><s:property value="predictorNames" /></td>
                 <td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-                <td><a
-                        href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value='userName' />&projectType=prediction">download</a></td>
-                <td><a onclick="return confirmDelete('prediction')"
-                       href="deletePrediction?id=<s:property value="id" />#predictions">delete</a></td>
                 </tr>
             </s:iterator>
         </table>
