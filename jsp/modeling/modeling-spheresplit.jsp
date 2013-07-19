@@ -16,6 +16,10 @@
 					</p>
 					</td>
 				</tr>	
+                <tr>
+                    <td colspan="2" class="notice">
+                        Recommended for smaller datasets (under 300 compounds).
+                    </td>
 				<tr><td><table>
 				
 				<tr>
