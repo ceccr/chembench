@@ -55,7 +55,7 @@
     <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
     <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
 
-    <div id="maincontent" style="overflow:auto;">
+    <span id="maincontent" style="overflow:auto;">
 	<table width="924" align="center"><tr><td>
 			<div class="StandardTextDarkGray"><br />
 			<b>Prediction Name: </b><s:property value="prediction.name" /><br />
@@ -100,9 +100,8 @@
 			<s:param name="orderBy" value='orderBy' />
 			<s:param name="id" value='objectId' />
 		</s:url>
-		
-    	<sx:div href="%{predictionsLink}" id="predictionValuesDiv" label="Prediction Values" theme="ajax" loadingText="Loading predictions..." showLoadingText="true" preload="false">
-		</sx:div>
+	
+    	<sx:div href="%{predictionsLink}" id="predictionValuesDiv" label="Prediction Values" theme="ajax" loadingText="Loading predictions..." showLoadingText="true" preload="false"></sx:div>
 		
 		<!--  
 		<s:url id="warningsLink" value="/viewPredictionWarningsSection" includeParams="none">
@@ -114,7 +113,7 @@
 		
    	</sx:tabbedpanel>
 	<!-- end load tabs -->
-	</div>
+	</span>
 	<div id="image_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute"><img src="" width="300" height="300"/></div>
     <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 

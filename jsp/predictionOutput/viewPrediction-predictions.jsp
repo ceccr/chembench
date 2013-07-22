@@ -6,7 +6,7 @@
 	<!-- Predictions -->	
 	<br />
 		<p class="StandardTextDarkGray"><b><u>Prediction Results</u></b></p>
-		
+	
 	<table width="924" align="center">
 		<tr><td>
 		
@@ -18,7 +18,8 @@
 			</p>
 		</td></tr>
 	</table>
-	
+
+        <div style="overflow:auto;">
 	<table width="924" align="center">
 		<tr>
 		<!-- header for table -->
@@ -52,4 +53,5 @@
 			</tr>
 		</s:iterator>
 	</table>
+        </div>
 	<!-- End Predictions -->
