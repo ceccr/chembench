@@ -281,8 +281,13 @@ function calculateRuntimeEstimate(){
 
     document.getElementById("timeEstimateDiv").innerHTML = "<br />This modeling job will take about <b>" + timeEstimateString + "</b> to finish.";
 }
-
-
+$(window).load(function() {
+    var currentModelingTab = $('.dojoTab.current', '#modelingMethod');
+    var currentModelingTabLabel = currentModelingTab.find('[dojoattachpoint="titleNode"]').text();
+    if (currentModelingTabLabel.match(/Random\s*Forest/i)) {
+        $('#dataSplittingMethod').hide();
+    }
+});
 </script>
 <script language="javascript" src="javascript/script.js"></script>
 <script language="javascript" src="javascript/modeling.js"></script>
@@ -388,13 +393,61 @@ function calculateRuntimeEstimate(){
     <br />
 
 
+    <!-- Modeling Method (kNN, kNN+, SVM) -->
+    <div id="modelingMethod" class="border StandardTextDarkGrayParagraph benchAlign">
+        <p class="StandardTextDarkGrayParagraph2">
+            <b>Choose Model Generation Method</b>
+        </p>
+        <br />
+
+        <!-- script sets hidden field so we know which tab was selected -->
+        <script type="text/javascript">
+            dojo.event.topic.subscribe('/modelingTypeSelect', function(tab, tabContainer) {
+                if (tab.widgetId.match(/Random\s*Forest/i)) {
+                    // random forest tab selected; hide data splitting methods
+                    $('#dataSplittingMethod').hide();
+                }
+                else {
+                    // for non-RF models show the data splitting methods again
+                    $('#dataSplittingMethod').show();
+                }
+                document.getElementById("modelingType").value = tab.widgetId;
+                changeSvmType();
+                calculateRuntimeEstimate();
+            });
+        </script>
+        <s:hidden id="modelingType" name="modelingType" />
+        <!-- end script -->
+
+        <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
+            <sx:tabbedpanel id="modelingTypeTabbedPanel" afterSelectTabNotifyTopics="/modelingTypeSelect" >
+
+                <sx:div id="RANDOMFOREST" value="RANDOMFOREST" theme="ajax" label="Random Forest" href="/loadRFSection" loadingText="Loading randomForest parameters...">
+                </sx:div>
+
+                <s:if test="!#session['user'].userName.contains('guest')">
+                    <sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">
+                    </sx:div>
+
+                    <sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
+                    </sx:div>
+
+                    <sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
+                    </sx:div>
+                </s:if>
+            </sx:tabbedpanel>
+
+        </td></tr></table>
+
+    </div>
+    <br />
+
     <!-- Internal Data Split Parameters -->
-    <div class="border StandardTextDarkGrayParagraph benchAlign">
+    <div id="dataSplittingMethod" class="border StandardTextDarkGrayParagraph benchAlign">
         <p class="StandardTextDarkGrayParagraph2">
             <b>Choose Internal Data Splitting Method</b>
         </p>
         <br />
-
 
         <!-- script sets hidden field so we know which tab was selected -->
         <script type="text/javascript">
@@ -418,57 +471,6 @@ function calculateRuntimeEstimate(){
         </td></tr></table>
     </div>
     <br />
-
-
-    <!-- Modeling Method (kNN, kNN+, SVM) -->
-    <div class="border StandardTextDarkGrayParagraph benchAlign">
-        <p class="StandardTextDarkGrayParagraph2">
-            <b>Choose Model Generation Method</b>
-        </p>
-        <br />
-
-        <!-- script sets hidden field so we know which tab was selected -->
-        <script type="text/javascript">
-            dojo.event.topic.subscribe('/modelingTypeSelect', function(tab, tabContainer) {
-                //alert("Tab "+ tab.widgetId + " was selected");
-                document.getElementById("modelingType").value = tab.widgetId;
-                changeSvmType();
-                calculateRuntimeEstimate();
-            });
-        </script>
-        <s:hidden id="modelingType" name="modelingType" />
-        <!-- end script -->
-
-        <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2"><tr><td>
-            <sx:tabbedpanel id="modelingTypeTabbedPanel" afterSelectTabNotifyTopics="/modelingTypeSelect" >
-
-                <sx:div id="RANDOMFOREST" value="RANDOMFOREST" theme="ajax" label="Random Forest" href="/loadRFSection" loadingText="Loading randomForest parameters...">
-                </sx:div>
-                <s:if test="!#session['user'].userName.contains('guest')">
-                    <sx:div id="SVM" value="SVM" theme="ajax" label="Support Vector Machines" href="/loadSvmSection" loadingText="Loading SVM parameters...">
-                    </sx:div>
-
-                    <sx:div id="KNN-GA" value="KNN-GA" theme="ajax" label="GA-kNN" href="/loadKnnPlusGASection" loadingText="Loading kNN+ parameters...">
-                    </sx:div>
-
-                    <sx:div id="KNN-SA" value="KNN-SA" theme="ajax" label="SA-kNN" href="/loadKnnPlusSASection" loadingText="Loading kNN+ parameters...">
-                    </sx:div>
-                </s:if>
-                <!--
-                Since knn+ seems to be working well, I'm taking out the original kNN option for generating
-                predictors. Predictions can still be made using these older kNN models.
-
-                <sx:div id="KNN" value="KNN" theme="ajax" label="kNN" href="/loadKnnSection" loadingText="Loading kNN parameters...">
-                </sx:div>
-                -->
-
-            </sx:tabbedpanel>
-
-        </td></tr></table>
-
-    </div>
-    <br />
-
 
     <!-- Begin Modeling Job -->
     <div class="border StandardTextDarkGrayParagraph benchAlign">

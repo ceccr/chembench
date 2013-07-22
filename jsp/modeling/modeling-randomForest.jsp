@@ -18,7 +18,7 @@
 				</tr>	
 				<tr><td><table>
 				
-				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Trees Per Split:</b></div></td>
+				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of Trees:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="numTrees" name="numTrees" size="5" theme="simple"/>
 				</td></tr>
 				<%--<tr><td><div class="StandardTextDarkGrayParagraph"><b>Descriptors Sampled per Node:</b></div></td>

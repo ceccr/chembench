@@ -465,6 +465,16 @@ public class QsarModelingTask extends WorkflowTask
         }
         else if (ModelingForm.getModelingType()
                 .equals(Constants.RANDOMFOREST)) {
+            // XXX hack! disables internal splitting for randomforest;
+            // this is done by setting 1 randsplit (0 splits causes an error) 
+            // and making it so that the train/test split is 100%/0%
+            // FIXME in the future, make a third option for trainTestSplitType
+            // (e.g. NONE) that disables splitting completely
+            this.trainTestSplitType = Constants.RANDOM;
+            this.numSplits = "1";
+            this.randomSplitMinTestSize = "0"; // percent
+            this.randomSplitMaxTestSize = "0"; // percent
+
             randomForestParameters = new RandomForestParameters();
 
             randomForestParameters.setDescriptorsPerTree(ModelingForm

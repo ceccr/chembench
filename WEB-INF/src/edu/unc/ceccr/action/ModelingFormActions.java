@@ -782,7 +782,7 @@ public class ModelingFormActions extends ActionSupport
     // end SVM Parameters
 
     // Random Forest parameters
-    private String numTrees                          = "50";
+    private String numTrees                          = "500";
     private String minTerminalNodeSize;//               = "1";
     private String maxNumTerminalNodes               = "0";
     private String descriptorsPerTree;//                = "25";
