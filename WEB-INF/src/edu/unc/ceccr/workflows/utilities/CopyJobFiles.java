@@ -6,6 +6,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.FileAlreadyExistsException;
 
 import org.hibernate.Session;
 
@@ -114,60 +117,72 @@ public class CopyJobFiles
     {
         // gathers the predictor files needed for a prediction run
         String fromDir;
+        String predictorName = predictor.getName();
 
         if (predictor.getUserName().equals(userName)) {
-            fromDir = Constants.CECCR_USER_BASE_PATH + userName
-                    + "/PREDICTORS/";
+            fromDir = new File(new File(
+                            Constants.CECCR_USER_BASE_PATH, 
+                            userName), 
+                            "/PREDICTORS").getAbsolutePath();
         }
         else {
-            fromDir = Constants.CECCR_USER_BASE_PATH
-                    + "all-users/PREDICTORS/";
+            fromDir = new File(
+                        Constants.CECCR_USER_BASE_PATH,
+                        "all-users/PREDICTORS/").getAbsolutePath();
         }
 
         if (predictor.getParentId() != null) {
             Session s = HibernateUtil.getSession();
             Predictor parentPredictor = PopulateDataObjects.getPredictorById(
                     predictor.getParentId(), s);
-            fromDir += parentPredictor.getName() + "/" + predictor.getName()
-                    + "/";
+            String parentPredictorName = parentPredictor.getName();
+            fromDir = new File(new File(
+                            fromDir, 
+                            parentPredictorName),
+                            predictorName).getAbsolutePath();
         }
         else {
-            fromDir += predictor.getName() + "/";
+            fromDir = new File(fromDir, predictorName).getAbsolutePath();
         }
 
-        logger.debug("User: " + userName + " " + "Copying predictor from " + fromDir + " to "
-                + toDir);
+        logger.info(String.format(
+                    "Copying predictor: USER=%s, SOURCE=%s, DESTINATION=%s",
+                    userName, fromDir, toDir));
 
-        File knnOutputFile = new File(fromDir + "knn-output.list");
-        if (knnOutputFile.exists()) {
-            // copy only the models listed in knn-output
-            ArrayList<String> fileList = new ArrayList<String>();
+        String[] dirListing = new File(fromDir).list();
+        int symlinkedFileCount = 0;
+        int deepCopiedFileCount = 0;
+        for (String filename : dirListing) {
+            if (!(new File(fromDir, filename).isDirectory())) {
+                Path source = new File(fromDir, filename).toPath();
+                Path destination = new File(toDir, filename).toPath();
 
-            BufferedReader br = new BufferedReader(new FileReader(
-                    knnOutputFile));
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] tokens = line.split("\\s+");
-                for (int i = 0; i < tokens.length; i++) {
-                    fileList.add(tokens[i]);
+                // for symlinks; "link" denotes the actual symlink file-object,
+                // and "target" is where the link points to (hence the reversal)
+                Path link = destination;
+                Path target = source;
+
+                try {
+                    if (filename.endsWith(".x")) {
+                        // deep-copy descriptor matrices
+                        Files.copy(source, destination);
+                        deepCopiedFileCount++;
+                    }
+                    else {
+                        // don't copy other predictor files, just symlink them
+                        Files.createSymbolicLink(link, target);
+                        symlinkedFileCount++;
+                    }
+                } catch (FileAlreadyExistsException e) {
+                    logger.error(String.format(
+                                 "Couldn't copy %s -> %s; file already exists",
+                                 source, destination), e);
                 }
             }
-            br.close();
-
-            // copy the X file (needed for scaling)
-            fileList.add("train_0.x");
-            // copy the models list (needed for kNN prediction to run)
-            fileList.add("knn-output.list");
-
-            for (String s : fileList) {
-                FileAndDirOperations.copyFile(fromDir + s, toDir);
-            }
         }
-        else {
-            // copy all the files
-            // (This shouldn't happen with any kNN models, but it's there just
-            // in case)
-            FileAndDirOperations.copyDirContents(fromDir, toDir, false);
-        }
+
+        logger.info(String.format(
+                    "Deep-copied %d files, symlinked %d files.",
+                    deepCopiedFileCount, symlinkedFileCount));
     }
 }
