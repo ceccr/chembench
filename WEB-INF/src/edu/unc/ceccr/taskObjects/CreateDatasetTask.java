@@ -20,6 +20,7 @@ import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.DataSplit;
 import edu.unc.ceccr.workflows.visualization.HeatmapAndPCA;
 import edu.unc.ceccr.workflows.visualization.SdfToJpg;
+import edu.unc.ceccr.workflows.utilities.StandardizeSdfFormat;
 
 public class CreateDatasetTask extends WorkflowTask
 {
@@ -257,6 +258,11 @@ public class CreateDatasetTask extends WorkflowTask
                         + ".standardize");
             }
         }
+		
+		if (!sdfFileName.equals("")) {
+		    //add a name tag <Chembench_Name> for each compound to ISIDA
+            StandardizeSdfFormat.addNameTag(userName, jobName, path + sdfFileName, path + sdfFileName + ".addNameTag");
+        }
 
         if (!sdfFileName.equals("")) {
             // generate descriptors
@@ -301,6 +307,10 @@ public class CreateDatasetTask extends WorkflowTask
             logger.debug("User: " +userName +"Job: "+ jobName+" Generating MACCS Descriptors");
             GenerateDescriptors.GenerateMaccsDescriptors(path + sdfFileName,
                     path + descriptorDir + sdfFileName + ".maccs");
+
+	        logger.debug("User: " +userName +"Job: "+ jobName+" Generating ISIDA Descriptors");
+            GenerateDescriptors.GenerateISIDADescriptors(path + sdfFileName, 
+	                path + descriptorDir + sdfFileName + ".ISIDA");
 
             step = Constants.CHECKDESCRIPTORS;
             // MolconnZ
@@ -391,7 +401,21 @@ public class CreateDatasetTask extends WorkflowTask
                 errorSummary.write(errors);
                 errorSummary.close();
             }
-        }
+            //ISIDA
+            errors = CheckDescriptors.checkISIDADescriptors(path
+		    + descriptorDir + sdfFileName + ".ISIDA");
+            if (errors.equals("")) {
+                availableDescriptors += Constants.ISIDA + " ";
+            }
+            else {
+                File errorSummaryFile = new File(path + descriptorDir
+		                + "Logs/ISIDA.out");
+                BufferedWriter errorSummary = new BufferedWriter(
+				        new FileWriter(errorSummaryFile));
+                errorSummary.write(errors);
+                errorSummary.close();
+            }
+	    }
 
         // add uploaded descriptors to list (if any)
         if (datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)

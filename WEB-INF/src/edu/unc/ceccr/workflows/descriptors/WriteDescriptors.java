@@ -779,12 +779,17 @@ public class WriteDescriptors
         }
 
         // write output
+        logger.debug("Writing X file to " + xFilePath);
         File file = new File(xFilePath);
         FileWriter xFileOut = new FileWriter(file);
 
         xFileOut.write(descriptorMatrix.size() + " "
                 + descriptorNameString.split("\\s+").length + "\n"); 
         xFileOut.write(descriptorNameString + "\n"); // descriptor names
+
+        // FIXME the following log lines are temporary
+        logger.debug("descriptorNameString: " + descriptorNameString);
+        logger.debug("compoundNames raw values: " + compoundNames.toString());
 
         try {
             for (int i = 0; i < descriptorMatrix.size(); i++) {
@@ -794,11 +799,13 @@ public class WriteDescriptors
                         + "\n");
             }
         }
-        catch (Exception ex) {
-            logger.error("descriptorMatrix.size: "
-                    + descriptorMatrix.size() + " compoundNames.size: "
-                    + compoundNames.size());
-            logger.error(ex);
+        catch (IndexOutOfBoundsException ex) {
+            logger.error(String.format("Mismatch between size of descriptor " +
+                    "matrix and list of compounds: " +
+                    "descriptorMatrix.size() was %d, " +
+                    "compoundNames.size() was %d",
+                    descriptorMatrix.size(), compoundNames.size()),
+                    ex); // log the exception stacktrace
         }
 
         if (predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)) {

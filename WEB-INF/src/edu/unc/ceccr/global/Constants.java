@@ -89,6 +89,7 @@ public class Constants {
 	public static final String MOE2D = "MOE2D";
 	public static final String MACCS = "MACCS";
 	public static final String CDK = "CDK";
+	public static final String ISIDA = "ISIDA";
 	public static final String UPLOADED = "UPLOADED";
 
 	public static final String KNN = "KNN";

@@ -284,4 +284,48 @@ public class CheckDescriptors
         br.close();
         return errors;
     }
+	
+	public static String
+            checkISIDADescriptors(String ISIDAOutputFile) throws Exception
+    {
+        // right now this doesn't check anything. The MOE2D descriptors never
+        // seem to cause issues.
+        String errors = "";
+
+        File file = new File(ISIDAOutputFile);
+        if (!file.exists() || file.length() == 0) {
+            errors = "Could not read descriptor file.\n";
+            return errors;
+        }
+
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+
+        ArrayList<String> descriptorValues; // values for each molecule
+
+        String line = br.readLine(); // descriptor names
+
+        while ((line = br.readLine()) != null) {
+            Scanner tok = new Scanner(line);
+
+            if (tok.hasNext()) {
+                tok.next(); // first value is compound name
+            }
+
+            while (tok.hasNext()) {
+                String t = tok.next();
+                try {
+                    // check if it's a number
+                    Integer.parseInt(t);
+                }
+                catch (Exception ex) {
+                    errors += "Error reading ISIDA descriptor value: " + t
+                            + "\n";
+                }
+            }
+            tok.close();
+        }
+        br.close();
+        return errors;
+    }
 }

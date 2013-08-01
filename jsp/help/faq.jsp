@@ -140,7 +140,7 @@
  <p align="justify" class="ccbHomeStandard"><strong><a name="09" id="09"></a><br />
   9. What types of descriptors are available?</strong><br />
   <strong><br />
-  </strong>MolConn-Z, Dragon, MOE2D keys, and MACCS keys.</p>
+  </strong>CDK, ISIDA, MolConn-Z, Dragon, MOE2D keys, and MACCS keys.</p>
  <p align="justify" class="ccbHomeStandard"><strong><a name="10" id="10"></a><br />
    10. What  forms of descriptor normalization are supported?</strong><br />
         <strong><br />

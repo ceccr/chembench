@@ -360,6 +360,50 @@ public class ReadDescriptors
         br.close();
     }
 
+	public static void
+            readISIDADescriptors(String ISIDAOutputFile,
+                                 ArrayList<String> descriptorNames,
+                                 ArrayList<Descriptors> descriptorValueMatrix) throws Exception
+    {
+        logger.debug("reading ISIDA Descriptors");
+
+        File file = new File(ISIDAOutputFile);
+        if (!file.exists() || file.length() == 0) {
+            throw new Exception("Could not read ISIDA descriptors.\n");
+        }
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+        /* contains descriptor names */
+        String line = br.readLine();
+        Scanner tok = new Scanner(line);
+        tok.useDelimiter(" ");
+        /* first descriptor says "title"; we don't need that. */
+        tok.next();
+        while (tok.hasNext()) {
+            descriptorNames.add(tok.next());
+        }
+        while ((line = br.readLine()) != null) {
+            tok = new Scanner(line);
+            tok.useDelimiter(" ");
+            if (tok.hasNext()) {
+                /* first descriptor value is the name of the compound */
+                tok.next();
+            }
+            String descriptorString = new String("");
+            while (tok.hasNext()) {
+                String val = tok.next();
+                descriptorString += val + " ";
+            }
+            if (!descriptorString.equalsIgnoreCase("")) {
+                Descriptors di = new Descriptors();
+                di.setDescriptorValues(descriptorString);
+                descriptorValueMatrix.add(di);
+            }
+            tok.close();
+        }
+        br.close();
+    }
+	
     public static void
             readXDescriptors(String xFile,
                              ArrayList<String> descriptorNames,

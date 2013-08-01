@@ -492,7 +492,21 @@ public class ViewDataset extends ViewAction {
 		}
 		descriptorGenerationResults.add(cdkResult);
 
-		
+		DescriptorGenerationResult ISIDAResult = new DescriptorGenerationResult();
+		ISIDAResult.setDescriptorType("ISIDA");
+		if((new File(descriptorsDir + "ISIDA.out")).exists()){
+			ISIDAResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "ISIDA.out"));
+		}
+		if((new File(descriptorsDir + "ISIDA.err")).exists()){
+			ISIDAResult.setProgramErrorOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "ISIDA.err"));
+		}
+		if(dataset.getAvailableDescriptors().contains(Constants.ISIDA)){
+			ISIDAResult.setGenerationResult("Successful");
+		}
+		else{
+			ISIDAResult.setGenerationResult("Descriptor generation failed. See program output for details.");
+		}
+		descriptorGenerationResults.add(ISIDAResult);
 		
 		
 		DescriptorGenerationResult dragonHResult = new DescriptorGenerationResult();

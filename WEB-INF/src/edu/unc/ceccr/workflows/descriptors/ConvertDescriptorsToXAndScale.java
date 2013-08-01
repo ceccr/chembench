@@ -71,6 +71,10 @@ public class ConvertDescriptorsToXAndScale
             descriptorsFile += ".maccs";
             splitMaccsFile(workingDir, descriptorsFile);
         }
+		else if (descriptorGenerationType.equals(Constants.ISIDA)) {
+            descriptorsFile += ".ISIDA";
+            splitISIDAFile(workingDir, descriptorsFile);
+        }
         else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             splitXFile(workingDir, descriptorsFile);
         }
@@ -147,6 +151,11 @@ public class ConvertDescriptorsToXAndScale
                         + descriptorsFile + "_" + filePartNumber,
                         descriptorNames, descriptorValueMatrix);
             }
+			else if (descriptorGenerationType.equals(Constants.ISIDA)) {
+                ReadDescriptors.readISIDADescriptors(workingDir
+                        + descriptorsFile + "_" + filePartNumber,
+                        descriptorNames, descriptorValueMatrix);
+            }
             else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
                 ReadDescriptors.readXDescriptors(workingDir + descriptorsFile
                         + "_" + filePartNumber, descriptorNames,
@@ -195,11 +204,15 @@ public class ConvertDescriptorsToXAndScale
             chemicalNames = DatasetFileOperations
                     .getXCompoundNames(workingDir + sdfile);
         }
+        /*
         else if (descriptorGenerationType.equals(Constants.CDK)) {
             chemicalNames = DatasetFileOperations
                     .getXCompoundNames(workingDir + predictorXFile);
         }
+        */
         else {
+            logger.info("Getting compound names from SDF file: " +
+                        workingDir + sdfile);
             chemicalNames = DatasetFileOperations
                     .getSDFCompoundNames(workingDir + sdfile);
         }
@@ -244,6 +257,12 @@ public class ConvertDescriptorsToXAndScale
         else if (descriptorGenerationType.equals(Constants.MACCS)) {
             descriptorsFile += ".maccs";
             ReadDescriptors.readMaccsDescriptors(
+                    workingDir + descriptorsFile, descriptorNames,
+                    descriptorValueMatrix);
+        }
+		else if (descriptorGenerationType.equals(Constants.ISIDA)) {
+            descriptorsFile += ".ISIDA";
+            ReadDescriptors.readISIDADescriptors(
                     workingDir + descriptorsFile, descriptorNames,
                     descriptorValueMatrix);
         }
@@ -426,6 +445,45 @@ public class ConvertDescriptorsToXAndScale
         File file = new File(workingDir + descriptorsFile);
         if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read MOE2D descriptors.\n");
+        }
+        FileReader fin = new FileReader(file);
+        BufferedReader br = new BufferedReader(fin);
+
+        String header = ""; // stores everything up to where descriptors
+                            // begin.
+        int currentFile = 0;
+        int moleculesInCurrentFile = 0;
+        BufferedWriter outFilePart = new BufferedWriter(new FileWriter(
+                workingDir + descriptorsFile + "_" + currentFile));
+
+        header = br.readLine() + "\n";
+        outFilePart.write(header);
+
+        String line;
+        while ((line = br.readLine()) != null) {
+            outFilePart.write(line + "\n");
+
+            moleculesInCurrentFile++;
+            if (moleculesInCurrentFile == compoundsPerChunk) {
+                outFilePart.close();
+                moleculesInCurrentFile = 0;
+                currentFile++;
+                outFilePart = new BufferedWriter(new FileWriter(workingDir
+                        + descriptorsFile + "_" + currentFile));
+                outFilePart.write(header);
+            }
+        }
+        br.close();
+        outFilePart.write("\n");
+        outFilePart.close();
+    }
+	
+	private static void
+            splitISIDAFile(String workingDir, String descriptorsFile) throws Exception
+    {
+        File file = new File(workingDir + descriptorsFile);
+        if (!file.exists() || file.length() == 0) {
+            throw new Exception("Could not read ISIDA descriptors.\n");
         }
         FileReader fin = new FileReader(file);
         BufferedReader br = new BufferedReader(fin);

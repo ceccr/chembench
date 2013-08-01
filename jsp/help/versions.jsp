@@ -57,7 +57,7 @@ Current supported features:<br />
 <u>Dataset Preparation</u> <br />
 - User uploads a set of compounds, with activity values (optional) <br />
 - Standardizes compounds. Removes fragments, standardizes aromatization, and cleans. <br />
-- Generates descriptors (MolconnZ, Dragon, Maccs, and MOE)<br />
+- Generates descriptors (MolconnZ, Dragon, Maccs, MOE, and ISIDA)<br />
 - Splits external sets either automatically (activity binning available) or manually based on user input. <br />
 - Generates an image for each compound. <br />
 - Builds and displays a heatmap. <br />

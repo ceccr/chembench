@@ -73,6 +73,15 @@ function getSelectedDataset(){
         document.getElementById("descriptorGenerationType" + "MOE2D").disabled = true;
     }
 
+    if(selectedDatasetAvailableDescriptors.indexOf("ISIDA") > -1){
+        document.getElementById("descriptorGenerationType" + "ISIDA").disabled = false;
+        document.getElementById("descriptorGenerationType" + "ISIDA").checked = "checked";
+    }
+    else{
+        document.getElementById("descriptorGenerationType" + "ISIDA").disabled = true;
+    }
+
+
     if(selectedDatasetAvailableDescriptors.indexOf("MACCS") > -1){
         document.getElementById("descriptorGenerationType" + "MACCS").disabled = false;
         document.getElementById("descriptorGenerationType" + "MACCS").checked = "checked";
@@ -365,7 +374,7 @@ $(window).load(function() {
         </p>
 
         <div class="StandardTextDarkGrayParagraph"><b>Descriptor Type:</b></div>
-        <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" onclick="setDescriptorScaling()" id="descriptorGenerationType" value="descriptorGenerationType" list="#{'CDK':'CDK [202 descriptors]<br />', 'MOLCONNZ':'MolconnZ [375 descriptors]<br />','DRAGONH':'Dragon (with hydrogens) [2489 descriptors]<br />','DRAGONNOH':'Dragon (no hydrogens) [900 descriptors]<br />','MACCS':'MACCS [166 descriptors]<br />','MOE2D':'MOE2D [184 descriptors]<br />','UPLOADED':'Uploaded Descriptors<br />'}" /></div>
+        <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="descriptorGenerationType" onclick="setDescriptorScaling()" id="descriptorGenerationType" value="descriptorGenerationType" list="#{'CDK':'CDK [202 descriptors]<br />', 'MOLCONNZ':'MolconnZ [375 descriptors]<br />','DRAGONH':'Dragon (with hydrogens) [2489 descriptors]<br />','DRAGONNOH':'Dragon (no hydrogens) [900 descriptors]<br />','MACCS':'MACCS [166 descriptors]<br />','MOE2D':'MOE2D [184 descriptors]<br />','ISIDA':'ISIDA<br />' ,'UPLOADED':'Uploaded Descriptors<br />'}" /></div>
         <br />
 
 

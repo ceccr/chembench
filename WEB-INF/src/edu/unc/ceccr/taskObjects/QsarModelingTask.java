@@ -683,6 +683,12 @@ public class QsarModelingTask extends WorkflowTask
             ReadDescriptors.readMaccsDescriptors(filePath + sdFileName
                     + ".maccs", descriptorNames, descriptorValueMatrix);
         }
+		else if (descriptorGenerationType.equals(Constants.ISIDA)) {
+            logger.debug("Processing ISIDA descriptors for job, "+ jobName
+                    + "submitted by user, " +userName);
+            ReadDescriptors.readISIDADescriptors(filePath + sdFileName
+                    + ".ISIDA", descriptorNames, descriptorValueMatrix);
+        }
         else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             logger.debug("Processing UPLOADED descriptors for job, "+ jobName
                     + "submitted by user, " +userName);

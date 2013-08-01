@@ -299,6 +299,7 @@ public class PredictionFormActions extends ActionSupport
                 p.getDescriptorGeneration().equals(Constants.DRAGONNOH)||
                 p.getDescriptorGeneration().equals(Constants.MOE2D)||
                 p.getDescriptorGeneration().equals(Constants.MACCS)||
+				p.getDescriptorGeneration().equals(Constants.ISIDA)||
                 p.getDescriptorGeneration().equals(Constants.CDK))
 		isMixDescriptors = true;
 	}
@@ -603,6 +604,12 @@ public class PredictionFormActions extends ActionSupport
                             Constants.MACCS)
                             && predictionDatasetDescriptors[i]
                                     .equals(Constants.MACCS)) {
+                        descriptorsMatch = true;
+                    }
+					else if (sp.getDescriptorGeneration().equals(
+                            Constants.ISIDA)
+                            && predictionDatasetDescriptors[i]
+                                    .equals(Constants.ISIDA)) {
                         descriptorsMatch = true;
                     }
                 }
