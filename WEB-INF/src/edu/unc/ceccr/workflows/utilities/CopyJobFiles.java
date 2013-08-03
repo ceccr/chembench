@@ -176,7 +176,7 @@ public class CopyJobFiles
                 } catch (FileAlreadyExistsException e) {
                     logger.error(String.format(
                                  "Couldn't copy %s -> %s; file already exists",
-                                 source, destination), e);
+                                 source, destination));
                 }
             }
         }
