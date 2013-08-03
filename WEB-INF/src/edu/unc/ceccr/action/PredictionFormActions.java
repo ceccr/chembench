@@ -1,6 +1,9 @@
 package edu.unc.ceccr.action;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Files;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -150,9 +153,30 @@ public class PredictionFormActions extends ActionSupport
                     Predictor tempP = PopulateDataObjects.getPredictorById(
                             Long.parseLong(ids[j]), session);
                     session.close();
+
+                    // since predictions are made per-fold, each fold needs
+                    // access to the SDF file as well as any descriptor matrices
+                    new File(smilesDir, tempP.getName()).mkdirs();
+                    for (String s : new File(smilesDir).list()) {
+                        if (!(new File(s)).isDirectory()
+                                && s.startsWith("smiles")) {
+                            Path target = new File(smilesDir, s).toPath();
+                            Path link = new File(new File(
+                                    smilesDir, tempP.getName()), s).toPath();
+                            try {
+                                Files.createSymbolicLink(link, target);
+                            } catch (FileAlreadyExistsException e) {
+                                // pass
+                            }
+                        }
+                    }
+
                     tempPred.add(RunSmilesPrediction.PredictSmilesSDF(
-                            smilesDir, user.getUserName(), tempP, Float
-                                    .parseFloat(cutoff)));
+                            smilesDir + tempP.getName() + "/",
+                            user.getUserName(),
+                            tempP,
+                            Float.parseFloat(cutoff)));
+
                     totalModels += tempP.getNumTestModels();
                     logger.debug("Calculating predictions for "
                             + tempP.getName());
@@ -166,7 +190,12 @@ public class PredictionFormActions extends ActionSupport
                 for (String[] s : tempPred) {
                     predictingModels += Integer.parseInt(s[0]);
                     predictedValue += Double.parseDouble(s[1]);
-                    standartDeviation += Double.parseDouble(s[2]);
+                    try {
+                        standartDeviation += Double.parseDouble(s[2]);
+                    }
+                    catch (NumberFormatException e) {
+                        // pass (e.g. if only one model, stddev is N/A)
+                    }
                     // debug part
                     logger.debug("Predicting models: " + s[0]);
                     logger.debug("Predicted value: " + s[1]);
