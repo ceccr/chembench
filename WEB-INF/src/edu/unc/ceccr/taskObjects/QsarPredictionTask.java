@@ -625,43 +625,7 @@ public class QsarPredictionTask extends WorkflowTask
 
             // done with 5. (get output, put it into predictionValue objects
             // and save them)
-
-            // remove copied dataset and predictor; they are redundant
-            String[] datasetDirFiles = new File(
-                    Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"
-                            + predictionDataset.getName() + "/").list();
-            String[] datasetDescDirFiles = new File(
-                    Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"
-                            + predictionDataset.getName() + "/Descriptors/")
-                    .list();
-            String[] predictorDirFiles = new File(
-                    Constants.CECCR_USER_BASE_PATH + userName
-                            + "/PREDICTORS/" + predictor.getName() + "/")
-                    .list();
-            try {
-                for (String fileName : datasetDirFiles) {
-                    if (new File(predictionDir + fileName).exists()) {
-                        FileAndDirOperations.deleteFile(predictionDir
-                                + fileName);
-                    }
-                }
-                for (String fileName : datasetDescDirFiles) {
-                    if (new File(predictionDir + fileName).exists()) {
-                        FileAndDirOperations.deleteFile(predictionDir
-                                + fileName);
-                    }
-                }
-                for (String fileName : predictorDirFiles) {
-                    if (new File(predictionDir + fileName).exists()) {
-                        FileAndDirOperations.deleteFile(predictionDir
-                                + fileName);
-                    }
-                }
-            }
-            catch (Exception ex) {
-                logger.error("User: " + userName + "Job: " + jobName + " "
-                        + ex);
-            }
+            // TODO remove copied dataset and predictor; they are redundant
         }
         return predValues;
     }
