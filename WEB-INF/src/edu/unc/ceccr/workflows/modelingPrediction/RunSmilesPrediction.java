@@ -40,12 +40,6 @@ public class RunSmilesPrediction
                                             Predictor predictor,
                                             Float cutoff) throws Exception
     {
-        Path wd = new File(workingDir).toPath();
-        if (!Files.exists(wd)) {
-            logger.info("Working directory doesn't exist, creating it: " +
-                        wd.toString());
-            Files.createDirectory(wd);
-        }
 
         String sdfile = workingDir + "smiles.sdf";
         logger.debug("Running PredictSmilesSDF in dir " + workingDir);
