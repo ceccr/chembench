@@ -395,28 +395,28 @@ public class RunSmilesPrediction
             GenerateDescriptors.GenerateMolconnZDescriptors(sdfile, sdfile
                     + ".molconnz");
         }
-        else if (descriptorTypes.contains(Constants.CDK)) {
+        if (descriptorTypes.contains(Constants.CDK)) {
             GenerateDescriptors.GenerateCDKDescriptors(sdfile, sdfile
                     + ".cdk");
             ReadDescriptors.convertCDKToX(sdfile + ".cdk", smilesDir);
         }
-        else if (descriptorTypes.contains(Constants.DRAGONH)) {
+        if (descriptorTypes.contains(Constants.DRAGONH)) {
             GenerateDescriptors.GenerateHExplicitDragonDescriptors(sdfile,
                     sdfile + ".dragonH");
         }
-        else if (descriptorTypes.contains(Constants.DRAGONNOH)) {
+        if (descriptorTypes.contains(Constants.DRAGONNOH)) {
             GenerateDescriptors.GenerateHDepletedDragonDescriptors(sdfile,
                     sdfile + ".dragonNoH");
         }
-        else if (descriptorTypes.contains(Constants.MOE2D)) {
+        if (descriptorTypes.contains(Constants.MOE2D)) {
             GenerateDescriptors.GenerateMoe2DDescriptors(sdfile, sdfile
                     + ".moe2D");
         }
-        else if (descriptorTypes.contains(Constants.MACCS)) {
+        if (descriptorTypes.contains(Constants.MACCS)) {
             GenerateDescriptors.GenerateMaccsDescriptors(sdfile, sdfile
                     + ".maccs");
         }
-		else if (descriptorTypes.contains(Constants.ISIDA)) {
+		if (descriptorTypes.contains(Constants.ISIDA)) {
             GenerateDescriptors.GenerateISIDADescriptors(sdfile, sdfile
                     + ".ISIDA");
         }
