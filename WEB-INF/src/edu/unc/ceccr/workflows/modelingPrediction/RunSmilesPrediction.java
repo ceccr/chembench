@@ -57,10 +57,8 @@ public class RunSmilesPrediction
                 + "/PREDICTORS/" + predictor.getName() + "/";
 
         /* get train_0.x file from the predictor dir. */
-        logger.debug("Copying predictor files from " + fromDir);
+        logger.info("Copying predictor files from " + fromDir);
         CopyJobFiles.getPredictorFiles(username, predictor, workingDir);
-
-        logger.debug("Copying complete. Generating descriptors. ");
 
         /* create the descriptors for the chemical and read them in */
         ArrayList<String> descriptorNames = new ArrayList<String>();
