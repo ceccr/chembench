@@ -40,8 +40,7 @@ public class RunSmilesPrediction
                                             Predictor predictor,
                                             Float cutoff) throws Exception
     {
-
-        String sdfile = workingDir + "smiles.sdf";
+        String sdfile = new File(workingDir, "smiles.sdf").getAbsolutePath();
         logger.debug("Running PredictSmilesSDF in dir " + workingDir);
 
         /* copy the predictor to the workingDir. */
