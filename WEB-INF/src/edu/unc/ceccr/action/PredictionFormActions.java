@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.ListUtils;
 import org.hibernate.Session;
@@ -90,16 +91,16 @@ public class PredictionFormActions extends ActionSupport
         logger.debug("SMILES predids: " + predictorIds);
         String[] selectedPredictorIdArray = predictorIds.split("\\s+");
         ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+        Set<String> descriptorTypes = new HashSet<String>();
         for (int i = 0; i < selectedPredictorIdArray.length; i++) {
             Predictor predictor = PopulateDataObjects.getPredictorById(Long
                     .parseLong(selectedPredictorIdArray[i]), session);
-            if (!predictor.getDescriptorGeneration().equals(
-                    Constants.UPLOADED)) {
-                /*
-                 * uploaded descriptors won't work, since we can't generate
-                 * them
-                 */
+            String descriptorType = predictor.getDescriptorGeneration();
+            // skip predictors with uploaded descriptors, since we can't
+            // generate them for the SDF generated from the SMILES string
+            if (!descriptorType.equals(Constants.UPLOADED)) {
                 predictors.add(predictor);
+                descriptorTypes.add(descriptorType);
             }
 
             if (predictor.getModelMethod().startsWith(Constants.KNN)) {
@@ -108,6 +109,7 @@ public class PredictionFormActions extends ActionSupport
         }
         /* we don't need the session again */
         session.close();
+
         /* stores results */
         smilesPredictions = new ArrayList<SmilesPrediction>();
         for (int i = 0; i < predictors.size(); i++) {
@@ -124,9 +126,16 @@ public class PredictionFormActions extends ActionSupport
 
             // generate an SDF from this SMILES string
             RunSmilesPrediction.smilesToSDF(smiles, smilesDir);
-            logger.debug("Generated the SDF file from provided smiles.");
-            String[] predValues = new String[3];
+            logger.info(String.format(
+                        "Generated SDF file from SMILES \"%s\" written to %s",
+                        smiles, smilesDir));
+            // generate descriptors using the given SDF file
+            RunSmilesPrediction.generateDescriptorsForSDF(
+                    smilesDir, descriptorTypes);
+            logger.info("Generated descriptors for SDF: " +
+                        descriptorTypes.toString());
 
+            String[] predValues = new String[3];
             int totalModels = predictor.getNumTestModels();
             
             // for n-folded predictors

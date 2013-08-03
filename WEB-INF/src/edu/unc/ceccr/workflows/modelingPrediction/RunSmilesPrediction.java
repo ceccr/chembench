@@ -7,9 +7,12 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.log4j.Logger;
 
@@ -37,6 +40,12 @@ public class RunSmilesPrediction
                                             Predictor predictor,
                                             Float cutoff) throws Exception
     {
+        Path wd = new File(workingDir).toPath();
+        if (!Files.exists(wd)) {
+            logger.info("Working directory doesn't exist, creating it: " +
+                        wd.toString());
+            Files.createDirectory(wd);
+        }
 
         String sdfile = workingDir + "smiles.sdf";
         logger.debug("Running PredictSmilesSDF in dir " + workingDir);
@@ -60,42 +69,28 @@ public class RunSmilesPrediction
                 .getSDFCompoundNames(sdfile);
 
         if (predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
-            GenerateDescriptors.GenerateMolconnZDescriptors(sdfile, sdfile
-                    + ".molconnz");
             ReadDescriptors.readMolconnZDescriptors(sdfile + ".molconnz",
                     descriptorNames, descriptorValueMatrix);
         }
         else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
-            GenerateDescriptors.GenerateCDKDescriptors(sdfile, sdfile
-                    + ".cdk");
-
-            ReadDescriptors.convertCDKToX(sdfile + ".cdk", workingDir);
             ReadDescriptors.readXDescriptors(sdfile + ".cdk.x",
                     descriptorNames, descriptorValueMatrix);
         }
         else if (predictor.getDescriptorGeneration()
                 .equals(Constants.DRAGONH)) {
-            GenerateDescriptors.GenerateHExplicitDragonDescriptors(sdfile,
-                    sdfile + ".dragonH");
             ReadDescriptors.readDragonDescriptors(sdfile + ".dragonH",
                     descriptorNames, descriptorValueMatrix);
         }
         else if (predictor.getDescriptorGeneration().equals(
                 Constants.DRAGONNOH)) {
-            GenerateDescriptors.GenerateHExplicitDragonDescriptors(sdfile,
-                    sdfile + ".dragonNoH");
             ReadDescriptors.readDragonDescriptors(sdfile + ".dragonNoH",
                     descriptorNames, descriptorValueMatrix);
         }
         else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
-            GenerateDescriptors.GenerateMoe2DDescriptors(sdfile, sdfile
-                    + ".moe2D");
             ReadDescriptors.readMoe2DDescriptors(sdfile + ".moe2D",
                     descriptorNames, descriptorValueMatrix);
         }
         else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
-            GenerateDescriptors.GenerateMaccsDescriptors(sdfile, sdfile
-                    + ".maccs");
             ReadDescriptors.readMaccsDescriptors(sdfile + ".maccs",
                     descriptorNames, descriptorValueMatrix);
         }
@@ -390,4 +385,41 @@ public class RunSmilesPrediction
 
         logger.debug("Finished smilesToSDF");
     }
+
+    public static void
+        generateDescriptorsForSDF(String smilesDir,
+                                  Set<String> descriptorTypes) throws Exception
+    {
+        String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
+        if (descriptorTypes.contains(Constants.MOLCONNZ)) {
+            GenerateDescriptors.GenerateMolconnZDescriptors(sdfile, sdfile
+                    + ".molconnz");
+        }
+        else if (descriptorTypes.contains(Constants.CDK)) {
+            GenerateDescriptors.GenerateCDKDescriptors(sdfile, sdfile
+                    + ".cdk");
+            ReadDescriptors.convertCDKToX(sdfile + ".cdk", smilesDir);
+        }
+        else if (descriptorTypes.contains(Constants.DRAGONH)) {
+            GenerateDescriptors.GenerateHExplicitDragonDescriptors(sdfile,
+                    sdfile + ".dragonH");
+        }
+        else if (descriptorTypes.contains(Constants.DRAGONNOH)) {
+            GenerateDescriptors.GenerateHDepletedDragonDescriptors(sdfile,
+                    sdfile + ".dragonNoH");
+        }
+        else if (descriptorTypes.contains(Constants.MOE2D)) {
+            GenerateDescriptors.GenerateMoe2DDescriptors(sdfile, sdfile
+                    + ".moe2D");
+        }
+        else if (descriptorTypes.contains(Constants.MACCS)) {
+            GenerateDescriptors.GenerateMaccsDescriptors(sdfile, sdfile
+                    + ".maccs");
+        }
+		else if (descriptorTypes.contains(Constants.ISIDA)) {
+            GenerateDescriptors.GenerateISIDADescriptors(sdfile, sdfile
+                    + ".ISIDA");
+        }
+    }
 }
+
