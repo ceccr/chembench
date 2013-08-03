@@ -145,10 +145,9 @@ public class PredictionFormActions extends ActionSupport
             if (predictor.getChildType() != null
                     && predictor.getChildType().equals(Constants.NFOLD)) {
                 String[] ids = predictor.getChildIds().split("\\s+");
-                logger.debug("Predictor is n-folded.");
+                logger.info("Predictor is n-folded.");
                 List<String[]> tempPred = new ArrayList<String[]>();
                 for (int j = 0; j < ids.length; j++) {
-                    logger.debug("Predictor is n-folded." + ids[j]);
                     session = HibernateUtil.getSession();
                     Predictor tempP = PopulateDataObjects.getPredictorById(
                             Long.parseLong(ids[j]), session);
