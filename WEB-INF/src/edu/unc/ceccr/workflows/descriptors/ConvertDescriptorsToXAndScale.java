@@ -204,12 +204,6 @@ public class ConvertDescriptorsToXAndScale
             chemicalNames = DatasetFileOperations
                     .getXCompoundNames(workingDir + sdfile);
         }
-        /*
-        else if (descriptorGenerationType.equals(Constants.CDK)) {
-            chemicalNames = DatasetFileOperations
-                    .getXCompoundNames(workingDir + predictorXFile);
-        }
-        */
         else {
             logger.info("Getting compound names from SDF file: " +
                         workingDir + sdfile);

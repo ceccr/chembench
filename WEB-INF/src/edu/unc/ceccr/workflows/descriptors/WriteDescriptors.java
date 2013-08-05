@@ -787,10 +787,6 @@ public class WriteDescriptors
                 + descriptorNameString.split("\\s+").length + "\n"); 
         xFileOut.write(descriptorNameString + "\n"); // descriptor names
 
-        // FIXME the following log lines are temporary
-        logger.debug("descriptorNameString: " + descriptorNameString);
-        logger.debug("compoundNames raw values: " + compoundNames.toString());
-
         try {
             for (int i = 0; i < descriptorMatrix.size(); i++) {
                 // each line of the descriptors matrix
