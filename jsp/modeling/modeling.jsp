@@ -186,8 +186,19 @@ function calculateRuntimeEstimate(){
     }
     else if(modelMethod=="KNN-SA"){
         //depends on numRuns and needs a factor for convergence parameters (temperature etc).
-        var numRuns = document.getElementById("saNumRuns").value;
-        var numBest = document.getElementById("saNumBestModels").value;
+
+        // numRuns and numBest only exist in the DOM if the user doesn't have
+        // KNN advanced settings hidden, so we should use the defaults if the
+        // elements don't exist
+        var numRuns = 2;    // TODO hardcoded defaults are bad :(
+        if ($('#saNumRuns').length) {  // equivalent to "foo.exists()"
+            numRuns = document.getElementById("saNumRuns").value;
+        }
+        var numBest = 3;
+        if ($('#saNumBestModels').length) {
+            numBest = document.getElementById("saNumBestModels").value;
+        }
+
         var numDifferentDescriptors = 1;
         var minDesc = document.getElementsByName("knnMinNumDescriptors")[1].value;
         var maxDesc = document.getElementsByName("knnMaxNumDescriptors")[1].value;
