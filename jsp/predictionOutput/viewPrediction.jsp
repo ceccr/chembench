@@ -87,6 +87,9 @@
 	<p class="StandardTextDarkGray" width="550">The second column for each predictor tells how many models' predictions were
 	used to calculate the value in the first column. It is often the case that not all of the models in a predictor
 	can be used to predict a compound, because the compounds lie outside the cutoff range of some of the models.</p>	
+
+    <p class="StandardTextDarkGray" width="550">You can click on a compound's sketch to enlarge it. Note: if the sketch applet
+    does not load, your Java version may be out of date. You can download an updated version <a href="https://www.java.com/en/download/index.jsp">here</a>.</p>
 	<!-- End page description -->
 			
 	<!-- load tabs -->
