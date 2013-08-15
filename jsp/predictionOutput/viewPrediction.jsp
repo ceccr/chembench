@@ -44,7 +44,6 @@
 		
 		return true;
 	}
-
 	</script>
 </head>
 
@@ -80,9 +79,11 @@
 	
 	<!-- Page description -->	
 	<p class="StandardTextDarkGray" width="550">The predicted values for the compounds in your dataset are below.</p>
+
 	<p class="StandardTextDarkGray" width="550">For each predictor, there are two columns. The first column contains the
 	prediction. If more than one of the predictor's models were used to make the prediction, the average value
 	across all models is displayed, &#177; the standard deviation.</p>
+
 	<p class="StandardTextDarkGray" width="550">The second column for each predictor tells how many models' predictions were
 	used to calculate the value in the first column. It is often the case that not all of the models in a predictor
 	can be used to predict a compound, because the compounds lie outside the cutoff range of some of the models.</p>	
