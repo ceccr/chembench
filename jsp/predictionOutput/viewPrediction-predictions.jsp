@@ -55,7 +55,7 @@
 				<td class="TableRowText02"><s:property value="compound" /></td>
                                 <s:if test="!dataset.sdfFile.isEmpty()">
 				<td class="TableRowText02">
-					<a class="compound_img_a" href="#" onclick="window.open('compound3D?compoundId=<s:property value="compound" />&project=<s:property value="prediction.name" />&projectType=predictor&user=<s:property value="user.userName" />&datasetName=<s:property value="dataset.name" />', '<% new java.util.Date().getTime(); %>','width=350, height=350'); return false;">
+					<a class="compound_img_a" href="#" onclick="window.open('compound3D?compoundId=<s:property value="compound" />&project=<s:property value="prediction.name" />&projectType=predictor&user=<s:property value="user.userName" />&datasetName=<s:property value="dataset.name" />', '<% new java.util.Date().getTime(); %>','width=400, height=400'); return false;">
 					<img  src="/imageServlet?user=<s:property value="dataset.userName" />&projectType=predictor&compoundId=<s:property value='compound' />&project=<s:property value="prediction.name" />&datasetName=<s:property value="dataset.name" />" border="0" height="150"/></a>
 				</td>
                                 </s:if>
