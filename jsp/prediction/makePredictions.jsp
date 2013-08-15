@@ -620,6 +620,10 @@
                                           (phenylalanine). Or, use the applet on the left to draw a molecule, then
                                           click "Get SMILES and Predict".
                                         </p>
+                                        <p class="StandardTextDarkGrayParagraph">
+                                          Note: If the sketch applet did not load, your Java version may be out of date.
+                                          You can download an updated version <a href="https://www.java.com/en/download/index.jsp">here</a>.
+                                        </p>
                                     </tr>
                                     <tr>
                                       <td width="70" height="24" align="right">
