@@ -618,7 +618,7 @@
                                           Enter a molecule in SMILES format, e.g.
                                           <b>C1=CC=C(C=C1)CC(C(=O)O)N</b>
                                           (phenylalanine). Or, use the applet on the left to draw a molecule, then
-                                          click "Get SMILES".
+                                          click "Get SMILES and Predict".
                                         </p>
                                     </tr>
                                     <tr>
