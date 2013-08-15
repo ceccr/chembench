@@ -21,6 +21,15 @@
 
         <div style="overflow:auto;">
 	<table width="924" align="center">
+        <!-- header line for predictor names -->
+        <tr>
+            <td class="TableRowText01" colspan="2"></td>  <!-- compound ID, sketch -->
+            <s:iterator value="predictors" status="predictorsStatus">
+                <td class="TableRowText01" colspan="3">   <!-- predictor name -->
+                    <s:property value="name" />
+                </td>
+            </s:iterator>
+        </tr>
 		<tr>
 		<!-- header for table -->
 		<td class="TableRowText01">Compound ID<br />
@@ -29,11 +38,15 @@
 		</td>
 		<s:if test="!dataset.sdfFile.isEmpty()"><td class="TableRowText01">Structure</td></s:if>
 		<s:iterator value="predictors" status="predictorsStatus">
-		<td class="TableRowText01">(<s:property value="name" />) Prediction<br />
+		<td class="TableRowText01">Prediction<br />
 		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?id=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value="name" />&sortDirection=asc")><img src="theme/img/sortArrowUp.png" /></a>
 		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?id=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value="name" />&sortDirection=desc")><img src="theme/img/sortArrowDown.png" /></a>
 		</td>
-		<td class="TableRowText01">(<s:property value="name" />) <s:if test="childType=='NFOLD'">Number of Predicting Folds / Total Folds</s:if><s:else>Number of Predicting Models / Total Models</s:else></td>
+		<td class="TableRowText01"><s:if test="childType=='NFOLD'">Predicting Folds</s:if><s:else>Predicting Models</s:else></td>
+		<td class="TableRowText01">Z-score <br />
+		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?id=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value='zScore' />&sortDirection=asc")><img src="theme/img/sortArrowUp.png" /></a>
+		<a href="#tabs" onclick=loadPredictionValuesTab("viewPredictionPredictionsSection?id=<s:property value='prediction.id' />&currentPageNumber=<s:property value='currentPageNumber' />&orderBy=<s:property value='zScore' />&sortDirection=desc")><img src="theme/img/sortArrowDown.png" /></a>
+		</td>
 		</s:iterator>
 		</tr>
 		<!-- body for table -->
