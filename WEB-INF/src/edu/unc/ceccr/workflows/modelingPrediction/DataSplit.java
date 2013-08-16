@@ -42,12 +42,7 @@ public class DataSplit{
 
 		//split dataset into [modeling set | external test set]
 		String execstr1;
-		if(Double.parseDouble(numCompoundsExternalSet) < 1){ 
-			execstr1 = "datasplit "+ xFile + " -4EXT" + " -N=1 -M=R -OUT=mdlext.list -F=" + numCompoundsExternalSet;
-		}
-		else{
-			execstr1 = "datasplit "+ xFile + " -4EXT" + " -N=1 -M=R -OUT=mdlext.list -S=" + numCompoundsExternalSet;
-		}
+        execstr1 = "datasplit "+ xFile + " -4EXT" + " -N=1 -M=R -OUT=mdlext.list -S=" + numCompoundsExternalSet;
 		if(useActivityBinning.equalsIgnoreCase("true")){
 			execstr1 += " -A=" + numCompoundsExternalSet;
 		}
@@ -236,7 +231,7 @@ public class DataSplit{
 			testSize = testSize / 100; //it's a percent
 			
 			String listFileName = "rand_sets_" + i + ".list";
-			String execstr1 = "datasplit train_0.x -N=1 -M=R -OUT=" + listFileName + " -F=" + testSize;
+			String execstr1 = "datasplit train_0.x -N=1 -M=R -OUT=" + listFileName + " -S=" + testSize;
 			
 			RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "datasplit_train_test");
 			
@@ -305,7 +300,7 @@ public class DataSplit{
 		else if(selectionNextTrainPt.equalsIgnoreCase("3"))
 			nextTrainPt = "SH1"; //SUM-MAX, corners and edges first working inwards
 		
-		String execstr1 = "datasplit train_0.x -N=" + numSplits + " -M=S -OUT=RAND_sets.list -+=" + forcedCompounds + " -D=" + nextTrainPt + " -F=" + minTestSize;
+		String execstr1 = "datasplit train_0.x -N=" + numSplits + " -M=S -OUT=RAND_sets.list -+=" + forcedCompounds + " -D=" + nextTrainPt + " -S=" + minTestSize;
 
 		RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "datasplit_train_test");
 		
