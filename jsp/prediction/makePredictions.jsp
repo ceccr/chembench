@@ -505,7 +505,7 @@
                                     </td>
                                     <td align="left" valign="top">
                                       <!--<s:textfield name="cutOff" id="cutOff" size="4" />-->
-                                      <s:select name="cutOff" id="cutOff" theme="simple" list="#{'N/A':'Do not use','3':'3\u03c3','2':'2\u03c3','1':'1\u03c3','0':'0\u03c3'}" value="N/A"/>
+                                      <s:select name="cutOff" id="cutOff" theme="simple" list="#{'99999':'Do not use','3':'3\u03c3','2':'2\u03c3','1':'1\u03c3','0':'0\u03c3'}" value="N/A"/>
                                       <span id="messageDiv2"></span>
                                     </td>
                                   </tr>
