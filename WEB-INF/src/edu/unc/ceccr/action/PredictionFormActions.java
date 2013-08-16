@@ -1,6 +1,7 @@
 package edu.unc.ceccr.action;
 
 import java.io.File;
+import java.io.FileReader;
 import java.nio.file.Path;
 import java.nio.file.Files;
 import java.nio.file.FileAlreadyExistsException;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 
 import org.apache.commons.collections.ListUtils;
@@ -26,6 +28,7 @@ import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction;
@@ -115,8 +118,11 @@ public class PredictionFormActions extends ActionSupport
 
         /* stores results */
         smilesPredictions = new ArrayList<SmilesPrediction>();
+        int numPredictors = predictors.size();
+
         for (int i = 0; i < predictors.size(); i++) {
             Predictor predictor = predictors.get(i);
+            String zScore = "";
 
             /* make smiles dir */
             String smilesDir = Constants.CECCR_USER_BASE_PATH
@@ -132,11 +138,10 @@ public class PredictionFormActions extends ActionSupport
             logger.info(String.format(
                         "Generated SDF file from SMILES \"%s\" written to %s",
                         smiles, smilesDir));
-            // generate descriptors using the given SDF file
-            RunSmilesPrediction.generateDescriptorsForSDF(
-                    smilesDir, descriptorTypes);
-            logger.info("Generated descriptors for SDF: " +
-                        descriptorTypes.toString());
+            // generate descriptors using the given SDF file except for ISIDA
+            if(!predictor.getDescriptorGeneration().equals(Constants.ISIDA))
+                RunSmilesPrediction.generateDescriptorsForSDF(smilesDir, descriptorTypes);
+            logger.info("Generated descriptors for SDF: " + descriptorTypes.toString());
 
             String[] predValues = new String[3];
             int totalModels = predictor.getNumTestModels();
@@ -144,6 +149,7 @@ public class PredictionFormActions extends ActionSupport
             // for n-folded predictors
             if (predictor.getChildType() != null
                     && predictor.getChildType().equals(Constants.NFOLD)) {
+                Boolean computedAD = false;
                 String[] ids = predictor.getChildIds().split("\\s+");
                 logger.info("Predictor is n-folded.");
                 List<String[]> tempPred = new ArrayList<String[]>();
@@ -173,12 +179,43 @@ public class PredictionFormActions extends ActionSupport
                     tempPred.add(RunSmilesPrediction.PredictSmilesSDF(
                             smilesDir + tempP.getName() + "/",
                             user.getUserName(),
-                            tempP,
-                            Float.parseFloat(cutoff)));
+                            tempP));
 
                     totalModels += tempP.getNumTestModels();
                     logger.debug("Calculating predictions for "
                             + tempP.getName());
+
+                    // Calculate applicability domain
+                    if(!computedAD){
+                        String execstr="";
+                        execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + smilesDir + tempP.getName() + "/train_0.x " + "-4PRED=" + smilesDir + tempP.getName() + "/smiles.sdf.renorm.x "  + " -OUT=" + smilesDir + "smiles_AD";
+                        RunExternalProgram.runCommandAndLogOutput(execstr, smilesDir, "getAD");
+                        computedAD = true;
+
+                        // Read AD results
+                        try {
+                            String gadFile = smilesDir + "smiles_AD.gad";
+                            File file= new File(gadFile);
+                            FileReader fin = new FileReader(file);
+                            Scanner src = new Scanner(fin);
+
+                            while (src.hasNext()) {
+                                String readLine = src.nextLine();
+                                if(readLine.startsWith("ID")){
+                                    readLine = src.nextLine();
+                                    if(readLine.startsWith("0")){
+                                        String[] values=readLine.split("\\s+");
+                                        zScore = values[3];
+                                        break;
+                                    }
+                                }
+                            }
+                            src.close();
+                            fin.close();
+                        } catch (Exception e) {
+                            logger.error("User: " +user +"SMILES: "+ smiles, e);
+                        }
+                    }
                 }
 
                 int predictingModels = 0;
@@ -212,10 +249,39 @@ public class PredictionFormActions extends ActionSupport
              * create descriptors for the SDF, normalize them , and make a
              * prediction
              */
-            else
+            else {
                 predValues = RunSmilesPrediction.PredictSmilesSDF(smilesDir,
-                        user.getUserName(), predictor, Float
-                                .parseFloat(cutoff));
+                        user.getUserName(), predictor);
+
+                // Calculate applicability domian
+                String execstr="";
+                execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + smilesDir + "/train_0.x " + "-4PRED=" + smilesDir + "/smiles.sdf.renorm.x "  +" -OUT=" + smilesDir + "smiles_AD";
+                RunExternalProgram.runCommandAndLogOutput(execstr, smilesDir, "getAD");
+
+                // Read AD results
+                try {
+                    String gadFile = smilesDir + "smiles_AD.gad";
+                    File file= new File(gadFile);
+                    FileReader fin = new FileReader(file);
+                    Scanner src = new Scanner(fin);
+
+                    while (src.hasNext()) {
+                        String readLine = src.nextLine();
+                        if(readLine.startsWith("ID")){
+                            readLine = src.nextLine();
+                            if(readLine.startsWith("0")){
+                                String[] values=readLine.split("\\s+");
+                                zScore = values[3];
+                                break;
+                            }
+                        }
+                    }
+                    src.close();
+                    fin.close();
+                } catch (Exception e) {
+                    logger.error("User: " +user +"SMILES: "+ smiles, e);
+                }
+            }
 
             // read predValues and build the prediction output object
             SmilesPrediction sp = new SmilesPrediction();
@@ -225,6 +291,7 @@ public class PredictionFormActions extends ActionSupport
             sp.setPredictingModels(Integer.parseInt(predValues[0]));
             sp.setPredictedValue(predValues[1]);
             sp.setStdDeviation(predValues[2]);
+            sp.setZScore(zScore);
 
             // add it to the array
             smilesPredictions.add(sp);
@@ -511,7 +578,8 @@ public class PredictionFormActions extends ActionSupport
         logger.debug("predids: " + selectedPredictorIds);
 
         QsarPredictionTask predTask = new QsarPredictionTask(user
-                .getUserName(), jobName, sdf, cutOff, selectedPredictorIds,
+                .getUserName(), jobName, sdf,
+                cutOff, selectedPredictorIds,
                 predictionDataset);
 
         predTask.setUp();
@@ -877,6 +945,7 @@ public class PredictionFormActions extends ActionSupport
         // used by makeSmilesPrediction()
         String predictedValue;
         String stdDeviation;
+        String zScore;
         int    predictingModels;
         int    totalModels;
         String predictorName;
@@ -899,6 +968,16 @@ public class PredictionFormActions extends ActionSupport
         public void setStdDeviation(String stdDeviation)
         {
             this.stdDeviation = stdDeviation;
+        }
+
+        public String getZScore()
+        {
+            return zScore;
+        }
+
+        public void setZScore(String zScore)
+        {
+            this.zScore = zScore;
         }
 
         public int getPredictingModels()

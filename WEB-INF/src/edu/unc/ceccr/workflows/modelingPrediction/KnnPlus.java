@@ -618,8 +618,7 @@ public class KnnPlus
 
     public static void
             runKnnPlusPrediction(String workingDir,
-                                 String sdfile,
-                                 String cutoffValue) throws Exception
+                                 String sdfile) throws Exception
     {
 
         // write a dummy .a file because knn+ needs it or it fails
@@ -635,7 +634,7 @@ public class KnnPlus
 
         String xfile = sdfile + ".renorm.x";
         String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD="
-                + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+                + 99999 + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir,
                 "knnPlusPrediction");
     }

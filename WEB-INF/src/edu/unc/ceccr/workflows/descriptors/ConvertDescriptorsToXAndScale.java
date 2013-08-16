@@ -255,7 +255,7 @@ public class ConvertDescriptorsToXAndScale
                     descriptorValueMatrix);
         }
 		else if (descriptorGenerationType.equals(Constants.ISIDA)) {
-            descriptorsFile += ".ISIDA";
+            descriptorsFile += ".renorm.ISIDA";
             ReadDescriptors.readISIDADescriptors(
                     workingDir + descriptorsFile, descriptorNames,
                     descriptorValueMatrix);

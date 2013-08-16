@@ -315,8 +315,8 @@ function logout() {
 }
 
 function showLoading(text){
-	var shaded_ ="<div id='shade' style='position:absolute;top:500px;left:0px;background-color:#FFF;filter:alpha(opacity=80); -moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;z-index:900; width:100%;height:50%'>" +
-			"</div><div id='alert_message' class='ccbPopupDiv' style='position:absolute;top:600px;left:790px'>"+text+"</div>";
+	var shaded_ ="<div id='shade' style='position:absolute; top:620px;left:0px;background-color:#FFF;filter:alpha(opacity=80); -moz-opacity:0.8;-khtml-opacity: 0.8;opacity: 0.8;z-index:900; width:100%; height:120%'>" +
+			"</div><div id='alert_message' class='ccbPopupDiv' style='position:absolute; top:750px;left:790px'>"+text+"</div>";
 	document.getElementById('bodyDIV').innerHTML = shaded_;
 }
 

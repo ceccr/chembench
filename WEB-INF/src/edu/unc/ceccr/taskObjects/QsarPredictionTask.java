@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Scanner;
 
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.log4j.Logger;
@@ -25,7 +26,9 @@ import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.descriptors.ConvertDescriptorsToXAndScale;
+import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.KnnPlus;
 import edu.unc.ceccr.workflows.modelingPrediction.KnnPrediction;
 import edu.unc.ceccr.workflows.modelingPrediction.PredictionUtilities;
@@ -33,6 +36,7 @@ import edu.unc.ceccr.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.workflows.modelingPrediction.Svm;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
 import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
+
 
 public class QsarPredictionTask extends WorkflowTask
 {
@@ -243,7 +247,7 @@ public class QsarPredictionTask extends WorkflowTask
         if (predictionDataset.getSdfFile() != null) {
             this.sdf = predictionDataset.getSdfFile();
         }
-        this.cutoff = "" + prediction.getSimilarityCutoff();
+        this.cutoff = "" + prediction.getSimilarityCutoff().toString();
         this.selectedPredictorIds = prediction.getPredictorIds();
         this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"
                 + jobName + "/";
@@ -289,7 +293,8 @@ public class QsarPredictionTask extends WorkflowTask
 
         prediction.setDatabase(this.sdf);
         prediction.setUserName(this.userName);
-        prediction.setSimilarityCutoff(new Float(this.cutoff));
+        prediction.setSimilarityCutoff(Float.parseFloat(this.cutoff));
+        prediction.setComputeZscore(Constants.NO);
         prediction.setPredictorIds(this.selectedPredictorIds);
         prediction.setName(this.jobName);
         prediction.setDatasetId(predictionDataset.getId());
@@ -477,6 +482,7 @@ public class QsarPredictionTask extends WorkflowTask
                 parentPredictionValue.setNumTotalModels(childResults.size());
                 parentPredictionValue.setObservedValue(pv.getObservedValue());
                 parentPredictionValue.setPredictorId(predictor.getId());
+                parentPredictionValue.setZScore(pv.getZScore());
                 predValues.add(parentPredictionValue);
             }
             // calculate average predicted value and stddev over each child
@@ -545,13 +551,18 @@ public class QsarPredictionTask extends WorkflowTask
 
             step = Constants.PROCDESCRIPTORS;
 
-            ConvertDescriptorsToXAndScale.convertDescriptorsToXAndScale(
+            if(predictor.getDescriptorGeneration().equals(Constants.ISIDA)){
+                GenerateDescriptors.GenerateISIDADescriptorsWithHeader(predictionDir + sdfile, predictionDir + sdfile + ".renorm.ISIDA", predictionDir + predictor.getSdFileName() + ".ISIDA.hdr");
+                ConvertDescriptorsToXAndScale.convertDescriptorsToXAndScale( predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x", predictor.getDescriptorGeneration(), predictor.getScalingType(), predictionDataset.getNumCompound());
+            }
+            else{
+                ConvertDescriptorsToXAndScale.convertDescriptorsToXAndScale(
                     predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
                     predictor.getDescriptorGeneration(), predictor
                             .getScalingType(), predictionDataset
                             .getNumCompound());
-
-            // done with 3. (copy dataset from jobDir to jobDir/predictorDir.
+            }
+                        // done with 3. (copy dataset from jobDir to jobDir/predictorDir.
             // Scale descriptors to fit predictor.)
 
             // 4. make predictions in jobDir/predictorDir
@@ -561,16 +572,14 @@ public class QsarPredictionTask extends WorkflowTask
                     + " ExecutePredictor: Making predictions");
 
             if (predictor.getModelMethod().equals(Constants.KNN)) {
-                KnnPrediction.runKnnPlusPredictionForKnnPredictors(userName,
-                        jobName, predictionDir, sdfile, Float
-                                .parseFloat(cutoff));
+                KnnPrediction.runKnnPlusPredictionForKnnPredictors(userName, jobName, predictionDir, sdfile);
             }
             else if (predictor.getModelMethod().equals(Constants.SVM)) {
                 Svm.runSvmPrediction(predictionDir, sdfile + ".renorm.x");
             }
             else if (predictor.getModelMethod().equals(Constants.KNNGA)
                     || predictor.getModelMethod().equals(Constants.KNNSA)) {
-                KnnPlus.runKnnPlusPrediction(predictionDir, sdfile, cutoff);
+                KnnPlus.runKnnPlusPrediction(predictionDir, sdfile);
             }
             else if (predictor.getModelMethod()
                     .equals(Constants.RANDOMFOREST)) {
@@ -602,6 +611,46 @@ public class QsarPredictionTask extends WorkflowTask
                 predValues = RandomForest.readPredictionOutput(predictionDir,
                         predictor.getId());
             }
+
+            //Apply applicability domian
+            String execstr="";
+            String predictionXFile = predictionDir + sdfile + ".renorm.x";
+            File predictionFile = new File(predictionXFile);
+            if(!predictionFile.exists())
+                predictionXFile = predictionDir + "RF_" + sdfile + ".renorm.x";
+
+            execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + predictionDir + "train_0.x " + "-4PRED=" + predictionXFile + " -OUT=" + predictionDir + "PRE_AD";
+            RunExternalProgram.runCommandAndLogOutput(execstr, predictionDir, "getAD");
+
+            //Read AD results
+            try{
+
+                String gadFile = predictionDir + "PRE_AD.gad";
+                File file= new File(gadFile);
+                FileReader fin = new FileReader(file);
+                Scanner src = new Scanner(fin);
+                int counter = 0;
+
+                while (src.hasNext()) {
+                    String readLine = src.nextLine();
+                    if(readLine.startsWith("ID")){
+                        while (src.hasNext() && counter < predValues.size()){
+                            readLine = src.nextLine();
+                            String[] values=readLine.split("\\s+");
+                            String zScore = values[3];
+                            predValues.get(counter).setZScore(Float.parseFloat(zScore));
+                            counter ++;
+                        }
+                    }
+                }
+
+                src.close();
+                fin.close();
+
+            }catch (Exception e){//Catch exception if any
+                logger.error("User: " + userName + "Job: " + jobName + " " + e);
+            }
+
 
             s = HibernateUtil.getSession();
             Transaction tx = null;
@@ -696,6 +745,7 @@ public class QsarPredictionTask extends WorkflowTask
         try {
 
             prediction.setJobCompleted(Constants.YES);
+            prediction.setComputeZscore(Constants.YES);
             prediction.setStatus("saved");
 
             Session session = HibernateUtil.getSession();

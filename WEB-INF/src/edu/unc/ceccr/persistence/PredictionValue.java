@@ -14,99 +14,108 @@ import javax.persistence.Transient;
 @Table(name = "cbench_predictionValue")
 public class PredictionValue implements java.io.Serializable{
 
-	private Long predictorId;
-	private String compoundName;
-	private int numModelsUsed;
-	private Float predictedValue;
-	private Float standardDeviation;
-	private Long predictionId;
-	private Long id;
-	private float observedValue;
+    private Long predictorId;
+    private String compoundName;
+    private int numModelsUsed;
+    private Float predictedValue;
+    private Float standardDeviation;
+    private Long predictionId;
+    private Long id;
+    private float observedValue;
+    private Float zScore;
 
-	private int numTotalModels;
-	
-	@Column(name="predictor_id")
-	public Long getPredictorId() {
-		return predictorId;
-	}
-	public void setPredictorId(Long predictorId) {
-		this.predictorId = predictorId;
-	}
-	
-	@Column(name="observed_value")
-	public Float getObservedValue()
-	{
-		return this.observedValue;
-	}
-	public void setObservedValue(Float value)
-	{
-		this.observedValue=value;
-	}
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name = "pred_val_id")
-	public Long getId() {
-		return id;
-	}
+    private int numTotalModels;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    @Column(name="predictor_id")
+    public Long getPredictorId() {
+        return predictorId;
+    }
+    public void setPredictorId(Long predictorId) {
+        this.predictorId = predictorId;
+    }
 
-	@Column(name = "compound_name")
-	public String getCompoundName() {
-		return compoundName;
-	}
+    @Column(name="observed_value")
+    public Float getObservedValue()
+    {
+        return this.observedValue;
+    }
+    public void setObservedValue(Float value)
+    {
+        this.observedValue=value;
+    }
 
-	public void setCompoundName(String compoundName) {
-		if(compoundName.length() >= 256){
-			compoundName = compoundName.substring(0,255);
-		}
-		this.compoundName = compoundName;
-	}
+    @Id
+    @GeneratedValue(strategy=GenerationType.AUTO)
+    @Column(name = "pred_val_id")
+    public Long getId() {
+        return id;
+    }
 
-	@Column(name = "num_models")
-	public int getNumModelsUsed() {
-		return numModelsUsed;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setNumModelsUsed(int numModelsUsed) {
-		this.numModelsUsed = numModelsUsed;
-	}
-	
-	@Column(name = "predicted_value")
-	public Float getPredictedValue() {
-		return predictedValue;
-	}
-	public void setPredictedValue(Float predictedValue) {
-		this.predictedValue = predictedValue;
-	}
+    @Column(name = "compound_name")
+    public String getCompoundName() {
+        return compoundName;
+    }
 
-	@Column(name = "stdev")
-	public Float getStandardDeviation() {
-		return standardDeviation;
-	}
+    public void setCompoundName(String compoundName) {
+        if(compoundName.length() >= 256){
+            compoundName = compoundName.substring(0,255);
+        }
+        this.compoundName = compoundName;
+    }
 
-	public void setStandardDeviation(Float standardDeviation) {
-		this.standardDeviation = standardDeviation;
-	}
+    @Column(name = "num_models")
+    public int getNumModelsUsed() {
+        return numModelsUsed;
+    }
 
-	@Column(name = "prediction_id")
-	public Long getPredictionId() {
-		return predictionId;
-	}
-	public void setPredictionId(Long predictionId) {
-		this.predictionId = predictionId;
-	}
+    public void setNumModelsUsed(int numModelsUsed) {
+        this.numModelsUsed = numModelsUsed;
+    }
 
-	@Transient
-	public int getNumTotalModels() {
-		//this will need to be set first, it's not in the database
-		//if you're getting a 0 back, set it first!
-		return numTotalModels;
-	}
-	public void setNumTotalModels(int numTotalModels) {
-		this.numTotalModels = numTotalModels;
-	}
+    @Column(name = "predicted_value")
+    public Float getPredictedValue() {
+        return predictedValue;
+    }
+    public void setPredictedValue(Float predictedValue) {
+        this.predictedValue = predictedValue;
+    }
+
+    @Column(name = "stdev")
+    public Float getStandardDeviation() {
+        return standardDeviation;
+    }
+
+    public void setStandardDeviation(Float standardDeviation) {
+        this.standardDeviation = standardDeviation;
+    }
+
+    @Column(name = "prediction_id")
+    public Long getPredictionId() {
+        return predictionId;
+    }
+    public void setPredictionId(Long predictionId) {
+        this.predictionId = predictionId;
+    }
+
+    @Column(name = "zScore")
+    public Float getZScore() {
+        return zScore;
+    }
+    public void setZScore(Float zScore) {
+        this.zScore = zScore;
+    }
+
+    @Transient
+    public int getNumTotalModels() {
+        //this will need to be set first, it's not in the database
+        //if you're getting a 0 back, set it first!
+        return numTotalModels;
+    }
+    public void setNumTotalModels(int numTotalModels) {
+        this.numTotalModels = numTotalModels;
+    }
 }

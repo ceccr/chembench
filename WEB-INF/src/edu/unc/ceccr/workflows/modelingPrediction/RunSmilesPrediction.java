@@ -29,6 +29,7 @@ import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
+import edu.unc.ceccr.workflows.utilities.StandardizeSdfFormat;
 
 public class RunSmilesPrediction
 {
@@ -37,10 +38,16 @@ public class RunSmilesPrediction
 
     public static String[] PredictSmilesSDF(String workingDir,
                                             String username,
-                                            Predictor predictor,
-                                            Float cutoff) throws Exception
+                                            Predictor predictor) throws Exception
     {
-        String sdfile = new File(workingDir, "smiles.sdf").getAbsolutePath();
+        Path wd = new File(workingDir).toPath();
+        if (!Files.exists(wd)) {
+            logger.info("Working directory doesn't exist, creating it: " +
+                        wd.toString());
+            Files.createDirectory(wd);
+        }
+
+        String sdfile = workingDir + "smiles.sdf";
         logger.debug("Running PredictSmilesSDF in dir " + workingDir);
 
         /* copy the predictor to the workingDir. */
@@ -50,8 +57,15 @@ public class RunSmilesPrediction
                 + "/PREDICTORS/" + predictor.getName() + "/";
 
         /* get train_0.x file from the predictor dir. */
-        logger.info("Copying predictor files from " + fromDir);
+        logger.debug("Copying predictor files from " + fromDir);
         CopyJobFiles.getPredictorFiles(username, predictor, workingDir);
+
+        logger.debug("Copying complete. Generating descriptors. ");
+
+        /* generate ISIDA descriptor for smiles.sdf*/
+        if(predictor.getDescriptorGeneration().equals(Constants.ISIDA)){
+            generateISIDADescriptorsForSDF(workingDir, predictor.getSdFileName());
+        }
 
         /* create the descriptors for the chemical and read them in */
         ArrayList<String> descriptorNames = new ArrayList<String>();
@@ -83,6 +97,10 @@ public class RunSmilesPrediction
         }
         else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
             ReadDescriptors.readMaccsDescriptors(sdfile + ".maccs",
+                    descriptorNames, descriptorValueMatrix);
+        }
+         else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
+            ReadDescriptors.readISIDADescriptors(sdfile + ".ISIDA",
                     descriptorNames, descriptorValueMatrix);
         }
 
@@ -118,13 +136,14 @@ public class RunSmilesPrediction
             String execstr = "";
             if (predictor.getModelMethod().equals(Constants.KNN)) {
                 execstr = "knn+ knn-output.list -4PRED="
-                        + "smiles.sdf.renorm.x" + " -AD=" + cutoff
+                        + "smiles.sdf.renorm.x" + " -AD=" + 99999
                         + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
             }
             else if (predictor.getModelMethod().equals(Constants.KNNGA)
                     || predictor.getModelMethod().equals(Constants.KNNSA)) {
                 execstr = "knn+ models.tbl -4PRED=" + "smiles.sdf.renorm.x"
-                        + " -AD=" + cutoff + "_avd -OUT="
+                        + " -AD=" + 99999
+                        + "_avd -OUT="
                         + Constants.PRED_OUTPUT_FILE;
             }
 
@@ -374,6 +393,8 @@ public class RunSmilesPrediction
                     + ".standardize");
         }
 
+        StandardizeSdfFormat.addNameTag("", "SMILES", smilesDir + sdfFileName, smilesDir + sdfFileName + ".addNameTag");
+
         logger.debug("Finished smilesToSDF");
     }
 
@@ -407,10 +428,14 @@ public class RunSmilesPrediction
             GenerateDescriptors.GenerateMaccsDescriptors(sdfile, sdfile
                     + ".maccs");
         }
-		if (descriptorTypes.contains(Constants.ISIDA)) {
-            GenerateDescriptors.GenerateISIDADescriptors(sdfile, sdfile
-                    + ".ISIDA");
-        }
+    }
+
+    public static void
+    generateISIDADescriptorsForSDF(String smilesDir,
+                              String predictorSdfFileNames) throws Exception
+    {
+        String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
+        String predictorHeaderFile = smilesDir + predictorSdfFileNames + ".ISIDA.hdr";
+        GenerateDescriptors.GenerateISIDADescriptorsWithHeader(sdfile, sdfile + ".ISIDA", predictorHeaderFile);
     }
 }
-

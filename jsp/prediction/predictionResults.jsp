@@ -4,18 +4,64 @@
 <%@page language="java" import="java.util.*" %>
 <!-- results of SMILES prediction -->
 <html>
-<head></head>
-<body><font color="red"><b>Input: </b><br />
-SMILES string: <s:property value="smilesString" /><br />
-Cutoff: <s:property value="smilesCutoff" /><br />
-<br />
+<body>
+<p class="StandardTextDarkGray">
+SMILES String: <s:property value="smilesString" />
+</p>
+
+<p class="StandardTextDarkGray">
+Similarity Cutoff:
+<s:if test="%{smilesCutoff == 'N/A'}">
+N/A
+</s:if>
+<s:elseif test="%{smilesCutoff == 0}">
+0&sigma;
+</s:elseif>
+<s:elseif test="%{smilesCutoff == 1}">
+1&sigma;
+</s:elseif>
+<s:elseif test="%{smilesCutoff == 2}">
+2&sigma;
+</s:elseif>
+<s:elseif test="%{smilesCutoff == 3}">
+3&sigma;
+</s:elseif>
+</p>
+
+<table>
+<tbody>
+<tr>
+    <td class="TableRowText01">Predictor</td>
+    <td class="TableRowText01">Prediction</td>
+    <td class="TableRowText01">Predicting Models</td>
+    <td class="TableRowText01">&sigma;</td>
+</tr>
+
 <s:iterator value="smilesPredictions">
-<b>Results from <s:property value="predictorName" />:</b><br />
-Predicted value: <s:property value="predictedValue" /><br />
-Predicting Models / Total Models: <s:property value="predictingModels" /> / <s:property value="totalModels" /><br />
-Standard deviation: <s:property value="stdDeviation" /><br />
-<br />
+    <tr>
+        <td class="TableRowText02"><s:property value="predictorName" /></td>
+        <td class="TableRowText02">
+            <s:if test="%{smilesCutoff>zScore || smilesCutoff=='N/A'}">
+                <s:property value="predictedValue" /><s:if test="stdDeviation!='N/A'"> &plusmn; <s:property value="stdDeviation" /></s:if>
+            </s:if>
+            <s:else>
+            <font color="red">
+                Compound similarity is above cutoff
+            </font>
+            </s:else>
+        </td>
+        <td class="TableRowText02"><s:property value="predictingModels" /> / <s:property value="totalModels" /></td>
+        <td class="TableRowText02"><s:property value="zScore" />&sigma;</td>
+    </tr>
 </s:iterator>
-</font>
+</tbody>
+</table>
+
+<p class="StandardTextDarkGray">
+<b>
+    To see a prediction which is not showing, please increase similarity cutoff above listed &sigma; and repredict.
+</b>
+</p>
+<br/>
 </body>
 </html>

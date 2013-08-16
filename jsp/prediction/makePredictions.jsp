@@ -29,7 +29,7 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script language="javascript" src="javascript/modeling.js"></script>
     <script src="javascript/predictorFormValidation.js"></script>
-	<script type="text/javascript" src="javascript/jquery.zclip.min.js"></script>
+    <script type="text/javascript" src="javascript/jquery.zclip.min.js"></script>
     <script language="javascript">
       var usedDatasetNames = new Array(
       <s:iterator value="userDatasetNames">"<s:property />",</s:iterator>"");
@@ -39,14 +39,16 @@
       <s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
       var usedTaskNames = new Array(
       <s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
-	  var runSmilesPrediction = "false";
+      var runSmilesPrediction = "false";
+      var previousSmilesResults = "";
+
       function predictSmiles(){
         var smiles = document.getElementById("smiles").value;
         var cutoff = document.getElementById("cutOffSmiles").value;
-		var previousSmilesResults = document.getElementById("smilesResults").innerHTML;
-        if(cutoff == "" || smiles == ""){
-          alert("Please sketch a compound or enter a SMILES string and cutoff value.");
-          return false;
+        var url="makeSmilesPrediction?smiles=" + encodeURIComponent(smiles) + "&cutoff=" + cutoff + "&predictorIds=" + '<s:property value="selectedPredictorIds" />';
+        if (smiles == ""){
+              alert("Please sketch a compound or enter a SMILES string.");
+              return false;
         }
         else{
           //prepare the AJAX object
@@ -54,30 +56,24 @@
           ajaxObject.onreadystatechange=function(){
             if(ajaxObject.readyState==4){
               hideLoading();
-			  if(runSmilesPrediction == "false"){
-				document.getElementById("smilesResults").innerHTML=ajaxObject.responseText;
-				}
-			  else{
-			    document.getElementById("smilesResults").innerHTML = ajaxObject.responseText + previousSmilesResults;
-			  }
-			  runSmilesPrediction = "true";
+              document.getElementById("smilesResults").innerHTML = ajaxObject.responseText + previousSmilesResults;
+              previousSmilesResults = document.getElementById("smilesResults").innerHTML;
             }
           }
-		  
+
           showLoading("PREDICTING. PLEASE WAIT.");
 
           //send request
-          var url="makeSmilesPrediction?smiles=" + encodeURIComponent(smiles) + "&cutoff=" + cutoff + "&predictorIds=" + '<s:property value="selectedPredictorIds" />';
           ajaxObject.open("GET",url,true);
           ajaxObject.send(null);
 
           return true;
         }
       }
-	</script>
+       </script>
   </head>
   <body onload="setTabToPrediction();">
-    <!--<div id="bodyDIV"></div>-->
+    <div id="bodyDIV"></div>
     <!-- used for the "Please Wait..." box. Do not remove. -->
     <div class="outer">
       <div class="includesHeader"><%@ include file="/jsp/main/header.jsp" %></div>
@@ -113,11 +109,11 @@
                               <ul>
                                 <li>
                                 <a href="#selectTab">Select Predictors</a>
-								</li>
-								<li>
-									<a href="#compTab">Compounds</a>
-								</li>
-							  </ul>
+                                </li>
+                                <li>
+                                    <a href="#compTab">Compounds</a>
+                                </li>
+                              </ul>
 
                         <div id="selectTab">
                           <script>
@@ -392,7 +388,7 @@
                     </div>
 
                     <div id="compTab">
-					  <s:form action="makeDatasetPrediction" enctype="multipart/form-data" theme="simple">
+                      <s:form action="makeDatasetPrediction" enctype="multipart/form-data" theme="simple">
                         <table
                             width="924"
                             frame="border"
@@ -401,7 +397,7 @@
                             cellpadding="0"
                             cellspacing="4"
                             colspan="2"
-							style="border:0pt solid black">
+                            style="border:0pt solid black">
 
                           <tbody>
                             <!--
@@ -455,15 +451,15 @@
                                       </div>
                                     </td>
                                   </tr>
-								  
-								  <s:if test="%{singleCompoundPredictionAllowed}">
-									<tr>
-									  <td style="text-align:left" colspan="2" >
-										    <b class="StandardTextDarkGrayParagraph2" style="color:blue">Select a Dataset</b>
-									  </td>
-									</tr>
-								  </s:if>
-								  <tr><td colspan="2"><table style="border:0pt solid black"><tbody>								  
+
+                                  <s:if test="%{singleCompoundPredictionAllowed}">
+                                    <tr>
+                                      <td style="text-align:left" colspan="2" >
+                                            <b class="StandardTextDarkGrayParagraph2" style="color:blue">Select a Dataset</b>
+                                      </td>
+                                    </tr>
+                                  </s:if>
+                                  <tr><td colspan="2"><table style="border:0pt solid black"><tbody>
                                   <tr>
                                     <td height="26" width="115" align="left">
                                       <div align="left" class="StandardTextDarkGray">
@@ -502,12 +498,14 @@
                                   </tr>
                                   <tr>
                                     <td height="26" width="115" align="left">
-                                      <div align="left" class="StandardTextDarkGray">
-                                        <b>Similarity Cut Off:</b>
+                                      <div align="left" id="datasetCutoff" class="StandardTextDarkGray">
+                                        <b>Applicability Cut Off:</b>
                                       </div>
+                                      <div id="cutoff_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute">Global Applicability Domain Similarity Cut Off</div>
                                     </td>
                                     <td align="left" valign="top">
-                                      <s:textfield name="cutOff" id="cutOff" size="4" />
+                                      <!--<s:textfield name="cutOff" id="cutOff" size="4" />-->
+                                      <s:select name="cutOff" id="cutOff" theme="simple" list="#{'N/A':'Do not use','3':'3&sigma;','2':'2&sigma;','1':'1&sigma;','0':'0&sigma;'}" value="N/A"/>
                                       <span id="messageDiv2"></span>
                                     </td>
                                   </tr>
@@ -537,21 +535,18 @@
                                       <span id="textarea"></span>
                                     </td>
                                   </tr>
-                                 </tbody></table></td></tr>								  
+                                 </tbody></table></td></tr>
                       </s:form>
-					
-					
-					
                       <s:if test="%{singleCompoundPredictionAllowed}">
-								<tr>
-									<td style="text-align:left; border:0pt solid black"  colspan="2" >
-									  <p>
-									     <br/>
-										 <b class="StandardTextDarkGrayParagraph2" style="color:blue">Or Enter a Compound</b>
-										 <b class="StandardTextDarkGray" style="color:blue"> (Sketch a Compound Or Enter a SMILES String)</b>
-									  </p>
-									</td>
-								</tr>
+                                <tr>
+                                    <td style="text-align:left; border:0pt solid black"  colspan="2" >
+                                      <p>
+                                         <br/>
+                                         <b class="StandardTextDarkGrayParagraph2" style="color:blue">Or Enter a Compound</b>
+                                         <b class="StandardTextDarkGray" style="color:blue"> (Sketch a Compound Or Enter a SMILES String)</b>
+                                      </p>
+                                    </td>
+                                </tr>
 
                             <tr>
                               <td valign="top" style="vertical-align:top">
@@ -574,7 +569,7 @@
                                               var s = document.MSketch.getMol('smiles:');
                                               s = unix2local(s); // Convert "\n" to local line separator
                                               document.getElementById("smiles").value = s;
-											  predictSmiles();
+                                              predictSmiles();
                                             } else {
                                               alert("Cannot import molecule:\n"+
                                               "no JavaScript to Java communication in your browser.\n");
@@ -601,8 +596,7 @@
                                   </tbody>
                                 </table>
                               </td>
-							  
-                              <div id="bodyDIV"></div>
+
                               <td valign="top" style="vertical-align:top">
                                 <table
                                     width="450"
@@ -612,8 +606,7 @@
                                     cellpadding="0"
                                     cellspacing="4">
                                   <tbody>
-                                    <tr>
-                                      <td align="left" colspan="2">
+                                    <tr> <td align="left" colspan="2">
                                         <p class="StandardTextDarkGrayParagraph">
                                           Enter a molecule in SMILES format, e.g.
                                           <b>C1=CC=C(C=C1)CC(C(=O)O)N</b>
@@ -626,63 +619,59 @@
                                         </p>
                                     </tr>
                                     <tr>
-                                      <td width="70" height="24" align="right">
+                                      <td width="200" height="24" align="right">
                                         <div align="right" class="StandardTextDarkGray">
                                           <b>SMILES:</b>
                                         </div>
                                       </td>
-                                      <td width="150" align="left" valign="top">
+                                      <td align="left" valign="top">
                                         <input type="text" name="smiles" id="smiles" size="30" value="" />
                                         <span id="messageDiv2"></span>
                                       </td>
                                     </tr>
                                     <tr>
-                                      <td width="70" height="26" align="left">
-                                        <div align="right" class="StandardTextDarkGray">
-                                          <b>Similarity Cut Off:</b>
-                                        </div>
-                                      </td>
-                                      <td align="left" valign="top">
-                                        <input type="text" id="cutOffSmiles" size="4" value="0.5" />
+                                      <td width="200" height="26" align="left" colspan="2">
+                                        <p class="StandardTextDarkGray">
+                                          <b>Applicability Cut Off:</b>
+                                        <!--<input type="text" id="cutOffSmiles" size="4" value="0.5" />-->
+                                        <s:select name="cutOffSmiles" id="cutOffSmiles" theme="simple" list="#{'N/A':'Do not use','3':'3&sigma;','2':'2&sigma;','1':'1&sigma;','0':'0&sigma;'}" value="N/A"/>
                                         <span id="messageDiv3"></span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td width="70" height="24" align="right">
-                                        <div align="left" class="StandardTextDarkGray">&nbsp;</div>
-                                      </td>
-                                      <td align="left" valign="top">
-										<div style="position: relative; vertical-align:right">
-											<script type="text/javascript">
-												$(document).ready(function() {
-													$("#copy").zclip({
-														path: "javascript/ZeroClipboard.swf",
-														copy: function() { return $("#smilesResults").text().trim(); },
-													});
-												});
-											</script>
-                                            <input type="button" onclick="predictSmiles()" value="Predict" />											
-											<input id='copy' type="button" value="Copy Results"/>
-										</div>
-                                        <span id="textarea"></span>
-                                      </td>
-                                    </tr>
-                                    <tr>
-                                      <td height="26" align="left" colspan="3">
-									  	<div class="StandardTextDarkGrayParagraph" id="smilesResults" style="height:165px; overflow:auto;">
-											<i>
-												Your SMILES prediction results will appear here. Prediction will take 3-5 minutes on average per predictor.
-											</i>
-										</div>
-                                      </td>
-                                      <td align="left" valign="top">
-                                        <span id="messageDiv2"></span>
+                                        <input type="button" onclick="predictSmiles()" value="Predict"/>
+                                        </p>
                                       </td>
                                     </tr>
                                   </tbody>
                                 </table>
                               </td>
                             </tr>
+                            <tr>
+                                <td style="text-align:left;" align="right" valign="top">
+                                    <div style="position: relative; vertical-align:right">
+                                        <script type="text/javascript">
+                                                $(document).ready(function() {
+                                                    $("#copy").zclip({
+                                                        path: "javascript/ZeroClipboard.swf",
+                                                        copy: function() { return $("#smilesResults").text().trim(); },
+                                                    });
+                                                });
+                                        </script>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id='copy' type="button" value="Copy Results"/>
+                                    </div>
+                                    <span id="textarea"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td height="26" align="left" colspan="3">
+                                    <div class="StandardTextDarkGrayParagraph" id="smilesResults" style="height:300px; overflow:auto;">
+                                        <i>
+                                            Your SMILES prediction results will appear here. Prediction will take 3-5 minutes on average per predictor.
+                                        </i>
+                                    </div>
+                                </td>
+                                <td align="left" valign="top">
+                                    <span id="messageDiv2"></span>
+                                </td>
+                          </tr>
                           </tbody>
                         </table>
                       </s:if>

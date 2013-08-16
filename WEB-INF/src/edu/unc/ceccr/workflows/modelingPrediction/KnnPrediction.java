@@ -158,8 +158,7 @@ public class KnnPrediction
             runKnnPlusPredictionForKnnPredictors(String userName,
                                                  String jobName,
                                                  String workingDir,
-                                                 String sdfile,
-                                                 float cutoffValue) throws Exception
+                                                 String sdfile) throws Exception
     {
         // Used for legacy models that were created using Sasha's kNN code.
 
@@ -179,7 +178,7 @@ public class KnnPrediction
 
         String xfile = sdfile + ".renorm.x";
         String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD="
-                + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+                + 99999 + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir,
                 "knnPlusPrediction");
     }
