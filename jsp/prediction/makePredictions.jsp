@@ -505,7 +505,7 @@
                                     </td>
                                     <td align="left" valign="top">
                                       <!--<s:textfield name="cutOff" id="cutOff" size="4" />-->
-                                      <s:select name="cutOff" id="cutOff" theme="simple" list="#{'N/A':'Do not use','3':'3&sigma;','2':'2&sigma;','1':'1&sigma;','0':'0&sigma;'}" value="N/A"/>
+                                      <s:select name="cutOff" id="cutOff" theme="simple" list="#{'N/A':'Do not use','3':'3\u03c3','2':'2\u03c3','1':'1\u03c3','0':'0\u03c3'}" value="N/A"/>
                                       <span id="messageDiv2"></span>
                                     </td>
                                   </tr>
@@ -634,7 +634,7 @@
                                         <p class="StandardTextDarkGray">
                                           <b>Applicability Cut Off:</b>
                                         <!--<input type="text" id="cutOffSmiles" size="4" value="0.5" />-->
-                                        <s:select name="cutOffSmiles" id="cutOffSmiles" theme="simple" list="#{'N/A':'Do not use','3':'3&sigma;','2':'2&sigma;','1':'1&sigma;','0':'0&sigma;'}" value="N/A"/>
+                                        <s:select name="cutOffSmiles" id="cutOffSmiles" theme="simple" list="#{'N/A':'Do not use','3':'3\u03c3','2':'2\u03c3','1':'1\u03c3','0':'0\u03c3'}" value="N/A"/>
                                         <span id="messageDiv3"></span>
                                         <input type="button" onclick="predictSmiles()" value="Predict"/>
                                         </p>
