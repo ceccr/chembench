@@ -374,7 +374,7 @@
 
         <!-- Begin: Web API endpoints -->
         <action name="generatePredictor" class="edu.unc.ceccr.action.WebAPIActions" method="generatePredictor">
-            <result name="success"></result>
+            <result name="success">jsp/api/generatePredictor.jsp</result>
             <result name="error">jsp/main/errors2.jsp</result>
         </action>
         <!-- End: Web API endpoints -->

@@ -18,6 +18,7 @@ public class WebAPIActions extends ActionSupport {
     private static Logger logger = Logger.getLogger(
             WebAPIActions.class.getName());
     private List<String> errorStrings = new ArrayList<String>();
+    private int generatedPredictorId;
 
     public String generatePredictor() {
         // NYI
@@ -45,6 +46,12 @@ public class WebAPIActions extends ActionSupport {
     }
     public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
+    }
+    public int getGeneratedPredictorId() {
+        return generatedPredictorId;
+    }
+    public void setGeneratedPredictorId() {
+        this.generatedPredictorId = generatedPredictorId;
     }
 }
 
