@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -159,6 +160,9 @@ public class WebAPIActions extends ActionSupport {
                 inputFile.getName(),
                 "-o", outputFile.getName());
         pb.directory(tempDir);
+        logger.debug(String.format(
+                    "Executing molconvert, command: %s, directory: %s",
+                    Arrays.toString(pb.command().toArray()), tempDir));
         Process p = pb.start();
         int returnCode = -1;
         try {
@@ -170,6 +174,8 @@ public class WebAPIActions extends ActionSupport {
         if (returnCode != 0) {
             throw new RuntimeException("SMILES to SDF conversion failed.");
         }
+        logger.debug("Generated raw SDF, location: " +
+                outputFile.getAbsolutePath());
 
         // standardize the SDF
         String standardizedFileName = outputFile.getName() + ".standard";
@@ -181,6 +187,9 @@ public class WebAPIActions extends ActionSupport {
                 "-f", "sdf", // output format
                 "-o", standardizedFileName);
         pb.directory(tempDir);
+        logger.debug(String.format(
+                    "Executing standardize, command: %s, directory: %s",
+                    Arrays.toString(pb.command().toArray()), tempDir));
         p = pb.start();
         returnCode = -1;
         try {
@@ -192,6 +201,8 @@ public class WebAPIActions extends ActionSupport {
         if (returnCode != 0) {
             throw new RuntimeException("SDF standardization failed.");
         }
+        logger.debug("Generated standardized SDF, location: " +
+                new File(tempDir, standardizedFileName).getAbsolutePath());
 
         return standardizedFileName;
     }
