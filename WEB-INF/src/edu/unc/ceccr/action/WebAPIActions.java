@@ -84,14 +84,15 @@ public class WebAPIActions extends ActionSupport {
     /**
      * Converts SMILES strings into a single SDF structure file.
      *
+     * @param names
+     *      An array of compound names that correspond to the given SMILES
+     *      strings.
      * @param smiles
-     *      An array of SMILES strings to convert into a single
-     *      concatentated SDF file.
+     *      An array of SMILES strings to convert.
      * @return
      *      A path to the generated SDF file.
      */
-    private String convertSmilesToSdf(String[] smiles) {
-        // NYI
+    private String convertSmilesToSdf(String[] names, String[] smiles) {
         return null;
     }
 
