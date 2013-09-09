@@ -125,6 +125,8 @@ public class WebAPIActions extends ActionSupport {
         File inputFile = File.createTempFile("smiles", ".tmp", tempDir);
         FileWriter fw = new FileWriter(inputFile);
         BufferedWriter out = new BufferedWriter(fw);
+        logger.info("Creating input file for molconvert: " +
+                    inputFile.getAbsolutePath());
         try {
             for (int i = 0; i < names.length; i++) {
                 if (smiles[i].isEmpty()) {
@@ -145,7 +147,7 @@ public class WebAPIActions extends ActionSupport {
                 out.write(names[i]);
                 out.newLine();
 
-                logger.debug(String.format("Wrote line %d: \"%s %s\", file=%s",
+                logger.debug(String.format("Wrote line %d: \"%s %s\"",
                         i + 1, smiles[i], names[i], inputFile.getAbsolutePath()));
             }
         } catch (IOException e) {
@@ -162,8 +164,8 @@ public class WebAPIActions extends ActionSupport {
                 inputFile.getName(),
                 "-o", outputFile.getName());
         pb.directory(tempDir);
-        logger.debug(String.format(
-                    "Executing molconvert, command: %s, directory: %s",
+        logger.info(String.format(
+                    "Converting SMILES to SDF, command: %s, directory: %s",
                     Arrays.toString(pb.command().toArray()), tempDir));
         Process p = pb.start();
         int returnCode = -1;
@@ -189,8 +191,8 @@ public class WebAPIActions extends ActionSupport {
                 "-f", "sdf", // output format
                 "-o", standardizedFileName);
         pb.directory(tempDir);
-        logger.debug(String.format(
-                    "Executing standardize, command: %s, directory: %s",
+        logger.info(String.format(
+                    "Standardizing structures, command: %s, directory: %s",
                     Arrays.toString(pb.command().toArray()), tempDir));
         p = pb.start();
         returnCode = -1;
