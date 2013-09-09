@@ -86,9 +86,9 @@ public class WebAPIActions extends ActionSupport {
         }
 
         // convert smiles strings into sdf file
-        String tempSdfFile;
+        String sdfFile;
         try {
-            tempSdfFile = convertSmilesToSdf(names, smiles);
+            sdfFile = convertSmilesToSdf(names, smiles);
         } catch (IOException e) {
             errorStrings.add("SMILES to SDF conversion failed: " +
                              e.getMessage());
