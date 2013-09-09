@@ -115,7 +115,8 @@ public class WebAPIActions extends ActionSupport {
      *      A path to the generated SDF file.
      */
     private String convertSmilesToSdf(String[] names, String[] smiles)
-            throws IOException {
+            throws IOException
+    {
         assert names.length == smiles.length;
 
         // create a temporary file and write out the names + smiles to it
