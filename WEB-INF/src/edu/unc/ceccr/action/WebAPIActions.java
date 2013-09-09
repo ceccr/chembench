@@ -143,6 +143,7 @@ public class WebAPIActions extends ActionSupport {
                 out.write(smiles[i]);
                 out.write(" ");
                 out.write(names[i]);
+                out.newLine();
 
                 logger.debug(String.format("Wrote line %d: \"%s %s\", file=%s",
                         i + 1, smiles[i], names[i], inputFile.getAbsolutePath()));
