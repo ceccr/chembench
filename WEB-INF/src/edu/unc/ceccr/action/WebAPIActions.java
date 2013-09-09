@@ -107,10 +107,10 @@ public class WebAPIActions extends ActionSupport {
      * Converts SMILES strings into a single SDF structure file.
      *
      * @param names
-     *      An array of compound names that correspond to the given SMILES
-     *      strings.
+     *      An array of compound names.
      * @param smiles
-     *      An array of SMILES strings to convert.
+     *      An array of SMILES strings corresponding to the above compounds'
+     *      structures.
      * @return
      *      A path to the generated SDF file.
      */
