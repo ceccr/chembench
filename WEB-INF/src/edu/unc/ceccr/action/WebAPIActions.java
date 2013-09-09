@@ -85,10 +85,12 @@ public class WebAPIActions extends ActionSupport {
                         i, names[i], smiles[i], activities[i]));
         }
 
-        // convert smiles strings into sdf file
+        // generate sdf and act files from url parameters
         String sdfFile;
+        String actFile;
         try {
             sdfFile = convertSmilesToSdf(names, smiles);
+            actFile = createAct(names, activities);
         } catch (IOException e) {
             errorStrings.add("SMILES to SDF conversion failed: " +
                              e.getMessage());
@@ -209,6 +211,68 @@ public class WebAPIActions extends ActionSupport {
                 new File(tempDir, standardizedFileName).getAbsolutePath());
 
         return standardizedFileName;
+    }
+
+    /**
+     * Creates an ACT (activity) file from arrays of names and activities.
+     *
+     * @param names
+     *      An array of compound names.
+     * @param activities
+     *      An array of activity values corresponding to the above compounds'
+     *      activity values in the experiment.
+     * @return
+     *      A path to the generated ACT file.
+     */
+    private String createAct(String[] names, String[] activities)
+        throws IOException
+    {
+        assert names.length == activities.length;
+
+        File actFile = File.createTempFile("activities", ".tmp");
+        FileWriter fw = new FileWriter(actFile);
+        BufferedWriter out = new BufferedWriter(fw);
+        logger.debug("Creating activity file: " + actFile.getAbsolutePath());
+        try {
+            for (int i = 0; i < names.length; i++) {
+                if (names[i].isEmpty()) {
+                    out.close();
+                    actFile.delete();
+                    throw new RuntimeException(String.format(
+                            "Compound %d has no name.", i + 1));
+                }
+                if (activities[i].isEmpty()) {
+                    out.close();
+                    actFile.delete();
+                    throw new RuntimeException(String.format(
+                            "Compound %d has no associated activity value.",
+                            i + 1));
+                }
+                try {
+                    Double.parseDouble(activities[i]);
+                } catch (NumberFormatException e) {
+                    out.close();
+                    actFile.delete();
+                    throw new RuntimeException(String.format(
+                            "Compound %d has a non-number activity value.", i + 1));
+                }
+                out.write(names[i]);
+                out.write(" ");
+                out.write(activities[i]);
+                out.newLine();
+
+                logger.debug(String.format("Wrote line %d: \"%s %s\"",
+                        i + 1, names[i], activities[i],
+                        actFile.getAbsolutePath()));
+            }
+        } catch (IOException e) {
+            logger.error(e);
+            throw e;
+        } finally {
+            out.close();
+        }
+
+        return actFile.getAbsolutePath();
     }
 
     // --- begin getters / setters ---
