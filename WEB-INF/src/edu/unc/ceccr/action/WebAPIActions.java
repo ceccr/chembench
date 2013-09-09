@@ -131,13 +131,13 @@ public class WebAPIActions extends ActionSupport {
                     out.close();
                     inputFile.delete();
                     throw new RuntimeException(String.format(
-                            "Compound %d has an empty SMILES string.", i + 1));
+                            "Compound %d has no SMILES string.", i + 1));
                 }
                 if (names[i].isEmpty()) {
                     out.close();
                     inputFile.delete();
                     throw new RuntimeException(String.format(
-                            "Compound %d has an empty compound name.", i + 1));
+                            "Compound %d has no name.", i + 1));
                 }
                 out.write(smiles[i]);
                 out.write(" ");
