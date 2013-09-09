@@ -150,7 +150,7 @@ public class WebAPIActions extends ActionSupport {
                 out.newLine();
 
                 logger.debug(String.format("Wrote line %d: \"%s %s\"",
-                        i + 1, smiles[i], names[i], inputFile.getAbsolutePath()));
+                        i + 1, smiles[i], names[i]));
             }
         } catch (IOException e) {
             logger.error(e);
@@ -262,8 +262,7 @@ public class WebAPIActions extends ActionSupport {
                 out.newLine();
 
                 logger.debug(String.format("Wrote line %d: \"%s %s\"",
-                        i + 1, names[i], activities[i],
-                        actFile.getAbsolutePath()));
+                        i + 1, names[i], activities[i]));
             }
         } catch (IOException e) {
             logger.error(e);
