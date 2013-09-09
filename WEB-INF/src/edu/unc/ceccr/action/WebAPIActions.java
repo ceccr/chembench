@@ -4,10 +4,13 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import org.apache.log4j.Logger;
 
+import edu.unc.ceccr.global.Constants;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
@@ -115,22 +118,23 @@ public class WebAPIActions extends ActionSupport {
         assert names.length == smiles.length;
 
         // create a temporary file and write out the names + smiles to it
-        File tempFile = File.createTempFile("smiles", ".tmp");
-        String tempFileLocation = tempFile.getAbsolutePath();
-        FileWriter fw = new FileWriter(tempFile);
+        File tempDir = Files.createTempDirectory("chembench").toFile();
+        logger.debug("Created temporary directory: " + tempDir);
+        File inputFile = File.createTempFile("smiles", ".tmp", tempDir);
+        FileWriter fw = new FileWriter(inputFile);
         BufferedWriter out = new BufferedWriter(fw);
         try {
             for (int i = 0; i < names.length; i++) {
                 if (smiles[i].isEmpty()) {
                     // clean up and exit
                     out.close();
-                    tempFile.delete();
+                    inputFile.delete();
                     throw new RuntimeException(String.format(
                             "Compound %d has an empty SMILES string.", i + 1));
                 }
                 if (names[i].isEmpty()) {
                     out.close();
-                    tempFile.delete();
+                    inputFile.delete();
                     throw new RuntimeException(String.format(
                             "Compound %d has an empty compound name.", i + 1));
                 }
@@ -139,7 +143,7 @@ public class WebAPIActions extends ActionSupport {
                 out.write(names[i]);
 
                 logger.debug(String.format("Wrote line %d: \"%s %s\", file=%s",
-                        i + 1, smiles[i], names[i], tempFileLocation));
+                        i + 1, smiles[i], names[i], inputFile.getAbsolutePath()));
             }
         } catch (IOException e) {
             logger.error(e);
@@ -147,7 +151,49 @@ public class WebAPIActions extends ActionSupport {
         } finally {
             out.close();
         }
-        return tempFileLocation;
+
+        // convert the input file to SDF using JChem molconvert
+        File outputFile = File.createTempFile("out", ".sdf", tempDir);
+        ProcessBuilder pb = new ProcessBuilder("molconvert",
+                "sdf", // output format
+                inputFile.getName(),
+                "-o", outputFile.getName());
+        pb.directory(tempDir);
+        Process p = pb.start();
+        int returnCode = -1;
+        try {
+            returnCode = p.waitFor();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        if (returnCode != 0) {
+            throw new RuntimeException("SMILES to SDF conversion failed.");
+        }
+
+        // standardize the SDF
+        String standardizedFileName = outputFile.getName() + ".standard";
+        pb = new ProcessBuilder("standardize",
+                outputFile.getName(), // input file
+                "-c", // configuration xml to use
+                new File(Constants.CECCR_BASE_PATH,
+                    "config/standardizer.xml").getAbsolutePath(),
+                "-f", "sdf", // output format
+                "-o", standardizedFileName);
+        pb.directory(tempDir);
+        p = pb.start();
+        returnCode = -1;
+        try {
+            returnCode = p.waitFor();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        if (returnCode != 0) {
+            throw new RuntimeException("SDF standardization failed.");
+        }
+
+        return standardizedFileName;
     }
 
     // --- begin getters / setters ---
