@@ -2,11 +2,16 @@ package edu.unc.ceccr.action;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
+import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,11 +34,14 @@ import java.util.Map;
  */
 public class WebAPIActions extends ActionSupport
 {
-    private static final String userName = "webapi"; // used for dirs/jobs
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(
             WebAPIActions.class.getName());
     private List<String> errorStrings = new ArrayList<String>();
+
+    private static final String WEBAPI_USER_NAME = "webapi";
+    private static final int TIMEOUT = 5000; // in ms
+    private static final int POLLING_INTERVAL = 100; // in ms
     private int generatedPredictorId;
 
     /**
@@ -131,16 +140,42 @@ public class WebAPIActions extends ActionSupport
             return ERROR;
         }
 
+        DataSet dataset = null;
+        try {
+            dataset = this.generateDataset(tempSdfFilePath, tempActFilePath,
+                                           activityType, names.length);
+        } catch (Exception e) {
+            // (error messages have already been added by generateDataset())
+            return ERROR;
+        }
+
+        // NYI
+        errorStrings.add("This method has not been implemented yet.");
+        return ERROR;
+    }
+
+    /**
+     * Generates a dataset from an SDF file and an ACT file.
+     *
+     * The object that is returned is the state of the DataSet upon execution
+     * completion, i.e. when its jobCompleted attribute equals "YES".
+     *
+     * @return
+     *      The created DataSet object in the database.
+     */
+    private DataSet generateDataset(String sdfFilePath, String actFilePath, String activityType,
+            int numCompounds) throws Exception
+    {
         // generate a name for the dataset using current time in ms
         String datasetName = this.generateDatasetName();
 
         // copy the sdf and act files into the right folder:
         // <user-root>/<user-name>/<dataset-name>/
-        Path sdfSource = new File(tempSdfFilePath).toPath();
-        Path actSource = new File(tempActFilePath).toPath();
+        Path sdfSource = new File(sdfFilePath).toPath();
+        Path actSource = new File(actFilePath).toPath();
 
         Path destinationDir = Paths.get(Constants.CECCR_USER_BASE_PATH,
-                userName, "DATASETS", datasetName);
+                WEBAPI_USER_NAME, "DATASETS", datasetName);
         assert Files.exists(destinationDir) == false; // we shouldn't reuse dirs
         try {
             Files.createDirectories(destinationDir);
@@ -148,6 +183,7 @@ public class WebAPIActions extends ActionSupport
             logger.error(e);
             errorStrings.add("Failed to create destination directory: " +
                              e.getMessage());
+            throw e;
         }
 
         // sadly there isn't a new Path(Path p1, Path p2) method...
@@ -171,12 +207,12 @@ public class WebAPIActions extends ActionSupport
             logger.error(e);
             errorStrings.add("Couldn't copy SDF or ACT file: " +
                              e.getMessage());
-            return ERROR;
+            throw e;
         }
 
         // submit the dataset job
         CreateDatasetTask task = new CreateDatasetTask(
-                userName,
+                WEBAPI_USER_NAME,
                 Constants.MODELING, // dataset type
                 sdfDestination.getFileName().toString(),
                 actDestination.getFileName().toString(),
@@ -185,7 +221,7 @@ public class WebAPIActions extends ActionSupport
                 activityType, // CATEGORY or CONTINUOUS
                 "true", // standardize the SDF
                 Constants.USERDEFINED, // user-defined split type
-                "", // no scaling
+                "", // no scaling has been done on this
                 "0", // number of external compounds, if RANDOM split
                 "0", // number of external folds, if NFOLD
                 "false", // don't use activity binning if RANDOM split
@@ -198,20 +234,49 @@ public class WebAPIActions extends ActionSupport
         try {
             CentralDogma centralDogma = CentralDogma.getInstance();
             centralDogma.addJobToIncomingList(
-                    userName, datasetName, task,
-                    names.length, // number of compounds
+                    WEBAPI_USER_NAME, datasetName, task, numCompounds,
                     0, // number of models
                     "false" // don't email on completion
             );
         } catch (Exception e) {
             logger.error(e);
             errorStrings.add("Dataset job creation failed: " + e.getMessage());
-            return ERROR;
+            throw e;
         }
 
-        // NYI
-        errorStrings.add("This method has not been implemented yet.");
-        return ERROR;
+        // poll repeatedly until the dataset task is done
+        logger.debug(String.format(
+                "Waiting for dataset task to complete: user=%s, name=%s",
+                WEBAPI_USER_NAME, datasetName));
+        int timeLeft = TIMEOUT;
+        DataSet newDataset = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSession();
+            while (timeLeft > 0) {
+                newDataset = PopulateDataObjects.getDataSetByName(
+                        datasetName, WEBAPI_USER_NAME, session);
+                if (newDataset.getJobCompleted().equals("YES")) {
+                    break;
+                }
+                Thread.sleep(POLLING_INTERVAL);
+                timeLeft -= POLLING_INTERVAL;
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            logger.error(e);
+            errorStrings.add("Failed to retrieve session or database object.");
+            throw e;
+        } catch (InterruptedException e) {
+            logger.error(e);
+            Thread.currentThread().interrupt();
+        } finally {
+            session.close();
+        }
+
+        logger.debug(String.format(
+                "Dataset job complete: name=%s, id=%d",
+                datasetName, newDataset.getId()));
+        return newDataset;
     }
 
     /**
