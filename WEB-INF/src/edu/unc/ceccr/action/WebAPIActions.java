@@ -5,6 +5,8 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.apache.log4j.Logger;
 
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
+import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,6 +28,7 @@ import java.util.Map;
  */
 public class WebAPIActions extends ActionSupport
 {
+    private static final String userName = "webapi"; // used for dirs/jobs
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(
             WebAPIActions.class.getName());
@@ -132,12 +135,12 @@ public class WebAPIActions extends ActionSupport
         String datasetName = "bard" + System.currentTimeMillis();
 
         // copy the sdf and act files into the right folder:
-        // <user-root>/webapi/<dataset-name>/
+        // <user-root>/<user-name>/<dataset-name>/
         Path sdfSource = new File(tempSdfFilePath).toPath();
         Path actSource = new File(tempActFilePath).toPath();
 
         Path destinationDir = Paths.get(Constants.CECCR_USER_BASE_PATH,
-                "webapi", "DATASETS", datasetName);
+                userName, "DATASETS", datasetName);
         assert Files.exists(destinationDir) == false; // we shouldn't reuse dirs
         try {
             Files.createDirectories(destinationDir);
@@ -168,6 +171,41 @@ public class WebAPIActions extends ActionSupport
             logger.error(e);
             errorStrings.add("Couldn't copy SDF or ACT file: " +
                              e.getMessage());
+            return ERROR;
+        }
+
+        // submit the dataset job
+        CreateDatasetTask task = new CreateDatasetTask(
+                userName,
+                Constants.MODELING, // dataset type
+                sdfDestination.getFileName().toString(),
+                actDestination.getFileName().toString(),
+                "", // X file name for uploaded descriptors; N/A
+                "", // descriptor type for uploaded descriptors; N/A
+                activityType, // CATEGORY or CONTINUOUS
+                "false", // don't standardize (we already did)
+                Constants.USERDEFINED, // user-defined split type
+                "", // no scaling
+                "0", // number of external compounds, if RANDOM split
+                "0", // number of external folds, if NFOLD
+                "false", // don't use activity binning if RANDOM split
+                "", // empty external compound list
+                datasetName,
+                "", // no paper reference
+                "", // empty dataset description
+                "false" // don't generate Mahalanobis
+            );
+        try {
+            CentralDogma centralDogma = CentralDogma.getInstance();
+            centralDogma.addJobToIncomingList(
+                    userName, datasetName, task,
+                    names.length, // number of compounds
+                    0, // number of models
+                    "false" // don't email on completion
+            );
+        } catch (Exception e) {
+            logger.error(e);
+            errorStrings.add("Dataset job creation failed: " + e.getMessage());
             return ERROR;
         }
 
