@@ -94,8 +94,7 @@ public class WebAPIActions extends ActionSupport
             sdfFile = convertSmilesToSdf(names, smiles);
             actFile = createAct(names, activities);
         } catch (IOException e) {
-            errorStrings.add("SMILES to SDF conversion failed: " +
-                             e.getMessage());
+            errorStrings.add("File creation failed: " + e.getMessage());
             return ERROR;
         } catch (RuntimeException e) {
             errorStrings.add(e.getMessage());
