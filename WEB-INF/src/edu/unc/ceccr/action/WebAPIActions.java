@@ -35,7 +35,7 @@ public class WebAPIActions extends ActionSupport
      *
      * Accepts three URL parameters with comma-separated values:
      *
-     * name: The names of the compounds
+     * names: The names of the compounds
      * smiles: The structures of the above compounds in SMILES format
      * activities: The activity values for the compounds
      *
