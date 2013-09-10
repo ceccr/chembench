@@ -163,8 +163,8 @@ public class WebAPIActions extends ActionSupport
      * @return
      *      The created DataSet object in the database.
      */
-    private DataSet generateDataset(String sdfFilePath, String actFilePath, String activityType,
-            int numCompounds) throws Exception
+    private DataSet generateDataset(String sdfFilePath, String actFilePath,
+            String activityType, int numCompounds) throws Exception
     {
         // generate a name for the dataset using current time in ms
         String datasetName = this.generateDatasetName();
