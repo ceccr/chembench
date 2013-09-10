@@ -183,7 +183,7 @@ public class WebAPIActions extends ActionSupport
                 "", // X file name for uploaded descriptors; N/A
                 "", // descriptor type for uploaded descriptors; N/A
                 activityType, // CATEGORY or CONTINUOUS
-                "false", // don't standardize (we already did)
+                "true", // standardize the SDF
                 Constants.USERDEFINED, // user-defined split type
                 "", // no scaling
                 "0", // number of external compounds, if RANDOM split
@@ -279,11 +279,11 @@ public class WebAPIActions extends ActionSupport
         }
 
         // convert the input file to SDF using JChem molconvert
-        File outputFile = File.createTempFile("out", ".sdf", tempDir);
+        File sdfFile = File.createTempFile("out", ".sdf", tempDir);
         ProcessBuilder pb = new ProcessBuilder("molconvert",
                 "sdf", // output format
                 inputFile.getName(),
-                "-o", outputFile.getName());
+                "-o", sdfFile.getName());
         pb.directory(tempDir);
         logger.debug(String.format(
                     "Converting SMILES to SDF, command: %s, directory: %s",
@@ -300,40 +300,10 @@ public class WebAPIActions extends ActionSupport
         if (returnCode != 0) {
             throw new RuntimeException("SMILES to SDF conversion failed.");
         }
-        logger.debug("Generated raw SDF, location: " +
-                outputFile.getAbsolutePath());
 
-        // standardize the SDF
-        String standardizedFileName = outputFile.getName() + ".standard";
-        pb = new ProcessBuilder("standardize",
-                outputFile.getName(), // input file
-                "-c", // configuration xml to use
-                new File(Constants.CECCR_BASE_PATH,
-                    "config/standardizer.xml").getAbsolutePath(),
-                "-f", "sdf", // output format
-                "-o", standardizedFileName);
-        pb.directory(tempDir);
-        logger.debug(String.format(
-                    "Standardizing structures, command: %s, directory: %s",
-                    Arrays.toString(pb.command().toArray()), tempDir));
-        p = pb.start();
-        returnCode = -1;
-        try {
-            returnCode = p.waitFor();
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-
-        if (returnCode != 0) {
-            throw new RuntimeException("SDF standardization failed.");
-        }
-
-        String standardizedSdfFilePath = new File(
-                tempDir, standardizedFileName).getAbsolutePath();
-        logger.debug("Generated standardized SDF, location: " +
-                standardizedSdfFilePath);
-
-        return standardizedSdfFilePath;
+        String sdfFilePath = sdfFile.getAbsolutePath();
+        logger.debug("Generated SDF, location: " + sdfFilePath);
+        return sdfFilePath;
     }
 
     /**
