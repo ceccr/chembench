@@ -117,9 +117,11 @@ public class WebAPIActions extends ActionSupport
             sdfFile = convertSmilesToSdf(names, smiles);
             actFile = createAct(names, activities);
         } catch (IOException e) {
+            logger.error(e);
             errorStrings.add("File creation failed: " + e.getMessage());
             return ERROR;
         } catch (RuntimeException e) {
+            logger.error(e);
             errorStrings.add(e.getMessage());
             return ERROR;
         }
@@ -198,6 +200,7 @@ public class WebAPIActions extends ActionSupport
         try {
             returnCode = p.waitFor();
         } catch (InterruptedException e) {
+            logger.error(e);
             Thread.currentThread().interrupt();
         }
 
@@ -292,7 +295,6 @@ public class WebAPIActions extends ActionSupport
                         i + 1, names[i], activities[i]));
             }
         } catch (IOException e) {
-            logger.error(e);
             throw e;
         } finally {
             out.close();
