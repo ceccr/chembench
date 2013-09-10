@@ -22,7 +22,8 @@ import java.util.Map;
  * @author Ian Kim <iansjk@gmail.com>
  * @since 2013-09-08
  */
-public class WebAPIActions extends ActionSupport {
+public class WebAPIActions extends ActionSupport
+{
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(
             WebAPIActions.class.getName());
@@ -48,7 +49,8 @@ public class WebAPIActions extends ActionSupport {
      * @return
      *      SUCCESS if the predictor generation succeeded, or ERROR otherwise.
      */
-    public String generatePredictor() {
+    public String generatePredictor()
+    {
         ActionContext context = ActionContext.getContext();
         Map<String, Object> params = context.getParameters();
 
@@ -275,16 +277,20 @@ public class WebAPIActions extends ActionSupport {
     }
 
     // --- begin getters / setters ---
-    public List<String> getErrorStrings() {
+    public List<String> getErrorStrings()
+    {
         return errorStrings;
     }
-    public void setErrorStrings(List<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings)
+    {
         this.errorStrings = errorStrings;
     }
-    public int getGeneratedPredictorId() {
+    public int getGeneratedPredictorId()
+    {
         return generatedPredictorId;
     }
-    public void setGeneratedPredictorId() {
+    public void setGeneratedPredictorId()
+    {
         this.generatedPredictorId = generatedPredictorId;
     }
 }
