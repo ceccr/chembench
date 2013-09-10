@@ -160,6 +160,15 @@ public class WebAPIActions extends ActionSupport
      * The object that is returned is the state of the DataSet upon execution
      * completion, i.e. when its jobCompleted attribute equals "YES".
      *
+     * @param sdfFilePath
+     *      The path to the SDF file to use.
+     * @param actFilePath
+     *      The path to the ACT file to use.
+     * @param activityType
+     *      The type of activity values in the dataset; either "CATEGORY" or
+     *      "CONTINUOUS".
+     * @param numCompounds
+     *      The number of compounds in the dataset.
      * @return
      *      The created DataSet object in the database.
      */
