@@ -11,6 +11,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -111,11 +113,11 @@ public class WebAPIActions extends ActionSupport
         }
 
         // generate sdf and act files from url parameters
-        String sdfFile;
-        String actFile;
+        String tempSdfFilePath;
+        String tempActFilePath;
         try {
-            sdfFile = convertSmilesToSdf(names, smiles);
-            actFile = createAct(names, activities);
+            tempSdfFilePath = convertSmilesToSdf(names, smiles);
+            tempActFilePath = createAct(names, activities);
         } catch (IOException e) {
             logger.error(e);
             errorStrings.add("File creation failed: " + e.getMessage());
@@ -123,6 +125,49 @@ public class WebAPIActions extends ActionSupport
         } catch (RuntimeException e) {
             logger.error(e);
             errorStrings.add(e.getMessage());
+            return ERROR;
+        }
+
+        // generate a name for the dataset using current time in ms
+        String datasetName = "bard" + System.currentTimeMillis();
+
+        // copy the sdf and act files into the right folder:
+        // <user-root>/webapi/<dataset-name>/
+        Path sdfSource = new File(tempSdfFilePath).toPath();
+        Path actSource = new File(tempActFilePath).toPath();
+
+        Path destinationDir = Paths.get(Constants.CECCR_USER_BASE_PATH,
+                "webapi", "DATASETS", datasetName);
+        assert Files.exists(destinationDir) == false; // we shouldn't reuse dirs
+        try {
+            Files.createDirectories(destinationDir);
+        } catch (IOException e) {
+            logger.error(e);
+            errorStrings.add("Failed to create destination directory: " +
+                             e.getMessage());
+        }
+
+        // sadly there isn't a new Path(Path p1, Path p2) method...
+        Path sdfDestination = Paths.get(
+                destinationDir.toString(),
+                sdfSource.getFileName().toString());
+        Path actDestination = Paths.get(
+                destinationDir.toString(),
+                actSource.getFileName().toString());
+
+        try {
+            logger.debug(String.format(
+                    "Copying SDF file: source=%s, destination=%s",
+                    sdfSource, sdfDestination));
+            Files.copy(sdfSource, sdfDestination);
+            logger.debug(String.format(
+                    "Copying ACT file: source=%s, destination=%s",
+                    actSource, actDestination));
+            Files.copy(actSource, actDestination);
+        } catch (IOException e) {
+            logger.error(e);
+            errorStrings.add("Couldn't copy SDF or ACT file: " +
+                             e.getMessage());
             return ERROR;
         }
 
