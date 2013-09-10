@@ -84,7 +84,7 @@ public class WebAPIActions extends ActionSupport
         for (int i = 0; i < smiles.length; i++) {
             logger.debug(String.format(
                         "Compound %d: name=%s, SMILES=%s, activity=%s",
-                        i, names[i], smiles[i], activities[i]));
+                        i + 1, names[i], smiles[i], activities[i]));
         }
 
         // generate sdf and act files from url parameters
