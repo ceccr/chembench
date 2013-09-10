@@ -53,6 +53,7 @@ public class WebAPIActions extends ActionSupport
     {
         ActionContext context = ActionContext.getContext();
         Map<String, Object> params = context.getParameters();
+        String activityType = "CATEGORY";
 
         if (params.get("names") == null) {
             errorStrings.add("No compound names provided.");
@@ -81,10 +82,32 @@ public class WebAPIActions extends ActionSupport
             return ERROR;
         }
 
+        // log input and determine if activities are category or continuous
         for (int i = 0; i < smiles.length; i++) {
             logger.debug(String.format(
                         "Compound %d: name=%s, SMILES=%s, activity=%s",
                         i + 1, names[i], smiles[i], activities[i]));
+
+            int activityValue = -1;
+            try {
+                activityValue = Integer.parseInt(activities[i]);
+            } catch (NumberFormatException e) {
+                logger.debug(String.format(
+                        "Compound %d's activity value is not an " +
+                        "integer; setting data type to CONTINUOUS.", i + 1));
+                activityType = "CONTINUOUS";
+            }
+
+            // if the activity value was an integer, make sure it is
+            // non-negative
+            if (activityType.equals("CATEGORY")) {
+                if (activityValue < 0) {
+                    logger.debug(String.format(
+                        "Compound %d's activity value is negative; " +
+                        "setting data type to CONTINUOUS.", i + 1));
+                    activityType = "CONTINUOUS";
+                }
+            }
         }
 
         // generate sdf and act files from url parameters
