@@ -132,7 +132,7 @@ public class WebAPIActions extends ActionSupport
         }
 
         // generate a name for the dataset using current time in ms
-        String datasetName = "bard" + System.currentTimeMillis();
+        String datasetName = this.generateDatasetName();
 
         // copy the sdf and act files into the right folder:
         // <user-root>/<user-name>/<dataset-name>/
@@ -212,6 +212,16 @@ public class WebAPIActions extends ActionSupport
         // NYI
         errorStrings.add("This method has not been implemented yet.");
         return ERROR;
+    }
+
+    /**
+     * Generates a dataset name to be used for new CreateDatasetTasks.
+     *
+     * @return
+     *      A suitable dataset name.
+     */
+    private String generateDatasetName() {
+        return "bard-dataset" + System.currentTimeMillis();
     }
 
     /**
