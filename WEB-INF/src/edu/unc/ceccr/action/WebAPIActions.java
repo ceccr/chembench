@@ -170,7 +170,8 @@ public class WebAPIActions extends ActionSupport
      * @param numCompounds
      *      The number of compounds in the dataset.
      * @return
-     *      The created DataSet object in the database.
+     *      An instance of the created DataSet object as retrieved from the
+     *      database after it has finished executing on the job queue.
      */
     private DataSet generateDataset(String sdfFilePath, String actFilePath,
             String activityType, int numCompounds) throws Exception
