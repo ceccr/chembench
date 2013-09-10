@@ -231,10 +231,13 @@ public class WebAPIActions extends ActionSupport
         if (returnCode != 0) {
             throw new RuntimeException("SDF standardization failed.");
         }
-        logger.debug("Generated standardized SDF, location: " +
-                new File(tempDir, standardizedFileName).getAbsolutePath());
 
-        return standardizedFileName;
+        String standardizedSdfFilePath = new File(
+                tempDir, standardizedFileName).getAbsolutePath();
+        logger.debug("Generated standardized SDF, location: " +
+                standardizedSdfFilePath);
+
+        return standardizedSdfFilePath;
     }
 
     /**
