@@ -322,7 +322,7 @@ public class WebAPIActions extends ActionSupport
     {
         assert names.length == activities.length;
 
-        File actFile = File.createTempFile("activities", ".tmp");
+        File actFile = File.createTempFile("activities", ".act");
         FileWriter fw = new FileWriter(actFile);
         BufferedWriter out = new BufferedWriter(fw);
         logger.debug("Creating activity file: " + actFile.getAbsolutePath());
