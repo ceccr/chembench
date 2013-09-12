@@ -135,7 +135,6 @@ public class WebAPIActions extends ActionSupport
             errorStrings.add("File creation failed: " + e.getMessage());
             return ERROR;
         } catch (RuntimeException e) {
-            logger.error(e);
             errorStrings.add(e.getMessage());
             return ERROR;
         }
