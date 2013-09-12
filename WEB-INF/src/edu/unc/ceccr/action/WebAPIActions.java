@@ -259,18 +259,20 @@ public class WebAPIActions extends ActionSupport
                 "Waiting for dataset task to complete: user=%s, name=%s",
                 WEBAPI_USER_NAME, datasetName));
         int timeLeft = TIMEOUT;
+        boolean jobFinished = false;
         DataSet newDataset = null;
         Session session = null;
         try {
             session = HibernateUtil.getSession();
-            while (timeLeft > 0) {
+            while (timeLeft > 0 && !jobFinished) {
                 newDataset = PopulateDataObjects.getDataSetByName(
                         datasetName, WEBAPI_USER_NAME, session);
                 if (newDataset.getJobCompleted().equals("YES")) {
-                    break;
+                    jobFinished = true;
+                } else {
+                    Thread.sleep(POLLING_INTERVAL);
+                    timeLeft -= POLLING_INTERVAL;
                 }
-                Thread.sleep(POLLING_INTERVAL);
-                timeLeft -= POLLING_INTERVAL;
             }
         } catch (ClassNotFoundException | SQLException e) {
             logger.error(e);
