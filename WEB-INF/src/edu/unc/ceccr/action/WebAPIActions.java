@@ -285,6 +285,14 @@ public class WebAPIActions extends ActionSupport
             session.close();
         }
 
+        if (!jobFinished) {
+            // we timed out; raise an exception to be echoed as an error message
+            // by the caller.
+            throw new RuntimeException(
+                    "Dataset job timed out. The server may be too busy to " +
+                    "handle your request. Please try again later.");
+        }
+
         logger.debug(String.format(
                 "Dataset job complete: name=%s, id=%d",
                 datasetName, newDataset.getId()));
