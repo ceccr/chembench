@@ -265,6 +265,8 @@ public class WebAPIActions extends ActionSupport
                 Session session = HibernateUtil.getSession();
                 newDataset = PopulateDataObjects.getDataSetByName(
                         datasetName, WEBAPI_USER_NAME, session);
+                logger.debug("Job completion status: " +
+                             newDataset.getJobCompleted());
                 if (newDataset.getJobCompleted().equals("YES")) {
                     jobFinished = true;
                 } else {
