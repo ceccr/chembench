@@ -6,9 +6,11 @@ import com.opensymphony.xwork2.ActionSupport;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
+import edu.unc.ceccr.action.ModelingFormActions;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
+import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -145,6 +147,34 @@ public class WebAPIActions extends ActionSupport
                                            activityType, names.length);
         } catch (Exception e) {
             // (error messages have already been added by generateDataset())
+            return ERROR;
+        }
+
+        // create a dummy modeling form and populate it with our parameters
+        ModelingFormActions form = new ModelingFormActions();
+        // set only what we have to; use defaults where possible
+        // what we want:
+        // - RandomForest
+        // - CDK descriptors
+        // - no external split
+        String predictorName = this.generatePredictorName();
+        form.setModelingType(Constants.RANDOMFOREST);
+        form.setJobName(predictorName);
+        form.setSelectedDatasetId(dataset.getId());
+        try {
+            QsarModelingTask task = new QsarModelingTask(
+                    WEBAPI_USER_NAME, form);
+            CentralDogma centralDogma = CentralDogma.getInstance();
+            centralDogma.addJobToIncomingList(
+                    WEBAPI_USER_NAME, predictorName, task,
+                    dataset.getNumCompound(),
+                    1, // number of models (only 1 for RF w/ defaults)
+                    "false" // don't email on completion
+            );
+        } catch (Exception e) {
+            logger.error(e);
+            errorStrings.add("Modeling job creation failed: " +
+                             e.getMessage());
             return ERROR;
         }
 
@@ -307,6 +337,16 @@ public class WebAPIActions extends ActionSupport
      */
     private String generateDatasetName() {
         return "bard-dataset" + System.currentTimeMillis();
+    }
+
+    /**
+     * Generates a predictor name to be used for new QsarModelingTasks.
+     *
+     * @return
+     *      A suitable predictor name.
+     */
+    private String generatePredictorName() {
+        return "bard-predictor" + System.currentTimeMillis();
     }
 
     /**
