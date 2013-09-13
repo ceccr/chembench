@@ -11,6 +11,7 @@ import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 
 import java.io.BufferedWriter;
@@ -148,9 +149,53 @@ public class WebAPIActions extends ActionSupport
             return ERROR;
         }
 
-        // NYI
-        errorStrings.add("This method has not been implemented yet.");
-        return ERROR;
+        // create a dummy modeling form and populate it with our parameters
+        ModelingFormActions form = new ModelingFormActions();
+        // set only what we have to; use defaults where possible
+        // what we want:
+        // - RandomForest
+        // - CDK descriptors
+        // - no external split
+        String predictorName = this.generatePredictorName();
+        form.setModelingType(Constants.RANDOMFOREST);
+        form.setJobName(predictorName);
+        form.setSelectedDatasetId(dataset.getId());
+        try {
+            QsarModelingTask task = new QsarModelingTask(
+                    WEBAPI_USER_NAME, form);
+            CentralDogma centralDogma = CentralDogma.getInstance();
+            centralDogma.addJobToIncomingList(
+                    WEBAPI_USER_NAME, predictorName, task,
+                    dataset.getNumCompound(),
+                    1, // number of models (only 1 for RF w/ defaults)
+                    "false" // don't email on completion
+            );
+        } catch (Exception e) {
+            logger.error(e);
+            errorStrings.add("Modeling job creation failed: " +
+                             e.getMessage());
+            return ERROR;
+        }
+
+        // retrieve the predictor that we just created and set the
+        // generatedPredictorId property to the id of the new predictor;
+        // then the JSP will respond with the property value
+        Session session = null;
+        Predictor newPredictor = null;
+        try {
+            session = HibernateUtil.getSession();
+            newPredictor = PopulateDataObjects.getPredictorByName(
+                    predictorName, WEBAPI_USER_NAME, session);
+        } catch (ClassNotFoundException | SQLException e) {
+            logger.error(e);
+            errorStrings.add(
+                    "Failed to retrieve session or object from database.");
+            return ERROR;
+        } finally {
+            session.close();
+        }
+        generatedPredictorId = newPredictor.getId();
+        return SUCCESS;
     }
 
     /**
