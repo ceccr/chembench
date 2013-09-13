@@ -40,8 +40,8 @@ public class WebAPIActions extends ActionSupport
     private List<String> errorStrings = new ArrayList<String>();
 
     private static final String WEBAPI_USER_NAME = "webapi";
-    private static final int TIMEOUT = 5000; // in ms
-    private static final int POLLING_INTERVAL = 100; // in ms
+    private static final int TIMEOUT = 15000; // in ms
+    private static final int POLLING_INTERVAL = 1000; // in ms
     private int generatedPredictorId;
 
     /**
