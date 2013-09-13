@@ -260,10 +260,9 @@ public class WebAPIActions extends ActionSupport
         int timeLeft = TIMEOUT;
         boolean jobFinished = false;
         DataSet newDataset = null;
-        Session session = null;
         try {
-            session = HibernateUtil.getSession();
             while (timeLeft > 0 && !jobFinished) {
+                Session session = HibernateUtil.getSession();
                 newDataset = PopulateDataObjects.getDataSetByName(
                         datasetName, WEBAPI_USER_NAME, session);
                 if (newDataset.getJobCompleted().equals("YES")) {
@@ -272,16 +271,15 @@ public class WebAPIActions extends ActionSupport
                     Thread.sleep(POLLING_INTERVAL);
                     timeLeft -= POLLING_INTERVAL;
                 }
+                session.close();
             }
         } catch (ClassNotFoundException | SQLException e) {
             logger.error(e);
-            errorStrings.add("Failed to retrieve session or database object.");
+            errorStrings.add("Failed to retrieve object from database.");
             throw e;
         } catch (InterruptedException e) {
             logger.error(e);
             Thread.currentThread().interrupt();
-        } finally {
-            session.close();
         }
 
         if (!jobFinished) {
