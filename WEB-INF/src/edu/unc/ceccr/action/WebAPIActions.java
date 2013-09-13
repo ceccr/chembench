@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
+import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
@@ -352,6 +353,16 @@ public class WebAPIActions extends ActionSupport
      */
     private String generateDatasetName() {
         return "bard-dataset" + System.currentTimeMillis();
+    }
+
+    /**
+     * Generates a predictor name to be used for new QsarModelingTasks.
+     *
+     * @return
+     *      A suitable predictor name.
+     */
+    private String generatePredictorName() {
+        return "bard-predictor" + System.currentTimeMillis();
     }
 
     /**
