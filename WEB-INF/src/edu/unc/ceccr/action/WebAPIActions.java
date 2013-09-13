@@ -44,7 +44,7 @@ public class WebAPIActions extends ActionSupport
     private static final String WEBAPI_USER_NAME = "webapi";
     private static final int TIMEOUT = 15000; // in ms
     private static final int POLLING_INTERVAL = 1000; // in ms
-    private int generatedPredictorId;
+    private long generatedPredictorId;
 
     /**
      * Generates a predictor from a list of structures and activities.
@@ -500,7 +500,7 @@ public class WebAPIActions extends ActionSupport
     {
         this.errorStrings = errorStrings;
     }
-    public int getGeneratedPredictorId()
+    public long getGeneratedPredictorId()
     {
         return generatedPredictorId;
     }
