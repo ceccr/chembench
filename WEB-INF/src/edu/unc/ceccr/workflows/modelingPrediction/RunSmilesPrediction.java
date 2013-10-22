@@ -52,13 +52,12 @@ public class RunSmilesPrediction
 
         /* copy the predictor to the workingDir. */
         String predictorUsername = predictor.getUserName();
-        predictorUsername = "all-users";
         String fromDir = Constants.CECCR_USER_BASE_PATH + predictorUsername
                 + "/PREDICTORS/" + predictor.getName() + "/";
 
         /* get train_0.x file from the predictor dir. */
         logger.debug("Copying predictor files from " + fromDir);
-        CopyJobFiles.getPredictorFiles(username, predictor, workingDir);
+        CopyJobFiles.getPredictorFiles(predictorUsername, predictor, workingDir);
 
         logger.debug("Copying complete. Generating descriptors. ");
 
