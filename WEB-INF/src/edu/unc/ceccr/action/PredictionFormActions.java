@@ -83,8 +83,15 @@ public class PredictionFormActions extends ActionSupport
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
         user = (User) context.getSession().get("user");
+
         /* use the same session for all data requests */
         Session session = HibernateUtil.getSession();
+
+        if (user == null) {
+            // requester is not logged in; use the "webapi" temp user ID.
+            user = PopulateDataObjects.getUserByUserName("webapi", session);
+        }
+
         String smiles = ((String[]) context.getParameters().get("smiles"))[0];
         smilesString = smiles;
         String cutoff = ((String[]) context.getParameters().get("cutoff"))[0];
