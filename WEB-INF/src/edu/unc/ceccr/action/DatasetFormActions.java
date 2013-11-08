@@ -133,26 +133,6 @@ public class DatasetFormActions extends ActionSupport{
 		}
 
 		if(datasetType.equalsIgnoreCase(Constants.MODELING)){
-
-			if(sdfFileModeling == null){
-				logger.debug("sdf file is null");
-			}
-			else{
-				logger.debug("sdf file is good");
-			}
-			if(sdfFileModelingContentType.isEmpty()){
-				logger.debug("sdf file is empty");
-			}
-			else{
-				logger.debug("sdf file is " + sdfFileModelingContentType);
-			}
-			if(sdfFileModelingFileName.isEmpty()){
-				logger.debug("sdf file is empty");
-			}
-			else{
-				logger.debug("sdf file is " + sdfFileModelingFileName);
-			}
-
 			//do file check
 			if(sdfFileModeling == null && actFileModeling == null){
 				errorStrings.add("File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.");
