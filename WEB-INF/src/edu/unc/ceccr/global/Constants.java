@@ -244,4 +244,9 @@ public class Constants {
 	public static final long GUEST_DATA_EXPIRATION_TIME = 10800000;
 	
 
+    // the minimum number of compounds required for a dataset job.
+    // users submitting a job with fewer than this number will have their job
+    // rejected and will see an error.
+    public static final int DATASET_MIN_COMPOUNDS = 30;
+
 }

@@ -171,6 +171,22 @@ public class DatasetFormActions extends ActionSupport{
 					errorStrings.addAll(msgs);
 					result = ERROR;
 				}
+
+                // if all is well so far, make sure that the dataset has at
+                // least the minimum number of compounds that we require
+                if (result != ERROR) {
+                    int numCompounds = DatasetFileOperations.getACTCompoundNames(
+                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName).size();
+                    if (numCompounds < Constants.DATASET_MIN_COMPOUNDS) {
+                        logger.warn(String.format("Rejected dataset job: had only %d compounds while %d are required",
+                                    numCompounds, Constants.DATASET_MIN_COMPOUNDS));
+                        errorStrings.add(String.format(
+                                    "Your dataset job only has %d compounds while a minimum of %d are required. " +
+                                    "Please choose a SDF and ACT file pair with a greater number of compounds.",
+                                    numCompounds, Constants.DATASET_MIN_COMPOUNDS));
+                        result = ERROR;
+                    }
+                }
 			}
 
             // proceed if no errors so far
