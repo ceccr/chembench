@@ -173,6 +173,7 @@ public class DatasetFormActions extends ActionSupport{
 				}
 			}
 
+            // proceed if no errors so far
 			if(result.equalsIgnoreCase(INPUT)){
 				CreateDatasetTask datasetTask = new CreateDatasetTask(userName,
 						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
