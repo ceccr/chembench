@@ -23,9 +23,9 @@ import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 @SuppressWarnings("serial")
 public class DatasetFormActions extends ActionSupport{
-    
+
     private static Logger logger = Logger.getLogger(DatasetFormActions.class.getName());
-    
+
 	public String ajaxLoadModeling() throws Exception {
 		return SUCCESS;
 	}
@@ -59,27 +59,27 @@ public class DatasetFormActions extends ActionSupport{
 	public String loadPage() throws Exception {
 
 		String result = SUCCESS;
-		
+
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
-		
+
 		if(context == null){
 			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				result = LOGIN;
 				return result;
 			}
 		}
-		
+
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 
 		Session session = HibernateUtil.getSession();
-		
+
 		userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
 		userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
 		userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
@@ -94,17 +94,17 @@ public class DatasetFormActions extends ActionSupport{
 		else{
 			logger.warn("Cannot load page.");
 		}
-		
+
 		dataTypeModeling = Constants.CONTINUOUS;
-		
+
 		//go to the page
 		return result;
 	}
-	
+
 	public String execute() throws Exception {
-		
+
 		String emailOnCompletion = "false"; //for now
-		
+
 		String result = INPUT;
 
 		ActionContext context = ActionContext.getContext();
@@ -117,12 +117,12 @@ public class DatasetFormActions extends ActionSupport{
 			datasetName = datasetName.replaceAll("\\[", "_");
 			datasetName = datasetName.replaceAll("\\]", "_");
 		}
-		
+
 		logger.debug("Starting dataset task");
 		logger.debug("Uploaded dataset " + datasetName + " User: "+userName);
-		
+
 		List<String> msgs = new ArrayList<String>();
-		
+
 		if(externalCompoundsCountOrPercent.equalsIgnoreCase("percent")){
 			double tmp = Double.parseDouble(numExternalCompounds);
 			tmp /= 100;
@@ -131,9 +131,9 @@ public class DatasetFormActions extends ActionSupport{
 		if(splitType.equals(Constants.NFOLD)){
 			useActivityBinning = useActivityBinningNFold;
 		}
-		
+
 		if(datasetType.equalsIgnoreCase(Constants.MODELING)){
-			
+
 			if(sdfFileModeling == null){
 				logger.debug("sdf file is null");
 			}
@@ -152,7 +152,7 @@ public class DatasetFormActions extends ActionSupport{
 			else{
 				logger.debug("sdf file is " + sdfFileModelingFileName);
 			}
-			
+
 			//do file check
 			if(sdfFileModeling == null && actFileModeling == null){
 				errorStrings.add("File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.");
@@ -166,7 +166,7 @@ public class DatasetFormActions extends ActionSupport{
 				errorStrings.add("Missing Activity file or file upload error. If you do not have an Activity file for this dataset, use the Prediction Set option when uploading.");
 				result = ERROR;
 			}
-			
+
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				if(actFileModelingFileName.endsWith("\\.a")){
@@ -176,8 +176,8 @@ public class DatasetFormActions extends ActionSupport{
 					actFileModelingFileName += ".act";
 				}
 				try{
-					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName, 
-							actFileModeling, actFileModelingFileName, null, "", datasetName, 
+					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModeling, sdfFileModelingFileName,
+							actFileModeling, actFileModelingFileName, null, "", datasetName,
 							dataTypeModeling, datasetType, externalCompoundList);
 					sdfFileModelingFileName = sdfFileModelingFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
 					actFileModelingFileName = actFileModelingFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
@@ -192,9 +192,9 @@ public class DatasetFormActions extends ActionSupport{
 					result = ERROR;
 				}
 			}
-			
+
 			if(result.equalsIgnoreCase(INPUT)){
-				CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+				CreateDatasetTask datasetTask = new CreateDatasetTask(userName,
 						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
 						sdfFileModelingFileName, //sdfFileName
 						actFileModelingFileName, //actFileName
@@ -220,7 +220,7 @@ public class DatasetFormActions extends ActionSupport{
 
 					CentralDogma centralDogma = CentralDogma.getInstance();
 					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
-					
+
 				}
 				catch(Exception ex){
 					logger.error(ex);
@@ -234,11 +234,11 @@ public class DatasetFormActions extends ActionSupport{
 				errorStrings.add("File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.");
 				result = ERROR;
 			}
-			
+
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
-					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null, 
+					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePrediction, sdfFilePredictionFileName, null,
 							"", null, "", datasetName, dataTypeModeling, datasetType, externalCompoundList);
 					sdfFilePredictionFileName = sdfFilePredictionFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
 				}
@@ -247,7 +247,7 @@ public class DatasetFormActions extends ActionSupport{
 					result = ERROR;
 					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
-			
+
 				if(!msgs.isEmpty()){
 					errorStrings.addAll(msgs);
 					result = ERROR;
@@ -255,7 +255,7 @@ public class DatasetFormActions extends ActionSupport{
 			}
 			if(result.equalsIgnoreCase(INPUT)){
 				try{
-					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+					CreateDatasetTask datasetTask = new CreateDatasetTask(userName,
 							datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
 							sdfFilePredictionFileName, //sdfFileName
 							"", //actFileName
@@ -273,15 +273,15 @@ public class DatasetFormActions extends ActionSupport{
 							paperReference,
 							dataSetDescription,
 							generateImagesP);
-					
+
 					int numCompounds = DatasetFileOperations.getSDFCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + sdfFilePredictionFileName).size();
 					int numModels = 0;
 					logger.debug("adding task");
-					
+
 					CentralDogma centralDogma = CentralDogma.getInstance();
 					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
-					
+
 				}
 				catch(Exception ex){
 					logger.error(ex);
@@ -291,12 +291,12 @@ public class DatasetFormActions extends ActionSupport{
 			}
 		}
 		else if(datasetType.equalsIgnoreCase(Constants.MODELINGWITHDESCRIPTORS)){
-			
+
 			if(xFileModDesc == null || actFileModDesc == null){
 				errorStrings.add("File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.");
 				result = ERROR;
 			}
-			
+
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
@@ -310,22 +310,22 @@ public class DatasetFormActions extends ActionSupport{
 					if(! xFileModDescFileName.endsWith("\\.x")){
 						xFileModDescFileName += ".x";
 					}
-					
-					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc, 
-							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName, 
+
+					msgs = DatasetFileOperations.uploadDataset(userName, sdfFileModDesc, sdfFileModDescFileName, actFileModDesc,
+							actFileModDescFileName, xFileModDesc, xFileModDescFileName, datasetName,
 							dataTypeModeling, datasetType, externalCompoundList);
 					sdfFileModDescFileName = sdfFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
 					actFileModDescFileName = actFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
 					xFileModDescFileName = xFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
 					descriptorTypeModDesc = descriptorNewName.trim().isEmpty()?selectedDescriptorUsedName:descriptorNewName;
-					
+
 				}
 				catch(Exception ex){
 					logger.error(ex);
 					result = ERROR;
 					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
-				
+
 				if(!msgs.isEmpty()){
 					errorStrings.addAll(msgs);
 					result = ERROR;
@@ -333,7 +333,7 @@ public class DatasetFormActions extends ActionSupport{
 			}
 			if(result.equalsIgnoreCase(INPUT)){
 				try{
-					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+					CreateDatasetTask datasetTask = new CreateDatasetTask(userName,
 						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
 						sdfFileModDescFileName, //sdfFileName
 						actFileModDescFileName, //actFileName
@@ -355,7 +355,7 @@ public class DatasetFormActions extends ActionSupport{
 					int numCompounds = DatasetFileOperations.getACTCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModDescFileName).size();
 					int numModels = 0;
-				
+
 					CentralDogma centralDogma = CentralDogma.getInstance();
 					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
 				}
@@ -371,15 +371,15 @@ public class DatasetFormActions extends ActionSupport{
 				errorStrings.add("File upload failed or no files supplied. If you are using Chrome, try again in a different browser such as Firefox.");
 				result = ERROR;
 			}
-			
+
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					if(! xFilePredDescFileName.endsWith("\\.x")){
 						xFilePredDescFileName += ".x";
 					}
-					
-					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "", 
+
+					msgs = DatasetFileOperations.uploadDataset(userName, sdfFilePredDesc, sdfFilePredDescFileName, null, "",
 							xFilePredDesc, xFilePredDescFileName, datasetName, dataTypeModeling, datasetType, externalCompoundList);
 					sdfFilePredDescFileName = sdfFilePredDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
 					xFilePredDescFileName = xFilePredDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
@@ -390,16 +390,16 @@ public class DatasetFormActions extends ActionSupport{
 					result = ERROR;
 					msgs.add("An exception occurred while uploading this dataset: " + ex.getMessage());
 				}
-				
+
 				if(!msgs.isEmpty()){
 					errorStrings.addAll(msgs);
 					result = ERROR;
 				}
 			}
-			
+
 			if(result.equalsIgnoreCase(INPUT)){
 				try{
-					CreateDatasetTask datasetTask = new CreateDatasetTask(userName, 
+					CreateDatasetTask datasetTask = new CreateDatasetTask(userName,
 						datasetType, //MODELING, PREDICTION, MODELINGWITHDESCRIPTORS, or PREDICTIONWITHDESCRIPTORS
 						sdfFilePredDescFileName, //sdfFileName
 						"", //actFileName
@@ -417,14 +417,14 @@ public class DatasetFormActions extends ActionSupport{
 						paperReference,
 						dataSetDescription,
 						generateImagesPWD);
-				
+
 					int numCompounds = DatasetFileOperations.getXCompoundNames(
 							Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + xFilePredDescFileName).size();
 					int numModels = 0;
-				
+
 					CentralDogma centralDogma = CentralDogma.getInstance();
 					centralDogma.addJobToIncomingList(userName, datasetName, datasetTask, numCompounds, numModels, emailOnCompletion);
-					
+
 					//Queue.getInstance().addJob(datasetTask, userName, datasetName, numCompounds, numModels);
 				}
 				catch(Exception ex){
@@ -434,10 +434,10 @@ public class DatasetFormActions extends ActionSupport{
 				}
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	private ArrayList<String> errorStrings = new ArrayList<String>();
 	private String datasetName = "";
 	private String datasetType = Constants.MODELING;
@@ -470,7 +470,7 @@ public class DatasetFormActions extends ActionSupport{
 	public void setErrorStrings(ArrayList<String> errorStrings) {
 		this.errorStrings = errorStrings;
 	}
-	
+
 	public String getDatasetName() {
 		return datasetName;
 	}
@@ -562,15 +562,15 @@ public class DatasetFormActions extends ActionSupport{
 	public void setDescriptorTypeModDesc(String descriptorTypeModDesc) {
 		this.descriptorTypeModDesc = descriptorTypeModDesc;
 	}
-	
+
 	public String getDescriptorTypePredDesc() {
 		return descriptorTypePredDesc;
 	}
 	public void setDescriptorTypePredDesc(String descriptorTypePredDesc) {
 		this.descriptorTypePredDesc = descriptorTypePredDesc;
 	}
-	
-	
+
+
 
 	public String getGenerateImagesM() {
 		return generateImagesM;
@@ -601,29 +601,29 @@ public class DatasetFormActions extends ActionSupport{
 	//modeling
 	private File sdfFileModeling = null;
 	private String sdfFileModelingContentType = "";
-	private String sdfFileModelingFileName = ""; 
+	private String sdfFileModelingFileName = "";
 
 	private File actFileModeling = null;
 	private String actFileModelingContentType = "";
 	private String actFileModelingFileName = "";
-	
+
 	//prediction
 	private File sdfFilePrediction = null;
 	private String sdfFilePredictionContentType = "";
-	private String sdfFilePredictionFileName = ""; 
+	private String sdfFilePredictionFileName = "";
 
 	//modeling with descriptors
 	private File actFileModDesc = null;
 	private String actFileModDescContentType = "";
 	private String actFileModDescFileName = "";
-	
+
 	private File xFileModDesc = null;
 	private String xFileModDescContentType= "";
 	private String xFileModDescFileName = "";
 
 	private File sdfFileModDesc = null;
 	private String sdfFileModDescContentType = "";
-	private String sdfFileModDescFileName = ""; 
+	private String sdfFileModDescFileName = "";
 
 	//prediction with descriptors
 	private File xFilePredDesc = null;
@@ -632,9 +632,9 @@ public class DatasetFormActions extends ActionSupport{
 
 	private File sdfFilePredDesc = null;
 	private String sdfFilePredDescContentType = "";
-	private String sdfFilePredDescFileName = ""; 
-	
-	
+	private String sdfFilePredDescFileName = "";
+
+
 	public File getSdfFileModeling() {
 		return sdfFileModeling;
 	}
@@ -780,11 +780,11 @@ public class DatasetFormActions extends ActionSupport{
 	}
 
 	//end file upload stuff
-	
-	
+
+
 	//====== variables used for display on the JSP =====//
 	private User user;
-	
+
 	private List<String> userDatasetNames;
 	private List<String> userPredictorNames;
 	private List<String> userPredictionNames;
@@ -797,7 +797,7 @@ public class DatasetFormActions extends ActionSupport{
 	private String selectedDescriptorUsedNameD="";
 	private String descriptorNewNameD="";
 
-	
+
 
 	public User getUser(){
 		return user;
@@ -805,43 +805,43 @@ public class DatasetFormActions extends ActionSupport{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+
 	public List<String> getUserDatasetNames(){
 		return userDatasetNames;
 	}
 	public void setUserDatasetNames(List<String> userDatasetNames) {
 		this.userDatasetNames = userDatasetNames;
 	}
-	
+
 	public List<String> getUserPredictorNames(){
 		return userPredictorNames;
 	}
 	public void setUserPredictorNames(List<String> userPredictorNames) {
 		this.userPredictorNames = userPredictorNames;
 	}
-	
+
 	public List<String> getUserPredictionNames(){
 		return userPredictionNames;
 	}
 	public void setUserPredictionNames(List<String> userPredictionNames) {
 		this.userPredictionNames = userPredictionNames;
 	}
-	
+
 	public List<String> getUserTaskNames(){
 		return userTaskNames;
 	}
 	public void setUserTaskNames(List<String> userTaskNames) {
 		this.userTaskNames = userTaskNames;
 	}
-	
-	
+
+
 	public List<Predictor> getUserPredictorList(){
 		return userPredictorList;
 	}
 	public void setUserPredictorList(List<Predictor> userPredictorList) {
 		this.userPredictorList = userPredictorList;
 	}
-	
+
 	public String getExternalCompoundsCountOrPercent() {
 		return externalCompoundsCountOrPercent;
 	}
@@ -849,21 +849,21 @@ public class DatasetFormActions extends ActionSupport{
 			String externalCompoundsCountOrPercent) {
 		this.externalCompoundsCountOrPercent = externalCompoundsCountOrPercent;
 	}
-	
+
 	public String getUseActivityBinningNFold() {
 		return useActivityBinningNFold;
 	}
 	public void setUseActivityBinningNFold(String useActivityBinningNFold) {
 		this.useActivityBinningNFold = useActivityBinningNFold;
 	}
-	
+
 	public String getNumExternalFolds() {
 		return numExternalFolds;
 	}
 	public void setNumExternalFolds(String numExternalFolds) {
 		this.numExternalFolds = numExternalFolds;
 	}
-	
+
 	public String getHasBeenScaled() {
 		return hasBeenScaled;
 	}
@@ -877,7 +877,7 @@ public class DatasetFormActions extends ActionSupport{
 			List<String> userUploadedDescriptorTypes) {
 		this.userUploadedDescriptorTypes = userUploadedDescriptorTypes;
 	}
-	
+
 	public List<String> getUserUploadedDescriptorTypesD() {
 		return userUploadedDescriptorTypesD;
 	}
@@ -885,7 +885,7 @@ public class DatasetFormActions extends ActionSupport{
 		List<String> userUploadedDescriptorTypes) {
 		this.userUploadedDescriptorTypesD = userUploadedDescriptorTypes;
 	}
-	
+
 	public String getDescriptorNewName() {
 		return descriptorNewName;
 	}
@@ -898,7 +898,7 @@ public class DatasetFormActions extends ActionSupport{
 	public void setSelectedDescriptorUsedName(String selectedDescriptorUsedName) {
 		this.selectedDescriptorUsedName = selectedDescriptorUsedName;
 	}
-	
+
 	public String getDescriptorNewNameD() {
 		return descriptorNewNameD;
 	}
@@ -911,6 +911,6 @@ public class DatasetFormActions extends ActionSupport{
 	public void setSelectedDescriptorUsedNameD(String selectedDescriptorUsedName) {
 		this.selectedDescriptorUsedNameD = selectedDescriptorUsedName;
 	}
-	
-	
+
+
 }
