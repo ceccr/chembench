@@ -754,14 +754,17 @@ public class ModelingFormActions extends ActionSupport
     private String svmDegreeStep                     = "0.5";
 
     // must be >= 0
-    private String svmGammaFrom                      = "0";
-    private String svmGammaTo                        = "3";
-    private String svmGammaStep                      = "1";
+    // NOTE: this is exponential, so the actual range generated is:
+    // 2^(svmGammaFrom), 2^(svmGammaFrom + svmGammaStep), ..., 2^(svmGammaTo)
+    private String svmGammaFrom                      = "-25";
+    private String svmGammaTo                        = "8";
+    private String svmGammaStep                      = "3";
 
     // must be > 0
-    private String svmCostFrom                       = "2";
-    private String svmCostTo                         = "10";
-    private String svmCostStep                       = "4";
+    // NOTE: this is also exponential; see above notes for gamma range.
+    private String svmCostFrom                       = "-12";
+    private String svmCostTo                         = "15";
+    private String svmCostStep                       = "3";
 
     // must be > 0 and <= 1
     private String svmNuFrom                         = "0.2";
