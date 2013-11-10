@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 <%@ page language="java" import="java.util.*" %>
 
 
@@ -8,7 +8,7 @@
 <s:div>
 			 <!-- SVM Parameters -->
 			  <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
-				<tbody>	
+				<tbody>
 				<tr>
 					<td width="100%" height="24" align="left" colspan="2">
 					<br />
@@ -16,9 +16,9 @@
 					<b>Set SVM Parameters</b>
 					</p>
 					</td>
-				</tr>	
+				</tr>
 				<tr><td><table>
-				
+
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>SVM Type (for Category data):</b></div></td>
 				<td align="left" valign="top"><div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="svmTypeCategory" disabled="true" id="svmTypeCategory" list="#{'0':'C-SVC','1':'nu-SVC'}" onchange='changeSvmType(); calculateRuntimeEstimate()' theme="simple" /></div>
 				</td></tr>
@@ -57,10 +57,10 @@
 				</td></tr>
 				<!--
 				Removed option for cross-validation. Why? LibSVM doesn't generate models
-				when you specify cross-validation! It just gives you some nice info about 
+				when you specify cross-validation! It just gives you some nice info about
 				your dataset and exits. Not what we want. May be useful in calculating q^2
 				someday, but aside from that there's no reason to use it.
-				
+
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>Number of cross-validations (e.g. 5 for 5-fold):</b></div></td>
 				<td align="left" valign="top"><s:textfield id="svmCrossValidation" name="svmCrossValidation" size="5" theme="simple"/>
 				</td></tr>
@@ -68,7 +68,7 @@
 				<tr><td><div class="StandardTextDarkGrayParagraph"><b>CCR or r<sup>2</sup> cutoff for model acceptance:</b></div></td>
 				<td align="left" valign="top"><s:textfield id="svmCutoff" name="svmCutoff" size="5" theme="simple"/>
 				</td></tr>
-				
+
 				</table></td></tr>
 				</tbody>
 			</table>
