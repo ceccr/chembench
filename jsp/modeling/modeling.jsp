@@ -63,6 +63,13 @@ function getSelectedDataset(){
         </s:iterator>
     }
 
+    if (selectedDatasetNumCompounds < 40) {
+        alert('The dataset you selected has ' + selectedDatasetNumCompounds + ' compounds. ' +
+              'Generally we do not recommend developing any statistical QSAR model for a dataset ' +
+              'with fewer than 40 compounds, since for a small dataset it is generally not ' +
+              'possible to evaluate the external accuracy of the model.');
+    }
+
     //enable / disable based on the availableDescriptors
     //these are ordered based on defaults (e.g. if uploaded is available, it will be the default checked)
     if(selectedDatasetAvailableDescriptors.indexOf("MOE2D") > -1){
