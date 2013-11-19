@@ -174,7 +174,9 @@ public class DatasetFormActions extends ActionSupport{
 
                 // if all is well so far, make sure that the dataset has at
                 // least the minimum number of compounds that we require
-                if (result != ERROR) {
+                // (if it's a modeling dataset; we allow prediction datasets to
+                // be any size)
+                if (result != ERROR && datasetType.startsWith("MODELING")) {
                     int numCompounds = DatasetFileOperations.getACTCompoundNames(
                             Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + datasetName + "/" + actFileModelingFileName).size();
                     if (numCompounds < Constants.DATASET_MIN_COMPOUNDS) {
