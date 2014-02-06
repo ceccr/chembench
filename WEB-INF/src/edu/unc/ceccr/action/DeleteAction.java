@@ -428,49 +428,48 @@ public class DeleteAction extends ActionSupport
                         int pos = p.getName().lastIndexOf("_fold");
                         parentPredictorName = p.getName().substring(0, pos);
                     }
-                    if (!parentPredictorName.isEmpty()) {
-                        Predictor parentPredictor = PopulateDataObjects
-                                .getPredictorByName(parentPredictorName, p
-                                        .getUserName(), s);
-                        if (parentPredictor != null) {
-                            String[] childPredictorIds = parentPredictor
-                                    .getChildIds().split("\\s+");
+                    Predictor parentPredictor = PopulateDataObjects
+                            .getPredictorByName(parentPredictorName, p
+                                    .getUserName(), s);
+                    if (!parentPredictorName.isEmpty() && parentPredictor != null) {
+                        logger.debug("Parent predictor is not null, deleting sibling jobs.");
+                        String[] childPredictorIds = parentPredictor
+                                .getChildIds().split("\\s+");
 
-                            // get siblings
-                            ArrayList<Predictor> siblingPredictors 
-                                                  = new ArrayList<Predictor>();
-                            for (String childPredictorId : childPredictorIds) {
-                                if (!childPredictorId.equals("" + p.getId())) {
-                                    Predictor sibling 
-                                        = PopulateDataObjects.getPredictorById(
-                                           Long.parseLong(childPredictorId),s);
-                                    siblingPredictors.add(sibling);
-                                }
+                        // get siblings
+                        ArrayList<Predictor> siblingPredictors 
+                                              = new ArrayList<Predictor>();
+                        for (String childPredictorId : childPredictorIds) {
+                            if (!childPredictorId.equals("" + p.getId())) {
+                                Predictor sibling 
+                                    = PopulateDataObjects.getPredictorById(
+                                       Long.parseLong(childPredictorId),s);
+                                siblingPredictors.add(sibling);
                             }
-
-                            // find sibling jobs and cancel those
-                            for (Predictor sp : siblingPredictors) {
-                                Job sibJob = PopulateDataObjects
-                                        .getJobByNameAndUsername(
-                                                sp.getName(), sp
-                                                        .getUserName(), s);
-                                try {
-                                    CentralDogma.getInstance().cancelJob(
-                                            sibJob.getId());
-                                }
-                                catch (Exception ex) {
-                                    // if some siblings are missing, don't
-                                    // crash, just keep deleting things
-                                    logger.error(ex);
-                                }
-                            }
-                            // cancel this job
-                            CentralDogma.getInstance().cancelJob(
-                                    Long.parseLong(taskId));
-
-                            // delete the parent predictor
-                            deletePredictor(parentPredictor, s);
                         }
+
+                        // find sibling jobs and cancel those
+                        for (Predictor sp : siblingPredictors) {
+                            Job sibJob = PopulateDataObjects
+                                    .getJobByNameAndUsername(
+                                            sp.getName(), sp
+                                                    .getUserName(), s);
+                            try {
+                                CentralDogma.getInstance().cancelJob(
+                                        sibJob.getId());
+                            }
+                            catch (Exception ex) {
+                                // if some siblings are missing, don't
+                                // crash, just keep deleting things
+                                logger.error(ex);
+                            }
+                        }
+                        // cancel this job
+                        CentralDogma.getInstance().cancelJob(
+                                Long.parseLong(taskId));
+
+                        // delete the parent predictor
+                        deletePredictor(parentPredictor, s);
                     }
                     else {
                         CentralDogma.getInstance().cancelJob(
