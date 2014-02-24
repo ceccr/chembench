@@ -74,7 +74,6 @@ public class FileAndDirOperations
     public static String readFileIntoString(String filePath)
     {
         StringBuffer fileContents = new StringBuffer();
-        logger.debug("reading file: " + filePath);
         try {
             File fromFile = new File(filePath);
             BufferedReader br = new BufferedReader(new FileReader(fromFile));
@@ -91,8 +90,6 @@ public class FileAndDirOperations
         catch (Exception ex) {
             logger.error(ex);
         }
-        logger.debug("finshed reading file: " + filePath + " (" +
-                        fileContents.length() / 1000000 + " megabytes)");
         return fileContents.toString();
     }
 
