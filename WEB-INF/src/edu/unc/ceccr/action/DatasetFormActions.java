@@ -149,10 +149,10 @@ public class DatasetFormActions extends ActionSupport{
 
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
-				if(actFileModelingFileName.endsWith("\\.a")){
+				if(actFileModelingFileName.endsWith(".a")){
 					actFileModelingFileName = actFileModelingFileName.substring(0, actFileModelingFileName.length()-2) + ".act";
 				}
-				else if(!actFileModelingFileName.endsWith("\\.act")){
+				else if(!actFileModelingFileName.endsWith(".act")){
 					actFileModelingFileName += ".act";
 				}
 				try{
@@ -300,13 +300,13 @@ public class DatasetFormActions extends ActionSupport{
 				//verify uploaded files and copy them to the dataset dir
 				try{
 					actFileModDescFileName = actFileModDescFileName.replaceAll(" ", "_").replaceAll("\\(", "_").replaceAll("\\)", "_");
-					if(actFileModDescFileName.endsWith("\\.a")){
+					if(actFileModDescFileName.endsWith(".a")){
 						actFileModDescFileName = actFileModDescFileName.substring(0, actFileModDescFileName.length()-2) + ".act";
 					}
-					else if(! actFileModDescFileName.endsWith("\\.act")){
+					else if(! actFileModDescFileName.endsWith(".act")){
 						actFileModDescFileName += ".act";
 					}
-					if(! xFileModDescFileName.endsWith("\\.x")){
+					if(! xFileModDescFileName.endsWith(".x")){
 						xFileModDescFileName += ".x";
 					}
 
@@ -374,7 +374,7 @@ public class DatasetFormActions extends ActionSupport{
 			if(result.equalsIgnoreCase(INPUT)){
 				//verify uploaded files and copy them to the dataset dir
 				try{
-					if(! xFilePredDescFileName.endsWith("\\.x")){
+					if(! xFilePredDescFileName.endsWith(".x")){
 						xFilePredDescFileName += ".x";
 					}
 
