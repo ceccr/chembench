@@ -517,6 +517,7 @@ public class DatasetFileOperations
         // now, remove the long lines from the input file
         FileReader fin = new FileReader(infile);
         String temp;
+        String lastLine = "$$$$";
         Scanner src = new Scanner(fin);
         FileWriter fout = new FileWriter(outfile);
 
@@ -536,7 +537,8 @@ public class DatasetFileOperations
             // replace any spaces in compound name with underscores
             if (sdfCompoundNamesIndex < sdfCompoundNames.size()
                     && temp.trim().equals(
-                            sdfCompoundNames.get(sdfCompoundNamesIndex))) {
+                            sdfCompoundNames.get(sdfCompoundNamesIndex))
+                    && lastLine.startsWith("$$$$")) {
                 temp = temp.trim();
 
                 // remove quotes around the compound name
@@ -585,6 +587,7 @@ public class DatasetFileOperations
 
                 fout.write(temp + "\n");
             }
+            lastLine = temp;
         }
         src.close();
         fin.close();
