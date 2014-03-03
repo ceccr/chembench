@@ -6,7 +6,6 @@ import edu.unc.ceccr.persistence.KnnPlusParameters;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.LsfOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.global.Constants;
@@ -237,14 +236,7 @@ public class KnnPlus
         f.setExecutable(true);
 
         // exec shell script
-        String command = "";
-
-        if (LsfOperations.patronsQueueHasRoom()) {
-            command += "bsub -q patrons ";
-        }
-        else {
-            command += "bsub -q idle ";
-        }
+        String command = "bsub -q patrons ";
         if (modelType.equalsIgnoreCase(Constants.KNNSA)) {
             command += "-J cbench_" + userName + "_" + jobName
                     + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";

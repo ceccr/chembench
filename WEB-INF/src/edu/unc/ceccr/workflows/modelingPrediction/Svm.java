@@ -6,7 +6,6 @@ import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.LsfOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.global.Constants;
@@ -221,15 +220,7 @@ public class Svm
                                            String jobName) throws Exception
     {
         // run modeling (bsub the python script)
-
-        String cmd = "";
-        if (LsfOperations.patronsQueueHasRoom()) {
-            cmd += "bsub -q patrons ";
-        }
-        else {
-            cmd += "bsub -q idle ";
-        }
-
+        String cmd = "bsub -q patrons ";
         cmd += "-J cbench_" + userName + "_" + jobName
                 + " -o bsubOutput.txt python svm.py";
         RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
