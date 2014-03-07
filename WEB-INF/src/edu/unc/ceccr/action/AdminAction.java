@@ -39,7 +39,7 @@ import edu.unc.ceccr.utilities.SendEmails;
 public class AdminAction extends ActionSupport{
 
 	/**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
     User user;
@@ -47,26 +47,26 @@ public class AdminAction extends ActionSupport{
 	ArrayList<User> users;
 	private static Logger logger = Logger.getLogger(
 				AdminAction.class.getName());
-	
+
 	//for sending email to all users
 	String emailMessage;
 	String emailSubject;
 	String sendTo;
 	private ArrayList<String> errorStrings = new ArrayList<String>();
-	
+
 	public String loadPage() throws Exception {
 
 		String result = SUCCESS;
-		
+
 		//check that the user is logged in
 		ActionContext context = ActionContext.getContext();
-		
+
 		if(context == null){
 			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				result = LOGIN;
@@ -80,39 +80,39 @@ public class AdminAction extends ActionSupport{
 
 		//log the results
 		logger.debug("Forwarding user " + user.getUserName() + " to admin page.");
-		
+
 		//set up any values that need to be populated onto the page (dropdowns, lists, display stuff)
 
 		// open database connection
 		Session session = HibernateUtil.getSession();
-	
+
 		// Latest Build Date
 		buildDate = Constants.BUILD_DATE;
-	
+
 		// list of users
-		users = PopulateDataObjects.getAllUsers(session);	
+		users = PopulateDataObjects.getAllUsers(session);
 		session.close();
 
 		//go to the page
 		return result;
 	}
-	
+
 	public String loadEmailAllUsersPage() throws Exception {
 		sendTo = "JUSTME";
 		return SUCCESS;
 	}
-	
+
 	public String emailSelectedUsers() throws Exception {
 		//check that the user is logged in
 		logger.debug("emailing SELECTED user(s)");
 		ActionContext context = ActionContext.getContext();
-		
+
 		if(context == null){
 			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				return LOGIN;
@@ -132,18 +132,18 @@ public class AdminAction extends ActionSupport{
 		}
 		return SUCCESS;
 	}
-	
+
 	public String emailAllUsers() throws Exception {
 		//check that the user is logged in
 		logger.debug("emailing user(s)");
 		ActionContext context = ActionContext.getContext();
-		
+
 		if(context == null){
 			logger.debug("No ActionContext available");
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				return LOGIN;
@@ -153,11 +153,11 @@ public class AdminAction extends ActionSupport{
 				return ERROR;
 			}
 		}
-		
+
 		Session s = HibernateUtil.getSession();
 		List<User> userList= PopulateDataObjects.getAllUsers(s);
 		s.close();
-			
+
 		if(sendTo.equals("ALLUSERS") && ! emailMessage.trim().isEmpty() && ! emailSubject.trim().isEmpty()){
 			Iterator<User> it=userList.iterator();
 			while(it.hasNext()){
@@ -170,7 +170,7 @@ public class AdminAction extends ActionSupport{
 		}
 		return SUCCESS;
 	}
-	
+
 	public String changeUserAdminStatus() throws Exception{
 		//get the current user and the username of the user to be altered
 		String result = SUCCESS;
@@ -181,7 +181,7 @@ public class AdminAction extends ActionSupport{
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				result = LOGIN;
@@ -203,14 +203,14 @@ public class AdminAction extends ActionSupport{
 		else{
 			toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
 		}
-		
+
 		if(toChange.getIsAdmin().equals(Constants.YES)){
 			toChange.setIsAdmin(Constants.NO);
 		}
 		else{
 			toChange.setIsAdmin(Constants.YES);
 		}
-		
+
 		Transaction tx = null;
 		try {
 			tx = s.beginTransaction();
@@ -221,11 +221,11 @@ public class AdminAction extends ActionSupport{
 				tx.rollback();
 			logger.error(e);
 		} finally {s.close();}
-		
-		
+
+
 		return result;
 	}
-	
+
 	public String changeUserDescriptorDownloadStatus() throws Exception{
 		//get the current user and the username of the user to be altered
 		String result = SUCCESS;
@@ -236,7 +236,7 @@ public class AdminAction extends ActionSupport{
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				result = LOGIN;
@@ -259,7 +259,7 @@ public class AdminAction extends ActionSupport{
 		else{
 			toChange = PopulateDataObjects.getUserByUserName(userToChange, s);
 		}
-		
+
 		if(toChange.getCanDownloadDescriptors().equals(Constants.YES)){
 			toChange.setCanDownloadDescriptors(Constants.NO);
 		}
@@ -277,10 +277,10 @@ public class AdminAction extends ActionSupport{
 				tx.rollback();
 			logger.error(e);
 		} finally {s.close();}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * method responsible for deletion of the public predictor
 	 * @return
@@ -294,7 +294,7 @@ public class AdminAction extends ActionSupport{
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				result = LOGIN;
@@ -318,22 +318,22 @@ public class AdminAction extends ActionSupport{
 				errorStrings.add("Predictor Name shouldn't be empty!");
 				return ERROR;
 			}
-			
+
 			/*if(!userName.trim().equals(Constants.ALL_USERS_USERNAME)){
 				errorStrings.add("You can only delete public predictors here!");
 				return ERROR;
 			}*/
-			
+
 			Session session = HibernateUtil.getSession();
 			Predictor predictor = PopulateDataObjects.getPredictorByName(predictorName, userName, session);
 			if(predictor==null){
 				errorStrings.add("No public predictor with Name "+predictorName+" was found in the database!");
 				return ERROR;
 			}
-			
+
 			new DeleteAction().deletePredictor(predictor, session);
 			session.close();
-			
+
 		}
 		catch(Exception ex){
 			errorStrings.add(ex.getMessage());
@@ -342,7 +342,7 @@ public class AdminAction extends ActionSupport{
 		if(!errorStrings.isEmpty()) return ERROR;
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * method responsible for deletion of the public prediction
 	 * @return
@@ -356,7 +356,7 @@ public class AdminAction extends ActionSupport{
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				result = LOGIN;
@@ -371,12 +371,12 @@ public class AdminAction extends ActionSupport{
 		try{
 			String predictionID = ((String[]) context.getParameters().get("predictionName"))[0];
 			String userName = ((String[]) context.getParameters().get("userName"))[0];
-			
+
 			if(predictionID.isEmpty() || userName.isEmpty()){
 				errorStrings.add("Prediction ID and user name shouldn't be empty!");
 				return ERROR;
 			}
-			
+
 			if(!userName.trim().equals(Constants.ALL_USERS_USERNAME)){
 				errorStrings.add("You can only delete public prediction here!");
 				return ERROR;
@@ -387,17 +387,17 @@ public class AdminAction extends ActionSupport{
 				errorStrings.add("No prediction with ID "+predictionID+" was found in the database!");
 				return ERROR;
 			}
-			
+
 			//delete the files associated with this prediction
 			String dir = Constants.CECCR_USER_BASE_PATH+Constants.ALL_USERS_USERNAME+"/PREDICTIONS/"+prediction.getName();
 			if(! FileAndDirOperations.deleteDir(new File(dir))){
 				errorStrings.add("Error deleting dir");
 				logger.error("error deleting dir: " + dir);
 			}
-			
+
 			//delete the prediction values associated with the prediction
 			ArrayList<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(prediction.getId(), session);
-			
+
 			if(pvs != null){
 				for(PredictionValue pv : pvs){
 					Transaction tx = null;
@@ -413,7 +413,7 @@ public class AdminAction extends ActionSupport{
 					}
 				}
 			}
-			
+
 			//delete the database entry for the prediction
 			Transaction tx = null;
 			try{
@@ -425,9 +425,9 @@ public class AdminAction extends ActionSupport{
 					tx.rollback();
 				logger.error(e);
 			}
-			
+
 			session.close();
-			
+
 		}
 		catch(Exception ex){
 			errorStrings.add(ex.getMessage());
@@ -436,7 +436,7 @@ public class AdminAction extends ActionSupport{
 		if(!errorStrings.isEmpty()) return ERROR;
 		return SUCCESS;
 	}
-	
+
 	/**
 	 * method responsible for deletion of the public dataset
 	 * @return
@@ -450,7 +450,7 @@ public class AdminAction extends ActionSupport{
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				result = LOGIN;
@@ -466,30 +466,30 @@ public class AdminAction extends ActionSupport{
 			String datasetName = ((String[]) context.getParameters().get("datasetName"))[0];
 			String userName = Constants.ALL_USERS_USERNAME;
 			//String userName = ((String[]) context.getParameters().get("userName"))[0];
-			
+
 			/*if(datasetName.isEmpty() || userName.isEmpty()){
 				errorStrings.add("Dataset Name and user name shouldn't be empty!");
 				return ERROR;
 			}*/
-			
+
 			if(datasetName.isEmpty()){
 				errorStrings.add("Dataset Name shouldn't be empty!");
 				return ERROR;
 			}
-			
-			
+
+
 			/*if(!userName.trim().equals(Constants.ALL_USERS_USERNAME)){
 				errorStrings.add("You can only delete public datasets here!");
 				return ERROR;
 			}*/
-			
+
 			Session session = HibernateUtil.getSession();
 			DataSet dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
 			if(dataset==null){
 				errorStrings.add("No public dataset with Name "+datasetName+" was found in the database!");
 				return ERROR;
-			}	
-			
+			}
+
 			//make sure nothing else depends on this dataset existing
 			List<String> depend = checkPublicPredictorDependencies(dataset);
 			if(!depend.isEmpty()){
@@ -499,14 +499,14 @@ public class AdminAction extends ActionSupport{
 
 			//delete the files associated with this dataset
 			String dir = Constants.CECCR_USER_BASE_PATH+Constants.ALL_USERS_USERNAME+"/DATASETS/"+dataset.getName();
-			
+
 			if((new File(dir)).exists()){
 				if(! FileAndDirOperations.deleteDir(new File(dir))){
 					logger.error("error deleting dir: " + dir);
 					errorStrings.add("Cannot delete directory!");
 				}
 			}
-			
+
 			//delete the database entry for the dataset
 			Transaction tx = null;
 			try{
@@ -520,7 +520,7 @@ public class AdminAction extends ActionSupport{
 				return ERROR;
 			}
 			session.close();
-			
+
 		}
 		catch(Exception ex){
 			errorStrings.add(ex.getMessage());
@@ -528,16 +528,16 @@ public class AdminAction extends ActionSupport{
 		}
 		return SUCCESS;
 	}
-	
-	
+
+
 	private ArrayList<String> checkPublicPredictorDependencies(DataSet ds) throws HibernateException, ClassNotFoundException, SQLException{
 		logger.debug("checking dataset dependencies");
-	
+
 		ArrayList<String> dependencies = new ArrayList<String>();
 		Session session = HibernateUtil.getSession();
 		ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(Constants.ALL_USERS_USERNAME, true, false, session);
 		ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(Constants.ALL_USERS_USERNAME, false, session);
-	
+
 		//check each predictor
 		for(int i = 0; i < userPredictors.size();i++){
 			logger.debug("predictor id: " + userPredictors.get(i).getDatasetId() + " dataset id: " + ds.getId());
@@ -545,7 +545,7 @@ public class AdminAction extends ActionSupport{
 				dependencies.add("The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset. Please delete it first.\n");
 			}
 		}
-	
+
 		//check each prediction
 		for(int i = 0; i < userPredictions.size();i++){
 			logger.debug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getId());
@@ -555,7 +555,7 @@ public class AdminAction extends ActionSupport{
 		}
 		return dependencies;
 	}
-	
+
 	/**
 	 * Method responsible for converting predictor from private to public use
 	 * @return
@@ -569,7 +569,7 @@ public class AdminAction extends ActionSupport{
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				result = LOGIN;
@@ -586,41 +586,41 @@ public class AdminAction extends ActionSupport{
 			String predictorName = ((String[]) context.getParameters().get("predictorName"))[0];
 			String userName = ((String[]) context.getParameters().get("userName"))[0];
 			String predictorType = ((String[]) context.getParameters().get("predictorType"))[0];
-			
+
 			if(predictorName.isEmpty() || userName.isEmpty() || predictorType.isEmpty()){
 				errorStrings.add("Predictor name, user name and predictor type shouldn't be empty!");
 				return ERROR;
 			}
-			
+
 			logger.debug("++++++++++++++++++Predictor name:"+predictorName+" User name="+userName);
-					
+
 			Session session = HibernateUtil.getSession();
 			Predictor predictor = PopulateDataObjects.getPredictorByName(predictorName, userName, session);
 			if(predictor==null) return ERROR;
-			
-			// idiot proof if someone will try to make public predictor public again.  
+
+			// idiot proof if someone will try to make public predictor public again.
 			if(predictor.getUserName().equals(Constants.ALL_USERS_USERNAME)) return SUCCESS;
-			
-			//prevent duplication of names 
+
+			//prevent duplication of names
 			//if(PopulateDataObjects.getPredictorByName(predictorName, Constants.ALL_USERS_USERNAME, session)!=null) return SUCCESS;
 			if(PopulateDataObjects.getPredictorByName(predictorName, Constants.ALL_USERS_USERNAME, session)!=null){
 				errorStrings.add("There has already been a public predictor with"+predictorName);
 				return ERROR;
 			}
-			
+
 			DataSet dataset = PopulateDataObjects.getDataSetById(predictor.getDatasetId(),session);
 			if(dataset==null){
 				return ERROR;
 			}
 			session.close();
-			
+
 			//check if predictor is based on the public dataset
 			boolean isDatasetPublic = false;
 			if(dataset.getUserName().trim().equals(Constants.ALL_USERS_USERNAME)){
 				logger.debug("**************DATASET IS ALREADY PUBLIC!");
 				isDatasetPublic = true;
 			}
-			
+
 			//check if any other dataset with the same name is already public
 			session = HibernateUtil.getSession();
 			DataSet checkPublicDataset = PopulateDataObjects.getDataSetByName(dataset.getName(), Constants.ALL_USERS_USERNAME, session);
@@ -629,13 +629,13 @@ public class AdminAction extends ActionSupport{
 				isDatasetPublic = true;
 				dataset=checkPublicDataset;
 			}
-			
+
 			String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/"+dataset.getName();
 			String allUserPredictorDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/PREDICTORS/"+predictor.getName();
-			
+
 			String userDatasetDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+dataset.getName();
 			String userPredictorDir = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/"+predictor.getName();
-			
+
 			//copy files to all users folder
 			logger.debug("Start copying files from '"+userDatasetDir+"' to '"+allUserDatasetDir+"'");
 			if(!isDatasetPublic){
@@ -645,9 +645,9 @@ public class AdminAction extends ActionSupport{
 			logger.debug("Start copying files from '"+userPredictorDir+"' to '"+allUserPredictorDir+"'");
 			String cmd = "cp -r " + userPredictorDir+" "+allUserPredictorDir;
 			RunExternalProgram.runCommand(cmd, "");
-			
+
 			//starting database records cloning process
-			
+
 			if(!isDatasetPublic){
 				//duplicating dataset record
 				logger.debug("------DB: Duplicating dataset record for dataset: "+dataset.getName());
@@ -659,8 +659,8 @@ public class AdminAction extends ActionSupport{
 				session.flush();
 				session.close();
 			}
-			
-			
+
+
 			Long predictorId = predictor.getId();
 			Long newPredictorId = null;
 			//duplicating predictor record
@@ -675,8 +675,8 @@ public class AdminAction extends ActionSupport{
 			session.flush();
 			newPredictorId = predictor.getId();
 			session.close();
-			
-			//taking care of external validation table 
+
+			//taking care of external validation table
 			logger.debug("------//taking care of external validation table");
 			session = HibernateUtil.getSession();
 			List<ExternalValidation> extValidation = PopulateDataObjects.getExternalValidationValues(predictorId, session);
@@ -689,7 +689,7 @@ public class AdminAction extends ActionSupport{
 				session.save(exVal);
 				session.close();
 			}
-			
+
 			/*
 			//taking care of knnModel table
 			logger.debug("------//taking care of knnModel table");
@@ -705,8 +705,8 @@ public class AdminAction extends ActionSupport{
 				session.close();
 			}
 			*/
-			
-			//taking care of knnPlusModel table 
+
+			//taking care of knnPlusModel table
 			logger.debug("------//taking care of knnPlusModel table");
 			session = HibernateUtil.getSession();
 			List<KnnPlusModel> knnPlusModels = PopulateDataObjects.getKnnPlusModelsByPredictorId(predictorId, session);
@@ -719,8 +719,8 @@ public class AdminAction extends ActionSupport{
 				session.save(knnPlusModel);
 				session.close();
 			}
-			
-			//taking care of SVM table 
+
+			//taking care of SVM table
 			logger.debug("------//taking care of SVM table");
 			session = HibernateUtil.getSession();
 			List<SvmModel> svmModels = PopulateDataObjects.getSvmModelsByPredictorId(predictorId, session);
@@ -733,8 +733,8 @@ public class AdminAction extends ActionSupport{
 				session.save(svmModel);
 				session.close();
 			}
-			
-			//taking care of RandomForest table 
+
+			//taking care of RandomForest table
 			logger.debug("------//taking care of RandomForest table");
 			session = HibernateUtil.getSession();
 			List<RandomForestGrove> randomForests = PopulateDataObjects.getRandomForestGrovesByPredictorId(predictorId, session);
@@ -756,12 +756,12 @@ public class AdminAction extends ActionSupport{
 				}
 				session.close();
 			}
-			
+
 			//taking care of modeling parameters
 			logger.debug("------//taking care of modeling parameters");
 			session = HibernateUtil.getSession();
 			Predictor oldPredictor = PopulateDataObjects.getPredictorById(predictorId, session);
-			
+
 			if(oldPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){
 				logger.debug("------//RANDOMFOREST");
 				RandomForestParameters randomForestParameters = PopulateDataObjects.getRandomForestParametersById(oldPredictor.getModelingParametersId(), session);
@@ -771,7 +771,7 @@ public class AdminAction extends ActionSupport{
 				session.flush();
 				predictor.setModelingParametersId(randomForestParameters.getId());
 			}
-			else if(oldPredictor.getModelMethod().equals(Constants.KNNGA) || 
+			else if(oldPredictor.getModelMethod().equals(Constants.KNNGA) ||
 					oldPredictor.getModelMethod().equals(Constants.KNNSA)){
 				logger.debug("------//KNN+");
 				KnnPlusParameters knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(oldPredictor.getModelingParametersId(), session);
@@ -799,9 +799,9 @@ public class AdminAction extends ActionSupport{
 				session.flush();
 				predictor.setModelingParametersId(svmParameters.getId());
 			}
-			
+
 			logger.debug("--------Old predictor ID="+predictorId+" -> new one = "+newPredictorId);
-			
+
 			//duplicating child predictors
 			String[] predictorChildren = null;
 			String newChildIds =null;
@@ -825,8 +825,8 @@ public class AdminAction extends ActionSupport{
 						Long newId = child.getId();
 						newChildIds+=newId.toString()+" ";
 						session.close();
-					
-						//taking care of external validation table 
+
+						//taking care of external validation table
 						session = HibernateUtil.getSession();
 						extValidation = PopulateDataObjects.getExternalValidationValues(Long.parseLong(id), session);
 						session.close();
@@ -838,7 +838,7 @@ public class AdminAction extends ActionSupport{
 							session.save(exVal);
 							session.close();
 						}
-						
+
 						session = HibernateUtil.getSession();
 							if(child.getModelMethod().equals(Constants.RANDOMFOREST)){
 								RandomForestParameters randomForestParameters = PopulateDataObjects.getRandomForestParametersById(child.getModelingParametersId(), session);
@@ -848,7 +848,7 @@ public class AdminAction extends ActionSupport{
 								session.flush();
 								child.setModelingParametersId(randomForestParameters.getId());
 							}
-							else if(child.getModelMethod().equals(Constants.KNNGA) || 
+							else if(child.getModelMethod().equals(Constants.KNNGA) ||
 									child.getModelMethod().equals(Constants.KNNSA)){
 								KnnPlusParameters knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(child.getModelingParametersId(), session);
 								session.evict(knnPlusParameters);
@@ -873,9 +873,9 @@ public class AdminAction extends ActionSupport{
 								session.flush();
 								child.setModelingParametersId(svmParameters.getId());
 							}
-							
-							session.close();	
-							//taking care of RandomForest table 
+
+							session.close();
+							//taking care of RandomForest table
 							logger.debug("------//taking care of RandomForest table");
 							session = HibernateUtil.getSession();
 							randomForests = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(id), session);
@@ -910,9 +910,9 @@ public class AdminAction extends ActionSupport{
 							} finally {session.close();}
 					}
 				}
-				
+
 			}
-			
+
 			//updating newly created predictor with new child ids
 			predictor.setChildIds(newChildIds);
 			logger.debug("--------New child predictor IDs="+newChildIds);
@@ -927,16 +927,16 @@ public class AdminAction extends ActionSupport{
 					tx.rollback();
 				logger.error(e);
 			} finally {session.close();}
-			
+
 		}
 		catch(Exception ex){
 			result = ERROR;
 			logger.error(ex);
 		}
-		
+
 		return result;
 	}
-	
+
 	public String makeDatasetPublic(){
 		String result = SUCCESS;
 		ActionContext context = ActionContext.getContext();
@@ -946,7 +946,7 @@ public class AdminAction extends ActionSupport{
 		}
 		else{
 			user = (User) context.getSession().get("user");
-			
+
 			if(user == null){
 				logger.debug("No user is logged in.");
 				result = LOGIN;
@@ -962,41 +962,41 @@ public class AdminAction extends ActionSupport{
 		try{
 			String datasetName = ((String[]) context.getParameters().get("datasetName"))[0];
 			String userName = ((String[]) context.getParameters().get("userName"))[0];
-			
-			if(datasetName.isEmpty() || userName.isEmpty()){			
+
+			if(datasetName.isEmpty() || userName.isEmpty()){
 				return ERROR;
 			}
-			
+
 			logger.debug("++++++++++++++++++Dataset name:"+datasetName+" User name="+userName);
-					
+
 			Session session = HibernateUtil.getSession();
 			DataSet dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
 			if(dataset==null){
 			    errorStrings.add("User "+userName+" does not have a dataset with Name "+datasetName);
 				return ERROR;
 			}
-			
-			// idiot proof if someone will try to make public dataset public again.  
+
+			// idiot proof if someone will try to make public dataset public again.
 			if(dataset.getUserName().equals(Constants.ALL_USERS_USERNAME)) return SUCCESS;
-			
-			//prevent duplication of names 
+
+			//prevent duplication of names
 			//if(PopulateDataObjects.getDataSetByName(datasetName, Constants.ALL_USERS_USERNAME, session)!=null) return SUCCESS;
 			if(PopulateDataObjects.getDataSetByName(datasetName, Constants.ALL_USERS_USERNAME, session)!=null){
 				errorStrings.add("There has already been a public Dataset with the same name"+datasetName);
 				return ERROR;
 			}
-		
-			String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/"+dataset.getName();			
+
+			String allUserDatasetDir = Constants.CECCR_USER_BASE_PATH + Constants.ALL_USERS_USERNAME + "/DATASETS/"+dataset.getName();
 			String userDatasetDir = Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/"+dataset.getName();
-			
+
 			//copy files to all users folder
 			logger.debug("Start copying files from '"+userDatasetDir+"' to '"+allUserDatasetDir+"'");
-			
+
 			String cmd = "cp -r " + userDatasetDir+" "+allUserDatasetDir;
 			RunExternalProgram.runCommand(cmd, "");
-			
+
 			//starting database records cloning process
-			
+
 			//duplicating dataset record
 			logger.debug("------DB: Duplicating dataset record for dataset: "+dataset.getName());
 			session = HibernateUtil.getSession();
@@ -1006,7 +1006,7 @@ public class AdminAction extends ActionSupport{
 			session.save(dataset);
 			session.flush();
 			session.close();
-				
+
 			session = HibernateUtil.getSession();
 			Transaction tx = null;
 			try {
@@ -1018,20 +1018,20 @@ public class AdminAction extends ActionSupport{
 					tx.rollback();
 				logger.error(e);
 			} finally {session.close();}
-			
+
 		}
 		catch(Exception ex){
 			result = ERROR;
 			logger.error(ex);
 		}
-		
+
 		return result;
 	}
-	
+
 	public User getUser() {
 		return user;
 	}
-	
+
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -1071,7 +1071,7 @@ public class AdminAction extends ActionSupport{
 	public String getSendTo() {
 		return sendTo;
 	}
-	
+
 	public void setSendTo(String sendTo) {
 		this.sendTo = sendTo;
 	}
