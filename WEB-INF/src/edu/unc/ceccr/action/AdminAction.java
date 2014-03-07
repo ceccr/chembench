@@ -290,20 +290,19 @@ public class AdminAction extends ActionSupport{
 		ActionContext context = ActionContext.getContext();
 
 		if(context == null){
-			logger.debug("No ActionContext available");
+			logger.warn("Attempted to access ActionContext but returned null");
 		}
 		else{
 			user = (User) context.getSession().get("user");
 
 			if(user == null){
-				logger.debug("No user is logged in.");
-				result = LOGIN;
-				return result;
+                return LOGIN;
 			}
 			else if(! user.getIsAdmin().equals(Constants.YES)){
-				logger.error("user " + user.getUserName() + " isn't an admin");
-				result = ERROR;
-				return result;
+                logger.warn(String.format(
+                            "Non-admin user %s attempted to delete predictor",
+                            user.getUserName()));
+                return ERROR;
 			}
 		}
 		try{
