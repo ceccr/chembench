@@ -498,12 +498,12 @@
             <result name="error">jsp/main/errors.jsp</result>
         </action>
 
-        <action name="deletePublicDatasetAction" class="edu.unc.ceccr.action.AdminAction" method="deletePublicDataset">
+        <action name="deleteDatasetAction" class="edu.unc.ceccr.action.AdminAction" method="deleteDataset">
             <result  name="success" type="redirect">admin</result>
             <result name="error">jsp/main/errors2.jsp</result>
         </action>
 
-        <action name="deletePublicPredictorAction" class="edu.unc.ceccr.action.AdminAction" method="deletePublicPredictor">
+        <action name="deletePredictorAction" class="edu.unc.ceccr.action.AdminAction" method="deletePredictor">
             <result  name="success" type="redirect">admin</result>
             <result name="error">jsp/main/errors2.jsp</result>
         </action>

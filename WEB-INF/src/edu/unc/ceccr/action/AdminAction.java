@@ -1,11 +1,13 @@
 package edu.unc.ceccr.action;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -281,64 +283,62 @@ public class AdminAction extends ActionSupport{
         return result;
     }
 
-    /**
-     * method responsible for deletion of the public predictor
-     * @return
-     */
-    public String deletePublicPredictor(){
+    public String deletePredictor(){
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
 
-        if(context == null){
+        if (context == null) {
             logger.warn("Attempted to access ActionContext but returned null");
-        }
-        else{
+        } else {
             user = (User) context.getSession().get("user");
 
-            if(user == null){
+            if (user == null) {
                 return LOGIN;
-            }
-            else if(! user.getIsAdmin().equals(Constants.YES)){
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
                 logger.warn(String.format(
                             "Non-admin user %s attempted to delete predictor",
                             user.getUserName()));
                 return ERROR;
             }
         }
-        try{
-            String predictorName = ((String[]) context.getParameters().get("predictorName"))[0];
-            //String userName = ((String[]) context.getParameters().get("userName"))[0];
-            /*if(predictorName.isEmpty() || userName.isEmpty()){
-                errorStrings.add("Predictor Name and user name shouldn't be empty!");
-                return ERROR;
-            }*/
-            String userName = Constants.ALL_USERS_USERNAME;
-            if(predictorName.isEmpty()){
-                errorStrings.add("Predictor Name shouldn't be empty!");
-                return ERROR;
+        try {
+            Map<String, Object> params = context.getParameters();
+            String predictorName = ((String[]) params.get("predictorName"))[0];
+            String userName = ((String[]) params.get("userName"))[0];
+            if (userName.isEmpty()) {
+                // assume that no username means public
+                userName = Constants.ALL_USERS_USERNAME;
             }
 
-            /*if(!userName.trim().equals(Constants.ALL_USERS_USERNAME)){
-                errorStrings.add("You can only delete public predictors here!");
+            if (predictorName.isEmpty()) {
+                errorStrings.add("Please enter a predictor name.");
                 return ERROR;
-            }*/
+            }
 
             Session session = HibernateUtil.getSession();
             Predictor predictor = PopulateDataObjects.getPredictorByName(predictorName, userName, session);
-            if(predictor==null){
-                errorStrings.add("No public predictor with Name "+predictorName+" was found in the database!");
+            if (predictor == null) {
+                String error;
+                if (userName.equals(Constants.ALL_USERS_USERNAME)) {
+                    error = "No public predictor with name " + predictorName +
+                        " was found in the database.";
+                } else {
+                    error = String.format(
+                            "No predictor belonging to user %s with name %s " +
+                            "was found in the database.",
+                            userName, predictorName);
+                }
+                errorStrings.add(error);
                 return ERROR;
             }
 
-            new DeleteAction().deletePredictor(predictor, session);
+            (new DeleteAction()).deletePredictor(predictor, session);
             session.close();
-
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             errorStrings.add(ex.getMessage());
             return ERROR;
         }
-        if(!errorStrings.isEmpty()) return ERROR;
+
         return SUCCESS;
     }
 
@@ -436,73 +436,72 @@ public class AdminAction extends ActionSupport{
         return SUCCESS;
     }
 
-    /**
-     * method responsible for deletion of the public dataset
-     * @return
-     */
-    public String deletePublicDataset(){
+    public String deleteDataset() {
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
 
-        if(context == null){
-            logger.debug("No ActionContext available");
-        }
-        else{
+        if (context == null) {
+            logger.warn("Attempted to access ActionContext but returned null");
+        } else {
             user = (User) context.getSession().get("user");
 
-            if(user == null){
-                logger.debug("No user is logged in.");
-                result = LOGIN;
-                return result;
-            }
-            else if(! user.getIsAdmin().equals(Constants.YES)){
-                logger.error("user " + user.getUserName() + " isn't an admin");
-                result = ERROR;
-                return result;
+            if (user == null) {
+                return LOGIN;
+            } else if (!user.getIsAdmin().equals(Constants.YES)) {
+                logger.warn(String.format(
+                            "Non-admin user %s attempted to delete dataset",
+                            user.getUserName()));
+                return ERROR;
             }
         }
-        try{
-            String datasetName = ((String[]) context.getParameters().get("datasetName"))[0];
-            String userName = Constants.ALL_USERS_USERNAME;
-            //String userName = ((String[]) context.getParameters().get("userName"))[0];
-
-            /*if(datasetName.isEmpty() || userName.isEmpty()){
-                errorStrings.add("Dataset Name and user name shouldn't be empty!");
-                return ERROR;
-            }*/
-
-            if(datasetName.isEmpty()){
-                errorStrings.add("Dataset Name shouldn't be empty!");
-                return ERROR;
+        try {
+            Map<String, Object> params = context.getParameters();
+            String datasetName = ((String[]) params.get("datasetName"))[0];
+            String userName = ((String[]) params.get("userName"))[0];
+            if (userName.isEmpty()) {
+                // assume that no username means public
+                userName = Constants.ALL_USERS_USERNAME;
             }
 
-
-            /*if(!userName.trim().equals(Constants.ALL_USERS_USERNAME)){
-                errorStrings.add("You can only delete public datasets here!");
+            if (datasetName.isEmpty()) {
+                errorStrings.add("Please enter a dataset name.");
                 return ERROR;
-            }*/
+            }
 
             Session session = HibernateUtil.getSession();
             DataSet dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
-            if(dataset==null){
-                errorStrings.add("No public dataset with Name "+datasetName+" was found in the database!");
+            if (dataset == null) {
+                String error;
+                if (userName.equals(Constants.ALL_USERS_USERNAME)) {
+                    error = "No public dataset with name " + datasetName +
+                        " was found in the database.";
+                } else {
+                    error = String.format(
+                            "No dataset belonging to user %s with name %s " +
+                            "was found in the database.",
+                            userName, datasetName);
+                }
+                errorStrings.add(error);
                 return ERROR;
             }
 
-            //make sure nothing else depends on this dataset existing
-            List<String> depend = checkPublicPredictorDependencies(dataset);
-            if(!depend.isEmpty()){
-                errorStrings.addAll(depend);
+            // check for predictors depending on this dataset
+            List<String> dependencies = checkDatasetDependencies(dataset, userName);
+            if (!dependencies.isEmpty()) {
+                errorStrings.addAll(dependencies);
                 return ERROR;
             }
 
             //delete the files associated with this dataset
-            String dir = Constants.CECCR_USER_BASE_PATH+Constants.ALL_USERS_USERNAME+"/DATASETS/"+dataset.getName();
+            File dir = Paths.get(Constants.CECCR_USER_BASE_PATH,
+                    userName, "DATASETS", dataset.getName()).toFile();
 
-            if((new File(dir)).exists()){
-                if(! FileAndDirOperations.deleteDir(new File(dir))){
-                    logger.error("error deleting dir: " + dir);
-                    errorStrings.add("Cannot delete directory!");
+            if (dir.exists()) {
+                if (!FileAndDirOperations.deleteDir(dir)) {
+                    String error = "Failed to delete directory: " +
+                            dir.getAbsolutePath();
+                    logger.error(error);
+                    errorStrings.add(error);
                 }
             }
 
@@ -513,8 +512,9 @@ public class AdminAction extends ActionSupport{
                 session.delete(dataset);
                 tx.commit();
             }catch (RuntimeException e) {
-                if (tx != null)
+                if (tx != null) {
                     tx.rollback();
+                }
                 logger.error(e);
                 return ERROR;
             }
@@ -529,13 +529,13 @@ public class AdminAction extends ActionSupport{
     }
 
 
-    private ArrayList<String> checkPublicPredictorDependencies(DataSet ds) throws HibernateException, ClassNotFoundException, SQLException{
+    private ArrayList<String> checkDatasetDependencies(DataSet ds, String userName) throws HibernateException, ClassNotFoundException, SQLException{
         logger.debug("checking dataset dependencies");
 
         ArrayList<String> dependencies = new ArrayList<String>();
         Session session = HibernateUtil.getSession();
-        ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(Constants.ALL_USERS_USERNAME, true, false, session);
-        ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(Constants.ALL_USERS_USERNAME, false, session);
+        ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName, true, false, session);
+        ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false, session);
 
         //check each predictor
         for(int i = 0; i < userPredictors.size();i++){

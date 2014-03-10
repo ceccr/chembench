@@ -55,8 +55,8 @@
                     <tr>
 					<td></td>
 					<td>
-					<input type="submit" name="promote" onclick="this.form.action='makeDatasetPublicAction'"   value="Promote" />
-					<input type="submit" name="delete" onclick="this.form.action='deletePublicDatasetAction'" value="Delete"/>
+					<input type="submit" name="promote" onclick="this.form.action='makeDatasetAction'"   value="Promote" />
+					<input type="submit" name="delete" onclick="this.form.action='deleteDatasetAction'" value="Delete"/>
 					</td>
 					</tr>
                 </table>
@@ -80,7 +80,7 @@
 					<td></td>
 					<td>
 					<input type="submit" name="promote" onclick="this.form.action='makePredictorPublicAction'" value="Promote"/>
-					<input type="submit" name="delete" onclick="this.form.action='deletePublicPredictorAction'" value="delete"/>
+					<input type="submit" name="delete" onclick="this.form.action='deletePredictorAction'" value="delete"/>
 					<!--<input type="submit" name="rename" onclick="this.form.action='renamePublicPredictorAction'" value="Rename">-->
 					</td>
 					</tr>
