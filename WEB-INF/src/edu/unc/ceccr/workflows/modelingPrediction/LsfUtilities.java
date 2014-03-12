@@ -14,11 +14,11 @@ import org.apache.log4j.Logger;
 
 public class LsfUtilities
 {
-    private static Logger logger 
+    private static Logger logger
               = Logger.getLogger(LsfUtilities.class.getName());
-    
+
     public static void
-    retrieveCompletedPredictor(String filePath, String lsfPath) 
+    retrieveCompletedPredictor(String filePath, String lsfPath)
                                                              throws Exception
     {
         // open the directory in /largefs/ceccr/ where the job was run
