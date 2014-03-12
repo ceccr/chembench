@@ -22,9 +22,9 @@ import org.apache.log4j.Logger;
 
 public class Svm
 {
-    private static Logger logger 
+    private static Logger logger
                 = Logger.getLogger(Svm.class.getName());
-    
+
     public static void convertXtoSvm(String xFileName,
                                      String aFileName,
                                      String workingDir) throws Exception
@@ -44,7 +44,7 @@ public class Svm
             while ((inputString = in.readLine()) != null
                     && !inputString.equals("")) {
                 // [0] is the compound id, [1] is the activity value
-                String[] data = inputString.split("\\s+"); 
+                String[] data = inputString.split("\\s+");
                 activityValues.add(data[1]);
             }
             in.close();
@@ -321,7 +321,7 @@ public class Svm
     }
 
     public static void
-    runSvmPrediction(String workingDir, String predictionXFileName) 
+    runSvmPrediction(String workingDir, String predictionXFileName)
                                                    throws Exception
     {
         // find all models files in working dir
@@ -353,7 +353,7 @@ public class Svm
                                  String predictionXFileName,
                                  Long predictorId) throws Exception
     {
-        ArrayList<PredictionValue> predictionValues 
+        ArrayList<PredictionValue> predictionValues
                                         = new ArrayList<PredictionValue>();
 
         ArrayList<String> compoundNames = DatasetFileOperations
@@ -408,10 +408,10 @@ public class Svm
     }
 
     public static ArrayList<ExternalValidation>
-    readExternalPredictionOutput(String workingDir, Long predictorId) 
+    readExternalPredictionOutput(String workingDir, Long predictorId)
                                                             throws Exception
     {
-        ArrayList<ExternalValidation> externalPredictions 
+        ArrayList<ExternalValidation> externalPredictions
                                          = new ArrayList<ExternalValidation>();
 
         // set compound names
