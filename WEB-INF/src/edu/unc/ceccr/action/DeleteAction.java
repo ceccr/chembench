@@ -32,7 +32,7 @@ public class DeleteAction extends ActionSupport
 {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(DeleteAction.class.getName());
@@ -48,13 +48,13 @@ public class DeleteAction extends ActionSupport
 
         Session session = HibernateUtil.getSession();
         String userName = ds.getUserName();
-        ArrayList<Predictor> userPredictors 
+        ArrayList<Predictor> userPredictors
              = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(
                                                                   userName
                                                                 , true
                                                                 , false
                                                                 , session);
-        ArrayList<Prediction> userPredictions 
+        ArrayList<Prediction> userPredictions
              = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(
                                                                   userName
                                                                  , false
@@ -109,7 +109,7 @@ public class DeleteAction extends ActionSupport
 
         String userName = p.getUserName();
         Session session = HibernateUtil.getSession();
-        ArrayList<Prediction> userPredictions 
+        ArrayList<Prediction> userPredictions
               = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(
                                                        userName, false, session);
         session.close();
@@ -278,7 +278,7 @@ public class DeleteAction extends ActionSupport
     public void
             deletePredictor(Predictor p, Session session) throws Exception
     {
-        ArrayList<ExternalValidation> extVals 
+        ArrayList<ExternalValidation> extVals
                                          = new ArrayList<ExternalValidation>();
         // delete the files associated with this predictor
         String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName()
@@ -363,7 +363,7 @@ public class DeleteAction extends ActionSupport
         }
 
         // delete the prediction values associated with the prediction
-        ArrayList<PredictionValue> pvs 
+        ArrayList<PredictionValue> pvs
                = (ArrayList<PredictionValue>) PopulateDataObjects
                       .getPredictionValuesByPredictionId(p.getId(), session);
 
@@ -437,11 +437,11 @@ public class DeleteAction extends ActionSupport
                                 .getChildIds().split("\\s+");
 
                         // get siblings
-                        ArrayList<Predictor> siblingPredictors 
+                        ArrayList<Predictor> siblingPredictors
                                               = new ArrayList<Predictor>();
                         for (String childPredictorId : childPredictorIds) {
                             if (!childPredictorId.equals("" + p.getId())) {
-                                Predictor sibling 
+                                Predictor sibling
                                     = PopulateDataObjects.getPredictorById(
                                        Long.parseLong(childPredictorId),s);
                                 siblingPredictors.add(sibling);
@@ -505,9 +505,9 @@ public class DeleteAction extends ActionSupport
             return ERROR;
         }
 
-        if (userToDelete.isEmpty() 
+        if (userToDelete.isEmpty()
          || userToDelete.contains("..")
-         || userToDelete.contains("~") 
+         || userToDelete.contains("~")
          || userToDelete.contains("/")) {
             // just being a little safer, since there's a recursive delete in
             // this function
@@ -515,7 +515,7 @@ public class DeleteAction extends ActionSupport
         }
 
         Session s = HibernateUtil.getSession();
-        
+
         ArrayList<Prediction> predictions = new ArrayList<Prediction>();
         Iterator<?> predictionItr = PopulateDataObjects
                                        .getUserData(userToDelete
@@ -523,40 +523,40 @@ public class DeleteAction extends ActionSupport
                                        .iterator();
         while(predictionItr.hasNext()){
             predictions.add((Prediction)predictionItr.next());
-            
+
         }
-        
+
         ArrayList<Predictor> predictors = new ArrayList<Predictor>();
-        
+
         Iterator<?> predictorIter = PopulateDataObjects
                                          .getUserData(userToDelete
                                                     , Predictor.class, s)
                                          .iterator();
         while(predictorIter.hasNext()){
             predictors.add((Predictor)predictorIter.next());
-            
+
         }
-        
+
         ArrayList<DataSet> datasets  = new ArrayList<DataSet>();
-        
+
         Iterator<?> dataSetIter = PopulateDataObjects
                                          .getUserData(userToDelete
                                                     , DataSet.class, s)
                                          .iterator();
         while(dataSetIter.hasNext()){
             datasets.add((DataSet)dataSetIter.next());
-            
+
         }
 
         ArrayList<Job> jobs = new ArrayList<Job>();
-        
+
         Iterator<?> jobsIter = PopulateDataObjects
                                          .getUserData(userToDelete
                                                     , Job.class, s)
-                                         .iterator();        
+                                         .iterator();
         while(jobsIter.hasNext()){
             jobs.add((Job)jobsIter.next());
-            
+
         }
         s.close();
 
@@ -604,7 +604,7 @@ public class DeleteAction extends ActionSupport
 
         // last, delete all the files that user has
         // recurses
-        File dir = new File(Constants.CECCR_USER_BASE_PATH + userToDelete); 
+        File dir = new File(Constants.CECCR_USER_BASE_PATH + userToDelete);
         FileAndDirOperations.deleteDir(dir);
 
         return SUCCESS;
