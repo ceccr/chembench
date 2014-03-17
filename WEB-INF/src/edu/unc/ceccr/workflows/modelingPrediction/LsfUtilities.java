@@ -14,11 +14,11 @@ import org.apache.log4j.Logger;
 
 public class LsfUtilities
 {
-    private static Logger logger 
+    private static Logger logger
               = Logger.getLogger(LsfUtilities.class.getName());
-    
+
     public static void
-    retrieveCompletedPredictor(String filePath, String lsfPath) 
+    retrieveCompletedPredictor(String filePath, String lsfPath)
                                                              throws Exception
     {
         // open the directory in /largefs/ceccr/ where the job was run
@@ -63,7 +63,19 @@ public class LsfUtilities
     {
         Thread.sleep(200); // give the file time to close properly? I guess?
         BufferedReader in = new BufferedReader(new FileReader(logFilePath));
-        String line = in.readLine(); // junk
+
+        // we're looking at the stdout of the 'bsub' command, and expect
+        // something that looks like this:
+        //     Job <443904> is submitted to queue <patrons>.
+        // remove the jobId from the line and return it.
+        String line = in.readLine();
+
+        if (line == null) {
+            // stdout is empty, which should not happen and indicates that
+            // an error occurred in job submission.
+            throw new RuntimeException("LSF job submission failed");
+        }
+
         Scanner sc = new Scanner(line);
         String jobId = "";
         if (sc.hasNext()) {

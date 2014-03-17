@@ -1274,9 +1274,15 @@ public class PopulateDataObjects
         String predictorNames = "";
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
-            predictorNames += getPredictorById(
-                    Long.parseLong(predictorIds[i]), session).getName()
-                    + " ";
+            Long predictorId = Long.parseLong(predictorIds[i]);
+            Predictor p = getPredictorById(predictorId, session);
+            if (p != null) {
+                predictorNames += (p.getName() + " ");
+            } else {
+                logger.warn(String.format(
+                            "Expected predictor %d for prediction %d " +
+                            "does not exist", predictorId, predictionId));
+            }
         }
         prediction.setPredictorNames(predictorNames);
         prediction.setDatabase(prediction.getDatabase());
