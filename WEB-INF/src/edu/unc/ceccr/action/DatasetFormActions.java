@@ -116,6 +116,7 @@ public class DatasetFormActions extends ActionSupport{
 			datasetName = datasetName.replaceAll("\\)", "_");
 			datasetName = datasetName.replaceAll("\\[", "_");
 			datasetName = datasetName.replaceAll("\\]", "_");
+			datasetName = datasetName.replaceAll("/", "_");
 		}
 
 		logger.debug("Starting dataset task");

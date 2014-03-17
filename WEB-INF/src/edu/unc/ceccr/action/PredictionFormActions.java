@@ -579,6 +579,7 @@ public class PredictionFormActions extends ActionSupport
             jobName = jobName.replaceAll("\\)", "_");
             jobName = jobName.replaceAll("\\[", "_");
             jobName = jobName.replaceAll("\\]", "_");
+            jobName = jobName.replaceAll("/", "_");
         }
 
         logger.debug(user.getUserName());
