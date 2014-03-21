@@ -272,9 +272,29 @@ HomeAction extends ActionSupport implements ServletResponseAware
 
 
             if(user != null){
-                String realPasswordHash = user.getPassword();
+                // allow admins to bypass password login if they have already
+                // logged in first
+                boolean adminBypassPassword = false;
+                User currentUser = (User) context.getSession().get("user");
+                if (currentUser != null) {
+                    String currentUserName = currentUser.getUserName();
+                    if (currentUser.getIsAdmin().equals(Constants.YES)) {
+                        logger.warn(String.format(
+                                "Administrator bypassed password check: " +
+                                "ADMIN=%s, NEWUSER=%s",
+                                currentUserName, username));
+                        adminBypassPassword = true;
+                    } else {
+                        logger.warn(String.format(
+                                "Attempt made by non-admin user %s to " +
+                                "impersonate other user %s",
+                                currentUserName, username));
+                    }
+                }
 
-                if (password != null && Utility.encrypt(password).equals(realPasswordHash)){
+                String realPasswordHash = user.getPassword();
+                if ((adminBypassPassword) || (password != null &&
+                         Utility.encrypt(password).equals(realPasswordHash))) {
                     context.getSession().put("user", user);
                     Cookie ckie=new Cookie("login","true");
                     servletResponse.addCookie(ckie);
