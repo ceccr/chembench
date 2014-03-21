@@ -128,7 +128,7 @@
 
         <!-- Dataset Page -->
         <action name="dataset" class="edu.unc.ceccr.action.DatasetFormActions" method="loadPage">
-            <result name="success">jsp/dataSet/dataset.jsp</result>
+            <result name="success">jsp/dataset/dataset.jsp</result>
         </action>
 
         <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
@@ -137,31 +137,31 @@
         </action>
 
         <action name="loadModelingSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModeling">
-            <result>jsp/dataSet/dataset-modeling.jsp</result>
+            <result>jsp/dataset/dataset-modeling.jsp</result>
         </action>
 
         <action name="loadPredictionSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadPrediction">
-            <result>jsp/dataSet/dataset-prediction.jsp</result>
+            <result>jsp/dataset/dataset-prediction.jsp</result>
         </action>
 
         <action name="loadModelingWithDescriptorsSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModelingWithDescriptors">
-            <result>jsp/dataSet/dataset-modelingWithDescriptors.jsp</result>
+            <result>jsp/dataset/dataset-modelingWithDescriptors.jsp</result>
         </action>
 
         <action name="loadPredictionWithDescriptorsSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadPredictionWithDescriptors">
-            <result>jsp/dataSet/dataset-predictionWithDescriptors.jsp</result>
+            <result>jsp/dataset/dataset-predictionWithDescriptors.jsp</result>
         </action>
 
         <action name="loadAutoExternalSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadAutoSplit">
-            <result>jsp/dataSet/dataset-autosplit.jsp</result>
+            <result>jsp/dataset/dataset-autosplit.jsp</result>
         </action>
 
         <action name="loadManualExternalSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadManualSplit">
-            <result>jsp/dataSet/dataset-manualsplit.jsp</result>
+            <result>jsp/dataset/dataset-manualsplit.jsp</result>
         </action>
 
         <action name="loadNFoldExternalSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadNFoldSplit">
-            <result>jsp/dataSet/dataset-nFoldSplit.jsp</result>
+            <result>jsp/dataset/dataset-nFoldSplit.jsp</result>
         </action>
         <!-- End Dataset Page -->
 
