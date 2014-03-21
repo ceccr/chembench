@@ -61,7 +61,7 @@
                     <a href="#message">Messages</a>
                 </li>
                 <li>
-                    <a href="adminPredictors">Dataset&Predictor</a>
+                    <a href="adminPredictors">Datasets &amp; Predictors</a>
                 </li>
                 <li>
                     <a href="adminUsers">Users</a>
