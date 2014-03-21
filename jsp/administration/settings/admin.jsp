@@ -43,7 +43,7 @@
                 <li><a href="#datasets-predictors">Datasets &amp; Predictors</a></li>
                 <li><a href="#message">Messages</a></li>
                 <li><a href="#users">Users</a></li>
-                <li><a href="#jobs">Jobs</a></li>
+                <li><a href="adminJobs">Jobs</a></li>
             </ul>
 
             <div id="message" class="StandardTextDarkGrayParagraph">
@@ -153,9 +153,6 @@
                         </s:if>
                     </s:iterator>
                 </table>
-            </div>
-
-            <div id="jobs" class="StandardTextDarkGrayParagraph">
             </div>
         </div>
     </div>
