@@ -20,21 +20,26 @@
     <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
     <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
     <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
 
     <script src="javascript/script.js"></script>
     <script src="javascript/admin.js"></script>
     <script language="JavaScript" src="javascript/sortableTable.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 
     <script type="text/javascript">
-        function checkContent()
-        {
-            if(document.getElementById("content").value=="")
-            {return (window.confirm("Send emails without content?"));}
-            else{return true;}
+        function checkContent() {
+            if (document.getElementById("content").value == "") {
+                return (window.confirm("Send emails without content?"));
+            } else {
+                return true;
+            }
         }
+
+        $(document).ready(function() {
+            $("#tabs").tabs();
+        });
     </script>
 </head>
 <body onload="setTabToHome();">
@@ -44,35 +49,32 @@
 <div class="outer">
     <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
     <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
-	
+
     <!--  page content -->
     <div class="border StandardTextDarkGrayParagraph benchAlign bottomMargin">
         <script>
-            $(function() {
-                $( "#tabs" ).tabs();
-            });
         </script>
-		
-		<div id="tabs">
+
+        <div id="tabs">
             <ul>
                 <li>
                     <a href="#message">Messages</a>
-				</li>
-				<li>
-				    <a href="adminPredictors">Dataset&Predictor</a>
-				</li>
-				<li>
-				    <a href="adminUsers">Users</a>
-				</li>
-				<li>
-				    <a href="adminJobs">Jobs</a>
-				</li>
-			</ul>
+                </li>
+                <li>
+                    <a href="adminPredictors">Dataset&Predictor</a>
+                </li>
+                <li>
+                    <a href="adminUsers">Users</a>
+                </li>
+                <li>
+                    <a href="adminJobs">Jobs</a>
+                </li>
+            </ul>
 
             <div id="message" class="StandardTextDarkGrayParagraph">
-			    <b class="StandardTextDarkGrayParagraph2">
-				Add new global message:
-				</b>
+                <b class="StandardTextDarkGrayParagraph2">
+                Add new global message:
+                </b>
                 <form action="globalNotifAdd">
                 <table width="680" border="0">
                     <tr><td>Start Date:</td><td><s:textfield name="startDate" value="" size="43" theme="simple" /></td></tr>
@@ -81,11 +83,12 @@
                     <tr><td></td><td><input type="submit" value="Add" /></td></tr>
                 </table>
                 </form>
-			</div>
-        </div>		
-	</div>
+            </div>
+        </div>
+    </div>
     <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
 </div>
 
 </body>
 </html>
+
