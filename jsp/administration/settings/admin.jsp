@@ -106,8 +106,17 @@
                 </div>
             </div>
 
-            <div id="users">
-                <div class="StandardTextDarkGrayParagraph">
+            <div id="users" class="StandardTextDarkGrayParagraph">
+                <h3>User Impersonation</h3>
+                <p>
+                    As an administrator for QA purposes you can log in as another user here.
+                    Note that this will log you out of your current session.
+                    <br>
+                    <label for="impersonation-target">User to log in as: <input type="text" id="impersonation-target" /></label>
+                    <input type="submit" name="impersonate" value="Log in"/>
+                </p>
+
+                <div>
                     <a href="#" onclick="window.open('/emailToAll','emailToAll','width=1000,height=700')">Send email to all users</a> (opens in a new window)
                     <br />
                     <a href="#" id="sendToAll">Send email to selected users</a>
@@ -171,7 +180,7 @@
     $(document).ready(function() {
         $("#tabs").tabs();
 
-        $('input:checkbox[name=emailSelected]').live("click",function(){
+        $('input:checkbox[name=emailSelected]').click(function(event) {
             var s = "";
             $('input:checkbox[name=emailSelected]:checked').each(function(){
                 s+=$(this).val()+";";
@@ -179,13 +188,21 @@
             $('#sendTo').val(s);
         });
 
-        $("#sendToAll").live("click",function(){
+        $("#sendToAll").click(function(event) {
             var s = "";
             $('input:checkbox[name=emailSelected]:checked').each(function(){
                 s+=$(this).val()+";";
             });
             $('#sendTo').val(s);
             $('#sendEmail').show();
+        });
+
+        $("input[name='impersonate']").click(function(event) {
+            event.preventDefault();
+            var targetUser = $("input#impersonation-target").val();
+            $.post("/login", { username: targetUser }, function(data) {
+                window.location.href = "/";
+            });
         });
     });
 </script>
