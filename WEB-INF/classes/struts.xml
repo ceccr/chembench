@@ -443,25 +443,14 @@
             <result name="error">jsp/main/home.jsp</result>
         </action>
 
-        <action name="adminPredictors" class="edu.unc.ceccr.action.AdminAction" method="loadPage">
-            <result name="success">jsp/administration/settings/predictors.jsp</result>
-            <result name="error">jsp/main/home.jsp</result>
-        </action>
-
         <action name="adminJobs" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
             <result>jsp/administration/settings/jobs.jsp</result>
-            <result name="error">jsp/main/home.jsp</result>
-        </action>
-
-        <action name="adminUsers" class="edu.unc.ceccr.action.AdminAction" method="loadPage">
-            <result name="success">jsp/administration/settings/users.jsp</result>
             <result name="error">jsp/main/home.jsp</result>
         </action>
 
         <action name="emailToAll" class="edu.unc.ceccr.action.AdminAction" method="loadEmailAllUsersPage">
             <result>jsp/administration/settings/emailToAll.jsp</result>
         </action>
-
 
         <action name="emailAllUsers" class="edu.unc.ceccr.action.AdminAction" method="emailAllUsers">
             <result name="success" type="redirect">admin</result>
