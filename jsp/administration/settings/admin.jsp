@@ -201,7 +201,9 @@
             event.preventDefault();
             var targetUser = $("input#impersonation-target").val();
             $.post("/login", { username: targetUser }, function(data) {
-                window.location.href = "/";
+                document.open();
+                document.write(data);
+                document.close();
             });
         });
     });
