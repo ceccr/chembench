@@ -19,10 +19,10 @@ import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
 public class ExternalValidationPage extends ViewPredictorAction
 {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
+
     private ArrayList<ExternalValidation> externalValValues;
     private String                        hasGoodModels    = Constants.YES;
     private ArrayList<String>             residuals;
@@ -56,7 +56,7 @@ public class ExternalValidationPage extends ViewPredictorAction
             for (int i = 0; i < childPredictors.size(); i++) {
                 foldNums.add("" + (i + 1));
                 Predictor cp = childPredictors.get(i);
-                ArrayList<ExternalValidation> childExtVals 
+                ArrayList<ExternalValidation> childExtVals
                           = (ArrayList<ExternalValidation>) PopulateDataObjects
                                                 .getExternalValidationValues(
                                                           cp.getId(), session);
@@ -98,7 +98,7 @@ public class ExternalValidationPage extends ViewPredictorAction
                     Constants.REPORTED_SIGNIFICANT_FIGURES);
         }
         else {
-            externalValValues = (ArrayList<ExternalValidation>) 
+            externalValValues = (ArrayList<ExternalValidation>)
                                 PopulateDataObjects.getExternalValidationValues
                                 (selectedPredictor.getId(),session);
         }

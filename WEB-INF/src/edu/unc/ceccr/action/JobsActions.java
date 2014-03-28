@@ -26,11 +26,11 @@ public class JobsActions extends ActionSupport
 {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 42L;
-    
-    private static Logger logger 
+
+    private static Logger logger
                               = Logger.getLogger(JobsActions.class.getName());
 
     public String loadPage() throws Exception
