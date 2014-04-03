@@ -178,7 +178,7 @@ public class RSquaredAndCCR{
 					ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), session);
 
 					//calculate r^2 / ccr for this child
-					if(childExtVals != null){
+					if(childExtVals.size() > 0){
 						if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 							Double childCcr = (RSquaredAndCCR.calculateConfusionMatrix(childExtVals)).getCcr();
 							childAccuracies.addValue(childCcr);
