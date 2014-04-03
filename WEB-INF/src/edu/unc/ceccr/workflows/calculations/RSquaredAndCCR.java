@@ -23,7 +23,7 @@ public class RSquaredAndCCR{
 
 	public static ArrayList<Double> calculateResiduals(ArrayList<ExternalValidation> externalValidationList) {
 		ArrayList<Double> residuals = new ArrayList<Double>();
-		
+
 		Iterator<ExternalValidation> eit = externalValidationList.iterator();
 		int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
 		int numExtValuesWithNoModels = 0;
@@ -38,7 +38,7 @@ public class RSquaredAndCCR{
 				residuals.add(Double.NaN);
 			}
 			String predictedValue = DecimalFormat.getInstance().format(e.getPredictedValue()).replaceAll(",", "");
-			e.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));  
+			e.setPredictedValue(Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
 			if(! e.getStandDev().equalsIgnoreCase("No value")){
 				e.setStandDev(Utility.roundSignificantFigures(e.getStandDev(), sigfigs));
 			}
@@ -47,12 +47,12 @@ public class RSquaredAndCCR{
 			//all external predictions were empty, meaning there were no good models.
 			return residuals;
 		}
-		
+
 		return residuals;
 	}
-	
+
 	public static Double calculateRSquared(ArrayList<ExternalValidation> externalValidationList, ArrayList<Double> residuals){
-		
+
 		Double avg = 0.0;
 		for(ExternalValidation ev : externalValidationList){
 			avg += ev.getActualValue();
@@ -81,7 +81,7 @@ public class RSquaredAndCCR{
 	}
 
 	public static ConfusionMatrix calculateConfusionMatrix(ArrayList<ExternalValidation> externalValidationList){
-		
+
 		//scan through to find the unique observed values
 		ArrayList<String> uniqueObservedValues = new ArrayList<String>();
 		for(ExternalValidation ev : externalValidationList){
@@ -97,10 +97,10 @@ public class RSquaredAndCCR{
 			}
 		}
 		Collections.sort(uniqueObservedValues);
-		
+
 		//set up a confusion matrix to store counts of each (observed, predicted) possibility
 		ArrayList<ArrayList<Integer>> matrix = new ArrayList<ArrayList<Integer>>();
-		
+
 		//make a matrix of zeros
 		for(int i = 0; i < uniqueObservedValues.size(); i++){
 			ArrayList<Integer> row = new ArrayList<Integer>();
@@ -109,11 +109,11 @@ public class RSquaredAndCCR{
 			}
 			matrix.add(row);
 		}
-		
-		double CCR = 0.0;	
+
+		double CCR = 0.0;
 		HashMap<Integer, Integer> correctPredictionCounts = new HashMap<Integer, Integer>();
 		HashMap<Integer, Integer> observedValueCounts = new HashMap<Integer, Integer>();
-		
+
 		//populate the confusion matrix and count values needed to calculate CCR
 		for(ExternalValidation ev : externalValidationList){
 			//for each observed-predicted pair, update
@@ -124,14 +124,14 @@ public class RSquaredAndCCR{
 			int predictedValueIndex = uniqueObservedValues.indexOf("" + predictedValue);
 			int previousCount = matrix.get(observedValueIndex).get(predictedValueIndex);
 			matrix.get(observedValueIndex).set(predictedValueIndex, previousCount+1);
-			
+
 			if(observedValueCounts.containsKey(observedValue)){
 				observedValueCounts.put(observedValue, observedValueCounts.get(observedValue) + 1);
 			}
 			else{
 				observedValueCounts.put(observedValue, 1);
 			}
-			
+
 			if(predictedValue == observedValue){
 				if(correctPredictionCounts.containsKey(observedValue)){
 					correctPredictionCounts.put(observedValue, correctPredictionCounts.get(observedValue) + 1);
@@ -140,23 +140,23 @@ public class RSquaredAndCCR{
 					correctPredictionCounts.put(observedValue, 1);
 				}
 			}
-			
+
 		}
-		
+
 		Double ccrDouble = 0.0;
 		for(Integer d: correctPredictionCounts.keySet()){
 			ccrDouble += new Double(correctPredictionCounts.get(d)) / new Double(observedValueCounts.get(d));
 		}
 		ccrDouble = ccrDouble / new Double(observedValueCounts.keySet().size());
-		
+
 		ConfusionMatrix cm = new ConfusionMatrix();
 		cm.setCcr(ccrDouble);
 		cm.setUniqueObservedValues(uniqueObservedValues);
 		cm.setMatrixValues(matrix);
-		
+
 		return cm;
 	}
-	
+
 	public static void addRSquaredAndCCRToPredictor(Predictor selectedPredictor, Session session){
 		try{
 			ConfusionMatrix confusionMatrix;
@@ -165,18 +165,18 @@ public class RSquaredAndCCR{
 			String ccrAverageAndStddev = "";
 			ArrayList<ExternalValidation> externalValValues = null;
 			ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
-			
+
 			//get external validation compounds of predictor
 			if(childPredictors.size() != 0){
 
 				//get external set for each
 				externalValValues = new ArrayList<ExternalValidation>();
 				SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
-				
+
 				for(int i = 0; i < childPredictors.size(); i++){
 					Predictor cp = childPredictors.get(i);
 					ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), session);
-					
+
 					//calculate r^2 / ccr for this child
 					if(childExtVals != null){
 						if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
@@ -195,7 +195,7 @@ public class RSquaredAndCCR{
 
 				Double mean = childAccuracies.getMean();
 				Double stddev = childAccuracies.getStandardDeviation();
-				
+
 				if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS)){
 					rSquaredAverageAndStddev = Utility.roundSignificantFigures(""+mean, Constants.REPORTED_SIGNIFICANT_FIGURES);
 					rSquaredAverageAndStddev += " \u00B1 ";
@@ -216,13 +216,13 @@ public class RSquaredAndCCR{
 			else{
 				externalValValues= (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(selectedPredictor.getId(), session);
 			}
-			
+
 			if(externalValValues == null || externalValValues.isEmpty()){
 				logger.debug("ext validation set empty!");
 				externalValValues = new ArrayList<ExternalValidation>();
 				return;
 			}
-			
+
 			//calculate residuals and fix significant figures on output data
 			ArrayList<Double> residualsAsDouble = RSquaredAndCCR.calculateResiduals(externalValValues);
 			ArrayList<String> residuals = new ArrayList<String>();
@@ -240,7 +240,7 @@ public class RSquaredAndCCR{
 			else{
 				return;
 			}
-			
+
 			if(selectedPredictor.getActivityType().equals(Constants.CATEGORY)){
 				//if category model, create confusion matrix.
 				//round off the predicted values to nearest integer.
@@ -248,7 +248,7 @@ public class RSquaredAndCCR{
 				selectedPredictor.setExternalPredictionAccuracy(confusionMatrix.getCcrAsString());
 			}
 			else if(selectedPredictor.getActivityType().equals(Constants.CONTINUOUS) && externalValValues.size() > 1){
-				//if continuous, calculate overall r^2 and... r0^2? or something? 
+				//if continuous, calculate overall r^2 and... r0^2? or something?
 				//just r^2 for now, more later.
 				Double rSquaredDouble = RSquaredAndCCR.calculateRSquared(externalValValues, residualsAsDouble);
 				rSquared = Utility.roundSignificantFigures("" + rSquaredDouble, Constants.REPORTED_SIGNIFICANT_FIGURES);
