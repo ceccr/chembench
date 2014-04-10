@@ -237,14 +237,8 @@ public class KnnPlus
 
         // exec shell script
         String command = "bsub -q patrons ";
-        if (modelType.equalsIgnoreCase(Constants.KNNSA)) {
-            command += "-J cbench_" + userName + "_" + jobName
-                    + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
-        }
-        else {
-            command += "-J cbench_" + userName + "_" + jobName
-                    + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
-        }
+        command += "-J cbench_" + userName + "_" + jobName
+                + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
         RunExternalProgram.runCommandAndLogOutput(command, workingDir,
                 "bsubKnnPlus");
 
