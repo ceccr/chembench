@@ -450,11 +450,11 @@ body {
 }
 
 .predictorNameWidth {
-    width:160px;
+    width:155px;
 }
 
 .predictorDatasetWidth {
-    width:140px;
+    width:135px;
 }
 
 .predictorNfoldWidth {
@@ -474,7 +474,7 @@ body {
 }
 
 .predictorDescriptorWidth {
-    width:60px;
+    width:70px;
 }
 
 .predictorPublicWidth {
