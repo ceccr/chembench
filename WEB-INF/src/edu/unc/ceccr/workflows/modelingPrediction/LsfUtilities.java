@@ -22,6 +22,7 @@ public class LsfUtilities
                                                              throws Exception
     {
         FileAndDirOperations.copyDirContents(lsfPath, filePath, true);
+        logger.warn("About to recursively delete " + lsfPath);
         FileAndDirOperations.deleteDir(new File(lsfPath));
     }
 
