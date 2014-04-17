@@ -603,7 +603,7 @@ public class QsarModelingTask extends WorkflowTask
 
     public void preProcess() throws Exception
     {
-
+        logger.info("Beginning pre-processing for " + jobName);
         // copy the dataset files to the working directory
         step = Constants.SETUP;
 
@@ -764,11 +764,12 @@ public class QsarModelingTask extends WorkflowTask
             // copy needed files out to LSF
             LsfUtilities.makeLsfModelingDirectory(filePath, lsfPath);
         }
+        logger.info("Finished pre-processing for " + jobName);
     }
 
     public String executeLSF() throws Exception
     {
-
+        logger.info("Beginning LSF submission for " + jobName);
         // this function will submit a single LSF job.
         // To submit this workflowTask as multiple jobs (to distribute the
         // computation)
@@ -789,13 +790,15 @@ public class QsarModelingTask extends WorkflowTask
         else if (modelType.equals(Constants.SVM)) {
             lsfJobId = Svm.buildSvmModelsLsf(lsfPath, userName, jobName);
         }
-
+        logger.info(String.format("Finished LSF submission for %s. LSF ID is %s",
+                    jobName, lsfJobId));
         return lsfJobId;
     }
 
 
     public void executeLocal() throws Exception
     {
+        logger.info("Beginning local execution for " + jobName);
         String path = Constants.CECCR_USER_BASE_PATH + userName + "/"
                 + jobName + "/";
 
@@ -860,10 +863,12 @@ public class QsarModelingTask extends WorkflowTask
             logger.debug("modeling phase done, "+jobName+ " submitted by "
                     + "user, "+ userName + ".");
         }
+        logger.info("Finished local execution for " + jobName);
     }
 
     public void postProcess() throws Exception
     {
+        logger.info("Beginning post-processing for " + jobName);
         step = Constants.READING;
         // done with modeling. Read output files.
 
@@ -873,6 +878,10 @@ public class QsarModelingTask extends WorkflowTask
             String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName
                     + "/";
             LsfUtilities.retrieveCompletedPredictor(filePath, lsfPath);
+
+            if (modelType.startsWith(Constants.KNN)) {
+                KnnPlus.checkModelsFile(filePath);
+            }
 
             if (numExternalCompounds > 0) {
                 step = Constants.PREDEXT;
@@ -1178,6 +1187,7 @@ public class QsarModelingTask extends WorkflowTask
             ModelingUtilities.MoveToPredictorsDir(userName, jobName, "");
         }
         session.close();
+        logger.info("Finished post-processing for " + jobName);
     }
 
     public void delete() throws Exception
