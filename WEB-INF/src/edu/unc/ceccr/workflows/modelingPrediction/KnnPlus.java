@@ -15,9 +15,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
 import org.apache.log4j.Logger;
 
 public class KnnPlus
@@ -264,6 +269,9 @@ public class KnnPlus
 
         RunExternalProgram.runCommandAndLogOutput(command, workingDir,
                 "knnPlus");
+
+        // check models for errors, and correct them if found
+        checkModelsFile(workingDir);
     }
 
     public static void
@@ -768,4 +776,64 @@ public class KnnPlus
         return predictionValues;
     }
 
+    public static void checkModelsFile(String workingDir) throws IOException {
+        File modelsFile = new File(workingDir, "models.tbl");
+        String modelsFilePath = modelsFile.toString();
+        logger.debug("Starting models file check of " + modelsFilePath);
+
+        if (!modelsFile.exists()) {
+            logger.warn(String.format("Models file %s does not exist!",
+                    modelsFilePath));
+            return;
+        }
+
+        List<String> lines = Files.readAllLines(modelsFile.toPath(),
+                Charset.defaultCharset());
+        int originalLineCount = lines.size();
+
+        // skip the first 5 lines as they contain header information
+        if (lines.size() > 5) {
+            int numFields = 0;
+            ListIterator<String> iter = lines.listIterator(5);
+            while (iter.hasNext()) {
+                String currLine = iter.next();
+                String[] fields = currLine.split("\\s+");
+                if (numFields == 0) {
+                    // save number of fields
+                    numFields = fields.length;
+                }
+
+                // expect number of fields to remain consistent
+                if (fields.length != numFields) {
+                    logger.warn(String.format(
+                            "Line %d of models file %s discarded: " +
+                            "expected %d fields, got %d",
+                            iter.previousIndex(), modelsFile, numFields,
+                            fields.length));
+                    iter.remove();
+                }
+            }
+        }
+
+        // only write out new version if something was discarded
+        if (originalLineCount > lines.size()) {
+            logger.debug("Renaming original models.tbl to " +
+                         "models.tbl.old in " + workingDir);
+            File modelsFileOld = new File(workingDir, "models.tbl.old");
+            if (modelsFileOld.exists()) {
+                modelsFileOld.delete();
+            }
+            modelsFile.renameTo(modelsFileOld);
+
+            FileWriter fw = new FileWriter(modelsFilePath);
+            for (String line : lines) {
+                fw.write(line);
+            }
+            fw.close();
+            logger.debug("Wrote corrected models file to " + modelsFilePath);
+        } else {
+            logger.debug("Check finished, no changes made.");
+        }
+    }
 }
+
