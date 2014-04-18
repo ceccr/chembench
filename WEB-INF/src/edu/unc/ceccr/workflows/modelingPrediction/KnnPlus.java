@@ -779,7 +779,7 @@ public class KnnPlus
     public static void checkModelsFile(String workingDir) throws IOException {
         File modelsFile = new File(workingDir, "models.tbl");
         String modelsFilePath = modelsFile.toString();
-        logger.debug("Starting models file check of " + modelsFilePath);
+        logger.info("Starting models file check of " + modelsFilePath);
 
         if (!modelsFile.exists()) {
             logger.warn(String.format("Models file %s does not exist!",
@@ -794,10 +794,11 @@ public class KnnPlus
         // skip the first 5 lines as they contain header information
         if (lines.size() > 5) {
             int numFields = 0;
+            int lineCount = 5;
             ListIterator<String> iter = lines.listIterator(5);
             while (iter.hasNext()) {
                 String currLine = iter.next();
-                String[] fields = currLine.split("\\s+");
+                String[] fields = currLine.split("\t");
                 if (numFields == 0) {
                     // save number of fields
                     numFields = fields.length;
@@ -806,19 +807,20 @@ public class KnnPlus
                 // expect number of fields to remain consistent
                 if (fields.length != numFields) {
                     logger.warn(String.format(
-                            "Line %d of models file %s discarded: " +
-                            "expected %d fields, got %d",
-                            iter.previousIndex(), modelsFile, numFields,
+                            "Discarded line %d of models file %s: " +
+                                    "expected %d fields, got %d",
+                            lineCount, modelsFile, numFields,
                             fields.length));
                     iter.remove();
                 }
+                lineCount++;
             }
         }
 
         // only write out new version if something was discarded
         if (originalLineCount > lines.size()) {
             logger.debug("Renaming original models.tbl to " +
-                         "models.tbl.old in " + workingDir);
+                    "models.tbl.old in " + workingDir);
             File modelsFileOld = new File(workingDir, "models.tbl.old");
             if (modelsFileOld.exists()) {
                 modelsFileOld.delete();
@@ -826,13 +828,16 @@ public class KnnPlus
             modelsFile.renameTo(modelsFileOld);
 
             FileWriter fw = new FileWriter(modelsFilePath);
+            BufferedWriter bw = new BufferedWriter(fw);
             for (String line : lines) {
-                fw.write(line);
+                bw.write(line);
+                bw.newLine();
             }
+            bw.close();
             fw.close();
-            logger.debug("Wrote corrected models file to " + modelsFilePath);
+            logger.info("Wrote corrected models file to " + modelsFilePath);
         } else {
-            logger.debug("Check finished, no changes made.");
+            logger.info("Check finished, no changes made.");
         }
     }
 }
