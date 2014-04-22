@@ -42,7 +42,7 @@ import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 
 public class QsarModelingTask extends WorkflowTask
 {
-    private static Logger logger 
+    private static Logger logger
                     = Logger.getLogger(QsarModelingTask.class.getName());
     // job details
     private String                 sdFileName;
@@ -88,7 +88,7 @@ public class QsarModelingTask extends WorkflowTask
     private KnnPlusParameters      knnPlusParameters;
 
     // predicted external set values
-    ArrayList<ExternalValidation>  externalSetPredictions 
+    ArrayList<ExternalValidation>  externalSetPredictions
                                     = new ArrayList<ExternalValidation>();
 
     // predictor object created during task
@@ -259,7 +259,7 @@ public class QsarModelingTask extends WorkflowTask
                     .getXCompoundNames(filePath + "ext_0.x");
             numExternalCompounds = extCompoundArray.size();
             logger.info("Recovering: numExternalCompounds set to "
-                    + numExternalCompounds + " by user, " + userName 
+                    + numExternalCompounds + " by user, " + userName
                     + " in job, " + jobName + ".");
         }
         else {
@@ -301,7 +301,7 @@ public class QsarModelingTask extends WorkflowTask
         // variables
         logger.info("Modeling Type: "
                 + ModelingForm.getModelingType()
-                + " submitted by user, " + userName 
+                + " submitted by user, " + userName
                 + " for job, "+ ModelingForm.getJobName() + ".");
         modelType = ModelingForm.getModelingType();
         scalingType = ModelingForm.getScalingType();
@@ -466,7 +466,7 @@ public class QsarModelingTask extends WorkflowTask
         else if (ModelingForm.getModelingType()
                 .equals(Constants.RANDOMFOREST)) {
             // XXX hack! disables internal splitting for randomforest;
-            // this is done by setting 1 randsplit (0 splits causes an error) 
+            // this is done by setting 1 randsplit (0 splits causes an error)
             // and making it so that the train/test split is 100%/0%
             // FIXME in the future, make a third option for trainTestSplitType
             // (e.g. NONE) that disables splitting completely
@@ -603,7 +603,7 @@ public class QsarModelingTask extends WorkflowTask
 
     public void preProcess() throws Exception
     {
-
+        logger.info("Beginning pre-processing for " + jobName);
         // copy the dataset files to the working directory
         step = Constants.SETUP;
 
@@ -612,7 +612,7 @@ public class QsarModelingTask extends WorkflowTask
 
         // read in the descriptors for the dataset
         ArrayList<String> descriptorNames = new ArrayList<String>();
-        ArrayList<Descriptors> descriptorValueMatrix 
+        ArrayList<Descriptors> descriptorValueMatrix
                                           = new ArrayList<Descriptors>();
         ArrayList<String> chemicalNames   = DatasetFileOperations
                 .getACTCompoundNames(filePath + actFileName);
@@ -628,7 +628,7 @@ public class QsarModelingTask extends WorkflowTask
         step = Constants.PROCDESCRIPTORS;
         if (descriptorGenerationType.equals(Constants.MOLCONNZ)) {
             logger.debug(
-                    "Converting MolconnZ output to .x format and reading " 
+                    "Converting MolconnZ output to .x format and reading "
                    +"for job, " + jobName + " submitted by user, " +
                             userName + ".");
             ReadDescriptors.readMolconnZDescriptors(filePath + sdFileName
@@ -683,7 +683,7 @@ public class QsarModelingTask extends WorkflowTask
             ReadDescriptors.readMaccsDescriptors(filePath + sdFileName
                     + ".maccs", descriptorNames, descriptorValueMatrix);
         }
-		else if (descriptorGenerationType.equals(Constants.ISIDA)) {
+        else if (descriptorGenerationType.equals(Constants.ISIDA)) {
             logger.debug("Processing ISIDA descriptors for job, "+ jobName
                     + "submitted by user, " +userName);
             ReadDescriptors.readISIDADescriptors(filePath + sdFileName
@@ -764,11 +764,12 @@ public class QsarModelingTask extends WorkflowTask
             // copy needed files out to LSF
             LsfUtilities.makeLsfModelingDirectory(filePath, lsfPath);
         }
+        logger.info("Finished pre-processing for " + jobName);
     }
 
     public String executeLSF() throws Exception
     {
-
+        logger.info("Beginning LSF submission for " + jobName);
         // this function will submit a single LSF job.
         // To submit this workflowTask as multiple jobs (to distribute the
         // computation)
@@ -789,13 +790,15 @@ public class QsarModelingTask extends WorkflowTask
         else if (modelType.equals(Constants.SVM)) {
             lsfJobId = Svm.buildSvmModelsLsf(lsfPath, userName, jobName);
         }
-
+        logger.info(String.format("Finished LSF submission for %s. LSF ID is %s",
+                    jobName, lsfJobId));
         return lsfJobId;
     }
 
-    
+
     public void executeLocal() throws Exception
     {
+        logger.info("Beginning local execution for " + jobName);
         String path = Constants.CECCR_USER_BASE_PATH + userName + "/"
                 + jobName + "/";
 
@@ -860,10 +863,12 @@ public class QsarModelingTask extends WorkflowTask
             logger.debug("modeling phase done, "+jobName+ " submitted by "
                     + "user, "+ userName + ".");
         }
+        logger.info("Finished local execution for " + jobName);
     }
 
     public void postProcess() throws Exception
     {
+        logger.info("Beginning post-processing for " + jobName);
         step = Constants.READING;
         // done with modeling. Read output files.
 
@@ -873,6 +878,10 @@ public class QsarModelingTask extends WorkflowTask
             String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName
                     + "/";
             LsfUtilities.retrieveCompletedPredictor(filePath, lsfPath);
+
+            if (modelType.startsWith(Constants.KNN)) {
+                KnnPlus.checkModelsFile(filePath);
+            }
 
             if (numExternalCompounds > 0) {
                 step = Constants.PREDEXT;
@@ -938,8 +947,8 @@ public class QsarModelingTask extends WorkflowTask
                 tx.commit();
             }
             catch (Exception ex) {
-                logger.error("Error while executing job, "+jobName+" submitted by " 
-                		    + userName + ".\n" + ex.toString());
+                logger.error("Error while executing job, "+jobName+" submitted by "
+                            + userName + ".\n" + ex.toString());
                 tx.rollback();
             }
 
@@ -966,7 +975,7 @@ public class QsarModelingTask extends WorkflowTask
                 tx.commit();
             }
             catch (Exception ex) {
-                logger.error("Error while executing job, "+jobName+" submitted by " 
+                logger.error("Error while executing job, "+jobName+" submitted by "
                         + userName + ".\n" + ex.toString());
                 tx.rollback();
             }
@@ -985,7 +994,7 @@ public class QsarModelingTask extends WorkflowTask
             }
             else {
                 logger.debug("No external compounds; " +
-                		"skipping external set prediction!");
+                        "skipping external set prediction!");
             }
 
             predictor.setNumTotalModels(getNumTotalModels());
@@ -1109,7 +1118,7 @@ public class QsarModelingTask extends WorkflowTask
             tx.commit();
         }
         catch (Exception ex) {
-            logger.error("Error while executing job, "+jobName+" submitted by " 
+            logger.error("Error while executing job, "+jobName+" submitted by "
                     + userName + ".\n" + ex.toString());
             tx.rollback();
         }
@@ -1167,7 +1176,7 @@ public class QsarModelingTask extends WorkflowTask
             }
             catch (Exception ex) {
                 logger.error("Error while executing job, "+jobName
-                        +" submitted by " + userName + ".\n" 
+                        +" submitted by " + userName + ".\n"
                         + ex.toString());
             }
 
@@ -1178,6 +1187,7 @@ public class QsarModelingTask extends WorkflowTask
             ModelingUtilities.MoveToPredictorsDir(userName, jobName, "");
         }
         session.close();
+        logger.info("Finished post-processing for " + jobName);
     }
 
     public void delete() throws Exception

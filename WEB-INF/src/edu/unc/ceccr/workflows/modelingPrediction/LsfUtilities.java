@@ -21,13 +21,9 @@ public class LsfUtilities
     retrieveCompletedPredictor(String filePath, String lsfPath)
                                                              throws Exception
     {
-        // open the directory in /largefs/ceccr/ where the job was run
-
-        String execstr = "mv.sh " + lsfPath + "* " + filePath;
-        RunExternalProgram.runCommand(execstr, "");
-
-        execstr = "mv.sh " + lsfPath + "yRandom/* " + filePath + "yRandom/ ";
-        RunExternalProgram.runCommand(execstr, "");
+        FileAndDirOperations.copyDirContents(lsfPath, filePath, true);
+        logger.warn("About to recursively delete " + lsfPath);
+        FileAndDirOperations.deleteDir(new File(lsfPath));
     }
 
     public static void

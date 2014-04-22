@@ -450,19 +450,19 @@ body {
 }
 
 .predictorNameWidth {
-    width:200px;
+    width:155px;
 }
 
 .predictorDatasetWidth {
-    width:150px;
+    width:135px;
 }
 
 .predictorNfoldWidth {
-    width:20px;
+    width:30px;
 }
 
 .predictorActtypeWidth {
-    width:50px;
+    width:80px;
 }
 
 .predictorExternalWidth {
@@ -474,11 +474,11 @@ body {
 }
 
 .predictorDescriptorWidth {
-    width:60px;
+    width:70px;
 }
 
 .predictorPublicWidth {
-    width:35px;
+    width:45px;
 }
 
 .predictorDateWidth {

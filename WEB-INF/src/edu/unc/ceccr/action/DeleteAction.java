@@ -294,12 +294,23 @@ public class DeleteAction extends ActionSupport
         if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
             String[] childIdArray = p.getChildIds().split("\\s+");
             for (String childId : childIdArray) {
-                Predictor childPredictor = PopulateDataObjects
-                        .getPredictorById(Long.parseLong(childId), session);
-                childPredictors.add(childPredictor);
-                extVals.addAll(PopulateDataObjects
-                        .getExternalValidationValues(childPredictor.getId(),
-                                session));
+                if (childId.equals("null")) {
+                    logger.warn("Attempted to delete a nonexistant child " +
+                            "predictor belonging to predictor id " + p.getId());
+                } else {
+                    Predictor childPredictor = PopulateDataObjects
+                            .getPredictorById(Long.parseLong(childId), session);
+                    if (childPredictor == null) {
+                        logger.warn(String.format(
+                                "Child predictor with id %s not found",
+                                childId));
+                    } else {
+                        childPredictors.add(childPredictor);
+                        extVals.addAll(PopulateDataObjects
+                                .getExternalValidationValues(childPredictor.getId(),
+                                        session));
+                    }
+                }
             }
         }
         extVals.addAll(PopulateDataObjects.getExternalValidationValues(p
