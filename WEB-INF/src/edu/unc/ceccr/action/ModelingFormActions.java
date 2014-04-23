@@ -161,6 +161,7 @@ public class ModelingFormActions extends ActionSupport
             jobName = jobName.replaceAll("\\[", "_");
             jobName = jobName.replaceAll("\\]", "_");
             jobName = jobName.replaceAll("/", "_");
+            jobName = jobName.replaceAll("&", "_");
         }
 
         logger.info("Submitting modeling job with dataset id: "
