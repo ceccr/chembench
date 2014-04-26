@@ -1,25 +1,71 @@
 # Temporary files
-.DS_Store
-*~
+~*
 .#*
-.*.sw?
+*.sw?
+
+# Directories
+/build/
+/bin/
+target/
+
+# OS Files
+.DS_Store
 
 *.class
 
-# Package Files #
+# Package Files
 *.jar
 *.war
 *.ear
-WEB-INF/lib
+*.db
 
-#Ignore all subdirectories under classes#
-WEB-INF/classes/*/*
+# Temporary files
 
-#Ignore the log folder#
-WEB-INF/logs/
+######################
+# Windows
+######################
+Thumbs.db
+Desktop.ini
 
-#Ignore the buildDate.txt#
-WEB-INF/buildDate.txt
+######################
+# OSX
+######################
+.DS_Store
+.svn
 
-#Ignore the log4j.xml file#
-WEB-INF/classes/log4j.xml
+# Thumbnails
+._*
+
+# Files that might appear on external disk
+.Spotlight-V100
+.Trashes
+
+######################
+# Eclipse
+######################
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+/src/main/resources/rebel.xml
+
+.amateras
+.externalToolBuilders
+*.launch  # Locally stored "Eclipse launch configurations"
+
+######################
+# IntelliJ IDEA
+######################
+.idea
+*.iml
+
