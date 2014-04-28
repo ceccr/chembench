@@ -142,7 +142,7 @@
                         <th class="TableRowText01">Country</th>
                         <th class="TableRowText01">Last Login</th>
                         <th class="TableRowText01_unsortable">Can Download Descriptors</th>
-                        <th class="TableRowText01_unsortable">Administrator</th>
+                        <th class="TableRowText01_unsortable">Admin</th>
                         <th class="TableRowText01_unsortable">Send email to</th>
                         <th class="TableRowText01_unsortable">Delete</th>
                     </tr>
