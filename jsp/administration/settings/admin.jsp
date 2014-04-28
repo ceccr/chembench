@@ -98,7 +98,6 @@
                             <td>
                             <input type="submit" name="promote" onclick="this.form.action='makePredictorPublicAction'" value="Promote"/>
                             <input type="submit" name="delete" onclick="this.form.action='deletePredictorAction'" value="delete"/>
-                            <!--<input type="submit" name="rename" onclick="this.form.action='renamePublicPredictorAction'" value="Rename">-->
                             </td>
                             </tr>
                     </table>
