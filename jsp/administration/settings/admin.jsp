@@ -133,6 +133,7 @@
                             <br />
                         </form>
                     </div>
+                    <a href="#" id="reset-all-passwords">Reset <strong>all</strong> passwords</a> (use caution!)
                 </div>
 
                 <table class="sortable" id="userTable">
@@ -144,18 +145,20 @@
                         <th class="TableRowText01_unsortable">Can Download Descriptors</th>
                         <th class="TableRowText01_unsortable">Admin</th>
                         <th class="TableRowText01_unsortable">Send email to</th>
+                        <th class="TableRowText01_unsortable">Reset password</th>
                         <th class="TableRowText01_unsortable">Delete</th>
                     </tr>
                     <s:iterator value="users">
                         <s:if test="!email.contains('ceccr@email.unc.edu')">
                             <tr>
-                                <td class="TableRowText02"><a href="mailto:<s:property value="email" />"><s:property value="userName" /></a><br /><s:property value="firstName" />&nbsp;<s:property value="lastName" /></td>
+                                <td class="TableRowText02"><a href="mailto:<s:property value="email" />"><span class="username"><s:property value="userName" /></span></a><br /><s:property value="firstName" />&nbsp;<s:property value="lastName" /><br><span class="email"><s:property value="email" /></span></td>
                                 <td class="TableRowText02"><s:property value="orgName" /></td>
                                 <td class="TableRowText02"><s:property value="country" /></td>
                                 <td class="TableRowText02"><s:date name="lastLogintime" format="yyyy-MM-dd HH:mm" /></td>
                                 <td class="TableRowText02"><input type="checkbox" onclick="loadUrl('/changeUserDescriptorDownloadStatus?userToChange=<s:property value="userName" />')" <s:if test="canDownloadDescriptors=='YES'">checked</s:if> /></td>
                                 <td class="TableRowText02"><input type="checkbox" onclick="loadUrl('/changeUserAdminStatus?userToChange=<s:property value="userName" />')" <s:if test="isAdmin=='YES'">checked</s:if>  <s:if test="userName==user.userName">disabled="true"</s:if> /></td>
                                 <td class="TableRowText02"><input type="checkbox" <s:if test="userName.contains('guest')||userName.contains('all-users')">disabled="true"</s:if> name="emailSelected" value="<s:property value="email" />"/></td>
+                                <td class="TableRowText02"><a class="reset-user-password" href="#">reset pw</a></td>
                                 <td class="TableRowText02"><a onclick="return confirmDelete('user')" href="deleteUser?userToDelete=<s:property value="userName" />">delete</a></td>
                             </tr>
                         </s:if>
@@ -204,6 +207,30 @@
                 document.write(data);
                 document.close();
             });
+        });
+
+        $("#reset-all-passwords").click(function(event) {
+            event.preventDefault();
+            if (window.confirm('Are you absolutely sure you wish to reset passwords for ALL users? This cannot be undone!')) {
+                $(".reset-user-password").each(function(){
+                    var username = $(this).parents("tr").find(".username").html();
+                    var email = $(this).parents("tr").find(".email").html();
+                    $.post("/resetPassword", { userName: username, email: email });
+                    console.log(username + " / " + email);
+                });
+            }
+            alert('Resets complete.');
+        });
+
+        $(".reset-user-password").click(function(event) {
+            event.preventDefault();
+            var username = $(this).parents("tr").find(".username").html();
+            var email = $(this).parents("tr").find(".email").html();
+            if (window.confirm('Are you sure you wish to reset the password for user "' + username + '"?')) {
+                $.post("/resetPassword", { userName: username, email: email }, function(data) {
+                    alert('Password reset for user "' + username + '".');
+                });
+            }
         });
     });
 </script>
