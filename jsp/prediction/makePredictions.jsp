@@ -30,6 +30,7 @@
     <script language="javascript" src="javascript/modeling.js"></script>
     <script src="javascript/predictorFormValidation.js"></script>
     <script type="text/javascript" src="javascript/jquery.zclip.min.js"></script>
+    <script src="javascript/jsme/jsme.nocache.js"></script>
     <script language="javascript">
         var usedDatasetNames = new Array(<s:iterator value="userDatasetNames">"<s:property />",</s:iterator>"");
         var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />",</s:iterator>"");
@@ -64,7 +65,11 @@
 
                 return true;
             }
+        }
 
+        function jsmeOnLoad() {
+            var jsmeApplet = new JSApplet.JSME("jsme-container", "440px", "300px");
+            document.JME = jsmeApplet;
         }
 </script>
 </head>
@@ -487,38 +492,12 @@
                                     cellspacing="4">
                                   <tbody>
                                     <tr>
-                                      <td style="width: 20px"></td>
+                                      <div id="jsme-container"></div>
+                                    </tr>
+                                    <tr>
                                       <td>
-                                        <script language="JavaScript1.1" src="jchem/marvin/marvin.js" ></script>
-                                        <script language="JavaScript1.1">
-
-                                          function exportMol() {
-                                            if(document.MSketch != null) {
-                                              var s = document.MSketch.getMol('smiles:');
-                                              s = unix2local(s); // Convert "\n" to local line separator
-                                              document.getElementById("smiles").value = s;
-                                              predictSmiles();
-                                            } else {
-                                              alert("Cannot import molecule:\n"+
-                                              "no JavaScript to Java communication in your browser.\n");
-                                            }
-                                          }
-
-                                          msketch_name = "MSketch";
-                                          msketch_mayscript = true;
-                                          msketch_begin("/jchem/marvin/", 440, 300);
-                                          msketch_end();
-                                          document.MSketch.style.zIndex="-1";
-
-                                        </script>
-                                        <br />
-                                        <input type="button" value="Get SMILES and Predict" property="text" onclick="exportMol()" />
-                                        <input
-                                            type="button"
-                                            value="Clear"
-                                            property="text"
-                                            onclick="if(document.MSketch!=null) document.MSketch.setMol('');"
-                                        />
+                                          <input id="get-smiles-and-predict" type="button" value="Get SMILES and Predict">
+                                          <input id="clear-canvas" type="button" value="Clear">
                                       </td>
                                     </tr>
                                   </tbody>
@@ -540,10 +519,6 @@
                                           <b>C1=CC=C(C=C1)CC(C(=O)O)N</b>
                                           (phenylalanine). Or, use the applet on the left to draw a molecule, then
                                           click "Get SMILES and Predict".
-                                        </p>
-                                        <p class="StandardTextDarkGrayParagraph">
-                                          Note: If the sketch applet did not load, your Java version may be out of date.
-                                          You can download an updated version <a href="https://www.java.com/en/download/index.jsp">here</a>.
                                         </p>
                                     </tr>
                                     <tr>
@@ -608,6 +583,17 @@
             $("#copy").zclip({
                 path: "javascript/ZeroClipboard.swf",
                 copy: function() { return $("#smilesResults").text().trim(); },
+            });
+
+            $("#get-smiles-and-predict").click(function(event) {
+                event.preventDefault();
+                $("#smiles").val(document.JME.smiles());
+                predictSmiles();
+            });
+
+            $("#clear-canvas").click(function(event) {
+                event.preventDefault();
+                document.JME.reset();
             });
         });
     </script>
