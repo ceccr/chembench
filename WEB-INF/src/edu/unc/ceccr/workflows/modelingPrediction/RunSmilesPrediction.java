@@ -1,24 +1,7 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.log4j.Logger;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
-import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
@@ -30,20 +13,26 @@ import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
 import edu.unc.ceccr.workflows.utilities.StandardizeSdfFormat;
+import org.apache.log4j.Logger;
 
-public class RunSmilesPrediction
-{
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Set;
+
+public class RunSmilesPrediction {
     private static Logger logger = Logger.getLogger(RunSmilesPrediction.class
-                                         .getName());
+            .getName());
 
     public static String[] PredictSmilesSDF(String workingDir,
                                             String username,
-                                            Predictor predictor) throws Exception
-    {
+                                            Predictor predictor) throws Exception {
         Path wd = new File(workingDir).toPath();
         if (!Files.exists(wd)) {
             logger.info("Working directory doesn't exist, creating it: " +
-                        wd.toString());
+                    wd.toString());
             Files.createDirectory(wd);
         }
 
@@ -62,7 +51,7 @@ public class RunSmilesPrediction
         logger.debug("Copying complete. Generating descriptors. ");
 
         /* generate ISIDA descriptor for smiles.sdf*/
-        if(predictor.getDescriptorGeneration().equals(Constants.ISIDA)){
+        if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
             generateISIDADescriptorsForSDF(workingDir, predictor.getSdFileName());
         }
 
@@ -75,30 +64,24 @@ public class RunSmilesPrediction
         if (predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
             ReadDescriptors.readMolconnZDescriptors(sdfile + ".molconnz",
                     descriptorNames, descriptorValueMatrix);
-        }
-        else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
+        } else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
             ReadDescriptors.readXDescriptors(sdfile + ".cdk.x",
                     descriptorNames, descriptorValueMatrix);
-        }
-        else if (predictor.getDescriptorGeneration()
+        } else if (predictor.getDescriptorGeneration()
                 .equals(Constants.DRAGONH)) {
             ReadDescriptors.readDragonDescriptors(sdfile + ".dragonH",
                     descriptorNames, descriptorValueMatrix);
-        }
-        else if (predictor.getDescriptorGeneration().equals(
+        } else if (predictor.getDescriptorGeneration().equals(
                 Constants.DRAGONNOH)) {
             ReadDescriptors.readDragonDescriptors(sdfile + ".dragonNoH",
                     descriptorNames, descriptorValueMatrix);
-        }
-        else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
+        } else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
             ReadDescriptors.readMoe2DDescriptors(sdfile + ".moe2D",
                     descriptorNames, descriptorValueMatrix);
-        }
-        else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
+        } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
             ReadDescriptors.readMaccsDescriptors(sdfile + ".maccs",
                     descriptorNames, descriptorValueMatrix);
-        }
-         else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
+        } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
             ReadDescriptors.readISIDADescriptors(sdfile + ".ISIDA",
                     descriptorNames, descriptorValueMatrix);
         }
@@ -110,7 +93,8 @@ public class RunSmilesPrediction
         WriteDescriptors.writePredictionXFile(chemicalNames,
                 descriptorValueMatrix, descriptorString,
                 sdfile + ".renorm.x", workingDir + "train_0.x", predictor
-                        .getScalingType());
+                        .getScalingType()
+        );
 
         /* read prediction output */
         ArrayList<String> predValueArray = new ArrayList<String>();
@@ -137,8 +121,7 @@ public class RunSmilesPrediction
                 execstr = "knn+ knn-output.list -4PRED="
                         + "smiles.sdf.renorm.x" + " -AD=" + 99999
                         + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-            }
-            else if (predictor.getModelMethod().equals(Constants.KNNGA)
+            } else if (predictor.getModelMethod().equals(Constants.KNNGA)
                     || predictor.getModelMethod().equals(Constants.KNNSA)) {
                 execstr = "knn+ models.tbl -4PRED=" + "smiles.sdf.renorm.x"
                         + " -AD=" + 99999
@@ -174,8 +157,7 @@ public class RunSmilesPrediction
             }
             in.close();
             logger.debug("numModels: " + predValueArray.size());
-        }
-        else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+        } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
             // run prediction
             String xFile = "smiles.sdf.renorm.x";
             String newXFile = "RF_" + xFile;
@@ -216,33 +198,32 @@ public class RunSmilesPrediction
                 }
             }
             in.close();
-        }
-        else if (predictor.getModelMethod().equals(Constants.SVM)) {
+        } else if (predictor.getModelMethod().equals(Constants.SVM)) {
             // TODO "smiles.sdf" + ".renorm.x" filepath is a magic string --
             // codify or parameterize this somewhere
             File xFile = new File(workingDir, "smiles.sdf.renorm.x");
             logger.info(String.format(
                     "running SMILES prediction: FILE=%s, METHOD=%s", xFile
-                            .getAbsolutePath(), Constants.SVM));
+                            .getAbsolutePath(), Constants.SVM
+            ));
             if (!xFile.exists()) {
                 logger.warn(String.format(
                         "X file doesn't exist: LOCATION=%s", xFile
-                                .getAbsolutePath()));
-            }
-            else {
+                                .getAbsolutePath()
+                ));
+            } else {
                 Svm.runSvmPrediction(workingDir, xFile.getName());
                 logger.info(String.format(
                         "reading predicted values: FILE=%s, METHOD=%s", xFile
-                                .getAbsolutePath(), Constants.SVM));
+                                .getAbsolutePath(), Constants.SVM
+                ));
                 // since we have common mean/stddev calculation code in
                 // RunSmilesPrediction, we'll parse the files ourselves
                 // TODO prediction output file extension ".pred" should be a
                 // const
                 File dir = new File(workingDir);
-                String[] predictionFiles = dir.list(new FilenameFilter()
-                {
-                    public boolean accept(File arg0, String arg1)
-                    {
+                String[] predictionFiles = dir.list(new FilenameFilter() {
+                    public boolean accept(File arg0, String arg1) {
                         return arg1.endsWith(".pred");
                     }
                 });
@@ -259,8 +240,7 @@ public class RunSmilesPrediction
                             logger.warn(String
                                     .format("prediction line was null or empty, FILE=%s",
                                             filepath));
-                        }
-                        else {
+                        } else {
                             predLine.trim();
                             logger.info(String.format(
                                     "adding prediction: VALUE=%s, FILE=%s",
@@ -276,16 +256,14 @@ public class RunSmilesPrediction
                             }
                         }
                         br.close();
-                    }
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         logger.warn(String.format(
                                 "couldn't read prediction file: FILE=%s",
                                 filepath), e);
                     }
                 }
             }
-        }
-        else {
+        } else {
             // unsupported modeling type
             String logString = String.format(
                     "Model method not recognized: PREDICTOR=%s, METHOD=%s",
@@ -327,8 +305,7 @@ public class RunSmilesPrediction
             predictedValue = (Utility.roundSignificantFigures(predictedValue,
                     Constants.REPORTED_SIGNIFICANT_FIGURES));
             prediction[1] = predictedValue;
-        }
-        else {
+        } else {
             prediction[1] = "N/A";
             if (predictor.getModelMethod().equals(Constants.KNNGA)
                     || predictor.getModelMethod().equals(Constants.KNNSA)
@@ -343,8 +320,7 @@ public class RunSmilesPrediction
             stdDevStr = (Utility.roundSignificantFigures(stdDevStr,
                     Constants.REPORTED_SIGNIFICANT_FIGURES));
             prediction[2] = stdDevStr;
-        }
-        else {
+        } else {
             prediction[2] = "N/A";
         }
 
@@ -352,8 +328,7 @@ public class RunSmilesPrediction
     }
 
     public static void
-            smilesToSDF(String smiles, String smilesDir) throws Exception
-    {
+    smilesToSDF(String smiles, String smilesDir) throws Exception {
         /*
          * takes in a SMILES string and produces an SDF file from it. Returns
          * the file path as a string.
@@ -398,9 +373,8 @@ public class RunSmilesPrediction
     }
 
     public static void
-        generateDescriptorsForSDF(String smilesDir,
-                                  Set<String> descriptorTypes) throws Exception
-    {
+    generateDescriptorsForSDF(String smilesDir,
+                              Set<String> descriptorTypes) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
         if (descriptorTypes.contains(Constants.MOLCONNZ)) {
             GenerateDescriptors.GenerateMolconnZDescriptors(sdfile, sdfile
@@ -431,8 +405,7 @@ public class RunSmilesPrediction
 
     public static void
     generateISIDADescriptorsForSDF(String smilesDir,
-                              String predictorSdfFileNames) throws Exception
-    {
+                                   String predictorSdfFileNames) throws Exception {
         String sdfile = new File(smilesDir, "smiles.sdf").getAbsolutePath();
         String predictorHeaderFile = smilesDir + predictorSdfFileNames + ".ISIDA.hdr";
         GenerateDescriptors.GenerateISIDADescriptorsWithHeader(sdfile, sdfile + ".ISIDA", predictorHeaderFile);

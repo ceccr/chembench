@@ -1,45 +1,37 @@
 package edu.unc.ceccr.utilities;
 
-import java.io.BufferedWriter;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import edu.unc.ceccr.global.Constants;
-
 import org.apache.log4j.Logger;
+
+import java.io.*;
 
 // Java suuure is dumb sometimes. Needs me to write it a whole class just to
 // run a program and capture its output without bleeding file handles
 // all over the place.
 
-public class RunExternalProgram
-{
+public class RunExternalProgram {
 
     // these programs should not have anything appear in the log file
     // when they run. (For programs that execute many times in quick
     // succession.)
 
-    private static Logger   logger     = Logger.getLogger(RunExternalProgram.class
-                                               .getName());
-    private static String[] runQuietly = { "bjobs.sh",
+    private static Logger logger = Logger.getLogger(RunExternalProgram.class
+            .getName());
+    private static String[] runQuietly = {"bjobs.sh",
             "datasplit_train_test", "checkKnnSaProgress",
-            "checkKnnGaProgress", "svm-train", "svm-predict", "molconvert" };
+            "checkKnnGaProgress", "svm-train", "svm-predict", "molconvert"};
 
-    public static void close(Closeable c)
-    {
+    public static void close(Closeable c) {
         if (c != null) {
             try {
                 c.close();
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 logger.warn("Couldn't close file handle", e);
             }
         }
     }
 
-    public static void runCommand(String cmd, String workingDir)
-    {
+    public static void runCommand(String cmd, String workingDir) {
         // runs an external program (no logging)
 
         try {
@@ -62,8 +54,7 @@ public class RunExternalProgram
                             "Running external program: CMD=%s", cmd));
                 }
                 p = Runtime.getRuntime().exec(cmd);
-            }
-            else {
+            } else {
                 if (outputRunningMessage) {
                     logger.info(String.format(
                             "Running external program: CMD=%s, WORKINGDIR=%s",
@@ -88,16 +79,14 @@ public class RunExternalProgram
             RunExternalProgram.close(p.getErrorStream());
             p.destroy();
 
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
     }
 
     public static void runCommandAndLogOutput(String cmd,
                                               String workingDir,
-                                              String logFileName)
-    {
+                                              String logFileName) {
         // runs an external program and writes user info to logfile
 
         try {
@@ -143,8 +132,7 @@ public class RunExternalProgram
                     null, new File(workingDir));
             p.waitFor();
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error("Error executing external program", e);
         }
     }

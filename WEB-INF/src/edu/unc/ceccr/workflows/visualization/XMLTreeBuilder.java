@@ -1,49 +1,42 @@
 package edu.unc.ceccr.workflows.visualization;
 
+import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
 
-import org.apache.log4j.Logger;
-
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-
-public class XMLTreeBuilder
-{
+public class XMLTreeBuilder {
     private static Logger logger = Logger.getLogger(XMLTreeBuilder.class.getName());
     private Vector<Vector<String>> data;
-    private String                 xml;
-    private String                 file_path;
-    private Double                 max;
-    private Vector<String>         names = new Vector<String>();
-    private Double[][]             data_map;
+    private String xml;
+    private String file_path;
+    private Double max;
+    private Vector<String> names = new Vector<String>();
+    private Double[][] data_map;
 
-    public XMLTreeBuilder()
-    {
+    public XMLTreeBuilder() {
     }
 
-    public XMLTreeBuilder(String dataFile)
-    {
+    public XMLTreeBuilder(String dataFile) {
         this.file_path = dataFile;
     }
 
-    public void setFilePath(String file_path)
-    {
+    public void setFilePath(String file_path) {
         this.file_path = file_path;
     }
 
-    public void readFileToVector() throws Exception
-    {
+    public void readFileToVector() throws Exception {
         this.data = DatasetFileOperations.readFileToVector("\t",
                 this.file_path + ".mat");
     }
 
-    public void formatData()
-    {
+    public void formatData() {
         Double[][] result = new Double[data.size() - 1][data.size() - 1];
         for (int i = 0; i < data.size() - 1; i++) {
-            names.add(( data.get(0)).get(i + 1));
+            names.add((data.get(0)).get(i + 1));
             for (int j = 0; j < data.size() - 1; j++) {
                 result[i][j] = new Double((data.get(i + 1))
                         .get(j + 1));
@@ -52,8 +45,7 @@ public class XMLTreeBuilder
         data_map = result;
     }
 
-    public void formatData(Vector<String> names, Vector<Vector<Double>> data)
-    {
+    public void formatData(Vector<String> names, Vector<Vector<Double>> data) {
         Double[][] result = new Double[data.size()][data.size()];
         for (int i = 0; i < data.size(); i++) {
             for (int j = 0; j < data.size(); j++) {
@@ -64,8 +56,7 @@ public class XMLTreeBuilder
         data_map = result;
     }
 
-    private Integer[] findMax(Double[][] data)
-    {
+    private Integer[] findMax(Double[][] data) {
         Integer[] key = new Integer[2];
         try {
             max = new Double(0);
@@ -78,8 +69,7 @@ public class XMLTreeBuilder
                     }
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e);
         }
 
@@ -87,15 +77,14 @@ public class XMLTreeBuilder
 
     }
 
-    private void createBaseXML()
-    {
+    private void createBaseXML() {
 
         xml = "";
         xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
                 + "<graphml xmlns=\"http://graphml.graphdrawing.org/xmlns\">"
                 + "<graph edgedefault=\"undirected\">\n"
-                + "<key id=\"name\" for=\"node\" attr.name=\"name\" " 
-                +   "attr.type=\"string\"/>\n"
+                + "<key id=\"name\" for=\"node\" attr.name=\"name\" "
+                + "attr.type=\"string\"/>\n"
                 + "<!-- nodes -->\n";
         xml += "<node id=\"****\">\n" + "<data key=\"name\">top</data>\n"
                 + "</node>\n";
@@ -108,8 +97,7 @@ public class XMLTreeBuilder
 
     }
 
-    private String buildXML()
-    {
+    private String buildXML() {
         createBaseXML();
         String newname = "";
         String name1 = "";
@@ -119,8 +107,8 @@ public class XMLTreeBuilder
             Double[][] temp_map = data_map;
             Integer[] key = findMax(data_map);
             // combining closest compounds
-            Double[][] matrix_without_keys 
-                       = new Double[temp_map.length - 1][temp_map.length - 1];
+            Double[][] matrix_without_keys
+                    = new Double[temp_map.length - 1][temp_map.length - 1];
             int ii = 0;
 
             for (int i = 0; i < data_map.length; i++) {
@@ -141,8 +129,8 @@ public class XMLTreeBuilder
             for (int i = 0; i < temp_map.length; i++) {
                 if (temp_map[key[0]][i] < 1.0 && temp_map[key[1]][i] < 1.0) {
                     // searching max value between merging values
-                    merged[ii] = temp_map[key[0]][i] >= temp_map[key[1]][i] 
-                            ? temp_map[key[0]][i]: temp_map[key[1]][i];
+                    merged[ii] = temp_map[key[0]][i] >= temp_map[key[1]][i]
+                            ? temp_map[key[0]][i] : temp_map[key[1]][i];
                     ii++;
                 }
 
@@ -189,8 +177,7 @@ public class XMLTreeBuilder
         return xml;
     }
 
-    public void writeXMLFile() throws IOException
-    {
+    public void writeXMLFile() throws IOException {
         String xml = buildXML();
         BufferedWriter out = new BufferedWriter(new FileWriter(this.file_path
                 + ".xml"));

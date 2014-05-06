@@ -1,5 +1,10 @@
 package edu.unc.ceccr.workflows.descriptors;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.Descriptors;
+import edu.unc.ceccr.utilities.Utility;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,15 +14,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 
-import org.apache.log4j.Logger;
 
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.Descriptors;
-import edu.unc.ceccr.utilities.Utility;
-
-
-public class WriteDescriptors
-{
+public class WriteDescriptors {
     private static Logger logger = Logger.getLogger(WriteDescriptors.class.getName());
     // using a set of Descriptors objects, create output files for kNN or SVM
     // containing the descriptors for a dataset.
@@ -26,26 +24,23 @@ public class WriteDescriptors
     // values modified.
 
     public static void
-            findMinMaxAvgStdDev(ArrayList<Descriptors> descriptorMatrix,
-                                ArrayList<String> descriptorValueMinima,
-                                ArrayList<String> descriptorValueMaxima,
-                                ArrayList<String> descriptorValueAvgs,
-                                ArrayList<String> descriptorValueStdDevs)
-    {
-    	String logString = "findMinMaxAvgStdDev: descriptorMatrix ";
-    	if (descriptorMatrix == null) {
-    		logString += "is null";
-    		logger.warn(logString);
-    	}
-    	else if (descriptorMatrix.size() == 0) {
-    		logString += "has no elements";
-    		logger.warn(logString);
-    	}
-    	else {
-    		logString += String.format("has %d elements", 
-    								   descriptorMatrix.size());
-    		logger.info(logString);
-    	}
+    findMinMaxAvgStdDev(ArrayList<Descriptors> descriptorMatrix,
+                        ArrayList<String> descriptorValueMinima,
+                        ArrayList<String> descriptorValueMaxima,
+                        ArrayList<String> descriptorValueAvgs,
+                        ArrayList<String> descriptorValueStdDevs) {
+        String logString = "findMinMaxAvgStdDev: descriptorMatrix ";
+        if (descriptorMatrix == null) {
+            logString += "is null";
+            logger.warn(logString);
+        } else if (descriptorMatrix.size() == 0) {
+            logString += "has no elements";
+            logger.warn(logString);
+        } else {
+            logString += String.format("has %d elements",
+                    descriptorMatrix.size());
+            logger.info(logString);
+        }
 
         // calculates the descriptorValueMinima and descriptorValueMaxima
         // arrays based on descriptorMatrix
@@ -130,16 +125,15 @@ public class WriteDescriptors
     }
 
     public static void
-            rangeScaleGivenMinMax(ArrayList<Descriptors> descriptorMatrix,
-                                  ArrayList<String> descriptorValueMinima,
-                                  ArrayList<String> descriptorValueMaxima)
-    {
+    rangeScaleGivenMinMax(ArrayList<Descriptors> descriptorMatrix,
+                          ArrayList<String> descriptorValueMinima,
+                          ArrayList<String> descriptorValueMaxima) {
         // range-scales the values in the descriptor matrix.
         // We know the min and max. Scaled value = ((value - min) /
         // (max-min)).
 
         logger.debug("range-scaling descriptor matrix according " +
-        		     "to given max and min");
+                "to given max and min");
 
         for (int i = 0; i < descriptorMatrix.size(); i++) {
             ArrayList<String> descriptorValues = new ArrayList<String>();
@@ -172,8 +166,7 @@ public class WriteDescriptors
     public static void
     autoScaleGivenAvgStdDev(ArrayList<Descriptors> descriptorMatrix,
                             ArrayList<String> descriptorValueAvgs,
-                            ArrayList<String> descriptorValueStdDevsPlusAvgs)
-    {
+                            ArrayList<String> descriptorValueStdDevsPlusAvgs) {
         // subtract the avg from each value
         // then divide by the stddev
 
@@ -206,8 +199,7 @@ public class WriteDescriptors
     }
 
     private static double findCorrelation(ArrayList<Double> d1,
-                                          ArrayList<Double> d2)
-    {
+                                          ArrayList<Double> d2) {
         double result = 0;
         double sum_sq_x = 0;
         double sum_sq_y = 0;
@@ -237,15 +229,14 @@ public class WriteDescriptors
                                       ArrayList<String> descriptorValueMaxima,
                                       ArrayList<String> descriptorValueAvgs,
                                       ArrayList<String> descriptorValueStdDevs,
-                                      ArrayList<String> descriptorNames, 
-                                      Float correlationCutoff)
-    {
+                                      ArrayList<String> descriptorNames,
+                                      Float correlationCutoff) {
 
         // first thing: we need to transpose the descriptor matrix.
         // By default, it's organized by compound - we need it organized by
         // descriptor.
-        ArrayList<ArrayList<Double>> descriptorMatrixT 
-                                     = new ArrayList<ArrayList<Double>>();
+        ArrayList<ArrayList<Double>> descriptorMatrixT
+                = new ArrayList<ArrayList<Double>>();
 
         // populate the first values of each row in descriptorMatrix
         String[] sa = descriptorMatrix.get(0).getDescriptorValues().split(
@@ -297,8 +288,7 @@ public class WriteDescriptors
             }
             if (max_index == -1) {
                 done = true;
-            }
-            else {
+            } else {
                 // remove descriptor with largest number of correlations
                 removedDescriptorIndexes.add(max_index);
                 descriptorMatrixT.remove(max_index);
@@ -335,7 +325,8 @@ public class WriteDescriptors
             for (int j = 0; j < descriptorMatrixT.get(i).size(); j++) {
                 descriptorMatrixTT.set(j,
                         (descriptorMatrixTT.get(j) + " " + descriptorMatrixT
-                                .get(i).get(j)));
+                                .get(i).get(j))
+                );
             }
         }
 
@@ -353,9 +344,8 @@ public class WriteDescriptors
                                ArrayList<String> descriptorValueMaxima,
                                ArrayList<String> descriptorValueAvgs,
                                ArrayList<String> descriptorValueStdDevs,
-                               ArrayList<String> descriptorNames, 
-                               Float stdDevCutoff)
-    {
+                               ArrayList<String> descriptorNames,
+                               Float stdDevCutoff) {
 
         // lol write this later
         // should be easy, just like removeZeroVariance but with a stddev
@@ -370,13 +360,12 @@ public class WriteDescriptors
                                   ArrayList<String> descriptorValueMaxima,
                                   ArrayList<String> descriptorValueAvgs,
                                   ArrayList<String> descriptorValueStdDevs,
-                                  ArrayList<String> descriptorNames )
-    {
+                                  ArrayList<String> descriptorNames) {
 
         // removes descriptors where the min and max are equal
         // used only during modeling
         logger.debug("removing zero-variance descriptors " +
-        		"from descriptor matrix");
+                "from descriptor matrix");
 
         ArrayList<Integer> zeroVariance = new ArrayList<Integer>();
         for (int i = 0; i < descriptorValueMinima.size(); i++) {
@@ -384,8 +373,7 @@ public class WriteDescriptors
             float max = Float.parseFloat(descriptorValueMaxima.get(i));
             if (max - min < 0.0001) {
                 zeroVariance.add(1);
-            }
-            else {
+            } else {
                 zeroVariance.add(0);
             }
         }
@@ -423,13 +411,12 @@ public class WriteDescriptors
     public static void
     removeDescriptorsNotInPredictor(ArrayList<Descriptors> descriptorMatrix,
                                     StringBuffer descriptorNameStringBuffer,
-                                    String predictorDescriptorNameString)
-    {
+                                    String predictorDescriptorNameString) {
 
         // removes any descriptors that weren't in the predictor
         // used only during prediction
         logger.debug("removing descriptors that weren't in the " +
-        		"predictor from the prediction descriptor matrix");
+                "predictor from the prediction descriptor matrix");
 
         String descriptorNameString = descriptorNameStringBuffer.toString();
         ArrayList<String> descriptorNames = new ArrayList<String>();
@@ -454,22 +441,22 @@ public class WriteDescriptors
             // skip all non-matching ones
             while ((si < descriptorNames.size())
                     && !descriptorNames.get(si).equalsIgnoreCase(
-                            predictorDescriptorNames.get(i))) {
+                    predictorDescriptorNames.get(i))) {
                 logger.debug("No match; skipping "
-                            + "predictor descriptor: "
-                            + i + " - " + predictorDescriptorNames.get(i) 
-                            + " || Input descriptor: " + si + " - " 
-                            + descriptorNames.get(si));
+                        + "predictor descriptor: "
+                        + i + " - " + predictorDescriptorNames.get(i)
+                        + " || Input descriptor: " + si + " - "
+                        + descriptorNames.get(si));
                 mapping.set(si, -1);
                 si++;
             }
 
             // find a match
             if (si < descriptorNames.size()) {
-                   logger.debug("Match found! Predictor descriptor: "
-                               + i + " - " + predictorDescriptorNames.get(i) 
-                               + " || Input descriptor: " + si + " - " 
-                               + descriptorNames.get(si));
+                logger.debug("Match found! Predictor descriptor: "
+                        + i + " - " + predictorDescriptorNames.get(i)
+                        + " || Input descriptor: " + si + " - "
+                        + descriptorNames.get(si));
                 mapping.set(si, i);
                 si++;
             }
@@ -518,8 +505,7 @@ public class WriteDescriptors
                        ArrayList<String> predictorDescriptorValueAvgs,
                        ArrayList<String> predictorDescriptorValueStdDevs,
                        String predictorScaleType,
-                       String predictorXFile) throws Exception
-    {
+                       String predictorXFile) throws Exception {
         // get the descriptor names and min / max values of each descriptor
         // So, read in the name, min, and max of each descriptor from the
         // modeling .x file
@@ -541,7 +527,7 @@ public class WriteDescriptors
 
         for (int i = 0; i < xFileNumCompounds; i++) {
             line = br.readLine(); // skip all the compounds, we don't care
-                                  // about them
+            // about them
         }
 
         if (predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)) {
@@ -558,8 +544,7 @@ public class WriteDescriptors
             while (src.hasNext()) {
                 predictorDescriptorValueMaxima.add(src.next());
             }
-        }
-        else if (predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)) {
+        } else if (predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)) {
             // get avg and stdDev values
             line = br.readLine();
             src.close();
@@ -579,14 +564,13 @@ public class WriteDescriptors
     }
 
     public static void
-            writeModelingXFile(ArrayList<String> compoundNames,
-                               ArrayList<Descriptors> descriptorMatrix,
-                               String descriptorNameString,
-                               String xFilePath,
-                               String scalingType,
-                               String stdDevCutoff,
-                               String correlationCutoff) throws Exception
-    {
+    writeModelingXFile(ArrayList<String> compoundNames,
+                       ArrayList<Descriptors> descriptorMatrix,
+                       String descriptorNameString,
+                       String xFilePath,
+                       String scalingType,
+                       String stdDevCutoff,
+                       String correlationCutoff) throws Exception {
         // Perform scaling on descriptorMatrix
         // remove zero-variance descriptors from descriptorMatrix
         // Write a new file at xFilePath containing descriptorMatrix and other
@@ -638,8 +622,8 @@ public class WriteDescriptors
         // (Figuring out why this is true is left as an exercise to the
         // reader.)
 
-        ArrayList<String> descriptorValueStdDevPlusAvgs 
-                                                    = new ArrayList<String>();
+        ArrayList<String> descriptorValueStdDevPlusAvgs
+                = new ArrayList<String>();
         for (int i = 0; i < descriptorValueStdDevs.size(); i++) {
             Float stddev = Float.parseFloat(descriptorValueStdDevs.get(i));
             Float avg = Float.parseFloat(descriptorValueStdDevs.get(i));
@@ -651,12 +635,10 @@ public class WriteDescriptors
         if (scalingType.equalsIgnoreCase(Constants.RANGESCALING)) {
             rangeScaleGivenMinMax(descriptorMatrix, descriptorValueMinima,
                     descriptorValueMaxima);
-        }
-        else if (scalingType.equalsIgnoreCase(Constants.AUTOSCALING)) {
+        } else if (scalingType.equalsIgnoreCase(Constants.AUTOSCALING)) {
             autoScaleGivenAvgStdDev(descriptorMatrix, descriptorValueAvgs,
                     descriptorValueStdDevPlusAvgs);
-        }
-        else if (scalingType.equalsIgnoreCase(Constants.NOSCALING)) {
+        } else if (scalingType.equalsIgnoreCase(Constants.NOSCALING)) {
             // don't do anything!
         }
 
@@ -705,8 +687,7 @@ public class WriteDescriptors
             xFileOut.write(Utility
                     .StringArrayListToString(descriptorValueMaxima)
                     + "\n");
-        }
-        else if (scalingType.equalsIgnoreCase(Constants.AUTOSCALING)) {
+        } else if (scalingType.equalsIgnoreCase(Constants.AUTOSCALING)) {
             xFileOut.write(Utility
                     .StringArrayListToString(descriptorValueAvgs)
                     + "\n");
@@ -719,33 +700,32 @@ public class WriteDescriptors
     }
 
     public static void
-            writePredictionXFile(ArrayList<String> compoundNames,
-                                 ArrayList<Descriptors> descriptorMatrix,
-                                 String descriptorNameString,
-                                 String xFilePath,
-                                 String predictorXFilePath,
-                                 String predictorScaleType) throws Exception
-    {
+    writePredictionXFile(ArrayList<String> compoundNames,
+                         ArrayList<Descriptors> descriptorMatrix,
+                         String descriptorNameString,
+                         String xFilePath,
+                         String predictorXFilePath,
+                         String predictorScaleType) throws Exception {
 
         // read in the xFile used to make the predictor
         StringBuffer predictorDescriptorNameStringBuffer = new StringBuffer(
-                                                                           "");
-        ArrayList<String> predictorDescriptorValueMinima 
-                                                     = new ArrayList<String>();
-        ArrayList<String> predictorDescriptorValueMaxima 
-                                                     = new ArrayList<String>();
-        ArrayList<String> predictorDescriptorValueAvgs 
-                                                     = new ArrayList<String>();
-        ArrayList<String> predictorDescriptorValueStdDevsPlusAvgs 
-                                                     = new ArrayList<String>();
+                "");
+        ArrayList<String> predictorDescriptorValueMinima
+                = new ArrayList<String>();
+        ArrayList<String> predictorDescriptorValueMaxima
+                = new ArrayList<String>();
+        ArrayList<String> predictorDescriptorValueAvgs
+                = new ArrayList<String>();
+        ArrayList<String> predictorDescriptorValueStdDevsPlusAvgs
+                = new ArrayList<String>();
 
         readPredictorXFile(predictorDescriptorNameStringBuffer,
                 predictorDescriptorValueMinima,
                 predictorDescriptorValueMaxima, predictorDescriptorValueAvgs,
                 predictorDescriptorValueStdDevsPlusAvgs, predictorScaleType,
                 predictorXFilePath);
-        String predictorDescriptorNameString 
-                           = predictorDescriptorNameStringBuffer.toString();
+        String predictorDescriptorNameString
+                = predictorDescriptorNameStringBuffer.toString();
 
         // remove descriptors from prediction set that are not in the
         // predictor
@@ -755,8 +735,8 @@ public class WriteDescriptors
                 descriptorNameStringBuffer, predictorDescriptorNameString);
         descriptorNameString = descriptorNameStringBuffer.toString();
 
-        if (predictorDescriptorNameString.split("\\s+").length 
-                               != descriptorNameString.split("\\s+").length) {
+        if (predictorDescriptorNameString.split("\\s+").length
+                != descriptorNameString.split("\\s+").length) {
             logger.warn("WARNING: predictor had "
                     + predictorDescriptorNameString.split("\\s+").length
                     + " descriptors and output has "
@@ -768,13 +748,11 @@ public class WriteDescriptors
             rangeScaleGivenMinMax(descriptorMatrix,
                     predictorDescriptorValueMinima,
                     predictorDescriptorValueMaxima);
-        }
-        else if (predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)) {
+        } else if (predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)) {
             autoScaleGivenAvgStdDev(descriptorMatrix,
                     predictorDescriptorValueAvgs,
                     predictorDescriptorValueStdDevsPlusAvgs);
-        }
-        else if (predictorScaleType.equalsIgnoreCase(Constants.NOSCALING)) {
+        } else if (predictorScaleType.equalsIgnoreCase(Constants.NOSCALING)) {
             // don't do anything
         }
 
@@ -784,7 +762,7 @@ public class WriteDescriptors
         FileWriter xFileOut = new FileWriter(file);
 
         xFileOut.write(descriptorMatrix.size() + " "
-                + descriptorNameString.split("\\s+").length + "\n"); 
+                + descriptorNameString.split("\\s+").length + "\n");
         xFileOut.write(descriptorNameString + "\n"); // descriptor names
 
         try {
@@ -794,14 +772,15 @@ public class WriteDescriptors
                         + descriptorMatrix.get(i).getDescriptorValues()
                         + "\n");
             }
-        }
-        catch (IndexOutOfBoundsException ex) {
+        } catch (IndexOutOfBoundsException ex) {
             logger.error(String.format("Mismatch between size of descriptor " +
-                    "matrix and list of compounds: " +
-                    "descriptorMatrix.size() was %d, " +
-                    "compoundNames.size() was %d",
-                    descriptorMatrix.size(), compoundNames.size()),
-                    ex); // log the exception stacktrace
+                                    "matrix and list of compounds: " +
+                                    "descriptorMatrix.size() was %d, " +
+                                    "compoundNames.size() was %d",
+                            descriptorMatrix.size(), compoundNames.size()
+                    ),
+                    ex
+            ); // log the exception stacktrace
         }
 
         if (predictorScaleType.equalsIgnoreCase(Constants.RANGESCALING)) {
@@ -811,13 +790,12 @@ public class WriteDescriptors
             xFileOut.write(Utility
                     .StringArrayListToString(predictorDescriptorValueMaxima)
                     + "\n");
-        }
-        else if (predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)) {
+        } else if (predictorScaleType.equalsIgnoreCase(Constants.AUTOSCALING)) {
             xFileOut.write(Utility
                     .StringArrayListToString(predictorDescriptorValueAvgs)
                     + "\n");
             xFileOut.write(Utility
-             .StringArrayListToString(predictorDescriptorValueStdDevsPlusAvgs)
+                    .StringArrayListToString(predictorDescriptorValueStdDevsPlusAvgs)
                     + "\n");
         }
         xFileOut.close();

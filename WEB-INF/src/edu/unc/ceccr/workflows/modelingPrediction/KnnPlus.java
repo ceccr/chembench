@@ -1,39 +1,27 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-import edu.unc.ceccr.persistence.ExternalValidation;
-import edu.unc.ceccr.persistence.KnnPlusModel;
-import edu.unc.ceccr.persistence.KnnPlusParameters;
-import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.global.Constants;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintStream;
+import org.apache.log4j.Logger;
+
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
-import org.apache.log4j.Logger;
 
-public class KnnPlus
-{
+public class KnnPlus {
     private static Logger logger = Logger.getLogger(KnnPlus.class.getName());
 
     private static String
-            getKnnPlusCommandFromParams(KnnPlusParameters knnPlusParameters,
-                                        String actFileDataType,
-                                        String modelType)
-    {
+    getKnnPlusCommandFromParams(KnnPlusParameters knnPlusParameters,
+                                String actFileDataType,
+                                String modelType) {
         // this converts the parameters entered on the web page into
         // command-line
         // arguments formatted to work with knn+.
@@ -48,8 +36,7 @@ public class KnnPlus
             // '-M=...' - model type: 'CNT' continuous <def.>,'CTG' -
             // category,'CLS' - classes
             command += " -M=CNT";
-        }
-        else if (actFileDataType.equals(Constants.CATEGORY)) {
+        } else if (actFileDataType.equals(Constants.CATEGORY)) {
             // '-M=...' - model type: 'CNT' continuous <def.>,'CTG' -
             // category,'CLS' - classes
             command += " -M=CTG";
@@ -87,8 +74,7 @@ public class KnnPlus
             // parents
             command += "@G="
                     + knnPlusParameters.getGaTournamentGroupSize().trim();
-        }
-        else if (modelType.equals(Constants.KNNSA)) {
+        } else if (modelType.equals(Constants.KNNSA)) {
             // Number of dimensions, min-max-step. Step can't be used in
             // genetic alg.
             // Example: '-D=5@50@3'
@@ -120,7 +106,7 @@ public class KnnPlus
             // '..@M=' - mutation probability per dimension
             command += "@M="
                     + knnPlusParameters
-                            .getSaMutationProbabilityPerDescriptor().trim();
+                    .getSaMutationProbabilityPerDescriptor().trim();
 
             // '..@B=' - #best models to store
             // Constraint: Number of best models must be less than or equal to
@@ -163,12 +149,11 @@ public class KnnPlus
         if ((modelType.equals(Constants.KNNSA) && knnPlusParameters
                 .getKnnSaErrorBasedFit().equalsIgnoreCase("true"))
                 || (modelType.equals(Constants.KNNGA) && knnPlusParameters
-                        .getKnnGaErrorBasedFit().equalsIgnoreCase("true"))) {
+                .getKnnGaErrorBasedFit().equalsIgnoreCase("true"))) {
             command += " -EVL=E"
                     + knnPlusParameters.getKnnMinTraining().trim() + "@"
                     + knnPlusParameters.getKnnMinTest().trim();
-        }
-        else {
+        } else {
             command += " -EVL="
                     + knnPlusParameters.getKnnMinTraining().trim() + "@"
                     + knnPlusParameters.getKnnMinTest().trim();
@@ -177,13 +162,12 @@ public class KnnPlus
     }
 
     public static String
-            buildKnnPlusModelsLsf(KnnPlusParameters knnPlusParameters,
-                                  String actFileDataType,
-                                  String modelType,
-                                  String userName,
-                                  String jobName,
-                                  String workingDir) throws Exception
-    {
+    buildKnnPlusModelsLsf(KnnPlusParameters knnPlusParameters,
+                          String actFileDataType,
+                          String modelType,
+                          String userName,
+                          String jobName,
+                          String workingDir) throws Exception {
         // starts modeling process
         // returns the LSF Job ID
 
@@ -205,8 +189,7 @@ public class KnnPlus
                 FileAndDirOperations.deleteFile(workingDir + "yRandom/"
                         + "models.tbl");
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -253,11 +236,10 @@ public class KnnPlus
     }
 
     public static void
-            buildKnnPlusModels(KnnPlusParameters knnPlusParameters,
-                               String actFileDataType,
-                               String modelType,
-                               String workingDir) throws Exception
-    {
+    buildKnnPlusModels(KnnPlusParameters knnPlusParameters,
+                       String actFileDataType,
+                       String modelType,
+                       String workingDir) throws Exception {
 
         // knn+ will automatically convert all input filenames to lowercase.
         // so, our list file has to be lowercase.
@@ -275,11 +257,10 @@ public class KnnPlus
     }
 
     public static void
-            predictExternalSet(String userName,
-                               String jobName,
-                               String workingDir,
-                               String cutoffValue) throws Exception
-    {
+    predictExternalSet(String userName,
+                       String jobName,
+                       String workingDir,
+                       String cutoffValue) throws Exception {
         // Run prediction
 
         String xfile = "ext_0.x";
@@ -294,14 +275,13 @@ public class KnnPlus
     }
 
     public static ArrayList<ExternalValidation>
-            readExternalPredictionOutput(String workingDir,
-                                         Predictor predictor) throws Exception
-    {
+    readExternalPredictionOutput(String workingDir,
+                                 Predictor predictor) throws Exception {
 
         // read prediction output
         String outputFile = "cons_pred_vs_ext_0.preds"; // the ".preds" is
-                                                        // added automatically
-                                                        // by knn+
+        // added automatically
+        // by knn+
         logger.debug("Reading file: " + workingDir + outputFile);
         BufferedReader in = new BufferedReader(new FileReader(workingDir
                 + outputFile));
@@ -309,20 +289,20 @@ public class KnnPlus
 
         in.readLine(); // header data (junk)
         inputString = in.readLine(); // compound names are here; we'll need
-                                     // them
+        // them
         String[] compoundNames = inputString.split("\\s+");
 
         in.readLine(); // junk
         in.readLine(); // junk
 
         ArrayList<ArrayList<String>> predictionMatrix = new ArrayList<ArrayList<String>>(); // read
-                                                                                            // output
-                                                                                            // file
-                                                                                            // into
-                                                                                            // this
+        // output
+        // file
+        // into
+        // this
         ArrayList<ExternalValidation> predictionValues = new ArrayList<ExternalValidation>(); // to
-                                                                                              // be
-                                                                                              // returned
+        // be
+        // returned
 
         // each line of output represents a model
         // (which is really the transpose of the matrix we're looking for...
@@ -334,9 +314,9 @@ public class KnnPlus
 
             // get output for each compound in model
             String[] predValues = inputString.split("\\s+"); // Note: [0] and
-                                                             // [1] in this
-                                                             // array will be
-                                                             // junk.
+            // [1] in this
+            // array will be
+            // junk.
 
             // predValues(0) will be model_id, which is just an index.
             // predValues(1) will be AD_distance, which we may want to capture
@@ -372,15 +352,13 @@ public class KnnPlus
                     String predValue = predictionMatrix.get(j).get(i);
                     if (predValue.equalsIgnoreCase("NA")) {
                         numPredictingModels--;
-                    }
-                    else {
+                    } else {
                         sum += Float.parseFloat(predValue);
                     }
                 }
                 if (numPredictingModels > 0) {
                     mean = sum / numPredictingModels;
-                }
-                else {
+                } else {
                     mean = null;
                 }
 
@@ -399,8 +377,7 @@ public class KnnPlus
                     }
                     // divide sum then take sqrt to get stddev
                     stddev = (float) Math.sqrt(stddev / numPredictingModels);
-                }
-                else {
+                } else {
                     stddev = null;
                 }
 
@@ -417,8 +394,7 @@ public class KnnPlus
 
                 predictionValues.add(ev);
 
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }
@@ -426,8 +402,7 @@ public class KnnPlus
         return predictionValues;
     }
 
-    public static int getSaModelingProgress(String workingDir)
-    {
+    public static int getSaModelingProgress(String workingDir) {
         int count = 0;
         try {
             // cat models_knn+.log | grep q2= | wc > knnSaProgress
@@ -438,18 +413,15 @@ public class KnnPlus
                 while ((line = br.readLine()) != null) {
                     if (line.contains("q2=")) {
                         count++;
-                    }
-                    else if (line.contains("CCR=")) {
+                    } else if (line.contains("CCR=")) {
                         count++;
                     }
                 }
                 br.close();
-            }
-            else {
+            } else {
                 return -1;
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
             return -1;
         }
@@ -457,8 +429,7 @@ public class KnnPlus
         return count;
     }
 
-    public static int getGaModelingProgress(String workingDir)
-    {
+    public static int getGaModelingProgress(String workingDir) {
         int count = 0;
         try {
             if (new File(workingDir + "models_knn+.log").exists()) {
@@ -473,12 +444,10 @@ public class KnnPlus
                     }
                 }
                 br.close();
-            }
-            else {
+            } else {
                 return -1;
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
             return -1;
         }
@@ -487,10 +456,9 @@ public class KnnPlus
     }
 
     public static ArrayList<KnnPlusModel>
-            readModelsFile(String workingDir,
-                           Predictor predictor,
-                           String isYRandomModel)
-    {
+    readModelsFile(String workingDir,
+                   Predictor predictor,
+                   String isYRandomModel) {
         ArrayList<KnnPlusModel> knnPlusModels = new ArrayList<KnnPlusModel>();
         try {
             if (!new File(workingDir + "models.tbl").exists()) {
@@ -573,8 +541,7 @@ public class KnnPlus
                     model.setMAEqPrimeTest(tokens[59]);
                     model.setMSETest(tokens[60]);
                     model.setMAETest(tokens[61]);
-                }
-                else { // category
+                } else { // category
 
                     model.setQualityLimitTraining(tokens[6]);
                     model.setNDatapointsTraining(tokens[7]);
@@ -603,17 +570,15 @@ public class KnnPlus
                 knnPlusModels.add(model);
             }
 
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
         return knnPlusModels;
     }
 
     public static void
-            runKnnPlusPrediction(String workingDir,
-                                 String sdfile) throws Exception
-    {
+    runKnnPlusPrediction(String workingDir,
+                         String sdfile) throws Exception {
 
         // write a dummy .a file because knn+ needs it or it fails
         // bizarrely... X_X
@@ -634,10 +599,9 @@ public class KnnPlus
     }
 
     public static ArrayList<PredictionValue>
-            readPredictionOutput(String workingDir,
-                                 Long predictorId,
-                                 String predictionXFile) throws Exception
-    {
+    readPredictionOutput(String workingDir,
+                         Long predictorId,
+                         String predictionXFile) throws Exception {
 
         // read prediction output
         String predsFile = predictionXFile.substring(0, predictionXFile
@@ -645,7 +609,7 @@ public class KnnPlus
                 + ".preds"; // the ".preds" is added automatically by knn+
         String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_"
                 + predsFile.toLowerCase(); // knn+ makes everything lower case
-                                           // for fun
+        // for fun
         logger.debug("Reading file: " + workingDir + outputFile);
         BufferedReader in = new BufferedReader(new FileReader(workingDir
                 + outputFile));
@@ -654,7 +618,7 @@ public class KnnPlus
         // The first four lines are all header data
         in.readLine(); // junk
         in.readLine(); // compound names are here, but we get those from the
-                       // SDF or X instead (knn+ output is buggy on this line)
+        // SDF or X instead (knn+ output is buggy on this line)
 
         logger.debug("reading compound names from X file: " + workingDir
                 + predictionXFile);
@@ -665,15 +629,15 @@ public class KnnPlus
         in.readLine(); // junk
 
         ArrayList<ArrayList<String>> predictionMatrix = new ArrayList<ArrayList<String>>(); // read
-                                                                                            // output
-                                                                                            // file
-                                                                                            // into
-                                                                                            // this
+        // output
+        // file
+        // into
+        // this
         ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); // holds
-                                                                                        // objects
-                                                                                        // to
-                                                                                        // be
-                                                                                        // returned
+        // objects
+        // to
+        // be
+        // returned
 
         // each line of output represents a model
         // (which is really the transpose of the matrix we're looking for...
@@ -685,9 +649,9 @@ public class KnnPlus
 
             // get output for each compound in model
             String[] predValues = inputString.split("\\s+"); // Note: [0] and
-                                                             // [1] in this
-                                                             // array will be
-                                                             // junk.
+            // [1] in this
+            // array will be
+            // junk.
 
             // predValues(0) will be model_id, which is just an index.
             // predValues(1) will be AD_distance, which we may want to capture
@@ -722,15 +686,13 @@ public class KnnPlus
                     String predValue = predictionMatrix.get(j).get(i);
                     if (predValue.equalsIgnoreCase("NA")) {
                         numPredictingModels--;
-                    }
-                    else {
+                    } else {
                         sum += Float.parseFloat(predValue);
                     }
                 }
                 if (numPredictingModels > 0) {
                     mean = sum / numPredictingModels;
-                }
-                else {
+                } else {
                     mean = null;
                 }
 
@@ -749,8 +711,7 @@ public class KnnPlus
                     }
                     // divide sum then take sqrt to get stddev
                     stddev = (float) Math.sqrt(stddev / numPredictingModels);
-                }
-                else {
+                } else {
                     stddev = null;
                 }
 
@@ -766,8 +727,7 @@ public class KnnPlus
 
                 predictionValues.add(p);
 
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }
@@ -810,7 +770,8 @@ public class KnnPlus
                             "Discarded line %d of models file %s: " +
                                     "expected %d fields, got %d",
                             lineCount, modelsFile, numFields,
-                            fields.length));
+                            fields.length
+                    ));
                     iter.remove();
                 }
                 lineCount++;

@@ -2,18 +2,16 @@ package edu.unc.ceccr.action;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.taskObjects.CreateDatasetTask;
-import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.taskObjects.CreateDatasetTask;
+import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,9 +21,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,39 +32,35 @@ import java.util.Map;
  * @author Ian Kim <iansjk@gmail.com>
  * @since 2013-09-08
  */
-public class WebAPIActions extends ActionSupport
-{
+public class WebAPIActions extends ActionSupport {
     private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(
-            WebAPIActions.class.getName());
-    private List<String> errorStrings = new ArrayList<String>();
-
     private static final String WEBAPI_USER_NAME = "webapi";
     private static final int TIMEOUT = 50000; // in ms
     private static final int POLLING_INTERVAL = 5000; // in ms
+    private static Logger logger = Logger.getLogger(
+            WebAPIActions.class.getName());
+    private List<String> errorStrings = new ArrayList<String>();
     private long generatedPredictorId;
 
     /**
      * Generates a predictor from a list of structures and activities.
-     *
+     * <p/>
      * Accepts three URL parameters with comma-separated values:
-     *
+     * <p/>
      * names: The names of the compounds
      * smiles: The structures of the above compounds in SMILES format
      * activities: The activity values for the compounds
-     *
+     * <p/>
      * Using these, this method generates an SDF and ACT file and creates
      * a new DataSet object. It then creates a new predictor based on that
      * dataset and returns the predictor's id.
-     *
+     * <p/>
      * (Before returning from the method, the value of generatedPredictorId
      * should be set to the id that is to be returned to the requester.)
      *
-     * @return
-     *      SUCCESS if the predictor generation succeeded, or ERROR otherwise.
+     * @return SUCCESS if the predictor generation succeeded, or ERROR otherwise.
      */
-    public String generatePredictor()
-    {
+    public String generatePredictor() {
         ActionContext context = ActionContext.getContext();
         Map<String, Object> params = context.getParameters();
         String activityType = "CATEGORY";
@@ -87,10 +81,10 @@ public class WebAPIActions extends ActionSupport
         String[] names = ((String[]) params.get("names"))[0].split(",");
         String[] smiles = ((String[]) params.get("smiles"))[0].split(",");
         String[] activities =
-            ((String[]) params.get("activities"))[0].split(",");
+                ((String[]) params.get("activities"))[0].split(",");
 
         if (!(names.length == smiles.length &&
-                    smiles.length == activities.length)) {
+                smiles.length == activities.length)) {
             errorStrings.add("The values provided do not match in length.");
             errorStrings.add("Number of compounds: " + names.length);
             errorStrings.add("Number of SMILES strings: " + smiles.length);
@@ -101,8 +95,8 @@ public class WebAPIActions extends ActionSupport
         // log input and determine if activities are category or continuous
         for (int i = 0; i < smiles.length; i++) {
             logger.debug(String.format(
-                        "Compound %d: name=%s, SMILES=%s, activity=%s",
-                        i + 1, names[i], smiles[i], activities[i]));
+                    "Compound %d: name=%s, SMILES=%s, activity=%s",
+                    i + 1, names[i], smiles[i], activities[i]));
 
             int activityValue = -1;
             try {
@@ -110,7 +104,8 @@ public class WebAPIActions extends ActionSupport
             } catch (NumberFormatException e) {
                 logger.debug(String.format(
                         "Compound %d's activity value is not an " +
-                        "integer; setting data type to CONTINUOUS.", i + 1));
+                                "integer; setting data type to CONTINUOUS.", i + 1
+                ));
                 activityType = "CONTINUOUS";
             }
 
@@ -119,8 +114,9 @@ public class WebAPIActions extends ActionSupport
             if (activityType.equals("CATEGORY")) {
                 if (activityValue < 0) {
                     logger.debug(String.format(
-                        "Compound %d's activity value is negative; " +
-                        "setting data type to CONTINUOUS.", i + 1));
+                            "Compound %d's activity value is negative; " +
+                                    "setting data type to CONTINUOUS.", i + 1
+                    ));
                     activityType = "CONTINUOUS";
                 }
             }
@@ -144,7 +140,7 @@ public class WebAPIActions extends ActionSupport
         DataSet dataset = null;
         try {
             dataset = this.generateDataset(tempSdfFilePath, tempActFilePath,
-                                           activityType, names.length);
+                    activityType, names.length);
         } catch (Exception e) {
             // (error messages have already been added by generateDataset())
             return ERROR;
@@ -174,7 +170,7 @@ public class WebAPIActions extends ActionSupport
         } catch (Exception e) {
             logger.error(e);
             errorStrings.add("Modeling job creation failed: " +
-                             e.getMessage());
+                    e.getMessage());
             return ERROR;
         }
 
@@ -201,26 +197,20 @@ public class WebAPIActions extends ActionSupport
 
     /**
      * Generates a dataset from an SDF file and an ACT file.
-     *
+     * <p/>
      * The object that is returned is the state of the DataSet upon execution
      * completion, i.e. when its jobCompleted attribute equals "YES".
      *
-     * @param sdfFilePath
-     *      The path to the SDF file to use.
-     * @param actFilePath
-     *      The path to the ACT file to use.
-     * @param activityType
-     *      The type of activity values in the dataset; either "CATEGORY" or
-     *      "CONTINUOUS".
-     * @param numCompounds
-     *      The number of compounds in the dataset.
-     * @return
-     *      An instance of the created DataSet object as retrieved from the
-     *      database after it has finished executing on the job queue.
+     * @param sdfFilePath  The path to the SDF file to use.
+     * @param actFilePath  The path to the ACT file to use.
+     * @param activityType The type of activity values in the dataset; either "CATEGORY" or
+     *                     "CONTINUOUS".
+     * @param numCompounds The number of compounds in the dataset.
+     * @return An instance of the created DataSet object as retrieved from the
+     * database after it has finished executing on the job queue.
      */
     private DataSet generateDataset(String sdfFilePath, String actFilePath,
-            String activityType, int numCompounds) throws Exception
-    {
+                                    String activityType, int numCompounds) throws Exception {
         // generate a name for the dataset using current time in ms
         String datasetName = this.generateDatasetName();
 
@@ -237,7 +227,7 @@ public class WebAPIActions extends ActionSupport
         } catch (IOException e) {
             logger.error(e);
             errorStrings.add("Failed to create destination directory: " +
-                             e.getMessage());
+                    e.getMessage());
             throw e;
         }
 
@@ -261,7 +251,7 @@ public class WebAPIActions extends ActionSupport
         } catch (IOException e) {
             logger.error(e);
             errorStrings.add("Couldn't copy SDF or ACT file: " +
-                             e.getMessage());
+                    e.getMessage());
             throw e;
         }
 
@@ -285,7 +275,7 @@ public class WebAPIActions extends ActionSupport
                 "", // no paper reference
                 "", // empty dataset description
                 "false" // don't generate Mahalanobis
-            );
+        );
         try {
             CentralDogma centralDogma = CentralDogma.getInstance();
             centralDogma.addJobToIncomingList(
@@ -312,7 +302,7 @@ public class WebAPIActions extends ActionSupport
                 newDataset = PopulateDataObjects.getDataSetByName(
                         datasetName, WEBAPI_USER_NAME, session);
                 logger.debug("Job completion status: " +
-                             newDataset.getJobCompleted());
+                        newDataset.getJobCompleted());
                 if (newDataset.getJobCompleted().equals("YES")) {
                     jobFinished = true;
                 } else {
@@ -334,7 +324,7 @@ public class WebAPIActions extends ActionSupport
             // we timed out; raise an exception to be echoed as an error message
             // by the caller.
             String error = "Dataset job timed out. The server may be too " +
-                       "busy to handle your request. Please try again later.";
+                    "busy to handle your request. Please try again later.";
             errorStrings.add(error);
             throw new RuntimeException(error);
         }
@@ -348,8 +338,7 @@ public class WebAPIActions extends ActionSupport
     /**
      * Generates a dataset name to be used for new CreateDatasetTasks.
      *
-     * @return
-     *      A suitable dataset name.
+     * @return A suitable dataset name.
      */
     private String generateDatasetName() {
         return "bard-dataset" + System.currentTimeMillis();
@@ -358,8 +347,7 @@ public class WebAPIActions extends ActionSupport
     /**
      * Generates a predictor name to be used for new QsarModelingTasks.
      *
-     * @return
-     *      A suitable predictor name.
+     * @return A suitable predictor name.
      */
     private String generatePredictorName() {
         return "bard-predictor" + System.currentTimeMillis();
@@ -368,17 +356,13 @@ public class WebAPIActions extends ActionSupport
     /**
      * Converts SMILES strings into a single SDF structure file.
      *
-     * @param names
-     *      An array of compound names.
-     * @param smiles
-     *      An array of SMILES strings corresponding to the above compounds'
-     *      structures.
-     * @return
-     *      A path to the generated SDF file.
+     * @param names  An array of compound names.
+     * @param smiles An array of SMILES strings corresponding to the above compounds'
+     *               structures.
+     * @return A path to the generated SDF file.
      */
     private String convertSmilesToSdf(String[] names, String[] smiles)
-            throws IOException
-    {
+            throws IOException {
         assert names.length == smiles.length;
 
         // create a temporary file and write out the names + smiles to it
@@ -388,7 +372,7 @@ public class WebAPIActions extends ActionSupport
         FileWriter fw = new FileWriter(inputFile);
         BufferedWriter out = new BufferedWriter(fw);
         logger.debug("Creating input file for molconvert: " +
-                     inputFile.getAbsolutePath());
+                inputFile.getAbsolutePath());
         try {
             for (int i = 0; i < names.length; i++) {
                 if (smiles[i].isEmpty()) {
@@ -427,8 +411,8 @@ public class WebAPIActions extends ActionSupport
                 "-o", sdfFile.getName());
         pb.directory(tempDir);
         logger.debug(String.format(
-                    "Converting SMILES to SDF, command: %s, directory: %s",
-                    Arrays.toString(pb.command().toArray()), tempDir));
+                "Converting SMILES to SDF, command: %s, directory: %s",
+                Arrays.toString(pb.command().toArray()), tempDir));
         Process p = pb.start();
         int returnCode = -1;
         try {
@@ -450,17 +434,13 @@ public class WebAPIActions extends ActionSupport
     /**
      * Creates an ACT (activity) file from arrays of names and activities.
      *
-     * @param names
-     *      An array of compound names.
-     * @param activities
-     *      An array of activity values corresponding to the above compounds'
-     *      activity values in the experiment.
-     * @return
-     *      A path to the generated ACT file.
+     * @param names      An array of compound names.
+     * @param activities An array of activity values corresponding to the above compounds'
+     *                   activity values in the experiment.
+     * @return A path to the generated ACT file.
      */
     private String createAct(String[] names, String[] activities)
-        throws IOException
-    {
+            throws IOException {
         assert names.length == activities.length;
 
         File actFile = File.createTempFile("activities", ".act");
@@ -508,20 +488,19 @@ public class WebAPIActions extends ActionSupport
     }
 
     // --- begin getters / setters ---
-    public List<String> getErrorStrings()
-    {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
-    public void setErrorStrings(List<String> errorStrings)
-    {
+
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
-    public long getGeneratedPredictorId()
-    {
+
+    public long getGeneratedPredictorId() {
         return generatedPredictorId;
     }
-    public void setGeneratedPredictorId()
-    {
+
+    public void setGeneratedPredictorId() {
         this.generatedPredictorId = generatedPredictorId;
     }
 }

@@ -1,29 +1,21 @@
 package edu.unc.ceccr.action;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
+import edu.unc.ceccr.persistence.*;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.Utility;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Job;
-import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 // struts2
 
-public class JobsActions extends ActionSupport
-{
+public class JobsActions extends ActionSupport {
 
     /**
      *
@@ -31,10 +23,21 @@ public class JobsActions extends ActionSupport
     private static final long serialVersionUID = 42L;
 
     private static Logger logger
-                              = Logger.getLogger(JobsActions.class.getName());
+            = Logger.getLogger(JobsActions.class.getName());
+    // ====== variables used for displaying the JSP =====//
+    private User user;
+    private boolean adminUser;
+    // ====== variables used to hold the queue and finished jobs information
+    // =====//
+    private List<DataSet> userDatasets;
+    private List<Predictor> userPredictors;
+    private List<Prediction> userPredictions;
+    private List<Job> incomingJobs;
+    private List<Job> lsfJobs;
+    private List<Job> localJobs;
+    private List<Job> errorJobs;
 
-    public String loadPage() throws Exception
-    {
+    public String loadPage() throws Exception {
 
         String result = SUCCESS;
 
@@ -43,8 +46,7 @@ public class JobsActions extends ActionSupport
 
         if (context == null) {
             logger.warn("No ActionContext available");
-        }
-        else {
+        } else {
             user = (User) context.getSession().get("user");
 
             if (user == null) {
@@ -56,8 +58,7 @@ public class JobsActions extends ActionSupport
 
         if (Utility.isAdmin(user.getUserName())) {
             adminUser = true;
-        }
-        else {
+        } else {
             adminUser = false;
         }
 
@@ -76,8 +77,7 @@ public class JobsActions extends ActionSupport
                     .getUserName(), Constants.CATEGORY, true, session));
             userDatasets.addAll(PopulateDataObjects.populateDataset(user
                     .getUserName(), Constants.PREDICTION, true, session));
-        }
-        else if (user.getShowPublicDatasets().equals(Constants.NONE)) {
+        } else if (user.getShowPublicDatasets().equals(Constants.NONE)) {
             // just get the user's datasets
             userDatasets = PopulateDataObjects.populateDataset(user
                     .getUserName(), Constants.CONTINUOUS, false, session);
@@ -85,8 +85,7 @@ public class JobsActions extends ActionSupport
                     .getUserName(), Constants.CATEGORY, false, session));
             userDatasets.addAll(PopulateDataObjects.populateDataset(user
                     .getUserName(), Constants.PREDICTION, false, session));
-        }
-        else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
+        } else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
             // get all the datasets and filter out all the public ones that
             // aren't "show by default"
             userDatasets = PopulateDataObjects.populateDataset(user
@@ -111,10 +110,8 @@ public class JobsActions extends ActionSupport
             // d1.getName().toLowerCase().compareTo(d2.getName().toLowerCase());
             // }});
 
-            Collections.sort(userDatasets, new Comparator<DataSet>()
-            {
-                public int compare(DataSet d1, DataSet d2)
-                {
+            Collections.sort(userDatasets, new Comparator<DataSet>() {
+                public int compare(DataSet d1, DataSet d2) {
                     return d2.getCreatedTime().compareTo(d1.getCreatedTime());
                 }
             });
@@ -122,7 +119,7 @@ public class JobsActions extends ActionSupport
             for (int i = 0; i < userDatasets.size(); i++) {
                 if (userDatasets.get(i).getJobCompleted() == null
                         || userDatasets.get(i).getJobCompleted().equals(
-                                Constants.NO)) {
+                        Constants.NO)) {
                     userDatasets.remove(i);
                     i--;
                 }
@@ -133,8 +130,7 @@ public class JobsActions extends ActionSupport
             // get the user's predictors and all public ones
             userPredictors = PopulateDataObjects.populatePredictors(user
                     .getUserName(), true, true, session);
-        }
-        else {
+        } else {
             // just get the user's predictors
             userPredictors = PopulateDataObjects.populatePredictors(user
                     .getUserName(), false, true, session);
@@ -145,10 +141,8 @@ public class JobsActions extends ActionSupport
             // return
             // p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
             // }});
-            Collections.sort(userPredictors, new Comparator<Predictor>()
-            {
-                public int compare(Predictor p1, Predictor p2)
-                {
+            Collections.sort(userPredictors, new Comparator<Predictor>() {
+                public int compare(Predictor p1, Predictor p2) {
                     return p2.getDateCreated().compareTo(p1.getDateCreated());
                 }
             });
@@ -165,10 +159,8 @@ public class JobsActions extends ActionSupport
             // p1.getName().toLowerCase().compareTo(p2.getName().toLowerCase());
             // }});
 
-            Collections.sort(userPredictions, new Comparator<Prediction>()
-            {
-                public int compare(Prediction p1, Prediction p2)
-                {
+            Collections.sort(userPredictions, new Comparator<Prediction>() {
+                public int compare(Prediction p1, Prediction p2) {
                     return p2.getDateCreated().compareTo(p1.getDateCreated());
                 }
             });
@@ -176,7 +168,7 @@ public class JobsActions extends ActionSupport
             for (int i = 0; i < userPredictions.size(); i++) {
                 if (userPredictions.get(i).getJobCompleted() == null
                         || userPredictions.get(i).getJobCompleted().equals(
-                                Constants.NO)) {
+                        Constants.NO)) {
                     userPredictions.remove(i);
                     i--;
                 }
@@ -199,7 +191,8 @@ public class JobsActions extends ActionSupport
             if (localJobs.get(i).workflowTask != null) {
                 localJobs.get(i).setMessage(
                         localJobs.get(i).workflowTask.getProgress(user
-                                .getUserName()));
+                                .getUserName())
+                );
             }
         }
 
@@ -219,7 +212,8 @@ public class JobsActions extends ActionSupport
             if (lsfJobs.get(i).workflowTask != null) {
                 lsfJobs.get(i).setMessage(
                         lsfJobs.get(i).workflowTask.getProgress(user
-                                .getUserName()));
+                                .getUserName())
+                );
             }
         }
 
@@ -258,118 +252,84 @@ public class JobsActions extends ActionSupport
         session.close();
 
         logger.debug("Forwarding user " + user.getUserName()
-                 + " to jobs page.");
+                + " to jobs page.");
 
         return result;
     }
 
-    public String execute() throws Exception
-    {
+    public String execute() throws Exception {
         return SUCCESS;
     }
 
-    // ====== variables used for displaying the JSP =====//
-    private User    user;
-    private boolean adminUser;
-
-    public User getUser()
-    {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(User user)
-    {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public boolean isAdminUser()
-    {
+    public boolean isAdminUser() {
         return adminUser;
     }
 
-    public void setAdminUser(boolean adminUser)
-    {
+    public void setAdminUser(boolean adminUser) {
         this.adminUser = adminUser;
     }
 
-    // ====== variables used to hold the queue and finished jobs information
-    // =====//
-    private List<DataSet>    userDatasets;
-    private List<Predictor>  userPredictors;
-    private List<Prediction> userPredictions;
-
-    private List<Job>        incomingJobs;
-    private List<Job>        lsfJobs;
-    private List<Job>        localJobs;
-    private List<Job>        errorJobs;
-
-    public List<DataSet> getUserDatasets()
-    {
+    public List<DataSet> getUserDatasets() {
         return userDatasets;
     }
 
-    public void setUserDatasets(List<DataSet> userDatasets)
-    {
+    public void setUserDatasets(List<DataSet> userDatasets) {
         this.userDatasets = userDatasets;
     }
 
-    public List<Predictor> getUserPredictors()
-    {
+    public List<Predictor> getUserPredictors() {
         return userPredictors;
     }
 
-    public void setUserPredictors(List<Predictor> userPredictors)
-    {
+    public void setUserPredictors(List<Predictor> userPredictors) {
         this.userPredictors = userPredictors;
     }
 
-    public List<Prediction> getUserPredictions()
-    {
+    public List<Prediction> getUserPredictions() {
         return userPredictions;
     }
 
-    public void setUserPredictions(List<Prediction> userPredictions)
-    {
+    public void setUserPredictions(List<Prediction> userPredictions) {
         this.userPredictions = userPredictions;
     }
 
-    public List<Job> getIncomingJobs()
-    {
+    public List<Job> getIncomingJobs() {
         return incomingJobs;
     }
 
-    public void setIncomingJobs(List<Job> incomingJobs)
-    {
+    public void setIncomingJobs(List<Job> incomingJobs) {
         this.incomingJobs = incomingJobs;
     }
 
-    public List<Job> getLsfJobs()
-    {
+    public List<Job> getLsfJobs() {
         return lsfJobs;
     }
 
-    public void setLsfJobs(List<Job> lsfJobs)
-    {
+    public void setLsfJobs(List<Job> lsfJobs) {
         this.lsfJobs = lsfJobs;
     }
 
-    public List<Job> getLocalJobs()
-    {
+    public List<Job> getLocalJobs() {
         return localJobs;
     }
 
-    public void setLocalJobs(List<Job> localJobs)
-    {
+    public void setLocalJobs(List<Job> localJobs) {
         this.localJobs = localJobs;
     }
 
-    public List<Job> getErrorJobs()
-    {
+    public List<Job> getErrorJobs() {
         return errorJobs;
     }
 
-    public void setErrorJobs(List<Job> errorJobs)
-    {
+    public void setErrorJobs(List<Job> errorJobs) {
         this.errorJobs = errorJobs;
     }
 }

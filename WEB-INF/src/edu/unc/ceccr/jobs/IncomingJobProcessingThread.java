@@ -1,28 +1,24 @@
 package edu.unc.ceccr.jobs;
 
-import java.util.ArrayList;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
-
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
-public class IncomingJobProcessingThread extends Thread
-{
-    private static Logger logger 
-               = Logger.getLogger(IncomingJobProcessingThread.class.getName());
+import java.util.ArrayList;
+
+public class IncomingJobProcessingThread extends Thread {
+    private static Logger logger
+            = Logger.getLogger(IncomingJobProcessingThread.class.getName());
     // this takes jobs off the incomingJobs joblist and sends them to lsfJobs
     // and localJobs.
     // You should only ever have one of these threads running - don't start a
     // second one!
 
-    public void run()
-    {
+    public void run() {
         while (true) {
             try {
                 sleep(1000);
@@ -37,8 +33,8 @@ public class IncomingJobProcessingThread extends Thread
                 // determine which jobs should be sent to the LSF jobs list,
                 // which should stay here, and which should go to the local
                 // jobs list.
-                ArrayList<Job> incomingJobs 
-                   = CentralDogma.getInstance().incomingJobs.getReadOnlyCopy();
+                ArrayList<Job> incomingJobs
+                        = CentralDogma.getInstance().incomingJobs.getReadOnlyCopy();
                 for (Job j : incomingJobs) {
                     boolean movedJob = false;
                     if (j.getJobType().equals(Constants.DATASET)) {
@@ -51,8 +47,7 @@ public class IncomingJobProcessingThread extends Thread
                         CentralDogma.getInstance().localJobs.addJob(j);
                         CentralDogma.getInstance().incomingJobs.removeJob(j
                                 .getId());
-                    }
-                    else if (j.getJobType().equals(Constants.PREDICTION)) {
+                    } else if (j.getJobType().equals(Constants.PREDICTION)) {
                         // send it to local
                         logger.info("Sending job " + j.getJobName()
                                 + " to local queue");
@@ -62,11 +57,10 @@ public class IncomingJobProcessingThread extends Thread
                         CentralDogma.getInstance().localJobs.addJob(j);
                         CentralDogma.getInstance().incomingJobs.removeJob(j
                                 .getId());
-                    }
-                    else if (j.getJobType().equals(Constants.MODELING)) {
+                    } else if (j.getJobType().equals(Constants.MODELING)) {
                         // check LSF status. If LSF can accept another job,
                         // put it there.
-                        QsarModelingTask qs = (QsarModelingTask)j.workflowTask;
+                        QsarModelingTask qs = (QsarModelingTask) j.workflowTask;
                         if (qs.getModelType().equals(Constants.KNN)
                                 || qs.getModelType().equals(Constants.KNNSA)
                                 || qs.getModelType().equals(Constants.KNNGA)
@@ -81,8 +75,7 @@ public class IncomingJobProcessingThread extends Thread
                                 CentralDogma.getInstance().incomingJobs
                                         .removeJob(j.getId());
                             }
-                        }
-                        else {
+                        } else {
                             // it's an RF job.
                             // send it to local
                             logger.info("Sending job "
@@ -104,19 +97,16 @@ public class IncomingJobProcessingThread extends Thread
                             tx = s.beginTransaction();
                             s.saveOrUpdate(j);
                             tx.commit();
-                        }
-                        catch (RuntimeException e) {
+                        } catch (RuntimeException e) {
                             if (tx != null)
                                 tx.rollback();
                             logger.error(e);
-                        }
-                        finally {
+                        } finally {
                             s.close();
                         }
                     }
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }

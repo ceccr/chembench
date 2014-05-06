@@ -1,15 +1,5 @@
 package edu.unc.ceccr.jobs;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import org.hibernate.Session;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
@@ -18,13 +8,17 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.SendEmails;
-
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
-public class LsfProcessingThread extends Thread
-{
-    private static Logger   logger         = Logger.getLogger(LsfProcessingThread.class
-                                                   .getName());
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+
+public class LsfProcessingThread extends Thread {
+    private static Logger logger = Logger.getLogger(LsfProcessingThread.class
+            .getName());
     // this works on the LSFJobs joblist.
     // You should only ever have one of these threads running - don't start a
     // second one!
@@ -32,8 +26,60 @@ public class LsfProcessingThread extends Thread
     // used to determine when a job goes from PEND to RUN.
     HashMap<String, String> oldLsfStatuses = new HashMap<String, String>();
 
-    public void run()
-    {
+    public static boolean lsfHasFreePendSlots() {
+        // check how many pending jobs there are
+        // if that number is less than the limit return true
+        // else return false
+
+        if (CentralDogma.getInstance().lsfJobs.getReadOnlyCopy().size() > Constants.MAXLSFJOBS) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    // static functions for checking the status of the LSF queue(s) on
+    // Emerald.
+    public static ArrayList<String> getCompletedJobNames() {
+        ArrayList<String> finishedJobNames = new ArrayList<String>();
+
+        return finishedJobNames;
+    }
+
+    public static ArrayList<LsfJobStatus>
+    checkLsfStatus(String workingDir) throws Exception {
+        // execs "bjobs -aw" and gets the status of each job
+        // remove outfile if already exists
+
+        if ((new File(workingDir + "bjobs-out.txt")).exists()) {
+            FileAndDirOperations.deleteFile(workingDir + "bjobs-out.txt");
+        }
+
+        // run bjobs
+        String command = "bjobs.sh";
+        RunExternalProgram.runCommand(command, workingDir);
+
+        // read in results
+        ArrayList<LsfJobStatus> lsfStatusList = new ArrayList<LsfJobStatus>();
+
+        BufferedReader br = new BufferedReader(new FileReader(workingDir
+                + "bjobs-out.txt"));
+        String line = "";
+        br.readLine(); // skip header
+        while ((line = br.readLine()) != null) {
+            if (!line.trim().equals("")) {
+                // non empty line
+                LsfJobStatus l = new LsfJobStatus(line);
+                lsfStatusList.add(l);
+            }
+        }
+
+        br.close();
+
+        return lsfStatusList;
+    }
+
+    public void run() {
 
         while (true) {
             try {
@@ -52,7 +98,7 @@ public class LsfProcessingThread extends Thread
                         for (Job j : readOnlyJobArray) {
                             if (j.getLsfJobId() != null
                                     && j.getLsfJobId()
-                                            .equals(jobStatus.jobid)) {
+                                    .equals(jobStatus.jobid)) {
                                 logger.debug("LSFQueue: trying postprocessing on job: "
                                         + j.getJobName()
                                         + " from user: "
@@ -80,8 +126,7 @@ public class LsfProcessingThread extends Thread
                                                 .removeJob(j.getId());
                                         CentralDogma.getInstance().lsfJobs
                                                 .deleteJobFromDB(j.getId());
-                                    }
-                                    catch (Exception ex) {
+                                    } catch (Exception ex) {
                                         // Job failed or threw an exception
                                         logger.warn("JOB FAILED: "
                                                 + j.getUserName() + " "
@@ -145,7 +190,8 @@ public class LsfProcessingThread extends Thread
                                                     adminEmailAddress, "",
                                                     "", "Job failed: "
                                                             + j.getJobName(),
-                                                    message);
+                                                    message
+                                            );
                                         }
                                     }
                                 }
@@ -181,10 +227,10 @@ public class LsfProcessingThread extends Thread
                                         if (jobStatus.jobid.equals(j
                                                 .getLsfJobId())
                                                 && (jobStatus.stat
-                                                        .equals("PEND")
-                                                        || jobStatus.stat
-                                                                .equals("RUN") || jobStatus.stat
-                                                            .equals("SSUSP"))) {
+                                                .equals("PEND")
+                                                || jobStatus.stat
+                                                .equals("RUN") || jobStatus.stat
+                                                .equals("SSUSP"))) {
                                             // job is already running, so
                                             // don't do anything to it
                                             jobIsRunningAlready = true;
@@ -216,8 +262,7 @@ public class LsfProcessingThread extends Thread
                                 CentralDogma.getInstance().lsfJobs
                                         .saveJobChangesToList(j);
                                 break;
-                            }
-                            catch (Exception ex) {
+                            } catch (Exception ex) {
                                 // Job failed or threw an exception
                                 logger.warn("JOB FAILED: " + j.getUserName()
                                         + " " + j.getJobName());
@@ -270,7 +315,8 @@ public class LsfProcessingThread extends Thread
                                             .sendEmail(adminEmailAddress, "",
                                                     "", "Job failed: "
                                                             + j.getJobName(),
-                                                    message);
+                                                    message
+                                            );
                                 }
                                 break;
                             }
@@ -286,17 +332,17 @@ public class LsfProcessingThread extends Thread
                     for (LsfJobStatus jobStatus : lsfJobStatuses) {
                         if ((oldLsfStatuses.containsKey(jobStatus.jobid)
                                 && oldLsfStatuses.get(jobStatus.jobid)
-                                        .equals("PEND") && jobStatus.stat
-                                    .equals("RUN"))
+                                .equals("PEND") && jobStatus.stat
+                                .equals("RUN"))
                                 || (!oldLsfStatuses
-                                        .containsKey(jobStatus.jobid) && jobStatus.stat
-                                        .equals("RUN"))) {
+                                .containsKey(jobStatus.jobid) && jobStatus.stat
+                                .equals("RUN"))) {
                             // the job *just* started on LSF. Find the job
                             // with this lsfJobId and set its date.
                             for (Job j : readOnlyJobArray) {
                                 if (j.getLsfJobId() != null
                                         && j.getLsfJobId().equals(
-                                                jobStatus.jobid)) {
+                                        jobStatus.jobid)) {
                                     j.setTimeStartedByLsf(new Date());
                                     CentralDogma.getInstance().lsfJobs
                                             .saveJobChangesToList(j);
@@ -305,73 +351,14 @@ public class LsfProcessingThread extends Thread
                         }
                         oldLsfStatuses.put(jobStatus.jobid, jobStatus.stat);
                     }
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     logger.error("Error checking job completion.\n" + ex);
                 }
 
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }
-    }
-
-    public static boolean lsfHasFreePendSlots()
-    {
-        // check how many pending jobs there are
-        // if that number is less than the limit return true
-        // else return false
-
-        if (CentralDogma.getInstance().lsfJobs.getReadOnlyCopy().size() > Constants.MAXLSFJOBS) {
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
-    // static functions for checking the status of the LSF queue(s) on
-    // Emerald.
-    public static ArrayList<String> getCompletedJobNames()
-    {
-        ArrayList<String> finishedJobNames = new ArrayList<String>();
-
-        return finishedJobNames;
-    }
-
-    public static ArrayList<LsfJobStatus>
-            checkLsfStatus(String workingDir) throws Exception
-    {
-        // execs "bjobs -aw" and gets the status of each job
-        // remove outfile if already exists
-
-        if ((new File(workingDir + "bjobs-out.txt")).exists()) {
-            FileAndDirOperations.deleteFile(workingDir + "bjobs-out.txt");
-        }
-
-        // run bjobs
-        String command = "bjobs.sh";
-        RunExternalProgram.runCommand(command, workingDir);
-
-        // read in results
-        ArrayList<LsfJobStatus> lsfStatusList = new ArrayList<LsfJobStatus>();
-
-        BufferedReader br = new BufferedReader(new FileReader(workingDir
-                + "bjobs-out.txt"));
-        String line = "";
-        br.readLine(); // skip header
-        while ((line = br.readLine()) != null) {
-            if (!line.trim().equals("")) {
-                // non empty line
-                LsfJobStatus l = new LsfJobStatus(line);
-                lsfStatusList.add(l);
-            }
-        }
-
-        br.close();
-
-        return lsfStatusList;
     }
 
 }

@@ -1,34 +1,23 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.util.List;
-import java.util.ArrayList;
-
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.ExternalValidation;
-import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.RandomForestGrove;
-import edu.unc.ceccr.persistence.RandomForestParameters;
-import edu.unc.ceccr.persistence.RandomForestTree;
+import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-
 import org.apache.log4j.Logger;
 
-public class RandomForest
-{
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class RandomForest {
     private static Logger logger = Logger.getLogger(RandomForest.class.getName());
+
     // MODELING WORKFLOW FUNCTIONS
     public static void
-            SetUpYRandomization(String userName, String jobName) throws Exception
-    {
+    SetUpYRandomization(String userName, String jobName) throws Exception {
         String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/"
                 + jobName + "/";
 
@@ -81,7 +70,7 @@ public class RandomForest
 
         String yRandomDir = Constants.CECCR_USER_BASE_PATH + userName + "/"
                 + jobName + "/yRandom/";
-        logger.debug("User: "+userName +" Job: "+jobName+" YRandomization");
+        logger.debug("User: " + userName + " Job: " + jobName + " YRandomization");
         File dir = new File(yRandomDir);
         String files[] = dir.list();
         if (files == null) {
@@ -102,8 +91,7 @@ public class RandomForest
     }
 
     public static void
-            makeRandomForestXFiles(String scalingType, String workingDir) throws Exception
-    {
+    makeRandomForestXFiles(String scalingType, String workingDir) throws Exception {
         // changes the usual .x files to random forest versions.
 
         BufferedWriter out = new BufferedWriter(new FileWriter(workingDir
@@ -139,13 +127,12 @@ public class RandomForest
     }
 
     public static void
-            buildRandomForestModels(RandomForestParameters randomForestParameters,
-                                    String actFileDataType,
-                                    String scalingType,
-                                    String categoryWeights,
-                                    String workingDir,
-                                    String jobName) throws Exception
-    {
+    buildRandomForestModels(RandomForestParameters randomForestParameters,
+                            String actFileDataType,
+                            String scalingType,
+                            String categoryWeights,
+                            String workingDir,
+                            String jobName) throws Exception {
 
         String command = "";
         logger.debug("Running Random Forest Modeling...");
@@ -217,9 +204,8 @@ public class RandomForest
     }
 
     public static ArrayList<ExternalValidation>
-            readExternalSetPredictionOutput(String workingDir,
-                                            Predictor predictor) throws Exception
-    {
+    readExternalSetPredictionOutput(String workingDir,
+                                    Predictor predictor) throws Exception {
         // note that in Random Forest, making external predictions is done
         // automatically
         // as part of the modeling process.
@@ -232,9 +218,9 @@ public class RandomForest
         while ((inputString = in.readLine()) != null
                 && !inputString.equals("")) {
             String data[] = inputString.split("\\s+"); // Note: [0] is the
-                                                       // compound name and
-                                                       // [1] is the activity
-                                                       // value.
+            // compound name and
+            // [1] is the activity
+            // value.
             ExternalValidation externalValidationValue = new ExternalValidation();
             externalValidationValue.setPredictorId(predictor.getId());
             externalValidationValue.setCompoundId(data[0]);
@@ -254,11 +240,11 @@ public class RandomForest
             if (inputString != null && !inputString.trim().isEmpty()) {
 
                 String[] data = inputString.split("\\s+"); // Note: [0] is the
-                                                           // compound name
-                                                           // and the
-                                                           // following are
-                                                           // the predicted
-                                                           // values.
+                // compound name
+                // and the
+                // following are
+                // the predicted
+                // values.
 
                 Float[] compoundPredictedValues = new Float[data.length - 1];
 
@@ -293,10 +279,9 @@ public class RandomForest
     }
 
     public static ArrayList<RandomForestGrove>
-            readRandomForestGroves(String workingDir,
-                                   Predictor predictor,
-                                   String isYRandomModel) throws Exception
-    {
+    readRandomForestGroves(String workingDir,
+                           Predictor predictor,
+                           String isYRandomModel) throws Exception {
         ArrayList<RandomForestGrove> randomForestModels = new ArrayList<RandomForestGrove>();
 
         // read the models list
@@ -307,15 +292,15 @@ public class RandomForest
                 && !inputString.equals("")) {
             // for each model
             String[] data = inputString.split("\t"); // [0] is the grove name,
-                                                     // [1] is the list of
-                                                     // descriptors used in
-                                                     // this grove
+            // [1] is the list of
+            // descriptors used in
+            // this grove
             RandomForestGrove m = new RandomForestGrove();
             m.setPredictorId(predictor.getId());
             m.setName(data[0]);
             if (data.length > 1) { // sometimes R code doesn't print
-                                   // descriptors right. Not a big deal, just
-                                   // move along.
+                // descriptors right. Not a big deal, just
+                // move along.
                 m.setDescriptorsUsed(data[1]);
             }
             m.setIsYRandomModel(isYRandomModel);
@@ -326,11 +311,10 @@ public class RandomForest
     }
 
     public static ArrayList<RandomForestTree>
-            readRandomForestTrees(String workingDir,
-                                  Predictor predictor,
-                                  RandomForestGrove grove,
-                                  String actFileDataType) throws Exception
-    {
+    readRandomForestTrees(String workingDir,
+                          Predictor predictor,
+                          RandomForestGrove grove,
+                          String actFileDataType) throws Exception {
         ArrayList<RandomForestTree> randomForestTrees = new ArrayList<RandomForestTree>();
 
         if (actFileDataType.equals(Constants.CONTINUOUS)) {
@@ -382,8 +366,7 @@ public class RandomForest
                 t.setDescriptorsUsed(treeDescriptorsUsed.get(i));
                 randomForestTrees.add(t);
             }
-        }
-        else {
+        } else {
             ArrayList<String> treeFileName = new ArrayList<String>();
             ArrayList<String> treeDescriptorsUsed = new ArrayList<String>();
             BufferedReader in = new BufferedReader(new FileReader(workingDir
@@ -409,7 +392,7 @@ public class RandomForest
                 t.setRandomForestGroveId(grove.getId());
                 t.setTreeFileName(treeFileName.get(i));
                 if (i < treeDescriptorsUsed.size()) { // if no descriptors,
-                                                      // not a big deal
+                    // not a big deal
                     t.setDescriptorsUsed(treeDescriptorsUsed.get(i));
                 }
                 randomForestTrees.add(t);
@@ -418,8 +401,7 @@ public class RandomForest
         return randomForestTrees;
     }
 
-    public static void cleanUpExcessFiles(String workingDir)
-    {
+    public static void cleanUpExcessFiles(String workingDir) {
         // remove the training and test set .x files; they are no longer
         // needed and take up lots of space
 
@@ -449,7 +431,7 @@ public class RandomForest
                             files[i] = files[i].substring(3);
                             if (files[i].endsWith("x")
                                     && new File(workingDir + files[i])
-                                            .exists()) {
+                                    .exists()) {
                                 FileAndDirOperations.deleteFile(workingDir
                                         + files[i]);
                             }
@@ -458,8 +440,7 @@ public class RandomForest
                 }
             }
             in.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
     }
@@ -468,11 +449,10 @@ public class RandomForest
 
     // PREDICTION WORKFLOW FUNCTIONS
     public static void
-            runRandomForestPrediction(String workingDir,
-                                      String jobName,
-                                      String sdfile,
-                                      Predictor predictor) throws Exception
-    {
+    runRandomForestPrediction(String workingDir,
+                              String jobName,
+                              String sdfile,
+                              Predictor predictor) throws Exception {
         String xFile = sdfile + ".renorm.x";
         String newXFile = "RF_" + xFile;
         preProcessXFile(predictor.getScalingType(), xFile, newXFile,
@@ -492,13 +472,12 @@ public class RandomForest
     }
 
     public static ArrayList<PredictionValue>
-            readPredictionOutput(String workingDir, Long predictorId) throws Exception
-    {
+    readPredictionOutput(String workingDir, Long predictorId) throws Exception {
         ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); // holds
-                                                                                        // objects
-                                                                                        // to
-                                                                                        // be
-                                                                                        // returned
+        // objects
+        // to
+        // be
+        // returned
 
         // Get the predicted values of the forest
         String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
@@ -512,10 +491,10 @@ public class RandomForest
         while ((inputString = in.readLine()) != null
                 && !inputString.equals("")) {
             String[] data = inputString.split("\\s+"); // Note: [0] is the
-                                                       // compound name and
-                                                       // the following are
-                                                       // the predicted
-                                                       // values.
+            // compound name and
+            // the following are
+            // the predicted
+            // values.
 
             PredictionValue p = new PredictionValue();
             p.setPredictorId(predictorId);
@@ -556,8 +535,7 @@ public class RandomForest
     public static void preProcessXFile(String scalingType,
                                        String xFile,
                                        String newXFile,
-                                       String workingDir) throws Exception
-    {
+                                       String workingDir) throws Exception {
         String logString = String.format(
                 "Preprocessing X file: SCALING=%s, OLD=%s, NEW=%s, DIR=%s",
                 scalingType, xFile, newXFile, workingDir);

@@ -1,28 +1,5 @@
 package edu.unc.ceccr.workflows.datasets;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.Vector;
-
-import org.apache.commons.validator.GenericValidator;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
 import edu.unc.ceccr.persistence.DataSet;
@@ -30,8 +7,16 @@ import edu.unc.ceccr.utilities.BigFile;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
-
+import org.apache.commons.validator.GenericValidator;
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
+import java.io.*;
+import java.util.*;
 
 /*
  * Functions relating to the processing of incoming dataset files go in here.
@@ -39,13 +24,12 @@ import org.apache.log4j.Logger;
  * now.
  */
 
-public class DatasetFileOperations
-{
-    private static Logger logger 
-                   = Logger.getLogger(DatasetFileOperations.class.getName());
+public class DatasetFileOperations {
+    private static Logger logger
+            = Logger.getLogger(DatasetFileOperations.class.getName());
+
     public static HashMap<String, String>
-            getActFileIdsAndValues(String filePath)
-    {
+    getActFileIdsAndValues(String filePath) {
         HashMap<String, String> idsAndValues = new HashMap<String, String>();
 
         try {
@@ -62,17 +46,15 @@ public class DatasetFileOperations
                 idsAndValues.put(array[i], array[i + 1]);
             }
             fis.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
- 
+
         return idsAndValues;
     }
 
     public static ArrayList<String>
-            getActFileValues(DataSet dataset) throws Exception
-    {
+    getActFileValues(DataSet dataset) throws Exception {
         ArrayList<String> actFileValues = new ArrayList<String>();
 
         // find activity file
@@ -98,9 +80,8 @@ public class DatasetFileOperations
     }
 
     public static void
-    generateEmptyActFile(String path, String name, String sdfPath) 
-                                                            throws IOException
-    {
+    generateEmptyActFile(String path, String name, String sdfPath)
+            throws IOException {
         File act = new File(path + name + ".act");
         act.createNewFile();
         FileOutputStream to = new FileOutputStream(act);
@@ -135,8 +116,7 @@ public class DatasetFileOperations
     }
 
     public static String
-            makeXFromACT(String path, String actFileName) throws Exception
-    {
+    makeXFromACT(String path, String actFileName) throws Exception {
         // creates an X file with no descriptors using the compound list from
         // the ACT file.
         // Needed in order to use datasplit on modeling sets that are
@@ -156,7 +136,7 @@ public class DatasetFileOperations
 
         int numActCompounds = getACTCompoundNames(path + actFileName).size();
         int numDescriptors = 2; // datasplit will refuse any inputs without at
-                                // least 2 descriptors
+        // least 2 descriptors
         fout.write("" + numActCompounds + " " + numDescriptors + "\n");
         String descriptorsLine = "junk1 junk2\n";
         fout.write(descriptorsLine);
@@ -177,18 +157,17 @@ public class DatasetFileOperations
     }
 
     public static ArrayList<String> uploadDataset(
-                          String userName,
-                          File sdfFile,
-                          String sdfFileName,
-                          File actFile,
-                          String actFileName,
-                          File xFile,
-                          String xFileName,
-                          String datasetName,
-                          String actFileType,
-                          String datasetType,
-                          String externalCompoundList) throws Exception
-    {
+            String userName,
+            File sdfFile,
+            String sdfFileName,
+            File actFile,
+            String actFileName,
+            File xFile,
+            String xFileName,
+            String datasetName,
+            String actFileType,
+            String datasetType,
+            String externalCompoundList) throws Exception {
         // will take care of the upload SDF, X, and ACT file
         // in case of errors will delete the directory
 
@@ -198,8 +177,8 @@ public class DatasetFileOperations
         logger.debug("Copying dataset files to " + path);
 
         ArrayList<String> msgs = new ArrayList<String>(); // holds any error
-                                                          // messages from
-                                                          // validations
+        // messages from
+        // validations
 
         ArrayList<String> act_compounds = null;
         ArrayList<String> sdf_compounds = null;
@@ -313,7 +292,7 @@ public class DatasetFileOperations
             String mismatches = "";
             for (int i = 0; i < act_compounds.size(); i++) {
                 if (i >= sdf_compounds.size()
-                    || !act_compounds.get(i).equals(sdf_compounds.get(i))) {
+                        || !act_compounds.get(i).equals(sdf_compounds.get(i))) {
                     mismatches += act_compounds.get(i) + " ";
                 }
             }
@@ -328,7 +307,7 @@ public class DatasetFileOperations
             mismatches = "";
             for (int i = 0; i < sdf_compounds.size(); i++) {
                 if (i >= act_compounds.size()
-                    || !sdf_compounds.get(i).equals(act_compounds.get(i))) {
+                        || !sdf_compounds.get(i).equals(act_compounds.get(i))) {
                     mismatches += sdf_compounds.get(i) + " ";
                 }
             }
@@ -355,7 +334,7 @@ public class DatasetFileOperations
             String mismatches = "";
             for (int i = 0; i < act_compounds.size(); i++) {
                 if (i >= x_compounds.size()
-                    || !act_compounds.get(i).equals(x_compounds.get(i))) {
+                        || !act_compounds.get(i).equals(x_compounds.get(i))) {
                     mismatches += act_compounds.get(i) + " ";
                 }
             }
@@ -370,7 +349,7 @@ public class DatasetFileOperations
             mismatches = "";
             for (int i = 0; i < x_compounds.size(); i++) {
                 if (i >= act_compounds.size()
-                    || !x_compounds.get(i).equals(act_compounds.get(i))) {
+                        || !x_compounds.get(i).equals(act_compounds.get(i))) {
                     mismatches += x_compounds.get(i) + " ";
                 }
             }
@@ -397,7 +376,7 @@ public class DatasetFileOperations
             String mismatches = "";
             for (int i = 0; i < x_compounds.size(); i++) {
                 if (i >= sdf_compounds.size()
-                    || !x_compounds.get(i).equals(sdf_compounds.get(i))) {
+                        || !x_compounds.get(i).equals(sdf_compounds.get(i))) {
                     mismatches += x_compounds.get(i) + " ";
                 }
             }
@@ -412,7 +391,7 @@ public class DatasetFileOperations
             mismatches = "";
             for (int i = 0; i < sdf_compounds.size(); i++) {
                 if (i >= x_compounds.size()
-                    || !sdf_compounds.get(i).equals(x_compounds.get(i))) {
+                        || !sdf_compounds.get(i).equals(x_compounds.get(i))) {
                     mismatches += sdf_compounds.get(i) + " ";
                 }
             }
@@ -431,8 +410,7 @@ public class DatasetFileOperations
             ArrayList<String> datasetCompounds = new ArrayList<String>();
             if (sdfFile != null) {
                 datasetCompounds.addAll(sdf_compounds);
-            }
-            else {
+            } else {
                 datasetCompounds.addAll(x_compounds);
             }
             Collections.sort(datasetCompounds);
@@ -456,8 +434,7 @@ public class DatasetFileOperations
         if (msgs.isEmpty()) {
             logger.debug("Dataset file validation successful!");
             // success - passed all validations
-        }
-        else {
+        } else {
             logger.debug("Validations failed - deleting");
             // failed validation - completely delete directory of this dataset
 
@@ -475,8 +452,7 @@ public class DatasetFileOperations
 
     public static String saveSDFFile(File sdfFile,
                                      String path,
-                                     String sdfFileName) throws Exception
-    {
+                                     String sdfFileName) throws Exception {
 
         String destFilePath = path + sdfFileName;
         FileAndDirOperations
@@ -485,10 +461,9 @@ public class DatasetFileOperations
     }
 
     public static void
-            rewriteSdf(String filePath,
-                       String fileName,
-                       ArrayList<String> sdfCompoundNames) throws Exception
-    {
+    rewriteSdf(String filePath,
+               String fileName,
+               ArrayList<String> sdfCompoundNames) throws Exception {
 
         // SDFs with lines longer than 1023 characters will not work properly
         // with MolconnZ.
@@ -537,7 +512,7 @@ public class DatasetFileOperations
             // replace any spaces in compound name with underscores
             if (sdfCompoundNamesIndex < sdfCompoundNames.size()
                     && temp.trim().equals(
-                            sdfCompoundNames.get(sdfCompoundNamesIndex))
+                    sdfCompoundNames.get(sdfCompoundNamesIndex))
                     && lastLine.startsWith("$$$$")) {
                 temp = temp.trim();
 
@@ -599,8 +574,7 @@ public class DatasetFileOperations
 
     public static String saveACTFile(File actFile,
                                      String path,
-                                     String actFileName) throws IOException
-    {
+                                     String actFileName) throws IOException {
 
         boolean isXlsFile = actFile.getName().endsWith(".x")
                 || actFile.getName().endsWith(".xl")
@@ -621,9 +595,8 @@ public class DatasetFileOperations
     }
 
     public static String
-            rewriteACTFile(String filePath) throws FileNotFoundException,
-                                           IOException
-    {
+    rewriteACTFile(String filePath) throws FileNotFoundException,
+            IOException {
         // removes the \r things (stupid Windows)
         // removes the header, if any
         // replaces spaces in compound names with underscores
@@ -644,20 +617,19 @@ public class DatasetFileOperations
                 if (temp.split("\\s+").length == 2) {
                     try {
                         Float.parseFloat(temp.split("\\s+")[1].trim());
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         // second thing isn't a number -- line was a header!
                         logger.debug(
-                                  "Activity file contains a header: "
-                                + temp
-                                + " {"
-                                + temp.split("\\s+")[1].trim()
-                                + "}");
+                                "Activity file contains a header: "
+                                        + temp
+                                        + " {"
+                                        + temp.split("\\s+")[1].trim()
+                                        + "}"
+                        );
                         logger.error(ex);
                         firstLineContainsHeader = true;
                     }
-                }
-                else {
+                } else {
                     // contains more than 2 things -- it was a header!
                     logger.debug("Activity file header: " + temp);
                     firstLineContainsHeader = true;
@@ -667,7 +639,8 @@ public class DatasetFileOperations
             if (!firstLineContainsHeader) {
                 logger.debug(
                         "Activity file has no header. First line: "
-                        + temp);
+                                + temp
+                );
 
                 String[] tempTokens = temp.trim().split("\\s+");
                 String compoundId = tempTokens[0];
@@ -676,7 +649,7 @@ public class DatasetFileOperations
                 // remove quotes around compound name
                 if ((compoundId.startsWith("\"") && compoundId.endsWith("\""))
                         || (compoundId.startsWith("\"") && compoundId
-                                .endsWith("\""))) {
+                        .endsWith("\""))) {
                     compoundId = compoundId.substring(1,
                             compoundId.length() - 1);
                 }
@@ -702,8 +675,7 @@ public class DatasetFileOperations
                 for (int i = 0; i < tempTokens.length; i++) {
                     if (i == tempTokens.length - 1) {
                         activity = tempTokens[i];
-                    }
-                    else {
+                    } else {
                         compoundId += tempTokens[i];
                         if (i < tempTokens.length - 2) {
                             compoundId += "_";
@@ -713,7 +685,7 @@ public class DatasetFileOperations
                 // remove quotes around compound names
                 if ((compoundId.startsWith("\"") && compoundId.endsWith("\""))
                         || (compoundId.startsWith("\"") && compoundId
-                                .endsWith("\""))) {
+                        .endsWith("\""))) {
                     compoundId = compoundId.substring(1,
                             compoundId.length() - 1);
                 }
@@ -738,16 +710,14 @@ public class DatasetFileOperations
             fout.close();
 
             return "";
-        }
-        else {
+        } else {
             return "File does not exist: " + filePath;
         }
 
     }
 
     public static String
-    saveXFile(File xFile, String path, String xFileName) throws IOException
-    {
+    saveXFile(File xFile, String path, String xFileName) throws IOException {
 
         String destFilePath = path + xFileName;
         FileAndDirOperations.copyFile(xFile.getAbsolutePath(), destFilePath);
@@ -756,14 +726,13 @@ public class DatasetFileOperations
     }
 
     public static Vector<Vector<String>>
-            readFileToVector(String delimiter, String path) throws Exception
-    {
+    readFileToVector(String delimiter, String path) throws Exception {
 
         Vector<Vector<String>> result = new Vector<Vector<String>>();
 
         try {
             BigFile bf = new BigFile(path);
-            for (Iterator<String> i = bf.iterator(); i.hasNext();) {
+            for (Iterator<String> i = bf.iterator(); i.hasNext(); ) {
                 Vector<String> temp = new Vector<String>();
                 String[] s = i.next().split(delimiter);
                 for (int j = 0; j < s.length; j++) {
@@ -771,8 +740,7 @@ public class DatasetFileOperations
                 }
                 result.add(temp);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             logger.error(e);
         }
 
@@ -781,8 +749,7 @@ public class DatasetFileOperations
     }
 
     public static ArrayList<String>
-            getXCompoundNames(String fileLocation) throws Exception
-    {
+    getXCompoundNames(String fileLocation) throws Exception {
         ArrayList<String> x_compounds = new ArrayList<String>();
         File file = new File(fileLocation);
         logger.debug("Getting X file compounds from " + fileLocation);
@@ -798,7 +765,7 @@ public class DatasetFileOperations
                 line = src.nextLine();
                 String[] array = line.trim().split("\\s+");
                 if (array.length > 1 && i < numCompounds) { // this will skip
-                                                            // any blank lines
+                    // any blank lines
                     // in an X file, first value is an index, second is
                     // compoundID
                     x_compounds.add(array[1].trim());
@@ -813,8 +780,7 @@ public class DatasetFileOperations
 
     public static ArrayList<String>
     getACTCompoundNames(String fileLocation) throws FileNotFoundException,
-                                                    IOException
-    {
+            IOException {
         ArrayList<String> act_compounds = new ArrayList<String>();
         File file = new File(fileLocation);
 
@@ -838,8 +804,7 @@ public class DatasetFileOperations
     }
 
     public static ArrayList<String>
-            getSDFCompoundNames(String sdfPath) throws Exception
-    {
+    getSDFCompoundNames(String sdfPath) throws Exception {
         // returns JUST THE NAMES of the compounds in an SDF, no structure or
         // anything.
 
@@ -880,8 +845,7 @@ public class DatasetFileOperations
     }
 
     public static ArrayList<String>
-            getCompoundsFromSdf(String sdfPath) throws Exception
-    {
+    getCompoundsFromSdf(String sdfPath) throws Exception {
         // opens an SDF, and returns each full compound (the name,
         // coordinates, comments, etc)
         // as a string just as it appears in the file. Useful for splitting or
@@ -911,16 +875,14 @@ public class DatasetFileOperations
     }
 
     // returns the compound names of the duplicates
-    private static String findDuplicates(ArrayList<String> compoundList)
-    {
+    private static String findDuplicates(ArrayList<String> compoundList) {
         String duplicates = "";
 
         ArrayList<String> temp_list = new ArrayList<String>();
         for (int i = 0; i < compoundList.size(); i++) {
             if (temp_list.contains(compoundList.get(i))) {
                 duplicates += compoundList.get(i) + " ";
-            }
-            else {
+            } else {
                 temp_list.add(compoundList.get(i));
             }
         }
@@ -928,9 +890,8 @@ public class DatasetFileOperations
     }
 
     public static HashMap<String, String>
-            parseActFile(String fileName) throws FileNotFoundException,
-                                         IOException
-    {
+    parseActFile(String fileName) throws FileNotFoundException,
+            IOException {
         File file = new File(fileName);
         FileInputStream fis = new FileInputStream(file);
         int length = fis.available();
@@ -950,8 +911,7 @@ public class DatasetFileOperations
 
     public static void XLStoACT(String filePath,
                                 String actFileName,
-                                String xlsFileName)
-    {
+                                String xlsFileName) {
         String fullPath = filePath + xlsFileName;
         File file = new File(fullPath);
         StringBuilder sb = new StringBuilder();
@@ -972,15 +932,13 @@ public class DatasetFileOperations
                     cell2 = row.getCell((short) 1);
                     if (cell1.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
                         sb.append((int) cell1.getNumericCellValue());
-                    }
-                    else {
+                    } else {
                         sb.append(cell1.getRichStringCellValue());
                     }
 
                     if (cell2.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
                         sb.append(" " + cell2.getNumericCellValue() + "\n");
-                    }
-                    else {
+                    } else {
                         sb.append(" " + cell2.getRichStringCellValue() + "\n");
                     }
                 }
@@ -990,39 +948,34 @@ public class DatasetFileOperations
             fout.write(sb.toString());
             fout.close();
 
-        }
-        catch (Exception ioe) {
+        } catch (Exception ioe) {
             logger.error(ioe);
         }
     }
 
-    public static String sdfIsValid(File sdfFile) throws Exception
-    {
+    public static String sdfIsValid(File sdfFile) throws Exception {
         if (!sdfFile.exists()) {
             return ErrorMessages.INVALID_SDF;
-        }
-        else if (getSDFCompoundNames(sdfFile.getAbsolutePath()).size() == 0) {
+        } else if (getSDFCompoundNames(sdfFile.getAbsolutePath()).size() == 0) {
             return ErrorMessages.SDF_IS_EMPTY;
         }
 
         return "";
     }
 
-    public static String rewriteXFileAndValidate(File xFile) throws Exception
-    {
+    public static String rewriteXFileAndValidate(File xFile) throws Exception {
         // checks the X file and removes any extra lines
 
         if (!xFile.exists()) {
             return ErrorMessages.INVALID_X;
-        }
-        else if (getXCompoundNames(xFile.getAbsolutePath()).size() == 0) {
+        } else if (getXCompoundNames(xFile.getAbsolutePath()).size() == 0) {
             return ErrorMessages.X_IS_EMPTY;
         }
 
         BufferedReader br = new BufferedReader(new FileReader(xFile));
 
         BufferedWriter out = new BufferedWriter(new FileWriter(xFile
-                                        .getAbsolutePath() + ".temp"));
+                .getAbsolutePath() + ".temp"));
 
         String line = br.readLine();
         String[] header = line.trim().split("\\s+");
@@ -1032,10 +985,9 @@ public class DatasetFileOperations
         try {
             numCompounds = Integer.parseInt(header[0]);
             numDescriptors = Integer.parseInt(header[1]);
-        }
-        catch (Exception ex) {
-            logger.error("Invalid X File header on line 1: \"" + line 
-                        + "\". \n" + ex);
+        } catch (Exception ex) {
+            logger.error("Invalid X File header on line 1: \"" + line
+                    + "\". \n" + ex);
             br.close();
             out.close();
             return "Invalid X File header on line 1: \"" + line + "\". ";
@@ -1080,7 +1032,7 @@ public class DatasetFileOperations
                 // remove quotes around the compound id
                 if ((tokens[1].startsWith("\"") && tokens[1].endsWith("\""))
                         || (tokens[1].startsWith("\"") && tokens[1]
-                                .endsWith("\""))) {
+                        .endsWith("\""))) {
                     tokens[1] = tokens[1]
                             .substring(1, tokens[1].length() - 1);
                 }
@@ -1097,7 +1049,7 @@ public class DatasetFileOperations
 
                 out.write(tokens[1] + " "); // write compound id
                 for (int j = 2; j < tokens.length; j++) { // for each
-                                                          // descriptor value
+                    // descriptor value
                     try {
                         // convert from scientific notation to a regular
                         // decimal form
@@ -1107,15 +1059,13 @@ public class DatasetFileOperations
                                 || tokens[j].contains("e")) {
                             tokens[j] = Utility.floatToString(Float
                                     .parseFloat(tokens[j]));
-                        }
-                        else {
+                        } else {
 
                             // check that descriptor value is numeric (not a
                             // string or something else crazy)
                             Float.parseFloat(tokens[j]);
                         }
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         String err = "Error in X file at compound " + (i + 1)
                                 + " at descriptor " + (j - 1) + ": '"
                                 + tokens[j] + "' is not a number.";
@@ -1128,8 +1078,7 @@ public class DatasetFileOperations
                 }
                 out.write("\n");
 
-            }
-            else {
+            } else {
                 br.close();
                 out.close();
                 return "Error in X file: expected " + numCompounds
@@ -1148,15 +1097,13 @@ public class DatasetFileOperations
         return "";
     }
 
-    public static void dos2unix(String filePath)
-    {
+    public static void dos2unix(String filePath) {
         String execstr = "dos2unix " + filePath;
         RunExternalProgram.runCommand(execstr, "");
     }
 
     public static String
-            actIsValid(File actFile, String actFileType) throws IOException
-    {
+    actIsValid(File actFile, String actFileType) throws IOException {
         // really not much of a validator, but better than nothing.
         // checks that
         if (!actFile.exists()) {
@@ -1174,8 +1121,7 @@ public class DatasetFileOperations
             if (size == 2 && GenericValidator.isFloat(lineArray[1])
                     || size == 0) {
                 // good so far
-            }
-            else {
+            } else {
                 // bad line found
                 br.close();
                 return ErrorMessages.ACT_NOT_VALID;
@@ -1183,8 +1129,7 @@ public class DatasetFileOperations
 
             if (actFileType.equalsIgnoreCase(Constants.CATEGORY)) {
                 if (GenericValidator.isInt(lineArray[1])) {
-                }
-                else {
+                } else {
                     br.close();
                     return ErrorMessages.ACT_DOESNT_MATCH_PROJECT_TYPE;
                 }
@@ -1195,11 +1140,10 @@ public class DatasetFileOperations
     }
 
     public static void
-    randomizeActivityFile(String filePath, String outFilePath) throws Exception
-    {
+    randomizeActivityFile(String filePath, String outFilePath) throws Exception {
         ArrayList<String> actFileCompounds = getACTCompoundNames(filePath);
-        HashMap<String, String> actFileIdsAndValues 
-                                           = getActFileIdsAndValues(filePath);
+        HashMap<String, String> actFileIdsAndValues
+                = getActFileIdsAndValues(filePath);
         ArrayList<String> actFileValues = new ArrayList<String>(
                 actFileIdsAndValues.values());
         Collections.shuffle(actFileValues);
@@ -1224,9 +1168,8 @@ public class DatasetFileOperations
     public static void
     removeSkippedCompoundsFromExternalSetList(String fullXFile,
                                               String workingDir,
-                                              String extSetXFile) 
-                                                       throws Exception
-    {
+                                              String extSetXFile)
+            throws Exception {
         // if some of the external compounds had bad descriptors, they need to
         // be removed from the
         // set of external compounds specified in ext_0.x.
@@ -1268,10 +1211,9 @@ public class DatasetFileOperations
     }
 
     public static void
-            removeSkippedCompoundsFromActFile(String fullXFile,
-                                              String workingDir,
-                                              String actFile) throws Exception
-    {
+    removeSkippedCompoundsFromActFile(String fullXFile,
+                                      String workingDir,
+                                      String actFile) throws Exception {
         // if some of the external compounds had bad descriptors, they need to
         // be removed from the
         // set of activities (ACT file).
