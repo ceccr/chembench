@@ -19,8 +19,6 @@ target/
 *.ear
 *.db
 
-# Temporary files
-
 ######################
 # Windows
 ######################
@@ -32,9 +30,7 @@ Desktop.ini
 ######################
 .DS_Store
 .svn
-
-# Thumbnails
-._*
+._*  # Thumbnails
 
 # Files that might appear on external disk
 .Spotlight-V100
