@@ -1,242 +1,245 @@
 <?xml version="1.0" encoding="Shift_JIS"?>
 
 <!DOCTYPE web-app
-PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
-"http://java.sun.com/dtd/web-app_2_3.dtd">
+        PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd">
 
-<web-app id="WebApp_9" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd" >
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="WebApp_9" version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
-<servlet>
-<servlet-name>ApplicationServlet</servlet-name>
-<servlet-class>edu.unc.ceccr.servlet.ApplicationServlet</servlet-class>
-</servlet>
+    <servlet>
+        <servlet-name>ApplicationServlet</servlet-name>
+        <servlet-class>edu.unc.ceccr.servlet.ApplicationServlet</servlet-class>
+    </servlet>
 
-<servlet-mapping>
-<servlet-name>ApplicationServlet</servlet-name>
-<url-pattern>/apps/*</url-pattern>
-</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ApplicationServlet</servlet-name>
+        <url-pattern>/apps/*</url-pattern>
+    </servlet-mapping>
 
-<servlet>
-<servlet-name>FileServlet</servlet-name>
-<servlet-class>edu.unc.ceccr.servlet.FileServlet</servlet-class>
-</servlet>
+    <servlet>
+        <servlet-name>FileServlet</servlet-name>
+        <servlet-class>edu.unc.ceccr.servlet.FileServlet</servlet-class>
+    </servlet>
 
-<servlet-mapping>
-<servlet-name>FileServlet</servlet-name>
-<url-pattern>/fileServlet.do</url-pattern>
-</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FileServlet</servlet-name>
+        <url-pattern>/fileServlet.do</url-pattern>
+    </servlet-mapping>
 
-<servlet>
-<servlet-name>Structure</servlet-name>
-<servlet-class>edu.unc.ceccr.servlet.Structure</servlet-class>
-</servlet>
+    <servlet>
+        <servlet-name>Structure</servlet-name>
+        <servlet-class>edu.unc.ceccr.servlet.Structure</servlet-class>
+    </servlet>
 
-<servlet-mapping>
-<servlet-name>Structure</servlet-name>
-<url-pattern>/Structure/*</url-pattern>
-</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Structure</servlet-name>
+        <url-pattern>/Structure/*</url-pattern>
+    </servlet-mapping>
 
-<servlet>
-<servlet-name>Compound3D</servlet-name>
-<servlet-class>edu.unc.ceccr.servlet.Compound3DServlet</servlet-class>
-</servlet>
+    <servlet>
+        <servlet-name>Compound3D</servlet-name>
+        <servlet-class>edu.unc.ceccr.servlet.Compound3DServlet</servlet-class>
+    </servlet>
 
-<servlet-mapping>
-<servlet-name>Compound3D</servlet-name>
-<url-pattern>/compound3D.do</url-pattern>
-</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Compound3D</servlet-name>
+        <url-pattern>/compound3D.do</url-pattern>
+    </servlet-mapping>
 
-<servlet>
-<servlet-name>ImageServlet</servlet-name>
-<servlet-class>edu.unc.ceccr.servlet.ImageServlet</servlet-class>
-</servlet>
+    <servlet>
+        <servlet-name>ImageServlet</servlet-name>
+        <servlet-class>edu.unc.ceccr.servlet.ImageServlet</servlet-class>
+    </servlet>
 
-<servlet-mapping>
-<servlet-name>ImageServlet</servlet-name>
-<url-pattern>/imageServlet.do</url-pattern>
-</servlet-mapping>
-
-
-<servlet>
-<servlet-name>DescriptorMatrixServlet</servlet-name>
-<servlet-class>edu.unc.ceccr.servlet.DescriptorMatrixServlet</servlet-class>
-</servlet>
-
-<servlet-mapping>
-<servlet-name>DescriptorMatrixServlet</servlet-name>
-<url-pattern>/descriptorMatrixServlet.do</url-pattern>
-</servlet-mapping>
-
-<servlet>
-<servlet-name>ProjectFilesServlet</servlet-name>
-<servlet-class>edu.unc.ceccr.servlet.ProjectFilesServlet</servlet-class>
-</servlet>
-
-<servlet-mapping>
-<servlet-name>ProjectFilesServlet</servlet-name>
-<url-pattern>/projectFilesServlet.do</url-pattern>
-</servlet-mapping>
-
-<servlet>
-<servlet-name>DatasetFilesServlet</servlet-name>
-<servlet-class>edu.unc.ceccr.servlet.DatasetFilesServlet</servlet-class>
-</servlet>
-
-<servlet-mapping>
-<servlet-name>DatasetFilesServlet</servlet-name>
-<url-pattern>/datasetFilesServlet.do</url-pattern>
-</servlet-mapping>
-
-<!-- START Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha-->
-<servlet>
-<servlet-name>Captcha</servlet-name>
-<display-name>Captcha</display-name>
-<servlet-class>nl.captcha.servlet.CaptchaServlet</servlet-class>
-
-<init-param>
-<param-name>cap.border</param-name>
-<param-value>yes</param-value>
-</init-param>
-
-<!--color of the border. Legal values are r,g,b(and optional alpaha) or white,black,etc. Other values will be ignored-->
-<init-param>
-<param-name>cap.border.c</param-name>
-<param-value>202,225,225</param-value>
-</init-param>
-
-<!--thickness of the border around captcha. Legal values are > 0 other values will be ignored. Defaults to one-->
-<init-param>
-<param-name>cap.border.th</param-name>
-<param-value>1</param-value>
-</init-param>
-
-<!-- the image producer. Currently only one-->
-<init-param>
-<param-name>cap.cap.producer</param-name>
-<param-value>nl.captcha.obscurity.imp.DefaultCaptchaIml</param-value>
-</init-param>
-
-<!-- the text producer. defaults to a random character thing. But there is a first name generator as well-->
-<init-param>
-<param-name>cap.text.producer</param-name>
-<param-value>Default</param-value>
-<!--<param-value>nl.captcha.text.FiveLetterFirstNameTextCreator</param-value>-->
-</init-param>
-
-<!-- incase the default generator is chosen. The characters that will create the string can be configured aswell please-->
-<!-- notice that if japanese or chinese characters are chosen the fonts chosen below will have to support these-->
-<init-param>
-<param-name>cap.char.arr</param-name>
-<param-value>2,3,4,6,7,8,a,b,c,d,e,f,h,k,r,p,t,x,y</param-value>
-</init-param>
-
-<!--if default captcha producer is slelected this value represents the amount of chars that are supplied in the captcha. values below 2 are not exepted when omitted defaults to 5-->
-<init-param>
-<param-name>cap.char.arr.l</param-name>
-<param-value>5</param-value>
-</init-param>
-
-<!--optional font array for the captcha-->
-<init-param>
-<param-name>cap.font.arr</param-name>
-<param-value>Arial,Helvetica,Courier,TimesRoman</param-value>
-</init-param>
-
-<!-- image size-->
-<init-param>
-<param-name>cap.font.size</param-name>
-<param-value>45</param-value>
-</init-param>
-
-<!-- font color. values can be either red,yellow,blue,cya etc or r,g,b (optional alpha value)-->
-<init-param>
-<param-name>cap.font.color</param-name>
-<param-value>255,0,255</param-value>
-</init-param>
+    <servlet-mapping>
+        <servlet-name>ImageServlet</servlet-name>
+        <url-pattern>/imageServlet.do</url-pattern>
+    </servlet-mapping>
 
 
-<init-param>
-<param-name>cap.distortionImp</param-name>
-<param-value>10</param-value>
-</init-param>
+    <servlet>
+        <servlet-name>DescriptorMatrixServlet</servlet-name>
+        <servlet-class>edu.unc.ceccr.servlet.DescriptorMatrixServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DescriptorMatrixServlet</servlet-name>
+        <url-pattern>/descriptorMatrixServlet.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ProjectFilesServlet</servlet-name>
+        <servlet-class>edu.unc.ceccr.servlet.ProjectFilesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ProjectFilesServlet</servlet-name>
+        <url-pattern>/projectFilesServlet.do</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DatasetFilesServlet</servlet-name>
+        <servlet-class>edu.unc.ceccr.servlet.DatasetFilesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>DatasetFilesServlet</servlet-name>
+        <url-pattern>/datasetFilesServlet.do</url-pattern>
+    </servlet-mapping>
+
+    <!-- START Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha-->
+    <servlet>
+        <servlet-name>Captcha</servlet-name>
+        <display-name>Captcha</display-name>
+        <servlet-class>nl.captcha.servlet.CaptchaServlet</servlet-class>
+
+        <init-param>
+            <param-name>cap.border</param-name>
+            <param-value>yes</param-value>
+        </init-param>
+
+        <!--color of the border. Legal values are r,g,b(and optional alpaha) or white,black,etc. Other values will be ignored-->
+        <init-param>
+            <param-name>cap.border.c</param-name>
+            <param-value>202,225,225</param-value>
+        </init-param>
+
+        <!--thickness of the border around captcha. Legal values are > 0 other values will be ignored. Defaults to one-->
+        <init-param>
+            <param-name>cap.border.th</param-name>
+            <param-value>1</param-value>
+        </init-param>
+
+        <!-- the image producer. Currently only one-->
+        <init-param>
+            <param-name>cap.cap.producer</param-name>
+            <param-value>nl.captcha.obscurity.imp.DefaultCaptchaIml</param-value>
+        </init-param>
+
+        <!-- the text producer. defaults to a random character thing. But there is a first name generator as well-->
+        <init-param>
+            <param-name>cap.text.producer</param-name>
+            <param-value>Default</param-value>
+            <!--<param-value>nl.captcha.text.FiveLetterFirstNameTextCreator</param-value>-->
+        </init-param>
+
+        <!-- incase the default generator is chosen. The characters that will create the string can be configured aswell please-->
+        <!-- notice that if japanese or chinese characters are chosen the fonts chosen below will have to support these-->
+        <init-param>
+            <param-name>cap.char.arr</param-name>
+            <param-value>2,3,4,6,7,8,a,b,c,d,e,f,h,k,r,p,t,x,y</param-value>
+        </init-param>
+
+        <!--if default captcha producer is slelected this value represents the amount of chars that are supplied in the captcha. values below 2 are not exepted when omitted defaults to 5-->
+        <init-param>
+            <param-name>cap.char.arr.l</param-name>
+            <param-value>5</param-value>
+        </init-param>
+
+        <!--optional font array for the captcha-->
+        <init-param>
+            <param-name>cap.font.arr</param-name>
+            <param-value>Arial,Helvetica,Courier,TimesRoman</param-value>
+        </init-param>
+
+        <!-- image size-->
+        <init-param>
+            <param-name>cap.font.size</param-name>
+            <param-value>45</param-value>
+        </init-param>
+
+        <!-- font color. values can be either red,yellow,blue,cya etc or r,g,b (optional alpha value)-->
+        <init-param>
+            <param-name>cap.font.color</param-name>
+            <param-value>255,0,255</param-value>
+        </init-param>
 
 
-<init-param>
-<param-name>cap.backgroundImp</param-name>
-<param-value/>
-</init-param>
+        <init-param>
+            <param-name>cap.distortionImp</param-name>
+            <param-value>10</param-value>
+        </init-param>
 
-<!--values can be either red,yellow,blue,cya etc or r,g,b,alpha value-->
-<init-param>
-<param-name>cap.background.c.to</param-name>
-<param-value>255,255,255</param-value>
-</init-param>
 
-<!--values can be either red,yellow,blue,cya etc or r,g,b,alpha value-->
-<init-param>
-<param-name>cap.background.c.from</param-name>
-<param-value>75,75,255</param-value>
-</init-param>
-</servlet>
-<servlet-mapping>
-<servlet-name>Captcha</servlet-name>
-<url-pattern>/Captcha.jpg</url-pattern>
-</servlet-mapping>
-<!--END Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha-->
-	
-	<session-config>
-	  <session-timeout>90</session-timeout>    <!-- 90 minutes -->
-	</session-config>
-	
-<taglib>
-<taglib-uri>/application/jstl/core</taglib-uri>
-<taglib-location>/WEB-INF/tags/c.tld</taglib-location>
-</taglib>
+        <init-param>
+            <param-name>cap.backgroundImp</param-name>
+            <param-value/>
+        </init-param>
 
-<taglib>
-<taglib-uri>/application/jstl/fmt</taglib-uri>
-<taglib-location>/WEB-INF/tags/fmt.tld</taglib-location>
-</taglib>
+        <!--values can be either red,yellow,blue,cya etc or r,g,b,alpha value-->
+        <init-param>
+            <param-name>cap.background.c.to</param-name>
+            <param-value>255,255,255</param-value>
+        </init-param>
 
-<taglib>
-<taglib-uri>/application/jstl/fn</taglib-uri>
-<taglib-location>/WEB-INF/tags/fn.tld</taglib-location>
-</taglib>
+        <!--values can be either red,yellow,blue,cya etc or r,g,b,alpha value-->
+        <init-param>
+            <param-name>cap.background.c.from</param-name>
+            <param-value>75,75,255</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Captcha</servlet-name>
+        <url-pattern>/Captcha.jpg</url-pattern>
+    </servlet-mapping>
+    <!--END Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha Captcha-->
 
-<listener>
-<listener-class>edu.unc.ceccr.utilities.ActiveUser</listener-class>
-</listener>
+    <session-config>
+        <session-timeout>90</session-timeout>
+        <!-- 90 minutes -->
+    </session-config>
 
-<!-- begin added for struts2 -->
+    <taglib>
+        <taglib-uri>/application/jstl/core</taglib-uri>
+        <taglib-location>/WEB-INF/tags/c.tld</taglib-location>
+    </taglib>
 
-<display-name>Struts Blank</display-name>
+    <taglib>
+        <taglib-uri>/application/jstl/fmt</taglib-uri>
+        <taglib-location>/WEB-INF/tags/fmt.tld</taglib-location>
+    </taglib>
 
-<filter>
-<filter-name>struts2</filter-name>
-<filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
-</filter>
+    <taglib>
+        <taglib-uri>/application/jstl/fn</taglib-uri>
+        <taglib-location>/WEB-INF/tags/fn.tld</taglib-location>
+    </taglib>
 
-<filter-mapping>
-<filter-name>struts2</filter-name>
-<url-pattern>/*</url-pattern>
-</filter-mapping>
+    <listener>
+        <listener-class>edu.unc.ceccr.utilities.ActiveUser</listener-class>
+    </listener>
 
-<welcome-file-list>
-<welcome-file>/home</welcome-file>
-</welcome-file-list>
+    <!-- begin added for struts2 -->
 
-<!-- end added for struts2 -->
+    <display-name>Struts Blank</display-name>
 
-<!-- Enables SSL. Currently disabled, as it slows down the site, especially for international users. -->
-	<!-- <security-constraint>
-		<web-resource-collection>
-			<web-resource-name>Chembench non-Login Sections</web-resource-name>
-			<url-pattern>/*</url-pattern>
-		</web-resource-collection>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
+    <filter>
+        <filter-name>struts2</filter-name>
+        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>struts2</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <welcome-file-list>
+        <welcome-file>/home</welcome-file>
+    </welcome-file-list>
+
+    <!-- end added for struts2 -->
+
+    <!-- Enables SSL. Currently disabled, as it slows down the site, especially for international users. -->
+    <!-- <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Chembench non-Login Sections</web-resource-name>
+            <url-pattern>/*</url-pattern>
+        </web-resource-collection>
+        <user-data-constraint>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
+    </security-constraint>
 
 <security-constraint>
 <web-resource-collection>
@@ -249,6 +252,6 @@ Require use of port 8443
 </user-data-constraint>
 </security-constraint>-->
 
-<!-- end Enables SSL -->
+    <!-- end Enables SSL -->
 
 </web-app>
