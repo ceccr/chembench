@@ -1,7 +1,7 @@
 # Temporary files
 ~*
 .#*
-*.sw?
+*.sw[o-p]
 
 # Build directories
 /build/
