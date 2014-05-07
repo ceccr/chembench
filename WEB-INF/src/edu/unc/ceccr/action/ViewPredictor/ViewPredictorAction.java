@@ -1,5 +1,9 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
+import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.action.ViewAction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -7,37 +11,69 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import org.apache.log4j.Logger;
-
-import java.util.ArrayList;
 
 // struts2
 
-public class ViewPredictorAction extends ViewAction {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
+public class ViewPredictorAction extends ViewAction
+{
+    private static Logger logger 
+                  = Logger.getLogger(ViewPredictorAction.class.getName());
 
     // Basic parameters. Inherited by all subclasses.
-    private static Logger logger
-            = Logger.getLogger(ViewPredictorAction.class.getName());
-    protected Predictor selectedPredictor;
-    protected DataSet dataset;
-    protected String currentFoldNumber = "0";
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+    
+    protected Predictor  selectedPredictor;
+    protected DataSet    dataset;
+
+    ArrayList<Predictor> childPredictors;
     // End basic parameters
 
     // used by ext validation and models pages.
     // usually conatins 1 to n; etx validation has "All"
-    // Params used by all the models pages
-    protected String isYRandomPage;
-    protected String orderBy;
-    protected String sortDirection;
-    protected String mostFrequentDescriptors = "";
-    ArrayList<Predictor> childPredictors;
-    ArrayList<String> foldNums = new ArrayList<String>();
 
-    public String getBasicParameters() throws Exception {
+    ArrayList<String>    foldNums                = new ArrayList<String>(); 
+    protected String     currentFoldNumber       = "0";
+
+    // Params used by all the models pages
+    protected String     isYRandomPage;
+    protected String     orderBy;
+    protected String     sortDirection;
+    protected String     mostFrequentDescriptors = "";
+
+    public class descriptorFrequency
+    {
+        private String descriptor;
+        private int    numOccs;
+
+        public String getDescriptor()
+        {
+            return descriptor;
+        }
+
+        public void setDescriptor(String descriptor)
+        {
+            this.descriptor = descriptor;
+        }
+
+        public int getNumOccs()
+        {
+            return numOccs;
+        }
+
+        public void setNumOccs(int numOccs)
+        {
+            this.numOccs = numOccs;
+        }
+    }
+
+    // End params used by all models pages
+
+    public String getBasicParameters() throws Exception
+    {
         // this function gets params that all subclasses will need.
         String basic = checkBasicParams();
         if (!basic.equals(SUCCESS))
@@ -47,8 +83,8 @@ public class ViewPredictorAction extends ViewAction {
                 .parseLong(objectId), session);
         if (selectedPredictor == null
                 || (!selectedPredictor.getUserName().equals(
-                Constants.ALL_USERS_USERNAME) && !user.getUserName()
-                .equals(selectedPredictor.getUserName()))) {
+                        Constants.ALL_USERS_USERNAME) && !user.getUserName()
+                        .equals(selectedPredictor.getUserName()))) {
             logger.debug("Invalid predictor ID supplied. ");
             errorStrings.add("Invalid predictor ID supplied.");
             session.close();
@@ -68,9 +104,8 @@ public class ViewPredictorAction extends ViewAction {
         return SUCCESS;
     }
 
-    // End params used by all models pages
-
-    public String getModelsPageParameters() throws Exception {
+    public String getModelsPageParameters() throws Exception
+    {
         // gets parameters used by each modeling page
         // assumes getBasicParameters has already been called
 
@@ -88,99 +123,96 @@ public class ViewPredictorAction extends ViewAction {
         return SUCCESS;
     }
 
-    public User getUser() {
+    // getters and setters
+
+    public User getUser()
+    {
         return user;
     }
 
-    // getters and setters
-
-    public void setUser(User user) {
+    public void setUser(User user)
+    {
         this.user = user;
     }
 
-    public Predictor getSelectedPredictor() {
+    public Predictor getSelectedPredictor()
+    {
         return selectedPredictor;
     }
 
-    public void setSelectedPredictor(Predictor selectedPredictor) {
+    public void setSelectedPredictor(Predictor selectedPredictor)
+    {
         this.selectedPredictor = selectedPredictor;
     }
 
-    public DataSet getDataset() {
+    public DataSet getDataset()
+    {
         return dataset;
     }
 
-    public void setDataset(DataSet dataset) {
+    public void setDataset(DataSet dataset)
+    {
         this.dataset = dataset;
     }
 
-    public String getMostFrequentDescriptors() {
+    public String getMostFrequentDescriptors()
+    {
         return mostFrequentDescriptors;
     }
 
-    public void setMostFrequentDescriptors(String mostFrequentDescriptors) {
+    public void setMostFrequentDescriptors(String mostFrequentDescriptors)
+    {
         this.mostFrequentDescriptors = mostFrequentDescriptors;
     }
 
-    public String getIsYRandomPage() {
+    public String getIsYRandomPage()
+    {
         return isYRandomPage;
     }
 
-    public void setIsYRandomPage(String isYRandomPage) {
+    public void setIsYRandomPage(String isYRandomPage)
+    {
         this.isYRandomPage = isYRandomPage;
     }
 
-    public String getOrderBy() {
+    public String getOrderBy()
+    {
         return orderBy;
     }
 
-    public void setOrderBy(String orderBy) {
+    public void setOrderBy(String orderBy)
+    {
         this.orderBy = orderBy;
     }
 
-    public String getSortDirection() {
+    public String getSortDirection()
+    {
         return sortDirection;
     }
 
-    public void setSortDirection(String sortDirection) {
+    public void setSortDirection(String sortDirection)
+    {
         this.sortDirection = sortDirection;
     }
 
-    public Integer getCurrentFoldNumber() {
+    public Integer getCurrentFoldNumber()
+    {
         return Integer.parseInt(currentFoldNumber);
     }
 
-    public void setCurrentFoldNumber(String currentFoldNumber) {
+    public void setCurrentFoldNumber(String currentFoldNumber)
+    {
         this.currentFoldNumber = currentFoldNumber;
     }
 
-    public ArrayList<String> getFoldNums() {
+    public ArrayList<String> getFoldNums()
+    {
         return foldNums;
     }
 
-    public void setFoldNums(ArrayList<String> foldNums) {
+    public void setFoldNums(ArrayList<String> foldNums)
+    {
         this.foldNums = foldNums;
-    }
-
-    public class descriptorFrequency {
-        private String descriptor;
-        private int numOccs;
-
-        public String getDescriptor() {
-            return descriptor;
-        }
-
-        public void setDescriptor(String descriptor) {
-            this.descriptor = descriptor;
-        }
-
-        public int getNumOccs() {
-            return numOccs;
-        }
-
-        public void setNumOccs(int numOccs) {
-            this.numOccs = numOccs;
-        }
     }
 
     // End getters and setters

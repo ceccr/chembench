@@ -1,7 +1,6 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
 
-import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.SvmModel;
@@ -9,18 +8,27 @@ import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
+import edu.unc.ceccr.global.Constants;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 
-public class Svm {
+import org.apache.log4j.Logger;
+
+public class Svm
+{
     private static Logger logger
-            = Logger.getLogger(Svm.class.getName());
+                = Logger.getLogger(Svm.class.getName());
 
     public static void convertXtoSvm(String xFileName,
                                      String aFileName,
-                                     String workingDir) throws Exception {
+                                     String workingDir) throws Exception
+    {
         // generates an SVM-compatible input descriptor file
         // logger.debug("Generating an SVM-compatible file: " +
         // xFileName + " + " + aFileName + " => " + xFileName.replace(".x",
@@ -40,7 +48,8 @@ public class Svm {
                 activityValues.add(data[1]);
             }
             in.close();
-        } else {
+        }
+        else {
             // if no activity file is supplied, just use zeros for activities
             int numCompounds = DatasetFileOperations.getXCompoundNames(
                     workingDir + xFileName).size();
@@ -82,10 +91,11 @@ public class Svm {
     }
 
     public static void writeSvmModelingParamsFile(
-            SvmParameters svmParameters,
-            String actFileDataType,
-            String paramFilePath,
-            String workingDir) throws Exception {
+                                       SvmParameters svmParameters,
+                                       String actFileDataType,
+                                       String paramFilePath,
+                                       String workingDir) throws Exception
+    {
         // fix any "step" parameters; they must be >0 or python will blow up
         if (Double.parseDouble(svmParameters.getSvmCostStep()) <= 0) {
             svmParameters.setSvmCostStep("1");
@@ -108,7 +118,8 @@ public class Svm {
         String svmType = "";
         if (actFileDataType.equals(Constants.CATEGORY)) {
             svmType = svmParameters.getSvmTypeCategory();
-        } else {
+        }
+        else {
             svmType = svmParameters.getSvmTypeContinuous();
         }
 
@@ -164,7 +175,8 @@ public class Svm {
 
     public static void svmPreProcess(SvmParameters svmParameters,
                                      String actFileDataType,
-                                     String workingDir) throws Exception {
+                                     String workingDir) throws Exception
+    {
 
         if (!workingDir.endsWith("/yRandom/")) {
             convertXtoSvm(Constants.MODELING_SET_X_FILE,
@@ -196,7 +208,8 @@ public class Svm {
 
     }
 
-    public static void buildSvmModels(String workingDir) {
+    public static void buildSvmModels(String workingDir)
+    {
         // run modeling (exec python script)
         String cmd = "python svm.py";
         RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "svm.py");
@@ -204,7 +217,8 @@ public class Svm {
 
     public static String buildSvmModelsLsf(String workingDir,
                                            String userName,
-                                           String jobName) throws Exception {
+                                           String jobName) throws Exception
+    {
         // run modeling (bsub the python script)
         String cmd = "bsub -q patrons ";
         cmd += "-J cbench_" + userName + "_" + jobName
@@ -216,7 +230,8 @@ public class Svm {
     }
 
     public static ArrayList<SvmModel>
-    readSvmModels(String workingDir, String cutoff) throws Exception {
+            readSvmModels(String workingDir, String cutoff) throws Exception
+    {
         ArrayList<SvmModel> svmModels = new ArrayList<SvmModel>();
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir
@@ -236,7 +251,8 @@ public class Svm {
                             .parseDouble(cutoff)) {
                         isGoodModel = true;
                     }
-                } else if (tokens[1] != null && !tokens[1].trim().equals("NA")) {
+                }
+                else if (tokens[1] != null && !tokens[1].trim().equals("NA")) {
                     // check cutoff against CCR
                     if (Double.parseDouble(tokens[1]) >= Double
                             .parseDouble(cutoff)) {
@@ -256,12 +272,14 @@ public class Svm {
                     svmModel.setLoss(tokens[7]);
                     if (workingDir.endsWith("/yRandom/")) {
                         svmModel.setIsYRandomModel(Constants.YES);
-                    } else {
+                    }
+                    else {
                         svmModel.setIsYRandomModel(Constants.NO);
                     }
 
                     svmModels.add(svmModel);
-                } else {
+                }
+                else {
                     // logger.debug("Bad model. rSq: " + tokens[0] +
                     // " ccr: " + tokens[1]);
                 }
@@ -272,7 +290,8 @@ public class Svm {
         return svmModels;
     }
 
-    public static void cleanExcessFilesFromDir(String workingDir) {
+    public static void cleanExcessFilesFromDir(String workingDir)
+    {
 
         try {
             BufferedReader in = new BufferedReader(new FileReader(workingDir
@@ -295,14 +314,16 @@ public class Svm {
                 }
             }
             in.close();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             logger.error(ex);
         }
     }
 
     public static void
     runSvmPrediction(String workingDir, String predictionXFileName)
-            throws Exception {
+                                                   throws Exception
+    {
         // find all models files in working dir
         // run svm-predict on the prediction file using each model
         // average the results
@@ -312,8 +333,10 @@ public class Svm {
         String predictionFileName = predictionXFileName.replace(".x", ".svm");
 
         File dir = new File(workingDir);
-        String[] files = dir.list(new FilenameFilter() {
-            public boolean accept(File arg0, String arg1) {
+        String[] files = dir.list(new FilenameFilter()
+        {
+            public boolean accept(File arg0, String arg1)
+            {
                 return arg1.endsWith(".mod");
             }
         });
@@ -327,10 +350,11 @@ public class Svm {
 
     public static ArrayList<PredictionValue>
     readPredictionOutput(String workingDir,
-                         String predictionXFileName,
-                         Long predictorId) throws Exception {
+                                 String predictionXFileName,
+                                 Long predictorId) throws Exception
+    {
         ArrayList<PredictionValue> predictionValues
-                = new ArrayList<PredictionValue>();
+                                        = new ArrayList<PredictionValue>();
 
         ArrayList<String> compoundNames = DatasetFileOperations
                 .getXCompoundNames(workingDir + predictionXFileName);
@@ -344,8 +368,10 @@ public class Svm {
         }
 
         File dir = new File(workingDir);
-        String[] files = dir.list(new FilenameFilter() {
-            public boolean accept(File arg0, String arg1) {
+        String[] files = dir.list(new FilenameFilter()
+        {
+            public boolean accept(File arg0, String arg1)
+            {
                 return arg1.endsWith(".pred");
             }
         });
@@ -360,8 +386,7 @@ public class Svm {
                     predictionValues.get(j).setPredictedValue(
                             Float.parseFloat(line.trim())
                                     + predictionValues.get(j)
-                                    .getPredictedValue()
-                    );
+                                            .getPredictedValue());
                     j++;
                 }
             }
@@ -376,7 +401,7 @@ public class Svm {
             pv.setNumModelsUsed(files.length);
             pv.setNumTotalModels(files.length);
             pv.setStandardDeviation(new Float(0.1)); // calculate this later
-            // once other stuff works
+                                                     // once other stuff works
         }
 
         return predictionValues;
@@ -384,9 +409,10 @@ public class Svm {
 
     public static ArrayList<ExternalValidation>
     readExternalPredictionOutput(String workingDir, Long predictorId)
-            throws Exception {
+                                                            throws Exception
+    {
         ArrayList<ExternalValidation> externalPredictions
-                = new ArrayList<ExternalValidation>();
+                                         = new ArrayList<ExternalValidation>();
 
         // set compound names
         String line;
@@ -403,8 +429,10 @@ public class Svm {
         }
         br.close();
         File dir = new File(workingDir);
-        String[] files = dir.list(new FilenameFilter() {
-            public boolean accept(File arg0, String arg1) {
+        String[] files = dir.list(new FilenameFilter()
+        {
+            public boolean accept(File arg0, String arg1)
+            {
                 return arg1.endsWith(".pred");
             }
         });
@@ -418,8 +446,7 @@ public class Svm {
                     externalPredictions.get(j).setPredictedValue(
                             Float.parseFloat(line.trim())
                                     + externalPredictions.get(j)
-                                    .getPredictedValue()
-                    );
+                                            .getPredictedValue());
                     j++;
                 }
             }

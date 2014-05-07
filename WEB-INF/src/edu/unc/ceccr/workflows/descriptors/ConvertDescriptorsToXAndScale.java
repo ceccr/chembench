@@ -1,20 +1,26 @@
 package edu.unc.ceccr.workflows.descriptors;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
 
-import java.io.*;
-import java.util.ArrayList;
-import java.util.Scanner;
+public class ConvertDescriptorsToXAndScale
+{
 
-public class ConvertDescriptorsToXAndScale {
-
-    private static Logger logger = Logger.getLogger(ConvertDescriptorsToXAndScale.class
-            .getName());
-    private static int compoundsPerChunk = 1000;
+    private static Logger logger            = Logger.getLogger(ConvertDescriptorsToXAndScale.class
+                                                    .getName());
+    private static int    compoundsPerChunk = 1000;
 
     /*
      * For large prediction sets (e.g. > 10000 compounds), the descriptors
@@ -28,40 +34,48 @@ public class ConvertDescriptorsToXAndScale {
      */
 
     public static void
-    convertDescriptorsToXAndScaleInChunks(String workingDir,
-                                          String sdfile,
-                                          String predictorXFile,
-                                          String outputXFile,
-                                          String descriptorGenerationType,
-                                          String scalingType) throws Exception {
+            convertDescriptorsToXAndScaleInChunks(String workingDir,
+                                                  String sdfile,
+                                                  String predictorXFile,
+                                                  String outputXFile,
+                                                  String descriptorGenerationType,
+                                                  String scalingType) throws Exception
+    {
 
         // split each descriptor file into chunks
         String descriptorsFile = sdfile;
         if (descriptorGenerationType.equals(Constants.MOLCONNZ)) {
             descriptorsFile += ".molconnz";
             splitMolconnZFile(workingDir, descriptorsFile);
-        } else if (descriptorGenerationType.equals(Constants.CDK)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.CDK)) {
             descriptorsFile += ".cdk";
             ReadDescriptors.convertCDKToX(workingDir + descriptorsFile,
                     workingDir);
             descriptorsFile += ".x";
             splitXFile(workingDir, descriptorsFile);
-        } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
             descriptorsFile += ".dragonH";
             splitDragonFile(workingDir, descriptorsFile);
-        } else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
             descriptorsFile += ".dragonNoH";
             splitDragonFile(workingDir, descriptorsFile);
-        } else if (descriptorGenerationType.equals(Constants.MOE2D)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.MOE2D)) {
             descriptorsFile += ".moe2D";
             splitMoe2dFile(workingDir, descriptorsFile);
-        } else if (descriptorGenerationType.equals(Constants.MACCS)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.MACCS)) {
             descriptorsFile += ".maccs";
             splitMaccsFile(workingDir, descriptorsFile);
-        } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
+        }
+		else if (descriptorGenerationType.equals(Constants.ISIDA)) {
             descriptorsFile += ".ISIDA";
             splitISIDAFile(workingDir, descriptorsFile);
-        } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             splitXFile(workingDir, descriptorsFile);
         }
 
@@ -75,10 +89,12 @@ public class ConvertDescriptorsToXAndScale {
         if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             allChemicalNames = DatasetFileOperations
                     .getXCompoundNames(workingDir + sdfile);
-        } else if (descriptorGenerationType.equals(Constants.CDK)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.CDK)) {
             allChemicalNames = DatasetFileOperations
                     .getXCompoundNames(workingDir + descriptorsFile);
-        } else {
+        }
+        else {
             allChemicalNames = DatasetFileOperations
                     .getSDFCompoundNames(workingDir + sdfile);
         }
@@ -104,47 +120,46 @@ public class ConvertDescriptorsToXAndScale {
                 // descriptorsFile + "_" + ".mz.x", descriptorNames,
                 // descriptorValueMatrix);
                 ReadDescriptors.readMolconnZDescriptors(workingDir
-                                + descriptorsFile, descriptorNames,
-                        descriptorValueMatrix
-                );
-            } else if (descriptorGenerationType.equals(Constants.CDK)) {
+                        + descriptorsFile, descriptorNames,
+                        descriptorValueMatrix);
+            }
+            else if (descriptorGenerationType.equals(Constants.CDK)) {
                 // descriptorsFile += ".cdk";
                 // ReadDescriptors.convertCDKToX(workingDir +
                 // descriptorsFile+".x_" + filePartNumber, workingDir);
                 ReadDescriptors.readXDescriptors(workingDir + descriptorsFile
-                                + "_" + filePartNumber, descriptorNames,
-                        descriptorValueMatrix
-                );
-            } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
+                        + "_" + filePartNumber, descriptorNames,
+                        descriptorValueMatrix);
+            }
+            else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
                 ReadDescriptors.readDragonDescriptors(workingDir
-                                + descriptorsFile + "_" + filePartNumber,
-                        descriptorNames, descriptorValueMatrix
-                );
-            } else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
+                        + descriptorsFile + "_" + filePartNumber,
+                        descriptorNames, descriptorValueMatrix);
+            }
+            else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
                 ReadDescriptors.readDragonDescriptors(workingDir
-                                + descriptorsFile + "_" + filePartNumber,
-                        descriptorNames, descriptorValueMatrix
-                );
-            } else if (descriptorGenerationType.equals(Constants.MOE2D)) {
+                        + descriptorsFile + "_" + filePartNumber,
+                        descriptorNames, descriptorValueMatrix);
+            }
+            else if (descriptorGenerationType.equals(Constants.MOE2D)) {
                 ReadDescriptors.readMoe2DDescriptors(workingDir
-                                + descriptorsFile + "_" + filePartNumber,
-                        descriptorNames, descriptorValueMatrix
-                );
-            } else if (descriptorGenerationType.equals(Constants.MACCS)) {
+                        + descriptorsFile + "_" + filePartNumber,
+                        descriptorNames, descriptorValueMatrix);
+            }
+            else if (descriptorGenerationType.equals(Constants.MACCS)) {
                 ReadDescriptors.readMaccsDescriptors(workingDir
-                                + descriptorsFile + "_" + filePartNumber,
-                        descriptorNames, descriptorValueMatrix
-                );
-            } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
+                        + descriptorsFile + "_" + filePartNumber,
+                        descriptorNames, descriptorValueMatrix);
+            }
+			else if (descriptorGenerationType.equals(Constants.ISIDA)) {
                 ReadDescriptors.readISIDADescriptors(workingDir
-                                + descriptorsFile + "_" + filePartNumber,
-                        descriptorNames, descriptorValueMatrix
-                );
-            } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
+                        + descriptorsFile + "_" + filePartNumber,
+                        descriptorNames, descriptorValueMatrix);
+            }
+            else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
                 ReadDescriptors.readXDescriptors(workingDir + descriptorsFile
-                                + "_" + filePartNumber, descriptorNames,
-                        descriptorValueMatrix
-                );
+                        + "_" + filePartNumber, descriptorNames,
+                        descriptorValueMatrix);
             }
 
             String descriptorString = Utility
@@ -152,8 +167,7 @@ public class ConvertDescriptorsToXAndScale {
             WriteDescriptors.writePredictionXFile(chemicalNames,
                     descriptorValueMatrix, descriptorString, workingDir
                             + outputXFile + "_" + filePartNumber, workingDir
-                            + predictorXFile, scalingType
-            );
+                            + predictorXFile, scalingType);
             // FileAndDirOperations.deleteFile(workingDir + descriptorsFile +
             // "_" + filePartNumber);
 
@@ -167,13 +181,14 @@ public class ConvertDescriptorsToXAndScale {
     }
 
     public static void
-    convertDescriptorsToXAndScale(String workingDir,
-                                  String sdfile,
-                                  String predictorXFile,
-                                  String outputXFile,
-                                  String descriptorGenerationType,
-                                  String scalingType,
-                                  int numCompounds) throws Exception {
+            convertDescriptorsToXAndScale(String workingDir,
+                                          String sdfile,
+                                          String predictorXFile,
+                                          String outputXFile,
+                                          String descriptorGenerationType,
+                                          String scalingType,
+                                          int numCompounds) throws Exception
+    {
 
         if (numCompounds > compoundsPerChunk) {
             convertDescriptorsToXAndScaleInChunks(workingDir, sdfile,
@@ -188,9 +203,10 @@ public class ConvertDescriptorsToXAndScale {
         if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             chemicalNames = DatasetFileOperations
                     .getXCompoundNames(workingDir + sdfile);
-        } else {
+        }
+        else {
             logger.info("Getting compound names from SDF file: " +
-                    workingDir + sdfile);
+                        workingDir + sdfile);
             chemicalNames = DatasetFileOperations
                     .getSDFCompoundNames(workingDir + sdfile);
         }
@@ -206,38 +222,45 @@ public class ConvertDescriptorsToXAndScale {
             ReadDescriptors
                     .readMolconnZDescriptors(workingDir + descriptorsFile,
                             descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.CDK)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.CDK)) {
             descriptorsFile += ".cdk";
             ReadDescriptors.convertCDKToX(workingDir + descriptorsFile,
                     workingDir);
             ReadDescriptors.readXDescriptors(workingDir + descriptorsFile
                     + ".x", descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
             descriptorsFile += ".dragonH";
             ReadDescriptors
                     .readDragonDescriptors(workingDir + descriptorsFile,
                             descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
             descriptorsFile += ".dragonNoH";
             ReadDescriptors
                     .readDragonDescriptors(workingDir + descriptorsFile,
                             descriptorNames, descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.MOE2D)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.MOE2D)) {
             descriptorsFile += ".moe2D";
             ReadDescriptors.readMoe2DDescriptors(
                     workingDir + descriptorsFile, descriptorNames,
                     descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.MACCS)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.MACCS)) {
             descriptorsFile += ".maccs";
             ReadDescriptors.readMaccsDescriptors(
                     workingDir + descriptorsFile, descriptorNames,
                     descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
+        }
+		else if (descriptorGenerationType.equals(Constants.ISIDA)) {
             descriptorsFile += ".renorm.ISIDA";
             ReadDescriptors.readISIDADescriptors(
                     workingDir + descriptorsFile, descriptorNames,
                     descriptorValueMatrix);
-        } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
+        }
+        else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             ReadDescriptors.readXDescriptors(workingDir + descriptorsFile,
                     descriptorNames, descriptorValueMatrix);
         }
@@ -247,14 +270,14 @@ public class ConvertDescriptorsToXAndScale {
         WriteDescriptors.writePredictionXFile(chemicalNames,
                 descriptorValueMatrix, descriptorString, workingDir
                         + outputXFile, workingDir + predictorXFile,
-                scalingType
-        );
+                scalingType);
     }
 
     // helper functions
 
     private static void
-    splitMolconnZFile(String workingDir, String descriptorsFile) throws Exception {
+            splitMolconnZFile(String workingDir, String descriptorsFile) throws Exception
+    {
         File file = new File(workingDir + descriptorsFile);
         if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read MolconnZ descriptors.\n");
@@ -264,22 +287,22 @@ public class ConvertDescriptorsToXAndScale {
         String temp;
         Scanner src = new Scanner(fin);
         ArrayList<String> descriptorNames = new ArrayList<String>(); // names
-        // for
-        // each
-        // molecule;
-        // used
-        // in
-        // counting
+                                                                     // for
+                                                                     // each
+                                                                     // molecule;
+                                                                     // used
+                                                                     // in
+                                                                     // counting
         ArrayList<String> descriptorValues = new ArrayList<String>(); // values
-        // for
-        // each
-        // molecule;
-        // used
-        // in
-        // counting
+                                                                      // for
+                                                                      // each
+                                                                      // molecule;
+                                                                      // used
+                                                                      // in
+                                                                      // counting
 
         String header = ""; // stores everything up to where descriptors
-        // begin.
+                            // begin.
         int currentFile = 0;
         int moleculesInCurrentFile = 0;
         BufferedWriter outFilePart = new BufferedWriter(new FileWriter(
@@ -300,7 +323,8 @@ public class ConvertDescriptorsToXAndScale {
                 if (readingDescriptorNames) {
                     descriptorNames.add(temp);
                     header += temp + " ";
-                } else {
+                }
+                else {
                     descriptorValues.add(temp);
                     if (descriptorValues.size() == descriptorNames.size()) {
                         // At end of this molecule.
@@ -313,8 +337,7 @@ public class ConvertDescriptorsToXAndScale {
                             currentFile++;
                             outFilePart = new BufferedWriter(new FileWriter(
                                     workingDir + descriptorsFile + "_"
-                                            + currentFile
-                            ));
+                                            + currentFile));
                             outFilePart.write(header + "\n");
                         }
                     }
@@ -329,7 +352,8 @@ public class ConvertDescriptorsToXAndScale {
     }
 
     private static void
-    splitDragonFile(String workingDir, String descriptorsFile) throws Exception {
+            splitDragonFile(String workingDir, String descriptorsFile) throws Exception
+    {
 
         File file = new File(workingDir + descriptorsFile);
         if (!file.exists() || file.length() == 0) {
@@ -344,7 +368,7 @@ public class ConvertDescriptorsToXAndScale {
                 workingDir + descriptorsFile + "_" + currentFile));
 
         String header = br.readLine() + "\n"; // stores everything up to where
-        // descriptors begin.
+                                              // descriptors begin.
         header += br.readLine() + "\n";
         header += br.readLine() + "\n";
 
@@ -372,7 +396,8 @@ public class ConvertDescriptorsToXAndScale {
     }
 
     private static void
-    splitMaccsFile(String workingDir, String descriptorsFile) throws Exception {
+            splitMaccsFile(String workingDir, String descriptorsFile) throws Exception
+    {
         File file = new File(workingDir + descriptorsFile);
         if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read Maccs descriptors.\n");
@@ -381,7 +406,7 @@ public class ConvertDescriptorsToXAndScale {
         BufferedReader br = new BufferedReader(fin);
 
         String header = ""; // stores everything up to where descriptors
-        // begin.
+                            // begin.
         int currentFile = 0;
         int moleculesInCurrentFile = 0;
         BufferedWriter outFilePart = new BufferedWriter(new FileWriter(
@@ -409,7 +434,8 @@ public class ConvertDescriptorsToXAndScale {
     }
 
     private static void
-    splitMoe2dFile(String workingDir, String descriptorsFile) throws Exception {
+            splitMoe2dFile(String workingDir, String descriptorsFile) throws Exception
+    {
         File file = new File(workingDir + descriptorsFile);
         if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read MOE2D descriptors.\n");
@@ -418,7 +444,7 @@ public class ConvertDescriptorsToXAndScale {
         BufferedReader br = new BufferedReader(fin);
 
         String header = ""; // stores everything up to where descriptors
-        // begin.
+                            // begin.
         int currentFile = 0;
         int moleculesInCurrentFile = 0;
         BufferedWriter outFilePart = new BufferedWriter(new FileWriter(
@@ -445,9 +471,10 @@ public class ConvertDescriptorsToXAndScale {
         outFilePart.write("\n");
         outFilePart.close();
     }
-
-    private static void
-    splitISIDAFile(String workingDir, String descriptorsFile) throws Exception {
+	
+	private static void
+            splitISIDAFile(String workingDir, String descriptorsFile) throws Exception
+    {
         File file = new File(workingDir + descriptorsFile);
         if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read ISIDA descriptors.\n");
@@ -456,7 +483,7 @@ public class ConvertDescriptorsToXAndScale {
         BufferedReader br = new BufferedReader(fin);
 
         String header = ""; // stores everything up to where descriptors
-        // begin.
+                            // begin.
         int currentFile = 0;
         int moleculesInCurrentFile = 0;
         BufferedWriter outFilePart = new BufferedWriter(new FileWriter(
@@ -485,7 +512,8 @@ public class ConvertDescriptorsToXAndScale {
     }
 
     private static void
-    splitXFile(String workingDir, String descriptorsFile) throws Exception {
+            splitXFile(String workingDir, String descriptorsFile) throws Exception
+    {
         File file = new File(workingDir + descriptorsFile);
         if (!file.exists() || file.length() == 0) {
             throw new Exception("Could not read UPLOADED descriptors.\n");
@@ -528,7 +556,8 @@ public class ConvertDescriptorsToXAndScale {
     private static void mergeXFileParts(String workingDir,
                                         String outputXFile,
                                         String scalingType,
-                                        int numCompounds) throws Exception {
+                                        int numCompounds) throws Exception
+    {
         int filePartNumber = 0;
         File xFilePart = new File(workingDir + outputXFile + "_"
                 + filePartNumber);

@@ -1,27 +1,30 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
 // struts2
-
-import com.opensymphony.xwork2.ActionContext;
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
 import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
-public class PredictorPage extends ViewPredictorAction {
+import com.opensymphony.xwork2.ActionContext;
+
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+
+public class PredictorPage extends ViewPredictorAction
+{
 
     /**
-     *
+     * 
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(PredictorPage.class.getName());
-
+    
     private String predictorDescription = "";
-    private String predictorReference = "";
-    private String editable = "";
+    private String predictorReference   = "";
+    private String editable             = "";
 
-    public String load() throws Exception {
+    public String load() throws Exception
+    {
         String result = getBasicParameters();
         if (!result.equals(SUCCESS))
             return result;
@@ -29,10 +32,11 @@ public class PredictorPage extends ViewPredictorAction {
         if (context.getParameters().get("editable") != null) {
             if (user.getIsAdmin().equals(Constants.YES)
                     || user.getUserName().equals(
-                    selectedPredictor.getUserName())) {
+                            selectedPredictor.getUserName())) {
                 editable = "YES";
             }
-        } else {
+        }
+        else {
             editable = "NO";
         }
         predictorDescription = selectedPredictor.getDescription();
@@ -47,11 +51,13 @@ public class PredictorPage extends ViewPredictorAction {
                 tx = session.beginTransaction();
                 session.saveOrUpdate(selectedPredictor);
                 tx.commit();
-            } catch (RuntimeException e) {
+            }
+            catch (RuntimeException e) {
                 if (tx != null)
                     tx.rollback();
                 logger.error(e);
-            } finally {
+            }
+            finally {
                 session.close();
             }
         }
@@ -60,7 +66,8 @@ public class PredictorPage extends ViewPredictorAction {
         return result;
     }
 
-    public String update() throws Exception {
+    public String update() throws Exception
+    {
         // check that the user is logged in
         context = ActionContext.getContext();
 
@@ -87,9 +94,11 @@ public class PredictorPage extends ViewPredictorAction {
                 tx = session.beginTransaction();
                 session.saveOrUpdate(selectedPredictor);
                 tx.commit();
-            } catch (Exception ex) {
+            }
+            catch (Exception ex) {
                 logger.error(ex);
-            } finally {
+            }
+            finally {
                 session.close();
             }
         }
@@ -98,27 +107,33 @@ public class PredictorPage extends ViewPredictorAction {
 
     // getters and setters
 
-    public String getPredictorDescription() {
+    public String getPredictorDescription()
+    {
         return predictorDescription;
     }
 
-    public void setPredictorDescription(String predictorDescription) {
+    public void setPredictorDescription(String predictorDescription)
+    {
         this.predictorDescription = predictorDescription;
     }
 
-    public String getPredictorReference() {
+    public String getPredictorReference()
+    {
         return predictorReference;
     }
 
-    public void setPredictorReference(String predictorReference) {
+    public void setPredictorReference(String predictorReference)
+    {
         this.predictorReference = predictorReference;
     }
 
-    public String getEditable() {
+    public String getEditable()
+    {
         return editable;
     }
 
-    public void setEditable(String editable) {
+    public void setEditable(String editable)
+    {
         this.editable = editable;
     }
 

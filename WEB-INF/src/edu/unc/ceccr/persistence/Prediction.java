@@ -1,15 +1,25 @@
 package edu.unc.ceccr.persistence;
 
 
-import javax.persistence.*;
 import java.util.Date;
+
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "cbench_prediction")
-public class Prediction implements java.io.Serializable {
-
+public class Prediction implements java.io.Serializable{
+    
     /**
-     *
+     * 
      */
     private static final long serialVersionUID = 1L;
     private Long id;
@@ -25,18 +35,17 @@ public class Prediction implements java.io.Serializable {
     private String computeZscore;
 
     private String status;
-    private String predictorNames = "";
-    private String datasetDisplay = "";
-
-    @Column(name = "status")
-    public String getStatus() {
+    @Column(name="status")
+    public String getStatus()
+    {
         return status;
     }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(String status)
+    {
+        this.status=status;
     }
 
+    private String predictorNames = "";
     @Transient
     public String getPredictorNames() {
         //this needs to be manually set before it can be returned
@@ -48,6 +57,7 @@ public class Prediction implements java.io.Serializable {
         this.predictorNames = predictorNames;
     }
 
+    private String datasetDisplay = "";
     @Transient
     //this needs to be manually set before it can be returned
     //since it does not correspond to any database field
@@ -60,12 +70,11 @@ public class Prediction implements java.io.Serializable {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name = "id")
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -74,7 +83,6 @@ public class Prediction implements java.io.Serializable {
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
@@ -83,7 +91,6 @@ public class Prediction implements java.io.Serializable {
     public String getDatabase() {
         return database;
     }
-
     public void setDatabase(String database) {
         this.database = database;
     }
@@ -93,7 +100,6 @@ public class Prediction implements java.io.Serializable {
     public String getPredictorIds() {
         return predictorIds;
     }
-
     public void setPredictorIds(String predictorIds) {
         this.predictorIds = predictorIds;
     }
@@ -112,9 +118,9 @@ public class Prediction implements java.io.Serializable {
         return computeZscore;
     }
 
-    public void setComputeZscore(String computeZscore) {
-        this.computeZscore = computeZscore;
-    }
+     public void setComputeZscore(String computeZscore){
+     this.computeZscore = computeZscore;
+     }
 
     @Column(name = "username")
     public String getUserName() {
@@ -125,12 +131,11 @@ public class Prediction implements java.io.Serializable {
         this.userName = userName;
     }
 
-    @Column(name = "created_datetime", updatable = false)
+    @Column(name = "created_datetime", updatable=false)
     @Temporal(TemporalType.TIMESTAMP)
     public Date getDateCreated() {
         return dateCreated;
     }
-
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
@@ -139,7 +144,6 @@ public class Prediction implements java.io.Serializable {
     public Long getDatasetId() {
         return this.datasetId;
     }
-
     public void setDatasetId(Long datasetId) {
         this.datasetId = datasetId;
     }
@@ -148,7 +152,6 @@ public class Prediction implements java.io.Serializable {
     public String getHasBeenViewed() {
         return hasBeenViewed;
     }
-
     public void setHasBeenViewed(String hasBeenViewed) {
         this.hasBeenViewed = hasBeenViewed;
     }
@@ -157,7 +160,6 @@ public class Prediction implements java.io.Serializable {
     public String getJobCompleted() {
         return jobCompleted;
     }
-
     public void setJobCompleted(String jobCompleted) {
         this.jobCompleted = jobCompleted;
     }

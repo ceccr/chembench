@@ -1,12 +1,17 @@
 package edu.unc.ceccr.persistence;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "cbench_modelPredictionValue")
-public class ModelPredictionValue implements java.io.Serializable {
-    /*
-        create table cbench_modelPredictionValues (
+public class ModelPredictionValue implements java.io.Serializable{
+	/*
+		create table cbench_modelPredictionValues (
 		id INT(12) UNSIGNED auto_increment PRIMARY KEY,
 		modelId VARCHAR(255),
 		modelType INT(12) UNSIGNED,
@@ -18,85 +23,78 @@ public class ModelPredictionValue implements java.io.Serializable {
 		);
 	*/
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private Long id;
+	private Long id;
+	
+	//reference a model
+	private Long modelId;
+	private String modelType;
+	
+	//reference a compound
+	private Long datasetId;
+	private String compoundId;
 
-    //reference a model
-    private Long modelId;
-    private String modelType;
+	//value and associated info
+	private String predictedValue;
+	private String appDomainCutoff;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id")
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	
+	@Column(name = "modelId")
+	public Long getModelId() {
+		return modelId;
+	}
+	public void setModelId(Long modelId) {
+		this.modelId = modelId;
+	}
 
-    //reference a compound
-    private Long datasetId;
-    private String compoundId;
+	@Column(name = "modelType")
+	public String getModelType() {
+		return modelType;
+	}
+	public void setModelType(String modelType) {
+		this.modelType = modelType;
+	}
 
-    //value and associated info
-    private String predictedValue;
-    private String appDomainCutoff;
+	@Column(name = "datasetId")
+	public Long getDatasetId() {
+		return datasetId;
+	}
+	public void setDatasetId(Long datasetId) {
+		this.datasetId = datasetId;
+	}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
+	@Column(name = "compoundId")
+	public String getCompoundId() {
+		return compoundId;
+	}
+	public void setCompoundId(String compoundId) {
+		this.compoundId = compoundId;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Column(name = "predictedValue")
+	public String getPredictedValue() {
+		return predictedValue;
+	}
+	public void setPredictedValue(String predictedValue) {
+		this.predictedValue = predictedValue;
+	}
 
-    @Column(name = "modelId")
-    public Long getModelId() {
-        return modelId;
-    }
-
-    public void setModelId(Long modelId) {
-        this.modelId = modelId;
-    }
-
-    @Column(name = "modelType")
-    public String getModelType() {
-        return modelType;
-    }
-
-    public void setModelType(String modelType) {
-        this.modelType = modelType;
-    }
-
-    @Column(name = "datasetId")
-    public Long getDatasetId() {
-        return datasetId;
-    }
-
-    public void setDatasetId(Long datasetId) {
-        this.datasetId = datasetId;
-    }
-
-    @Column(name = "compoundId")
-    public String getCompoundId() {
-        return compoundId;
-    }
-
-    public void setCompoundId(String compoundId) {
-        this.compoundId = compoundId;
-    }
-
-    @Column(name = "predictedValue")
-    public String getPredictedValue() {
-        return predictedValue;
-    }
-
-    public void setPredictedValue(String predictedValue) {
-        this.predictedValue = predictedValue;
-    }
-
-    @Column(name = "appDomainCutoff")
-    public String getAppDomainCutoff() {
-        return appDomainCutoff;
-    }
-
-    public void setAppDomainCutoff(String appDomainCutoff) {
-        this.appDomainCutoff = appDomainCutoff;
-    }
-
+	@Column(name = "appDomainCutoff")
+	public String getAppDomainCutoff() {
+		return appDomainCutoff;
+	}
+	public void setAppDomainCutoff(String appDomainCutoff) {
+		this.appDomainCutoff = appDomainCutoff;
+	}
+	
 }

@@ -1,36 +1,57 @@
 package edu.unc.ceccr.action;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.*;
-import edu.unc.ceccr.utilities.ActiveUser;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
-import org.apache.log4j.Logger;
-import org.apache.struts2.interceptor.ServletResponseAware;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+import org.apache.struts2.interceptor.ServletResponseAware;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
+import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.ExternalValidation;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Job;
+import edu.unc.ceccr.persistence.JobStats;
+import edu.unc.ceccr.persistence.Prediction;
+import edu.unc.ceccr.persistence.PredictionValue;
+import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.utilities.ActiveUser;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.utilities.Utility;
 //struts2
 
 @SuppressWarnings("serial")
 
 public class
-        HomeAction extends ActionSupport implements ServletResponseAware {
+HomeAction extends ActionSupport implements ServletResponseAware
+{
     private static Logger logger = Logger.getLogger(HomeAction.class.getName());
-    protected HttpServletResponse servletResponse;
+    private ArrayList<String> errorStrings = new ArrayList<String>();
 
     //loads home page
+
+    protected HttpServletResponse servletResponse;
+    @Override
+    public void
+    setServletResponse(HttpServletResponse servletResponse)
+    {
+        this.servletResponse = servletResponse;
+    }
+
     String visitors;
     String userStats;
     String jobStats;
@@ -39,19 +60,15 @@ public class
     String runningJobs;
     String loginFailed = Constants.NO;
     User user;
+
     String username;
     String password;
-    String showStatistics = Constants.YES;
-    private ArrayList<String> errorStrings = new ArrayList<String>();
 
-    @Override
-    public void
-    setServletResponse(HttpServletResponse servletResponse) {
-        this.servletResponse = servletResponse;
-    }
+    String showStatistics = Constants.YES;
 
     public String
-    loadPage() {
+    loadPage()
+    {
         try {
             //stuff that needs to happen on server startup
             if (!Constants.doneReadingConfigFile) {
@@ -61,7 +78,8 @@ public class
                     String ENV_CHEMBENCH_HOME = null;
                     try {
                         ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
-                    } catch (SecurityException e) {
+                    }
+                    catch (SecurityException e) {
                         errorStrings.add("Couldn't read $CHEMBENCH_HOME environment variable: permission denied");
                         return ERROR;
                     }
@@ -74,7 +92,8 @@ public class
                     File configFile = new File(baseDir, "config/systemConfig.xml");
 
                     Utility.readBuildDateAndSystemConfig(configFile.getPath());
-                } catch (Exception ex) {
+                }
+                catch (Exception ex) {
                     logger.error(ex);
                 }
             }
@@ -99,7 +118,7 @@ public class
             if (counterFile.exists()) {
                 String counterStr = FileAndDirOperations.readFileIntoString(counterFile.getAbsolutePath()).trim();
                 counter = Integer.parseInt(counterStr);
-                FileAndDirOperations.writeStringToFile("" + (counter + 1), counterFile.getAbsolutePath());
+                FileAndDirOperations.writeStringToFile("" + (counter+1), counterFile.getAbsolutePath());
             }
             visitors = "Visitors: " + Integer.toString(counter);
 
@@ -108,25 +127,25 @@ public class
 
             // finished jobs
             int numFinishedJobs = jobStatList.size();
-            jobStats = "Jobs completed: " + numFinishedJobs;
+            jobStats = "Jobs completed: "  + numFinishedJobs;
 
             // CPU statistics
             int computeHours = 0;
             String computeYearsStr = "";
             long timeDiffs = 0;
 
-            for (JobStats js : jobStatList) {
-                if (js.getTimeFinished() != null && js.getTimeStarted() != null) {
+            for(JobStats js: jobStatList){
+                if(js.getTimeFinished() != null && js.getTimeStarted() != null){
                     timeDiffs += js.getTimeFinished().getTime() - js.getTimeCreated().getTime();
                 }
             }
             int timeDiffInHours = Math.round(timeDiffs / 1000 / 60 / 60);
             computeHours = timeDiffInHours;
             float computeHoursf = computeHours;
-            float computeYears = computeHoursf / new Float(24.0 * 365.0);
+            float computeYears = computeHoursf / new Float(24.0*365.0);
             computeYearsStr = Utility.floatToString(computeYears);
             Utility.roundSignificantFigures(computeYearsStr, 4);
-            cpuStats = "Compute time used: " + computeYearsStr + " years";
+            cpuStats = "Compute time used: "  + computeYearsStr + " years";
 
             // current users
             activeUsers = "Current Users: " + ActiveUser.getActiveSessions();
@@ -134,7 +153,8 @@ public class
             // current number of jobs
             runningJobs = "Running Jobs: " + numJobs;
 
-        } catch (Exception ex) {
+        }
+        catch(Exception ex){
             logger.error(ex);
             showStatistics = "NO";
         }
@@ -156,16 +176,16 @@ public class
         //check username and password
         ActionContext context = ActionContext.getContext();
 
-        if (context.getParameters().get("username") != null) {
+        if (context.getParameters().get("username") != null){
             username = ((String[]) context.getParameters().get("username"))[0];
         }
         User user;
 
-        if (context.getParameters().get("ip") != null) {
+        if(context.getParameters().get("ip") != null){
 
-            String ip = ((String[]) context.getParameters().get("ip"))[0];
+            String ip =  ((String[]) context.getParameters().get("ip"))[0];
             long time = System.currentTimeMillis();
-            String new_username = "guest" + ip + "_" + time;
+            String new_username = "guest"+ip+"_"+time;
 
             user = new User();
 
@@ -203,7 +223,7 @@ public class
             Session s = HibernateUtil.getSession();
             Transaction tx = null;
 
-            if (s == null) {
+            if(s==null){
                 loginFailed = Constants.YES;
                 return ERROR;
             }
@@ -216,7 +236,7 @@ public class
             } catch (RuntimeException e) {
                 if (tx != null)
                     tx.rollback();
-                loginFailed = Constants.YES;
+                    loginFailed = Constants.YES;
                 logger.error(e);
             } finally {
                 s.close();
@@ -234,22 +254,24 @@ public class
 
             context.getSession().put("user", user);
             context.getSession().put("userType", "guest");
-            Cookie ckie = new Cookie("login", "true");
+            Cookie ckie = new Cookie("login","true");
             servletResponse.addCookie(ckie);
 
-            logger.debug("Logged in guest:: " + user.getUserName());
+            logger.debug("Logged in guest:: "+ user.getUserName());
 
-        } else {
+        }
+        else{
 
             Session s = HibernateUtil.getSession();
-            if (s == null) {
+            if (s==null)
+            {
                 logger.error("Found null exception at s.");
             }
             user = PopulateDataObjects.getUserByUserName(username, s);
             s.close();
 
 
-            if (user != null) {
+            if(user != null){
                 // allow admins to bypass password login if they have already
                 // logged in first
                 boolean adminBypassPassword = false;
@@ -259,24 +281,22 @@ public class
                     if (currentUser.getIsAdmin().equals(Constants.YES)) {
                         logger.warn(String.format(
                                 "Administrator bypassed password check: " +
-                                        "ADMIN=%s, NEWUSER=%s",
-                                currentUserName, username
-                        ));
+                                "ADMIN=%s, NEWUSER=%s",
+                                currentUserName, username));
                         adminBypassPassword = true;
                     } else {
                         logger.warn(String.format(
                                 "Attempt made by non-admin user %s to " +
-                                        "impersonate other user %s",
-                                currentUserName, username
-                        ));
+                                "impersonate other user %s",
+                                currentUserName, username));
                     }
                 }
 
                 String realPasswordHash = user.getPassword();
                 if ((adminBypassPassword) || (password != null &&
-                        Utility.encrypt(password).equals(realPasswordHash))) {
+                         Utility.encrypt(password).equals(realPasswordHash))) {
                     context.getSession().put("user", user);
-                    Cookie ckie = new Cookie("login", "true");
+                    Cookie ckie=new Cookie("login","true");
                     servletResponse.addCookie(ckie);
                     user.setLastLogintime(new Date());
 
@@ -297,10 +317,12 @@ public class
 
 
                     logger.debug("Logged in " + user.getUserName());
-                } else {
+                }
+                else{
                     loginFailed = Constants.YES;
                 }
-            } else {
+            }
+            else{
                 loginFailed = Constants.YES;
             }
         }
@@ -308,156 +330,156 @@ public class
         return result;
     }
 
-    public String logout() throws Exception {
+    public String logout() throws Exception{
         ActionContext context = ActionContext.getContext();
 
         user = (User) context.getSession().get("user");
 
-        if (user != null) {
+        if(user != null){
             logger.debug("Logged out " + user.getUserName());
         }
-        logger.debug("************Logout action " + user.getUserName());
+        logger.debug("************Logout action "+user.getUserName());
 
-        if (user.getUserName().contains("guest") && context.getSession().get("userType") != null && ((String) context
-                .getSession().get("userType")).equals("guest")) {
+        if(user.getUserName().contains("guest") && context.getSession().get("userType")!=null && ((String)context.getSession().get("userType")).equals("guest")){
             deleteGuest(user);
         }
         context.getSession().remove("user");
         context.getSession().clear();
 
-        Cookie ckie = new Cookie("login", "false");
+        Cookie ckie=new Cookie("login","false");
         servletResponse.addCookie(ckie);
 
         loadPage();
         return SUCCESS;
     }
 
-    public boolean deleteGuest(User user) {
-        try {
+    public boolean deleteGuest(User user){
+        try{
 
-            String userToDelete = user.getUserName();
-            if (!userToDelete.trim().isEmpty()) {
+            String userToDelete=user.getUserName();
+            if(!userToDelete.trim().isEmpty()){
                 logger.debug("Delete GUEST");
                 Session s = HibernateUtil.getSession();
 
                 ArrayList<Prediction> predictions = new ArrayList<Prediction>();
                 Iterator<?> predictionIter = PopulateDataObjects.getUserData(
-                        userToDelete
-                        , Prediction.class, s)
-                        .iterator();
-                while (predictionIter.hasNext()) {
-                    predictions.add((Prediction) predictionIter.next());
+                                                             userToDelete
+                                                           , Prediction.class, s)
+                                                           .iterator();
+                while(predictionIter.hasNext()){
+                    predictions.add((Prediction)predictionIter.next());
 
                 }
 
                 ArrayList<Predictor> predictors = new ArrayList<Predictor>();
 
-                Iterator<?> predictorsIter = PopulateDataObjects.getUserData(
-                        userToDelete
-                        , Predictor.class, s)
-                        .iterator();
-                while (predictorsIter.hasNext()) {
-                    predictors.add((Predictor) predictorsIter.next());
+                Iterator<?> predictorsIter  = PopulateDataObjects.getUserData(
+                                                              userToDelete
+                                                             ,Predictor.class, s)
+                                                             .iterator();
+                while(predictorsIter.hasNext()){
+                    predictors.add((Predictor)predictorsIter.next());
 
                 }
 
                 ArrayList<DataSet> datasets = new ArrayList<DataSet>();
 
-                Iterator<?> datSetIter = PopulateDataObjects.getUserData(
-                        userToDelete
-                        , DataSet.class, s)
-                        .iterator();
-                while (datSetIter.hasNext()) {
-                    datasets.add((DataSet) datSetIter.next());
+                Iterator<?> datSetIter  = PopulateDataObjects.getUserData(
+                                                              userToDelete
+                                                             ,DataSet.class, s)
+                                                             .iterator();
+                while(datSetIter.hasNext()){
+                    datasets.add((DataSet)datSetIter.next());
 
                 }
 
                 ArrayList<Job> jobs = new ArrayList<Job>();
 
-                Iterator<?> jobIter = PopulateDataObjects.getUserData(
-                        userToDelete
-                        , Job.class, s)
-                        .iterator();
-                while (jobIter.hasNext()) {
-                    jobs.add((Job) jobIter.next());
+                Iterator<?> jobIter  = PopulateDataObjects.getUserData(
+                                                              userToDelete
+                                                             ,Job.class, s)
+                                                             .iterator();
+                while(jobIter.hasNext()){
+                    jobs.add((Job)jobIter.next());
 
                 }
 
                 s.close();
 
-                for (Prediction p : predictions) {
+                for(Prediction p: predictions){
                     Session session = HibernateUtil.getSession();
-                    ArrayList<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects
-                            .getPredictionValuesByPredictionId(p.getId(), session);
+                    ArrayList<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(p.getId(), session);
 
-                    if (pvs != null) {
-                        for (PredictionValue pv : pvs) {
+                    if(pvs != null){
+                        for(PredictionValue pv : pvs){
                             Transaction tx = null;
-                            try {
+                            try{
                                 tx = session.beginTransaction();
                                 session.delete(pv);
                                 tx.commit();
-                            } catch (RuntimeException e) {
+                            }
+                            catch (RuntimeException e) {
                                 if (tx != null)
                                     tx.rollback();
                                 logger.error(e);
-                            } finally {
+                            }
+                            finally{
                                 session.close();
                             }
                         }
                     }
                     Transaction tx = null;
-                    try {
+                    try{
                         session = HibernateUtil.getSession();
                         tx = session.beginTransaction();
                         session.delete(p);
                         tx.commit();
-                    } catch (RuntimeException e) {
+                    }catch (RuntimeException e) {
                         logger.error(e);
-                    } finally {
+                    }
+                    finally{
                         session.close();
                     }
                 }
 
-                for (Predictor p : predictors) {
+                for(Predictor p: predictors){
                     Session session = HibernateUtil.getSession();
                     ArrayList<ExternalValidation> extVals = new ArrayList<ExternalValidation>();
                     ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
-                    if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
+                    if(p.getChildIds() != null && ! p.getChildIds().trim().equals("")){
                         String[] childIdArray = p.getChildIds().split("\\s+");
-                        for (String childId : childIdArray) {
-                            Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId),
-                                    session);
+                        for(String childId: childIdArray){
+                            Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
                             childPredictors.add(childPredictor);
-                            extVals.addAll(PopulateDataObjects.getExternalValidationValues(childPredictor.getId(),
-                                    session));
+                            extVals.addAll(PopulateDataObjects.getExternalValidationValues(childPredictor.getId(), session));
                         }
                     }
                     extVals.addAll(PopulateDataObjects.getExternalValidationValues(p.getId(), session));
                     session.close();
                     session = HibernateUtil.getSession();
                     Transaction tx = null;
-                    try {
+                    try{
                         tx = session.beginTransaction();
                         session.delete(p);
                         session.close();
                         session = HibernateUtil.getSession();
                         tx = session.beginTransaction();
-                        for (Predictor childPredictor : childPredictors) {
+                        for(Predictor childPredictor: childPredictors){
                             session.delete(childPredictor);
                         }
-                        for (ExternalValidation ev : extVals) {
+                        for(ExternalValidation ev: extVals){
                             session.delete(ev);
                         }
                         tx.commit();
-                    } catch (RuntimeException e) {
+                    }catch (RuntimeException e) {
                         logger.error(e);
-                    } finally {
+                    }
+                    finally{
                         session.close();
                     }
                 }
 
-                for (DataSet d : datasets) {
+                for(DataSet d: datasets){
                     Session session = HibernateUtil.getSession();
                     Transaction tx = null;
                     tx = session.beginTransaction();
@@ -465,7 +487,7 @@ public class
                     tx.commit();
                 }
 
-                for (Job j : jobs) {
+                for(Job j: jobs){
                     CentralDogma.getInstance().localJobs.removeJob(j.getId());
                     Session session = HibernateUtil.getSession();
                     Transaction tx = null;
@@ -481,31 +503,33 @@ public class
                     session.delete(user);
                     tx.commit();
 
-                } catch (Exception ex) {
+                }
+                catch(Exception ex){
                     logger.error(ex);
                 }
 
                 //last, delete all the files that user has
                 logger.debug("Delete GUEST:::ALL DATA FROM DB SHOULD BE DELETED");
-                File dir = new File(Constants.CECCR_USER_BASE_PATH + userToDelete);
+                File dir= new File(Constants.CECCR_USER_BASE_PATH + userToDelete);
                 boolean flag = FileAndDirOperations.deleteDir(dir);//recurses
-                logger.debug("Delete GUEST:::ALL DATA FROM FILES SHOULD BE DELETED:" + flag);
+                logger.debug("Delete GUEST:::ALL DATA FROM FILES SHOULD BE DELETED:"+flag);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.error(e);
             return false;
         }
         return true;
     }
 
-    synchronized public void deleteOldGuests() {
-        List<String> dirs = FileAndDirOperations.getGuestDirNames(new File(Constants.CECCR_USER_BASE_PATH));
+    synchronized public void deleteOldGuests(){
+        List<String> dirs= FileAndDirOperations.getGuestDirNames(new File(Constants.CECCR_USER_BASE_PATH));
         long currentTime = System.currentTimeMillis();
-        for (String dir : dirs) {
-            long guestTime = new Long(dir.substring(dir.lastIndexOf('_') + 1)).longValue();
-            if (!dir.trim().isEmpty() && currentTime - guestTime > Constants.GUEST_DATA_EXPIRATION_TIME) {
-                FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH + dir));
-                logger.debug("DELETING OLD GUEST DATA:" + dir);
+        for(String dir:dirs){
+            long guestTime =  new Long(dir.substring(dir.lastIndexOf('_')+1)).longValue();
+            if(!dir.trim().isEmpty() && currentTime-guestTime>Constants.GUEST_DATA_EXPIRATION_TIME){
+                FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH+dir));
+                logger.debug("DELETING OLD GUEST DATA:"+dir);
             }
         }
     }

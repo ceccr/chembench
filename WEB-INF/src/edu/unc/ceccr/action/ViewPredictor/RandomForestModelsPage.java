@@ -1,27 +1,34 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.RandomForestGrove;
 import edu.unc.ceccr.persistence.RandomForestTree;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-import org.apache.log4j.Logger;
 
-import java.util.*;
-
-public class RandomForestModelsPage extends ViewPredictorAction {
+public class RandomForestModelsPage extends ViewPredictorAction
+{
 
     /**
-     *
+     * 
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(RandomForestModelsPage.class.getName());
-
+    
     private List<RandomForestGrove> randomForestGroves;
-    private List<RandomForestTree> randomForestTrees;
+    private List<RandomForestTree>  randomForestTrees;
 
-    public String load() {
+    public String load()
+    {
         String result = null;
         try {
             result = getBasicParameters();
@@ -34,7 +41,8 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 
             if (childPredictors.size() == 0) {
                 loadTrees();
-            } else {
+            }
+            else {
                 currentFoldNumber = ""
                         + (Integer.parseInt(currentFoldNumber) + 1);
                 for (int i = 0; i < childPredictors.size(); i++) {
@@ -49,8 +57,8 @@ public class RandomForestModelsPage extends ViewPredictorAction {
             }
 
             // get descriptor freqs from trees
-            HashMap<String, Integer> descriptorFreqMap
-                    = new HashMap<String, Integer>();
+            HashMap<String, Integer> descriptorFreqMap 
+                                                  = new HashMap<String, Integer>();
             if (randomForestTrees != null) {
                 for (RandomForestTree t : randomForestTrees) {
                     if (t.getDescriptorsUsed() != null
@@ -58,22 +66,22 @@ public class RandomForestModelsPage extends ViewPredictorAction {
                         String[] descriptorArray = t.getDescriptorsUsed().split(
                                 "\\s+");
                         for (int i = 0; i < descriptorArray.length; i++) {
-                            if (descriptorFreqMap.get(descriptorArray[i]) == null) {
+                            if (descriptorFreqMap.get(descriptorArray[i]) == null){
                                 descriptorFreqMap.put(descriptorArray[i], 1);
-                            } else {
+                            }
+                            else {
                                 // increment
                                 descriptorFreqMap
                                         .put(descriptorArray[i],
                                                 descriptorFreqMap
-                                                        .get(descriptorArray[i]) + 1
-                                        );
+                                                     .get(descriptorArray[i]) + 1);
                             }
                         }
                     }
                 }
             }
             ArrayList<descriptorFrequency> descriptorFrequencies
-                    = new ArrayList<descriptorFrequency>();
+                                            = new ArrayList<descriptorFrequency>();
             ArrayList<String> mapKeys = new ArrayList<String>(descriptorFreqMap
                     .keySet());
             for (String k : mapKeys) {
@@ -84,24 +92,27 @@ public class RandomForestModelsPage extends ViewPredictorAction {
             }
 
             Collections.sort(descriptorFrequencies,
-                    new Comparator<descriptorFrequency>() {
+                    new Comparator<descriptorFrequency>()
+                    {
                         public int compare(descriptorFrequency df1,
-                                           descriptorFrequency df2) {
+                                           descriptorFrequency df2)
+                        {
                             if (df1.getNumOccs() > df2.getNumOccs()) {
                                 return -1;
-                            } else if (df2.getNumOccs() < df2.getNumOccs()) {
+                            }
+                            else if (df2.getNumOccs() < df2.getNumOccs()) {
                                 return 1;
-                            } else {
+                            }
+                            else {
                                 return 0;
                             }
                         }
-                    }
-            );
+                    });
             if (descriptorFrequencies.size() >= 5) {
                 // if there weren't at least 5 descriptors, don't even bother - no
                 // summary needed
                 mostFrequentDescriptors = "The 5 most frequent descriptors " +
-                        "used in your trees were: ";
+                                                       "used in your trees were: ";
                 for (int i = 0; i < 5; i++) {
                     mostFrequentDescriptors += descriptorFrequencies.get(i)
                             .getDescriptor()
@@ -117,27 +128,31 @@ public class RandomForestModelsPage extends ViewPredictorAction {
 
             logger.debug("Done loading trees page for predictor id"
                     + objectId);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             logger.error(e);
         }
         return result;
     }
 
-    public String loadGrovesPage() throws Exception {
+    public String loadGrovesPage() throws Exception
+    {
         String result = SUCCESS;
         getBasicParameters();
         getModelsPageParameters();
 
         if (childPredictors.size() == 0) {
             loadGroves();
-        } else {
+        }
+        else {
             loadGroveSets();
         }
 
         return result;
     }
 
-    private String loadGroves() throws Exception {
+    private String loadGroves() throws Exception
+    {
         String result = SUCCESS;
         session = HibernateUtil.getSession();
         List<RandomForestGrove> rfGroves = PopulateDataObjects
@@ -150,7 +165,8 @@ public class RandomForestModelsPage extends ViewPredictorAction {
                 if (isYRandomPage.equals(Constants.YES)
                         && rfg.getIsYRandomModel().equals(Constants.YES)) {
                     randomForestGroves.add(rfg);
-                } else if (isYRandomPage.equals(Constants.NO)
+                }
+                else if (isYRandomPage.equals(Constants.NO)
                         && rfg.getIsYRandomModel().equals(Constants.NO)) {
                     randomForestGroves.add(rfg);
                 }
@@ -160,7 +176,8 @@ public class RandomForestModelsPage extends ViewPredictorAction {
         return result;
     }
 
-    private String loadTrees() throws Exception {
+    private String loadTrees() throws Exception
+    {
         String result = SUCCESS;
         logger.debug("getting trees for " + objectId);
         session = HibernateUtil.getSession();
@@ -171,15 +188,16 @@ public class RandomForestModelsPage extends ViewPredictorAction {
         randomForestTrees = new ArrayList<RandomForestTree>();
         if (rfGroves != null) {
             for (RandomForestGrove rfg : rfGroves) {
-                ArrayList<RandomForestTree> rfTrees
-                        = (ArrayList<RandomForestTree>) PopulateDataObjects
-                        .getRandomForestTreesByGroveId(
-                                rfg.getId(), session);
+                ArrayList<RandomForestTree> rfTrees 
+                            = (ArrayList<RandomForestTree>) PopulateDataObjects
+                                             .getRandomForestTreesByGroveId(
+                                                         rfg.getId(), session);
                 if (isYRandomPage.equals(Constants.YES)
                         && rfg.getIsYRandomModel().equals(Constants.YES)
                         && rfTrees != null) {
                     randomForestTrees.addAll(rfTrees);
-                } else if (isYRandomPage.equals(Constants.NO)
+                }
+                else if (isYRandomPage.equals(Constants.NO)
                         && rfg.getIsYRandomModel().equals(Constants.NO)
                         && rfTrees != null) {
                     randomForestTrees.addAll(rfTrees);
@@ -198,7 +216,8 @@ public class RandomForestModelsPage extends ViewPredictorAction {
     }
 
     @SuppressWarnings("unused")
-    private String loadTreeSets() throws Exception {
+    private String loadTreeSets() throws Exception
+    {
         String result = SUCCESS;
         String parentPredictorId = objectId;
 
@@ -213,7 +232,8 @@ public class RandomForestModelsPage extends ViewPredictorAction {
         return result;
     }
 
-    private String loadGroveSets() throws Exception {
+    private String loadGroveSets() throws Exception
+    {
         String result = SUCCESS;
         String parentPredictorId = objectId;
 
@@ -228,21 +248,25 @@ public class RandomForestModelsPage extends ViewPredictorAction {
         return result;
     }
 
-    public List<RandomForestGrove> getRandomForestGroves() {
+    public List<RandomForestGrove> getRandomForestGroves()
+    {
         return randomForestGroves;
     }
 
     public void
-    setRandomForestGroves(List<RandomForestGrove> randomForestGroves) {
+            setRandomForestGroves(List<RandomForestGrove> randomForestGroves)
+    {
         this.randomForestGroves = randomForestGroves;
     }
 
-    public List<RandomForestTree> getRandomForestTrees() {
+    public List<RandomForestTree> getRandomForestTrees()
+    {
         return randomForestTrees;
     }
 
     public void
-    setRandomForestTrees(List<RandomForestTree> randomForestTrees) {
+            setRandomForestTrees(List<RandomForestTree> randomForestTrees)
+    {
         this.randomForestTrees = randomForestTrees;
     }
 

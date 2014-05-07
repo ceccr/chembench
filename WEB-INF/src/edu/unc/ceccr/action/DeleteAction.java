@@ -1,25 +1,35 @@
 package edu.unc.ceccr.action;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.*;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.jobs.CentralDogma;
+import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.ExternalValidation;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Job;
+import edu.unc.ceccr.persistence.Prediction;
+import edu.unc.ceccr.persistence.PredictionValue;
+import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+
 // struts2
 
-public class DeleteAction extends ActionSupport {
+public class DeleteAction extends ActionSupport
+{
 
     /**
      *
@@ -29,8 +39,9 @@ public class DeleteAction extends ActionSupport {
     public ArrayList<String> errorStrings = new ArrayList<String>();
 
     private void
-    checkDatasetDependencies(DataSet ds) throws ClassNotFoundException,
-            SQLException {
+            checkDatasetDependencies(DataSet ds) throws ClassNotFoundException,
+                                                SQLException
+    {
         // make sure there are no predictors, predictions, or jobs that depend
         // on this dataset
         logger.debug("checking dataset dependencies");
@@ -38,16 +49,16 @@ public class DeleteAction extends ActionSupport {
         Session session = HibernateUtil.getSession();
         String userName = ds.getUserName();
         ArrayList<Predictor> userPredictors
-                = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(
-                userName
-                , true
-                , false
-                , session);
+             = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(
+                                                                  userName
+                                                                , true
+                                                                , false
+                                                                , session);
         ArrayList<Prediction> userPredictions
-                = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(
-                userName
-                , false
-                , session);
+             = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(
+                                                                  userName
+                                                                 , false
+                                                                 , session);
 
         // check each predictor
         for (int i = 0; i < userPredictors.size(); i++) {
@@ -56,7 +67,7 @@ public class DeleteAction extends ActionSupport {
                     + ds.getId());
             if (userPredictors.get(i).getDatasetId() != null
                     && userPredictors.get(i).getDatasetId()
-                    .equals(ds.getId())) {
+                            .equals(ds.getId())) {
                 errorStrings
                         .add("The predictor '"
                                 + userPredictors.get(i).getName()
@@ -72,7 +83,7 @@ public class DeleteAction extends ActionSupport {
                     + ds.getId());
             if (userPredictions.get(i).getDatasetId() != null
                     && userPredictions.get(i).getDatasetId().equals(
-                    ds.getId())) {
+                            ds.getId())) {
                 errorStrings
                         .add("The prediction '"
                                 + userPredictions.get(i).getName()
@@ -91,15 +102,16 @@ public class DeleteAction extends ActionSupport {
 
     private void
     checkPredictorDependencies(Predictor p) throws ClassNotFoundException,
-            SQLException {
+                                                   SQLException
+    {
         // make sure there are no predictions or prediction jobs that depend
         // on this predictor
 
         String userName = p.getUserName();
         Session session = HibernateUtil.getSession();
         ArrayList<Prediction> userPredictions
-                = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(
-                userName, false, session);
+              = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(
+                                                       userName, false, session);
         session.close();
 
         // check each prediction
@@ -126,7 +138,8 @@ public class DeleteAction extends ActionSupport {
 
     }
 
-    private boolean checkPermissions(String objectUser) {
+    private boolean checkPermissions(String objectUser)
+    {
         // make sure the user has permissions to delete this object
 
         ActionContext context = ActionContext.getContext();
@@ -152,7 +165,8 @@ public class DeleteAction extends ActionSupport {
         return false;
     }
 
-    public String deleteDataset() throws Exception {
+    public String deleteDataset() throws Exception
+    {
 
         ActionContext context = ActionContext.getContext();
 
@@ -179,7 +193,7 @@ public class DeleteAction extends ActionSupport {
         if (!checkPermissions(ds.getUserName())) {
             errorStrings
                     .add("Error: You do not have the permissions " +
-                            "needed to delete this dataset.");
+                    		"needed to delete this dataset.");
             return ERROR;
         }
 
@@ -204,7 +218,8 @@ public class DeleteAction extends ActionSupport {
             tx = session.beginTransaction();
             session.delete(ds);
             tx.commit();
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
             logger.error(e);
@@ -215,7 +230,8 @@ public class DeleteAction extends ActionSupport {
         return SUCCESS;
     }
 
-    public String deletePredictor() throws Exception {
+    public String deletePredictor() throws Exception
+    {
 
         ActionContext context = ActionContext.getContext();
 
@@ -243,7 +259,7 @@ public class DeleteAction extends ActionSupport {
         if (!checkPermissions(p.getUserName())) {
             errorStrings
                     .add("You do not have the permissions " +
-                            "needed to delete this predictor.");
+                    		"needed to delete this predictor.");
             return ERROR;
         }
 
@@ -260,9 +276,10 @@ public class DeleteAction extends ActionSupport {
     }
 
     public void
-    deletePredictor(Predictor p, Session session) throws Exception {
+            deletePredictor(Predictor p, Session session) throws Exception
+    {
         ArrayList<ExternalValidation> extVals
-                = new ArrayList<ExternalValidation>();
+                                         = new ArrayList<ExternalValidation>();
         // delete the files associated with this predictor
         String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName()
                 + "/PREDICTORS/" + p.getName() + "/";
@@ -309,14 +326,16 @@ public class DeleteAction extends ActionSupport {
                 session.delete(ev);
             }
             tx.commit();
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
             logger.error(e);
         }
     }
 
-    public String deletePrediction() throws Exception {
+    public String deletePrediction() throws Exception
+    {
 
         ActionContext context = ActionContext.getContext();
 
@@ -343,7 +362,7 @@ public class DeleteAction extends ActionSupport {
         if (!checkPermissions(p.getUserName())) {
             errorStrings
                     .add("You do not have the permissions " +
-                            "needed to delete this prediction.");
+                    		"needed to delete this prediction.");
             return ERROR;
         }
 
@@ -356,8 +375,8 @@ public class DeleteAction extends ActionSupport {
 
         // delete the prediction values associated with the prediction
         ArrayList<PredictionValue> pvs
-                = (ArrayList<PredictionValue>) PopulateDataObjects
-                .getPredictionValuesByPredictionId(p.getId(), session);
+               = (ArrayList<PredictionValue>) PopulateDataObjects
+                      .getPredictionValuesByPredictionId(p.getId(), session);
 
         if (pvs != null) {
             for (PredictionValue pv : pvs) {
@@ -366,7 +385,8 @@ public class DeleteAction extends ActionSupport {
                     tx = session.beginTransaction();
                     session.delete(pv);
                     tx.commit();
-                } catch (RuntimeException e) {
+                }
+                catch (RuntimeException e) {
                     if (tx != null)
                         tx.rollback();
                     logger.error(e);
@@ -380,7 +400,8 @@ public class DeleteAction extends ActionSupport {
             tx = session.beginTransaction();
             session.delete(p);
             tx.commit();
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
             logger.error(e);
@@ -391,7 +412,8 @@ public class DeleteAction extends ActionSupport {
         return SUCCESS;
     }
 
-    public String deleteJob() throws Exception {
+    public String deleteJob() throws Exception
+    {
         // stops the job and removes all associated files
 
         ActionContext context = ActionContext.getContext();
@@ -427,12 +449,12 @@ public class DeleteAction extends ActionSupport {
 
                         // get siblings
                         ArrayList<Predictor> siblingPredictors
-                                = new ArrayList<Predictor>();
+                                              = new ArrayList<Predictor>();
                         for (String childPredictorId : childPredictorIds) {
                             if (!childPredictorId.equals("" + p.getId())) {
                                 Predictor sibling
-                                        = PopulateDataObjects.getPredictorById(
-                                        Long.parseLong(childPredictorId), s);
+                                    = PopulateDataObjects.getPredictorById(
+                                       Long.parseLong(childPredictorId),s);
                                 siblingPredictors.add(sibling);
                             }
                         }
@@ -442,12 +464,12 @@ public class DeleteAction extends ActionSupport {
                             Job sibJob = PopulateDataObjects
                                     .getJobByNameAndUsername(
                                             sp.getName(), sp
-                                                    .getUserName(), s
-                                    );
+                                                    .getUserName(), s);
                             try {
                                 CentralDogma.getInstance().cancelJob(
                                         sibJob.getId());
-                            } catch (Exception ex) {
+                            }
+                            catch (Exception ex) {
                                 // if some siblings are missing, don't
                                 // crash, just keep deleting things
                                 logger.error(ex);
@@ -459,23 +481,27 @@ public class DeleteAction extends ActionSupport {
 
                         // delete the parent predictor
                         deletePredictor(parentPredictor, s);
-                    } else {
+                    }
+                    else {
                         CentralDogma.getInstance().cancelJob(
                                 Long.parseLong(taskId));
                     }
                 }
-            } else {
+            }
+            else {
                 CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
             }
             s.close();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             // if it failed, no big deal - just write out the exception.
             logger.error(ex);
         }
         return SUCCESS;
     }
 
-    public String deleteUser() throws Exception {
+    public String deleteUser() throws Exception
+    {
         // check that the person deleting the user is an admin, just to be
         // safe
         ActionContext context = ActionContext.getContext();
@@ -491,9 +517,9 @@ public class DeleteAction extends ActionSupport {
         }
 
         if (userToDelete.isEmpty()
-                || userToDelete.contains("..")
-                || userToDelete.contains("~")
-                || userToDelete.contains("/")) {
+         || userToDelete.contains("..")
+         || userToDelete.contains("~")
+         || userToDelete.contains("/")) {
             // just being a little safer, since there's a recursive delete in
             // this function
             return ERROR;
@@ -503,44 +529,44 @@ public class DeleteAction extends ActionSupport {
 
         ArrayList<Prediction> predictions = new ArrayList<Prediction>();
         Iterator<?> predictionItr = PopulateDataObjects
-                .getUserData(userToDelete
-                        , Prediction.class, s)
-                .iterator();
-        while (predictionItr.hasNext()) {
-            predictions.add((Prediction) predictionItr.next());
+                                       .getUserData(userToDelete
+                                                  , Prediction.class, s)
+                                       .iterator();
+        while(predictionItr.hasNext()){
+            predictions.add((Prediction)predictionItr.next());
 
         }
 
         ArrayList<Predictor> predictors = new ArrayList<Predictor>();
 
         Iterator<?> predictorIter = PopulateDataObjects
-                .getUserData(userToDelete
-                        , Predictor.class, s)
-                .iterator();
-        while (predictorIter.hasNext()) {
-            predictors.add((Predictor) predictorIter.next());
+                                         .getUserData(userToDelete
+                                                    , Predictor.class, s)
+                                         .iterator();
+        while(predictorIter.hasNext()){
+            predictors.add((Predictor)predictorIter.next());
 
         }
 
-        ArrayList<DataSet> datasets = new ArrayList<DataSet>();
+        ArrayList<DataSet> datasets  = new ArrayList<DataSet>();
 
         Iterator<?> dataSetIter = PopulateDataObjects
-                .getUserData(userToDelete
-                        , DataSet.class, s)
-                .iterator();
-        while (dataSetIter.hasNext()) {
-            datasets.add((DataSet) dataSetIter.next());
+                                         .getUserData(userToDelete
+                                                    , DataSet.class, s)
+                                         .iterator();
+        while(dataSetIter.hasNext()){
+            datasets.add((DataSet)dataSetIter.next());
 
         }
 
         ArrayList<Job> jobs = new ArrayList<Job>();
 
         Iterator<?> jobsIter = PopulateDataObjects
-                .getUserData(userToDelete
-                        , Job.class, s)
-                .iterator();
-        while (jobsIter.hasNext()) {
-            jobs.add((Job) jobsIter.next());
+                                         .getUserData(userToDelete
+                                                    , Job.class, s)
+                                         .iterator();
+        while(jobsIter.hasNext()){
+            jobs.add((Job)jobsIter.next());
 
         }
         s.close();
@@ -582,7 +608,8 @@ public class DeleteAction extends ActionSupport {
             session.delete(deleteMe);
             tx.commit();
 
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -595,8 +622,9 @@ public class DeleteAction extends ActionSupport {
     }
 
     protected void
-    deleteDatabaseData(List<?> list) throws ClassNotFoundException,
-            SQLException {
+            deleteDatabaseData(List<?> list) throws ClassNotFoundException,
+                                         SQLException
+    {
         if (list.size() != 0) {
             Session session = HibernateUtil.getSession();
             Iterator<?> it = list.iterator();
@@ -606,7 +634,8 @@ public class DeleteAction extends ActionSupport {
                     tx = session.beginTransaction();
                     session.delete(it.next());
                     tx.commit();
-                } catch (RuntimeException e) {
+                }
+                catch (RuntimeException e) {
                     if (tx != null)
                         tx.rollback();
                     logger.error(e);
@@ -616,11 +645,13 @@ public class DeleteAction extends ActionSupport {
         }
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public ArrayList<String> getErrorStrings()
+    {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(ArrayList<String> errorStrings)
+    {
         this.errorStrings = errorStrings;
     }
 

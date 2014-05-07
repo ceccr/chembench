@@ -1,15 +1,20 @@
 package edu.unc.ceccr.persistence;
 
-import edu.unc.ceccr.utilities.Utility;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-import javax.persistence.*;
+import edu.unc.ceccr.utilities.Utility;
 
 @Entity
 @Table(name = "cbench_randomForestTree")
-public class RandomForestTree implements java.io.Serializable {
-
-    /**
-     *
+public class RandomForestTree implements java.io.Serializable{
+	
+	/**
+     * 
      */
     private static final long serialVersionUID = 1L;
     /*
@@ -24,81 +29,74 @@ FOREIGN KEY (randomForestGroveId) REFERENCES cbench_randomForestGrove(id) ON DEL
 );
 	 */
 
-    private Long id;
-    private Long randomForestGroveId;
-    private String treeFileName;
-    private String r2; //r squared
-    private String mse;
-    private String ccr;
-    private String descriptorsUsed;
+	private Long id;
+	private Long randomForestGroveId;
+	private String treeFileName;
+	private String r2; //r squared
+	private String mse;
+	private String ccr;
+	private String descriptorsUsed;
+	
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name = "id")
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
-    public Long getId() {
-        return id;
-    }
+	@Column(name = "randomForestGroveId")
+	public Long getRandomForestGroveId() {
+		return randomForestGroveId;
+	}
+	public void setRandomForestGroveId(Long randomForestGroveId) {
+		this.randomForestGroveId = randomForestGroveId;
+	}
+	
+	@Column(name = "treeFileName")
+	public String getTreeFileName() {
+		return treeFileName;
+	}
+	public void setTreeFileName(String treeFileName) {
+		treeFileName = Utility.truncateString(treeFileName, 250);
+		this.treeFileName = treeFileName;
+	}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+	@Column(name = "r2")
+	public String getR2() {
+		return r2;
+	}
+	public void setR2(String r2) {
+		r2 = Utility.truncateString(r2, 250);
+		this.r2 = r2;
+	}
 
-    @Column(name = "randomForestGroveId")
-    public Long getRandomForestGroveId() {
-        return randomForestGroveId;
-    }
+	@Column(name = "mse")
+	public String getMse() {
+		return mse;
+	}
+	public void setMse(String mse) {
+		mse = Utility.truncateString(mse, 250);
+		this.mse = mse;
+	}
 
-    public void setRandomForestGroveId(Long randomForestGroveId) {
-        this.randomForestGroveId = randomForestGroveId;
-    }
+	@Column(name = "ccr")
+	public String getCcr() {
+		return ccr;
+	}
+	public void setCcr(String ccr) {
+		this.ccr = ccr;
+	}
 
-    @Column(name = "treeFileName")
-    public String getTreeFileName() {
-        return treeFileName;
-    }
-
-    public void setTreeFileName(String treeFileName) {
-        treeFileName = Utility.truncateString(treeFileName, 250);
-        this.treeFileName = treeFileName;
-    }
-
-    @Column(name = "r2")
-    public String getR2() {
-        return r2;
-    }
-
-    public void setR2(String r2) {
-        r2 = Utility.truncateString(r2, 250);
-        this.r2 = r2;
-    }
-
-    @Column(name = "mse")
-    public String getMse() {
-        return mse;
-    }
-
-    public void setMse(String mse) {
-        mse = Utility.truncateString(mse, 250);
-        this.mse = mse;
-    }
-
-    @Column(name = "ccr")
-    public String getCcr() {
-        return ccr;
-    }
-
-    public void setCcr(String ccr) {
-        this.ccr = ccr;
-    }
-
-    @Column(name = "descriptorsUsed")
-    public String getDescriptorsUsed() {
-        return descriptorsUsed;
-    }
-
-    public void setDescriptorsUsed(String descriptorsUsed) {
-        descriptorsUsed = Utility.truncateString(descriptorsUsed, 2545);
-        this.descriptorsUsed = descriptorsUsed;
-    }
-
+	@Column(name = "descriptorsUsed")
+	public String getDescriptorsUsed() {
+		return descriptorsUsed;
+	}
+	public void setDescriptorsUsed(String descriptorsUsed) {
+		descriptorsUsed = Utility.truncateString(descriptorsUsed, 2545);
+		this.descriptorsUsed = descriptorsUsed;
+	}
+	
 }

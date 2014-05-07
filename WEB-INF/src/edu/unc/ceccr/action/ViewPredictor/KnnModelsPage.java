@@ -1,24 +1,25 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-public class KnnModelsPage extends ViewPredictorAction {
+public class KnnModelsPage extends ViewPredictorAction
+{
 
     /**
-     *
+     * 
      */
     private static final long serialVersionUID = 1L;
-
+    
     private List<KnnModel> models;
-
-    public String load() throws Exception {
+    public String load() throws Exception
+    {
         // get models associated with predictor
         String results = getBasicParameters();
         if (!results.equals(SUCCESS))
@@ -40,7 +41,8 @@ public class KnnModelsPage extends ViewPredictorAction {
                 if (m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)
                         && isYRandomPage.equals(Constants.NO)) {
                     models.add(m);
-                } else if (m.getFlowType()
+                }
+                else if (m.getFlowType()
                         .equalsIgnoreCase(Constants.RANDOMKNN)
                         && isYRandomPage.equals(Constants.NO)) {
                     models.add(m);
@@ -53,11 +55,13 @@ public class KnnModelsPage extends ViewPredictorAction {
 
     // getters and setters
 
-    public List<KnnModel> getModels() {
+    public List<KnnModel> getModels()
+    {
         return models;
     }
 
-    public void setModels(List<KnnModel> models) {
+    public void setModels(List<KnnModel> models)
+    {
         this.models = models;
     }
     // end getters and setters

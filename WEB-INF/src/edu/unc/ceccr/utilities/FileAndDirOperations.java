@@ -1,11 +1,21 @@
 package edu.unc.ceccr.utilities;
 
-import org.apache.log4j.Logger;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.log4j.Logger;
 
 /*
  * There is a lot of code strewn around the system for doing things like
@@ -13,12 +23,13 @@ import java.util.List;
  * need to put all of this in one place. Here's good.
  */
 
-public class FileAndDirOperations {
-    private static Logger logger
-            = Logger.getLogger(FileAndDirOperations.class.getName());
-
+public class FileAndDirOperations
+{
+    private static Logger logger 
+                      = Logger.getLogger(FileAndDirOperations.class.getName());
     public static int countFilesInDirMatchingPattern(String dir,
-                                                     String pattern) {
+                                                     String pattern)
+    {
         int count = 0;
 
         File d = new File(dir);
@@ -37,7 +48,8 @@ public class FileAndDirOperations {
         return count;
     }
 
-    public static int getNumLinesInFile(String filePath) {
+    public static int getNumLinesInFile(String filePath)
+    {
         int count = 0;
         try {
             InputStream is = new BufferedInputStream(new FileInputStream(
@@ -51,14 +63,16 @@ public class FileAndDirOperations {
                 }
             }
             is.close();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             logger.error(ex);
             return 0;
         }
         return count;
     }
 
-    public static String readFileIntoString(String filePath) {
+    public static String readFileIntoString(String filePath)
+    {
         StringBuffer fileContents = new StringBuffer();
         try {
             File fromFile = new File(filePath);
@@ -72,23 +86,27 @@ public class FileAndDirOperations {
             }
             br.close();
 
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             logger.error(ex);
         }
         return fileContents.toString();
     }
 
-    public static void writeStringToFile(String text, String filePath) {
+    public static void writeStringToFile(String text, String filePath)
+    {
         try {
             BufferedWriter out = new BufferedWriter(new FileWriter(filePath));
             out.write(text);
             out.close();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             logger.error(ex);
         }
     }
 
-    public static void makeDirContentsExecutable(String fromDir) {
+    public static void makeDirContentsExecutable(String fromDir)
+    {
         try {
             File dir = new File(fromDir);
             String files[] = dir.list();
@@ -103,14 +121,16 @@ public class FileAndDirOperations {
                 }
                 x++;
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             logger.error(ex);
         }
     }
 
     public static void copyDirContents(String fromDir,
                                        String toDir,
-                                       boolean recurse) {
+                                       boolean recurse)
+    {
         try {
             if (!fromDir.endsWith("/")) {
                 fromDir += "/";
@@ -127,18 +147,19 @@ public class FileAndDirOperations {
             while (files != null && x < files.length) {
                 File xfile = new File(fromDir + files[x]);
                 if (!xfile.isDirectory()) {
-                    FileInputStream fin = new FileInputStream(fromDir
-                            + files[x]);
-                    FileOutputStream fout = new FileOutputStream(toDir
-                            + files[x]);
-                    FileChannel ic = fin.getChannel();
-                    FileChannel oc = fout.getChannel();
+                    FileInputStream fin = new FileInputStream(fromDir 
+                                                            + files[x]);
+                    FileOutputStream fout = new FileOutputStream(toDir 
+                                                            + files[x]);
+                    FileChannel ic =  fin.getChannel();
+                    FileChannel oc =  fout.getChannel();
                     ic.transferTo(0, ic.size(), oc);
                     fin.close();
                     fout.close();
                     ic.close();
                     oc.close();
-                } else {
+                }
+                else {
                     // we hit a subdirectory. Recurse down into it if needed,
                     // otherwise ignore it.
                     if (recurse) {
@@ -150,8 +171,9 @@ public class FileAndDirOperations {
                 }
                 x++;
             }
-            logger.debug("Copied " + x + " file from " + fromDir + " to " + toDir);
-        } catch (Exception ex) {
+            logger.debug("Copied " + x+ " file from "+fromDir +" to "+ toDir);
+        }
+        catch (Exception ex) {
             logger.error(ex);
         }
     }
@@ -159,12 +181,13 @@ public class FileAndDirOperations {
     /**
      * Should be used when modeling or prediction job was started with
      * uploaded files but after uploadDataset
-     *
+     * 
      * @param from
      * @param to
      * @throws IOException
      */
-    public static void copyFile(String from, String to) throws IOException {
+    public static void copyFile(String from, String to) throws IOException
+    {
         File fromFile = new File(from);
         File toFile = new File(to);
 
@@ -197,7 +220,8 @@ public class FileAndDirOperations {
             if (!dir.canWrite())
                 throw new IOException("FileCopy: "
                         + "destination directory is unwriteable: " + parent);
-        } else
+        }
+        else
             toFile.createNewFile();
 
         FileInputStream from_ = null;
@@ -210,7 +234,8 @@ public class FileAndDirOperations {
 
             while ((bytesRead = from_.read(buffer)) != -1)
                 to_.write(buffer, 0, bytesRead); // write
-        } finally {
+        }
+        finally {
             if (from_ != null)
                 from_.close();
             if (to_ != null)
@@ -218,12 +243,14 @@ public class FileAndDirOperations {
         }
     }
 
-    public static void moveFile(String fromPath, String toPath) {
+    public static void moveFile(String fromPath, String toPath)
+    {
         // not here yet, cause exec("mv") works fine
         // actually exec("mv") works much faster!
     }
 
-    public static void deleteFile(String filePath) {
+    public static void deleteFile(String filePath)
+    {
         try {
             // A File object to represent the filename
             File f = new File(filePath);
@@ -245,7 +272,8 @@ public class FileAndDirOperations {
                 throw new IllegalArgumentException(
                         "Delete: deletion failed for path: " + filePath);
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             /*FIXME: commenting out the logging. This exception gets thrown several times
                      till, we look into why, better prevent logs from be flooded.
              */
@@ -253,7 +281,8 @@ public class FileAndDirOperations {
         }
     }
 
-    public static void deleteDirContents(String dirToErase) {
+    public static void deleteDirContents(String dirToErase)
+    {
         // Removes all files in a directory.
         // For safety reasons, this function is not recursive.
         // (Don't want anyone to delete the whole filesystem by accident.)
@@ -268,7 +297,8 @@ public class FileAndDirOperations {
             if (files != null) {
                 logger.debug("Deleting " + files.length
                         + " files from dir: " + dirToErase);
-            } else {
+            }
+            else {
                 logger.warn("Could not open dir: " + dirToErase);
             }
             int x = 0;
@@ -278,13 +308,15 @@ public class FileAndDirOperations {
                 }
                 x++;
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             logger.error(ex);
         }
     }
 
     public static void
-    writeFiles(InputStream is, String fullFileLocation) throws IOException {
+    writeFiles(InputStream is, String fullFileLocation) throws IOException
+    {
         OutputStream bos = new FileOutputStream(fullFileLocation);
 
         int bytesRead = 0;
@@ -296,7 +328,8 @@ public class FileAndDirOperations {
         is.close();
     }
 
-    public static boolean deleteDir(File dir) {
+    public static boolean deleteDir(File dir)
+    {
         // recursive as hell! Deletes everything in dir! Be careful!
         if (dir.isDirectory()) {
             String[] children = dir.list();
@@ -312,7 +345,8 @@ public class FileAndDirOperations {
         return dir.delete();
     }
 
-    public static List<String> getGuestDirNames(File dir) {
+    public static List<String> getGuestDirNames(File dir)
+    {
         ArrayList<String> result = null;
         if (dir.isDirectory()) {
             result = new ArrayList<String>();

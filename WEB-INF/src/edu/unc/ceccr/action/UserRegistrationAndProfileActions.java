@@ -1,79 +1,48 @@
 package edu.unc.ceccr.action;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.utilities.SendEmails;
-import edu.unc.ceccr.utilities.Utility;
+import java.util.ArrayList;
+
 import net.tanesha.recaptcha.ReCaptcha;
 import net.tanesha.recaptcha.ReCaptchaFactory;
 import net.tanesha.recaptcha.ReCaptchaResponse;
+
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
-import java.util.ArrayList;
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.utilities.SendEmails;
+import edu.unc.ceccr.utilities.Utility;
 
 // struts2
 
-public class UserRegistrationAndProfileActions extends ActionSupport {
+public class UserRegistrationAndProfileActions extends ActionSupport
+{
     /**
-     *
+     * 
      */
     private static final long serialVersionUID = 1L;
 
-    private static Logger logger = Logger.getLogger(UserRegistrationAndProfileActions.class
-            .getName());
+    private static Logger     logger           = Logger.getLogger(UserRegistrationAndProfileActions.class
+                                                       .getName());
 
     /* USER FUNCTIONS */
-    private User user;
-    /* Variables used for user registration and updates */
-    private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
-    private ArrayList<String> errorMessages = new ArrayList<String>();
-    private ArrayList<String> errorStrings = new ArrayList<String>();
-    private String outputMessage;
-    private String newUserName;
-    private String address;
-    private String city;
-    private String country;
 
-    /* HELPER FUNCTIONS */
-    private String email;
-    private String firstName;
-    private String lastName;
-
-    /* END HELPER FUNCTIONS */
-
-    /* DATA OBJECTS, GETTERS, AND SETTERS */
-    private String organizationName;
-    private String organizationType;
-    private String organizationPosition;
-    private String phoneNumber;
-    private String stateOrProvince;
-    private String zipCode;
-    // deprecated, but some people think it's still important
-    private String workBench;
-    /* Variables used in password changes and user options */
-    private String oldPassword;
-    private String newPassword;
-    private String showPublicDatasets;
-    private String showPublicPredictors;
-    private String viewDatasetCompoundsPerPage;
-    private String viewPredictorModels;
-    private String viewPredictionCompoundsPerPage;
-    private String showAdvancedKnnModeling;
-    private boolean userIsAdmin = false;
-
-    public String loadUserRegistration() throws Exception {
+    public String loadUserRegistration() throws Exception
+    {
         String result = SUCCESS;
         organizationType = "Academia";
         return result;
     }
 
-    public String loadEditProfilePage() throws Exception {
+    public String loadEditProfilePage() throws Exception
+    {
         String result = SUCCESS;
         // check that the user is logged in
         ActionContext context = ActionContext.getContext();
@@ -92,7 +61,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         return result;
     }
 
-    public String registerUser() throws Exception {
+    public String registerUser() throws Exception
+    {
         ActionContext context = ActionContext.getContext();
         String result = SUCCESS;
         // form validation
@@ -115,7 +85,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
             errorMessages.add("The user name '" + newUserName
                     + "' is already in use.");
             result = ERROR;
-        } else if (newUserName.contains(" ")) {
+        }
+        else if (newUserName.contains(" ")) {
             errorMessages.add("Your username may not contain a space.");
             result = ERROR;
         }
@@ -130,8 +101,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1",
                 ((String[]) context.getParameters().get(
                         "recaptcha_challenge_field"))[0], ((String[]) context
-                        .getParameters().get("recaptcha_response_field"))[0]
-        );
+                        .getParameters().get("recaptcha_response_field"))[0]);
 
         if (!resp.isValid()) {
             errorMessages.add("The text you typed for the CAPTCHA test"
@@ -187,11 +157,13 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
             tx = s.beginTransaction();
             s.saveOrUpdate(user);
             tx.commit();
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
             logger.error(e);
-        } finally {
+        }
+        finally {
             s.close();
         }
 
@@ -232,14 +204,15 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         user = null;
         return result;
     }
-    /* End Variables used for user registration and updates */
 
-    public String loadChangePassword() throws Exception {
+    public String loadChangePassword() throws Exception
+    {
         String result = SUCCESS;
         return result;
     }
 
-    public String changePassword() throws Exception {
+    public String changePassword() throws Exception
+    {
         String result = SUCCESS;
 
         // check that the user is logged in
@@ -277,11 +250,13 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
             tx = s.beginTransaction();
             s.saveOrUpdate(user);
             tx.commit();
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
             logger.error(e);
-        } finally {
+        }
+        finally {
             s.close();
         }
 
@@ -289,7 +264,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         return result;
     }
 
-    public String loadUpdateUserInformation() throws Exception {
+    public String loadUpdateUserInformation() throws Exception
+    {
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
         user = getLoggedInUser(context);
@@ -314,7 +290,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         return result;
     }
 
-    public String updateUserInformation() throws Exception {
+    public String updateUserInformation() throws Exception
+    {
         String result = SUCCESS;
 
         // check that the user is logged in
@@ -354,11 +331,13 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
             tx = s.beginTransaction();
             s.saveOrUpdate(user);
             tx.commit();
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
             logger.error(e);
-        } finally {
+        }
+        finally {
             s.close();
         }
 
@@ -367,7 +346,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         return result;
     }
 
-    public String loadUpdateUserOptions() throws Exception {
+    public String loadUpdateUserOptions() throws Exception
+    {
         String result = SUCCESS;
         // check that the user is logged in
         ActionContext context = ActionContext.getContext();
@@ -385,7 +365,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         return result;
     }
 
-    public String updateUserOptions() throws Exception {
+    public String updateUserOptions() throws Exception
+    {
         String result = SUCCESS;
 
         // check that the user is logged in
@@ -410,11 +391,13 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
             tx = s.beginTransaction();
             s.saveOrUpdate(user);
             tx.commit();
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
             logger.error(e);
-        } finally {
+        }
+        finally {
             s.close();
         }
 
@@ -423,17 +406,22 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         return result;
     }
 
-    private User getLoggedInUser(ActionContext context) {
+    /* HELPER FUNCTIONS */
+
+    private User getLoggedInUser(ActionContext context)
+    {
         if (context == null) {
             logger.debug("No ActionContext available");
             return null;
-        } else {
+        }
+        else {
             user = (User) context.getSession().get("user");
             return user;
         }
     }
 
-    private boolean userExists(String userName) throws Exception {
+    private boolean userExists(String userName) throws Exception
+    {
         Session s = HibernateUtil.getSession();// query
         Transaction tx = null;
         User user = null;
@@ -445,21 +433,25 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
             userInfo = (User) s.createCriteria(User.class).add(
                     Expression.eq("userName", userName)).uniqueResult();
             tx.commit();
-        } catch (RuntimeException e) {
+        }
+        catch (RuntimeException e) {
             if (tx != null)
                 tx.rollback();
             logger.error(e);
-        } finally {
+        }
+        finally {
             s.close();
         }
         if (user == null && userInfo == null) {
             return false;
-        } else {
+        }
+        else {
             return true;
         }
     }
 
-    public void validateUserInfo() {
+    public void validateUserInfo()
+    {
         if (firstName.isEmpty()) {
             errorMessages.add("Please enter your first name.");
         }
@@ -483,235 +475,332 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         }
     }
 
+    /* END HELPER FUNCTIONS */
+
+    /* DATA OBJECTS, GETTERS, AND SETTERS */
+
+    private User              user;
+
+    /* Variables used for user registration and updates */
+    private String            recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
+    private ArrayList<String> errorMessages      = new ArrayList<String>();
+    private ArrayList<String> errorStrings       = new ArrayList<String>();
+    private String            outputMessage;
+
+    private String            newUserName;
+    private String            address;
+    private String            city;
+    private String            country;
+    private String            email;
+    private String            firstName;
+    private String            lastName;
+    private String            organizationName;
+    private String            organizationType;
+    private String            organizationPosition;
+    private String            phoneNumber;
+    private String            stateOrProvince;
+    private String            zipCode;
+    // deprecated, but some people think it's still important
+    private String            workBench;
+    /* End Variables used for user registration and updates */
+
+    /* Variables used in password changes and user options */
+    private String            oldPassword;
+    private String            newPassword;
+    private String            showPublicDatasets;
+    private String            showPublicPredictors;
+    private String            viewDatasetCompoundsPerPage;
+    private String            viewPredictorModels;
+    private String            viewPredictionCompoundsPerPage;
+    private String            showAdvancedKnnModeling;
+
+    private boolean           userIsAdmin        = false;
+
     /* End Variables used in password changes and user options */
 
-    public User getUser() {
+    public User getUser()
+    {
         return user;
     }
 
-    public void setUser(User user) {
+    public void setUser(User user)
+    {
         this.user = user;
     }
 
     /* Variables used for user registration and updates */
-    public String getRecaptchaPublicKey() {
+    public String getRecaptchaPublicKey()
+    {
         return recaptchaPublicKey;
     }
 
-    public void setRecaptchaPublicKey(String recaptchaPublicKey) {
+    public void setRecaptchaPublicKey(String recaptchaPublicKey)
+    {
         this.recaptchaPublicKey = recaptchaPublicKey;
     }
 
-    public ArrayList<String> getActionErrors() {
+    public ArrayList<String> getActionErrors()
+    {
         return errorMessages;
     }
 
-    public void setActionErrors(ArrayList<String> errorMessages) {
+    public void setActionErrors(ArrayList<String> errorMessages)
+    {
         this.errorMessages = errorMessages;
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public ArrayList<String> getErrorStrings()
+    {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(ArrayList<String> errorStrings)
+    {
         this.errorStrings = errorStrings;
     }
 
-    public String getOutputMessage() {
+    public String getOutputMessage()
+    {
         return outputMessage;
     }
 
-    public void setOutputMessage(String outputMessage) {
+    public void setOutputMessage(String outputMessage)
+    {
         this.outputMessage = outputMessage;
     }
 
-    public String getNewUserName() {
+    public String getNewUserName()
+    {
         return newUserName;
     }
 
-    public void setNewUserName(String newUserName) {
+    public void setNewUserName(String newUserName)
+    {
         this.newUserName = newUserName;
     }
 
-    public String getAddress() {
+    public String getAddress()
+    {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(String address)
+    {
         this.address = address;
     }
 
-    public String getCity() {
+    public String getCity()
+    {
         return city;
     }
 
-    public void setCity(String city) {
+    public void setCity(String city)
+    {
         this.city = city;
     }
 
-    public String getCountry() {
+    public String getCountry()
+    {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(String country)
+    {
         this.country = country;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.email = email;
     }
 
-    public String getFirstName() {
+    public String getFirstName()
+    {
         return firstName;
     }
 
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName)
+    {
         this.firstName = firstName;
     }
 
-    public String getLastName() {
+    public String getLastName()
+    {
         return lastName;
     }
 
-    public void setLastName(String lastName) {
+    public void setLastName(String lastName)
+    {
         this.lastName = lastName;
     }
 
-    public String getOrganizationName() {
+    public String getOrganizationName()
+    {
         return organizationName;
     }
 
-    public void setOrganizationName(String organizationName) {
+    public void setOrganizationName(String organizationName)
+    {
         this.organizationName = organizationName;
     }
 
-    public String getOrganizationType() {
+    public String getOrganizationType()
+    {
         return organizationType;
     }
 
-    public void setOrganizationType(String organizationType) {
+    public void setOrganizationType(String organizationType)
+    {
         this.organizationType = organizationType;
     }
 
-    public String getOrganizationPosition() {
+    public String getOrganizationPosition()
+    {
         return organizationPosition;
     }
 
-    public void setOrganizationPosition(String organizationPosition) {
+    public void setOrganizationPosition(String organizationPosition)
+    {
         this.organizationPosition = organizationPosition;
     }
 
-    public String getPhoneNumber() {
+    public String getPhoneNumber()
+    {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(String phoneNumber)
+    {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getStateOrProvince() {
+    public String getStateOrProvince()
+    {
         return stateOrProvince;
     }
 
-    public void setStateOrProvince(String stateOrProvince) {
+    public void setStateOrProvince(String stateOrProvince)
+    {
         this.stateOrProvince = stateOrProvince;
     }
 
-    public String getZipCode() {
+    public String getZipCode()
+    {
         return zipCode;
     }
 
-    public void setZipCode(String zipCode) {
+    public void setZipCode(String zipCode)
+    {
         this.zipCode = zipCode;
     }
 
-    public String getWorkBench() {
+    public String getWorkBench()
+    {
         return workBench;
     }
 
-    public void setWorkBench(String workBench) {
+    public void setWorkBench(String workBench)
+    {
         this.workBench = workBench;
     }
 
     /* End Variables used for user registration and updates */
 
     /* Variables used in password changes and user options */
-    public String getOldPassword() {
+    public String getOldPassword()
+    {
         return oldPassword;
     }
 
-    public void setOldPassword(String oldPassword) {
+    public void setOldPassword(String oldPassword)
+    {
         this.oldPassword = oldPassword;
     }
 
-    public String getNewPassword() {
+    public String getNewPassword()
+    {
         return newPassword;
     }
 
-    public void setNewPassword(String newPassword) {
+    public void setNewPassword(String newPassword)
+    {
         this.newPassword = newPassword;
     }
 
-    public String getShowPublicDatasets() {
+    public String getShowPublicDatasets()
+    {
         return showPublicDatasets;
     }
 
-    public void setShowPublicDatasets(String showPublicDatasets) {
+    public void setShowPublicDatasets(String showPublicDatasets)
+    {
         this.showPublicDatasets = showPublicDatasets;
     }
 
-    public String getShowPublicPredictors() {
+    public String getShowPublicPredictors()
+    {
         return showPublicPredictors;
     }
 
-    public void setShowPublicPredictors(String showPublicPredictors) {
+    public void setShowPublicPredictors(String showPublicPredictors)
+    {
         this.showPublicPredictors = showPublicPredictors;
     }
 
-    public String getViewDatasetCompoundsPerPage() {
+    public String getViewDatasetCompoundsPerPage()
+    {
         return viewDatasetCompoundsPerPage;
     }
 
     public void
-    setViewDatasetCompoundsPerPage(String viewDatasetCompoundsPerPage) {
+            setViewDatasetCompoundsPerPage(String viewDatasetCompoundsPerPage)
+    {
         this.viewDatasetCompoundsPerPage = viewDatasetCompoundsPerPage;
     }
 
-    public String getViewPredictorModels() {
+    public String getViewPredictorModels()
+    {
         return viewPredictorModels;
     }
 
-    public void setViewPredictorModels(String viewPredictorModels) {
+    public void setViewPredictorModels(String viewPredictorModels)
+    {
         this.viewPredictorModels = viewPredictorModels;
     }
 
-    public String getViewPredictionCompoundsPerPage() {
+    public String getViewPredictionCompoundsPerPage()
+    {
         return viewPredictionCompoundsPerPage;
     }
 
     public void
-    setViewPredictionCompoundsPerPage(String viewPredictionCompoundsPerPage) {
+            setViewPredictionCompoundsPerPage(String viewPredictionCompoundsPerPage)
+    {
         this.viewPredictionCompoundsPerPage = viewPredictionCompoundsPerPage;
     }
 
-    public String getShowAdvancedKnnModeling() {
+    public String getShowAdvancedKnnModeling()
+    {
         return showAdvancedKnnModeling;
     }
 
-    public void setShowAdvancedKnnModeling(String showAdvancedKnnModeling) {
+    public void setShowAdvancedKnnModeling(String showAdvancedKnnModeling)
+    {
         this.showAdvancedKnnModeling = showAdvancedKnnModeling;
     }
 
-    public boolean isUserIsAdmin() {
+    public boolean isUserIsAdmin()
+    {
         return userIsAdmin;
     }
 
-    public void setUserIsAdmin(boolean userIsAdmin) {
+    public void setUserIsAdmin(boolean userIsAdmin)
+    {
         this.userIsAdmin = userIsAdmin;
     }
     /* End Variables used in password changes and user options */
