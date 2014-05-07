@@ -3,10 +3,11 @@
 .#*
 *.sw?
 
-# Directories
+# Build directories
 /build/
 /bin/
 target/
+WEB-INF/classes
 
 # OS Files
 .DS_Store
