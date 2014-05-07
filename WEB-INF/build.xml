@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <project default="main">
-    <target name="main" depends="copyFiles"/>
+    <target name="main" depends="deploy-war"/>
 
     <property name="home.directory" value="CHEMBENCH/prod/deploy"/>
     <property name="tomcat.directory" value="usr/share/tomcat6"/>
     <property name="build.dir" value="classes/edu"/>
 
-    <target name="war" depends="compile">
+    <target name="package-war" depends="compile">
         <copy toDir="ROOT/WEB-INF/classes">
             <fileset dir="ROOT/WEB-INF/src">
                 <include name="*.properties"/>
@@ -21,7 +21,7 @@
         </war>
     </target>
 
-    <target name="copyFiles" depends="war">
+    <target name="deploy-war" depends="package-war">
         <copy file="ROOT.war" toDir="${tomcat.directory}/webapps"/>
     </target>
 
