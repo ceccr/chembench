@@ -16,31 +16,28 @@ import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
 
 // struts2
 
-public class ExternalValidationPage extends ViewPredictorAction
-{
+public class ExternalValidationPage extends ViewPredictorAction {
     /**
      *
      */
     private static final long serialVersionUID = 1L;
-
-    private ArrayList<ExternalValidation> externalValValues;
-    private String                        hasGoodModels    = Constants.YES;
-    private ArrayList<String>             residuals;
-
     // used in creation of confusion matrix (category modeling only)
-    ConfusionMatrix                       confusionMatrix;
-    String                                rSquared                 = "";
-    String                                rSquaredAverageAndStddev = "";
-    String                                ccrAverageAndStddev      = "";
-    String                                mae                      = "";
-    String                                maeSets                  = "";
-    String                                stdDev                   = "";
+    ConfusionMatrix confusionMatrix;
+    String rSquared = "";
+    String rSquaredAverageAndStddev = "";
+    String ccrAverageAndStddev = "";
+    String mae = "";
+    String maeSets = "";
+    String stdDev = "";
+    private ArrayList<ExternalValidation> externalValValues;
+    private String hasGoodModels = Constants.YES;
+    private ArrayList<String> residuals;
 
-    public String load() throws Exception
-    {
+    public String load() throws Exception {
         String result = getBasicParameters();
-        if (!result.equals(SUCCESS))
+        if (!result.equals(SUCCESS)) {
             return result;
+        }
 
         session = HibernateUtil.getSession();
         // get external validation compounds of predictor
@@ -57,9 +54,9 @@ public class ExternalValidationPage extends ViewPredictorAction
                 foldNums.add("" + (i + 1));
                 Predictor cp = childPredictors.get(i);
                 ArrayList<ExternalValidation> childExtVals
-                          = (ArrayList<ExternalValidation>) PopulateDataObjects
-                                                .getExternalValidationValues(
-                                                          cp.getId(), session);
+                        = (ArrayList<ExternalValidation>) PopulateDataObjects
+                        .getExternalValidationValues(
+                                cp.getId(), session);
 
                 int numTotalModels = cp.getNumTotalModels();
                 if (cp.getModelMethod().equals(Constants.KNNGA)) {
@@ -94,13 +91,13 @@ public class ExternalValidationPage extends ViewPredictorAction
             maeSets = Utility.roundSignificantFigures("" + maeStat.getMean(),
                     Constants.REPORTED_SIGNIFICANT_FIGURES);
             stdDev = Utility.roundSignificantFigures(""
-                    + maeStat.getStandardDeviation(),
-                    Constants.REPORTED_SIGNIFICANT_FIGURES);
-        }
-        else {
+                            + maeStat.getStandardDeviation(),
+                    Constants.REPORTED_SIGNIFICANT_FIGURES
+            );
+        } else {
             externalValValues = (ArrayList<ExternalValidation>)
-                                PopulateDataObjects.getExternalValidationValues
-                                (selectedPredictor.getId(),session);
+                    PopulateDataObjects.getExternalValidationValues
+                            (selectedPredictor.getId(), session);
         }
 
         if (externalValValues == null || externalValValues.isEmpty()) {
@@ -108,12 +105,11 @@ public class ExternalValidationPage extends ViewPredictorAction
             if ((modelMethod.equals(Constants.KNNGA) || modelMethod
                     .equals(Constants.KNNSA))
                     && PopulateDataObjects.getKnnPlusModelsByPredictorId(
-                            selectedPredictor.getId(), session).size() == 0) {
+                    selectedPredictor.getId(), session).size() == 0) {
                 hasGoodModels = Constants.NO;
-            }
-            else if (modelMethod.equals(Constants.SVM)
+            } else if (modelMethod.equals(Constants.SVM)
                     && PopulateDataObjects.getSvmModelsByPredictorId(
-                            selectedPredictor.getId(), session).size() == 0) {
+                    selectedPredictor.getId(), session).size() == 0) {
                 hasGoodModels = Constants.NO;
             }
             externalValValues = new ArrayList<ExternalValidation>();
@@ -134,22 +130,22 @@ public class ExternalValidationPage extends ViewPredictorAction
             for (Double residual : residualsAsDouble) {
                 if (residual.isNaN()) {
                     residuals.add("");
-                }
-                else {
+                } else {
                     // if at least one residual exists, there must have been a
                     // good model
                     hasGoodModels = Constants.YES;
                     residuals.add(Utility.roundSignificantFigures(""
-                            + residual,
-                            Constants.REPORTED_SIGNIFICANT_FIGURES));
+                                    + residual,
+                            Constants.REPORTED_SIGNIFICANT_FIGURES
+                    ));
                     maeDouble += Math.abs(residual);
                 }
             }
             mae = Utility.roundSignificantFigures("" + maeDouble
-                    / residualsAsDouble.size(),
-                    Constants.REPORTED_SIGNIFICANT_FIGURES);
-        }
-        else {
+                            / residualsAsDouble.size(),
+                    Constants.REPORTED_SIGNIFICANT_FIGURES
+            );
+        } else {
             return result;
         }
 
@@ -158,8 +154,7 @@ public class ExternalValidationPage extends ViewPredictorAction
             // round off the predicted values to nearest integer.
             confusionMatrix = RSquaredAndCCR
                     .calculateConfusionMatrix(externalValValues);
-        }
-        else if (selectedPredictor.getActivityType().equals(
+        } else if (selectedPredictor.getActivityType().equals(
                 Constants.CONTINUOUS)
                 && externalValValues.size() > 1) {
             // if continuous, calculate overall r^2 and... r0^2? or something?
@@ -175,104 +170,84 @@ public class ExternalValidationPage extends ViewPredictorAction
 
     // getters and setters
 
-    public List<ExternalValidation> getExternalValValues()
-    {
+    public List<ExternalValidation> getExternalValValues() {
         return externalValValues;
     }
 
     public void
-    setExternalValValues(ArrayList<ExternalValidation> externalValValues)
-    {
+    setExternalValValues(ArrayList<ExternalValidation> externalValValues) {
         this.externalValValues = externalValValues;
     }
 
-    public String getHasGoodModels()
-    {
+    public String getHasGoodModels() {
         return hasGoodModels;
     }
 
-    public void setHasGoodModels(String hasGoodModels)
-    {
+    public void setHasGoodModels(String hasGoodModels) {
         this.hasGoodModels = hasGoodModels;
     }
 
-    public ArrayList<String> getResiduals()
-    {
+    public ArrayList<String> getResiduals() {
         return residuals;
     }
 
-    public void setResiduals(ArrayList<String> residuals)
-    {
+    public void setResiduals(ArrayList<String> residuals) {
         this.residuals = residuals;
     }
 
-    public String getMae()
-    {
+    public String getMae() {
         return mae;
     }
 
-    public void setMae(String mae)
-    {
+    public void setMae(String mae) {
         this.mae = mae;
     }
 
-    public String getrSquared()
-    {
+    public String getrSquared() {
         return rSquared;
     }
 
-    public void setrSquared(String rSquared)
-    {
+    public void setrSquared(String rSquared) {
         this.rSquared = rSquared;
     }
 
-    public String getrSquaredAverageAndStddev()
-    {
+    public String getrSquaredAverageAndStddev() {
         return rSquaredAverageAndStddev;
     }
 
-    public void setrSquaredAverageAndStddev(String rSquaredAverageAndStddev)
-    {
+    public void setrSquaredAverageAndStddev(String rSquaredAverageAndStddev) {
         this.rSquaredAverageAndStddev = rSquaredAverageAndStddev;
     }
 
-    public ConfusionMatrix getConfusionMatrix()
-    {
+    public ConfusionMatrix getConfusionMatrix() {
         return confusionMatrix;
     }
 
-    public void setConfusionMatrix(ConfusionMatrix confusionMatrix)
-    {
+    public void setConfusionMatrix(ConfusionMatrix confusionMatrix) {
         this.confusionMatrix = confusionMatrix;
     }
 
-    public String getCcrAverageAndStddev()
-    {
+    public String getCcrAverageAndStddev() {
         return ccrAverageAndStddev;
     }
 
-    public void setCcrAverageAndStddev(String ccrAverageAndStddev)
-    {
+    public void setCcrAverageAndStddev(String ccrAverageAndStddev) {
         this.ccrAverageAndStddev = ccrAverageAndStddev;
     }
 
-    public String getMaeSets()
-    {
+    public String getMaeSets() {
         return maeSets;
     }
 
-    public void setMaeSets(String maeSets)
-    {
+    public void setMaeSets(String maeSets) {
         this.maeSets = maeSets;
     }
 
-    public String getStdDev()
-    {
+    public String getStdDev() {
         return stdDev;
     }
 
-    public void setStdDev(String stdDev)
-    {
+    public void setStdDev(String stdDev) {
         this.stdDev = stdDev;
     }
 

@@ -8,78 +8,67 @@ import edu.unc.ceccr.persistence.RandomForestParameters;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 
-public class ParametersPage extends ViewPredictorAction
-{
+public class ParametersPage extends ViewPredictorAction {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    
-    private KnnParameters          knnParameters;
-    private KnnPlusParameters      knnPlusParameters;
-    private SvmParameters          svmParameters;
+
+    private KnnParameters knnParameters;
+    private KnnPlusParameters knnPlusParameters;
+    private SvmParameters svmParameters;
     private RandomForestParameters randomForestParameters;
 
-    public String load() throws Exception
-    {
+    public String load() throws Exception {
         String result = getBasicParameters();
-        if (!result.equals(SUCCESS))
+        if (!result.equals(SUCCESS)) {
             return result;
+        }
 
         session = HibernateUtil.getSession();
 
-        if (selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+        if (selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
             randomForestParameters = PopulateDataObjects
                     .getRandomForestParametersById(selectedPredictor
                             .getModelingParametersId(), session);
-        }
-        else if (selectedPredictor.getModelMethod().equals(Constants.KNNGA)
-                || selectedPredictor.getModelMethod().equals(Constants.KNNSA)){
+        } else if (selectedPredictor.getModelMethod().equals(Constants.KNNGA)
+                || selectedPredictor.getModelMethod().equals(Constants.KNNSA)) {
             knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(
                     selectedPredictor.getModelingParametersId(), session);
-        }
-        else if (selectedPredictor.getModelMethod().equals(Constants.KNN)) {
+        } else if (selectedPredictor.getModelMethod().equals(Constants.KNN)) {
             knnParameters = PopulateDataObjects.getKnnParametersById(
                     selectedPredictor.getModelingParametersId(), session);
-        }
-        else if (selectedPredictor.getModelMethod().equals(Constants.SVM)) {
+        } else if (selectedPredictor.getModelMethod().equals(Constants.SVM)) {
             svmParameters = PopulateDataObjects.getSvmParametersById(
                     selectedPredictor.getModelingParametersId(), session);
             if (svmParameters != null) {
                 if (svmParameters.getSvmTypeCategory().equals("0")) {
                     svmParameters.setSvmTypeCategory("C-SVC");
-                }
-                else {
+                } else {
                     svmParameters.setSvmTypeCategory("nu-SVC");
                 }
                 if (svmParameters.getSvmTypeCategory().equals("3")) {
                     svmParameters.setSvmTypeCategory("epsilon-SVR");
-                }
-                else {
+                } else {
                     svmParameters.setSvmTypeCategory("nu-SVR");
                 }
                 if (svmParameters.getSvmKernel().equals("0")) {
                     svmParameters.setSvmKernel("linear");
-                }
-                else if (svmParameters.getSvmKernel().equals("1")) {
+                } else if (svmParameters.getSvmKernel().equals("1")) {
                     svmParameters.setSvmKernel("polynomial");
-                }
-                else if (svmParameters.getSvmKernel().equals("2")) {
+                } else if (svmParameters.getSvmKernel().equals("2")) {
                     svmParameters.setSvmKernel("radial basis function");
-                }
-                else if (svmParameters.getSvmKernel().equals("3")) {
+                } else if (svmParameters.getSvmKernel().equals("3")) {
                     svmParameters.setSvmKernel("sigmoid");
                 }
                 if (svmParameters.getSvmHeuristics().equals("0")) {
                     svmParameters.setSvmHeuristics("NO");
-                }
-                else {
+                } else {
                     svmParameters.setSvmHeuristics("YES");
                 }
                 if (svmParameters.getSvmProbability().equals("0")) {
                     svmParameters.setSvmProbability("NO");
-                }
-                else {
+                } else {
                     svmParameters.setSvmProbability("YES");
                 }
             }
@@ -90,45 +79,37 @@ public class ParametersPage extends ViewPredictorAction
 
     // getters and setters
 
-    public KnnParameters getKnnParameters()
-    {
+    public KnnParameters getKnnParameters() {
         return knnParameters;
     }
 
-    public void setKnnParameters(KnnParameters knnParameters)
-    {
+    public void setKnnParameters(KnnParameters knnParameters) {
         this.knnParameters = knnParameters;
     }
 
-    public KnnPlusParameters getKnnPlusParameters()
-    {
+    public KnnPlusParameters getKnnPlusParameters() {
         return knnPlusParameters;
     }
 
-    public void setKnnPlusParameters(KnnPlusParameters knnPlusParameters)
-    {
+    public void setKnnPlusParameters(KnnPlusParameters knnPlusParameters) {
         this.knnPlusParameters = knnPlusParameters;
     }
 
-    public SvmParameters getSvmParameters()
-    {
+    public SvmParameters getSvmParameters() {
         return svmParameters;
     }
 
-    public void setSvmParameters(SvmParameters svmParameters)
-    {
+    public void setSvmParameters(SvmParameters svmParameters) {
         this.svmParameters = svmParameters;
     }
 
-    public RandomForestParameters getRandomForestParameters()
-    {
+    public RandomForestParameters getRandomForestParameters() {
         return randomForestParameters;
     }
 
     public void
-            setRandomForestParameters(
-                               RandomForestParameters randomForestParameters)
-    {
+    setRandomForestParameters(
+            RandomForestParameters randomForestParameters) {
         this.randomForestParameters = randomForestParameters;
     }
 

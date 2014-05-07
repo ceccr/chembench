@@ -22,16 +22,14 @@ import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 import org.apache.log4j.Logger;
 
-public class CopyJobFiles
-{
+public class CopyJobFiles {
 
     private static Logger logger = Logger.getLogger(CopyJobFiles.class.getName());
 
     public static void getDatasetFiles(String userName,
                                        DataSet dataset,
                                        String jobType,
-                                       String toDir) throws Exception
-    {
+                                       String toDir) throws Exception {
         // gathers the dataset files needed for a modeling or prediction run
 
         String allUserDir = Constants.CECCR_USER_BASE_PATH + "all-users"
@@ -43,8 +41,7 @@ public class CopyJobFiles
         if (dataset.getUserName().equals(userName)) {
             // get it from the user's DATASET directory
             fromDir = userFilesDir;
-        }
-        else {
+        } else {
             fromDir = allUserDir;
         }
 
@@ -58,7 +55,7 @@ public class CopyJobFiles
 
         if (dataset.getDatasetType().equals(Constants.MODELING)
                 || dataset.getDatasetType().equals(
-                        Constants.MODELINGWITHDESCRIPTORS)) {
+                Constants.MODELINGWITHDESCRIPTORS)) {
             if (dataset.getSplitType().equals(Constants.NFOLD)
                     && jobType.equals(Constants.MODELING)) {
                 // use the right external set for this fold
@@ -67,8 +64,7 @@ public class CopyJobFiles
                 int foldNum = 0;
                 if (matcher.find()) {
                     foldNum = Integer.parseInt(matcher.group(1));
-                }
-                else {
+                } else {
                     throw new Exception(
                             "Could not find fold number in path: " + toDir);
                 }
@@ -81,8 +77,7 @@ public class CopyJobFiles
                 String extPath = toDir + "ext_0.a";
                 FileAndDirOperations.copyFile(foldPath, extPath);
                 DatasetFileOperations.makeXFromACT(toDir, "ext_0.a");
-            }
-            else {
+            } else {
                 // for nfold, external split file is produced from fold info.
                 // All other cases will copy the dataset's ext_0.x.
                 externalSplitXFile = Constants.EXTERNAL_SET_X_FILE;
@@ -113,22 +108,21 @@ public class CopyJobFiles
 
     public static void getPredictorFiles(String userName,
                                          Predictor predictor,
-                                         String toDir) throws Exception
-    {
+                                         String toDir) throws Exception {
         // gathers the predictor files needed for a prediction run
         String fromDir;
         String predictorName = predictor.getName();
 
         if (predictor.getUserName().equals(userName)) {
             fromDir = new File(new File(
-                            Constants.CECCR_USER_BASE_PATH, 
-                            userName), 
-                            "/PREDICTORS").getAbsolutePath();
-        }
-        else {
+                    Constants.CECCR_USER_BASE_PATH,
+                    userName),
+                    "/PREDICTORS"
+            ).getAbsolutePath();
+        } else {
             fromDir = new File(
-                        Constants.CECCR_USER_BASE_PATH,
-                        "all-users/PREDICTORS/").getAbsolutePath();
+                    Constants.CECCR_USER_BASE_PATH,
+                    "all-users/PREDICTORS/").getAbsolutePath();
         }
 
         if (predictor.getParentId() != null) {
@@ -137,17 +131,17 @@ public class CopyJobFiles
                     predictor.getParentId(), s);
             String parentPredictorName = parentPredictor.getName();
             fromDir = new File(new File(
-                            fromDir, 
-                            parentPredictorName),
-                            predictorName).getAbsolutePath();
-        }
-        else {
+                    fromDir,
+                    parentPredictorName),
+                    predictorName
+            ).getAbsolutePath();
+        } else {
             fromDir = new File(fromDir, predictorName).getAbsolutePath();
         }
 
         logger.info(String.format(
-                    "Copying predictor: USER=%s, SOURCE=%s, DESTINATION=%s",
-                    userName, fromDir, toDir));
+                "Copying predictor: USER=%s, SOURCE=%s, DESTINATION=%s",
+                userName, fromDir, toDir));
 
         String[] dirListing = new File(fromDir).list();
         int symlinkedFileCount = 0;
@@ -167,22 +161,21 @@ public class CopyJobFiles
                         // deep-copy descriptor matrices
                         Files.copy(source, destination);
                         deepCopiedFileCount++;
-                    }
-                    else {
+                    } else {
                         // don't copy other predictor files, just symlink them
                         Files.createSymbolicLink(link, target);
                         symlinkedFileCount++;
                     }
                 } catch (FileAlreadyExistsException e) {
                     logger.error(String.format(
-                                 "Couldn't copy %s -> %s; file already exists",
-                                 source, destination));
+                            "Couldn't copy %s -> %s; file already exists",
+                            source, destination));
                 }
             }
         }
 
         logger.info(String.format(
-                    "Deep-copied %d files, symlinked %d files.",
-                    deepCopiedFileCount, symlinkedFileCount));
+                "Deep-copied %d files, symlinked %d files.",
+                deepCopiedFileCount, symlinkedFileCount));
     }
 }

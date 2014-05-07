@@ -1,4 +1,3 @@
-
 package edu.unc.ceccr.workflows.download;
 
 import java.io.File;
@@ -23,13 +22,12 @@ import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
 
 import org.apache.log4j.Logger;
 
-public class WriteZip{
+public class WriteZip {
 
     private static Logger logger = Logger.getLogger(WriteZip.class.getName());
 
-    public static void ZipEntireDirectory(String workingDir, String projectDir, String zipFile) throws Exception{
+    public static void ZipEntireDirectory(String workingDir, String projectDir, String zipFile) throws Exception {
         //will be used for MML members - they can access all files on every project type
-
 
 
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
@@ -39,7 +37,7 @@ public class WriteZip{
         ArrayList<String> dirNames = new ArrayList<String>();
         dirNames.add(projectDir);
 
-        for(int i = 0; i < dirNames.size(); i++){
+        for (int i = 0; i < dirNames.size(); i++) {
             //read through the directory's files.
             //Add each subdirectory to dirNames.
             //Add each file to fileNames.
@@ -48,11 +46,10 @@ public class WriteZip{
             String[] dirFilenames = dirFile.list();
 
             int x = 0;
-            while(dirFilenames != null && x<dirFilenames.length){
-                if((new File(workingDir + dirNames.get(i) + dirFilenames[x])).isDirectory()){
+            while (dirFilenames != null && x < dirFilenames.length) {
+                if ((new File(workingDir + dirNames.get(i) + dirFilenames[x])).isDirectory()) {
                     dirNames.add(dirNames.get(i) + dirFilenames[x] + "/");
-                }
-                else{
+                } else {
                     fileNames.add(dirNames.get(i) + dirFilenames[x]);
                 }
                 x++;
@@ -61,8 +58,8 @@ public class WriteZip{
         logger.debug("Compressing " + workingDir + projectDir + " : " + fileNames.size() + " files into " + zipFile);
 
 
-        for(String fileName : fileNames){
-            try{
+        for (String fileName : fileNames) {
+            try {
                 FileInputStream in = new FileInputStream(workingDir + fileName);
                 out.putNextEntry(new ZipEntry(fileName));
                 int len;
@@ -71,26 +68,26 @@ public class WriteZip{
                 }
                 out.closeEntry();
                 in.close();
-            }
-            catch(Exception ex){
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }
         out.close();
     }
 
-    public static void ZipDatasets(String userName, String datasetUserName, String datasetName, String zipFile) throws Exception{
+    public static void ZipDatasets(String userName, String datasetUserName, String datasetName,
+                                   String zipFile) throws Exception {
         logger.debug("Creating archive of dataset: " + datasetName + " into file: " + zipFile);
         // These are the files to include in the ZIP file
         String projectSubDir = datasetUserName + "/DATASETS/" + datasetName + "/";
-        if(projectSubDir.contains("..") || projectSubDir.contains("~")){
+        if (projectSubDir.contains("..") || projectSubDir.contains("~")) {
             //someone's trying to download something they shouldn't be!
             logger.warn("Access attempt on directory: " + projectSubDir);
             return;
         }
         String projectDir = Constants.CECCR_USER_BASE_PATH + projectSubDir;
 
-        if(Utility.canDownloadDescriptors(userName)){
+        if (Utility.canDownloadDescriptors(userName)) {
             //this is a special user - just give them the whole damn directory
             String workingDir = Constants.CECCR_USER_BASE_PATH + datasetUserName + "/DATASETS/";
             String subDir = datasetName + "/";
@@ -99,7 +96,7 @@ public class WriteZip{
         }
 
         File file = new File(zipFile);
-        if(file.exists()){
+        if (file.exists()) {
             FileAndDirOperations.deleteFile(zipFile);
         }
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
@@ -126,15 +123,15 @@ public class WriteZip{
         //add in the .act, .sdf, .cdk, and .x files
         File projectDirFile = new File(projectDir);
         String[] projectDirFilenames = projectDirFile.list();
-        if(projectDirFilenames == null){
+        if (projectDirFilenames == null) {
             logger.error("Error reading directory: " + projectDir);
         }
         int x = 0;
-        while(projectDirFilenames != null && x<projectDirFilenames.length){
-            if(projectDirFilenames[x].endsWith(".act")
+        while (projectDirFilenames != null && x < projectDirFilenames.length) {
+            if (projectDirFilenames[x].endsWith(".act")
                     || projectDirFilenames[x].endsWith(".sdf")
                     || projectDirFilenames[x].endsWith(".x")
-                    || projectDirFilenames[x].replaceAll("[0-9]", "").endsWith("fold")){
+                    || projectDirFilenames[x].replaceAll("[0-9]", "").endsWith("fold")) {
                 datasetFiles.add(projectDirFilenames[x]);
             }
             x++;
@@ -144,7 +141,7 @@ public class WriteZip{
         File ProjectDirLogsFile = new File(projectDir + "Logs/");
         String[] projectDirLogsFilenames = ProjectDirLogsFile.list();
         x = 0;
-        while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
+        while (projectDirLogsFilenames != null && x < projectDirLogsFilenames.length) {
             datasetFiles.add("Logs/" + projectDirLogsFilenames[x]);
             x++;
         }
@@ -153,8 +150,11 @@ public class WriteZip{
         File ProjectDirDescriptorsFile = new File(projectDir + "Descriptors/");
         String[] projectDirDescriptorsFilenames = ProjectDirDescriptorsFile.list();
         x = 0;
-        while(projectDirDescriptorsFilenames != null && x<projectDirDescriptorsFilenames.length){
-            if(projectDirDescriptorsFilenames[x].endsWith(".cdk") || projectDirDescriptorsFilenames[x].endsWith(".x")|| projectDirDescriptorsFilenames[x].endsWith(".ISIDA")|| projectDirDescriptorsFilenames[x].endsWith(".hdr")|| projectDirDescriptorsFilenames[x].endsWith(".svm")){
+        while (projectDirDescriptorsFilenames != null && x < projectDirDescriptorsFilenames.length) {
+            if (projectDirDescriptorsFilenames[x].endsWith(".cdk") || projectDirDescriptorsFilenames[x].endsWith("" +
+                    ".x") || projectDirDescriptorsFilenames[x].endsWith(".ISIDA") ||
+                    projectDirDescriptorsFilenames[x].endsWith(".hdr") || projectDirDescriptorsFilenames[x].endsWith
+                    (".svm")) {
                 datasetFiles.add("Descriptors/" + projectDirDescriptorsFilenames[x]);
             }
             x++;
@@ -164,7 +164,7 @@ public class WriteZip{
         File ProjectDirStructuresFile = new File(projectDir + "Visualization/Structures/");
         String[] ProjectDirStructuresFilenames = ProjectDirStructuresFile.list();
         x = 0;
-        while(ProjectDirStructuresFilenames != null && x<ProjectDirStructuresFilenames.length){
+        while (ProjectDirStructuresFilenames != null && x < ProjectDirStructuresFilenames.length) {
             datasetFiles.add("Visualization/Structures/" + ProjectDirStructuresFilenames[x]);
             x++;
         }
@@ -173,15 +173,15 @@ public class WriteZip{
         File ProjectDirSketchesFile = new File(projectDir + "Visualization/Sketches/");
         String[] ProjectDirSketchesFilenames = ProjectDirSketchesFile.list();
         x = 0;
-        while(ProjectDirSketchesFilenames != null && x<ProjectDirSketchesFilenames.length){
+        while (ProjectDirSketchesFilenames != null && x < ProjectDirSketchesFilenames.length) {
             datasetFiles.add("Visualization/Sketches/" + ProjectDirSketchesFilenames[x]);
             x++;
         }
 
         //datasetFiles now contains names of all the files we need. Package it up!
-        for(String fileName : datasetFiles){
-            try{
-                if(! new File(projectDir + fileName).isDirectory()){
+        for (String fileName : datasetFiles) {
+            try {
+                if (!new File(projectDir + fileName).isDirectory()) {
                     FileInputStream in = new FileInputStream(projectDir + fileName);
                     out.putNextEntry(new ZipEntry(fileName));
                     int len;
@@ -191,15 +191,15 @@ public class WriteZip{
                     out.closeEntry();
                     in.close();
                 }
-            }
-            catch(Exception ex){
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }
         out.close();
     }
 
-    public static void ZipModelingResults(String userName, String predictorUserName, String jobName, String zipFile) throws Exception{
+    public static void ZipModelingResults(String userName, String predictorUserName, String jobName,
+                                          String zipFile) throws Exception {
         /*
         So, there are two contradicting goals this function has to achieve.
         (1) It should provide the user with a usable predictor.
@@ -223,7 +223,7 @@ public class WriteZip{
         logger.debug("Creating archive of predictor: " + jobName);
         // These are the files to include in the ZIP file
         String projectSubDir = predictorUserName + "/PREDICTORS/" + jobName + "/";
-        if(projectSubDir.contains("..") || projectSubDir.contains("~")){
+        if (projectSubDir.contains("..") || projectSubDir.contains("~")) {
             //someone's trying to download something they shouldn't be!
             return;
         }
@@ -238,7 +238,7 @@ public class WriteZip{
         //get external predictions
         WriteCsv.writeExternalPredictionsAsCSV(predictor.getId());
 
-        if(Utility.canDownloadDescriptors(userName)){
+        if (Utility.canDownloadDescriptors(userName)) {
             //this is a special user - just give them the whole damn directory
             String workingDir = Constants.CECCR_USER_BASE_PATH + predictorUserName + "/PREDICTORS/";
             String subDir = jobName + "/";
@@ -254,47 +254,46 @@ public class WriteZip{
         modelingFiles.add(predictor.getName() + "-external-set-predictions.csv");
 
         //add in the .act, .sdf, and .a files
-        if(childPredictors != null && !childPredictors.isEmpty()){
-            for(Predictor cp: childPredictors){
+        if (childPredictors != null && !childPredictors.isEmpty()) {
+            for (Predictor cp : childPredictors) {
                 File projectDirFile = new File(projectDir + cp.getName() + "/");
                 String[] projectDirFilenames = projectDirFile.list();
 
                 int x = 0;
-                while(projectDirFilenames != null && x<projectDirFilenames.length){
-                    if(projectDirFilenames[x].endsWith(".act")
+                while (projectDirFilenames != null && x < projectDirFilenames.length) {
+                    if (projectDirFilenames[x].endsWith(".act")
                             || projectDirFilenames[x].endsWith(".sdf")
                             || projectDirFilenames[x].endsWith(".a")
-                                    || projectDirFilenames[x].endsWith(".cdk")
-                                    || projectDirFilenames[x].endsWith(".cdk.x")
-                       || projectDirFilenames[x].endsWith(".ISIDA")
-                       || projectDirFilenames[x].endsWith(".hdr")
-                       || projectDirFilenames[x].endsWith(".svm")){
+                            || projectDirFilenames[x].endsWith(".cdk")
+                            || projectDirFilenames[x].endsWith(".cdk.x")
+                            || projectDirFilenames[x].endsWith(".ISIDA")
+                            || projectDirFilenames[x].endsWith(".hdr")
+                            || projectDirFilenames[x].endsWith(".svm")) {
                         modelingFiles.add(cp.getName() + "/" + projectDirFilenames[x]);
-                    }
-                    else if(projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
+                    } else if (projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration().equals
+                            (Constants.UPLOADED)) {
                         modelingFiles.add(projectDirFilenames[x]);
                     }
                     x++;
                 }
             }
-        }
-        else{
+        } else {
             File projectDirFile = new File(projectDir);
             String[] projectDirFilenames = projectDirFile.list();
 
             int x = 0;
-            while(projectDirFilenames != null && x<projectDirFilenames.length){
-                if(projectDirFilenames[x].endsWith(".act")
+            while (projectDirFilenames != null && x < projectDirFilenames.length) {
+                if (projectDirFilenames[x].endsWith(".act")
                         || projectDirFilenames[x].endsWith(".sdf")
                         || projectDirFilenames[x].endsWith(".a")
-                                || projectDirFilenames[x].endsWith(".cdk")
-                                || projectDirFilenames[x].endsWith(".cdk.x")
-                   || projectDirFilenames[x].endsWith(".ISIDA")
-                   || projectDirFilenames[x].endsWith(".hdr")
-                   || projectDirFilenames[x].endsWith(".svm")){
+                        || projectDirFilenames[x].endsWith(".cdk")
+                        || projectDirFilenames[x].endsWith(".cdk.x")
+                        || projectDirFilenames[x].endsWith(".ISIDA")
+                        || projectDirFilenames[x].endsWith(".hdr")
+                        || projectDirFilenames[x].endsWith(".svm")) {
                     modelingFiles.add(projectDirFilenames[x]);
-                }
-                else if(projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration().equals(Constants.UPLOADED)){
+                } else if (projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration().equals
+                        (Constants.UPLOADED)) {
                     modelingFiles.add(projectDirFilenames[x]);
                 }
                 x++;
@@ -302,42 +301,41 @@ public class WriteZip{
         }
 
         //add the Logs files in
-        if(childPredictors != null && !childPredictors.isEmpty()){
-            for(Predictor cp: childPredictors){
+        if (childPredictors != null && !childPredictors.isEmpty()) {
+            for (Predictor cp : childPredictors) {
                 File ProjectDirLogsFile = new File(projectDir + cp.getName() + "/Logs/");
                 String[] projectDirLogsFilenames = ProjectDirLogsFile.list();
                 int x = 0;
-                while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
+                while (projectDirLogsFilenames != null && x < projectDirLogsFilenames.length) {
                     modelingFiles.add(cp.getName() + "/Logs/" + projectDirLogsFilenames[x]);
                     x++;
                 }
             }
-        }
-        else{
+        } else {
             File ProjectDirLogsFile = new File(projectDir + "Logs/");
             String[] projectDirLogsFilenames = ProjectDirLogsFile.list();
             int x = 0;
-            while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
+            while (projectDirLogsFilenames != null && x < projectDirLogsFilenames.length) {
                 modelingFiles.add("Logs/" + projectDirLogsFilenames[x]);
                 x++;
             }
         }
 
         //get external prediction summary information
-        if(predictor.getActivityType().equals(Constants.CONTINUOUS)){
+        if (predictor.getActivityType().equals(Constants.CONTINUOUS)) {
             //build ext validation chart(s)
-            if(! new File(projectDir+"mychart.jpeg").exists()){
+            if (!new File(projectDir + "mychart.jpeg").exists()) {
                 ExternalValidationChart.createChart(predictor, "0");
             }
             modelingFiles.add("mychart.jpeg");
-            if(childPredictors != null && !childPredictors.isEmpty()){
-                for(Predictor cp: childPredictors){
-                    if(! new File(projectDir+cp.getName()+"/mychart.jpeg").exists()){
+            if (childPredictors != null && !childPredictors.isEmpty()) {
+                for (Predictor cp : childPredictors) {
+                    if (!new File(projectDir + cp.getName() + "/mychart.jpeg").exists()) {
                         Pattern p = Pattern.compile("fold_(\\d+)_of_(\\d+)");
                         Matcher matcher = p.matcher(cp.getName());
-                        if(matcher.find()){
+                        if (matcher.find()) {
                             int foldNum = Integer.parseInt(matcher.group(1));
-                            if(! new File(projectDir + cp.getName() + "/mychart.jpeg").exists()){
+                            if (!new File(projectDir + cp.getName() + "/mychart.jpeg").exists()) {
                                 ExternalValidationChart.createChart(predictor, "" + foldNum);
                             }
                         }
@@ -345,52 +343,49 @@ public class WriteZip{
                     modelingFiles.add(cp.getName() + "/mychart.jpeg");
                 }
             }
-        }
-        else{
+        } else {
             //getting the confusion matrix as text could be nice.
             //maybe later.
         }
 
 
         //add files specific to the modeling method (per-model outputs, parameters files)
-        if(predictor.getModelMethod().equals(Constants.SVM)){
+        if (predictor.getModelMethod().equals(Constants.SVM)) {
             modelingFiles.add("svm-params.txt");
             modelingFiles.add("svm-results.txt");
             modelingFiles.add("yRandom/svm-params.txt");
             modelingFiles.add("yRandom/svm-results.txt");
-            if(childPredictors != null && !childPredictors.isEmpty()){
-                for(Predictor cp: childPredictors){
+            if (childPredictors != null && !childPredictors.isEmpty()) {
+                for (Predictor cp : childPredictors) {
                     modelingFiles.add(cp.getName() + "/svm-params.txt");
                     modelingFiles.add(cp.getName() + "/svm-results.txt");
                     modelingFiles.add(cp.getName() + "/yRandom/svm-params.txt");
                     modelingFiles.add(cp.getName() + "/yRandom/svm-results.txt");
                 }
             }
-        }
-        else if(predictor.getModelMethod().equals(Constants.RANDOMFOREST)){
+        } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
             modelingFiles.add("RF_ext_0.pred");
-            if(childPredictors != null && !childPredictors.isEmpty()){
-                for(Predictor cp: childPredictors){
+            if (childPredictors != null && !childPredictors.isEmpty()) {
+                for (Predictor cp : childPredictors) {
                     modelingFiles.add(cp.getName() + "/RF_ext_0.pred");
                 }
             }
-        }
-        else if(predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants.KNNSA)){
+        } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants
+                .KNNSA)) {
             modelingFiles.add("cons_pred_vs_ext_0.preds");
-            if(childPredictors != null && !childPredictors.isEmpty()){
-                for(Predictor cp: childPredictors){
+            if (childPredictors != null && !childPredictors.isEmpty()) {
+                for (Predictor cp : childPredictors) {
                     modelingFiles.add(cp.getName() + "/cons_pred_vs_ext_0.preds");
                 }
             }
-        }
-        else{
+        } else {
             //old-style KNN. No real need to support this.
         }
 
         //modelingFiles now contains names of all the files we need. Package it up!
-        for(String fileName : modelingFiles){
-            try{
-                if( (new File(projectDir + fileName)).exists() ){
+        for (String fileName : modelingFiles) {
+            try {
+                if ((new File(projectDir + fileName)).exists()) {
                     FileInputStream in = new FileInputStream(projectDir + fileName);
                     out.putNextEntry(new ZipEntry(fileName));
                     int len;
@@ -399,22 +394,21 @@ public class WriteZip{
                     }
                     out.closeEntry();
                     in.close();
-                }
-                else{
+                } else {
                     //don't worry about missing files
                 }
-            }
-            catch(Exception ex){
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }
         out.close();
     }
 
-    public static void ZipPredictionResults(String userName, String predictionUserName, String jobName, String zipFile) throws Exception{
+    public static void ZipPredictionResults(String userName, String predictionUserName, String jobName,
+                                            String zipFile) throws Exception {
         logger.debug("Creating archive of prediction: " + jobName);
         String projectSubDir = predictionUserName + "/PREDICTIONS/" + jobName + "/";
-        if(projectSubDir.contains("..") || projectSubDir.contains("~")){
+        if (projectSubDir.contains("..") || projectSubDir.contains("~")) {
             //someone's trying to download something they shouldn't be!
             return;
         }
@@ -423,11 +417,11 @@ public class WriteZip{
         Session session = HibernateUtil.getSession();
         Prediction prediction = PopulateDataObjects.getPredictionByName(jobName, predictionUserName, session);
         session.close();
-        if(! new File(prediction.getName() + "-prediction-values.csv").exists()){
+        if (!new File(prediction.getName() + "-prediction-values.csv").exists()) {
             WriteCsv.writePredictionValuesAsCSV(prediction.getId());
         }
 
-        if(Utility.canDownloadDescriptors(userName)){
+        if (Utility.canDownloadDescriptors(userName)) {
             //this is a special user - just give them the whole damn directory
             String workingDir = Constants.CECCR_USER_BASE_PATH + predictionUserName + "/PREDICTIONS/";
             String subDir = jobName + "/";
@@ -453,19 +447,19 @@ public class WriteZip{
         //add in the prediction dataset files
         File projectDirFile = new File(projectDir);
         String[] projectDirFilenames = projectDirFile.list();
-        if(projectDirFilenames == null){
+        if (projectDirFilenames == null) {
             logger.error("Error reading directory: " + projectDir);
         }
         int x = 0;
-        while(projectDirFilenames != null && x<projectDirFilenames.length){
-            if(projectDirFilenames[x].endsWith(".act")
+        while (projectDirFilenames != null && x < projectDirFilenames.length) {
+            if (projectDirFilenames[x].endsWith(".act")
                     || projectDirFilenames[x].endsWith(".sdf")
                     || projectDirFilenames[x].endsWith(".a")
-                            || projectDirFilenames[x].endsWith(".cdk")
-                            || projectDirFilenames[x].endsWith(".cdk.x")
-               || projectDirFilenames[x].endsWith(".ISIDA")
-               || projectDirFilenames[x].endsWith(".hdr")
-               || projectDirFilenames[x].endsWith(".svm")){
+                    || projectDirFilenames[x].endsWith(".cdk")
+                    || projectDirFilenames[x].endsWith(".cdk.x")
+                    || projectDirFilenames[x].endsWith(".ISIDA")
+                    || projectDirFilenames[x].endsWith(".hdr")
+                    || projectDirFilenames[x].endsWith(".svm")) {
                 predictionFiles.add(projectDirFilenames[x]);
             }
             x++;
@@ -475,7 +469,7 @@ public class WriteZip{
         File ProjectDirLogsFile = new File(projectDir + "Logs/");
         String[] projectDirLogsFilenames = ProjectDirLogsFile.list();
         x = 0;
-        while(projectDirLogsFilenames != null && x<projectDirLogsFilenames.length){
+        while (projectDirLogsFilenames != null && x < projectDirLogsFilenames.length) {
             predictionFiles.add("Logs/" + projectDirLogsFilenames[x]);
             x++;
         }
@@ -483,20 +477,21 @@ public class WriteZip{
         //scan for the predictor subdirectories
         x = 0;
         ArrayList<String> predictorSubDirs = new ArrayList<String>();
-        while(projectDirFilenames != null && x<projectDirFilenames.length){
-            if((new File(projectDir + projectDirFilenames[x])).isDirectory() && !projectDirFilenames[x].equals("Logs")){
+        while (projectDirFilenames != null && x < projectDirFilenames.length) {
+            if ((new File(projectDir + projectDirFilenames[x])).isDirectory() && !projectDirFilenames[x].equals
+                    ("Logs")) {
                 predictorSubDirs.add(projectDirFilenames[x] + "/");
             }
             x++;
         }
 
         //for each predictor, get the Logs and cons_pred output
-        for(String subdir : predictorSubDirs){
+        for (String subdir : predictorSubDirs) {
             //add in the Logs subdirectory
             File predictorLogsFile = new File(projectDir + subdir + "Logs/");
             String[] predictorLogsFilenames = predictorLogsFile.list();
             x = 0;
-            while(predictorLogsFilenames != null && x<predictorLogsFilenames.length){
+            while (predictorLogsFilenames != null && x < predictorLogsFilenames.length) {
                 predictionFiles.add(subdir + "Logs/" + predictorLogsFilenames[x]);
                 x++;
             }
@@ -506,8 +501,8 @@ public class WriteZip{
         }
 
         //predictionFiles now contains names of all the files we need. Package it up!
-        for(String fileName : predictionFiles){
-            try{
+        for (String fileName : predictionFiles) {
+            try {
                 FileInputStream in = new FileInputStream(projectDir + fileName);
                 out.putNextEntry(new ZipEntry(fileName));
                 int len;
@@ -516,8 +511,7 @@ public class WriteZip{
                 }
                 out.closeEntry();
                 in.close();
-            }
-            catch(Exception ex){
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }

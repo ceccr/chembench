@@ -25,38 +25,32 @@ import org.apache.log4j.Logger;
 
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
-public class CentralDogma
-{
+public class CentralDogma {
     // singleton.
     // Holds the LSF jobs list, the incoming jobs list, and the local
     // processing jobs list. Initiates the threads that work on these
     // data structures.
 
-    private static Logger               logger          = Logger.getLogger(CentralDogma.class
-                                                                .getName());
-    private final int                   numLocalThreads = 9;
+    private static Logger logger = Logger.getLogger(CentralDogma.class
+            .getName());
+    private static CentralDogma instance = new CentralDogma();
 
     // as many as you want; tune it based on server load.
-
+    private final int numLocalThreads = 9;
+    // don't change this unless you've REALLY thought through all possible
+    // concurrency issues
     // Limiting factors on numLocalThreads: JVM memory size, number of file
     // handles, number of database connections,
     // server processing power. Jobs will fail in weird ways if any of those
     // isn't high enough.
-    private final int                   numLsfThreads   = 1;
-    // don't change this unless you've REALLY thought through all possible
-    // concurrency issues
-
-    public SynchronizedJobList          incomingJobs;
-    public SynchronizedJobList          localJobs;
-    public SynchronizedJobList          lsfJobs;
-    public SynchronizedJobList          errorJobs;
-
+    private final int numLsfThreads = 1;
+    public SynchronizedJobList incomingJobs;
+    public SynchronizedJobList localJobs;
+    public SynchronizedJobList lsfJobs;
+    public SynchronizedJobList errorJobs;
     private IncomingJobProcessingThread inThread;
 
-    private static CentralDogma         instance        = new CentralDogma();
-
-    private CentralDogma()
-    {
+    private CentralDogma() {
         try {
 
             lsfJobs = new SynchronizedJobList(Constants.LSF);
@@ -84,14 +78,12 @@ public class CentralDogma
                             DataSet dataset = PopulateDataObjects
                                     .getDataSetById(datasetId, s);
                             wt = new CreateDatasetTask(dataset);
-                        }
-                        else if (j.getJobType().equals(Constants.MODELING)) {
+                        } else if (j.getJobType().equals(Constants.MODELING)) {
                             Long modelingId = j.getLookupId();
                             Predictor predictor = PopulateDataObjects
                                     .getPredictorById(modelingId, s);
                             wt = new QsarModelingTask(predictor);
-                        }
-                        else if (j.getJobType().equals(Constants.PREDICTION)) {
+                        } else if (j.getJobType().equals(Constants.PREDICTION)) {
                             Long predictionId = j.getLookupId();
                             Prediction prediction = PopulateDataObjects
                                     .getPredictionById(predictionId, s);
@@ -103,18 +95,14 @@ public class CentralDogma
 
                         if (j.getJobList().equals(Constants.INCOMING)) {
                             incomingJobs.addJob(j);
-                        }
-                        else if (j.getJobList().equals(Constants.LOCAL)) {
+                        } else if (j.getJobList().equals(Constants.LOCAL)) {
                             localJobs.addJob(j);
-                        }
-                        else if (j.getJobList().equals(Constants.LSF)) {
+                        } else if (j.getJobList().equals(Constants.LSF)) {
                             lsfJobs.addJob(j);
-                        }
-                        else if (j.getJobList().equals(Constants.ERROR)) {
+                        } else if (j.getJobList().equals(Constants.ERROR)) {
                             errorJobs.addJob(j);
                         }
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         logger.error("Error restoring job with id: "
                                 + j.getLookupId() + "\n" + ex);
                     }
@@ -135,14 +123,12 @@ public class CentralDogma
             inThread = new IncomingJobProcessingThread();
             inThread.start();
 
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
     }
 
-    public static synchronized CentralDogma getInstance()
-    {
+    public static synchronized CentralDogma getInstance() {
         if (instance == null) {
             instance = new CentralDogma();
         }
@@ -150,13 +136,12 @@ public class CentralDogma
     }
 
     public void
-            addJobToIncomingList(String userName,
-                                 String jobName,
-                                 WorkflowTask wt,
-                                 int numCompounds,
-                                 int numModels,
-                                 String emailOnCompletion) throws Exception
-    {
+    addJobToIncomingList(String userName,
+                         String jobName,
+                         WorkflowTask wt,
+                         int numCompounds,
+                         int numModels,
+                         String emailOnCompletion) throws Exception {
         // first, run setUp on the workflowTask
         // this will make sure the workflowTask gets into the DB. Then we can
         // create a job to contain it.
@@ -182,13 +167,12 @@ public class CentralDogma
             tx = s.beginTransaction();
             s.save(j);
             tx.commit();
-        }
-        catch (RuntimeException e) {
-            if (tx != null)
+        } catch (RuntimeException e) {
+            if (tx != null) {
                 tx.rollback();
+            }
             logger.error(e);
-        }
-        finally {
+        } finally {
             s.close();
         }
 
@@ -197,8 +181,7 @@ public class CentralDogma
 
     }
 
-    public void cancelJob(Long jobId) throws Exception
-    {
+    public void cancelJob(Long jobId) throws Exception {
         // Find job's information, then remove the job from any lists it's in.
 
         logger.info("Deleting job with id: " + jobId);
@@ -286,8 +269,7 @@ public class CentralDogma
                         s.delete(ds);
                         tx.commit();
                     }
-                }
-                else if (j.getJobType().equals(Constants.MODELING)) {
+                } else if (j.getJobType().equals(Constants.MODELING)) {
                     // delete corresponding Predictor in DB
                     Predictor p = PopulateDataObjects.getPredictorById(j
                             .getLookupId(), s);
@@ -296,8 +278,7 @@ public class CentralDogma
                         s.delete(p);
                         tx.commit();
                     }
-                }
-                else if (j.getJobType().equals(Constants.PREDICTION)) {
+                } else if (j.getJobType().equals(Constants.PREDICTION)) {
                     // delete corresponding Prediction in DB
                     Prediction p = PopulateDataObjects.getPredictionById(j
                             .getLookupId(), s);
@@ -307,11 +288,9 @@ public class CentralDogma
                         tx.commit();
                     }
                 }
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 logger.error(ex);
-            }
-            finally {
+            } finally {
                 s.close();
             }
         }
@@ -321,8 +300,7 @@ public class CentralDogma
         incomingJobs.deleteJobFromDB(jobId);
     }
 
-    public void moveJobToErrorList(Long jobId)
-    {
+    public void moveJobToErrorList(Long jobId) {
         Job j = incomingJobs.removeJob(jobId);
         if (j == null) {
             logger.debug("checking lsf queue");

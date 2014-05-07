@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 @Entity
 //@IdClass(PredictionValuePK.class)
 @Table(name = "cbench_predictionValue")
-public class PredictionValue implements java.io.Serializable{
+public class PredictionValue implements java.io.Serializable {
 
     private Long predictorId;
     private String compoundName;
@@ -26,26 +26,26 @@ public class PredictionValue implements java.io.Serializable{
 
     private int numTotalModels;
 
-    @Column(name="predictor_id")
+    @Column(name = "predictor_id")
     public Long getPredictorId() {
         return predictorId;
     }
+
     public void setPredictorId(Long predictorId) {
         this.predictorId = predictorId;
     }
 
-    @Column(name="observed_value")
-    public Float getObservedValue()
-    {
+    @Column(name = "observed_value")
+    public Float getObservedValue() {
         return this.observedValue;
     }
-    public void setObservedValue(Float value)
-    {
-        this.observedValue=value;
+
+    public void setObservedValue(Float value) {
+        this.observedValue = value;
     }
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "pred_val_id")
     public Long getId() {
         return id;
@@ -61,8 +61,8 @@ public class PredictionValue implements java.io.Serializable{
     }
 
     public void setCompoundName(String compoundName) {
-        if(compoundName.length() >= 256){
-            compoundName = compoundName.substring(0,255);
+        if (compoundName.length() >= 256) {
+            compoundName = compoundName.substring(0, 255);
         }
         this.compoundName = compoundName;
     }
@@ -80,6 +80,7 @@ public class PredictionValue implements java.io.Serializable{
     public Float getPredictedValue() {
         return predictedValue;
     }
+
     public void setPredictedValue(Float predictedValue) {
         this.predictedValue = predictedValue;
     }
@@ -97,6 +98,7 @@ public class PredictionValue implements java.io.Serializable{
     public Long getPredictionId() {
         return predictionId;
     }
+
     public void setPredictionId(Long predictionId) {
         this.predictionId = predictionId;
     }
@@ -105,6 +107,7 @@ public class PredictionValue implements java.io.Serializable{
     public Float getZScore() {
         return zScore;
     }
+
     public void setZScore(Float zScore) {
         this.zScore = zScore;
     }
@@ -115,6 +118,7 @@ public class PredictionValue implements java.io.Serializable{
         //if you're getting a 0 back, set it first!
         return numTotalModels;
     }
+
     public void setNumTotalModels(int numTotalModels) {
         this.numTotalModels = numTotalModels;
     }

@@ -1,24 +1,20 @@
 package edu.unc.ceccr.utilities;
 
-public class WhenServerStarts
-{
+public class WhenServerStarts {
 
     private boolean hasBeenCalledBefore = false;
 
-    public WhenServerStarts()
-    {
+    public WhenServerStarts() {
 
     }
 
-    public void OnStartServer()
-    {
+    public void OnStartServer() {
         // calls all the functions that need calling on server start.
 
         // Return if called already
         if (hasBeenCalledBefore) {
             return;
-        }
-        else {
+        } else {
             hasBeenCalledBefore = true;
         }
 

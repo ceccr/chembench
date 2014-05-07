@@ -14,22 +14,19 @@ import edu.unc.ceccr.persistence.User;
 
 import org.apache.log4j.Logger;
 
-public class SendEmails
-{
+public class SendEmails {
 
     private static Logger logger = Logger.getLogger(SendEmails.class
-                                         .getName());
+            .getName());
 
-    public static boolean isValidEmail(String email)
-    {
+    public static boolean isValidEmail(String email) {
         // FIXME don't roll your own email address validator
         // TODO switch to Apache commons
         return (email.length() > 0 && email.indexOf("@") > 0)
                 && (email.indexOf(".") > 2);
     }
 
-    public static void sendJobCompletedEmail(Job j) throws Exception
-    {
+    public static void sendJobCompletedEmail(Job j) throws Exception {
         Session s = HibernateUtil.getSession();
         User user = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
         String subject = "Chembench Job Completed: " + j.getJobName();
@@ -45,8 +42,7 @@ public class SendEmails
                                  String cc,
                                  String bcc,
                                  String subject,
-                                 String message)
-    {
+                                 String message) {
         try {
             logger.debug("Sending an email...");
 
@@ -76,8 +72,7 @@ public class SendEmails
             RunExternalProgram.runCommand(execstr, workingDir);
 
             logger.debug("Email sent!");
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
         /*
@@ -98,8 +93,7 @@ public class SendEmails
 
     }
 
-    public static void sendEmailToAdmins(String subject, String message)
-    {
+    public static void sendEmailToAdmins(String subject, String message) {
         Iterator<?> it = Constants.ADMINEMAIL_LIST.iterator();
         while (it.hasNext()) {
             String adminAddress = (String) it.next();

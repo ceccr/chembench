@@ -12,23 +12,20 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-public class LsfUtilities
-{
+public class LsfUtilities {
     private static Logger logger
-              = Logger.getLogger(LsfUtilities.class.getName());
+            = Logger.getLogger(LsfUtilities.class.getName());
 
     public static void
     retrieveCompletedPredictor(String filePath, String lsfPath)
-                                                             throws Exception
-    {
+            throws Exception {
         FileAndDirOperations.copyDirContents(lsfPath, filePath, true);
         logger.warn("About to recursively delete " + lsfPath);
         FileAndDirOperations.deleteDir(new File(lsfPath));
     }
 
     public static void
-    makeLsfModelingDirectory(String filePath, String lsfPath) throws Exception
-    {
+    makeLsfModelingDirectory(String filePath, String lsfPath) throws Exception {
         // create a dir out in /largefs/ceccr/ to run the calculation of the
         // job
         File dir = new File(lsfPath);
@@ -42,7 +39,7 @@ public class LsfUtilities
 
         // copy all files from current modeling dir out there
         FileAndDirOperations.copyDirContents(filePath, lsfPath, true);
-        logger.debug("Copied all files from "+filePath+" to " + lsfPath);
+        logger.debug("Copied all files from " + filePath + " to " + lsfPath);
         // copy kNN executables to the temp directory and to the yRandom
         // subdirectory also, make them executable
         FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH
@@ -55,8 +52,7 @@ public class LsfUtilities
 
     }
 
-    public static String getLsfJobId(String logFilePath) throws Exception
-    {
+    public static String getLsfJobId(String logFilePath) throws Exception {
         Thread.sleep(200); // give the file time to close properly? I guess?
         BufferedReader in = new BufferedReader(new FileReader(logFilePath));
 

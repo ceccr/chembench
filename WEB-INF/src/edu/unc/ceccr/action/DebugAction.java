@@ -44,8 +44,7 @@ import edu.unc.ceccr.workflows.visualization.ExternalValidationChart;
 
 // struts2
 
-public class DebugAction extends ActionSupport
-{
+public class DebugAction extends ActionSupport {
 
     // Various methods useful in debugging and fixing user data when something
     // goes wrong.
@@ -55,39 +54,37 @@ public class DebugAction extends ActionSupport
     private static final long serialVersionUID = 1L;
 
     private static Logger logger = Logger.getLogger(DebugAction.class.getName());
-    
-    private static void savePredictor(Predictor p, Session s)
-    {
+
+    private static void savePredictor(Predictor p, Session s) {
         Transaction tx = null;
         try {
             tx = s.beginTransaction();
             s.saveOrUpdate(p);
             tx.commit();
-        }
-        catch (Exception e) {
-            if (tx != null)
+        } catch (Exception e) {
+            if (tx != null) {
                 tx.rollback();
+            }
             logger.error(e);
         }
     }
 
-    public static String addExternalAccuracies() throws Exception
-    {
+    public static String addExternalAccuracies() throws Exception {
         Session session = HibernateUtil.getSession();
         List<Predictor> predictors = PopulateDataObjects.populatePredictors(
                 "ALLOFTHEM", false, true, session);
 
         for (Predictor selectedPredictor : predictors) {
-            logger.debug("Adding ext set prediction " 
-            		                 + "summary to predictor "
-                                     + selectedPredictor.getId());
+            logger.debug("Adding ext set prediction "
+                    + "summary to predictor "
+                    + selectedPredictor.getId());
             try {
                 ConfusionMatrix confusionMatrix;
                 String rSquared = "";
                 String rSquaredAverageAndStddev = "";
                 String ccrAverageAndStddev = "";
-                ArrayList<ExternalValidation> externalValValues 
-                                         = new ArrayList<ExternalValidation>();
+                ArrayList<ExternalValidation> externalValValues
+                        = new ArrayList<ExternalValidation>();
                 ArrayList<Predictor> childPredictors = PopulateDataObjects
                         .getChildPredictors(selectedPredictor, session);
 
@@ -97,38 +94,37 @@ public class DebugAction extends ActionSupport
                     // get external set for each
                     externalValValues = new ArrayList<ExternalValidation>();
                     // contains the ccr or r^2 of each child
-                    SummaryStatistics childAccuracies 
-                                                  = new SummaryStatistics(); 
+                    SummaryStatistics childAccuracies
+                            = new SummaryStatistics();
 
                     for (int i = 0; i < childPredictors.size(); i++) {
                         Predictor cp = childPredictors.get(i);
-                        ArrayList<ExternalValidation> childExtVals 
-                                    = new ArrayList<ExternalValidation>
-                                               ( PopulateDataObjects
-                                                  .getExternalValidationValues(
-                                                              cp.getId(),
-                                                              session)
-                                                );
+                        ArrayList<ExternalValidation> childExtVals
+                                = new ArrayList<ExternalValidation>
+                                (PopulateDataObjects
+                                        .getExternalValidationValues(
+                                                cp.getId(),
+                                                session)
+                                );
 
                         // calculate r^2 / ccr for this child
                         if (childExtVals != null) {
                             if (selectedPredictor.getActivityType().equals(
                                     Constants.CATEGORY)) {
                                 Double childCcr = (RSquaredAndCCR
-                                       .calculateConfusionMatrix(childExtVals))
-                                       .getCcr();
+                                        .calculateConfusionMatrix(childExtVals))
+                                        .getCcr();
                                 childAccuracies.addValue(childCcr);
-                            }
-                            else if (selectedPredictor.getActivityType()
+                            } else if (selectedPredictor.getActivityType()
                                     .equals(Constants.CONTINUOUS)) {
-                                ArrayList<Double> childResiduals 
+                                ArrayList<Double> childResiduals
                                         = RSquaredAndCCR.calculateResiduals(
-                                                                 childExtVals);
-                                Double childRSquared 
+                                        childExtVals);
+                                Double childRSquared
                                         = RSquaredAndCCR.calculateRSquared(
-                                                                 childExtVals,
-                                                                 childResiduals
-                                                                          );
+                                        childExtVals,
+                                        childResiduals
+                                );
                                 childAccuracies.addValue(childRSquared);
                                 ExternalValidationChart.createChart(
                                         selectedPredictor, "" + (i + 1));
@@ -145,42 +141,40 @@ public class DebugAction extends ActionSupport
                         rSquaredAverageAndStddev = Utility
                                 .roundSignificantFigures(
                                         "" + mean,
-                                       Constants.REPORTED_SIGNIFICANT_FIGURES);
+                                        Constants.REPORTED_SIGNIFICANT_FIGURES);
                         rSquaredAverageAndStddev += " \u00B1 ";
                         rSquaredAverageAndStddev += Utility
                                 .roundSignificantFigures(
                                         "" + stddev,
-                                       Constants.REPORTED_SIGNIFICANT_FIGURES);
+                                        Constants.REPORTED_SIGNIFICANT_FIGURES);
                         logger.debug("rsquared avg and stddev: "
                                 + rSquaredAverageAndStddev);
                         selectedPredictor.setExternalPredictionAccuracyAvg(
-                                                     rSquaredAverageAndStddev);
+                                rSquaredAverageAndStddev);
                         // make main ext validation chart
                         ExternalValidationChart.createChart(
                                 selectedPredictor, "0");
-                    }
-                    else if (selectedPredictor.getActivityType().equals(
+                    } else if (selectedPredictor.getActivityType().equals(
                             Constants.CATEGORY)) {
                         ccrAverageAndStddev = Utility
                                 .roundSignificantFigures(
                                         "" + mean,
-                                       Constants.REPORTED_SIGNIFICANT_FIGURES);
+                                        Constants.REPORTED_SIGNIFICANT_FIGURES);
                         ccrAverageAndStddev += " \u00B1 ";
                         ccrAverageAndStddev += Utility
                                 .roundSignificantFigures(
                                         "" + stddev,
-                                       Constants.REPORTED_SIGNIFICANT_FIGURES);
+                                        Constants.REPORTED_SIGNIFICANT_FIGURES);
                         logger.debug("ccr avg and stddev: "
                                 + ccrAverageAndStddev);
                         selectedPredictor.setExternalPredictionAccuracyAvg(
-                                                          ccrAverageAndStddev);
+                                ccrAverageAndStddev);
                     }
-                }
-                else {
-                    externalValValues = (ArrayList<ExternalValidation>) 
-                             PopulateDataObjects
-                            .getExternalValidationValues(selectedPredictor
-                                    .getId(), session);
+                } else {
+                    externalValValues = (ArrayList<ExternalValidation>)
+                            PopulateDataObjects
+                                    .getExternalValidationValues(selectedPredictor
+                                            .getId(), session);
                 }
 
                 if (externalValValues == null || externalValValues.isEmpty()) {
@@ -198,17 +192,16 @@ public class DebugAction extends ActionSupport
                     for (Double residual : residualsAsDouble) {
                         if (residual.isNaN()) {
                             residuals.add("");
-                        }
-                        else {
+                        } else {
                             // if at least one residual exists, there must
                             // have been a good model
                             residuals.add(Utility.roundSignificantFigures(""
-                                    + residual,
-                                    Constants.REPORTED_SIGNIFICANT_FIGURES));
+                                            + residual,
+                                    Constants.REPORTED_SIGNIFICANT_FIGURES
+                            ));
                         }
                     }
-                }
-                else {
+                } else {
                     continue;
                 }
 
@@ -221,8 +214,7 @@ public class DebugAction extends ActionSupport
                     selectedPredictor
                             .setExternalPredictionAccuracy(confusionMatrix
                                     .getCcrAsString());
-                }
-                else if (selectedPredictor.getActivityType().equals(
+                } else if (selectedPredictor.getActivityType().equals(
                         Constants.CONTINUOUS)
                         && externalValValues.size() > 1) {
                     // if continuous, calculate overall r^2 and... r0^2? or
@@ -231,14 +223,14 @@ public class DebugAction extends ActionSupport
                     Double rSquaredDouble = RSquaredAndCCR.calculateRSquared(
                             externalValValues, residualsAsDouble);
                     rSquared = Utility.roundSignificantFigures(""
-                            + rSquaredDouble,
-                            Constants.REPORTED_SIGNIFICANT_FIGURES);
+                                    + rSquaredDouble,
+                            Constants.REPORTED_SIGNIFICANT_FIGURES
+                    );
                     selectedPredictor.setExternalPredictionAccuracy(rSquared);
                 }
                 savePredictor(selectedPredictor, session);
 
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }
@@ -248,8 +240,7 @@ public class DebugAction extends ActionSupport
 
     public static void printObjectsAsCsv(ArrayList<Object> objects,
                                          String path,
-                                         boolean append) throws Exception
-    {
+                                         boolean append) throws Exception {
         BufferedWriter out = new BufferedWriter(new FileWriter(path, append));
         String tableName = path.substring(path.lastIndexOf("/") + 1, path
                 .lastIndexOf(".csv"));
@@ -269,69 +260,10 @@ public class DebugAction extends ActionSupport
         out.close();
     }
 
-    public String fixBrokenPredictors() throws Exception
-    {
-        /*
-         * Sometimes a job will fail in external set prediction but is
-         * otherwise fine. This function will predict external sets and read
-         * in the output for any number of predictor IDs.
-         */
-
-        String ids = "";
-        // Example: String ids="1635 1642";
-        String[] idArray = ids.split("\\s+");
-        Session s = HibernateUtil.getSession();
-        for (String id : idArray) {
-
-            Predictor predictor = PopulateDataObjects.getPredictorById(Long
-                    .parseLong(id), s);
-
-            logger.debug("Fixing " + predictor.getUserName()
-                    + "'s predictor '" + predictor.getName() + "' with id "
-                    + id);
-
-            if (predictor.getChildIds() != null
-                    && !predictor.getChildIds().trim().isEmpty()) {
-                String[] childIds = predictor.getChildIds().split("\\s+");
-
-                ArrayList<Predictor> childPredictors 
-                                              = new ArrayList<Predictor>();
-
-                for (String childId : childIds) {
-                    Predictor childPredictor = PopulateDataObjects
-                            .getPredictorById(Long.parseLong(childId), s);
-                    childPredictors.add(childPredictor);
-                }
-                for (Predictor childPredictor : childPredictors) {
-                    logger.debug("Fixing "
-                            + childPredictor.getUserName()
-                            + "'s child predictor '"
-                            + childPredictor.getName() + "' with id " + id);
-                    UndoMoveToPredictorsDir(predictor.getUserName(),
-                            childPredictor.getName(), predictor.getName());
-
-                    QsarModelingTask qst = new QsarModelingTask(
-                            childPredictor);
-                    qst.jobList = "LSF";
-                    qst.postProcess();
-                }
-            }
-            else {
-                UndoMoveToPredictorsDir(predictor.getUserName(), predictor
-                        .getName(), "");
-                QsarModelingTask qst = new QsarModelingTask(predictor);
-                qst.jobList = "LSF";
-                qst.postProcess();
-            }
-        }
-        return SUCCESS;
-    }
-
     public static void
     UndoMoveToPredictorsDir(String userName,
                             String jobName,
-                            String parentPredictorName) throws Exception
-    {
+                            String parentPredictorName) throws Exception {
         // do the opposite of:
         // When the job is finished, move all the files over to the PREDICTORS
         // dir.
@@ -339,8 +271,7 @@ public class DebugAction extends ActionSupport
         if (parentPredictorName.isEmpty()) {
             moveFrom = Constants.CECCR_USER_BASE_PATH + userName
                     + "/PREDICTORS/" + jobName;
-        }
-        else {
+        } else {
             moveFrom = Constants.CECCR_USER_BASE_PATH + userName
                     + "/PREDICTORS/" + parentPredictorName + "/" + jobName;
         }
@@ -352,8 +283,7 @@ public class DebugAction extends ActionSupport
     }
 
     @SuppressWarnings("unchecked")
-    public static String printDatabaseTables() throws Exception
-    {
+    public static String printDatabaseTables() throws Exception {
 
         boolean append = false;
         String basePath = Constants.CECCR_BASE_PATH + "theo/";
@@ -365,8 +295,7 @@ public class DebugAction extends ActionSupport
                     Job.class, session);
             printObjectsAsCsv(list, basePath + "cbench_job.csv", append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -377,8 +306,7 @@ public class DebugAction extends ActionSupport
                     JobStats.class, session);
             printObjectsAsCsv(list, basePath + "cbench_jobStats.csv", append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -390,8 +318,7 @@ public class DebugAction extends ActionSupport
             printObjectsAsCsv(list, basePath
                     + "cbench_externalValidation.csv", append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -402,8 +329,7 @@ public class DebugAction extends ActionSupport
                     KnnModel.class, session);
             printObjectsAsCsv(list, basePath + "cbench_knnModel.csv", append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -415,8 +341,7 @@ public class DebugAction extends ActionSupport
             printObjectsAsCsv(list, basePath + "cbench_knnPlusModel.csv",
                     append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -428,8 +353,7 @@ public class DebugAction extends ActionSupport
             printObjectsAsCsv(list, basePath + "cbench_knnParameters.csv",
                     append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -441,8 +365,7 @@ public class DebugAction extends ActionSupport
             printObjectsAsCsv(list,
                     basePath + "cbench_knnPlusParameters.csv", append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -454,8 +377,7 @@ public class DebugAction extends ActionSupport
             printObjectsAsCsv(list, basePath + "cbench_svmParameters.csv",
                     append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -467,8 +389,7 @@ public class DebugAction extends ActionSupport
             printObjectsAsCsv(list, basePath
                     + "cbench_randomForestParameters.csv", append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -479,8 +400,7 @@ public class DebugAction extends ActionSupport
                     SvmModel.class, session);
             printObjectsAsCsv(list, basePath + "cbench_svmModel.csv", append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -492,8 +412,7 @@ public class DebugAction extends ActionSupport
             printObjectsAsCsv(list, basePath + "cbench_softwareLink.csv",
                     append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -504,8 +423,7 @@ public class DebugAction extends ActionSupport
                     Predictor.class, session);
             printObjectsAsCsv(list, basePath + "cbench_predictor.csv", append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -516,8 +434,7 @@ public class DebugAction extends ActionSupport
                     User.class, session);
             printObjectsAsCsv(list, basePath + "cbench_user.csv", append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -529,8 +446,7 @@ public class DebugAction extends ActionSupport
             printObjectsAsCsv(list,
                     basePath + "cbench_randomForestGrove.csv", append);
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -542,8 +458,8 @@ public class DebugAction extends ActionSupport
             ArrayList<Object> list = new ArrayList<Object>();
             int chunkIndex = 0;
             while ((list = PopulateDataObjects.populateClassInChunks(
-                    RandomForestTree.class, chunkSize, chunkIndex, session)) 
-                                                                   != null) {
+                    RandomForestTree.class, chunkSize, chunkIndex, session))
+                    != null) {
                 printObjectsAsCsv(list, basePath
                         + "cbench_randomForestTree.csv", append);
                 list.clear();
@@ -552,8 +468,7 @@ public class DebugAction extends ActionSupport
                 chunkIndex++;
             }
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -563,8 +478,8 @@ public class DebugAction extends ActionSupport
             ArrayList<Object> list = new ArrayList<Object>();
             int chunkIndex = 0;
             while ((list = PopulateDataObjects.populateClassInChunks(
-                    PredictionValue.class, chunkSize, chunkIndex, session)) 
-                                                                   != null) {
+                    PredictionValue.class, chunkSize, chunkIndex, session))
+                    != null) {
                 printObjectsAsCsv(list, basePath
                         + "cbench_predictionValue.csv", append);
                 list.clear();
@@ -573,8 +488,7 @@ public class DebugAction extends ActionSupport
                 chunkIndex++;
             }
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -586,8 +500,8 @@ public class DebugAction extends ActionSupport
             ArrayList<Object> list = new ArrayList<Object>();
             int chunkIndex = 0;
             while ((list = PopulateDataObjects.populateClassInChunks(
-                    DataSet.class, chunkSize, chunkIndex, session)) 
-                                                                   != null) {
+                    DataSet.class, chunkSize, chunkIndex, session))
+                    != null) {
                 printObjectsAsCsv(list, basePath + "cbench_dataset.csv",
                         append);
                 list.clear();
@@ -596,8 +510,7 @@ public class DebugAction extends ActionSupport
                 chunkIndex++;
             }
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -607,15 +520,14 @@ public class DebugAction extends ActionSupport
             ArrayList<Object> list = new ArrayList<Object>();
             int chunkIndex = 0;
             while ((list = PopulateDataObjects.populateClassInChunks(
-                    Prediction.class, chunkSize, chunkIndex, session)) 
-                                                                    != null) {
+                    Prediction.class, chunkSize, chunkIndex, session))
+                    != null) {
                 printObjectsAsCsv(list, basePath + "cbench_prediction.csv",
                         append);
                 chunkIndex++;
             }
             session.close();
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
         }
 
@@ -670,27 +582,79 @@ public class DebugAction extends ActionSupport
         return SUCCESS;
     }
 
-    public static String restoreData()
-    {
+    public static String restoreData() {
         // read CSVs and repopulate data into DB
 
         return SUCCESS;
     }
 
-    public static void restoreTable(Class<?> c, String fileName)
-    {
+    public static void restoreTable(Class<?> c, String fileName) {
 
     }
 
-    public static String restoreDatasets()
-    {
+    public static String restoreDatasets() {
 
         return SUCCESS;
     }
 
-    public static String restorePredictions()
-    {
+    public static String restorePredictions() {
 
+        return SUCCESS;
+    }
+
+    public String fixBrokenPredictors() throws Exception {
+        /*
+         * Sometimes a job will fail in external set prediction but is
+         * otherwise fine. This function will predict external sets and read
+         * in the output for any number of predictor IDs.
+         */
+
+        String ids = "";
+        // Example: String ids="1635 1642";
+        String[] idArray = ids.split("\\s+");
+        Session s = HibernateUtil.getSession();
+        for (String id : idArray) {
+
+            Predictor predictor = PopulateDataObjects.getPredictorById(Long
+                    .parseLong(id), s);
+
+            logger.debug("Fixing " + predictor.getUserName()
+                    + "'s predictor '" + predictor.getName() + "' with id "
+                    + id);
+
+            if (predictor.getChildIds() != null
+                    && !predictor.getChildIds().trim().isEmpty()) {
+                String[] childIds = predictor.getChildIds().split("\\s+");
+
+                ArrayList<Predictor> childPredictors
+                        = new ArrayList<Predictor>();
+
+                for (String childId : childIds) {
+                    Predictor childPredictor = PopulateDataObjects
+                            .getPredictorById(Long.parseLong(childId), s);
+                    childPredictors.add(childPredictor);
+                }
+                for (Predictor childPredictor : childPredictors) {
+                    logger.debug("Fixing "
+                            + childPredictor.getUserName()
+                            + "'s child predictor '"
+                            + childPredictor.getName() + "' with id " + id);
+                    UndoMoveToPredictorsDir(predictor.getUserName(),
+                            childPredictor.getName(), predictor.getName());
+
+                    QsarModelingTask qst = new QsarModelingTask(
+                            childPredictor);
+                    qst.jobList = "LSF";
+                    qst.postProcess();
+                }
+            } else {
+                UndoMoveToPredictorsDir(predictor.getUserName(), predictor
+                        .getName(), "");
+                QsarModelingTask qst = new QsarModelingTask(predictor);
+                qst.jobList = "LSF";
+                qst.postProcess();
+            }
+        }
         return SUCCESS;
     }
 
