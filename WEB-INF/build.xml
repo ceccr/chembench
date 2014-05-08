@@ -16,7 +16,7 @@
         <war destfile="ROOT.war" basedir="ROOT" webxml="ROOT/WEB-INF/web.xml"
              defaultexcludes="yes"
              includes="WEB-INF/**/*, **/*.x, **/*.sdf, **/*.act
-                                        , theme/**/*, documentation/*, **/*.jsp 
+                                        , theme/**/*, documentation/*, **/*.jsp
                                         , **/*.js,*.txt">
         </war>
     </target>
@@ -52,5 +52,3 @@
 
 </project>
 
-
-    
