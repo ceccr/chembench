@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-module xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.0"
+            xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+    <info organisation="edu.unc.ceccr" module="chembench" />
+
+    <dependencies>
+        <dependency org="com.jgeppert.struts2.jquery" name="struts2-jquery-plugin" rev="3.7.+" />
+        <dependency org="net.tanesha.recaptcha4j" name="recaptcha4j" rev="0.0.7" />
+        <dependency org="org.apache.commons" name="commons-math" rev="2.+" />
+        <dependency org="org.apache.poi" name="poi" rev="3.+" />
+        <dependency org="org.apache.struts" name="struts2-core" rev="2.3.+" />
+        <dependency org="org.hibernate" name="hibernate" rev="3.5.+" />
+        <dependency org="jfree" name="jfreechart" rev="1.0.+" />
+        <dependency org="log4j" name="log4j" rev="1.2.+" />
+    </dependencies>
+</ivy-module>
+

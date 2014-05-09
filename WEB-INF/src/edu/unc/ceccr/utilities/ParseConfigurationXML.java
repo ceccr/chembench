@@ -67,31 +67,6 @@ public class
             Constants.LSFJOBPATH = getSingNodeValue(doc, "lsfPath");
             Constants.USERWORKFLOWSPATH = getSingNodeValue(doc, "userWorkflow");
             Constants.INSTALLS_PATH = getSingNodeValue(doc, "installsPath");
-            Constants.CECCR_DATABASE_NAME
-                    = getNestedNodeValue(
-                    getParentNode(doc, "database")
-                    , "databaseName"
-            );
-            Constants.DATABASE_USERNAME
-                    = getNestedNodeValue(
-                    getParentNode(doc, "database")
-                    , "userName"
-            );
-            Constants.CECCR_DATABASE_PASSWORD
-                    = getNestedNodeValue(
-                    getParentNode(doc, "database")
-                    , "password"
-            );
-            Constants.DATABASE_URL
-                    = getNestedNodeValue(
-                    getParentNode(doc, "database")
-                    , "url"
-            );
-            Constants.DATABASE_DRIVER
-                    = getNestedNodeValue(
-                    getParentNode(doc, "database")
-                    , "driver"
-            );
             Constants.WEBADDRESS
                     = getNestedNodeValue(
                     getParentNode(doc, "website")

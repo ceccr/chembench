@@ -193,11 +193,6 @@ public class Constants {
     public static String RECAPTCHA_PRIVATEKEY;
     public static int MAXCOMPOUNDS = 200;
     public static int MAXMODELS = 10000;
-    public static String DATABASE_URL;
-    public static String DATABASE_DRIVER;
-    public static String DATABASE_USERNAME;
-    public static String CECCR_DATABASE_NAME;
-    public static String CECCR_DATABASE_PASSWORD;
     public static String WORKBENCH;
 
 }
