@@ -1,19 +1,9 @@
 <?xml version="1.0" ?>
-<project xmlns:ivy="antlib:org.apache.ivy.ant" name="chembench" default="clean-build">
+<project name="chembench" default="clean-build">
 
     <property name="home.directory" value="CHEMBENCH/prod/deploy"/>
     <property name="tomcat.directory" value="usr/share/tomcat6"/>
     <property name="build.dir" value="classes/edu"/>
-
-    <!-- Ivy Properties -->
-    <property name="ivy.install.version" value="2.1.0-rc2" />
-    <condition property="ivy.home" value="${env.IVY_HOME}">
-        <isset property="env.IVY_HOME" />
-    </condition>
-    <property name="ivy.home" value="${user.home}/.ant" />
-    <property name="ivy.jar.dir" value="${ivy.home}/lib" />
-    <property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
-    <!-- End Ivy Properties -->
 
     <target name="package-war" depends="compile">
         <copy toDir="ROOT/WEB-INF/classes">
@@ -34,7 +24,7 @@
         <copy file="ROOT.war" toDir="${tomcat.directory}/webapps"/>
     </target>
 
-    <target name="compile" depends="ivy-resolve">
+    <target name="compile">
         <javac includeantruntime="false" srcdir="src" destdir="./classes" fork="yes" executable="/usr/bin/javac"
                debug="true">
             <classpath>
@@ -51,32 +41,6 @@
                 <!-- needed for struts2 to work -->
             </fileset>
         </copy>
-    </target>
-
-    <target name="download-ivy" unless="offline">
-
-        <mkdir dir="${ivy.jar.dir}"/>
-        <!-- download Ivy from web site so that it can be used even without any special installation -->
-        <get src="http://repo2.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar"
-             dest="${ivy.jar.file}" usetimestamp="true"/>
-    </target>
-
-    <target name="init-ivy" depends="download-ivy">
-        <!-- try to load ivy here from ivy home, in case the user has not already dropped
-                it into ant's lib dir (note that the latter copy will always take precedence).
-                We will not fail as long as local lib dir exists (it may be empty) and
-                ivy is in at least one of ant's lib dir or the local lib dir. -->
-        <path id="ivy.lib.path">
-            <fileset dir="${ivy.jar.dir}" includes="*.jar"/>
-
-        </path>
-        <taskdef resource="org/apache/ivy/ant/antlib.xml"
-                 uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path"/>
-    </target>
-
-    <target name="ivy-resolve" depends="init-ivy">
-        <!-- Use Ivy to retrieve dependencies in ivy.xml -->
-        <ivy:retrieve />
     </target>
 
     <target name="clean">
