@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -94,7 +94,7 @@ public class SynchronizedJobList {
             s = HibernateUtil.getSession();
             tx = s.beginTransaction();
             job = (Job) s.createCriteria(Job.class)
-                    .add(Restrictions.eq("id", jobId))
+                    .add(Expression.eq("id", jobId))
                     .uniqueResult();
         } catch (Exception e) {
             if (tx != null) {

@@ -9,7 +9,7 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Expression;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -448,9 +448,9 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         try {
             tx = s.beginTransaction();
             user = (User) s.createCriteria(User.class).add(
-                    Restrictions.eq("userName", userName)).uniqueResult();
+                    Expression.eq("userName", userName)).uniqueResult();
             userInfo = (User) s.createCriteria(User.class).add(
-                    Restrictions.eq("userName", userName)).uniqueResult();
+                    Expression.eq("userName", userName)).uniqueResult();
             tx.commit();
         } catch (RuntimeException e) {
             if (tx != null) {

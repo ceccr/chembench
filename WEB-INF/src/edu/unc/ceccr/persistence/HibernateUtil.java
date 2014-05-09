@@ -1,20 +1,28 @@
 package edu.unc.ceccr.persistence;
 
-import org.apache.log4j.Logger;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.AnnotationConfiguration;
+
+import edu.unc.ceccr.global.Constants;
+import org.apache.log4j.Logger;
 
 public class HibernateUtil {
 
     private static final SessionFactory sessionFactory;
+    private static String PASSWORD;
+    private static String URL;
+    private static String USERNAME;
+    private static String DATABASENAME;
 
     private static Logger logger = Logger.getLogger(HibernateUtil.class.getName());
 
     static {
-        Configuration config = new Configuration()
+        sessionFactory = new AnnotationConfiguration()
                 .addAnnotatedClass(Job.class)
                 .addAnnotatedClass(JobStats.class)
                 .addAnnotatedClass(KnnModel.class)
@@ -35,15 +43,30 @@ public class HibernateUtil {
                 .addAnnotatedClass(RandomForestParameters.class)
                 .addAnnotatedClass(RandomForestTree.class)
                 .addAnnotatedClass(RandomForestGrove.class)
-                .configure();
-
-        StandardServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder()
-                .applySettings(config.getProperties()).build();
-        sessionFactory = config.buildSessionFactory(serviceRegistry);
+                .configure().buildSessionFactory();
     }
 
-    public static Session getSession() {
-        return sessionFactory.openSession();
+    public static Session getSession() throws HibernateException,
+            ClassNotFoundException, SQLException {
+
+        USERNAME = Constants.DATABASE_USERNAME;
+        PASSWORD = Constants.CECCR_DATABASE_PASSWORD;
+        URL = Constants.DATABASE_URL;
+        DATABASENAME = Constants.CECCR_DATABASE_NAME;
+
+        try {
+            //IMPORTANT: If you get a "too many connections" error
+            //use this debug output to help trace where the wasteful connections are getting made!
+            //count++;
+            //logger.debug("Making connection number: " + count);
+            Class.forName(Constants.DATABASE_DRIVER);
+            java.sql.Connection con = DriverManager.getConnection(URL + DATABASENAME, USERNAME, PASSWORD);
+            Session s = sessionFactory.openSession(con);
+            return s;
+        } catch (Exception ex) {
+            logger.error(ex);
+        }
+
+        return null;
     }
 }
-

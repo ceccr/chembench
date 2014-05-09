@@ -16,7 +16,7 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Expression;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -159,7 +159,7 @@ public class QsarPredictionTask extends WorkflowTask {
         try {
             tx = session.beginTransaction();
             pred = (Predictor) session.createCriteria(Predictor.class).add(
-                    Restrictions.eq("predictorId", selectedPredictorId))
+                    Expression.eq("predictorId", selectedPredictorId))
                     .uniqueResult();
             tx.commit();
         } catch (RuntimeException e) {
@@ -614,8 +614,7 @@ public class QsarPredictionTask extends WorkflowTask {
             if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
                 GenerateDescriptors.GenerateISIDADescriptorsWithHeader(predictionDir + sdfile,
                         predictionDir + sdfile + ".renorm.ISIDA", predictionDir + predictor.getSdFileName() + ".ISIDA" +
-                                ".hdr"
-                );
+                                ".hdr");
                 ConvertDescriptorsToXAndScale.convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x",
                         sdfile + ".renorm.x", predictor.getDescriptorGeneration(), predictor.getScalingType(),
                         predictionDataset.getNumCompound());

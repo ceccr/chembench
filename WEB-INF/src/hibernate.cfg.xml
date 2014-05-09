@@ -4,10 +4,6 @@
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/cbprod</property>
-        <property name="hibernate.connection.username">cbprod</property>
-        <property name="hibernate.connection.password">PR0D2VeX!</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
 
         <!-- Connection Pooling -->

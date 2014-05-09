@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Restrictions;
+import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
 import edu.unc.ceccr.global.Constants;
@@ -100,7 +100,7 @@ public class PopulateDataObjects {
         try {
             tx = s.beginTransaction();
             list = (ArrayList) s.createCriteria(c).add(
-                    Restrictions.eq("userName", userName)).list();
+                    Expression.eq("userName", userName)).list();
             tx.commit();
         } catch (RuntimeException e) {
             logger.error(e);
@@ -119,8 +119,8 @@ public class PopulateDataObjects {
             session.beginTransaction();
             predictionValue = (PredictionValue) session.createCriteria(
                     PredictionValue.class).add(
-                    Restrictions.eq("predictionId", predictionId)).add(
-                    Restrictions.eq("predictorId", predictorId)).setMaxResults(
+                    Expression.eq("predictionId", predictionId)).add(
+                    Expression.eq("predictorId", predictorId)).setMaxResults(
                     1).uniqueResult();
         } catch (Exception ex) {
             logger.error(ex);
@@ -144,8 +144,8 @@ public class PopulateDataObjects {
             session.beginTransaction();
             Iterator<?> tempIter = session.createCriteria(
                     PredictionValue.class).add(
-                    Restrictions.eq("predictionId", predictionId)).add(
-                    Restrictions.eq("predictorId", predictorId)).list()
+                    Expression.eq("predictionId", predictionId)).add(
+                    Expression.eq("predictorId", predictorId)).list()
                     .iterator();
             while (tempIter.hasNext()) {
                 predictionValues.add((PredictionValue) tempIter.next());
@@ -182,8 +182,8 @@ public class PopulateDataObjects {
                 ArrayList<PredictionValue> predictorPredictionValues = new ArrayList<PredictionValue>();
                 Iterator<?> tempIter = session.createCriteria(
                         PredictionValue.class).add(
-                        Restrictions.eq("predictionId", predictionId)).add(
-                        Restrictions.eq("predictorId", Long
+                        Expression.eq("predictionId", predictionId)).add(
+                        Expression.eq("predictorId", Long
                                 .parseLong(predictorId))
                 ).list().iterator();
 
@@ -320,13 +320,13 @@ public class PopulateDataObjects {
                 // get both modeling AND prediction datasets, since modeling
                 // datasets are possible to predict as well.
                 Iterator<?> tempIter = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName",
+                        .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME)).add(
-                                Restrictions.or(Restrictions.eq("modelType",
-                                        Constants.PREDICTION), Restrictions.or(
-                                        Restrictions.eq("modelType",
+                                Expression.or(Expression.eq("modelType",
+                                        Constants.PREDICTION), Expression.or(
+                                        Expression.eq("modelType",
                                                 Constants.CONTINUOUS),
-                                        Restrictions.eq("modelType",
+                                        Expression.eq("modelType",
                                                 Constants.CATEGORY)
                                 ))
                         )
@@ -336,12 +336,12 @@ public class PopulateDataObjects {
                     dataSets.add((DataSet) tempIter.next());
                 }
                 Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName", userName)).add(
-                                Restrictions.eq("jobCompleted", Constants.YES))
-                        .add(Restrictions.or(Restrictions.eq("modelType",
-                                Constants.PREDICTION), Restrictions.or(
-                                Restrictions.eq("modelType",
-                                        Constants.CONTINUOUS), Restrictions.eq(
+                        .add(Expression.eq("userName", userName)).add(
+                                Expression.eq("jobCompleted", Constants.YES))
+                        .add(Expression.or(Expression.eq("modelType",
+                                Constants.PREDICTION), Expression.or(
+                                Expression.eq("modelType",
+                                        Constants.CONTINUOUS), Expression.eq(
                                         "modelType", Constants.CATEGORY)
                         )))
                         .addOrder(Order.asc("name")).list().iterator();
@@ -350,12 +350,12 @@ public class PopulateDataObjects {
                 }
             } else {
                 Iterator<?> tempIter = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName", userName)).add(
-                                Restrictions.eq("jobCompleted", Constants.YES))
-                        .add(Restrictions.or(Restrictions.eq("modelType",
-                                Constants.PREDICTION), Restrictions.or(
-                                Restrictions.eq("modelType",
-                                        Constants.CONTINUOUS), Restrictions.eq(
+                        .add(Expression.eq("userName", userName)).add(
+                                Expression.eq("jobCompleted", Constants.YES))
+                        .add(Expression.or(Expression.eq("modelType",
+                                Constants.PREDICTION), Expression.or(
+                                Expression.eq("modelType",
+                                        Constants.CONTINUOUS), Expression.eq(
                                         "modelType", Constants.CATEGORY)
                         )))
                         .addOrder(Order.asc("name")).list().iterator();
@@ -393,9 +393,9 @@ public class PopulateDataObjects {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
                 Iterator<?> tempIter1 = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName",
+                        .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME)).add(
-                                Restrictions.eq("modelType", modelType))
+                                Expression.eq("modelType", modelType))
                         .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter1.hasNext()) {
@@ -403,9 +403,9 @@ public class PopulateDataObjects {
                 }
 
                 Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName", userName)).add(
-                                Restrictions.eq("jobCompleted", Constants.YES))
-                        .add(Restrictions.eq("modelType", modelType)).addOrder(
+                        .add(Expression.eq("userName", userName)).add(
+                                Expression.eq("jobCompleted", Constants.YES))
+                        .add(Expression.eq("modelType", modelType)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
@@ -414,8 +414,8 @@ public class PopulateDataObjects {
 
             } else {
                 Iterator<?> tempIter1 = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName", userName)).add(
-                                Restrictions.eq("modelType", modelType))
+                        .add(Expression.eq("userName", userName)).add(
+                                Expression.eq("modelType", modelType))
                         .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter1.hasNext()) {
@@ -450,7 +450,7 @@ public class PopulateDataObjects {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
                 Iterator<?> tempIter1 = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName",
+                        .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME)).addOrder(
                                 Order.desc("name")).list().iterator();
 
@@ -458,7 +458,7 @@ public class PopulateDataObjects {
                     allUserDataSets.add((DataSet) tempIter1.next());
                 }
                 Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName", userName)).addOrder(
+                        .add(Expression.eq("userName", userName)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
@@ -466,7 +466,7 @@ public class PopulateDataObjects {
                 }
             } else {
                 Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName", userName)).addOrder(
+                        .add(Expression.eq("userName", userName)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
@@ -522,7 +522,7 @@ public class PopulateDataObjects {
             if (isAllUserIncludes) {
                 Iterator<?> tempIter1 = session.createCriteria(
                         Predictor.class).add(
-                        Restrictions.eq("userName",
+                        Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME)
                 ).addOrder(
                         Order.desc("name")).list().iterator();
@@ -534,7 +534,7 @@ public class PopulateDataObjects {
 
                 Iterator<?> tempIter2 = session.createCriteria(
                         Predictor.class).add(
-                        Restrictions.eq("userName", userName)).addOrder(
+                        Expression.eq("userName", userName)).addOrder(
                         Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
@@ -544,7 +544,7 @@ public class PopulateDataObjects {
             } else {
                 Iterator<?> tempIter2 = session.createCriteria(
                         Predictor.class).add(
-                        Restrictions.eq("userName", userName)).addOrder(
+                        Expression.eq("userName", userName)).addOrder(
                         Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
@@ -602,7 +602,7 @@ public class PopulateDataObjects {
             if (isAllUserIncludes) {
                 Iterator<?> tempIter1 = session.createCriteria(
                         Prediction.class).add(
-                        Restrictions.eq("userName",
+                        Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME)
                 ).addOrder(
                         Order.desc("name")).list().iterator();
@@ -613,7 +613,7 @@ public class PopulateDataObjects {
 
                 Iterator<?> tempIter2 = session.createCriteria(
                         Prediction.class).add(
-                        Restrictions.eq("userName", userName)).addOrder(
+                        Expression.eq("userName", userName)).addOrder(
                         Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
@@ -623,7 +623,7 @@ public class PopulateDataObjects {
 
                 Iterator<?> tempIter2 = session.createCriteria(
                         Prediction.class).add(
-                        Restrictions.eq("userName", userName)).addOrder(
+                        Expression.eq("userName", userName)).addOrder(
                         Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
@@ -678,8 +678,8 @@ public class PopulateDataObjects {
                     // when done
                     Iterator<?> tempIter = session.createCriteria(
                             Predictor.class).add(
-                            Restrictions.eq("jobCompleted", Constants.YES))
-                            .add(Restrictions.ne("predictorType",
+                            Expression.eq("jobCompleted", Constants.YES))
+                            .add(Expression.ne("predictorType",
                                     Constants.HIDDEN)).addOrder(
                                     Order.desc("name")).list().iterator();
 
@@ -689,9 +689,9 @@ public class PopulateDataObjects {
                 } else {
                     Iterator<?> tempIter = session.createCriteria(
                             Predictor.class).add(
-                            Restrictions.eq("userName", userName)).add(
-                            Restrictions.eq("jobCompleted", Constants.YES))
-                            .add(Restrictions.ne("predictorType",
+                            Expression.eq("userName", userName)).add(
+                            Expression.eq("jobCompleted", Constants.YES))
+                            .add(Expression.ne("predictorType",
                                     Constants.HIDDEN)).addOrder(
                                     Order.desc("name")).list().iterator();
 
@@ -702,8 +702,8 @@ public class PopulateDataObjects {
             } else {
                 Iterator<?> tempIter = session
                         .createCriteria(Predictor.class).add(
-                                Restrictions.eq("userName", userName)).add(
-                                Restrictions.ne("predictorType",
+                                Expression.eq("userName", userName)).add(
+                                Expression.ne("predictorType",
                                         Constants.HIDDEN)
                         ).list().iterator();
 
@@ -727,9 +727,9 @@ public class PopulateDataObjects {
                 if (onlyCompleted) {
                     Iterator<?> tempIter = session
                             .createCriteria(Predictor.class)
-                            .add(Restrictions.eq("userName", Constants.ALL_USERS_USERNAME))
-                            .add(Restrictions.eq("predictorType", Constants.ADME))
-                            .add(Restrictions.eq("jobCompleted", Constants.YES))
+                            .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
+                            .add(Expression.eq("predictorType", Constants.ADME))
+                            .add(Expression.eq("jobCompleted", Constants.YES))
                             .addOrder(Order.desc("name")).list().iterator();
 
                     while (tempIter.hasNext()) {
@@ -738,7 +738,7 @@ public class PopulateDataObjects {
                 } else {
                     Iterator<?> tempIter = session.createCriteria(
                             Predictor.class).add(
-                            Restrictions.eq("predictorType", Constants.ADME))
+                            Expression.eq("predictorType", Constants.ADME))
                             .list().iterator();
 
                     while (tempIter.hasNext()) {
@@ -763,9 +763,9 @@ public class PopulateDataObjects {
                 if (onlyCompleted) {
                     Iterator<?> tempIter = session
                             .createCriteria(Predictor.class)
-                            .add(Restrictions.eq("predictorType",
+                            .add(Expression.eq("predictorType",
                                     Constants.TOXICITY))
-                            .add(Restrictions.eq("jobCompleted", Constants.YES))
+                            .add(Expression.eq("jobCompleted", Constants.YES))
                             .addOrder(Order.desc("name")).list().iterator();
 
                     while (tempIter.hasNext()) {
@@ -775,7 +775,7 @@ public class PopulateDataObjects {
                 } else {
                     Iterator<?> tempIter = session.createCriteria(
                             Predictor.class).add(
-                            Restrictions
+                            Expression
                                     .eq("predictorType", Constants.TOXICITY)
                     )
                             .list().iterator();
@@ -801,10 +801,10 @@ public class PopulateDataObjects {
                 if (onlyCompleted) {
                     Iterator<?> tempIter = session.createCriteria(
                             Predictor.class).add(
-                            Restrictions.eq("predictorType",
+                            Expression.eq("predictorType",
                                     Constants.DRUGDISCOVERY)
                     ).add(
-                            Restrictions.eq("jobCompleted", Constants.YES))
+                            Expression.eq("jobCompleted", Constants.YES))
                             .addOrder(Order.desc("name")).list().iterator();
 
                     while (tempIter.hasNext()) {
@@ -814,7 +814,7 @@ public class PopulateDataObjects {
                 } else {
                     Iterator<?> tempIter = session.createCriteria(
                             Predictor.class).add(
-                            Restrictions.eq("predictorType",
+                            Expression.eq("predictorType",
                                     Constants.DRUGDISCOVERY)
                     ).list()
                             .iterator();
@@ -859,9 +859,9 @@ public class PopulateDataObjects {
                 tx = session.beginTransaction();
                 Iterator<?> tempIter = session.createCriteria(
                         Prediction.class).add(
-                        Restrictions.eq("jobCompleted", Constants.YES)).add(
-                        Restrictions.or(Restrictions.eq("userName", userName),
-                                Restrictions.eq("userName",
+                        Expression.eq("jobCompleted", Constants.YES)).add(
+                        Expression.or(Expression.eq("userName", userName),
+                                Expression.eq("userName",
                                         Constants.ALL_USERS_USERNAME)
                         )
                 )
@@ -920,7 +920,7 @@ public class PopulateDataObjects {
             if (isAllUserIncludes) {
 
                 Iterator<?> tempIter1 = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName",
+                        .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME)).addOrder(
                                 Order.desc("name")).list().iterator();
                 while (tempIter1.hasNext()) {
@@ -928,7 +928,7 @@ public class PopulateDataObjects {
                 }
 
                 Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName", userName)).addOrder(
+                        .add(Expression.eq("userName", userName)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
@@ -937,7 +937,7 @@ public class PopulateDataObjects {
             } else {
 
                 Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName", userName)).addOrder(
+                        .add(Expression.eq("userName", userName)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
@@ -1012,21 +1012,21 @@ public class PopulateDataObjects {
                         || descriptorTypeName.trim().isEmpty()) {
 
 		    /* Iterator<?> i1 = session.createCriteria(DataSet.class)
-                            .add(Restrictions.eq("userName",
+                            .add(Expression.eq("userName",
                                     Constants.ALL_USERS_USERNAME))
-                            .add(Restrictions.or(Restrictions.eq("modelType",
-                                    Constants.PREDICTION), Restrictions.or(
-                                    Restrictions.eq("modelType",
-                                            Constants.CONTINUOUS), Restrictions
+                            .add(Expression.or(Expression.eq("modelType",
+                                    Constants.PREDICTION), Expression.or(
+                                    Expression.eq("modelType",
+                                            Constants.CONTINUOUS), Expression
                                             .eq("modelType",
                                                     Constants.CATEGORY))))
 						    .addOrder(Order.desc("name")).list().iterator();*/
                     Iterator<?> i1 = session.createCriteria(DataSet.class)
-                            .add(Restrictions.eq("userName",
+                            .add(Expression.eq("userName",
                                     Constants.ALL_USERS_USERNAME))
-                            .add(Restrictions.and(
-                                    Restrictions.eq("uploadedDescriptorType", ""),
-                                    Restrictions.eq("availableDescriptors", Constants.UPLOADED)))
+                            .add(Expression.and(
+                                    Expression.eq("uploadedDescriptorType", ""),
+                                    Expression.eq("availableDescriptors", Constants.UPLOADED)))
                             .addOrder(
                                     Order.desc("name")).list().iterator();
                     while (i1.hasNext()) {
@@ -1034,9 +1034,9 @@ public class PopulateDataObjects {
                     }
                 } else {
                     Iterator<?> i2 = session.createCriteria(DataSet.class)
-                            .add(Restrictions.eq("userName",
+                            .add(Expression.eq("userName",
                                     Constants.ALL_USERS_USERNAME)).add(
-                                    Restrictions.eq("uploadedDescriptorType",
+                                    Expression.eq("uploadedDescriptorType",
                                             descriptorTypeName)
                             ).addOrder(
                                     Order.desc("name")).list().iterator();
@@ -1049,27 +1049,27 @@ public class PopulateDataObjects {
             if (descriptorTypeName == null
                     || descriptorTypeName.trim().isEmpty()) {
                 /*Iterator<?> i3 = session.createCriteria(DataSet.class).add(
-                        Restrictions.eq("userName", userName)).add(
-                        Restrictions.or(Restrictions.eq("modelType",
-                                Constants.PREDICTION), Restrictions.or(
-                                Restrictions.eq("modelType",
-                                        Constants.CONTINUOUS), Restrictions.eq(
+                        Expression.eq("userName", userName)).add(
+                        Expression.or(Expression.eq("modelType",
+                                Constants.PREDICTION), Expression.or(
+                                Expression.eq("modelType",
+                                        Constants.CONTINUOUS), Expression.eq(
                                         "modelType", Constants.CATEGORY))))
 					.addOrder(Order.desc("name")).list().iterator();*/
                 Iterator<?> i3 = session
                         .createCriteria(DataSet.class)
-                        .add(Restrictions.eq("userName", userName))
-                        .add(Restrictions.and(
-                                Restrictions.eq("uploadedDescriptorType", ""),
-                                Restrictions.eq("availableDescriptors", Constants.UPLOADED)))
+                        .add(Expression.eq("userName", userName))
+                        .add(Expression.and(
+                                Expression.eq("uploadedDescriptorType", ""),
+                                Expression.eq("availableDescriptors", Constants.UPLOADED)))
                         .addOrder(Order.desc("name")).list().iterator();
                 while (i3.hasNext()) {
                     usersDataSet.add((DataSet) i3.next());
                 }
             } else {
                 Iterator<?> i4 = session.createCriteria(DataSet.class).add(
-                        Restrictions.eq("userName", userName)).add(
-                        Restrictions.eq("uploadedDescriptorType",
+                        Expression.eq("userName", userName)).add(
+                        Expression.eq("uploadedDescriptorType",
                                 descriptorTypeName)
                 ).addOrder(
                         Order.desc("name")).list().iterator();
@@ -1097,7 +1097,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             job = (Job) session.createCriteria(Job.class).add(
-                    Restrictions.eq("id", jobId)).uniqueResult();
+                    Expression.eq("id", jobId)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1113,8 +1113,8 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             job = (Job) session.createCriteria(Job.class).add(
-                    Restrictions.eq("jobName", name)).add(
-                    Restrictions.eq("userName", userName)).uniqueResult();
+                    Expression.eq("jobName", name)).add(
+                    Expression.eq("userName", userName)).uniqueResult();
 
             tx.commit();
         } catch (Exception e) {
@@ -1133,8 +1133,8 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             dataset = (DataSet) session.createCriteria(DataSet.class).add(
-                    Restrictions.eq("name", datasetName)).add(
-                    Restrictions.eq("userName", userName)).uniqueResult();
+                    Expression.eq("name", datasetName)).add(
+                    Expression.eq("userName", userName)).uniqueResult();
 
             tx.commit();
         } catch (Exception e) {
@@ -1154,8 +1154,8 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             dataset = (DataSet) session.createCriteria(DataSet.class).add(
-                    Restrictions.eq("name", datasetName)).add(
-                    Restrictions.eq("userName", userName)).uniqueResult();
+                    Expression.eq("name", datasetName)).add(
+                    Expression.eq("userName", userName)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1171,7 +1171,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             dataset = (DataSet) session.createCriteria(DataSet.class).add(
-                    Restrictions.eq("id", id)).uniqueResult();
+                    Expression.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1188,7 +1188,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             predictor = (Predictor) session.createCriteria(Predictor.class)
-                    .add(Restrictions.eq("id", predictorId)).uniqueResult();
+                    .add(Expression.eq("id", predictorId)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1212,7 +1212,7 @@ public class PopulateDataObjects {
             tx = session.beginTransaction();
             prediction = (Prediction) session
                     .createCriteria(Prediction.class).add(
-                            Restrictions.eq("id", predictionId)).uniqueResult();
+                            Expression.eq("id", predictionId)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1254,8 +1254,8 @@ public class PopulateDataObjects {
             tx = session.beginTransaction();
             prediction = (Prediction) session
                     .createCriteria(Prediction.class).add(
-                            Restrictions.eq("userName", userName)).add(
-                            Restrictions.eq("name", jobName)).uniqueResult();
+                            Expression.eq("userName", userName)).add(
+                            Expression.eq("name", jobName)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1287,7 +1287,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             user = (User) session.createCriteria(User.class).add(
-                    Restrictions.eq("userName", userName)).uniqueResult();
+                    Expression.eq("userName", userName)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1371,7 +1371,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             Iterator<?> tempIter = session.createCriteria(JobStats.class)
-                    .add(Restrictions.eq("userName", username)).list()
+                    .add(Expression.eq("userName", username)).list()
                     .iterator();
             while (tempIter.hasNext()) {
                 jobStats.add((JobStats) tempIter.next());
@@ -1394,7 +1394,7 @@ public class PopulateDataObjects {
             tx = session.beginTransaction();
             Iterator<?> tempIter = session.createCriteria(
                     RandomForestGrove.class).add(
-                    Restrictions.eq("predictorId", predictorId)).list()
+                    Expression.eq("predictorId", predictorId)).list()
                     .iterator();
             while (tempIter.hasNext()) {
                 groves.add((RandomForestGrove) tempIter.next());
@@ -1417,7 +1417,7 @@ public class PopulateDataObjects {
             tx = session.beginTransaction();
             Iterator<?> tempIter = session.createCriteria(
                     RandomForestTree.class).add(
-                    Restrictions.eq("randomForestGroveId", groveId)).list()
+                    Expression.eq("randomForestGroveId", groveId)).list()
                     .iterator();
 
             while (tempIter.hasNext()) {
@@ -1439,7 +1439,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             Iterator<?> tempIter = session.createCriteria(KnnPlusModel.class)
-                    .add(Restrictions.eq("predictorId", predictorId)).list()
+                    .add(Expression.eq("predictorId", predictorId)).list()
                     .iterator();
             while (tempIter.hasNext()) {
                 models.add((KnnPlusModel) tempIter.next());
@@ -1464,7 +1464,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             Iterator<?> tempIter = session.createCriteria(SvmModel.class)
-                    .add(Restrictions.eq("predictorId", predictorId)).list()
+                    .add(Expression.eq("predictorId", predictorId)).list()
                     .iterator();
             while (tempIter.hasNext()) {
 
@@ -1491,7 +1491,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             Iterator<?> tempIter = session.createCriteria(KnnModel.class)
-                    .add(Restrictions.eq("predictorId", predictorId)).list()
+                    .add(Expression.eq("predictorId", predictorId)).list()
                     .iterator();
 
             while (tempIter.hasNext()) {
@@ -1527,8 +1527,8 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             predictor = (Predictor) session.createCriteria(Predictor.class)
-                    .add(Restrictions.eq("name", selectedPredictorName)).add(
-                            Restrictions.eq("userName", user)).uniqueResult();
+                    .add(Expression.eq("name", selectedPredictorName)).add(
+                            Expression.eq("userName", user)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1570,7 +1570,7 @@ public class PopulateDataObjects {
                     tx = session.beginTransaction();
                     Predictor childPredictor = (Predictor) session
                             .createCriteria(Predictor.class).add(
-                                    Restrictions.eq("id", Long
+                                    Expression.eq("id", Long
                                             .parseLong(childPredictorId))
                             )
                             .uniqueResult();
@@ -1593,7 +1593,7 @@ public class PopulateDataObjects {
             tx = session.beginTransaction();
             Iterator<?> tempIter = session.createCriteria(
                     ExternalValidation.class).add(
-                    Restrictions.eq("predictorId", predictorId)).addOrder(
+                    Expression.eq("predictorId", predictorId)).addOrder(
                     Order.asc("predictedValue")).list().iterator();
 
             while (tempIter.hasNext()) {
@@ -1619,7 +1619,7 @@ public class PopulateDataObjects {
             try {
                 tx = session.beginTransaction();
                 Iterator<?> tempIter = session.createCriteria(Job.class).add(
-                        Restrictions.eq("userName", userName)).list()
+                        Expression.eq("userName", userName)).list()
                         .iterator();
 
                 while (tempIter.hasNext()) {
@@ -1664,8 +1664,8 @@ public class PopulateDataObjects {
                 if (justRunning) {
                     Iterator<?> tempIterator = session.createCriteria(
                             Job.class).add(
-                            Restrictions.eq("userName", userName)).add(
-                            Restrictions.eq("state", Constants.QUEUED)).list()
+                            Expression.eq("userName", userName)).add(
+                            Expression.eq("state", Constants.QUEUED)).list()
                             .iterator();
 
                     while (tempIterator.hasNext()) {
@@ -1674,7 +1674,7 @@ public class PopulateDataObjects {
                 } else {
                     Iterator<?> tempIterator = session.createCriteria(
                             Job.class).add(
-                            Restrictions.eq("userName", userName)).list()
+                            Expression.eq("userName", userName)).list()
                             .iterator();
 
                     while (tempIterator.hasNext()) {
@@ -1703,7 +1703,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             task = (Job) session.createCriteria(Job.class).add(
-                    Restrictions.eq("id", id)).uniqueResult();
+                    Expression.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1751,7 +1751,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             sl = (SoftwareLink) session.createCriteria(SoftwareLink.class)
-                    .add(Restrictions.eq("id", id)).uniqueResult();
+                    .add(Expression.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1767,7 +1767,7 @@ public class PopulateDataObjects {
             tx = session.beginTransaction();
             params = (RandomForestParameters) session.createCriteria(
                     RandomForestParameters.class)
-                    .add(Restrictions.eq("id", id)).uniqueResult();
+                    .add(Expression.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1782,7 +1782,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             params = (KnnParameters) session.createCriteria(
-                    KnnParameters.class).add(Restrictions.eq("id", id))
+                    KnnParameters.class).add(Expression.eq("id", id))
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
@@ -1798,7 +1798,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             params = (KnnPlusParameters) session.createCriteria(
-                    KnnPlusParameters.class).add(Restrictions.eq("id", id))
+                    KnnPlusParameters.class).add(Expression.eq("id", id))
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
@@ -1814,7 +1814,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             params = (SvmParameters) session.createCriteria(
-                    SvmParameters.class).add(Restrictions.eq("id", id))
+                    SvmParameters.class).add(Expression.eq("id", id))
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
