@@ -949,8 +949,8 @@ public class DatasetFileOperations {
             for (int r = 0; r < rows; r++) {
                 row = sheet.getRow(r);
                 if (row != null) {
-                    cell1 = row.getCell(0);
-                    cell2 = row.getCell(1);
+                    cell1 = row.getCell((short) 0);
+                    cell2 = row.getCell((short) 1);
                     if (cell1.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
                         sb.append((int) cell1.getNumericCellValue());
                     } else {
