@@ -674,30 +674,16 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             if (onlyCompleted) {
-                if (userName.equals("ALLOFTHEM")) { // silly kludge, remove
-                    // when done
-                    Iterator<?> tempIter = session.createCriteria(
-                            Predictor.class).add(
-                            Expression.eq("jobCompleted", Constants.YES))
-                            .add(Expression.ne("predictorType",
-                                    Constants.HIDDEN)).addOrder(
-                                    Order.desc("name")).list().iterator();
+                Iterator<?> tempIter = session.createCriteria(
+                        Predictor.class).add(
+                        Expression.eq("userName", userName)).add(
+                        Expression.eq("jobCompleted", Constants.YES))
+                        .add(Expression.ne("predictorType",
+                                Constants.HIDDEN)).addOrder(
+                                Order.desc("name")).list().iterator();
 
-                    while (tempIter.hasNext()) {
-                        privatePredictors.add((Predictor) tempIter.next());
-                    }
-                } else {
-                    Iterator<?> tempIter = session.createCriteria(
-                            Predictor.class).add(
-                            Expression.eq("userName", userName)).add(
-                            Expression.eq("jobCompleted", Constants.YES))
-                            .add(Expression.ne("predictorType",
-                                    Constants.HIDDEN)).addOrder(
-                                    Order.desc("name")).list().iterator();
-
-                    while (tempIter.hasNext()) {
-                        privatePredictors.add((Predictor) tempIter.next());
-                    }
+                while (tempIter.hasNext()) {
+                    privatePredictors.add((Predictor) tempIter.next());
                 }
             } else {
                 Iterator<?> tempIter = session
