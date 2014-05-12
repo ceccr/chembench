@@ -92,7 +92,7 @@
                     <table width="680" border="0">
                             <tr><td>Predictor name:</td><td><s:textfield name="predictorName" value="" size="43" theme="simple" /></td></tr>
                             <tr><td>User name:</td><td><s:textfield name="userName" value="" size="43" theme="simple" /></td></tr>
-                            <tr><td>Predictor type:</td><td><s:select name="predictorType" theme="simple" list="#{'':'','DrugDiscovery':'Drug Discovery','ADME':'ADME','Toxicity':'Toxicity'}" value=""/></td></tr>
+                            <tr><td>Predictor type:</td><td><s:select name="predictorType" theme="simple" list="#{'':'','DrugDiscovery':'Drug Discovery','ADME':'ADME','Toxicity':'Toxicity','Transporters':'Transporters'}" value=""/></td></tr>
                             <tr>
                             <td></td>
                             <td>
