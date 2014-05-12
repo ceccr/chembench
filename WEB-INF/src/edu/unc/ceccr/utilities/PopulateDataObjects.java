@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -703,118 +704,38 @@ public class PopulateDataObjects {
         }
         predictors.addAll(privatePredictors);
 
-        // adme
         if (includePublic) {
-            List<Predictor> admePredictors = new ArrayList<Predictor>();
+            List<Predictor> publicPredictors = new ArrayList<Predictor>();
             session = HibernateUtil.getSession();
             tx = null;
             try {
                 tx = session.beginTransaction();
-                if (onlyCompleted) {
-                    Iterator<?> tempIter = session
-                            .createCriteria(Predictor.class)
-                            .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
-                            .add(Expression.eq("predictorType", Constants.ADME))
-                            .add(Expression.eq("jobCompleted", Constants.YES))
-                            .addOrder(Order.desc("name")).list().iterator();
+                Criteria baseCriteria = session.createCriteria(Predictor.class)
+                        .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
+                        .add(Expression.ne("predictorType", Constants.HIDDEN))
+                        .addOrder(Order.desc("name"));
 
-                    while (tempIter.hasNext()) {
-                        admePredictors.add((Predictor) tempIter.next());
-                    }
-                } else {
-                    Iterator<?> tempIter = session.createCriteria(
-                            Predictor.class).add(
-                            Expression.eq("predictorType", Constants.ADME))
+                if (onlyCompleted) {
+                    Iterator<?> tempIter = baseCriteria
+                            .add(Expression.eq("jobCompleted", Constants.YES))
                             .list().iterator();
 
                     while (tempIter.hasNext()) {
-                        admePredictors.add((Predictor) tempIter.next());
-                    }
-                }
-
-                tx.commit();
-            } catch (Exception e) {
-                logger.error(e);
-            }
-            predictors.addAll(admePredictors);
-        }
-
-        // tox
-        if (includePublic) {
-            List<Predictor> toxicityPredictors = new ArrayList<Predictor>();
-            session = HibernateUtil.getSession();
-            tx = null;
-            try {
-                tx = session.beginTransaction();
-                if (onlyCompleted) {
-                    Iterator<?> tempIter = session
-                            .createCriteria(Predictor.class)
-                            .add(Expression.eq("predictorType",
-                                    Constants.TOXICITY))
-                            .add(Expression.eq("jobCompleted", Constants.YES))
-                            .addOrder(Order.desc("name")).list().iterator();
-
-                    while (tempIter.hasNext()) {
-                        toxicityPredictors.add((Predictor) tempIter.next());
-
+                        publicPredictors.add((Predictor) tempIter.next());
                     }
                 } else {
-                    Iterator<?> tempIter = session.createCriteria(
-                            Predictor.class).add(
-                            Expression
-                                    .eq("predictorType", Constants.TOXICITY)
-                    )
-                            .list().iterator();
+                    Iterator<?> tempIter = baseCriteria.list().iterator();
 
                     while (tempIter.hasNext()) {
-                        toxicityPredictors.add((Predictor) tempIter.next());
+                        publicPredictors.add((Predictor) tempIter.next());
                     }
                 }
+
                 tx.commit();
             } catch (Exception e) {
                 logger.error(e);
             }
-            predictors.addAll(toxicityPredictors);
-        }
-
-        // drugdiscovery
-        if (includePublic) {
-            List<Predictor> drugDiscoveryPredictors = new ArrayList<Predictor>();
-            session = HibernateUtil.getSession();
-            tx = null;
-            try {
-                tx = session.beginTransaction();
-                if (onlyCompleted) {
-                    Iterator<?> tempIter = session.createCriteria(
-                            Predictor.class).add(
-                            Expression.eq("predictorType",
-                                    Constants.DRUGDISCOVERY)
-                    ).add(
-                            Expression.eq("jobCompleted", Constants.YES))
-                            .addOrder(Order.desc("name")).list().iterator();
-
-                    while (tempIter.hasNext()) {
-                        drugDiscoveryPredictors.add((Predictor) tempIter
-                                .next());
-                    }
-                } else {
-                    Iterator<?> tempIter = session.createCriteria(
-                            Predictor.class).add(
-                            Expression.eq("predictorType",
-                                    Constants.DRUGDISCOVERY)
-                    ).list()
-                            .iterator();
-
-                    while (tempIter.hasNext()) {
-                        drugDiscoveryPredictors.add((Predictor) tempIter
-                                .next());
-                    }
-                }
-                tx.commit();
-            } catch (Exception e) {
-                logger.error(e);
-            }
-            predictors.addAll(drugDiscoveryPredictors);
+            predictors.addAll(publicPredictors);
         }
 
         for (int i = 0; i < predictors.size(); i++) {
