@@ -327,6 +327,52 @@
                                     </s:if>
                                   </s:iterator>
                                 </table>
+
+                                <p
+                                    style="cursor:pointer; font-weight:bold"
+                                    class="StandardTextDarkGrayParagraph"
+                                     onclick="openShutManager(this, 'transporters', false, '- Transporter Predictors', '+ Transporter Predictors')">
+
+                                  <b>+ Transporter Predictors</b>
+                                </p>
+                                <table width="100%" class="sortable" id="transporters" style="display:none">
+                                  <tr>
+                                    <th class="TableRowText01narrow_unsortable">Select</th>
+                                    <th class="TableRowText01narrow">Name</th>
+                                    <th class="TableRowText01narrow">Date Created</th>
+                                    <th class="TableRowText01narrow">Modeling Method</th>
+                                    <th class="TableRowText01narrow">Descriptor Type</th>
+                                  </tr>
+                                  <s:iterator value="userPredictors">
+                                    <s:if test="predictorType=='Transporters'">
+                                      <tr>
+                                        <td class="TableRowText02narrow">
+                                          <s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" />
+                                        </td>
+                                        <td class="TableRowText02narrow">
+                                          <s:property value="name" />
+                                        </td>
+                                        <td class="TableRowText02narrow">
+                                          <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
+                                        </td>
+                                        <td class="TableRowText02narrow">
+                                          <s:property value="modelMethod" />
+                                        </td>
+                                        <s:if test="descriptorGeneration=='UPLOADED'">
+                                          <td class="TableRowText02narrow">
+                                            *
+                                            <s:property value="uploadedDescriptorType" />
+                                          </td>
+                                        </s:if>
+                                        <s:else>
+                                          <td class="TableRowText02narrow">
+                                            <s:property value="descriptorGeneration" />
+                                          </td>
+                                        </s:else>
+                                      </tr>
+                                    </s:if>
+                                  </s:iterator>
+                                </table>
                                 <!-- <br /> <br /> -->
                                 <!-- </div> -->
                             </s:if>
