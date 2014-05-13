@@ -13,21 +13,19 @@ import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 import org.apache.log4j.Logger;
 
-public class KnnPrediction
-{
+public class KnnPrediction {
 
     private static Logger logger = Logger.getLogger(KnnPrediction.class
-                                         .getName());
+            .getName());
 
     // Execute external programs to generate a prediction for a given molecule
     // set.
     // Used for legacy models that were created using Sasha's kNN code.
 
     public static ArrayList<PredictionValue>
-            readPredictionOutput(String workingDir,
-                                 Long predictorId,
-                                 String sdFile) throws Exception
-    {
+    readPredictionOutput(String workingDir,
+                         Long predictorId,
+                         String sdFile) throws Exception {
         // NOTE: THIS IS THE VERSION USED FOR KNN ONLY. For knn+, go to
         // knnPlusWorkflow.java.
 
@@ -36,9 +34,9 @@ public class KnnPrediction
         // cons_pred_vs_anticonvulsants_91.sdf.renorm.preds
         String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_"
                 + sdFile.toLowerCase() + ".renorm.preds"; // the ".preds" is
-                                                          // added
-                                                          // automatically by
-                                                          // knn+
+        // added
+        // automatically by
+        // knn+
         logger.debug("Reading file: " + workingDir + outputFile);
         BufferedReader in = new BufferedReader(new FileReader(workingDir
                 + outputFile));
@@ -47,22 +45,22 @@ public class KnnPrediction
         // The first four lines are all header data
         in.readLine(); // junk
         inputString = in.readLine(); // compound names are here; we'll need
-                                     // them
+        // them
         String[] compoundNames = inputString.split("\\s+");
 
         in.readLine(); // junk
         in.readLine(); // junk
 
         ArrayList<ArrayList<String>> predictionMatrix = new ArrayList<ArrayList<String>>(); // read
-                                                                                            // output
-                                                                                            // file
-                                                                                            // into
-                                                                                            // this
+        // output
+        // file
+        // into
+        // this
         ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); // holds
-                                                                                        // objects
-                                                                                        // to
-                                                                                        // be
-                                                                                        // returned
+        // objects
+        // to
+        // be
+        // returned
 
         // each line of output represents a model
         // (which is really the transpose of the matrix we're looking for...
@@ -74,9 +72,9 @@ public class KnnPrediction
 
             // get output for each compound in model
             String[] predValues = inputString.split("\\s+"); // Note: [0] and
-                                                             // [1] in this
-                                                             // array will be
-                                                             // junk.
+            // [1] in this
+            // array will be
+            // junk.
 
             // predValues(0) will be model_id, which is just an index.
             // predValues(1) will be AD_distance, which we may want to capture
@@ -103,15 +101,13 @@ public class KnnPrediction
                     String predValue = predictionMatrix.get(j).get(i);
                     if (predValue.equalsIgnoreCase("NA")) {
                         numPredictingModels--;
-                    }
-                    else {
+                    } else {
                         sum += Float.parseFloat(predValue);
                     }
                 }
                 if (numPredictingModels > 0) {
                     mean = sum / numPredictingModels;
-                }
-                else {
+                } else {
                     mean = null;
                 }
 
@@ -128,8 +124,7 @@ public class KnnPrediction
                     }
                     // divide sum then take sqrt to get stddev
                     stddev = (float) Math.sqrt(stddev / numPredictingModels);
-                }
-                else {
+                } else {
                     stddev = null;
                 }
 
@@ -145,8 +140,7 @@ public class KnnPrediction
 
                 predictionValues.add(p);
 
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }
@@ -155,11 +149,10 @@ public class KnnPrediction
     }
 
     public static void
-            runKnnPlusPredictionForKnnPredictors(String userName,
-                                                 String jobName,
-                                                 String workingDir,
-                                                 String sdfile) throws Exception
-    {
+    runKnnPlusPredictionForKnnPredictors(String userName,
+                                         String jobName,
+                                         String workingDir,
+                                         String sdfile) throws Exception {
         // Used for legacy models that were created using Sasha's kNN code.
 
         // write a dummy .a file because knn+ needs it or it fails

@@ -13,24 +13,23 @@ import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 
-public class SvmModelsPage extends ViewPredictorAction
-{
+public class SvmModelsPage extends ViewPredictorAction {
 
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(SvmModelsPage.class.getName());
-    
-    private List<SvmModel> svmModels;
-    private SvmParameters  svmParameters;
 
-    public String load() throws Exception
-    {
+    private List<SvmModel> svmModels;
+    private SvmParameters svmParameters;
+
+    public String load() throws Exception {
         // get models associated with predictor
         String result = getBasicParameters();
-        if (!result.equals(SUCCESS))
+        if (!result.equals(SUCCESS)) {
             return result;
+        }
 
         getModelsPageParameters();
 
@@ -42,8 +41,7 @@ public class SvmModelsPage extends ViewPredictorAction
         session.close();
         if (childPredictors.size() == 0) {
             result = loadModels();
-        }
-        else {
+        } else {
             currentFoldNumber = ""
                     + (Integer.parseInt(currentFoldNumber) + 1);
             for (int i = 0; i < childPredictors.size(); i++) {
@@ -59,8 +57,7 @@ public class SvmModelsPage extends ViewPredictorAction
         return result;
     }
 
-    private String loadModels()
-    {
+    private String loadModels() {
         String result = SUCCESS;
 
         try {
@@ -77,15 +74,13 @@ public class SvmModelsPage extends ViewPredictorAction
                     if (m.getIsYRandomModel().equals(Constants.NO)
                             && isYRandomPage.equals(Constants.NO)) {
                         svmModels.add(m);
-                    }
-                    else if (m.getIsYRandomModel().equals(Constants.YES)
+                    } else if (m.getIsYRandomModel().equals(Constants.YES)
                             && isYRandomPage.equals(Constants.YES)) {
                         svmModels.add(m);
                     }
                 }
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
             errorStrings.add(ex.getMessage());
             return ERROR;
@@ -94,8 +89,7 @@ public class SvmModelsPage extends ViewPredictorAction
     }
 
     @SuppressWarnings("unused")
-    private String loadModelSets()
-    {
+    private String loadModelSets() {
         String result = SUCCESS;
         for (Predictor childPredictor : childPredictors) {
             objectId = "" + childPredictor.getId();
@@ -107,23 +101,19 @@ public class SvmModelsPage extends ViewPredictorAction
         return result;
     }
 
-    public List<SvmModel> getSvmModels()
-    {
+    public List<SvmModel> getSvmModels() {
         return svmModels;
     }
 
-    public void setSvmModels(List<SvmModel> svmModels)
-    {
+    public void setSvmModels(List<SvmModel> svmModels) {
         this.svmModels = svmModels;
     }
 
-    public SvmParameters getSvmParameters()
-    {
+    public SvmParameters getSvmParameters() {
         return svmParameters;
     }
 
-    public void setSvmParameters(SvmParameters svmParameters)
-    {
+    public void setSvmParameters(SvmParameters svmParameters) {
         this.svmParameters = svmParameters;
     }
 }

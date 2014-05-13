@@ -18,17 +18,15 @@ import edu.unc.ceccr.utilities.SendEmails;
 
 import org.apache.log4j.Logger;
 
-public class LocalProcessingThread extends Thread
-{
+public class LocalProcessingThread extends Thread {
 
     private static Logger logger = Logger.getLogger(LocalProcessingThread.class
-                                         .getName());
+            .getName());
 
     // this thread will work on the localJobs joblist.
     // There can be any number of these threads.
 
-    public void run()
-    {
+    public void run() {
         while (true) {
             try {
                 sleep(1500);
@@ -41,7 +39,7 @@ public class LocalProcessingThread extends Thread
                     // trying to get it too.
                     if (j != null
                             && CentralDogma.getInstance().localJobs
-                                    .startJob(j.getId())) {
+                            .startJob(j.getId())) {
                         logger.debug("Local queue: Started job "
                                 + j.getJobName());
                         j.setTimeStarted(new Date());
@@ -78,12 +76,15 @@ public class LocalProcessingThread extends Thread
                                 // site was out
                                 if (!j.getUserName().isEmpty()
                                         && PopulateDataObjects
-                                                .getUserByUserName(j
+                                        .getUserByUserName(j
                                                         .getUserName(),
-                                                        session) == null)
+                                                session
+                                        ) == null) {
                                     FileAndDirOperations.deleteDir(new File(
                                             Constants.CECCR_USER_BASE_PATH
-                                                    + j.getUserName()));
+                                                    + j.getUserName()
+                                    ));
+                                }
                                 session.close();
                             }
                             // finished; remove job object
@@ -91,8 +92,7 @@ public class LocalProcessingThread extends Thread
                                     .getId());
                             CentralDogma.getInstance().localJobs
                                     .deleteJobFromDB(j.getId());
-                        }
-                        catch (Exception ex) {
+                        } catch (Exception ex) {
                             // Job failed or threw an exception
                             logger.error("JOB FAILED: " + j.getUserName()
                                     + " " + j.getJobName());
@@ -104,23 +104,25 @@ public class LocalProcessingThread extends Thread
                                         + j.getUserName()
                                         + " "
                                         + PopulateDataObjects
-                                                .getUserByUserName(j
+                                        .getUserByUserName(j
                                                         .getUserName(),
-                                                        session));
+                                                session
+                                        ));
                                 if (!j.getUserName().isEmpty()
                                         && PopulateDataObjects
-                                                .getUserByUserName(j
+                                        .getUserByUserName(j
                                                         .getUserName(),
-                                                        session) == null) {
+                                                session
+                                        ) == null) {
                                     FileAndDirOperations.deleteDir(new File(
                                             Constants.CECCR_USER_BASE_PATH
-                                                    + j.getUserName()));
+                                                    + j.getUserName()
+                                    ));
                                     logger.error("JOB FAILED REMOVING FOR SURE GUEST: "
                                             + j.getUserName());
                                 }
                                 session.close();
-                            }
-                            else {
+                            } else {
                                 CentralDogma.getInstance()
                                         .moveJobToErrorList(j.getId());
                                 CentralDogma.getInstance().localJobs
@@ -165,19 +167,18 @@ public class LocalProcessingThread extends Thread
                                             .sendEmail(adminEmailAddress, "",
                                                     "", "Job failed: "
                                                             + j.getJobName(),
-                                                    message);
+                                                    message
+                                            );
                                 }
                             }
                         }
-                    }
-                    else {
+                    } else {
                         // some other thread already got this job. Don't worry
                         // about it.
                     }
                 }
 
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 logger.error(ex);
             }
         }

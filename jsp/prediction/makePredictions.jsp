@@ -30,48 +30,49 @@
     <script language="javascript" src="javascript/modeling.js"></script>
     <script src="javascript/predictorFormValidation.js"></script>
     <script type="text/javascript" src="javascript/jquery.zclip.min.js"></script>
+    <script src="javascript/jsme/jsme.nocache.js"></script>
     <script language="javascript">
-      var usedDatasetNames = new Array(
-      <s:iterator value="userDatasetNames">"<s:property />",</s:iterator>"");
-      var usedPredictorNames = new Array(
-      <s:iterator value="userPredictorNames">"<s:property />",</s:iterator>"");
-      var usedPredictionNames = new Array(
-      <s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
-      var usedTaskNames = new Array(
-      <s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
-      var runSmilesPrediction = "false";
-      var previousSmilesResults = "";
+        var usedDatasetNames = new Array(<s:iterator value="userDatasetNames">"<s:property />",</s:iterator>"");
+        var usedPredictorNames = new Array(<s:iterator value="userPredictorNames">"<s:property />",</s:iterator>"");
+        var usedPredictionNames = new Array(<s:iterator value="userPredictionNames">"<s:property />",</s:iterator>"");
+        var usedTaskNames = new Array(<s:iterator value="userTaskNames">"<s:property />",</s:iterator>"");
+        var runSmilesPrediction = "false";
+        var previousSmilesResults = "";
 
-      function predictSmiles(){
-        var smiles = document.getElementById("smiles").value;
-        var cutoff = document.getElementById("cutOffSmiles").value;
-        var url="makeSmilesPrediction?smiles=" + encodeURIComponent(smiles) + "&cutoff=" + cutoff + "&predictorIds=" + '<s:property value="selectedPredictorIds" />';
-        if (smiles == ""){
-              alert("Please sketch a compound or enter a SMILES string.");
-              return false;
-        }
-        else{
-          //prepare the AJAX object
-          var ajaxObject = GetXmlHttpObject();
-          ajaxObject.onreadystatechange=function(){
-            if(ajaxObject.readyState==4){
-              hideLoading();
-              document.getElementById("smilesResults").innerHTML = ajaxObject.responseText + previousSmilesResults;
-              previousSmilesResults = document.getElementById("smilesResults").innerHTML;
+        function predictSmiles() {
+            var smiles = document.getElementById("smiles").value;
+            var cutoff = document.getElementById("cutOffSmiles").value;
+            var url="makeSmilesPrediction?smiles=" + encodeURIComponent(smiles) + "&cutoff=" + cutoff + "&predictorIds=" + '<s:property value="selectedPredictorIds" />';
+            if (smiles == "") {
+                  alert("Please sketch a compound or enter a SMILES string.");
+                  return false;
+            } else {
+                //prepare the AJAX object
+                var ajaxObject = GetXmlHttpObject();
+                ajaxObject.onreadystatechange=function() {
+                    if (ajaxObject.readyState==4) {
+                      hideLoading();
+                      document.getElementById("smilesResults").innerHTML = ajaxObject.responseText + previousSmilesResults;
+                      previousSmilesResults = document.getElementById("smilesResults").innerHTML;
+                    }
+                }
+
+                showLoading("PREDICTING. PLEASE WAIT.");
+
+                //send request
+                ajaxObject.open("GET",url,true);
+                ajaxObject.send(null);
+
+                return true;
             }
-          }
-
-          showLoading("PREDICTING. PLEASE WAIT.");
-
-          //send request
-          ajaxObject.open("GET",url,true);
-          ajaxObject.send(null);
-
-          return true;
         }
-      }
-       </script>
-  </head>
+
+        function jsmeOnLoad() {
+            var jsmeApplet = new JSApplet.JSME("jsme-container", "440px", "300px");
+            document.JME = jsmeApplet;
+        }
+</script>
+</head>
   <body onload="setTabToPrediction();">
     <div id="bodyDIV"></div>
     <!-- used for the "Please Wait..." box. Do not remove. -->
@@ -96,12 +97,6 @@
             <tr valign="top">
               <td valign="top" style="border:0px solid black; vertical-align:top">
                 <div valign="top" style="margin:0px; vertical-align:top">
-                    <script>
-                      $(function() {
-                        $( "#tabs" ).tabs({ active: 1 });
-                        });
-                      </script>
-
                       <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
                         <tr>
                           <td>
@@ -147,10 +142,6 @@
 
                                   <b>+ Drug Discovery Predictors</b>
                                 </p>
-                                <!--
-                                  <p align="justify" class="StandardTextDarkGrayParagraph">These are public predictors
-                                  useful for virtual screening. * - predictor based on the uploaded dataset</p>
-                                -->
                                 <table width="100%" class="sortable" id="drugdisc" style="display:none">
                                   <tr>
                                     <th class="TableRowText01narrow_unsortable">Select</th>
@@ -158,7 +149,6 @@
                                     <th class="TableRowText01narrow">Date Created</th>
                                     <th class="TableRowText01narrow">Modeling Method</th>
                                     <th class="TableRowText01narrow">Descriptor Type</th>
-                                    <!-- <th class="TableRowText01narrow_unsortable" colspan="2">Description</th> -->
                                   </tr>
                                   <s:iterator value="userPredictors">
                                     <s:if test="predictorType=='DrugDiscovery'">
@@ -186,18 +176,11 @@
                                             <s:property value="descriptorGeneration" />
                                           </td>
                                         </s:else>
-                                        <!--
-                                          <td class="TableRowText02narrow" colspan="2"><s:property value="description"
-                                          /></td>
-                                        -->
                                       </tr>
                                     </s:if>
                                   </s:iterator>
 
                                 </table>
-                                <!-- <br /> <br /> -->
-                                <!-- </div> -->
-                                <!-- <div class="border benchAlign bottomMarginAdme"> -->
                                 <p
                                     style="cursor:pointer; font-weight:bold"
                                     class="StandardTextDarkGrayParagraph"
@@ -205,11 +188,6 @@
 
                                   <b>+ ADME Predictors</b>
                                 </p>
-                                <!--
-                                  <p align="justify" class="StandardTextDarkGrayParagraph">These are public predictors
-                                  useful for prediction of absorption, distribution, metabolism, and excretion
-                                  properties. * - predictor based on the uploaded dataset</p>
-                                -->
                                 <table width="100%" class="sortable" id="adme" style="display:none">
                                   <tr>
                                     <th class="TableRowText01narrow_unsortable">Select</th>
@@ -217,7 +195,6 @@
                                     <th class="TableRowText01narrow">Date Created</th>
                                     <th class="TableRowText01narrow">Modeling Method</th>
                                     <th class="TableRowText01narrow">Descriptor Type</th>
-                                    <!-- <th class="TableRowText01narrow_unsortable" colspan="2">Description</th> -->
                                   </tr>
                                   <s:iterator value="userPredictors">
                                     <s:if test="predictorType=='ADME'">
@@ -245,18 +222,11 @@
                                             <s:property value="descriptorGeneration" />
                                           </td>
                                         </s:else>
-                                        <!--
-                                          <td class="TableRowText02narrow" colspan="2"><s:property value="description"
-                                          /></td>
-                                        -->
                                       </tr>
                                     </s:if>
                                   </s:iterator>
                                 </table>
-                                <!-- </div> -->
-                                <!-- <br /> <br /> -->
 
-                                <!-- <div class="border benchAlign bottomMargin"> -->
                                 <p
                                     style="cursor:pointer; font-weight:bold"
                                     class="StandardTextDarkGrayParagraph"
@@ -264,10 +234,6 @@
 
                                   <b>+ Toxicity Predictors</b>
                                 </p>
-                                <!--
-                                  <p align="justify" class="StandardTextDarkGrayParagraph">These are public predictors
-                                  useful for toxicity prediction. * - predictor based on the uploaded dataset</p>
-                                -->
                                 <table width="100%" class="sortable" id="toxicity" style="display:none">
                                   <tr>
                                     <th class="TableRowText01narrow_unsortable">Select</th>
@@ -275,7 +241,6 @@
                                     <th class="TableRowText01narrow">Date Created</th>
                                     <th class="TableRowText01narrow">Modeling Method</th>
                                     <th class="TableRowText01narrow">Descriptor Type</th>
-                                    <!-- <th class="TableRowText01narrow_unsortable" colspan="2">Description</th> -->
                                   </tr>
                                   <s:iterator value="userPredictors">
                                     <s:if test="predictorType=='Toxicity'">
@@ -303,18 +268,11 @@
                                             <s:property value="descriptorGeneration" />
                                           </td>
                                         </s:else>
-                                        <!--
-                                          <td class="TableRowText02narrow" colspan="2"><s:property value="description"
-                                          /></td>
-                                        -->
                                       </tr>
                                     </s:if>
                                   </s:iterator>
                                 </table>
-                                <!-- <br /> <br /> -->
-                                <!-- </div> -->
                             </s:if>
-                            <!-- <div class="border benchAlign bottomMargin"> -->
                             <p
                                 style="cursor:pointer; font-weight:bold"
                                 class="StandardTextDarkGrayParagraph"
@@ -322,11 +280,6 @@
 
                               <b>+ Private Predictors</b>
                             </p>
-                            <!--
-                              <p align="justify" class="StandardTextDarkGrayParagraph">These are private predictors you
-                              have created. Other users cannot access them. * - predictor based on the uploaded
-                              dataset</p>
-                            -->
                             <table width="100%" class="sortable" id="private" style="display:none">
                               <tr>
                                 <th class="TableRowText01narrow_unsortable">Select</th>
@@ -334,7 +287,6 @@
                                 <th class="TableRowText01narrow">Date Created</th>
                                 <th class="TableRowText01narrow">Modeling Method</th>
                                 <th class="TableRowText01narrow">Descriptor Type</th>
-                                <!-- <th class="TableRowText01narrow">Dataset</th> -->
                               </tr>
                               <s:iterator value="userPredictors">
                                 <s:if test="predictorType=='Private'">
@@ -362,19 +314,10 @@
                                         <s:property value="descriptorGeneration" />
                                       </td>
                                     </s:else>
-                                    <!-- <td class="TableRowText02narrow"><s:property value="datasetDisplay" /></td> -->
                                   </tr>
                                 </s:if>
                               </s:iterator>
                             </table>
-                            <!-- </div> -->
-                            <!-- <br /> <br /> -->
-                            <!-- <div class="border benchAlign Choosepredictors" style="margin-top:-20px"> -->
-                            <!--
-                              <p class="StandardTextDarkGrayParagraph"> <b>Choose Predictors</b> </p> <p align="justify"
-                              class="StandardTextDarkGrayParagraph">When you have checked the boxes next to the
-                              predictors you want to use, click on the button below.</p>
-                            -->
                             <table>
                               <tr>
                                 <td>
@@ -400,10 +343,6 @@
                             style="border:0pt solid black">
 
                           <tbody>
-                            <!--
-                              <tr> <td align="left" colspan="2"> <div class="StandardTextDarkGrayParagraph2"
-                              align="left"><b>Dataset Prediction</b></div><br /> </td> </tr>
-                            -->
                                   <tr>
                                     <td colspan="2">
                                       <div class="StandardTextDarkGray">
@@ -443,11 +382,6 @@
                                             </tr>
                                           </s:iterator>
                                         </table>
-                                        <!--
-                                          <p class="StandardTextDarkGray"><a href="prediction">Back to Predictors
-                                          selection page</a></p>
-                                        -->
-
                                       </div>
                                     </td>
                                   </tr>
@@ -504,7 +438,6 @@
                                       <div id="cutoff_hint" style="display:none;border:#FFF solid 1px;width:300px;height:300px;position:absolute">Global Applicability Domain Similarity Cut Off</div>
                                     </td>
                                     <td align="left" valign="top">
-                                      <!--<s:textfield name="cutOff" id="cutOff" size="4" />-->
                                       <s:select name="cutOff" id="cutOff" theme="simple" list="#{'99999':'Do not use','3':'3\u03c3','2':'2\u03c3','1':'1\u03c3','0':'0\u03c3'}" value="N/A"/>
                                       <span id="messageDiv2"></span>
                                     </td>
@@ -559,38 +492,12 @@
                                     cellspacing="4">
                                   <tbody>
                                     <tr>
-                                      <td style="width: 20px"></td>
+                                      <div id="jsme-container"></div>
+                                    </tr>
+                                    <tr>
                                       <td>
-                                        <script language="JavaScript1.1" src="jchem/marvin/marvin.js" ></script>
-                                        <script language="JavaScript1.1">
-
-                                          function exportMol() {
-                                            if(document.MSketch != null) {
-                                              var s = document.MSketch.getMol('smiles:');
-                                              s = unix2local(s); // Convert "\n" to local line separator
-                                              document.getElementById("smiles").value = s;
-                                              predictSmiles();
-                                            } else {
-                                              alert("Cannot import molecule:\n"+
-                                              "no JavaScript to Java communication in your browser.\n");
-                                            }
-                                          }
-
-                                          msketch_name = "MSketch";
-                                          msketch_mayscript = true;
-                                          msketch_begin("/jchem/marvin/", 440, 300);
-                                          msketch_end();
-                                          document.MSketch.style.zIndex="-1";
-
-                                        </script>
-                                        <br />
-                                        <input type="button" value="Get SMILES and Predict" property="text" onclick="exportMol()" />
-                                        <input
-                                            type="button"
-                                            value="Clear"
-                                            property="text"
-                                            onclick="if(document.MSketch!=null) document.MSketch.setMol('');"
-                                        />
+                                          <input id="get-smiles-and-predict" type="button" value="Get SMILES and Predict">
+                                          <input id="clear-canvas" type="button" value="Clear">
                                       </td>
                                     </tr>
                                   </tbody>
@@ -613,10 +520,6 @@
                                           (phenylalanine). Or, use the applet on the left to draw a molecule, then
                                           click "Get SMILES and Predict".
                                         </p>
-                                        <p class="StandardTextDarkGrayParagraph">
-                                          Note: If the sketch applet did not load, your Java version may be out of date.
-                                          You can download an updated version <a href="https://www.java.com/en/download/index.jsp">here</a>.
-                                        </p>
                                     </tr>
                                     <tr>
                                       <td width="200" height="24" align="right">
@@ -633,7 +536,6 @@
                                       <td width="200" height="26" align="left" colspan="2">
                                         <p class="StandardTextDarkGray">
                                           <b>Applicability Cut Off:</b>
-                                        <!--<input type="text" id="cutOffSmiles" size="4" value="0.5" />-->
                                         <s:select name="cutOffSmiles" id="cutOffSmiles" theme="simple" list="#{'N/A':'Do not use','3':'3\u03c3','2':'2\u03c3','1':'1\u03c3','0':'0\u03c3'}" value="N/A"/>
                                         <span id="messageDiv3"></span>
                                         <input type="button" onclick="predictSmiles()" value="Predict"/>
@@ -647,15 +549,7 @@
                             <tr>
                                 <td style="text-align:left;" align="right" valign="top">
                                     <div style="position: relative; vertical-align:right">
-                                        <script type="text/javascript">
-                                                $(document).ready(function() {
-                                                    $("#copy").zclip({
-                                                        path: "javascript/ZeroClipboard.swf",
-                                                        copy: function() { return $("#smilesResults").text().trim(); },
-                                                    });
-                                                });
-                                        </script>
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input id='copy' type="button" value="Copy Results"/>
+                                        <input id='copy' type="button" value="Copy Results"/>
                                     </div>
                                     <span id="textarea"></span>
                                 </td>
@@ -681,4 +575,27 @@
           </div>
         </td></tr></tbody></table></div>
     <div class="includes"><%@ include file ="/jsp/main/footer.jsp" %></div>
-    </div></body></html>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("#tabs").tabs({ active: 1 });
+
+            $("#copy").zclip({
+                path: "javascript/ZeroClipboard.swf",
+                copy: function() { return $("#smilesResults").text().trim(); },
+            });
+
+            $("#get-smiles-and-predict").click(function(event) {
+                event.preventDefault();
+                $("#smiles").val(document.JME.smiles());
+                predictSmiles();
+            });
+
+            $("#clear-canvas").click(function(event) {
+                event.preventDefault();
+                document.JME.reset();
+            });
+        });
+    </script>
+</body>
+</html>

@@ -37,24 +37,44 @@ import edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction;
 import org.apache.log4j.Logger;
 // struts2
 
-public class PredictionFormActions extends ActionSupport
-{
+public class PredictionFormActions extends ActionSupport {
     /**
-     * 
+     *
      */
     private static final long serialVersionUID = 1L;
-    private static Logger logger 
-                = Logger.getLogger(PredictionFormActions.class.getName());
-    
-    public String loadSelectPredictorPage() throws Exception
-    {
+    private static Logger logger
+            = Logger.getLogger(PredictionFormActions.class.getName());
+    ArrayList<String> errorStrings = new ArrayList<String>();
+    // variables used for JSP display
+    private User user;
+    private List<Predictor> userPredictors;
+    private List<String> userDatasetNames;
+    private List<String> userPredictorNames;
+    private List<String> userPredictionNames;
+    private List<String> userTaskNames;
+    private List<DataSet> userDatasets;
+    private String predictorCheckBoxes;
+    /* a flag that indicate if we should display SMILES prediction or not */
+    private boolean singleCompoundPredictionAllowed;
+    private boolean isUploadedDescriptors;
+    private boolean isMixDescriptors;
+    private List<Predictor> selectedPredictors = new ArrayList<Predictor>();
+    private List<SmilesPrediction> smilesPredictions;
+    private String smilesString;
+    private String smilesCutoff;
+    // populated by the JSP form
+    private Long selectedDatasetId;
+    private String cutOff = "0.5";
+    private String jobName;
+    private String selectedPredictorIds;
+
+    public String loadSelectPredictorPage() throws Exception {
         String result = SUCCESS;
         /* check that the user is logged in */
         ActionContext context = ActionContext.getContext();
         if (context == null) {
             logger.debug("No ActionContext available");
-        }
-        else {
+        } else {
             user = (User) context.getSession().get("user");
             if (user == null) {
                 logger.debug("No user is logged in.");
@@ -68,8 +88,7 @@ public class PredictionFormActions extends ActionSupport
             /* get the user's predictors and all public ones */
             userPredictors = PopulateDataObjects.populatePredictors(user
                     .getUserName(), true, true, session);
-        }
-        else {
+        } else {
             /* just get the user's predictors */
             userPredictors = PopulateDataObjects.populatePredictors(user
                     .getUserName(), false, true, session);
@@ -78,8 +97,7 @@ public class PredictionFormActions extends ActionSupport
         return result;
     }
 
-    public String makeSmilesPrediction() throws Exception
-    {
+    public String makeSmilesPrediction() throws Exception {
         String result = SUCCESS;
         ActionContext context = ActionContext.getContext();
         user = (User) context.getSession().get("user");
@@ -117,7 +135,7 @@ public class PredictionFormActions extends ActionSupport
             }
 
             if (predictor.getModelMethod().startsWith(Constants.KNN)) {
-            	logger.warn("SMILES prediction attempted on KNN predictor");
+                logger.warn("SMILES prediction attempted on KNN predictor");
             }
         }
         /* we don't need the session again */
@@ -143,16 +161,17 @@ public class PredictionFormActions extends ActionSupport
             // generate an SDF from this SMILES string
             RunSmilesPrediction.smilesToSDF(smiles, smilesDir);
             logger.info(String.format(
-                        "Generated SDF file from SMILES \"%s\" written to %s",
-                        smiles, smilesDir));
+                    "Generated SDF file from SMILES \"%s\" written to %s",
+                    smiles, smilesDir));
             // generate descriptors using the given SDF file except for ISIDA
-            if(!predictor.getDescriptorGeneration().equals(Constants.ISIDA))
+            if (!predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
                 RunSmilesPrediction.generateDescriptorsForSDF(smilesDir, descriptorTypes);
+            }
             logger.info("Generated descriptors for SDF: " + descriptorTypes.toString());
 
             String[] predValues = new String[3];
             int totalModels = predictor.getNumTestModels();
-            
+
             // for n-folded predictors
             if (predictor.getChildType() != null
                     && predictor.getChildType().equals(Constants.NFOLD)) {
@@ -193,25 +212,27 @@ public class PredictionFormActions extends ActionSupport
                             + tempP.getName());
 
                     // Calculate applicability domain
-                    if(!computedAD){
-                        String execstr="";
-                        execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + smilesDir + tempP.getName() + "/train_0.x " + "-4PRED=" + smilesDir + tempP.getName() + "/smiles.sdf.renorm.x "  + " -OUT=" + smilesDir + "smiles_AD";
+                    if (!computedAD) {
+                        String execstr = "";
+                        execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + smilesDir + tempP.getName() +
+                                "/train_0.x " + "-4PRED=" + smilesDir + tempP.getName() + "/smiles.sdf.renorm.x " + "" +
+                                " -OUT=" + smilesDir + "smiles_AD";
                         RunExternalProgram.runCommandAndLogOutput(execstr, smilesDir, "getAD");
                         computedAD = true;
 
                         // Read AD results
                         try {
                             String gadFile = smilesDir + "smiles_AD.gad";
-                            File file= new File(gadFile);
+                            File file = new File(gadFile);
                             FileReader fin = new FileReader(file);
                             Scanner src = new Scanner(fin);
 
                             while (src.hasNext()) {
                                 String readLine = src.nextLine();
-                                if(readLine.startsWith("ID")){
+                                if (readLine.startsWith("ID")) {
                                     readLine = src.nextLine();
-                                    if(readLine.startsWith("0")){
-                                        String[] values=readLine.split("\\s+");
+                                    if (readLine.startsWith("0")) {
+                                        String[] values = readLine.split("\\s+");
                                         zScore = values[3];
                                         break;
                                     }
@@ -220,7 +241,7 @@ public class PredictionFormActions extends ActionSupport
                             src.close();
                             fin.close();
                         } catch (Exception e) {
-                            logger.error("User: " +user +"SMILES: "+ smiles, e);
+                            logger.error("User: " + user + "SMILES: " + smiles, e);
                         }
                     }
                 }
@@ -235,8 +256,7 @@ public class PredictionFormActions extends ActionSupport
                     predictedValue += Double.parseDouble(s[1]);
                     try {
                         standartDeviation += Double.parseDouble(s[2]);
-                    }
-                    catch (NumberFormatException e) {
+                    } catch (NumberFormatException e) {
                         // pass (e.g. if only one model, stddev is N/A)
                     }
                     // debug part
@@ -246,11 +266,13 @@ public class PredictionFormActions extends ActionSupport
                 }
                 predValues[0] = String.valueOf(predictingModels);
                 predValues[1] = Utility.roundSignificantFigures(String
-                        .valueOf(predictedValue / ids.length),
-                        Constants.REPORTED_SIGNIFICANT_FIGURES);
+                                .valueOf(predictedValue / ids.length),
+                        Constants.REPORTED_SIGNIFICANT_FIGURES
+                );
                 predValues[2] = Utility.roundSignificantFigures(String
-                        .valueOf(standartDeviation / ids.length),
-                        Constants.REPORTED_SIGNIFICANT_FIGURES);
+                                .valueOf(standartDeviation / ids.length),
+                        Constants.REPORTED_SIGNIFICANT_FIGURES
+                );
             }
             /*
              * create descriptors for the SDF, normalize them , and make a
@@ -261,23 +283,24 @@ public class PredictionFormActions extends ActionSupport
                         user.getUserName(), predictor);
 
                 // Calculate applicability domian
-                String execstr="";
-                execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + smilesDir + "/train_0.x " + "-4PRED=" + smilesDir + "/smiles.sdf.renorm.x "  +" -OUT=" + smilesDir + "smiles_AD";
+                String execstr = "";
+                execstr = Constants.CECCR_BASE_PATH + "get_ad/get_ad64 " + smilesDir + "/train_0.x " + "-4PRED=" +
+                        smilesDir + "/smiles.sdf.renorm.x " + " -OUT=" + smilesDir + "smiles_AD";
                 RunExternalProgram.runCommandAndLogOutput(execstr, smilesDir, "getAD");
 
                 // Read AD results
                 try {
                     String gadFile = smilesDir + "smiles_AD.gad";
-                    File file= new File(gadFile);
+                    File file = new File(gadFile);
                     FileReader fin = new FileReader(file);
                     Scanner src = new Scanner(fin);
 
                     while (src.hasNext()) {
                         String readLine = src.nextLine();
-                        if(readLine.startsWith("ID")){
+                        if (readLine.startsWith("ID")) {
                             readLine = src.nextLine();
-                            if(readLine.startsWith("0")){
-                                String[] values=readLine.split("\\s+");
+                            if (readLine.startsWith("0")) {
+                                String[] values = readLine.split("\\s+");
                                 zScore = values[3];
                                 break;
                             }
@@ -286,7 +309,7 @@ public class PredictionFormActions extends ActionSupport
                     src.close();
                     fin.close();
                 } catch (Exception e) {
-                    logger.error("User: " +user +"SMILES: "+ smiles, e);
+                    logger.error("User: " + user + "SMILES: " + smiles, e);
                 }
             }
 
@@ -305,13 +328,12 @@ public class PredictionFormActions extends ActionSupport
         }
 
         logger.info("made SMILES prediction on string " + smiles
-                + " with predictors " + predictorIds +" for "+ user.getUserName());
-        
+                + " with predictors " + predictorIds + " for " + user.getUserName());
+
         return result;
     }
 
-    public String loadMakePredictionsPage() throws Exception
-    {
+    public String loadMakePredictionsPage() throws Exception {
         this.loadSelectPredictorPage();
 
         String result = SUCCESS;
@@ -320,8 +342,7 @@ public class PredictionFormActions extends ActionSupport
 
         if (context == null) {
             logger.debug("No ActionContext available");
-        }
-        else {
+        } else {
             user = (User) context.getSession().get("user");
 
             if (user == null) {
@@ -372,8 +393,7 @@ public class PredictionFormActions extends ActionSupport
                             + " because it contains no usable models.");
                     result = ERROR;
                 }
-            }
-            else {
+            } else {
                 if (p.getNumTestModels() == 0) {
                     /*
                      * this predictor shouldn't be used for prediction. Error
@@ -386,39 +406,41 @@ public class PredictionFormActions extends ActionSupport
                             + "' cannot be used for prediction because"
                             + " it contains no usable models.");
                     result = ERROR;
-                }
-                else {
+                } else {
                     logger.debug("predictor " + p.getName()
                             + " is fine, it has " + p.getNumTotalModels());
                 }
             }
             /* adding modeling_methods for each of the selected predictors */
-            if (!p.getModelMethod().trim().isEmpty())
+            if (!p.getModelMethod().trim().isEmpty()) {
                 predictorsModelDescriptors.addAll(Arrays.asList(p
                         .getDescriptorGeneration().trim().split(" ")));
+            }
             selectedPredictors.add(p);
             if (p.getDescriptorGeneration().equals(Constants.UPLOADED)) {
                 isUploadedDescriptors = true;
                 singleCompoundPredictionAllowed = false;
             }
             if (p.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
-	        singleCompoundPredictionAllowed = false;
+                singleCompoundPredictionAllowed = false;
             }
 
-	    if (p.getDescriptorGeneration().equals(Constants.MOLCONNZ)||
-		p.getDescriptorGeneration().equals(Constants.DRAGONH)||
-                p.getDescriptorGeneration().equals(Constants.DRAGONNOH)||
-                p.getDescriptorGeneration().equals(Constants.MOE2D)||
-                p.getDescriptorGeneration().equals(Constants.MACCS)||
-				p.getDescriptorGeneration().equals(Constants.ISIDA)||
-                p.getDescriptorGeneration().equals(Constants.CDK))
-		isMixDescriptors = true;
-	}
+            if (p.getDescriptorGeneration().equals(Constants.MOLCONNZ) ||
+                    p.getDescriptorGeneration().equals(Constants.DRAGONH) ||
+                    p.getDescriptorGeneration().equals(Constants.DRAGONNOH) ||
+                    p.getDescriptorGeneration().equals(Constants.MOE2D) ||
+                    p.getDescriptorGeneration().equals(Constants.MACCS) ||
+                    p.getDescriptorGeneration().equals(Constants.ISIDA) ||
+                    p.getDescriptorGeneration().equals(Constants.CDK)) {
+                isMixDescriptors = true;
+            }
+        }
 
-        if(isMixDescriptors && isUploadedDescriptors)
+        if (isMixDescriptors && isUploadedDescriptors) {
             isMixDescriptors = true;
-        else
+        } else {
             isMixDescriptors = false;
+        }
 
         if (result.equals(ERROR)) {
             return result;
@@ -441,13 +463,11 @@ public class PredictionFormActions extends ActionSupport
             /* get user and public datasets */
             userDatasets = PopulateDataObjects.populateDatasetsForPrediction(
                     user.getUserName(), true, session);
-        }
-        else if (user.getShowPublicDatasets().equals(Constants.NONE)) {
+        } else if (user.getShowPublicDatasets().equals(Constants.NONE)) {
             /* just get user datasets */
             userDatasets = PopulateDataObjects.populateDatasetsForPrediction(
                     user.getUserName(), false, session);
-        }
-        else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
+        } else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
             /*
              * get all datasets and filter out all the public ones that aren't
              * "show by default"
@@ -455,7 +475,7 @@ public class PredictionFormActions extends ActionSupport
             userDatasets = PopulateDataObjects.populateDatasetsForPrediction(
                     user.getUserName(), true, session);
 
-            if (userDatasets != null)
+            if (userDatasets != null) {
                 for (int i = 0; i < userDatasets.size(); i++) {
                     String s = userDatasets.get(i).getShowByDefault();
                     if (s != null && s.equals(Constants.NO)) {
@@ -463,6 +483,7 @@ public class PredictionFormActions extends ActionSupport
                         i--;
                     }
                 }
+            }
         }
 
         /*
@@ -493,15 +514,17 @@ public class PredictionFormActions extends ActionSupport
             if (!ds.getAvailableDescriptors().trim().isEmpty()
                     && !new_ds.contains(ds)
                     && (dscrptrIntsct.size() == predictorsModelDescriptors
-			.size())){
-		for (int j = 0; j < selectedPredictors.size(); j++){
-		    String selectedPredictorsDescriptorType = selectedPredictors.get(j).getDescriptorGeneration();
-		    if(!dscrptrLst2.contains(selectedPredictorsDescriptorType))
-			    datasetRemovable = true;
-		}
-                if(!datasetRemovable)
+                    .size())) {
+                for (int j = 0; j < selectedPredictors.size(); j++) {
+                    String selectedPredictorsDescriptorType = selectedPredictors.get(j).getDescriptorGeneration();
+                    if (!dscrptrLst2.contains(selectedPredictorsDescriptorType)) {
+                        datasetRemovable = true;
+                    }
+                }
+                if (!datasetRemovable) {
                     new_ds.add(ds);
-	    }
+                }
+            }
         }
         userDatasets.clear();
         userDatasets.addAll(new_ds);
@@ -515,50 +538,49 @@ public class PredictionFormActions extends ActionSupport
             // i=selectedPredictors.iterator();i.hasNext();){
             for (Predictor prdctr : selectedPredictors) {
                 // Predictor p = i.next();
-                if(times == 0){
+                if (times == 0) {
                     DescriptorTypeTest = prdctr.getUploadedDescriptorType();
                     times = 1;
                 }
-                
-                if (DescriptorTypeTest != null && prdctr.getUploadedDescriptorType() != null){
-                    if(!prdctr.getUploadedDescriptorType().equals(DescriptorTypeTest)){
-		        hasMultiUploadedDescriptors = true;
-		    }
-		}
-                else if(DescriptorTypeTest == null && prdctr.getUploadedDescriptorType() == null){
+
+                if (DescriptorTypeTest != null && prdctr.getUploadedDescriptorType() != null) {
+                    if (!prdctr.getUploadedDescriptorType().equals(DescriptorTypeTest)) {
+                        hasMultiUploadedDescriptors = true;
+                    }
+                } else if (DescriptorTypeTest == null && prdctr.getUploadedDescriptorType() == null) {
                     hasMultiUploadedDescriptors = false;
-		}
-                else{
+                } else {
                     hasMultiUploadedDescriptors = true;
                     break;
-		}
-                    
-	    }
-	    // if (prdctr.getDescriptorGeneration().equals(
-	    // Constants.UPLOADED)) {
-            if(!hasMultiUploadedDescriptors){
-                    List<DataSet> dss = PopulateDataObjects
-                            .populateDatasetNamesForUploadedPredicors(user
-                                    .getUserName(), DescriptorTypeTest, true,
-                                    session);
-                    for (Iterator<DataSet> j = dss.iterator(); j.hasNext();) {
-                        DataSet ds = j.next();
-                        if (!userDatasets.contains(ds)){
-                                userDatasets.add(ds);
-			}
-                    }
-            }
-	}
+                }
 
-        if (isMixDescriptors)
+            }
+            // if (prdctr.getDescriptorGeneration().equals(
+            // Constants.UPLOADED)) {
+            if (!hasMultiUploadedDescriptors) {
+                List<DataSet> dss = PopulateDataObjects
+                        .populateDatasetNamesForUploadedPredicors(user
+                                        .getUserName(), DescriptorTypeTest, true,
+                                session
+                        );
+                for (Iterator<DataSet> j = dss.iterator(); j.hasNext(); ) {
+                    DataSet ds = j.next();
+                    if (!userDatasets.contains(ds)) {
+                        userDatasets.add(ds);
+                    }
+                }
+            }
+        }
+
+        if (isMixDescriptors) {
             userDatasets.clear();
+        }
         // give back the session at the end
         session.close();
         return result;
     }
 
-    public String makeDatasetPrediction() throws Exception
-    {
+    public String makeDatasetPrediction() throws Exception {
         /*
          * prediction form submitted, so create a new prediction task and run
          * it
@@ -589,7 +611,8 @@ public class PredictionFormActions extends ActionSupport
         QsarPredictionTask predTask = new QsarPredictionTask(user
                 .getUserName(), jobName, sdf,
                 cutOff, selectedPredictorIds,
-                predictionDataset);
+                predictionDataset
+        );
 
         predTask.setUp();
         int numCompounds = predictionDataset.getNumCompound();
@@ -610,8 +633,7 @@ public class PredictionFormActions extends ActionSupport
                             .parseLong(childId), session);
                     numModels += cp.getNumTestModels();
                 }
-            }
-            else {
+            } else {
                 numModels += sp.getNumTestModels();
             }
         }
@@ -681,49 +703,42 @@ public class PredictionFormActions extends ActionSupport
                         return ERROR;
                     }
                 }
-            }
-            else {
+            } else {
                 for (int i = 0; i < predictionDatasetDescriptors.length; i++) {
                     if (sp.getDescriptorGeneration().equals(
                             Constants.MOLCONNZ)
                             && predictionDatasetDescriptors[i]
-                                    .equals(Constants.MOLCONNZ)) {
+                            .equals(Constants.MOLCONNZ)) {
                         descriptorsMatch = true;
-                    }
-                    else if (sp.getDescriptorGeneration().equals(
+                    } else if (sp.getDescriptorGeneration().equals(
                             Constants.CDK)
                             && predictionDatasetDescriptors[i]
-                                    .equals(Constants.CDK)) {
+                            .equals(Constants.CDK)) {
                         descriptorsMatch = true;
-                    }
-                    else if (sp.getDescriptorGeneration().equals(
+                    } else if (sp.getDescriptorGeneration().equals(
                             Constants.DRAGONH)
                             && predictionDatasetDescriptors[i]
-                                    .equals(Constants.DRAGONH)) {
+                            .equals(Constants.DRAGONH)) {
                         descriptorsMatch = true;
-                    }
-                    else if (sp.getDescriptorGeneration().equals(
+                    } else if (sp.getDescriptorGeneration().equals(
                             Constants.DRAGONNOH)
                             && predictionDatasetDescriptors[i]
-                                    .equals(Constants.DRAGONNOH)) {
+                            .equals(Constants.DRAGONNOH)) {
                         descriptorsMatch = true;
-                    }
-                    else if (sp.getDescriptorGeneration().equals(
+                    } else if (sp.getDescriptorGeneration().equals(
                             Constants.MOE2D)
                             && predictionDatasetDescriptors[i]
-                                    .equals(Constants.MOE2D)) {
+                            .equals(Constants.MOE2D)) {
                         descriptorsMatch = true;
-                    }
-                    else if (sp.getDescriptorGeneration().equals(
+                    } else if (sp.getDescriptorGeneration().equals(
                             Constants.MACCS)
                             && predictionDatasetDescriptors[i]
-                                    .equals(Constants.MACCS)) {
+                            .equals(Constants.MACCS)) {
                         descriptorsMatch = true;
-                    }
-					else if (sp.getDescriptorGeneration().equals(
+                    } else if (sp.getDescriptorGeneration().equals(
                             Constants.ISIDA)
                             && predictionDatasetDescriptors[i]
-                                    .equals(Constants.ISIDA)) {
+                            .equals(Constants.ISIDA)) {
                         descriptorsMatch = true;
                     }
                 }
@@ -750,295 +765,218 @@ public class PredictionFormActions extends ActionSupport
         logger.info("making prediction run on dataset "
                 + predictionDataset.getName() + " with predictors "
                 + selectedPredictorIds + " for " + user.getUserName());
- 
+
         // give back the session at the end
         session.close();
         return SUCCESS;
     }
 
-    public String execute() throws Exception
-    {
+    public String execute() throws Exception {
         return SUCCESS;
     }
 
-    // variables used for JSP display
-    private User                   user;
-    private List<Predictor>        userPredictors;
-    private List<String>           userDatasetNames;
-    private List<String>           userPredictorNames;
-    private List<String>           userPredictionNames;
-    private List<String>           userTaskNames;
-    private List<DataSet>          userDatasets;
-    private String                 predictorCheckBoxes;
-    /* a flag that indicate if we should display SMILES prediction or not */
-    private boolean                singleCompoundPredictionAllowed;
-    private boolean                isUploadedDescriptors;
-    private boolean                isMixDescriptors;     
-    private List<Predictor>        selectedPredictors = new ArrayList<Predictor>();
-
-    private List<SmilesPrediction> smilesPredictions;
-    private String                 smilesString;
-    private String                 smilesCutoff;
-
-    ArrayList<String>              errorStrings       = new ArrayList<String>();
-
-    public User getUser()
-    {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(User user)
-    {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public List<Predictor> getUserPredictors()
-    {
+    public List<Predictor> getUserPredictors() {
         return userPredictors;
     }
 
-    public void setUserPredictors(List<Predictor> userPredictors)
-    {
+    public void setUserPredictors(List<Predictor> userPredictors) {
         this.userPredictors = userPredictors;
     }
 
-    public List<String> getUserDatasetNames()
-    {
+    public List<String> getUserDatasetNames() {
         return userDatasetNames;
     }
 
-    public void setUserDatasetNames(List<String> userDatasetNames)
-    {
+    public void setUserDatasetNames(List<String> userDatasetNames) {
         this.userDatasetNames = userDatasetNames;
     }
 
-    public List<String> getUserPredictorNames()
-    {
+    public List<String> getUserPredictorNames() {
         return userPredictorNames;
     }
 
-    public void setUserPredictorNames(List<String> userPredictorNames)
-    {
+    public void setUserPredictorNames(List<String> userPredictorNames) {
         this.userPredictorNames = userPredictorNames;
     }
 
-    public List<String> getUserPredictionNames()
-    {
+    public List<String> getUserPredictionNames() {
         return userPredictionNames;
     }
 
-    public void setUserPredictionNames(List<String> userPredictionNames)
-    {
+    public void setUserPredictionNames(List<String> userPredictionNames) {
         this.userPredictionNames = userPredictionNames;
     }
 
-    public List<String> getUserTaskNames()
-    {
+    public List<String> getUserTaskNames() {
         return userTaskNames;
     }
 
-    public void setUserTaskNames(List<String> userTaskNames)
-    {
+    public void setUserTaskNames(List<String> userTaskNames) {
         this.userTaskNames = userTaskNames;
     }
 
-    public List<DataSet> getUserDatasets()
-    {
+    public List<DataSet> getUserDatasets() {
         return userDatasets;
     }
 
-    public void setUserDatasets(List<DataSet> userDatasets)
-    {
+    public void setUserDatasets(List<DataSet> userDatasets) {
         this.userDatasets = userDatasets;
     }
 
-    public List<Predictor> getSelectedPredictors()
-    {
+    public List<Predictor> getSelectedPredictors() {
         return selectedPredictors;
     }
 
-    public void setSelectedPredictors(List<Predictor> selectedPredictors)
-    {
+    public void setSelectedPredictors(List<Predictor> selectedPredictors) {
         this.selectedPredictors = selectedPredictors;
     }
 
-    // populated by the JSP form
-    private Long   selectedDatasetId;
-    private String cutOff = "0.5";
-    private String jobName;
-    private String selectedPredictorIds;
-
-    public Long getSelectedDatasetId()
-    {
+    public Long getSelectedDatasetId() {
         return selectedDatasetId;
     }
 
-    public void setSelectedDatasetId(Long selectedDatasetId)
-    {
+    public void setSelectedDatasetId(Long selectedDatasetId) {
         this.selectedDatasetId = selectedDatasetId;
     }
 
-    public String getCutOff()
-    {
+    public String getCutOff() {
         return cutOff;
     }
 
-    public void setCutOff(String cutOff)
-    {
+    public void setCutOff(String cutOff) {
         this.cutOff = cutOff;
     }
 
-    public String getJobName()
-    {
+    public String getJobName() {
         return jobName;
     }
 
-    public void setJobName(String jobName)
-    {
+    public void setJobName(String jobName) {
         this.jobName = jobName;
     }
 
-    public String getPredictorCheckBoxes()
-    {
+    public String getPredictorCheckBoxes() {
         return predictorCheckBoxes;
     }
 
-    public void setPredictorCheckBoxes(String predictorCheckBoxes)
-    {
+    public void setPredictorCheckBoxes(String predictorCheckBoxes) {
         this.predictorCheckBoxes = predictorCheckBoxes;
     }
 
-    public String getSelectedPredictorIds()
-    {
+    public String getSelectedPredictorIds() {
         return selectedPredictorIds;
     }
 
-    public void setSelectedPredictorIds(String selectedPredictorIds)
-    {
+    public void setSelectedPredictorIds(String selectedPredictorIds) {
         this.selectedPredictorIds = selectedPredictorIds;
     }
 
-    public List<SmilesPrediction> getSmilesPredictions()
-    {
+    public List<SmilesPrediction> getSmilesPredictions() {
         return smilesPredictions;
     }
 
     public void
-            setSmilesPredictions(List<SmilesPrediction> smilesPredictions)
-    {
+    setSmilesPredictions(List<SmilesPrediction> smilesPredictions) {
         this.smilesPredictions = smilesPredictions;
     }
 
-    public String getSmilesString()
-    {
+    public String getSmilesString() {
         return smilesString;
     }
 
-    public void setSmilesString(String smilesString)
-    {
+    public void setSmilesString(String smilesString) {
         this.smilesString = smilesString;
     }
 
-    public String getSmilesCutoff()
-    {
+    public String getSmilesCutoff() {
         return smilesCutoff;
     }
 
-    public void setSmilesCutoff(String smilesCutoff)
-    {
+    public void setSmilesCutoff(String smilesCutoff) {
         this.smilesCutoff = smilesCutoff;
     }
 
-    public class SmilesPrediction
-    {
-        // used by makeSmilesPrediction()
-        String predictedValue;
-        String stdDeviation;
-        String zScore;
-        int    predictingModels;
-        int    totalModels;
-        String predictorName;
-
-        public String getPredictedValue()
-        {
-            return predictedValue;
-        }
-
-        public void setPredictedValue(String predictedValue)
-        {
-            this.predictedValue = predictedValue;
-        }
-
-        public String getStdDeviation()
-        {
-            return stdDeviation;
-        }
-
-        public void setStdDeviation(String stdDeviation)
-        {
-            this.stdDeviation = stdDeviation;
-        }
-
-        public String getZScore()
-        {
-            return zScore;
-        }
-
-        public void setZScore(String zScore)
-        {
-            this.zScore = zScore;
-        }
-
-        public int getPredictingModels()
-        {
-            return predictingModels;
-        }
-
-        public void setPredictingModels(int predictingModels)
-        {
-            this.predictingModels = predictingModels;
-        }
-
-        public int getTotalModels()
-        {
-            return totalModels;
-        }
-
-        public void setTotalModels(int totalModels)
-        {
-            this.totalModels = totalModels;
-        }
-
-        public String getPredictorName()
-        {
-            return predictorName;
-        }
-
-        public void setPredictorName(String predictorName)
-        {
-            this.predictorName = predictorName;
-        }
-    }
-
-    public ArrayList<String> getErrorStrings()
-    {
+    public ArrayList<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings)
-    {
+    public void setErrorStrings(ArrayList<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 
-    public boolean getSingleCompoundPredictionAllowed()
-    {
+    public boolean getSingleCompoundPredictionAllowed() {
         return singleCompoundPredictionAllowed;
     }
 
     public void
-            setSingleCompoundPredictionAllowed(boolean isSingleCompoundPredictionAllowed)
-    {
+    setSingleCompoundPredictionAllowed(boolean isSingleCompoundPredictionAllowed) {
         this.singleCompoundPredictionAllowed = isSingleCompoundPredictionAllowed;
+    }
+
+    public class SmilesPrediction {
+        // used by makeSmilesPrediction()
+        String predictedValue;
+        String stdDeviation;
+        String zScore;
+        int predictingModels;
+        int totalModels;
+        String predictorName;
+
+        public String getPredictedValue() {
+            return predictedValue;
+        }
+
+        public void setPredictedValue(String predictedValue) {
+            this.predictedValue = predictedValue;
+        }
+
+        public String getStdDeviation() {
+            return stdDeviation;
+        }
+
+        public void setStdDeviation(String stdDeviation) {
+            this.stdDeviation = stdDeviation;
+        }
+
+        public String getZScore() {
+            return zScore;
+        }
+
+        public void setZScore(String zScore) {
+            this.zScore = zScore;
+        }
+
+        public int getPredictingModels() {
+            return predictingModels;
+        }
+
+        public void setPredictingModels(int predictingModels) {
+            this.predictingModels = predictingModels;
+        }
+
+        public int getTotalModels() {
+            return totalModels;
+        }
+
+        public void setTotalModels(int totalModels) {
+            this.totalModels = totalModels;
+        }
+
+        public String getPredictorName() {
+            return predictorName;
+        }
+
+        public void setPredictorName(String predictorName) {
+            this.predictorName = predictorName;
+        }
     }
 
 }

@@ -12,15 +12,13 @@ import edu.unc.ceccr.utilities.RunExternalProgram;
 
 import org.apache.log4j.Logger;
 
-public class StandardizeMolecules
-{
+public class StandardizeMolecules {
 
     private static Logger logger = Logger.getLogger(StandardizeMolecules.class.getName());
 
     public static void standardizeSdf(String sdfIn,
                                       String sdfOut,
-                                      String workingDir) throws Exception
-    {
+                                      String workingDir) throws Exception {
         // Standardizes the molecules in this sdfile. Necessary to do this
         // before running DRAGON
         // descriptor generation. Also important to do this to any molecules
@@ -35,8 +33,7 @@ public class StandardizeMolecules
             String execstr1 = "standardize.sh " + sdfIn + " " + sdfOut;
             RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir,
                     "standardize");
-        }
-        else {
+        } else {
             // The JChem software won't let you do more than 666 molecules in
             // this process at a time
             // so we split the SDF into chunks of size 600, do the process on
@@ -76,7 +73,8 @@ public class StandardizeMolecules
 
                         RunExternalProgram.runCommandAndLogOutput(execstr1,
                                 workingDir, "standardize_"
-                                        + currentFileNumber);
+                                        + currentFileNumber
+                        );
 
                         // start a new file
                         compoundsInCurrentFile = 0;

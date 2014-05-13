@@ -1,12 +1,14 @@
 # Temporary files
 ~*
 .#*
-*.sw?
+*.sw[o-p]
 
-# Directories
+# Build directories
 /build/
 /bin/
 target/
+WEB-INF/classes
+WEB-INF/lib
 
 # OS Files
 .DS_Store
@@ -19,8 +21,6 @@ target/
 *.ear
 *.db
 
-# Temporary files
-
 ######################
 # Windows
 ######################
@@ -32,9 +32,7 @@ Desktop.ini
 ######################
 .DS_Store
 .svn
-
-# Thumbnails
-._*
+._*  # Thumbnails
 
 # Files that might appear on external disk
 .Spotlight-V100
@@ -68,4 +66,9 @@ local.properties
 ######################
 .idea
 *.iml
+
+######################
+# StrutsIDE
+######################
+*.strutside
 

@@ -15,26 +15,24 @@ import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 
-public class KnnPlusModelsPage extends ViewPredictorAction
-{
-    private static final long  serialVersionUID = 1L;
-    private static Logger      logger           = Logger.getLogger(KnnPlusModelsPage.class
-                                                        .getName());
+public class KnnPlusModelsPage extends ViewPredictorAction {
+    private static final long serialVersionUID = 1L;
+    private static Logger logger = Logger.getLogger(KnnPlusModelsPage.class
+            .getName());
     private List<KnnPlusModel> knnPlusModels;
 
-    public String load() throws Exception
-    {
+    public String load() throws Exception {
         try {
             String result = getBasicParameters();
-            if (!result.equals(SUCCESS))
+            if (!result.equals(SUCCESS)) {
                 return result;
+            }
 
             getModelsPageParameters();
 
             if (childPredictors.size() == 0) {
                 result = loadModels();
-            }
-            else {
+            } else {
                 currentFoldNumber = ""
                         + (Integer.parseInt(currentFoldNumber) + 1);
                 for (int i = 0; i < childPredictors.size(); i++) {
@@ -59,12 +57,12 @@ public class KnnPlusModelsPage extends ViewPredictorAction
                         for (int i = 0; i < descriptorArray.length; i++) {
                             if (descriptorFreqMap.get(descriptorArray[i]) == null) {
                                 descriptorFreqMap.put(descriptorArray[i], 1);
-                            }
-                            else {
+                            } else {
                                 // increment
                                 descriptorFreqMap.put(descriptorArray[i],
                                         descriptorFreqMap
-                                                .get(descriptorArray[i]) + 1);
+                                                .get(descriptorArray[i]) + 1
+                                );
                             }
                         }
                     }
@@ -82,22 +80,19 @@ public class KnnPlusModelsPage extends ViewPredictorAction
             }
 
             Collections.sort(descriptorFrequencies,
-                    new Comparator<descriptorFrequency>()
-                    {
+                    new Comparator<descriptorFrequency>() {
                         public int compare(descriptorFrequency df1,
-                                           descriptorFrequency df2)
-                        {
+                                           descriptorFrequency df2) {
                             if (df1.getNumOccs() == df2.getNumOccs()) {
                                 return 0;
-                            }
-                            else if (df1.getNumOccs() > df2.getNumOccs()) {
+                            } else if (df1.getNumOccs() > df2.getNumOccs()) {
                                 return -1;
-                            }
-                            else {
+                            } else {
                                 return 1;
                             }
                         }
-                    });
+                    }
+            );
             if (descriptorFrequencies.size() >= 5) {
                 // if there weren't at least 5 descriptors, don't even bother
                 // - no summary needed
@@ -117,16 +112,14 @@ public class KnnPlusModelsPage extends ViewPredictorAction
             }
 
             return result;
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
             errorStrings.add(ex.getMessage());
             return ERROR;
         }
     }
 
-    private String loadModels()
-    {
+    private String loadModels() {
         String result = SUCCESS;
         try {
             knnPlusModels = new ArrayList<KnnPlusModel>();
@@ -142,15 +135,13 @@ public class KnnPlusModelsPage extends ViewPredictorAction
                     if (m.getIsYRandomModel().equals(Constants.NO)
                             && isYRandomPage.equals(Constants.NO)) {
                         knnPlusModels.add(m);
-                    }
-                    else if (m.getIsYRandomModel().equals(Constants.YES)
+                    } else if (m.getIsYRandomModel().equals(Constants.YES)
                             && isYRandomPage.equals(Constants.YES)) {
                         knnPlusModels.add(m);
                     }
                 }
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
             errorStrings.add(ex.getMessage());
             return ERROR;
@@ -159,8 +150,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction
     }
 
     @SuppressWarnings("unused")
-    private String loadModelSets()
-    {
+    private String loadModelSets() {
         String result = SUCCESS;
         for (Predictor childPredictor : childPredictors) {
             objectId = "" + childPredictor.getId();
@@ -172,13 +162,11 @@ public class KnnPlusModelsPage extends ViewPredictorAction
         return result;
     }
 
-    public List<KnnPlusModel> getKnnPlusModels()
-    {
+    public List<KnnPlusModel> getKnnPlusModels() {
         return knnPlusModels;
     }
 
-    public void setKnnPlusModels(List<KnnPlusModel> knnPlusModels)
-    {
+    public void setKnnPlusModels(List<KnnPlusModel> knnPlusModels) {
         this.knnPlusModels = knnPlusModels;
     }
 

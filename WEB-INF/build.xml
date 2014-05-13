@@ -1,73 +1,53 @@
 <?xml version="1.0" ?>
-<project default="main">
-	<target name="main" depends="copyFiles" />
+<project name="chembench" default="clean-build">
 
-	<property name="home.directory" value="CHEMBENCH/prod/deploy" />
-	<property name="tomcat.directory" value="usr/share/tomcat6" />
-	<property name="build.dir" value="classes/edu" />
+    <property name="home.directory" value="CHEMBENCH/prod/deploy"/>
+    <property name="tomcat.directory" value="usr/share/tomcat6"/>
+    <property name="build.dir" value="classes/edu"/>
 
-	<target name="war" depends="compile">
-		<copy toDir="ROOT/WEB-INF/classes">
-			<fileset dir="ROOT/WEB-INF/src">
-				<include name="*.properties" />
-				<include name="*.xml" />
-			</fileset>
-		</copy>
-		<war destfile="ROOT.war" basedir="ROOT" webxml="ROOT/WEB-INF/web.xml"
-			defaultexcludes="yes"
-			includes="WEB-INF/**/*, **/*.x, **/*.sdf, **/*.act 
-                                        , theme/**/*, documentation/*, **/*.jsp 
+    <target name="package-war" depends="compile">
+        <copy toDir="ROOT/WEB-INF/classes">
+            <fileset dir="ROOT/WEB-INF/src">
+                <include name="*.properties"/>
+                <include name="*.xml"/>
+            </fileset>
+        </copy>
+        <war destfile="ROOT.war" basedir="ROOT" webxml="ROOT/WEB-INF/web.xml"
+             defaultexcludes="yes"
+             includes="WEB-INF/**/*, **/*.x, **/*.sdf, **/*.act
+                                        , theme/**/*, documentation/*, **/*.jsp
                                         , **/*.js,*.txt">
-		</war>
-	</target>
+        </war>
+    </target>
 
-	<target name="copyFiles" depends="war">
-		<copy file="ROOT.war" toDir="${tomcat.directory}/webapps" />
-	</target>
+    <target name="deploy-war" depends="package-war">
+        <copy file="ROOT.war" toDir="${tomcat.directory}/webapps"/>
+    </target>
 
-	<target name="compile" depends="writeDate,logFolder">
-		<javac srcdir="src" destdir="./classes" fork="yes"
-			executable="/usr/bin/javac" debug="true">
-			<classpath>
-				<fileset dir="./lib">
-					<include name="**/*.jar" />
-				</fileset>
-			</classpath>
-			<compilerarg value="-Xlint" />
-		</javac>
+    <target name="compile">
+        <javac includeantruntime="false" srcdir="src" destdir="./classes" fork="yes" executable="/usr/bin/javac"
+               debug="true">
+            <classpath>
+                <fileset dir="./lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <compilerarg value="-Xlint"/>
+        </javac>
 
-		<copy toDir="./classes">
-			<fileset dir="./">
-				<include name="struts.xml" /> <!-- needed for struts2 to work -->
-			</fileset>
-		</copy>
-	</target>
+        <copy toDir="./classes">
+            <fileset dir="./">
+                <include name="struts.xml"/>
+                <!-- needed for struts2 to work -->
+            </fileset>
+        </copy>
+    </target>
 
-	<target name="writeDate">
-		<tstamp>
-			<format property="start.timestamp" pattern="dd-MMM-yy HH:mm:ss" />
-		</tstamp>
-		<echo file="./buildDate.txt" message="#${start.timestamp}${line.separator}" />
-	</target>
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
 
-	<target name="logFolder">
-		<mkdir dir="logs" />
-	</target>
-
-	<target name="xslt">
-		<xslt style="${ROOT}/xsl/jsfxml.xsl" destdir="${ROOT}/jsp"
-			extension=".jsp" includes="${ROOT}/html/*">
-		</xslt>
-	</target>
-
-	<target name="clean">
-		<delete dir="${build.dir}" />
-		<delete file="./buildDate.txt" />
-	</target>
-
-	<target name="clean-build" depends="clean,compile" />
+    <target name="clean-build" depends="clean,compile"/>
 
 </project>
 
-
-    

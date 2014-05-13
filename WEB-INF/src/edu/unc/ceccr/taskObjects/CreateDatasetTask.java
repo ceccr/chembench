@@ -22,67 +22,41 @@ import edu.unc.ceccr.workflows.visualization.HeatmapAndPCA;
 import edu.unc.ceccr.workflows.visualization.SdfToJpg;
 import edu.unc.ceccr.workflows.utilities.StandardizeSdfFormat;
 
-public class CreateDatasetTask extends WorkflowTask
-{
+public class CreateDatasetTask extends WorkflowTask {
     private static Logger logger = Logger.getLogger(CreateDatasetTask.class.getName());
-    private String  userName             = null;
-    private String  datasetType;
-    private String  sdfFileName;
-    private String  actFileName;
-    private String  xFileName;
-    private String  descriptorType;
-    private String  actFileDataType;
-    private String  standardize;
-    private String  splitType;
-    private String  hasBeenScaled;
-    private String  numExternalCompounds;
-    private String  numExternalFolds;
-    private String  useActivityBinning;
-    private String  externalCompoundList;
-    private String  jobName              = null;
-    private String  paperReference;
-    private String  dataSetDescription;
-    private String  actFileHeader;
-    private String  availableDescriptors = "";
-    private String  generateMahalanobis;
-    private int     numCompounds;
+    private String userName = null;
+    private String datasetType;
+    private String sdfFileName;
+    private String actFileName;
+    private String xFileName;
+    private String descriptorType;
+    private String actFileDataType;
+    private String standardize;
+    private String splitType;
+    private String hasBeenScaled;
+    private String numExternalCompounds;
+    private String numExternalFolds;
+    private String useActivityBinning;
+    private String externalCompoundList;
+    private String jobName = null;
+    private String paperReference;
+    private String dataSetDescription;
+    private String actFileHeader;
+    private String availableDescriptors = "";
+    private String generateMahalanobis;
+    private int numCompounds;
     private DataSet dataset;                               // contains pretty
-                                                            // much all the
-                                                            // member
-                                                            // variables. This
-                                                            // is dumb but
-                                                            // hopefully
-                                                            // temporary.
+    // much all the
+    // member
+    // variables. This
+    // is dumb but
+    // hopefully
+    // temporary.
 
-    private String  step                 = Constants.SETUP; // stores what
-                                                            // step we're on
+    private String step = Constants.SETUP; // stores what
+    // step we're on
 
-    public String getProgress(String userName)
-    {
-        String percent = "";
-
-        if (step.equals(Constants.SKETCHES)) {
-            // count the number of *.jpg files in the working directory
-
-            // Since we're generating images using milconvert script we don't
-            // need to display that progress as it's really quick
-            /*
-             * String workingDir = ""; if(jobList.equals(Constants.LSF)){ }
-             * else{ workingDir = Constants.CECCR_USER_BASE_PATH + userName +
-             * "/DATASETS/" + jobName + "/Visualization/Sketches/"; } float p
-             * =
-             * FileAndDirOperations.countFilesInDirMatchingPattern(workingDir,
-             * ".*jpg"); //divide by the number of compounds in the dataset p
-             * /= numCompounds; p *= 100; //it's a percent percent = " (" +
-             * Math.round(p) + "%)";
-             */
-        }
-
-        return step + percent;
-    }
-
-    public CreateDatasetTask(DataSet dataset)
-    {
+    public CreateDatasetTask(DataSet dataset) {
         this.dataset = dataset;
 
         userName = dataset.getUserName();
@@ -110,26 +84,23 @@ public class CreateDatasetTask extends WorkflowTask
             if (!sdfFileName.equals("")) {
                 this.numCompounds = DatasetFileOperations
                         .getSDFCompoundNames(path + sdfFileName).size();
-            }
-            else if (!xFileName.equals("")) {
+            } else if (!xFileName.equals("")) {
                 this.numCompounds = DatasetFileOperations.getXCompoundNames(
                         path + xFileName).size();
             }
-        }
-        catch (Exception ex) {
-            logger.error("User: " +userName +"Job: "+ jobName+" "+ ex);
+        } catch (Exception ex) {
+            logger.error("User: " + userName + "Job: " + jobName + " " + ex);
         }
     }
 
     public CreateDatasetTask(String userName, String datasetType,
-            String sdfFileName, String actFileName, String xFileName,
-            String descriptorType, String actFileDataType,
-            String standardize, String splitType, String hasBeenScaled,
-            String numExternalCompounds, String numExternalFolds,
-            String useActivityBinning, String externalCompoundList,
-            String datasetName, String paperReference,
-            String dataSetDescription, String generateImages)
-    {
+                             String sdfFileName, String actFileName, String xFileName,
+                             String descriptorType, String actFileDataType,
+                             String standardize, String splitType, String hasBeenScaled,
+                             String numExternalCompounds, String numExternalFolds,
+                             String useActivityBinning, String externalCompoundList,
+                             String datasetName, String paperReference,
+                             String dataSetDescription, String generateImages) {
         // for modeling sets without included descriptors
 
         this.userName = userName;
@@ -161,19 +132,39 @@ public class CreateDatasetTask extends WorkflowTask
                         .getSDFCompoundNames(
                                 path + sdfFileName.replaceAll(" ", "_"))
                         .size();
-            }
-            else if (!xFileName.equals("")) {
+            } else if (!xFileName.equals("")) {
                 this.numCompounds = DatasetFileOperations.getXCompoundNames(
                         path + xFileName.replaceAll(" ", "_")).size();
             }
-        }
-        catch (Exception ex) {
-            logger.error("User: " +userName +"Job: "+ jobName+" "+ ex);
+        } catch (Exception ex) {
+            logger.error("User: " + userName + "Job: " + jobName + " " + ex);
         }
     }
 
-    public Long setUp() throws Exception
-    {
+    public String getProgress(String userName) {
+        String percent = "";
+
+        if (step.equals(Constants.SKETCHES)) {
+            // count the number of *.jpg files in the working directory
+
+            // Since we're generating images using milconvert script we don't
+            // need to display that progress as it's really quick
+            /*
+             * String workingDir = ""; if(jobList.equals(Constants.LSF)){ }
+             * else{ workingDir = Constants.CECCR_USER_BASE_PATH + userName +
+             * "/DATASETS/" + jobName + "/Visualization/Sketches/"; } float p
+             * =
+             * FileAndDirOperations.countFilesInDirMatchingPattern(workingDir,
+             * ".*jpg"); //divide by the number of compounds in the dataset p
+             * /= numCompounds; p *= 100; //it's a percent percent = " (" +
+             * Math.round(p) + "%)";
+             */
+        }
+
+        return step + percent;
+    }
+
+    public Long setUp() throws Exception {
         // create DataSet object in DB to allow for recovery of this job if it
         // fails.
 
@@ -210,13 +201,12 @@ public class CreateDatasetTask extends WorkflowTask
             tx = session.beginTransaction();
             session.saveOrUpdate(dataset);
             tx.commit();
-        }
-        catch (RuntimeException e) {
-            if (tx != null)
+        } catch (RuntimeException e) {
+            if (tx != null) {
                 tx.rollback();
-            logger.error("User: " +userName +"Job: "+ jobName+" "+ e);
-        }
-        finally {
+            }
+            logger.error("User: " + userName + "Job: " + jobName + " " + e);
+        } finally {
             session.close();
         }
 
@@ -226,11 +216,10 @@ public class CreateDatasetTask extends WorkflowTask
         return lookupId;
     }
 
-    public void preProcess() throws Exception
-    {
+    public void preProcess() throws Exception {
         String path = Constants.CECCR_USER_BASE_PATH + userName
                 + "/DATASETS/" + jobName + "/";
-        logger.debug("User: " +userName +"Job: "+ jobName+" executing task.");
+        logger.debug("User: " + userName + "Job: " + jobName + " executing task.");
 
         // first run dos2unix on all input files, just to be sure
         if (!sdfFileName.equals("")) {
@@ -246,7 +235,7 @@ public class CreateDatasetTask extends WorkflowTask
         if (!sdfFileName.equals("") && standardize.equals("true")) {
             // standardize the SDF
             step = Constants.STANDARDIZING;
-            logger.debug("User: " +userName +"Job: "+ jobName+" Standardizing SDF: "+sdfFileName);
+            logger.debug("User: " + userName + "Job: " + jobName + " Standardizing SDF: " + sdfFileName);
             StandardizeMolecules.standardizeSdf(sdfFileName, sdfFileName
                     + ".standardize", path);
             File standardized = new File(path + sdfFileName + ".standardize");
@@ -258,9 +247,9 @@ public class CreateDatasetTask extends WorkflowTask
                         + ".standardize");
             }
         }
-		
-		if (!sdfFileName.equals("")) {
-		    //add a name tag <Chembench_Name> for each compound to ISIDA
+
+        if (!sdfFileName.equals("")) {
+            //add a name tag <Chembench_Name> for each compound to ISIDA
             StandardizeSdfFormat.addNameTag(userName, jobName, path + sdfFileName, path + sdfFileName + ".addNameTag");
         }
 
@@ -275,42 +264,42 @@ public class CreateDatasetTask extends WorkflowTask
             }
 
             step = Constants.DESCRIPTORS;
-            logger.debug("User: " +userName +"Job: "+ jobName+" Generating Descriptors");
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating Descriptors");
 
             // the dataset included an SDF so we need to generate descriptors
             // from it
-	    // logger.debug("User: " +userName +"Job: "+ jobName+" Generating MolconnZ Descriptors");
+            // logger.debug("User: " +userName +"Job: "+ jobName+" Generating MolconnZ Descriptors");
             // GenerateDescriptorWorkflow.GenerateMolconnZDescriptors(path +
             // sdfFileName, path + descriptorDir + sdfFileName + ".mz");
-	    // GenerateDescriptors.GenerateMolconnZDescriptors(path
+            // GenerateDescriptors.GenerateMolconnZDescriptors(path
             //        + sdfFileName, path + descriptorDir + sdfFileName
             //        + ".molconnz");
 
-            logger.debug("User: " +userName +"Job: "+ jobName+" Generating CDK Descriptors");
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating CDK Descriptors");
             GenerateDescriptors.GenerateCDKDescriptors(path + sdfFileName,
                     path + descriptorDir + sdfFileName + ".cdk");
 
-            logger.debug("User: " +userName +"Job: "+ jobName+" Generating DragonH Descriptors");
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating DragonH Descriptors");
             GenerateDescriptors.GenerateHExplicitDragonDescriptors(path
                     + sdfFileName, path + descriptorDir + sdfFileName
                     + ".dragonH");
 
-            logger.debug("User: " +userName +"Job: "+ jobName+" Generating DragonNoH Descriptors");
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating DragonNoH Descriptors");
             GenerateDescriptors.GenerateHDepletedDragonDescriptors(path
                     + sdfFileName, path + descriptorDir + sdfFileName
                     + ".dragonNoH");
 
-            logger.debug("User: " +userName +"Job: "+ jobName+" Generating Moe2D Descriptors");
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating Moe2D Descriptors");
             GenerateDescriptors.GenerateMoe2DDescriptors(path + sdfFileName,
                     path + descriptorDir + sdfFileName + ".moe2D");
 
-            logger.debug("User: " +userName +"Job: "+ jobName+" Generating MACCS Descriptors");
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating MACCS Descriptors");
             GenerateDescriptors.GenerateMaccsDescriptors(path + sdfFileName,
                     path + descriptorDir + sdfFileName + ".maccs");
 
-	        logger.debug("User: " +userName +"Job: "+ jobName+" Generating ISIDA Descriptors");
-            GenerateDescriptors.GenerateISIDADescriptors(path + sdfFileName, 
-	                path + descriptorDir + sdfFileName + ".ISIDA");
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating ISIDA Descriptors");
+            GenerateDescriptors.GenerateISIDADescriptors(path + sdfFileName,
+                    path + descriptorDir + sdfFileName + ".ISIDA");
 
             step = Constants.CHECKDESCRIPTORS;
             // MolconnZ
@@ -332,12 +321,11 @@ public class CreateDatasetTask extends WorkflowTask
                     + descriptorDir + sdfFileName + ".cdk");
             if (errors.equals("")) {
                 availableDescriptors += Constants.CDK + " ";
-            }
-            else {
+            } else {
                 availableDescriptors += Constants.CDK + " "; // CDK is
-                                                             // available even
-                                                             // when there are
-                                                             // errors
+                // available even
+                // when there are
+                // errors
                 File errorSummaryFile = new File(path + descriptorDir
                         + "Logs/cdk.out");
                 BufferedWriter errorSummary = new BufferedWriter(
@@ -350,8 +338,7 @@ public class CreateDatasetTask extends WorkflowTask
                     + descriptorDir + sdfFileName + ".dragonH");
             if (errors.equals("")) {
                 availableDescriptors += Constants.DRAGONH + " ";
-            }
-            else {
+            } else {
                 File errorSummaryFile = new File(path + descriptorDir
                         + "Logs/dragonH.out");
                 BufferedWriter errorSummary = new BufferedWriter(
@@ -364,8 +351,7 @@ public class CreateDatasetTask extends WorkflowTask
                     + descriptorDir + sdfFileName + ".dragonNoH");
             if (errors.equals("")) {
                 availableDescriptors += Constants.DRAGONNOH + " ";
-            }
-            else {
+            } else {
                 File errorSummaryFile = new File(path + descriptorDir
                         + "Logs/dragonNoH.out");
                 BufferedWriter errorSummary = new BufferedWriter(
@@ -378,8 +364,7 @@ public class CreateDatasetTask extends WorkflowTask
                     + descriptorDir + sdfFileName + ".moe2D");
             if (errors.equals("")) {
                 availableDescriptors += Constants.MOE2D + " ";
-            }
-            else {
+            } else {
                 File errorSummaryFile = new File(path + descriptorDir
                         + "Logs/moe2d.out");
                 BufferedWriter errorSummary = new BufferedWriter(
@@ -392,8 +377,7 @@ public class CreateDatasetTask extends WorkflowTask
                     + descriptorDir + sdfFileName + ".maccs");
             if (errors.equals("")) {
                 availableDescriptors += Constants.MACCS + " ";
-            }
-            else {
+            } else {
                 File errorSummaryFile = new File(path + descriptorDir
                         + "Logs/maccs.out");
                 BufferedWriter errorSummary = new BufferedWriter(
@@ -403,19 +387,18 @@ public class CreateDatasetTask extends WorkflowTask
             }
             //ISIDA
             errors = CheckDescriptors.checkISIDADescriptors(path
-		    + descriptorDir + sdfFileName + ".ISIDA");
+                    + descriptorDir + sdfFileName + ".ISIDA");
             if (errors.equals("")) {
                 availableDescriptors += Constants.ISIDA + " ";
-            }
-            else {
+            } else {
                 File errorSummaryFile = new File(path + descriptorDir
-		                + "Logs/ISIDA.out");
+                        + "Logs/ISIDA.out");
                 BufferedWriter errorSummary = new BufferedWriter(
-				        new FileWriter(errorSummaryFile));
+                        new FileWriter(errorSummaryFile));
                 errorSummary.write(errors);
                 errorSummary.close();
             }
-	    }
+        }
 
         // add uploaded descriptors to list (if any)
         if (datasetType.equals(Constants.MODELINGWITHDESCRIPTORS)
@@ -428,15 +411,15 @@ public class CreateDatasetTask extends WorkflowTask
             // split dataset to get external set and modeling set
 
             step = Constants.SPLITDATA;
-            
-            logger.debug("User: " +userName +"Job: "+ jobName
-                                   +" Creating " + splitType
-                                   +" External Validation Set");
+
+            logger.debug("User: " + userName + "Job: " + jobName
+                    + " Creating " + splitType
+                    + " External Validation Set");
 
             if (splitType.equals(Constants.RANDOM)) {
 
-                logger.debug("User: " +userName +"Job: "+ jobName
-                                      + " Making random external split");
+                logger.debug("User: " + userName + "Job: " + jobName
+                        + " Making random external split");
                 if (datasetType.equals(Constants.MODELING)) {
                     // we will need to make a .x file from the .act file
                     DatasetFileOperations.makeXFromACT(path, actFileName);
@@ -452,8 +435,7 @@ public class CreateDatasetTask extends WorkflowTask
 
                     // delete the temporary .x file
                     FileAndDirOperations.deleteFile(path + tempXFileName);
-                }
-                else if (datasetType
+                } else if (datasetType
                         .equals(Constants.MODELINGWITHDESCRIPTORS)) {
                     // already got a .x file, so just split that
                     DataSplit.SplitModelingExternal(path, actFileName,
@@ -461,9 +443,8 @@ public class CreateDatasetTask extends WorkflowTask
                             useActivityBinning);
                 }
 
-            }
-            else if (splitType.equals(Constants.USERDEFINED)) {
-                logger.debug("User: " +userName +"Job: "+ jobName
+            } else if (splitType.equals(Constants.USERDEFINED)) {
+                logger.debug("User: " + userName + "Job: " + jobName
                         + " Making user-defined external split");
                 // get the list of compound IDs
                 externalCompoundList = externalCompoundList.replaceAll(",",
@@ -485,18 +466,16 @@ public class CreateDatasetTask extends WorkflowTask
 
                     // delete the temporary .x file
                     FileAndDirOperations.deleteFile(path + tempXFileName);
-                }
-                else if (datasetType
+                } else if (datasetType
                         .equals(Constants.MODELINGWITHDESCRIPTORS)) {
                     // already got a .x file, so just split that
                     DataSplit.splitModelingExternalGivenList(path,
                             actFileName, xFileName, externalCompoundList);
                 }
-            }
-            else if (splitType.equals(Constants.NFOLD)) {
+            } else if (splitType.equals(Constants.NFOLD)) {
                 if (datasetType.equals(Constants.MODELING)
                         || datasetType
-                                .equals(Constants.MODELINGWITHDESCRIPTORS)) {
+                        .equals(Constants.MODELINGWITHDESCRIPTORS)) {
                     // generate the lists of compounds for each split
                     DataSplit.SplitModelingExternalNFold(path, actFileName,
                             numExternalFolds, useActivityBinning);
@@ -509,15 +488,13 @@ public class CreateDatasetTask extends WorkflowTask
         }
     }
 
-    public String executeLSF() throws Exception
-    {
+    public String executeLSF() throws Exception {
         // this should do the same thing as executeLocal functionally
         // it will create a job on LSF and return immediately.
         return "";
     }
 
-    public void executeLocal() throws Exception
-    {
+    public void executeLocal() throws Exception {
 
         String path = Constants.CECCR_USER_BASE_PATH + userName
                 + "/DATASETS/" + jobName + "/";
@@ -542,34 +519,36 @@ public class CreateDatasetTask extends WorkflowTask
             }
 
             step = Constants.SKETCHES;
-            
-            logger.debug("User: " +userName +"Job: "+ jobName+ " Generating JPGs");
-            
+
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs");
+
             SdfToJpg.makeSketchFiles(path, sdfFileName, structDir, sketchDir);
-            
-            logger.debug("User: " +userName +"Job: "+ jobName+ " Generating JPGs END");
-            
+
+            logger.debug("User: " + userName + "Job: " + jobName + " Generating JPGs END");
+
             step = Constants.SKETCHES + " finished!";
 
             if (numCompounds < 500
                     && !sdfFileName.equals("")
                     && new File(path + descriptorDir + sdfFileName + ".maccs")
-                            .exists()) {
+                    .exists()) {
                 // totally not worth doing visualizations on huge datasets,
                 // the heatmap is
                 // just nonsense at that point and it wastes a ton of compute
                 // time.
                 step = Constants.VISUALIZATION;
-                logger.debug("User: " +userName +"Job: "+ jobName+ " Generating Visualizations");
+                logger.debug("User: " + userName + "Job: " + jobName + " Generating Visualizations");
                 String vis_path = Constants.CECCR_USER_BASE_PATH + userName
                         + "/DATASETS/" + jobName + "/Visualization/";
                 HeatmapAndPCA.performXCreation(path + descriptorDir
-                        + sdfFileName + ".maccs", sdfFileName + ".x",
-                        vis_path);
+                                + sdfFileName + ".maccs", sdfFileName + ".x",
+                        vis_path
+                );
                 if (generateMahalanobis != null
-                        && generateMahalanobis.equals("true"))
+                        && generateMahalanobis.equals("true")) {
                     HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path,
                             sdfFileName, "mahalanobis");
+                }
                 HeatmapAndPCA.performHeatMapAndTreeCreation(vis_path,
                         sdfFileName, "tanimoto");
 
@@ -591,13 +570,12 @@ public class CreateDatasetTask extends WorkflowTask
                     // CSV_X_Workflow.performPCAcreation(viz_path, act_path);
 
                 }
-               
-                logger.debug("User: " + userName +"Job: "+ jobName
-                                      + " Generating Visualizations END");
-            }
-            else {
-                logger.debug("User: " + userName +"Job: "+ jobName
-                                      + " Skipping generation of heatmap data");
+
+                logger.debug("User: " + userName + "Job: " + jobName
+                        + " Generating Visualizations END");
+            } else {
+                logger.debug("User: " + userName + "Job: " + jobName
+                        + " Skipping generation of heatmap data");
             }
 
         }
@@ -609,10 +587,9 @@ public class CreateDatasetTask extends WorkflowTask
 
     }
 
-    public void postProcess() throws Exception
-    {
+    public void postProcess() throws Exception {
 
-        logger.debug("User: " + userName +"Job: "+ jobName
+        logger.debug("User: " + userName + "Job: " + jobName
                 + " Saving dataset to database");
 
         if (jobList.equals(Constants.LSF)) {
@@ -631,29 +608,25 @@ public class CreateDatasetTask extends WorkflowTask
             tx = session.beginTransaction();
             session.saveOrUpdate(dataset);
             tx.commit();
-        }
-        catch (RuntimeException e) {
-            if (tx != null)
+        } catch (RuntimeException e) {
+            if (tx != null) {
                 tx.rollback();
-            logger.error("User: " +userName +"Job: "+ jobName+ e);
-        }
-        finally {
+            }
+            logger.error("User: " + userName + "Job: " + jobName + e);
+        } finally {
             session.close();
         }
     }
 
-    public void delete() throws Exception
-    {
+    public void delete() throws Exception {
 
     }
 
-    public void setStep(String step)
-    {
+    public void setStep(String step) {
         this.step = step;
     }
 
-    public String getStatus()
-    {
+    public String getStatus() {
         return step;
     }
 }

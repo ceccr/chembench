@@ -10,8 +10,7 @@ import org.apache.log4j.Logger;
 
 import edu.unc.ceccr.global.Constants;
 
-public class CheckDescriptors
-{
+public class CheckDescriptors {
     private static Logger logger = Logger.getLogger(CheckDescriptors.class.getName());
     // Read in the output of a descriptor generation program (molconnZ,
     // dragon, etc.)
@@ -128,8 +127,7 @@ public class CheckDescriptors
     */
 
     public static String
-            checkDragonDescriptors(String dragonOutputFile) throws Exception
-    {
+    checkDragonDescriptors(String dragonOutputFile) throws Exception {
         logger.debug("Checking Dragon descriptors: "
                 + dragonOutputFile);
         ArrayList<String> descriptorNames = new ArrayList<String>();
@@ -145,13 +143,13 @@ public class CheckDescriptors
         ArrayList<String> descriptorValues; // values for each molecule
 
         String line = br.readLine(); // junk line, should say
-                                     // "dragonX: Descriptors"
+        // "dragonX: Descriptors"
 
         // contains some numbers
         line = br.readLine();
         Scanner tok = new Scanner(line);
         tok.next(); // just says "2" all the time, no idea what that means, so
-                    // skip that
+        // skip that
 
         // the descriptor names are on this line
         line = br.readLine();
@@ -164,9 +162,9 @@ public class CheckDescriptors
         tok.close();
 
         descriptorNames.remove(1); // contains molecule name, which isn't a
-                                   // descriptor
+        // descriptor
         descriptorNames.remove(0); // contains molecule number, which isn't a
-                                   // descriptor
+        // descriptor
 
         // read in the descriptor values. If one of them is the word "Error",
         // quit this shit - means Dragon failed at descriptoring.
@@ -179,9 +177,10 @@ public class CheckDescriptors
                 if (dvalue.equalsIgnoreCase("Error")) {
                     if (!errors
                             .contains("Descriptor generation failed for molecule: "
-                                    + descriptorValues.get(1) + ".\n"))
+                                    + descriptorValues.get(1) + ".\n")) {
                         errors += "Descriptor generation failed for molecule: "
                                 + descriptorValues.get(1) + ".\n";
+                    }
                 }
                 descriptorValues.add(dvalue);
             }
@@ -204,16 +203,14 @@ public class CheckDescriptors
     }
 
     public static String
-            checkCDKDescriptors(String cdkOutputFile) throws Exception
-    {
+    checkCDKDescriptors(String cdkOutputFile) throws Exception {
         // check if CDK file exists, then look for NA's.
         String errors = "";
 
         File file = new File(cdkOutputFile);
         if (!file.exists() || file.length() == 0) {
             errors = "Could not read descriptor file.\n";
-        }
-        else {
+        } else {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = "";
             while ((line = br.readLine()) != null) {
@@ -228,8 +225,7 @@ public class CheckDescriptors
     }
 
     public static String
-            checkMaccsDescriptors(String maccsOutputFile) throws Exception
-    {
+    checkMaccsDescriptors(String maccsOutputFile) throws Exception {
         // right now this doesn't check anything. The MACCS keys never seem to
         // cause issues.
         String errors = "";
@@ -242,8 +238,7 @@ public class CheckDescriptors
     }
 
     public static String
-            checkMoe2DDescriptors(String moe2DOutputFile) throws Exception
-    {
+    checkMoe2DDescriptors(String moe2DOutputFile) throws Exception {
         // right now this doesn't check anything. The MOE2D descriptors never
         // seem to cause issues.
         String errors = "";
@@ -273,8 +268,7 @@ public class CheckDescriptors
                 try {
                     // check if it's a number
                     Float.parseFloat(t);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     errors += "Error reading Moe2D descriptor value: " + t
                             + "\n";
                 }
@@ -284,10 +278,9 @@ public class CheckDescriptors
         br.close();
         return errors;
     }
-	
-	public static String
-            checkISIDADescriptors(String ISIDAOutputFile) throws Exception
-    {
+
+    public static String
+    checkISIDADescriptors(String ISIDAOutputFile) throws Exception {
         // right now this doesn't check anything. The MOE2D descriptors never
         // seem to cause issues.
         String errors = "";
@@ -317,8 +310,7 @@ public class CheckDescriptors
                 try {
                     // check if it's a number
                     Integer.parseInt(t);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     errors += "Error reading ISIDA descriptor value: " + t
                             + "\n";
                 }
