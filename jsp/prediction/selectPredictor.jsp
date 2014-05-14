@@ -134,9 +134,10 @@
                                   <tr>
                                     <th class="TableRowText01narrow_unsortable">Select</th>
                                     <th class="TableRowText01narrow">Name</th>
-                                    <th class="TableRowText01narrow">Date Created</th>
                                     <th class="TableRowText01narrow">Modeling Method</th>
+                                    <th class="TableRowText01narrow">Dataset</th>
                                     <th class="TableRowText01narrow">Descriptor Type</th>
+                                    <th class="TableRowText01narrow">Activity Type</th>
                                   </tr>
                                   <s:iterator value="userPredictors">
                                     <s:if test="predictorType=='DrugDiscovery'">
@@ -145,13 +146,13 @@
                                           <s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" />
                                         </td>
                                         <td class="TableRowText02narrow">
-                                          <s:property value="name" />
-                                        </td>
-                                        <td class="TableRowText02narrow">
-                                          <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
+                                            <a href="viewPredictor?id=<s:property value="id" />" target="_blank"><s:property value="name" /></a>
                                         </td>
                                         <td class="TableRowText02narrow">
                                           <s:property value="modelMethod" />
+                                        </td>
+                                        <td class="TableRowText02narrow">
+                                            <a href="viewDataset?id=<s:property value="datasetId" />" target="_blank"><s:property value="datasetDisplay" /></a>
                                         </td>
                                         <s:if test="descriptorGeneration=='UPLOADED'">
                                           <td class="TableRowText02narrow">
@@ -164,10 +165,12 @@
                                             <s:property value="descriptorGeneration" />
                                           </td>
                                         </s:else>
+                                        <td class="TableRowText02narrow">
+                                            <s:property value="activityType" />
+                                        </td>
                                       </tr>
                                     </s:if>
                                   </s:iterator>
-
                                 </table>
                                 <p
                                     style="cursor:pointer; font-weight:bold"
@@ -180,9 +183,10 @@
                                   <tr>
                                     <th class="TableRowText01narrow_unsortable">Select</th>
                                     <th class="TableRowText01narrow">Name</th>
-                                    <th class="TableRowText01narrow">Date Created</th>
                                     <th class="TableRowText01narrow">Modeling Method</th>
+                                    <th class="TableRowText01narrow">Dataset</th>
                                     <th class="TableRowText01narrow">Descriptor Type</th>
+                                    <th class="TableRowText01narrow">Activity Type</th>
                                   </tr>
                                   <s:iterator value="userPredictors">
                                     <s:if test="predictorType=='ADME'">
@@ -191,13 +195,13 @@
                                           <s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" />
                                         </td>
                                         <td class="TableRowText02narrow">
-                                          <s:property value="name" />
-                                        </td>
-                                        <td class="TableRowText02narrow">
-                                          <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
+                                            <a href="viewPredictor?id=<s:property value="id" />" target="_blank"><s:property value="name" /></a>
                                         </td>
                                         <td class="TableRowText02narrow">
                                           <s:property value="modelMethod" />
+                                        </td>
+                                        <td class="TableRowText02narrow">
+                                            <a href="viewDataset?id=<s:property value="datasetId" />" target="_blank"><s:property value="datasetDisplay" /></a>
                                         </td>
                                         <s:if test="descriptorGeneration=='UPLOADED'">
                                           <td class="TableRowText02narrow">
@@ -210,6 +214,9 @@
                                             <s:property value="descriptorGeneration" />
                                           </td>
                                         </s:else>
+                                        <td class="TableRowText02narrow">
+                                            <s:property value="activityType" />
+                                        </td>
                                       </tr>
                                     </s:if>
                                   </s:iterator>
@@ -225,9 +232,10 @@
                                   <tr>
                                     <th class="TableRowText01narrow_unsortable">Select</th>
                                     <th class="TableRowText01narrow">Name</th>
-                                    <th class="TableRowText01narrow">Date Created</th>
                                     <th class="TableRowText01narrow">Modeling Method</th>
+                                    <th class="TableRowText01narrow">Dataset</th>
                                     <th class="TableRowText01narrow">Descriptor Type</th>
+                                    <th class="TableRowText01narrow">Activity Type</th>
                                   </tr>
                                   <s:iterator value="userPredictors">
                                     <s:if test="predictorType=='Toxicity'">
@@ -236,13 +244,13 @@
                                           <s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" />
                                         </td>
                                         <td class="TableRowText02narrow">
-                                          <s:property value="name" />
-                                        </td>
-                                        <td class="TableRowText02narrow">
-                                          <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
+                                            <a href="viewPredictor?id=<s:property value="id" />" target="_blank"><s:property value="name" /></a>
                                         </td>
                                         <td class="TableRowText02narrow">
                                           <s:property value="modelMethod" />
+                                        </td>
+                                        <td class="TableRowText02narrow">
+                                            <a href="viewDataset?id=<s:property value="datasetId" />" target="_blank"><s:property value="datasetDisplay" /></a>
                                         </td>
                                         <s:if test="descriptorGeneration=='UPLOADED'">
                                           <td class="TableRowText02narrow">
@@ -255,6 +263,9 @@
                                             <s:property value="descriptorGeneration" />
                                           </td>
                                         </s:else>
+                                        <td class="TableRowText02narrow">
+                                            <s:property value="activityType" />
+                                        </td>
                                       </tr>
                                     </s:if>
                                   </s:iterator>
@@ -271,9 +282,10 @@
                                   <tr>
                                     <th class="TableRowText01narrow_unsortable">Select</th>
                                     <th class="TableRowText01narrow">Name</th>
-                                    <th class="TableRowText01narrow">Date Created</th>
                                     <th class="TableRowText01narrow">Modeling Method</th>
+                                    <th class="TableRowText01narrow">Dataset</th>
                                     <th class="TableRowText01narrow">Descriptor Type</th>
+                                    <th class="TableRowText01narrow">Activity Type</th>
                                   </tr>
                                   <s:iterator value="userPredictors">
                                     <s:if test="predictorType=='Transporters'">
@@ -282,13 +294,13 @@
                                           <s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" />
                                         </td>
                                         <td class="TableRowText02narrow">
-                                          <s:property value="name" />
-                                        </td>
-                                        <td class="TableRowText02narrow">
-                                          <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
+                                            <a href="viewPredictor?id=<s:property value="id" />" target="_blank"><s:property value="name" /></a>
                                         </td>
                                         <td class="TableRowText02narrow">
                                           <s:property value="modelMethod" />
+                                        </td>
+                                        <td class="TableRowText02narrow">
+                                            <a href="viewDataset?id=<s:property value="datasetId" />" target="_blank"><s:property value="datasetDisplay" /></a>
                                         </td>
                                         <s:if test="descriptorGeneration=='UPLOADED'">
                                           <td class="TableRowText02narrow">
@@ -301,6 +313,9 @@
                                             <s:property value="descriptorGeneration" />
                                           </td>
                                         </s:else>
+                                        <td class="TableRowText02narrow">
+                                            <s:property value="activityType" />
+                                        </td>
                                       </tr>
                                     </s:if>
                                   </s:iterator>
@@ -314,42 +329,46 @@
                               <b>+ Private Predictors</b>
                             </p>
                             <table width="100%" class="sortable" id="private" style="display:none">
-                              <tr>
-                                <th class="TableRowText01narrow_unsortable">Select</th>
-                                <th class="TableRowText01narrow">Name</th>
-                                <th class="TableRowText01narrow">Date Created</th>
-                                <th class="TableRowText01narrow">Modeling Method</th>
-                                <th class="TableRowText01narrow">Descriptor Type</th>
-                              </tr>
-                              <s:iterator value="userPredictors">
-                                <s:if test="predictorType=='Private'">
                                   <tr>
-                                    <td class="TableRowText02narrow">
-                                      <s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" />
-                                    </td>
-                                    <td class="TableRowText02narrow">
-                                      <s:property value="name" />
-                                    </td>
-                                    <td class="TableRowText02narrow">
-                                      <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
-                                    </td>
-                                    <td class="TableRowText02narrow">
-                                      <s:property value="modelMethod" />
-                                    </td>
-                                    <s:if test="descriptorGeneration=='UPLOADED'">
-                                      <td class="TableRowText02narrow">
-                                        *
-                                        <s:property value="uploadedDescriptorType" />
-                                      </td>
-                                    </s:if>
-                                    <s:else>
-                                      <td class="TableRowText02narrow">
-                                        <s:property value="descriptorGeneration" />
-                                      </td>
-                                    </s:else>
+                                    <th class="TableRowText01narrow_unsortable">Select</th>
+                                    <th class="TableRowText01narrow">Name</th>
+                                    <th class="TableRowText01narrow">Modeling Method</th>
+                                    <th class="TableRowText01narrow">Dataset</th>
+                                    <th class="TableRowText01narrow">Descriptor Type</th>
+                                    <th class="TableRowText01narrow">Activity Type</th>
                                   </tr>
-                                </s:if>
-                              </s:iterator>
+                                  <s:iterator value="userPredictors">
+                                    <s:if test="predictorType=='Private'">
+                                      <tr>
+                                        <td class="TableRowText02narrow">
+                                          <s:checkbox name="predictorCheckBoxes" fieldValue="%{id}" />
+                                        </td>
+                                        <td class="TableRowText02narrow">
+                                            <a href="viewPredictor?id=<s:property value="id" />" target="_blank"><s:property value="name" /></a>
+                                        </td>
+                                        <td class="TableRowText02narrow">
+                                          <s:property value="modelMethod" />
+                                        </td>
+                                        <td class="TableRowText02narrow">
+                                            <a href="viewDataset?id=<s:property value="datasetId" />" target="_blank"><s:property value="datasetDisplay" /></a>
+                                        </td>
+                                        <s:if test="descriptorGeneration=='UPLOADED'">
+                                          <td class="TableRowText02narrow">
+                                            *
+                                            <s:property value="uploadedDescriptorType" />
+                                          </td>
+                                        </s:if>
+                                        <s:else>
+                                          <td class="TableRowText02narrow">
+                                            <s:property value="descriptorGeneration" />
+                                          </td>
+                                        </s:else>
+                                        <td class="TableRowText02narrow">
+                                            <s:property value="activityType" />
+                                        </td>
+                                      </tr>
+                                    </s:if>
+                                  </s:iterator>
                             </table>
                             <table>
                               <tr>
