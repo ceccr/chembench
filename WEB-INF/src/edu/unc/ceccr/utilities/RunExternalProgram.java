@@ -1,14 +1,13 @@
 package edu.unc.ceccr.utilities;
 
+import edu.unc.ceccr.global.Constants;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-
-import edu.unc.ceccr.global.Constants;
-
-import org.apache.log4j.Logger;
 
 // Java suuure is dumb sometimes. Needs me to write it a whole class just to
 // run a program and capture its output without bleeding file handles

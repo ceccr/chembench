@@ -1,5 +1,7 @@
 package edu.unc.ceccr.utilities;
 
+import org.apache.log4j.Logger;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -14,8 +16,6 @@ import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.log4j.Logger;
 
 /*
  * There is a lot of code strewn around the system for doing things like

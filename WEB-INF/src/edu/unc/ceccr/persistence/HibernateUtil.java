@@ -1,15 +1,14 @@
 package edu.unc.ceccr.persistence;
 
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
+import edu.unc.ceccr.global.Constants;
+import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
 
-import edu.unc.ceccr.global.Constants;
-import org.apache.log4j.Logger;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class HibernateUtil {
 

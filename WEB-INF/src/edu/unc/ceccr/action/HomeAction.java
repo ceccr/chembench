@@ -1,22 +1,7 @@
 package edu.unc.ceccr.action;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.Logger;
-import org.apache.struts2.interceptor.ServletResponseAware;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
@@ -32,6 +17,18 @@ import edu.unc.ceccr.utilities.ActiveUser;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import org.apache.log4j.Logger;
+import org.apache.struts2.interceptor.ServletResponseAware;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 //struts2
 
 @SuppressWarnings("serial")

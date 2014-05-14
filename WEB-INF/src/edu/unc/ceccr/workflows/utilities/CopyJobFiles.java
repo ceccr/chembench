@@ -1,17 +1,5 @@
 package edu.unc.ceccr.workflows.utilities;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.nio.file.Path;
-import java.nio.file.Files;
-import java.nio.file.FileAlreadyExistsException;
-
-import org.hibernate.Session;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -19,8 +7,15 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
+import java.io.File;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class CopyJobFiles {
 

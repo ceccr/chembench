@@ -1,16 +1,6 @@
 package edu.unc.ceccr.action;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
-
 import com.opensymphony.xwork2.ActionContext;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Compound;
 import edu.unc.ceccr.persistence.DataSet;
@@ -22,6 +12,14 @@ import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.workflows.visualization.ActivityHistogram;
 import edu.unc.ceccr.workflows.visualization.HeatmapAndPCA;
+import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 //struts2
 
 @SuppressWarnings("serial")

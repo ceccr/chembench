@@ -1,11 +1,12 @@
 package edu.unc.ceccr.workflows.utilities;
 
-import java.io.*;
-import java.util.*;
-
+import edu.unc.ceccr.utilities.FileAndDirOperations;
 import org.apache.log4j.Logger;
 
-import edu.unc.ceccr.utilities.FileAndDirOperations;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.util.Scanner;
 
 public class StandardizeSdfFormat {
     private static Logger logger = Logger.getLogger(StandardizeSdfFormat.class.getName());

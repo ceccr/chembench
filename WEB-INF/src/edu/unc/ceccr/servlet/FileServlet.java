@@ -1,28 +1,24 @@
 package edu.unc.ceccr.servlet;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.hibernate.Session;
-
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.workflows.download.WriteCsv;
-
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.PrintWriter;
 
 @SuppressWarnings("serial")
 public class FileServlet extends HttpServlet {

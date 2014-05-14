@@ -1,5 +1,11 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.Compound;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -8,13 +14,6 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.Compound;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.RunExternalProgram;
-
-import org.apache.log4j.Logger;
 
 public class DataSplit {
 

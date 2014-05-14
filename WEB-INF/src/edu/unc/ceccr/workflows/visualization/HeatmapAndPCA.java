@@ -1,9 +1,8 @@
 package edu.unc.ceccr.workflows.visualization;
 
-import org.apache.log4j.Logger;
-
-import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.RunExternalProgram;
+import org.apache.log4j.Logger;
 
 
 public class HeatmapAndPCA {

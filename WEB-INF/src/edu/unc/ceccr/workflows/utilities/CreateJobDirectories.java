@@ -1,8 +1,8 @@
 package edu.unc.ceccr.workflows.utilities;
 
-import java.io.File;
-
 import edu.unc.ceccr.global.Constants;
+
+import java.io.File;
 
 public class CreateJobDirectories {
     public static void createDirs(String userName, String jobName) throws Exception {

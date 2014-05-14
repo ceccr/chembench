@@ -1,9 +1,5 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
-import java.util.ArrayList;
-
-import org.apache.log4j.Logger;
-
 import edu.unc.ceccr.action.ViewAction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -11,6 +7,9 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
+import org.apache.log4j.Logger;
+
+import java.util.ArrayList;
 
 // struts2
 

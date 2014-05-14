@@ -1,13 +1,5 @@
 package edu.unc.ceccr.action;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.CompoundPredictions;
 import edu.unc.ceccr.persistence.DataSet;
@@ -18,6 +10,13 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class ViewPredictionAction extends ViewAction {
 

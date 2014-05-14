@@ -1,12 +1,10 @@
 package edu.unc.ceccr.workflows.visualization;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.io.File;
-import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.Iterator;
-
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import org.apache.commons.validator.GenericValidator;
 import org.hibernate.Session;
 import org.jfree.chart.ChartFactory;
@@ -21,11 +19,11 @@ import org.jfree.data.xy.IntervalXYDataset;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
+import java.awt.*;
+import java.io.File;
+import java.text.DecimalFormat;
+import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class ActivityHistogram {

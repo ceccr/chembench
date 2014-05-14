@@ -1,9 +1,9 @@
 package edu.unc.ceccr.workflows.calculations;
 
-import java.util.ArrayList;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
+
+import java.util.ArrayList;
 
 public class ConfusionMatrix {
     ArrayList<String> uniqueObservedValues;

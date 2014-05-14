@@ -1,14 +1,12 @@
 package edu.unc.ceccr.action;
 
-import java.util.ArrayList;
-
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+import edu.unc.ceccr.persistence.User;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.ActionSupport;
-
-import edu.unc.ceccr.persistence.User;
+import java.util.ArrayList;
 
 public abstract class ViewAction extends ActionSupport {
 

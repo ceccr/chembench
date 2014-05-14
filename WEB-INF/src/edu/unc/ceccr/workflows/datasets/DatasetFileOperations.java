@@ -1,5 +1,20 @@
 package edu.unc.ceccr.workflows.datasets;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.global.ErrorMessages;
+import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.utilities.BigFile;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
+import edu.unc.ceccr.utilities.Utility;
+import org.apache.commons.validator.GenericValidator;
+import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.poifs.filesystem.POIFSFileSystem;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,23 +30,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Vector;
-
-import org.apache.commons.validator.GenericValidator;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.poifs.filesystem.POIFSFileSystem;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.global.ErrorMessages;
-import edu.unc.ceccr.persistence.DataSet;
-import edu.unc.ceccr.utilities.BigFile;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
-
-import org.apache.log4j.Logger;
 
 /*
  * Functions relating to the processing of incoming dataset files go in here.

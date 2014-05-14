@@ -2,7 +2,6 @@ package edu.unc.ceccr.workflows.modelingPrediction;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-
 import org.apache.log4j.Logger;
 
 public class PredictionUtilities {

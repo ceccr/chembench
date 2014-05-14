@@ -2,18 +2,16 @@ package edu.unc.ceccr.action;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.taskObjects.CreateDatasetTask;
-import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.taskObjects.CreateDatasetTask;
+import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,9 +21,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**

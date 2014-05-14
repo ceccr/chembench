@@ -3,12 +3,10 @@ package edu.unc.ceccr.action;
 
 //struts2
 
-import org.apache.log4j.Logger;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
 import edu.unc.ceccr.persistence.User;
+import org.apache.log4j.Logger;
 
 public class CeccrBaseAction extends ActionSupport {
 

@@ -1,10 +1,10 @@
 package edu.unc.ceccr.workflows.calculations;
 
+import edu.unc.ceccr.workflows.visualization.XMLTreeBuilder;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
-
-import edu.unc.ceccr.workflows.visualization.XMLTreeBuilder;
 
 
 public class MahalanobisDistanceMeasure extends DistanceMeasure {

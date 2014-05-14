@@ -1,16 +1,15 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-
 import org.apache.log4j.Logger;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
 
 public class ModelingUtilities {
 

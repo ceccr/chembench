@@ -3,8 +3,6 @@ package edu.unc.ceccr.persistence;
 // default package
 // Generated Jun 20, 2006 1:22:16 PM by Hibernate Tools 3.1.0.beta5
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Transient;
+import java.util.Date;
 
 @Entity
 @Table(name = "cbench_predictor")

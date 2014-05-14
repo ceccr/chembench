@@ -1,13 +1,12 @@
 package edu.unc.ceccr.workflows.visualization;
 
+import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
-
-import org.apache.log4j.Logger;
-
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 public class XMLTreeBuilder {
     private static Logger logger = Logger.getLogger(XMLTreeBuilder.class.getName());

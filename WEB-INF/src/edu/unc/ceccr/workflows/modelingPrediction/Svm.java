@@ -1,6 +1,7 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
 
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.PredictionValue;
 import edu.unc.ceccr.persistence.SvmModel;
@@ -8,7 +9,7 @@ import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.global.Constants;
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,8 +18,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
-
-import org.apache.log4j.Logger;
 
 public class Svm {
     private static Logger logger

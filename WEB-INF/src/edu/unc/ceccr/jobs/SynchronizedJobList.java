@@ -1,20 +1,18 @@
 package edu.unc.ceccr.jobs;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.JobStats;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
-
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Expression;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class SynchronizedJobList {
 

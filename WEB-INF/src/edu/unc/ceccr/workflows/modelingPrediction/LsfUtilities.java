@@ -1,16 +1,14 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
 
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.Scanner;
-
-import org.apache.log4j.Logger;
 
 public class LsfUtilities {
     private static Logger logger

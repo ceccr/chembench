@@ -1,13 +1,5 @@
 package edu.unc.ceccr.taskObjects;
 
-import java.io.File;
-import java.io.FilenameFilter;
-import java.util.ArrayList;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import edu.unc.ceccr.action.ModelingFormActions;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
@@ -38,6 +30,13 @@ import edu.unc.ceccr.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.workflows.modelingPrediction.Svm;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
 import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
 public class QsarModelingTask extends WorkflowTask {

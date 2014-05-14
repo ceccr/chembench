@@ -1,21 +1,10 @@
 package edu.unc.ceccr.workflows.visualization;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Stroke;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Rectangle2D;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.ExternalValidation;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
 import org.apache.commons.validator.GenericValidator;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -37,11 +26,18 @@ import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.HorizontalAlignment;
 import org.jfree.ui.RectangleEdge;
 
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.ExternalValidation;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
+import java.awt.*;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class ExternalValidationChart {
     private static Logger logger = Logger.getLogger(ExternalValidationChart.class.getName());

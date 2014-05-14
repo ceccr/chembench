@@ -1,17 +1,16 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.PredictionValue;
+import edu.unc.ceccr.utilities.RunExternalProgram;
+import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-
-import org.apache.log4j.Logger;
 
 public class KnnPrediction {
 

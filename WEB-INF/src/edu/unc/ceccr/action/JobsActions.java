@@ -1,15 +1,7 @@
 package edu.unc.ceccr.action;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
@@ -20,6 +12,12 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 // struts2
 
 public class JobsActions extends ActionSupport {

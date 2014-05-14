@@ -1,10 +1,5 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -13,6 +8,10 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.calculations.ConfusionMatrix;
 import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // struts2
 

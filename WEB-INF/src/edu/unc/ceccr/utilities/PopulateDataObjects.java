@@ -1,22 +1,5 @@
 package edu.unc.ceccr.utilities;
 
-import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
-import org.hibernate.criterion.Order;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.CompoundPredictions;
 import edu.unc.ceccr.persistence.DataSet;
@@ -39,6 +22,22 @@ import edu.unc.ceccr.persistence.SvmModel;
 import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
+import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Order;
+
+import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 
 public class PopulateDataObjects {
     private static Logger logger = Logger.getLogger(PopulateDataObjects.class

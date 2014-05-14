@@ -1,22 +1,20 @@
 package edu.unc.ceccr.servlet;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.workflows.download.WriteZip;
+import org.apache.log4j.Logger;
+
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.User;
-import edu.unc.ceccr.workflows.download.WriteZip;
-
-import org.apache.log4j.Logger;
 
 @SuppressWarnings("serial")
 public class DatasetFilesServlet extends HttpServlet {

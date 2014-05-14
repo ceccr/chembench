@@ -1,14 +1,5 @@
 package edu.unc.ceccr.taskObjects;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.util.Date;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -18,9 +9,17 @@ import edu.unc.ceccr.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.workflows.descriptors.CheckDescriptors;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.DataSplit;
+import edu.unc.ceccr.workflows.utilities.StandardizeSdfFormat;
 import edu.unc.ceccr.workflows.visualization.HeatmapAndPCA;
 import edu.unc.ceccr.workflows.visualization.SdfToJpg;
-import edu.unc.ceccr.workflows.utilities.StandardizeSdfFormat;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.Date;
 
 public class CreateDatasetTask extends WorkflowTask {
     private static Logger logger = Logger.getLogger(CreateDatasetTask.class.getName());

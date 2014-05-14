@@ -1,12 +1,5 @@
 package edu.unc.ceccr.jobs;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -20,8 +13,13 @@ import edu.unc.ceccr.taskObjects.WorkflowTask;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
-
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
 
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 

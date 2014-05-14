@@ -1,17 +1,16 @@
 package edu.unc.ceccr.workflows.visualization;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
+import org.apache.log4j.Logger;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import org.apache.log4j.Logger;
-
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.global.Constants;
 
 
 public class SdfToJpg {

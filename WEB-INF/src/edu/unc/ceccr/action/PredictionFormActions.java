@@ -1,24 +1,7 @@
 package edu.unc.ceccr.action;
 
-import java.io.File;
-import java.io.FileReader;
-import java.nio.file.Path;
-import java.nio.file.Files;
-import java.nio.file.FileAlreadyExistsException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
-
-import org.apache.commons.collections.ListUtils;
-import org.hibernate.Session;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.DataSet;
@@ -32,9 +15,22 @@ import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction;
-
-
+import org.apache.commons.collections.ListUtils;
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
+import java.io.File;
+import java.io.FileReader;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
 // struts2
 
 public class PredictionFormActions extends ActionSupport {

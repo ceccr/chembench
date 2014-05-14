@@ -1,5 +1,7 @@
 package edu.unc.ceccr.persistence;
 
+import org.apache.log4j.Logger;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.apache.log4j.Logger;
 
 // default package
 // Generated Jun 20, 2006 1:22:16 PM by Hibernate Tools 3.1.0.beta5

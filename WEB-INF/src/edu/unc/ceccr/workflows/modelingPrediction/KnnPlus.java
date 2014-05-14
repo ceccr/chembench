@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
+import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.KnnPlusModel;
 import edu.unc.ceccr.persistence.KnnPlusParameters;
@@ -8,7 +9,7 @@ import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.global.Constants;
+import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -24,8 +25,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
-
-import org.apache.log4j.Logger;
 
 public class KnnPlus {
     private static Logger logger = Logger.getLogger(KnnPlus.class.getName());

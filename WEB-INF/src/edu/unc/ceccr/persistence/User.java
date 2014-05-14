@@ -1,14 +1,13 @@
 package edu.unc.ceccr.persistence;
 
 
-import java.util.Date;
+import edu.unc.ceccr.utilities.Utility;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import edu.unc.ceccr.utilities.Utility;
+import java.util.Date;
 
 @Entity
 @Table(name = "cbench_user")

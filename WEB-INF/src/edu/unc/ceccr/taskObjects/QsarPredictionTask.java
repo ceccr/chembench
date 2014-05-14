@@ -1,23 +1,5 @@
 package edu.unc.ceccr.taskObjects;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
-
-import org.apache.commons.math.stat.descriptive.SummaryStatistics;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.criterion.Expression;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.DataSet;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -36,6 +18,23 @@ import edu.unc.ceccr.workflows.modelingPrediction.RandomForest;
 import edu.unc.ceccr.workflows.modelingPrediction.Svm;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
 import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
+import org.apache.commons.math.stat.descriptive.SummaryStatistics;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Expression;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Scanner;
 
 
 public class QsarPredictionTask extends WorkflowTask {

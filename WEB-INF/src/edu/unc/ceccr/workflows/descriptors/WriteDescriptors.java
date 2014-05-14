@@ -1,5 +1,10 @@
 package edu.unc.ceccr.workflows.descriptors;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.Descriptors;
+import edu.unc.ceccr.utilities.Utility;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -8,12 +13,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
-
-import org.apache.log4j.Logger;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.Descriptors;
-import edu.unc.ceccr.utilities.Utility;
 
 
 public class WriteDescriptors {

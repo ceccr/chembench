@@ -1,16 +1,15 @@
 package edu.unc.ceccr.workflows.datasets;
 
+import edu.unc.ceccr.utilities.FileAndDirOperations;
+import edu.unc.ceccr.utilities.RunExternalProgram;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
-
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.RunExternalProgram;
-
-import org.apache.log4j.Logger;
 
 public class StandardizeMolecules {
 

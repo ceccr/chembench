@@ -1,5 +1,11 @@
 package edu.unc.ceccr.utilities;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.User;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -16,14 +22,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
-
-import org.hibernate.Session;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.User;
-
-import org.apache.log4j.Logger;
 
 //The Utility class is for cross-cutting concerns (logging, authentication / user stuff).
 

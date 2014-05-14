@@ -1,20 +1,18 @@
 package edu.unc.ceccr.action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.SoftwareLink;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 //struts2
 
 public class SoftwareLinksAction extends ActionSupport {

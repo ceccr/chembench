@@ -1,16 +1,14 @@
 package edu.unc.ceccr.jobs;
 
-import java.util.ArrayList;
-
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
-
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import java.util.ArrayList;
 
 public class IncomingJobProcessingThread extends Thread {
     private static Logger logger

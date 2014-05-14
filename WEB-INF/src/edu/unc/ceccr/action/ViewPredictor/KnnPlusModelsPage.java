@@ -1,19 +1,18 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.persistence.HibernateUtil;
+import edu.unc.ceccr.persistence.KnnPlusModel;
+import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.utilities.PopulateDataObjects;
+import org.apache.log4j.Logger;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
-import org.apache.log4j.Logger;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.KnnPlusModel;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
 
 public class KnnPlusModelsPage extends ViewPredictorAction {
     private static final long serialVersionUID = 1L;

@@ -1,15 +1,7 @@
 package edu.unc.ceccr.action;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -18,6 +10,12 @@ import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 //struts2
 
 

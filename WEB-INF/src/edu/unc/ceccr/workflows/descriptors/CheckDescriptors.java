@@ -1,14 +1,12 @@
 package edu.unc.ceccr.workflows.descriptors;
 
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import org.apache.log4j.Logger;
-
-import edu.unc.ceccr.global.Constants;
 
 public class CheckDescriptors {
     private static Logger logger = Logger.getLogger(CheckDescriptors.class.getName());

@@ -1,12 +1,11 @@
 package edu.unc.ceccr.utilities;
 
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
-
 import edu.unc.ceccr.action.HomeAction;
 import edu.unc.ceccr.persistence.User;
-
 import org.apache.log4j.Logger;
+
+import javax.servlet.http.HttpSessionEvent;
+import javax.servlet.http.HttpSessionListener;
 
 public class ActiveUser implements HttpSessionListener {
 

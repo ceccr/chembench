@@ -1,18 +1,16 @@
 package edu.unc.ceccr.utilities;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.util.Date;
-import java.util.Iterator;
-
-import org.hibernate.Session;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.User;
-
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.util.Date;
+import java.util.Iterator;
 
 public class SendEmails {
 

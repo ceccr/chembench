@@ -2,14 +2,12 @@ package edu.unc.ceccr.action.ViewPredictor;
 
 // struts2
 
-import org.apache.log4j.Logger;
-import org.hibernate.Transaction;
-
 import com.opensymphony.xwork2.ActionContext;
-
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
+import org.apache.log4j.Logger;
+import org.hibernate.Transaction;
 
 public class PredictorPage extends ViewPredictorAction {
 

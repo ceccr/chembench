@@ -1,12 +1,12 @@
 package edu.unc.ceccr.workflows.calculations;
 
+import edu.unc.ceccr.global.Constants;
+import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Vector;
-
-import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 
 
 public class DistanceMeasure {
