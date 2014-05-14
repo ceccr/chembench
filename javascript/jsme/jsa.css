@@ -1,6 +1,11 @@
+.gwt-DecoratedPopupPanel input[type=text] {
+    margin: 0;
+}
+
 .gwt-DecoratedPopupPanel table,.gwt-MenuBarPopup table {
     border-collapse: separate;
     border-color: transparent;
+    border-spacing: 0;
     border-style: none;
     border-width: medium;
     table-layout: auto;
