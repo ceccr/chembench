@@ -30,7 +30,7 @@ public class HibernateUtil {
                 .addAnnotatedClass(Prediction.class)
                 .addAnnotatedClass(PredictionValue.class)
                 .addAnnotatedClass(ExternalValidation.class)
-                .addAnnotatedClass(DataSet.class)
+                .addAnnotatedClass(Dataset.class)
                 .addAnnotatedClass(SoftwareLink.class)
                 .addAnnotatedClass(Descriptors.class)
                 .addAnnotatedClass(DescriptorGenerator.class)

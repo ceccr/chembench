@@ -2,7 +2,7 @@ package edu.unc.ceccr.action;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.CompoundPredictions;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
@@ -29,7 +29,7 @@ public class ViewPredictionAction extends ViewAction {
     ArrayList<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
     private Prediction prediction;
     private List<Predictor> predictors; //put these in order by predictorId
-    private DataSet dataset; //dataset used in prediction
+    private Dataset dataset; //dataset used in prediction
     private String currentPageNumber;
     private String orderBy;
     private String sortDirection;
@@ -344,11 +344,11 @@ public class ViewPredictionAction extends ViewAction {
         this.user = user;
     }
 
-    public DataSet getDataset() {
+    public Dataset getDataset() {
         return dataset;
     }
 
-    public void setDataset(DataSet dataset) {
+    public void setDataset(Dataset dataset) {
         this.dataset = dataset;
     }
 

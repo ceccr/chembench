@@ -42,7 +42,7 @@ public class FileServlet extends HttpServlet {
             String fileName = "";
             Session s = HibernateUtil.getSession();
             if (jobType.equalsIgnoreCase(Constants.DATASET)) {
-                //DataSet dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
+                //Dataset dataset = PopulateDataObjects.getDataSetById(Long.parseLong(id), s);
                 dirName += user_mol + "/DATASETS/";
                 dirName += datasetName + "/";
 

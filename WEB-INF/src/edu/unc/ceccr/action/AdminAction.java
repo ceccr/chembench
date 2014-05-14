@@ -3,7 +3,7 @@ package edu.unc.ceccr.action;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnPlusModel;
@@ -463,7 +463,7 @@ public class AdminAction extends ActionSupport {
             }
 
             Session session = HibernateUtil.getSession();
-            DataSet dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
+            Dataset dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
             if (dataset == null) {
                 String error;
                 if (userName.equals(Constants.ALL_USERS_USERNAME)) {
@@ -523,7 +523,7 @@ public class AdminAction extends ActionSupport {
     }
 
 
-    private ArrayList<String> checkDatasetDependencies(DataSet ds, String userName) throws HibernateException,
+    private ArrayList<String> checkDatasetDependencies(Dataset ds, String userName) throws HibernateException,
             ClassNotFoundException, SQLException {
         logger.debug("checking dataset dependencies");
 
@@ -612,7 +612,7 @@ public class AdminAction extends ActionSupport {
                 return ERROR;
             }
 
-            DataSet dataset = PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session);
+            Dataset dataset = PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session);
             if (dataset == null) {
                 return ERROR;
             }
@@ -627,7 +627,7 @@ public class AdminAction extends ActionSupport {
 
             //check if any other dataset with the same name is already public
             session = HibernateUtil.getSession();
-            DataSet checkPublicDataset = PopulateDataObjects.getDataSetByName(dataset.getName(),
+            Dataset checkPublicDataset = PopulateDataObjects.getDataSetByName(dataset.getName(),
                     Constants.ALL_USERS_USERNAME, session);
             session.close();
             if (checkPublicDataset != null) {
@@ -990,7 +990,7 @@ public class AdminAction extends ActionSupport {
             logger.debug("++++++++++++++++++Dataset name:" + datasetName + " User name=" + userName);
 
             Session session = HibernateUtil.getSession();
-            DataSet dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
+            Dataset dataset = PopulateDataObjects.getDataSetByName(datasetName, userName, session);
             if (dataset == null) {
                 errorStrings.add("User " + userName + " does not have a dataset with Name " + datasetName);
                 return ERROR;

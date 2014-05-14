@@ -2,7 +2,7 @@ package edu.unc.ceccr.taskObjects;
 
 import edu.unc.ceccr.action.ModelingFormActions;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -57,7 +57,7 @@ public class QsarModelingTask extends WorkflowTask {
     private String filePath;
     private String datasetPath;
     private String actFileDataType;
-    private DataSet dataset;
+    private Dataset dataset;
     private String categoryWeights;
     // descriptors
     private String descriptorGenerationType;
@@ -588,7 +588,7 @@ public class QsarModelingTask extends WorkflowTask {
                 .getACTCompoundNames(filePath + actFileName);
 
         Session session = HibernateUtil.getSession();
-        DataSet dataset = PopulateDataObjects.getDataSetById(datasetID,
+        Dataset dataset = PopulateDataObjects.getDataSetById(datasetID,
                 session);
         session.close();
 

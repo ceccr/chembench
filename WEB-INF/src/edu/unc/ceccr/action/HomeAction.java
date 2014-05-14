@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
@@ -371,14 +371,14 @@ public class
 
                 }
 
-                ArrayList<DataSet> datasets = new ArrayList<DataSet>();
+                ArrayList<Dataset> datasets = new ArrayList<Dataset>();
 
                 Iterator<?> datSetIter = PopulateDataObjects.getUserData(
                         userToDelete
-                        , DataSet.class, s)
+                        , Dataset.class, s)
                         .iterator();
                 while (datSetIter.hasNext()) {
-                    datasets.add((DataSet) datSetIter.next());
+                    datasets.add((Dataset) datSetIter.next());
 
                 }
 
@@ -468,7 +468,7 @@ public class
                     }
                 }
 
-                for (DataSet d : datasets) {
+                for (Dataset d : datasets) {
                     Session session = HibernateUtil.getSession();
                     Transaction tx = null;
                     tx = session.beginTransaction();

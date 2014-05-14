@@ -2,7 +2,7 @@ package edu.unc.ceccr.utilities;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.CompoundPredictions;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
@@ -219,7 +219,7 @@ public class PopulateDataObjects {
     populateCompoundPredictionValues(Long datasetId,
                                      Long predictionId,
                                      Session session) throws Exception {
-        DataSet dataset = getDataSetById(datasetId, session);
+        Dataset dataset = getDataSetById(datasetId, session);
 
         // get compounds from SDF
         String datasetDir = "";
@@ -305,21 +305,21 @@ public class PopulateDataObjects {
         return compoundPredictionValues;
     }
 
-    public static List<DataSet>
+    public static List<Dataset>
     populateDatasetsForPrediction(String userName,
                                   boolean isAllUserIncludes,
                                   Session session) throws HibernateException,
             ClassNotFoundException,
             SQLException {
-        List<DataSet> dataSets = new ArrayList<DataSet>();
-        List<DataSet> usersDataSet = new ArrayList<DataSet>();
+        List<Dataset> datasets = new ArrayList<Dataset>();
+        List<Dataset> usersDataset = new ArrayList<Dataset>();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
                 // get both modeling AND prediction datasets, since modeling
                 // datasets are possible to predict as well.
-                Iterator<?> tempIter = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME)).add(
                                 Expression.or(Expression.eq("modelType",
@@ -333,9 +333,9 @@ public class PopulateDataObjects {
                         .addOrder(Order.asc("name")).list().iterator();
 
                 while (tempIter.hasNext()) {
-                    dataSets.add((DataSet) tempIter.next());
+                    datasets.add((Dataset) tempIter.next());
                 }
-                Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName", userName)).add(
                                 Expression.eq("jobCompleted", Constants.YES))
                         .add(Expression.or(Expression.eq("modelType",
@@ -346,10 +346,10 @@ public class PopulateDataObjects {
                         )))
                         .addOrder(Order.asc("name")).list().iterator();
                 while (tempIter2.hasNext()) {
-                    usersDataSet.add((DataSet) tempIter2.next());
+                    usersDataset.add((Dataset) tempIter2.next());
                 }
             } else {
-                Iterator<?> tempIter = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName", userName)).add(
                                 Expression.eq("jobCompleted", Constants.YES))
                         .add(Expression.or(Expression.eq("modelType",
@@ -360,23 +360,23 @@ public class PopulateDataObjects {
                         )))
                         .addOrder(Order.asc("name")).list().iterator();
                 while (tempIter.hasNext()) {
-                    dataSets.add((DataSet) tempIter.next());
+                    datasets.add((Dataset) tempIter.next());
                 }
 
             }
             tx.commit();
-            if (usersDataSet != null) {
-                dataSets.addAll(usersDataSet);
+            if (usersDataset != null) {
+                datasets.addAll(usersDataset);
             }
 
         } catch (Exception ex) {
             logger.error(ex);
         }
 
-        return dataSets;
+        return datasets;
     }
 
-    public static List<DataSet>
+    public static List<Dataset>
     populateDataset(String userName,
                     String modelType,
                     boolean isAllUserIncludes,
@@ -386,51 +386,51 @@ public class PopulateDataObjects {
         // returns a list of datasets.
         // Used to populate the dropdowns on the Modeling and Dataset pages.
 
-        List<DataSet> dataSets = new ArrayList<DataSet>();
-        List<DataSet> usersDataSet = new ArrayList<DataSet>();
+        List<Dataset> datasets = new ArrayList<Dataset>();
+        List<Dataset> usersDataset = new ArrayList<Dataset>();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
-                Iterator<?> tempIter1 = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter1 = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME)).add(
                                 Expression.eq("modelType", modelType))
                         .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter1.hasNext()) {
-                    dataSets.add((DataSet) tempIter1.next());
+                    datasets.add((Dataset) tempIter1.next());
                 }
 
-                Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName", userName)).add(
                                 Expression.eq("jobCompleted", Constants.YES))
                         .add(Expression.eq("modelType", modelType)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
-                    usersDataSet.add((DataSet) tempIter2.next());
+                    usersDataset.add((Dataset) tempIter2.next());
                 }
 
             } else {
-                Iterator<?> tempIter1 = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter1 = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName", userName)).add(
                                 Expression.eq("modelType", modelType))
                         .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter1.hasNext()) {
-                    dataSets.add((DataSet) tempIter1.next());
+                    datasets.add((Dataset) tempIter1.next());
                 }
             }
             tx.commit();
-            if (usersDataSet != null) {
-                dataSets.addAll(usersDataSet);
+            if (usersDataset != null) {
+                datasets.addAll(usersDataset);
             }
         } catch (Exception ex) {
             logger.error(ex);
         }
-        Collections.reverse(dataSets);
-        return dataSets;
+        Collections.reverse(datasets);
+        return datasets;
     }
 
     public static List<String>
@@ -443,34 +443,34 @@ public class PopulateDataObjects {
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
 
-        List<DataSet> allUserDataSets = new ArrayList<DataSet>();
-        List<DataSet> usersDataSet = new ArrayList<DataSet>();
+        List<Dataset> allUserDatasets = new ArrayList<Dataset>();
+        List<Dataset> usersDataset = new ArrayList<Dataset>();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
-                Iterator<?> tempIter1 = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter1 = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter1.hasNext()) {
-                    allUserDataSets.add((DataSet) tempIter1.next());
+                    allUserDatasets.add((Dataset) tempIter1.next());
                 }
-                Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName", userName)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
-                    usersDataSet.add((DataSet) tempIter2.next());
+                    usersDataset.add((Dataset) tempIter2.next());
                 }
             } else {
-                Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName", userName)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
-                    usersDataSet.add((DataSet) tempIter2.next());
+                    usersDataset.add((Dataset) tempIter2.next());
                 }
             }
             tx.commit();
@@ -480,18 +480,18 @@ public class PopulateDataObjects {
 
         List<String> datasetNames = new ArrayList<String>();
         try {
-            if (allUserDataSets != null) {
-                Iterator<DataSet> i = allUserDataSets.iterator();
+            if (allUserDatasets != null) {
+                Iterator<Dataset> i = allUserDatasets.iterator();
                 while (i.hasNext()) {
-                    DataSet di = i.next();
+                    Dataset di = i.next();
                     datasetNames.add(di.getName()/* + " (public)" */);
                 }
             }
 
-            if (usersDataSet != null) {
-                Iterator<DataSet> j = usersDataSet.iterator();
+            if (usersDataset != null) {
+                Iterator<Dataset> j = usersDataset.iterator();
                 while (j.hasNext()) {
-                    DataSet dj = j.next();
+                    Dataset dj = j.next();
                     datasetNames.add(dj.getName()/* + " (private)" */);
                 }
             }
@@ -818,36 +818,36 @@ public class PopulateDataObjects {
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
 
-        ArrayList<DataSet> allUserDataSets = new ArrayList<DataSet>();
-        List<DataSet> usersDataSet = new ArrayList<DataSet>();
+        ArrayList<Dataset> allUserDatasets = new ArrayList<Dataset>();
+        List<Dataset> usersDataset = new ArrayList<Dataset>();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
 
-                Iterator<?> tempIter1 = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter1 = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName",
                                 Constants.ALL_USERS_USERNAME)).addOrder(
                                 Order.desc("name")).list().iterator();
                 while (tempIter1.hasNext()) {
-                    allUserDataSets.add((DataSet) tempIter1.next());
+                    allUserDatasets.add((Dataset) tempIter1.next());
                 }
 
-                Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName", userName)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
-                    usersDataSet.add((DataSet) tempIter2.next());
+                    usersDataset.add((Dataset) tempIter2.next());
                 }
             } else {
 
-                Iterator<?> tempIter2 = session.createCriteria(DataSet.class)
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
                         .add(Expression.eq("userName", userName)).addOrder(
                                 Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
-                    usersDataSet.add((DataSet) tempIter2.next());
+                    usersDataset.add((Dataset) tempIter2.next());
                 }
 
             }
@@ -858,10 +858,10 @@ public class PopulateDataObjects {
 
         ArrayList<String> datasetdescriptorsNames = new ArrayList<String>();
         try {
-            if (allUserDataSets != null) {
-                Iterator<DataSet> i = allUserDataSets.iterator();
+            if (allUserDatasets != null) {
+                Iterator<Dataset> i = allUserDatasets.iterator();
                 while (i.hasNext()) {
-                    DataSet di = i.next();
+                    Dataset di = i.next();
                     if (di != null
                             && di.getAvailableDescriptors() != null
                             && di.getAvailableDescriptors().contains(
@@ -876,10 +876,10 @@ public class PopulateDataObjects {
                 }
             }
 
-            if (usersDataSet != null) {
-                Iterator<DataSet> j = usersDataSet.iterator();
+            if (usersDataset != null) {
+                Iterator<Dataset> j = usersDataset.iterator();
                 while (j.hasNext()) {
-                    DataSet dj = j.next();
+                    Dataset dj = j.next();
                     if (dj != null
                             && dj.getAvailableDescriptors() != null
                             && dj.getAvailableDescriptors().contains(
@@ -900,7 +900,7 @@ public class PopulateDataObjects {
         return datasetdescriptorsNames;
     }
 
-    public static List<DataSet>
+    public static List<Dataset>
     populateDatasetNamesForUploadedPredicors(String userName,
                                              String descriptorTypeName,
                                              boolean isAllUserIncludes,
@@ -908,8 +908,8 @@ public class PopulateDataObjects {
             ClassNotFoundException,
             SQLException {
 
-        List<DataSet> usersDataSet = new ArrayList<DataSet>();
-        List<DataSet> allUserDataSets = new ArrayList<DataSet>();
+        List<Dataset> usersDataset = new ArrayList<Dataset>();
+        List<Dataset> allUserDatasets = new ArrayList<Dataset>();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -917,7 +917,7 @@ public class PopulateDataObjects {
                 if (descriptorTypeName == null
                         || descriptorTypeName.trim().isEmpty()) {
 
-		    /* Iterator<?> i1 = session.createCriteria(DataSet.class)
+		    /* Iterator<?> i1 = session.createCriteria(Dataset.class)
                             .add(Expression.eq("userName",
                                     Constants.ALL_USERS_USERNAME))
                             .add(Expression.or(Expression.eq("modelType",
@@ -927,7 +927,7 @@ public class PopulateDataObjects {
                                             .eq("modelType",
                                                     Constants.CATEGORY))))
 						    .addOrder(Order.desc("name")).list().iterator();*/
-                    Iterator<?> i1 = session.createCriteria(DataSet.class)
+                    Iterator<?> i1 = session.createCriteria(Dataset.class)
                             .add(Expression.eq("userName",
                                     Constants.ALL_USERS_USERNAME))
                             .add(Expression.and(
@@ -936,10 +936,10 @@ public class PopulateDataObjects {
                             .addOrder(
                                     Order.desc("name")).list().iterator();
                     while (i1.hasNext()) {
-                        allUserDataSets.add((DataSet) i1.next());
+                        allUserDatasets.add((Dataset) i1.next());
                     }
                 } else {
-                    Iterator<?> i2 = session.createCriteria(DataSet.class)
+                    Iterator<?> i2 = session.createCriteria(Dataset.class)
                             .add(Expression.eq("userName",
                                     Constants.ALL_USERS_USERNAME)).add(
                                     Expression.eq("uploadedDescriptorType",
@@ -947,14 +947,14 @@ public class PopulateDataObjects {
                             ).addOrder(
                                     Order.desc("name")).list().iterator();
                     while (i2.hasNext()) {
-                        allUserDataSets.add((DataSet) i2.next());
+                        allUserDatasets.add((Dataset) i2.next());
                     }
                 }
             }
 
             if (descriptorTypeName == null
                     || descriptorTypeName.trim().isEmpty()) {
-                /*Iterator<?> i3 = session.createCriteria(DataSet.class).add(
+                /*Iterator<?> i3 = session.createCriteria(Dataset.class).add(
                         Expression.eq("userName", userName)).add(
                         Expression.or(Expression.eq("modelType",
                                 Constants.PREDICTION), Expression.or(
@@ -963,24 +963,24 @@ public class PopulateDataObjects {
                                         "modelType", Constants.CATEGORY))))
 					.addOrder(Order.desc("name")).list().iterator();*/
                 Iterator<?> i3 = session
-                        .createCriteria(DataSet.class)
+                        .createCriteria(Dataset.class)
                         .add(Expression.eq("userName", userName))
                         .add(Expression.and(
                                 Expression.eq("uploadedDescriptorType", ""),
                                 Expression.eq("availableDescriptors", Constants.UPLOADED)))
                         .addOrder(Order.desc("name")).list().iterator();
                 while (i3.hasNext()) {
-                    usersDataSet.add((DataSet) i3.next());
+                    usersDataset.add((Dataset) i3.next());
                 }
             } else {
-                Iterator<?> i4 = session.createCriteria(DataSet.class).add(
+                Iterator<?> i4 = session.createCriteria(Dataset.class).add(
                         Expression.eq("userName", userName)).add(
                         Expression.eq("uploadedDescriptorType",
                                 descriptorTypeName)
                 ).addOrder(
                         Order.desc("name")).list().iterator();
                 while (i4.hasNext()) {
-                    usersDataSet.add((DataSet) i4.next());
+                    usersDataset.add((Dataset) i4.next());
                 }
 
             }
@@ -989,10 +989,10 @@ public class PopulateDataObjects {
         } catch (Exception e) {
             logger.error(e);
         }
-        if (allUserDataSets != null) {
-            usersDataSet.addAll(allUserDataSets);
+        if (allUserDatasets != null) {
+            usersDataset.addAll(allUserDatasets);
         }
-        return usersDataSet;
+        return usersDataset;
     }
 
     public static Job
@@ -1034,11 +1034,11 @@ public class PopulateDataObjects {
                          String userName,
                          Session session) throws ClassNotFoundException,
             SQLException {
-        DataSet dataset = null;
+        Dataset dataset = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            dataset = (DataSet) session.createCriteria(DataSet.class).add(
+            dataset = (Dataset) session.createCriteria(Dataset.class).add(
                     Expression.eq("name", datasetName)).add(
                     Expression.eq("userName", userName)).uniqueResult();
 
@@ -1050,16 +1050,16 @@ public class PopulateDataObjects {
         return dataset.getSdfFile();
     }
 
-    public static DataSet
+    public static Dataset
     getDataSetByName(String datasetName,
                      String userName,
                      Session session) throws ClassNotFoundException,
             SQLException {
-        DataSet dataset = null;
+        Dataset dataset = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            dataset = (DataSet) session.createCriteria(DataSet.class).add(
+            dataset = (Dataset) session.createCriteria(Dataset.class).add(
                     Expression.eq("name", datasetName)).add(
                     Expression.eq("userName", userName)).uniqueResult();
             tx.commit();
@@ -1069,14 +1069,14 @@ public class PopulateDataObjects {
         return dataset;
     }
 
-    public static DataSet
+    public static Dataset
     getDataSetById(Long id, Session session) throws ClassNotFoundException,
             SQLException {
-        DataSet dataset = null;
+        Dataset dataset = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            dataset = (DataSet) session.createCriteria(DataSet.class).add(
+            dataset = (Dataset) session.createCriteria(Dataset.class).add(
                     Expression.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {

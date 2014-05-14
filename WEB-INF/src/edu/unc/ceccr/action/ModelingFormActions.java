@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
@@ -42,8 +42,8 @@ public class ModelingFormActions extends ActionSupport {
     private List<String> userPredictionNames;
     private List<String> userTaskNames;
     private List<Predictor> userPredictorList;
-    private List<DataSet> userContinuousDatasets;
-    private List<DataSet> userCategoryDatasets;
+    private List<Dataset> userContinuousDatasets;
+    private List<Dataset> userCategoryDatasets;
     private Map<String, String> knnCategoryOptimizations;
     private Long selectedPredictorId;
     private String selectedPredictorName;
@@ -306,13 +306,13 @@ public class ModelingFormActions extends ActionSupport {
             return ERROR;
         }
 
-        DataSet ds = PopulateDataObjects.getDataSetById(selectedDatasetId,
+        Dataset ds = PopulateDataObjects.getDataSetById(selectedDatasetId,
                 executeSession);
         if ((ds.getName().equals("all-datasets"))) {
             // Launch modeling on every dataset the user owns (except for this
             // one).
             closeSessionAtEnd = false;
-            ArrayList<DataSet> datasetList = new ArrayList<DataSet>();
+            ArrayList<Dataset> datasetList = new ArrayList<Dataset>();
             datasetList.addAll(PopulateDataObjects.populateDataset(
                     user.getUserName(), Constants.CONTINUOUS, false,
                     executeSession));
@@ -712,19 +712,19 @@ public class ModelingFormActions extends ActionSupport {
         this.userPredictorList = userPredictorList;
     }
 
-    public List<DataSet> getUserContinuousDatasets() {
+    public List<Dataset> getUserContinuousDatasets() {
         return userContinuousDatasets;
     }
 
-    public void setUserContinuousDatasets(List<DataSet> userContinuousDatasets) {
+    public void setUserContinuousDatasets(List<Dataset> userContinuousDatasets) {
         this.userContinuousDatasets = userContinuousDatasets;
     }
 
-    public List<DataSet> getUserCategoryDatasets() {
+    public List<Dataset> getUserCategoryDatasets() {
         return userCategoryDatasets;
     }
 
-    public void setUserCategoryDatasets(List<DataSet> userCategoryDatasets) {
+    public void setUserCategoryDatasets(List<Dataset> userCategoryDatasets) {
         this.userCategoryDatasets = userCategoryDatasets;
     }
 

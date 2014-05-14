@@ -1,7 +1,7 @@
 package edu.unc.ceccr.taskObjects;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
@@ -44,7 +44,7 @@ public class CreateDatasetTask extends WorkflowTask {
     private String availableDescriptors = "";
     private String generateMahalanobis;
     private int numCompounds;
-    private DataSet dataset;                               // contains pretty
+    private Dataset dataset;                               // contains pretty
     // much all the
     // member
     // variables. This
@@ -55,7 +55,7 @@ public class CreateDatasetTask extends WorkflowTask {
     private String step = Constants.SETUP; // stores what
     // step we're on
 
-    public CreateDatasetTask(DataSet dataset) {
+    public CreateDatasetTask(Dataset dataset) {
         this.dataset = dataset;
 
         userName = dataset.getUserName();
@@ -121,7 +121,7 @@ public class CreateDatasetTask extends WorkflowTask {
         this.dataSetDescription = dataSetDescription;
         this.generateMahalanobis = generateImages;
 
-        this.dataset = new DataSet();
+        this.dataset = new Dataset();
 
         String path = Constants.CECCR_USER_BASE_PATH + userName
                 + "/DATASETS/" + jobName + "/";
@@ -164,7 +164,7 @@ public class CreateDatasetTask extends WorkflowTask {
     }
 
     public Long setUp() throws Exception {
-        // create DataSet object in DB to allow for recovery of this job if it
+        // create Dataset object in DB to allow for recovery of this job if it
         // fails.
 
         dataset.setName(jobName);

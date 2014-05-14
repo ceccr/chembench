@@ -3,7 +3,7 @@ package edu.unc.ceccr.action;
 import com.opensymphony.xwork2.ActionContext;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Compound;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class ViewDataset extends ViewAction {
 
     private static Logger logger = Logger.getLogger(ViewDataset.class.getName());
-    private DataSet dataset;
+    private Dataset dataset;
     private ArrayList<Compound> datasetCompounds;
     private ArrayList<Compound> externalCompounds;
     private ArrayList<Compound> externalFold;
@@ -782,11 +782,11 @@ public class ViewDataset extends ViewAction {
         this.pageNums = pageNums;
     }
 
-    public DataSet getDataset() {
+    public Dataset getDataset() {
         return dataset;
     }
 
-    public void setDataset(DataSet dataset) {
+    public void setDataset(Dataset dataset) {
         this.dataset = dataset;
     }
 

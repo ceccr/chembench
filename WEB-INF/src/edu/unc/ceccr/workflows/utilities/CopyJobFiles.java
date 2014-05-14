@@ -1,7 +1,7 @@
 package edu.unc.ceccr.workflows.utilities;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -22,7 +22,7 @@ public class CopyJobFiles {
     private static Logger logger = Logger.getLogger(CopyJobFiles.class.getName());
 
     public static void getDatasetFiles(String userName,
-                                       DataSet dataset,
+                                       Dataset dataset,
                                        String jobType,
                                        String toDir) throws Exception {
         // gathers the dataset files needed for a modeling or prediction run

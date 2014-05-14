@@ -11,7 +11,7 @@ import java.util.Date;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "cbench_dataset")
-public class DataSet implements java.io.Serializable {
+public class Dataset implements java.io.Serializable {
 
     private Long id;
     private String name;
@@ -41,7 +41,7 @@ public class DataSet implements java.io.Serializable {
     private String numExternalFolds;
     private int hasVisualization;
 
-    public DataSet() {
+    public Dataset() {
     }
 
     @Id

@@ -1,7 +1,7 @@
 package edu.unc.ceccr.workflows.visualization;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
@@ -38,14 +38,14 @@ public class ActivityHistogram {
         Long datasetID = Long.parseLong(datasetId);
 
         Session s = HibernateUtil.getSession();
-        DataSet selectedDataSet = PopulateDataObjects.getDataSetById(datasetID, s);
+        Dataset selectedDataset = PopulateDataObjects.getDataSetById(datasetID, s);
         s.close();
 
         String fullPath = Constants.CECCR_USER_BASE_PATH;
 
         String userDir;
-        userDir = selectedDataSet.getUserName();
-        fullPath += userDir + "/DATASETS/" + selectedDataSet.getName() + "/" + selectedDataSet.getActFile();
+        userDir = selectedDataset.getUserName();
+        fullPath += userDir + "/DATASETS/" + selectedDataset.getName() + "/" + selectedDataset.getActFile();
 
         HashMap<String, String> dataMap = DatasetFileOperations.parseActFile(fullPath);
         IntervalXYDataset dataset = new HistogramDataset();
@@ -79,7 +79,7 @@ public class ActivityHistogram {
         domainAxis.setRange(getMinimum(getValues(dataMap)), getMaximum(getValues(dataMap)));
         plot.setDomainAxis(domainAxis);
 
-        String visualizationDir = Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataSet.getName()
+        String visualizationDir = Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataset.getName()
                 + "/Visualization/";
         new File(visualizationDir).mkdirs();
         String outputFileStr = visualizationDir + "activityChart.png";

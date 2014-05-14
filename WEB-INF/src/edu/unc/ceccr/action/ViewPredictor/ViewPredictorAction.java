@@ -2,7 +2,7 @@ package edu.unc.ceccr.action.ViewPredictor;
 
 import edu.unc.ceccr.action.ViewAction;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
@@ -23,7 +23,7 @@ public class ViewPredictorAction extends ViewAction {
     private static Logger logger
             = Logger.getLogger(ViewPredictorAction.class.getName());
     protected Predictor selectedPredictor;
-    protected DataSet dataset;
+    protected Dataset dataset;
     protected String currentFoldNumber = "0";
     // End basic parameters
 
@@ -107,11 +107,11 @@ public class ViewPredictorAction extends ViewAction {
         this.selectedPredictor = selectedPredictor;
     }
 
-    public DataSet getDataset() {
+    public Dataset getDataset() {
         return dataset;
     }
 
-    public void setDataset(DataSet dataset) {
+    public void setDataset(Dataset dataset) {
         this.dataset = dataset;
     }
 

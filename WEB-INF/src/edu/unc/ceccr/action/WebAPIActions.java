@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
@@ -52,7 +52,7 @@ public class WebAPIActions extends ActionSupport {
      * activities: The activity values for the compounds
      * <p/>
      * Using these, this method generates an SDF and ACT file and creates
-     * a new DataSet object. It then creates a new predictor based on that
+     * a new Dataset object. It then creates a new predictor based on that
      * dataset and returns the predictor's id.
      * <p/>
      * (Before returning from the method, the value of generatedPredictorId
@@ -137,7 +137,7 @@ public class WebAPIActions extends ActionSupport {
             return ERROR;
         }
 
-        DataSet dataset = null;
+        Dataset dataset = null;
         try {
             dataset = this.generateDataset(tempSdfFilePath, tempActFilePath,
                     activityType, names.length);
@@ -198,7 +198,7 @@ public class WebAPIActions extends ActionSupport {
     /**
      * Generates a dataset from an SDF file and an ACT file.
      * <p/>
-     * The object that is returned is the state of the DataSet upon execution
+     * The object that is returned is the state of the Dataset upon execution
      * completion, i.e. when its jobCompleted attribute equals "YES".
      *
      * @param sdfFilePath  The path to the SDF file to use.
@@ -206,10 +206,10 @@ public class WebAPIActions extends ActionSupport {
      * @param activityType The type of activity values in the dataset; either "CATEGORY" or
      *                     "CONTINUOUS".
      * @param numCompounds The number of compounds in the dataset.
-     * @return An instance of the created DataSet object as retrieved from the
+     * @return An instance of the created Dataset object as retrieved from the
      * database after it has finished executing on the job queue.
      */
-    private DataSet generateDataset(String sdfFilePath, String actFilePath,
+    private Dataset generateDataset(String sdfFilePath, String actFilePath,
                                     String activityType, int numCompounds) throws Exception {
         // generate a name for the dataset using current time in ms
         String datasetName = this.generateDatasetName();
@@ -295,7 +295,7 @@ public class WebAPIActions extends ActionSupport {
                 WEBAPI_USER_NAME, datasetName));
         int timeLeft = TIMEOUT;
         boolean jobFinished = false;
-        DataSet newDataset = null;
+        Dataset newDataset = null;
         try {
             while (timeLeft > 0 && !jobFinished) {
                 Session session = HibernateUtil.getSession();

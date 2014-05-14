@@ -2,7 +2,7 @@ package edu.unc.ceccr.workflows.datasets;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.global.ErrorMessages;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.utilities.BigFile;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
@@ -67,7 +67,7 @@ public class DatasetFileOperations {
     }
 
     public static ArrayList<String>
-    getActFileValues(DataSet dataset) throws Exception {
+    getActFileValues(Dataset dataset) throws Exception {
         ArrayList<String> actFileValues = new ArrayList<String>();
 
         // find activity file

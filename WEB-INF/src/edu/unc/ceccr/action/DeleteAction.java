@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
@@ -36,7 +36,7 @@ public class DeleteAction extends ActionSupport {
     public ArrayList<String> errorStrings = new ArrayList<String>();
 
     private void
-    checkDatasetDependencies(DataSet ds) throws ClassNotFoundException,
+    checkDatasetDependencies(Dataset ds) throws ClassNotFoundException,
             SQLException {
         // make sure there are no predictors, predictions, or jobs that depend
         // on this dataset
@@ -164,7 +164,7 @@ public class DeleteAction extends ActionSupport {
         ActionContext context = ActionContext.getContext();
 
         String datasetId;
-        DataSet ds = null;
+        Dataset ds = null;
 
         datasetId = ((String[]) context.getParameters().get("id"))[0];
         logger.debug("Deleting dataset with id: " + datasetId);
@@ -533,14 +533,14 @@ public class DeleteAction extends ActionSupport {
 
         }
 
-        ArrayList<DataSet> datasets = new ArrayList<DataSet>();
+        ArrayList<Dataset> datasets = new ArrayList<Dataset>();
 
         Iterator<?> dataSetIter = PopulateDataObjects
                 .getUserData(userToDelete
-                        , DataSet.class, s)
+                        , Dataset.class, s)
                 .iterator();
         while (dataSetIter.hasNext()) {
-            datasets.add((DataSet) dataSetIter.next());
+            datasets.add((Dataset) dataSetIter.next());
 
         }
 
@@ -570,7 +570,7 @@ public class DeleteAction extends ActionSupport {
             deletePredictor();
         }
 
-        for (DataSet d : datasets) {
+        for (Dataset d : datasets) {
             String[] idAsArray = new String[1];
             idAsArray[0] = "" + d.getId();
             context.getParameters().put("id", idAsArray);

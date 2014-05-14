@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.Prediction;
@@ -34,7 +34,7 @@ public class JobsActions extends ActionSupport {
     private boolean adminUser;
     // ====== variables used to hold the queue and finished jobs information
     // =====//
-    private List<DataSet> userDatasets;
+    private List<Dataset> userDatasets;
     private List<Predictor> userPredictors;
     private List<Prediction> userPredictions;
     private List<Job> incomingJobs;
@@ -109,14 +109,14 @@ public class JobsActions extends ActionSupport {
             }
         }
         if (userDatasets != null) {
-            // Collections.sort(userDatasets, new Comparator<DataSet>() {
-            // public int compare(DataSet d1, DataSet d2) {
+            // Collections.sort(userDatasets, new Comparator<Dataset>() {
+            // public int compare(Dataset d1, Dataset d2) {
             // return
             // d1.getName().toLowerCase().compareTo(d2.getName().toLowerCase());
             // }});
 
-            Collections.sort(userDatasets, new Comparator<DataSet>() {
-                public int compare(DataSet d1, DataSet d2) {
+            Collections.sort(userDatasets, new Comparator<Dataset>() {
+                public int compare(Dataset d1, Dataset d2) {
                     return d2.getCreatedTime().compareTo(d1.getCreatedTime());
                 }
             });
@@ -282,11 +282,11 @@ public class JobsActions extends ActionSupport {
         this.adminUser = adminUser;
     }
 
-    public List<DataSet> getUserDatasets() {
+    public List<Dataset> getUserDatasets() {
         return userDatasets;
     }
 
-    public void setUserDatasets(List<DataSet> userDatasets) {
+    public void setUserDatasets(List<Dataset> userDatasets) {
         this.userDatasets = userDatasets;
     }
 

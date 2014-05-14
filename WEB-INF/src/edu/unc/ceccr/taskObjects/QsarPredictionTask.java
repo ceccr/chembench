@@ -1,7 +1,7 @@
 package edu.unc.ceccr.taskObjects;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
 import edu.unc.ceccr.persistence.PredictionValue;
@@ -49,7 +49,7 @@ public class QsarPredictionTask extends WorkflowTask {
     private String cutoff;
     private String userName;
     private String selectedPredictorIds;
-    private DataSet predictionDataset;
+    private Dataset predictionDataset;
     private String step = Constants.SETUP;        // stores
     // what
     // step
@@ -67,7 +67,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
     public QsarPredictionTask(String userName, String jobName, String sdf,
                               String cutoff, String selectedPredictorIds,
-                              DataSet predictionDataset) throws Exception {
+                              Dataset predictionDataset) throws Exception {
         this.predictionDataset = predictionDataset;
         this.jobName = jobName;
         this.userName = userName;
@@ -844,11 +844,11 @@ public class QsarPredictionTask extends WorkflowTask {
         return jobName;
     }
 
-    public DataSet getPredictionDataset() {
+    public Dataset getPredictionDataset() {
         return predictionDataset;
     }
 
-    public void setPredictionDataset(DataSet predictionDataset) {
+    public void setPredictionDataset(Dataset predictionDataset) {
         this.predictionDataset = predictionDataset;
     }
 

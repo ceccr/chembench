@@ -1,7 +1,7 @@
 package edu.unc.ceccr.jobs;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
 import edu.unc.ceccr.persistence.Prediction;
@@ -73,7 +73,7 @@ public class CentralDogma {
                         logger.info("Restoring job: " + j.getJobName());
                         if (j.getJobType().equals(Constants.DATASET)) {
                             Long datasetId = j.getLookupId();
-                            DataSet dataset = PopulateDataObjects
+                            Dataset dataset = PopulateDataObjects
                                     .getDataSetById(datasetId, s);
                             wt = new CreateDatasetTask(dataset);
                         } else if (j.getJobType().equals(Constants.MODELING)) {
@@ -250,7 +250,7 @@ public class CentralDogma {
                     + j.getJobName());
             FileAndDirOperations.deleteDir(file);
 
-            // delete corresponding workflowTask object (DataSet, Predictor,
+            // delete corresponding workflowTask object (Dataset, Predictor,
             // or Prediction)
             Session s = null;
             Transaction tx = null;
@@ -259,8 +259,8 @@ public class CentralDogma {
                 s = HibernateUtil.getSession();
 
                 if (j.getJobType().equals(Constants.DATASET)) {
-                    // delete corresponding DataSet in DB
-                    DataSet ds = PopulateDataObjects.getDataSetById(j
+                    // delete corresponding Dataset in DB
+                    Dataset ds = PopulateDataObjects.getDataSetById(j
                             .getLookupId(), s);
                     if (ds != null) {
                         tx = s.beginTransaction();

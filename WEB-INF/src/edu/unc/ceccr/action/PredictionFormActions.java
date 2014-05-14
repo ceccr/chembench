@@ -4,7 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.DataSet;
+import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
@@ -48,7 +48,7 @@ public class PredictionFormActions extends ActionSupport {
     private List<String> userPredictorNames;
     private List<String> userPredictionNames;
     private List<String> userTaskNames;
-    private List<DataSet> userDatasets;
+    private List<Dataset> userDatasets;
     private String predictorCheckBoxes;
     /* a flag that indicate if we should display SMILES prediction or not */
     private boolean singleCompoundPredictionAllowed;
@@ -486,8 +486,8 @@ public class PredictionFormActions extends ActionSupport {
          * filtering userDatasets leaving only datasets that has same modeling
          * method as predictor
          */
-        List<DataSet> new_ds = new ArrayList<DataSet>();
-        for (DataSet ds : userDatasets) {
+        List<Dataset> new_ds = new ArrayList<Dataset>();
+        for (Dataset ds : userDatasets) {
             /*
              * looking for arrays intersection if found then the Dataset is
              * added to the list
@@ -554,13 +554,13 @@ public class PredictionFormActions extends ActionSupport {
             // if (prdctr.getDescriptorGeneration().equals(
             // Constants.UPLOADED)) {
             if (!hasMultiUploadedDescriptors) {
-                List<DataSet> dss = PopulateDataObjects
+                List<Dataset> dss = PopulateDataObjects
                         .populateDatasetNamesForUploadedPredicors(user
                                         .getUserName(), DescriptorTypeTest, true,
                                 session
                         );
-                for (Iterator<DataSet> j = dss.iterator(); j.hasNext(); ) {
-                    DataSet ds = j.next();
+                for (Iterator<Dataset> j = dss.iterator(); j.hasNext(); ) {
+                    Dataset ds = j.next();
                     if (!userDatasets.contains(ds)) {
                         userDatasets.add(ds);
                     }
@@ -587,7 +587,7 @@ public class PredictionFormActions extends ActionSupport {
         /* use the same session for all data requests */
         Session session = HibernateUtil.getSession();
 
-        DataSet predictionDataset = PopulateDataObjects.getDataSetById(
+        Dataset predictionDataset = PopulateDataObjects.getDataSetById(
                 selectedDatasetId, session);
         String sdf = predictionDataset.getSdfFile();
 
@@ -662,7 +662,7 @@ public class PredictionFormActions extends ActionSupport {
                                     predictionDatasetDir);
 
                     // get the uploaded descriptors for the predictor
-                    DataSet predictorDataset = PopulateDataObjects
+                    Dataset predictorDataset = PopulateDataObjects
                             .getDataSetById(sp.getDatasetId(), session);
                     String predictorDatasetDir = Constants.CECCR_USER_BASE_PATH
                             + predictorDataset.getUserName()
@@ -819,11 +819,11 @@ public class PredictionFormActions extends ActionSupport {
         this.userTaskNames = userTaskNames;
     }
 
-    public List<DataSet> getUserDatasets() {
+    public List<Dataset> getUserDatasets() {
         return userDatasets;
     }
 
-    public void setUserDatasets(List<DataSet> userDatasets) {
+    public void setUserDatasets(List<Dataset> userDatasets) {
         this.userDatasets = userDatasets;
     }
 
