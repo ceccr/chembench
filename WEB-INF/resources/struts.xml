@@ -17,21 +17,6 @@
             <result name="login">jsp/main/notLoggedIn.jsp</result>
         </global-results>
 
-        <!-- temp -->
-        <action name="tooltipDemo">
-            <result>jsp/modelingOutput/viewPredictor-extValidationChart.jsp</result>
-        </action>
-        <action name="compoundTooltip" class="edu.unc.ceccr.action.TooltipActions" method="loadExternalValidationChartTooltip">
-            <result>jsp/modelingOutput/compoundTooltip.jsp</result>
-        </action>
-        <action name="dbdoom" class="edu.unc.ceccr.action.DebugAction" method="printDatabaseTables">
-            <result>jsp/main/home.jsp</result>
-        </action>
-        <action name="addExternalAccuracies" class="edu.unc.ceccr.action.DebugAction" method="addExternalAccuracies">
-            <result>jsp/main/home.jsp</result>
-        </action>
-
-
         <!-- Main pages -->
         <action name="login" class="edu.unc.ceccr.action.HomeAction" method="execute">
             <result name="success">jsp/main/home.jsp</result>
