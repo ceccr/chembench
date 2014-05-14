@@ -22,7 +22,7 @@
     </target>
 
     <target name="clean">
-        <delete includeemptydirs="true">
+        <delete includeemptydirs="true" quiet="true">
             <fileset dir="${build.dir}" includes="**/*" />
         </delete>
     </target>
