@@ -1,32 +1,33 @@
 <?xml version="1.0" ?>
 <project name="chembench" default="clean-build">
 
-    <property name="build.dir" value="classes/edu" />
+    <property name="build.dir" value="./classes" />
+    <property name="resources.dir" value="./resources" />
 
     <target name="compile">
-        <javac includeantruntime="false" srcdir="src" destdir="./classes" fork="yes" executable="/usr/bin/javac"
-               debug="true">
+        <mkdir dir="${build.dir}" />
+
+        <javac includeantruntime="false" srcdir="src" destdir="./classes" fork="yes" executable="/usr/bin/javac" debug="true">
             <classpath>
                 <fileset dir="./lib">
-                    <include name="**/*.jar"/>
+                    <include name="**/*.jar" />
                 </fileset>
             </classpath>
-            <compilerarg value="-Xlint"/>
+            <compilerarg value="-Xlint" />
         </javac>
 
-        <copy toDir="./classes">
-            <fileset dir="./">
-                <include name="struts.xml"/>
-                <!-- needed for struts2 to work -->
-            </fileset>
+        <copy toDir="${build.dir}">
+            <fileset dir="${resources.dir}" />
         </copy>
     </target>
 
     <target name="clean">
-        <delete dir="${build.dir}"/>
+        <delete includeemptydirs="true">
+            <fileset dir="${build.dir}" includes="**/*" />
+        </delete>
     </target>
 
-    <target name="clean-build" depends="clean,compile"/>
+    <target name="clean-build" depends="clean,compile" />
 
 </project>
 
