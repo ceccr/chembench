@@ -72,42 +72,13 @@
     <div class="outer">
       <div class="includesHeader"><%@ include file="/jsp/main/header.jsp" %></div>
       <div class="includesNavbar"><%@ include file="/jsp/main/centralNavigationBar.jsp" %></div>
-
-      <!--
-        <div class="StandardTextDarkGrayParagraph predictionBackground benchAlign"> <div class="homeLeft"> <br /> <br />
-        <p style="margin-left:20px"> <b>Chembench Predictor Selection</b> <br /> <br /> Here you may use predictors to
-        identify computational hits in external compound libraries. Predictors generated and validated by UNC's
-        Molecular Modeling Laboratory are available under <b>Drug Discovery Predictors</b>, <b>ADME Predictors</b>, and
-        <b>Toxicity Predictors</b>. Predictors you create using the MODELING tab appear under <b>Private Predictors</b>.
-        <br /> <br />For more information about making predictions, see the <a href="/help-prediction">Prediction help
-        page</a>. <br /> <br />Click the checkboxes to the left of each predictor you want to use, and hit the "Select
-        Predictors" button. Then you may predict the activity of a dataset, a SMILES string, or a molecule sketch. <br
-        /> <br /> If you wish to share predictors you have developed with the Chembench community, please contact us at
-        <a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>. </p> </div> </div>
-      -->
       <div>
         <table style="border:0px solid black">
           <tbody>
             <tr valign="top">
               <td valign="top" style="border:0px solid black; vertical-align:top">
                 <div valign="top" style="margin:0px; vertical-align:top">
-                  <!--
-                    <p class="StandardTextDarkGrayParagraph2 boxHeadingText"> <br/> <b>Prediction Set Selection</b> </p>
-                  -->
-                  <!-- <div><br /></div> -->
-                  <!--
-                    <table width="924" border="0" align="center" cellpadding="0" cellspacing="0"> <tr> <td height="557"
-                    colspan="5" valign="top" background="theme/img/backgrmodelbuilders.jpg" style="background-repeat:
-                    no-repeat;"><span id="maincontent"> <table width="465" border="0" cellspacing="0" cellpadding="0">
-                    <tr> <td> <!-- <p class="StandardTextDarkGrayParagraph"><b><br>Chembench Predictions</b></p>
-                  -->
-                  <!--
-                    <p align="justify" class="StandardTextDarkGrayParagraph"> <!-- description of predictions process
-                    goes here
-                  -->
-                  <!-- <br><br> </p> </td> </tr> </table> -->
-
-                  <!-- script sets hidden field so we know which tab was selected -->
+                      <!-- script sets hidden field so we know which tab was selected -->
                       <script>
                         $(function() {
                           $( "#tabs" ).tabs( { disabled: [1] } );
@@ -152,10 +123,6 @@
                             <br />
                             <s:if test="user.showPublicPredictors!='NONE'">
                               <div valign="top" style="width:550px; margin:0px; vertical-align:top">
-                                <!--
-                                  <p class="StandardTextDarkGrayParagraph2 boxHeadingText"> <br/> <b>Chembench Predictor
-                                  Selection</b> </p>
-                                -->
                                 <p
                                     style="cursor:pointer; font-weight:bold"
                                     class="StandardTextDarkGrayParagraph"
@@ -163,10 +130,6 @@
 
                                   <b>+ Drug Discovery Predictors</b>
                                 </p>
-                                <!--
-                                  <p align="justify" class="StandardTextDarkGrayParagraph">These are public predictors
-                                  useful for virtual screening. * - predictor based on the uploaded dataset</p>
-                                -->
                                 <table width="100%" class="sortable" id="drugdisc" style="display:none">
                                   <tr>
                                     <th class="TableRowText01narrow_unsortable">Select</th>
@@ -174,7 +137,6 @@
                                     <th class="TableRowText01narrow">Date Created</th>
                                     <th class="TableRowText01narrow">Modeling Method</th>
                                     <th class="TableRowText01narrow">Descriptor Type</th>
-                                    <!-- <th class="TableRowText01narrow_unsortable" colspan="2">Description</th> -->
                                   </tr>
                                   <s:iterator value="userPredictors">
                                     <s:if test="predictorType=='DrugDiscovery'">
@@ -202,18 +164,11 @@
                                             <s:property value="descriptorGeneration" />
                                           </td>
                                         </s:else>
-                                        <!--
-                                          <td class="TableRowText02narrow" colspan="2"><s:property value="description"
-                                          /></td>
-                                        -->
                                       </tr>
                                     </s:if>
                                   </s:iterator>
 
                                 </table>
-                                <!-- <br /> <br /> -->
-                                <!-- </div> -->
-                                <!-- <div class="border benchAlign bottomMarginAdme"> -->
                                 <p
                                     style="cursor:pointer; font-weight:bold"
                                     class="StandardTextDarkGrayParagraph"
@@ -221,11 +176,6 @@
 
                                   <b>+ ADME Predictors</b>
                                 </p>
-                                <!--
-                                  <p align="justify" class="StandardTextDarkGrayParagraph">These are public predictors
-                                  useful for prediction of absorption, distribution, metabolism, and excretion
-                                  properties. * - predictor based on the uploaded dataset</p>
-                                -->
                                 <table width="100%" class="sortable" id="adme" style="display:none">
                                   <tr>
                                     <th class="TableRowText01narrow_unsortable">Select</th>
@@ -233,7 +183,6 @@
                                     <th class="TableRowText01narrow">Date Created</th>
                                     <th class="TableRowText01narrow">Modeling Method</th>
                                     <th class="TableRowText01narrow">Descriptor Type</th>
-                                    <!-- <th class="TableRowText01narrow_unsortable" colspan="2">Description</th> -->
                                   </tr>
                                   <s:iterator value="userPredictors">
                                     <s:if test="predictorType=='ADME'">
@@ -261,18 +210,10 @@
                                             <s:property value="descriptorGeneration" />
                                           </td>
                                         </s:else>
-                                        <!--
-                                          <td class="TableRowText02narrow" colspan="2"><s:property value="description"
-                                          /></td>
-                                        -->
                                       </tr>
                                     </s:if>
                                   </s:iterator>
                                 </table>
-                                <!-- </div> -->
-                                <!-- <br /> <br /> -->
-
-                                <!-- <div class="border benchAlign bottomMargin"> -->
                                 <p
                                     style="cursor:pointer; font-weight:bold"
                                     class="StandardTextDarkGrayParagraph"
@@ -280,10 +221,6 @@
 
                                   <b>+ Toxicity Predictors</b>
                                 </p>
-                                <!--
-                                  <p align="justify" class="StandardTextDarkGrayParagraph">These are public predictors
-                                  useful for toxicity prediction. * - predictor based on the uploaded dataset</p>
-                                -->
                                 <table width="100%" class="sortable" id="toxicity" style="display:none">
                                   <tr>
                                     <th class="TableRowText01narrow_unsortable">Select</th>
@@ -291,7 +228,6 @@
                                     <th class="TableRowText01narrow">Date Created</th>
                                     <th class="TableRowText01narrow">Modeling Method</th>
                                     <th class="TableRowText01narrow">Descriptor Type</th>
-                                    <!-- <th class="TableRowText01narrow_unsortable" colspan="2">Description</th> -->
                                   </tr>
                                   <s:iterator value="userPredictors">
                                     <s:if test="predictorType=='Toxicity'">
@@ -319,10 +255,6 @@
                                             <s:property value="descriptorGeneration" />
                                           </td>
                                         </s:else>
-                                        <!--
-                                          <td class="TableRowText02narrow" colspan="2"><s:property value="description"
-                                          /></td>
-                                        -->
                                       </tr>
                                     </s:if>
                                   </s:iterator>
@@ -373,10 +305,7 @@
                                     </s:if>
                                   </s:iterator>
                                 </table>
-                                <!-- <br /> <br /> -->
-                                <!-- </div> -->
                             </s:if>
-                            <!-- <div class="border benchAlign bottomMargin"> -->
                             <p
                                 style="cursor:pointer; font-weight:bold"
                                 class="StandardTextDarkGrayParagraph"
@@ -384,11 +313,6 @@
 
                               <b>+ Private Predictors</b>
                             </p>
-                            <!--
-                              <p align="justify" class="StandardTextDarkGrayParagraph">These are private predictors you
-                              have created. Other users cannot access them. * - predictor based on the uploaded
-                              dataset</p>
-                            -->
                             <table width="100%" class="sortable" id="private" style="display:none">
                               <tr>
                                 <th class="TableRowText01narrow_unsortable">Select</th>
@@ -396,7 +320,6 @@
                                 <th class="TableRowText01narrow">Date Created</th>
                                 <th class="TableRowText01narrow">Modeling Method</th>
                                 <th class="TableRowText01narrow">Descriptor Type</th>
-                                <!-- <th class="TableRowText01narrow">Dataset</th> -->
                               </tr>
                               <s:iterator value="userPredictors">
                                 <s:if test="predictorType=='Private'">
@@ -424,19 +347,10 @@
                                         <s:property value="descriptorGeneration" />
                                       </td>
                                     </s:else>
-                                    <!-- <td class="TableRowText02narrow"><s:property value="datasetDisplay" /></td> -->
                                   </tr>
                                 </s:if>
                               </s:iterator>
                             </table>
-                            <!-- </div> -->
-                            <!-- <br /> <br /> -->
-                            <!-- <div class="border benchAlign Choosepredictors" style="margin-top:-20px"> -->
-                            <!--
-                              <p class="StandardTextDarkGrayParagraph"> <b>Choose Predictors</b> </p> <p align="justify"
-                              class="StandardTextDarkGrayParagraph">When you have checked the boxes next to the
-                              predictors you want to use, click on the button below.</p>
-                            -->
                             <table>
                               <tr>
                                 <td>
@@ -450,11 +364,14 @@
                     </div>
 
                     <div id="compTab"></div>
-					
+
                   </div></td></tr>
             </table>
           </div>
         </td></tr></tbody></table></div>
     <br />
     <div class="includes"><%@ include file ="/jsp/main/footer.jsp" %></div>
-    </div></body></html>
+    </div>
+</body>
+</html>
+
