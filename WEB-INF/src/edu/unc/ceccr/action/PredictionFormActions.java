@@ -102,8 +102,9 @@ public class PredictionFormActions extends ActionSupport {
         Session session = HibernateUtil.getSession();
 
         if (user == null) {
-            // requester is not logged in; use the "webapi" temp user ID.
-            user = PopulateDataObjects.getUserByUserName("webapi", session);
+            // user is not logged in; we require users to be logged in before
+            // they can make smiles predictions
+            return "login";
         }
 
         String smiles = ((String[]) context.getParameters().get("smiles"))[0];
