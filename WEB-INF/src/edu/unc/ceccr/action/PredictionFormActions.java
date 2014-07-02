@@ -24,6 +24,7 @@ import java.io.FileReader;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -147,13 +148,11 @@ public class PredictionFormActions extends ActionSupport {
             String zScore = "";
 
             /* make smiles dir */
-            String smilesDir = Constants.CECCR_USER_BASE_PATH
-                    + user.getUserName() + "/SMILES/" + predictor.getName()
-                    + "/";
-            new File(smilesDir).mkdirs();
+            Path baseSmilesDir = Paths.get(Constants.CECCR_USER_BASE_PATH, user.getUserName(), "SMILES");
+            Files.createDirectories(baseSmilesDir);
+            Path predPath = Files.createTempDirectory(baseSmilesDir, predictor.getName());
+            String smilesDir = predPath.toString() + "/";
             logger.debug("Created the directory " + smilesDir);
-            // make sure there's nothing in the dir already.
-            FileAndDirOperations.deleteDirContents(smilesDir);
 
             // generate an SDF from this SMILES string
             RunSmilesPrediction.smilesToSDF(smiles, smilesDir);
