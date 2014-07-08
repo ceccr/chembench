@@ -442,21 +442,12 @@ public class WriteDescriptors {
             while ((si < descriptorNames.size())
                     && !descriptorNames.get(si).equalsIgnoreCase(
                     predictorDescriptorNames.get(i))) {
-                logger.debug("No match; skipping "
-                        + "predictor descriptor: "
-                        + i + " - " + predictorDescriptorNames.get(i)
-                        + " || Input descriptor: " + si + " - "
-                        + descriptorNames.get(si));
                 mapping.set(si, -1);
                 si++;
             }
 
             // find a match
             if (si < descriptorNames.size()) {
-                logger.debug("Match found! Predictor descriptor: "
-                        + i + " - " + predictorDescriptorNames.get(i)
-                        + " || Input descriptor: " + si + " - "
-                        + descriptorNames.get(si));
                 mapping.set(si, i);
                 si++;
             }
