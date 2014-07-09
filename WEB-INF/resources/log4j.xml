@@ -12,33 +12,18 @@
         </layout>
     </appender>
 
-    <appender name="Hibernate-Log" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="/CHEMBENCH/logs/hibernate.log" />
-        <param name="Append" value="false" />
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1} :%L - %m%n"/>
-        </layout>
-    </appender>
-
-    <appender name="Utility-Log" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="/CHEMBENCH/logs/ceccr.utility.log" />
-        <param name="Append" value="false" />
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1} :%L - %m%n"/>
-        </layout>
-    </appender>
-
-    <appender name="Workflow-Log" class="org.apache.log4j.FileAppender">
-        <param name="File"   value="/CHEMBENCH/logs/ceccr.workflow.log" />
-        <param name="Append" value="false" />
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1} :%L - %m%n"/>
-        </layout>
-    </appender>
-
     <appender name="Jobs-Log" class="org.apache.log4j.rolling.RollingFileAppender">
         <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
             <param name="FileNamePattern" value="/CHEMBENCH/logs/chembench-jobs-%d.log"/>
+        </rollingPolicy>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1} :%L - %m%n"/>
+        </layout>
+    </appender>
+
+    <appender name="Prediction-Log" class="org.apache.log4j.rolling.RollingFileAppender">
+        <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
+            <param name="FileNamePattern" value="/CHEMBENCH/logs/prediction-%d.log"/>
         </rollingPolicy>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{ABSOLUTE} %5p %c{1} :%L - %m%n"/>
@@ -50,8 +35,20 @@
         <appender-ref ref="Ceccr-Log"/>
     </logger>
 
+    <logger name="edu.unc.ceccr.action.PredictionFormActions" additivity="true">
+        <level value="all"/>
+        <appender-ref ref="Prediction-Log"/>
+        <!-- should write to Ceccr-Log as well due to additivity=true -->
+    </logger>
+
+    <logger name="edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction" addivity="true">
+        <level value="all"/>
+        <appender-ref ref="Prediction-Log"/>
+        <!-- should write to Ceccr-Log as well due to additivity=true -->
+    </logger>
+
     <logger name="edu.unc.ceccr.action.JobsActions" additivity="false">
-        <level value="warn"/>
+        <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>
 
