@@ -4,7 +4,6 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
     <appender name="Ceccr-Log" class="org.apache.log4j.rolling.RollingFileAppender">
-        <param name="Append" value="false" />
         <rollingPolicy class="org.apache.log4j.rolling.TimeBasedRollingPolicy">
             <param name="FileNamePattern" value="/CHEMBENCH/logs/ceccr-debug-%d.log"/>
         </rollingPolicy>
