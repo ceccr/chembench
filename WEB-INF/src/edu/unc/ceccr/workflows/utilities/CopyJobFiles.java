@@ -152,16 +152,12 @@ public class CopyJobFiles {
                 Path target = source;
 
                 try {
-                    if (!filename.equals("temp-script.sh")) {
-                        if (filename.endsWith(".x")) {
-                            // deep-copy descriptor matrices
-                            Files.copy(source, destination);
-                            deepCopiedFileCount++;
-                        } else {
-                            // don't copy other predictor files, just symlink them
-                            Files.createSymbolicLink(link, target);
-                            symlinkedFileCount++;
-                        }
+                    if (filename.endsWith(".tree")) {
+                        Files.createSymbolicLink(link, target);
+                        symlinkedFileCount++;
+                    } else {
+                        Files.copy(source, destination);
+                        deepCopiedFileCount++;
                     }
                 } catch (FileAlreadyExistsException e) {
                     logger.error(String.format(
