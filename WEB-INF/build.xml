@@ -12,6 +12,9 @@
                 <fileset dir="./lib">
                     <include name="**/*.jar" />
                 </fileset>
+                <fileset dir="/usr/share/tomcat6/lib">
+                    <include name="*.jar" />
+                </fileset>
             </classpath>
             <compilerarg value="-Xlint" />
         </javac>
