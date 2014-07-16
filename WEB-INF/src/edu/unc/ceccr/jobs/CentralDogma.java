@@ -1,11 +1,7 @@
 package edu.unc.ceccr.jobs;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.Dataset;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Job;
-import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.taskObjects.QsarModelingTask;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
@@ -29,19 +25,15 @@ public class CentralDogma {
     // processing jobs list. Initiates the threads that work on these
     // data structures.
 
-    private static Logger logger = Logger.getLogger(CentralDogma.class
-            .getName());
+    private static Logger logger = Logger.getLogger(CentralDogma.class.getName());
     private static CentralDogma instance = new CentralDogma();
 
-    // as many as you want; tune it based on server load.
-    private final int numLocalThreads = 9;
-    // don't change this unless you've REALLY thought through all possible
+    private final int numLocalThreads = 9;  // as many as you want; tune it based on server load.
+    // Limiting factors on numLocalThreads: JVM memory size, number of file handles, number of database connections,
+    // server processing power. Jobs will fail in weird ways if any of those isn't high enough.
+
+    private final int numLsfThreads = 1;  // don't change this unless you've REALLY thought through all possible
     // concurrency issues
-    // Limiting factors on numLocalThreads: JVM memory size, number of file
-    // handles, number of database connections,
-    // server processing power. Jobs will fail in weird ways if any of those
-    // isn't high enough.
-    private final int numLsfThreads = 1;
     public SynchronizedJobList incomingJobs;
     public SynchronizedJobList localJobs;
     public SynchronizedJobList lsfJobs;
@@ -50,7 +42,6 @@ public class CentralDogma {
 
     private CentralDogma() {
         try {
-
             lsfJobs = new SynchronizedJobList(Constants.LSF);
             incomingJobs = new SynchronizedJobList(Constants.INCOMING);
             localJobs = new SynchronizedJobList(Constants.LOCAL);
@@ -59,32 +50,26 @@ public class CentralDogma {
             // Fill job lists from the database
             Session s = HibernateUtil.getSession();
 
-            @SuppressWarnings("unchecked")
-            ArrayList<Job> jobs = PopulateDataObjects.populateClass(
-                    Job.class, s);
+            @SuppressWarnings("unchecked") ArrayList<Job> jobs = PopulateDataObjects.populateClass(Job.class, s);
             if (jobs == null) {
                 jobs = new ArrayList<Job>();
             }
             for (Job j : jobs) {
                 WorkflowTask wt = null;
-                if (j.getLookupId() != null
-                        && !j.getJobList().equals("LIMBO")) {
+                if (j.getLookupId() != null && !j.getJobList().equals("LIMBO")) {
                     try {
                         logger.info("Restoring job: " + j.getJobName());
                         if (j.getJobType().equals(Constants.DATASET)) {
                             Long datasetId = j.getLookupId();
-                            Dataset dataset = PopulateDataObjects
-                                    .getDataSetById(datasetId, s);
+                            Dataset dataset = PopulateDataObjects.getDataSetById(datasetId, s);
                             wt = new CreateDatasetTask(dataset);
                         } else if (j.getJobType().equals(Constants.MODELING)) {
                             Long modelingId = j.getLookupId();
-                            Predictor predictor = PopulateDataObjects
-                                    .getPredictorById(modelingId, s);
+                            Predictor predictor = PopulateDataObjects.getPredictorById(modelingId, s);
                             wt = new QsarModelingTask(predictor);
                         } else if (j.getJobType().equals(Constants.PREDICTION)) {
                             Long predictionId = j.getLookupId();
-                            Prediction prediction = PopulateDataObjects
-                                    .getPredictionById(predictionId, s);
+                            Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
                             wt = new QsarPredictionTask(prediction);
                         }
                         wt.jobList = j.getJobList();
@@ -101,8 +86,7 @@ public class CentralDogma {
                             errorJobs.addJob(j);
                         }
                     } catch (Exception ex) {
-                        logger.error("Error restoring job with id: "
-                                + j.getLookupId() + "\n" + ex);
+                        logger.error("Error restoring job with id: " + j.getLookupId() + "\n" + ex);
                     }
                 }
             }
@@ -133,13 +117,8 @@ public class CentralDogma {
         return instance;
     }
 
-    public void
-    addJobToIncomingList(String userName,
-                         String jobName,
-                         WorkflowTask wt,
-                         int numCompounds,
-                         int numModels,
-                         String emailOnCompletion) throws Exception {
+    public void addJobToIncomingList(String userName, String jobName, WorkflowTask wt, int numCompounds,
+                                     int numModels, String emailOnCompletion) throws Exception {
         // first, run setUp on the workflowTask
         // this will make sure the workflowTask gets into the DB. Then we can
         // create a job to contain it.
@@ -190,15 +169,13 @@ public class CentralDogma {
             j = lsfJobs.removeJob(jobId);
 
             if (j != null) {
-                ArrayList<LsfJobStatus> lsfJobStatuses = LsfProcessingThread
-                        .checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
+                ArrayList<LsfJobStatus> lsfJobStatuses = LsfProcessingThread.checkLsfStatus(Constants
+                        .CECCR_USER_BASE_PATH);
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {
-                    if (j.getLsfJobId() != null
-                            && j.getLsfJobId().equals(jobStatus.jobid)) {
+                    if (j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)) {
                         // kill the job
                         String cmd = "bkill " + jobStatus.jobid;
-                        RunExternalProgram.runCommand(cmd,
-                                Constants.CECCR_USER_BASE_PATH);
+                        RunExternalProgram.runCommand(cmd, Constants.CECCR_USER_BASE_PATH);
                     }
                 }
             }
@@ -222,32 +199,24 @@ public class CentralDogma {
             String baseDir = Constants.CECCR_USER_BASE_PATH;
             String lsfBaseDir = Constants.LSFJOBPATH;
 
-            File file = new File(baseDir + j.getUserName() + "/"
-                    + j.getJobName());
+            File file = new File(baseDir + j.getUserName() + "/" + j.getJobName());
             FileAndDirOperations.deleteDir(file);
-            file = new File(lsfBaseDir + j.getUserName() + "/"
-                    + j.getJobName());
+            file = new File(lsfBaseDir + j.getUserName() + "/" + j.getJobName());
             FileAndDirOperations.deleteDir(file);
 
-            file = new File(baseDir + j.getUserName() + "/DATASETS/"
-                    + j.getJobName());
+            file = new File(baseDir + j.getUserName() + "/DATASETS/" + j.getJobName());
             FileAndDirOperations.deleteDir(file);
-            file = new File(lsfBaseDir + j.getUserName() + "/DATASETS/"
-                    + j.getJobName());
+            file = new File(lsfBaseDir + j.getUserName() + "/DATASETS/" + j.getJobName());
             FileAndDirOperations.deleteDir(file);
 
-            file = new File(baseDir + j.getUserName() + "/PREDICTORS/"
-                    + j.getJobName());
+            file = new File(baseDir + j.getUserName() + "/PREDICTORS/" + j.getJobName());
             FileAndDirOperations.deleteDir(file);
-            file = new File(lsfBaseDir + j.getUserName() + "/PREDICTORS/"
-                    + j.getJobName());
+            file = new File(lsfBaseDir + j.getUserName() + "/PREDICTORS/" + j.getJobName());
             FileAndDirOperations.deleteDir(file);
 
-            file = new File(baseDir + j.getUserName() + "/PREDICTIONS/"
-                    + j.getJobName());
+            file = new File(baseDir + j.getUserName() + "/PREDICTIONS/" + j.getJobName());
             FileAndDirOperations.deleteDir(file);
-            file = new File(lsfBaseDir + j.getUserName() + "/PREDICTIONS/"
-                    + j.getJobName());
+            file = new File(lsfBaseDir + j.getUserName() + "/PREDICTIONS/" + j.getJobName());
             FileAndDirOperations.deleteDir(file);
 
             // delete corresponding workflowTask object (Dataset, Predictor,
@@ -260,8 +229,7 @@ public class CentralDogma {
 
                 if (j.getJobType().equals(Constants.DATASET)) {
                     // delete corresponding Dataset in DB
-                    Dataset ds = PopulateDataObjects.getDataSetById(j
-                            .getLookupId(), s);
+                    Dataset ds = PopulateDataObjects.getDataSetById(j.getLookupId(), s);
                     if (ds != null) {
                         tx = s.beginTransaction();
                         s.delete(ds);
@@ -269,8 +237,7 @@ public class CentralDogma {
                     }
                 } else if (j.getJobType().equals(Constants.MODELING)) {
                     // delete corresponding Predictor in DB
-                    Predictor p = PopulateDataObjects.getPredictorById(j
-                            .getLookupId(), s);
+                    Predictor p = PopulateDataObjects.getPredictorById(j.getLookupId(), s);
                     if (p != null) {
                         tx = s.beginTransaction();
                         s.delete(p);
@@ -278,8 +245,7 @@ public class CentralDogma {
                     }
                 } else if (j.getJobType().equals(Constants.PREDICTION)) {
                     // delete corresponding Prediction in DB
-                    Prediction p = PopulateDataObjects.getPredictionById(j
-                            .getLookupId(), s);
+                    Prediction p = PopulateDataObjects.getPredictionById(j.getLookupId(), s);
                     if (p != null) {
                         tx = s.beginTransaction();
                         s.delete(p);
