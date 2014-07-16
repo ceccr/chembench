@@ -61,35 +61,6 @@ public class
     public String
     loadPage() {
         try {
-            //stuff that needs to happen on server startup
-            if (!Constants.doneReadingConfigFile) {
-                try {
-                    // read $CHEMBENCH_HOME, then append config directory / filename;
-                    // throw an exception if env-var can't be read or is empty
-                    String ENV_CHEMBENCH_HOME = null;
-                    try {
-                        ENV_CHEMBENCH_HOME = System.getenv("CHEMBENCH_HOME");
-                    } catch (SecurityException e) {
-                        errorStrings.add("Couldn't read $CHEMBENCH_HOME environment variable: permission denied");
-                        return ERROR;
-                    }
-                    if (ENV_CHEMBENCH_HOME == null) {
-                        errorStrings.add("The environment variable $CHEMBENCH_HOME doesn't exist or has not been set");
-                        return ERROR;
-                    }
-
-                    File baseDir = new File(ENV_CHEMBENCH_HOME);
-                    File configFile = new File(baseDir, "config/systemConfig.xml");
-
-                    Utility.readBuildDateAndSystemConfig(configFile.getPath());
-                } catch (Exception ex) {
-                    logger.error(ex);
-                }
-            }
-
-            //start up the queues, if they're not running yet
-            CentralDogma.getInstance();
-
             //check if user is logged in
             ActionContext context = ActionContext.getContext();
             user = (User) context.getSession().get("user");

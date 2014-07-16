@@ -208,6 +208,7 @@
 
     <listener>
         <listener-class>edu.unc.ceccr.utilities.ActiveUser</listener-class>
+        <listener-class>edu.unc.ceccr.global.ChembenchServletContextListener</listener-class>
     </listener>
 
     <!-- begin added for struts2 -->
