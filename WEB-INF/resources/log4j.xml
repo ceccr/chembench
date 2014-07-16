@@ -71,7 +71,7 @@
     <!-- default logging -->
     <root>
         <priority value="error"/>
-        <appender-ref ref="Hibernate-Log"/>
+        <appender-ref ref="Ceccr-Log"/>
     </root>
 
 </log4j:configuration>
