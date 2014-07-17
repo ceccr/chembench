@@ -11,18 +11,13 @@ import edu.unc.ceccr.utilities.SendEmails;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
 public class LsfProcessingThread extends Thread {
-    private static Logger logger = Logger.getLogger(LsfProcessingThread.class
-            .getName());
+    private static Logger logger = Logger.getLogger(LsfProcessingThread.class.getName());
     // this works on the LSFJobs joblist.
     // You should only ever have one of these threads running - don't start a
     // second one!
@@ -50,8 +45,7 @@ public class LsfProcessingThread extends Thread {
         return finishedJobNames;
     }
 
-    public static ArrayList<LsfJobStatus>
-    checkLsfStatus(String workingDir) throws Exception {
+    public static ArrayList<LsfJobStatus> checkLsfStatus(String workingDir) throws Exception {
         // execs "bjobs -aw" and gets the status of each job
         // remove outfile if already exists
 
@@ -66,8 +60,7 @@ public class LsfProcessingThread extends Thread {
         // read in results
         ArrayList<LsfJobStatus> lsfStatusList = new ArrayList<LsfJobStatus>();
 
-        BufferedReader br = new BufferedReader(new FileReader(workingDir
-                + "bjobs-out.txt"));
+        BufferedReader br = new BufferedReader(new FileReader(workingDir + "bjobs-out.txt"));
         String line = "";
         br.readLine(); // skip header
         while ((line = br.readLine()) != null) {
@@ -88,114 +81,70 @@ public class LsfProcessingThread extends Thread {
         while (true) {
             try {
                 sleep(1500);
-                ArrayList<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs
-                        .getReadOnlyCopy();
+                ArrayList<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
 
                 // do not call checkLsfStatus more than once in this function
                 ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
 
                 // For every finished job, do postprocessing.
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {
-                    if (jobStatus.stat.equals("DONE")
-                            || jobStatus.stat.equals("EXIT")) {
+                    if (jobStatus.stat.equals("DONE") || jobStatus.stat.equals("EXIT")) {
                         // check if this is a running job
                         for (Job j : readOnlyJobArray) {
-                            if (j.getLsfJobId() != null
-                                    && j.getLsfJobId()
-                                    .equals(jobStatus.jobid)) {
-                                logger.debug("LSFQueue: trying postprocessing on job: "
-                                        + j.getJobName()
-                                        + " from user: "
-                                        + j.getUserName());
-                                if (CentralDogma.getInstance().lsfJobs
-                                        .startPostJob(j.getId())) {
+                            if (j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)) {
+                                logger.debug("LSFQueue: trying postprocessing on job: " + j.getJobName() + " from " +
+                                        "user: " + j.getUserName());
+                                if (CentralDogma.getInstance().lsfJobs.startPostJob(j.getId())) {
                                     try {
-                                        logger.debug("Postprocessing job: "
-                                                + j.getJobName()
-                                                + " from user: "
-                                                + j.getUserName());
+                                        logger.debug("Postprocessing job: " + j.getJobName() + " from user: " + j
+                                                .getUserName());
                                         j.workflowTask.postProcess();
                                         j.setTimeFinished(new Date());
 
-                                        if (j.getEmailOnCompletion()
-                                                .equalsIgnoreCase("true")) {
-                                            SendEmails
-                                                    .sendJobCompletedEmail(j);
+                                        if (j.getEmailOnCompletion().equalsIgnoreCase("true")) {
+                                            SendEmails.sendJobCompletedEmail(j);
                                         }
-                                        CentralDogma.getInstance().lsfJobs
-                                                .saveJobChangesToList(j);
+                                        CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
 
                                         // finished; remove job object
-                                        CentralDogma.getInstance().lsfJobs
-                                                .removeJob(j.getId());
-                                        CentralDogma.getInstance().lsfJobs
-                                                .deleteJobFromDB(j.getId());
+                                        CentralDogma.getInstance().lsfJobs.removeJob(j.getId());
+                                        CentralDogma.getInstance().lsfJobs.deleteJobFromDB(j.getId());
                                     } catch (Exception ex) {
                                         // Job failed or threw an exception
-                                        logger.warn("JOB FAILED: "
-                                                + j.getUserName() + " "
-                                                + j.getJobName());
-                                        CentralDogma
-                                                .getInstance()
-                                                .moveJobToErrorList(j.getId());
-                                        CentralDogma.getInstance().lsfJobs
-                                                .saveJobChangesToList(j);
+                                        logger.warn("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
+                                        CentralDogma.getInstance().moveJobToErrorList(j.getId());
+                                        CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
                                         logger.error(ex);
 
                                         // send an email to the site
                                         // administrator
-                                        Session s = HibernateUtil
-                                                .getSession();
-                                        User sadUser = PopulateDataObjects
-                                                .getUserByUserName(j
-                                                        .getUserName(), s);
+                                        Session s = HibernateUtil.getSession();
+                                        User sadUser = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
                                         s.close();
 
                                         // prepare a nice HTML-formatted
                                         // readable version of the exception
                                         StringWriter sw = new StringWriter();
                                         ex.printStackTrace(new PrintWriter(sw));
-                                        String exceptionAsString = sw
-                                                .toString();
+                                        String exceptionAsString = sw.toString();
                                         logger.error(exceptionAsString);
-                                        exceptionAsString = exceptionAsString
-                                                .replaceAll("at edu",
-                                                        "<br />at edu");
+                                        exceptionAsString = exceptionAsString.replaceAll("at edu", "<br />at edu");
                                         logger.error(exceptionAsString);
 
-                                        String message = "Heya, <br />"
-                                                + j.getUserName()
-                                                + "'s job \""
-                                                + j.getJobName()
-                                                + "\" failed. You might want"
-                                                + " to look into that. Their "
-                                                + "email is "
-                                                + sadUser.getEmail()
-                                                + " and their name is "
-                                                + sadUser.getFirstName()
-                                                + " "
-                                                + sadUser.getLastName()
-                                                + " in case you want to "
-                                                + "give them hope of a "
-                                                + "brighter tomorrow."
-                                                + "<br /><br />Here's the "
-                                                + "exception it threw: <br />"
-                                                + ex.toString()
-                                                + "<br /><br />Good "
-                                                + "luck!<br />--Chembench";
+                                        String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j
+                                                .getJobName() + "\" failed. You might want" + " to look into that. " +
+                                                "Their " + "email is " + sadUser.getEmail() + " and their name is " +
+                                                sadUser.getFirstName() + " " + sadUser.getLastName() + " in case you " +
+                                                "want to " + "give them hope of a " + "brighter tomorrow." + "<br " +
+                                                "/><br />Here's the " + "exception it threw: <br />" + ex.toString()
+                                                + "<br /><br />Good " + "luck!<br />--Chembench";
 
-                                        message += "<br /><br />The full "
-                                                + "stack trace is below. "
-                                                + "Happy debugging!<br /><br />"
-                                                + exceptionAsString;
+                                        message += "<br /><br />The full " + "stack trace is below. " + "Happy " +
+                                                "debugging!<br /><br />" + exceptionAsString;
 
                                         for (String adminEmailAddress : Constants.ADMINEMAIL_LIST) {
-                                            SendEmails.sendEmail(
-                                                    adminEmailAddress, "",
-                                                    "", "Job failed: "
-                                                            + j.getJobName(),
-                                                    message
-                                            );
+                                            SendEmails.sendEmail(adminEmailAddress, "", "",
+                                                    "Job failed: " + j.getJobName(), message);
                                         }
                                     }
                                 }
@@ -212,39 +161,28 @@ public class LsfProcessingThread extends Thread {
                 for (Job j : readOnlyJobArray) {
                     if (j.getStatus().equals(Constants.QUEUED)) {
                         // try to grab the job and preproc it
-                        if (CentralDogma.getInstance().lsfJobs.startJob(j
-                                .getId())) {
+                        if (CentralDogma.getInstance().lsfJobs.startJob(j.getId())) {
 
                             try {
-                                logger.info("LSFQueue: Starting job "
-                                        + j.getJobName() + " from user "
-                                        + j.getUserName());
+                                logger.info("LSFQueue: Starting job " + j.getJobName() + " from user " + j
+                                        .getUserName());
 
                                 boolean jobIsRunningAlready = false;
-                                if (j.getLsfJobId() != null
-                                        && !j.getLsfJobId().isEmpty()) {
+                                if (j.getLsfJobId() != null && !j.getLsfJobId().isEmpty()) {
                                     // check if the job is already running in
                                     // LSF; try to resume it if so.
                                     // This will happen if the system was
                                     // rebooted while the job was running.
                                     for (LsfJobStatus jobStatus : lsfJobStatuses) {
-                                        if (jobStatus.jobid.equals(j
-                                                .getLsfJobId())
-                                                && (jobStatus.stat
-                                                .equals("PEND")
-                                                || jobStatus.stat
-                                                .equals("RUN") || jobStatus.stat
-                                                .equals("SSUSP"))) {
+                                        if (jobStatus.jobid.equals(j.getLsfJobId()) && (jobStatus.stat.equals("PEND")
+                                                || jobStatus.stat.equals("RUN") || jobStatus.stat.equals("SSUSP"))) {
                                             // job is already running, so
                                             // don't do anything to it
                                             jobIsRunningAlready = true;
-                                            logger.info("LSFQueue: "
-                                                    + j.getJobName()
-                                                    + " was already running happily!");
-                                            if (j.getJobType().equals(
-                                                    Constants.MODELING)) {
-                                                j.workflowTask
-                                                        .setStep(Constants.MODELS);
+                                            logger.info("LSFQueue: " + j.getJobName() + " was already running " +
+                                                    "happily!");
+                                            if (j.getJobType().equals(Constants.MODELING)) {
+                                                j.workflowTask.setStep(Constants.MODELS);
                                             }
                                         }
                                     }
@@ -253,9 +191,8 @@ public class LsfProcessingThread extends Thread {
                                 if (!jobIsRunningAlready) {
                                     // job is not already running; needs to be
                                     // started.
-                                    logger.info("LSFQueue: " + j.getJobName()
-                                            + " was not running already; it "
-                                            + "is being preprocessed.");
+                                    logger.info("LSFQueue: " + j.getJobName() + " was not running already; it " + "is" +
+                                            " being preprocessed.");
                                     j.setTimeStarted(new Date());
                                     j.setStatus(Constants.PREPROC);
                                     j.workflowTask.preProcess();
@@ -263,17 +200,13 @@ public class LsfProcessingThread extends Thread {
                                 }
 
                                 j.setStatus(Constants.RUNNING);
-                                CentralDogma.getInstance().lsfJobs
-                                        .saveJobChangesToList(j);
+                                CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
                                 break;
                             } catch (Exception ex) {
                                 // Job failed or threw an exception
-                                logger.warn("JOB FAILED: " + j.getUserName()
-                                        + " " + j.getJobName());
-                                CentralDogma.getInstance()
-                                        .moveJobToErrorList(j.getId());
-                                CentralDogma.getInstance().lsfJobs
-                                        .saveJobChangesToList(j);
+                                logger.warn("JOB FAILED: " + j.getUserName() + " " + j.getJobName());
+                                CentralDogma.getInstance().moveJobToErrorList(j.getId());
+                                CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
                                 logger.error(ex);
 
                                 // prepare a nice HTML-formatted readable
@@ -282,45 +215,27 @@ public class LsfProcessingThread extends Thread {
                                 ex.printStackTrace(new PrintWriter(sw));
                                 String exceptionAsString = sw.toString();
                                 logger.error(exceptionAsString);
-                                exceptionAsString = exceptionAsString
-                                        .replaceAll("at edu", "<br />at edu");
+                                exceptionAsString = exceptionAsString.replaceAll("at edu", "<br />at edu");
                                 logger.error(exceptionAsString);
 
                                 // send an email to the site administrator
                                 Session s = HibernateUtil.getSession();
-                                User sadUser = PopulateDataObjects
-                                        .getUserByUserName(j.getUserName(), s);
+                                User sadUser = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
                                 s.close();
 
-                                String message = "Heya, <br />"
-                                        + j.getUserName() + "'s job \""
-                                        + j.getJobName()
-                                        + "\" failed. You might want"
-                                        + " to look into that. Their "
-                                        + "email is " + sadUser.getEmail()
-                                        + " and their name is "
-                                        + sadUser.getFirstName() + " "
-                                        + sadUser.getLastName()
-                                        + " in case you want to "
-                                        + "give them hope of a "
-                                        + "brighter tomorrow."
-                                        + "<br /><br />Here's the "
-                                        + "exception it threw: <br />"
-                                        + ex.toString() + "<br /><br />Good "
-                                        + "luck!<br />--Chembench";
+                                String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j.getJobName() +
+                                        "\" failed. You might want" + " to look into that. Their " + "email is " +
+                                        sadUser.getEmail() + " and their name is " + sadUser.getFirstName() + " " +
+                                        sadUser.getLastName() + " in case you want to " + "give them hope of a " +
+                                        "brighter tomorrow." + "<br /><br />Here's the " + "exception it threw: <br " +
+                                        "/>" + ex.toString() + "<br /><br />Good " + "luck!<br />--Chembench";
 
-                                message += "<br /><br />The full "
-                                        + "stack trace is below. "
-                                        + "Happy debugging!<br /><br />"
-                                        + exceptionAsString;
+                                message += "<br /><br />The full " + "stack trace is below. " + "Happy debugging!<br " +
+                                        "/><br />" + exceptionAsString;
 
                                 for (String adminEmailAddress : Constants.ADMINEMAIL_LIST) {
-                                    SendEmails
-                                            .sendEmail(adminEmailAddress, "",
-                                                    "", "Job failed: "
-                                                            + j.getJobName(),
-                                                    message
-                                            );
+                                    SendEmails.sendEmail(adminEmailAddress, "", "", "Job failed: " + j.getJobName(),
+                                            message);
                                 }
                                 break;
                             }
@@ -334,22 +249,15 @@ public class LsfProcessingThread extends Thread {
                     // compare the new job statuses against the ones from the
                     // previous check
                     for (LsfJobStatus jobStatus : lsfJobStatuses) {
-                        if ((oldLsfStatuses.containsKey(jobStatus.jobid)
-                                && oldLsfStatuses.get(jobStatus.jobid)
-                                .equals("PEND") && jobStatus.stat
-                                .equals("RUN"))
-                                || (!oldLsfStatuses
-                                .containsKey(jobStatus.jobid) && jobStatus.stat
-                                .equals("RUN"))) {
+                        if ((oldLsfStatuses.containsKey(jobStatus.jobid) && oldLsfStatuses.get(jobStatus.jobid)
+                                .equals("PEND") && jobStatus.stat.equals("RUN")) || (!oldLsfStatuses.containsKey
+                                (jobStatus.jobid) && jobStatus.stat.equals("RUN"))) {
                             // the job *just* started on LSF. Find the job
                             // with this lsfJobId and set its date.
                             for (Job j : readOnlyJobArray) {
-                                if (j.getLsfJobId() != null
-                                        && j.getLsfJobId().equals(
-                                        jobStatus.jobid)) {
+                                if (j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)) {
                                     j.setTimeStartedByLsf(new Date());
-                                    CentralDogma.getInstance().lsfJobs
-                                            .saveJobChangesToList(j);
+                                    CentralDogma.getInstance().lsfJobs.saveJobChangesToList(j);
                                 }
                             }
                         }
