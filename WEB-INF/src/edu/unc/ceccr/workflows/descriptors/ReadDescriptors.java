@@ -2,6 +2,7 @@ package edu.unc.ceccr.workflows.descriptors;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
+import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import org.apache.log4j.Logger;
@@ -45,6 +46,29 @@ public class ReadDescriptors {
 
         // Any errors from MolconnZ processing will be in the log files. Read
         // 'em.
+    }
+
+    public static void readDescriptors(Predictor predictor, String sdfFile, ArrayList<String> descriptorNames,
+                                       ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+        if (predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
+            ReadDescriptors.readMolconnZDescriptors(sdfFile + ".molconnz", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
+            ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
+            ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonH", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)) {
+            ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
+            ReadDescriptors.readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
+            ReadDescriptors.readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
+            ReadDescriptors.readISIDADescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.UPLOADED)) {
+            ReadDescriptors.readXDescriptors(sdfFile + ".x", descriptorNames, descriptorValueMatrix);
+        } else {
+            throw new RuntimeException("Bad descriptor type: " + predictor.getDescriptorGeneration());
+        }
     }
 
     public static void readMolconnZDescriptors(String molconnZOutputFile, ArrayList<String> descriptorNames,

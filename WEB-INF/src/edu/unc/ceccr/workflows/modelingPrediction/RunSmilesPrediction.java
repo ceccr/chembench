@@ -56,21 +56,7 @@ public class RunSmilesPrediction {
         ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
         ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(sdfile);
 
-        if (predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
-            ReadDescriptors.readMolconnZDescriptors(sdfile + ".molconnz", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
-            ReadDescriptors.readXDescriptors(sdfile + ".cdk.x", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
-            ReadDescriptors.readDragonDescriptors(sdfile + ".dragonH", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)) {
-            ReadDescriptors.readDragonDescriptors(sdfile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
-            ReadDescriptors.readMoe2DDescriptors(sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
-            ReadDescriptors.readMaccsDescriptors(sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-            ReadDescriptors.readISIDADescriptors(sdfile + ".ISIDA", descriptorNames, descriptorValueMatrix);
-        }
+        ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
 
         logger.debug("Normalizing descriptors to fit predictor.");
 
