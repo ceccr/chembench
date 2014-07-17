@@ -8,6 +8,10 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Enumeration;
 
 public class ChembenchServletContextListener implements ServletContextListener {
     private static Logger logger
@@ -39,6 +43,15 @@ public class ChembenchServletContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        // TODO destroy queues & db connections
+        // TODO interrupt & stop job processing threads
+        Enumeration<Driver> drivers = DriverManager.getDrivers();
+        while (drivers.hasMoreElements()) {
+            Driver driver = drivers.nextElement();
+            try {
+                DriverManager.deregisterDriver(driver);
+            } catch (SQLException e) {
+                logger.error("Driver deregistration failed", e);
+            }
+        }
     }
 }
