@@ -4,12 +4,7 @@ import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import org.apache.log4j.Logger;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintStream;
+import java.io.*;
 import java.util.Scanner;
 
 public class GenerateDescriptors {

@@ -1,13 +1,7 @@
 package edu.unc.ceccr.action;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.CompoundPredictions;
-import edu.unc.ceccr.persistence.Dataset;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.Utility;
 import org.apache.log4j.Logger;
@@ -26,7 +20,7 @@ public class ViewPredictionAction extends ViewAction {
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(ViewPredictionAction.class.getName());
-    ArrayList<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
+    List<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
     private Prediction prediction;
     private List<Predictor> predictors; //put these in order by predictorId
     private Dataset dataset; //dataset used in prediction
@@ -352,12 +346,12 @@ public class ViewPredictionAction extends ViewAction {
         this.dataset = dataset;
     }
 
-    public ArrayList<CompoundPredictions> getCompoundPredictionValues() {
+    public List<CompoundPredictions> getCompoundPredictionValues() {
         return compoundPredictionValues;
     }
 
     public void setCompoundPredictionValues(
-            ArrayList<CompoundPredictions> compoundPredictionValues) {
+            List<CompoundPredictions> compoundPredictionValues) {
         this.compoundPredictionValues = compoundPredictionValues;
     }
 

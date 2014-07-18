@@ -9,7 +9,6 @@ import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.taskObjects.QsarPredictionTask;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
@@ -25,13 +24,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 // struts2
 
 public class PredictionFormActions extends ActionSupport {
@@ -41,7 +34,7 @@ public class PredictionFormActions extends ActionSupport {
     private static final long serialVersionUID = 1L;
     private static Logger logger
             = Logger.getLogger(PredictionFormActions.class.getName());
-    ArrayList<String> errorStrings = new ArrayList<String>();
+    List<String> errorStrings = new ArrayList<String>();
     // variables used for JSP display
     private User user;
     private List<Predictor> userPredictors;
@@ -119,7 +112,7 @@ public class PredictionFormActions extends ActionSupport {
         logger.debug(user.getUserName());
         logger.debug("SMILES predids: " + predictorIds);
         String[] selectedPredictorIdArray = predictorIds.split("\\s+");
-        ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+        List<Predictor> predictors = new ArrayList<Predictor>();
         Set<String> descriptorTypes = new HashSet<String>();
         for (int i = 0; i < selectedPredictorIdArray.length; i++) {
             Predictor predictor = PopulateDataObjects.getPredictorById(Long
@@ -615,7 +608,7 @@ public class PredictionFormActions extends ActionSupport {
         String[] ids = selectedPredictorIds.split("\\s+");
         int numModels = 0;
 
-        ArrayList<Predictor> selectedPredictors = new ArrayList<Predictor>();
+        List<Predictor> selectedPredictors = new ArrayList<Predictor>();
 
         for (int i = 0; i < ids.length; i++) {
             Predictor sp = PopulateDataObjects.getPredictorById(Long
@@ -900,11 +893,11 @@ public class PredictionFormActions extends ActionSupport {
         this.smilesCutoff = smilesCutoff;
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 

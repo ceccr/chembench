@@ -10,6 +10,7 @@ import edu.unc.ceccr.utilities.PopulateDataObjects;
 import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
+import java.util.List;
 
 // struts2
 
@@ -34,8 +35,8 @@ public class ViewPredictorAction extends ViewAction {
     protected String orderBy;
     protected String sortDirection;
     protected String mostFrequentDescriptors = "";
-    ArrayList<Predictor> childPredictors;
-    ArrayList<String> foldNums = new ArrayList<String>();
+    List<Predictor> childPredictors;
+    List<String> foldNums = new ArrayList<String>();
 
     public String getBasicParameters() throws Exception {
         // this function gets params that all subclasses will need.
@@ -155,11 +156,11 @@ public class ViewPredictorAction extends ViewAction {
         this.currentFoldNumber = currentFoldNumber;
     }
 
-    public ArrayList<String> getFoldNums() {
+    public List<String> getFoldNums() {
         return foldNums;
     }
 
-    public void setFoldNums(ArrayList<String> foldNums) {
+    public void setFoldNums(List<String> foldNums) {
         this.foldNums = foldNums;
     }
 

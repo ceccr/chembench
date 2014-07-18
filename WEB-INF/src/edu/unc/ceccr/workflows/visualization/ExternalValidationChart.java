@@ -29,11 +29,7 @@ import org.jfree.ui.RectangleEdge;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -68,7 +64,7 @@ public class ExternalValidationChart {
         List<ExternalValidation> highlightedExtValidation
                 = new ArrayList<ExternalValidation>();
 
-        ArrayList<Predictor> childPredictors = PopulateDataObjects
+        List<Predictor> childPredictors = PopulateDataObjects
                 .getChildPredictors(predictor, session);
         if (childPredictors.size() != 0) {
             // get external set for each
@@ -336,12 +332,12 @@ public class ExternalValidationChart {
 
     }
 
-    protected static ArrayList<String>
+    protected static List<String>
     customizedURLs(XYDataset ds,
                    HashMap<Integer, String> map,
                    String predictorName,
                    String user) {
-        ArrayList<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
         String url;
 
         for (int i = 0; i < map.size(); i++) {

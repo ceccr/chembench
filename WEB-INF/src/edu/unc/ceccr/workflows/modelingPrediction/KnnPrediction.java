@@ -11,6 +11,7 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
 
 public class KnnPrediction {
 
@@ -21,7 +22,7 @@ public class KnnPrediction {
     // set.
     // Used for legacy models that were created using Sasha's kNN code.
 
-    public static ArrayList<PredictionValue>
+    public static List<PredictionValue>
     readPredictionOutput(String workingDir,
                          Long predictorId,
                          String sdFile) throws Exception {
@@ -50,12 +51,12 @@ public class KnnPrediction {
         in.readLine(); // junk
         in.readLine(); // junk
 
-        ArrayList<ArrayList<String>> predictionMatrix = new ArrayList<ArrayList<String>>(); // read
+        List<List<String>> predictionMatrix = new ArrayList<List<String>>(); // read
         // output
         // file
         // into
         // this
-        ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); // holds
+        List<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); // holds
         // objects
         // to
         // be
@@ -67,7 +68,7 @@ public class KnnPrediction {
         while ((inputString = in.readLine()) != null
                 && !inputString.equals("")) {
 
-            ArrayList<String> modelValues = new ArrayList<String>();
+            List<String> modelValues = new ArrayList<String>();
 
             // get output for each compound in model
             String[] predValues = inputString.split("\\s+"); // Note: [0] and
@@ -158,7 +159,7 @@ public class KnnPrediction {
         // bizarrely... X_X
         String actfile = workingDir + sdfile + ".renorm.a";
         BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
-        ArrayList<String> compoundNames = DatasetFileOperations
+        List<String> compoundNames = DatasetFileOperations
                 .getSDFCompoundNames(workingDir + sdfile);
         for (String compoundName : compoundNames) {
             aout.write(compoundName + " 0\n");

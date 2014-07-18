@@ -4,15 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.Dataset;
-import edu.unc.ceccr.persistence.ExternalValidation;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Job;
-import edu.unc.ceccr.persistence.JobStats;
-import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.ActiveUser;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -50,7 +42,7 @@ public class
     String username;
     String password;
     String showStatistics = Constants.YES;
-    private ArrayList<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = new ArrayList<String>();
 
     @Override
     public void
@@ -120,11 +112,11 @@ public class
         return SUCCESS;
     }
 
-    public ArrayList<String> geterrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void seterrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 
@@ -321,7 +313,7 @@ public class
                 logger.debug("Delete GUEST");
                 Session s = HibernateUtil.getSession();
 
-                ArrayList<Prediction> predictions = new ArrayList<Prediction>();
+                List<Prediction> predictions = new ArrayList<Prediction>();
                 Iterator<?> predictionIter = PopulateDataObjects.getUserData(
                         userToDelete
                         , Prediction.class, s)
@@ -331,7 +323,7 @@ public class
 
                 }
 
-                ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+                List<Predictor> predictors = new ArrayList<Predictor>();
 
                 Iterator<?> predictorsIter = PopulateDataObjects.getUserData(
                         userToDelete
@@ -342,7 +334,7 @@ public class
 
                 }
 
-                ArrayList<Dataset> datasets = new ArrayList<Dataset>();
+                List<Dataset> datasets = new ArrayList<Dataset>();
 
                 Iterator<?> datSetIter = PopulateDataObjects.getUserData(
                         userToDelete
@@ -353,7 +345,7 @@ public class
 
                 }
 
-                ArrayList<Job> jobs = new ArrayList<Job>();
+                List<Job> jobs = new ArrayList<Job>();
 
                 Iterator<?> jobIter = PopulateDataObjects.getUserData(
                         userToDelete
@@ -403,8 +395,8 @@ public class
 
                 for (Predictor p : predictors) {
                     Session session = HibernateUtil.getSession();
-                    ArrayList<ExternalValidation> extVals = new ArrayList<ExternalValidation>();
-                    ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
+                    List<ExternalValidation> extVals = new ArrayList<ExternalValidation>();
+                    List<Predictor> childPredictors = new ArrayList<Predictor>();
                     if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
                         String[] childIdArray = p.getChildIds().split("\\s+");
                         for (String childId : childIdArray) {

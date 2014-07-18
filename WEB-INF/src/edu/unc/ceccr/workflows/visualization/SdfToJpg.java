@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -50,7 +51,7 @@ public class SdfToJpg {
         file = new File(filePath + fileName);
         FileReader fin = new FileReader(file);
         Scanner src = new Scanner(fin);
-        ArrayList<String> compoundNames = new ArrayList<String>();
+        List<String> compoundNames = new ArrayList<String>();
 
         while (src.hasNext()) {
             StringBuilder sb = new StringBuilder();

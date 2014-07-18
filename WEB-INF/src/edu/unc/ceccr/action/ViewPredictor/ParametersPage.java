@@ -1,11 +1,7 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.KnnParameters;
-import edu.unc.ceccr.persistence.KnnPlusParameters;
-import edu.unc.ceccr.persistence.RandomForestParameters;
-import edu.unc.ceccr.persistence.SvmParameters;
+import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 
 public class ParametersPage extends ViewPredictorAction {

@@ -15,21 +15,8 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.poifs.filesystem.POIFSFileSystem;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Scanner;
-import java.util.Vector;
+import java.io.*;
+import java.util.*;
 
 /*
  * Functions relating to the processing of incoming dataset files go in here.
@@ -66,9 +53,9 @@ public class DatasetFileOperations {
         return idsAndValues;
     }
 
-    public static ArrayList<String>
+    public static List<String>
     getActFileValues(Dataset dataset) throws Exception {
-        ArrayList<String> actFileValues = new ArrayList<String>();
+        List<String> actFileValues = new ArrayList<String>();
 
         // find activity file
         String datasetUserName = dataset.getUserName();
@@ -169,7 +156,7 @@ public class DatasetFileOperations {
         return msg;
     }
 
-    public static ArrayList<String> uploadDataset(
+    public static List<String> uploadDataset(
             String userName,
             File sdfFile,
             String sdfFileName,
@@ -189,13 +176,13 @@ public class DatasetFileOperations {
 
         logger.debug("Copying dataset files to " + path);
 
-        ArrayList<String> msgs = new ArrayList<String>(); // holds any error
+        List<String> msgs = new ArrayList<String>(); // holds any error
         // messages from
         // validations
 
-        ArrayList<String> act_compounds = null;
-        ArrayList<String> sdf_compounds = null;
-        ArrayList<String> x_compounds = null;
+        List<String> act_compounds = null;
+        List<String> sdf_compounds = null;
+        List<String> x_compounds = null;
 
         // create dir
         if (!new File(Constants.CECCR_USER_BASE_PATH + userName).exists()) {
@@ -426,7 +413,7 @@ public class DatasetFileOperations {
         if (externalCompoundList != null && !externalCompoundList.isEmpty()) {
             // check that the dataset actually contains all the compounds the
             // user gave in the external compound list
-            ArrayList<String> datasetCompounds = new ArrayList<String>();
+            List<String> datasetCompounds = new ArrayList<String>();
             if (sdfFile != null) {
                 datasetCompounds.addAll(sdf_compounds);
             } else {
@@ -482,7 +469,7 @@ public class DatasetFileOperations {
     public static void
     rewriteSdf(String filePath,
                String fileName,
-               ArrayList<String> sdfCompoundNames) throws Exception {
+               List<String> sdfCompoundNames) throws Exception {
 
         // SDFs with lines longer than 1023 characters will not work properly
         // with MolconnZ.
@@ -767,9 +754,9 @@ public class DatasetFileOperations {
 
     }
 
-    public static ArrayList<String>
+    public static List<String>
     getXCompoundNames(String fileLocation) throws Exception {
-        ArrayList<String> x_compounds = new ArrayList<String>();
+        List<String> x_compounds = new ArrayList<String>();
         File file = new File(fileLocation);
         logger.debug("Getting X file compounds from " + fileLocation);
         if (file.exists()) {
@@ -797,10 +784,10 @@ public class DatasetFileOperations {
         return x_compounds;
     }
 
-    public static ArrayList<String>
+    public static List<String>
     getACTCompoundNames(String fileLocation) throws FileNotFoundException,
             IOException {
-        ArrayList<String> act_compounds = new ArrayList<String>();
+        List<String> act_compounds = new ArrayList<String>();
         File file = new File(fileLocation);
 
         if (file.exists()) {
@@ -822,7 +809,7 @@ public class DatasetFileOperations {
         return act_compounds;
     }
 
-    public static ArrayList<String>
+    public static List<String>
     getSDFCompoundNames(String sdfPath) throws Exception {
         // returns JUST THE NAMES of the compounds in an SDF, no structure or
         // anything.
@@ -830,7 +817,7 @@ public class DatasetFileOperations {
         File infile = new File(sdfPath);
         FileReader fin = new FileReader(infile);
         BufferedReader br = new BufferedReader(fin);
-        ArrayList<String> chemicalNames = new ArrayList<String>();
+        List<String> chemicalNames = new ArrayList<String>();
 
         String line;
         // skip any whitespace lines before the first molecule
@@ -863,7 +850,7 @@ public class DatasetFileOperations {
         return chemicalNames;
     }
 
-    public static ArrayList<String>
+    public static List<String>
     getCompoundsFromSdf(String sdfPath) throws Exception {
         // opens an SDF, and returns each full compound (the name,
         // coordinates, comments, etc)
@@ -872,7 +859,7 @@ public class DatasetFileOperations {
         // of SDFs.
         // warning: don't open too large of files with this, as you will run
         // out of memory.
-        ArrayList<String> compounds = new ArrayList<String>();
+        List<String> compounds = new ArrayList<String>();
 
         File infile = new File(sdfPath);
         FileReader fin = new FileReader(infile);
@@ -894,10 +881,10 @@ public class DatasetFileOperations {
     }
 
     // returns the compound names of the duplicates
-    private static String findDuplicates(ArrayList<String> compoundList) {
+    private static String findDuplicates(List<String> compoundList) {
         String duplicates = "";
 
-        ArrayList<String> temp_list = new ArrayList<String>();
+        List<String> temp_list = new ArrayList<String>();
         for (int i = 0; i < compoundList.size(); i++) {
             if (temp_list.contains(compoundList.get(i))) {
                 duplicates += compoundList.get(i) + " ";
@@ -1160,10 +1147,10 @@ public class DatasetFileOperations {
 
     public static void
     randomizeActivityFile(String filePath, String outFilePath) throws Exception {
-        ArrayList<String> actFileCompounds = getACTCompoundNames(filePath);
+        List<String> actFileCompounds = getACTCompoundNames(filePath);
         HashMap<String, String> actFileIdsAndValues
                 = getActFileIdsAndValues(filePath);
-        ArrayList<String> actFileValues = new ArrayList<String>(
+        List<String> actFileValues = new ArrayList<String>(
                 actFileIdsAndValues.values());
         Collections.shuffle(actFileValues);
 
@@ -1209,7 +1196,7 @@ public class DatasetFileOperations {
                 .parseInt((xFileIn.readLine().split("\\s+"))[0]);
         xFileIn.readLine(); // descriptors; skip
 
-        ArrayList<String> allCompounds = getXCompoundNames(workingDir
+        List<String> allCompounds = getXCompoundNames(workingDir
                 + fullXFile);
 
         String line = "";
@@ -1244,7 +1231,7 @@ public class DatasetFileOperations {
         BufferedWriter actFileOut = new BufferedWriter(new FileWriter(
                 workingDir + actFileOutName));
 
-        ArrayList<String> allCompounds = getXCompoundNames(workingDir
+        List<String> allCompounds = getXCompoundNames(workingDir
                 + fullXFile);
 
         String line = "";

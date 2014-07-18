@@ -13,8 +13,8 @@ import org.hibernate.Session;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class LocalProcessingThread extends Thread {
 
@@ -29,7 +29,7 @@ public class LocalProcessingThread extends Thread {
                 sleep(1500);
                 // logger.debug("LocalProcessingThread awake!");
                 // pull out a job and start it running
-                ArrayList<Job> jobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
+                List<Job> jobs = CentralDogma.getInstance().localJobs.getReadOnlyCopy();
                 for (Job j : jobs) {
                     // try to get this job. Note that another thread may be
                     // trying to get it too.

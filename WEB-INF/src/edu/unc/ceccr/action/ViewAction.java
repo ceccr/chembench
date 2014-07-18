@@ -7,13 +7,14 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ViewAction extends ActionSupport {
 
     private static final long serialVersionUID = 1L;
 
     private static Logger logger = Logger.getLogger(ViewAction.class.getName());
-    protected ArrayList<String> errorStrings = new ArrayList<String>();
+    protected List<String> errorStrings = new ArrayList<String>();
     protected Session session;
     protected ActionContext context;
     protected User user;
@@ -59,11 +60,11 @@ public abstract class ViewAction extends ActionSupport {
 
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 

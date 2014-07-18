@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class RunSmilesPrediction {
@@ -52,34 +53,20 @@ public class RunSmilesPrediction {
         }
 
         /* create the descriptors for the chemical and read them in */
-        ArrayList<String> descriptorNames = new ArrayList<String>();
-        ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-        ArrayList<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(sdfile);
+        List<String> descriptorNames = new ArrayList<String>();
+        List<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+        List<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(sdfile);
 
-        if (predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
-            ReadDescriptors.readMolconnZDescriptors(sdfile + ".molconnz", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
-            ReadDescriptors.readXDescriptors(sdfile + ".cdk.x", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
-            ReadDescriptors.readDragonDescriptors(sdfile + ".dragonH", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)) {
-            ReadDescriptors.readDragonDescriptors(sdfile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
-            ReadDescriptors.readMoe2DDescriptors(sdfile + ".moe2D", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
-            ReadDescriptors.readMaccsDescriptors(sdfile + ".maccs", descriptorNames, descriptorValueMatrix);
-        } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
-            ReadDescriptors.readISIDADescriptors(sdfile + ".ISIDA", descriptorNames, descriptorValueMatrix);
-        }
+        ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
 
         logger.debug("Normalizing descriptors to fit predictor.");
 
-        String descriptorString = Utility.StringArrayListToString(descriptorNames);
+        String descriptorString = Utility.StringListToString(descriptorNames);
         WriteDescriptors.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString,
                 sdfile + ".renorm.x", workingDir + "train_0.x", predictor.getScalingType());
 
         /* read prediction output */
-        ArrayList<String> predValueArray = new ArrayList<String>();
+        List<String> predValueArray = new ArrayList<String>();
         if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants.KNNSA)
                 || predictor.getModelMethod().equals(Constants.KNN)) {
 

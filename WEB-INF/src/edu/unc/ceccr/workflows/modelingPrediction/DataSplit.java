@@ -6,14 +6,11 @@ import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class DataSplit {
 
@@ -158,7 +155,7 @@ public class DataSplit {
     public static void SplitModelingExternalNFold(String workingDir, String actFile, String numFolds,
                                                   String useActivityBinning) throws Exception {
         //read in the act file
-        ArrayList<Compound> compounds = new ArrayList<Compound>();
+        List<Compound> compounds = new ArrayList<Compound>();
         File act = new File(workingDir + actFile);
         BufferedReader br = new BufferedReader(new FileReader(act));
         String line;
@@ -182,9 +179,9 @@ public class DataSplit {
 
         //go down the sorted list in chunks of size nFolds
         int folds = Integer.parseInt(numFolds);
-        ArrayList<ArrayList<Compound>> externalFolds = new ArrayList<ArrayList<Compound>>();
+        List<List<Compound>> externalFolds = new ArrayList<List<Compound>>();
         for (int i = 0; i < folds; i++) {
-            ArrayList<Compound> fold = new ArrayList<Compound>();
+            List<Compound> fold = new ArrayList<Compound>();
             externalFolds.add(fold);
         }
 

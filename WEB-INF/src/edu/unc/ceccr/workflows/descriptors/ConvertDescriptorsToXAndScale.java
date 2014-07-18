@@ -6,12 +6,9 @@ import edu.unc.ceccr.utilities.Utility;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ConvertDescriptorsToXAndScale {
@@ -75,7 +72,7 @@ public class ConvertDescriptorsToXAndScale {
         File descriptorsFilePart = new File(workingDir + descriptorsFile
                 + "_" + filePartNumber);
 
-        ArrayList<String> allChemicalNames = null;
+        List<String> allChemicalNames = null;
         if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             allChemicalNames = DatasetFileOperations
                     .getXCompoundNames(workingDir + sdfile);
@@ -89,10 +86,10 @@ public class ConvertDescriptorsToXAndScale {
 
         while (descriptorsFilePart.exists()) {
 
-            ArrayList<String> descriptorNames = new ArrayList<String>();
-            ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+            List<String> descriptorNames = new ArrayList<String>();
+            List<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
 
-            ArrayList<String> chemicalNames = new ArrayList<String>();
+            List<String> chemicalNames = new ArrayList<String>();
 
             for (int i = filePartNumber * compoundsPerChunk; i < (filePartNumber + 1)
                     * compoundsPerChunk; i++) {
@@ -152,7 +149,7 @@ public class ConvertDescriptorsToXAndScale {
             }
 
             String descriptorString = Utility
-                    .StringArrayListToString(descriptorNames);
+                    .StringListToString(descriptorNames);
             WriteDescriptors.writePredictionXFile(chemicalNames,
                     descriptorValueMatrix, descriptorString, workingDir
                             + outputXFile + "_" + filePartNumber, workingDir
@@ -186,9 +183,9 @@ public class ConvertDescriptorsToXAndScale {
             return;
         }
 
-        ArrayList<String> descriptorNames = new ArrayList<String>();
-        ArrayList<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
-        ArrayList<String> chemicalNames = null;
+        List<String> descriptorNames = new ArrayList<String>();
+        List<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+        List<String> chemicalNames = null;
         if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             chemicalNames = DatasetFileOperations
                     .getXCompoundNames(workingDir + sdfile);
@@ -247,7 +244,7 @@ public class ConvertDescriptorsToXAndScale {
         }
 
         String descriptorString = Utility
-                .StringArrayListToString(descriptorNames);
+                .StringListToString(descriptorNames);
         WriteDescriptors.writePredictionXFile(chemicalNames,
                 descriptorValueMatrix, descriptorString, workingDir
                         + outputXFile, workingDir + predictorXFile,
@@ -267,14 +264,14 @@ public class ConvertDescriptorsToXAndScale {
 
         String temp;
         Scanner src = new Scanner(fin);
-        ArrayList<String> descriptorNames = new ArrayList<String>(); // names
+        List<String> descriptorNames = new ArrayList<String>(); // names
         // for
         // each
         // molecule;
         // used
         // in
         // counting
-        ArrayList<String> descriptorValues = new ArrayList<String>(); // values
+        List<String> descriptorValues = new ArrayList<String>(); // values
         // for
         // each
         // molecule;
@@ -539,7 +536,7 @@ public class ConvertDescriptorsToXAndScale {
 
         BufferedWriter xFileOut = new BufferedWriter(new FileWriter(
                 workingDir + outputXFile));
-        ArrayList<String> linesInFilePart = null;
+        List<String> linesInFilePart = null;
         int compoundIndex = 1;
         while (xFilePart.exists()) {
             // read all lines into array

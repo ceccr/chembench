@@ -2,6 +2,7 @@ package edu.unc.ceccr.workflows.descriptors;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
+import edu.unc.ceccr.persistence.Predictor;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.utilities.Utility;
 import org.apache.log4j.Logger;
@@ -11,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ReadDescriptors {
@@ -19,63 +21,72 @@ public class ReadDescriptors {
     // Create a Descriptors object for each compound.
     // puts results into descriptorNames and descriptorValueMatrix.
 
-    private static Logger logger = Logger.getLogger(ReadDescriptors.class
-            .getName());
+    private static Logger logger = Logger.getLogger(ReadDescriptors.class.getName());
 
-    public static String[]
-    readDescriptorNamesFromX(String xFile, String workingDir) throws Exception {
-        BufferedReader br = new BufferedReader(new FileReader(workingDir
-                + xFile));
+    public static String[] readDescriptorNamesFromX(String xFile, String workingDir) throws Exception {
+        BufferedReader br = new BufferedReader(new FileReader(workingDir + xFile));
         br.readLine(); // numCompounds, numDescriptors;
         String[] descs = br.readLine().split("\\s+");
         br.close();
         return descs;
     }
 
-    public static void convertMzToX(String molconnZOutputFile,
-                                    String workingDir) throws Exception {
-        String cmd = "python " + Constants.CECCR_BASE_PATH
-                + Constants.SCRIPTS_PATH + "mzToX.py " + molconnZOutputFile
-                + " " + molconnZOutputFile + ".x";
-        RunExternalProgram
-                .runCommandAndLogOutput(cmd, workingDir, "mzToX.py");
+    public static void convertMzToX(String molconnZOutputFile, String workingDir) throws Exception {
+        String cmd = "python " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "mzToX.py " +
+                molconnZOutputFile + " " + molconnZOutputFile + ".x";
+        RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "mzToX.py");
 
         // Any errors from MolconnZ processing will be in the log files. Read
         // 'em.
     }
 
-    public static void
-    convertCDKToX(String cdkOutputFile, String workingDir) throws Exception {
-        String cmd = "python " + Constants.CECCR_BASE_PATH
-                + Constants.SCRIPTS_PATH + "cdkToX.py " + cdkOutputFile + " "
-                + cdkOutputFile + ".x";
-        RunExternalProgram.runCommandAndLogOutput(cmd, workingDir,
-                "cdkToX.py");
+    public static void convertCDKToX(String cdkOutputFile, String workingDir) throws Exception {
+        String cmd = "python " + Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH + "cdkToX.py " + cdkOutputFile +
+                " " + cdkOutputFile + ".x";
+        RunExternalProgram.runCommandAndLogOutput(cmd, workingDir, "cdkToX.py");
 
         // Any errors from MolconnZ processing will be in the log files. Read
         // 'em.
     }
 
-    public static void
-    readMolconnZDescriptors(String molconnZOutputFile,
-                            ArrayList<String> descriptorNames,
-                            ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readDescriptors(Predictor predictor, String sdfFile, List<String> descriptorNames,
+                                       List<Descriptors> descriptorValueMatrix) throws Exception {
+        if (predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
+            ReadDescriptors.readMolconnZDescriptors(sdfFile + ".molconnz", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
+            ReadDescriptors.readXDescriptors(sdfFile + ".cdk.x", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONH)) {
+            ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonH", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.DRAGONNOH)) {
+            ReadDescriptors.readDragonDescriptors(sdfFile + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.MOE2D)) {
+            ReadDescriptors.readMoe2DDescriptors(sdfFile + ".moe2D", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.MACCS)) {
+            ReadDescriptors.readMaccsDescriptors(sdfFile + ".maccs", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.ISIDA)) {
+            ReadDescriptors.readISIDADescriptors(sdfFile + ".ISIDA", descriptorNames, descriptorValueMatrix);
+        } else if (predictor.getDescriptorGeneration().equals(Constants.UPLOADED)) {
+            ReadDescriptors.readXDescriptors(sdfFile + ".x", descriptorNames, descriptorValueMatrix);
+        } else {
+            throw new RuntimeException("Bad descriptor type: " + predictor.getDescriptorGeneration());
+        }
+    }
+
+    public static void readMolconnZDescriptors(String molconnZOutputFile, List<String> descriptorNames,
+                                               List<Descriptors> descriptorValueMatrix) throws Exception {
 
         logger.debug("reading MolconnZ Descriptors");
 
         File file = new File(molconnZOutputFile);
         if (!file.exists() || file.length() == 0) {
-            throw new Exception(
-                    "Could not read MolconnZ descriptors from file:" + " "
-                            + molconnZOutputFile + "\n"
-            );
+            throw new Exception("Could not read MolconnZ descriptors from file:" + " " + molconnZOutputFile + "\n");
         }
         FileReader fin = new FileReader(file);
 
         String temp;
         Scanner src = new Scanner(fin);
         // values for each molecule
-        ArrayList<String> descriptorValues = new ArrayList<String>();
+        List<String> descriptorValues = new ArrayList<String>();
 
         boolean readingDescriptorNames = true;
         while (src.hasNext()) {
@@ -90,8 +101,7 @@ public class ReadDescriptors {
             }
             if (temp.matches("[\\p{Graph}]+")) {
 
-                if (temp.matches("[0-9&&[^a-zA-Z]]+")
-                        && readingDescriptorNames) {
+                if (temp.matches("[0-9&&[^a-zA-Z]]+") && readingDescriptorNames) {
                     // The first occurrence of a number indicates we're no
                     // longer reading descriptor names.
                     // "1" will indicate the first molecule, no matter what
@@ -106,33 +116,24 @@ public class ReadDescriptors {
                     if (descriptorValues.size() == descriptorNames.size()) {
                         // done reading values for this molecule.
 
-                        String formula = descriptorValues
-                                .get(Constants.MOLCONNZ_FORMULA_POS);
+                        String formula = descriptorValues.get(Constants.MOLCONNZ_FORMULA_POS);
                         // formula should look something like C(12)H(22)O(11)
                         if (!formula.contains("(")) {
                             // the formula for the molecule isn't a formula
                             // usually indicates missing descriptors
                             // on the previous molecule
-                            throw new Exception(
-                                    "MolconnZ error: Molecule "
-                                            + descriptorValues
-                                            .get(Constants.MOLCONNZ_COMPOUND_NAME_POS)
-                                            + " has formula "
-                                            + descriptorValues
-                                            .get(Constants.MOLCONNZ_FORMULA_POS)
-                            );
+                            throw new Exception("MolconnZ error: Molecule " + descriptorValues.get(Constants
+                                    .MOLCONNZ_COMPOUND_NAME_POS) + " has formula " + descriptorValues.get(Constants
+                                    .MOLCONNZ_FORMULA_POS));
                         }
                         /* contains molecule name, which isn't a descriptor */
-                        descriptorValues
-                                .remove(Constants.MOLCONNZ_FORMULA_POS);
+                        descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS);
                         /* contains molecule name, which isn't a descriptor */
-                        descriptorValues
-                                .remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
+                        descriptorValues.remove(Constants.MOLCONNZ_COMPOUND_NAME_POS);
                         /* contains molecule ID, which isn't a descriptor */
                         descriptorValues.remove(0);
                         Descriptors di = new Descriptors();
-                        di.setDescriptorValues(Utility
-                                .StringArrayListToString(descriptorValues));
+                        di.setDescriptorValues(Utility.StringListToString(descriptorValues));
                         descriptorValueMatrix.add(di);
                         descriptorValues.clear();
                     }
@@ -168,18 +169,15 @@ public class ReadDescriptors {
         descriptorValues.remove(0);
         descriptorNames.remove(0);
         Descriptors di = new Descriptors();
-        di.setDescriptorValues(Utility
-                .StringArrayListToString(descriptorValues));
+        di.setDescriptorValues(Utility.StringListToString(descriptorValues));
         descriptorValueMatrix.add(di);
 
         src.close();
         fin.close();
     }
 
-    public static void
-    readDragonDescriptors(String dragonOutputFile,
-                          ArrayList<String> descriptorNames,
-                          ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,
+                                             List<Descriptors> descriptorValueMatrix) throws Exception {
 
         logger.debug("reading Dragon Descriptors");
 
@@ -190,7 +188,7 @@ public class ReadDescriptors {
         FileReader fin = new FileReader(file);
         BufferedReader br = new BufferedReader(fin);
         /* values for each molecule */
-        ArrayList<String> descriptorValues;
+        List<String> descriptorValues;
         /* junk line, should say "dragonX: Descriptors" */
         String line = br.readLine();
 
@@ -239,18 +237,15 @@ public class ReadDescriptors {
             descriptorValues.remove(1);
             descriptorValues.remove(0);
 
-            di.setDescriptorValues(Utility
-                    .StringArrayListToString(descriptorValues));
+            di.setDescriptorValues(Utility.StringListToString(descriptorValues));
             descriptorValueMatrix.add(di);
             descriptorValues.clear();
         }
         br.close();
     }
 
-    public static void
-    readMaccsDescriptors(String maccsOutputFile,
-                         ArrayList<String> descriptorNames,
-                         ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readMaccsDescriptors(String maccsOutputFile, List<String> descriptorNames,
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
         // generate with "maccs.sh infile.sdf outfile.maccs"
 
         logger.debug("reading Maccs Descriptors");
@@ -298,10 +293,8 @@ public class ReadDescriptors {
         }
     }
 
-    public static void
-    readMoe2DDescriptors(String moe2DOutputFile,
-                         ArrayList<String> descriptorNames,
-                         ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readMoe2DDescriptors(String moe2DOutputFile, List<String> descriptorNames,
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading Moe2D Descriptors");
 
         File file = new File(moe2DOutputFile);
@@ -350,10 +343,8 @@ public class ReadDescriptors {
         br.close();
     }
 
-    public static void
-    readISIDADescriptors(String ISIDAOutputFile,
-                         ArrayList<String> descriptorNames,
-                         ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readISIDADescriptors(String ISIDAOutputFile, List<String> descriptorNames,
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading ISIDA Descriptors");
 
         File file = new File(ISIDAOutputFile);
@@ -393,16 +384,13 @@ public class ReadDescriptors {
         br.close();
     }
 
-    public static void
-    readXDescriptors(String xFile,
-                     ArrayList<String> descriptorNames,
-                     ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readXDescriptors(String xFile, List<String> descriptorNames,
+                                        List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("Trying to read uploaded descriptors");
         File file = new File(xFile);
         if (!file.exists() || file.length() == 0) {
             logger.error(xFile + ": xFile not found");
-            throw new Exception("Could not read X file descriptors: " + xFile
-                    + "\n");
+            throw new Exception("Could not read X file descriptors: " + xFile + "\n");
         }
 
         try {

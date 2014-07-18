@@ -3,20 +3,7 @@ package edu.unc.ceccr.action;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.Dataset;
-import edu.unc.ceccr.persistence.ExternalValidation;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.KnnPlusModel;
-import edu.unc.ceccr.persistence.KnnPlusParameters;
-import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.RandomForestGrove;
-import edu.unc.ceccr.persistence.RandomForestParameters;
-import edu.unc.ceccr.persistence.RandomForestTree;
-import edu.unc.ceccr.persistence.SvmModel;
-import edu.unc.ceccr.persistence.SvmParameters;
-import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
@@ -29,11 +16,7 @@ import org.hibernate.Transaction;
 import java.io.File;
 import java.nio.file.Paths;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 //struts2
 
 public class AdminAction extends ActionSupport {
@@ -46,12 +29,12 @@ public class AdminAction extends ActionSupport {
             AdminAction.class.getName());
     User user;
     String buildDate;
-    ArrayList<User> users;
+    List<User> users;
     //for sending email to all users
     String emailMessage;
     String emailSubject;
     String sendTo;
-    private ArrayList<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = new ArrayList<String>();
 
     public String loadPage() throws Exception {
 
@@ -386,7 +369,7 @@ public class AdminAction extends ActionSupport {
             }
 
             //delete the prediction values associated with the prediction
-            ArrayList<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects
+            List<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects
                     .getPredictionValuesByPredictionId(prediction.getId(), session);
 
             if (pvs != null) {
@@ -523,15 +506,15 @@ public class AdminAction extends ActionSupport {
     }
 
 
-    private ArrayList<String> checkDatasetDependencies(Dataset ds, String userName) throws HibernateException,
+    private List<String> checkDatasetDependencies(Dataset ds, String userName) throws HibernateException,
             ClassNotFoundException, SQLException {
         logger.debug("checking dataset dependencies");
 
-        ArrayList<String> dependencies = new ArrayList<String>();
+        List<String> dependencies = new ArrayList<String>();
         Session session = HibernateUtil.getSession();
-        ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName,
+        List<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName,
                 true, false, session);
-        ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions
+        List<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions
                 (userName, false, session);
 
         //check each predictor
@@ -1070,11 +1053,11 @@ public class AdminAction extends ActionSupport {
         this.buildDate = buildDate;
     }
 
-    public ArrayList<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
-    public void setUsers(ArrayList<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 
@@ -1102,11 +1085,11 @@ public class AdminAction extends ActionSupport {
         this.sendTo = sendTo;
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 

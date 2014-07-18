@@ -525,11 +525,6 @@
         <action name="help-versions">
             <result>jsp/help/versions.jsp</result>
         </action>
-
-        <action name="PPI" class="edu.unc.ceccr.action.PPI" method="loadPage">
-            <result>jsp/main/PPI.jsp</result>
-        </action>
-
         <!-- End Help forwards -->
 
 

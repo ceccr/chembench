@@ -16,10 +16,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.*;
 //struts2
 
 @SuppressWarnings("serial")
@@ -27,12 +24,12 @@ public class ViewDataset extends ViewAction {
 
     private static Logger logger = Logger.getLogger(ViewDataset.class.getName());
     private Dataset dataset;
-    private ArrayList<Compound> datasetCompounds;
-    private ArrayList<Compound> externalCompounds;
-    private ArrayList<Compound> externalFold;
-    private ArrayList<String> pageNums;
+    private List<Compound> datasetCompounds;
+    private List<Compound> externalCompounds;
+    private List<Compound> externalFold;
+    private List<String> pageNums;
     private String currentPageNumber;
-    private ArrayList<String> foldNums;
+    private List<String> foldNums;
     private String currentFoldNumber;
     private String orderBy;
     private String editable;
@@ -42,7 +39,7 @@ public class ViewDataset extends ViewAction {
     private String datasetDescription = "";
     private String datasetTypeDisplay = "";
     private String webAddress = Constants.WEBADDRESS;
-    private ArrayList<DescriptorGenerationResult> descriptorGenerationResults;
+    private List<DescriptorGenerationResult> descriptorGenerationResults;
 
     public String loadCompoundsSection() throws Exception {
         //check that the user is logged in
@@ -101,7 +98,7 @@ public class ViewDataset extends ViewAction {
         String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
         datasetDir += "DATASETS/" + dataset.getName() + "/";
 
-        ArrayList<String> compoundIDs = null;
+        List<String> compoundIDs = null;
         if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
             compoundIDs = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
         } else {
@@ -219,7 +216,7 @@ public class ViewDataset extends ViewAction {
             return result;
         }
 
-        ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+        List<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
         for (String compoundId : compoundIds) {
             Compound c = new Compound();
             c.setCompoundId(compoundId);
@@ -314,7 +311,7 @@ public class ViewDataset extends ViewAction {
                 DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (foldNum));
 
         if (!actIdsAndValues.isEmpty()) {
-            ArrayList<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+            List<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
             for (String compoundId : compoundIds) {
                 Compound c = new Compound();
                 c.setCompoundId(compoundId);
@@ -774,11 +771,11 @@ public class ViewDataset extends ViewAction {
         this.user = user;
     }
 
-    public ArrayList<String> getPageNums() {
+    public List<String> getPageNums() {
         return pageNums;
     }
 
-    public void setPageNums(ArrayList<String> pageNums) {
+    public void setPageNums(List<String> pageNums) {
         this.pageNums = pageNums;
     }
 
@@ -790,11 +787,11 @@ public class ViewDataset extends ViewAction {
         this.dataset = dataset;
     }
 
-    public ArrayList<Compound> getDatasetCompounds() {
+    public List<Compound> getDatasetCompounds() {
         return datasetCompounds;
     }
 
-    public void setDatasetCompounds(ArrayList<Compound> datasetCompounds) {
+    public void setDatasetCompounds(List<Compound> datasetCompounds) {
         this.datasetCompounds = datasetCompounds;
     }
 
@@ -822,11 +819,11 @@ public class ViewDataset extends ViewAction {
         this.sortDirection = sortDirection;
     }
 
-    public ArrayList<Compound> getExternalCompounds() {
+    public List<Compound> getExternalCompounds() {
         return externalCompounds;
     }
 
-    public void setExternalCompounds(ArrayList<Compound> externalCompounds) {
+    public void setExternalCompounds(List<Compound> externalCompounds) {
         this.externalCompounds = externalCompounds;
     }
 
@@ -838,20 +835,20 @@ public class ViewDataset extends ViewAction {
         this.webAddress = webAddress;
     }
 
-    public ArrayList<DescriptorGenerationResult> getDescriptorGenerationResults() {
+    public List<DescriptorGenerationResult> getDescriptorGenerationResults() {
         return descriptorGenerationResults;
     }
 
     public void setDescriptorGenerationResults(
-            ArrayList<DescriptorGenerationResult> descriptorGenerationResults) {
+            List<DescriptorGenerationResult> descriptorGenerationResults) {
         this.descriptorGenerationResults = descriptorGenerationResults;
     }
 
-    public ArrayList<Compound> getExternalFold() {
+    public List<Compound> getExternalFold() {
         return externalFold;
     }
 
-    public void setExternalFold(ArrayList<Compound> externalFold) {
+    public void setExternalFold(List<Compound> externalFold) {
         this.externalFold = externalFold;
     }
 
@@ -863,11 +860,11 @@ public class ViewDataset extends ViewAction {
         this.externalCompoundsCount = externalCompoundsCount;
     }
 
-    public ArrayList<String> getFoldNums() {
+    public List<String> getFoldNums() {
         return foldNums;
     }
 
-    public void setFoldNums(ArrayList<String> foldNums) {
+    public void setFoldNums(List<String> foldNums) {
         this.foldNums = foldNums;
     }
 
@@ -911,11 +908,11 @@ public class ViewDataset extends ViewAction {
         this.datasetTypeDisplay = datasetTypeDisplay;
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 

@@ -11,13 +11,9 @@ import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.FilenameFilter;
+import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Svm {
     private static Logger logger
@@ -31,7 +27,7 @@ public class Svm {
         // xFileName + " + " + aFileName + " => " + xFileName.replace(".x",
         // ".svm"));
 
-        ArrayList<String> activityValues = new ArrayList<String>();
+        List<String> activityValues = new ArrayList<String>();
         if (aFileName != null && !aFileName.isEmpty()) {
             // read in the activity file
 
@@ -220,9 +216,9 @@ public class Svm {
         return LsfUtilities.getLsfJobId(logFilePath);
     }
 
-    public static ArrayList<SvmModel>
+    public static List<SvmModel>
     readSvmModels(String workingDir, String cutoff) throws Exception {
-        ArrayList<SvmModel> svmModels = new ArrayList<SvmModel>();
+        List<SvmModel> svmModels = new ArrayList<SvmModel>();
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir
                 + "svm-results.txt"));
@@ -330,14 +326,14 @@ public class Svm {
         }
     }
 
-    public static ArrayList<PredictionValue>
+    public static List<PredictionValue>
     readPredictionOutput(String workingDir,
                          String predictionXFileName,
                          Long predictorId) throws Exception {
-        ArrayList<PredictionValue> predictionValues
+        List<PredictionValue> predictionValues
                 = new ArrayList<PredictionValue>();
 
-        ArrayList<String> compoundNames = DatasetFileOperations
+        List<String> compoundNames = DatasetFileOperations
                 .getXCompoundNames(workingDir + predictionXFileName);
 
         for (int i = 0; i < compoundNames.size(); i++) {
@@ -387,10 +383,10 @@ public class Svm {
         return predictionValues;
     }
 
-    public static ArrayList<ExternalValidation>
+    public static List<ExternalValidation>
     readExternalPredictionOutput(String workingDir, Long predictorId)
             throws Exception {
-        ArrayList<ExternalValidation> externalPredictions
+        List<ExternalValidation> externalPredictions
                 = new ArrayList<ExternalValidation>();
 
         // set compound names

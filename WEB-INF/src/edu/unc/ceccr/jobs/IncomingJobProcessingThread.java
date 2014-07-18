@@ -8,7 +8,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class IncomingJobProcessingThread extends Thread {
     private static Logger logger
@@ -33,7 +33,7 @@ public class IncomingJobProcessingThread extends Thread {
                 // determine which jobs should be sent to the LSF jobs list,
                 // which should stay here, and which should go to the local
                 // jobs list.
-                ArrayList<Job> incomingJobs
+                List<Job> incomingJobs
                         = CentralDogma.getInstance().incomingJobs.getReadOnlyCopy();
                 for (Job j : incomingJobs) {
                     boolean movedJob = false;

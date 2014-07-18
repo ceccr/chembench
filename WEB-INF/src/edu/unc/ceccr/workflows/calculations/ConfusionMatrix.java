@@ -3,26 +3,26 @@ package edu.unc.ceccr.workflows.calculations;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.utilities.Utility;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class ConfusionMatrix {
-    ArrayList<String> uniqueObservedValues;
-    ArrayList<ArrayList<Integer>> matrixValues;
+    List<String> uniqueObservedValues;
+    List<List<Integer>> matrixValues;
     Double ccr;
 
-    public ArrayList<String> getUniqueObservedValues() {
+    public List<String> getUniqueObservedValues() {
         return uniqueObservedValues;
     }
 
-    public void setUniqueObservedValues(ArrayList<String> uniqueObservedValues) {
+    public void setUniqueObservedValues(List<String> uniqueObservedValues) {
         this.uniqueObservedValues = uniqueObservedValues;
     }
 
-    public ArrayList<ArrayList<Integer>> getMatrixValues() {
+    public List<List<Integer>> getMatrixValues() {
         return matrixValues;
     }
 
-    public void setMatrixValues(ArrayList<ArrayList<Integer>> matrixValues) {
+    public void setMatrixValues(List<List<Integer>> matrixValues) {
         this.matrixValues = matrixValues;
     }
 

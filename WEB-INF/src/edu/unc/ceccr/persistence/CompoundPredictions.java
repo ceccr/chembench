@@ -1,13 +1,13 @@
 package edu.unc.ceccr.persistence;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class CompoundPredictions {
 
     //not yet saved to DB, but someday it will be
 
     String compound;
-    ArrayList<PredictionValue> predictionValues;
+    List<PredictionValue> predictionValues;
     int sortByIndex = 0; //only used when sorting by prediction value
 
     public String getCompound() {
@@ -18,11 +18,11 @@ public class CompoundPredictions {
         this.compound = compound;
     }
 
-    public ArrayList<PredictionValue> getPredictionValues() {
+    public List<PredictionValue> getPredictionValues() {
         return predictionValues;
     }
 
-    public void setPredictionValues(ArrayList<PredictionValue> predictionValues) {
+    public void setPredictionValues(List<PredictionValue> predictionValues) {
         this.predictionValues = predictionValues;
     }
 

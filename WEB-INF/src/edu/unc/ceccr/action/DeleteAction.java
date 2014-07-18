@@ -4,14 +4,7 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.jobs.CentralDogma;
-import edu.unc.ceccr.persistence.Dataset;
-import edu.unc.ceccr.persistence.ExternalValidation;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Job;
-import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import org.apache.log4j.Logger;
@@ -33,7 +26,7 @@ public class DeleteAction extends ActionSupport {
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(DeleteAction.class.getName());
-    public ArrayList<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = new ArrayList<String>();
 
     private void
     checkDatasetDependencies(Dataset ds) throws ClassNotFoundException,
@@ -281,7 +274,7 @@ public class DeleteAction extends ActionSupport {
         // delete the database entry for the predictor
         // delete any child predictors too. (Their files will already be gone
         // since deleteDir recurses into subdirs.)
-        ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
+        List<Predictor> childPredictors = new ArrayList<Predictor>();
         if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
             String[] childIdArray = p.getChildIds().split("\\s+");
             for (String childId : childIdArray) {
@@ -512,7 +505,7 @@ public class DeleteAction extends ActionSupport {
 
         Session s = HibernateUtil.getSession();
 
-        ArrayList<Prediction> predictions = new ArrayList<Prediction>();
+        List<Prediction> predictions = new ArrayList<Prediction>();
         Iterator<?> predictionItr = PopulateDataObjects
                 .getUserData(userToDelete
                         , Prediction.class, s)
@@ -522,7 +515,7 @@ public class DeleteAction extends ActionSupport {
 
         }
 
-        ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+        List<Predictor> predictors = new ArrayList<Predictor>();
 
         Iterator<?> predictorIter = PopulateDataObjects
                 .getUserData(userToDelete
@@ -533,7 +526,7 @@ public class DeleteAction extends ActionSupport {
 
         }
 
-        ArrayList<Dataset> datasets = new ArrayList<Dataset>();
+        List<Dataset> datasets = new ArrayList<Dataset>();
 
         Iterator<?> dataSetIter = PopulateDataObjects
                 .getUserData(userToDelete
@@ -544,7 +537,7 @@ public class DeleteAction extends ActionSupport {
 
         }
 
-        ArrayList<Job> jobs = new ArrayList<Job>();
+        List<Job> jobs = new ArrayList<Job>();
 
         Iterator<?> jobsIter = PopulateDataObjects
                 .getUserData(userToDelete
@@ -628,11 +621,11 @@ public class DeleteAction extends ActionSupport {
         }
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 
