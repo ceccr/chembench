@@ -23,7 +23,7 @@ import java.util.List;
 public class DatasetFormActions extends ActionSupport {
 
     private static Logger logger = Logger.getLogger(DatasetFormActions.class.getName());
-    private ArrayList<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = new ArrayList<String>();
     private String datasetName = "";
     private String datasetType = Constants.MODELING;
     private String splitType = Constants.RANDOM;
@@ -535,11 +535,11 @@ public class DatasetFormActions extends ActionSupport {
         return result;
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 

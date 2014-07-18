@@ -34,7 +34,7 @@ public class ModelingFormActions extends ActionSupport {
     // only in this function
     boolean closeSessionAtEnd = true;
     // errors (for error page)
-    ArrayList<String> errorStrings = new ArrayList<String>();
+    List<String> errorStrings = new ArrayList<String>();
     // ====== variables used for display on the JSP =====//
     private User user;
     private List<String> userDatasetNames;
@@ -1530,11 +1530,11 @@ public class ModelingFormActions extends ActionSupport {
         this.emailOnCompletion = emailOnCompletion;
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 }

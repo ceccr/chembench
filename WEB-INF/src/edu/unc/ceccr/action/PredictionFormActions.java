@@ -41,7 +41,7 @@ public class PredictionFormActions extends ActionSupport {
     private static final long serialVersionUID = 1L;
     private static Logger logger
             = Logger.getLogger(PredictionFormActions.class.getName());
-    ArrayList<String> errorStrings = new ArrayList<String>();
+    List<String> errorStrings = new ArrayList<String>();
     // variables used for JSP display
     private User user;
     private List<Predictor> userPredictors;
@@ -900,11 +900,11 @@ public class PredictionFormActions extends ActionSupport {
         this.smilesCutoff = smilesCutoff;
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 

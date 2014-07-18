@@ -50,7 +50,7 @@ public class
     String username;
     String password;
     String showStatistics = Constants.YES;
-    private ArrayList<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = new ArrayList<String>();
 
     @Override
     public void
@@ -120,11 +120,11 @@ public class
         return SUCCESS;
     }
 
-    public ArrayList<String> geterrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void seterrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 

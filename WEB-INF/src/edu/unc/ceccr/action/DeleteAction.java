@@ -33,7 +33,7 @@ public class DeleteAction extends ActionSupport {
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(DeleteAction.class.getName());
-    public ArrayList<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = new ArrayList<String>();
 
     private void
     checkDatasetDependencies(Dataset ds) throws ClassNotFoundException,
@@ -628,11 +628,11 @@ public class DeleteAction extends ActionSupport {
         }
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 

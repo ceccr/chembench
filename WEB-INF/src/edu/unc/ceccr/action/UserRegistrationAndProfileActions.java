@@ -33,7 +33,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
     /* Variables used for user registration and updates */
     private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
     private ArrayList<String> errorMessages = new ArrayList<String>();
-    private ArrayList<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = new ArrayList<String>();
     private String outputMessage;
     private String newUserName;
     private String address;
@@ -515,11 +515,11 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         this.errorMessages = errorMessages;
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 

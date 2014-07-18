@@ -911,11 +911,11 @@ public class ViewDataset extends ViewAction {
         this.datasetTypeDisplay = datasetTypeDisplay;
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 

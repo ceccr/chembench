@@ -51,7 +51,7 @@ public class AdminAction extends ActionSupport {
     String emailMessage;
     String emailSubject;
     String sendTo;
-    private ArrayList<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = new ArrayList<String>();
 
     public String loadPage() throws Exception {
 
@@ -523,7 +523,7 @@ public class AdminAction extends ActionSupport {
     }
 
 
-    private ArrayList<String> checkDatasetDependencies(Dataset ds, String userName) throws HibernateException,
+    private List<String> checkDatasetDependencies(Dataset ds, String userName) throws HibernateException,
             ClassNotFoundException, SQLException {
         logger.debug("checking dataset dependencies");
 
@@ -1070,7 +1070,7 @@ public class AdminAction extends ActionSupport {
         this.buildDate = buildDate;
     }
 
-    public ArrayList<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
@@ -1102,11 +1102,11 @@ public class AdminAction extends ActionSupport {
         this.sendTo = sendTo;
     }
 
-    public ArrayList<String> getErrorStrings() {
+    public List<String> getErrorStrings() {
         return errorStrings;
     }
 
-    public void setErrorStrings(ArrayList<String> errorStrings) {
+    public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
     }
 
