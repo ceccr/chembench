@@ -6,6 +6,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class CheckDescriptors {
@@ -23,7 +24,7 @@ public class CheckDescriptors {
         logger.debug("Checking MolconnZ descriptors: "
                 + molconnZOutputFile);
 
-        ArrayList<String> descriptorNames = new ArrayList<String>();
+        List<String> descriptorNames = new ArrayList<String>();
         String errors = "";
 
         File file = new File(molconnZOutputFile);
@@ -35,7 +36,7 @@ public class CheckDescriptors {
 
         String temp;
         Scanner src = new Scanner(fin);
-        ArrayList<String> descriptorValues = new ArrayList<String>(); // values
+        List<String> descriptorValues = new ArrayList<String>(); // values
                                                                       // for
                                                                       // each
                                                                       // molecule
@@ -128,7 +129,7 @@ public class CheckDescriptors {
     checkDragonDescriptors(String dragonOutputFile) throws Exception {
         logger.debug("Checking Dragon descriptors: "
                 + dragonOutputFile);
-        ArrayList<String> descriptorNames = new ArrayList<String>();
+        List<String> descriptorNames = new ArrayList<String>();
         String errors = "";
 
         File file = new File(dragonOutputFile);
@@ -190,7 +191,7 @@ public class CheckDescriptors {
              * isn't a descriptor descriptorValues.remove(0); //contains
              * molecule number, which isn't a descriptor
              * di.setDescriptorValues
-             * (Utility.StringArrayListToString(descriptorValues));
+             * (Utility.StringListToString(descriptorValues));
              */
             descriptorValues.clear();
         }

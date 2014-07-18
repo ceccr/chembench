@@ -15,6 +15,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class LsfProcessingThread extends Thread {
     private static Logger logger = Logger.getLogger(LsfProcessingThread.class.getName());
@@ -39,13 +40,13 @@ public class LsfProcessingThread extends Thread {
 
     // static functions for checking the status of the LSF queue(s) on
     // Emerald.
-    public static ArrayList<String> getCompletedJobNames() {
-        ArrayList<String> finishedJobNames = new ArrayList<String>();
+    public static List<String> getCompletedJobNames() {
+        List<String> finishedJobNames = new ArrayList<String>();
 
         return finishedJobNames;
     }
 
-    public static ArrayList<LsfJobStatus> checkLsfStatus(String workingDir) throws Exception {
+    public static List<LsfJobStatus> checkLsfStatus(String workingDir) throws Exception {
         // execs "bjobs -aw" and gets the status of each job
         // remove outfile if already exists
 
@@ -58,7 +59,7 @@ public class LsfProcessingThread extends Thread {
         RunExternalProgram.runCommand(command, workingDir);
 
         // read in results
-        ArrayList<LsfJobStatus> lsfStatusList = new ArrayList<LsfJobStatus>();
+        List<LsfJobStatus> lsfStatusList = new ArrayList<LsfJobStatus>();
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir + "bjobs-out.txt"));
         String line = "";
@@ -81,10 +82,10 @@ public class LsfProcessingThread extends Thread {
         while (true) {
             try {
                 sleep(1500);
-                ArrayList<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
+                List<Job> readOnlyJobArray = CentralDogma.getInstance().lsfJobs.getReadOnlyCopy();
 
                 // do not call checkLsfStatus more than once in this function
-                ArrayList<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
+                List<LsfJobStatus> lsfJobStatuses = checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
 
                 // For every finished job, do postprocessing.
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {

@@ -29,7 +29,7 @@ public class AdminAction extends ActionSupport {
             AdminAction.class.getName());
     User user;
     String buildDate;
-    ArrayList<User> users;
+    List<User> users;
     //for sending email to all users
     String emailMessage;
     String emailSubject;
@@ -369,7 +369,7 @@ public class AdminAction extends ActionSupport {
             }
 
             //delete the prediction values associated with the prediction
-            ArrayList<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects
+            List<PredictionValue> pvs = (ArrayList<PredictionValue>) PopulateDataObjects
                     .getPredictionValuesByPredictionId(prediction.getId(), session);
 
             if (pvs != null) {
@@ -510,11 +510,11 @@ public class AdminAction extends ActionSupport {
             ClassNotFoundException, SQLException {
         logger.debug("checking dataset dependencies");
 
-        ArrayList<String> dependencies = new ArrayList<String>();
+        List<String> dependencies = new ArrayList<String>();
         Session session = HibernateUtil.getSession();
-        ArrayList<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName,
+        List<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName,
                 true, false, session);
-        ArrayList<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions
+        List<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions
                 (userName, false, session);
 
         //check each predictor
@@ -1057,7 +1057,7 @@ public class AdminAction extends ActionSupport {
         return users;
     }
 
-    public void setUsers(ArrayList<User> users) {
+    public void setUsers(List<User> users) {
         this.users = users;
     }
 

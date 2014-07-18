@@ -112,7 +112,7 @@ public class PredictionFormActions extends ActionSupport {
         logger.debug(user.getUserName());
         logger.debug("SMILES predids: " + predictorIds);
         String[] selectedPredictorIdArray = predictorIds.split("\\s+");
-        ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+        List<Predictor> predictors = new ArrayList<Predictor>();
         Set<String> descriptorTypes = new HashSet<String>();
         for (int i = 0; i < selectedPredictorIdArray.length; i++) {
             Predictor predictor = PopulateDataObjects.getPredictorById(Long
@@ -608,7 +608,7 @@ public class PredictionFormActions extends ActionSupport {
         String[] ids = selectedPredictorIds.split("\\s+");
         int numModels = 0;
 
-        ArrayList<Predictor> selectedPredictors = new ArrayList<Predictor>();
+        List<Predictor> selectedPredictors = new ArrayList<Predictor>();
 
         for (int i = 0; i < ids.length; i++) {
             Predictor sp = PopulateDataObjects.getPredictorById(Long

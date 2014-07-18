@@ -149,7 +149,7 @@ public class SynchronizedJobList {
  * 
 	private void updateJobsFromDB(){
 
-		ArrayList<Job> freshJobList = new ArrayList<Job>();
+		List<Job> freshJobList = new ArrayList<Job>();
 		Session s = null; 
 		try {
 			s = HibernateUtil.getSession();
@@ -171,10 +171,10 @@ public class SynchronizedJobList {
 		}
 	}*/
 
-    public ArrayList<Job> getReadOnlyCopy() {
+    public List<Job> getReadOnlyCopy() {
         synchronized (jobList) {
 
-            ArrayList<Job> jobListCopy = new ArrayList<Job>();
+            List<Job> jobListCopy = new ArrayList<Job>();
             try {
 
                 //return a copy of it

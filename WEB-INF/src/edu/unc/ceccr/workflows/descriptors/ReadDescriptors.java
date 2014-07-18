@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class ReadDescriptors {
@@ -48,8 +49,8 @@ public class ReadDescriptors {
         // 'em.
     }
 
-    public static void readDescriptors(Predictor predictor, String sdfFile, ArrayList<String> descriptorNames,
-                                       ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readDescriptors(Predictor predictor, String sdfFile, List<String> descriptorNames,
+                                       List<Descriptors> descriptorValueMatrix) throws Exception {
         if (predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
             ReadDescriptors.readMolconnZDescriptors(sdfFile + ".molconnz", descriptorNames, descriptorValueMatrix);
         } else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
@@ -71,8 +72,8 @@ public class ReadDescriptors {
         }
     }
 
-    public static void readMolconnZDescriptors(String molconnZOutputFile, ArrayList<String> descriptorNames,
-                                               ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readMolconnZDescriptors(String molconnZOutputFile, List<String> descriptorNames,
+                                               List<Descriptors> descriptorValueMatrix) throws Exception {
 
         logger.debug("reading MolconnZ Descriptors");
 
@@ -85,7 +86,7 @@ public class ReadDescriptors {
         String temp;
         Scanner src = new Scanner(fin);
         // values for each molecule
-        ArrayList<String> descriptorValues = new ArrayList<String>();
+        List<String> descriptorValues = new ArrayList<String>();
 
         boolean readingDescriptorNames = true;
         while (src.hasNext()) {
@@ -132,7 +133,7 @@ public class ReadDescriptors {
                         /* contains molecule ID, which isn't a descriptor */
                         descriptorValues.remove(0);
                         Descriptors di = new Descriptors();
-                        di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
+                        di.setDescriptorValues(Utility.StringListToString(descriptorValues));
                         descriptorValueMatrix.add(di);
                         descriptorValues.clear();
                     }
@@ -168,15 +169,15 @@ public class ReadDescriptors {
         descriptorValues.remove(0);
         descriptorNames.remove(0);
         Descriptors di = new Descriptors();
-        di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
+        di.setDescriptorValues(Utility.StringListToString(descriptorValues));
         descriptorValueMatrix.add(di);
 
         src.close();
         fin.close();
     }
 
-    public static void readDragonDescriptors(String dragonOutputFile, ArrayList<String> descriptorNames,
-                                             ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,
+                                             List<Descriptors> descriptorValueMatrix) throws Exception {
 
         logger.debug("reading Dragon Descriptors");
 
@@ -187,7 +188,7 @@ public class ReadDescriptors {
         FileReader fin = new FileReader(file);
         BufferedReader br = new BufferedReader(fin);
         /* values for each molecule */
-        ArrayList<String> descriptorValues;
+        List<String> descriptorValues;
         /* junk line, should say "dragonX: Descriptors" */
         String line = br.readLine();
 
@@ -236,15 +237,15 @@ public class ReadDescriptors {
             descriptorValues.remove(1);
             descriptorValues.remove(0);
 
-            di.setDescriptorValues(Utility.StringArrayListToString(descriptorValues));
+            di.setDescriptorValues(Utility.StringListToString(descriptorValues));
             descriptorValueMatrix.add(di);
             descriptorValues.clear();
         }
         br.close();
     }
 
-    public static void readMaccsDescriptors(String maccsOutputFile, ArrayList<String> descriptorNames,
-                                            ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readMaccsDescriptors(String maccsOutputFile, List<String> descriptorNames,
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
         // generate with "maccs.sh infile.sdf outfile.maccs"
 
         logger.debug("reading Maccs Descriptors");
@@ -292,8 +293,8 @@ public class ReadDescriptors {
         }
     }
 
-    public static void readMoe2DDescriptors(String moe2DOutputFile, ArrayList<String> descriptorNames,
-                                            ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readMoe2DDescriptors(String moe2DOutputFile, List<String> descriptorNames,
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading Moe2D Descriptors");
 
         File file = new File(moe2DOutputFile);
@@ -342,8 +343,8 @@ public class ReadDescriptors {
         br.close();
     }
 
-    public static void readISIDADescriptors(String ISIDAOutputFile, ArrayList<String> descriptorNames,
-                                            ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readISIDADescriptors(String ISIDAOutputFile, List<String> descriptorNames,
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading ISIDA Descriptors");
 
         File file = new File(ISIDAOutputFile);
@@ -383,8 +384,8 @@ public class ReadDescriptors {
         br.close();
     }
 
-    public static void readXDescriptors(String xFile, ArrayList<String> descriptorNames,
-                                        ArrayList<Descriptors> descriptorValueMatrix) throws Exception {
+    public static void readXDescriptors(String xFile, List<String> descriptorNames,
+                                        List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("Trying to read uploaded descriptors");
         File file = new File(xFile);
         if (!file.exists() || file.length() == 0) {

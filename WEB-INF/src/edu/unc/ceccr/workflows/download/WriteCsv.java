@@ -23,13 +23,13 @@ public class WriteCsv {
     public static void writeExternalPredictionsAsCSV(Long predictorId) throws Exception {
         Session s = HibernateUtil.getSession();
         Predictor predictor = PopulateDataObjects.getPredictorById(predictorId, s);
-        ArrayList<ExternalValidation> externalValidationValues = new ArrayList<ExternalValidation>();
+        List<ExternalValidation> externalValidationValues = new ArrayList<ExternalValidation>();
 
         String outfileName = Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" +
                 predictor.getName() + "/" + predictor.getName() + "-external-set-predictions.csv";
         BufferedWriter out = new BufferedWriter(new FileWriter(outfileName));
 
-        ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, s);
+        List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, s);
         if (childPredictors.isEmpty()) {
             externalValidationValues = (ArrayList<ExternalValidation>) PopulateDataObjects
                     .getExternalValidationValues(predictor.getId(), s);
@@ -38,7 +38,7 @@ public class WriteCsv {
             }
         } else {
             for (Predictor cp : childPredictors) {
-                ArrayList<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects
+                List<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects
                         .getExternalValidationValues(cp.getId(), s);
                 for (ExternalValidation ev : childExtVals) {
                     ev.setNumTotalModels(cp.getNumTestModels());
@@ -95,7 +95,7 @@ public class WriteCsv {
         }
         BufferedWriter out = new BufferedWriter(new FileWriter(outfileName));
 
-        ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+        List<Predictor> predictors = new ArrayList<Predictor>();
         String[] predictorIdArray = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIdArray.length; i++) {
             predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIdArray[i]), s));

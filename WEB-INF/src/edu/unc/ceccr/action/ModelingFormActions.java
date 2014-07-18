@@ -202,7 +202,7 @@ public class ModelingFormActions extends ActionSupport {
         // also get the base names for nfold predictors. if a user has
         // "mypredictor_fold_1_of_5",
         // we want "mypredictor" in the list of used names as well.
-        ArrayList<String> foldedPredictorNames = new ArrayList<String>();
+        List<String> foldedPredictorNames = new ArrayList<String>();
         for (String predictorName : userPredictorNames) {
             if (predictorName.matches(".*_fold_(\\d+)_of_(\\d+)")) {
                 int pos = predictorName.lastIndexOf("_fold");
@@ -312,7 +312,7 @@ public class ModelingFormActions extends ActionSupport {
             // Launch modeling on every dataset the user owns (except for this
             // one).
             closeSessionAtEnd = false;
-            ArrayList<Dataset> datasetList = new ArrayList<Dataset>();
+            List<Dataset> datasetList = new ArrayList<Dataset>();
             datasetList.addAll(PopulateDataObjects.populateDataset(
                     user.getUserName(), Constants.CONTINUOUS, false,
                     executeSession));

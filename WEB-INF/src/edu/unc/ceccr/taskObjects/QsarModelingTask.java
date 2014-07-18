@@ -20,13 +20,14 @@ import org.hibernate.Transaction;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.List;
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
 public class QsarModelingTask extends WorkflowTask {
     private static Logger logger
             = Logger.getLogger(QsarModelingTask.class.getName());
     // predicted external set values
-    ArrayList<ExternalValidation> externalSetPredictions
+    List<ExternalValidation> externalSetPredictions
             = new ArrayList<ExternalValidation>();
     // job details
     private String sdFileName;
@@ -119,7 +120,7 @@ public class QsarModelingTask extends WorkflowTask {
         selectionNextTrainPt = predictor.getSelectionNextTrainPt();
 
         if ((new File(filePath + "ext_0.x")).exists()) {
-            ArrayList<String> extCompoundArray = DatasetFileOperations
+            List<String> extCompoundArray = DatasetFileOperations
                     .getXCompoundNames(filePath + "ext_0.x");
             numExternalCompounds = extCompoundArray.size();
             logger.info("Recovering: numExternalCompounds set to "
@@ -564,10 +565,10 @@ public class QsarModelingTask extends WorkflowTask {
                 filePath);
 
         // read in the descriptors for the dataset
-        ArrayList<String> descriptorNames = new ArrayList<String>();
-        ArrayList<Descriptors> descriptorValueMatrix
+        List<String> descriptorNames = new ArrayList<String>();
+        List<Descriptors> descriptorValueMatrix
                 = new ArrayList<Descriptors>();
-        ArrayList<String> chemicalNames = DatasetFileOperations
+        List<String> chemicalNames = DatasetFileOperations
                 .getACTCompoundNames(filePath + actFileName);
 
         Session session = HibernateUtil.getSession();
@@ -650,7 +651,7 @@ public class QsarModelingTask extends WorkflowTask {
             xFileName = sdFileName + ".x";
         }
         String descriptorString = Utility
-                .StringArrayListToString(descriptorNames);
+                .StringListToString(descriptorNames);
 
         WriteDescriptors.writeModelingXFile(chemicalNames,
                 descriptorValueMatrix, descriptorString,
@@ -660,11 +661,11 @@ public class QsarModelingTask extends WorkflowTask {
         // apply the dataset's external split(s) to the generated .X file
         step = Constants.SPLITDATA;
 
-        ArrayList<String> extCompoundArray = DatasetFileOperations
+        List<String> extCompoundArray = DatasetFileOperations
                 .getXCompoundNames(filePath + "ext_0.x");
         numExternalCompounds = extCompoundArray.size();
         String externalCompoundIdString = Utility
-                .StringArrayListToString(extCompoundArray);
+                .StringListToString(extCompoundArray);
         DataSplit.splitModelingExternalGivenList(filePath, actFileName,
                 xFileName, externalCompoundIdString);
 
@@ -841,12 +842,12 @@ public class QsarModelingTask extends WorkflowTask {
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
 
-        ArrayList<KnnPlusModel> knnPlusModels = null;
-        ArrayList<SvmModel> svmModels = null;
-        ArrayList<RandomForestGrove> randomForestGroves = null;
-        ArrayList<RandomForestTree> randomForestTrees = null;
-        ArrayList<RandomForestGrove> randomForestYRandomGroves = null;
-        ArrayList<RandomForestTree> randomForestYRandomTrees = null;
+        List<KnnPlusModel> knnPlusModels = null;
+        List<SvmModel> svmModels = null;
+        List<RandomForestGrove> randomForestGroves = null;
+        List<RandomForestTree> randomForestTrees = null;
+        List<RandomForestGrove> randomForestYRandomGroves = null;
+        List<RandomForestTree> randomForestYRandomTrees = null;
 
         if (modelType.equals(Constants.KNNGA)
                 || modelType.equals(Constants.KNNSA)) {
@@ -859,7 +860,7 @@ public class QsarModelingTask extends WorkflowTask {
             // read in models and associate them with the predictor
             knnPlusModels = KnnPlus.readModelsFile(filePath, predictor,
                     Constants.NO);
-            ArrayList<KnnPlusModel> knnPlusYRandomModels = KnnPlus
+            List<KnnPlusModel> knnPlusYRandomModels = KnnPlus
                     .readModelsFile(filePath + "yRandom/", predictor,
                             Constants.YES);
             predictor.setNumTotalModels(getNumTotalModels());

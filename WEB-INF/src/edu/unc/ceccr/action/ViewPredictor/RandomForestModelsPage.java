@@ -74,7 +74,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
             }
             ArrayList<descriptorFrequency> descriptorFrequencies
                     = new ArrayList<descriptorFrequency>();
-            ArrayList<String> mapKeys = new ArrayList<String>(descriptorFreqMap
+            List<String> mapKeys = new ArrayList<String>(descriptorFreqMap
                     .keySet());
             for (String k : mapKeys) {
                 descriptorFrequency df = new descriptorFrequency();

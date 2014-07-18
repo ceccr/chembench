@@ -5,7 +5,7 @@ import edu.unc.ceccr.utilities.RunExternalProgram;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class StandardizeMolecules {
 
@@ -20,7 +20,7 @@ public class StandardizeMolecules {
         // that could go into our database.
 
         logger.debug("standardizeSdf: getting sdf compounds");
-        ArrayList<String> compoundNames = DatasetFileOperations
+        List<String> compoundNames = DatasetFileOperations
                 .getSDFCompoundNames(workingDir + sdfIn);
         logger.debug("standardizeSdf: done getting sdf compounds");
 

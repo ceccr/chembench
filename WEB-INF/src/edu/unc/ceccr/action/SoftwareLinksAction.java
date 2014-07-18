@@ -13,6 +13,7 @@ import org.hibernate.Transaction;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 //struts2
 
 public class SoftwareLinksAction extends ActionSupport {
@@ -21,7 +22,7 @@ public class SoftwareLinksAction extends ActionSupport {
 
     private static Logger logger = Logger.getLogger(SoftwareLinksAction.class.getName());
 
-    private ArrayList<SoftwareLink> softwareLinks = new ArrayList<SoftwareLink>();
+    private List<SoftwareLink> softwareLinks = new ArrayList<SoftwareLink>();
 
     private boolean userIsAdmin = false;
     private String userName = "";
@@ -170,11 +171,11 @@ public class SoftwareLinksAction extends ActionSupport {
         return result;
     }
 
-    public ArrayList<SoftwareLink> getSoftwareLinks() {
+    public List<SoftwareLink> getSoftwareLinks() {
         return softwareLinks;
     }
 
-    public void setSoftwareLinks(ArrayList<SoftwareLink> softwareLinks) {
+    public void setSoftwareLinks(List<SoftwareLink> softwareLinks) {
         this.softwareLinks = softwareLinks;
     }
 

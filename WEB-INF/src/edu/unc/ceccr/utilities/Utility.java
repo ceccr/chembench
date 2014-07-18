@@ -10,9 +10,9 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 //The Utility class is for cross-cutting concerns (logging, authentication / user stuff).
@@ -311,7 +311,7 @@ public class Utility {
         return sigfigs;
     }
 
-    public static String StringArrayListToString(ArrayList<String> stringArrayList) {
+    public static String StringListToString(List<String> stringArrayList) {
         String ret = "";
         int size = stringArrayList.size();
         for (int i = 0; i < size; i++) {

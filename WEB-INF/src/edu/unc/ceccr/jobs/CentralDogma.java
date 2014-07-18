@@ -16,6 +16,7 @@ import org.hibernate.Transaction;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
@@ -169,7 +170,7 @@ public class CentralDogma {
             j = lsfJobs.removeJob(jobId);
 
             if (j != null) {
-                ArrayList<LsfJobStatus> lsfJobStatuses = LsfProcessingThread.checkLsfStatus(Constants
+                List<LsfJobStatus> lsfJobStatuses = LsfProcessingThread.checkLsfStatus(Constants
                         .CECCR_USER_BASE_PATH);
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {
                     if (j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)) {

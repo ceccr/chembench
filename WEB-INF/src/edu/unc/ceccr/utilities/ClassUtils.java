@@ -13,13 +13,13 @@ public class ClassUtils {
 
     //converts any object to a string containing the name and value of each variable.
     public static String varNamesToString(Object o) {
-        ArrayList<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
         ClassUtils.varNamesToString(o, o.getClass(), list);
         return o.getClass().getName().concat(list.toString());
     }
 
     public static String varValuesToString(Object o) {
-        ArrayList<Object> list = new ArrayList<Object>();
+        List<Object> list = new ArrayList<Object>();
         ClassUtils.varValuesToString(o, o.getClass(), list);
         return list.toString();
     }
@@ -62,7 +62,7 @@ public class ClassUtils {
 
 
     public static String toString(Object o) {
-        ArrayList<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
         ClassUtils.toString(o, o.getClass(), list);
         return o.getClass().getName().concat(list.toString());
     }

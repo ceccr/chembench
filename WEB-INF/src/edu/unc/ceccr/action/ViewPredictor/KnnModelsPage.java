@@ -27,7 +27,7 @@ public class KnnModelsPage extends ViewPredictorAction {
         getModelsPageParameters();
 
         models = new ArrayList<KnnModel>();
-        ArrayList<KnnModel> allModels = new ArrayList<KnnModel>();
+        List<KnnModel> allModels = new ArrayList<KnnModel>();
         session = HibernateUtil.getSession();
         List<KnnModel> temp = PopulateDataObjects.getModelsByPredictorId(Long
                 .parseLong(objectId), session);

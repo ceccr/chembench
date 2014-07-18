@@ -313,7 +313,7 @@ public class
                 logger.debug("Delete GUEST");
                 Session s = HibernateUtil.getSession();
 
-                ArrayList<Prediction> predictions = new ArrayList<Prediction>();
+                List<Prediction> predictions = new ArrayList<Prediction>();
                 Iterator<?> predictionIter = PopulateDataObjects.getUserData(
                         userToDelete
                         , Prediction.class, s)
@@ -323,7 +323,7 @@ public class
 
                 }
 
-                ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+                List<Predictor> predictors = new ArrayList<Predictor>();
 
                 Iterator<?> predictorsIter = PopulateDataObjects.getUserData(
                         userToDelete
@@ -334,7 +334,7 @@ public class
 
                 }
 
-                ArrayList<Dataset> datasets = new ArrayList<Dataset>();
+                List<Dataset> datasets = new ArrayList<Dataset>();
 
                 Iterator<?> datSetIter = PopulateDataObjects.getUserData(
                         userToDelete
@@ -345,7 +345,7 @@ public class
 
                 }
 
-                ArrayList<Job> jobs = new ArrayList<Job>();
+                List<Job> jobs = new ArrayList<Job>();
 
                 Iterator<?> jobIter = PopulateDataObjects.getUserData(
                         userToDelete
@@ -395,8 +395,8 @@ public class
 
                 for (Predictor p : predictors) {
                     Session session = HibernateUtil.getSession();
-                    ArrayList<ExternalValidation> extVals = new ArrayList<ExternalValidation>();
-                    ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
+                    List<ExternalValidation> extVals = new ArrayList<ExternalValidation>();
+                    List<Predictor> childPredictors = new ArrayList<Predictor>();
                     if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
                         String[] childIdArray = p.getChildIds().split("\\s+");
                         for (String childId : childIdArray) {

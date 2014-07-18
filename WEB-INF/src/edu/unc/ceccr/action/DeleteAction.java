@@ -274,7 +274,7 @@ public class DeleteAction extends ActionSupport {
         // delete the database entry for the predictor
         // delete any child predictors too. (Their files will already be gone
         // since deleteDir recurses into subdirs.)
-        ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
+        List<Predictor> childPredictors = new ArrayList<Predictor>();
         if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
             String[] childIdArray = p.getChildIds().split("\\s+");
             for (String childId : childIdArray) {
@@ -505,7 +505,7 @@ public class DeleteAction extends ActionSupport {
 
         Session s = HibernateUtil.getSession();
 
-        ArrayList<Prediction> predictions = new ArrayList<Prediction>();
+        List<Prediction> predictions = new ArrayList<Prediction>();
         Iterator<?> predictionItr = PopulateDataObjects
                 .getUserData(userToDelete
                         , Prediction.class, s)
@@ -515,7 +515,7 @@ public class DeleteAction extends ActionSupport {
 
         }
 
-        ArrayList<Predictor> predictors = new ArrayList<Predictor>();
+        List<Predictor> predictors = new ArrayList<Predictor>();
 
         Iterator<?> predictorIter = PopulateDataObjects
                 .getUserData(userToDelete
@@ -526,7 +526,7 @@ public class DeleteAction extends ActionSupport {
 
         }
 
-        ArrayList<Dataset> datasets = new ArrayList<Dataset>();
+        List<Dataset> datasets = new ArrayList<Dataset>();
 
         Iterator<?> dataSetIter = PopulateDataObjects
                 .getUserData(userToDelete
@@ -537,7 +537,7 @@ public class DeleteAction extends ActionSupport {
 
         }
 
-        ArrayList<Job> jobs = new ArrayList<Job>();
+        List<Job> jobs = new ArrayList<Job>();
 
         Iterator<?> jobsIter = PopulateDataObjects
                 .getUserData(userToDelete

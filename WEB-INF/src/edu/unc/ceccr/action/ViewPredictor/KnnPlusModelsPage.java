@@ -63,8 +63,8 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
                 }
             }
 
-            ArrayList<descriptorFrequency> descriptorFrequencies = new ArrayList<descriptorFrequency>();
-            ArrayList<String> mapKeys = new ArrayList<String>(
+            List<descriptorFrequency> descriptorFrequencies = new ArrayList<descriptorFrequency>();
+            List<String> mapKeys = new ArrayList<String>(
                     descriptorFreqMap.keySet());
             for (String k : mapKeys) {
                 descriptorFrequency df = new descriptorFrequency();

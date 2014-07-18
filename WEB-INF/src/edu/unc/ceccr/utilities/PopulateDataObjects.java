@@ -115,7 +115,7 @@ public class PopulateDataObjects {
     getPredictionValuesByPredictionIdAndPredictorId(Long predictionId,
                                                     Long predictorId,
                                                     Session session) throws Exception {
-        ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
+        List<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
         try {
             session.beginTransaction();
             Iterator<?> tempIter = session.createCriteria(
@@ -148,14 +148,14 @@ public class PopulateDataObjects {
     public static List<PredictionValue>
     getPredictionValuesByPredictionId(Long predictionId,
                                       Session session) throws Exception {
-        ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
+        List<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
         Prediction prediction = getPredictionById(predictionId, session);
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
 
         for (String predictorId : predictorIds) {
             try {
                 session.beginTransaction();
-                ArrayList<PredictionValue> predictorPredictionValues = new ArrayList<PredictionValue>();
+                List<PredictionValue> predictorPredictionValues = new ArrayList<PredictionValue>();
                 Iterator<?> tempIter = session.createCriteria(
                         PredictionValue.class).add(
                         Expression.eq("predictionId", predictionId)).add(
@@ -191,7 +191,7 @@ public class PopulateDataObjects {
         return predictionValues;
     }
 
-    public static ArrayList<CompoundPredictions>
+    public static List<CompoundPredictions>
     populateCompoundPredictionValues(Long datasetId,
                                      Long predictionId,
                                      Session session) throws Exception {
@@ -202,7 +202,7 @@ public class PopulateDataObjects {
         datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName()
                 + "/DATASETS/" + dataset.getName() + "/";
 
-        ArrayList<String> compounds = null;
+        List<String> compounds = null;
 
         if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
             compounds = DatasetFileOperations.getXCompoundNames(datasetDir
@@ -215,7 +215,7 @@ public class PopulateDataObjects {
         }
 
         logger.info("getting from db");
-        ArrayList<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) PopulateDataObjects
+        List<PredictionValue> predictorPredictionValues = (ArrayList<PredictionValue>) PopulateDataObjects
                 .getPredictionValuesByPredictionId(predictionId, session);
         logger.info("done getting from db");
 
@@ -233,10 +233,10 @@ public class PopulateDataObjects {
         logger.info("Done sorting");
 
         logger.info("building hashmap");
-        HashMap<String, ArrayList<PredictionValue>> predictionValueMap = new HashMap<String,
-                ArrayList<PredictionValue>>();
+        HashMap<String, List<PredictionValue>> predictionValueMap = new HashMap<String,
+                List<PredictionValue>>();
         for (PredictionValue pv : predictorPredictionValues) {
-            ArrayList<PredictionValue> compoundPredValues = predictionValueMap
+            List<PredictionValue> compoundPredValues = predictionValueMap
                     .get(pv.getCompoundName());
             if (compoundPredValues == null) {
                 compoundPredValues = new ArrayList<PredictionValue>();
@@ -246,7 +246,7 @@ public class PopulateDataObjects {
         }
         logger.info("done building hashmap");
 
-        ArrayList<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
+        List<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
         // get prediction values for each compound
         for (int i = 0; i < compounds.size(); i++) {
             CompoundPredictions cp = new CompoundPredictions();
@@ -794,7 +794,7 @@ public class PopulateDataObjects {
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
 
-        ArrayList<Dataset> allUserDatasets = new ArrayList<Dataset>();
+        List<Dataset> allUserDatasets = new ArrayList<Dataset>();
         List<Dataset> usersDataset = new ArrayList<Dataset>();
         Transaction tx = null;
         try {
@@ -832,7 +832,7 @@ public class PopulateDataObjects {
             logger.error(e);
         }
 
-        ArrayList<String> datasetdescriptorsNames = new ArrayList<String>();
+        List<String> datasetdescriptorsNames = new ArrayList<String>();
         try {
             if (allUserDatasets != null) {
                 Iterator<Dataset> i = allUserDatasets.iterator();
@@ -1178,8 +1178,8 @@ public class PopulateDataObjects {
         return user;
     }
 
-    public static ArrayList<User> getAllUsers(Session session) {
-        ArrayList<User> users = new ArrayList<User>();
+    public static List<User> getAllUsers(Session session) {
+        List<User> users = new ArrayList<User>();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -1206,7 +1206,7 @@ public class PopulateDataObjects {
     }
 
     public static List<User> getUsers(Session session) {
-        ArrayList<User> users = new ArrayList<User>();
+        List<User> users = new ArrayList<User>();
 
         Transaction tx = null;
         try {
@@ -1432,9 +1432,9 @@ public class PopulateDataObjects {
         return predictor;
     }
 
-    public static ArrayList<Predictor>
+    public static List<Predictor>
     getChildPredictors(Predictor predictor, Session session) {
-        ArrayList<Predictor> childPredictors = new ArrayList<Predictor>();
+        List<Predictor> childPredictors = new ArrayList<Predictor>();
 
         String[] childPredictorIds;
         if (predictor.getChildIds() != null
@@ -1538,7 +1538,7 @@ public class PopulateDataObjects {
                                           boolean justRunning,
                                           Session session) {
 
-        ArrayList<Job> tasks = new ArrayList<Job>();
+        List<Job> tasks = new ArrayList<Job>();
         try {
             Transaction tx = null;
             try {

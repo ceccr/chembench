@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class ViewAction extends ActionSupport {
 

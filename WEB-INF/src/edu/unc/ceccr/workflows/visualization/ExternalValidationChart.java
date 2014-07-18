@@ -64,7 +64,7 @@ public class ExternalValidationChart {
         List<ExternalValidation> highlightedExtValidation
                 = new ArrayList<ExternalValidation>();
 
-        ArrayList<Predictor> childPredictors = PopulateDataObjects
+        List<Predictor> childPredictors = PopulateDataObjects
                 .getChildPredictors(predictor, session);
         if (childPredictors.size() != 0) {
             // get external set for each
@@ -332,12 +332,12 @@ public class ExternalValidationChart {
 
     }
 
-    protected static ArrayList<String>
+    protected static List<String>
     customizedURLs(XYDataset ds,
                    HashMap<Integer, String> map,
                    String predictorName,
                    String user) {
-        ArrayList<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<String>();
         String url;
 
         for (int i = 0; i < map.size(); i++) {

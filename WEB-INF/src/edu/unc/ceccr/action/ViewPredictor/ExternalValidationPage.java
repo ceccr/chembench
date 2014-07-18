@@ -28,9 +28,9 @@ public class ExternalValidationPage extends ViewPredictorAction {
     String mae = "";
     String maeSets = "";
     String stdDev = "";
-    private ArrayList<ExternalValidation> externalValValues;
+    private List<ExternalValidation> externalValValues;
     private String hasGoodModels = Constants.YES;
-    private ArrayList<String> residuals;
+    private List<String> residuals;
 
     public String load() throws Exception {
         String result = getBasicParameters();
@@ -52,7 +52,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
             for (int i = 0; i < childPredictors.size(); i++) {
                 foldNums.add("" + (i + 1));
                 Predictor cp = childPredictors.get(i);
-                ArrayList<ExternalValidation> childExtVals
+                List<ExternalValidation> childExtVals
                         = (ArrayList<ExternalValidation>) PopulateDataObjects
                         .getExternalValidationValues(
                                 cp.getId(), session);
@@ -72,7 +72,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
                     externalValValues.addAll(childExtVals);
                 }
                 // calculate mean absolute error for this child
-                ArrayList<Double> residualsForChild = RSquaredAndCCR
+                List<Double> residualsForChild = RSquaredAndCCR
                         .calculateResiduals(childExtVals);
                 Double childSum = 0d;
                 if (residualsForChild.size() > 0) {
@@ -119,7 +119,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
                 .getDatasetId(), session);
 
         // calculate residuals and fix significant figures on output data
-        ArrayList<Double> residualsAsDouble = RSquaredAndCCR
+        List<Double> residualsAsDouble = RSquaredAndCCR
                 .calculateResiduals(externalValValues);
 
         hasGoodModels = Constants.NO;
@@ -174,7 +174,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
     }
 
     public void
-    setExternalValValues(ArrayList<ExternalValidation> externalValValues) {
+    setExternalValValues(List<ExternalValidation> externalValValues) {
         this.externalValValues = externalValValues;
     }
 
@@ -186,11 +186,11 @@ public class ExternalValidationPage extends ViewPredictorAction {
         this.hasGoodModels = hasGoodModels;
     }
 
-    public ArrayList<String> getResiduals() {
+    public List<String> getResiduals() {
         return residuals;
     }
 
-    public void setResiduals(ArrayList<String> residuals) {
+    public void setResiduals(List<String> residuals) {
         this.residuals = residuals;
     }
 

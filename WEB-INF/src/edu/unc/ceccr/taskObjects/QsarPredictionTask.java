@@ -26,7 +26,7 @@ public class QsarPredictionTask extends WorkflowTask {
     private static Logger logger = Logger.getLogger(QsarPredictionTask.class
             .getName());
     // for internal use only
-    ArrayList<Predictor> selectedPredictors = null;
+    List<Predictor> selectedPredictors = null;
     private String filePath;
     private String jobName;
     private String sdf;
@@ -43,7 +43,7 @@ public class QsarPredictionTask extends WorkflowTask {
     // by
     // getProgress
     // function
-    private ArrayList<String> selectedPredictorNames = new ArrayList<String>(); // used
+    private List<String> selectedPredictorNames = new ArrayList<String>(); // used
     // by
     // getProgress
     // function
@@ -182,10 +182,10 @@ public class QsarPredictionTask extends WorkflowTask {
 
     }
 
-    public static ArrayList<PredictionValue>
+    public static List<PredictionValue>
     parsePredOutput(String fileLocation, Long predictorId) throws IOException {
         logger.debug("Reading prediction output from " + fileLocation);
-        ArrayList<PredictionValue> allPredValue = new ArrayList<PredictionValue>();
+        List<PredictionValue> allPredValue = new ArrayList<PredictionValue>();
         try {
             BufferedReader in = new BufferedReader(new FileReader(
                     fileLocation));
@@ -232,7 +232,7 @@ public class QsarPredictionTask extends WorkflowTask {
                     allPredsTotalModels = 0;
                     String[] selectedPredictorIdArray = selectedPredictorIds
                             .split("\\s+");
-                    ArrayList<String> selectedPredictorIds = new ArrayList<String>(
+                    List<String> selectedPredictorIds = new ArrayList<String>(
                             Arrays.asList(selectedPredictorIdArray));
                     Collections.sort(selectedPredictorIds);
                     for (int i = 0; i < selectedPredictorIds.size(); i++) {
@@ -480,26 +480,26 @@ public class QsarPredictionTask extends WorkflowTask {
         return "";
     }
 
-    private ArrayList<PredictionValue>
+    private List<PredictionValue>
     makePredictions(Predictor predictor,
                     String sdfile,
                     String basePath,
                     String datasetPath) throws Exception {
 
-        ArrayList<PredictionValue> predValues = null;
+        List<PredictionValue> predValues = null;
         String predictionDir = basePath + predictor.getName() + "/";
 
         Session s = HibernateUtil.getSession();
-        ArrayList<Predictor> childPredictors = PopulateDataObjects
+        List<Predictor> childPredictors = PopulateDataObjects
                 .getChildPredictors(predictor, s);
         s.close();
 
         if (childPredictors.size() > 0) {
             // recurse. Call this function for each childPredictor (if there
             // are any).
-            ArrayList<ArrayList<PredictionValue>> childResults = new ArrayList<ArrayList<PredictionValue>>();
+            List<List<PredictionValue>> childResults = new ArrayList<List<PredictionValue>>();
             for (Predictor childPredictor : childPredictors) {
-                ArrayList<PredictionValue> results = makePredictions(
+                List<PredictionValue> results = makePredictions(
                         childPredictor, sdfile, predictionDir, datasetPath);
                 if (results != null) {
                     childResults.add(results);
@@ -517,7 +517,7 @@ public class QsarPredictionTask extends WorkflowTask {
             // average the results from the child predictions and return them
             predValues = new ArrayList<PredictionValue>();
 
-            ArrayList<PredictionValue> firstChildResults = childResults
+            List<PredictionValue> firstChildResults = childResults
                     .get(0);
             for (PredictionValue pv : firstChildResults) {
                 PredictionValue parentPredictionValue = new PredictionValue();
@@ -532,7 +532,7 @@ public class QsarPredictionTask extends WorkflowTask {
             // calculate average predicted value and stddev over each child
             for (int i = 0; i < firstChildResults.size(); i++) {
                 SummaryStatistics compoundPredictedValues = new SummaryStatistics();
-                for (ArrayList<PredictionValue> childResult : childResults) {
+                for (List<PredictionValue> childResult : childResults) {
                     if (childResult.get(i).getPredictedValue() != null) {
                         compoundPredictedValues.addValue(childResult.get(i)
                                 .getPredictedValue());

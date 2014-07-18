@@ -20,7 +20,7 @@ public class ViewPredictionAction extends ViewAction {
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(ViewPredictionAction.class.getName());
-    ArrayList<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
+    List<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
     private Prediction prediction;
     private List<Predictor> predictors; //put these in order by predictorId
     private Dataset dataset; //dataset used in prediction
@@ -346,12 +346,12 @@ public class ViewPredictionAction extends ViewAction {
         this.dataset = dataset;
     }
 
-    public ArrayList<CompoundPredictions> getCompoundPredictionValues() {
+    public List<CompoundPredictions> getCompoundPredictionValues() {
         return compoundPredictionValues;
     }
 
     public void setCompoundPredictionValues(
-            ArrayList<CompoundPredictions> compoundPredictionValues) {
+            List<CompoundPredictions> compoundPredictionValues) {
         this.compoundPredictionValues = compoundPredictionValues;
     }
 

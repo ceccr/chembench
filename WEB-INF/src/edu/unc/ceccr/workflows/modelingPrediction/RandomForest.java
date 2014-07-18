@@ -203,14 +203,14 @@ public class RandomForest {
                 "randomForestBuildModel");
     }
 
-    public static ArrayList<ExternalValidation>
+    public static List<ExternalValidation>
     readExternalSetPredictionOutput(String workingDir,
                                     Predictor predictor) throws Exception {
         // note that in Random Forest, making external predictions is done
         // automatically
         // as part of the modeling process.
 
-        ArrayList<ExternalValidation> allExternalValues = new ArrayList<ExternalValidation>();
+        List<ExternalValidation> allExternalValues = new ArrayList<ExternalValidation>();
         BufferedReader in = new BufferedReader(new FileReader(workingDir
                 + Constants.EXTERNAL_SET_A_FILE));
         String inputString;
@@ -278,11 +278,11 @@ public class RandomForest {
         return allExternalValues;
     }
 
-    public static ArrayList<RandomForestGrove>
+    public static List<RandomForestGrove>
     readRandomForestGroves(String workingDir,
                            Predictor predictor,
                            String isYRandomModel) throws Exception {
-        ArrayList<RandomForestGrove> randomForestModels = new ArrayList<RandomForestGrove>();
+        List<RandomForestGrove> randomForestModels = new ArrayList<RandomForestGrove>();
 
         // read the models list
         BufferedReader in = new BufferedReader(new FileReader(workingDir
@@ -310,18 +310,18 @@ public class RandomForest {
         return randomForestModels;
     }
 
-    public static ArrayList<RandomForestTree>
+    public static List<RandomForestTree>
     readRandomForestTrees(String workingDir,
                           Predictor predictor,
                           RandomForestGrove grove,
                           String actFileDataType) throws Exception {
-        ArrayList<RandomForestTree> randomForestTrees = new ArrayList<RandomForestTree>();
+        List<RandomForestTree> randomForestTrees = new ArrayList<RandomForestTree>();
 
         if (actFileDataType.equals(Constants.CONTINUOUS)) {
-            ArrayList<String> treeFileName = new ArrayList<String>();
-            ArrayList<String> treeR2 = new ArrayList<String>();
-            ArrayList<String> treeMse = new ArrayList<String>();
-            ArrayList<String> treeDescriptorsUsed = new ArrayList<String>();
+            List<String> treeFileName = new ArrayList<String>();
+            List<String> treeR2 = new ArrayList<String>();
+            List<String> treeMse = new ArrayList<String>();
+            List<String> treeDescriptorsUsed = new ArrayList<String>();
 
             BufferedReader in = new BufferedReader(new FileReader(workingDir
                     + grove.getName() + "_trees.list"));
@@ -367,8 +367,8 @@ public class RandomForest {
                 randomForestTrees.add(t);
             }
         } else {
-            ArrayList<String> treeFileName = new ArrayList<String>();
-            ArrayList<String> treeDescriptorsUsed = new ArrayList<String>();
+            List<String> treeFileName = new ArrayList<String>();
+            List<String> treeDescriptorsUsed = new ArrayList<String>();
             BufferedReader in = new BufferedReader(new FileReader(workingDir
                     + grove.getName() + "_trees.list"));
             String inputString;
@@ -471,9 +471,9 @@ public class RandomForest {
                 "randomForestPredict");
     }
 
-    public static ArrayList<PredictionValue>
+    public static List<PredictionValue>
     readPredictionOutput(String workingDir, Long predictorId) throws Exception {
-        ArrayList<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); // holds
+        List<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); // holds
         // objects
         // to
         // be
