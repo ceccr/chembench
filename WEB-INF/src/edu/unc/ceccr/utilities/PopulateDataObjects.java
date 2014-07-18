@@ -1,26 +1,7 @@
 package edu.unc.ceccr.utilities;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.CompoundPredictions;
-import edu.unc.ceccr.persistence.Dataset;
-import edu.unc.ceccr.persistence.ExternalValidation;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Job;
-import edu.unc.ceccr.persistence.JobStats;
-import edu.unc.ceccr.persistence.KnnModel;
-import edu.unc.ceccr.persistence.KnnParameters;
-import edu.unc.ceccr.persistence.KnnPlusModel;
-import edu.unc.ceccr.persistence.KnnPlusParameters;
-import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.persistence.RandomForestGrove;
-import edu.unc.ceccr.persistence.RandomForestParameters;
-import edu.unc.ceccr.persistence.RandomForestTree;
-import edu.unc.ceccr.persistence.SoftwareLink;
-import edu.unc.ceccr.persistence.SvmModel;
-import edu.unc.ceccr.persistence.SvmParameters;
-import edu.unc.ceccr.persistence.User;
+import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -32,12 +13,7 @@ import org.hibernate.criterion.Order;
 
 import java.sql.SQLException;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class PopulateDataObjects {
     private static Logger logger = Logger.getLogger(PopulateDataObjects.class

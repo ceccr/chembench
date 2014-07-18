@@ -1,21 +1,13 @@
 package edu.unc.ceccr.taskObjects;
 
 import edu.unc.ceccr.global.Constants;
-import edu.unc.ceccr.persistence.Dataset;
-import edu.unc.ceccr.persistence.HibernateUtil;
-import edu.unc.ceccr.persistence.Prediction;
-import edu.unc.ceccr.persistence.PredictionValue;
-import edu.unc.ceccr.persistence.Predictor;
+import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.utilities.RunExternalProgram;
 import edu.unc.ceccr.workflows.descriptors.ConvertDescriptorsToXAndScale;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
-import edu.unc.ceccr.workflows.modelingPrediction.KnnPlus;
-import edu.unc.ceccr.workflows.modelingPrediction.KnnPrediction;
-import edu.unc.ceccr.workflows.modelingPrediction.PredictionUtilities;
-import edu.unc.ceccr.workflows.modelingPrediction.RandomForest;
-import edu.unc.ceccr.workflows.modelingPrediction.Svm;
+import edu.unc.ceccr.workflows.modelingPrediction.*;
 import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
 import edu.unc.ceccr.workflows.utilities.CreateJobDirectories;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
@@ -24,17 +16,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FilenameFilter;
-import java.io.IOException;
+import java.io.*;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class QsarPredictionTask extends WorkflowTask {
