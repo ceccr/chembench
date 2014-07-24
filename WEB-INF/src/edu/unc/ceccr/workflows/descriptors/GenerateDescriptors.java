@@ -43,7 +43,7 @@ public class GenerateDescriptors {
     public static void GenerateISIDADescriptors(String sdfile, String outfile) throws Exception {
         //Given an SD file, run ISIDA to get the chemical descriptors for each compound
         //Generate sdf.ISIDA.hdr and sdf.ISIDA.svm
-        String execstr = Constants.CECCR_BASE_PATH + "ISIDA/Fragmentor" + " -i " + sdfile + " -o " + outfile + " -t 0" +
+        String execstr = "Fragmentor" + " -i " + sdfile + " -o " + outfile + " -t 0" +
                 " -t 3 -l 2 -u 6 -t 10 -l 2 -u 6 -s Chembench_Name";
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "ISIDA");
@@ -140,7 +140,7 @@ public class GenerateDescriptors {
                                                           String headerFile) throws Exception {
         //Given an SD file, run ISIDA to get the chemical descriptors for each compound with the .hdr from predictor
         //Generate sdf.ISIDA.hdr and sdf.ISIDA.svm
-        String execstr = Constants.CECCR_BASE_PATH + "ISIDA/Fragmentor" + " -i " + sdfile + " -o " + outfile + " -t 0" +
+        String execstr = "Fragmentor" + " -i " + sdfile + " -o " + outfile + " -t 0" +
                 " -t 3 -l 2 -u 6 -t 10 -l 2 -u 6 -s Chembench_Name " + "-h " + headerFile + " --StrictFrg";
         String workingDir = sdfile.replaceAll("/[^/]+$", "");
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir + "/Descriptors/", "ISIDA");
