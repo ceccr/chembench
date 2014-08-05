@@ -61,14 +61,3 @@ local.properties
 .externalToolBuilders
 *.launch  # Locally stored "Eclipse launch configurations"
 
-######################
-# IntelliJ IDEA
-######################
-.idea
-*.iml
-
-######################
-# StrutsIDE
-######################
-*.strutside
-
