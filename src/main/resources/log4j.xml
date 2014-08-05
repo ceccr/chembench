@@ -41,7 +41,7 @@
         <!-- should write to Ceccr-Log as well due to additivity=true -->
     </logger>
 
-    <logger name="edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction" addivity="true">
+    <logger name="edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction" additivity="true">
         <level value="all"/>
         <appender-ref ref="Prediction-Log"/>
         <!-- should write to Ceccr-Log as well due to additivity=true -->
