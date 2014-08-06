@@ -13,6 +13,7 @@
         <struts2.version>2.3.16.3</struts2.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.7</java.version>
+        <webapp.directory>/CHEMBENCH/ROOT</webapp.directory>
     </properties>
 
     <dependencies>
@@ -153,7 +154,7 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                    <webappDirectory>/CHEMBENCH/ROOT</webappDirectory>
+                    <webappDirectory>${webapp.directory}</webappDirectory>
                 </configuration>
             </plugin>
 
