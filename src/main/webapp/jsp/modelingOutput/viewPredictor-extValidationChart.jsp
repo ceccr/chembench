@@ -1,10 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags" %> 
 <%@page language="java" import="java.util.*" %>
 <html>
 <head>
-	<sx:head debug="false" cache="false" compressed="true" />
     <title>CHEMBENCH | View Predictor</title>
     
     <link href="theme/ss.css" rel="stylesheet" type="text/css" />

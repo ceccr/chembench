@@ -2,12 +2,10 @@
 
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 <%@ page language="java" import="java.util.*" %>
 
 <html>
   <head>
-    <sx:head debug="false" cache="false" compressed="true" />
     <title>CHEMBENCH | Select Predictors</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
