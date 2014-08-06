@@ -7,8 +7,6 @@
 /build/
 /bin/
 target/
-WEB-INF/classes
-WEB-INF/lib
 
 # OS Files
 .DS_Store
