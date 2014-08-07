@@ -12,10 +12,10 @@
 <table border="0"  align="left" width="680">
  
  <tr>
-	<td height="24" align="left" colspan="2">
-	<p class="StandardTextDarkGrayParagraph2">
-	<br /><b>Update Information</b>
-	</p></td>
+    <td height="24" align="left" colspan="2">
+    <p class="StandardTextDarkGrayParagraph2">
+    <br /><b>Update Information</b>
+    </p></td>
 </tr>
 
 <tr height="20"><td colspan="2" class="StandardTextDarkGray">
@@ -55,10 +55,10 @@
 
 <tr height="20"><td align="right" width="180" class="StandardTextDarkGray">State/Province</td>
 <td width="250"><s:textfield name="stateOrProvince" size="30"/></td><td width="250" align="left"></td></tr>
-	
+
 <tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Zip Code</td>
 <td width="250"><s:textfield name="zipCode" size="30"/></td><td width="250" align="left"></td></tr>
-	
+
 <tr height="20"><td align="right" width="180" class="StandardTextDarkGray">Country *</td>
 <td width="250"><s:textfield name="country" size="30"/></td><td width="250" align="left"></td></tr>
 
