@@ -10,7 +10,7 @@
     <description>Chembench: The Cheminformatics Workbench</description>
 
     <properties>
-        <struts2.version>2.3.16.3</struts2.version>
+        <struts2.version>2.3.15.2</struts2.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.7</java.version>
     </properties>
@@ -52,12 +52,6 @@
             <groupId>org.apache.struts</groupId>
             <artifactId>struts2-dojo-plugin</artifactId>
             <version>2.3.16.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.jgeppert.struts2.jquery</groupId>
-            <artifactId>struts2-jquery-plugin</artifactId>
-            <version>3.7.1</version>
         </dependency>
         <!-- End Struts2 and Struts2 plugins -->
 

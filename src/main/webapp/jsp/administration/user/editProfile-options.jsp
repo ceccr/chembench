@@ -4,7 +4,7 @@
 
 
 <!-- USER OPTIONS -->
-<div id="updateUserOptions" style="display:inline-block;">
+
 <s:form action="updateUserOptions" enctype="multipart/form-data" theme="simple">
 <table border="0" align="left" width="680">
  

@@ -2,12 +2,12 @@
 
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 <%@page language="java" import="java.util.*" %>
 
 <html>
 <head>
-    <sj:head />
+    <sx:head debug="false" cache="false" compressed="true" />
 
     <title>CHEMBENCH | Edit Profile</title>
 
@@ -51,11 +51,18 @@
         </s:iterator></font>
     </p><br />
 
-    <sj:tabbedpanel id="editProfileTabs">
-        <sj:tab href="/loadChangePasswordSection" label="Change Password" />
-        <sj:tab href="/loadUpdateInfoSection" label="Update Info" />
-        <sj:tab href="/loadUserOptionsSection" label="Options" />
-    </sj:tabbedpanel>
+    <sx:tabbedpanel id="editProfileTabs" >
+
+        <sx:div href="/loadChangePasswordSection" label="Change Password" theme="ajax" loadingText="Loading password change form...">
+        </sx:div>
+
+        <sx:div href="/loadUpdateInfoSection" label="Update Info" theme="ajax" loadingText="Loading user information...">
+        </sx:div>
+
+        <sx:div href="/loadUserOptionsSection" label="Options" theme="ajax" loadingText="Loading options...">
+        </sx:div>
+
+    </sx:tabbedpanel>
     <br />
 
     <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>

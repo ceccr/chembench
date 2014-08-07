@@ -17,7 +17,7 @@ function validatePasswordsMatch(){
 
 <!-- CHANGE PASSWORD -->
 
-<div id="changePassword" style="display:inline-block;">
+<div id="changePassword">
 <s:form action="changePassword" enctype="multipart/form-data" theme="simple">
 <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
    <tr>
