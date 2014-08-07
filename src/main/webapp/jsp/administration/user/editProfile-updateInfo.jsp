@@ -3,8 +3,7 @@
 
 <!-- UPDATE USER INFO -->
 
-<div id="updateUserInfo">
-
+<div id="updateUserInfo" style="display:inline-block;">
 <s:form action="updateUserInfo" enctype="multipart/form-data" theme="simple">
 <table border="0"  align="left" width="680">
  
