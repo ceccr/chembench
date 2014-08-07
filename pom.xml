@@ -54,6 +54,12 @@
             <artifactId>struts2-dojo-plugin</artifactId>
             <version>2.3.16.3</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.jgeppert.struts2.jquery</groupId>
+            <artifactId>struts2-jquery-plugin</artifactId>
+            <version>3.7.1</version>
+        </dependency>
         <!-- End Struts2 and Struts2 plugins -->
 
         <!-- Logging -->
