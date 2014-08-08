@@ -9,7 +9,7 @@
     <constant name="struts.devMode" value="false" />
     <constant name="struts.multipart.maxSize" value="8589934592" /><!-- no files over 8 GB allowed; defaults to 2MB if unset -->
 
-    <package name="default" namespace="/" extends="struts-default">
+    <package name="default" namespace="/" extends="json-default">
 
         <default-action-ref name="home" />
 
