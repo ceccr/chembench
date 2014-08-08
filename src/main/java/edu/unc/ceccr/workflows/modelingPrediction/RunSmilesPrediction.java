@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
@@ -19,7 +20,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -53,8 +53,8 @@ public class RunSmilesPrediction {
         }
 
         /* create the descriptors for the chemical and read them in */
-        List<String> descriptorNames = new ArrayList<String>();
-        List<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+        List<String> descriptorNames = Lists.newArrayList();
+        List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
         List<String> chemicalNames = DatasetFileOperations.getSDFCompoundNames(sdfile);
 
         ReadDescriptors.readDescriptors(predictor, sdfile, descriptorNames, descriptorValueMatrix);
@@ -66,7 +66,7 @@ public class RunSmilesPrediction {
                 sdfile + ".renorm.x", workingDir + "train_0.x", predictor.getScalingType());
 
         /* read prediction output */
-        List<String> predValueArray = new ArrayList<String>();
+        List<String> predValueArray = Lists.newArrayList();
         if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants.KNNSA)
                 || predictor.getModelMethod().equals(Constants.KNN)) {
 

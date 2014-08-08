@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
@@ -20,7 +21,7 @@ public class ViewPredictionAction extends ViewAction {
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(ViewPredictionAction.class.getName());
-    List<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
+    List<CompoundPredictions> compoundPredictionValues = Lists.newArrayList();
     private Prediction prediction;
     private List<Predictor> predictors; //put these in order by predictorId
     private Dataset dataset; //dataset used in prediction
@@ -79,7 +80,7 @@ public class ViewPredictionAction extends ViewAction {
         prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getName());
 
         //get predictors for this prediction. Order them by predictor ID, increasing.
-        predictors = new ArrayList<Predictor>();
+        predictors = Lists.newArrayList();
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
             predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));
@@ -174,7 +175,7 @@ public class ViewPredictionAction extends ViewAction {
         logger.debug("Done sorting compound predictions");
 
         //displays the page numbers at the top
-        pageNums = new ArrayList<String>();
+        pageNums = Lists.newArrayList();
         int j = 1;
         for (int i = 0; i < compoundPredictionValues.size(); i += limit) {
             String page = Integer.toString(j);
@@ -277,7 +278,7 @@ public class ViewPredictionAction extends ViewAction {
         prediction.setDatasetDisplay(PopulateDataObjects.getDataSetById(prediction.getDatasetId(), session).getName());
 
         //get predictors for this prediction
-        predictors = new ArrayList<Predictor>();
+        predictors = Lists.newArrayList();
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
             predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIds[i]), session));

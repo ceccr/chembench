@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
@@ -14,7 +15,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 //struts2
 
@@ -23,7 +23,7 @@ import java.util.List;
 public class DatasetFormActions extends ActionSupport {
 
     private static Logger logger = Logger.getLogger(DatasetFormActions.class.getName());
-    private List<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = Lists.newArrayList();
     private String datasetName = "";
     private String datasetType = Constants.MODELING;
     private String splitType = Constants.RANDOM;
@@ -194,7 +194,7 @@ public class DatasetFormActions extends ActionSupport {
         logger.debug("Starting dataset task");
         logger.debug("Uploaded dataset " + datasetName + " User: " + userName);
 
-        List<String> msgs = new ArrayList<String>();
+        List<String> msgs = Lists.newArrayList();
 
         if (externalCompoundsCountOrPercent.equalsIgnoreCase("percent")) {
             double tmp = Double.parseDouble(numExternalCompounds);

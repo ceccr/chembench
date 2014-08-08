@@ -1,12 +1,12 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.persistence.User;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class ViewAction extends ActionSupport {
@@ -14,7 +14,7 @@ public abstract class ViewAction extends ActionSupport {
     private static final long serialVersionUID = 1L;
 
     private static Logger logger = Logger.getLogger(ViewAction.class.getName());
-    protected List<String> errorStrings = new ArrayList<String>();
+    protected List<String> errorStrings = Lists.newArrayList();
     protected Session session;
     protected ActionContext context;
     protected User user;

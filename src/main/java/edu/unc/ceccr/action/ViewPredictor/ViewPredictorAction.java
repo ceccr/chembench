@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.action.ViewAction;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Dataset;
@@ -9,7 +10,6 @@ import edu.unc.ceccr.persistence.User;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // struts2
@@ -36,7 +36,7 @@ public class ViewPredictorAction extends ViewAction {
     protected String sortDirection;
     protected String mostFrequentDescriptors = "";
     List<Predictor> childPredictors;
-    List<String> foldNums = new ArrayList<String>();
+    List<String> foldNums = Lists.newArrayList();
 
     public String getBasicParameters() throws Exception {
         // this function gets params that all subclasses will need.

@@ -1,8 +1,9 @@
 package edu.unc.ceccr.utilities;
 
+import com.google.common.collect.Lists;
+
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -13,13 +14,13 @@ public class ClassUtils {
 
     //converts any object to a string containing the name and value of each variable.
     public static String varNamesToString(Object o) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = Lists.newArrayList();
         ClassUtils.varNamesToString(o, o.getClass(), list);
         return o.getClass().getName().concat(list.toString());
     }
 
     public static String varValuesToString(Object o) {
-        List<Object> list = new ArrayList<Object>();
+        List<Object> list = Lists.newArrayList();
         ClassUtils.varValuesToString(o, o.getClass(), list);
         return list.toString();
     }
@@ -62,7 +63,7 @@ public class ClassUtils {
 
 
     public static String toString(Object o) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = Lists.newArrayList();
         ClassUtils.toString(o, o.getClass(), list);
         return o.getClass().getName().concat(list.toString());
     }

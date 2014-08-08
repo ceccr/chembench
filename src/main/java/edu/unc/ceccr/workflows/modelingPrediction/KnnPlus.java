@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -10,7 +11,6 @@ import org.apache.log4j.Logger;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
@@ -295,12 +295,12 @@ public class KnnPlus {
         in.readLine(); // junk
         in.readLine(); // junk
 
-        List<List<String>> predictionMatrix = new ArrayList<List<String>>(); // read
+        List<List<String>> predictionMatrix = Lists.newArrayList(); // read
         // output
         // file
         // into
         // this
-        List<ExternalValidation> predictionValues = new ArrayList<ExternalValidation>(); // to
+        List<ExternalValidation> predictionValues = Lists.newArrayList(); // to
         // be
         // returned
 
@@ -310,7 +310,7 @@ public class KnnPlus {
         while ((inputString = in.readLine()) != null
                 && !inputString.equals("")) {
 
-            List<String> modelValues = new ArrayList<String>();
+            List<String> modelValues = Lists.newArrayList();
 
             // get output for each compound in model
             String[] predValues = inputString.split("\\s+"); // Note: [0] and
@@ -459,7 +459,7 @@ public class KnnPlus {
     readModelsFile(String workingDir,
                    Predictor predictor,
                    String isYRandomModel) {
-        List<KnnPlusModel> knnPlusModels = new ArrayList<KnnPlusModel>();
+        List<KnnPlusModel> knnPlusModels = Lists.newArrayList();
         try {
             if (!new File(workingDir + "models.tbl").exists()) {
                 // in case of no models generated, usually happens in yRandom
@@ -628,12 +628,12 @@ public class KnnPlus {
         in.readLine(); // junk
         in.readLine(); // junk
 
-        List<List<String>> predictionMatrix = new ArrayList<List<String>>(); // read
+        List<List<String>> predictionMatrix = Lists.newArrayList(); // read
         // output
         // file
         // into
         // this
-        List<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); // holds
+        List<PredictionValue> predictionValues = Lists.newArrayList(); // holds
         // objects
         // to
         // be
@@ -645,7 +645,7 @@ public class KnnPlus {
         while ((inputString = in.readLine()) != null
                 && !inputString.equals("")) {
 
-            List<String> modelValues = new ArrayList<String>();
+            List<String> modelValues = Lists.newArrayList();
 
             // get output for each compound in model
             String[] predValues = inputString.split("\\s+"); // Note: [0] and

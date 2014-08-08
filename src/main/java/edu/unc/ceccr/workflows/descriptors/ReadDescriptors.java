@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.descriptors;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
@@ -11,7 +12,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -86,7 +86,7 @@ public class ReadDescriptors {
         String temp;
         Scanner src = new Scanner(fin);
         // values for each molecule
-        List<String> descriptorValues = new ArrayList<String>();
+        List<String> descriptorValues = Lists.newArrayList();
 
         boolean readingDescriptorNames = true;
         while (src.hasNext()) {
@@ -220,7 +220,7 @@ public class ReadDescriptors {
          */
         while ((line = br.readLine()) != null) {
             tok = new Scanner(line);
-            descriptorValues = new ArrayList<String>();
+            descriptorValues = Lists.newArrayList();
             descriptorValues.clear();
             while (tok.hasNext()) {
                 String dvalue = tok.next();

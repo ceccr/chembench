@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -44,7 +45,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
 
             foldNums.add("All");
             // get external set for each
-            externalValValues = new ArrayList<ExternalValidation>();
+            externalValValues = Lists.newArrayList();
             // SummaryStatistics childAccuracies = new SummaryStatistics();
             // //contains the ccr or r^2 of each child
 
@@ -111,7 +112,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
                     selectedPredictor.getId(), session).size() == 0) {
                 hasGoodModels = Constants.NO;
             }
-            externalValValues = new ArrayList<ExternalValidation>();
+            externalValValues = Lists.newArrayList();
             return result;
         }
 
@@ -123,7 +124,7 @@ public class ExternalValidationPage extends ViewPredictorAction {
                 .calculateResiduals(externalValValues);
 
         hasGoodModels = Constants.NO;
-        residuals = new ArrayList<String>();
+        residuals = Lists.newArrayList();
         Double maeDouble = 0d;
         if (residualsAsDouble.size() > 0) {
             for (Double residual : residualsAsDouble) {

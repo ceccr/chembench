@@ -1,5 +1,6 @@
 package edu.unc.ceccr.jobs;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
@@ -12,7 +13,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +41,7 @@ public class LsfProcessingThread extends Thread {
     // static functions for checking the status of the LSF queue(s) on
     // Emerald.
     public static List<String> getCompletedJobNames() {
-        List<String> finishedJobNames = new ArrayList<String>();
+        List<String> finishedJobNames = Lists.newArrayList();
 
         return finishedJobNames;
     }
@@ -59,7 +59,7 @@ public class LsfProcessingThread extends Thread {
         RunExternalProgram.runCommand(command, workingDir);
 
         // read in results
-        List<LsfJobStatus> lsfStatusList = new ArrayList<LsfJobStatus>();
+        List<LsfJobStatus> lsfStatusList = Lists.newArrayList();
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir + "bjobs-out.txt"));
         String line = "";

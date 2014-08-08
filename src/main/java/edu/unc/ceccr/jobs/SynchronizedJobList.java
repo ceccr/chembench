@@ -1,5 +1,6 @@
 package edu.unc.ceccr.jobs;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Job;
@@ -149,7 +150,7 @@ public class SynchronizedJobList {
  * 
 	private void updateJobsFromDB(){
 
-		List<Job> freshJobList = new ArrayList<Job>();
+		List<Job> freshJobList = Lists.newArrayList();
 		Session s = null; 
 		try {
 			s = HibernateUtil.getSession();
@@ -174,7 +175,7 @@ public class SynchronizedJobList {
     public List<Job> getReadOnlyCopy() {
         synchronized (jobList) {
 
-            List<Job> jobListCopy = new ArrayList<Job>();
+            List<Job> jobListCopy = Lists.newArrayList();
             try {
 
                 //return a copy of it

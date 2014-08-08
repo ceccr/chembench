@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -9,7 +10,6 @@ import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class RandomForest {
@@ -210,7 +210,7 @@ public class RandomForest {
         // automatically
         // as part of the modeling process.
 
-        List<ExternalValidation> allExternalValues = new ArrayList<ExternalValidation>();
+        List<ExternalValidation> allExternalValues = Lists.newArrayList();
         BufferedReader in = new BufferedReader(new FileReader(workingDir
                 + Constants.EXTERNAL_SET_A_FILE));
         String inputString;
@@ -282,7 +282,7 @@ public class RandomForest {
     readRandomForestGroves(String workingDir,
                            Predictor predictor,
                            String isYRandomModel) throws Exception {
-        List<RandomForestGrove> randomForestModels = new ArrayList<RandomForestGrove>();
+        List<RandomForestGrove> randomForestModels = Lists.newArrayList();
 
         // read the models list
         BufferedReader in = new BufferedReader(new FileReader(workingDir
@@ -315,13 +315,13 @@ public class RandomForest {
                           Predictor predictor,
                           RandomForestGrove grove,
                           String actFileDataType) throws Exception {
-        List<RandomForestTree> randomForestTrees = new ArrayList<RandomForestTree>();
+        List<RandomForestTree> randomForestTrees = Lists.newArrayList();
 
         if (actFileDataType.equals(Constants.CONTINUOUS)) {
-            List<String> treeFileName = new ArrayList<String>();
-            List<String> treeR2 = new ArrayList<String>();
-            List<String> treeMse = new ArrayList<String>();
-            List<String> treeDescriptorsUsed = new ArrayList<String>();
+            List<String> treeFileName = Lists.newArrayList();
+            List<String> treeR2 = Lists.newArrayList();
+            List<String> treeMse = Lists.newArrayList();
+            List<String> treeDescriptorsUsed = Lists.newArrayList();
 
             BufferedReader in = new BufferedReader(new FileReader(workingDir
                     + grove.getName() + "_trees.list"));
@@ -367,8 +367,8 @@ public class RandomForest {
                 randomForestTrees.add(t);
             }
         } else {
-            List<String> treeFileName = new ArrayList<String>();
-            List<String> treeDescriptorsUsed = new ArrayList<String>();
+            List<String> treeFileName = Lists.newArrayList();
+            List<String> treeDescriptorsUsed = Lists.newArrayList();
             BufferedReader in = new BufferedReader(new FileReader(workingDir
                     + grove.getName() + "_trees.list"));
             String inputString;
@@ -473,7 +473,7 @@ public class RandomForest {
 
     public static List<PredictionValue>
     readPredictionOutput(String workingDir, Long predictorId) throws Exception {
-        List<PredictionValue> predictionValues = new ArrayList<PredictionValue>(); // holds
+        List<PredictionValue> predictionValues = Lists.newArrayList(); // holds
         // objects
         // to
         // be
@@ -555,7 +555,7 @@ public class RandomForest {
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir
                 + xFile));
-        List<String> lines = new ArrayList<String>();
+        List<String> lines = Lists.newArrayList();
 
         // replace "#" with "=_"
         String line;

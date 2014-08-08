@@ -1,5 +1,6 @@
 package edu.unc.ceccr.taskObjects;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -43,7 +44,7 @@ public class QsarPredictionTask extends WorkflowTask {
     // by
     // getProgress
     // function
-    private List<String> selectedPredictorNames = new ArrayList<String>(); // used
+    private List<String> selectedPredictorNames = Lists.newArrayList(); // used
     // by
     // getProgress
     // function
@@ -64,7 +65,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
         Session s = HibernateUtil.getSession();
 
-        selectedPredictors = new ArrayList<Predictor>();
+        selectedPredictors = Lists.newArrayList();
         String[] selectedPredictorIdArray = selectedPredictorIds
                 .split("\\s+");
 
@@ -106,7 +107,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
         Session s = HibernateUtil.getSession();
 
-        selectedPredictors = new ArrayList<Predictor>();
+        selectedPredictors = Lists.newArrayList();
         String[] selectedPredictorIdArray = selectedPredictorIds
                 .split("\\s+");
 
@@ -185,7 +186,7 @@ public class QsarPredictionTask extends WorkflowTask {
     public static List<PredictionValue>
     parsePredOutput(String fileLocation, Long predictorId) throws IOException {
         logger.debug("Reading prediction output from " + fileLocation);
-        List<PredictionValue> allPredValue = new ArrayList<PredictionValue>();
+        List<PredictionValue> allPredValue = Lists.newArrayList();
         try {
             BufferedReader in = new BufferedReader(new FileReader(
                     fileLocation));
@@ -232,7 +233,7 @@ public class QsarPredictionTask extends WorkflowTask {
                     allPredsTotalModels = 0;
                     String[] selectedPredictorIdArray = selectedPredictorIds
                             .split("\\s+");
-                    List<String> selectedPredictorIds = new ArrayList<String>(
+                    List<String> selectedPredictorIds = Lists.newArrayList(
                             Arrays.asList(selectedPredictorIdArray));
                     Collections.sort(selectedPredictorIds);
                     for (int i = 0; i < selectedPredictorIds.size(); i++) {
@@ -497,7 +498,7 @@ public class QsarPredictionTask extends WorkflowTask {
         if (childPredictors.size() > 0) {
             // recurse. Call this function for each childPredictor (if there
             // are any).
-            List<List<PredictionValue>> childResults = new ArrayList<List<PredictionValue>>();
+            List<List<PredictionValue>> childResults = Lists.newArrayList();
             for (Predictor childPredictor : childPredictors) {
                 List<PredictionValue> results = makePredictions(
                         childPredictor, sdfile, predictionDir, datasetPath);
@@ -515,7 +516,7 @@ public class QsarPredictionTask extends WorkflowTask {
             }
 
             // average the results from the child predictions and return them
-            predValues = new ArrayList<PredictionValue>();
+            predValues = Lists.newArrayList();
 
             List<PredictionValue> firstChildResults = childResults
                     .get(0);

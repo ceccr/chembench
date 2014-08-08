@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.calculations;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.Predictor;
@@ -17,7 +18,7 @@ public class RSquaredAndCCR {
     private static Logger logger = Logger.getLogger(RSquaredAndCCR.class.getName());
 
     public static List<Double> calculateResiduals(List<ExternalValidation> externalValidationList) {
-        List<Double> residuals = new ArrayList<Double>();
+        List<Double> residuals = Lists.newArrayList();
 
         Iterator<ExternalValidation> eit = externalValidationList.iterator();
         int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
@@ -78,7 +79,7 @@ public class RSquaredAndCCR {
     public static ConfusionMatrix calculateConfusionMatrix(List<ExternalValidation> externalValidationList) {
 
         //scan through to find the unique observed values
-        List<String> uniqueObservedValues = new ArrayList<String>();
+        List<String> uniqueObservedValues = Lists.newArrayList();
         for (ExternalValidation ev : externalValidationList) {
             int observedValue = Math.round(ev.getActualValue());
             int predictedValue = Math.round(ev.getPredictedValue());
@@ -94,11 +95,11 @@ public class RSquaredAndCCR {
         Collections.sort(uniqueObservedValues);
 
         //set up a confusion matrix to store counts of each (observed, predicted) possibility
-        List<List<Integer>> matrix = new ArrayList<List<Integer>>();
+        List<List<Integer>> matrix = Lists.newArrayList();
 
         //make a matrix of zeros
         for (int i = 0; i < uniqueObservedValues.size(); i++) {
-            List<Integer> row = new ArrayList<Integer>();
+            List<Integer> row = Lists.newArrayList();
             for (int j = 0; j < uniqueObservedValues.size(); j++) {
                 row.add(0);
             }
@@ -163,7 +164,7 @@ public class RSquaredAndCCR {
             if (childPredictors.size() != 0) {
 
                 //get external set for each
-                externalValValues = new ArrayList<ExternalValidation>();
+                externalValValues = Lists.newArrayList();
                 SummaryStatistics childAccuracies = new SummaryStatistics(); //contains the ccr or r^2 of each child
 
                 for (int i = 0; i < childPredictors.size(); i++) {
@@ -215,13 +216,13 @@ public class RSquaredAndCCR {
 
             if (externalValValues == null || externalValValues.isEmpty()) {
                 logger.debug("ext validation set empty!");
-                externalValValues = new ArrayList<ExternalValidation>();
+                externalValValues = Lists.newArrayList();
                 return;
             }
 
             //calculate residuals and fix significant figures on output data
             List<Double> residualsAsDouble = RSquaredAndCCR.calculateResiduals(externalValValues);
-            List<String> residuals = new ArrayList<String>();
+            List<String> residuals = Lists.newArrayList();
             if (residualsAsDouble.size() > 0) {
                 for (Double residual : residualsAsDouble) {
                     if (residual.isNaN()) {

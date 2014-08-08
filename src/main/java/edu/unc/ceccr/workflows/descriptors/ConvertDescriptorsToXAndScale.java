@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.descriptors;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.utilities.Utility;
@@ -7,7 +8,6 @@ import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -86,10 +86,10 @@ public class ConvertDescriptorsToXAndScale {
 
         while (descriptorsFilePart.exists()) {
 
-            List<String> descriptorNames = new ArrayList<String>();
-            List<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+            List<String> descriptorNames = Lists.newArrayList();
+            List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
 
-            List<String> chemicalNames = new ArrayList<String>();
+            List<String> chemicalNames = Lists.newArrayList();
 
             for (int i = filePartNumber * compoundsPerChunk; i < (filePartNumber + 1)
                     * compoundsPerChunk; i++) {
@@ -183,8 +183,8 @@ public class ConvertDescriptorsToXAndScale {
             return;
         }
 
-        List<String> descriptorNames = new ArrayList<String>();
-        List<Descriptors> descriptorValueMatrix = new ArrayList<Descriptors>();
+        List<String> descriptorNames = Lists.newArrayList();
+        List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
         List<String> chemicalNames = null;
         if (descriptorGenerationType.equals(Constants.UPLOADED)) {
             chemicalNames = DatasetFileOperations
@@ -264,14 +264,14 @@ public class ConvertDescriptorsToXAndScale {
 
         String temp;
         Scanner src = new Scanner(fin);
-        List<String> descriptorNames = new ArrayList<String>(); // names
+        List<String> descriptorNames = Lists.newArrayList(); // names
         // for
         // each
         // molecule;
         // used
         // in
         // counting
-        List<String> descriptorValues = new ArrayList<String>(); // values
+        List<String> descriptorValues = Lists.newArrayList(); // values
         // for
         // each
         // molecule;
@@ -541,7 +541,7 @@ public class ConvertDescriptorsToXAndScale {
         while (xFilePart.exists()) {
             // read all lines into array
             BufferedReader br = new BufferedReader(new FileReader(xFilePart));
-            linesInFilePart = new ArrayList<String>();
+            linesInFilePart = Lists.newArrayList();
             String line;
             while ((line = br.readLine()) != null) {
                 if (!line.trim().isEmpty()) {

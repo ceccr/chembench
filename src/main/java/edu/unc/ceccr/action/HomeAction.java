@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
@@ -42,7 +43,7 @@ public class
     String username;
     String password;
     String showStatistics = Constants.YES;
-    private List<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = Lists.newArrayList();
 
     @Override
     public void
@@ -313,7 +314,7 @@ public class
                 logger.debug("Delete GUEST");
                 Session s = HibernateUtil.getSession();
 
-                List<Prediction> predictions = new ArrayList<Prediction>();
+                List<Prediction> predictions = Lists.newArrayList();
                 Iterator<?> predictionIter = PopulateDataObjects.getUserData(
                         userToDelete
                         , Prediction.class, s)
@@ -323,7 +324,7 @@ public class
 
                 }
 
-                List<Predictor> predictors = new ArrayList<Predictor>();
+                List<Predictor> predictors = Lists.newArrayList();
 
                 Iterator<?> predictorsIter = PopulateDataObjects.getUserData(
                         userToDelete
@@ -334,7 +335,7 @@ public class
 
                 }
 
-                List<Dataset> datasets = new ArrayList<Dataset>();
+                List<Dataset> datasets = Lists.newArrayList();
 
                 Iterator<?> datSetIter = PopulateDataObjects.getUserData(
                         userToDelete
@@ -345,7 +346,7 @@ public class
 
                 }
 
-                List<Job> jobs = new ArrayList<Job>();
+                List<Job> jobs = Lists.newArrayList();
 
                 Iterator<?> jobIter = PopulateDataObjects.getUserData(
                         userToDelete
@@ -395,8 +396,8 @@ public class
 
                 for (Predictor p : predictors) {
                     Session session = HibernateUtil.getSession();
-                    List<ExternalValidation> extVals = new ArrayList<ExternalValidation>();
-                    List<Predictor> childPredictors = new ArrayList<Predictor>();
+                    List<ExternalValidation> extVals = Lists.newArrayList();
+                    List<Predictor> childPredictors = Lists.newArrayList();
                     if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
                         String[] childIdArray = p.getChildIds().split("\\s+");
                         for (String childId : childIdArray) {

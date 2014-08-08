@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.download;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.utilities.FileAndDirOperations;
@@ -23,7 +24,7 @@ public class WriteCsv {
     public static void writeExternalPredictionsAsCSV(Long predictorId) throws Exception {
         Session s = HibernateUtil.getSession();
         Predictor predictor = PopulateDataObjects.getPredictorById(predictorId, s);
-        List<ExternalValidation> externalValidationValues = new ArrayList<ExternalValidation>();
+        List<ExternalValidation> externalValidationValues = Lists.newArrayList();
 
         String outfileName = Constants.CECCR_USER_BASE_PATH + predictor.getUserName() + "/PREDICTORS/" +
                 predictor.getName() + "/" + predictor.getName() + "-external-set-predictions.csv";
@@ -95,7 +96,7 @@ public class WriteCsv {
         }
         BufferedWriter out = new BufferedWriter(new FileWriter(outfileName));
 
-        List<Predictor> predictors = new ArrayList<Predictor>();
+        List<Predictor> predictors = Lists.newArrayList();
         String[] predictorIdArray = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIdArray.length; i++) {
             predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIdArray[i]), s));

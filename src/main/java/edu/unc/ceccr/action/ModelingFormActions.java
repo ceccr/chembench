@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
@@ -15,7 +16,6 @@ import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +34,7 @@ public class ModelingFormActions extends ActionSupport {
     // only in this function
     boolean closeSessionAtEnd = true;
     // errors (for error page)
-    List<String> errorStrings = new ArrayList<String>();
+    List<String> errorStrings = Lists.newArrayList();
     // ====== variables used for display on the JSP =====//
     private User user;
     private List<String> userDatasetNames;
@@ -202,7 +202,7 @@ public class ModelingFormActions extends ActionSupport {
         // also get the base names for nfold predictors. if a user has
         // "mypredictor_fold_1_of_5",
         // we want "mypredictor" in the list of used names as well.
-        List<String> foldedPredictorNames = new ArrayList<String>();
+        List<String> foldedPredictorNames = Lists.newArrayList();
         for (String predictorName : userPredictorNames) {
             if (predictorName.matches(".*_fold_(\\d+)_of_(\\d+)")) {
                 int pos = predictorName.lastIndexOf("_fold");
@@ -312,7 +312,7 @@ public class ModelingFormActions extends ActionSupport {
             // Launch modeling on every dataset the user owns (except for this
             // one).
             closeSessionAtEnd = false;
-            List<Dataset> datasetList = new ArrayList<Dataset>();
+            List<Dataset> datasetList = Lists.newArrayList();
             datasetList.addAll(PopulateDataObjects.populateDataset(
                     user.getUserName(), Constants.CONTINUOUS, false,
                     executeSession));

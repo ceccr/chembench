@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
@@ -26,7 +27,7 @@ public class DeleteAction extends ActionSupport {
      */
     private static final long serialVersionUID = 1L;
     private static Logger logger = Logger.getLogger(DeleteAction.class.getName());
-    private List<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = Lists.newArrayList();
 
     private void
     checkDatasetDependencies(Dataset ds) throws ClassNotFoundException,
@@ -263,7 +264,7 @@ public class DeleteAction extends ActionSupport {
     public void
     deletePredictor(Predictor p, Session session) throws Exception {
         ArrayList<ExternalValidation> extVals
-                = new ArrayList<ExternalValidation>();
+                = Lists.newArrayList();
         // delete the files associated with this predictor
         String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName()
                 + "/PREDICTORS/" + p.getName() + "/";
@@ -274,7 +275,7 @@ public class DeleteAction extends ActionSupport {
         // delete the database entry for the predictor
         // delete any child predictors too. (Their files will already be gone
         // since deleteDir recurses into subdirs.)
-        List<Predictor> childPredictors = new ArrayList<Predictor>();
+        List<Predictor> childPredictors = Lists.newArrayList();
         if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
             String[] childIdArray = p.getChildIds().split("\\s+");
             for (String childId : childIdArray) {
@@ -431,7 +432,7 @@ public class DeleteAction extends ActionSupport {
 
                         // get siblings
                         ArrayList<Predictor> siblingPredictors
-                                = new ArrayList<Predictor>();
+                                = Lists.newArrayList();
                         for (String childPredictorId : childPredictorIds) {
                             if (!childPredictorId.equals("" + p.getId())) {
                                 Predictor sibling
@@ -505,7 +506,7 @@ public class DeleteAction extends ActionSupport {
 
         Session s = HibernateUtil.getSession();
 
-        List<Prediction> predictions = new ArrayList<Prediction>();
+        List<Prediction> predictions = Lists.newArrayList();
         Iterator<?> predictionItr = PopulateDataObjects
                 .getUserData(userToDelete
                         , Prediction.class, s)
@@ -515,7 +516,7 @@ public class DeleteAction extends ActionSupport {
 
         }
 
-        List<Predictor> predictors = new ArrayList<Predictor>();
+        List<Predictor> predictors = Lists.newArrayList();
 
         Iterator<?> predictorIter = PopulateDataObjects
                 .getUserData(userToDelete
@@ -526,7 +527,7 @@ public class DeleteAction extends ActionSupport {
 
         }
 
-        List<Dataset> datasets = new ArrayList<Dataset>();
+        List<Dataset> datasets = Lists.newArrayList();
 
         Iterator<?> dataSetIter = PopulateDataObjects
                 .getUserData(userToDelete
@@ -537,7 +538,7 @@ public class DeleteAction extends ActionSupport {
 
         }
 
-        List<Job> jobs = new ArrayList<Job>();
+        List<Job> jobs = Lists.newArrayList();
 
         Iterator<?> jobsIter = PopulateDataObjects
                 .getUserData(userToDelete

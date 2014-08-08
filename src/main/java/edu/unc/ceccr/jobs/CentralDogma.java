@@ -1,5 +1,6 @@
 package edu.unc.ceccr.jobs;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
@@ -53,7 +54,7 @@ public class CentralDogma {
 
             @SuppressWarnings("unchecked") ArrayList<Job> jobs = PopulateDataObjects.populateClass(Job.class, s);
             if (jobs == null) {
-                jobs = new ArrayList<Job>();
+                jobs = Lists.newArrayList();
             }
             for (Job j : jobs) {
                 WorkflowTask wt = null;

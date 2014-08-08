@@ -1,5 +1,6 @@
 package edu.unc.ceccr.utilities;
 
+import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -330,7 +331,7 @@ public class FileAndDirOperations {
     public static List<String> getGuestDirNames(File dir) {
         ArrayList<String> result = null;
         if (dir.isDirectory()) {
-            result = new ArrayList<String>();
+            result = Lists.newArrayList();
             String[] children = dir.list();
             for (int i = 0; i < children.length; i++) {
                 if (children[i].startsWith("guest")

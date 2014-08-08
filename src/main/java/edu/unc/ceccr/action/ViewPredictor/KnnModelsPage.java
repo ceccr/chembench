@@ -1,11 +1,11 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnModel;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,8 +26,8 @@ public class KnnModelsPage extends ViewPredictorAction {
         }
         getModelsPageParameters();
 
-        models = new ArrayList<KnnModel>();
-        List<KnnModel> allModels = new ArrayList<KnnModel>();
+        models = Lists.newArrayList();
+        List<KnnModel> allModels = Lists.newArrayList();
         session = HibernateUtil.getSession();
         List<KnnModel> temp = PopulateDataObjects.getModelsByPredictorId(Long
                 .parseLong(objectId), session);

@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -22,7 +23,7 @@ public class SoftwareLinksAction extends ActionSupport {
 
     private static Logger logger = Logger.getLogger(SoftwareLinksAction.class.getName());
 
-    private List<SoftwareLink> softwareLinks = new ArrayList<SoftwareLink>();
+    private List<SoftwareLink> softwareLinks = Lists.newArrayList();
 
     private boolean userIsAdmin = false;
     private String userName = "";

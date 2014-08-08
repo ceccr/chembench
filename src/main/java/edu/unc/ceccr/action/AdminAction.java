@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
@@ -34,7 +35,7 @@ public class AdminAction extends ActionSupport {
     String emailMessage;
     String emailSubject;
     String sendTo;
-    private List<String> errorStrings = new ArrayList<String>();
+    private List<String> errorStrings = Lists.newArrayList();
 
     public String loadPage() throws Exception {
 
@@ -510,7 +511,7 @@ public class AdminAction extends ActionSupport {
             ClassNotFoundException, SQLException {
         logger.debug("checking dataset dependencies");
 
-        List<String> dependencies = new ArrayList<String>();
+        List<String> dependencies = Lists.newArrayList();
         Session session = HibernateUtil.getSession();
         List<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName,
                 true, false, session);

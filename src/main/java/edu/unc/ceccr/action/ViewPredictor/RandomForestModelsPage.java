@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
@@ -73,8 +74,8 @@ public class RandomForestModelsPage extends ViewPredictorAction {
                 }
             }
             ArrayList<descriptorFrequency> descriptorFrequencies
-                    = new ArrayList<descriptorFrequency>();
-            List<String> mapKeys = new ArrayList<String>(descriptorFreqMap
+                    = Lists.newArrayList();
+            List<String> mapKeys = Lists.newArrayList(descriptorFreqMap
                     .keySet());
             for (String k : mapKeys) {
                 descriptorFrequency df = new descriptorFrequency();
@@ -143,7 +144,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
         List<RandomForestGrove> rfGroves = PopulateDataObjects
                 .getRandomForestGrovesByPredictorId(Long.parseLong(objectId),
                         session);
-        randomForestGroves = new ArrayList<RandomForestGrove>();
+        randomForestGroves = Lists.newArrayList();
 
         if (rfGroves != null) {
             for (RandomForestGrove rfg : rfGroves) {
@@ -168,7 +169,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
                 .getRandomForestGrovesByPredictorId(Long.parseLong(objectId),
                         session);
 
-        randomForestTrees = new ArrayList<RandomForestTree>();
+        randomForestTrees = Lists.newArrayList();
         if (rfGroves != null) {
             for (RandomForestGrove rfg : rfGroves) {
                 ArrayList<RandomForestTree> rfTrees

@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
@@ -8,7 +9,6 @@ import edu.unc.ceccr.persistence.SvmParameters;
 import edu.unc.ceccr.utilities.PopulateDataObjects;
 import org.apache.log4j.Logger;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -60,7 +60,7 @@ public class SvmModelsPage extends ViewPredictorAction {
         String result = SUCCESS;
 
         try {
-            svmModels = new ArrayList<SvmModel>();
+            svmModels = Lists.newArrayList();
             session = HibernateUtil.getSession();
             List<SvmModel> temp = PopulateDataObjects
                     .getSvmModelsByPredictorId(Long.parseLong(objectId),

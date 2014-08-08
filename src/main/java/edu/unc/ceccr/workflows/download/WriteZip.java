@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.download;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Prediction;
@@ -14,7 +15,6 @@ import org.hibernate.Session;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -32,8 +32,8 @@ public class WriteZip {
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
         byte[] buf = new byte[1024];
 
-        List<String> fileNames = new ArrayList<String>();
-        List<String> dirNames = new ArrayList<String>();
+        List<String> fileNames = Lists.newArrayList();
+        List<String> dirNames = Lists.newArrayList();
         dirNames.add(projectDir);
 
         for (int i = 0; i < dirNames.size(); i++) {
@@ -113,7 +113,7 @@ public class WriteZip {
             Visualization/Sketches/*
         */
 
-        List<String> datasetFiles = new ArrayList<String>();
+        List<String> datasetFiles = Lists.newArrayList();
 
         //add in the basic dataset files
         datasetFiles.add(Constants.MODELING_SET_A_FILE);
@@ -248,7 +248,7 @@ public class WriteZip {
         ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
         byte[] buf = new byte[1024];
 
-        List<String> modelingFiles = new ArrayList<String>(); //list of files that will be in the downloaded zip
+        List<String> modelingFiles = Lists.newArrayList(); //list of files that will be in the downloaded zip
 
         modelingFiles.add(predictor.getName() + "-external-set-predictions.csv");
 
@@ -440,7 +440,7 @@ public class WriteZip {
             subdir/Logs/*
         */
 
-        List<String> predictionFiles = new ArrayList<String>();
+        List<String> predictionFiles = Lists.newArrayList();
         predictionFiles.add(prediction.getName() + "-prediction-values.csv");
 
         //add in the prediction dataset files
@@ -475,7 +475,7 @@ public class WriteZip {
 
         //scan for the predictor subdirectories
         x = 0;
-        List<String> predictorSubDirs = new ArrayList<String>();
+        List<String> predictorSubDirs = Lists.newArrayList();
         while (projectDirFilenames != null && x < projectDirFilenames.length) {
             if ((new File(projectDir + projectDirFilenames[x])).isDirectory() && !projectDirFilenames[x].equals
                     ("Logs")) {

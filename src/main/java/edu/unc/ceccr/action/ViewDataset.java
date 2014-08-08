@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Compound;
@@ -16,7 +17,10 @@ import org.apache.log4j.Logger;
 import org.hibernate.Transaction;
 
 import java.io.File;
-import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
 //struts2
 
 @SuppressWarnings("serial")
@@ -92,7 +96,7 @@ public class ViewDataset extends ViewAction {
         }
 
         //get compounds
-        datasetCompounds = new ArrayList<Compound>();
+        datasetCompounds = Lists.newArrayList();
         String datasetUser = dataset.getUserName();
 
         String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
@@ -160,7 +164,7 @@ public class ViewDataset extends ViewAction {
             }
             compoundNum++;
         }
-        pageNums = new ArrayList<String>(); //displays the page numbers at the top
+        pageNums = Lists.newArrayList(); //displays the page numbers at the top
         int j = 1;
         for (int i = 0; i < compoundIDs.size(); i += limit) {
             String page = Integer.toString(j);
@@ -203,7 +207,7 @@ public class ViewDataset extends ViewAction {
         session.close();
 
         //load external compounds from file
-        externalCompounds = new ArrayList<Compound>();
+        externalCompounds = Lists.newArrayList();
         String datasetUser = dataset.getUserName();
 
         String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
@@ -216,7 +220,7 @@ public class ViewDataset extends ViewAction {
             return result;
         }
 
-        List<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+        List<String> compoundIds = Lists.newArrayList(actIdsAndValues.keySet());
         for (String compoundId : compoundIds) {
             Compound c = new Compound();
             c.setCompoundId(compoundId);
@@ -296,7 +300,7 @@ public class ViewDataset extends ViewAction {
         String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
         datasetDir += "DATASETS/" + dataset.getName() + "/";
 
-        foldNums = new ArrayList<String>(); //displays the fold numbers at the top
+        foldNums = Lists.newArrayList(); //displays the fold numbers at the top
         int j = 1;
         for (int i = 0; i < Integer.parseInt(dataset.getNumExternalFolds()); i += 1) {
             String fold = Integer.toString(j);
@@ -305,13 +309,13 @@ public class ViewDataset extends ViewAction {
         }
 
         //load external fold from file
-        externalFold = new ArrayList<Compound>();
+        externalFold = Lists.newArrayList();
         int foldNum = Integer.parseInt(currentFoldNumber);
         HashMap<String, String> actIdsAndValues =
                 DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (foldNum));
 
         if (!actIdsAndValues.isEmpty()) {
-            List<String> compoundIds = new ArrayList<String>(actIdsAndValues.keySet());
+            List<String> compoundIds = Lists.newArrayList(actIdsAndValues.keySet());
             for (String compoundId : compoundIds) {
                 Compound c = new Compound();
                 c.setCompoundId(compoundId);
@@ -417,7 +421,7 @@ public class ViewDataset extends ViewAction {
             return result;
         }
         session.close();
-        descriptorGenerationResults = new ArrayList<DescriptorGenerationResult>();
+        descriptorGenerationResults = Lists.newArrayList();
         String descriptorsDir = Constants.CECCR_USER_BASE_PATH;
         descriptorsDir += dataset.getUserName() + "/";
         descriptorsDir += "DATASETS/" + dataset.getName() + "/Descriptors/Logs/";

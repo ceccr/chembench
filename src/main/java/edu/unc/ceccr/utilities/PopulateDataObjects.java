@@ -1,5 +1,6 @@
 package edu.unc.ceccr.utilities;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
@@ -115,7 +116,7 @@ public class PopulateDataObjects {
     getPredictionValuesByPredictionIdAndPredictorId(Long predictionId,
                                                     Long predictorId,
                                                     Session session) throws Exception {
-        List<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
+        List<PredictionValue> predictionValues = Lists.newArrayList();
         try {
             session.beginTransaction();
             Iterator<?> tempIter = session.createCriteria(
@@ -148,14 +149,14 @@ public class PopulateDataObjects {
     public static List<PredictionValue>
     getPredictionValuesByPredictionId(Long predictionId,
                                       Session session) throws Exception {
-        List<PredictionValue> predictionValues = new ArrayList<PredictionValue>();
+        List<PredictionValue> predictionValues = Lists.newArrayList();
         Prediction prediction = getPredictionById(predictionId, session);
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
 
         for (String predictorId : predictorIds) {
             try {
                 session.beginTransaction();
-                List<PredictionValue> predictorPredictionValues = new ArrayList<PredictionValue>();
+                List<PredictionValue> predictorPredictionValues = Lists.newArrayList();
                 Iterator<?> tempIter = session.createCriteria(
                         PredictionValue.class).add(
                         Expression.eq("predictionId", predictionId)).add(
@@ -239,14 +240,14 @@ public class PopulateDataObjects {
             List<PredictionValue> compoundPredValues = predictionValueMap
                     .get(pv.getCompoundName());
             if (compoundPredValues == null) {
-                compoundPredValues = new ArrayList<PredictionValue>();
+                compoundPredValues = Lists.newArrayList();
             }
             compoundPredValues.add(pv);
             predictionValueMap.put(pv.getCompoundName(), compoundPredValues);
         }
         logger.info("done building hashmap");
 
-        List<CompoundPredictions> compoundPredictionValues = new ArrayList<CompoundPredictions>();
+        List<CompoundPredictions> compoundPredictionValues = Lists.newArrayList();
         // get prediction values for each compound
         for (int i = 0; i < compounds.size(); i++) {
             CompoundPredictions cp = new CompoundPredictions();
@@ -287,8 +288,8 @@ public class PopulateDataObjects {
                                   Session session) throws HibernateException,
             ClassNotFoundException,
             SQLException {
-        List<Dataset> datasets = new ArrayList<Dataset>();
-        List<Dataset> usersDataset = new ArrayList<Dataset>();
+        List<Dataset> datasets = Lists.newArrayList();
+        List<Dataset> usersDataset = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -362,8 +363,8 @@ public class PopulateDataObjects {
         // returns a list of datasets.
         // Used to populate the dropdowns on the Modeling and Dataset pages.
 
-        List<Dataset> datasets = new ArrayList<Dataset>();
-        List<Dataset> usersDataset = new ArrayList<Dataset>();
+        List<Dataset> datasets = Lists.newArrayList();
+        List<Dataset> usersDataset = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -419,8 +420,8 @@ public class PopulateDataObjects {
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
 
-        List<Dataset> allUserDatasets = new ArrayList<Dataset>();
-        List<Dataset> usersDataset = new ArrayList<Dataset>();
+        List<Dataset> allUserDatasets = Lists.newArrayList();
+        List<Dataset> usersDataset = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -454,7 +455,7 @@ public class PopulateDataObjects {
             logger.error(e);
         }
 
-        List<String> datasetNames = new ArrayList<String>();
+        List<String> datasetNames = Lists.newArrayList();
         try {
             if (allUserDatasets != null) {
                 Iterator<Dataset> i = allUserDatasets.iterator();
@@ -489,8 +490,8 @@ public class PopulateDataObjects {
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
 
-        List<Predictor> userPredictors = new ArrayList<Predictor>();
-        List<Predictor> allUserPredictors = new ArrayList<Predictor>();
+        List<Predictor> userPredictors = Lists.newArrayList();
+        List<Predictor> allUserPredictors = Lists.newArrayList();
 
         Transaction tx = null;
         try {
@@ -534,7 +535,7 @@ public class PopulateDataObjects {
             logger.error(e);
         }
 
-        List<String> predictorNames = new ArrayList<String>();
+        List<String> predictorNames = Lists.newArrayList();
         try {
             if (userPredictors != null) {
                 Iterator<Predictor> i = userPredictors.iterator();
@@ -569,8 +570,8 @@ public class PopulateDataObjects {
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
 
-        List<Prediction> userPredictions = new ArrayList<Prediction>();
-        List<Prediction> allUserPredictions = new ArrayList<Prediction>();
+        List<Prediction> userPredictions = Lists.newArrayList();
+        List<Prediction> allUserPredictions = Lists.newArrayList();
 
         Transaction tx = null;
         try {
@@ -611,7 +612,7 @@ public class PopulateDataObjects {
             logger.error(e);
         }
 
-        List<String> predictionNames = new ArrayList<String>();
+        List<String> predictionNames = Lists.newArrayList();
         try {
             if (userPredictions != null) {
                 Iterator<Prediction> i = userPredictions.iterator();
@@ -644,8 +645,8 @@ public class PopulateDataObjects {
             ClassNotFoundException,
             SQLException {
 
-        List<Predictor> predictors = new ArrayList<Predictor>();
-        List<Predictor> privatePredictors = new ArrayList<Predictor>();
+        List<Predictor> predictors = Lists.newArrayList();
+        List<Predictor> privatePredictors = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -680,7 +681,7 @@ public class PopulateDataObjects {
         predictors.addAll(privatePredictors);
 
         if (includePublic) {
-            List<Predictor> publicPredictors = new ArrayList<Predictor>();
+            List<Predictor> publicPredictors = Lists.newArrayList();
             session = HibernateUtil.getSession();
             tx = null;
             try {
@@ -733,7 +734,7 @@ public class PopulateDataObjects {
                                                        boolean onlySaved,
                                                        Session session) {
 
-        List<Prediction> predictions = new ArrayList<Prediction>();
+        List<Prediction> predictions = Lists.newArrayList();
         try {
 
             Transaction tx = null;
@@ -794,8 +795,8 @@ public class PopulateDataObjects {
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
 
-        List<Dataset> allUserDatasets = new ArrayList<Dataset>();
-        List<Dataset> usersDataset = new ArrayList<Dataset>();
+        List<Dataset> allUserDatasets = Lists.newArrayList();
+        List<Dataset> usersDataset = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -832,7 +833,7 @@ public class PopulateDataObjects {
             logger.error(e);
         }
 
-        List<String> datasetdescriptorsNames = new ArrayList<String>();
+        List<String> datasetdescriptorsNames = Lists.newArrayList();
         try {
             if (allUserDatasets != null) {
                 Iterator<Dataset> i = allUserDatasets.iterator();
@@ -884,8 +885,8 @@ public class PopulateDataObjects {
             ClassNotFoundException,
             SQLException {
 
-        List<Dataset> usersDataset = new ArrayList<Dataset>();
-        List<Dataset> allUserDatasets = new ArrayList<Dataset>();
+        List<Dataset> usersDataset = Lists.newArrayList();
+        List<Dataset> allUserDatasets = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -1179,7 +1180,7 @@ public class PopulateDataObjects {
     }
 
     public static List<User> getAllUsers(Session session) {
-        List<User> users = new ArrayList<User>();
+        List<User> users = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -1206,7 +1207,7 @@ public class PopulateDataObjects {
     }
 
     public static List<User> getUsers(Session session) {
-        List<User> users = new ArrayList<User>();
+        List<User> users = Lists.newArrayList();
 
         Transaction tx = null;
         try {
@@ -1226,7 +1227,7 @@ public class PopulateDataObjects {
     }
 
     public static List<JobStats> getJobStats(Session session) {
-        List<JobStats> jobStats = new ArrayList<JobStats>();
+        List<JobStats> jobStats = Lists.newArrayList();
 
         Transaction tx = null;
         try {
@@ -1247,7 +1248,7 @@ public class PopulateDataObjects {
 
     public static List<JobStats> getJobStatsByUserName(Session session,
                                                        String username) {
-        List<JobStats> jobStats = new ArrayList<JobStats>();
+        List<JobStats> jobStats = Lists.newArrayList();
 
         Transaction tx = null;
         try {
@@ -1270,7 +1271,7 @@ public class PopulateDataObjects {
     getRandomForestGrovesByPredictorId(Long predictorId,
                                        Session session) throws Exception {
 
-        List<RandomForestGrove> groves = new ArrayList<RandomForestGrove>();
+        List<RandomForestGrove> groves = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -1293,7 +1294,7 @@ public class PopulateDataObjects {
     public static List<RandomForestTree>
     getRandomForestTreesByGroveId(Long groveId, Session session) throws Exception {
 
-        List<RandomForestTree> trees = new ArrayList<RandomForestTree>();
+        List<RandomForestTree> trees = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -1316,7 +1317,7 @@ public class PopulateDataObjects {
     public static List<KnnPlusModel>
     getKnnPlusModelsByPredictorId(Long predictorId, Session session) throws ClassNotFoundException,
             SQLException {
-        List<KnnPlusModel> models = new ArrayList<KnnPlusModel>();
+        List<KnnPlusModel> models = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -1341,7 +1342,7 @@ public class PopulateDataObjects {
         // logger.error("getting models for predictorId: " +
         // predictorId);
 
-        List<SvmModel> models = new ArrayList<SvmModel>();
+        List<SvmModel> models = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -1368,7 +1369,7 @@ public class PopulateDataObjects {
         // predictorId);
         Predictor predictor = getPredictorById(predictorId, session);
 
-        List<KnnModel> models = new ArrayList<KnnModel>();
+        List<KnnModel> models = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -1434,7 +1435,7 @@ public class PopulateDataObjects {
 
     public static List<Predictor>
     getChildPredictors(Predictor predictor, Session session) {
-        List<Predictor> childPredictors = new ArrayList<Predictor>();
+        List<Predictor> childPredictors = Lists.newArrayList();
 
         String[] childPredictorIds;
         if (predictor.getChildIds() != null
@@ -1469,7 +1470,7 @@ public class PopulateDataObjects {
     public static List<ExternalValidation>
     getExternalValidationValues(Long predictorId, Session session) {
 
-        List<ExternalValidation> externalValValues = new ArrayList<ExternalValidation>();
+        List<ExternalValidation> externalValValues = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -1494,8 +1495,8 @@ public class PopulateDataObjects {
                                                  boolean justRunning,
                                                  Session session) {
 
-        List<String> taskNames = new ArrayList<String>();
-        List<Job> tasks = new ArrayList<Job>();
+        List<String> taskNames = Lists.newArrayList();
+        List<Job> tasks = Lists.newArrayList();
         try {
             Transaction tx = null;
             try {
@@ -1538,7 +1539,7 @@ public class PopulateDataObjects {
                                           boolean justRunning,
                                           Session session) {
 
-        List<Job> tasks = new ArrayList<Job>();
+        List<Job> tasks = Lists.newArrayList();
         try {
             Transaction tx = null;
             try {
@@ -1595,7 +1596,7 @@ public class PopulateDataObjects {
 
     public static List<SoftwareLink> populateSoftwareLinks(Session session) {
 
-        List<SoftwareLink> softwareLinks = new ArrayList<SoftwareLink>();
+        List<SoftwareLink> softwareLinks = Lists.newArrayList();
         try {
             Transaction tx = null;
             try {

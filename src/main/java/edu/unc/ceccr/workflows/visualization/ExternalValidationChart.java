@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.visualization;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.HibernateUtil;
@@ -30,7 +31,6 @@ import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -62,13 +62,13 @@ public class ExternalValidationChart {
 
         // used to highlight one child of an nfold
         List<ExternalValidation> highlightedExtValidation
-                = new ArrayList<ExternalValidation>();
+                = Lists.newArrayList();
 
         List<Predictor> childPredictors = PopulateDataObjects
                 .getChildPredictors(predictor, session);
         if (childPredictors.size() != 0) {
             // get external set for each
-            extValidation = new ArrayList<ExternalValidation>();
+            extValidation = Lists.newArrayList();
             for (int i = 0; i < childPredictors.size(); i++) {
                 Predictor cp = childPredictors.get(i);
                 List<ExternalValidation> childExtVals = PopulateDataObjects
@@ -117,13 +117,13 @@ public class ExternalValidationChart {
 
         HashMap<Integer, String> map = new HashMap<Integer, String>();
 
-        List<String> tooltipList = new ArrayList<String>();
+        List<String> tooltipList = Lists.newArrayList();
 
         XYSeries pointSeries = new XYSeries(0, false);
         XYSeries highlightedPointSeries = new XYSeries(0, false);
 
-        List<XYSeries> stdDevList = new ArrayList<XYSeries>();
-        List<XYSeries> highlightedStdDevList = new ArrayList<XYSeries>();
+        List<XYSeries> stdDevList = Lists.newArrayList();
+        List<XYSeries> highlightedStdDevList = Lists.newArrayList();
 
         Iterator<ExternalValidation> it = extValidation.iterator();
         while (it.hasNext()) {
@@ -337,7 +337,7 @@ public class ExternalValidationChart {
                    HashMap<Integer, String> map,
                    String predictorName,
                    String user) {
-        List<String> list = new ArrayList<String>();
+        List<String> list = Lists.newArrayList();
         String url;
 
         for (int i = 0; i < map.size(); i++) {

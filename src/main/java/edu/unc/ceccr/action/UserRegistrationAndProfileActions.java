@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
@@ -15,7 +16,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 
-import java.util.ArrayList;
 import java.util.List;
 
 // struts2
@@ -33,8 +33,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
     private User user;
     /* Variables used for user registration and updates */
     private String recaptchaPublicKey = Constants.RECAPTCHA_PUBLICKEY;
-    private List<String> errorMessages = new ArrayList<String>();
-    private List<String> errorStrings = new ArrayList<String>();
+    private List<String> errorMessages = Lists.newArrayList();
+    private List<String> errorStrings = Lists.newArrayList();
     private String outputMessage;
     private String newUserName;
     private String address;

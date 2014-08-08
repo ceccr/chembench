@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action;
 
+import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.global.Constants;
@@ -34,7 +35,7 @@ public class PredictionFormActions extends ActionSupport {
     private static final long serialVersionUID = 1L;
     private static Logger logger
             = Logger.getLogger(PredictionFormActions.class.getName());
-    List<String> errorStrings = new ArrayList<String>();
+    List<String> errorStrings = Lists.newArrayList();
     // variables used for JSP display
     private User user;
     private List<Predictor> userPredictors;
@@ -48,7 +49,7 @@ public class PredictionFormActions extends ActionSupport {
     private boolean singleCompoundPredictionAllowed;
     private boolean isUploadedDescriptors;
     private boolean isMixDescriptors;
-    private List<Predictor> selectedPredictors = new ArrayList<Predictor>();
+    private List<Predictor> selectedPredictors = Lists.newArrayList();
     private List<SmilesPrediction> smilesPredictions;
     private String smilesString;
     private String smilesCutoff;
@@ -112,7 +113,7 @@ public class PredictionFormActions extends ActionSupport {
         logger.debug(user.getUserName());
         logger.debug("SMILES predids: " + predictorIds);
         String[] selectedPredictorIdArray = predictorIds.split("\\s+");
-        List<Predictor> predictors = new ArrayList<Predictor>();
+        List<Predictor> predictors = Lists.newArrayList();
         Set<String> descriptorTypes = new HashSet<String>();
         for (int i = 0; i < selectedPredictorIdArray.length; i++) {
             Predictor predictor = PopulateDataObjects.getPredictorById(Long
@@ -133,7 +134,7 @@ public class PredictionFormActions extends ActionSupport {
         session.close();
 
         /* stores results */
-        smilesPredictions = new ArrayList<SmilesPrediction>();
+        smilesPredictions = Lists.newArrayList();
         int numPredictors = predictors.size();
 
         for (int i = 0; i < predictors.size(); i++) {
@@ -167,7 +168,7 @@ public class PredictionFormActions extends ActionSupport {
                 Boolean computedAD = false;
                 String[] ids = predictor.getChildIds().split("\\s+");
                 logger.info("Predictor is n-folded.");
-                List<String[]> tempPred = new ArrayList<String[]>();
+                List<String[]> tempPred = Lists.newArrayList();
                 for (int j = 0; j < ids.length; j++) {
                     session = HibernateUtil.getSession();
                     Predictor tempP = PopulateDataObjects.getPredictorById(
@@ -479,21 +480,21 @@ public class PredictionFormActions extends ActionSupport {
          * filtering userDatasets leaving only datasets that has same modeling
          * method as predictor
          */
-        List<Dataset> new_ds = new ArrayList<Dataset>();
+        List<Dataset> new_ds = Lists.newArrayList();
         for (Dataset ds : userDatasets) {
             /*
              * looking for arrays intersection if found then the Dataset is
              * added to the list
              */
             boolean datasetRemovable = false;
-            List<String> dscrptrLst1 = new ArrayList<String>(
+            List<String> dscrptrLst1 = Lists.newArrayList(
                     predictorsModelDescriptors);
             List<String> dscrptrLst2 = Arrays.asList(ds
                     .getAvailableDescriptors().trim().split(" "));
 
             // Find intersection, get iterator, then explicitly cast each
             // element of intersection to a string (type safety issues)
-            List<String> dscrptrIntsct = new ArrayList<String>();
+            List<String> dscrptrIntsct = Lists.newArrayList();
             Iterator<?> tempIterator = ListUtils.intersection(dscrptrLst1,
                     dscrptrLst2).iterator();
             while (tempIterator.hasNext()) {
@@ -608,7 +609,7 @@ public class PredictionFormActions extends ActionSupport {
         String[] ids = selectedPredictorIds.split("\\s+");
         int numModels = 0;
 
-        List<Predictor> selectedPredictors = new ArrayList<Predictor>();
+        List<Predictor> selectedPredictors = Lists.newArrayList();
 
         for (int i = 0; i < ids.length; i++) {
             Predictor sp = PopulateDataObjects.getPredictorById(Long

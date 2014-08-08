@@ -1,5 +1,6 @@
 package edu.unc.ceccr.taskObjects;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.action.ModelingFormActions;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
@@ -19,7 +20,6 @@ import org.hibernate.Transaction;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.ArrayList;
 import java.util.List;
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
@@ -28,7 +28,7 @@ public class QsarModelingTask extends WorkflowTask {
             = Logger.getLogger(QsarModelingTask.class.getName());
     // predicted external set values
     List<ExternalValidation> externalSetPredictions
-            = new ArrayList<ExternalValidation>();
+            = Lists.newArrayList();
     // job details
     private String sdFileName;
     private String actFileName;
@@ -565,9 +565,9 @@ public class QsarModelingTask extends WorkflowTask {
                 filePath);
 
         // read in the descriptors for the dataset
-        List<String> descriptorNames = new ArrayList<String>();
+        List<String> descriptorNames = Lists.newArrayList();
         List<Descriptors> descriptorValueMatrix
-                = new ArrayList<Descriptors>();
+                = Lists.newArrayList();
         List<String> chemicalNames = DatasetFileOperations
                 .getACTCompoundNames(filePath + actFileName);
 
@@ -891,7 +891,7 @@ public class QsarModelingTask extends WorkflowTask {
             }
 
             // read in trees and associate them with each model
-            randomForestTrees = new ArrayList<RandomForestTree>();
+            randomForestTrees = Lists.newArrayList();
             for (RandomForestGrove grove : randomForestGroves) {
                 randomForestTrees.addAll(RandomForest.readRandomForestTrees(
                         filePath, predictor, grove, actFileDataType));
@@ -942,7 +942,7 @@ public class QsarModelingTask extends WorkflowTask {
             predictor.setNumTestModels(getNumTotalModels());
         } else if (modelType.equals(Constants.SVM)) {
             // read in models and associate them with the predictor
-            svmModels = new ArrayList<SvmModel>();
+            svmModels = Lists.newArrayList();
             svmModels.addAll(Svm.readSvmModels(filePath, svmParameters
                     .getSvmCutoff()));
             svmModels.addAll(Svm.readSvmModels(filePath + "yRandom/",

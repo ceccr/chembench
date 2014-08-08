@@ -1,5 +1,6 @@
 package edu.unc.ceccr.workflows.descriptors;
 
+import com.google.common.collect.Lists;
 import org.apache.log4j.Logger;
 
 import java.io.BufferedReader;
@@ -24,7 +25,7 @@ public class CheckDescriptors {
         logger.debug("Checking MolconnZ descriptors: "
                 + molconnZOutputFile);
 
-        List<String> descriptorNames = new ArrayList<String>();
+        List<String> descriptorNames = Lists.newArrayList();
         String errors = "";
 
         File file = new File(molconnZOutputFile);
@@ -36,7 +37,7 @@ public class CheckDescriptors {
 
         String temp;
         Scanner src = new Scanner(fin);
-        List<String> descriptorValues = new ArrayList<String>(); // values
+        List<String> descriptorValues = Lists.newArrayList(); // values
                                                                       // for
                                                                       // each
                                                                       // molecule
@@ -129,7 +130,7 @@ public class CheckDescriptors {
     checkDragonDescriptors(String dragonOutputFile) throws Exception {
         logger.debug("Checking Dragon descriptors: "
                 + dragonOutputFile);
-        List<String> descriptorNames = new ArrayList<String>();
+        List<String> descriptorNames = Lists.newArrayList();
         String errors = "";
 
         File file = new File(dragonOutputFile);
@@ -169,7 +170,7 @@ public class CheckDescriptors {
         // quit this shit - means Dragon failed at descriptoring.
         while ((line = br.readLine()) != null) {
             tok = new Scanner(line);
-            descriptorValues = new ArrayList<String>();
+            descriptorValues = Lists.newArrayList();
             descriptorValues.clear();
             while (tok.hasNext()) {
                 String dvalue = tok.next();

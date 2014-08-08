@@ -1,5 +1,6 @@
 package edu.unc.ceccr.action.ViewPredictor;
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.KnnPlusModel;
@@ -63,8 +64,8 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
                 }
             }
 
-            List<descriptorFrequency> descriptorFrequencies = new ArrayList<descriptorFrequency>();
-            List<String> mapKeys = new ArrayList<String>(
+            List<descriptorFrequency> descriptorFrequencies = Lists.newArrayList();
+            List<String> mapKeys = Lists.newArrayList(
                     descriptorFreqMap.keySet());
             for (String k : mapKeys) {
                 descriptorFrequency df = new descriptorFrequency();
@@ -116,7 +117,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
     private String loadModels() {
         String result = SUCCESS;
         try {
-            knnPlusModels = new ArrayList<KnnPlusModel>();
+            knnPlusModels = Lists.newArrayList();
             session = HibernateUtil.getSession();
             List<KnnPlusModel> temp = PopulateDataObjects
                     .getKnnPlusModelsByPredictorId(Long.parseLong(objectId),

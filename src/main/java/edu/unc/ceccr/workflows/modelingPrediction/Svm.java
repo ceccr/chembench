@@ -1,6 +1,7 @@
 package edu.unc.ceccr.workflows.modelingPrediction;
 
 
+import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.ExternalValidation;
 import edu.unc.ceccr.persistence.PredictionValue;
@@ -12,7 +13,6 @@ import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Svm {
@@ -27,7 +27,7 @@ public class Svm {
         // xFileName + " + " + aFileName + " => " + xFileName.replace(".x",
         // ".svm"));
 
-        List<String> activityValues = new ArrayList<String>();
+        List<String> activityValues = Lists.newArrayList();
         if (aFileName != null && !aFileName.isEmpty()) {
             // read in the activity file
 
@@ -218,7 +218,7 @@ public class Svm {
 
     public static List<SvmModel>
     readSvmModels(String workingDir, String cutoff) throws Exception {
-        List<SvmModel> svmModels = new ArrayList<SvmModel>();
+        List<SvmModel> svmModels = Lists.newArrayList();
 
         BufferedReader br = new BufferedReader(new FileReader(workingDir
                 + "svm-results.txt"));
@@ -331,7 +331,7 @@ public class Svm {
                          String predictionXFileName,
                          Long predictorId) throws Exception {
         List<PredictionValue> predictionValues
-                = new ArrayList<PredictionValue>();
+                = Lists.newArrayList();
 
         List<String> compoundNames = DatasetFileOperations
                 .getXCompoundNames(workingDir + predictionXFileName);
@@ -387,7 +387,7 @@ public class Svm {
     readExternalPredictionOutput(String workingDir, Long predictorId)
             throws Exception {
         List<ExternalValidation> externalPredictions
-                = new ArrayList<ExternalValidation>();
+                = Lists.newArrayList();
 
         // set compound names
         String line;
