@@ -353,13 +353,6 @@
         </action>
         <!-- End View Prediction Page -->
 
-        <!-- Begin: Web API endpoints -->
-        <action name="generatePredictor" class="edu.unc.ceccr.action.WebAPIActions" method="generatePredictor">
-            <result name="success">/jsp/api/generatePredictor.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-        <!-- End: Web API endpoints -->
-
         <!-- Servlet forwards -->
         <!-- these will forward to a path defined in web.xml -->
         <action name="imageServlet">
