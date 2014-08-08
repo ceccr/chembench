@@ -366,10 +366,6 @@
             <result>imageServlet.do</result>
         </action>
 
-        <action name="imageServlet2">
-            <result>imageServlet2.do</result>
-        </action>
-
         <action name="fileServlet">
             <result>fileServlet.do</result>
         </action>
