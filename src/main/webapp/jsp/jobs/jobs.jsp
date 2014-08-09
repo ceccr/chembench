@@ -479,7 +479,7 @@
                 <td><s:a href="%{predictionLink}">
                     <s:property value="name" />
                 </s:a><br/><a
-                    href="projectFilesServlet?project=<s:property value='name' />&user=<s:property value='userName' />&projectType=prediction"><img alt="download" width="18" height="18" src="theme/img/download.png"/></a><s:if test="userName=='all-users'"></s:if> <s:else>
+                    href="fileServlet?id=<s:property value="id" />&jobType=PREDICTION&file=predictionAsCsv"><img alt="download" width="18" height="18" src="theme/img/download.png"/></a><s:if test="userName=='all-users'"></s:if> <s:else>
                 <a onclick="return confirmDelete('predictor')"
                    href="deletePrediction?id=<s:property value="id" />#predictions"><img alt="delete" width="15" height="15" src="theme/img/delete.png"/></a>
                 </s:else></td>
