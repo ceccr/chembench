@@ -1,5 +1,6 @@
 package edu.unc.ceccr.global;
 
+import com.mysql.jdbc.AbandonedConnectionCleanupThread;
 import edu.unc.ceccr.jobs.CentralDogma;
 import edu.unc.ceccr.utilities.Utility;
 import org.apache.log4j.Logger;
@@ -43,7 +44,12 @@ public class ChembenchServletContextListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        // TODO interrupt & stop job processing threads
+        try {
+            AbandonedConnectionCleanupThread.shutdown();
+        } catch (InterruptedException e) {
+            logger.error("Shutdown of MySQL abandoned connection cleanup thread failed", e);
+        }
+
         Enumeration<Driver> drivers = DriverManager.getDrivers();
         while (drivers.hasMoreElements()) {
             Driver driver = drivers.nextElement();
