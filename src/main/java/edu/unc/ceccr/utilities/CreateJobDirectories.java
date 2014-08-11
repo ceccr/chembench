@@ -1,4 +1,4 @@
-package edu.unc.ceccr.workflows.utilities;
+package edu.unc.ceccr.utilities;
 
 import edu.unc.ceccr.global.Constants;
 

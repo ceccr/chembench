@@ -12,8 +12,8 @@ import edu.unc.ceccr.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
-import edu.unc.ceccr.workflows.utilities.CopyJobFiles;
-import edu.unc.ceccr.workflows.utilities.StandardizeSdfFormat;
+import edu.unc.ceccr.utilities.CopyJobFiles;
+import edu.unc.ceccr.utilities.StandardizeSdfFormat;
 import org.apache.log4j.Logger;
 
 import java.io.*;

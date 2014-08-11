@@ -9,7 +9,7 @@ import edu.unc.ceccr.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.workflows.descriptors.CheckDescriptors;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.DataSplit;
-import edu.unc.ceccr.workflows.utilities.StandardizeSdfFormat;
+import edu.unc.ceccr.utilities.StandardizeSdfFormat;
 import edu.unc.ceccr.workflows.visualization.HeatmapAndPCA;
 import edu.unc.ceccr.workflows.visualization.SdfToJpg;
 import org.apache.log4j.Logger;

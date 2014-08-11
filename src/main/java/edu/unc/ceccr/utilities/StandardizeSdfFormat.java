@@ -1,6 +1,5 @@
-package edu.unc.ceccr.workflows.utilities;
+package edu.unc.ceccr.utilities;
 
-import edu.unc.ceccr.utilities.FileAndDirOperations;
 import org.apache.log4j.Logger;
 
 import java.io.File;

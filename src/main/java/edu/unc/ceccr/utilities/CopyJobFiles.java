@@ -1,11 +1,9 @@
-package edu.unc.ceccr.workflows.utilities;
+package edu.unc.ceccr.utilities;
 
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Dataset;
 import edu.unc.ceccr.persistence.HibernateUtil;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
