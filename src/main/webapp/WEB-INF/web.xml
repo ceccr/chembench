@@ -11,7 +11,7 @@
 
     <servlet>
         <servlet-name>ApplicationServlet</servlet-name>
-        <servlet-class>edu.unc.ceccr.servlet.ApplicationServlet</servlet-class>
+        <servlet-class>edu.unc.ceccr.chembench.servlet.ApplicationServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -21,7 +21,7 @@
 
     <servlet>
         <servlet-name>FileServlet</servlet-name>
-        <servlet-class>edu.unc.ceccr.servlet.FileServlet</servlet-class>
+        <servlet-class>edu.unc.ceccr.chembench.servlet.FileServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -31,7 +31,7 @@
 
     <servlet>
         <servlet-name>Structure</servlet-name>
-        <servlet-class>edu.unc.ceccr.servlet.Structure</servlet-class>
+        <servlet-class>edu.unc.ceccr.chembench.servlet.Structure</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -41,7 +41,7 @@
 
     <servlet>
         <servlet-name>Compound3D</servlet-name>
-        <servlet-class>edu.unc.ceccr.servlet.Compound3DServlet</servlet-class>
+        <servlet-class>edu.unc.ceccr.chembench.servlet.Compound3DServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -51,7 +51,7 @@
 
     <servlet>
         <servlet-name>ImageServlet</servlet-name>
-        <servlet-class>edu.unc.ceccr.servlet.ImageServlet</servlet-class>
+        <servlet-class>edu.unc.ceccr.chembench.servlet.ImageServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -62,7 +62,7 @@
 
     <servlet>
         <servlet-name>DescriptorMatrixServlet</servlet-name>
-        <servlet-class>edu.unc.ceccr.servlet.DescriptorMatrixServlet</servlet-class>
+        <servlet-class>edu.unc.ceccr.chembench.servlet.DescriptorMatrixServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -72,7 +72,7 @@
 
     <servlet>
         <servlet-name>ProjectFilesServlet</servlet-name>
-        <servlet-class>edu.unc.ceccr.servlet.ProjectFilesServlet</servlet-class>
+        <servlet-class>edu.unc.ceccr.chembench.servlet.ProjectFilesServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -82,7 +82,7 @@
 
     <servlet>
         <servlet-name>DatasetFilesServlet</servlet-name>
-        <servlet-class>edu.unc.ceccr.servlet.DatasetFilesServlet</servlet-class>
+        <servlet-class>edu.unc.ceccr.chembench.servlet.DatasetFilesServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -208,8 +208,8 @@
     </taglib>
 
     <listener>
-        <listener-class>edu.unc.ceccr.utilities.ActiveUser</listener-class>
-        <listener-class>edu.unc.ceccr.global.ChembenchServletContextListener</listener-class>
+        <listener-class>edu.unc.ceccr.chembench.utilities.ActiveUser</listener-class>
+        <listener-class>edu.unc.ceccr.chembench.global.ChembenchServletContextListener</listener-class>
     </listener>
 
     <!-- begin added for struts2 -->
@@ -245,7 +245,7 @@
 <web-resource-name>Chembench Home</web-resource-name>
 <url-pattern>/home.do</url-pattern>
 </web-resource-collection>
-Require use of port 8443 
+Require use of port 8443
 <user-data-constraint>
 <transport-guarantee>CONFIDENTIAL</transport-guarantee>
 </user-data-constraint>

@@ -19,15 +19,15 @@
         </global-results>
 
         <!-- Main pages -->
-        <action name="login" class="edu.unc.ceccr.action.HomeAction" method="execute">
+        <action name="login" class="edu.unc.ceccr.chembench.action.HomeAction" method="execute">
             <result name="success">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="logout" class="edu.unc.ceccr.action.HomeAction" method="logout">
+        <action name="logout" class="edu.unc.ceccr.chembench.action.HomeAction" method="logout">
             <result name="success">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="home" class="edu.unc.ceccr.action.HomeAction" method="loadPage">
+        <action name="home" class="edu.unc.ceccr.chembench.action.HomeAction" method="loadPage">
             <result name="success">/jsp/main/home.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
@@ -36,75 +36,75 @@
             <result>/jsp/main/error.jsp</result>
         </action>
 
-        <action name="loadRegistrationPage" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="loadRegistrationPage" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="loadUserRegistration">
             <result>/jsp/administration/user/registrationForm.jsp</result>
         </action>
 
-        <action name="registerUser" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="registerUser" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="registerUser">
             <result name="success">/jsp/administration/user/registrationApprovalMessage.jsp</result>
         </action>
 
         <!-- Free Software List page -->
-        <action name="softwareList" class="edu.unc.ceccr.action.SoftwareLinksAction" method="loadPage">
+        <action name="softwareList" class="edu.unc.ceccr.chembench.action.SoftwareLinksAction" method="loadPage">
             <result name="success">/jsp/main/softwareLinks.jsp</result>
         </action>
 
-        <action name="addSoftware" class="edu.unc.ceccr.action.SoftwareLinksAction" method="addSoftware">
+        <action name="addSoftware" class="edu.unc.ceccr.chembench.action.SoftwareLinksAction" method="addSoftware">
             <result type="redirect">softwareList</result>
         </action>
 
-        <action name="deleteSoftwareLink" class="edu.unc.ceccr.action.SoftwareLinksAction" method="deleteSoftwareLink">
+        <action name="deleteSoftwareLink" class="edu.unc.ceccr.chembench.action.SoftwareLinksAction" method="deleteSoftwareLink">
             <result type="redirect">softwareList</result>
         </action>
 
         <!-- User Registration and Edit Profile Pages -->
-        <action name="loadRegistrationPage" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="loadRegistrationPage" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="loadUserRegistration">
             <result>/jsp/administration/user/registrationForm.jsp</result>
         </action>
 
-        <action name="registerUser" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="registerUser" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="registerUser">
             <result name="success">/jsp/administration/user/registrationApprovalMessage.jsp</result>
             <result name="error">/jsp/administration/user/registrationForm.jsp</result>
         </action>
 
-        <action name="editProfile" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="editProfile" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="loadEditProfilePage">
             <result name="success">/jsp/administration/user/editProfile.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="loadChangePasswordSection" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="loadChangePasswordSection" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="loadChangePassword">
             <result name="success">/jsp/administration/user/editProfile-changePassword.jsp</result>
         </action>
 
-        <action name="changePassword" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="changePassword" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="changePassword">
             <result name="success">/jsp/administration/user/editProfile.jsp</result>
             <result name="error">/jsp/administration/user/editProfile.jsp</result>
         </action>
 
-        <action name="loadUpdateInfoSection" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="loadUpdateInfoSection" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="loadUpdateUserInformation">
             <result name="success">/jsp/administration/user/editProfile-updateInfo.jsp</result>
         </action>
 
-        <action name="updateUserInfo" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="updateUserInfo" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="updateUserInformation">
             <result name="success">/jsp/administration/user/editProfile.jsp</result>
             <result name="error">/jsp/administration/user/editProfile.jsp</result>
         </action>
 
-        <action name="loadUserOptionsSection" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="loadUserOptionsSection" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="loadUpdateUserOptions">
             <result name="success">/jsp/administration/user/editProfile-options.jsp</result>
         </action>
 
-        <action name="updateUserOptions" class="edu.unc.ceccr.action.UserRegistrationAndProfileActions"
+        <action name="updateUserOptions" class="edu.unc.ceccr.chembench.action.UserRegistrationAndProfileActions"
                 method="updateUserOptions">
             <result name="success">/jsp/administration/user/editProfile.jsp</result>
             <result name="error">/jsp/administration/user/editProfile.jsp</result>
@@ -114,181 +114,181 @@
             <result>/jsp/administration/user/resetPassword.jsp</result>
         </action>
 
-        <action name="resetPassword" class="edu.unc.ceccr.action.ResetPasswordAction" method="execute">
+        <action name="resetPassword" class="edu.unc.ceccr.chembench.action.ResetPasswordAction" method="execute">
             <result name="success">/jsp/administration/user/resetPasswordSent.jsp</result>
             <result name="error">/jsp/administration/user/resetPassword.jsp</result>
         </action>
 
         <!-- Dataset Page -->
-        <action name="dataset" class="edu.unc.ceccr.action.DatasetFormActions" method="loadPage">
+        <action name="dataset" class="edu.unc.ceccr.chembench.action.DatasetFormActions" method="loadPage">
             <result name="success">/jsp/dataset/dataset.jsp</result>
         </action>
 
-        <action name="submitDataset" class="edu.unc.ceccr.action.DatasetFormActions" method="execute">
+        <action name="submitDataset" class="edu.unc.ceccr.chembench.action.DatasetFormActions" method="execute">
             <result name="input" type="redirect">jobs</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="loadModelingSection" class="edu.unc.ceccr.action.DatasetFormActions" method="ajaxLoadModeling">
+        <action name="loadModelingSection" class="edu.unc.ceccr.chembench.action.DatasetFormActions" method="ajaxLoadModeling">
             <result>/jsp/dataset/dataset-modeling.jsp</result>
         </action>
 
-        <action name="loadPredictionSection" class="edu.unc.ceccr.action.DatasetFormActions"
+        <action name="loadPredictionSection" class="edu.unc.ceccr.chembench.action.DatasetFormActions"
                 method="ajaxLoadPrediction">
             <result>/jsp/dataset/dataset-prediction.jsp</result>
         </action>
 
-        <action name="loadModelingWithDescriptorsSection" class="edu.unc.ceccr.action.DatasetFormActions"
+        <action name="loadModelingWithDescriptorsSection" class="edu.unc.ceccr.chembench.action.DatasetFormActions"
                 method="ajaxLoadModelingWithDescriptors">
             <result>/jsp/dataset/dataset-modelingWithDescriptors.jsp</result>
         </action>
 
-        <action name="loadPredictionWithDescriptorsSection" class="edu.unc.ceccr.action.DatasetFormActions"
+        <action name="loadPredictionWithDescriptorsSection" class="edu.unc.ceccr.chembench.action.DatasetFormActions"
                 method="ajaxLoadPredictionWithDescriptors">
             <result>/jsp/dataset/dataset-predictionWithDescriptors.jsp</result>
         </action>
 
-        <action name="loadAutoExternalSection" class="edu.unc.ceccr.action.DatasetFormActions"
+        <action name="loadAutoExternalSection" class="edu.unc.ceccr.chembench.action.DatasetFormActions"
                 method="ajaxLoadAutoSplit">
             <result>/jsp/dataset/dataset-autosplit.jsp</result>
         </action>
 
-        <action name="loadManualExternalSection" class="edu.unc.ceccr.action.DatasetFormActions"
+        <action name="loadManualExternalSection" class="edu.unc.ceccr.chembench.action.DatasetFormActions"
                 method="ajaxLoadManualSplit">
             <result>/jsp/dataset/dataset-manualsplit.jsp</result>
         </action>
 
-        <action name="loadNFoldExternalSection" class="edu.unc.ceccr.action.DatasetFormActions"
+        <action name="loadNFoldExternalSection" class="edu.unc.ceccr.chembench.action.DatasetFormActions"
                 method="ajaxLoadNFoldSplit">
             <result>/jsp/dataset/dataset-nFoldSplit.jsp</result>
         </action>
         <!-- End Dataset Page -->
 
         <!-- Modeling Page -->
-        <action name="modeling" class="edu.unc.ceccr.action.ModelingFormActions" method="loadPage">
+        <action name="modeling" class="edu.unc.ceccr.chembench.action.ModelingFormActions" method="loadPage">
             <result>/jsp/modeling/modeling.jsp</result>
         </action>
 
-        <action name="createModelingJob" class="edu.unc.ceccr.action.ModelingFormActions" method="execute">
+        <action name="createModelingJob" class="edu.unc.ceccr.chembench.action.ModelingFormActions" method="execute">
             <result name="success" type="redirect">jobs</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="loadKnnSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadKnn">
+        <action name="loadKnnSection" class="edu.unc.ceccr.chembench.action.ModelingFormActions" method="ajaxLoadKnn">
             <result>/jsp/modeling/modeling-knn.jsp</result>
         </action>
 
-        <action name="loadKnnPlusSASection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadKnnPlus">
+        <action name="loadKnnPlusSASection" class="edu.unc.ceccr.chembench.action.ModelingFormActions" method="ajaxLoadKnnPlus">
             <result>/jsp/modeling/modeling-knn-plus-sa.jsp</result>
         </action>
 
-        <action name="loadKnnPlusGASection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadKnnPlus">
+        <action name="loadKnnPlusGASection" class="edu.unc.ceccr.chembench.action.ModelingFormActions" method="ajaxLoadKnnPlus">
             <result>/jsp/modeling/modeling-knn-plus-ga.jsp</result>
         </action>
 
-        <action name="loadSvmSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadSvm">
+        <action name="loadSvmSection" class="edu.unc.ceccr.chembench.action.ModelingFormActions" method="ajaxLoadSvm">
             <result>/jsp/modeling/modeling-svm.jsp</result>
         </action>
 
-        <action name="loadRFSection" class="edu.unc.ceccr.action.ModelingFormActions" method="ajaxLoadRandomForest">
+        <action name="loadRFSection" class="edu.unc.ceccr.chembench.action.ModelingFormActions" method="ajaxLoadRandomForest">
             <result>/jsp/modeling/modeling-randomForest.jsp</result>
         </action>
 
-        <action name="loadRandomInternalSplitSection" class="edu.unc.ceccr.action.ModelingFormActions"
+        <action name="loadRandomInternalSplitSection" class="edu.unc.ceccr.chembench.action.ModelingFormActions"
                 method="ajaxLoadRandomSplit">
             <result>/jsp/modeling/modeling-randomsplit.jsp</result>
         </action>
 
-        <action name="loadSphereInternalSplitSection" class="edu.unc.ceccr.action.ModelingFormActions"
+        <action name="loadSphereInternalSplitSection" class="edu.unc.ceccr.chembench.action.ModelingFormActions"
                 method="ajaxLoadSphereSplit">
             <result>/jsp/modeling/modeling-spheresplit.jsp</result>
         </action>
         <!-- End Modeling Page -->
 
         <!-- Make Predictions Pages -->
-        <action name="prediction" class="edu.unc.ceccr.action.PredictionFormActions" method="loadSelectPredictorPage">
+        <action name="prediction" class="edu.unc.ceccr.chembench.action.PredictionFormActions" method="loadSelectPredictorPage">
             <result name="success">/jsp/prediction/selectPredictor.jsp</result>
             <result name="error">/jsp/prediction/selectPredictor.jsp</result>
             <!--<result name="error">/jsp/main/error.jsp</result> -->
         </action>
 
-        <action name="selectPredictor" class="edu.unc.ceccr.action.PredictionFormActions"
+        <action name="selectPredictor" class="edu.unc.ceccr.chembench.action.PredictionFormActions"
                 method="loadMakePredictionsPage">
             <result name="success">/jsp/prediction/makePredictions.jsp</result>
             <result name="error">/jsp/prediction/selectPredictor.jsp</result>
             <!--<result name="error">/jsp/main/error.jsp</result> -->
         </action>
 
-        <action name="makeDatasetPrediction" class="edu.unc.ceccr.action.PredictionFormActions"
+        <action name="makeDatasetPrediction" class="edu.unc.ceccr.chembench.action.PredictionFormActions"
                 method="makeDatasetPrediction">
             <result name="success" type="redirect">jobs</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="makeSmilesPrediction" class="edu.unc.ceccr.action.PredictionFormActions"
+        <action name="makeSmilesPrediction" class="edu.unc.ceccr.chembench.action.PredictionFormActions"
                 method="makeSmilesPrediction">
             <result>//jsp/prediction/predictionResults.jsp</result>
         </action>
         <!-- End Make Predictions Pages -->
 
         <!-- Jobs Page -->
-        <action name="jobs" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
+        <action name="jobs" class="edu.unc.ceccr.chembench.action.JobsActions" method="loadPage">
             <result>/jsp/jobs/jobs.jsp</result>
         </action>
-        <action name="jobs2" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
+        <action name="jobs2" class="edu.unc.ceccr.chembench.action.JobsActions" method="loadPage">
             <result>/jsp/jobs/jobs2.jsp</result>
         </action>
 
         <!-- End Jobs Page -->
 
         <!-- View Dataset Page -->
-        <action name="viewDataset" class="edu.unc.ceccr.action.ViewDataset" method="load">
+        <action name="viewDataset" class="edu.unc.ceccr.chembench.action.ViewDataset" method="load">
             <result name="success">/jsp/datasetOutput/viewDataset.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="viewDatasetCompoundsSection" class="edu.unc.ceccr.action.ViewDataset"
+        <action name="viewDatasetCompoundsSection" class="edu.unc.ceccr.chembench.action.ViewDataset"
                 method="loadCompoundsSection">
             <result name="success">/jsp/datasetOutput/viewDataset-compounds.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="viewDatasetExternalCompoundsSection" class="edu.unc.ceccr.action.ViewDataset"
+        <action name="viewDatasetExternalCompoundsSection" class="edu.unc.ceccr.chembench.action.ViewDataset"
                 method="loadExternalCompoundsSection">
             <result name="success">/jsp/datasetOutput/viewDataset-externalCompounds.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="viewDatasetNFoldSection" class="edu.unc.ceccr.action.ViewDataset"
+        <action name="viewDatasetNFoldSection" class="edu.unc.ceccr.chembench.action.ViewDataset"
                 method="loadExternalCompoundsNFoldSection">
             <result name="success">/jsp/datasetOutput/viewDataset-nFold.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="viewDatasetActivityChartSection" class="edu.unc.ceccr.action.ViewDataset"
+        <action name="viewDatasetActivityChartSection" class="edu.unc.ceccr.chembench.action.ViewDataset"
                 method="loadActivityChartSection">
             <result name="success">/jsp/datasetOutput/viewDataset-activityChart.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="viewDatasetVisualizationSection" class="edu.unc.ceccr.action.ViewDataset"
+        <action name="viewDatasetVisualizationSection" class="edu.unc.ceccr.chembench.action.ViewDataset"
                 method="loadVisualizationSection">
             <result name="success">/jsp/datasetOutput/viewDataset-visualization.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="viewDatasetDescriptorsSection" class="edu.unc.ceccr.action.ViewDataset"
+        <action name="viewDatasetDescriptorsSection" class="edu.unc.ceccr.chembench.action.ViewDataset"
                 method="loadDescriptorsSection">
             <result name="success">/jsp/datasetOutput/viewDataset-descriptors.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="updateDataset" class="edu.unc.ceccr.action.ViewDataset" method="updateDataset">
+        <action name="updateDataset" class="edu.unc.ceccr.chembench.action.ViewDataset" method="updateDataset">
             <result name="success">/jsp/datasetOutput/viewDataset.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="generateMahalanobis" class="edu.unc.ceccr.action.ViewDataset" method="generateMahalanobis">
+        <action name="generateMahalanobis" class="edu.unc.ceccr.chembench.action.ViewDataset" method="generateMahalanobis">
             <result name="success">/jsp/datasetOutput/viewDataset.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
@@ -299,23 +299,23 @@
 
         <!-- common to all modeling methods -->
 
-        <action name="viewPredictor" class="edu.unc.ceccr.action.ViewPredictor.PredictorPage" method="load">
+        <action name="viewPredictor" class="edu.unc.ceccr.chembench.action.ViewPredictor.PredictorPage" method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="updatePredictor" class="edu.unc.ceccr.action.ViewPredictor.PredictorPage" method="update">
+        <action name="updatePredictor" class="edu.unc.ceccr.chembench.action.ViewPredictor.PredictorPage" method="update">
             <result name="success">/jsp/modelingOutput/viewPredictor.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="viewPredictorExternalValidationSection"
-                class="edu.unc.ceccr.action.ViewPredictor.ExternalValidationPage" method="load">
+                class="edu.unc.ceccr.chembench.action.ViewPredictor.ExternalValidationPage" method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor-externalSetPredictions.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="viewPredictorParametersSection" class="edu.unc.ceccr.action.ViewPredictor.ParametersPage"
+        <action name="viewPredictorParametersSection" class="edu.unc.ceccr.chembench.action.ViewPredictor.ParametersPage"
                 method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor-parameters.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
@@ -325,7 +325,7 @@
 
         <!-- knn -->
 
-        <action name="viewPredictorKnnModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnModelsPage"
+        <action name="viewPredictorKnnModelsSection" class="edu.unc.ceccr.chembench.action.ViewPredictor.KnnModelsPage"
                 method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor-knnModels.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
@@ -335,7 +335,7 @@
 
         <!-- knn+ -->
 
-        <action name="viewPredictorKnnPlusModelsSection" class="edu.unc.ceccr.action.ViewPredictor.KnnPlusModelsPage"
+        <action name="viewPredictorKnnPlusModelsSection" class="edu.unc.ceccr.chembench.action.ViewPredictor.KnnPlusModelsPage"
                 method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor-knnPlusModels.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
@@ -346,13 +346,13 @@
         <!-- random forest -->
 
         <!-- View Groves: not implemented yet
-             <action name="viewPredictorRandomForestGrovesSection" class="edu.unc.ceccr.action.ViewPredictor.ViewPredictorAction" method="loadGrovesPage">
+             <action name="viewPredictorRandomForestGrovesSection" class="edu.unc.ceccr.chembench.action.ViewPredictor.ViewPredictorAction" method="loadGrovesPage">
                 <result>/jsp/modelingOutput/viewPredictor-randomForestGroves.jsp</result>
             </action>
             -->
 
         <action name="viewPredictorRandomForestTreesSection"
-                class="edu.unc.ceccr.action.ViewPredictor.RandomForestModelsPage" method="load">
+                class="edu.unc.ceccr.chembench.action.ViewPredictor.RandomForestModelsPage" method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor-randomForestTrees.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
@@ -361,7 +361,7 @@
 
         <!-- svm -->
 
-        <action name="viewPredictorSvmModelsSection" class="edu.unc.ceccr.action.ViewPredictor.SvmModelsPage"
+        <action name="viewPredictorSvmModelsSection" class="edu.unc.ceccr.chembench.action.ViewPredictor.SvmModelsPage"
                 method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor-svmModels.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
@@ -372,18 +372,18 @@
         <!-- End View Predictor Page -->
 
         <!-- View Prediction Page -->
-        <action name="viewPrediction" class="edu.unc.ceccr.action.ViewPredictionAction" method="load">
+        <action name="viewPrediction" class="edu.unc.ceccr.chembench.action.ViewPredictionAction" method="load">
             <result name="success">/jsp/predictionOutput/viewPrediction.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="viewPredictionPredictionsSection" class="edu.unc.ceccr.action.ViewPredictionAction"
+        <action name="viewPredictionPredictionsSection" class="edu.unc.ceccr.chembench.action.ViewPredictionAction"
                 method="loadPredictionsSection">
             <result name="success">/jsp/predictionOutput/viewPrediction-predictions.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="viewPredictionWarningsSection" class="edu.unc.ceccr.action.ViewPredictionAction"
+        <action name="viewPredictionWarningsSection" class="edu.unc.ceccr.chembench.action.ViewPredictionAction"
                 method="loadWarningsSection">
             <result name="success">/jsp/predictionOutput/viewPrediction-warnings.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
@@ -419,94 +419,94 @@
         <!-- End Servlet forwards -->
 
         <!-- Delete Actions -->
-        <action name="deleteDataset" class="edu.unc.ceccr.action.DeleteAction" method="deleteDataset">
+        <action name="deleteDataset" class="edu.unc.ceccr.chembench.action.DeleteAction" method="deleteDataset">
             <result name="success" type="redirect">jobs</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="deletePredictor" class="edu.unc.ceccr.action.DeleteAction" method="deletePredictor">
+        <action name="deletePredictor" class="edu.unc.ceccr.chembench.action.DeleteAction" method="deletePredictor">
             <result name="success" type="redirect">jobs</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="deletePrediction" class="edu.unc.ceccr.action.DeleteAction" method="deletePrediction">
+        <action name="deletePrediction" class="edu.unc.ceccr.chembench.action.DeleteAction" method="deletePrediction">
             <result name="success" type="redirect">jobs</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="deleteJob" class="edu.unc.ceccr.action.DeleteAction" method="deleteJob">
+        <action name="deleteJob" class="edu.unc.ceccr.chembench.action.DeleteAction" method="deleteJob">
             <result type="redirect">jobs</result>
         </action>
 
-        <action name="deleteUser" class="edu.unc.ceccr.action.DeleteAction" method="deleteUser">
+        <action name="deleteUser" class="edu.unc.ceccr.chembench.action.DeleteAction" method="deleteUser">
             <result name="success" type="redirect">admin</result>
             <result name="error" type="redirect">home</result>
         </action>
         <!-- End Delete Actions -->
 
         <!-- Admin Actions -->
-        <action name="admin" class="edu.unc.ceccr.action.AdminAction" method="loadPage">
+        <action name="admin" class="edu.unc.ceccr.chembench.action.AdminAction" method="loadPage">
             <result name="success">/jsp/administration/settings/admin.jsp</result>
             <result name="error">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="adminJobs" class="edu.unc.ceccr.action.JobsActions" method="loadPage">
+        <action name="adminJobs" class="edu.unc.ceccr.chembench.action.JobsActions" method="loadPage">
             <result>/jsp/administration/settings/jobs.jsp</result>
             <result name="error">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="emailToAll" class="edu.unc.ceccr.action.AdminAction" method="loadEmailAllUsersPage">
+        <action name="emailToAll" class="edu.unc.ceccr.chembench.action.AdminAction" method="loadEmailAllUsersPage">
             <result>/jsp/administration/settings/emailToAll.jsp</result>
         </action>
 
-        <action name="emailAllUsers" class="edu.unc.ceccr.action.AdminAction" method="emailAllUsers">
+        <action name="emailAllUsers" class="edu.unc.ceccr.chembench.action.AdminAction" method="emailAllUsers">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="emailSelectedUsers" class="edu.unc.ceccr.action.AdminAction" method="emailSelectedUsers">
+        <action name="emailSelectedUsers" class="edu.unc.ceccr.chembench.action.AdminAction" method="emailSelectedUsers">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="changeUserAdminStatus" class="edu.unc.ceccr.action.AdminAction" method="changeUserAdminStatus">
+        <action name="changeUserAdminStatus" class="edu.unc.ceccr.chembench.action.AdminAction" method="changeUserAdminStatus">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="changeUserDescriptorDownloadStatus" class="edu.unc.ceccr.action.AdminAction"
+        <action name="changeUserDescriptorDownloadStatus" class="edu.unc.ceccr.chembench.action.AdminAction"
                 method="changeUserDescriptorDownloadStatus">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="makePredictorPublicAction" class="edu.unc.ceccr.action.AdminAction" method="makePredictorPublic">
+        <action name="makePredictorPublicAction" class="edu.unc.ceccr.chembench.action.AdminAction" method="makePredictorPublic">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="makeDatasetPublicAction" class="edu.unc.ceccr.action.AdminAction" method="makeDatasetPublic">
+        <action name="makeDatasetPublicAction" class="edu.unc.ceccr.chembench.action.AdminAction" method="makeDatasetPublic">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="renamePublicPredictorAction" class="edu.unc.ceccr.action.AdminAction"
+        <action name="renamePublicPredictorAction" class="edu.unc.ceccr.chembench.action.AdminAction"
                 method="renamePublicPredictor">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/errors.jsp</result>
         </action>
 
-        <action name="deleteDatasetAction" class="edu.unc.ceccr.action.AdminAction" method="deleteDataset">
+        <action name="deleteDatasetAction" class="edu.unc.ceccr.chembench.action.AdminAction" method="deleteDataset">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="deletePredictorAction" class="edu.unc.ceccr.action.AdminAction" method="deletePredictor">
+        <action name="deletePredictorAction" class="edu.unc.ceccr.chembench.action.AdminAction" method="deletePredictor">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="deletePublicPredictionAction" class="edu.unc.ceccr.action.AdminAction"
+        <action name="deletePublicPredictionAction" class="edu.unc.ceccr.chembench.action.AdminAction"
                 method="deletePublicPrediction">
             <result name="success" type="redirect">home</result>
             <result name="error">/jsp/main/error.jsp</result>
@@ -515,7 +515,7 @@
         <!-- End Admin Actions -->
 
         <!-- API endpoints -->
-        <action name="predictSmiles" class="edu.unc.ceccr.action.api.PredictSmiles">
+        <action name="predictSmiles" class="edu.unc.ceccr.chembench.action.api.PredictSmiles">
             <result name="success" type="json">
                 <param name="excludeNullProperties">true</param>
             </result>

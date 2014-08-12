@@ -35,34 +35,34 @@
         <appender-ref ref="Ceccr-Log"/>
     </logger>
 
-    <logger name="edu.unc.ceccr.action.PredictionFormActions" additivity="true">
+    <logger name="edu.unc.ceccr.chembench.action.PredictionFormActions" additivity="true">
         <level value="all"/>
         <appender-ref ref="Prediction-Log"/>
         <!-- should write to Ceccr-Log as well due to additivity=true -->
     </logger>
 
-    <logger name="edu.unc.ceccr.workflows.modelingPrediction.RunSmilesPrediction" additivity="true">
+    <logger name="edu.unc.ceccr.chembench.workflows.modelingPrediction.RunSmilesPrediction" additivity="true">
         <level value="all"/>
         <appender-ref ref="Prediction-Log"/>
         <!-- should write to Ceccr-Log as well due to additivity=true -->
     </logger>
 
-    <logger name="edu.unc.ceccr.action.JobsActions" additivity="false">
+    <logger name="edu.unc.ceccr.chembench.action.JobsActions" additivity="false">
         <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>
 
-    <logger name="edu.unc.ceccr.taskObjects.QsarModelingTask" additivity="false">
+    <logger name="edu.unc.ceccr.chembench.taskObjects.QsarModelingTask" additivity="false">
         <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>
 
-    <logger name="edu.unc.ceccr.action.ModelingFormActions" additivity="false">
+    <logger name="edu.unc.ceccr.chembench.action.ModelingFormActions" additivity="false">
         <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>
 
-    <logger name="edu.unc.ceccr.jobs" additivity="false">
+    <logger name="edu.unc.ceccr.chembench.jobs" additivity="false">
         <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
     </logger>
