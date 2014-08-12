@@ -517,12 +517,11 @@
         <!-- API endpoints -->
         <action name="predictSmiles" class="edu.unc.ceccr.action.api.PredictSmiles">
             <result name="success" type="json">
-                <param name="excludeProperties">error</param>
+                <param name="excludeNullProperties">true</param>
             </result>
 
             <result name="unauthorized" type="json">
                 <param name="errorCode">401</param>
-                <param name="excludeProperties">error</param>
             </result>
 
             <result name="badRequest" type="json">
