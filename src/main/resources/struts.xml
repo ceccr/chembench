@@ -515,7 +515,7 @@
         <!-- End Admin Actions -->
 
         <!-- API endpoints -->
-        <action name="predictSmiles" class="edu.unc.ceccr.action.APIAction" method="predictSmiles">
+        <action name="predictSmiles" class="edu.unc.ceccr.action.api.PredictSmiles">
             <result name="success" type="json">
                 <param name="excludeProperties">error</param>
             </result>
