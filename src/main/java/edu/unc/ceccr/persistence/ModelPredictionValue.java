@@ -6,7 +6,7 @@ import javax.persistence.*;
 @Table(name = "cbench_modelPredictionValue")
 public class ModelPredictionValue implements java.io.Serializable {
     /*
-		create table cbench_modelPredictionValues (
+        create table cbench_modelPredictionValues (
 		id INT(12) UNSIGNED auto_increment PRIMARY KEY,
 		modelId VARCHAR(255),
 		modelType INT(12) UNSIGNED,

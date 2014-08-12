@@ -29,56 +29,37 @@ public class DeleteAction extends ActionSupport {
     private static Logger logger = Logger.getLogger(DeleteAction.class.getName());
     private List<String> errorStrings = Lists.newArrayList();
 
-    private void
-    checkDatasetDependencies(Dataset ds) throws ClassNotFoundException,
-            SQLException {
+    private void checkDatasetDependencies(Dataset ds) throws ClassNotFoundException, SQLException {
         // make sure there are no predictors, predictions, or jobs that depend
         // on this dataset
         logger.debug("checking dataset dependencies");
 
         Session session = HibernateUtil.getSession();
         String userName = ds.getUserName();
-        ArrayList<Predictor> userPredictors
-                = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(
-                userName
-                , true
-                , false
-                , session);
-        ArrayList<Prediction> userPredictions
-                = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(
-                userName
-                , false
-                , session);
+        ArrayList<Predictor> userPredictors =
+                (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName, true, false, session);
+        ArrayList<Prediction> userPredictions =
+                (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false, session);
 
         // check each predictor
         for (int i = 0; i < userPredictors.size(); i++) {
-            logger.debug("predictor id: "
-                    + userPredictors.get(i).getDatasetId() + " dataset id: "
-                    + ds.getId());
-            if (userPredictors.get(i).getDatasetId() != null
-                    && userPredictors.get(i).getDatasetId()
+            logger.debug("predictor id: " + userPredictors.get(i).getDatasetId() + " dataset id: " + ds.getId());
+            if (userPredictors.get(i).getDatasetId() != null && userPredictors.get(i).getDatasetId()
                     .equals(ds.getId())) {
                 errorStrings
-                        .add("The predictor '"
-                                + userPredictors.get(i).getName()
-                                + "' depends on this dataset. Please" +
+                        .add("The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset. Please" +
                                 " delete it first.\n");
             }
         }
 
         // check each prediction
         for (int i = 0; i < userPredictions.size(); i++) {
-            logger.debug("Prediction id: "
-                    + userPredictions.get(i).getDatasetId() + " dataset id: "
-                    + ds.getId());
-            if (userPredictions.get(i).getDatasetId() != null
-                    && userPredictions.get(i).getDatasetId().equals(
-                    ds.getId())) {
-                errorStrings
-                        .add("The prediction '"
-                                + userPredictions.get(i).getName()
-                                + "' depends on this dataset. Please " +
-                                "delete it first.\n");
+            logger.debug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getId());
+            if (userPredictions.get(i).getDatasetId() != null && userPredictions.get(i).getDatasetId()
+                    .equals(ds.getId())) {
+                errorStrings.add("The prediction '" + userPredictions.get(i).getName()
+                        + "' depends on this dataset. Please " +
+                        "delete it first.\n");
             }
         }
 
@@ -90,30 +71,25 @@ public class DeleteAction extends ActionSupport {
 
     }
 
-    private void
-    checkPredictorDependencies(Predictor p) throws ClassNotFoundException,
-            SQLException {
+    private void checkPredictorDependencies(Predictor p) throws ClassNotFoundException, SQLException {
         // make sure there are no predictions or prediction jobs that depend
         // on this predictor
 
         String userName = p.getUserName();
         Session session = HibernateUtil.getSession();
-        ArrayList<Prediction> userPredictions
-                = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(
-                userName, false, session);
+        ArrayList<Prediction> userPredictions =
+                (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false, session);
         session.close();
 
         // check each prediction
         for (int i = 0; i < userPredictions.size(); i++) {
             Prediction prediction = userPredictions.get(i);
-            String[] predictorIds = prediction.getPredictorIds()
-                    .split("\\s+");
+            String[] predictorIds = prediction.getPredictorIds().split("\\s+");
             for (int j = 0; j < predictorIds.length; j++) {
                 if (Long.parseLong(predictorIds[j]) == p.getId()) {
                     errorStrings
-                            .add("The prediction '"
-                                    + userPredictions.get(i).getName()
-                                    + "' depends on this predictor." +
+                            .add("The prediction '" + userPredictions.get(i).getName() + "' depends on this predictor."
+                                    +
                                     " Please delete it first.\n");
                 }
             }
@@ -145,8 +121,7 @@ public class DeleteAction extends ActionSupport {
         }
 
         // make sure the user can actually delete this object
-        if (user.getUserName().equalsIgnoreCase(objectUser)
-                || user.getIsAdmin().equals(Constants.YES)) {
+        if (user.getUserName().equalsIgnoreCase(objectUser) || user.getIsAdmin().equals(Constants.YES)) {
             return true;
         }
 
@@ -169,8 +144,7 @@ public class DeleteAction extends ActionSupport {
         }
 
         Session session = HibernateUtil.getSession();
-        ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId),
-                session);
+        ds = PopulateDataObjects.getDataSetById(Long.parseLong(datasetId), session);
 
         if (ds == null) {
             errorStrings.add("Invalid dataset ID supplied.");
@@ -178,9 +152,7 @@ public class DeleteAction extends ActionSupport {
         }
 
         if (!checkPermissions(ds.getUserName())) {
-            errorStrings
-                    .add("Error: You do not have the permissions " +
-                            "needed to delete this dataset.");
+            errorStrings.add("Error: You do not have the permissions " + "needed to delete this dataset.");
             return ERROR;
         }
 
@@ -191,8 +163,7 @@ public class DeleteAction extends ActionSupport {
         }
 
         // delete the files associated with this dataset
-        String dir = Constants.CECCR_USER_BASE_PATH + ds.getUserName()
-                + "/DATASETS/" + ds.getName();
+        String dir = Constants.CECCR_USER_BASE_PATH + ds.getUserName() + "/DATASETS/" + ds.getName();
         if ((new File(dir)).exists()) {
             if (!FileAndDirOperations.deleteDir(new File(dir))) {
                 logger.warn("error deleting dir: " + dir);
@@ -225,8 +196,7 @@ public class DeleteAction extends ActionSupport {
         Predictor p = null;
 
         predictorId = ((String[]) context.getParameters().get("id"))[0];
-        logger.debug("Deleting predictor with id: "
-                + predictorId);
+        logger.debug("Deleting predictor with id: " + predictorId);
 
         if (predictorId == null) {
             logger.debug("No predictor ID supplied.");
@@ -234,8 +204,7 @@ public class DeleteAction extends ActionSupport {
         }
 
         Session session = HibernateUtil.getSession();
-        p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId),
-                session);
+        p = PopulateDataObjects.getPredictorById(Long.parseLong(predictorId), session);
 
         if (p == null) {
             errorStrings.add("Invalid predictor ID supplied.");
@@ -243,9 +212,7 @@ public class DeleteAction extends ActionSupport {
         }
 
         if (!checkPermissions(p.getUserName())) {
-            errorStrings
-                    .add("You do not have the permissions " +
-                            "needed to delete this predictor.");
+            errorStrings.add("You do not have the permissions " + "needed to delete this predictor.");
             return ERROR;
         }
 
@@ -261,13 +228,10 @@ public class DeleteAction extends ActionSupport {
         return SUCCESS;
     }
 
-    public void
-    deletePredictor(Predictor p, Session session) throws Exception {
-        ArrayList<ExternalValidation> extVals
-                = Lists.newArrayList();
+    public void deletePredictor(Predictor p, Session session) throws Exception {
+        ArrayList<ExternalValidation> extVals = Lists.newArrayList();
         // delete the files associated with this predictor
-        String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName()
-                + "/PREDICTORS/" + p.getName() + "/";
+        String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName() + "/PREDICTORS/" + p.getName() + "/";
         if (!FileAndDirOperations.deleteDir(new File(dir))) {
             logger.warn("error deleting dir: " + dir);
         }
@@ -283,23 +247,18 @@ public class DeleteAction extends ActionSupport {
                     logger.warn("Attempted to delete a nonexistant child " +
                             "predictor belonging to predictor id " + p.getId());
                 } else {
-                    Predictor childPredictor = PopulateDataObjects
-                            .getPredictorById(Long.parseLong(childId), session);
+                    Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
                     if (childPredictor == null) {
-                        logger.warn(String.format(
-                                "Child predictor with id %s not found",
-                                childId));
+                        logger.warn(String.format("Child predictor with id %s not found", childId));
                     } else {
                         childPredictors.add(childPredictor);
-                        extVals.addAll(PopulateDataObjects
-                                .getExternalValidationValues(childPredictor.getId(),
-                                        session));
+                        extVals.addAll(
+                                PopulateDataObjects.getExternalValidationValues(childPredictor.getId(), session));
                     }
                 }
             }
         }
-        extVals.addAll(PopulateDataObjects.getExternalValidationValues(p
-                .getId(), session));
+        extVals.addAll(PopulateDataObjects.getExternalValidationValues(p.getId(), session));
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
@@ -327,8 +286,7 @@ public class DeleteAction extends ActionSupport {
         Prediction p = null;
 
         predictionId = ((String[]) context.getParameters().get("id"))[0];
-        logger.debug("Deleting prediction with id: "
-                + predictionId);
+        logger.debug("Deleting prediction with id: " + predictionId);
 
         if (predictionId == null) {
             errorStrings.add("No prediction ID supplied.");
@@ -336,31 +294,26 @@ public class DeleteAction extends ActionSupport {
         }
 
         Session session = HibernateUtil.getSession();
-        p = PopulateDataObjects.getPredictionById(Long
-                .parseLong(predictionId), session);
+        p = PopulateDataObjects.getPredictionById(Long.parseLong(predictionId), session);
         if (p == null) {
             errorStrings.add("Invalid prediction ID.");
             return ERROR;
         }
 
         if (!checkPermissions(p.getUserName())) {
-            errorStrings
-                    .add("You do not have the permissions " +
-                            "needed to delete this prediction.");
+            errorStrings.add("You do not have the permissions " + "needed to delete this prediction.");
             return ERROR;
         }
 
         // delete the files associated with this prediction
-        String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName()
-                + "/PREDICTIONS/" + p.getName();
+        String dir = Constants.CECCR_USER_BASE_PATH + p.getUserName() + "/PREDICTIONS/" + p.getName();
         if (!FileAndDirOperations.deleteDir(new File(dir))) {
             logger.warn("error deleting dir: " + dir);
         }
 
         // delete the prediction values associated with the prediction
-        ArrayList<PredictionValue> pvs
-                = (ArrayList<PredictionValue>) PopulateDataObjects
-                .getPredictionValuesByPredictionId(p.getId(), session);
+        ArrayList<PredictionValue> pvs =
+                (ArrayList<PredictionValue>) PopulateDataObjects.getPredictionValuesByPredictionId(p.getId(), session);
 
         if (pvs != null) {
             for (PredictionValue pv : pvs) {
@@ -411,10 +364,8 @@ public class DeleteAction extends ActionSupport {
             Job j = PopulateDataObjects.getJobById(Long.parseLong(taskId), s);
             if (j != null && j.getJobType().equals(Constants.MODELING)) {
                 if (j.getLookupId() != null) {
-                    logger.debug("getting predictor with id: "
-                            + j.getLookupId());
-                    Predictor p = PopulateDataObjects.getPredictorById(j
-                            .getLookupId(), s);
+                    logger.debug("getting predictor with id: " + j.getLookupId());
+                    Predictor p = PopulateDataObjects.getPredictorById(j.getLookupId(), s);
 
                     String parentPredictorName = "";
                     if (p.getName().matches(".*_fold_(\\d+)_of_(\\d+)")) {
@@ -422,36 +373,27 @@ public class DeleteAction extends ActionSupport {
                         int pos = p.getName().lastIndexOf("_fold");
                         parentPredictorName = p.getName().substring(0, pos);
                     }
-                    Predictor parentPredictor = PopulateDataObjects
-                            .getPredictorByName(parentPredictorName, p
-                                    .getUserName(), s);
+                    Predictor parentPredictor =
+                            PopulateDataObjects.getPredictorByName(parentPredictorName, p.getUserName(), s);
                     if (!parentPredictorName.isEmpty() && parentPredictor != null) {
                         logger.debug("Parent predictor is not null, deleting sibling jobs.");
-                        String[] childPredictorIds = parentPredictor
-                                .getChildIds().split("\\s+");
+                        String[] childPredictorIds = parentPredictor.getChildIds().split("\\s+");
 
                         // get siblings
-                        ArrayList<Predictor> siblingPredictors
-                                = Lists.newArrayList();
+                        ArrayList<Predictor> siblingPredictors = Lists.newArrayList();
                         for (String childPredictorId : childPredictorIds) {
                             if (!childPredictorId.equals("" + p.getId())) {
-                                Predictor sibling
-                                        = PopulateDataObjects.getPredictorById(
-                                        Long.parseLong(childPredictorId), s);
+                                Predictor sibling =
+                                        PopulateDataObjects.getPredictorById(Long.parseLong(childPredictorId), s);
                                 siblingPredictors.add(sibling);
                             }
                         }
 
                         // find sibling jobs and cancel those
                         for (Predictor sp : siblingPredictors) {
-                            Job sibJob = PopulateDataObjects
-                                    .getJobByNameAndUsername(
-                                            sp.getName(), sp
-                                                    .getUserName(), s
-                                    );
+                            Job sibJob = PopulateDataObjects.getJobByNameAndUsername(sp.getName(), sp.getUserName(), s);
                             try {
-                                CentralDogma.getInstance().cancelJob(
-                                        sibJob.getId());
+                                CentralDogma.getInstance().cancelJob(sibJob.getId());
                             } catch (Exception ex) {
                                 // if some siblings are missing, don't
                                 // crash, just keep deleting things
@@ -459,14 +401,12 @@ public class DeleteAction extends ActionSupport {
                             }
                         }
                         // cancel this job
-                        CentralDogma.getInstance().cancelJob(
-                                Long.parseLong(taskId));
+                        CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
 
                         // delete the parent predictor
                         deletePredictor(parentPredictor, s);
                     } else {
-                        CentralDogma.getInstance().cancelJob(
-                                Long.parseLong(taskId));
+                        CentralDogma.getInstance().cancelJob(Long.parseLong(taskId));
                     }
                 }
             } else {
@@ -486,8 +426,7 @@ public class DeleteAction extends ActionSupport {
         ActionContext context = ActionContext.getContext();
         User u = (User) context.getSession().get("user");
 
-        String userToDelete = ((String[]) context.getParameters().get(
-                "userToDelete"))[0];
+        String userToDelete = ((String[]) context.getParameters().get("userToDelete"))[0];
         logger.debug("Deleting user: " + userToDelete);
 
         if (u == null || !u.getIsAdmin().equals(Constants.YES)) {
@@ -495,10 +434,8 @@ public class DeleteAction extends ActionSupport {
             return ERROR;
         }
 
-        if (userToDelete.isEmpty()
-                || userToDelete.contains("..")
-                || userToDelete.contains("~")
-                || userToDelete.contains("/")) {
+        if (userToDelete.isEmpty() || userToDelete.contains("..") || userToDelete.contains("~") || userToDelete
+                .contains("/")) {
             // just being a little safer, since there's a recursive delete in
             // this function
             return ERROR;
@@ -507,10 +444,7 @@ public class DeleteAction extends ActionSupport {
         Session s = HibernateUtil.getSession();
 
         List<Prediction> predictions = Lists.newArrayList();
-        Iterator<?> predictionItr = PopulateDataObjects
-                .getUserData(userToDelete
-                        , Prediction.class, s)
-                .iterator();
+        Iterator<?> predictionItr = PopulateDataObjects.getUserData(userToDelete, Prediction.class, s).iterator();
         while (predictionItr.hasNext()) {
             predictions.add((Prediction) predictionItr.next());
 
@@ -518,10 +452,7 @@ public class DeleteAction extends ActionSupport {
 
         List<Predictor> predictors = Lists.newArrayList();
 
-        Iterator<?> predictorIter = PopulateDataObjects
-                .getUserData(userToDelete
-                        , Predictor.class, s)
-                .iterator();
+        Iterator<?> predictorIter = PopulateDataObjects.getUserData(userToDelete, Predictor.class, s).iterator();
         while (predictorIter.hasNext()) {
             predictors.add((Predictor) predictorIter.next());
 
@@ -529,10 +460,7 @@ public class DeleteAction extends ActionSupport {
 
         List<Dataset> datasets = Lists.newArrayList();
 
-        Iterator<?> dataSetIter = PopulateDataObjects
-                .getUserData(userToDelete
-                        , Dataset.class, s)
-                .iterator();
+        Iterator<?> dataSetIter = PopulateDataObjects.getUserData(userToDelete, Dataset.class, s).iterator();
         while (dataSetIter.hasNext()) {
             datasets.add((Dataset) dataSetIter.next());
 
@@ -540,10 +468,7 @@ public class DeleteAction extends ActionSupport {
 
         List<Job> jobs = Lists.newArrayList();
 
-        Iterator<?> jobsIter = PopulateDataObjects
-                .getUserData(userToDelete
-                        , Job.class, s)
-                .iterator();
+        Iterator<?> jobsIter = PopulateDataObjects.getUserData(userToDelete, Job.class, s).iterator();
         while (jobsIter.hasNext()) {
             jobs.add((Job) jobsIter.next());
 
@@ -580,8 +505,7 @@ public class DeleteAction extends ActionSupport {
 
         try {
             Session session = HibernateUtil.getSession();
-            User deleteMe = PopulateDataObjects.getUserByUserName(
-                    userToDelete, session);
+            User deleteMe = PopulateDataObjects.getUserByUserName(userToDelete, session);
             Transaction tx = null;
             tx = session.beginTransaction();
             session.delete(deleteMe);
@@ -599,9 +523,7 @@ public class DeleteAction extends ActionSupport {
         return SUCCESS;
     }
 
-    protected void
-    deleteDatabaseData(List<?> list) throws ClassNotFoundException,
-            SQLException {
+    protected void deleteDatabaseData(List<?> list) throws ClassNotFoundException, SQLException {
         if (list.size() != 0) {
             Session session = HibernateUtil.getSession();
             Iterator<?> it = list.iterator();

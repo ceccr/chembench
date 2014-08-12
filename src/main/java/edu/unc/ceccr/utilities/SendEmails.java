@@ -14,33 +14,26 @@ import java.util.Iterator;
 
 public class SendEmails {
 
-    private static Logger logger = Logger.getLogger(SendEmails.class
-            .getName());
+    private static Logger logger = Logger.getLogger(SendEmails.class.getName());
 
     public static boolean isValidEmail(String email) {
         // FIXME don't roll your own email address validator
         // TODO switch to Apache commons
-        return (email.length() > 0 && email.indexOf("@") > 0)
-                && (email.indexOf(".") > 2);
+        return (email.length() > 0 && email.indexOf("@") > 0) && (email.indexOf(".") > 2);
     }
 
     public static void sendJobCompletedEmail(Job j) throws Exception {
         Session s = HibernateUtil.getSession();
         User user = PopulateDataObjects.getUserByUserName(j.getUserName(), s);
         String subject = "Chembench Job Completed: " + j.getJobName();
-        String message = user.getFirstName() + "," + "<br /> Your "
-                + j.getJobType().toLowerCase() + " job, '" + j.getJobName()
-                + "', is finished."
-                + "<br /> Please log in to check the results!";
+        String message =
+                user.getFirstName() + "," + "<br /> Your " + j.getJobType().toLowerCase() + " job, '" + j.getJobName()
+                        + "', is finished." + "<br /> Please log in to check the results!";
 
         sendEmail(user.getEmail(), "", "", subject, message);
     }
 
-    public static void sendEmail(String address,
-                                 String cc,
-                                 String bcc,
-                                 String subject,
-                                 String message) {
+    public static void sendEmail(String address, String cc, String bcc, String subject, String message) {
         try {
             logger.debug("Sending an email...");
 

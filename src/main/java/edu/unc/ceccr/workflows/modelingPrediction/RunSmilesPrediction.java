@@ -4,16 +4,12 @@ import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.Descriptors;
 import edu.unc.ceccr.persistence.Predictor;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.RunExternalProgram;
-import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.utilities.*;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.workflows.datasets.StandardizeMolecules;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
-import edu.unc.ceccr.utilities.CopyJobFiles;
-import edu.unc.ceccr.utilities.StandardizeSdfFormat;
 import org.apache.log4j.Logger;
 
 import java.io.*;
@@ -62,8 +58,9 @@ public class RunSmilesPrediction {
         logger.debug("Normalizing descriptors to fit predictor.");
 
         String descriptorString = Utility.StringListToString(descriptorNames);
-        WriteDescriptors.writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString,
-                sdfile + ".renorm.x", workingDir + "train_0.x", predictor.getScalingType());
+        WriteDescriptors
+                .writePredictionXFile(chemicalNames, descriptorValueMatrix, descriptorString, sdfile + ".renorm.x",
+                        workingDir + "train_0.x", predictor.getScalingType());
 
         /* read prediction output */
         List<String> predValueArray = Lists.newArrayList();
@@ -88,8 +85,8 @@ public class RunSmilesPrediction {
             if (predictor.getModelMethod().equals(Constants.KNN)) {
                 execstr = "knn+ knn-output.list -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + 99999 + "_avd -OUT=" +
                         Constants.PRED_OUTPUT_FILE;
-            } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals
-                    (Constants.KNNSA)) {
+            } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
+                    .equals(Constants.KNNSA)) {
                 execstr = "knn+ models.tbl -4PRED=" + "smiles.sdf.renorm.x" + " -AD=" + 99999 + "_avd -OUT=" +
                         Constants.PRED_OUTPUT_FILE;
             }
@@ -189,8 +186,8 @@ public class RunSmilesPrediction {
                             // assert that there's nothing more in the file
                             String secondLine = br.readLine();
                             if (secondLine != null && !secondLine.isEmpty()) {
-                                logger.warn(String.format("unexpected prediction: VALUE=%s, FILE=%s",
-                                        secondLine.trim(), filepath));
+                                logger.warn(String.format("unexpected prediction: VALUE=%s, FILE=%s", secondLine.trim(),
+                                        filepath));
                             }
                         }
                         br.close();
@@ -201,8 +198,9 @@ public class RunSmilesPrediction {
             }
         } else {
             // unsupported modeling type
-            String logString = String.format("Model method not recognized: PREDICTOR=%s, METHOD=%s",
-                    predictor.getName(), predictor.getModelMethod());
+            String logString =
+                    String.format("Model method not recognized: PREDICTOR=%s, METHOD=%s", predictor.getName(),
+                            predictor.getModelMethod());
             logger.warn(logString);
         }
 
@@ -239,8 +237,8 @@ public class RunSmilesPrediction {
             prediction[1] = predictedValue;
         } else {
             prediction[1] = "N/A";
-            if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants
-                    .KNNSA) || predictor.getModelMethod().equals(Constants.KNN)) {
+            if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants.KNNSA)
+                    || predictor.getModelMethod().equals(Constants.KNN)) {
                 prediction[1] += "- Cutoff Too Low";
             }
         }

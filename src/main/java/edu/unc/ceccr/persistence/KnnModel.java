@@ -64,12 +64,11 @@ public class KnnModel implements java.io.Serializable {
     /**
      * full constructor
      */
-    public KnnModel(Long id, Long predictorId, Integer nnn, Float QSquared,
-                    Float RSquared, Integer n, Float b01, Float b02, Float b11,
-                    Float b12, Float r, Float slSquared, Float f1, Float s2Squared,
-                    Float f2, Float k1, Float k2, Float r01Squared, Float r02Squared,
-                    Float s01Squared, Float s02Squared, Float f01, Float f02,
-                    Float r451Squared, Float r452Squared, Float st45, String file, String flowType) {
+    public KnnModel(Long id, Long predictorId, Integer nnn, Float QSquared, Float RSquared, Integer n, Float b01,
+                    Float b02, Float b11, Float b12, Float r, Float slSquared, Float f1, Float s2Squared, Float f2,
+                    Float k1, Float k2, Float r01Squared, Float r02Squared, Float s01Squared, Float s02Squared,
+                    Float f01, Float f02, Float r451Squared, Float r452Squared, Float st45, String file,
+                    String flowType) {
         this.id = id;
         this.predictorId = predictorId;
         this.nnn = nnn;

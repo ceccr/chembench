@@ -122,9 +122,9 @@ public class ReadDescriptors {
                             // the formula for the molecule isn't a formula
                             // usually indicates missing descriptors
                             // on the previous molecule
-                            throw new Exception("MolconnZ error: Molecule " + descriptorValues.get(Constants
-                                    .MOLCONNZ_COMPOUND_NAME_POS) + " has formula " + descriptorValues.get(Constants
-                                    .MOLCONNZ_FORMULA_POS));
+                            throw new Exception("MolconnZ error: Molecule " + descriptorValues
+                                    .get(Constants.MOLCONNZ_COMPOUND_NAME_POS) + " has formula " + descriptorValues
+                                    .get(Constants.MOLCONNZ_FORMULA_POS));
                         }
                         /* contains molecule name, which isn't a descriptor */
                         descriptorValues.remove(Constants.MOLCONNZ_FORMULA_POS);

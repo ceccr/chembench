@@ -28,9 +28,7 @@ public class PredictorPage extends ViewPredictorAction {
         }
 
         if (context.getParameters().get("editable") != null) {
-            if (user.getIsAdmin().equals(Constants.YES)
-                    || user.getUserName().equals(
-                    selectedPredictor.getUserName())) {
+            if (user.getIsAdmin().equals(Constants.YES) || user.getUserName().equals(selectedPredictor.getUserName())) {
                 editable = "YES";
             }
         } else {
@@ -66,20 +64,16 @@ public class PredictorPage extends ViewPredictorAction {
         // check that the user is logged in
         context = ActionContext.getContext();
 
-        if (context != null
-                && context.getParameters().get("objectId") != null) {
+        if (context != null && context.getParameters().get("objectId") != null) {
             // get predictorId id
             objectId = ((String[]) context.getParameters().get("objectId"))[0];
             String[] predictorIdAsStringArray = new String[1];
             predictorIdAsStringArray[0] = objectId;
             context.getParameters().put("id", predictorIdAsStringArray);
-            predictorDescription = ((String[]) context.getParameters().get(
-                    "predictorDescription"))[0];
-            predictorReference = ((String[]) context.getParameters().get(
-                    "predictorReference"))[0];
+            predictorDescription = ((String[]) context.getParameters().get("predictorDescription"))[0];
+            predictorReference = ((String[]) context.getParameters().get("predictorReference"))[0];
             session = HibernateUtil.getSession();
-            selectedPredictor = PopulateDataObjects.getPredictorById(Long
-                    .parseLong(objectId), session);
+            selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(objectId), session);
             session.close();
             selectedPredictor.setDescription(predictorDescription);
             selectedPredictor.setPaperReference(predictorReference);

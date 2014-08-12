@@ -117,8 +117,8 @@ public class ViewDataset extends ViewAction {
 
         //get activity values (if applicable)
         if (!dataset.getDatasetType().equals(Constants.PREDICTION)) {
-            HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir +
-                    dataset.getActFile());
+            HashMap<String, String> actIdsAndValues =
+                    DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile());
 
             for (Compound c : datasetCompounds) {
                 c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
@@ -213,8 +213,8 @@ public class ViewDataset extends ViewAction {
         String datasetDir = Constants.CECCR_USER_BASE_PATH + datasetUser + "/";
         datasetDir += "DATASETS/" + dataset.getName() + "/";
 
-        HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants
-                .EXTERNAL_SET_A_FILE);
+        HashMap<String, String> actIdsAndValues =
+                DatasetFileOperations.getActFileIdsAndValues(datasetDir + Constants.EXTERNAL_SET_A_FILE);
 
         if (actIdsAndValues.isEmpty()) {
             return result;
@@ -428,7 +428,7 @@ public class ViewDataset extends ViewAction {
 
         //read descriptor program outputs
         /*
-		DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
+        DescriptorGenerationResult molconnZResult = new DescriptorGenerationResult();
 		molconnZResult.setDescriptorType("MolconnZ");
 		if((new File(descriptorsDir + "molconnz.out")).exists()){
 			molconnZResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "molconnz.out"));
@@ -494,7 +494,7 @@ public class ViewDataset extends ViewAction {
             //The Dragon output contains lots of extra info (MAC address of server, that sorta thing)
             //that should not be displayed. Remove it.
             //Sample of stuff we don't want to show:
-			/*
+            /*
 			 * dragonX version 1.4 - Command line version for Linux - v.1.4.2 - built on: 2007-12-04
 			 * License file (/usr/local/ceccr/dragon/2010-12-31_drgx_license_UNC.txt) is a valid license file
 			 * User: ceccr (). Date: 2010/02/17 - 00:56:10 Licensed to: UNC-Chapel Hill - License type: Academic
@@ -696,8 +696,8 @@ public class ViewDataset extends ViewAction {
                 logger.error(e);
             }
         }
-        if (dataset.getDatasetType().equals(Constants.MODELING) ||
-                dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)) {
+        if (dataset.getDatasetType().equals(Constants.MODELING) || dataset.getDatasetType()
+                .equals(Constants.MODELINGWITHDESCRIPTORS)) {
             if (dataset.getSplitType().equals(Constants.NFOLD)) {
                 externalCompoundsCount = "";
                 int smallestFoldSize = 0;
@@ -706,9 +706,8 @@ public class ViewDataset extends ViewAction {
                 datasetDir += "DATASETS/" + dataset.getName() + "/";
                 int numFolds = Integer.parseInt(dataset.getNumExternalFolds());
                 for (int i = 0; i < numFolds; i++) {
-                    HashMap<String, String> actIdsAndValues =
-                            DatasetFileOperations.getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold"
-                                    + (i + 1));
+                    HashMap<String, String> actIdsAndValues = DatasetFileOperations
+                            .getActFileIdsAndValues(datasetDir + dataset.getActFile() + ".fold" + (i + 1));
                     int numExternalInThisFold = actIdsAndValues.size();
                     if (largestFoldSize == 0 || largestFoldSize < numExternalInThisFold) {
                         largestFoldSize = numExternalInThisFold;
@@ -843,8 +842,7 @@ public class ViewDataset extends ViewAction {
         return descriptorGenerationResults;
     }
 
-    public void setDescriptorGenerationResults(
-            List<DescriptorGenerationResult> descriptorGenerationResults) {
+    public void setDescriptorGenerationResults(List<DescriptorGenerationResult> descriptorGenerationResults) {
         this.descriptorGenerationResults = descriptorGenerationResults;
     }
 

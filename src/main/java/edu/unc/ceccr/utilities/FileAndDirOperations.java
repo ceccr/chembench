@@ -15,11 +15,9 @@ import java.util.List;
  */
 
 public class FileAndDirOperations {
-    private static Logger logger
-            = Logger.getLogger(FileAndDirOperations.class.getName());
+    private static Logger logger = Logger.getLogger(FileAndDirOperations.class.getName());
 
-    public static int countFilesInDirMatchingPattern(String dir,
-                                                     String pattern) {
+    public static int countFilesInDirMatchingPattern(String dir, String pattern) {
         int count = 0;
 
         File d = new File(dir);
@@ -41,8 +39,7 @@ public class FileAndDirOperations {
     public static int getNumLinesInFile(String filePath) {
         int count = 0;
         try {
-            InputStream is = new BufferedInputStream(new FileInputStream(
-                    filePath));
+            InputStream is = new BufferedInputStream(new FileInputStream(filePath));
             byte[] c = new byte[1024];
             int readChars = 0;
             while ((readChars = is.read(c)) != -1) {
@@ -110,9 +107,7 @@ public class FileAndDirOperations {
         }
     }
 
-    public static void copyDirContents(String fromDir,
-                                       String toDir,
-                                       boolean recurse) {
+    public static void copyDirContents(String fromDir, String toDir, boolean recurse) {
         try {
             if (!fromDir.endsWith("/")) {
                 fromDir += "/";
@@ -129,10 +124,8 @@ public class FileAndDirOperations {
             while (files != null && x < files.length) {
                 File xfile = new File(fromDir + files[x]);
                 if (!xfile.isDirectory()) {
-                    FileInputStream fin = new FileInputStream(fromDir
-                            + files[x]);
-                    FileOutputStream fout = new FileOutputStream(toDir
-                            + files[x]);
+                    FileInputStream fin = new FileInputStream(fromDir + files[x]);
+                    FileOutputStream fout = new FileOutputStream(toDir + files[x]);
                     FileChannel ic = fin.getChannel();
                     FileChannel oc = fout.getChannel();
                     ic.transferTo(0, ic.size(), oc);
@@ -146,8 +139,7 @@ public class FileAndDirOperations {
                     if (recurse) {
                         File newDir = new File(toDir + files[x]);
                         newDir.mkdir();
-                        copyDirContents(fromDir + files[x], toDir + files[x],
-                                true);
+                        copyDirContents(fromDir + files[x], toDir + files[x], true);
                     }
                 }
                 x++;
@@ -171,16 +163,13 @@ public class FileAndDirOperations {
         File toFile = new File(to);
 
         if (!fromFile.exists()) {
-            throw new IOException("FileCopy: " + "no such source file: "
-                    + from);
+            throw new IOException("FileCopy: " + "no such source file: " + from);
         }
         if (!fromFile.isFile()) {
-            throw new IOException("FileCopy: " + "can't copy directory: "
-                    + from);
+            throw new IOException("FileCopy: " + "can't copy directory: " + from);
         }
         if (!fromFile.canRead()) {
-            throw new IOException("FileCopy: "
-                    + "source file is unreadable: " + from);
+            throw new IOException("FileCopy: " + "source file is unreadable: " + from);
         }
 
         if (toFile.isDirectory()) {
@@ -189,23 +178,19 @@ public class FileAndDirOperations {
 
         if (toFile.exists()) {
             if (!toFile.canWrite()) {
-                throw new IOException("FileCopy: "
-                        + "destination file is unwriteable: " + to);
+                throw new IOException("FileCopy: " + "destination file is unwriteable: " + to);
             }
 
             String parent = toFile.getParent();
             File dir = new File(parent);
             if (!dir.exists()) {
-                throw new IOException("FileCopy: "
-                        + "destination directory doesn't exist: " + parent);
+                throw new IOException("FileCopy: " + "destination directory doesn't exist: " + parent);
             }
             if (dir.isFile()) {
-                throw new IOException("FileCopy: "
-                        + "destination is not a directory: " + parent);
+                throw new IOException("FileCopy: " + "destination is not a directory: " + parent);
             }
             if (!dir.canWrite()) {
-                throw new IOException("FileCopy: "
-                        + "destination directory is unwriteable: " + parent);
+                throw new IOException("FileCopy: " + "destination directory is unwriteable: " + parent);
             }
         } else {
             toFile.createNewFile();
@@ -245,21 +230,18 @@ public class FileAndDirOperations {
             // Make sure the file or directory exists and isn't write
             // protected
             if (!f.exists()) {
-                throw new IllegalArgumentException(
-                        "Delete: no such file or directory: " + filePath);
+                throw new IllegalArgumentException("Delete: no such file or directory: " + filePath);
             }
 
             if (!f.canWrite()) {
-                throw new IllegalArgumentException(
-                        "Delete: write protected: " + filePath);
+                throw new IllegalArgumentException("Delete: write protected: " + filePath);
             }
 
             // Attempt to delete it
             boolean success = f.delete();
 
             if (!success) {
-                throw new IllegalArgumentException(
-                        "Delete: deletion failed for path: " + filePath);
+                throw new IllegalArgumentException("Delete: deletion failed for path: " + filePath);
             }
         } catch (Exception ex) {
             /*FIXME: commenting out the logging. This exception gets thrown several times
@@ -282,8 +264,7 @@ public class FileAndDirOperations {
         try {
             String files[] = dir.list();
             if (files != null) {
-                logger.debug("Deleting " + files.length
-                        + " files from dir: " + dirToErase);
+                logger.debug("Deleting " + files.length + " files from dir: " + dirToErase);
             } else {
                 logger.warn("Could not open dir: " + dirToErase);
             }
@@ -299,8 +280,7 @@ public class FileAndDirOperations {
         }
     }
 
-    public static void
-    writeFiles(InputStream is, String fullFileLocation) throws IOException {
+    public static void writeFiles(InputStream is, String fullFileLocation) throws IOException {
         OutputStream bos = new FileOutputStream(fullFileLocation);
 
         int bytesRead = 0;
@@ -334,8 +314,7 @@ public class FileAndDirOperations {
             result = Lists.newArrayList();
             String[] children = dir.list();
             for (int i = 0; i < children.length; i++) {
-                if (children[i].startsWith("guest")
-                        && children[i].length() > 5) {
+                if (children[i].startsWith("guest") && children[i].length() > 5) {
                     result.add(children[i]);
                 }
             }

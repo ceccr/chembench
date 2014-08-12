@@ -3,14 +3,10 @@ package edu.unc.ceccr.taskObjects;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.RunExternalProgram;
+import edu.unc.ceccr.utilities.*;
 import edu.unc.ceccr.workflows.descriptors.ConvertDescriptorsToXAndScale;
 import edu.unc.ceccr.workflows.descriptors.GenerateDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.*;
-import edu.unc.ceccr.utilities.CopyJobFiles;
-import edu.unc.ceccr.utilities.CreateJobDirectories;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -24,8 +20,7 @@ import java.util.*;
 
 public class QsarPredictionTask extends WorkflowTask {
 
-    private static Logger logger = Logger.getLogger(QsarPredictionTask.class
-            .getName());
+    private static Logger logger = Logger.getLogger(QsarPredictionTask.class.getName());
     // for internal use only
     List<Predictor> selectedPredictors = null;
     private String filePath;
@@ -50,8 +45,7 @@ public class QsarPredictionTask extends WorkflowTask {
     // function
     private Prediction prediction;
 
-    public QsarPredictionTask(String userName, String jobName, String sdf,
-                              String cutoff, String selectedPredictorIds,
+    public QsarPredictionTask(String userName, String jobName, String sdf, String cutoff, String selectedPredictorIds,
                               Dataset predictionDataset) throws Exception {
         this.predictionDataset = predictionDataset;
         this.jobName = jobName;
@@ -59,19 +53,16 @@ public class QsarPredictionTask extends WorkflowTask {
         this.sdf = sdf;
         this.cutoff = cutoff;
         this.selectedPredictorIds = selectedPredictorIds;
-        this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"
-                + jobName + "/";
+        this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
         prediction = new Prediction();
 
         Session s = HibernateUtil.getSession();
 
         selectedPredictors = Lists.newArrayList();
-        String[] selectedPredictorIdArray = selectedPredictorIds
-                .split("\\s+");
+        String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
 
         for (int i = 0; i < selectedPredictorIdArray.length; i++) {
-            Predictor p = PopulateDataObjects.getPredictorById(Long
-                    .parseLong(selectedPredictorIdArray[i]), s);
+            Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
             selectedPredictors.add(p);
         }
         Collections.sort(selectedPredictors, new Comparator<Predictor>() {
@@ -90,8 +81,7 @@ public class QsarPredictionTask extends WorkflowTask {
         Long datasetId = prediction.getDatasetId();
         try {
             Session session = HibernateUtil.getSession();
-            this.predictionDataset = PopulateDataObjects.getDataSetById(
-                    datasetId, session);
+            this.predictionDataset = PopulateDataObjects.getDataSetById(datasetId, session);
         } catch (Exception ex) {
             logger.error("User: " + userName + "Job: " + jobName + " " + ex);
         }
@@ -102,24 +92,20 @@ public class QsarPredictionTask extends WorkflowTask {
         }
         this.cutoff = "" + prediction.getSimilarityCutoff().toString();
         this.selectedPredictorIds = prediction.getPredictorIds();
-        this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/"
-                + jobName + "/";
+        this.filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
         Session s = HibernateUtil.getSession();
 
         selectedPredictors = Lists.newArrayList();
-        String[] selectedPredictorIdArray = selectedPredictorIds
-                .split("\\s+");
+        String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
 
         // load list of predictors. Remove any predictors that have already
         // completed their predictions.
         for (int i = 0; i < selectedPredictorIdArray.length; i++) {
-            Predictor p = PopulateDataObjects.getPredictorById(Long
-                    .parseLong(selectedPredictorIdArray[i]), s);
+            Predictor p = PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIdArray[i]), s);
 
             PredictionValue pvalue = PopulateDataObjects
-                    .getFirstPredictionValueByPredictionIdAndPredictorId(
-                            prediction.getId(), p.getId(), s);
+                    .getFirstPredictionValueByPredictionIdAndPredictorId(prediction.getId(), p.getId(), s);
             if (pvalue == null) {
                 selectedPredictors.add(p);
             }
@@ -133,18 +119,15 @@ public class QsarPredictionTask extends WorkflowTask {
         s.close();
     }
 
-    protected static Predictor
-    getPredictor(Long selectedPredictorId) throws ClassNotFoundException,
-            SQLException {
+    protected static Predictor getPredictor(Long selectedPredictorId) throws ClassNotFoundException, SQLException {
 
         Predictor pred = null;
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            pred = (Predictor) session.createCriteria(Predictor.class).add(
-                    Expression.eq("predictorId", selectedPredictorId))
-                    .uniqueResult();
+            pred = (Predictor) session.createCriteria(Predictor.class)
+                    .add(Expression.eq("predictorId", selectedPredictorId)).uniqueResult();
             tx.commit();
         } catch (RuntimeException e) {
             if (tx != null) {
@@ -170,8 +153,7 @@ public class QsarPredictionTask extends WorkflowTask {
             predOutput.setNumModelsUsed(Integer.parseInt(extValues[1]));
             predOutput.setPredictedValue(Float.parseFloat(extValues[2]));
             if (arraySize > 3) {
-                predOutput.setStandardDeviation(Float
-                        .parseFloat(extValues[3]));
+                predOutput.setStandardDeviation(Float.parseFloat(extValues[3]));
             }
         } catch (Exception ex) {
             // if it couldn't get the information, then there is no prediction
@@ -183,13 +165,11 @@ public class QsarPredictionTask extends WorkflowTask {
 
     }
 
-    public static List<PredictionValue>
-    parsePredOutput(String fileLocation, Long predictorId) throws IOException {
+    public static List<PredictionValue> parsePredOutput(String fileLocation, Long predictorId) throws IOException {
         logger.debug("Reading prediction output from " + fileLocation);
         List<PredictionValue> allPredValue = Lists.newArrayList();
         try {
-            BufferedReader in = new BufferedReader(new FileReader(
-                    fileLocation));
+            BufferedReader in = new BufferedReader(new FileReader(fileLocation));
             String inputString;
 
             // skip all the non-blank lines with junk in them
@@ -206,8 +186,7 @@ public class QsarPredictionTask extends WorkflowTask {
                 PredictionValue extValOutput = createPredObject(predValues);
                 extValOutput.setPredictorId(predictorId);
                 allPredValue.add(extValOutput);
-            }
-            while ((inputString = in.readLine()) != null);
+            } while ((inputString = in.readLine()) != null);
             in.close();
         } catch (Exception ex) {
             logger.error(ex);
@@ -231,27 +210,19 @@ public class QsarPredictionTask extends WorkflowTask {
                     // names
                     Session s = HibernateUtil.getSession();
                     allPredsTotalModels = 0;
-                    String[] selectedPredictorIdArray = selectedPredictorIds
-                            .split("\\s+");
-                    List<String> selectedPredictorIds = Lists.newArrayList(
-                            Arrays.asList(selectedPredictorIdArray));
+                    String[] selectedPredictorIdArray = selectedPredictorIds.split("\\s+");
+                    List<String> selectedPredictorIds = Lists.newArrayList(Arrays.asList(selectedPredictorIdArray));
                     Collections.sort(selectedPredictorIds);
                     for (int i = 0; i < selectedPredictorIds.size(); i++) {
-                        Predictor sp = PopulateDataObjects.getPredictorById(
-                                Long.parseLong(selectedPredictorIds.get(i)),
-                                s);
+                        Predictor sp =
+                                PopulateDataObjects.getPredictorById(Long.parseLong(selectedPredictorIds.get(i)), s);
 
-                        if (sp.getChildType() != null
-                                && sp.getChildType().equals(Constants.NFOLD)) {
-                            String[] childIds = sp.getChildIds()
-                                    .split("\\s+");
+                        if (sp.getChildType() != null && sp.getChildType().equals(Constants.NFOLD)) {
+                            String[] childIds = sp.getChildIds().split("\\s+");
                             for (String childId : childIds) {
-                                Predictor cp = PopulateDataObjects
-                                        .getPredictorById(Long
-                                                .parseLong(childId), s);
+                                Predictor cp = PopulateDataObjects.getPredictorById(Long.parseLong(childId), s);
                                 allPredsTotalModels += cp.getNumTestModels();
-                                selectedPredictorNames.add(sp.getName() + "/"
-                                        + cp.getName());
+                                selectedPredictorNames.add(sp.getName() + "/" + cp.getName());
                             }
                         } else {
                             allPredsTotalModels += sp.getNumTestModels();
@@ -268,48 +239,34 @@ public class QsarPredictionTask extends WorkflowTask {
 
                     File predOutFile = null;
 
-                    if (predictionDataset.getDatasetType().equals(
-                            Constants.PREDICTION)
-                            || predictionDataset.getDatasetType().equals(
-                            Constants.MODELING)) {
-                        predOutFile = new File(filePath
-                                + selectedPredictorNames.get(i)
-                                + "/"
-                                + Constants.PRED_OUTPUT_FILE
-                                + "_vs_"
-                                + predictionDataset.getSdfFile()
-                                .toLowerCase() + ".renorm.preds");
-                    } else if (predictionDataset.getDatasetType().equals(
-                            Constants.PREDICTIONWITHDESCRIPTORS)
-                            || predictionDataset.getDatasetType().equals(
-                            Constants.MODELINGWITHDESCRIPTORS)) {
-                        predOutFile = new File(filePath
-                                + selectedPredictorNames.get(i) + "/"
-                                + Constants.PRED_OUTPUT_FILE + "_vs_"
-                                + predictionDataset.getXFile().toLowerCase()
-                                + ".renorm.preds");
+                    if (predictionDataset.getDatasetType().equals(Constants.PREDICTION) || predictionDataset
+                            .getDatasetType().equals(Constants.MODELING)) {
+                        predOutFile = new File(
+                                filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + "_vs_"
+                                        + predictionDataset.getSdfFile().toLowerCase() + ".renorm.preds");
+                    } else if (predictionDataset.getDatasetType().equals(Constants.PREDICTIONWITHDESCRIPTORS)
+                            || predictionDataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)) {
+                        predOutFile = new File(
+                                filePath + selectedPredictorNames.get(i) + "/" + Constants.PRED_OUTPUT_FILE + "_vs_"
+                                        + predictionDataset.getXFile().toLowerCase() + ".renorm.preds");
                     }
 
                     if (predOutFile.exists()) {
                         // quickly count the number of lines in the output
                         // file for this predictor
                         // there are 4 header lines
-                        modelsPredictedSoFar += FileAndDirOperations
-                                .getNumLinesInFile(predOutFile
-                                        .getAbsolutePath()) - 4;
+                        modelsPredictedSoFar +=
+                                FileAndDirOperations.getNumLinesInFile(predOutFile.getAbsolutePath()) - 4;
                     } else {
                         // SVM will just have a bunch of files ending in
                         // ".pred". Count them to get progress.
                         try {
-                            File dir = new File(filePath
-                                    + selectedPredictorNames.get(i) + "/");
-                            modelsPredictedSoFar += (dir
-                                    .list(new FilenameFilter() {
-                                        public boolean accept(File arg0,
-                                                              String arg1) {
-                                            return arg1.endsWith(".pred");
-                                        }
-                                    }).length);
+                            File dir = new File(filePath + selectedPredictorNames.get(i) + "/");
+                            modelsPredictedSoFar += (dir.list(new FilenameFilter() {
+                                public boolean accept(File arg0, String arg1) {
+                                    return arg1.endsWith(".pred");
+                                }
+                            }).length);
                         } catch (Exception ex) {
                             // whatever...
                         }
@@ -367,62 +324,36 @@ public class QsarPredictionTask extends WorkflowTask {
         lookupId = prediction.getId();
         jobType = Constants.PREDICTION;
 
-        logger.debug("User: " + userName + "Job: " + jobName
-                + " Setting up prediction task");
+        logger.debug("User: " + userName + "Job: " + jobName + " Setting up prediction task");
         try {
-            new File(Constants.CECCR_USER_BASE_PATH + userName + "/"
-                    + jobName).mkdir();
+            new File(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName).mkdir();
 
             if (predictionDataset.getUserName().equals(userName)) {
 
                 if (sdf != null && !sdf.trim().isEmpty()) {
-                    FileAndDirOperations
-                            .copyFile(
-                                    Constants.CECCR_USER_BASE_PATH + userName
-                                            + "/DATASETS/"
-                                            + predictionDataset.getName()
-                                            + "/" + sdf,
-                                    Constants.CECCR_USER_BASE_PATH + userName
-                                            + "/" + jobName + "/" + sdf
-                            );
+                    FileAndDirOperations.copyFile(
+                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getName() + "/"
+                                    + sdf, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/" + sdf);
 
                 }
-                if (predictionDataset.getXFile() != null
-                        && !predictionDataset.getXFile().trim().isEmpty()) {
+                if (predictionDataset.getXFile() != null && !predictionDataset.getXFile().trim().isEmpty()) {
                     FileAndDirOperations.copyFile(
-                            Constants.CECCR_USER_BASE_PATH + userName
-                                    + "/DATASETS/"
-                                    + predictionDataset.getName() + "/"
+                            Constants.CECCR_USER_BASE_PATH + userName + "/DATASETS/" + predictionDataset.getName() + "/"
                                     + predictionDataset.getXFile(),
-                            Constants.CECCR_USER_BASE_PATH + userName + "/"
-                                    + jobName + "/"
-                                    + predictionDataset.getXFile()
-                    );
+                            Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/" + predictionDataset
+                                    .getXFile());
                 }
             } else {
                 // public datasets always have SDFs ...msypa(8/30/2011)->not
                 // always true
                 if (sdf != null && !sdf.trim().isEmpty()) {
-                    logger.debug("User: "
-                            + userName
-                            + " Job: "
-                            + jobName
-                            + " Copying file: "
-                            + (Constants.CECCR_USER_BASE_PATH + "all-users"
-                            + "/DATASETS/"
-                            + predictionDataset.getName() + "/" + sdf)
-                            + " to the "
-                            + (Constants.CECCR_USER_BASE_PATH + userName
-                            + "/" + jobName + "/" + sdf));
-                    FileAndDirOperations
-                            .copyFile(
-                                    Constants.CECCR_USER_BASE_PATH
-                                            + "all-users" + "/DATASETS/"
-                                            + predictionDataset.getName()
-                                            + "/" + sdf,
-                                    Constants.CECCR_USER_BASE_PATH + userName
-                                            + "/" + jobName + "/" + sdf
-                            );
+                    logger.debug("User: " + userName + " Job: " + jobName + " Copying file: " + (
+                            Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/" + predictionDataset.getName()
+                                    + "/" + sdf) + " to the " + (Constants.CECCR_USER_BASE_PATH + userName + "/"
+                            + jobName + "/" + sdf));
+                    FileAndDirOperations.copyFile(
+                            Constants.CECCR_USER_BASE_PATH + "all-users" + "/DATASETS/" + predictionDataset.getName()
+                                    + "/" + sdf, Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/" + sdf);
                 }
             }
         } catch (Exception e) {
@@ -444,8 +375,7 @@ public class QsarPredictionTask extends WorkflowTask {
             // So, increment number of times used on each and save each
             // predictor object.
 
-            selectedPredictor.setNumPredictions(selectedPredictor
-                    .getNumPredictions() + 1);
+            selectedPredictor.setNumPredictions(selectedPredictor.getNumPredictions() + 1);
             Transaction tx = null;
             try {
                 tx = s.beginTransaction();
@@ -455,8 +385,7 @@ public class QsarPredictionTask extends WorkflowTask {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error("User: " + userName + "Job: " + jobName + " "
-                        + e);
+                logger.error("User: " + userName + "Job: " + jobName + " " + e);
             }
         }
 
@@ -466,11 +395,9 @@ public class QsarPredictionTask extends WorkflowTask {
         step = Constants.SETUP;
         CreateJobDirectories.createDirs(userName, jobName);
 
-        String path = Constants.CECCR_USER_BASE_PATH + userName + "/"
-                + jobName + "/";
+        String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
-        CopyJobFiles.getDatasetFiles(userName, predictionDataset,
-                Constants.PREDICTION, path);
+        CopyJobFiles.getDatasetFiles(userName, predictionDataset, Constants.PREDICTION, path);
 
         if (jobList.equals(Constants.LSF)) {
             // move files out to LSF
@@ -481,18 +408,14 @@ public class QsarPredictionTask extends WorkflowTask {
         return "";
     }
 
-    private List<PredictionValue>
-    makePredictions(Predictor predictor,
-                    String sdfile,
-                    String basePath,
-                    String datasetPath) throws Exception {
+    private List<PredictionValue> makePredictions(Predictor predictor, String sdfile, String basePath,
+                                                  String datasetPath) throws Exception {
 
         List<PredictionValue> predValues = null;
         String predictionDir = basePath + predictor.getName() + "/";
 
         Session s = HibernateUtil.getSession();
-        List<Predictor> childPredictors = PopulateDataObjects
-                .getChildPredictors(predictor, s);
+        List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(predictor, s);
         s.close();
 
         if (childPredictors.size() > 0) {
@@ -500,8 +423,7 @@ public class QsarPredictionTask extends WorkflowTask {
             // are any).
             List<List<PredictionValue>> childResults = Lists.newArrayList();
             for (Predictor childPredictor : childPredictors) {
-                List<PredictionValue> results = makePredictions(
-                        childPredictor, sdfile, predictionDir, datasetPath);
+                List<PredictionValue> results = makePredictions(childPredictor, sdfile, predictionDir, datasetPath);
                 if (results != null) {
                     childResults.add(results);
                 }
@@ -511,15 +433,13 @@ public class QsarPredictionTask extends WorkflowTask {
                 // from
                 // selecting predictors that have no usable models in their
                 // child predictors
-                throw new Exception(
-                        "No child in the nfold predictor generated any results!");
+                throw new Exception("No child in the nfold predictor generated any results!");
             }
 
             // average the results from the child predictions and return them
             predValues = Lists.newArrayList();
 
-            List<PredictionValue> firstChildResults = childResults
-                    .get(0);
+            List<PredictionValue> firstChildResults = childResults.get(0);
             for (PredictionValue pv : firstChildResults) {
                 PredictionValue parentPredictionValue = new PredictionValue();
                 parentPredictionValue.setCompoundName(pv.getCompoundName());
@@ -535,17 +455,12 @@ public class QsarPredictionTask extends WorkflowTask {
                 SummaryStatistics compoundPredictedValues = new SummaryStatistics();
                 for (List<PredictionValue> childResult : childResults) {
                     if (childResult.get(i).getPredictedValue() != null) {
-                        compoundPredictedValues.addValue(childResult.get(i)
-                                .getPredictedValue());
+                        compoundPredictedValues.addValue(childResult.get(i).getPredictedValue());
                     }
                 }
                 if (!Double.isNaN(compoundPredictedValues.getMean())) {
-                    predValues.get(i).setPredictedValue(
-                            new Float(compoundPredictedValues.getMean()));
-                    predValues.get(i).setStandardDeviation(
-                            new Float(compoundPredictedValues
-                                    .getStandardDeviation())
-                    );
+                    predValues.get(i).setPredictedValue(new Float(compoundPredictedValues.getMean()));
+                    predValues.get(i).setStandardDeviation(new Float(compoundPredictedValues.getStandardDeviation()));
                 }
             }
 
@@ -563,8 +478,7 @@ public class QsarPredictionTask extends WorkflowTask {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error("User: " + userName + "Job: " + jobName + " "
-                        + e);
+                logger.error("User: " + userName + "Job: " + jobName + " " + e);
             } finally {
                 s.close();
             }
@@ -576,18 +490,15 @@ public class QsarPredictionTask extends WorkflowTask {
             new File(predictionDir).mkdirs();
 
             step = Constants.COPYPREDICTOR;
-            CopyJobFiles
-                    .getPredictorFiles(userName, predictor, predictionDir);
+            CopyJobFiles.getPredictorFiles(userName, predictor, predictionDir);
 
             // done with 2. (copy predictor into jobDir/predictorDir)
 
             // 3. copy dataset from jobDir to jobDir/predictorDir. Scale
             // descriptors to fit predictor.
-            FileAndDirOperations.copyDirContents(datasetPath, predictionDir,
-                    false);
+            FileAndDirOperations.copyDirContents(datasetPath, predictionDir, false);
 
-            if (predictor.getDescriptorGeneration()
-                    .equals(Constants.UPLOADED)) {
+            if (predictor.getDescriptorGeneration().equals(Constants.UPLOADED)) {
                 // the prediction descriptors file name is different if the
                 // user provided a .x file.
                 sdfile = predictionDataset.getXFile();
@@ -599,16 +510,15 @@ public class QsarPredictionTask extends WorkflowTask {
                 GenerateDescriptors.GenerateISIDADescriptorsWithHeader(predictionDir + sdfile,
                         predictionDir + sdfile + ".renorm.ISIDA", predictionDir + predictor.getSdFileName() + ".ISIDA" +
                                 ".hdr");
-                ConvertDescriptorsToXAndScale.convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x",
-                        sdfile + ".renorm.x", predictor.getDescriptorGeneration(), predictor.getScalingType(),
-                        predictionDataset.getNumCompound());
+                ConvertDescriptorsToXAndScale
+                        .convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
+                                predictor.getDescriptorGeneration(), predictor.getScalingType(),
+                                predictionDataset.getNumCompound());
             } else {
-                ConvertDescriptorsToXAndScale.convertDescriptorsToXAndScale(
-                        predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
-                        predictor.getDescriptorGeneration(), predictor
-                                .getScalingType(), predictionDataset
-                                .getNumCompound()
-                );
+                ConvertDescriptorsToXAndScale
+                        .convertDescriptorsToXAndScale(predictionDir, sdfile, "train_0.x", sdfile + ".renorm.x",
+                                predictor.getDescriptorGeneration(), predictor.getScalingType(),
+                                predictionDataset.getNumCompound());
             }
             // done with 3. (copy dataset from jobDir to jobDir/predictorDir.
             // Scale descriptors to fit predictor.)
@@ -616,20 +526,17 @@ public class QsarPredictionTask extends WorkflowTask {
             // 4. make predictions in jobDir/predictorDir
 
             step = Constants.PREDICTING;
-            logger.debug("User: " + userName + "Job: " + jobName
-                    + " ExecutePredictor: Making predictions");
+            logger.debug("User: " + userName + "Job: " + jobName + " ExecutePredictor: Making predictions");
 
             if (predictor.getModelMethod().equals(Constants.KNN)) {
                 KnnPrediction.runKnnPlusPredictionForKnnPredictors(userName, jobName, predictionDir, sdfile);
             } else if (predictor.getModelMethod().equals(Constants.SVM)) {
                 Svm.runSvmPrediction(predictionDir, sdfile + ".renorm.x");
-            } else if (predictor.getModelMethod().equals(Constants.KNNGA)
-                    || predictor.getModelMethod().equals(Constants.KNNSA)) {
+            } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
+                    .equals(Constants.KNNSA)) {
                 KnnPlus.runKnnPlusPrediction(predictionDir, sdfile);
-            } else if (predictor.getModelMethod()
-                    .equals(Constants.RANDOMFOREST)) {
-                RandomForest.runRandomForestPrediction(predictionDir,
-                        jobName, sdfile, predictor);
+            } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+                RandomForest.runRandomForestPrediction(predictionDir, jobName, sdfile, predictor);
             }
             // done with 4. (make predictions in jobDir/predictorDir)
 
@@ -639,19 +546,14 @@ public class QsarPredictionTask extends WorkflowTask {
             step = Constants.READPRED;
 
             if (predictor.getModelMethod().equals(Constants.KNN)) {
-                predValues = KnnPrediction.readPredictionOutput(
-                        predictionDir, predictor.getId(), sdfile);
+                predValues = KnnPrediction.readPredictionOutput(predictionDir, predictor.getId(), sdfile);
             } else if (predictor.getModelMethod().equals(Constants.SVM)) {
-                predValues = Svm.readPredictionOutput(predictionDir, sdfile
-                        + ".renorm.x", predictor.getId());
-            } else if (predictor.getModelMethod().equals(Constants.KNNGA)
-                    || predictor.getModelMethod().equals(Constants.KNNSA)) {
-                predValues = KnnPlus.readPredictionOutput(predictionDir,
-                        predictor.getId(), sdfile + ".renorm.x");
-            } else if (predictor.getModelMethod()
-                    .equals(Constants.RANDOMFOREST)) {
-                predValues = RandomForest.readPredictionOutput(predictionDir,
-                        predictor.getId());
+                predValues = Svm.readPredictionOutput(predictionDir, sdfile + ".renorm.x", predictor.getId());
+            } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
+                    .equals(Constants.KNNSA)) {
+                predValues = KnnPlus.readPredictionOutput(predictionDir, predictor.getId(), sdfile + ".renorm.x");
+            } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
+                predValues = RandomForest.readPredictionOutput(predictionDir, predictor.getId());
             }
 
             //Apply applicability domian
@@ -709,8 +611,7 @@ public class QsarPredictionTask extends WorkflowTask {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error("User: " + userName + "Job: " + jobName + " "
-                        + e);
+                logger.error("User: " + userName + "Job: " + jobName + " " + e);
             } finally {
                 s.close();
             }
@@ -724,8 +625,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
     public void executeLocal() throws Exception {
 
-        String path = Constants.CECCR_USER_BASE_PATH + userName + "/"
-                + jobName + "/";
+        String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
         String sdfile = predictionDataset.getSdfFile();
 
         // Workflow for this section will be:
@@ -745,8 +645,7 @@ public class QsarPredictionTask extends WorkflowTask {
         if (predictionDataset.getNumCompound() > 10000) {
             // We will probably run out of memory if we try to process this
             // job in Java.
-            logger.warn("User: " + userName + "Job: " + jobName
-                    + " Prediction set too large!");
+            logger.warn("User: " + userName + "Job: " + jobName + " Prediction set too large!");
         }
 
         // for each predictor do {
@@ -758,15 +657,11 @@ public class QsarPredictionTask extends WorkflowTask {
         // remove prediction dataset descriptors from prediction output dir;
         // they are not needed
         try {
-            String[] baseDirFiles = new File(Constants.CECCR_USER_BASE_PATH
-                    + userName + "/" + jobName + "/").list();
+            String[] baseDirFiles = new File(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/").list();
             for (String fileName : baseDirFiles) {
-                if (new File(Constants.CECCR_USER_BASE_PATH + userName + "/"
-                        + jobName + "/" + fileName).exists()) {
+                if (new File(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/" + fileName).exists()) {
                     FileAndDirOperations
-                            .deleteFile(Constants.CECCR_USER_BASE_PATH
-                                    + userName + "/" + jobName + "/"
-                                    + fileName);
+                            .deleteFile(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/" + fileName);
                 }
             }
         } catch (Exception ex) {
@@ -800,12 +695,10 @@ public class QsarPredictionTask extends WorkflowTask {
                 if (tx != null) {
                     tx.rollback();
                 }
-                logger.error("User: " + userName + "Job: " + jobName + " "
-                        + e);
+                logger.error("User: " + userName + "Job: " + jobName + " " + e);
             }
 
-            File dir = new File(Constants.CECCR_USER_BASE_PATH
-                    + this.userName + "/" + this.jobName + "/");
+            File dir = new File(Constants.CECCR_USER_BASE_PATH + this.userName + "/" + this.jobName + "/");
             FileAndDirOperations.deleteDir(dir);
 
         } catch (Exception ex) {

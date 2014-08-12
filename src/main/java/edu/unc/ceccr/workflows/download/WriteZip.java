@@ -74,8 +74,8 @@ public class WriteZip {
         out.close();
     }
 
-    public static void ZipDatasets(String userName, String datasetUserName, String datasetName,
-                                   String zipFile) throws Exception {
+    public static void ZipDatasets(String userName, String datasetUserName, String datasetName, String zipFile)
+            throws Exception {
         logger.debug("Creating archive of dataset: " + datasetName + " into file: " + zipFile);
         // These are the files to include in the ZIP file
         String projectSubDir = datasetUserName + "/DATASETS/" + datasetName + "/";
@@ -127,10 +127,9 @@ public class WriteZip {
         }
         int x = 0;
         while (projectDirFilenames != null && x < projectDirFilenames.length) {
-            if (projectDirFilenames[x].endsWith(".act")
-                    || projectDirFilenames[x].endsWith(".sdf")
-                    || projectDirFilenames[x].endsWith(".x")
-                    || projectDirFilenames[x].replaceAll("[0-9]", "").endsWith("fold")) {
+            if (projectDirFilenames[x].endsWith(".act") || projectDirFilenames[x].endsWith(".sdf")
+                    || projectDirFilenames[x].endsWith(".x") || projectDirFilenames[x].replaceAll("[0-9]", "")
+                    .endsWith("fold")) {
                 datasetFiles.add(projectDirFilenames[x]);
             }
             x++;
@@ -150,10 +149,10 @@ public class WriteZip {
         String[] projectDirDescriptorsFilenames = ProjectDirDescriptorsFile.list();
         x = 0;
         while (projectDirDescriptorsFilenames != null && x < projectDirDescriptorsFilenames.length) {
-            if (projectDirDescriptorsFilenames[x].endsWith(".cdk") || projectDirDescriptorsFilenames[x].endsWith("" +
-                    ".x") || projectDirDescriptorsFilenames[x].endsWith(".ISIDA") ||
-                    projectDirDescriptorsFilenames[x].endsWith(".hdr") || projectDirDescriptorsFilenames[x].endsWith
-                    (".svm")) {
+            if (projectDirDescriptorsFilenames[x].endsWith(".cdk") || projectDirDescriptorsFilenames[x]
+                    .endsWith("" + ".x") || projectDirDescriptorsFilenames[x].endsWith(".ISIDA") ||
+                    projectDirDescriptorsFilenames[x].endsWith(".hdr") || projectDirDescriptorsFilenames[x]
+                    .endsWith(".svm")) {
                 datasetFiles.add("Descriptors/" + projectDirDescriptorsFilenames[x]);
             }
             x++;
@@ -197,8 +196,8 @@ public class WriteZip {
         out.close();
     }
 
-    public static void ZipModelingResults(String userName, String predictorUserName, String jobName,
-                                          String zipFile) throws Exception {
+    public static void ZipModelingResults(String userName, String predictorUserName, String jobName, String zipFile)
+            throws Exception {
         /*
         So, there are two contradicting goals this function has to achieve.
         (1) It should provide the user with a usable predictor.
@@ -260,17 +259,13 @@ public class WriteZip {
 
                 int x = 0;
                 while (projectDirFilenames != null && x < projectDirFilenames.length) {
-                    if (projectDirFilenames[x].endsWith(".act")
-                            || projectDirFilenames[x].endsWith(".sdf")
-                            || projectDirFilenames[x].endsWith(".a")
-                            || projectDirFilenames[x].endsWith(".cdk")
-                            || projectDirFilenames[x].endsWith(".cdk.x")
-                            || projectDirFilenames[x].endsWith(".ISIDA")
-                            || projectDirFilenames[x].endsWith(".hdr")
-                            || projectDirFilenames[x].endsWith(".svm")) {
+                    if (projectDirFilenames[x].endsWith(".act") || projectDirFilenames[x].endsWith(".sdf")
+                            || projectDirFilenames[x].endsWith(".a") || projectDirFilenames[x].endsWith(".cdk")
+                            || projectDirFilenames[x].endsWith(".cdk.x") || projectDirFilenames[x].endsWith(".ISIDA")
+                            || projectDirFilenames[x].endsWith(".hdr") || projectDirFilenames[x].endsWith(".svm")) {
                         modelingFiles.add(cp.getName() + "/" + projectDirFilenames[x]);
-                    } else if (projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration().equals
-                            (Constants.UPLOADED)) {
+                    } else if (projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration()
+                            .equals(Constants.UPLOADED)) {
                         modelingFiles.add(projectDirFilenames[x]);
                     }
                     x++;
@@ -282,17 +277,13 @@ public class WriteZip {
 
             int x = 0;
             while (projectDirFilenames != null && x < projectDirFilenames.length) {
-                if (projectDirFilenames[x].endsWith(".act")
-                        || projectDirFilenames[x].endsWith(".sdf")
-                        || projectDirFilenames[x].endsWith(".a")
-                        || projectDirFilenames[x].endsWith(".cdk")
-                        || projectDirFilenames[x].endsWith(".cdk.x")
-                        || projectDirFilenames[x].endsWith(".ISIDA")
-                        || projectDirFilenames[x].endsWith(".hdr")
-                        || projectDirFilenames[x].endsWith(".svm")) {
+                if (projectDirFilenames[x].endsWith(".act") || projectDirFilenames[x].endsWith(".sdf")
+                        || projectDirFilenames[x].endsWith(".a") || projectDirFilenames[x].endsWith(".cdk")
+                        || projectDirFilenames[x].endsWith(".cdk.x") || projectDirFilenames[x].endsWith(".ISIDA")
+                        || projectDirFilenames[x].endsWith(".hdr") || projectDirFilenames[x].endsWith(".svm")) {
                     modelingFiles.add(projectDirFilenames[x]);
-                } else if (projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration().equals
-                        (Constants.UPLOADED)) {
+                } else if (projectDirFilenames[x].endsWith(".x") && predictor.getDescriptorGeneration()
+                        .equals(Constants.UPLOADED)) {
                     modelingFiles.add(projectDirFilenames[x]);
                 }
                 x++;
@@ -369,8 +360,8 @@ public class WriteZip {
                     modelingFiles.add(cp.getName() + "/RF_ext_0.pred");
                 }
             }
-        } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod().equals(Constants
-                .KNNSA)) {
+        } else if (predictor.getModelMethod().equals(Constants.KNNGA) || predictor.getModelMethod()
+                .equals(Constants.KNNSA)) {
             modelingFiles.add("cons_pred_vs_ext_0.preds");
             if (childPredictors != null && !childPredictors.isEmpty()) {
                 for (Predictor cp : childPredictors) {
@@ -403,8 +394,8 @@ public class WriteZip {
         out.close();
     }
 
-    public static void ZipPredictionResults(String userName, String predictionUserName, String jobName,
-                                            String zipFile) throws Exception {
+    public static void ZipPredictionResults(String userName, String predictionUserName, String jobName, String zipFile)
+            throws Exception {
         logger.debug("Creating archive of prediction: " + jobName);
         String projectSubDir = predictionUserName + "/PREDICTIONS/" + jobName + "/";
         if (projectSubDir.contains("..") || projectSubDir.contains("~")) {
@@ -451,14 +442,10 @@ public class WriteZip {
         }
         int x = 0;
         while (projectDirFilenames != null && x < projectDirFilenames.length) {
-            if (projectDirFilenames[x].endsWith(".act")
-                    || projectDirFilenames[x].endsWith(".sdf")
-                    || projectDirFilenames[x].endsWith(".a")
-                    || projectDirFilenames[x].endsWith(".cdk")
-                    || projectDirFilenames[x].endsWith(".cdk.x")
-                    || projectDirFilenames[x].endsWith(".ISIDA")
-                    || projectDirFilenames[x].endsWith(".hdr")
-                    || projectDirFilenames[x].endsWith(".svm")) {
+            if (projectDirFilenames[x].endsWith(".act") || projectDirFilenames[x].endsWith(".sdf")
+                    || projectDirFilenames[x].endsWith(".a") || projectDirFilenames[x].endsWith(".cdk")
+                    || projectDirFilenames[x].endsWith(".cdk.x") || projectDirFilenames[x].endsWith(".ISIDA")
+                    || projectDirFilenames[x].endsWith(".hdr") || projectDirFilenames[x].endsWith(".svm")) {
                 predictionFiles.add(projectDirFilenames[x]);
             }
             x++;
@@ -477,8 +464,8 @@ public class WriteZip {
         x = 0;
         List<String> predictorSubDirs = Lists.newArrayList();
         while (projectDirFilenames != null && x < projectDirFilenames.length) {
-            if ((new File(projectDir + projectDirFilenames[x])).isDirectory() && !projectDirFilenames[x].equals
-                    ("Logs")) {
+            if ((new File(projectDir + projectDirFilenames[x])).isDirectory() && !projectDirFilenames[x]
+                    .equals("Logs")) {
                 predictorSubDirs.add(projectDirFilenames[x] + "/");
             }
             x++;

@@ -17,12 +17,9 @@ public class DataSplit {
 
     private static Logger logger = Logger.getLogger(DataSplit.class.getName());
 
-    public static void SplitModelingExternal(
-            String workingdir,
-            String actFile,
-            String xFile,
-            String numCompoundsExternalSet,
-            String useActivityBinning) throws Exception {
+    public static void SplitModelingExternal(String workingdir, String actFile, String xFile,
+                                             String numCompoundsExternalSet, String useActivityBinning)
+            throws Exception {
         //splits the input dataset into modeling and external validation set
 
         logger.debug(numCompoundsExternalSet);
@@ -52,11 +49,8 @@ public class DataSplit {
         FileAndDirOperations.copyFile(workingdir + "mdlext_ext0.x", workingdir + Constants.EXTERNAL_SET_X_FILE);
     }
 
-    public static void splitModelingExternalGivenList(
-            String workingdir,
-            String actFileName,
-            String xFileName,
-            String compoundIdString) throws Exception {
+    public static void splitModelingExternalGivenList(String workingdir, String actFileName, String xFileName,
+                                                      String compoundIdString) throws Exception {
 
         String[] compoundIDs = compoundIdString.trim().split("\\s+");
         logger.debug("called splitModelingExternalGivenList in dir: " + workingdir + " actfile: " + actFileName + " " +
@@ -201,11 +195,8 @@ public class DataSplit {
         br.close();
     }
 
-    public static void SplitTrainTestRandom(String userName,
-                                            String jobName,
-                                            String numSplitsStr,
-                                            String randomSplitMinTestSizeStr,
-                                            String randomSplitMaxTestSizeStr,
+    public static void SplitTrainTestRandom(String userName, String jobName, String numSplitsStr,
+                                            String randomSplitMinTestSizeStr, String randomSplitMaxTestSizeStr,
                                             String randomSplitSampleWithReplacement) throws Exception {
 
         //need to make the sample with replace option actually do something
@@ -254,16 +245,12 @@ public class DataSplit {
 
     }
 
-    public static void SplitTrainTestSphereExclusion(String userName,
-                                                     String jobName,
-                                                     String numSplitsStr,
-                                                     String splitIncludesMinStr,
-                                                     String splitIncludesMaxStr,
-                                                     String sphereSplitMinTestSizeStr,
-                                                     String selectionNextTrainPt) throws Exception {
+    public static void SplitTrainTestSphereExclusion(String userName, String jobName, String numSplitsStr,
+                                                     String splitIncludesMinStr, String splitIncludesMaxStr,
+                                                     String sphereSplitMinTestSizeStr, String selectionNextTrainPt)
+            throws Exception {
         //splits the modeling set into several training and test sets using sphere exclusion
-        logger.debug("User: " + userName + " Job: " + jobName
-                + " Splitting train/test data by sphere exclusion");
+        logger.debug("User: " + userName + " Job: " + jobName + " Splitting train/test data by sphere exclusion");
 
         String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
@@ -303,7 +290,9 @@ public class DataSplit {
             nextTrainPt = "SH1"; //SUM-MAX, corners and edges first working inwards
         }
 
-        String execstr1 = "datasplit train_0.x -N=" + numSplits + " -M=S -OUT=RAND_sets.list -+=" + forcedCompounds + " -D=" + nextTrainPt + " -S=" + minTestSize;
+        String execstr1 =
+                "datasplit train_0.x -N=" + numSplits + " -M=S -OUT=RAND_sets.list -+=" + forcedCompounds + " -D="
+                        + nextTrainPt + " -S=" + minTestSize;
 
         RunExternalProgram.runCommandAndLogOutput(execstr1, workingdir, "datasplit_train_test");
 

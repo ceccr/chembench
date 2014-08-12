@@ -21,8 +21,7 @@ public class ViewPredictorAction extends ViewAction {
     private static final long serialVersionUID = 1L;
 
     // Basic parameters. Inherited by all subclasses.
-    private static Logger logger
-            = Logger.getLogger(ViewPredictorAction.class.getName());
+    private static Logger logger = Logger.getLogger(ViewPredictorAction.class.getName());
     protected Predictor selectedPredictor;
     protected Dataset dataset;
     protected String currentFoldNumber = "0";
@@ -45,12 +44,9 @@ public class ViewPredictorAction extends ViewAction {
             return basic;
         }
         session = HibernateUtil.getSession();
-        selectedPredictor = PopulateDataObjects.getPredictorById(Long
-                .parseLong(objectId), session);
-        if (selectedPredictor == null
-                || (!selectedPredictor.getUserName().equals(
-                Constants.ALL_USERS_USERNAME) && !user.getUserName()
-                .equals(selectedPredictor.getUserName()))) {
+        selectedPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(objectId), session);
+        if (selectedPredictor == null || (!selectedPredictor.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user
+                .getUserName().equals(selectedPredictor.getUserName()))) {
             logger.debug("Invalid predictor ID supplied. ");
             errorStrings.add("Invalid predictor ID supplied.");
             session.close();
@@ -60,11 +56,9 @@ public class ViewPredictorAction extends ViewAction {
         Long datasetId = selectedPredictor.getDatasetId();
         dataset = PopulateDataObjects.getDataSetById(datasetId, session);
 
-        childPredictors = PopulateDataObjects.getChildPredictors(
-                selectedPredictor, session);
+        childPredictors = PopulateDataObjects.getChildPredictors(selectedPredictor, session);
         if (context.getParameters().get("currentFoldNumber") != null) {
-            currentFoldNumber = ((String[]) context.getParameters().get(
-                    "currentFoldNumber"))[0];
+            currentFoldNumber = ((String[]) context.getParameters().get("currentFoldNumber"))[0];
         }
         session.close();
         return SUCCESS;
@@ -76,12 +70,10 @@ public class ViewPredictorAction extends ViewAction {
         // gets parameters used by each modeling page
         // assumes getBasicParameters has already been called
 
-        isYRandomPage = ((String[]) context.getParameters().get(
-                "isYRandomPage"))[0];
+        isYRandomPage = ((String[]) context.getParameters().get("isYRandomPage"))[0];
 
         if (context.getParameters().get("sortDirection") != null) {
-            sortDirection = ((String[]) context.getParameters().get(
-                    "sortDirection"))[0];
+            sortDirection = ((String[]) context.getParameters().get("sortDirection"))[0];
         }
         if (context.getParameters().get("orderBy") != null) {
             orderBy = ((String[]) context.getParameters().get("orderBy"))[0];

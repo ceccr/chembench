@@ -22,8 +22,7 @@ public class JobsActions extends ActionSupport {
      */
     private static final long serialVersionUID = 42L;
 
-    private static Logger logger
-            = Logger.getLogger(JobsActions.class.getName());
+    private static Logger logger = Logger.getLogger(JobsActions.class.getName());
     // ====== variables used for displaying the JSP =====//
     private User user;
     private boolean adminUser;
@@ -71,29 +70,27 @@ public class JobsActions extends ActionSupport {
         // get datasets
         if (user.getShowPublicDatasets().equals(Constants.ALL)) {
             // get the user's datasets and all public ones
-            userDatasets = PopulateDataObjects.populateDataset(user
-                    .getUserName(), Constants.CONTINUOUS, true, session);
-            userDatasets.addAll(PopulateDataObjects.populateDataset(user
-                    .getUserName(), Constants.CATEGORY, true, session));
-            userDatasets.addAll(PopulateDataObjects.populateDataset(user
-                    .getUserName(), Constants.PREDICTION, true, session));
+            userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
+            userDatasets
+                    .addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
+            userDatasets.addAll(PopulateDataObjects
+                    .populateDataset(user.getUserName(), Constants.PREDICTION, true, session));
         } else if (user.getShowPublicDatasets().equals(Constants.NONE)) {
             // just get the user's datasets
-            userDatasets = PopulateDataObjects.populateDataset(user
-                    .getUserName(), Constants.CONTINUOUS, false, session);
-            userDatasets.addAll(PopulateDataObjects.populateDataset(user
-                    .getUserName(), Constants.CATEGORY, false, session));
-            userDatasets.addAll(PopulateDataObjects.populateDataset(user
-                    .getUserName(), Constants.PREDICTION, false, session));
+            userDatasets =
+                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, false, session);
+            userDatasets.addAll(PopulateDataObjects
+                    .populateDataset(user.getUserName(), Constants.CATEGORY, false, session));
+            userDatasets.addAll(PopulateDataObjects
+                    .populateDataset(user.getUserName(), Constants.PREDICTION, false, session));
         } else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
             // get all the datasets and filter out all the public ones that
             // aren't "show by default"
-            userDatasets = PopulateDataObjects.populateDataset(user
-                    .getUserName(), Constants.CONTINUOUS, true, session);
-            userDatasets.addAll(PopulateDataObjects.populateDataset(user
-                    .getUserName(), Constants.CATEGORY, true, session));
-            userDatasets.addAll(PopulateDataObjects.populateDataset(user
-                    .getUserName(), Constants.PREDICTION, true, session));
+            userDatasets = PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
+            userDatasets
+                    .addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
+            userDatasets.addAll(PopulateDataObjects
+                    .populateDataset(user.getUserName(), Constants.PREDICTION, true, session));
 
             for (int i = 0; i < userDatasets.size(); i++) {
                 String s = userDatasets.get(i).getShowByDefault();
@@ -117,9 +114,8 @@ public class JobsActions extends ActionSupport {
             });
 
             for (int i = 0; i < userDatasets.size(); i++) {
-                if (userDatasets.get(i).getJobCompleted() == null
-                        || userDatasets.get(i).getJobCompleted().equals(
-                        Constants.NO)) {
+                if (userDatasets.get(i).getJobCompleted() == null || userDatasets.get(i).getJobCompleted()
+                        .equals(Constants.NO)) {
                     userDatasets.remove(i);
                     i--;
                 }
@@ -128,12 +124,10 @@ public class JobsActions extends ActionSupport {
         // get predictors
         if (user.getShowPublicPredictors().equals(Constants.ALL)) {
             // get the user's predictors and all public ones
-            userPredictors = PopulateDataObjects.populatePredictors(user
-                    .getUserName(), true, true, session);
+            userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
         } else {
             // just get the user's predictors
-            userPredictors = PopulateDataObjects.populatePredictors(user
-                    .getUserName(), false, true, session);
+            userPredictors = PopulateDataObjects.populatePredictors(user.getUserName(), false, true, session);
         }
         if (userPredictors != null) {
             // Collections.sort(userPredictors, new Comparator<Predictor>() {
@@ -149,8 +143,7 @@ public class JobsActions extends ActionSupport {
         }
 
         // get predictions
-        userPredictions = PopulateDataObjects.populatePredictions(user
-                .getUserName(), false, session);
+        userPredictions = PopulateDataObjects.populatePredictions(user.getUserName(), false, session);
         if (userPredictions != null) {
             // Collections.sort(userPredictions, new Comparator<Prediction>()
             // {
@@ -166,9 +159,8 @@ public class JobsActions extends ActionSupport {
             });
 
             for (int i = 0; i < userPredictions.size(); i++) {
-                if (userPredictions.get(i).getJobCompleted() == null
-                        || userPredictions.get(i).getJobCompleted().equals(
-                        Constants.NO)) {
+                if (userPredictions.get(i).getJobCompleted() == null || userPredictions.get(i).getJobCompleted()
+                        .equals(Constants.NO)) {
                     userPredictions.remove(i);
                     i--;
                 }
@@ -181,18 +173,15 @@ public class JobsActions extends ActionSupport {
         for (int i = 0; i < localJobs.size(); i++) {
             // hide job if job is from a different user and logged in user is
             // not admin
-            if (!localJobs.get(i).getUserName().equals(user.getUserName())
-                    && !user.getIsAdmin().equals(Constants.YES)) {
+            if (!localJobs.get(i).getUserName().equals(user.getUserName()) && !user.getIsAdmin()
+                    .equals(Constants.YES)) {
                 localJobs.remove(i);
                 i--;
                 continue;
             }
 
             if (localJobs.get(i).workflowTask != null) {
-                localJobs.get(i).setMessage(
-                        localJobs.get(i).workflowTask.getProgress(user
-                                .getUserName())
-                );
+                localJobs.get(i).setMessage(localJobs.get(i).workflowTask.getProgress(user.getUserName()));
             }
         }
 
@@ -202,30 +191,25 @@ public class JobsActions extends ActionSupport {
         for (int i = 0; i < lsfJobs.size(); i++) {
             // hide job if job is from a different user and logged in user is
             // not admin
-            if (!lsfJobs.get(i).getUserName().equals(user.getUserName())
-                    && !user.getIsAdmin().equals(Constants.YES)) {
+            if (!lsfJobs.get(i).getUserName().equals(user.getUserName()) && !user.getIsAdmin().equals(Constants.YES)) {
                 lsfJobs.remove(i);
                 i--;
                 continue;
             }
 
             if (lsfJobs.get(i).workflowTask != null) {
-                lsfJobs.get(i).setMessage(
-                        lsfJobs.get(i).workflowTask.getProgress(user
-                                .getUserName())
-                );
+                lsfJobs.get(i).setMessage(lsfJobs.get(i).workflowTask.getProgress(user.getUserName()));
             }
         }
 
         // get incoming jobs
-        incomingJobs = CentralDogma.getInstance().incomingJobs
-                .getReadOnlyCopy();
+        incomingJobs = CentralDogma.getInstance().incomingJobs.getReadOnlyCopy();
 
         for (int i = 0; i < incomingJobs.size(); i++) {
             // hide job if job is from a different user and logged in user is
             // not admin
-            if (!incomingJobs.get(i).getUserName().equals(user.getUserName())
-                    && !user.getIsAdmin().equals(Constants.YES)) {
+            if (!incomingJobs.get(i).getUserName().equals(user.getUserName()) && !user.getIsAdmin()
+                    .equals(Constants.YES)) {
                 incomingJobs.remove(i);
                 i--;
                 continue;
@@ -242,8 +226,8 @@ public class JobsActions extends ActionSupport {
         for (int i = 0; i < errorJobs.size(); i++) {
             // hide job if job is from a different user and logged in user is
             // not admin
-            if (!errorJobs.get(i).getUserName().equals(user.getUserName())
-                    && !user.getIsAdmin().equals(Constants.YES)) {
+            if (!errorJobs.get(i).getUserName().equals(user.getUserName()) && !user.getIsAdmin()
+                    .equals(Constants.YES)) {
                 errorJobs.remove(i);
                 i--;
             }
@@ -251,8 +235,7 @@ public class JobsActions extends ActionSupport {
 
         session.close();
 
-        logger.debug("Forwarding user " + user.getUserName()
-                + " to jobs page.");
+        logger.debug("Forwarding user " + user.getUserName() + " to jobs page.");
 
         return result;
     }

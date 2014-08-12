@@ -38,8 +38,8 @@ public class ModelingUtilities {
         }
         int x = 0;
         while (files != null && x < files.length) {
-            if (files[x].matches(".*default.*") || files[x].matches(".*RAND_sets.*") || files[x].matches(".*rand_sets" +
-                    ".*")) {
+            if (files[x].matches(".*default.*") || files[x].matches(".*RAND_sets.*") || files[x]
+                    .matches(".*rand_sets" + ".*")) {
                 FileInputStream fis = new FileInputStream(fromDir + files[x]);
                 FileOutputStream fos = new FileOutputStream(toDir + files[x]);
                 FileChannel ic = fis.getChannel();
@@ -73,8 +73,8 @@ public class ModelingUtilities {
         }
     }
 
-    public static void MoveToPredictorsDir(String userName, String jobName, String parentPredictorName) throws
-            Exception {
+    public static void MoveToPredictorsDir(String userName, String jobName, String parentPredictorName)
+            throws Exception {
         //When the job is finished, move all the files over to the PREDICTORS dir.
         String moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName;
         String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTORS/";

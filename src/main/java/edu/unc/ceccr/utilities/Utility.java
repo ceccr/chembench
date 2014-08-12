@@ -32,7 +32,7 @@ public class Utility {
         MessageDigest md = MessageDigest.getInstance("SHA-1");
         md.update(str.getBytes());
         byte[] encryptedStr = md.digest();
-        //convert each byte to a readable ascii character for easy database access. 
+        //convert each byte to a readable ascii character for easy database access.
         //Values need to be inside the range [40..126].
         for (int i = 0; i < encryptedStr.length; i++) {
             //writeToDebug("before: " + (Math.abs(new Integer(encryptedStr[i]))) + " after: " + (Math.abs(new Integer
@@ -67,12 +67,11 @@ public class Utility {
         //Debug output write function. Used throughout Java code.
         try {
             // Append to current-job file. For ease of use, really.
-            FileWriter fstream = new FileWriter(
-                    Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
+            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
             BufferedWriter out = new BufferedWriter(fstream);
 
-            out.write(debug_counter.toString() + " " + userName + " " + jobName
-                    + " " + s + " [" + getDate() + "]" + "\n");
+            out.write(debug_counter.toString() + " " + userName + " " + jobName + " " + s + " [" + getDate() + "]"
+                    + "\n");
             out.close();
 
             //write to individual job log
@@ -81,8 +80,7 @@ public class Utility {
                 new File(debugDir).mkdirs();
             }
             // Append to file
-            fstream = new FileWriter(
-                    debugDir + userName + "-" + jobName + ".log", true);
+            fstream = new FileWriter(debugDir + userName + "-" + jobName + ".log", true);
             out = new BufferedWriter(fstream);
             out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
             out.close();
@@ -96,8 +94,7 @@ public class Utility {
         //Debug output write function. Used throughout Java code.
         try {
             // Append to current-job file. For ease of use, really.
-            FileWriter fstream = new FileWriter(
-                    Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
+            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
             BufferedWriter out = new BufferedWriter(fstream);
 
             out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
@@ -110,8 +107,7 @@ public class Utility {
     public static void writeToUsageLog(String s, String username) {
         //Usage output write function. Used throughout Java code.
         try {
-            FileWriter fstream = new FileWriter(
-                    Constants.CECCR_USER_BASE_PATH + "usage.log", true);
+            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "usage.log", true);
             BufferedWriter out = new BufferedWriter(fstream);
 
             out.write(username + ": " + s + " [" + getDate() + "]" + "\n");
@@ -125,8 +121,7 @@ public class Utility {
     public static void writeToDebug(Exception ex) {
         try {
             // Create file
-            FileWriter fstream = new FileWriter(
-                    Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
+            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
             String s;
             final Writer result = new StringWriter();
             final PrintWriter printWriter = new PrintWriter(result);
@@ -141,15 +136,14 @@ public class Utility {
         /*
         NOTE: If you're getting (Unknown source) instead of line numbers in your output
         make sure, in your build.xml, on the javac line, you have set
-        debug="true" 
+        debug="true"
         Your life will get so much easier. javac -g will do this too.
         */
     }
 
     public static void writeToDebug(Exception ex, String userName, String jobName) {
         try {
-            FileWriter fstream = new FileWriter(
-                    Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
+            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "javadebug.log", true);
             String s;
             final Writer result = new StringWriter();
             final PrintWriter printWriter = new PrintWriter(result);
@@ -165,8 +159,7 @@ public class Utility {
                 new File(debugDir).mkdirs();
             }
             // Append to file
-            fstream = new FileWriter(
-                    debugDir + userName + "-" + jobName + ".log", true);
+            fstream = new FileWriter(debugDir + userName + "-" + jobName + ".log", true);
             out = new BufferedWriter(fstream);
             out.write(s + " [" + getDate() + "]");
             out.close();
@@ -178,8 +171,7 @@ public class Utility {
         //Debug output write function. Used in Struts code.
         try {
             // Append to current-job file. For ease of use, really.
-            FileWriter fstream = new FileWriter(
-                    Constants.CECCR_USER_BASE_PATH + "strutsdebug.log", true);
+            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "strutsdebug.log", true);
             BufferedWriter out = new BufferedWriter(fstream);
 
             out.write(debug_counter.toString() + " " + s + " [" + getDate() + "]" + "\n");
@@ -192,8 +184,7 @@ public class Utility {
     public static void writeToStrutsDebug(Exception ex) {
         try {
             // Create file
-            FileWriter fstream = new FileWriter(
-                    Constants.CECCR_USER_BASE_PATH + "strutsdebug.log", true);
+            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "strutsdebug.log", true);
             String s;
             final Writer result = new StringWriter();
             final PrintWriter printWriter = new PrintWriter(result);
@@ -325,7 +316,7 @@ public class Utility {
     }
 
     public static String roundSignificantFigures(String number, int numFigs) {
-        //outputs a numerical string 
+        //outputs a numerical string
         //e.g., 12345 to 2 significant figures is 12000, not 1.2*10^4
         //although the latter is more correct, the former is more intuitive.
         boolean debug = false;
@@ -485,10 +476,8 @@ public class Utility {
             int result;
 
             if (Character.isDigit(space1[0]) && Character.isDigit(space2[0])) {
-                Integer firstNumberToCompare = new Integer(Integer
-                        .parseInt(str1.trim()));
-                Integer secondNumberToCompare = new Integer(Integer
-                        .parseInt(str2.trim()));
+                Integer firstNumberToCompare = new Integer(Integer.parseInt(str1.trim()));
+                Integer secondNumberToCompare = new Integer(Integer.parseInt(str2.trim()));
                 result = firstNumberToCompare.compareTo(secondNumberToCompare);
             } else {
                 result = str1.compareTo(str2);
@@ -534,8 +523,7 @@ public class Utility {
     public static void writeToLSFLog(String message) {
         try {
             // Create file
-            FileWriter fstream = new FileWriter(
-                    Constants.CECCR_USER_BASE_PATH + "LSF.log", true);
+            FileWriter fstream = new FileWriter(Constants.CECCR_USER_BASE_PATH + "LSF.log", true);
             String s;
             final Writer result = new StringWriter();
             s = result.toString();

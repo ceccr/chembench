@@ -30,7 +30,7 @@ public class Compound implements java.io.Serializable {
         return compoundId.replaceAll("%", "%25");
     }
     /*
-	public void setUrl_friendly_id(String url_friendly_id) {
+    public void setUrl_friendly_id(String url_friendly_id) {
 		this.url_friendly_id = url_friendly_id;
 	}
 	*/

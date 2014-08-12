@@ -16,8 +16,7 @@ import java.util.Enumeration;
 import java.util.Set;
 
 public class ChembenchServletContextListener implements ServletContextListener {
-    private static Logger logger
-            = Logger.getLogger(ChembenchServletContextListener.class.getName());
+    private static Logger logger = Logger.getLogger(ChembenchServletContextListener.class.getName());
 
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {

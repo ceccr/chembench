@@ -105,8 +105,7 @@ public class Predictor implements java.io.Serializable {
     /**
      * full constructor
      */
-    public Predictor(Long id, String name,
-                     String sdFileName, String actFileName, String userName) {
+    public Predictor(Long id, String name, String sdFileName, String actFileName, String userName) {
         this.id = id;
         this.name = name;
         this.sdFileName = sdFileName;
@@ -208,9 +207,8 @@ public class Predictor implements java.io.Serializable {
 
     @Transient
     public String toString() {
-        return "Predictor: " + name + " Username: " + userName
-                + " id: " + id + " SDFile: " + sdFileName
-                + " ACTFile: " + actFileName;
+        return "Predictor: " + name + " Username: " + userName + " id: " + id + " SDFile: " + sdFileName + " ACTFile: "
+                + actFileName;
     }
 
     @Column(name = "model_descriptors")
@@ -420,8 +418,7 @@ public class Predictor implements java.io.Serializable {
         return externalPredictionAccuracyAvg;
     }
 
-    public void setExternalPredictionAccuracyAvg(
-            String externalPredictionAccuracyAvg) {
+    public void setExternalPredictionAccuracyAvg(String externalPredictionAccuracyAvg) {
         this.externalPredictionAccuracyAvg = externalPredictionAccuracyAvg;
     }
 
@@ -439,7 +436,7 @@ public class Predictor implements java.io.Serializable {
         return modelingParametersId;
     }
 
-//datasplit parameters
+    //datasplit parameters
 
     public void setModelingParametersId(Long modelingParametersId) {
         this.modelingParametersId = modelingParametersId;
@@ -486,8 +483,7 @@ public class Predictor implements java.io.Serializable {
         return randomSplitSampleWithReplacement;
     }
 
-    public void setRandomSplitSampleWithReplacement(
-            String randomSplitSampleWithReplacement) {
+    public void setRandomSplitSampleWithReplacement(String randomSplitSampleWithReplacement) {
         this.randomSplitSampleWithReplacement = randomSplitSampleWithReplacement;
     }
 

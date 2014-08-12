@@ -35,14 +35,12 @@ public class SvmModelsPage extends ViewPredictorAction {
         // not all columns are relevant for all SVM types. allows us to select
         // only those needed
         session = HibernateUtil.getSession();
-        svmParameters = PopulateDataObjects.getSvmParametersById(
-                selectedPredictor.getModelingParametersId(), session);
+        svmParameters = PopulateDataObjects.getSvmParametersById(selectedPredictor.getModelingParametersId(), session);
         session.close();
         if (childPredictors.size() == 0) {
             result = loadModels();
         } else {
-            currentFoldNumber = ""
-                    + (Integer.parseInt(currentFoldNumber) + 1);
+            currentFoldNumber = "" + (Integer.parseInt(currentFoldNumber) + 1);
             for (int i = 0; i < childPredictors.size(); i++) {
                 foldNums.add("" + (i + 1));
                 if (currentFoldNumber.equals("" + (i + 1))) {
@@ -62,19 +60,15 @@ public class SvmModelsPage extends ViewPredictorAction {
         try {
             svmModels = Lists.newArrayList();
             session = HibernateUtil.getSession();
-            List<SvmModel> temp = PopulateDataObjects
-                    .getSvmModelsByPredictorId(Long.parseLong(objectId),
-                            session);
+            List<SvmModel> temp = PopulateDataObjects.getSvmModelsByPredictorId(Long.parseLong(objectId), session);
             session.close();
             if (temp != null) {
                 Iterator<SvmModel> it = temp.iterator();
                 while (it.hasNext()) {
                     SvmModel m = it.next();
-                    if (m.getIsYRandomModel().equals(Constants.NO)
-                            && isYRandomPage.equals(Constants.NO)) {
+                    if (m.getIsYRandomModel().equals(Constants.NO) && isYRandomPage.equals(Constants.NO)) {
                         svmModels.add(m);
-                    } else if (m.getIsYRandomModel().equals(Constants.YES)
-                            && isYRandomPage.equals(Constants.YES)) {
+                    } else if (m.getIsYRandomModel().equals(Constants.YES) && isYRandomPage.equals(Constants.YES)) {
                         svmModels.add(m);
                     }
                 }

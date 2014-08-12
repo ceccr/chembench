@@ -99,17 +99,17 @@ public class KnnPlusModel implements java.io.Serializable {
     private String CCRAvErrBasedTest;
 
 		/*
-		We might need to worry about individual group accuracies for category models eventually...
+        We might need to worry about individual group accuracies for category models eventually...
 		but for now, we're not gonna capture them cause it's annoying to code.
 		Can always calculate them from a confusion matrix anyway.
-	
-		train_Ndatapoints_Group1   
-		train_Accuracy_Group1		
-		train_Ndatapoints_Group2      
-		train_Accuracy_Group2		 
-		test_Ndatapoints_Group1     
-		test_Accuracy_Group1		
-		test_Ndatapoints_Group2      
+
+		train_Ndatapoints_Group1
+		train_Accuracy_Group1
+		train_Ndatapoints_Group2
+		train_Accuracy_Group2
+		test_Ndatapoints_Group1
+		test_Accuracy_Group1
+		test_Ndatapoints_Group2
 		test_Accuracy_Group2
 		*/
 
@@ -701,8 +701,7 @@ public class KnnPlusModel implements java.io.Serializable {
         return CCRNormalizedAccuracyTraining;
     }
 
-    public void setCCRNormalizedAccuracyTraining(
-            String cCRNormalizedAccuracyTraining) {
+    public void setCCRNormalizedAccuracyTraining(String cCRNormalizedAccuracyTraining) {
         CCRNormalizedAccuracyTraining = cCRNormalizedAccuracyTraining;
     }
 
@@ -711,8 +710,7 @@ public class KnnPlusModel implements java.io.Serializable {
         return AccuracyWithGroupWeightsTraining;
     }
 
-    public void setAccuracyWithGroupWeightsTraining(
-            String accuracyWithGroupWeightsTraining) {
+    public void setAccuracyWithGroupWeightsTraining(String accuracyWithGroupWeightsTraining) {
         AccuracyWithGroupWeightsTraining = accuracyWithGroupWeightsTraining;
     }
 

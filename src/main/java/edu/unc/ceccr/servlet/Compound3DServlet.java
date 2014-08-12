@@ -15,8 +15,7 @@ public class Compound3DServlet extends HttpServlet {
 
     private static Logger logger = Logger.getLogger(Compound3DServlet.class.getName());
 
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         //this servlet returns 3D rotatable images when a user clicks on the 2D molecule from a prediction or model.
 
@@ -35,8 +34,7 @@ public class Compound3DServlet extends HttpServlet {
         ///////////////////
         //String urlBaseDir = "/BASE/"  + userName +  "/DATASETS/" + datasetName + "/Visualization/Structures/";
         String urlBaseDir = Constants.WEBADDRESS + "/fileServlet?" + "jobType=DATASET" + "&" + "file=mol" + "&" +
-                "datasetName=" + datasetName + "&"
-                + "userName=" + userName;
+                "datasetName=" + datasetName + "&" + "userName=" + userName;
 
         //Check if file exist if no then we assuming that servlet was called from Prediction tab for the predictor
         // which was based on public dataset
@@ -46,24 +44,21 @@ public class Compound3DServlet extends HttpServlet {
             //////////////////
             //urlBaseDir = "/BASE/"  + "all-users/DATASETS/" + datasetName + "/Visualization/Structures/";
             urlBaseDir = Constants.WEBADDRESS + "/fileServlet?" + "jobType=DATASET" + "&" + "file=mol" + "&" +
-                    "datasetName=" + datasetName + "&"
-                    + "userName=all-users";
+                    "datasetName=" + datasetName + "&" + "userName=all-users";
             sdfPath = workingDir + sdf;
         }
 
         String title = "<html><title>" + id
                 + " 3D view</title><head></head><body bgcolor='black' ><div align='center'><font color='white' " +
-                "size='3'> Compound ID = "
-                + id + "</div></font>";
+                "size='3'> Compound ID = " + id + "</div></font>";
 
         String front = "<script LANGUAGE='JavaScript1.1' SRC='jchem/marvin/marvin.js'></script><script " +
-                "LANGUAGE='JavaScript1.1'>"
-                + "mview_begin('/jchem/marvin/', 350, 350);";
+                "LANGUAGE='JavaScript1.1'>" + "mview_begin('/jchem/marvin/', 350, 350);";
 
         String mol3D_URL_friendly = id.replaceAll("%", "%25") + "_3D.mol";
         //String parameter  = "mview_param('mol'," + "'" + urlBaseDir + mol3D_URL_friendly + "'" + ");";
-        String parameter = "mview_param('mol'," + "'" + urlBaseDir + "&" + "compoundId=" + id.replaceAll("%",
-                "%25") + "'" + ");";
+        String parameter =
+                "mview_param('mol'," + "'" + urlBaseDir + "&" + "compoundId=" + id.replaceAll("%", "%25") + "'" + ");";
 
         String end = "mview_end();</script></body></html>";
 
@@ -77,7 +72,7 @@ public class Compound3DServlet extends HttpServlet {
             File sdfile = new File(sdfPath);
 
 			/*String warning = "ERROR, the SD file is not in correct format.\rThe " +
-					"structure can not be displayed.";
+                    "structure can not be displayed.";
 			*/
             if (sdfile.exists()) {
                 InputStream twoDis = new FileInputStream(sdfile);
@@ -106,8 +101,7 @@ public class Compound3DServlet extends HttpServlet {
 
     }
 
-    public void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //Far as I can tell, this is never actually called anywhere.
         logger.debug("doing a post, yo.");
         doGet(request, response);

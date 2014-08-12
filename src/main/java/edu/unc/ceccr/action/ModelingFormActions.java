@@ -28,8 +28,7 @@ public class ModelingFormActions extends ActionSupport {
      */
     private static final long serialVersionUID = 1L;
 
-    private static Logger logger
-            = Logger.getLogger(ModelingFormActions.class.getName());
+    private static Logger logger = Logger.getLogger(ModelingFormActions.class.getName());
     Session executeSession = null; // specialized session variable used
     // only in this function
     boolean closeSessionAtEnd = true;
@@ -194,10 +193,8 @@ public class ModelingFormActions extends ActionSupport {
         // set up any values that need to be populated onto the page
         // (dropdowns, lists, display stuff)
         Session session = HibernateUtil.getSession();
-        userDatasetNames = PopulateDataObjects.populateDatasetNames(
-                user.getUserName(), true, session);
-        userPredictorNames = PopulateDataObjects.populatePredictorNames(
-                user.getUserName(), true, session);
+        userDatasetNames = PopulateDataObjects.populateDatasetNames(user.getUserName(), true, session);
+        userPredictorNames = PopulateDataObjects.populatePredictorNames(user.getUserName(), true, session);
 
         // also get the base names for nfold predictors. if a user has
         // "mypredictor_fold_1_of_5",
@@ -211,33 +208,30 @@ public class ModelingFormActions extends ActionSupport {
         }
         userPredictorNames.addAll(foldedPredictorNames);
 
-        userPredictionNames = PopulateDataObjects.populatePredictionNames(
-                user.getUserName(), true, session);
-        userTaskNames = PopulateDataObjects.populateTaskNames(
-                user.getUserName(), false, session);
+        userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
+        userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
 
-        userPredictorList = PopulateDataObjects.populatePredictors(
-                user.getUserName(), true, true, session);
+        userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
 
         if (user.getShowPublicDatasets().equals(Constants.ALL)) {
             // get user and public datasets
-            userContinuousDatasets = PopulateDataObjects.populateDataset(
-                    user.getUserName(), Constants.CONTINUOUS, true, session);
-            userCategoryDatasets = PopulateDataObjects.populateDataset(
-                    user.getUserName(), Constants.CATEGORY, true, session);
+            userContinuousDatasets =
+                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
+            userCategoryDatasets =
+                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session);
         } else if (user.getShowPublicDatasets().equals(Constants.NONE)) {
             // just get user datasets
-            userContinuousDatasets = PopulateDataObjects.populateDataset(
-                    user.getUserName(), Constants.CONTINUOUS, false, session);
-            userCategoryDatasets = PopulateDataObjects.populateDataset(
-                    user.getUserName(), Constants.CATEGORY, false, session);
+            userContinuousDatasets =
+                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, false, session);
+            userCategoryDatasets =
+                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, false, session);
         } else if (user.getShowPublicDatasets().equals(Constants.SOME)) {
             // get all datasets and filter out all the public ones that aren't
             // "show by default"
-            userContinuousDatasets = PopulateDataObjects.populateDataset(
-                    user.getUserName(), Constants.CONTINUOUS, true, session);
-            userCategoryDatasets = PopulateDataObjects.populateDataset(
-                    user.getUserName(), Constants.CATEGORY, true, session);
+            userContinuousDatasets =
+                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session);
+            userCategoryDatasets =
+                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session);
 
             for (int i = 0; i < userContinuousDatasets.size(); i++) {
                 String s = userContinuousDatasets.get(i).getShowByDefault();
@@ -259,8 +253,7 @@ public class ModelingFormActions extends ActionSupport {
 
         // log the results
         if (result.equals(SUCCESS)) {
-            logger.debug("Forwarding user "
-                    + user.getUserName() + " to modeling page.");
+            logger.debug("Forwarding user " + user.getUserName() + " to modeling page.");
         } else {
             logger.warn("Cannot load page.");
         }
@@ -293,45 +286,35 @@ public class ModelingFormActions extends ActionSupport {
             jobName = jobName.replaceAll("&", "_");
         }
 
-        logger.info("Submitting modeling job with dataset id: "
-                + selectedDatasetId);
-        if (selectedDatasetId == null
-                || PopulateDataObjects.getDataSetById(selectedDatasetId,
-                executeSession) == null
-                || PopulateDataObjects.getDataSetById(selectedDatasetId,
-                executeSession).getName() == null
-                || PopulateDataObjects
-                .getDataSetById(selectedDatasetId, executeSession)
-                .getJobCompleted().equals(Constants.NO)) {
+        logger.info("Submitting modeling job with dataset id: " + selectedDatasetId);
+        if (selectedDatasetId == null || PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession) == null
+                || PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getName() == null
+                || PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getJobCompleted()
+                .equals(Constants.NO)) {
             return ERROR;
         }
 
-        Dataset ds = PopulateDataObjects.getDataSetById(selectedDatasetId,
-                executeSession);
+        Dataset ds = PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession);
         if ((ds.getName().equals("all-datasets"))) {
             // Launch modeling on every dataset the user owns (except for this
             // one).
             closeSessionAtEnd = false;
             List<Dataset> datasetList = Lists.newArrayList();
-            datasetList.addAll(PopulateDataObjects.populateDataset(
-                    user.getUserName(), Constants.CONTINUOUS, false,
-                    executeSession));
-            datasetList.addAll(PopulateDataObjects.populateDataset(
-                    user.getUserName(), Constants.CATEGORY, false,
-                    executeSession));
+            datasetList.addAll(PopulateDataObjects
+                    .populateDataset(user.getUserName(), Constants.CONTINUOUS, false, executeSession));
+            datasetList.addAll(PopulateDataObjects
+                    .populateDataset(user.getUserName(), Constants.CATEGORY, false, executeSession));
 
             Long allDatasetsId = selectedDatasetId;
             String originalJobName = jobName;
 
             for (int i = 0; i < datasetList.size(); i++) {
-                if (!datasetList.get(i).getId().equals(allDatasetsId)
-                        && !datasetList.get(i).getName()
+                if (!datasetList.get(i).getId().equals(allDatasetsId) && !datasetList.get(i).getName()
                         .equals("all-datasets")) {
                     actFileDataType = datasetList.get(i).getModelType();
                     selectedDatasetId = datasetList.get(i).getId();
                     jobName = originalJobName + datasetList.get(i).getName();
-                    logger.info("launching modeling on dataset "
-                            + datasetList.get(i).getName());
+                    logger.info("launching modeling on dataset " + datasetList.get(i).getName());
                     execute();
                 }
             }
@@ -345,13 +328,10 @@ public class ModelingFormActions extends ActionSupport {
         String s = "";
         s += "\n Job Name: " + jobName;
         s += "\n Dataset ID: " + selectedDatasetId;
-        s += "\n Dataset Name: "
-                + PopulateDataObjects.getDataSetById(selectedDatasetId,
-                executeSession).getName();
+        s += "\n Dataset Name: " + PopulateDataObjects.getDataSetById(selectedDatasetId, executeSession).getName();
         s += "\n Descriptor Type: " + descriptorGenerationType;
         s += "\n (Sphere Exclusion) Split Includes Min: " + splitIncludesMin;
-        s += "\n (Random Internal Split) Max. Test Set Size: "
-                + randomSplitMaxTestSize;
+        s += "\n (Random Internal Split) Max. Test Set Size: " + randomSplitMaxTestSize;
 
         logger.info(s);
 
@@ -363,23 +343,17 @@ public class ModelingFormActions extends ActionSupport {
                 index = 0;
             }
             if (knnMinNumDescriptors.split("\\, ").length > 1) {
-                knnMinNumDescriptors = knnMinNumDescriptors
-                        .split("\\, ")[index];
-                knnMaxNumDescriptors = knnMaxNumDescriptors
-                        .split("\\, ")[index];
-                knnMinNearestNeighbors = knnMinNearestNeighbors
-                        .split("\\, ")[index];
-                knnMaxNearestNeighbors = knnMaxNearestNeighbors
-                        .split("\\, ")[index];
-                knnApplicabilityDomain = knnApplicabilityDomain
-                        .split("\\, ")[index];
+                knnMinNumDescriptors = knnMinNumDescriptors.split("\\, ")[index];
+                knnMaxNumDescriptors = knnMaxNumDescriptors.split("\\, ")[index];
+                knnMinNearestNeighbors = knnMinNearestNeighbors.split("\\, ")[index];
+                knnMaxNearestNeighbors = knnMaxNearestNeighbors.split("\\, ")[index];
+                knnApplicabilityDomain = knnApplicabilityDomain.split("\\, ")[index];
                 knnMinTraining = knnMinTraining.split("\\, ")[index];
                 knnMinTest = knnMinTest.split("\\, ")[index];
             }
 
-            if (descriptorGenerationType.equals(Constants.UPLOADED)
-                    && (modelingType.equals(Constants.KNNGA) || modelingType
-                    .equals(Constants.KNNSA))) {
+            if (descriptorGenerationType.equals(Constants.UPLOADED) && (modelingType.equals(Constants.KNNGA)
+                    || modelingType.equals(Constants.KNNSA))) {
                 // Sometimes users upload a tiny number of descriptors (say,
                 // 5) and then try to model with them using dumb descriptor
                 // ranges (say, 25 to 30 descriptors per model).
@@ -391,31 +365,21 @@ public class ModelingFormActions extends ActionSupport {
                 // of range, they probably know they did something dumb.
 
                 // get num descriptors
-                String datasetDir = Constants.CECCR_USER_BASE_PATH
-                        + ds.getUserName() + "/DATASETS/" + ds.getName()
-                        + "/";
-                int numDescriptors = ReadDescriptors
-                        .readDescriptorNamesFromX(ds.getXFile(), datasetDir)
-                        .length;
+                String datasetDir =
+                        Constants.CECCR_USER_BASE_PATH + ds.getUserName() + "/DATASETS/" + ds.getName() + "/";
+                int numDescriptors = ReadDescriptors.readDescriptorNamesFromX(ds.getXFile(), datasetDir).length;
                 int numMaxDesc = Integer.parseInt(knnMaxNumDescriptors);
                 if (numDescriptors < numMaxDesc) {
-                    errorStrings
-                            .add("Your uploaded dataset contains only "
-                                    + numDescriptors
-                                    + " descriptors, but you requested "
-                                    + "that each model contain up to "
-                                    + numMaxDesc
-                                    + " descriptors. Please return to the "
-                                    + "Modeling page and "
-                                    + "fix your parameters.");
+                    errorStrings.add("Your uploaded dataset contains only " + numDescriptors
+                            + " descriptors, but you requested " + "that each model contain up to " + numMaxDesc
+                            + " descriptors. Please return to the " + "Modeling page and " + "fix your parameters.");
                     return ERROR;
                 }
             }
 
             if (ds.getSplitType().equals(Constants.NFOLD)) {
                 // start n jobs, 1 for each fold.
-                int numExternalFolds = Integer.parseInt(ds
-                        .getNumExternalFolds());
+                int numExternalFolds = Integer.parseInt(ds.getNumExternalFolds());
                 String baseJobName = jobName;
                 int numCompounds = ds.getNumCompound();
                 String childPredictorIds = "";
@@ -425,17 +389,15 @@ public class ModelingFormActions extends ActionSupport {
                     int numModels = getNumModels();
 
                     // set up the job
-                    jobName = baseJobName + "_fold_" + (i + 1) + "_of_"
-                            + numExternalFolds;
-                    QsarModelingTask modelingTask = new QsarModelingTask(
-                            user.getUserName(), this);
+                    jobName = baseJobName + "_fold_" + (i + 1) + "_of_" + numExternalFolds;
+                    QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
                     childPredictorIds += modelingTask.setUp() + " ";
 
                     // add job to incoming joblist so it will start
                     CentralDogma centralDogma = CentralDogma.getInstance();
-                    centralDogma.addJobToIncomingList(user.getUserName(),
-                            jobName, modelingTask, numCompounds, numModels,
-                            emailOnCompletion);
+                    centralDogma
+                            .addJobToIncomingList(user.getUserName(), jobName, modelingTask, numCompounds, numModels,
+                                    emailOnCompletion);
 
                     logger.info("Added modeling job by " + user.getUserName());
                     logger.info("Modeling job added to queue " +
@@ -465,14 +427,11 @@ public class ModelingFormActions extends ActionSupport {
                 p.setSplitIncludesMin(splitIncludesMin);
                 p.setSphereSplitMinTestSize(sphereSplitMinTestSize);
                 if (ds.getUploadedDescriptorType() != null) {
-                    p.setUploadedDescriptorType(ds
-                            .getUploadedDescriptorType());
+                    p.setUploadedDescriptorType(ds.getUploadedDescriptorType());
                 } else {
                     p.setUploadedDescriptorType("");
                 }
-                logger.debug("TYPE::"
-                        + ds.getUploadedDescriptorType() + ":::"
-                        + p.getUploadedDescriptorType());
+                logger.debug("TYPE::" + ds.getUploadedDescriptorType() + ":::" + p.getUploadedDescriptorType());
 
                 Transaction tx = null;
                 try {
@@ -490,8 +449,7 @@ public class ModelingFormActions extends ActionSupport {
                     executeSession.close();
                 }
             } else {
-                QsarModelingTask modelingTask = new QsarModelingTask(
-                        user.getUserName(), this);
+                QsarModelingTask modelingTask = new QsarModelingTask(user.getUserName(), this);
                 modelingTask.setUp();
                 int numCompounds = ds.getNumCompound();
 
@@ -504,8 +462,7 @@ public class ModelingFormActions extends ActionSupport {
 
                 // make job and add to incoming joblist
                 CentralDogma centralDogma = CentralDogma.getInstance();
-                centralDogma.addJobToIncomingList(user.getUserName(),
-                        jobName, modelingTask, numCompounds, numModels,
+                centralDogma.addJobToIncomingList(user.getUserName(), jobName, modelingTask, numCompounds, numModels,
                         emailOnCompletion);
 
                 logger.info("Added modeling job by " + user.getUserName());
@@ -534,9 +491,9 @@ public class ModelingFormActions extends ActionSupport {
             numModels *= Integer.parseInt(numRuns);
             int numDescriptorSizes = 1;
             if (Integer.parseInt(stepSize) != 0) {
-                numDescriptorSizes += (Integer.parseInt(maxNumDescriptors)
-                        - Integer.parseInt(minNumDescriptors))
-                        / Integer.parseInt(stepSize);
+                numDescriptorSizes +=
+                        (Integer.parseInt(maxNumDescriptors) - Integer.parseInt(minNumDescriptors)) / Integer
+                                .parseInt(stepSize);
             }
             numModels *= numDescriptorSizes;
         } else if (modelingType.equals(Constants.KNNSA)) {
@@ -544,39 +501,34 @@ public class ModelingFormActions extends ActionSupport {
             numModels *= Integer.parseInt(saNumBestModels);
             int numDescriptorSizes = 1;
             if (Integer.parseInt(knnDescriptorStepSize) != 0) {
-                numDescriptorSizes += (Integer.parseInt(knnMaxNumDescriptors)
-                        - Integer.parseInt(knnMinNumDescriptors))
-                        / Integer.parseInt(knnDescriptorStepSize);
+                numDescriptorSizes +=
+                        (Integer.parseInt(knnMaxNumDescriptors) - Integer.parseInt(knnMinNumDescriptors)) / Integer
+                                .parseInt(knnDescriptorStepSize);
             }
             numModels *= numDescriptorSizes;
         } else if (modelingType.equals(Constants.KNNGA)) {
             // no changes; parameters affect generation time of
             // each model but not the total number of models to be generated
         } else if (modelingType.equals(Constants.SVM)) {
-            Double numDifferentCosts =
-                    Math.ceil((Double.parseDouble(svmCostTo)
-                            - Double.parseDouble(svmCostFrom))
-                            / Double.parseDouble(svmCostStep) + 0.0001);
+            Double numDifferentCosts = Math.ceil(
+                    (Double.parseDouble(svmCostTo) - Double.parseDouble(svmCostFrom)) / Double.parseDouble(svmCostStep)
+                            + 0.0001);
 
-            Double numDifferentDegrees =
-                    Math.ceil((Double.parseDouble(svmDegreeTo)
-                            - Double.parseDouble(svmDegreeFrom))
-                            / Double.parseDouble(svmDegreeStep) + 0.0001);
+            Double numDifferentDegrees = Math.ceil(
+                    (Double.parseDouble(svmDegreeTo) - Double.parseDouble(svmDegreeFrom)) / Double
+                            .parseDouble(svmDegreeStep) + 0.0001);
 
-            Double numDifferentGammas =
-                    Math.ceil((Double.parseDouble(svmGammaTo)
-                            - Double.parseDouble(svmGammaFrom))
-                            / Double.parseDouble(svmGammaStep) + 0.0001);
+            Double numDifferentGammas = Math.ceil(
+                    (Double.parseDouble(svmGammaTo) - Double.parseDouble(svmGammaFrom)) / Double
+                            .parseDouble(svmGammaStep) + 0.0001);
 
-            Double numDifferentNus =
-                    Math.ceil((Double.parseDouble(svmNuTo)
-                            - Double.parseDouble(svmNuFrom))
-                            / Double.parseDouble(svmNuStep) + 0.0001);
+            Double numDifferentNus = Math.ceil(
+                    (Double.parseDouble(svmNuTo) - Double.parseDouble(svmNuFrom)) / Double.parseDouble(svmNuStep)
+                            + 0.0001);
 
-            Double numDifferentPEpsilons =
-                    Math.ceil((Double.parseDouble(svmPEpsilonTo)
-                            - Double.parseDouble(svmPEpsilonFrom))
-                            / Double.parseDouble(svmPEpsilonStep) + 0.0001);
+            Double numDifferentPEpsilons = Math.ceil(
+                    (Double.parseDouble(svmPEpsilonTo) - Double.parseDouble(svmPEpsilonFrom)) / Double
+                            .parseDouble(svmPEpsilonStep) + 0.0001);
 
             String svmType = "";
             if (actFileDataType.equals(Constants.CATEGORY)) {
@@ -608,8 +560,7 @@ public class ModelingFormActions extends ActionSupport {
                 numDifferentDegrees = 1.0;
             }
 
-            numModels *= numDifferentCosts * numDifferentDegrees
-                    * numDifferentGammas * numDifferentNus
+            numModels *= numDifferentCosts * numDifferentDegrees * numDifferentGammas * numDifferentNus
                     * numDifferentPEpsilons;
         }
         return numModels;
@@ -622,14 +573,10 @@ public class ModelingFormActions extends ActionSupport {
         }
 
         knnCategoryOptimizations = new HashMap<String, String>();
-        knnCategoryOptimizations.put("1",
-                "<img src=\"/theme/img/formula01.gif\" />");
-        knnCategoryOptimizations.put("2",
-                "<img src=\"/theme/img/formula02.gif\" />");
-        knnCategoryOptimizations.put("3",
-                "<img src=\"/theme/img/formula03.gif\" />");
-        knnCategoryOptimizations.put("4",
-                "<img src=\"/theme/img/formula04.gif\" />");
+        knnCategoryOptimizations.put("1", "<img src=\"/theme/img/formula01.gif\" />");
+        knnCategoryOptimizations.put("2", "<img src=\"/theme/img/formula02.gif\" />");
+        knnCategoryOptimizations.put("3", "<img src=\"/theme/img/formula03.gif\" />");
+        knnCategoryOptimizations.put("4", "<img src=\"/theme/img/formula04.gif\" />");
 
         return SUCCESS;
     }
@@ -658,8 +605,7 @@ public class ModelingFormActions extends ActionSupport {
         return knnCategoryOptimizations;
     }
 
-    public void setKnnCategoryOptimizations(
-            Map<String, String> knnCategoryOptimizations) {
+    public void setKnnCategoryOptimizations(Map<String, String> knnCategoryOptimizations) {
         this.knnCategoryOptimizations = knnCategoryOptimizations;
     }
 
@@ -949,10 +895,8 @@ public class ModelingFormActions extends ActionSupport {
         return randomSplitSampleWithReplacement;
     }
 
-    public void setRandomSplitSampleWithReplacement(
-            String randomSplitSampleWithReplacement) {
-        this.randomSplitSampleWithReplacement
-                = randomSplitSampleWithReplacement;
+    public void setRandomSplitSampleWithReplacement(String randomSplitSampleWithReplacement) {
+        this.randomSplitSampleWithReplacement = randomSplitSampleWithReplacement;
     }
 
     public String getSelectionNextTrainPt() {
@@ -1131,10 +1075,8 @@ public class ModelingFormActions extends ActionSupport {
         return saMutationProbabilityPerDescriptor;
     }
 
-    public void setSaMutationProbabilityPerDescriptor(
-            String saMutationProbabilityPerDescriptor) {
-        this.saMutationProbabilityPerDescriptor
-                = saMutationProbabilityPerDescriptor;
+    public void setSaMutationProbabilityPerDescriptor(String saMutationProbabilityPerDescriptor) {
+        this.saMutationProbabilityPerDescriptor = saMutationProbabilityPerDescriptor;
     }
 
     public String getSaNumBestModels() {
@@ -1149,8 +1091,7 @@ public class ModelingFormActions extends ActionSupport {
         return saTempDecreaseCoefficient;
     }
 
-    public void setSaTempDecreaseCoefficient(
-            String saTempDecreaseCoefficient) {
+    public void setSaTempDecreaseCoefficient(String saTempDecreaseCoefficient) {
         this.saTempDecreaseCoefficient = saTempDecreaseCoefficient;
     }
 

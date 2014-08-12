@@ -11,23 +11,19 @@ public class StandardizeMolecules {
 
     private static Logger logger = Logger.getLogger(StandardizeMolecules.class.getName());
 
-    public static void standardizeSdf(String sdfIn,
-                                      String sdfOut,
-                                      String workingDir) throws Exception {
+    public static void standardizeSdf(String sdfIn, String sdfOut, String workingDir) throws Exception {
         // Standardizes the molecules in this sdfile. Necessary to do this
         // before running DRAGON
         // descriptor generation. Also important to do this to any molecules
         // that could go into our database.
 
         logger.debug("standardizeSdf: getting sdf compounds");
-        List<String> compoundNames = DatasetFileOperations
-                .getSDFCompoundNames(workingDir + sdfIn);
+        List<String> compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfIn);
         logger.debug("standardizeSdf: done getting sdf compounds");
 
         if (compoundNames.size() < 600) {
             String execstr1 = "standardize.sh " + sdfIn + " " + sdfOut;
-            RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir,
-                    "standardize");
+            RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir, "standardize");
         } else {
             // The JChem software won't let you do more than 666 molecules in
             // this process at a time
@@ -36,8 +32,7 @@ public class StandardizeMolecules {
             // reassemble the outputs.
 
             // split the SDF
-            logger.debug("Splitting and standardizing " + sdfIn
-                    + " in dir " + workingDir);
+            logger.debug("Splitting and standardizing " + sdfIn + " in dir " + workingDir);
 
             File infile = new File(workingDir + sdfIn);
             FileReader fin = new FileReader(infile);
@@ -48,8 +43,7 @@ public class StandardizeMolecules {
             int currentFileNumber = 0;
 
             String sdfFilePart = sdfIn + "_" + currentFileNumber + ".sdf";
-            BufferedWriter partOut = new BufferedWriter(new FileWriter(
-                    workingDir + sdfFilePart));
+            BufferedWriter partOut = new BufferedWriter(new FileWriter(workingDir + sdfFilePart));
 
             String line;
             while ((line = br.readLine()) != null) {
@@ -61,23 +55,17 @@ public class StandardizeMolecules {
                         // close current file part and apply standardization
                         // to it
                         partOut.close();
-                        String standardizedFilePart = sdfFilePart
-                                + ".standardize";
-                        String execstr1 = "standardize.sh " + sdfFilePart
-                                + " " + standardizedFilePart;
+                        String standardizedFilePart = sdfFilePart + ".standardize";
+                        String execstr1 = "standardize.sh " + sdfFilePart + " " + standardizedFilePart;
 
-                        RunExternalProgram.runCommandAndLogOutput(execstr1,
-                                workingDir, "standardize_"
-                                        + currentFileNumber
-                        );
+                        RunExternalProgram
+                                .runCommandAndLogOutput(execstr1, workingDir, "standardize_" + currentFileNumber);
 
                         // start a new file
                         compoundsInCurrentFile = 0;
                         currentFileNumber++;
-                        sdfFilePart = sdfIn + "_" + currentFileNumber
-                                + ".sdf";
-                        partOut = new BufferedWriter(new FileWriter(
-                                workingDir + sdfFilePart));
+                        sdfFilePart = sdfIn + "_" + currentFileNumber + ".sdf";
+                        partOut = new BufferedWriter(new FileWriter(workingDir + sdfFilePart));
                     }
                 }
             }
@@ -86,21 +74,17 @@ public class StandardizeMolecules {
             br.close();
             partOut.close();
             String standardizedFilePart = sdfFilePart + ".standardize";
-            String execstr1 = "standardize.sh " + sdfFilePart + " "
-                    + standardizedFilePart;
-            RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir,
-                    "standardize_" + currentFileNumber);
+            String execstr1 = "standardize.sh " + sdfFilePart + " " + standardizedFilePart;
+            RunExternalProgram.runCommandAndLogOutput(execstr1, workingDir, "standardize_" + currentFileNumber);
 
             logger.debug("Merging standardized SDFs");
             // merge the output files back together
 
-            BufferedWriter out = new BufferedWriter(new FileWriter(workingDir
-                    + sdfOut));
+            BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + sdfOut));
 
             for (int i = 0; i <= currentFileNumber; i++) {
                 String filePartName = sdfIn + "_" + i + ".sdf.standardize";
-                standardizedFilePart = FileAndDirOperations
-                        .readFileIntoString(workingDir + filePartName);
+                standardizedFilePart = FileAndDirOperations.readFileIntoString(workingDir + filePartName);
                 out.write(standardizedFilePart);
 
                 // delete the standardized file-part from disk, it's no longer

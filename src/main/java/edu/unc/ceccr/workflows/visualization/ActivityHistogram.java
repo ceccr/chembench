@@ -51,8 +51,9 @@ public class ActivityHistogram {
         IntervalXYDataset dataset = new HistogramDataset();
         dataset = createDataset(dataMap);
 
-        final JFreeChart chart = ChartFactory.createHistogram("Activity Histogram", "Range", "Frequency", dataset,
-                PlotOrientation.VERTICAL, false, false, false);
+        final JFreeChart chart = ChartFactory
+                .createHistogram("Activity Histogram", "Range", "Frequency", dataset, PlotOrientation.VERTICAL, false,
+                        false, false);
 
         chart.setBackgroundPaint(Color.gray);
         chart.getTitle().setPaint(Color.black);
@@ -79,8 +80,8 @@ public class ActivityHistogram {
         domainAxis.setRange(getMinimum(getValues(dataMap)), getMaximum(getValues(dataMap)));
         plot.setDomainAxis(domainAxis);
 
-        String visualizationDir = Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataset.getName()
-                + "/Visualization/";
+        String visualizationDir =
+                Constants.CECCR_USER_BASE_PATH + userDir + "/DATASETS/" + selectedDataset.getName() + "/Visualization/";
         new File(visualizationDir).mkdirs();
         String outputFileStr = visualizationDir + "activityChart.png";
         ChartUtilities.saveChartAsPNG(new File(outputFileStr), chart, 550, 550);

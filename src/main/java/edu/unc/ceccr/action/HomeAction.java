@@ -26,8 +26,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 
-public class
-        HomeAction extends ActionSupport implements ServletResponseAware {
+public class HomeAction extends ActionSupport implements ServletResponseAware {
     private static Logger logger = Logger.getLogger(HomeAction.class.getName());
     protected HttpServletResponse servletResponse;
 
@@ -46,13 +45,11 @@ public class
     private List<String> errorStrings = Lists.newArrayList();
 
     @Override
-    public void
-    setServletResponse(HttpServletResponse servletResponse) {
+    public void setServletResponse(HttpServletResponse servletResponse) {
         this.servletResponse = servletResponse;
     }
 
-    public String
-    loadPage() {
+    public String loadPage() {
         try {
             //check if user is logged in
             ActionContext context = ActionContext.getContext();
@@ -230,24 +227,17 @@ public class
                 if (currentUser != null) {
                     String currentUserName = currentUser.getUserName();
                     if (currentUser.getIsAdmin().equals(Constants.YES)) {
-                        logger.warn(String.format(
-                                "Administrator bypassed password check: " +
-                                        "ADMIN=%s, NEWUSER=%s",
-                                currentUserName, username
-                        ));
+                        logger.warn(String.format("Administrator bypassed password check: " + "ADMIN=%s, NEWUSER=%s",
+                                currentUserName, username));
                         adminBypassPassword = true;
                     } else {
-                        logger.warn(String.format(
-                                "Attempt made by non-admin user %s to " +
-                                        "impersonate other user %s",
-                                currentUserName, username
-                        ));
+                        logger.warn(String.format("Attempt made by non-admin user %s to " + "impersonate other user %s",
+                                currentUserName, username));
                     }
                 }
 
                 String realPasswordHash = user.getPassword();
-                if ((adminBypassPassword) || (password != null &&
-                        Utility.encrypt(password).equals(realPasswordHash))) {
+                if ((adminBypassPassword) || (password != null && Utility.encrypt(password).equals(realPasswordHash))) {
                     context.getSession().put("user", user);
                     Cookie ckie = new Cookie("login", "true");
                     servletResponse.addCookie(ckie);
@@ -315,10 +305,8 @@ public class
                 Session s = HibernateUtil.getSession();
 
                 List<Prediction> predictions = Lists.newArrayList();
-                Iterator<?> predictionIter = PopulateDataObjects.getUserData(
-                        userToDelete
-                        , Prediction.class, s)
-                        .iterator();
+                Iterator<?> predictionIter =
+                        PopulateDataObjects.getUserData(userToDelete, Prediction.class, s).iterator();
                 while (predictionIter.hasNext()) {
                     predictions.add((Prediction) predictionIter.next());
 
@@ -326,10 +314,8 @@ public class
 
                 List<Predictor> predictors = Lists.newArrayList();
 
-                Iterator<?> predictorsIter = PopulateDataObjects.getUserData(
-                        userToDelete
-                        , Predictor.class, s)
-                        .iterator();
+                Iterator<?> predictorsIter =
+                        PopulateDataObjects.getUserData(userToDelete, Predictor.class, s).iterator();
                 while (predictorsIter.hasNext()) {
                     predictors.add((Predictor) predictorsIter.next());
 
@@ -337,10 +323,7 @@ public class
 
                 List<Dataset> datasets = Lists.newArrayList();
 
-                Iterator<?> datSetIter = PopulateDataObjects.getUserData(
-                        userToDelete
-                        , Dataset.class, s)
-                        .iterator();
+                Iterator<?> datSetIter = PopulateDataObjects.getUserData(userToDelete, Dataset.class, s).iterator();
                 while (datSetIter.hasNext()) {
                     datasets.add((Dataset) datSetIter.next());
 
@@ -348,10 +331,7 @@ public class
 
                 List<Job> jobs = Lists.newArrayList();
 
-                Iterator<?> jobIter = PopulateDataObjects.getUserData(
-                        userToDelete
-                        , Job.class, s)
-                        .iterator();
+                Iterator<?> jobIter = PopulateDataObjects.getUserData(userToDelete, Job.class, s).iterator();
                 while (jobIter.hasNext()) {
                     jobs.add((Job) jobIter.next());
 
@@ -401,11 +381,11 @@ public class
                     if (p.getChildIds() != null && !p.getChildIds().trim().equals("")) {
                         String[] childIdArray = p.getChildIds().split("\\s+");
                         for (String childId : childIdArray) {
-                            Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId),
-                                    session);
+                            Predictor childPredictor =
+                                    PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
                             childPredictors.add(childPredictor);
-                            extVals.addAll(PopulateDataObjects.getExternalValidationValues(childPredictor.getId(),
-                                    session));
+                            extVals.addAll(
+                                    PopulateDataObjects.getExternalValidationValues(childPredictor.getId(), session));
                         }
                     }
                     extVals.addAll(PopulateDataObjects.getExternalValidationValues(p.getId(), session));

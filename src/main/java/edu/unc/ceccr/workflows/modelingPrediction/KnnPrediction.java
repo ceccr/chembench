@@ -15,31 +15,27 @@ import java.util.List;
 
 public class KnnPrediction {
 
-    private static Logger logger = Logger.getLogger(KnnPrediction.class
-            .getName());
+    private static Logger logger = Logger.getLogger(KnnPrediction.class.getName());
 
     // Execute external programs to generate a prediction for a given molecule
     // set.
     // Used for legacy models that were created using Sasha's kNN code.
 
-    public static List<PredictionValue>
-    readPredictionOutput(String workingDir,
-                         Long predictorId,
-                         String sdFile) throws Exception {
+    public static List<PredictionValue> readPredictionOutput(String workingDir, Long predictorId, String sdFile)
+            throws Exception {
         // NOTE: THIS IS THE VERSION USED FOR KNN ONLY. For knn+, go to
         // knnPlusWorkflow.java.
 
         // read prediction output for a kNN job.
         // sample output filename:
         // cons_pred_vs_anticonvulsants_91.sdf.renorm.preds
-        String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_"
-                + sdFile.toLowerCase() + ".renorm.preds"; // the ".preds" is
+        String outputFile =
+                Constants.PRED_OUTPUT_FILE + "_vs_" + sdFile.toLowerCase() + ".renorm.preds"; // the ".preds" is
         // added
         // automatically by
         // knn+
         logger.debug("Reading file: " + workingDir + outputFile);
-        BufferedReader in = new BufferedReader(new FileReader(workingDir
-                + outputFile));
+        BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
         String inputString;
 
         // The first four lines are all header data
@@ -65,8 +61,7 @@ public class KnnPrediction {
         // each line of output represents a model
         // (which is really the transpose of the matrix we're looking for...
         // *sigh*)
-        while ((inputString = in.readLine()) != null
-                && !inputString.equals("")) {
+        while ((inputString = in.readLine()) != null && !inputString.equals("")) {
 
             List<String> modelValues = Lists.newArrayList();
 
@@ -116,9 +111,7 @@ public class KnnPrediction {
                     for (int j = 0; j < predictionMatrix.size(); j++) {
                         String predValue = predictionMatrix.get(j).get(i);
                         if (!predValue.equalsIgnoreCase("NA")) {
-                            float distFromMeanSquared = (float) Math
-                                    .pow((Double.parseDouble(predValue) - mean),
-                                            2);
+                            float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
                             stddev += distFromMeanSquared;
                         }
                     }
@@ -148,19 +141,15 @@ public class KnnPrediction {
         return predictionValues;
     }
 
-    public static void
-    runKnnPlusPredictionForKnnPredictors(String userName,
-                                         String jobName,
-                                         String workingDir,
-                                         String sdfile) throws Exception {
+    public static void runKnnPlusPredictionForKnnPredictors(String userName, String jobName, String workingDir,
+                                                            String sdfile) throws Exception {
         // Used for legacy models that were created using Sasha's kNN code.
 
         // write a dummy .a file because knn+ needs it or it fails
         // bizarrely... X_X
         String actfile = workingDir + sdfile + ".renorm.a";
         BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
-        List<String> compoundNames = DatasetFileOperations
-                .getSDFCompoundNames(workingDir + sdfile);
+        List<String> compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
         for (String compoundName : compoundNames) {
             aout.write(compoundName + " 0\n");
         }
@@ -170,9 +159,8 @@ public class KnnPrediction {
         // String preddir = workingDir;
 
         String xfile = sdfile + ".renorm.x";
-        String execstr = "knn+ knn-output.list -4PRED=" + xfile + " -AD="
-                + 99999 + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir,
-                "knnPlusPrediction");
+        String execstr =
+                "knn+ knn-output.list -4PRED=" + xfile + " -AD=" + 99999 + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "knnPlusPrediction");
     }
 }

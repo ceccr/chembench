@@ -16,7 +16,7 @@ public class CheckDescriptors {
     // dragon, etc.)
     // Look for any errors that would make the output unusable in modeling
     // Return an HTML-formatted string with user-readable feedback
-    
+
     /*
     public static String
             checkMolconnZDescriptors(String molconnZOutputFile) throws Exception
@@ -126,10 +126,8 @@ public class CheckDescriptors {
     }
     */
 
-    public static String
-    checkDragonDescriptors(String dragonOutputFile) throws Exception {
-        logger.debug("Checking Dragon descriptors: "
-                + dragonOutputFile);
+    public static String checkDragonDescriptors(String dragonOutputFile) throws Exception {
+        logger.debug("Checking Dragon descriptors: " + dragonOutputFile);
         List<String> descriptorNames = Lists.newArrayList();
         String errors = "";
 
@@ -175,11 +173,9 @@ public class CheckDescriptors {
             while (tok.hasNext()) {
                 String dvalue = tok.next();
                 if (dvalue.equalsIgnoreCase("Error")) {
-                    if (!errors
-                            .contains("Descriptor generation failed for molecule: "
-                                    + descriptorValues.get(1) + ".\n")) {
-                        errors += "Descriptor generation failed for molecule: "
-                                + descriptorValues.get(1) + ".\n";
+                    if (!errors.contains(
+                            "Descriptor generation failed for molecule: " + descriptorValues.get(1) + ".\n")) {
+                        errors += "Descriptor generation failed for molecule: " + descriptorValues.get(1) + ".\n";
                     }
                 }
                 descriptorValues.add(dvalue);
@@ -196,14 +192,12 @@ public class CheckDescriptors {
              */
             descriptorValues.clear();
         }
-        logger.debug("Done checking Dragon descriptors: "
-                + dragonOutputFile);
+        logger.debug("Done checking Dragon descriptors: " + dragonOutputFile);
         br.close();
         return errors;
     }
 
-    public static String
-    checkCDKDescriptors(String cdkOutputFile) throws Exception {
+    public static String checkCDKDescriptors(String cdkOutputFile) throws Exception {
         // check if CDK file exists, then look for NA's.
         String errors = "";
 
@@ -224,8 +218,7 @@ public class CheckDescriptors {
         return errors;
     }
 
-    public static String
-    checkMaccsDescriptors(String maccsOutputFile) throws Exception {
+    public static String checkMaccsDescriptors(String maccsOutputFile) throws Exception {
         // right now this doesn't check anything. The MACCS keys never seem to
         // cause issues.
         String errors = "";
@@ -237,8 +230,7 @@ public class CheckDescriptors {
         return errors;
     }
 
-    public static String
-    checkMoe2DDescriptors(String moe2DOutputFile) throws Exception {
+    public static String checkMoe2DDescriptors(String moe2DOutputFile) throws Exception {
         // right now this doesn't check anything. The MOE2D descriptors never
         // seem to cause issues.
         String errors = "";
@@ -269,8 +261,7 @@ public class CheckDescriptors {
                     // check if it's a number
                     Float.parseFloat(t);
                 } catch (Exception ex) {
-                    errors += "Error reading Moe2D descriptor value: " + t
-                            + "\n";
+                    errors += "Error reading Moe2D descriptor value: " + t + "\n";
                 }
             }
             tok.close();
@@ -279,8 +270,7 @@ public class CheckDescriptors {
         return errors;
     }
 
-    public static String
-    checkISIDADescriptors(String ISIDAOutputFile) throws Exception {
+    public static String checkISIDADescriptors(String ISIDAOutputFile) throws Exception {
         // right now this doesn't check anything. The MOE2D descriptors never
         // seem to cause issues.
         String errors = "";
@@ -311,8 +301,7 @@ public class CheckDescriptors {
                     // check if it's a number
                     Integer.parseInt(t);
                 } catch (Exception ex) {
-                    errors += "Error reading ISIDA descriptor value: " + t
-                            + "\n";
+                    errors += "Error reading ISIDA descriptor value: " + t + "\n";
                 }
             }
             tok.close();

@@ -254,8 +254,7 @@ public class User implements java.io.Serializable {
         return viewPredictionCompoundsPerPage;
     }
 
-    public void setViewPredictionCompoundsPerPage(
-            String viewPredictionCompoundsPerPage) {
+    public void setViewPredictionCompoundsPerPage(String viewPredictionCompoundsPerPage) {
         this.viewPredictionCompoundsPerPage = viewPredictionCompoundsPerPage;
     }
 

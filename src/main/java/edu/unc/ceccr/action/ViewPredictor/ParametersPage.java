@@ -25,18 +25,17 @@ public class ParametersPage extends ViewPredictorAction {
 
         if (selectedPredictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
             randomForestParameters = PopulateDataObjects
-                    .getRandomForestParametersById(selectedPredictor
-                            .getModelingParametersId(), session);
-        } else if (selectedPredictor.getModelMethod().equals(Constants.KNNGA)
-                || selectedPredictor.getModelMethod().equals(Constants.KNNSA)) {
-            knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(
-                    selectedPredictor.getModelingParametersId(), session);
+                    .getRandomForestParametersById(selectedPredictor.getModelingParametersId(), session);
+        } else if (selectedPredictor.getModelMethod().equals(Constants.KNNGA) || selectedPredictor.getModelMethod()
+                .equals(Constants.KNNSA)) {
+            knnPlusParameters =
+                    PopulateDataObjects.getKnnPlusParametersById(selectedPredictor.getModelingParametersId(), session);
         } else if (selectedPredictor.getModelMethod().equals(Constants.KNN)) {
-            knnParameters = PopulateDataObjects.getKnnParametersById(
-                    selectedPredictor.getModelingParametersId(), session);
+            knnParameters =
+                    PopulateDataObjects.getKnnParametersById(selectedPredictor.getModelingParametersId(), session);
         } else if (selectedPredictor.getModelMethod().equals(Constants.SVM)) {
-            svmParameters = PopulateDataObjects.getSvmParametersById(
-                    selectedPredictor.getModelingParametersId(), session);
+            svmParameters =
+                    PopulateDataObjects.getSvmParametersById(selectedPredictor.getModelingParametersId(), session);
             if (svmParameters != null) {
                 if (svmParameters.getSvmTypeCategory().equals("0")) {
                     svmParameters.setSvmTypeCategory("C-SVC");
@@ -103,9 +102,7 @@ public class ParametersPage extends ViewPredictorAction {
         return randomForestParameters;
     }
 
-    public void
-    setRandomForestParameters(
-            RandomForestParameters randomForestParameters) {
+    public void setRandomForestParameters(RandomForestParameters randomForestParameters) {
         this.randomForestParameters = randomForestParameters;
     }
 

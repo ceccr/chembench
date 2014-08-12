@@ -29,8 +29,7 @@ public class KnnModelsPage extends ViewPredictorAction {
         models = Lists.newArrayList();
         List<KnnModel> allModels = Lists.newArrayList();
         session = HibernateUtil.getSession();
-        List<KnnModel> temp = PopulateDataObjects.getModelsByPredictorId(Long
-                .parseLong(objectId), session);
+        List<KnnModel> temp = PopulateDataObjects.getModelsByPredictorId(Long.parseLong(objectId), session);
         session.close();
         if (temp != null) {
             allModels.addAll(temp);
@@ -38,12 +37,10 @@ public class KnnModelsPage extends ViewPredictorAction {
             Iterator<KnnModel> it = allModels.iterator();
             while (it.hasNext()) {
                 KnnModel m = it.next();
-                if (m.getFlowType().equalsIgnoreCase(Constants.MAINKNN)
-                        && isYRandomPage.equals(Constants.NO)) {
+                if (m.getFlowType().equalsIgnoreCase(Constants.MAINKNN) && isYRandomPage.equals(Constants.NO)) {
                     models.add(m);
-                } else if (m.getFlowType()
-                        .equalsIgnoreCase(Constants.RANDOMKNN)
-                        && isYRandomPage.equals(Constants.NO)) {
+                } else if (m.getFlowType().equalsIgnoreCase(Constants.RANDOMKNN) && isYRandomPage
+                        .equals(Constants.NO)) {
                     models.add(m);
                 }
             }

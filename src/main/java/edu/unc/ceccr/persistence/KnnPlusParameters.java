@@ -104,8 +104,7 @@ public class KnnPlusParameters {
         return saMutationProbabilityPerDescriptor;
     }
 
-    public void setSaMutationProbabilityPerDescriptor(
-            String saMutationProbabilityPerDescriptor) {
+    public void setSaMutationProbabilityPerDescriptor(String saMutationProbabilityPerDescriptor) {
         this.saMutationProbabilityPerDescriptor = saMutationProbabilityPerDescriptor;
     }
 

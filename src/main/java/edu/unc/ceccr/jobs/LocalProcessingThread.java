@@ -62,10 +62,10 @@ public class LocalProcessingThread extends Thread {
                                 Session session = HibernateUtil.getSession();
                                 // removing all quest data if guest time on
                                 // site was out
-                                if (!j.getUserName().isEmpty() && PopulateDataObjects.getUserByUserName(j.getUserName
-                                        (), session) == null) {
-                                    FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH + j
-                                            .getUserName()));
+                                if (!j.getUserName().isEmpty()
+                                        && PopulateDataObjects.getUserByUserName(j.getUserName(), session) == null) {
+                                    FileAndDirOperations
+                                            .deleteDir(new File(Constants.CECCR_USER_BASE_PATH + j.getUserName()));
                                 }
                                 session.close();
                             }
@@ -81,10 +81,10 @@ public class LocalProcessingThread extends Thread {
                                 // site was out
                                 logger.error("JOB FAILED REMOVING GUEST: " + j.getUserName() + " " +
                                         PopulateDataObjects.getUserByUserName(j.getUserName(), session));
-                                if (!j.getUserName().isEmpty() && PopulateDataObjects.getUserByUserName(j.getUserName
-                                        (), session) == null) {
-                                    FileAndDirOperations.deleteDir(new File(Constants.CECCR_USER_BASE_PATH + j
-                                            .getUserName()));
+                                if (!j.getUserName().isEmpty()
+                                        && PopulateDataObjects.getUserByUserName(j.getUserName(), session) == null) {
+                                    FileAndDirOperations
+                                            .deleteDir(new File(Constants.CECCR_USER_BASE_PATH + j.getUserName()));
                                     logger.error("JOB FAILED REMOVING FOR SURE GUEST: " + j.getUserName());
                                 }
                                 session.close();

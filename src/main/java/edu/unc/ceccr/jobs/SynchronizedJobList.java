@@ -92,9 +92,7 @@ public class SynchronizedJobList {
         try {
             s = HibernateUtil.getSession();
             tx = s.beginTransaction();
-            job = (Job) s.createCriteria(Job.class)
-                    .add(Expression.eq("id", jobId))
-                    .uniqueResult();
+            job = (Job) s.createCriteria(Job.class).add(Expression.eq("id", jobId)).uniqueResult();
         } catch (Exception e) {
             if (tx != null) {
                 tx.rollback();
@@ -147,11 +145,11 @@ public class SynchronizedJobList {
  * So, during normal server operation, you're never going to want to read from
  * the Jobs table. The Jobs table is really only there for recovering jobs if the server
  * needs to be stopped / restarted.
- * 
+ *
 	private void updateJobsFromDB(){
 
 		List<Job> freshJobList = Lists.newArrayList();
-		Session s = null; 
+		Session s = null;
 		try {
 			s = HibernateUtil.getSession();
 			freshJobList = (ArrayList<Job>) s.createCriteria(Job.class)
@@ -167,7 +165,7 @@ public class SynchronizedJobList {
 		synchronized(jobList){
 			for(int i = 0; i < jobList.size(); i++){
 				WorkflowTask wt = jobList.get(i).workflowTask;
-				
+
 			}
 		}
 	}*/

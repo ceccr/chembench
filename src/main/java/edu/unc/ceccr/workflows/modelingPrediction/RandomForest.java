@@ -16,10 +16,8 @@ public class RandomForest {
     private static Logger logger = Logger.getLogger(RandomForest.class.getName());
 
     // MODELING WORKFLOW FUNCTIONS
-    public static void
-    SetUpYRandomization(String userName, String jobName) throws Exception {
-        String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/"
-                + jobName + "/";
+    public static void SetUpYRandomization(String userName, String jobName) throws Exception {
+        String workingdir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
         // create yRandom dirs
         new File(workingdir + "yRandom/").mkdir();
@@ -36,20 +34,14 @@ public class RandomForest {
         String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
         String newModelingXFile = "RF_" + Constants.MODELING_SET_X_FILE;
 
-        FileAndDirOperations.copyFile(fromDir + "RF_RAND_sets.list", toDir
-                + "RF_RAND_sets.list");
-        FileAndDirOperations.copyFile(fromDir + newExternalXFile, toDir
-                + newExternalXFile);
-        FileAndDirOperations.copyFile(fromDir + newModelingXFile, toDir
-                + newModelingXFile);
+        FileAndDirOperations.copyFile(fromDir + "RF_RAND_sets.list", toDir + "RF_RAND_sets.list");
+        FileAndDirOperations.copyFile(fromDir + newExternalXFile, toDir + newExternalXFile);
+        FileAndDirOperations.copyFile(fromDir + newModelingXFile, toDir + newModelingXFile);
 
-        logger.debug("Copying files in RF_RAND_sets.list from "
-                + workingdir + " to " + workingdir + "yRandom/");
-        BufferedReader in = new BufferedReader(new FileReader(workingdir
-                + "RF_RAND_sets.list"));
+        logger.debug("Copying files in RF_RAND_sets.list from " + workingdir + " to " + workingdir + "yRandom/");
+        BufferedReader in = new BufferedReader(new FileReader(workingdir + "RF_RAND_sets.list"));
         String inputString;
-        while ((inputString = in.readLine()) != null
-                && !inputString.equals("")) {
+        while ((inputString = in.readLine()) != null && !inputString.equals("")) {
             if (!inputString.contains("#")) {
                 String[] data = inputString.split("\\s+");
                 String[] files = new String[4];
@@ -60,16 +52,14 @@ public class RandomForest {
 
                 for (int i = 0; i < files.length; i++) {
                     if (new File(fromDir + files[i]).exists()) {
-                        FileAndDirOperations.copyFile(fromDir + files[i],
-                                toDir + files[i]);
+                        FileAndDirOperations.copyFile(fromDir + files[i], toDir + files[i]);
                     }
                 }
             }
         }
         in.close();
 
-        String yRandomDir = Constants.CECCR_USER_BASE_PATH + userName + "/"
-                + jobName + "/yRandom/";
+        String yRandomDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/yRandom/";
         logger.debug("User: " + userName + " Job: " + jobName + " YRandomization");
         File dir = new File(yRandomDir);
         String files[] = dir.list();
@@ -77,39 +67,30 @@ public class RandomForest {
             logger.warn("Error reading directory: " + yRandomDir);
         }
         int x = 0;
-        logger.debug("Randomizing each activity file (*rand_sets*.a) in dir "
-                + yRandomDir);
+        logger.debug("Randomizing each activity file (*rand_sets*.a) in dir " + yRandomDir);
         while (files != null && x < files.length) {
             if (files[x].matches(".*rand_sets.*a")) {
                 // shuffle the values in each .a file (ACT file)
-                DatasetFileOperations.randomizeActivityFile(yRandomDir
-                        + files[x], yRandomDir + files[x]);
+                DatasetFileOperations.randomizeActivityFile(yRandomDir + files[x], yRandomDir + files[x]);
             }
             x++;
         }
 
     }
 
-    public static void
-    makeRandomForestXFiles(String scalingType, String workingDir) throws Exception {
+    public static void makeRandomForestXFiles(String scalingType, String workingDir) throws Exception {
         // changes the usual .x files to random forest versions.
 
-        BufferedWriter out = new BufferedWriter(new FileWriter(workingDir
-                + "RF_RAND_sets.list"));
-        BufferedReader in = new BufferedReader(new FileReader(workingDir
-                + "RAND_sets.list"));
+        BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + "RF_RAND_sets.list"));
+        BufferedReader in = new BufferedReader(new FileReader(workingDir + "RAND_sets.list"));
         String inputString;
-        while ((inputString = in.readLine()) != null
-                && !inputString.equals("")) {
+        while ((inputString = in.readLine()) != null && !inputString.equals("")) {
             if (!inputString.contains("#")) {
                 String[] data = inputString.split("\\s+");
-                preProcessXFile(scalingType, data[0], "RF_" + data[0],
-                        workingDir);
-                preProcessXFile(scalingType, data[3], "RF_" + data[3],
-                        workingDir);
-                out.write(inputString.replace(data[0], "RF_" + data[0])
-                        .replace(data[3], "RF_" + data[3])
-                        + System.getProperty("line.separator"));
+                preProcessXFile(scalingType, data[0], "RF_" + data[0], workingDir);
+                preProcessXFile(scalingType, data[3], "RF_" + data[3], workingDir);
+                out.write(inputString.replace(data[0], "RF_" + data[0]).replace(data[3], "RF_" + data[3]) + System
+                        .getProperty("line.separator"));
             }
         }
         in.close();
@@ -118,32 +99,24 @@ public class RandomForest {
 
         // fix external set .x file too
         String newExternalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
-        preProcessXFile(scalingType, Constants.EXTERNAL_SET_X_FILE,
-                newExternalXFile, workingDir);
+        preProcessXFile(scalingType, Constants.EXTERNAL_SET_X_FILE, newExternalXFile, workingDir);
         String newModelingXFile = "RF_" + Constants.MODELING_SET_X_FILE;
-        preProcessXFile(scalingType, Constants.MODELING_SET_X_FILE,
-                newModelingXFile, workingDir);
+        preProcessXFile(scalingType, Constants.MODELING_SET_X_FILE, newModelingXFile, workingDir);
 
     }
 
-    public static void
-    buildRandomForestModels(RandomForestParameters randomForestParameters,
-                            String actFileDataType,
-                            String scalingType,
-                            String categoryWeights,
-                            String workingDir,
-                            String jobName) throws Exception {
+    public static void buildRandomForestModels(RandomForestParameters randomForestParameters, String actFileDataType,
+                                               String scalingType, String categoryWeights, String workingDir,
+                                               String jobName) throws Exception {
 
         String command = "";
         logger.debug("Running Random Forest Modeling...");
 
         String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
-        String buildModelScript = scriptDir
-                + Constants.RF_BUILD_MODEL_RSCRIPT;
+        String buildModelScript = scriptDir + Constants.RF_BUILD_MODEL_RSCRIPT;
 
         // build model script parameter
-        String type = actFileDataType.equals(Constants.CATEGORY) ? "classification"
-                : "regression";
+        String type = actFileDataType.equals(Constants.CATEGORY) ? "classification" : "regression";
         String ntree = randomForestParameters.getNumTrees().trim();
 
         /*
@@ -169,8 +142,7 @@ public class RandomForest {
         String maxnodes = randomForestParameters.getMaxNumTerminalNodes();
 
         String externalXFile = "RF_" + Constants.EXTERNAL_SET_X_FILE;
-        if (DatasetFileOperations.getXCompoundNames(
-                workingDir + "RF_" + Constants.EXTERNAL_SET_X_FILE).size() == 0) {
+        if (DatasetFileOperations.getXCompoundNames(workingDir + "RF_" + Constants.EXTERNAL_SET_X_FILE).size() == 0) {
             // Random Forest will not run without a non-empty x file.
             // (facepalm)
             // workaround: use the training set X file in this case. The
@@ -182,13 +154,9 @@ public class RandomForest {
         if (maxnodes.equals("0")) {
             maxnodes = "NULL";
         }
-        command = "Rscript --vanilla " + buildModelScript + " --scriptsDir "
-                + scriptDir + " --workDir " + workingDir
-                + " --externalXFile " + externalXFile
-                + " --dataSplitsListFile " + "RF_RAND_sets.list" + " --type "
-                + type + " --ntree " + ntree
-                + " --classwt " + classwt
-                + " --maxnodes " + maxnodes;
+        command = "Rscript --vanilla " + buildModelScript + " --scriptsDir " + scriptDir + " --workDir " + workingDir
+                + " --externalXFile " + externalXFile + " --dataSplitsListFile " + "RF_RAND_sets.list" + " --type "
+                + type + " --ntree " + ntree + " --classwt " + classwt + " --maxnodes " + maxnodes;
         /*
          * FIXME disabled until default-if-not-provided is implemented
         if (mtry != null) {
@@ -199,24 +167,20 @@ public class RandomForest {
         }
         */
 
-        RunExternalProgram.runCommandAndLogOutput(command, workingDir,
-                "randomForestBuildModel");
+        RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestBuildModel");
     }
 
-    public static List<ExternalValidation>
-    readExternalSetPredictionOutput(String workingDir,
-                                    Predictor predictor) throws Exception {
+    public static List<ExternalValidation> readExternalSetPredictionOutput(String workingDir, Predictor predictor)
+            throws Exception {
         // note that in Random Forest, making external predictions is done
         // automatically
         // as part of the modeling process.
 
         List<ExternalValidation> allExternalValues = Lists.newArrayList();
-        BufferedReader in = new BufferedReader(new FileReader(workingDir
-                + Constants.EXTERNAL_SET_A_FILE));
+        BufferedReader in = new BufferedReader(new FileReader(workingDir + Constants.EXTERNAL_SET_A_FILE));
         String inputString;
 
-        while ((inputString = in.readLine()) != null
-                && !inputString.equals("")) {
+        while ((inputString = in.readLine()) != null && !inputString.equals("")) {
             String data[] = inputString.split("\\s+"); // Note: [0] is the
             // compound name and
             // [1] is the activity
@@ -224,18 +188,16 @@ public class RandomForest {
             ExternalValidation externalValidationValue = new ExternalValidation();
             externalValidationValue.setPredictorId(predictor.getId());
             externalValidationValue.setCompoundId(data[0]);
-            externalValidationValue.setActualValue(new Float(data[1])
-                    .floatValue());
+            externalValidationValue.setActualValue(new Float(data[1]).floatValue());
             allExternalValues.add(externalValidationValue);
         }
         in.close();
 
-        in = new BufferedReader(new FileReader(workingDir + "RF_"
-                + Constants.EXTERNAL_SET_X_FILE.replace(".x", ".pred")));
+        in = new BufferedReader(
+                new FileReader(workingDir + "RF_" + Constants.EXTERNAL_SET_X_FILE.replace(".x", ".pred")));
         inputString = in.readLine(); // header
         for (int i = 0; i < allExternalValues.size(); i++) {
-            ExternalValidation externalValidationValue = allExternalValues
-                    .get(i);
+            ExternalValidation externalValidationValue = allExternalValues.get(i);
             inputString = in.readLine();
             if (inputString != null && !inputString.trim().isEmpty()) {
 
@@ -248,8 +210,7 @@ public class RandomForest {
 
                 Float[] compoundPredictedValues = new Float[data.length - 1];
 
-                externalValidationValue
-                        .setNumModels(compoundPredictedValues.length);
+                externalValidationValue.setNumModels(compoundPredictedValues.length);
 
                 float sum = 0;
                 for (int j = 0; j < compoundPredictedValues.length; j++) {
@@ -262,34 +223,25 @@ public class RandomForest {
 
                 double sumDistFromMeanSquared = 0.0;
                 for (int j = 0; j < compoundPredictedValues.length; j++) {
-                    double distFromMean = compoundPredictedValues[j]
-                            .doubleValue()
-                            - (double) mean;
-                    sumDistFromMeanSquared += Math.pow(distFromMean,
-                            (double) 2);
+                    double distFromMean = compoundPredictedValues[j].doubleValue() - (double) mean;
+                    sumDistFromMeanSquared += Math.pow(distFromMean, (double) 2);
                 }
-                double stdDev = Math.sqrt(sumDistFromMeanSquared
-                        / (double) compoundPredictedValues.length);
-                externalValidationValue.setStandDev(Utility
-                        .roundSignificantFigures(Double.toString(stdDev), 4));
+                double stdDev = Math.sqrt(sumDistFromMeanSquared / (double) compoundPredictedValues.length);
+                externalValidationValue.setStandDev(Utility.roundSignificantFigures(Double.toString(stdDev), 4));
             }
         }
 
         return allExternalValues;
     }
 
-    public static List<RandomForestGrove>
-    readRandomForestGroves(String workingDir,
-                           Predictor predictor,
-                           String isYRandomModel) throws Exception {
+    public static List<RandomForestGrove> readRandomForestGroves(String workingDir, Predictor predictor,
+                                                                 String isYRandomModel) throws Exception {
         List<RandomForestGrove> randomForestModels = Lists.newArrayList();
 
         // read the models list
-        BufferedReader in = new BufferedReader(new FileReader(workingDir
-                + Constants.RF_DESCRIPTORS_USED_FILE));
+        BufferedReader in = new BufferedReader(new FileReader(workingDir + Constants.RF_DESCRIPTORS_USED_FILE));
         String inputString;
-        while ((inputString = in.readLine()) != null
-                && !inputString.equals("")) {
+        while ((inputString = in.readLine()) != null && !inputString.equals("")) {
             // for each model
             String[] data = inputString.split("\t"); // [0] is the grove name,
             // [1] is the list of
@@ -310,11 +262,9 @@ public class RandomForest {
         return randomForestModels;
     }
 
-    public static List<RandomForestTree>
-    readRandomForestTrees(String workingDir,
-                          Predictor predictor,
-                          RandomForestGrove grove,
-                          String actFileDataType) throws Exception {
+    public static List<RandomForestTree> readRandomForestTrees(String workingDir, Predictor predictor,
+                                                               RandomForestGrove grove, String actFileDataType)
+            throws Exception {
         List<RandomForestTree> randomForestTrees = Lists.newArrayList();
 
         if (actFileDataType.equals(Constants.CONTINUOUS)) {
@@ -323,35 +273,27 @@ public class RandomForest {
             List<String> treeMse = Lists.newArrayList();
             List<String> treeDescriptorsUsed = Lists.newArrayList();
 
-            BufferedReader in = new BufferedReader(new FileReader(workingDir
-                    + grove.getName() + "_trees.list"));
+            BufferedReader in = new BufferedReader(new FileReader(workingDir + grove.getName() + "_trees.list"));
             String inputString;
-            while ((inputString = in.readLine()) != null
-                    && !inputString.equals("")) {
+            while ((inputString = in.readLine()) != null && !inputString.equals("")) {
                 treeFileName.add(inputString);
             }
             in.close();
 
-            in = new BufferedReader(new FileReader(workingDir
-                    + grove.getName() + ".rsq"));
-            while ((inputString = in.readLine()) != null
-                    && !inputString.equals("")) {
+            in = new BufferedReader(new FileReader(workingDir + grove.getName() + ".rsq"));
+            while ((inputString = in.readLine()) != null && !inputString.equals("")) {
                 treeR2.add(inputString);
             }
             in.close();
 
-            in = new BufferedReader(new FileReader(workingDir
-                    + grove.getName() + ".mse"));
-            while ((inputString = in.readLine()) != null
-                    && !inputString.equals("")) {
+            in = new BufferedReader(new FileReader(workingDir + grove.getName() + ".mse"));
+            while ((inputString = in.readLine()) != null && !inputString.equals("")) {
                 treeMse.add(inputString);
             }
             in.close();
 
-            in = new BufferedReader(new FileReader(workingDir
-                    + grove.getName() + "_desc_used_in_trees.txt"));
-            while ((inputString = in.readLine()) != null
-                    && !inputString.equals("")) {
+            in = new BufferedReader(new FileReader(workingDir + grove.getName() + "_desc_used_in_trees.txt"));
+            while ((inputString = in.readLine()) != null && !inputString.equals("")) {
                 treeDescriptorsUsed.add(inputString);
             }
             in.close();
@@ -369,19 +311,15 @@ public class RandomForest {
         } else {
             List<String> treeFileName = Lists.newArrayList();
             List<String> treeDescriptorsUsed = Lists.newArrayList();
-            BufferedReader in = new BufferedReader(new FileReader(workingDir
-                    + grove.getName() + "_trees.list"));
+            BufferedReader in = new BufferedReader(new FileReader(workingDir + grove.getName() + "_trees.list"));
             String inputString;
-            while ((inputString = in.readLine()) != null
-                    && !inputString.equals("")) {
+            while ((inputString = in.readLine()) != null && !inputString.equals("")) {
                 treeFileName.add(inputString);
             }
             in.close();
 
-            in = new BufferedReader(new FileReader(workingDir
-                    + grove.getName() + "_desc_used_in_trees.txt"));
-            while ((inputString = in.readLine()) != null
-                    && !inputString.equals("")) {
+            in = new BufferedReader(new FileReader(workingDir + grove.getName() + "_desc_used_in_trees.txt"));
+            while ((inputString = in.readLine()) != null && !inputString.equals("")) {
                 treeDescriptorsUsed.add(inputString);
             }
             in.close();
@@ -407,33 +345,26 @@ public class RandomForest {
 
         try {
             // open RF_RAND_sets.list and remove the .x files listed in it
-            BufferedReader in = new BufferedReader(new FileReader(workingDir
-                    + "RF_RAND_sets.list"));
+            BufferedReader in = new BufferedReader(new FileReader(workingDir + "RF_RAND_sets.list"));
 
             // sample line:
             // RF_rand_sets_39_trn0.x rand_sets_39_trn0.a 37
             // RF_rand_sets_39_tst0.x rand_sets_39_tst0.a 13
 
             String inputString;
-            while ((inputString = in.readLine()) != null
-                    && !inputString.equals("")) {
+            while ((inputString = in.readLine()) != null && !inputString.equals("")) {
                 if (!inputString.contains("#")) {
                     String[] files = inputString.split("\\s+");
                     for (int i = 0; i < files.length; i++) {
                         // remove RF_rand_sets.*.x
-                        if (files[i].endsWith("x")
-                                && new File(workingDir + files[i]).exists()) {
-                            FileAndDirOperations.deleteFile(workingDir
-                                    + files[i]);
+                        if (files[i].endsWith("x") && new File(workingDir + files[i]).exists()) {
+                            FileAndDirOperations.deleteFile(workingDir + files[i]);
                         }
                         // remove rand_sets.*.x
                         if (files[i].length() > 3) {
                             files[i] = files[i].substring(3);
-                            if (files[i].endsWith("x")
-                                    && new File(workingDir + files[i])
-                                    .exists()) {
-                                FileAndDirOperations.deleteFile(workingDir
-                                        + files[i]);
+                            if (files[i].endsWith("x") && new File(workingDir + files[i]).exists()) {
+                                FileAndDirOperations.deleteFile(workingDir + files[i]);
                             }
                         }
                     }
@@ -448,31 +379,24 @@ public class RandomForest {
     // END MODELING WORKFLOW FUNCTIONS
 
     // PREDICTION WORKFLOW FUNCTIONS
-    public static void
-    runRandomForestPrediction(String workingDir,
-                              String jobName,
-                              String sdfile,
-                              Predictor predictor) throws Exception {
+    public static void runRandomForestPrediction(String workingDir, String jobName, String sdfile, Predictor predictor)
+            throws Exception {
         String xFile = sdfile + ".renorm.x";
         String newXFile = "RF_" + xFile;
-        preProcessXFile(predictor.getScalingType(), xFile, newXFile,
-                workingDir);
+        preProcessXFile(predictor.getScalingType(), xFile, newXFile, workingDir);
         FileAndDirOperations.deleteFile(workingDir + xFile);
 
         String scriptDir = Constants.CECCR_BASE_PATH + Constants.SCRIPTS_PATH;
         String predictScript = scriptDir + Constants.RF_PREDICT_RSCRIPT;
         String modelsListFile = "models.list";
-        String command = "Rscript --vanilla " + predictScript
-                + " --scriptsDir " + scriptDir + " --workDir " + workingDir
-                + " --modelsListFile " + modelsListFile + " --xFile "
-                + newXFile;
+        String command =
+                "Rscript --vanilla " + predictScript + " --scriptsDir " + scriptDir + " --workDir " + workingDir
+                        + " --modelsListFile " + modelsListFile + " --xFile " + newXFile;
 
-        RunExternalProgram.runCommandAndLogOutput(command, workingDir,
-                "randomForestPredict");
+        RunExternalProgram.runCommandAndLogOutput(command, workingDir, "randomForestPredict");
     }
 
-    public static List<PredictionValue>
-    readPredictionOutput(String workingDir, Long predictorId) throws Exception {
+    public static List<PredictionValue> readPredictionOutput(String workingDir, Long predictorId) throws Exception {
         List<PredictionValue> predictionValues = Lists.newArrayList(); // holds
         // objects
         // to
@@ -481,15 +405,12 @@ public class RandomForest {
 
         // Get the predicted values of the forest
         String outputFile = Constants.PRED_OUTPUT_FILE + ".preds";
-        logger.debug("Reading consensus prediction file: "
-                + workingDir + outputFile);
-        BufferedReader in = new BufferedReader(new FileReader(workingDir
-                + outputFile));
+        logger.debug("Reading consensus prediction file: " + workingDir + outputFile);
+        BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
         String inputString;
 
         in.readLine(); // first line is the header with the model name
-        while ((inputString = in.readLine()) != null
-                && !inputString.equals("")) {
+        while ((inputString = in.readLine()) != null && !inputString.equals("")) {
             String[] data = inputString.split("\\s+"); // Note: [0] is the
             // compound name and
             // the following are
@@ -513,13 +434,10 @@ public class RandomForest {
 
             double sumDistFromMeanSquared = 0.0;
             for (int i = 0; i < compoundPredictedValues.length; i++) {
-                double distFromMean = compoundPredictedValues[i]
-                        .doubleValue()
-                        - (double) mean;
+                double distFromMean = compoundPredictedValues[i].doubleValue() - (double) mean;
                 sumDistFromMeanSquared += Math.pow(distFromMean, (double) 2);
             }
-            double stdDev = Math.sqrt(sumDistFromMeanSquared
-                    / (double) compoundPredictedValues.length);
+            double stdDev = Math.sqrt(sumDistFromMeanSquared / (double) compoundPredictedValues.length);
             p.setStandardDeviation(new Float(stdDev));
 
             predictionValues.add(p);
@@ -532,13 +450,11 @@ public class RandomForest {
     // END PREDICTION WORKFLOW FUNCTIONS
 
     // HELPER FUNCTIONS
-    public static void preProcessXFile(String scalingType,
-                                       String xFile,
-                                       String newXFile,
-                                       String workingDir) throws Exception {
-        String logString = String.format(
-                "Preprocessing X file: SCALING=%s, OLD=%s, NEW=%s, DIR=%s",
-                scalingType, xFile, newXFile, workingDir);
+    public static void preProcessXFile(String scalingType, String xFile, String newXFile, String workingDir)
+            throws Exception {
+        String logString =
+                String.format("Preprocessing X file: SCALING=%s, OLD=%s, NEW=%s, DIR=%s", scalingType, xFile, newXFile,
+                        workingDir);
         logger.debug(logString);
 
         // if scaling was applied, the last 2 lines of a .x file will contain
@@ -553,8 +469,7 @@ public class RandomForest {
             return;
         }
 
-        BufferedReader br = new BufferedReader(new FileReader(workingDir
-                + xFile));
+        BufferedReader br = new BufferedReader(new FileReader(workingDir + xFile));
         List<String> lines = Lists.newArrayList();
 
         // replace "#" with "=_"
@@ -564,8 +479,7 @@ public class RandomForest {
         }
         br.close();
 
-        BufferedWriter out = new BufferedWriter(new FileWriter(workingDir
-                + newXFile));
+        BufferedWriter out = new BufferedWriter(new FileWriter(workingDir + newXFile));
         for (int i = 0; i < lines.size(); i++) {
             // write out all but the last two lines UNLESS no scaling occurred
             if (i < lines.size() - 2 || scalingType.equals("NOSCALING")) {

@@ -13,8 +13,7 @@ public class ApplicationServlet extends HttpServlet {
 
     private static Logger logger = Logger.getLogger(ApplicationServlet.class.getName());
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         String appName = request.getParameter("exe");
         String fileDir = Constants.EXECUTABLEFILE_PATH + "chemb/bin/";
@@ -36,8 +35,7 @@ public class ApplicationServlet extends HttpServlet {
             int contentLength = input.available();
             response.setContentLength(contentLength);
             response.setContentType("application/x-msword");
-            response.setHeader(
-                    "Content-disposition", "attachment; filename=\"" + appName + "\"");
+            response.setHeader("Content-disposition", "attachment; filename=\"" + appName + "\"");
             BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream());
 
             // Write file contents to response.
@@ -53,11 +51,10 @@ public class ApplicationServlet extends HttpServlet {
         }
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         doGet(request, response);
     }
 }
-    
-    
- 
+
+
+

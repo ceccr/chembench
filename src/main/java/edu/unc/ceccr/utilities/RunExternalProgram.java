@@ -15,11 +15,10 @@ public class RunExternalProgram {
     // when they run. (For programs that execute many times in quick
     // succession.)
 
-    private static Logger logger = Logger.getLogger(RunExternalProgram.class
-            .getName());
-    private static String[] runQuietly = {"bjobs.sh",
-            "datasplit_train_test", "checkKnnSaProgress",
-            "checkKnnGaProgress", "svm-train", "svm-predict", "molconvert"};
+    private static Logger logger = Logger.getLogger(RunExternalProgram.class.getName());
+    private static String[] runQuietly =
+            {"bjobs.sh", "datasplit_train_test", "checkKnnSaProgress", "checkKnnGaProgress", "svm-train", "svm-predict",
+                    "molconvert"};
 
     public static void close(Closeable c) {
         if (c != null) {
@@ -50,18 +49,14 @@ public class RunExternalProgram {
 
             if (workingDir.isEmpty()) {
                 if (outputRunningMessage) {
-                    logger.info(String.format(
-                            "Running external program: CMD=%s", cmd));
+                    logger.info(String.format("Running external program: CMD=%s", cmd));
                 }
                 p = Runtime.getRuntime().exec(cmd);
             } else {
                 if (outputRunningMessage) {
-                    logger.info(String.format(
-                            "Running external program: CMD=%s, WORKINGDIR=%s",
-                            cmd, workingDir));
+                    logger.info(String.format("Running external program: CMD=%s, WORKINGDIR=%s", cmd, workingDir));
                 }
-                p = Runtime.getRuntime()
-                        .exec(cmd, null, new File(workingDir));
+                p = Runtime.getRuntime().exec(cmd, null, new File(workingDir));
             }
 
             // capture program output in log file
@@ -84,9 +79,7 @@ public class RunExternalProgram {
         }
     }
 
-    public static void runCommandAndLogOutput(String cmd,
-                                              String workingDir,
-                                              String logFileName) {
+    public static void runCommandAndLogOutput(String cmd, String workingDir, String logFileName) {
         // runs an external program and writes user info to logfile
 
         try {
@@ -98,8 +91,7 @@ public class RunExternalProgram {
 
             boolean outputRunningMessage = true;
             for (int i = 0; i < runQuietly.length; i++) {
-                if (cmd.startsWith(runQuietly[i])
-                        || logFileName.startsWith(runQuietly[i])) {
+                if (cmd.startsWith(runQuietly[i]) || logFileName.startsWith(runQuietly[i])) {
                     outputRunningMessage = false;
                 }
             }
@@ -111,25 +103,20 @@ public class RunExternalProgram {
             }
             String logsPath = workingDir + "Logs/";
 
-            cmd = cmd + " > " + logsPath + logFileName + ".log" + " 2> "
-                    + logsPath + logFileName + ".err";
+            cmd = cmd + " > " + logsPath + logFileName + ".log" + " 2> " + logsPath + logFileName + ".err";
 
             File scriptFile = new File(workingDir + "temp-script.sh");
-            BufferedWriter out = new BufferedWriter(
-                    new FileWriter(scriptFile));
+            BufferedWriter out = new BufferedWriter(new FileWriter(scriptFile));
             out.write(cmd + "\n");
             out.close();
             scriptFile.setExecutable(true);
             FileAndDirOperations.makeDirContentsExecutable(workingDir);
 
             if (outputRunningMessage) {
-                logger.info(String.format(
-                        "Running external program: CMD=%s, WORKINGDIR=%s",
-                        cmd, workingDir));
+                logger.info(String.format("Running external program: CMD=%s, WORKINGDIR=%s", cmd, workingDir));
             }
 
-            p = Runtime.getRuntime().exec(workingDir + "temp-script.sh",
-                    null, new File(workingDir));
+            p = Runtime.getRuntime().exec(workingDir + "temp-script.sh", null, new File(workingDir));
             p.waitFor();
 
         } catch (Exception e) {

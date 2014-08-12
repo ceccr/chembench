@@ -10,8 +10,7 @@ import java.util.Vector;
 public class MahalanobisDistanceMeasure extends DistanceMeasure {
 
 
-    public MahalanobisDistanceMeasure(String userName, String datasetName, String sdfName)
-            throws Exception {
+    public MahalanobisDistanceMeasure(String userName, String datasetName, String sdfName) throws Exception {
         super(userName, datasetName, sdfName);
         readData();
     }
@@ -130,10 +129,11 @@ public class MahalanobisDistanceMeasure extends DistanceMeasure {
                     two_vectro_mat[1] = /*centerVector(*/convertVectorToDouble(bit_matrix.get(i))/*)*/;
                     double[][] cov_mat = calculateCovarianceMatrix(two_vectro_mat, transpose(two_vectro_mat));
                     double[][] inv_mat = invert(cov_mat);
-                    double[] d_vec = multiplyVectorOnMatrix(new double[]{mean(two_vectro_mat[0]),
-                            mean(two_vectro_mat[1])}, inv_mat);
-                    similarity = new Double(multiplyVectors(d_vec, new double[]{mean(two_vectro_mat[0]),
-                            mean(two_vectro_mat[1])}));
+                    double[] d_vec =
+                            multiplyVectorOnMatrix(new double[]{mean(two_vectro_mat[0]), mean(two_vectro_mat[1])},
+                                    inv_mat);
+                    similarity = new Double(
+                            multiplyVectors(d_vec, new double[]{mean(two_vectro_mat[0]), mean(two_vectro_mat[1])}));
                 }
 
                 if (min > similarity && similarity > 0.0) {

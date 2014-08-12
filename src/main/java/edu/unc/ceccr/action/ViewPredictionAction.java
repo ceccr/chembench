@@ -69,8 +69,8 @@ public class ViewPredictionAction extends ViewAction {
         logger.debug("prediction id: " + objectId);
         session = HibernateUtil.getSession();
         prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
-        if (prediction == null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user
-                .getUserName().equals(prediction.getUserName()))) {
+        if (prediction == null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
+                .equals(prediction.getUserName()))) {
             logger.debug("No prediction was found in the DB with provided ID.");
             super.errorStrings.add("Invalid prediction ID supplied.");
             result = ERROR;
@@ -107,8 +107,8 @@ public class ViewPredictionAction extends ViewAction {
         }
 
         //get prediction values
-        compoundPredictionValues = PopulateDataObjects.populateCompoundPredictionValues(prediction.getDatasetId(),
-                Long.parseLong(objectId), session);
+        compoundPredictionValues = PopulateDataObjects
+                .populateCompoundPredictionValues(prediction.getDatasetId(), Long.parseLong(objectId), session);
 
         //sort the compoundPrediction array
         logger.debug("Sorting compound predictions");
@@ -265,8 +265,8 @@ public class ViewPredictionAction extends ViewAction {
         session = HibernateUtil.getSession();
         prediction = PopulateDataObjects.getPredictionById(Long.parseLong(objectId), session);
 
-        if (prediction == null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user
-                .getUserName().equals(prediction.getUserName()))) {
+        if (prediction == null || (!prediction.getUserName().equals(Constants.ALL_USERS_USERNAME) && !user.getUserName()
+                .equals(prediction.getUserName()))) {
             logger.debug("No prediction was found in the DB with provided ID.");
             super.errorStrings.add("Invalid prediction ID supplied.");
             result = ERROR;
@@ -351,8 +351,7 @@ public class ViewPredictionAction extends ViewAction {
         return compoundPredictionValues;
     }
 
-    public void setCompoundPredictionValues(
-            List<CompoundPredictions> compoundPredictionValues) {
+    public void setCompoundPredictionValues(List<CompoundPredictions> compoundPredictionValues) {
         this.compoundPredictionValues = compoundPredictionValues;
     }
 

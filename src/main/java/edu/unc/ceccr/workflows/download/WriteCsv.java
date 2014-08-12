@@ -39,8 +39,8 @@ public class WriteCsv {
             }
         } else {
             for (Predictor cp : childPredictors) {
-                List<ExternalValidation> childExtVals = (ArrayList<ExternalValidation>) PopulateDataObjects
-                        .getExternalValidationValues(cp.getId(), s);
+                List<ExternalValidation> childExtVals =
+                        (ArrayList<ExternalValidation>) PopulateDataObjects.getExternalValidationValues(cp.getId(), s);
                 for (ExternalValidation ev : childExtVals) {
                     ev.setNumTotalModels(cp.getNumTestModels());
                     externalValidationValues.add(ev);
@@ -48,20 +48,16 @@ public class WriteCsv {
             }
         }
 
-        out.write("Chembench Predictor External Validation\n"
-                + "User Name," + predictor.getUserName() + "\n"
-                + "Predictor Name," + predictor.getName() + "\n"
-                + "Dataset," + predictor.getDatasetDisplay() + "\n");
+        out.write("Chembench Predictor External Validation\n" + "User Name," + predictor.getUserName() + "\n"
+                + "Predictor Name," + predictor.getName() + "\n" + "Dataset," + predictor.getDatasetDisplay() + "\n");
         if (predictor.getChildType() != null && predictor.getChildType().equals(Constants.NFOLD)) {
             out.write("External Set Accuracy," + predictor.getExternalPredictionAccuracyAvg() + "\n");
         } else {
             out.write("External Set Accuracy," + predictor.getExternalPredictionAccuracy() + "\n");
         }
-        out.write("Modeling Method," + predictor.getModelMethod() + "\n"
-                + "Descriptor Type," + predictor.getDescriptorGeneration() + "\n"
-                + "Created Date," + Utility.formatDate(predictor.getDateCreated()) + "\n"
-                + "Download Date," + new Date() + "\n"
-                + "Web Site," + Constants.WEBADDRESS + "\n\n");
+        out.write("Modeling Method," + predictor.getModelMethod() + "\n" + "Descriptor Type," + predictor
+                .getDescriptorGeneration() + "\n" + "Created Date," + Utility.formatDate(predictor.getDateCreated())
+                + "\n" + "Download Date," + new Date() + "\n" + "Web Site," + Constants.WEBADDRESS + "\n\n");
         out.write("Compound ID," +
                 "Observed Value," +
                 "Predicted Value," +
@@ -70,8 +66,8 @@ public class WriteCsv {
                 "Total Number of Models\n");
 
         for (ExternalValidation ev : externalValidationValues) {
-            String observedValueStr = Utility.roundSignificantFigures("" + ev.getActualValue(),
-                    Constants.REPORTED_SIGNIFICANT_FIGURES);
+            String observedValueStr =
+                    Utility.roundSignificantFigures("" + ev.getActualValue(), Constants.REPORTED_SIGNIFICANT_FIGURES);
             String predictedValueStr = Utility.roundSignificantFigures("" + ev.getPredictedValue(),
                     Constants.REPORTED_SIGNIFICANT_FIGURES);
             out.write(ev.getCompoundId() + "," +
@@ -107,33 +103,29 @@ public class WriteCsv {
             predictorNames += p.getName() + " ";
         }
 
-        out.write("Chembench Prediction Output\n"
-                + "User Name," + prediction.getUserName() + "\n"
-                + "Prediction Name," + prediction.getName() + "\n"
-                + "Predictors Used," + predictorNames + "\n"
-                + "Similarity Cutoff," + prediction.getSimilarityCutoff() + "\n"
-                + "Prediction Dataset," + prediction.getDatasetDisplay() + "\n"
-                + "Predicted Date," + Utility.formatDate(prediction.getDateCreated()) + "\n"
-                + "Download Date," + new Date() + "\n"
-                + "Web Site," + Constants.WEBADDRESS + "\n");
+        out.write("Chembench Prediction Output\n" + "User Name," + prediction.getUserName() + "\n" + "Prediction Name,"
+                + prediction.getName() + "\n" + "Predictors Used," + predictorNames + "\n" + "Similarity Cutoff,"
+                + prediction.getSimilarityCutoff() + "\n" + "Prediction Dataset," + prediction.getDatasetDisplay()
+                + "\n" + "Predicted Date," + Utility.formatDate(prediction.getDateCreated()) + "\n" + "Download Date,"
+                + new Date() + "\n" + "Web Site," + Constants.WEBADDRESS + "\n");
 
 		/*
-		//Option 1: Show everything in a big horizontal table
+        //Option 1: Show everything in a big horizontal table
 		String predictionHeader = "";
 		for(Predictor p: predictors){
 			ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(p, s);
 			if(childPredictors.isEmpty()){
-				predictionHeader += 
-					p.getName() + " Predicted Value," + 
-					p.getName() + " Standard Deviation," + 
-					p.getName() + " Predicting Models," + 
+				predictionHeader +=
+					p.getName() + " Predicted Value," +
+					p.getName() + " Standard Deviation," +
+					p.getName() + " Predicting Models," +
 					p.getName() + " Total Models,";
 			}
 			else{
-				predictionHeader += 
-					p.getName() + " Predicted Value," + 
-					p.getName() + " Standard Deviation," + 
-					p.getName() + " Predicting Folds," + 
+				predictionHeader +=
+					p.getName() + " Predicted Value," +
+					p.getName() + " Standard Deviation," +
+					p.getName() + " Predicting Folds," +
 					p.getName() + " Total Folds,";
 			}
 		}
@@ -160,15 +152,16 @@ public class WriteCsv {
                     PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getId(), s);
 
             String predictorName = p.getName();
-            out.write("\nPredictor," + predictorName + "\n"
-                    + "Compound Name," + "Predicted Value," + "Standard Deviation," + "Models Used," + "Models In Predictor" + "\n");
+            out.write("\nPredictor," + predictorName + "\n" + "Compound Name," + "Predicted Value,"
+                    + "Standard Deviation," + "Models Used," + "Models In Predictor" + "\n");
 
             Iterator<PredictionValue> it = predictionValues.iterator();
             while (it.hasNext()) {
                 PredictionValue pv = it.next();
                 if (pv.getPredictorId().equals(p.getId())) {
                     out.write(pv.getCompoundName().replaceAll(",", "_") + "," + pv.getPredictedValue() + ",");
-                    out.write(pv.getStandardDeviation() + "," + pv.getNumModelsUsed() + "," + pv.getNumTotalModels() + "\n");
+                    out.write(pv.getStandardDeviation() + "," + pv.getNumModelsUsed() + "," + pv.getNumTotalModels()
+                            + "\n");
                 }
             }
         }

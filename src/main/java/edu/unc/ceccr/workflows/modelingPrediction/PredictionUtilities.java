@@ -11,8 +11,7 @@ public class PredictionUtilities {
 
     public static void MoveToPredictionsDir(String userName, String jobName) throws Exception {
         //When the prediction job is finished, move all the files over to the predictions dir.
-        logger.debug("User: " + userName + " Job: " + jobName
-                + " Moving to PREDICTIONS dir.");
+        logger.debug("User: " + userName + " Job: " + jobName + " Moving to PREDICTIONS dir.");
         String moveFrom = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
         String moveTo = Constants.CECCR_USER_BASE_PATH + userName + "/PREDICTIONS/" + jobName + "/";
         String execstr = "mv " + moveFrom + " " + moveTo;

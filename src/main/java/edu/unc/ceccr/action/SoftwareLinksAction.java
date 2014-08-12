@@ -143,9 +143,7 @@ public class SoftwareLinksAction extends ActionSupport {
             Session s = HibernateUtil.getSession();
             SoftwareLink sl = PopulateDataObjects.getSoftwareLinkById(idToDelete, s);
 
-            if (user != null &&
-                    (Utility.isAdmin(user.getUserName()) ||
-                            user.getUserName().equals(sl.getUserName()))) {
+            if (user != null && (Utility.isAdmin(user.getUserName()) || user.getUserName().equals(sl.getUserName()))) {
 
 
                 //remove it from the database

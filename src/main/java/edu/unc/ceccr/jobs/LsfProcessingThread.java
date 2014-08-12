@@ -132,8 +132,8 @@ public class LsfProcessingThread extends Thread {
                                         exceptionAsString = exceptionAsString.replaceAll("at edu", "<br />at edu");
                                         logger.error(exceptionAsString);
 
-                                        String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j
-                                                .getJobName() + "\" failed. You might want" + " to look into that. " +
+                                        String message = "Heya, <br />" + j.getUserName() + "'s job \"" + j.getJobName()
+                                                + "\" failed. You might want" + " to look into that. " +
                                                 "Their " + "email is " + sadUser.getEmail() + " and their name is " +
                                                 sadUser.getFirstName() + " " + sadUser.getLastName() + " in case you " +
                                                 "want to " + "give them hope of a " + "brighter tomorrow." + "<br " +
@@ -165,8 +165,8 @@ public class LsfProcessingThread extends Thread {
                         if (CentralDogma.getInstance().lsfJobs.startJob(j.getId())) {
 
                             try {
-                                logger.info("LSFQueue: Starting job " + j.getJobName() + " from user " + j
-                                        .getUserName());
+                                logger.info(
+                                        "LSFQueue: Starting job " + j.getJobName() + " from user " + j.getUserName());
 
                                 boolean jobIsRunningAlready = false;
                                 if (j.getLsfJobId() != null && !j.getLsfJobId().isEmpty()) {
@@ -251,8 +251,8 @@ public class LsfProcessingThread extends Thread {
                     // previous check
                     for (LsfJobStatus jobStatus : lsfJobStatuses) {
                         if ((oldLsfStatuses.containsKey(jobStatus.jobid) && oldLsfStatuses.get(jobStatus.jobid)
-                                .equals("PEND") && jobStatus.stat.equals("RUN")) || (!oldLsfStatuses.containsKey
-                                (jobStatus.jobid) && jobStatus.stat.equals("RUN"))) {
+                                .equals("PEND") && jobStatus.stat.equals("RUN")) || (
+                                !oldLsfStatuses.containsKey(jobStatus.jobid) && jobStatus.stat.equals("RUN"))) {
                             // the job *just* started on LSF. Find the job
                             // with this lsfJobId and set its date.
                             for (Job j : readOnlyJobArray) {

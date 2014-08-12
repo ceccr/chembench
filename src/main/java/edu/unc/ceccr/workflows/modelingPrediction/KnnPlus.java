@@ -18,10 +18,8 @@ import java.util.ListIterator;
 public class KnnPlus {
     private static Logger logger = Logger.getLogger(KnnPlus.class.getName());
 
-    private static String
-    getKnnPlusCommandFromParams(KnnPlusParameters knnPlusParameters,
-                                String actFileDataType,
-                                String modelType) {
+    private static String getKnnPlusCommandFromParams(KnnPlusParameters knnPlusParameters, String actFileDataType,
+                                                      String modelType) {
         // this converts the parameters entered on the web page into
         // command-line
         // arguments formatted to work with knn+.
@@ -46,10 +44,8 @@ public class KnnPlus {
             // Number of dimensions, min-max. There is no step for genetic
             // algorithm.
             // Example: '-D=5@50'
-            command += " -D="
-                    + knnPlusParameters.getKnnMinNumDescriptors().trim()
-                    + "@"
-                    + knnPlusParameters.getKnnMaxNumDescriptors().trim();
+            command += " -D=" + knnPlusParameters.getKnnMinNumDescriptors().trim() + "@" + knnPlusParameters
+                    .getKnnMaxNumDescriptors().trim();
 
             // '-GA@...' - Genetic Algorithm settings: e.g.
             // -GA@N=500@D=1000@S=20@V=-4@G=7
@@ -59,31 +55,23 @@ public class KnnPlus {
             command += "@N=" + knnPlusParameters.getGaPopulationSize().trim();
 
             // '..@D=' - max.#generations;
-            command += "@N="
-                    + knnPlusParameters.getGaMaxNumGenerations().trim();
+            command += "@N=" + knnPlusParameters.getGaMaxNumGenerations().trim();
 
             // '..@S=' - #stable generations to stop
-            command += "@S="
-                    + knnPlusParameters.getGaNumStableGenerations().trim();
+            command += "@S=" + knnPlusParameters.getGaNumStableGenerations().trim();
 
             // '..@V=' - minimum fitness difference to proceed
-            command += "@V="
-                    + knnPlusParameters.getGaMinFitnessDifference().trim();
+            command += "@V=" + knnPlusParameters.getGaMinFitnessDifference().trim();
 
             // '..@G=' - group size for tournament ('TOUR') selection of
             // parents
-            command += "@G="
-                    + knnPlusParameters.getGaTournamentGroupSize().trim();
+            command += "@G=" + knnPlusParameters.getGaTournamentGroupSize().trim();
         } else if (modelType.equals(Constants.KNNSA)) {
             // Number of dimensions, min-max-step. Step can't be used in
             // genetic alg.
             // Example: '-D=5@50@3'
-            command += " -D="
-                    + knnPlusParameters.getKnnMinNumDescriptors().trim()
-                    + "@"
-                    + knnPlusParameters.getKnnMaxNumDescriptors().trim()
-                    + "@"
-                    + knnPlusParameters.getKnnDescriptorStepSize().trim();
+            command += " -D=" + knnPlusParameters.getKnnMinNumDescriptors().trim() + "@" + knnPlusParameters
+                    .getKnnMaxNumDescriptors().trim() + "@" + knnPlusParameters.getKnnDescriptorStepSize().trim();
 
             // '-SA@...' - Simulated Annealing settings: e.g.
             // -SA@B=3@TE=-2@K=0.6@DT=-3@ET=-5
@@ -93,20 +81,16 @@ public class KnnPlus {
             command += "@N=" + knnPlusParameters.getSaNumRuns().trim();
 
             // '..@T0=x' - start T (10^x);
-            command += "@T0="
-                    + knnPlusParameters.getSaLogInitialTemp().trim();
+            command += "@T0=" + knnPlusParameters.getSaLogInitialTemp().trim();
 
             // '..@TE=' - final T;
             command += "@TE=" + knnPlusParameters.getSaFinalTemp().trim();
 
             // '..@DT=' - convergence range of T
-            command += "@DT="
-                    + knnPlusParameters.getSaTempConvergence().trim();
+            command += "@DT=" + knnPlusParameters.getSaTempConvergence().trim();
 
             // '..@M=' - mutation probability per dimension
-            command += "@M="
-                    + knnPlusParameters
-                    .getSaMutationProbabilityPerDescriptor().trim();
+            command += "@M=" + knnPlusParameters.getSaMutationProbabilityPerDescriptor().trim();
 
             // '..@B=' - #best models to store
             // Constraint: Number of best models must be less than or equal to
@@ -115,8 +99,7 @@ public class KnnPlus {
             command += "@B=" + knnPlusParameters.getSaNumBestModels().trim();
 
             // '..@K=' - T decreasing coeff.;
-            command += "@K="
-                    + knnPlusParameters.getSaTempDecreaseCoefficient().trim();
+            command += "@K=" + knnPlusParameters.getSaTempDecreaseCoefficient().trim();
 
         }
 
@@ -126,9 +109,8 @@ public class KnnPlus {
         // it will automatically user '9' as the maximum, making the modeling
         // take
         // a REALLY FUCKIN' LONG TIME.
-        command += " -KR="
-                + knnPlusParameters.getKnnMinNearestNeighbors().trim() + "@"
-                + knnPlusParameters.getKnnMaxNearestNeighbors().trim();
+        command += " -KR=" + knnPlusParameters.getKnnMinNearestNeighbors().trim() + "@" + knnPlusParameters
+                .getKnnMaxNearestNeighbors().trim();
 
         // '-AD=' - applicability domain: e.g. -AD=0.5, -AD=0.5d1_mxk
         // '0.5' is z-cutoff <def.>; d1 - direct-distance based AD <def. is
@@ -138,36 +120,29 @@ public class KnnPlus {
         // '_mxk' - all k neighbors should be within AD
         // '_avk' - k/2 neighbors within AD, '_mnk' - at least 1 within AD
         // <def.>
-        command += " -AD="
-                + knnPlusParameters.getKnnApplicabilityDomain().trim();
+        command += " -AD=" + knnPlusParameters.getKnnApplicabilityDomain().trim();
 
         // '-EVL=...' - model's quality controls; e.g. -EVL=A0.5@0.6
         // For continuous kNN it means q2 >0.5 and R2>0.6
         // A - alternative control-indices; E - error-based
         // V - aver.error based (only for discrete-act.); S - simple
         // post-evaluation
-        if ((modelType.equals(Constants.KNNSA) && knnPlusParameters
-                .getKnnSaErrorBasedFit().equalsIgnoreCase("true"))
-                || (modelType.equals(Constants.KNNGA) && knnPlusParameters
-                .getKnnGaErrorBasedFit().equalsIgnoreCase("true"))) {
-            command += " -EVL=E"
-                    + knnPlusParameters.getKnnMinTraining().trim() + "@"
-                    + knnPlusParameters.getKnnMinTest().trim();
+        if ((modelType.equals(Constants.KNNSA) && knnPlusParameters.getKnnSaErrorBasedFit().equalsIgnoreCase("true"))
+                || (modelType.equals(Constants.KNNGA) && knnPlusParameters.getKnnGaErrorBasedFit()
+                .equalsIgnoreCase("true"))) {
+            command +=
+                    " -EVL=E" + knnPlusParameters.getKnnMinTraining().trim() + "@" + knnPlusParameters.getKnnMinTest()
+                            .trim();
         } else {
-            command += " -EVL="
-                    + knnPlusParameters.getKnnMinTraining().trim() + "@"
-                    + knnPlusParameters.getKnnMinTest().trim();
+            command += " -EVL=" + knnPlusParameters.getKnnMinTraining().trim() + "@" + knnPlusParameters.getKnnMinTest()
+                    .trim();
         }
         return command;
     }
 
-    public static String
-    buildKnnPlusModelsLsf(KnnPlusParameters knnPlusParameters,
-                          String actFileDataType,
-                          String modelType,
-                          String userName,
-                          String jobName,
-                          String workingDir) throws Exception {
+    public static String buildKnnPlusModelsLsf(KnnPlusParameters knnPlusParameters, String actFileDataType,
+                                               String modelType, String userName, String jobName, String workingDir)
+            throws Exception {
         // starts modeling process
         // returns the LSF Job ID
 
@@ -175,36 +150,29 @@ public class KnnPlus {
         // workingDir/yRandom/
         try {
             if ((new File(workingDir + "models_knn+.log")).exists()) {
-                FileAndDirOperations.deleteFile(workingDir
-                        + "models_knn+.log");
+                FileAndDirOperations.deleteFile(workingDir + "models_knn+.log");
             }
             if ((new File(workingDir + "models.tbl")).exists()) {
                 FileAndDirOperations.deleteFile(workingDir + "models.tbl");
             }
-            if ((new File(workingDir + "yRandom/" + "models_knn+.log"))
-                    .exists()) {
+            if ((new File(workingDir + "yRandom/" + "models_knn+.log")).exists()) {
                 FileAndDirOperations.deleteFile(workingDir + "yRandom/");
             }
             if ((new File(workingDir + "yRandom/" + "models.tbl")).exists()) {
-                FileAndDirOperations.deleteFile(workingDir + "yRandom/"
-                        + "models.tbl");
+                FileAndDirOperations.deleteFile(workingDir + "yRandom/" + "models.tbl");
             }
         } catch (Exception ex) {
             logger.error(ex);
         }
 
-        String knnPlusCommand = getKnnPlusCommandFromParams(
-                knnPlusParameters, actFileDataType, modelType);
+        String knnPlusCommand = getKnnPlusCommandFromParams(knnPlusParameters, actFileDataType, modelType);
 
         // knn+ will automatically convert all input filenames to lowercase.
         // so, our list file has to be lowercase.
-        FileAndDirOperations.copyFile(workingDir + "RAND_sets.list",
-                workingDir + "rand_sets.list");
+        FileAndDirOperations.copyFile(workingDir + "RAND_sets.list", workingDir + "rand_sets.list");
 
         if (new File(workingDir + "yRandom/RAND_sets.list").exists()) {
-            FileAndDirOperations.copyFile(workingDir
-                    + "yRandom/RAND_sets.list", workingDir
-                    + "yRandom/rand_sets.list");
+            FileAndDirOperations.copyFile(workingDir + "yRandom/RAND_sets.list", workingDir + "yRandom/rand_sets.list");
         }
 
         FileOutputStream fout;
@@ -225,66 +193,52 @@ public class KnnPlus {
 
         // exec shell script
         String command = "bsub -q patrons ";
-        command += "-J cbench_" + userName + "_" + jobName
-                + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
-        RunExternalProgram.runCommandAndLogOutput(command, workingDir,
-                "bsubKnnPlus");
+        command += "-J cbench_" + userName + "_" + jobName + " -o bsubOutput.txt " + workingDir + "bsubKnnPlus.sh";
+        RunExternalProgram.runCommandAndLogOutput(command, workingDir, "bsubKnnPlus");
 
         String logFilePath = workingDir + "Logs/bsubKnnPlus.log";
         return LsfUtilities.getLsfJobId(logFilePath);
 
     }
 
-    public static void
-    buildKnnPlusModels(KnnPlusParameters knnPlusParameters,
-                       String actFileDataType,
-                       String modelType,
-                       String workingDir) throws Exception {
+    public static void buildKnnPlusModels(KnnPlusParameters knnPlusParameters, String actFileDataType, String modelType,
+                                          String workingDir) throws Exception {
 
         // knn+ will automatically convert all input filenames to lowercase.
         // so, our list file has to be lowercase.
-        FileAndDirOperations.copyFile(workingDir + "RAND_sets.list",
-                workingDir + "rand_sets.list");
+        FileAndDirOperations.copyFile(workingDir + "RAND_sets.list", workingDir + "rand_sets.list");
 
-        String command = getKnnPlusCommandFromParams(knnPlusParameters,
-                actFileDataType, modelType);
+        String command = getKnnPlusCommandFromParams(knnPlusParameters, actFileDataType, modelType);
 
-        RunExternalProgram.runCommandAndLogOutput(command, workingDir,
-                "knnPlus");
+        RunExternalProgram.runCommandAndLogOutput(command, workingDir, "knnPlus");
 
         // check models for errors, and correct them if found
         checkModelsFile(workingDir);
     }
 
-    public static void
-    predictExternalSet(String userName,
-                       String jobName,
-                       String workingDir,
-                       String cutoffValue) throws Exception {
+    public static void predictExternalSet(String userName, String jobName, String workingDir, String cutoffValue)
+            throws Exception {
         // Run prediction
 
         String xfile = "ext_0.x";
         // knn+ models -4PRED=ext_0.x -AD=0.5_avd -OUT=cons_pred;
         // Note the we can use just knn+ instead of ./knn+ here since on the
         // local server knn+ is added to the path.
-        String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD="
-                + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+        String execstr =
+                "knn+ models.tbl -4PRED=" + xfile + " -AD=" + cutoffValue + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
 
-        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir,
-                "knnPlusPrediction");
+        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "knnPlusPrediction");
     }
 
-    public static List<ExternalValidation>
-    readExternalPredictionOutput(String workingDir,
-                                 Predictor predictor) throws Exception {
+    public static List<ExternalValidation> readExternalPredictionOutput(String workingDir, Predictor predictor)
+            throws Exception {
 
         // read prediction output
         String outputFile = "cons_pred_vs_ext_0.preds"; // the ".preds" is
         // added automatically
         // by knn+
         logger.debug("Reading file: " + workingDir + outputFile);
-        BufferedReader in = new BufferedReader(new FileReader(workingDir
-                + outputFile));
+        BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
         String inputString;
 
         in.readLine(); // header data (junk)
@@ -307,8 +261,7 @@ public class KnnPlus {
         // each line of output represents a model
         // (which is really the transpose of the matrix we're looking for...
         // *sigh*)
-        while ((inputString = in.readLine()) != null
-                && !inputString.equals("")) {
+        while ((inputString = in.readLine()) != null && !inputString.equals("")) {
 
             List<String> modelValues = Lists.newArrayList();
 
@@ -329,11 +282,9 @@ public class KnnPlus {
             predictionMatrix.add(modelValues);
         }
 
-        logger.debug("calculating nummodels, avg,"
-                + "and stddev for each compound");
+        logger.debug("calculating nummodels, avg," + "and stddev for each compound");
         // get the actual (observed) values for each compound
-        HashMap<String, String> observedValues = DatasetFileOperations
-                .getActFileIdsAndValues(workingDir + "ext_0.a");
+        HashMap<String, String> observedValues = DatasetFileOperations.getActFileIdsAndValues(workingDir + "ext_0.a");
 
         // for each compound, calculate nummodels, avg, and stddev
         int numCompounds = 0;
@@ -369,9 +320,7 @@ public class KnnPlus {
                     for (int j = 0; j < predictionMatrix.size(); j++) {
                         String predValue = predictionMatrix.get(j).get(i);
                         if (!predValue.equalsIgnoreCase("NA")) {
-                            float distFromMeanSquared = (float) Math
-                                    .pow((Double.parseDouble(predValue) - mean),
-                                            2);
+                            float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
                             stddev += distFromMeanSquared;
                         }
                     }
@@ -389,8 +338,7 @@ public class KnnPlus {
                 ev.setStandDev("" + stddev);
                 ev.setCompoundId(compoundNames[i + 2]);
                 ev.setPredictorId(predictor.getId());
-                ev.setActualValue(Float.parseFloat(observedValues
-                        .get(compoundNames[i + 2])));
+                ev.setActualValue(Float.parseFloat(observedValues.get(compoundNames[i + 2])));
 
                 predictionValues.add(ev);
 
@@ -407,8 +355,7 @@ public class KnnPlus {
         try {
             // cat models_knn+.log | grep q2= | wc > knnSaProgress
             if (new File(workingDir + "models_knn+.log").exists()) {
-                BufferedReader br = new BufferedReader(new FileReader(
-                        workingDir + "models_knn+.log"));
+                BufferedReader br = new BufferedReader(new FileReader(workingDir + "models_knn+.log"));
                 String line = "";
                 while ((line = br.readLine()) != null) {
                     if (line.contains("q2=")) {
@@ -435,8 +382,7 @@ public class KnnPlus {
             if (new File(workingDir + "models_knn+.log").exists()) {
                 // cat models_knn+.log | grep Current\ split | wc >
                 // knnGaProgress
-                BufferedReader br = new BufferedReader(new FileReader(
-                        workingDir + "models_knn+.log"));
+                BufferedReader br = new BufferedReader(new FileReader(workingDir + "models_knn+.log"));
                 String line = "";
                 while ((line = br.readLine()) != null) {
                     if (line.contains("Current split")) {
@@ -455,10 +401,7 @@ public class KnnPlus {
         return count;
     }
 
-    public static List<KnnPlusModel>
-    readModelsFile(String workingDir,
-                   Predictor predictor,
-                   String isYRandomModel) {
+    public static List<KnnPlusModel> readModelsFile(String workingDir, Predictor predictor, String isYRandomModel) {
         List<KnnPlusModel> knnPlusModels = Lists.newArrayList();
         try {
             if (!new File(workingDir + "models.tbl").exists()) {
@@ -466,8 +409,7 @@ public class KnnPlus {
                 logger.info("no models generated in " + workingDir);
                 return knnPlusModels;
             }
-            String modelsFile = FileAndDirOperations
-                    .readFileIntoString(workingDir + "models.tbl");
+            String modelsFile = FileAndDirOperations.readFileIntoString(workingDir + "models.tbl");
             String[] lines = modelsFile.split("\n");
             for (int i = 5; i < lines.length; i++) {
                 // each line contains one model
@@ -481,8 +423,7 @@ public class KnnPlus {
                 model.setDimsNames(tokens[4]);
                 model.setKOrR(tokens[5]);
 
-                if (predictor.getActivityType().equalsIgnoreCase(
-                        Constants.CONTINUOUS)) {
+                if (predictor.getActivityType().equalsIgnoreCase(Constants.CONTINUOUS)) {
 
                     model.setQualityLimitTraining(tokens[6]);
                     model.setNDatapointsTraining(tokens[7]);
@@ -576,43 +517,35 @@ public class KnnPlus {
         return knnPlusModels;
     }
 
-    public static void
-    runKnnPlusPrediction(String workingDir,
-                         String sdfile) throws Exception {
+    public static void runKnnPlusPrediction(String workingDir, String sdfile) throws Exception {
 
         // write a dummy .a file because knn+ needs it or it fails
         // bizarrely... X_X
         String actfile = workingDir + sdfile + ".renorm.a";
         BufferedWriter aout = new BufferedWriter(new FileWriter(actfile));
-        List<String> compoundNames = DatasetFileOperations
-                .getSDFCompoundNames(workingDir + sdfile);
+        List<String> compoundNames = DatasetFileOperations.getSDFCompoundNames(workingDir + sdfile);
         for (String compoundName : compoundNames) {
             aout.write(compoundName + " 0\n");
         }
         aout.close();
 
         String xfile = sdfile + ".renorm.x";
-        String execstr = "knn+ models.tbl -4PRED=" + xfile + " -AD="
-                + 99999 + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
-        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir,
-                "knnPlusPrediction");
+        String execstr =
+                "knn+ models.tbl -4PRED=" + xfile + " -AD=" + 99999 + "_avd -OUT=" + Constants.PRED_OUTPUT_FILE;
+        RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "knnPlusPrediction");
     }
 
-    public static List<PredictionValue>
-    readPredictionOutput(String workingDir,
-                         Long predictorId,
-                         String predictionXFile) throws Exception {
+    public static List<PredictionValue> readPredictionOutput(String workingDir, Long predictorId,
+                                                             String predictionXFile) throws Exception {
 
         // read prediction output
-        String predsFile = predictionXFile.substring(0, predictionXFile
-                .lastIndexOf(".x"))
+        String predsFile = predictionXFile.substring(0, predictionXFile.lastIndexOf(".x"))
                 + ".preds"; // the ".preds" is added automatically by knn+
-        String outputFile = Constants.PRED_OUTPUT_FILE + "_vs_"
-                + predsFile.toLowerCase(); // knn+ makes everything lower case
+        String outputFile =
+                Constants.PRED_OUTPUT_FILE + "_vs_" + predsFile.toLowerCase(); // knn+ makes everything lower case
         // for fun
         logger.debug("Reading file: " + workingDir + outputFile);
-        BufferedReader in = new BufferedReader(new FileReader(workingDir
-                + outputFile));
+        BufferedReader in = new BufferedReader(new FileReader(workingDir + outputFile));
         String inputString;
 
         // The first four lines are all header data
@@ -620,10 +553,8 @@ public class KnnPlus {
         in.readLine(); // compound names are here, but we get those from the
         // SDF or X instead (knn+ output is buggy on this line)
 
-        logger.debug("reading compound names from X file: " + workingDir
-                + predictionXFile);
-        List<String> compoundNames = DatasetFileOperations
-                .getXCompoundNames(workingDir + predictionXFile);
+        logger.debug("reading compound names from X file: " + workingDir + predictionXFile);
+        List<String> compoundNames = DatasetFileOperations.getXCompoundNames(workingDir + predictionXFile);
 
         in.readLine(); // junk
         in.readLine(); // junk
@@ -642,8 +573,7 @@ public class KnnPlus {
         // each line of output represents a model
         // (which is really the transpose of the matrix we're looking for...
         // *sigh*)
-        while ((inputString = in.readLine()) != null
-                && !inputString.equals("")) {
+        while ((inputString = in.readLine()) != null && !inputString.equals("")) {
 
             List<String> modelValues = Lists.newArrayList();
 
@@ -664,8 +594,7 @@ public class KnnPlus {
             predictionMatrix.add(modelValues);
         }
 
-        logger.debug("calculating nummodels, avg, "
-                + "and stddev for each compound");
+        logger.debug("calculating nummodels, avg, " + "and stddev for each compound");
         // for each compound, calculate nummodels, avg, and stddev
         if (predictionMatrix.size() == 0) {
             // there were no models in the predictor!
@@ -703,9 +632,7 @@ public class KnnPlus {
                     for (int j = 0; j < predictionMatrix.size(); j++) {
                         String predValue = predictionMatrix.get(j).get(i);
                         if (!predValue.equalsIgnoreCase("NA")) {
-                            float distFromMeanSquared = (float) Math
-                                    .pow((Double.parseDouble(predValue) - mean),
-                                            2);
+                            float distFromMeanSquared = (float) Math.pow((Double.parseDouble(predValue) - mean), 2);
                             stddev += distFromMeanSquared;
                         }
                     }
@@ -742,13 +669,11 @@ public class KnnPlus {
         logger.info("Starting models file check of " + modelsFilePath);
 
         if (!modelsFile.exists()) {
-            logger.warn(String.format("Models file %s does not exist!",
-                    modelsFilePath));
+            logger.warn(String.format("Models file %s does not exist!", modelsFilePath));
             return;
         }
 
-        List<String> lines = Files.readAllLines(modelsFile.toPath(),
-                Charset.defaultCharset());
+        List<String> lines = Files.readAllLines(modelsFile.toPath(), Charset.defaultCharset());
         int originalLineCount = lines.size();
 
         // skip the first 5 lines as they contain header information
@@ -766,12 +691,8 @@ public class KnnPlus {
 
                 // expect number of fields to remain consistent
                 if (fields.length != numFields) {
-                    logger.warn(String.format(
-                            "Discarded line %d of models file %s: " +
-                                    "expected %d fields, got %d",
-                            lineCount, modelsFile, numFields,
-                            fields.length
-                    ));
+                    logger.warn(String.format("Discarded line %d of models file %s: " + "expected %d fields, got %d",
+                            lineCount, modelsFile, numFields, fields.length));
                     iter.remove();
                 }
                 lineCount++;

@@ -4,16 +4,12 @@ import com.google.common.collect.Lists;
 import edu.unc.ceccr.action.ModelingFormActions;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
-import edu.unc.ceccr.utilities.FileAndDirOperations;
-import edu.unc.ceccr.utilities.PopulateDataObjects;
-import edu.unc.ceccr.utilities.Utility;
+import edu.unc.ceccr.utilities.*;
 import edu.unc.ceccr.workflows.calculations.RSquaredAndCCR;
 import edu.unc.ceccr.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.workflows.descriptors.ReadDescriptors;
 import edu.unc.ceccr.workflows.descriptors.WriteDescriptors;
 import edu.unc.ceccr.workflows.modelingPrediction.*;
-import edu.unc.ceccr.utilities.CopyJobFiles;
-import edu.unc.ceccr.utilities.CreateJobDirectories;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -24,11 +20,9 @@ import java.util.List;
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
 public class QsarModelingTask extends WorkflowTask {
-    private static Logger logger
-            = Logger.getLogger(QsarModelingTask.class.getName());
+    private static Logger logger = Logger.getLogger(QsarModelingTask.class.getName());
     // predicted external set values
-    List<ExternalValidation> externalSetPredictions
-            = Lists.newArrayList();
+    List<ExternalValidation> externalSetPredictions = Lists.newArrayList();
     // job details
     private String sdFileName;
     private String actFileName;
@@ -73,8 +67,8 @@ public class QsarModelingTask extends WorkflowTask {
     private String step = Constants.SETUP;
 
     public QsarModelingTask(Predictor predictor) throws Exception {
-        logger.info("Recovering job, " + jobName + " from predictor: "
-                + predictor.getName() + " submitted by user, " + userName + ".");
+        logger.info("Recovering job, " + jobName + " from predictor: " + predictor.getName() + " submitted by user, "
+                + userName + ".");
         this.predictor = predictor;
 
         // get dataset
@@ -91,8 +85,7 @@ public class QsarModelingTask extends WorkflowTask {
 
         userName = predictor.getUserName();
         jobName = predictor.getName();
-        filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName
-                + "/";
+        filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
         modelType = predictor.getModelMethod();
 
@@ -110,8 +103,7 @@ public class QsarModelingTask extends WorkflowTask {
         // if random split
         randomSplitMinTestSize = predictor.getRandomSplitMinTestSize();
         randomSplitMaxTestSize = predictor.getRandomSplitMaxTestSize();
-        randomSplitSampleWithReplacement = predictor
-                .getRandomSplitSampleWithReplacement();
+        randomSplitSampleWithReplacement = predictor.getRandomSplitSampleWithReplacement();
 
         // if sphere exclusion
         splitIncludesMin = predictor.getSplitIncludesMin();
@@ -120,60 +112,49 @@ public class QsarModelingTask extends WorkflowTask {
         selectionNextTrainPt = predictor.getSelectionNextTrainPt();
 
         if ((new File(filePath + "ext_0.x")).exists()) {
-            List<String> extCompoundArray = DatasetFileOperations
-                    .getXCompoundNames(filePath + "ext_0.x");
+            List<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
             numExternalCompounds = extCompoundArray.size();
-            logger.info("Recovering: numExternalCompounds set to "
-                    + numExternalCompounds + " by user, " + userName
+            logger.info("Recovering: numExternalCompounds set to " + numExternalCompounds + " by user, " + userName
                     + " in job, " + jobName + ".");
         } else {
-            logger.info("Recovering: could not find " + filePath
-                    + "ext_0.x . numExternalCompounds set to 0."
-                    + " For job, " + jobName + " submitted by user, "
-                    + userName + ".");
+            logger.info(
+                    "Recovering: could not find " + filePath + "ext_0.x . numExternalCompounds set to 0." + " For job, "
+                            + jobName + " submitted by user, " + userName + ".");
             numExternalCompounds = 0;
         }
 
         // modeling params
         if (predictor.getModelMethod().equals(Constants.KNN)) {
-            knnParameters = PopulateDataObjects.getKnnParametersById(
-                    predictor.getModelingParametersId(), s);
+            knnParameters = PopulateDataObjects.getKnnParametersById(predictor.getModelingParametersId(), s);
         } else if (predictor.getModelMethod().equals(Constants.SVM)) {
-            svmParameters = PopulateDataObjects.getSvmParametersById(
-                    predictor.getModelingParametersId(), s);
-        } else if (predictor.getModelMethod().equals(Constants.KNNSA)
-                || predictor.getModelMethod().equals(Constants.KNNGA)) {
-            knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(
-                    predictor.getModelingParametersId(), s);
+            svmParameters = PopulateDataObjects.getSvmParametersById(predictor.getModelingParametersId(), s);
+        } else if (predictor.getModelMethod().equals(Constants.KNNSA) || predictor.getModelMethod()
+                .equals(Constants.KNNGA)) {
+            knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(predictor.getModelingParametersId(), s);
         } else if (predictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
-            randomForestParameters = PopulateDataObjects
-                    .getRandomForestParametersById(predictor
-                            .getModelingParametersId(), s);
+            randomForestParameters =
+                    PopulateDataObjects.getRandomForestParametersById(predictor.getModelingParametersId(), s);
         }
         s.close();
 
     }
 
-    public QsarModelingTask(String userName, ModelingFormActions ModelingForm)
-            throws Exception {
+    public QsarModelingTask(String userName, ModelingFormActions ModelingForm) throws Exception {
 
         // This function just loads all the ModelingForm parameters into local
         // variables
-        logger.info("Modeling Type: "
-                + ModelingForm.getModelingType()
-                + " submitted by user, " + userName
-                + " for job, " + ModelingForm.getJobName() + ".");
+        logger.info(
+                "Modeling Type: " + ModelingForm.getModelingType() + " submitted by user, " + userName + " for job, "
+                        + ModelingForm.getJobName() + ".");
         modelType = ModelingForm.getModelingType();
         scalingType = ModelingForm.getScalingType();
-        logger.info("scalingType in QsarModelingTask: "
-                + scalingType);
+        logger.info("scalingType in QsarModelingTask: " + scalingType);
 
         stdDevCutoff = ModelingForm.getStdDevCutoff();
         correlationCutoff = ModelingForm.getCorrelationCutoff();
 
         Session session = HibernateUtil.getSession();
-        dataset = PopulateDataObjects.getDataSetById(ModelingForm
-                .getSelectedDatasetId(), session);
+        dataset = PopulateDataObjects.getDataSetById(ModelingForm.getSelectedDatasetId(), session);
         session.close();
 
         this.userName = userName;
@@ -197,10 +178,8 @@ public class QsarModelingTask extends WorkflowTask {
             numSplits = ModelingForm.getNumSplitsInternalRandom();
             randomSplitMinTestSize = ModelingForm.getRandomSplitMinTestSize();
             randomSplitMaxTestSize = ModelingForm.getRandomSplitMaxTestSize();
-            randomSplitSampleWithReplacement = ModelingForm
-                    .getRandomSplitSampleWithReplacement();
-        } else if (trainTestSplitType
-                .equalsIgnoreCase(Constants.SPHEREEXCLUSION)) {
+            randomSplitSampleWithReplacement = ModelingForm.getRandomSplitSampleWithReplacement();
+        } else if (trainTestSplitType.equalsIgnoreCase(Constants.SPHEREEXCLUSION)) {
             // sphere exclusion datasplit params
             numSplits = ModelingForm.getNumSplitsInternalSphere();
             splitIncludesMin = ModelingForm.getSplitIncludesMin();
@@ -220,15 +199,11 @@ public class QsarModelingTask extends WorkflowTask {
             knnParameters.setTcOverTb(ModelingForm.getTcOverTb());
             knnParameters.setMinSlopes(ModelingForm.getMinSlopes());
             knnParameters.setMaxSlopes(ModelingForm.getMaxSlopes());
-            knnParameters.setRelativeDiffRR0(ModelingForm
-                    .getRelativeDiffRR0());
+            knnParameters.setRelativeDiffRR0(ModelingForm.getRelativeDiffRR0());
             knnParameters.setDiffR01R02(ModelingForm.getDiffR01R02());
-            knnParameters.setKnnCategoryOptimization(ModelingForm
-                    .getKnnCategoryOptimization());
-            knnParameters.setMinNumDescriptors(ModelingForm
-                    .getMinNumDescriptors());
-            knnParameters.setMaxNumDescriptors(ModelingForm
-                    .getMaxNumDescriptors());
+            knnParameters.setKnnCategoryOptimization(ModelingForm.getKnnCategoryOptimization());
+            knnParameters.setMinNumDescriptors(ModelingForm.getMinNumDescriptors());
+            knnParameters.setMaxNumDescriptors(ModelingForm.getMaxNumDescriptors());
             knnParameters.setStepSize(ModelingForm.getStepSize());
             knnParameters.setNumCycles(ModelingForm.getNumCycles());
             knnParameters.setNumMutations(ModelingForm.getNumMutations());
@@ -237,10 +212,8 @@ public class QsarModelingTask extends WorkflowTask {
             knnParameters.setCutoff(ModelingForm.getCutoff());
             knnParameters.setMu(ModelingForm.getMu());
             knnParameters.setNumRuns(ModelingForm.getNumRuns());
-            knnParameters.setNearestNeighbors(ModelingForm
-                    .getNearest_Neighbors());
-            knnParameters.setPseudoNeighbors(ModelingForm
-                    .getPseudo_Neighbors());
+            knnParameters.setNearestNeighbors(ModelingForm.getNearest_Neighbors());
+            knnParameters.setPseudoNeighbors(ModelingForm.getPseudo_Neighbors());
             knnParameters.setStopCond(ModelingForm.getStop_cond());
         } else if (ModelingForm.getModelingType().equals(Constants.SVM)) {
             svmParameters = new SvmParameters();
@@ -256,71 +229,46 @@ public class QsarModelingTask extends WorkflowTask {
             svmParameters.setSvmNuFrom(ModelingForm.getSvmNuFrom());
             svmParameters.setSvmNuTo(ModelingForm.getSvmNuTo());
             svmParameters.setSvmNuStep(ModelingForm.getSvmNuStep());
-            svmParameters.setSvmPEpsilonFrom(ModelingForm
-                    .getSvmPEpsilonFrom());
+            svmParameters.setSvmPEpsilonFrom(ModelingForm.getSvmPEpsilonFrom());
             svmParameters.setSvmPEpsilonTo(ModelingForm.getSvmPEpsilonTo());
-            svmParameters.setSvmPEpsilonStep(ModelingForm
-                    .getSvmPEpsilonStep());
-            svmParameters.setSvmCrossValidation(ModelingForm
-                    .getSvmCrossValidation());
+            svmParameters.setSvmPEpsilonStep(ModelingForm.getSvmPEpsilonStep());
+            svmParameters.setSvmCrossValidation(ModelingForm.getSvmCrossValidation());
             svmParameters.setSvmEEpsilon(ModelingForm.getSvmEEpsilon());
             svmParameters.setSvmHeuristics(ModelingForm.getSvmHeuristics());
             svmParameters.setSvmKernel(ModelingForm.getSvmKernel());
             svmParameters.setSvmProbability(ModelingForm.getSvmProbability());
-            svmParameters.setSvmTypeCategory(ModelingForm
-                    .getSvmTypeCategory());
-            svmParameters.setSvmTypeContinuous(ModelingForm
-                    .getSvmTypeContinuous());
+            svmParameters.setSvmTypeCategory(ModelingForm.getSvmTypeCategory());
+            svmParameters.setSvmTypeContinuous(ModelingForm.getSvmTypeContinuous());
             svmParameters.setSvmWeight(ModelingForm.getSvmWeight());
             svmParameters.setSvmCutoff(ModelingForm.getSvmCutoff());
-        } else if (ModelingForm.getModelingType().equals(Constants.KNNSA)
-                || ModelingForm.getModelingType().equals(Constants.KNNGA)) {
+        } else if (ModelingForm.getModelingType().equals(Constants.KNNSA) || ModelingForm.getModelingType()
+                .equals(Constants.KNNGA)) {
 
             knnPlusParameters = new KnnPlusParameters();
-            knnPlusParameters.setGaMaxNumGenerations(ModelingForm
-                    .getGaMaxNumGenerations());
-            knnPlusParameters.setGaMinFitnessDifference(ModelingForm
-                    .getGaMinFitnessDifference());
-            knnPlusParameters.setGaNumStableGenerations(ModelingForm
-                    .getGaNumStableGenerations());
-            knnPlusParameters.setGaPopulationSize(ModelingForm
-                    .getGaPopulationSize());
-            knnPlusParameters.setGaTournamentGroupSize(ModelingForm
-                    .getGaTournamentGroupSize());
-            knnPlusParameters.setKnnApplicabilityDomain(ModelingForm
-                    .getKnnApplicabilityDomain());
-            knnPlusParameters.setKnnDescriptorStepSize(ModelingForm
-                    .getKnnDescriptorStepSize());
-            knnPlusParameters.setKnnSaErrorBasedFit(ModelingForm
-                    .getKnnSaErrorBasedFit());
-            knnPlusParameters.setKnnGaErrorBasedFit(ModelingForm
-                    .getKnnGaErrorBasedFit());
-            knnPlusParameters.setKnnMaxNearestNeighbors(ModelingForm
-                    .getKnnMaxNearestNeighbors());
-            knnPlusParameters.setKnnMinNearestNeighbors(ModelingForm
-                    .getKnnMinNearestNeighbors());
-            knnPlusParameters.setKnnMaxNumDescriptors(ModelingForm
-                    .getKnnMaxNumDescriptors());
-            knnPlusParameters.setKnnMinNumDescriptors(ModelingForm
-                    .getKnnMinNumDescriptors());
+            knnPlusParameters.setGaMaxNumGenerations(ModelingForm.getGaMaxNumGenerations());
+            knnPlusParameters.setGaMinFitnessDifference(ModelingForm.getGaMinFitnessDifference());
+            knnPlusParameters.setGaNumStableGenerations(ModelingForm.getGaNumStableGenerations());
+            knnPlusParameters.setGaPopulationSize(ModelingForm.getGaPopulationSize());
+            knnPlusParameters.setGaTournamentGroupSize(ModelingForm.getGaTournamentGroupSize());
+            knnPlusParameters.setKnnApplicabilityDomain(ModelingForm.getKnnApplicabilityDomain());
+            knnPlusParameters.setKnnDescriptorStepSize(ModelingForm.getKnnDescriptorStepSize());
+            knnPlusParameters.setKnnSaErrorBasedFit(ModelingForm.getKnnSaErrorBasedFit());
+            knnPlusParameters.setKnnGaErrorBasedFit(ModelingForm.getKnnGaErrorBasedFit());
+            knnPlusParameters.setKnnMaxNearestNeighbors(ModelingForm.getKnnMaxNearestNeighbors());
+            knnPlusParameters.setKnnMinNearestNeighbors(ModelingForm.getKnnMinNearestNeighbors());
+            knnPlusParameters.setKnnMaxNumDescriptors(ModelingForm.getKnnMaxNumDescriptors());
+            knnPlusParameters.setKnnMinNumDescriptors(ModelingForm.getKnnMinNumDescriptors());
             knnPlusParameters.setKnnMinTest(ModelingForm.getKnnMinTest());
-            knnPlusParameters.setKnnMinTraining(ModelingForm
-                    .getKnnMinTraining());
+            knnPlusParameters.setKnnMinTraining(ModelingForm.getKnnMinTraining());
             knnPlusParameters.setSaFinalTemp(ModelingForm.getSaFinalTemp());
-            knnPlusParameters.setSaLogInitialTemp(ModelingForm
-                    .getSaLogInitialTemp());
+            knnPlusParameters.setSaLogInitialTemp(ModelingForm.getSaLogInitialTemp());
             knnPlusParameters
-                    .setSaMutationProbabilityPerDescriptor(ModelingForm
-                            .getSaMutationProbabilityPerDescriptor());
-            knnPlusParameters.setSaNumBestModels(ModelingForm
-                    .getSaNumBestModels());
+                    .setSaMutationProbabilityPerDescriptor(ModelingForm.getSaMutationProbabilityPerDescriptor());
+            knnPlusParameters.setSaNumBestModels(ModelingForm.getSaNumBestModels());
             knnPlusParameters.setSaNumRuns(ModelingForm.getSaNumRuns());
-            knnPlusParameters.setSaTempConvergence(ModelingForm
-                    .getSaTempConvergence());
-            knnPlusParameters.setSaTempDecreaseCoefficient(ModelingForm
-                    .getSaTempDecreaseCoefficient());
-        } else if (ModelingForm.getModelingType()
-                .equals(Constants.RANDOMFOREST)) {
+            knnPlusParameters.setSaTempConvergence(ModelingForm.getSaTempConvergence());
+            knnPlusParameters.setSaTempDecreaseCoefficient(ModelingForm.getSaTempDecreaseCoefficient());
+        } else if (ModelingForm.getModelingType().equals(Constants.RANDOMFOREST)) {
             // XXX hack! disables internal splitting for randomforest;
             // this is done by setting 1 randsplit (0 splits causes an error)
             // and making it so that the train/test split is 100%/0%
@@ -333,21 +281,17 @@ public class QsarModelingTask extends WorkflowTask {
 
             randomForestParameters = new RandomForestParameters();
 
-            randomForestParameters.setDescriptorsPerTree(ModelingForm
-                    .getDescriptorsPerTree());
+            randomForestParameters.setDescriptorsPerTree(ModelingForm.getDescriptorsPerTree());
             randomForestParameters.setNumTrees(ModelingForm.getNumTrees());
-            randomForestParameters.setMaxNumTerminalNodes(ModelingForm
-                    .getMaxNumTerminalNodes());
-            randomForestParameters.setMinTerminalNodeSize(ModelingForm
-                    .getMinTerminalNodeSize());
+            randomForestParameters.setMaxNumTerminalNodes(ModelingForm.getMaxNumTerminalNodes());
+            randomForestParameters.setMinTerminalNodeSize(ModelingForm.getMinTerminalNodeSize());
         }
 
         // end load modeling parameters from form
 
         this.predictor = new Predictor();
 
-        filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName
-                + "/";
+        filePath = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
         datasetPath = Constants.CECCR_USER_BASE_PATH;
         datasetPath += dataset.getUserName();
         datasetPath += "/DATASETS/" + datasetName + "/";
@@ -361,12 +305,10 @@ public class QsarModelingTask extends WorkflowTask {
                 String workingDir = "";
                 if (jobList.equals(Constants.LSF)) {
                     // running on LSF so check LSF dir
-                    workingDir = Constants.LSFJOBPATH + userName + "/"
-                            + jobName + "/";
+                    workingDir = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
                 } else {
                     // running locally so check local dir
-                    workingDir = Constants.CECCR_USER_BASE_PATH + userName
-                            + "/" + jobName + "/";
+                    workingDir = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
                 }
 
                 if (modelType.equals(Constants.KNNSA)) {
@@ -374,8 +316,7 @@ public class QsarModelingTask extends WorkflowTask {
                     // cat knn+_models.log | grep q2= | wc
 
                     float p = KnnPlus.getSaModelingProgress(workingDir);
-                    p += KnnPlus.getSaModelingProgress(workingDir
-                            + "yRandom/");
+                    p += KnnPlus.getSaModelingProgress(workingDir + "yRandom/");
                     p /= (getNumTotalModels() * 2);
                     p *= 100; // it's a percent
                     if (p > 100) {
@@ -385,8 +326,7 @@ public class QsarModelingTask extends WorkflowTask {
                 } else if (modelType.equals(Constants.KNNGA)) {
                     percent = "";
                     float p = KnnPlus.getGaModelingProgress(workingDir);
-                    p += KnnPlus.getGaModelingProgress(workingDir
-                            + "yRandom/");
+                    p += KnnPlus.getGaModelingProgress(workingDir + "yRandom/");
                     p /= (getNumTotalModels() * 2);
                     p *= 100; // it's a percent
                     if (p < 0) {
@@ -412,9 +352,7 @@ public class QsarModelingTask extends WorkflowTask {
                     }).length);
                     // divide by (number of models * trees per model * 2
                     // because of yRandom)
-                    p /= (getNumTotalModels()
-                            * Integer.parseInt(randomForestParameters
-                            .getNumTrees()) * 2);
+                    p /= (getNumTotalModels() * Integer.parseInt(randomForestParameters.getNumTrees()) * 2);
                     p *= 100;
                     if (p > 100) {
                         p = 100;
@@ -424,15 +362,10 @@ public class QsarModelingTask extends WorkflowTask {
                     // get num of models produced so far
                     float p = 0;
                     if (new File(workingDir + "svm-results.txt").exists()) {
-                        p += FileAndDirOperations
-                                .getNumLinesInFile(workingDir
-                                        + "svm-results.txt");
+                        p += FileAndDirOperations.getNumLinesInFile(workingDir + "svm-results.txt");
                     }
-                    if (new File(workingDir + "yRandom/svm-results.txt")
-                            .exists()) {
-                        p += FileAndDirOperations
-                                .getNumLinesInFile(workingDir
-                                        + "yRandom/svm-results.txt");
+                    if (new File(workingDir + "yRandom/svm-results.txt").exists()) {
+                        p += FileAndDirOperations.getNumLinesInFile(workingDir + "yRandom/svm-results.txt");
                     }
                     // divide by (number of models * 2 because of yRandom)
                     p /= (getNumTotalModels() * 2);
@@ -482,8 +415,7 @@ public class QsarModelingTask extends WorkflowTask {
         // if random split
         predictor.setRandomSplitMinTestSize(randomSplitMinTestSize);
         predictor.setRandomSplitMaxTestSize(randomSplitMaxTestSize);
-        predictor.setRandomSplitSampleWithReplacement(
-                randomSplitSampleWithReplacement);
+        predictor.setRandomSplitSampleWithReplacement(randomSplitSampleWithReplacement);
 
         // if sphere exclusion
         predictor.setSplitIncludesMin(splitIncludesMin);
@@ -522,8 +454,7 @@ public class QsarModelingTask extends WorkflowTask {
         // set modeling params id in predictor
         if (modelType.equals(Constants.SVM)) {
             predictor.setModelingParametersId(svmParameters.getId());
-        } else if (modelType.equals(Constants.KNNGA)
-                || modelType.equals(Constants.KNNSA)) {
+        } else if (modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)) {
             predictor.setModelingParametersId(knnPlusParameters.getId());
         } else if (modelType.equals(Constants.RANDOMFOREST)) {
             predictor.setModelingParametersId(randomForestParameters.getId());
@@ -550,8 +481,7 @@ public class QsarModelingTask extends WorkflowTask {
 
         // make sure job dir exists and is empty
         CreateJobDirectories.createDirs(userName, jobName);
-        FileAndDirOperations.deleteDirContents(Constants.CECCR_USER_BASE_PATH
-                + userName + "/" + jobName + "/");
+        FileAndDirOperations.deleteDirContents(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
 
         return lookupId;
     }
@@ -561,19 +491,15 @@ public class QsarModelingTask extends WorkflowTask {
         // copy the dataset files to the working directory
         step = Constants.SETUP;
 
-        CopyJobFiles.getDatasetFiles(userName, dataset, Constants.MODELING,
-                filePath);
+        CopyJobFiles.getDatasetFiles(userName, dataset, Constants.MODELING, filePath);
 
         // read in the descriptors for the dataset
         List<String> descriptorNames = Lists.newArrayList();
-        List<Descriptors> descriptorValueMatrix
-                = Lists.newArrayList();
-        List<String> chemicalNames = DatasetFileOperations
-                .getACTCompoundNames(filePath + actFileName);
+        List<Descriptors> descriptorValueMatrix = Lists.newArrayList();
+        List<String> chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
 
         Session session = HibernateUtil.getSession();
-        Dataset dataset = PopulateDataObjects.getDataSetById(datasetID,
-                session);
+        Dataset dataset = PopulateDataObjects.getDataSetById(datasetID, session);
         session.close();
 
         String xFileName = "";
@@ -581,67 +507,51 @@ public class QsarModelingTask extends WorkflowTask {
         // read in descriptors from the dataset
         step = Constants.PROCDESCRIPTORS;
         if (descriptorGenerationType.equals(Constants.MOLCONNZ)) {
-            logger.debug(
-                    "Converting MolconnZ output to .x format and reading "
-                            + "for job, " + jobName + " submitted by user, " +
-                            userName + "."
-            );
-            ReadDescriptors.readMolconnZDescriptors(filePath + sdFileName
-                    + ".molconnz", descriptorNames, descriptorValueMatrix);
+            logger.debug("Converting MolconnZ output to .x format and reading " + "for job, " + jobName
+                    + " submitted by user, " +
+                    userName + ".");
+            ReadDescriptors.readMolconnZDescriptors(filePath + sdFileName + ".molconnz", descriptorNames,
+                    descriptorValueMatrix);
 
             // ReadDescriptorsFileWorkflow.convertMzToX(filePath + sdFileName
             // + ".mz", filePath);
             // ReadDescriptorsFileWorkflow.readXDescriptors(filePath +
             // sdFileName + ".mz.x", descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.CDK)) {
-            logger.debug("Processing CDK descriptors for job, " + jobName
-                    + " submitted by user, " + userName);
+            logger.debug("Processing CDK descriptors for job, " + jobName + " submitted by user, " + userName);
 
-            ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk",
-                    filePath);
-            ReadDescriptors.readXDescriptors(
-                    filePath + sdFileName + ".cdk.x", descriptorNames,
-                    descriptorValueMatrix);
+            ReadDescriptors.convertCDKToX(filePath + sdFileName + ".cdk", filePath);
+            ReadDescriptors.readXDescriptors(filePath + sdFileName + ".cdk.x", descriptorNames, descriptorValueMatrix);
 
             // for CDK descriptors, compounds with errors are skipped.
             // Make sure that any skipped compounds are removed from the list
             // of external compounds
-            DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(
-                    sdFileName + ".cdk.x", filePath, "ext_0.x");
-            DatasetFileOperations.removeSkippedCompoundsFromActFile(
-                    sdFileName + ".cdk.x", filePath, actFileName);
-            chemicalNames = DatasetFileOperations
-                    .getACTCompoundNames(filePath + actFileName);
+            DatasetFileOperations.removeSkippedCompoundsFromExternalSetList(sdFileName + ".cdk.x", filePath, "ext_0.x");
+            DatasetFileOperations.removeSkippedCompoundsFromActFile(sdFileName + ".cdk.x", filePath, actFileName);
+            chemicalNames = DatasetFileOperations.getACTCompoundNames(filePath + actFileName);
         } else if (descriptorGenerationType.equals(Constants.DRAGONH)) {
-            logger.debug("Processing DragonH descriptors for job, " + jobName
-                    + "submitted by user, " + userName);
-            ReadDescriptors.readDragonDescriptors(filePath + sdFileName
-                    + ".dragonH", descriptorNames, descriptorValueMatrix);
+            logger.debug("Processing DragonH descriptors for job, " + jobName + "submitted by user, " + userName);
+            ReadDescriptors
+                    .readDragonDescriptors(filePath + sdFileName + ".dragonH", descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.DRAGONNOH)) {
-            logger.debug("Processing DragonNoH descriptors for job, " + jobName
-                    + "submitted by user, " + userName);
-            ReadDescriptors.readDragonDescriptors(filePath + sdFileName
-                    + ".dragonNoH", descriptorNames, descriptorValueMatrix);
+            logger.debug("Processing DragonNoH descriptors for job, " + jobName + "submitted by user, " + userName);
+            ReadDescriptors.readDragonDescriptors(filePath + sdFileName + ".dragonNoH", descriptorNames,
+                    descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.MOE2D)) {
-            logger.debug("Processing MOE2D descriptors for job, " + jobName
-                    + "submitted by user, " + userName);
-            ReadDescriptors.readMoe2DDescriptors(filePath + sdFileName
-                    + ".moe2D", descriptorNames, descriptorValueMatrix);
+            logger.debug("Processing MOE2D descriptors for job, " + jobName + "submitted by user, " + userName);
+            ReadDescriptors
+                    .readMoe2DDescriptors(filePath + sdFileName + ".moe2D", descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.MACCS)) {
-            logger.debug("Processing MACCS descriptors for job, " + jobName
-                    + "submitted by user, " + userName);
-            ReadDescriptors.readMaccsDescriptors(filePath + sdFileName
-                    + ".maccs", descriptorNames, descriptorValueMatrix);
+            logger.debug("Processing MACCS descriptors for job, " + jobName + "submitted by user, " + userName);
+            ReadDescriptors
+                    .readMaccsDescriptors(filePath + sdFileName + ".maccs", descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.ISIDA)) {
-            logger.debug("Processing ISIDA descriptors for job, " + jobName
-                    + "submitted by user, " + userName);
-            ReadDescriptors.readISIDADescriptors(filePath + sdFileName
-                    + ".ISIDA", descriptorNames, descriptorValueMatrix);
+            logger.debug("Processing ISIDA descriptors for job, " + jobName + "submitted by user, " + userName);
+            ReadDescriptors
+                    .readISIDADescriptors(filePath + sdFileName + ".ISIDA", descriptorNames, descriptorValueMatrix);
         } else if (descriptorGenerationType.equals(Constants.UPLOADED)) {
-            logger.debug("Processing UPLOADED descriptors for job, " + jobName
-                    + "submitted by user, " + userName);
-            ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(),
-                    descriptorNames, descriptorValueMatrix);
+            logger.debug("Processing UPLOADED descriptors for job, " + jobName + "submitted by user, " + userName);
+            ReadDescriptors.readXDescriptors(filePath + dataset.getXFile(), descriptorNames, descriptorValueMatrix);
         }
 
         // write out the descriptors into a .x file for modeling
@@ -650,61 +560,48 @@ public class QsarModelingTask extends WorkflowTask {
         } else {
             xFileName = sdFileName + ".x";
         }
-        String descriptorString = Utility
-                .StringListToString(descriptorNames);
+        String descriptorString = Utility.StringListToString(descriptorNames);
 
-        WriteDescriptors.writeModelingXFile(chemicalNames,
-                descriptorValueMatrix, descriptorString,
-                filePath + xFileName, scalingType, stdDevCutoff,
-                correlationCutoff);
+        WriteDescriptors
+                .writeModelingXFile(chemicalNames, descriptorValueMatrix, descriptorString, filePath + xFileName,
+                        scalingType, stdDevCutoff, correlationCutoff);
 
         // apply the dataset's external split(s) to the generated .X file
         step = Constants.SPLITDATA;
 
-        List<String> extCompoundArray = DatasetFileOperations
-                .getXCompoundNames(filePath + "ext_0.x");
+        List<String> extCompoundArray = DatasetFileOperations.getXCompoundNames(filePath + "ext_0.x");
         numExternalCompounds = extCompoundArray.size();
-        String externalCompoundIdString = Utility
-                .StringListToString(extCompoundArray);
-        DataSplit.splitModelingExternalGivenList(filePath, actFileName,
-                xFileName, externalCompoundIdString);
+        String externalCompoundIdString = Utility.StringListToString(extCompoundArray);
+        DataSplit.splitModelingExternalGivenList(filePath, actFileName, xFileName, externalCompoundIdString);
 
         // make internal training / test sets for each model
         if (trainTestSplitType.equals(Constants.RANDOM)) {
-            DataSplit.SplitTrainTestRandom(userName, jobName, numSplits,
-                    randomSplitMinTestSize, randomSplitMaxTestSize,
+            DataSplit.SplitTrainTestRandom(userName, jobName, numSplits, randomSplitMinTestSize, randomSplitMaxTestSize,
                     randomSplitSampleWithReplacement);
         } else if (trainTestSplitType.equals(Constants.SPHEREEXCLUSION)) {
-            DataSplit.SplitTrainTestSphereExclusion(userName, jobName,
-                    numSplits, splitIncludesMin, splitIncludesMax,
+            DataSplit.SplitTrainTestSphereExclusion(userName, jobName, numSplits, splitIncludesMin, splitIncludesMax,
                     sphereSplitMinTestSize, selectionNextTrainPt);
         }
 
         if (jobList.equals(Constants.LSF)) {
-            String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName
-                    + "/";
+            String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
 
             // get y-randomization ready
             step = Constants.YRANDOMSETUP;
 
-            if (modelType.equals(Constants.KNNGA)
-                    || modelType.equals(Constants.KNNSA)) {
+            if (modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)) {
                 ModelingUtilities.SetUpYRandomization(userName, jobName);
                 ModelingUtilities.YRandomization(userName, jobName);
             } else if (modelType.equals(Constants.RANDOMFOREST)) {
                 RandomForest.makeRandomForestXFiles(scalingType,
-                        Constants.CECCR_USER_BASE_PATH + userName + "/"
-                                + jobName + "/"
-                );
+                        Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
                 RandomForest.SetUpYRandomization(userName, jobName);
             } else if (modelType.equals(Constants.SVM)) {
                 ModelingUtilities.SetUpYRandomization(userName, jobName);
                 ModelingUtilities.YRandomization(userName, jobName);
-                Svm.writeSvmModelingParamsFile(svmParameters,
-                        actFileDataType, filePath + "svm-params.txt", lsfPath);
+                Svm.writeSvmModelingParamsFile(svmParameters, actFileDataType, filePath + "svm-params.txt", lsfPath);
                 Svm.svmPreProcess(svmParameters, actFileDataType, filePath);
-                Svm.svmPreProcess(svmParameters, actFileDataType, filePath
-                        + "yRandom/");
+                Svm.svmPreProcess(svmParameters, actFileDataType, filePath + "yRandom/");
             }
             // copy needed files out to LSF
             LsfUtilities.makeLsfModelingDirectory(filePath, lsfPath);
@@ -721,28 +618,24 @@ public class QsarModelingTask extends WorkflowTask {
         // work with
         // an LSF jobArray instead.
 
-        String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName
-                + "/";
+        String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
         String lsfJobId = "";
 
         step = Constants.MODELS;
-        if (modelType.equals(Constants.KNNGA)
-                || modelType.equals(Constants.KNNSA)) {
-            lsfJobId = KnnPlus.buildKnnPlusModelsLsf(knnPlusParameters,
-                    actFileDataType, modelType, userName, jobName, lsfPath);
+        if (modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)) {
+            lsfJobId = KnnPlus.buildKnnPlusModelsLsf(knnPlusParameters, actFileDataType, modelType, userName, jobName,
+                    lsfPath);
         } else if (modelType.equals(Constants.SVM)) {
             lsfJobId = Svm.buildSvmModelsLsf(lsfPath, userName, jobName);
         }
-        logger.info(String.format("Finished LSF submission for %s. LSF ID is %s",
-                jobName, lsfJobId));
+        logger.info(String.format("Finished LSF submission for %s. LSF ID is %s", jobName, lsfJobId));
         return lsfJobId;
     }
 
 
     public void executeLocal() throws Exception {
         logger.info("Beginning local execution for " + jobName);
-        String path = Constants.CECCR_USER_BASE_PATH + userName + "/"
-                + jobName + "/";
+        String path = Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/";
 
         // Run modeling process
         if (modelType.equals(Constants.SVM)) {
@@ -751,10 +644,8 @@ public class QsarModelingTask extends WorkflowTask {
             ModelingUtilities.YRandomization(userName, jobName);
 
             Svm.svmPreProcess(svmParameters, actFileDataType, filePath);
-            Svm.svmPreProcess(svmParameters, actFileDataType, filePath
-                    + "yRandom/");
-            Svm.writeSvmModelingParamsFile(svmParameters, actFileDataType,
-                    filePath + "svm-params.txt", filePath);
+            Svm.svmPreProcess(svmParameters, actFileDataType, filePath + "yRandom/");
+            Svm.writeSvmModelingParamsFile(svmParameters, actFileDataType, filePath + "svm-params.txt", filePath);
 
             step = Constants.MODELS;
             Svm.buildSvmModels(filePath);
@@ -764,46 +655,33 @@ public class QsarModelingTask extends WorkflowTask {
                 Svm.runSvmPrediction(path, "ext_0.x");
             }
 
-        } else if (modelType.equals(Constants.KNNSA)
-                || modelType.equals(Constants.KNNGA)) {
+        } else if (modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)) {
             step = Constants.YRANDOMSETUP;
             ModelingUtilities.SetUpYRandomization(userName, jobName);
             ModelingUtilities.YRandomization(userName, jobName);
 
-            KnnPlus.buildKnnPlusModels(knnPlusParameters, actFileDataType,
-                    modelType, path);
+            KnnPlus.buildKnnPlusModels(knnPlusParameters, actFileDataType, modelType, path);
 
             step = Constants.PREDEXT;
             if (numExternalCompounds > 0) {
-                KnnPlus.predictExternalSet(userName, jobName, path,
-                        knnPlusParameters.getKnnApplicabilityDomain());
+                KnnPlus.predictExternalSet(userName, jobName, path, knnPlusParameters.getKnnApplicabilityDomain());
             }
         } else if (modelType.equals(Constants.RANDOMFOREST)) {
             step = Constants.YRANDOMSETUP;
-            logger.debug("making X files for job, " + jobName + " submitted by "
-                    + "user, " + userName + ".");
+            logger.debug("making X files for job, " + jobName + " submitted by " + "user, " + userName + ".");
             RandomForest.makeRandomForestXFiles(scalingType,
-                    Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName
-                            + "/"
-            );
-            logger.debug("setting up y-randomization, " + jobName + " submitted by "
-                    + "user, " + userName + ".");
+                    Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
+            logger.debug("setting up y-randomization, " + jobName + " submitted by " + "user, " + userName + ".");
             RandomForest.SetUpYRandomization(userName, jobName);
 
             step = Constants.MODELS;
-            logger.debug("building models, " + jobName + " submitted by "
-                    + "user, " + userName + ".");
-            RandomForest.buildRandomForestModels(randomForestParameters,
-                    actFileDataType, scalingType, categoryWeights, path,
-                    jobName);
-            logger.debug("building y-random models, " + jobName + " submitted by "
-                    + "user, " + userName + ".");
-            RandomForest.buildRandomForestModels(randomForestParameters,
-                    actFileDataType, scalingType, categoryWeights, path
-                            + "yRandom/", jobName
-            );
-            logger.debug("modeling phase done, " + jobName + " submitted by "
-                    + "user, " + userName + ".");
+            logger.debug("building models, " + jobName + " submitted by " + "user, " + userName + ".");
+            RandomForest.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights,
+                    path, jobName);
+            logger.debug("building y-random models, " + jobName + " submitted by " + "user, " + userName + ".");
+            RandomForest.buildRandomForestModels(randomForestParameters, actFileDataType, scalingType, categoryWeights,
+                    path + "yRandom/", jobName);
+            logger.debug("modeling phase done, " + jobName + " submitted by " + "user, " + userName + ".");
         }
         logger.info("Finished local execution for " + jobName);
     }
@@ -816,8 +694,7 @@ public class QsarModelingTask extends WorkflowTask {
         // first, copy needed files back from LSF if needed
         if (jobList.equals(Constants.LSF)) {
 
-            String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName
-                    + "/";
+            String lsfPath = Constants.LSFJOBPATH + userName + "/" + jobName + "/";
             LsfUtilities.retrieveCompletedPredictor(filePath, lsfPath);
 
             if (modelType.startsWith(Constants.KNN)) {
@@ -826,8 +703,7 @@ public class QsarModelingTask extends WorkflowTask {
 
             if (numExternalCompounds > 0) {
                 step = Constants.PREDEXT;
-                if (modelType.equals(Constants.KNNSA)
-                        || modelType.equals(Constants.KNNGA)) {
+                if (modelType.equals(Constants.KNNSA) || modelType.equals(Constants.KNNGA)) {
                     KnnPlus.predictExternalSet(userName, jobName, filePath,
                             knnPlusParameters.getKnnApplicabilityDomain());
                 } else if (modelType.equals(Constants.SVM)) {
@@ -849,20 +725,16 @@ public class QsarModelingTask extends WorkflowTask {
         List<RandomForestGrove> randomForestYRandomGroves = null;
         List<RandomForestTree> randomForestYRandomTrees = null;
 
-        if (modelType.equals(Constants.KNNGA)
-                || modelType.equals(Constants.KNNSA)) {
+        if (modelType.equals(Constants.KNNGA) || modelType.equals(Constants.KNNSA)) {
             // read external set predictions
             if (numExternalCompounds > 0) {
-                externalSetPredictions = KnnPlus
-                        .readExternalPredictionOutput(filePath, predictor);
+                externalSetPredictions = KnnPlus.readExternalPredictionOutput(filePath, predictor);
             }
 
             // read in models and associate them with the predictor
-            knnPlusModels = KnnPlus.readModelsFile(filePath, predictor,
-                    Constants.NO);
-            List<KnnPlusModel> knnPlusYRandomModels = KnnPlus
-                    .readModelsFile(filePath + "yRandom/", predictor,
-                            Constants.YES);
+            knnPlusModels = KnnPlus.readModelsFile(filePath, predictor, Constants.NO);
+            List<KnnPlusModel> knnPlusYRandomModels =
+                    KnnPlus.readModelsFile(filePath + "yRandom/", predictor, Constants.YES);
             predictor.setNumTotalModels(getNumTotalModels());
             predictor.setNumTestModels(knnPlusModels.size());
             predictor.setNumyTotalModels(getNumTotalModels());
@@ -873,8 +745,7 @@ public class QsarModelingTask extends WorkflowTask {
             }
         } else if (modelType.equals(Constants.RANDOMFOREST)) {
             // read in models and associate them with the predictor
-            randomForestGroves = RandomForest.readRandomForestGroves(
-                    filePath, predictor, Constants.NO);
+            randomForestGroves = RandomForest.readRandomForestGroves(filePath, predictor, Constants.NO);
 
             // commit models to database so we get the model id back so we can
             // use it in the trees
@@ -885,23 +756,23 @@ public class QsarModelingTask extends WorkflowTask {
                 }
                 tx.commit();
             } catch (Exception ex) {
-                logger.error("Error while executing job, " + jobName + " submitted by "
-                        + userName + ".\n" + ex.toString());
+                logger.error(
+                        "Error while executing job, " + jobName + " submitted by " + userName + ".\n" + ex.toString());
                 tx.rollback();
             }
 
             // read in trees and associate them with each model
             randomForestTrees = Lists.newArrayList();
             for (RandomForestGrove grove : randomForestGroves) {
-                randomForestTrees.addAll(RandomForest.readRandomForestTrees(
-                        filePath, predictor, grove, actFileDataType));
+                randomForestTrees
+                        .addAll(RandomForest.readRandomForestTrees(filePath, predictor, grove, actFileDataType));
             }
 
             // now do the same for the yRandom run
             // read in models for yRandom and associate them with the
             // predictor
-            randomForestYRandomGroves = RandomForest.readRandomForestGroves(
-                    filePath + "yRandom/", predictor, Constants.YES);
+            randomForestYRandomGroves =
+                    RandomForest.readRandomForestGroves(filePath + "yRandom/", predictor, Constants.YES);
 
             // commit models to database so we get the model id back so we can
             // use it in the trees
@@ -912,25 +783,22 @@ public class QsarModelingTask extends WorkflowTask {
                 }
                 tx.commit();
             } catch (Exception ex) {
-                logger.error("Error while executing job, " + jobName + " submitted by "
-                        + userName + ".\n" + ex.toString());
+                logger.error(
+                        "Error while executing job, " + jobName + " submitted by " + userName + ".\n" + ex.toString());
                 tx.rollback();
             }
 
             // read in yRandom trees and associate them with each model
             for (RandomForestGrove grove : randomForestYRandomGroves) {
-                randomForestTrees.addAll(RandomForest.readRandomForestTrees(
-                        filePath + "yRandom/", predictor, grove,
-                        actFileDataType));
+                randomForestTrees.addAll(RandomForest
+                        .readRandomForestTrees(filePath + "yRandom/", predictor, grove, actFileDataType));
             }
 
             // read external set predictions
             if (numExternalCompounds > 0) {
-                externalSetPredictions = RandomForest
-                        .readExternalSetPredictionOutput(filePath, predictor);
+                externalSetPredictions = RandomForest.readExternalSetPredictionOutput(filePath, predictor);
             } else {
-                logger.debug("No external compounds; " +
-                        "skipping external set prediction!");
+                logger.debug("No external compounds; " + "skipping external set prediction!");
             }
 
             predictor.setNumTotalModels(getNumTotalModels());
@@ -943,10 +811,8 @@ public class QsarModelingTask extends WorkflowTask {
         } else if (modelType.equals(Constants.SVM)) {
             // read in models and associate them with the predictor
             svmModels = Lists.newArrayList();
-            svmModels.addAll(Svm.readSvmModels(filePath, svmParameters
-                    .getSvmCutoff()));
-            svmModels.addAll(Svm.readSvmModels(filePath + "yRandom/",
-                    svmParameters.getSvmCutoff()));
+            svmModels.addAll(Svm.readSvmModels(filePath, svmParameters.getSvmCutoff()));
+            svmModels.addAll(Svm.readSvmModels(filePath + "yRandom/", svmParameters.getSvmCutoff()));
 
             // get num models info for predictor
             predictor.setNumTotalModels(getNumTotalModels());
@@ -969,8 +835,7 @@ public class QsarModelingTask extends WorkflowTask {
 
             // read external set predictions
             if (numExternalCompounds > 0) {
-                externalSetPredictions = Svm.readExternalPredictionOutput(
-                        filePath, predictor.getId());
+                externalSetPredictions = Svm.readExternalPredictionOutput(filePath, predictor.getId());
             }
 
             // clean junk
@@ -1034,8 +899,7 @@ public class QsarModelingTask extends WorkflowTask {
 
         // clean up dirs
         if (modelType.equals(Constants.RANDOMFOREST)) {
-            RandomForest.cleanUpExcessFiles(Constants.CECCR_USER_BASE_PATH
-                    + userName + "/" + jobName + "/");
+            RandomForest.cleanUpExcessFiles(Constants.CECCR_USER_BASE_PATH + userName + "/" + jobName + "/");
         }
 
         // calculate outputs based on ext set predictions and save
@@ -1045,54 +909,41 @@ public class QsarModelingTask extends WorkflowTask {
             session.saveOrUpdate(predictor);
             tx.commit();
         } catch (Exception ex) {
-            logger.error("Error while executing job, " + jobName + " submitted by "
-                    + userName + ".\n" + ex.toString());
+            logger.error("Error while executing job, " + jobName + " submitted by " + userName + ".\n" + ex.toString());
             tx.rollback();
         }
 
         if (dataset.getSplitType().equals(Constants.NFOLD)) {
             // find parent predictor
-            String parentPredictorName = jobName.substring(0, jobName
-                    .lastIndexOf("_fold"));
-            Predictor parentPredictor = PopulateDataObjects
-                    .getPredictorByName(parentPredictorName, predictor
-                            .getUserName(), session);
-            if (parentPredictor != null
-                    && parentPredictor.getJobCompleted() != null) {
+            String parentPredictorName = jobName.substring(0, jobName.lastIndexOf("_fold"));
+            Predictor parentPredictor =
+                    PopulateDataObjects.getPredictorByName(parentPredictorName, predictor.getUserName(), session);
+            if (parentPredictor != null && parentPredictor.getJobCompleted() != null) {
                 // check if all its other children are completed.
-                String[] childIdArray = parentPredictor.getChildIds().split(
-                        "\\s+");
+                String[] childIdArray = parentPredictor.getChildIds().split("\\s+");
                 int finishedChildPredictors = 0;
                 int numTotalModelsTotal = 0;
                 for (String childId : childIdArray) {
-                    Predictor childPredictor = PopulateDataObjects
-                            .getPredictorById(Long.parseLong(childId),
-                                    session);
-                    if (childPredictor.getJobCompleted()
-                            .equals(Constants.YES)) {
-                        numTotalModelsTotal += childPredictor
-                                .getNumTotalModels();
+                    Predictor childPredictor = PopulateDataObjects.getPredictorById(Long.parseLong(childId), session);
+                    if (childPredictor.getJobCompleted().equals(Constants.YES)) {
+                        numTotalModelsTotal += childPredictor.getNumTotalModels();
                         finishedChildPredictors++;
                     }
                 }
-                int numFolds = Integer
-                        .parseInt(dataset.getNumExternalFolds());
+                int numFolds = Integer.parseInt(dataset.getNumExternalFolds());
                 if (finishedChildPredictors == numFolds) {
                     // if all children are now done, set jobCompleted to YES
                     // in the parent predictor.
                     parentPredictor.setJobCompleted(Constants.YES);
-                    parentPredictor
-                            .setNumTotalModels(finishedChildPredictors);
-                    parentPredictor.setModelingParametersId(predictor
-                            .getModelingParametersId());
+                    parentPredictor.setNumTotalModels(finishedChildPredictors);
+                    parentPredictor.setModelingParametersId(predictor.getModelingParametersId());
                 }
             }
 
             predictor.setParentId(parentPredictor.getId());
 
             // calc r^2 etc for parent as well
-            RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor,
-                    session);
+            RSquaredAndCCR.addRSquaredAndCCRToPredictor(parentPredictor, session);
 
             // save
             try {
@@ -1101,13 +952,11 @@ public class QsarModelingTask extends WorkflowTask {
                 session.saveOrUpdate(predictor);
                 tx.commit();
             } catch (Exception ex) {
-                logger.error("Error while executing job, " + jobName
-                        + " submitted by " + userName + ".\n"
-                        + ex.toString());
+                logger.error(
+                        "Error while executing job, " + jobName + " submitted by " + userName + ".\n" + ex.toString());
             }
 
-            ModelingUtilities.MoveToPredictorsDir(userName, jobName,
-                    parentPredictorName);
+            ModelingUtilities.MoveToPredictorsDir(userName, jobName, parentPredictorName);
         } else {
             ModelingUtilities.MoveToPredictorsDir(userName, jobName, "");
         }
@@ -1133,52 +982,38 @@ public class QsarModelingTask extends WorkflowTask {
 
         if (modelType.equals(Constants.KNNSA)) {
             numModels *= Integer.parseInt(knnPlusParameters.getSaNumRuns());
-            numModels *= Integer.parseInt(knnPlusParameters
-                    .getSaNumBestModels());
+            numModels *= Integer.parseInt(knnPlusParameters.getSaNumBestModels());
 
             int numDescriptorSizes = 1;
-            if (Integer.parseInt(knnPlusParameters.getKnnDescriptorStepSize())
-                    != 0) {
-                numDescriptorSizes += (Integer.parseInt(knnPlusParameters
-                        .getKnnMaxNumDescriptors()) - Integer
-                        .parseInt(knnPlusParameters.getKnnMinNumDescriptors()))
-                        / Integer.parseInt(knnPlusParameters
-                        .getKnnDescriptorStepSize());
+            if (Integer.parseInt(knnPlusParameters.getKnnDescriptorStepSize()) != 0) {
+                numDescriptorSizes += (Integer.parseInt(knnPlusParameters.getKnnMaxNumDescriptors()) - Integer
+                        .parseInt(knnPlusParameters.getKnnMinNumDescriptors())) / Integer
+                        .parseInt(knnPlusParameters.getKnnDescriptorStepSize());
             }
             numModels *= numDescriptorSizes;
         } else if (modelType.equals(Constants.RANDOMFOREST)) {
             numModels = Integer.parseInt(predictor.getNumSplits());
         } else if (modelType.equals(Constants.SVM)) {
             numModels = Integer.parseInt(predictor.getNumSplits());
-            Double numDifferentCosts = Math.ceil((Double
-                    .parseDouble(svmParameters.getSvmCostTo()) - Double
-                    .parseDouble(svmParameters.getSvmCostFrom()))
-                    / Double.parseDouble(svmParameters.getSvmCostStep())
+            Double numDifferentCosts = Math.ceil((Double.parseDouble(svmParameters.getSvmCostTo()) - Double
+                    .parseDouble(svmParameters.getSvmCostFrom())) / Double.parseDouble(svmParameters.getSvmCostStep())
                     + 0.0001);
 
-            Double numDifferentDegrees = Math.ceil((Double
-                    .parseDouble(svmParameters.getSvmDegreeTo()) - Double
-                    .parseDouble(svmParameters.getSvmDegreeFrom()))
-                    / Double.parseDouble(svmParameters.getSvmDegreeStep())
+            Double numDifferentDegrees = Math.ceil((Double.parseDouble(svmParameters.getSvmDegreeTo()) - Double
+                    .parseDouble(svmParameters.getSvmDegreeFrom())) / Double
+                    .parseDouble(svmParameters.getSvmDegreeStep()) + 0.0001);
+
+            Double numDifferentGammas = Math.ceil((Double.parseDouble(svmParameters.getSvmGammaTo()) - Double
+                    .parseDouble(svmParameters.getSvmGammaFrom())) / Double.parseDouble(svmParameters.getSvmGammaStep())
                     + 0.0001);
 
-            Double numDifferentGammas = Math.ceil((Double
-                    .parseDouble(svmParameters.getSvmGammaTo()) - Double
-                    .parseDouble(svmParameters.getSvmGammaFrom()))
-                    / Double.parseDouble(svmParameters.getSvmGammaStep())
-                    + 0.0001);
+            Double numDifferentNus = Math.ceil(
+                    (Double.parseDouble(svmParameters.getSvmNuTo()) - Double.parseDouble(svmParameters.getSvmNuFrom()))
+                            / Double.parseDouble(svmParameters.getSvmNuStep()) + 0.0001);
 
-            Double numDifferentNus = Math.ceil((Double
-                    .parseDouble(svmParameters.getSvmNuTo()) - Double
-                    .parseDouble(svmParameters.getSvmNuFrom()))
-                    / Double.parseDouble(svmParameters.getSvmNuStep())
-                    + 0.0001);
-
-            Double numDifferentPEpsilons = Math.ceil((Double
-                    .parseDouble(svmParameters.getSvmPEpsilonTo()) - Double
-                    .parseDouble(svmParameters.getSvmPEpsilonFrom()))
-                    / Double.parseDouble(svmParameters.getSvmPEpsilonStep())
-                    + 0.0001);
+            Double numDifferentPEpsilons = Math.ceil((Double.parseDouble(svmParameters.getSvmPEpsilonTo()) - Double
+                    .parseDouble(svmParameters.getSvmPEpsilonFrom())) / Double
+                    .parseDouble(svmParameters.getSvmPEpsilonStep()) + 0.0001);
 
             String svmType = "";
             if (actFileDataType.equals(Constants.CATEGORY)) {
@@ -1210,8 +1045,7 @@ public class QsarModelingTask extends WorkflowTask {
                 numDifferentDegrees = 1.0;
             }
 
-            numModels *= numDifferentCosts * numDifferentDegrees
-                    * numDifferentGammas * numDifferentNus
+            numModels *= numDifferentCosts * numDifferentDegrees * numDifferentGammas * numDifferentNus
                     * numDifferentPEpsilons;
 
         }

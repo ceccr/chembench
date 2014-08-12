@@ -136,8 +136,8 @@ public class GenerateDescriptors {
         }
     }
 
-    public static void GenerateISIDADescriptorsWithHeader(String sdfile, String outfile,
-                                                          String headerFile) throws Exception {
+    public static void GenerateISIDADescriptorsWithHeader(String sdfile, String outfile, String headerFile)
+            throws Exception {
         //Given an SD file, run ISIDA to get the chemical descriptors for each compound with the .hdr from predictor
         //Generate sdf.ISIDA.hdr and sdf.ISIDA.svm
         String execstr = "Fragmentor" + " -i " + sdfile + " -o " + outfile + " -t 0" +
@@ -254,8 +254,8 @@ public class GenerateDescriptors {
         RunExternalProgram.runCommandAndLogOutput(execstr, workingDir, "dragonNoH");
     }
 
-    private static void writeHExplicitDragonScriptFiles(String sdFile, String workingDir,
-                                                        String outfile) throws IOException {
+    private static void writeHExplicitDragonScriptFiles(String sdFile, String workingDir, String outfile)
+            throws IOException {
         //also used for descriptor generation for prediction sets.
 
         logger.debug("Writing Dragon scripts for " + sdFile + " into " + workingDir);
@@ -311,8 +311,8 @@ public class GenerateDescriptors {
         }
     }
 
-    private static void writeHDepletedDragonScriptFiles(String sdFile, String workingDir,
-                                                        String outfile) throws IOException {
+    private static void writeHDepletedDragonScriptFiles(String sdFile, String workingDir, String outfile)
+            throws IOException {
 
         logger.debug("Writing Dragon scripts for " + sdFile + " into " + workingDir);
 

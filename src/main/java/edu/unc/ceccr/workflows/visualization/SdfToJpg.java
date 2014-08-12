@@ -18,8 +18,8 @@ public class SdfToJpg {
 
     private static Logger logger = Logger.getLogger(SdfToJpg.class.getName());
 
-    public static void makeSketchFiles(String filePath, String fileName, String structuresDir,
-                                       String sketchesDir) throws Exception {
+    public static void makeSketchFiles(String filePath, String fileName, String structuresDir, String sketchesDir)
+            throws Exception {
         //filePath = directory the SDF is in, e.g. workflow-users/theo/DATASETS/
         //fileName = name of sdfile, like anticonv_91.sdf
         //structuresDir = subdirectory for structures, e.g. Visualization/Structures/

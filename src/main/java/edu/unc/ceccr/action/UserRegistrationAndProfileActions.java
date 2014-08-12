@@ -26,8 +26,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
      */
     private static final long serialVersionUID = 1L;
 
-    private static Logger logger = Logger.getLogger(UserRegistrationAndProfileActions.class
-            .getName());
+    private static Logger logger = Logger.getLogger(UserRegistrationAndProfileActions.class.getName());
 
     /* USER FUNCTIONS */
     private User user;
@@ -86,8 +85,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
             userIsAdmin = true;
         }
         if (user.getUserName().equals("guest")) {
-            errorStrings.add("Error: You may not change the guest"
-                    + " profile settings.");
+            errorStrings.add("Error: You may not change the guest" + " profile settings.");
             return ERROR;
         }
         return result;
@@ -113,8 +111,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         // Check whether the username already exists
         // (queries database)
         if (!newUserName.equals("") && userExists(newUserName)) {
-            errorMessages.add("The user name '" + newUserName
-                    + "' is already in use.");
+            errorMessages.add("The user name '" + newUserName + "' is already in use.");
             result = ERROR;
         } else if (newUserName.contains(" ")) {
             errorMessages.add("Your username may not contain a space.");
@@ -124,19 +121,15 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         // logger.debug("Public Key : " + Constants.RECAPTCHA_PUBLICKEY);
         // logger.debug("Private Key : " + Constants.RECAPTCHA_PRIVATEKEY);
         // check CAPTCHA
-        ReCaptcha captcha = ReCaptchaFactory.newReCaptcha(
-                Constants.RECAPTCHA_PUBLICKEY,
-                Constants.RECAPTCHA_PRIVATEKEY, false);
+        ReCaptcha captcha =
+                ReCaptchaFactory.newReCaptcha(Constants.RECAPTCHA_PUBLICKEY, Constants.RECAPTCHA_PRIVATEKEY, false);
         // logger.debug(captcha.toString());
         ReCaptchaResponse resp = captcha.checkAnswer("127.0.0.1",
-                ((String[]) context.getParameters().get(
-                        "recaptcha_challenge_field"))[0], ((String[]) context
-                        .getParameters().get("recaptcha_response_field"))[0]
-        );
+                ((String[]) context.getParameters().get("recaptcha_challenge_field"))[0],
+                ((String[]) context.getParameters().get("recaptcha_response_field"))[0]);
 
         if (!resp.isValid()) {
-            errorMessages.add("The text you typed for the CAPTCHA test"
-                    + " did not match the picture. Try again.");
+            errorMessages.add("The text you typed for the CAPTCHA test" + " did not match the picture. Try again.");
             result = ERROR;
         }
 
@@ -199,37 +192,28 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
 
         // user is auto-approved; email them a temp password
 
-        outputMessage = "Your account has been created! "
-                + "An email containing your password has been sent to "
-                + email
-                + ". Please check your email and log in to Chembench. "
-                + "Note: Email delivery may be delayed up to 15 "
-                + "minutes depending on email server load.";
+        outputMessage =
+                "Your account has been created! " + "An email containing your password has been sent to " + email
+                        + ". Please check your email and log in to Chembench. "
+                        + "Note: Email delivery may be delayed up to 15 " + "minutes depending on email server load.";
 
-        String HtmlBody = "Thank you for you interest in CECCR's Chembench."
-                + " <br/>Your account has been approved.<br/>"
-                + "<br/> Your user name : <font color=red>"
-                + user.getUserName() + "</font>"
-                + "<br/> Your temporary password : <font color=red>"
-                + password + "</font>"
-                + "<br/> Please note that passwords are case "
-                + "sensitive.<br/> In order to change your password,"
-                + " log in to Chembench at"
-                + " <a href='http://chembench.mml.unc.edu'>"
-                + "http://chembench.mml.unc.edu</a> and click the"
-                + " 'edit profile' link at the upper right." + "<br/>"
-                + "<br/>We hope that you find Chembench to be a "
-                + "useful tool. <br/>If you have any problems or "
-                + "suggestions for improvements, please contact us at"
-                + " : " + Constants.WEBSITEEMAIL
-                + "<br/><br/>Thank you. <br/>The Chembench Team<br/>";
+        String HtmlBody =
+                "Thank you for you interest in CECCR's Chembench." + " <br/>Your account has been approved.<br/>"
+                        + "<br/> Your user name : <font color=red>" + user.getUserName() + "</font>"
+                        + "<br/> Your temporary password : <font color=red>" + password + "</font>"
+                        + "<br/> Please note that passwords are case "
+                        + "sensitive.<br/> In order to change your password," + " log in to Chembench at"
+                        + " <a href='http://chembench.mml.unc.edu'>" + "http://chembench.mml.unc.edu</a> and click the"
+                        + " 'edit profile' link at the upper right." + "<br/>"
+                        + "<br/>We hope that you find Chembench to be a "
+                        + "useful tool. <br/>If you have any problems or "
+                        + "suggestions for improvements, please contact us at" + " : " + Constants.WEBSITEEMAIL
+                        + "<br/><br/>Thank you. <br/>The Chembench Team<br/>";
 
-        SendEmails.sendEmail(user.getEmail(), "", "",
-                "Chembench User Registration", HtmlBody);
+        SendEmails.sendEmail(user.getEmail(), "", "", "Chembench User Registration", HtmlBody);
 
         logger.debug("just registered! " + newUserName);
-        logger.debug("In case email failed, temp password for user: "
-                + user.getUserName() + " is: " + password);
+        logger.debug("In case email failed, temp password for user: " + user.getUserName() + " is: " + password);
         // if user != null, it will show a "You are logged in" message.
         user = null;
         return result;
@@ -382,8 +366,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         showPublicDatasets = user.getShowPublicDatasets();
         showPublicPredictors = user.getShowPublicPredictors();
         viewDatasetCompoundsPerPage = user.getViewDatasetCompoundsPerPage();
-        viewPredictionCompoundsPerPage = user
-                .getViewPredictionCompoundsPerPage();
+        viewPredictionCompoundsPerPage = user.getViewPredictionCompoundsPerPage();
         showAdvancedKnnModeling = user.getShowAdvancedKnnModeling();
 
         return result;
@@ -445,10 +428,8 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         User userInfo = null;
         try {
             tx = s.beginTransaction();
-            user = (User) s.createCriteria(User.class).add(
-                    Expression.eq("userName", userName)).uniqueResult();
-            userInfo = (User) s.createCriteria(User.class).add(
-                    Expression.eq("userName", userName)).uniqueResult();
+            user = (User) s.createCriteria(User.class).add(Expression.eq("userName", userName)).uniqueResult();
+            userInfo = (User) s.createCriteria(User.class).add(Expression.eq("userName", userName)).uniqueResult();
             tx.commit();
         } catch (RuntimeException e) {
             if (tx != null) {
@@ -683,8 +664,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         return viewDatasetCompoundsPerPage;
     }
 
-    public void
-    setViewDatasetCompoundsPerPage(String viewDatasetCompoundsPerPage) {
+    public void setViewDatasetCompoundsPerPage(String viewDatasetCompoundsPerPage) {
         this.viewDatasetCompoundsPerPage = viewDatasetCompoundsPerPage;
     }
 
@@ -700,8 +680,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         return viewPredictionCompoundsPerPage;
     }
 
-    public void
-    setViewPredictionCompoundsPerPage(String viewPredictionCompoundsPerPage) {
+    public void setViewPredictionCompoundsPerPage(String viewPredictionCompoundsPerPage) {
         this.viewPredictionCompoundsPerPage = viewPredictionCompoundsPerPage;
     }
 

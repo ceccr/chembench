@@ -26,8 +26,7 @@ public class AdminAction extends ActionSupport {
      *
      */
     private static final long serialVersionUID = 1L;
-    private static Logger logger = Logger.getLogger(
-            AdminAction.class.getName());
+    private static Logger logger = Logger.getLogger(AdminAction.class.getName());
     User user;
     String buildDate;
     List<User> users;
@@ -269,9 +268,7 @@ public class AdminAction extends ActionSupport {
             if (user == null) {
                 return LOGIN;
             } else if (!user.getIsAdmin().equals(Constants.YES)) {
-                logger.warn(String.format(
-                        "Non-admin user %s attempted to delete predictor",
-                        user.getUserName()));
+                logger.warn(String.format("Non-admin user %s attempted to delete predictor", user.getUserName()));
                 return ERROR;
             }
         }
@@ -298,10 +295,8 @@ public class AdminAction extends ActionSupport {
                             " was found in the database.";
                 } else {
                     error = String.format(
-                            "No predictor belonging to user %s with name %s " +
-                                    "was found in the database.",
-                            userName, predictorName
-                    );
+                            "No predictor belonging to user %s with name %s " + "was found in the database.", userName,
+                            predictorName);
                 }
                 errorStrings.add(error);
                 return ERROR;
@@ -426,9 +421,7 @@ public class AdminAction extends ActionSupport {
             if (user == null) {
                 return LOGIN;
             } else if (!user.getIsAdmin().equals(Constants.YES)) {
-                logger.warn(String.format(
-                        "Non-admin user %s attempted to delete dataset",
-                        user.getUserName()));
+                logger.warn(String.format("Non-admin user %s attempted to delete dataset", user.getUserName()));
                 return ERROR;
             }
         }
@@ -455,10 +448,8 @@ public class AdminAction extends ActionSupport {
                             " was found in the database.";
                 } else {
                     error = String.format(
-                            "No dataset belonging to user %s with name %s " +
-                                    "was found in the database.",
-                            userName, datasetName
-                    );
+                            "No dataset belonging to user %s with name %s " + "was found in the database.", userName,
+                            datasetName);
                 }
                 errorStrings.add(error);
                 return ERROR;
@@ -472,13 +463,11 @@ public class AdminAction extends ActionSupport {
             }
 
             //delete the files associated with this dataset
-            File dir = Paths.get(Constants.CECCR_USER_BASE_PATH,
-                    userName, "DATASETS", dataset.getName()).toFile();
+            File dir = Paths.get(Constants.CECCR_USER_BASE_PATH, userName, "DATASETS", dataset.getName()).toFile();
 
             if (dir.exists()) {
                 if (!FileAndDirOperations.deleteDir(dir)) {
-                    String error = "Failed to delete directory: " +
-                            dir.getAbsolutePath();
+                    String error = "Failed to delete directory: " + dir.getAbsolutePath();
                     logger.error(error);
                     errorStrings.add(error);
                 }
@@ -507,22 +496,22 @@ public class AdminAction extends ActionSupport {
     }
 
 
-    private List<String> checkDatasetDependencies(Dataset ds, String userName) throws HibernateException,
-            ClassNotFoundException, SQLException {
+    private List<String> checkDatasetDependencies(Dataset ds, String userName)
+            throws HibernateException, ClassNotFoundException, SQLException {
         logger.debug("checking dataset dependencies");
 
         List<String> dependencies = Lists.newArrayList();
         Session session = HibernateUtil.getSession();
-        List<Predictor> userPredictors = (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName,
-                true, false, session);
-        List<Prediction> userPredictions = (ArrayList<Prediction>) PopulateDataObjects.populatePredictions
-                (userName, false, session);
+        List<Predictor> userPredictors =
+                (ArrayList<Predictor>) PopulateDataObjects.populatePredictors(userName, true, false, session);
+        List<Prediction> userPredictions =
+                (ArrayList<Prediction>) PopulateDataObjects.populatePredictions(userName, false, session);
 
         //check each predictor
         for (int i = 0; i < userPredictors.size(); i++) {
             logger.debug("predictor id: " + userPredictors.get(i).getDatasetId() + " dataset id: " + ds.getId());
-            if (userPredictors.get(i).getDatasetId() != null && userPredictors.get(i).getDatasetId().equals(ds.getId
-                    ())) {
+            if (userPredictors.get(i).getDatasetId() != null && userPredictors.get(i).getDatasetId()
+                    .equals(ds.getId())) {
                 dependencies.add("The predictor '" + userPredictors.get(i).getName() + "' depends on this dataset. " +
                         "Please delete it first.\n");
             }
@@ -531,8 +520,8 @@ public class AdminAction extends ActionSupport {
         //check each prediction
         for (int i = 0; i < userPredictions.size(); i++) {
             logger.debug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getId());
-            if (userPredictions.get(i).getDatasetId() != null && userPredictions.get(i).getDatasetId().equals(ds
-                    .getId())) {
+            if (userPredictions.get(i).getDatasetId() != null && userPredictions.get(i).getDatasetId()
+                    .equals(ds.getId())) {
                 dependencies.add("The prediction '" + userPredictions.get(i).getName() + "' depends on this dataset. " +
                         "Please delete it first.\n");
             }
@@ -611,8 +600,8 @@ public class AdminAction extends ActionSupport {
 
             //check if any other dataset with the same name is already public
             session = HibernateUtil.getSession();
-            Dataset checkPublicDataset = PopulateDataObjects.getDataSetByName(dataset.getName(),
-                    Constants.ALL_USERS_USERNAME, session);
+            Dataset checkPublicDataset =
+                    PopulateDataObjects.getDataSetByName(dataset.getName(), Constants.ALL_USERS_USERNAME, session);
             session.close();
             if (checkPublicDataset != null) {
                 isDatasetPublic = true;
@@ -670,8 +659,8 @@ public class AdminAction extends ActionSupport {
             //taking care of external validation table
             logger.debug("------//taking care of external validation table");
             session = HibernateUtil.getSession();
-            List<ExternalValidation> extValidation = PopulateDataObjects.getExternalValidationValues(predictorId,
-                    session);
+            List<ExternalValidation> extValidation =
+                    PopulateDataObjects.getExternalValidationValues(predictorId, session);
             session.close();
             for (ExternalValidation exVal : extValidation) {
                 session = HibernateUtil.getSession();
@@ -729,8 +718,8 @@ public class AdminAction extends ActionSupport {
             //taking care of RandomForest table
             logger.debug("------//taking care of RandomForest table");
             session = HibernateUtil.getSession();
-            List<RandomForestGrove> randomForests = PopulateDataObjects.getRandomForestGrovesByPredictorId
-                    (predictorId, session);
+            List<RandomForestGrove> randomForests =
+                    PopulateDataObjects.getRandomForestGrovesByPredictorId(predictorId, session);
             session.close();
             for (RandomForestGrove randomForest : randomForests) {
                 session = HibernateUtil.getSession();
@@ -757,18 +746,18 @@ public class AdminAction extends ActionSupport {
 
             if (oldPredictor.getModelMethod().equals(Constants.RANDOMFOREST)) {
                 logger.debug("------//RANDOMFOREST");
-                RandomForestParameters randomForestParameters = PopulateDataObjects.getRandomForestParametersById
-                        (oldPredictor.getModelingParametersId(), session);
+                RandomForestParameters randomForestParameters = PopulateDataObjects
+                        .getRandomForestParametersById(oldPredictor.getModelingParametersId(), session);
                 session.evict(randomForestParameters);
                 randomForestParameters.setId(null);
                 session.save(randomForestParameters);
                 session.flush();
                 predictor.setModelingParametersId(randomForestParameters.getId());
-            } else if (oldPredictor.getModelMethod().equals(Constants.KNNGA) ||
-                    oldPredictor.getModelMethod().equals(Constants.KNNSA)) {
+            } else if (oldPredictor.getModelMethod().equals(Constants.KNNGA) || oldPredictor.getModelMethod()
+                    .equals(Constants.KNNSA)) {
                 logger.debug("------//KNN+");
-                KnnPlusParameters knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(oldPredictor
-                        .getModelingParametersId(), session);
+                KnnPlusParameters knnPlusParameters =
+                        PopulateDataObjects.getKnnPlusParametersById(oldPredictor.getModelingParametersId(), session);
                 session.evict(knnPlusParameters);
                 knnPlusParameters.setId(null);
                 session.save(knnPlusParameters);
@@ -787,8 +776,8 @@ public class AdminAction extends ActionSupport {
             }*/
             else if (oldPredictor.getModelMethod().equals(Constants.SVM)) {
                 logger.debug("------//SVM");
-                SvmParameters svmParameters = PopulateDataObjects.getSvmParametersById(oldPredictor
-                        .getModelingParametersId(), session);
+                SvmParameters svmParameters =
+                        PopulateDataObjects.getSvmParametersById(oldPredictor.getModelingParametersId(), session);
                 session.evict(svmParameters);
                 svmParameters.setId(null);
                 session.save(svmParameters);
@@ -844,10 +833,10 @@ public class AdminAction extends ActionSupport {
                             session.save(randomForestParameters);
                             session.flush();
                             child.setModelingParametersId(randomForestParameters.getId());
-                        } else if (child.getModelMethod().equals(Constants.KNNGA) ||
-                                child.getModelMethod().equals(Constants.KNNSA)) {
-                            KnnPlusParameters knnPlusParameters = PopulateDataObjects.getKnnPlusParametersById(child
-                                    .getModelingParametersId(), session);
+                        } else if (child.getModelMethod().equals(Constants.KNNGA) || child.getModelMethod()
+                                .equals(Constants.KNNSA)) {
+                            KnnPlusParameters knnPlusParameters = PopulateDataObjects
+                                    .getKnnPlusParametersById(child.getModelingParametersId(), session);
                             session.evict(knnPlusParameters);
                             knnPlusParameters.setId(null);
                             session.save(knnPlusParameters);
@@ -864,8 +853,8 @@ public class AdminAction extends ActionSupport {
                                 child.setModelingParametersId(params.getId());
                             }*/
                         else if (child.getModelMethod().equals(Constants.SVM)) {
-                            SvmParameters svmParameters = PopulateDataObjects.getSvmParametersById(child
-                                    .getModelingParametersId(), session);
+                            SvmParameters svmParameters =
+                                    PopulateDataObjects.getSvmParametersById(child.getModelingParametersId(), session);
                             session.evict(svmParameters);
                             svmParameters.setId(null);
                             session.save(svmParameters);
@@ -877,8 +866,8 @@ public class AdminAction extends ActionSupport {
                         //taking care of RandomForest table
                         logger.debug("------//taking care of RandomForest table");
                         session = HibernateUtil.getSession();
-                        randomForests = PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(id),
-                                session);
+                        randomForests =
+                                PopulateDataObjects.getRandomForestGrovesByPredictorId(Long.parseLong(id), session);
                         session.close();
                         for (RandomForestGrove randomForest : randomForests) {
                             session = HibernateUtil.getSession();
@@ -888,8 +877,8 @@ public class AdminAction extends ActionSupport {
                             randomForest.setPredictorId(newId);
                             session.save(randomForest);
                             session.flush();
-                            List<RandomForestTree> trees = PopulateDataObjects.getRandomForestTreesByGroveId(oldId,
-                                    session);
+                            List<RandomForestTree> trees =
+                                    PopulateDataObjects.getRandomForestTreesByGroveId(oldId, session);
                             for (RandomForestTree tree : trees) {
                                 session.evict(tree);
                                 tree.setId(null);

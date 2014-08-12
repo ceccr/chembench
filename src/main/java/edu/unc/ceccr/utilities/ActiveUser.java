@@ -28,8 +28,8 @@ public class ActiveUser implements HttpSessionListener {
             if (se.getSession() != null && se.getSession().getAttribute("userType") != null) {
                 User user = (User) se.getSession().getAttribute("user");
                 String type = (String) se.getSession().getAttribute("userType");
-                if (user != null && user.getUserName() != null && user.getUserName().contains("guest") && type !=
-                        null && type.equals("guest")) {
+                if (user != null && user.getUserName() != null && user.getUserName().contains("guest") && type != null
+                        && type.equals("guest")) {
                     new HomeAction().deleteGuest(user);
                     logger.debug("GUEST USER DELETED on SESSION TIMEOUT:" + user.getUserName());
                 }

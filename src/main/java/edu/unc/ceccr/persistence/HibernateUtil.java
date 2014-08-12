@@ -21,32 +21,19 @@ public class HibernateUtil {
     private static Logger logger = Logger.getLogger(HibernateUtil.class.getName());
 
     static {
-        sessionFactory = new AnnotationConfiguration()
-                .addAnnotatedClass(Job.class)
-                .addAnnotatedClass(JobStats.class)
-                .addAnnotatedClass(KnnModel.class)
-                .addAnnotatedClass(Predictor.class)
-                .addAnnotatedClass(User.class)
-                .addAnnotatedClass(Prediction.class)
-                .addAnnotatedClass(PredictionValue.class)
-                .addAnnotatedClass(ExternalValidation.class)
-                .addAnnotatedClass(Dataset.class)
-                .addAnnotatedClass(SoftwareLink.class)
-                .addAnnotatedClass(Descriptors.class)
-                .addAnnotatedClass(DescriptorGenerator.class)
-                .addAnnotatedClass(KnnParameters.class)
-                .addAnnotatedClass(KnnPlusParameters.class)
-                .addAnnotatedClass(KnnPlusModel.class)
-                .addAnnotatedClass(SvmParameters.class)
-                .addAnnotatedClass(SvmModel.class)
-                .addAnnotatedClass(RandomForestParameters.class)
-                .addAnnotatedClass(RandomForestTree.class)
-                .addAnnotatedClass(RandomForestGrove.class)
-                .configure().buildSessionFactory();
+        sessionFactory = new AnnotationConfiguration().addAnnotatedClass(Job.class).addAnnotatedClass(JobStats.class)
+                .addAnnotatedClass(KnnModel.class).addAnnotatedClass(Predictor.class).addAnnotatedClass(User.class)
+                .addAnnotatedClass(Prediction.class).addAnnotatedClass(PredictionValue.class)
+                .addAnnotatedClass(ExternalValidation.class).addAnnotatedClass(Dataset.class)
+                .addAnnotatedClass(SoftwareLink.class).addAnnotatedClass(Descriptors.class)
+                .addAnnotatedClass(DescriptorGenerator.class).addAnnotatedClass(KnnParameters.class)
+                .addAnnotatedClass(KnnPlusParameters.class).addAnnotatedClass(KnnPlusModel.class)
+                .addAnnotatedClass(SvmParameters.class).addAnnotatedClass(SvmModel.class)
+                .addAnnotatedClass(RandomForestParameters.class).addAnnotatedClass(RandomForestTree.class)
+                .addAnnotatedClass(RandomForestGrove.class).configure().buildSessionFactory();
     }
 
-    public static Session getSession() throws HibernateException,
-            ClassNotFoundException, SQLException {
+    public static Session getSession() throws HibernateException, ClassNotFoundException, SQLException {
 
         USERNAME = Constants.DATABASE_USERNAME;
         PASSWORD = Constants.CECCR_DATABASE_PASSWORD;

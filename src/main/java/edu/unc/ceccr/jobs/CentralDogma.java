@@ -126,8 +126,8 @@ public class CentralDogma {
         return instance;
     }
 
-    public void addJobToIncomingList(String userName, String jobName, WorkflowTask wt, int numCompounds,
-                                     int numModels, String emailOnCompletion) throws Exception {
+    public void addJobToIncomingList(String userName, String jobName, WorkflowTask wt, int numCompounds, int numModels,
+                                     String emailOnCompletion) throws Exception {
         // first, run setUp on the workflowTask
         // this will make sure the workflowTask gets into the DB. Then we can
         // create a job to contain it.
@@ -178,8 +178,7 @@ public class CentralDogma {
             j = lsfJobs.removeJob(jobId);
 
             if (j != null) {
-                List<LsfJobStatus> lsfJobStatuses = LsfProcessingThread.checkLsfStatus(Constants
-                        .CECCR_USER_BASE_PATH);
+                List<LsfJobStatus> lsfJobStatuses = LsfProcessingThread.checkLsfStatus(Constants.CECCR_USER_BASE_PATH);
                 for (LsfJobStatus jobStatus : lsfJobStatuses) {
                     if (j.getLsfJobId() != null && j.getLsfJobId().equals(jobStatus.jobid)) {
                         // kill the job
@@ -293,3 +292,4 @@ public class CentralDogma {
         return threads;
     }
 }
+

@@ -11,19 +11,15 @@ import java.io.FileReader;
 import java.util.Scanner;
 
 public class LsfUtilities {
-    private static Logger logger
-            = Logger.getLogger(LsfUtilities.class.getName());
+    private static Logger logger = Logger.getLogger(LsfUtilities.class.getName());
 
-    public static void
-    retrieveCompletedPredictor(String filePath, String lsfPath)
-            throws Exception {
+    public static void retrieveCompletedPredictor(String filePath, String lsfPath) throws Exception {
         FileAndDirOperations.copyDirContents(lsfPath, filePath, true);
         logger.warn("About to recursively delete " + lsfPath);
         FileAndDirOperations.deleteDir(new File(lsfPath));
     }
 
-    public static void
-    makeLsfModelingDirectory(String filePath, String lsfPath) throws Exception {
+    public static void makeLsfModelingDirectory(String filePath, String lsfPath) throws Exception {
         // create a dir out in /largefs/ceccr/ to run the calculation of the
         // job
         File dir = new File(lsfPath);
@@ -40,11 +36,9 @@ public class LsfUtilities {
         logger.debug("Copied all files from " + filePath + " to " + lsfPath);
         // copy kNN executables to the temp directory and to the yRandom
         // subdirectory also, make them executable
-        FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH
-                + "mmlsoft/bin/", lsfPath, false);
+        FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH + "mmlsoft/bin/", lsfPath, false);
         FileAndDirOperations.makeDirContentsExecutable(lsfPath);
-        FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH
-                + "mmlsoft/bin/", lsfPath + "yRandom/", false);
+        FileAndDirOperations.copyDirContents(Constants.CECCR_BASE_PATH + "mmlsoft/bin/", lsfPath + "yRandom/", false);
         FileAndDirOperations.makeDirContentsExecutable(lsfPath + "yRandom/");
         logger.debug("Copied mmlsoft/bin to lsfPath");
 

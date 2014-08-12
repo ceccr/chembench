@@ -17,8 +17,7 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class PopulateDataObjects {
-    private static Logger logger = Logger.getLogger(PopulateDataObjects.class
-            .getName());
+    private static Logger logger = Logger.getLogger(PopulateDataObjects.class.getName());
 
     // Every time we need to get an object or set of objects from the database
     // we do it from here.
@@ -39,22 +38,17 @@ public class PopulateDataObjects {
     }
 
     @SuppressWarnings("rawtypes")
-    public static ArrayList populateClassInChunks(Class<?> c,
-                                                  int chunkSize,
-                                                  int chunkIndex,
-                                                  Session session) {
+    public static ArrayList populateClassInChunks(Class<?> c, int chunkSize, int chunkIndex, Session session) {
         // gets a bunch of any one object from the database, returns it as a
         // list
         ArrayList list = null;
         Transaction tx = null;
-        logger.info("PopulateClassInChunks called with chunkSize "
-                + chunkSize + " and chunkIndex " + chunkIndex);
-        logger.info("maxResults " + chunkSize + " firstResult: "
-                + (chunkSize * chunkIndex));
+        logger.info("PopulateClassInChunks called with chunkSize " + chunkSize + " and chunkIndex " + chunkIndex);
+        logger.info("maxResults " + chunkSize + " firstResult: " + (chunkSize * chunkIndex));
         try {
             tx = session.beginTransaction();
-            list = (ArrayList) session.createCriteria(c).setFirstResult(
-                    chunkSize * chunkIndex).setMaxResults(chunkSize).list();
+            list = (ArrayList) session.createCriteria(c).setFirstResult(chunkSize * chunkIndex).setMaxResults(chunkSize)
+                    .list();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -66,9 +60,8 @@ public class PopulateDataObjects {
     }
 
     @SuppressWarnings("rawtypes")
-    public static ArrayList
-    getUserData(String userName, Class<?> c, Session s) throws ClassNotFoundException,
-            SQLException {
+    public static ArrayList getUserData(String userName, Class<?> c, Session s)
+            throws ClassNotFoundException, SQLException {
         // gets any data for which there is an associated username.
         // e.g.: datasets, predictors, predictions, jobs, users
         logger.info("looking for " + c.getName() + " of user " + userName);
@@ -76,54 +69,45 @@ public class PopulateDataObjects {
         Transaction tx = null;
         try {
             tx = s.beginTransaction();
-            list = (ArrayList) s.createCriteria(c).add(
-                    Expression.eq("userName", userName)).list();
+            list = (ArrayList) s.createCriteria(c).add(Expression.eq("userName", userName)).list();
             tx.commit();
         } catch (RuntimeException e) {
             logger.error(e);
         }
-        logger.info("found " + list.size() + " " + c.getName()
-                + " objects for user name " + userName);
+        logger.info("found " + list.size() + " " + c.getName() + " objects for user name " + userName);
         return list;
     }
 
-    public static PredictionValue
-    getFirstPredictionValueByPredictionIdAndPredictorId(Long predictionId,
-                                                        Long predictorId,
-                                                        Session session) throws Exception {
+    public static PredictionValue getFirstPredictionValueByPredictionIdAndPredictorId(Long predictionId,
+                                                                                      Long predictorId, Session session)
+            throws Exception {
         PredictionValue predictionValue = null;
         try {
             session.beginTransaction();
-            predictionValue = (PredictionValue) session.createCriteria(
-                    PredictionValue.class).add(
-                    Expression.eq("predictionId", predictionId)).add(
-                    Expression.eq("predictorId", predictorId)).setMaxResults(
-                    1).uniqueResult();
+            predictionValue = (PredictionValue) session.createCriteria(PredictionValue.class)
+                    .add(Expression.eq("predictionId", predictionId)).add(Expression.eq("predictorId", predictorId))
+                    .setMaxResults(1).uniqueResult();
         } catch (Exception ex) {
             logger.error(ex);
         }
 
         if (predictionValue != null) {
-            int numTotalModels = getPredictorById(
-                    predictionValue.getPredictorId(), session)
-                    .getNumTestModels();
+            int numTotalModels = getPredictorById(predictionValue.getPredictorId(), session).getNumTestModels();
             predictionValue.setNumTotalModels(numTotalModels);
         }
         return predictionValue;
     }
 
-    public static List<PredictionValue>
-    getPredictionValuesByPredictionIdAndPredictorId(Long predictionId,
-                                                    Long predictorId,
-                                                    Session session) throws Exception {
+    public static List<PredictionValue> getPredictionValuesByPredictionIdAndPredictorId(Long predictionId,
+                                                                                        Long predictorId,
+                                                                                        Session session)
+            throws Exception {
         List<PredictionValue> predictionValues = Lists.newArrayList();
         try {
             session.beginTransaction();
-            Iterator<?> tempIter = session.createCriteria(
-                    PredictionValue.class).add(
-                    Expression.eq("predictionId", predictionId)).add(
-                    Expression.eq("predictorId", predictorId)).list()
-                    .iterator();
+            Iterator<?> tempIter =
+                    session.createCriteria(PredictionValue.class).add(Expression.eq("predictionId", predictionId))
+                            .add(Expression.eq("predictorId", predictorId)).list().iterator();
             while (tempIter.hasNext()) {
                 predictionValues.add((PredictionValue) tempIter.next());
             }
@@ -135,8 +119,7 @@ public class PopulateDataObjects {
         for (PredictionValue pv : predictionValues) {
             Predictor p = getPredictorById(pv.getPredictorId(), session);
             int numTotalModels = 0;
-            if (p.getChildType() != null
-                    && p.getChildType().equals(Constants.NFOLD)) {
+            if (p.getChildType() != null && p.getChildType().equals(Constants.NFOLD)) {
                 numTotalModels = p.getNumTotalModels();
             } else {
                 numTotalModels = p.getNumTestModels();
@@ -146,9 +129,8 @@ public class PopulateDataObjects {
         return predictionValues;
     }
 
-    public static List<PredictionValue>
-    getPredictionValuesByPredictionId(Long predictionId,
-                                      Session session) throws Exception {
+    public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session)
+            throws Exception {
         List<PredictionValue> predictionValues = Lists.newArrayList();
         Prediction prediction = getPredictionById(predictionId, session);
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
@@ -157,24 +139,18 @@ public class PopulateDataObjects {
             try {
                 session.beginTransaction();
                 List<PredictionValue> predictorPredictionValues = Lists.newArrayList();
-                Iterator<?> tempIter = session.createCriteria(
-                        PredictionValue.class).add(
-                        Expression.eq("predictionId", predictionId)).add(
-                        Expression.eq("predictorId", Long
-                                .parseLong(predictorId))
-                ).list().iterator();
+                Iterator<?> tempIter =
+                        session.createCriteria(PredictionValue.class).add(Expression.eq("predictionId", predictionId))
+                                .add(Expression.eq("predictorId", Long.parseLong(predictorId))).list().iterator();
 
                 while (tempIter.hasNext()) {
-                    predictorPredictionValues.add((PredictionValue) tempIter
-                            .next());
+                    predictorPredictionValues.add((PredictionValue) tempIter.next());
                 }
 
                 for (PredictionValue pv : predictorPredictionValues) {
-                    Predictor p = getPredictorById(Long
-                            .parseLong(predictorId), session);
+                    Predictor p = getPredictorById(Long.parseLong(predictorId), session);
                     int numTotalModels = 0;
-                    if (p.getChildType() != null
-                            && p.getChildType().equals(Constants.NFOLD)) {
+                    if (p.getChildType() != null && p.getChildType().equals(Constants.NFOLD)) {
                         numTotalModels = p.getNumTotalModels();
                     } else {
                         numTotalModels = p.getNumTestModels();
@@ -192,26 +168,21 @@ public class PopulateDataObjects {
         return predictionValues;
     }
 
-    public static List<CompoundPredictions>
-    populateCompoundPredictionValues(Long datasetId,
-                                     Long predictionId,
-                                     Session session) throws Exception {
+    public static List<CompoundPredictions> populateCompoundPredictionValues(Long datasetId, Long predictionId,
+                                                                             Session session) throws Exception {
         Dataset dataset = getDataSetById(datasetId, session);
 
         // get compounds from SDF
         String datasetDir = "";
-        datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName()
-                + "/DATASETS/" + dataset.getName() + "/";
+        datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/DATASETS/" + dataset.getName() + "/";
 
         List<String> compounds = null;
 
         if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
-            compounds = DatasetFileOperations.getXCompoundNames(datasetDir
-                    + dataset.getXFile());
+            compounds = DatasetFileOperations.getXCompoundNames(datasetDir + dataset.getXFile());
             logger.info("" + compounds.size() + " compounds found in X file.");
         } else {
-            compounds = DatasetFileOperations.getSDFCompoundNames(datasetDir
-                    + dataset.getSdfFile());
+            compounds = DatasetFileOperations.getSDFCompoundNames(datasetDir + dataset.getSdfFile());
             logger.info("" + compounds.size() + " compounds found in SDF.");
         }
 
@@ -222,23 +193,17 @@ public class PopulateDataObjects {
 
         // sort the by predictor ID
         logger.info("Sorting");
-        Collections.sort(predictorPredictionValues,
-                new Comparator<PredictionValue>() {
-                    public int
-                    compare(PredictionValue p1, PredictionValue p2) {
-                        return p1.getPredictorId().compareTo(
-                                p2.getPredictorId());
-                    }
-                }
-        );
+        Collections.sort(predictorPredictionValues, new Comparator<PredictionValue>() {
+            public int compare(PredictionValue p1, PredictionValue p2) {
+                return p1.getPredictorId().compareTo(p2.getPredictorId());
+            }
+        });
         logger.info("Done sorting");
 
         logger.info("building hashmap");
-        HashMap<String, List<PredictionValue>> predictionValueMap = new HashMap<String,
-                List<PredictionValue>>();
+        HashMap<String, List<PredictionValue>> predictionValueMap = new HashMap<String, List<PredictionValue>>();
         for (PredictionValue pv : predictorPredictionValues) {
-            List<PredictionValue> compoundPredValues = predictionValueMap
-                    .get(pv.getCompoundName());
+            List<PredictionValue> compoundPredValues = predictionValueMap.get(pv.getCompoundName());
             if (compoundPredValues == null) {
                 compoundPredValues = Lists.newArrayList();
             }
@@ -261,19 +226,15 @@ public class PopulateDataObjects {
                 for (PredictionValue pv : cp.getPredictionValues()) {
                     int sigfigs = Constants.REPORTED_SIGNIFICANT_FIGURES;
                     if (pv.getPredictedValue() != null) {
-                        String predictedValue = DecimalFormat.getInstance()
-                                .format(pv.getPredictedValue()).replaceAll(
-                                        ",", "");
-                        pv.setPredictedValue(Float.parseFloat(Utility
-                                .roundSignificantFigures(predictedValue,
-                                        sigfigs)));
+                        String predictedValue =
+                                DecimalFormat.getInstance().format(pv.getPredictedValue()).replaceAll(",", "");
+                        pv.setPredictedValue(
+                                Float.parseFloat(Utility.roundSignificantFigures(predictedValue, sigfigs)));
                     }
                     if (pv.getStandardDeviation() != null) {
-                        String stddev = DecimalFormat.getInstance().format(
-                                pv.getStandardDeviation())
-                                .replaceAll(",", "");
-                        pv.setStandardDeviation(Float.parseFloat(Utility
-                                .roundSignificantFigures(stddev, sigfigs)));
+                        String stddev =
+                                DecimalFormat.getInstance().format(pv.getStandardDeviation()).replaceAll(",", "");
+                        pv.setStandardDeviation(Float.parseFloat(Utility.roundSignificantFigures(stddev, sigfigs)));
                     }
                 }
             }
@@ -282,12 +243,9 @@ public class PopulateDataObjects {
         return compoundPredictionValues;
     }
 
-    public static List<Dataset>
-    populateDatasetsForPrediction(String userName,
-                                  boolean isAllUserIncludes,
-                                  Session session) throws HibernateException,
-            ClassNotFoundException,
-            SQLException {
+    public static List<Dataset> populateDatasetsForPrediction(String userName, boolean isAllUserIncludes,
+                                                              Session session)
+            throws HibernateException, ClassNotFoundException, SQLException {
         List<Dataset> datasets = Lists.newArrayList();
         List<Dataset> usersDataset = Lists.newArrayList();
         Transaction tx = null;
@@ -297,44 +255,30 @@ public class PopulateDataObjects {
                 // get both modeling AND prediction datasets, since modeling
                 // datasets are possible to predict as well.
                 Iterator<?> tempIter = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName",
-                                Constants.ALL_USERS_USERNAME)).add(
-                                Expression.or(Expression.eq("modelType",
-                                        Constants.PREDICTION), Expression.or(
-                                        Expression.eq("modelType",
-                                                Constants.CONTINUOUS),
-                                        Expression.eq("modelType",
-                                                Constants.CATEGORY)
-                                ))
-                        )
+                        .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME)).add(Expression
+                                .or(Expression.eq("modelType", Constants.PREDICTION), Expression
+                                        .or(Expression.eq("modelType", Constants.CONTINUOUS),
+                                                Expression.eq("modelType", Constants.CATEGORY))))
                         .addOrder(Order.asc("name")).list().iterator();
 
                 while (tempIter.hasNext()) {
                     datasets.add((Dataset) tempIter.next());
                 }
-                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName", userName)).add(
-                                Expression.eq("jobCompleted", Constants.YES))
-                        .add(Expression.or(Expression.eq("modelType",
-                                Constants.PREDICTION), Expression.or(
-                                Expression.eq("modelType",
-                                        Constants.CONTINUOUS), Expression.eq(
-                                        "modelType", Constants.CATEGORY)
-                        )))
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class).add(Expression.eq("userName", userName))
+                        .add(Expression.eq("jobCompleted", Constants.YES)).add(Expression
+                                .or(Expression.eq("modelType", Constants.PREDICTION), Expression
+                                        .or(Expression.eq("modelType", Constants.CONTINUOUS),
+                                                Expression.eq("modelType", Constants.CATEGORY))))
                         .addOrder(Order.asc("name")).list().iterator();
                 while (tempIter2.hasNext()) {
                     usersDataset.add((Dataset) tempIter2.next());
                 }
             } else {
-                Iterator<?> tempIter = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName", userName)).add(
-                                Expression.eq("jobCompleted", Constants.YES))
-                        .add(Expression.or(Expression.eq("modelType",
-                                Constants.PREDICTION), Expression.or(
-                                Expression.eq("modelType",
-                                        Constants.CONTINUOUS), Expression.eq(
-                                        "modelType", Constants.CATEGORY)
-                        )))
+                Iterator<?> tempIter = session.createCriteria(Dataset.class).add(Expression.eq("userName", userName))
+                        .add(Expression.eq("jobCompleted", Constants.YES)).add(Expression
+                                .or(Expression.eq("modelType", Constants.PREDICTION), Expression
+                                        .or(Expression.eq("modelType", Constants.CONTINUOUS),
+                                                Expression.eq("modelType", Constants.CATEGORY))))
                         .addOrder(Order.asc("name")).list().iterator();
                 while (tempIter.hasNext()) {
                     datasets.add((Dataset) tempIter.next());
@@ -353,13 +297,9 @@ public class PopulateDataObjects {
         return datasets;
     }
 
-    public static List<Dataset>
-    populateDataset(String userName,
-                    String modelType,
-                    boolean isAllUserIncludes,
-                    Session session) throws HibernateException,
-            ClassNotFoundException,
-            SQLException {
+    public static List<Dataset> populateDataset(String userName, String modelType, boolean isAllUserIncludes,
+                                                Session session)
+            throws HibernateException, ClassNotFoundException, SQLException {
         // returns a list of datasets.
         // Used to populate the dropdowns on the Modeling and Dataset pages.
 
@@ -370,30 +310,24 @@ public class PopulateDataObjects {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
                 Iterator<?> tempIter1 = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName",
-                                Constants.ALL_USERS_USERNAME)).add(
-                                Expression.eq("modelType", modelType))
-                        .addOrder(Order.desc("name")).list().iterator();
+                        .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
+                        .add(Expression.eq("modelType", modelType)).addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter1.hasNext()) {
                     datasets.add((Dataset) tempIter1.next());
                 }
 
-                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName", userName)).add(
-                                Expression.eq("jobCompleted", Constants.YES))
-                        .add(Expression.eq("modelType", modelType)).addOrder(
-                                Order.desc("name")).list().iterator();
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class).add(Expression.eq("userName", userName))
+                        .add(Expression.eq("jobCompleted", Constants.YES)).add(Expression.eq("modelType", modelType))
+                        .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
                     usersDataset.add((Dataset) tempIter2.next());
                 }
 
             } else {
-                Iterator<?> tempIter1 = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName", userName)).add(
-                                Expression.eq("modelType", modelType))
-                        .addOrder(Order.desc("name")).list().iterator();
+                Iterator<?> tempIter1 = session.createCriteria(Dataset.class).add(Expression.eq("userName", userName))
+                        .add(Expression.eq("modelType", modelType)).addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter1.hasNext()) {
                     datasets.add((Dataset) tempIter1.next());
@@ -410,12 +344,8 @@ public class PopulateDataObjects {
         return datasets;
     }
 
-    public static List<String>
-    populateDatasetNames(String userName,
-                         boolean isAllUserIncludes,
-                         Session session) throws HibernateException,
-            ClassNotFoundException,
-            SQLException {
+    public static List<String> populateDatasetNames(String userName, boolean isAllUserIncludes, Session session)
+            throws HibernateException, ClassNotFoundException, SQLException {
 
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
@@ -427,24 +357,21 @@ public class PopulateDataObjects {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
                 Iterator<?> tempIter1 = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName",
-                                Constants.ALL_USERS_USERNAME)).addOrder(
-                                Order.desc("name")).list().iterator();
+                        .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME)).addOrder(Order.desc("name"))
+                        .list().iterator();
 
                 while (tempIter1.hasNext()) {
                     allUserDatasets.add((Dataset) tempIter1.next());
                 }
-                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName", userName)).addOrder(
-                                Order.desc("name")).list().iterator();
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class).add(Expression.eq("userName", userName))
+                        .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
                     usersDataset.add((Dataset) tempIter2.next());
                 }
             } else {
-                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName", userName)).addOrder(
-                                Order.desc("name")).list().iterator();
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class).add(Expression.eq("userName", userName))
+                        .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
                     usersDataset.add((Dataset) tempIter2.next());
@@ -480,12 +407,8 @@ public class PopulateDataObjects {
         return datasetNames;
     }
 
-    public static List<String>
-    populatePredictorNames(String userName,
-                           boolean isAllUserIncludes,
-                           Session session) throws HibernateException,
-            ClassNotFoundException,
-            SQLException {
+    public static List<String> populatePredictorNames(String userName, boolean isAllUserIncludes, Session session)
+            throws HibernateException, ClassNotFoundException, SQLException {
 
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
@@ -497,32 +420,25 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
-                Iterator<?> tempIter1 = session.createCriteria(
-                        Predictor.class).add(
-                        Expression.eq("userName",
-                                Constants.ALL_USERS_USERNAME)
-                ).addOrder(
-                        Order.desc("name")).list().iterator();
+                Iterator<?> tempIter1 = session.createCriteria(Predictor.class)
+                        .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME)).addOrder(Order.desc("name"))
+                        .list().iterator();
 
                 while (tempIter1.hasNext()) {
                     allUserPredictors.add((Predictor) tempIter1.next());
 
                 }
 
-                Iterator<?> tempIter2 = session.createCriteria(
-                        Predictor.class).add(
-                        Expression.eq("userName", userName)).addOrder(
-                        Order.desc("name")).list().iterator();
+                Iterator<?> tempIter2 = session.createCriteria(Predictor.class).add(Expression.eq("userName", userName))
+                        .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
                     userPredictors.add((Predictor) tempIter2.next());
                 }
 
             } else {
-                Iterator<?> tempIter2 = session.createCriteria(
-                        Predictor.class).add(
-                        Expression.eq("userName", userName)).addOrder(
-                        Order.desc("name")).list().iterator();
+                Iterator<?> tempIter2 = session.createCriteria(Predictor.class).add(Expression.eq("userName", userName))
+                        .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
                     userPredictors.add((Predictor) tempIter2.next());
@@ -560,12 +476,8 @@ public class PopulateDataObjects {
         return predictorNames;
     }
 
-    public static List<String>
-    populatePredictionNames(String userName,
-                            boolean isAllUserIncludes,
-                            Session session) throws HibernateException,
-            ClassNotFoundException,
-            SQLException {
+    public static List<String> populatePredictionNames(String userName, boolean isAllUserIncludes, Session session)
+            throws HibernateException, ClassNotFoundException, SQLException {
 
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
@@ -577,31 +489,26 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
-                Iterator<?> tempIter1 = session.createCriteria(
-                        Prediction.class).add(
-                        Expression.eq("userName",
-                                Constants.ALL_USERS_USERNAME)
-                ).addOrder(
-                        Order.desc("name")).list().iterator();
+                Iterator<?> tempIter1 = session.createCriteria(Prediction.class)
+                        .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME)).addOrder(Order.desc("name"))
+                        .list().iterator();
 
                 while (tempIter1.hasNext()) {
                     allUserPredictions.add((Prediction) tempIter1.next());
                 }
 
-                Iterator<?> tempIter2 = session.createCriteria(
-                        Prediction.class).add(
-                        Expression.eq("userName", userName)).addOrder(
-                        Order.desc("name")).list().iterator();
+                Iterator<?> tempIter2 =
+                        session.createCriteria(Prediction.class).add(Expression.eq("userName", userName))
+                                .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
                     userPredictions.add((Prediction) tempIter2.next());
                 }
             } else {
 
-                Iterator<?> tempIter2 = session.createCriteria(
-                        Prediction.class).add(
-                        Expression.eq("userName", userName)).addOrder(
-                        Order.desc("name")).list().iterator();
+                Iterator<?> tempIter2 =
+                        session.createCriteria(Prediction.class).add(Expression.eq("userName", userName))
+                                .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
                     userPredictions.add((Prediction) tempIter2.next());
@@ -637,13 +544,9 @@ public class PopulateDataObjects {
         return predictionNames;
     }
 
-    public static List<Predictor>
-    populatePredictors(String userName,
-                       boolean includePublic,
-                       boolean onlyCompleted,
-                       Session session) throws HibernateException,
-            ClassNotFoundException,
-            SQLException {
+    public static List<Predictor> populatePredictors(String userName, boolean includePublic, boolean onlyCompleted,
+                                                     Session session)
+            throws HibernateException, ClassNotFoundException, SQLException {
 
         List<Predictor> predictors = Lists.newArrayList();
         List<Predictor> privatePredictors = Lists.newArrayList();
@@ -651,24 +554,17 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             if (onlyCompleted) {
-                Iterator<?> tempIter = session.createCriteria(
-                        Predictor.class).add(
-                        Expression.eq("userName", userName)).add(
-                        Expression.eq("jobCompleted", Constants.YES))
-                        .add(Expression.ne("predictorType",
-                                Constants.HIDDEN)).addOrder(
-                                Order.desc("name")).list().iterator();
+                Iterator<?> tempIter = session.createCriteria(Predictor.class).add(Expression.eq("userName", userName))
+                        .add(Expression.eq("jobCompleted", Constants.YES))
+                        .add(Expression.ne("predictorType", Constants.HIDDEN)).addOrder(Order.desc("name")).list()
+                        .iterator();
 
                 while (tempIter.hasNext()) {
                     privatePredictors.add((Predictor) tempIter.next());
                 }
             } else {
-                Iterator<?> tempIter = session
-                        .createCriteria(Predictor.class).add(
-                                Expression.eq("userName", userName)).add(
-                                Expression.ne("predictorType",
-                                        Constants.HIDDEN)
-                        ).list().iterator();
+                Iterator<?> tempIter = session.createCriteria(Predictor.class).add(Expression.eq("userName", userName))
+                        .add(Expression.ne("predictorType", Constants.HIDDEN)).list().iterator();
 
                 while (tempIter.hasNext()) {
                     privatePredictors.add((Predictor) tempIter.next());
@@ -688,13 +584,11 @@ public class PopulateDataObjects {
                 tx = session.beginTransaction();
                 Criteria baseCriteria = session.createCriteria(Predictor.class)
                         .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
-                        .add(Expression.ne("predictorType", Constants.HIDDEN))
-                        .addOrder(Order.desc("name"));
+                        .add(Expression.ne("predictorType", Constants.HIDDEN)).addOrder(Order.desc("name"));
 
                 if (onlyCompleted) {
-                    Iterator<?> tempIter = baseCriteria
-                            .add(Expression.eq("jobCompleted", Constants.YES))
-                            .list().iterator();
+                    Iterator<?> tempIter =
+                            baseCriteria.add(Expression.eq("jobCompleted", Constants.YES)).list().iterator();
 
                     while (tempIter.hasNext()) {
                         publicPredictors.add((Predictor) tempIter.next());
@@ -716,13 +610,9 @@ public class PopulateDataObjects {
 
         for (int i = 0; i < predictors.size(); i++) {
             if (predictors.get(i).getDatasetId() != null
-                    && getDataSetById(predictors.get(i).getDatasetId(),
-                    session) != null) {
+                    && getDataSetById(predictors.get(i).getDatasetId(), session) != null) {
                 predictors.get(i).setDatasetDisplay(
-                        PopulateDataObjects.getDataSetById(
-                                predictors.get(i).getDatasetId(), session)
-                                .getName()
-                );
+                        PopulateDataObjects.getDataSetById(predictors.get(i).getDatasetId(), session).getName());
             }
         }
 
@@ -730,9 +620,7 @@ public class PopulateDataObjects {
         return predictors;
     }
 
-    public static List<Prediction> populatePredictions(String userName,
-                                                       boolean onlySaved,
-                                                       Session session) {
+    public static List<Prediction> populatePredictions(String userName, boolean onlySaved, Session session) {
 
         List<Prediction> predictions = Lists.newArrayList();
         try {
@@ -740,15 +628,11 @@ public class PopulateDataObjects {
             Transaction tx = null;
             try {
                 tx = session.beginTransaction();
-                Iterator<?> tempIter = session.createCriteria(
-                        Prediction.class).add(
-                        Expression.eq("jobCompleted", Constants.YES)).add(
-                        Expression.or(Expression.eq("userName", userName),
-                                Expression.eq("userName",
-                                        Constants.ALL_USERS_USERNAME)
-                        )
-                )
-                        .addOrder(Order.desc("name")).list().iterator();
+                Iterator<?> tempIter =
+                        session.createCriteria(Prediction.class).add(Expression.eq("jobCompleted", Constants.YES))
+                                .add(Expression.or(Expression.eq("userName", userName),
+                                        Expression.eq("userName", Constants.ALL_USERS_USERNAME)))
+                                .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter.hasNext()) {
                     predictions.add((Prediction) tempIter.next());
@@ -764,16 +648,11 @@ public class PopulateDataObjects {
                     String predictorNames = "";
                     String[] predictorIds = p.getPredictorIds().split("\\s+");
                     for (int i = 0; i < predictorIds.length; i++) {
-                        predictorNames += getPredictorById(
-                                Long.parseLong(predictorIds[i]), session)
-                                .getName()
-                                + " ";
+                        predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
                     }
                     p.setPredictorNames(predictorNames);
-                    if (p.getDatasetId() != null
-                            && getDataSetById(p.getDatasetId(), session) != null) {
-                        p.setDatasetDisplay(getDataSetById(p.getDatasetId(),
-                                session).getName());
+                    if (p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null) {
+                        p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getName());
                     }
                 }
             }
@@ -785,12 +664,9 @@ public class PopulateDataObjects {
         return predictions;
     }
 
-    public static List<String>
-    populateDatasetUploadedDescriptorTypes(String userName,
-                                           boolean isAllUserIncludes,
-                                           Session session) throws HibernateException,
-            ClassNotFoundException,
-            SQLException {
+    public static List<String> populateDatasetUploadedDescriptorTypes(String userName, boolean isAllUserIncludes,
+                                                                      Session session)
+            throws HibernateException, ClassNotFoundException, SQLException {
 
         // returns a list of strings. Used in form validation, to make sure a
         // user doesn't reuse an existing name.
@@ -803,25 +679,22 @@ public class PopulateDataObjects {
             if (isAllUserIncludes) {
 
                 Iterator<?> tempIter1 = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName",
-                                Constants.ALL_USERS_USERNAME)).addOrder(
-                                Order.desc("name")).list().iterator();
+                        .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME)).addOrder(Order.desc("name"))
+                        .list().iterator();
                 while (tempIter1.hasNext()) {
                     allUserDatasets.add((Dataset) tempIter1.next());
                 }
 
-                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName", userName)).addOrder(
-                                Order.desc("name")).list().iterator();
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class).add(Expression.eq("userName", userName))
+                        .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
                     usersDataset.add((Dataset) tempIter2.next());
                 }
             } else {
 
-                Iterator<?> tempIter2 = session.createCriteria(Dataset.class)
-                        .add(Expression.eq("userName", userName)).addOrder(
-                                Order.desc("name")).list().iterator();
+                Iterator<?> tempIter2 = session.createCriteria(Dataset.class).add(Expression.eq("userName", userName))
+                        .addOrder(Order.desc("name")).list().iterator();
 
                 while (tempIter2.hasNext()) {
                     usersDataset.add((Dataset) tempIter2.next());
@@ -839,16 +712,11 @@ public class PopulateDataObjects {
                 Iterator<Dataset> i = allUserDatasets.iterator();
                 while (i.hasNext()) {
                     Dataset di = i.next();
-                    if (di != null
-                            && di.getAvailableDescriptors() != null
-                            && di.getAvailableDescriptors().contains(
-                            Constants.UPLOADED)
-                            && di.getUploadedDescriptorType() != null
-                            && !di.getUploadedDescriptorType().isEmpty()
-                            && !datasetdescriptorsNames.contains(di
-                            .getUploadedDescriptorType())) {
-                        datasetdescriptorsNames.add(di
-                                .getUploadedDescriptorType());
+                    if (di != null && di.getAvailableDescriptors() != null && di.getAvailableDescriptors()
+                            .contains(Constants.UPLOADED) && di.getUploadedDescriptorType() != null && !di
+                            .getUploadedDescriptorType().isEmpty() && !datasetdescriptorsNames
+                            .contains(di.getUploadedDescriptorType())) {
+                        datasetdescriptorsNames.add(di.getUploadedDescriptorType());
                     }
                 }
             }
@@ -857,16 +725,11 @@ public class PopulateDataObjects {
                 Iterator<Dataset> j = usersDataset.iterator();
                 while (j.hasNext()) {
                     Dataset dj = j.next();
-                    if (dj != null
-                            && dj.getAvailableDescriptors() != null
-                            && dj.getAvailableDescriptors().contains(
-                            Constants.UPLOADED)
-                            && dj.getUploadedDescriptorType() != null
-                            && !dj.getUploadedDescriptorType().isEmpty()
-                            && !datasetdescriptorsNames.contains(dj
-                            .getUploadedDescriptorType())) {
-                        datasetdescriptorsNames.add(dj
-                                .getUploadedDescriptorType());
+                    if (dj != null && dj.getAvailableDescriptors() != null && dj.getAvailableDescriptors()
+                            .contains(Constants.UPLOADED) && dj.getUploadedDescriptorType() != null && !dj
+                            .getUploadedDescriptorType().isEmpty() && !datasetdescriptorsNames
+                            .contains(dj.getUploadedDescriptorType())) {
+                        datasetdescriptorsNames.add(dj.getUploadedDescriptorType());
                     }
                 }
             }
@@ -877,13 +740,9 @@ public class PopulateDataObjects {
         return datasetdescriptorsNames;
     }
 
-    public static List<Dataset>
-    populateDatasetNamesForUploadedPredicors(String userName,
-                                             String descriptorTypeName,
-                                             boolean isAllUserIncludes,
-                                             Session session) throws HibernateException,
-            ClassNotFoundException,
-            SQLException {
+    public static List<Dataset> populateDatasetNamesForUploadedPredicors(String userName, String descriptorTypeName,
+                                                                         boolean isAllUserIncludes, Session session)
+            throws HibernateException, ClassNotFoundException, SQLException {
 
         List<Dataset> usersDataset = Lists.newArrayList();
         List<Dataset> allUserDatasets = Lists.newArrayList();
@@ -891,8 +750,7 @@ public class PopulateDataObjects {
         try {
             tx = session.beginTransaction();
             if (isAllUserIncludes) {
-                if (descriptorTypeName == null
-                        || descriptorTypeName.trim().isEmpty()) {
+                if (descriptorTypeName == null || descriptorTypeName.trim().isEmpty()) {
 
 		    /* Iterator<?> i1 = session.createCriteria(Dataset.class)
                             .add(Expression.eq("userName",
@@ -905,32 +763,25 @@ public class PopulateDataObjects {
                                                     Constants.CATEGORY))))
 						    .addOrder(Order.desc("name")).list().iterator();*/
                     Iterator<?> i1 = session.createCriteria(Dataset.class)
-                            .add(Expression.eq("userName",
-                                    Constants.ALL_USERS_USERNAME))
-                            .add(Expression.and(
-                                    Expression.eq("uploadedDescriptorType", ""),
-                                    Expression.eq("availableDescriptors", Constants.UPLOADED)))
-                            .addOrder(
-                                    Order.desc("name")).list().iterator();
+                            .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME)).add(Expression
+                                    .and(Expression.eq("uploadedDescriptorType", ""),
+                                            Expression.eq("availableDescriptors", Constants.UPLOADED)))
+                            .addOrder(Order.desc("name")).list().iterator();
                     while (i1.hasNext()) {
                         allUserDatasets.add((Dataset) i1.next());
                     }
                 } else {
                     Iterator<?> i2 = session.createCriteria(Dataset.class)
-                            .add(Expression.eq("userName",
-                                    Constants.ALL_USERS_USERNAME)).add(
-                                    Expression.eq("uploadedDescriptorType",
-                                            descriptorTypeName)
-                            ).addOrder(
-                                    Order.desc("name")).list().iterator();
+                            .add(Expression.eq("userName", Constants.ALL_USERS_USERNAME))
+                            .add(Expression.eq("uploadedDescriptorType", descriptorTypeName))
+                            .addOrder(Order.desc("name")).list().iterator();
                     while (i2.hasNext()) {
                         allUserDatasets.add((Dataset) i2.next());
                     }
                 }
             }
 
-            if (descriptorTypeName == null
-                    || descriptorTypeName.trim().isEmpty()) {
+            if (descriptorTypeName == null || descriptorTypeName.trim().isEmpty()) {
                 /*Iterator<?> i3 = session.createCriteria(Dataset.class).add(
                         Expression.eq("userName", userName)).add(
                         Expression.or(Expression.eq("modelType",
@@ -939,23 +790,17 @@ public class PopulateDataObjects {
                                         Constants.CONTINUOUS), Expression.eq(
                                         "modelType", Constants.CATEGORY))))
 					.addOrder(Order.desc("name")).list().iterator();*/
-                Iterator<?> i3 = session
-                        .createCriteria(Dataset.class)
-                        .add(Expression.eq("userName", userName))
-                        .add(Expression.and(
-                                Expression.eq("uploadedDescriptorType", ""),
-                                Expression.eq("availableDescriptors", Constants.UPLOADED)))
-                        .addOrder(Order.desc("name")).list().iterator();
+                Iterator<?> i3 = session.createCriteria(Dataset.class).add(Expression.eq("userName", userName))
+                        .add(Expression.and(Expression.eq("uploadedDescriptorType", ""),
+                                Expression.eq("availableDescriptors", Constants.UPLOADED))).addOrder(Order.desc("name"))
+                        .list().iterator();
                 while (i3.hasNext()) {
                     usersDataset.add((Dataset) i3.next());
                 }
             } else {
-                Iterator<?> i4 = session.createCriteria(Dataset.class).add(
-                        Expression.eq("userName", userName)).add(
-                        Expression.eq("uploadedDescriptorType",
-                                descriptorTypeName)
-                ).addOrder(
-                        Order.desc("name")).list().iterator();
+                Iterator<?> i4 = session.createCriteria(Dataset.class).add(Expression.eq("userName", userName))
+                        .add(Expression.eq("uploadedDescriptorType", descriptorTypeName)).addOrder(Order.desc("name"))
+                        .list().iterator();
                 while (i4.hasNext()) {
                     usersDataset.add((Dataset) i4.next());
                 }
@@ -972,15 +817,12 @@ public class PopulateDataObjects {
         return usersDataset;
     }
 
-    public static Job
-    getJobById(Long jobId, Session session) throws ClassNotFoundException,
-            SQLException {
+    public static Job getJobById(Long jobId, Session session) throws ClassNotFoundException, SQLException {
         Job job = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            job = (Job) session.createCriteria(Job.class).add(
-                    Expression.eq("id", jobId)).uniqueResult();
+            job = (Job) session.createCriteria(Job.class).add(Expression.eq("id", jobId)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -988,16 +830,13 @@ public class PopulateDataObjects {
         return job;
     }
 
-    public static Job getJobByNameAndUsername(String name,
-                                              String userName,
-                                              Session session) {
+    public static Job getJobByNameAndUsername(String name, String userName, Session session) {
         Job job = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            job = (Job) session.createCriteria(Job.class).add(
-                    Expression.eq("jobName", name)).add(
-                    Expression.eq("userName", userName)).uniqueResult();
+            job = (Job) session.createCriteria(Job.class).add(Expression.eq("jobName", name))
+                    .add(Expression.eq("userName", userName)).uniqueResult();
 
             tx.commit();
         } catch (Exception e) {
@@ -1006,18 +845,14 @@ public class PopulateDataObjects {
         return job;
     }
 
-    public static String
-    getSdfFileForDataset(String datasetName,
-                         String userName,
-                         Session session) throws ClassNotFoundException,
-            SQLException {
+    public static String getSdfFileForDataset(String datasetName, String userName, Session session)
+            throws ClassNotFoundException, SQLException {
         Dataset dataset = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            dataset = (Dataset) session.createCriteria(Dataset.class).add(
-                    Expression.eq("name", datasetName)).add(
-                    Expression.eq("userName", userName)).uniqueResult();
+            dataset = (Dataset) session.createCriteria(Dataset.class).add(Expression.eq("name", datasetName))
+                    .add(Expression.eq("userName", userName)).uniqueResult();
 
             tx.commit();
         } catch (Exception e) {
@@ -1027,18 +862,14 @@ public class PopulateDataObjects {
         return dataset.getSdfFile();
     }
 
-    public static Dataset
-    getDataSetByName(String datasetName,
-                     String userName,
-                     Session session) throws ClassNotFoundException,
-            SQLException {
+    public static Dataset getDataSetByName(String datasetName, String userName, Session session)
+            throws ClassNotFoundException, SQLException {
         Dataset dataset = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            dataset = (Dataset) session.createCriteria(Dataset.class).add(
-                    Expression.eq("name", datasetName)).add(
-                    Expression.eq("userName", userName)).uniqueResult();
+            dataset = (Dataset) session.createCriteria(Dataset.class).add(Expression.eq("name", datasetName))
+                    .add(Expression.eq("userName", userName)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1046,15 +877,12 @@ public class PopulateDataObjects {
         return dataset;
     }
 
-    public static Dataset
-    getDataSetById(Long id, Session session) throws ClassNotFoundException,
-            SQLException {
+    public static Dataset getDataSetById(Long id, Session session) throws ClassNotFoundException, SQLException {
         Dataset dataset = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            dataset = (Dataset) session.createCriteria(Dataset.class).add(
-                    Expression.eq("id", id)).uniqueResult();
+            dataset = (Dataset) session.createCriteria(Dataset.class).add(Expression.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1063,15 +891,14 @@ public class PopulateDataObjects {
         return dataset;
     }
 
-    public static Predictor
-    getPredictorById(Long predictorId, Session session) throws ClassNotFoundException,
-            SQLException {
+    public static Predictor getPredictorById(Long predictorId, Session session)
+            throws ClassNotFoundException, SQLException {
         Predictor predictor = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            predictor = (Predictor) session.createCriteria(Predictor.class)
-                    .add(Expression.eq("id", predictorId)).uniqueResult();
+            predictor = (Predictor) session.createCriteria(Predictor.class).add(Expression.eq("id", predictorId))
+                    .uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1079,23 +906,20 @@ public class PopulateDataObjects {
 
         if (predictor != null && predictor.getDatasetId() != null) {
             if (getDataSetById(predictor.getDatasetId(), session) != null) {
-                predictor.setDatasetDisplay(PopulateDataObjects
-                        .getDataSetById(predictor.getDatasetId(), session)
-                        .getName());
+                predictor.setDatasetDisplay(
+                        PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getName());
             }
         }
         return predictor;
     }
 
-    public static Prediction
-    getPredictionById(Long predictionId, Session session) throws Exception {
+    public static Prediction getPredictionById(Long predictionId, Session session) throws Exception {
         Prediction prediction = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            prediction = (Prediction) session
-                    .createCriteria(Prediction.class).add(
-                            Expression.eq("id", predictionId)).uniqueResult();
+            prediction = (Prediction) session.createCriteria(Prediction.class).add(Expression.eq("id", predictionId))
+                    .uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1109,36 +933,27 @@ public class PopulateDataObjects {
             if (p != null) {
                 predictorNames += (p.getName() + " ");
             } else {
-                logger.warn(String.format(
-                        "Expected predictor %d for prediction %d " +
-                                "does not exist", predictorId, predictionId
-                ));
+                logger.warn(String.format("Expected predictor %d for prediction %d " + "does not exist", predictorId,
+                        predictionId));
             }
         }
         prediction.setPredictorNames(predictorNames);
         prediction.setDatabase(prediction.getDatabase());
 
-        if (prediction.getDatasetId() != null
-                && getDataSetById(prediction.getDatasetId(), session) != null) {
-            prediction.setDatasetDisplay(getDataSetById(
-                    prediction.getDatasetId(), session).getName());
+        if (prediction.getDatasetId() != null && getDataSetById(prediction.getDatasetId(), session) != null) {
+            prediction.setDatasetDisplay(getDataSetById(prediction.getDatasetId(), session).getName());
         }
 
         return prediction;
     }
 
-    public static Prediction
-    getPredictionByName(String jobName,
-                        String userName,
-                        Session session) throws Exception {
+    public static Prediction getPredictionByName(String jobName, String userName, Session session) throws Exception {
         Prediction prediction = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            prediction = (Prediction) session
-                    .createCriteria(Prediction.class).add(
-                            Expression.eq("userName", userName)).add(
-                            Expression.eq("name", jobName)).uniqueResult();
+            prediction = (Prediction) session.createCriteria(Prediction.class).add(Expression.eq("userName", userName))
+                    .add(Expression.eq("name", jobName)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1147,17 +962,13 @@ public class PopulateDataObjects {
         String predictorNames = "";
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
-            predictorNames += getPredictorById(
-                    Long.parseLong(predictorIds[i]), session).getName()
-                    + " ";
+            predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
         }
         prediction.setPredictorNames(predictorNames);
         prediction.setDatabase(prediction.getDatabase());
 
-        if (prediction.getDatasetId() != null
-                && getDataSetById(prediction.getDatasetId(), session) != null) {
-            prediction.setDatasetDisplay(getDataSetById(
-                    prediction.getDatasetId(), session).getName());
+        if (prediction.getDatasetId() != null && getDataSetById(prediction.getDatasetId(), session) != null) {
+            prediction.setDatasetDisplay(getDataSetById(prediction.getDatasetId(), session).getName());
         }
 
         return prediction;
@@ -1169,8 +980,7 @@ public class PopulateDataObjects {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            user = (User) session.createCriteria(User.class).add(
-                    Expression.eq("userName", userName)).uniqueResult();
+            user = (User) session.createCriteria(User.class).add(Expression.eq("userName", userName)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1184,8 +994,7 @@ public class PopulateDataObjects {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Iterator<?> tempIterator = session.createCriteria(User.class)
-                    .list().iterator();
+            Iterator<?> tempIterator = session.createCriteria(User.class).list().iterator();
             while (tempIterator.hasNext()) {
 
                 users.add((User) tempIterator.next());
@@ -1196,8 +1005,7 @@ public class PopulateDataObjects {
 
             Collections.sort(users, new Comparator<User>() {
                 public int compare(User u1, User u2) {
-                    return u1.getUserName().toLowerCase().compareTo(
-                            u2.getUserName().toLowerCase());
+                    return u1.getUserName().toLowerCase().compareTo(u2.getUserName().toLowerCase());
                 }
             });
         } catch (Exception e) {
@@ -1212,8 +1020,7 @@ public class PopulateDataObjects {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Iterator<?> tempIterator = session.createCriteria(User.class)
-                    .list().iterator();
+            Iterator<?> tempIterator = session.createCriteria(User.class).list().iterator();
             while (tempIterator.hasNext()) {
 
                 users.add((User) tempIterator.next());
@@ -1232,8 +1039,7 @@ public class PopulateDataObjects {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Iterator<?> tempIter = session.createCriteria(JobStats.class)
-                    .list().iterator();
+            Iterator<?> tempIter = session.createCriteria(JobStats.class).list().iterator();
             while (tempIter.hasNext()) {
                 jobStats.add((JobStats) tempIter.next());
             }
@@ -1246,16 +1052,14 @@ public class PopulateDataObjects {
         return jobStats;
     }
 
-    public static List<JobStats> getJobStatsByUserName(Session session,
-                                                       String username) {
+    public static List<JobStats> getJobStatsByUserName(Session session, String username) {
         List<JobStats> jobStats = Lists.newArrayList();
 
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Iterator<?> tempIter = session.createCriteria(JobStats.class)
-                    .add(Expression.eq("userName", username)).list()
-                    .iterator();
+            Iterator<?> tempIter =
+                    session.createCriteria(JobStats.class).add(Expression.eq("userName", username)).list().iterator();
             while (tempIter.hasNext()) {
                 jobStats.add((JobStats) tempIter.next());
             }
@@ -1267,18 +1071,16 @@ public class PopulateDataObjects {
         return jobStats;
     }
 
-    public static List<RandomForestGrove>
-    getRandomForestGrovesByPredictorId(Long predictorId,
-                                       Session session) throws Exception {
+    public static List<RandomForestGrove> getRandomForestGrovesByPredictorId(Long predictorId, Session session)
+            throws Exception {
 
         List<RandomForestGrove> groves = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Iterator<?> tempIter = session.createCriteria(
-                    RandomForestGrove.class).add(
-                    Expression.eq("predictorId", predictorId)).list()
-                    .iterator();
+            Iterator<?> tempIter =
+                    session.createCriteria(RandomForestGrove.class).add(Expression.eq("predictorId", predictorId))
+                            .list().iterator();
             while (tempIter.hasNext()) {
                 groves.add((RandomForestGrove) tempIter.next());
             }
@@ -1291,17 +1093,15 @@ public class PopulateDataObjects {
         return groves;
     }
 
-    public static List<RandomForestTree>
-    getRandomForestTreesByGroveId(Long groveId, Session session) throws Exception {
+    public static List<RandomForestTree> getRandomForestTreesByGroveId(Long groveId, Session session) throws Exception {
 
         List<RandomForestTree> trees = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Iterator<?> tempIter = session.createCriteria(
-                    RandomForestTree.class).add(
-                    Expression.eq("randomForestGroveId", groveId)).list()
-                    .iterator();
+            Iterator<?> tempIter =
+                    session.createCriteria(RandomForestTree.class).add(Expression.eq("randomForestGroveId", groveId))
+                            .list().iterator();
 
             while (tempIter.hasNext()) {
                 trees.add((RandomForestTree) tempIter.next());
@@ -1314,16 +1114,15 @@ public class PopulateDataObjects {
         return trees;
     }
 
-    public static List<KnnPlusModel>
-    getKnnPlusModelsByPredictorId(Long predictorId, Session session) throws ClassNotFoundException,
-            SQLException {
+    public static List<KnnPlusModel> getKnnPlusModelsByPredictorId(Long predictorId, Session session)
+            throws ClassNotFoundException, SQLException {
         List<KnnPlusModel> models = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Iterator<?> tempIter = session.createCriteria(KnnPlusModel.class)
-                    .add(Expression.eq("predictorId", predictorId)).list()
-                    .iterator();
+            Iterator<?> tempIter =
+                    session.createCriteria(KnnPlusModel.class).add(Expression.eq("predictorId", predictorId)).list()
+                            .iterator();
             while (tempIter.hasNext()) {
                 models.add((KnnPlusModel) tempIter.next());
             }
@@ -1336,9 +1135,8 @@ public class PopulateDataObjects {
         return models;
     }
 
-    public static List<SvmModel>
-    getSvmModelsByPredictorId(Long predictorId, Session session) throws ClassNotFoundException,
-            SQLException {
+    public static List<SvmModel> getSvmModelsByPredictorId(Long predictorId, Session session)
+            throws ClassNotFoundException, SQLException {
         // logger.error("getting models for predictorId: " +
         // predictorId);
 
@@ -1346,9 +1144,9 @@ public class PopulateDataObjects {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Iterator<?> tempIter = session.createCriteria(SvmModel.class)
-                    .add(Expression.eq("predictorId", predictorId)).list()
-                    .iterator();
+            Iterator<?> tempIter =
+                    session.createCriteria(SvmModel.class).add(Expression.eq("predictorId", predictorId)).list()
+                            .iterator();
             while (tempIter.hasNext()) {
 
                 models.add((SvmModel) tempIter.next());
@@ -1362,9 +1160,8 @@ public class PopulateDataObjects {
         return models;
     }
 
-    public static List<KnnModel>
-    getModelsByPredictorId(Long predictorId, Session session) throws ClassNotFoundException,
-            SQLException {
+    public static List<KnnModel> getModelsByPredictorId(Long predictorId, Session session)
+            throws ClassNotFoundException, SQLException {
         // logger.error("getting models for predictorId: " +
         // predictorId);
         Predictor predictor = getPredictorById(predictorId, session);
@@ -1373,9 +1170,9 @@ public class PopulateDataObjects {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Iterator<?> tempIter = session.createCriteria(KnnModel.class)
-                    .add(Expression.eq("predictorId", predictorId)).list()
-                    .iterator();
+            Iterator<?> tempIter =
+                    session.createCriteria(KnnModel.class).add(Expression.eq("predictorId", predictorId)).list()
+                            .iterator();
 
             while (tempIter.hasNext()) {
 
@@ -1389,8 +1186,7 @@ public class PopulateDataObjects {
         // if the model type is continuous,
         // sort models in decreasing order by r^2 value
         // (used when displaying top 10 models on view predictor page)
-        if (predictor.getActivityType().equals(Constants.CONTINUOUS)
-                && models != null && models.size() > 1) {
+        if (predictor.getActivityType().equals(Constants.CONTINUOUS) && models != null && models.size() > 1) {
             Collections.sort(models, new Comparator<KnnModel>() {
                 public int compare(KnnModel o1, KnnModel o2) {
                     return (o2.getRSquared() > o1.getRSquared() ? 1 : -1);
@@ -1400,18 +1196,15 @@ public class PopulateDataObjects {
         return models;
     }
 
-    public static Predictor
-    getPredictorByName(String selectedPredictorName,
-                       String user,
-                       Session session) throws ClassNotFoundException,
-            SQLException {
+    public static Predictor getPredictorByName(String selectedPredictorName, String user, Session session)
+            throws ClassNotFoundException, SQLException {
         Predictor predictor = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
             predictor = (Predictor) session.createCriteria(Predictor.class)
-                    .add(Expression.eq("name", selectedPredictorName)).add(
-                            Expression.eq("userName", user)).uniqueResult();
+                    .add(Expression.eq("name", selectedPredictorName)).add(Expression.eq("userName", user))
+                    .uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1421,10 +1214,8 @@ public class PopulateDataObjects {
 
             if (predictor != null && predictor.getDatasetId() != null) {
                 if (getDataSetById(predictor.getDatasetId(), session) != null) {
-                    predictor
-                            .setDatasetDisplay(PopulateDataObjects
-                                    .getDataSetById(predictor.getDatasetId(),
-                                            session).getName());
+                    predictor.setDatasetDisplay(
+                            PopulateDataObjects.getDataSetById(predictor.getDatasetId(), session).getName());
                 }
             }
         } catch (Exception ex) {
@@ -1433,13 +1224,11 @@ public class PopulateDataObjects {
         return predictor;
     }
 
-    public static List<Predictor>
-    getChildPredictors(Predictor predictor, Session session) {
+    public static List<Predictor> getChildPredictors(Predictor predictor, Session session) {
         List<Predictor> childPredictors = Lists.newArrayList();
 
         String[] childPredictorIds;
-        if (predictor.getChildIds() != null
-                && !predictor.getChildIds().trim().equals("")) {
+        if (predictor.getChildIds() != null && !predictor.getChildIds().trim().equals("")) {
             // get external validation from each child predictor
             childPredictorIds = predictor.getChildIds().split("\\s+");
         } else {
@@ -1451,12 +1240,8 @@ public class PopulateDataObjects {
             for (String childPredictorId : childPredictorIds) {
                 if (childPredictorId != null) {
                     tx = session.beginTransaction();
-                    Predictor childPredictor = (Predictor) session
-                            .createCriteria(Predictor.class).add(
-                                    Expression.eq("id", Long
-                                            .parseLong(childPredictorId))
-                            )
-                            .uniqueResult();
+                    Predictor childPredictor = (Predictor) session.createCriteria(Predictor.class)
+                            .add(Expression.eq("id", Long.parseLong(childPredictorId))).uniqueResult();
                     tx.commit();
                     childPredictors.add(childPredictor);
                 }
@@ -1467,17 +1252,15 @@ public class PopulateDataObjects {
         return childPredictors;
     }
 
-    public static List<ExternalValidation>
-    getExternalValidationValues(Long predictorId, Session session) {
+    public static List<ExternalValidation> getExternalValidationValues(Long predictorId, Session session) {
 
         List<ExternalValidation> externalValValues = Lists.newArrayList();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Iterator<?> tempIter = session.createCriteria(
-                    ExternalValidation.class).add(
-                    Expression.eq("predictorId", predictorId)).addOrder(
-                    Order.asc("predictedValue")).list().iterator();
+            Iterator<?> tempIter =
+                    session.createCriteria(ExternalValidation.class).add(Expression.eq("predictorId", predictorId))
+                            .addOrder(Order.asc("predictedValue")).list().iterator();
 
             while (tempIter.hasNext()) {
 
@@ -1491,9 +1274,7 @@ public class PopulateDataObjects {
         return externalValValues;
     }
 
-    public static List<String> populateTaskNames(String userName,
-                                                 boolean justRunning,
-                                                 Session session) {
+    public static List<String> populateTaskNames(String userName, boolean justRunning, Session session) {
 
         List<String> taskNames = Lists.newArrayList();
         List<Job> tasks = Lists.newArrayList();
@@ -1501,9 +1282,8 @@ public class PopulateDataObjects {
             Transaction tx = null;
             try {
                 tx = session.beginTransaction();
-                Iterator<?> tempIter = session.createCriteria(Job.class).add(
-                        Expression.eq("userName", userName)).list()
-                        .iterator();
+                Iterator<?> tempIter =
+                        session.createCriteria(Job.class).add(Expression.eq("userName", userName)).list().iterator();
 
                 while (tempIter.hasNext()) {
                     tasks.add((Job) tempIter.next());
@@ -1535,9 +1315,7 @@ public class PopulateDataObjects {
         return taskNames;
     }
 
-    public static List<Job> populateTasks(String userName,
-                                          boolean justRunning,
-                                          Session session) {
+    public static List<Job> populateTasks(String userName, boolean justRunning, Session session) {
 
         List<Job> tasks = Lists.newArrayList();
         try {
@@ -1545,20 +1323,17 @@ public class PopulateDataObjects {
             try {
                 tx = session.beginTransaction();
                 if (justRunning) {
-                    Iterator<?> tempIterator = session.createCriteria(
-                            Job.class).add(
-                            Expression.eq("userName", userName)).add(
-                            Expression.eq("state", Constants.QUEUED)).list()
-                            .iterator();
+                    Iterator<?> tempIterator =
+                            session.createCriteria(Job.class).add(Expression.eq("userName", userName))
+                                    .add(Expression.eq("state", Constants.QUEUED)).list().iterator();
 
                     while (tempIterator.hasNext()) {
                         tasks.add((Job) tempIterator.next());
                     }
                 } else {
-                    Iterator<?> tempIterator = session.createCriteria(
-                            Job.class).add(
-                            Expression.eq("userName", userName)).list()
-                            .iterator();
+                    Iterator<?> tempIterator =
+                            session.createCriteria(Job.class).add(Expression.eq("userName", userName)).list()
+                                    .iterator();
 
                     while (tempIterator.hasNext()) {
                         tasks.add((Job) tempIterator.next());
@@ -1577,16 +1352,13 @@ public class PopulateDataObjects {
         return tasks;
     }
 
-    public static Job
-    getTaskById(Long id, Session session) throws HibernateException,
-            ClassNotFoundException,
-            SQLException {
+    public static Job getTaskById(Long id, Session session)
+            throws HibernateException, ClassNotFoundException, SQLException {
         Job task = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            task = (Job) session.createCriteria(Job.class).add(
-                    Expression.eq("id", id)).uniqueResult();
+            task = (Job) session.createCriteria(Job.class).add(Expression.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1601,8 +1373,7 @@ public class PopulateDataObjects {
             Transaction tx = null;
             try {
                 tx = session.beginTransaction();
-                Iterator<?> tempIter = session.createCriteria(
-                        SoftwareLink.class).list().iterator();
+                Iterator<?> tempIter = session.createCriteria(SoftwareLink.class).list().iterator();
                 while (tempIter.hasNext()) {
                     softwareLinks.add((SoftwareLink) tempIter.next());
                 }
@@ -1618,23 +1389,19 @@ public class PopulateDataObjects {
 
         Collections.sort(softwareLinks, new Comparator<SoftwareLink>() {
             public int compare(SoftwareLink sl1, SoftwareLink sl2) {
-                return sl1.getName().toLowerCase().compareTo(
-                        sl2.getName().toLowerCase());
+                return sl1.getName().toLowerCase().compareTo(sl2.getName().toLowerCase());
             }
         });
         return softwareLinks;
     }
 
-    public static SoftwareLink
-    getSoftwareLinkById(Long id, Session session) throws HibernateException,
-            ClassNotFoundException,
-            SQLException {
+    public static SoftwareLink getSoftwareLinkById(Long id, Session session)
+            throws HibernateException, ClassNotFoundException, SQLException {
         SoftwareLink sl = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            sl = (SoftwareLink) session.createCriteria(SoftwareLink.class)
-                    .add(Expression.eq("id", id)).uniqueResult();
+            sl = (SoftwareLink) session.createCriteria(SoftwareLink.class).add(Expression.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
             logger.error(e);
@@ -1642,14 +1409,12 @@ public class PopulateDataObjects {
         return sl;
     }
 
-    public static RandomForestParameters
-    getRandomForestParametersById(Long id, Session session) throws Exception {
+    public static RandomForestParameters getRandomForestParametersById(Long id, Session session) throws Exception {
         RandomForestParameters params = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            params = (RandomForestParameters) session.createCriteria(
-                    RandomForestParameters.class)
+            params = (RandomForestParameters) session.createCriteria(RandomForestParameters.class)
                     .add(Expression.eq("id", id)).uniqueResult();
             tx.commit();
         } catch (Exception e) {
@@ -1658,14 +1423,12 @@ public class PopulateDataObjects {
         return params;
     }
 
-    public static KnnParameters
-    getKnnParametersById(Long id, Session session) throws Exception {
+    public static KnnParameters getKnnParametersById(Long id, Session session) throws Exception {
         KnnParameters params = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            params = (KnnParameters) session.createCriteria(
-                    KnnParameters.class).add(Expression.eq("id", id))
+            params = (KnnParameters) session.createCriteria(KnnParameters.class).add(Expression.eq("id", id))
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
@@ -1674,14 +1437,12 @@ public class PopulateDataObjects {
         return params;
     }
 
-    public static KnnPlusParameters
-    getKnnPlusParametersById(Long id, Session session) throws Exception {
+    public static KnnPlusParameters getKnnPlusParametersById(Long id, Session session) throws Exception {
         KnnPlusParameters params = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            params = (KnnPlusParameters) session.createCriteria(
-                    KnnPlusParameters.class).add(Expression.eq("id", id))
+            params = (KnnPlusParameters) session.createCriteria(KnnPlusParameters.class).add(Expression.eq("id", id))
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
@@ -1690,14 +1451,12 @@ public class PopulateDataObjects {
         return params;
     }
 
-    public static SvmParameters
-    getSvmParametersById(Long id, Session session) throws Exception {
+    public static SvmParameters getSvmParametersById(Long id, Session session) throws Exception {
         SvmParameters params = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            params = (SvmParameters) session.createCriteria(
-                    SvmParameters.class).add(Expression.eq("id", id))
+            params = (SvmParameters) session.createCriteria(SvmParameters.class).add(Expression.eq("id", id))
                     .uniqueResult();
             tx.commit();
         } catch (Exception e) {
