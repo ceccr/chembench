@@ -2,13 +2,12 @@
 <!DOCTYPE struts PUBLIC
         "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
         "http://struts.apache.org/dtds/struts-2.0.dtd">
-
 <struts>
-
     <constant name="struts.enable.DynamicMethodInvocation" value="false"/>
     <constant name="struts.devMode" value="false"/>
-    <constant name="struts.multipart.maxSize" value="8589934592"/>
+
     <!-- no files over 8 GB allowed; defaults to 2MB if unset -->
+    <constant name="struts.multipart.maxSize" value="8589934592"/>
 
     <package name="default" namespace="/" extends="json-default">
 
@@ -55,7 +54,8 @@
             <result type="redirect">softwareList</result>
         </action>
 
-        <action name="deleteSoftwareLink" class="edu.unc.ceccr.chembench.actions.SoftwareLinksAction" method="deleteSoftwareLink">
+        <action name="deleteSoftwareLink" class="edu.unc.ceccr.chembench.actions.SoftwareLinksAction"
+                method="deleteSoftwareLink">
             <result type="redirect">softwareList</result>
         </action>
 
@@ -77,7 +77,8 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="loadChangePasswordSection" class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"
+        <action name="loadChangePasswordSection"
+                class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"
                 method="loadChangePassword">
             <result name="success">/jsp/administration/user/editProfile-changePassword.jsp</result>
         </action>
@@ -129,7 +130,8 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="loadModelingSection" class="edu.unc.ceccr.chembench.actions.DatasetFormActions" method="ajaxLoadModeling">
+        <action name="loadModelingSection" class="edu.unc.ceccr.chembench.actions.DatasetFormActions"
+                method="ajaxLoadModeling">
             <result>/jsp/dataset/dataset-modeling.jsp</result>
         </action>
 
@@ -178,11 +180,13 @@
             <result>/jsp/modeling/modeling-knn.jsp</result>
         </action>
 
-        <action name="loadKnnPlusSASection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions" method="ajaxLoadKnnPlus">
+        <action name="loadKnnPlusSASection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions"
+                method="ajaxLoadKnnPlus">
             <result>/jsp/modeling/modeling-knn-plus-sa.jsp</result>
         </action>
 
-        <action name="loadKnnPlusGASection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions" method="ajaxLoadKnnPlus">
+        <action name="loadKnnPlusGASection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions"
+                method="ajaxLoadKnnPlus">
             <result>/jsp/modeling/modeling-knn-plus-ga.jsp</result>
         </action>
 
@@ -190,7 +194,8 @@
             <result>/jsp/modeling/modeling-svm.jsp</result>
         </action>
 
-        <action name="loadRFSection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions" method="ajaxLoadRandomForest">
+        <action name="loadRFSection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions"
+                method="ajaxLoadRandomForest">
             <result>/jsp/modeling/modeling-randomForest.jsp</result>
         </action>
 
@@ -206,7 +211,8 @@
         <!-- End Modeling Page -->
 
         <!-- Make Predictions Pages -->
-        <action name="prediction" class="edu.unc.ceccr.chembench.actions.PredictionFormActions" method="loadSelectPredictorPage">
+        <action name="prediction" class="edu.unc.ceccr.chembench.actions.PredictionFormActions"
+                method="loadSelectPredictorPage">
             <result name="success">/jsp/prediction/selectPredictor.jsp</result>
             <result name="error">/jsp/prediction/selectPredictor.jsp</result>
             <!--<result name="error">/jsp/main/error.jsp</result> -->
@@ -288,7 +294,8 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="generateMahalanobis" class="edu.unc.ceccr.chembench.actions.ViewDataset" method="generateMahalanobis">
+        <action name="generateMahalanobis" class="edu.unc.ceccr.chembench.actions.ViewDataset"
+                method="generateMahalanobis">
             <result name="success">/jsp/datasetOutput/viewDataset.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
@@ -304,7 +311,8 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="updatePredictor" class="edu.unc.ceccr.chembench.actions.ViewPredictor.PredictorPage" method="update">
+        <action name="updatePredictor" class="edu.unc.ceccr.chembench.actions.ViewPredictor.PredictorPage"
+                method="update">
             <result name="success">/jsp/modelingOutput/viewPredictor.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
@@ -315,7 +323,8 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="viewPredictorParametersSection" class="edu.unc.ceccr.chembench.actions.ViewPredictor.ParametersPage"
+        <action name="viewPredictorParametersSection"
+                class="edu.unc.ceccr.chembench.actions.ViewPredictor.ParametersPage"
                 method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor-parameters.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
@@ -335,7 +344,8 @@
 
         <!-- knn+ -->
 
-        <action name="viewPredictorKnnPlusModelsSection" class="edu.unc.ceccr.chembench.actions.ViewPredictor.KnnPlusModelsPage"
+        <action name="viewPredictorKnnPlusModelsSection"
+                class="edu.unc.ceccr.chembench.actions.ViewPredictor.KnnPlusModelsPage"
                 method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor-knnPlusModels.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
@@ -464,12 +474,14 @@
             <result name="error">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="emailSelectedUsers" class="edu.unc.ceccr.chembench.actions.AdminAction" method="emailSelectedUsers">
+        <action name="emailSelectedUsers" class="edu.unc.ceccr.chembench.actions.AdminAction"
+                method="emailSelectedUsers">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="changeUserAdminStatus" class="edu.unc.ceccr.chembench.actions.AdminAction" method="changeUserAdminStatus">
+        <action name="changeUserAdminStatus" class="edu.unc.ceccr.chembench.actions.AdminAction"
+                method="changeUserAdminStatus">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/home.jsp</result>
         </action>
@@ -480,12 +492,14 @@
             <result name="error">/jsp/main/home.jsp</result>
         </action>
 
-        <action name="makePredictorPublicAction" class="edu.unc.ceccr.chembench.actions.AdminAction" method="makePredictorPublic">
+        <action name="makePredictorPublicAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
+                method="makePredictorPublic">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="makeDatasetPublicAction" class="edu.unc.ceccr.chembench.actions.AdminAction" method="makeDatasetPublic">
+        <action name="makeDatasetPublicAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
+                method="makeDatasetPublic">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
@@ -501,7 +515,8 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="deletePredictorAction" class="edu.unc.ceccr.chembench.actions.AdminAction" method="deletePredictor">
+        <action name="deletePredictorAction" class="edu.unc.ceccr.chembench.actions.AdminAction"
+                method="deletePredictor">
             <result name="success" type="redirect">admin</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
@@ -575,10 +590,5 @@
             <result>/jsp/help/versions.jsp</result>
         </action>
         <!-- End Help forwards -->
-
-
     </package>
-
-    <!-- Add packages here -->
-
 </struts>
