@@ -13,6 +13,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Enumeration;
+import java.util.Set;
 
 public class ChembenchServletContextListener implements ServletContextListener {
     private static Logger logger
@@ -48,6 +49,11 @@ public class ChembenchServletContextListener implements ServletContextListener {
             AbandonedConnectionCleanupThread.shutdown();
         } catch (InterruptedException e) {
             logger.error("Shutdown of MySQL abandoned connection cleanup thread failed", e);
+        }
+
+        Set<Thread> jobThreads = CentralDogma.getInstance().getThreads();
+        for (Thread t : jobThreads) {
+            t.stop();
         }
 
         Enumeration<Driver> drivers = DriverManager.getDrivers();

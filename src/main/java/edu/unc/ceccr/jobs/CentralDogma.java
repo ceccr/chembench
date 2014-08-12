@@ -1,6 +1,7 @@
 package edu.unc.ceccr.jobs;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import edu.unc.ceccr.global.Constants;
 import edu.unc.ceccr.persistence.*;
 import edu.unc.ceccr.taskObjects.CreateDatasetTask;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 // logs being written to ../logs/chembench-jobs.mm-dd-yyyy.log
 
@@ -41,6 +43,8 @@ public class CentralDogma {
     public SynchronizedJobList lsfJobs;
     public SynchronizedJobList errorJobs;
     private IncomingJobProcessingThread inThread;
+
+    private Set<Thread> threads = Sets.newHashSet();
 
     private CentralDogma() {
         try {
@@ -97,15 +101,18 @@ public class CentralDogma {
             for (int i = 0; i < numLocalThreads; i++) {
                 LocalProcessingThread localThread = new LocalProcessingThread();
                 localThread.start();
+                threads.add(localThread);
             }
 
             for (int i = 0; i < numLsfThreads; i++) {
                 LsfProcessingThread lsfThread = new LsfProcessingThread();
                 lsfThread.start();
+                threads.add(lsfThread);
             }
 
             inThread = new IncomingJobProcessingThread();
             inThread.start();
+            threads.add(inThread);
 
         } catch (Exception ex) {
             logger.error(ex);
@@ -280,5 +287,9 @@ public class CentralDogma {
             j.setJobList(Constants.ERROR);
             errorJobs.addJob(j);
         }
+    }
+
+    public Set<Thread> getThreads() {
+        return threads;
     }
 }
