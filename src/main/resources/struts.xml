@@ -514,6 +514,27 @@
 
         <!-- End Admin Actions -->
 
+        <!-- API endpoints -->
+        <action name="predictSmiles" class="edu.unc.ceccr.action.APIAction" method="predictSmiles">
+            <result name="success" type="json">
+                <param name="excludeProperties">error</param>
+            </result>
+
+            <result name="unauthorized" type="json">
+                <param name="errorCode">401</param>
+                <param name="excludeProperties">error</param>
+            </result>
+
+            <result name="badRequest" type="json">
+                <param name="errorCode">400</param>
+            </result>
+
+            <result name="error" type="json">
+                <param name="errorCode">500</param>
+            </result>
+        </action>
+        <!-- End API -->
+
         <!-- Help forwards -->
         <action name="help-overview">
             <result>/jsp/help/overview.jsp</result>
