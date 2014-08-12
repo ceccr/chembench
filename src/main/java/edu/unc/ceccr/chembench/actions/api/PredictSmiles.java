@@ -1,4 +1,4 @@
-package edu.unc.ceccr.chembench.action.api;
+package edu.unc.ceccr.chembench.actions.api;
 
 import com.opensymphony.xwork2.Action;
 import com.opensymphony.xwork2.ActionContext;

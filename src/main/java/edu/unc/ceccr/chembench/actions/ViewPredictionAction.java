@@ -1,4 +1,4 @@
-package edu.unc.ceccr.chembench.action;
+package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;

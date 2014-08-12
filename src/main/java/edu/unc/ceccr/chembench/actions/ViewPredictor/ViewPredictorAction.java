@@ -1,7 +1,7 @@
-package edu.unc.ceccr.chembench.action.ViewPredictor;
+package edu.unc.ceccr.chembench.actions.ViewPredictor;
 
 import com.google.common.collect.Lists;
-import edu.unc.ceccr.chembench.action.ViewAction;
+import edu.unc.ceccr.chembench.actions.ViewAction;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Dataset;
 import edu.unc.ceccr.chembench.persistence.HibernateUtil;

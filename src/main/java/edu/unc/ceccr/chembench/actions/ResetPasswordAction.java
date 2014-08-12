@@ -1,4 +1,4 @@
-package edu.unc.ceccr.chembench.action;
+package edu.unc.ceccr.chembench.actions;
 
 //struts2
 

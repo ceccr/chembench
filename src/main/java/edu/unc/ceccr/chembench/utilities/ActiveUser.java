@@ -1,6 +1,6 @@
 package edu.unc.ceccr.chembench.utilities;
 
-import edu.unc.ceccr.chembench.action.HomeAction;
+import edu.unc.ceccr.chembench.actions.HomeAction;
 import edu.unc.ceccr.chembench.persistence.User;
 import org.apache.log4j.Logger;
 

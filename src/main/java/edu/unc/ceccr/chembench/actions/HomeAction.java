@@ -1,4 +1,4 @@
-package edu.unc.ceccr.chembench.action;
+package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
@@ -280,7 +280,7 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
         if (user != null) {
             logger.debug("Logged out " + user.getUserName());
         }
-        logger.debug("************Logout action " + user.getUserName());
+        logger.debug("************Logout actions " + user.getUserName());
 
         if (user.getUserName().contains("guest") && context.getSession().get("userType") != null && ((String) context
                 .getSession().get("userType")).equals("guest")) {

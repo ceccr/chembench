@@ -1,7 +1,7 @@
 package edu.unc.ceccr.chembench.taskObjects;
 
 import com.google.common.collect.Lists;
-import edu.unc.ceccr.chembench.action.ModelingFormActions;
+import edu.unc.ceccr.chembench.actions.ModelingFormActions;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.*;

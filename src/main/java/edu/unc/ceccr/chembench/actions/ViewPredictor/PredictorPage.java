@@ -1,4 +1,4 @@
-package edu.unc.ceccr.chembench.action.ViewPredictor;
+package edu.unc.ceccr.chembench.actions.ViewPredictor;
 
 // struts2
 
