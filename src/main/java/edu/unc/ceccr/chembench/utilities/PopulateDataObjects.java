@@ -147,8 +147,8 @@ public class PopulateDataObjects {
                     predictorPredictionValues.add((PredictionValue) tempIter.next());
                 }
 
+                Predictor p = getPredictorById(Long.parseLong(predictorId), session);
                 for (PredictionValue pv : predictorPredictionValues) {
-                    Predictor p = getPredictorById(Long.parseLong(predictorId), session);
                     int numTotalModels = 0;
                     if (p.getChildType() != null && p.getChildType().equals(Constants.NFOLD)) {
                         numTotalModels = p.getNumTotalModels();
