@@ -362,23 +362,23 @@ $(window).load(function() {
             <br /><s:select name="selectedDatasetId" disabled="true" list="userCategoryDatasets" id="selectedCategoryDataset" listKey="id" listValue="name" onchange='getSelectedDataset();' />
         </div>
         <!-- Commented out until it's implemented...
-				<tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Weight Categories By:</b></div></td>
-					<td align="left" valign="top">
-					<div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="categoryWeights" value="categoryWeights" list="#{'INVERSESIZE':'Inverse of Size','NOWEIGHTING':'No Weighting','MANUAL':'Set Manually...'}" /></div>
-					</td>
-				</tr>
-				<tr>
-					<td width="100%" colspan="2">
-					<div class="StandardTextDarkGrayParagraph" id="submitMessage">
-					<i>Weighting will improve modeling on imbalanced datasets. 
-					When optimizing the model, the accuracy on members of different categories will be 
-					weighted depending on the values you input.</i>
-					</div>
-					</td>
-			    </tr>
-			    -->
+                <tr>
+                    <td>
+                    <div class="StandardTextDarkGrayParagraph"><b>Weight Categories By:</b></div></td>
+                    <td align="left" valign="top">
+                    <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="categoryWeights" value="categoryWeights" list="#{'INVERSESIZE':'Inverse of Size','NOWEIGHTING':'No Weighting','MANUAL':'Set Manually...'}" /></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="100%" colspan="2">
+                    <div class="StandardTextDarkGrayParagraph" id="submitMessage">
+                    <i>Weighting will improve modeling on imbalanced datasets.
+                    When optimizing the model, the accuracy on members of different categories will be
+                    weighted depending on the values you input.</i>
+                    </div>
+                    </td>
+                </tr>
+                -->
         <div class="StandardTextDarkGrayParagraph"><br /><input type="button" value="View Dataset" property="text" onclick="showDataset()"/> <i> Opens in a new window. Check your browser settings if the new window does not appear.</i></div>
         <br />
     </div>
@@ -400,16 +400,16 @@ $(window).load(function() {
         <div class="StandardTextDarkGrayParagraphNoIndent"><s:radio name="scalingType" id="scalingType" value="scalingType" list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" /></div>
 
         <!-- <tr>
-					<td>
-					<div class="StandardTextDarkGrayParagraph"><b>Minimum Standard Deviation:</b></div>
-					</td>
-					<td align="left" valign="top"><s:textfield name="stdDevCutoff" id="stdDevCutoff" size="5" /></td>
-				</tr>		
-				<tr>
-					<td colspan="2">
-					<div class="StandardTextDarkGrayParagraph"><i>Each descriptor that has values with lower standard deviation than the minimum will be removed.<br /></i></div>
-					</td>
-				</tr>	 -->
+                    <td>
+                    <div class="StandardTextDarkGrayParagraph"><b>Minimum Standard Deviation:</b></div>
+                    </td>
+                    <td align="left" valign="top"><s:textfield name="stdDevCutoff" id="stdDevCutoff" size="5" /></td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                    <div class="StandardTextDarkGrayParagraph"><i>Each descriptor that has values with lower standard deviation than the minimum will be removed.<br /></i></div>
+                    </td>
+                </tr>	 -->
 
         <div class="StandardTextDarkGrayParagraph"><b>Maximum Correlation:</b></div>
         <s:textfield name="correlationCutoff" id="correlationCutoff" size="5" />
