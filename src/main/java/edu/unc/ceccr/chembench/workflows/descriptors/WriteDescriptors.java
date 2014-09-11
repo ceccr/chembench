@@ -1,6 +1,10 @@
 package edu.unc.ceccr.chembench.workflows.descriptors;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import com.google.common.collect.Sets.SetView;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Descriptors;
 import edu.unc.ceccr.chembench.utilities.Utility;
@@ -10,10 +14,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 
 public class WriteDescriptors {
@@ -364,73 +365,41 @@ public class WriteDescriptors {
     public static void removeDescriptorsNotInPredictor(List<Descriptors> descriptorMatrix,
                                                        StringBuffer descriptorNameStringBuffer,
                                                        String predictorDescriptorNameString) {
+        logger.debug("removing descriptors from dataset not contained in predictor");
+        // determine intersection of the two sets of descriptor names:
+        // one set is the dataset being trimmed, the other is the predictor used for comparison
+        String[] datasetDescriptorNames = descriptorNameStringBuffer.toString().split("\\s+");
+        Set<String> datasetDescriptors = ImmutableSet.copyOf(datasetDescriptorNames);
+        Set<String> predictorDescriptors = ImmutableSet.copyOf(predictorDescriptorNameString.split("\\s+"));
+        SetView<String> commonDescriptors = Sets.intersection(datasetDescriptors, predictorDescriptors);
+        logger.debug(String.format("%d descriptors in dataset, %d descriptors in predictor; size of intersection: %d",
+                datasetDescriptors.size(), predictorDescriptors.size(), commonDescriptors.size()));
 
-        // removes any descriptors that weren't in the predictor
-        // used only during prediction
-        logger.debug("removing descriptors that weren't in the " + "predictor from the prediction descriptor matrix");
-
-        String descriptorNameString = descriptorNameStringBuffer.toString();
-        List<String> descriptorNames = Lists.newArrayList();
-        descriptorNames.addAll(Arrays.asList(descriptorNameString.split("\\s+")));
-        List<String> predictorDescriptorNames = Lists.newArrayList();
-        predictorDescriptorNames.addAll(Arrays.asList(predictorDescriptorNameString.split("\\s+")));
-
-        // first, create a mapping -- each descriptorName
-        // will either point to the index of a predictorDescriptorName
-        // or to nothing (-1).
-        List<Integer> mapping = Lists.newArrayList(descriptorNames.size());
-        for (int i = 0; i < descriptorNames.size(); i++) {
-            mapping.add(-1);
-        }
-
-        int si = 0;
-        for (int i = 0; i < predictorDescriptorNames.size(); i++) {
-
-            // skip all non-matching ones
-            while ((si < descriptorNames.size()) && !descriptorNames.get(si)
-                    .equalsIgnoreCase(predictorDescriptorNames.get(i))) {
-                mapping.set(si, -1);
-                si++;
-            }
-
-            // find a match
-            if (si < descriptorNames.size()) {
-                mapping.set(si, i);
-                si++;
+        // build a set of column indexes corresponding to the common descriptors
+        Set<Integer> commonColumnIndexes = Sets.newHashSet();
+        for (int i = 0; i < datasetDescriptorNames.length; i++) {
+            if (commonDescriptors.contains(datasetDescriptorNames[i])) {
+                commonColumnIndexes.add(i);
             }
         }
 
-        while (si < descriptorNames.size()) {
-            mapping.set(si, -1);
-            si++;
-        }
-        logger.debug("done creating mapping.");
-
-        // use the mapping to get rid of descriptors where mapping == -1.
-        for (int i = 0; i < descriptorMatrix.size(); i++) {
-            List<String> descriptorValues = Lists.newArrayList();
-            descriptorValues.addAll(Arrays.asList(descriptorMatrix.get(i).getDescriptorValues().split("\\s+")));
-            for (int j = mapping.size() - 1; j >= 0; j--) {
-                if (mapping.get(j) == -1 && j < descriptorValues.size()) {
-                    descriptorValues.remove(j);
+        // trim dataset's descriptor value strings so that only values corresponding to
+        // descriptors in both datasets are kept
+        for (Descriptors descriptors : descriptorMatrix) {
+            String[] oldValues = descriptors.getDescriptorValues().split("\\s+");
+            List<String> newValues = Lists.newArrayList();
+            for (int i = 0; i < oldValues.length; i++) {
+                if (commonColumnIndexes.contains(i)) {
+                    newValues.add(oldValues[i]);
                 }
             }
-            Descriptors di = descriptorMatrix.get(i);
-            di.setDescriptorValues(Utility.StringListToString(descriptorValues));
-            descriptorMatrix.set(i, di);
-            descriptorValues.clear(); // cleanup
+            descriptors.setDescriptorValues(Joiner.on(" ").join(newValues));
         }
-        if (descriptorNames != null) {
-            for (int j = mapping.size() - 1; j >= 0; j--) {
-                if (mapping.get(j) == -1) {
-                    descriptorNames.remove(j);
-                }
-            }
-        }
-        descriptorNameString = Utility.StringListToString(descriptorNames);
+
+        // update the descriptor names to reflect only the intersection
         descriptorNameStringBuffer.setLength(0);
-        descriptorNameStringBuffer.append(descriptorNameString);
-
+        descriptorNameStringBuffer.append(Joiner.on(" ").join(commonDescriptors));
+        logger.debug("done trimming dataset descriptors");
     }
 
     public static void readPredictorXFile(StringBuffer predictorDescriptorNameString,
