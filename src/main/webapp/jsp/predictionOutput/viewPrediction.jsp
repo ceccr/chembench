@@ -46,9 +46,6 @@
 
         return true;
     }
-    $(window).load(function() {
-        $(".double-scroll").doubleScroll();
-    });
     </script>
 
 </head>
