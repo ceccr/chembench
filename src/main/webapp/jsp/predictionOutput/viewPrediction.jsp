@@ -140,14 +140,14 @@
 $(document).ready(function() {
     //adding a bigger compound image on mouse enter
 
-    $('.compound_img_a').live("mouseover",function(e){
+    $('.compound_img_a').mouseover(function() {
         $("img","#image_hint").attr("src", $("img", this).attr("src"));
         var position = $("img", this).offset();
         $("#image_hint").show();
         $("#image_hint").css({"left":position.left+155,"top":position.top-75});
         });
 
-    $('.compound_img_a').live("mouseout",function(){
+    $('.compound_img_a').mouseout(function() {
         $("#image_hint").hide();
     });
 });
