@@ -6,6 +6,7 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 
 import java.io.BufferedWriter;
@@ -20,6 +21,8 @@ public class WriteCsv {
     //In most cases, the files generated during the running of a job are
     //of no use to humans. These functions generate downloadable results
     //files that give job results in a more readable form.
+
+    private static Logger logger = Logger.getLogger(WriteCsv.class.getName());
 
     public static void writeExternalPredictionsAsCSV(Long predictorId) throws Exception {
         Session s = HibernateUtil.getSession();
@@ -82,6 +85,7 @@ public class WriteCsv {
     }
 
     public static void writePredictionValuesAsCSV(Long predictionId) throws Exception {
+        logger.debug(String.format("Writing out prediction %d as CSV", predictionId));
         Session s = HibernateUtil.getSession();
         Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
 
