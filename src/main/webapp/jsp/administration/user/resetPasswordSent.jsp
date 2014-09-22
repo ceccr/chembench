@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="s" uri="/struts-tags" %>
-<%@page language="java" import="java.util.*" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@page language="java" import="java.util.*"%>
 
 <html>
 <head>
@@ -22,22 +22,22 @@
 
 </head>
 <body>
-<!--  Navigation Bars  -->
-<div class="outer">
+  <!--  Navigation Bars  -->
+  <div class="outer">
 
-    <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
-    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
+    <div class="includesHeader"><%@include file="/jsp/main/header.jsp"%></div>
+    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp"%></div>
 
-<!--  main content -->
+    <!--  main content -->
     <div class="StandardTextDarkGrayParagraph">
-		Your password has been reset. <br />
-		An email containing the password has been sent to <font color="red"><s:property value="email" /></font>.<br />
-		When the email arrives, you'll want to return to <a href="home">Home page</a> and log in.<br />
-		You may change your password from the 'edit profile' page when you are logged in.<br /><br />
+      Your password has been reset. <br /> An email containing the password has been sent to <font color="red"><s:property
+          value="email" /></font>.<br /> When the email arrives, you'll want to return to <a href="home">Home page</a> and
+      log in.<br /> You may change your password from the 'edit profile' page when you are logged in.<br />
+      <br />
     </div>
-    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+    <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
 
-</div>
+  </div>
 </body>
 </html>
 

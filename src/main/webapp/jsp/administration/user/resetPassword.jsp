@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="s" uri="/struts-tags" %>
-<%@page language="java" import="java.util.*" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
+<%@page language="java" import="java.util.*"%>
 
 <html>
 <head>
-<title>CHEMBENCH | Reset Password </title>
+<title>CHEMBENCH | Reset Password</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -25,33 +25,33 @@
 
 </head>
 <body>
-<!-- Navigation bar -->
-<div class="outer">
+  <!-- Navigation bar -->
+  <div class="outer">
 
-    <div class="includesHeader"><%@include file="/jsp/main/header.jsp" %></div>
-    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp" %></div>
+    <div class="includesHeader"><%@include file="/jsp/main/header.jsp"%></div>
+    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp"%></div>
 
-<!-- Main page -->
-			<table>
-				<tr>
-					<td class="ChangePSText">
-						<form action="resetPassword" ><br/>
-							<b>Reset Your Password</b><br/><br/>
-	          				Your username: <br/>
-	          				<s:textfield name="userName" size="20" theme="simple" />
-			 				<br/><br/>
-	           				Your email address: <br/>
-	         				<s:textfield name="email" size="35" theme="simple" />
-			    			<br /><br />
-			    			<input type="submit" value="Submit" >
-			    			<br /><br />
-			    			<s:property value="errorMessage" />
-		    			</form>
-     				</td>
-     			</tr>
-     		</table>
-    <div class="includes"><%@include file ="/jsp/main/footer.jsp" %></div>
+    <!-- Main page -->
+    <table>
+      <tr>
+        <td class="ChangePSText">
+          <form action="resetPassword">
+            <br /> <b>Reset Your Password</b><br />
+            <br /> Your username: <br />
+            <s:textfield name="userName" size="20" theme="simple" />
+            <br />
+            <br /> Your email address: <br />
+            <s:textfield name="email" size="35" theme="simple" />
+            <br />
+            <br /> <input type="submit" value="Submit"> <br />
+            <br />
+            <s:property value="errorMessage" />
+          </form>
+        </td>
+      </tr>
+    </table>
+    <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
 
-</div>
+  </div>
 </body>
 </html>
