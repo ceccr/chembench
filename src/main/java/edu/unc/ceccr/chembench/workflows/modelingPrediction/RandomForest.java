@@ -1,15 +1,21 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
 import com.google.common.collect.Lists;
+
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
+
 import org.apache.log4j.Logger;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 public class RandomForest {
@@ -342,7 +348,7 @@ public class RandomForest {
     public static void cleanUpExcessFiles(String workingDir) {
         // remove the training and test set .x files; they are no longer
         // needed and take up lots of space
-
+        logger.debug("Cleaning up excess files in " + workingDir);
         try {
             // open RF_RAND_sets.list and remove the .x files listed in it
             BufferedReader in = new BufferedReader(new FileReader(workingDir + "RF_RAND_sets.list"));
@@ -374,6 +380,32 @@ public class RandomForest {
         } catch (Exception ex) {
             logger.error(ex);
         }
+
+        int treeFilesDeleted = 0;
+        File[] treeLists = new File(workingDir).listFiles(new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                return name.toLowerCase().endsWith("trees.list");
+            }
+        });
+        for (File treeList : treeLists) {
+            try {
+                List<String> filenames = Files.readAllLines(treeList.toPath(), StandardCharsets.UTF_8);
+                for (String filename : filenames) {
+                    try {
+                        Path treeFile = Paths.get(workingDir, filename);
+                        Files.delete(treeFile);
+                    } catch (IOException e) {
+                        logger.error("Couldn't delete tree file: " + filename, e);
+                    }
+                }
+            } catch (IOException e) {
+                logger.error("Couldn't open tree file list", e);
+            }
+            treeList.delete();
+        }
+        logger.debug(String.format("%d tree files deleted.", treeFilesDeleted));
+        logger.debug("Done cleaning excess files");
     }
 
     // END MODELING WORKFLOW FUNCTIONS
