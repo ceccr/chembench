@@ -20,12 +20,12 @@
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
-<script language="javascript" src="javascript/script.js"></script>
-<script language="javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script language="javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
-<script language="javascript" src="javascript/jquery.doubleScroll.js"></script>
+<script src="javascript/script.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="javascript/jquery.doubleScroll.js"></script>
 
-<script language="javascript">
+<script>
     function loadPredictionValuesTab(newUrl){
         //When the user changes which page they're on in the Prediction Values tab
         //or changes the sorted element, run this function to update the tab's content
@@ -134,7 +134,7 @@
     <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
 
   </div>
-  <script language="javascript">
+  <script>
 $(document).ready(function() {
     //adding a bigger compound image on mouse enter
     $('.compound_img_a').mouseover(function() {
