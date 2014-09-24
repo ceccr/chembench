@@ -6,6 +6,7 @@ import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.*;
 import edu.unc.ceccr.chembench.workflows.descriptors.ConvertDescriptorsToXAndScale;
 import edu.unc.ceccr.chembench.workflows.descriptors.GenerateDescriptors;
+import edu.unc.ceccr.chembench.workflows.download.WriteCsv;
 import edu.unc.ceccr.chembench.workflows.modelingPrediction.*;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 import org.apache.log4j.Logger;
@@ -700,6 +701,7 @@ public class QsarPredictionTask extends WorkflowTask {
 
             File dir = new File(Constants.CECCR_USER_BASE_PATH + this.userName + "/" + this.jobName + "/");
             FileAndDirOperations.deleteDir(dir);
+            WriteCsv.writePredictionValuesAsCSV(prediction.getId());
 
         } catch (Exception ex) {
             logger.error("User: " + userName + "Job: " + jobName + " " + ex);

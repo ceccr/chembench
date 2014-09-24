@@ -65,8 +65,10 @@ public class FileServlet extends HttpServlet {
                 dirName += prediction.getName() + "/";
 
                 if (file.equalsIgnoreCase("predictionAsCSV")) {
-                    WriteCsv.writePredictionValuesAsCSV(Long.parseLong(id));
                     fileName = prediction.getName() + "-prediction-values.csv";
+                    if (!(new File(dirName, fileName).exists())) {
+                        WriteCsv.writePredictionValuesAsCSV(Long.parseLong(id));
+                    }
                 }
             }
             s.close();
