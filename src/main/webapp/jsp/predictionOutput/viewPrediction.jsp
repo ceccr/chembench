@@ -1,61 +1,21 @@
-<!DOCTYPE html>
-
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags"%>
-<%@page language="java" import="java.util.*"%>
+
+<!DOCTYPE html>
 <html>
 <head>
-<sx:head debug="false" cache="false" compressed="true" />
 <title>CHEMBENCH | View Prediction</title>
-
-<link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
-<link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
-<link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
-<link href="theme/standard.css" rel="stylesheet" type="text/css">
-<link href="theme/links.css" rel="stylesheet" type="text/css">
-<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
-<link rel="icon" href="/theme/img/mml.ico" type="image/ico">
-<link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
-<link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-
-<script src="javascript/script.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
-<script src="javascript/jquery.doubleScroll.js"></script>
-
-<script>
-function loadPredictionValuesTab(newUrl){
-    //When the user changes which page they're on in the Prediction Values tab
-    //or changes the sorted element, run this function to update the tab's content
-
-    //prepare the AJAX object
-    var ajaxObject = GetXmlHttpObject();
-    ajaxObject.onreadystatechange=function(){
-        if(ajaxObject.readyState==4){
-            hideLoading();
-            document.getElementById("predictionValuesDiv").innerHTML=ajaxObject.responseText;
-        }
-    }
-    showLoading("LOADING. PLEASE WAIT.")
-
-    //send request
-    ajaxObject.open("GET",newUrl,true);
-    ajaxObject.send(null);
-
-    return true;
-}
-</script>
-
+<%@ include file="/jsp/main/head.jsp"%>
+<sx:head />
 </head>
 
 <body onload="setTabToMyBench();">
 
   <div class="outer">
 
-    <div class="includesHeader"><%@include file="/jsp/main/header.jsp"%></div>
-    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp"%></div>
+    <div class="includesHeader"><%@ include file="/jsp/main/header.jsp"%></div>
+    <div class="includesNavbar"><%@ include file="/jsp/main/centralNavigationBar.jsp"%></div>
 
     <span id="maincontent" style="overflow: auto;">
       <table width="924" align="center">
@@ -65,14 +25,14 @@ function loadPredictionValuesTab(newUrl){
               <br /> <b>Prediction Name: </b>
               <s:property value="prediction.name" />
               <br /> <b>Dataset Predicted: </b><a href="viewDataset?id=<s:property value="prediction.datasetId" />"><s:property
-                  value="prediction.datasetDisplay" /></a><br /> <b>Predictors Used: &nbsp;</b>
+                  value="prediction.datasetDisplay" /></a><br /> <b>Predictors Used:</b>
               <s:iterator value="predictors" status="predictorsStatus1">
                 <s:url id="predictorLink" value="/viewPredictor" includeParams="none">
                   <s:param name="id" value='id' />
                 </s:url>
                 <s:a href="%{predictorLink}">
                   <s:property value="name" />
-                </s:a>&nbsp;&nbsp;
+                </s:a>
             </s:iterator>
               <br /> <b>Date Created: </b>
               <s:date name="prediction.dateCreated" format="yyyy-MM-dd HH:mm" />
@@ -82,8 +42,7 @@ function loadPredictionValuesTab(newUrl){
               <s:elseif test="prediction.similarityCutoff==1.0"> 1&sigma; </s:elseif>
               <s:elseif test="prediction.similarityCutoff==2.0"> 2&sigma; </s:elseif>
               <s:elseif test="prediction.similarityCutoff==3.0"> 3&sigma; </s:elseif>
-              <br />
-              <br /> <a
+              <br /> <br /> <a
                 href="fileServlet?id=<s:property value="prediction.id" />&user=<s:property value="userName" />&jobType=PREDICTION&file=predictionAsCSV">Download
                 This Prediction Result (CSV)</a> <br /> <a href="jobs#predictions">Back to Predictions</a>
             </div>
@@ -131,22 +90,13 @@ function loadPredictionValuesTab(newUrl){
     <div id="image_hint" style="display: none; border: #FFF solid 1px; width: 300px; height: 300px; position: absolute">
       <img src="" width="300" height="300" />
     </div>
-    <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
-
+    <div class="includes"><%@ include file="/jsp/main/footer.jsp"%></div>
   </div>
-  <script>
-  $(document).ready(function() {
-      //adding a bigger compound image on mouse enter
-      $('.compound_img_a').mouseover(function() {
-          $("img","#image_hint").attr("src", $("img", this).attr("src"));
-          var position = $("img", this).offset();
-          $("#image_hint").show();
-          $("#image_hint").css({"left":position.left+155,"top":position.top-75});
-          });
 
-      $('.compound_img_a').mouseout(function() {
-          $("#image_hint").hide();
-      });
-  });
-</script>
+  <script src="javascript/script.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+  <script src="javascript/jquery.doubleScroll.js"></script>
+  <script src="javascript/viewPrediction.js"></script>
 </body>
+</html>
