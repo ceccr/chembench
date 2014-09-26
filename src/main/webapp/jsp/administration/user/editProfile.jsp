@@ -3,32 +3,15 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags"%>
-<%@page language="java" import="java.util.*"%>
 
 <html>
 <head>
 <sx:head debug="false" cache="false" compressed="true" />
 
 <title>CHEMBENCH | Edit Profile</title>
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-
-<link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
-<link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
-<link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
-<link href="theme/standard.css" rel="stylesheet" type="text/css">
-<link href="theme/links.css" rel="stylesheet" type="text/css">
-<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
-<link rel="icon" href="/theme/img/mml.ico" type="image/ico">
-<link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
-<link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-
-<script language="javascript" src="javascript/script.js"></script>
-<script language="javascript" src="javascript/modeling.js"></script>
-<script src="javascript/predictorFormValidation.js"></script>
-<script language="javascript" src="javascript/editProfileAndSettings.js"></script>
+<%@ include file="/jsp/main/head.jsp"%>
+<script src="javascript/chembench.js"></script>
+<script src="javascript/editProfileAndSettings.js"></script>
 
 </head>
 <body onload="setTabToHome();">

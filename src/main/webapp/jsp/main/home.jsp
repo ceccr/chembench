@@ -20,7 +20,7 @@
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script language="JavaScript" src="javascript/script.js">
+<script language="JavaScript" src="javascript/chembench.js">
 
 </script>
 

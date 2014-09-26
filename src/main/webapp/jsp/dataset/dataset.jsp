@@ -20,7 +20,7 @@
 <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-<script src="javascript/script.js"></script>
+<script src="javascript/chembench.js"></script>
 <script src="javascript/dataset.js"></script>
 <script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>
 

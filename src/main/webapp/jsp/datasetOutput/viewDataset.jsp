@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css"
   href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css"></link>
 
-<script language="javascript" src="javascript/script.js" />
+<script language="javascript" src="javascript/chembench.js" />
 <script src="javascript/AC_RunActiveContent.js"></script>
 <script src="javascript/hookMouseWheel.js"></script>
 

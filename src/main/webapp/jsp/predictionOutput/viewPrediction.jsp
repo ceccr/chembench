@@ -93,7 +93,7 @@
     <div class="includes"><%@ include file="/jsp/main/footer.jsp"%></div>
   </div>
 
-  <script src="javascript/script.js"></script>
+  <script src="javascript/chembench.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
   <script src="javascript/jquery.doubleScroll.js"></script>
