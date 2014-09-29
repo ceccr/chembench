@@ -1,39 +1,47 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
-<div class="homeLeft">
-  <img src="theme/ccbTheme/images/ccbLogo.jpg" alt="Chembench logo" id="header-image" name="header-image">
-</div>
+<header>
+  <div class="row">
+  <h1 class="col-md-8">
+    <a href=""><img src="theme/ccbTheme/images/ccbLogo.jpg" alt="Chembench"></a>
+  </h1>
 
-<div class="StandardTextDarkGrayParagraph loginRight">
-  <s:if test="#session['user']!=null">
-    <s:if test="#session['user'].userName!=''">
-      <div align="right">
-        <span style="color: #F00"></span><span class="StandardTextDarkGray4">Logged in as <s:if
-            test="#session['user'].userName.contains('guest')">
-            <b>guest</b>.
-                  </s:if> <s:else>
-            <b><s:property value="#session['user'].userName" /></b>.
-                  </s:else>
-        </span>
+  <div id="userbox" class="col-md-2">
+    <s:if test="#session['user']!=null">
+      <div>
+        Logged in as
+        <s:if test="#session['user'].userName.contains('guest')">
+          a <strong>guest</strong>.
+        </s:if>
+        <s:else>
+          <strong><s:property value="#session['user'].userName" /></strong>.
+        </s:else>
       </div>
-      <div align="right">
-        <a href="/logout">log out</a>
+      <ul id="userbox-links">
+        <li><a href="/logout">log out</a></li>
+        <li><a href="help-overview">help</a></li>
         <s:if test="!#session['user'].userName.contains('guest')">
-                    | <a href="editProfile">edit profile</a>
+          <li><a href="/editProfile">edit profile</a></li>
         </s:if>
-        | <a href="help-overview" target="_top">help pages</a>
         <s:if test="#session['user'].isAdmin=='YES'">
-                    | <a href="admin">admin</a>
+          <li><a href="/admin">admin</a></li>
         </s:if>
-      </div>
+      </ul>
     </s:if>
-    <s:else>
-      <p align="right">
-        <span><span class="StandardTextDarkGray4"> ERROR: Username empty. Logout or restart your browser.
-            <button onclick="logout()" type="button" class="LoginBoxes1"
-              style="border-style: solid; border-color: gray; border-width: 1px">logout</button>
-        </span></span>
-      </p>
-    </s:else>
-  </s:if>
-</div>
+  </div>
+  </div>
+
+  <nav>
+    <ul class="nav-list">
+      <li id="nav-button-home"><a href="/home">Home</a></li>
+      <li id="nav-button-mybench"><a href="/jobs">My Bench</a></li>
+      <li id="nav-button-datasets"><a href="/dataset">Datasets</a></li>
+      <li id="nav-button-modeling"><a href="/modeling">Modeling</a></li>
+      <li id="nav-button-prediction"><a href="/prediction">Prediction</a></li>
+    </ul>
+  </nav>
+
+  <noscript>Warning: JavaScript is disabled on your computer. Some parts of Chembench may not work properly.
+    Please enable JavaScript.</noscript>
+
+</header>
