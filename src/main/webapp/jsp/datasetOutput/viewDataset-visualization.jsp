@@ -2,7 +2,7 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page language="java" import="java.util.*"%>
 
-<script src="javascript/chembench.js"></script>
+<script src="javascript/Chembench.js"></script>
 <script src="javascript/AC_RunActiveContent.js"></script>
 <script src="javascript/hookMouseWheel.js"></script>
 <script type="text/javascript">

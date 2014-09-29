@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>CHEMBENCH | Select Predictors</title>
+<title>Chembench | Select Predictors</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
@@ -21,7 +21,7 @@
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
 
-<script src="javascript/chembench.js"></script>
+<script src="javascript/Chembench.js"></script>
 <script language="JavaScript" src="javascript/sortableTable.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>

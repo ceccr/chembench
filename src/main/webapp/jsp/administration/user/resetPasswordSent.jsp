@@ -5,7 +5,7 @@
 
 <html>
 <head>
-<title>CHEMBENCH | Password Reset</title>
+<title>Chembench | Password Reset</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
@@ -18,7 +18,7 @@
 <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-<script src="javascript/chembench.js"></script>
+<script src="javascript/Chembench.js"></script>
 
 </head>
 <body>

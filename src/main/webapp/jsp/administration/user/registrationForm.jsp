@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>CHEMBENCH | Registration</title>
+<title>Chembench | Registration</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
 <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
@@ -20,7 +20,7 @@
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
-<script src="javascript/chembench.js"></script>
+<script src="javascript/Chembench.js"></script>
 <script src="javascript/yahoo/yahoo.js"></script>
 <script src="javascript/dom/dom.js"></script>
 <script src="javascript/event/event.js"></script>

@@ -9,7 +9,7 @@
       scripting knowledge to use. It's an interface that lets you skip past the hassles of file management and
       translating between programs, so you can focus on the science of making and applying predictive models.</p>
 
-    <p>The first step in using Chembench is to create an account. Point a browser at http://chembench.mml.unc.edu
+    <p>The first step in using Chembench is to create an account. Point a browser at http://Chembench.mml.unc.edu
       and hit "register here" under the login box. When you submit the form, you'll be sent a password by email. If you
       prefer not to make an account, you can explore the website as a guest user; however, your work will not be saved.</p>
 

@@ -19,7 +19,7 @@
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
-<script src="javascript/chembench.js"></script>
+<script src="javascript/Chembench.js"></script>
 <script type="text/javascript">
         function checkContent()
         {

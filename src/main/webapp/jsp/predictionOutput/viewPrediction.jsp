@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CHEMBENCH | View Prediction</title>
+<title>Chembench | View Prediction</title>
 <%@ include file="/jsp/main/head.jsp"%>
 <sx:head />
 </head>
@@ -93,7 +93,7 @@
     <div class="includes"><%@ include file="/jsp/main/footer.jsp"%></div>
   </div>
 
-  <script src="javascript/chembench.js"></script>
+  <script src="javascript/Chembench.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
   <script src="javascript/jquery.doubleScroll.js"></script>

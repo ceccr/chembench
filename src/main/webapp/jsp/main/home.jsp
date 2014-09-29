@@ -29,7 +29,7 @@
             Libraries Probe Production Centers Network (MLPCN)</a> and the Chemical Synthesis Centers.
         </p>
         <p>
-          Please cite this website using the following URL: <a href="http://chembench.mml.unc.edu">http://chembench.mml.unc.edu</a>
+          Please cite this website using the following URL: <a href="http://Chembench.mml.unc.edu">http://Chembench.mml.unc.edu</a>
         </p>
         <hr {color="" background-color="" #fff="" border="" 1px="" #ff0000="" border-style="" none="" dotted=""}="">
         <p>

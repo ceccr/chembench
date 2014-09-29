@@ -7,7 +7,7 @@
 <html>
 <head>
 <sx:head debug="false" cache="false" compressed="true" />
-<title>CHEMBENCH | View Dataset</title>
+<title>Chembench | View Dataset</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
@@ -27,7 +27,7 @@
 <link rel="stylesheet" type="text/css"
   href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css"></link>
 
-<script language="javascript" src="javascript/chembench.js" />
+<script language="javascript" src="javascript/Chembench.js" />
 <script src="javascript/AC_RunActiveContent.js"></script>
 <script src="javascript/hookMouseWheel.js"></script>
 

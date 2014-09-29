@@ -7,7 +7,7 @@
 <html>
 <head>
 <sx:head debug="false" cache="false" compressed="true" />
-<title>CHEMBENCH | Modeling</title>
+<title>Chembench | Modeling</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
@@ -20,7 +20,7 @@
 <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-<script src="javascript/chembench.js"></script>
+<script src="javascript/Chembench.js"></script>
 <script src="javascript/dataset.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 
@@ -312,7 +312,7 @@ $(window).load(function() {
     }
 });
 </script>
-<script language="javascript" src="javascript/chembench.js"></script>
+<script language="javascript" src="javascript/Chembench.js"></script>
 <script language="javascript" src="javascript/modeling.js"></script>
 
 

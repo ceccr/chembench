@@ -7,7 +7,7 @@
 <%@page language="java" import="java.util.*"%>
 <html>
 <head>
-<title>CHEMBENCH | Error</title>
+<title>Chembench | Error</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
@@ -21,7 +21,7 @@
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
-<script language="javascript" src="javascript/chembench.js"></script>
+<script language="javascript" src="javascript/Chembench.js"></script>
 </head>
 
 <body>

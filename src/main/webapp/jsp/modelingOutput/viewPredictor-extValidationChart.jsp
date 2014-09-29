@@ -3,7 +3,7 @@
 <%@page language="java" import="java.util.*"%>
 <html>
 <head>
-<title>CHEMBENCH | View Predictor</title>
+<title>Chembench | View Predictor</title>
 
 <link href="theme/ss.css" rel="stylesheet" type="text/css" />
 <link href="theme/ajaxtabs.css" rel="stylesheet" type="text/css" />
@@ -14,7 +14,7 @@
 <link rel="icon" href="theme/img/mml.ico" type="image/ico" />
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 
-<script language="JavaScript" src="/javascript/chembench.js"></script>
+<script language="JavaScript" src="/javascript/Chembench.js"></script>
 <script src="/javascript/jquery-1.4.2-development.js" type="text/javascript"></script>
 <script src="/javascript/jtip.js" type="text/javascript"></script>
 

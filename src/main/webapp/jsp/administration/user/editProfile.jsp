@@ -8,9 +8,9 @@
 <head>
 <sx:head debug="false" cache="false" compressed="true" />
 
-<title>CHEMBENCH | Edit Profile</title>
+<title>Chembench | Edit Profile</title>
 <%@ include file="/jsp/main/head.jsp"%>
-<script src="javascript/chembench.js"></script>
+<script src="javascript/Chembench.js"></script>
 <script src="javascript/editProfileAndSettings.js"></script>
 
 </head>

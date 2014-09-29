@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<title>CHEMBENCH | Administration</title>
+<title>Chembench | Administration</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
 <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
@@ -19,7 +19,7 @@
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
-<script src="javascript/chembench.js"></script>
+<script src="javascript/Chembench.js"></script>
 <script src="javascript/admin.js"></script>
 <script language="JavaScript" src="javascript/sortableTable.js"></script>
 <script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>

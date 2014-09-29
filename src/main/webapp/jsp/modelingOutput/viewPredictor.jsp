@@ -7,7 +7,7 @@
 <html>
 <head>
 <sx:head debug="false" cache="false" compressed="true" />
-<title>CHEMBENCH | View Predictor</title>
+<title>Chembench | View Predictor</title>
 
 <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
 <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
@@ -20,7 +20,7 @@
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
-<script language="JavaScript" src="javascript/chembench.js"></script>
+<script language="JavaScript" src="javascript/Chembench.js"></script>
 <script language="JavaScript" src="javascript/sortableTable-delay.js"></script>
 <script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>
 
