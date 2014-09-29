@@ -1,38 +1,12 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ page language="java" import="java.util.*"%>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>CHEMBENCH | Home</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-<link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
-<link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
-<link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
-<link href="theme/standard.css" rel="stylesheet" type="text/css">
-<link href="theme/links.css" rel="stylesheet" type="text/css">
-<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
-<link rel="icon" href="/theme/img/mml.ico" type="image/ico">
-<link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
-<link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-<script language="JavaScript" src="javascript/chembench.js">
-
-</script>
-
-<!-- focus the username input box -->
-<script>
-    $(document).ready(function() {
-        $('input[name="username"]').focus();
-    });
-</script>
-
+<title>Chembench | Home</title>
+<%@ include file="/jsp/main/head.jsp"%>
 </head>
-<body onload="setTabToHome();">
+<body>
   <div class="outer">
 
     <div class="includesHeader"><%@ include file="/jsp/main/header.jsp"%></div>
@@ -96,10 +70,10 @@
           </s:form>
           <%
               String ipAddress = request.getHeader("X-FORWARDED-FOR");
-              if (ipAddress == null) {
-                  ipAddress = request.getRemoteAddr();
-              }
-              String ip = ipAddress.replaceAll("\\.", "");
+                  if (ipAddress == null) {
+                      ipAddress = request.getRemoteAddr();
+                  }
+                  String ip = ipAddress.replaceAll("\\.", "");
           %>
                 Or, <a href="/login?username=guest&ip=<%=ip%>"
             onclick="alert('The guest account allows a user to explore the function of Chembench with publicly available datasets, predictions based on a molecule, and modeling using random forest. All guest data is deleted when you leave the site or are inactive for 90 minutes. For additional function, please register.')">
@@ -187,5 +161,14 @@
 
   </div>
 
+  <%@ include file="/jsp/main/tail.jsp"%>
+  <script>
+  <!-- focus the username input box -->
+  $(document).ready(function() {
+      $('input[name="username"]').focus();
+
+      setTabToHome();
+  });
+  </script>
 </body>
 </html>
