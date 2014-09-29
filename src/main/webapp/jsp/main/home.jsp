@@ -13,8 +13,8 @@
     <div class="includesNavbar"><%@ include file="/jsp/main/centralNavigationBar.jsp"%></div>
 
     <div class="homeLeft topMarginBench">
-      <h2 class="ccbHomeHeadings">ACCELERATING CHEMICAL GENOMICS RESEARCH BY CHEMINFORMATICS</h2>
-      <hr {color="" background-color="" #fff="" border="" 1px="" #ff0000="" border-style="" none="" dotted=""}="">
+      <h2 class="ccbHomeHeadings">Accelerating chemical genomics research</h2>
+      <hr>
       <div class="ccbHomeStandard">
         <p>Chembench is a free portal that enables researchers to mine available chemical and biological data.
           Chembench can help researchers rationally design or select new compounds or compound libraries with
@@ -29,9 +29,9 @@
             Libraries Probe Production Centers Network (MLPCN)</a> and the Chemical Synthesis Centers.
         </p>
         <p>
-          Please cite this website using the following URL: <a href="http://Chembench.mml.unc.edu">http://Chembench.mml.unc.edu</a>
+          Please cite this website using the following URL: <a href="http://chembench.mml.unc.edu">http://Chembench.mml.unc.edu</a>
         </p>
-        <hr {color="" background-color="" #fff="" border="" 1px="" #ff0000="" border-style="" none="" dotted=""}="">
+        <hr>
         <p>
           The Carolina Cheminformatics Workbench (Chembench) is developed by the Carolina Exploratory Center for
           Cheminformatics Research (CECCR) with the support of the <a href="http://www.nih.gov" target="_blank">National
@@ -45,25 +45,26 @@
     </div>
     <div class="homeRight topMarginBench bottomMarginDataset">
       <div class="ccbHomeStandard border">
-        <span class="ccbLoginBoxHeading">Please login</span>
+        <s:if test="user == null">
+          <span class="ccbLoginBoxHeading">Please log in</span>
+        </s:if>
+        <s:else>
+          <span class="ccbLoginBoxHeading">Welcome back</span>
+        </s:else>
         <s:if test="user==null">
           <s:form action="login" enctype="multipart/form-data" method="post" theme="simple">
             <table>
               <tbody>
                 <tr>
                   <td>Username:</td>
-                  <td><s:textfield name="username" id="username" size="12"
-                      onfocus="if (this.value=='username'){value=''}" theme="simple"></s:textfield></td>
+                  <td><s:textfield name="username" id="username" size="12" theme="simple" /></td>
                 </tr>
                 <tr>
                   <td>Password:</td>
-                  <td><s:password name="password" id="password" size="12"
-                      onfocus="if (this.value=='password'){value=''}" theme="simple"></s:password></td>
+                  <td><s:password name="password" id="password" size="12" theme="simple" /></td>
                 </tr>
                 <tr>
-                  <td><label><input name="Submit" class="StandardTextDarkGray4" value="login"
-                      style="border: 1px solid blue; text-align: center; font-size: 14px;" type="submit"></label></td>
-                  <td></td>
+                  <td><input class="login-button" value="Log in" type="submit"></td>
                 </tr>
               </tbody>
             </table>
@@ -92,23 +93,16 @@
         <s:if test="user!=null">
           <s:if test="user.userName!=''">
             <s:if test="user.userName.contains('guest')">
-                    Welcome, guest &nbsp;
-                </s:if>
+              Logged in as a <strong>guest</strong>
+            </s:if>
             <s:else>
-                    Welcome, <s:property value="user.userName" /> &nbsp;
-                </s:else>
-            <button class="logout-button" type="button" class="StandardTextDarkGray4"
-              style="border-style: solid; border-color: gray; border-width: 1px">logout</button>
+              Logged in as <strong><s:property value="user.userName" /></strong>
+            </s:else>
           </s:if>
           <s:else>
-            <p align="right">
-              <span><span class="StandardTextDarkGray4"> ERROR: Username empty. Logout or restart your
-                  browser.
-                  <button class="logout-button" type="button" class="StandardTextDarkGray4"
-                    style="border-style: solid; border-color: gray; border-width: 1px; text-align: center; font-size: 14px;">logout</button>
-                  &nbsp &nbsp &nbsp
-              </span></span>
+            <span class="StandardTextDarkGray4"> ERROR: Username empty. Please log out or restart your browser.</span>
           </s:else>
+          <button class="logout-button" type="button">Log out</button>
         </s:if>
         <br> <span class="ccbLoginBoxHeading">New Users</span> <br> Please <a href="loadRegistrationPage">register
           here</a> <br> <br> <span class="ccbLoginBoxHeading">Help &amp; Links</span> <br> <a
@@ -151,12 +145,7 @@
       </div>
     </div>
 
-    <div>
-      <br />
-    </div>
-
-    <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
-
+    <%@include file="/jsp/main/footer.jsp"%>
   </div>
 
   <%@ include file="/jsp/main/tail.jsp"%>
@@ -168,7 +157,11 @@
       setTabToHome();
 
       $("#guest-login").click(function() {
-          alert("The guest account allows a user to explore the function of Chembench with publicly available datasets, predictions based on a molecule, and modeling using random forest. All guest data is deleted when you leave the site or are inactive for 90 minutes. For additional function, please register.");
+          var guestMessage = "A guest account allows a user to explore the functionality of Chembench using " +
+                  "publicly available datasets, predictions on single molecules, and modeling using Random Forests. " +
+                  "All guest data is deleted when you leave the site or become inactive for 90 minutes. For " +
+                  "additional functionality, please register an account.";
+          alert(guestMessage);
       });
 
       $(".logout-button").click(function() {

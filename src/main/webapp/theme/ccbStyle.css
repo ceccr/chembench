@@ -1,71 +1,81 @@
 @charset "utf-8";
+
 .ccbHomeHeadings {
-	font-family:"myriad pro","bitstream vera sans","trebuchet ms","helvetica neue",helvetica,arial,sans-serif;
-	font-size: 22px;
-	color: #333333;
-	font-weight: normal;
+    font-family: "myriad pro", "bitstream vera sans", "trebuchet ms", "helvetica neue", helvetica, arial, sans-serif;
+    font-size: 22px;
+    color: #333333;
+    font-weight: normal;
 }
+
 .ccbHomeStandard {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	color: #4F4F4F;
-	font-weight: normal;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #4F4F4F;
+    font-weight: normal;
 }
 
 .ccbLoginBoxHeading {
-	font-family:"myriad pro","bitstream vera sans","trebuchet ms","helvetica neue",helvetica,arial,sans-serif;
-	font-size: 21px;
-	color: #0977CC;
-	font-weight: normal;
+    font-family: "myriad pro", "bitstream vera sans", "trebuchet ms", "helvetica neue", helvetica, arial, sans-serif;
+    font-size: 21px;
+    color: #0977CC;
+    font-weight: normal;
 }
+
 .ccbHomeStandard a:link {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	color: #5F7692;
-	font-weight: bold;
-	text-decoration: underline;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #5F7692;
+    font-weight: bold;
+    text-decoration: underline;
 }
+
 .ccbHomeStandard a:hover {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	color: #5F76CC;
-	font-weight: bold;
-	text-decoration: underline;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #5F76CC;
+    font-weight: bold;
+    text-decoration: underline;
 }
 
 .ccbHomeStandard a:visited {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	font-size: 14px;
-	color: #5F7692;
-	font-weight: bold;
-	text-decoration: underline;
+    font-family: Geneva, Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #5F7692;
+    font-weight: bold;
+    text-decoration: underline;
 }
 
-.ccbPopupDiv{
-	width:300px;
-	position:fixed;
-	top:200px;
-	left:50%;
-	margin-left:-250px;
-	border:#990000 solid 1px;
-	background-color:#FFFFFF; 
-	padding:10px;
-	font-family:"myriad pro","bitstream vera sans","trebuchet ms","helvetica neue",helvetica,arial,sans-serif;
+.ccbPopupDiv {
+    width: 300px;
+    position: fixed;
+    top: 200px;
+    left: 50%;
+    margin-left: -250px;
+    border: #990000 solid 1px;
+    background-color: #FFFFFF;
+    padding: 10px;
+    font-family: "myriad pro", "bitstream vera sans", "trebuchet ms", "helvetica neue", helvetica, arial, sans-serif;
     font-size: 22px;
     color: #990000;
-    text-align:center;
-	text-shadow:#FFFFFF 1px 1px 1px;
-	z-index: 950;
+    text-align: center;
+    text-shadow: #FFFFFF 1px 1px 1px;
+    z-index: 950;
     font-weight: normal;
-	-moz-box-shadow:0px 0px 10px #000000;
-	-webkit-box-shadow:0px 0px 10px #000000;
-	box-shadow:0px 0px 10px #000000;
-	background-image: -moz-linear-gradient(top, #ffffff, #e0dcdd);
-	background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#e0dcdd));
-	background-image: -o-linear-gradient(top, #ffffff, #e0dcdd);
-	background-color:#FFFFFF;
-	filter:alpha(opacity=100); 
-	-moz-opacity:1;
-	-khtml-opacity: 1;
-	opacity: 1;
+    -moz-box-shadow: 0px 0px 10px #000000;
+    -webkit-box-shadow: 0px 0px 10px #000000;
+    box-shadow: 0px 0px 10px #000000;
+    background-image: -moz-linear-gradient(top, #ffffff, #e0dcdd);
+    background-image: -webkit-gradient(linear, center top, center bottom, from(#ffffff), to(#e0dcdd));
+    background-image: -o-linear-gradient(top, #ffffff, #e0dcdd);
+    background-color: #FFFFFF;
+    filter: alpha(opacity = 100);
+    -moz-opacity: 1;
+    -khtml-opacity: 1;
+    opacity: 1;
+}
+
+.logout-button,.login-button {
+    border: 1px solid blue;
+    text-align: center;
+    font-size: 14px;
 }
