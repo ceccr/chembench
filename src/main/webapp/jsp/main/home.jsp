@@ -75,9 +75,7 @@
                   }
                   String ip = ipAddress.replaceAll("\\.", "");
           %>
-                Or, <a href="/login?username=guest&ip=<%=ip%>"
-            onclick="alert('The guest account allows a user to explore the function of Chembench with publicly available datasets, predictions based on a molecule, and modeling using random forest. All guest data is deleted when you leave the site or are inactive for 90 minutes. For additional function, please register.')">
-            login as a guest</a>
+                Or, <a id="guest-login" href="/login?username=guest&ip=<%=ip%>">log in as a guest</a>
           <br>
         </s:if>
         <br>
@@ -99,14 +97,14 @@
             <s:else>
                     Welcome, <s:property value="user.userName" /> &nbsp;
                 </s:else>
-            <button onclick="logout()" type="button" class="StandardTextDarkGray4"
+            <button class="logout-button" type="button" class="StandardTextDarkGray4"
               style="border-style: solid; border-color: gray; border-width: 1px">logout</button>
           </s:if>
           <s:else>
             <p align="right">
               <span><span class="StandardTextDarkGray4"> ERROR: Username empty. Logout or restart your
                   browser.
-                  <button onclick="logout()" type="button" class="StandardTextDarkGray4"
+                  <button class="logout-button" type="button" class="StandardTextDarkGray4"
                     style="border-style: solid; border-color: gray; border-width: 1px; text-align: center; font-size: 14px;">logout</button>
                   &nbsp &nbsp &nbsp
               </span></span>
@@ -168,6 +166,14 @@
       $('input[name="username"]').focus();
 
       setTabToHome();
+
+      $("#guest-login").click(function() {
+          alert("The guest account allows a user to explore the function of Chembench with publicly available datasets, predictions based on a molecule, and modeling using random forest. All guest data is deleted when you leave the site or are inactive for 90 minutes. For additional function, please register.");
+      });
+
+      $(".logout-button").click(function() {
+          logout();
+      });
   });
   </script>
 </body>
