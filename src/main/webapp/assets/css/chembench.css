@@ -49,7 +49,7 @@ noscript {
     background: linear-gradient(top, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%); /* W3C */
 }
 
-.nav-list li#nav-button-home {
+.nav-list li:first-child {
     border-left: #999999 solid 1px;
 }
 
@@ -61,6 +61,40 @@ noscript {
     text-decoration: none;
 }
 /* end navigation */
+
+/* masthead */
+#masthead {
+    display: table;
+    width: 100%;
+    margin-top: 1em;
+}
+
+#masthead h1 {
+    display: table-cell;
+}
+
+.userbox {
+    display: table-cell;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.userbox-links {
+    list-style-type: none;
+}
+
+.userbox-links li {
+    display: inline-block;
+    padding-left: 1em;
+    padding-right: 1em;
+    border-right: 1px solid #eee;
+}
+
+.userbox-links li:last-child {
+    padding-right: 0;
+    border-right: none;
+}
+/* end masthead */
 
 /* sponsor attribution on homepage */
 .sponsor-message {

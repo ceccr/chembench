@@ -1,14 +1,13 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
 
 <header>
-  <div class="row">
-  <h1 class="col-md-8">
-    <a href=""><img src="theme/ccbTheme/images/ccbLogo.jpg" alt="Chembench"></a>
-  </h1>
+  <div id="masthead">
+    <h1>
+      <a href=""><img src="assets/images/masthead.jpg" alt="Chembench"></a>
+    </h1>
 
-  <div id="userbox" class="col-md-2">
-    <s:if test="#session['user']!=null">
-      <div>
+    <div class="userbox">
+      <s:if test="#session['user']!=null">
         Logged in as
         <s:if test="#session['user'].userName.contains('guest')">
           a <strong>guest</strong>.
@@ -16,19 +15,18 @@
         <s:else>
           <strong><s:property value="#session['user'].userName" /></strong>.
         </s:else>
-      </div>
-      <ul id="userbox-links">
-        <li><a href="/logout">log out</a></li>
-        <li><a href="help-overview">help</a></li>
-        <s:if test="!#session['user'].userName.contains('guest')">
-          <li><a href="/editProfile">edit profile</a></li>
-        </s:if>
-        <s:if test="#session['user'].isAdmin=='YES'">
-          <li><a href="/admin">admin</a></li>
-        </s:if>
-      </ul>
-    </s:if>
-  </div>
+        <ul class="userbox-links">
+          <li><a href="/logout">log out</a></li>
+          <li><a href="help-overview">help</a></li>
+          <s:if test="!#session['user'].userName.contains('guest')">
+            <li><a href="/editProfile">edit profile</a></li>
+          </s:if>
+          <s:if test="#session['user'].isAdmin=='YES'">
+            <li><a href="/admin">admin</a></li>
+          </s:if>
+        </ul>
+      </s:if>
+    </div>
   </div>
 
   <nav>
