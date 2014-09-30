@@ -15,6 +15,14 @@
       <p>From this page, you can change your password, edit your user information, or select options to customize
         Chembench.</p>
 
+      <s:if test="!errorMessages.isEmpty()">
+        <div class="alert alert-danger">
+          <s:iterator value="errorMessages">
+            <s:property />
+          </s:iterator>
+        </div>
+      </s:if>
+
       <ul class="nav nav-tabs">
         <li class="active"><a href="#change-password" data-toggle="tab">Change Password</a></li>
         <li><a href="#profile-information" data-toggle="tab">Profile Information</a></li>
@@ -25,23 +33,23 @@
         <div id="change-password" class="tab-pane active">
           <s:form action="changePassword" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
             <div class="form-group">
-              <label for="current-password" class="control-label col-xs-3">Current Password:</label>
+              <label for="oldPassword" class="control-label col-xs-3">Current Password:</label>
               <div class="col-xs-4">
-                <s:password id="current-password" name="current-password" cssClass="form-control" theme="simple" />
+                <s:password id="oldPassword" name="oldPassword" cssClass="form-control" theme="simple" />
               </div>
             </div>
 
             <div class="form-group">
-              <label for="new-password" class="control-label col-xs-3">New Password:</label>
+              <label for="newPassword" class="control-label col-xs-3">New Password:</label>
               <div class="col-xs-4">
-                <s:password id="new-password" name="new-password" cssClass="form-control" theme="simple" />
+                <s:password id="newPassword" name="newPassword" cssClass="form-control" theme="simple" />
               </div>
             </div>
 
             <div class="form-group">
-              <label for="new-password-confirm" class="control-label col-xs-3">Confirm New Password:</label>
+              <label for="confirmNewPassword" class="control-label col-xs-3">Confirm New Password:</label>
               <div class="col-xs-4">
-                <s:password id="new-password-confirm" name="new-password-confirm" cssClass="form-control" theme="simple" />
+                <s:password id="confirmNewPassword" name="confirmNewPassword" cssClass="form-control" theme="simple" />
               </div>
             </div>
 
