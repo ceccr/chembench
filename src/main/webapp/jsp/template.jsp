@@ -10,7 +10,9 @@
   <div id="main" class="container">
     <%@ include file="/jsp/main/header.jsp"%>
 
+    <section id="content">
     <!--  content goes here -->
+    </section>
 
     <%@include file="/jsp/main/footer.jsp"%>
   </div>
