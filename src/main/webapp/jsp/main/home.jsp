@@ -10,7 +10,7 @@
   <div id="main" class="container">
     <%@ include file="/jsp/main/header.jsp"%>
 
-    <div class="row">
+    <div id="content" class="row">
       <section class="col-xs-8">
         <h2>Accelerating chemical genomics research</h2>
         <hr>

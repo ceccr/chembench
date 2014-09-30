@@ -39,7 +39,11 @@
     </ul>
   </nav>
 
-  <noscript>Warning: JavaScript is disabled on your computer. Some parts of Chembench may not work properly.
-    Please enable JavaScript.</noscript>
+  <noscript>
+    <div id="no-js-warning" class="alert alert-danger">
+      <strong>Warning:</strong> JavaScript is disabled on your computer. Some parts of Chembench may not work properly.
+      Please enable JavaScript.
+    </div>
+  </noscript>
 
 </header>
