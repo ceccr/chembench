@@ -1,3 +1,4 @@
+<hr>
 <footer>
   <p>
     Copyright &copy; 2014 Carolina Exploratory Center for Cheminformatics Research (CECCR). All rights reserved.<br>

@@ -1,7 +1,8 @@
 @charset "utf-8";
 
-#main {
+.container {
     width: 1000px;
+    max-width: none !important;
     margin: auto;
 }
 
@@ -11,25 +12,21 @@ noscript {
     color: red;
 }
 
-nav ul {
+.nav-list {
     list-style-type: none;
-    height: 40px;
     padding: 0;
 }
 
-nav ul li {
+.nav-list li {
     float:left;
     width: 20%;
     border-top: #999999 solid 1px;
     border-bottom: #999999 solid 1px;
     border-right: #999999 solid 1px;
     text-align: center;
-    text-decoration: none;
     font-size: 19px;
     line-height: 38px;
-    color: #003333;
     cursor: pointer;
-
     background: #e0f3fa; /* Old browsers */
     background: -moz-linear-gradient(top, #e0f3fa 0%, #d8f0fc 50%, #b8e2f6 51%, #b6dffd 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e0f3fa), color-stop(50%,#d8f0fc), color-stop(51%,#b8e2f6), color-stop(100%,#b6dffd)); /* Chrome,Safari4+ */
@@ -40,7 +37,7 @@ nav ul li {
     background: linear-gradient(top, #e0f3fa 0%,#d8f0fc 50%,#b8e2f6 51%,#b6dffd 100%); /* W3C */
 }
 
-nav ul li.active {
+.nav-list li.active {
     background: #F7F7F7; /* Old browsers */
     background: -moz-linear-gradient(top, #ffffff 0%, #f3f3f3 50%, #ededed 51%, #ffffff 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(50%,#f3f3f3), color-stop(51%,#ededed), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
@@ -51,16 +48,42 @@ nav ul li.active {
     background: linear-gradient(top, #ffffff 0%,#f3f3f3 50%,#ededed 51%,#ffffff 100%); /* W3C */
 }
 
-nav ul li#nav-button-home {
+.nav-list li#nav-button-home {
     border-left: #999999 solid 1px;
 }
 
-nav a:hover {
+.nav-list a {
+    color: #2a6496;
+}
+
+.nav-list a:hover {
     text-decoration: none;
+}
+
+.sponsor-message {
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 0;
+}
+
+.sponsor-list {
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sponsor-list li {
+    display: inline-block;
+    margin: 0 2em 0 2em;
 }
 
 .interstitial-banner {
     display: block;
     width: 100%;
-    margin-bottom: 10px;
+    margin: 1em 0 1em 0;
+}
+
+.login-button {
+    margin-right: 1em;
 }

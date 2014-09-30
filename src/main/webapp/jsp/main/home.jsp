@@ -11,7 +11,7 @@
     <%@ include file="/jsp/main/header.jsp"%>
 
     <div class="row">
-      <section class="col-md-8">
+      <section class="col-xs-8">
         <h2>Accelerating chemical genomics research</h2>
         <hr>
         <div>
@@ -43,7 +43,7 @@
         </div>
       </section>
 
-      <section class="col-md-4">
+      <section class="col-xs-4">
         <s:if test="user == null">
           <h3>Please log in</h3>
         </s:if>
@@ -54,54 +54,52 @@
           <div class="alert alert-danger">Username or password incorrect.</div>
         </s:if>
         <s:if test="user==null">
-          <s:form action="login" enctype="multipart/form-data" method="post" theme="simple">
-            <table>
-              <tbody>
-                <tr>
-                  <td><label for="username">Username:</label></td>
-                  <td><s:textfield name="username" id="username" size="12" theme="simple" /></td>
-                </tr>
-                <tr>
-                  <td><label for="password">Password:</label></td>
-                  <td><s:password name="password" id="password" size="12" theme="simple" /></td>
-                </tr>
-                <tr>
-                  <td><input class="login-button" value="Log in" type="submit"></td>
-                  <td>
-                    <%
-                        String ipAddress = request.getHeader("X-FORWARDED-FOR");
-                                if (ipAddress == null) {
-                                    ipAddress = request.getRemoteAddr();
-                                }
-                                String ip = ipAddress.replaceAll("\\.", "");
-                    %> Or, <a id="guest-login" href="/login?username=guest&ip=<%=ip%>">log in as a guest</a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <s:form action="login" enctype="multipart/form-data" cssClass="form-horizontal" method="post" theme="simple">
+            <div class="form-group">
+              <label for="username" class="col-xs-4 control-label">Username:</label>
+              <div class="col-xs-8">
+                <s:textfield name="username" id="username" size="12" cssClass="form-control" theme="simple" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="password" class="col-xs-4 control-label">Password:</label>
+              <div class="col-xs-8">
+                <s:password name="password" id="password" size="12" cssClass="form-control" theme="simple" />
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-offset-4 col-xs-8">
+                <input class="login-button" value="Log in" type="submit">
+                <%
+                    String ipAddress = request.getHeader("X-FORWARDED-FOR");
+                            if (ipAddress == null) {
+                                ipAddress = request.getRemoteAddr();
+                            }
+                            String ip = ipAddress.replaceAll("\\.", "");
+                %>
+                Or, <a id="guest-login" href="/login?username=guest&ip=<%=ip%>">log in as a guest</a>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-xs-offset-4 col-xs-8">
+                <a href="/forgotPassword">Forgot your password?</a><br> <a href="loadRegistrationPage">Register
+                  an account</a>
+              </div>
+            </div>
           </s:form>
+        </s:if>
 
-          <br>
-        </s:if>
-        <s:if test="user==null">
-          <a href="/forgotPassword">Forgot your password?</a>
-        </s:if>
         <s:if test="user != null && !user.userName.isEmpty()">
           <s:if test="user.userName.contains('guest')">
-              Logged in as a <strong>guest</strong>
+              Logged in as a <strong>guest</strong>.
           </s:if>
           <s:else>
-              Logged in as <strong><s:property value="user.userName" /></strong>
+              Logged in as <strong><s:property value="user.userName" /></strong>.
           </s:else>
           <button class="logout-button" type="button">Log out</button>
         </s:if>
 
-        <h3>New Users</h3>
-        <p>
-          Please <a href="loadRegistrationPage">register here</a>.
-        </p>
-
-        <h3>Help &amp; links</h3>
+        <h3>Help &amp; Links</h3>
         <p>
           <a href="help-overview" target="_blank">Chembench Overview</a><br> <a href="help-workflows"
             target="_blank">Chembench Workflows &amp; Methodology</a> <br> <a href="softwareList" target="_blank">Links
@@ -123,19 +121,20 @@
         </s:if>
       </section>
     </div>
+    <hr>
     <section>
-      <p>We thank the following commercial sponsors for their support:</p>
-      <ul id="sponsor-list">
+      <p class="sponsor-message">We thank the following commercial sponsors for their support:</p>
+      <ul class="sponsor-list">
         <li><a href="http://www.chemcomp.com" target="_blank"><img src="assets/images/sponsors/ccg.jpg"
-            alt="Chemical Computing Group"><span class="caption">Chemical Computing Group</span></a></li>
+            alt="Chemical Computing Group" class="img-thumbnail"></a></li>
         <li><a href="http://www.talete.mi.it" target="_blank"><img src="assets/images/sponsors/talete.jpg"
-            alt="Talete srl"><span class="caption">Talete srl</span></a></li>
-        <li><a href="http://www.chemaxon.com" target="_blank"><img src="assets/images/sponsors/chemaxon.jpg"><span
-            class="caption">ChemAxon</span></a></li>
-        <li><a href="http://www.edusoft-lc.com" target="_blank"><img src="assets/images/sponsors/edusoft.jpg"><span
-            class="caption">EduSoft</span></a></li>
+            alt="Talete srl" class="img-thumbnail"></a></li>
+        <li><a href="http://www.chemaxon.com" target="_blank"><img src="assets/images/sponsors/chemaxon.jpg"
+            class="img-thumbnail"></a></li>
+        <li><a href="http://www.edusoft-lc.com" target="_blank"><img src="assets/images/sponsors/edusoft.jpg"
+            class="img-thumbnail"></a></li>
         <li><a href="http://www.sunsetmolecular.com" target="_blank"><img
-            src="assets/images/sponsors/sunsetmolecular.jpg" class="img-thumbnail"><span class="caption">Sunset Molecular</span></a></li>
+            src="assets/images/sponsors/sunsetmolecular.jpg" class="img-thumbnail"></a></li>
       </ul>
     </section>
 
