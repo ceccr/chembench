@@ -12,6 +12,7 @@ noscript {
     color: red;
 }
 
+/* navbar styling */
 .nav-list {
     list-style-type: none;
     padding: 0;
@@ -59,7 +60,9 @@ noscript {
 .nav-list a:hover {
     text-decoration: none;
 }
+/* end navigation */
 
+/* sponsor attribution on homepage */
 .sponsor-message {
     text-align: center;
     font-size: 18px;
@@ -76,6 +79,7 @@ noscript {
     display: inline-block;
     margin: 0 2em 0 2em;
 }
+/* end sponsor attribution */
 
 .interstitial-banner {
     display: block;
