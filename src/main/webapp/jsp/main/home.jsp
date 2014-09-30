@@ -74,10 +74,10 @@
                   <input class="login-button" value="Log in" type="submit">
                   <%
                       String ipAddress = request.getHeader("X-FORWARDED-FOR");
-                              if (ipAddress == null) {
-                                  ipAddress = request.getRemoteAddr();
-                              }
-                              String ip = ipAddress.replaceAll("\\.", "");
+                      if (ipAddress == null) {
+                          ipAddress = request.getRemoteAddr();
+                      }
+                      String ip = ipAddress.replaceAll("\\.", "");
                   %>
                   Or, <a id="guest-login" href="/login?username=guest&ip=<%=ip%>">log in as a guest</a>
                 </div>
