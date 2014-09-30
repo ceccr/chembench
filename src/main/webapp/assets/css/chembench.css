@@ -132,3 +132,11 @@ footer {
 .logout-button {
     margin-left: 1em;
 }
+
+.nav-tabs {
+    margin-top: 2em;
+}
+
+.tab-pane {
+    padding: 1.5em;
+}

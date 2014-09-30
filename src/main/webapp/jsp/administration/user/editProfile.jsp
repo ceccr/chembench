@@ -1,62 +1,68 @@
-<!DOCTYPE html>
-
-<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags"%>
 
+<!DOCTYPE html>
 <html>
 <head>
-<sx:head debug="false" cache="false" compressed="true" />
-
-<title>Chembench | Edit Profile</title>
 <%@ include file="/jsp/main/head.jsp"%>
-<script src="javascript/Chembench.js"></script>
-<script src="javascript/editProfileAndSettings.js"></script>
-
+<title>Chembench | Edit Profile</title>
 </head>
-<body onload="setTabToHome();">
+<body>
+  <div id="main" class="container">
+    <%@ include file="/jsp/main/header.jsp"%>
 
-  <div id="bodyDIV"></div>
-  <!-- used for the "Please Wait..." box. Do not remove. -->
-  <div class="outer">
-    <div class="includesHeader"><%@include file="/jsp/main/header.jsp"%></div>
-    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp"%></div>
+    <section id="content">
+      <h2>Edit Profile</h2>
+      <p>From this page, you can change your password, edit your user information, or select options to customize
+        Chembench.</p>
 
-    <div>
-      <br />
-    </div>
-    <p class="StandardTextDarkGrayParagraph">
-      <b><br /> Edit Profile</b>
-    </p>
-    <p align="justify" class="StandardTextDarkGrayParagraph">
-      From this page, you may change your password, edit your user information, or select options to customize
-      Chembench. <br /> <br />
-      <br />
-    </p>
-    <p class="StandardTextDarkGrayParagraph">
-      <font color='red'><s:iterator value="errorMessages">
-          <s:property />
-          <br />
-        </s:iterator></font>
-    </p>
-    <br />
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#change-password" data-toggle="tab">Change Password</a></li>
+        <li><a href="#profile-information" data-toggle="tab">Profile Information</a></li>
+        <li><a href="#user-options" data-toggle="tab">User Options</a></li>
+      </ul>
 
-    <sx:tabbedpanel id="editProfileTabs">
+      <div class="tab-content">
+        <div id="change-password" class="tab-pane active">
+          <s:form action="changePassword" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
+            <div class="form-group">
+              <label for="current-password" class="control-label col-xs-3">Current Password:</label>
+              <div class="col-xs-4">
+                <s:password id="current-password" name="current-password" cssClass="form-control" theme="simple" />
+              </div>
+            </div>
 
-      <sx:div href="/loadChangePasswordSection" label="Change Password" theme="ajax"
-        loadingText="Loading password change form...">
-      </sx:div>
+            <div class="form-group">
+              <label for="new-password" class="control-label col-xs-3">New Password:</label>
+              <div class="col-xs-4">
+                <s:password id="new-password" name="new-password" cssClass="form-control" theme="simple" />
+              </div>
+            </div>
 
-      <sx:div href="/loadUpdateInfoSection" label="Update Info" theme="ajax" loadingText="Loading user information...">
-      </sx:div>
+            <div class="form-group">
+              <label for="new-password-confirm" class="control-label col-xs-3">Confirm New Password:</label>
+              <div class="col-xs-4">
+                <s:password id="new-password-confirm" name="new-password-confirm" cssClass="form-control" theme="simple" />
+              </div>
+            </div>
 
-      <sx:div href="/loadUserOptionsSection" label="Options" theme="ajax" loadingText="Loading options...">
-      </sx:div>
+            <div class="form-group">
+              <div class="col-xs-offset-3 col-xs-4">
+                <button type="submit" class="btn btn-default">Submit</button>
+              </div>
+            </div>
+          </s:form>
+        </div>
 
-    </sx:tabbedpanel>
-    <br />
+        <div id="profile-information" class="tab-pane"></div>
 
-    <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
+        <div id="user-options" class="tab-pane"></div>
+      </div>
+    </section>
+
+    <%@include file="/jsp/main/footer.jsp"%>
   </div>
+
+  <%@ include file="/jsp/main/tail.jsp"%>
+  <script src="assets/js/editProfile.js"></script>
 </body>
 </html>
