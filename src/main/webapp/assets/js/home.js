@@ -16,6 +16,6 @@ $(document).ready(function() {
     });
 
     $(".logout-button").click(function() {
-        logout();
+        window.location = "logout";
     });
 });

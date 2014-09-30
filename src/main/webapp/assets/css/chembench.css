@@ -87,3 +87,7 @@ noscript {
 .login-button {
     margin-right: 1em;
 }
+
+.logout-button {
+    margin-left: 1em;
+}
