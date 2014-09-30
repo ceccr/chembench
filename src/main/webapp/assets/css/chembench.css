@@ -10,6 +10,10 @@
     margin: auto;
 }
 
+footer {
+    margin-bottom: 20px;
+}
+
 /* navbar styling */
 .nav-list {
     list-style-type: none;
