@@ -31,6 +31,7 @@
 
       <div class="tab-content">
         <div id="change-password" class="tab-pane active">
+          <h3>Change Password</h3>
           <s:form action="changePassword" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
             <div class="form-group">
               <label for="oldPassword" class="control-label col-xs-3">Current Password:</label>
@@ -55,7 +56,7 @@
 
             <div class="form-group">
               <div class="col-xs-offset-3 col-xs-4">
-                <button type="submit" class="btn btn-default">Submit</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
           </s:form>

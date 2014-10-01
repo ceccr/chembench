@@ -70,8 +70,11 @@
               </div>
               <div class="form-group">
                 <div class="col-xs-offset-4 col-xs-8">
-
                   <input class="login-button" value="Log in" type="submit">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-offset-4 col-xs-8">
                   <%
                       String ipAddress = request.getHeader("X-FORWARDED-FOR");
                       if (ipAddress == null) {
