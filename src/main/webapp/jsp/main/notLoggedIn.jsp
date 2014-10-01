@@ -39,8 +39,11 @@
         </div>
         <div class="form-group">
           <div class="col-xs-offset-3 col-xs-4">
-
             <input class="login-button" value="Log in" type="submit">
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-xs-offset-3 col-xs-4">
             <%
                 String ipAddress = request.getHeader("X-FORWARDED-FOR");
                 if (ipAddress == null) {
