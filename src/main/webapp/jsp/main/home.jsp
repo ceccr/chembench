@@ -105,11 +105,11 @@
           </s:if>
 
           <h3>Help &amp; Links</h3>
-          <p>
-            <a href="help-overview" target="_blank">Chembench Overview</a><br> <a href="help-workflows"
-              target="_blank">Chembench Workflows &amp; Methodology</a> <br> <a href="softwareList" target="_blank">Links
-              to More Cheminformatics Tools</a>
-          </p>
+          <ul class="links-list">
+            <li><a href="help-overview" target="_blank">Chembench Overview</a></li>
+            <li><a href="help-workflows" target="_blank">Chembench Workflows &amp; Methodology</a></li>
+            <li><a href="softwareList" target="_blank">Links to More Cheminformatics Tools</a></li>
+          </ul>
           <s:if test="showStatistics!=null || showStatistics=='NO'">
             <h3>Stats</h3>
             <s:property value="visitors" />

@@ -143,6 +143,11 @@ footer {
 }
 /* end tabs & panels */
 
+.links-list {
+    padding-left: 1.5em;
+    list-style-type: circle;
+}
+
 .interstitial-banner {
     display: block;
     width: 100%;
