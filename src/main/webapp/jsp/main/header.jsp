@@ -31,11 +31,11 @@
 
   <nav>
     <ul class="nav-list">
-      <li id="nav-button-home"><a href="/home">Home</a></li>
-      <li id="nav-button-mybench"><a href="/jobs">My Bench</a></li>
-      <li id="nav-button-datasets"><a href="/dataset">Datasets</a></li>
-      <li id="nav-button-modeling"><a href="/modeling">Modeling</a></li>
-      <li id="nav-button-prediction"><a href="/prediction">Prediction</a></li>
+      <li id="nav-button-home"><a href=<s:url action="home" />>Home</a></li>
+      <li id="nav-button-mybench"><a href=<s:url action="jobs" />>My Bench</a></li>
+      <li id="nav-button-datasets"><a href=<s:url action="dataset" />>Datasets</a></li>
+      <li id="nav-button-modeling"><a href=<s:url action="modeling" />>Modeling</a></li>
+      <li id="nav-button-prediction"><a href=<s:url action="prediction" />>Prediction</a></li>
     </ul>
   </nav>
 
