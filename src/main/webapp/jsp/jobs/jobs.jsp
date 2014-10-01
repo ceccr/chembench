@@ -32,7 +32,7 @@
           <h3>
             Job Queue
             <button class="jobs-queue-refresh btn btn-primary">
-              <span class="glyphicon glyphicon-refresh"></span>Refresh
+              <span class="glyphicon glyphicon-refresh"></span> Refresh
             </button>
           </h3>
           <p class="tab-description">
