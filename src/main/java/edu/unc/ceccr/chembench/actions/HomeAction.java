@@ -31,12 +31,12 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
     protected HttpServletResponse servletResponse;
 
     //loads home page
-    String visitors;
-    String userStats;
-    String jobStats;
+    int visitors;
+    int userStats;
+    int jobStats;
     String cpuStats;
     String activeUsers;
-    String runningJobs;
+    int runningJobs;
     String loginFailed = Constants.NO;
     User user;
     String username;
@@ -70,14 +70,14 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
                 counter = Integer.parseInt(counterStr);
                 FileAndDirOperations.writeStringToFile("" + (counter + 1), counterFile.getAbsolutePath());
             }
-            visitors = "Visitors: " + Integer.toString(counter);
+            visitors = counter;
 
             // number of registered users
-            userStats = "Users: " + users.size();
+            userStats = users.size();
 
             // finished jobs
             int numFinishedJobs = jobStatList.size();
-            jobStats = "Jobs completed: " + numFinishedJobs;
+            jobStats = numFinishedJobs;
 
             // CPU statistics
             int computeHours = 0;
@@ -95,14 +95,13 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
             float computeYears = computeHoursf / new Float(24.0 * 365.0);
             computeYearsStr = Utility.floatToString(computeYears);
             Utility.roundSignificantFigures(computeYearsStr, 4);
-            cpuStats = "Compute time used: " + computeYearsStr + " years";
+            cpuStats = computeYearsStr;
 
             // current users
-            activeUsers = "Current Users: " + ActiveUser.getActiveSessions();
+            activeUsers = ActiveUser.getActiveSessions();
 
             // current number of jobs
-            runningJobs = "Running Jobs: " + numJobs;
-
+            runningJobs = numJobs;
         } catch (Exception ex) {
             logger.error(ex);
             showStatistics = "NO";
@@ -464,27 +463,27 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
     }
 
 
-    public String getVisitors() {
+    public int getVisitors() {
         return visitors;
     }
 
-    public void setVisitors(String visitors) {
+    public void setVisitors(int visitors) {
         this.visitors = visitors;
     }
 
-    public String getUserStats() {
+    public int getUserStats() {
         return userStats;
     }
 
-    public void setUserStats(String userStats) {
+    public void setUserStats(int userStats) {
         this.userStats = userStats;
     }
 
-    public String getJobStats() {
+    public int getJobStats() {
         return jobStats;
     }
 
-    public void setJobStats(String jobStats) {
+    public void setJobStats(int jobStats) {
         this.jobStats = jobStats;
     }
 
@@ -504,11 +503,11 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
         this.activeUsers = activeUsers;
     }
 
-    public String getRunningJobs() {
+    public int getRunningJobs() {
         return runningJobs;
     }
 
-    public void setRunningJobs(String runningJobs) {
+    public void setRunningJobs(int runningJobs) {
         this.runningJobs = runningJobs;
     }
 

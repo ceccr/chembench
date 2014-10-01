@@ -148,6 +148,20 @@ footer {
     list-style-type: circle;
 }
 
+.properties-list dt {
+    text-align: left;
+    width: auto;
+    margin-right: 0.3em;
+}
+
+.properties-list dt:after {
+    content: ":";
+}
+
+.properties-list dd {
+    margin-left: 0;
+}
+
 .interstitial-banner {
     display: block;
     width: 100%;

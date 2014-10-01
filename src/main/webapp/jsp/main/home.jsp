@@ -111,18 +111,26 @@
             <li><a href="softwareList" target="_blank">Links to More Cheminformatics Tools</a></li>
           </ul>
           <s:if test="showStatistics!=null || showStatistics=='NO'">
-            <h3>Stats</h3>
-            <s:property value="visitors" />
-            <br>
-            <s:property value="userStats" />
-            <br>
-            <s:property value="jobStats" />
-            <br>
-            <s:property value="cpuStats" />
-            <br>
-            <s:property value="activeUsers" />
-            <br>
-            <s:property value="runningJobs" />
+            <h3>Site Stats</h3>
+            <dl class="dl-horizontal properties-list">
+              <dt>Total visitors</dt>
+              <dd><s:property value="visitors" /></dd>
+
+              <dt>Registered users</dt>
+              <dd><s:property value="userStats" /></dd>
+
+              <dt>Jobs completed</dt>
+              <dd><s:property value="jobStats" /></dd>
+
+              <dt>Compute time used</dt>
+              <dd><s:property value="cpuStats" /> years</dd>
+
+              <dt>Current users</dt>
+              <dd><s:property value="activeUsers" /></dd>
+
+              <dt>Running jobs</dt>
+              <dd><s:property value="runningJobs" /></dd>
+            </dl>
           </s:if>
         </section>
       </div>
