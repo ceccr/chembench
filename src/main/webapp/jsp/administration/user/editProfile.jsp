@@ -32,6 +32,8 @@
       <div class="tab-content">
         <div id="change-password" class="tab-pane active">
           <h3>Change Password</h3>
+          <p class="tab-description">To change your password, first enter your current password, then type and
+            confirm your new password.</p>
           <s:form action="changePassword" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
             <div class="form-group">
               <label for="oldPassword" class="control-label col-xs-3">Current Password:</label>
@@ -40,6 +42,7 @@
               </div>
             </div>
 
+            <hr>
             <div class="form-group">
               <label for="newPassword" class="control-label col-xs-3">New Password:</label>
               <div class="col-xs-4">
