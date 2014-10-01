@@ -14,7 +14,7 @@
 <link rel="icon" href="theme/img/mml.ico" type="image/ico" />
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico" />
 
-<script language="JavaScript" src="/javascript/Chembench.js"></script>
+<script language="JavaScript" src="/javascript/chembench.js"></script>
 <script src="/javascript/jquery-1.4.2-development.js" type="text/javascript"></script>
 <script src="/javascript/jtip.js" type="text/javascript"></script>
 

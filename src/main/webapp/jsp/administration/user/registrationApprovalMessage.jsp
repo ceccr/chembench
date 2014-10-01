@@ -19,7 +19,7 @@
 <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-<script src="javascript/Chembench.js"></script>
+<script src="javascript/chembench.js"></script>
 </head>
 
 <body>

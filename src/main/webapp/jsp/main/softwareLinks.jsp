@@ -11,7 +11,7 @@
 <link rel="icon" href="theme/img/mml.ico" type="image/ico"></link>
 <link rel="SHORTCUT ICON" href="theme/img/mml.ico"></link>
 <link href="theme/ccbTheme/css/ccbStyle.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" src="javascript/Chembench.js"> </script>
+<script language="JavaScript" src="javascript/chembench.js"> </script>
 <script language="JavaScript" src="javascript/sortableTable.js"></script>
 <script language="JavaScript"> 
 

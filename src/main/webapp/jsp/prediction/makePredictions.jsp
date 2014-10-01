@@ -21,7 +21,7 @@
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css" />
 
-<script src="javascript/Chembench.js"></script>
+<script src="javascript/chembench.js"></script>
 <script language="JavaScript" src="javascript/sortableTable.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>

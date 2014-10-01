@@ -20,7 +20,7 @@
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 
-<script src="javascript/Chembench.js"></script>
+<script src="javascript/chembench.js"></script>
 <script src="javascript/yahoo/yahoo.js"></script>
 <script src="javascript/dom/dom.js"></script>
 <script src="javascript/event/event.js"></script>
