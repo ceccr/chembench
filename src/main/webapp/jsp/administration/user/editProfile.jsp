@@ -65,7 +65,106 @@
           </s:form>
         </div>
 
-        <div id="profile-information" class="tab-pane"></div>
+        <div id="profile-information" class="tab-pane">
+          <h3>Profile Information</h3>
+          <p class="tab-description">Here you can update your user profile information. Note that fields marked with
+            an asterisk (*) are required.</p>
+
+          <s:form action="updateUserInfo" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
+            <div class="form-group">
+              <label for="firstName" class="control-label col-xs-3">First Name:</label>
+              <div class="col-xs-4">
+                <s:textfield id="firstName" name="firstName" cssClass="form-control" theme="simple" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="lastName" class="control-label col-xs-3">Last Name:</label>
+              <div class="col-xs-4">
+                <s:textfield id="lastName" name="lastName" cssClass="form-control" theme="simple" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="email" class="control-label col-xs-3">Email Address:</label>
+              <div class="col-xs-4">
+                <s:textfield id="email" name="email" cssClass="form-control" />
+              </div>
+            </div>
+
+            <hr>
+            <div class="form-group">
+              <label for="organizationType" class="control-label col-xs-3">Type of Organization:</label>
+              <div class="col-xs-4">
+                <s:select id="organizationType" name="organizationType" cssClass="form-control"
+                  list="#{'Academia':'Academia','Government':'Government','Industry':'Industry','Nonprofit':'Nonprofit','Other':'Other'}" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="organizationName" class="control-label col-xs-3">Name of Organization:</label>
+              <div class="col-xs-4">
+                <s:textfield id="organizationName" name="organizationName" cssClass="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="organizationPosition" class="control-label col-xs-3">Position in Organization:</label>
+              <div class="col-xs-4">
+                <s:textfield id="organizationPosition" name="organizationPosition" cssClass="form-control" />
+              </div>
+            </div>
+
+            <hr>
+            <div class="form-group">
+              <label for="address" class="control-label col-xs-3">Address:</label>
+              <div class="col-xs-4">
+                <s:textfield id="address" name="address" cssClass="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="city" class="control-label col-xs-3">City:</label>
+              <div class="col-xs-4">
+                <s:textfield id="city" name="city" cssClass="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="stateOrProvince" class="control-label col-xs-3">State or Province:</label>
+              <div class="col-xs-4">
+                <s:textfield id="stateOrProvince" name="stateOrProvince" cssClass="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="zipCode" class="control-label col-xs-3">ZIP Code:</label>
+              <div class="col-xs-4">
+                <s:textfield id="zipCode" name="zipCode" cssClass="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="country" class="control-label col-xs-3">Country:</label>
+              <div class="col-xs-4">
+                <s:textfield id="country" name="country" cssClass="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="phoneNumber" class="control-label col-xs-3">Phone Number:</label>
+              <div class="col-xs-4">
+                <s:textfield id="phoneNumber" name="phoneNumber" cssClass="form-control" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-xs-offset-3 col-xs-4">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </s:form>
+        </div>
 
         <div id="user-options" class="tab-pane"></div>
       </div>
@@ -75,6 +174,5 @@
   </div>
 
   <%@ include file="/jsp/main/tail.jsp"%>
-  <script src="assets/js/editProfile.js"></script>
 </body>
 </html>
