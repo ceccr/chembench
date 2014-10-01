@@ -142,9 +142,9 @@
               src="assets/images/sponsors/sunsetmolecular.jpg" class="img-thumbnail"></a></li>
         </ul>
       </section>
-
-      <%@include file="/jsp/main/footer.jsp"%>
     </section>
+
+    <%@include file="/jsp/main/footer.jsp"%>
   </div>
   <%@ include file="/jsp/main/tail.jsp"%>
   <script src="assets/js/home.js"></script>
