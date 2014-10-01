@@ -183,11 +183,17 @@
           </div>
         </div>
 
-        <div id="datasets" class="tab-pane"></div>
+        <div id="datasets" class="tab-pane">
+          <h3>Datasets</h3>
+        </div>
 
-        <div id="predictors" class="tab-pane"></div>
+        <div id="predictors" class="tab-pane">
+          <h3>Predictors</h3>
+        </div>
 
-        <div id="predictions" class="tab-pane"></div>
+        <div id="predictions" class="tab-pane">
+          <h3>Predictions</h3>
+        </div>
       </div>
     </section>
 
