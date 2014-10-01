@@ -77,32 +77,16 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
-        <action name="loadChangePasswordSection"
-                class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"
-                method="loadChangePassword">
-            <result name="success">/jsp/administration/user/editProfile-changePassword.jsp</result>
-        </action>
-
         <action name="changePassword" class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"
                 method="changePassword">
             <result name="success">/jsp/administration/user/editProfile.jsp</result>
             <result name="error">/jsp/administration/user/editProfile.jsp</result>
         </action>
 
-        <action name="loadUpdateInfoSection" class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"
-                method="loadUpdateUserInformation">
-            <result name="success">/jsp/administration/user/editProfile-updateInfo.jsp</result>
-        </action>
-
         <action name="updateUserInfo" class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"
                 method="updateUserInformation">
             <result name="success">/jsp/administration/user/editProfile.jsp</result>
             <result name="error">/jsp/administration/user/editProfile.jsp</result>
-        </action>
-
-        <action name="loadUserOptionsSection" class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"
-                method="loadUpdateUserOptions">
-            <result name="success">/jsp/administration/user/editProfile-options.jsp</result>
         </action>
 
         <action name="updateUserOptions" class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"

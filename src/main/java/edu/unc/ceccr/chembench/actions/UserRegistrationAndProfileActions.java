@@ -88,6 +88,29 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
             errorStrings.add("Error: You may not change the guest" + " profile settings.");
             return ERROR;
         }
+
+        // user profile information
+        address = user.getAddress();
+        city = user.getCity();
+        country = user.getCountry();
+        email = user.getEmail();
+        firstName = user.getFirstName();
+        lastName = user.getLastName();
+        organizationName = user.getOrgName();
+        organizationType = user.getOrgType();
+        organizationPosition = user.getOrgType();
+        phoneNumber = user.getPhone();
+        stateOrProvince = user.getState();
+        zipCode = user.getZipCode();
+        workBench = user.getWorkbench();
+
+        // user options
+        showPublicDatasets = user.getShowPublicDatasets();
+        showPublicPredictors = user.getShowPublicPredictors();
+        viewDatasetCompoundsPerPage = user.getViewDatasetCompoundsPerPage();
+        viewPredictionCompoundsPerPage = user.getViewPredictionCompoundsPerPage();
+        showAdvancedKnnModeling = user.getShowAdvancedKnnModeling();
+
         return result;
     }
 
@@ -220,11 +243,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
     }
     /* End Variables used for user registration and updates */
 
-    public String loadChangePassword() throws Exception {
-        String result = SUCCESS;
-        return result;
-    }
-
     public String changePassword() throws Exception {
         String result = SUCCESS;
 
@@ -273,31 +291,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         }
 
         errorMessages.add("Password change successful!");
-        return result;
-    }
-
-    public String loadUpdateUserInformation() throws Exception {
-        String result = SUCCESS;
-        ActionContext context = ActionContext.getContext();
-        user = getLoggedInUser(context);
-        if (user == null) {
-            return LOGIN;
-        }
-
-        address = user.getAddress();
-        city = user.getCity();
-        country = user.getCountry();
-        email = user.getEmail();
-        firstName = user.getFirstName();
-        lastName = user.getLastName();
-        organizationName = user.getOrgName();
-        organizationType = user.getOrgType();
-        organizationPosition = user.getOrgType();
-        phoneNumber = user.getPhone();
-        stateOrProvince = user.getState();
-        zipCode = user.getZipCode();
-        workBench = user.getWorkbench();
-
         return result;
     }
 
@@ -351,23 +344,6 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         }
 
         errorMessages.add("Your information has been updated!");
-
-        return result;
-    }
-
-    public String loadUpdateUserOptions() throws Exception {
-        String result = SUCCESS;
-        // check that the user is logged in
-        ActionContext context = ActionContext.getContext();
-        user = getLoggedInUser(context);
-        if (user == null) {
-            return LOGIN;
-        }
-        showPublicDatasets = user.getShowPublicDatasets();
-        showPublicPredictors = user.getShowPublicPredictors();
-        viewDatasetCompoundsPerPage = user.getViewDatasetCompoundsPerPage();
-        viewPredictionCompoundsPerPage = user.getViewPredictionCompoundsPerPage();
-        showAdvancedKnnModeling = user.getShowAdvancedKnnModeling();
 
         return result;
     }
