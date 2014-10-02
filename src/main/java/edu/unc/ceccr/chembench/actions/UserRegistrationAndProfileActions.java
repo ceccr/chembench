@@ -98,7 +98,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
         lastName = user.getLastName();
         organizationName = user.getOrgName();
         organizationType = user.getOrgType();
-        organizationPosition = user.getOrgType();
+        organizationPosition = user.getOrgPosition();
         phoneNumber = user.getPhone();
         stateOrProvince = user.getState();
         zipCode = user.getZipCode();
