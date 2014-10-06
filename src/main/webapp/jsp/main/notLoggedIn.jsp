@@ -18,7 +18,7 @@
 <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-<script language="JavaScript" src="javascript/script.js"> </script>
+<script language="JavaScript" src="javascript/chembench.js"> </script>
 
 </head>
 <body onload="setTabToHome();">
