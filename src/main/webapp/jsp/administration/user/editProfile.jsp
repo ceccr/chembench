@@ -67,8 +67,10 @@
 
         <div id="profile-information" class="tab-pane">
           <h3>Profile Information</h3>
-          <p class="tab-description">Here you can update your user profile information. Note that fields marked with
-            an asterisk (<span class="glyphicon glyphicon-asterisk"></span>) are required.</p>
+          <p class="tab-description">
+            Here you can update your user profile information. Note that fields marked with an asterisk (<span
+              class="glyphicon glyphicon-asterisk"></span>) are required.
+          </p>
 
           <s:form action="updateUserInfo" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
             <div class="form-group required">
@@ -166,7 +168,25 @@
           </s:form>
         </div>
 
-        <div id="user-options" class="tab-pane"></div>
+        <div id="user-options" class="tab-pane">
+          <h3>User Options</h3>
+          <p class="tab-description">Here you can adjust user-specific settings for Chembench.</p>
+          <hr>
+          <s:form action="updateUserOptions" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
+            <h4>Public Datasets and Predictors</h4>
+            <p>
+              Chembench provides sample datasets and predictors for you to experiment with.<br> If you choose to
+              hide them, they will no longer appear on the My Bench, Modeling, and Prediction pages.
+            </p>
+            <div class="form-group">
+              <label for="showPublicDatasets" class="control-label col-xs-3">Show Public Datasets:</label>
+              <div class="col-xs-4">
+                <s:radio id="showPublicDatasets" name="showPublicDatasets" value="showPublicDatasets"
+                  cssClass="form-control" list="#{'NONE':'None','SOME':'Some','ALL':'All'}" />
+              </div>
+            </div>
+          </s:form>
+        </div>
       </div>
     </section>
 
