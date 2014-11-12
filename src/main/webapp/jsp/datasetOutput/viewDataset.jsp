@@ -261,7 +261,7 @@
                 url: "/generateModi",
                 data: { id: <s:property value="dataset.id" /> },
             }).success(function(data) {
-                parent.text(data);
+                parent.text(data.toFixed(2));
             }).fail(function() {
                 parent.html('<span class="error-message">MODI generation failed</span>');
             });
