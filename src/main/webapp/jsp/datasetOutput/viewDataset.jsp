@@ -240,10 +240,6 @@
       </table>
     <script>
     $(document).ready(function() {
-        $(function() {
-          $( "#tabs" ).tabs( { disabled: [2] } );
-        });
-
         //adding a bigger compound image on mouse enter
         $('.compound_img_a').on("mouseover",function(e){
           $("img","#image_hint").attr("src", $("img", this).attr("src"));
