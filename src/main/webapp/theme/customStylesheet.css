@@ -131,3 +131,15 @@
 .pad15pxleft {
     padding-left: 15px;
 }
+
+.generate-modi {
+    margin-left: 0.5em;
+}
+
+img.ajax-loading {
+    vertical-align: middle;
+}
+
+.error-message {
+    color: red;
+}

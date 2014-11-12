@@ -189,16 +189,16 @@
               </div>
             </s:else>
             <div>
-              <dl>
-                <dt>Modelability index:</dt>
-                <dd class="modi-value">
-                  <s:if test="!dataset.canGenerateModi()">MODI cannot be generated for this dataset</s:if>
-                  <s:else>
-                    <s:if test="dataset.isModiGenerated()"><s:property value="dataset.modi" /></s:if>
-                    <s:else>Not generated <button class="generate-modi">Generate MODI</button></s:else>
-                  </s:else>
-                </dd>
-              </dl>
+              <b>Modelability index:</b>
+              <div>
+                <s:if test="!dataset.canGenerateModi()"><span class="error-message">MODI cannot be generated for this dataset</span></s:if>
+                <s:else>
+                  <s:if test="dataset.isModiGenerated()">
+                  <s:property value="getText('{0,number,#,##0.00}',{dataset.modi})" />
+                  </s:if>
+                  <s:else>Not generated <button class="generate-modi">Generate MODI</button></s:else>
+                </s:else>
+              </div>
             </div>
              <br /> <a href="jobs#datasets">Back to Datasets</a> <!-- End Header Info --> <!-- Page description --> <s:if
               test="dataset.datasetType=='PREDICTION'||dataset.datasetType=='PREDICTIONWITHDESCRIPTORS'">
@@ -253,14 +253,17 @@
         });
 
         $(".generate-modi").click(function() {
+            $(this).text("Generating...").prop("disabled", "disabled");
+            var parent = $(this).parent();
+            parent.append('<img class="ajax-loading" src="/theme/img/shade-loader.gif" width="20px" height="20px">');
             $.ajax({
                 type: "POST",
                 url: "/generateModi",
                 data: { id: <s:property value="dataset.id" /> },
             }).success(function(data) {
-                $(".modi-value").text(data);
+                parent.text(data);
             }).fail(function() {
-                $(".modi-value").html('<span class="error">MODI generation failed</span>');
+                parent.html('<span class="error-message">MODI generation failed</span>');
             });
         });
     });
