@@ -1,133 +1,133 @@
 #homeButton {
-	border-left: 1px solid rgb(153, 153, 153);
+    border-left: 1px solid rgb(153, 153, 153);
 }
 
 .outer {
-	width:950px;
-	margin-left:auto;
-	margin-right:auto;
+    width: 950px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .homeLeft {
-	float:left;
-	width:62%;
+    float: left;
+    width: 62%;
 }
 
 .homeRight {
-	float:left;
-	width:35%;
-	padding:10px;
+    float: left;
+    width: 35%;
+    padding: 10px;
 }
 
 .loginRight {
-	padding-top:20px;
-	padding-right:25px;
+    padding-top: 20px;
+    padding-right: 25px;
 }
 
-.notLoggedInFooterTop{
-    padding-top:220px;
+.notLoggedInFooterTop {
+    padding-top: 220px;
 }
 
 .navHref {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 .navList {
-	margin:0pt;
-	padding:0pt;
-	list-style-type: none;
-	display:inline;
-	text-decoration:none;
+    margin: 0pt;
+    padding: 0pt;
+    list-style-type: none;
+    display: inline;
+    text-decoration: none;
 }
 
 .footerSide {
-	margin: 0pt; 
-	height: 118px; 
-	background-image: url(img/infocell.jpg); 
-	float: left; 
-	width: 24%;
+    margin: 0pt;
+    height: 118px;
+    background-image: url(img/infocell.jpg);
+    float: left;
+    width: 24%;
 }
 
 .footerMiddle {
-	margin: 0pt; 
-	height: 118px; 
-	background-image: url(img/infocell.jpg); 
-	float: left; 
-	width: 49.5%;
+    margin: 0pt;
+    height: 118px;
+    background-image: url(img/infocell.jpg);
+    float: left;
+    width: 49.5%;
 }
 
 .benchAlign {
-	clear:both;
-	margin:0px;
-	margin-right:24px;
+    clear: both;
+    margin: 0px;
+    margin-right: 24px;
 }
 
 .topMargin {
-	margin-top:20px;
+    margin-top: 20px;
 }
 
 .bottomMargin {
-	margin-bottom:20px;
+    margin-bottom: 20px;
 }
 
 .bottomMarginDataset {
-	margin-bottom:10px;
+    margin-bottom: 10px;
 }
 
 .bottomMarginAdme {
-	margin-bottom:-16px;
+    margin-bottom: -16px;
 }
 
 .topMarginChoosepredictors {
-	margin-top:-40px;
+    margin-top: -40px;
 }
 
 .topMarginBench {
-	margin-top:10px;
+    margin-top: 10px;
 }
 
 .includes {
-	clear:both;
-	margin:0px;
+    clear: both;
+    margin: 0px;
 }
 
 .includesHeader {
-	clear:both;
-	margin:0px;
-	padding-top:10px;
+    clear: both;
+    margin: 0px;
+    padding-top: 10px;
 }
 
 .includesNavbar {
-	clear:both;
-	margin:0;
-	padding-top:10px;
+    clear: both;
+    margin: 0;
+    padding-top: 10px;
 }
 
 .datasetTables {
-	padding-top:10px;
+    padding-top: 10px;
 }
 
 .boxDescriptionText {
-	margin-left:10px;
-	padding-bottom:10px;
+    margin-left: 10px;
+    padding-bottom: 10px;
 }
 
 .boxHeadingText {
-	margin-left:8px;
+    margin-left: 8px;
 }
 
 .datasetLastTable {
-	margin-left:-18px;
+    margin-left: -18px;
 }
 
 .pad6pxleft {
-	padding-left:6px;
+    padding-left: 6px;
 }
 
 .pad17pxleft {
-	padding-left:17px;
+    padding-left: 17px;
 }
 
 .pad15pxleft {
-	padding-left:15px;
+    padding-left: 15px;
 }
