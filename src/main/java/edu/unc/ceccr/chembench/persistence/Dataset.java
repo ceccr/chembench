@@ -120,7 +120,8 @@ public class Dataset implements java.io.Serializable {
             writer.write(joiner.join(header));
             writer.newLine();
             for (Descriptors d : descriptorValueMatrix) {
-                List<String> values = Lists.newArrayList(Splitter.on(' ').splitToList(d.getDescriptorValues()));
+                List<String> values = Lists.newArrayList(Splitter.on(' ').omitEmptyStrings()
+                        .splitToList(d.getDescriptorValues()));
                 values.add(0, activityMap.get(d.getCompoundName()));
                 writer.write(joiner.join(values));
                 writer.newLine();
