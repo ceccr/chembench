@@ -158,7 +158,7 @@ public class Dataset implements java.io.Serializable {
             } else if (this.isContinuous()) {
                 this.modi = evaluation.correlationCoefficient();
             }
-            // this.modiGenerated = true;
+            this.modiGenerated = true;
             save();
         } else {
             throw new IllegalStateException("MODI cannot be generated for this dataset");
