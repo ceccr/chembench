@@ -50,7 +50,7 @@ public class ReadDescriptors {
     }
 
     public static void readDescriptors(Predictor predictor, String sdfFile, List<String> descriptorNames,
-                                       List<Descriptors> descriptorValueMatrix) throws Exception {
+            List<Descriptors> descriptorValueMatrix) throws Exception {
         if (predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
             ReadDescriptors.readMolconnZDescriptors(sdfFile + ".molconnz", descriptorNames, descriptorValueMatrix);
         } else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
@@ -73,7 +73,7 @@ public class ReadDescriptors {
     }
 
     public static void readMolconnZDescriptors(String molconnZOutputFile, List<String> descriptorNames,
-                                               List<Descriptors> descriptorValueMatrix) throws Exception {
+            List<Descriptors> descriptorValueMatrix) throws Exception {
 
         logger.debug("reading MolconnZ Descriptors");
 
@@ -177,7 +177,7 @@ public class ReadDescriptors {
     }
 
     public static void readDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,
-                                             List<Descriptors> descriptorValueMatrix) throws Exception {
+            List<Descriptors> descriptorValueMatrix) throws Exception {
 
         logger.debug("reading Dragon Descriptors");
 
@@ -234,8 +234,8 @@ public class ReadDescriptors {
 
             Descriptors di = new Descriptors();
             /* contains molecule name, which isn't a descriptor */
-            descriptorValues.remove(1);
-            descriptorValues.remove(0);
+            di.setCompoundName(descriptorValues.remove(1));
+            di.setCompoundIndex(Integer.parseInt(descriptorValues.remove(0)));
 
             di.setDescriptorValues(Utility.StringListToString(descriptorValues));
             descriptorValueMatrix.add(di);
@@ -245,7 +245,7 @@ public class ReadDescriptors {
     }
 
     public static void readMaccsDescriptors(String maccsOutputFile, List<String> descriptorNames,
-                                            List<Descriptors> descriptorValueMatrix) throws Exception {
+            List<Descriptors> descriptorValueMatrix) throws Exception {
         // generate with "maccs.sh infile.sdf outfile.maccs"
 
         logger.debug("reading Maccs Descriptors");
@@ -294,7 +294,7 @@ public class ReadDescriptors {
     }
 
     public static void readMoe2DDescriptors(String moe2DOutputFile, List<String> descriptorNames,
-                                            List<Descriptors> descriptorValueMatrix) throws Exception {
+            List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading Moe2D Descriptors");
 
         File file = new File(moe2DOutputFile);
@@ -344,7 +344,7 @@ public class ReadDescriptors {
     }
 
     public static void readISIDADescriptors(String ISIDAOutputFile, List<String> descriptorNames,
-                                            List<Descriptors> descriptorValueMatrix) throws Exception {
+            List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading ISIDA Descriptors");
 
         File file = new File(ISIDAOutputFile);
@@ -385,7 +385,7 @@ public class ReadDescriptors {
     }
 
     public static void readXDescriptors(String xFile, List<String> descriptorNames,
-                                        List<Descriptors> descriptorValueMatrix) throws Exception {
+            List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("Trying to read uploaded descriptors");
         File file = new File(xFile);
         if (!file.exists() || file.length() == 0) {
@@ -408,18 +408,18 @@ public class ReadDescriptors {
             while ((line = br.readLine()) != null) {
                 tok = new Scanner(line);
                 tok.useDelimiter("\\s+");
+                Descriptors di = new Descriptors();
                 if (tok.hasNext()) {
-                    tok.next(); // first value is the index of the compound
+                    di.setCompoundIndex(Integer.parseInt(tok.next())); // first value is the index of the compound
                 }
                 if (tok.hasNext()) {
-                    tok.next(); // second value is the name of the compound
+                    di.setCompoundName(tok.next()); // second value is the name of the compound
                 }
                 String descriptorString = new String("");
                 while (tok.hasNext()) {
                     descriptorString += tok.next() + " ";
                 }
                 if (!descriptorString.equalsIgnoreCase("")) {
-                    Descriptors di = new Descriptors();
                     di.setDescriptorValues(descriptorString);
                     descriptorValueMatrix.add(di);
                 }

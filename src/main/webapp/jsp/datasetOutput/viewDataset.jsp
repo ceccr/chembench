@@ -187,7 +187,20 @@
                 </s:if>
                 <br />
               </div>
-            </s:else> <br /> <a href="jobs#datasets">Back to Datasets</a> <!-- End Header Info --> <!-- Page description --> <s:if
+            </s:else>
+            <div>
+              <dl>
+                <dt>Modelability index:</dt>
+                <dd class="modi-value">
+                  <s:if test="!dataset.canGenerateModi()">MODI cannot be generated for this dataset</s:if>
+                  <s:else>
+                    <s:if test="dataset.isModiGenerated()"><s:property value="dataset.modi" /></s:if>
+                    <s:else>Not generated <button class="generate-modi">Generate MODI</button></s:else>
+                  </s:else>
+                </dd>
+              </dl>
+            </div>
+             <br /> <a href="jobs#datasets">Back to Datasets</a> <!-- End Header Info --> <!-- Page description --> <s:if
               test="dataset.datasetType=='PREDICTION'||dataset.datasetType=='PREDICTIONWITHDESCRIPTORS'">
               <p class="StandardTextDarkGray">The compounds in your dataset are below.</p>
             </s:if> <s:elseif test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
@@ -210,11 +223,6 @@
               <s:param name="orderBy" value='orderBy' />
               <s:param name="id" value='objectId' />
             </s:url> <s:if test="dataset.datasetType!='MODELING'&&dataset.datasetType!='MODELINGWITHDESCRIPTORS'">
-              <script>
-      $(function() {
-        $( "#tabs" ).tabs( { disabled: [2] } );
-      });
-    </script>
             </s:if> <!-- load tabs -->
             <div id="tabs">
               <ul>
@@ -232,8 +240,11 @@
       </table>
     <script>
     $(document).ready(function() {
-        //adding a bigger compound image on mouse enter
+        $(function() {
+          $( "#tabs" ).tabs( { disabled: [2] } );
+        });
 
+        //adding a bigger compound image on mouse enter
         $('.compound_img_a').on("mouseover",function(e){
           $("img","#image_hint").attr("src", $("img", this).attr("src"));
             var position = $("img", this).offset();
@@ -243,6 +254,18 @@
 
         $('.compound_img_a').on("mouseout",function(){
             $("#image_hint").hide();
+        });
+
+        $(".generate-modi").click(function() {
+            $.ajax({
+                type: "POST",
+                url: "/generateModi",
+                data: { id: <s:property value="dataset.id" /> },
+            }).success(function(data) {
+                $(".modi-value").text(data);
+            }).fail(function() {
+                $(".modi-value").html('<span class="error">MODI generation failed</span>');
+            });
         });
     });
     </script>

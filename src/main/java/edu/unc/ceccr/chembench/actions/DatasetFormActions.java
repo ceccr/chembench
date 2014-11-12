@@ -1,21 +1,24 @@
 package edu.unc.ceccr.chembench.actions;
 
+import java.io.File;
+import java.util.List;
+
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
+
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.jobs.CentralDogma;
+import edu.unc.ceccr.chembench.persistence.Dataset;
 import edu.unc.ceccr.chembench.persistence.HibernateUtil;
 import edu.unc.ceccr.chembench.persistence.Predictor;
 import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.taskObjects.CreateDatasetTask;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-
-import java.io.File;
-import java.util.List;
 //struts2
 
 
@@ -26,6 +29,8 @@ public class DatasetFormActions extends ActionSupport {
     private List<String> errorStrings = Lists.newArrayList();
     private String datasetName = "";
     private String datasetType = Constants.MODELING;
+    private long id;
+    private double modi;
     private String splitType = Constants.RANDOM;
     private String dataTypeModeling = Constants.NONE;
     private String dataTypeModDesc = Constants.NONE;
@@ -521,6 +526,20 @@ public class DatasetFormActions extends ActionSupport {
         return result;
     }
 
+    public String generateModi() throws Exception {
+        Session session = HibernateUtil.getSession();
+        Dataset dataset = PopulateDataObjects.getDataSetById(id, session);
+        if (!dataset.canGenerateModi()) {
+            return "badrequest";
+        } else {
+            if (!dataset.isModiGenerated()) {
+                dataset.generateModi();
+            }
+            this.modi = dataset.getModi();
+            return SUCCESS;
+        }
+    }
+
     public List<String> getErrorStrings() {
         return errorStrings;
     }
@@ -1010,6 +1029,22 @@ public class DatasetFormActions extends ActionSupport {
 
     public void setSelectedDescriptorUsedNameD(String selectedDescriptorUsedName) {
         this.selectedDescriptorUsedNameD = selectedDescriptorUsedName;
+    }
+
+    public double getModi() {
+        return modi;
+    }
+
+    public void setModi(double modi) {
+        this.modi = modi;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
 

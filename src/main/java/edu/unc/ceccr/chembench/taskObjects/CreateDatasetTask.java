@@ -518,6 +518,7 @@ public class CreateDatasetTask extends WorkflowTask {
             this.numCompounds = DatasetFileOperations.getXCompoundNames(path + xFileName).size();
         }
 
+        dataset.generateModi();
     }
 
     public void postProcess() throws Exception {
