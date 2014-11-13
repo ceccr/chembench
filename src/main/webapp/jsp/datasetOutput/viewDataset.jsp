@@ -196,7 +196,10 @@
                   <s:if test="dataset.isModiGenerated()">
                   <s:property value="getText('{0,number,#,##0.00}',{dataset.modi})" />
                   </s:if>
-                  <s:else>Not generated <button class="generate-modi">Generate MODI</button></s:else>
+                  <s:else>
+                    Not generated <button class="generate-modi">Generate MODI</button>
+                    <input type="hidden" name="dataset-id" value="<s:property value="dataset.id" />">
+                  </s:else>
                 </s:else>
               </div>
             </div>
@@ -250,21 +253,6 @@
 
         $('.compound_img_a').on("mouseout",function(){
             $("#image_hint").hide();
-        });
-
-        $(".generate-modi").click(function() {
-            $(this).text("Generating...").prop("disabled", "disabled");
-            var parent = $(this).parent();
-            parent.append('<img class="ajax-loading" src="/theme/img/shade-loader.gif" width="20px" height="20px">');
-            $.ajax({
-                type: "POST",
-                url: "/generateModi",
-                data: { id: <s:property value="dataset.id" /> },
-            }).success(function(data) {
-                parent.text(data.toFixed(2));
-            }).fail(function() {
-                parent.html('<span class="error-message">MODI generation failed</span>');
-            });
         });
     });
     </script>

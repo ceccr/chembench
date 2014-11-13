@@ -18,10 +18,10 @@
 <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
 <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-<script src="javascript/chembench.js"></script>
-<script src="javascript/dataset.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="javascript/chembench.js"></script>
+<script src="javascript/dataset.js"></script>
 <link rel="stylesheet" type="text/css"
   href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/smoothness/jquery-ui.min.css"></link>
 <script language="JavaScript" src="javascript/sortableTable.js"></script>
@@ -276,8 +276,9 @@
             <th class="TableRowText01">Name</th>
             <th class="TableRowText01">Number of Compounds</th>
             <th class="TableRowText01">Type</th>
+            <th class="TableRowText01 modi-header">MODI</th>
             <th class="TableRowText01">Structure Images Available</th>
-            <th class="TableRowText01">Descriptor Type name</th>
+            <th class="TableRowText01">Descriptors</th>
             <th class="TableRowText01">Date Created</th>
             <th class="TableRowText01">Public/Private</th>
           </tr>
@@ -300,6 +301,16 @@
               </s:else></td>
             <td><s:property value="numCompound" /></td>
             <td><s:property value="modelType" /></td>
+            <td>
+              <s:if test="!canGenerateModi()"><span class="error-message">Not available</span></s:if>
+              <s:else>
+                <s:if test="modiGenerated"><s:property value="getText('{0,number,#,##0.00}',{modi})" /></s:if>
+                <s:else>
+                  Not generated <button class="generate-modi">Generate MODI</button>
+                  <input type="hidden" name="dataset-id" value="<s:property value="id" />">
+                </s:else>
+              </s:else>
+            </td>
             <s:if test="!sdfFile.isEmpty()">
               <td>YES</td>
             </s:if>
