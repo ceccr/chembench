@@ -159,7 +159,7 @@ public class ModelingFormActions extends ActionSupport {
     private String svmCrossValidation = "0";
     private String svmCutoff = "0.6";
     // Random Forest parameters
-    private String numTrees = "1000";
+    private String numTrees = "100";
     private String minTerminalNodeSize;//               = "1";
 
     // end knn+ parameters

@@ -18,7 +18,7 @@
 
             <tr>
               <td><div class="StandardTextDarkGrayParagraph">
-                  <b>Number of Trees:</b>
+                  <b>Number of Trees per Split:</b>
                 </div></td>
               <td align="left" valign="top"><s:textfield id="numTrees" name="numTrees" size="5" theme="simple" /></td>
             </tr>
