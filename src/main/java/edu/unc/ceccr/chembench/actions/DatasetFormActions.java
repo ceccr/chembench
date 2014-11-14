@@ -31,7 +31,7 @@ public class DatasetFormActions extends ActionSupport {
     private String datasetType = Constants.MODELING;
     private long id;
     private double modi;
-    private String splitType = Constants.RANDOM;
+    private String splitType = Constants.NFOLD;
     private String dataTypeModeling = Constants.NONE;
     private String dataTypeModDesc = Constants.NONE;
     private String dataSetDescription = "";
