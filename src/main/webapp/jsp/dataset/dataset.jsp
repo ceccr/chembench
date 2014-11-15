@@ -163,6 +163,9 @@
           <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
             <tr>
               <td><sx:tabbedpanel id="splitTypeTabbedPanel" afterSelectTabNotifyTopics="/splitTypeSelect">
+                  <sx:div id="NFOLD" href="/loadNFoldExternalSection" label="n-Fold Split" theme="ajax"
+                    loadingText="Loading split type..." preload="true">
+                  </sx:div>
 
                   <sx:div id="RANDOM" href="/loadAutoExternalSection" label="Random Split" theme="ajax"
                     loadingText="Loading split type...">
@@ -171,11 +174,6 @@
                   <sx:div id="USERDEFINED" href="/loadManualExternalSection" label="Choose Compounds" theme="ajax"
                     loadingText="Loading split type..." preload="true">
                   </sx:div>
-
-                  <sx:div id="NFOLD" href="/loadNFoldExternalSection" label="n-Fold Split" theme="ajax"
-                    loadingText="Loading split type..." preload="true">
-                  </sx:div>
-
                 </sx:tabbedpanel></td>
             </tr>
           </table>

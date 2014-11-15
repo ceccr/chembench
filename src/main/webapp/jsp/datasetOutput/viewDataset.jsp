@@ -32,69 +32,69 @@
 <script src="javascript/hookMouseWheel.js"></script>
 
 <script language="javascript">
-	
-	function loadAllCompoundsTab(newUrl){
-		//When the user changes which page they're on in the All Compounds tab
-		//or changes the sorted element, run this function to update the tab's content
-		
-		//prepare the AJAX object
-		var ajaxObject = GetXmlHttpObject();
-		ajaxObject.onreadystatechange=function(){
-			if(ajaxObject.readyState==4){
-				hideLoading();
+
+  function loadAllCompoundsTab(newUrl){
+    //When the user changes which page they're on in the All Compounds tab
+    //or changes the sorted element, run this function to update the tab's content
+
+    //prepare the AJAX object
+    var ajaxObject = GetXmlHttpObject();
+    ajaxObject.onreadystatechange=function(){
+      if(ajaxObject.readyState==4){
+        hideLoading();
                 $('div[aria-labelledby="AllCompounds"]').html(ajaxObject.responseText);
-			}
-		}
-		showLoading("LOADING. PLEASE WAIT.")
-		
-		//send request
-		ajaxObject.open("GET",newUrl,true);
-		ajaxObject.send(null);
-		
-		return true;
-	}
+      }
+    }
+    showLoading("LOADING. PLEASE WAIT.")
 
-	function loadNFoldCompoundsTab(newUrl){
-		//When the user changes which page they're on in the N-Fold External Compounds tab
-		//or changes the sorted element, run this function to update the tab's content
-		
-		//prepare the AJAX object
-		var ajaxObject = GetXmlHttpObject();
-		ajaxObject.onreadystatechange=function(){
-			if(ajaxObject.readyState==4){
-				hideLoading();
-			  	document.getElementById("externalCompoundsNFoldDiv").innerHTML=ajaxObject.responseText;
-			}
-		}
-		showLoading("LOADING. PLEASE WAIT.")
-		
-		//send request
-		ajaxObject.open("GET",newUrl,true);
-		ajaxObject.send(null);
-		
-		return true;
-	}
+    //send request
+    ajaxObject.open("GET",newUrl,true);
+    ajaxObject.send(null);
 
-	function loadExternalCompoundsTab(newUrl){
-		//When the user changes which page they're on in the External Compounds tab
-		//or changes the sorted element, run this function to update the tab's content
-		
-		//prepare the AJAX object
-		var ajaxObject = GetXmlHttpObject();
-		ajaxObject.onreadystatechange=function(){
-			if(ajaxObject.readyState==4){
-			  	$('div[aria-labelledby="ExternalSet"]').html(ajaxObject.responseText);
-			}
-		}
-		
-		//send request
-		ajaxObject.open("GET",newUrl,true);
-		ajaxObject.send(null);
-		
-		return true;
-	}		
-		
-	</script>
+    return true;
+  }
+
+  function loadNFoldCompoundsTab(newUrl){
+    //When the user changes which page they're on in the N-Fold External Compounds tab
+    //or changes the sorted element, run this function to update the tab's content
+
+    //prepare the AJAX object
+    var ajaxObject = GetXmlHttpObject();
+    ajaxObject.onreadystatechange=function(){
+      if(ajaxObject.readyState==4){
+        hideLoading();
+          document.getElementById("externalCompoundsNFoldDiv").innerHTML=ajaxObject.responseText;
+      }
+    }
+    showLoading("LOADING. PLEASE WAIT.")
+
+    //send request
+    ajaxObject.open("GET",newUrl,true);
+    ajaxObject.send(null);
+
+    return true;
+  }
+
+  function loadExternalCompoundsTab(newUrl){
+    //When the user changes which page they're on in the External Compounds tab
+    //or changes the sorted element, run this function to update the tab's content
+
+    //prepare the AJAX object
+    var ajaxObject = GetXmlHttpObject();
+    ajaxObject.onreadystatechange=function(){
+      if(ajaxObject.readyState==4){
+          $('div[aria-labelledby="ExternalSet"]').html(ajaxObject.responseText);
+      }
+    }
+
+    //send request
+    ajaxObject.open("GET",newUrl,true);
+    ajaxObject.send(null);
+
+    return true;
+  }
+
+  </script>
 <!-- FIXME jQuery test stuff -->
 <script type="text/javascript">
         function getURLParameter(name) {
@@ -106,15 +106,15 @@
             // set links with id
             var id = getURLParameter("id");
 
-            $("#AllCompounds").attr("href", 
+            $("#AllCompounds").attr("href",
                 "/viewDatasetCompoundsSection" + "?id=" + id);
-            $("#ExternalSet").attr("href", 
+            $("#ExternalSet").attr("href",
                 "/viewDatasetExternalCompoundsSection" + "?id=" + id);
-            $("#ActivityHistogram").attr("href", 
+            $("#ActivityHistogram").attr("href",
                 "/viewDatasetActivityChartSection" + "?id=" + id);
-            $("#Heatmap").attr("href", 
+            $("#Heatmap").attr("href",
                 "/viewDatasetVisualizationSection" + "?id=" + id);
-            $("#DescriptorWarnings").attr("href", 
+            $("#DescriptorWarnings").attr("href",
                 "/viewDatasetDescriptorsSection" + "?id=" + id);
 
             // activate tabs widget
@@ -187,7 +187,23 @@
                 </s:if>
                 <br />
               </div>
-            </s:else> <br /> <a href="jobs#datasets">Back to Datasets</a> <!-- End Header Info --> <!-- Page description --> <s:if
+            </s:else>
+            <div>
+              <b>Modelability index:</b>
+              <div>
+                <s:if test="!dataset.canGenerateModi()"><span class="error-message">MODI cannot be generated for this dataset</span></s:if>
+                <s:else>
+                  <s:if test="dataset.isModiGenerated()">
+                  <s:property value="getText('{0,number,#,##0.00}',{dataset.modi})" />
+                  </s:if>
+                  <s:else>
+                    Not generated <button class="generate-modi">Generate MODI</button>
+                    <input type="hidden" name="dataset-id" value="<s:property value="dataset.id" />">
+                  </s:else>
+                </s:else>
+              </div>
+            </div>
+             <br /> <a href="jobs#datasets">Back to Datasets</a> <!-- End Header Info --> <!-- Page description --> <s:if
               test="dataset.datasetType=='PREDICTION'||dataset.datasetType=='PREDICTIONWITHDESCRIPTORS'">
               <p class="StandardTextDarkGray">The compounds in your dataset are below.</p>
             </s:if> <s:elseif test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
@@ -210,11 +226,6 @@
               <s:param name="orderBy" value='orderBy' />
               <s:param name="id" value='objectId' />
             </s:url> <s:if test="dataset.datasetType!='MODELING'&&dataset.datasetType!='MODELINGWITHDESCRIPTORS'">
-              <script>
-			$(function() {
-				$( "#tabs" ).tabs( { disabled: [2] } );
-			});
-		</script>
             </s:if> <!-- load tabs -->
             <div id="tabs">
               <ul>
@@ -229,75 +240,22 @@
               style="display: none; border: #FFF solid 1px; width: 300px; height: 300px; position: absolute">
               <img src="" width="300" height="300" />
             </div>
-      </table> <script language="javascript">
-$(document).ready(function() {
-    //adding a bigger compound image on mouse enter
+      </table>
+    <script>
+    $(document).ready(function() {
+        //adding a bigger compound image on mouse enter
+        $('.compound_img_a').on("mouseover",function(e){
+          $("img","#image_hint").attr("src", $("img", this).attr("src"));
+            var position = $("img", this).offset();
+            $("#image_hint").show();
+            $("#image_hint").css({"left":position.left+155,"top":position.top-75});
+          });
 
-	$('.compound_img_a').on("mouseover",function(e){
-		$("img","#image_hint").attr("src", $("img", this).attr("src"));
-    	var position = $("img", this).offset();
-    	$("#image_hint").show();
-    	$("#image_hint").css({"left":position.left+155,"top":position.top-75});
-		});
-
-	$('.compound_img_a').on("mouseout",function(){
-    	$("#image_hint").hide();
-	});
-	
-});
-</script>
-      <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
+        $('.compound_img_a').on("mouseout",function(){
+            $("#image_hint").hide();
+        });
+    });
+    </script>
+    <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
   </div>
-  </script>
 </body>
-
-<!--
-	<a name="tabs"></a> 
-	<sx:tabbedpanel id="viewDatasetTabs" >
-	
-    	<sx:div href="%{datasetCompoundsLink}" id="allCompoundsDiv" executeScripts="true" label="All Compounds" theme="ajax" loadingText="Loading compounds..." showLoadingText="true">
-		</sx:div>
-		
-		<s:if test="dataset.datasetType=='MODELING'||dataset.datasetType=='MODELINGWITHDESCRIPTORS'">
-			
-			<s:if test="dataset.splitType=='RANDOM'||dataset.splitType=='USERDEFINED'">
-				<s:url id="externalCompoundsLink" value="/viewDatasetExternalCompoundsSection" includeParams="none">
-					<s:param name="id" value='objectId' />
-				</s:url>
-				<sx:div href="%{externalCompoundsLink}" id="externalCompoundsDiv" label="External Set" theme="ajax" loadingText="Loading external compounds..." showLoadingText="true">
-				</sx:div>
-			</s:if>
-			<s:else>
-				<s:url id="externalCompoundsNFoldLink" value="/viewDatasetNFoldSection" includeParams="none">
-					<s:param name="id" value='objectId' />
-				</s:url>
-				<sx:div href="%{externalCompoundsNFoldLink}" id="externalCompoundsNFoldDiv" label="External Folds" theme="ajax" loadingText="Loading external compounds..." showLoadingText="true">
-				</sx:div>
-			</s:else>
-			
-			<s:url id="activityChartLink" value="/viewDatasetActivityChartSection" includeParams="none">
-				<s:param name="id" value='objectId' />
-			</s:url>
-			
-			<sx:div href="%{activityChartLink}" id="activityChartDiv" label="Activity Histogram" theme="ajax" loadingText="Loading activity chart..." showLoadingText="true">
-			</sx:div>
-		</s:if>
-		
-		<s:if test="!dataset.sdfFile.isEmpty() && dataset.numCompound<500">
-			<s:url id="heatmapLink" value="/viewDatasetVisualizationSection" includeParams="none">
-				<s:param name="id" value='objectId' />
-			</s:url>
-		
-			<sx:div href="%{heatmapLink}" label="Heatmap" theme="ajax" loadingText="Loading heatmap..." showLoadingText="true" preload="false">
-			</sx:div>
-		</s:if>
-		
-		<s:url id="descriptorsLink" value="/viewDatasetDescriptorsSection" includeParams="none">
-			<s:param name="id" value='objectId' />
-		</s:url>
-		<sx:div href="%{descriptorsLink}" label="Descriptor Warnings" theme="ajax" loadingText="Loading warnings..." showLoadingText="true" preload="false">
-		</sx:div>
-		 
-   	</sx:tabbedpanel>
-   	
-    -->

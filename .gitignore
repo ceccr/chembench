@@ -60,7 +60,7 @@ local.properties
 *.launch  # Locally stored "Eclipse launch configurations"
 
 ######################
-# Eclipse
+# IDEA
 ######################
 .idea/workspace.xml
 .idea/tasks.xml

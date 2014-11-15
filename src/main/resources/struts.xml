@@ -114,6 +114,15 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
+        <action name="generateModi" class="edu.unc.ceccr.chembench.actions.DatasetFormActions" method="generateModi">
+            <result name="success" type="json">
+                <param name="root">modi</param>
+            </result>
+            <result name="badrequest" type="httpheader">
+                <param name="status">400</param>
+            </result>
+        </action>
+
         <action name="loadModelingSection" class="edu.unc.ceccr.chembench.actions.DatasetFormActions"
                 method="ajaxLoadModeling">
             <result>/jsp/dataset/dataset-modeling.jsp</result>

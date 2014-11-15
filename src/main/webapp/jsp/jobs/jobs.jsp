@@ -332,7 +332,7 @@
         <td><s:if test="childType=='NFOLD'">YES</s:if> <s:else>NO</s:else></td>
         <td><s:property value="activityType" /></td>
         <s:if test="childType=='NFOLD'">
-          <td><s:if test='externalPredictionAccuracyAvg!="0.0 ± 0.0"'>
+          <td><s:if test='externalPredictionAccuracyAvg!="0.0 Â± 0.0"'>
               <s:property value="externalPredictionAccuracyAvg" />
             </s:if> <s:else>
                     NA

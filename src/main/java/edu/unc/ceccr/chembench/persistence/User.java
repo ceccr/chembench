@@ -50,6 +50,9 @@ public class User implements java.io.Serializable {
     //users last login time
     private Date lastLogintime;
 
+    // user creation time
+    private Date creationTime;
+
     public User() {
     }
 
@@ -294,5 +297,12 @@ public class User implements java.io.Serializable {
         this.lastLogintime = lastLogintime;
     }
 
+    @Column(name = "creationTime")
+    public Date getCreationTime() {
+        return creationTime;
+    }
 
+    public void setCreationTime(Date creationTime) {
+        this.creationTime = creationTime;
+    }
 }

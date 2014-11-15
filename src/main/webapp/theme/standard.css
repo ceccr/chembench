@@ -52,7 +52,7 @@ th {
     outline: none;
 }
 
-/** Not currently needed	
+/** Not currently needed
 	.StandardTextDarkGray2modified {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 15px;
@@ -223,7 +223,7 @@ body {
     text-align: center;
     vertical-align: middle;
     height: 30px;
-    width: 120px;
+    width: 100px;
     font-weight: bold;
 }
 

@@ -517,7 +517,6 @@ public class CreateDatasetTask extends WorkflowTask {
         if (!xFileName.equals("")) {
             this.numCompounds = DatasetFileOperations.getXCompoundNames(path + xFileName).size();
         }
-
     }
 
     public void postProcess() throws Exception {
@@ -532,6 +531,7 @@ public class CreateDatasetTask extends WorkflowTask {
         dataset.setHasBeenViewed(Constants.NO);
         dataset.setJobCompleted(Constants.YES);
         dataset.setAvailableDescriptors(availableDescriptors);
+        dataset.generateModi();
 
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
