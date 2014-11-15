@@ -318,10 +318,10 @@
               <td>NO</td>
             </s:else>
             <td>
-                <s:if test="uploadedDescriptorType!=''">
-                  *<s:property value="uploadedDescriptorType" />
-                </s:if>
                 <s:property value="availableDescriptors" />
+                <s:if test="uploadedDescriptorType!=''">
+                  (*<s:property value="uploadedDescriptorType" />)
+                </s:if>
             </td>
             <td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
             <s:if test="userName=='all-users'">
