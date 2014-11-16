@@ -135,7 +135,7 @@
                 <param name="root">modi</param>
             </result>
             <result name="badrequest" type="httpheader">
-                <param name="status">400</param>
+                <param name="error">400</param>
             </result>
         </action>
 

@@ -529,7 +529,7 @@ public class DatasetFormActions extends ActionSupport {
     public String generateModi() throws Exception {
         Session session = HibernateUtil.getSession();
         Dataset dataset = PopulateDataObjects.getDataSetById(id, session);
-        if (!dataset.canGenerateModi()) {
+        if (dataset == null || !dataset.canGenerateModi()) {
             return "badrequest";
         } else {
             if (!dataset.isModiGenerated()) {
