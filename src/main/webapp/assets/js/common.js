@@ -14,8 +14,10 @@ $(document).ready(function() {
 
     $("#guest-login").click(function(event) {
         event.preventDefault();
-        bootbox.alert(guestMessage, function() {
-            window.location = $("#guest-login").attr("href");
+        bootbox.confirm(guestMessage, function(response) {
+            if (response === true) {
+                window.location = $("#guest-login").attr("href");
+            }
         });
     });
 
