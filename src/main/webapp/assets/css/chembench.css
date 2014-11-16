@@ -187,3 +187,16 @@ footer {
     color: red;
     margin-right: 0.5em;
 }
+
+.inline-radio-group {
+    padding-top: 7px;
+}
+
+.inline-radio-group input {
+    margin-right: 0.3em;
+}
+
+.inline-radio-group label {
+    margin-right: 0.7em;
+    cursor: pointer;
+}

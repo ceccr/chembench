@@ -179,10 +179,52 @@
               hide them, they will no longer appear on the My Bench, Modeling, and Prediction pages.
             </p>
             <div class="form-group">
-              <label for="showPublicDatasets" class="control-label col-xs-3">Show Public Datasets:</label>
-              <div class="col-xs-4">
-                <s:radio id="showPublicDatasets" name="showPublicDatasets" value="showPublicDatasets"
-                  cssClass="form-control" list="#{'NONE':'None','SOME':'Some','ALL':'All'}" />
+              <label class="control-label col-xs-4">Show Public Datasets:</label>
+              <div class="inline-radio-group col-xs-8">
+                <s:radio name="showPublicDatasets" value="showPublicDatasets"
+                  list="#{'NONE':'None','SOME':'Some','ALL':'All'}" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="control-label col-xs-4">Show Public Predictors:</label>
+              <div class="inline-radio-group col-xs-8">
+                <s:radio name="showPublicPredictors" value="showPublicPredictors" list="#{'NONE':'None','ALL':'All'}" />
+              </div>
+            </div>
+
+            <hr>
+            <h4>View Options</h4>
+            <div class="form-group">
+              <label class="control-label col-xs-4">Compounds per Page on View Dataset:</label>
+              <div class="inline-radio-group col-xs-8">
+                <s:radio name="viewDatasetCompoundsPerPage" value="viewDatasetCompoundsPerPage"
+                  list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="control-label col-xs-4">Compounds per Page on View Predictions:</label>
+              <div class="inline-radio-group col-xs-8">
+                <s:radio name="viewPredictionCompoundsPerPage" value="viewPredictionCompoundsPerPage"
+                  list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" />
+              </div>
+            </div>
+
+            <hr>
+            <h4>Modeling Options</h4>
+            <p>Under the Modeling tab, there are parameters that would only be of interest to advanced users. Before
+              turning this option on, you should familiarize yourself with the fine details of the kNN modeling
+              procedure.</p>
+            <div class="form-group">
+              <label class="control-label col-xs-4">Show Advanced kNN Modeling Controls:</label>
+              <div class="inline-radio-group col-xs-8">
+                <s:radio name="showAdvancedKnnModeling" value="showAdvancedKnnModeling" list="#{'YES':'Yes','NO':'No'}" />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="col-xs-offset-4 col-xs-8">
+                <button type="submit" class="btn btn-primary">Submit</button>
               </div>
             </div>
           </s:form>
