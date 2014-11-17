@@ -67,6 +67,5 @@
   </div>
 
   <%@ include file="/jsp/main/tail.jsp"%>
-  <script src="assets/js/notLoggedIn.js"></script>
 </body>
 </html>

@@ -16,6 +16,9 @@ $(document).ready(function() {
 
     $("#nav-button-home").addClass("active");
 
+    $(document).ready(function() {
+        $('input[name="username"]').focus();
+    });
     $("#guest-login").click(function(event) {
         event.preventDefault();
         bootbox.confirm(guestMessage, function(response) {
