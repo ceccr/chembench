@@ -4,18 +4,20 @@ var guestMessage = "A guest account allows a user to explore the functionality o
         + "For additional functionality, please register an account.";
 
 $(document).ready(function() {
+    // navigation button handlers
     $(".nav-list li").mouseup(function(event) {
         if (event.which === 1) {
             window.location = $(this).find("a").attr("href");
         }
     });
-
     $(".nav-list li").on("mouseenter mouseleave", function(event) {
         $(this).find("a").toggleClass("hovered", event.type === "mouseenter");
     });
 
+    // default highlighted button should be Home
     $("#nav-button-home").addClass("active");
 
+    // login & logout button handlers
     $(document).ready(function() {
         $('input[name="username"]').focus();
     });
