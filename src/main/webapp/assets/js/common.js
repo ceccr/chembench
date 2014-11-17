@@ -10,6 +10,10 @@ $(document).ready(function() {
         }
     });
 
+    $(".nav-list li").on("mouseenter mouseleave", function(event) {
+        $(this).find("a").toggleClass("hovered", event.type === "mouseenter");
+    });
+
     $("#nav-button-home").addClass("active");
 
     $("#guest-login").click(function(event) {
