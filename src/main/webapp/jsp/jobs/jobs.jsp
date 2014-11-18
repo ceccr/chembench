@@ -224,7 +224,7 @@
                         <button class="btn btn-primary btn-xs generate-modi">Generate MODI</button>
                       </s:else>
                     </s:else></td>
-                  <td class="available-descriptors"><s:property value="availableDescriptors" /> <s:if
+                  <td class="descriptor-types"><s:property value="availableDescriptors" /> <s:if
                       test="uploadedDescriptorType != null && !uploadedDescriptorType.isEmpty()">
                   *<s:property value="uploadedDescriptorType" />
                     </s:if></td>
@@ -247,6 +247,68 @@
 
         <div id="predictors" class="tab-pane">
           <h3>Predictors</h3>
+          <p class="tab-description">Predictors marked with an asterisk (*) indicate predictors built using
+            descriptors that were created outside of Chembench and uploaded by the user.</p>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Modeling Dataset</th>
+                <th>n-Fold</th>
+                <th>Activity Type</th>
+                <th>External Set R<sup>2</sup> or <abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
+                <th>Modeling Method</th>
+                <th>Descriptor Type</th>
+                <th>Date Created</th>
+                <th>Visibility</th>
+              </tr>
+            </thead>
+            <tbody>
+              <s:iterator value="userPredictors">
+                <tr>
+                  <td><s:url var="viewPredictor" action="viewPredictor">
+                      <s:param name="id" value="%{id}" />
+                    </s:url> <s:a href="%{viewPredictor}">
+                      <s:property value="name" />
+                    </s:a></td>
+                  <td><s:url var="viewModelingDataset" action="viewDataset">
+                      <s:param name="id" value="%{datasetId}" />
+                    </s:url> <s:a href="%{viewModelingDataset}">
+                      <s:property value="datasetDisplay" />
+                    </s:a></td>
+                  <td><s:if test="childType.equals('NFOLD')">Yes</s:if> <s:else>No</s:else></td>
+                  <td class="activity-type"><s:property value="activityType" /></td>
+                  <td><s:if test="childType.equals('NFOLD')">
+                      <s:if test="!externalPredictionAccuracyAvg.equals('0.0 ± 0.0')">
+                        <s:property value="externalPredictionAccuracyAvg" />
+                      </s:if>
+                      <s:else>
+                        NA
+                      </s:else>
+                    </s:if> <s:else>
+                      <s:if test="!externalPredictionAccuracy.equals('0.0')">
+                        <s:property value="externalPredictionAccuracy" />
+                      </s:if>
+                      <s:else>
+                        NA
+                      </s:else>
+                    </s:else></td>
+                  <td class="modeling-method"><s:property value="modelMethod" /></td>
+                  <td class="descriptor-types"><s:if test="descriptorGeneration.equals('UPLOADED')">
+                      * <s:property value="uploadedDescriptorType" />
+                    </s:if> <s:else>
+                      <s:property value="descriptorGeneration" />
+                    </s:else></td>
+                  <td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+                  <td><s:if test="username.equals('all-users')">
+                      Public
+                    </s:if> <s:else>
+                      Private
+                    </s:else></td>
+                </tr>
+              </s:iterator>
+            </tbody>
+          </table>
         </div>
 
         <div id="predictions" class="tab-pane">

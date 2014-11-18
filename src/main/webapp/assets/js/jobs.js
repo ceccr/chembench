@@ -6,10 +6,15 @@ $(document).ready(function() {
         location.reload(true);
     });
 
-    $("td.available-descriptors").each(function() {
+    $("td.descriptor-types").each(function() {
         var descriptorList = $(this).text();
         $(this).text(descriptorList.replace(/DRAGONH/g, "DragonH")
                 .replace(/DRAGONNOH/g, "DragonNoH")
                 .replace(/UPLOADED/g, ""));
+    });
+
+    $("td.modeling-method").each(function() {
+        var modelingMethod = $(this).text();
+        $(this).text(modelingMethod.replace(/RANDOMFOREST/, "RF"));
     });
 });
