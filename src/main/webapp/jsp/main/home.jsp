@@ -144,11 +144,12 @@
           <li><a href="http://www.talete.mi.it" target="_blank"><img src="assets/images/sponsors/talete.jpg"
               width="71px" height="80px" alt="Talete srl" class="img-thumbnail"></a></li>
           <li><a href="http://www.chemaxon.com" target="_blank"><img src="assets/images/sponsors/chemaxon.jpg"
-              width="88px" height="83px" class="img-thumbnail"></a></li>
+              width="88px" height="83px" alt="ChemAxon" class="img-thumbnail"></a></li>
           <li><a href="http://www.edusoft-lc.com" target="_blank"><img src="assets/images/sponsors/edusoft.jpg"
-              width="99px" height="71px" class="img-thumbnail"></a></li>
+              width="99px" height="71px" alt="eduSoft" class="img-thumbnail"></a></li>
           <li><a href="http://www.sunsetmolecular.com" target="_blank"><img
-              src="assets/images/sponsors/sunsetmolecular.jpg" width="100px" height="100px" class="img-thumbnail"></a></li>
+              src="assets/images/sponsors/sunsetmolecular.jpg" width="100px" height="100px" alt="Sunset Molecular"
+              class="img-thumbnail"></a></li>
         </ul>
       </section>
     </section>
