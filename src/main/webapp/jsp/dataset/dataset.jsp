@@ -39,8 +39,7 @@
               If you are creating a <b>Modeling</b> or <b>Prediction Dataset</b>, you do not have to provide
               descriptors; Chembench will generate them for you.<br> If you have your own descriptors that you
               would like to upload for your dataset, select <b>Modeling</b> or <b>Prediction Dataset with
-                Descriptors</b>.<br> You will have to provide an <a href="/help-fileformats#X">X file</a> containing
-              the descriptor values.
+                Descriptors</b>.
             </p>
             <hr>
             <ul class="nav nav-pills">
@@ -61,12 +60,6 @@
                   compounds.
                 </p>
                 <div class="form-group">
-                  <label class="control-label col-xs-3">Structure file (.sdf):</label>
-                  <div class="col-xs-9">
-                    <s:file name="sdfFileModeling" id="sdfFileModeling" theme="simple" />
-                  </div>
-                </div>
-                <div class="form-group">
                   <label class="control-label col-xs-3">Activity file (.act):</label>
                   <div class="col-xs-9">
                     <s:file name="actFileModeling" id="actFileModeling" theme="simple" />
@@ -81,6 +74,12 @@
                   </div>
                 </div>
                 <hr>
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Structure file (.sdf):</label>
+                  <div class="col-xs-9">
+                    <s:file name="sdfFileModeling" id="sdfFileModeling" theme="simple" />
+                  </div>
+                </div>
                 <div class="form-group">
                   <div class="col-xs-offset-3 col-xs-9">
                     <label for="standardizeModeling"><s:checkbox name="standardizeModeling"
@@ -112,11 +111,10 @@
                     <s:file name="sdfFilePrediction" id="sdfFilePrediction" theme="simple" />
                   </div>
                 </div>
-                <hr>
                 <div class="form-group">
                   <div class="col-xs-offset-3 col-xs-9">
-                    <label for="standardizeModeling"><s:checkbox name="standardizeModeling"
-                        id="standardizeModeling" theme="simple" />Standardize molecule structures</label>
+                    <label for="standardizePrediction"><s:checkbox name="standardizePrediction"
+                        id="standardizePrediction" theme="simple" />Standardize molecule structures</label>
                     <p class="help-block">
                       If you choose not to standardize, ensure that your structure file contains explicit hydrogens.<br>
                       Otherwise, Dragon descriptors will not be available.
@@ -125,7 +123,7 @@
                 </div>
                 <div class="form-group">
                   <div class="col-xs-offset-3 col-xs-9">
-                    <label for="generateImagesM"><s:checkbox name="generateImagesM" id="generateImagesM"
+                    <label for="generateImagesP"><s:checkbox name="generateImagesP" id="generateImagesP"
                         theme="simple" />Generate Mahalanobis heatmap</label>
                     <p class="help-block">Unchecking this box will accelerate dataset generation but will eliminate
                       heatmap based on Mahalanobis distance measure.</p>
@@ -145,35 +143,16 @@
                   of the compounds in your dataset. If you do, Chembench will generate descriptors for you in addition
                   to the ones you upload, as well as images of your compound structures.
                 </p>
-                <div class="form-group text-muted">
-                  <div class="control-label col-xs-3">
-                    <label>Structure file (.sdf):</label><span class="help-block">Optional.</span>
-                  </div>
-                  <div class="col-xs-9">
-                    <s:file name="sdfFileModeling" id="sdfFileModeling" theme="simple" cssClass="optional-sdf" />
-                  </div>
-                </div>
-                <div class="form-group optional-sdf-standardization">
-                  <div class="col-xs-offset-3 col-xs-9">
-                    <label for="standardizeModDesc"><s:checkbox name="standardizeModDesc"
-                        id="standardizeModDesc" theme="simple" />Standardize molecule structures</label>
-                    <p class="help-block">
-                      If you choose not to standardize, ensure that your structure file contains explicit hydrogens.<br>
-                      Otherwise, Dragon descriptors will not be available.
-                    </p>
-                  </div>
-                </div>
-                <hr>
                 <div class="form-group">
                   <label class="control-label col-xs-3">Activity file (.act):</label>
                   <div class="col-xs-9">
-                    <s:file name="actFileModeling" id="actFileModeling" theme="simple" />
+                    <s:file name="actFileModDesc" id="actFileModDesc" theme="simple" />
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="control-label col-xs-3">Activity type:</label>
                   <div class="inline-radio-group col-xs-9">
-                    <s:radio name="dataTypeModeling" value="dataTypeModeling"
+                    <s:radio name="dataTypeModDesc" value="dataTypeModDesc"
                       list="#{'CONTINUOUS':'Continuous (regression)','CATEGORY':'Category (classification)'}"
                       theme="simple" />
                   </div>
@@ -190,22 +169,25 @@
                     <label>Descriptor type:</label> <span class="help-block">e.g. "Dragon", "Hybrid", etc.</span>
                   </div>
                   <div class="col-xs-9">
-                    <div class="control-label col-xs-3">
-                      <input type="radio" name="predictorName" id="newDescriptorName" checked="checked"><label
-                        for="newDescriptorName">New type</label>
-                    </div>
-                    <div class="col-xs-9 bare-input-wrapper">
-                      <s:textfield name="descriptorNewName" id="descriptorNewName" label="Enter a new type"
-                        theme="simple" />
+                    <div class="new-descriptor-type">
+                      <div class="control-label col-xs-3">
+                        <input type="radio" name="predictorName" id="newDescriptorName" checked="checked"><label
+                          for="newDescriptorName">New type</label>
+                      </div>
+                      <div class="col-xs-9 descriptor-type-entry">
+                        <s:textfield name="descriptorNewName" id="descriptorNewName" theme="simple" />
+                      </div>
                     </div>
                     <s:if test="userUploadedDescriptorTypes.size() > 0">
-                      <div class="control-label col-xs-3">
-                        <input type="radio" name="predictorName" id="usedDescriptorName"> <label
-                          for="usedDescriptorName">Existing type</label>
-                      </div>
-                      <div class="col-xs-9 bare-input-wrapper">
-                        <s:select name="selectedDescriptorUsedName" id="descriptorUsedName"
-                          list="userUploadedDescriptorTypes" label="Select type" theme="simple" />
+                      <div class="existing-descriptor-type text-muted">
+                        <div class="control-label col-xs-3">
+                          <input type="radio" name="predictorName" id="usedDescriptorName"><label
+                            for="usedDescriptorName">Existing type</label>
+                        </div>
+                        <div class="col-xs-9 descriptor-type-entry">
+                          <s:select name="selectedDescriptorUsedName" id="descriptorUsedName"
+                            list="userUploadedDescriptorTypes" label="Select type" disabled="true" theme="simple" />
+                        </div>
                       </div>
                     </s:if>
                   </div>
@@ -218,14 +200,119 @@
                       you.</p>
                   </div>
                 </div>
+                <hr>
+                <div class="form-group optional-sdf text-muted">
+                  <div class="control-label col-xs-3">
+                    <label>Structure file (.sdf):</label><span class="help-block">Optional.</span>
+                  </div>
+                  <div class="col-xs-9">
+                    <s:file name="sdfFileModDesc" id="sdfFileModDesc" theme="simple" cssClass="optional-sdf-select" />
+                  </div>
+                </div>
+                <div class="optional-sdf-options">
+                  <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                      <label for="standardizeModDesc"><s:checkbox name="standardizeModDesc"
+                          id="standardizeModDesc" theme="simple" />Standardize molecule structures</label>
+                      <p class="help-block">
+                        If you choose not to standardize, ensure that your structure file contains explicit hydrogens.<br>
+                        Otherwise, Dragon descriptors will not be available.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                      <label for="generateImagesMWD"><s:checkbox name="generateImagesMWD" id="generateImagesMWD"
+                          theme="simple" />Generate Mahalanobis heatmap</label>
+                      <p class="help-block">Unchecking this box will accelerate dataset generation but will
+                        eliminate heatmap based on Mahalanobis distance measure.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div id="prediction-dataset-with-descriptors" class="tab-pane">
-                <p>Bacon ipsum dolor amet hamburger capicola brisket, pig pork fatback jerky doner t-bone prosciutto
-                  ground round pork belly. Turkey tongue spare ribs filet mignon shank, salami capicola porchetta. Pork
-                  belly fatback t-bone salami brisket chuck short ribs tenderloin porchetta tri-tip pig tail venison
-                  prosciutto meatloaf. Shank beef leberkas ham. Turkey tail turducken jerky boudin capicola picanha
-                  ribeye bacon pig. Beef ribs porchetta rump bacon spare ribs. Boudin shank alcatra, landjaeger cupim
-                  doner sausage turkey short ribs t-bone capicola.</p>
+                <p>
+                  A <b>Prediction Dataset with Descriptors</b> can only be used for prediction. Choose this option if
+                  you have your own descriptors that you want to upload. (Otherwise, select <b>Prediction Dataset</b>
+                  instead.)
+                </p>
+                <p>
+                  You will need to supply an <a href="/help-fileformats#X">X file</a> containing your descriptor data.
+                  Optionally, you may provide a <a href="/help-fileformats#SDF">SDF file</a> containing the structures
+                  of the compounds in your dataset. If you do, Chembench will generate compound structure images for
+                  you.
+                </p>
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Descriptor data (.x):</label>
+                  <div class="col-xs-9">
+                    <s:file name="xFilePredDesc" id="xFilePredDesc" theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="control-label col-xs-3">
+                    <label>Descriptor type:</label> <span class="help-block">e.g. "Dragon", "Hybrid", etc.</span>
+                  </div>
+                  <div class="col-xs-9">
+                    <div class="new-descriptor-type">
+                      <div class="control-label col-xs-3">
+                        <input type="radio" name="predictorNameD" id="newDescriptorNameD" checked="checked"><label
+                          for="newDescriptorNameD">New type</label>
+                      </div>
+                      <div class="col-xs-9 descriptor-type-entry">
+                        <s:textfield name="descriptorNewNameD" id="descriptorNewNameD" theme="simple" />
+                      </div>
+                    </div>
+                    <s:if test="userUploadedDescriptorTypes.size() > 0">
+                      <div class="existing-descriptor-type text-muted">
+                        <div class="control-label col-xs-3">
+                          <input type="radio" name="predictorNameD" id="usedDescriptorNameD"><label
+                            for="usedDescriptorNameD">Existing type</label>
+                        </div>
+                        <div class="col-xs-9 descriptor-type-entry">
+                          <s:select name="selectedDescriptorUsedNameD" id="descriptorUsedNameD"
+                            list="userUploadedDescriptorTypes" label="Select type" disabled="true" theme="simple" />
+                        </div>
+                      </div>
+                    </s:if>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <label for="hasBeenScaled"><s:checkbox name="hasBeenScaled" id="hasBeenScaled"
+                        theme="simple" />My descriptors have been scaled</label>
+                    <p class="help-block">If you leave this unchecked, Chembench will scale your descriptors for
+                      you.</p>
+                  </div>
+                </div>
+                <hr>
+                <div class="form-group optional-sdf text-muted">
+                  <div class="control-label col-xs-3">
+                    <label>Structure file (.sdf):</label><span class="help-block">Optional.</span>
+                  </div>
+                  <div class="col-xs-9">
+                    <s:file name="sdfFilePredDesc" id="sdfFilePredDesc" theme="simple" cssClass="optional-sdf-select" />
+                  </div>
+                </div>
+                <div class="optional-sdf-options">
+                  <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                      <label for="standardizePredDesc"><s:checkbox name="standardizePredDesc"
+                          id="standardizePredDesc" theme="simple" />Standardize molecule structures</label>
+                      <p class="help-block">
+                        If you choose not to standardize, ensure that your structure file contains explicit hydrogens.<br>
+                        Otherwise, Dragon descriptors will not be available.
+                      </p>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-xs-offset-3 col-xs-9">
+                      <label for="generateImagesPWD"><s:checkbox name="generateImagesPWD" id="generateImagesPWD"
+                          theme="simple" />Generate Mahalanobis heatmap</label>
+                      <p class="help-block">Unchecking this box will accelerate dataset generation but will
+                        eliminate heatmap based on Mahalanobis distance measure.</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

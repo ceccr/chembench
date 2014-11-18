@@ -219,6 +219,7 @@ label[for] {
 
 input[type="file"] {
     padding-top: 7px;
+    padding-bottom: 7px;
 }
 
 input[type="checkbox"],input[type="radio"] {
@@ -231,14 +232,14 @@ input[type="checkbox"],input[type="radio"] {
     margin-bottom: 0;
 }
 
-.bare-input-wrapper {
+.optional-sdf-options {
+    display: none;
+}
+
+.descriptor-type-entry {
     padding-top: 7px;
 }
 
-input#descriptorNewName,input#descriptorUsedName {
+.new-descriptor-type input[type="text"],.existing-descriptor-type select {
     width: 200px;
-}
-
-.optional-sdf-standardization {
-    display: none;
 }
