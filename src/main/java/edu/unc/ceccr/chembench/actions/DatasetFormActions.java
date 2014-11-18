@@ -162,6 +162,8 @@ public class DatasetFormActions extends ActionSupport {
         userPredictionNames = PopulateDataObjects.populatePredictionNames(user.getUserName(), true, session);
         userTaskNames = PopulateDataObjects.populateTaskNames(user.getUserName(), false, session);
         userPredictorList = PopulateDataObjects.populatePredictors(user.getUserName(), true, true, session);
+        userUploadedDescriptorTypes =
+                PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
 
         session.close();
         //log the results
