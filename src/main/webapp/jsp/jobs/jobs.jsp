@@ -313,6 +313,34 @@
 
         <div id="predictions" class="tab-pane">
           <h3>Predictions</h3>
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Prediction Dataset</th>
+                <th>Predictor(s) Used</th>
+                <th>Date Created</th>
+              </tr>
+            </thead>
+            <tbody>
+              <s:iterator value="userPredictions">
+                <tr>
+                  <td><s:url var="viewPrediction" action="viewPrediction">
+                      <s:param name="id" value="%{id}" />
+                    </s:url> <s:a href="%{viewPrediction}">
+                      <s:property value="name" />
+                    </s:a></td>
+                  <td><s:url var="viewPredictionDataset" action="viewDataset">
+                      <s:param name="id" value="datasetId" />
+                    </s:url> <s:a href="%{viewPredictionDataset}">
+                      <s:property value="datasetDisplay" />
+                    </s:a></td>
+                  <td><s:property value="predictorNames" /></td>
+                  <td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+                </tr>
+              </s:iterator>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
