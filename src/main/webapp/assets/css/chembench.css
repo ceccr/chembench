@@ -127,6 +127,10 @@ footer {
     margin-top: 2em;
 }
 
+.nav-pills {
+    margin-bottom: 1em;
+}
+
 .tab-pane {
     padding: 0 1.5em;
 }
@@ -135,11 +139,14 @@ footer {
     margin-bottom: 1.5em;
 }
 
+.tab-pane .form-group:last-child {
+    margin-bottom: 0.5em;
+}
+
 .panel-heading h1,.panel-heading h2,.panel-heading h3,.panel-heading h4,.panel-heading h5,.panel-heading h6 {
     margin: 0;
 }
 /* end tabs & panels */
-
 .links-list {
     padding-left: 1.5em;
     list-style-type: circle;
@@ -189,23 +196,48 @@ footer {
     padding-top: 7px;
 }
 
-.inline-radio-group input {
-    margin-right: 0.3em;
-}
-
 .inline-radio-group label {
-    margin-right: 0.7em;
-    cursor: pointer;
+    margin-right: 1em;
 }
 
 td.available-descriptors {
     font-size: 12px;
 }
 
-td.activity-type {
+td.activity-type,td.job-type {
     text-transform: lowercase;
 }
 
-td.activity-type:first-letter {
+td.activity-type:first-letter,td.job-type:first-letter {
     text-transform: capitalize;
+}
+
+label[for] {
+    cursor: pointer;
+}
+
+input[type="file"] {
+    padding-top: 7px;
+}
+
+input[type="checkbox"],input[type="radio"] {
+    margin-right: 0.4em;
+    vertical-align: top;
+}
+
+.help-block {
+    margin-top: -5px;
+    margin-bottom: 0;
+}
+
+.bare-input-wrapper {
+    padding-top: 7px;
+}
+
+input#descriptorNewName,input#descriptorUsedName {
+    width: 200px;
+}
+
+.optional-sdf-standardization {
+    display: none;
 }

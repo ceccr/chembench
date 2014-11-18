@@ -66,7 +66,7 @@
                         <tr>
                           <td><s:property value="jobName" /></td>
                           <td><s:property value="userName" /></td>
-                          <td><s:property value="jobType" /></td>
+                          <td class="job-type"><s:property value="jobType" /></td>
                           <td><s:property value="numCompounds" /></td>
                           <td><s:if test="jobTypeString!='dataset'">
                               <s:property value="numModels" />
