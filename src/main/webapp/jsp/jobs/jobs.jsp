@@ -194,8 +194,8 @@
                 <th>Name</th>
                 <th>&#8470; Compounds</th>
                 <th>Activity Type</th>
-                <th>MODI</th>
-                <th>Descriptors</th>
+                <th><abbr title="Modelability Index">MODI</abbr></th>
+                <th>Available Descriptors</th>
                 <th>Date Created</th>
                 <th>Structure Images</th>
                 <th>Visibility</th>
