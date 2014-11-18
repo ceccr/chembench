@@ -63,7 +63,7 @@ footer {
     border-left: #999999 solid 1px;
 }
 
-.nav-list a:hover, .nav-list a.hovered {
+.nav-list a:hover,.nav-list a.hovered {
     text-decoration: none;
     color: #2a6496;
 }
