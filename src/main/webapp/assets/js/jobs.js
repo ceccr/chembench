@@ -8,6 +8,8 @@ $(document).ready(function() {
 
     $("td.available-descriptors").each(function() {
         var descriptorList = $(this).text();
-        $(this).text(descriptorList.replace(/DRAGONH/g, "DragonH").replace(/DRAGONNOH/g, "DragonNoH").replace(/UPLOADED/g, ""));
+        $(this).text(descriptorList.replace(/DRAGONH/g, "DragonH")
+                .replace(/DRAGONNOH/g, "DragonNoH")
+                .replace(/UPLOADED/g, ""));
     });
 });
