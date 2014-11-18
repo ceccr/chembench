@@ -115,7 +115,7 @@
                           <td><s:property value="userName" /></td>
                           <td><s:property value="jobType" /></td>
                           <td><s:property value="numCompounds" /></td>
-                          <td><s:if test="jobTypeString!='dataset'">
+                          <td><s:if test="!jobType.equals('DATASET'))">
                               <s:property value="numModels" />
                             </s:if> <s:else>N/A</s:else></td>
                           <td><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
