@@ -197,3 +197,15 @@ footer {
     margin-right: 0.7em;
     cursor: pointer;
 }
+
+td.available-descriptors {
+    font-size: 12px;
+}
+
+td.activity-type {
+    text-transform: lowercase;
+}
+
+td.activity-type:first-letter {
+    text-transform: capitalize;
+}

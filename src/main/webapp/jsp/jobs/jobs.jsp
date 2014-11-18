@@ -185,6 +185,64 @@
 
         <div id="datasets" class="tab-pane">
           <h3>Datasets</h3>
+          <p class="tab-description">Descriptors marked with an asterisk (*) indicate descriptors that were created
+            outside of Chembench and uploaded by the user.</p>
+
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>&#8470; Compounds</th>
+                <th>Activity Type</th>
+                <th>MODI</th>
+                <th>Descriptors</th>
+                <th>Date Created</th>
+                <th>Structure Images</th>
+                <th>Visibility</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <s:iterator value="userDatasets">
+                <tr>
+                  <td><s:url var="datasetId" action="viewDataset">
+                      <s:param name="id" value="%{id}" />
+                    </s:url> <s:a href="%{datasetId}">
+                      <s:property value="name" />
+                    </s:a></td>
+                  <td><s:property value="numCompound" /></td>
+                  <td class="activity-type"><s:property value="modelType" /></td>
+                  <td><s:if test="!canGenerateModi()">
+                      <span class="text-danger">Not available</span>
+                    </s:if> <s:else>
+                      <s:if test="modiGenerated">
+                        <s:property value="getText('{0, number, #, ##0.00}', {modi})" />
+                      </s:if>
+                      <s:else>
+                        <input type="hidden" name="dataset-id" value="<s:property value="id" />">
+                        <span class="text-warning">Not generated</span>
+                        <button class="btn btn-primary btn-xs generate-modi">Generate MODI</button>
+                      </s:else>
+                    </s:else></td>
+                  <td class="available-descriptors"><s:property value="availableDescriptors" /> <s:if
+                      test="uploadedDescriptorType != null && !uploadedDescriptorType.isEmpty()">
+                  *<s:property value="uploadedDescriptorType" />
+                    </s:if></td>
+                  <td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
+                  <td><s:if test="sdfFile == null || sdfFile.isEmpty()">
+                    No
+                  </s:if> <s:else>
+                    Yes
+                  </s:else></td>
+                  <td><s:if test="userName.equals('all-users')">
+                    Public
+                  </s:if> <s:else>
+                    Private
+                  </s:else>
+                </tr>
+              </s:iterator>
+            </tbody>
+          </table>
         </div>
 
         <div id="predictors" class="tab-pane">

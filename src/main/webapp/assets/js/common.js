@@ -38,10 +38,23 @@ $(document).ready(function() {
     if (url.match("#")) {
         $(".nav-tabs a[href=#" + url.split('#')[1] + "]").tab("show") ;
     }
-
     // change page hash when a tab is clicked
     $(".nav-tabs a").on("shown.bs.tab", function (e) {
         window.location.hash = e.target.hash;
         window.scrollTo(0, 0);
+    });
+
+    $(".generate-modi").click(function() {
+        $(this).text("Generating...").prop("disabled", "disabled");
+        var parent = $(this).parent();
+        $.ajax({
+            type: "POST",
+            url: "/generateModi",
+            data: { id: parent.children('input[name="dataset-id"]').val() },
+        }).success(function(modiValue) {
+            parent.text(modiValue.toFixed(2)); // round to two decimal places
+        }).fail(function() {
+            parent.html('<span class="text-danger">MODI generation failed</span>');
+        });
     });
 });
