@@ -531,7 +531,9 @@ public class CreateDatasetTask extends WorkflowTask {
         dataset.setHasBeenViewed(Constants.NO);
         dataset.setJobCompleted(Constants.YES);
         dataset.setAvailableDescriptors(availableDescriptors);
-        dataset.generateModi();
+        if (dataset.canGenerateModi()) {
+            dataset.generateModi();
+        }
 
         Session session = HibernateUtil.getSession();
         Transaction tx = null;
