@@ -1,4 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ page import="edu.unc.ceccr.chembench.global.Constants"%>
 
 <!DOCTYPE html>
 <html>
@@ -30,6 +31,8 @@
       <s:form action="submitDataset" enctype="multipart/form-data" method="post" cssClass="form-horizontal"
         theme="simple">
         <div id="dataset-type-selection" class="panel panel-primary">
+          <s:hidden id="datasetType" name="datasetType" />
+
           <div class="panel-heading">
             <h3 class="panel-title">Upload Dataset Files</h3>
           </div>
@@ -53,6 +56,7 @@
 
             <div class="tab-content">
               <div id="modeling-dataset" class="tab-pane active">
+                <input type="hidden" name="dataset-type" value="<%= Constants.MODELING %>">
                 <p>
                   A <b>Modeling Dataset</b> can be used for both modeling and prediction. You will need to supply an <a
                     href="/help-fileformats#SDF">SDF file</a> containing the structures of the compounds in your
@@ -100,6 +104,7 @@
                 </div>
               </div>
               <div id="prediction-dataset" class="tab-pane">
+                <input type="hidden" name="dataset-type" value="<%= Constants.PREDICTION %>">
                 <p>
                   A <b>Prediction Dataset</b> can only be used for prediction. You will need to supply an <a
                     href="/help-fileformats#SDF">SDF file</a> containing the structures of the compounds in your
@@ -131,6 +136,7 @@
                 </div>
               </div>
               <div id="modeling-dataset-with-descriptors" class="tab-pane">
+                <input type="hidden" name="dataset-type" value="<%= Constants.MODELINGWITHDESCRIPTORS %>">
                 <p>
                   A <b>Modeling Dataset with Descriptors</b> can be used for both modeling and prediction. Choose this
                   option if you have your own descriptors that you want to upload. (Otherwise, select <b>Modeling
@@ -231,6 +237,7 @@
                 </div>
               </div>
               <div id="prediction-dataset-with-descriptors" class="tab-pane">
+                <input type="hidden" name="dataset-type" value="<%= Constants.PREDICTIONWITHDESCRIPTORS %>">
                 <p>
                   A <b>Prediction Dataset with Descriptors</b> can only be used for prediction. Choose this option if
                   you have your own descriptors that you want to upload. (Otherwise, select <b>Prediction Dataset</b>

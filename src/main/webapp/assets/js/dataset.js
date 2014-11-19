@@ -2,6 +2,9 @@ $(document).ready(function() {
     $(".nav-list li").removeClass("active");
     $("#nav-button-datasets").addClass("active");
 
+    var datasetTypeInput = $("input#datasetType");
+    datasetTypeInput.val($(".tab-pane:first-child").find('input[name="dataset-type"]').val());
+
     $('input[type="file"]').change(function() {
         $(this).parent("div").addClass("bg-success");
     });
@@ -25,11 +28,15 @@ $(document).ready(function() {
     });
 
     $('#dataset-type-selection a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+        console.log(e);
         var tabName = e.currentTarget.innerText;
         if (tabName.toLowerCase().indexOf("modeling dataset") >= 0) {
             $("#external-set-settings").show();
         } else if (tabName.toLowerCase().indexOf("prediction dataset") >= 0) {
             $("#external-set-settings").hide();
         }
+
+        var tab = $(e.currentTarget.hash);
+        datasetTypeInput.val(tab.find('input[name="dataset-type"]').val());
     });
 });
