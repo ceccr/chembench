@@ -401,7 +401,7 @@
           </div>
         </div>
 
-        <div class="panel panel-primary dataset-metadata">
+        <div class="panel panel-primary">
           <div class="panel-heading">
             <h3 class="panel-title">Add Dataset Metadata</h3>
           </div>
@@ -412,7 +412,7 @@
                 <s:textfield name="datasetName" id="datasetName" cssClass="form-control" theme="simple" />
               </div>
             </div>
-            <div class="text-muted dataset-optional-info">
+            <div class="text-muted">
               <div class="form-group">
                 <div class="control-label col-xs-3">
                   <label>Paper reference:</label> <span class="help-block">Optional.</span>
