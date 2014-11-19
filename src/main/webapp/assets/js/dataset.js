@@ -11,11 +11,25 @@ $(document).ready(function() {
         $(".optional-sdf-options").show();
     });
 
-    $('.new-descriptor-type input[type="radio"]').click(function() {
+    $('.descriptor-type input[type="radio"]').click(function() {
+        var parent = $(this).parents(".descriptor-type");
+        var otherParent = $(parent).siblings(".descriptor-type");
 
+        // disable the other descriptor type
+        otherParent.addClass("text-muted");
+        otherParent.find('input[type="text"], select').prop("disabled", true);
+
+        // enable this type
+        parent.removeClass("text-muted");
+        parent.find('input[type="text"], select').prop("disabled", false);
     });
 
-    $('.existing-descriptor-type input[type="radio"]').click(function() {
-
+    $('#dataset-type-selection a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+        var tabName = e.currentTarget.innerText;
+        if (tabName.toLowerCase().indexOf("modeling dataset") >= 0) {
+            $("#external-set-settings").show();
+        } else if (tabName.toLowerCase().indexOf("prediction dataset") >= 0) {
+            $("#external-set-settings").hide();
+        }
     });
 });

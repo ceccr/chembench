@@ -29,9 +29,9 @@
       <hr>
       <s:form action="submitDataset" enctype="multipart/form-data" method="post" cssClass="form-horizontal"
         theme="simple">
-        <div class="panel panel-primary">
+        <div id="dataset-type-selection" class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title">1. Upload Dataset Files</h3>
+            <h3 class="panel-title">Upload Dataset Files</h3>
           </div>
           <div class="panel-body">
             <p>Select the type of dataset to create.</p>
@@ -169,7 +169,7 @@
                     <label>Descriptor type:</label> <span class="help-block">e.g. "Dragon", "Hybrid", etc.</span>
                   </div>
                   <div class="col-xs-9">
-                    <div class="new-descriptor-type">
+                    <div class="descriptor-type">
                       <div class="control-label col-xs-3">
                         <input type="radio" name="predictorName" id="newDescriptorName" checked="checked"><label
                           for="newDescriptorName">New type</label>
@@ -179,7 +179,7 @@
                       </div>
                     </div>
                     <s:if test="userUploadedDescriptorTypes.size() > 0">
-                      <div class="existing-descriptor-type text-muted">
+                      <div class="descriptor-type text-muted">
                         <div class="control-label col-xs-3">
                           <input type="radio" name="predictorName" id="usedDescriptorName"><label
                             for="usedDescriptorName">Existing type</label>
@@ -253,7 +253,7 @@
                     <label>Descriptor type:</label> <span class="help-block">e.g. "Dragon", "Hybrid", etc.</span>
                   </div>
                   <div class="col-xs-9">
-                    <div class="new-descriptor-type">
+                    <div class="descriptor-type">
                       <div class="control-label col-xs-3">
                         <input type="radio" name="predictorNameD" id="newDescriptorNameD" checked="checked"><label
                           for="newDescriptorNameD">New type</label>
@@ -263,7 +263,7 @@
                       </div>
                     </div>
                     <s:if test="userUploadedDescriptorTypes.size() > 0">
-                      <div class="existing-descriptor-type text-muted">
+                      <div class="descriptor-type text-muted">
                         <div class="control-label col-xs-3">
                           <input type="radio" name="predictorNameD" id="usedDescriptorNameD"><label
                             for="usedDescriptorNameD">Existing type</label>
@@ -280,8 +280,11 @@
                   <div class="col-xs-offset-3 col-xs-9">
                     <label for="hasBeenScaled"><s:checkbox name="hasBeenScaled" id="hasBeenScaled"
                         theme="simple" />My descriptors have been scaled</label>
-                    <p class="help-block">If you leave this unchecked, Chembench will scale your descriptors for
-                      you.</p>
+                    <p class="help-block">
+                      If you leave this unchecked, Chembench will scale your descriptors for you.<br> <span
+                        class="text-danger">Please note that your uploaded descriptors must have the same scaling
+                        as your modeling dataset.</span>
+                    </p>
                   </div>
                 </div>
                 <hr>
@@ -318,11 +321,18 @@
           </div>
         </div>
 
-        <div class="panel panel-primary">
+        <div id="external-set-settings" class="panel panel-primary">
           <div class="panel-heading">
-            <h3 class="panel-title">2. Define External Set</h3>
+            <h3 class="panel-title">Define External Set</h3>
           </div>
           <div class="panel-body">
+            <p>Select the splitting method to use.</p>
+            <p>
+              A subset of the compounds in the dataset will be reserved to test the models you build. If you have
+              already defined a test set, select <b>Choose Compounds</b> to use those compounds as your external set on
+              Chembench.
+            </p>
+            <hr>
             <ul class="nav nav-pills">
               <li class="active"><a href="#nfold-split" data-toggle="tab">n-Fold Split</a></li>
               <li><a href="#random-split" data-toggle="tab">Random Split</a></li>
@@ -331,39 +341,101 @@
 
             <div class="tab-content">
               <div id="nfold-split" class="tab-pane active">
-                <p>Chuck salami pork chop tongue. Venison hamburger strip steak t-bone. Tri-tip sausage turkey
-                  shankle, leberkas pancetta porchetta boudin pork pastrami sirloin short ribs tail pork chop. T-bone
-                  boudin short loin, beef ribs pork chop picanha bacon chuck. Tenderloin t-bone biltong, drumstick
-                  sirloin pork chop flank sausage jerky bacon. Kielbasa turkey ribeye sirloin. Cow tenderloin tongue
-                  chuck prosciutto, corned beef hamburger.</p>
+                <p>
+                  An <b>n-fold split</b> will generate <b>n</b> different external test sets. When you use this dataset
+                  for modeling, <b>n</b> predictors will be created: one for each fold. Each external set will contain
+                  1/<b>n</b> of the total dataset, and the external sets will not overlap.
+                </p>
+                <div class="form-group">
+                  <label class="control-label col-xs-3">Number of splits (<i>n</i>&nbsp;):
+                  </label>
+                  <div class="col-xs-2">
+                    <s:textfield name="numExternalFolds" id="numExternalFolds" cssClass="form-control" theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <s:checkbox name="useActivityBinningNFold" id="useActivityBinningNFold" theme="simple" />
+                    <label for="useActivityBinningNFold">Use activity binning</label>
+                  </div>
+                </div>
               </div>
               <div id="random-split" class="tab-pane">
-                <p>Brisket venison chicken, short ribs capicola t-bone andouille biltong corned beef. Corned beef
-                  shankle filet mignon porchetta, chicken sausage beef. Brisket pork beef ribs ham swine leberkas tongue
-                  sausage meatloaf strip steak drumstick. Leberkas ribeye swine, tri-tip tenderloin fatback rump t-bone
-                  ham. Leberkas frankfurter shankle short loin turkey pork loin tri-tip. Pork loin corned beef turkey
-                  doner pork chop.</p>
+                <p>
+                  A <b>random split</b> will divide your modeling dataset into training and test portions at random. You
+                  can change the size of the external set below. Either a percentage of total compounds or a fixed
+                  number of compounds can be entered.
+                </p>
+                <div class="form-group">
+                  <label class="control-label col-xs-3">External set size:</label>
+                  <div class="col-xs-2">
+                    <s:textfield name="numExternalCompounds" id="numExternalCompounds" cssClass="form-control"
+                      theme="simple" />
+                  </div>
+                  <div class="col-xs-3 external-split-type">
+                    <s:select name="externalCompoundsCountOrPercent"
+                      list="#{'Percent':'Percent','Compounds':'Compounds'}" cssClass="form-control" theme="simple" />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-3 col-xs-9">
+                    <s:checkbox name="useActivityBinningNFold" id="useActivityBinningNFold" theme="simple" />
+                    <label for="useActivityBinningNFold">Use activity binning</label>
+                  </div>
+                </div>
               </div>
               <div id="choose-compounds" class="tab-pane">
-                <p>Short ribs andouille bresaola, sausage jerky bacon pork loin filet mignon. T-bone porchetta
-                  ribeye corned beef pork loin short loin andouille ham. Picanha tail turkey shankle. Sausage rump pig
-                  beef ribs, short loin ball tip flank landjaeger. Sausage bacon jerky, capicola ground round rump
-                  meatloaf doner andouille. Sirloin prosciutto beef ribs picanha strip steak.</p>
+                <p>
+                  If you want to specifically <b>choose the compounds</b> for the external set, enter the names of those
+                  compounds in the box below. The compound names may be separated by commas, spaces, tabs, and/or
+                  newlines.
+                </p>
+                <div class="form-group">
+                  <div class="col-xs-12">
+                    <s:textarea name="externalCompoundList" id="externalCompoundList" rows="3" cssClass="form-control"
+                      theme="simple" />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="panel panel-primary">
+        <div class="panel panel-primary dataset-metadata">
           <div class="panel-heading">
-            <h3 class="panel-title">3. Add Dataset Metadata</h3>
+            <h3 class="panel-title">Add Dataset Metadata</h3>
           </div>
           <div class="panel-body">
-            <p>Tri-tip prosciutto meatball doner, drumstick alcatra fatback salami capicola jowl beef chicken
-              tenderloin ground round. Drumstick beef pork loin boudin tri-tip flank. Leberkas beef ribs pork chop
-              t-bone, kevin rump strip steak. Short loin picanha tongue t-bone pancetta venison turkey shankle rump.
-              Cupim sirloin alcatra porchetta, capicola turkey ground round chuck salami ball tip hamburger shank.
-              Salami cupim venison, pork belly cow spare ribs ribeye capicola ham biltong sausage frankfurter.</p>
+            <div class="form-group">
+              <label class="control-label col-xs-3">Dataset name:</label>
+              <div class="col-xs-4">
+                <s:textfield name="datasetName" id="datasetName" cssClass="form-control" theme="simple" />
+              </div>
+            </div>
+            <div class="text-muted dataset-optional-info">
+              <div class="form-group">
+                <div class="control-label col-xs-3">
+                  <label>Paper reference:</label> <span class="help-block">Optional.</span>
+                </div>
+                <div class="col-xs-4 paper-reference-input-wrapper">
+                  <s:textfield name="paperReference" id="paperReference" cssClass="form-control" theme="simple" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="control-label col-xs-3">
+                  <label>Dataset description:</label> <span class="help-block">Optional.</span>
+                </div>
+                <div class="col-xs-4">
+                  <s:textarea name="dataSetDescription" id="dataSetDescription" rows="3" cssClass="form-control"
+                    theme="simple" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-offset-3 col-xs-9">
+                  <button type="submit" class="btn btn-primary">Create Dataset</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </s:form>

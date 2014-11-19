@@ -174,6 +174,7 @@ public class DatasetFormActions extends ActionSupport {
         }
 
         dataTypeModeling = Constants.CONTINUOUS;
+        dataTypeModDesc = Constants.CONTINUOUS;
 
         //go to the page
         return result;
