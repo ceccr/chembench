@@ -13,7 +13,7 @@
 
     <section id="content">
       <h2>Dataset Creation</h2>
-      <p>Here, you may create a dataset by uploading compound structures with or without associated activities. The
+      <p>Here, you can create a dataset by uploading compound structures with or without associated activities. The
         activity data is required for building models.</p>
       <p>
         You can either create a <b>Modeling Dataset</b>, which has both structures and activities, or a <b>Prediction
