@@ -257,3 +257,7 @@ span[title] {
     cursor: help;
     border-bottom: 1px dotted #777;
 }
+
+.tablesorter th:not(.sorter-false) {
+    cursor: pointer;
+}

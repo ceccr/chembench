@@ -48,7 +48,7 @@
                 <h4>Unassigned Jobs</h4>
               </div>
               <div class="panel-body">
-                <table class="table table-hover">
+                <table class="table table-hover table-bordered tablesorter">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -109,7 +109,7 @@
             </div>
             <div class="panel-body">
               <s:if test="!localJobs.isEmpty()">
-                <table class="table table-hover">
+                <table class="table table-hover table-bordered tablesorter">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -173,7 +173,7 @@
             </div>
             <div class="panel-body">
               <s:if test="!lsfJobs.isEmpty()">
-                <table class="table table-hover">
+                <table class="table table-hover table-bordered tablesorter">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -237,7 +237,7 @@
                 <h4>Jobs with Errors</h4>
               </div>
               <div class="panel-body">
-                <table class="table table-hover">
+                <table class="table table-hover table-bordered tablesorter">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -294,7 +294,7 @@
           <p class="tab-description">Descriptors marked with an asterisk (*) indicate descriptors that were created
             outside of Chembench and uploaded by the user.</p>
 
-          <table class="table table-hover">
+          <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
                 <th>Name</th>
@@ -302,7 +302,7 @@
                 <th>Activity Type</th>
                 <th><abbr title="Modelability Index">MODI</abbr></th>
                 <th>Date Created</th>
-                <th class="visibility">Visibility</th>
+                <th class="visibility sorter-false">Visibility</th>
               </tr>
             </thead>
 
@@ -371,7 +371,7 @@
           <h3>Predictors</h3>
           <p class="tab-description">Predictors marked with an asterisk (*) indicate predictors built using
             descriptors that were created outside of Chembench and uploaded by the user.</p>
-          <table class="table table-hover">
+          <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
                 <th>Name</th>
@@ -380,7 +380,7 @@
                 <th>Modeling Method</th>
                 <th>Descriptor Type</th>
                 <th>Date Created</th>
-                <th class="visibility">Visibility</th>
+                <th class="visibility sorter-false">Visibility</th>
               </tr>
             </thead>
             <tbody>
@@ -450,7 +450,7 @@
 
         <div id="predictions" class="tab-pane">
           <h3>Predictions</h3>
-          <table class="table table-hover">
+          <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
                 <th>Name</th>
@@ -497,5 +497,7 @@
 
   <%@ include file="/jsp/main/tail.jsp"%>
   <script src="assets/js/jobs.js"></script>
+  <script src="assets/js/jquery.tablesorter.min.js"></script>
+  <script src="assets/js/jquery.tablesorter.widgets.min.js"></script>
 </body>
 </html>
