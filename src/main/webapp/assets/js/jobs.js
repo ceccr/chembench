@@ -15,6 +15,6 @@ $(document).ready(function() {
 
     $("td.modeling-method").each(function() {
         var modelingMethod = $(this).text();
-        $(this).text(modelingMethod.replace(/RANDOMFOREST/, "RF"));
+        $(this).text(modelingMethod.replace(/RANDOMFOREST/, "Random Forest"));
     });
 });
