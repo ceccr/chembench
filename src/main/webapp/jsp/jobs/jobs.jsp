@@ -308,69 +308,59 @@
 
             <tbody>
               <s:iterator value="userDatasets">
-                <s:if test="modiGenerated">
-                  <s:if test="modi >= @edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE">
-                    <tr class="success">
-                  </s:if>
-                  <s:else>
-                    <tr class="warning">
-                  </s:else>
-                </s:if>
-                <s:else>
-                  <tr>
-                </s:else>
-                <td>
-                  <s:url var="datasetId" action="viewDataset">
-                    <s:param name="id" value="%{id}" />
-                  </s:url>
-                  <s:a href="%{datasetId}">
-                    <s:property value="name" />
-                  </s:a>
-                </td>
-                <td>
-                  <s:property value="numCompound" />
-                </td>
-                <td class="activity-type">
-                  <s:if test="modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
-                    <span class="text-muted">None</span>
-                  </s:if>
-                  <s:else>
-                    <s:property value="modelType" />
-                  </s:else>
-                </td>
-                <td>
-                  <s:if test="!canGenerateModi()">
-                    <span class="text-muted">Not available</span>
-                  </s:if>
-                  <s:else>
-                    <s:if test="modiGenerated">
-                      <s:if test="modi >= @edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE">
-                        <span class="text-success" title="Modelable"> <s:property
-                            value="getText('{0, number, #, ##0.00}', {modi})" /></span>
-                      </s:if>
-                      <s:else>
-                        <span class="text-warning" title="Not modelable"> <s:property
-                            value="getText('{0, number, #, ##0.00}', {modi})" /></span>
-                      </s:else>
+                <tr>
+                  <td>
+                    <s:url var="datasetId" action="viewDataset">
+                      <s:param name="id" value="%{id}" />
+                    </s:url>
+                    <s:a href="%{datasetId}">
+                      <s:property value="name" />
+                    </s:a>
+                  </td>
+                  <td>
+                    <s:property value="numCompound" />
+                  </td>
+                  <td class="activity-type">
+                    <s:if test="modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
+                      <span class="text-muted">None</span>
                     </s:if>
                     <s:else>
-                      <input type="hidden" name="dataset-id" value="<s:property value="id" />">
-                      <span class="text-warning">Not generated</span>
-                      <button class="btn btn-primary btn-xs generate-modi">Generate MODI</button>
+                      <s:property value="modelType" />
                     </s:else>
-                  </s:else>
-                </td>
-                <td>
-                  <s:date name="createdTime" format="yyyy-MM-dd HH:mm" />
-                </td>
-                <td class="visibility">
-                  <s:if test="userName.equals('all-users')">
-                    <span class="glyphicon glyphicon-eye-open text-primary" title="Public"></span>
-                  </s:if>
-                  <s:else>
-                    <span class="glyphicon glyphicon-eye-close text-muted" title="Private"></span>
-                  </s:else>
-                </td>
+                  </td>
+                  <td>
+                    <s:if test="!canGenerateModi()">
+                      <span class="text-muted">Not available</span>
+                    </s:if>
+                    <s:else>
+                      <s:if test="modiGenerated">
+                        <s:if test="modi >= @edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE">
+                          <span class="modi-value text-success" title="Modelable"> <s:property
+                              value="getText('{0, number, #, ##0.00}', {modi})" /></span>
+                        </s:if>
+                        <s:else>
+                          <span class="modi-value text-warning" title="Not modelable"> <s:property
+                              value="getText('{0, number, #, ##0.00}', {modi})" /></span>
+                        </s:else>
+                      </s:if>
+                      <s:else>
+                        <input type="hidden" name="dataset-id" value="<s:property value="id" />">
+                        <span class="text-warning">Not generated</span>
+                        <button class="btn btn-primary btn-xs generate-modi">Generate MODI</button>
+                      </s:else>
+                    </s:else>
+                  </td>
+                  <td>
+                    <s:date name="createdTime" format="yyyy-MM-dd HH:mm" />
+                  </td>
+                  <td class="visibility">
+                    <s:if test="userName.equals('all-users')">
+                      <span class="glyphicon glyphicon-eye-open text-primary" title="Public"></span>
+                    </s:if>
+                    <s:else>
+                      <span class="glyphicon glyphicon-eye-close text-muted" title="Private"></span>
+                    </s:else>
+                  </td>
                 </tr>
               </s:iterator>
             </tbody>

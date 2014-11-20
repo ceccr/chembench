@@ -17,4 +17,13 @@ $(document).ready(function() {
         var modelingMethod = $(this).text();
         $(this).text(modelingMethod.replace(/RANDOMFOREST/, "Random Forest"));
     });
+
+    $(".modi-value").each(function() {
+        var row = $(this).closest("tr");
+        if ($(this).hasClass("text-warning")) {
+            row.addClass("warning");
+        } else if ($(this).hasClass("text-success")) {
+            row.addClass("success");
+        }
+    });
 });
