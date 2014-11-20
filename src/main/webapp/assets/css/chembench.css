@@ -248,3 +248,8 @@ input[type="checkbox"],input[type="radio"] {
     padding-top: 0.7em;
     padding-bottom: 9.8px;
 }
+
+span[title] {
+    cursor: help;
+    border-bottom: 1px dotted #777;
+}

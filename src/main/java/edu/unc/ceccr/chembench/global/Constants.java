@@ -202,4 +202,6 @@ public class Constants {
     public static String CECCR_DATABASE_PASSWORD;
     public static String WORKBENCH;
 
+    // modelability index threshold
+    public static double MODI_MODELABLE = 0.65;
 }

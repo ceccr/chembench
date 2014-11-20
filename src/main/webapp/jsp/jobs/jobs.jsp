@@ -326,11 +326,18 @@
                   </td>
                   <td>
                     <s:if test="!canGenerateModi()">
-                      <span class="text-danger">Not available</span>
+                      <span class="text-muted">Not available</span>
                     </s:if>
                     <s:else>
                       <s:if test="modiGenerated">
-                        <s:property value="getText('{0, number, #, ##0.00}', {modi})" />
+                        <s:if test="modi >= @edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE">
+                          <span class="text-success" title="Modelable"> <s:property
+                              value="getText('{0, number, #, ##0.00}', {modi})" /></span>
+                        </s:if>
+                        <s:else>
+                          <span class="text-danger" title="Not modelable"> <s:property
+                              value="getText('{0, number, #, ##0.00}', {modi})" /></span>
+                        </s:else>
                       </s:if>
                       <s:else>
                         <input type="hidden" name="dataset-id" value="<s:property value="id" />">
