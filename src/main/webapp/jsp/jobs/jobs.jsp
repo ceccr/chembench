@@ -322,7 +322,12 @@
                     <s:property value="numCompound" />
                   </td>
                   <td class="activity-type">
-                    <s:property value="modelType" />
+                    <s:if test="modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
+                      <span class="text-muted">None</span>
+                    </s:if>
+                    <s:else>
+                      <s:property value="modelType" />
+                    </s:else>
                   </td>
                   <td>
                     <s:if test="!canGenerateModi()">
