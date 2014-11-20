@@ -1,4 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ page import="edu.unc.ceccr.chembench.global.Constants"%>
 
 <!DOCTYPE html>
 <html>
@@ -41,12 +42,12 @@
             predictors, and predictions.
           </p>
 
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4>Unassigned Jobs</h4>
-            </div>
-            <div class="panel-body">
-              <s:if test="!incomingJobs.isEmpty()">
+          <s:if test="!incomingJobs.isEmpty()">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h4>Unassigned Jobs</h4>
+              </div>
+              <div class="panel-body">
                 <table class="table table-hover">
                   <thead>
                     <tr>
@@ -68,7 +69,7 @@
                           <td><s:property value="userName" /></td>
                           <td class="job-type"><s:property value="jobType" /></td>
                           <td><s:property value="numCompounds" /></td>
-                          <td><s:if test="jobTypeString!='dataset'">
+                          <td><s:if test="!jobType.equals(Constants.DATASET)">
                               <s:property value="numModels" />
                             </s:if> <s:else>N/A</s:else></td>
                           <td><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
@@ -81,12 +82,9 @@
                     </s:iterator>
                   </tbody>
                 </table>
-              </s:if>
-              <s:else>
-                <span class="text-muted">(No jobs are waiting to be assigned.)</span>
-              </s:else>
+              </div>
             </div>
-          </div>
+          </s:if>
 
           <div class="panel panel-default">
             <div class="panel-heading">
@@ -113,9 +111,9 @@
                         <tr>
                           <td><s:property value="jobName" /></td>
                           <td><s:property value="userName" /></td>
-                          <td><s:property value="jobType" /></td>
+                          <td class="job-type"><s:property value="jobType" /></td>
                           <td><s:property value="numCompounds" /></td>
-                          <td><s:if test="!jobType.equals('DATASET'))">
+                          <td><s:if test="!jobType.equals(Constants.DATASET))">
                               <s:property value="numModels" />
                             </s:if> <s:else>N/A</s:else></td>
                           <td><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
@@ -160,9 +158,9 @@
                         <tr>
                           <td><s:property value="jobName" /></td>
                           <td><s:property value="userName" /></td>
-                          <td><s:property value="jobType" /></td>
+                          <td class="job-type"><s:property value="jobType" /></td>
                           <td><s:property value="numCompounds" /></td>
-                          <td><s:if test="jobTypeString!='dataset'">
+                          <td><s:if test="!jobType.equals(Constants.DATASET)">
                               <s:property value="numModels" />
                             </s:if> <s:else>N/A</s:else></td>
                           <td><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
