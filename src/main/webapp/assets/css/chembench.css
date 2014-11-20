@@ -197,10 +197,6 @@ footer {
     margin-right: 1em;
 }
 
-td.available-descriptors {
-    font-size: 12px;
-}
-
 td.activity-type,td.job-type {
     text-transform: lowercase;
 }

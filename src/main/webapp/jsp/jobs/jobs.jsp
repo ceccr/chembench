@@ -301,7 +301,6 @@
                 <th>&#8470; Compounds</th>
                 <th>Activity Type</th>
                 <th><abbr title="Modelability Index">MODI</abbr></th>
-                <th>Available Descriptors</th>
                 <th>Date Created</th>
                 <th class="visibility">Visibility</th>
               </tr>
@@ -351,12 +350,6 @@
                       </s:else>
                     </s:else>
                   </td>
-                  <td class="descriptor-types">
-                    <s:property value="availableDescriptors" />
-                    <s:if test="uploadedDescriptorType != null && !uploadedDescriptorType.isEmpty()">
-                      *<s:property value="uploadedDescriptorType" />
-                    </s:if>
-                  </td>
                   <td>
                     <s:date name="createdTime" format="yyyy-MM-dd HH:mm" />
                   </td>
@@ -383,9 +376,7 @@
               <tr>
                 <th>Name</th>
                 <th>Modeling Dataset</th>
-                <th>n-Fold</th>
-                <th>Activity Type</th>
-                <th>External Set R<sup>2</sup> or <abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
+                <th>R<sup>2</sup> or <abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
                 <th>Modeling Method</th>
                 <th>Descriptor Type</th>
                 <th>Date Created</th>
@@ -412,13 +403,6 @@
                     </s:a>
                   </td>
                   <td>
-                    <s:if test="childType.equals('NFOLD')">Yes</s:if>
-                    <s:else>No</s:else>
-                  </td>
-                  <td class="activity-type">
-                    <s:property value="activityType" />
-                  </td>
-                  <td>
                     <s:if test="childType.equals('NFOLD')">
                       <s:if test="!externalPredictionAccuracyAvg.equals('0.0 ± 0.0')">
                         <s:property value="externalPredictionAccuracyAvg" />
@@ -439,7 +423,7 @@
                   <td class="modeling-method">
                     <s:property value="modelMethod" />
                   </td>
-                  <td class="descriptor-types">
+                  <td class="available-descriptors">
                     <s:if test="descriptorGeneration.equals('UPLOADED')">
                       * <s:property value="uploadedDescriptorType" />
                     </s:if>
