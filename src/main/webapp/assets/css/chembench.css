@@ -209,6 +209,14 @@ td.activity-type:first-letter,td.job-type:first-letter {
     text-transform: capitalize;
 }
 
+.visibility {
+    text-align: center;
+}
+
+.visibility span[title] {
+    border-bottom: none;
+}
+
 label[for] {
     cursor: pointer;
 }

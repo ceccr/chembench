@@ -303,7 +303,7 @@
                 <th><abbr title="Modelability Index">MODI</abbr></th>
                 <th>Available Descriptors</th>
                 <th>Date Created</th>
-                <th>Visibility</th>
+                <th class="visibility">Visibility</th>
               </tr>
             </thead>
 
@@ -355,13 +355,13 @@
                   <td>
                     <s:date name="createdTime" format="yyyy-MM-dd HH:mm" />
                   </td>
-                  <td>
+                  <td class="visibility">
                     <s:if test="userName.equals('all-users')">
-                    Public
-                  </s:if>
+                      <span class="glyphicon glyphicon-eye-open text-primary" title="Public"></span>
+                    </s:if>
                     <s:else>
-                    Private
-                  </s:else>
+                      <span class="glyphicon glyphicon-eye-close text-muted" title="Private"></span>
+                    </s:else>
                   </td>
                 </tr>
               </s:iterator>
@@ -384,7 +384,7 @@
                 <th>Modeling Method</th>
                 <th>Descriptor Type</th>
                 <th>Date Created</th>
-                <th>Visibility</th>
+                <th class="visibility">Visibility</th>
               </tr>
             </thead>
             <tbody>
@@ -445,12 +445,12 @@
                   <td>
                     <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
                   </td>
-                  <td>
-                    <s:if test="username.equals('all-users')">
-                      Public
+                  <td class="visibility">
+                    <s:if test="userName.equals('all-users')">
+                      <span class="glyphicon glyphicon-eye-open text-primary" title="Public"></span>
                     </s:if>
                     <s:else>
-                      Private
+                      <span class="glyphicon glyphicon-eye-close text-muted" title="Private"></span>
                     </s:else>
                   </td>
                 </tr>
