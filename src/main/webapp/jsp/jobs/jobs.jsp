@@ -179,6 +179,48 @@
               </s:else>
             </div>
           </div>
+
+          <s:if test="!errorJobs.isEmpty()">
+            <div class="panel panel-danger">
+              <div class="panel-heading">
+                <h4>Jobs with Errors</h4>
+              </div>
+              <div class="panel-body">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Owner</th>
+                      <th>Job Type</th>
+                      <th>&#8470; Compounds</th>
+                      <th>&#8470; Models</th>
+                      <th>Time Created</th>
+                      <th>Cancel</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <s:iterator value="errorJobs">
+                      <s:if test="adminUser || userName==user.userName">
+                        <tr>
+                          <td><s:property value="jobName" /></td>
+                          <td><s:property value="userName" /></td>
+                          <td class="job-type"><s:property value="jobType" /></td>
+                          <td><s:property value="numCompounds" /></td>
+                          <td><s:if test="!jobType.equals(Constants.DATASET)">
+                              <s:property value="numModels" />
+                            </s:if> <s:else>N/A</s:else></td>
+                          <td><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
+                          <td><s:if test="adminUser">
+                              <a class="delete-link" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
+                            </s:if></td>
+                        </tr>
+                      </s:if>
+                    </s:iterator>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </s:if>
         </div>
 
         <div id="datasets" class="tab-pane">
