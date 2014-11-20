@@ -97,10 +97,10 @@
 
           <s:if test="user != null && !user.userName.isEmpty()">
             <s:if test="user.userName.contains('guest')">
-              Logged in as a <strong>guest</strong>.
+              Logged in as a <b>guest</b>.
           </s:if>
             <s:else>
-              Logged in as <strong><s:property value="user.userName" /></strong>.
+              Logged in as <b><s:property value="user.userName" /></b>.
           </s:else>
             <button class="logout-button" type="button">Log out</button>
           </s:if>
