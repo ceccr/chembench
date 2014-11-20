@@ -377,7 +377,7 @@
                 <th>Name</th>
                 <th>Modeling Dataset</th>
                 <th>R<sup>2</sup> or <abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
-                <th>Modeling Method</th>
+                <th>Model Type</th>
                 <th>Descriptor Type</th>
                 <th>Date Created</th>
                 <th class="visibility sorter-false">Visibility</th>
