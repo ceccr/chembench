@@ -65,18 +65,35 @@
                     <s:iterator value="incomingJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td><s:property value="jobName" /></td>
-                          <td><s:property value="userName" /></td>
-                          <td class="job-type"><s:property value="jobType" /></td>
-                          <td><s:property value="numCompounds" /></td>
-                          <td><s:if test="!jobType.equals(Constants.DATASET)">
+                          <td>
+                            <s:property value="jobName" />
+                          </td>
+                          <td>
+                            <s:property value="userName" />
+                          </td>
+                          <td class="job-type">
+                            <s:property value="jobType" />
+                          </td>
+                          <td>
+                            <s:property value="numCompounds" />
+                          </td>
+                          <td>
+                            <s:if test="!jobType.equals(Constants.DATASET)">
                               <s:property value="numModels" />
-                            </s:if> <s:else>N/A</s:else></td>
-                          <td><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
-                          <td><s:property value="message" /></td>
-                          <td><s:if test="adminUser || user.userName.equals(userName)">
+                            </s:if>
+                            <s:else>N/A</s:else>
+                          </td>
+                          <td>
+                            <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
+                          </td>
+                          <td>
+                            <s:property value="message" />
+                          </td>
+                          <td>
+                            <s:if test="adminUser || user.userName.equals(userName)">
                               <a class="delete-link" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
-                            </s:if></td>
+                            </s:if>
+                          </td>
                         </tr>
                       </s:if>
                     </s:iterator>
@@ -109,18 +126,35 @@
                     <s:iterator value="localJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td><s:property value="jobName" /></td>
-                          <td><s:property value="userName" /></td>
-                          <td class="job-type"><s:property value="jobType" /></td>
-                          <td><s:property value="numCompounds" /></td>
-                          <td><s:if test="!jobType.equals(Constants.DATASET))">
+                          <td>
+                            <s:property value="jobName" />
+                          </td>
+                          <td>
+                            <s:property value="userName" />
+                          </td>
+                          <td class="job-type">
+                            <s:property value="jobType" />
+                          </td>
+                          <td>
+                            <s:property value="numCompounds" />
+                          </td>
+                          <td>
+                            <s:if test="!jobType.equals(Constants.DATASET))">
                               <s:property value="numModels" />
-                            </s:if> <s:else>N/A</s:else></td>
-                          <td><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
-                          <td><s:property value="message" /></td>
-                          <td><s:if test="adminUser || user.userName.equals(userName)">
+                            </s:if>
+                            <s:else>N/A</s:else>
+                          </td>
+                          <td>
+                            <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
+                          </td>
+                          <td>
+                            <s:property value="message" />
+                          </td>
+                          <td>
+                            <s:if test="adminUser || user.userName.equals(userName)">
                               <a class="delete-link" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
-                            </s:if></td>
+                            </s:if>
+                          </td>
                         </tr>
                       </s:if>
                     </s:iterator>
@@ -156,18 +190,35 @@
                     <s:iterator value="lsfJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td><s:property value="jobName" /></td>
-                          <td><s:property value="userName" /></td>
-                          <td class="job-type"><s:property value="jobType" /></td>
-                          <td><s:property value="numCompounds" /></td>
-                          <td><s:if test="!jobType.equals(Constants.DATASET)">
+                          <td>
+                            <s:property value="jobName" />
+                          </td>
+                          <td>
+                            <s:property value="userName" />
+                          </td>
+                          <td class="job-type">
+                            <s:property value="jobType" />
+                          </td>
+                          <td>
+                            <s:property value="numCompounds" />
+                          </td>
+                          <td>
+                            <s:if test="!jobType.equals(Constants.DATASET)">
                               <s:property value="numModels" />
-                            </s:if> <s:else>N/A</s:else></td>
-                          <td><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
-                          <td><s:property value="message" /></td>
-                          <td><s:if test="adminUser || user.userName.equals(userName)">
+                            </s:if>
+                            <s:else>N/A</s:else>
+                          </td>
+                          <td>
+                            <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
+                          </td>
+                          <td>
+                            <s:property value="message" />
+                          </td>
+                          <td>
+                            <s:if test="adminUser || user.userName.equals(userName)">
                               <a class="delete-link" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
-                            </s:if></td>
+                            </s:if>
+                          </td>
                         </tr>
                       </s:if>
                     </s:iterator>
@@ -202,17 +253,32 @@
                     <s:iterator value="errorJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td><s:property value="jobName" /></td>
-                          <td><s:property value="userName" /></td>
-                          <td class="job-type"><s:property value="jobType" /></td>
-                          <td><s:property value="numCompounds" /></td>
-                          <td><s:if test="!jobType.equals(Constants.DATASET)">
+                          <td>
+                            <s:property value="jobName" />
+                          </td>
+                          <td>
+                            <s:property value="userName" />
+                          </td>
+                          <td class="job-type">
+                            <s:property value="jobType" />
+                          </td>
+                          <td>
+                            <s:property value="numCompounds" />
+                          </td>
+                          <td>
+                            <s:if test="!jobType.equals(Constants.DATASET)">
                               <s:property value="numModels" />
-                            </s:if> <s:else>N/A</s:else></td>
-                          <td><s:date name="timeCreated" format="yyyy-MM-dd HH:mm" /></td>
-                          <td><s:if test="adminUser">
+                            </s:if>
+                            <s:else>N/A</s:else>
+                          </td>
+                          <td>
+                            <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
+                          </td>
+                          <td>
+                            <s:if test="adminUser">
                               <a class="delete-link" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
-                            </s:if></td>
+                            </s:if>
+                          </td>
                         </tr>
                       </s:if>
                     </s:iterator>
@@ -237,7 +303,6 @@
                 <th><abbr title="Modelability Index">MODI</abbr></th>
                 <th>Available Descriptors</th>
                 <th>Date Created</th>
-                <th>Structure Images</th>
                 <th>Visibility</th>
               </tr>
             </thead>
@@ -245,16 +310,25 @@
             <tbody>
               <s:iterator value="userDatasets">
                 <tr>
-                  <td><s:url var="datasetId" action="viewDataset">
+                  <td>
+                    <s:url var="datasetId" action="viewDataset">
                       <s:param name="id" value="%{id}" />
-                    </s:url> <s:a href="%{datasetId}">
+                    </s:url>
+                    <s:a href="%{datasetId}">
                       <s:property value="name" />
-                    </s:a></td>
-                  <td><s:property value="numCompound" /></td>
-                  <td class="activity-type"><s:property value="modelType" /></td>
-                  <td><s:if test="!canGenerateModi()">
+                    </s:a>
+                  </td>
+                  <td>
+                    <s:property value="numCompound" />
+                  </td>
+                  <td class="activity-type">
+                    <s:property value="modelType" />
+                  </td>
+                  <td>
+                    <s:if test="!canGenerateModi()">
                       <span class="text-danger">Not available</span>
-                    </s:if> <s:else>
+                    </s:if>
+                    <s:else>
                       <s:if test="modiGenerated">
                         <s:property value="getText('{0, number, #, ##0.00}', {modi})" />
                       </s:if>
@@ -263,22 +337,25 @@
                         <span class="text-warning">Not generated</span>
                         <button class="btn btn-primary btn-xs generate-modi">Generate MODI</button>
                       </s:else>
-                    </s:else></td>
-                  <td class="descriptor-types"><s:property value="availableDescriptors" /> <s:if
-                      test="uploadedDescriptorType != null && !uploadedDescriptorType.isEmpty()">
-                  *<s:property value="uploadedDescriptorType" />
-                    </s:if></td>
-                  <td><s:date name="createdTime" format="yyyy-MM-dd HH:mm" /></td>
-                  <td><s:if test="sdfFile == null || sdfFile.isEmpty()">
-                    No
-                  </s:if> <s:else>
-                    Yes
-                  </s:else></td>
-                  <td><s:if test="userName.equals('all-users')">
+                    </s:else>
+                  </td>
+                  <td class="descriptor-types">
+                    <s:property value="availableDescriptors" />
+                    <s:if test="uploadedDescriptorType != null && !uploadedDescriptorType.isEmpty()">
+                      *<s:property value="uploadedDescriptorType" />
+                    </s:if>
+                  </td>
+                  <td>
+                    <s:date name="createdTime" format="yyyy-MM-dd HH:mm" />
+                  </td>
+                  <td>
+                    <s:if test="userName.equals('all-users')">
                     Public
-                  </s:if> <s:else>
+                  </s:if>
+                    <s:else>
                     Private
                   </s:else>
+                  </td>
                 </tr>
               </s:iterator>
             </tbody>
@@ -306,45 +383,69 @@
             <tbody>
               <s:iterator value="userPredictors">
                 <tr>
-                  <td><s:url var="viewPredictor" action="viewPredictor">
+                  <td>
+                    <s:url var="viewPredictor" action="viewPredictor">
                       <s:param name="id" value="%{id}" />
-                    </s:url> <s:a href="%{viewPredictor}">
+                    </s:url>
+                    <s:a href="%{viewPredictor}">
                       <s:property value="name" />
-                    </s:a></td>
-                  <td><s:url var="viewModelingDataset" action="viewDataset">
+                    </s:a>
+                  </td>
+                  <td>
+                    <s:url var="viewModelingDataset" action="viewDataset">
                       <s:param name="id" value="%{datasetId}" />
-                    </s:url> <s:a href="%{viewModelingDataset}">
+                    </s:url>
+                    <s:a href="%{viewModelingDataset}">
                       <s:property value="datasetDisplay" />
-                    </s:a></td>
-                  <td><s:if test="childType.equals('NFOLD')">Yes</s:if> <s:else>No</s:else></td>
-                  <td class="activity-type"><s:property value="activityType" /></td>
-                  <td><s:if test="childType.equals('NFOLD')">
+                    </s:a>
+                  </td>
+                  <td>
+                    <s:if test="childType.equals('NFOLD')">Yes</s:if>
+                    <s:else>No</s:else>
+                  </td>
+                  <td class="activity-type">
+                    <s:property value="activityType" />
+                  </td>
+                  <td>
+                    <s:if test="childType.equals('NFOLD')">
                       <s:if test="!externalPredictionAccuracyAvg.equals('0.0 ± 0.0')">
                         <s:property value="externalPredictionAccuracyAvg" />
                       </s:if>
                       <s:else>
                         NA
                       </s:else>
-                    </s:if> <s:else>
+                    </s:if>
+                    <s:else>
                       <s:if test="!externalPredictionAccuracy.equals('0.0')">
                         <s:property value="externalPredictionAccuracy" />
                       </s:if>
                       <s:else>
                         NA
                       </s:else>
-                    </s:else></td>
-                  <td class="modeling-method"><s:property value="modelMethod" /></td>
-                  <td class="descriptor-types"><s:if test="descriptorGeneration.equals('UPLOADED')">
+                    </s:else>
+                  </td>
+                  <td class="modeling-method">
+                    <s:property value="modelMethod" />
+                  </td>
+                  <td class="descriptor-types">
+                    <s:if test="descriptorGeneration.equals('UPLOADED')">
                       * <s:property value="uploadedDescriptorType" />
-                    </s:if> <s:else>
+                    </s:if>
+                    <s:else>
                       <s:property value="descriptorGeneration" />
-                    </s:else></td>
-                  <td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
-                  <td><s:if test="username.equals('all-users')">
+                    </s:else>
+                  </td>
+                  <td>
+                    <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
+                  </td>
+                  <td>
+                    <s:if test="username.equals('all-users')">
                       Public
-                    </s:if> <s:else>
+                    </s:if>
+                    <s:else>
                       Private
-                    </s:else></td>
+                    </s:else>
+                  </td>
                 </tr>
               </s:iterator>
             </tbody>
@@ -365,18 +466,28 @@
             <tbody>
               <s:iterator value="userPredictions">
                 <tr>
-                  <td><s:url var="viewPrediction" action="viewPrediction">
+                  <td>
+                    <s:url var="viewPrediction" action="viewPrediction">
                       <s:param name="id" value="%{id}" />
-                    </s:url> <s:a href="%{viewPrediction}">
+                    </s:url>
+                    <s:a href="%{viewPrediction}">
                       <s:property value="name" />
-                    </s:a></td>
-                  <td><s:url var="viewPredictionDataset" action="viewDataset">
+                    </s:a>
+                  </td>
+                  <td>
+                    <s:url var="viewPredictionDataset" action="viewDataset">
                       <s:param name="id" value="datasetId" />
-                    </s:url> <s:a href="%{viewPredictionDataset}">
+                    </s:url>
+                    <s:a href="%{viewPredictionDataset}">
                       <s:property value="datasetDisplay" />
-                    </s:a></td>
-                  <td><s:property value="predictorNames" /></td>
-                  <td><s:date name="dateCreated" format="yyyy-MM-dd HH:mm" /></td>
+                    </s:a>
+                  </td>
+                  <td>
+                    <s:property value="predictorNames" />
+                  </td>
+                  <td>
+                    <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
+                  </td>
                 </tr>
               </s:iterator>
             </tbody>
