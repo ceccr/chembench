@@ -257,6 +257,18 @@ span[title] {
     border-bottom: 1px dotted #777;
 }
 
-.tablesorter th:not(.sorter-false) {
+table.tablesorter th:not(.sorter-false) {
     cursor: pointer;
+}
+
+table.tablesorter {
+    table-layout: fixed;
+}
+
+th.name {
+    width: 30%;
+}
+
+td.name {
+    word-break: break-all;
 }
