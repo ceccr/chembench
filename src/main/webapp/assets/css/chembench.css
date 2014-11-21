@@ -92,8 +92,7 @@ footer {
 
 .userbox-links li {
     display: inline-block;
-    padding-left: 1em;
-    padding-right: 1em;
+    padding: 0 1em;
     border-right: 1px solid #eee;
 }
 
