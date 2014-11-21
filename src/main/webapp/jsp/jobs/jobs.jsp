@@ -22,14 +22,14 @@
       <p>All data is sorted by the creation date in descending order (newest on top).</p>
 
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#jobqueue" data-toggle="tab">Job Queue</a></li>
+        <li class="active"><a href="#jobs" data-toggle="tab">Job Queue</a></li>
         <li><a href="#datasets" data-toggle="tab">Datasets</a></li>
         <li><a href="#predictors" data-toggle="tab">Predictors</a></li>
         <li><a href="#predictions" data-toggle="tab">Predictions</a></li>
       </ul>
 
       <div class="tab-content">
-        <div id="jobqueue" class="tab-pane active">
+        <div id="jobs" class="tab-pane active">
           <h3>
             Job Queue
             <button class="jobs-queue-refresh btn btn-primary">
