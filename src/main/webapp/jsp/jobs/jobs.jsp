@@ -497,7 +497,5 @@
 
   <%@ include file="/jsp/main/tail.jsp"%>
   <script src="assets/js/jobs.js"></script>
-  <script src="assets/js/jquery.tablesorter.min.js"></script>
-  <script src="assets/js/jquery.tablesorter.widgets.min.js"></script>
 </body>
 </html>
