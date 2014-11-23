@@ -272,3 +272,14 @@ th.name {
 td.name {
     word-break: break-all;
 }
+
+.button-group div {
+    display: inline-block;
+    padding: 0 0.5em;
+    border-left: 1px solid #888;
+}
+
+.button-group div:first-child {
+    padding-left: 0;
+    border: none;
+}

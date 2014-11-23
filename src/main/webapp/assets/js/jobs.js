@@ -47,4 +47,25 @@ $(document).ready(function() {
         // XXX the triple array is _required_ for sorton to work
         $(this).parents("table").trigger("sorton", [[[$(this).attr("data-column"), "d"]]]);
     });
+
+    $(".delete a").click(function(event) {
+        var link = $(this);
+        event.preventDefault();
+        var objectType = link.closest(".tab-pane").attr("id").slice(0, -1);
+        var objectName = link.closest(".name").find("a:first").text();
+        var verb = (objectType === "job" ? "cancel" : "delete");
+        var message = "Are you sure you want to " + verb + " the " + objectType + ' "' + objectName + '"?';
+        bootbox.confirm(message, function(response) {
+            if (response === true) {
+                $.ajax({
+                    method: "POST",
+                    url: link.attr("href"),
+                }).success(function() {
+                    link.closest("tr").fadeOut();
+                }).fail(function() {
+                    bootbox.alert("Error deleting dataset.");
+                });
+            }
+        });
+    });
 });

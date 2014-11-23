@@ -51,7 +51,7 @@
                 <table class="table table-hover table-bordered tablesorter">
                   <thead>
                     <tr>
-                      <th>Name</th>
+                      <th class="name">Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
                       <th>&#8470; Compounds</th>
@@ -65,7 +65,7 @@
                     <s:iterator value="incomingJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td>
+                          <td class="name">
                             <s:property value="jobName" />
                           </td>
                           <td>
@@ -112,7 +112,7 @@
                 <table class="table table-hover table-bordered tablesorter">
                   <thead>
                     <tr>
-                      <th>Name</th>
+                      <th class="name">Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
                       <th>&#8470; Compounds</th>
@@ -126,7 +126,7 @@
                     <s:iterator value="localJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td>
+                          <td class="name">
                             <s:property value="jobName" />
                           </td>
                           <td>
@@ -150,9 +150,9 @@
                           <td>
                             <s:property value="message" />
                           </td>
-                          <td>
+                          <td class="delete">
                             <s:if test="adminUser || user.userName.equals(userName)">
-                              <a class="delete-link" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
+                              <a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
                             </s:if>
                           </td>
                         </tr>
@@ -176,7 +176,7 @@
                 <table class="table table-hover table-bordered tablesorter">
                   <thead>
                     <tr>
-                      <th>Name</th>
+                      <th class="name">Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
                       <th>&#8470; Compounds</th>
@@ -190,7 +190,7 @@
                     <s:iterator value="lsfJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td>
+                          <td class="name">
                             <s:property value="jobName" />
                           </td>
                           <td>
@@ -214,9 +214,9 @@
                           <td>
                             <s:property value="message" />
                           </td>
-                          <td>
+                          <td class="delete">
                             <s:if test="adminUser || user.userName.equals(userName)">
-                              <a class="delete-link" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
+                              <a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
                             </s:if>
                           </td>
                         </tr>
@@ -240,7 +240,7 @@
                 <table class="table table-hover table-bordered tablesorter">
                   <thead>
                     <tr>
-                      <th>Name</th>
+                      <th class="name">Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
                       <th>&#8470; Compounds</th>
@@ -253,7 +253,7 @@
                     <s:iterator value="errorJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td>
+                          <td class="name">
                             <s:property value="jobName" />
                           </td>
                           <td>
@@ -274,9 +274,9 @@
                           <td>
                             <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
                           </td>
-                          <td>
+                          <td class="delete">
                             <s:if test="adminUser">
-                              <a class="delete-link" href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
+                              <a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
                             </s:if>
                           </td>
                         </tr>
@@ -297,7 +297,7 @@
           <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
-                <th>Name</th>
+                <th class="name">Name</th>
                 <th>&#8470; Compounds</th>
                 <th>Activity Type</th>
                 <th><abbr title="Modelability Index">MODI</abbr></th>
@@ -309,13 +309,31 @@
             <tbody>
               <s:iterator value="userDatasets">
                 <tr>
-                  <td>
+                  <td class="name">
                     <s:url var="datasetId" action="viewDataset">
                       <s:param name="id" value="%{id}" />
                     </s:url>
                     <s:a href="%{datasetId}">
                       <s:property value="name" />
                     </s:a>
+                    <br>
+                    <div class="button-group">
+                      <div class="download">
+                        <s:url var="datasetDownload" value="datasetFilesServlet">
+                          <s:param name="datasetName" value="%{name}" />
+                          <s:param name="user" value="%{userName}" />
+                        </s:url>
+                        <span class="glyphicon glyphicon-save"></span>
+                        <s:a href="%{datasetDownload}">Download</s:a>
+                      </div>
+                      <div class="delete">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        <s:url var="datasetDelete" action="deleteDataset">
+                          <s:param name="id" value="%{id}" />
+                        </s:url>
+                        <s:a href="%{datasetDelete}">Delete</s:a>
+                      </div>
+                    </div>
                   </td>
                   <td>
                     <s:property value="numCompound" />
@@ -374,7 +392,7 @@
           <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
-                <th>Name</th>
+                <th class="name">Name</th>
                 <th>Modeling Dataset</th>
                 <th>R<sup>2</sup> or <abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
                 <th>Model Type</th>
@@ -386,7 +404,7 @@
             <tbody>
               <s:iterator value="userPredictors">
                 <tr>
-                  <td>
+                  <td class="name">
                     <s:url var="viewPredictor" action="viewPredictor">
                       <s:param name="id" value="%{id}" />
                     </s:url>
@@ -453,7 +471,7 @@
           <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
-                <th>Name</th>
+                <th class="name">Name</th>
                 <th>Prediction Dataset</th>
                 <th>Predictor(s) Used</th>
                 <th>Date Created</th>
@@ -462,7 +480,7 @@
             <tbody>
               <s:iterator value="userPredictions">
                 <tr>
-                  <td>
+                  <td class="name">
                     <s:url var="viewPrediction" action="viewPrediction">
                       <s:param name="id" value="%{id}" />
                     </s:url>
