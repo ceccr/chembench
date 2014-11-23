@@ -48,14 +48,12 @@
                 <h4>Unassigned Jobs</h4>
               </div>
               <div class="panel-body">
-                <table class="table table-hover table-bordered tablesorter">
+                <table class="table table-hover tablesorter">
                   <thead>
                     <tr>
-                      <th class="name">Name</th>
+                      <th>Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
-                      <th>&#8470; Compounds</th>
-                      <th>&#8470; Models</th>
                       <th>Time Created</th>
                       <th>Status</th>
                       <th>Cancel</th>
@@ -73,15 +71,6 @@
                           </td>
                           <td class="job-type">
                             <s:property value="jobType" />
-                          </td>
-                          <td>
-                            <s:property value="numCompounds" />
-                          </td>
-                          <td>
-                            <s:if test="!jobType.equals(Constants.DATASET)">
-                              <s:property value="numModels" />
-                            </s:if>
-                            <s:else>N/A</s:else>
                           </td>
                           <td>
                             <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
@@ -109,14 +98,12 @@
             </div>
             <div class="panel-body">
               <s:if test="!localJobs.isEmpty()">
-                <table class="table table-hover table-bordered tablesorter">
+                <table class="table table-hover tablesorter">
                   <thead>
                     <tr>
-                      <th class="name">Name</th>
+                      <th>Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
-                      <th>&#8470; Compounds</th>
-                      <th>&#8470; Models</th>
                       <th>Time Created</th>
                       <th>Status</th>
                       <th>Cancel</th>
@@ -134,15 +121,6 @@
                           </td>
                           <td class="job-type">
                             <s:property value="jobType" />
-                          </td>
-                          <td>
-                            <s:property value="numCompounds" />
-                          </td>
-                          <td>
-                            <s:if test="!jobType.equals(Constants.DATASET))">
-                              <s:property value="numModels" />
-                            </s:if>
-                            <s:else>N/A</s:else>
                           </td>
                           <td>
                             <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
@@ -173,14 +151,12 @@
             </div>
             <div class="panel-body">
               <s:if test="!lsfJobs.isEmpty()">
-                <table class="table table-hover table-bordered tablesorter">
+                <table class="table table-hover tablesorter">
                   <thead>
                     <tr>
-                      <th class="name">Name</th>
+                      <th>Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
-                      <th>&#8470; Compounds</th>
-                      <th>&#8470; Models</th>
                       <th>Time Created</th>
                       <th>Status</th>
                       <th>Cancel</th>
@@ -198,15 +174,6 @@
                           </td>
                           <td class="job-type">
                             <s:property value="jobType" />
-                          </td>
-                          <td>
-                            <s:property value="numCompounds" />
-                          </td>
-                          <td>
-                            <s:if test="!jobType.equals(Constants.DATASET)">
-                              <s:property value="numModels" />
-                            </s:if>
-                            <s:else>N/A</s:else>
                           </td>
                           <td>
                             <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
@@ -237,14 +204,12 @@
                 <h4>Jobs with Errors</h4>
               </div>
               <div class="panel-body">
-                <table class="table table-hover table-bordered tablesorter">
+                <table class="table table-hover tablesorter">
                   <thead>
                     <tr>
-                      <th class="name">Name</th>
+                      <th>Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
-                      <th>&#8470; Compounds</th>
-                      <th>&#8470; Models</th>
                       <th>Time Created</th>
                       <th>Cancel</th>
                     </tr>
@@ -261,15 +226,6 @@
                           </td>
                           <td class="job-type">
                             <s:property value="jobType" />
-                          </td>
-                          <td>
-                            <s:property value="numCompounds" />
-                          </td>
-                          <td>
-                            <s:if test="!jobType.equals(Constants.DATASET)">
-                              <s:property value="numModels" />
-                            </s:if>
-                            <s:else>N/A</s:else>
                           </td>
                           <td>
                             <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
