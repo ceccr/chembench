@@ -24,6 +24,7 @@ $(document).ready(function() {
         }
     });
 
+    // for optional sdf fields, only reveal additional options when an sdf is chosen
     $('input[type="file"].optional-sdf-select').change(function() {
         $(this).parents(".optional-sdf").removeClass("text-muted");
         $(".optional-sdf-options").show();
