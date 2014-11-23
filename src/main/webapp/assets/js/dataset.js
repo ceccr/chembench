@@ -5,8 +5,23 @@ $(document).ready(function() {
     var datasetTypeInput = $("input#datasetType");
     datasetTypeInput.val($(".tab-pane:first-child").find('input[name="dataset-type"]').val());
 
+    // add red background for unfilled file upload fields
+    $('input[type="file"]:not(.optional-sdf-select)').each(function() {
+        if (!$(this).val()) {
+            $(this).parent("div").addClass("bg-danger");
+        }
+    });
+
+    // change background for file upload fields when file is selected/deselected
     $('input[type="file"]').change(function() {
-        $(this).parent("div").addClass("bg-success");
+        var parent = $(this).parent("div");
+        if ($(this).val()) {
+            parent.removeClass("bg-danger");
+            parent.addClass("bg-success");
+        } else {
+            parent.removeClass("bg-success");
+            parent.addClass("bg-danger");
+        }
     });
 
     $('input[type="file"].optional-sdf-select').change(function() {
