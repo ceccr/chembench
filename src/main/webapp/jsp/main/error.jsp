@@ -5,6 +5,9 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
 <%@page language="java" import="java.util.*"%>
+<%
+    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+%>
 <html>
 <head>
 <title>Chembench | Error</title>
