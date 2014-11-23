@@ -5,8 +5,10 @@ var guestMessage = "A guest account allows a user to explore the functionality o
 
 $(document).ready(function() {
     // navigation button handlers
-    $(".nav-list li").click(function() {
-        window.location = $(this).find("a").attr("href");
+    $(".nav-list li").mouseup(function(event) {
+        if (event.which === 1) {
+            window.location = $(this).find("a").attr("href");
+        }
     });
     $(".nav-list li").on("mouseenter mouseleave", function(event) {
         $(this).find("a").toggleClass("hovered", event.type === "mouseenter");
