@@ -196,11 +196,11 @@ footer {
     margin-right: 1em;
 }
 
-td.activity-type,td.job-type {
+.activity-type,.job-type {
     text-transform: lowercase;
 }
 
-td.activity-type:first-letter,td.job-type:first-letter {
+.activity-type:first-letter,.job-type:first-letter {
     text-transform: capitalize;
 }
 

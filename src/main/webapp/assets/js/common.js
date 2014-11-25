@@ -33,6 +33,32 @@ $(document).ready(function() {
         window.location = "logout";
     });
 
+    // replace ugly capitalization for descriptor / model / split types
+    $(".available-descriptors").each(function() {
+        var descriptors = $(this).text().trim().split(/\s+/);
+        for (var i = 0; i < descriptors.length; i++) {
+            if (descriptors[i] === "DRAGONH") {
+                descriptors[i] = "Dragon (with hydrogens)";
+            } else if (descriptors[i] === "DRAGONNOH") {
+                descriptors[i] = "Dragon (no hydrogens)";
+            } else if (descriptors[i] === "UPLOADED") {
+                descriptors[i] = "Uploaded descriptors";
+            }
+        }
+        $(this).text(descriptors.join(", "));
+    });
+    $(".modeling-method").each(function() {
+        var modelingMethod = $(this).text();
+        $(this).text(modelingMethod.replace(/RANDOMFOREST/, "Random Forest"));
+    });
+    $(".split-type").each(function() {
+        var splitType = $(this).text();
+        $(this).text(splitType
+                .replace(/NFOLD/, "N-fold")
+                .replace(/RANDOM/, "Random Split")
+                .replace(/USERDEFINED/, "User-defined"));
+    });
+
     $(".generate-modi").click(function() {
         $(this).text("Generating...").prop("disabled", "disabled");
         var parent = $(this).parent();
