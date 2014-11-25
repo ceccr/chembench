@@ -14,6 +14,8 @@ $(document).ready(function() {
     });
 
     $(".jobs-queue-refresh").click(function() {
+        // currently the job queue refresh button only refreshes the page;
+        // it should ideally make an ajax request and repopulate the page with the new data
         location.reload(true);
     });
 
