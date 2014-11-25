@@ -247,9 +247,6 @@
 
         <div id="datasets" class="tab-pane">
           <h3>Datasets</h3>
-          <p class="tab-description">Descriptors marked with an asterisk (*) indicate descriptors that were created
-            outside of Chembench and uploaded by the user.</p>
-
           <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
@@ -343,8 +340,6 @@
 
         <div id="predictors" class="tab-pane">
           <h3>Predictors</h3>
-          <p class="tab-description">Predictors marked with an asterisk (*) indicate predictors built using
-            descriptors that were created outside of Chembench and uploaded by the user.</p>
           <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
