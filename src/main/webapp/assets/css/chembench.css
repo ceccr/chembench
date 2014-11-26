@@ -142,9 +142,14 @@ footer {
     margin: 0;
 }
 /* end tabs & panels */
+
 .links-list {
     padding-left: 1.5em;
     list-style-type: circle;
+}
+
+.properties-list {
+    margin-bottom: 0;
 }
 
 .properties-list dt {
