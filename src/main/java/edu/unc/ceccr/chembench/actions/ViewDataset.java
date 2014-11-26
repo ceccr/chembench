@@ -748,12 +748,6 @@ public class ViewDataset extends ViewAction {
         //make textfield access for paper reference and datasetDescription
         datasetReference = dataset.getPaperReference();
         datasetDescription = dataset.getDescription();
-
-		/*
-		String datasetDir = Constants.CECCR_USER_BASE_PATH + dataset.getUserName() + "/";
-		datasetDir += "DATASETS/" + dataset.getName() + "/";
-		*/
-
         session.close();
 
         //log the results
