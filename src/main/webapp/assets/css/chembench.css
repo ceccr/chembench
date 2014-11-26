@@ -176,8 +176,8 @@ footer {
     margin-left: 1em;
 }
 
-.jobs-queue-refresh {
-    margin-left: 0.5em;
+h1 button, h2 button, h3 button, h4 button, h5 button, h6 button {
+    margin-left: 0.4em;
 }
 
 .form-group.required .control-label:before {
