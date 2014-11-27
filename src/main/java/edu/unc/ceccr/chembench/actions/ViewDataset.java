@@ -39,10 +39,6 @@ public class ViewDataset extends ViewAction {
     private String editable;
     private String sortDirection;
     private String externalCompoundsCount;
-    private String datasetReference = "";
-    private String datasetDescription = "";
-    private String datasetTypeDisplay = "";
-    private String webAddress = Constants.WEBADDRESS;
     private List<DescriptorGenerationResult> descriptorGenerationResults;
 
     public String loadCompoundsSection() throws Exception {
@@ -585,14 +581,10 @@ public class ViewDataset extends ViewAction {
             String[] datasetIdAsStringArray = new String[1];
             datasetIdAsStringArray[0] = objectId;
             context.getParameters().put("id", datasetIdAsStringArray);
-            datasetDescription = ((String[]) context.getParameters().get("datasetDescription"))[0];
-            datasetReference = ((String[]) context.getParameters().get("datasetReference"))[0];
 
             session = HibernateUtil.getSession();
             dataset = PopulateDataObjects.getDataSetById(Long.parseLong(objectId), session);
 
-            dataset.setDescription(datasetDescription);
-            dataset.setPaperReference(datasetReference);
             Transaction tx = null;
             try {
                 tx = session.beginTransaction();
@@ -730,24 +722,6 @@ public class ViewDataset extends ViewAction {
                 externalCompoundsCount = "" + numCompounds;
             }
         }
-
-        //make dataset type more readable
-        if (dataset.getDatasetType().equals(Constants.MODELING)) {
-            datasetTypeDisplay = "Modeling";
-        }
-        if (dataset.getDatasetType().equals(Constants.MODELINGWITHDESCRIPTORS)) {
-            datasetTypeDisplay = "Modeling, with uploaded descriptors";
-        }
-        if (dataset.getDatasetType().equals(Constants.PREDICTION)) {
-            datasetTypeDisplay = "Prediction";
-            dataset.setDatasetType("");
-        }
-        if (dataset.getDatasetType().equals(Constants.PREDICTIONWITHDESCRIPTORS)) {
-            datasetTypeDisplay = "Prediction, with uploaded descriptors";
-        }
-        //make textfield access for paper reference and datasetDescription
-        datasetReference = dataset.getPaperReference();
-        datasetDescription = dataset.getDescription();
         session.close();
 
         //log the results
@@ -824,14 +798,6 @@ public class ViewDataset extends ViewAction {
         this.externalCompounds = externalCompounds;
     }
 
-    public String getWebAddress() {
-        return webAddress;
-    }
-
-    public void setWebAddress(String webAddress) {
-        this.webAddress = webAddress;
-    }
-
     public List<DescriptorGenerationResult> getDescriptorGenerationResults() {
         return descriptorGenerationResults;
     }
@@ -872,36 +838,12 @@ public class ViewDataset extends ViewAction {
         this.currentFoldNumber = currentFoldNumber;
     }
 
-    public String getDatasetReference() {
-        return datasetReference;
-    }
-
-    public void setDatasetReference(String datasetReference) {
-        this.datasetReference = datasetReference;
-    }
-
-    public String getDatasetDescription() {
-        return datasetDescription;
-    }
-
-    public void setDatasetDescription(String datasetDescription) {
-        this.datasetDescription = datasetDescription;
-    }
-
     public String getEditable() {
         return editable;
     }
 
     public void setEditable(String editable) {
         this.editable = editable;
-    }
-
-    public String getDatasetTypeDisplay() {
-        return datasetTypeDisplay;
-    }
-
-    public void setDatasetTypeDisplay(String datasetTypeDisplay) {
-        this.datasetTypeDisplay = datasetTypeDisplay;
     }
 
     public List<String> getErrorStrings() {
