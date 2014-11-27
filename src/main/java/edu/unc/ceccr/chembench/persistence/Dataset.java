@@ -36,6 +36,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 
 import edu.unc.ceccr.chembench.global.Constants;
+import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
 
@@ -77,6 +78,22 @@ public class Dataset implements java.io.Serializable {
     private boolean modiGenerated = false;
 
     public Dataset() {
+    }
+
+    public static Dataset get(long id) {
+        Dataset dataset = null;
+        Session session = null;
+        try {
+            session = HibernateUtil.getSession();
+            dataset = PopulateDataObjects.getDataSetById(id, session);
+        } catch (RuntimeException | ClassNotFoundException | SQLException e) {
+
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return dataset;
     }
 
     public void save() {
