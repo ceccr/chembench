@@ -79,6 +79,26 @@ public class Dataset implements java.io.Serializable {
     public Dataset() {
     }
 
+    public void save() {
+        Session session = null;
+        Transaction tx = null;
+        try {
+            session = HibernateUtil.getSession();
+            tx = session.beginTransaction();
+            session.saveOrUpdate(this);
+            tx.commit();
+        } catch (RuntimeException | ClassNotFoundException | SQLException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            logger.error(e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+
     public boolean canGenerateModi() {
         return actFile != null && !actFile.isEmpty()
                 && (availableDescriptors.contains(Constants.DRAGONH) || availableDescriptors.contains(Constants.CDK));
@@ -184,26 +204,6 @@ public class Dataset implements java.io.Serializable {
     @Transient
     public boolean isContinuous() {
         return modelType.equalsIgnoreCase(Constants.CONTINUOUS);
-    }
-
-    public void save() {
-        Session session = null;
-        Transaction tx = null;
-        try {
-            session = HibernateUtil.getSession();
-            tx = session.beginTransaction();
-            session.saveOrUpdate(this);
-            tx.commit();
-        } catch (RuntimeException | ClassNotFoundException | SQLException e) {
-            if (tx != null) {
-                tx.rollback();
-            }
-            logger.error(e);
-        } finally {
-            if (session != null) {
-                session.close();
-            }
-        }
     }
 
     @Id
