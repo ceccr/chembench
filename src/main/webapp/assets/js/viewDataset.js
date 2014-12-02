@@ -26,9 +26,9 @@ $(document).ready(function() {
         var newDescription = $('textarea[name="datasetDescription"]').val();
         var newPaperReference = $('textarea[name="datasetReference"]').val();
         $.ajax({
-            url: form.attr("action"),
-            method: "POST",
-            data: form.serialize(),
+            url : form.attr("action"),
+            method : "POST",
+            data : form.serialize(),
         }).success(function() {
             if (newDescription) {
                 $("#description").text(newDescription);
@@ -45,5 +45,15 @@ $(document).ready(function() {
         }).fail(function() {
             bootbox.alert("Error updating dataset.");
         });
+    });
+
+    $(".img-thumbnail").popover({
+        html : true,
+        template: '<div class="popover popover-image" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>',
+        content : function() {
+            return '<img src="' + $(this).attr("src") + '">';
+        },
+        trigger : "hover",
+        placement : "right",
     });
 });

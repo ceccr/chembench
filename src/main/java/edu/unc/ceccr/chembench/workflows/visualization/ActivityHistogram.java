@@ -31,11 +31,9 @@ public class ActivityHistogram {
     public final static double MAXIMUM = -1000.0;
     public final static double MINIMUM = 1000.0;
 
-    public static void createChart(String datasetId) throws Exception {
+    public static void createChart(long datasetID) throws Exception {
         //given a datasetId, get the dataset's actFile and make a chart out of it
         //(assumes the dataset is a modeling dataset and that it has an actfile.)
-
-        Long datasetID = Long.parseLong(datasetId);
 
         Session s = HibernateUtil.getSession();
         Dataset selectedDataset = PopulateDataObjects.getDataSetById(datasetID, s);

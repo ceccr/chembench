@@ -26,7 +26,9 @@
           <dl class="dl-horizontal properties-list">
             <dt>Dataset type</dt>
             <dd>
-              <s:property value="datasetTypeDisplay" />
+              <div class="dataset-type">
+                <s:property value="dataset.datasetType" />
+              </div>
             </dd>
             <dt>Number of compounds</dt>
 
@@ -97,9 +99,11 @@
         <div class="list-group-item">
           <h4 class="list-group-item-heading">
             Description and paper reference
-            <button id="edit-description-reference" class="btn btn-primary btn-xs">
-              <span class="glyphicon glyphicon-pencil"></span> Edit
-            </button>
+            <s:if test="editable">
+              <button id="edit-description-reference" class="btn btn-primary btn-xs">
+                <span class="glyphicon glyphicon-pencil"></span> Edit
+              </button>
+            </s:if>
             <span id="description-reference-buttons">
               <button id="cancel-changes" class="btn btn-default btn-xs">
                 <span class="glyphicon glyphicon-remove"></span> Cancel
@@ -131,23 +135,23 @@
             </dd>
           </dl>
 
-          <s:form action="updateDataset" enctype="multipart/form-data" theme="simple">
-            <div class="form-group">
-              <label for="datasetDescription">Description:</label>
-              <s:textarea id="datasetDescription" name="datasetDescription" value="%{dataset.description}"
-                cssClass="form-control" />
-            </div>
+          <s:if test="editable">
+            <s:form action="updateDataset" enctype="multipart/form-data" theme="simple">
+              <div class="form-group">
+                <label for="datasetDescription">Description:</label>
+                <s:textarea id="datasetDescription" name="datasetDescription" value="%{dataset.description}"
+                  cssClass="form-control" />
+              </div>
 
-            <div class="form-group">
-              <label for="datasetReference">Paper reference:</label>
-              <s:textarea id="datasetReference" name="datasetReference" value="%{dataset.paperReference}"
-                cssClass="form-control" />
-            </div>
+              <div class="form-group">
+                <label for="datasetReference">Paper reference:</label>
+                <s:textarea id="datasetReference" name="datasetReference" value="%{dataset.paperReference}"
+                  cssClass="form-control" />
+              </div>
 
-            <s:hidden id="objectId" name="objectId" />
-            <s:hidden id="description" name="description" value="%{dataset.description}" />
-            <s:hidden id="paperReference" name="paperReference" value="%{dataset.paperReference}" />
-          </s:form>
+              <s:hidden name="id" value="%{id}" />
+            </s:form>
+          </s:if>
         </div>
       </div>
 
@@ -164,11 +168,34 @@
       <div class="tab-content">
         <div id="compound-list" class="tab-pane active">
           <h3>Compound List</h3>
-          <p class="tab-description">Bacon ipsum dolor amet excepteur ground round fugiat labore commodo ut kevin in
-            ullamco meatloaf. In et non sirloin est occaecat consectetur biltong eu in sint. Ut consectetur boudin
-            tempor elit non, sausage do. Jowl picanha voluptate, duis tail salami ut fugiat sirloin pastrami laboris
-            nostrud boudin veniam. Excepteur mollit venison ball tip sint. Tri-tip commodo est in. Irure ground round
-            esse, turducken in shank nostrud voluptate exercitation cillum short loin.</p>
+          <p class="tab-description">All compounds in your dataset are listed in the table below, including those in
+            your external set.</p>
+          <table class="table table-hover tablesorter">
+            <thead>
+              <tr>
+                <th>Compound Name</th>
+                <th class="sorter-false">Structure</th>
+                <th>Activity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <s:iterator value="datasetCompounds">
+                <tr>
+                  <td class="name"><s:property value="compoundId" /></td>
+                  <td>
+                    <s:url var="imageUrl" value="imageServlet" escapeAmp="false">
+                      <s:param name="user" value="%{dataset.userName}" />
+                      <s:param name="projectType" value="'dataset'" />
+                      <s:param name="compoundId" value="%{compoundId}" />
+                      <s:param name="datasetName" value="%{dataset.name}" />
+                    </s:url>
+                    <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px">
+                  </td>
+                  <td><s:property value="activityValue" /></td>
+                </tr>
+              </s:iterator>
+            </tbody>
+          </table>
         </div>
 
         <div id="external-set" class="tab-pane">
@@ -214,4 +241,3 @@
   <script src="assets/js/viewDataset.js"></script>
 </body>
 </html>
-
