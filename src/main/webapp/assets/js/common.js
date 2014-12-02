@@ -72,4 +72,18 @@ $(document).ready(function() {
             parent.html('<span class="text-danger">MODI generation failed</span>');
         });
     });
+
+    $.tablesorter.themes.bootstrap = {
+            sortNone: "glyphicon glyphicon-sort",
+            sortAsc: "glyphicon glyphicon-sort-by-attributes",
+            sortDesc: "glyphicon glyphicon-sort-by-attributes-alt",
+        };
+
+    $(".tablesorter").tablesorter({
+        sortStable: true,
+
+        theme: "bootstrap",
+        headerTemplate: "{content} {icon}",
+        widgets: ["uitheme"],
+    });
 });
