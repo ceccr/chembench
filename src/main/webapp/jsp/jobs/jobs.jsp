@@ -56,7 +56,7 @@
                       <th>Job Type</th>
                       <th>Time Created</th>
                       <th>Status</th>
-                      <th>Cancel</th>
+                      <th class="sorter-false">Cancel</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -106,7 +106,7 @@
                       <th>Job Type</th>
                       <th>Time Created</th>
                       <th>Status</th>
-                      <th>Cancel</th>
+                      <th class="sorter-false">Cancel</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -159,7 +159,7 @@
                       <th>Job Type</th>
                       <th>Time Created</th>
                       <th>Status</th>
-                      <th>Cancel</th>
+                      <th class="sorter-false">Cancel</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -211,7 +211,7 @@
                       <th>Owner</th>
                       <th>Job Type</th>
                       <th>Time Created</th>
-                      <th>Cancel</th>
+                      <th class="sorter-false">Cancel</th>
                     </tr>
                   </thead>
                   <tbody>
