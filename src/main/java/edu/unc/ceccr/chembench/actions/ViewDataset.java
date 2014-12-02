@@ -313,7 +313,7 @@ public class ViewDataset extends ActionSupport {
             return "badrequest";
         }
 
-        if (dataset.getDatasetType().equals(Constants.PREDICTION) || !dataset.getSplitType().equals(Constants.NFOLD)
+        if (dataset.getModelType().equals(Constants.PREDICTION) || !dataset.getSplitType().equals(Constants.NFOLD)
                 || foldNumber < 1 || foldNumber > Integer.parseInt(dataset.getNumExternalFolds())) {
             return "badrequest";
         }
