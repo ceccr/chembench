@@ -97,7 +97,8 @@ public class ViewDataset extends ActionSupport {
                 // load external compounds from file
                 externalCompounds = Lists.newArrayList();
                 HashMap<String, String> actIdsAndValues =
-                        DatasetFileOperations.getActFileIdsAndValues(datasetDirPath.resolve(Constants.EXTERNAL_SET_A_FILE)
+                        DatasetFileOperations.getActFileIdsAndValues(datasetDirPath.resolve(
+                                Constants.EXTERNAL_SET_A_FILE)
                                 .toString());
                 List<String> compoundIds = Lists.newArrayList(actIdsAndValues.keySet());
                 for (String compoundId : compoundIds) {
