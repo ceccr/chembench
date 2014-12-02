@@ -242,6 +242,15 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
+        <action name="viewDatasetFold" class="edu.unc.ceccr.chembench.actions.ViewDataset" method="getFold">
+            <result name="success" type="json">
+                <param name="root">foldCompounds</param>
+            </result>
+            <result name="badrequest" type="httpheader">
+                <param name="error">400</param>
+            </result>
+        </action>
+
         <action name="viewDatasetCompoundsSection" class="edu.unc.ceccr.chembench.actions.ViewDataset"
                 method="loadCompoundsSection">
             <result name="success">/jsp/datasetOutput/viewDataset-compounds.jsp</result>

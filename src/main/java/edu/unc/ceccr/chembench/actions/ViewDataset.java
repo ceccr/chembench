@@ -5,6 +5,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -38,6 +39,8 @@ public class ViewDataset extends ActionSupport {
     private List<Compound> externalCompounds; // for random split or chosen compounds
     private String externalCountDisplay;
     private List<Integer> foldNumbers;
+    private int foldNumber;
+    private List<Compound> foldCompounds;
 
     private String datasetDescription;
     private String datasetReference;
@@ -304,6 +307,32 @@ public class ViewDataset extends ActionSupport {
         return load();
     }
 
+    public String getFold() {
+        dataset = Dataset.get(id);
+        if (dataset == null) {
+            return "badrequest";
+        }
+
+        if (dataset.getDatasetType().equals(Constants.PREDICTION) || !dataset.getSplitType().equals(Constants.NFOLD)
+                || foldNumber < 1 || foldNumber > Integer.parseInt(dataset.getNumExternalFolds())) {
+            return "badrequest";
+        }
+
+        Path foldFilePath = Paths.get(Constants.CECCR_USER_BASE_PATH, dataset.getUserName(), "DATASETS",
+                dataset.getName(), dataset.getActFile() + ".fold" + foldNumber);
+        Map<String, String> foldCompoundsAndActivities = DatasetFileOperations.getActFileIdsAndValues(foldFilePath
+                .toString());
+        foldCompounds = Lists.newArrayList();
+        for (String name : foldCompoundsAndActivities.keySet()) {
+            Compound c = new Compound();
+            c.setCompoundId(name);
+            c.setActivityValue(foldCompoundsAndActivities.get(name));
+            foldCompounds.add(c);
+        }
+
+        return SUCCESS;
+    }
+
     public Dataset getDataset() {
         return dataset;
     }
@@ -374,6 +403,22 @@ public class ViewDataset extends ActionSupport {
 
     public void setDatasetReference(String datasetReference) {
         this.datasetReference = datasetReference;
+    }
+
+    public int getFoldNumber() {
+        return foldNumber;
+    }
+
+    public void setFoldNumber(int foldNumber) {
+        this.foldNumber = foldNumber;
+    }
+
+    public List<Compound> getFoldCompounds() {
+        return foldCompounds;
+    }
+
+    public void setFoldCompounds(List<Compound> foldCompounds) {
+        this.foldCompounds = foldCompounds;
     }
 
     public class DescriptorGenerationResult {
