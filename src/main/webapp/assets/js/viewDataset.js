@@ -43,7 +43,7 @@ $(document).ready(function() {
 
             toggleForm();
         }).fail(function() {
-            bootbox.error("Error updating dataset.");
+            bootbox.alert("Error updating dataset.");
         });
     });
 });
