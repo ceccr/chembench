@@ -270,6 +270,10 @@ table.tablesorter {
     table-layout: fixed;
 }
 
+#jobs table.tablesorter {
+    table-layout: auto;
+}
+
 th.name {
     width: 30%;
 }
