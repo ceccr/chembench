@@ -33,7 +33,7 @@ $(document).ready(function() {
         window.location = "logout";
     });
 
-    // replace ugly capitalization for descriptor / model / split types
+    // replace ugly capitalization for constants
     $(".available-descriptors").each(function() {
         var descriptors = $(this).text().trim().split(/\s+/);
         for (var i = 0; i < descriptors.length; i++) {
@@ -57,6 +57,13 @@ $(document).ready(function() {
                 .replace(/NFOLD/, "N-fold")
                 .replace(/RANDOM/, "Random Split")
                 .replace(/USERDEFINED/, "User-defined"));
+    });
+    $(".dataset-type").each(function() {
+        var datasetType = $(this).text();
+        $(this).text(datasetType
+                .replace(/MODELING/, "Modeling")
+                .replace(/PREDICTION/, "Prediction")
+                .replace(/WITHDESCRIPTORS/, ", with descriptors"));
     });
 
     $(".generate-modi").click(function() {

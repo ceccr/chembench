@@ -201,11 +201,11 @@ h1 button, h2 button, h3 button, h4 button, h5 button, h6 button {
     margin-right: 1em;
 }
 
-.activity-type,.job-type,.dataset-type {
+.activity-type,.job-type {
     text-transform: lowercase;
 }
 
-.activity-type:first-letter,.job-type:first-letter,.dataset-type:first-letter {
+.activity-type:first-letter,.job-type:first-letter {
     text-transform: capitalize;
 }
 

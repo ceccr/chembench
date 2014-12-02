@@ -252,6 +252,7 @@
               <tr>
                 <th class="name">Name</th>
                 <th>&#8470; Compounds</th>
+                <th>Dataset Type</th>
                 <th>Activity Type</th>
                 <th><abbr title="Modelability Index">MODI</abbr></th>
                 <th>Date Created</th>
@@ -290,6 +291,9 @@
                   </td>
                   <td>
                     <s:property value="numCompound" />
+                  </td>
+                  <td class="dataset-type">
+                    <s:property value="datasetType" />
                   </td>
                   <td class="activity-type">
                     <s:if test="modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
