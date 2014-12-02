@@ -4,6 +4,9 @@ function toggleForm() {
 }
 
 $(document).ready(function() {
+    $(".nav-list li").removeClass("active");
+    $("#nav-button-datasets").addClass("active");
+
     $("form#updateDataset, #description-reference-buttons").hide();
 
     $("button#edit-description-reference").click(function() {
