@@ -174,24 +174,30 @@
             <thead>
               <tr>
                 <th class="name">Compound Name</th>
-                <th class="sorter-false">Structure</th>
-                <th>Activity</th>
+                <s:if test="!dataset.sdfFile.isEmpty()">
+                  <th class="sorter-false">Structure</th>
+                </s:if>
+                <s:if test="!dataset.modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
+                  <th>Activity</th>
+                </s:if>
               </tr>
             </thead>
             <tbody>
               <s:iterator value="datasetCompounds">
                 <tr>
                   <td class="name"><s:property value="compoundId" /></td>
-                  <td>
-                    <s:url var="imageUrl" value="imageServlet" escapeAmp="false">
-                      <s:param name="user" value="%{dataset.userName}" />
-                      <s:param name="projectType" value="'dataset'" />
-                      <s:param name="compoundId" value="%{compoundId}" />
-                      <s:param name="datasetName" value="%{dataset.name}" />
-                    </s:url>
-                    <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px">
-                  </td>
-                  <td><s:property value="activityValue" /></td>
+                  <s:if test="!dataset.sdfFile.isEmpty()">
+                    <td><s:url var="imageUrl" value="imageServlet" escapeAmp="false">
+                        <s:param name="user" value="%{dataset.userName}" />
+                        <s:param name="projectType" value="'dataset'" />
+                        <s:param name="compoundId" value="%{compoundId}" />
+                        <s:param name="datasetName" value="%{dataset.name}" />
+                      </s:url> <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px">
+                    </td>
+                  </s:if>
+                  <s:if test="!dataset.modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
+                    <td><s:property value="activityValue" /></td>
+                  </s:if>
                 </tr>
               </s:iterator>
             </tbody>
