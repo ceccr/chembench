@@ -109,10 +109,10 @@ public class ViewDataset extends ActionSupport {
 
                 externalCountDisplay = Integer.toString(externalCompounds.size());
             }
-        }
 
-        // create activity chart
-        ActivityHistogram.createChart(id);
+            // create activity chart
+            ActivityHistogram.createChart(id);
+        }
 
         // load compounds
         datasetCompounds = Lists.newArrayList();
