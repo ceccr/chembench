@@ -173,7 +173,7 @@
           <table class="table table-hover tablesorter">
             <thead>
               <tr>
-                <th>Compound Name</th>
+                <th class="name">Compound Name</th>
                 <th class="sorter-false">Structure</th>
                 <th>Activity</th>
               </tr>

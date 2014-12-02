@@ -293,6 +293,10 @@ td.name {
     vertical-align: middle;
 }
 
+#compound-list .name {
+    width: 40%;
+}
+
 .popover-image {
     max-width: none;
 }
