@@ -214,6 +214,16 @@ public class Dataset implements java.io.Serializable {
     }
 
     @Transient
+    public boolean hasActivities() {
+        return actFile != null && !actFile.isEmpty();
+    }
+
+    @Transient
+    public boolean hasStructures() {
+        return sdfFile != null && !sdfFile.isEmpty();
+    }
+
+    @Transient
     public boolean isCategory() {
         return modelType.equalsIgnoreCase(Constants.CATEGORY);
     }
