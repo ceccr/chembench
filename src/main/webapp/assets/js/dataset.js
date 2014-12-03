@@ -4,6 +4,8 @@ $(document).ready(function() {
 
     var datasetTypeInput = $("input#datasetType");
     datasetTypeInput.val($(".tab-pane:first-child").find('input[name="dataset-type"]').val());
+    var splitTypeInput = $("input#splitType");
+    splitTypeInput.val($(".tab-pane:first-child").find('input[name="split-type"]').val());
 
     // add red background for unfilled file upload fields
     $('input[type="file"]:not(.optional-sdf-select)').each(function() {
@@ -54,5 +56,10 @@ $(document).ready(function() {
 
         var tab = $(e.currentTarget.hash);
         datasetTypeInput.val(tab.find('input[name="dataset-type"]').val());
+    });
+
+    $('#external-set-settings a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+        var tab = $(e.currentTarget.hash);
+        splitTypeInput.val(tab.find('input[name="split-type"]').val());
     });
 });

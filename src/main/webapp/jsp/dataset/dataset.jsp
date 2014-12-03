@@ -329,6 +329,7 @@
         </div>
 
         <div id="external-set-settings" class="panel panel-primary">
+          <s:hidden id="splitType" name="splitType" />
           <div class="panel-heading">
             <h3 class="panel-title">Define External Set</h3>
           </div>
@@ -348,6 +349,7 @@
 
             <div class="tab-content">
               <div id="nfold-split" class="tab-pane active">
+                <input type="hidden" name="split-type" value="<%= Constants.NFOLD %>">
                 <p>
                   An <b>n-fold split</b> will generate <b>n</b> different external test sets. When you use this dataset
                   for modeling, <b>n</b> predictors will be created: one for each fold. Each external set will contain
@@ -368,6 +370,7 @@
                 </div>
               </div>
               <div id="random-split" class="tab-pane">
+                <input type="hidden" name="split-type" value="<%= Constants.RANDOM %>">-
                 <p>
                   A <b>random split</b> will divide your modeling dataset into training and test portions at random. You
                   can change the size of the external set below. Either a percentage of total compounds or a fixed
@@ -392,6 +395,7 @@
                 </div>
               </div>
               <div id="choose-compounds" class="tab-pane">
+                <input type="hidden" name="split-type" value="<%= Constants.USERDEFINED %>">
                 <p>
                   If you want to specifically <b>choose the compounds</b> for the external set, enter the names of those
                   compounds in the box below. The compound names may be separated by commas, spaces, tabs, and/or
