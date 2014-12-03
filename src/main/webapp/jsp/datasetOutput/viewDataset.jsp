@@ -158,7 +158,7 @@
       <hr>
 
       <ul class="nav nav-tabs">
-        <li class="active"><a href="#compound-list" data-toggle="tab">Compound List</a></li>
+        <li class="active"><a href="#all-compounds" data-toggle="tab">All Compounds</a></li>
         <li><a href="#external-set" data-toggle="tab">External Set</a></li>
         <li><a href="#descriptors" data-toggle="tab">Descriptors</a></li>
         <li><a href="#activity-histogram" data-toggle="tab">Activity Histogram</a></li>
@@ -166,11 +166,11 @@
       </ul>
 
       <div class="tab-content">
-        <div id="compound-list" class="tab-pane active">
-          <h3>Compound List</h3>
+        <div id="all-compounds" class="tab-pane active">
+          <h3>All Compounds</h3>
           <p class="tab-description">All compounds in your dataset are listed in the table below, including those in
             your external set.</p>
-          <table class="table table-hover tablesorter">
+          <table class="table table-hover tablesorter compound-list">
             <thead>
               <tr>
                 <th class="name">Compound Name</th>
@@ -206,9 +206,44 @@
 
         <div id="external-set" class="tab-pane">
           <h3>External Set</h3>
-          <p class="tab-description">Fatback deserunt dolor, chicken pariatur est swine. Hamburger aliqua non
-            picanha ut eu spare ribs. Kielbasa voluptate bresaola magna, id pork exercitation. Kevin nostrud corned beef
-            sint. Hamburger ut landjaeger, nisi sausage pork loin drumstick pariatur prosciutto.</p>
+          <s:if test="dataset.splitType.equals(@edu.unc.ceccr.chembench.global.Constants@NFOLD)">
+          </s:if>
+          <s:else>
+            <p class="tab-description">The compounds in your dataset's external test set are listed in the table
+              below.</p>
+            <table class="table table-hover tablesorter compound-list">
+              <thead>
+                <tr>
+                  <th class="name">Compound Name</th>
+                  <s:if test="!dataset.sdfFile.isEmpty()">
+                    <th class="sorter-false">Structure</th>
+                  </s:if>
+                  <s:if test="!dataset.modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
+                    <th>Activity</th>
+                  </s:if>
+                </tr>
+              </thead>
+              <tbody>
+                <s:iterator value="externalCompounds">
+                  <tr>
+                    <td class="name"><s:property value="compoundId" /></td>
+                    <s:if test="!dataset.sdfFile.isEmpty()">
+                      <td><s:url var="imageUrl" value="imageServlet" escapeAmp="false">
+                          <s:param name="user" value="%{dataset.userName}" />
+                          <s:param name="projectType" value="'dataset'" />
+                          <s:param name="compoundId" value="%{compoundId}" />
+                          <s:param name="datasetName" value="%{dataset.name}" />
+                        </s:url> <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px">
+                      </td>
+                    </s:if>
+                    <s:if test="!dataset.modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
+                      <td><s:property value="activityValue" /></td>
+                    </s:if>
+                  </tr>
+                </s:iterator>
+              </tbody>
+            </table>
+          </s:else>
         </div>
 
         <div id="descriptors" class="tab-pane">

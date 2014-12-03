@@ -293,11 +293,12 @@ td.name {
     border: none;
 }
 
-#compound-list td {
+/* needed for specificity issues */
+table.compound-list > tbody > tr > td {
     vertical-align: middle;
 }
 
-#compound-list .name {
+table.compound-list .name {
     width: 40%;
 }
 
