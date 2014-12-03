@@ -38,9 +38,9 @@
 
             <dt>Activity type</dt>
             <dd>
-              <s:if test="dataset.modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
-            None
-          </s:if>
+              <s:if test="!dataset.hasActivities()">
+                None
+              </s:if>
               <s:else>
                 <div class="activity-type">
                   <s:property value="dataset.modelType" />
@@ -159,9 +159,16 @@
 
       <ul class="nav nav-tabs">
         <li class="active"><a href="#all-compounds" data-toggle="tab">All Compounds</a></li>
-        <li><a href="#external-set" data-toggle="tab">External Set</a></li>
+        <s:if test="dataset.hasActivities()">
+          <s:if test="dataset.splitType.equals(@edu.unc.ceccr.chembench.global.Constants@NFOLD)">
+            <li><a href="#folds" data-toggle="tab">Folds</a></li>
+          </s:if>
+          <s:else>
+            <li><a href="#external-set" data-toggle="tab">External Set</a></li>
+          </s:else>
+          <li><a href="#activity-histogram" data-toggle="tab">Activity Histogram</a></li>
+        </s:if>
         <li><a href="#descriptors" data-toggle="tab">Descriptors</a></li>
-        <li><a href="#activity-histogram" data-toggle="tab">Activity Histogram</a></li>
         <li><a href="#heatmap" data-toggle="tab">Heatmap</a></li>
       </ul>
 
@@ -174,10 +181,10 @@
             <thead>
               <tr>
                 <th class="name">Compound Name</th>
-                <s:if test="!dataset.sdfFile.isEmpty()">
+                <s:if test="dataset.hasStructures()">
                   <th class="sorter-false">Structure</th>
                 </s:if>
-                <s:if test="!dataset.modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
+                <s:if test="dataset.hasActivities()">
                   <th>Activity</th>
                 </s:if>
               </tr>
@@ -195,7 +202,7 @@
                       </s:url> <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px">
                     </td>
                   </s:if>
-                  <s:if test="!dataset.modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
+                  <s:if test="dataset.hasActivities()">
                     <td><s:property value="activityValue" /></td>
                   </s:if>
                 </tr>
@@ -204,21 +211,56 @@
           </table>
         </div>
 
-        <div id="external-set" class="tab-pane">
-          <h3>External Set</h3>
-          <s:if test="dataset.splitType.equals(@edu.unc.ceccr.chembench.global.Constants@NFOLD)">
-          </s:if>
-          <s:else>
+        <s:if test="dataset.splitType.equals(@edu.unc.ceccr.chembench.global.Constants@NFOLD)">
+          <div id="folds" class="tab-pane">
+            <h3>Folds</h3>
+            <p>The compounds in each fold of your dataset are listed below. Use the fold navigation buttons to
+              switch between folds.</p>
+            <nav class="text-center">
+              <ul class="pagination">
+                <li class="disabled"><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
+                <s:iterator value="foldNumbers" status="s">
+                  <s:if test="%{#s.first}">
+                    <li class="active"><a href="#"><s:property /></a></li>
+                  </s:if>
+                  <s:else>
+                    <li><a href="#"><s:property /></a></li>
+                  </s:else>
+                </s:iterator>
+                <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
+              </ul>
+            </nav>
+
+            <table class="table table-hover tablesorter compound-list">
+              <thead>
+                <tr>
+                  <th class="name">Compound Name</th>
+                  <s:if test="dataset.hasStructures()">
+                    <th>Structure</th>
+                  </s:if>
+                  <s:if test="dataset.hasActivities()">
+                    <th>Activity</th>
+                  </s:if>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+        </s:if>
+        <s:else>
+          <div id="external-set" class="tab-pane">
+            <h3>External Set</h3>
             <p class="tab-description">The compounds in your dataset's external test set are listed in the table
               below.</p>
             <table class="table table-hover tablesorter compound-list">
               <thead>
                 <tr>
                   <th class="name">Compound Name</th>
-                  <s:if test="!dataset.sdfFile.isEmpty()">
+                  <s:if test="dataset.hasStructures()">
                     <th class="sorter-false">Structure</th>
                   </s:if>
-                  <s:if test="!dataset.modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
+                  <s:if test="dataset.hasActivities()">
                     <th>Activity</th>
                   </s:if>
                 </tr>
@@ -236,15 +278,15 @@
                         </s:url> <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px">
                       </td>
                     </s:if>
-                    <s:if test="!dataset.modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
+                    <s:if test="dataset.hasActivities()">
                       <td><s:property value="activityValue" /></td>
                     </s:if>
                   </tr>
                 </s:iterator>
               </tbody>
             </table>
-          </s:else>
-        </div>
+          </div>
+        </s:else>
 
         <div id="descriptors" class="tab-pane">
           <h3>Descriptors</h3>
