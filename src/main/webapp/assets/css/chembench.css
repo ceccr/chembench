@@ -302,6 +302,10 @@ table.compound-list .name {
     width: 40%;
 }
 
+table.compound-list td.name {
+    padding-left: 1em;
+}
+
 .popover-image {
     max-width: none;
 }
