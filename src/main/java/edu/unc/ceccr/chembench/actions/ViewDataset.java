@@ -404,6 +404,14 @@ public class ViewDataset extends ActionSupport {
         this.foldCompounds = foldCompounds;
     }
 
+    public List<Integer> getFoldNumbers() {
+        return foldNumbers;
+    }
+
+    public void setFoldNumbers(List<Integer> foldNumbers) {
+        this.foldNumbers = foldNumbers;
+    }
+
     public class DescriptorGenerationResult {
         private String descriptorType;
         private String generationResult;
