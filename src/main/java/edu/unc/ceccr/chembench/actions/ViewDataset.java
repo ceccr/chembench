@@ -20,15 +20,11 @@ import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.visualization.ActivityHistogram;
-import edu.unc.ceccr.chembench.workflows.visualization.HeatmapAndPCA;
 
 @SuppressWarnings("serial")
 public class ViewDataset extends ActionSupport {
 
     private static Logger logger = Logger.getLogger(ViewDataset.class.getName());
-
-    private ActionContext context;
-    private User user;
 
     private long id;
     private Dataset dataset;
@@ -46,8 +42,8 @@ public class ViewDataset extends ActionSupport {
     private String datasetReference;
 
     public String load() throws Exception {
-        context = ActionContext.getContext();
-        user = (User) context.getSession().get("user");
+        ActionContext context = ActionContext.getContext();
+        User user = (User) context.getSession().get("user");
         if (user == null) {
             return LOGIN;
         }
@@ -292,17 +288,6 @@ public class ViewDataset extends ActionSupport {
             return SUCCESS;
         }
         return ERROR;
-    }
-
-    public String generateMahalanobis() throws Exception {
-        Path visualizationDirPath = Paths.get(Constants.CECCR_USER_BASE_PATH, user.getUserName(), "DATASETS",
-                dataset.getName(), "Visualization");
-        HeatmapAndPCA.performHeatMapAndTreeCreation(visualizationDirPath.toString(), dataset.getSdfFile(),
-                "mahalanobis");
-        dataset.setHasVisualization(1);
-        dataset.save();
-
-        return load();
     }
 
     public String getFold() {
