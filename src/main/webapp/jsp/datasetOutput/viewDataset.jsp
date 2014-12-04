@@ -214,87 +214,111 @@
           </table>
         </div>
 
-        <s:if test="dataset.splitType.equals(@edu.unc.ceccr.chembench.global.Constants@NFOLD)">
-          <div id="folds" class="tab-pane">
-            <h3>Folds</h3>
-            <p>The compounds in each fold of your dataset are listed below. Use the fold navigation buttons to
-              switch between folds.</p>
-            <nav class="text-center">
-              <ul class="pagination">
-                <s:iterator value="foldNumbers" status="s">
-                  <s:url var="foldUrl" action="viewDatasetFold">
-                    <s:param name="id" value="dataset.id" />
-                    <s:param name="foldNumber" value="%{#s.count}" />
-                  </s:url>
-                  <s:if test="%{#s.first}">
-                    <li class="first-fold active"><s:a href="%{foldUrl}"><s:property /></s:a></li>
-                  </s:if>
-                  <s:elseif test="%{#s.last}">
-                    <li class="last-fold"><s:a href="%{foldUrl}"><s:property /></s:a></li>
-                  </s:elseif>
-                  <s:else>
-                    <li><s:a href="%{foldUrl}"><s:property /></s:a></li>
-                  </s:else>
-                </s:iterator>
-              </ul>
-            </nav>
+        <s:if test="dataset.hasActivities()">
+          <s:if test="dataset.splitType.equals(@edu.unc.ceccr.chembench.global.Constants@NFOLD)">
+            <div id="folds" class="tab-pane">
+              <h3>Folds</h3>
+              <p>The compounds in each fold of your dataset are listed below. Use the fold navigation buttons to
+                switch between folds.</p>
+              <nav class="text-center">
+                <ul class="pagination">
+                  <s:iterator value="foldNumbers" status="s">
+                    <s:url var="foldUrl" action="viewDatasetFold">
+                      <s:param name="id" value="dataset.id" />
+                      <s:param name="foldNumber" value="%{#s.count}" />
+                    </s:url>
+                    <s:if test="%{#s.first}">
+                      <li class="first-fold active"><s:a href="%{foldUrl}">
+                          <s:property />
+                        </s:a></li>
+                    </s:if>
+                    <s:elseif test="%{#s.last}">
+                      <li class="last-fold"><s:a href="%{foldUrl}">
+                          <s:property />
+                        </s:a></li>
+                    </s:elseif>
+                    <s:else>
+                      <li><s:a href="%{foldUrl}">
+                          <s:property />
+                        </s:a></li>
+                    </s:else>
+                  </s:iterator>
+                </ul>
+              </nav>
 
-            <table class="table table-hover tablesorter compound-list">
-              <thead>
-                <tr>
-                  <th class="name">Compound Name</th>
-                  <s:if test="dataset.hasStructures()">
-                    <th>Structure</th>
-                  </s:if>
-                  <s:if test="dataset.hasActivities()">
-                    <th>Activity</th>
-                  </s:if>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-        </s:if>
-        <s:else>
-          <div id="external-set" class="tab-pane">
-            <h3>External Set</h3>
-            <p class="tab-description">The compounds in your dataset's external test set are listed in the table
-              below.</p>
-            <table class="table table-hover tablesorter compound-list">
-              <thead>
-                <tr>
-                  <th class="name">Compound Name</th>
-                  <s:if test="dataset.hasStructures()">
-                    <th class="sorter-false">Structure</th>
-                  </s:if>
-                  <s:if test="dataset.hasActivities()">
-                    <th>Activity</th>
-                  </s:if>
-                </tr>
-              </thead>
-              <tbody>
-                <s:iterator value="externalCompounds">
+              <table class="table table-hover tablesorter compound-list">
+                <thead>
                   <tr>
-                    <td class="name"><s:property value="compoundId" /></td>
-                    <s:if test="!dataset.sdfFile.isEmpty()">
-                      <td><s:url var="imageUrl" value="imageServlet" escapeAmp="false">
-                          <s:param name="user" value="%{dataset.userName}" />
-                          <s:param name="projectType" value="'dataset'" />
-                          <s:param name="compoundId" value="%{compoundId}" />
-                          <s:param name="datasetName" value="%{dataset.name}" />
-                        </s:url> <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px">
-                      </td>
+                    <th class="name">Compound Name</th>
+                    <s:if test="dataset.hasStructures()">
+                      <th>Structure</th>
                     </s:if>
                     <s:if test="dataset.hasActivities()">
-                      <td><s:property value="activityValue" /></td>
+                      <th>Activity</th>
                     </s:if>
                   </tr>
-                </s:iterator>
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </s:if>
+          <s:else>
+            <div id="external-set" class="tab-pane">
+              <h3>External Set</h3>
+              <p class="tab-description">The compounds in your dataset's external test set are listed in the table
+                below.</p>
+              <table class="table table-hover tablesorter compound-list">
+                <thead>
+                  <tr>
+                    <th class="name">Compound Name</th>
+                    <s:if test="dataset.hasStructures()">
+                      <th class="sorter-false">Structure</th>
+                    </s:if>
+                    <s:if test="dataset.hasActivities()">
+                      <th>Activity</th>
+                    </s:if>
+                  </tr>
+                </thead>
+                <tbody>
+                  <s:iterator value="externalCompounds">
+                    <tr>
+                      <td class="name"><s:property value="compoundId" /></td>
+                      <s:if test="!dataset.sdfFile.isEmpty()">
+                        <td><s:url var="imageUrl" value="imageServlet" escapeAmp="false">
+                            <s:param name="user" value="%{dataset.userName}" />
+                            <s:param name="projectType" value="'dataset'" />
+                            <s:param name="compoundId" value="%{compoundId}" />
+                            <s:param name="datasetName" value="%{dataset.name}" />
+                          </s:url> <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px">
+                        </td>
+                      </s:if>
+                      <s:if test="dataset.hasActivities()">
+                        <td><s:property value="activityValue" /></td>
+                      </s:if>
+                    </tr>
+                  </s:iterator>
+                </tbody>
+              </table>
+            </div>
+          </s:else>
+
+          <div id="activity-histogram" class="tab-pane">
+            <h3>Activity Histogram</h3>
+            <p class="tab-description">Below is a histogram of the activity values of the compounds in your dataset.
+              The range of activity values have been divided into 10 bins.</p>
+
+            <div class="text-center">
+              <s:url var="activityChartUrl" value="imageServlet" escapeAmp="false">
+                <s:param name="user" value="%{dataset.userName}" />
+                <s:param name="projectType" value="'dataset'" />
+                <s:param name="project" value="%{dataset.name}" />
+                <s:param name="compoundId" value="'activityChart'" />
+              </s:url>
+              <img src=<s:property value="activityChartUrl" /> width="550px" height="550px" alt="Activity histogram">
+            </div>
           </div>
-        </s:else>
+        </s:if>
 
         <div id="descriptors" class="tab-pane">
           <h3>Descriptors</h3>
@@ -304,14 +328,6 @@
             voluptate consectetur corned beef brisket labore mollit andouille. Pork belly tempor exercitation tongue
             cupidatat consectetur andouille lorem et aute short ribs ham hock. Ea veniam adipisicing occaecat, strip
             steak tail sunt cow alcatra laboris aute proident eu.</p>
-        </div>
-
-        <div id="activity-histogram" class="tab-pane">
-          <h3>Activity Histogram</h3>
-          <p class="tab-description">Mollit pig brisket, shankle id commodo qui. Ut est aliqua, commodo in ham hock
-            exercitation short ribs flank. Ex non cupim, brisket id sed aliquip ipsum kevin pork belly dolore proident
-            tri-tip prosciutto flank. Incididunt pig quis ut dolore veniam tenderloin tri-tip dolore in cupidatat esse
-            tail andouille. Irure rump laboris, do turkey shank ullamco shoulder pork chop.</p>
         </div>
 
         <div id="heatmap" class="tab-pane">
