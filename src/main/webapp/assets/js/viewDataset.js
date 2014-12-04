@@ -44,6 +44,17 @@ function updatePages(clicked) {
 }
 
 $(document).ready(function() {
+    var popOverConfig = {
+        html : true,
+        template: '<div class="popover popover-image" role="tooltip">' +
+                  '<div class="arrow"></div><div class="popover-content"></div></div>',
+        content : function() {
+            return '<img src="' + $(this).attr("src") + '">';
+        },
+        trigger : "hover",
+        placement : "right",
+    };
+
     $(".nav-list li").removeClass("active");
     $("#nav-button-datasets").addClass("active");
 
@@ -90,17 +101,7 @@ $(document).ready(function() {
         });
     });
 
-    $(".img-thumbnail").popover({
-        html : true,
-        template: '<div class="popover popover-image" role="tooltip">' +
-                  '<div class="arrow"></div><div class="popover-content"></div></div>',
-        content : function() {
-            return '<img src="' + $(this).attr("src") + '">';
-        },
-        trigger : "hover",
-        placement : "right",
-    });
-
+    $(".img-thumbnail").popover(popOverConfig);
 
     $("ul.pagination a").click(function(e) {
         e.preventDefault();
@@ -114,6 +115,7 @@ $(document).ready(function() {
             for (var i = 0; i < data.length; i++) {
                 tbody.append(composeRow(data[i]));
             }
+            tbody.find(".img-thumbnail").popover(popOverConfig);
 
             updatePages(clicked);
         }).fail(function() {
