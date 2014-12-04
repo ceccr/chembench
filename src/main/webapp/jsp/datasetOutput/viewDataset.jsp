@@ -202,8 +202,8 @@
                         <s:param name="projectType" value="'dataset'" />
                         <s:param name="compoundId" value="%{compoundId}" />
                         <s:param name="datasetName" value="%{dataset.name}" />
-                      </s:url> <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px">
-                    </td>
+                      </s:url> <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px"
+                      alt="Compound structure"></td>
                   </s:if>
                   <s:if test="dataset.hasActivities()">
                     <td><s:property value="activityValue" /></td>
@@ -290,8 +290,8 @@
                             <s:param name="projectType" value="'dataset'" />
                             <s:param name="compoundId" value="%{compoundId}" />
                             <s:param name="datasetName" value="%{dataset.name}" />
-                          </s:url> <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px">
-                        </td>
+                          </s:url> <img src=<s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px"
+                          alt="Compound structure"></td>
                       </s:if>
                       <s:if test="dataset.hasActivities()">
                         <td><s:property value="activityValue" /></td>
