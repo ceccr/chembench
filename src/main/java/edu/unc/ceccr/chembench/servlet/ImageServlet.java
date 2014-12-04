@@ -83,18 +83,13 @@ public class ImageServlet extends HttpServlet {
             }
         }
 
-        BufferedInputStream input = null;
-        BufferedOutputStream output = null;
-
-        try {
-            input = new BufferedInputStream(new FileInputStream(imageFile));
+        try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(imageFile));
+                BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
             int contentLength = input.available();
 
             response.reset();
             response.setContentLength(contentLength);
             response.setContentType("image/jpeg");
-
-            output = new BufferedOutputStream(response.getOutputStream());
 
             // Write file contents to response.
             while (contentLength-- > 0) {
@@ -104,21 +99,6 @@ public class ImageServlet extends HttpServlet {
             output.flush();
         } catch (IOException e) {
             logger.error(e);
-        } finally {
-            if (input != null) {
-                try {
-                    input.close();
-                } catch (IOException e) {
-                    logger.error(e);
-                }
-            }
-            if (output != null) {
-                try {
-                    output.close();
-                } catch (IOException e) {
-                    logger.error(e);
-                }
-            }
         }
     }
 
