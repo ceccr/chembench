@@ -11,9 +11,12 @@ function composeRow(object) {
         datasetName : $("input#dataset-name").val(),
     };
 
-    var r = '<tr><td class="name">' + object["compoundId"] + '</td>' + '<td><img src="imageServlet?'
-            + $.param(imageParams) + '" class="img-thumbnail" width="125px" height="125px"></td>' + '<td>'
-            + object["activityValue"] + '</td></tr>';
+    var r = '<tr><td class="name">' + object["compoundId"] + '</td>';
+    if ($("input#has-structures").val() === "true") {
+        r += '<td><img src="imageServlet?'+ $.param(imageParams)
+                + '" class="img-thumbnail" width="125px" height="125px"></td>';
+    }
+    r += '<td>' + object["activityValue"] + '</td></tr>';
     return r;
 }
 

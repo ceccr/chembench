@@ -21,6 +21,7 @@
       </h2>
       <s:hidden id="username" value="%{dataset.userName}" />
       <s:hidden id="dataset-name" value="%{dataset.name}" />
+      <s:hidden id="has-structures" value="%{dataset.hasStructures()}" />
 
       <div class="list-group">
         <div class="list-group-item">
