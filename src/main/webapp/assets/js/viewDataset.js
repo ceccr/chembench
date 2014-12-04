@@ -3,6 +3,46 @@ function toggleForm() {
     $("#description-reference-text, button#edit-description-reference").toggle();
 }
 
+function composeRow(object) {
+    var imageParams = {
+        user : $("input#username").val(),
+        projectType : "dataset",
+        compoundId : object["compoundId"],
+        datasetName : $("input#dataset-name").val(),
+    };
+
+    var r = '<tr><td class="name">' + object["compoundId"] + '</td>' + '<td><img src="imageServlet?'
+            + $.param(imageParams) + '" class="img-thumbnail" width="125px" height="125px"></td>' + '<td>'
+            + object["activityValue"] + '</td></tr>';
+    return r;
+}
+
+function updatePages(clicked) {
+    var parent = clicked.closest("ul.pagination");
+
+    // update new active fold number
+    parent.children("li").removeClass("active");
+    clicked.closest("li").addClass("active");
+
+    // enable or disable previous and next buttons
+    var foldNumber = parseInt(clicked.text(), 10);
+    var firstFold = parseInt($("li.first-fold > a", parent).text(), 10);
+    var lastFold = parseInt($("li.last-fold > a", parent).text(), 10);
+
+    var previous = parent.children("li.previous");
+    var next = parent.children("li.next");
+    if (foldNumber === firstFold) {
+        previous.addClass("disabled");
+        next.removeClass("disabled");
+    } else if (foldNumber === lastFold) {
+        next.addClass("disabled");
+        previous.removeClass("disabled");
+    } else {
+        previous.removeClass("disabled");
+        next.removeClass("disabled");
+    }
+}
+
 $(document).ready(function() {
     $(".nav-list li").removeClass("active");
     $("#nav-button-datasets").addClass("active");
@@ -52,11 +92,39 @@ $(document).ready(function() {
 
     $(".img-thumbnail").popover({
         html : true,
-        template: '<div class="popover popover-image" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>',
+        template: '<div class="popover popover-image" role="tooltip">' +
+                  '<div class="arrow"></div><div class="popover-content"></div></div>',
         content : function() {
             return '<img src="' + $(this).attr("src") + '">';
         },
         trigger : "hover",
         placement : "right",
+    });
+
+
+    $("ul.pagination a").click(function(e) {
+        e.preventDefault();
+
+        var clicked = $(this);
+        var target = clicked.attr("href");
+        var tbody = $("#folds table.compound-list > tbody");
+        $.get(target).success(function(data) {
+            // replace table body with new fold data
+            tbody.empty();
+            for (var i = 0; i < data.length; i++) {
+                tbody.append(composeRow(data[i]));
+            }
+
+            updatePages(clicked);
+        }).fail(function() {
+            bootbox.alert("Error retrieving fold data.");
+        });
+    });
+
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+        if (e.currentTarget.hash === "#folds") {
+            var firstFold = $('ul.pagination > li:not(".previous, .next")').first();
+            firstFold.children("a").click();
+        }
     });
 });

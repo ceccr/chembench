@@ -19,6 +19,8 @@
           <button class="btn btn-primary">Back to Datasets</button>
         </s:a>
       </h2>
+      <s:hidden id="username" value="%{dataset.userName}" />
+      <s:hidden id="dataset-name" value="%{dataset.name}" />
 
       <div class="list-group">
         <div class="list-group-item">
@@ -218,16 +220,21 @@
               switch between folds.</p>
             <nav class="text-center">
               <ul class="pagination">
-                <li class="disabled"><a href="#"><span aria-hidden="true">&laquo;</span><span class="sr-only">Previous</span></a></li>
                 <s:iterator value="foldNumbers" status="s">
+                  <s:url var="foldUrl" action="viewDatasetFold">
+                    <s:param name="id" value="dataset.id" />
+                    <s:param name="foldNumber" value="%{#s.count}" />
+                  </s:url>
                   <s:if test="%{#s.first}">
-                    <li class="active"><a href="#"><s:property /></a></li>
+                    <li class="first-fold active"><s:a href="%{foldUrl}"><s:property /></s:a></li>
                   </s:if>
+                  <s:elseif test="%{#s.last}">
+                    <li class="last-fold"><s:a href="%{foldUrl}"><s:property /></s:a></li>
+                  </s:elseif>
                   <s:else>
-                    <li><a href="#"><s:property /></a></li>
+                    <li><s:a href="%{foldUrl}"><s:property /></s:a></li>
                   </s:else>
                 </s:iterator>
-                <li><a href="#"><span aria-hidden="true">&raquo;</span><span class="sr-only">Next</span></a></li>
               </ul>
             </nav>
 
