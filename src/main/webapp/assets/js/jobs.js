@@ -21,8 +21,8 @@ $(document).ready(function() {
 
     $(".modi-value").each(function() {
         var row = $(this).closest("tr");
-        if ($(this).hasClass("text-warning")) {
-            row.addClass("warning");
+        if ($(this).hasClass("text-danger")) {
+            row.addClass("danger");
         } else if ($(this).hasClass("text-success")) {
             row.addClass("success");
         }
