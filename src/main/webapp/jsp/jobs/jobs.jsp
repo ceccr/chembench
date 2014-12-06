@@ -251,7 +251,7 @@
             <thead>
               <tr>
                 <th class="name">Name</th>
-                <th>&#8470; Compounds</th>
+                <th>Size</th>
                 <th>Dataset Type</th>
                 <th>Activity Type</th>
                 <th class="modi"><abbr title="Modelability Index">MODI</abbr></th>
