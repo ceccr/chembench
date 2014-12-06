@@ -256,7 +256,7 @@
                 <th>Activity Type</th>
                 <th class="modi"><abbr title="Modelability Index">MODI</abbr></th>
                 <th>Date Created</th>
-                <th class="visibility sorter-false">Visibility</th>
+                <th class="public-private">Public?</th>
               </tr>
             </thead>
 
@@ -328,12 +328,14 @@
                   <td>
                     <s:date name="createdTime" format="yyyy-MM-dd HH:mm" />
                   </td>
-                  <td class="visibility">
+                  <td class="public-private">
                     <s:if test="userName.equals('all-users')">
-                      <span class="glyphicon glyphicon-eye-open text-primary" title="Public"></span>
+                      <span class="text-primary"><span class="glyphicon glyphicon-eye-open" title="Public"></span>
+                        Yes</span>
                     </s:if>
                     <s:else>
-                      <span class="glyphicon glyphicon-eye-close text-muted" title="Private"></span>
+                      <span class="text-muted"><span class="glyphicon glyphicon-eye-close" title="Private"></span>
+                        No</span>
                     </s:else>
                   </td>
                 </tr>
@@ -353,7 +355,7 @@
                 <th>Model Type</th>
                 <th>Descriptor Type</th>
                 <th>Date Created</th>
-                <th class="visibility sorter-false">Visibility</th>
+                <th class="public-private">Public?</th>
               </tr>
             </thead>
             <tbody>
@@ -407,12 +409,14 @@
                   <td>
                     <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
                   </td>
-                  <td class="visibility">
+                  <td class="public-private">
                     <s:if test="userName.equals('all-users')">
-                      <span class="glyphicon glyphicon-eye-open text-primary" title="Public"></span>
+                      <span class="text-primary"><span class="glyphicon glyphicon-eye-open" title="Public"></span>
+                        Yes</span>
                     </s:if>
                     <s:else>
-                      <span class="glyphicon glyphicon-eye-close text-muted" title="Private"></span>
+                      <span class="text-muted"><span class="glyphicon glyphicon-eye-close" title="Private"></span>
+                        No</span>
                     </s:else>
                   </td>
                 </tr>

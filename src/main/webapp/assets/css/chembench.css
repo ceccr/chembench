@@ -210,11 +210,11 @@ h1 button, h2 button, h3 button, h4 button, h5 button, h6 button {
     text-transform: capitalize;
 }
 
-.visibility {
+.public-private {
     text-align: center;
 }
 
-.visibility span[title] {
+.public-private span[title] {
     border-bottom: none;
 }
 
