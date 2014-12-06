@@ -254,7 +254,7 @@
                 <th>&#8470; Compounds</th>
                 <th>Dataset Type</th>
                 <th>Activity Type</th>
-                <th><abbr title="Modelability Index">MODI</abbr></th>
+                <th class="modi"><abbr title="Modelability Index">MODI</abbr></th>
                 <th>Date Created</th>
                 <th class="visibility sorter-false">Visibility</th>
               </tr>

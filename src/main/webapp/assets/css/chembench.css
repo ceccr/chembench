@@ -279,6 +279,10 @@ th.name {
     width: 30%;
 }
 
+th.modi {
+    width: 15%;
+}
+
 td.name {
     word-break: break-all;
 }
