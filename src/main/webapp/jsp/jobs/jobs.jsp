@@ -280,13 +280,15 @@
                         <span class="glyphicon glyphicon-save"></span>
                         <s:a href="%{datasetDownload}">Download</s:a>
                       </div>
-                      <div class="delete">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        <s:url var="datasetDelete" action="deleteDataset">
-                          <s:param name="id" value="%{id}" />
-                        </s:url>
-                        <s:a href="%{datasetDelete}">Delete</s:a>
-                      </div>
+                      <s:if test="!userName.equals(@edu.unc.ceccr.chembench.global.Constants@ALL_USERS_USERNAME)">
+                        <div class="delete">
+                          <span class="glyphicon glyphicon-remove"></span>
+                          <s:url var="datasetDelete" action="deleteDataset">
+                            <s:param name="id" value="%{id}" />
+                          </s:url>
+                          <s:a href="%{datasetDelete}">Delete</s:a>
+                        </div>
+                      </s:if>
                     </div>
                   </td>
                   <td>
