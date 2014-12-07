@@ -183,7 +183,7 @@
           <table class="table table-hover tablesorter compound-list">
             <thead>
               <tr>
-                <th class="name">Compound Name</th>
+                <th>Compound Name</th>
                 <s:if test="dataset.hasStructures()">
                   <th class="sorter-false">Structure</th>
                 </s:if>
@@ -249,7 +249,7 @@
               <table class="table table-hover tablesorter compound-list">
                 <thead>
                   <tr>
-                    <th class="name">Compound Name</th>
+                    <th>Compound Name</th>
                     <s:if test="dataset.hasStructures()">
                       <th>Structure</th>
                     </s:if>
@@ -271,7 +271,7 @@
               <table class="table table-hover tablesorter compound-list">
                 <thead>
                   <tr>
-                    <th class="name">Compound Name</th>
+                    <th>Compound Name</th>
                     <s:if test="dataset.hasStructures()">
                       <th class="sorter-false">Structure</th>
                     </s:if>

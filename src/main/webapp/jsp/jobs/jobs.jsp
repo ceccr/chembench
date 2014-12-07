@@ -250,7 +250,7 @@
           <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
-                <th class="name">Name</th>
+                <th>Name</th>
                 <th>Size</th>
                 <th>Dataset Type</th>
                 <th>Activity Type</th>
@@ -349,7 +349,7 @@
           <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
-                <th class="name">Name</th>
+                <th>Name</th>
                 <th>Modeling Dataset</th>
                 <th>R<sup>2</sup> or <abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
                 <th>Model Type</th>
@@ -430,7 +430,7 @@
           <table class="table table-hover table-bordered tablesorter">
             <thead>
               <tr>
-                <th class="name">Name</th>
+                <th>Name</th>
                 <th>Prediction Dataset</th>
                 <th>Predictor(s) Used</th>
                 <th>Date Created</th>

@@ -267,23 +267,8 @@ table.tablesorter th:not(.sorter-false) {
     cursor: pointer;
 }
 
-table.tablesorter {
-    table-layout: fixed;
-}
-
-#jobs table.tablesorter {
-    table-layout: auto;
-}
-
-th.name {
-    width: 30%;
-}
-
-th.modi {
-    width: 15%;
-}
-
 td.name {
+    width: 30%;
     word-break: break-all;
 }
 
