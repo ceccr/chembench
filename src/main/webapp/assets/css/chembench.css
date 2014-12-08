@@ -268,7 +268,7 @@ table.tablesorter th:not(.sorter-false) {
 }
 
 td.name {
-    width: 30%;
+    width: 25%;
     word-break: break-all;
 }
 
