@@ -121,6 +121,7 @@ $(document).ready(function() {
             tbody.find(".img-thumbnail").popover(popOverConfig);
 
             updatePages(clicked);
+            tbody.closest("table").trigger("update");
         }).fail(function() {
             bootbox.alert("Error retrieving fold data.");
         });
