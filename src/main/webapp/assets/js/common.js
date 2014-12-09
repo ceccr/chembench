@@ -35,17 +35,25 @@ $(document).ready(function() {
 
     // replace ugly capitalization for constants
     $(".available-descriptors").each(function() {
-        var descriptors = $(this).text().trim().split(/\s+/);
-        for (var i = 0; i < descriptors.length; i++) {
-            if (descriptors[i] === "DRAGONH") {
-                descriptors[i] = "Dragon (with hydrogens)";
-            } else if (descriptors[i] === "DRAGONNOH") {
-                descriptors[i] = "Dragon (no hydrogens)";
-            } else if (descriptors[i] === "UPLOADED") {
-                descriptors[i] = "Uploaded descriptors";
+        var descriptorList = $(this).text().trim().split(/\s+/);
+        var newDescriptorList = [];
+        var dragonsPresent = false;
+        if ($.inArray("DRAGONNOH", descriptorList) >= 0 && $.inArray("DRAGONH", descriptorList)) {
+            newDescriptorList.push("Dragon");
+            dragonsPresent = true;
+        }
+
+        for (var i = 0; i < descriptorList.length; i++) {
+            var curr = descriptorList[i];
+            if (curr === "UPLOADED") {
+                newDescriptorList.push("Uploaded descriptors " + descriptorList[++i]);
+            } else if (dragonsPresent && (curr === "DRAGONH" || curr === "DRAGONNOH")) {
+                // don't add to new list
+            } else {
+                newDescriptorList.push(curr);
             }
         }
-        $(this).text(descriptors.join(", "));
+        $(this).text(newDescriptorList.join(", "));
     });
     $(".modeling-method").each(function() {
         var modelingMethod = $(this).text();

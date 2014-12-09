@@ -88,14 +88,10 @@
             <dt>Descriptors available</dt>
             <dd class="available-descriptors">
               <s:property value="dataset.availableDescriptors" />
+              <s:if test="!dataset.uploadedDescriptorType.isEmpty()">
+                ("<s:property value="dataset.uploadedDescriptorType" />")
+              </s:if>
             </dd>
-
-            <s:if test="!dataset.uploadedDescriptorType.isEmpty()">
-              <dt>Uploaded descriptor type</dt>
-              <dd>
-                <s:property value="dataset.uploadedDescriptorType" />
-              </dd>
-            </s:if>
           </dl>
         </div>
 
