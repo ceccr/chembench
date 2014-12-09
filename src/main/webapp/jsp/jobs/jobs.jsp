@@ -253,6 +253,7 @@
                 <th>Name</th>
                 <th>Size</th>
                 <th>Dataset Type</th>
+                <th>Descriptors</th>
                 <th><abbr title="Modelability Index">MODI</abbr></th>
                 <th class="date-created">Date Created</th>
                 <th class="public-private">Public?</th>
@@ -297,6 +298,12 @@
                     <s:property value="datasetType" />
                     <s:if test="hasActivities()">
                       (<s:property value="modelType" />)
+                    </s:if>
+                  </td>
+                  <td class="available-descriptors">
+                    <s:property value="availableDescriptors" />
+                    <s:if test="!uploadedDescriptorType.isEmpty()">
+                      ("<s:property value="uploadedDescriptorType" />")
                     </s:if>
                   </td>
                   <td>
