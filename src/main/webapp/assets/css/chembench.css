@@ -272,6 +272,10 @@ td.name {
     word-break: break-all;
 }
 
+td.date-created {
+    white-space: nowrap;
+}
+
 .button-group div {
     display: inline-block;
     padding: 0 0.5em;
