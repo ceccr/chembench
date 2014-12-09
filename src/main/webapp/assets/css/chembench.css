@@ -287,13 +287,13 @@ td.date-created {
     border: none;
 }
 
+table.compound-list {
+    table-layout: fixed;
+}
+
 /* needed for specificity issues */
 table.compound-list > tbody > tr > td {
     vertical-align: middle;
-}
-
-table.compound-list th.name {
-    width: 40%;
 }
 
 table.compound-list td.name {
