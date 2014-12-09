@@ -46,7 +46,11 @@ $(document).ready(function() {
         for (var i = 0; i < descriptorList.length; i++) {
             var curr = descriptorList[i];
             if (curr === "UPLOADED") {
-                newDescriptorList.push("Uploaded descriptors " + descriptorList[++i]);
+                var toAdd = ["Uploaded descriptors"];
+                while (!/\)$/.test(toAdd[toAdd.length - 1]) && i < descriptorList.length) {
+                    toAdd.push(descriptorList[++i]);
+                }
+                newDescriptorList.push(toAdd.join(" "));
             } else if (curr === "MOLCONNZ") {
                 newDescriptorList.push("MolconnZ");
             } else if (dragonsPresent && (curr === "DRAGONH" || curr === "DRAGONNOH")) {
