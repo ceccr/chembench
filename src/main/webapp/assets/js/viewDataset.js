@@ -133,4 +133,6 @@ $(document).ready(function() {
             firstFold.children("a").click();
         }
     });
+
+    $("table.compound-list th:first-child").trigger("sort");
 });
