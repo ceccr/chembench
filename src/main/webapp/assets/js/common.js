@@ -38,7 +38,7 @@ $(document).ready(function() {
         var descriptorList = $(this).text().trim().split(/\s+/);
         var newDescriptorList = [];
         var dragonsPresent = false;
-        if ($.inArray("DRAGONNOH", descriptorList) >= 0 && $.inArray("DRAGONH", descriptorList)) {
+        if ($.inArray("DRAGONNOH", descriptorList) >= 0 && $.inArray("DRAGONH", descriptorList) >= 0) {
             newDescriptorList.push("Dragon");
             dragonsPresent = true;
         }
