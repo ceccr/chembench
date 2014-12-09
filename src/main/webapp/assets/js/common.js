@@ -64,21 +64,21 @@ $(document).ready(function() {
     });
     $(".modeling-method").each(function() {
         var modelingMethod = $(this).text();
-        $(this).text(modelingMethod.replace(/RANDOMFOREST/, "Random Forest"));
+        $(this).text(modelingMethod.replace("RANDOMFOREST", "Random Forest"));
     });
     $(".split-type").each(function() {
         var splitType = $(this).text();
         $(this).text(splitType
-                .replace(/NFOLD/, "N-fold")
-                .replace(/RANDOM/, "Random Split")
-                .replace(/USERDEFINED/, "User-defined"));
+                .replace("NFOLD", "N-fold")
+                .replace("RANDOM", "Random Split")
+                .replace("USERDEFINED", "User-defined"));
     });
     $(".dataset-type").each(function() {
         var datasetType = $(this).text();
         $(this).text(datasetType
-                .replace(/MODELING/, "Modeling")
-                .replace(/PREDICTION/, "Prediction")
-                .replace(/WITHDESCRIPTORS/, ", with descriptors"));
+                .replace("MODELING", "Modeling")
+                .replace("PREDICTION", "Prediction")
+                .replace("WITHDESCRIPTORS", ", with descriptors"));
     });
 
     $(".generate-modi").click(function() {
