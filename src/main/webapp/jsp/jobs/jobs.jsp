@@ -372,7 +372,7 @@
                       <s:property value="name" />
                     </s:a>
                   </td>
-                  <td>
+                  <td class="name">
                     <s:url var="viewModelingDataset" action="viewDataset">
                       <s:param name="id" value="%{datasetId}" />
                     </s:url>
