@@ -247,7 +247,7 @@
                   <tr>
                     <th>Compound Name</th>
                     <s:if test="dataset.hasStructures()">
-                      <th>Structure</th>
+                      <th class="sorter-false">Structure</th>
                     </s:if>
                     <s:if test="dataset.hasActivities()">
                       <th>Activity</th>
