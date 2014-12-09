@@ -54,7 +54,7 @@
                       <th>Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
-                      <th><th class="date-created">Date Created</th>
+                      <th class="date-created">Date Created</th>
                       <th>Status</th>
                       <th class="sorter-false">Cancel</th>
                     </tr>
