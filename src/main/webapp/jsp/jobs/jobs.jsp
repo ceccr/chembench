@@ -253,7 +253,6 @@
                 <th>Name</th>
                 <th>Size</th>
                 <th>Dataset Type</th>
-                <th>Activity Type</th>
                 <th><abbr title="Modelability Index">MODI</abbr></th>
                 <th class="date-created">Date Created</th>
                 <th class="public-private">Public?</th>
@@ -294,16 +293,11 @@
                   <td>
                     <s:property value="numCompound" />
                   </td>
-                  <td class="dataset-type">
+                  <td class="dataset-type activity-type">
                     <s:property value="datasetType" />
-                  </td>
-                  <td class="activity-type">
-                    <s:if test="modelType.equals(@edu.unc.ceccr.chembench.global.Constants@PREDICTION)">
-                      <span class="text-muted">None</span>
+                    <s:if test="hasActivities()">
+                      (<s:property value="modelType" />)
                     </s:if>
-                    <s:else>
-                      <s:property value="modelType" />
-                    </s:else>
                   </td>
                   <td>
                     <s:if test="!canGenerateModi()">
