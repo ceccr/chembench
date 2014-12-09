@@ -254,7 +254,7 @@
                 <th>Size</th>
                 <th>Dataset Type</th>
                 <th>Descriptors</th>
-                <th>Modelability Index</th>
+                <th class="sorter-modi">Modelability Index</th>
                 <th class="date-created">Date Created</th>
                 <th class="public-private">Public?</th>
               </tr>

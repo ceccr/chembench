@@ -97,6 +97,21 @@ $(document).ready(function() {
         });
     });
 
+    $.tablesorter.addParser({
+        id: "modi",
+        is: function(s, table, cell, $cell) {
+            return false;
+        },
+        format: function(s, table, cell, cellIndex) {
+            if ($.isNumeric(s)) {
+                return s;
+            } else {
+                return "";
+            }
+        },
+        type: "text",
+    });
+
     $.tablesorter.themes.bootstrap = {
             sortNone: "glyphicon glyphicon-sort",
             sortAsc: "glyphicon glyphicon-sort-by-attributes",
