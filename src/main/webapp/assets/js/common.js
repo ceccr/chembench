@@ -47,6 +47,8 @@ $(document).ready(function() {
             var curr = descriptorList[i];
             if (curr === "UPLOADED") {
                 newDescriptorList.push("Uploaded descriptors " + descriptorList[++i]);
+            } else if (curr === "MOLCONNZ") {
+                newDescriptorList.push("MolconnZ");
             } else if (dragonsPresent && (curr === "DRAGONH" || curr === "DRAGONNOH")) {
                 // don't add to new list
             } else {
