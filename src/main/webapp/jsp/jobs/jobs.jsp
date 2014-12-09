@@ -254,7 +254,7 @@
                 <th>Size</th>
                 <th>Dataset Type</th>
                 <th>Activity Type</th>
-                <th class="modi"><abbr title="Modelability Index">MODI</abbr></th>
+                <th><abbr title="Modelability Index">MODI</abbr></th>
                 <th>Date Created</th>
                 <th class="public-private">Public?</th>
               </tr>
