@@ -54,8 +54,10 @@ $(document).ready(function() {
                 newDescriptorList.push(toAdd.join(" "));
             } else if (curr === "MOLCONNZ") {
                 newDescriptorList.push("MolconnZ");
-            } else if (dragonsPresent && (curr === "DRAGONH" || curr === "DRAGONNOH")) {
-                // don't add to new list
+            } else if (curr === "DRAGONH" || curr === "DRAGONNOH") {
+                if (dragonsPresent === false) {
+                    newDescriptorList.push(curr.replace("DRAGON", "Dragon").replace("NOH", "NoH"));
+                }
             } else {
                 newDescriptorList.push(curr);
             }
