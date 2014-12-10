@@ -28,7 +28,12 @@ $(document).ready(function() {
         }
     });
 
-    $('th.date-created').trigger("sort");
+    // sort initially by Date Created descending
+    $('th.date-created').each(function() {
+        $(this).find(".glyphicon").removeClass("glyphicon-sort").addClass("glyphicon-sort-by-attributes-alt");
+        // XXX the triple array is _required_ for sorton to work
+        $(this).parents("table").trigger("sorton", [[[$(this).attr("data-column"), "d"]]]);
+    });
 
     $(".delete a").click(function(event) {
         var link = $(this);
