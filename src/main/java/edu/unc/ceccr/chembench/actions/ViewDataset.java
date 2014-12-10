@@ -140,10 +140,6 @@ public class ViewDataset extends ActionSupport {
             }
         }
 
-        return SUCCESS;
-    }
-
-    public String loadDescriptorsSection() throws Exception {
         descriptorGenerationResults = Lists.newArrayList();
         String descriptorsDir = Constants.CECCR_USER_BASE_PATH;
         descriptorsDir += dataset.getUserName() + "/";
@@ -219,7 +215,7 @@ public class ViewDataset extends ActionSupport {
         descriptorGenerationResults.add(dragonHResult);
 
         DescriptorGenerationResult dragonNoHResult = new DescriptorGenerationResult();
-        dragonNoHResult.setDescriptorType("Dragon (without hydrogens)");
+        dragonNoHResult.setDescriptorType("Dragon (no hydrogens)");
         if ((new File(descriptorsDir + "dragonNoH.out")).exists()) {
             dragonNoHResult.setProgramOutput(FileAndDirOperations.readFileIntoString(descriptorsDir + "dragonNoH.out"));
         }

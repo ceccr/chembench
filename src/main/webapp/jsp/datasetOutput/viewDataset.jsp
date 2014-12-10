@@ -318,12 +318,31 @@
 
         <div id="descriptors" class="tab-pane">
           <h3>Descriptors</h3>
+          <p class="tab-description">Here you can see the results of descriptor generation for each descriptor type,
+            and a summary of any errors that occurred during descriptor generation.</p>
 
-          <p class="tab-description">Boudin ad laboris, jowl cillum in excepteur doner. Tempor et velit tail, in
-            corned beef aliquip est tongue ut qui cupidatat frankfurter. Lorem elit quis capicola ut nulla flank tempor
-            voluptate consectetur corned beef brisket labore mollit andouille. Pork belly tempor exercitation tongue
-            cupidatat consectetur andouille lorem et aute short ribs ham hock. Ea veniam adipisicing occaecat, strip
-            steak tail sunt cow alcatra laboris aute proident eu.</p>
+          <s:iterator value="descriptorGenerationResults">
+            <dl class="dl-horizontal">
+              <dt>
+                <s:property value="descriptorType" />
+              </dt>
+              <dd>
+                <s:property value="generationResult" />
+              </dd>
+
+              <s:if test="!programOutput.isEmpty()">
+                <dt>Error Summary</dt>
+                <dd>
+                  <s:property value="programOutput" />
+                </dd>
+
+                <dt>Program Output</dt>
+                <dd>
+                  <s:property value="programErrorOutput" />
+                </dd>
+              </s:if>
+            </dl>
+          </s:iterator>
         </div>
 
         <div id="heatmap" class="tab-pane">
