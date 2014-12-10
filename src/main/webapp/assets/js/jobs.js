@@ -29,11 +29,9 @@ $(document).ready(function() {
     });
 
     // sort initially by Date Created descending
-    $('th.date-created').each(function() {
-        $(this).find(".glyphicon").removeClass("glyphicon-sort").addClass("glyphicon-sort-by-attributes-alt");
-        // XXX the triple array is _required_ for sorton to work
-        $(this).parents("table").trigger("sorton", [[[$(this).attr("data-column"), "d"]]]);
-    });
+    // XXX first sort trigger sorts ascending, then second trigger sorts descending
+    $('th.date-created').trigger("sort");
+    $('th.date-created').trigger("sort");
 
     $(".delete a").click(function(event) {
         var link = $(this);
