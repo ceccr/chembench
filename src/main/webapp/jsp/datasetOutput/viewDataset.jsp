@@ -63,7 +63,7 @@
                         value="getText('{0, number, #, ##0.00}', {dataset.modi})" /></span>
                   </s:if>
                   <s:else>
-                    <span class="modi-value text-warning" title="Not modelable"> <s:property
+                    <span class="modi-value text-danger" title="Not modelable"> <s:property
                         value="getText('{0, number, #, ##0.00}', {dataset.modi})" /></span>
                   </s:else>
                 </s:if>
