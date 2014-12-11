@@ -131,6 +131,9 @@ $(document).ready(function() {
         if (e.currentTarget.hash === "#folds") {
             var firstFold = $('ul.pagination > li:not(".previous, .next")').first();
             firstFold.children("a").click();
+        } else if (e.currentTarget.hash === "#heatmap") {
+            swfobject.embedSWF("assets/swf/heatmap.swf", "heatmapSwfContainer", "924", "924", "9.0.28", false,
+                    flashvars, params, attributes);
         }
     });
 

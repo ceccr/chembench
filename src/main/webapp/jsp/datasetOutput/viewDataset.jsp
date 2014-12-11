@@ -347,10 +347,40 @@
 
         <div id="heatmap" class="tab-pane">
           <h3>Heatmap</h3>
-          <p class="tab-description">Voluptate non jowl ribeye irure sirloin ullamco adipisicing alcatra ham hock
-            beef. Boudin corned beef labore, salami minim qui occaecat. Cow enim magna meatloaf reprehenderit capicola.
-            Culpa frankfurter chicken dolore, ribeye pork loin ea cupidatat fatback labore andouille rump tongue eiusmod
-            ad.</p>
+          <p>
+            The <b>Heatmap</b> tool is useful for visualizing similarity between all pairs of compounds in your dataset.
+            MACCS keys are generated and compared to produce the heatmap. The similarity is based on Tanimoto similarity
+            or Mahalanobis distance; you can select either using the buttons on the Heatmap.
+          </p>
+
+          <p>
+            You can zoom in and out of the heatmap using the mouse wheel. Click and drag the top of a column to shift it
+            left or right. You may also drag rows up and down. To reset the rows and columns to their original
+            configuration, use the <b>Reset</b> button.
+          </p>
+
+          <p>
+            The <b>Keep Diagonal</b> button will shift rows and columns at the same time. Just below <b>Keep
+              Diagonal</b> are four arrow buttons. These four arrows sort the rows / columns based on the activity values of
+            the compounds. You can see the activity of each compound by hovering the mouse over a compound ID. The
+            activity of each compound is also represented by the blue shading under each compound; darker blues indicate
+            lower activity values.
+          </p>
+
+          <p>
+            <span class="text-danger"><b>Note:</b></span> For very large datasets (500 or more compounds), the heatmap
+            generation step will be skipped.
+          </p>
+
+          <hr>
+          <div id="heatmapSwfWrapper" class="embed-responsive">
+            <div id="heatmapSwfContainer">
+              <div class="text-danger">
+                <h4>Adobe Flash Required</h4>
+                <p>The Heatmap tool requires Adobe Flash Player. Please install Flash to use the Heatmap tool.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -360,6 +390,28 @@
   </div>
 
   <%@ include file="/jsp/main/tail.jsp"%>
+  <script>
+  $(document).ready(function() {
+      window.flashvars = {
+          "web-addr": "<s:property value='webAddress' />",
+          "dataset": "<s:property value='dataset.name' />",
+          "ncom": "<s:property value='dataset.numCompound' />",
+          "type_": "<s:property value='dataset.modelType' />",
+          "creation_date": "<s:property value='dataset.createdTime' />",
+          "desc": "<s:property value='dataset.description' />",
+          "actFile": "<s:property value='dataset.actFile' />",
+          "sdfFile": "<s:property value='dataset.sdfFile' />",
+          "user": "<s:property value='dataset.userName' />",
+      };
+      window.params = {
+          "quality": "high",
+      };
+      window.attributes = {
+          "class": "embed-responsive-item",
+      };
+  });
+  </script>
+  <script src="assets/js/swfobject.js"></script>
   <script src="assets/js/viewDataset.js"></script>
 </body>
 </html>
