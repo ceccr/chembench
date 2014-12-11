@@ -122,41 +122,6 @@
                 <param name="error">400</param>
             </result>
         </action>
-
-        <action name="loadModelingSection" class="edu.unc.ceccr.chembench.actions.DatasetFormActions"
-                method="ajaxLoadModeling">
-            <result>/jsp/dataset/dataset-modeling.jsp</result>
-        </action>
-
-        <action name="loadPredictionSection" class="edu.unc.ceccr.chembench.actions.DatasetFormActions"
-                method="ajaxLoadPrediction">
-            <result>/jsp/dataset/dataset-prediction.jsp</result>
-        </action>
-
-        <action name="loadModelingWithDescriptorsSection" class="edu.unc.ceccr.chembench.actions.DatasetFormActions"
-                method="ajaxLoadModelingWithDescriptors">
-            <result>/jsp/dataset/dataset-modelingWithDescriptors.jsp</result>
-        </action>
-
-        <action name="loadPredictionWithDescriptorsSection" class="edu.unc.ceccr.chembench.actions.DatasetFormActions"
-                method="ajaxLoadPredictionWithDescriptors">
-            <result>/jsp/dataset/dataset-predictionWithDescriptors.jsp</result>
-        </action>
-
-        <action name="loadAutoExternalSection" class="edu.unc.ceccr.chembench.actions.DatasetFormActions"
-                method="ajaxLoadAutoSplit">
-            <result>/jsp/dataset/dataset-autosplit.jsp</result>
-        </action>
-
-        <action name="loadManualExternalSection" class="edu.unc.ceccr.chembench.actions.DatasetFormActions"
-                method="ajaxLoadManualSplit">
-            <result>/jsp/dataset/dataset-manualsplit.jsp</result>
-        </action>
-
-        <action name="loadNFoldExternalSection" class="edu.unc.ceccr.chembench.actions.DatasetFormActions"
-                method="ajaxLoadNFoldSplit">
-            <result>/jsp/dataset/dataset-nFoldSplit.jsp</result>
-        </action>
         <!-- End Dataset Page -->
 
         <!-- Modeling Page -->
@@ -238,7 +203,7 @@
 
         <!-- View Dataset Page -->
         <action name="viewDataset" class="edu.unc.ceccr.chembench.actions.ViewDataset" method="load">
-            <result name="success">/jsp/datasetOutput/viewDataset.jsp</result>
+            <result name="success">/jsp/dataset/viewDataset.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
@@ -251,53 +216,10 @@
             </result>
         </action>
 
-        <action name="viewDatasetCompoundsSection" class="edu.unc.ceccr.chembench.actions.ViewDataset"
-                method="loadCompoundsSection">
-            <result name="success">/jsp/datasetOutput/viewDataset-compounds.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="viewDatasetExternalCompoundsSection" class="edu.unc.ceccr.chembench.actions.ViewDataset"
-                method="loadExternalCompoundsSection">
-            <result name="success">/jsp/datasetOutput/viewDataset-externalCompounds.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="viewDatasetNFoldSection" class="edu.unc.ceccr.chembench.actions.ViewDataset"
-                method="loadExternalCompoundsNFoldSection">
-            <result name="success">/jsp/datasetOutput/viewDataset-nFold.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="viewDatasetActivityChartSection" class="edu.unc.ceccr.chembench.actions.ViewDataset"
-                method="loadActivityChartSection">
-            <result name="success">/jsp/datasetOutput/viewDataset-activityChart.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="viewDatasetVisualizationSection" class="edu.unc.ceccr.chembench.actions.ViewDataset"
-                method="loadVisualizationSection">
-            <result name="success">/jsp/datasetOutput/viewDataset-visualization.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="viewDatasetDescriptorsSection" class="edu.unc.ceccr.chembench.actions.ViewDataset"
-                method="loadDescriptorsSection">
-            <result name="success">/jsp/datasetOutput/viewDataset-descriptors.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
         <action name="updateDataset" class="edu.unc.ceccr.chembench.actions.ViewDataset" method="updateDataset">
-            <result name="success">/jsp/datasetOutput/viewDataset.jsp</result>
+            <result name="success">/jsp/dataset/viewDataset.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
-
-        <action name="generateMahalanobis" class="edu.unc.ceccr.chembench.actions.ViewDataset"
-                method="generateMahalanobis">
-            <result name="success">/jsp/datasetOutput/viewDataset.jsp</result>
-            <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
         <!-- End View Dataset Page -->
 
         <!-- View Predictor Page -->

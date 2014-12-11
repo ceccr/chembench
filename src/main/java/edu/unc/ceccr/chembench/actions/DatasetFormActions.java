@@ -96,44 +96,6 @@ public class DatasetFormActions extends ActionSupport {
     private String selectedDescriptorUsedNameD = "";
     private String descriptorNewNameD = "";
 
-    public String ajaxLoadModeling() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadPrediction() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadModelingWithDescriptors() throws Exception {
-        ActionContext context = ActionContext.getContext();
-        Session session = HibernateUtil.getSession();
-        user = (User) context.getSession().get("user");
-        userUploadedDescriptorTypes =
-                PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
-        return SUCCESS;
-    }
-
-    public String ajaxLoadPredictionWithDescriptors() throws Exception {
-        ActionContext context = ActionContext.getContext();
-        Session session = HibernateUtil.getSession();
-        user = (User) context.getSession().get("user");
-        userUploadedDescriptorTypes =
-                PopulateDataObjects.populateDatasetUploadedDescriptorTypes(user.getUserName(), true, session);
-        return SUCCESS;
-    }
-
-    public String ajaxLoadAutoSplit() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadManualSplit() throws Exception {
-        return SUCCESS;
-    }
-
-    public String ajaxLoadNFoldSplit() throws Exception {
-        return SUCCESS;
-    }
-
     public String loadPage() throws Exception {
 
         String result = SUCCESS;
