@@ -20,7 +20,7 @@ public class SdfToJpg {
             throws Exception {
         String command = String.format("molconvert -Y -g -m jpeg:w300,Q95 %s -o %s",
                 Paths.get(filePath, fileName).toString(),
-                Paths.get(filePath, sketchesDir, "i.png").toString());
+                Paths.get(filePath, sketchesDir, "i.jpg").toString());
         RunExternalProgram.runCommandAndLogOutput(command, filePath, "molconvertLog");
 
         //Split the input SDF (lots of compounds) into separate SDFs (1 compound each).
@@ -84,8 +84,8 @@ public class SdfToJpg {
         }
 
         for (int i = 0; i < files.length; i++) {
-            File source = new File(sketchesDir, "i" + (i + 1) + ".png");
-            File destination = new File(sketchesDir, compoundNames.get(i) + ".png");
+            File source = new File(sketchesDir, "i" + (i + 1) + ".jpg");
+            File destination = new File(sketchesDir, compoundNames.get(i) + ".jpg");
             source.renameTo(destination);
         }
     }
