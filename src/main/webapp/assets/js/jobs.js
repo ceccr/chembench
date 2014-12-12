@@ -34,8 +34,10 @@ $(document).ready(function() {
     $('th.date-created').trigger("sort");
 
     $(".delete a").click(function(event) {
-        var link = $(this);
         event.preventDefault();
+        $(this).blur();
+
+        var link = $(this);
         var objectType = link.closest(".tab-pane").attr("id").slice(0, -1);
         var objectName = link.closest(".name").find("a:first").text();
         var verb = (objectType === "job" ? "cancel" : "delete");
