@@ -284,20 +284,7 @@ public class CreateDatasetTask extends WorkflowTask {
                     .GenerateISIDADescriptors(path + sdfFileName, path + descriptorDir + sdfFileName + ".ISIDA");
 
             step = Constants.CHECKDESCRIPTORS;
-            // MolconnZ
-            /*String errors = CheckDescriptors.checkMolconnZDescriptors(path
-                    + descriptorDir + sdfFileName + ".molconnz");
-            if (errors.equals("")) {
-                availableDescriptors += Constants.MOLCONNZ + " ";
-            }
-            else {
-                File errorSummaryFile = new File(path + descriptorDir
-                        + "Logs/molconnz.out");
-                BufferedWriter errorSummary = new BufferedWriter(
-                        new FileWriter(errorSummaryFile));
-                errorSummary.write(errors);
-                errorSummary.close();
-		}*/
+
             // CDK
             String errors = CheckDescriptors.checkCDKDescriptors(path + descriptorDir + sdfFileName + ".cdk");
             if (errors.equals("")) {
