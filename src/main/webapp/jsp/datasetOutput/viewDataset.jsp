@@ -146,8 +146,8 @@
 		</div>
 			<s:if test="editable=='YES'">
 				<s:form action="updateDataset" enctype="multipart/form-data" theme="simple">
-				<div class="StandardTextDarkGray"><b>Description: </b></div><s:textarea id="datasetDescription" name="datasetDescription" align="left" style="height: 50px; width: 50%" /></div><br />
-				<div class="StandardTextDarkGray"><b>Paper Reference: </b></div><s:textarea id="datasetReference" name="datasetReference" align="left" style="height: 50px; width: 50%" /></div><br />
+				<div class="StandardTextDarkGray"><b>Description: </b></div><s:textarea id="datasetDescription" name="datasetDescription" align="left" cssStyle="height: 50px; width: 50%" /></div><br />
+				<div class="StandardTextDarkGray"><b>Paper Reference: </b></div><s:textarea id="datasetReference" name="datasetReference" align="left" cssStyle="height: 50px; width: 50%" /></div><br />
 				<input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
 				<s:hidden id="objectId" name="objectId" />
 				</s:form>

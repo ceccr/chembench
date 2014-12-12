@@ -85,7 +85,7 @@
         </div>
       </div>
       <s:form action="submitDataset" enctype="multipart/form-data" method="post" theme="simple"
-        style="margin-right:20px;margin-left:-18px;">
+        cssStyle="margin-right:20px;margin-left:-18px;">
 
         <!-- Upload Files -->
         <div class="border">
@@ -208,7 +208,7 @@
               <tr>
                 <td><b class='StandardTextDarkGrayParagraph'>Description (optional):</b></td>
                 <td align="left"><s:textarea name="dataSetDescription" id="dataSetDescription"
-                    style="height: 50px; width: 274px;" /></td>
+                    cssStyle="height: 50px; width: 274px;" /></td>
               </tr>
               <tr>
                 <td></td>
