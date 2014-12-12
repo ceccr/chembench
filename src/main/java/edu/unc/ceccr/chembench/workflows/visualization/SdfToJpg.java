@@ -1,15 +1,13 @@
 package edu.unc.ceccr.chembench.workflows.visualization;
 
 import com.google.common.collect.Lists;
-import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import org.apache.log4j.Logger;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Scanner;
 
@@ -20,20 +18,10 @@ public class SdfToJpg {
 
     public static void makeSketchFiles(String filePath, String fileName, String structuresDir, String sketchesDir)
             throws Exception {
-        //filePath = directory the SDF is in, e.g. workflow-users/theo/DATASETS/
-        //fileName = name of sdfile, like anticonv_91.sdf
-        //structuresDir = subdirectory for structures, e.g. Visualization/Structures/
-        //sketchesDir = subdirectory for sketches, e.g. Visualization/Sketches/
-
-        String command = Constants.CECCR_BASE_PATH + "jchem/bin/molconvert -Y -g -2 jpeg:w300," +
-                "Q95 " + filePath + fileName + " -o " + filePath + sketchesDir + "i.jpg -m";
+        String command = String.format("molconvert -Y -g -m jpeg:w300,Q95 %s -o %s",
+                Paths.get(filePath, fileName).toString(),
+                Paths.get(filePath, sketchesDir, "i.png").toString());
         RunExternalProgram.runCommandAndLogOutput(command, filePath, "molconvertLog");
-
-        //remove explicit hydrogens from SDFs; they are noise as far as the JPG is concerned.
-        String execstr1 = "removeExplicitH.sh " + filePath + fileName + " " + filePath + fileName + ".removedH";
-        RunExternalProgram.runCommandAndLogOutput(execstr1, filePath, "removeExplicitH");
-
-        fileName += ".removedH";
 
         //Split the input SDF (lots of compounds) into separate SDFs (1 compound each).
         //Put that in the Structures dir.
@@ -95,45 +83,10 @@ public class SdfToJpg {
             logger.warn("Error reading Structures directory: " + structuresDir);
         }
 
-        File molconvertErr = new File(filePath + "Logs/" + "molconvertLog.err");
-        //waiting for molconvert to finish execution
-        while (new File(sketchesDir).list().length < compoundNames.size()) {
-            //wait for a sec
-            Thread.sleep(1000);
-            //check if error log file is empty
-            //if not then stop loop execution
-            if (molconvertErr.exists()) {
-                FileInputStream fis = new FileInputStream(molconvertErr);
-                int b = fis.read();
-                if (b != -1) {
-                    logger.warn("----Error occured while creating compound sketches!");
-                    FileAndDirOperations.deleteDirContents(sketchesDir);
-                    fis.close();
-                    break;
-                } else {
-                    continue;
-                }
-            }
-        }
-
-
-        logger.debug("DIR size::" + new File(sketchesDir).list().length);
-        String from;
         for (int i = 0; i < files.length; i++) {
-            String jpgFilename = files[i].replace("sdf", "jpg");
-
-            //only make the JPG if it's not already there
-            if (!new File(sketchesDir + jpgFilename).exists() && new File(structuresDir + files[i]).exists()) {
-                //command = "mv "+from+" "+to;
-                //RunExternalProgram.runCommand(command, "");
-                from = sketchesDir + "i" + (i + 1) + ".jpg";
-                new File(from).renameTo(new File(sketchesDir + compoundNames.get(i) + ".jpg"));
-                new File(from).delete();
-
-            }
-
+            File source = new File(sketchesDir, "i" + (i + 1) + ".png");
+            File destination = new File(sketchesDir, compoundNames.get(i) + ".png");
+            source.renameTo(destination);
         }
-        logger.debug("Done creating sketches. ");
-
     }
 }
