@@ -1,57 +1,49 @@
-<!DOCTYPE html>
-
-<!-- struts2 styled error page -->
-
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags"%>
-<%@page language="java" import="java.util.*"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%
-    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+  response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 %>
+
+<!DOCTYPE html>
 <html>
 <head>
-<title>Chembench | Error</title>
-
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
-<link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
-<link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
-<link href="theme/standard.css" rel="stylesheet" type="text/css">
-<link href="theme/links.css" rel="stylesheet" type="text/css">
-<link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
-<link rel="icon" href="/theme/img/mml.ico" type="image/ico">
-<link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
-<link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-
-<script language="javascript" src="javascript/chembench.js"></script>
+  <%@ include file="/jsp/main/head.jsp" %>
+  <title>Chembench | Error</title>
 </head>
-
 <body>
-  <div class="outer">
-    <div class="includesHeader"><%@include file="/jsp/main/header.jsp"%></div>
-    <div class="includesNavbar"><%@include file="/jsp/main/centralNavigationBar.jsp"%></div>
+<div id="main" class="container">
+  <%@ include file="/jsp/main/header.jsp" %>
 
-    <p class="StandardTextDarkGrayParagraph">
-      <b><br>Error: </b>
-    </p>
+  <section id="content">
+    <h2>Error</h2>
 
-    <p class="StandardTextDarkGrayParagraph">
+    <p>
       <s:iterator value="errorStrings">
-        <s:property />
-        <br />
-        <br />
+        <s:property/>
       </s:iterator>
-      <br>
-      <br> To report a bug, or if you need help with Chembench, you can reach us at <a href="ceccr@email.unc.edu">ceccr@email.unc.edu</a>.
-      <br /> Include this error text in your email, along with a description of the problem.<br /> Thanks, <br /> The
-      Chembench Team
+      <s:actionerror>
     </p>
-    <br />
-    <div class="includes">
-      <%@include file="/jsp/main/footer.jsp"%>
-    </div>
-  </div>
+
+    <p>
+      <input class="back-button btn btn-primary" type="button" value="Back">
+    </p>
+
+    <hr>
+    <p>
+      To report a bug, or if you need help with Chembench, you can reach us at <a href="ceccr@email.unc.edu">ceccr@email.unc.edu</a>.
+      <br>
+      Include this error text in your email, along with a description of the problem.
+    </p>
+
+    <p>
+      Thanks,
+      <br>
+      The Chembench Team
+    </p>
+  </section>
+
+  <%@include file="/jsp/main/footer.jsp" %>
+</div>
+
+<%@ include file="/jsp/main/tail.jsp" %>
 </body>
 </html>
-
