@@ -311,3 +311,9 @@ table.compound-list td.name {
 #heatmapSwfWrapper {
     padding-bottom: 100%;
 }
+
+.citation {
+    display: inline-block;
+    margin: 0 1em;
+    font-style: italic;
+}
