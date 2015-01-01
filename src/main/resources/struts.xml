@@ -129,6 +129,11 @@
             <result>/jsp/modeling/modeling.jsp</result>
         </action>
 
+        <action name="modeling-old" class="edu.unc.ceccr.chembench.actions.ModelingFormActions"
+                method="loadPage">
+            <result>/jsp/modeling/modeling-old.jsp</result>
+        </action>
+
         <action name="createModelingJob" class="edu.unc.ceccr.chembench.actions.ModelingFormActions" method="execute">
             <result name="success" type="redirect">jobs</result>
             <result name="error">/jsp/main/error.jsp</result>
