@@ -35,16 +35,6 @@
             <result>/jsp/main/error.jsp</result>
         </action>
 
-        <action name="loadRegistrationPage" class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"
-                method="loadUserRegistration">
-            <result>/jsp/administration/user/registrationForm.jsp</result>
-        </action>
-
-        <action name="registerUser" class="edu.unc.ceccr.chembench.actions.UserRegistrationAndProfileActions"
-                method="registerUser">
-            <result name="success">/jsp/administration/user/registrationApprovalMessage.jsp</result>
-        </action>
-
         <!-- Free Software List page -->
         <action name="softwareList" class="edu.unc.ceccr.chembench.actions.SoftwareLinksAction" method="loadPage">
             <result name="success">/jsp/main/softwareLinks.jsp</result>
