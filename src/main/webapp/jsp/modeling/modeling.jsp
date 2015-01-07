@@ -15,7 +15,7 @@
 
     <p>
       Here you can develop Quantitative Structure-Activity Relationship (QSAR) models using your uploaded modeling
-      datasets. You can also build models using public modeling datasets.
+      datasets.<br>You can also build models using publicly available modeling datasets.
     </p>
 
     <p>
@@ -26,10 +26,11 @@
     <p>
       The full modeling workflow as described in our <a href="/help-workflows">Workflow help page</a> is detailed in
       the following publication:
-      <a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full"><span class="citation">
-        Tropsha, A. (2010). Best Practices for QSAR Model Development, Validation, and Exploitation.
-        Molecular Informatics, 29(6-7), 476-488.
-      </span></a>
+
+        <span class="citation"><a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full">
+          Tropsha, A. (2010). Best Practices for QSAR Model Development, Validation, and Exploitation.
+          Molecular Informatics, 29(6-7), 476-488.
+        </a></span>
     </p>
 
     <hr>

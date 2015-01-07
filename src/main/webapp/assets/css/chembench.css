@@ -314,6 +314,6 @@ table.compound-list td.name {
 
 .citation {
     display: inline-block;
-    margin: 0 1em;
+    margin: 0.2em 1em 0 1em;
     font-style: italic;
 }
