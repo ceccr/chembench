@@ -1,3 +1,4 @@
+
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%
   response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -20,7 +21,7 @@
       <s:iterator value="errorStrings">
         <s:property/>
       </s:iterator>
-      <s:actionerror>
+      <s:actionerror />
     </p>
 
     <p>
