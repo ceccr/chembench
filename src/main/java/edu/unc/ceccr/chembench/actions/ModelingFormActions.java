@@ -1,5 +1,6 @@
 package edu.unc.ceccr.chembench.actions;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
@@ -43,6 +44,7 @@ public class ModelingFormActions extends ActionSupport {
     private List<Predictor> userPredictorList;
     private List<Dataset> userContinuousDatasets;
     private List<Dataset> userCategoryDatasets;
+    private List<Dataset> userDatasets;
     private Map<String, String> knnCategoryOptimizations;
     private Long selectedPredictorId;
     private String selectedPredictorName;
@@ -260,6 +262,8 @@ public class ModelingFormActions extends ActionSupport {
 
         // load default tab selections
         modelingType = Constants.RANDOMFOREST;
+
+        userDatasets = Lists.newArrayList(Iterables.concat(userCategoryDatasets, userContinuousDatasets));
 
         // go to the page
         return result;
@@ -1479,5 +1483,9 @@ public class ModelingFormActions extends ActionSupport {
 
     public void setErrorStrings(List<String> errorStrings) {
         this.errorStrings = errorStrings;
+    }
+
+    public List<Dataset> getUserDatasets() {
+        return userDatasets;
     }
 }
