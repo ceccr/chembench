@@ -445,7 +445,16 @@
         <!-- End Admin Actions -->
 
         <!-- API endpoints -->
-        <!-- TODO -->
+        <action name="ajaxGetDataset" class="edu.unc.ceccr.chembench.actions.api.AjaxDatasetAction"
+                method="ajaxGetDataset">
+            <result name="success" type="json">
+                <param name="root">dataset</param>
+                <param name="excludeNullProperties">true</param>
+            </result>
+            <result name="notfound" type="httpheader">
+                <param name="error">404</param>
+            </result>
+        </action>
         <!-- End API -->
 
         <!-- Help forwards -->
