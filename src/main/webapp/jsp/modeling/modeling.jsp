@@ -34,18 +34,49 @@
     </p>
 
     <hr>
-    <s:form action="createModelingJob" enctype="multipart/form-data" theme="simple">
+    <s:form action="createModelingJob" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
       <div class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">Select a Modeling Dataset</h3>
         </div>
         <div class="panel-body">
-          Bacon ipsum dolor amet meatball chuck fatback alcatra swine pancetta. Short ribs pork turkey, chicken sirloin
-          venison bresaola boudin. Turducken hamburger prosciutto bacon tenderloin leberkas ball tip salami turkey beef
-          tri-tip pork strip steak rump spare ribs. Venison spare ribs shoulder biltong sirloin. Doner pork jerky
-          tri-tip frankfurter fatback. Jerky tongue brisket, drumstick tail chicken rump picanha beef ribs bresaola pig
-          doner pancetta shankle. Strip steak shoulder brisket meatball, beef hamburger prosciutto pancetta drumstick
-          sausage picanha bresaola swine.
+          <p>Select a modeling dataset to create a model from. (You can create more datasets using the
+            <b><s:a action="dataset">Dataset Creation</s:a></b> page.)</p>
+
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="col-xs-12">
+                <div class="form-group">
+                  <s:select id="dataset-selection" cssClass="form-control" list="userDatasets" listKey="id"
+                            listValue="name" theme="simple" value="(select a dataset)"/>
+                </div>
+                <div class="form-group">
+                  <a id="view-dataset-detail" href="#" class="btn btn-primary disabled">View Selected Dataset</a>
+                  <span class="text-muted">Opens in a new window.</span>
+                </div>
+              </div>
+            </div>
+
+            <div id="dataset-info-wrapper" class="col-xs-6">
+              <div id="dataset-info">
+              </div>
+
+              <div id="dataset-info-help">
+                <h4>Select a dataset to continue</h4>
+
+                <div class="text-muted">
+                  <p>
+                    Once you select a dataset, basic information about the dataset will be displayed here.
+                  </p>
+
+                  <p>
+                    You can also click <b>View Selected Dataset</b> to view more detailed information about the selected
+                    dataset.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -104,5 +135,6 @@
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
+<script src="assets/js/modeling.js"></script>
 </body>
 </html>

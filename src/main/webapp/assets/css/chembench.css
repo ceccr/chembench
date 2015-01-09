@@ -317,3 +317,15 @@ table.compound-list td.name {
     margin: 0.2em 1em 0 1em;
     font-style: italic;
 }
+
+#dataset-selection {
+    margin-top: 0.3em;
+}
+
+#dataset-info-wrapper {
+    border-left: 1px solid #888;
+}
+
+#view-dataset-detail {
+    margin-right: 0.5em;
+}

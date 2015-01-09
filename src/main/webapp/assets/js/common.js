@@ -1,3 +1,33 @@
+function formatAvailableDescriptors(container) {
+    var descriptorList = $(container).text().trim().split(/\s+/);
+    var newDescriptorList = [];
+    var dragonsPresent = false;
+    if ($.inArray("DRAGONNOH", descriptorList) >= 0 && $.inArray("DRAGONH", descriptorList) >= 0) {
+        newDescriptorList.push("Dragon");
+        dragonsPresent = true;
+    }
+
+    for (var i = 0; i < descriptorList.length; i++) {
+        var curr = descriptorList[i];
+        if (curr === "UPLOADED") {
+            var toAdd = ["Uploaded descriptors"];
+            while (!/\)$/.test(toAdd[toAdd.length - 1]) && i < descriptorList.length) {
+                toAdd.push(descriptorList[++i]);
+            }
+            newDescriptorList.push(toAdd.join(" "));
+        } else if (curr === "MOLCONNZ") {
+            newDescriptorList.push("MolconnZ");
+        } else if (curr === "DRAGONH" || curr === "DRAGONNOH") {
+            if (dragonsPresent === false) {
+                newDescriptorList.push(curr.replace("DRAGON", "Dragon").replace("NOH", "NoH"));
+            }
+        } else {
+            newDescriptorList.push(curr);
+        }
+    }
+    $(container).text(newDescriptorList.join(", "));
+}
+
 $(document).ready(function() {
     // navigation button handlers
     $(".nav-list li").mouseup(function(event) {
@@ -35,35 +65,10 @@ $(document).ready(function() {
     });
 
     // replace ugly capitalization for constants
-    $(".available-descriptors").each(function() {
-        var descriptorList = $(this).text().trim().split(/\s+/);
-        var newDescriptorList = [];
-        var dragonsPresent = false;
-        if ($.inArray("DRAGONNOH", descriptorList) >= 0 && $.inArray("DRAGONH", descriptorList) >= 0) {
-            newDescriptorList.push("Dragon");
-            dragonsPresent = true;
-        }
-
-        for (var i = 0; i < descriptorList.length; i++) {
-            var curr = descriptorList[i];
-            if (curr === "UPLOADED") {
-                var toAdd = ["Uploaded descriptors"];
-                while (!/\)$/.test(toAdd[toAdd.length - 1]) && i < descriptorList.length) {
-                    toAdd.push(descriptorList[++i]);
-                }
-                newDescriptorList.push(toAdd.join(" "));
-            } else if (curr === "MOLCONNZ") {
-                newDescriptorList.push("MolconnZ");
-            } else if (curr === "DRAGONH" || curr === "DRAGONNOH") {
-                if (dragonsPresent === false) {
-                    newDescriptorList.push(curr.replace("DRAGON", "Dragon").replace("NOH", "NoH"));
-                }
-            } else {
-                newDescriptorList.push(curr);
-            }
-        }
-        $(this).text(newDescriptorList.join(", "));
+    $(".available-descriptors").each(function(_, element) {
+        formatAvailableDescriptors(element);
     });
+
     $(".modeling-method").each(function() {
         var modelingMethod = $(this).text();
         $(this).text(modelingMethod.replace("RANDOMFOREST", "Random Forest"));
