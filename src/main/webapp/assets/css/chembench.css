@@ -331,12 +331,8 @@ table.compound-list td.name {
     border-left: 1px solid #888;
 }
 
-#correlationCutoff {
-    display: inline-block;
-    width: 10%;
-}
-
 .help-inline {
-    margin-left: 0.5em;
+    line-height: 34px;
+    margin-left: -1.5em;
     color: #777;
 }

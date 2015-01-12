@@ -153,9 +153,11 @@
           <div class="form-group">
             <label class="control-label col-xs-3">Maximum correlation:</label>
 
-            <div class="col-xs-9">
+            <div class="col-xs-2">
               <s:textfield name="correlationCutoff" id="correlationCutoff" cssClass="form-control"/>
-              <span class="help-inline">(between 0.0 and 1.0 inclusive)</span>
+            </div>
+            <div class="col-xs-7">
+              <span class="help-inline">(between 0.0 and 1.0, inclusive)</span>
             </div>
           </div>
           <div class="row">
