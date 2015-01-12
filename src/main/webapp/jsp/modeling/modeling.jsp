@@ -161,7 +161,7 @@
           <div class="row">
             <div class="col-xs-offset-3 col-xs-9">
               <span class="help-block">For each pair of descriptors, if the correlation coefficient is above the
-                maximum, one of the two will be removed. In addition, descriptors with zero variance across compounds
+                maximum, one of the two will be removed. Note that descriptors with zero variance across compounds
                 will always be removed.</span>
             </div>
           </div>
