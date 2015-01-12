@@ -52,7 +52,7 @@
                 </div>
                 <div class="form-group">
                   <a id="view-dataset-detail" href="#" class="btn btn-primary disabled">View Selected Dataset</a>
-                  <span class="text-muted">Opens in a new window.</span>
+                  <span class="help-inline">Opens in a new window.</span>
                 </div>
               </div>
             </div>
@@ -82,13 +82,89 @@
 
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h3 class="panel-title">Choose Model Descriptors</h3>
+          <h3 class="panel-title">Define Model Descriptors</h3>
         </div>
         <div class="panel-body">
-          Chicken turkey alcatra venison. Landjaeger hamburger sirloin jerky drumstick pastrami strip steak tri-tip.
-          Shankle rump fatback ball tip, beef filet mignon turducken landjaeger sausage hamburger pig brisket
-          frankfurter. Prosciutto short ribs kevin, sausage beef rump cupim. Strip steak hamburger chuck pork loin ham
-          hock chicken kielbasa.
+          <s:hidden id="defaultDescriptorGenerationType" value="%{descriptorGenerationType}"/>
+          <h4>Descriptor Set</h4>
+
+          <div id="descriptor-types">
+            <div class="radio">
+              <label>
+                <input name="descriptorGenerationType" type="radio" value="CDK">
+                CDK (202 descriptors)
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input name="descriptorGenerationType" type="radio" value="MOLCONNZ">
+                MolconnZ (375 descriptors)
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input name="descriptorGenerationType" type="radio" value="DRAGONH">
+                Dragon, with hydrogens (2489 descriptors)
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input name="descriptorGenerationType" type="radio" value="DRAGONNOH">
+                Dragon, no hydrogens (900 descriptors)
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input name="descriptorGenerationType" type="radio" value="MACCS">
+                MACCS (166 descriptors)
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input name="descriptorGenerationType" type="radio" value="MOE2D">
+                MOE2D (184 descriptors)
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input name="descriptorGenerationType" type="radio" value="ISIDA">
+                ISIDA
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input name="descriptorGenerationType" type="radio" value="UPLOADED">
+                Uploaded descriptors
+              </label>
+            </div>
+          </div>
+
+          <h4>Scaling Type</h4>
+
+          <div class="form-group">
+            <div class="inline-radio-group col-xs-12">
+              <s:radio name="scalingType" id="scalingType" value="scalingType"
+                       list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}"/>
+            </div>
+          </div>
+
+          <h4>Descriptor Filtering Options</h4>
+
+          <div class="form-group">
+            <label class="control-label col-xs-3">Maximum correlation:</label>
+
+            <div class="col-xs-9">
+              <s:textfield name="correlationCutoff" id="correlationCutoff" cssClass="form-control"/>
+              <span class="help-inline">(between 0.0 and 1.0 inclusive)</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-offset-3 col-xs-9">
+              <span class="help-block">For each pair of descriptors, if the correlation coefficient is above the
+                maximum, one of the two will be removed. In addition, descriptors with zero variance across compounds
+                will always be removed.</span>
+            </div>
+          </div>
         </div>
       </div>
 

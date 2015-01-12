@@ -233,6 +233,7 @@ input[type="checkbox"],input[type="radio"] {
 }
 
 .help-block {
+    color: #777;
     margin-top: -5px;
     margin-bottom: 0;
 }
@@ -326,6 +327,12 @@ table.compound-list td.name {
     border-left: 1px solid #888;
 }
 
-#view-dataset-detail {
-    margin-right: 0.5em;
+#correlationCutoff {
+    display: inline-block;
+    width: 10%;
+}
+
+.help-inline {
+    margin-left: 0.5em;
+    color: #777;
 }

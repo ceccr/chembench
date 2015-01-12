@@ -22,12 +22,28 @@ function updateDatasetInfo(idString) {
                 "</dl>"
             );
 
-            if ($.inArray("UPLOADED", datasetInfo.find(".available-descriptors").text().trim().split(/\s+/)) >= 0) {
+            var availableDescriptors = datasetInfo.find(".available-descriptors").text().trim().split(/\s+/);
+            if ($.inArray("UPLOADED", availableDescriptors) >= 0) {
                 datasetInfo.find("dl").append(
                     "<dt>Uploaded descriptor type</dt>" +
                     "<dd>" + dataset.uploadedDescriptorType + "</dd>"
                 );
             }
+            // pre-select the default descriptor set, if available
+            var defaultDescriptor = $('input[type="hidden"]#defaultDescriptorGenerationType').val();
+            var defaultDescriptorOption = $('input[name="descriptorGenerationType"][value="' + defaultDescriptor + '"]');
+            if (!defaultDescriptorOption.prop("disabled")) {
+                defaultDescriptorOption.prop("checked", true);
+            }
+
+            // enable only available descriptors in Descriptor Set selection
+            $('input[name="descriptorGenerationType"]').prop("disabled", true).parent().addClass("text-muted");
+            for (var i = 0; i < availableDescriptors.length; i++) {
+                var availableDescriptorOption = $('input[name="descriptorGenerationType"][value="' + availableDescriptors[i] + '"]');
+                availableDescriptorOption.removeAttr("disabled").parent().removeClass("text-muted");
+            }
+
+            // pretty-print the available descriptors list when we're done
             formatAvailableDescriptors(datasetInfo.find(".available-descriptors"));
         }).fail(function () {
             datasetInfo.html(
@@ -41,10 +57,11 @@ function updateDatasetInfo(idString) {
 $(document).ready(function() {
     $(".nav-list li").removeClass("active");
     $("#nav-button-modeling").addClass("active");
+    var descriptorTypes = $("#descriptor-types");
+    descriptorTypes.find("label").addClass("text-muted").find("input").prop("disabled", true);
 
     var datasetSelect = $("#dataset-selection");
     var viewDatasetDetailButton = $("#view-dataset-detail");
-
     datasetSelect.prepend('<option selected="selected" value="0">(Select a dataset)</option>');
     datasetSelect.change(function() {
         var datasetId = parseInt(this.value);
@@ -56,7 +73,7 @@ $(document).ready(function() {
         updateDatasetInfo(datasetId);
     });
 
-    $("#view-dataset-detail").click(function(e) {
+    viewDatasetDetailButton.click(function(e) {
         e.preventDefault();
 
         var datasetId = parseInt(datasetSelect.val());
