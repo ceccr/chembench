@@ -413,7 +413,7 @@
               </div>
             </div>
             <div id="random-split" class="tab-pane">
-              <input type="hidden" name="split-type" value="<%= Constants.RANDOM %>">-
+              <input type="hidden" name="split-type" value="<%= Constants.RANDOM %>">
               <p>
                 A <b>random split</b> will divide your modeling dataset into training and test portions at random. You
                 can change the size of the external set below. Either a percentage of total compounds or a fixed
