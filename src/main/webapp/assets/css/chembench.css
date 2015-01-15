@@ -203,7 +203,7 @@ h1 button, h2 button, h3 button, h4 button, h5 button, h6 button {
 }
 
 .inline-radio-group label {
-    margin-right: 1em;
+    margin-right: 1.5em;
 }
 
 .activity-type, .job-type {
@@ -331,8 +331,66 @@ table.compound-list td.name {
     border-left: 1px solid #888;
 }
 
+#view-dataset-detail {
+    margin-right: 0.5em;
+}
+
 .help-inline {
     line-height: 34px;
     margin-left: -1.5em;
     color: #777;
+}
+
+.range-input-group .input-wrapper {
+    position: relative;
+}
+
+.range-input-group .input-prefix {
+    position: absolute;
+    line-height: 35px;
+    left: 0.7em;
+    z-index: 999;
+    color: #aaa;
+}
+
+.range-input-group .input-prefix ~ .form-control {
+    padding-left: 1.9em;
+    width: 100%;
+}
+
+.range-input-group .form-group {
+    width: 33%;
+}
+
+.range-input-group .form-group:first-child {
+    padding-left: 15px;
+}
+
+.range-input-group .form-group:last-child {
+    padding-right: 15px;
+}
+
+.range-input-group .form-inline {
+    text-align: justify;
+    height: 34px;
+}
+
+.range-input-group .form-inline:after {
+    content: "";
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+}
+
+input#svmWeight, input#svmEEpsilon, input#svmCutoff {
+    width: 30%;
+}
+
+#descriptor-types, #scaling-types {
+    margin-left: 15px;
+}
+
+#scaling-types .inline-radio-group {
+    padding-left: 0;
 }
