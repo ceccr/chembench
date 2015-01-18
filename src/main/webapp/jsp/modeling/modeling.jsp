@@ -35,7 +35,7 @@
 
     <hr>
     <s:form action="createModelingJob" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
-      <div class="panel panel-primary">
+      <div id="dataset-selection-section" class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">Select a Modeling Dataset</h3>
         </div>
@@ -174,7 +174,7 @@
         <div class="panel-heading">
           <h3 class="panel-title">Select Model Type and Parameters</h3>
         </div>
-        <div class="panel-body">
+        <div id="model-type-section" class="panel-body">
           <ul class="nav nav-pills">
             <li class="active"><a href="#random-forest" data-toggle="tab">Random Forest</a></li>
             <li><a href="#support-vector-machine" data-toggle="tab">Support Vector Machine</a></li>
@@ -440,7 +440,7 @@
         </div>
       </div>
 
-      <div id="internal-split-type-selection" class="panel panel-primary">
+      <div id="internal-split-type-section" class="panel panel-primary">
         <div class="panel-heading">
           <h3 class="panel-title">Choose Internal Data Split Method</h3>
         </div>

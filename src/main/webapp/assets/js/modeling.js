@@ -1,9 +1,6 @@
 function updateDatasetInfo(idString) {
     var id = parseInt(idString);
     var datasetInfo = $("#dataset-info");
-
-    $("#dataset-info-help").hide();
-    datasetInfo.show();
     $.get("/ajaxGetDataset", {"id": id}, function(dataset) {
         datasetInfo.html("<h4>Dataset: " + dataset.name + "</h4>" + '<dl class="dl-horizontal properties-list">' +
                          "<dt>Number of compounds</dt>" + "<dd>" + dataset["numCompound"] + "</dd>" +
@@ -41,7 +38,7 @@ function updateDatasetInfo(idString) {
 }
 
 function hideSections() {
-    $("#dataset-info, ").hide();
+    $("#dataset-info, form#createModelingJob .panel:not(#dataset-selection-section)").hide();
     $("#dataset-info-help").show();
     $("#view-dataset-detail").addClass("disabled");
     $("#descriptor-types").find("label").addClass("text-muted").find("input").prop("disabled", true).prop("checked",
@@ -49,9 +46,12 @@ function hideSections() {
 }
 
 function showSections() {
-    $("#dataset-info").show();
+    $("#dataset-info, form#createModelingJob .panel").show();
     $("#dataset-info-help").hide();
     $("#view-dataset-detail").removeClass("disabled");
+    if ($("#model-type-section").find(".nav > .active > a").attr("href") === "#random-forest") {
+        $("#internal-split-type-section").hide();
+    }
 }
 
 $(document).ready(function() {
@@ -76,6 +76,14 @@ $(document).ready(function() {
         var datasetId = parseInt(datasetSelect.val());
         if (datasetId !== 0) {
             window.open("/viewDataset.action?id=" + datasetId, "_blank");
+        }
+    });
+
+    $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+        if ($(e.target).attr("href") === "#random-forest") {
+            $("#internal-split-type-section").hide();
+        } else {
+            $("#internal-split-type-section").show();
         }
     });
 });

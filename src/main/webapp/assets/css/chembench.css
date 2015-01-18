@@ -394,3 +394,7 @@ input#svmWeight, input#svmEEpsilon, input#svmCutoff {
 #scaling-types .inline-radio-group {
     padding-left: 0;
 }
+
+form#createModelingJob .panel:not(#dataset-selection-section) {
+    display: none;
+}
