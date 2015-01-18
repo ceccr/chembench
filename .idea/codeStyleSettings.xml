@@ -5,12 +5,14 @@
       <value>
         <option name="LINE_SEPARATOR" value="&#10;" />
         <option name="WRAP_WHEN_TYPING_REACHES_RIGHT_MARGIN" value="true" />
+        <option name="HTML_SPACE_INSIDE_EMPTY_TAG" value="true" />
         <option name="FORMATTER_TAGS_ENABLED" value="true" />
         <JSCodeStyleSettings>
           <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
           <option name="OBJECT_LITERAL_WRAP" value="1" />
         </JSCodeStyleSettings>
         <XML>
+          <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
         <codeStyleSettings language="JAVA">

@@ -48,7 +48,7 @@
               <div class="col-xs-12">
                 <div class="form-group">
                   <s:select id="dataset-selection" cssClass="form-control" list="userDatasets" listKey="id"
-                            listValue="name" theme="simple" value="(select a dataset)"/>
+                            listValue="name" theme="simple" value="(select a dataset)" />
                 </div>
                 <div class="form-group">
                   <a id="view-dataset-detail" href="#" class="btn btn-primary disabled">View Selected Dataset</a>
@@ -85,7 +85,7 @@
           <h3 class="panel-title">Define Model Descriptors</h3>
         </div>
         <div class="panel-body">
-          <s:hidden id="defaultDescriptorGenerationType" value="%{descriptorGenerationType}"/>
+          <s:hidden id="defaultDescriptorGenerationType" value="%{descriptorGenerationType}" />
           <h4>Descriptor Set</h4>
 
           <div id="descriptor-types">
@@ -144,7 +144,7 @@
           <div id="scaling-types" class="form-group">
             <div class="inline-radio-group col-xs-12">
               <s:radio name="scalingType" id="scalingType" value="scalingType"
-                       list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}"/>
+                       list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" />
             </div>
           </div>
 
@@ -154,7 +154,7 @@
             <label class="control-label col-xs-3">Maximum correlation:</label>
 
             <div class="col-xs-2">
-              <s:textfield name="correlationCutoff" id="correlationCutoff" cssClass="form-control"/>
+              <s:textfield name="correlationCutoff" id="correlationCutoff" cssClass="form-control" />
             </div>
             <div class="col-xs-7">
               <span class="help-inline">(between 0.0 and 1.0, inclusive)</span>
@@ -190,14 +190,14 @@
                 <label class="control-label col-xs-4">Number of Trees per Split:</label>
 
                 <div class="col-xs-2">
-                  <s:textfield id="numTrees" name="numTrees" cssClass="form-control"/>
+                  <s:textfield id="numTrees" name="numTrees" cssClass="form-control" />
                 </div>
               </div>
               <div class="form-group">
                 <label class="control-label col-xs-4">Maximum Number of Terminal Nodes:</label>
 
                 <div class="col-xs-2">
-                  <s:textfield id="maxNumTerminalNodes" name="maxNumTerminalNodes" cssClass="form-control"/>
+                  <s:textfield id="maxNumTerminalNodes" name="maxNumTerminalNodes" cssClass="form-control" />
                 </div>
                 <div class="col-xs-6">
                   <span class="help-inline">(0 = no limit)</span>
@@ -212,7 +212,7 @@
                 <label class="control-label col-xs-4">SVM type (category):</label>
 
                 <div class="col-xs-8 inline-radio-group">
-                  <s:radio name="svmTypeCategory" id="svmTypeCategory" list="#{'0':'C-SVC','1':'nu-SVC'}"/>
+                  <s:radio name="svmTypeCategory" id="svmTypeCategory" list="#{'0':'C-SVC','1':'nu-SVC'}" />
                 </div>
               </div>
 
@@ -220,7 +220,7 @@
                 <label class="control-label col-xs-4">SVM type (continuous):</label>
 
                 <div class="col-xs-8 inline-radio-group">
-                  <s:radio name="svmTypeContinuous" id="svmTypeContinuous" list="#{'3':'epsilon-SVR','4':'nu-SVR'}"/>
+                  <s:radio name="svmTypeContinuous" id="svmTypeContinuous" list="#{'3':'epsilon-SVR','4':'nu-SVR'}" />
                 </div>
               </div>
 
@@ -233,7 +233,7 @@
                       <div class="input-group-addon">From:</div>
                       <div class="input-wrapper">
                         <span class="input-prefix">2^</span>
-                        <s:textfield id="svmCostFrom" name="svmCostFrom" cssClass="form-control"/>
+                        <s:textfield id="svmCostFrom" name="svmCostFrom" cssClass="form-control" />
                       </div>
                     </div>
                   </div>
@@ -243,7 +243,7 @@
                       <div class="input-group-addon">To:</div>
                       <div class="input-wrapper">
                         <span class="input-prefix">2^</span>
-                        <s:textfield id="svmCostTo" name="svmCostTo" cssClass="form-control"/>
+                        <s:textfield id="svmCostTo" name="svmCostTo" cssClass="form-control" />
                       </div>
                     </div>
                   </div>
@@ -253,7 +253,7 @@
                       <div class="input-group-addon">Step:</div>
                       <div class="input-wrapper">
                         <span class="input-prefix">2^</span>
-                        <s:textfield id="svmCostStep" name="svmCostStep" cssClass="form-control"/>
+                        <s:textfield id="svmCostStep" name="svmCostStep" cssClass="form-control" />
                       </div>
                     </div>
                   </div>
@@ -267,21 +267,21 @@
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-addon">From:</div>
-                      <s:textfield id="svmNuFrom" name="svmNuFrom" cssClass="form-control"/>
+                      <s:textfield id="svmNuFrom" name="svmNuFrom" cssClass="form-control" />
                     </div>
                   </div>
 
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-addon">To:</div>
-                      <s:textfield id="svmNuTo" name="svmNuTo" cssClass="form-control"/>
+                      <s:textfield id="svmNuTo" name="svmNuTo" cssClass="form-control" />
                     </div>
                   </div>
 
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-addon">Step:</div>
-                      <s:textfield id="svmNuStep" name="svmNuStep" cssClass="form-control"/>
+                      <s:textfield id="svmNuStep" name="svmNuStep" cssClass="form-control" />
                     </div>
                   </div>
                 </div>
@@ -294,21 +294,21 @@
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-addon">From:</div>
-                      <s:textfield id="svmPEpsilonFrom" name="svmPEpsilonFrom" cssClass="form-control"/>
+                      <s:textfield id="svmPEpsilonFrom" name="svmPEpsilonFrom" cssClass="form-control" />
                     </div>
                   </div>
 
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-addon">To:</div>
-                      <s:textfield id="svmPEpsilonTo" name="svmPEpsilonTo" cssClass="form-control"/>
+                      <s:textfield id="svmPEpsilonTo" name="svmPEpsilonTo" cssClass="form-control" />
                     </div>
                   </div>
 
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-addon">Step:</div>
-                      <s:textfield id="svmPEpsilonStep" name="svmPEpsilonStep" cssClass="form-control"/>
+                      <s:textfield id="svmPEpsilonStep" name="svmPEpsilonStep" cssClass="form-control" />
                     </div>
                   </div>
                 </div>
@@ -330,7 +330,7 @@
 
                 <div class="col-xs-8 inline-radio-group">
                   <s:radio id="svmKernel" name="svmKernel"
-                           list="#{'0':'linear','1':'polynomial','2':'radial basis function','3':'sigmoid'}"/>
+                           list="#{'0':'linear','1':'polynomial','2':'radial basis function','3':'sigmoid'}" />
                 </div>
               </div>
 
@@ -341,21 +341,21 @@
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-addon">From:</div>
-                      <s:textfield id="svmDegreeFrom" name="svmDegreeFrom" cssClass="form-control"/>
+                      <s:textfield id="svmDegreeFrom" name="svmDegreeFrom" cssClass="form-control" />
                     </div>
                   </div>
 
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-addon">To:</div>
-                      <s:textfield id="svmDegreeTo" name="svmDegreeTo" cssClass="form-control"/>
+                      <s:textfield id="svmDegreeTo" name="svmDegreeTo" cssClass="form-control" />
                     </div>
                   </div>
 
                   <div class="form-group">
                     <div class="input-group">
                       <div class="input-group-addon">Step:</div>
-                      <s:textfield id="svmDegreeStep" name="svmDegreeStep" cssClass="form-control"/>
+                      <s:textfield id="svmDegreeStep" name="svmDegreeStep" cssClass="form-control" />
                     </div>
                   </div>
                 </div>
@@ -370,7 +370,7 @@
                       <div class="input-group-addon">From:</div>
                       <div class="input-wrapper">
                         <span class="input-prefix">2^</span>
-                        <s:textfield id="svmGammaFrom" name="svmGammaFrom" cssClass="form-control"/>
+                        <s:textfield id="svmGammaFrom" name="svmGammaFrom" cssClass="form-control" />
                       </div>
                     </div>
                   </div>
@@ -380,7 +380,7 @@
                       <div class="input-group-addon">To:</div>
                       <div class="input-wrapper">
                         <span class="input-prefix">2^</span>
-                        <s:textfield id="svmGammaTo" name="svmGammaTo" cssClass="form-control"/>
+                        <s:textfield id="svmGammaTo" name="svmGammaTo" cssClass="form-control" />
                       </div>
                     </div>
                   </div>
@@ -390,7 +390,7 @@
                       <div class="input-group-addon">Step:</div>
                       <div class="input-wrapper">
                         <span class="input-prefix">2^</span>
-                        <s:textfield id="svmGammaStep" name="svmGammaStep" cssClass="form-control"/>
+                        <s:textfield id="svmGammaStep" name="svmGammaStep" cssClass="form-control" />
                       </div>
                     </div>
                   </div>
@@ -401,6 +401,7 @@
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Tolerance of termination criterion:</label>
+
                 <div class="col-xs-8">
                   <s:textfield id="svmEEpsilon" name="svmEEpsilon" cssClass="form-control" />
                 </div>
@@ -408,6 +409,7 @@
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Use shrinking heuristics:</label>
+
                 <div class="col-xs-8 inline-radio-group">
                   <s:radio name="svmHeuristics" list="#{'1':'Yes','0':'No'}" />
                 </div>
@@ -415,6 +417,7 @@
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Use probability heuristics:</label>
+
                 <div class="col-xs-8 inline-radio-group">
                   <s:radio name="svmProbability" list="#{'1':'Yes','0':'No'}" />
                 </div>
@@ -423,6 +426,7 @@
               <div class="form-group">
                 <label class="control-label col-xs-4">CCR or <var>R&nbsp;<sup>2</sup></var> cutoff for model
                   acceptance:</label>
+
                 <div class="col-xs-8">
                   <s:textfield id="svmCutoff" name="svmCutoff" cssClass="form-control" />
                 </div>
