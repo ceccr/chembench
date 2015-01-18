@@ -323,14 +323,6 @@
                 </div>
               </div>
 
-              <div class="form-group">
-                <label class="control-label col-xs-4">CCR or <var>R&nbsp;<sup>2</sup></var> cutoff for model
-                  acceptance:</label>
-                <div class="col-xs-8">
-                  <s:textfield id="svmCutoff" name="svmCutoff" cssClass="form-control" />
-                </div>
-              </div>
-
               <h4>Kernel Function Settings</h4>
 
               <div class="form-group">
@@ -428,6 +420,13 @@
                 </div>
               </div>
 
+              <div class="form-group">
+                <label class="control-label col-xs-4">CCR or <var>R&nbsp;<sup>2</sup></var> cutoff for model
+                  acceptance:</label>
+                <div class="col-xs-8">
+                  <s:textfield id="svmCutoff" name="svmCutoff" cssClass="form-control" />
+                </div>
+              </div>
             </div>
 
             <div id="ga-knn" class="tab-pane">
