@@ -33,7 +33,7 @@ function updateDatasetInfo(idString) {
         formatAvailableDescriptors(datasetInfo.find(".available-descriptors"));
     }).fail(function() {
         datasetInfo.html('<h4 class="text-danger">Error fetching dataset info</h4>' +
-                         "<p>A server error occurred while fetching dataset information for the selected dataset.");
+                         "<p>A server error occurred while fetching dataset information for the selected dataset.</p>");
     });
 }
 
