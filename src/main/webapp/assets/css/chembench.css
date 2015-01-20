@@ -395,8 +395,15 @@ input#svmWeight, input#svmEEpsilon, input#svmCutoff {
     padding-left: 0;
 }
 
+.advanced-settings-group h4 {
+    position: relative;
+}
+
 .advanced-settings-group .glyphicon {
     font-size: small;
+    position: absolute;
+    left: -1.4em;
+    top: 0.3em;
 }
 
 .advanced-settings-group .advanced-settings {
