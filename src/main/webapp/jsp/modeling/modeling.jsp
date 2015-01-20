@@ -402,7 +402,7 @@
               <div class="advanced-settings-group">
                 <h4><span class="glyphicon glyphicon-chevron-down"></span>
                   <a class="advanced-settings-toggle" href="#">Other Advanced Settings
-                    <small>(click to show)</small>
+                    <small>(click to toggle)</small>
                   </a></h4>
 
                 <div class="advanced-settings">
