@@ -458,10 +458,90 @@
           <h3 class="panel-title">Choose Internal Data Split Method</h3>
         </div>
         <div class="panel-body">
-          Prosciutto brisket pastrami, bacon fatback tenderloin shankle leberkas shoulder chicken pork belly. Strip
-          steak ham bacon hamburger, picanha pork belly andouille flank drumstick. Turducken andouille bacon, short ribs
-          meatball sirloin fatback hamburger rump. Picanha bresaola meatloaf jowl, t-bone tri-tip turkey alcatra
-          frankfurter. Landjaeger pork chop prosciutto ground round kevin jerky.
+          <ul class="nav nav-pills">
+            <li class="active"><a href="#sphere-exclusion" data-toggle="tab">Sphere Exclusion</a></li>
+            <li><a href="#random-split" data-toggle="tab">Random Split</a></li>
+          </ul>
+
+          <div class="tab-content">
+            <div id="sphere-exclusion" class="tab-pane active">
+              <h4>Sphere Exclusion</h4>
+
+              <p class="tab-description">Recommended for datasets with <b>fewer than 300</b> compounds.</p>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Number of data splits:</label>
+                <div class="col-xs-2">
+                   <s:textfield name="numSplitsInternalSphere" id="numSplitsInternalSphere" cssClass="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Minimum test set size:</label>
+                <div class="col-xs-2">
+                  <div class="input-group">
+                    <s:textfield name="sphereSplitMinTestSize" id="sphereSplitMinTestSize" cssClass="form-control" />
+                    <span class="input-group-addon">%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Force minimum activity compound into all training sets:</label>
+                <div class="col-xs-8 inline-radio-group">
+                  <s:radio list="#{'true':'Yes','false':'No'}" name="splitIncludesMin" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Force maximum activity compound into all training sets:</label>
+                <div class="col-xs-8 inline-radio-group">
+                  <s:radio list="#{'true':'Yes','false':'No'}" name="splitIncludesMax" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Select next training set point based on:</label>
+                <div class="col-xs-6">
+                  <s:select name="selectionNextTrainPt" id="selectionNextTrainPt" cssClass="form-control"
+                            list="#{'0':'Random Selection','1':'Expand Outwards from Already Selected Points','2':'Even Coverage of Descriptor Space','3':'Work Inwards from Boundaries of Descriptor Space'}" />
+                </div>
+              </div>
+            </div>
+
+            <div id="random-split" class="tab-pane">
+              <h4>Random Split</h4>
+
+              <p class="tab-description">Recommended for datasets with <b>300 or more</b> compounds.</p>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Number of data splits:</label>
+                <div class="col-xs-2">
+                  <s:textfield name="numSplitsInternalRandom" id="numSplitsInternalRandom" cssClass="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Minimum test set size:</label>
+                <div class="col-xs-2">
+                  <div class="input-group">
+                    <s:textfield name="randomSplitMinTestSize" id="randomSplitMinTestSize" cssClass="form-control" />
+                    <span class="input-group-addon">%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Maximum test set size:</label>
+                <div class="col-xs-2">
+                  <div class="input-group">
+                    <s:textfield name="randomSplitMaxTestSize" id="randomSplitMaxTestSize" cssClass="form-control" />
+                    <span class="input-group-addon">%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
