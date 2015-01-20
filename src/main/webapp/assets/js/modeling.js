@@ -3,8 +3,9 @@ function updateDatasetInfo(idString) {
     var datasetInfo = $("#dataset-info");
     $.get("/ajaxGetDataset", {"id": id}, function(dataset) {
         var activityType = dataset["continuous"] === true ? "Continuous" : "Category";
+        var numCompound = parseInt(dataset["numCompound"]);
         datasetInfo.html("<h4>Dataset: " + dataset.name + "</h4>" + '<dl class="dl-horizontal properties-list">' +
-                         "<dt>Number of compounds</dt>" + "<dd>" + dataset["numCompound"] + "</dd>" +
+                         "<dt>Number of compounds</dt>" + "<dd>" + numCompound + "</dd>" +
                          "<dt>Activity type</dt>" + "<dd>" + activityType + "</dd>" +
                          '<dt class="availableDescriptors">Available descriptors</dt>' +
                          '<dd class="available-descriptors">' + dataset["availableDescriptors"] + "</dd>" + "</dl>");
@@ -39,6 +40,22 @@ function updateDatasetInfo(idString) {
         } else if (activityType.toLowerCase() === "category") {
             $("#svm-type-category").show();
         }
+
+        // select the correct internal split type depending on the number of compounds in the dataset
+        if (numCompound < 300) {
+            $('a[href="#sphere-exclusion"]').tab("show");
+        } else {
+            $('a[href="#random-split"]').tab("show");
+        }
+
+        var internalSplitSection = $("#internal-split-type-section");
+        // ... but hide the div containing internal split options if random forest is selected
+        // (random forest doesn't use internal splitting)
+        if ($("#model-type-section").find(".nav > .active > a").attr("href") === "#random-forest") {
+            internalSplitSection.hide();
+        } else {
+            internalSplitSection.show();
+        }
     }).fail(function() {
         datasetInfo.html('<h4 class="text-danger">Error fetching dataset info</h4>' +
                          "<p>A server error occurred while fetching dataset information for the selected dataset.</p>");
@@ -57,9 +74,6 @@ function showSections() {
     $("#dataset-info, form#createModelingJob .panel").show();
     $("#dataset-info-help").hide();
     $("#view-dataset-detail").removeClass("disabled");
-    if ($("#model-type-section").find(".nav > .active > a").attr("href") === "#random-forest") {
-        $("#internal-split-type-section").hide();
-    }
 }
 
 $(document).ready(function() {
