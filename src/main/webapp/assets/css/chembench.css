@@ -383,7 +383,7 @@ table.compound-list td.name {
     line-height: 0;
 }
 
-input#svmWeight, input#svmEEpsilon, input#svmCutoff {
+.range-input-group ~ :not(.range-input-group) .form-control {
     width: 30%;
 }
 
