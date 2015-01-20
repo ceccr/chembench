@@ -144,7 +144,7 @@ $(document).ready(function() {
     $(".advanced-settings-toggle").click(function(e) {
         e.preventDefault();
         var container = $(this).parents(".advanced-settings-group");
-        container.find(".glyphicon").toggleClass("glyphicon-chevron-up").toggleClass("glyphicon-chevron-down");
+        container.find(".glyphicon").toggleClass("glyphicon-chevron-up glyphicon-chevron-down");
         container.find(".advanced-settings").slideToggle();
     });
 });
