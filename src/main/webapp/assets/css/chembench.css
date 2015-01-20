@@ -395,6 +395,10 @@ input#svmWeight, input#svmEEpsilon, input#svmCutoff {
     padding-left: 0;
 }
 
-form#createModelingJob .panel:not(#dataset-selection-section) {
+.advanced-settings-group .glyphicon {
+    font-size: small;
+}
+
+.advanced-settings-group .advanced-settings {
     display: none;
 }

@@ -208,118 +208,120 @@
             <div id="support-vector-machine" class="tab-pane">
               <h4>Support Vector Machine (SVM)</h4>
 
-              <div id="svm-type-category" class="form-group">
-                <label class="control-label col-xs-4">SVM type (category):</label>
+              <div id="svm-general-settings">
+                <div id="svm-type-category" class="form-group">
+                  <label class="control-label col-xs-4">SVM type (category):</label>
 
-                <div class="col-xs-8 inline-radio-group">
-                  <s:radio name="svmTypeCategory" id="svmTypeCategory" list="#{'0':'C-SVC','1':'nu-SVC'}" />
+                  <div class="col-xs-8 inline-radio-group">
+                    <s:radio name="svmTypeCategory" id="svmTypeCategory" list="#{'0':'C-SVC','1':'nu-SVC'}" />
+                  </div>
                 </div>
-              </div>
 
-              <div id="svm-type-continuous" class="form-group">
-                <label class="control-label col-xs-4">SVM type (continuous):</label>
+                <div id="svm-type-continuous" class="form-group">
+                  <label class="control-label col-xs-4">SVM type (continuous):</label>
 
-                <div class="col-xs-8 inline-radio-group">
-                  <s:radio name="svmTypeContinuous" id="svmTypeContinuous" list="#{'3':'epsilon-SVR','4':'nu-SVR'}" />
+                  <div class="col-xs-8 inline-radio-group">
+                    <s:radio name="svmTypeContinuous" id="svmTypeContinuous" list="#{'3':'epsilon-SVR','4':'nu-SVR'}" />
+                  </div>
                 </div>
-              </div>
 
-              <div id="cost-settings" class="form-group range-input-group">
-                <label class="control-label col-xs-4">Cost (C) for C-SVC, epsilon-CVR, and nu-SVR:</label>
+                <div id="cost-settings" class="form-group range-input-group">
+                  <label class="control-label col-xs-4">Cost (C) for C-SVC, epsilon-CVR, and nu-SVR:</label>
 
-                <div class="col-xs-8 form-inline">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon">From:</div>
-                      <div class="input-wrapper">
-                        <span class="input-prefix">2^</span>
-                        <s:textfield id="svmCostFrom" name="svmCostFrom" cssClass="form-control" />
+                  <div class="col-xs-8 form-inline">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">From:</div>
+                        <div class="input-wrapper">
+                          <span class="input-prefix">2^</span>
+                          <s:textfield id="svmCostFrom" name="svmCostFrom" cssClass="form-control" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">To:</div>
+                        <div class="input-wrapper">
+                          <span class="input-prefix">2^</span>
+                          <s:textfield id="svmCostTo" name="svmCostTo" cssClass="form-control" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">Step:</div>
+                        <div class="input-wrapper">
+                          <span class="input-prefix">2^</span>
+                          <s:textfield id="svmCostStep" name="svmCostStep" cssClass="form-control" />
+                        </div>
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon">To:</div>
-                      <div class="input-wrapper">
-                        <span class="input-prefix">2^</span>
-                        <s:textfield id="svmCostTo" name="svmCostTo" cssClass="form-control" />
+                <div id="nu-settings" class="form-group range-input-group">
+                  <label class="control-label col-xs-4">Nu of nu-SVC and nu-SVR:</label>
+
+                  <div class="col-xs-8 form-inline">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">From:</div>
+                        <s:textfield id="svmNuFrom" name="svmNuFrom" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">To:</div>
+                        <s:textfield id="svmNuTo" name="svmNuTo" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">Step:</div>
+                        <s:textfield id="svmNuStep" name="svmNuStep" cssClass="form-control" />
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon">Step:</div>
-                      <div class="input-wrapper">
-                        <span class="input-prefix">2^</span>
-                        <s:textfield id="svmCostStep" name="svmCostStep" cssClass="form-control" />
+                <div id="epsilon-settings" class="form-group range-input-group">
+                  <label class="control-label col-xs-4">Epsilon in loss function of epsilon-SVR:</label>
+
+                  <div class="col-xs-8 form-inline">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">From:</div>
+                        <s:textfield id="svmPEpsilonFrom" name="svmPEpsilonFrom" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">To:</div>
+                        <s:textfield id="svmPEpsilonTo" name="svmPEpsilonTo" cssClass="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <div class="input-group">
+                        <div class="input-group-addon">Step:</div>
+                        <s:textfield id="svmPEpsilonStep" name="svmPEpsilonStep" cssClass="form-control" />
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div id="nu-settings" class="form-group range-input-group">
-                <label class="control-label col-xs-4">Nu of nu-SVC and nu-SVR:</label>
+                <div id="csvm-weight-settings" class="form-group">
+                  <label class="control-label col-xs-4">Parameter C of class <var>i</var>&nbsp; to weight &sdot; C for
+                    C-SVC:</label>
 
-                <div class="col-xs-8 form-inline">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon">From:</div>
-                      <s:textfield id="svmNuFrom" name="svmNuFrom" cssClass="form-control" />
-                    </div>
+                  <div class="col-xs-8">
+                    <s:textfield id="svmWeight" name="svmWeight" cssClass="form-control" />
                   </div>
-
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon">To:</div>
-                      <s:textfield id="svmNuTo" name="svmNuTo" cssClass="form-control" />
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon">Step:</div>
-                      <s:textfield id="svmNuStep" name="svmNuStep" cssClass="form-control" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div id="epsilon-settings" class="form-group range-input-group">
-                <label class="control-label col-xs-4">Epsilon in loss function of epsilon-SVR:</label>
-
-                <div class="col-xs-8 form-inline">
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon">From:</div>
-                      <s:textfield id="svmPEpsilonFrom" name="svmPEpsilonFrom" cssClass="form-control" />
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon">To:</div>
-                      <s:textfield id="svmPEpsilonTo" name="svmPEpsilonTo" cssClass="form-control" />
-                    </div>
-                  </div>
-
-                  <div class="form-group">
-                    <div class="input-group">
-                      <div class="input-group-addon">Step:</div>
-                      <s:textfield id="svmPEpsilonStep" name="svmPEpsilonStep" cssClass="form-control" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div id="csvm-weight-settings" class="form-group">
-                <label class="control-label col-xs-4">Parameter C of class <var>i</var>&nbsp; to weight &sdot; C for
-                  C-SVC:</label>
-
-                <div class="col-xs-8">
-                  <s:textfield id="svmWeight" name="svmWeight" cssClass="form-control" />
                 </div>
               </div>
 
@@ -397,38 +399,45 @@
                 </div>
               </div>
 
-              <h4>Other Advanced Settings</h4>
+              <div class="advanced-settings-group">
+                <h4><span class="glyphicon glyphicon-chevron-down"></span>
+                  <a class="advanced-settings-toggle" href="#">Other Advanced Settings
+                    <small>(click to show)</small>
+                  </a></h4>
 
-              <div class="form-group">
-                <label class="control-label col-xs-4">Tolerance of termination criterion:</label>
+                <div class="advanced-settings">
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Tolerance of termination criterion:</label>
 
-                <div class="col-xs-8">
-                  <s:textfield id="svmEEpsilon" name="svmEEpsilon" cssClass="form-control" />
-                </div>
-              </div>
+                    <div class="col-xs-8">
+                      <s:textfield id="svmEEpsilon" name="svmEEpsilon" cssClass="form-control" />
+                    </div>
+                  </div>
 
-              <div class="form-group">
-                <label class="control-label col-xs-4">Use shrinking heuristics:</label>
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Use shrinking heuristics:</label>
 
-                <div class="col-xs-8 inline-radio-group">
-                  <s:radio name="svmHeuristics" list="#{'1':'Yes','0':'No'}" />
-                </div>
-              </div>
+                    <div class="col-xs-8 inline-radio-group">
+                      <s:radio name="svmHeuristics" list="#{'1':'Yes','0':'No'}" />
+                    </div>
+                  </div>
 
-              <div class="form-group">
-                <label class="control-label col-xs-4">Use probability heuristics:</label>
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Use probability heuristics:</label>
 
-                <div class="col-xs-8 inline-radio-group">
-                  <s:radio name="svmProbability" list="#{'1':'Yes','0':'No'}" />
-                </div>
-              </div>
+                    <div class="col-xs-8 inline-radio-group">
+                      <s:radio name="svmProbability" list="#{'1':'Yes','0':'No'}" />
+                    </div>
+                  </div>
 
-              <div class="form-group">
-                <label class="control-label col-xs-4">CCR or <var>R&nbsp;<sup>2</sup></var> cutoff for model
-                  acceptance:</label>
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">CCR or <var>R&nbsp;<sup>2</sup></var> cutoff for model
+                      acceptance:</label>
 
-                <div class="col-xs-8">
-                  <s:textfield id="svmCutoff" name="svmCutoff" cssClass="form-control" />
+                    <div class="col-xs-8">
+                      <s:textfield id="svmCutoff" name="svmCutoff" cssClass="form-control" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

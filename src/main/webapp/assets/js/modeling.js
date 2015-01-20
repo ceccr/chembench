@@ -2,10 +2,10 @@ function updateDatasetInfo(idString) {
     var id = parseInt(idString);
     var datasetInfo = $("#dataset-info");
     $.get("/ajaxGetDataset", {"id": id}, function(dataset) {
+        var activityType = dataset["continuous"] === true ? "Continuous" : "Category";
         datasetInfo.html("<h4>Dataset: " + dataset.name + "</h4>" + '<dl class="dl-horizontal properties-list">' +
                          "<dt>Number of compounds</dt>" + "<dd>" + dataset["numCompound"] + "</dd>" +
-                         "<dt>Activity type</dt>" + "<dd>" +
-                         (dataset["continuous"] === true ? "Continuous" : "Category") + "</dd>" +
+                         "<dt>Activity type</dt>" + "<dd>" + activityType + "</dd>" +
                          '<dt class="availableDescriptors">Available descriptors</dt>' +
                          '<dd class="available-descriptors">' + dataset["availableDescriptors"] + "</dd>" + "</dl>");
 
@@ -31,6 +31,14 @@ function updateDatasetInfo(idString) {
 
         // pretty-print the available descriptors list when we're done
         formatAvailableDescriptors(datasetInfo.find(".available-descriptors"));
+
+        // enable the correct svm type based on the selected dataset's activity value type
+        $("#svm-type-continuous, #svm-type-category").hide();
+        if (activityType.toLowerCase() === "continuous") {
+            $("#svm-type-continuous").show();
+        } else if (activityType.toLowerCase() === "category") {
+            $("#svm-type-category").show();
+        }
     }).fail(function() {
         datasetInfo.html('<h4 class="text-danger">Error fetching dataset info</h4>' +
                          "<p>A server error occurred while fetching dataset information for the selected dataset.</p>");
@@ -58,6 +66,8 @@ $(document).ready(function() {
     $(".nav-list li").removeClass("active");
     $("#nav-button-modeling").addClass("active");
     $("#descriptor-types").find("label").addClass("text-muted").find("input").prop("disabled", true);
+    hideSections();
+    $("#degree-settings, #gamma-settings").hide();
 
     var datasetSelect = $("#dataset-selection");
     datasetSelect.prepend('<option selected="selected" value="0">(Select a dataset)</option>');
@@ -85,5 +95,56 @@ $(document).ready(function() {
         } else {
             $("#internal-split-type-section").show();
         }
+    });
+
+    $('input[name="svmKernel"]').change(function(e) {
+        var degreeSettings = $("#degree-settings");
+        var gammaSettings = $("#gamma-settings");
+        degreeSettings.hide();
+        gammaSettings.hide();
+
+        var selectedRadioId = $(e.target).attr("id");
+        var selectedKernel = $('label[for="' + selectedRadioId + '"]').text();
+        if (selectedKernel === "polynomial") {
+            degreeSettings.show();
+            gammaSettings.show();
+        } else if (selectedKernel === "radial basis function" || selectedKernel === "sigmoid") {
+            gammaSettings.show();
+        }
+    });
+    $('input[name="svmKernel"]:radio:checked').trigger("change");
+
+    $('input[name="svmTypeCategory"], input[name="svmTypeContinuous"]').change(function(e) {
+        var costSettings = $("#cost-settings");
+        var nuSettings = $("#nu-settings");
+        var epsilonSettings = $("#epsilon-settings");
+        var weightSettings = $("#csvm-weight-settings");
+        costSettings.hide();
+        nuSettings.hide();
+        epsilonSettings.hide();
+        weightSettings.hide();
+
+        var selectedRadioId = $(e.target).attr("id");
+        var selectedSvm = $('label[for="' + selectedRadioId + '"]').text();
+        if (selectedSvm === "C-SVC") {
+            costSettings.show();
+            weightSettings.show();
+        } else if (selectedSvm === "nu-SVC") {
+            nuSettings.show();
+        } else if (selectedSvm === "epsilon-SVR") {
+            epsilonSettings.show();
+        } else if (selectedSvm === "nu-SVR") {
+            costSettings.show();
+            nuSettings.show();
+        }
+    });
+    $('input[name="svmTypeCategory"]:radio:checked').trigger("change");
+    $('input[name="svmTypeContinuous"]:radio:checked').trigger("change");
+
+    $(".advanced-settings-toggle").click(function(e) {
+        e.preventDefault();
+        var container = $(this).parents(".advanced-settings-group");
+        container.find(".glyphicon").toggleClass("glyphicon-chevron-up").toggleClass("glyphicon-chevron-down");
+        container.find(".advanced-settings").slideToggle();
     });
 });
