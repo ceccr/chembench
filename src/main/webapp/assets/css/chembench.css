@@ -385,6 +385,11 @@ table.compound-list td.name {
 
 .range-input-group ~ :not(.range-input-group) .form-control {
     width: 30%;
+    display: inline-block;
+}
+
+.range-input-group ~ :not(.range-input-group) .form-control ~ .help-inline {
+    margin-left: 0.5em;
 }
 
 #descriptor-types, #scaling-types {

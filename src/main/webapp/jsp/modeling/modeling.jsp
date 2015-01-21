@@ -444,7 +444,135 @@
             </div>
 
             <div id="ga-knn" class="tab-pane">
-              <h4>Genetic Algorithm <var>k</var>-Nearest Neighbors (GA-kNN) Classifier</h4>
+              <h4><var>k</var>-Nearest Neighbors Classifier with Genetic Algorithm Descriptor Selection (GA-kNN)</h4>
+
+              <div class="form-group range-input-group">
+                <label class="control-label col-xs-4">Descriptors per model:</label>
+
+                <div class="col-xs-8 form-inline">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">Minimum:</span>
+                      <s:textfield name="knnMinNumDescriptors" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">Maximum:</span>
+                      <s:textfield name="knnMaxNumDescriptors" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">Step:</span>
+                      <s:textfield name="knnDescriptorStepSize" cssClass="form-control" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Minimum nearest neighbors:</label>
+
+                <div class="col-xs-8">
+                  <s:textfield name="knnMinNearestNeighbors" cssClass="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Maximum nearest neighbors:</label>
+
+                <div class="col-xs-8">
+                  <s:textfield name="knnMaxNearestNeighbors" cssClass="form-control" />
+                </div>
+              </div>
+
+              <h4>Model Acceptance Parameters</h4>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Applicability domain cutoff:</label>
+
+                <div class="col-xs-8">
+                  <s:textfield id="knnApplicabilityDomain" name="knnApplicabilityDomain" cssClass="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Minimum CCR or <var>R&nbsp;<sup>2</sup></var> for training
+                  set:</label>
+
+                <div class="col-xs-8">
+                  <s:textfield id="knnMinTraining" name="knnMinTraining" cssClass="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Minimum CCR or <var>R&nbsp;<sup>2</sup></var> for test
+                  set:</label>
+
+                <div class="col-xs-8">
+                  <s:textfield id="knnMinTest" name="knnMinTest" cssClass="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-xs-offset-4 col-xs-12">
+                  <s:checkbox id="knnGaErrorBasedFit" name="knnGaErrorBasedFit" />
+                  <label for="knnGaErrorBasedFit">Use error based fit index</label>
+                </div>
+              </div>
+
+              <div class="advanced-settings-group">
+                <h4><span class="glyphicon glyphicon-chevron-down"></span>
+                  <a class="advanced-settings-toggle" href="#">Genetic Algorithm Parameters
+                    <small>(click to toggle)</small>
+                  </a></h4>
+
+                <div class="advanced-settings">
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Population size:</label>
+
+                    <div class="col-xs-8">
+                      <s:textfield id="gaPopulationSize" name="gaPopulationSize" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Maximum number of generations:</label>
+
+                    <div class="col-xs-8">
+                      <s:textfield id="gaMaxNumGenerations" name="gaMaxNumGenerations" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Stop if stable for this many generations:</label>
+
+                    <div class="col-xs-8">
+                      <s:textfield id="gaNumStableGenerations" name="gaNumStableGenerations" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Group size for tournament selection:</label>
+
+                    <div class="col-xs-8">
+                      <s:textfield id="gaTournamentGroupSize" name="gaTournamentGroupSize" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Minimum fitness difference to proceed:</label>
+
+                    <div class="col-xs-8">
+                      <s:textfield id="gaMinFitnessDifference" name="gaMinFitnessDifference" cssClass="form-control" />
+                      <span class="help-inline">(log<sub>10</sub> units)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <div id="sa-knn" class="tab-pane">
