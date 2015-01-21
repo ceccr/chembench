@@ -502,7 +502,7 @@
                 <label class="control-label col-xs-4">Applicability domain cutoff:</label>
 
                 <div class="col-xs-8">
-                  <s:textfield id="knnApplicabilityDomain" name="knnApplicabilityDomain" cssClass="form-control" />
+                  <s:textfield name="knnApplicabilityDomain" cssClass="form-control" />
                 </div>
               </div>
 
@@ -511,7 +511,7 @@
                   set:</label>
 
                 <div class="col-xs-8">
-                  <s:textfield id="knnMinTraining" name="knnMinTraining" cssClass="form-control" />
+                  <s:textfield name="knnMinTraining" cssClass="form-control" />
                 </div>
               </div>
 
@@ -520,7 +520,7 @@
                   set:</label>
 
                 <div class="col-xs-8">
-                  <s:textfield id="knnMinTest" name="knnMinTest" cssClass="form-control" />
+                  <s:textfield name="knnMinTest" cssClass="form-control" />
                 </div>
               </div>
 
@@ -634,7 +634,7 @@
                 <label class="control-label col-xs-4">Applicability domain cutoff:</label>
 
                 <div class="col-xs-8">
-                  <s:textfield id="knnApplicabilityDomain" name="knnApplicabilityDomain" cssClass="form-control" />
+                  <s:textfield name="knnApplicabilityDomain" cssClass="form-control" />
                 </div>
               </div>
 
@@ -643,7 +643,7 @@
                   set:</label>
 
                 <div class="col-xs-8">
-                  <s:textfield id="knnMinTraining" name="knnMinTraining" cssClass="form-control" />
+                  <s:textfield name="knnMinTraining" cssClass="form-control" />
                 </div>
               </div>
 
@@ -652,7 +652,7 @@
                   set:</label>
 
                 <div class="col-xs-8">
-                  <s:textfield id="knnMinTest" name="knnMinTest" cssClass="form-control" />
+                  <s:textfield name="knnMinTest" cssClass="form-control" />
                 </div>
               </div>
 
