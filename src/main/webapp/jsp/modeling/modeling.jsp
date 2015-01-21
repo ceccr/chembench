@@ -77,6 +77,13 @@
               </div>
             </div>
           </div>
+
+          <p id="small-dataset-warning" class="bg-danger">
+            <span class="text-danger"><strong>Warning:</strong></span> The dataset you have selected has <strong>fewer
+            than 40 compounds</strong>. We do not recommend developing any statistical QSAR models using a dataset with
+            fewer than 40 compounds because it is generally not possible to evaluate the external accuracy of models on
+            such small datasets.
+          </p>
         </div>
       </div>
 

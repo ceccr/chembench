@@ -414,3 +414,12 @@ table.compound-list td.name {
 .advanced-settings-group .advanced-settings {
     display: none;
 }
+
+.bg-primary, .bg-success, .bg-info, .bg-warning, .bg-danger {
+    padding: 1em;
+}
+
+#small-dataset-warning {
+    margin-top: 1em;
+    display: none;
+}

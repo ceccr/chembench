@@ -15,6 +15,14 @@ function updateDatasetInfo(idString) {
             datasetInfo.find("dl").append("<dt>Uploaded descriptor type</dt>" + "<dd>" +
                                           dataset["uploadedDescriptorType"] + "</dd>");
         }
+
+        var warningBox = $("#small-dataset-warning");
+        if (numCompound < 40) {
+            warningBox.show();
+        } else {
+            warningBox.hide();
+        }
+
         // enable only available descriptors in Descriptor Set selection
         $('input[name="descriptorGenerationType"]').prop("disabled",
             true).removeAttr("checked").parent().addClass("text-muted");
