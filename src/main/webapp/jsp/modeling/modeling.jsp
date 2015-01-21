@@ -585,7 +585,83 @@
             <div id="sa-knn" class="tab-pane">
               <h4><var>k</var>-Nearest Neighbors Classifier with Simulated Annealing Descriptor Selection (SA-kNN)</h4>
 
+              <div class="form-group range-input-group">
+                <label class="control-label col-xs-4">Descriptors per model:</label>
 
+                <div class="col-xs-8 form-inline">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">Minimum:</span>
+                      <s:textfield name="knnMinNumDescriptors" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">Maximum:</span>
+                      <s:textfield name="knnMaxNumDescriptors" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <div class="input-group">
+                      <span class="input-group-addon">Step:</span>
+                      <s:textfield name="knnDescriptorStepSize" cssClass="form-control" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Minimum nearest neighbors:</label>
+
+                <div class="col-xs-8">
+                  <s:textfield name="knnMinNearestNeighbors" cssClass="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Maximum nearest neighbors:</label>
+
+                <div class="col-xs-8">
+                  <s:textfield name="knnMaxNearestNeighbors" cssClass="form-control" />
+                </div>
+              </div>
+
+              <h4>Model Acceptance Parameters</h4>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Applicability domain cutoff:</label>
+
+                <div class="col-xs-8">
+                  <s:textfield id="knnApplicabilityDomain" name="knnApplicabilityDomain" cssClass="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Minimum CCR or <var>R&nbsp;<sup>2</sup></var> for training
+                  set:</label>
+
+                <div class="col-xs-8">
+                  <s:textfield id="knnMinTraining" name="knnMinTraining" cssClass="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="control-label col-xs-4">Minimum CCR or <var>R&nbsp;<sup>2</sup></var> for test
+                  set:</label>
+
+                <div class="col-xs-8">
+                  <s:textfield id="knnMinTest" name="knnMinTest" cssClass="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-xs-offset-4 col-xs-8">
+                  <s:checkbox id="knnSaErrorBasedFit" name="knnSaErrorBasedFit" />
+                  <label for="knnGaErrorBasedFit">Use error based fit index</label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
