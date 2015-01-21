@@ -583,7 +583,9 @@
             </div>
 
             <div id="sa-knn" class="tab-pane">
-              <h4>Simulated Annealing <var>k</var>-Nearest Neighbors (SA-kNN) Classifier</h4>
+              <h4><var>k</var>-Nearest Neighbors Classifier with Simulated Annealing Descriptor Selection (SA-kNN)</h4>
+
+
             </div>
           </div>
         </div>
@@ -608,13 +610,15 @@
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Number of data splits:</label>
+
                 <div class="col-xs-2">
-                   <s:textfield name="numSplitsInternalSphere" id="numSplitsInternalSphere" cssClass="form-control" />
+                  <s:textfield name="numSplitsInternalSphere" id="numSplitsInternalSphere" cssClass="form-control" />
                 </div>
               </div>
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Minimum test set size:</label>
+
                 <div class="col-xs-2">
                   <div class="input-group">
                     <s:textfield name="sphereSplitMinTestSize" id="sphereSplitMinTestSize" cssClass="form-control" />
@@ -625,6 +629,7 @@
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Force minimum activity compound into all training sets:</label>
+
                 <div class="col-xs-8 inline-radio-group">
                   <s:radio list="#{'true':'Yes','false':'No'}" name="splitIncludesMin" />
                 </div>
@@ -632,6 +637,7 @@
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Force maximum activity compound into all training sets:</label>
+
                 <div class="col-xs-8 inline-radio-group">
                   <s:radio list="#{'true':'Yes','false':'No'}" name="splitIncludesMax" />
                 </div>
@@ -639,6 +645,7 @@
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Select next training set point based on:</label>
+
                 <div class="col-xs-6">
                   <s:select name="selectionNextTrainPt" id="selectionNextTrainPt" cssClass="form-control"
                             list="#{'0':'Random Selection','1':'Expand Outwards from Already Selected Points','2':'Even Coverage of Descriptor Space','3':'Work Inwards from Boundaries of Descriptor Space'}" />
@@ -654,6 +661,7 @@
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Number of data splits:</label>
+
                 <div class="col-xs-2">
                   <s:textfield name="numSplitsInternalRandom" id="numSplitsInternalRandom" cssClass="form-control" />
                 </div>
@@ -661,6 +669,7 @@
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Minimum test set size:</label>
+
                 <div class="col-xs-2">
                   <div class="input-group">
                     <s:textfield name="randomSplitMinTestSize" id="randomSplitMinTestSize" cssClass="form-control" />
@@ -671,6 +680,7 @@
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Maximum test set size:</label>
+
                 <div class="col-xs-2">
                   <div class="input-group">
                     <s:textfield name="randomSplitMaxTestSize" id="randomSplitMaxTestSize" cssClass="form-control" />
