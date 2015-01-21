@@ -662,6 +662,74 @@
                   <label for="knnGaErrorBasedFit">Use error based fit index</label>
                 </div>
               </div>
+
+              <div class="advanced-settings-group">
+                <h4><span class="glyphicon glyphicon-chevron-down"></span>
+                  <a class="advanced-settings-toggle" href="#">Simulated Annealing Parameters
+                    <small>(click to toggle)</small>
+                  </a></h4>
+
+                <div class="advanced-settings">
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Number of runs:</label>
+                    <div class="col-xs-8">
+                      <s:textfield id="saNumRuns" name="saNumRuns" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Mutation probability per descriptor:</label>
+                    <div class="col-xs-8">
+                      <s:textfield id="saMutationProbabilityPerDescriptor" name="saMutationProbabilityPerDescriptor"
+                                   cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Number of best models to store:</label>
+                    <div class="col-xs-8">
+                      <s:textfield id="saNumBestModels" name="saNumBestModels" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Temperature decrease coefficient:</label>
+                    <div class="col-xs-8">
+                      <s:textfield id="saTempDecreaseCoefficient" name="saTempDecreaseCoefficient"
+                                   cssClass="form-control" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-xs-offset-4 col-xs-8">
+                      <span class="help-block margin-below">
+                        Moving the Temperature Decrease Coefficient closer to 0 will make descriptor selection faster
+                        but less optimal.
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Log. initial temperature:</label>
+                    <div class="col-xs-8">
+                      <s:textfield id="saLogInitialTemp" name="saLogInitialTemp" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Log. final temperature:</label>
+                    <div class="col-xs-8">
+                      <s:textfield id="saFinalTemp" name="saFinalTemp" cssClass="form-control" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-xs-4">Log. temperature convergence range:</label>
+                    <div class="col-xs-8">
+                      <s:textfield id="saTempConvergence" name="saTempConvergence" cssClass="form-control" />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
