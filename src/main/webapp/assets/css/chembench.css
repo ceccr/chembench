@@ -420,6 +420,12 @@ table.compound-list td.name {
     display: none;
 }
 
+#already-scaled-info {
+    margin-top: -0.5em;
+    margin-bottom: 1em;
+    display: none;
+}
+
 .margin-below {
     margin-bottom: 1.5em;
 }

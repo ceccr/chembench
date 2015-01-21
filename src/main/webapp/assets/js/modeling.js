@@ -12,8 +12,14 @@ function updateDatasetInfo(idString) {
 
         var availableDescriptors = datasetInfo.find(".available-descriptors").text().trim().split(/\s+/);
         if ($.inArray("UPLOADED", availableDescriptors) >= 0) {
-            datasetInfo.find("dl").append("<dt>Uploaded descriptor type</dt>" + "<dd>" +
-                                          dataset["uploadedDescriptorType"] + "</dd>");
+            var uploadedDescriptorType = dataset["uploadedDescriptorType"];
+            datasetInfo.find("dl").append("<dt>Uploaded descriptor type</dt>" + "<dd>" + uploadedDescriptorType +
+                                          "</dd>");
+            $('input[name="descriptorGenerationType"][value="UPLOADED"]').parents("label").append('<span id="uploaded-descriptor-type">("' +
+                                                                                                  uploadedDescriptorType +
+                                                                                                  '")</span>');
+        } else {
+            $("#uploaded-descriptor-type").remove();
         }
 
         var warningBox = $("#small-dataset-warning");
