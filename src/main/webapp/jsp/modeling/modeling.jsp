@@ -525,7 +525,7 @@
               </div>
 
               <div class="form-group">
-                <div class="col-xs-offset-4 col-xs-12">
+                <div class="col-xs-offset-4 col-xs-8">
                   <s:checkbox id="knnGaErrorBasedFit" name="knnGaErrorBasedFit" />
                   <label for="knnGaErrorBasedFit">Use error based fit index</label>
                 </div>
