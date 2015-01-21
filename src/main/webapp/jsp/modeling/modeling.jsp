@@ -148,12 +148,17 @@
 
           <h4>Scaling Type</h4>
 
+          <input type="hidden" name="uploaded-descriptors-scaled">
+          <s:hidden id="defaultScalingType" value="%{scalingType}" />
           <div id="scaling-types" class="form-group">
             <div class="inline-radio-group col-xs-12">
               <s:radio name="scalingType" id="scalingType" value="scalingType"
                        list="#{'RANGESCALING':'Range Scaling','AUTOSCALING':'Auto Scaling','NOSCALING':'None'}" />
             </div>
           </div>
+          <p id="already-scaled-info" class="bg-info">
+            Your uploaded descriptors have already been scaled, so you can't scale them again.
+          </p>
 
           <h4>Descriptor Filtering Options</h4>
 

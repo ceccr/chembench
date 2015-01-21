@@ -10,6 +10,8 @@ function updateDatasetInfo(idString) {
                          '<dt class="availableDescriptors">Available descriptors</dt>' +
                          '<dd class="available-descriptors">' + dataset["availableDescriptors"] + "</dd>" + "</dl>");
 
+        $('input[name="uploaded-descriptors-scaled"]').val(dataset["hasBeenScaled"]);
+
         var availableDescriptors = datasetInfo.find(".available-descriptors").text().trim().split(/\s+/);
         if ($.inArray("UPLOADED", availableDescriptors) >= 0) {
             var uploadedDescriptorType = dataset["uploadedDescriptorType"];
@@ -175,6 +177,21 @@ $(document).ready(function() {
         container.find(".glyphicon").toggleClass("glyphicon-chevron-up glyphicon-chevron-down");
         container.find(".advanced-settings").slideToggle();
     });
+
+    $('input[name="descriptorGenerationType"]').change(function() {
+        var scalingTypes = $("#scaling-types");
+        var infoBox = $("#already-scaled-info");
+        if ($(this).val() === "UPLOADED" && $('input[name="uploaded-descriptors-scaled"]').val() === "true") {
+            scalingTypes.addClass("text-muted").find("input").prop("disabled", true);
+            infoBox.show();
+            scalingTypes.find('[value="NOSCALING"]').prop("checked", true);
+        } else {
+            scalingTypes.removeClass("text-muted").find("input").prop("disabled", false);
+            infoBox.hide();
+            var defaultScalingType = $('input[type="hidden"]#defaultScalingType').val();
+            $('input[name="scalingType"][value="' + defaultScalingType + '"]').prop("checked", true);
+        }
+    })
 });
 
 $(window).on("beforeunload", function() {
