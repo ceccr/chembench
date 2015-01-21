@@ -162,3 +162,7 @@ $(document).ready(function() {
         container.find(".advanced-settings").slideToggle();
     });
 });
+
+$(window).on("beforeunload", function() {
+    $(window).scrollTop(0);
+});
