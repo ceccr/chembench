@@ -32,7 +32,7 @@
       <div class="tab-content">
         <div id="change-password" class="tab-pane active">
           <h3>Change Password</h3>
-          <p class="tab-description">To change your password, first enter your current password, then type and
+          <p class="margin-below">To change your password, first enter your current password, then type and
             confirm your new password.</p>
           <s:form action="changePassword" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
             <div class="form-group">
@@ -67,7 +67,7 @@
 
         <div id="profile-information" class="tab-pane">
           <h3>Profile Information</h3>
-          <p class="tab-description">
+          <p class="margin-below">
             Here you can update your user profile information. Note that fields marked with an asterisk (<span
               class="glyphicon glyphicon-asterisk"></span>) are required.
           </p>
@@ -170,7 +170,7 @@
 
         <div id="user-options" class="tab-pane">
           <h3>User Options</h3>
-          <p class="tab-description">Here you can adjust user-specific settings for Chembench.</p>
+          <p class="margin-below">Here you can adjust user-specific settings for Chembench.</p>
           <hr>
           <s:form action="updateUserOptions" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
             <h4>Public Datasets and Predictors</h4>

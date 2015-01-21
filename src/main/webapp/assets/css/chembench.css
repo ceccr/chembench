@@ -138,10 +138,6 @@ footer {
     padding: 0 1.5em;
 }
 
-.tab-pane .tab-description {
-    margin-bottom: 1.5em;
-}
-
 .panel-heading h1, .panel-heading h2, .panel-heading h3, .panel-heading h4, .panel-heading h5, .panel-heading h6 {
     margin: 0;
 }
@@ -422,4 +418,8 @@ table.compound-list td.name {
 #small-dataset-warning {
     margin-top: 1em;
     display: none;
+}
+
+.margin-below {
+    margin-bottom: 1.5em;
 }

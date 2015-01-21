@@ -174,7 +174,7 @@
       <div id="all-compounds" class="tab-pane active">
         <h3>All Compounds</h3>
 
-        <p class="tab-description">All compounds in your dataset are listed in the table below, including those in
+        <p class="margin-below">All compounds in your dataset are listed in the table below, including those in
           your external set.</p>
         <table class="table table-hover tablesorter compound-list">
           <thead>
@@ -265,7 +265,7 @@
           <div id="external-set" class="tab-pane">
             <h3>External Set</h3>
 
-            <p class="tab-description">The compounds in your dataset's external test set are listed in the table
+            <p class="margin-below">The compounds in your dataset's external test set are listed in the table
               below.</p>
             <table class="table table-hover tablesorter compound-list">
               <thead>
@@ -306,7 +306,7 @@
         <div id="activity-histogram" class="tab-pane">
           <h3>Activity Histogram</h3>
 
-          <p class="tab-description">Below is a histogram of the activity values of the compounds in your dataset.
+          <p class="margin-below">Below is a histogram of the activity values of the compounds in your dataset.
             The range of activity values have been divided into 10 bins.</p>
 
           <div class="text-center">
@@ -325,7 +325,7 @@
       <div id="descriptors" class="tab-pane">
         <h3>Descriptors</h3>
 
-        <p class="tab-description">Here you can see the results of descriptor generation for each descriptor type,
+        <p class="margin-below">Here you can see the results of descriptor generation for each descriptor type,
           and a summary of any errors that occurred during descriptor generation.</p>
 
         <s:iterator value="descriptorGenerationResults">

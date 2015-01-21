@@ -36,7 +36,7 @@
               <span class="glyphicon glyphicon-refresh"></span> Refresh
             </button>
           </h3>
-          <p class="tab-description">
+          <p class="margin-below">
             Running jobs from all Chembench users are displayed below. Use the <b>Refresh</b> button to update the list.
             Other users can see your jobs while they are running, but only you can access your completed datasets,
             predictors, and predictions.
