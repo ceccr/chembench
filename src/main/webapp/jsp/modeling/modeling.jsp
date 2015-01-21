@@ -468,7 +468,8 @@
             <div id="sphere-exclusion" class="tab-pane active">
               <h4>Sphere Exclusion</h4>
 
-              <p class="tab-description">Recommended for datasets with <b>fewer than 300</b> compounds.</p>
+              <p class="tab-description bg-warning">Recommended for datasets with
+                <strong>fewer than 300 compounds.</strong></p>
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Number of data splits:</label>
@@ -513,7 +514,8 @@
             <div id="random-split" class="tab-pane">
               <h4>Random Split</h4>
 
-              <p class="tab-description">Recommended for datasets with <b>300 or more</b> compounds.</p>
+              <p class="tab-description bg-warning">Recommended for datasets with <strong>300 or more
+                compounds.</strong></p>
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Number of data splits:</label>
