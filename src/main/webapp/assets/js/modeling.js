@@ -37,8 +37,10 @@ function updateDatasetInfo(idString) {
         $("#svm-type-continuous, #svm-type-category").hide();
         if (activityType.toLowerCase() === "continuous") {
             $("#svm-type-continuous").show();
+            $('input[name="svmTypeContinuous"]:radio:checked').trigger("change");
         } else if (activityType.toLowerCase() === "category") {
             $("#svm-type-category").show();
+            $('input[name="svmTypeCategory"]:radio:checked').trigger("change");
         }
 
         // select the correct internal split type depending on the number of compounds in the dataset
@@ -152,8 +154,6 @@ $(document).ready(function() {
             nuSettings.show();
         }
     });
-    $('input[name="svmTypeCategory"]:radio:checked').trigger("change");
-    $('input[name="svmTypeContinuous"]:radio:checked').trigger("change");
 
     $(".advanced-settings-toggle").click(function(e) {
         e.preventDefault();
