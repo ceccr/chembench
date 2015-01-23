@@ -58,11 +58,11 @@
             <s:else>
               <s:if test="dataset.modiGenerated">
                 <s:if test="dataset.modi >= @edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE">
-                    <span class="modi-value text-success" title="Modelable"> <s:property
+                    <span class="text-success" title="Modelable"> <s:property
                         value="getText('{0, number, #, ##0.00}', {dataset.modi})"/></span>
                 </s:if>
                 <s:else>
-                    <span class="modi-value text-danger" title="Not modelable"> <s:property
+                    <span class="text-danger" title="Not modelable"> <s:property
                         value="getText('{0, number, #, ##0.00}', {dataset.modi})"/></span>
                 </s:else>
               </s:if>
@@ -400,7 +400,7 @@
 
 <%@ include file="/jsp/main/tail.jsp" %>
 <script>
-  $(document).ready(function () {
+  $(document).ready(function() {
     window.flashvars = {
       "web-addr": "<s:property value='webAddress' />",
       "dataset": "<s:property value='dataset.name' />",
@@ -410,13 +410,13 @@
       "desc": "<s:property value='dataset.description' />",
       "actFile": "<s:property value='dataset.actFile' />",
       "sdfFile": "<s:property value='dataset.sdfFile' />",
-      "user": "<s:property value='dataset.userName' />",
+      "user": "<s:property value='dataset.userName' />"
     };
     window.params = {
-      "quality": "high",
+      "quality": "high"
     };
     window.attributes = {
-      "class": "embed-responsive-item",
+      "class": "embed-responsive-item"
     };
   });
 </script>
