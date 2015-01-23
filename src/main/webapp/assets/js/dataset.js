@@ -8,14 +8,15 @@ $(document).ready(function() {
     splitTypeInput.val($(".tab-pane:first-child").find('input[name="split-type"]').val());
 
     // add red background for unfilled file upload fields
-    $('input[type="file"]:not(.optional-sdf-select)').each(function() {
+    var requiredFileFields = $('input[type="file"]').not(".optional-sdf-select");
+    requiredFileFields.each(function() {
         if (!$(this).val()) {
             $(this).parent("div").addClass("bg-danger");
         }
     });
 
     // change background for file upload fields when file is selected/deselected
-    $('input[type="file"]').change(function() {
+    requiredFileFields.change(function() {
         var parent = $(this).parent("div");
         if ($(this).val()) {
             parent.removeClass("bg-danger");
@@ -28,8 +29,12 @@ $(document).ready(function() {
 
     // for optional sdf fields, only reveal additional options when an sdf is chosen
     $('input[type="file"].optional-sdf-select').change(function() {
-        $(this).parents(".optional-sdf").removeClass("text-muted");
-        $(".optional-sdf-options").show();
+        var container = $(this).parents(".optional-sdf");
+        if ($(this).val()) {
+            container.removeClass("text-muted").siblings(".optional-sdf-options").show();
+        } else {
+            container.addClass("text-muted").siblings(".optional-sdf-options").hide();
+        }
     });
 
     $('.descriptor-type input[type="radio"]').click(function() {
