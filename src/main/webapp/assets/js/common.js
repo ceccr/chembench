@@ -55,8 +55,7 @@ $(document).ready(function() {
         if (event.which === 1) {
             window.location = $(this).find("a").attr("href");
         }
-    });
-    $(".nav-list li").on("mouseenter mouseleave", function(event) {
+    }).on("mouseenter mouseleave", function(event) {
         $(this).find("a").toggleClass("hovered", event.type === "mouseenter");
     });
 
@@ -115,7 +114,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: "/generateModi",
-            data: { id: parent.children('input[name="dataset-id"]').val() },
+            data: { id: parent.children('input[name="dataset-id"]').val() }
         }).success(function(modiValue) {
             parent.text(modiValue.toFixed(2)); // round to two decimal places
         }).fail(function() {
@@ -125,23 +124,23 @@ $(document).ready(function() {
 
     $.tablesorter.addParser({
         id: "modi",
-        is: function(s, table, cell, $cell) {
+        is: function() {
             return false;
         },
-        format: function(s, table, cell, cellIndex) {
+        format: function(s) {
             if ($.isNumeric(s)) {
                 return s;
             } else {
                 return "";
             }
         },
-        type: "text",
+        type: "text"
     });
 
     $.tablesorter.themes.bootstrap = {
             sortNone: "glyphicon glyphicon-sort",
             sortAsc: "glyphicon glyphicon-sort-by-attributes",
-            sortDesc: "glyphicon glyphicon-sort-by-attributes-alt",
+            sortDesc: "glyphicon glyphicon-sort-by-attributes-alt"
         };
 
     $(".tablesorter").tablesorter({
@@ -149,6 +148,6 @@ $(document).ready(function() {
 
         theme: "bootstrap",
         headerTemplate: "{content} {icon}",
-        widgets: ["uitheme"],
+        widgets: ["uitheme"]
     });
 });
