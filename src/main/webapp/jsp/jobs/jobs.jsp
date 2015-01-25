@@ -306,20 +306,13 @@
                       ("<s:property value="uploadedDescriptorType" />")
                     </s:if>
                   </td>
-                  <td>
+                  <td class="modi-value">
                     <s:if test="!canGenerateModi()">
-                      <span class="text-muted">Not available</span>
+                      Not available
                     </s:if>
                     <s:else>
                       <s:if test="modiGenerated">
-                        <s:if test="modi >= @edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE">
-                          <span class="modi-value text-success" title="Modelable"> <s:property
-                              value="getText('{0, number, #, ##0.00}', {modi})" /></span>
-                        </s:if>
-                        <s:else>
-                          <span class="modi-value text-danger" title="Not modelable"> <s:property
-                              value="getText('{0, number, #, ##0.00}', {modi})" /></span>
-                        </s:else>
+                        <s:property value="modi" />
                       </s:if>
                       <s:else>
                         <input type="hidden" name="dataset-id" value="<s:property value="id" />">

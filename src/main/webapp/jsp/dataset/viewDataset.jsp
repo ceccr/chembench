@@ -51,20 +51,13 @@
           </dd>
 
           <dt>Modelability index</dt>
-          <dd>
+          <dd class="modi-value">
             <s:if test="!dataset.canGenerateModi()">
-              <span class="text-muted">MODI cannot be generated for this dataset.</span>
+              MODI cannot be generated for this dataset.
             </s:if>
             <s:else>
               <s:if test="dataset.modiGenerated">
-                <s:if test="dataset.modi >= @edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE">
-                    <span class="text-success" title="Modelable"> <s:property
-                        value="getText('{0, number, #, ##0.00}', {dataset.modi})"/></span>
-                </s:if>
-                <s:else>
-                    <span class="text-danger" title="Not modelable"> <s:property
-                        value="getText('{0, number, #, ##0.00}', {dataset.modi})"/></span>
-                </s:else>
+                <s:property value="dataset.modi" />
               </s:if>
               <s:else>
                 <input type="hidden" name="dataset-id" value="<s:property value="dataset.id" />">
