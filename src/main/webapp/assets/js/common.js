@@ -108,14 +108,15 @@ $(document).ready(function() {
     });
 
     $(".generate-modi").click(function() {
-        $(this).text("Generating...").prop("disabled", "disabled");
-        var parent = $(this).parent();
+        var button = $(this).text("Generating...").prop("disabled", "disabled");
+        var parent = button.parent(".modi-value");
         $.ajax({
             type: "POST",
             url: "/generateModi",
             data: {id: parent.children('input[name="dataset-id"]').val()}
         }).success(function(modiValue) {
-            parent.text(modiValue.toFixed(2)); // round to two decimal places
+            parent.text(modiValue);
+            formatModi();
         }).fail(function() {
             parent.html('<span class="text-danger">MODI generation failed</span>');
         });
