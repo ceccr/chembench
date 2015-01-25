@@ -9,7 +9,7 @@
         <option name="FORMATTER_TAGS_ENABLED" value="true" />
         <JSCodeStyleSettings>
           <option name="SPACE_BEFORE_FUNCTION_LEFT_PARENTH" value="false" />
-          <option name="OBJECT_LITERAL_WRAP" value="1" />
+          <option name="OBJECT_LITERAL_WRAP" value="2" />
         </JSCodeStyleSettings>
         <XML>
           <option name="XML_SPACE_INSIDE_EMPTY_TAG" value="true" />
@@ -52,7 +52,8 @@
           <option name="KEEP_FIRST_COLUMN_COMMENT" value="false" />
           <option name="KEEP_BLANK_LINES_IN_CODE" value="1" />
           <option name="ALIGN_MULTILINE_BINARY_OPERATION" value="true" />
-          <option name="CALL_PARAMETERS_WRAP" value="1" />
+          <option name="ALIGN_MULTILINE_ARRAY_INITIALIZER_EXPRESSION" value="true" />
+          <option name="CALL_PARAMETERS_WRAP" value="5" />
           <option name="METHOD_PARAMETERS_WRAP" value="1" />
           <option name="BINARY_OPERATION_WRAP" value="1" />
           <option name="TERNARY_OPERATION_WRAP" value="1" />

@@ -69,10 +69,10 @@ $(document).ready(function() {
     $("#guest-login").click(function(event) {
         event.preventDefault();
 
-        var guestMessage = "A guest account allows a user to explore the functionality of Chembench using publicly "
-            + "available datasets, predictions on single molecules, and modeling using Random Forests. "
-            + "<br><br> All guest data is deleted when you leave the site or become inactive for 90 minutes. "
-            + "For additional functionality, please register an account.";
+        var guestMessage = "A guest account allows a user to explore the functionality of Chembench using publicly " +
+                           "available datasets, predictions on single molecules, and modeling using Random Forests. " +
+                           "<br><br> All guest data is deleted when you leave the site or become inactive for 90 minutes. " +
+                           "For additional functionality, please register an account.";
 
         bootbox.confirm(guestMessage, function(response) {
             if (response === true) {
@@ -95,17 +95,13 @@ $(document).ready(function() {
     });
     $(".split-type").each(function() {
         var splitType = $(this).text();
-        $(this).text(splitType
-                .replace("NFOLD", "N-fold")
-                .replace("RANDOM", "Random Split")
-                .replace("USERDEFINED", "User-defined"));
+        $(this).text(splitType.replace("NFOLD", "N-fold").replace("RANDOM", "Random Split").replace("USERDEFINED",
+            "User-defined"));
     });
     $(".dataset-type").each(function() {
         var datasetType = $(this).text();
-        $(this).text(datasetType
-                .replace("MODELING", "Modeling")
-                .replace("PREDICTION", "Prediction")
-                .replace("WITHDESCRIPTORS", ", with descriptors"));
+        $(this).text(datasetType.replace("MODELING", "Modeling").replace("PREDICTION",
+            "Prediction").replace("WITHDESCRIPTORS", ", with descriptors"));
     });
 
     $(".generate-modi").click(function() {
@@ -114,7 +110,7 @@ $(document).ready(function() {
         $.ajax({
             type: "POST",
             url: "/generateModi",
-            data: { id: parent.children('input[name="dataset-id"]').val() }
+            data: {id: parent.children('input[name="dataset-id"]').val()}
         }).success(function(modiValue) {
             parent.text(modiValue.toFixed(2)); // round to two decimal places
         }).fail(function() {
@@ -138,10 +134,10 @@ $(document).ready(function() {
     });
 
     $.tablesorter.themes.bootstrap = {
-            sortNone: "glyphicon glyphicon-sort",
-            sortAsc: "glyphicon glyphicon-sort-by-attributes",
-            sortDesc: "glyphicon glyphicon-sort-by-attributes-alt"
-        };
+        sortNone: "glyphicon glyphicon-sort",
+        sortAsc: "glyphicon glyphicon-sort-by-attributes",
+        sortDesc: "glyphicon glyphicon-sort-by-attributes-alt"
+    };
 
     $(".tablesorter").tablesorter({
         sortStable: true,

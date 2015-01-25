@@ -5,16 +5,16 @@ function toggleForm() {
 
 function composeRow(object) {
     var imageParams = {
-        user : $("input#username").val(),
-        projectType : "dataset",
-        compoundId : object["compoundId"],
-        datasetName : $("input#dataset-name").val(),
+        user: $("input#username").val(),
+        projectType: "dataset",
+        compoundId: object["compoundId"],
+        datasetName: $("input#dataset-name").val(),
     };
 
     var r = '<tr><td class="name">' + object["compoundId"] + '</td>';
     if ($("input#has-structures").val() === "true") {
-        r += '<td><img src="imageServlet?'+ $.param(imageParams)
-                + '" class="img-thumbnail" width="125px" height="125px" alt="Compound structure"></td>';
+        r += '<td><img src="imageServlet?' + $.param(imageParams) +
+             '" class="img-thumbnail" width="125px" height="125px" alt="Compound structure"></td>';
     }
     r += '<td>' + object["activityValue"] + '</td></tr>';
     return r;
@@ -48,14 +48,14 @@ function updatePages(clicked) {
 
 $(document).ready(function() {
     var popOverConfig = {
-        html : true,
+        html: true,
         template: '<div class="popover popover-image" role="tooltip">' +
                   '<div class="arrow"></div><div class="popover-content"></div></div>',
-        content : function() {
+        content: function() {
             return '<img src="' + $(this).attr("src") + '">';
         },
-        trigger : "hover",
-        placement : "right",
+        trigger: "hover",
+        placement: "right",
     };
 
     $(".nav-list li").removeClass("active");
@@ -83,9 +83,9 @@ $(document).ready(function() {
         var newDescription = $('textarea[name="datasetDescription"]').val();
         var newPaperReference = $('textarea[name="datasetReference"]').val();
         $.ajax({
-            url : form.attr("action"),
-            method : "POST",
-            data : form.serialize(),
+            url: form.attr("action"),
+            method: "POST",
+            data: form.serialize(),
         }).success(function() {
             if (newDescription) {
                 $("#description").text(newDescription);
@@ -132,8 +132,15 @@ $(document).ready(function() {
             var firstFold = $('ul.pagination > li:not(".previous, .next")').first();
             firstFold.children("a").click();
         } else if (e.currentTarget.hash === "#heatmap") {
-            swfobject.embedSWF("assets/swf/heatmap.swf", "heatmapSwfContainer", "924", "924", "9.0.28", false,
-                Chembench.Heatmap.flashvars, Chembench.Heatmap.params, Chembench.Heatmap.attributes);
+            swfobject.embedSWF("assets/swf/heatmap.swf",
+                "heatmapSwfContainer",
+                "924",
+                "924",
+                "9.0.28",
+                false,
+                Chembench.Heatmap.flashvars,
+                Chembench.Heatmap.params,
+                Chembench.Heatmap.attributes);
         }
     });
 
