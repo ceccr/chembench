@@ -133,7 +133,7 @@ $(document).ready(function() {
             firstFold.children("a").click();
         } else if (e.currentTarget.hash === "#heatmap") {
             swfobject.embedSWF("assets/swf/heatmap.swf", "heatmapSwfContainer", "924", "924", "9.0.28", false,
-                    flashvars, params, attributes);
+                Chembench.Heatmap.flashvars, Chembench.Heatmap.params, Chembench.Heatmap.attributes);
         }
     });
 

@@ -394,7 +394,8 @@
 <%@ include file="/jsp/main/tail.jsp" %>
 <script>
   $(document).ready(function() {
-    window.flashvars = {
+    Chembench.Heatmap = {};
+    Chembench.Heatmap.flashvars = {
       "web-addr": "<s:property value='webAddress' />",
       "dataset": "<s:property value='dataset.name' />",
       "ncom": "<s:property value='dataset.numCompound' />",
@@ -405,10 +406,10 @@
       "sdfFile": "<s:property value='dataset.sdfFile' />",
       "user": "<s:property value='dataset.userName' />"
     };
-    window.params = {
+    Chembench.Heatmap.params = {
       "quality": "high"
     };
-    window.attributes = {
+    Chembench.Heatmap.attributes = {
       "class": "embed-responsive-item"
     };
   });
