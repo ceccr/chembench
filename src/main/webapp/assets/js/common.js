@@ -32,8 +32,11 @@ function formatModi() {
     $(".modi-value").each(function() {
         var element = $(this);
         var value = element.text();
-        if (isNaN(value) && element.not(":has(.generate-modi)")) {
-            element.addClass("text-muted");
+        if (isNaN(value)) {
+            // XXX don't combine this conditional with the top one!
+            if (element.has(".generate-modi").length === 0) {
+                element.addClass("text-muted");
+            }
         } else {
             var valueNumeric = parseFloat(value);
             var tooltip;
