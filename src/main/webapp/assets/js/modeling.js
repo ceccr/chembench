@@ -6,9 +6,10 @@ function updateDatasetInfo(idString) {
         var numCompound = parseInt(dataset["numCompound"]);
         datasetInfo.html("<h4>Dataset: " + dataset.name + "</h4>" + '<dl class="dl-horizontal properties-list">' +
                          "<dt>Number of compounds</dt>" + "<dd>" + numCompound + "</dd>" + "<dt>Activity type</dt>" +
-                         "<dd>" + activityType + "</dd>" +
-                         "<dt>Available descriptors</dt>" +
-                         '<dd class="available-descriptors">' + dataset["availableDescriptors"] + "</dd>" + "</dl>");
+                         "<dd>" + activityType + "</dd>" + "<dt>Available descriptors</dt>" +
+                         '<dd class="available-descriptors">' + dataset["availableDescriptors"] + "</dd>" +
+                         "<dt>Modelability index</dt>" + '<dd class="modi-value">' + dataset["modi"] + "</dd>" +
+                         "</dl>");
 
         $('input[name="uploaded-descriptors-scaled"]').val(dataset["hasBeenScaled"]);
 
@@ -74,6 +75,8 @@ function updateDatasetInfo(idString) {
         } else {
             internalSplitSection.show();
         }
+
+        formatModi();
     }).fail(function() {
         datasetInfo.html('<h4 class="text-danger">Error fetching dataset info</h4>' +
                          "<p>A server error occurred while fetching dataset information for the selected dataset.</p>");
