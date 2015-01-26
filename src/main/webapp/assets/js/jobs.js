@@ -47,7 +47,11 @@ $(document).ready(function() {
                     method: "POST",
                     url: link.attr("href")
                 }).success(function() {
-                    link.closest("tr").fadeOut();
+                    if (objectType === "job") {
+                        window.location.reload();
+                    } else {
+                        link.closest("tr").fadeOut();
+                    }
                 }).fail(function() {
                     bootbox.alert("Error deleting " + objectType + ".");
                 });
