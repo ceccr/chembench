@@ -489,4 +489,8 @@ public class Dataset implements java.io.Serializable {
         this.modiGenerated = modiGenerated;
     }
 
+    @Override
+    public String toString() {
+        return this.name;
+    }
 }

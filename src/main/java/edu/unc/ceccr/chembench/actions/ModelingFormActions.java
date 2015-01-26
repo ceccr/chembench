@@ -2,6 +2,7 @@ package edu.unc.ceccr.chembench.actions;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
@@ -263,7 +264,8 @@ public class ModelingFormActions extends ActionSupport {
         // load default tab selections
         modelingType = Constants.RANDOMFOREST;
 
-        userDatasets = Lists.newArrayList(Iterables.concat(userCategoryDatasets, userContinuousDatasets));
+        userDatasets = Ordering.usingToString()
+                .immutableSortedCopy(Iterables.concat(userCategoryDatasets, userContinuousDatasets));
 
         // go to the page
         return result;
