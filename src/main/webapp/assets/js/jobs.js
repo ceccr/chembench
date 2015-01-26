@@ -2,7 +2,7 @@ $(document).ready(function() {
     $(".nav-list li").removeClass("active");
     $("#nav-button-mybench").addClass("active");
 
-    // if given a hash, activate that tab on pageload
+    // if given a hash, activate that tab on page load
     var url = document.location.toString();
     if (url.match("#")) {
         $(".nav-tabs a[href=#" + url.split('#')[1] + "]").tab("show");
@@ -30,8 +30,7 @@ $(document).ready(function() {
 
     // sort initially by Date Created descending
     // XXX first sort trigger sorts ascending, then second trigger sorts descending
-    $('th.date-created').trigger("sort");
-    $('th.date-created').trigger("sort");
+    $('th.date-created').trigger("sort").trigger("sort");
 
     $(".delete a").click(function(event) {
         event.preventDefault();
@@ -46,7 +45,7 @@ $(document).ready(function() {
             if (response === true) {
                 $.ajax({
                     method: "POST",
-                    url: link.attr("href"),
+                    url: link.attr("href")
                 }).success(function() {
                     link.closest("tr").fadeOut();
                 }).fail(function() {
