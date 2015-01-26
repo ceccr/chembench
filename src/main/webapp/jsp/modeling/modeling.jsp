@@ -859,11 +859,18 @@
           <h3 class="panel-title">Add Model Metadata</h3>
         </div>
         <div class="panel-body">
-          Shoulder hamburger cupim brisket tenderloin ball tip, tongue turkey porchetta venison boudin tail shankle
-          bresaola. Boudin swine leberkas tenderloin rump brisket ham hock picanha meatloaf chicken kevin short loin.
-          Turkey pancetta prosciutto, ball tip meatloaf cupim sirloin beef ribs pork. Short loin ground round biltong,
-          leberkas kevin meatloaf fatback. Shankle shank meatloaf tenderloin ribeye ball tip pork loin corned beef chuck
-          pork belly brisket hamburger kevin turkey.
+          <div class="form-group">
+            <label class="control-label col-xs-3">Model name:</label>
+
+            <div class="col-xs-4">
+              <s:textfield name="jobName" id="jobName" cssClass="form-control" theme="simple" />
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="col-xs-offset-3 col-xs-9">
+              <button type="submit" class="btn btn-primary">Create Model</button>
+            </div>
+          </div>
         </div>
       </div>
     </s:form>
