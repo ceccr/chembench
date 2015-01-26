@@ -682,6 +682,7 @@
                 <div class="advanced-settings">
                   <div class="form-group">
                     <label class="control-label col-xs-4">Number of runs:</label>
+
                     <div class="col-xs-8">
                       <s:textfield id="saNumRuns" name="saNumRuns" cssClass="form-control" />
                     </div>
@@ -689,6 +690,7 @@
 
                   <div class="form-group">
                     <label class="control-label col-xs-4">Mutation probability per descriptor:</label>
+
                     <div class="col-xs-8">
                       <s:textfield id="saMutationProbabilityPerDescriptor" name="saMutationProbabilityPerDescriptor"
                                    cssClass="form-control" />
@@ -697,6 +699,7 @@
 
                   <div class="form-group">
                     <label class="control-label col-xs-4">Number of best models to store:</label>
+
                     <div class="col-xs-8">
                       <s:textfield id="saNumBestModels" name="saNumBestModels" cssClass="form-control" />
                     </div>
@@ -704,6 +707,7 @@
 
                   <div class="form-group">
                     <label class="control-label col-xs-4">Temperature decrease coefficient:</label>
+
                     <div class="col-xs-8">
                       <s:textfield id="saTempDecreaseCoefficient" name="saTempDecreaseCoefficient"
                                    cssClass="form-control" />
@@ -720,6 +724,7 @@
 
                   <div class="form-group">
                     <label class="control-label col-xs-4">Log. initial temperature:</label>
+
                     <div class="col-xs-8">
                       <s:textfield id="saLogInitialTemp" name="saLogInitialTemp" cssClass="form-control" />
                     </div>
@@ -727,6 +732,7 @@
 
                   <div class="form-group">
                     <label class="control-label col-xs-4">Log. final temperature:</label>
+
                     <div class="col-xs-8">
                       <s:textfield id="saFinalTemp" name="saFinalTemp" cssClass="form-control" />
                     </div>
@@ -734,6 +740,7 @@
 
                   <div class="form-group">
                     <label class="control-label col-xs-4">Log. temperature convergence range:</label>
+
                     <div class="col-xs-8">
                       <s:textfield id="saTempConvergence" name="saTempConvergence" cssClass="form-control" />
                     </div>
