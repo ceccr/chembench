@@ -297,7 +297,7 @@ table.compound-list > tbody > tr > td {
     vertical-align: middle;
 }
 
-table.compound-list td.name-column {
+table.compound-list td.name {
     padding-left: 1em;
 }
 
