@@ -124,12 +124,15 @@ $(document).ready(function() {
         }
     });
 
-    $('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
-        if ($(e.target).attr("href") === "#random-forest") {
+    $("#model-type-section").find('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+        var tab = $($(e.target).attr("href"));
+        var tabId = tab.find('input[type="hidden"][name="modelingTypeConstant"]').val();
+        if (tabId === "RANDOMFOREST") {
             $("#internal-split-type-section").hide();
         } else {
             $("#internal-split-type-section").show();
         }
+        $('input[name="modelingType"]').val(tabId);
     });
 
     $('input[name="svmKernel"]').change(function(e) {

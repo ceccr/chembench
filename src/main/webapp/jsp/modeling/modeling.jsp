@@ -194,10 +194,12 @@
             <li><a href="#ga-knn" data-toggle="tab">GA-kNN</a></li>
             <li><a href="#sa-knn" data-toggle="tab">SA-kNN</a></li>
           </ul>
+          <s:hidden id="modelingType" name="modelingType" />
 
           <div class="tab-content">
             <div id="random-forest" class="tab-pane active">
               <h4>Random Forest</h4>
+              <input type="hidden" name="modelingTypeConstant" value="RANDOMFOREST">
 
               <div class="form-group">
                 <label class="control-label col-xs-4">Number of Trees per Split:</label>
@@ -220,6 +222,7 @@
 
             <div id="support-vector-machine" class="tab-pane">
               <h4>Support Vector Machine (SVM)</h4>
+              <input type="hidden" name="modelingTypeConstant" value="SVM">
 
               <div id="svm-general-settings">
                 <div id="svm-type-category" class="form-group">
@@ -457,6 +460,7 @@
 
             <div id="ga-knn" class="tab-pane">
               <h4><var>k</var>-Nearest Neighbors Classifier with Genetic Algorithm Descriptor Selection (GA-kNN)</h4>
+              <input type="hidden" name="modelingTypeConstant" value="KNN-GA">
 
               <div class="form-group range-input-group">
                 <label class="control-label col-xs-4">Descriptors per model:</label>
@@ -589,6 +593,7 @@
 
             <div id="sa-knn" class="tab-pane">
               <h4><var>k</var>-Nearest Neighbors Classifier with Simulated Annealing Descriptor Selection (SA-kNN)</h4>
+              <input type="hidden" name="modelingTypeConstant" value="KNN-SA">
 
               <div class="form-group range-input-group">
                 <label class="control-label col-xs-4">Descriptors per model:</label>
