@@ -78,14 +78,14 @@
                   <b>Description: </b>
                 </div>
                 <s:textarea id="predictorDescription" name="predictorDescription" align="left"
-                  style="height: 50px; width: 50%" />
+                  cssStyle="height: 50px; width: 50%" />
                 </div>
                 <br />
                 <div class="StandardTextDarkGray">
                   <b>Paper Reference: </b>
                 </div>
                 <s:textarea id="predictorReference" name="predictorReference" align="left"
-                  style="height: 50px; width: 50%" />
+                  cssStyle="height: 50px; width: 50%" />
                 </div>
                 <br />
                 <input type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Save Changes" />
