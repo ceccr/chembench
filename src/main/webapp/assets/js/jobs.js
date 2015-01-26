@@ -50,7 +50,7 @@ $(document).ready(function() {
                 }).success(function() {
                     link.closest("tr").fadeOut();
                 }).fail(function() {
-                    bootbox.alert("Error deleting dataset.");
+                    bootbox.alert("Error deleting " + objectType + ".");
                 });
             }
         });
