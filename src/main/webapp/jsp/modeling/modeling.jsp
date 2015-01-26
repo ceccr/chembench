@@ -47,8 +47,8 @@
             <div class="col-xs-6">
               <div class="col-xs-12">
                 <div class="form-group">
-                  <s:select id="dataset-selection" cssClass="form-control" list="userDatasets" listKey="id"
-                            listValue="name" theme="simple" value="(select a dataset)" />
+                  <s:select id="dataset-selection" name="selectedDatasetId" cssClass="form-control" list="userDatasets"
+                            listKey="id" listValue="name" theme="simple" value="(select a dataset)" />
                 </div>
                 <div class="form-group">
                   <a id="view-dataset-detail" href="#" class="btn btn-primary disabled">View Selected Dataset</a>
