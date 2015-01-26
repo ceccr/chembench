@@ -63,8 +63,8 @@
                     <s:iterator value="incomingJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td class="name">
-                            <s:property value="jobName" />
+                          <td class="name-column">
+                            <span class="object-name"><s:property value="jobName" /></span>
                           </td>
                           <td>
                             <s:property value="userName" />
@@ -113,8 +113,8 @@
                     <s:iterator value="localJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td class="name">
-                            <s:property value="jobName" />
+                          <td class="name-column">
+                            <span class="object-name"><s:property value="jobName" /></span>
                           </td>
                           <td>
                             <s:property value="userName" />
@@ -166,8 +166,8 @@
                     <s:iterator value="lsfJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td class="name">
-                            <s:property value="jobName" />
+                          <td class="name-column">
+                            <span class="object-name"><s:property value="jobName" /></span>
                           </td>
                           <td>
                             <s:property value="userName" />
@@ -218,8 +218,8 @@
                     <s:iterator value="errorJobs">
                       <s:if test="adminUser || userName==user.userName">
                         <tr>
-                          <td class="name">
-                            <s:property value="jobName" />
+                          <td class="name-column">
+                            <span class="object-name"><s:property value="jobName" /></span>
                           </td>
                           <td>
                             <s:property value="userName" />
@@ -263,12 +263,12 @@
             <tbody>
               <s:iterator value="userDatasets">
                 <tr>
-                  <td class="name">
+                  <td class="name-column">
                     <s:url var="datasetId" action="viewDataset">
                       <s:param name="id" value="%{id}" />
                     </s:url>
                     <s:a href="%{datasetId}">
-                      <s:property value="name" />
+                      <span class="object-name"><s:property value="name" /></span>
                     </s:a>
                     <br>
                     <div class="button-group">
@@ -357,15 +357,15 @@
             <tbody>
               <s:iterator value="userPredictors">
                 <tr>
-                  <td class="name">
+                  <td class="name-column">
                     <s:url var="viewPredictor" action="viewPredictor">
                       <s:param name="id" value="%{id}" />
                     </s:url>
                     <s:a href="%{viewPredictor}">
-                      <s:property value="name" />
+                      <span class="object-name"><s:property value="name" /></span>
                     </s:a>
                   </td>
-                  <td class="name">
+                  <td class="name-column">
                     <s:url var="viewModelingDataset" action="viewDataset">
                       <s:param name="id" value="%{datasetId}" />
                     </s:url>
@@ -435,12 +435,12 @@
             <tbody>
               <s:iterator value="userPredictions">
                 <tr>
-                  <td class="name">
+                  <td class="name-column">
                     <s:url var="viewPrediction" action="viewPrediction">
                       <s:param name="id" value="%{id}" />
                     </s:url>
                     <s:a href="%{viewPrediction}">
-                      <s:property value="name" />
+                      <span class="object-name"><s:property value="name" /></span>
                     </s:a>
                   </td>
                   <td>

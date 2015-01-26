@@ -38,7 +38,7 @@ $(document).ready(function() {
 
         var link = $(this);
         var objectType = link.closest(".tab-pane").attr("id").slice(0, -1);
-        var objectName = link.closest(".name").find("a:first").text();
+        var objectName = link.closest("tr").find(".name-column").find(".object-name").text();
         var verb = (objectType === "job" ? "cancel" : "delete");
         var message = "Are you sure you want to " + verb + " the " + objectType + ' "' + objectName + '"?';
         bootbox.confirm(message, function(response) {

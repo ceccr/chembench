@@ -268,7 +268,7 @@ table.tablesorter th:not(.sorter-false) {
     cursor: pointer;
 }
 
-td.name {
+td.name-column {
     width: 25%;
     word-break: break-all;
 }
@@ -297,7 +297,7 @@ table.compound-list > tbody > tr > td {
     vertical-align: middle;
 }
 
-table.compound-list td.name {
+table.compound-list td.name-column {
     padding-left: 1em;
 }
 
