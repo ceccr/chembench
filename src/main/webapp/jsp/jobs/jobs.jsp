@@ -54,7 +54,7 @@
                       <th>Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
-                      <th class="date-created">Date Created</th>
+                      <th class="date-created">Date</th>
                       <th>Status</th>
                       <th class="sorter-false">Cancel</th>
                     </tr>
@@ -73,7 +73,7 @@
                             <s:property value="jobType" />
                           </td>
                           <td class="date-created">
-                            <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
+                            <s:date name="timeCreated" format="yyyy-MM-dd" />
                           </td>
                           <td>
                             <s:property value="message" />
@@ -104,7 +104,7 @@
                       <th>Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
-                      <th class="date-created">Date Created</th>
+                      <th class="date-created">Date</th>
                       <th>Status</th>
                       <th class="sorter-false">Cancel</th>
                     </tr>
@@ -123,7 +123,7 @@
                             <s:property value="jobType" />
                           </td>
                           <td class="date-created">
-                            <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
+                            <s:date name="timeCreated" format="yyyy-MM-dd" />
                           </td>
                           <td>
                             <s:property value="message" />
@@ -157,7 +157,7 @@
                       <th>Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
-                      <th class="date-created">Date Created</th>
+                      <th class="date-created">Date</th>
                       <th>Status</th>
                       <th class="sorter-false">Cancel</th>
                     </tr>
@@ -176,7 +176,7 @@
                             <s:property value="jobType" />
                           </td>
                           <td class="date-created">
-                            <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
+                            <s:date name="timeCreated" format="yyyy-MM-dd" />
                           </td>
                           <td>
                             <s:property value="message" />
@@ -210,7 +210,7 @@
                       <th>Name</th>
                       <th>Owner</th>
                       <th>Job Type</th>
-                      <th class="date-created">Date Created</th>
+                      <th class="date-created">Date</th>
                       <th class="sorter-false">Cancel</th>
                     </tr>
                   </thead>
@@ -228,7 +228,7 @@
                             <s:property value="jobType" />
                           </td>
                           <td class="date-created">
-                            <s:date name="timeCreated" format="yyyy-MM-dd HH:mm" />
+                            <s:date name="timeCreated" format="yyyy-MM-dd" />
                           </td>
                           <td class="delete">
                             <s:if test="adminUser">
@@ -252,10 +252,10 @@
               <tr>
                 <th>Name</th>
                 <th>Size</th>
-                <th>Dataset Type</th>
+                <th>Type</th>
                 <th>Descriptors</th>
-                <th class="sorter-modi">Modelability Index</th>
-                <th class="date-created">Date Created</th>
+                <th class="sorter-modi">Modelability</th>
+                <th class="date-created">Date</th>
                 <th class="public-private">Public?</th>
               </tr>
             </thead>
@@ -322,7 +322,7 @@
                     </s:else>
                   </td>
                   <td class="date-created">
-                    <s:date name="createdTime" format="yyyy-MM-dd HH:mm" />
+                    <s:date name="createdTime" format="yyyy-MM-dd" />
                   </td>
                   <td class="public-private">
                     <s:if test="userName.equals('all-users')">
@@ -348,9 +348,9 @@
                 <th>Name</th>
                 <th>Modeling Dataset</th>
                 <th>R<sup>2</sup> or <abbr title="Correct Classification Rate" class="initialism">CCR</abbr></th>
-                <th>Model Type</th>
-                <th>Descriptor Type</th>
-                <th class="date-created">Date Created</th>
+                <th>Type</th>
+                <th>Descriptors</th>
+                <th class="date-created">Date</th>
                 <th class="public-private">Public?</th>
               </tr>
             </thead>
@@ -375,7 +375,7 @@
                   </td>
                   <td>
                     <s:if test="childType.equals('NFOLD')">
-                      <s:if test="!externalPredictionAccuracyAvg.equals('0.0 ± 0.0')">
+                      <s:if test="!externalPredictionAccuracyAvg.equals('0.0 ï¿½ 0.0')">
                         <s:property value="externalPredictionAccuracyAvg" />
                       </s:if>
                       <s:else>
@@ -403,7 +403,7 @@
                     </s:else>
                   </td>
                   <td class="date-created">
-                    <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
+                    <s:date name="dateCreated" format="yyyy-MM-dd" />
                   </td>
                   <td class="public-private">
                     <s:if test="userName.equals('all-users')">
@@ -429,7 +429,7 @@
                 <th>Name</th>
                 <th>Prediction Dataset</th>
                 <th>Predictor(s) Used</th>
-                <th class="date-created">Date Created</th>
+                <th class="date-created">Date</th>
               </tr>
             </thead>
             <tbody>
@@ -455,7 +455,7 @@
                     <s:property value="predictorNames" />
                   </td>
                   <td class="date-created">
-                    <s:date name="dateCreated" format="yyyy-MM-dd HH:mm" />
+                    <s:date name="dateCreated" format="yyyy-MM-dd" />
                   </td>
                 </tr>
               </s:iterator>
