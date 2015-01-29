@@ -27,7 +27,7 @@
       The full modeling workflow as described in our <a href="/help-workflows">Workflow help page</a> is detailed in
       the following publication:
 
-        <span class="citation"><a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full">
+        <span class="citation"><a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full" target="_blank">
           Tropsha, A. (2010). Best Practices for QSAR Model Development, Validation, and Exploitation.
           Molecular Informatics, 29(6-7), 476-488.
         </a></span>
