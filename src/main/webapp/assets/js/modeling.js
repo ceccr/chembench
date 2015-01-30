@@ -2,6 +2,7 @@ function updateDatasetInfo(idString) {
     var id = parseInt(idString);
     var datasetInfo = $("#dataset-info");
     $.get("/ajaxGetDataset", {"id": id}, function(dataset) {
+        showSections();
         var activityType = dataset["continuous"] === true ? "Continuous" : "Category";
         var numCompound = parseInt(dataset["numCompound"]);
         datasetInfo.html("<h4>Dataset: " + dataset.name + "</h4>" + '<dl class="dl-horizontal properties-list">' +
@@ -111,7 +112,6 @@ $(document).ready(function() {
         if (datasetId === 0) {
             hideSections();
         } else {
-            showSections();
             updateDatasetInfo(datasetId);
         }
     });
