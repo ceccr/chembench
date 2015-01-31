@@ -51,7 +51,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 
         <dependency>
             <groupId>org.apache.struts</groupId>
-            <artifactId>struts2-dojo-plugin</artifactId>
+            <artifactId>struts2-dojo-plugin-fixed</artifactId>
             <version>${struts2.version}</version>
         </dependency>
 
