@@ -22,7 +22,7 @@
 
 <script language="JavaScript" src="javascript/chembench.js"></script>
 <script language="JavaScript" src="javascript/sortableTable-delay.js"></script>
-<script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <script language="JavaScript">
 

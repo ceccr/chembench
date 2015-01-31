@@ -22,7 +22,7 @@
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 <script src="javascript/chembench.js"></script>
 <script src="javascript/dataset.js"></script>
-<script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <script language="javascript">
 
