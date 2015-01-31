@@ -7,7 +7,7 @@
 
 <html>
 <head>
-<sx:head debug="false" cache="false" compressed="true" />
+<sx:head />
 <title>CHEMBENCH | Dataset Management</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">

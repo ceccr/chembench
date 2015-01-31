@@ -6,7 +6,7 @@
 <%@page language="java" import="java.util.*" %>
 <html>
 <head>
-	<sx:head debug="false" cache="false" compressed="true" />
+	<sx:head />
     <title>CHEMBENCH | View Dataset</title>
 
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
