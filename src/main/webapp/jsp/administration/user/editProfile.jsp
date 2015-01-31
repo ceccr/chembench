@@ -6,7 +6,7 @@
 
 <html>
 <head>
-<sx:head debug="false" cache="false" compressed="true" />
+<sx:head />
 
 <title>CHEMBENCH | Edit Profile</title>
 <%@ include file="/jsp/main/head.jsp"%>

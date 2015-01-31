@@ -7,7 +7,7 @@
 
 <html>
 <head>
-<sx:head debug="false" cache="false" compressed="true" />
+<sx:head />
 <title>CHEMBENCH | Dataset Management</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
@@ -22,7 +22,7 @@
 <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
 <script src="javascript/chembench.js"></script>
 <script src="javascript/dataset.js"></script>
-<script language="javascript" src="javascript/jquery-1.6.4.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
 <script language="javascript">
 

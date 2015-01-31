@@ -6,7 +6,7 @@
 <%@page language="java" import="java.util.*" %>
 <html>
 <head>
-    <sx:head debug="false" cache="false" compressed="true" />
+    <sx:head />
     <title>CHEMBENCH | View Prediction</title>
 
     <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
