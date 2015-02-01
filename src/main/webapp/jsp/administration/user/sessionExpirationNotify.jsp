@@ -2,7 +2,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <html>
 <head>
   <title>CHEMBENCH | Session Expired</title>
@@ -29,7 +28,6 @@
   <div class="includesNavbar">
     <%@include file="/jsp/main/centralNavigationBar.jsp" %>
   </div>
-
 
   <div class="benchBackground includes StandardTextDarkGrayParagraph homeLeft">
     <p>

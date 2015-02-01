@@ -4,7 +4,6 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 
-
 <html>
 <head>
   <sx:head />
@@ -236,7 +235,6 @@
       </div>
     </s:form>
   </div>
-
 
   <div class="includes">
     <%@include file="/jsp/main/footer.jsp" %>

@@ -1,6 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <!-- UPDATE USER INFO -->
 
 <div id="updateUserInfo">

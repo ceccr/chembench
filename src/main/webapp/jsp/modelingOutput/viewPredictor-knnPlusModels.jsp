@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <!-- Models Page -->
 <br />
 <s:if test="isYRandomPage=='YES'">

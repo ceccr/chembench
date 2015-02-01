@@ -3,7 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <html>
 <head>
   <title>CHEMBENCH | Cheminformatics Tools</title>
@@ -30,7 +29,6 @@
   <div class="includesNavbar">
     <%@include file="/jsp/main/centralNavigationBar.jsp" %>
   </div>
-
 
   <div class="benchBackground includes">
     <div class="homeLeft">

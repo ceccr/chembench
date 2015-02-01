@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <!-- External Compounds -->
 
 <p class="StandardTextDarkGray"><u><b>Compounds Chosen for External Set</b></u></p>

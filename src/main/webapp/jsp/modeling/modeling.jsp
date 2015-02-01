@@ -296,7 +296,6 @@
   <script language="javascript" src="javascript/chembench.js"></script>
   <script language="javascript" src="javascript/modeling.js"></script>
 
-
 </head>
 
 <body bgcolor="#ffffff" onload="setTabToModeling(); getSelectedDataset();">
@@ -399,7 +398,6 @@
         </div>
         <br />
 
-
         <div class="StandardTextDarkGrayParagraph">
           <b>Scale Descriptors Using:</b>
         </div>
@@ -434,7 +432,6 @@
 
       </div>
       <br />
-
 
       <!-- Modeling Method (kNN, kNN+, SVM) -->
       <div id="modelingMethod" class="border StandardTextDarkGrayParagraph benchAlign">
@@ -531,7 +528,6 @@
           <b>Start Job</b>
         </p>
 
-
         <div class="StandardTextDarkGrayParagraph" id="timeEstimateDiv"></div>
 
         <s:if test="user.getUserName().contains('guest_')">
@@ -544,11 +540,9 @@
 
         </s:if>
 
-
         <div class="StandardTextDarkGrayParagraph" id="submitMessage">
           <i>Please enter a name for the predictor you are creating.</i>
         </div>
-
 
         <div class="StandardTextDarkGrayParagraph">
           <b>Predictor Name:</b>

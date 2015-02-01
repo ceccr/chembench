@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <br />
 
 <p class="StandardTextDarkGray"><u><b>Descriptor Program Results</b></u></p><br />

@@ -3,7 +3,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <script src="/javascript/jquery-1.4.2-development.js" type="text/javascript"></script>

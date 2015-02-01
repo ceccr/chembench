@@ -80,7 +80,6 @@
       associated with the dataset you're uploading. Including a short description is never a bad idea either.</p>
     </p>
 
-
     <p align="justify" class="ccbHomeStandard">
       <b>The Dataset Job:</b>
 
@@ -93,7 +92,6 @@
       it is a modeling dataset, it will be selectable from the Modeling and Prediction pages. (Prediction datasets can
       only be used from the Prediction page.)</p>
     </p>
-
 
     <%@include file="/jsp/help/helpcontents.jsp" %>
 

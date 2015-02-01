@@ -1,6 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <script language="javascript">
   function validatePasswordsMatch() {
     var p1 = document.getElementById("").value;

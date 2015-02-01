@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <s:div>
   <table width="100%" align="center" cellpadding="0" cellspacing="4" colspan="2">
     <tbody>

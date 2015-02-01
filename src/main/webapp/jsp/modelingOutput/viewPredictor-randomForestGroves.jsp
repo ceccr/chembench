@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <!-- Groves Page -->
 <br />
 
@@ -60,7 +59,6 @@
     </s:iterator>
   </s:if>
 
-
   <s:elseif test="selectedPredictor.activityType=='CATEGORY'">
     <s:if test="randomForestGroves.size!=0">
       <tr>
@@ -86,7 +84,6 @@
 </table>
 
 <!-- End Table of Groves -->
-
 
 <s:if test="mostFrequentDescriptors!=''">
   <br />

@@ -1,6 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <!-- USER OPTIONS -->
 
 <s:form action="updateUserOptions" enctype="multipart/form-data" theme="simple">

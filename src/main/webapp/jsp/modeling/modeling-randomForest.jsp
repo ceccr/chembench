@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-
 <script language="javascript" src="javascript/modeling.js"></script>
 <s:div>
   <!-- SVM Parameters -->
@@ -41,7 +40,6 @@
             <td align="left" valign="top"><s:textfield id="maxNumTerminalNodes" name="maxNumTerminalNodes"
                                                        size="5" theme="simple" /></td>
           </tr>
-
 
         </table>
       </td>
