@@ -1,4 +1,4 @@
-<%@include file="/jsp/help/helpheader.jsp"%>
+<%@include file="/jsp/help/helpheader.jsp" %>
 
 <div class="outer">
   <div class="ccbHomeStandard">
@@ -9,37 +9,43 @@
     <blockquote>
       <p>
         <a href="#01">1. Where can I get more information about the QSAR methodology?</a><br /> <a href="#02">2.
-          What forms of kNN-QSAR are supported?</a><br /> <a href="#03">3. Which accuracy functions are supported for
-          QSAR Category?</a><br /> <a href="#04">4. What formats are needed for the sd and activity files?</a><br /> <a
+        What forms of kNN-QSAR are supported?</a><br /> <a href="#03">3. Which accuracy functions are supported for
+        QSAR Category?</a><br /> <a href="#04">4. What formats are needed for the sd and activity files?</a><br /> <a
           href="#05">5. How are the values in the model statistics table computed?</a><br /> <a href="#06">6. How
-          is the Activity Histogram generated?</a><br /> <a href="#07">7. How do the basic kNN parameters affect the
-          model building?</a><br /> <a href="#08">8. What are the Advanced kNN Parameters?</a><br /> <a href="#09">9.
-          What types of descriptors are available?</a><br /> <a href="#10">10. What forms of descriptor normalization
-          are supported?</a><br /> <a href="#11">11. How are data sets divided?</a><br /> <a href="#12">12. What
-          methods of data set splitting are supported?</a><br /> <a href="#13">13. How do the sphere exclusion
-          parameters affect data set splitting?</a><br /> <a href="#14"><strong>14. How can I reach the
-            Chembench development team?</strong></a>
+        is the Activity Histogram generated?</a><br /> <a href="#07">7. How do the basic kNN parameters affect the
+        model building?</a><br /> <a href="#08">8. What are the Advanced kNN Parameters?</a><br /> <a href="#09">9.
+        What types of descriptors are available?</a><br /> <a href="#10">10. What forms of descriptor normalization
+        are supported?</a><br /> <a href="#11">11. How are data sets divided?</a><br /> <a href="#12">12. What
+        methods of data set splitting are supported?</a><br /> <a href="#13">13. How do the sphere exclusion
+        parameters affect data set splitting?</a><br /> <a href="#14"><strong>14. How can I reach the
+        Chembench development team?</strong></a>
       </p>
+
       <p align="justify" class="ccbHomeStandard">&nbsp;</p>
     </blockquote>
     <p align="justify" class="ccbHomeStandard">
       <a name="01" id="01"></a>
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <strong>1. Where can I get more information about the QSAR methodology?</strong><br /> <strong><br /> </strong>For
       a detailed explanation of the methodology, see the QSAR Manual.<br /> <br /> <a name="02" id="02"></a>
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <strong>2. What forms of kNN QSAR are supported?</strong><br /> <strong><br /> </strong>We currently support
       Simulated Annealing kNN QSAR for both continuous and categorical data. <br /> <br /> <br /> <a name="03"
-        id="03"></a><br /> <strong>3. Which accuracy functions are supported for QSAR Category?</strong><br /> <strong><br />
-      </strong>Currently we allow the use of four different formulae for accuracy. The default is Correct Classification Rate
+                                                                                                     id="03"></a><br />
+      <strong>3. Which accuracy functions are supported for QSAR Category?</strong><br /> <strong><br />
+    </strong>Currently we allow the use of four different formulae for accuracy. The default is Correct Classification
+      Rate
       (CCR) for both optimization and selection of models. The formula to be used is chosen under the kNN Advanced
       Parameters tab in Model Building. The four supported formulae are
     <table width="400" border="0" cellspacing="0" cellpadding="0">
       <tr>
         <td width="225"><br />
-        <p align="justify" class="ccbHomeStandard">Standard Accuracy</p></td>
+
+          <p align="justify" class="ccbHomeStandard">Standard Accuracy</p></td>
         <td width="175"><img src="theme/img/faq01.gif" width="175" height="45" /></td>
       </tr>
       <tr>
@@ -56,6 +62,7 @@
       </tr>
     </table>
     <br />
+
     <p align="justify" class="ccbHomeStandard">For more information about CCR, see for example Combinatorial QSAR
       Modeling of P-Glycoprotein Substrates by Lima et al. In general, the first two formulae are more appropriate for
       nominal data and the last two, for ordinal data.</p>
@@ -67,63 +74,81 @@
       activity files can either be two column (space or tab separated) text files or Excel spreadsheets. In either case,
       there should be a header in the file and the two columns should be a compound ID and the activity value.
     </p>
+
     <p align="justify" class="ccbHomeStandard">
-      <strong><a name="05" id="05"></a><br /> 5. How are the values in the model statistics table computed?</strong><br />
+      <strong><a name="05" id="05"></a><br /> 5. How are the values in the model statistics table
+        computed?</strong><br />
       <br /> <strong> </strong>For QSAR continuous, the values are: <br /> <em>nnn</em>: the number of nearest
       neighbors used in this model.<br /> <em>q<sup>2</sup></em>: The leave-one-out (LOO) cross-validated correlation
       coefficient R<sup>2</sup> (q<sup>2</sup>) for the training set:
     </p>
+
     <p>
       <img src="theme/img/faq05.gif" width="160" height="84" class="ccbHomeStandard" /><br /> <br />
+
     <p align="justify" class="ccbHomeStandard">
       where y<sub>i</sub><sup>pred</sup>, y<sub>i</sub><sup>obs</sup> and <img src="theme/img/faq0y.gif" /> are
       predicted, observed and average activities of the i-th compound of the training set.<br /> <em>n</em>: number of
       test set compounds predicted by themodel.<br /> <em>r</em>: the measure of the correlation between the observed
       and predicted activity values. <br /> The value is computed using Pearson correlation coefficient. Specifically,
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <img src="theme/img/faq06.gif" width="203" height="53" />
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       where y<sub>i</sub>and <img src="theme/img/faq0y2.gif" /><sub>i</sub>are observed and predicted activities
       respectively.We display both r and r<sup>2</sup> as a convenience to the user.
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <em>r</em><sup>2</sup></em>: correlation between the observed and predicted activity values using the Pearson
       correlation coefficient. <br /> <em>R<sub>01</sub><sup>2</sup></em>: the coefficients of determination for
       regressions through the origin between predicted and observed activities. Specifically,</br>
+
     <p align="justify" class="ccbHomeStandard">
       <img src="theme/img/faq07.gif" width="160" height="49" />
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <em>R<sub>02</sub><sup>2</sup></em>: the coefficients of determination for regressions through the origin between
       observed and predicted activities.Specifically,
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <img src="theme/img/faq08.gif" width="160" height="46" />
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <em>k<sub>1</sub></em>: The slope of the 0-origin line fitted for predicted vs. observed activities. Specifically,
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <img src="theme/img/faq09.gif" width="91" height="45" />
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <em>k<sub>2</sub>
       </em>: The slope of the 0-origin line fitted for observed vs. predicted activities. Specifically, <br />
     </p>
+
     <p class="ccbHomeStandard">
       <img src="theme/img/faq10.gif" width="91" height="44" />
     </p>
     <br />
+
     <p align="justify" class="ccbHomeStandard">For QSAR category, the following additional values</p>
     <a name="06" id="06"></a><br />
+
     <p align="justify" class="ccbHomeStandard">
       <strong>6. How is the Activity Histogram generated?</strong><br /> <strong><br /> </strong>The range of activity
       values is always divided into 10 bins.
     </p>
+
     <p align="justify" class="ccbHomeStandard">
-      <strong><a name="07" id="07"></a><br /> 7. How do the basic kNN parameters affect the model building?</strong><br />
+      <strong><a name="07" id="07"></a><br /> 7. How do the basic kNN parameters affect the model
+        building?</strong><br />
       <br /> The kNN modeling technique identifies descriptor subspaces in which similar compounds have similar
       response variables. The QSAR modeling techniques explores subspaces of different dimensions as defined by the
       descriptor minimum, maximum, and step size. For example, the default settings of minimum 5, maximum 20, and step
@@ -131,9 +156,10 @@
       different runs may optimize to different models.In order to fully explore each subspace, we generate multiple
       models.The number of runs identifies how many models are generated.
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <a name="08" id="08"></a><br /> <strong>8. What are the Advanced kNN Parameters?</strong><br /> <strong><br />
-      </strong>This set of parameters is intended for the user who is fully familiar with the kNN QSAR model development
+    </strong>This set of parameters is intended for the user who is fully familiar with the kNN QSAR model development
       procedure. For those not familiar with it, we recommend leaving them as is. For those who are familiar with the
       process, the following details these parameters.<br /> <br /> Number of nearest neighbors: During model
       development, this is the maximum number of neighbors used in the kNN pattern recognition. For each set of
@@ -178,31 +204,39 @@
       prediction coverage increases while accuracy of prediction may drop. The default value allows prediction of
       compounds with a total distance within 1 standard deviation of the average seen in the training set.
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <strong><a name="09" id="09"></a><br /> 9. What types of descriptors are available?</strong><br /> <strong><br />
-      </strong>CDK, ISIDA, MolConn-Z, Dragon, MOE2D keys, and MACCS keys.
+    </strong>CDK, ISIDA, MolConn-Z, Dragon, MOE2D keys, and MACCS keys.
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <strong><a name="10" id="10"></a><br /> 10. What forms of descriptor normalization are supported?</strong><br />
       <strong><br /> </strong>We support range scaling, autoscaling, or no scaling. Range scaling scales the descriptor
       values based on the minimum and maximum values actually seen in the data set -- normalizing them from 0 to 1. Auto
       scaling normalizes based on standard deviation.
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <strong><a name="11" id="11"></a><br /> 11. How are data sets divided?</strong><br /> <br /> Data sets are
       divided into three groups -- the training set, the test set, and the external validation set in order to provide
       robust and predictive models. This division is required but the user has the capability to control the size of
       external test set and the ability to choose how the splitting is done.
     </p>
+
     <p align="justify" class="ccbHomeStandard">
-      <strong><a name="12" id="12"></a><br /> 12. What methods of data set splitting are supported?</strong><br /> <strong><br />
-      </strong>At this time, we only support the sphere exclusion method of rational data set division. <br /> For details on
+      <strong><a name="12" id="12"></a><br /> 12. What methods of data set splitting are supported?</strong><br />
+      <strong><br />
+      </strong>At this time, we only support the sphere exclusion method of rational data set division. <br /> For
+      details on
       this methodology, see <a href="http://www.springerlink.com/content/j171577n21753511/" target="_blank">J Comput
-        Aided Mol Des. 2003 Feb-Apr;17(2-4):241-53</a>.
+      Aided Mol Des. 2003 Feb-Apr;17(2-4):241-53</a>.
     </p>
+
     <p align="justify" class="ccbHomeStandard">
       <strong><a name="13" id="13"></a><br /> 13. How do the sphere exclusion parameters affect data set
-        splitting?</strong><br /> <strong><br /> </strong>Sphere exclusion is a structured methodology for dividing the data
+        splitting?</strong><br /> <strong><br /> </strong>Sphere exclusion is a structured methodology for dividing the
+      data
       set into training and test sets. It does this by selecting a compound and selecting each neighbor with a certain
       radius as a member of either the training or test set. It eliminates all selected compounds and repeats this
       process until all compounds have been assigned to one of the two sets.<br /> <br /> Number of Sphere Radii:
@@ -215,16 +249,20 @@
       removed from the data set, another point needs to be selected. This parameter determines how that next point is
       chose: randomly or as close or as far as possible from the previous sphere center.
     </p>
+
     <p align="justify" class="ccbHomeStandard">
-      <strong><a name="14" id="132"></a><br /> 14. How can I reach the Chembench Development Team?</strong><br /> <strong><br />
+      <strong><a name="14" id="132"></a><br /> 14. How can I reach the Chembench Development Team?</strong><br />
+      <strong><br />
       </strong>The Chembench Development team can be reached at ceccr (at) email.unc.edu.
     </p>
     <br /> <br />
 
     </p>
-    <%@include file="/jsp/help/helpcontents.jsp"%>
+    <%@include file="/jsp/help/helpcontents.jsp" %>
 
   </div>
-  <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
+  <div class="includes">
+    <%@include file="/jsp/main/footer.jsp" %>
+  </div>
 </div>
 </body>

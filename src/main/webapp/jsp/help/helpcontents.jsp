@@ -1,4 +1,3 @@
-
 <div class="ccbHomeStandard">
   <b>Help Contents</b><br />
   <ul>

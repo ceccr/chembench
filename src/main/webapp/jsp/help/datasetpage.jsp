@@ -1,4 +1,4 @@
-<%@include file="/jsp/help/helpheader.jsp"%>
+<%@include file="/jsp/help/helpheader.jsp" %>
 
 <div class="outer">
   <div class="ccbHomeStandard">
@@ -8,6 +8,7 @@
     <p>
       <img src="theme/img/dataset-workflow.png">
     </p>
+
     <p>The above diagram describes the dataset creation process. You begin by uploading a set of compounds,
       including any activities you want to model. The data you upload will be prepared for use with Chembench's modeling
       and prediction processes. You will need to enter the options in the boxes on the Dataset page as described below.
@@ -15,6 +16,7 @@
 
     <p align="justify" class="ccbHomeStandard">
       <b>Upload Dataset Files box:</b>
+
     <p>You can select one of the four dataset types to create. Most of the time, you will be making a modeling set.
       If you just have a bunch of compounds and no activity values for them, you can create a set that is only for use
       with prediction.</p>
@@ -27,7 +29,8 @@
       their structures on a public website. The "With Descriptors" options are also useful to researchers exploring new
       methods for descriptor generation. You may scale your descriptors before uploading or allow Chembench to scale
       them for you. See the descriptor generation parameters section of the <a href="help-modeling">Modeling help
-        page</a> for more details. When you upload descriptors for prediction, Chembench assumes that they have been scaled
+      page</a> for more details. When you upload descriptors for prediction, Chembench assumes that they have been
+      scaled
       in the same way as your modeling descriptors.
     </p>
 
@@ -38,6 +41,7 @@
 
     <p align="justify" class="ccbHomeStandard">
       <b>Define External Set box:</b>
+
     <p>When a modeling dataset is uploaded, an external set is immediately defined for it before any modeling is
       done. That way, the external set will be consistent across every model you build, so you can directly compare the
       models. So, a set of compounds is chosen as the external validation set.</p>
@@ -70,6 +74,7 @@
 
     <p align="justify" class="ccbHomeStandard">
       <b>Create Dataset box:</b>
+
     <p>Name your dataset something descriptive. Naming all your datasets "test_1", "test_2"... will undoubtedly lead
       to confusion later on. The Reference field is an optional place where you can record any literature references
       associated with the dataset you're uploading. Including a short description is never a bad idea either.</p>
@@ -78,6 +83,7 @@
 
     <p align="justify" class="ccbHomeStandard">
       <b>The Dataset Job:</b>
+
     <p>When a Dataset job runs, it does four things. First, it checks the validity of the files you put in: it makes
       sure that the file formats are correct, that there are no repeated compounds, and that the compounds in each of
       the files match. If you have chosen to standardize your compounds, standardization is performed. Second, if the
@@ -89,11 +95,13 @@
     </p>
 
 
-    <%@include file="/jsp/help/helpcontents.jsp"%>
+    <%@include file="/jsp/help/helpcontents.jsp" %>
 
   </div>
 
-  <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
+  <div class="includes">
+    <%@include file="/jsp/main/footer.jsp" %>
+  </div>
 </div>
 </body>
 </html>

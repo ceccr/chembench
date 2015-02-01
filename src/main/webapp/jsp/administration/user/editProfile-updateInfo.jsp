@@ -1,5 +1,5 @@
-<%@ taglib prefix="s" uri="/struts-tags"%>
-<%@page language="java" import="java.util.*"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@page language="java" %>
 
 <!-- UPDATE USER INFO -->
 
@@ -28,12 +28,14 @@
 
       <!-- error message (if any) -->
       <tr height="20">
-        <td colspan="2" class="StandardTextDarkGray"><div class="StandardTextDarkGray">
+        <td colspan="2" class="StandardTextDarkGray">
+          <div class="StandardTextDarkGray">
             <font color="red"><br /> <s:iterator value="errorMessages">
-                <s:property />
-                <br />
-              </s:iterator></font>
-          </div></td>
+              <s:property />
+              <br />
+            </s:iterator></font>
+          </div>
+        </td>
         <td width="250" align="left"></td>
       </tr>
 
@@ -53,7 +55,7 @@
       <tr height="20">
         <td align="right" width="180" class="StandardTextDarkGray">Type of Organization *</td>
         <td width="250"><s:select name="organizationType"
-            list="#{'Academia':'Academia','Government':'Government','Industry':'Industry','Nonprofit':'Nonprofit','Other':'Other'}" />
+                                  list="#{'Academia':'Academia','Government':'Government','Industry':'Industry','Nonprofit':'Nonprofit','Other':'Other'}" />
         </td>
         <td width="250" align="left"></td>
       </tr>
@@ -108,9 +110,13 @@
 
       <tr height="6">
         <td width="180" class="StandardTextDarkGray"></td>
-        <td width="250"><div class="StandardTextDarkGray">
-            <i><small><br />Please use your organization email account. </small></i>
-          </div></td>
+        <td width="250">
+          <div class="StandardTextDarkGray">
+            <i>
+              <small><br />Please use your organization email account.</small>
+            </i>
+          </div>
+        </td>
         <td width="250" align="left"></td>
       </tr>
 
@@ -129,15 +135,17 @@
 
       <tr height="20">
         <td width="180" class="StandardTextDarkGray"></td>
-        <td width="250"><div class="StandardTextDarkGray">
-            <!-- spacer --></td>
+        <td width="250">
+          <div class="StandardTextDarkGray">
+            <!-- spacer -->
+        </td>
         <td width="250" align="left"></td>
       </tr>
 
       <tr height="20">
         <td align="right" width="180"></td>
         <td width="250">&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input
-          type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Submit" />
+            type="button" name="userAction" id="userAction" onclick="this.form.submit()" value="Submit" />
         </td>
       </tr>
     </table>

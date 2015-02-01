@@ -1,6 +1,5 @@
-<%@ taglib prefix="s" uri="/struts-tags"%>
-<%@page language="java" import="java.util.*"%>
-
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@page language="java" %>
 
 
 <!-- USER OPTIONS -->
@@ -45,7 +44,7 @@
       <td align="left" valign="top">
         <div class="StandardTextDarkGrayParagraphNoIndent">
           <s:radio name="showPublicDatasets" value="showPublicDatasets"
-            list="#{'NONE':'None','SOME':'Some','ALL':'All'}" />
+                   list="#{'NONE':'None','SOME':'Some','ALL':'All'}" />
         </div>
       </td>
     </tr>
@@ -81,7 +80,7 @@
       <td align="left" valign="top">
         <div class="StandardTextDarkGrayParagraphNoIndent">
           <s:radio name="viewDatasetCompoundsPerPage" value="viewDatasetCompoundsPerPage"
-            list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" />
+                   list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" />
         </div>
       </td>
     </tr>
@@ -95,7 +94,7 @@
       <td align="left" valign="top">
         <div class="StandardTextDarkGrayParagraphNoIndent">
           <s:radio name="viewPredictionCompoundsPerPage" value="viewPredictionCompoundsPerPage"
-            list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" />
+                   list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" />
         </div>
       </td>
     </tr>
@@ -143,7 +142,7 @@
     <tr>
       <td></td>
       <td class="" valign="top"><input type="button" name="userAction" id="userAction" onclick="this.form.submit()"
-        value="Submit" /> <span id="textarea"></span> <br /></td>
+                                       value="Submit" /> <span id="textarea"></span> <br /></td>
     </tr>
 
   </table>

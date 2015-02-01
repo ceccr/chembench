@@ -1,9 +1,10 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ page language="java" import="java.util.*"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ page language="java" %>
 
 <!-- Parameters -->
 <br />
+
 <p class="StandardTextDarkGray">
   <b><u>Modeling Parameters</u></b>
 </p>
@@ -212,12 +213,12 @@
   <!-- end svm specific parameters -->
 </s:if>
 
-<!-- 
-	<br />
-	<p class="StandardTextDarkGray">To create a new modeling job based on these parameters, use the New Predictor 
-	button. You will be taken to the Modeling page, where you can modify the parameters
-	before resubmitting the job.</p> 
-	<input type="submit" value="New Predictor..." />
-	-->
+<!--
+<br />
+<p class="StandardTextDarkGray">To create a new modeling job based on these parameters, use the New Predictor
+button. You will be taken to the Modeling page, where you can modify the parameters
+before resubmitting the job.</p>
+<input type="submit" value="New Predictor..." />
+-->
 
 <br />

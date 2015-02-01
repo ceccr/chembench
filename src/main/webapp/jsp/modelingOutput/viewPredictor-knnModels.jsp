@@ -1,16 +1,17 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ page language="java" import="java.util.*"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ page language="java" %>
 
 <!-- Models -->
 <br />
+
 <p class="StandardTextDarkGray">
   <s:if test="models.size==0">
     <s:if test="selectedPredictor.activityType=='CONTINUOUS'">
-				No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.<br />
+      No models that passed your r<sup>2</sup> and q<sup>2</sup> cutoffs were generated.<br />
     </s:if>
     <s:else>
-				No models were generated that passed your cutoffs.<br />
+      No models were generated that passed your cutoffs.<br />
     </s:else>
   </s:if>
   <s:elseif test="selectedPredictor.userName=='all-users'">
@@ -18,18 +19,18 @@
   </s:elseif>
   <s:else>
     <s:if test="isYRandomPage=='NO'">
-				Of the <s:property value="selectedPredictor.numTotalModels" /> models generated, 
-				<s:property value="selectedPredictor.numTrainModels" /> passed the training set criteria and 
-				<s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria. 
-				For information on what each statistic means, check the <a href="help-faq#05">FAQ</a> in the help pages.
-			</s:if>
+      Of the <s:property value="selectedPredictor.numTotalModels" /> models generated,
+      <s:property value="selectedPredictor.numTrainModels" /> passed the training set criteria and
+      <s:property value="selectedPredictor.numTestModels" /> passed both training and test set criteria.
+      For information on what each statistic means, check the <a href="help-faq#05">FAQ</a> in the help pages.
+    </s:if>
     <s:else>
-				In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
-				data where the compound activities have been shuffled. Ideally, no models with a high q<sup>2</sup>
-				and R<sup>2</sup> will be produced. If the y-Randomized models are similar to the real models built on
-				your data (see Models tab), the predictor should be considered invalid and the dataset or parameters must
-				be revised. Y-randomized models are only created for validation purposes and are not used in predictions.
-			</s:else>
+      In y-Randomization modeling, Chembench attempts to create a second predictor from a copy of your
+      data where the compound activities have been shuffled. Ideally, no models with a high q<sup>2</sup>
+      and R<sup>2</sup> will be produced. If the y-Randomized models are similar to the real models built on
+      your data (see Models tab), the predictor should be considered invalid and the dataset or parameters must
+      be revised. Y-randomized models are only created for validation purposes and are not used in predictions.
+    </s:else>
     <br />
   </s:else>
 </p>
@@ -93,9 +94,11 @@
 
 <s:if test="mostFrequentDescriptors!=''">
   <br />
+
   <p class="StandardTextDarkGray">
     <b><u>Descriptor Frequencies</u></b>
   </p>
+
   <p class="StandardTextDarkGray">
     <s:property value="mostFrequentDescriptors" />
   </p>
