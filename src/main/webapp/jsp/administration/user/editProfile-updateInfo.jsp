@@ -1,5 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@page language="java" %>
+
 
 <!-- UPDATE USER INFO -->
 
