@@ -190,24 +190,6 @@
       </s:elseif>
 
       <s:elseif test="selectedPredictor.modelMethod=='RANDOMFOREST'">
-
-        <!-- For now, we don't display groves. If someday we want to, uncomment this.
-        <s:url id="grovesLink" value="/viewPredictorRandomForestGrovesSection" includeParams="none">
-          <s:param name="predictorId" value='selectedPredictor.id' />
-          <s:param name="isYRandomPage" value="'NO'" />
-        </s:url>
-        <sx:div href="%{grovesLink}" id="grovesDiv" label="Forests" theme="ajax" loadingText="Loading forests..."
-                executeScripts="true" preload="false" showLoadingText="true">
-        </sx:div>
-
-        <s:url id="grovesYRandomLink" value="/viewPredictorRandomForestGrovesSection" includeParams="none">
-          <s:param name="predictorId" value='selectedPredictor.id' />
-          <s:param name="isYRandomPage" value="'YES'" />
-        </s:url>
-        <sx:div href="%{grovesYRandomLink}" id="randomGrovesDiv" label="Y-Randomized Forests" theme="ajax"
-                loadingText="Loading forests..." executeScripts="true" preload="false" showLoadingText="true">
-        </sx:div>
-        -->
         <s:url id="treesLink" value="/viewPredictorRandomForestTreesSection" includeParams="none">
           <s:param name="id" value='selectedPredictor.id' />
           <s:param name="isYRandomPage" value="'NO'" />
