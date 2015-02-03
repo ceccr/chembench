@@ -37,8 +37,8 @@
           document.getElementById(divId).innerHTML = ajaxObject.responseText;
           sortables_init_delay();
         }
-      }
-      showLoading("LOADING. PLEASE WAIT.")
+      };
+      showLoading("LOADING. PLEASE WAIT.");
 
       //send request
       ajaxObject.open("GET", newUrl, true);
