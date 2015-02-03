@@ -91,7 +91,7 @@
           <s:if test='svmParameters.svmKernel!="0"'>
             <th class="TableRowText01">gamma</th>
           </s:if>
-          <th class="TableRowText01">cost</sup></th>
+          <th class="TableRowText01">cost</th>
           <s:if test='svmParameters.svmTypeContinuous=="4"'>
             <th class="TableRowText01">nu</th>
           </s:if>
@@ -130,7 +130,7 @@
             <th class="TableRowText01">gamma</th>
           </s:if>
           <s:if test='svmParameters.svmTypeCategory=="0"'>
-            <th class="TableRowText01">cost</sup></th>
+            <th class="TableRowText01">cost</th>
           </s:if>
           <s:if test='svmParameters.svmTypeCategory=="1"'>
             <th class="TableRowText01">nu</th>
