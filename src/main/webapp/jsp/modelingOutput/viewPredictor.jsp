@@ -17,34 +17,6 @@
   <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
   <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
   <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script language="JavaScript" src="javascript/chembench.js"></script>
-  <script language="JavaScript" src="javascript/sortableTable-delay.js"></script>
-
-  <script language="JavaScript">
-
-    function replaceTabContents(divId, newUrl) {
-      //updates the contents of a div with data loaded from the given url
-      //for example, when a user changes which external fold they are looking at inside of a tab
-      //prepare the AJAX object
-      var ajaxObject = GetXmlHttpObject();
-      ajaxObject.onreadystatechange = function() {
-        if (ajaxObject.readyState == 4) {
-          hideLoading();
-          document.getElementById(divId).innerHTML = ajaxObject.responseText;
-          sortables_init_delay();
-        }
-      };
-      showLoading("LOADING. PLEASE WAIT.");
-
-      //send request
-      ajaxObject.open("GET", newUrl, true);
-      ajaxObject.send(null);
-      return true;
-    }
-  </script>
-
 </head>
 
 <body onload="setTabToMyBench();">
@@ -131,13 +103,6 @@
 
     <div id="bodyDIV"></div>
     <!-- used for the "Please Wait..." box. Do not remove. -->
-    <script type="text/javascript">
-      dojo.event.topic.subscribe('/modelingTabSelect', function(tab, tabContainer) {
-        //alert("Tab "+ tab.widgetId + " was selected");
-        sortables_init_delay();
-      });
-    </script>
-    <!-- end script -->
     <s:property value="selectedTab" />
     <sx:tabbedpanel id="viewPredictionTabs"
                     afterSelectTabNotifyTopics="/modelingTabSelect">
@@ -234,12 +199,41 @@
       <sx:div href="%{parametersLink}" id="parametersDiv" label="Modeling Parameters" theme="ajax"
               loadingText="Loading parameters..." preload="false" showLoadingText="true">
       </sx:div>
-
     </sx:tabbedpanel> <!-- end load tabs -->
   </div>
   <div class="includes">
     <%@include file="/jsp/main/footer.jsp" %>
   </div>
 </div>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="javascript/chembench.js"></script>
+<script src="javascript/sortableTable-delay.js"></script>
+<script>
+  function replaceTabContents(divId, newUrl) {
+    //updates the contents of a div with data loaded from the given url
+    //for example, when a user changes which external fold they are looking at inside of a tab
+    //prepare the AJAX object
+    var ajaxObject = GetXmlHttpObject();
+    ajaxObject.onreadystatechange = function() {
+      if (ajaxObject.readyState == 4) {
+        hideLoading();
+        document.getElementById(divId).innerHTML = ajaxObject.responseText;
+        sortables_init_delay();
+      }
+    };
+    showLoading("LOADING. PLEASE WAIT.");
+
+    //send request
+    ajaxObject.open("GET", newUrl, true);
+    ajaxObject.send(null);
+    return true;
+  }
+
+  dojo.event.topic.subscribe('/modelingTabSelect', function(tab, tabContainer) {
+    //alert("Tab "+ tab.widgetId + " was selected");
+    sortables_init_delay();
+  });
+</script>
 </body>
 </html>
