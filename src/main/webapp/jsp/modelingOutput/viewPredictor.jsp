@@ -98,7 +98,7 @@
 
       <p class="StandardTextDarkGrayParagraph">For this and the other public predictors, there is no detailed
         information on the external set or models available for display.</p>
-    </s:if> <!-- End description --> <br /> <!-- load tabs --> <a name="tabs"></a>
+    </s:if> <!-- End description --> <br />
 
     <div id="bodyDIV"></div>
     <!-- used for the "Please Wait..." box. Do not remove. -->
