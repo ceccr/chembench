@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
+<%@ taglib prefix="sj" uri="/struts-jquery-tags" %>
 <!DOCTYPE html>
 <html>
 <head>
-  <sx:head />
+  <sj:head />
   <title>CHEMBENCH | View Predictor</title>
 
   <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
@@ -103,136 +103,82 @@
     <div id="bodyDIV"></div>
     <!-- used for the "Please Wait..." box. Do not remove. -->
     <s:property value="selectedTab" />
-    <sx:tabbedpanel id="viewPredictionTabs"
-                    afterSelectTabNotifyTopics="/modelingTabSelect">
-      <s:url id="externalValidationLink" value="/viewPredictorExternalValidationSection" includeParams="none">
+
+    <sj:tabbedpanel id="viewPredictionTabs">
+      <s:url id="externalValidationLink" action="viewPredictorExternalValidationSection" escapeAmp="false">
         <s:param name="id" value='selectedPredictor.id' />
       </s:url>
-      <sx:div href="%{externalValidationLink}" id="externalValidationDiv" label="External Validation" theme="ajax"
-              loadingText="Loading external validation..." executeScripts="true" preload="false" showLoadingText="true">
-      </sx:div>
+      <sj:tab href="%{externalValidationLink}" label="External Validation" />
 
       <s:if test="selectedPredictor.modelMethod=='KNN'">
-
-        <s:url id="modelsLink" value="/viewPredictorKnnModelsSection" includeParams="none">
+        <s:url id="modelsLink" action="viewPredictorKnnModelsSection" escapeAmp="false">
           <s:param name="id" value='selectedPredictor.id' />
           <s:param name="isYRandomPage" value="'NO'" />
         </s:url>
-        <sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..."
-                executeScripts="true" preload="false" showLoadingText="true">
-        </sx:div>
+        <sj:tab href="%{modelsLink}" label="Models" />
 
-        <s:url id="yRandomLink" value="/viewPredictorKnnModelsSection" includeParams="none">
+        <s:url id="yRandomLink" action="viewPredictorKnnModelsSection" escapeAmp="false">
           <s:param name="id" value='selectedPredictor.id' />
           <s:param name="isYRandomPage" value="'YES'" />
         </s:url>
-        <sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax"
-                loadingText="Loading Y-Randomization Models..." executeScripts="true" preload="false"
-                showLoadingText="true">
-        </sx:div>
+        <sj:tab href="%{yRandomLink}" label="Y-Randomization" />
       </s:if>
-      <s:elseif test="selectedPredictor.modelMethod=='KNN-GA' || selectedPredictor.modelMethod=='KNN-SA'">
 
-        <s:url id="modelsLink" value="/viewPredictorKnnPlusModelsSection" includeParams="none">
+      <s:elseif test="selectedPredictor.modelMethod=='KNN-GA' || selectedPredictor.modelMethod=='KNN-SA'">
+        <s:url id="modelsLink" action="viewPredictorKnnPlusModelsSection" escapeAmp="false">
           <s:param name="id" value='selectedPredictor.id' />
           <s:param name="isYRandomPage" value="'NO'" />
         </s:url>
-        <sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..."
-                executeScripts="true" preload="false" showLoadingText="true">
-        </sx:div>
+        <sj:tab href="%{modelsLink}" label="Models" />
 
-        <s:url id="yRandomLink" value="/viewPredictorKnnPlusModelsSection" includeParams="none">
+        <s:url id="yRandomLink" action="viewPredictorKnnPlusModelsSection" escapeAmp="false">
           <s:param name="id" value='selectedPredictor.id' />
           <s:param name="isYRandomPage" value="'YES'" />
         </s:url>
-        <sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax"
-                loadingText="Loading Y-Randomization Models..." executeScripts="true" preload="false"
-                showLoadingText="true">
-        </sx:div>
+        <sj:tab href="%{yRandomLink}" label="Y-Randomization" />
       </s:elseif>
 
       <s:elseif test="selectedPredictor.modelMethod=='RANDOMFOREST'">
-        <s:url id="treesLink" value="/viewPredictorRandomForestTreesSection" includeParams="none">
+        <s:url id="treesLink" action="viewPredictorRandomForestTreesSection" escapeAmp="false">
           <s:param name="id" value='selectedPredictor.id' />
           <s:param name="isYRandomPage" value="'NO'" />
         </s:url>
-        <sx:div href="%{treesLink}" id="treesDiv" label="Trees" theme="ajax" loadingText="Loading trees..."
-                executeScripts="true" preload="false" showLoadingText="true">
-        </sx:div>
+        <sj:tab href="%{treesLink}" label="Trees" />
 
-        <s:url id="treesYRandomLink" value="/viewPredictorRandomForestTreesSection" includeParams="none">
+        <s:url id="treesYRandomLink" action="viewPredictorRandomForestTreesSection" escapeAmp="false">
           <s:param name="id" value='selectedPredictor.id' />
           <s:param name="isYRandomPage" value="'YES'" />
         </s:url>
-        <sx:div href="%{treesYRandomLink}" id="randomTreesDiv" label="Y-Randomized Trees" theme="ajax"
-                loadingText="Loading trees..." executeScripts="true" preload="false" showLoadingText="true">
-        </sx:div>
-
+        <sj:tab href="%{treesYRandomLink}" label="Y-Randomized Trees" />
       </s:elseif>
 
       <s:elseif test="selectedPredictor.modelMethod=='SVM'">
-
-        <s:url id="modelsLink" value="/viewPredictorSvmModelsSection" includeParams="none">
+        <s:url id="modelsLink" action="viewPredictorSvmModelsSection" escapeAmp="false">
           <s:param name="id" value='selectedPredictor.id' />
           <s:param name="isYRandomPage" value="'NO'" />
         </s:url>
-        <sx:div href="%{modelsLink}" id="modelsDiv" label="Models" theme="ajax" loadingText="Loading models..."
-                executeScripts="true" preload="false" showLoadingText="true">
-        </sx:div>
+        <sj:tab href="%{modelsLink}" label="Models" />
 
-        <s:url id="yRandomLink" value="/viewPredictorSvmModelsSection" includeParams="none">
+        <s:url id="yRandomLink" action="viewPredictorSvmModelsSection" escapeAmp="false">
           <s:param name="id" value='selectedPredictor.id' />
           <s:param name="isYRandomPage" value="'YES'" />
         </s:url>
-        <sx:div href="%{yRandomLink}" id="yRandomDiv" label="Y-Randomization" theme="ajax"
-                loadingText="Loading Y-Randomization Models..." executeScripts="true" preload="false"
-                showLoadingText="true">
-        </sx:div>
-
+        <sj:tab href="%{yRandomLink}" label="Y-Randomization" />
       </s:elseif>
 
       <!-- All modeling methods should display their parameters at the end. -->
-      <s:url id="parametersLink" value="/viewPredictorParametersSection" includeParams="none">
-        <s:param name="id" value='selectedPredictor.id' />
+      <s:url id="parametersLink" action="viewPredictorParametersSection" escapeAmp="false">
+        <s:param name="id" value="%{selectedPredictor.id}" />
       </s:url>
-      <sx:div href="%{parametersLink}" id="parametersDiv" label="Modeling Parameters" theme="ajax"
-              loadingText="Loading parameters..." preload="false" showLoadingText="true">
-      </sx:div>
-    </sx:tabbedpanel> <!-- end load tabs -->
+      <sj:tab href="%{parametersLink}" label="Modeling Parameters" />
+    </sj:tabbedpanel> <!-- end load tabs -->
   </div>
   <div class="includes">
     <%@include file="/jsp/main/footer.jsp" %>
   </div>
 </div>
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 <script src="javascript/chembench.js"></script>
 <script src="javascript/sortableTable-delay.js"></script>
-<script>
-  function replaceTabContents(divId, newUrl) {
-    //updates the contents of a div with data loaded from the given url
-    //for example, when a user changes which external fold they are looking at inside of a tab
-    //prepare the AJAX object
-    var ajaxObject = GetXmlHttpObject();
-    ajaxObject.onreadystatechange = function() {
-      if (ajaxObject.readyState == 4) {
-        hideLoading();
-        document.getElementById(divId).innerHTML = ajaxObject.responseText;
-        sortables_init_delay();
-      }
-    };
-    showLoading("LOADING. PLEASE WAIT.");
-
-    //send request
-    ajaxObject.open("GET", newUrl, true);
-    ajaxObject.send(null);
-    return true;
-  }
-
-  dojo.event.topic.subscribe('/modelingTabSelect', function(tab, tabContainer) {
-    //alert("Tab "+ tab.widgetId + " was selected");
-    sortables_init_delay();
-  });
-</script>
 </body>
 </html>

@@ -105,7 +105,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
         } catch (Exception e) {
             logger.error(e);
         }
-        return result;
+         return result;
     }
 
     public String loadGrovesPage() throws Exception {

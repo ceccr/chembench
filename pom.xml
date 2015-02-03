@@ -55,6 +55,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
             <version>${struts2.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.jgeppert.struts2.jquery</groupId>
+            <artifactId>struts2-jquery-plugin</artifactId>
+            <version>3.7.1</version>
+        </dependency>
 
         <dependency>
             <groupId>org.apache.struts</groupId>
