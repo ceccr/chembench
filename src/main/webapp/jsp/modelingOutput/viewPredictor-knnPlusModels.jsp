@@ -22,7 +22,7 @@
             <b><s:property /></b>
           </s:if>
           <s:else>
-            <s:url var="foldUrl" action="viewPredictorKnnModelsSection" escapeAmp="false">
+            <s:url var="foldUrl" action="viewPredictorKnnPlusModelsSection" escapeAmp="false">
               <s:param name="id" value="selectedPredictor.id" />
               <s:param name="isYRandomPage" value="isYRandomPage" />
               <s:param name="currentFoldNumber" value="%{#foldNumsStatus.index}" />
@@ -60,7 +60,7 @@
             <b><s:property /></b>
           </s:if>
           <s:else>
-            <s:url var="foldUrl" action="viewPredictorKnnModelsSection" escapeAmp="false">
+            <s:url var="foldUrl" action="viewPredictorKnnPlusModelsSection" escapeAmp="false">
               <s:param name="id" value="selectedPredictor.id" />
               <s:param name="isYRandomPage" value="isYRandomPage" />
               <s:param name="currentFoldNumber" value="%{#foldNumsStatus.index}" />
