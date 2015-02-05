@@ -1,3 +1,9 @@
+<script>
+  // Chembench-specific JS globals
+  var Chembench = {};
+  Chembench.MODI_MODELABLE = <s:property value="@edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE" />;
+</script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="assets/js/jquery.tablesorter.min.js"></script>
 <script src="assets/js/jquery.tablesorter.widgets.min.js"></script>
