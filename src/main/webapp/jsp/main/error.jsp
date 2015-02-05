@@ -18,9 +18,9 @@
 
     <p>
       <s:iterator value="errorStrings">
-        <s:property/>
+        <s:property />
       </s:iterator>
-      <s:actionerror/>
+      <s:actionerror />
     </p>
 
     <p>

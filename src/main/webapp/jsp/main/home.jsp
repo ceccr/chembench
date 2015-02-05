@@ -64,14 +64,14 @@
               <label for="username" class="col-xs-4 control-label">Username:</label>
 
               <div class="col-xs-8">
-                <s:textfield name="username" id="username" cssClass="form-control" theme="simple"/>
+                <s:textfield name="username" id="username" cssClass="form-control" theme="simple" />
               </div>
             </div>
             <div class="form-group">
               <label for="password" class="col-xs-4 control-label">Password:</label>
 
               <div class="col-xs-8">
-                <s:password name="password" id="password" cssClass="form-control" theme="simple"/>
+                <s:password name="password" id="password" cssClass="form-control" theme="simple" />
               </div>
             </div>
             <div class="form-group">
@@ -105,7 +105,7 @@
             Logged in as a <b>guest</b>.
           </s:if>
           <s:else>
-            Logged in as <b><s:property value="user.userName"/></b>.
+            Logged in as <b><s:property value="user.userName" /></b>.
           </s:else>
           <button class="logout-button" type="button">Log out</button>
         </s:if>
@@ -120,22 +120,22 @@
           <h3>Site Stats</h3>
           <dl class="dl-horizontal properties-list">
             <dt>Total visitors</dt>
-            <dd><s:property value="visitors"/></dd>
+            <dd><s:property value="visitors" /></dd>
 
             <dt>Registered users</dt>
-            <dd><s:property value="userStats"/></dd>
+            <dd><s:property value="userStats" /></dd>
 
             <dt>Jobs completed</dt>
-            <dd><s:property value="jobStats"/></dd>
+            <dd><s:property value="jobStats" /></dd>
 
             <dt>Compute time used</dt>
-            <dd><s:property value="cpuStats"/> years</dd>
+            <dd><s:property value="cpuStats" /> years</dd>
 
             <dt>Current users</dt>
-            <dd><s:property value="activeUsers"/></dd>
+            <dd><s:property value="activeUsers" /></dd>
 
             <dt>Running jobs</dt>
-            <dd><s:property value="runningJobs"/></dd>
+            <dd><s:property value="runningJobs" /></dd>
           </dl>
         </s:if>
       </section>

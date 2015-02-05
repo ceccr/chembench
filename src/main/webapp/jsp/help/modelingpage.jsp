@@ -1,4 +1,4 @@
-<%@include file="/jsp/help/helpheader.jsp"%>
+<%@include file="/jsp/help/helpheader.jsp" %>
 
 <div class="outer">
   <div class="ccbHomeStandard">
@@ -11,6 +11,7 @@
 
     <p align="justify" class="ccbHomeStandard">
       <b>Select a Dataset box:</b>
+
     <p>There are two types of activity files you can set in your Dataset; these are used with different modeling
       methods, so they are separated. "Continuous" activity values vary over a range, while "Category" datasets are
       discrete numbers (typically 1, 2, 3...). Continuous data is used with regression data mining methods, while
@@ -23,6 +24,7 @@
 
     <p align="justify" class="ccbHomeStandard">
       <b>Set Descriptor Generation Parameters box:</b>
+
     <p>The descriptor type option defines what descriptors will be used to represent your compounds in the modeling
       process. If you want to use other descriptor types besides what Chembench can generate, you can create a dataset
       with your own descriptors in it from the DATASET page. Descriptor generation and scaling are skipped if you supply
@@ -39,6 +41,7 @@
 
     <p align="justify" class="ccbHomeStandard">
       <b>Choose Internal Data Splitting Method box:</b>
+
     <p>The dataset's external validation set has already been defined. The compounds not in the external set,
       referred to as the "modeling set", will be divided into a training set and a test set for the creation of each
       model. For each such internal split, a model will be built on the training set and applied to the test set. (At
@@ -47,7 +50,8 @@
 
     <p>The internal train/test splits can be made randomly or by sphere exclusion. Sphere exclusion is a process
       that chooses training set compounds which are close to the test set compounds in the descriptor space. This can
-      help modeling by ensuring that each model will be presented with test cases that the model can reasonably predict.</p>
+      help modeling by ensuring that each model will be presented with test cases that the model can reasonably
+      predict.</p>
 
     <p>The options to force the minimum and maximum activity compounds into training sets are useful in kNN
       modeling. The kNN-produced models will only make predictions within the range of values in their training sets.
@@ -63,6 +67,7 @@
 
     <p align="justify" class="ccbHomeStandard">
       <b>Choose Model Generation Method box:</b>
+
     <p>At present, kNN is the only data mining option available; more methods will be added in the near future. For
       each train/test split, kNN will generate at least one model. Increasing the "Number of Runs" option will multiply
       the number of generated models. The "descriptors per model" parameter can again multiply the number of generated
@@ -77,13 +82,15 @@
 
     <p>For modeling of continuous datasets, the r^2 and q^2 cutoffs are also important. In initial experimentation,
       it may be useful to lower these cutoffs to 0 while you tune the other parameters. Any models generated that
-      perform below your cutoffs will be eliminated. This can result in modeling runs which produce no useful output.</p>
+      perform below your cutoffs will be eliminated. This can result in modeling runs which produce no useful
+      output.</p>
 
     <p>The other kNN parameters are detailed in the "help pages" link from the Model Generation box.</p>
     </p>
 
     <p align="justify" class="ccbHomeStandard">
       <b>The Modeling Job:</b>
+
     <p>Modeling goes through several steps. First, descriptors for the selected dataset are scaled. Second, the
       training and test sets are created. Third, a y-randomized version of each train-test set is created, where the
       activity values are scrambled; this is set aside for later. Fourth, the kNN modeling procedure is performed on the
@@ -93,10 +100,12 @@
       Predictors section of the My Bench page.</p>
     </p>
 
-    <%@include file="/jsp/help/helpcontents.jsp"%>
+    <%@include file="/jsp/help/helpcontents.jsp" %>
 
   </div>
-  <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
+  <div class="includes">
+    <%@include file="/jsp/main/footer.jsp" %>
+  </div>
 </div>
 
 </body>

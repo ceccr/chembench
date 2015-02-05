@@ -32,14 +32,14 @@
         <label for="username" class="col-xs-3 control-label">Username:</label>
 
         <div class="col-xs-4">
-          <s:textfield name="username" id="username" cssClass="form-control" theme="simple"/>
+          <s:textfield name="username" id="username" cssClass="form-control" theme="simple" />
         </div>
       </div>
       <div class="form-group">
         <label for="password" class="col-xs-3 control-label">Password:</label>
 
         <div class="col-xs-4">
-          <s:password name="password" id="password" cssClass="form-control" theme="simple"/>
+          <s:password name="password" id="password" cssClass="form-control" theme="simple" />
         </div>
       </div>
       <div class="form-group">

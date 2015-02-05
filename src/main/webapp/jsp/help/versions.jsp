@@ -1,23 +1,28 @@
-<%@include file="/jsp/help/helpheader.jsp"%>
+<%@include file="/jsp/help/helpheader.jsp" %>
 
 <div class="outer">
   <div class="ccbHomeStandard">
 
     <p align="justify" class="ccbHomeStandard">
       <b>Version 1.2.0 (Jan. 16, 2011)</b>
+
     <p>
       Updates:<br /> <br /> <u>Datasets</u><br /> - n-Fold external validation datasets may now be created. Using
-      this option creates <i>n</i> different external sets for the dataset. When modeling is run on the dataset, <i>n</i>
+      this option creates <i>n</i> different external sets for the dataset. When modeling is run on the dataset,
+      <i>n</i>
       predictors will be produced at once, each with a different external set.<br /> <br /> <u>Modeling</u><br /> -
       Major improvement on speed, space-efficiency, and predictivity of SVM models.<br /> - SVM models now provide
       detailed output to aid users in finding the best parameter ranges.<br /> - SVM modeling can now be run on LSF,
       allowing greater parallelism when needed.<br /> <br /> <u>Prediction</u><br /> - Predictions have been made
-      more space-efficient, and will automatically resume if the server is patched while the prediction is running.<br />
+      more space-efficient, and will automatically resume if the server is patched while the prediction is
+      running.<br />
       <u>General</u><br /> - Thanks to extensive testing by users and lab members, several edge-case bugs have been
       found and fixed.<br /> - Interface has been tuned in several spots to improve intuitiveness; for example, job
       names containing spaces may now be submitted.<br /> <br />
+
     <p align="justify" class="ccbHomeStandard">
       <b>Version 1.1.0 (Oct. 2, 2010)</b>
+
     <p>
       Updates:<br /> <br /> <u>Datasets</u><br /> - Datasets may now be uploaded that include user-created
       descriptors. The descriptors must be in the <a href="help-fileformats#X">X file format</a> we specify. If there is
@@ -28,8 +33,10 @@
       be performed on uploaded descriptors. <br /> - Fixed a bug that occurred when modeling datasets that have no
       external compounds defined.<br /> <br /> <u>Prediction</u><br /> - Prediction may now be performed on uploaded
       descriptors.<br /> <br />
+
     <p align="justify" class="ccbHomeStandard">
       <b>Version 1.0.0</b>
+
     <p>
       Current supported features:<br /> <br /> <u>Dataset Preparation</u> <br /> - User uploads a set of compounds,
       with activity values (optional) <br /> - Standardizes compounds. Removes fragments, standardizes aromatization,
@@ -50,10 +57,12 @@
 
     </p>
 
-    <%@include file="/jsp/help/helpcontents.jsp"%>
+    <%@include file="/jsp/help/helpcontents.jsp" %>
 
   </div>
-  <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
+  <div class="includes">
+    <%@include file="/jsp/main/footer.jsp" %>
+  </div>
 </div>
 
 </body>

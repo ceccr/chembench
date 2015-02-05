@@ -1,4 +1,4 @@
-<%@include file="/jsp/help/helpheader.jsp"%>
+<%@include file="/jsp/help/helpheader.jsp" %>
 
 <div class="outer">
   <div class="ccbHomeStandard">
@@ -6,6 +6,7 @@
     <p>Datasets uploaded to Chembench are expected to contain these types of files.</p>
 
     <br />
+
     <p id="ACT">
       <b>.act files</b>
     </p>
@@ -17,6 +18,7 @@
     <p>
       <a href="jsp/help/samples/continuousActFileSample.act">Continuous activity file sample</a><br /> <a
         href="jsp/help/samples/categoryActFileSample.act">Category activity file sample</a>
+
     <p>Continuous activity data can be any decimal number. Typically continuous data comes from quantitative assays,
       e.g., of binding affinity.</p>
     <pre>
@@ -48,6 +50,7 @@ compound7 2
     </p>
 
     <br />
+
     <p id="SDF">
       <b>.SDF files</b>
     </p>
@@ -87,6 +90,7 @@ $$$$
     </p>
 
     <br />
+
     <p id="X">
       <b>.X files</b>
     </p>
@@ -123,9 +127,11 @@ $$$$
       at 1. The second value is an ID for the compound that matches with the IDs in the corresponding SDF and ACT files.
       The remaining numbers are the values of the descriptors for the compound.</p>
 
-    <%@include file="/jsp/help/helpcontents.jsp"%>
+    <%@include file="/jsp/help/helpcontents.jsp" %>
 
   </div>
-  <div class="includes"><%@include file="/jsp/main/footer.jsp"%></div>
+  <div class="includes">
+    <%@include file="/jsp/main/footer.jsp" %>
+  </div>
 </div>
 </body>

@@ -13,14 +13,14 @@
   <section id="content">
     <h2>
       Dataset Details:
-      <s:property value="dataset.name"/>
+      <s:property value="dataset.name" />
       <s:a action="jobs" anchor="datasets">
         <button class="btn btn-primary">Back to Datasets</button>
       </s:a>
     </h2>
-    <s:hidden id="username" value="%{dataset.userName}"/>
-    <s:hidden id="dataset-name" value="%{dataset.name}"/>
-    <s:hidden id="has-structures" value="%{dataset.hasStructures()}"/>
+    <s:hidden id="username" value="%{dataset.userName}" />
+    <s:hidden id="dataset-name" value="%{dataset.name}" />
+    <s:hidden id="has-structures" value="%{dataset.hasStructures()}" />
 
     <div class="list-group">
       <div class="list-group-item">
@@ -29,13 +29,13 @@
           <dt>Dataset type</dt>
           <dd>
             <div class="dataset-type">
-              <s:property value="dataset.datasetType"/>
+              <s:property value="dataset.datasetType" />
             </div>
           </dd>
           <dt>Number of compounds</dt>
 
           <dd>
-            <s:property value="dataset.numCompound"/>
+            <s:property value="dataset.numCompound" />
           </dd>
 
           <dt>Activity type</dt>
@@ -45,7 +45,7 @@
             </s:if>
             <s:else>
               <div class="activity-type">
-                <s:property value="dataset.modelType"/>
+                <s:property value="dataset.modelType" />
               </div>
             </s:else>
           </dd>
@@ -69,7 +69,7 @@
 
           <dt>Date created</dt>
           <dd>
-            <s:date name="dataset.createdTime" format="yyyy-MM-dd HH:mm"/>
+            <s:date name="dataset.createdTime" format="yyyy-MM-dd HH:mm" />
           </dd>
         </dl>
       </div>
@@ -79,9 +79,9 @@
         <dl class="dl-horizontal properties-list">
           <dt>Descriptors available</dt>
           <dd class="available-descriptors">
-            <s:property value="dataset.availableDescriptors"/>
+            <s:property value="dataset.availableDescriptors" />
             <s:if test="!dataset.uploadedDescriptorType.isEmpty()">
-              ("<s:property value="dataset.uploadedDescriptorType"/>")
+              ("<s:property value="dataset.uploadedDescriptorType" />")
             </s:if>
           </dd>
         </dl>
@@ -111,7 +111,7 @@
               (No description given.)
             </s:if>
             <s:else>
-              <s:property value="dataset.description"/>
+              <s:property value="dataset.description" />
             </s:else>
           </dd>
 
@@ -121,7 +121,7 @@
               (No paper reference given.)
             </s:if>
             <s:else>
-              <s:property value="dataset.paperReference"/>
+              <s:property value="dataset.paperReference" />
             </s:else>
           </dd>
         </dl>
@@ -131,16 +131,16 @@
             <div class="form-group">
               <label for="datasetDescription">Description:</label>
               <s:textarea id="datasetDescription" name="datasetDescription" value="%{dataset.description}"
-                          cssClass="form-control"/>
+                          cssClass="form-control" />
             </div>
 
             <div class="form-group">
               <label for="datasetReference">Paper reference:</label>
               <s:textarea id="datasetReference" name="datasetReference" value="%{dataset.paperReference}"
-                          cssClass="form-control"/>
+                          cssClass="form-control" />
             </div>
 
-            <s:hidden name="id" value="%{id}"/>
+            <s:hidden name="id" value="%{id}" />
           </s:form>
         </s:if>
       </div>
@@ -184,19 +184,19 @@
           <tbody>
           <s:iterator value="datasetCompounds">
             <tr>
-              <td class="name"><s:property value="compoundId"/></td>
+              <td class="name"><s:property value="compoundId" /></td>
               <s:if test="!dataset.sdfFile.isEmpty()">
                 <td><s:url var="imageUrl" value="imageServlet" escapeAmp="false">
-                  <s:param name="user" value="%{dataset.userName}"/>
-                  <s:param name="projectType" value="'dataset'"/>
-                  <s:param name="compoundId" value="%{compoundId}"/>
-                  <s:param name="datasetName" value="%{dataset.name}"/>
+                  <s:param name="user" value="%{dataset.userName}" />
+                  <s:param name="projectType" value="'dataset'" />
+                  <s:param name="compoundId" value="%{compoundId}" />
+                  <s:param name="datasetName" value="%{dataset.name}" />
                 </s:url> <img src=
-                                <s:property value="imageUrl"/> class="img-thumbnail" width="125px" height="125px"
+                                <s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px"
                               alt="Compound structure"></td>
               </s:if>
               <s:if test="dataset.hasActivities()">
-                <td><s:property value="activityValue"/></td>
+                <td><s:property value="activityValue" /></td>
               </s:if>
             </tr>
           </s:iterator>
@@ -215,22 +215,22 @@
               <ul class="pagination">
                 <s:iterator value="foldNumbers" status="s">
                   <s:url var="foldUrl" action="viewDatasetFold">
-                    <s:param name="id" value="dataset.id"/>
-                    <s:param name="foldNumber" value="%{#s.count}"/>
+                    <s:param name="id" value="dataset.id" />
+                    <s:param name="foldNumber" value="%{#s.count}" />
                   </s:url>
                   <s:if test="%{#s.first}">
                     <li class="first-fold active"><s:a href="%{foldUrl}">
-                      <s:property/>
+                      <s:property />
                     </s:a></li>
                   </s:if>
                   <s:elseif test="%{#s.last}">
                     <li class="last-fold"><s:a href="%{foldUrl}">
-                      <s:property/>
+                      <s:property />
                     </s:a></li>
                   </s:elseif>
                   <s:else>
                     <li><s:a href="%{foldUrl}">
-                      <s:property/>
+                      <s:property />
                     </s:a></li>
                   </s:else>
                 </s:iterator>
@@ -275,19 +275,19 @@
               <tbody>
               <s:iterator value="externalCompounds">
                 <tr>
-                  <td class="name"><s:property value="compoundId"/></td>
+                  <td class="name"><s:property value="compoundId" /></td>
                   <s:if test="!dataset.sdfFile.isEmpty()">
                     <td><s:url var="imageUrl" value="imageServlet" escapeAmp="false">
-                      <s:param name="user" value="%{dataset.userName}"/>
-                      <s:param name="projectType" value="'dataset'"/>
-                      <s:param name="compoundId" value="%{compoundId}"/>
-                      <s:param name="datasetName" value="%{dataset.name}"/>
+                      <s:param name="user" value="%{dataset.userName}" />
+                      <s:param name="projectType" value="'dataset'" />
+                      <s:param name="compoundId" value="%{compoundId}" />
+                      <s:param name="datasetName" value="%{dataset.name}" />
                     </s:url> <img src=
-                                    <s:property value="imageUrl"/> class="img-thumbnail" width="125px" height="125px"
+                                    <s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px"
                                   alt="Compound structure"></td>
                   </s:if>
                   <s:if test="dataset.hasActivities()">
-                    <td><s:property value="activityValue"/></td>
+                    <td><s:property value="activityValue" /></td>
                   </s:if>
                 </tr>
               </s:iterator>
@@ -304,13 +304,13 @@
 
           <div class="text-center">
             <s:url var="activityChartUrl" value="imageServlet" escapeAmp="false">
-              <s:param name="user" value="%{dataset.userName}"/>
-              <s:param name="projectType" value="'dataset'"/>
-              <s:param name="project" value="%{dataset.name}"/>
-              <s:param name="compoundId" value="'activityChart'"/>
+              <s:param name="user" value="%{dataset.userName}" />
+              <s:param name="projectType" value="'dataset'" />
+              <s:param name="project" value="%{dataset.name}" />
+              <s:param name="compoundId" value="'activityChart'" />
             </s:url>
             <img src=
-                   <s:property value="activityChartUrl"/> width="550px" height="550px" alt="Activity histogram">
+                   <s:property value="activityChartUrl" /> width="550px" height="550px" alt="Activity histogram">
           </div>
         </div>
       </s:if>
@@ -324,21 +324,21 @@
         <s:iterator value="descriptorGenerationResults">
           <dl class="dl-horizontal">
             <dt>
-              <s:property value="descriptorType"/>
+              <s:property value="descriptorType" />
             </dt>
             <dd>
-              <s:property value="generationResult"/>
+              <s:property value="generationResult" />
             </dd>
 
             <s:if test="!programOutput.isEmpty()">
               <dt>Error Summary</dt>
               <dd>
-                <s:property value="programOutput"/>
+                <s:property value="programOutput" />
               </dd>
 
               <dt>Program Output</dt>
               <dd>
-                <s:property value="programErrorOutput"/>
+                <s:property value="programErrorOutput" />
               </dd>
             </s:if>
           </dl>

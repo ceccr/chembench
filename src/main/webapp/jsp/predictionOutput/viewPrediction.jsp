@@ -1,21 +1,25 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ taglib prefix="sx" uri="/struts-dojo-tags"%>
+<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<%@ taglib prefix="sx" uri="/struts-dojo-tags" %>
 
 <!DOCTYPE html>
 <html>
 <head>
-<title>Chembench | View Prediction</title>
-<%@ include file="/jsp/main/head.jsp"%>
-<sx:head />
+  <title>Chembench | View Prediction</title>
+  <%@ include file="/jsp/main/head.jsp" %>
+  <sx:head />
 </head>
 
 <body onload="setTabToMyBench();">
 
-  <div class="outer">
+<div class="outer">
 
-    <div class="includesHeader"><%@ include file="/jsp/main/header.jsp"%></div>
-    <div class="includesNavbar"><%@ include file="/jsp/main/centralNavigationBar.jsp"%></div>
+  <div class="includesHeader">
+    <%@ include file="/jsp/main/header.jsp" %>
+  </div>
+  <div class="includesNavbar">
+    <%@ include file="/jsp/main/centralNavigationBar.jsp" %>
+  </div>
 
     <span id="maincontent" style="overflow: auto;">
       <table width="924" align="center">
@@ -24,8 +28,9 @@
             <div class="StandardTextDarkGray">
               <br /> <b>Prediction Name: </b>
               <s:property value="prediction.name" />
-              <br /> <b>Dataset Predicted: </b><a href="viewDataset?id=<s:property value="prediction.datasetId" />"><s:property
-                  value="prediction.datasetDisplay" /></a><br /> <b>Predictors Used:</b>
+              <br /> <b>Dataset Predicted: </b><a
+                href="viewDataset?id=<s:property value="prediction.datasetId" />"><s:property
+                value="prediction.datasetDisplay" /></a><br /> <b>Predictors Used:</b>
               <s:iterator value="predictors" status="predictorsStatus1">
                 <s:url id="predictorLink" value="/viewPredictor" includeParams="none">
                   <s:param name="id" value='id' />
@@ -33,7 +38,7 @@
                 <s:a href="%{predictorLink}">
                   <s:property value="name" />
                 </s:a>
-            </s:iterator>
+              </s:iterator>
               <br /> <b>Date Created: </b>
               <s:date name="prediction.dateCreated" format="yyyy-MM-dd HH:mm" />
               <br /> <b>Similarity Cutoff: </b>
@@ -44,7 +49,7 @@
               <s:elseif test="prediction.similarityCutoff==3.0"> 3&sigma; </s:elseif>
               <br /> <br /> <a
                 href="fileServlet?id=<s:property value="prediction.id" />&user=<s:property value="userName" />&jobType=PREDICTION&file=predictionAsCSV">Download
-                This Prediction Result (CSV)</a> <br /> <a href="jobs#predictions">Back to Predictions</a>
+              This Prediction Result (CSV)</a> <br /> <a href="jobs#predictions">Back to Predictions</a>
             </div>
           </td>
         </tr>
@@ -66,37 +71,40 @@
       </p> <!-- End page description --> <!-- load tabs --> <a name="tabs"></a>
       <div id="bodyDIV"></div> <!-- used for the "Please Wait..." box. Do not remove. --> <sx:tabbedpanel
         id="viewPredictionTabs">
-        <s:if test="prediction.similarityCutoff==0.0">
-          <s:url id="predictionsLink" value="/viewPredictionPredictionsSection" includeParams="none">
-            <s:param name="currentPageNumber" value='currentPageNumber' />
-            <s:param name="orderBy" value='orderBy' />
-            <s:param name="id" value='objectId' />
-            <s:param name="cutoff" value='' />
-          </s:url>
-        </s:if>
-        <s:else>
-          <s:url id="predictionsLink" value="/viewPredictionPredictionsSection" includeParams="none">
-            <s:param name="currentPageNumber" value='currentPageNumber' />
-            <s:param name="orderBy" value='orderBy' />
-            <s:param name="id" value='objectId' />
-            <s:param name="cutoff" value='prediction.similarityCutoff' />
-          </s:url>
-        </s:else>
+      <s:if test="prediction.similarityCutoff==0.0">
+        <s:url id="predictionsLink" value="/viewPredictionPredictionsSection" includeParams="none">
+          <s:param name="currentPageNumber" value='currentPageNumber' />
+          <s:param name="orderBy" value='orderBy' />
+          <s:param name="id" value='objectId' />
+          <s:param name="cutoff" value='' />
+        </s:url>
+      </s:if>
+      <s:else>
+        <s:url id="predictionsLink" value="/viewPredictionPredictionsSection" includeParams="none">
+          <s:param name="currentPageNumber" value='currentPageNumber' />
+          <s:param name="orderBy" value='orderBy' />
+          <s:param name="id" value='objectId' />
+          <s:param name="cutoff" value='prediction.similarityCutoff' />
+        </s:url>
+      </s:else>
 
-        <sx:div href="%{predictionsLink}" id="predictionValuesDiv" label="Prediction Values" theme="ajax"
-          loadingText="Loading predictions..." showLoadingText="true" preload="false"></sx:div>
-      </sx:tabbedpanel> <!-- end load tabs -->
+      <sx:div href="%{predictionsLink}" id="predictionValuesDiv" label="Prediction Values" theme="ajax"
+              loadingText="Loading predictions..." showLoadingText="true" preload="false"></sx:div>
+    </sx:tabbedpanel> <!-- end load tabs -->
     </span>
-    <div id="image_hint" style="display: none; border: #FFF solid 1px; width: 300px; height: 300px; position: absolute">
-      <img src="" width="300" height="300" />
-    </div>
-    <div class="includes"><%@ include file="/jsp/main/footer.jsp"%></div>
-  </div>
 
-  <script src="javascript/chembench.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
-  <script src="javascript/jquery.doubleScroll.js"></script>
-  <script src="javascript/viewPrediction.js"></script>
+  <div id="image_hint" style="display: none; border: #FFF solid 1px; width: 300px; height: 300px; position: absolute">
+    <img src="" width="300" height="300" />
+  </div>
+  <div class="includes">
+    <%@ include file="/jsp/main/footer.jsp" %>
+  </div>
+</div>
+
+<script src="javascript/chembench.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>
+<script src="javascript/jquery.doubleScroll.js"></script>
+<script src="javascript/viewPrediction.js"></script>
 </body>
 </html>

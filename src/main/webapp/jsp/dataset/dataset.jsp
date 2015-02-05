@@ -35,7 +35,7 @@
     <s:form action="submitDataset" enctype="multipart/form-data" method="post" cssClass="form-horizontal"
             theme="simple">
       <div id="dataset-type-selection" class="panel panel-primary">
-        <s:hidden id="datasetType" name="datasetType"/>
+        <s:hidden id="datasetType" name="datasetType" />
 
         <div class="panel-heading">
           <h3 class="panel-title">Upload Dataset Files</h3>
@@ -74,7 +74,7 @@
                 <label class="control-label col-xs-3">Activity file (.act):</label>
 
                 <div class="col-xs-9">
-                  <s:file name="actFileModeling" id="actFileModeling" theme="simple"/>
+                  <s:file name="actFileModeling" id="actFileModeling" theme="simple" />
                 </div>
               </div>
               <div class="form-group">
@@ -83,7 +83,7 @@
                 <div class="inline-radio-group col-xs-9">
                   <s:radio name="dataTypeModeling" value="dataTypeModeling"
                            list="#{'CONTINUOUS':'Continuous (regression)','CATEGORY':'Category (classification)'}"
-                           theme="simple"/>
+                           theme="simple" />
                 </div>
               </div>
               <hr>
@@ -91,13 +91,13 @@
                 <label class="control-label col-xs-3">Structure file (.sdf):</label>
 
                 <div class="col-xs-9">
-                  <s:file name="sdfFileModeling" id="sdfFileModeling" theme="simple"/>
+                  <s:file name="sdfFileModeling" id="sdfFileModeling" theme="simple" />
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
                   <label for="standardizeModeling"><s:checkbox name="standardizeModeling"
-                                                               id="standardizeModeling" theme="simple"/>Standardize
+                                                               id="standardizeModeling" theme="simple" />Standardize
                     molecule structures</label>
 
                   <p class="help-block">
@@ -109,7 +109,7 @@
               <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
                   <label for="generateImagesM"><s:checkbox name="generateImagesM" id="generateImagesM"
-                                                           theme="simple"/>Generate Mahalanobis heatmap</label>
+                                                           theme="simple" />Generate Mahalanobis heatmap</label>
 
                   <p class="help-block">Unchecking this box will accelerate dataset generation but will eliminate
                     heatmap based on Mahalanobis distance measure.</p>
@@ -129,13 +129,13 @@
                 <label class="control-label col-xs-3">Structure file (.sdf):</label>
 
                 <div class="col-xs-9">
-                  <s:file name="sdfFilePrediction" id="sdfFilePrediction" theme="simple"/>
+                  <s:file name="sdfFilePrediction" id="sdfFilePrediction" theme="simple" />
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
                   <label for="standardizePrediction"><s:checkbox name="standardizePrediction"
-                                                                 id="standardizePrediction" theme="simple"/>Standardize
+                                                                 id="standardizePrediction" theme="simple" />Standardize
                     molecule structures</label>
 
                   <p class="help-block">
@@ -147,7 +147,7 @@
               <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
                   <label for="generateImagesP"><s:checkbox name="generateImagesP" id="generateImagesP"
-                                                           theme="simple"/>Generate Mahalanobis heatmap</label>
+                                                           theme="simple" />Generate Mahalanobis heatmap</label>
 
                   <p class="help-block">Unchecking this box will accelerate dataset generation but will eliminate
                     heatmap based on Mahalanobis distance measure.</p>
@@ -175,7 +175,7 @@
                 <label class="control-label col-xs-3">Activity file (.act):</label>
 
                 <div class="col-xs-9">
-                  <s:file name="actFileModDesc" id="actFileModDesc" theme="simple"/>
+                  <s:file name="actFileModDesc" id="actFileModDesc" theme="simple" />
                 </div>
               </div>
               <div class="form-group">
@@ -184,7 +184,7 @@
                 <div class="inline-radio-group col-xs-9">
                   <s:radio name="dataTypeModDesc" value="dataTypeModDesc"
                            list="#{'CONTINUOUS':'Continuous (regression)','CATEGORY':'Category (classification)'}"
-                           theme="simple"/>
+                           theme="simple" />
                 </div>
               </div>
               <hr>
@@ -192,7 +192,7 @@
                 <label class="control-label col-xs-3">Descriptor data (.x):</label>
 
                 <div class="col-xs-9">
-                  <s:file name="xFileModDesc" id="xFileModDesc" theme="simple"/>
+                  <s:file name="xFileModDesc" id="xFileModDesc" theme="simple" />
                 </div>
               </div>
               <div class="form-group">
@@ -206,7 +206,7 @@
                         for="newDescriptorName">New type</label>
                     </div>
                     <div class="col-xs-9 descriptor-type-entry">
-                      <s:textfield name="descriptorNewName" id="descriptorNewName" theme="simple"/>
+                      <s:textfield name="descriptorNewName" id="descriptorNewName" theme="simple" />
                     </div>
                   </div>
                   <s:if test="userUploadedDescriptorTypes.size() > 0">
@@ -218,7 +218,7 @@
                       <div class="col-xs-9 descriptor-type-entry">
                         <s:select name="selectedDescriptorUsedName" id="descriptorUsedName"
                                   list="userUploadedDescriptorTypes" label="Select type" disabled="true"
-                                  theme="simple"/>
+                                  theme="simple" />
                       </div>
                     </div>
                   </s:if>
@@ -227,7 +227,7 @@
               <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
                   <label for="hasBeenScaled"><s:checkbox name="hasBeenScaled" id="hasBeenScaled"
-                                                         theme="simple"/>My descriptors have been scaled</label>
+                                                         theme="simple" />My descriptors have been scaled</label>
 
                   <p class="help-block">If you leave this unchecked, Chembench will scale your descriptors for
                     you.</p>
@@ -239,14 +239,14 @@
                   <label>Structure file (.sdf):</label><span class="help-block">Optional.</span>
                 </div>
                 <div class="col-xs-9">
-                  <s:file name="sdfFileModDesc" id="sdfFileModDesc" theme="simple" cssClass="optional-sdf-select"/>
+                  <s:file name="sdfFileModDesc" id="sdfFileModDesc" theme="simple" cssClass="optional-sdf-select" />
                 </div>
               </div>
               <div class="optional-sdf-options">
                 <div class="form-group">
                   <div class="col-xs-offset-3 col-xs-9">
                     <label for="standardizeModDesc"><s:checkbox name="standardizeModDesc"
-                                                                id="standardizeModDesc" theme="simple"/>Standardize
+                                                                id="standardizeModDesc" theme="simple" />Standardize
                       molecule structures</label>
 
                     <p class="help-block">
@@ -258,7 +258,7 @@
                 <div class="form-group">
                   <div class="col-xs-offset-3 col-xs-9">
                     <label for="generateImagesMWD"><s:checkbox name="generateImagesMWD" id="generateImagesMWD"
-                                                               theme="simple"/>Generate Mahalanobis heatmap</label>
+                                                               theme="simple" />Generate Mahalanobis heatmap</label>
 
                     <p class="help-block">Unchecking this box will accelerate dataset generation but will
                       eliminate heatmap based on Mahalanobis distance measure.</p>
@@ -286,7 +286,7 @@
                 <label class="control-label col-xs-3">Descriptor data (.x):</label>
 
                 <div class="col-xs-9">
-                  <s:file name="xFilePredDesc" id="xFilePredDesc" theme="simple"/>
+                  <s:file name="xFilePredDesc" id="xFilePredDesc" theme="simple" />
                 </div>
               </div>
               <div class="form-group">
@@ -300,7 +300,7 @@
                         for="newDescriptorNameD">New type</label>
                     </div>
                     <div class="col-xs-9 descriptor-type-entry">
-                      <s:textfield name="descriptorNewNameD" id="descriptorNewNameD" theme="simple"/>
+                      <s:textfield name="descriptorNewNameD" id="descriptorNewNameD" theme="simple" />
                     </div>
                   </div>
                   <s:if test="userUploadedDescriptorTypes.size() > 0">
@@ -312,7 +312,7 @@
                       <div class="col-xs-9 descriptor-type-entry">
                         <s:select name="selectedDescriptorUsedNameD" id="descriptorUsedNameD"
                                   list="userUploadedDescriptorTypes" label="Select type" disabled="true"
-                                  theme="simple"/>
+                                  theme="simple" />
                       </div>
                     </div>
                   </s:if>
@@ -321,7 +321,7 @@
               <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
                   <label for="hasBeenScaled"><s:checkbox name="hasBeenScaled" id="hasBeenScaled"
-                                                         theme="simple"/>My descriptors have been scaled</label>
+                                                         theme="simple" />My descriptors have been scaled</label>
 
                   <p class="help-block">
                     If you leave this unchecked, Chembench will scale your descriptors for you.<br> <span
@@ -336,14 +336,14 @@
                   <label>Structure file (.sdf):</label><span class="help-block">Optional.</span>
                 </div>
                 <div class="col-xs-9">
-                  <s:file name="sdfFilePredDesc" id="sdfFilePredDesc" theme="simple" cssClass="optional-sdf-select"/>
+                  <s:file name="sdfFilePredDesc" id="sdfFilePredDesc" theme="simple" cssClass="optional-sdf-select" />
                 </div>
               </div>
               <div class="optional-sdf-options">
                 <div class="form-group">
                   <div class="col-xs-offset-3 col-xs-9">
                     <label for="standardizePredDesc"><s:checkbox name="standardizePredDesc"
-                                                                 id="standardizePredDesc" theme="simple"/>Standardize
+                                                                 id="standardizePredDesc" theme="simple" />Standardize
                       molecule structures</label>
 
                     <p class="help-block">
@@ -355,7 +355,7 @@
                 <div class="form-group">
                   <div class="col-xs-offset-3 col-xs-9">
                     <label for="generateImagesPWD"><s:checkbox name="generateImagesPWD" id="generateImagesPWD"
-                                                               theme="simple"/>Generate Mahalanobis heatmap</label>
+                                                               theme="simple" />Generate Mahalanobis heatmap</label>
 
                     <p class="help-block">Unchecking this box will accelerate dataset generation but will
                       eliminate heatmap based on Mahalanobis distance measure.</p>
@@ -368,7 +368,7 @@
       </div>
 
       <div id="external-set-settings" class="panel panel-primary">
-        <s:hidden id="splitType" name="splitType"/>
+        <s:hidden id="splitType" name="splitType" />
         <div class="panel-heading">
           <h3 class="panel-title">Define External Set</h3>
         </div>
@@ -402,18 +402,19 @@
                 </label>
 
                 <div class="col-xs-2">
-                  <s:textfield name="numExternalFolds" id="numExternalFolds" cssClass="form-control" theme="simple"/>
+                  <s:textfield name="numExternalFolds" id="numExternalFolds" cssClass="form-control" theme="simple" />
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
-                  <s:checkbox name="useActivityBinningNFold" id="useActivityBinningNFold" theme="simple"/>
+                  <s:checkbox name="useActivityBinningNFold" id="useActivityBinningNFold" theme="simple" />
                   <label for="useActivityBinningNFold">Use activity binning</label>
                 </div>
               </div>
             </div>
             <div id="random-split" class="tab-pane">
               <input type="hidden" name="split-type" value="<%= Constants.RANDOM %>">
+
               <p>
                 A <b>random split</b> will divide your modeling dataset into training and test portions at random. You
                 can change the size of the external set below. Either a percentage of total compounds or a fixed
@@ -425,17 +426,17 @@
 
                 <div class="col-xs-2">
                   <s:textfield name="numExternalCompounds" id="numExternalCompounds" cssClass="form-control"
-                               theme="simple"/>
+                               theme="simple" />
                 </div>
                 <div class="col-xs-3 external-split-type">
                   <s:select name="externalCompoundsCountOrPercent"
                             list="#{'Percent':'Percent','Compounds':'Compounds'}" cssClass="form-control"
-                            theme="simple"/>
+                            theme="simple" />
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-xs-offset-3 col-xs-9">
-                  <s:checkbox name="useActivityBinningNFold" id="useActivityBinningNFold" theme="simple"/>
+                  <s:checkbox name="useActivityBinningNFold" id="useActivityBinningNFold" theme="simple" />
                   <label for="useActivityBinningNFold">Use activity binning</label>
                 </div>
               </div>
@@ -452,7 +453,7 @@
               <div class="form-group">
                 <div class="col-xs-12">
                   <s:textarea name="externalCompoundList" id="externalCompoundList" rows="3" cssClass="form-control"
-                              theme="simple"/>
+                              theme="simple" />
                 </div>
               </div>
             </div>
@@ -469,7 +470,7 @@
             <label class="control-label col-xs-3">Dataset name:</label>
 
             <div class="col-xs-4">
-              <s:textfield name="datasetName" id="datasetName" cssClass="form-control" theme="simple"/>
+              <s:textfield name="datasetName" id="datasetName" cssClass="form-control" theme="simple" />
             </div>
           </div>
           <div class="text-muted">
@@ -478,7 +479,7 @@
                 <label>Paper reference:</label> <span class="help-block">Optional.</span>
               </div>
               <div class="col-xs-4 paper-reference-input-wrapper">
-                <s:textfield name="paperReference" id="paperReference" cssClass="form-control" theme="simple"/>
+                <s:textfield name="paperReference" id="paperReference" cssClass="form-control" theme="simple" />
               </div>
             </div>
             <div class="form-group">
@@ -487,7 +488,7 @@
               </div>
               <div class="col-xs-4">
                 <s:textarea name="dataSetDescription" id="dataSetDescription" rows="3" cssClass="form-control"
-                            theme="simple"/>
+                            theme="simple" />
               </div>
             </div>
             <div class="form-group">
