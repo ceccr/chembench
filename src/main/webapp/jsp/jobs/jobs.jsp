@@ -132,7 +132,10 @@
                       </td>
                       <td class="delete">
                         <s:if test="adminUser || user.userName.equals(userName)">
-                          <a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
+                          <s:url var="deleteUrl" action="deleteJob">
+                            <s:param name="id" value="id" />
+                          </s:url>
+                          <s:a href="%{deleteUrl}">cancel</s:a>
                         </s:if>
                       </td>
                     </tr>
@@ -185,7 +188,10 @@
                       </td>
                       <td class="delete">
                         <s:if test="adminUser || user.userName.equals(userName)">
-                          <a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
+                          <s:url var="deleteUrl" action="deleteJob">
+                            <s:param name="id" value="id" />
+                          </s:url>
+                          <s:a href="%{deleteUrl}">cancel</s:a>
                         </s:if>
                       </td>
                     </tr>
@@ -234,7 +240,10 @@
                       </td>
                       <td class="delete">
                         <s:if test="adminUser">
-                          <a href="deleteJob?id=<s:property value="id" />#jobs">cancel</a>
+                          <s:url var="deleteUrl" action="deleteJob">
+                            <s:param name="id" value="id" />
+                          </s:url>
+                          <s:a href="%{deleteUrl}">cancel</s:a>
                         </s:if>
                       </td>
                     </tr>

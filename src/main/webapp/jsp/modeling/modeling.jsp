@@ -19,13 +19,13 @@
     </p>
 
     <p>
-      For more information about creating models and selecting the right parameters, see the <a href="/help-modeling">Modeling
-      help page</a>.
+      For more information about creating models and selecting the right parameters, see the
+      <s:a action="help-modeling">Modeling help page</s:a>.
     </p>
 
     <p>
-      The full modeling workflow as described in our <a href="/help-workflows">Workflow help page</a> is detailed in
-      the following publication:
+      The full modeling workflow as described in our <s:a action="help-workflows">Workflow help page</s:a> is
+      detailed in the following publication:
 
         <span class="citation"><a href="http://onlinelibrary.wiley.com/doi/10.1002/minf.201000061/full" target="_blank">
           Tropsha, A. (2010). Best Practices for QSAR Model Development, Validation, and Exploitation.

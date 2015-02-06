@@ -3,7 +3,7 @@
 <header>
   <div id="masthead">
     <h1>
-      <a href=""><img src="assets/images/masthead.jpg" width="312px" height="66px" alt="Chembench"></a>
+      <a href="/"><img src="assets/images/masthead.jpg" width="312px" height="66px" alt="Chembench"></a>
     </h1>
 
     <div class="userbox">
@@ -16,13 +16,13 @@
           <strong><s:property value="#session['user'].userName" /></strong>.
         </s:else>
         <ul class="userbox-links">
-          <li><a href="/logout">log out</a></li>
-          <li><a href="help-overview">help</a></li>
+          <li><s:a action="logout">log out</s:a></li>
+          <li><s:a action="help-overview">help</s:a></li>
           <s:if test="!#session['user'].userName.contains('guest')">
-            <li><a href="/editProfile">edit profile</a></li>
+            <li><s:a action="editProfile">edit profile</s:a></li>
           </s:if>
           <s:if test="#session['user'].isAdmin=='YES'">
-            <li><a href="/admin">admin</a></li>
+            <li><s:a action="admin">admin</s:a></li>
           </s:if>
         </ul>
       </s:if>
@@ -31,11 +31,11 @@
 
   <nav>
     <ul class="nav-list">
-      <li id="nav-button-home"><a href=<s:url action="home" />>Home</a></li>
-      <li id="nav-button-mybench"><a href=<s:url action="jobs" />>My Bench</a></li>
-      <li id="nav-button-datasets"><a href=<s:url action="dataset" />>Datasets</a></li>
-      <li id="nav-button-modeling"><a href=<s:url action="modeling" />>Modeling</a></li>
-      <li id="nav-button-prediction"><a href=<s:url action="prediction" />>Prediction</a></li>
+      <li id="nav-button-home"><s:a action="home">Home</s:a></li>
+      <li id="nav-button-mybench"><s:a action="jobs">My Bench</s:a></li>
+      <li id="nav-button-datasets"><s:a action="dataset">Datasets</s:a></li>
+      <li id="nav-button-modeling"><s:a action="modeling">Modeling</s:a></li>
+      <li id="nav-button-prediction"><s:a action="prediction">Prediction</s:a></li>
     </ul>
   </nav>
 

@@ -27,8 +27,8 @@
       created and displayed as a heatmap.</p>
 
     <p>
-      For more information about dataset creation and defining external sets, see the <a href="/help-dataset">Dataset
-      help section</a>.
+      For more information about dataset creation and defining external sets, see the <s:a action="help-dataset">Dataset
+      help section</s:a>
     </p>
     <hr>
     <s:form action="submitDataset" enctype="multipart/form-data" method="post" cssClass="form-horizontal"
