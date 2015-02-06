@@ -119,47 +119,9 @@
             <result>/jsp/modeling/modeling.jsp</result>
         </action>
 
-        <action name="modeling-old" class="edu.unc.ceccr.chembench.actions.ModelingFormActions"
-                method="loadPage">
-            <result>/jsp/modeling/modeling-old.jsp</result>
-        </action>
-
         <action name="createModelingJob" class="edu.unc.ceccr.chembench.actions.ModelingFormActions" method="execute">
             <result name="success" type="redirect">jobs</result>
             <result name="error">/jsp/main/error.jsp</result>
-        </action>
-
-        <action name="loadKnnSection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions" method="ajaxLoadKnn">
-            <result>/jsp/modeling/modeling-knn.jsp</result>
-        </action>
-
-        <action name="loadKnnPlusSASection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions"
-                method="ajaxLoadKnnPlus">
-            <result>/jsp/modeling/modeling-knn-plus-sa.jsp</result>
-        </action>
-
-        <action name="loadKnnPlusGASection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions"
-                method="ajaxLoadKnnPlus">
-            <result>/jsp/modeling/modeling-knn-plus-ga.jsp</result>
-        </action>
-
-        <action name="loadSvmSection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions" method="ajaxLoadSvm">
-            <result>/jsp/modeling/modeling-svm.jsp</result>
-        </action>
-
-        <action name="loadRFSection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions"
-                method="ajaxLoadRandomForest">
-            <result>/jsp/modeling/modeling-randomForest.jsp</result>
-        </action>
-
-        <action name="loadRandomInternalSplitSection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions"
-                method="ajaxLoadRandomSplit">
-            <result>/jsp/modeling/modeling-randomsplit.jsp</result>
-        </action>
-
-        <action name="loadSphereInternalSplitSection" class="edu.unc.ceccr.chembench.actions.ModelingFormActions"
-                method="ajaxLoadSphereSplit">
-            <result>/jsp/modeling/modeling-spheresplit.jsp</result>
         </action>
         <!-- End Modeling Page -->
 
