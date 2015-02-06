@@ -17,7 +17,7 @@
       track progress of all the running jobs using the job queue.</p>
 
     <p>
-      Publicly available datasets and predictors are also displayed. If you wish to share datasets or predictors you
+      Publicly available datasets and models are also displayed. If you wish to share datasets or models you
       have developed with the Chembench community, please contact us at <a href="mailto:ceccr@email.unc.edu">ceccr@email.unc.edu</a>.
     </p>
 
@@ -26,7 +26,7 @@
     <ul class="nav nav-tabs">
       <li class="active"><a href="#jobs" data-toggle="tab">Job Queue</a></li>
       <li><a href="#datasets" data-toggle="tab">Datasets</a></li>
-      <li><a href="#predictors" data-toggle="tab">Predictors</a></li>
+      <li><a href="#models" data-toggle="tab">Models</a></li>
       <li><a href="#predictions" data-toggle="tab">Predictions</a></li>
     </ul>
 
@@ -41,7 +41,7 @@
         <p class="margin-below">
           Running jobs from all Chembench users are displayed below. Use the <b>Refresh</b> button to update the list.
           Other users can see your jobs while they are running, but only you can access your completed datasets,
-          predictors, and predictions.
+          models, and predictions.
         </p>
 
         <s:if test="!incomingJobs.isEmpty()">
@@ -343,8 +343,8 @@
         </table>
       </div>
 
-      <div id="predictors" class="tab-pane">
-        <h3>Predictors</h3>
+      <div id="models" class="tab-pane">
+        <h3>Models</h3>
         <table class="table table-hover table-bordered tablesorter">
           <thead>
           <tr>
