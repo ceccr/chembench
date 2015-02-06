@@ -114,7 +114,6 @@
         <ul class="links-list">
           <li><a href="help-overview" target="_blank">Chembench Overview</a></li>
           <li><a href="help-workflows" target="_blank">Chembench Workflows &amp; Methodology</a></li>
-          <li><a href="softwareList" target="_blank">Links to More Cheminformatics Tools</a></li>
         </ul>
         <s:if test="showStatistics!=null || showStatistics=='NO'">
           <h3>Site Stats</h3>
