@@ -4,7 +4,7 @@
 <html>
 <head>
   <%@ include file="/jsp/main/head.jsp" %>
-  <title>Chembench | View Dataset</title>
+  <title>Chembench | Dataset: <s:property value="dataset.name" /></title>
 </head>
 <body>
 <div id="main" class="container">
