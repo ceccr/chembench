@@ -235,27 +235,6 @@
                        list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" />
             </div>
           </div>
-
-          <hr>
-          <h4>Modeling Options</h4>
-
-          <p>Under the Modeling tab, there are parameters that would only be of interest to advanced users. Before
-            turning this option on, you should familiarize yourself with the fine details of the kNN modeling
-            procedure.</p>
-
-          <div class="form-group">
-            <label class="control-label col-xs-4">Show Advanced kNN Modeling Controls:</label>
-
-            <div class="inline-radio-group col-xs-8">
-              <s:radio name="showAdvancedKnnModeling" value="showAdvancedKnnModeling" list="#{'YES':'Yes','NO':'No'}" />
-            </div>
-          </div>
-
-          <div class="form-group">
-            <div class="col-xs-offset-4 col-xs-8">
-              <button type="submit" class="btn btn-primary">Submit</button>
-            </div>
-          </div>
         </s:form>
       </div>
     </div>
