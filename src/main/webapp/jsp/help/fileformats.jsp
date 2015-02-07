@@ -1,4 +1,4 @@
-<%@include file="/jsp/help/helpheader.jsp" %>
+<%@ include file="/jsp/help/helpheader.jsp" %>
 
 <div class="outer">
   <div class="ccbHomeStandard">
@@ -127,11 +127,11 @@ $$$$
       at 1. The second value is an ID for the compound that matches with the IDs in the corresponding SDF and ACT files.
       The remaining numbers are the values of the descriptors for the compound.</p>
 
-    <%@include file="/jsp/help/helpcontents.jsp" %>
+    <%@ include file="/jsp/help/helpcontents.jsp" %>
 
   </div>
   <div class="includes">
-    <%@include file="/jsp/main/footer.jsp" %>
+    <%@ include file="/jsp/main/footer.jsp" %>
   </div>
 </div>
 </body>

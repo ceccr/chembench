@@ -27,8 +27,8 @@
   <tr>
     <td>
       <table width="924" border="0" align="center" cellpadding="0" cellspacing="0">
-        <%@include file="/jsp/main/header.jsp" %>
-        <%@include file="/jsp/main/centralNavigationBar.jsp" %>
+        <%@ include file="/jsp/main/header.jsp" %>
+        <%@ include file="/jsp/main/centralNavigationBar.jsp" %>
         </td>
         </span>
         </tr>

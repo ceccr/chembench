@@ -51,10 +51,10 @@
 <div class="outer">
 
   <div class="includesHeader">
-    <%@include file="/jsp/main/header.jsp" %>
+    <%@ include file="/jsp/main/header.jsp" %>
   </div>
   <div class="includesNavbar">
-    <%@include file="/jsp/main/centralNavigationBar.jsp" %>
+    <%@ include file="/jsp/main/centralNavigationBar.jsp" %>
   </div>
 
     <span id="maincontent">
@@ -259,7 +259,7 @@
     <img src="" width="300" height="300" />
   </div>
   <div class="includes">
-    <%@include file="/jsp/main/footer.jsp" %>
+    <%@ include file="/jsp/main/footer.jsp" %>
   </div>
   </div>
   <script language="javascript">

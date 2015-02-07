@@ -41,7 +41,7 @@
     </p>
   </section>
 
-  <%@include file="/jsp/main/footer.jsp" %>
+  <%@ include file="/jsp/main/footer.jsp" %>
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
