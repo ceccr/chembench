@@ -60,7 +60,8 @@
 
           <div class="tab-content">
             <div id="modeling-dataset" class="tab-pane active">
-              <input type="hidden" name="dataset-type" value="<%= Constants.MODELING %>">
+              <input type="hidden" name="dataset-type" value=<s:property
+                  value="@edu.unc.ceccr.chembench.global.Constants@MODELING" />>
 
               <p>
                 A <b>Modeling Dataset</b> can be used for both modeling and prediction. You will need to supply an <a
@@ -116,7 +117,8 @@
               </div>
             </div>
             <div id="prediction-dataset" class="tab-pane">
-              <input type="hidden" name="dataset-type" value="<%= Constants.PREDICTION %>">
+              <input type="hidden" name="dataset-type" value=<s:property
+                  value="@edu.unc.ceccr.chembench.global.Constants@PREDICTION" />>
 
               <p>
                 A <b>Prediction Dataset</b> can only be used for prediction. You will need to supply an <a
@@ -154,7 +156,8 @@
               </div>
             </div>
             <div id="modeling-dataset-with-descriptors" class="tab-pane">
-              <input type="hidden" name="dataset-type" value="<%= Constants.MODELINGWITHDESCRIPTORS %>">
+              <input type="hidden" name="dataset-type" value=<s:property
+                  value="@edu.unc.ceccr.chembench.global.Constants@MODELINGWITHDESCRIPTORS" />>
 
               <p>
                 A <b>Modeling Dataset with Descriptors</b> can be used for both modeling and prediction. Choose this
@@ -266,7 +269,8 @@
               </div>
             </div>
             <div id="prediction-dataset-with-descriptors" class="tab-pane">
-              <input type="hidden" name="dataset-type" value="<%= Constants.PREDICTIONWITHDESCRIPTORS %>">
+              <input type="hidden" name="dataset-type" value=<s:property
+                  value="@edu.unc.ceccr.chembench.global.Constants@PREDICTIONWITHDESCRIPTORS" />>
 
               <p>
                 A <b>Prediction Dataset with Descriptors</b> can only be used for prediction. Choose this option if
@@ -388,7 +392,8 @@
 
           <div class="tab-content">
             <div id="nfold-split" class="tab-pane active">
-              <input type="hidden" name="split-type" value="<%= Constants.NFOLD %>">
+              <input type="hidden" name="split-type" value=<s:property
+                  value="@edu.unc.ceccr.chembench.global.Constants@NFOLD" />>
 
               <p>
                 An <b>n-fold split</b> will generate <b>n</b> different external test sets. When you use this dataset
@@ -412,7 +417,8 @@
               </div>
             </div>
             <div id="random-split" class="tab-pane">
-              <input type="hidden" name="split-type" value="<%= Constants.RANDOM %>">
+              <input type="hidden" name="split-type" value=<s:property
+                  value="@edu.unc.ceccr.chembench.global.Constants@RANDOM" />>
 
               <p>
                 A <b>random split</b> will divide your modeling dataset into training and test portions at random. You
@@ -441,7 +447,8 @@
               </div>
             </div>
             <div id="choose-compounds" class="tab-pane">
-              <input type="hidden" name="split-type" value="<%= Constants.USERDEFINED %>">
+              <input type="hidden" name="split-type" value=<s:property
+                  value="@edu.unc.ceccr.chembench.global.Constants@USERDEFINED" />>
 
               <p>
                 If you want to specifically <b>choose the compounds</b> for the external set, enter the names of those
