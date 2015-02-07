@@ -15,8 +15,9 @@
     <p>You are seeing this page because you are currently not logged in, or your session has expired.</p>
 
     <p>
-      If you need an account, you can make one from the <a href="/">Home</a> page. Creating an account is quick and
-      free. <br> Or, if you already have an account, you can log in using the form below.
+      If you need an account, you can make one from the <s:a action="home">Home</s:a> page. Creating an account is quick
+      and free.<br>
+      Or, if you already have an account, you can log in using the form below.
     </p>
 
     <p>
@@ -60,8 +61,8 @@
       </div>
       <div class="form-group">
         <div class="col-xs-offset-3 col-xs-4">
-          <a href="/forgotPassword">Forgot your password?</a><br> <a href="loadRegistrationPage">Register an
-          account</a>
+          <s:a action="forgotPassword">Forgot your password?</s:a><br>
+          <s:a action="loadRegistrationPage">Register an account</s:a>
         </div>
       </div>
     </s:form>

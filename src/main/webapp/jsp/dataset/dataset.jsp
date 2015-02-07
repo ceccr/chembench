@@ -64,10 +64,10 @@
                   value="@edu.unc.ceccr.chembench.global.Constants@MODELING" />>
 
               <p>
-                A <b>Modeling Dataset</b> can be used for both modeling and prediction. You will need to supply an <a
-                  href="/help-fileformats#SDF">SDF file</a> containing the structures of the compounds in your
-                dataset, and an <a href="/help-fileformats#ACT">ACT file</a> containing the activity values of those
-                compounds.
+                A <b>Modeling Dataset</b> can be used for both modeling and prediction. You will need to supply an
+                <s:a action="help-fileformats" anchor="SDF">SDF file</s:a> containing the structures of the compounds in
+                your dataset, and an <s:a action="help-fileformats" anchor="ACT">ACT file</s:a> containing the activity
+                values of those compounds.
               </p>
 
               <div class="form-group">
@@ -166,11 +166,12 @@
               </p>
 
               <p>
-                You will need to supply an <a href="/help-fileformats#X">X file</a> containing your descriptor data,
-                and an <a href="/help-fileformats#ACT">ACT file</a> containing your compounds' activity values.
-                Optionally, you may provide a <a href="/help-fileformats#SDF">SDF file</a> containing the structures
-                of the compounds in your dataset. If you do, Chembench will generate descriptors for you in addition
-                to the ones you upload, as well as images of your compound structures.
+                You will need to supply an <s:a action="help-fileformats" anchor="X">X file</s:a> containing your
+                descriptor data, and an <s:a action="help-fileformats" anchor="ACT">ACT file</s:a> containing your
+                compounds' activity values. Optionally, you may provide a <s:a action="help-fileformats"
+                                                                               anchor="SDF">SDF file</s:a> containing
+                the structures of the compounds in your dataset. If you do, Chembench will generate descriptors for you
+                in addition to the ones you upload, as well as images of your compound structures.
               </p>
 
               <div class="form-group">
@@ -279,10 +280,11 @@
               </p>
 
               <p>
-                You will need to supply an <a href="/help-fileformats#X">X file</a> containing your descriptor data.
-                Optionally, you may provide a <a href="/help-fileformats#SDF">SDF file</a> containing the structures
-                of the compounds in your dataset. If you do, Chembench will generate compound structure images for
-                you.
+                You will need to supply an <s:a action="help-fileformats" anchor="X">X file</s:a> containing your
+                descriptor data. Optionally, you may provide a <s:a action="help-fileformats"
+                                                                    anchor="SDF">SDF file</s:a> containing the
+                structures of the compounds in your dataset. If you do, Chembench will generate compound structure
+                images for you.
               </p>
 
               <div class="form-group">
