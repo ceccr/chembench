@@ -505,6 +505,6 @@
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
-<script src="assets/js/dataset.js"></script>
+<script src="/assets/js/dataset.js"></script>
 </body>
 </html>

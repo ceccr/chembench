@@ -19,7 +19,7 @@
           <p>Chembench is a free portal that enables researchers to mine available chemical and biological data.
             Chembench can help researchers rationally design or select new compounds or compound libraries with
             significantly enhanced hit rates in screening experiments.</p>
-          <img class="interstitial-banner" src="assets/images/home-banner.jpg" alt="Molecule image banner">
+          <img class="interstitial-banner" src="/assets/images/home-banner.jpg" alt="Molecule image banner">
 
           <p>
             It provides cheminformatics research support to molecular modelers, medicinal chemists and quantitative
@@ -143,21 +143,21 @@
     <section>
       <p class="sponsor-message">We thank the following commercial sponsors for their support:</p>
       <ul class="sponsor-list">
-        <li><a href="http://www.chemcomp.com" target="_blank"><img src="assets/images/sponsors/ccg.jpg"
+        <li><a href="http://www.chemcomp.com" target="_blank"><img src="/assets/images/sponsors/ccg.jpg"
                                                                    width="114px" height="46px"
                                                                    alt="Chemical Computing Group" class="img-thumbnail"></a>
         </li>
-        <li><a href="http://www.talete.mi.it" target="_blank"><img src="assets/images/sponsors/talete.jpg"
+        <li><a href="http://www.talete.mi.it" target="_blank"><img src="/assets/images/sponsors/talete.jpg"
                                                                    width="71px" height="80px" alt="Talete srl"
                                                                    class="img-thumbnail"></a></li>
-        <li><a href="http://www.chemaxon.com" target="_blank"><img src="assets/images/sponsors/chemaxon.jpg"
+        <li><a href="http://www.chemaxon.com" target="_blank"><img src="/assets/images/sponsors/chemaxon.jpg"
                                                                    width="88px" height="83px" alt="ChemAxon"
                                                                    class="img-thumbnail"></a></li>
-        <li><a href="http://www.edusoft-lc.com" target="_blank"><img src="assets/images/sponsors/edusoft.jpg"
+        <li><a href="http://www.edusoft-lc.com" target="_blank"><img src="/assets/images/sponsors/edusoft.jpg"
                                                                      width="99px" height="71px" alt="eduSoft"
                                                                      class="img-thumbnail"></a></li>
         <li><a href="http://www.sunsetmolecular.com" target="_blank"><img
-            src="assets/images/sponsors/sunsetmolecular.jpg" width="100px" height="100px" alt="Sunset Molecular"
+            src="/assets/images/sponsors/sunsetmolecular.jpg" width="100px" height="100px" alt="Sunset Molecular"
             class="img-thumbnail"></a></li>
       </ul>
     </section>

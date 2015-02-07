@@ -3,7 +3,7 @@
 <header>
   <div id="masthead">
     <h1>
-      <a href="/"><img src="assets/images/masthead.jpg" width="312px" height="66px" alt="Chembench"></a>
+      <a href="/"><img src="/assets/images/masthead.jpg" width="312px" height="66px" alt="Chembench"></a>
     </h1>
 
     <div class="userbox">

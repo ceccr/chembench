@@ -42,6 +42,6 @@
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
-<script src="assets/js/mybench.js"></script>
+<script src="/assets/js/mybench.js"></script>
 </body>
 </html>

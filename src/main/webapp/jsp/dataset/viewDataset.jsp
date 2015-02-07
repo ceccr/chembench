@@ -414,7 +414,7 @@
     };
   });
 </script>
-<script src="assets/js/swfobject.js"></script>
-<script src="assets/js/viewDataset.js"></script>
+<script src="/assets/js/swfobject.js"></script>
+<script src="/assets/js/viewDataset.js"></script>
 </body>
 </html>

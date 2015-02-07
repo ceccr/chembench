@@ -880,6 +880,6 @@
 </div>
 
 <%@ include file="/jsp/main/tail.jsp" %>
-<script src="assets/js/modeling.js"></script>
+<script src="/assets/js/modeling.js"></script>
 </body>
 </html>
