@@ -145,7 +145,7 @@
     </div>
     <hr>
     <section>
-      <p class="sponsor-message">We thank the following commercial sponsors for their support:</p>
+      <h4 class="sponsor-message">We thank the following commercial sponsors for their support:</h4>
       <ul class="sponsor-list">
         <li><a href="http://www.chemcomp.com" target="_blank"><img src="/assets/images/sponsors/ccg.jpg"
                                                                    width="114px" height="46px"
