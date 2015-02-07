@@ -148,20 +148,20 @@
       <h4 class="sponsor-message">We thank the following commercial sponsors for their support:</h4>
       <ul class="sponsor-list">
         <li><a href="http://www.chemcomp.com" target="_blank"><img src="/assets/images/sponsors/ccg.jpg"
-                                                                   width="114px" height="46px"
+                                                                   width="114" height="46"
                                                                    alt="Chemical Computing Group" class="img-thumbnail"></a>
         </li>
         <li><a href="http://www.talete.mi.it" target="_blank"><img src="/assets/images/sponsors/talete.jpg"
-                                                                   width="71px" height="80px" alt="Talete srl"
+                                                                   width="71" height="80" alt="Talete srl"
                                                                    class="img-thumbnail"></a></li>
         <li><a href="http://www.chemaxon.com" target="_blank"><img src="/assets/images/sponsors/chemaxon.jpg"
-                                                                   width="88px" height="83px" alt="ChemAxon"
+                                                                   width="88" height="83" alt="ChemAxon"
                                                                    class="img-thumbnail"></a></li>
         <li><a href="http://www.edusoft-lc.com" target="_blank"><img src="/assets/images/sponsors/edusoft.jpg"
-                                                                     width="99px" height="71px" alt="eduSoft"
+                                                                     width="99" height="71" alt="eduSoft"
                                                                      class="img-thumbnail"></a></li>
         <li><a href="http://www.sunsetmolecular.com" target="_blank"><img
-            src="/assets/images/sponsors/sunsetmolecular.jpg" width="100px" height="100px" alt="Sunset Molecular"
+            src="/assets/images/sponsors/sunsetmolecular.jpg" width="100" height="100" alt="Sunset Molecular"
             class="img-thumbnail"></a></li>
       </ul>
     </section>

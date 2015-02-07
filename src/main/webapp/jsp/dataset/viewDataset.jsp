@@ -192,7 +192,7 @@
                   <s:param name="compoundId" value="%{compoundId}" />
                   <s:param name="datasetName" value="%{dataset.name}" />
                 </s:url> <img src=
-                                <s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px"
+                                <s:property value="imageUrl" /> class="img-thumbnail" width="125" height="125"
                               alt="Compound structure"></td>
               </s:if>
               <s:if test="dataset.hasActivities()">
@@ -283,7 +283,7 @@
                       <s:param name="compoundId" value="%{compoundId}" />
                       <s:param name="datasetName" value="%{dataset.name}" />
                     </s:url> <img src=
-                                    <s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px"
+                                    <s:property value="imageUrl" /> class="img-thumbnail" width="125" height="125"
                                   alt="Compound structure"></td>
                   </s:if>
                   <s:if test="dataset.hasActivities()">
@@ -310,7 +310,7 @@
               <s:param name="compoundId" value="'activityChart'" />
             </s:url>
             <img src=
-                   <s:property value="activityChartUrl" /> width="550px" height="550px" alt="Activity histogram">
+                   <s:property value="activityChartUrl" /> width="550" height="550" alt="Activity histogram">
           </div>
         </div>
       </s:if>

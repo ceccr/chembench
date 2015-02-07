@@ -14,7 +14,7 @@ function composeRow(object) {
     var r = '<tr><td class="name">' + object["compoundId"] + '</td>';
     if ($("input#has-structures").val() === "true") {
         r += '<td><img src="imageServlet?' + $.param(imageParams) +
-             '" class="img-thumbnail" width="125px" height="125px" alt="Compound structure"></td>';
+             '" class="img-thumbnail" width="125" height="125" alt="Compound structure"></td>';
     }
     r += '<td>' + object["activityValue"] + '</td></tr>';
     return r;
