@@ -1,3 +1,4 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 <!DOCTYPE html>
 <html>
@@ -56,7 +57,11 @@
             }
             String ip = ipAddress.replaceAll("\\.", "");
           %>
-          Or, <a id="guest-login" href="/login?username=guest&ip=<%=ip%>">log in as a guest</a>
+          <s:url var="guestLoginUrl">
+            <s:param name="username">guest</s:param>
+            <s:param name="ip"><%= ip %></s:param>
+          </s:url>
+          Or, <s:a href="%{guestLoginUrl}" cssClass="guest-login">log in as a guest</s:a>
         </div>
       </div>
       <div class="form-group">
