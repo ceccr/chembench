@@ -69,7 +69,7 @@ $(document).ready(function() {
     $(document).ready(function() {
         $('input[name="username"]').focus();
     });
-    $("#guest-login").click(function(event) {
+    $(".guest-login").click(function(event) {
         event.preventDefault();
 
         var guestMessage = "A guest account allows a user to explore the functionality of Chembench using publicly " +
@@ -79,7 +79,7 @@ $(document).ready(function() {
 
         bootbox.confirm(guestMessage, function(response) {
             if (response === true) {
-                window.location = $("#guest-login").attr("href");
+                window.location = $(".guest-login").attr("href");
             }
         });
     });
