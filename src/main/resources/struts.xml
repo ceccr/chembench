@@ -140,7 +140,7 @@
 
         <!-- Jobs Page -->
         <action name="jobs" class="edu.unc.ceccr.chembench.actions.JobsActions" method="loadPage">
-            <result>/jsp/jobs/jobs.jsp</result>
+            <result>/jsp/jobs/mybench.jsp</result>
         </action>
         <!-- End Jobs Page -->
 
