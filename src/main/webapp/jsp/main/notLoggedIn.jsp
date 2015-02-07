@@ -43,7 +43,7 @@
       </div>
       <div class="form-group">
         <div class="col-xs-offset-3 col-xs-4">
-          <input class="login-button" value="Log in" type="submit">
+          <input class="btn btn-primary" value="Log in" type="submit">
         </div>
       </div>
       <div class="form-group">

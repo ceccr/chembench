@@ -174,12 +174,9 @@ footer {
     margin: 1em 0 1em 0;
 }
 
-.login-button {
-    margin-right: 1em;
-}
-
 .logout-button {
-    margin-left: 1em;
+    vertical-align: top;
+    margin-left: 0.5em;
 }
 
 h1 button, h2 button, h3 button, h4 button, h5 button, h6 button {

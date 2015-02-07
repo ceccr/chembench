@@ -76,7 +76,7 @@
             </div>
             <div class="form-group">
               <div class="col-xs-offset-4 col-xs-8">
-                <input class="login-button" value="Log in" type="submit">
+                <input class="btn btn-primary" value="Log in" type="submit">
               </div>
             </div>
             <div class="form-group">
@@ -107,7 +107,7 @@
           <s:else>
             Logged in as <b><s:property value="user.userName" /></b>.
           </s:else>
-          <button class="logout-button" type="button">Log out</button>
+          <s:a action="logout" cssClass="btn btn-primary btn-xs logout-button">Log out</s:a>
         </s:if>
 
         <h3>Help &amp; Links</h3>

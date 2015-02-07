@@ -83,9 +83,6 @@ $(document).ready(function() {
             }
         });
     });
-    $(".logout-button").click(function() {
-        window.location = "logout";
-    });
 
     // replace ugly capitalization for constants
     $(".available-descriptors").each(function(_, element) {
