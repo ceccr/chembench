@@ -108,7 +108,6 @@ footer {
 /* sponsor attribution on homepage */
 .sponsor-message {
     text-align: center;
-    font-size: 18px;
 }
 
 .sponsor-list {
@@ -261,14 +260,6 @@ span[title] {
     border-bottom: 1px dotted #777;
 }
 
-table.tablesorter th {
-    white-space: nowrap;
-}
-
-table.tablesorter th:not(.sorter-false) {
-    cursor: pointer;
-}
-
 td.name-column {
     width: 25%;
     word-break: break-all;
@@ -300,6 +291,10 @@ table.compound-list > tbody > tr > td {
 
 table.compound-list td.name {
     padding-left: 1em;
+}
+
+th {
+    white-space: nowrap;
 }
 
 .popover-image {

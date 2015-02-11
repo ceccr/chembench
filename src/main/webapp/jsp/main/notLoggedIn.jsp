@@ -57,7 +57,7 @@
             }
             String ip = ipAddress.replaceAll("\\.", "");
           %>
-          <s:url var="guestLoginUrl">
+          <s:url var="guestLoginUrl" action="login">
             <s:param name="username">guest</s:param>
             <s:param name="ip"><%= ip %></s:param>
           </s:url>

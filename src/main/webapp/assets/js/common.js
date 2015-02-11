@@ -79,7 +79,7 @@ $(document).ready(function() {
 
         bootbox.confirm(guestMessage, function(response) {
             if (response === true) {
-                window.location = $("#guest-login").attr("href");
+                window.location = $(".guest-login").attr("href");
             }
         });
     });
@@ -119,32 +119,15 @@ $(document).ready(function() {
         });
     });
 
-    $.tablesorter.addParser({
-        id: "modi",
-        is: function() {
-            return false;
-        },
-        format: function(s) {
-            if ($.isNumeric(s)) {
-                return s;
-            } else {
-                return "";
-            }
-        },
-        type: "text"
-    });
-
-    $.tablesorter.themes.bootstrap = {
-        sortNone: "glyphicon glyphicon-sort",
-        sortAsc: "glyphicon glyphicon-sort-by-attributes",
-        sortDesc: "glyphicon glyphicon-sort-by-attributes-alt"
-    };
-
-    $(".tablesorter").tablesorter({
-        sortStable: true,
-
-        theme: "bootstrap",
-        headerTemplate: "{content} {icon}",
-        widgets: ["uitheme"]
+    $("table.datatable").each(function() {
+        var table = $(this);
+        var options = {
+            columnDefs: [{ orderable: false, targets: "unsortable" }]
+        };
+        var dateColumnIndex = table.find('th:contains("Date")').index();
+        if (dateColumnIndex > 0) {
+            options["order"] = [[dateColumnIndex, "desc"]];
+        }
+        table.dataTable(options);
     });
 });

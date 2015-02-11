@@ -169,12 +169,12 @@
 
         <p class="margin-below">All compounds in your dataset are listed in the table below, including those in
           your external set.</p>
-        <table class="table table-hover tablesorter compound-list">
+        <table class="table table-hover compound-list datatable">
           <thead>
           <tr>
             <th>Compound Name</th>
             <s:if test="dataset.hasStructures()">
-              <th class="sorter-false">Structure</th>
+              <th class="unsortable">Structure</th>
             </s:if>
             <s:if test="dataset.hasActivities()">
               <th>Activity</th>
@@ -192,7 +192,7 @@
                   <s:param name="compoundId" value="%{compoundId}" />
                   <s:param name="datasetName" value="%{dataset.name}" />
                 </s:url> <img src=
-                                <s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px"
+                                <s:property value="imageUrl" /> class="img-thumbnail" width="125" height="125"
                               alt="Compound structure"></td>
               </s:if>
               <s:if test="dataset.hasActivities()">
@@ -237,12 +237,12 @@
               </ul>
             </nav>
 
-            <table class="table table-hover tablesorter compound-list">
+            <table class="table table-hover compound-list datatable">
               <thead>
               <tr>
                 <th>Compound Name</th>
                 <s:if test="dataset.hasStructures()">
-                  <th class="sorter-false">Structure</th>
+                  <th class="unsortable">Structure</th>
                 </s:if>
                 <s:if test="dataset.hasActivities()">
                   <th>Activity</th>
@@ -260,12 +260,12 @@
 
             <p class="margin-below">The compounds in your dataset's external test set are listed in the table
               below.</p>
-            <table class="table table-hover tablesorter compound-list">
+            <table class="table table-hover compound-list datatable">
               <thead>
               <tr>
                 <th>Compound Name</th>
                 <s:if test="dataset.hasStructures()">
-                  <th class="sorter-false">Structure</th>
+                  <th class="unsortable">Structure</th>
                 </s:if>
                 <s:if test="dataset.hasActivities()">
                   <th>Activity</th>
@@ -283,7 +283,7 @@
                       <s:param name="compoundId" value="%{compoundId}" />
                       <s:param name="datasetName" value="%{dataset.name}" />
                     </s:url> <img src=
-                                    <s:property value="imageUrl" /> class="img-thumbnail" width="125px" height="125px"
+                                    <s:property value="imageUrl" /> class="img-thumbnail" width="125" height="125"
                                   alt="Compound structure"></td>
                   </s:if>
                   <s:if test="dataset.hasActivities()">
@@ -310,7 +310,7 @@
               <s:param name="compoundId" value="'activityChart'" />
             </s:url>
             <img src=
-                   <s:property value="activityChartUrl" /> width="550px" height="550px" alt="Activity histogram">
+                   <s:property value="activityChartUrl" /> width="550" height="550" alt="Activity histogram">
           </div>
         </div>
       </s:if>

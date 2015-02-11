@@ -3,7 +3,7 @@
 
 <div id="predictions" class="tab-pane">
   <h3>Predictions</h3>
-  <table class="table table-hover table-bordered tablesorter">
+  <table class="table table-hover table-bordered datatable">
     <thead>
     <tr>
       <th>Name</th>

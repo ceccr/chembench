@@ -484,7 +484,7 @@ $(document).ready(function() {
     $(".generate-modi").click(function() {
         $(this).text("Generating...").prop("disabled", "disabled");
         var parent = $(this).parent();
-        parent.append('<img class="ajax-loading" src="/theme/img/shade-loader.gif" width="20px" height="20px">');
+        parent.append('<img class="ajax-loading" src="/theme/img/shade-loader.gif" width="20" height="20">');
         $.ajax({
             type: "POST",
             url: "/generateModi",
