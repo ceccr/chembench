@@ -20,7 +20,7 @@
         <h4>Unassigned Jobs</h4>
       </div>
       <div class="panel-body">
-        <table class="table table-hover tablesorter">
+        <table class="table table-hover datatable">
           <thead>
           <tr>
             <th>Name</th>
@@ -28,7 +28,7 @@
             <th>Job Type</th>
             <th class="date-created">Date</th>
             <th>Status</th>
-            <th class="sorter-false">Cancel</th>
+            <th class="unsortable">Cancel</th>
           </tr>
           </thead>
           <tbody>
@@ -70,7 +70,7 @@
     </div>
     <div class="panel-body">
       <s:if test="!localJobs.isEmpty()">
-        <table class="table table-hover tablesorter">
+        <table class="table table-hover datatable">
           <thead>
           <tr>
             <th>Name</th>
@@ -78,7 +78,7 @@
             <th>Job Type</th>
             <th class="date-created">Date</th>
             <th>Status</th>
-            <th class="sorter-false">Cancel</th>
+            <th class="unsortable">Cancel</th>
           </tr>
           </thead>
           <tbody>
@@ -126,7 +126,7 @@
     </div>
     <div class="panel-body">
       <s:if test="!lsfJobs.isEmpty()">
-        <table class="table table-hover tablesorter">
+        <table class="table table-hover datatable">
           <thead>
           <tr>
             <th>Name</th>
@@ -134,7 +134,7 @@
             <th>Job Type</th>
             <th class="date-created">Date</th>
             <th>Status</th>
-            <th class="sorter-false">Cancel</th>
+            <th class="unsortable">Cancel</th>
           </tr>
           </thead>
           <tbody>
@@ -182,14 +182,14 @@
         <h4>Jobs with Errors</h4>
       </div>
       <div class="panel-body">
-        <table class="table table-hover tablesorter">
+        <table class="table table-hover datatable">
           <thead>
           <tr>
             <th>Name</th>
             <th>Owner</th>
             <th>Job Type</th>
             <th class="date-created">Date</th>
-            <th class="sorter-false">Cancel</th>
+            <th class="unsortable">Cancel</th>
           </tr>
           </thead>
           <tbody>

@@ -169,12 +169,12 @@
 
         <p class="margin-below">All compounds in your dataset are listed in the table below, including those in
           your external set.</p>
-        <table class="table table-hover tablesorter compound-list">
+        <table class="table table-hover compound-list datatable">
           <thead>
           <tr>
             <th>Compound Name</th>
             <s:if test="dataset.hasStructures()">
-              <th class="sorter-false">Structure</th>
+              <th class="unsortable">Structure</th>
             </s:if>
             <s:if test="dataset.hasActivities()">
               <th>Activity</th>
@@ -237,12 +237,12 @@
               </ul>
             </nav>
 
-            <table class="table table-hover tablesorter compound-list">
+            <table class="table table-hover compound-list datatable">
               <thead>
               <tr>
                 <th>Compound Name</th>
                 <s:if test="dataset.hasStructures()">
-                  <th class="sorter-false">Structure</th>
+                  <th class="unsortable">Structure</th>
                 </s:if>
                 <s:if test="dataset.hasActivities()">
                   <th>Activity</th>
@@ -260,12 +260,12 @@
 
             <p class="margin-below">The compounds in your dataset's external test set are listed in the table
               below.</p>
-            <table class="table table-hover tablesorter compound-list">
+            <table class="table table-hover compound-list datatable">
               <thead>
               <tr>
                 <th>Compound Name</th>
                 <s:if test="dataset.hasStructures()">
-                  <th class="sorter-false">Structure</th>
+                  <th class="unsortable">Structure</th>
                 </s:if>
                 <s:if test="dataset.hasActivities()">
                   <th>Activity</th>
