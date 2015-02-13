@@ -83,12 +83,12 @@
         </td>
         <td class="public-private">
           <s:if test="userName.equals('all-users')">
-                      <span class="text-primary"><span class="glyphicon glyphicon-eye-open" title="Public"></span>
-                        Yes</span>
+            <span class="text-primary"><span class="glyphicon glyphicon-eye-open" title="Public"></span>
+              Yes</span>
           </s:if>
           <s:else>
-                      <span class="text-muted"><span class="glyphicon glyphicon-eye-close" title="Private"></span>
-                        No</span>
+            <span class="text-muted"><span class="glyphicon glyphicon-eye-close" title="Private"></span>
+              No</span>
           </s:else>
         </td>
       </tr>
