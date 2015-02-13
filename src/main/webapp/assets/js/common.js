@@ -122,7 +122,8 @@ $(document).ready(function() {
     $("table.datatable").each(function() {
         var table = $(this);
         var options = {
-            columnDefs: [{ orderable: false, targets: "unsortable" }]
+            "columnDefs": [{ orderable: false, targets: "unsortable" }],
+            "drawCallback": formatModi
         };
         var dateColumnIndex = table.find('th:contains("Date")').index();
         if (dateColumnIndex > 0) {

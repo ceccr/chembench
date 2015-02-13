@@ -58,6 +58,4 @@ $(document).ready(function() {
             }
         });
     });
-
-    formatModi();
 });
