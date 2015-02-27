@@ -425,3 +425,11 @@ p.bg-primary, p.bg-success, p.bg-info, p.bg-warning, p.bg-danger {
 .margin-below {
     margin-bottom: 1.5em;
 }
+
+.dataTables_scrollBody table.dataTable thead .sorting:after,
+.dataTables_scrollBody table.dataTable thead .sorting_asc:after,
+.dataTables_scrollBody table.dataTable thead .sorting_desc:after,
+.dataTables_scrollBody table.dataTable thead .sorting_asc_disabled:after,
+.dataTables_scrollBody table.dataTable thead .sorting_desc_disabled:after {
+    content: "";
+}

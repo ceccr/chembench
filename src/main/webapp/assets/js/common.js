@@ -49,6 +49,13 @@ function formatModi() {
             }
             element.html('<span title="' + tooltip + '">' + valueNumeric.toFixed(2) + "</span>");
         }
+
+        var row = $(this).closest("tr");
+        if ($(this).hasClass("text-danger")) {
+            row.addClass("danger");
+        } else if ($(this).hasClass("text-success")) {
+            row.addClass("success");
+        }
     });
 }
 
@@ -117,18 +124,5 @@ $(document).ready(function() {
         }).fail(function() {
             parent.html('<span class="text-danger">MODI generation failed</span>');
         });
-    });
-
-    $("table.datatable").each(function() {
-        var table = $(this);
-        var options = {
-            "columnDefs": [{ orderable: false, targets: "unsortable" }],
-            "drawCallback": formatModi
-        };
-        var dateColumnIndex = table.find('th:contains("Date")').index();
-        if (dateColumnIndex > 0) {
-            options["order"] = [[dateColumnIndex, "desc"]];
-        }
-        table.dataTable(options);
     });
 });
