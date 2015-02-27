@@ -144,7 +144,5 @@ $(document).ready(function() {
         }
     });
 
-    $("table.compound-list th:first-child").trigger("sort");
-
     formatModi();
 });
