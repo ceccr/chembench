@@ -72,8 +72,9 @@ $(document).ready(function() {
         var originalDescription = $('input[type="hidden"]#description').val();
         var originalPaperReference = $('input[type="hidden"]#paperReference').val();
 
-        $("form#updateDataset").find('textarea[name="datasetDescription"]').val(originalDescription);
-        $("form#updateDataset").find('textarea[name="datasetReference"]').val(originalPaperReference);
+        var updateDatasetForm = $("form#updateDataset");
+        updateDatasetForm.find('textarea[name="datasetDescription"]').val(originalDescription);
+        updateDatasetForm.find('textarea[name="datasetReference"]').val(originalPaperReference);
 
         toggleForm();
     });
@@ -111,7 +112,7 @@ $(document).ready(function() {
 
         var clicked = $(this);
         var target = clicked.attr("href");
-        var tbody = $("#folds table.compound-list > tbody");
+        var tbody = $("#folds").find("table.compound-list").find("tbody");
         $.get(target).success(function(data) {
             // replace table body with new fold data
             tbody.empty();
