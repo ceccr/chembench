@@ -8,7 +8,7 @@ function composeRow(object) {
         user: $("input#username").val(),
         projectType: "dataset",
         compoundId: object["compoundId"],
-        datasetName: $("input#dataset-name").val(),
+        datasetName: $("input#dataset-name").val()
     };
 
     var r = '<tr><td class="name">' + object["compoundId"] + '</td>';
@@ -55,7 +55,7 @@ $(document).ready(function() {
             return '<img src="' + $(this).attr("src") + '">';
         },
         trigger: "hover",
-        placement: "right",
+        placement: "right"
     };
 
     $(".nav-list li").removeClass("active");
@@ -85,7 +85,7 @@ $(document).ready(function() {
         $.ajax({
             url: form.attr("action"),
             method: "POST",
-            data: form.serialize(),
+            data: form.serialize()
         }).success(function() {
             if (newDescription) {
                 $("#description").text(newDescription);
