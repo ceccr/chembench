@@ -55,28 +55,17 @@ $(document).ready(function() {
 
     $("table.datatable").each(function() {
         var table = $(this);
-        var options = {
-            "columnDefs": [{
-                               orderable: false,
-                               targets: "unsortable"
-                           }],
-            "scrollY": "300px",
+        var options = $.extend({
+            "scrollY": "350px",
             "scrollCollapse": true,
-            "paging": false,
             "drawCallback": function() {
                 formatModi();
                 var api = this.api();
                 setTimeout(function() {
                     api.columns.adjust();
                 }, 100);
-            },
-            "infoCallback": function(_, _, _, max, total, _) {
-                if (max !== total) {
-                    return "Showing " + total + " entries (filtered from " + max + " total entries)";
-                }
-                return "Showing " + max + " entries";
             }
-        };
+        }, Chembench.DATATABLE_OPTIONS);
         var dateColumnIndex = table.find('th:contains("Date")').index();
         if (dateColumnIndex > 0) {
             options["order"] = [[dateColumnIndex, "desc"]];

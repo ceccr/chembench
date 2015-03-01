@@ -10,14 +10,10 @@ function composeRow(object) {
         compoundId: object["compoundId"],
         datasetName: $("input#dataset-name").val()
     };
+    var image = '<img src="imageServlet?' + $.param(imageParams) +
+                '" class="img-thumbnail" width="125" height="125" alt="Compound structure">';
 
-    var r = '<tr><td class="name">' + object["compoundId"] + '</td>';
-    if ($("input#has-structures").val() === "true") {
-        r += '<td><img src="imageServlet?' + $.param(imageParams) +
-             '" class="img-thumbnail" width="125" height="125" alt="Compound structure"></td>';
-    }
-    r += '<td>' + object["activityValue"] + '</td></tr>';
-    return r;
+    return [object["compoundId"], image, object["activityValue"]];
 }
 
 function updatePages(clicked) {
@@ -112,17 +108,16 @@ $(document).ready(function() {
 
         var clicked = $(this);
         var target = clicked.attr("href");
-        var tbody = $("#folds").find("table.compound-list").find("tbody");
+        var table = $("#folds").find("table.datatable").DataTable();
         $.get(target).success(function(data) {
             // replace table body with new fold data
-            tbody.empty();
+            table.clear();
             for (var i = 0; i < data.length; i++) {
-                tbody.append(composeRow(data[i]));
+                table.row.add(composeRow(data[i]));
             }
-            tbody.find(".img-thumbnail").popover(popOverConfig);
-
+            table.$().find(".img-thumbnail").popover(popOverConfig);
             updatePages(clicked);
-            tbody.closest("table").trigger("update");
+            table.draw();
         }).fail(function() {
             bootbox.alert("Error retrieving fold data.");
         });
@@ -146,4 +141,6 @@ $(document).ready(function() {
     });
 
     formatModi();
+
+    $("table.datatable").DataTable(Chembench.DATATABLE_OPTIONS);
 });
