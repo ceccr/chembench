@@ -8,6 +8,7 @@
                      targets: "unsortable"
                    }],
     "paging": false,
+    "dom": "lifrtp",
     "infoCallback": function(_, _, _, max, total, _) {
       if (max !== total) {
         return "Showing " + total + " entries (filtered from " + max + " total entries)";
