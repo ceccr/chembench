@@ -1,7 +1,7 @@
 function updateDatasetInfo(idString) {
     var id = parseInt(idString);
     var datasetInfo = $("#dataset-info");
-    $.get("/ajaxGetDataset", {"id": id}, function(dataset) {
+    $.get("/api/ajaxGetDataset", {"id": id}, function(dataset) {
         showSections();
         var activityType = dataset["continuous"] === true ? "Continuous" : "Category";
         var numCompound = parseInt(dataset["numCompound"]);

@@ -387,21 +387,7 @@
             <result name="success" type="redirect">home</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
-
         <!-- End Admin Actions -->
-
-        <!-- API endpoints -->
-        <action name="ajaxGetDataset" class="edu.unc.ceccr.chembench.actions.api.AjaxDatasetAction"
-                method="ajaxGetDataset">
-            <result name="success" type="json">
-                <param name="root">dataset</param>
-                <param name="excludeNullProperties">true</param>
-            </result>
-            <result name="notfound" type="httpheader">
-                <param name="error">404</param>
-            </result>
-        </action>
-        <!-- End API -->
 
         <!-- Help forwards -->
         <action name="help-overview">
@@ -445,4 +431,19 @@
         </action>
         <!-- End Help forwards -->
     </package>
+
+    <!-- API endpoints -->
+    <package name="api" namespace="/api" extends="json-default">
+        <action name="ajaxGetDataset" class="edu.unc.ceccr.chembench.actions.api.AjaxDatasetAction"
+                method="ajaxGetDataset">
+            <result name="success" type="json">
+                <param name="root">dataset</param>
+                <param name="excludeNullProperties">true</param>
+            </result>
+            <result name="notfound" type="httpheader">
+                <param name="error">404</param>
+            </result>
+        </action>
+    </package>
+    <!-- End API -->
 </struts>
