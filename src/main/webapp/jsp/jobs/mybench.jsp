@@ -32,9 +32,21 @@
 
     <div class="tab-content">
       <%@ include file="jobs.jsp" %>
-      <%@ include file="datasets.jsp" %>
-      <%@ include file="models.jsp" %>
-      <%@ include file="predictions.jsp" %>
+
+      <div id="datasets" class="tab-pane">
+        <h3>Datasets</h3>
+        <%@ include file="datasets.jsp" %>
+      </div>
+
+      <div id="models" class="tab-pane">
+        <h3>Models</h3>
+        <%@ include file="models.jsp" %>
+      </div>
+
+      <div id="predictions" class="tab-pane">
+        <h3>Predictions</h3>
+        <%@ include file="predictions.jsp" %>
+      </div>
     </div>
   </section>
 
