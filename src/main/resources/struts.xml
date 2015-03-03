@@ -15,6 +15,12 @@
 
         <global-results>
             <result name="login">/jsp/main/notLoggedIn.jsp</result>
+            <result name="badrequest" type="httpheader">
+                <param name="error">400</param>
+            </result>
+            <result name="notfound" type="httpheader">
+                <param name="error">404</param>
+            </result>
         </global-results>
 
         <!-- Main pages -->
@@ -94,9 +100,6 @@
             <result name="success" type="json">
                 <param name="root">modi</param>
             </result>
-            <result name="badrequest" type="httpheader">
-                <param name="error">400</param>
-            </result>
         </action>
         <!-- End Dataset Page -->
 
@@ -153,9 +156,6 @@
         <action name="viewDatasetFold" class="edu.unc.ceccr.chembench.actions.ViewDataset" method="getFold">
             <result name="success" type="json">
                 <param name="root">foldCompounds</param>
-            </result>
-            <result name="badrequest" type="httpheader">
-                <param name="error">400</param>
             </result>
         </action>
 
@@ -439,9 +439,6 @@
             <result name="success" type="json">
                 <param name="root">dataset</param>
                 <param name="excludeNullProperties">true</param>
-            </result>
-            <result name="notfound" type="httpheader">
-                <param name="error">404</param>
             </result>
         </action>
     </package>
