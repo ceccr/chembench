@@ -235,6 +235,12 @@
                        list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" />
             </div>
           </div>
+
+          <div class="form-group">
+            <div class="col-xs-offset-4 col-xs-8">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
         </s:form>
       </div>
     </div>
