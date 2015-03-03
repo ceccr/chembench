@@ -216,26 +216,6 @@
             </div>
           </div>
 
-          <hr>
-          <h4>View Options</h4>
-
-          <div class="form-group">
-            <label class="control-label col-xs-4">Compounds per Page on View Dataset:</label>
-
-            <div class="inline-radio-group col-xs-8">
-              <s:radio name="viewDatasetCompoundsPerPage" value="viewDatasetCompoundsPerPage"
-                       list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-xs-4">Compounds per Page on View Predictions:</label>
-
-            <div class="inline-radio-group col-xs-8">
-              <s:radio name="viewPredictionCompoundsPerPage" value="viewPredictionCompoundsPerPage"
-                       list="#{'10':'10','25':'25','50':'50','100':'100','ALL':'All'}" />
-            </div>
-          </div>
-
           <div class="form-group">
             <div class="col-xs-offset-4 col-xs-8">
               <button type="submit" class="btn btn-primary">Submit</button>
