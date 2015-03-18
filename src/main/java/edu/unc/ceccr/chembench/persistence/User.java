@@ -1,12 +1,14 @@
 package edu.unc.ceccr.chembench.persistence;
 
 
+import com.opensymphony.xwork2.ActionContext;
 import edu.unc.ceccr.chembench.utilities.Utility;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.beans.Transient;
 import java.util.Date;
 
 @Entity
@@ -60,6 +62,13 @@ public class User implements java.io.Serializable {
 
     public User(String userName) {
         this.userName = userName;
+    }
+
+    @Transient
+    public static User getCurrentUser() {
+        ActionContext context = ActionContext.getContext();
+        User user = (User) context.getSession().get("user");
+        return user;
     }
 
     //system-relevant get-sets
