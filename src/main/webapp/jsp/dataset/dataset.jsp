@@ -27,8 +27,8 @@
       created and displayed as a heatmap.</p>
 
     <p>
-      For more information about dataset creation and defining external sets, see the <s:a action="help-dataset">Dataset
-      help section</s:a>
+      For more information about dataset creation and defining external sets, see the <s:a action="dataset"
+        namespace="help">Dataset help section</s:a>
     </p>
     <hr>
     <s:form action="submitDataset" enctype="multipart/form-data" method="post" cssClass="form-horizontal"
@@ -64,11 +64,10 @@
                   value="@edu.unc.ceccr.chembench.global.Constants@MODELING" />>
 
               <p>
-                A <b>Modeling Dataset</b> can be used for both modeling and prediction. You will need to supply an
-                <s:a action="help-fileformats" anchor="SDF">SDF file</s:a> containing the structures of the compounds in
-                your dataset, and an <s:a action="help-fileformats" anchor="ACT">ACT file</s:a> containing the activity
-                values of those compounds.
-              </p>
+                A <b>Modeling Dataset</b> can be used for both modeling and prediction. You will need to supply an <s:a
+                  action="fileformats" namespace="help" anchor="SDF">SDF file</s:a> containing the structures of the
+                compounds in your dataset, and an <s:a action="fileformats" namespace="help" anchor="ACT">ACT file</s:a>
+                containing the activity values of those compounds. </p>
 
               <div class="form-group">
                 <label class="control-label col-xs-3">Activity file (.act):</label>
@@ -166,13 +165,12 @@
               </p>
 
               <p>
-                You will need to supply an <s:a action="help-fileformats" anchor="X">X file</s:a> containing your
-                descriptor data, and an <s:a action="help-fileformats" anchor="ACT">ACT file</s:a> containing your
-                compounds' activity values. Optionally, you may provide a <s:a action="help-fileformats"
-                                                                               anchor="SDF">SDF file</s:a> containing
-                the structures of the compounds in your dataset. If you do, Chembench will generate descriptors for you
-                in addition to the ones you upload, as well as images of your compound structures.
-              </p>
+                You will need to supply an <s:a action="fileformats" namespace="help" anchor="X">X file</s:a> containing
+                your descriptor data, and an <s:a action="fileformats" namespace="help" anchor="ACT">ACT file</s:a>
+                containing your compounds' activity values. Optionally, you may provide a <s:a action="fileformats"
+                  namespace="help" anchor="SDF">SDF file</s:a> containing the structures of the compounds in your
+                dataset. If you do, Chembench will generate descriptors for you in addition to the ones you upload, as
+                well as images of your compound structures. </p>
 
               <div class="form-group">
                 <label class="control-label col-xs-3">Activity file (.act):</label>
@@ -280,12 +278,10 @@
               </p>
 
               <p>
-                You will need to supply an <s:a action="help-fileformats" anchor="X">X file</s:a> containing your
-                descriptor data. Optionally, you may provide a <s:a action="help-fileformats"
-                                                                    anchor="SDF">SDF file</s:a> containing the
-                structures of the compounds in your dataset. If you do, Chembench will generate compound structure
-                images for you.
-              </p>
+                You will need to supply an <s:a action="fileformats" namespace="help" anchor="X">X file</s:a> containing
+                your descriptor data. Optionally, you may provide a <s:a action="fileformats" namespace="help"
+                  anchor="SDF">SDF file</s:a> containing the structures of the compounds in your dataset. If you do,
+                Chembench will generate compound structure images for you. </p>
 
               <div class="form-group">
                 <label class="control-label col-xs-3">Descriptor data (.x):</label>

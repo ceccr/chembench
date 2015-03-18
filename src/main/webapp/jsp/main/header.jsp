@@ -17,7 +17,7 @@
         </s:else>
         <ul class="userbox-links">
           <li><s:a action="logout">log out</s:a></li>
-          <li><s:a action="help-overview">help</s:a></li>
+          <li><s:a action="overview" namespace="help">help</s:a></li>
           <s:if test="!#session['user'].userName.contains('guest')">
             <li><s:a action="editProfile">edit profile</s:a></li>
           </s:if>

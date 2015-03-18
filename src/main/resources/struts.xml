@@ -388,49 +388,17 @@
             <result name="error">/jsp/main/error.jsp</result>
         </action>
         <!-- End Admin Actions -->
-
-        <!-- Help forwards -->
-        <action name="help-overview">
-            <result>/jsp/help/overview.jsp</result>
-        </action>
-
-        <action name="help-dataset">
-            <result>/jsp/help/datasetpage.jsp</result>
-        </action>
-
-        <action name="help-modeling">
-            <result>/jsp/help/modelingpage.jsp</result>
-        </action>
-
-        <action name="help-prediction">
-            <result>/jsp/help/predictionpage.jsp</result>
-        </action>
-
-        <action name="help-mybench">
-            <result>/jsp/help/mybenchpage.jsp</result>
-        </action>
-
-        <action name="help-knn">
-            <result>/jsp/help/knnparams.jsp</result>
-        </action>
-
-        <action name="help-faq">
-            <result>/jsp/help/faq.jsp</result>
-        </action>
-
-        <action name="help-fileformats">
-            <result>/jsp/help/fileformats.jsp</result>
-        </action>
-
-        <action name="help-workflows">
-            <result>/jsp/help/workflows.jsp</result>
-        </action>
-
-        <action name="help-versions">
-            <result>/jsp/help/versions.jsp</result>
-        </action>
-        <!-- End Help forwards -->
     </package>
+
+    <!-- Help forwards -->
+    <package name="help" namespace="/help" extends="json-default">
+        <default-action-ref name="overview" />
+
+        <action name="*">
+            <result>/jsp/help/{1}.jsp</result>
+        </action>
+    </package>
+    <!-- End Help forwards -->
 
     <!-- API endpoints -->
     <package name="api" namespace="/api" extends="json-default">
