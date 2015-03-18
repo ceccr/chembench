@@ -60,10 +60,6 @@ $(document).ready(function() {
             "scrollCollapse": true,
             "drawCallback": function() {
                 formatModi();
-                var api = this.api();
-                setTimeout(function() {
-                    api.columns.adjust();
-                }, 100);
             }
         }, Chembench.DATATABLE_OPTIONS);
         var dateColumnIndex = table.find('th:contains("Date")').index();
