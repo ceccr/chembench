@@ -3,54 +3,35 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Chembench | New User Registration</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
-  <link href="theme/ccbStyle.css" rel="stylesheet" type="text/css">
-  <link href="theme/ccbStyleNavBar.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="theme/screen.css" type="text/css" media="screen, projection">
-  <link rel="stylesheet" href="theme/print.css" type="text/css" media="print">
-  <link href="theme/standard.css" rel="stylesheet" type="text/css">
-  <link href="theme/links.css" rel="stylesheet" type="text/css">
-  <link href="theme/dynamicTab.css" rel="stylesheet" type="text/css">
-  <link rel="icon" href="/theme/img/mml.ico" type="image/ico">
-  <link rel="SHORTCUT ICON" href="/theme/img/mml.ico">
-  <link href="theme/customStylesheet.css" rel="stylesheet" type="text/css">
-  <script src="javascript/chembench.js"></script>
+  <%@ include file="/jsp/main/head.jsp" %>
+  <title>Chembench | Registration</title>
 </head>
-
 <body>
-<div class="outer">
+<div id="main" class="container">
+  <%@ include file="/jsp/main/header.jsp" %>
 
-  <div class="includesHeader">
-    <%@ include file="/jsp/main/header.jsp" %>
-  </div>
-  <div class="includesNavbar">
-    <%@ include file="/jsp/main/centralNavigationBar.jsp" %>
-  </div>
-  <div class="homeLeft topMarginBench">
-      <span id="maincontent">
+  <section id="content">
+    <h2>Registration Successful</h2>
 
-        <p class="StandardTextDarkGray">&nbsp;</p>
-        <p class="StandardTextDarkGray"></p>
-        <p class="TextDarkGray" sytle="background:white;">
-          <br />
-          <s:property value="firstName" />
-          ,<br />
-          <br /> Thank you for your interest in Chembench.
+    <p>
+      <s:property value="firstName" />,<br>
+      Thank you for your interest in Chembench!
+    </p>
 
-          <s:property value="outputMessage" />
-          <br />
-          <br /> While you wait, you might like to read the <a href="help-overview">overview of Chembench</a>. <br />
-          <br /> Enjoy,<br /> The Chembench Team. <br /> <br />
-        </p>
-        <p class="StandardTextBlack">&nbsp;</p>
-      </span>
-  </div>
-  <div class="includes">
-    <%@ include file="/jsp/main/footer.jsp" %>
-  </div>
+    <p><s:property value="outputMessage" /></p>
 
+    <p>While you wait, you might like to read the <s:a action="overview"
+                                                       namespace="help">overview of Chembench</s:a>.</p>
+
+    <p>
+      Enjoy,<br>
+      The Chembench Team
+    </p>
+  </section>
+
+  <%@ include file="/jsp/main/footer.jsp" %>
 </div>
+
+<%@ include file="/jsp/main/tail.jsp" %>
 </body>
 </html>
