@@ -120,9 +120,9 @@
                   value="@edu.unc.ceccr.chembench.global.Constants@PREDICTION" />>
 
               <p>
-                A <b>Prediction Dataset</b> can only be used for prediction. You will need to supply an <a
-                  href="/help-fileformats#SDF">SDF file</a> containing the structures of the compounds in your
-                dataset.
+                A <b>Prediction Dataset</b> can only be used for prediction. You will need to supply an <s:a
+                  action="fileformats" namespace="help" anchor="SDF"> SDF file</s:a> containing the structures of the
+                compounds in your dataset.
               </p>
 
               <div class="form-group">
