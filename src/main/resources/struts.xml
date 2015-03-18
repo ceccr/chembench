@@ -441,6 +441,15 @@
                 <param name="excludeNullProperties">true</param>
             </result>
         </action>
+
+        <action name="get*" class="edu.unc.ceccr.chembench.actions.api.MyBenchAction" method="get{1}">
+            <result name="success" type="json">
+                <param name="excludeProperties">
+                    datasets,
+                    models
+                </param>
+            </result>
+        </action>
     </package>
     <!-- End API -->
 </struts>
