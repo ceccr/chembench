@@ -10,10 +10,12 @@
     "paging": false,
     "dom": "lifrtp",
     "infoCallback": function(_, _, _, max, total, _) {
+      var totalNoun = (total === 1) ? "entry" : "entries";
+      var maxNoun = (max === 1) ? "entry" : "entries";
       if (max !== total) {
-        return "Showing " + total + " entries (filtered from " + max + " total entries)";
+        return "Showing " + total + " " + totalNoun + " (filtered from " + max + " total " + maxNoun + ")";
       }
-      return "Showing " + max + " entries";
+      return "Showing " + max + " " + maxNoun;
     }
   };
 </script>
