@@ -52,9 +52,9 @@ $(document).ready(function() {
 
     $('#dataset-type-selection a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
         var tabName = e.currentTarget.innerText;
-        if (tabName.toLowerCase().indexOf("modeling dataset") >= 0) {
+        if (tabName.toLowerCase().contains("modeling dataset")) {
             $("#external-set-settings").show();
-        } else if (tabName.toLowerCase().indexOf("prediction dataset") >= 0) {
+        } else if (tabName.toLowerCase().contains("prediction dataset")) {
             $("#external-set-settings").hide();
         }
 

@@ -2,6 +2,10 @@ String.prototype.toProperCase = function () {
     return this.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();});
 };
 
+String.prototype.contains = function(needle) {
+    return this.indexOf(needle) > -1;
+};
+
 function formatJobType(text) {
     return text.toProperCase();
 }
