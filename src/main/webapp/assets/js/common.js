@@ -1,5 +1,30 @@
-function formatAvailableDescriptors(container) {
-    var descriptorList = $(container).text().trim().split(/\s+/);
+String.prototype.toProperCase = function () {
+    return this.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();});
+};
+
+function formatJobType(text) {
+    return text.toProperCase();
+}
+
+function formatActivityType(text) {
+    return text.toProperCase();
+}
+
+function formatDatasetType(text) {
+    return text.replace("MODELING", "Modeling").replace("PREDICTION", "Prediction").replace("WITHDESCRIPTORS",
+        ", with descriptors");
+}
+
+function formatSplitType(text) {
+    return text.replace("NFOLD", "N-fold").replace("RANDOM", "Random Split").replace("USERDEFINED", "User-defined");
+}
+
+function formatModelingMethod(text) {
+    return text.replace("RANDOMFOREST", "Random Forest");
+}
+
+function formatAvailableDescriptors(text) {
+    var descriptorList = text.trim().split(/\s+/);
     var newDescriptorList = [];
     var dragonsPresent = false;
     if ($.inArray("DRAGONNOH", descriptorList) >= 0 && $.inArray("DRAGONH", descriptorList) >= 0) {
@@ -25,7 +50,7 @@ function formatAvailableDescriptors(container) {
             newDescriptorList.push(curr);
         }
     }
-    $(container).text(newDescriptorList.join(", "));
+    return newDescriptorList.join(", ");
 }
 
 function formatModi() {
@@ -91,26 +116,6 @@ $(document).ready(function() {
         });
     });
 
-    // replace ugly capitalization for constants
-    $(".available-descriptors").each(function(_, element) {
-        formatAvailableDescriptors(element);
-    });
-
-    $(".modeling-method").each(function() {
-        var modelingMethod = $(this).text();
-        $(this).text(modelingMethod.replace("RANDOMFOREST", "Random Forest"));
-    });
-    $(".split-type").each(function() {
-        var splitType = $(this).text();
-        $(this).text(splitType.replace("NFOLD", "N-fold").replace("RANDOM", "Random Split").replace("USERDEFINED",
-            "User-defined"));
-    });
-    $(".dataset-type").each(function() {
-        var datasetType = $(this).text();
-        $(this).text(datasetType.replace("MODELING", "Modeling").replace("PREDICTION",
-            "Prediction").replace("WITHDESCRIPTORS", ", with descriptors"));
-    });
-
     $(".generate-modi").click(function() {
         var button = $(this).text("Generating...").prop("disabled", "disabled");
         var parent = button.parent(".modi-value");
@@ -125,4 +130,35 @@ $(document).ready(function() {
             parent.html('<span class="text-danger">MODI generation failed</span>');
         });
     });
+
+    // replace ugly capitalization for constants
+    $(".available-descriptors").each(function() {
+        var element = $(this);
+        element.text(formatAvailableDescriptors(element.text()));
+    });
+
+    $(".modeling-method").each(function() {
+        var element = $(this);
+        element.text(formatModelingMethod(element.text()));
+    });
+
+    $(".split-type").each(function() {
+        var element = $(this);
+        element.text(formatSplitType(element.text()));
+    });
+
+    $(".dataset-type").each(function() {
+        var element = $(this);
+        element.text(formatDatasetType(element.text()));
+    });
+
+    $(".activity-type").each(function() {
+        var element = $(this);
+        element.text(formatActivityType(element.text()));
+    });
+
+    $(".job-type").each(function() {
+        var element = $(this);
+        element.text(formatJobType(element.text()));
+    })
 });
