@@ -51,7 +51,6 @@ $(document).ready(function() {
     });
 
     $('#dataset-type-selection a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
-        console.log(e);
         var tabName = e.currentTarget.innerText;
         if (tabName.toLowerCase().indexOf("modeling dataset") >= 0) {
             $("#external-set-settings").show();
