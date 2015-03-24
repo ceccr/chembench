@@ -9,7 +9,7 @@
                    }],
     "paging": false,
     "dom": "lifrtp",
-    "infoCallback": function(_, _, _, max, total, _) {
+    "infoCallback": function(_, _, _, max, total) {
       var totalNoun = (total === 1) ? "entry" : "entries";
       var maxNoun = (max === 1) ? "entry" : "entries";
       if (max !== total) {
