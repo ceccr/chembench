@@ -24,7 +24,7 @@
     </p>
 
     <p>
-      <input class="back-button btn btn-primary" type="button" value="Back">
+      <input class="btn btn-primary" type="button" value="Back" onclick="history.back()">
     </p>
 
     <hr>
