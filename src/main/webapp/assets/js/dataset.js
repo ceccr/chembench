@@ -50,7 +50,7 @@ $(document).ready(function() {
         parent.find('input[type="text"], select').prop("disabled", false);
     });
 
-    $('#dataset-type-selection a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+    $("#dataset-type-selection").find('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
         var tabName = e.currentTarget.innerText;
         if (tabName.toLowerCase().contains("modeling dataset")) {
             $("#external-set-settings").show();
@@ -62,7 +62,7 @@ $(document).ready(function() {
         datasetTypeInput.val(tab.find('input[name="dataset-type"]').val());
     });
 
-    $('#external-set-settings a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
+    $("#external-set-settings").find('a[data-toggle="tab"]').on("shown.bs.tab", function(e) {
         var tab = $(e.currentTarget.hash);
         splitTypeInput.val(tab.find('input[name="split-type"]').val());
     });
