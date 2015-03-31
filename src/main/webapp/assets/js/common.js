@@ -8,6 +8,13 @@ String.prototype.contains = function(needle) {
     return this.indexOf(needle) > -1;
 };
 
+function canGenerateModi(dataset) {
+    var actFile = dataset["actFile"];
+    var availableDescriptors = dataset["availableDescriptors"];
+    return actFile && actFile.length > 0 &&
+           (availableDescriptors.contains("DRAGONH") || availableDescriptors.contains("CDK"));
+}
+
 function formatJobType(text) {
     return text.toProperCase();
 }
@@ -59,38 +66,39 @@ function formatAvailableDescriptors(text) {
     return newDescriptorList.join(", ");
 }
 
-function formatModi() {
-    $(".modi-value").each(function() {
-        var element = $(this);
-        var value = element.text();
-        if (isNaN(value)) {
-            // XXX don't combine this conditional with the top one!
-            if (element.has(".generate-modi").length === 0) {
-                element.addClass("text-muted");
-            }
-        } else {
-            var valueNumeric = parseFloat(value);
-            var tooltip;
-            if (valueNumeric >= Chembench.MODI_MODELABLE) {
-                element.addClass("text-success");
-                tooltip = "Modelable";
-            } else {
-                element.addClass("text-danger");
-                tooltip = "Not modelable";
-            }
-            element.html('<span title="' + tooltip + '">' + valueNumeric.toFixed(2) + "</span>");
+function formatModi(text, dataset) {
+    var html;
+    if (dataset && canGenerateModi(dataset) === false) {
+        html = '<span class="text-muted">Not available</span>';
+    } else if (dataset && dataset["modiGenerated"] === false) {
+        html = '<span class="text-warning">Not generated</span>' +
+               '<button class="btn btn-primary btn-xs generate-modi">Generate MODI</button>';
+    } else {
+        var value = parseFloat(text);
+        var cssClass = "text-danger";
+        var tooltip = "Not modelable";
+        if (value >= Chembench.MODI_MODELABLE) {
+            cssClass = "text-success";
+            tooltip = "Modelable";
         }
+        html = '<span title="' + tooltip + '" class="' + cssClass + ' modi-value">' + value.toFixed(2) + '</span>';
+    }
+    return html;
+}
 
-        var row = $(this).closest("tr");
-        if ($(this).hasClass("text-danger")) {
-            row.addClass("danger");
-        } else if ($(this).hasClass("text-success")) {
-            row.addClass("success");
-        }
-    });
+function addDatasetRowHighlighting(row) {
+    // add contextual highlighting for dataset rows with MODI values
+    var match = /text-(danger|warning|success)/.exec(row.find(".modi-value").attr("class"));
+    if (match !== null) {
+        row.addClass(match[1]);
+    }
 }
 
 $(document).ready(function() {
+    $.get("api/getCurrentUser", function(data) {
+        Chembench.CURRENT_USER = data;
+    });
+
     // navigation button handlers
     $(".nav-list li").mouseup(function(event) {
         if (event.which === 1) {
@@ -122,19 +130,206 @@ $(document).ready(function() {
         });
     });
 
-    $(".generate-modi").click(function() {
-        var button = $(this).text("Generating...").prop("disabled", "disabled");
-        var parent = button.parent(".modi-value");
-        $.ajax({
-            type: "POST",
-            url: "/generateModi",
-            data: {id: parent.children('input[name="dataset-id"]').val()}
-        }).success(function(modiValue) {
-            parent.text(modiValue);
-            formatModi();
-        }).fail(function() {
-            parent.html('<span class="text-danger">MODI generation failed</span>');
+    $("table.datatable[data-url]").each(function() {
+        var table = $(this);
+        var columns = [];
+        var objectType = table.attr("data-object-type");
+        table.find("th").each(function() {
+            var th = $(this);
+            var column = {};
+            var property = th.attr("data-property");
+            column["data"] = property;
+            switch (property) {
+                case "name":
+                    column["render"] = function(data, type, row) {
+                        if (type === "display") {
+                            var downloadLink;
+                            if (objectType === "dataset") {
+                                downloadLink = '<a href="datasetFilesServlet?' + $.param({
+                                    "datasetName": data,
+                                    "user": row["userName"]
+                                }) + '">';
+                            } else if (objectType === "model") {
+                                downloadLink = '<a href="projectFilesServlet?' + $.param({
+                                    "project": data,
+                                    "user": row["userName"],
+                                    "projectType": "modeling"
+                                }) + '">';
+                            } else if (objectType === "prediction") {
+                                downloadLink = '<a href="fileServlet?' + $.param({
+                                    "id": row["id"],
+                                    "user": row["userName"],
+                                    "jobType": "PREDICTION",
+                                    "file": "predictionAsCsv"
+                                }) + '">';
+                            }
+
+                            var viewAction = "view";
+                            var deleteAction = "delete";
+                            if (objectType === "model") {
+                                viewAction += "Predictor";
+                                deleteAction += "Predictor";
+                            } else {
+                                viewAction += objectType.toProperCase();
+                                deleteAction += objectType.toProperCase();
+                            }
+                            var viewLink = '<a href="' + viewAction + "?" + $.param({"id": row["id"]}) +
+                                           '" target="_blank">';
+
+                            var r = viewLink + '<span class="object-name">' + data + "</span></a><br>" +
+                                    '<div class="button-group">' + '<div class="download">' +
+                                    '<span class="glyphicon glyphicon-save"></span>&nbsp;' + downloadLink +
+                                    "Download</a></div>";
+                            var currentUser = Chembench.CURRENT_USER;
+                            if (currentUser &&
+                                (currentUser.isAdmin === "YES" || currentUser.userName === row["userName"])) {
+                                r += '<div class="delete">' + '<span class="glyphicon glyphicon-remove"></span>&nbsp;' +
+                                     '<a href="' + deleteAction + "?" + $.param({"id": row["id"]}) +
+                                     '">Delete</a></div>';
+                            }
+                            return r;
+                        }
+                        return data;
+                    };
+                    break;
+                case "datasetDisplay": // modeling/prediction dataset
+                    column["render"] = function(data, type, row) {
+                        if (type === "display") {
+                            return '<a href="viewDataset?' + $.param({"id": row["datasetId"]}) + '" target="_blank">' +
+                                   data + "</a>";
+                        }
+                        return data;
+                    };
+                    break;
+                case "datasetType":
+                    column["render"] = function(data, _, row) {
+                        var r = formatDatasetType(data);
+                        if (r.toLowerCase().contains("modeling")) {
+                            r += " (" + row["modelType"].toLowerCase() + ")";
+                        }
+                        return r;
+                    };
+                    break;
+                case "modelMethod":
+                    column["render"] = function(data) {
+                        return formatModelingMethod(data);
+                    };
+                    break;
+                case "availableDescriptors": // datasets
+                case "descriptorGeneration": // models
+                    column["render"] = function(data, _, row) {
+                        var r = data;
+                        var uploadedIndex = r.toLowerCase().indexOf("uploaded");
+                        if (uploadedIndex > -1) {
+                            // 8 being the number of characters in "uploaded"
+                            r = r.substring(0, uploadedIndex + 8) + ' ("' + row["uploadedDescriptorType"] + '") ' +
+                                r.substring(uploadedIndex + 8);
+                        }
+                        return formatAvailableDescriptors(r);
+                    };
+                    break;
+                case "modi":
+                    column["render"] = function(data, type, row) {
+                        if (type === "display") {
+                            return formatModi(data, row);
+                        }
+                        return data;
+                    };
+                    break;
+                case "externalPredictionAccuracy":
+                    // for single-fold datasets the property is "externalPredictionAccuracy",
+                    // but for N-fold datasets the property is "externalPredictionAccuracyAvg"
+                    column["render"] = function(data, _, row) {
+                        var r = data;
+                        if (row["childType"] === "NFOLD") {
+                            r = row["externalPredictionAccuracyAvg"];
+                        }
+                        if (r === "0.0" || r === "0.0 ± 0.0") {
+                            r = "N/A";
+                        }
+                        return r;
+                    };
+                    break;
+                case "createdTime": // datasets
+                case "dateCreated": // everything else
+                    column["render"] = function(data, type) {
+                        if (type === "display") {
+                            var date = data.split("T")[0];
+                            return '<span class="text-nowrap">' + date + "</span>";
+                        }
+                        return data;
+                    };
+                    break;
+                case "userName":
+                    if (th.hasClass("public-private")) {
+                        column["render"] = function(data, type) {
+                            if (type === "display" || type === "filter") {
+                                if (data === "all-users") {
+                                    return '<span class="public-private text-primary">' +
+                                           '<span class="glyphicon glyphicon-eye-open"></span> Yes</span>';
+                                } else {
+                                    return '<span class="public-private text-muted">' +
+                                           '<span class="glyphicon glyphicon-eye-close"></span> No</span>';
+                                }
+                            }
+                            return data;
+                        }
+                    }
+                    break;
+            }
+            columns.push(column);
         });
+        var options = $.extend({
+            "ajax": table.attr("data-url"),
+            "columns": columns,
+            "scrollY": "300px",
+            "scrollCollapse": true,
+            "createdRow": function(row, data) {
+                var row = $(row);
+
+                if (objectType === "dataset") {
+                    addDatasetRowHighlighting(row);
+
+                    row.find(".generate-modi").click(function() {
+                        var button = $(this).text("Generating...").prop("disabled", "disabled");
+                        var parent = button.closest("td");
+                        $.post("generateModi", {"id": data["id"]}, function(modiValue) {
+                            parent.html(formatModi(modiValue));
+                            addDatasetRowHighlighting(row);
+                        }).fail(function() {
+                            parent.html('<span class="text-danger">MODI generation failed</span>');
+                        });
+                    });
+                }
+
+                row.find(".delete a").click(function(e) {
+                    e.preventDefault();
+                    var link = $(this).blur();
+                    var verb = (objectType === "job" ? "cancel" : "delete");
+                    var message = "Are you sure you want to " + verb + " the " + objectType + ' "' + data["name"] +
+                                  '"?';
+                    bootbox.confirm(message, function(response) {
+                        if (response === true) {
+                            $.post(link.attr("href"), function() {
+                                if (objectType === "job") {
+                                    window.location.reload();
+                                } else {
+                                    link.closest("tr").fadeOut();
+                                }
+                            }).fail(function(xhr) {
+                                var errorText = $(xhr.responseText).find("#errors").text().trim()
+                                bootbox.alert("Error deleting " + objectType + ":<br><br>" + errorText);
+                            });
+                        }
+                    });
+                });
+            }
+        }, Chembench.DATATABLE_OPTIONS);
+        var dateIndex = table.find("th").filter(".date-created").index();
+        if (dateIndex > -1) {
+            options["order"] = [[dateIndex, "desc"]];
+        }
+        table.DataTable(options);
     });
 
     // replace ugly capitalization for constants
@@ -166,5 +361,11 @@ $(document).ready(function() {
     $(".job-type").each(function() {
         var element = $(this);
         element.text(formatJobType(element.text()));
-    })
+    });
+
+    $(".modi-value").each(function() {
+        var element = $(this);
+        // XXX n.b. use of html(), not text()
+        element.html(formatModi(element.text()));
+    });
 });

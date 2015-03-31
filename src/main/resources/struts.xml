@@ -410,11 +410,21 @@
             </result>
         </action>
 
+        <action name="getCurrentUser" class="edu.unc.ceccr.chembench.actions.api.UserAction"
+                method="getCurrentUser">
+            <result name="success" type="json">
+                <param name="root">user</param>
+                <param name="excludeNullProperties">true</param>
+                <param name="excludeProperties">password</param>
+            </result>
+        </action>
+
         <action name="get*" class="edu.unc.ceccr.chembench.actions.api.MyBenchAction" method="get{1}">
             <result name="success" type="json">
                 <param name="excludeProperties">
                     datasets,
-                    models
+                    models,
+                    predictions
                 </param>
             </result>
         </action>

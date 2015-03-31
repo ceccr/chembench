@@ -3,10 +3,7 @@ package edu.unc.ceccr.chembench.actions.api;
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionSupport;
 import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.persistence.Dataset;
-import edu.unc.ceccr.chembench.persistence.HibernateUtil;
-import edu.unc.ceccr.chembench.persistence.Predictor;
-import edu.unc.ceccr.chembench.persistence.User;
+import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import org.hibernate.Session;
 
@@ -47,6 +44,19 @@ public class MyBenchAction extends ActionSupport {
         }
         this.data = predictors;
         session.close();
+        return SUCCESS;
+    }
+
+    public String getPredictions() throws SQLException, ClassNotFoundException {
+        User user = User.getCurrentUser();
+        Session session = HibernateUtil.getSession();
+        List<Prediction> predictions = Lists.newArrayList();
+        if (user != null) {
+            predictions.addAll(PopulateDataObjects.populatePredictions(user.getUserName(), false, session));
+        } else {
+            // no public predictions to show, so return an empty list
+        }
+        this.data = predictions;
         return SUCCESS;
     }
 

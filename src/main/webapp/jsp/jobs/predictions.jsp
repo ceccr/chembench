@@ -1,41 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="s" uri="/struts-tags" %>
 
-<table class="table table-hover table-bordered datatable">
+<table class="table table-hover table-bordered datatable" data-url="<s:url action="getPredictions" namespace="/api"
+/>" data-object-type="prediction">
   <thead>
   <tr>
-    <th>Name</th>
-    <th>Prediction Dataset</th>
-    <th>Predictor(s) Used</th>
-    <th class="date-created">Date</th>
+    <th data-property="name" class="name-column">Name</th>
+    <th data-property="datasetDisplay">Dataset Predicted</th>
+    <th data-property="predictorNames">Predictor(s) Used</th>
+    <th data-property="dateCreated" class="date-created">Date</th>
   </tr>
   </thead>
   <tbody>
-  <s:iterator value="userPredictions">
-    <tr>
-      <td class="name-column">
-        <s:url var="viewPrediction" action="viewPrediction">
-          <s:param name="id" value="%{id}" />
-        </s:url>
-        <s:a href="%{viewPrediction}">
-          <span class="object-name"><s:property value="name" /></span>
-        </s:a>
-      </td>
-      <td>
-        <s:url var="viewPredictionDataset" action="viewDataset">
-          <s:param name="id" value="datasetId" />
-        </s:url>
-        <s:a href="%{viewPredictionDataset}">
-          <s:property value="datasetDisplay" />
-        </s:a>
-      </td>
-      <td>
-        <s:property value="predictorNames" />
-      </td>
-      <td class="date-created">
-        <s:date name="dateCreated" format="yyyy-MM-dd" />
-      </td>
-    </tr>
-  </s:iterator>
   </tbody>
 </table>

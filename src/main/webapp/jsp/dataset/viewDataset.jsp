@@ -52,19 +52,7 @@
 
           <dt>Modelability index</dt>
           <dd class="modi-value">
-            <s:if test="!dataset.canGenerateModi()">
-              MODI cannot be generated for this dataset.
-            </s:if>
-            <s:else>
-              <s:if test="dataset.modiGenerated">
-                <s:property value="dataset.modi" />
-              </s:if>
-              <s:else>
-                <input type="hidden" name="dataset-id" value="<s:property value="dataset.id" />">
-                <span class="text-warning">Not generated</span>
-                <button class="btn btn-primary btn-xs generate-modi">Generate MODI</button>
-              </s:else>
-            </s:else>
+            <s:property value="dataset.modi" />
           </dd>
 
           <dt>Date created</dt>

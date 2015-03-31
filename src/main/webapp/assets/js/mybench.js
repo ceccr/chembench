@@ -12,12 +12,7 @@ $(document).ready(function() {
         var tabHash = e.target.hash;
         window.location.hash = tabHash;
         window.scrollTo(0, 0);
-
-        // fix table layout
-        if (tabHash === "#datasets") {
-            formatModi();
-        }
-        setTimeout($(tabHash).find("table.dataTable").DataTable().columns.adjust, 10);
+        $(tabHash).find("table.dataTable").DataTable().columns.adjust();
     });
 
     $("#jobs-queue-refresh").click(function() {
@@ -26,46 +21,13 @@ $(document).ready(function() {
         location.reload(true);
     });
 
-    $(".delete a").click(function(event) {
-        event.preventDefault();
-        $(this).blur();
-
-        var link = $(this);
-        var objectType = link.closest(".tab-pane").attr("id").slice(0, -1);
-        var objectName = link.closest("tr").find(".name-column").find(".object-name").text();
-        var verb = (objectType === "job" ? "cancel" : "delete");
-        var message = "Are you sure you want to " + verb + " the " + objectType + ' "' + objectName + '"?';
-        bootbox.confirm(message, function(response) {
-            if (response === true) {
-                $.ajax({
-                    method: "POST",
-                    url: link.attr("href")
-                }).success(function() {
-                    if (objectType === "job") {
-                        window.location.reload();
-                    } else {
-                        link.closest("tr").fadeOut();
-                    }
-                }).fail(function() {
-                    bootbox.alert("Error deleting " + objectType + ".");
-                });
-            }
-        });
-    });
-
-    $("table.datatable").each(function() {
+    // FIXME jobs haven't been converted to ajax format yet
+    $("table.datatable").not("[data-url]").each(function() {
         var table = $(this);
-        var options = $.extend({
-            "scrollY": "350px",
-            "scrollCollapse": true,
-            "drawCallback": function() {
-                formatModi();
-            }
-        }, Chembench.DATATABLE_OPTIONS);
         var dateColumnIndex = table.find('th:contains("Date")').index();
         if (dateColumnIndex > 0) {
             options["order"] = [[dateColumnIndex, "desc"]];
         }
-        table.DataTable(options);
+        table.DataTable(Chembench.DATATABLE_OPTIONS);
     });
 });

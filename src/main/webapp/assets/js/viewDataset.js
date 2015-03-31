@@ -140,7 +140,5 @@ $(document).ready(function() {
         }
     });
 
-    formatModi();
-
     $("table.datatable").DataTable(Chembench.DATATABLE_OPTIONS);
 });

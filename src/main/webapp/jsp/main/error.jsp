@@ -16,7 +16,7 @@
   <section id="content">
     <h2>Error</h2>
 
-    <p>
+    <p id="errors" class="bg-danger">
       <s:iterator value="errorStrings">
         <s:property />
       </s:iterator>

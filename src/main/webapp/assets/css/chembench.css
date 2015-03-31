@@ -199,11 +199,8 @@ h1 button, h2 button, h3 button, h4 button, h5 button, h6 button {
 }
 
 .public-private {
+    display: block;
     text-align: center;
-}
-
-.public-private span[title] {
-    border-bottom: none;
 }
 
 label[for] {
@@ -252,13 +249,12 @@ span[title] {
     border-bottom: 1px dotted #777;
 }
 
-td.name-column {
-    width: 25%;
-    word-break: break-all;
+th.name-column {
+    width: 150px;
 }
 
-td.date-created {
-    white-space: nowrap;
+.object-name {
+    word-break: break-all;
 }
 
 .button-group div {

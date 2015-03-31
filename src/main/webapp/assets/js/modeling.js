@@ -1,15 +1,15 @@
 function updateDatasetInfo(idString) {
     var id = parseInt(idString);
     var datasetInfo = $("#dataset-info");
-    $.get("/api/ajaxGetDataset", {"id": id}, function(dataset) {
+    $.get("api/ajaxGetDataset", {"id": id}, function(dataset) {
         showSections();
         var activityType = dataset["continuous"] === true ? "Continuous" : "Category";
         var numCompound = parseInt(dataset["numCompound"]);
         datasetInfo.html("<h4>Dataset: " + dataset.name + "</h4>" + '<dl class="dl-horizontal properties-list">' +
                          "<dt>Number of compounds</dt>" + "<dd>" + numCompound + "</dd>" + "<dt>Activity type</dt>" +
                          "<dd>" + activityType + "</dd>" + "<dt>Available descriptors</dt>" +
-                         '<dd class="available-descriptors">' + dataset["availableDescriptors"] + "</dd>" +
-                         "<dt>Modelability index</dt>" + '<dd class="modi-value">' + dataset["modi"] + "</dd>" +
+                         "<dd>" + formatAvailableDescriptors(dataset["availableDescriptors"]) + "</dd>" +
+                         "<dt>Modelability index</dt>" + "<dd>" + formatModi(dataset["modi"], dataset) + "</dd>" +
                          "</dl>");
 
         $('input[name="uploaded-descriptors-scaled"]').val(dataset["hasBeenScaled"]);
@@ -48,9 +48,6 @@ function updateDatasetInfo(idString) {
             defaultDescriptorOption.prop("checked", true);
         }
 
-        // pretty-print the available descriptors list when we're done
-        formatAvailableDescriptors(datasetInfo.find(".available-descriptors"));
-
         // enable the correct svm type based on the selected dataset's activity value type
         $("#svm-type-continuous, #svm-type-category").hide();
         if (activityType.toLowerCase() === "continuous") {
@@ -76,8 +73,6 @@ function updateDatasetInfo(idString) {
         } else {
             internalSplitSection.show();
         }
-
-        formatModi();
     }).fail(function() {
         datasetInfo.html('<h4 class="text-danger">Error fetching dataset info</h4>' +
                          "<p>A server error occurred while fetching dataset information for the selected dataset.</p>");
