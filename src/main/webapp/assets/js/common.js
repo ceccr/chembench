@@ -196,7 +196,7 @@ $(document).ready(function() {
                     column["render"] = function(data, type, row) {
                         if (type === "display") {
                             return '<a href="viewDataset?' + $.param({"id": row["datasetId"]}) + '" target="_blank">' +
-                                   data + "</a>";
+                                   '<span class="object-name">' + data + "</span></a>";
                         }
                         return data;
                     };
