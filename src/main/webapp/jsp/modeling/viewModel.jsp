@@ -12,8 +12,7 @@
 
   <section id="content">
     <h2>
-      Model Details:
-      <s:property value="selectedPredictor.name" />
+      Model Details: <s:property value="selectedPredictor.name" />
       <s:a action="jobs" anchor="models">
         <button class="btn btn-primary">Back to Models</button>
       </s:a>

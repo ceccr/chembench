@@ -12,8 +12,7 @@
 
   <section id="content">
     <h2>
-      Dataset Details:
-      <s:property value="dataset.name" />
+      Dataset Details: <s:property value="dataset.name" />
       <s:a action="jobs" anchor="datasets">
         <button class="btn btn-primary">Back to Datasets</button>
       </s:a>
