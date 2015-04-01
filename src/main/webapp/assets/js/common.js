@@ -263,13 +263,19 @@ $(document).ready(function() {
                 case "userName":
                     if (th.hasClass("public-private")) {
                         column["render"] = function(data, type) {
-                            if (type === "display" || type === "filter") {
+                            if (type === "display") {
                                 if (data === "all-users") {
                                     return '<span class="public-private text-primary">' +
-                                           '<span class="glyphicon glyphicon-eye-open"></span> Yes</span>';
+                                           '<span class="glyphicon glyphicon-eye-open"></span> Public</span>';
                                 } else {
                                     return '<span class="public-private text-muted">' +
-                                           '<span class="glyphicon glyphicon-eye-close"></span> No</span>';
+                                           '<span class="glyphicon glyphicon-eye-close"></span> Private</span>';
+                                }
+                            } else if (type === "filter") {
+                                if (data === "all-users") {
+                                    return "Public";
+                                } else {
+                                    return "Private";
                                 }
                             }
                             return data;
