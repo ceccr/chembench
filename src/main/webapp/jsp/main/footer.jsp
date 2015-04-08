@@ -1,7 +1,7 @@
 <hr>
 <footer>
   <p>
-    Copyright &copy; 2014 Carolina Exploratory Center for Cheminformatics Research (CECCR). All rights reserved.<br>
+    Copyright &copy; 2015 Carolina Exploratory Center for Cheminformatics Research (CECCR). All rights reserved.<br>
     Support provided by the <a href="http://mml.unc.edu" target="_blank">Molecular Modeling Lab</a> and <a
       href="http://its.unc.edu" target="_blank">Information Technology Services</a> of the <a href="http://www.unc.edu"
                                                                                               target="_blank">University
