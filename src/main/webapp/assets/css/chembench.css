@@ -434,3 +434,7 @@ p.bg-primary, p.bg-success, p.bg-info, p.bg-warning, p.bg-danger {
 .dataTables_info {
     float: left;
 }
+
+#prediction-model-selection .dataTables_scrollBody tbody > tr {
+    cursor: pointer;
+}

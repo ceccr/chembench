@@ -117,16 +117,8 @@
         <!-- Make Predictions Pages -->
         <action name="prediction" class="edu.unc.ceccr.chembench.actions.PredictionFormActions"
                 method="loadSelectPredictorPage">
-            <result name="success">/jsp/prediction/selectPredictor.jsp</result>
-            <result name="error">/jsp/prediction/selectPredictor.jsp</result>
-            <!--<result name="error">/jsp/main/error.jsp</result> -->
-        </action>
-
-        <action name="selectPredictor" class="edu.unc.ceccr.chembench.actions.PredictionFormActions"
-                method="loadMakePredictionsPage">
-            <result name="success">/jsp/prediction/makePredictions.jsp</result>
-            <result name="error">/jsp/prediction/selectPredictor.jsp</result>
-            <!--<result name="error">/jsp/main/error.jsp</result> -->
+            <result name="success">/jsp/prediction/prediction.jsp</result>
+            <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="makeDatasetPrediction" class="edu.unc.ceccr.chembench.actions.PredictionFormActions"
@@ -137,7 +129,7 @@
 
         <action name="makeSmilesPrediction" class="edu.unc.ceccr.chembench.actions.PredictionFormActions"
                 method="makeSmilesPrediction">
-            <result>//jsp/prediction/predictionResults.jsp</result>
+            <result>/jsp/prediction/predictionResults.jsp</result>
         </action>
         <!-- End Make Predictions Pages -->
 
