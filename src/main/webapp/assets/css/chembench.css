@@ -438,3 +438,20 @@ p.bg-primary, p.bg-success, p.bg-info, p.bg-warning, p.bg-danger {
 #prediction-model-selection .dataTables_scrollBody tbody > tr {
     cursor: pointer;
 }
+
+#make-prediction {
+    display: none;
+}
+
+#jsme {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#jsme .button-group {
+    margin-top: 1em;
+}
+
+#jsme .button-group button ~ button {
+    margin-left: 1em;
+}
