@@ -1,6 +1,4 @@
 $(document).ready(function() {
-    console.log("loaded prediction.js");
-
     $("#prediction-model-selection").find(".dataTables_scrollBody").find("table").DataTable().on("draw", function() {
         $(this).find("tr").click(function() {
             var row = $(this);
