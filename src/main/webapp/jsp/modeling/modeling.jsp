@@ -4,7 +4,7 @@
 <html>
 <head>
   <%@ include file="/jsp/main/head.jsp" %>
-  <title>Chembench | Models</title>
+  <title>Chembench | Modeling</title>
 </head>
 <body>
 <div id="main" class="container">
