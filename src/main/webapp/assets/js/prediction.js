@@ -4,6 +4,9 @@ function jsmeOnLoad() {
 }
 
 $(document).ready(function() {
+    $(".nav-list li").removeClass("active");
+    $("#nav-button-prediction").addClass("active");
+
     $(".nav-tabs a").on("shown.bs.tab", function(e) {
         $(e.target.hash).find("table.dataTable").DataTable().columns.adjust();
     });
