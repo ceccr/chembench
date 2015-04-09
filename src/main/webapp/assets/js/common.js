@@ -176,7 +176,8 @@ $(document).ready(function() {
                             var viewLink = '<a href="' + viewAction + "?" + $.param({"id": row["id"]}) +
                                            '" target="_blank">';
 
-                            var r = viewLink + '<span class="object-name">' + data + "</span></a><br>" +
+                            var nameDisplay = data.split("_").join("_<wbr>");
+                            var r = viewLink + '<span class="object-name">' + nameDisplay+ "</span></a><br>" +
                                     '<div class="button-group">' + '<div class="download">' +
                                     '<span class="glyphicon glyphicon-save"></span>&nbsp;' + downloadLink +
                                     "Download</a></div>";
@@ -195,8 +196,9 @@ $(document).ready(function() {
                 case "datasetDisplay": // modeling/prediction dataset
                     column["render"] = function(data, type, row) {
                         if (type === "display") {
+                            var nameDisplay = data.split("_").join("_<wbr>");
                             return '<a href="viewDataset?' + $.param({"id": row["datasetId"]}) + '" target="_blank">' +
-                                   '<span class="object-name">' + data + "</span></a>";
+                                   '<span class="object-name">' + nameDisplay + "</span></a>";
                         }
                         return data;
                     };
