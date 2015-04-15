@@ -134,6 +134,24 @@ $(document).ready(function() {
         var table = $(this);
         var columns = [];
         var objectType = table.attr("data-object-type");
+        if (objectType === "dataset") {
+            var popoverConfig = {
+                html: true,
+                template: '<div class="popover role="tooltip">' +
+                          '<div class="arrow"></div><div class="popover-content"></div></div>',
+                content: "The <strong>Modelability Index</strong> (MODI) is a measure of how modelable a dataset is. " +
+                         "Datasets with a MODI above " + Chembench.MODI_MODELABLE +
+                         " are considered modelable, and those below that threshold are considered not modelable.<br><br>" +
+                         "For more information, see " +
+                         '<a href="http://www.ncbi.nlm.nih.gov/pubmed/24251851" target="_blank">this citation</a>.',
+                trigger: "focus",
+                placement: "top"
+            };
+            table.find(".modi-help").popover(popoverConfig).click(function(e) {
+                e.stopPropagation(); // prevents sorting when clicking popover trigger
+            });
+        }
+
         table.find("th").each(function() {
             var th = $(this);
             var column = {};
