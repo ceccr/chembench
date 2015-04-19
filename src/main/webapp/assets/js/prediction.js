@@ -12,16 +12,26 @@ $(document).ready(function() {
     });
 
     $("#prediction-model-selection").find(".dataTables_scrollBody").find("table").DataTable().on("draw", function() {
-        $(this).find("tr").click(function() {
-            var row = $(this);
-            var modelName = row.find("td").first().find(".object-name").text();
+        var table = $(this);
+
+        table.find("tr").click(function() {
+            var checkbox = $(this).find('input[type="checkbox"]');
+            checkbox.prop("checked", !(checkbox.prop("checked"))).change();
+        });
+
+        table.find('input[type="checkbox"]').change(function() {
+            var checkbox = $(this);
+            var row = checkbox.closest("tr");
+            var modelName = row.find("td").find(".object-name").first().text();
             var counter = $("#selected-model-count");
             var count = parseInt(counter.text());
             row.toggleClass("selected").toggleClass("info");
             if (row.hasClass("selected")) {
+                row.find('input[type="checkbox"]').prop("checked", true);
                 counter.text(++count);
                 $("#model-list").append("<li>" + modelName + "</li>")
             } else {
+                row.find('input[type="checkbox"]').prop("checked", false);
                 counter.text(--count);
                 $("#model-list").find('li:contains("' + modelName + '")').remove();
             }

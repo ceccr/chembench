@@ -132,7 +132,16 @@ $(document).ready(function() {
 
     $("table.datatable[data-url]").each(function() {
         var table = $(this);
-        var columns = [];
+        if (table.closest("#prediction-model-selection, #prediction-dataset-selection").length) {
+            var checkboxHeader = $('<th data-property="checkbox" class="unsortable"><input type="checkbox"></th>');
+            checkboxHeader.prependTo(table.find("thead").find("tr"));
+            checkboxHeader.find('input[type="checkbox"]').click(function() {
+                var checkAll = $(this);
+                checkAll.closest(".dataTables_scroll").find(".dataTables_scrollBody").find('input[type="checkbox"]').prop("checked",
+                    checkAll.prop("checked")).change();
+            });
+        }
+
         var objectType = table.attr("data-object-type");
         if (objectType === "dataset") {
             var popoverConfig = {
@@ -152,12 +161,17 @@ $(document).ready(function() {
             });
         }
 
+        var columns = [];
         table.find("th").each(function() {
             var th = $(this);
             var column = {};
             var property = th.attr("data-property");
             column["data"] = property;
             switch (property) {
+                case "checkbox":
+                    column["data"] = null;
+                    column["defaultContent"] = '<input type="checkbox">';
+                    break;
                 case "name":
                     column["render"] = function(data, type, row) {
                         if (type === "display") {

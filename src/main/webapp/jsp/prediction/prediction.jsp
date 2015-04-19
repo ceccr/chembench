@@ -32,16 +32,16 @@
             To deselect it, click its row again.
           </p>
 
+          <div id="prediction-model-selection">
+            <%@ include file="/jsp/jobs/models.jsp" %>
+          </div>
+
+          <hr>
           <p>Currently you have chosen <strong><span id="selected-model-count">0</span></strong> model(s).
             <strong><span class="text-danger"
                           id="minimum-model-warning">You must choose at least one model.</span></strong>
           </p>
           <ul id="model-list"></ul>
-
-          <hr>
-          <div id="prediction-model-selection">
-            <%@ include file="/jsp/jobs/models.jsp" %>
-          </div>
         </div>
       </div>
 
@@ -106,7 +106,10 @@
               <h3>Predict a Dataset</h3>
 
               <p>Select a dataset to predict.</p>
-              <%@ include file="/jsp/jobs/datasets.jsp" %>
+
+              <div id="prediction-dataset-selection">
+                <%@ include file="/jsp/jobs/datasets.jsp" %>
+              </div>
             </div>
           </div>
         </div>
