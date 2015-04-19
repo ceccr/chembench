@@ -209,7 +209,7 @@ $(document).ready(function() {
                                            '" target="_blank">';
 
                             var nameDisplay = data.split("_").join("_<wbr>");
-                            var r = viewLink + '<span class="object-name">' + nameDisplay+ "</span></a><br>" +
+                            var r = viewLink + '<span class="object-name">' + nameDisplay + "</span></a><br>" +
                                     '<div class="button-group">' + '<div class="download">' +
                                     '<span class="glyphicon glyphicon-save"></span>&nbsp;' + downloadLink +
                                     "Download</a></div>";

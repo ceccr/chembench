@@ -43,7 +43,7 @@ function updatePages(clicked) {
 }
 
 $(document).ready(function() {
-    var popOverConfig = {
+    var popoverConfig = {
         html: true,
         template: '<div class="popover popover-image" role="tooltip">' +
                   '<div class="arrow"></div><div class="popover-content"></div></div>',
@@ -101,7 +101,7 @@ $(document).ready(function() {
         });
     });
 
-    $(".img-thumbnail").popover(popOverConfig);
+    $(".img-thumbnail").popover(popoverConfig);
 
     $("ul.pagination a").click(function(e) {
         e.preventDefault();
@@ -115,7 +115,7 @@ $(document).ready(function() {
             for (var i = 0; i < data.length; i++) {
                 table.row.add(composeRow(data[i]));
             }
-            table.$().find(".img-thumbnail").popover(popOverConfig);
+            table.$().find(".img-thumbnail").popover(popoverConfig);
             updatePages(clicked);
             table.draw();
         }).fail(function() {

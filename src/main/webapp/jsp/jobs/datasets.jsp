@@ -16,6 +16,5 @@ namespace="/api" />" data-object-type="dataset">
     <th data-property="userName" class="public-private">Public?</th>
   </tr>
   </thead>
-  <tbody>
-  </tbody>
+  <tbody></tbody>
 </table>
