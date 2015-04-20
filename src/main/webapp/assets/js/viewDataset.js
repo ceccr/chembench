@@ -59,6 +59,10 @@ $(document).ready(function() {
 
     $("form#updateDataset, #description-reference-buttons").hide();
 
+    // autolink urls within paper reference
+    var paperReference = $("#paper-reference");
+    paperReference.html(paperReference.text().autoLink({target: "_blank"}));
+
     $("button#edit-description-reference").click(function() {
         toggleForm();
     });
@@ -90,7 +94,8 @@ $(document).ready(function() {
                 $("#description").text("(No description given.)");
             }
             if (newPaperReference) {
-                $("#paper-reference").text(newPaperReference);
+                // XXX needs html() and not text() for autoLink to work
+                $("#paper-reference").html(newPaperReference.autoLink({target: "_blank"}));
             } else {
                 $("#paper-reference").text("(No paper reference given.)");
             }
