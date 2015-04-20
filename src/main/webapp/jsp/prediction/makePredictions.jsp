@@ -129,7 +129,7 @@
                           }
                         }
                       </script>
-                      <s:form theme="simple" action="selectPredictor" enctype="multipart/form-data" method="post">
+                      <s:form theme="simple" action="selectPredictor" method="post">
                         <br />
                         <s:if test="user.showPublicPredictors!='NONE'">
                           <div valign="top" style="width: 550px; margin: 0px; vertical-align: top">
@@ -286,7 +286,7 @@
                     </div>
 
                     <div id="compTab">
-                      <s:form action="makeDatasetPrediction" enctype="multipart/form-data" theme="simple">
+                      <s:form action="makeDatasetPrediction" theme="simple">
                       <table width="924" frame="border" rules="none" align="center" cellpadding="0" cellspacing="4"
                              colspan="2" style="border: 0pt solid black">
 

@@ -114,7 +114,7 @@
         </dl>
 
         <s:if test="editable">
-          <s:form action="updateDataset" enctype="multipart/form-data" theme="simple">
+          <s:form action="updateDataset" theme="simple">
             <div class="form-group">
               <label for="datasetDescription">Description:</label>
               <s:textarea id="datasetDescription" name="datasetDescription" value="%{dataset.description}"

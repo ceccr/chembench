@@ -171,5 +171,6 @@
   <%@ include file="/jsp/main/footer.jsp" %>
 </div>
 <%@ include file="/jsp/main/tail.jsp" %>
+<script src="/assets/js/home.js"></script>
 </body>
 </html>

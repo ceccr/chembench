@@ -53,7 +53,7 @@
           </div>
         </div>
         <div class="border StandardTextDarkGrayParagraph2 benchAlign bottomMargin">
-          <s:form action="registerUser" enctype="multipart/form-data" theme="simple">
+          <s:form action="registerUser" theme="simple">
 
           <table border="0" align="center" width="680">
 

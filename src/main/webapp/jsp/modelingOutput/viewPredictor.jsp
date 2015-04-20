@@ -76,7 +76,7 @@
             </div>
             <s:if test="editable=='YES'">
             <br />
-            <s:form action="updatePredictor" enctype="multipart/form-data" theme="simple">
+            <s:form action="updatePredictor" theme="simple">
             <div class="StandardTextDarkGray">
               <b>Description: </b>
             </div>

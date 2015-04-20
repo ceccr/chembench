@@ -28,7 +28,7 @@
 
     <hr>
 
-    <s:form action="login" enctype="multipart/form-data" cssClass="form-horizontal" method="post" theme="simple">
+    <s:form action="login" cssClass="form-horizontal" method="post" theme="simple">
       <div class="form-group">
         <label for="username" class="col-xs-3 control-label">Username:</label>
 

@@ -36,7 +36,7 @@
 
         <p class="margin-below">To change your password, first enter your current password, then type and
           confirm your new password.</p>
-        <s:form action="changePassword" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
+        <s:form action="changePassword" cssClass="form-horizontal" theme="simple">
           <div class="form-group">
             <label for="oldPassword" class="control-label col-xs-3">Current Password:</label>
 
@@ -78,7 +78,7 @@
             class="glyphicon glyphicon-asterisk"></span>) are required.
         </p>
 
-        <s:form action="updateUserInfo" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
+        <s:form action="updateUserInfo" cssClass="form-horizontal" theme="simple">
           <div class="form-group required">
             <label for="firstName" class="control-label col-xs-3">First Name:</label>
 
@@ -191,7 +191,7 @@
 
         <p class="margin-below">Here you can adjust user-specific settings for Chembench.</p>
         <hr>
-        <s:form action="updateUserOptions" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
+        <s:form action="updateUserOptions" cssClass="form-horizontal" theme="simple">
           <h4>Public Datasets and Predictors</h4>
 
           <p>

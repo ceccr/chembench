@@ -43,7 +43,7 @@
       </p>
 
       <hr>
-      <s:form action="createModelingJob" enctype="multipart/form-data" cssClass="form-horizontal" theme="simple">
+      <s:form action="createModelingJob" cssClass="form-horizontal" theme="simple">
         <div id="dataset-selection-section" class="panel panel-primary">
           <div class="panel-heading">
             <h3 class="panel-title">Select a Modeling Dataset</h3>

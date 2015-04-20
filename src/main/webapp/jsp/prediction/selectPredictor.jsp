@@ -113,7 +113,7 @@
                           }
                         }
                       </script>
-                      <s:form theme="simple" action="selectPredictor" enctype="multipart/form-data" method="post">
+                      <s:form theme="simple" action="selectPredictor" method="post">
                         <br />
                         <s:if test="user.showPublicPredictors!='NONE'">
                           <div valign="top" style="width: 550px; margin: 0px; vertical-align: top">
