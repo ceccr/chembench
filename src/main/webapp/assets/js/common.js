@@ -121,9 +121,6 @@ $(document).ready(function() {
     $("#nav-button-home").addClass("active");
 
     // login & logout button handlers
-    $(document).ready(function() {
-        $('input[name="username"]').focus();
-    });
     $(".guest-login").click(function(event) {
         event.preventDefault();
 
