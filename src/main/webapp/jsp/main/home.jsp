@@ -18,7 +18,8 @@
         <div>
           <p>Chembench is a free portal that enables researchers to mine available chemical and biological data.
             Chembench can help researchers rationally design or select new compounds or compound libraries with
-            significantly enhanced hit rates in screening experiments.</p>
+            significantly enhanced hit rates in screening experiments.
+          </p>
           <img class="interstitial-banner" src="/assets/images/home-banner.jpg" alt="Molecule image banner">
 
           <p>
@@ -59,7 +60,7 @@
           <div class="alert alert-danger">Username or password incorrect.</div>
         </s:if>
         <s:if test="user==null">
-          <s:form action="login" enctype="multipart/form-data" cssClass="form-horizontal" method="post" theme="simple">
+          <s:form action="login" cssClass="form-horizontal" method="post" theme="simple">
             <div class="form-group">
               <label for="username" class="col-xs-4 control-label">Username:</label>
 
@@ -147,16 +148,16 @@
     <section>
       <h4 class="sponsor-message">We thank the following commercial sponsors for their support:</h4>
       <ul class="sponsor-list">
-        <li><a href="http://www.chemcomp.com" target="_blank"><img src="/assets/images/sponsors/ccg.jpg"
-                                                                   width="114" height="46"
-                                                                   alt="Chemical Computing Group" class="img-thumbnail"></a>
+        <li><a href="http://www.chemcomp.com" target="_blank"><img src="/assets/images/sponsors/ccg.jpg" width="114"
+                                                                   height="46" alt="Chemical Computing Group"
+                                                                   class="img-thumbnail"></a>
         </li>
-        <li><a href="http://www.talete.mi.it" target="_blank"><img src="/assets/images/sponsors/talete.jpg"
-                                                                   width="71" height="80" alt="Talete srl"
+        <li><a href="http://www.talete.mi.it" target="_blank"><img src="/assets/images/sponsors/talete.jpg" width="71"
+                                                                   height="80" alt="Talete srl"
                                                                    class="img-thumbnail"></a></li>
-        <li><a href="http://www.chemaxon.com" target="_blank"><img src="/assets/images/sponsors/chemaxon.jpg"
-                                                                   width="88" height="83" alt="ChemAxon"
-                                                                   class="img-thumbnail"></a></li>
+        <li><a href="http://www.chemaxon.com" target="_blank"><img src="/assets/images/sponsors/chemaxon.jpg" width="88"
+                                                                   height="83" alt="ChemAxon" class="img-thumbnail"></a>
+        </li>
         <li><a href="http://www.edusoft-lc.com" target="_blank"><img src="/assets/images/sponsors/edusoft.jpg"
                                                                      width="99" height="71" alt="eduSoft"
                                                                      class="img-thumbnail"></a></li>

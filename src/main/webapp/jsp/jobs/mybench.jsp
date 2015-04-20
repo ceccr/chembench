@@ -14,7 +14,8 @@
     <h2>My Bench</h2>
 
     <p>Every dataset, predictor, and prediction you have created on Chembench is available on this page. You can
-      track progress of all the running jobs using the job queue.</p>
+      track progress of all the running jobs using the job queue.
+    </p>
 
     <p>
       Publicly available datasets and models are also displayed. If you wish to share datasets or models you

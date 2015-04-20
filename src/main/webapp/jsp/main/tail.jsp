@@ -4,9 +4,9 @@
   Chembench.MODI_MODELABLE = <s:property value="@edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE" />;
   Chembench.DATATABLE_OPTIONS = {
     "columnDefs": [{
-                     orderable: false,
-                     targets: "unsortable"
-                   }],
+      orderable: false,
+      targets: "unsortable"
+    }],
     "paging": false,
     "dom": "lifrtp",
     "infoCallback": function(_, _, _, max, total) {

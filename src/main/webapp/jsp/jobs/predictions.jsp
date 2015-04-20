@@ -11,6 +11,5 @@
     <th data-property="dateCreated" class="date-created">Date</th>
   </tr>
   </thead>
-  <tbody>
-  </tbody>
+  <tbody></tbody>
 </table>

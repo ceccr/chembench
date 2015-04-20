@@ -10,8 +10,8 @@ namespace="/api" />" data-object-type="dataset">
     <th data-property="datasetType">Type</th>
     <th data-property="availableDescriptors">Descriptors</th>
     <th data-property="modi">MODI
-      <a class="modi-help" data-container="body"
-         tabindex="0" role="button"><span class="glyphicon glyphicon-question-sign"></span></a></th>
+      <a class="modi-help" data-container="body" tabindex="0" role="button"><span
+          class="glyphicon glyphicon-question-sign"></span></a></th>
     <th data-property="createdTime" class="date-created">Date</th>
     <th data-property="userName" class="public-private">Public?</th>
   </tr>

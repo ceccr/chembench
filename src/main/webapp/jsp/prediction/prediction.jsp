@@ -81,6 +81,7 @@
                 <form class="form form-horizontal">
                   <div class="form-group">
                     <label class="col-xs-7 control-label">SMILES:</label>
+
                     <div class="col-xs-5">
                       <input class="form-control">
                     </div>
@@ -88,6 +89,7 @@
 
                   <div class="form-group">
                     <label class="col-xs-7 control-label">Applicability Domain cutoff:</label>
+
                     <div class="col-xs-5">
                       <select class="form-control"></select>
                     </div>

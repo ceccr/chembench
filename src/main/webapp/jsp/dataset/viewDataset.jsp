@@ -155,7 +155,8 @@
         <h3>All Compounds</h3>
 
         <p class="margin-below">All compounds in your dataset are listed in the table below, including those in
-          your external set.</p>
+          your external set.
+        </p>
         <table class="table table-hover compound-list datatable">
           <thead>
           <tr>
@@ -197,7 +198,8 @@
             <h3>Folds</h3>
 
             <p>The compounds in each fold of your dataset are listed below. Use the fold navigation buttons to
-              switch between folds.</p>
+              switch between folds.
+            </p>
             <nav class="text-center">
               <ul class="pagination">
                 <s:iterator value="foldNumbers" status="s">
@@ -236,8 +238,7 @@
                 </s:if>
               </tr>
               </thead>
-              <tbody>
-              </tbody>
+              <tbody></tbody>
             </table>
           </div>
         </s:if>
@@ -246,7 +247,8 @@
             <h3>External Set</h3>
 
             <p class="margin-below">The compounds in your dataset's external test set are listed in the table
-              below.</p>
+              below.
+            </p>
             <table class="table table-hover compound-list datatable">
               <thead>
               <tr>
@@ -287,7 +289,8 @@
           <h3>Activity Histogram</h3>
 
           <p class="margin-below">Below is a histogram of the activity values of the compounds in your dataset.
-            The range of activity values have been divided into 10 bins.</p>
+            The range of activity values have been divided into 10 bins.
+          </p>
 
           <div class="text-center">
             <s:url var="activityChartUrl" value="imageServlet" escapeAmp="false">
@@ -306,7 +309,8 @@
         <h3>Descriptors</h3>
 
         <p class="margin-below">Here you can see the results of descriptor generation for each descriptor type,
-          and a summary of any errors that occurred during descriptor generation.</p>
+          and a summary of any errors that occurred during descriptor generation.
+        </p>
 
         <s:iterator value="descriptorGenerationResults">
           <dl class="dl-horizontal">
