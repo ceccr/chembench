@@ -82,16 +82,9 @@
             </div>
             <div class="form-group">
               <div class="col-xs-offset-4 col-xs-8">
-                <%
-                  String ipAddress = request.getHeader("X-FORWARDED-FOR");
-                  if (ipAddress == null) {
-                    ipAddress = request.getRemoteAddr();
-                  }
-                  String ip = ipAddress.replaceAll("\\.", "");
-                %>
                 <s:url var="guestLoginUrl" action="login">
                   <s:param name="username">guest</s:param>
-                  <s:param name="ip"><%= ip %></s:param>
+                  <s:param name="ip"><s:property value="ipAddress" /></s:param>
                 </s:url>
                 Or, <s:a href="%{guestLoginUrl}" cssClass="guest-login">log in as a guest</s:a>
               </div>

@@ -11,11 +11,13 @@ import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import org.apache.log4j.Logger;
+import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +28,7 @@ import java.util.List;
 
 @SuppressWarnings("serial")
 
-public class HomeAction extends ActionSupport implements ServletResponseAware {
+public class HomeAction extends ActionSupport implements ServletResponseAware, ServletRequestAware {
     private static Logger logger = Logger.getLogger(HomeAction.class.getName());
     protected HttpServletResponse servletResponse;
 
@@ -43,6 +45,9 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
     String password;
     String showStatistics = Constants.YES;
     private List<String> errorStrings = Lists.newArrayList();
+
+    private HttpServletRequest request;
+    private String ipAddress;
 
     @Override
     public void setServletResponse(HttpServletResponse servletResponse) {
@@ -102,6 +107,12 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
 
             // current number of jobs
             runningJobs = numJobs;
+
+            ipAddress = getServletRequest().getHeader("X-FORWARDED-FOR");
+            if (ipAddress == null) {
+                ipAddress = request.getRemoteAddr();
+            }
+            ipAddress = ipAddress.replaceAll("\\.", "");
         } catch (Exception ex) {
             logger.error(ex);
             showStatistics = "NO";
@@ -551,4 +562,16 @@ public class HomeAction extends ActionSupport implements ServletResponseAware {
         this.loginFailed = loginFailed;
     }
 
+    @Override
+    public void setServletRequest(HttpServletRequest request) {
+        this.request = request;
+    }
+
+    public HttpServletRequest getServletRequest() {
+        return this.request;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
 }
