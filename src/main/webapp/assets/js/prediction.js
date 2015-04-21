@@ -32,13 +32,11 @@ $(document).ready(function() {
                 return $(this).text().trim() === modelName;
             });
             if (checkbox.prop("checked")) {
-                if (row.data("oldClass") === undefined) {
-                    var match = /(danger|warning|success)/.exec(row.attr("class"));
-                    if (match != null) {
-                        var color = match[1];
-                        row.data("oldClass", color);
-                        row.removeClass(color);
-                    }
+                var match = /(danger|warning|success)/.exec(row.attr("class"));
+                if (match != null) {
+                    var color = match[1];
+                    row.data("oldClass", color);
+                    row.removeClass(color);
                 }
                 row.addClass("info");
                 if (modelsMatchingName.length === 0) {
