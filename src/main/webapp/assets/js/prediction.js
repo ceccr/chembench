@@ -19,23 +19,31 @@ $(document).ready(function() {
             checkbox.prop("checked", !(checkbox.prop("checked"))).change();
         });
 
-        table.find('input[type="checkbox"]').change(function() {
+        table.find('input[type="checkbox"]').click(function() {
+            var checkbox = $(this);
+            checkbox.prop("checked", !(checkbox.prop("checked"))).change();
+        }).change(function() {
             var checkbox = $(this);
             var row = checkbox.closest("tr");
             var modelName = row.find("td").find(".object-name").first().text();
-            var counter = $("#selected-model-count");
-            var count = parseInt(counter.text());
-            row.toggleClass("selected").toggleClass("info");
-            if (row.hasClass("selected")) {
-                row.find('input[type="checkbox"]').prop("checked", true);
-                counter.text(++count);
-                $("#model-list").append("<li>" + modelName + "</li>")
+
+            var modelList = $("#model-list");
+            var modelsMatchingName = modelList.find("li").filter(function() {
+                return $(this).text().trim() === modelName;
+            });
+            if (checkbox.prop("checked")) {
+                row.addClass("selected info");
+                if (modelsMatchingName.length === 0) {
+                    modelList.append("<li>" + modelName + "</li>")
+                }
             } else {
-                row.find('input[type="checkbox"]').prop("checked", false);
-                counter.text(--count);
-                $("#model-list").find('li:contains("' + modelName + '")').remove();
+                row.removeClass("selected info");
+                modelsMatchingName.remove();
             }
 
+            // XXX don't use closest("table") or the header checkbox will be included too
+            var count = row.closest("tbody").find('input[type="checkbox"]:checked').length;
+            $("#selected-model-count").text(count);
             if (count === 0) {
                 $("#minimum-model-warning").show();
                 $("#make-prediction").hide();
