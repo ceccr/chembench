@@ -35,13 +35,6 @@
           <div id="prediction-model-selection">
             <%@ include file="/jsp/jobs/models.jsp" %>
           </div>
-
-          <hr>
-          <p>Currently you have chosen <strong><span id="selected-model-count">0</span></strong> model(s).
-            <strong><span class="text-danger"
-                          id="minimum-model-warning">You must choose at least one model.</span></strong>
-          </p>
-          <ul id="model-list"></ul>
         </div>
       </div>
 
@@ -54,6 +47,12 @@
             compound at a time, or predict an entire dataset at once. Use the tabs to change the selected prediction
             mode.
           </p>
+
+          <p>Currently you have chosen <strong><span id="selected-model-count">0</span></strong> model(s).
+            <strong><span class="text-danger"
+                          id="minimum-model-warning">You must choose at least one model.</span></strong>
+          </p>
+          <ul id="model-list"></ul>
 
           <ul class="nav nav-tabs">
             <li class="active"><a href="#single-compound" data-toggle="tab">Predict a Single Compound</a></li>
