@@ -142,13 +142,17 @@ $(document).ready(function() {
                 case "externalPredictionAccuracy":
                     // for single-fold datasets the property is "externalPredictionAccuracy",
                     // but for N-fold datasets the property is "externalPredictionAccuracyAvg"
-                    column["render"] = function(data, _, row) {
+                    column["render"] = function(data, type, row) {
                         var r = data;
                         if (row["childType"] === "NFOLD") {
                             r = row["externalPredictionAccuracyAvg"];
                         }
                         if (r === "0.0" || r === "0.0 ± 0.0") {
                             r = "N/A";
+                        }
+
+                        if (type === "display") {
+                            return formatExternalPredictionAccuracy(r);
                         }
                         return r;
                     };
@@ -195,10 +199,9 @@ $(document).ready(function() {
             "scrollCollapse": true,
             "createdRow": function(row, data) {
                 var row = $(row);
+                addRowHighlighting(row);
 
                 if (objectType === "dataset") {
-                    addDatasetRowHighlighting(row);
-
                     row.find(".generate-modi").click(function() {
                         var button = $(this).text("Generating...").prop("disabled", "disabled");
                         var parent = button.closest("td");

@@ -95,9 +95,22 @@ function formatModi(text, dataset) {
     return html;
 }
 
-function addDatasetRowHighlighting(row) {
-    // add contextual highlighting for dataset rows with MODI values
-    var match = /text-(danger|warning|success)/.exec(row.find(".modi-value").attr("class"));
+function formatExternalPredictionAccuracy(fullValue) {
+    var value = fullValue.split(" ± ")[0];
+    var cssClass;
+    if (value >= 0.7) {
+        cssClass = "text-success";
+    } else if (value > 0.5) {
+        cssClass = "text-warning";
+    } else {
+        cssClass = "text-danger";
+    }
+    return '<span class="' + cssClass + ' external-acc-value">' + fullValue + "</span>";
+}
+
+function addRowHighlighting(row) {
+    // add contextual highlighting for rows with MODI or R^2/CCR values
+    var match = /text-(danger|warning|success)/.exec(row.find(".modi-value, .external-acc-value").attr("class"));
     if (match !== null) {
         row.addClass(match[1]);
     }
