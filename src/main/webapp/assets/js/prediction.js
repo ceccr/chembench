@@ -17,6 +17,8 @@ $(document).ready(function() {
         table.find("tr").click(function() {
             var checkbox = $(this).find('input[type="checkbox"]');
             checkbox.prop("checked", !(checkbox.prop("checked"))).change();
+        }).find("a").click(function(e) {
+            e.stopPropagation();
         });
 
         table.find('input[type="checkbox"]').click(function() {
