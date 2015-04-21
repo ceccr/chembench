@@ -32,12 +32,21 @@ $(document).ready(function() {
                 return $(this).text().trim() === modelName;
             });
             if (checkbox.prop("checked")) {
-                row.addClass("selected info");
+                if (row.data("oldClass") === undefined) {
+                    var match = /(danger|warning|success)/.exec(row.attr("class"));
+                    if (match != null) {
+                        var color = match[1];
+                        row.data("oldClass", color);
+                        row.removeClass(color);
+                    }
+                }
+                row.addClass("info");
                 if (modelsMatchingName.length === 0) {
                     modelList.append("<li>" + modelName + "</li>")
                 }
             } else {
-                row.removeClass("selected info");
+                row.removeClass("info");
+                row.addClass(row.data("oldClass"));
                 modelsMatchingName.remove();
             }
 
