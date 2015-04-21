@@ -267,13 +267,13 @@ th.name-column {
     word-break: break-all;
 }
 
-.button-group div {
+.object-action-group .object-action {
     display: inline-block;
     padding: 0 0.5em;
     border-left: 1px solid #888;
 }
 
-.button-group div:first-child {
+.object-action-group .object-action:first-child {
     padding-left: 0;
     border: none;
 }
@@ -453,11 +453,11 @@ p.bg-primary, p.bg-success, p.bg-info, p.bg-warning, p.bg-danger {
     padding-right: 0;
 }
 
-#jsme .button-group {
+.button-group {
     margin-top: 1em;
 }
 
-#jsme .button-group button ~ button {
+.button-group button ~ button {
     margin-left: 1em;
 }
 

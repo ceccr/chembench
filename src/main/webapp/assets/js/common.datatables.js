@@ -80,15 +80,15 @@ $(document).ready(function() {
 
                             var nameDisplay = data.split("_").join("_<wbr>");
                             var r = viewLink + '<span class="object-name">' + nameDisplay + "</span></a><br>" +
-                                    '<div class="button-group">' + '<div class="download">' +
+                                    '<div class="object-action-group">' + '<div class="download object-action">' +
                                     '<span class="glyphicon glyphicon-save"></span>&nbsp;' + downloadLink +
                                     "Download</a></div>";
                             var currentUser = Chembench.CURRENT_USER;
                             if (currentUser &&
                                 (currentUser.isAdmin === "YES" || currentUser.userName === row["userName"])) {
-                                r += '<div class="delete">' + '<span class="glyphicon glyphicon-remove"></span>&nbsp;' +
-                                     '<a href="' + deleteAction + "?" + $.param({"id": row["id"]}) +
-                                     '">Delete</a></div>';
+                                r += '<div class="delete object-action">' +
+                                     '<span class="glyphicon glyphicon-remove"></span>&nbsp;' + '<a href="' +
+                                     deleteAction + "?" + $.param({"id": row["id"]}) + '">Delete</a></div>';
                             }
                             return r;
                         }
