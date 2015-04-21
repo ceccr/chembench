@@ -48,7 +48,7 @@
             mode.
           </p>
 
-          <p>Currently you have chosen <strong><span id="selected-model-count">0</span></strong> model(s).
+          <p>Currently you have chosen <strong><span id="selected-model-count">0</span></strong> model(s):
             <strong><span class="text-danger"
                           id="minimum-model-warning">You must choose at least one model.</span></strong>
           </p>
