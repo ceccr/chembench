@@ -173,6 +173,9 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 <groupId>org.apache.tomcat.maven</groupId>
                 <artifactId>tomcat6-maven-plugin</artifactId>
                 <version>2.2</version>
+                <configuration>
+                    <path>/</path>
+                </configuration>
                 <dependencies>
                     <dependency>
                         <groupId>org.slf4j</groupId>
