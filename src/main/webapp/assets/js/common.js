@@ -133,7 +133,6 @@ $(document).ready(function() {
     // default highlighted button should be Home
     $("#nav-button-home").addClass("active");
 
-    // login & logout button handlers
     $(".guest-login").click(function(event) {
         event.preventDefault();
 
