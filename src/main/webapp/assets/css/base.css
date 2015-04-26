@@ -1,7 +1,7 @@
 @charset "utf-8";
 @import url(https://fonts.googleapis.com/css?family=Lato);
 
-body {
+body, .tooltip, .popover {
     font-family: 'Lato', sans-serif;
 }
 
