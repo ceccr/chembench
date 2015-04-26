@@ -50,8 +50,9 @@
           </dd>
 
           <dt>Modelability index</dt>
-          <dd class="modi-value">
-            <s:property value="dataset.modi" />
+          <dd>
+            <span class="modi-value"><s:property value="dataset.modi" /></span>
+            <a class="modi-help" tabindex="0" role="button"><span class="glyphicon glyphicon-question-sign"></span></a>
           </dd>
 
           <dt>Date created</dt>
