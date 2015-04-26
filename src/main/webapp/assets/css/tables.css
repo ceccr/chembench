@@ -1,0 +1,46 @@
+th {
+    white-space: nowrap;
+}
+
+/* for select-all table header */
+th[data-property="checkbox"] input[type="checkbox"] {
+    margin: 0;
+    padding: 0;
+}
+
+th.name-column {
+    width: 150px;
+}
+
+.object-name {
+    word-break: break-all;
+}
+
+.object-action-group .object-action {
+    display: inline-block;
+    padding: 0 0.5em;
+    border-left: 1px solid #888;
+}
+
+.object-action-group .object-action:first-child {
+    padding-left: 0;
+    border: none;
+}
+
+/* fix for doubled sorting arrows in scroll body */
+.dataTables_scrollBody table.dataTable thead .sorting:after,
+.dataTables_scrollBody table.dataTable thead .sorting_asc:after,
+.dataTables_scrollBody table.dataTable thead .sorting_desc:after,
+.dataTables_scrollBody table.dataTable thead .sorting_asc_disabled:after,
+.dataTables_scrollBody table.dataTable thead .sorting_desc_disabled:after {
+    content: "";
+}
+
+/* fix for weird space between scroll-head and scroll-body */
+.dataTables_scrollBody table.dataTable thead .sorting .dataTables_sizing {
+    position: absolute;
+}
+
+.dataTables_info {
+    float: left;
+}

@@ -1,0 +1,280 @@
+/* home */
+/* sponsor attribution */
+.sponsor-message {
+    text-align: center;
+}
+
+.sponsor-list {
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+    width: 100%;
+}
+
+.sponsor-list li {
+    display: inline-block;
+    margin: 0 2em 0 2em;
+}
+/* end sponsor attribution */
+
+.interstitial-banner {
+    display: block;
+    width: 100%;
+    height: 97px;
+    margin: 1em 0 1em 0;
+}
+
+.logout-button {
+    vertical-align: top;
+    margin-left: 0.5em;
+}
+
+.nav-tabs {
+    margin-top: 2em;
+}
+
+.nav-pills {
+    margin-bottom: 1em;
+}
+
+.tab-pane {
+    padding: 0 1.5em;
+}
+
+.panel-heading h1, .panel-heading h2, .panel-heading h3, .panel-heading h4, .panel-heading h5, .panel-heading h6 {
+    margin: 0;
+}
+
+.links-list {
+    padding-left: 1.5em;
+    list-style-type: circle;
+}
+
+.properties-list {
+    margin-bottom: 0;
+}
+
+.properties-list dt {
+    text-align: left;
+    width: auto;
+    margin-right: 0.3em;
+}
+
+.properties-list dt:after {
+    content: ":";
+}
+
+.properties-list dd {
+    margin-left: 0;
+}
+
+h1 button, h2 button, h3 button, h4 button, h5 button, h6 button {
+    margin-left: 0.4em;
+}
+
+.form-group.required .control-label:before {
+    content: "\2a";
+    font-family: 'Glyphicons Halflings';
+    font-size: 10px;
+    color: red;
+    margin-right: 0.5em;
+}
+
+.inline-radio-group {
+    padding-top: 7px;
+}
+
+.inline-radio-group label {
+    margin-right: 1.5em;
+}
+
+.public-private {
+    display: block;
+    text-align: center;
+}
+
+label[for] {
+    cursor: pointer;
+}
+
+input[type="file"] {
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+input[type="checkbox"], input[type="radio"] {
+    margin-right: 0.4em;
+    vertical-align: top;
+}
+
+.help-block {
+    color: #777;
+    margin-top: -5px;
+    margin-bottom: 0;
+}
+/* end home */
+
+/* dataset */
+.paper-reference-input-wrapper {
+    padding-top: 0.7em;
+    padding-bottom: 10px;
+}
+
+.external-split-type {
+    margin-left: -1.5em;
+}
+
+.optional-sdf-options {
+    display: none;
+}
+
+.descriptor-type input[type="text"], .descriptor-type select {
+    width: 200px;
+}
+
+.descriptor-type-entry {
+    padding-top: 7px;
+}
+/* end dataset */
+
+/* modeling */
+#descriptor-types, #scaling-types {
+    margin-left: 15px;
+}
+
+#scaling-types .inline-radio-group {
+    padding-left: 0;
+}
+
+.advanced-settings-group h4 {
+    position: relative;
+}
+
+.advanced-settings-group .glyphicon {
+    font-size: small;
+    position: absolute;
+    left: -1.4em;
+    top: 0.3em;
+}
+
+.advanced-settings-group .advanced-settings {
+    display: none;
+}
+
+#small-dataset-warning {
+    margin-top: 1em;
+    display: none;
+}
+
+#already-scaled-info {
+    margin-top: -0.5em;
+    margin-bottom: 1em;
+    display: none;
+}
+
+
+.range-input-group .input-wrapper {
+    position: relative;
+}
+
+.range-input-group .input-prefix {
+    position: absolute;
+    line-height: 35px;
+    left: 0.7em;
+    z-index: 999;
+    color: #aaa;
+}
+
+.range-input-group .input-prefix ~ .form-control {
+    padding-left: 1.9em;
+    width: 100%;
+}
+
+.range-input-group .form-group {
+    width: 33%;
+}
+
+.range-input-group .form-group:first-child {
+    padding-left: 15px;
+}
+
+.range-input-group .form-group:last-child {
+    padding-right: 15px;
+}
+
+.range-input-group .form-inline {
+    text-align: justify;
+    height: 34px;
+}
+
+.range-input-group .form-inline:after {
+    content: "";
+    width: 100%;
+    display: inline-block;
+    font-size: 0;
+    line-height: 0;
+}
+
+.range-input-group ~ :not(.range-input-group) .form-control {
+    width: 30%;
+    display: inline-block;
+}
+
+.range-input-group ~ :not(.range-input-group) .form-control ~ .help-inline {
+    margin-left: 0.5em;
+}
+
+#dataset-selection {
+    margin-top: 0.3em;
+}
+
+#dataset-info-wrapper {
+    border-left: 1px solid #888;
+}
+
+#view-dataset-detail {
+    margin-right: 0.5em;
+}
+/* end modeling */
+
+/* prediction */
+#prediction-model-selection .dataTables_scrollBody tbody > tr {
+    cursor: pointer;
+}
+
+#make-prediction {
+    display: none;
+}
+
+#jsme-container {
+    padding-left: 0;
+    padding-right: 0;
+}
+/* end prediction */
+
+/* viewDataset */
+#heatmapSwfWrapper {
+    padding-bottom: 100%;
+}
+
+table.compound-list {
+    table-layout: fixed;
+}
+
+/* needed for specificity issues */
+table.compound-list > tbody > tr > td {
+    vertical-align: middle;
+}
+
+table.compound-list td.name {
+    padding-left: 1em;
+}
+
+.popover-image {
+    max-width: none;
+}
+
+.popover-image .popover-content {
+    padding: 0;
+}
+/* end viewDataset */

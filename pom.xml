@@ -196,7 +196,31 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                     </httpConnector>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>com.samaxes.maven</groupId>
+                <artifactId>minify-maven-plugin</artifactId>
+                <version>1.7.4</version>
+                <executions>
+                    <execution>
+                        <id>default-minify</id>
+                        <configuration>
+                            <charset>UTF-8</charset>
+                            <cssSourceDir>assets/css</cssSourceDir>
+                            <cssSourceFiles>
+                                <cssSourceFile>base.css</cssSourceFile>
+                                <cssSourceFile>navigation.css</cssSourceFile>
+                                <cssSourceFile>tables.css</cssSourceFile>
+                                <cssSourceFile>page.css</cssSourceFile>
+                            </cssSourceFiles>
+                            <jsEngine>CLOSURE</jsEngine>
+                        </configuration>
+                        <goals>
+                            <goal>minify</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
-

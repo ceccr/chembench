@@ -1,0 +1,94 @@
+@charset "utf-8";
+@import url(https://fonts.googleapis.com/css?family=Lato);
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+noscript {
+    margin-top: 1em;
+    margin-bottom: 0;
+}
+
+.container {
+    width: 960px;
+    max-width: none !important;
+    margin: auto;
+}
+
+footer {
+    margin-bottom: 1.5em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* masthead */
+#masthead {
+    display: table;
+    width: 100%;
+    margin: 1em 0 0.5em 0;
+}
+
+#masthead h1 {
+    display: table-cell;
+}
+/* end masthead */
+
+/* userbox and links */
+.userbox {
+    display: table-cell;
+    text-align: right;
+    vertical-align: bottom;
+}
+
+.userbox-links {
+    list-style-type: none;
+}
+
+.userbox-links li {
+    display: inline-block;
+    padding: 0 1em;
+    border-right: 1px solid #eee;
+}
+
+.userbox-links li:last-child {
+    padding-right: 0;
+    border-right: none;
+}
+/* end userbox and links */
+
+span[title] {
+    cursor: help;
+    border-bottom: 1px dotted #777;
+}
+
+.citation {
+    display: inline-block;
+    margin: 0.2em 1em 0 1em;
+    font-style: italic;
+}
+
+p.bg-primary, p.bg-success, p.bg-info, p.bg-warning, p.bg-danger {
+    padding: 1em;
+}
+
+.margin-below {
+    margin-bottom: 1.5em;
+}
+
+.button-group {
+    margin-top: 1em;
+}
+
+.button-group button ~ button {
+    margin-left: 1em;
+}
+
+.help-inline {
+    line-height: 34px;
+    margin-left: -1.5em;
+    color: #777;
+}
