@@ -16,7 +16,7 @@ $(document).ready(function() {
             var popoverConfig = {
                 html: true,
                 container: "body",
-                template: '<div class="popover role="tooltip">' +
+                template: '<div class="popover" role="tooltip">' +
                           '<div class="arrow"></div><div class="popover-content"></div></div>',
                 content: "The <strong>Modelability Index</strong> (MODI) is a measure of how modelable a dataset is. " +
                          "Datasets with a MODI above " + Chembench.MODI_MODELABLE +
