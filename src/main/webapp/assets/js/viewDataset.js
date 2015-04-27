@@ -116,7 +116,7 @@ $(document).ready(function() {
                  " are considered modelable, and those below that threshold are considered not modelable.<br><br>" +
                  "For more information, see " +
                  '<a href="http://www.ncbi.nlm.nih.gov/pubmed/24251851" target="_blank">this citation</a>.',
-        trigger: "click focus",
+        trigger: "focus",
         placement: "top"
     });
 
