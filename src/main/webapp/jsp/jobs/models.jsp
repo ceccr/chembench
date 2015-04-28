@@ -5,7 +5,7 @@
 />" data-object-type="model">
   <thead>
   <tr>
-    <th data-property="name" class="name-column">Name</th>
+    <th data-property="name">Name</th>
     <th data-property="datasetDisplay">Modeling Dataset</th>
     <th data-property="externalPredictionAccuracy">R<sup>2</sup> or <abbr title="Correct Classification Rate"
                                                                           class="initialism">CCR</abbr></th>

@@ -79,8 +79,9 @@ $(document).ready(function() {
                                            '" target="_blank">';
 
                             var nameDisplay = data.split("_").join("_<wbr>");
-                            var r = viewLink + '<span class="object-name">' + nameDisplay + "</span></a><br>" +
-                                    '<div class="object-action-group">' + '<div class="download object-action">' +
+                            var r = '<div class="name-cell">' + viewLink + '<span class="object-name">' + nameDisplay +
+                                    "</span></a><br>" + '<div class="object-action-group">' +
+                                    '<div class="download object-action">' +
                                     '<span class="glyphicon glyphicon-save"></span>&nbsp;' + downloadLink +
                                     "Download</a></div>";
                             var currentUser = Chembench.CURRENT_USER;
@@ -90,6 +91,7 @@ $(document).ready(function() {
                                      '<span class="glyphicon glyphicon-remove"></span>&nbsp;' + '<a href="' +
                                      deleteAction + "?" + $.param({"id": row["id"]}) + '">Delete</a></div>';
                             }
+                            r += "</div>";
                             return r;
                         }
                         return data;
@@ -99,8 +101,8 @@ $(document).ready(function() {
                     column["render"] = function(data, type, row) {
                         if (type === "display") {
                             var nameDisplay = data.split("_").join("_<wbr>");
-                            return '<a href="viewDataset?' + $.param({"id": row["datasetId"]}) + '" target="_blank">' +
-                                   '<span class="object-name">' + nameDisplay + "</span></a>";
+                            return '<div class="name-cell"><a href="viewDataset?' + $.param({"id": row["datasetId"]}) +
+                                   '" target="_blank">' + nameDisplay + "</a></div>";
                         }
                         return data;
                     };

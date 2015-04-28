@@ -5,7 +5,7 @@
 namespace="/api" />" data-object-type="dataset">
   <thead>
   <tr>
-    <th data-property="name" class="name-column">Name</th>
+    <th data-property="name">Name</th>
     <th data-property="numCompound">Size</th>
     <th data-property="datasetType">Type</th>
     <th data-property="availableDescriptors">Descriptors</th>

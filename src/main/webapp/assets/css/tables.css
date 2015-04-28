@@ -8,12 +8,11 @@ th[data-property="checkbox"] input[type="checkbox"] {
     padding: 0;
 }
 
-th.name-column {
-    width: 150px;
-}
-
-.object-name {
-    word-break: break-all;
+/* clip overly long names that can't be broken neatly */
+.name-cell {
+    width: 160px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .object-action-group .object-action {

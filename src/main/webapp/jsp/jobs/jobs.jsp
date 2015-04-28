@@ -35,8 +35,10 @@
           <s:iterator value="incomingJobs">
             <s:if test="adminUser || userName==user.userName">
               <tr>
-                <td class="name-column">
-                  <span class="object-name"><s:property value="jobName" /></span>
+                <td>
+                  <div class="name-cell">
+                    <span class="object-name"><s:property value="jobName" /></span>
+                  </div>
                 </td>
                 <td>
                   <s:property value="userName" />
@@ -85,8 +87,10 @@
           <s:iterator value="localJobs">
             <s:if test="adminUser || userName==user.userName">
               <tr>
-                <td class="name-column">
-                  <span class="object-name"><s:property value="jobName" /></span>
+                <td>
+                  <div class="name-cell">
+                    <span class="object-name"><s:property value="jobName" /></span>
+                  </div>
                 </td>
                 <td>
                   <s:property value="userName" />
@@ -141,8 +145,10 @@
           <s:iterator value="lsfJobs">
             <s:if test="adminUser || userName==user.userName">
               <tr>
-                <td class="name-column">
-                  <span class="object-name"><s:property value="jobName" /></span>
+                <td>
+                  <div class="name-cell">
+                    <span class="object-name"><s:property value="jobName" /></span>
+                  </div>
                 </td>
                 <td>
                   <s:property value="userName" />
@@ -196,8 +202,10 @@
           <s:iterator value="errorJobs">
             <s:if test="adminUser || userName==user.userName">
               <tr>
-                <td class="name-column">
-                  <span class="object-name"><s:property value="jobName" /></span>
+                <td>
+                  <div class="name-cell">
+                    <span class="object-name"><s:property value="jobName" /></span>
+                  </div>
                 </td>
                 <td>
                   <s:property value="userName" />
