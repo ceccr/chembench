@@ -10,7 +10,7 @@ th[data-property="checkbox"] input[type="checkbox"] {
 
 /* clip overly long names that can't be broken neatly */
 .name-cell {
-    width: 160px;
+    width: 170px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
