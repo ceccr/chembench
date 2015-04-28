@@ -92,8 +92,8 @@
                           <input id="smiles" name="smiles" class="form-control">
 
                           <div class="input-group-btn">
-                            <a id="copy-smiles" class="btn" title="Copy to clipboard">
-                              <span class="glyphicon glyphicon-copy"></span></a>
+                            <button id="copy-smiles" class="btn" title="Copy to clipboard">
+                              <span class="glyphicon glyphicon-copy"></span></button>
                           </div>
                         </div>
                       </div>
