@@ -96,14 +96,16 @@ function formatModi(text, dataset) {
 }
 
 function formatExternalPredictionAccuracy(fullValue) {
-    var value = fullValue.split(" ± ")[0];
-    var cssClass;
-    if (value >= 0.7) {
-        cssClass = "text-success";
-    } else if (value > 0.5) {
-        cssClass = "text-warning";
-    } else {
-        cssClass = "text-danger";
+    if (fullValue) {
+        var value = (fullValue.contains(" ± ")) ? fullValue.split(" ± ")[0] : fullValue;
+        var cssClass;
+        if (value >= 0.7) {
+            cssClass = "text-success";
+        } else if (value > 0.5) {
+            cssClass = "text-warning";
+        } else {
+            cssClass = "text-danger";
+        }
     }
     return '<span class="' + cssClass + ' external-acc-value">' + fullValue + "</span>";
 }
