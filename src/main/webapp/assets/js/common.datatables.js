@@ -211,7 +211,7 @@ $(document).ready(function() {
                         var parent = button.closest("td");
                         $.post("generateModi", {"id": data["id"]}, function(modiValue) {
                             parent.html(formatModi(modiValue));
-                            addDatasetRowHighlighting(row);
+                            addRowHighlighting(row);
                         }).fail(function() {
                             parent.html('<span class="text-danger">MODI generation failed</span>');
                         });
