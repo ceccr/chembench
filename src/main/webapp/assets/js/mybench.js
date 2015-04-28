@@ -23,11 +23,12 @@ $(document).ready(function() {
 
     // FIXME jobs haven't been converted to ajax format yet
     $("table.datatable").not("[data-url]").each(function() {
+        var options = $.extend({}, Chembench.DATATABLE_OPTIONS);
         var table = $(this);
         var dateColumnIndex = table.find('th:contains("Date")').index();
         if (dateColumnIndex > 0) {
             options["order"] = [[dateColumnIndex, "desc"]];
         }
-        table.DataTable(Chembench.DATATABLE_OPTIONS);
+        table.DataTable(options);
     });
 });
