@@ -238,17 +238,32 @@ input[type="checkbox"], input[type="radio"] {
 /* end modeling */
 
 /* prediction */
-#prediction-model-selection .dataTables_scrollBody tbody > tr {
+#prediction-model-selection .dataTables_scrollBody tbody > tr,
+#prediction-dataset-selection .dataTables_scrollBody tbody > tr {
     cursor: pointer;
+}
+
+#prediction-model-selection, #prediction-dataset-selection {
+    margin-bottom: 15px;
 }
 
 #make-prediction {
     display: none;
 }
 
+#model-list-message, #dataset-list-message {
+    display: none;
+}
+
 #jsme-container {
     padding-left: 0;
     padding-right: 0;
+}
+
+/* rounded corners on #copy-smiles button */
+#copy-smiles {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 /* end prediction */
 

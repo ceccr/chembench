@@ -72,6 +72,7 @@ span[title] {
 }
 
 p.bg-primary, p.bg-success, p.bg-info, p.bg-warning, p.bg-danger {
+    border-radius: 4px;
     padding: 1em;
 }
 

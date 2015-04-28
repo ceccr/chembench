@@ -39,8 +39,9 @@ $(document).ready(function() {
             column["data"] = property;
             switch (property) {
                 case "checkbox":
-                    column["data"] = null;
-                    column["defaultContent"] = '<input type="checkbox">';
+                    column["data"] = function(row) {
+                        return '<input type="checkbox"><input type="hidden" name="id" value="' + row["id"] + '">';
+                    };
                     break;
                 case "name":
                     column["render"] = function(data, type, row) {

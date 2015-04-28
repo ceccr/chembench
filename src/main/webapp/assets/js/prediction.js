@@ -1,6 +1,5 @@
 function jsmeOnLoad() {
-    var jsmeApplet = new JSApplet.JSME("jsme-container", "380px", "300px");
-    document.JME = jsmeApplet;
+    document.JME = new JSApplet.JSME("jsme", "348px", "300px");
 }
 
 $(document).ready(function() {
@@ -11,8 +10,95 @@ $(document).ready(function() {
         $(e.target.hash).find("table.dataTable").DataTable().columns.adjust();
     });
 
-    $("#prediction-model-selection").find(".dataTables_scrollBody").find("table").DataTable().on("draw", function() {
+    $("#jsme-clear").click(function() {
+        document.JME.reset();
+    });
+
+    $("#jsme-smiles-predict").click(function() {
+        $("#smiles").val(document.JME.smiles()).closest("form").submit();
+    });
+
+    $("#copy-smiles").zclip({
+        path: "/assets/swf/ZeroClipboard.swf",
+        copy: $("#smiles").val()
+    }).tooltip({
+        animation: false,
+        placement: "bottom"
+    }).click(function() {
+        var button = $(this);
+        var oldTitle = button.attr("data-original-title");
+        button.attr("data-original-title", "Copied!").tooltip("hide").tooltip("show").one("hidden.bs.tooltip",
+            function() {
+                button.attr("data-original-title", oldTitle);
+            });
+    });
+
+    $("form#predict-compound").submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+        if (!form.find("#smiles").val()) {
+            return false;
+        }
+
+        // TODO spinny
+        form.find('button[type="submit"]').text("Predicting...").addClass("disabled");
+
+        var selectedModelIds = $("#prediction-model-selection").find("tbody").find(":checked").siblings('[name="id"]').map(function() {
+            return $(this).val();
+        }).get();
+        var url = form.attr("action") + "?" + form.serialize() + "&predictorIds=" + selectedModelIds.join(" ");
+        $.get(url, function(data) {
+            var predictionResults = $("#prediction-results");
+            predictionResults.find(".help-block").remove();
+            predictionResults.prepend(data);
+        }).fail(function() {
+            bootbox.alert("Error occurred during prediction.");
+        }).always(function() {
+            form.find('button[type="submit"]').text("Predict").removeClass("disabled");
+        });
+    });
+
+    $("form#predict-dataset").submit(function(e) {
+        e.preventDefault();
+        var form = $(this);
+        var jobName = form.find("#jobName");
+        var selectedDatasetIds = $("#prediction-dataset-selection").find("tbody").find(":checked").siblings('[name="id"]').map(function() {
+            return $(this).val();
+        }).get();
+        if (!jobName.val() || !selectedDatasetIds.length) {
+            return false;
+        }
+
+        // TODO spinny
+        form.find('button[type="submit"]').text("Predicting...").addClass("disabled");
+
+        // need id-name pairs so we can utilize model names for jobName editing
+        var selectedModels = [];
+        $("#prediction-model-selection").find("tbody").find("tr:has(:checked)").each(function() {
+            var row = $(this);
+            var model = {};
+            model["id"] = row.find('[name="id"]').val();
+            model["name"] = row.find(".object-name").text();
+            selectedModels.push(model);
+        });
+        form.find("#selectedPredictorIds").val($.map(selectedModels, function(m) { return m["id"]; }).join(" "));
+
+        var originalJobName = jobName.val();
+        $.each(selectedDatasetIds, function(index, id) {
+            form.find("#selectedDatasetId").val(id);
+            // change jobName only if we need to (multiple datasets to predict)
+            if (selectedDatasetIds.length > 1) {
+                jobName.val(originalJobName + " " + selectedModels[index]["name"]);
+            }
+            $.post(form.attr("action") + "?" + form.serialize());
+        });
+
+        window.location = Chembench.MYBENCH_URL;
+    });
+
+    $("#prediction-model-selection, #prediction-dataset-selection").find("table").DataTable().on("draw", function() {
         var table = $(this);
+        var tableType = (table.parents("#prediction-model-selection").length) ? "model" : "dataset";
 
         table.find("tr").click(function() {
             var checkbox = $(this).find('input[type="checkbox"]');
@@ -27,11 +113,11 @@ $(document).ready(function() {
         }).change(function() {
             var checkbox = $(this);
             var row = checkbox.closest("tr");
-            var modelName = row.find("td").find(".object-name").first().text();
+            var objectName = row.find("td").find(".object-name").first().text();
 
-            var modelList = $("#model-list");
-            var modelsMatchingName = modelList.find("li").filter(function() {
-                return $(this).text().trim() === modelName;
+            var objectList = (tableType === "model") ? $("#model-list") : $("#dataset-list");
+            var objectsMatchingName = objectList.find("li").filter(function() {
+                return $(this).text().trim() === objectName;
             });
             if (checkbox.prop("checked")) {
                 var match = /(danger|warning|success)/.exec(row.attr("class"));
@@ -41,24 +127,36 @@ $(document).ready(function() {
                     row.removeClass(color);
                 }
                 row.addClass("info");
-                if (modelsMatchingName.length === 0) {
-                    modelList.append("<li>" + modelName + "</li>")
+                if (objectsMatchingName.length === 0) {
+                    objectList.append("<li>" + objectName + "</li>")
                 }
             } else {
                 row.removeClass("info");
                 row.addClass(row.data("oldClass"));
-                modelsMatchingName.remove();
+                objectsMatchingName.remove();
             }
 
             // XXX don't use closest("table") or the header checkbox will be included too
             var count = row.closest("tbody").find('input[type="checkbox"]:checked').length;
-            $("#selected-model-count").text(count);
+            var warning = (tableType === "model") ? $("#minimum-model-warning") : $("#minimum-dataset-warning");
+            var counter = (tableType === "model") ? $("#selected-model-count") : $("#selected-dataset-count");
+            counter.text(count);
             if (count === 0) {
-                $("#minimum-model-warning").show();
-                $("#make-prediction").hide();
+                warning.show();
+                if (tableType === "model") {
+                    $("#make-prediction").hide();
+                    $("#model-list-message").hide();
+                } else if (tableType === "dataset") {
+                    $("#dataset-list-message").hide();
+                }
             } else {
-                $("#minimum-model-warning").hide();
-                $("#make-prediction").show();
+                warning.hide();
+                if (tableType === "model") {
+                    $("#make-prediction").show();
+                    $("#model-list-message").show();
+                } else if (tableType === "dataset") {
+                    $("#dataset-list-message").show();
+                }
             }
         });
     });
