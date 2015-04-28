@@ -8,13 +8,14 @@ function updateDatasetInfo(idString) {
         datasetInfo.html("<h4>Dataset: " + dataset.name + "</h4>" + '<dl class="dl-horizontal properties-list">' +
                          "<dt>Number of compounds</dt>" + "<dd>" + numCompound + "</dd>" + "<dt>Activity type</dt>" +
                          "<dd>" + activityType + "</dd>" + "<dt>Available descriptors</dt>" +
-                         "<dd>" + formatAvailableDescriptors(dataset["availableDescriptors"]) + "</dd>" +
+                         '<dd id="available-descriptors-deferred">' + dataset["availableDescriptors"] + "</dd>" +
                          "<dt>Modelability index</dt>" + "<dd>" + formatModi(dataset["modi"], dataset) + "</dd>" +
                          "</dl>");
 
         $('input[name="uploaded-descriptors-scaled"]').val(dataset["hasBeenScaled"]);
 
-        var availableDescriptors = datasetInfo.find(".available-descriptors").text().trim().split(/\s+/);
+        var $availableDescriptors = $("#available-descriptors-deferred");
+        var availableDescriptors = $availableDescriptors.text().trim().split(/\s+/);
         if ($.inArray("UPLOADED", availableDescriptors) >= 0) {
             var uploadedDescriptorType = dataset["uploadedDescriptorType"];
             datasetInfo.find("dl").append("<dt>Uploaded descriptor type</dt>" + "<dd>" + uploadedDescriptorType +
@@ -25,20 +26,22 @@ function updateDatasetInfo(idString) {
         } else {
             $("#uploaded-descriptor-type").remove();
         }
-
-        var warningBox = $("#small-dataset-warning");
-        if (numCompound < 40) {
-            warningBox.show();
-        } else {
-            warningBox.hide();
-        }
-
         // enable only available descriptors in Descriptor Set selection
         $('input[name="descriptorGenerationType"]').prop("disabled",
             true).removeAttr("checked").parent().addClass("text-muted");
         for (var i = 0; i < availableDescriptors.length; i++) {
             $('input[name="descriptorGenerationType"][value="' + availableDescriptors[i] +
               '"]').removeAttr("disabled").parent("label").removeClass("text-muted");
+        }
+
+        // pretty-print now that we are done filtering, no earlier
+        $availableDescriptors.text(formatAvailableDescriptors($availableDescriptors.text()));
+
+        var warningBox = $("#small-dataset-warning");
+        if (numCompound < 40) {
+            warningBox.show();
+        } else {
+            warningBox.hide();
         }
 
         // pre-select the default descriptor set, if available
