@@ -79,7 +79,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
                 public int compare(descriptorFrequency df1, descriptorFrequency df2) {
                     if (df1.getNumOccs() > df2.getNumOccs()) {
                         return -1;
-                    } else if (df2.getNumOccs() < df2.getNumOccs()) {
+                    } else if (df1.getNumOccs() < df2.getNumOccs()) {
                         return 1;
                     } else {
                         return 0;
