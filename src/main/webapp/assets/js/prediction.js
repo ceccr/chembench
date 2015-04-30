@@ -62,33 +62,33 @@ $(document).ready(function() {
         e.preventDefault();
         var form = $(this);
         var jobName = form.find("#jobName");
-        var selectedDatasetIds = $("#prediction-dataset-selection").find("tbody").find(":checked").siblings('[name="id"]').map(function() {
+        var selectedModelIds = $("#prediction-model-selection").find("tbody").find(":checked").siblings('[name="id"]').map(function() {
             return $(this).val();
         }).get();
-        if (!jobName.val() || !selectedDatasetIds.length) {
-            return false;
-        }
+        form.find("#selectedPredictorIds").val(selectedModelIds.join(" "));
 
         // TODO spinny
         form.find('button[type="submit"]').text("Predicting...").addClass("disabled");
 
-        // need id-name pairs so we can utilize model names for jobName editing
-        var selectedModels = [];
-        $("#prediction-model-selection").find("tbody").find("tr:has(:checked)").each(function() {
+        // get both dataset ids and names so we can append dataset names to jobName
+        var selectedDatasets = [];
+        $("#prediction-dataset-selection").find("tbody").find("tr:has(:checked)").each(function() {
             var row = $(this);
-            var model = {};
-            model["id"] = row.find('[name="id"]').val();
-            model["name"] = row.find(".object-name").text();
-            selectedModels.push(model);
+            var dataset = {};
+            dataset["id"] = row.find('[name="id"]').val();
+            dataset["name"] = row.find(".object-name").text();
+            selectedDatasets.push(dataset);
         });
-        form.find("#selectedPredictorIds").val($.map(selectedModels, function(m) { return m["id"]; }).join(" "));
+        if (!jobName.val() || !selectedDatasets.length) {
+            return false;
+        }
 
         var originalJobName = jobName.val();
-        $.each(selectedDatasetIds, function(index, id) {
-            form.find("#selectedDatasetId").val(id);
+        $.each(selectedDatasets, function(index, dataset) {
+            form.find("#selectedDatasetId").val(dataset["id"]);
             // change jobName only if we need to (multiple datasets to predict)
-            if (selectedDatasetIds.length > 1) {
-                jobName.val(originalJobName + " " + selectedModels[index]["name"]);
+            if (selectedDatasets.length > 1) {
+                jobName.val(originalJobName + " " + dataset["name"]);
             }
             $.post(form.attr("action") + "?" + form.serialize());
         });
