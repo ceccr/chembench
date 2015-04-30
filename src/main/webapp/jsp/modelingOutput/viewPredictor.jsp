@@ -104,7 +104,7 @@
     <br />
     <s:if test="selectedPredictor.userName!='all-users'||user.isAdmin=='YES'">
       <!-- display edit link -->
-      <a href="viewPredictor?id=<s:property value="selectedPredictor.id" />&editable=YES">Edit
+      <a href="viewPredictor?id=<s:property value="selectedPredictor.id" />&amp;editable=YES">Edit
         description and reference</a>
       <br />
     </s:if>
