@@ -10,7 +10,7 @@
 <div id="main" class="container">
   <%@ include file="/jsp/main/header.jsp" %>
 
-  <section id="content">
+  <div id="content">
     <section>
       <h2>Existing Predictions</h2>
 
@@ -186,7 +186,7 @@
         </div>
       </div>
     </section>
-  </section>
+  </div>
 
   <%@ include file="/jsp/main/footer.jsp" %>
 </div>
