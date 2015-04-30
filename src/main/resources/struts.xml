@@ -207,13 +207,6 @@
         <!-- end knn+ -->
 
         <!-- random forest -->
-
-        <!-- View Groves: not implemented yet
-             <actions name="viewPredictorRandomForestGrovesSection" class="edu.unc.ceccr.chembench.actionss.ViewPredictor.ViewPredictorAction" method="loadGrovesPage">
-                <result>/jsp/modelingOutput/viewPredictor-randomForestGroves.jsp</result>
-            </actions>
-            -->
-
         <action name="viewPredictorRandomForestTreesSection"
                 class="edu.unc.ceccr.chembench.actions.ViewPredictor.RandomForestModelsPage" method="load">
             <result name="success">/jsp/modelingOutput/viewPredictor-randomForestTrees.jsp</result>
