@@ -134,8 +134,6 @@
       </div>
     </div>
 
-    <hr>
-
     <ul class="nav nav-tabs">
       <li class="active"><a href="#all-compounds" data-toggle="tab">All Compounds</a></li>
       <s:if test="dataset.hasActivities()">
