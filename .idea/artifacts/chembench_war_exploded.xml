@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="ceccr:war exploded">
+  <artifact type="exploded-war" name="chembench:war exploded">
     <output-path>$PROJECT_DIR$/target/chembench-1.0-SNAPSHOT</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
@@ -50,7 +50,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/chembench-1.0-SNAPSHOT/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="chembench/web/Web" />
     </root>
