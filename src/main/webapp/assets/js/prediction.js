@@ -144,18 +144,16 @@ $(document).ready(function() {
             if (count === 0) {
                 warning.show();
                 if (tableType === "model") {
-                    $("#make-prediction").hide();
-                    $("#model-list-message").hide();
+                    $("#make-prediction, #model-list-message").hide();
                 } else if (tableType === "dataset") {
-                    $("#dataset-list-message").hide();
+                    $("#predict-dataset, #dataset-list-message").hide();
                 }
             } else {
                 warning.hide();
                 if (tableType === "model") {
-                    $("#make-prediction").show();
-                    $("#model-list-message").show();
+                    $("#make-prediction, #model-list-message").show();
                 } else if (tableType === "dataset") {
-                    $("#dataset-list-message").show();
+                    $("#predict-dataset, #dataset-list-message").show();
                 }
             }
         });
