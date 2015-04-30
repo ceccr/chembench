@@ -230,7 +230,11 @@ $(document).ready(function() {
                                 if (objectType === "job") {
                                     window.location.reload();
                                 } else {
-                                    link.closest("tr").fadeOut();
+                                    var table = link.closest("table").DataTable();
+                                    var row = link.closest("tr");
+                                    row.fadeOut(400, function() {
+                                        table.row(row).remove().draw();
+                                    });
                                 }
                             }).fail(function(xhr) {
                                 var errorText = $(xhr.responseText).find("#errors").text().trim()
