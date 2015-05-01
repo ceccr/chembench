@@ -95,7 +95,7 @@ $(document).ready(function() {
         });
     });
 
-    $(".img-thumbnail").popover({
+    var thumbnailPopoverConfig = {
         html: true,
         template: '<div class="popover popover-image" role="tooltip">' +
                   '<div class="arrow"></div><div class="popover-content"></div></div>',
@@ -104,7 +104,8 @@ $(document).ready(function() {
         },
         trigger: "hover",
         placement: "right"
-    });
+    };
+    $(".img-thumbnail").popover(thumbnailPopoverConfig);
 
     $(".modi-help").popover({
         html: true,
@@ -132,7 +133,7 @@ $(document).ready(function() {
             for (var i = 0; i < data.length; i++) {
                 table.row.add(composeRow(data[i]));
             }
-            table.$().find(".img-thumbnail").popover(popoverConfig);
+            table.$().find(".img-thumbnail").popover(thumbnailPopoverConfig);
             updatePages(clicked);
             table.draw();
         }).fail(function() {
