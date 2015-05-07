@@ -84,6 +84,7 @@
 
                   <s:form id="predict-compound" action="makeSmilesPrediction" method="get" cssClass="form-horizontal"
                           theme="simple">
+                    <input name="predictorIds" id="compound-selectedPredictorIds" type="hidden">
                     <div class="form-group">
                       <label for="smiles" class="col-xs-6 control-label">SMILES:</label>
 
@@ -151,7 +152,7 @@
 
               <s:form id="predict-dataset" action="makeDatasetPrediction" method="post" cssClass="form-horizontal"
                       theme="simple">
-                <input name="selectedPredictorIds" id="selectedPredictorIds" type="hidden">
+                <input name="selectedPredictorIds" id="dataset-selectedPredictorIds" type="hidden">
                 <input name="selectedDatasetId" id="selectedDatasetId" type="hidden">
 
                 <div class="form-group">

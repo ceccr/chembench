@@ -46,7 +46,9 @@ $(document).ready(function() {
         var selectedModelIds = $("#prediction-model-selection").find("tbody").find(":checked").siblings('[name="id"]').map(function() {
             return $(this).val();
         }).get();
-        var url = form.attr("action") + "?" + form.serialize() + "&predictorIds=" + selectedModelIds.join(" ");
+        form.find("#compound-selectedPredictorIds").val(selectedModelIds.join(" "));
+
+        var url = form.attr("action") + "?" + form.serialize();
         $.get(url, function(data) {
             var predictionResults = $("#prediction-results");
             predictionResults.find(".help-block").remove();
@@ -65,7 +67,7 @@ $(document).ready(function() {
         var selectedModelIds = $("#prediction-model-selection").find("tbody").find(":checked").siblings('[name="id"]').map(function() {
             return $(this).val();
         }).get();
-        form.find("#selectedPredictorIds").val(selectedModelIds.join(" "));
+        form.find("#dataset-selectedPredictorIds").val(selectedModelIds.join(" "));
 
         // TODO spinny
         form.find('button[type="submit"]').text("Predicting...").addClass("disabled");
