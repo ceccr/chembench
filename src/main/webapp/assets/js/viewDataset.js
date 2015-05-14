@@ -52,6 +52,11 @@ $(document).ready(function() {
     var paperReference = $("#paper-reference");
     paperReference.html(paperReference.text().autoLink({target: "_blank"}));
 
+    $("td.name").each(function() {
+        var cell = $(this);
+        cell.html(cell.text().split("_").join("_<wbr>"));
+    });
+
     $("button#edit-description-reference").click(function() {
         toggleForm();
     });
