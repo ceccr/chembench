@@ -43,6 +43,15 @@ $(document).ready(function() {
                         return '<input type="checkbox"><input type="hidden" name="id" value="' + row["id"] + '">';
                     };
                     break;
+                case "cancel":
+                    column["data"] = function(row) {
+                        if (Chembench.CURRENT_USER["isAdmin"] === "YES" ||
+                            (Chembench.CURRENT_USER["userName"] === row["userName"])) {
+                            return '<a class="delete-link" href="deleteJob?id=' + row["id"] + '">cancel</a>';
+                        }
+                        return "";
+                    };
+                    break;
                 case "name":
                     column["render"] = function(data, type, row) {
                         if (type === "display") {
@@ -94,6 +103,14 @@ $(document).ready(function() {
                             }
                             r += "</div>";
                             return r;
+                        }
+                        return data;
+                    };
+                    break;
+                case "jobType":
+                    column["render"] = function(data, type, row) {
+                        if (type === "display") {
+                            return formatJobType(data);
                         }
                         return data;
                     };
@@ -161,6 +178,7 @@ $(document).ready(function() {
                         return r;
                     };
                     break;
+                case "timeCreated": // jobs
                 case "createdTime": // datasets
                 case "dateCreated": // everything else
                     column["render"] = function(data, type) {

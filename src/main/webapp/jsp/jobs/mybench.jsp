@@ -32,7 +32,85 @@
     </ul>
 
     <div class="tab-content">
-      <%@ include file="jobs.jsp" %>
+      <div id="jobs" class="tab-pane active">
+        <h3>
+          Job Queue
+          <button id="jobs-queue-refresh" class="btn btn-primary">
+            <span class="glyphicon glyphicon-refresh"></span> Refresh
+          </button>
+        </h3>
+
+        <p class="margin-below">
+          Running jobs from all Chembench users are displayed below. Use the <b>Refresh</b> button to update the list.
+          Other users can see your jobs while they are running, but only you can access your completed datasets,
+          models, and predictions.
+        </p>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Jobs on Local Queue</h4>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover datatable" data-url="<s:url action="getLocalJobs" namespace="/api" />"
+                   data-object-type="job">
+              <thead>
+              <tr>
+                <th data-property="jobName">Name</th>
+                <th data-property="userName">Owner</th>
+                <th data-property="jobType">Job Type</th>
+                <th data-property="timeCreated" class="date-created">Date</th>
+                <th data-property="message">Status</th>
+                <th data-property="cancel" class="unsortable"></th>
+              </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>Jobs on LSF Queue</h4>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover datatable" data-url="<s:url action="getLsfJobs" namespace="/api" />"
+                   data-object-type="job">
+              <thead>
+              <tr>
+                <th data-property="jobName">Name</th>
+                <th data-property="userName">Owner</th>
+                <th data-property="jobType">Job Type</th>
+                <th data-property="timeCreated" class="date-created">Date</th>
+                <th data-property="message">Status</th>
+                <th data-property="cancel" class="unsortable"></th>
+              </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel panel-danger">
+          <div class="panel-heading">
+            <h4>Jobs with Errors</h4>
+          </div>
+          <div class="panel-body">
+            <table class="table table-hover datatable"
+                   data-url="<s:url action="getErrorJobs" namespace="/api" />" data-object-type="job">
+              <thead>
+              <tr>
+                <th data-property="jobName">Name</th>
+                <th data-property="userName">Owner</th>
+                <th data-property="jobType">Job Type</th>
+                <th data-property="timeCreated" class="date-created">Date</th>
+                <th data-property="cancel" class="unsortable"></th>
+              </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
       <div id="datasets" class="tab-pane">
         <h3>Datasets</h3>

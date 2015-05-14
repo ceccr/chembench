@@ -409,7 +409,10 @@
                 <param name="excludeProperties">
                     datasets,
                     models,
-                    predictions
+                    predictions,
+                    localJobs,
+                    lsfJobs,
+                    errorJobs
                 </param>
             </result>
         </action>
