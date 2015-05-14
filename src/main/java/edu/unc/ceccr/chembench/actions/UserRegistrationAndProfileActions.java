@@ -294,7 +294,7 @@ public class UserRegistrationAndProfileActions extends ActionSupport {
             s.close();
         }
 
-        errorMessages.add("Password change successful!");
+        addActionMessage("Password change successful!");
         return result;
     }
 

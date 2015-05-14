@@ -24,6 +24,14 @@
       </div>
     </s:if>
 
+    <s:if test="!getActionMessages().isEmpty()">
+      <div class="alert alert-success">
+        <s:iterator value="getActionMessages()">
+          <s:property />
+        </s:iterator>
+      </div>
+    </s:if>
+
     <ul class="nav nav-tabs">
       <li class="active"><a href="#change-password" data-toggle="tab">Change Password</a></li>
       <li><a href="#profile-information" data-toggle="tab">Profile Information</a></li>
@@ -58,7 +66,7 @@
             <label for="confirmNewPassword" class="control-label col-xs-3">Confirm New Password:</label>
 
             <div class="col-xs-4">
-              <s:password id="confirmNewPassword" name="confirmNewPassword" cssClass="form-control" theme="simple" />
+              <s:password id="confirmNewPassword" cssClass="form-control" theme="simple" />
             </div>
           </div>
 
