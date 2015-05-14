@@ -160,6 +160,17 @@ $(document).ready(function() {
                         return data;
                     };
                     break;
+                case "similarityCutoff":
+                    column["render"] = function(data, type) {
+                        if (data === 99999) {
+                            if (type === "display") {
+                                return '<span class="text-muted">Not used</span>';
+                            }
+                            return "Not used";
+                        }
+                        return data;
+                    };
+                    break;
                 case "externalPredictionAccuracy":
                     // for single-fold datasets the property is "externalPredictionAccuracy",
                     // but for N-fold datasets the property is "externalPredictionAccuracyAvg"
