@@ -1,6 +1,8 @@
 package edu.unc.ceccr.chembench.utilities;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
@@ -643,17 +645,19 @@ public class PopulateDataObjects {
                 logger.error(e);
             }
 
-            if (predictions != null) {
-                for (Prediction p : predictions) {
-                    String predictorNames = "";
-                    String[] predictorIds = p.getPredictorIds().split("\\s+");
-                    for (int i = 0; i < predictorIds.length; i++) {
-                        predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
-                    }
-                    p.setPredictorNames(predictorNames);
-                    if (p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null) {
-                        p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getName());
-                    }
+            for (Prediction p : predictions) {
+                Set<String> predictorNameSet = Sets.newHashSet();
+                String[] predictorIds = p.getPredictorIds().split("\\s+");
+                for (int i = 0; i < predictorIds.length; i++) {
+                    Predictor predictor = getPredictorById(Long.parseLong(predictorIds[i]), session);
+                    predictorNameSet.add(
+                            String.format("%s (%s,%s)", predictor.getName(), predictor.getDescriptorGeneration(),
+                                    predictor.getModelMethod()));
+                }
+                String predictorNames = Joiner.on(";").join(predictorNameSet);
+                p.setPredictorNames(predictorNames);
+                if (p.getDatasetId() != null && getDataSetById(p.getDatasetId(), session) != null) {
+                    p.setDatasetDisplay(getDataSetById(p.getDatasetId(), session).getName());
                 }
             }
         } catch (Exception e) {
@@ -925,18 +929,20 @@ public class PopulateDataObjects {
             logger.error(e);
         }
 
-        String predictorNames = "";
+        Set<String> predictorNameSet = Sets.newHashSet();
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
             Long predictorId = Long.parseLong(predictorIds[i]);
             Predictor p = getPredictorById(predictorId, session);
             if (p != null) {
-                predictorNames += (p.getName() + " ");
+                predictorNameSet.add(
+                        String.format("%s (%s,%s)", p.getName(), p.getDescriptorGeneration(), p.getModelMethod()));
             } else {
                 logger.warn(String.format("Expected predictor %d for prediction %d " + "does not exist", predictorId,
                         predictionId));
             }
         }
+        String predictorNames = Joiner.on(";").join(predictorNameSet);
         prediction.setPredictorNames(predictorNames);
         prediction.setDatabase(prediction.getDatabase());
 
@@ -959,11 +965,14 @@ public class PopulateDataObjects {
             logger.error(e);
         }
 
-        String predictorNames = "";
+        Set<String> predictorNameSet = Sets.newHashSet();
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
-            predictorNames += getPredictorById(Long.parseLong(predictorIds[i]), session).getName() + " ";
+            Predictor p = getPredictorById(Long.parseLong(predictorIds[i]), session);
+            predictorNameSet.add(
+                    String.format("%s (%s,%s)", p.getName(), p.getDescriptorGeneration(), p.getModelMethod()));
         }
+        String predictorNames = Joiner.on(";").join(predictorNameSet);
         prediction.setPredictorNames(predictorNames);
         prediction.setDatabase(prediction.getDatabase());
 

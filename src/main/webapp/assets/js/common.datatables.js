@@ -107,6 +107,23 @@ $(document).ready(function() {
                         return data;
                     };
                     break;
+                case "predictorNames":
+                    column["render"] = function(data, type) {
+                        if (data) {
+                            var models = [];
+                            $.each(data.split(";"), function(_, p) {
+                                // raw format: "MRP3x-DragonH-RF (DRAGONH,RANDOMFOREST)"
+                                var match = /(.+) \((.+),(.+)\)/.exec(p);
+                                if (match !== null) {
+                                    models.push(match[1] + " (" + formatAvailableDescriptors(match[2]) + ", " +
+                                                formatModelingMethod(match[3]) + ")");
+                                }
+                            });
+                            return models.join((type === "display") ? "<br>" : " ");
+                        }
+                        return data;
+                    };
+                    break;
                 case "jobType":
                     column["render"] = function(data, type, row) {
                         if (type === "display") {
