@@ -58,22 +58,22 @@ $(document).ready(function() {
                             var downloadLink;
                             if (objectType === "dataset") {
                                 downloadLink = '<a href="datasetFilesServlet?' + $.param({
-                                    "datasetName": data,
-                                    "user": row["userName"]
-                                }) + '">';
+                                        "datasetName": data,
+                                        "user": row["userName"]
+                                    }) + '">';
                             } else if (objectType === "model") {
                                 downloadLink = '<a href="projectFilesServlet?' + $.param({
-                                    "project": data,
-                                    "user": row["userName"],
-                                    "projectType": "modeling"
-                                }) + '">';
+                                        "project": data,
+                                        "user": row["userName"],
+                                        "projectType": "modeling"
+                                    }) + '">';
                             } else if (objectType === "prediction") {
                                 downloadLink = '<a href="fileServlet?' + $.param({
-                                    "id": row["id"],
-                                    "user": row["userName"],
-                                    "jobType": "PREDICTION",
-                                    "file": "predictionAsCsv"
-                                }) + '">';
+                                        "id": row["id"],
+                                        "user": row["userName"],
+                                        "jobType": "PREDICTION",
+                                        "file": "predictionAsCsv"
+                                    }) + '">';
                             }
 
                             var viewAction = "view";
@@ -125,7 +125,7 @@ $(document).ready(function() {
                     };
                     break;
                 case "jobType":
-                    column["render"] = function(data, type, row) {
+                    column["render"] = function(data, type) {
                         if (type === "display") {
                             return formatJobType(data);
                         }
@@ -247,8 +247,8 @@ $(document).ready(function() {
             "columns": columns,
             "scrollY": "300px",
             "scrollCollapse": true,
-            "createdRow": function(row, data) {
-                var row = $(row);
+            "createdRow": function(tr, data) {
+                var row = $(tr);
                 addRowHighlighting(row);
 
                 if (objectType === "dataset") {
@@ -283,7 +283,7 @@ $(document).ready(function() {
                                     });
                                 }
                             }).fail(function(xhr) {
-                                var errorText = $(xhr.responseText).find("#errors").text().trim()
+                                var errorText = $(xhr.responseText).find("#errors").text().trim();
                                 bootbox.alert("Error deleting " + objectType + ":<br><br>" + errorText);
                             });
                         }
