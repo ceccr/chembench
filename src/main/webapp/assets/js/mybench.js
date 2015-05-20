@@ -11,7 +11,6 @@ $(document).ready(function() {
     $(".nav-tabs a").on("shown.bs.tab", function(e) {
         var tabHash = e.target.hash;
         window.location.hash = tabHash;
-        window.scrollTo(0, 0);
         $(tabHash).find("table.dataTable").DataTable().columns.adjust();
     });
 
