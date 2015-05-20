@@ -114,6 +114,19 @@ input[type="checkbox"], input[type="radio"] {
 }
 /* end home */
 
+/* mybench */
+#jobs-queue-refresh {
+    margin-right: 0.5em;
+}
+
+#autorefresh-interval {
+    display: inline;
+    width: 90px;
+    padding: 5px;
+    margin-left: 0.5em;
+}
+/* end mybench */
+
 /* dataset */
 .paper-reference-input-wrapper {
     padding-top: 0.7em;

@@ -33,11 +33,22 @@
 
     <div class="tab-content">
       <div id="jobs" class="tab-pane active">
-        <h3>
-          Job Queue
-          <button id="jobs-queue-refresh" class="btn btn-primary">
-            <span class="glyphicon glyphicon-refresh"></span> Refresh
-          </button>
+        <h3>Job Queue
+
+          <div class="header-extras">
+            <button id="jobs-queue-refresh" class="btn btn-sm btn-primary has-spinner">
+              <span class="spinner"><span class="glyphicon glyphicon-refresh fa-spin"></span></span>Refresh
+            </button>
+
+            Auto-refresh every:
+            <select id="autorefresh-interval" class="form-control input-sm">
+              <option value="5">5 s</option>
+              <option value="15" selected="selected">15 s</option>
+              <option value="30">30 s</option>
+              <option value="60">60 s</option>
+              <option value="0">(Disabled)</option>
+            </select>
+          </div>
         </h3>
 
         <p class="margin-below">

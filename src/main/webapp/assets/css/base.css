@@ -55,6 +55,12 @@ footer {
 }
 /* end userbox and links */
 
+.header-extras {
+    float: right;
+    display: inline;
+    font-size: small;
+}
+
 span[title] {
     cursor: help;
     border-bottom: 1px dotted #777;
@@ -88,3 +94,24 @@ p.bg-primary, p.bg-success, p.bg-info, p.bg-warning, p.bg-danger {
     margin-left: -1.5em;
     color: #777;
 }
+
+/* buttons with spinners */
+.spinner {
+    display: inline-block;
+    width: 0;
+    opacity: 0;
+}
+
+.has-spinner.active {
+    cursor: progress;
+}
+
+.has-spinner.active .spinner {
+    opacity: 1;
+}
+
+.has-spinner.btn.active .spinner {
+    width: 13px;
+    margin-right: 5px;
+}
+/* end buttons with spinners */

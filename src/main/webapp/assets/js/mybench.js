@@ -1,3 +1,28 @@
+function clearRefreshingState() {
+    var button = $("#jobs-queue-refresh");
+    button.html(button.html().replace("Refreshing...", "Refresh")).removeClass("active disabled").blur();
+}
+
+function refreshJobQueues() {
+    var button = $("#jobs-queue-refresh");
+    button.addClass("active disabled").html(button.html().replace("Refresh", "Refreshing..."));
+
+    var xhrs = [];
+    var start = Date.now();
+    $("#jobs").find("table.datatable[data-url]").DataTable().one("xhr", function(_, _, _, xhr) {
+        xhrs.push(xhr);
+    }).ajax.reload();
+
+    $.when.apply(this, xhrs).done(function() {
+        var elapsed = Date.now() - start;
+        if (elapsed < 1000) {
+            setTimeout(clearRefreshingState, 1000 - elapsed);
+        } else {
+            clearRefreshingState();
+        }
+    });
+}
+
 $(document).ready(function() {
     $(".nav-list li").removeClass("active");
     $("#nav-button-mybench").addClass("active");
@@ -15,8 +40,20 @@ $(document).ready(function() {
     });
 
     $("#jobs-queue-refresh").click(function() {
-        // currently the job queue refresh button only refreshes the page;
-        // it should ideally make an ajax request and repopulate the page with the new data
-        location.reload(true);
+        refreshJobQueues();
+    });
+
+    var intervalSelect = $("#autorefresh-interval");
+    var interval = intervalSelect.find(":selected").val(); // in seconds
+    var refreshTask = setInterval(refreshJobQueues, interval * 1000);
+
+    intervalSelect.change(function() {
+        var interval = $(this).find(":selected").val();
+        if (refreshTask) {
+            clearInterval(refreshTask);
+        }
+        if (interval != 0) {
+            refreshTask = setInterval(refreshJobQueues, interval * 1000);
+        }
     });
 });
