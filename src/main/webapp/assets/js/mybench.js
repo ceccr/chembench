@@ -9,7 +9,7 @@ function refreshJobQueues() {
 
     var xhrs = [];
     var start = Date.now();
-    $("#jobs").find("table.datatable[data-url]").DataTable().one("xhr", function(_, _, _, xhr) {
+    $("table.datatable[data-url]").DataTable().one("xhr", function(_, _, _, xhr) {
         xhrs.push(xhr);
     }).ajax.reload();
 
