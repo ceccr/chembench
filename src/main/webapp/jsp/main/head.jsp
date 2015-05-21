@@ -6,7 +6,10 @@
 <link rel="stylesheet"
       href="https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css">
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="/assets/css/style.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navigation.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/tables.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/page.css">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
