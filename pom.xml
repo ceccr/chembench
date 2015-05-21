@@ -175,13 +175,6 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
                 <configuration>
                     <path>/</path>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.slf4j</groupId>
-                        <artifactId>slf4j-simple</artifactId>
-                        <version>1.7.7</version>
-                    </dependency>
-                </dependencies>
             </plugin>
 
             <plugin>
