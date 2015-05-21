@@ -1,3 +1,7 @@
+$.fn.exists = function () {
+    return this.length !== 0;
+};
+
 String.prototype.toProperCase = function() {
     return this.replace(/\b\w+/g, function(s) {
         return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();

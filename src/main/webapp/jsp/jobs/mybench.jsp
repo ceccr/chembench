@@ -71,7 +71,7 @@
                 <th data-property="jobType">Job Type</th>
                 <th data-property="timeCreated" class="date-created">Date</th>
                 <th data-property="message">Status</th>
-                <th data-property="cancel" class="unsortable"></th>
+                <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
               </tr>
               </thead>
               <tbody></tbody>
@@ -93,7 +93,7 @@
                 <th data-property="jobType">Job Type</th>
                 <th data-property="timeCreated" class="date-created">Date</th>
                 <th data-property="message">Status</th>
-                <th data-property="cancel" class="unsortable"></th>
+                <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
               </tr>
               </thead>
               <tbody></tbody>
@@ -106,15 +106,15 @@
             <h4>Jobs with Errors</h4>
           </div>
           <div class="panel-body">
-            <table class="table table-hover datatable"
-                   data-url="<s:url action="getErrorJobs" namespace="/api" />" data-object-type="job">
+            <table class="table table-hover datatable" data-url="<s:url action="getErrorJobs" namespace="/api" />"
+                   data-object-type="job">
               <thead>
               <tr>
                 <th data-property="jobName">Name</th>
                 <th data-property="userName">Owner</th>
                 <th data-property="jobType">Job Type</th>
                 <th data-property="timeCreated" class="date-created">Date</th>
-                <th data-property="cancel" class="unsortable"></th>
+                <th data-property="cancel" data-transient="data-transient" class="unsortable"></th>
               </tr>
               </thead>
               <tbody></tbody>

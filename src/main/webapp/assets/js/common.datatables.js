@@ -1,8 +1,9 @@
 $(document).ready(function() {
     $("table.datatable[data-url]").each(function() {
         var table = $(this);
-        if (table.closest("#prediction-model-selection, #prediction-dataset-selection").length) {
-            var checkboxHeader = $('<th data-property="checkbox" class="unsortable"><input type="checkbox"></th>');
+        if (table.closest("#prediction-model-selection, #prediction-dataset-selection").exists()) {
+            var checkboxHeader = $('<th data-property="checkbox" data-transient="data-transient" class="unsortable">' +
+                                   '<input type="checkbox"></th>');
             checkboxHeader.prependTo(table.find("thead").find("tr"));
             checkboxHeader.find('input[type="checkbox"]').click(function() {
                 var checkAll = $(this);
@@ -36,8 +37,12 @@ $(document).ready(function() {
             var th = $(this);
             var column = {};
             var property = th.attr("data-property");
-            column["data"] = property;
+
+            if (th.not("[data-transient]").exists()) {
+                column["data"] = property;
+            }
             switch (property) {
+                // transient properties
                 case "checkbox":
                     column["data"] = function(row) {
                         return '<input type="checkbox"><input type="hidden" name="id" value="' + row["id"] + '">';
@@ -52,6 +57,25 @@ $(document).ready(function() {
                         return "";
                     };
                     break;
+                case "public-private":
+                    column["data"] = "userName";
+                    column["render"] = function(data, type) {
+                        var visibility = (data === "all-users") ? "Public" : "Private";
+                        if (type === "display") {
+                            if (data === "all-users") {
+                                return '<span class="public-private text-primary">' +
+                                       '<span class="glyphicon glyphicon-eye-open"></span>&nbsp;' + visibility +
+                                       "</span>";
+                            } else {
+                                return '<span class="public-private text-muted">' +
+                                       '<span class="glyphicon glyphicon-eye-close"></span>&nbsp;' + visibility +
+                                       "</span>";
+                            }
+                        }
+                        return visibility;
+                    };
+                    break;
+                // end transient properties
                 case "name":
                     column["render"] = function(data, type, row) {
                         if (type === "display") {
@@ -216,28 +240,6 @@ $(document).ready(function() {
                         }
                         return data;
                     };
-                    break;
-                case "userName":
-                    if (th.hasClass("public-private")) {
-                        column["render"] = function(data, type) {
-                            if (type === "display") {
-                                if (data === "all-users") {
-                                    return '<span class="public-private text-primary">' +
-                                           '<span class="glyphicon glyphicon-eye-open"></span> Public</span>';
-                                } else {
-                                    return '<span class="public-private text-muted">' +
-                                           '<span class="glyphicon glyphicon-eye-close"></span> Private</span>';
-                                }
-                            } else if (type === "filter") {
-                                if (data === "all-users") {
-                                    return "Public";
-                                } else {
-                                    return "Private";
-                                }
-                            }
-                            return data;
-                        }
-                    }
                     break;
             }
             columns.push(column);

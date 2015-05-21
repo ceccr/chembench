@@ -12,7 +12,7 @@
     <th data-property="modelMethod">Type</th>
     <th data-property="descriptorGeneration">Descriptors</th>
     <th data-property="dateCreated" class="date-created">Date</th>
-    <th data-property="userName" class="public-private">Public?</th>
+    <th data-property="public-private" data-transient="data-transient">Public?</th>
   </tr>
   </thead>
   <tbody></tbody>

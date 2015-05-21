@@ -12,7 +12,7 @@ namespace="/api" />" data-object-type="dataset">
     <th data-property="modi">MODI
       <a class="modi-help" tabindex="0" role="button"><span class="glyphicon glyphicon-question-sign"></span></a></th>
     <th data-property="createdTime" class="date-created">Date</th>
-    <th data-property="userName" class="public-private">Public?</th>
+    <th data-property="public-private" data-transient="data-transient">Public?</th>
   </tr>
   </thead>
   <tbody></tbody>
