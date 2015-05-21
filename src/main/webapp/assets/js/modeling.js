@@ -16,7 +16,7 @@ function updateDatasetInfo(idString) {
 
         var $availableDescriptors = $("#available-descriptors-deferred");
         var availableDescriptors = $availableDescriptors.text().trim().split(/\s+/);
-        if ($.inArray("UPLOADED", availableDescriptors) >= 0) {
+        if (availableDescriptors.includes("UPLOADED")) {
             var uploadedDescriptorType = dataset["uploadedDescriptorType"];
             datasetInfo.find("dl").append("<dt>Uploaded descriptor type</dt>" + "<dd>" + uploadedDescriptorType +
                                           "</dd>");

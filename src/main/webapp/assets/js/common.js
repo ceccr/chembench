@@ -12,6 +12,15 @@ String.prototype.contains = function(needle) {
     return this.indexOf(needle) > -1;
 };
 
+Array.prototype.includes = function(needle) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] === needle) {
+            return true;
+        }
+    }
+    return false;
+};
+
 /**
  * Checks if a dataset can generate a MODI value.
  *
@@ -53,7 +62,7 @@ function formatAvailableDescriptors(text) {
     var descriptorList = text.trim().split(/\s+/);
     var newDescriptorList = [];
     var dragonsPresent = false;
-    if ($.inArray("DRAGONNOH", descriptorList) >= 0 && $.inArray("DRAGONH", descriptorList) >= 0) {
+    if (descriptorList.includes("DRAGONNOH") && descriptorList.includes("DRAGONH")) {
         newDescriptorList.push("Dragon");
         dragonsPresent = true;
     }
