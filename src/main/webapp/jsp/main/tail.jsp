@@ -24,6 +24,6 @@
 <script src="https://cdn.datatables.net/1.10.7/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-<script src="/assets/js/bootbox.min.js"></script>
-<script src="/assets/js/common.js"></script>
-<script src="/assets/js/common.datatables.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/bootbox.min.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/common.js"></script>
+<script src="${pageContext.request.contextPath}/assets/js/common.datatables.js"></script>

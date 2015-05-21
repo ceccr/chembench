@@ -1,11 +1,11 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-<link rel="icon" href="theme/img/mml.ico" type="image/ico">
+<link rel="icon" href="${pageContext.request.contextPath}/assets/images/mml.ico" type="image/ico">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 <link rel="stylesheet"
       href="https://cdn.datatables.net/plug-ins/f2c75b7247b/integration/bootstrap/3/dataTables.bootstrap.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/base.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/navigation.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/tables.css">
