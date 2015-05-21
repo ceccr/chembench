@@ -209,7 +209,7 @@ $(document).ready(function() {
                             }
                             return "Not used";
                         }
-                        return data;
+                        return data + "&sigma;";
                     };
                     break;
                 case "externalPredictionAccuracy":
