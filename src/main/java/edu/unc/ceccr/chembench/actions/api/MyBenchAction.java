@@ -65,7 +65,8 @@ public class MyBenchAction extends ActionSupport {
         List<Dataset> datasets = Lists.newArrayList();
         if (user != null) {
             // return user's datasets and public datasets
-            datasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session));
+            datasets.addAll(
+                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session));
             datasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
         } else {
             // return public datasets only

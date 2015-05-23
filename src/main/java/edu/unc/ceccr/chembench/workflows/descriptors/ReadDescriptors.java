@@ -50,7 +50,7 @@ public class ReadDescriptors {
     }
 
     public static void readDescriptors(Predictor predictor, String sdfFile, List<String> descriptorNames,
-            List<Descriptors> descriptorValueMatrix) throws Exception {
+                                       List<Descriptors> descriptorValueMatrix) throws Exception {
         if (predictor.getDescriptorGeneration().equals(Constants.MOLCONNZ)) {
             ReadDescriptors.readMolconnZDescriptors(sdfFile + ".molconnz", descriptorNames, descriptorValueMatrix);
         } else if (predictor.getDescriptorGeneration().equals(Constants.CDK)) {
@@ -73,7 +73,7 @@ public class ReadDescriptors {
     }
 
     public static void readMolconnZDescriptors(String molconnZOutputFile, List<String> descriptorNames,
-            List<Descriptors> descriptorValueMatrix) throws Exception {
+                                               List<Descriptors> descriptorValueMatrix) throws Exception {
 
         logger.debug("reading MolconnZ Descriptors");
 
@@ -177,7 +177,7 @@ public class ReadDescriptors {
     }
 
     public static void readDragonDescriptors(String dragonOutputFile, List<String> descriptorNames,
-            List<Descriptors> descriptorValueMatrix) throws Exception {
+                                             List<Descriptors> descriptorValueMatrix) throws Exception {
 
         logger.debug("reading Dragon Descriptors");
 
@@ -245,7 +245,7 @@ public class ReadDescriptors {
     }
 
     public static void readMaccsDescriptors(String maccsOutputFile, List<String> descriptorNames,
-            List<Descriptors> descriptorValueMatrix) throws Exception {
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
         // generate with "maccs.sh infile.sdf outfile.maccs"
 
         logger.debug("reading Maccs Descriptors");
@@ -294,7 +294,7 @@ public class ReadDescriptors {
     }
 
     public static void readMoe2DDescriptors(String moe2DOutputFile, List<String> descriptorNames,
-            List<Descriptors> descriptorValueMatrix) throws Exception {
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading Moe2D Descriptors");
 
         File file = new File(moe2DOutputFile);
@@ -344,7 +344,7 @@ public class ReadDescriptors {
     }
 
     public static void readISIDADescriptors(String ISIDAOutputFile, List<String> descriptorNames,
-            List<Descriptors> descriptorValueMatrix) throws Exception {
+                                            List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("reading ISIDA Descriptors");
 
         File file = new File(ISIDAOutputFile);
@@ -385,7 +385,7 @@ public class ReadDescriptors {
     }
 
     public static void readXDescriptors(String xFile, List<String> descriptorNames,
-            List<Descriptors> descriptorValueMatrix) throws Exception {
+                                        List<Descriptors> descriptorValueMatrix) throws Exception {
         logger.debug("Trying to read uploaded descriptors");
         File file = new File(xFile);
         if (!file.exists() || file.length() == 0) {

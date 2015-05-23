@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@SuppressWarnings("serial")
+
 public class ImageServlet extends HttpServlet {
 
     private static Logger logger = Logger.getLogger(ImageServlet.class.getName());
@@ -84,7 +84,7 @@ public class ImageServlet extends HttpServlet {
         }
 
         try (BufferedInputStream input = new BufferedInputStream(new FileInputStream(imageFile));
-                BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
+             BufferedOutputStream output = new BufferedOutputStream(response.getOutputStream())) {
             int contentLength = input.available();
 
             response.reset();

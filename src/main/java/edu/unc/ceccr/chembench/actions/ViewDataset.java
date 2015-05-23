@@ -1,18 +1,8 @@
 package edu.unc.ceccr.chembench.actions;
 
-import java.io.File;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.apache.log4j.Logger;
-
 import com.google.common.collect.Lists;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.Compound;
 import edu.unc.ceccr.chembench.persistence.Dataset;
@@ -20,8 +10,16 @@ import edu.unc.ceccr.chembench.persistence.User;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
 import edu.unc.ceccr.chembench.workflows.visualization.ActivityHistogram;
+import org.apache.log4j.Logger;
 
-@SuppressWarnings("serial")
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
 public class ViewDataset extends ActionSupport {
 
     private static Logger logger = Logger.getLogger(ViewDataset.class.getName());
@@ -65,8 +63,8 @@ public class ViewDataset extends ActionSupport {
             dataset.save();
         }
 
-        Path datasetDirPath = Paths.get(Constants.CECCR_USER_BASE_PATH, dataset.getUserName(), "DATASETS",
-                dataset.getName());
+        Path datasetDirPath =
+                Paths.get(Constants.CECCR_USER_BASE_PATH, dataset.getUserName(), "DATASETS", dataset.getName());
 
         if (dataset.getDatasetType().startsWith(Constants.MODELING)) {
             if (dataset.getSplitType().equals(Constants.NFOLD)) {
@@ -77,8 +75,8 @@ public class ViewDataset extends ActionSupport {
                 for (int i = 1; i <= numFolds; i++) {
                     foldNumbers.add(i);
                     Path foldFilePath = datasetDirPath.resolve(dataset.getActFile() + ".fold" + i);
-                    HashMap<String, String> actIdsAndValues = DatasetFileOperations
-                            .getActFileIdsAndValues(foldFilePath.toString());
+                    HashMap<String, String> actIdsAndValues =
+                            DatasetFileOperations.getActFileIdsAndValues(foldFilePath.toString());
                     int numExternalInThisFold = actIdsAndValues.size();
                     if (largestFoldSize == 0 || largestFoldSize < numExternalInThisFold) {
                         largestFoldSize = numExternalInThisFold;
@@ -95,8 +93,8 @@ public class ViewDataset extends ActionSupport {
             } else {
                 // load external compounds from file
                 externalCompounds = Lists.newArrayList();
-                HashMap<String, String> actIdsAndValues = DatasetFileOperations.getActFileIdsAndValues(datasetDirPath
-                        .resolve(Constants.EXTERNAL_SET_A_FILE).toString());
+                HashMap<String, String> actIdsAndValues = DatasetFileOperations
+                        .getActFileIdsAndValues(datasetDirPath.resolve(Constants.EXTERNAL_SET_A_FILE).toString());
                 List<String> compoundIds = Lists.newArrayList(actIdsAndValues.keySet());
                 for (String compoundId : compoundIds) {
                     Compound c = new Compound();
@@ -116,11 +114,11 @@ public class ViewDataset extends ActionSupport {
         datasetCompounds = Lists.newArrayList();
         List<String> compoundIDs = null;
         if (dataset.getXFile() != null && !dataset.getXFile().isEmpty()) {
-            compoundIDs = DatasetFileOperations
-                    .getXCompoundNames(datasetDirPath.resolve(dataset.getXFile()).toString());
+            compoundIDs =
+                    DatasetFileOperations.getXCompoundNames(datasetDirPath.resolve(dataset.getXFile()).toString());
         } else {
-            compoundIDs = DatasetFileOperations.getSDFCompoundNames(datasetDirPath.resolve(dataset.getSdfFile())
-                    .toString());
+            compoundIDs =
+                    DatasetFileOperations.getSDFCompoundNames(datasetDirPath.resolve(dataset.getSdfFile()).toString());
         }
 
         for (String cid : compoundIDs) {
@@ -131,9 +129,8 @@ public class ViewDataset extends ActionSupport {
 
         // get activity values (if applicable)
         if (dataset.getDatasetType().startsWith(Constants.MODELING)) {
-            HashMap<String, String> actIdsAndValues =
-                    DatasetFileOperations.getActFileIdsAndValues(datasetDirPath
-                            .resolve(dataset.getActFile()).toString());
+            HashMap<String, String> actIdsAndValues = DatasetFileOperations
+                    .getActFileIdsAndValues(datasetDirPath.resolve(dataset.getActFile()).toString());
 
             for (Compound c : datasetCompounds) {
                 c.setActivityValue(actIdsAndValues.get(c.getCompoundId()));
@@ -297,10 +294,11 @@ public class ViewDataset extends ActionSupport {
             return "badrequest";
         }
 
-        Path foldFilePath = Paths.get(Constants.CECCR_USER_BASE_PATH, dataset.getUserName(), "DATASETS",
-                dataset.getName(), dataset.getActFile() + ".fold" + foldNumber);
-        Map<String, String> foldCompoundsAndActivities = DatasetFileOperations.getActFileIdsAndValues(foldFilePath
-                .toString());
+        Path foldFilePath =
+                Paths.get(Constants.CECCR_USER_BASE_PATH, dataset.getUserName(), "DATASETS", dataset.getName(),
+                        dataset.getActFile() + ".fold" + foldNumber);
+        Map<String, String> foldCompoundsAndActivities =
+                DatasetFileOperations.getActFileIdsAndValues(foldFilePath.toString());
         foldCompounds = Lists.newArrayList();
         for (String name : foldCompoundsAndActivities.keySet()) {
             Compound c = new Compound();

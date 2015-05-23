@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
-@SuppressWarnings("serial")
+
 public class DatasetFilesServlet extends HttpServlet {
 
     private static Logger logger = Logger.getLogger(DatasetFilesServlet.class.getName());

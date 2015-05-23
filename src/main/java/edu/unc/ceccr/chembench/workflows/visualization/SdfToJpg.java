@@ -18,9 +18,9 @@ public class SdfToJpg {
 
     public static void makeSketchFiles(String filePath, String fileName, String structuresDir, String sketchesDir)
             throws Exception {
-        String command = String.format("molconvert -Y -g -m jpeg:w300,Q95 %s -o %s",
-                Paths.get(filePath, fileName).toString(),
-                Paths.get(filePath, sketchesDir, "i.jpg").toString());
+        String command =
+                String.format("molconvert -Y -g -m jpeg:w300,Q95 %s -o %s", Paths.get(filePath, fileName).toString(),
+                        Paths.get(filePath, sketchesDir, "i.jpg").toString());
         RunExternalProgram.runCommandAndLogOutput(command, filePath, "molconvertLog");
 
         //Split the input SDF (lots of compounds) into separate SDFs (1 compound each).

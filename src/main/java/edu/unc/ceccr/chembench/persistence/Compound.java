@@ -1,7 +1,6 @@
 package edu.unc.ceccr.chembench.persistence;
 
 
-@SuppressWarnings("serial")
 public class Compound implements java.io.Serializable {
 
     //not yet saved to DB, but someday it will be

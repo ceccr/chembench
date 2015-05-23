@@ -57,8 +57,8 @@ public class DeleteAction extends ActionSupport {
             logger.debug("Prediction id: " + userPredictions.get(i).getDatasetId() + " dataset id: " + ds.getId());
             if (userPredictions.get(i).getDatasetId() != null && userPredictions.get(i).getDatasetId()
                     .equals(ds.getId())) {
-                errorStrings.add(
-                        "The prediction '" + userPredictions.get(i).getName() + "' depends on this dataset. Please " +
+                errorStrings.add("The prediction '" + userPredictions.get(i).getName()
+                                + "' depends on this dataset. Please " +
                                 "delete it first.\n");
             }
         }

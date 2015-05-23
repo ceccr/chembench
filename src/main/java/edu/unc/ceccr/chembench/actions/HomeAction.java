@@ -26,7 +26,6 @@ import java.util.Iterator;
 import java.util.List;
 //struts2
 
-@SuppressWarnings("serial")
 
 public class HomeAction extends ActionSupport implements ServletResponseAware, ServletRequestAware {
     private static Logger logger = Logger.getLogger(HomeAction.class.getName());
@@ -289,8 +288,8 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
         if (user != null) {
             logger.debug("Logged out: " + user.getUserName());
 
-            if (user.getUserName().contains("guest") && context.getSession().get("userType") != null && ((String) context
-                    .getSession().get("userType")).equals("guest")) {
+            if (user.getUserName().contains("guest") && context.getSession().get("userType") != null
+                    && ((String) context.getSession().get("userType")).equals("guest")) {
                 deleteGuest(user);
             }
             context.getSession().remove("user");
@@ -562,13 +561,13 @@ public class HomeAction extends ActionSupport implements ServletResponseAware, S
         this.loginFailed = loginFailed;
     }
 
+    public HttpServletRequest getServletRequest() {
+        return this.request;
+    }
+
     @Override
     public void setServletRequest(HttpServletRequest request) {
         this.request = request;
-    }
-
-    public HttpServletRequest getServletRequest() {
-        return this.request;
     }
 
     public String getIpAddress() {

@@ -13,7 +13,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "cbench_user")
-@SuppressWarnings("serial")
+
 public class User implements java.io.Serializable {
 
     //system-relevant stuff

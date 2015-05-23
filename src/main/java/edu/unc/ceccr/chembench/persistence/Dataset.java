@@ -1,5 +1,24 @@
 package edu.unc.ceccr.chembench.persistence;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
+import edu.unc.ceccr.chembench.global.Constants;
+import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
+import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
+import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
+import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import weka.classifiers.Evaluation;
+import weka.classifiers.lazy.IBk;
+import weka.core.Attribute;
+import weka.core.EuclideanDistance;
+import weka.core.Instances;
+import weka.core.converters.CSVLoader;
+import weka.core.neighboursearch.KDTree;
+
+import javax.persistence.*;
 import java.io.BufferedWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -11,36 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import weka.classifiers.Evaluation;
-import weka.classifiers.lazy.IBk;
-import weka.core.Attribute;
-import weka.core.EuclideanDistance;
-import weka.core.Instances;
-import weka.core.converters.CSVLoader;
-import weka.core.neighboursearch.KDTree;
-
-import com.google.common.base.Joiner;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
-
-import edu.unc.ceccr.chembench.global.Constants;
-import edu.unc.ceccr.chembench.utilities.PopulateDataObjects;
-import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-import edu.unc.ceccr.chembench.workflows.descriptors.ReadDescriptors;
-
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "cbench_dataset")
 public class Dataset implements java.io.Serializable {
@@ -117,8 +107,8 @@ public class Dataset implements java.io.Serializable {
     }
 
     public boolean canGenerateModi() {
-        return actFile != null && !actFile.isEmpty()
-                && (availableDescriptors.contains(Constants.DRAGONH) || availableDescriptors.contains(Constants.CDK));
+        return actFile != null && !actFile.isEmpty() && (availableDescriptors.contains(Constants.DRAGONH)
+                || availableDescriptors.contains(Constants.CDK));
     }
 
     public void generateModi() throws Exception {
@@ -136,16 +126,16 @@ public class Dataset implements java.io.Serializable {
             // but use CDK as a fallback if it's not available
             if (availableDescriptors.contains(Constants.DRAGONH)) {
                 Path dragonDescriptorFile = descriptorDir.resolve(sdfFile + ".dragonH");
-                ReadDescriptors.readDragonDescriptors(dragonDescriptorFile.toString(), descriptorNames,
-                        descriptorValueMatrix);
+                ReadDescriptors
+                        .readDragonDescriptors(dragonDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
             } else if (availableDescriptors.contains(Constants.CDK)) {
                 Path cdkDescriptorFile = descriptorDir.resolve(sdfFile + ".cdk.x");
                 ReadDescriptors.readXDescriptors(cdkDescriptorFile.toString(), descriptorNames, descriptorValueMatrix);
             }
 
             // read in activities so we can append them to the input file for Weka
-            HashMap<String, String> activityMap = DatasetFileOperations.getActFileIdsAndValues(baseDir.resolve(actFile)
-                    .toString());
+            HashMap<String, String> activityMap =
+                    DatasetFileOperations.getActFileIdsAndValues(baseDir.resolve(actFile).toString());
 
             // create a csv input file for Weka with activities included
             Path wekaInputFile = Files.createTempFile(getDirectoryPath(), "weka", ".csv");
@@ -157,8 +147,8 @@ public class Dataset implements java.io.Serializable {
             writer.write(joiner.join(header));
             writer.newLine();
             for (Descriptors d : descriptorValueMatrix) {
-                List<String> values = Lists.newArrayList(Splitter.on(' ').omitEmptyStrings()
-                        .splitToList(d.getDescriptorValues()));
+                List<String> values =
+                        Lists.newArrayList(Splitter.on(' ').omitEmptyStrings().splitToList(d.getDescriptorValues()));
                 values.add(0, activityMap.get(d.getCompoundName()));
                 writer.write(joiner.join(values));
                 writer.newLine();

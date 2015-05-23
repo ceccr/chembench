@@ -2,7 +2,7 @@ package edu.unc.ceccr.chembench.persistence;
 
 import javax.persistence.*;
 
-@SuppressWarnings("serial")
+
 @Entity
 //@IdClass(PredictionValuePK.class)
 @Table(name = "cbench_predictionValue")

@@ -24,7 +24,7 @@ public class PopulateDataObjects {
     // Every time we need to get an object or set of objects from the database
     // we do it from here.
 
-    @SuppressWarnings("rawtypes")
+
     public static ArrayList populateClass(Class<?> c, Session session) {
         // gets all of any one object from the database, returns it as a list
         ArrayList list = null;
@@ -39,7 +39,7 @@ public class PopulateDataObjects {
         return list;
     }
 
-    @SuppressWarnings("rawtypes")
+
     public static ArrayList populateClassInChunks(Class<?> c, int chunkSize, int chunkIndex, Session session) {
         // gets a bunch of any one object from the database, returns it as a
         // list
@@ -61,7 +61,7 @@ public class PopulateDataObjects {
         return list;
     }
 
-    @SuppressWarnings("rawtypes")
+
     public static ArrayList getUserData(String userName, Class<?> c, Session s)
             throws ClassNotFoundException, SQLException {
         // gets any data for which there is an associated username.
@@ -650,9 +650,9 @@ public class PopulateDataObjects {
                 String[] predictorIds = p.getPredictorIds().split("\\s+");
                 for (int i = 0; i < predictorIds.length; i++) {
                     Predictor predictor = getPredictorById(Long.parseLong(predictorIds[i]), session);
-                    predictorNameSet.add(
-                            String.format("%s (%s,%s)", predictor.getName(), predictor.getDescriptorGeneration(),
-                                    predictor.getModelMethod()));
+                    predictorNameSet
+                            .add(String.format("%s (%s,%s)", predictor.getName(), predictor.getDescriptorGeneration(),
+                                            predictor.getModelMethod()));
                 }
                 String predictorNames = Joiner.on(";").join(predictorNameSet);
                 p.setPredictorNames(predictorNames);
@@ -935,8 +935,8 @@ public class PopulateDataObjects {
             Long predictorId = Long.parseLong(predictorIds[i]);
             Predictor p = getPredictorById(predictorId, session);
             if (p != null) {
-                predictorNameSet.add(
-                        String.format("%s (%s,%s)", p.getName(), p.getDescriptorGeneration(), p.getModelMethod()));
+                predictorNameSet
+                        .add(String.format("%s (%s,%s)", p.getName(), p.getDescriptorGeneration(), p.getModelMethod()));
             } else {
                 logger.warn(String.format("Expected predictor %d for prediction %d " + "does not exist", predictorId,
                         predictionId));
@@ -969,8 +969,8 @@ public class PopulateDataObjects {
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
         for (int i = 0; i < predictorIds.length; i++) {
             Predictor p = getPredictorById(Long.parseLong(predictorIds[i]), session);
-            predictorNameSet.add(
-                    String.format("%s (%s,%s)", p.getName(), p.getDescriptorGeneration(), p.getModelMethod()));
+            predictorNameSet
+                    .add(String.format("%s (%s,%s)", p.getName(), p.getDescriptorGeneration(), p.getModelMethod()));
         }
         String predictorNames = Joiner.on(";").join(predictorNameSet);
         prediction.setPredictorNames(predictorNames);

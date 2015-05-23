@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@SuppressWarnings("serial")
+
 public class ApplicationServlet extends HttpServlet {
 
     private static Logger logger = Logger.getLogger(ApplicationServlet.class.getName());

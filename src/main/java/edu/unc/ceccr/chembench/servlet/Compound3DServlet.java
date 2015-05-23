@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 
-@SuppressWarnings("serial")
+
 public class Compound3DServlet extends HttpServlet {
 
     private static Logger logger = Logger.getLogger(Compound3DServlet.class.getName());

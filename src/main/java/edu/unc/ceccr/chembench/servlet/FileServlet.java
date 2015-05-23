@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 
-@SuppressWarnings("serial")
+
 public class FileServlet extends HttpServlet {
     //used to download individual files, e.g., a job result summary.
 

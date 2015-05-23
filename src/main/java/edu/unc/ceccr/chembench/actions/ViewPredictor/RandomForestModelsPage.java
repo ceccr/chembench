@@ -174,7 +174,7 @@ public class RandomForestModelsPage extends ViewPredictorAction {
         return result;
     }
 
-    @SuppressWarnings("unused")
+
     private String loadTreeSets() throws Exception {
         String result = SUCCESS;
         String parentPredictorId = objectId;

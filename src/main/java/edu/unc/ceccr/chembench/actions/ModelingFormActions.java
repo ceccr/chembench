@@ -376,9 +376,8 @@ public class ModelingFormActions extends ActionSupport {
                 int numDescriptors = ReadDescriptors.readDescriptorNamesFromX(ds.getXFile(), datasetDir).length;
                 int numMaxDesc = Integer.parseInt(knnMaxNumDescriptors);
                 if (numDescriptors < numMaxDesc) {
-                    errorStrings.add(
-                            "Your uploaded dataset contains only " + numDescriptors + " descriptors, but you requested "
-                                    + "that each model contain up to " + numMaxDesc
+                    errorStrings.add("Your uploaded dataset contains only " + numDescriptors
+                                    + " descriptors, but you requested " + "that each model contain up to " + numMaxDesc
                                     + " descriptors. Please return to the " + "Modeling page and "
                                     + "fix your parameters.");
                     return ERROR;

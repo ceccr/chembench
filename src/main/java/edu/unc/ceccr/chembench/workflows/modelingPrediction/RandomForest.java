@@ -1,14 +1,12 @@
 package edu.unc.ceccr.chembench.workflows.modelingPrediction;
 
 import com.google.common.collect.Lists;
-
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
 import edu.unc.ceccr.chembench.utilities.FileAndDirOperations;
 import edu.unc.ceccr.chembench.utilities.RunExternalProgram;
 import edu.unc.ceccr.chembench.utilities.Utility;
 import edu.unc.ceccr.chembench.workflows.datasets.DatasetFileOperations;
-
 import org.apache.log4j.Logger;
 
 import java.io.*;

@@ -2,7 +2,7 @@ package edu.unc.ceccr.chembench.persistence;
 
 import javax.persistence.*;
 
-@SuppressWarnings("serial")
+
 @Entity
 @Table(name = "cbench_softwareLink")
 public class SoftwareLink implements java.io.Serializable {

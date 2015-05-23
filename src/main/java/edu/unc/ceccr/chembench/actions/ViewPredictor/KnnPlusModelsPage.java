@@ -129,7 +129,7 @@ public class KnnPlusModelsPage extends ViewPredictorAction {
         return result;
     }
 
-    @SuppressWarnings("unused")
+
     private String loadModelSets() {
         String result = SUCCESS;
         for (Predictor childPredictor : childPredictors) {
