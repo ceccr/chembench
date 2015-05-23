@@ -20,7 +20,7 @@ $(document).ready(function() {
                 template: '<div class="popover" role="tooltip">' +
                           '<div class="arrow"></div><div class="popover-content"></div></div>',
                 content: "The <strong>Modelability Index</strong> (MODI) is a measure of how modelable a dataset is. " +
-                         "Datasets with a MODI above " + Chembench.MODI_MODELABLE +
+                         "Datasets with a MODI above " + window.Chembench.MODI_MODELABLE +
                          " are considered modelable, and those below that threshold are considered not modelable.<br><br>" +
                          "For more information, see " +
                          '<a href="http://www.ncbi.nlm.nih.gov/pubmed/24251851" target="_blank">this citation</a>.',
@@ -50,8 +50,8 @@ $(document).ready(function() {
                     break;
                 case "cancel":
                     column["data"] = function(row) {
-                        if (Chembench.CURRENT_USER["isAdmin"] === "YES" ||
-                            (Chembench.CURRENT_USER["userName"] === row["userName"])) {
+                        if (window.Chembench.CURRENT_USER["isAdmin"] === "YES" ||
+                            (window.Chembench.CURRENT_USER["userName"] === row["userName"])) {
                             return '<a class="delete-link" href="deleteJob?id=' + row["id"] + '">cancel</a>';
                         }
                         return "";
@@ -118,7 +118,7 @@ $(document).ready(function() {
                                     '<div class="download object-action">' +
                                     '<span class="glyphicon glyphicon-save"></span>&nbsp;' + downloadLink +
                                     "Download</a></div>";
-                            var currentUser = Chembench.CURRENT_USER;
+                            var currentUser = window.Chembench.CURRENT_USER;
                             if (currentUser &&
                                 (currentUser.isAdmin === "YES" || currentUser.userName === row["userName"])) {
                                 r += '<div class="delete object-action">' +
@@ -292,7 +292,7 @@ $(document).ready(function() {
                     });
                 });
             }
-        }, Chembench.DATATABLE_OPTIONS);
+        }, window.Chembench.DATATABLE_OPTIONS);
         var dateIndex = table.find("th").filter(".date-created").index();
         if (dateIndex > -1) {
             options["order"] = [[dateIndex, "desc"]];

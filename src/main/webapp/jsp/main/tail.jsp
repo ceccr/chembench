@@ -1,23 +1,28 @@
 <script>
-  // Chembench-specific JS globals
-  var Chembench = {};
-  Chembench.MODI_MODELABLE = <s:property value="@edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE" />;
-  Chembench.DATATABLE_OPTIONS = {
-    "columnDefs": [{
-      orderable: false,
-      targets: "unsortable"
-    }],
-    "paging": false,
-    "dom": "lifrtp",
-    "infoCallback": function(_, _, _, max, total) {
-      var totalNoun = (total === 1) ? "entry" : "entries";
-      var maxNoun = (max === 1) ? "entry" : "entries";
-      if (max !== total) {
-        return "Showing " + total + " " + totalNoun + " (filtered from " + max + " total " + maxNoun + ")";
+  (function() {
+    "use strict";
+
+    // Chembench-specific JS globals
+    window.Chembench = {
+      "MODI_MODELABLE": "<s:property value="@edu.unc.ceccr.chembench.global.Constants@MODI_MODELABLE" />",
+      "DATATABLE_OPTIONS": {
+        "columnDefs": [{
+          orderable: false,
+          targets: "unsortable"
+        }],
+        "paging": false,
+        "dom": "lifrtp",
+        "infoCallback": function(settings, start, end, max, total) {
+          var totalNoun = (total === 1) ? "entry" : "entries";
+          var maxNoun = (max === 1) ? "entry" : "entries";
+          if (max !== total) {
+            return "Showing " + total + " " + totalNoun + " (filtered from " + max + " total " + maxNoun + ")";
+          }
+          return "Showing " + max + " " + maxNoun;
+        }
       }
-      return "Showing " + max + " " + maxNoun;
-    }
-  };
+    };
+  })();
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>

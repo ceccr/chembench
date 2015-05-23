@@ -99,7 +99,7 @@ function formatModi(text, dataset) {
         var value = parseFloat(text);
         var cssClass = "text-danger";
         var tooltip = "Not modelable";
-        if (value >= Chembench.MODI_MODELABLE) {
+        if (value >= window.Chembench.MODI_MODELABLE) {
             cssClass = "text-success";
             tooltip = "Modelable";
         }
@@ -133,7 +133,7 @@ function addRowHighlighting(row) {
 
 $(document).ready(function() {
     $.get("api/getCurrentUser", function(data) {
-        Chembench.CURRENT_USER = data;
+        window.Chembench.CURRENT_USER = data;
     });
 
     $(".nav-tabs li a").click(function() {

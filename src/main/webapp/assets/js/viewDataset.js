@@ -118,7 +118,7 @@ $(document).ready(function() {
         template: '<div class="popover" role="tooltip">' +
                   '<div class="arrow"></div><div class="popover-content"></div></div>',
         content: "The <strong>Modelability Index</strong> (MODI) is a measure of how modelable a dataset is. " +
-                 "Datasets with a MODI above " + Chembench.MODI_MODELABLE +
+                 "Datasets with a MODI above " + window.Chembench.MODI_MODELABLE +
                  " are considered modelable, and those below that threshold are considered not modelable.<br><br>" +
                  "For more information, see " +
                  '<a href="http://www.ncbi.nlm.nih.gov/pubmed/24251851" target="_blank">this citation</a>.',
@@ -157,11 +157,11 @@ $(document).ready(function() {
                 "924",
                 "9.0.28",
                 false,
-                Chembench.Heatmap.flashvars,
-                Chembench.Heatmap.params,
-                Chembench.Heatmap.attributes);
+                window.Chembench.Heatmap.flashvars,
+                window.Chembench.Heatmap.params,
+                window.Chembench.Heatmap.attributes);
         }
     });
 
-    $("table.datatable").DataTable(Chembench.DATATABLE_OPTIONS);
+    $("table.datatable").DataTable(window.Chembench.DATATABLE_OPTIONS);
 });

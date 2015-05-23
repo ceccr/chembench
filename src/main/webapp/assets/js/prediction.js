@@ -95,7 +95,7 @@ $(document).ready(function() {
             $.post(form.attr("action") + "?" + form.serialize());
         });
 
-        window.location = Chembench.MYBENCH_URL;
+        window.location = window.Chembench.MYBENCH_URL;
     });
 
     $("#prediction-model-selection, #prediction-dataset-selection").find("table").DataTable().on("draw", function() {
