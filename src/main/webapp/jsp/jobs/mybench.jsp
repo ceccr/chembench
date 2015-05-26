@@ -43,8 +43,8 @@
             Auto-refresh every:
             <select id="autorefresh-interval" class="form-control input-sm">
               <option value="5">5 s</option>
-              <option value="15" selected="selected">15 s</option>
-              <option value="30">30 s</option>
+              <option value="15">15 s</option>
+              <option value="30" selected="selected">30 s</option>
               <option value="60">60 s</option>
               <option value="0">(Disabled)</option>
             </select>
