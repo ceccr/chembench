@@ -1,5 +1,8 @@
 package edu.unc.ceccr.chembench.workflows.download;
 
+import com.google.common.base.Function;
+import com.google.common.base.Joiner;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import edu.unc.ceccr.chembench.global.Constants;
 import edu.unc.ceccr.chembench.persistence.*;
@@ -12,9 +15,11 @@ import org.hibernate.Session;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 public class WriteCsv {
@@ -84,92 +89,91 @@ public class WriteCsv {
         out.close();
     }
 
-    public static void writePredictionValuesAsCSV(Long predictionId) throws Exception {
+    public static void writePredictionValuesAsCSV(Long predictionId) {
         logger.debug(String.format("Writing out prediction %d as CSV", predictionId));
-        Session s = HibernateUtil.getSession();
-        Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
+        Session s = null;
+        try {
+            s = HibernateUtil.getSession();
+            Prediction prediction = PopulateDataObjects.getPredictionById(predictionId, s);
 
-        String outfileName = Constants.CECCR_USER_BASE_PATH + prediction.getUserName() + "/PREDICTIONS/" +
-                prediction.getName() + "/" + prediction.getName() + "-prediction-values.csv";
-        if (new File(outfileName).exists()) {
-            FileAndDirOperations.deleteFile(outfileName);
-        }
-        BufferedWriter out = new BufferedWriter(new FileWriter(outfileName));
+            String outfileName = Paths.get(Constants.CECCR_USER_BASE_PATH, prediction.getUserName(), "PREDICTIONS",
+                    prediction.getName(), prediction.getName() + "-prediction-values.csv").toString();
+            if (new File(outfileName).exists()) {
+                FileAndDirOperations.deleteFile(outfileName);
+            }
 
-        List<Predictor> predictors = Lists.newArrayList();
-        String[] predictorIdArray = prediction.getPredictorIds().split("\\s+");
-        for (int i = 0; i < predictorIdArray.length; i++) {
-            predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(predictorIdArray[i]), s));
-        }
+            List<Predictor> predictors = Lists.newArrayList();
+            String[] predictorIdArray = prediction.getPredictorIds().split("\\s+");
+            for (String aPredictorIdArray : predictorIdArray) {
+                predictors.add(PopulateDataObjects.getPredictorById(Long.parseLong(aPredictorIdArray), s));
+            }
 
-        String predictorNames = "";
-        for (Predictor p : predictors) {
-            predictorNames += p.getName() + " ";
-        }
+            String predictorNames =
+                    Joiner.on(" ").join(Iterables.transform(predictors, new Function<Predictor, String>() {
+                        public String apply(Predictor p) {
+                            return p.getName();
+                        }
+                    }));
 
-        out.write("Chembench Prediction Output\n" + "User Name," + prediction.getUserName() + "\n" + "Prediction Name,"
-                + prediction.getName() + "\n" + "Predictors Used," + predictorNames + "\n" + "Similarity Cutoff,"
-                + prediction.getSimilarityCutoff() + "\n" + "Prediction Dataset," + prediction.getDatasetDisplay()
-                + "\n" + "Predicted Date," + Utility.formatDate(prediction.getDateCreated()) + "\n" + "Download Date,"
-                + new Date() + "\n" + "Web Site," + Constants.WEBADDRESS + "\n");
-
-		/*
-        //Option 1: Show everything in a big horizontal table
-		String predictionHeader = "";
-		for(Predictor p: predictors){
-			ArrayList<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(p, s);
-			if(childPredictors.isEmpty()){
-				predictionHeader +=
-					p.getName() + " Predicted Value," +
-					p.getName() + " Standard Deviation," +
-					p.getName() + " Predicting Models," +
-					p.getName() + " Total Models,";
-			}
-			else{
-				predictionHeader +=
-					p.getName() + " Predicted Value," +
-					p.getName() + " Standard Deviation," +
-					p.getName() + " Predicting Folds," +
-					p.getName() + " Total Folds,";
-			}
-		}
-		predictionHeader = predictionHeader.substring(0, predictionHeader.lastIndexOf(","));
-		out.write("Compound ID," + predictionHeader + "\n");
-
-		ArrayList<CompoundPredictions> compoundPredictionValues = PopulateDataObjects.populateCompoundPredictionValues
-		(prediction.getDatasetId(), predictionId, s);
-		for(CompoundPredictions cp: compoundPredictionValues){
-			out.write(cp.getCompound().replaceAll(",", "_") + ",");
-			String predictionValues = "";
-			for(PredictionValue pv : cp.getPredictionValues()){
-				predictionValues += pv.getPredictedValue() + "," + pv.getStandardDeviation() + ",
-				" + pv.getNumModelsUsed() + "," + pv.getNumTotalModels() + ",";
-			}
-			predictionValues = predictionValues.substring(0, predictionValues.lastIndexOf(","));
-			out.write(predictionValues + "\n");
-		}
-		*/
-
-        //Option 2: Show predictor-by-predictor output, stacked vertically
-        for (Predictor p : predictors) {
-            List<PredictionValue> predictionValues =
-                    PopulateDataObjects.getPredictionValuesByPredictionIdAndPredictorId(predictionId, p.getId(), s);
-
-            String predictorName = p.getName();
-            out.write("\nPredictor," + predictorName + "\n" + "Compound Name," + "Predicted Value,"
-                    + "Standard Deviation," + "Models Used," + "Models In Predictor" + "\n");
-
-            Iterator<PredictionValue> it = predictionValues.iterator();
-            while (it.hasNext()) {
-                PredictionValue pv = it.next();
-                if (pv.getPredictorId().equals(p.getId())) {
-                    out.write(pv.getCompoundName().replaceAll(",", "_") + "," + pv.getPredictedValue() + ",");
-                    out.write(pv.getStandardDeviation() + "," + pv.getNumModelsUsed() + "," + pv.getNumTotalModels()
-                            + "\n");
+            try (BufferedWriter out = new BufferedWriter(new FileWriter(outfileName))) {
+                String[][] header = {{"Chembench Prediction Output"}, {"User Name", prediction.getUserName()},
+                        {"Prediction Name", prediction.getName()}, {"Predictors Used", predictorNames},
+                        {"Similarity Cutoff", prediction.getSimilarityCutoff().toString()},
+                        {"Prediction Dataset", prediction.getDatasetDisplay()},
+                        {"Predicted Date", Utility.formatDate(prediction.getDateCreated())},
+                        {"Download Date", new Date().toString()}, {"Website", Constants.WEBADDRESS}};
+                for (String[] line : header) {
+                    out.write(Joiner.on(",").join(line));
+                    out.newLine();
                 }
+
+                // Option 1: Show everything in a big horizontal table
+                List<String> predictionHeader = Lists.newArrayList("Compound ID");
+                for (Predictor p : predictors) {
+                    List<Predictor> childPredictors = PopulateDataObjects.getChildPredictors(p, s);
+                    if (childPredictors.isEmpty()) {
+                        predictionHeader.addAll(Lists
+                                .newArrayList(p.getName() + " Predicted Value", p.getName() + " Standard Deviation",
+                                        p.getName() + " Predicting Models", p.getName() + " Total Models"));
+                    } else {
+                        predictionHeader.addAll(Lists.newArrayList(p.getName() + " Predicted Value",
+                                p.getName() + " " + "Standard Deviation", p.getName() + " Predicting Folds",
+                                p.getName() + " Total Folds"));
+                    }
+                    predictionHeader.add(p.getName() + " σ");
+                }
+                out.write(Joiner.on(",").join(predictionHeader));
+                out.newLine();
+
+                List<CompoundPredictions> compoundPredictionValues = PopulateDataObjects
+                        .populateCompoundPredictionValues(prediction.getDatasetId(), predictionId, s);
+                for (CompoundPredictions cp : compoundPredictionValues) {
+                    out.write(cp.getCompound().replaceAll(",", "_") + ",");
+
+                    List<Object> predictionValues = Lists.newArrayList();
+                    for (PredictionValue pv : cp.getPredictionValues()) {
+                        if (pv.getZScore() > prediction.getSimilarityCutoff()) {
+                            predictionValues.add("Above cutoff");
+                        } else {
+                            predictionValues.add(pv.getPredictedValue());
+                        }
+                        predictionValues.add(pv.getStandardDeviation());
+                        predictionValues.add(pv.getNumModelsUsed());
+                        predictionValues.add(pv.getNumTotalModels());
+                        predictionValues.add(pv.getZScore());
+                    }
+                    out.write(Joiner.on(",").join(predictionValues));
+                    out.newLine();
+                }
+            } catch (IOException e) {
+                logger.error("Failed to write prediction to CSV", e);
+            }
+        } catch (ClassNotFoundException | SQLException e) {
+            logger.error("Failed to fetch prediction object or related object", e);
+        } finally {
+            if (s != null) {
+                s.close();
             }
         }
-        s.close();
-        out.close();
     }
 }

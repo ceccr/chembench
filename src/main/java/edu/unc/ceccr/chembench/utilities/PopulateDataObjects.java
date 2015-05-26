@@ -12,6 +12,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Expression;
 import org.hibernate.criterion.Order;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -101,7 +102,7 @@ public class PopulateDataObjects {
     public static List<PredictionValue> getPredictionValuesByPredictionIdAndPredictorId(Long predictionId,
                                                                                         Long predictorId,
                                                                                         Session session)
-            throws Exception {
+            throws SQLException, ClassNotFoundException {
         List<PredictionValue> predictionValues = Lists.newArrayList();
         try {
             session.beginTransaction();
@@ -130,7 +131,7 @@ public class PopulateDataObjects {
     }
 
     public static List<PredictionValue> getPredictionValuesByPredictionId(Long predictionId, Session session)
-            throws Exception {
+            throws SQLException, ClassNotFoundException {
         List<PredictionValue> predictionValues = Lists.newArrayList();
         Prediction prediction = getPredictionById(predictionId, session);
         String[] predictorIds = prediction.getPredictorIds().split("\\s+");
@@ -169,7 +170,8 @@ public class PopulateDataObjects {
     }
 
     public static List<CompoundPredictions> populateCompoundPredictionValues(Long datasetId, Long predictionId,
-                                                                             Session session) throws Exception {
+                                                                             Session session)
+            throws SQLException, ClassNotFoundException, IOException {
         Dataset dataset = getDataSetById(datasetId, session);
 
         // get compounds from SDF
@@ -913,7 +915,8 @@ public class PopulateDataObjects {
         return predictor;
     }
 
-    public static Prediction getPredictionById(Long predictionId, Session session) throws Exception {
+    public static Prediction getPredictionById(Long predictionId, Session session)
+            throws SQLException, ClassNotFoundException {
         Prediction prediction = null;
         Transaction tx = null;
         try {
