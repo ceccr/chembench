@@ -298,21 +298,38 @@ $(document).ready(function() {
             options["order"] = [[dateIndex, "desc"]];
         }
 
-        table.DataTable(options).on("xhr", function(e, settings, json) {
-            if (json.data == null || json.data.length === 0) {
-                if (objectType === "job") {
-                    var queue = table.attr("data-queue-name");
-                    if (queue === "error") {
-                        $("#jobs-with-errors").hide();
+        options["drawCallback"] = function() {
+            var wrapper = $(this.api().table().container());
+            var queue = wrapper.find("table").attr("data-queue-name");
+            var isErrorJobQueue = (objectType === "job" && queue === "error");
+            if (!wrapper.siblings(".no-objects-message").exists()) {
+                if (!isErrorJobQueue) {
+                    var message;
+                    if (objectType === "job") {
+                        message = "(The " + queue + " queue is empty.)";
                     } else {
-                        table.closest(".panel-body").html('<span class="text-muted">(The ' + queue +
-                                                          ' queue is empty.)</span>');
+                        message = "(There are no " + objectType + "s to display.)";
                     }
-                } else {
-                    table.closest('[id$="_wrapper"]').html('<span class="text-muted">(There are no ' + objectType +
-                                                           's to' + ' show.)');
+                    var messageSpan = $('<span class="no-objects-message text-muted">' + message + "</span>");
+                    messageSpan.insertBefore(wrapper).hide();
                 }
             }
-        });
+
+            if (wrapper.find(".dataTables_empty").exists()) {
+                if (isErrorJobQueue) {
+                    $("#jobs-with-errors").hide();
+                } else {
+                    wrapper.hide().siblings(".no-objects-message").show();
+                }
+            } else {
+                if (isErrorJobQueue) {
+                    $("#jobs-with-errors").show();
+                } else {
+                    wrapper.show().siblings(".no-objects-message").hide();
+                }
+            }
+        };
+
+        table.DataTable(options);
     });
 });
