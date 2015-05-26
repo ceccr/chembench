@@ -63,7 +63,7 @@
           </div>
           <div class="panel-body">
             <table class="table table-hover datatable" data-url="<s:url action="getLocalJobs" namespace="/api" />"
-                   data-object-type="job">
+                   data-object-type="job" data-queue-name="local">
               <thead>
               <tr>
                 <th data-property="jobName">Name</th>
@@ -85,7 +85,7 @@
           </div>
           <div class="panel-body">
             <table class="table table-hover datatable" data-url="<s:url action="getLsfJobs" namespace="/api" />"
-                   data-object-type="job">
+                   data-object-type="job" data-queue-name="LSF">
               <thead>
               <tr>
                 <th data-property="jobName">Name</th>
@@ -101,13 +101,13 @@
           </div>
         </div>
 
-        <div class="panel panel-danger">
+        <div id="jobs-with-errors" class="panel panel-danger">
           <div class="panel-heading">
             <h4>Jobs with Errors</h4>
           </div>
           <div class="panel-body">
             <table class="table table-hover datatable" data-url="<s:url action="getErrorJobs" namespace="/api" />"
-                   data-object-type="job">
+                   data-object-type="job" data-queue-name="error">
               <thead>
               <tr>
                 <th data-property="jobName">Name</th>

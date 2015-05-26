@@ -297,6 +297,22 @@ $(document).ready(function() {
         if (dateIndex > -1) {
             options["order"] = [[dateIndex, "desc"]];
         }
-        table.DataTable(options);
+
+        table.DataTable(options).on("xhr", function(e, settings, json) {
+            if (json.data == null || json.data.length === 0) {
+                if (objectType === "job") {
+                    var queue = table.attr("data-queue-name");
+                    if (queue === "error") {
+                        $("#jobs-with-errors").hide();
+                    } else {
+                        table.closest(".panel-body").html('<span class="text-muted">(The ' + queue +
+                                                          ' queue is empty.)</span>');
+                    }
+                } else {
+                    table.closest('[id$="_wrapper"]').html('<span class="text-muted">(There are no ' + objectType +
+                                                           's to' + ' show.)');
+                }
+            }
+        });
     });
 });
