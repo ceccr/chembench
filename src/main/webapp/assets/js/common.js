@@ -33,7 +33,7 @@ Array.prototype.includes = function(needle) {
 function canGenerateModi(dataset) {
     var actFile = dataset["actFile"];
     var availableDescriptors = dataset["availableDescriptors"];
-    return actFile && actFile.length > 0 &&
+    return !!actFile && actFile.length > 0 &&
            (availableDescriptors.contains("DRAGONH") || availableDescriptors.contains("CDK"));
 }
 
