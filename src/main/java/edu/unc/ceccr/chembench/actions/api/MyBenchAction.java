@@ -68,10 +68,13 @@ public class MyBenchAction extends ActionSupport {
             datasets.addAll(
                     PopulateDataObjects.populateDataset(user.getUserName(), Constants.CONTINUOUS, true, session));
             datasets.addAll(PopulateDataObjects.populateDataset(user.getUserName(), Constants.CATEGORY, true, session));
+            datasets.addAll(
+                    PopulateDataObjects.populateDataset(user.getUserName(), Constants.PREDICTION, true, session));
         } else {
             // return public datasets only
             datasets.addAll(PopulateDataObjects.populateDataset("", Constants.CONTINUOUS, true, session));
             datasets.addAll(PopulateDataObjects.populateDataset("", Constants.CATEGORY, true, session));
+            datasets.addAll(PopulateDataObjects.populateDataset("", Constants.PREDICTION, true, session));
         }
         this.data = datasets;
         if (session != null) {
