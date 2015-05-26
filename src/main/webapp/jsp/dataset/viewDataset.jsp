@@ -49,11 +49,13 @@
             </s:else>
           </dd>
 
-          <dt>Modelability index</dt>
-          <dd>
-            <span class="modi-value"><s:property value="dataset.modi" /></span>
-            <a class="modi-help" tabindex="0" role="button"><span class="glyphicon glyphicon-question-sign"></span></a>
-          </dd>
+          <s:if test="dataset.canGenerateModi()">
+            <dt>Modelability index</dt>
+            <dd>
+              <span class="modi-value"><s:property value="dataset.modi" /></span>
+              <a class="modi-help" tabindex="0" role="button"><span class="glyphicon glyphicon-question-sign"></span></a>
+            </dd>
+          </s:if>
 
           <dt>Date created</dt>
           <dd>
