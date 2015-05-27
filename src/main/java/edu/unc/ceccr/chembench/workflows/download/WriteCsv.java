@@ -152,7 +152,7 @@ public class WriteCsv {
 
                     List<Object> predictionValues = Lists.newArrayList();
                     for (PredictionValue pv : cp.getPredictionValues()) {
-                        if (pv.getZScore() > prediction.getSimilarityCutoff()) {
+                        if (pv.getZScore() != null && pv.getZScore() > prediction.getSimilarityCutoff()) {
                             predictionValues.add("Above cutoff");
                         } else {
                             predictionValues.add(pv.getPredictedValue());
@@ -160,7 +160,11 @@ public class WriteCsv {
                         predictionValues.add(pv.getStandardDeviation());
                         predictionValues.add(pv.getNumModelsUsed());
                         predictionValues.add(pv.getNumTotalModels());
-                        predictionValues.add(pv.getZScore());
+                        if (pv.getZScore() != null) {
+                            predictionValues.add(pv.getZScore());
+                        } else {
+                            predictionValues.add("N/A");
+                        }
                     }
                     out.write(Joiner.on(",").join(predictionValues));
                     out.newLine();
