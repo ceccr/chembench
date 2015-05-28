@@ -251,8 +251,8 @@ input[type="checkbox"], input[type="radio"] {
 /* end modeling */
 
 /* prediction */
-#prediction-model-selection .dataTables_scrollBody tbody > tr,
-#prediction-dataset-selection .dataTables_scrollBody tbody > tr {
+#prediction-model-selection table.datatable tbody > tr,
+#prediction-dataset-selection table.datatable tbody > tr {
     cursor: pointer;
 }
 
