@@ -141,7 +141,7 @@
 
         <!-- View Dataset Page -->
         <action name="viewDataset" class="edu.unc.ceccr.chembench.actions.DatasetDetailAction" method="load">
-            <result name="success">/jsp/dataset/viewDataset.jsp</result>
+            <result name="success">/jsp/dataset/datasetDetail.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
@@ -152,7 +152,7 @@
         </action>
 
         <action name="updateDataset" class="edu.unc.ceccr.chembench.actions.DatasetDetailAction" method="updateDataset">
-            <result name="success">/jsp/dataset/viewDataset.jsp</result>
+            <result name="success">/jsp/dataset/datasetDetail.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
         <!-- End View Dataset Page -->
@@ -160,13 +160,13 @@
         <!-- View Predictor Page -->
         <!-- common to all modeling methods -->
         <action name="viewPredictor" class="edu.unc.ceccr.chembench.actions.ViewPredictor.PredictorPage" method="load">
-            <result name="success">/jsp/modeling/viewModel.jsp</result>
+            <result name="success">/jsp/modeling/modelDetail.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
         <action name="updatePredictor" class="edu.unc.ceccr.chembench.actions.ViewPredictor.PredictorPage"
                 method="update">
-            <result name="success">/jsp/modelingOutput/viewPredictor.jsp</result>
+            <result name="success">/jsp/modelingOutput/modelDetail.jsp</result>
             <result name="error">/jsp/main/error.jsp</result>
         </action>
 
