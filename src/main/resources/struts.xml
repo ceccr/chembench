@@ -134,7 +134,7 @@
         <!-- End Make Predictions Pages -->
 
         <!-- Jobs Page -->
-        <action name="jobs" class="edu.unc.ceccr.chembench.actions.MyBenchAction" method="loadPage">
+        <action name="jobs">
             <result>/jsp/jobs/mybench.jsp</result>
         </action>
         <!-- End Jobs Page -->
@@ -303,11 +303,6 @@
         <!-- Admin Actions -->
         <action name="admin" class="edu.unc.ceccr.chembench.actions.AdminAction" method="loadPage">
             <result name="success">/jsp/administration/settings/admin.jsp</result>
-            <result name="error">/jsp/main/home.jsp</result>
-        </action>
-
-        <action name="adminJobs" class="edu.unc.ceccr.chembench.actions.MyBenchAction" method="loadPage">
-            <result>/jsp/administration/settings/jobs.jsp</result>
             <result name="error">/jsp/main/home.jsp</result>
         </action>
 

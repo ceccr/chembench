@@ -47,11 +47,6 @@
         <!-- should write to Ceccr-Log as well due to additivity=true -->
     </logger>
 
-    <logger name="edu.unc.ceccr.chembench.actions.MyBenchAction" additivity="false">
-        <level value="all"/>
-        <appender-ref ref="Jobs-Log"/>
-    </logger>
-
     <logger name="edu.unc.ceccr.chembench.taskObjects.QsarModelingTask" additivity="false">
         <level value="all"/>
         <appender-ref ref="Jobs-Log"/>
